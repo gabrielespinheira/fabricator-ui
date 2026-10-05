@@ -1,0 +1,47 @@
+/**
+ * Website chrome in the Fabricator style (authored; not part of the registry).
+ * Docs read like the Fluid Functionalism docs: 14px muted prose, 16px section
+ * headings, quiet code blocks.
+ */
+
+@layer components {
+  [data-slot="docs"] .typeset {
+    --typeset-size: 14px;
+    --typeset-leading: 1.65;
+    --typeset-flow: 1em;
+    font-size: var(--typeset-size);
+    color: var(--color-muted-foreground);
+  }
+}
+
+@layer components {
+  [data-slot="docs"]
+    .typeset
+    *:not(
+      :where(
+        .not-typeset,
+        [data-not-typeset],
+        .not-typeset *,
+        [data-not-typeset] *
+      )
+    ) {
+    &:where(h2) {
+      font-size: calc(16em / 14);
+      font-weight: 550;
+      letter-spacing: -0.005em;
+      margin-block-start: 3em;
+    }
+    &:where(h3) {
+      font-size: calc(15em / 14);
+      font-weight: 550;
+      margin-block-start: 2em;
+    }
+    &:where(h4) {
+      font-size: 1em;
+      font-weight: 550;
+    }
+    &:where(strong, b, a, code) {
+      color: var(--color-foreground);
+    }
+  }
+}

@@ -4,6 +4,7 @@ import * as React from "react"
 import { IconMenu3 } from "@tabler/icons-react"
 import { cn } from "cn"
 
+import { FluidNav, FluidNavLink } from "@/components/fabricator/fluid-nav"
 import { Button } from "@/registry/new-york-v4/ui/button"
 import {
   DropdownMenu,
@@ -106,21 +107,23 @@ export function DocsTableOfContents({
   }
 
   return (
-    <div className={cn("flex flex-col gap-2 p-4 pt-0 text-sm", className)}>
-      <p className="h-6 bg-background text-xs font-medium text-muted-foreground">
-        On This Page
+    <div className={cn("flex flex-col gap-1", className)}>
+      <p className="pb-1 text-[13px] font-medium text-foreground">
+        On this page
       </p>
-      {toc.map((item) => (
-        <a
-          key={item.url}
-          href={item.url}
-          className="text-[0.8rem] text-muted-foreground no-underline transition-colors hover:text-foreground data-[active=true]:font-medium data-[active=true]:text-foreground data-[depth=3]:pl-4 data-[depth=4]:pl-6"
-          data-active={item.url === `#${activeHeading}`}
-          data-depth={item.depth}
-        >
-          {item.title}
-        </a>
-      ))}
+      <FluidNav className="-mx-2">
+        {toc.map((item) => (
+          <FluidNavLink
+            key={item.url}
+            href={item.url}
+            active={item.url === `#${activeHeading}`}
+            data-depth={item.depth}
+            className="min-h-7 px-2 py-1 text-[13px] leading-snug data-[depth=3]:ps-5 data-[depth=4]:ps-7"
+          >
+            {item.title}
+          </FluidNavLink>
+        ))}
+      </FluidNav>
     </div>
   )
 }

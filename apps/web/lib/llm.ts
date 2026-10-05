@@ -71,8 +71,13 @@ export function replaceComponentsList(content: string) {
     .replace(/<ComponentsList\s*\/>/g, getComponentsList("all"))
 }
 
+// Live demos on the Foundations pages have no Markdown form; the prose and
+// tables around them carry the content.
+const FOUNDATIONS_DEMO =
+  /^<(?:FluidHover|Motion|Scrollbars|Sizes|Shape|Surface|Typography)\w*\s*\/>\n+/gm
+
 export function processMdxForLLMs(content: string, style: Style["name"]) {
-  content = replaceComponentsList(content)
+  content = replaceComponentsList(content).replace(FOUNDATIONS_DEMO, "")
 
   const componentPreviewRegex =
     /<ComponentPreview[\s\S]*?name="([^"]+)"[\s\S]*?\/>/g

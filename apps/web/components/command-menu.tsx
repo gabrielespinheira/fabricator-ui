@@ -44,12 +44,15 @@ export function CommandMenu({
   colors,
   blocks,
   navItems,
+  trigger = "default",
   ...props
 }: React.ComponentProps<typeof Dialog> & {
   tree: typeof source.pageTree
   colors: ColorPalette[]
   blocks?: { name: string; description: string; categories: string[] }[]
   navItems?: { href: string; label: string }[]
+  /** pill: the top bar's centred search. sidebar: the docs sidebar row. */
+  trigger?: "default" | "pill" | "sidebar"
 }) {
   const router = useRouter()
   const pathname = usePathname()
@@ -426,17 +429,55 @@ export function CommandMenu({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button
-          variant="outline"
-          className={cn(
-            "relative h-8 w-full justify-start rounded-lg border-none bg-muted pl-3 text-foreground shadow-none transition-colors hover:bg-muted/50 md:w-48 lg:w-40 xl:w-64 dark:bg-card"
-          )}
-          onClick={() => setOpen(true)}
-          {...props}
-        >
-          <span className="hidden xl:inline-flex">Search documentation...</span>
-          <span className="inline-flex xl:hidden">Search...</span>
-        </Button>
+        {trigger === "default" ? (
+          <Button
+            variant="outline"
+            className={cn(
+              "relative h-8 w-full justify-start rounded-lg border-none bg-muted pl-3 text-foreground shadow-none transition-colors hover:bg-muted/50 md:w-48 lg:w-40 xl:w-64 dark:bg-card"
+            )}
+            onClick={() => setOpen(true)}
+            {...props}
+          >
+            <span className="hidden xl:inline-flex">
+              Search documentation...
+            </span>
+            <span className="inline-flex xl:hidden">Search...</span>
+          </Button>
+        ) : (
+          <button
+            type="button"
+            data-trigger={trigger}
+            className={cn(
+              "group/search flex items-center gap-2.5 text-muted-foreground outline-none select-none focus-visible:ring-1 focus-visible:ring-focus-ring",
+              trigger === "pill" &&
+                "h-12 w-60 rounded-full bg-muted px-4 text-[15px] transition-colors duration-160 ease-spring hover:bg-active",
+              trigger === "sidebar" &&
+                "h-8 w-full rounded-lg px-2 text-[13px] transition-colors duration-80 ease-spring hover:bg-hover hover:text-foreground"
+            )}
+            onClick={() => setOpen(true)}
+          >
+            <svg
+              aria-hidden
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className={cn(
+                "shrink-0",
+                trigger === "pill" ? "size-4.5" : "size-3.5"
+              )}
+            >
+              <circle cx="11" cy="11" r="7" />
+              <path d="m20 20-3.5-3.5" />
+            </svg>
+            <span className="flex-1 text-start">Search</span>
+            <kbd className="pointer-events-none rounded-md bg-foreground/8 px-1.5 font-sans text-[11px] leading-5 font-medium text-muted-foreground">
+              ⌘K
+            </kbd>
+          </button>
+        )}
       </DialogTrigger>
       <DialogContent className="rounded-xl border-none bg-clip-padding p-2 pb-11 shadow-2xl ring-4 ring-neutral-200/80 dark:bg-neutral-900 dark:ring-neutral-800">
         <DialogHeader className="sr-only">

@@ -134,7 +134,12 @@ export async function generateStaticParams() {
       if (getRawStyleClass(style.name)) {
         const { Index: BasesIndex } = await import("@/registry/bases/__index__")
         for (const item of Object.values(BasesIndex[baseName] ?? {})) {
-          if (item.type === "registry:block") {
+          // Blocks for the gallery; examples so style-map edits can be
+          // previewed live (raw sources + the style's CSS, no compile step).
+          if (
+            item.type === "registry:block" ||
+            item.type === "registry:example"
+          ) {
             params.push({ style: style.name, name: item.name })
           }
         }

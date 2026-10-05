@@ -1,0 +1,55 @@
+---
+title: Motion
+description: Three spring speeds, with exits one step quicker than entrances.
+---
+
+## Installation
+
+The easings ship with the foundations, which every Fabricator component installs:
+
+```bash
+npx fabricator-ui@latest add foundations
+```
+
+## Three speeds
+
+Every transition picks one of three tiers. Small changes use fast, things that slide use moderate, and dialogs use slow. No component invents its own timing, so components that were never designed together still move at the same pace.
+
+<MotionTiers />
+
+| Tier     | Enter                             | Exit                     | Use                                                                                          |
+| -------- | --------------------------------- | ------------------------ | -------------------------------------------------------------------------------------------- |
+| fast     | `duration-80 ease-spring`         | `duration-60 ease-exit`  | Hover, focus, colour, fades, tooltips, checkboxes and radios, popups, accordion, Fluid Hover |
+| moderate | `duration-160 ease-spring`        | `duration-120 ease-exit` | Selection backgrounds, tab indicators, switch thumbs, sheets and drawers, the sidebar        |
+| slow     | `duration-240 ease-spring-bounce` | `duration-160 ease-exit` | Dialogs                                                                                      |
+
+## Slow in, faster out
+
+An exit on the same spring as the entrance lingers: by the time it settles you have already moved on. Exits use a plain tween, one tier quicker than the entrance.
+
+<MotionExit />
+
+## Easings
+
+Springs are written as CSS `linear()` easings, sampled from a spring that settles exactly at the end of its duration. They are theme tokens, so they work with any Tailwind transition or animation utility.
+
+| Utility              | Curve                                                |
+| -------------------- | ---------------------------------------------------- |
+| `ease-spring`        | A critically damped spring: lands with no overshoot. |
+| `ease-spring-bounce` | A spring with a small bounce (0.12), for dialogs.    |
+| `ease-exit`          | `cubic-bezier(0.25, 0.1, 0.25, 1)`, for exits.       |
+
+```tsx
+<div className="transition-transform duration-160 ease-spring" />
+```
+
+## Rules
+
+- Animate `transform` and `opacity`. Avoid animating layout.
+- Popups enter with a fade, a 0.97 zoom and a 4px slide from the trigger side, on the fast tier.
+- Dialogs enter with a fade and a 0.97 zoom on the slow tier.
+- Pressing a button changes its background, never its scale.
+
+## Reduced motion
+
+Reduced motion means fewer and gentler animations, not none. With `prefers-reduced-motion: reduce`, components keep their fades and drop their slides and zooms, and Fluid Hover jumps instead of gliding. The foundations do this globally, so components don't need their own `motion-reduce:` variants.

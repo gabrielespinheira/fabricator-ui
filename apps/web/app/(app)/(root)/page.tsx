@@ -1,27 +1,16 @@
 import { type Metadata } from "next"
-import Image from "next/image"
 import Link from "next/link"
+import { ArrowRightIcon } from "lucide-react"
 
 import { siteConfig } from "@/lib/config"
-import { Announcement } from "@/components/announcement"
-import { CodeBlockCommand } from "@/components/code-block-command"
-import {
-  PageActions,
-  PageHeader,
-  PageHeaderDescription,
-  PageHeaderHeading,
-} from "@/components/page-header"
-import { Button } from "@/styles/radix-fabricator/ui/button"
 
-import { CardsDemo } from "./cards"
+import { Gallery } from "./_components/gallery"
 
-const title = "The Foundation for your Design System"
+const title = "Components that move with you"
 const metadataTitle = `${siteConfig.name} - ${title}`
 const description = siteConfig.description
 const heroDescription =
-  "Open-code React components on Base UI, Radix and React Aria. Drop-in compatible with the tools you already use, with extra components and a design language of its own."
-
-const INIT_COMMAND = "fabricator-ui@latest init"
+  "Open-code React components for Base UI, Radix and React Aria. Fluid hover, spring motion and layered surfaces, ready to copy into your project."
 
 const websiteJsonLd = {
   "@context": "https://schema.org",
@@ -83,55 +72,36 @@ export default function IndexPage() {
           __html: JSON.stringify(websiteJsonLd).replace(/</g, "\\u003c"),
         }}
       />
-      <PageHeader className="md:**:[.container]:pb-8 lg:**:[.container]:pb-12">
-        <Announcement />
-        <PageHeaderHeading className="max-w-4xl">{title}</PageHeaderHeading>
-        <PageHeaderDescription>{heroDescription}</PageHeaderDescription>
-        <PageActions>
-          <Button asChild className="h-[35px]">
-            <Link href="/docs/installation">Get Started</Link>
-          </Button>
-          <Button asChild variant="secondary">
-            <Link href="/docs/components">Browse Components</Link>
-          </Button>
-        </PageActions>
-        <figure
-          data-rehype-pretty-code-figure=""
-          className="mt-4! w-full max-w-md text-left"
+      <section className="flex flex-col items-center px-4 pt-20 pb-16 text-center sm:pt-24 sm:pb-20">
+        <Link
+          href="/docs/changelog"
+          className="group/badge inline-flex h-10 items-center gap-1.5 rounded-full border border-border px-4 text-sm font-medium transition-[background-color,scale] duration-160 ease-spring outline-none hover:bg-hover focus-visible:ring-2 focus-visible:ring-focus-ring active:scale-[0.97]"
         >
-          <CodeBlockCommand
-            __npm__={`npx ${INIT_COMMAND}`}
-            __yarn__={`yarn dlx ${INIT_COMMAND}`}
-            __pnpm__={`pnpm dlx ${INIT_COMMAND}`}
-            __bun__={`bunx --bun ${INIT_COMMAND}`}
-          />
-        </figure>
-      </PageHeader>
-      <div className="container-wrapper flex-1 p-0">
-        <div className="container overflow-hidden md:px-0 lg:max-w-none">
-          <section className="-mx-4 w-[140vw] overflow-hidden md:hidden">
-            <Image
-              src="/images/full-light.webp"
-              width={1600}
-              height={1382}
-              alt="Dashboard"
-              className="block h-auto w-full dark:hidden"
-              priority
-            />
-            <Image
-              src="/images/full-dark.webp"
-              width={1600}
-              height={1382}
-              alt="Dashboard"
-              className="hidden h-auto w-full dark:block"
-              priority
-            />
-          </section>
-          <section className="hidden md:block">
-            <CardsDemo />
-          </section>
+          Now with Fluid Hover
+          <ArrowRightIcon className="size-3.5 text-muted-foreground transition-transform duration-160 ease-spring group-hover/badge:translate-x-0.5" />
+        </Link>
+        <h1 className="mt-7 max-w-[16ch] text-[34px] leading-[1.06] font-medium tracking-[-0.022em] text-balance sm:max-w-none sm:text-[40px]">
+          {title}
+        </h1>
+        <p className="mt-4 max-w-[460px] text-[15px] leading-normal text-balance text-muted-foreground">
+          {heroDescription}
+        </p>
+        <div className="mt-7 flex items-center gap-5">
+          <Link
+            href="/docs/installation"
+            className="inline-flex h-10 items-center rounded-full bg-foreground px-5 text-[15px] font-medium text-background transition-[opacity,scale] duration-160 ease-spring outline-none hover:opacity-90 focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background active:scale-[0.97]"
+          >
+            Get started
+          </Link>
+          <Link
+            href="/docs/components"
+            className="rounded-md text-[15px] font-medium text-muted-foreground transition-colors duration-80 outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-focus-ring"
+          >
+            Browse components
+          </Link>
         </div>
-      </div>
+      </section>
+      <Gallery />
     </div>
   )
 }

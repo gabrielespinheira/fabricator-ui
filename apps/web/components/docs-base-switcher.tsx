@@ -20,7 +20,7 @@ export function DocsBaseSwitcher({
   return (
     <div
       className={cn(
-        "not-typeset inline-flex w-full items-center gap-6",
+        "not-typeset inline-flex w-full items-center gap-1",
         className
       )}
     >
@@ -31,7 +31,7 @@ export function DocsBaseSwitcher({
           key={baseItem.name}
           href={`${hrefPrefix}/${baseItem.name}/${component}`}
           data-active={base === baseItem.name}
-          className="relative inline-flex items-center justify-center gap-1 pt-1 pb-0.5 text-base font-medium text-muted-foreground transition-colors after:absolute after:inset-x-0 after:bottom-[-4px] after:h-0.5 after:bg-foreground after:opacity-0 after:transition-opacity hover:text-foreground data-[active=true]:text-foreground data-[active=true]:after:opacity-100"
+          className="inline-flex h-8 items-center justify-center rounded-lg px-3 text-[13px] font-medium text-muted-foreground transition-colors duration-80 ease-spring outline-none hover:bg-hover hover:text-foreground focus-visible:ring-1 focus-visible:ring-focus-ring data-[active=true]:bg-active data-[active=true]:text-foreground"
         >
           {baseItem.title}
         </Link>

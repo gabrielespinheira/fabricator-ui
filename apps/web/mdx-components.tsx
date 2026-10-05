@@ -12,6 +12,7 @@ import { ComponentPreview } from "@/components/component-preview"
 import { ComponentSource } from "@/components/component-source"
 import { ComponentsList } from "@/components/components-list"
 import { CopyButton } from "@/components/copy-button"
+import { foundationsMdxComponents } from "@/components/foundations"
 import { getIconForLanguageExtension } from "@/components/icons"
 import {
   Accordion,
@@ -294,7 +295,7 @@ export const mdxComponents = {
   }: React.ComponentProps<typeof TabsList>) => (
     <TabsList
       className={cn(
-        "justify-start gap-4 rounded-none bg-transparent px-0",
+        "h-auto justify-start gap-1 rounded-none bg-transparent p-0",
         className
       )}
       {...props}
@@ -306,7 +307,7 @@ export const mdxComponents = {
   }: React.ComponentProps<typeof TabsTrigger>) => (
     <TabsTrigger
       className={cn(
-        "not-typset rounded-none border-0 border-b-2 border-transparent bg-transparent px-0 pb-3 text-base text-muted-foreground hover:text-primary data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:text-foreground data-[state=active]:shadow-none! dark:data-[state=active]:border-primary dark:data-[state=active]:bg-transparent",
+        "not-typset h-8 flex-none rounded-lg border-0 bg-transparent px-3 text-[13px] font-medium text-muted-foreground transition-colors duration-80 ease-spring hover:bg-hover hover:text-foreground data-[state=active]:bg-active data-[state=active]:text-foreground data-[state=active]:shadow-none! dark:data-[state=active]:border-transparent dark:data-[state=active]:bg-active",
         className
       )}
       {...props}
@@ -359,4 +360,5 @@ export const mdxComponents = {
     />
   ),
   Kbd,
+  ...foundationsMdxComponents,
 }

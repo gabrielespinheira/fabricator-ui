@@ -1,0 +1,72 @@
+---
+title: Surfaces
+description: Eight elevation levels, each with its own shadow, so layers stay distinct in light and dark mode.
+---
+
+## Installation
+
+The surface tokens ship with the foundations:
+
+```bash
+npx fabricator-ui@latest add foundations
+```
+
+## The ladder
+
+Each level pairs a background with a shadow: `bg-surface-N shadow-surface-N`. In light mode, levels 1 and 2 are off-white and everything from level 3 up is white: the shadow alone carries the elevation. In dark mode, each level is a step lighter than the one below, and the shadow adds a faint top highlight and ring.
+
+<SurfaceLadder />
+
+**Surfaces have no borders.** Every surface shadow starts with a 1px ring, which draws the edge.
+
+## Where each level goes
+
+<SurfaceNesting />
+
+| Element                                                       | Classes                                                                         |
+| ------------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| Page                                                          | `bg-background` (surface 1)                                                     |
+| Sidebar                                                       | `bg-sidebar` (surface 2); an inset main area is `bg-surface-2 shadow-surface-2` |
+| Raised card                                                   | `bg-surface-3 shadow-surface-3`                                                 |
+| Popover, dropdown, select, combobox, context menu, hover card | `bg-surface-3 shadow-surface-3 rounded-xl`                                      |
+| Active tab                                                    | `bg-surface-4 shadow-surface-4`                                                 |
+| Dialog, alert dialog                                          | `bg-surface-5 shadow-surface-5 rounded-xl`                                      |
+| Sheet, drawer                                                 | `bg-surface-3 shadow-surface-3`                                                 |
+| Tooltip                                                       | Inverted: `bg-foreground text-background`                                       |
+
+Overlays behind dialogs and sheets are `bg-black/40`, and `bg-black/80` in dark mode.
+
+## Interaction overlays
+
+Hover and press states are translucent overlays, so they work on any surface.
+
+<SurfaceOverlays />
+
+| Token                      | Light          | Dark           | Use                                |
+| -------------------------- | -------------- | -------------- | ---------------------------------- |
+| `bg-hover`                 | 4% black       | 6% white       | Hover, the Fluid Hover highlight   |
+| `bg-active`                | 7% black       | 10% white      | Pressed, selected rows, toggled on |
+| `bg-selected`              | Solid grey     | Solid grey     | Selection that must stay opaque    |
+| `bg-tint`, `bg-tint-hover` | 8%, 6.5% black | 25%, 20% white | Secondary buttons and fills        |
+| `bg-destructive-light`     | Pale red       | Deep red       | Destructive buttons and fills      |
+
+## Focus
+
+Focus is a 1px blue ring with no offset, the same in both themes: `focus-visible:ring-1 focus-visible:ring-ring`. The colour is also available as `--focus-ring`.
+
+## Tokens
+
+| Variable                           | Utility                                 |
+| ---------------------------------- | --------------------------------------- |
+| `--surface-1` … `8`                | `bg-surface-1` … `bg-surface-8`         |
+| `--shadow-1` … `8`                 | `shadow-surface-1` … `shadow-surface-8` |
+| `--hover`                          | `bg-hover`                              |
+| `--active`                         | `bg-active`                             |
+| `--selected`                       | `bg-selected`                           |
+| `--tint`                           | `bg-tint`                               |
+| `--tint-hover`                     | `bg-tint-hover`                         |
+| `--destructive-light`              | `bg-destructive-light`                  |
+| `--focus-ring`                     | `ring-focus-ring`                       |
+| `--info`, `--success`, `--warning` | `text-info`, `bg-success`, …            |
+
+These are new names: the theme tokens such as `background`, `card` and `border` keep their meaning, so components from other registries still fit in.

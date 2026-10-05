@@ -1,0 +1,27 @@
+---
+title: Sizes
+description: 36px controls, 13px text, and corners that nest.
+---
+
+## Two densities
+
+Controls come in a default and a compact size. Buttons, inputs, selects and menu rows share the same height, so they line up when you put them side by side.
+
+<SizesDemo />
+
+|                                  | Default                     | Compact (`size="sm"`) |
+| -------------------------------- | --------------------------- | --------------------- |
+| Control height (and menu rows)   | `h-9` (36px)                | `h-7` (28px)          |
+| Text                             | `text-[13px]`               | `text-[12px]`         |
+| Icon                             | `size-4`                    | `size-3.5`            |
+| Padding: bounded controls / rows | `px-3` / `px-2`             | `px-2.5` / `px-1.5`   |
+| Gap                              | `gap-2` (buttons `gap-1.5`) | `gap-1`               |
+| Segmented item / track padding   | `h-7` / `p-1`               | `h-6` / `p-0.5`       |
+
+## Shape
+
+Items, buttons, inputs and highlights are `rounded-lg` (8px). Containers such as popups, cards, dialogs and tab tracks are `rounded-xl` (12px). A container holds its items with 4px of padding (`p-1`), so the inner and outer corners are concentric.
+
+<ShapeDemo />
+
+Checkboxes use `rounded-[5px]`. Switches, badge dots and avatars are fully round.

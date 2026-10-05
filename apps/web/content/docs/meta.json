@@ -3,6 +3,7 @@
   "pages": [
     "components",
     "(root)",
+    "foundations",
     "changelog",
     "forms",
     "installation",

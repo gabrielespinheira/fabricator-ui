@@ -1,14 +1,13 @@
 import Link from "next/link"
 import { ArrowRightIcon } from "lucide-react"
 
-import { Badge } from "@/registry/new-york-v4/ui/badge"
-
 export function Announcement() {
   return (
-    <Badge asChild variant="secondary" className="bg-muted">
-      <Link href="/docs/changelog">
-        Introducing Fabricator UI <ArrowRightIcon />
-      </Link>
-    </Badge>
+    <Link
+      href="/docs/changelog"
+      className="flex h-10 items-center gap-1.5 rounded-full border px-4 text-[14px] font-medium text-foreground transition-colors duration-80 ease-spring outline-none hover:bg-hover focus-visible:ring-1 focus-visible:ring-focus-ring [&_svg]:size-3.5 [&_svg]:text-muted-foreground"
+    >
+      Now with Fluid Hover <ArrowRightIcon />
+    </Link>
   )
 }

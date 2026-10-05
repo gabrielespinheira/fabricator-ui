@@ -1,0 +1,59 @@
+---
+title: Typography
+description: Inter at five sizes, with weights paired to optical size.
+---
+
+## Installation
+
+The weight utilities ship with the foundations:
+
+```bash
+npx fabricator-ui@latest add foundations
+```
+
+## Sizes
+
+Interfaces are set at 13px. Five roles cover every component.
+
+<TypographyRoles />
+
+| Role     | Size | Use                                |
+| -------- | ---- | ---------------------------------- |
+| Display  | 28px | Page titles                        |
+| Title    | 16px | Dialog titles                      |
+| Subtitle | 14px | Card titles                        |
+| Body     | 13px | Controls, menus, body text         |
+| Caption  | 12px | Descriptions, group labels, errors |
+
+Descriptions use `text-muted-foreground`.
+
+## Weights
+
+Inter's variable weights read heavier than their numbers in interfaces, so the Fabricator palette sets `font-medium` to 450 and `font-semibold` to 550. The `weight-*` utilities go further: each sets the weight together with Inter's optical size axis (`opsz`), so heavier text also gets the tighter, display-sized letterforms.
+
+<TypographyWeights />
+
+| Utility           | Settings              |
+| ----------------- | --------------------- |
+| `weight-normal`   | `wght` 400, `opsz` 14 |
+| `weight-medium`   | `wght` 450, `opsz` 15 |
+| `weight-semibold` | `wght` 550, `opsz` 18 |
+| `weight-bold`     | `wght` 700, `opsz` 25 |
+
+The optical size axis needs the variable Inter font with `opsz`. With `next/font`, load it with `axes: ["opsz"]`.
+
+## Weight is state
+
+Hover changes colour, from `text-muted-foreground` to `text-foreground`, and makes icon strokes heavier. Weight changes only for state that persists: checked, selected, an active tab, an open accordion item. Resting labels are regular; selected ones are semibold.
+
+The `weight-*` utilities set `font-variation-settings`, which can be transitioned. Add `transition-[font-variation-settings]` to make a weight change move instead of snap.
+
+<TypographyWeightState />
+
+```tsx
+<button className="transition-[font-variation-settings] duration-160 ease-spring weight-normal aria-pressed:weight-semibold" />
+```
+
+## Trimming
+
+The `text-box-trim` utility trims a line box to the cap height and baseline, so text sits optically centred in fixed-height controls. It applies in browsers that support `text-box`.

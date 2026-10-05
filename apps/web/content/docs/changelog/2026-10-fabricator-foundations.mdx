@@ -1,0 +1,38 @@
+---
+title: October 2026 - The Fabricator style
+description: Surfaces, motion, scrollbars and Fluid Hover become the foundations of the Fabricator design, and every component is restyled on top of them.
+date: 2026-10-05
+---
+
+**The Fabricator style is here.** Fabricator mode (`/r/fabricator/{style}/{name}.json`) now compiles every component in the Fabricator design, for Base UI, Radix UI and React Aria.
+
+The design builds on [Fluid Functionalism](https://www.fluidfunctionalism.com) by Micka Touillaud (MIT).
+
+## Foundations
+
+Every Fabricator component installs the new `@fabricator/foundations` item. It adds tokens under new names; the existing theme tokens keep their names and meaning.
+
+- **Surfaces:** eight elevation levels (`bg-surface-1` to `bg-surface-8`), each paired with a shadow (`shadow-surface-1` to `shadow-surface-8`). Containers are separated by shadow, not borders.
+- **Interaction:** `bg-hover`, `bg-active` and `bg-selected` overlays, and a single blue focus ring.
+- **Motion:** spring easings (`ease-spring`, `ease-spring-bounce`) and a quicker `ease-exit`, in three speed tiers. Under reduced motion, components keep their fades and drop slides and zooms.
+- **Scrollbars:** thin, low-contrast scrollbars on fine pointers, plus a `scrollbar-hide` utility. Touch devices keep their native scrollbars.
+- **Type:** `weight-*` utilities that pair the Inter weight with its optical size.
+
+## Fluid Hover
+
+`@fabricator/fluid-hover` adds one highlight that glides to the item nearest the pointer, so moving across a list never flickers between items. Selection backgrounds slide between selected items, and keyboard navigation moves the same highlight.
+
+Menus, select, combobox, command, navigation menu, menubar, tabs, toggle group, sidebar, accordion and table use it, for Base UI, Radix UI and React Aria (React Aria has no menubar or navigation menu). Their APIs are unchanged: Fluid Hover is wired inside the components.
+
+## Restyled components
+
+Every component is restyled for the Fabricator style: 36px controls, 13px text, rounded items inside rounded containers, and raised popups on `surface-3`. With the default preset (or any Fabricator preset), `init` also installs the Fabricator colour palette; other presets keep their own colours.
+
+## The website
+
+The docs now read like the components feel: a sidebar with search and a new **Foundations** section (Fluid Hover, Motion, Scrollbars, Sizes, Surfaces, Typography), a side panel for theme and primitive, and a homepage gallery of live components.
+
+## Fixes
+
+- React Aria: removed an unused type import from `alert-dialog` that failed the Vite template's type check.
+- Fabricator mode: vertical tabs now pass their orientation to the primitive, so the up and down arrow keys move between tabs and the list announces the right orientation.

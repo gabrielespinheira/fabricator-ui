@@ -17,7 +17,7 @@ export function ColorsNav({
   return (
     <div className={cn("flex items-center", className)} {...props}>
       <ScrollArea className="max-w-full">
-        <div className="flex items-center">
+        <div className="flex items-center gap-1.5 py-0.5">
           {colors.map((colorPalette, index) => (
             <Link
               href={`/colors#${colorPalette.name}`}
@@ -27,7 +27,7 @@ export function ColorsNav({
                 (index === 0 && pathname === "/colors")
               }
               className={cn(
-                "flex h-7 items-center justify-center px-4 text-center text-base font-medium text-muted-foreground capitalize transition-colors hover:text-primary data-[active=true]:text-primary"
+                "flex h-9 shrink-0 items-center justify-center gap-2 rounded-full bg-muted px-3.5 text-center text-[15px] font-medium text-muted-foreground capitalize transition-colors duration-80 ease-spring outline-none hover:bg-active hover:text-foreground focus-visible:ring-1 focus-visible:ring-focus-ring data-[active=true]:bg-foreground data-[active=true]:text-background"
               )}
             >
               {colorPalette.name}

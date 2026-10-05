@@ -31,7 +31,8 @@ export function ComponentPreviewTabs({
   chromeLessOnMobile = false,
   component,
   source,
-  sourcePreview,
+  // Kept for callers; the code view shows the full source instead.
+  sourcePreview: _sourcePreview,
   direction = "ltr",
   styleName,
   ...props
@@ -46,133 +47,135 @@ export function ComponentPreviewTabs({
   direction?: "ltr" | "rtl"
   styleName?: string
 }) {
-  const [isMobileCodeVisible, setIsMobileCodeVisible] = React.useState(false)
+  const [view, setView] = React.useState<"preview" | "code">("preview")
   const base = styleName?.match(/^(base|radix|aria)-/)?.[1] || "radix"
+  const showCode = !hideCode && view === "code"
+  const hasHeader = !hideCode || direction === "rtl"
+
+  const header = hasHeader ? (
+    <div className="flex h-14 shrink-0 items-center gap-1 border-b px-3">
+      {!hideCode && (
+        <div
+          role="tablist"
+          aria-label="View"
+          className="flex items-center gap-1"
+        >
+          {(["preview", "code"] as const).map((value) => (
+            <button
+              key={value}
+              type="button"
+              role="tab"
+              aria-selected={view === value}
+              onClick={() => setView(value)}
+              className="h-8 rounded-lg px-3 text-[13px] font-medium text-muted-foreground capitalize transition-colors duration-80 ease-spring outline-none hover:bg-hover hover:text-foreground focus-visible:ring-1 focus-visible:ring-focus-ring aria-selected:bg-active aria-selected:text-foreground"
+            >
+              {value}
+            </button>
+          ))}
+        </div>
+      )}
+      {direction === "rtl" && (
+        <div className="ms-auto flex items-center gap-1">
+          <RtlLanguageSelector />
+          <Popover>
+            <PopoverTrigger
+              render={
+                <Button variant="ghost" size="icon-sm" className="size-7">
+                  <IconAlertCircle />
+                  <span className="sr-only">Toggle</span>
+                </Button>
+              }
+            ></PopoverTrigger>
+            <PopoverContent side="bottom" align="end" className="w-56 text-xs">
+              <div>
+                I used AI to translate the text for demonstration purposes.
+                It&apos;s not perfect and may contain errors.
+              </div>
+              <Separator className="-mx-2.5 w-auto!" />
+              <div data-lang="ar">
+                لقد استخدمت الذكاء الاصطناعي لترجمة النص للأغراض التجريبية فقط.
+                قد لا تكون الترجمة دقيقة وقد تحتوي على أخطاء.
+              </div>
+              <Separator className="-mx-2.5 w-auto!" />
+              <div data-lang="he">
+                השתמשתי בבינה מלאכותית כדי לתרגם את הטקסט למטרות הדגמה. זה לא
+                מושלם ויכול להכיל שגיאות.
+              </div>
+            </PopoverContent>
+          </Popover>
+        </div>
+      )}
+    </div>
+  ) : null
+
+  const code = (
+    <div
+      data-slot="code"
+      className="relative overflow-hidden **:data-[slot=copy-button]:right-4 [&_[data-rehype-pretty-code-figure]]:m-0! [&_[data-rehype-pretty-code-figure]]:rounded-none [&_[data-rehype-pretty-code-figure]]:border-0 [&_pre]:max-h-[26rem]"
+    >
+      {direction === "rtl" && (
+        <div className="relative z-10 no-scrollbar overflow-x-auto border-b bg-code p-6 font-mono text-sm text-muted-foreground">
+          <pre>{`// You will notice this example uses dir and data-lang attributes.
+// This is because this site is not RTL by default.
+// In your application, you won't need these.`}</pre>
+          <span>
+            {"// See the "}
+            <Link href="/docs/rtl" className="underline underline-offset-4">
+              RTL guide
+            </Link>
+            {" for more information."}
+          </span>
+        </div>
+      )}
+      {source}
+    </div>
+  )
 
   return (
     <div
       data-slot="component-preview"
       data-not-typeset
       className={cn(
-        "group relative mt-4 mb-12 flex flex-col overflow-hidden rounded-2xl border",
+        "group relative mt-4 mb-12 flex flex-col overflow-hidden rounded-xl border",
         className
       )}
       {...props}
     >
       {direction === "rtl" ? (
         <LanguageProvider defaultLanguage="ar">
-          <div className="flex h-16 items-center border-b px-4">
-            <RtlLanguageSelector />
-            <Popover>
-              <PopoverTrigger
-                render={
-                  <Button
-                    variant="ghost"
-                    size="icon-sm"
-                    className="ml-auto size-7"
-                  >
-                    <IconAlertCircle />
-                    <span className="sr-only">Toggle</span>
-                  </Button>
-                }
-              ></PopoverTrigger>
-              <PopoverContent
-                side="bottom"
-                align="end"
-                className="w-56 text-xs"
-              >
-                <div>
-                  I used AI to translate the text for demonstration purposes.
-                  It&apos;s not perfect and may contain errors.
-                </div>
-                <Separator className="-mx-2.5 w-auto!" />
-                <div data-lang="ar">
-                  لقد استخدمت الذكاء الاصطناعي لترجمة النص للأغراض التجريبية
-                  فقط. قد لا تكون الترجمة دقيقة وقد تحتوي على أخطاء.
-                </div>
-                <Separator className="-mx-2.5 w-auto!" />
-                <div data-lang="he">
-                  השתמשתי בבינה מלאכותית כדי לתרגם את הטקסט למטרות הדגמה. זה לא
-                  מושלם ויכול להכיל שגיאות.
-                </div>
-              </PopoverContent>
-            </Popover>
-          </div>
-          <PreviewWrapper
-            align={align}
-            chromeLessOnMobile={chromeLessOnMobile}
-            previewClassName={previewClassName}
-          >
-            <DirectionProviderWrapper base={base}>
-              {component}
-            </DirectionProviderWrapper>
-          </PreviewWrapper>
+          {header}
+          {showCode ? (
+            code
+          ) : (
+            <PreviewWrapper
+              align={align}
+              chromeLessOnMobile={chromeLessOnMobile}
+              previewClassName={previewClassName}
+            >
+              <DirectionProviderWrapper base={base}>
+                {component}
+              </DirectionProviderWrapper>
+            </PreviewWrapper>
+          )}
         </LanguageProvider>
       ) : (
-        <DirectionProviderWrapper base={base} dir="ltr">
-          <PreviewWrapper
-            align={align}
-            chromeLessOnMobile={chromeLessOnMobile}
-            previewClassName={previewClassName}
-            dir="ltr"
-          >
-            {component}
-          </PreviewWrapper>
-        </DirectionProviderWrapper>
-      )}
-      {!hideCode && (
-        <div
-          data-slot="code"
-          data-mobile-code-visible={isMobileCodeVisible}
-          className="relative overflow-hidden **:data-[slot=copy-button]:right-4 **:data-[slot=copy-button]:hidden data-[mobile-code-visible=true]:**:data-[slot=copy-button]:flex [&_[data-rehype-pretty-code-figure]]:m-0! [&_[data-rehype-pretty-code-figure]]:rounded-t-none [&_[data-rehype-pretty-code-figure]]:border-t [&_pre]:max-h-72"
-        >
-          {isMobileCodeVisible ? (
-            <>
-              {direction === "rtl" && (
-                <div className="relative z-10 no-scrollbar overflow-x-auto border-t bg-code p-6 font-mono text-sm text-muted-foreground">
-                  <pre>{`// You will notice this example uses dir and data-lang attributes.
-// This is because this site is not RTL by default.
-// In your application, you won't need these.`}</pre>
-                  <span>
-                    {"// See the "}
-                    <Link
-                      href="/docs/rtl"
-                      className="underline underline-offset-4"
-                    >
-                      RTL guide
-                    </Link>
-                    {" for more information."}
-                  </span>
-                </div>
-              )}
-              {source}
-            </>
+        <>
+          {header}
+          {showCode ? (
+            code
           ) : (
-            <div className="relative">
-              {sourcePreview}
-              <div className="absolute inset-0 flex items-center justify-center pb-4">
-                <div
-                  className="absolute inset-0"
-                  style={{
-                    background:
-                      "linear-gradient(to top, var(--color-code), color-mix(in oklab, var(--color-code) 60%, transparent), transparent)",
-                  }}
-                />
-                <Button
-                  type="button"
-                  size="sm"
-                  variant="outline"
-                  className="relative z-10 rounded-lg bg-background text-foreground shadow-none hover:bg-muted dark:bg-background dark:text-foreground dark:hover:bg-muted"
-                  onClick={() => {
-                    setIsMobileCodeVisible(true)
-                  }}
-                >
-                  View Code
-                </Button>
-              </div>
-            </div>
+            <DirectionProviderWrapper base={base} dir="ltr">
+              <PreviewWrapper
+                align={align}
+                chromeLessOnMobile={chromeLessOnMobile}
+                previewClassName={previewClassName}
+                dir="ltr"
+              >
+                {component}
+              </PreviewWrapper>
+            </DirectionProviderWrapper>
           )}
-        </div>
+        </>
       )}
     </div>
   )

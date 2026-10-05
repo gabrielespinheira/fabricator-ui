@@ -51,7 +51,10 @@ export function ComponentPreview({
           className="absolute top-0 left-0 z-20 hidden h-full w-[1600px] max-w-none bg-background object-cover object-left-top md:hidden dark:block md:dark:hidden"
         />
         <div className="absolute inset-0 hidden w-[1600px] bg-background md:block">
-          <iframe src={`/view/${styleName}/${name}`} className="size-full" />
+          <iframe
+            src={`/view/${toSiteStyle(styleName)}/${name}`}
+            className="size-full"
+          />
         </div>
       </div>
     )
