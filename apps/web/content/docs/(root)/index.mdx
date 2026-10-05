@@ -1,0 +1,78 @@
+---
+title: Introduction
+description: Fabricator UI is the foundation for your design system. Accessible components, three primitive bases, its own design language. Open Source. Open Code.
+---
+
+**Fabricator UI is a component registry you copy into your project, not a package you install.**
+
+Every component is delivered as source code through the Fabricator CLI, so you own it, read it and change it like any other file in your app. Fabricator UI gives you a complete set of accessible components, extra components on top of that set and, over time, its own design language.
+
+Fabricator UI is built around the following principles:
+
+- **Open Code:** You get the component source, not a compiled package.
+- **Drop-in Compatible:** Works in existing projects. Same `components.json`, same tokens, same component APIs.
+- **Three Bases:** Every component is available for Base UI, Radix and React Aria.
+- **Styles:** Components compile into the visual style you pick.
+- **Registry:** Everything is distributed through the `@fabricator` registry.
+- **AI-Ready:** Plain source and consistent APIs that LLMs can read and extend.
+
+## Open Code
+
+Fabricator UI hands you the actual component code. You have full control to customize and extend the components to your needs:
+
+- **Full Transparency:** You see exactly how each component is built.
+- **Easy Customization:** Modify any part of a component to fit your design and functionality requirements.
+- **No Wrappers:** To change a button, you edit the button. You do not override styles or wrap a library component.
+
+<Accordion type="single" collapsible>
+  <AccordionItem value="faq-1" className="border-none">
+    <AccordionTrigger>How do I get updates if I own the code?</AccordionTrigger>
+    <AccordionContent className="flex flex-col gap-4">
+      <p>
+        Behavior lives in the primitives your components are built on, such as
+        @base-ui/react, radix-ui or react-aria-components. You get fixes there
+        by updating your dependencies.
+      </p>
+      <p>
+        For the component layer itself, run{" "}
+        <code>npx fabricator-ui@latest diff</code> to compare your local files
+        with the latest version in the registry.
+      </p>
+    </AccordionContent>
+  </AccordionItem>
+</Accordion>
+
+## Works with existing shadcn/ui projects
+
+- **Superset:** A Fabricator component that replaces a shadcn/ui component keeps its name, file path, exports, props, variants and `data-slot` attributes. It only adds.
+- **Same tokens:** Components use the same CSS variables (`--background`, `--primary`, `--radius`, …), so your theme carries over.
+- **Same tooling:** Run `npx fabricator-ui@latest init` to add the `@fabricator` registry next to the components you already have. See [Registry](/docs/registry).
+
+## Three Bases
+
+Each component is written against a primitive library, called a base:
+
+- **Base UI** (`base`): the default.
+- **Radix UI** (`radix`).
+- **React Aria** (`aria`).
+
+The same component looks and behaves the same in every base. Pick the base when you create a project, and the CLI installs the matching source.
+
+## Styles
+
+Components are written once with semantic classes, then compiled into a visual style at build time. Eight styles are available: `vega`, `nova`, `maia`, `lyra`, `mira`, `luma`, `sera` and `rhea`. The Fabricator style is in progress.
+
+## Registry
+
+Fabricator UI is distributed as a [registry](/docs/registry). It serves components, blocks, themes and an init payload, and it supports two modes:
+
+- **Blend mode:** components compiled in your current style, so they sit naturally next to the components you already have.
+- **Fabricator mode:** components compiled in the Fabricator design for your base.
+
+## AI-Ready
+
+Open code and a consistent API make components easy for AI tools to read, understand and generate. Every docs page is also available as Markdown (append `.md` to the URL), the site publishes an [llms.txt](/llms.txt), and the [Fabricator MCP server](/docs/mcp) can browse and install from `@fabricator`.
+
+## Acknowledgements
+
+Fabricator UI is built on [shadcn/ui](https://github.com/shadcn-ui/ui) by [shadcn](https://github.com/shadcn), released under the MIT license. The original copyright notice is kept in the repository.

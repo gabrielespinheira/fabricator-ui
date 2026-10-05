@@ -1,0 +1,12 @@
+{
+  "pages": [
+    "next",
+    "vite",
+    "laravel",
+    "react-router",
+    "astro",
+    "tanstack",
+    "tanstack-router",
+    "manual"
+  ]
+}

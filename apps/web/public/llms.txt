@@ -1,0 +1,154 @@
+# Fabricator UI
+
+> Fabricator UI is the foundation for your design system: a component registry with accessible components, extra components and its own design language. Components are copied into your project as source code with the `fabricator-ui` CLI (`npx fabricator-ui@latest add <name>`). Every component is available for Base UI, Radix UI and React Aria, in eight styles. Built with TypeScript, React 19 and Tailwind CSS v4. Built on shadcn/ui (MIT).
+
+The full documentation is also available as a single file: [llms-full.txt](https://fabricator-ui.com/llms-full.txt). Every docs page is available as Markdown by appending `.md` to its URL. Component pages exist per base: `/docs/components/base/<name>` (Base UI, default), `/docs/components/radix/<name>` and `/docs/components/aria/<name>`.
+
+## Overview
+
+- [Introduction](https://fabricator-ui.com/docs.md): Fabricator UI is the foundation for your design system. Accessible components, three primitive bases, its own design language. Open Source. Open Code.
+- [CLI](https://fabricator-ui.com/docs/cli.md): Use the fabricator-ui CLI to create projects, add components and check your setup.
+- [components.json](https://fabricator-ui.com/docs/components-json.md): Configuration for your project.
+- [Theming](https://fabricator-ui.com/docs/theming.md): Using CSS variables and theme tokens.
+- [Package Imports](https://fabricator-ui.com/docs/package-imports.md): Configure Fabricator UI with package.json imports.
+- [Monorepo](https://fabricator-ui.com/docs/monorepo.md): Using Fabricator UI components and the CLI in a monorepo.
+- [JavaScript](https://fabricator-ui.com/docs/javascript.md): How to use Fabricator UI with JavaScript
+- [Changelog](https://fabricator-ui.com/docs/changelog.md): Latest updates and announcements.
+
+## Installation
+
+- [Installation](https://fabricator-ui.com/docs/installation.md): How to install dependencies and structure your app.
+- [Next.js](https://fabricator-ui.com/docs/installation/next.md): Install and configure Fabricator UI for Next.js.
+- [Vite](https://fabricator-ui.com/docs/installation/vite.md): Install and configure Fabricator UI for Vite.
+- [Laravel](https://fabricator-ui.com/docs/installation/laravel.md): Install and configure Fabricator UI for Laravel.
+- [React Router](https://fabricator-ui.com/docs/installation/react-router.md): Install and configure Fabricator UI for React Router.
+- [Astro](https://fabricator-ui.com/docs/installation/astro.md): Install and configure Fabricator UI for Astro.
+- [TanStack Start](https://fabricator-ui.com/docs/installation/tanstack.md): Install and configure Fabricator UI for TanStack Start.
+- [TanStack Router](https://fabricator-ui.com/docs/installation/tanstack-router.md): Install and configure Fabricator UI for TanStack Router.
+- [Manual Installation](https://fabricator-ui.com/docs/installation/manual.md): Add dependencies to your project manually.
+
+## Registry
+
+- [Registry](https://fabricator-ui.com/docs/registry.md): How the @fabricator registry works, and how to use it from an existing project.
+- [MCP Server](https://fabricator-ui.com/docs/mcp.md): Use the Fabricator MCP server to browse, search, and install Fabricator UI components with your AI assistant.
+
+## Components
+
+### Form & Input
+
+- [Field](https://fabricator-ui.com/docs/components/base/field.md): Combine labels, controls, and help text to compose accessible form fields and grouped inputs.
+- [Button](https://fabricator-ui.com/docs/components/base/button.md): Displays a button or a component that looks like a button.
+- [Button Group](https://fabricator-ui.com/docs/components/base/button-group.md): A container that groups related buttons together with consistent styling.
+- [Input](https://fabricator-ui.com/docs/components/base/input.md): A text input component for forms and user data entry with built-in styling and accessibility features.
+- [Input Group](https://fabricator-ui.com/docs/components/base/input-group.md): Add addons, buttons, and helper content to inputs.
+- [Input OTP](https://fabricator-ui.com/docs/components/base/input-otp.md): Accessible one-time password component with copy-paste functionality.
+- [Textarea](https://fabricator-ui.com/docs/components/base/textarea.md): Displays a form textarea or a component that looks like a textarea.
+- [Checkbox](https://fabricator-ui.com/docs/components/base/checkbox.md): A control that allows the user to toggle between checked and not checked.
+- [Radio Group](https://fabricator-ui.com/docs/components/base/radio-group.md): A set of checkable buttons—known as radio buttons—where no more than one of the buttons can be checked at a time.
+- [Select](https://fabricator-ui.com/docs/components/base/select.md): Displays a list of options for the user to pick from—triggered by a button.
+- [Native Select](https://fabricator-ui.com/docs/components/base/native-select.md): A styled native HTML select element with consistent design system integration.
+- [Switch](https://fabricator-ui.com/docs/components/base/switch.md): A control that allows the user to toggle between checked and not checked.
+- [Slider](https://fabricator-ui.com/docs/components/base/slider.md): An input where the user selects a value from within a given range.
+- [Calendar](https://fabricator-ui.com/docs/components/base/calendar.md): A calendar component that allows users to select a date or a range of dates.
+- [Date Picker](https://fabricator-ui.com/docs/components/base/date-picker.md): A date picker component with range and presets.
+- [Combobox](https://fabricator-ui.com/docs/components/base/combobox.md): Autocomplete input with a list of suggestions.
+- [Label](https://fabricator-ui.com/docs/components/base/label.md): Renders an accessible label associated with controls.
+
+### Layout & Navigation
+
+- [Accordion](https://fabricator-ui.com/docs/components/base/accordion.md): A vertically stacked set of interactive headings that each reveal a section of content.
+- [Breadcrumb](https://fabricator-ui.com/docs/components/base/breadcrumb.md): Displays the path to the current resource using a hierarchy of links.
+- [Navigation Menu](https://fabricator-ui.com/docs/components/base/navigation-menu.md): A collection of links for navigating websites.
+- [Sidebar](https://fabricator-ui.com/docs/components/base/sidebar.md): A composable, themeable and customizable sidebar component.
+- [Tabs](https://fabricator-ui.com/docs/components/base/tabs.md): A set of layered sections of content—known as tab panels—that are displayed one at a time.
+- [Separator](https://fabricator-ui.com/docs/components/base/separator.md): Visually or semantically separates content.
+- [Scroll Area](https://fabricator-ui.com/docs/components/base/scroll-area.md): Augments native scroll functionality for custom, cross-browser styling.
+- [Resizable](https://fabricator-ui.com/docs/components/base/resizable.md): Accessible resizable panel groups and layouts with keyboard support.
+
+### Overlays & Dialogs
+
+- [Dialog](https://fabricator-ui.com/docs/components/base/dialog.md): A window overlaid on either the primary window or another dialog window, rendering the content underneath inert.
+- [Alert Dialog](https://fabricator-ui.com/docs/components/base/alert-dialog.md): A modal dialog that interrupts the user with important content and expects a response.
+- [Sheet](https://fabricator-ui.com/docs/components/base/sheet.md): Extends the Dialog component to display content that complements the main content of the screen.
+- [Drawer](https://fabricator-ui.com/docs/components/base/drawer.md): A drawer component for React.
+- [Popover](https://fabricator-ui.com/docs/components/base/popover.md): Displays rich content in a portal, triggered by a button.
+- [Tooltip](https://fabricator-ui.com/docs/components/base/tooltip.md): A popup that displays information related to an element when the element receives keyboard focus or the mouse hovers over it.
+- [Hover Card](https://fabricator-ui.com/docs/components/base/hover-card.md): For sighted users to preview content available behind a link.
+- [Context Menu](https://fabricator-ui.com/docs/components/base/context-menu.md): Displays a menu of actions triggered by a right click.
+- [Dropdown Menu](https://fabricator-ui.com/docs/components/base/dropdown-menu.md): Displays a menu to the user — such as a set of actions or functions — triggered by a button.
+- [Menubar](https://fabricator-ui.com/docs/components/base/menubar.md): A visually persistent menu common in desktop applications that provides quick access to a consistent set of commands.
+- [Command](https://fabricator-ui.com/docs/components/base/command.md): Command menu for search and quick actions.
+
+### Feedback & Status
+
+- [Alert](https://fabricator-ui.com/docs/components/base/alert.md): Displays a callout for user attention.
+- [Toast](https://fabricator-ui.com/docs/components/base/toast.md): A succinct message that is displayed temporarily.
+- [Progress](https://fabricator-ui.com/docs/components/base/progress.md): Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.
+- [Spinner](https://fabricator-ui.com/docs/components/base/spinner.md): An indicator that can be used to show a loading state.
+- [Skeleton](https://fabricator-ui.com/docs/components/base/skeleton.md): Use to show a placeholder while content is loading.
+- [Badge](https://fabricator-ui.com/docs/components/base/badge.md): Displays a badge or a component that looks like a badge.
+- [Empty](https://fabricator-ui.com/docs/components/base/empty.md): Use the Empty component to display an empty state.
+
+### Display & Media
+
+- [Avatar](https://fabricator-ui.com/docs/components/base/avatar.md): An image element with a fallback for representing the user.
+- [Card](https://fabricator-ui.com/docs/components/base/card.md): Displays a card with header, content, and footer.
+- [Table](https://fabricator-ui.com/docs/components/base/table.md): A responsive table component.
+- [Data Table](https://fabricator-ui.com/docs/components/base/data-table.md): Powerful table and datagrids built using TanStack Table.
+- [Chart](https://fabricator-ui.com/docs/components/base/chart.md): Beautiful charts. Built using Recharts. Copy and paste into your apps.
+- [Carousel](https://fabricator-ui.com/docs/components/base/carousel.md): A carousel with motion and swipe built using Embla.
+- [Aspect Ratio](https://fabricator-ui.com/docs/components/base/aspect-ratio.md): Displays content within a desired ratio.
+- [Typography](https://fabricator-ui.com/docs/components/base/typography.md): Styles for headings, paragraphs, lists, etc.
+- [Item](https://fabricator-ui.com/docs/components/base/item.md): A versatile component for displaying content with media, title, description, and actions.
+- [Kbd](https://fabricator-ui.com/docs/components/base/kbd.md): Used to display textual user input from keyboard.
+
+### Misc
+
+- [Collapsible](https://fabricator-ui.com/docs/components/base/collapsible.md): An interactive component which expands/collapses a panel.
+- [Toggle](https://fabricator-ui.com/docs/components/base/toggle.md): A two-state button that can be either on or off.
+- [Toggle Group](https://fabricator-ui.com/docs/components/base/toggle-group.md): A set of two-state buttons that can be toggled on or off.
+- [Pagination](https://fabricator-ui.com/docs/components/base/pagination.md): Pagination with page navigation, next and previous links.
+- [Direction](https://fabricator-ui.com/docs/components/base/direction.md): A provider component that sets the text direction for your application.
+
+### Chat & AI
+
+- [Attachment](https://fabricator-ui.com/docs/components/base/attachment.md): Displays a file or image attachment with media, metadata, upload state, and actions.
+- [Bubble](https://fabricator-ui.com/docs/components/base/bubble.md): Displays conversational content in a message bubble. Supports variants, alignment, grouping, reactions, and collapsible content.
+- [Marker](https://fabricator-ui.com/docs/components/base/marker.md): Displays an inline status, system note, bordered row, or labeled separator in a conversation.
+- [Message](https://fabricator-ui.com/docs/components/base/message.md): Displays a message in a conversation, with optional avatar, header, footer, and alignment.
+- [Message Scroller](https://fabricator-ui.com/docs/components/base/message-scroller.md): A chat scroll container that anchors turns, opens saved transcripts, follows streamed responses, loads history without jumping, and jumps to any message.
+- [Questionnaire](https://fabricator-ui.com/docs/components/base/questionnaire.md): A multi-step questionnaire with single-choice, multiple-choice, freeform, and skippable questions.
+
+## Dark Mode
+
+- [Dark Mode](https://fabricator-ui.com/docs/dark-mode.md): Adding dark mode to your site.
+- [Dark Mode - Next.js](https://fabricator-ui.com/docs/dark-mode/next.md): Adding dark mode to your Next.js app.
+- [Dark Mode - Vite](https://fabricator-ui.com/docs/dark-mode/vite.md): Adding dark mode to your Vite app.
+- [Dark Mode - Astro](https://fabricator-ui.com/docs/dark-mode/astro.md): Adding dark mode to your astro app.
+- [Dark Mode - Remix](https://fabricator-ui.com/docs/dark-mode/remix.md): Adding dark mode to your Remix app.
+- [Dark Mode - TanStack Start](https://fabricator-ui.com/docs/dark-mode/tanstack-start.md): Adding dark mode to your TanStack Start app.
+
+## RTL
+
+- [RTL](https://fabricator-ui.com/docs/rtl.md): Right-to-left support for Fabricator UI components.
+- [RTL - Next.js](https://fabricator-ui.com/docs/rtl/next.md): Create a new Next.js project with RTL support.
+- [RTL - Vite](https://fabricator-ui.com/docs/rtl/vite.md): Create a new Vite project with RTL support.
+- [RTL - TanStack Start](https://fabricator-ui.com/docs/rtl/start.md): Create a new TanStack Start project with RTL support.
+
+## Forms
+
+- [Forms](https://fabricator-ui.com/docs/forms.md): Build forms with React and Fabricator UI.
+- [React Hook Form](https://fabricator-ui.com/docs/forms/react-hook-form.md): Build forms in React using React Hook Form and Zod.
+- [TanStack Form](https://fabricator-ui.com/docs/forms/tanstack-form.md): Build forms in React using TanStack Form and Zod.
+- [Formisch](https://fabricator-ui.com/docs/forms/formisch.md): Build forms in React using Formisch and Valibot.
+
+## Utilities
+
+- [scroll-fade](https://fabricator-ui.com/docs/utils/scroll-fade.md): Utilities for adding a fade effect to the edges of a scroll container.
+- [shimmer](https://fabricator-ui.com/docs/utils/shimmer.md): Utilities for adding a shimmer effect to text elements.
+
+## Schemas
+
+- [components.json Schema](https://fabricator-ui.com/schema.json): JSON Schema for the `components.json` configuration file.
+- [Registry Schema](https://fabricator-ui.com/schema/registry.json): JSON Schema for registry index files.
+- [Registry Item Schema](https://fabricator-ui.com/schema/registry-item.json): JSON Schema for individual registry items: files, dependencies, CSS variables and more.

@@ -1,0 +1,123 @@
+---
+title: Registry
+description: How the @fabricator registry works, and how to use it from an existing project.
+---
+
+Fabricator UI is distributed as a registry. Components, blocks, hooks, themes and the init payload are served as JSON from `https://fabricator-ui.com/r`, and the CLI installs them into your project as source code.
+
+The registry follows the [shadcn registry](https://ui.shadcn.com/docs/registry) format. That means it also works in existing shadcn/ui projects and with the shadcn CLI. This page explains how.
+
+There is no package to install. Any project with a `components.json` can use the registry, whether it was created with `fabricator-ui init` or with `shadcn init`.
+
+## Namespaces
+
+The CLI installs items from namespaced registries with the `@namespace/name` syntax. Fabricator UI uses the `@fabricator` namespace:
+
+```bash
+npx shadcn@latest add @fabricator/button
+```
+
+A bare name, such as `button`, always resolves to the upstream shadcn/ui registry. Fabricator items depend on each other with fully qualified names (`@fabricator/button`), so installing a Fabricator component never pulls in an upstream item by accident.
+
+The `fabricator-ui` CLI maps bare names to `@fabricator` for you:
+
+```bash
+npx fabricator-ui@latest add button
+```
+
+To keep a bare name as it is and install the upstream shadcn/ui item, pass `--upstream`:
+
+```bash
+npx fabricator-ui@latest add button --upstream
+```
+
+## How @fabricator resolves
+
+The CLI looks up the namespace in the `registries` field of your `components.json` and fills in the URL template:
+
+```json title="components.json" showLineNumbers
+{
+  "style": "base-nova",
+  "registries": {
+    "@fabricator": "https://fabricator-ui.com/r/{style}/{name}.json"
+  }
+}
+```
+
+`{style}` is replaced with the `style` field of your `components.json` (for example `base-nova`) and `{name}` with the item name. `npx shadcn@latest add @fabricator/button` then fetches `https://fabricator-ui.com/r/base-nova/button.json`.
+
+The `style` field always holds a valid shadcn style id, such as `base-nova`. It is never set to a Fabricator style. Bare names and third-party items are resolved against shadcn/ui with that same field, so a custom style id would make them fail.
+
+## Blend mode and Fabricator mode
+
+The registry is served in two modes. You choose one with the URL you put in `components.json`.
+
+| Mode           | URL template                                                 | What you get                                                               |
+| -------------- | ------------------------------------------------------------ | -------------------------------------------------------------------------- |
+| **Blend**      | `https://fabricator-ui.com/r/{style}/{name}.json`            | Components compiled in your current style, such as `nova` or `vega`.       |
+| **Fabricator** | `https://fabricator-ui.com/r/fabricator/{style}/{name}.json` | Components compiled in the Fabricator design for the base in your `style`. |
+
+**Blend mode** is for existing shadcn projects. Fabricator-only components look like they belong next to the components you already have.
+
+**Fabricator mode** is for projects that use the Fabricator design. The base (`base`, `radix` or `aria`) is read from your `style` field, and the visual style comes from Fabricator.
+
+The Fabricator design is still in progress. Until it ships, Fabricator mode uses the default style.
+
+## Add the registry to an existing project
+
+In a project that already uses shadcn/ui, run `init`:
+
+```bash
+npx fabricator-ui@latest init
+```
+
+It offers two options:
+
+- **Add registry only:** writes the `@fabricator` entry to `components.json`. Your theme, fonts and existing components are not changed.
+- **Apply theme:** adds the registry and applies a Fabricator preset to your theme and fonts.
+
+To do it by hand, add one of the URLs above to the `registries` field of your `components.json`. See <Link href="/docs/components-json#registries">components.json</Link>.
+
+## New projects
+
+`init` in an empty directory creates a project with the registry already configured:
+
+```bash
+npx fabricator-ui@latest init -t next
+```
+
+With the shadcn CLI, pass the Fabricator init URL instead:
+
+```bash
+npx shadcn@latest init https://fabricator-ui.com/init -t next
+```
+
+See <Link href="/docs/installation">Installation</Link> for every framework.
+
+## Search and view
+
+List or search the items in the registry:
+
+```bash
+npx shadcn@latest search @fabricator -q "date"
+```
+
+Inspect an item, including its files and dependencies, before installing it:
+
+```bash
+npx shadcn@latest view @fabricator/button
+```
+
+The `fabricator-ui` CLI has the same commands without the namespace: `npx fabricator-ui@latest search date` and `npx fabricator-ui@latest view button`. See <Link href="/docs/cli">CLI</Link>.
+
+## MCP
+
+The Fabricator MCP server reads the registries in your `components.json`, so your AI assistant can browse, search and install `@fabricator` items. See <Link href="/docs/mcp">MCP Server</Link>.
+
+## Open in v0
+
+Every registry item is a public JSON URL, so you can open it in [v0](https://v0.dev) like any other registry item:
+
+```txt
+https://v0.dev/chat/api/open?url=https://fabricator-ui.com/r/base-nova/button.json
+```

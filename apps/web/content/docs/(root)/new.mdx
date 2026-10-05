@@ -1,0 +1,100 @@
+---
+title: Your project is ready!
+description: You've created a new project with Fabricator UI.
+---
+
+Here are a few things you can do to get started building with Fabricator UI.
+
+## Add Components
+
+Use the CLI to add components to your project.
+
+```bash
+npx fabricator-ui@latest add button
+```
+
+Bare names resolve to the `@fabricator` registry, so `add button` installs `@fabricator/button`.
+
+Then import and use it in your code.
+
+```tsx title="app/page.tsx"
+import { Button } from "@/components/ui/button"
+
+export default function Home() {
+  return <Button>Click me</Button>
+}
+```
+
+Fabricator UI adds the component source code directly to your project under `components/ui/`. You own the code and can change it however you want.
+
+You can add multiple components at once or add all available components.
+
+```bash
+npx fabricator-ui@latest add button card input label
+```
+
+```bash
+npx fabricator-ui@latest add --all
+```
+
+Browse all components on the [Components](/docs/components) page.
+
+## Customize Your Theme
+
+You can edit your theme directly in your CSS file. Learn more about [Theming](/docs/theming) and how to use CSS variables or utility classes.
+
+To try a different preset, build one visually on the [Create](/create) page and apply it to your project with its preset code.
+
+```bash
+npx fabricator-ui@latest apply [CODE]
+```
+
+## Add a block
+
+You can add a block to your project using the CLI.
+
+```bash
+npx fabricator-ui@latest add login-03
+```
+
+This will add the `login-03` block to your project. Import and use it in your code.
+
+```tsx title="app/page.tsx"
+import { Login03 } from "@/components/login-03"
+
+export default function Home() {
+  return <Login03 />
+}
+```
+
+Browse all blocks on the [Blocks](/blocks) page.
+
+## Other Registries
+
+You can also install items from other namespaced registries configured in your `components.json`. Namespaced names are passed through unchanged.
+
+```bash
+npx fabricator-ui@latest add @[registry]/[name]
+```
+
+Learn more about [registries and namespaces](/docs/registry).
+
+## Use AI to Build
+
+Your AI assistant can read the component source code in your project, understand the APIs, and compose them to build pages and features.
+
+Here are some example prompts to try:
+
+- _"Create a signup page with a form for entering name, email and password."_
+- _"Create a settings page with a form for updating profile information."_
+- _"Build a dashboard with a header, stats cards, and a data table."_
+
+## Connect the MCP Server
+
+The Fabricator MCP server gives your AI assistant access to the `@fabricator` registry: browsing, search and installs. Connect it in your editor.
+
+```bash
+npx fabricator-ui@latest mcp init --client claude
+```
+
+Learn more on the [MCP Server](/docs/mcp) page.

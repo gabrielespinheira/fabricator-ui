@@ -1,0 +1,340 @@
+---
+title: MCP Server
+description: Use the Fabricator MCP server to browse, search, and install Fabricator UI components with your AI assistant.
+---
+
+The Fabricator MCP server lets AI assistants browse, search and install items from the `@fabricator` registry, and from any other registry configured in your `components.json`. You can ask for components in plain language, and the assistant installs them into your project.
+
+For example, you can ask "Show me the components in the fabricator registry" or "Build a settings page with components from @fabricator".
+
+The server is part of the Fabricator CLI. It runs over stdio:
+
+```bash
+npx fabricator-ui@latest mcp
+```
+
+The MCP server reads registries from your project's `components.json`. Make sure `@fabricator` is configured (`npx fabricator-ui@latest init` does it for you):
+
+```json title="components.json" showLineNumbers
+{
+  "registries": {
+    "@fabricator": "https://fabricator-ui.com/r/{style}/{name}.json"
+  }
+}
+```
+
+---
+
+## Quick Start
+
+Select your MCP client and run `mcp init` to write the configuration for it. If you'd like to do it manually, see the [Configuration](#configuration) section.
+
+<Tabs defaultValue="claude">
+  <TabsList>
+    <TabsTrigger value="claude">Claude Code</TabsTrigger>
+    <TabsTrigger value="cursor">Cursor</TabsTrigger>
+    <TabsTrigger value="vscode">VS Code</TabsTrigger>
+    <TabsTrigger value="codex">Codex</TabsTrigger>
+    <TabsTrigger value="opencode">OpenCode</TabsTrigger>
+  </TabsList>
+  <TabsContent value="claude" className="mt-4">
+    **Run the following command** in your project:
+       ```bash
+       npx fabricator-ui@latest mcp init --client claude
+       ```
+
+    **Restart Claude Code** and try the following prompts:
+       - Show me all available components in the fabricator registry
+       - Add the button, dialog and card components from @fabricator to my project
+       - Create a contact form using components from the fabricator registry
+
+    **Note:** You can use `/mcp` command in Claude Code to debug the MCP server.
+
+  </TabsContent>
+
+  <TabsContent value="cursor" className="mt-4">
+    **Run the following command** in your project:
+       ```bash
+       npx fabricator-ui@latest mcp init --client cursor
+       ```
+
+    Open **Cursor Settings** and **Enable the MCP server** for fabricator. Then try the following prompts:
+       - Show me all available components in the fabricator registry
+       - Add the button, dialog and card components from @fabricator to my project
+       - Create a contact form using components from the fabricator registry
+
+  </TabsContent>
+
+  <TabsContent value="vscode" className="mt-4">
+    **Run the following command** in your project:
+       ```bash
+       npx fabricator-ui@latest mcp init --client vscode
+       ```
+
+    Open `.vscode/mcp.json` and click **Start** next to the fabricator server. Then try the following prompts with GitHub Copilot:
+       - Show me all available components in the fabricator registry
+       - Add the button, dialog and card components from @fabricator to my project
+       - Create a contact form using components from the fabricator registry
+
+  </TabsContent>
+
+  <TabsContent value="codex" className="mt-4">
+    <Callout className="mt-0">
+      **Note:** The CLI cannot write `~/.codex/config.toml` automatically.
+      You'll need to add the configuration manually for Codex.
+    </Callout>
+
+    **Add the following configuration** to `~/.codex/config.toml`:
+       ```toml
+       [mcp_servers.fabricator]
+       command = "npx"
+       args = ["fabricator-ui@latest", "mcp"]
+       ```
+
+    **Restart Codex** and try the following prompts:
+       - Show me all available components in the fabricator registry
+       - Add the button, dialog and card components from @fabricator to my project
+       - Create a contact form using components from the fabricator registry
+
+  </TabsContent>
+
+  <TabsContent value="opencode" className="mt-4">
+    **Run the following command** in your project:
+       ```bash
+       npx fabricator-ui@latest mcp init --client opencode
+       ```
+
+    **Restart OpenCode** and try the following prompts:
+       - Show me all available components in the fabricator registry
+       - Add the button, dialog and card components from @fabricator to my project
+       - Create a contact form using components from the fabricator registry
+
+  </TabsContent>
+</Tabs>
+
+---
+
+## What is MCP?
+
+[Model Context Protocol (MCP)](https://modelcontextprotocol.io) is an open protocol that enables AI assistants to securely connect to external data sources and tools. With the Fabricator MCP server, your AI assistant gains direct access to:
+
+- **Browse Components** - List all available components, blocks, and templates from any configured registry
+- **Search Across Registries** - Find specific components by name or functionality across multiple sources
+- **Install with Natural Language** - Add components using simple conversational prompts like "add a login form"
+- **Support for Multiple Registries** - Access the `@fabricator` registry, private company libraries, and third-party sources
+
+---
+
+## How It Works
+
+The MCP server acts as a bridge between your AI assistant, the registries in your `components.json` and the Fabricator CLI.
+
+1. **Registry Connection** - MCP connects to configured registries (`@fabricator`, private registries, third-party sources)
+2. **Natural Language** - You describe what you need in plain English
+3. **AI Processing** - The assistant translates your request into registry commands
+4. **Component Delivery** - Resources are fetched and installed in your project
+
+---
+
+## Configuration
+
+You can use any MCP client to interact with the Fabricator MCP server. Here are the instructions for the most popular ones.
+
+### Claude Code
+
+To use the Fabricator MCP server with Claude Code, add the following configuration to your project's `.mcp.json` file:
+
+```json title=".mcp.json" showLineNumbers
+{
+  "mcpServers": {
+    "fabricator": {
+      "command": "npx",
+      "args": ["fabricator-ui@latest", "mcp"]
+    }
+  }
+}
+```
+
+After adding the configuration, restart Claude Code and run `/mcp` to see the fabricator server in the list. If you see `Connected`, you're good to go.
+
+See the [Claude Code MCP documentation](https://code.claude.com/docs/en/mcp) for more details.
+
+### Cursor
+
+To configure MCP in Cursor, add the fabricator server to your project's `.cursor/mcp.json` configuration file:
+
+```json title=".cursor/mcp.json" showLineNumbers
+{
+  "mcpServers": {
+    "fabricator": {
+      "command": "npx",
+      "args": ["fabricator-ui@latest", "mcp"]
+    }
+  }
+}
+```
+
+After adding the configuration, enable the fabricator server in Cursor Settings.
+
+Once enabled, you should see a green dot next to the fabricator server in the MCP server list and a list of available tools.
+
+See the [Cursor MCP documentation](https://docs.cursor.com/en/context/mcp#using-mcp-json) for more details.
+
+### VS Code
+
+To configure MCP in VS Code with GitHub Copilot, add the fabricator server to your project's `.vscode/mcp.json` configuration file:
+
+```json title=".vscode/mcp.json" showLineNumbers
+{
+  "servers": {
+    "fabricator": {
+      "command": "npx",
+      "args": ["fabricator-ui@latest", "mcp"]
+    }
+  }
+}
+```
+
+After adding the configuration, open `.vscode/mcp.json` and click **Start** next to the fabricator server.
+
+See the [VS Code MCP documentation](https://code.visualstudio.com/docs/copilot/chat/mcp-servers) for more details.
+
+### Codex
+
+<Callout>
+  **Note:** The CLI cannot write `~/.codex/config.toml` automatically. You'll
+  need to add the configuration manually.
+</Callout>
+
+To configure MCP in Codex, add the fabricator server to `~/.codex/config.toml`:
+
+```toml title="~/.codex/config.toml" showLineNumbers
+[mcp_servers.fabricator]
+command = "npx"
+args = ["fabricator-ui@latest", "mcp"]
+```
+
+After adding the configuration, restart Codex to load the MCP server.
+
+### OpenCode
+
+To configure MCP in OpenCode, add the fabricator server to your project's `opencode.json` file:
+
+```json title="opencode.json" showLineNumbers
+{
+  "mcp": {
+    "fabricator": {
+      "type": "local",
+      "command": ["npx", "fabricator-ui@latest", "mcp"],
+      "enabled": true
+    }
+  }
+}
+```
+
+After adding the configuration, restart OpenCode to load the MCP server.
+
+---
+
+## Configuring Registries
+
+`npx fabricator-ui@latest init` adds the `@fabricator` registry to your `components.json`. The MCP server also works with any other namespaced registry listed there, such as private company libraries and third-party registries:
+
+```json title="components.json" showLineNumbers
+{
+  "registries": {
+    "@fabricator": "https://fabricator-ui.com/r/{style}/{name}.json",
+    "@acme": "https://registry.acme.com/{name}.json",
+    "@internal": {
+      "url": "https://internal.company.com/{name}.json",
+      "headers": {
+        "Authorization": "Bearer ${REGISTRY_TOKEN}"
+      }
+    }
+  }
+}
+```
+
+---
+
+## Authentication
+
+For private registries requiring authentication, set environment variables in your `.env.local`:
+
+```bash title=".env.local"
+REGISTRY_TOKEN=your_token_here
+API_KEY=your_api_key_here
+```
+
+See <Link href="/docs/components-json#registries">components.json</Link> for the registry configuration format.
+
+---
+
+## Example Prompts
+
+Once the MCP server is configured, you can use natural language to interact with registries. Try one of the following prompts:
+
+### Browse & Search
+
+- Show me all available components in the fabricator registry
+- Find me a date picker in @fabricator
+
+### Install Items
+
+- Add the @fabricator/button component to my project
+- Create a login form using components from @fabricator
+- Install the Cursor rules from the acme registry
+
+### Work with Namespaces
+
+- Show me components from acme registry
+- Install @internal/auth-form
+- Build me a landing page using hero, features and testimonials sections from the acme registry
+
+---
+
+## Troubleshooting
+
+### MCP Not Responding
+
+If the MCP server isn't responding to prompts:
+
+1. **Check Configuration** - Verify the MCP server is properly configured and enabled in your MCP client
+2. **Restart MCP Client** - Restart your MCP client after configuration changes
+3. **Verify Installation** - Ensure `fabricator-ui` can run (`npx fabricator-ui@latest --version`)
+4. **Check Network** - Confirm you can access the configured registries
+
+### Registry Access Issues
+
+If components aren't loading from registries:
+
+1. **Check components.json** - Verify registry URLs are correct
+2. **Test Authentication** - Ensure environment variables are set for private registries
+3. **Verify Registry** - Confirm the registry is online and accessible
+4. **Check Namespace** - Ensure namespace syntax is correct (`@namespace/component`)
+
+### Installation Failures
+
+If components fail to install:
+
+1. **Check Project Setup** - Ensure you have a valid `components.json` file
+2. **Verify Paths** - Confirm the target directories exist
+3. **Check Permissions** - Ensure write permissions for component directories
+4. **Review Dependencies** - Check that required dependencies are installed
+
+### No Tools or Prompts
+
+If you see the `No tools or prompts` message, try the following:
+
+1. **Clear the npx cache** - Run `npx clear-npx-cache`
+2. **Re-enable the MCP server** - Try to re-enable the MCP server in your MCP client
+3. **Check Logs** - In Cursor, you can see the logs under View -> Output and select `MCP: project-*` in the dropdown.
+
+---
+
+## Learn More
+
+- [Registry](/docs/registry) - Using the `@fabricator` registry
+- [components.json](/docs/components-json#registries) - Configure registries
+- [CLI](/docs/cli) - The `fabricator-ui` CLI
+- [MCP Specification](https://modelcontextprotocol.io) - Learn about Model Context Protocol

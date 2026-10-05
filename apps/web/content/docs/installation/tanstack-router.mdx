@@ -1,0 +1,57 @@
+---
+title: TanStack Router
+description: Install and configure Fabricator UI for TanStack Router.
+---
+
+<Steps>
+
+### Create project
+
+Start by creating a new TanStack Router project:
+
+```bash
+npx create-tsrouter-app@latest my-app --template file-router --tailwind
+```
+
+The `--tailwind` flag sets up Tailwind CSS, and the template configures the `@/*` import alias. If you're adding Fabricator UI to an existing TanStack Router app, make sure both are configured before continuing.
+
+### Run the CLI
+
+Run the `init` command from the root of your app to set up Fabricator UI:
+
+```bash
+cd my-app
+npx fabricator-ui@latest init
+```
+
+This writes `components.json`, adds the `cn` util and the CSS variables for your theme, and configures the `@fabricator` registry.
+
+### Add Components
+
+You can now start adding components to your project.
+
+```bash
+npx fabricator-ui@latest add button
+```
+
+The command above will add the `Button` component to your project. You can then import it like this:
+
+```tsx title="src/routes/index.tsx" showLineNumbers {3,12}
+import { createFileRoute } from "@tanstack/react-router"
+
+import { Button } from "@/components/ui/button"
+
+export const Route = createFileRoute("/")({
+  component: App,
+})
+
+function App() {
+  return (
+    <div>
+      <Button>Click me</Button>
+    </div>
+  )
+}
+```
+
+</Steps>

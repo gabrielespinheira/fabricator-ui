@@ -1,0 +1,44 @@
+---
+title: October 2026 - Introducing Fabricator UI
+description: The first release of Fabricator UI. A component registry with a complete set of components, three bases and eight styles, plus the fabricator-ui CLI.
+date: 2026-10-05
+---
+
+**Fabricator UI is a component registry for building your own design system.**
+
+This first release starts from [shadcn/ui](https://github.com/shadcn-ui/ui) (MIT) at commit [`295a1f11`](https://github.com/shadcn-ui/ui/commit/295a1f11).
+
+## What's included
+
+- **A complete component set**, with examples, blocks and charts.
+- **Three bases:** each component is available for Base UI, Radix UI and React Aria, with the same API and `data-slot` attributes in all three.
+- **Eight styles:** `vega`, `nova`, `maia`, `lyra`, `mira`, `luma`, `sera` and `rhea`, compiled from the same source.
+
+## The @fabricator registry
+
+Everything is served from the `@fabricator` registry at `https://fabricator-ui.com/r`. Install any item with the CLI:
+
+```bash
+npx fabricator-ui@latest add button
+```
+
+The registry has two modes:
+
+- **Blend mode** (`/r/{style}/{name}.json`) compiles components in your current style, for existing projects.
+- **Fabricator mode** (`/r/fabricator/{style}/{name}.json`) compiles components in the Fabricator design for your base. The Fabricator design is still in progress.
+
+See [Registry](/docs/registry) for how to configure them.
+
+## The fabricator-ui CLI
+
+`fabricator-ui` sets up the `@fabricator` registry, maps bare names to it, and adds a `doctor` command to check your project.
+
+```bash
+npx fabricator-ui@latest init
+```
+
+In an existing project, `init` can add the registry without touching your theme. See [CLI](/docs/cli) for every command.
+
+## What's next
+
+The components use the default styles for now. Next we are building the Fabricator design language: new tokens for surfaces and motion, the Fabricator styles, and new components. Every change stays a superset of the existing component APIs, so code written for shadcn/ui keeps working.

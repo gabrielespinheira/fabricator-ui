@@ -1,0 +1,174 @@
+---
+title: CLI
+description: Use the fabricator-ui CLI to create projects, add components and check your setup.
+---
+
+Use the `fabricator-ui` CLI to create projects, add components to them and check that they are set up correctly. It is built on the shadcn CLI, so the `@fabricator` registry also works with that CLI directly. See [Registry](/docs/registry).
+
+```bash
+npx fabricator-ui@latest --help
+```
+
+---
+
+## init
+
+Use the `init` command to create a new project, or to set up Fabricator UI in an existing one.
+
+```bash
+npx fabricator-ui@latest init
+```
+
+In a new or empty directory, `init` creates a project from a template with the `@fabricator` registry configured. It installs dependencies, adds the `cn` util and writes the CSS variables for your theme.
+
+In an existing project, `init` asks what you want to do:
+
+- **Add registry only:** adds `@fabricator` to the `registries` in your `components.json`. Your theme and existing components are left untouched.
+- **Apply theme:** adds the registry and applies a Fabricator preset to your theme and fonts.
+
+**Options**
+
+```bash
+Usage: fabricator-ui init [options]
+
+Options:
+  -t, --template <template>  the template to use. (next, vite, start, react-router, astro, laravel)
+  -b, --base <base>          the component library to use. (base, radix, aria)
+  -p, --preset <preset>      use a preset configuration
+  --monorepo                 scaffold a monorepo project.
+  --rtl                      enable RTL support.
+  -h, --help                 display help for command
+```
+
+For example, to create a Vite project on Radix UI with RTL support:
+
+```bash
+npx fabricator-ui@latest init -t vite -b radix --rtl
+```
+
+---
+
+## add
+
+Use the `add` command to add components and their dependencies to your project.
+
+```bash
+npx fabricator-ui@latest add button
+```
+
+Bare names resolve to the `@fabricator` registry, so `add button` installs `@fabricator/button`. Namespaced names are passed through as they are:
+
+```bash
+npx fabricator-ui@latest add button card @acme/auth
+```
+
+`add` also accepts `--overwrite`, `--all`, `--path`, `--dry-run`, `--diff` and `--view`.
+
+---
+
+## apply
+
+Use the `apply` command to apply a preset to an existing project.
+
+```bash
+npx fabricator-ui@latest apply [preset]
+```
+
+To apply only the theme or the fonts from a preset, without reinstalling UI components, use `--only`:
+
+```bash
+npx fabricator-ui@latest apply [preset] --only theme,font
+```
+
+Supported values for `--only` are `theme` and `font`. Create a preset on the [Create](/create) page.
+
+---
+
+## search
+
+Use the `search` command to search the `@fabricator` registry. `list` is an alias.
+
+```bash
+npx fabricator-ui@latest search [query]
+```
+
+```bash
+npx fabricator-ui@latest list date
+```
+
+---
+
+## view
+
+Use the `view` command to inspect items from the registry before installing them.
+
+```bash
+npx fabricator-ui@latest view button
+```
+
+---
+
+## docs
+
+Use the `docs` command to fetch documentation and API references for a component.
+
+```bash
+npx fabricator-ui@latest docs button
+```
+
+---
+
+## diff
+
+Use the `diff` command to compare a component in your project with the latest version in the registry.
+
+```bash
+npx fabricator-ui@latest diff button
+```
+
+---
+
+## info
+
+Use the `info` command to print information about your project: framework, Tailwind and React versions, `components.json` and installed components.
+
+```bash
+npx fabricator-ui@latest info
+```
+
+---
+
+## doctor
+
+Use the `doctor` command to check that your project is set up for Fabricator UI.
+
+```bash
+npx fabricator-ui@latest doctor
+```
+
+It checks that:
+
+- the project uses Tailwind CSS v4 and React 19.
+- `components.json` is valid and its `style` is a valid style id.
+- the `@fabricator` registry is configured.
+- `shadcn/tailwind.css` is imported.
+
+For every failed check, it prints the fix.
+
+---
+
+## mcp
+
+Use the `mcp` command to run the Fabricator MCP server. It gives your AI assistant access to the `@fabricator` registry.
+
+```bash
+npx fabricator-ui@latest mcp
+```
+
+To write the MCP configuration for your editor or agent, use `mcp init`:
+
+```bash
+npx fabricator-ui@latest mcp init --client claude
+```
+
+Supported clients are `claude`, `cursor`, `vscode`, `codex` and `opencode`. See [MCP Server](/docs/mcp).
