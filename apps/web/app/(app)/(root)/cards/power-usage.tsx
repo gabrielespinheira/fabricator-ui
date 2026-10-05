@@ -4,8 +4,8 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/styles/base-rhea/ui/card"
-import { Separator } from "@/styles/base-rhea/ui/separator"
+} from "@/styles/base-fabricator/ui/card"
+import { Separator } from "@/styles/base-fabricator/ui/separator"
 
 const chartData = [
   { hour: "6a", usage: 1.2 },

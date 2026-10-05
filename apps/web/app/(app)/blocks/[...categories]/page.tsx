@@ -2,8 +2,9 @@ import { type Metadata } from "next"
 
 import { getAllBlockIds } from "@/lib/blocks"
 import { registryCategories } from "@/lib/categories"
+import { SITE_BLOCK_STYLE } from "@/lib/site-style"
 import { BlockDisplay } from "@/components/block-display"
-import { getActiveStyle } from "@/registry/_legacy-styles"
+import { getStyle } from "@/registry/_legacy-styles"
 
 export const revalidate = false
 export const dynamic = "force-static"
@@ -38,7 +39,7 @@ export default async function BlocksPage({
 }) {
   const [{ categories = [] }, activeStyle] = await Promise.all([
     params,
-    getActiveStyle(),
+    Promise.resolve(getStyle(SITE_BLOCK_STYLE)!),
   ])
   const blocks = await getAllBlockIds(["registry:block"], categories)
 

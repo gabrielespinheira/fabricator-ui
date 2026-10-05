@@ -1,5 +1,5 @@
-import { Card } from "@/styles/base-rhea/ui/card"
-import { Skeleton } from "@/styles/base-rhea/ui/skeleton"
+import { Card } from "@/styles/base-fabricator/ui/card"
+import { Skeleton } from "@/styles/base-fabricator/ui/skeleton"
 
 const groupA = [0, 1, 2, 3, 4]
 const groupB = [0, 1, 2, 3, 4]

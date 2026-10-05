@@ -1,4 +1,4 @@
-import { Button } from "@/styles/base-rhea/ui/button"
+import { Button } from "@/styles/base-fabricator/ui/button"
 import {
   Card,
   CardContent,
@@ -6,15 +6,15 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/styles/base-rhea/ui/card"
-import { Checkbox } from "@/styles/base-rhea/ui/checkbox"
+} from "@/styles/base-fabricator/ui/card"
+import { Checkbox } from "@/styles/base-fabricator/ui/checkbox"
 import {
   Field,
   FieldContent,
   FieldDescription,
   FieldGroup,
   FieldLabel,
-} from "@/styles/base-rhea/ui/field"
+} from "@/styles/base-fabricator/ui/field"
 
 const NOTIFICATIONS = [
   {

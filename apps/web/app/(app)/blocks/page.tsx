@@ -1,8 +1,9 @@
 import { type Metadata } from "next"
 import Link from "next/link"
 
+import { SITE_BLOCK_STYLE } from "@/lib/site-style"
 import { BlockDisplay } from "@/components/block-display"
-import { getActiveStyle } from "@/registry/_legacy-styles"
+import { getStyle } from "@/registry/_legacy-styles"
 import { Button } from "@/registry/new-york-v4/ui/button"
 
 export const dynamic = "force-static"
@@ -23,7 +24,7 @@ const FEATURED_BLOCKS = [
 ]
 
 export default async function BlocksPage() {
-  const activeStyle = await getActiveStyle()
+  const activeStyle = getStyle(SITE_BLOCK_STYLE)!
 
   return (
     <div className="flex flex-col gap-12 md:gap-24">

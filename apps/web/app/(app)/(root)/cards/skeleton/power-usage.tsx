@@ -3,8 +3,8 @@ import {
   CardContent,
   CardFooter,
   CardHeader,
-} from "@/styles/base-rhea/ui/card"
-import { Skeleton } from "@/styles/base-rhea/ui/skeleton"
+} from "@/styles/base-fabricator/ui/card"
+import { Skeleton } from "@/styles/base-fabricator/ui/skeleton"
 
 const bars = [30, 70, 80, 60, 90, 75, 100, 85]
 

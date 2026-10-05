@@ -2,7 +2,9 @@ import { NextResponse } from "next/server"
 
 import { siteConfig } from "@/lib/config"
 import { processMdxForLLMs } from "@/lib/llm"
+import { toSiteStyle } from "@/lib/site-style"
 import { source } from "@/lib/source"
+import { type Style } from "@/registry/_legacy-styles"
 
 export const revalidate = false
 export const dynamic = "force-static"
@@ -26,7 +28,7 @@ export async function GET() {
     pages.map(async (page) => {
       const content = processMdxForLLMs(
         (await page.data.getText("raw")).replace(/^---\n[\s\S]*?\n---\n/, ""),
-        "base-nova"
+        toSiteStyle("base-nova") as Style["name"]
       )
       return [
         `# ${page.data.title}`,

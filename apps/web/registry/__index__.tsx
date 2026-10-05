@@ -11024,6 +11024,1383 @@ export const Index: Record<string, Record<string, any>> = {
       },
     },
   },
+  "base-fabricator": {
+    accordion: {
+      name: "accordion",
+      title: "undefined",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: undefined,
+      files: [
+        {
+          path: "styles/base-fabricator/ui/accordion.tsx",
+          type: "registry:ui",
+          target: "",
+        },
+      ],
+      categories: undefined,
+      meta: {
+        links: {
+          docs: "https://fabricator-ui.com/docs/components/base/accordion",
+          examples:
+            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/accordion-example.tsx",
+          api: "https://base-ui.com/react/components/accordion.md",
+        },
+      },
+    },
+    alert: {
+      name: "alert",
+      title: "undefined",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: undefined,
+      files: [
+        {
+          path: "styles/base-fabricator/ui/alert.tsx",
+          type: "registry:ui",
+          target: "",
+        },
+      ],
+      categories: undefined,
+      meta: {
+        links: {
+          docs: "https://fabricator-ui.com/docs/components/base/alert",
+          examples:
+            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/alert-example.tsx",
+        },
+      },
+    },
+    "alert-dialog": {
+      name: "alert-dialog",
+      title: "undefined",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: ["button"],
+      files: [
+        {
+          path: "styles/base-fabricator/ui/alert-dialog.tsx",
+          type: "registry:ui",
+          target: "",
+        },
+      ],
+      categories: undefined,
+      meta: {
+        links: {
+          docs: "https://fabricator-ui.com/docs/components/base/alert-dialog",
+          examples:
+            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/alert-dialog-example.tsx",
+          api: "https://base-ui.com/react/components/alert-dialog.md",
+        },
+      },
+    },
+    "aspect-ratio": {
+      name: "aspect-ratio",
+      title: "undefined",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: undefined,
+      files: [
+        {
+          path: "styles/base-fabricator/ui/aspect-ratio.tsx",
+          type: "registry:ui",
+          target: "",
+        },
+      ],
+      categories: undefined,
+      meta: {
+        links: {
+          docs: "https://fabricator-ui.com/docs/components/base/aspect-ratio",
+          examples:
+            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/aspect-ratio-example.tsx",
+        },
+      },
+    },
+    avatar: {
+      name: "avatar",
+      title: "undefined",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: undefined,
+      files: [
+        {
+          path: "styles/base-fabricator/ui/avatar.tsx",
+          type: "registry:ui",
+          target: "",
+        },
+      ],
+      categories: undefined,
+      meta: {
+        links: {
+          docs: "https://fabricator-ui.com/docs/components/base/avatar",
+          examples:
+            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/avatar-example.tsx",
+          api: "https://base-ui.com/react/components/avatar.md",
+        },
+      },
+    },
+    badge: {
+      name: "badge",
+      title: "undefined",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: undefined,
+      files: [
+        {
+          path: "styles/base-fabricator/ui/badge.tsx",
+          type: "registry:ui",
+          target: "",
+        },
+      ],
+      categories: undefined,
+      meta: {
+        links: {
+          docs: "https://fabricator-ui.com/docs/components/base/badge",
+          examples:
+            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/badge-example.tsx",
+        },
+      },
+    },
+    breadcrumb: {
+      name: "breadcrumb",
+      title: "undefined",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: undefined,
+      files: [
+        {
+          path: "styles/base-fabricator/ui/breadcrumb.tsx",
+          type: "registry:ui",
+          target: "",
+        },
+      ],
+      categories: undefined,
+      meta: {
+        links: {
+          docs: "https://fabricator-ui.com/docs/components/base/breadcrumb",
+          examples:
+            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/breadcrumb-example.tsx",
+        },
+      },
+    },
+    button: {
+      name: "button",
+      title: "undefined",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: undefined,
+      files: [
+        {
+          path: "styles/base-fabricator/ui/button.tsx",
+          type: "registry:ui",
+          target: "",
+        },
+      ],
+      categories: undefined,
+      meta: {
+        links: {
+          docs: "https://fabricator-ui.com/docs/components/base/button",
+          examples:
+            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/button-example.tsx",
+        },
+      },
+    },
+    "button-group": {
+      name: "button-group",
+      title: "undefined",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: ["separator"],
+      files: [
+        {
+          path: "styles/base-fabricator/ui/button-group.tsx",
+          type: "registry:ui",
+          target: "",
+        },
+      ],
+      categories: undefined,
+      meta: {
+        links: {
+          docs: "https://fabricator-ui.com/docs/components/base/button-group",
+          examples:
+            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/button-group-example.tsx",
+        },
+      },
+    },
+    calendar: {
+      name: "calendar",
+      title: "undefined",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: ["button"],
+      files: [
+        {
+          path: "styles/base-fabricator/ui/calendar.tsx",
+          type: "registry:ui",
+          target: "",
+        },
+      ],
+      categories: undefined,
+      meta: {
+        links: {
+          docs: "https://fabricator-ui.com/docs/components/base/calendar",
+          examples:
+            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/calendar-example.tsx",
+          api: "https://react-day-picker.js.org",
+        },
+      },
+    },
+    card: {
+      name: "card",
+      title: "undefined",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: undefined,
+      files: [
+        {
+          path: "styles/base-fabricator/ui/card.tsx",
+          type: "registry:ui",
+          target: "",
+        },
+      ],
+      categories: undefined,
+      meta: {
+        links: {
+          docs: "https://fabricator-ui.com/docs/components/base/card",
+          examples:
+            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/card-example.tsx",
+        },
+      },
+    },
+    carousel: {
+      name: "carousel",
+      title: "undefined",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: ["button"],
+      files: [
+        {
+          path: "styles/base-fabricator/ui/carousel.tsx",
+          type: "registry:ui",
+          target: "",
+        },
+      ],
+      categories: undefined,
+      meta: {
+        links: {
+          docs: "https://fabricator-ui.com/docs/components/base/carousel",
+          examples:
+            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/carousel-example.tsx",
+          api: "https://www.embla-carousel.com/get-started/react",
+        },
+      },
+    },
+    chart: {
+      name: "chart",
+      title: "undefined",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: ["card"],
+      files: [
+        {
+          path: "styles/base-fabricator/ui/chart.tsx",
+          type: "registry:ui",
+          target: "",
+        },
+      ],
+      categories: undefined,
+      meta: {
+        links: {
+          docs: "https://fabricator-ui.com/docs/components/base/chart",
+          examples:
+            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/chart-example.tsx",
+        },
+      },
+    },
+    checkbox: {
+      name: "checkbox",
+      title: "undefined",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: undefined,
+      files: [
+        {
+          path: "styles/base-fabricator/ui/checkbox.tsx",
+          type: "registry:ui",
+          target: "",
+        },
+      ],
+      categories: undefined,
+      meta: {
+        links: {
+          docs: "https://fabricator-ui.com/docs/components/base/checkbox",
+          examples:
+            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/checkbox-example.tsx",
+          api: "https://base-ui.com/react/components/checkbox.md",
+        },
+      },
+    },
+    collapsible: {
+      name: "collapsible",
+      title: "undefined",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: undefined,
+      files: [
+        {
+          path: "styles/base-fabricator/ui/collapsible.tsx",
+          type: "registry:ui",
+          target: "",
+        },
+      ],
+      categories: undefined,
+      meta: {
+        links: {
+          docs: "https://fabricator-ui.com/docs/components/base/collapsible",
+          examples:
+            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/collapsible-example.tsx",
+          api: "https://base-ui.com/react/components/collapsible.md",
+        },
+      },
+    },
+    combobox: {
+      name: "combobox",
+      title: "undefined",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: ["button", "input-group"],
+      files: [
+        {
+          path: "styles/base-fabricator/ui/combobox.tsx",
+          type: "registry:ui",
+          target: "",
+        },
+      ],
+      categories: undefined,
+      meta: {
+        links: {
+          docs: "https://fabricator-ui.com/docs/components/base/combobox",
+          examples:
+            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/combobox-example.tsx",
+          api: "https://base-ui.com/react/components/combobox.md",
+        },
+      },
+    },
+    command: {
+      name: "command",
+      title: "undefined",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: ["dialog", "input-group"],
+      files: [
+        {
+          path: "styles/base-fabricator/ui/command.tsx",
+          type: "registry:ui",
+          target: "",
+        },
+      ],
+      categories: undefined,
+      meta: {
+        links: {
+          docs: "https://fabricator-ui.com/docs/components/base/command",
+          examples:
+            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/command-example.tsx",
+          api: "https://github.com/dip/cmdk",
+        },
+      },
+    },
+    "context-menu": {
+      name: "context-menu",
+      title: "undefined",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: undefined,
+      files: [
+        {
+          path: "styles/base-fabricator/ui/context-menu.tsx",
+          type: "registry:ui",
+          target: "",
+        },
+      ],
+      categories: undefined,
+      meta: {
+        links: {
+          docs: "https://fabricator-ui.com/docs/components/base/context-menu",
+          examples:
+            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/context-menu-example.tsx",
+          api: "https://base-ui.com/react/components/context-menu.md",
+        },
+      },
+    },
+    dialog: {
+      name: "dialog",
+      title: "undefined",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: ["button"],
+      files: [
+        {
+          path: "styles/base-fabricator/ui/dialog.tsx",
+          type: "registry:ui",
+          target: "",
+        },
+      ],
+      categories: undefined,
+      meta: {
+        links: {
+          docs: "https://fabricator-ui.com/docs/components/base/dialog",
+          examples:
+            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/dialog-example.tsx",
+          api: "https://base-ui.com/react/components/dialog.md",
+        },
+      },
+    },
+    drawer: {
+      name: "drawer",
+      title: "undefined",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: undefined,
+      files: [
+        {
+          path: "styles/base-fabricator/ui/drawer.tsx",
+          type: "registry:ui",
+          target: "",
+        },
+      ],
+      categories: undefined,
+      meta: {
+        links: {
+          docs: "https://fabricator-ui.com/docs/components/base/drawer",
+          examples:
+            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/drawer-example.tsx",
+          api: "https://base-ui.com/react/components/drawer.md",
+        },
+      },
+    },
+    "dropdown-menu": {
+      name: "dropdown-menu",
+      title: "undefined",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: undefined,
+      files: [
+        {
+          path: "styles/base-fabricator/ui/dropdown-menu.tsx",
+          type: "registry:ui",
+          target: "",
+        },
+      ],
+      categories: undefined,
+      meta: {
+        links: {
+          docs: "https://fabricator-ui.com/docs/components/base/dropdown-menu",
+          examples:
+            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/dropdown-menu-example.tsx",
+          api: "https://base-ui.com/react/components/menu.md",
+        },
+      },
+    },
+    empty: {
+      name: "empty",
+      title: "undefined",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: undefined,
+      files: [
+        {
+          path: "styles/base-fabricator/ui/empty.tsx",
+          type: "registry:ui",
+          target: "",
+        },
+      ],
+      categories: undefined,
+      meta: {
+        links: {
+          docs: "https://fabricator-ui.com/docs/components/base/empty",
+          examples:
+            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/empty-example.tsx",
+        },
+      },
+    },
+    field: {
+      name: "field",
+      title: "undefined",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: ["label", "separator"],
+      files: [
+        {
+          path: "styles/base-fabricator/ui/field.tsx",
+          type: "registry:ui",
+          target: "",
+        },
+      ],
+      categories: undefined,
+      meta: {
+        links: {
+          docs: "https://fabricator-ui.com/docs/components/base/field",
+          examples:
+            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/field-example.tsx",
+        },
+      },
+    },
+    "hover-card": {
+      name: "hover-card",
+      title: "undefined",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: undefined,
+      files: [
+        {
+          path: "styles/base-fabricator/ui/hover-card.tsx",
+          type: "registry:ui",
+          target: "",
+        },
+      ],
+      categories: undefined,
+      meta: {
+        links: {
+          docs: "https://fabricator-ui.com/docs/components/base/hover-card",
+          examples:
+            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/hover-card-example.tsx",
+          api: "https://base-ui.com/react/components/hover-card.md",
+        },
+      },
+    },
+    input: {
+      name: "input",
+      title: "undefined",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: undefined,
+      files: [
+        {
+          path: "styles/base-fabricator/ui/input.tsx",
+          type: "registry:ui",
+          target: "",
+        },
+      ],
+      categories: undefined,
+      meta: {
+        links: {
+          docs: "https://fabricator-ui.com/docs/components/base/input",
+          examples:
+            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/input-example.tsx",
+        },
+      },
+    },
+    "input-group": {
+      name: "input-group",
+      title: "undefined",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: ["button", "input", "textarea"],
+      files: [
+        {
+          path: "styles/base-fabricator/ui/input-group.tsx",
+          type: "registry:ui",
+          target: "",
+        },
+      ],
+      categories: undefined,
+      meta: {
+        links: {
+          docs: "https://fabricator-ui.com/docs/components/base/input-group",
+          examples:
+            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/input-group-example.tsx",
+        },
+      },
+    },
+    "input-otp": {
+      name: "input-otp",
+      title: "undefined",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: undefined,
+      files: [
+        {
+          path: "styles/base-fabricator/ui/input-otp.tsx",
+          type: "registry:ui",
+          target: "",
+        },
+      ],
+      categories: undefined,
+      meta: {
+        links: {
+          docs: "https://fabricator-ui.com/docs/components/base/input-otp",
+          examples:
+            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/input-otp-example.tsx",
+          api: "https://input-otp.rodz.dev",
+        },
+      },
+    },
+    item: {
+      name: "item",
+      title: "undefined",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: ["separator"],
+      files: [
+        {
+          path: "styles/base-fabricator/ui/item.tsx",
+          type: "registry:ui",
+          target: "",
+        },
+      ],
+      categories: undefined,
+      meta: {
+        links: {
+          docs: "https://fabricator-ui.com/docs/components/base/item",
+          examples:
+            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/item-example.tsx",
+        },
+      },
+    },
+    label: {
+      name: "label",
+      title: "undefined",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: undefined,
+      files: [
+        {
+          path: "styles/base-fabricator/ui/label.tsx",
+          type: "registry:ui",
+          target: "",
+        },
+      ],
+      categories: undefined,
+      meta: {
+        links: {
+          docs: "https://fabricator-ui.com/docs/components/base/label",
+          examples:
+            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/label-example.tsx",
+          api: "https://base-ui.com/react/components/label.md",
+        },
+      },
+    },
+    menubar: {
+      name: "menubar",
+      title: "undefined",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: ["dropdown-menu"],
+      files: [
+        {
+          path: "styles/base-fabricator/ui/menubar.tsx",
+          type: "registry:ui",
+          target: "",
+        },
+      ],
+      categories: undefined,
+      meta: {
+        links: {
+          docs: "https://fabricator-ui.com/docs/components/base/menubar",
+          examples:
+            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/menubar-example.tsx",
+          api: "https://base-ui.com/react/components/menubar.md",
+        },
+      },
+    },
+    "navigation-menu": {
+      name: "navigation-menu",
+      title: "undefined",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: undefined,
+      files: [
+        {
+          path: "styles/base-fabricator/ui/navigation-menu.tsx",
+          type: "registry:ui",
+          target: "",
+        },
+      ],
+      categories: undefined,
+      meta: {
+        links: {
+          docs: "https://fabricator-ui.com/docs/components/base/navigation-menu",
+          examples:
+            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/navigation-menu-example.tsx",
+          api: "https://base-ui.com/react/components/navigation-menu.md",
+        },
+      },
+    },
+    pagination: {
+      name: "pagination",
+      title: "undefined",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: ["button"],
+      files: [
+        {
+          path: "styles/base-fabricator/ui/pagination.tsx",
+          type: "registry:ui",
+          target: "",
+        },
+      ],
+      categories: undefined,
+      meta: {
+        links: {
+          docs: "https://fabricator-ui.com/docs/components/base/pagination",
+          examples:
+            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/pagination-example.tsx",
+        },
+      },
+    },
+    popover: {
+      name: "popover",
+      title: "undefined",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: undefined,
+      files: [
+        {
+          path: "styles/base-fabricator/ui/popover.tsx",
+          type: "registry:ui",
+          target: "",
+        },
+      ],
+      categories: undefined,
+      meta: {
+        links: {
+          docs: "https://fabricator-ui.com/docs/components/base/popover",
+          examples:
+            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/popover-example.tsx",
+          api: "https://base-ui.com/react/components/popover.md",
+        },
+      },
+    },
+    progress: {
+      name: "progress",
+      title: "undefined",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: undefined,
+      files: [
+        {
+          path: "styles/base-fabricator/ui/progress.tsx",
+          type: "registry:ui",
+          target: "",
+        },
+      ],
+      categories: undefined,
+      meta: {
+        links: {
+          docs: "https://fabricator-ui.com/docs/components/base/progress",
+          examples:
+            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/progress-example.tsx",
+          api: "https://base-ui.com/react/components/progress.md",
+        },
+      },
+    },
+    "radio-group": {
+      name: "radio-group",
+      title: "undefined",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: undefined,
+      files: [
+        {
+          path: "styles/base-fabricator/ui/radio-group.tsx",
+          type: "registry:ui",
+          target: "",
+        },
+      ],
+      categories: undefined,
+      meta: {
+        links: {
+          docs: "https://fabricator-ui.com/docs/components/base/radio-group",
+          examples:
+            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/radio-group-example.tsx",
+          api: "https://base-ui.com/react/components/radio-group.md",
+        },
+      },
+    },
+    resizable: {
+      name: "resizable",
+      title: "undefined",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: undefined,
+      files: [
+        {
+          path: "styles/base-fabricator/ui/resizable.tsx",
+          type: "registry:ui",
+          target: "",
+        },
+      ],
+      categories: undefined,
+      meta: {
+        links: {
+          docs: "https://fabricator-ui.com/docs/components/base/resizable",
+          examples:
+            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/resizable-example.tsx",
+          api: "https://github.com/bvaughn/react-resizable-panels",
+        },
+      },
+    },
+    "scroll-area": {
+      name: "scroll-area",
+      title: "undefined",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: undefined,
+      files: [
+        {
+          path: "styles/base-fabricator/ui/scroll-area.tsx",
+          type: "registry:ui",
+          target: "",
+        },
+      ],
+      categories: undefined,
+      meta: {
+        links: {
+          docs: "https://fabricator-ui.com/docs/components/base/scroll-area",
+          examples:
+            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/scroll-area-example.tsx",
+          api: "https://base-ui.com/react/components/scroll-area.md",
+        },
+      },
+    },
+    select: {
+      name: "select",
+      title: "undefined",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: undefined,
+      files: [
+        {
+          path: "styles/base-fabricator/ui/select.tsx",
+          type: "registry:ui",
+          target: "",
+        },
+      ],
+      categories: undefined,
+      meta: {
+        links: {
+          docs: "https://fabricator-ui.com/docs/components/base/select",
+          examples:
+            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/select-example.tsx",
+          api: "https://base-ui.com/react/components/select.md",
+        },
+      },
+    },
+    separator: {
+      name: "separator",
+      title: "undefined",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: undefined,
+      files: [
+        {
+          path: "styles/base-fabricator/ui/separator.tsx",
+          type: "registry:ui",
+          target: "",
+        },
+      ],
+      categories: undefined,
+      meta: {
+        links: {
+          docs: "https://fabricator-ui.com/docs/components/base/separator",
+          examples:
+            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/separator-example.tsx",
+          api: "https://base-ui.com/react/components/separator.md",
+        },
+      },
+    },
+    sheet: {
+      name: "sheet",
+      title: "undefined",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: ["button"],
+      files: [
+        {
+          path: "styles/base-fabricator/ui/sheet.tsx",
+          type: "registry:ui",
+          target: "",
+        },
+      ],
+      categories: undefined,
+      meta: {
+        links: {
+          docs: "https://fabricator-ui.com/docs/components/base/sheet",
+          examples:
+            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/sheet-example.tsx",
+          api: "https://base-ui.com/react/components/dialog.md",
+        },
+      },
+    },
+    sidebar: {
+      name: "sidebar",
+      title: "undefined",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: [
+        "button",
+        "input",
+        "separator",
+        "sheet",
+        "skeleton",
+        "tooltip",
+        "use-mobile",
+      ],
+      files: [
+        {
+          path: "styles/base-fabricator/ui/sidebar.tsx",
+          type: "registry:ui",
+          target: "",
+        },
+      ],
+      categories: undefined,
+      meta: {
+        links: {
+          docs: "https://fabricator-ui.com/docs/components/base/sidebar",
+          examples:
+            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/sidebar-example.tsx",
+        },
+      },
+    },
+    skeleton: {
+      name: "skeleton",
+      title: "undefined",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: undefined,
+      files: [
+        {
+          path: "styles/base-fabricator/ui/skeleton.tsx",
+          type: "registry:ui",
+          target: "",
+        },
+      ],
+      categories: undefined,
+      meta: {
+        links: {
+          docs: "https://fabricator-ui.com/docs/components/base/skeleton",
+          examples:
+            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/skeleton-example.tsx",
+        },
+      },
+    },
+    slider: {
+      name: "slider",
+      title: "undefined",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: undefined,
+      files: [
+        {
+          path: "styles/base-fabricator/ui/slider.tsx",
+          type: "registry:ui",
+          target: "",
+        },
+      ],
+      categories: undefined,
+      meta: {
+        links: {
+          docs: "https://fabricator-ui.com/docs/components/base/slider",
+          examples:
+            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/slider-example.tsx",
+          api: "https://base-ui.com/react/components/slider.md",
+        },
+      },
+    },
+    sonner: {
+      name: "sonner",
+      title: "undefined",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: undefined,
+      files: [
+        {
+          path: "styles/base-fabricator/ui/sonner.tsx",
+          type: "registry:ui",
+          target: "",
+        },
+      ],
+      categories: undefined,
+      meta: {
+        links: {
+          docs: "https://fabricator-ui.com/docs/components/base/sonner",
+          examples:
+            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/sonner-example.tsx",
+          api: "https://sonner.emilkowal.ski",
+        },
+      },
+    },
+    spinner: {
+      name: "spinner",
+      title: "undefined",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: undefined,
+      files: [
+        {
+          path: "styles/base-fabricator/ui/spinner.tsx",
+          type: "registry:ui",
+          target: "",
+        },
+      ],
+      categories: undefined,
+      meta: {
+        links: {
+          docs: "https://fabricator-ui.com/docs/components/base/spinner",
+          examples:
+            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/spinner-example.tsx",
+        },
+      },
+    },
+    switch: {
+      name: "switch",
+      title: "undefined",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: undefined,
+      files: [
+        {
+          path: "styles/base-fabricator/ui/switch.tsx",
+          type: "registry:ui",
+          target: "",
+        },
+      ],
+      categories: undefined,
+      meta: {
+        links: {
+          docs: "https://fabricator-ui.com/docs/components/base/switch",
+          examples:
+            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/switch-example.tsx",
+          api: "https://base-ui.com/react/components/switch.md",
+        },
+      },
+    },
+    table: {
+      name: "table",
+      title: "undefined",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: undefined,
+      files: [
+        {
+          path: "styles/base-fabricator/ui/table.tsx",
+          type: "registry:ui",
+          target: "",
+        },
+      ],
+      categories: undefined,
+      meta: {
+        links: {
+          docs: "https://fabricator-ui.com/docs/components/base/table",
+          examples:
+            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/table-example.tsx",
+        },
+      },
+    },
+    tabs: {
+      name: "tabs",
+      title: "undefined",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: undefined,
+      files: [
+        {
+          path: "styles/base-fabricator/ui/tabs.tsx",
+          type: "registry:ui",
+          target: "",
+        },
+      ],
+      categories: undefined,
+      meta: {
+        links: {
+          docs: "https://fabricator-ui.com/docs/components/base/tabs",
+          examples:
+            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/tabs-example.tsx",
+          api: "https://base-ui.com/react/components/tabs.md",
+        },
+      },
+    },
+    textarea: {
+      name: "textarea",
+      title: "undefined",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: undefined,
+      files: [
+        {
+          path: "styles/base-fabricator/ui/textarea.tsx",
+          type: "registry:ui",
+          target: "",
+        },
+      ],
+      categories: undefined,
+      meta: {
+        links: {
+          docs: "https://fabricator-ui.com/docs/components/base/textarea",
+          examples:
+            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/textarea-example.tsx",
+        },
+      },
+    },
+    toast: {
+      name: "toast",
+      title: "undefined",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: ["button"],
+      files: [
+        {
+          path: "styles/base-fabricator/ui/toast.tsx",
+          type: "registry:ui",
+          target: "",
+        },
+      ],
+      categories: undefined,
+      meta: {
+        links: {
+          docs: "https://fabricator-ui.com/docs/components/base/toast",
+          examples:
+            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/toast-example.tsx",
+          api: "https://base-ui.com/react/components/toast.md",
+        },
+      },
+    },
+    toggle: {
+      name: "toggle",
+      title: "undefined",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: undefined,
+      files: [
+        {
+          path: "styles/base-fabricator/ui/toggle.tsx",
+          type: "registry:ui",
+          target: "",
+        },
+      ],
+      categories: undefined,
+      meta: {
+        links: {
+          docs: "https://fabricator-ui.com/docs/components/base/toggle",
+          examples:
+            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/toggle-example.tsx",
+          api: "https://base-ui.com/react/components/toggle.md",
+        },
+      },
+    },
+    "toggle-group": {
+      name: "toggle-group",
+      title: "undefined",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: ["toggle"],
+      files: [
+        {
+          path: "styles/base-fabricator/ui/toggle-group.tsx",
+          type: "registry:ui",
+          target: "",
+        },
+      ],
+      categories: undefined,
+      meta: {
+        links: {
+          docs: "https://fabricator-ui.com/docs/components/base/toggle-group",
+          examples:
+            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/toggle-group-example.tsx",
+          api: "https://base-ui.com/react/components/toggle-group.md",
+        },
+      },
+    },
+    tooltip: {
+      name: "tooltip",
+      title: "undefined",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: undefined,
+      files: [
+        {
+          path: "styles/base-fabricator/ui/tooltip.tsx",
+          type: "registry:ui",
+          target: "",
+        },
+      ],
+      categories: undefined,
+      meta: {
+        links: {
+          docs: "https://fabricator-ui.com/docs/components/base/tooltip",
+          examples:
+            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/tooltip-example.tsx",
+          api: "https://base-ui.com/react/components/tooltip.md",
+        },
+      },
+    },
+    kbd: {
+      name: "kbd",
+      title: "undefined",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: undefined,
+      files: [
+        {
+          path: "styles/base-fabricator/ui/kbd.tsx",
+          type: "registry:ui",
+          target: "",
+        },
+      ],
+      categories: undefined,
+      meta: {
+        links: {
+          docs: "https://fabricator-ui.com/docs/components/base/kbd",
+          examples:
+            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/kbd-example.tsx",
+        },
+      },
+    },
+    "native-select": {
+      name: "native-select",
+      title: "undefined",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: undefined,
+      files: [
+        {
+          path: "styles/base-fabricator/ui/native-select.tsx",
+          type: "registry:ui",
+          target: "",
+        },
+      ],
+      categories: undefined,
+      meta: {
+        links: {
+          docs: "https://fabricator-ui.com/docs/components/base/native-select",
+          examples:
+            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/native-select-example.tsx",
+        },
+      },
+    },
+    direction: {
+      name: "direction",
+      title: "undefined",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: undefined,
+      files: [
+        {
+          path: "styles/base-fabricator/ui/direction.tsx",
+          type: "registry:ui",
+          target: "",
+        },
+      ],
+      categories: undefined,
+      meta: {
+        links: {
+          docs: "https://fabricator-ui.com/docs/components/base/direction",
+          api: "https://base-ui.com/react/utils/direction-provider.md",
+        },
+      },
+    },
+    attachment: {
+      name: "attachment",
+      title: "undefined",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: ["button"],
+      files: [
+        {
+          path: "styles/base-fabricator/ui/attachment.tsx",
+          type: "registry:ui",
+          target: "",
+        },
+      ],
+      categories: undefined,
+      meta: undefined,
+    },
+    bubble: {
+      name: "bubble",
+      title: "undefined",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: undefined,
+      files: [
+        {
+          path: "styles/base-fabricator/ui/bubble.tsx",
+          type: "registry:ui",
+          target: "",
+        },
+      ],
+      categories: undefined,
+      meta: undefined,
+    },
+    "message-scroller": {
+      name: "message-scroller",
+      title: "undefined",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: ["button"],
+      files: [
+        {
+          path: "styles/base-fabricator/ui/message-scroller.tsx",
+          type: "registry:ui",
+          target: "",
+        },
+      ],
+      categories: undefined,
+      meta: undefined,
+    },
+    questionnaire: {
+      name: "questionnaire",
+      title: "undefined",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: ["button"],
+      files: [
+        {
+          path: "styles/base-fabricator/ui/questionnaire.tsx",
+          type: "registry:ui",
+          target: "",
+        },
+      ],
+      categories: undefined,
+      meta: {
+        links: {
+          docs: "https://fabricator-ui.com/docs/components/base/questionnaire",
+          examples:
+            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/questionnaire-example.tsx",
+        },
+      },
+    },
+    marker: {
+      name: "marker",
+      title: "undefined",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: undefined,
+      files: [
+        {
+          path: "styles/base-fabricator/ui/marker.tsx",
+          type: "registry:ui",
+          target: "",
+        },
+      ],
+      categories: undefined,
+      meta: undefined,
+    },
+    message: {
+      name: "message",
+      title: "undefined",
+      description: "",
+      type: "registry:ui",
+      registryDependencies: undefined,
+      files: [
+        {
+          path: "styles/base-fabricator/ui/message.tsx",
+          type: "registry:ui",
+          target: "",
+        },
+      ],
+      categories: undefined,
+      meta: undefined,
+    },
+  },
   "base-vega": {
     accordion: {
       name: "accordion",
@@ -20655,1383 +22032,6 @@ export const Index: Record<string, Record<string, any>> = {
       files: [
         {
           path: "styles/base-rhea/ui/message.tsx",
-          type: "registry:ui",
-          target: "",
-        },
-      ],
-      categories: undefined,
-      meta: undefined,
-    },
-  },
-  "base-fabricator": {
-    accordion: {
-      name: "accordion",
-      title: "undefined",
-      description: "",
-      type: "registry:ui",
-      registryDependencies: undefined,
-      files: [
-        {
-          path: "styles/base-fabricator/ui/accordion.tsx",
-          type: "registry:ui",
-          target: "",
-        },
-      ],
-      categories: undefined,
-      meta: {
-        links: {
-          docs: "https://fabricator-ui.com/docs/components/base/accordion",
-          examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/accordion-example.tsx",
-          api: "https://base-ui.com/react/components/accordion.md",
-        },
-      },
-    },
-    alert: {
-      name: "alert",
-      title: "undefined",
-      description: "",
-      type: "registry:ui",
-      registryDependencies: undefined,
-      files: [
-        {
-          path: "styles/base-fabricator/ui/alert.tsx",
-          type: "registry:ui",
-          target: "",
-        },
-      ],
-      categories: undefined,
-      meta: {
-        links: {
-          docs: "https://fabricator-ui.com/docs/components/base/alert",
-          examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/alert-example.tsx",
-        },
-      },
-    },
-    "alert-dialog": {
-      name: "alert-dialog",
-      title: "undefined",
-      description: "",
-      type: "registry:ui",
-      registryDependencies: ["button"],
-      files: [
-        {
-          path: "styles/base-fabricator/ui/alert-dialog.tsx",
-          type: "registry:ui",
-          target: "",
-        },
-      ],
-      categories: undefined,
-      meta: {
-        links: {
-          docs: "https://fabricator-ui.com/docs/components/base/alert-dialog",
-          examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/alert-dialog-example.tsx",
-          api: "https://base-ui.com/react/components/alert-dialog.md",
-        },
-      },
-    },
-    "aspect-ratio": {
-      name: "aspect-ratio",
-      title: "undefined",
-      description: "",
-      type: "registry:ui",
-      registryDependencies: undefined,
-      files: [
-        {
-          path: "styles/base-fabricator/ui/aspect-ratio.tsx",
-          type: "registry:ui",
-          target: "",
-        },
-      ],
-      categories: undefined,
-      meta: {
-        links: {
-          docs: "https://fabricator-ui.com/docs/components/base/aspect-ratio",
-          examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/aspect-ratio-example.tsx",
-        },
-      },
-    },
-    avatar: {
-      name: "avatar",
-      title: "undefined",
-      description: "",
-      type: "registry:ui",
-      registryDependencies: undefined,
-      files: [
-        {
-          path: "styles/base-fabricator/ui/avatar.tsx",
-          type: "registry:ui",
-          target: "",
-        },
-      ],
-      categories: undefined,
-      meta: {
-        links: {
-          docs: "https://fabricator-ui.com/docs/components/base/avatar",
-          examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/avatar-example.tsx",
-          api: "https://base-ui.com/react/components/avatar.md",
-        },
-      },
-    },
-    badge: {
-      name: "badge",
-      title: "undefined",
-      description: "",
-      type: "registry:ui",
-      registryDependencies: undefined,
-      files: [
-        {
-          path: "styles/base-fabricator/ui/badge.tsx",
-          type: "registry:ui",
-          target: "",
-        },
-      ],
-      categories: undefined,
-      meta: {
-        links: {
-          docs: "https://fabricator-ui.com/docs/components/base/badge",
-          examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/badge-example.tsx",
-        },
-      },
-    },
-    breadcrumb: {
-      name: "breadcrumb",
-      title: "undefined",
-      description: "",
-      type: "registry:ui",
-      registryDependencies: undefined,
-      files: [
-        {
-          path: "styles/base-fabricator/ui/breadcrumb.tsx",
-          type: "registry:ui",
-          target: "",
-        },
-      ],
-      categories: undefined,
-      meta: {
-        links: {
-          docs: "https://fabricator-ui.com/docs/components/base/breadcrumb",
-          examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/breadcrumb-example.tsx",
-        },
-      },
-    },
-    button: {
-      name: "button",
-      title: "undefined",
-      description: "",
-      type: "registry:ui",
-      registryDependencies: undefined,
-      files: [
-        {
-          path: "styles/base-fabricator/ui/button.tsx",
-          type: "registry:ui",
-          target: "",
-        },
-      ],
-      categories: undefined,
-      meta: {
-        links: {
-          docs: "https://fabricator-ui.com/docs/components/base/button",
-          examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/button-example.tsx",
-        },
-      },
-    },
-    "button-group": {
-      name: "button-group",
-      title: "undefined",
-      description: "",
-      type: "registry:ui",
-      registryDependencies: ["separator"],
-      files: [
-        {
-          path: "styles/base-fabricator/ui/button-group.tsx",
-          type: "registry:ui",
-          target: "",
-        },
-      ],
-      categories: undefined,
-      meta: {
-        links: {
-          docs: "https://fabricator-ui.com/docs/components/base/button-group",
-          examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/button-group-example.tsx",
-        },
-      },
-    },
-    calendar: {
-      name: "calendar",
-      title: "undefined",
-      description: "",
-      type: "registry:ui",
-      registryDependencies: ["button"],
-      files: [
-        {
-          path: "styles/base-fabricator/ui/calendar.tsx",
-          type: "registry:ui",
-          target: "",
-        },
-      ],
-      categories: undefined,
-      meta: {
-        links: {
-          docs: "https://fabricator-ui.com/docs/components/base/calendar",
-          examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/calendar-example.tsx",
-          api: "https://react-day-picker.js.org",
-        },
-      },
-    },
-    card: {
-      name: "card",
-      title: "undefined",
-      description: "",
-      type: "registry:ui",
-      registryDependencies: undefined,
-      files: [
-        {
-          path: "styles/base-fabricator/ui/card.tsx",
-          type: "registry:ui",
-          target: "",
-        },
-      ],
-      categories: undefined,
-      meta: {
-        links: {
-          docs: "https://fabricator-ui.com/docs/components/base/card",
-          examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/card-example.tsx",
-        },
-      },
-    },
-    carousel: {
-      name: "carousel",
-      title: "undefined",
-      description: "",
-      type: "registry:ui",
-      registryDependencies: ["button"],
-      files: [
-        {
-          path: "styles/base-fabricator/ui/carousel.tsx",
-          type: "registry:ui",
-          target: "",
-        },
-      ],
-      categories: undefined,
-      meta: {
-        links: {
-          docs: "https://fabricator-ui.com/docs/components/base/carousel",
-          examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/carousel-example.tsx",
-          api: "https://www.embla-carousel.com/get-started/react",
-        },
-      },
-    },
-    chart: {
-      name: "chart",
-      title: "undefined",
-      description: "",
-      type: "registry:ui",
-      registryDependencies: ["card"],
-      files: [
-        {
-          path: "styles/base-fabricator/ui/chart.tsx",
-          type: "registry:ui",
-          target: "",
-        },
-      ],
-      categories: undefined,
-      meta: {
-        links: {
-          docs: "https://fabricator-ui.com/docs/components/base/chart",
-          examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/chart-example.tsx",
-        },
-      },
-    },
-    checkbox: {
-      name: "checkbox",
-      title: "undefined",
-      description: "",
-      type: "registry:ui",
-      registryDependencies: undefined,
-      files: [
-        {
-          path: "styles/base-fabricator/ui/checkbox.tsx",
-          type: "registry:ui",
-          target: "",
-        },
-      ],
-      categories: undefined,
-      meta: {
-        links: {
-          docs: "https://fabricator-ui.com/docs/components/base/checkbox",
-          examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/checkbox-example.tsx",
-          api: "https://base-ui.com/react/components/checkbox.md",
-        },
-      },
-    },
-    collapsible: {
-      name: "collapsible",
-      title: "undefined",
-      description: "",
-      type: "registry:ui",
-      registryDependencies: undefined,
-      files: [
-        {
-          path: "styles/base-fabricator/ui/collapsible.tsx",
-          type: "registry:ui",
-          target: "",
-        },
-      ],
-      categories: undefined,
-      meta: {
-        links: {
-          docs: "https://fabricator-ui.com/docs/components/base/collapsible",
-          examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/collapsible-example.tsx",
-          api: "https://base-ui.com/react/components/collapsible.md",
-        },
-      },
-    },
-    combobox: {
-      name: "combobox",
-      title: "undefined",
-      description: "",
-      type: "registry:ui",
-      registryDependencies: ["button", "input-group"],
-      files: [
-        {
-          path: "styles/base-fabricator/ui/combobox.tsx",
-          type: "registry:ui",
-          target: "",
-        },
-      ],
-      categories: undefined,
-      meta: {
-        links: {
-          docs: "https://fabricator-ui.com/docs/components/base/combobox",
-          examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/combobox-example.tsx",
-          api: "https://base-ui.com/react/components/combobox.md",
-        },
-      },
-    },
-    command: {
-      name: "command",
-      title: "undefined",
-      description: "",
-      type: "registry:ui",
-      registryDependencies: ["dialog", "input-group"],
-      files: [
-        {
-          path: "styles/base-fabricator/ui/command.tsx",
-          type: "registry:ui",
-          target: "",
-        },
-      ],
-      categories: undefined,
-      meta: {
-        links: {
-          docs: "https://fabricator-ui.com/docs/components/base/command",
-          examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/command-example.tsx",
-          api: "https://github.com/dip/cmdk",
-        },
-      },
-    },
-    "context-menu": {
-      name: "context-menu",
-      title: "undefined",
-      description: "",
-      type: "registry:ui",
-      registryDependencies: undefined,
-      files: [
-        {
-          path: "styles/base-fabricator/ui/context-menu.tsx",
-          type: "registry:ui",
-          target: "",
-        },
-      ],
-      categories: undefined,
-      meta: {
-        links: {
-          docs: "https://fabricator-ui.com/docs/components/base/context-menu",
-          examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/context-menu-example.tsx",
-          api: "https://base-ui.com/react/components/context-menu.md",
-        },
-      },
-    },
-    dialog: {
-      name: "dialog",
-      title: "undefined",
-      description: "",
-      type: "registry:ui",
-      registryDependencies: ["button"],
-      files: [
-        {
-          path: "styles/base-fabricator/ui/dialog.tsx",
-          type: "registry:ui",
-          target: "",
-        },
-      ],
-      categories: undefined,
-      meta: {
-        links: {
-          docs: "https://fabricator-ui.com/docs/components/base/dialog",
-          examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/dialog-example.tsx",
-          api: "https://base-ui.com/react/components/dialog.md",
-        },
-      },
-    },
-    drawer: {
-      name: "drawer",
-      title: "undefined",
-      description: "",
-      type: "registry:ui",
-      registryDependencies: undefined,
-      files: [
-        {
-          path: "styles/base-fabricator/ui/drawer.tsx",
-          type: "registry:ui",
-          target: "",
-        },
-      ],
-      categories: undefined,
-      meta: {
-        links: {
-          docs: "https://fabricator-ui.com/docs/components/base/drawer",
-          examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/drawer-example.tsx",
-          api: "https://base-ui.com/react/components/drawer.md",
-        },
-      },
-    },
-    "dropdown-menu": {
-      name: "dropdown-menu",
-      title: "undefined",
-      description: "",
-      type: "registry:ui",
-      registryDependencies: undefined,
-      files: [
-        {
-          path: "styles/base-fabricator/ui/dropdown-menu.tsx",
-          type: "registry:ui",
-          target: "",
-        },
-      ],
-      categories: undefined,
-      meta: {
-        links: {
-          docs: "https://fabricator-ui.com/docs/components/base/dropdown-menu",
-          examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/dropdown-menu-example.tsx",
-          api: "https://base-ui.com/react/components/menu.md",
-        },
-      },
-    },
-    empty: {
-      name: "empty",
-      title: "undefined",
-      description: "",
-      type: "registry:ui",
-      registryDependencies: undefined,
-      files: [
-        {
-          path: "styles/base-fabricator/ui/empty.tsx",
-          type: "registry:ui",
-          target: "",
-        },
-      ],
-      categories: undefined,
-      meta: {
-        links: {
-          docs: "https://fabricator-ui.com/docs/components/base/empty",
-          examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/empty-example.tsx",
-        },
-      },
-    },
-    field: {
-      name: "field",
-      title: "undefined",
-      description: "",
-      type: "registry:ui",
-      registryDependencies: ["label", "separator"],
-      files: [
-        {
-          path: "styles/base-fabricator/ui/field.tsx",
-          type: "registry:ui",
-          target: "",
-        },
-      ],
-      categories: undefined,
-      meta: {
-        links: {
-          docs: "https://fabricator-ui.com/docs/components/base/field",
-          examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/field-example.tsx",
-        },
-      },
-    },
-    "hover-card": {
-      name: "hover-card",
-      title: "undefined",
-      description: "",
-      type: "registry:ui",
-      registryDependencies: undefined,
-      files: [
-        {
-          path: "styles/base-fabricator/ui/hover-card.tsx",
-          type: "registry:ui",
-          target: "",
-        },
-      ],
-      categories: undefined,
-      meta: {
-        links: {
-          docs: "https://fabricator-ui.com/docs/components/base/hover-card",
-          examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/hover-card-example.tsx",
-          api: "https://base-ui.com/react/components/hover-card.md",
-        },
-      },
-    },
-    input: {
-      name: "input",
-      title: "undefined",
-      description: "",
-      type: "registry:ui",
-      registryDependencies: undefined,
-      files: [
-        {
-          path: "styles/base-fabricator/ui/input.tsx",
-          type: "registry:ui",
-          target: "",
-        },
-      ],
-      categories: undefined,
-      meta: {
-        links: {
-          docs: "https://fabricator-ui.com/docs/components/base/input",
-          examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/input-example.tsx",
-        },
-      },
-    },
-    "input-group": {
-      name: "input-group",
-      title: "undefined",
-      description: "",
-      type: "registry:ui",
-      registryDependencies: ["button", "input", "textarea"],
-      files: [
-        {
-          path: "styles/base-fabricator/ui/input-group.tsx",
-          type: "registry:ui",
-          target: "",
-        },
-      ],
-      categories: undefined,
-      meta: {
-        links: {
-          docs: "https://fabricator-ui.com/docs/components/base/input-group",
-          examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/input-group-example.tsx",
-        },
-      },
-    },
-    "input-otp": {
-      name: "input-otp",
-      title: "undefined",
-      description: "",
-      type: "registry:ui",
-      registryDependencies: undefined,
-      files: [
-        {
-          path: "styles/base-fabricator/ui/input-otp.tsx",
-          type: "registry:ui",
-          target: "",
-        },
-      ],
-      categories: undefined,
-      meta: {
-        links: {
-          docs: "https://fabricator-ui.com/docs/components/base/input-otp",
-          examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/input-otp-example.tsx",
-          api: "https://input-otp.rodz.dev",
-        },
-      },
-    },
-    item: {
-      name: "item",
-      title: "undefined",
-      description: "",
-      type: "registry:ui",
-      registryDependencies: ["separator"],
-      files: [
-        {
-          path: "styles/base-fabricator/ui/item.tsx",
-          type: "registry:ui",
-          target: "",
-        },
-      ],
-      categories: undefined,
-      meta: {
-        links: {
-          docs: "https://fabricator-ui.com/docs/components/base/item",
-          examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/item-example.tsx",
-        },
-      },
-    },
-    label: {
-      name: "label",
-      title: "undefined",
-      description: "",
-      type: "registry:ui",
-      registryDependencies: undefined,
-      files: [
-        {
-          path: "styles/base-fabricator/ui/label.tsx",
-          type: "registry:ui",
-          target: "",
-        },
-      ],
-      categories: undefined,
-      meta: {
-        links: {
-          docs: "https://fabricator-ui.com/docs/components/base/label",
-          examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/label-example.tsx",
-          api: "https://base-ui.com/react/components/label.md",
-        },
-      },
-    },
-    menubar: {
-      name: "menubar",
-      title: "undefined",
-      description: "",
-      type: "registry:ui",
-      registryDependencies: ["dropdown-menu"],
-      files: [
-        {
-          path: "styles/base-fabricator/ui/menubar.tsx",
-          type: "registry:ui",
-          target: "",
-        },
-      ],
-      categories: undefined,
-      meta: {
-        links: {
-          docs: "https://fabricator-ui.com/docs/components/base/menubar",
-          examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/menubar-example.tsx",
-          api: "https://base-ui.com/react/components/menubar.md",
-        },
-      },
-    },
-    "navigation-menu": {
-      name: "navigation-menu",
-      title: "undefined",
-      description: "",
-      type: "registry:ui",
-      registryDependencies: undefined,
-      files: [
-        {
-          path: "styles/base-fabricator/ui/navigation-menu.tsx",
-          type: "registry:ui",
-          target: "",
-        },
-      ],
-      categories: undefined,
-      meta: {
-        links: {
-          docs: "https://fabricator-ui.com/docs/components/base/navigation-menu",
-          examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/navigation-menu-example.tsx",
-          api: "https://base-ui.com/react/components/navigation-menu.md",
-        },
-      },
-    },
-    pagination: {
-      name: "pagination",
-      title: "undefined",
-      description: "",
-      type: "registry:ui",
-      registryDependencies: ["button"],
-      files: [
-        {
-          path: "styles/base-fabricator/ui/pagination.tsx",
-          type: "registry:ui",
-          target: "",
-        },
-      ],
-      categories: undefined,
-      meta: {
-        links: {
-          docs: "https://fabricator-ui.com/docs/components/base/pagination",
-          examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/pagination-example.tsx",
-        },
-      },
-    },
-    popover: {
-      name: "popover",
-      title: "undefined",
-      description: "",
-      type: "registry:ui",
-      registryDependencies: undefined,
-      files: [
-        {
-          path: "styles/base-fabricator/ui/popover.tsx",
-          type: "registry:ui",
-          target: "",
-        },
-      ],
-      categories: undefined,
-      meta: {
-        links: {
-          docs: "https://fabricator-ui.com/docs/components/base/popover",
-          examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/popover-example.tsx",
-          api: "https://base-ui.com/react/components/popover.md",
-        },
-      },
-    },
-    progress: {
-      name: "progress",
-      title: "undefined",
-      description: "",
-      type: "registry:ui",
-      registryDependencies: undefined,
-      files: [
-        {
-          path: "styles/base-fabricator/ui/progress.tsx",
-          type: "registry:ui",
-          target: "",
-        },
-      ],
-      categories: undefined,
-      meta: {
-        links: {
-          docs: "https://fabricator-ui.com/docs/components/base/progress",
-          examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/progress-example.tsx",
-          api: "https://base-ui.com/react/components/progress.md",
-        },
-      },
-    },
-    "radio-group": {
-      name: "radio-group",
-      title: "undefined",
-      description: "",
-      type: "registry:ui",
-      registryDependencies: undefined,
-      files: [
-        {
-          path: "styles/base-fabricator/ui/radio-group.tsx",
-          type: "registry:ui",
-          target: "",
-        },
-      ],
-      categories: undefined,
-      meta: {
-        links: {
-          docs: "https://fabricator-ui.com/docs/components/base/radio-group",
-          examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/radio-group-example.tsx",
-          api: "https://base-ui.com/react/components/radio-group.md",
-        },
-      },
-    },
-    resizable: {
-      name: "resizable",
-      title: "undefined",
-      description: "",
-      type: "registry:ui",
-      registryDependencies: undefined,
-      files: [
-        {
-          path: "styles/base-fabricator/ui/resizable.tsx",
-          type: "registry:ui",
-          target: "",
-        },
-      ],
-      categories: undefined,
-      meta: {
-        links: {
-          docs: "https://fabricator-ui.com/docs/components/base/resizable",
-          examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/resizable-example.tsx",
-          api: "https://github.com/bvaughn/react-resizable-panels",
-        },
-      },
-    },
-    "scroll-area": {
-      name: "scroll-area",
-      title: "undefined",
-      description: "",
-      type: "registry:ui",
-      registryDependencies: undefined,
-      files: [
-        {
-          path: "styles/base-fabricator/ui/scroll-area.tsx",
-          type: "registry:ui",
-          target: "",
-        },
-      ],
-      categories: undefined,
-      meta: {
-        links: {
-          docs: "https://fabricator-ui.com/docs/components/base/scroll-area",
-          examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/scroll-area-example.tsx",
-          api: "https://base-ui.com/react/components/scroll-area.md",
-        },
-      },
-    },
-    select: {
-      name: "select",
-      title: "undefined",
-      description: "",
-      type: "registry:ui",
-      registryDependencies: undefined,
-      files: [
-        {
-          path: "styles/base-fabricator/ui/select.tsx",
-          type: "registry:ui",
-          target: "",
-        },
-      ],
-      categories: undefined,
-      meta: {
-        links: {
-          docs: "https://fabricator-ui.com/docs/components/base/select",
-          examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/select-example.tsx",
-          api: "https://base-ui.com/react/components/select.md",
-        },
-      },
-    },
-    separator: {
-      name: "separator",
-      title: "undefined",
-      description: "",
-      type: "registry:ui",
-      registryDependencies: undefined,
-      files: [
-        {
-          path: "styles/base-fabricator/ui/separator.tsx",
-          type: "registry:ui",
-          target: "",
-        },
-      ],
-      categories: undefined,
-      meta: {
-        links: {
-          docs: "https://fabricator-ui.com/docs/components/base/separator",
-          examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/separator-example.tsx",
-          api: "https://base-ui.com/react/components/separator.md",
-        },
-      },
-    },
-    sheet: {
-      name: "sheet",
-      title: "undefined",
-      description: "",
-      type: "registry:ui",
-      registryDependencies: ["button"],
-      files: [
-        {
-          path: "styles/base-fabricator/ui/sheet.tsx",
-          type: "registry:ui",
-          target: "",
-        },
-      ],
-      categories: undefined,
-      meta: {
-        links: {
-          docs: "https://fabricator-ui.com/docs/components/base/sheet",
-          examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/sheet-example.tsx",
-          api: "https://base-ui.com/react/components/dialog.md",
-        },
-      },
-    },
-    sidebar: {
-      name: "sidebar",
-      title: "undefined",
-      description: "",
-      type: "registry:ui",
-      registryDependencies: [
-        "button",
-        "input",
-        "separator",
-        "sheet",
-        "skeleton",
-        "tooltip",
-        "use-mobile",
-      ],
-      files: [
-        {
-          path: "styles/base-fabricator/ui/sidebar.tsx",
-          type: "registry:ui",
-          target: "",
-        },
-      ],
-      categories: undefined,
-      meta: {
-        links: {
-          docs: "https://fabricator-ui.com/docs/components/base/sidebar",
-          examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/sidebar-example.tsx",
-        },
-      },
-    },
-    skeleton: {
-      name: "skeleton",
-      title: "undefined",
-      description: "",
-      type: "registry:ui",
-      registryDependencies: undefined,
-      files: [
-        {
-          path: "styles/base-fabricator/ui/skeleton.tsx",
-          type: "registry:ui",
-          target: "",
-        },
-      ],
-      categories: undefined,
-      meta: {
-        links: {
-          docs: "https://fabricator-ui.com/docs/components/base/skeleton",
-          examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/skeleton-example.tsx",
-        },
-      },
-    },
-    slider: {
-      name: "slider",
-      title: "undefined",
-      description: "",
-      type: "registry:ui",
-      registryDependencies: undefined,
-      files: [
-        {
-          path: "styles/base-fabricator/ui/slider.tsx",
-          type: "registry:ui",
-          target: "",
-        },
-      ],
-      categories: undefined,
-      meta: {
-        links: {
-          docs: "https://fabricator-ui.com/docs/components/base/slider",
-          examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/slider-example.tsx",
-          api: "https://base-ui.com/react/components/slider.md",
-        },
-      },
-    },
-    sonner: {
-      name: "sonner",
-      title: "undefined",
-      description: "",
-      type: "registry:ui",
-      registryDependencies: undefined,
-      files: [
-        {
-          path: "styles/base-fabricator/ui/sonner.tsx",
-          type: "registry:ui",
-          target: "",
-        },
-      ],
-      categories: undefined,
-      meta: {
-        links: {
-          docs: "https://fabricator-ui.com/docs/components/base/sonner",
-          examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/sonner-example.tsx",
-          api: "https://sonner.emilkowal.ski",
-        },
-      },
-    },
-    spinner: {
-      name: "spinner",
-      title: "undefined",
-      description: "",
-      type: "registry:ui",
-      registryDependencies: undefined,
-      files: [
-        {
-          path: "styles/base-fabricator/ui/spinner.tsx",
-          type: "registry:ui",
-          target: "",
-        },
-      ],
-      categories: undefined,
-      meta: {
-        links: {
-          docs: "https://fabricator-ui.com/docs/components/base/spinner",
-          examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/spinner-example.tsx",
-        },
-      },
-    },
-    switch: {
-      name: "switch",
-      title: "undefined",
-      description: "",
-      type: "registry:ui",
-      registryDependencies: undefined,
-      files: [
-        {
-          path: "styles/base-fabricator/ui/switch.tsx",
-          type: "registry:ui",
-          target: "",
-        },
-      ],
-      categories: undefined,
-      meta: {
-        links: {
-          docs: "https://fabricator-ui.com/docs/components/base/switch",
-          examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/switch-example.tsx",
-          api: "https://base-ui.com/react/components/switch.md",
-        },
-      },
-    },
-    table: {
-      name: "table",
-      title: "undefined",
-      description: "",
-      type: "registry:ui",
-      registryDependencies: undefined,
-      files: [
-        {
-          path: "styles/base-fabricator/ui/table.tsx",
-          type: "registry:ui",
-          target: "",
-        },
-      ],
-      categories: undefined,
-      meta: {
-        links: {
-          docs: "https://fabricator-ui.com/docs/components/base/table",
-          examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/table-example.tsx",
-        },
-      },
-    },
-    tabs: {
-      name: "tabs",
-      title: "undefined",
-      description: "",
-      type: "registry:ui",
-      registryDependencies: undefined,
-      files: [
-        {
-          path: "styles/base-fabricator/ui/tabs.tsx",
-          type: "registry:ui",
-          target: "",
-        },
-      ],
-      categories: undefined,
-      meta: {
-        links: {
-          docs: "https://fabricator-ui.com/docs/components/base/tabs",
-          examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/tabs-example.tsx",
-          api: "https://base-ui.com/react/components/tabs.md",
-        },
-      },
-    },
-    textarea: {
-      name: "textarea",
-      title: "undefined",
-      description: "",
-      type: "registry:ui",
-      registryDependencies: undefined,
-      files: [
-        {
-          path: "styles/base-fabricator/ui/textarea.tsx",
-          type: "registry:ui",
-          target: "",
-        },
-      ],
-      categories: undefined,
-      meta: {
-        links: {
-          docs: "https://fabricator-ui.com/docs/components/base/textarea",
-          examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/textarea-example.tsx",
-        },
-      },
-    },
-    toast: {
-      name: "toast",
-      title: "undefined",
-      description: "",
-      type: "registry:ui",
-      registryDependencies: ["button"],
-      files: [
-        {
-          path: "styles/base-fabricator/ui/toast.tsx",
-          type: "registry:ui",
-          target: "",
-        },
-      ],
-      categories: undefined,
-      meta: {
-        links: {
-          docs: "https://fabricator-ui.com/docs/components/base/toast",
-          examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/toast-example.tsx",
-          api: "https://base-ui.com/react/components/toast.md",
-        },
-      },
-    },
-    toggle: {
-      name: "toggle",
-      title: "undefined",
-      description: "",
-      type: "registry:ui",
-      registryDependencies: undefined,
-      files: [
-        {
-          path: "styles/base-fabricator/ui/toggle.tsx",
-          type: "registry:ui",
-          target: "",
-        },
-      ],
-      categories: undefined,
-      meta: {
-        links: {
-          docs: "https://fabricator-ui.com/docs/components/base/toggle",
-          examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/toggle-example.tsx",
-          api: "https://base-ui.com/react/components/toggle.md",
-        },
-      },
-    },
-    "toggle-group": {
-      name: "toggle-group",
-      title: "undefined",
-      description: "",
-      type: "registry:ui",
-      registryDependencies: ["toggle"],
-      files: [
-        {
-          path: "styles/base-fabricator/ui/toggle-group.tsx",
-          type: "registry:ui",
-          target: "",
-        },
-      ],
-      categories: undefined,
-      meta: {
-        links: {
-          docs: "https://fabricator-ui.com/docs/components/base/toggle-group",
-          examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/toggle-group-example.tsx",
-          api: "https://base-ui.com/react/components/toggle-group.md",
-        },
-      },
-    },
-    tooltip: {
-      name: "tooltip",
-      title: "undefined",
-      description: "",
-      type: "registry:ui",
-      registryDependencies: undefined,
-      files: [
-        {
-          path: "styles/base-fabricator/ui/tooltip.tsx",
-          type: "registry:ui",
-          target: "",
-        },
-      ],
-      categories: undefined,
-      meta: {
-        links: {
-          docs: "https://fabricator-ui.com/docs/components/base/tooltip",
-          examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/tooltip-example.tsx",
-          api: "https://base-ui.com/react/components/tooltip.md",
-        },
-      },
-    },
-    kbd: {
-      name: "kbd",
-      title: "undefined",
-      description: "",
-      type: "registry:ui",
-      registryDependencies: undefined,
-      files: [
-        {
-          path: "styles/base-fabricator/ui/kbd.tsx",
-          type: "registry:ui",
-          target: "",
-        },
-      ],
-      categories: undefined,
-      meta: {
-        links: {
-          docs: "https://fabricator-ui.com/docs/components/base/kbd",
-          examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/kbd-example.tsx",
-        },
-      },
-    },
-    "native-select": {
-      name: "native-select",
-      title: "undefined",
-      description: "",
-      type: "registry:ui",
-      registryDependencies: undefined,
-      files: [
-        {
-          path: "styles/base-fabricator/ui/native-select.tsx",
-          type: "registry:ui",
-          target: "",
-        },
-      ],
-      categories: undefined,
-      meta: {
-        links: {
-          docs: "https://fabricator-ui.com/docs/components/base/native-select",
-          examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/native-select-example.tsx",
-        },
-      },
-    },
-    direction: {
-      name: "direction",
-      title: "undefined",
-      description: "",
-      type: "registry:ui",
-      registryDependencies: undefined,
-      files: [
-        {
-          path: "styles/base-fabricator/ui/direction.tsx",
-          type: "registry:ui",
-          target: "",
-        },
-      ],
-      categories: undefined,
-      meta: {
-        links: {
-          docs: "https://fabricator-ui.com/docs/components/base/direction",
-          api: "https://base-ui.com/react/utils/direction-provider.md",
-        },
-      },
-    },
-    attachment: {
-      name: "attachment",
-      title: "undefined",
-      description: "",
-      type: "registry:ui",
-      registryDependencies: ["button"],
-      files: [
-        {
-          path: "styles/base-fabricator/ui/attachment.tsx",
-          type: "registry:ui",
-          target: "",
-        },
-      ],
-      categories: undefined,
-      meta: undefined,
-    },
-    bubble: {
-      name: "bubble",
-      title: "undefined",
-      description: "",
-      type: "registry:ui",
-      registryDependencies: undefined,
-      files: [
-        {
-          path: "styles/base-fabricator/ui/bubble.tsx",
-          type: "registry:ui",
-          target: "",
-        },
-      ],
-      categories: undefined,
-      meta: undefined,
-    },
-    "message-scroller": {
-      name: "message-scroller",
-      title: "undefined",
-      description: "",
-      type: "registry:ui",
-      registryDependencies: ["button"],
-      files: [
-        {
-          path: "styles/base-fabricator/ui/message-scroller.tsx",
-          type: "registry:ui",
-          target: "",
-        },
-      ],
-      categories: undefined,
-      meta: undefined,
-    },
-    questionnaire: {
-      name: "questionnaire",
-      title: "undefined",
-      description: "",
-      type: "registry:ui",
-      registryDependencies: ["button"],
-      files: [
-        {
-          path: "styles/base-fabricator/ui/questionnaire.tsx",
-          type: "registry:ui",
-          target: "",
-        },
-      ],
-      categories: undefined,
-      meta: {
-        links: {
-          docs: "https://fabricator-ui.com/docs/components/base/questionnaire",
-          examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/questionnaire-example.tsx",
-        },
-      },
-    },
-    marker: {
-      name: "marker",
-      title: "undefined",
-      description: "",
-      type: "registry:ui",
-      registryDependencies: undefined,
-      files: [
-        {
-          path: "styles/base-fabricator/ui/marker.tsx",
-          type: "registry:ui",
-          target: "",
-        },
-      ],
-      categories: undefined,
-      meta: undefined,
-    },
-    message: {
-      name: "message",
-      title: "undefined",
-      description: "",
-      type: "registry:ui",
-      registryDependencies: undefined,
-      files: [
-        {
-          path: "styles/base-fabricator/ui/message.tsx",
           type: "registry:ui",
           target: "",
         },

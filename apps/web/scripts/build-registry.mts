@@ -72,9 +72,12 @@ import { STYLES } from "@/registry/styles"
  * Running with no options performs the full build described above.
  */
 
-
-const UPSTREAM_ITEM_SCHEMA_URL = "https://ui.shadcn.com/schema/registry-item.json"
+const UPSTREAM_ITEM_SCHEMA_URL =
+  "https://ui.shadcn.com/schema/registry-item.json"
 const FABRICATOR_ITEM_SCHEMA_URL = `${FABRICATOR_REGISTRY.homepage}/schema/registry-item.json`
+
+// Fabricator-style copies of the demos (see buildStyledExamples).
+const STYLED_EXAMPLES_DIR = "examples/__styles__"
 
 // Upstream styles plus Fabricator styles, compiled by the same pipeline.
 const REGISTRY_STYLES: ReadonlyArray<{ name: string; title: string }> = [
@@ -399,7 +402,9 @@ function shouldGenerateRtlStyles(styleName: string) {
   return (
     styleName === "base-nova" ||
     styleName === "radix-nova" ||
-    styleName === "aria-nova"
+    styleName === "aria-nova" ||
+    // The docs render RTL demos in the Fabricator style too (lib/site-style.ts).
+    isFabricatorStyleName(styleName)
   )
 }
 
@@ -1175,7 +1180,7 @@ async function buildExamplesIndex() {
 
       console.log(`   Found ${files.length} demos for ${base.name}`)
 
-      return { baseName: base.name, files }
+      return { baseName: base.name, files, dir: `examples/${base.name}` }
     })
   )
 
@@ -1188,7 +1193,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {`
 
   const componentShards: ComponentShard[] = []
 
-  for (const result of baseResults) {
+  // Fabricator styles get their own copy of every demo, rewritten to import
+  // the compiled <base>-<fabricator style> components, so the docs can render
+  // the Fabricator look. Lookups fall back to the base set (lib/registry.ts).
+  const styledResults = await buildStyledExamples(
+    baseResults.filter((result) => result !== null)
+  )
+
+  for (const result of [...baseResults, ...styledResults]) {
     if (!result) continue
 
     const { baseName, files } = result
@@ -1203,11 +1215,11 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {`
       index += `
     "${name}": {
       name: "${name}",
-      filePath: "examples/${baseName}/${file}",
+      filePath: "${result.dir}/${file}",
     },`
 
       shard.entries += `
-  "${name}": ${lazyComponentExpression(`@/examples/${baseName}/${stripFileExtension(file)}`, name)},`
+  "${name}": ${lazyComponentExpression(`@/${result.dir}/${stripFileExtension(file)}`, name)},`
       shard.names.push(name)
     }
 
@@ -1230,6 +1242,50 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {`
     path.join(examplesDir, "__components__"),
     componentShards
   )
+}
+
+async function buildStyledExamples(
+  baseResults: Array<{ baseName: string; files: string[] }>
+) {
+  const examplesDir = path.join(process.cwd(), "examples")
+  const results: Array<{ baseName: string; files: string[]; dir: string }> = []
+
+  for (const { baseName, files } of baseResults) {
+    for (const style of FABRICATOR_STYLES) {
+      const key = `${baseName}-${style.name}`
+      const dir = `${STYLED_EXAMPLES_DIR}/${key}`
+      const outputDir = path.join(process.cwd(), dir)
+      await fs.mkdir(outputDir, { recursive: true })
+
+      await runWithConcurrency(files, FILE_BUILD_CONCURRENCY, async (file) => {
+        const source = await fs.readFile(
+          path.join(examplesDir, baseName, file),
+          "utf8"
+        )
+        await writeIfChanged(
+          path.join(outputDir, file),
+          // No header comment: the docs show this file's source to readers.
+          source.replace(
+            /@\/styles\/(base|radix|aria)-[a-z0-9]+\//g,
+            `@/styles/$1-${style.name}/`
+          )
+        )
+      })
+
+      // Drop copies of demos that were removed or renamed.
+      const expected = new Set(files)
+      for (const existing of await collectExampleFiles(outputDir)) {
+        if (!expected.has(existing)) {
+          await fs.rm(path.join(outputDir, existing))
+        }
+      }
+
+      results.push({ baseName: key, files, dir })
+      console.log(`   Generated ${files.length} ${key} demos`)
+    }
+  }
+
+  return results
 }
 
 async function collectExampleFiles(

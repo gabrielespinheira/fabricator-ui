@@ -2,6 +2,7 @@ import * as React from "react"
 import Image from "next/image"
 
 import { getRegistryComponent } from "@/lib/registry"
+import { toSiteStyle } from "@/lib/site-style"
 import { ComponentPreviewTabs } from "@/components/component-preview-tabs"
 import { ComponentSource } from "@/components/component-source"
 
@@ -69,7 +70,8 @@ export function ComponentPreview({
     return content
   }
 
-  const Component = getRegistryComponent(name, styleName)
+  const siteStyleName = toSiteStyle(styleName)
+  const Component = getRegistryComponent(name, siteStyleName)
 
   if (!Component) {
     return (
@@ -94,20 +96,20 @@ export function ComponentPreview({
         <ComponentSource
           name={name}
           collapsible={false}
-          styleName={styleName}
+          styleName={siteStyleName}
         />
       }
       sourcePreview={
         <ComponentSource
           name={name}
           collapsible={false}
-          styleName={styleName}
+          styleName={siteStyleName}
           maxLines={3}
         />
       }
       chromeLessOnMobile={chromeLessOnMobile}
       direction={direction}
-      styleName={styleName}
+      styleName={siteStyleName}
       {...props}
     />
   )

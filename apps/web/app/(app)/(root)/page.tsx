@@ -11,7 +11,7 @@ import {
   PageHeaderDescription,
   PageHeaderHeading,
 } from "@/components/page-header"
-import { Button } from "@/styles/radix-luma/ui/button"
+import { Button } from "@/styles/radix-fabricator/ui/button"
 
 import { CardsDemo } from "./cards"
 

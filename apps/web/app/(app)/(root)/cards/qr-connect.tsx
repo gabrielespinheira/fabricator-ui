@@ -4,7 +4,7 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/styles/base-rhea/ui/card"
+} from "@/styles/base-fabricator/ui/card"
 
 const qrCells = [
   "111111100101101111111",

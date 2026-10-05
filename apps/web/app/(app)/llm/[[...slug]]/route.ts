@@ -2,6 +2,7 @@ import { notFound } from "next/navigation"
 import { NextResponse, type NextRequest } from "next/server"
 
 import { processMdxForLLMs } from "@/lib/llm"
+import { toSiteStyle } from "@/lib/site-style"
 import { source } from "@/lib/source"
 import { type Style } from "@/registry/_legacy-styles"
 
@@ -38,7 +39,7 @@ export async function GET(
   }
 
   // Default to the base style. Legacy content pins new-york-v4 per tag.
-  const effectiveStyle = getStyleFromSlug(slug, "base-nova")
+  const effectiveStyle = toSiteStyle(getStyleFromSlug(slug, "base-nova"))
 
   const processedContent = processMdxForLLMs(
     await page.data.getText("raw"),

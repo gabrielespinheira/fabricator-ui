@@ -28,6 +28,10 @@
 @source "../styles/radix-rhea/**/*.tsx";
 @source "../styles/radix-sera/**/*.tsx";
 @source "../styles/radix-vega/**/*.tsx";
+/* Fabricator styles (registry/styles/style-fabricator.css). */
+@source "../styles/base-fabricator/**/*.tsx";
+@source "../styles/aria-fabricator/**/*.tsx";
+@source "../styles/radix-fabricator/**/*.tsx";
 
 @custom-variant style-vega (&:where(.style-vega *));
 @custom-variant style-nova (&:where(.style-nova *));
@@ -37,6 +41,7 @@
 @custom-variant style-luma (&:where(.style-luma *));
 @custom-variant style-sera (&:where(.style-sera *));
 @custom-variant style-rhea (&:where(.style-rhea *));
+@custom-variant style-fabricator (&:where(.style-fabricator *));
 
 @custom-variant dark (&:is(.dark *));
 @custom-variant fixed (&:is(.layout-fixed *));

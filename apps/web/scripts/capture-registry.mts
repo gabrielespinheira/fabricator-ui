@@ -16,7 +16,7 @@ import path from "path"
 import puppeteer from "puppeteer-core"
 
 import { getAllBlockIds } from "../lib/blocks"
-import { getActiveStyle } from "../registry/_legacy-styles"
+import { SITE_BLOCK_STYLE } from "../lib/site-style"
 
 const OUTPUT_DIR = path.join(process.cwd(), "public/images/blocks")
 const BASE_URL = process.env.CAPTURE_URL ?? "http://localhost:4000"
@@ -36,10 +36,11 @@ async function captureScreenshots() {
   const force = process.argv.includes("--force")
   const executablePath = CHROME_PATHS.find((candidate) => existsSync(candidate))
   if (!executablePath) {
-    throw new Error("Chrome not found. Set CHROME_PATH to a Chromium-based browser.")
+    throw new Error(
+      "Chrome not found. Set CHROME_PATH to a Chromium-based browser."
+    )
   }
 
-  const style = await getActiveStyle()
   const blocks = (await getAllBlockIds()).filter(
     (block) =>
       force ||
@@ -62,10 +63,12 @@ async function captureScreenshots() {
   try {
     for (const block of blocks) {
       const page = await browser.newPage()
-      const url = `${BASE_URL}/view/${style.name}/${block}`
+      const url = `${BASE_URL}/view/${SITE_BLOCK_STYLE}/${block}`
       const response = await page.goto(url, { waitUntil: "networkidle2" })
       if (!response?.ok()) {
-        console.warn(`⚠ Skipping ${block}: ${url} returned ${response?.status()}`)
+        console.warn(
+          `⚠ Skipping ${block}: ${url} returned ${response?.status()}`
+        )
         await page.close()
         continue
       }

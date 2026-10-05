@@ -6098,4 +6098,6290 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       filePath: "examples/radix/typography-table.tsx",
     },
   },
+  "base-fabricator": {
+    "accordion-basic": {
+      name: "accordion-basic",
+      filePath: "examples/__styles__/base-fabricator/accordion-basic.tsx",
+    },
+    "accordion-borders": {
+      name: "accordion-borders",
+      filePath: "examples/__styles__/base-fabricator/accordion-borders.tsx",
+    },
+    "accordion-card": {
+      name: "accordion-card",
+      filePath: "examples/__styles__/base-fabricator/accordion-card.tsx",
+    },
+    "accordion-demo": {
+      name: "accordion-demo",
+      filePath: "examples/__styles__/base-fabricator/accordion-demo.tsx",
+    },
+    "accordion-disabled": {
+      name: "accordion-disabled",
+      filePath: "examples/__styles__/base-fabricator/accordion-disabled.tsx",
+    },
+    "accordion-multiple": {
+      name: "accordion-multiple",
+      filePath: "examples/__styles__/base-fabricator/accordion-multiple.tsx",
+    },
+    "accordion-rtl": {
+      name: "accordion-rtl",
+      filePath: "examples/__styles__/base-fabricator/accordion-rtl.tsx",
+    },
+    "ai-sdk-helper-demo": {
+      name: "ai-sdk-helper-demo",
+      filePath: "examples/__styles__/base-fabricator/ai-sdk-helper-demo.tsx",
+    },
+    "alert-action": {
+      name: "alert-action",
+      filePath: "examples/__styles__/base-fabricator/alert-action.tsx",
+    },
+    "alert-basic": {
+      name: "alert-basic",
+      filePath: "examples/__styles__/base-fabricator/alert-basic.tsx",
+    },
+    "alert-colors": {
+      name: "alert-colors",
+      filePath: "examples/__styles__/base-fabricator/alert-colors.tsx",
+    },
+    "alert-demo": {
+      name: "alert-demo",
+      filePath: "examples/__styles__/base-fabricator/alert-demo.tsx",
+    },
+    "alert-destructive": {
+      name: "alert-destructive",
+      filePath: "examples/__styles__/base-fabricator/alert-destructive.tsx",
+    },
+    "alert-dialog-basic": {
+      name: "alert-dialog-basic",
+      filePath: "examples/__styles__/base-fabricator/alert-dialog-basic.tsx",
+    },
+    "alert-dialog-demo": {
+      name: "alert-dialog-demo",
+      filePath: "examples/__styles__/base-fabricator/alert-dialog-demo.tsx",
+    },
+    "alert-dialog-destructive": {
+      name: "alert-dialog-destructive",
+      filePath:
+        "examples/__styles__/base-fabricator/alert-dialog-destructive.tsx",
+    },
+    "alert-dialog-media": {
+      name: "alert-dialog-media",
+      filePath: "examples/__styles__/base-fabricator/alert-dialog-media.tsx",
+    },
+    "alert-dialog-rtl": {
+      name: "alert-dialog-rtl",
+      filePath: "examples/__styles__/base-fabricator/alert-dialog-rtl.tsx",
+    },
+    "alert-dialog-small-media": {
+      name: "alert-dialog-small-media",
+      filePath:
+        "examples/__styles__/base-fabricator/alert-dialog-small-media.tsx",
+    },
+    "alert-dialog-small": {
+      name: "alert-dialog-small",
+      filePath: "examples/__styles__/base-fabricator/alert-dialog-small.tsx",
+    },
+    "alert-rtl": {
+      name: "alert-rtl",
+      filePath: "examples/__styles__/base-fabricator/alert-rtl.tsx",
+    },
+    "aspect-ratio-demo": {
+      name: "aspect-ratio-demo",
+      filePath: "examples/__styles__/base-fabricator/aspect-ratio-demo.tsx",
+    },
+    "aspect-ratio-portrait": {
+      name: "aspect-ratio-portrait",
+      filePath: "examples/__styles__/base-fabricator/aspect-ratio-portrait.tsx",
+    },
+    "aspect-ratio-rtl": {
+      name: "aspect-ratio-rtl",
+      filePath: "examples/__styles__/base-fabricator/aspect-ratio-rtl.tsx",
+    },
+    "aspect-ratio-square": {
+      name: "aspect-ratio-square",
+      filePath: "examples/__styles__/base-fabricator/aspect-ratio-square.tsx",
+    },
+    "attachment-demo": {
+      name: "attachment-demo",
+      filePath: "examples/__styles__/base-fabricator/attachment-demo.tsx",
+    },
+    "attachment-group": {
+      name: "attachment-group",
+      filePath: "examples/__styles__/base-fabricator/attachment-group.tsx",
+    },
+    "attachment-image": {
+      name: "attachment-image",
+      filePath: "examples/__styles__/base-fabricator/attachment-image.tsx",
+    },
+    "attachment-sizes": {
+      name: "attachment-sizes",
+      filePath: "examples/__styles__/base-fabricator/attachment-sizes.tsx",
+    },
+    "attachment-states": {
+      name: "attachment-states",
+      filePath: "examples/__styles__/base-fabricator/attachment-states.tsx",
+    },
+    "attachment-trigger": {
+      name: "attachment-trigger",
+      filePath: "examples/__styles__/base-fabricator/attachment-trigger.tsx",
+    },
+    "avatar-badge-icon": {
+      name: "avatar-badge-icon",
+      filePath: "examples/__styles__/base-fabricator/avatar-badge-icon.tsx",
+    },
+    "avatar-badge": {
+      name: "avatar-badge",
+      filePath: "examples/__styles__/base-fabricator/avatar-badge.tsx",
+    },
+    "avatar-basic": {
+      name: "avatar-basic",
+      filePath: "examples/__styles__/base-fabricator/avatar-basic.tsx",
+    },
+    "avatar-demo": {
+      name: "avatar-demo",
+      filePath: "examples/__styles__/base-fabricator/avatar-demo.tsx",
+    },
+    "avatar-dropdown": {
+      name: "avatar-dropdown",
+      filePath: "examples/__styles__/base-fabricator/avatar-dropdown.tsx",
+    },
+    "avatar-group-count-icon": {
+      name: "avatar-group-count-icon",
+      filePath:
+        "examples/__styles__/base-fabricator/avatar-group-count-icon.tsx",
+    },
+    "avatar-group-count": {
+      name: "avatar-group-count",
+      filePath: "examples/__styles__/base-fabricator/avatar-group-count.tsx",
+    },
+    "avatar-group": {
+      name: "avatar-group",
+      filePath: "examples/__styles__/base-fabricator/avatar-group.tsx",
+    },
+    "avatar-rtl": {
+      name: "avatar-rtl",
+      filePath: "examples/__styles__/base-fabricator/avatar-rtl.tsx",
+    },
+    "avatar-size": {
+      name: "avatar-size",
+      filePath: "examples/__styles__/base-fabricator/avatar-size.tsx",
+    },
+    "badge-colors": {
+      name: "badge-colors",
+      filePath: "examples/__styles__/base-fabricator/badge-colors.tsx",
+    },
+    "badge-demo": {
+      name: "badge-demo",
+      filePath: "examples/__styles__/base-fabricator/badge-demo.tsx",
+    },
+    "badge-icon": {
+      name: "badge-icon",
+      filePath: "examples/__styles__/base-fabricator/badge-icon.tsx",
+    },
+    "badge-link": {
+      name: "badge-link",
+      filePath: "examples/__styles__/base-fabricator/badge-link.tsx",
+    },
+    "badge-rtl": {
+      name: "badge-rtl",
+      filePath: "examples/__styles__/base-fabricator/badge-rtl.tsx",
+    },
+    "badge-spinner": {
+      name: "badge-spinner",
+      filePath: "examples/__styles__/base-fabricator/badge-spinner.tsx",
+    },
+    "badge-variants": {
+      name: "badge-variants",
+      filePath: "examples/__styles__/base-fabricator/badge-variants.tsx",
+    },
+    "breadcrumb-basic": {
+      name: "breadcrumb-basic",
+      filePath: "examples/__styles__/base-fabricator/breadcrumb-basic.tsx",
+    },
+    "breadcrumb-demo": {
+      name: "breadcrumb-demo",
+      filePath: "examples/__styles__/base-fabricator/breadcrumb-demo.tsx",
+    },
+    "breadcrumb-dropdown": {
+      name: "breadcrumb-dropdown",
+      filePath: "examples/__styles__/base-fabricator/breadcrumb-dropdown.tsx",
+    },
+    "breadcrumb-ellipsis": {
+      name: "breadcrumb-ellipsis",
+      filePath: "examples/__styles__/base-fabricator/breadcrumb-ellipsis.tsx",
+    },
+    "breadcrumb-link": {
+      name: "breadcrumb-link",
+      filePath: "examples/__styles__/base-fabricator/breadcrumb-link.tsx",
+    },
+    "breadcrumb-rtl": {
+      name: "breadcrumb-rtl",
+      filePath: "examples/__styles__/base-fabricator/breadcrumb-rtl.tsx",
+    },
+    "breadcrumb-separator": {
+      name: "breadcrumb-separator",
+      filePath: "examples/__styles__/base-fabricator/breadcrumb-separator.tsx",
+    },
+    "bubble-alignment": {
+      name: "bubble-alignment",
+      filePath: "examples/__styles__/base-fabricator/bubble-alignment.tsx",
+    },
+    "bubble-collapsible": {
+      name: "bubble-collapsible",
+      filePath: "examples/__styles__/base-fabricator/bubble-collapsible.tsx",
+    },
+    "bubble-demo": {
+      name: "bubble-demo",
+      filePath: "examples/__styles__/base-fabricator/bubble-demo.tsx",
+    },
+    "bubble-group-demo": {
+      name: "bubble-group-demo",
+      filePath: "examples/__styles__/base-fabricator/bubble-group-demo.tsx",
+    },
+    "bubble-link-button": {
+      name: "bubble-link-button",
+      filePath: "examples/__styles__/base-fabricator/bubble-link-button.tsx",
+    },
+    "bubble-markdown": {
+      name: "bubble-markdown",
+      filePath: "examples/__styles__/base-fabricator/bubble-markdown.tsx",
+    },
+    "bubble-popover": {
+      name: "bubble-popover",
+      filePath: "examples/__styles__/base-fabricator/bubble-popover.tsx",
+    },
+    "bubble-reactions": {
+      name: "bubble-reactions",
+      filePath: "examples/__styles__/base-fabricator/bubble-reactions.tsx",
+    },
+    "bubble-tooltip": {
+      name: "bubble-tooltip",
+      filePath: "examples/__styles__/base-fabricator/bubble-tooltip.tsx",
+    },
+    "bubble-variants": {
+      name: "bubble-variants",
+      filePath: "examples/__styles__/base-fabricator/bubble-variants.tsx",
+    },
+    "button-default": {
+      name: "button-default",
+      filePath: "examples/__styles__/base-fabricator/button-default.tsx",
+    },
+    "button-demo": {
+      name: "button-demo",
+      filePath: "examples/__styles__/base-fabricator/button-demo.tsx",
+    },
+    "button-destructive": {
+      name: "button-destructive",
+      filePath: "examples/__styles__/base-fabricator/button-destructive.tsx",
+    },
+    "button-ghost": {
+      name: "button-ghost",
+      filePath: "examples/__styles__/base-fabricator/button-ghost.tsx",
+    },
+    "button-group-demo": {
+      name: "button-group-demo",
+      filePath: "examples/__styles__/base-fabricator/button-group-demo.tsx",
+    },
+    "button-group-dropdown": {
+      name: "button-group-dropdown",
+      filePath: "examples/__styles__/base-fabricator/button-group-dropdown.tsx",
+    },
+    "button-group-input-group": {
+      name: "button-group-input-group",
+      filePath:
+        "examples/__styles__/base-fabricator/button-group-input-group.tsx",
+    },
+    "button-group-input": {
+      name: "button-group-input",
+      filePath: "examples/__styles__/base-fabricator/button-group-input.tsx",
+    },
+    "button-group-nested": {
+      name: "button-group-nested",
+      filePath: "examples/__styles__/base-fabricator/button-group-nested.tsx",
+    },
+    "button-group-orientation": {
+      name: "button-group-orientation",
+      filePath:
+        "examples/__styles__/base-fabricator/button-group-orientation.tsx",
+    },
+    "button-group-popover": {
+      name: "button-group-popover",
+      filePath: "examples/__styles__/base-fabricator/button-group-popover.tsx",
+    },
+    "button-group-rtl": {
+      name: "button-group-rtl",
+      filePath: "examples/__styles__/base-fabricator/button-group-rtl.tsx",
+    },
+    "button-group-select": {
+      name: "button-group-select",
+      filePath: "examples/__styles__/base-fabricator/button-group-select.tsx",
+    },
+    "button-group-separator": {
+      name: "button-group-separator",
+      filePath:
+        "examples/__styles__/base-fabricator/button-group-separator.tsx",
+    },
+    "button-group-size": {
+      name: "button-group-size",
+      filePath: "examples/__styles__/base-fabricator/button-group-size.tsx",
+    },
+    "button-group-split": {
+      name: "button-group-split",
+      filePath: "examples/__styles__/base-fabricator/button-group-split.tsx",
+    },
+    "button-icon": {
+      name: "button-icon",
+      filePath: "examples/__styles__/base-fabricator/button-icon.tsx",
+    },
+    "button-link": {
+      name: "button-link",
+      filePath: "examples/__styles__/base-fabricator/button-link.tsx",
+    },
+    "button-outline": {
+      name: "button-outline",
+      filePath: "examples/__styles__/base-fabricator/button-outline.tsx",
+    },
+    "button-render": {
+      name: "button-render",
+      filePath: "examples/__styles__/base-fabricator/button-render.tsx",
+    },
+    "button-rounded": {
+      name: "button-rounded",
+      filePath: "examples/__styles__/base-fabricator/button-rounded.tsx",
+    },
+    "button-rtl": {
+      name: "button-rtl",
+      filePath: "examples/__styles__/base-fabricator/button-rtl.tsx",
+    },
+    "button-secondary": {
+      name: "button-secondary",
+      filePath: "examples/__styles__/base-fabricator/button-secondary.tsx",
+    },
+    "button-size": {
+      name: "button-size",
+      filePath: "examples/__styles__/base-fabricator/button-size.tsx",
+    },
+    "button-spinner": {
+      name: "button-spinner",
+      filePath: "examples/__styles__/base-fabricator/button-spinner.tsx",
+    },
+    "button-with-icon": {
+      name: "button-with-icon",
+      filePath: "examples/__styles__/base-fabricator/button-with-icon.tsx",
+    },
+    "calendar-basic": {
+      name: "calendar-basic",
+      filePath: "examples/__styles__/base-fabricator/calendar-basic.tsx",
+    },
+    "calendar-booked-dates": {
+      name: "calendar-booked-dates",
+      filePath: "examples/__styles__/base-fabricator/calendar-booked-dates.tsx",
+    },
+    "calendar-caption": {
+      name: "calendar-caption",
+      filePath: "examples/__styles__/base-fabricator/calendar-caption.tsx",
+    },
+    "calendar-custom-days": {
+      name: "calendar-custom-days",
+      filePath: "examples/__styles__/base-fabricator/calendar-custom-days.tsx",
+    },
+    "calendar-demo": {
+      name: "calendar-demo",
+      filePath: "examples/__styles__/base-fabricator/calendar-demo.tsx",
+    },
+    "calendar-hijri": {
+      name: "calendar-hijri",
+      filePath: "examples/__styles__/base-fabricator/calendar-hijri.tsx",
+    },
+    "calendar-multiple": {
+      name: "calendar-multiple",
+      filePath: "examples/__styles__/base-fabricator/calendar-multiple.tsx",
+    },
+    "calendar-presets": {
+      name: "calendar-presets",
+      filePath: "examples/__styles__/base-fabricator/calendar-presets.tsx",
+    },
+    "calendar-range": {
+      name: "calendar-range",
+      filePath: "examples/__styles__/base-fabricator/calendar-range.tsx",
+    },
+    "calendar-rtl": {
+      name: "calendar-rtl",
+      filePath: "examples/__styles__/base-fabricator/calendar-rtl.tsx",
+    },
+    "calendar-time": {
+      name: "calendar-time",
+      filePath: "examples/__styles__/base-fabricator/calendar-time.tsx",
+    },
+    "calendar-week-numbers": {
+      name: "calendar-week-numbers",
+      filePath: "examples/__styles__/base-fabricator/calendar-week-numbers.tsx",
+    },
+    "card-demo": {
+      name: "card-demo",
+      filePath: "examples/__styles__/base-fabricator/card-demo.tsx",
+    },
+    "card-edge-to-edge": {
+      name: "card-edge-to-edge",
+      filePath: "examples/__styles__/base-fabricator/card-edge-to-edge.tsx",
+    },
+    "card-image": {
+      name: "card-image",
+      filePath: "examples/__styles__/base-fabricator/card-image.tsx",
+    },
+    "card-rtl": {
+      name: "card-rtl",
+      filePath: "examples/__styles__/base-fabricator/card-rtl.tsx",
+    },
+    "card-small": {
+      name: "card-small",
+      filePath: "examples/__styles__/base-fabricator/card-small.tsx",
+    },
+    "card-spacing": {
+      name: "card-spacing",
+      filePath: "examples/__styles__/base-fabricator/card-spacing.tsx",
+    },
+    "carousel-api": {
+      name: "carousel-api",
+      filePath: "examples/__styles__/base-fabricator/carousel-api.tsx",
+    },
+    "carousel-demo": {
+      name: "carousel-demo",
+      filePath: "examples/__styles__/base-fabricator/carousel-demo.tsx",
+    },
+    "carousel-multiple": {
+      name: "carousel-multiple",
+      filePath: "examples/__styles__/base-fabricator/carousel-multiple.tsx",
+    },
+    "carousel-orientation": {
+      name: "carousel-orientation",
+      filePath: "examples/__styles__/base-fabricator/carousel-orientation.tsx",
+    },
+    "carousel-plugin": {
+      name: "carousel-plugin",
+      filePath: "examples/__styles__/base-fabricator/carousel-plugin.tsx",
+    },
+    "carousel-rtl": {
+      name: "carousel-rtl",
+      filePath: "examples/__styles__/base-fabricator/carousel-rtl.tsx",
+    },
+    "carousel-size": {
+      name: "carousel-size",
+      filePath: "examples/__styles__/base-fabricator/carousel-size.tsx",
+    },
+    "carousel-spacing": {
+      name: "carousel-spacing",
+      filePath: "examples/__styles__/base-fabricator/carousel-spacing.tsx",
+    },
+    "chart-demo": {
+      name: "chart-demo",
+      filePath: "examples/__styles__/base-fabricator/chart-demo.tsx",
+    },
+    "chart-example-axis": {
+      name: "chart-example-axis",
+      filePath: "examples/__styles__/base-fabricator/chart-example-axis.tsx",
+    },
+    "chart-example-grid": {
+      name: "chart-example-grid",
+      filePath: "examples/__styles__/base-fabricator/chart-example-grid.tsx",
+    },
+    "chart-example-legend": {
+      name: "chart-example-legend",
+      filePath: "examples/__styles__/base-fabricator/chart-example-legend.tsx",
+    },
+    "chart-example-tooltip": {
+      name: "chart-example-tooltip",
+      filePath: "examples/__styles__/base-fabricator/chart-example-tooltip.tsx",
+    },
+    "chart-example": {
+      name: "chart-example",
+      filePath: "examples/__styles__/base-fabricator/chart-example.tsx",
+    },
+    "chart-rtl": {
+      name: "chart-rtl",
+      filePath: "examples/__styles__/base-fabricator/chart-rtl.tsx",
+    },
+    "chart-tooltip": {
+      name: "chart-tooltip",
+      filePath: "examples/__styles__/base-fabricator/chart-tooltip.tsx",
+    },
+    "checkbox-basic": {
+      name: "checkbox-basic",
+      filePath: "examples/__styles__/base-fabricator/checkbox-basic.tsx",
+    },
+    "checkbox-demo": {
+      name: "checkbox-demo",
+      filePath: "examples/__styles__/base-fabricator/checkbox-demo.tsx",
+    },
+    "checkbox-description": {
+      name: "checkbox-description",
+      filePath: "examples/__styles__/base-fabricator/checkbox-description.tsx",
+    },
+    "checkbox-disabled": {
+      name: "checkbox-disabled",
+      filePath: "examples/__styles__/base-fabricator/checkbox-disabled.tsx",
+    },
+    "checkbox-group": {
+      name: "checkbox-group",
+      filePath: "examples/__styles__/base-fabricator/checkbox-group.tsx",
+    },
+    "checkbox-invalid": {
+      name: "checkbox-invalid",
+      filePath: "examples/__styles__/base-fabricator/checkbox-invalid.tsx",
+    },
+    "checkbox-rtl": {
+      name: "checkbox-rtl",
+      filePath: "examples/__styles__/base-fabricator/checkbox-rtl.tsx",
+    },
+    "checkbox-table": {
+      name: "checkbox-table",
+      filePath: "examples/__styles__/base-fabricator/checkbox-table.tsx",
+    },
+    "collapsible-basic": {
+      name: "collapsible-basic",
+      filePath: "examples/__styles__/base-fabricator/collapsible-basic.tsx",
+    },
+    "collapsible-demo": {
+      name: "collapsible-demo",
+      filePath: "examples/__styles__/base-fabricator/collapsible-demo.tsx",
+    },
+    "collapsible-file-tree": {
+      name: "collapsible-file-tree",
+      filePath: "examples/__styles__/base-fabricator/collapsible-file-tree.tsx",
+    },
+    "collapsible-rtl": {
+      name: "collapsible-rtl",
+      filePath: "examples/__styles__/base-fabricator/collapsible-rtl.tsx",
+    },
+    "collapsible-settings": {
+      name: "collapsible-settings",
+      filePath: "examples/__styles__/base-fabricator/collapsible-settings.tsx",
+    },
+    "combobox-auto-highlight": {
+      name: "combobox-auto-highlight",
+      filePath:
+        "examples/__styles__/base-fabricator/combobox-auto-highlight.tsx",
+    },
+    "combobox-basic": {
+      name: "combobox-basic",
+      filePath: "examples/__styles__/base-fabricator/combobox-basic.tsx",
+    },
+    "combobox-clear": {
+      name: "combobox-clear",
+      filePath: "examples/__styles__/base-fabricator/combobox-clear.tsx",
+    },
+    "combobox-custom": {
+      name: "combobox-custom",
+      filePath: "examples/__styles__/base-fabricator/combobox-custom.tsx",
+    },
+    "combobox-demo": {
+      name: "combobox-demo",
+      filePath: "examples/__styles__/base-fabricator/combobox-demo.tsx",
+    },
+    "combobox-disabled": {
+      name: "combobox-disabled",
+      filePath: "examples/__styles__/base-fabricator/combobox-disabled.tsx",
+    },
+    "combobox-groups": {
+      name: "combobox-groups",
+      filePath: "examples/__styles__/base-fabricator/combobox-groups.tsx",
+    },
+    "combobox-input-group": {
+      name: "combobox-input-group",
+      filePath: "examples/__styles__/base-fabricator/combobox-input-group.tsx",
+    },
+    "combobox-invalid": {
+      name: "combobox-invalid",
+      filePath: "examples/__styles__/base-fabricator/combobox-invalid.tsx",
+    },
+    "combobox-multiple": {
+      name: "combobox-multiple",
+      filePath: "examples/__styles__/base-fabricator/combobox-multiple.tsx",
+    },
+    "combobox-popup": {
+      name: "combobox-popup",
+      filePath: "examples/__styles__/base-fabricator/combobox-popup.tsx",
+    },
+    "combobox-rtl": {
+      name: "combobox-rtl",
+      filePath: "examples/__styles__/base-fabricator/combobox-rtl.tsx",
+    },
+    "command-basic": {
+      name: "command-basic",
+      filePath: "examples/__styles__/base-fabricator/command-basic.tsx",
+    },
+    "command-demo": {
+      name: "command-demo",
+      filePath: "examples/__styles__/base-fabricator/command-demo.tsx",
+    },
+    "command-dialog": {
+      name: "command-dialog",
+      filePath: "examples/__styles__/base-fabricator/command-dialog.tsx",
+    },
+    "command-groups": {
+      name: "command-groups",
+      filePath: "examples/__styles__/base-fabricator/command-groups.tsx",
+    },
+    "command-rtl": {
+      name: "command-rtl",
+      filePath: "examples/__styles__/base-fabricator/command-rtl.tsx",
+    },
+    "command-scrollable": {
+      name: "command-scrollable",
+      filePath: "examples/__styles__/base-fabricator/command-scrollable.tsx",
+    },
+    "command-shortcuts": {
+      name: "command-shortcuts",
+      filePath: "examples/__styles__/base-fabricator/command-shortcuts.tsx",
+    },
+    "context-menu-basic": {
+      name: "context-menu-basic",
+      filePath: "examples/__styles__/base-fabricator/context-menu-basic.tsx",
+    },
+    "context-menu-checkboxes": {
+      name: "context-menu-checkboxes",
+      filePath:
+        "examples/__styles__/base-fabricator/context-menu-checkboxes.tsx",
+    },
+    "context-menu-demo": {
+      name: "context-menu-demo",
+      filePath: "examples/__styles__/base-fabricator/context-menu-demo.tsx",
+    },
+    "context-menu-destructive": {
+      name: "context-menu-destructive",
+      filePath:
+        "examples/__styles__/base-fabricator/context-menu-destructive.tsx",
+    },
+    "context-menu-groups": {
+      name: "context-menu-groups",
+      filePath: "examples/__styles__/base-fabricator/context-menu-groups.tsx",
+    },
+    "context-menu-icons": {
+      name: "context-menu-icons",
+      filePath: "examples/__styles__/base-fabricator/context-menu-icons.tsx",
+    },
+    "context-menu-radio": {
+      name: "context-menu-radio",
+      filePath: "examples/__styles__/base-fabricator/context-menu-radio.tsx",
+    },
+    "context-menu-rtl": {
+      name: "context-menu-rtl",
+      filePath: "examples/__styles__/base-fabricator/context-menu-rtl.tsx",
+    },
+    "context-menu-shortcuts": {
+      name: "context-menu-shortcuts",
+      filePath:
+        "examples/__styles__/base-fabricator/context-menu-shortcuts.tsx",
+    },
+    "context-menu-sides": {
+      name: "context-menu-sides",
+      filePath: "examples/__styles__/base-fabricator/context-menu-sides.tsx",
+    },
+    "context-menu-submenu": {
+      name: "context-menu-submenu",
+      filePath: "examples/__styles__/base-fabricator/context-menu-submenu.tsx",
+    },
+    "data-picker-with-dropdowns": {
+      name: "data-picker-with-dropdowns",
+      filePath:
+        "examples/__styles__/base-fabricator/data-picker-with-dropdowns.tsx",
+    },
+    "data-table-demo": {
+      name: "data-table-demo",
+      filePath: "examples/__styles__/base-fabricator/data-table-demo.tsx",
+    },
+    "data-table-rtl": {
+      name: "data-table-rtl",
+      filePath: "examples/__styles__/base-fabricator/data-table-rtl.tsx",
+    },
+    "date-picker-basic": {
+      name: "date-picker-basic",
+      filePath: "examples/__styles__/base-fabricator/date-picker-basic.tsx",
+    },
+    "date-picker-demo": {
+      name: "date-picker-demo",
+      filePath: "examples/__styles__/base-fabricator/date-picker-demo.tsx",
+    },
+    "date-picker-dob": {
+      name: "date-picker-dob",
+      filePath: "examples/__styles__/base-fabricator/date-picker-dob.tsx",
+    },
+    "date-picker-input": {
+      name: "date-picker-input",
+      filePath: "examples/__styles__/base-fabricator/date-picker-input.tsx",
+    },
+    "date-picker-natural-language": {
+      name: "date-picker-natural-language",
+      filePath:
+        "examples/__styles__/base-fabricator/date-picker-natural-language.tsx",
+    },
+    "date-picker-range": {
+      name: "date-picker-range",
+      filePath: "examples/__styles__/base-fabricator/date-picker-range.tsx",
+    },
+    "date-picker-rtl": {
+      name: "date-picker-rtl",
+      filePath: "examples/__styles__/base-fabricator/date-picker-rtl.tsx",
+    },
+    "date-picker-time": {
+      name: "date-picker-time",
+      filePath: "examples/__styles__/base-fabricator/date-picker-time.tsx",
+    },
+    "dialog-close-button": {
+      name: "dialog-close-button",
+      filePath: "examples/__styles__/base-fabricator/dialog-close-button.tsx",
+    },
+    "dialog-demo": {
+      name: "dialog-demo",
+      filePath: "examples/__styles__/base-fabricator/dialog-demo.tsx",
+    },
+    "dialog-no-close-button": {
+      name: "dialog-no-close-button",
+      filePath:
+        "examples/__styles__/base-fabricator/dialog-no-close-button.tsx",
+    },
+    "dialog-rtl": {
+      name: "dialog-rtl",
+      filePath: "examples/__styles__/base-fabricator/dialog-rtl.tsx",
+    },
+    "dialog-scrollable-content": {
+      name: "dialog-scrollable-content",
+      filePath:
+        "examples/__styles__/base-fabricator/dialog-scrollable-content.tsx",
+    },
+    "dialog-sticky-footer": {
+      name: "dialog-sticky-footer",
+      filePath: "examples/__styles__/base-fabricator/dialog-sticky-footer.tsx",
+    },
+    "drawer-demo": {
+      name: "drawer-demo",
+      filePath: "examples/__styles__/base-fabricator/drawer-demo.tsx",
+    },
+    "drawer-dialog": {
+      name: "drawer-dialog",
+      filePath: "examples/__styles__/base-fabricator/drawer-dialog.tsx",
+    },
+    "drawer-nested": {
+      name: "drawer-nested",
+      filePath: "examples/__styles__/base-fabricator/drawer-nested.tsx",
+    },
+    "drawer-non-modal": {
+      name: "drawer-non-modal",
+      filePath: "examples/__styles__/base-fabricator/drawer-non-modal.tsx",
+    },
+    "drawer-rtl": {
+      name: "drawer-rtl",
+      filePath: "examples/__styles__/base-fabricator/drawer-rtl.tsx",
+    },
+    "drawer-sides": {
+      name: "drawer-sides",
+      filePath: "examples/__styles__/base-fabricator/drawer-sides.tsx",
+    },
+    "drawer-snap-points": {
+      name: "drawer-snap-points",
+      filePath: "examples/__styles__/base-fabricator/drawer-snap-points.tsx",
+    },
+    "drawer-swipe-handle": {
+      name: "drawer-swipe-handle",
+      filePath: "examples/__styles__/base-fabricator/drawer-swipe-handle.tsx",
+    },
+    "dropdown-menu-avatar": {
+      name: "dropdown-menu-avatar",
+      filePath: "examples/__styles__/base-fabricator/dropdown-menu-avatar.tsx",
+    },
+    "dropdown-menu-basic": {
+      name: "dropdown-menu-basic",
+      filePath: "examples/__styles__/base-fabricator/dropdown-menu-basic.tsx",
+    },
+    "dropdown-menu-checkboxes-icons": {
+      name: "dropdown-menu-checkboxes-icons",
+      filePath:
+        "examples/__styles__/base-fabricator/dropdown-menu-checkboxes-icons.tsx",
+    },
+    "dropdown-menu-checkboxes": {
+      name: "dropdown-menu-checkboxes",
+      filePath:
+        "examples/__styles__/base-fabricator/dropdown-menu-checkboxes.tsx",
+    },
+    "dropdown-menu-complex": {
+      name: "dropdown-menu-complex",
+      filePath: "examples/__styles__/base-fabricator/dropdown-menu-complex.tsx",
+    },
+    "dropdown-menu-demo": {
+      name: "dropdown-menu-demo",
+      filePath: "examples/__styles__/base-fabricator/dropdown-menu-demo.tsx",
+    },
+    "dropdown-menu-destructive": {
+      name: "dropdown-menu-destructive",
+      filePath:
+        "examples/__styles__/base-fabricator/dropdown-menu-destructive.tsx",
+    },
+    "dropdown-menu-icons": {
+      name: "dropdown-menu-icons",
+      filePath: "examples/__styles__/base-fabricator/dropdown-menu-icons.tsx",
+    },
+    "dropdown-menu-radio-group": {
+      name: "dropdown-menu-radio-group",
+      filePath:
+        "examples/__styles__/base-fabricator/dropdown-menu-radio-group.tsx",
+    },
+    "dropdown-menu-radio-icons": {
+      name: "dropdown-menu-radio-icons",
+      filePath:
+        "examples/__styles__/base-fabricator/dropdown-menu-radio-icons.tsx",
+    },
+    "dropdown-menu-rtl": {
+      name: "dropdown-menu-rtl",
+      filePath: "examples/__styles__/base-fabricator/dropdown-menu-rtl.tsx",
+    },
+    "dropdown-menu-shortcuts": {
+      name: "dropdown-menu-shortcuts",
+      filePath:
+        "examples/__styles__/base-fabricator/dropdown-menu-shortcuts.tsx",
+    },
+    "dropdown-menu-submenu": {
+      name: "dropdown-menu-submenu",
+      filePath: "examples/__styles__/base-fabricator/dropdown-menu-submenu.tsx",
+    },
+    "empty-avatar-group": {
+      name: "empty-avatar-group",
+      filePath: "examples/__styles__/base-fabricator/empty-avatar-group.tsx",
+    },
+    "empty-avatar": {
+      name: "empty-avatar",
+      filePath: "examples/__styles__/base-fabricator/empty-avatar.tsx",
+    },
+    "empty-background": {
+      name: "empty-background",
+      filePath: "examples/__styles__/base-fabricator/empty-background.tsx",
+    },
+    "empty-card": {
+      name: "empty-card",
+      filePath: "examples/__styles__/base-fabricator/empty-card.tsx",
+    },
+    "empty-demo": {
+      name: "empty-demo",
+      filePath: "examples/__styles__/base-fabricator/empty-demo.tsx",
+    },
+    "empty-input-group": {
+      name: "empty-input-group",
+      filePath: "examples/__styles__/base-fabricator/empty-input-group.tsx",
+    },
+    "empty-outline": {
+      name: "empty-outline",
+      filePath: "examples/__styles__/base-fabricator/empty-outline.tsx",
+    },
+    "empty-rtl": {
+      name: "empty-rtl",
+      filePath: "examples/__styles__/base-fabricator/empty-rtl.tsx",
+    },
+    "field-checkbox": {
+      name: "field-checkbox",
+      filePath: "examples/__styles__/base-fabricator/field-checkbox.tsx",
+    },
+    "field-choice-card": {
+      name: "field-choice-card",
+      filePath: "examples/__styles__/base-fabricator/field-choice-card.tsx",
+    },
+    "field-demo": {
+      name: "field-demo",
+      filePath: "examples/__styles__/base-fabricator/field-demo.tsx",
+    },
+    "field-fieldset": {
+      name: "field-fieldset",
+      filePath: "examples/__styles__/base-fabricator/field-fieldset.tsx",
+    },
+    "field-group": {
+      name: "field-group",
+      filePath: "examples/__styles__/base-fabricator/field-group.tsx",
+    },
+    "field-input": {
+      name: "field-input",
+      filePath: "examples/__styles__/base-fabricator/field-input.tsx",
+    },
+    "field-radio": {
+      name: "field-radio",
+      filePath: "examples/__styles__/base-fabricator/field-radio.tsx",
+    },
+    "field-responsive": {
+      name: "field-responsive",
+      filePath: "examples/__styles__/base-fabricator/field-responsive.tsx",
+    },
+    "field-rtl": {
+      name: "field-rtl",
+      filePath: "examples/__styles__/base-fabricator/field-rtl.tsx",
+    },
+    "field-select": {
+      name: "field-select",
+      filePath: "examples/__styles__/base-fabricator/field-select.tsx",
+    },
+    "field-slider": {
+      name: "field-slider",
+      filePath: "examples/__styles__/base-fabricator/field-slider.tsx",
+    },
+    "field-switch": {
+      name: "field-switch",
+      filePath: "examples/__styles__/base-fabricator/field-switch.tsx",
+    },
+    "field-textarea": {
+      name: "field-textarea",
+      filePath: "examples/__styles__/base-fabricator/field-textarea.tsx",
+    },
+    "file-upload-list": {
+      name: "file-upload-list",
+      filePath: "examples/__styles__/base-fabricator/file-upload-list.tsx",
+    },
+    "hover-card-demo": {
+      name: "hover-card-demo",
+      filePath: "examples/__styles__/base-fabricator/hover-card-demo.tsx",
+    },
+    "hover-card-rtl": {
+      name: "hover-card-rtl",
+      filePath: "examples/__styles__/base-fabricator/hover-card-rtl.tsx",
+    },
+    "hover-card-sides": {
+      name: "hover-card-sides",
+      filePath: "examples/__styles__/base-fabricator/hover-card-sides.tsx",
+    },
+    "input-badge": {
+      name: "input-badge",
+      filePath: "examples/__styles__/base-fabricator/input-badge.tsx",
+    },
+    "input-basic": {
+      name: "input-basic",
+      filePath: "examples/__styles__/base-fabricator/input-basic.tsx",
+    },
+    "input-button-group": {
+      name: "input-button-group",
+      filePath: "examples/__styles__/base-fabricator/input-button-group.tsx",
+    },
+    "input-demo": {
+      name: "input-demo",
+      filePath: "examples/__styles__/base-fabricator/input-demo.tsx",
+    },
+    "input-disabled": {
+      name: "input-disabled",
+      filePath: "examples/__styles__/base-fabricator/input-disabled.tsx",
+    },
+    "input-field": {
+      name: "input-field",
+      filePath: "examples/__styles__/base-fabricator/input-field.tsx",
+    },
+    "input-fieldgroup": {
+      name: "input-fieldgroup",
+      filePath: "examples/__styles__/base-fabricator/input-fieldgroup.tsx",
+    },
+    "input-file": {
+      name: "input-file",
+      filePath: "examples/__styles__/base-fabricator/input-file.tsx",
+    },
+    "input-form": {
+      name: "input-form",
+      filePath: "examples/__styles__/base-fabricator/input-form.tsx",
+    },
+    "input-grid": {
+      name: "input-grid",
+      filePath: "examples/__styles__/base-fabricator/input-grid.tsx",
+    },
+    "input-group-basic": {
+      name: "input-group-basic",
+      filePath: "examples/__styles__/base-fabricator/input-group-basic.tsx",
+    },
+    "input-group-block-end": {
+      name: "input-group-block-end",
+      filePath: "examples/__styles__/base-fabricator/input-group-block-end.tsx",
+    },
+    "input-group-block-start": {
+      name: "input-group-block-start",
+      filePath:
+        "examples/__styles__/base-fabricator/input-group-block-start.tsx",
+    },
+    "input-group-button-group": {
+      name: "input-group-button-group",
+      filePath:
+        "examples/__styles__/base-fabricator/input-group-button-group.tsx",
+    },
+    "input-group-button": {
+      name: "input-group-button",
+      filePath: "examples/__styles__/base-fabricator/input-group-button.tsx",
+    },
+    "input-group-custom": {
+      name: "input-group-custom",
+      filePath: "examples/__styles__/base-fabricator/input-group-custom.tsx",
+    },
+    "input-group-demo": {
+      name: "input-group-demo",
+      filePath: "examples/__styles__/base-fabricator/input-group-demo.tsx",
+    },
+    "input-group-dropdown": {
+      name: "input-group-dropdown",
+      filePath: "examples/__styles__/base-fabricator/input-group-dropdown.tsx",
+    },
+    "input-group-icon": {
+      name: "input-group-icon",
+      filePath: "examples/__styles__/base-fabricator/input-group-icon.tsx",
+    },
+    "input-group-in-card": {
+      name: "input-group-in-card",
+      filePath: "examples/__styles__/base-fabricator/input-group-in-card.tsx",
+    },
+    "input-group-inline-end": {
+      name: "input-group-inline-end",
+      filePath:
+        "examples/__styles__/base-fabricator/input-group-inline-end.tsx",
+    },
+    "input-group-inline-start": {
+      name: "input-group-inline-start",
+      filePath:
+        "examples/__styles__/base-fabricator/input-group-inline-start.tsx",
+    },
+    "input-group-kbd": {
+      name: "input-group-kbd",
+      filePath: "examples/__styles__/base-fabricator/input-group-kbd.tsx",
+    },
+    "input-group-label": {
+      name: "input-group-label",
+      filePath: "examples/__styles__/base-fabricator/input-group-label.tsx",
+    },
+    "input-group-rtl": {
+      name: "input-group-rtl",
+      filePath: "examples/__styles__/base-fabricator/input-group-rtl.tsx",
+    },
+    "input-group-spinner": {
+      name: "input-group-spinner",
+      filePath: "examples/__styles__/base-fabricator/input-group-spinner.tsx",
+    },
+    "input-group-text": {
+      name: "input-group-text",
+      filePath: "examples/__styles__/base-fabricator/input-group-text.tsx",
+    },
+    "input-group-textarea-examples": {
+      name: "input-group-textarea-examples",
+      filePath:
+        "examples/__styles__/base-fabricator/input-group-textarea-examples.tsx",
+    },
+    "input-group-textarea": {
+      name: "input-group-textarea",
+      filePath: "examples/__styles__/base-fabricator/input-group-textarea.tsx",
+    },
+    "input-group-tooltip": {
+      name: "input-group-tooltip",
+      filePath: "examples/__styles__/base-fabricator/input-group-tooltip.tsx",
+    },
+    "input-group-with-addons": {
+      name: "input-group-with-addons",
+      filePath:
+        "examples/__styles__/base-fabricator/input-group-with-addons.tsx",
+    },
+    "input-group-with-buttons": {
+      name: "input-group-with-buttons",
+      filePath:
+        "examples/__styles__/base-fabricator/input-group-with-buttons.tsx",
+    },
+    "input-group-with-kbd": {
+      name: "input-group-with-kbd",
+      filePath: "examples/__styles__/base-fabricator/input-group-with-kbd.tsx",
+    },
+    "input-group-with-tooltip": {
+      name: "input-group-with-tooltip",
+      filePath:
+        "examples/__styles__/base-fabricator/input-group-with-tooltip.tsx",
+    },
+    "input-inline": {
+      name: "input-inline",
+      filePath: "examples/__styles__/base-fabricator/input-inline.tsx",
+    },
+    "input-input-group": {
+      name: "input-input-group",
+      filePath: "examples/__styles__/base-fabricator/input-input-group.tsx",
+    },
+    "input-invalid": {
+      name: "input-invalid",
+      filePath: "examples/__styles__/base-fabricator/input-invalid.tsx",
+    },
+    "input-otp-alphanumeric": {
+      name: "input-otp-alphanumeric",
+      filePath:
+        "examples/__styles__/base-fabricator/input-otp-alphanumeric.tsx",
+    },
+    "input-otp-controlled": {
+      name: "input-otp-controlled",
+      filePath: "examples/__styles__/base-fabricator/input-otp-controlled.tsx",
+    },
+    "input-otp-demo": {
+      name: "input-otp-demo",
+      filePath: "examples/__styles__/base-fabricator/input-otp-demo.tsx",
+    },
+    "input-otp-disabled": {
+      name: "input-otp-disabled",
+      filePath: "examples/__styles__/base-fabricator/input-otp-disabled.tsx",
+    },
+    "input-otp-form": {
+      name: "input-otp-form",
+      filePath: "examples/__styles__/base-fabricator/input-otp-form.tsx",
+    },
+    "input-otp-four-digits": {
+      name: "input-otp-four-digits",
+      filePath: "examples/__styles__/base-fabricator/input-otp-four-digits.tsx",
+    },
+    "input-otp-invalid": {
+      name: "input-otp-invalid",
+      filePath: "examples/__styles__/base-fabricator/input-otp-invalid.tsx",
+    },
+    "input-otp-pattern": {
+      name: "input-otp-pattern",
+      filePath: "examples/__styles__/base-fabricator/input-otp-pattern.tsx",
+    },
+    "input-otp-rtl": {
+      name: "input-otp-rtl",
+      filePath: "examples/__styles__/base-fabricator/input-otp-rtl.tsx",
+    },
+    "input-otp-separator": {
+      name: "input-otp-separator",
+      filePath: "examples/__styles__/base-fabricator/input-otp-separator.tsx",
+    },
+    "input-required": {
+      name: "input-required",
+      filePath: "examples/__styles__/base-fabricator/input-required.tsx",
+    },
+    "input-rtl": {
+      name: "input-rtl",
+      filePath: "examples/__styles__/base-fabricator/input-rtl.tsx",
+    },
+    "item-avatar": {
+      name: "item-avatar",
+      filePath: "examples/__styles__/base-fabricator/item-avatar.tsx",
+    },
+    "item-demo": {
+      name: "item-demo",
+      filePath: "examples/__styles__/base-fabricator/item-demo.tsx",
+    },
+    "item-dropdown": {
+      name: "item-dropdown",
+      filePath: "examples/__styles__/base-fabricator/item-dropdown.tsx",
+    },
+    "item-group": {
+      name: "item-group",
+      filePath: "examples/__styles__/base-fabricator/item-group.tsx",
+    },
+    "item-header": {
+      name: "item-header",
+      filePath: "examples/__styles__/base-fabricator/item-header.tsx",
+    },
+    "item-icon": {
+      name: "item-icon",
+      filePath: "examples/__styles__/base-fabricator/item-icon.tsx",
+    },
+    "item-image": {
+      name: "item-image",
+      filePath: "examples/__styles__/base-fabricator/item-image.tsx",
+    },
+    "item-link": {
+      name: "item-link",
+      filePath: "examples/__styles__/base-fabricator/item-link.tsx",
+    },
+    "item-rtl": {
+      name: "item-rtl",
+      filePath: "examples/__styles__/base-fabricator/item-rtl.tsx",
+    },
+    "item-size": {
+      name: "item-size",
+      filePath: "examples/__styles__/base-fabricator/item-size.tsx",
+    },
+    "item-variant": {
+      name: "item-variant",
+      filePath: "examples/__styles__/base-fabricator/item-variant.tsx",
+    },
+    "kbd-button": {
+      name: "kbd-button",
+      filePath: "examples/__styles__/base-fabricator/kbd-button.tsx",
+    },
+    "kbd-demo": {
+      name: "kbd-demo",
+      filePath: "examples/__styles__/base-fabricator/kbd-demo.tsx",
+    },
+    "kbd-group": {
+      name: "kbd-group",
+      filePath: "examples/__styles__/base-fabricator/kbd-group.tsx",
+    },
+    "kbd-input-group": {
+      name: "kbd-input-group",
+      filePath: "examples/__styles__/base-fabricator/kbd-input-group.tsx",
+    },
+    "kbd-rtl": {
+      name: "kbd-rtl",
+      filePath: "examples/__styles__/base-fabricator/kbd-rtl.tsx",
+    },
+    "kbd-tooltip": {
+      name: "kbd-tooltip",
+      filePath: "examples/__styles__/base-fabricator/kbd-tooltip.tsx",
+    },
+    "label-demo": {
+      name: "label-demo",
+      filePath: "examples/__styles__/base-fabricator/label-demo.tsx",
+    },
+    "label-rtl": {
+      name: "label-rtl",
+      filePath: "examples/__styles__/base-fabricator/label-rtl.tsx",
+    },
+    "markdown-demo": {
+      name: "markdown-demo",
+      filePath: "examples/__styles__/base-fabricator/markdown-demo.tsx",
+    },
+    "marker-border": {
+      name: "marker-border",
+      filePath: "examples/__styles__/base-fabricator/marker-border.tsx",
+    },
+    "marker-demo": {
+      name: "marker-demo",
+      filePath: "examples/__styles__/base-fabricator/marker-demo.tsx",
+    },
+    "marker-icon": {
+      name: "marker-icon",
+      filePath: "examples/__styles__/base-fabricator/marker-icon.tsx",
+    },
+    "marker-link-button": {
+      name: "marker-link-button",
+      filePath: "examples/__styles__/base-fabricator/marker-link-button.tsx",
+    },
+    "marker-separator": {
+      name: "marker-separator",
+      filePath: "examples/__styles__/base-fabricator/marker-separator.tsx",
+    },
+    "marker-shimmer": {
+      name: "marker-shimmer",
+      filePath: "examples/__styles__/base-fabricator/marker-shimmer.tsx",
+    },
+    "marker-status": {
+      name: "marker-status",
+      filePath: "examples/__styles__/base-fabricator/marker-status.tsx",
+    },
+    "marker-variants": {
+      name: "marker-variants",
+      filePath: "examples/__styles__/base-fabricator/marker-variants.tsx",
+    },
+    "menubar-checkbox": {
+      name: "menubar-checkbox",
+      filePath: "examples/__styles__/base-fabricator/menubar-checkbox.tsx",
+    },
+    "menubar-demo": {
+      name: "menubar-demo",
+      filePath: "examples/__styles__/base-fabricator/menubar-demo.tsx",
+    },
+    "menubar-icons": {
+      name: "menubar-icons",
+      filePath: "examples/__styles__/base-fabricator/menubar-icons.tsx",
+    },
+    "menubar-radio": {
+      name: "menubar-radio",
+      filePath: "examples/__styles__/base-fabricator/menubar-radio.tsx",
+    },
+    "menubar-rtl": {
+      name: "menubar-rtl",
+      filePath: "examples/__styles__/base-fabricator/menubar-rtl.tsx",
+    },
+    "menubar-submenu": {
+      name: "menubar-submenu",
+      filePath: "examples/__styles__/base-fabricator/menubar-submenu.tsx",
+    },
+    "message-actions": {
+      name: "message-actions",
+      filePath: "examples/__styles__/base-fabricator/message-actions.tsx",
+    },
+    "message-attachment": {
+      name: "message-attachment",
+      filePath: "examples/__styles__/base-fabricator/message-attachment.tsx",
+    },
+    "message-avatar": {
+      name: "message-avatar",
+      filePath: "examples/__styles__/base-fabricator/message-avatar.tsx",
+    },
+    "message-demo": {
+      name: "message-demo",
+      filePath: "examples/__styles__/base-fabricator/message-demo.tsx",
+    },
+    "message-group": {
+      name: "message-group",
+      filePath: "examples/__styles__/base-fabricator/message-group.tsx",
+    },
+    "message-header-footer": {
+      name: "message-header-footer",
+      filePath: "examples/__styles__/base-fabricator/message-header-footer.tsx",
+    },
+    "message-markdown": {
+      name: "message-markdown",
+      filePath: "examples/__styles__/base-fabricator/message-markdown.tsx",
+    },
+    "message-scroller-anchoring": {
+      name: "message-scroller-anchoring",
+      filePath:
+        "examples/__styles__/base-fabricator/message-scroller-anchoring.tsx",
+    },
+    "message-scroller-animation": {
+      name: "message-scroller-animation",
+      filePath:
+        "examples/__styles__/base-fabricator/message-scroller-animation.tsx",
+    },
+    "message-scroller-commands": {
+      name: "message-scroller-commands",
+      filePath:
+        "examples/__styles__/base-fabricator/message-scroller-commands.tsx",
+    },
+    "message-scroller-demo": {
+      name: "message-scroller-demo",
+      filePath: "examples/__styles__/base-fabricator/message-scroller-demo.tsx",
+    },
+    "message-scroller-group-chat": {
+      name: "message-scroller-group-chat",
+      filePath:
+        "examples/__styles__/base-fabricator/message-scroller-group-chat.tsx",
+    },
+    "message-scroller-load-history": {
+      name: "message-scroller-load-history",
+      filePath:
+        "examples/__styles__/base-fabricator/message-scroller-load-history.tsx",
+    },
+    "message-scroller-opening-position": {
+      name: "message-scroller-opening-position",
+      filePath:
+        "examples/__styles__/base-fabricator/message-scroller-opening-position.tsx",
+    },
+    "message-scroller-previous-context": {
+      name: "message-scroller-previous-context",
+      filePath:
+        "examples/__styles__/base-fabricator/message-scroller-previous-context.tsx",
+    },
+    "message-scroller-scrollable": {
+      name: "message-scroller-scrollable",
+      filePath:
+        "examples/__styles__/base-fabricator/message-scroller-scrollable.tsx",
+    },
+    "message-scroller-state": {
+      name: "message-scroller-state",
+      filePath:
+        "examples/__styles__/base-fabricator/message-scroller-state.tsx",
+    },
+    "message-scroller-streaming": {
+      name: "message-scroller-streaming",
+      filePath:
+        "examples/__styles__/base-fabricator/message-scroller-streaming.tsx",
+    },
+    "message-scroller-visibility": {
+      name: "message-scroller-visibility",
+      filePath:
+        "examples/__styles__/base-fabricator/message-scroller-visibility.tsx",
+    },
+    "muted-item-group": {
+      name: "muted-item-group",
+      filePath: "examples/__styles__/base-fabricator/muted-item-group.tsx",
+    },
+    "native-select-demo": {
+      name: "native-select-demo",
+      filePath: "examples/__styles__/base-fabricator/native-select-demo.tsx",
+    },
+    "native-select-disabled": {
+      name: "native-select-disabled",
+      filePath:
+        "examples/__styles__/base-fabricator/native-select-disabled.tsx",
+    },
+    "native-select-groups": {
+      name: "native-select-groups",
+      filePath: "examples/__styles__/base-fabricator/native-select-groups.tsx",
+    },
+    "native-select-invalid": {
+      name: "native-select-invalid",
+      filePath: "examples/__styles__/base-fabricator/native-select-invalid.tsx",
+    },
+    "native-select-rtl": {
+      name: "native-select-rtl",
+      filePath: "examples/__styles__/base-fabricator/native-select-rtl.tsx",
+    },
+    "navigation-menu-demo": {
+      name: "navigation-menu-demo",
+      filePath: "examples/__styles__/base-fabricator/navigation-menu-demo.tsx",
+    },
+    "navigation-menu-rtl": {
+      name: "navigation-menu-rtl",
+      filePath: "examples/__styles__/base-fabricator/navigation-menu-rtl.tsx",
+    },
+    "outline-item-group": {
+      name: "outline-item-group",
+      filePath: "examples/__styles__/base-fabricator/outline-item-group.tsx",
+    },
+    "pagination-demo": {
+      name: "pagination-demo",
+      filePath: "examples/__styles__/base-fabricator/pagination-demo.tsx",
+    },
+    "pagination-icons-only": {
+      name: "pagination-icons-only",
+      filePath: "examples/__styles__/base-fabricator/pagination-icons-only.tsx",
+    },
+    "pagination-rtl": {
+      name: "pagination-rtl",
+      filePath: "examples/__styles__/base-fabricator/pagination-rtl.tsx",
+    },
+    "pagination-simple": {
+      name: "pagination-simple",
+      filePath: "examples/__styles__/base-fabricator/pagination-simple.tsx",
+    },
+    "popover-alignments": {
+      name: "popover-alignments",
+      filePath: "examples/__styles__/base-fabricator/popover-alignments.tsx",
+    },
+    "popover-basic": {
+      name: "popover-basic",
+      filePath: "examples/__styles__/base-fabricator/popover-basic.tsx",
+    },
+    "popover-demo": {
+      name: "popover-demo",
+      filePath: "examples/__styles__/base-fabricator/popover-demo.tsx",
+    },
+    "popover-form": {
+      name: "popover-form",
+      filePath: "examples/__styles__/base-fabricator/popover-form.tsx",
+    },
+    "popover-rtl": {
+      name: "popover-rtl",
+      filePath: "examples/__styles__/base-fabricator/popover-rtl.tsx",
+    },
+    "progress-controlled": {
+      name: "progress-controlled",
+      filePath: "examples/__styles__/base-fabricator/progress-controlled.tsx",
+    },
+    "progress-demo": {
+      name: "progress-demo",
+      filePath: "examples/__styles__/base-fabricator/progress-demo.tsx",
+    },
+    "progress-label": {
+      name: "progress-label",
+      filePath: "examples/__styles__/base-fabricator/progress-label.tsx",
+    },
+    "progress-rtl": {
+      name: "progress-rtl",
+      filePath: "examples/__styles__/base-fabricator/progress-rtl.tsx",
+    },
+    "questionnaire-animated": {
+      name: "questionnaire-animated",
+      filePath:
+        "examples/__styles__/base-fabricator/questionnaire-animated.tsx",
+    },
+    "questionnaire-card": {
+      name: "questionnaire-card",
+      filePath: "examples/__styles__/base-fabricator/questionnaire-card.tsx",
+    },
+    "questionnaire-conditional": {
+      name: "questionnaire-conditional",
+      filePath:
+        "examples/__styles__/base-fabricator/questionnaire-conditional.tsx",
+    },
+    "questionnaire-controlled": {
+      name: "questionnaire-controlled",
+      filePath:
+        "examples/__styles__/base-fabricator/questionnaire-controlled.tsx",
+    },
+    "questionnaire-demo": {
+      name: "questionnaire-demo",
+      filePath: "examples/__styles__/base-fabricator/questionnaire-demo.tsx",
+    },
+    "questionnaire-dialog": {
+      name: "questionnaire-dialog",
+      filePath: "examples/__styles__/base-fabricator/questionnaire-dialog.tsx",
+    },
+    "questionnaire-freeform": {
+      name: "questionnaire-freeform",
+      filePath:
+        "examples/__styles__/base-fabricator/questionnaire-freeform.tsx",
+    },
+    "questionnaire-multiple": {
+      name: "questionnaire-multiple",
+      filePath:
+        "examples/__styles__/base-fabricator/questionnaire-multiple.tsx",
+    },
+    "questionnaire-navigation-state": {
+      name: "questionnaire-navigation-state",
+      filePath:
+        "examples/__styles__/base-fabricator/questionnaire-navigation-state.tsx",
+    },
+    "questionnaire-progress": {
+      name: "questionnaire-progress",
+      filePath:
+        "examples/__styles__/base-fabricator/questionnaire-progress.tsx",
+    },
+    "questionnaire-resume": {
+      name: "questionnaire-resume",
+      filePath: "examples/__styles__/base-fabricator/questionnaire-resume.tsx",
+    },
+    "questionnaire-shortcuts": {
+      name: "questionnaire-shortcuts",
+      filePath:
+        "examples/__styles__/base-fabricator/questionnaire-shortcuts.tsx",
+    },
+    "questionnaire-skip": {
+      name: "questionnaire-skip",
+      filePath: "examples/__styles__/base-fabricator/questionnaire-skip.tsx",
+    },
+    "questionnaire-validation": {
+      name: "questionnaire-validation",
+      filePath:
+        "examples/__styles__/base-fabricator/questionnaire-validation.tsx",
+    },
+    "radio-fields": {
+      name: "radio-fields",
+      filePath: "examples/__styles__/base-fabricator/radio-fields.tsx",
+    },
+    "radio-group-choice-card": {
+      name: "radio-group-choice-card",
+      filePath:
+        "examples/__styles__/base-fabricator/radio-group-choice-card.tsx",
+    },
+    "radio-group-demo": {
+      name: "radio-group-demo",
+      filePath: "examples/__styles__/base-fabricator/radio-group-demo.tsx",
+    },
+    "radio-group-description": {
+      name: "radio-group-description",
+      filePath:
+        "examples/__styles__/base-fabricator/radio-group-description.tsx",
+    },
+    "radio-group-disabled": {
+      name: "radio-group-disabled",
+      filePath: "examples/__styles__/base-fabricator/radio-group-disabled.tsx",
+    },
+    "radio-group-fieldset": {
+      name: "radio-group-fieldset",
+      filePath: "examples/__styles__/base-fabricator/radio-group-fieldset.tsx",
+    },
+    "radio-group-invalid": {
+      name: "radio-group-invalid",
+      filePath: "examples/__styles__/base-fabricator/radio-group-invalid.tsx",
+    },
+    "radio-group-rtl": {
+      name: "radio-group-rtl",
+      filePath: "examples/__styles__/base-fabricator/radio-group-rtl.tsx",
+    },
+    "resizable-demo": {
+      name: "resizable-demo",
+      filePath: "examples/__styles__/base-fabricator/resizable-demo.tsx",
+    },
+    "resizable-handle": {
+      name: "resizable-handle",
+      filePath: "examples/__styles__/base-fabricator/resizable-handle.tsx",
+    },
+    "resizable-rtl": {
+      name: "resizable-rtl",
+      filePath: "examples/__styles__/base-fabricator/resizable-rtl.tsx",
+    },
+    "resizable-vertical": {
+      name: "resizable-vertical",
+      filePath: "examples/__styles__/base-fabricator/resizable-vertical.tsx",
+    },
+    "scroll-area-demo": {
+      name: "scroll-area-demo",
+      filePath: "examples/__styles__/base-fabricator/scroll-area-demo.tsx",
+    },
+    "scroll-area-horizontal-demo": {
+      name: "scroll-area-horizontal-demo",
+      filePath:
+        "examples/__styles__/base-fabricator/scroll-area-horizontal-demo.tsx",
+    },
+    "scroll-area-rtl": {
+      name: "scroll-area-rtl",
+      filePath: "examples/__styles__/base-fabricator/scroll-area-rtl.tsx",
+    },
+    "scroll-fade-demo": {
+      name: "scroll-fade-demo",
+      filePath: "examples/__styles__/base-fabricator/scroll-fade-demo.tsx",
+    },
+    "scroll-fade-edge": {
+      name: "scroll-fade-edge",
+      filePath: "examples/__styles__/base-fabricator/scroll-fade-edge.tsx",
+    },
+    "scroll-fade-horizontal": {
+      name: "scroll-fade-horizontal",
+      filePath:
+        "examples/__styles__/base-fabricator/scroll-fade-horizontal.tsx",
+    },
+    "scroll-fade-none": {
+      name: "scroll-fade-none",
+      filePath: "examples/__styles__/base-fabricator/scroll-fade-none.tsx",
+    },
+    "scroll-fade-overflow": {
+      name: "scroll-fade-overflow",
+      filePath: "examples/__styles__/base-fabricator/scroll-fade-overflow.tsx",
+    },
+    "scroll-fade-rtl": {
+      name: "scroll-fade-rtl",
+      filePath: "examples/__styles__/base-fabricator/scroll-fade-rtl.tsx",
+    },
+    "scroll-fade-size": {
+      name: "scroll-fade-size",
+      filePath: "examples/__styles__/base-fabricator/scroll-fade-size.tsx",
+    },
+    "select-align-item": {
+      name: "select-align-item",
+      filePath: "examples/__styles__/base-fabricator/select-align-item.tsx",
+    },
+    "select-demo": {
+      name: "select-demo",
+      filePath: "examples/__styles__/base-fabricator/select-demo.tsx",
+    },
+    "select-disabled": {
+      name: "select-disabled",
+      filePath: "examples/__styles__/base-fabricator/select-disabled.tsx",
+    },
+    "select-groups": {
+      name: "select-groups",
+      filePath: "examples/__styles__/base-fabricator/select-groups.tsx",
+    },
+    "select-invalid": {
+      name: "select-invalid",
+      filePath: "examples/__styles__/base-fabricator/select-invalid.tsx",
+    },
+    "select-rtl": {
+      name: "select-rtl",
+      filePath: "examples/__styles__/base-fabricator/select-rtl.tsx",
+    },
+    "select-scrollable": {
+      name: "select-scrollable",
+      filePath: "examples/__styles__/base-fabricator/select-scrollable.tsx",
+    },
+    "separator-demo": {
+      name: "separator-demo",
+      filePath: "examples/__styles__/base-fabricator/separator-demo.tsx",
+    },
+    "separator-list": {
+      name: "separator-list",
+      filePath: "examples/__styles__/base-fabricator/separator-list.tsx",
+    },
+    "separator-menu": {
+      name: "separator-menu",
+      filePath: "examples/__styles__/base-fabricator/separator-menu.tsx",
+    },
+    "separator-rtl": {
+      name: "separator-rtl",
+      filePath: "examples/__styles__/base-fabricator/separator-rtl.tsx",
+    },
+    "separator-vertical": {
+      name: "separator-vertical",
+      filePath: "examples/__styles__/base-fabricator/separator-vertical.tsx",
+    },
+    "sheet-demo": {
+      name: "sheet-demo",
+      filePath: "examples/__styles__/base-fabricator/sheet-demo.tsx",
+    },
+    "sheet-no-close-button": {
+      name: "sheet-no-close-button",
+      filePath: "examples/__styles__/base-fabricator/sheet-no-close-button.tsx",
+    },
+    "sheet-rtl": {
+      name: "sheet-rtl",
+      filePath: "examples/__styles__/base-fabricator/sheet-rtl.tsx",
+    },
+    "sheet-side": {
+      name: "sheet-side",
+      filePath: "examples/__styles__/base-fabricator/sheet-side.tsx",
+    },
+    "shimmer-angle": {
+      name: "shimmer-angle",
+      filePath: "examples/__styles__/base-fabricator/shimmer-angle.tsx",
+    },
+    "shimmer-color": {
+      name: "shimmer-color",
+      filePath: "examples/__styles__/base-fabricator/shimmer-color.tsx",
+    },
+    "shimmer-demo": {
+      name: "shimmer-demo",
+      filePath: "examples/__styles__/base-fabricator/shimmer-demo.tsx",
+    },
+    "shimmer-duration": {
+      name: "shimmer-duration",
+      filePath: "examples/__styles__/base-fabricator/shimmer-duration.tsx",
+    },
+    "shimmer-marker": {
+      name: "shimmer-marker",
+      filePath: "examples/__styles__/base-fabricator/shimmer-marker.tsx",
+    },
+    "shimmer-none": {
+      name: "shimmer-none",
+      filePath: "examples/__styles__/base-fabricator/shimmer-none.tsx",
+    },
+    "shimmer-once": {
+      name: "shimmer-once",
+      filePath: "examples/__styles__/base-fabricator/shimmer-once.tsx",
+    },
+    "shimmer-rtl": {
+      name: "shimmer-rtl",
+      filePath: "examples/__styles__/base-fabricator/shimmer-rtl.tsx",
+    },
+    "shimmer-spread": {
+      name: "shimmer-spread",
+      filePath: "examples/__styles__/base-fabricator/shimmer-spread.tsx",
+    },
+    "sidebar-controlled": {
+      name: "sidebar-controlled",
+      filePath: "examples/__styles__/base-fabricator/sidebar-controlled.tsx",
+    },
+    "sidebar-demo": {
+      name: "sidebar-demo",
+      filePath: "examples/__styles__/base-fabricator/sidebar-demo.tsx",
+    },
+    "sidebar-footer": {
+      name: "sidebar-footer",
+      filePath: "examples/__styles__/base-fabricator/sidebar-footer.tsx",
+    },
+    "sidebar-group-action": {
+      name: "sidebar-group-action",
+      filePath: "examples/__styles__/base-fabricator/sidebar-group-action.tsx",
+    },
+    "sidebar-group-collapsible": {
+      name: "sidebar-group-collapsible",
+      filePath:
+        "examples/__styles__/base-fabricator/sidebar-group-collapsible.tsx",
+    },
+    "sidebar-group": {
+      name: "sidebar-group",
+      filePath: "examples/__styles__/base-fabricator/sidebar-group.tsx",
+    },
+    "sidebar-header": {
+      name: "sidebar-header",
+      filePath: "examples/__styles__/base-fabricator/sidebar-header.tsx",
+    },
+    "sidebar-menu-action": {
+      name: "sidebar-menu-action",
+      filePath: "examples/__styles__/base-fabricator/sidebar-menu-action.tsx",
+    },
+    "sidebar-menu-badge": {
+      name: "sidebar-menu-badge",
+      filePath: "examples/__styles__/base-fabricator/sidebar-menu-badge.tsx",
+    },
+    "sidebar-menu-collapsible": {
+      name: "sidebar-menu-collapsible",
+      filePath:
+        "examples/__styles__/base-fabricator/sidebar-menu-collapsible.tsx",
+    },
+    "sidebar-menu-sub": {
+      name: "sidebar-menu-sub",
+      filePath: "examples/__styles__/base-fabricator/sidebar-menu-sub.tsx",
+    },
+    "sidebar-menu": {
+      name: "sidebar-menu",
+      filePath: "examples/__styles__/base-fabricator/sidebar-menu.tsx",
+    },
+    "sidebar-rsc": {
+      name: "sidebar-rsc",
+      filePath: "examples/__styles__/base-fabricator/sidebar-rsc.tsx",
+    },
+    "sidebar-rtl": {
+      name: "sidebar-rtl",
+      filePath: "examples/__styles__/base-fabricator/sidebar-rtl.tsx",
+    },
+    "skeleton-avatar": {
+      name: "skeleton-avatar",
+      filePath: "examples/__styles__/base-fabricator/skeleton-avatar.tsx",
+    },
+    "skeleton-card": {
+      name: "skeleton-card",
+      filePath: "examples/__styles__/base-fabricator/skeleton-card.tsx",
+    },
+    "skeleton-demo": {
+      name: "skeleton-demo",
+      filePath: "examples/__styles__/base-fabricator/skeleton-demo.tsx",
+    },
+    "skeleton-form": {
+      name: "skeleton-form",
+      filePath: "examples/__styles__/base-fabricator/skeleton-form.tsx",
+    },
+    "skeleton-rtl": {
+      name: "skeleton-rtl",
+      filePath: "examples/__styles__/base-fabricator/skeleton-rtl.tsx",
+    },
+    "skeleton-table": {
+      name: "skeleton-table",
+      filePath: "examples/__styles__/base-fabricator/skeleton-table.tsx",
+    },
+    "skeleton-text": {
+      name: "skeleton-text",
+      filePath: "examples/__styles__/base-fabricator/skeleton-text.tsx",
+    },
+    "slider-controlled": {
+      name: "slider-controlled",
+      filePath: "examples/__styles__/base-fabricator/slider-controlled.tsx",
+    },
+    "slider-demo": {
+      name: "slider-demo",
+      filePath: "examples/__styles__/base-fabricator/slider-demo.tsx",
+    },
+    "slider-disabled": {
+      name: "slider-disabled",
+      filePath: "examples/__styles__/base-fabricator/slider-disabled.tsx",
+    },
+    "slider-multiple": {
+      name: "slider-multiple",
+      filePath: "examples/__styles__/base-fabricator/slider-multiple.tsx",
+    },
+    "slider-range": {
+      name: "slider-range",
+      filePath: "examples/__styles__/base-fabricator/slider-range.tsx",
+    },
+    "slider-rtl": {
+      name: "slider-rtl",
+      filePath: "examples/__styles__/base-fabricator/slider-rtl.tsx",
+    },
+    "slider-vertical": {
+      name: "slider-vertical",
+      filePath: "examples/__styles__/base-fabricator/slider-vertical.tsx",
+    },
+    "spinner-badge": {
+      name: "spinner-badge",
+      filePath: "examples/__styles__/base-fabricator/spinner-badge.tsx",
+    },
+    "spinner-button": {
+      name: "spinner-button",
+      filePath: "examples/__styles__/base-fabricator/spinner-button.tsx",
+    },
+    "spinner-custom": {
+      name: "spinner-custom",
+      filePath: "examples/__styles__/base-fabricator/spinner-custom.tsx",
+    },
+    "spinner-demo": {
+      name: "spinner-demo",
+      filePath: "examples/__styles__/base-fabricator/spinner-demo.tsx",
+    },
+    "spinner-empty": {
+      name: "spinner-empty",
+      filePath: "examples/__styles__/base-fabricator/spinner-empty.tsx",
+    },
+    "spinner-input-group": {
+      name: "spinner-input-group",
+      filePath: "examples/__styles__/base-fabricator/spinner-input-group.tsx",
+    },
+    "spinner-rtl": {
+      name: "spinner-rtl",
+      filePath: "examples/__styles__/base-fabricator/spinner-rtl.tsx",
+    },
+    "spinner-size": {
+      name: "spinner-size",
+      filePath: "examples/__styles__/base-fabricator/spinner-size.tsx",
+    },
+    "switch-choice-card": {
+      name: "switch-choice-card",
+      filePath: "examples/__styles__/base-fabricator/switch-choice-card.tsx",
+    },
+    "switch-demo": {
+      name: "switch-demo",
+      filePath: "examples/__styles__/base-fabricator/switch-demo.tsx",
+    },
+    "switch-description": {
+      name: "switch-description",
+      filePath: "examples/__styles__/base-fabricator/switch-description.tsx",
+    },
+    "switch-disabled": {
+      name: "switch-disabled",
+      filePath: "examples/__styles__/base-fabricator/switch-disabled.tsx",
+    },
+    "switch-invalid": {
+      name: "switch-invalid",
+      filePath: "examples/__styles__/base-fabricator/switch-invalid.tsx",
+    },
+    "switch-rtl": {
+      name: "switch-rtl",
+      filePath: "examples/__styles__/base-fabricator/switch-rtl.tsx",
+    },
+    "switch-sizes": {
+      name: "switch-sizes",
+      filePath: "examples/__styles__/base-fabricator/switch-sizes.tsx",
+    },
+    "table-actions": {
+      name: "table-actions",
+      filePath: "examples/__styles__/base-fabricator/table-actions.tsx",
+    },
+    "table-demo": {
+      name: "table-demo",
+      filePath: "examples/__styles__/base-fabricator/table-demo.tsx",
+    },
+    "table-footer": {
+      name: "table-footer",
+      filePath: "examples/__styles__/base-fabricator/table-footer.tsx",
+    },
+    "table-rtl": {
+      name: "table-rtl",
+      filePath: "examples/__styles__/base-fabricator/table-rtl.tsx",
+    },
+    "tabs-demo": {
+      name: "tabs-demo",
+      filePath: "examples/__styles__/base-fabricator/tabs-demo.tsx",
+    },
+    "tabs-disabled": {
+      name: "tabs-disabled",
+      filePath: "examples/__styles__/base-fabricator/tabs-disabled.tsx",
+    },
+    "tabs-icons": {
+      name: "tabs-icons",
+      filePath: "examples/__styles__/base-fabricator/tabs-icons.tsx",
+    },
+    "tabs-line": {
+      name: "tabs-line",
+      filePath: "examples/__styles__/base-fabricator/tabs-line.tsx",
+    },
+    "tabs-rtl": {
+      name: "tabs-rtl",
+      filePath: "examples/__styles__/base-fabricator/tabs-rtl.tsx",
+    },
+    "tabs-vertical": {
+      name: "tabs-vertical",
+      filePath: "examples/__styles__/base-fabricator/tabs-vertical.tsx",
+    },
+    "tanstack-ai-helper-demo": {
+      name: "tanstack-ai-helper-demo",
+      filePath:
+        "examples/__styles__/base-fabricator/tanstack-ai-helper-demo.tsx",
+    },
+    "textarea-button": {
+      name: "textarea-button",
+      filePath: "examples/__styles__/base-fabricator/textarea-button.tsx",
+    },
+    "textarea-demo": {
+      name: "textarea-demo",
+      filePath: "examples/__styles__/base-fabricator/textarea-demo.tsx",
+    },
+    "textarea-disabled": {
+      name: "textarea-disabled",
+      filePath: "examples/__styles__/base-fabricator/textarea-disabled.tsx",
+    },
+    "textarea-field": {
+      name: "textarea-field",
+      filePath: "examples/__styles__/base-fabricator/textarea-field.tsx",
+    },
+    "textarea-invalid": {
+      name: "textarea-invalid",
+      filePath: "examples/__styles__/base-fabricator/textarea-invalid.tsx",
+    },
+    "textarea-rtl": {
+      name: "textarea-rtl",
+      filePath: "examples/__styles__/base-fabricator/textarea-rtl.tsx",
+    },
+    "toast-demo": {
+      name: "toast-demo",
+      filePath: "examples/__styles__/base-fabricator/toast-demo.tsx",
+    },
+    "toast-promise": {
+      name: "toast-promise",
+      filePath: "examples/__styles__/base-fabricator/toast-promise.tsx",
+    },
+    "toast-types": {
+      name: "toast-types",
+      filePath: "examples/__styles__/base-fabricator/toast-types.tsx",
+    },
+    "toggle-demo": {
+      name: "toggle-demo",
+      filePath: "examples/__styles__/base-fabricator/toggle-demo.tsx",
+    },
+    "toggle-disabled": {
+      name: "toggle-disabled",
+      filePath: "examples/__styles__/base-fabricator/toggle-disabled.tsx",
+    },
+    "toggle-group-demo": {
+      name: "toggle-group-demo",
+      filePath: "examples/__styles__/base-fabricator/toggle-group-demo.tsx",
+    },
+    "toggle-group-disabled": {
+      name: "toggle-group-disabled",
+      filePath: "examples/__styles__/base-fabricator/toggle-group-disabled.tsx",
+    },
+    "toggle-group-font-weight-selector": {
+      name: "toggle-group-font-weight-selector",
+      filePath:
+        "examples/__styles__/base-fabricator/toggle-group-font-weight-selector.tsx",
+    },
+    "toggle-group-outline": {
+      name: "toggle-group-outline",
+      filePath: "examples/__styles__/base-fabricator/toggle-group-outline.tsx",
+    },
+    "toggle-group-rtl": {
+      name: "toggle-group-rtl",
+      filePath: "examples/__styles__/base-fabricator/toggle-group-rtl.tsx",
+    },
+    "toggle-group-sizes": {
+      name: "toggle-group-sizes",
+      filePath: "examples/__styles__/base-fabricator/toggle-group-sizes.tsx",
+    },
+    "toggle-group-spacing": {
+      name: "toggle-group-spacing",
+      filePath: "examples/__styles__/base-fabricator/toggle-group-spacing.tsx",
+    },
+    "toggle-group-vertical": {
+      name: "toggle-group-vertical",
+      filePath: "examples/__styles__/base-fabricator/toggle-group-vertical.tsx",
+    },
+    "toggle-outline": {
+      name: "toggle-outline",
+      filePath: "examples/__styles__/base-fabricator/toggle-outline.tsx",
+    },
+    "toggle-rtl": {
+      name: "toggle-rtl",
+      filePath: "examples/__styles__/base-fabricator/toggle-rtl.tsx",
+    },
+    "toggle-sizes": {
+      name: "toggle-sizes",
+      filePath: "examples/__styles__/base-fabricator/toggle-sizes.tsx",
+    },
+    "toggle-text": {
+      name: "toggle-text",
+      filePath: "examples/__styles__/base-fabricator/toggle-text.tsx",
+    },
+    "tooltip-demo": {
+      name: "tooltip-demo",
+      filePath: "examples/__styles__/base-fabricator/tooltip-demo.tsx",
+    },
+    "tooltip-disabled": {
+      name: "tooltip-disabled",
+      filePath: "examples/__styles__/base-fabricator/tooltip-disabled.tsx",
+    },
+    "tooltip-keyboard": {
+      name: "tooltip-keyboard",
+      filePath: "examples/__styles__/base-fabricator/tooltip-keyboard.tsx",
+    },
+    "tooltip-rtl": {
+      name: "tooltip-rtl",
+      filePath: "examples/__styles__/base-fabricator/tooltip-rtl.tsx",
+    },
+    "tooltip-sides": {
+      name: "tooltip-sides",
+      filePath: "examples/__styles__/base-fabricator/tooltip-sides.tsx",
+    },
+    "typography-blockquote": {
+      name: "typography-blockquote",
+      filePath: "examples/__styles__/base-fabricator/typography-blockquote.tsx",
+    },
+    "typography-demo": {
+      name: "typography-demo",
+      filePath: "examples/__styles__/base-fabricator/typography-demo.tsx",
+    },
+    "typography-h1": {
+      name: "typography-h1",
+      filePath: "examples/__styles__/base-fabricator/typography-h1.tsx",
+    },
+    "typography-h2": {
+      name: "typography-h2",
+      filePath: "examples/__styles__/base-fabricator/typography-h2.tsx",
+    },
+    "typography-h3": {
+      name: "typography-h3",
+      filePath: "examples/__styles__/base-fabricator/typography-h3.tsx",
+    },
+    "typography-h4": {
+      name: "typography-h4",
+      filePath: "examples/__styles__/base-fabricator/typography-h4.tsx",
+    },
+    "typography-inline-code": {
+      name: "typography-inline-code",
+      filePath:
+        "examples/__styles__/base-fabricator/typography-inline-code.tsx",
+    },
+    "typography-large": {
+      name: "typography-large",
+      filePath: "examples/__styles__/base-fabricator/typography-large.tsx",
+    },
+    "typography-lead": {
+      name: "typography-lead",
+      filePath: "examples/__styles__/base-fabricator/typography-lead.tsx",
+    },
+    "typography-list": {
+      name: "typography-list",
+      filePath: "examples/__styles__/base-fabricator/typography-list.tsx",
+    },
+    "typography-muted": {
+      name: "typography-muted",
+      filePath: "examples/__styles__/base-fabricator/typography-muted.tsx",
+    },
+    "typography-p": {
+      name: "typography-p",
+      filePath: "examples/__styles__/base-fabricator/typography-p.tsx",
+    },
+    "typography-rtl": {
+      name: "typography-rtl",
+      filePath: "examples/__styles__/base-fabricator/typography-rtl.tsx",
+    },
+    "typography-small": {
+      name: "typography-small",
+      filePath: "examples/__styles__/base-fabricator/typography-small.tsx",
+    },
+    "typography-table": {
+      name: "typography-table",
+      filePath: "examples/__styles__/base-fabricator/typography-table.tsx",
+    },
+  },
+  "aria-fabricator": {
+    "accordion-basic": {
+      name: "accordion-basic",
+      filePath: "examples/__styles__/aria-fabricator/accordion-basic.tsx",
+    },
+    "accordion-borders": {
+      name: "accordion-borders",
+      filePath: "examples/__styles__/aria-fabricator/accordion-borders.tsx",
+    },
+    "accordion-card": {
+      name: "accordion-card",
+      filePath: "examples/__styles__/aria-fabricator/accordion-card.tsx",
+    },
+    "accordion-demo": {
+      name: "accordion-demo",
+      filePath: "examples/__styles__/aria-fabricator/accordion-demo.tsx",
+    },
+    "accordion-disabled": {
+      name: "accordion-disabled",
+      filePath: "examples/__styles__/aria-fabricator/accordion-disabled.tsx",
+    },
+    "accordion-multiple": {
+      name: "accordion-multiple",
+      filePath: "examples/__styles__/aria-fabricator/accordion-multiple.tsx",
+    },
+    "accordion-rtl": {
+      name: "accordion-rtl",
+      filePath: "examples/__styles__/aria-fabricator/accordion-rtl.tsx",
+    },
+    "alert-action": {
+      name: "alert-action",
+      filePath: "examples/__styles__/aria-fabricator/alert-action.tsx",
+    },
+    "alert-basic": {
+      name: "alert-basic",
+      filePath: "examples/__styles__/aria-fabricator/alert-basic.tsx",
+    },
+    "alert-colors": {
+      name: "alert-colors",
+      filePath: "examples/__styles__/aria-fabricator/alert-colors.tsx",
+    },
+    "alert-demo": {
+      name: "alert-demo",
+      filePath: "examples/__styles__/aria-fabricator/alert-demo.tsx",
+    },
+    "alert-destructive": {
+      name: "alert-destructive",
+      filePath: "examples/__styles__/aria-fabricator/alert-destructive.tsx",
+    },
+    "alert-dialog-basic": {
+      name: "alert-dialog-basic",
+      filePath: "examples/__styles__/aria-fabricator/alert-dialog-basic.tsx",
+    },
+    "alert-dialog-demo": {
+      name: "alert-dialog-demo",
+      filePath: "examples/__styles__/aria-fabricator/alert-dialog-demo.tsx",
+    },
+    "alert-dialog-destructive": {
+      name: "alert-dialog-destructive",
+      filePath:
+        "examples/__styles__/aria-fabricator/alert-dialog-destructive.tsx",
+    },
+    "alert-dialog-media": {
+      name: "alert-dialog-media",
+      filePath: "examples/__styles__/aria-fabricator/alert-dialog-media.tsx",
+    },
+    "alert-dialog-rtl": {
+      name: "alert-dialog-rtl",
+      filePath: "examples/__styles__/aria-fabricator/alert-dialog-rtl.tsx",
+    },
+    "alert-dialog-small-media": {
+      name: "alert-dialog-small-media",
+      filePath:
+        "examples/__styles__/aria-fabricator/alert-dialog-small-media.tsx",
+    },
+    "alert-dialog-small": {
+      name: "alert-dialog-small",
+      filePath: "examples/__styles__/aria-fabricator/alert-dialog-small.tsx",
+    },
+    "alert-rtl": {
+      name: "alert-rtl",
+      filePath: "examples/__styles__/aria-fabricator/alert-rtl.tsx",
+    },
+    "aspect-ratio-demo": {
+      name: "aspect-ratio-demo",
+      filePath: "examples/__styles__/aria-fabricator/aspect-ratio-demo.tsx",
+    },
+    "aspect-ratio-portrait": {
+      name: "aspect-ratio-portrait",
+      filePath: "examples/__styles__/aria-fabricator/aspect-ratio-portrait.tsx",
+    },
+    "aspect-ratio-rtl": {
+      name: "aspect-ratio-rtl",
+      filePath: "examples/__styles__/aria-fabricator/aspect-ratio-rtl.tsx",
+    },
+    "aspect-ratio-square": {
+      name: "aspect-ratio-square",
+      filePath: "examples/__styles__/aria-fabricator/aspect-ratio-square.tsx",
+    },
+    "attachment-demo": {
+      name: "attachment-demo",
+      filePath: "examples/__styles__/aria-fabricator/attachment-demo.tsx",
+    },
+    "attachment-group": {
+      name: "attachment-group",
+      filePath: "examples/__styles__/aria-fabricator/attachment-group.tsx",
+    },
+    "attachment-image": {
+      name: "attachment-image",
+      filePath: "examples/__styles__/aria-fabricator/attachment-image.tsx",
+    },
+    "attachment-sizes": {
+      name: "attachment-sizes",
+      filePath: "examples/__styles__/aria-fabricator/attachment-sizes.tsx",
+    },
+    "attachment-states": {
+      name: "attachment-states",
+      filePath: "examples/__styles__/aria-fabricator/attachment-states.tsx",
+    },
+    "attachment-trigger": {
+      name: "attachment-trigger",
+      filePath: "examples/__styles__/aria-fabricator/attachment-trigger.tsx",
+    },
+    "avatar-badge-icon": {
+      name: "avatar-badge-icon",
+      filePath: "examples/__styles__/aria-fabricator/avatar-badge-icon.tsx",
+    },
+    "avatar-badge": {
+      name: "avatar-badge",
+      filePath: "examples/__styles__/aria-fabricator/avatar-badge.tsx",
+    },
+    "avatar-basic": {
+      name: "avatar-basic",
+      filePath: "examples/__styles__/aria-fabricator/avatar-basic.tsx",
+    },
+    "avatar-demo": {
+      name: "avatar-demo",
+      filePath: "examples/__styles__/aria-fabricator/avatar-demo.tsx",
+    },
+    "avatar-dropdown": {
+      name: "avatar-dropdown",
+      filePath: "examples/__styles__/aria-fabricator/avatar-dropdown.tsx",
+    },
+    "avatar-group-count-icon": {
+      name: "avatar-group-count-icon",
+      filePath:
+        "examples/__styles__/aria-fabricator/avatar-group-count-icon.tsx",
+    },
+    "avatar-group-count": {
+      name: "avatar-group-count",
+      filePath: "examples/__styles__/aria-fabricator/avatar-group-count.tsx",
+    },
+    "avatar-group": {
+      name: "avatar-group",
+      filePath: "examples/__styles__/aria-fabricator/avatar-group.tsx",
+    },
+    "avatar-rtl": {
+      name: "avatar-rtl",
+      filePath: "examples/__styles__/aria-fabricator/avatar-rtl.tsx",
+    },
+    "avatar-size": {
+      name: "avatar-size",
+      filePath: "examples/__styles__/aria-fabricator/avatar-size.tsx",
+    },
+    "badge-colors": {
+      name: "badge-colors",
+      filePath: "examples/__styles__/aria-fabricator/badge-colors.tsx",
+    },
+    "badge-demo": {
+      name: "badge-demo",
+      filePath: "examples/__styles__/aria-fabricator/badge-demo.tsx",
+    },
+    "badge-icon": {
+      name: "badge-icon",
+      filePath: "examples/__styles__/aria-fabricator/badge-icon.tsx",
+    },
+    "badge-link": {
+      name: "badge-link",
+      filePath: "examples/__styles__/aria-fabricator/badge-link.tsx",
+    },
+    "badge-rtl": {
+      name: "badge-rtl",
+      filePath: "examples/__styles__/aria-fabricator/badge-rtl.tsx",
+    },
+    "badge-spinner": {
+      name: "badge-spinner",
+      filePath: "examples/__styles__/aria-fabricator/badge-spinner.tsx",
+    },
+    "badge-variants": {
+      name: "badge-variants",
+      filePath: "examples/__styles__/aria-fabricator/badge-variants.tsx",
+    },
+    "breadcrumb-basic": {
+      name: "breadcrumb-basic",
+      filePath: "examples/__styles__/aria-fabricator/breadcrumb-basic.tsx",
+    },
+    "breadcrumb-demo": {
+      name: "breadcrumb-demo",
+      filePath: "examples/__styles__/aria-fabricator/breadcrumb-demo.tsx",
+    },
+    "breadcrumb-dropdown": {
+      name: "breadcrumb-dropdown",
+      filePath: "examples/__styles__/aria-fabricator/breadcrumb-dropdown.tsx",
+    },
+    "breadcrumb-ellipsis": {
+      name: "breadcrumb-ellipsis",
+      filePath: "examples/__styles__/aria-fabricator/breadcrumb-ellipsis.tsx",
+    },
+    "breadcrumb-link": {
+      name: "breadcrumb-link",
+      filePath: "examples/__styles__/aria-fabricator/breadcrumb-link.tsx",
+    },
+    "breadcrumb-rtl": {
+      name: "breadcrumb-rtl",
+      filePath: "examples/__styles__/aria-fabricator/breadcrumb-rtl.tsx",
+    },
+    "breadcrumb-separator": {
+      name: "breadcrumb-separator",
+      filePath: "examples/__styles__/aria-fabricator/breadcrumb-separator.tsx",
+    },
+    "bubble-alignment": {
+      name: "bubble-alignment",
+      filePath: "examples/__styles__/aria-fabricator/bubble-alignment.tsx",
+    },
+    "bubble-collapsible": {
+      name: "bubble-collapsible",
+      filePath: "examples/__styles__/aria-fabricator/bubble-collapsible.tsx",
+    },
+    "bubble-demo": {
+      name: "bubble-demo",
+      filePath: "examples/__styles__/aria-fabricator/bubble-demo.tsx",
+    },
+    "bubble-group-demo": {
+      name: "bubble-group-demo",
+      filePath: "examples/__styles__/aria-fabricator/bubble-group-demo.tsx",
+    },
+    "bubble-link-button": {
+      name: "bubble-link-button",
+      filePath: "examples/__styles__/aria-fabricator/bubble-link-button.tsx",
+    },
+    "bubble-markdown": {
+      name: "bubble-markdown",
+      filePath: "examples/__styles__/aria-fabricator/bubble-markdown.tsx",
+    },
+    "bubble-popover": {
+      name: "bubble-popover",
+      filePath: "examples/__styles__/aria-fabricator/bubble-popover.tsx",
+    },
+    "bubble-reactions": {
+      name: "bubble-reactions",
+      filePath: "examples/__styles__/aria-fabricator/bubble-reactions.tsx",
+    },
+    "bubble-tooltip": {
+      name: "bubble-tooltip",
+      filePath: "examples/__styles__/aria-fabricator/bubble-tooltip.tsx",
+    },
+    "bubble-variants": {
+      name: "bubble-variants",
+      filePath: "examples/__styles__/aria-fabricator/bubble-variants.tsx",
+    },
+    "button-default": {
+      name: "button-default",
+      filePath: "examples/__styles__/aria-fabricator/button-default.tsx",
+    },
+    "button-demo": {
+      name: "button-demo",
+      filePath: "examples/__styles__/aria-fabricator/button-demo.tsx",
+    },
+    "button-destructive": {
+      name: "button-destructive",
+      filePath: "examples/__styles__/aria-fabricator/button-destructive.tsx",
+    },
+    "button-ghost": {
+      name: "button-ghost",
+      filePath: "examples/__styles__/aria-fabricator/button-ghost.tsx",
+    },
+    "button-group-demo": {
+      name: "button-group-demo",
+      filePath: "examples/__styles__/aria-fabricator/button-group-demo.tsx",
+    },
+    "button-group-dropdown": {
+      name: "button-group-dropdown",
+      filePath: "examples/__styles__/aria-fabricator/button-group-dropdown.tsx",
+    },
+    "button-group-input-group": {
+      name: "button-group-input-group",
+      filePath:
+        "examples/__styles__/aria-fabricator/button-group-input-group.tsx",
+    },
+    "button-group-input": {
+      name: "button-group-input",
+      filePath: "examples/__styles__/aria-fabricator/button-group-input.tsx",
+    },
+    "button-group-nested": {
+      name: "button-group-nested",
+      filePath: "examples/__styles__/aria-fabricator/button-group-nested.tsx",
+    },
+    "button-group-orientation": {
+      name: "button-group-orientation",
+      filePath:
+        "examples/__styles__/aria-fabricator/button-group-orientation.tsx",
+    },
+    "button-group-popover": {
+      name: "button-group-popover",
+      filePath: "examples/__styles__/aria-fabricator/button-group-popover.tsx",
+    },
+    "button-group-rtl": {
+      name: "button-group-rtl",
+      filePath: "examples/__styles__/aria-fabricator/button-group-rtl.tsx",
+    },
+    "button-group-select": {
+      name: "button-group-select",
+      filePath: "examples/__styles__/aria-fabricator/button-group-select.tsx",
+    },
+    "button-group-separator": {
+      name: "button-group-separator",
+      filePath:
+        "examples/__styles__/aria-fabricator/button-group-separator.tsx",
+    },
+    "button-group-size": {
+      name: "button-group-size",
+      filePath: "examples/__styles__/aria-fabricator/button-group-size.tsx",
+    },
+    "button-group-split": {
+      name: "button-group-split",
+      filePath: "examples/__styles__/aria-fabricator/button-group-split.tsx",
+    },
+    "button-icon": {
+      name: "button-icon",
+      filePath: "examples/__styles__/aria-fabricator/button-icon.tsx",
+    },
+    "button-link": {
+      name: "button-link",
+      filePath: "examples/__styles__/aria-fabricator/button-link.tsx",
+    },
+    "button-outline": {
+      name: "button-outline",
+      filePath: "examples/__styles__/aria-fabricator/button-outline.tsx",
+    },
+    "button-render": {
+      name: "button-render",
+      filePath: "examples/__styles__/aria-fabricator/button-render.tsx",
+    },
+    "button-rounded": {
+      name: "button-rounded",
+      filePath: "examples/__styles__/aria-fabricator/button-rounded.tsx",
+    },
+    "button-rtl": {
+      name: "button-rtl",
+      filePath: "examples/__styles__/aria-fabricator/button-rtl.tsx",
+    },
+    "button-secondary": {
+      name: "button-secondary",
+      filePath: "examples/__styles__/aria-fabricator/button-secondary.tsx",
+    },
+    "button-size": {
+      name: "button-size",
+      filePath: "examples/__styles__/aria-fabricator/button-size.tsx",
+    },
+    "button-spinner": {
+      name: "button-spinner",
+      filePath: "examples/__styles__/aria-fabricator/button-spinner.tsx",
+    },
+    "button-with-icon": {
+      name: "button-with-icon",
+      filePath: "examples/__styles__/aria-fabricator/button-with-icon.tsx",
+    },
+    "calendar-basic": {
+      name: "calendar-basic",
+      filePath: "examples/__styles__/aria-fabricator/calendar-basic.tsx",
+    },
+    "calendar-booked-dates": {
+      name: "calendar-booked-dates",
+      filePath: "examples/__styles__/aria-fabricator/calendar-booked-dates.tsx",
+    },
+    "calendar-caption": {
+      name: "calendar-caption",
+      filePath: "examples/__styles__/aria-fabricator/calendar-caption.tsx",
+    },
+    "calendar-custom-days": {
+      name: "calendar-custom-days",
+      filePath: "examples/__styles__/aria-fabricator/calendar-custom-days.tsx",
+    },
+    "calendar-demo": {
+      name: "calendar-demo",
+      filePath: "examples/__styles__/aria-fabricator/calendar-demo.tsx",
+    },
+    "calendar-hijri": {
+      name: "calendar-hijri",
+      filePath: "examples/__styles__/aria-fabricator/calendar-hijri.tsx",
+    },
+    "calendar-multiple": {
+      name: "calendar-multiple",
+      filePath: "examples/__styles__/aria-fabricator/calendar-multiple.tsx",
+    },
+    "calendar-presets": {
+      name: "calendar-presets",
+      filePath: "examples/__styles__/aria-fabricator/calendar-presets.tsx",
+    },
+    "calendar-range": {
+      name: "calendar-range",
+      filePath: "examples/__styles__/aria-fabricator/calendar-range.tsx",
+    },
+    "calendar-rtl": {
+      name: "calendar-rtl",
+      filePath: "examples/__styles__/aria-fabricator/calendar-rtl.tsx",
+    },
+    "calendar-time": {
+      name: "calendar-time",
+      filePath: "examples/__styles__/aria-fabricator/calendar-time.tsx",
+    },
+    "card-demo": {
+      name: "card-demo",
+      filePath: "examples/__styles__/aria-fabricator/card-demo.tsx",
+    },
+    "card-edge-to-edge": {
+      name: "card-edge-to-edge",
+      filePath: "examples/__styles__/aria-fabricator/card-edge-to-edge.tsx",
+    },
+    "card-image": {
+      name: "card-image",
+      filePath: "examples/__styles__/aria-fabricator/card-image.tsx",
+    },
+    "card-rtl": {
+      name: "card-rtl",
+      filePath: "examples/__styles__/aria-fabricator/card-rtl.tsx",
+    },
+    "card-small": {
+      name: "card-small",
+      filePath: "examples/__styles__/aria-fabricator/card-small.tsx",
+    },
+    "card-spacing": {
+      name: "card-spacing",
+      filePath: "examples/__styles__/aria-fabricator/card-spacing.tsx",
+    },
+    "carousel-api": {
+      name: "carousel-api",
+      filePath: "examples/__styles__/aria-fabricator/carousel-api.tsx",
+    },
+    "carousel-demo": {
+      name: "carousel-demo",
+      filePath: "examples/__styles__/aria-fabricator/carousel-demo.tsx",
+    },
+    "carousel-multiple": {
+      name: "carousel-multiple",
+      filePath: "examples/__styles__/aria-fabricator/carousel-multiple.tsx",
+    },
+    "carousel-orientation": {
+      name: "carousel-orientation",
+      filePath: "examples/__styles__/aria-fabricator/carousel-orientation.tsx",
+    },
+    "carousel-plugin": {
+      name: "carousel-plugin",
+      filePath: "examples/__styles__/aria-fabricator/carousel-plugin.tsx",
+    },
+    "carousel-rtl": {
+      name: "carousel-rtl",
+      filePath: "examples/__styles__/aria-fabricator/carousel-rtl.tsx",
+    },
+    "carousel-size": {
+      name: "carousel-size",
+      filePath: "examples/__styles__/aria-fabricator/carousel-size.tsx",
+    },
+    "carousel-spacing": {
+      name: "carousel-spacing",
+      filePath: "examples/__styles__/aria-fabricator/carousel-spacing.tsx",
+    },
+    "chart-demo": {
+      name: "chart-demo",
+      filePath: "examples/__styles__/aria-fabricator/chart-demo.tsx",
+    },
+    "chart-example-axis": {
+      name: "chart-example-axis",
+      filePath: "examples/__styles__/aria-fabricator/chart-example-axis.tsx",
+    },
+    "chart-example-grid": {
+      name: "chart-example-grid",
+      filePath: "examples/__styles__/aria-fabricator/chart-example-grid.tsx",
+    },
+    "chart-example-legend": {
+      name: "chart-example-legend",
+      filePath: "examples/__styles__/aria-fabricator/chart-example-legend.tsx",
+    },
+    "chart-example-tooltip": {
+      name: "chart-example-tooltip",
+      filePath: "examples/__styles__/aria-fabricator/chart-example-tooltip.tsx",
+    },
+    "chart-example": {
+      name: "chart-example",
+      filePath: "examples/__styles__/aria-fabricator/chart-example.tsx",
+    },
+    "chart-rtl": {
+      name: "chart-rtl",
+      filePath: "examples/__styles__/aria-fabricator/chart-rtl.tsx",
+    },
+    "chart-tooltip": {
+      name: "chart-tooltip",
+      filePath: "examples/__styles__/aria-fabricator/chart-tooltip.tsx",
+    },
+    "checkbox-basic": {
+      name: "checkbox-basic",
+      filePath: "examples/__styles__/aria-fabricator/checkbox-basic.tsx",
+    },
+    "checkbox-demo": {
+      name: "checkbox-demo",
+      filePath: "examples/__styles__/aria-fabricator/checkbox-demo.tsx",
+    },
+    "checkbox-description": {
+      name: "checkbox-description",
+      filePath: "examples/__styles__/aria-fabricator/checkbox-description.tsx",
+    },
+    "checkbox-disabled": {
+      name: "checkbox-disabled",
+      filePath: "examples/__styles__/aria-fabricator/checkbox-disabled.tsx",
+    },
+    "checkbox-group": {
+      name: "checkbox-group",
+      filePath: "examples/__styles__/aria-fabricator/checkbox-group.tsx",
+    },
+    "checkbox-invalid": {
+      name: "checkbox-invalid",
+      filePath: "examples/__styles__/aria-fabricator/checkbox-invalid.tsx",
+    },
+    "checkbox-rtl": {
+      name: "checkbox-rtl",
+      filePath: "examples/__styles__/aria-fabricator/checkbox-rtl.tsx",
+    },
+    "checkbox-table": {
+      name: "checkbox-table",
+      filePath: "examples/__styles__/aria-fabricator/checkbox-table.tsx",
+    },
+    "collapsible-basic": {
+      name: "collapsible-basic",
+      filePath: "examples/__styles__/aria-fabricator/collapsible-basic.tsx",
+    },
+    "collapsible-demo": {
+      name: "collapsible-demo",
+      filePath: "examples/__styles__/aria-fabricator/collapsible-demo.tsx",
+    },
+    "collapsible-file-tree": {
+      name: "collapsible-file-tree",
+      filePath: "examples/__styles__/aria-fabricator/collapsible-file-tree.tsx",
+    },
+    "collapsible-rtl": {
+      name: "collapsible-rtl",
+      filePath: "examples/__styles__/aria-fabricator/collapsible-rtl.tsx",
+    },
+    "collapsible-settings": {
+      name: "collapsible-settings",
+      filePath: "examples/__styles__/aria-fabricator/collapsible-settings.tsx",
+    },
+    "combobox-basic": {
+      name: "combobox-basic",
+      filePath: "examples/__styles__/aria-fabricator/combobox-basic.tsx",
+    },
+    "combobox-clear": {
+      name: "combobox-clear",
+      filePath: "examples/__styles__/aria-fabricator/combobox-clear.tsx",
+    },
+    "combobox-custom": {
+      name: "combobox-custom",
+      filePath: "examples/__styles__/aria-fabricator/combobox-custom.tsx",
+    },
+    "combobox-demo": {
+      name: "combobox-demo",
+      filePath: "examples/__styles__/aria-fabricator/combobox-demo.tsx",
+    },
+    "combobox-disabled": {
+      name: "combobox-disabled",
+      filePath: "examples/__styles__/aria-fabricator/combobox-disabled.tsx",
+    },
+    "combobox-groups": {
+      name: "combobox-groups",
+      filePath: "examples/__styles__/aria-fabricator/combobox-groups.tsx",
+    },
+    "combobox-input-group": {
+      name: "combobox-input-group",
+      filePath: "examples/__styles__/aria-fabricator/combobox-input-group.tsx",
+    },
+    "combobox-invalid": {
+      name: "combobox-invalid",
+      filePath: "examples/__styles__/aria-fabricator/combobox-invalid.tsx",
+    },
+    "combobox-multiple": {
+      name: "combobox-multiple",
+      filePath: "examples/__styles__/aria-fabricator/combobox-multiple.tsx",
+    },
+    "combobox-rtl": {
+      name: "combobox-rtl",
+      filePath: "examples/__styles__/aria-fabricator/combobox-rtl.tsx",
+    },
+    "command-basic": {
+      name: "command-basic",
+      filePath: "examples/__styles__/aria-fabricator/command-basic.tsx",
+    },
+    "command-demo": {
+      name: "command-demo",
+      filePath: "examples/__styles__/aria-fabricator/command-demo.tsx",
+    },
+    "command-dialog": {
+      name: "command-dialog",
+      filePath: "examples/__styles__/aria-fabricator/command-dialog.tsx",
+    },
+    "command-groups": {
+      name: "command-groups",
+      filePath: "examples/__styles__/aria-fabricator/command-groups.tsx",
+    },
+    "command-rtl": {
+      name: "command-rtl",
+      filePath: "examples/__styles__/aria-fabricator/command-rtl.tsx",
+    },
+    "command-scrollable": {
+      name: "command-scrollable",
+      filePath: "examples/__styles__/aria-fabricator/command-scrollable.tsx",
+    },
+    "command-shortcuts": {
+      name: "command-shortcuts",
+      filePath: "examples/__styles__/aria-fabricator/command-shortcuts.tsx",
+    },
+    "context-menu-basic": {
+      name: "context-menu-basic",
+      filePath: "examples/__styles__/aria-fabricator/context-menu-basic.tsx",
+    },
+    "context-menu-checkboxes": {
+      name: "context-menu-checkboxes",
+      filePath:
+        "examples/__styles__/aria-fabricator/context-menu-checkboxes.tsx",
+    },
+    "context-menu-demo": {
+      name: "context-menu-demo",
+      filePath: "examples/__styles__/aria-fabricator/context-menu-demo.tsx",
+    },
+    "context-menu-destructive": {
+      name: "context-menu-destructive",
+      filePath:
+        "examples/__styles__/aria-fabricator/context-menu-destructive.tsx",
+    },
+    "context-menu-groups": {
+      name: "context-menu-groups",
+      filePath: "examples/__styles__/aria-fabricator/context-menu-groups.tsx",
+    },
+    "context-menu-icons": {
+      name: "context-menu-icons",
+      filePath: "examples/__styles__/aria-fabricator/context-menu-icons.tsx",
+    },
+    "context-menu-radio": {
+      name: "context-menu-radio",
+      filePath: "examples/__styles__/aria-fabricator/context-menu-radio.tsx",
+    },
+    "context-menu-rtl": {
+      name: "context-menu-rtl",
+      filePath: "examples/__styles__/aria-fabricator/context-menu-rtl.tsx",
+    },
+    "context-menu-shortcuts": {
+      name: "context-menu-shortcuts",
+      filePath:
+        "examples/__styles__/aria-fabricator/context-menu-shortcuts.tsx",
+    },
+    "context-menu-sides": {
+      name: "context-menu-sides",
+      filePath: "examples/__styles__/aria-fabricator/context-menu-sides.tsx",
+    },
+    "context-menu-submenu": {
+      name: "context-menu-submenu",
+      filePath: "examples/__styles__/aria-fabricator/context-menu-submenu.tsx",
+    },
+    "data-picker-with-dropdowns": {
+      name: "data-picker-with-dropdowns",
+      filePath:
+        "examples/__styles__/aria-fabricator/data-picker-with-dropdowns.tsx",
+    },
+    "data-table-demo": {
+      name: "data-table-demo",
+      filePath: "examples/__styles__/aria-fabricator/data-table-demo.tsx",
+    },
+    "data-table-rtl": {
+      name: "data-table-rtl",
+      filePath: "examples/__styles__/aria-fabricator/data-table-rtl.tsx",
+    },
+    "date-picker-basic": {
+      name: "date-picker-basic",
+      filePath: "examples/__styles__/aria-fabricator/date-picker-basic.tsx",
+    },
+    "date-picker-demo": {
+      name: "date-picker-demo",
+      filePath: "examples/__styles__/aria-fabricator/date-picker-demo.tsx",
+    },
+    "date-picker-dob": {
+      name: "date-picker-dob",
+      filePath: "examples/__styles__/aria-fabricator/date-picker-dob.tsx",
+    },
+    "date-picker-input": {
+      name: "date-picker-input",
+      filePath: "examples/__styles__/aria-fabricator/date-picker-input.tsx",
+    },
+    "date-picker-natural-language": {
+      name: "date-picker-natural-language",
+      filePath:
+        "examples/__styles__/aria-fabricator/date-picker-natural-language.tsx",
+    },
+    "date-picker-range": {
+      name: "date-picker-range",
+      filePath: "examples/__styles__/aria-fabricator/date-picker-range.tsx",
+    },
+    "date-picker-rtl": {
+      name: "date-picker-rtl",
+      filePath: "examples/__styles__/aria-fabricator/date-picker-rtl.tsx",
+    },
+    "date-picker-time": {
+      name: "date-picker-time",
+      filePath: "examples/__styles__/aria-fabricator/date-picker-time.tsx",
+    },
+    "dialog-close-button": {
+      name: "dialog-close-button",
+      filePath: "examples/__styles__/aria-fabricator/dialog-close-button.tsx",
+    },
+    "dialog-demo": {
+      name: "dialog-demo",
+      filePath: "examples/__styles__/aria-fabricator/dialog-demo.tsx",
+    },
+    "dialog-no-close-button": {
+      name: "dialog-no-close-button",
+      filePath:
+        "examples/__styles__/aria-fabricator/dialog-no-close-button.tsx",
+    },
+    "dialog-rtl": {
+      name: "dialog-rtl",
+      filePath: "examples/__styles__/aria-fabricator/dialog-rtl.tsx",
+    },
+    "dialog-scrollable-content": {
+      name: "dialog-scrollable-content",
+      filePath:
+        "examples/__styles__/aria-fabricator/dialog-scrollable-content.tsx",
+    },
+    "dialog-sticky-footer": {
+      name: "dialog-sticky-footer",
+      filePath: "examples/__styles__/aria-fabricator/dialog-sticky-footer.tsx",
+    },
+    "drawer-demo": {
+      name: "drawer-demo",
+      filePath: "examples/__styles__/aria-fabricator/drawer-demo.tsx",
+    },
+    "drawer-dialog": {
+      name: "drawer-dialog",
+      filePath: "examples/__styles__/aria-fabricator/drawer-dialog.tsx",
+    },
+    "drawer-nested": {
+      name: "drawer-nested",
+      filePath: "examples/__styles__/aria-fabricator/drawer-nested.tsx",
+    },
+    "drawer-non-modal": {
+      name: "drawer-non-modal",
+      filePath: "examples/__styles__/aria-fabricator/drawer-non-modal.tsx",
+    },
+    "drawer-rtl": {
+      name: "drawer-rtl",
+      filePath: "examples/__styles__/aria-fabricator/drawer-rtl.tsx",
+    },
+    "drawer-sides": {
+      name: "drawer-sides",
+      filePath: "examples/__styles__/aria-fabricator/drawer-sides.tsx",
+    },
+    "drawer-snap-points": {
+      name: "drawer-snap-points",
+      filePath: "examples/__styles__/aria-fabricator/drawer-snap-points.tsx",
+    },
+    "drawer-swipe-handle": {
+      name: "drawer-swipe-handle",
+      filePath: "examples/__styles__/aria-fabricator/drawer-swipe-handle.tsx",
+    },
+    "dropdown-menu-avatar": {
+      name: "dropdown-menu-avatar",
+      filePath: "examples/__styles__/aria-fabricator/dropdown-menu-avatar.tsx",
+    },
+    "dropdown-menu-basic": {
+      name: "dropdown-menu-basic",
+      filePath: "examples/__styles__/aria-fabricator/dropdown-menu-basic.tsx",
+    },
+    "dropdown-menu-checkboxes-icons": {
+      name: "dropdown-menu-checkboxes-icons",
+      filePath:
+        "examples/__styles__/aria-fabricator/dropdown-menu-checkboxes-icons.tsx",
+    },
+    "dropdown-menu-checkboxes": {
+      name: "dropdown-menu-checkboxes",
+      filePath:
+        "examples/__styles__/aria-fabricator/dropdown-menu-checkboxes.tsx",
+    },
+    "dropdown-menu-complex": {
+      name: "dropdown-menu-complex",
+      filePath: "examples/__styles__/aria-fabricator/dropdown-menu-complex.tsx",
+    },
+    "dropdown-menu-demo": {
+      name: "dropdown-menu-demo",
+      filePath: "examples/__styles__/aria-fabricator/dropdown-menu-demo.tsx",
+    },
+    "dropdown-menu-destructive": {
+      name: "dropdown-menu-destructive",
+      filePath:
+        "examples/__styles__/aria-fabricator/dropdown-menu-destructive.tsx",
+    },
+    "dropdown-menu-icons": {
+      name: "dropdown-menu-icons",
+      filePath: "examples/__styles__/aria-fabricator/dropdown-menu-icons.tsx",
+    },
+    "dropdown-menu-radio-group": {
+      name: "dropdown-menu-radio-group",
+      filePath:
+        "examples/__styles__/aria-fabricator/dropdown-menu-radio-group.tsx",
+    },
+    "dropdown-menu-radio-icons": {
+      name: "dropdown-menu-radio-icons",
+      filePath:
+        "examples/__styles__/aria-fabricator/dropdown-menu-radio-icons.tsx",
+    },
+    "dropdown-menu-rtl": {
+      name: "dropdown-menu-rtl",
+      filePath: "examples/__styles__/aria-fabricator/dropdown-menu-rtl.tsx",
+    },
+    "dropdown-menu-shortcuts": {
+      name: "dropdown-menu-shortcuts",
+      filePath:
+        "examples/__styles__/aria-fabricator/dropdown-menu-shortcuts.tsx",
+    },
+    "dropdown-menu-submenu": {
+      name: "dropdown-menu-submenu",
+      filePath: "examples/__styles__/aria-fabricator/dropdown-menu-submenu.tsx",
+    },
+    "empty-avatar-group": {
+      name: "empty-avatar-group",
+      filePath: "examples/__styles__/aria-fabricator/empty-avatar-group.tsx",
+    },
+    "empty-avatar": {
+      name: "empty-avatar",
+      filePath: "examples/__styles__/aria-fabricator/empty-avatar.tsx",
+    },
+    "empty-background": {
+      name: "empty-background",
+      filePath: "examples/__styles__/aria-fabricator/empty-background.tsx",
+    },
+    "empty-card": {
+      name: "empty-card",
+      filePath: "examples/__styles__/aria-fabricator/empty-card.tsx",
+    },
+    "empty-demo": {
+      name: "empty-demo",
+      filePath: "examples/__styles__/aria-fabricator/empty-demo.tsx",
+    },
+    "empty-input-group": {
+      name: "empty-input-group",
+      filePath: "examples/__styles__/aria-fabricator/empty-input-group.tsx",
+    },
+    "empty-outline": {
+      name: "empty-outline",
+      filePath: "examples/__styles__/aria-fabricator/empty-outline.tsx",
+    },
+    "empty-rtl": {
+      name: "empty-rtl",
+      filePath: "examples/__styles__/aria-fabricator/empty-rtl.tsx",
+    },
+    "field-checkbox": {
+      name: "field-checkbox",
+      filePath: "examples/__styles__/aria-fabricator/field-checkbox.tsx",
+    },
+    "field-choice-card": {
+      name: "field-choice-card",
+      filePath: "examples/__styles__/aria-fabricator/field-choice-card.tsx",
+    },
+    "field-demo": {
+      name: "field-demo",
+      filePath: "examples/__styles__/aria-fabricator/field-demo.tsx",
+    },
+    "field-fieldset": {
+      name: "field-fieldset",
+      filePath: "examples/__styles__/aria-fabricator/field-fieldset.tsx",
+    },
+    "field-group": {
+      name: "field-group",
+      filePath: "examples/__styles__/aria-fabricator/field-group.tsx",
+    },
+    "field-input": {
+      name: "field-input",
+      filePath: "examples/__styles__/aria-fabricator/field-input.tsx",
+    },
+    "field-radio": {
+      name: "field-radio",
+      filePath: "examples/__styles__/aria-fabricator/field-radio.tsx",
+    },
+    "field-responsive": {
+      name: "field-responsive",
+      filePath: "examples/__styles__/aria-fabricator/field-responsive.tsx",
+    },
+    "field-rtl": {
+      name: "field-rtl",
+      filePath: "examples/__styles__/aria-fabricator/field-rtl.tsx",
+    },
+    "field-select": {
+      name: "field-select",
+      filePath: "examples/__styles__/aria-fabricator/field-select.tsx",
+    },
+    "field-slider": {
+      name: "field-slider",
+      filePath: "examples/__styles__/aria-fabricator/field-slider.tsx",
+    },
+    "field-switch": {
+      name: "field-switch",
+      filePath: "examples/__styles__/aria-fabricator/field-switch.tsx",
+    },
+    "field-textarea": {
+      name: "field-textarea",
+      filePath: "examples/__styles__/aria-fabricator/field-textarea.tsx",
+    },
+    "file-upload-list": {
+      name: "file-upload-list",
+      filePath: "examples/__styles__/aria-fabricator/file-upload-list.tsx",
+    },
+    "hover-card-demo": {
+      name: "hover-card-demo",
+      filePath: "examples/__styles__/aria-fabricator/hover-card-demo.tsx",
+    },
+    "hover-card-rtl": {
+      name: "hover-card-rtl",
+      filePath: "examples/__styles__/aria-fabricator/hover-card-rtl.tsx",
+    },
+    "hover-card-sides": {
+      name: "hover-card-sides",
+      filePath: "examples/__styles__/aria-fabricator/hover-card-sides.tsx",
+    },
+    "input-badge": {
+      name: "input-badge",
+      filePath: "examples/__styles__/aria-fabricator/input-badge.tsx",
+    },
+    "input-basic": {
+      name: "input-basic",
+      filePath: "examples/__styles__/aria-fabricator/input-basic.tsx",
+    },
+    "input-button-group": {
+      name: "input-button-group",
+      filePath: "examples/__styles__/aria-fabricator/input-button-group.tsx",
+    },
+    "input-demo": {
+      name: "input-demo",
+      filePath: "examples/__styles__/aria-fabricator/input-demo.tsx",
+    },
+    "input-disabled": {
+      name: "input-disabled",
+      filePath: "examples/__styles__/aria-fabricator/input-disabled.tsx",
+    },
+    "input-field": {
+      name: "input-field",
+      filePath: "examples/__styles__/aria-fabricator/input-field.tsx",
+    },
+    "input-fieldgroup": {
+      name: "input-fieldgroup",
+      filePath: "examples/__styles__/aria-fabricator/input-fieldgroup.tsx",
+    },
+    "input-file": {
+      name: "input-file",
+      filePath: "examples/__styles__/aria-fabricator/input-file.tsx",
+    },
+    "input-form": {
+      name: "input-form",
+      filePath: "examples/__styles__/aria-fabricator/input-form.tsx",
+    },
+    "input-grid": {
+      name: "input-grid",
+      filePath: "examples/__styles__/aria-fabricator/input-grid.tsx",
+    },
+    "input-group-basic": {
+      name: "input-group-basic",
+      filePath: "examples/__styles__/aria-fabricator/input-group-basic.tsx",
+    },
+    "input-group-block-end": {
+      name: "input-group-block-end",
+      filePath: "examples/__styles__/aria-fabricator/input-group-block-end.tsx",
+    },
+    "input-group-block-start": {
+      name: "input-group-block-start",
+      filePath:
+        "examples/__styles__/aria-fabricator/input-group-block-start.tsx",
+    },
+    "input-group-button-group": {
+      name: "input-group-button-group",
+      filePath:
+        "examples/__styles__/aria-fabricator/input-group-button-group.tsx",
+    },
+    "input-group-button": {
+      name: "input-group-button",
+      filePath: "examples/__styles__/aria-fabricator/input-group-button.tsx",
+    },
+    "input-group-custom": {
+      name: "input-group-custom",
+      filePath: "examples/__styles__/aria-fabricator/input-group-custom.tsx",
+    },
+    "input-group-demo": {
+      name: "input-group-demo",
+      filePath: "examples/__styles__/aria-fabricator/input-group-demo.tsx",
+    },
+    "input-group-dropdown": {
+      name: "input-group-dropdown",
+      filePath: "examples/__styles__/aria-fabricator/input-group-dropdown.tsx",
+    },
+    "input-group-icon": {
+      name: "input-group-icon",
+      filePath: "examples/__styles__/aria-fabricator/input-group-icon.tsx",
+    },
+    "input-group-in-card": {
+      name: "input-group-in-card",
+      filePath: "examples/__styles__/aria-fabricator/input-group-in-card.tsx",
+    },
+    "input-group-inline-end": {
+      name: "input-group-inline-end",
+      filePath:
+        "examples/__styles__/aria-fabricator/input-group-inline-end.tsx",
+    },
+    "input-group-inline-start": {
+      name: "input-group-inline-start",
+      filePath:
+        "examples/__styles__/aria-fabricator/input-group-inline-start.tsx",
+    },
+    "input-group-kbd": {
+      name: "input-group-kbd",
+      filePath: "examples/__styles__/aria-fabricator/input-group-kbd.tsx",
+    },
+    "input-group-label": {
+      name: "input-group-label",
+      filePath: "examples/__styles__/aria-fabricator/input-group-label.tsx",
+    },
+    "input-group-rtl": {
+      name: "input-group-rtl",
+      filePath: "examples/__styles__/aria-fabricator/input-group-rtl.tsx",
+    },
+    "input-group-spinner": {
+      name: "input-group-spinner",
+      filePath: "examples/__styles__/aria-fabricator/input-group-spinner.tsx",
+    },
+    "input-group-text": {
+      name: "input-group-text",
+      filePath: "examples/__styles__/aria-fabricator/input-group-text.tsx",
+    },
+    "input-group-textarea-examples": {
+      name: "input-group-textarea-examples",
+      filePath:
+        "examples/__styles__/aria-fabricator/input-group-textarea-examples.tsx",
+    },
+    "input-group-textarea": {
+      name: "input-group-textarea",
+      filePath: "examples/__styles__/aria-fabricator/input-group-textarea.tsx",
+    },
+    "input-group-tooltip": {
+      name: "input-group-tooltip",
+      filePath: "examples/__styles__/aria-fabricator/input-group-tooltip.tsx",
+    },
+    "input-group-with-addons": {
+      name: "input-group-with-addons",
+      filePath:
+        "examples/__styles__/aria-fabricator/input-group-with-addons.tsx",
+    },
+    "input-group-with-buttons": {
+      name: "input-group-with-buttons",
+      filePath:
+        "examples/__styles__/aria-fabricator/input-group-with-buttons.tsx",
+    },
+    "input-group-with-kbd": {
+      name: "input-group-with-kbd",
+      filePath: "examples/__styles__/aria-fabricator/input-group-with-kbd.tsx",
+    },
+    "input-group-with-tooltip": {
+      name: "input-group-with-tooltip",
+      filePath:
+        "examples/__styles__/aria-fabricator/input-group-with-tooltip.tsx",
+    },
+    "input-inline": {
+      name: "input-inline",
+      filePath: "examples/__styles__/aria-fabricator/input-inline.tsx",
+    },
+    "input-input-group": {
+      name: "input-input-group",
+      filePath: "examples/__styles__/aria-fabricator/input-input-group.tsx",
+    },
+    "input-invalid": {
+      name: "input-invalid",
+      filePath: "examples/__styles__/aria-fabricator/input-invalid.tsx",
+    },
+    "input-otp-alphanumeric": {
+      name: "input-otp-alphanumeric",
+      filePath:
+        "examples/__styles__/aria-fabricator/input-otp-alphanumeric.tsx",
+    },
+    "input-otp-controlled": {
+      name: "input-otp-controlled",
+      filePath: "examples/__styles__/aria-fabricator/input-otp-controlled.tsx",
+    },
+    "input-otp-demo": {
+      name: "input-otp-demo",
+      filePath: "examples/__styles__/aria-fabricator/input-otp-demo.tsx",
+    },
+    "input-otp-disabled": {
+      name: "input-otp-disabled",
+      filePath: "examples/__styles__/aria-fabricator/input-otp-disabled.tsx",
+    },
+    "input-otp-form": {
+      name: "input-otp-form",
+      filePath: "examples/__styles__/aria-fabricator/input-otp-form.tsx",
+    },
+    "input-otp-four-digits": {
+      name: "input-otp-four-digits",
+      filePath: "examples/__styles__/aria-fabricator/input-otp-four-digits.tsx",
+    },
+    "input-otp-invalid": {
+      name: "input-otp-invalid",
+      filePath: "examples/__styles__/aria-fabricator/input-otp-invalid.tsx",
+    },
+    "input-otp-pattern": {
+      name: "input-otp-pattern",
+      filePath: "examples/__styles__/aria-fabricator/input-otp-pattern.tsx",
+    },
+    "input-otp-rtl": {
+      name: "input-otp-rtl",
+      filePath: "examples/__styles__/aria-fabricator/input-otp-rtl.tsx",
+    },
+    "input-otp-separator": {
+      name: "input-otp-separator",
+      filePath: "examples/__styles__/aria-fabricator/input-otp-separator.tsx",
+    },
+    "input-required": {
+      name: "input-required",
+      filePath: "examples/__styles__/aria-fabricator/input-required.tsx",
+    },
+    "input-rtl": {
+      name: "input-rtl",
+      filePath: "examples/__styles__/aria-fabricator/input-rtl.tsx",
+    },
+    "item-avatar": {
+      name: "item-avatar",
+      filePath: "examples/__styles__/aria-fabricator/item-avatar.tsx",
+    },
+    "item-demo": {
+      name: "item-demo",
+      filePath: "examples/__styles__/aria-fabricator/item-demo.tsx",
+    },
+    "item-dropdown": {
+      name: "item-dropdown",
+      filePath: "examples/__styles__/aria-fabricator/item-dropdown.tsx",
+    },
+    "item-group": {
+      name: "item-group",
+      filePath: "examples/__styles__/aria-fabricator/item-group.tsx",
+    },
+    "item-header": {
+      name: "item-header",
+      filePath: "examples/__styles__/aria-fabricator/item-header.tsx",
+    },
+    "item-icon": {
+      name: "item-icon",
+      filePath: "examples/__styles__/aria-fabricator/item-icon.tsx",
+    },
+    "item-image": {
+      name: "item-image",
+      filePath: "examples/__styles__/aria-fabricator/item-image.tsx",
+    },
+    "item-link": {
+      name: "item-link",
+      filePath: "examples/__styles__/aria-fabricator/item-link.tsx",
+    },
+    "item-rtl": {
+      name: "item-rtl",
+      filePath: "examples/__styles__/aria-fabricator/item-rtl.tsx",
+    },
+    "item-size": {
+      name: "item-size",
+      filePath: "examples/__styles__/aria-fabricator/item-size.tsx",
+    },
+    "item-variant": {
+      name: "item-variant",
+      filePath: "examples/__styles__/aria-fabricator/item-variant.tsx",
+    },
+    "kbd-button": {
+      name: "kbd-button",
+      filePath: "examples/__styles__/aria-fabricator/kbd-button.tsx",
+    },
+    "kbd-demo": {
+      name: "kbd-demo",
+      filePath: "examples/__styles__/aria-fabricator/kbd-demo.tsx",
+    },
+    "kbd-group": {
+      name: "kbd-group",
+      filePath: "examples/__styles__/aria-fabricator/kbd-group.tsx",
+    },
+    "kbd-input-group": {
+      name: "kbd-input-group",
+      filePath: "examples/__styles__/aria-fabricator/kbd-input-group.tsx",
+    },
+    "kbd-rtl": {
+      name: "kbd-rtl",
+      filePath: "examples/__styles__/aria-fabricator/kbd-rtl.tsx",
+    },
+    "kbd-tooltip": {
+      name: "kbd-tooltip",
+      filePath: "examples/__styles__/aria-fabricator/kbd-tooltip.tsx",
+    },
+    "label-demo": {
+      name: "label-demo",
+      filePath: "examples/__styles__/aria-fabricator/label-demo.tsx",
+    },
+    "label-rtl": {
+      name: "label-rtl",
+      filePath: "examples/__styles__/aria-fabricator/label-rtl.tsx",
+    },
+    "markdown-demo": {
+      name: "markdown-demo",
+      filePath: "examples/__styles__/aria-fabricator/markdown-demo.tsx",
+    },
+    "marker-border": {
+      name: "marker-border",
+      filePath: "examples/__styles__/aria-fabricator/marker-border.tsx",
+    },
+    "marker-demo": {
+      name: "marker-demo",
+      filePath: "examples/__styles__/aria-fabricator/marker-demo.tsx",
+    },
+    "marker-icon": {
+      name: "marker-icon",
+      filePath: "examples/__styles__/aria-fabricator/marker-icon.tsx",
+    },
+    "marker-link-button": {
+      name: "marker-link-button",
+      filePath: "examples/__styles__/aria-fabricator/marker-link-button.tsx",
+    },
+    "marker-separator": {
+      name: "marker-separator",
+      filePath: "examples/__styles__/aria-fabricator/marker-separator.tsx",
+    },
+    "marker-shimmer": {
+      name: "marker-shimmer",
+      filePath: "examples/__styles__/aria-fabricator/marker-shimmer.tsx",
+    },
+    "marker-status": {
+      name: "marker-status",
+      filePath: "examples/__styles__/aria-fabricator/marker-status.tsx",
+    },
+    "marker-variants": {
+      name: "marker-variants",
+      filePath: "examples/__styles__/aria-fabricator/marker-variants.tsx",
+    },
+    "message-actions": {
+      name: "message-actions",
+      filePath: "examples/__styles__/aria-fabricator/message-actions.tsx",
+    },
+    "message-attachment": {
+      name: "message-attachment",
+      filePath: "examples/__styles__/aria-fabricator/message-attachment.tsx",
+    },
+    "message-avatar": {
+      name: "message-avatar",
+      filePath: "examples/__styles__/aria-fabricator/message-avatar.tsx",
+    },
+    "message-demo": {
+      name: "message-demo",
+      filePath: "examples/__styles__/aria-fabricator/message-demo.tsx",
+    },
+    "message-group": {
+      name: "message-group",
+      filePath: "examples/__styles__/aria-fabricator/message-group.tsx",
+    },
+    "message-header-footer": {
+      name: "message-header-footer",
+      filePath: "examples/__styles__/aria-fabricator/message-header-footer.tsx",
+    },
+    "message-markdown": {
+      name: "message-markdown",
+      filePath: "examples/__styles__/aria-fabricator/message-markdown.tsx",
+    },
+    "message-scroller-anchoring": {
+      name: "message-scroller-anchoring",
+      filePath:
+        "examples/__styles__/aria-fabricator/message-scroller-anchoring.tsx",
+    },
+    "message-scroller-animation": {
+      name: "message-scroller-animation",
+      filePath:
+        "examples/__styles__/aria-fabricator/message-scroller-animation.tsx",
+    },
+    "message-scroller-commands": {
+      name: "message-scroller-commands",
+      filePath:
+        "examples/__styles__/aria-fabricator/message-scroller-commands.tsx",
+    },
+    "message-scroller-demo": {
+      name: "message-scroller-demo",
+      filePath: "examples/__styles__/aria-fabricator/message-scroller-demo.tsx",
+    },
+    "message-scroller-group-chat": {
+      name: "message-scroller-group-chat",
+      filePath:
+        "examples/__styles__/aria-fabricator/message-scroller-group-chat.tsx",
+    },
+    "message-scroller-load-history": {
+      name: "message-scroller-load-history",
+      filePath:
+        "examples/__styles__/aria-fabricator/message-scroller-load-history.tsx",
+    },
+    "message-scroller-opening-position": {
+      name: "message-scroller-opening-position",
+      filePath:
+        "examples/__styles__/aria-fabricator/message-scroller-opening-position.tsx",
+    },
+    "message-scroller-previous-context": {
+      name: "message-scroller-previous-context",
+      filePath:
+        "examples/__styles__/aria-fabricator/message-scroller-previous-context.tsx",
+    },
+    "message-scroller-scrollable": {
+      name: "message-scroller-scrollable",
+      filePath:
+        "examples/__styles__/aria-fabricator/message-scroller-scrollable.tsx",
+    },
+    "message-scroller-state": {
+      name: "message-scroller-state",
+      filePath:
+        "examples/__styles__/aria-fabricator/message-scroller-state.tsx",
+    },
+    "message-scroller-streaming": {
+      name: "message-scroller-streaming",
+      filePath:
+        "examples/__styles__/aria-fabricator/message-scroller-streaming.tsx",
+    },
+    "message-scroller-visibility": {
+      name: "message-scroller-visibility",
+      filePath:
+        "examples/__styles__/aria-fabricator/message-scroller-visibility.tsx",
+    },
+    "muted-item-group": {
+      name: "muted-item-group",
+      filePath: "examples/__styles__/aria-fabricator/muted-item-group.tsx",
+    },
+    "native-select-demo": {
+      name: "native-select-demo",
+      filePath: "examples/__styles__/aria-fabricator/native-select-demo.tsx",
+    },
+    "native-select-disabled": {
+      name: "native-select-disabled",
+      filePath:
+        "examples/__styles__/aria-fabricator/native-select-disabled.tsx",
+    },
+    "native-select-groups": {
+      name: "native-select-groups",
+      filePath: "examples/__styles__/aria-fabricator/native-select-groups.tsx",
+    },
+    "native-select-invalid": {
+      name: "native-select-invalid",
+      filePath: "examples/__styles__/aria-fabricator/native-select-invalid.tsx",
+    },
+    "native-select-rtl": {
+      name: "native-select-rtl",
+      filePath: "examples/__styles__/aria-fabricator/native-select-rtl.tsx",
+    },
+    "outline-item-group": {
+      name: "outline-item-group",
+      filePath: "examples/__styles__/aria-fabricator/outline-item-group.tsx",
+    },
+    "pagination-demo": {
+      name: "pagination-demo",
+      filePath: "examples/__styles__/aria-fabricator/pagination-demo.tsx",
+    },
+    "pagination-icons-only": {
+      name: "pagination-icons-only",
+      filePath: "examples/__styles__/aria-fabricator/pagination-icons-only.tsx",
+    },
+    "pagination-rtl": {
+      name: "pagination-rtl",
+      filePath: "examples/__styles__/aria-fabricator/pagination-rtl.tsx",
+    },
+    "pagination-simple": {
+      name: "pagination-simple",
+      filePath: "examples/__styles__/aria-fabricator/pagination-simple.tsx",
+    },
+    "popover-alignments": {
+      name: "popover-alignments",
+      filePath: "examples/__styles__/aria-fabricator/popover-alignments.tsx",
+    },
+    "popover-basic": {
+      name: "popover-basic",
+      filePath: "examples/__styles__/aria-fabricator/popover-basic.tsx",
+    },
+    "popover-demo": {
+      name: "popover-demo",
+      filePath: "examples/__styles__/aria-fabricator/popover-demo.tsx",
+    },
+    "popover-form": {
+      name: "popover-form",
+      filePath: "examples/__styles__/aria-fabricator/popover-form.tsx",
+    },
+    "popover-rtl": {
+      name: "popover-rtl",
+      filePath: "examples/__styles__/aria-fabricator/popover-rtl.tsx",
+    },
+    "progress-controlled": {
+      name: "progress-controlled",
+      filePath: "examples/__styles__/aria-fabricator/progress-controlled.tsx",
+    },
+    "progress-demo": {
+      name: "progress-demo",
+      filePath: "examples/__styles__/aria-fabricator/progress-demo.tsx",
+    },
+    "progress-label": {
+      name: "progress-label",
+      filePath: "examples/__styles__/aria-fabricator/progress-label.tsx",
+    },
+    "progress-rtl": {
+      name: "progress-rtl",
+      filePath: "examples/__styles__/aria-fabricator/progress-rtl.tsx",
+    },
+    "questionnaire-animated": {
+      name: "questionnaire-animated",
+      filePath:
+        "examples/__styles__/aria-fabricator/questionnaire-animated.tsx",
+    },
+    "questionnaire-card": {
+      name: "questionnaire-card",
+      filePath: "examples/__styles__/aria-fabricator/questionnaire-card.tsx",
+    },
+    "questionnaire-conditional": {
+      name: "questionnaire-conditional",
+      filePath:
+        "examples/__styles__/aria-fabricator/questionnaire-conditional.tsx",
+    },
+    "questionnaire-controlled": {
+      name: "questionnaire-controlled",
+      filePath:
+        "examples/__styles__/aria-fabricator/questionnaire-controlled.tsx",
+    },
+    "questionnaire-demo": {
+      name: "questionnaire-demo",
+      filePath: "examples/__styles__/aria-fabricator/questionnaire-demo.tsx",
+    },
+    "questionnaire-dialog": {
+      name: "questionnaire-dialog",
+      filePath: "examples/__styles__/aria-fabricator/questionnaire-dialog.tsx",
+    },
+    "questionnaire-freeform": {
+      name: "questionnaire-freeform",
+      filePath:
+        "examples/__styles__/aria-fabricator/questionnaire-freeform.tsx",
+    },
+    "questionnaire-multiple": {
+      name: "questionnaire-multiple",
+      filePath:
+        "examples/__styles__/aria-fabricator/questionnaire-multiple.tsx",
+    },
+    "questionnaire-navigation-state": {
+      name: "questionnaire-navigation-state",
+      filePath:
+        "examples/__styles__/aria-fabricator/questionnaire-navigation-state.tsx",
+    },
+    "questionnaire-progress": {
+      name: "questionnaire-progress",
+      filePath:
+        "examples/__styles__/aria-fabricator/questionnaire-progress.tsx",
+    },
+    "questionnaire-resume": {
+      name: "questionnaire-resume",
+      filePath: "examples/__styles__/aria-fabricator/questionnaire-resume.tsx",
+    },
+    "questionnaire-shortcuts": {
+      name: "questionnaire-shortcuts",
+      filePath:
+        "examples/__styles__/aria-fabricator/questionnaire-shortcuts.tsx",
+    },
+    "questionnaire-skip": {
+      name: "questionnaire-skip",
+      filePath: "examples/__styles__/aria-fabricator/questionnaire-skip.tsx",
+    },
+    "questionnaire-validation": {
+      name: "questionnaire-validation",
+      filePath:
+        "examples/__styles__/aria-fabricator/questionnaire-validation.tsx",
+    },
+    "radio-fields": {
+      name: "radio-fields",
+      filePath: "examples/__styles__/aria-fabricator/radio-fields.tsx",
+    },
+    "radio-group-choice-card": {
+      name: "radio-group-choice-card",
+      filePath:
+        "examples/__styles__/aria-fabricator/radio-group-choice-card.tsx",
+    },
+    "radio-group-demo": {
+      name: "radio-group-demo",
+      filePath: "examples/__styles__/aria-fabricator/radio-group-demo.tsx",
+    },
+    "radio-group-description": {
+      name: "radio-group-description",
+      filePath:
+        "examples/__styles__/aria-fabricator/radio-group-description.tsx",
+    },
+    "radio-group-disabled": {
+      name: "radio-group-disabled",
+      filePath: "examples/__styles__/aria-fabricator/radio-group-disabled.tsx",
+    },
+    "radio-group-fieldset": {
+      name: "radio-group-fieldset",
+      filePath: "examples/__styles__/aria-fabricator/radio-group-fieldset.tsx",
+    },
+    "radio-group-invalid": {
+      name: "radio-group-invalid",
+      filePath: "examples/__styles__/aria-fabricator/radio-group-invalid.tsx",
+    },
+    "radio-group-rtl": {
+      name: "radio-group-rtl",
+      filePath: "examples/__styles__/aria-fabricator/radio-group-rtl.tsx",
+    },
+    "resizable-demo": {
+      name: "resizable-demo",
+      filePath: "examples/__styles__/aria-fabricator/resizable-demo.tsx",
+    },
+    "resizable-handle": {
+      name: "resizable-handle",
+      filePath: "examples/__styles__/aria-fabricator/resizable-handle.tsx",
+    },
+    "resizable-rtl": {
+      name: "resizable-rtl",
+      filePath: "examples/__styles__/aria-fabricator/resizable-rtl.tsx",
+    },
+    "resizable-vertical": {
+      name: "resizable-vertical",
+      filePath: "examples/__styles__/aria-fabricator/resizable-vertical.tsx",
+    },
+    "scroll-area-demo": {
+      name: "scroll-area-demo",
+      filePath: "examples/__styles__/aria-fabricator/scroll-area-demo.tsx",
+    },
+    "scroll-area-horizontal-demo": {
+      name: "scroll-area-horizontal-demo",
+      filePath:
+        "examples/__styles__/aria-fabricator/scroll-area-horizontal-demo.tsx",
+    },
+    "scroll-area-rtl": {
+      name: "scroll-area-rtl",
+      filePath: "examples/__styles__/aria-fabricator/scroll-area-rtl.tsx",
+    },
+    "scroll-fade-demo": {
+      name: "scroll-fade-demo",
+      filePath: "examples/__styles__/aria-fabricator/scroll-fade-demo.tsx",
+    },
+    "scroll-fade-edge": {
+      name: "scroll-fade-edge",
+      filePath: "examples/__styles__/aria-fabricator/scroll-fade-edge.tsx",
+    },
+    "scroll-fade-horizontal": {
+      name: "scroll-fade-horizontal",
+      filePath:
+        "examples/__styles__/aria-fabricator/scroll-fade-horizontal.tsx",
+    },
+    "scroll-fade-none": {
+      name: "scroll-fade-none",
+      filePath: "examples/__styles__/aria-fabricator/scroll-fade-none.tsx",
+    },
+    "scroll-fade-overflow": {
+      name: "scroll-fade-overflow",
+      filePath: "examples/__styles__/aria-fabricator/scroll-fade-overflow.tsx",
+    },
+    "scroll-fade-rtl": {
+      name: "scroll-fade-rtl",
+      filePath: "examples/__styles__/aria-fabricator/scroll-fade-rtl.tsx",
+    },
+    "scroll-fade-size": {
+      name: "scroll-fade-size",
+      filePath: "examples/__styles__/aria-fabricator/scroll-fade-size.tsx",
+    },
+    "select-autocomplete": {
+      name: "select-autocomplete",
+      filePath: "examples/__styles__/aria-fabricator/select-autocomplete.tsx",
+    },
+    "select-demo": {
+      name: "select-demo",
+      filePath: "examples/__styles__/aria-fabricator/select-demo.tsx",
+    },
+    "select-disabled": {
+      name: "select-disabled",
+      filePath: "examples/__styles__/aria-fabricator/select-disabled.tsx",
+    },
+    "select-groups": {
+      name: "select-groups",
+      filePath: "examples/__styles__/aria-fabricator/select-groups.tsx",
+    },
+    "select-invalid": {
+      name: "select-invalid",
+      filePath: "examples/__styles__/aria-fabricator/select-invalid.tsx",
+    },
+    "select-rtl": {
+      name: "select-rtl",
+      filePath: "examples/__styles__/aria-fabricator/select-rtl.tsx",
+    },
+    "select-scrollable": {
+      name: "select-scrollable",
+      filePath: "examples/__styles__/aria-fabricator/select-scrollable.tsx",
+    },
+    "separator-demo": {
+      name: "separator-demo",
+      filePath: "examples/__styles__/aria-fabricator/separator-demo.tsx",
+    },
+    "separator-list": {
+      name: "separator-list",
+      filePath: "examples/__styles__/aria-fabricator/separator-list.tsx",
+    },
+    "separator-menu": {
+      name: "separator-menu",
+      filePath: "examples/__styles__/aria-fabricator/separator-menu.tsx",
+    },
+    "separator-rtl": {
+      name: "separator-rtl",
+      filePath: "examples/__styles__/aria-fabricator/separator-rtl.tsx",
+    },
+    "separator-vertical": {
+      name: "separator-vertical",
+      filePath: "examples/__styles__/aria-fabricator/separator-vertical.tsx",
+    },
+    "sheet-demo": {
+      name: "sheet-demo",
+      filePath: "examples/__styles__/aria-fabricator/sheet-demo.tsx",
+    },
+    "sheet-no-close-button": {
+      name: "sheet-no-close-button",
+      filePath: "examples/__styles__/aria-fabricator/sheet-no-close-button.tsx",
+    },
+    "sheet-rtl": {
+      name: "sheet-rtl",
+      filePath: "examples/__styles__/aria-fabricator/sheet-rtl.tsx",
+    },
+    "sheet-side": {
+      name: "sheet-side",
+      filePath: "examples/__styles__/aria-fabricator/sheet-side.tsx",
+    },
+    "shimmer-angle": {
+      name: "shimmer-angle",
+      filePath: "examples/__styles__/aria-fabricator/shimmer-angle.tsx",
+    },
+    "shimmer-color": {
+      name: "shimmer-color",
+      filePath: "examples/__styles__/aria-fabricator/shimmer-color.tsx",
+    },
+    "shimmer-demo": {
+      name: "shimmer-demo",
+      filePath: "examples/__styles__/aria-fabricator/shimmer-demo.tsx",
+    },
+    "shimmer-duration": {
+      name: "shimmer-duration",
+      filePath: "examples/__styles__/aria-fabricator/shimmer-duration.tsx",
+    },
+    "shimmer-marker": {
+      name: "shimmer-marker",
+      filePath: "examples/__styles__/aria-fabricator/shimmer-marker.tsx",
+    },
+    "shimmer-none": {
+      name: "shimmer-none",
+      filePath: "examples/__styles__/aria-fabricator/shimmer-none.tsx",
+    },
+    "shimmer-once": {
+      name: "shimmer-once",
+      filePath: "examples/__styles__/aria-fabricator/shimmer-once.tsx",
+    },
+    "shimmer-rtl": {
+      name: "shimmer-rtl",
+      filePath: "examples/__styles__/aria-fabricator/shimmer-rtl.tsx",
+    },
+    "shimmer-spread": {
+      name: "shimmer-spread",
+      filePath: "examples/__styles__/aria-fabricator/shimmer-spread.tsx",
+    },
+    "sidebar-controlled": {
+      name: "sidebar-controlled",
+      filePath: "examples/__styles__/aria-fabricator/sidebar-controlled.tsx",
+    },
+    "sidebar-demo": {
+      name: "sidebar-demo",
+      filePath: "examples/__styles__/aria-fabricator/sidebar-demo.tsx",
+    },
+    "sidebar-footer": {
+      name: "sidebar-footer",
+      filePath: "examples/__styles__/aria-fabricator/sidebar-footer.tsx",
+    },
+    "sidebar-group-action": {
+      name: "sidebar-group-action",
+      filePath: "examples/__styles__/aria-fabricator/sidebar-group-action.tsx",
+    },
+    "sidebar-group-collapsible": {
+      name: "sidebar-group-collapsible",
+      filePath:
+        "examples/__styles__/aria-fabricator/sidebar-group-collapsible.tsx",
+    },
+    "sidebar-group": {
+      name: "sidebar-group",
+      filePath: "examples/__styles__/aria-fabricator/sidebar-group.tsx",
+    },
+    "sidebar-header": {
+      name: "sidebar-header",
+      filePath: "examples/__styles__/aria-fabricator/sidebar-header.tsx",
+    },
+    "sidebar-menu-action": {
+      name: "sidebar-menu-action",
+      filePath: "examples/__styles__/aria-fabricator/sidebar-menu-action.tsx",
+    },
+    "sidebar-menu-badge": {
+      name: "sidebar-menu-badge",
+      filePath: "examples/__styles__/aria-fabricator/sidebar-menu-badge.tsx",
+    },
+    "sidebar-menu-collapsible": {
+      name: "sidebar-menu-collapsible",
+      filePath:
+        "examples/__styles__/aria-fabricator/sidebar-menu-collapsible.tsx",
+    },
+    "sidebar-menu-sub": {
+      name: "sidebar-menu-sub",
+      filePath: "examples/__styles__/aria-fabricator/sidebar-menu-sub.tsx",
+    },
+    "sidebar-menu": {
+      name: "sidebar-menu",
+      filePath: "examples/__styles__/aria-fabricator/sidebar-menu.tsx",
+    },
+    "sidebar-rsc": {
+      name: "sidebar-rsc",
+      filePath: "examples/__styles__/aria-fabricator/sidebar-rsc.tsx",
+    },
+    "sidebar-rtl": {
+      name: "sidebar-rtl",
+      filePath: "examples/__styles__/aria-fabricator/sidebar-rtl.tsx",
+    },
+    "skeleton-avatar": {
+      name: "skeleton-avatar",
+      filePath: "examples/__styles__/aria-fabricator/skeleton-avatar.tsx",
+    },
+    "skeleton-card": {
+      name: "skeleton-card",
+      filePath: "examples/__styles__/aria-fabricator/skeleton-card.tsx",
+    },
+    "skeleton-demo": {
+      name: "skeleton-demo",
+      filePath: "examples/__styles__/aria-fabricator/skeleton-demo.tsx",
+    },
+    "skeleton-form": {
+      name: "skeleton-form",
+      filePath: "examples/__styles__/aria-fabricator/skeleton-form.tsx",
+    },
+    "skeleton-rtl": {
+      name: "skeleton-rtl",
+      filePath: "examples/__styles__/aria-fabricator/skeleton-rtl.tsx",
+    },
+    "skeleton-table": {
+      name: "skeleton-table",
+      filePath: "examples/__styles__/aria-fabricator/skeleton-table.tsx",
+    },
+    "skeleton-text": {
+      name: "skeleton-text",
+      filePath: "examples/__styles__/aria-fabricator/skeleton-text.tsx",
+    },
+    "slider-controlled": {
+      name: "slider-controlled",
+      filePath: "examples/__styles__/aria-fabricator/slider-controlled.tsx",
+    },
+    "slider-demo": {
+      name: "slider-demo",
+      filePath: "examples/__styles__/aria-fabricator/slider-demo.tsx",
+    },
+    "slider-disabled": {
+      name: "slider-disabled",
+      filePath: "examples/__styles__/aria-fabricator/slider-disabled.tsx",
+    },
+    "slider-multiple": {
+      name: "slider-multiple",
+      filePath: "examples/__styles__/aria-fabricator/slider-multiple.tsx",
+    },
+    "slider-range": {
+      name: "slider-range",
+      filePath: "examples/__styles__/aria-fabricator/slider-range.tsx",
+    },
+    "slider-rtl": {
+      name: "slider-rtl",
+      filePath: "examples/__styles__/aria-fabricator/slider-rtl.tsx",
+    },
+    "slider-vertical": {
+      name: "slider-vertical",
+      filePath: "examples/__styles__/aria-fabricator/slider-vertical.tsx",
+    },
+    "sonner-demo": {
+      name: "sonner-demo",
+      filePath: "examples/__styles__/aria-fabricator/sonner-demo.tsx",
+    },
+    "sonner-description": {
+      name: "sonner-description",
+      filePath: "examples/__styles__/aria-fabricator/sonner-description.tsx",
+    },
+    "sonner-position": {
+      name: "sonner-position",
+      filePath: "examples/__styles__/aria-fabricator/sonner-position.tsx",
+    },
+    "sonner-types": {
+      name: "sonner-types",
+      filePath: "examples/__styles__/aria-fabricator/sonner-types.tsx",
+    },
+    "spinner-badge": {
+      name: "spinner-badge",
+      filePath: "examples/__styles__/aria-fabricator/spinner-badge.tsx",
+    },
+    "spinner-button": {
+      name: "spinner-button",
+      filePath: "examples/__styles__/aria-fabricator/spinner-button.tsx",
+    },
+    "spinner-custom": {
+      name: "spinner-custom",
+      filePath: "examples/__styles__/aria-fabricator/spinner-custom.tsx",
+    },
+    "spinner-demo": {
+      name: "spinner-demo",
+      filePath: "examples/__styles__/aria-fabricator/spinner-demo.tsx",
+    },
+    "spinner-empty": {
+      name: "spinner-empty",
+      filePath: "examples/__styles__/aria-fabricator/spinner-empty.tsx",
+    },
+    "spinner-input-group": {
+      name: "spinner-input-group",
+      filePath: "examples/__styles__/aria-fabricator/spinner-input-group.tsx",
+    },
+    "spinner-rtl": {
+      name: "spinner-rtl",
+      filePath: "examples/__styles__/aria-fabricator/spinner-rtl.tsx",
+    },
+    "spinner-size": {
+      name: "spinner-size",
+      filePath: "examples/__styles__/aria-fabricator/spinner-size.tsx",
+    },
+    "switch-choice-card": {
+      name: "switch-choice-card",
+      filePath: "examples/__styles__/aria-fabricator/switch-choice-card.tsx",
+    },
+    "switch-demo": {
+      name: "switch-demo",
+      filePath: "examples/__styles__/aria-fabricator/switch-demo.tsx",
+    },
+    "switch-description": {
+      name: "switch-description",
+      filePath: "examples/__styles__/aria-fabricator/switch-description.tsx",
+    },
+    "switch-disabled": {
+      name: "switch-disabled",
+      filePath: "examples/__styles__/aria-fabricator/switch-disabled.tsx",
+    },
+    "switch-invalid": {
+      name: "switch-invalid",
+      filePath: "examples/__styles__/aria-fabricator/switch-invalid.tsx",
+    },
+    "switch-rtl": {
+      name: "switch-rtl",
+      filePath: "examples/__styles__/aria-fabricator/switch-rtl.tsx",
+    },
+    "switch-sizes": {
+      name: "switch-sizes",
+      filePath: "examples/__styles__/aria-fabricator/switch-sizes.tsx",
+    },
+    "table-actions": {
+      name: "table-actions",
+      filePath: "examples/__styles__/aria-fabricator/table-actions.tsx",
+    },
+    "table-demo": {
+      name: "table-demo",
+      filePath: "examples/__styles__/aria-fabricator/table-demo.tsx",
+    },
+    "table-footer": {
+      name: "table-footer",
+      filePath: "examples/__styles__/aria-fabricator/table-footer.tsx",
+    },
+    "table-rtl": {
+      name: "table-rtl",
+      filePath: "examples/__styles__/aria-fabricator/table-rtl.tsx",
+    },
+    "tabs-demo": {
+      name: "tabs-demo",
+      filePath: "examples/__styles__/aria-fabricator/tabs-demo.tsx",
+    },
+    "tabs-disabled": {
+      name: "tabs-disabled",
+      filePath: "examples/__styles__/aria-fabricator/tabs-disabled.tsx",
+    },
+    "tabs-icons": {
+      name: "tabs-icons",
+      filePath: "examples/__styles__/aria-fabricator/tabs-icons.tsx",
+    },
+    "tabs-line": {
+      name: "tabs-line",
+      filePath: "examples/__styles__/aria-fabricator/tabs-line.tsx",
+    },
+    "tabs-rtl": {
+      name: "tabs-rtl",
+      filePath: "examples/__styles__/aria-fabricator/tabs-rtl.tsx",
+    },
+    "tabs-vertical": {
+      name: "tabs-vertical",
+      filePath: "examples/__styles__/aria-fabricator/tabs-vertical.tsx",
+    },
+    "textarea-button": {
+      name: "textarea-button",
+      filePath: "examples/__styles__/aria-fabricator/textarea-button.tsx",
+    },
+    "textarea-demo": {
+      name: "textarea-demo",
+      filePath: "examples/__styles__/aria-fabricator/textarea-demo.tsx",
+    },
+    "textarea-disabled": {
+      name: "textarea-disabled",
+      filePath: "examples/__styles__/aria-fabricator/textarea-disabled.tsx",
+    },
+    "textarea-field": {
+      name: "textarea-field",
+      filePath: "examples/__styles__/aria-fabricator/textarea-field.tsx",
+    },
+    "textarea-invalid": {
+      name: "textarea-invalid",
+      filePath: "examples/__styles__/aria-fabricator/textarea-invalid.tsx",
+    },
+    "textarea-rtl": {
+      name: "textarea-rtl",
+      filePath: "examples/__styles__/aria-fabricator/textarea-rtl.tsx",
+    },
+    "toggle-demo": {
+      name: "toggle-demo",
+      filePath: "examples/__styles__/aria-fabricator/toggle-demo.tsx",
+    },
+    "toggle-disabled": {
+      name: "toggle-disabled",
+      filePath: "examples/__styles__/aria-fabricator/toggle-disabled.tsx",
+    },
+    "toggle-group-demo": {
+      name: "toggle-group-demo",
+      filePath: "examples/__styles__/aria-fabricator/toggle-group-demo.tsx",
+    },
+    "toggle-group-disabled": {
+      name: "toggle-group-disabled",
+      filePath: "examples/__styles__/aria-fabricator/toggle-group-disabled.tsx",
+    },
+    "toggle-group-font-weight-selector": {
+      name: "toggle-group-font-weight-selector",
+      filePath:
+        "examples/__styles__/aria-fabricator/toggle-group-font-weight-selector.tsx",
+    },
+    "toggle-group-outline": {
+      name: "toggle-group-outline",
+      filePath: "examples/__styles__/aria-fabricator/toggle-group-outline.tsx",
+    },
+    "toggle-group-rtl": {
+      name: "toggle-group-rtl",
+      filePath: "examples/__styles__/aria-fabricator/toggle-group-rtl.tsx",
+    },
+    "toggle-group-sizes": {
+      name: "toggle-group-sizes",
+      filePath: "examples/__styles__/aria-fabricator/toggle-group-sizes.tsx",
+    },
+    "toggle-group-spacing": {
+      name: "toggle-group-spacing",
+      filePath: "examples/__styles__/aria-fabricator/toggle-group-spacing.tsx",
+    },
+    "toggle-group-vertical": {
+      name: "toggle-group-vertical",
+      filePath: "examples/__styles__/aria-fabricator/toggle-group-vertical.tsx",
+    },
+    "toggle-outline": {
+      name: "toggle-outline",
+      filePath: "examples/__styles__/aria-fabricator/toggle-outline.tsx",
+    },
+    "toggle-rtl": {
+      name: "toggle-rtl",
+      filePath: "examples/__styles__/aria-fabricator/toggle-rtl.tsx",
+    },
+    "toggle-sizes": {
+      name: "toggle-sizes",
+      filePath: "examples/__styles__/aria-fabricator/toggle-sizes.tsx",
+    },
+    "toggle-text": {
+      name: "toggle-text",
+      filePath: "examples/__styles__/aria-fabricator/toggle-text.tsx",
+    },
+    "tooltip-demo": {
+      name: "tooltip-demo",
+      filePath: "examples/__styles__/aria-fabricator/tooltip-demo.tsx",
+    },
+    "tooltip-disabled": {
+      name: "tooltip-disabled",
+      filePath: "examples/__styles__/aria-fabricator/tooltip-disabled.tsx",
+    },
+    "tooltip-keyboard": {
+      name: "tooltip-keyboard",
+      filePath: "examples/__styles__/aria-fabricator/tooltip-keyboard.tsx",
+    },
+    "tooltip-rtl": {
+      name: "tooltip-rtl",
+      filePath: "examples/__styles__/aria-fabricator/tooltip-rtl.tsx",
+    },
+    "tooltip-sides": {
+      name: "tooltip-sides",
+      filePath: "examples/__styles__/aria-fabricator/tooltip-sides.tsx",
+    },
+    "typography-blockquote": {
+      name: "typography-blockquote",
+      filePath: "examples/__styles__/aria-fabricator/typography-blockquote.tsx",
+    },
+    "typography-demo": {
+      name: "typography-demo",
+      filePath: "examples/__styles__/aria-fabricator/typography-demo.tsx",
+    },
+    "typography-h1": {
+      name: "typography-h1",
+      filePath: "examples/__styles__/aria-fabricator/typography-h1.tsx",
+    },
+    "typography-h2": {
+      name: "typography-h2",
+      filePath: "examples/__styles__/aria-fabricator/typography-h2.tsx",
+    },
+    "typography-h3": {
+      name: "typography-h3",
+      filePath: "examples/__styles__/aria-fabricator/typography-h3.tsx",
+    },
+    "typography-h4": {
+      name: "typography-h4",
+      filePath: "examples/__styles__/aria-fabricator/typography-h4.tsx",
+    },
+    "typography-inline-code": {
+      name: "typography-inline-code",
+      filePath:
+        "examples/__styles__/aria-fabricator/typography-inline-code.tsx",
+    },
+    "typography-large": {
+      name: "typography-large",
+      filePath: "examples/__styles__/aria-fabricator/typography-large.tsx",
+    },
+    "typography-lead": {
+      name: "typography-lead",
+      filePath: "examples/__styles__/aria-fabricator/typography-lead.tsx",
+    },
+    "typography-list": {
+      name: "typography-list",
+      filePath: "examples/__styles__/aria-fabricator/typography-list.tsx",
+    },
+    "typography-muted": {
+      name: "typography-muted",
+      filePath: "examples/__styles__/aria-fabricator/typography-muted.tsx",
+    },
+    "typography-p": {
+      name: "typography-p",
+      filePath: "examples/__styles__/aria-fabricator/typography-p.tsx",
+    },
+    "typography-rtl": {
+      name: "typography-rtl",
+      filePath: "examples/__styles__/aria-fabricator/typography-rtl.tsx",
+    },
+    "typography-small": {
+      name: "typography-small",
+      filePath: "examples/__styles__/aria-fabricator/typography-small.tsx",
+    },
+    "typography-table": {
+      name: "typography-table",
+      filePath: "examples/__styles__/aria-fabricator/typography-table.tsx",
+    },
+  },
+  "radix-fabricator": {
+    "accordion-basic": {
+      name: "accordion-basic",
+      filePath: "examples/__styles__/radix-fabricator/accordion-basic.tsx",
+    },
+    "accordion-borders": {
+      name: "accordion-borders",
+      filePath: "examples/__styles__/radix-fabricator/accordion-borders.tsx",
+    },
+    "accordion-card": {
+      name: "accordion-card",
+      filePath: "examples/__styles__/radix-fabricator/accordion-card.tsx",
+    },
+    "accordion-demo": {
+      name: "accordion-demo",
+      filePath: "examples/__styles__/radix-fabricator/accordion-demo.tsx",
+    },
+    "accordion-disabled": {
+      name: "accordion-disabled",
+      filePath: "examples/__styles__/radix-fabricator/accordion-disabled.tsx",
+    },
+    "accordion-multiple": {
+      name: "accordion-multiple",
+      filePath: "examples/__styles__/radix-fabricator/accordion-multiple.tsx",
+    },
+    "accordion-rtl": {
+      name: "accordion-rtl",
+      filePath: "examples/__styles__/radix-fabricator/accordion-rtl.tsx",
+    },
+    "alert-action": {
+      name: "alert-action",
+      filePath: "examples/__styles__/radix-fabricator/alert-action.tsx",
+    },
+    "alert-basic": {
+      name: "alert-basic",
+      filePath: "examples/__styles__/radix-fabricator/alert-basic.tsx",
+    },
+    "alert-colors": {
+      name: "alert-colors",
+      filePath: "examples/__styles__/radix-fabricator/alert-colors.tsx",
+    },
+    "alert-demo": {
+      name: "alert-demo",
+      filePath: "examples/__styles__/radix-fabricator/alert-demo.tsx",
+    },
+    "alert-destructive": {
+      name: "alert-destructive",
+      filePath: "examples/__styles__/radix-fabricator/alert-destructive.tsx",
+    },
+    "alert-dialog-basic": {
+      name: "alert-dialog-basic",
+      filePath: "examples/__styles__/radix-fabricator/alert-dialog-basic.tsx",
+    },
+    "alert-dialog-demo": {
+      name: "alert-dialog-demo",
+      filePath: "examples/__styles__/radix-fabricator/alert-dialog-demo.tsx",
+    },
+    "alert-dialog-destructive": {
+      name: "alert-dialog-destructive",
+      filePath:
+        "examples/__styles__/radix-fabricator/alert-dialog-destructive.tsx",
+    },
+    "alert-dialog-media": {
+      name: "alert-dialog-media",
+      filePath: "examples/__styles__/radix-fabricator/alert-dialog-media.tsx",
+    },
+    "alert-dialog-rtl": {
+      name: "alert-dialog-rtl",
+      filePath: "examples/__styles__/radix-fabricator/alert-dialog-rtl.tsx",
+    },
+    "alert-dialog-small-media": {
+      name: "alert-dialog-small-media",
+      filePath:
+        "examples/__styles__/radix-fabricator/alert-dialog-small-media.tsx",
+    },
+    "alert-dialog-small": {
+      name: "alert-dialog-small",
+      filePath: "examples/__styles__/radix-fabricator/alert-dialog-small.tsx",
+    },
+    "alert-rtl": {
+      name: "alert-rtl",
+      filePath: "examples/__styles__/radix-fabricator/alert-rtl.tsx",
+    },
+    "aspect-ratio-demo": {
+      name: "aspect-ratio-demo",
+      filePath: "examples/__styles__/radix-fabricator/aspect-ratio-demo.tsx",
+    },
+    "aspect-ratio-portrait": {
+      name: "aspect-ratio-portrait",
+      filePath:
+        "examples/__styles__/radix-fabricator/aspect-ratio-portrait.tsx",
+    },
+    "aspect-ratio-rtl": {
+      name: "aspect-ratio-rtl",
+      filePath: "examples/__styles__/radix-fabricator/aspect-ratio-rtl.tsx",
+    },
+    "aspect-ratio-square": {
+      name: "aspect-ratio-square",
+      filePath: "examples/__styles__/radix-fabricator/aspect-ratio-square.tsx",
+    },
+    "attachment-demo": {
+      name: "attachment-demo",
+      filePath: "examples/__styles__/radix-fabricator/attachment-demo.tsx",
+    },
+    "attachment-group": {
+      name: "attachment-group",
+      filePath: "examples/__styles__/radix-fabricator/attachment-group.tsx",
+    },
+    "attachment-image": {
+      name: "attachment-image",
+      filePath: "examples/__styles__/radix-fabricator/attachment-image.tsx",
+    },
+    "attachment-sizes": {
+      name: "attachment-sizes",
+      filePath: "examples/__styles__/radix-fabricator/attachment-sizes.tsx",
+    },
+    "attachment-states": {
+      name: "attachment-states",
+      filePath: "examples/__styles__/radix-fabricator/attachment-states.tsx",
+    },
+    "attachment-trigger": {
+      name: "attachment-trigger",
+      filePath: "examples/__styles__/radix-fabricator/attachment-trigger.tsx",
+    },
+    "avatar-badge-icon": {
+      name: "avatar-badge-icon",
+      filePath: "examples/__styles__/radix-fabricator/avatar-badge-icon.tsx",
+    },
+    "avatar-badge": {
+      name: "avatar-badge",
+      filePath: "examples/__styles__/radix-fabricator/avatar-badge.tsx",
+    },
+    "avatar-basic": {
+      name: "avatar-basic",
+      filePath: "examples/__styles__/radix-fabricator/avatar-basic.tsx",
+    },
+    "avatar-demo": {
+      name: "avatar-demo",
+      filePath: "examples/__styles__/radix-fabricator/avatar-demo.tsx",
+    },
+    "avatar-dropdown": {
+      name: "avatar-dropdown",
+      filePath: "examples/__styles__/radix-fabricator/avatar-dropdown.tsx",
+    },
+    "avatar-group-count-icon": {
+      name: "avatar-group-count-icon",
+      filePath:
+        "examples/__styles__/radix-fabricator/avatar-group-count-icon.tsx",
+    },
+    "avatar-group-count": {
+      name: "avatar-group-count",
+      filePath: "examples/__styles__/radix-fabricator/avatar-group-count.tsx",
+    },
+    "avatar-group": {
+      name: "avatar-group",
+      filePath: "examples/__styles__/radix-fabricator/avatar-group.tsx",
+    },
+    "avatar-rtl": {
+      name: "avatar-rtl",
+      filePath: "examples/__styles__/radix-fabricator/avatar-rtl.tsx",
+    },
+    "avatar-size": {
+      name: "avatar-size",
+      filePath: "examples/__styles__/radix-fabricator/avatar-size.tsx",
+    },
+    "badge-colors": {
+      name: "badge-colors",
+      filePath: "examples/__styles__/radix-fabricator/badge-colors.tsx",
+    },
+    "badge-demo": {
+      name: "badge-demo",
+      filePath: "examples/__styles__/radix-fabricator/badge-demo.tsx",
+    },
+    "badge-icon": {
+      name: "badge-icon",
+      filePath: "examples/__styles__/radix-fabricator/badge-icon.tsx",
+    },
+    "badge-link": {
+      name: "badge-link",
+      filePath: "examples/__styles__/radix-fabricator/badge-link.tsx",
+    },
+    "badge-rtl": {
+      name: "badge-rtl",
+      filePath: "examples/__styles__/radix-fabricator/badge-rtl.tsx",
+    },
+    "badge-spinner": {
+      name: "badge-spinner",
+      filePath: "examples/__styles__/radix-fabricator/badge-spinner.tsx",
+    },
+    "badge-variants": {
+      name: "badge-variants",
+      filePath: "examples/__styles__/radix-fabricator/badge-variants.tsx",
+    },
+    "breadcrumb-basic": {
+      name: "breadcrumb-basic",
+      filePath: "examples/__styles__/radix-fabricator/breadcrumb-basic.tsx",
+    },
+    "breadcrumb-demo": {
+      name: "breadcrumb-demo",
+      filePath: "examples/__styles__/radix-fabricator/breadcrumb-demo.tsx",
+    },
+    "breadcrumb-dropdown": {
+      name: "breadcrumb-dropdown",
+      filePath: "examples/__styles__/radix-fabricator/breadcrumb-dropdown.tsx",
+    },
+    "breadcrumb-ellipsis": {
+      name: "breadcrumb-ellipsis",
+      filePath: "examples/__styles__/radix-fabricator/breadcrumb-ellipsis.tsx",
+    },
+    "breadcrumb-link": {
+      name: "breadcrumb-link",
+      filePath: "examples/__styles__/radix-fabricator/breadcrumb-link.tsx",
+    },
+    "breadcrumb-rtl": {
+      name: "breadcrumb-rtl",
+      filePath: "examples/__styles__/radix-fabricator/breadcrumb-rtl.tsx",
+    },
+    "breadcrumb-separator": {
+      name: "breadcrumb-separator",
+      filePath: "examples/__styles__/radix-fabricator/breadcrumb-separator.tsx",
+    },
+    "bubble-alignment": {
+      name: "bubble-alignment",
+      filePath: "examples/__styles__/radix-fabricator/bubble-alignment.tsx",
+    },
+    "bubble-collapsible": {
+      name: "bubble-collapsible",
+      filePath: "examples/__styles__/radix-fabricator/bubble-collapsible.tsx",
+    },
+    "bubble-demo": {
+      name: "bubble-demo",
+      filePath: "examples/__styles__/radix-fabricator/bubble-demo.tsx",
+    },
+    "bubble-group-demo": {
+      name: "bubble-group-demo",
+      filePath: "examples/__styles__/radix-fabricator/bubble-group-demo.tsx",
+    },
+    "bubble-link-button": {
+      name: "bubble-link-button",
+      filePath: "examples/__styles__/radix-fabricator/bubble-link-button.tsx",
+    },
+    "bubble-markdown": {
+      name: "bubble-markdown",
+      filePath: "examples/__styles__/radix-fabricator/bubble-markdown.tsx",
+    },
+    "bubble-popover": {
+      name: "bubble-popover",
+      filePath: "examples/__styles__/radix-fabricator/bubble-popover.tsx",
+    },
+    "bubble-reactions": {
+      name: "bubble-reactions",
+      filePath: "examples/__styles__/radix-fabricator/bubble-reactions.tsx",
+    },
+    "bubble-tooltip": {
+      name: "bubble-tooltip",
+      filePath: "examples/__styles__/radix-fabricator/bubble-tooltip.tsx",
+    },
+    "bubble-variants": {
+      name: "bubble-variants",
+      filePath: "examples/__styles__/radix-fabricator/bubble-variants.tsx",
+    },
+    "button-aschild": {
+      name: "button-aschild",
+      filePath: "examples/__styles__/radix-fabricator/button-aschild.tsx",
+    },
+    "button-default": {
+      name: "button-default",
+      filePath: "examples/__styles__/radix-fabricator/button-default.tsx",
+    },
+    "button-demo": {
+      name: "button-demo",
+      filePath: "examples/__styles__/radix-fabricator/button-demo.tsx",
+    },
+    "button-destructive": {
+      name: "button-destructive",
+      filePath: "examples/__styles__/radix-fabricator/button-destructive.tsx",
+    },
+    "button-ghost": {
+      name: "button-ghost",
+      filePath: "examples/__styles__/radix-fabricator/button-ghost.tsx",
+    },
+    "button-group-demo": {
+      name: "button-group-demo",
+      filePath: "examples/__styles__/radix-fabricator/button-group-demo.tsx",
+    },
+    "button-group-dropdown": {
+      name: "button-group-dropdown",
+      filePath:
+        "examples/__styles__/radix-fabricator/button-group-dropdown.tsx",
+    },
+    "button-group-input-group": {
+      name: "button-group-input-group",
+      filePath:
+        "examples/__styles__/radix-fabricator/button-group-input-group.tsx",
+    },
+    "button-group-input": {
+      name: "button-group-input",
+      filePath: "examples/__styles__/radix-fabricator/button-group-input.tsx",
+    },
+    "button-group-nested": {
+      name: "button-group-nested",
+      filePath: "examples/__styles__/radix-fabricator/button-group-nested.tsx",
+    },
+    "button-group-orientation": {
+      name: "button-group-orientation",
+      filePath:
+        "examples/__styles__/radix-fabricator/button-group-orientation.tsx",
+    },
+    "button-group-popover": {
+      name: "button-group-popover",
+      filePath: "examples/__styles__/radix-fabricator/button-group-popover.tsx",
+    },
+    "button-group-rtl": {
+      name: "button-group-rtl",
+      filePath: "examples/__styles__/radix-fabricator/button-group-rtl.tsx",
+    },
+    "button-group-select": {
+      name: "button-group-select",
+      filePath: "examples/__styles__/radix-fabricator/button-group-select.tsx",
+    },
+    "button-group-separator": {
+      name: "button-group-separator",
+      filePath:
+        "examples/__styles__/radix-fabricator/button-group-separator.tsx",
+    },
+    "button-group-size": {
+      name: "button-group-size",
+      filePath: "examples/__styles__/radix-fabricator/button-group-size.tsx",
+    },
+    "button-group-split": {
+      name: "button-group-split",
+      filePath: "examples/__styles__/radix-fabricator/button-group-split.tsx",
+    },
+    "button-icon": {
+      name: "button-icon",
+      filePath: "examples/__styles__/radix-fabricator/button-icon.tsx",
+    },
+    "button-link": {
+      name: "button-link",
+      filePath: "examples/__styles__/radix-fabricator/button-link.tsx",
+    },
+    "button-outline": {
+      name: "button-outline",
+      filePath: "examples/__styles__/radix-fabricator/button-outline.tsx",
+    },
+    "button-rounded": {
+      name: "button-rounded",
+      filePath: "examples/__styles__/radix-fabricator/button-rounded.tsx",
+    },
+    "button-rtl": {
+      name: "button-rtl",
+      filePath: "examples/__styles__/radix-fabricator/button-rtl.tsx",
+    },
+    "button-secondary": {
+      name: "button-secondary",
+      filePath: "examples/__styles__/radix-fabricator/button-secondary.tsx",
+    },
+    "button-size": {
+      name: "button-size",
+      filePath: "examples/__styles__/radix-fabricator/button-size.tsx",
+    },
+    "button-spinner": {
+      name: "button-spinner",
+      filePath: "examples/__styles__/radix-fabricator/button-spinner.tsx",
+    },
+    "button-with-icon": {
+      name: "button-with-icon",
+      filePath: "examples/__styles__/radix-fabricator/button-with-icon.tsx",
+    },
+    "calendar-basic": {
+      name: "calendar-basic",
+      filePath: "examples/__styles__/radix-fabricator/calendar-basic.tsx",
+    },
+    "calendar-booked-dates": {
+      name: "calendar-booked-dates",
+      filePath:
+        "examples/__styles__/radix-fabricator/calendar-booked-dates.tsx",
+    },
+    "calendar-caption": {
+      name: "calendar-caption",
+      filePath: "examples/__styles__/radix-fabricator/calendar-caption.tsx",
+    },
+    "calendar-custom-days": {
+      name: "calendar-custom-days",
+      filePath: "examples/__styles__/radix-fabricator/calendar-custom-days.tsx",
+    },
+    "calendar-demo": {
+      name: "calendar-demo",
+      filePath: "examples/__styles__/radix-fabricator/calendar-demo.tsx",
+    },
+    "calendar-hijri": {
+      name: "calendar-hijri",
+      filePath: "examples/__styles__/radix-fabricator/calendar-hijri.tsx",
+    },
+    "calendar-multiple": {
+      name: "calendar-multiple",
+      filePath: "examples/__styles__/radix-fabricator/calendar-multiple.tsx",
+    },
+    "calendar-presets": {
+      name: "calendar-presets",
+      filePath: "examples/__styles__/radix-fabricator/calendar-presets.tsx",
+    },
+    "calendar-range": {
+      name: "calendar-range",
+      filePath: "examples/__styles__/radix-fabricator/calendar-range.tsx",
+    },
+    "calendar-rtl": {
+      name: "calendar-rtl",
+      filePath: "examples/__styles__/radix-fabricator/calendar-rtl.tsx",
+    },
+    "calendar-time": {
+      name: "calendar-time",
+      filePath: "examples/__styles__/radix-fabricator/calendar-time.tsx",
+    },
+    "calendar-week-numbers": {
+      name: "calendar-week-numbers",
+      filePath:
+        "examples/__styles__/radix-fabricator/calendar-week-numbers.tsx",
+    },
+    "card-demo": {
+      name: "card-demo",
+      filePath: "examples/__styles__/radix-fabricator/card-demo.tsx",
+    },
+    "card-edge-to-edge": {
+      name: "card-edge-to-edge",
+      filePath: "examples/__styles__/radix-fabricator/card-edge-to-edge.tsx",
+    },
+    "card-image": {
+      name: "card-image",
+      filePath: "examples/__styles__/radix-fabricator/card-image.tsx",
+    },
+    "card-rtl": {
+      name: "card-rtl",
+      filePath: "examples/__styles__/radix-fabricator/card-rtl.tsx",
+    },
+    "card-small": {
+      name: "card-small",
+      filePath: "examples/__styles__/radix-fabricator/card-small.tsx",
+    },
+    "card-spacing": {
+      name: "card-spacing",
+      filePath: "examples/__styles__/radix-fabricator/card-spacing.tsx",
+    },
+    "carousel-api": {
+      name: "carousel-api",
+      filePath: "examples/__styles__/radix-fabricator/carousel-api.tsx",
+    },
+    "carousel-demo": {
+      name: "carousel-demo",
+      filePath: "examples/__styles__/radix-fabricator/carousel-demo.tsx",
+    },
+    "carousel-multiple": {
+      name: "carousel-multiple",
+      filePath: "examples/__styles__/radix-fabricator/carousel-multiple.tsx",
+    },
+    "carousel-orientation": {
+      name: "carousel-orientation",
+      filePath: "examples/__styles__/radix-fabricator/carousel-orientation.tsx",
+    },
+    "carousel-plugin": {
+      name: "carousel-plugin",
+      filePath: "examples/__styles__/radix-fabricator/carousel-plugin.tsx",
+    },
+    "carousel-rtl": {
+      name: "carousel-rtl",
+      filePath: "examples/__styles__/radix-fabricator/carousel-rtl.tsx",
+    },
+    "carousel-size": {
+      name: "carousel-size",
+      filePath: "examples/__styles__/radix-fabricator/carousel-size.tsx",
+    },
+    "carousel-spacing": {
+      name: "carousel-spacing",
+      filePath: "examples/__styles__/radix-fabricator/carousel-spacing.tsx",
+    },
+    "chart-demo": {
+      name: "chart-demo",
+      filePath: "examples/__styles__/radix-fabricator/chart-demo.tsx",
+    },
+    "chart-example-axis": {
+      name: "chart-example-axis",
+      filePath: "examples/__styles__/radix-fabricator/chart-example-axis.tsx",
+    },
+    "chart-example-grid": {
+      name: "chart-example-grid",
+      filePath: "examples/__styles__/radix-fabricator/chart-example-grid.tsx",
+    },
+    "chart-example-legend": {
+      name: "chart-example-legend",
+      filePath: "examples/__styles__/radix-fabricator/chart-example-legend.tsx",
+    },
+    "chart-example-tooltip": {
+      name: "chart-example-tooltip",
+      filePath:
+        "examples/__styles__/radix-fabricator/chart-example-tooltip.tsx",
+    },
+    "chart-example": {
+      name: "chart-example",
+      filePath: "examples/__styles__/radix-fabricator/chart-example.tsx",
+    },
+    "chart-rtl": {
+      name: "chart-rtl",
+      filePath: "examples/__styles__/radix-fabricator/chart-rtl.tsx",
+    },
+    "chart-tooltip": {
+      name: "chart-tooltip",
+      filePath: "examples/__styles__/radix-fabricator/chart-tooltip.tsx",
+    },
+    "checkbox-basic": {
+      name: "checkbox-basic",
+      filePath: "examples/__styles__/radix-fabricator/checkbox-basic.tsx",
+    },
+    "checkbox-demo": {
+      name: "checkbox-demo",
+      filePath: "examples/__styles__/radix-fabricator/checkbox-demo.tsx",
+    },
+    "checkbox-description": {
+      name: "checkbox-description",
+      filePath: "examples/__styles__/radix-fabricator/checkbox-description.tsx",
+    },
+    "checkbox-disabled": {
+      name: "checkbox-disabled",
+      filePath: "examples/__styles__/radix-fabricator/checkbox-disabled.tsx",
+    },
+    "checkbox-group": {
+      name: "checkbox-group",
+      filePath: "examples/__styles__/radix-fabricator/checkbox-group.tsx",
+    },
+    "checkbox-invalid": {
+      name: "checkbox-invalid",
+      filePath: "examples/__styles__/radix-fabricator/checkbox-invalid.tsx",
+    },
+    "checkbox-rtl": {
+      name: "checkbox-rtl",
+      filePath: "examples/__styles__/radix-fabricator/checkbox-rtl.tsx",
+    },
+    "checkbox-table": {
+      name: "checkbox-table",
+      filePath: "examples/__styles__/radix-fabricator/checkbox-table.tsx",
+    },
+    "collapsible-basic": {
+      name: "collapsible-basic",
+      filePath: "examples/__styles__/radix-fabricator/collapsible-basic.tsx",
+    },
+    "collapsible-demo": {
+      name: "collapsible-demo",
+      filePath: "examples/__styles__/radix-fabricator/collapsible-demo.tsx",
+    },
+    "collapsible-file-tree": {
+      name: "collapsible-file-tree",
+      filePath:
+        "examples/__styles__/radix-fabricator/collapsible-file-tree.tsx",
+    },
+    "collapsible-rtl": {
+      name: "collapsible-rtl",
+      filePath: "examples/__styles__/radix-fabricator/collapsible-rtl.tsx",
+    },
+    "collapsible-settings": {
+      name: "collapsible-settings",
+      filePath: "examples/__styles__/radix-fabricator/collapsible-settings.tsx",
+    },
+    "combobox-auto-highlight": {
+      name: "combobox-auto-highlight",
+      filePath:
+        "examples/__styles__/radix-fabricator/combobox-auto-highlight.tsx",
+    },
+    "combobox-basic": {
+      name: "combobox-basic",
+      filePath: "examples/__styles__/radix-fabricator/combobox-basic.tsx",
+    },
+    "combobox-clear": {
+      name: "combobox-clear",
+      filePath: "examples/__styles__/radix-fabricator/combobox-clear.tsx",
+    },
+    "combobox-custom": {
+      name: "combobox-custom",
+      filePath: "examples/__styles__/radix-fabricator/combobox-custom.tsx",
+    },
+    "combobox-demo": {
+      name: "combobox-demo",
+      filePath: "examples/__styles__/radix-fabricator/combobox-demo.tsx",
+    },
+    "combobox-disabled": {
+      name: "combobox-disabled",
+      filePath: "examples/__styles__/radix-fabricator/combobox-disabled.tsx",
+    },
+    "combobox-groups": {
+      name: "combobox-groups",
+      filePath: "examples/__styles__/radix-fabricator/combobox-groups.tsx",
+    },
+    "combobox-input-group": {
+      name: "combobox-input-group",
+      filePath: "examples/__styles__/radix-fabricator/combobox-input-group.tsx",
+    },
+    "combobox-invalid": {
+      name: "combobox-invalid",
+      filePath: "examples/__styles__/radix-fabricator/combobox-invalid.tsx",
+    },
+    "combobox-multiple": {
+      name: "combobox-multiple",
+      filePath: "examples/__styles__/radix-fabricator/combobox-multiple.tsx",
+    },
+    "combobox-popup": {
+      name: "combobox-popup",
+      filePath: "examples/__styles__/radix-fabricator/combobox-popup.tsx",
+    },
+    "combobox-rtl": {
+      name: "combobox-rtl",
+      filePath: "examples/__styles__/radix-fabricator/combobox-rtl.tsx",
+    },
+    "command-basic": {
+      name: "command-basic",
+      filePath: "examples/__styles__/radix-fabricator/command-basic.tsx",
+    },
+    "command-demo": {
+      name: "command-demo",
+      filePath: "examples/__styles__/radix-fabricator/command-demo.tsx",
+    },
+    "command-dialog": {
+      name: "command-dialog",
+      filePath: "examples/__styles__/radix-fabricator/command-dialog.tsx",
+    },
+    "command-groups": {
+      name: "command-groups",
+      filePath: "examples/__styles__/radix-fabricator/command-groups.tsx",
+    },
+    "command-rtl": {
+      name: "command-rtl",
+      filePath: "examples/__styles__/radix-fabricator/command-rtl.tsx",
+    },
+    "command-scrollable": {
+      name: "command-scrollable",
+      filePath: "examples/__styles__/radix-fabricator/command-scrollable.tsx",
+    },
+    "command-shortcuts": {
+      name: "command-shortcuts",
+      filePath: "examples/__styles__/radix-fabricator/command-shortcuts.tsx",
+    },
+    "context-menu-basic": {
+      name: "context-menu-basic",
+      filePath: "examples/__styles__/radix-fabricator/context-menu-basic.tsx",
+    },
+    "context-menu-checkboxes": {
+      name: "context-menu-checkboxes",
+      filePath:
+        "examples/__styles__/radix-fabricator/context-menu-checkboxes.tsx",
+    },
+    "context-menu-demo": {
+      name: "context-menu-demo",
+      filePath: "examples/__styles__/radix-fabricator/context-menu-demo.tsx",
+    },
+    "context-menu-destructive": {
+      name: "context-menu-destructive",
+      filePath:
+        "examples/__styles__/radix-fabricator/context-menu-destructive.tsx",
+    },
+    "context-menu-groups": {
+      name: "context-menu-groups",
+      filePath: "examples/__styles__/radix-fabricator/context-menu-groups.tsx",
+    },
+    "context-menu-icons": {
+      name: "context-menu-icons",
+      filePath: "examples/__styles__/radix-fabricator/context-menu-icons.tsx",
+    },
+    "context-menu-radio": {
+      name: "context-menu-radio",
+      filePath: "examples/__styles__/radix-fabricator/context-menu-radio.tsx",
+    },
+    "context-menu-rtl": {
+      name: "context-menu-rtl",
+      filePath: "examples/__styles__/radix-fabricator/context-menu-rtl.tsx",
+    },
+    "context-menu-shortcuts": {
+      name: "context-menu-shortcuts",
+      filePath:
+        "examples/__styles__/radix-fabricator/context-menu-shortcuts.tsx",
+    },
+    "context-menu-sides": {
+      name: "context-menu-sides",
+      filePath: "examples/__styles__/radix-fabricator/context-menu-sides.tsx",
+    },
+    "context-menu-submenu": {
+      name: "context-menu-submenu",
+      filePath: "examples/__styles__/radix-fabricator/context-menu-submenu.tsx",
+    },
+    "data-picker-with-dropdowns": {
+      name: "data-picker-with-dropdowns",
+      filePath:
+        "examples/__styles__/radix-fabricator/data-picker-with-dropdowns.tsx",
+    },
+    "data-table-demo": {
+      name: "data-table-demo",
+      filePath: "examples/__styles__/radix-fabricator/data-table-demo.tsx",
+    },
+    "data-table-rtl": {
+      name: "data-table-rtl",
+      filePath: "examples/__styles__/radix-fabricator/data-table-rtl.tsx",
+    },
+    "date-picker-basic": {
+      name: "date-picker-basic",
+      filePath: "examples/__styles__/radix-fabricator/date-picker-basic.tsx",
+    },
+    "date-picker-demo": {
+      name: "date-picker-demo",
+      filePath: "examples/__styles__/radix-fabricator/date-picker-demo.tsx",
+    },
+    "date-picker-dob": {
+      name: "date-picker-dob",
+      filePath: "examples/__styles__/radix-fabricator/date-picker-dob.tsx",
+    },
+    "date-picker-input": {
+      name: "date-picker-input",
+      filePath: "examples/__styles__/radix-fabricator/date-picker-input.tsx",
+    },
+    "date-picker-natural-language": {
+      name: "date-picker-natural-language",
+      filePath:
+        "examples/__styles__/radix-fabricator/date-picker-natural-language.tsx",
+    },
+    "date-picker-range": {
+      name: "date-picker-range",
+      filePath: "examples/__styles__/radix-fabricator/date-picker-range.tsx",
+    },
+    "date-picker-rtl": {
+      name: "date-picker-rtl",
+      filePath: "examples/__styles__/radix-fabricator/date-picker-rtl.tsx",
+    },
+    "date-picker-time": {
+      name: "date-picker-time",
+      filePath: "examples/__styles__/radix-fabricator/date-picker-time.tsx",
+    },
+    "dialog-close-button": {
+      name: "dialog-close-button",
+      filePath: "examples/__styles__/radix-fabricator/dialog-close-button.tsx",
+    },
+    "dialog-demo": {
+      name: "dialog-demo",
+      filePath: "examples/__styles__/radix-fabricator/dialog-demo.tsx",
+    },
+    "dialog-no-close-button": {
+      name: "dialog-no-close-button",
+      filePath:
+        "examples/__styles__/radix-fabricator/dialog-no-close-button.tsx",
+    },
+    "dialog-rtl": {
+      name: "dialog-rtl",
+      filePath: "examples/__styles__/radix-fabricator/dialog-rtl.tsx",
+    },
+    "dialog-scrollable-content": {
+      name: "dialog-scrollable-content",
+      filePath:
+        "examples/__styles__/radix-fabricator/dialog-scrollable-content.tsx",
+    },
+    "dialog-sticky-footer": {
+      name: "dialog-sticky-footer",
+      filePath: "examples/__styles__/radix-fabricator/dialog-sticky-footer.tsx",
+    },
+    "drawer-demo": {
+      name: "drawer-demo",
+      filePath: "examples/__styles__/radix-fabricator/drawer-demo.tsx",
+    },
+    "drawer-dialog": {
+      name: "drawer-dialog",
+      filePath: "examples/__styles__/radix-fabricator/drawer-dialog.tsx",
+    },
+    "drawer-rtl": {
+      name: "drawer-rtl",
+      filePath: "examples/__styles__/radix-fabricator/drawer-rtl.tsx",
+    },
+    "drawer-scrollable-content": {
+      name: "drawer-scrollable-content",
+      filePath:
+        "examples/__styles__/radix-fabricator/drawer-scrollable-content.tsx",
+    },
+    "drawer-sides": {
+      name: "drawer-sides",
+      filePath: "examples/__styles__/radix-fabricator/drawer-sides.tsx",
+    },
+    "dropdown-menu-avatar": {
+      name: "dropdown-menu-avatar",
+      filePath: "examples/__styles__/radix-fabricator/dropdown-menu-avatar.tsx",
+    },
+    "dropdown-menu-basic": {
+      name: "dropdown-menu-basic",
+      filePath: "examples/__styles__/radix-fabricator/dropdown-menu-basic.tsx",
+    },
+    "dropdown-menu-checkboxes-icons": {
+      name: "dropdown-menu-checkboxes-icons",
+      filePath:
+        "examples/__styles__/radix-fabricator/dropdown-menu-checkboxes-icons.tsx",
+    },
+    "dropdown-menu-checkboxes": {
+      name: "dropdown-menu-checkboxes",
+      filePath:
+        "examples/__styles__/radix-fabricator/dropdown-menu-checkboxes.tsx",
+    },
+    "dropdown-menu-complex": {
+      name: "dropdown-menu-complex",
+      filePath:
+        "examples/__styles__/radix-fabricator/dropdown-menu-complex.tsx",
+    },
+    "dropdown-menu-demo": {
+      name: "dropdown-menu-demo",
+      filePath: "examples/__styles__/radix-fabricator/dropdown-menu-demo.tsx",
+    },
+    "dropdown-menu-destructive": {
+      name: "dropdown-menu-destructive",
+      filePath:
+        "examples/__styles__/radix-fabricator/dropdown-menu-destructive.tsx",
+    },
+    "dropdown-menu-icons": {
+      name: "dropdown-menu-icons",
+      filePath: "examples/__styles__/radix-fabricator/dropdown-menu-icons.tsx",
+    },
+    "dropdown-menu-radio-group": {
+      name: "dropdown-menu-radio-group",
+      filePath:
+        "examples/__styles__/radix-fabricator/dropdown-menu-radio-group.tsx",
+    },
+    "dropdown-menu-radio-icons": {
+      name: "dropdown-menu-radio-icons",
+      filePath:
+        "examples/__styles__/radix-fabricator/dropdown-menu-radio-icons.tsx",
+    },
+    "dropdown-menu-rtl": {
+      name: "dropdown-menu-rtl",
+      filePath: "examples/__styles__/radix-fabricator/dropdown-menu-rtl.tsx",
+    },
+    "dropdown-menu-shortcuts": {
+      name: "dropdown-menu-shortcuts",
+      filePath:
+        "examples/__styles__/radix-fabricator/dropdown-menu-shortcuts.tsx",
+    },
+    "dropdown-menu-submenu": {
+      name: "dropdown-menu-submenu",
+      filePath:
+        "examples/__styles__/radix-fabricator/dropdown-menu-submenu.tsx",
+    },
+    "empty-avatar-group": {
+      name: "empty-avatar-group",
+      filePath: "examples/__styles__/radix-fabricator/empty-avatar-group.tsx",
+    },
+    "empty-avatar": {
+      name: "empty-avatar",
+      filePath: "examples/__styles__/radix-fabricator/empty-avatar.tsx",
+    },
+    "empty-background": {
+      name: "empty-background",
+      filePath: "examples/__styles__/radix-fabricator/empty-background.tsx",
+    },
+    "empty-card": {
+      name: "empty-card",
+      filePath: "examples/__styles__/radix-fabricator/empty-card.tsx",
+    },
+    "empty-demo": {
+      name: "empty-demo",
+      filePath: "examples/__styles__/radix-fabricator/empty-demo.tsx",
+    },
+    "empty-input-group": {
+      name: "empty-input-group",
+      filePath: "examples/__styles__/radix-fabricator/empty-input-group.tsx",
+    },
+    "empty-outline": {
+      name: "empty-outline",
+      filePath: "examples/__styles__/radix-fabricator/empty-outline.tsx",
+    },
+    "empty-rtl": {
+      name: "empty-rtl",
+      filePath: "examples/__styles__/radix-fabricator/empty-rtl.tsx",
+    },
+    "field-checkbox": {
+      name: "field-checkbox",
+      filePath: "examples/__styles__/radix-fabricator/field-checkbox.tsx",
+    },
+    "field-choice-card": {
+      name: "field-choice-card",
+      filePath: "examples/__styles__/radix-fabricator/field-choice-card.tsx",
+    },
+    "field-demo": {
+      name: "field-demo",
+      filePath: "examples/__styles__/radix-fabricator/field-demo.tsx",
+    },
+    "field-fieldset": {
+      name: "field-fieldset",
+      filePath: "examples/__styles__/radix-fabricator/field-fieldset.tsx",
+    },
+    "field-group": {
+      name: "field-group",
+      filePath: "examples/__styles__/radix-fabricator/field-group.tsx",
+    },
+    "field-input": {
+      name: "field-input",
+      filePath: "examples/__styles__/radix-fabricator/field-input.tsx",
+    },
+    "field-radio": {
+      name: "field-radio",
+      filePath: "examples/__styles__/radix-fabricator/field-radio.tsx",
+    },
+    "field-responsive": {
+      name: "field-responsive",
+      filePath: "examples/__styles__/radix-fabricator/field-responsive.tsx",
+    },
+    "field-rtl": {
+      name: "field-rtl",
+      filePath: "examples/__styles__/radix-fabricator/field-rtl.tsx",
+    },
+    "field-select": {
+      name: "field-select",
+      filePath: "examples/__styles__/radix-fabricator/field-select.tsx",
+    },
+    "field-slider": {
+      name: "field-slider",
+      filePath: "examples/__styles__/radix-fabricator/field-slider.tsx",
+    },
+    "field-switch": {
+      name: "field-switch",
+      filePath: "examples/__styles__/radix-fabricator/field-switch.tsx",
+    },
+    "field-textarea": {
+      name: "field-textarea",
+      filePath: "examples/__styles__/radix-fabricator/field-textarea.tsx",
+    },
+    "file-upload-list": {
+      name: "file-upload-list",
+      filePath: "examples/__styles__/radix-fabricator/file-upload-list.tsx",
+    },
+    "hover-card-demo": {
+      name: "hover-card-demo",
+      filePath: "examples/__styles__/radix-fabricator/hover-card-demo.tsx",
+    },
+    "hover-card-rtl": {
+      name: "hover-card-rtl",
+      filePath: "examples/__styles__/radix-fabricator/hover-card-rtl.tsx",
+    },
+    "hover-card-sides": {
+      name: "hover-card-sides",
+      filePath: "examples/__styles__/radix-fabricator/hover-card-sides.tsx",
+    },
+    "input-badge": {
+      name: "input-badge",
+      filePath: "examples/__styles__/radix-fabricator/input-badge.tsx",
+    },
+    "input-basic": {
+      name: "input-basic",
+      filePath: "examples/__styles__/radix-fabricator/input-basic.tsx",
+    },
+    "input-button-group": {
+      name: "input-button-group",
+      filePath: "examples/__styles__/radix-fabricator/input-button-group.tsx",
+    },
+    "input-demo": {
+      name: "input-demo",
+      filePath: "examples/__styles__/radix-fabricator/input-demo.tsx",
+    },
+    "input-disabled": {
+      name: "input-disabled",
+      filePath: "examples/__styles__/radix-fabricator/input-disabled.tsx",
+    },
+    "input-field": {
+      name: "input-field",
+      filePath: "examples/__styles__/radix-fabricator/input-field.tsx",
+    },
+    "input-fieldgroup": {
+      name: "input-fieldgroup",
+      filePath: "examples/__styles__/radix-fabricator/input-fieldgroup.tsx",
+    },
+    "input-file": {
+      name: "input-file",
+      filePath: "examples/__styles__/radix-fabricator/input-file.tsx",
+    },
+    "input-form": {
+      name: "input-form",
+      filePath: "examples/__styles__/radix-fabricator/input-form.tsx",
+    },
+    "input-grid": {
+      name: "input-grid",
+      filePath: "examples/__styles__/radix-fabricator/input-grid.tsx",
+    },
+    "input-group-basic": {
+      name: "input-group-basic",
+      filePath: "examples/__styles__/radix-fabricator/input-group-basic.tsx",
+    },
+    "input-group-block-end": {
+      name: "input-group-block-end",
+      filePath:
+        "examples/__styles__/radix-fabricator/input-group-block-end.tsx",
+    },
+    "input-group-block-start": {
+      name: "input-group-block-start",
+      filePath:
+        "examples/__styles__/radix-fabricator/input-group-block-start.tsx",
+    },
+    "input-group-button-group": {
+      name: "input-group-button-group",
+      filePath:
+        "examples/__styles__/radix-fabricator/input-group-button-group.tsx",
+    },
+    "input-group-button": {
+      name: "input-group-button",
+      filePath: "examples/__styles__/radix-fabricator/input-group-button.tsx",
+    },
+    "input-group-custom": {
+      name: "input-group-custom",
+      filePath: "examples/__styles__/radix-fabricator/input-group-custom.tsx",
+    },
+    "input-group-demo": {
+      name: "input-group-demo",
+      filePath: "examples/__styles__/radix-fabricator/input-group-demo.tsx",
+    },
+    "input-group-dropdown": {
+      name: "input-group-dropdown",
+      filePath: "examples/__styles__/radix-fabricator/input-group-dropdown.tsx",
+    },
+    "input-group-icon": {
+      name: "input-group-icon",
+      filePath: "examples/__styles__/radix-fabricator/input-group-icon.tsx",
+    },
+    "input-group-in-card": {
+      name: "input-group-in-card",
+      filePath: "examples/__styles__/radix-fabricator/input-group-in-card.tsx",
+    },
+    "input-group-inline-end": {
+      name: "input-group-inline-end",
+      filePath:
+        "examples/__styles__/radix-fabricator/input-group-inline-end.tsx",
+    },
+    "input-group-inline-start": {
+      name: "input-group-inline-start",
+      filePath:
+        "examples/__styles__/radix-fabricator/input-group-inline-start.tsx",
+    },
+    "input-group-kbd": {
+      name: "input-group-kbd",
+      filePath: "examples/__styles__/radix-fabricator/input-group-kbd.tsx",
+    },
+    "input-group-label": {
+      name: "input-group-label",
+      filePath: "examples/__styles__/radix-fabricator/input-group-label.tsx",
+    },
+    "input-group-rtl": {
+      name: "input-group-rtl",
+      filePath: "examples/__styles__/radix-fabricator/input-group-rtl.tsx",
+    },
+    "input-group-spinner": {
+      name: "input-group-spinner",
+      filePath: "examples/__styles__/radix-fabricator/input-group-spinner.tsx",
+    },
+    "input-group-text": {
+      name: "input-group-text",
+      filePath: "examples/__styles__/radix-fabricator/input-group-text.tsx",
+    },
+    "input-group-textarea-examples": {
+      name: "input-group-textarea-examples",
+      filePath:
+        "examples/__styles__/radix-fabricator/input-group-textarea-examples.tsx",
+    },
+    "input-group-textarea": {
+      name: "input-group-textarea",
+      filePath: "examples/__styles__/radix-fabricator/input-group-textarea.tsx",
+    },
+    "input-group-tooltip": {
+      name: "input-group-tooltip",
+      filePath: "examples/__styles__/radix-fabricator/input-group-tooltip.tsx",
+    },
+    "input-group-with-addons": {
+      name: "input-group-with-addons",
+      filePath:
+        "examples/__styles__/radix-fabricator/input-group-with-addons.tsx",
+    },
+    "input-group-with-buttons": {
+      name: "input-group-with-buttons",
+      filePath:
+        "examples/__styles__/radix-fabricator/input-group-with-buttons.tsx",
+    },
+    "input-group-with-kbd": {
+      name: "input-group-with-kbd",
+      filePath: "examples/__styles__/radix-fabricator/input-group-with-kbd.tsx",
+    },
+    "input-group-with-tooltip": {
+      name: "input-group-with-tooltip",
+      filePath:
+        "examples/__styles__/radix-fabricator/input-group-with-tooltip.tsx",
+    },
+    "input-inline": {
+      name: "input-inline",
+      filePath: "examples/__styles__/radix-fabricator/input-inline.tsx",
+    },
+    "input-input-group": {
+      name: "input-input-group",
+      filePath: "examples/__styles__/radix-fabricator/input-input-group.tsx",
+    },
+    "input-invalid": {
+      name: "input-invalid",
+      filePath: "examples/__styles__/radix-fabricator/input-invalid.tsx",
+    },
+    "input-otp-alphanumeric": {
+      name: "input-otp-alphanumeric",
+      filePath:
+        "examples/__styles__/radix-fabricator/input-otp-alphanumeric.tsx",
+    },
+    "input-otp-controlled": {
+      name: "input-otp-controlled",
+      filePath: "examples/__styles__/radix-fabricator/input-otp-controlled.tsx",
+    },
+    "input-otp-demo": {
+      name: "input-otp-demo",
+      filePath: "examples/__styles__/radix-fabricator/input-otp-demo.tsx",
+    },
+    "input-otp-disabled": {
+      name: "input-otp-disabled",
+      filePath: "examples/__styles__/radix-fabricator/input-otp-disabled.tsx",
+    },
+    "input-otp-form": {
+      name: "input-otp-form",
+      filePath: "examples/__styles__/radix-fabricator/input-otp-form.tsx",
+    },
+    "input-otp-four-digits": {
+      name: "input-otp-four-digits",
+      filePath:
+        "examples/__styles__/radix-fabricator/input-otp-four-digits.tsx",
+    },
+    "input-otp-invalid": {
+      name: "input-otp-invalid",
+      filePath: "examples/__styles__/radix-fabricator/input-otp-invalid.tsx",
+    },
+    "input-otp-pattern": {
+      name: "input-otp-pattern",
+      filePath: "examples/__styles__/radix-fabricator/input-otp-pattern.tsx",
+    },
+    "input-otp-rtl": {
+      name: "input-otp-rtl",
+      filePath: "examples/__styles__/radix-fabricator/input-otp-rtl.tsx",
+    },
+    "input-otp-separator": {
+      name: "input-otp-separator",
+      filePath: "examples/__styles__/radix-fabricator/input-otp-separator.tsx",
+    },
+    "input-required": {
+      name: "input-required",
+      filePath: "examples/__styles__/radix-fabricator/input-required.tsx",
+    },
+    "input-rtl": {
+      name: "input-rtl",
+      filePath: "examples/__styles__/radix-fabricator/input-rtl.tsx",
+    },
+    "item-avatar": {
+      name: "item-avatar",
+      filePath: "examples/__styles__/radix-fabricator/item-avatar.tsx",
+    },
+    "item-demo": {
+      name: "item-demo",
+      filePath: "examples/__styles__/radix-fabricator/item-demo.tsx",
+    },
+    "item-dropdown": {
+      name: "item-dropdown",
+      filePath: "examples/__styles__/radix-fabricator/item-dropdown.tsx",
+    },
+    "item-group": {
+      name: "item-group",
+      filePath: "examples/__styles__/radix-fabricator/item-group.tsx",
+    },
+    "item-header": {
+      name: "item-header",
+      filePath: "examples/__styles__/radix-fabricator/item-header.tsx",
+    },
+    "item-icon": {
+      name: "item-icon",
+      filePath: "examples/__styles__/radix-fabricator/item-icon.tsx",
+    },
+    "item-image": {
+      name: "item-image",
+      filePath: "examples/__styles__/radix-fabricator/item-image.tsx",
+    },
+    "item-link": {
+      name: "item-link",
+      filePath: "examples/__styles__/radix-fabricator/item-link.tsx",
+    },
+    "item-rtl": {
+      name: "item-rtl",
+      filePath: "examples/__styles__/radix-fabricator/item-rtl.tsx",
+    },
+    "item-size": {
+      name: "item-size",
+      filePath: "examples/__styles__/radix-fabricator/item-size.tsx",
+    },
+    "item-variant": {
+      name: "item-variant",
+      filePath: "examples/__styles__/radix-fabricator/item-variant.tsx",
+    },
+    "kbd-button": {
+      name: "kbd-button",
+      filePath: "examples/__styles__/radix-fabricator/kbd-button.tsx",
+    },
+    "kbd-demo": {
+      name: "kbd-demo",
+      filePath: "examples/__styles__/radix-fabricator/kbd-demo.tsx",
+    },
+    "kbd-group": {
+      name: "kbd-group",
+      filePath: "examples/__styles__/radix-fabricator/kbd-group.tsx",
+    },
+    "kbd-input-group": {
+      name: "kbd-input-group",
+      filePath: "examples/__styles__/radix-fabricator/kbd-input-group.tsx",
+    },
+    "kbd-rtl": {
+      name: "kbd-rtl",
+      filePath: "examples/__styles__/radix-fabricator/kbd-rtl.tsx",
+    },
+    "kbd-tooltip": {
+      name: "kbd-tooltip",
+      filePath: "examples/__styles__/radix-fabricator/kbd-tooltip.tsx",
+    },
+    "label-demo": {
+      name: "label-demo",
+      filePath: "examples/__styles__/radix-fabricator/label-demo.tsx",
+    },
+    "label-rtl": {
+      name: "label-rtl",
+      filePath: "examples/__styles__/radix-fabricator/label-rtl.tsx",
+    },
+    "markdown-demo": {
+      name: "markdown-demo",
+      filePath: "examples/__styles__/radix-fabricator/markdown-demo.tsx",
+    },
+    "marker-border": {
+      name: "marker-border",
+      filePath: "examples/__styles__/radix-fabricator/marker-border.tsx",
+    },
+    "marker-demo": {
+      name: "marker-demo",
+      filePath: "examples/__styles__/radix-fabricator/marker-demo.tsx",
+    },
+    "marker-icon": {
+      name: "marker-icon",
+      filePath: "examples/__styles__/radix-fabricator/marker-icon.tsx",
+    },
+    "marker-link-button": {
+      name: "marker-link-button",
+      filePath: "examples/__styles__/radix-fabricator/marker-link-button.tsx",
+    },
+    "marker-separator": {
+      name: "marker-separator",
+      filePath: "examples/__styles__/radix-fabricator/marker-separator.tsx",
+    },
+    "marker-shimmer": {
+      name: "marker-shimmer",
+      filePath: "examples/__styles__/radix-fabricator/marker-shimmer.tsx",
+    },
+    "marker-status": {
+      name: "marker-status",
+      filePath: "examples/__styles__/radix-fabricator/marker-status.tsx",
+    },
+    "marker-variants": {
+      name: "marker-variants",
+      filePath: "examples/__styles__/radix-fabricator/marker-variants.tsx",
+    },
+    "menubar-checkbox": {
+      name: "menubar-checkbox",
+      filePath: "examples/__styles__/radix-fabricator/menubar-checkbox.tsx",
+    },
+    "menubar-demo": {
+      name: "menubar-demo",
+      filePath: "examples/__styles__/radix-fabricator/menubar-demo.tsx",
+    },
+    "menubar-icons": {
+      name: "menubar-icons",
+      filePath: "examples/__styles__/radix-fabricator/menubar-icons.tsx",
+    },
+    "menubar-radio": {
+      name: "menubar-radio",
+      filePath: "examples/__styles__/radix-fabricator/menubar-radio.tsx",
+    },
+    "menubar-rtl": {
+      name: "menubar-rtl",
+      filePath: "examples/__styles__/radix-fabricator/menubar-rtl.tsx",
+    },
+    "menubar-submenu": {
+      name: "menubar-submenu",
+      filePath: "examples/__styles__/radix-fabricator/menubar-submenu.tsx",
+    },
+    "message-actions": {
+      name: "message-actions",
+      filePath: "examples/__styles__/radix-fabricator/message-actions.tsx",
+    },
+    "message-attachment": {
+      name: "message-attachment",
+      filePath: "examples/__styles__/radix-fabricator/message-attachment.tsx",
+    },
+    "message-avatar": {
+      name: "message-avatar",
+      filePath: "examples/__styles__/radix-fabricator/message-avatar.tsx",
+    },
+    "message-demo": {
+      name: "message-demo",
+      filePath: "examples/__styles__/radix-fabricator/message-demo.tsx",
+    },
+    "message-group": {
+      name: "message-group",
+      filePath: "examples/__styles__/radix-fabricator/message-group.tsx",
+    },
+    "message-header-footer": {
+      name: "message-header-footer",
+      filePath:
+        "examples/__styles__/radix-fabricator/message-header-footer.tsx",
+    },
+    "message-markdown": {
+      name: "message-markdown",
+      filePath: "examples/__styles__/radix-fabricator/message-markdown.tsx",
+    },
+    "message-scroller-anchoring": {
+      name: "message-scroller-anchoring",
+      filePath:
+        "examples/__styles__/radix-fabricator/message-scroller-anchoring.tsx",
+    },
+    "message-scroller-animation": {
+      name: "message-scroller-animation",
+      filePath:
+        "examples/__styles__/radix-fabricator/message-scroller-animation.tsx",
+    },
+    "message-scroller-commands": {
+      name: "message-scroller-commands",
+      filePath:
+        "examples/__styles__/radix-fabricator/message-scroller-commands.tsx",
+    },
+    "message-scroller-demo": {
+      name: "message-scroller-demo",
+      filePath:
+        "examples/__styles__/radix-fabricator/message-scroller-demo.tsx",
+    },
+    "message-scroller-group-chat": {
+      name: "message-scroller-group-chat",
+      filePath:
+        "examples/__styles__/radix-fabricator/message-scroller-group-chat.tsx",
+    },
+    "message-scroller-load-history": {
+      name: "message-scroller-load-history",
+      filePath:
+        "examples/__styles__/radix-fabricator/message-scroller-load-history.tsx",
+    },
+    "message-scroller-opening-position": {
+      name: "message-scroller-opening-position",
+      filePath:
+        "examples/__styles__/radix-fabricator/message-scroller-opening-position.tsx",
+    },
+    "message-scroller-previous-context": {
+      name: "message-scroller-previous-context",
+      filePath:
+        "examples/__styles__/radix-fabricator/message-scroller-previous-context.tsx",
+    },
+    "message-scroller-scrollable": {
+      name: "message-scroller-scrollable",
+      filePath:
+        "examples/__styles__/radix-fabricator/message-scroller-scrollable.tsx",
+    },
+    "message-scroller-streaming": {
+      name: "message-scroller-streaming",
+      filePath:
+        "examples/__styles__/radix-fabricator/message-scroller-streaming.tsx",
+    },
+    "message-scroller-visibility": {
+      name: "message-scroller-visibility",
+      filePath:
+        "examples/__styles__/radix-fabricator/message-scroller-visibility.tsx",
+    },
+    "muted-item-group": {
+      name: "muted-item-group",
+      filePath: "examples/__styles__/radix-fabricator/muted-item-group.tsx",
+    },
+    "native-select-demo": {
+      name: "native-select-demo",
+      filePath: "examples/__styles__/radix-fabricator/native-select-demo.tsx",
+    },
+    "native-select-disabled": {
+      name: "native-select-disabled",
+      filePath:
+        "examples/__styles__/radix-fabricator/native-select-disabled.tsx",
+    },
+    "native-select-groups": {
+      name: "native-select-groups",
+      filePath: "examples/__styles__/radix-fabricator/native-select-groups.tsx",
+    },
+    "native-select-invalid": {
+      name: "native-select-invalid",
+      filePath:
+        "examples/__styles__/radix-fabricator/native-select-invalid.tsx",
+    },
+    "native-select-rtl": {
+      name: "native-select-rtl",
+      filePath: "examples/__styles__/radix-fabricator/native-select-rtl.tsx",
+    },
+    "navigation-menu-demo": {
+      name: "navigation-menu-demo",
+      filePath: "examples/__styles__/radix-fabricator/navigation-menu-demo.tsx",
+    },
+    "navigation-menu-rtl": {
+      name: "navigation-menu-rtl",
+      filePath: "examples/__styles__/radix-fabricator/navigation-menu-rtl.tsx",
+    },
+    "outline-item-group": {
+      name: "outline-item-group",
+      filePath: "examples/__styles__/radix-fabricator/outline-item-group.tsx",
+    },
+    "pagination-demo": {
+      name: "pagination-demo",
+      filePath: "examples/__styles__/radix-fabricator/pagination-demo.tsx",
+    },
+    "pagination-icons-only": {
+      name: "pagination-icons-only",
+      filePath:
+        "examples/__styles__/radix-fabricator/pagination-icons-only.tsx",
+    },
+    "pagination-rtl": {
+      name: "pagination-rtl",
+      filePath: "examples/__styles__/radix-fabricator/pagination-rtl.tsx",
+    },
+    "pagination-simple": {
+      name: "pagination-simple",
+      filePath: "examples/__styles__/radix-fabricator/pagination-simple.tsx",
+    },
+    "popover-alignments": {
+      name: "popover-alignments",
+      filePath: "examples/__styles__/radix-fabricator/popover-alignments.tsx",
+    },
+    "popover-basic": {
+      name: "popover-basic",
+      filePath: "examples/__styles__/radix-fabricator/popover-basic.tsx",
+    },
+    "popover-demo": {
+      name: "popover-demo",
+      filePath: "examples/__styles__/radix-fabricator/popover-demo.tsx",
+    },
+    "popover-form": {
+      name: "popover-form",
+      filePath: "examples/__styles__/radix-fabricator/popover-form.tsx",
+    },
+    "popover-rtl": {
+      name: "popover-rtl",
+      filePath: "examples/__styles__/radix-fabricator/popover-rtl.tsx",
+    },
+    "progress-controlled": {
+      name: "progress-controlled",
+      filePath: "examples/__styles__/radix-fabricator/progress-controlled.tsx",
+    },
+    "progress-demo": {
+      name: "progress-demo",
+      filePath: "examples/__styles__/radix-fabricator/progress-demo.tsx",
+    },
+    "progress-label": {
+      name: "progress-label",
+      filePath: "examples/__styles__/radix-fabricator/progress-label.tsx",
+    },
+    "progress-rtl": {
+      name: "progress-rtl",
+      filePath: "examples/__styles__/radix-fabricator/progress-rtl.tsx",
+    },
+    "questionnaire-animated": {
+      name: "questionnaire-animated",
+      filePath:
+        "examples/__styles__/radix-fabricator/questionnaire-animated.tsx",
+    },
+    "questionnaire-card": {
+      name: "questionnaire-card",
+      filePath: "examples/__styles__/radix-fabricator/questionnaire-card.tsx",
+    },
+    "questionnaire-conditional": {
+      name: "questionnaire-conditional",
+      filePath:
+        "examples/__styles__/radix-fabricator/questionnaire-conditional.tsx",
+    },
+    "questionnaire-controlled": {
+      name: "questionnaire-controlled",
+      filePath:
+        "examples/__styles__/radix-fabricator/questionnaire-controlled.tsx",
+    },
+    "questionnaire-demo": {
+      name: "questionnaire-demo",
+      filePath: "examples/__styles__/radix-fabricator/questionnaire-demo.tsx",
+    },
+    "questionnaire-dialog": {
+      name: "questionnaire-dialog",
+      filePath: "examples/__styles__/radix-fabricator/questionnaire-dialog.tsx",
+    },
+    "questionnaire-freeform": {
+      name: "questionnaire-freeform",
+      filePath:
+        "examples/__styles__/radix-fabricator/questionnaire-freeform.tsx",
+    },
+    "questionnaire-multiple": {
+      name: "questionnaire-multiple",
+      filePath:
+        "examples/__styles__/radix-fabricator/questionnaire-multiple.tsx",
+    },
+    "questionnaire-navigation-state": {
+      name: "questionnaire-navigation-state",
+      filePath:
+        "examples/__styles__/radix-fabricator/questionnaire-navigation-state.tsx",
+    },
+    "questionnaire-progress": {
+      name: "questionnaire-progress",
+      filePath:
+        "examples/__styles__/radix-fabricator/questionnaire-progress.tsx",
+    },
+    "questionnaire-resume": {
+      name: "questionnaire-resume",
+      filePath: "examples/__styles__/radix-fabricator/questionnaire-resume.tsx",
+    },
+    "questionnaire-shortcuts": {
+      name: "questionnaire-shortcuts",
+      filePath:
+        "examples/__styles__/radix-fabricator/questionnaire-shortcuts.tsx",
+    },
+    "questionnaire-skip": {
+      name: "questionnaire-skip",
+      filePath: "examples/__styles__/radix-fabricator/questionnaire-skip.tsx",
+    },
+    "questionnaire-validation": {
+      name: "questionnaire-validation",
+      filePath:
+        "examples/__styles__/radix-fabricator/questionnaire-validation.tsx",
+    },
+    "radio-fields": {
+      name: "radio-fields",
+      filePath: "examples/__styles__/radix-fabricator/radio-fields.tsx",
+    },
+    "radio-group-choice-card": {
+      name: "radio-group-choice-card",
+      filePath:
+        "examples/__styles__/radix-fabricator/radio-group-choice-card.tsx",
+    },
+    "radio-group-demo": {
+      name: "radio-group-demo",
+      filePath: "examples/__styles__/radix-fabricator/radio-group-demo.tsx",
+    },
+    "radio-group-description": {
+      name: "radio-group-description",
+      filePath:
+        "examples/__styles__/radix-fabricator/radio-group-description.tsx",
+    },
+    "radio-group-disabled": {
+      name: "radio-group-disabled",
+      filePath: "examples/__styles__/radix-fabricator/radio-group-disabled.tsx",
+    },
+    "radio-group-fieldset": {
+      name: "radio-group-fieldset",
+      filePath: "examples/__styles__/radix-fabricator/radio-group-fieldset.tsx",
+    },
+    "radio-group-invalid": {
+      name: "radio-group-invalid",
+      filePath: "examples/__styles__/radix-fabricator/radio-group-invalid.tsx",
+    },
+    "radio-group-rtl": {
+      name: "radio-group-rtl",
+      filePath: "examples/__styles__/radix-fabricator/radio-group-rtl.tsx",
+    },
+    "resizable-demo": {
+      name: "resizable-demo",
+      filePath: "examples/__styles__/radix-fabricator/resizable-demo.tsx",
+    },
+    "resizable-handle": {
+      name: "resizable-handle",
+      filePath: "examples/__styles__/radix-fabricator/resizable-handle.tsx",
+    },
+    "resizable-rtl": {
+      name: "resizable-rtl",
+      filePath: "examples/__styles__/radix-fabricator/resizable-rtl.tsx",
+    },
+    "resizable-vertical": {
+      name: "resizable-vertical",
+      filePath: "examples/__styles__/radix-fabricator/resizable-vertical.tsx",
+    },
+    "scroll-area-demo": {
+      name: "scroll-area-demo",
+      filePath: "examples/__styles__/radix-fabricator/scroll-area-demo.tsx",
+    },
+    "scroll-area-horizontal-demo": {
+      name: "scroll-area-horizontal-demo",
+      filePath:
+        "examples/__styles__/radix-fabricator/scroll-area-horizontal-demo.tsx",
+    },
+    "scroll-area-rtl": {
+      name: "scroll-area-rtl",
+      filePath: "examples/__styles__/radix-fabricator/scroll-area-rtl.tsx",
+    },
+    "scroll-fade-demo": {
+      name: "scroll-fade-demo",
+      filePath: "examples/__styles__/radix-fabricator/scroll-fade-demo.tsx",
+    },
+    "scroll-fade-edge": {
+      name: "scroll-fade-edge",
+      filePath: "examples/__styles__/radix-fabricator/scroll-fade-edge.tsx",
+    },
+    "scroll-fade-horizontal": {
+      name: "scroll-fade-horizontal",
+      filePath:
+        "examples/__styles__/radix-fabricator/scroll-fade-horizontal.tsx",
+    },
+    "scroll-fade-none": {
+      name: "scroll-fade-none",
+      filePath: "examples/__styles__/radix-fabricator/scroll-fade-none.tsx",
+    },
+    "scroll-fade-overflow": {
+      name: "scroll-fade-overflow",
+      filePath: "examples/__styles__/radix-fabricator/scroll-fade-overflow.tsx",
+    },
+    "scroll-fade-rtl": {
+      name: "scroll-fade-rtl",
+      filePath: "examples/__styles__/radix-fabricator/scroll-fade-rtl.tsx",
+    },
+    "scroll-fade-size": {
+      name: "scroll-fade-size",
+      filePath: "examples/__styles__/radix-fabricator/scroll-fade-size.tsx",
+    },
+    "select-align-item": {
+      name: "select-align-item",
+      filePath: "examples/__styles__/radix-fabricator/select-align-item.tsx",
+    },
+    "select-demo": {
+      name: "select-demo",
+      filePath: "examples/__styles__/radix-fabricator/select-demo.tsx",
+    },
+    "select-disabled": {
+      name: "select-disabled",
+      filePath: "examples/__styles__/radix-fabricator/select-disabled.tsx",
+    },
+    "select-groups": {
+      name: "select-groups",
+      filePath: "examples/__styles__/radix-fabricator/select-groups.tsx",
+    },
+    "select-invalid": {
+      name: "select-invalid",
+      filePath: "examples/__styles__/radix-fabricator/select-invalid.tsx",
+    },
+    "select-rtl": {
+      name: "select-rtl",
+      filePath: "examples/__styles__/radix-fabricator/select-rtl.tsx",
+    },
+    "select-scrollable": {
+      name: "select-scrollable",
+      filePath: "examples/__styles__/radix-fabricator/select-scrollable.tsx",
+    },
+    "separator-demo": {
+      name: "separator-demo",
+      filePath: "examples/__styles__/radix-fabricator/separator-demo.tsx",
+    },
+    "separator-list": {
+      name: "separator-list",
+      filePath: "examples/__styles__/radix-fabricator/separator-list.tsx",
+    },
+    "separator-menu": {
+      name: "separator-menu",
+      filePath: "examples/__styles__/radix-fabricator/separator-menu.tsx",
+    },
+    "separator-rtl": {
+      name: "separator-rtl",
+      filePath: "examples/__styles__/radix-fabricator/separator-rtl.tsx",
+    },
+    "separator-vertical": {
+      name: "separator-vertical",
+      filePath: "examples/__styles__/radix-fabricator/separator-vertical.tsx",
+    },
+    "sheet-demo": {
+      name: "sheet-demo",
+      filePath: "examples/__styles__/radix-fabricator/sheet-demo.tsx",
+    },
+    "sheet-no-close-button": {
+      name: "sheet-no-close-button",
+      filePath:
+        "examples/__styles__/radix-fabricator/sheet-no-close-button.tsx",
+    },
+    "sheet-rtl": {
+      name: "sheet-rtl",
+      filePath: "examples/__styles__/radix-fabricator/sheet-rtl.tsx",
+    },
+    "sheet-side": {
+      name: "sheet-side",
+      filePath: "examples/__styles__/radix-fabricator/sheet-side.tsx",
+    },
+    "shimmer-angle": {
+      name: "shimmer-angle",
+      filePath: "examples/__styles__/radix-fabricator/shimmer-angle.tsx",
+    },
+    "shimmer-color": {
+      name: "shimmer-color",
+      filePath: "examples/__styles__/radix-fabricator/shimmer-color.tsx",
+    },
+    "shimmer-demo": {
+      name: "shimmer-demo",
+      filePath: "examples/__styles__/radix-fabricator/shimmer-demo.tsx",
+    },
+    "shimmer-duration": {
+      name: "shimmer-duration",
+      filePath: "examples/__styles__/radix-fabricator/shimmer-duration.tsx",
+    },
+    "shimmer-marker": {
+      name: "shimmer-marker",
+      filePath: "examples/__styles__/radix-fabricator/shimmer-marker.tsx",
+    },
+    "shimmer-none": {
+      name: "shimmer-none",
+      filePath: "examples/__styles__/radix-fabricator/shimmer-none.tsx",
+    },
+    "shimmer-once": {
+      name: "shimmer-once",
+      filePath: "examples/__styles__/radix-fabricator/shimmer-once.tsx",
+    },
+    "shimmer-rtl": {
+      name: "shimmer-rtl",
+      filePath: "examples/__styles__/radix-fabricator/shimmer-rtl.tsx",
+    },
+    "shimmer-spread": {
+      name: "shimmer-spread",
+      filePath: "examples/__styles__/radix-fabricator/shimmer-spread.tsx",
+    },
+    "sidebar-controlled": {
+      name: "sidebar-controlled",
+      filePath: "examples/__styles__/radix-fabricator/sidebar-controlled.tsx",
+    },
+    "sidebar-demo": {
+      name: "sidebar-demo",
+      filePath: "examples/__styles__/radix-fabricator/sidebar-demo.tsx",
+    },
+    "sidebar-footer": {
+      name: "sidebar-footer",
+      filePath: "examples/__styles__/radix-fabricator/sidebar-footer.tsx",
+    },
+    "sidebar-group-action": {
+      name: "sidebar-group-action",
+      filePath: "examples/__styles__/radix-fabricator/sidebar-group-action.tsx",
+    },
+    "sidebar-group-collapsible": {
+      name: "sidebar-group-collapsible",
+      filePath:
+        "examples/__styles__/radix-fabricator/sidebar-group-collapsible.tsx",
+    },
+    "sidebar-group": {
+      name: "sidebar-group",
+      filePath: "examples/__styles__/radix-fabricator/sidebar-group.tsx",
+    },
+    "sidebar-header": {
+      name: "sidebar-header",
+      filePath: "examples/__styles__/radix-fabricator/sidebar-header.tsx",
+    },
+    "sidebar-menu-action": {
+      name: "sidebar-menu-action",
+      filePath: "examples/__styles__/radix-fabricator/sidebar-menu-action.tsx",
+    },
+    "sidebar-menu-badge": {
+      name: "sidebar-menu-badge",
+      filePath: "examples/__styles__/radix-fabricator/sidebar-menu-badge.tsx",
+    },
+    "sidebar-menu-collapsible": {
+      name: "sidebar-menu-collapsible",
+      filePath:
+        "examples/__styles__/radix-fabricator/sidebar-menu-collapsible.tsx",
+    },
+    "sidebar-menu-sub": {
+      name: "sidebar-menu-sub",
+      filePath: "examples/__styles__/radix-fabricator/sidebar-menu-sub.tsx",
+    },
+    "sidebar-menu": {
+      name: "sidebar-menu",
+      filePath: "examples/__styles__/radix-fabricator/sidebar-menu.tsx",
+    },
+    "sidebar-rsc": {
+      name: "sidebar-rsc",
+      filePath: "examples/__styles__/radix-fabricator/sidebar-rsc.tsx",
+    },
+    "sidebar-rtl": {
+      name: "sidebar-rtl",
+      filePath: "examples/__styles__/radix-fabricator/sidebar-rtl.tsx",
+    },
+    "skeleton-avatar": {
+      name: "skeleton-avatar",
+      filePath: "examples/__styles__/radix-fabricator/skeleton-avatar.tsx",
+    },
+    "skeleton-card": {
+      name: "skeleton-card",
+      filePath: "examples/__styles__/radix-fabricator/skeleton-card.tsx",
+    },
+    "skeleton-demo": {
+      name: "skeleton-demo",
+      filePath: "examples/__styles__/radix-fabricator/skeleton-demo.tsx",
+    },
+    "skeleton-form": {
+      name: "skeleton-form",
+      filePath: "examples/__styles__/radix-fabricator/skeleton-form.tsx",
+    },
+    "skeleton-rtl": {
+      name: "skeleton-rtl",
+      filePath: "examples/__styles__/radix-fabricator/skeleton-rtl.tsx",
+    },
+    "skeleton-table": {
+      name: "skeleton-table",
+      filePath: "examples/__styles__/radix-fabricator/skeleton-table.tsx",
+    },
+    "skeleton-text": {
+      name: "skeleton-text",
+      filePath: "examples/__styles__/radix-fabricator/skeleton-text.tsx",
+    },
+    "slider-controlled": {
+      name: "slider-controlled",
+      filePath: "examples/__styles__/radix-fabricator/slider-controlled.tsx",
+    },
+    "slider-demo": {
+      name: "slider-demo",
+      filePath: "examples/__styles__/radix-fabricator/slider-demo.tsx",
+    },
+    "slider-disabled": {
+      name: "slider-disabled",
+      filePath: "examples/__styles__/radix-fabricator/slider-disabled.tsx",
+    },
+    "slider-multiple": {
+      name: "slider-multiple",
+      filePath: "examples/__styles__/radix-fabricator/slider-multiple.tsx",
+    },
+    "slider-range": {
+      name: "slider-range",
+      filePath: "examples/__styles__/radix-fabricator/slider-range.tsx",
+    },
+    "slider-rtl": {
+      name: "slider-rtl",
+      filePath: "examples/__styles__/radix-fabricator/slider-rtl.tsx",
+    },
+    "slider-vertical": {
+      name: "slider-vertical",
+      filePath: "examples/__styles__/radix-fabricator/slider-vertical.tsx",
+    },
+    "sonner-demo": {
+      name: "sonner-demo",
+      filePath: "examples/__styles__/radix-fabricator/sonner-demo.tsx",
+    },
+    "sonner-description": {
+      name: "sonner-description",
+      filePath: "examples/__styles__/radix-fabricator/sonner-description.tsx",
+    },
+    "sonner-position": {
+      name: "sonner-position",
+      filePath: "examples/__styles__/radix-fabricator/sonner-position.tsx",
+    },
+    "sonner-types": {
+      name: "sonner-types",
+      filePath: "examples/__styles__/radix-fabricator/sonner-types.tsx",
+    },
+    "spinner-badge": {
+      name: "spinner-badge",
+      filePath: "examples/__styles__/radix-fabricator/spinner-badge.tsx",
+    },
+    "spinner-button": {
+      name: "spinner-button",
+      filePath: "examples/__styles__/radix-fabricator/spinner-button.tsx",
+    },
+    "spinner-custom": {
+      name: "spinner-custom",
+      filePath: "examples/__styles__/radix-fabricator/spinner-custom.tsx",
+    },
+    "spinner-demo": {
+      name: "spinner-demo",
+      filePath: "examples/__styles__/radix-fabricator/spinner-demo.tsx",
+    },
+    "spinner-empty": {
+      name: "spinner-empty",
+      filePath: "examples/__styles__/radix-fabricator/spinner-empty.tsx",
+    },
+    "spinner-input-group": {
+      name: "spinner-input-group",
+      filePath: "examples/__styles__/radix-fabricator/spinner-input-group.tsx",
+    },
+    "spinner-rtl": {
+      name: "spinner-rtl",
+      filePath: "examples/__styles__/radix-fabricator/spinner-rtl.tsx",
+    },
+    "spinner-size": {
+      name: "spinner-size",
+      filePath: "examples/__styles__/radix-fabricator/spinner-size.tsx",
+    },
+    "switch-choice-card": {
+      name: "switch-choice-card",
+      filePath: "examples/__styles__/radix-fabricator/switch-choice-card.tsx",
+    },
+    "switch-demo": {
+      name: "switch-demo",
+      filePath: "examples/__styles__/radix-fabricator/switch-demo.tsx",
+    },
+    "switch-description": {
+      name: "switch-description",
+      filePath: "examples/__styles__/radix-fabricator/switch-description.tsx",
+    },
+    "switch-disabled": {
+      name: "switch-disabled",
+      filePath: "examples/__styles__/radix-fabricator/switch-disabled.tsx",
+    },
+    "switch-invalid": {
+      name: "switch-invalid",
+      filePath: "examples/__styles__/radix-fabricator/switch-invalid.tsx",
+    },
+    "switch-rtl": {
+      name: "switch-rtl",
+      filePath: "examples/__styles__/radix-fabricator/switch-rtl.tsx",
+    },
+    "switch-sizes": {
+      name: "switch-sizes",
+      filePath: "examples/__styles__/radix-fabricator/switch-sizes.tsx",
+    },
+    "table-actions": {
+      name: "table-actions",
+      filePath: "examples/__styles__/radix-fabricator/table-actions.tsx",
+    },
+    "table-demo": {
+      name: "table-demo",
+      filePath: "examples/__styles__/radix-fabricator/table-demo.tsx",
+    },
+    "table-footer": {
+      name: "table-footer",
+      filePath: "examples/__styles__/radix-fabricator/table-footer.tsx",
+    },
+    "table-rtl": {
+      name: "table-rtl",
+      filePath: "examples/__styles__/radix-fabricator/table-rtl.tsx",
+    },
+    "tabs-demo": {
+      name: "tabs-demo",
+      filePath: "examples/__styles__/radix-fabricator/tabs-demo.tsx",
+    },
+    "tabs-disabled": {
+      name: "tabs-disabled",
+      filePath: "examples/__styles__/radix-fabricator/tabs-disabled.tsx",
+    },
+    "tabs-icons": {
+      name: "tabs-icons",
+      filePath: "examples/__styles__/radix-fabricator/tabs-icons.tsx",
+    },
+    "tabs-line": {
+      name: "tabs-line",
+      filePath: "examples/__styles__/radix-fabricator/tabs-line.tsx",
+    },
+    "tabs-rtl": {
+      name: "tabs-rtl",
+      filePath: "examples/__styles__/radix-fabricator/tabs-rtl.tsx",
+    },
+    "tabs-vertical": {
+      name: "tabs-vertical",
+      filePath: "examples/__styles__/radix-fabricator/tabs-vertical.tsx",
+    },
+    "textarea-button": {
+      name: "textarea-button",
+      filePath: "examples/__styles__/radix-fabricator/textarea-button.tsx",
+    },
+    "textarea-demo": {
+      name: "textarea-demo",
+      filePath: "examples/__styles__/radix-fabricator/textarea-demo.tsx",
+    },
+    "textarea-disabled": {
+      name: "textarea-disabled",
+      filePath: "examples/__styles__/radix-fabricator/textarea-disabled.tsx",
+    },
+    "textarea-field": {
+      name: "textarea-field",
+      filePath: "examples/__styles__/radix-fabricator/textarea-field.tsx",
+    },
+    "textarea-invalid": {
+      name: "textarea-invalid",
+      filePath: "examples/__styles__/radix-fabricator/textarea-invalid.tsx",
+    },
+    "textarea-rtl": {
+      name: "textarea-rtl",
+      filePath: "examples/__styles__/radix-fabricator/textarea-rtl.tsx",
+    },
+    "toggle-demo": {
+      name: "toggle-demo",
+      filePath: "examples/__styles__/radix-fabricator/toggle-demo.tsx",
+    },
+    "toggle-disabled": {
+      name: "toggle-disabled",
+      filePath: "examples/__styles__/radix-fabricator/toggle-disabled.tsx",
+    },
+    "toggle-group-demo": {
+      name: "toggle-group-demo",
+      filePath: "examples/__styles__/radix-fabricator/toggle-group-demo.tsx",
+    },
+    "toggle-group-disabled": {
+      name: "toggle-group-disabled",
+      filePath:
+        "examples/__styles__/radix-fabricator/toggle-group-disabled.tsx",
+    },
+    "toggle-group-font-weight-selector": {
+      name: "toggle-group-font-weight-selector",
+      filePath:
+        "examples/__styles__/radix-fabricator/toggle-group-font-weight-selector.tsx",
+    },
+    "toggle-group-outline": {
+      name: "toggle-group-outline",
+      filePath: "examples/__styles__/radix-fabricator/toggle-group-outline.tsx",
+    },
+    "toggle-group-rtl": {
+      name: "toggle-group-rtl",
+      filePath: "examples/__styles__/radix-fabricator/toggle-group-rtl.tsx",
+    },
+    "toggle-group-sizes": {
+      name: "toggle-group-sizes",
+      filePath: "examples/__styles__/radix-fabricator/toggle-group-sizes.tsx",
+    },
+    "toggle-group-spacing": {
+      name: "toggle-group-spacing",
+      filePath: "examples/__styles__/radix-fabricator/toggle-group-spacing.tsx",
+    },
+    "toggle-group-vertical": {
+      name: "toggle-group-vertical",
+      filePath:
+        "examples/__styles__/radix-fabricator/toggle-group-vertical.tsx",
+    },
+    "toggle-outline": {
+      name: "toggle-outline",
+      filePath: "examples/__styles__/radix-fabricator/toggle-outline.tsx",
+    },
+    "toggle-rtl": {
+      name: "toggle-rtl",
+      filePath: "examples/__styles__/radix-fabricator/toggle-rtl.tsx",
+    },
+    "toggle-sizes": {
+      name: "toggle-sizes",
+      filePath: "examples/__styles__/radix-fabricator/toggle-sizes.tsx",
+    },
+    "toggle-text": {
+      name: "toggle-text",
+      filePath: "examples/__styles__/radix-fabricator/toggle-text.tsx",
+    },
+    "tooltip-demo": {
+      name: "tooltip-demo",
+      filePath: "examples/__styles__/radix-fabricator/tooltip-demo.tsx",
+    },
+    "tooltip-disabled": {
+      name: "tooltip-disabled",
+      filePath: "examples/__styles__/radix-fabricator/tooltip-disabled.tsx",
+    },
+    "tooltip-keyboard": {
+      name: "tooltip-keyboard",
+      filePath: "examples/__styles__/radix-fabricator/tooltip-keyboard.tsx",
+    },
+    "tooltip-rtl": {
+      name: "tooltip-rtl",
+      filePath: "examples/__styles__/radix-fabricator/tooltip-rtl.tsx",
+    },
+    "tooltip-sides": {
+      name: "tooltip-sides",
+      filePath: "examples/__styles__/radix-fabricator/tooltip-sides.tsx",
+    },
+    "typography-blockquote": {
+      name: "typography-blockquote",
+      filePath:
+        "examples/__styles__/radix-fabricator/typography-blockquote.tsx",
+    },
+    "typography-demo": {
+      name: "typography-demo",
+      filePath: "examples/__styles__/radix-fabricator/typography-demo.tsx",
+    },
+    "typography-h1": {
+      name: "typography-h1",
+      filePath: "examples/__styles__/radix-fabricator/typography-h1.tsx",
+    },
+    "typography-h2": {
+      name: "typography-h2",
+      filePath: "examples/__styles__/radix-fabricator/typography-h2.tsx",
+    },
+    "typography-h3": {
+      name: "typography-h3",
+      filePath: "examples/__styles__/radix-fabricator/typography-h3.tsx",
+    },
+    "typography-h4": {
+      name: "typography-h4",
+      filePath: "examples/__styles__/radix-fabricator/typography-h4.tsx",
+    },
+    "typography-inline-code": {
+      name: "typography-inline-code",
+      filePath:
+        "examples/__styles__/radix-fabricator/typography-inline-code.tsx",
+    },
+    "typography-large": {
+      name: "typography-large",
+      filePath: "examples/__styles__/radix-fabricator/typography-large.tsx",
+    },
+    "typography-lead": {
+      name: "typography-lead",
+      filePath: "examples/__styles__/radix-fabricator/typography-lead.tsx",
+    },
+    "typography-list": {
+      name: "typography-list",
+      filePath: "examples/__styles__/radix-fabricator/typography-list.tsx",
+    },
+    "typography-muted": {
+      name: "typography-muted",
+      filePath: "examples/__styles__/radix-fabricator/typography-muted.tsx",
+    },
+    "typography-p": {
+      name: "typography-p",
+      filePath: "examples/__styles__/radix-fabricator/typography-p.tsx",
+    },
+    "typography-rtl": {
+      name: "typography-rtl",
+      filePath: "examples/__styles__/radix-fabricator/typography-rtl.tsx",
+    },
+    "typography-small": {
+      name: "typography-small",
+      filePath: "examples/__styles__/radix-fabricator/typography-small.tsx",
+    },
+    "typography-table": {
+      name: "typography-table",
+      filePath: "examples/__styles__/radix-fabricator/typography-table.tsx",
+    },
+  },
 }

@@ -5,6 +5,7 @@ import { formatCode } from "@/lib/format-code"
 import { highlightCode } from "@/lib/highlight-code"
 import { readFileFromRoot } from "@/lib/read-file"
 import { getDemoItem, getRegistryItem } from "@/lib/registry"
+import { toSiteStyle } from "@/lib/site-style"
 import { CodeCollapsibleWrapper } from "@/components/code-collapsible-wrapper"
 import { CopyButton } from "@/components/copy-button"
 import { getIconForLanguageExtension } from "@/components/icons"
@@ -16,7 +17,7 @@ export async function ComponentSource({
   language,
   collapsible = true,
   className,
-  styleName = "base-nova",
+  styleName: requestedStyleName = "base-nova",
   maxLines,
 }: React.ComponentProps<"div"> & {
   name?: string
@@ -30,6 +31,8 @@ export async function ComponentSource({
   if (!name && !src) {
     return null
   }
+
+  const styleName = toSiteStyle(requestedStyleName)
 
   let code: string | undefined
 

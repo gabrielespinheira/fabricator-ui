@@ -314,6 +314,20 @@ The Fabricator look lives in `registry/styles/style-fabricator*.css` and in toke
   - Every foreground/background pair meets WCAG 2.2 AA (4.5:1 for text, 3:1 for UI and large text). The contrast check enforces this.
 - **Blend mode:** exclusive components ship rules for all 8 upstream styles too, tuned to sit naturally next to each style's upstream components.
 
+### Seeing style changes on the site
+
+The website renders the Fabricator style, so it shows what `fabricator-ui add` installs.
+
+- **Loop:** edit `registry/styles/style-fabricator.css`, run `bun run registry:build --style all` in `apps/web` (or `--style base-fabricator` for one base), and the running dev server picks it up. Run the full `bun run registry:build` before committing.
+- **Where it applies** (`lib/site-style.ts`):
+  - Docs previews and code. Pages name upstream's default styles (`<base>-nova`, `<base>-rhea`), and `toSiteStyle()` maps them to `<base>-fabricator`. The build generates Fabricator copies of every demo in `examples/__styles__/` (gitignored).
+  - The homepage cards, which import `@/styles/base-fabricator/*`.
+  - The blocks gallery (`SITE_BLOCK_STYLE`), rendered from raw base sources inside a `.style-fabricator` scope (`app/style-registry.css`).
+  - The `.md` exports and `llms-full.txt`.
+- **Where it doesn't:** charts and `/create` keep upstream styles. Charts exist only in the legacy `new-york-v4` tree, and `/create` uses upstream preset codes.
+- **Tailwind sources:** compiled styles live in gitignored `styles/<base>-<style>/`, which Tailwind doesn't detect on its own. Every style folder the site renders must have an `@source` line in `app/globals.css`, or classes used only by that style are never generated.
+- **Mobile screenshots:** after visible style changes, recapture with `bun run registry:capture --force && bun run pages:capture` (dev server running).
+
 ---
 
 ## Website (`apps/web`)
