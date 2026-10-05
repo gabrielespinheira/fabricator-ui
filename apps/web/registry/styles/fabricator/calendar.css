@@ -1,0 +1,28 @@
+/* MARK: Calendar */
+
+  /* 32px day cells with rounded-lg highlights, 13px numerals. Today is the
+     active step (bg-active) instead of muted, and so is a range's middle, so
+     both read in dark mode too; these use `!` because the component sets
+     bg-muted inline on those cells. */
+  .cn-calendar {
+    @apply p-3 text-[13px] [--cell-radius:var(--radius-lg)] [--cell-size:--spacing(8)] **:[.rdp-today]:bg-active! **:[.rdp-range\_start]:bg-active! **:[.rdp-range\_start]:after:bg-active! **:[.rdp-range\_end]:bg-active! **:[.rdp-range\_end]:after:bg-active! **:data-[range-middle=true]:bg-active! **:data-today:bg-active!;
+  }
+
+  /* Month/year dropdowns: framed like an input, no blue halo. */
+  .cn-calendar-dropdown-root {
+    @apply ring-border has-focus:bg-card hover:bg-muted/50 ring-1 transition-[background-color,box-shadow] duration-80 ease-spring;
+  }
+
+  .cn-calendar-caption-label {
+    @apply h-7 pr-1.5 pl-2;
+  }
+
+  .cn-calendar-caption {
+    @apply text-foreground;
+  }
+
+  /* Day buttons inherit the cell's colour (outside days stay muted) instead
+     of the ghost button's muted text; hover is the ghost bg-hover. */
+  .cn-calendar-day-button {
+    @apply text-inherit text-[13px] hover:text-foreground;
+  }

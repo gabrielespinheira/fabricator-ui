@@ -1,0 +1,23 @@
+/* MARK: Button Group */
+
+  .cn-button-group {
+    @apply has-[>[data-slot=button-group]]:gap-2 has-[select[aria-hidden=true]:last-child]:[&>[data-slot=select-trigger]:last-of-type]:rounded-r-lg;
+  }
+
+  .cn-button-group-orientation-horizontal {
+    @apply [&>[data-slot]:not(:has(~[data-slot]))]:rounded-r-lg!;
+  }
+
+  .cn-button-group-orientation-vertical {
+    @apply [&>[data-slot]:not(:has(~[data-slot]))]:rounded-b-lg!;
+  }
+
+  /* An addon cell: hover fill with a hairline edge, muted 13px text, sized
+     like the 36px controls beside it. */
+  .cn-button-group-text {
+    @apply bg-hover border-border text-muted-foreground gap-2 rounded-lg border px-3 text-[13px] font-medium [&_svg]:stroke-[1.5] [&_svg:not([class*='size-'])]:size-4;
+  }
+
+  .cn-button-group-separator {
+    @apply bg-border;
+  }

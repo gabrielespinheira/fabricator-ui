@@ -1,0 +1,70 @@
+/* MARK: Bubble */
+
+  .cn-bubble {
+    @apply gap-1 data-[align=end]:self-end max-w-[80%] data-[variant=ghost]:max-w-full group-data-[align=end]/message:self-end;
+  }
+
+  /* Soft chat bubble: 8px corners, 14px text. Interactive bubbles (button,
+     link) change colour on the fast tier and focus with the 1px blue ring. */
+  .cn-bubble-content {
+    @apply rounded-lg border border-transparent px-3.5 py-2 text-[14px] leading-normal text-pretty [button,a]:duration-80 [button,a]:ease-spring [button,a]:outline-none [button,a]:focus-visible:ring-1 [button,a]:focus-visible:ring-ring group-data-[align=end]/bubble:self-end;
+  }
+
+  /* Neutral ladder, after Fluid Functionalism's chat: secondary is its
+     accent fill, default (the user bubble) is that accent mixed 45% into the
+     page, muted is the translucent hover fill. Opaque mixes keep the user
+     bubble identical on any surface, in both themes. */
+  .cn-bubble-variant-default {
+    @apply *:data-[slot=bubble-content]:bg-[color-mix(in_oklab,var(--foreground)_6%,var(--background))] dark:*:data-[slot=bubble-content]:bg-[color-mix(in_oklab,var(--foreground)_20%,var(--background))] *:data-[slot=bubble-content]:text-foreground [&>[data-slot=bubble-content]:is(button,a):hover]:bg-[color-mix(in_oklab,var(--foreground)_9%,var(--background))] dark:[&>[data-slot=bubble-content]:is(button,a):hover]:bg-[color-mix(in_oklab,var(--foreground)_24%,var(--background))];
+  }
+
+  .cn-bubble-variant-secondary {
+    @apply *:data-[slot=bubble-content]:bg-[color-mix(in_oklab,var(--foreground)_10%,var(--background))] dark:*:data-[slot=bubble-content]:bg-[color-mix(in_oklab,var(--foreground)_28%,var(--background))] *:data-[slot=bubble-content]:text-foreground [&>[data-slot=bubble-content]:is(button,a):hover]:bg-[color-mix(in_oklab,var(--foreground)_13%,var(--background))] dark:[&>[data-slot=bubble-content]:is(button,a):hover]:bg-[color-mix(in_oklab,var(--foreground)_32%,var(--background))];
+  }
+
+  .cn-bubble-variant-muted {
+    @apply *:data-[slot=bubble-content]:bg-hover *:data-[slot=bubble-content]:text-foreground [&>[data-slot=bubble-content]:is(button,a):hover]:bg-active;
+  }
+
+  /* Tinted: a soft wash of the focus blue, the palette's only hue. */
+  .cn-bubble-variant-tinted {
+    @apply *:data-[slot=bubble-content]:bg-[color-mix(in_oklab,var(--focus-ring)_12%,var(--background))] dark:*:data-[slot=bubble-content]:bg-[color-mix(in_oklab,var(--focus-ring)_22%,var(--background))] *:data-[slot=bubble-content]:text-foreground [&>[data-slot=bubble-content]:is(button,a):hover]:bg-[color-mix(in_oklab,var(--focus-ring)_18%,var(--background))] dark:[&>[data-slot=bubble-content]:is(button,a):hover]:bg-[color-mix(in_oklab,var(--focus-ring)_28%,var(--background))];
+  }
+
+  .cn-bubble-variant-outline {
+    @apply *:data-[slot=bubble-content]:bg-transparent *:data-[slot=bubble-content]:border-border *:data-[slot=bubble-content]:text-foreground [&>[data-slot=bubble-content]:is(button,a)]:text-muted-foreground [&>[data-slot=bubble-content]:is(button,a):hover]:bg-hover [&>[data-slot=bubble-content]:is(button,a):hover]:text-foreground [&>[data-slot=bubble-content]:is(button,a):active]:bg-active;
+  }
+
+  /* Ghost: the assistant reply, plain foreground text without a frame. */
+  .cn-bubble-variant-ghost {
+    @apply *:data-[slot=bubble-content]:rounded-none *:data-[slot=bubble-content]:bg-transparent *:data-[slot=bubble-content]:p-0 *:data-[slot=bubble-content]:text-foreground [&>[data-slot=bubble-content]:is(button,a)]:rounded-lg [&>[data-slot=bubble-content]:is(button,a):hover]:bg-hover border-none;
+  }
+
+  .cn-bubble-variant-destructive {
+    @apply *:data-[slot=bubble-content]:bg-destructive-light *:data-[slot=bubble-content]:text-destructive [&>[data-slot=bubble-content]:is(button,a):hover]:bg-destructive/15;
+  }
+
+  /* Reactions: a small raised pill on surface 3 (the shadow ring is its edge). */
+  .cn-bubble-reactions {
+    @apply bg-surface-3 shadow-surface-3 h-6 shrink-0 gap-0.5 rounded-full px-1.5 text-[12px] has-[button]:p-0.5;
+  }
+
+  .cn-bubble-reactions-side-top {
+    @apply top-0 -translate-y-3/4;
+  }
+
+  .cn-bubble-reactions-side-bottom {
+    @apply bottom-0 translate-y-3/4;
+  }
+
+  .cn-bubble-reactions-align-start {
+    @apply start-3;
+  }
+
+  .cn-bubble-reactions-align-end {
+    @apply end-3;
+  }
+
+  .cn-bubble-group {
+    @apply gap-1;
+  }

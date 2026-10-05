@@ -12,6 +12,7 @@ import {
   parseRegistryMode,
   resolveFabricatorSearchParams,
   toFabricatorRegistryBase,
+  usesFabricatorPalette,
 } from "@/registry/fabricator-init"
 import { parseDesignSystemConfig } from "@/app/(app)/(create)/lib/parse-config"
 import { getPresetCode } from "@/app/(app)/(create)/lib/preset-code"
@@ -50,7 +51,11 @@ export async function GET(request: NextRequest) {
       onlyResult.parts
         ? buildPartialRegistryBase(result.data, onlyResult.parts)
         : buildRegistryBase(result.data),
-      { config: result.data, mode: modeResult.mode }
+      {
+        config: result.data,
+        mode: modeResult.mode,
+        palette: usesFabricatorPalette(request.nextUrl.searchParams),
+      }
     )
     const parseResult = registryItemSchema.safeParse(registryBase)
 

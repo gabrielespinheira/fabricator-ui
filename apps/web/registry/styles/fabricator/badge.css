@@ -1,0 +1,32 @@
+/* MARK: Badge */
+
+  /* 24px, 12px medium text, rounded-lg like the other items. Focus is the
+     1px blue edge: the inline focus border turns blue and the 3px halo is
+     switched off. */
+  .cn-badge {
+    @apply h-6 gap-1.5 rounded-lg border border-transparent px-2.5 text-[12px] font-medium transition-colors duration-80 ease-spring focus-visible:ring-0! aria-invalid:border-destructive/50 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2 [&>svg]:size-3! [&>svg]:stroke-[1.5];
+  }
+
+  .cn-badge-variant-default {
+    @apply bg-active text-foreground [a]:hover:bg-foreground/10;
+  }
+
+  .cn-badge-variant-secondary {
+    @apply bg-hover text-foreground [a]:hover:bg-active;
+  }
+
+  .cn-badge-variant-outline {
+    @apply border-border text-foreground [a]:hover:bg-hover;
+  }
+
+  .cn-badge-variant-destructive {
+    @apply bg-destructive-light text-destructive [a]:hover:bg-destructive/15;
+  }
+
+  .cn-badge-variant-ghost {
+    @apply text-muted-foreground hover:bg-hover hover:text-foreground;
+  }
+
+  .cn-badge-variant-link {
+    @apply text-foreground underline-offset-4 hover:underline;
+  }

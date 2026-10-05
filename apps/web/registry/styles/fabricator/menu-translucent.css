@@ -1,0 +1,13 @@
+/* MARK: Menu Translucent */
+
+  /* Translucent menus: surface 3 at 80% over a blurred backdrop (blur on a
+     pseudo-element so the popup keeps its own enter/exit motion). Rows keep
+     their bg-hover highlight, which is itself translucent, and fluid hover
+     containers keep the single gliding highlight. */
+  .cn-menu-translucent {
+    @apply bg-surface-3/80 relative before:pointer-events-none before:absolute before:inset-0 before:-z-20 before:rounded-[inherit] before:backdrop-blur-xl before:backdrop-saturate-150;
+  }
+
+  .cn-menu-translucent-aria {
+    @apply **:data-[slot$=-item]:data-focused:not-in-data-[fluid-hover]:bg-hover;
+  }

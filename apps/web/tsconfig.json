@@ -27,6 +27,11 @@
       // payloads) are migrated to the real path.
       "@/app/(create)/*": ["./app/(app)/(create)/*"],
       "@/app/(app)/create/*": ["./app/(app)/(create)/*"],
+      // Fabricator overlay files import shared libs as if they lived in each
+      // base (the build substitutes them per base); see registry/fabricator.
+      "@/registry/bases/*/lib/fluid-hover": [
+        "./registry/fabricator/shared/lib/fluid-hover"
+      ],
       "@/*": ["./*"],
       "react": ["./node_modules/@types/react"]
     }

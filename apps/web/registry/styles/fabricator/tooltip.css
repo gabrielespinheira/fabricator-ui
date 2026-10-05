@@ -1,0 +1,27 @@
+/* MARK: Tooltip */
+
+  /* Inverted chip (the component sets bg-foreground text-background):
+     12px medium, px-2 py-1, rounded-lg. Fast spring with a 4px slide from
+     the trigger side; exits as a quicker tween. */
+  .cn-tooltip-content {
+    @apply inline-flex items-center gap-1.5 rounded-lg px-2 py-1 text-[12px] leading-4 font-medium duration-80 ease-spring data-open:animate-in data-open:fade-in-0 data-open:zoom-in-[0.97] data-[state=delayed-open]:animate-in data-[state=delayed-open]:fade-in-0 data-[state=delayed-open]:zoom-in-[0.97] data-[side=bottom]:slide-in-from-top-1 data-[side=left]:slide-in-from-right-1 data-[side=right]:slide-in-from-left-1 data-[side=top]:slide-in-from-bottom-1 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-[0.97] data-closed:duration-60 data-closed:ease-exit has-data-[slot=kbd]:pe-1 **:data-[slot=kbd]:relative **:data-[slot=kbd]:isolate **:data-[slot=kbd]:z-50 **:data-[slot=kbd]:rounded-[5px];
+  }
+
+  .cn-tooltip-content-logical {
+    @apply data-[side=inline-start]:slide-in-from-right-1 data-[side=inline-end]:slide-in-from-left-1;
+  }
+
+  /* No arrow. It stays in the layout (invisible, 4px) because Radix adds
+     the arrow's size to the side offset: that is the tooltip's 4px gap. */
+  .cn-tooltip-arrow {
+    @apply invisible size-1;
+  }
+
+  .cn-tooltip-arrow-logical {
+    @apply invisible;
+  }
+
+  /* React Aria */
+  .cn-tooltip-content-aria {
+    @apply inline-flex items-center gap-1.5 rounded-lg px-2 py-1 text-[12px] leading-4 font-medium duration-80 ease-spring data-entering:animate-in data-entering:fade-in-0 data-entering:zoom-in-[0.97] data-exiting:animate-out data-exiting:fade-out-0 data-exiting:zoom-out-[0.97] data-exiting:duration-60 data-exiting:ease-exit data-[placement=bottom]:slide-in-from-top-1 data-[placement=left]:slide-in-from-right-1 data-[placement=right]:slide-in-from-left-1 data-[placement=top]:slide-in-from-bottom-1 has-data-[slot=kbd]:pe-1 **:data-[slot=kbd]:relative **:data-[slot=kbd]:isolate **:data-[slot=kbd]:z-50 **:data-[slot=kbd]:rounded-[5px];
+  }

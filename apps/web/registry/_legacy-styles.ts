@@ -21,6 +21,14 @@ export const legacyStyles = [
     name: "base-fabricator",
     title: "Fabricator",
   },
+  {
+    name: "radix-fabricator",
+    title: "Fabricator (Radix)",
+  },
+  {
+    name: "aria-fabricator",
+    title: "Fabricator (React Aria)",
+  },
 ] as const
 
 export type Style = (typeof legacyStyles)[number]

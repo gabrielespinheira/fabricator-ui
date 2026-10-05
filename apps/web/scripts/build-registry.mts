@@ -21,6 +21,12 @@ import { legacyStyles } from "@/registry/_legacy-styles"
 import { BASE_COLORS } from "@/registry/base-colors"
 import { BASES, type Base } from "@/registry/bases"
 import { PRESETS } from "@/registry/config"
+import { toFabricatorStylesheet } from "@/registry/fabricator/foundations"
+import {
+  FABRICATOR_REQUIRED_ITEMS,
+  fabricatorItems,
+  fabricatorOverrides,
+} from "@/registry/fabricator/registry"
 import {
   FABRICATOR_NAMESPACE,
   FABRICATOR_REGISTRY,
@@ -75,6 +81,13 @@ import { STYLES } from "@/registry/styles"
 const UPSTREAM_ITEM_SCHEMA_URL =
   "https://ui.shadcn.com/schema/registry-item.json"
 const FABRICATOR_ITEM_SCHEMA_URL = `${FABRICATOR_REGISTRY.homepage}/schema/registry-item.json`
+
+// Fabricator-only files that compiled components import (lib/fluid-hover…),
+// copied next to the compiled ui for the website (see copyUIToStyles).
+const FABRICATOR_SITE_FILES = (fabricatorItems as RegistryItem[])
+  .flatMap((item) => item.files ?? [])
+  .map((file) => file.path)
+  .filter((filePath) => !filePath.startsWith("ui/"))
 
 // Fabricator-style copies of the demos (see buildStyledExamples).
 const STYLED_EXAMPLES_DIR = "examples/__styles__"
@@ -719,6 +732,10 @@ try {
   const totalStart = performance.now()
   const options = parseBuildOptions(process.argv.slice(2))
 
+  // Cheap, and later steps read their output, so they run on every build.
+  await buildFabricatorStylesheet()
+  await buildFabricatorStyleMap()
+
   if (isFullBuild(options)) {
     await runFullBuild()
   } else {
@@ -1042,7 +1059,13 @@ async function buildBases(bases: Base[], targetStyleNames?: Set<string>) {
           )
         )
 
-        return { base, baseRegistry, registryItems, sourceFiles }
+        return {
+          base,
+          baseRegistry,
+          registryItems,
+          sourceFiles,
+          fabricatorOverlay: await loadFabricatorOverlay(base.name),
+        }
       })
     ),
     Promise.all(
@@ -1077,6 +1100,7 @@ async function buildBases(bases: Base[], targetStyleNames?: Set<string>) {
     baseRegistry,
     registryItems,
     sourceFiles,
+    fabricatorOverlay,
   } of baseImports) {
     for (const { style, styleHash, styleMap } of styleMaps) {
       const styleName = `${base.name}-${style.name}`
@@ -1084,12 +1108,20 @@ async function buildBases(bases: Base[], targetStyleNames?: Set<string>) {
         continue
       }
 
+      // Fabricator styles compile the base sources plus the Fabricator
+      // overlay; upstream styles compile the base sources unchanged.
+      const isFabricator = isFabricatorStyleName(styleName)
+
       combinations.push({
         base,
         style,
         baseRegistry,
-        registryItems,
-        sourceFiles,
+        registryItems: isFabricator
+          ? withFabricatorItems(registryItems, fabricatorOverlay)
+          : registryItems,
+        sourceFiles: isFabricator
+          ? new Map([...sourceFiles, ...fabricatorOverlay])
+          : sourceFiles,
         styleHash,
         transformCacheHash,
         styleMap,
@@ -1160,6 +1192,106 @@ async function buildBases(bases: Base[], targetStyleNames?: Set<string>) {
       )
     }
   )
+}
+
+// The Fabricator style map is authored as one file per component in
+// registry/styles/fabricator/ and assembled into style-fabricator.css (the
+// file the style-map compiler and the website read). Fails when a placeholder
+// that the upstream components use has no Fabricator rule.
+async function buildFabricatorStyleMap() {
+  const partsDir = path.join(process.cwd(), "registry/styles/fabricator")
+  const files = (await fs.readdir(partsDir))
+    .filter((file) => file.endsWith(".css"))
+    .sort()
+  const parts = await Promise.all(
+    files.map((file) => fs.readFile(path.join(partsDir, file), "utf8"))
+  )
+  const content = [
+    "/* Generated from registry/styles/fabricator/*.css by scripts/build-registry.mts. Do not edit. */",
+    `.style-fabricator {\n${parts.map((part) => part.trimEnd()).join("\n\n")}\n}`,
+    "",
+  ].join("\n")
+  await writeIfChanged(
+    path.join(process.cwd(), "registry/styles/style-fabricator.css"),
+    content
+  )
+
+  const reference = createStyleMap(
+    await fs.readFile(
+      path.join(process.cwd(), "registry/styles/style-nova.css"),
+      "utf8"
+    )
+  )
+  const fabricator = createStyleMap(content)
+  const missing = Object.keys(reference).filter((key) => !(key in fabricator))
+  if (missing.length > 0) {
+    throw new Error(
+      `style-fabricator is missing rules for ${missing.length} placeholders (add them under registry/styles/fabricator/): ${missing.join(", ")}`
+    )
+  }
+}
+
+async function buildFabricatorStylesheet() {
+  const outputPath = path.join(process.cwd(), "app/fabricator.css")
+  await writeIfChanged(outputPath, toFabricatorStylesheet())
+}
+
+// Overlay files for Fabricator styles: shared first, then per-base, keyed by
+// their path relative to the base root (e.g. "ui/dropdown-menu.tsx").
+async function loadFabricatorOverlay(baseName: string) {
+  const files = new Map<string, string>()
+  for (const dir of ["shared", baseName]) {
+    const root = path.join(process.cwd(), "registry/fabricator", dir)
+    let entries: string[]
+    try {
+      entries = (await fs.readdir(root, { recursive: true })) as string[]
+    } catch {
+      continue
+    }
+    for (const entry of entries) {
+      if (!/\.(ts|tsx)$/.test(entry)) continue
+      const content = await fs.readFile(path.join(root, entry), "utf8")
+      files.set(
+        toPosixPath(entry),
+        content.replaceAll(
+          "@/registry/bases/__base__/",
+          `@/registry/bases/${baseName}/`
+        )
+      )
+    }
+  }
+  return files
+}
+
+function withFabricatorItems(
+  items: RegistryItem[],
+  overlay: Map<string, string>
+): RegistryItem[] {
+  const unique = (values: string[]) => Array.from(new Set(values))
+  const overridden = items.map((item) => {
+    const override = fabricatorOverrides[item.name]
+    // Extra dependencies only apply where this base has an override file.
+    const hasOverrideFile = normalizeRegistryFiles(item).some((file) =>
+      overlay.has(file.path)
+    )
+    if (!override || !hasOverrideFile) return item
+    return {
+      ...item,
+      dependencies: unique([
+        ...(item.dependencies ?? []),
+        ...(override.dependencies ?? []),
+      ]),
+      registryDependencies: unique([
+        ...(item.registryDependencies ?? []),
+        ...(override.registryDependencies ?? []),
+      ]),
+    }
+  })
+  const names = new Set(items.map((item) => item.name))
+  return [
+    ...overridden,
+    ...(fabricatorItems as RegistryItem[]).filter((item) => !names.has(item.name)),
+  ]
 }
 
 async function buildExamplesIndex() {
@@ -1514,7 +1646,13 @@ function toFabricatorItem(item: RegistryItem, styleName: string): RegistryItem {
     return { ...item, ...(meta && { meta }) }
   }
 
-  const registryDependencies = item.registryDependencies?.map((dependency) =>
+  const needsFoundations =
+    ["registry:ui", "registry:component", "registry:block"].includes(item.type) &&
+    !FABRICATOR_REQUIRED_ITEMS.includes(item.name)
+  const registryDependencies = [
+    ...(item.registryDependencies ?? []),
+    ...(needsFoundations ? FABRICATOR_REQUIRED_ITEMS : []),
+  ].map((dependency) =>
     isBareRegistryName(dependency)
       ? `${FABRICATOR_NAMESPACE}/${dependency}`
       : dependency
@@ -1523,7 +1661,7 @@ function toFabricatorItem(item: RegistryItem, styleName: string): RegistryItem {
   return {
     ...item,
     ...(meta && { meta }),
-    ...(registryDependencies && { registryDependencies }),
+    ...(registryDependencies.length > 0 && { registryDependencies }),
   }
 }
 
@@ -1736,6 +1874,24 @@ async function copyUIToStyles(targetStyleNames?: Set<string>) {
         },
       })
 
+      if (isFabricatorStyleName(styleName)) {
+        for (const filePath of FABRICATOR_SITE_FILES) {
+          const source = path.join(getTemporaryRegistryRoot(styleName), filePath)
+          const target = path.join(styleRoot, filePath)
+          await fs.mkdir(path.dirname(target), { recursive: true })
+          await writeIfChanged(
+            target,
+            await formatGeneratedSource(
+              rewriteRegistryImportsToStyle(
+                await fs.readFile(source, "utf8"),
+                styleName
+              ),
+              target
+            )
+          )
+        }
+      }
+
       if (!shouldGenerateRtlStyles(styleName)) {
         await rimraf(path.join(styleRoot, "ui-rtl"))
       }
@@ -1915,8 +2071,24 @@ function rewriteRegistryUiImportsToStyle(content: string, styleName: string) {
   return rewriteRegistryImportsToStyle(content, styleName)
 }
 
+// Fabricator-only files that compiled components import (lib/fluid-hover…).
+// The site has no copy of them in @/lib or @/hooks, so they are copied next
+// to the compiled ui and imported from there.
+// (FABRICATOR_SITE_FILES is defined with the other constants at the top.)
+
+function rewriteFabricatorImportsToStyle(content: string, styleName: string) {
+  if (!isFabricatorStyleName(styleName)) return content
+  return FABRICATOR_SITE_FILES.reduce((result, filePath) => {
+    const specifier = stripFileExtension(filePath)
+    return result.replaceAll(
+      `@/registry/${styleName}/${specifier}"`,
+      `@/styles/${styleName}/${specifier}"`
+    )
+  }, content)
+}
+
 function rewriteRegistryImportsToStyle(content: string, styleName: string) {
-  return content
+  return rewriteFabricatorImportsToStyle(content, styleName)
     .replaceAll(`@/registry/${styleName}/ui/`, `@/styles/${styleName}/ui/`)
     .replaceAll(`@/registry/${styleName}/lib/utils`, `@/lib/utils`)
     .replaceAll(

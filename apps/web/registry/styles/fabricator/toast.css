@@ -1,0 +1,9 @@
+/* MARK: Toast */
+
+  /* Surface 5 with its shadow ring (no border), rounded-xl, 13px. Applies
+     to the Base UI toast root and to each Sonner toast. The surface classes
+     are important: Sonner's own stylesheet (attribute selectors) and the
+     Base UI toast's inline border/bg-popover/shadow-lg would otherwise win. */
+  .cn-toast {
+    @apply bg-surface-5! shadow-surface-5! text-popover-foreground rounded-xl! border-0! text-[13px];
+  }

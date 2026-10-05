@@ -1,0 +1,32 @@
+/* MARK: Sheet */
+
+  /* Scrim: 40% black (80% in dark), no blur, on the moderate tier. */
+  .cn-sheet-overlay {
+    @apply bg-black/40 duration-160 ease-spring data-closed:duration-120 data-closed:ease-exit dark:bg-black/80;
+  }
+
+  /* Panel: surface 3 whose shadow ring is the edge (no border). Slides
+     and fades on the moderate tier; exits as a quicker tween. */
+  .cn-sheet-content {
+    @apply bg-surface-3 shadow-surface-3 text-popover-foreground fixed z-50 flex flex-col gap-4 text-[13px] transition duration-160 ease-spring data-closed:duration-120 data-closed:ease-exit data-[side=bottom]:inset-x-0 data-[side=bottom]:bottom-0 data-[side=bottom]:h-auto data-[side=left]:inset-y-0 data-[side=left]:left-0 data-[side=left]:h-full data-[side=left]:w-3/4 data-[side=right]:inset-y-0 data-[side=right]:right-0 data-[side=right]:h-full data-[side=right]:w-3/4 data-[side=top]:inset-x-0 data-[side=top]:top-0 data-[side=top]:h-auto data-[side=left]:sm:max-w-sm data-[side=right]:sm:max-w-sm;
+  }
+
+  .cn-sheet-close {
+    @apply absolute end-3 top-3;
+  }
+
+  .cn-sheet-header {
+    @apply gap-1.5 p-4;
+  }
+
+  .cn-sheet-footer {
+    @apply gap-2 p-4;
+  }
+
+  .cn-sheet-title {
+    @apply text-foreground text-[16px] leading-tight font-bold;
+  }
+
+  .cn-sheet-description {
+    @apply text-muted-foreground text-[13px];
+  }

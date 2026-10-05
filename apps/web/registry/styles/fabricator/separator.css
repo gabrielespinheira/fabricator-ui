@@ -1,0 +1,13 @@
+/* MARK: Separator */
+
+  .cn-separator {
+    @apply bg-border shrink-0;
+  }
+
+  .cn-separator-horizontal {
+    @apply h-px w-full;
+  }
+
+  .cn-separator-vertical {
+    @apply h-full w-px;
+  }

@@ -1,0 +1,24 @@
+/* MARK: Radio Group */
+
+  .cn-radio-group {
+    @apply grid gap-3;
+  }
+
+  /* 16px circle with a 1.5px border that darkens on hover. Checked drops
+     the ring; an 8px foreground dot pops in on the fast spring. The width is
+     important because the components carry an inline 1px `border`. */
+  .cn-radio-group-item {
+    @apply border-border hover:border-neutral-400 dark:hover:border-neutral-500 data-checked:border-transparent dark:data-checked:border-transparent focus-visible:ring-ring aria-invalid:border-destructive/60 aria-invalid:hover:border-destructive aria-invalid:data-checked:border-transparent flex size-4 rounded-full border-[1.5px]! bg-transparent transition-[border-color,box-shadow] duration-80 ease-spring focus-visible:ring-1 group-has-[:focus-visible]/field-label:ring-0;
+  }
+
+  .cn-radio-group-item-aria {
+    @apply data-hovered:border-neutral-400 dark:data-hovered:border-neutral-500 data-selected:border-transparent dark:data-selected:border-transparent data-focus-visible:ring-ring data-invalid:border-destructive/60 data-invalid:data-selected:border-transparent data-focus-visible:ring-1;
+  }
+
+  .cn-radio-group-indicator {
+    @apply flex size-4 items-center justify-center;
+  }
+
+  .cn-radio-group-indicator-icon {
+    @apply bg-foreground animate-in fade-in-0 zoom-in-[0.3] absolute top-1/2 left-1/2 size-2 -translate-x-1/2 -translate-y-1/2 rounded-full duration-80 ease-spring motion-reduce:zoom-in-100;
+  }

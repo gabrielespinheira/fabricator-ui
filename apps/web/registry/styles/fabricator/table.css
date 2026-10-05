@@ -1,0 +1,62 @@
+/* MARK: Table */
+
+  /* The container is the fluid hover container (relative isolate): a square
+     bg-hover highlight glides between body rows under the table. */
+  .cn-table-container {
+    @apply relative isolate w-full overflow-x-auto;
+  }
+
+  .cn-table {
+    @apply w-full caption-bottom text-[13px];
+  }
+
+  .cn-table-header {
+    @apply [&_tr]:border-b;
+  }
+
+  .cn-table-body {
+    @apply [&_tr:last-child]:border-0;
+  }
+
+  .cn-table-footer {
+    @apply border-border/60 text-foreground border-t font-medium [&>tr]:last:border-b-0;
+  }
+
+  /* Rows: soft dividers; body rows light on hover (bg-hover where there is
+     no fluid container), and the lit row hides the dividers around it so the
+     highlight reads as one block. Selected rows keep bg-active. */
+  .cn-table-row {
+    @apply border-border/60 border-b transition-colors duration-80 in-data-[slot=table-body]:hover:bg-hover in-data-[fluid-hover]:in-data-[slot=table-body]:hover:bg-transparent data-fluid-hover-active:border-transparent has-[+[data-fluid-hover-active]]:border-transparent data-[state=selected]:bg-active;
+  }
+
+  .cn-table-row-aria {
+    @apply data-selected:bg-active;
+  }
+
+  /* Head: 36px, px-3, foreground semibold. */
+  .cn-table-head {
+    @apply text-foreground h-9 px-3 text-start align-middle font-semibold whitespace-nowrap [&:has([role=checkbox])]:pe-0;
+  }
+
+  .cn-table-head-aria {
+    @apply [&:has([data-slot=checkbox])]:pe-0;
+  }
+
+  /* Cells: muted; the lit (or hovered) row turns foreground, footer cells
+     stay foreground. */
+  .cn-table-cell {
+    @apply text-muted-foreground px-3 py-2 align-middle whitespace-nowrap transition-colors duration-80 in-[tr:hover]:text-foreground in-data-fluid-hover-active:text-foreground in-data-[slot=table-footer]:text-foreground [&:has([role=checkbox])]:pe-0;
+  }
+
+  .cn-table-cell-aria {
+    @apply [&:has([data-slot=checkbox])]:pe-0;
+  }
+
+  .cn-table-caption {
+    @apply text-muted-foreground mt-4 text-[12px];
+  }
+
+  /* The fluid row highlight is square: rows span the table edge to edge. */
+  .cn-table-highlight {
+    @apply rounded-none;
+  }

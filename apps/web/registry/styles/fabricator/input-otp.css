@@ -1,0 +1,26 @@
+/* MARK: Input OTP */
+
+  .cn-input-otp {
+    @apply gap-2;
+  }
+
+  /* Slots stand apart (each is framed like an input), so the group only
+     spaces them. */
+  .cn-input-otp-group {
+    @apply gap-1.5 rounded-lg;
+  }
+
+  /* 36px slots framed by ring-border; the active slot lifts to the card
+     surface with a firmer neutral ring (no blue halo). Invalid slots turn the
+     ring red. */
+  .cn-input-otp-slot {
+    @apply text-foreground ring-border data-[active=true]:bg-card data-[active=true]:ring-foreground/30 aria-invalid:ring-destructive/50 data-[active=true]:aria-invalid:ring-destructive size-9 rounded-lg bg-transparent text-[14px] tabular-nums ring-1 transition-[background-color,box-shadow] duration-80 ease-spring outline-none;
+  }
+
+  .cn-input-otp-caret-line {
+    @apply animate-caret-blink bg-foreground h-4 w-px duration-1000;
+  }
+
+  .cn-input-otp-separator {
+    @apply text-muted-foreground [&_svg:not([class*='size-'])]:size-4 [&_svg]:stroke-[1.5];
+  }

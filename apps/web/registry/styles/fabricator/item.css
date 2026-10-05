@@ -1,0 +1,80 @@
+/* MARK: Item */
+
+  /* 13px rows, rounded-lg. Linked items get the hover fill. Focus is the
+     1px blue edge: the inline focus border turns blue and its 3px halo is
+     switched off. */
+  .cn-item {
+    @apply [a]:hover:bg-hover rounded-lg border text-[13px] focus-visible:ring-0!;
+  }
+
+  .cn-item-variant-default {
+    @apply border-transparent;
+  }
+
+  .cn-item-variant-outline {
+    @apply border-border;
+  }
+
+  .cn-item-variant-muted {
+    @apply bg-hover [a]:hover:bg-active border-transparent;
+  }
+
+  .cn-item-size-default {
+    @apply gap-3 p-3;
+  }
+
+  .cn-item-size-sm {
+    @apply gap-2.5 px-3 py-2;
+  }
+
+  .cn-item-size-xs {
+    @apply gap-2 px-2 py-1.5 in-data-[slot=dropdown-menu-content]:p-0;
+  }
+
+  .cn-item-media {
+    @apply gap-2 group-has-data-[slot=item-description]/item:translate-y-0.5 group-has-data-[slot=item-description]/item:self-start;
+  }
+
+  .cn-item-media-variant-default {
+    @apply bg-transparent;
+  }
+
+  .cn-item-media-variant-icon {
+    @apply [&_svg]:stroke-[1.5] [&_svg:not([class*='size-'])]:size-4;
+  }
+
+  .cn-item-media-variant-image {
+    @apply size-10 overflow-hidden rounded-lg group-data-[size=sm]/item:size-8 group-data-[size=xs]/item:size-6 group-data-[size=xs]/item:rounded-md [&_img]:size-full [&_img]:object-cover;
+  }
+
+  .cn-item-content {
+    @apply gap-0.5 group-data-[size=xs]/item:gap-0;
+  }
+
+  .cn-item-title {
+    @apply gap-2 text-[13px] leading-snug font-medium underline-offset-4;
+  }
+
+  .cn-item-description {
+    @apply text-muted-foreground text-left text-[13px] leading-normal group-data-[size=xs]/item:text-[12px];
+  }
+
+  .cn-item-actions {
+    @apply gap-2;
+  }
+
+  .cn-item-header {
+    @apply gap-2;
+  }
+
+  .cn-item-footer {
+    @apply gap-2;
+  }
+
+  .cn-item-group {
+    @apply gap-3 has-data-[size=sm]:gap-2 has-data-[size=xs]:gap-1;
+  }
+
+  .cn-item-separator {
+    @apply my-2;
+  }

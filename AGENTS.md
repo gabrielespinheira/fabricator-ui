@@ -68,7 +68,11 @@ The full target tree is in `PLAN.md` §4. Which paths are authored and which are
 | Path | What | Authored? |
 |---|---|---|
 | `apps/web/registry/bases/{base,radix,aria}/` | Component, block, hook and lib source plus `_registry.ts` item declarations | ✅ authored |
-| `apps/web/registry/styles/style-*.css` | Style maps (8 upstream + Fabricator) | ✅ authored |
+| `apps/web/registry/styles/style-*.css` | Style maps for the 8 upstream styles | ✅ authored |
+| `apps/web/registry/styles/fabricator/*.css` | Fabricator style map, one file per component | ✅ authored |
+| `apps/web/registry/styles/style-fabricator.css` | Assembled Fabricator style map | ⚙️ generated, committed |
+| `apps/web/registry/fabricator/` | Fabricator foundations (`foundations.ts`), design spec (`DESIGN.md`), extra items and overrides (`registry.ts`), overlay sources (`shared/`, `<base>/`) | ✅ authored |
+| `apps/web/app/fabricator.css` | Foundations + palette stylesheet for the website | ⚙️ generated, committed |
 | `apps/web/registry/{bases,styles,themes,fonts,config,presets}.ts` | Registry metadata, themes, presets, `registry:base` builder | ✅ authored |
 | `apps/web/examples/{base,radix,aria}/*.tsx` | Docs demos (flat folders, no subdirectories) | ✅ authored |
 | `apps/web/content/docs/**` | MDX docs (Fumadocs) | ✅ authored |
@@ -304,7 +308,12 @@ Items are TypeScript objects in each folder's `_registry.ts`, typed `Registry["i
 
 ## Design system (Fabricator layer)
 
-The Fabricator look lives in `registry/styles/style-fabricator*.css` and in token sources under `registry/tokens/`. Redesigning an upstream component means editing its placeholders' rules in the Fabricator style maps. Its TSX changes only when structure must change, and then under the superset rule.
+The Fabricator design language adapts Fluid Functionalism (MIT). **`apps/web/registry/fabricator/DESIGN.md` is the specification**: surfaces, interaction tokens, sizes, motion tiers, fluid hover, scrollbars, and the look of every component. Read it before changing any Fabricator style or override.
+
+- **Tokens** live in `registry/fabricator/foundations.ts` (foundations: new token names only; palette: Fabricator values for the shadcn token names, applied by the `fabricator` preset).
+- **Look:** each component's placeholder rules are in `registry/styles/fabricator/<component>.css`. The build assembles them into `style-fabricator.css` and fails if any placeholder used by the components has no rule.
+- **Behaviour** that CSS can't express (fluid hover, sliding selection) is added with **Fabricator overrides**: `registry/fabricator/<base>/ui/<component>.tsx` is a copy of the upstream source with additive, container-level changes; `registry/fabricator/shared/` holds files every base uses (`lib/fluid-hover.tsx`). Overrides compile into the Fabricator style only, so upstream styles keep their exact output. They keep the full upstream API (superset rule). Extra registry dependencies go in `fabricatorOverrides` in `registry/fabricator/registry.ts`.
+- **After an upstream sync**, review the upstream changes to every overridden file (`git diff <old>..<new> -- apps/web/registry/bases/<base>/ui/<component>.tsx`) and port them into the override.
 
 - **Dimensions** (rationale in `PLAN.md` §6):
   - Colour, surfaces, motion, and square/rounded radius are **tokens**.
@@ -318,7 +327,9 @@ The Fabricator look lives in `registry/styles/style-fabricator*.css` and in toke
 
 The website renders the Fabricator style, so it shows what `fabricator-ui add` installs.
 
-- **Loop:** edit `registry/styles/style-fabricator.css`, run `bun run registry:build --style all` in `apps/web` (or `--style base-fabricator` for one base), and the running dev server picks it up. Run the full `bun run registry:build` before committing.
+- **Live CSS loop (no compile):** edit `registry/styles/fabricator/<component>.css`, run `bun run registry:build --examples` in `apps/web`, and open `/view/base-fabricator/<component>-example`. It renders the component's showcase from raw sources with the style map's CSS, and the dev server hot-reloads.
+- **Compiled loop (overrides, docs pages):** `scripts/build-fabricator.sh [base|radix|aria|all]` in `apps/web` rebuilds `styles/*-fabricator` under a lock (safe with parallel workers). Run the full `bun run registry:build` before committing.
+- **Stale Turbopack cache:** if the dev server can't resolve a newly generated file that exists on disk, stop it, delete `apps/web/.next/dev`, and restart.
 - **Where it applies** (`lib/site-style.ts`):
   - Docs previews and code. Pages name upstream's default styles (`<base>-nova`, `<base>-rhea`), and `toSiteStyle()` maps them to `<base>-fabricator`. The build generates Fabricator copies of every demo in `examples/__styles__/` (gitignored).
   - The homepage cards, which import `@/styles/base-fabricator/*`.
@@ -353,6 +364,14 @@ The website renders the Fabricator style, so it shows what `fabricator-ui add` i
 - **AI-facing outputs:** every docs page has a `.md` export, and `llms.txt` lists the docs. Both stay accurate as pages change.
 - **Registry endpoints** under `/r/**` return `application/json` with permissive CORS and long CDN caching.
 - **Site UI:** the website uses Fabricator components from the registry, so it is the library's flagship example.
+- **Site chrome** follows the Fabricator design (DESIGN.md), and lives in new files so upstream merges of the website stay small:
+  - `components/fabricator/`:
+    - `site-header.tsx` / `site-footer.tsx`: the minimal top bar and footer for the homepage and the full-width pages.
+    - `docs-shell-sidebar.tsx`, `docs-mobile-bar.tsx`, `docs-panel.tsx`: the docs shell (no top bar), with a left sidebar of search and nav groups, and a right panel for theme, primitive and contents.
+    - `fluid-nav.tsx`: the site's link lists, which use the real Fluid Hover hook.
+  - `app/fabricator-site.css`: site-only CSS such as docs typography. `app/fabricator.css` is generated; don't edit it.
+  - The homepage (`app/(app)/(root)/`) is a gallery of live Fabricator components imported from `@/styles/base-fabricator/ui/*`.
+- **Docs pages** use the docs shell: `[data-slot=docs-shell]` hides the site header and footer.
 
 ---
 

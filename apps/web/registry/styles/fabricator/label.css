@@ -1,0 +1,9 @@
+/* MARK: Label */
+
+  .cn-label {
+    @apply text-foreground gap-2 text-[13px] leading-none font-medium group-data-[disabled=true]:opacity-50 peer-disabled:opacity-50;
+  }
+
+  .cn-label-aria {
+    @apply peer-data-disabled:opacity-50;
+  }

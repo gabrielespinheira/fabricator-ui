@@ -1,0 +1,17 @@
+/* MARK: Scroll Area */
+
+  /* A 10px hit track; the visible part is the thumb. Radix mounts the
+     scrollbar on hover/scroll and unmounts it after its hide delay, so it
+     fades in and out with keyframes. */
+  .cn-scroll-area-scrollbar {
+    @apply data-horizontal:h-2.5 data-horizontal:flex-col data-vertical:h-full data-vertical:w-2.5 data-[state=visible]:animate-in data-[state=visible]:fade-in-0 data-[state=visible]:duration-160 data-[state=hidden]:animate-out data-[state=hidden]:fade-out-0 data-[state=hidden]:duration-120 data-[state=hidden]:ease-exit;
+  }
+
+  /* Thin overlay-tinted thumb: 4px at rest, 6px while the pointer is on
+     the track, 8% → 12% → 16% (dragging). Base UI keeps the scrollbar
+     mounted, so the thumb itself fades in (160ms) while the area is hovered
+     or scrolling and out (120ms, after 160ms so it narrows back first).
+     The colours are important to beat the component's inline bg-border. */
+  .cn-scroll-area-thumb {
+    @apply rounded-full bg-[rgb(var(--overlay)/0.08)]! opacity-0 [transition:opacity_120ms_ease-out_160ms,background-color_160ms,max-width_160ms,max-height_160ms] in-[[data-slot=scroll-area-scrollbar]:hover]:bg-[rgb(var(--overlay)/0.12)]! active:bg-[rgb(var(--overlay)/0.16)]! in-[[data-slot=scroll-area-scrollbar][data-orientation=vertical]]:mx-auto in-[[data-slot=scroll-area-scrollbar][data-orientation=vertical]]:max-w-1 in-[[data-slot=scroll-area-scrollbar][data-orientation=vertical]:hover]:max-w-1.5 in-[[data-slot=scroll-area-scrollbar][data-orientation=horizontal]]:my-auto in-[[data-slot=scroll-area-scrollbar][data-orientation=horizontal]]:max-h-1 in-[[data-slot=scroll-area-scrollbar][data-orientation=horizontal]:hover]:max-h-1.5 data-[state=visible]:opacity-100 in-[[data-slot=scroll-area-scrollbar][data-hovering]]:opacity-100 in-[[data-slot=scroll-area-scrollbar][data-scrolling]]:opacity-100 in-[[data-slot=scroll-area-scrollbar][data-hovering]]:[transition:opacity_160ms_ease-out,background-color_160ms,max-width_160ms,max-height_160ms] in-[[data-slot=scroll-area-scrollbar][data-scrolling]]:[transition:opacity_160ms_ease-out,background-color_160ms,max-width_160ms,max-height_160ms];
+  }

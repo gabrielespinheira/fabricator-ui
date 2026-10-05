@@ -2,6 +2,12 @@
   "$comment": "Registry items that intentionally differ from ui.shadcn.com. Each entry is a bug fix; report it upstream and remove the entry once upstream ships the fix.",
   "exceptions": [
     {
+      "item": "alert-dialog",
+      "bases": ["aria"],
+      "reason": "Removed an unused `type DialogProps` import that fails `noUnusedLocals` (on by default in the Vite template).",
+      "since": "2026-10-05"
+    },
+    {
       "item": "label",
       "bases": ["aria"],
       "reason": "Removed an unused `import * as React` that fails `noUnusedLocals` (on by default in the Vite template).",

@@ -1,0 +1,29 @@
+/* MARK: Popover */
+
+  /* Popup recipe: surface 3 with its shadow ring (no border), rounded-xl,
+     p-3, 13px. Enters on the fast spring with a 4px slide from the trigger
+     side and a slight scale; exits as a quicker tween. */
+  .cn-popover-content {
+    @apply bg-surface-3 shadow-surface-3 text-popover-foreground flex flex-col gap-3 rounded-xl p-3 text-[13px] duration-80 ease-spring data-open:animate-in data-open:fade-in-0 data-open:zoom-in-[0.97] data-[side=bottom]:slide-in-from-top-1 data-[side=left]:slide-in-from-right-1 data-[side=right]:slide-in-from-left-1 data-[side=top]:slide-in-from-bottom-1 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-[0.97] data-closed:duration-60 data-closed:ease-exit;
+  }
+
+  .cn-popover-content-logical {
+    @apply data-[side=inline-start]:slide-in-from-right-1 data-[side=inline-end]:slide-in-from-left-1;
+  }
+
+  .cn-popover-header {
+    @apply flex flex-col gap-1 text-[13px];
+  }
+
+  .cn-popover-title {
+    @apply text-foreground text-[14px] leading-snug font-medium;
+  }
+
+  .cn-popover-description {
+    @apply text-muted-foreground text-[13px];
+  }
+
+  /* React Aria */
+  .cn-popover-content-aria {
+    @apply bg-surface-3 shadow-surface-3 text-popover-foreground flex flex-col gap-3 rounded-xl p-3 text-[13px] duration-80 ease-spring data-entering:animate-in data-entering:fade-in-0 data-entering:zoom-in-[0.97] data-[placement=bottom]:slide-in-from-top-1 data-[placement=left]:slide-in-from-right-1 data-[placement=right]:slide-in-from-left-1 data-[placement=top]:slide-in-from-bottom-1 data-exiting:animate-out data-exiting:fade-out-0 data-exiting:zoom-out-[0.97] data-exiting:duration-60 data-exiting:ease-exit;
+  }

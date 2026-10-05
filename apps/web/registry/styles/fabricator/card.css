@@ -1,0 +1,28 @@
+/* MARK: Card */
+
+  /* Light, visible container: bg-card on surface 2's shadow ring (no
+     border or ring), rounded-xl. 16px rhythm (12px for size="sm"). The
+     footer has no muted bar, so the card keeps its bottom padding. */
+  .cn-card {
+    @apply bg-card text-card-foreground shadow-surface-2 gap-(--card-spacing) overflow-hidden rounded-xl py-(--card-spacing) text-[13px] [--card-spacing:--spacing(4)] has-[>img:first-child]:pt-0 data-[size=sm]:[--card-spacing:--spacing(3)] *:[img:first-child]:rounded-t-xl *:[img:last-child]:rounded-b-xl;
+  }
+
+  .cn-card-header {
+    @apply gap-1 rounded-t-xl px-(--card-spacing) [.border-b]:border-border/60 [.border-b]:pb-(--card-spacing);
+  }
+
+  .cn-card-title {
+    @apply text-foreground text-[14px] leading-snug font-medium group-data-[size=sm]/card:text-[13px];
+  }
+
+  .cn-card-description {
+    @apply text-muted-foreground text-[13px] group-data-[size=sm]/card:text-[12px];
+  }
+
+  .cn-card-content {
+    @apply px-(--card-spacing);
+  }
+
+  .cn-card-footer {
+    @apply gap-2 rounded-b-xl px-(--card-spacing) [.border-t]:border-border/60 [.border-t]:pt-(--card-spacing);
+  }

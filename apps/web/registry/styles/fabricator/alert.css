@@ -1,0 +1,27 @@
+/* MARK: Alert */
+
+  /* Borderless: a hover-tinted panel, rounded-xl, 13px body. */
+  .cn-alert {
+    @apply grid gap-0.5 rounded-xl p-4 text-left text-[13px] has-data-[slot=alert-action]:relative has-data-[slot=alert-action]:pr-18 has-[>svg]:grid-cols-[auto_1fr] has-[>svg]:gap-x-2.5 *:[svg]:row-span-2 *:[svg]:translate-y-0.5 *:[svg]:stroke-[1.5] *:[svg]:text-current *:[svg:not([class*='size-'])]:size-4;
+  }
+
+  .cn-alert-variant-default {
+    @apply bg-hover text-foreground;
+  }
+
+  /* A red wash with foreground text; only the icon takes the colour. */
+  .cn-alert-variant-destructive {
+    @apply bg-destructive/12 text-foreground *:[svg]:text-destructive;
+  }
+
+  .cn-alert-title {
+    @apply text-[14px] leading-5 font-medium group-has-[>svg]/alert:col-start-2;
+  }
+
+  .cn-alert-description {
+    @apply text-foreground/70 text-[13px] text-balance md:text-pretty [&_p:not(:last-child)]:mb-4;
+  }
+
+  .cn-alert-action {
+    @apply absolute top-3 right-3;
+  }

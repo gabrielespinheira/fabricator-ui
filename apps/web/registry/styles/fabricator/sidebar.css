@@ -1,0 +1,131 @@
+/* MARK: Sidebar */
+
+  /* Keeps the timing of the container's inline width transition, so the gap
+     and the panel move together. */
+  .cn-sidebar-gap {
+    @apply transition-[width] duration-200 ease-linear;
+  }
+
+  /* The panel is surface 2 (bg-sidebar). Floating: a rounded-xl surface
+     whose shadow ring is its edge (no ring/border). */
+  .cn-sidebar-inner {
+    @apply bg-sidebar group-data-[variant=floating]:shadow-surface-2 group-data-[variant=floating]:rounded-xl;
+  }
+
+  .cn-sidebar-rail {
+    @apply hover:after:bg-border;
+  }
+
+  /* Inset main area: surface 2 with its shadow ring, rounded-xl. */
+  .cn-sidebar-inset {
+    @apply bg-background md:peer-data-[variant=inset]:bg-surface-2 md:peer-data-[variant=inset]:shadow-surface-2 md:peer-data-[variant=inset]:m-2 md:peer-data-[variant=inset]:ms-0 md:peer-data-[variant=inset]:rounded-xl md:peer-data-[variant=inset]:peer-data-[state=collapsed]:ms-2;
+  }
+
+  .cn-sidebar-input {
+    @apply bg-background h-8 w-full text-[13px] shadow-none;
+  }
+
+  .cn-sidebar-header {
+    @apply gap-2 p-2;
+  }
+
+  .cn-sidebar-content {
+    @apply no-scrollbar gap-0;
+  }
+
+  .cn-sidebar-footer {
+    @apply gap-2 p-2;
+  }
+
+  .cn-sidebar-separator {
+    @apply bg-border/60 mx-2;
+  }
+
+  .cn-sidebar-group {
+    @apply p-2;
+  }
+
+  /* Each menu is a fluid hover container (relative isolate): a bg-hover
+     highlight glides between its buttons, and the active button's bg-active
+     background slides between active buttons on the moderate spring. */
+  .cn-sidebar-menu {
+    @apply relative isolate gap-0;
+  }
+
+  .cn-sidebar-group-content {
+    @apply text-[13px];
+  }
+
+  /* Group labels: 12px muted (full muted-foreground, not /70, to keep
+     4.5:1 on surface 2). */
+  .cn-sidebar-group-label {
+    @apply text-muted-foreground ring-ring h-8 rounded-lg px-2 text-[12px] font-normal transition-[margin,opacity] duration-200 ease-linear group-data-[collapsible=icon]:-mt-8 group-data-[collapsible=icon]:opacity-0 focus-visible:ring-1 [&>svg]:size-4;
+  }
+
+  .cn-sidebar-group-action {
+    @apply text-muted-foreground ring-ring hover:bg-hover hover:text-foreground absolute top-3.5 end-3 w-5 rounded-md p-0 transition-colors duration-80 focus-visible:ring-1 [&>svg]:size-4;
+  }
+
+  /* Rows: 32px, px-2, gap-2, rounded-lg, 13px, muted at rest. Hover and the
+     lit row turn foreground (and thicken the icon); the active row is
+     foreground + semibold on bg-active. Inside a fluid menu the row paints no
+     hover or active background: the gliding highlight and the sliding
+     selection do. Pressed is a bg-active step. */
+  .cn-sidebar-menu-button {
+    @apply text-muted-foreground ring-ring gap-2 rounded-lg px-2 text-start text-[13px] font-normal transition-[width,height,padding,color,background-color] duration-80 group-has-data-[sidebar=menu-action]/menu-item:pe-8 group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! focus-visible:ring-1 [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] hover:bg-hover hover:text-foreground hover:[&_svg]:stroke-2 active:bg-active active:text-foreground data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-active:bg-active data-active:text-foreground data-active:font-semibold data-active:[&_svg]:stroke-2 data-open:text-foreground in-data-[fluid-hover]:hover:bg-transparent in-data-[fluid-hover]:data-active:bg-transparent;
+  }
+
+  .cn-sidebar-menu-button-aria {
+    @apply aria-expanded:text-foreground;
+  }
+
+  .cn-sidebar-menu-button-variant-default {
+    @apply hover:bg-hover hover:text-foreground in-data-[fluid-hover]:hover:bg-transparent;
+  }
+
+  .cn-sidebar-menu-button-variant-outline {
+    @apply bg-transparent hover:bg-hover hover:text-foreground shadow-[0_0_0_1px_var(--border)] in-data-[fluid-hover]:hover:bg-transparent;
+  }
+
+  .cn-sidebar-menu-button-size-default {
+    @apply h-8 text-[13px];
+  }
+
+  .cn-sidebar-menu-button-size-sm {
+    @apply h-7 text-[12px];
+  }
+
+  .cn-sidebar-menu-button-size-lg {
+    @apply h-12 text-[13px] group-data-[collapsible=icon]:p-0!;
+  }
+
+  .cn-sidebar-menu-action {
+    @apply text-muted-foreground ring-ring hover:bg-hover hover:text-foreground peer-hover/menu-button:text-foreground peer-data-fluid-hover-active/menu-button:text-foreground absolute top-1.5 end-1 aspect-square w-5 rounded-md p-0 transition-colors duration-80 peer-data-[size=default]/menu-button:top-1.5 peer-data-[size=lg]/menu-button:top-3.5 peer-data-[size=sm]/menu-button:top-1 focus-visible:ring-1 [&>svg]:size-4;
+  }
+
+  .cn-sidebar-menu-badge {
+    @apply text-muted-foreground peer-hover/menu-button:text-foreground peer-data-fluid-hover-active/menu-button:text-foreground peer-data-active/menu-button:text-foreground pointer-events-none absolute end-1 flex h-5 min-w-5 rounded-md px-1 text-[12px] font-medium tabular-nums peer-data-[size=default]/menu-button:top-1.5 peer-data-[size=lg]/menu-button:top-3.5 peer-data-[size=sm]/menu-button:top-1;
+  }
+
+  .cn-sidebar-menu-skeleton {
+    @apply h-8 gap-2 rounded-lg px-2;
+  }
+
+  .cn-sidebar-menu-skeleton-icon {
+    @apply size-4 rounded-md;
+  }
+
+  .cn-sidebar-menu-skeleton-text {
+    @apply h-4;
+  }
+
+  /* Sub-menus hang off a hairline under the parent icon (15px in), so a
+     sub-row label lines up with the parent label. */
+  .cn-sidebar-menu-sub {
+    @apply border-border ms-[15px] me-0 gap-0 border-s ps-2 pe-0 py-0.5 group-data-[collapsible=icon]:hidden;
+  }
+
+  /* Sub-rows: 28px (24px small), same look as menu rows. */
+  .cn-sidebar-menu-sub-button {
+    @apply text-muted-foreground ring-ring h-7 gap-2 rounded-lg px-2 text-[13px] transition-[color,background-color] duration-80 in-data-[slot=sidebar-menu-sub]:translate-x-0 focus-visible:ring-1 data-[size=sm]:h-6 data-[size=sm]:text-[12px] [&>svg]:size-4 [&>svg]:stroke-[1.5] [&>svg]:text-current hover:bg-hover hover:text-foreground active:bg-active active:text-foreground data-fluid-hover-active:text-foreground data-fluid-hover-active:[&>svg]:stroke-2 data-active:bg-active data-active:text-foreground data-active:font-semibold in-data-[fluid-hover]:hover:bg-transparent in-data-[fluid-hover]:data-active:bg-transparent;
+  }

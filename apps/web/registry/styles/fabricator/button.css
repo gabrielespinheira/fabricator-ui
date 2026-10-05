@@ -1,0 +1,72 @@
+/* MARK: Button */
+
+  /* 36px controls, 13px medium text, rounded-lg. Colour changes run on the
+     fast tier; pressed is a background step (no translate or scale). Focus
+     is a 1px blue ring with no halo; icons draw at stroke 1.5 and thicken
+     to 2 on hover or while the button's popup is open. */
+  .cn-button {
+    @apply rounded-lg border border-transparent text-[13px] font-medium duration-80 ease-spring focus-visible:ring-1 focus-visible:ring-ring aria-invalid:ring-1 aria-invalid:ring-destructive/50 [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] [&_svg]:duration-80 hover:[&_svg]:stroke-2 aria-expanded:[&_svg]:stroke-2 [&_svg:not([class*='size-'])]:size-4;
+  }
+
+  /* Primary is the foreground colour. React Aria reports presses with
+     data-pressed. */
+  .cn-button-variant-default {
+    @apply bg-primary text-primary-foreground hover:bg-primary/90 active:bg-primary/80 aria-expanded:bg-primary/80 data-pressed:bg-primary/80;
+  }
+
+  /* Transparent with a hairline edge; hover and press step through the
+     interaction tokens. */
+  .cn-button-variant-outline {
+    @apply border-border text-foreground hover:bg-hover active:bg-active aria-expanded:bg-active data-pressed:bg-active aria-invalid:border-destructive/50 bg-transparent;
+  }
+
+  /* Translucent tint, so it takes on the surface under it. */
+  .cn-button-variant-secondary {
+    @apply bg-tint text-foreground hover:bg-tint-hover active:bg-tint aria-expanded:bg-tint data-pressed:bg-tint;
+  }
+
+  /* Muted at rest, foreground when lit. */
+  .cn-button-variant-ghost {
+    @apply text-muted-foreground hover:bg-hover hover:text-foreground active:bg-active aria-expanded:bg-active aria-expanded:text-foreground data-pressed:bg-active bg-transparent;
+  }
+
+  .cn-button-variant-destructive {
+    @apply bg-destructive-light text-destructive hover:bg-destructive/15 active:bg-destructive/20 aria-expanded:bg-destructive/20 data-pressed:bg-destructive/20;
+  }
+
+  .cn-button-variant-link {
+    @apply text-foreground underline-offset-4 hover:underline;
+  }
+
+  /* An icon sits 4px closer to its edge than text does. */
+  .cn-button-size-xs {
+    @apply h-6 gap-1 px-2 text-[12px] has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-3;
+  }
+
+  .cn-button-size-sm {
+    @apply h-7 gap-1 px-3 text-[12px] has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2 [&_svg:not([class*='size-'])]:size-3.5;
+  }
+
+  .cn-button-size-default {
+    @apply h-9 gap-1.5 px-4 has-data-[icon=inline-end]:pr-3 has-data-[icon=inline-start]:pl-3;
+  }
+
+  .cn-button-size-lg {
+    @apply h-10 gap-1.5 px-5 has-data-[icon=inline-end]:pr-4 has-data-[icon=inline-start]:pl-4;
+  }
+
+  .cn-button-size-icon-xs {
+    @apply size-6 [&_svg:not([class*='size-'])]:size-3;
+  }
+
+  .cn-button-size-icon-sm {
+    @apply size-7 [&_svg:not([class*='size-'])]:size-3.5;
+  }
+
+  .cn-button-size-icon {
+    @apply size-9;
+  }
+
+  .cn-button-size-icon-lg {
+    @apply size-10;
+  }

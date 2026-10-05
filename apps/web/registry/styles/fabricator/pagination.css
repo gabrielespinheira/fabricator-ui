@@ -1,0 +1,23 @@
+/* MARK: Pagination */
+
+  .cn-pagination-content {
+    @apply gap-1;
+  }
+
+  /* Links are ghost (outline when current) buttons. The current page reads
+     as a selected item instead: active fill, foreground, semibold, no edge. */
+  .cn-pagination-link {
+    @apply data-[active=true]:bg-active data-[active=true]:text-foreground data-[active=true]:border-transparent data-[active=true]:font-semibold;
+  }
+
+  .cn-pagination-ellipsis {
+    @apply text-muted-foreground size-9 items-center justify-center [&_svg]:stroke-[1.5] [&_svg:not([class*='size-'])]:size-4;
+  }
+
+  .cn-pagination-previous {
+    @apply pl-2.5!;
+  }
+
+  .cn-pagination-next {
+    @apply pr-2.5!;
+  }
