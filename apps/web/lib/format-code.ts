@@ -9,6 +9,7 @@ import {
 } from "shadcn/utils"
 import { Project, ScriptKind, type SourceFile } from "ts-morph"
 
+import { restoreLucideImports } from "@/lib/site-icons-display"
 import { BASES } from "@/registry/bases"
 
 function getStyleFromStyleName(styleName: string) {
@@ -81,6 +82,7 @@ async function getStyleMap(styleName: string) {
 }
 
 export async function formatCode(code: string, styleName: string) {
+  code = restoreLucideImports(code)
   code = code.replaceAll(`@/registry/${styleName}/`, "@/components/")
 
   // Always rewrite the legacy tree so src-based sources render clean imports

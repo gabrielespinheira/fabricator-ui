@@ -7,10 +7,10 @@ import { source } from "@/lib/source"
 import { CommandMenu } from "@/components/command-menu"
 import { DesignerActions } from "@/components/designer-actions"
 import { FluidNav, FluidNavLink } from "@/components/fabricator/fluid-nav"
+import { SiteSettingsMenu } from "@/components/fabricator/site-settings"
 import { StarsCount } from "@/components/github-link"
 import { Icons } from "@/components/icons"
 import { MobileNav } from "@/components/mobile-nav"
-import { ModeSwitcher } from "@/components/mode-switcher"
 
 /** The top bar for the homepage and the full-width pages. */
 export function SiteHeader() {
@@ -83,7 +83,7 @@ export function SiteHeader() {
               <StarsCount />
             </React.Suspense>
           </Link>
-          <ModeSwitcher className="size-10 rounded-full bg-muted hover:bg-active dark:hover:bg-active" />
+          <SiteSettingsMenu />
           <DesignerActions />
           <Link
             href="/docs/installation"

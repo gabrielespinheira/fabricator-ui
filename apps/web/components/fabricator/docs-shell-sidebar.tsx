@@ -17,8 +17,8 @@ import {
 import type { source } from "@/lib/source"
 import { CommandMenu } from "@/components/command-menu"
 import { FluidNav, FluidNavLink } from "@/components/fabricator/fluid-nav"
+import { SiteSettingsMenu } from "@/components/fabricator/site-settings"
 import { Icons } from "@/components/icons"
-import { ModeSwitcher } from "@/components/mode-switcher"
 
 const TOP_LINKS = [
   { name: "Home", href: "/", exact: true },
@@ -121,7 +121,10 @@ export function DocsShellSidebar({
           </span>
           {siteConfig.name}
         </Link>
-        <ModeSwitcher className="size-7 rounded-lg text-muted-foreground hover:bg-hover hover:text-foreground dark:hover:bg-hover [&_svg]:size-4" />
+        <SiteSettingsMenu
+          align="start"
+          className="size-7 rounded-lg bg-transparent text-muted-foreground hover:bg-hover hover:text-foreground data-popup-open:bg-hover [&_svg]:size-4"
+        />
       </div>
       <div className="px-2">
         <CommandMenu

@@ -45,3 +45,11 @@
     }
   }
 }
+
+/* Radius setting (lib/site-settings.ts). Pill raises the radius token, so
+   36px controls become full pills (rounded-lg = 20px) inside containers that
+   stay concentric (rounded-xl = 28px). Specificity beats `html:root` in the
+   generated fabricator.css. */
+html[data-radius="pill"]:root {
+  --radius: 1.25rem;
+}

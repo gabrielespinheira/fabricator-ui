@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+
 import {
   AlignCenterIcon,
   AlignLeftIcon,
@@ -14,8 +15,7 @@ import {
   SettingsIcon,
   Trash2Icon,
   UnderlineIcon,
-} from "lucide-react"
-
+} from "@/lib/site-icons"
 import {
   Accordion,
   AccordionContent,

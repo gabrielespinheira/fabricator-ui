@@ -1,0 +1,36 @@
+---
+title: October 2026 - Sounds, pill radius and site settings
+description: Interface sounds for every component, a pill radius, and a settings menu on the site for theme, sound, icons and radius.
+date: 2026-10-06
+---
+
+## Sounds
+
+`@fabricator/sounds` adds interface sounds, synthesized with the Web Audio API: no audio files and no dependencies. There are 15 short voices for taps, selection, checks, switches, popups, dialogs, sliders, refusals, notifications and completion. The catalogue is inspired by [Bencho's sound library](https://bencho.dev/sounds); the sounds themselves are our own.
+
+Mount `<SoundEffects />` once at the root of your app and every component plays the right sound, in every base, with no changes to the components themselves. Sounds are off until you turn them on. Sounds and the pill radius also install in existing projects that keep their own style, because they only rely on attributes every component shares. Use `data-sound` to change or silence a sound, and `playSound` or `useSound` for your own interactions. See [Sounds](/docs/foundations/sounds).
+
+```bash
+npx fabricator-ui@latest add sounds
+```
+
+## Pill radius
+
+Every corner comes from the `--radius` token. `@fabricator/radius-pill` sets it to `1.25rem`, so controls become full pills and containers stay concentric with their items. See [Sizes](/docs/foundations/sizes#rounded-or-pill).
+
+```bash
+npx fabricator-ui@latest add radius-pill
+```
+
+## Site settings
+
+The header, the docs sidebar and the docs side panel have a settings menu:
+
+- **Theme:** light or dark.
+- **Sound:** turns the component sounds on or off.
+- **Icons:** Lucide (the default), Tabler, HugeIcons, Phosphor or Remix Icon, applied live to every preview.
+- **Radius:** Rounded or Pill.
+
+## Fixes
+
+- Sidebar rows that open a collapsible now get the Fluid Hover highlight in every base.

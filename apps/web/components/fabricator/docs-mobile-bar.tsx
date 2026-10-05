@@ -4,9 +4,9 @@ import { type ColorPalette } from "@/lib/colors"
 import { siteConfig } from "@/lib/config"
 import type { source } from "@/lib/source"
 import { CommandMenu } from "@/components/command-menu"
+import { SiteSettingsMenu } from "@/components/fabricator/site-settings"
 import { Icons } from "@/components/icons"
 import { MobileNav } from "@/components/mobile-nav"
-import { ModeSwitcher } from "@/components/mode-switcher"
 
 /** The docs top bar below the `lg` breakpoint, where the sidebar is hidden. */
 export function DocsMobileBar({
@@ -37,7 +37,7 @@ export function DocsMobileBar({
             trigger="sidebar"
           />
         </div>
-        <ModeSwitcher className="size-8 rounded-lg" />
+        <SiteSettingsMenu className="size-8 rounded-lg bg-transparent hover:bg-hover" />
       </div>
     </div>
   )

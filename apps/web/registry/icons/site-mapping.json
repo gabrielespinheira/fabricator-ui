@@ -1,0 +1,139 @@
+{
+  "$comment": "Icons the website's previews use that the registry IconPlaceholders don't cover (see scripts/build-icons.ts, generateSiteIcons). Keys are lucide-react export names; a missing library falls back to Lucide.",
+  "AlignCenterIcon": {
+    "tabler": "IconAlignCenter",
+    "hugeicons": "TextAlignCenterIcon",
+    "phosphor": "TextAlignCenterIcon",
+    "remixicon": "RiAlignCenter"
+  },
+  "AlignLeftIcon": {
+    "tabler": "IconAlignLeft",
+    "hugeicons": "TextAlignLeftIcon",
+    "phosphor": "TextAlignLeftIcon",
+    "remixicon": "RiAlignLeft"
+  },
+  "AlignRightIcon": {
+    "tabler": "IconAlignRight",
+    "hugeicons": "TextAlignRightIcon",
+    "phosphor": "TextAlignRightIcon",
+    "remixicon": "RiAlignRight"
+  },
+  "ArrowUpDown": {
+    "tabler": "IconArrowsUpDown",
+    "hugeicons": "ArrowUpDownIcon",
+    "phosphor": "ArrowsDownUpIcon",
+    "remixicon": "RiArrowUpDownLine"
+  },
+  "AudioWaveform": {
+    "tabler": "IconWaveSine",
+    "hugeicons": "AudioWave01Icon",
+    "phosphor": "WaveformIcon",
+    "remixicon": "RiVoiceprintLine"
+  },
+  "BookOpenCheck": {
+    "tabler": "IconBook",
+    "hugeicons": "BookOpen01Icon",
+    "phosphor": "BookOpenIcon",
+    "remixicon": "RiBookOpenLine"
+  },
+  "CalendarPlusIcon": {
+    "tabler": "IconCalendarPlus",
+    "hugeicons": "CalendarAdd01Icon",
+    "phosphor": "CalendarPlusIcon",
+    "remixicon": "RiCalendarScheduleLine"
+  },
+  "CircleFadingArrowUpIcon": {
+    "tabler": "IconCircleArrowUp",
+    "hugeicons": "CircleArrowUp01Icon",
+    "phosphor": "ArrowCircleUpIcon",
+    "remixicon": "RiArrowUpCircleLine"
+  },
+  "CircleFadingPlusIcon": {
+    "tabler": "IconCircleDashedPlus",
+    "hugeicons": "AddCircleHalfDotIcon",
+    "phosphor": "PlusCircleIcon",
+    "remixicon": "RiAddCircleLine"
+  },
+  "DotIcon": {
+    "tabler": "IconPoint",
+    "phosphor": "DotIcon"
+  },
+  "Forward": {
+    "tabler": "IconArrowForwardUp",
+    "hugeicons": "ArrowTurnForwardIcon",
+    "phosphor": "ArrowBendUpRightIcon",
+    "remixicon": "RiShareForwardLine"
+  },
+  "LayersIcon": {
+    "tabler": "IconStack2",
+    "hugeicons": "Layers01Icon",
+    "phosphor": "StackIcon",
+    "remixicon": "RiStackLine"
+  },
+  "Link2Icon": {
+    "tabler": "IconLink",
+    "hugeicons": "Link02Icon",
+    "phosphor": "LinkSimpleIcon",
+    "remixicon": "RiLinksLine"
+  },
+  "ListFilterIcon": {
+    "tabler": "IconFilter",
+    "hugeicons": "FilterHorizontalIcon",
+    "phosphor": "FunnelSimpleIcon",
+    "remixicon": "RiFilter3Line"
+  },
+  "MailCheckIcon": {
+    "tabler": "IconMailCheck",
+    "hugeicons": "MailValidation01Icon",
+    "phosphor": "EnvelopeOpenIcon",
+    "remixicon": "RiMailCheckLine"
+  },
+  "MessageCircleDashedIcon": {
+    "tabler": "IconMessageCircle",
+    "hugeicons": "BubbleChatIcon",
+    "phosphor": "ChatCircleDotsIcon",
+    "remixicon": "RiChat3Line"
+  },
+  "PanelLeftCloseIcon": {
+    "tabler": "IconLayoutSidebarLeftCollapse",
+    "hugeicons": "SidebarLeft01Icon",
+    "phosphor": "SidebarSimpleIcon",
+    "remixicon": "RiSidebarFoldLine"
+  },
+  "PanelLeftOpenIcon": {
+    "tabler": "IconLayoutSidebarLeftExpand",
+    "hugeicons": "SidebarLeftIcon",
+    "phosphor": "SidebarIcon",
+    "remixicon": "RiSidebarUnfoldLine"
+  },
+  "RotateCcwIcon": {
+    "tabler": "IconRotate",
+    "hugeicons": "RotateLeft01Icon",
+    "phosphor": "ArrowCounterClockwiseIcon",
+    "remixicon": "RiResetLeftLine"
+  },
+  "ShieldAlertIcon": {
+    "tabler": "IconShieldExclamation",
+    "hugeicons": "Shield01Icon",
+    "phosphor": "ShieldWarningIcon",
+    "remixicon": "RiShieldFlashLine"
+  },
+  "SquareTerminal": {
+    "tabler": "IconTerminal2",
+    "hugeicons": "ComputerTerminal01Icon",
+    "phosphor": "TerminalWindowIcon",
+    "remixicon": "RiTerminalBoxLine"
+  },
+  "TagIcon": {
+    "tabler": "IconTag",
+    "hugeicons": "Tag01Icon",
+    "phosphor": "TagIcon",
+    "remixicon": "RiPriceTag3Line"
+  },
+  "TelescopeIcon": {
+    "tabler": "IconTelescope",
+    "hugeicons": "Telescope01Icon",
+    "phosphor": "BinocularsIcon",
+    "remixicon": "RiSearchEyeLine"
+  }
+}

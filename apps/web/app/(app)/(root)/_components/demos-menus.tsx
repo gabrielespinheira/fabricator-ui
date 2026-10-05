@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+
 import {
   ArchiveIcon,
   CalendarIcon,
@@ -10,8 +11,7 @@ import {
   PlusIcon,
   SettingsIcon,
   Trash2Icon,
-} from "lucide-react"
-
+} from "@/lib/site-icons"
 import { Button } from "@/styles/base-fabricator/ui/button"
 import {
   Combobox,

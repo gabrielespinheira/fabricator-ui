@@ -1,8 +1,8 @@
 "use client"
 
 import * as React from "react"
-import { SearchIcon } from "lucide-react"
 
+import { SearchIcon } from "@/lib/site-icons"
 import { Checkbox } from "@/styles/base-fabricator/ui/checkbox"
 import {
   Field,

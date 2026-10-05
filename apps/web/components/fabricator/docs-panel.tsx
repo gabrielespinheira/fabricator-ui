@@ -3,7 +3,6 @@
 import * as React from "react"
 import { useRouter } from "next/navigation"
 import { cn } from "cn"
-import { useTheme } from "next-themes"
 
 import {
   Select,
@@ -72,35 +71,6 @@ function PanelSelect({
         </SelectContent>
       </Select>
     </div>
-  )
-}
-
-function subscribeNothing() {
-  return () => {}
-}
-
-const THEMES: Option[] = [
-  { value: "system", label: "System" },
-  { value: "light", label: "Light" },
-  { value: "dark", label: "Dark" },
-]
-
-export function DocsPanelTheme() {
-  const { theme, setTheme } = useTheme()
-  // The theme is only known on the client; render "System" until hydrated.
-  const mounted = React.useSyncExternalStore(
-    subscribeNothing,
-    () => true,
-    () => false
-  )
-
-  return (
-    <PanelSelect
-      label="Theme"
-      value={mounted ? (theme ?? "system") : "system"}
-      options={THEMES}
-      onValueChange={setTheme}
-    />
   )
 }
 

@@ -16,8 +16,8 @@ import { DocsTableOfContents } from "@/components/docs-toc"
 import {
   DocsPanelCard,
   DocsPanelPrimitive,
-  DocsPanelTheme,
 } from "@/components/fabricator/docs-panel"
+import { SiteSettingsFields } from "@/components/fabricator/site-settings"
 import { StarsCount } from "@/components/github-link"
 import { Icons } from "@/components/icons"
 import { BASES } from "@/registry/bases"
@@ -189,7 +189,7 @@ export default async function Page(props: {
               </React.Suspense>
             </Link>
           </div>
-          <DocsPanelTheme />
+          <SiteSettingsFields />
           {isComponentPage && bases.length > 1 && (
             <DocsPanelPrimitive
               base={params.slug[1]}

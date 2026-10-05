@@ -2,8 +2,8 @@
 
 import * as React from "react"
 import Link from "next/link"
-import { ArrowUpRightIcon } from "lucide-react"
 
+import { ArrowUpRightIcon } from "@/lib/site-icons"
 import { cn } from "@/lib/utils"
 import {
   Select,

@@ -7,6 +7,7 @@ import { registryItemSchema, type registryItemFileSchema } from "shadcn/schema"
 import { type z } from "zod"
 
 import { readFileFromRoot } from "@/lib/read-file"
+import { restoreLucideImports } from "@/lib/site-icons-display"
 import { getComponent as getStylesComponent } from "@/registry/__components__"
 import { Index as StylesIndex } from "@/registry/__index__"
 import { BASES } from "@/registry/bases"
@@ -90,7 +91,7 @@ export async function getDemoItem(name: string, styleName: string) {
     return null
   }
 
-  const content = await readFileFromRoot(demo.filePath)
+  const content = restoreLucideImports(await readFileFromRoot(demo.filePath))
 
   return {
     name: demo.name,
@@ -202,7 +203,7 @@ export async function getRegistryItem(name: string, styleName: string) {
 }
 
 async function getFileContent(file: z.infer<typeof registryItemFileSchema>) {
-  let code = await fs.readFile(file.path, "utf-8")
+  let code = restoreLucideImports(await fs.readFile(file.path, "utf-8"))
 
   // Some registry items uses default export.
   // We want to use named export instead.
