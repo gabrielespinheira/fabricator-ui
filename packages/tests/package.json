@@ -1,0 +1,12 @@
+{
+  "name": "@fabricator-ui/tests",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test:e2e": "bun ./src/e2e.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0"
+  }
+}
