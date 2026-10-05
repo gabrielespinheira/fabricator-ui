@@ -1,0 +1,368 @@
+# AGENTS.md: Fabricator UI
+
+Fabricator UI is an open-source React component library distributed as copy-in source through the shadcn CLI. It has its own design system and is fully compatible with shadcn/ui. This repository holds the component registry, the `fabricator-ui` CLI, and the Next.js website (fabricator-ui.com) that documents and serves the registry.
+
+This file is the shared contract for every coding agent (Claude Code, Codex, others) and every human contributor. `CLAUDE.md` imports it; there is no other copy. When a convention changes, update this file in the same change.
+
+**`PLAN.md`** holds the architecture, the decision log (D1–D13), and the phased roadmap. Read it before adding a package, changing registry URLs or `components.json` handling, touching the CLI, or starting a roadmap phase. The decisions there are settled; to change one, propose an edit to `PLAN.md` rather than working around it.
+
+---
+
+## Vocabulary
+
+These words have exact meanings here. Use them in code review, commits and docs.
+
+- **Upstream**: `shadcn-ui/ui`, pinned to the SHA in `upstream.lock.json` (until that file exists: `295a1f11`, 2026-10-02).
+- **Base**: the primitive library a component is built on: `base` (Base UI, the primary target), `radix` (`radix-ui`), `aria` (`react-aria-components`). Each base has its own hand-written source tree.
+- **Style**: a visual language compiled into components at build time. There are 8 upstream styles (`vega`, `nova`, `maia`, `lyra`, `mira`, `luma`, `sera`, `rhea`) and the Fabricator styles (`fabricator`, plus variants). The full id is `<base>-<style>`, for example `base-nova`.
+- **Placeholder**: a semantic `cn-*` class in component source (`cn-button-variant-outline`). It holds no CSS. The build replaces it with Tailwind classes.
+- **Style map**: `registry/styles/style-<style>.css`. It maps every placeholder to Tailwind utilities via `@apply`.
+- **Parity**:
+  - Across bases: the same component behaves and looks the same in every base.
+  - With upstream: our compiled output for an upstream item is byte-identical to `ui.shadcn.com/r/styles/<base>-<style>/<name>.json`.
+- **Superset**: a Fabricator component that replaces an upstream one keeps every name, prop, variant, export and `data-slot`. It only adds.
+- **Blend mode**: the registry URL `/r/{style}/{name}.json`. Items are compiled with the user's own shadcn style.
+- **Fabricator mode**: the registry URL `/r/fabricator/{style}/{name}.json`. Items are compiled with the Fabricator style for the user's base.
+
+---
+
+## The contract
+
+These invariants are what make Fabricator a drop-in for shadcn projects. A change that breaks one is a bug, even if everything builds.
+
+1. **Superset.** Replacements keep the upstream item name, target file path, export names, props, variant names and `data-slot` values. New props and variants are additive and optional.
+2. **Valid shadcn style ids only.** Any `components.json` we write or generate has `"style": "<base>-<upstream style>"`. The Fabricator look comes from the Fabricator-mode registry URL, never from the `style` field. Bare names like `button` always resolve against ui.shadcn.com, so a custom style id would 404 for every user.
+3. **Namespaced dependencies.** `registryDependencies` reference our own items as `@fabricator/<name>`. A bare name means "install upstream shadcn's item", and is written only when that is the intent.
+4. **The token contract.** Every shadcn CSS variable keeps its name and meaning:
+   - `background`, `foreground`
+   - `card`, `popover`, `primary`, `secondary`, `muted`, `accent` (each with `-foreground`)
+   - `destructive`, `border`, `input`, `ring`
+   - `chart-1…5`, `sidebar-*`
+   - `radius` (and the derived `--radius-*`), `font-sans`, `font-heading`, `font-mono`
+
+   Fabricator tokens are added under new names (`--surface-*`, `--motion-*`, …) and shipped in the `cssVars` of the items that use them.
+5. **Base parity.** A change to a component, example or block in one base tree lands in all base trees in the same change. See "Bases" below.
+6. **Generated output is rebuilt, never hand-edited.** Edit the authored source and run the registry build. See "Registry" for which paths are generated.
+7. **Bun is the toolchain.** Use `bun install`, `bun run <script>`, `bunx --bun <bin>`, and keep a single `bun.lock`. The one exception is the release job, which uploads with `npm publish --provenance`.
+8. **Attribution.** Files derived from upstream stay under MIT, with shadcn's copyright kept in `LICENSE.md`/`NOTICE.md`. Site copy, logos and branding are Fabricator's own.
+
+---
+
+## Repository map
+
+The full target tree is in `PLAN.md` §4. Which paths are authored and which are generated:
+
+| Path | What | Authored? |
+|---|---|---|
+| `apps/web/registry/bases/{base,radix,aria}/` | Component, block, hook and lib source plus `_registry.ts` item declarations | ✅ authored |
+| `apps/web/registry/styles/style-*.css` | Style maps (8 upstream + Fabricator) | ✅ authored |
+| `apps/web/registry/{bases,styles,themes,fonts,config,presets}.ts` | Registry metadata, themes, presets, `registry:base` builder | ✅ authored |
+| `apps/web/examples/{base,radix,aria}/*.tsx` | Docs demos (flat folders, no subdirectories) | ✅ authored |
+| `apps/web/content/docs/**` | MDX docs (Fumadocs) | ✅ authored |
+| `apps/web/registry/**/__index__.tsx`, `__components__/`, `__blocks__.json`, `examples/__index__.tsx` | Runtime lookup indexes | ⚙️ generated, committed |
+| `apps/web/styles/<base>-<style>/` | Compiled components the docs import | ⚙️ generated, gitignored |
+| `apps/web/public/r/**` | Installable registry JSON | ⚙️ generated, gitignored (except small committed indexes) |
+| `packages/cli/` | `fabricator-ui` CLI (Node target, wraps `shadcn`) | ✅ authored |
+| `packages/react/` | `@fabricator-ui/react` headless primitives (later phase) | ✅ authored |
+| `packages/tests/` | CLI end-to-end tests against real templates | ✅ authored |
+| `skills/fabricator/` | Agent skill for consumers of the library | ✅ authored |
+| `upstream.lock.json`, `scripts/sync-upstream.ts` | Upstream pin and import tooling | ✅ authored |
+| `tmp/` | Personal experiments (Three.js hero prototype); gitignored | outside the product |
+
+---
+
+## Commands
+
+The root `package.json` is the source of truth for scripts. This table records the intended names; keep it in step when scripts change.
+
+| Task | Command |
+|---|---|
+| Install | `bun install` |
+| Website dev server | `bun run dev` (`apps/web`; run `registry:build` once on a fresh clone) |
+| Full registry build (canonical, formatted; run before committing) | `bun run registry:build` |
+| Targeted registry builds (fast, unformatted) | `bun run registry:build --examples \| --indexes \| --style <id\|all> \| --registry <id\|all>` |
+| Lint, typecheck, format check | `bun run check` |
+| Unit tests | `bun run test` |
+| Upstream parity check | `bun run test:parity` |
+| CLI end-to-end (templates × bases) | `bun run test:e2e` |
+| Run the local CLI | `bun run cli <init\|add\|…> -c <path-to-app>` |
+| Import upstream | `bun run sync:upstream --ref <sha\|tag>` |
+| Add a release note | `bunx changeset` |
+
+---
+
+## Working on components
+
+### Look at upstream first
+
+For any component, block or registry behaviour, read the upstream implementation before writing code. That means the matching file in `apps/v4/registry/bases/<base>/`, its rules in `registry/styles/style-nova.css`, and its examples. Upstream's choices about structure, slots, variants and accessibility are the baseline we extend.
+
+To get the source, sparse-clone upstream at the pinned SHA into a scratch directory outside the repo:
+
+```bash
+git clone --filter=blob:none --sparse https://github.com/shadcn-ui/ui.git <scratch>/shadcn
+git -C <scratch>/shadcn sparse-checkout set apps/v4/registry apps/v4/examples packages/shadcn/src packages/registry/src skills
+```
+
+To see what upstream actually ships, run `bunx --bun shadcn@latest view @shadcn/<name>` or `bunx --bun shadcn@latest docs <name>`.
+
+### File conventions
+
+```tsx
+"use client" // only when the file uses state, effects, context, events or an interactive primitive
+
+import * as React from "react"
+import { cva, type VariantProps } from "class-variance-authority"
+import { Dialog as DialogPrimitive } from "@base-ui/react/dialog" // base-specific import
+import { cn } from "cn"
+
+function DialogContent({ className, ...props }: DialogPrimitive.Popup.Props) {
+  return (
+    <DialogPrimitive.Popup
+      data-slot="dialog-content"
+      className={cn("cn-dialog-content fixed top-1/2 left-1/2 z-50 grid w-full", className)}
+      {...props}
+    />
+  )
+}
+
+export { DialogContent }
+```
+
+- **Components:**
+  - Plain function components, with `ref` as a regular prop (React 19).
+  - One named `export { … }` block at the bottom of the file.
+  - `className` is always merged last through `cn()`, so consumers can override it.
+- **Prop types:** extend the primitive's own props:
+  - `DialogPrimitive.Popup.Props` (Base UI)
+  - `React.ComponentProps<typeof X>` (Radix)
+  - the RAC prop types (Aria)
+  - `React.ComponentProps<"div">` (plain HTML)
+- **`data-slot="<component>-<part>"`** goes on every rendered part. Parents style children with `has-data-[slot=…]:` and `in-data-[slot=…]:`.
+- **Variants** use `cva`, with the upstream axis names `variant` and `size`, and `defaultVariants` set. Variant values are placeholders: `default: "cn-button-variant-default"`.
+- **`cn`** comes from the `cn` package, and `lib/utils.ts` is just `export { cn } from "cn"`.
+- **Imports between registry files** use the alias form `@/registry/bases/<base>/ui/<name>`. The build and the CLI rewrite these.
+
+### Placeholders and style maps
+
+The split between inline classes and placeholders is what makes styles swappable and upstream merges cheap.
+
+- **Inline in source:** structure and behaviour that every style shares. That means display, flex/grid mechanics, positioning, `z-50` on overlay popups, `outline-none`, `select-none`, disabled mechanics, `[&_svg]:pointer-events-none`, and group names (`group/button`).
+- **Placeholder (`cn-<component>[-<part>][-variant-<v>|-size-<s>]`):** anything a style could change. That means radius, colour, border, shadow, spacing, height, gap, typography, focus ring, invalid state, and animation timing.
+- **Style map coverage:** every placeholder used in source has a rule in **every** style map, both upstream and Fabricator. The build's coverage lint enforces this.
+- **Rule order in style maps:** follow upstream, under a `/* MARK: <Component> */` heading.
+- **State variants:** use the cross-base variants from `shadcn/tailwind.css` (`data-open:`, `data-closed:`, `data-checked:`, `data-selected:`, `data-disabled:`, …). These match Radix `data-state` and Base UI attributes alike.
+- **Install-time markers** stay as literal classes for the CLI to resolve: `cn-menu-target`, `cn-menu-translucent`, `cn-font-heading`, `cn-rtl-flip`, `cn-logical-sides`.
+
+### Icons
+
+- Inside registry source, icons are `<IconPlaceholder lucide="…" tabler="…" hugeicons="…" phosphor="…" remixicon="…" />`, with all five libraries filled in. The CLI swaps in the user's `iconLibrary`.
+- Components size their own icons with `[&_svg:not([class*='size-'])]:size-4`.
+- Icon slots in buttons and similar controls use `data-icon="inline-start" | "inline-end"`.
+- Icons are passed as component values (`icon={CheckIcon}`), not string keys.
+
+### Composition per base
+
+| Base | Composition API | Example |
+|---|---|---|
+| `radix` | `asChild` + `Slot.Root` from `radix-ui` | `<DialogClose asChild><Button/></DialogClose>` |
+| `base` | `render` prop, `useRender` / `mergeProps` | `<DialogPrimitive.Close render={<Button variant="ghost" />} />` |
+| `aria` | RAC render props and slots | per `react-aria-components` docs |
+
+Part names follow each library (Radix `Overlay`/`Content`, Base UI `Backdrop`/`Popup`, RAC `ModalOverlay`/`Modal`). The `data-slot` and placeholder names stay identical across bases.
+
+### Styling rules (consumer code, examples, blocks)
+
+- **Semantic tokens for colour:** `bg-primary text-primary-foreground`, `text-muted-foreground`, `text-destructive`. Light and dark both come from the tokens, so one class covers both.
+- **Variants first:** `variant="outline"`, then semantic tokens, then new CSS variables. `className` on library components is for layout (`max-w-md`, `mx-auto`, `mt-4`).
+- **Spacing:** gaps through flex/grid (`flex flex-col gap-4`). Write `size-10` for equal width and height, and `truncate` for single-line overflow.
+- **Conditional classes:** `cn()`.
+- **Overlays:** Dialog, Sheet, Drawer, Popover, Tooltip, DropdownMenu and HoverCard manage their own stacking.
+- **Loading text:** the `shimmer` utility. **Scroll edges:** the `scroll-fade` utilities.
+- **Composition:**
+  - Items go inside their group (`SelectGroup`, `DropdownMenuGroup`, `CommandGroup`, …).
+  - Dialog, Sheet and Drawer always have a Title (use `sr-only` if it should be hidden).
+  - Cards use the full Header/Title/Description/Content/Footer structure.
+  - Use `Avatar` with `AvatarFallback`, and use `Alert`, `Empty`, `Skeleton`, `Separator` and `Badge` for their roles.
+  - Loading buttons compose `Spinner` + `data-icon` + `disabled`.
+- **Toasts follow the base:** `toast` for Base UI, Sonner for Radix and Aria.
+
+### Accessibility and internationalisation
+
+- Keyboard behaviour and ARIA wiring come from the primitive. Leave them intact.
+- Custom (non-primitive) components implement the matching WAI-ARIA Authoring Practices pattern in full: roles, keyboard map, focus management.
+- **Focus:** `focus-visible:` ring placeholders on every interactive element.
+- **Invalid state:** `aria-invalid:` styling on every form control. Forms use `Field`/`FieldGroup` with `data-invalid`.
+- **Motion:** honour `prefers-reduced-motion` through `motion-safe:` / `motion-reduce:` or the motion tokens.
+- **Direction (RTL-safe by default):**
+  - Write logical utilities: `ms-*`, `me-*`, `ps-*`, `pe-*`, `start-*`, `end-*`, `text-start`, `rounded-s-*`.
+  - Mark directional icons with `cn-rtl-flip`.
+  - Popups support `side="inline-start" | "inline-end"`.
+
+### Dependencies
+
+- Reuse what upstream uses: `radix-ui`, `@base-ui/react`, `react-aria-components`, `cmdk`, `vaul`, `sonner`, `recharts`, `react-day-picker` + `date-fns`, `embla-carousel-react`, `input-otp`, `react-resizable-panels`, `motion`.
+- A new runtime dependency for a registry item needs a written reason in the PR: size, maintenance, licence, React 19 support.
+- Base primitives belong on the base's `index`/`style` item, not on each component item.
+- Pin versions only where upstream pins (`recharts@3.8.0`, `react-day-picker@latest`).
+
+---
+
+## Bases
+
+- An authored change in `registry/bases/<base>/` or `examples/<base>/` is mirrored to the same path in the other base trees in the same change. Only imports, primitive APIs and part names differ.
+- When a change is intentionally scoped to one base, say so in the commit body and the PR.
+- **Fabricator-exclusive components:**
+  - Base UI first.
+  - Radix and Aria versions are written when their primitive differs.
+  - Otherwise the item falls back to the Base UI implementation, which is recorded in the item's `meta` and documented on its page.
+  - Pure-HTML components (no primitive) keep one identical source across all base trees.
+- **Reporting:** after editing base trees, list which bases were updated in your report.
+
+---
+
+## Registry
+
+### Declaring items
+
+Items are TypeScript objects in each folder's `_registry.ts`, typed `Registry["items"]` from `shadcn/schema`, and validated with zod at build time:
+
+```ts
+{
+  name: "stepper",                          // kebab-case; same name as upstream when it replaces one
+  type: "registry:ui",
+  title: "Stepper",
+  description: "A multi-step progress indicator with keyboard navigation.",
+  dependencies: [],                         // npm deps beyond the base's index item
+  registryDependencies: ["@fabricator/button", "@fabricator/separator"],
+  files: [{ path: "ui/stepper.tsx", type: "registry:ui" }],
+  categories: ["navigation"],
+  meta: {
+    fabricator: true,                       // true for items that do not exist upstream
+    links: { docs: "https://fabricator-ui.com/docs/components/base/stepper",
+             examples: "https://fabricator-ui.com/docs/components/base/stepper#examples" },
+  },
+}
+```
+
+- **Type** by role:
+
+  | Role | Type |
+  |---|---|
+  | UI primitive | `registry:ui` |
+  | Composed component | `registry:component` |
+  | Block | `registry:block` |
+  | Route file | `registry:page` |
+  | Hook | `registry:hook` |
+  | Utility | `registry:lib` |
+  | Token set | `registry:theme` |
+  | Init payload | `registry:base` |
+  | Font | `registry:font` |
+  | Config or agent file | `registry:file` / `registry:item` |
+
+- **Targets:** `registry:page` and `registry:file` files need an explicit `target` (blocks use `app/<route>/page.tsx`). The CLI remaps it per framework.
+- **Naming:**
+  - Blocks: `<category>-<nn>` (`login-01`).
+  - Examples: `<component>-example`, or `<component>-<intent>` (`button-loading`).
+  - Exclusive component names are checked against upstream's catalog.
+- **New tokens** ship in the item's `cssVars` (`theme`, `light`, `dark`), and new CSS (`@utility`, `@keyframes`) ships in `css`.
+
+### Build and output
+
+- **Pipeline:** placeholders + style map → `createStyleMap` / `transformStyle` from `shadcn/utils` → `shadcn build`.
+- **Output paths:**
+  - Blend mode: `public/r/<base>-<style>/<name>.json`
+  - Fabricator mode: `public/r/fabricator/<base>-<style>/<name>.json`
+  - Catalogs: `public/r/registry.json`, `index.json`, `config.json`
+- **Rebuild:** after authored changes, run the full `bun run registry:build`. Targeted flags are for iteration only.
+- **Examples:** editing an existing example needs no rebuild. Adding, removing or renaming one needs `--examples`.
+- **`/init`** (`app/(app)/(create)/init/route.ts`) returns the `registry:base` payload. Its `config.registries` writes `@fabricator` into the user's `components.json`. Its `config.style` is always a valid upstream style id (contract item 2).
+
+---
+
+## Design system (Fabricator layer)
+
+The Fabricator look lives in `registry/styles/style-fabricator*.css` and in token sources under `registry/tokens/`. Redesigning an upstream component means editing its placeholders' rules in the Fabricator style maps. Its TSX changes only when structure must change, and then under the superset rule.
+
+- **Dimensions** (rationale in `PLAN.md` §6):
+  - Colour, surfaces, motion, and square/rounded radius are **tokens**.
+  - Density (default/compact) and pill radius are **styles**.
+- **Colour:**
+  - Values are OKLCH, defined for both `:root` and `.dark`.
+  - Every foreground/background pair meets WCAG 2.2 AA (4.5:1 for text, 3:1 for UI and large text). The contrast check enforces this.
+- **Blend mode:** exclusive components ship rules for all 8 upstream styles too, tuned to sit naturally next to each style's upstream components.
+
+---
+
+## Website (`apps/web`)
+
+- **Stack:** Next.js 16 App Router, React 19.2, Tailwind 4, Fumadocs, `rehype-pretty-code` + shiki, next-themes, jotai, nuqs.
+- **Rendering:**
+  - Docs, component and block pages are statically generated (`generateStaticParams`, `dynamic = "force-static"`).
+  - Server Components by default. `"use client"` goes on the smallest interactive leaf.
+- **Previews:**
+  - Rendered through `ComponentPreview` / `ComponentSource` from the generated indexes.
+  - Blocks render in the `/view/[style]/[name]` iframe.
+  - Code shown to readers is rewritten to user-facing paths (`@/components/ui/*`).
+- **CLI commands in docs:** written once as `npx shadcn@latest …`. The highlighter generates the npm/pnpm/yarn/bun tabs, and bun is the default tab.
+- **Component doc pages:** each base has one, with these sections:
+  1. Preview
+  2. Installation (CLI + Manual)
+  3. Usage
+  4. Composition
+  5. Examples
+  6. API reference
+  7. Accessibility
+  8. RTL notes where relevant
+- **AI-facing outputs:** every docs page has a `.md` export, and `llms.txt` lists the docs. Both stay accurate as pages change.
+- **Registry endpoints** under `/r/**` return `application/json` with permissive CORS and long CDN caching.
+- **Site UI:** the website uses Fabricator components from the registry, so it is the library's flagship example.
+
+---
+
+## CLI (`packages/cli`)
+
+- It is a thin wrapper. It resolves the pinned `shadcn` package, runs it as a child process with `process.execPath`, forwards arguments, stdio and exit codes, and adds Fabricator defaults (init URL, `@fabricator` resolution, `doctor`).
+- **Registry logic stays in shadcn.** Resolution, file writing and transforms are not re-implemented here; any gap goes to `PLAN.md` first.
+- **Runtime:** Node ≥ 20.18.1, ESM, `#!/usr/bin/env node`. The code uses Node APIs only, so it runs identically under `npx`, `pnpm dlx`, `yarn dlx` and `bunx`.
+- **`shadcn` upgrades:** bumping the pinned version is its own change, verified by the e2e matrix.
+- **Releases:** every user-facing change gets a changeset.
+
+---
+
+## Upstream sync
+
+- Upstream code enters the repo only through `bun run sync:upstream`. It writes pristine files to the `upstream/shadcn` vendor branch and records the SHA in `upstream.lock.json`. That branch is merged into `main`, and conflicts are resolved in the merge commit.
+- Fabricator changes live in **new files** wherever possible: Fabricator style maps, tokens, exclusive items, site components. Upstream-derived files take the smallest edit that works, which keeps future merges small.
+- After a sync, the parity check confirms that blend-mode output for upstream items matches upstream exactly.
+
+---
+
+## Definition of done
+
+A change is done when every applicable line below is true. Report each one as passed, or name what was not run and why.
+
+- [ ] `bun run check` (lint, types, format) and `bun run test` pass.
+- [ ] Authored registry changes are followed by a full `bun run registry:build`. The committed indexes are updated, and no generated output is staged.
+- [ ] The contract holds: superset, valid style ids, namespaced dependencies, token names, base parity.
+- [ ] Every placeholder used has a rule in every style map (coverage lint passes).
+- [ ] `bun run test:parity` passes for upstream items whenever upstream-derived source, style maps or the build script changed.
+- [ ] For new or changed items, `shadcn add --dry-run` succeeds against the local registry for each base. `bun run test:e2e` passes when install behaviour, the CLI or `/init` changed.
+- [ ] Components have examples covering each variant and state, plus a docs page per base with the API table and accessibility notes.
+- [ ] The UI was checked in the running site, light and dark, LTR and RTL, keyboard only, at mobile and desktop widths. axe reports no violations on touched example pages.
+- [ ] A changeset exists for changes to published packages. User-visible registry changes get a changelog entry in `content/docs/changelog/`.
+- [ ] `AGENTS.md` / `PLAN.md` are updated if a convention or decision changed.
+
+---
+
+## Git and pull requests
+
+- **Commits:** Conventional Commits with a scope, for example `feat(registry): add stepper`, `fix(web): …`, `chore(upstream): sync shadcn@<sha>`. Types: `feat`, `fix`, `refactor`, `docs`, `build`, `test`, `ci`, `chore`. Scopes: `registry`, `styles`, `tokens`, `web`, `docs`, `cli`, `react`, `tests`, `upstream`, `deps`.
+- **Granularity:** one logical change per commit. A component plus its examples and docs is one change.
+- **Default branch:** `main`. Work happens on topic branches and reaches `main` through a pull request with green CI.
+- **PR description:**
+  - what changed and why
+  - bases touched
+  - styles touched
+  - screenshots or recordings for visual changes
+  - Definition of done status
