@@ -22,6 +22,9 @@ const COMPONENTS = [
   "calendar",
   "dropdown-menu",
   "tabs",
+  // Fabricator-only items: sounds (lib + component) and the pill radius theme.
+  "sounds",
+  "radius-pill",
 ]
 
 const args = process.argv.slice(2)
