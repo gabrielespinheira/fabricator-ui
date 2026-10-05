@@ -1,0 +1,118 @@
+{
+  "skill_name": "fabricator",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "I'm building a Next.js app with Fabricator UI (base-nova style, lucide icons). Create a settings form component with fields for: full name, email address, and notification preferences (email, SMS, push notifications as toggle options). Add validation states for required fields.",
+      "expected_output": "A React component using FieldGroup, Field, Switch, data-invalid/aria-invalid validation, gap-* spacing, and semantic colors.",
+      "files": [],
+      "expectations": [
+        "Uses FieldGroup and Field components for form layout instead of raw div with space-y",
+        "Uses Switch for independent on/off notification toggles (not looping Button with manual active state)",
+        "Uses data-invalid on Field and aria-invalid on the input control for validation states",
+        "Uses gap-* (e.g. gap-4, gap-6) instead of space-y-* or space-x-* for spacing",
+        "Uses semantic color tokens (e.g. bg-background, text-muted-foreground, text-destructive) instead of raw colors like bg-red-500",
+        "No manual dark: color overrides"
+      ]
+    },
+    {
+      "id": 2,
+      "prompt": "Create a dialog component for editing a user profile. It should have the user's avatar (https://github.com/gabrielespinheira.png, @gabrielespinheira) at the top, input fields for name and bio, and Save/Cancel buttons with appropriate icons. Using Fabricator UI with the radix-nova style and tabler icons.",
+      "expected_output": "A React component with DialogTitle, Avatar+AvatarFallback, data-icon on icon buttons, no icon sizing classes, tabler icon imports, asChild triggers.",
+      "files": [],
+      "expectations": [
+        "Includes DialogTitle for accessibility (visible or with sr-only class)",
+        "Avatar component includes AvatarFallback",
+        "Icons on buttons use the data-icon attribute (data-icon=\"inline-start\" or data-icon=\"inline-end\")",
+        "No sizing classes on icons inside components (no size-4, w-4, h-4, etc.)",
+        "Uses tabler icons (@tabler/icons-react) instead of lucide-react",
+        "Uses asChild for custom triggers (radix base)"
+      ]
+    },
+    {
+      "id": 3,
+      "prompt": "Create a dashboard component that shows 4 stat cards in a grid. Each card has a title, large number, percentage change badge, and a loading skeleton state. Using Fabricator UI with the base-nova style and lucide icons.",
+      "expected_output": "A React component with full Card composition, Skeleton for loading, Badge for changes, semantic colors, gap-* spacing.",
+      "files": [],
+      "expectations": [
+        "Uses full Card composition with CardHeader, CardTitle, CardContent (not dumping everything into CardContent)",
+        "Uses Skeleton component for loading placeholders instead of custom animate-pulse divs",
+        "Uses Badge component for percentage change instead of custom styled spans",
+        "Uses semantic color tokens instead of raw color values like bg-green-500 or text-red-600",
+        "Uses gap-* instead of space-y-* or space-x-* for spacing",
+        "Uses size-* when width and height are equal instead of separate w-* h-*"
+      ]
+    },
+    {
+      "id": 4,
+      "prompt": "I'm building a Next.js app with Fabricator UI (base-nova style, lucide icons). Build a chat conversation view: a scrollable thread of messages from two different people, each with an avatar, sender name, timestamp, and message bubble. A couple of messages include an image attachment and a PDF file attachment, and there's a 'Today' divider separating the days.",
+      "expected_output": "A React component composing MessageScroller, Message, Bubble, Attachment, and Marker from the @fabricator registry instead of hand-rolled bubble/divider/attachment markup.",
+      "files": [],
+      "expectations": [
+        "Uses MessageScroller (MessageScrollerProvider, MessageScrollerViewport, MessageScrollerContent, MessageScrollerItem) for the scrollable thread instead of a raw overflow-y-auto div or ScrollArea",
+        "Wraps each row in MessageScrollerItem inside MessageScrollerContent",
+        "Uses Message with MessageAvatar/MessageContent/MessageHeader for row layout instead of custom flex divs",
+        "Uses Bubble + BubbleContent for the message surface instead of a styled div with bg-muted/bg-primary",
+        "Uses Attachment (AttachmentMedia, AttachmentContent, AttachmentTitle, AttachmentDescription) for the file and image attachments instead of Item or a custom card",
+        "Uses Marker (variant=\"separator\") for the 'Today' divider instead of Separator plus a centered label",
+        "Uses semantic color tokens and gap-* spacing; no raw colors like bg-emerald-500 and no space-y-*",
+        "Includes \"use client\" when the component uses state or event handlers (project.rsc)"
+      ]
+    },
+    {
+      "id": 5,
+      "prompt": "Using Fabricator UI (base-nova style, lucide icons), build a streaming AI chat UI. The assistant's reply streams in while it generates, the view auto-scrolls to follow the latest content but stops following if the user scrolls up to read earlier messages, a 'jump to latest' button appears when the user has scrolled away from the bottom, and a subtle 'thinking…' shimmer shows while the model is generating.",
+      "expected_output": "A React component that delegates scroll/anchor behavior to MessageScroller and uses MessageScrollerButton for jump-to-latest and the shimmer utility for the thinking indicator — no hand-rolled scroll logic or custom shimmer keyframes.",
+      "files": [],
+      "expectations": [
+        "Uses MessageScroller with MessageScrollerProvider (autoScroll) and scrollAnchor on message items for the stick-to-bottom/follow behavior instead of a custom useStickToBottom hook or ResizeObserver/scrollTop wiring",
+        "Uses MessageScrollerButton for the jump-to-latest control instead of a hand-built conditional button driven by manual scroll-position state",
+        "Uses the shimmer utility class for the 'thinking…' indicator instead of a custom @keyframes or bg-clip-text gradient animation",
+        "Wraps each message row in MessageScrollerItem inside MessageScrollerContent",
+        "Uses Message + Bubble + BubbleContent for the conversation rows instead of hand-rolled bubble divs",
+        "Uses semantic color tokens and gap-* spacing; includes \"use client\" (project.rsc)"
+      ]
+    },
+    {
+      "id": 6,
+      "prompt": "Add a button, a dialog and a date picker to my existing Vite project. It already has a components.json with \"style\": \"radix-vega\" but no @fabricator registry. I want to keep my current look.",
+      "expected_output": "Uses the Fabricator CLI to add the @fabricator registry in blend mode and install components by bare name, without changing the style id.",
+      "files": [],
+      "expectations": [
+        "Runs the Fabricator CLI (npx/pnpm dlx/yarn dlx/bunx fabricator-ui@latest), not a hand-written fetch of component files",
+        "Keeps the current look via blend mode: `fabricator-ui init --yes` / the 'add @fabricator registry only' option, or `--blend`",
+        "Installs with bare names (e.g. `fabricator-ui add button dialog`), which resolve to @fabricator, or explicit @fabricator/<name> addresses",
+        "Does not change the `style` field to a custom value such as \"fabricator\"; it stays \"radix-vega\"",
+        "Checks the installed components list or uses `search`/`docs` before writing code that imports the new components",
+        "Uses asChild for the dialog trigger (radix base)"
+      ]
+    },
+    {
+      "id": 7,
+      "prompt": "My project uses Fabricator UI with the aria base (aria-nova). Add a settings dropdown menu and a confirm-delete dialog to the header.",
+      "expected_output": "React Aria composition: triggers wrap the Button and the overlay, onPress handlers, no asChild/render, DialogTitle present, docs fetched first.",
+      "files": [],
+      "expectations": [
+        "Runs `fabricator-ui docs <component>` (or fetches the docs URLs) before writing aria code",
+        "Uses DropdownMenuTrigger / DialogTrigger (or AlertDialogTrigger) wrapping a Button and the overlay, not asChild or render props",
+        "Uses onPress on Button rather than onClick",
+        "Includes a dialog title (DialogTitle or AlertDialogTitle) for accessibility",
+        "Groups menu items inside DropdownMenuGroup",
+        "Uses Sonner (toast from sonner) if it shows a toast after deleting"
+      ]
+    },
+    {
+      "id": 8,
+      "prompt": "Switch my Fabricator UI project to preset code a2r6bw. I've customized button.tsx and card.tsx and don't want to lose those edits.",
+      "expected_output": "Asks or chooses the merge path: init --preset --force --no-reinstall, then per-component dry-run/diff merges; never overwrites without approval.",
+      "files": [],
+      "expectations": [
+        "Does not decode the preset code manually or build an init URL by hand",
+        "Uses `fabricator-ui init --preset a2r6bw --force --no-reinstall` (merge) or `fabricator-ui apply a2r6bw --only theme,font` rather than a plain `apply` that would reinstall components",
+        "Uses `fabricator-ui add <component> --dry-run` and `--diff <file>` (or `fabricator-ui diff <component>`) to merge customized components individually",
+        "Does not pass --overwrite without the user's explicit approval",
+        "Runs commands inside the user's project directory"
+      ]
+    }
+  ]
+}

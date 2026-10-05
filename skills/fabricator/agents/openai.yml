@@ -1,0 +1,5 @@
+interface:
+  display_name: "Fabricator UI"
+  short_description: "Manages Fabricator UI components — adding, searching, fixing, debugging, styling, and composing UI."
+  icon_small: "./assets/fabricator-small.svg"
+  icon_large: "./assets/fabricator.svg"
