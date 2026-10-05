@@ -34,6 +34,27 @@ export const fabricatorItems = [
       "One highlight that glides to the item nearest the pointer, and a selection background that slides between selected items.",
     files: [{ path: "lib/fluid-hover.tsx", type: "registry:lib" }],
   },
+  {
+    name: "sounds",
+    type: "registry:lib",
+    title: "Sounds",
+    description:
+      "Interface sounds synthesized with the Web Audio API, and <SoundEffects /> to play them for every component. Off until you turn them on.",
+    files: [
+      { path: "lib/sounds.ts", type: "registry:lib" },
+      { path: "components/sound-effects.tsx", type: "registry:component" },
+    ],
+  },
+  {
+    name: "radius-pill",
+    type: "registry:theme",
+    title: "Pill radius",
+    description:
+      "Sets --radius to 1.25rem: controls become full pills and containers stay concentric. The default is 0.5rem.",
+    cssVars: {
+      light: { radius: "1.25rem" },
+    },
+  },
 ] satisfies Registry["items"]
 
 // Extra dependencies for items whose Fabricator source differs from upstream.
@@ -56,6 +77,14 @@ export const fabricatorOverrides: Record<
   accordion: { registryDependencies: ["fluid-hover"] },
   table: { registryDependencies: ["fluid-hover"] },
 }
+
+/**
+ * Fabricator items that don't depend on the Fabricator style, so they also
+ * ship in blend mode (/r/{style}/{name}.json) for existing projects: sounds
+ * key on data-slot and ARIA attributes that every style shares, and the radius
+ * item only sets --radius.
+ */
+export const BLEND_ITEMS = ["sounds", "radius-pill"]
 
 /** Items that every Fabricator component installs alongside itself. */
 export const FABRICATOR_REQUIRED_ITEMS = ["foundations"]

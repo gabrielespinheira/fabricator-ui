@@ -32,6 +32,12 @@
       "@/registry/bases/*/lib/fluid-hover": [
         "./registry/fabricator/shared/lib/fluid-hover"
       ],
+      "@/registry/bases/*/lib/sounds": [
+        "./registry/fabricator/shared/lib/sounds"
+      ],
+      "@/registry/bases/*/components/sound-effects": [
+        "./registry/fabricator/shared/components/sound-effects"
+      ],
       "@/*": ["./*"],
       "react": ["./node_modules/@types/react"]
     }

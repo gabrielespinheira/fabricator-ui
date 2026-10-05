@@ -21,12 +21,6 @@ import { legacyStyles } from "@/registry/_legacy-styles"
 import { BASE_COLORS } from "@/registry/base-colors"
 import { BASES, type Base } from "@/registry/bases"
 import { PRESETS } from "@/registry/config"
-import { toFabricatorStylesheet } from "@/registry/fabricator/foundations"
-import {
-  FABRICATOR_REQUIRED_ITEMS,
-  fabricatorItems,
-  fabricatorOverrides,
-} from "@/registry/fabricator/registry"
 import {
   FABRICATOR_NAMESPACE,
   FABRICATOR_REGISTRY,
@@ -34,6 +28,13 @@ import {
   getFabricatorSiteUrl,
   isFabricatorStyleName,
 } from "@/registry/fabricator"
+import { toFabricatorStylesheet } from "@/registry/fabricator/foundations"
+import {
+  BLEND_ITEMS,
+  FABRICATOR_REQUIRED_ITEMS,
+  fabricatorItems,
+  fabricatorOverrides,
+} from "@/registry/fabricator/registry"
 import { fonts } from "@/registry/fonts"
 import { STYLES } from "@/registry/styles"
 
@@ -1118,10 +1119,10 @@ async function buildBases(bases: Base[], targetStyleNames?: Set<string>) {
         baseRegistry,
         registryItems: isFabricator
           ? withFabricatorItems(registryItems, fabricatorOverlay)
-          : registryItems,
+          : withBlendItems(registryItems),
         sourceFiles: isFabricator
           ? new Map([...sourceFiles, ...fabricatorOverlay])
-          : sourceFiles,
+          : new Map([...sourceFiles, ...blendFiles(fabricatorOverlay)]),
         styleHash,
         transformCacheHash,
         styleMap,
@@ -1290,8 +1291,32 @@ function withFabricatorItems(
   const names = new Set(items.map((item) => item.name))
   return [
     ...overridden,
-    ...(fabricatorItems as RegistryItem[]).filter((item) => !names.has(item.name)),
+    ...(fabricatorItems as RegistryItem[]).filter(
+      (item) => !names.has(item.name)
+    ),
   ]
+}
+
+// Upstream styles get the style-independent Fabricator items (BLEND_ITEMS)
+// and only their overlay files, so every upstream item keeps its exact output.
+function blendItems() {
+  return (fabricatorItems as RegistryItem[]).filter((item) =>
+    BLEND_ITEMS.includes(item.name)
+  )
+}
+
+function withBlendItems(items: RegistryItem[]): RegistryItem[] {
+  const names = new Set(items.map((item) => item.name))
+  return [...items, ...blendItems().filter((item) => !names.has(item.name))]
+}
+
+function blendFiles(overlay: Map<string, string>) {
+  const paths = new Set(
+    blendItems().flatMap((item) =>
+      normalizeRegistryFiles(item).map((file) => file.path)
+    )
+  )
+  return [...overlay].filter(([filePath]) => paths.has(filePath))
 }
 
 async function buildExamplesIndex() {
@@ -1397,9 +1422,11 @@ async function buildStyledExamples(
         await writeIfChanged(
           path.join(outputDir, file),
           // No header comment: the docs show this file's source to readers.
-          source.replace(
-            /@\/styles\/(base|radix|aria)-[a-z0-9]+\//g,
-            `@/styles/$1-${style.name}/`
+          rewriteLucideToSiteIcons(
+            source.replace(
+              /@\/styles\/(base|radix|aria)-[a-z0-9]+\//g,
+              `@/styles/$1-${style.name}/`
+            )
           )
         )
       })
@@ -1647,8 +1674,9 @@ function toFabricatorItem(item: RegistryItem, styleName: string): RegistryItem {
   }
 
   const needsFoundations =
-    ["registry:ui", "registry:component", "registry:block"].includes(item.type) &&
-    !FABRICATOR_REQUIRED_ITEMS.includes(item.name)
+    ["registry:ui", "registry:component", "registry:block"].includes(
+      item.type
+    ) && !FABRICATOR_REQUIRED_ITEMS.includes(item.name)
   const registryDependencies = [
     ...(item.registryDependencies ?? []),
     ...(needsFoundations ? FABRICATOR_REQUIRED_ITEMS : []),
@@ -1804,6 +1832,17 @@ async function buildConfig() {
   )
 }
 
+// The site's Fabricator previews (compiled UI and demo copies) import Lucide
+// icons from "@/lib/site-icons", which follows the icon pack picked in the site
+// settings (see scripts/build-icons.ts). Registry JSON keeps "lucide-react", and
+// lib/format-code.ts maps the import back when the docs show the code.
+function rewriteLucideToSiteIcons(content: string) {
+  return content.replace(
+    /(\bfrom\s*)(["'])lucide-react\2/g,
+    "$1$2@/lib/site-icons$2"
+  )
+}
+
 async function applyIconTransform(content: string, filename: string) {
   if (!content.includes("IconPlaceholder")) {
     return content
@@ -1864,6 +1903,9 @@ async function copyUIToStyles(targetStyleNames?: Set<string>) {
               nextContent,
               path.basename(filePath)
             )
+            if (isFabricatorStyleName(styleName)) {
+              nextContent = rewriteLucideToSiteIcons(nextContent)
+            }
           }
 
           if (targetPath.endsWith(".ts") || targetPath.endsWith(".tsx")) {
@@ -1876,7 +1918,10 @@ async function copyUIToStyles(targetStyleNames?: Set<string>) {
 
       if (isFabricatorStyleName(styleName)) {
         for (const filePath of FABRICATOR_SITE_FILES) {
-          const source = path.join(getTemporaryRegistryRoot(styleName), filePath)
+          const source = path.join(
+            getTemporaryRegistryRoot(styleName),
+            filePath
+          )
           const target = path.join(styleRoot, filePath)
           await fs.mkdir(path.dirname(target), { recursive: true })
           await writeIfChanged(

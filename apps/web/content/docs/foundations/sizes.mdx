@@ -25,3 +25,20 @@ Items, buttons, inputs and highlights are `rounded-lg` (8px). Containers such as
 <ShapeDemo />
 
 Checkboxes use `rounded-[5px]`. Switches, badge dots and avatars are fully round.
+
+## Rounded or pill
+
+Every corner comes from the `--radius` token: items and controls use `rounded-lg` (`--radius`) and containers `rounded-xl` (`--radius` × 1.4). Two values are supported:
+
+| Radius  | `--radius`         | Controls (36px)   | Containers |
+| ------- | ------------------ | ----------------- | ---------- |
+| Rounded | `0.5rem` (default) | 8px               | 12px       |
+| Pill    | `1.25rem`          | 20px, a full pill | 28px       |
+
+Pill keeps containers concentric with their items, so menus, selects and tab tracks round out along with their rows. To switch a project to pill, add the radius item:
+
+```bash
+npx fabricator-ui@latest add radius-pill
+```
+
+It sets `--radius: 1.25rem` in your stylesheet. To go back, set `--radius` to `0.5rem`. Try both from the settings menu in the header of this site.

@@ -8,6 +8,10 @@ import { MotionExit, MotionTiers } from "@/components/foundations/motion-demos"
 import { ScrollbarsDemo } from "@/components/foundations/scrollbar-demos"
 import { ShapeDemo, SizesDemo } from "@/components/foundations/size-demos"
 import {
+  SoundCatalog,
+  SoundPlayground,
+} from "@/components/foundations/sound-demos"
+import {
   SurfaceLadder,
   SurfaceNesting,
   SurfaceOverlays,
@@ -27,6 +31,8 @@ export const foundationsMdxComponents = {
   ScrollbarsDemo,
   ShapeDemo,
   SizesDemo,
+  SoundCatalog,
+  SoundPlayground,
   SurfaceLadder,
   SurfaceNesting,
   SurfaceOverlays,

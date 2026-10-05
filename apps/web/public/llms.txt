@@ -17,12 +17,13 @@ The full documentation is also available as a single file: [llms-full.txt](https
 
 ## Foundations
 
-The Fabricator design language rests on these systems, shipped in the `foundations` and `fluid-hover` registry items.
+The Fabricator design language rests on these systems, shipped in the `foundations`, `fluid-hover` and `sounds` registry items.
 
 - [Fluid Hover](https://fabricator-ui.com/docs/foundations/fluid-hover.md): One highlight that glides to the item nearest the pointer, so a list never blinks between rows.
 - [Motion](https://fabricator-ui.com/docs/foundations/motion.md): Three spring speeds, with exits one step quicker than entrances.
 - [Scrollbars](https://fabricator-ui.com/docs/foundations/scrollbars.md): A thin scrollbar that stays out of the way but is there when you need it.
 - [Sizes](https://fabricator-ui.com/docs/foundations/sizes.md): 36px controls, 13px text, and corners that nest.
+- [Sounds](https://fabricator-ui.com/docs/foundations/sounds.md): Short, quiet interface sounds synthesized in the browser, off until you turn them on.
 - [Surfaces](https://fabricator-ui.com/docs/foundations/surfaces.md): Eight elevation levels, each with its own shadow, so layers stay distinct in light and dark mode.
 - [Typography](https://fabricator-ui.com/docs/foundations/typography.md): Inter at five sizes, with weights paired to optical size.
 
