@@ -1,0 +1,42 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+
+concurrency: ${{ github.workflow }}-${{ github.ref }}
+
+permissions:
+  contents: write
+  pull-requests: write
+  # npm trusted publishing (OIDC) and provenance.
+  id-token: write
+
+jobs:
+  release:
+    name: Version or publish
+    # Off until npm trusted publishing is configured for fabricator-ui and the
+    # registry site is live. Enable with the repository variable
+    # RELEASE_ENABLED=true (Settings → Secrets and variables → Actions).
+    if: vars.RELEASE_ENABLED == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: 1.4.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          registry-url: https://registry.npmjs.org
+      - run: bun install --frozen-lockfile
+      - run: bun run cli:build
+      - name: Create release PR or publish to npm
+        uses: changesets/action@v1
+        with:
+          version: bun run release
+          publish: bun run release:publish
+          title: "chore(release): version packages"
+          commit: "chore(release): version packages"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,7 @@
+[install]
+# Supply-chain safety: only install versions published at least 48h ago.
+minimumReleaseAge = 172800
+
+# One flat node_modules (npm-style). Isolated installs duplicate packages per
+# peer set (e.g. fumadocs-core with zod 3 and zod 4), which breaks type identity.
+linker = "hoisted"

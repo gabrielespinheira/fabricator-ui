@@ -48,6 +48,19 @@ These invariants are what make Fabricator a drop-in for shadcn projects. A chang
 
 ---
 
+## Brand policy
+
+Fabricator UI is its own product. It is built on shadcn/ui, and that name appears only where it is needed:
+
+- **Attribution:** `LICENSE.md`, `NOTICE.md`, the Acknowledgements section of the docs introduction, the first changelog entry, and READMEs.
+- **Compatibility:** one short section on the docs introduction, the Registry docs page (existing projects, the raw shadcn CLI), and one line on the CLI page and in the CLI README.
+- **Technical identifiers users install or import:** the `shadcn` npm package (`shadcn/tailwind.css`), `@shadcn/react`, and the shadcn CLI where a command has no Fabricator equivalent (`migrate`).
+- **Internal engineering docs and code:** `PLAN.md`, this file, upstream-sync tooling, import statements and code comments.
+
+Everywhere else, write "Fabricator UI", "the CLI" (`npx fabricator-ui@latest …`), "the registry" and "styles". Demo content (avatars, handles, emails, sample links) uses the Fabricator identity defined in `scripts/rebrand.ts`; `bun run rebrand --check` runs in CI. Schemas point at `https://fabricator-ui.com/schema.json` and `/schema/registry-item.json`.
+
+---
+
 ## Repository map
 
 The full target tree is in `PLAN.md` §4. Which paths are authored and which are generated:
@@ -73,21 +86,30 @@ The full target tree is in `PLAN.md` §4. Which paths are authored and which are
 
 ## Commands
 
-The root `package.json` is the source of truth for scripts. This table records the intended names; keep it in step when scripts change.
+The root `package.json` is the source of truth for scripts. Keep this table in step when scripts change.
 
 | Task | Command |
 |---|---|
 | Install | `bun install` |
 | Website dev server | `bun run dev` (`apps/web`; run `registry:build` once on a fresh clone) |
 | Full registry build (canonical, formatted; run before committing) | `bun run registry:build` |
-| Targeted registry builds (fast, unformatted) | `bun run registry:build --examples \| --indexes \| --style <id\|all> \| --registry <id\|all>` |
+| Targeted registry builds (fast, unformatted; run in `apps/web`) | `bun run registry:build --examples \| --indexes \| --style <id\|all> \| --registry <id\|all>` |
 | Lint, typecheck, format check | `bun run check` |
 | Unit tests | `bun run test` |
-| Upstream parity check | `bun run test:parity` |
-| CLI end-to-end (templates × bases) | `bun run test:e2e` |
-| Run the local CLI | `bun run cli <init\|add\|…> -c <path-to-app>` |
+| Upstream parity check (fetches ui.shadcn.com) | `bun run test:parity` (`--styles all` for every combination) |
+| CLI end-to-end (needs `bun run dev` running and `bun run cli:build`) | `bun run test:e2e` (`--only vite-base,existing-shadcn`, `--keep`) |
+| Run the local CLI against the local registry | `FABRICATOR_REGISTRY_URL=http://localhost:4000 bun run cli <init\|add\|…> -c <path-to-app>` |
+| Build the CLI | `bun run cli:build` |
 | Import upstream | `bun run sync:upstream --ref <sha\|tag>` |
+| Rebrand upstream demo content (after every sync) | `bun run rebrand` (`--check` to verify) |
+| Recapture mobile preview screenshots (dev server running) | `cd apps/web && bun run registry:capture --force && bun run pages:capture` |
 | Add a release note | `bunx changeset` |
+
+### Toolchain notes
+
+- `bunfig.toml` sets `linker = "hoisted"`. Isolated installs create one copy of a package per peer set (for example `fumadocs-core` with Zod 3 and with Zod 4), which breaks TypeScript type identity and caused a Fumadocs runtime stack overflow.
+- Root `overrides` pin a few tools to upstream's resolved versions: `prettier` 3.6.2 (the registry build formats generated source; another version changes output and breaks parity), `eslint-plugin-react-hooks` 7.0.1, and `mdast-util-to-markdown` 2.1.2. Bump them only together with upstream, and rerun `test:parity`.
+- Turborepo's auto-written agent guidance is disabled (`"agentGuidance": false` in `turbo.json`) so this file stays the single source.
 
 ---
 
@@ -334,7 +356,8 @@ The Fabricator look lives in `registry/styles/style-fabricator*.css` and in toke
 
 - Upstream code enters the repo only through `bun run sync:upstream`. It writes pristine files to the `upstream/shadcn` vendor branch and records the SHA in `upstream.lock.json`. That branch is merged into `main`, and conflicts are resolved in the merge commit.
 - Fabricator changes live in **new files** wherever possible: Fabricator style maps, tokens, exclusive items, site components. Upstream-derived files take the smallest edit that works, which keeps future merges small.
-- After a sync, the parity check confirms that blend-mode output for upstream items matches upstream exactly.
+- After merging a sync, run `bun run rebrand` (demo content), then the full registry build and `bun run test:parity --styles all`. The parity check applies the same rebrand rules to upstream before comparing, so it confirms that everything else matches upstream exactly.
+- A deliberate divergence from upstream (a bug fix) is recorded in `scripts/parity-exceptions.json` with its reason and date. Report the bug upstream too, and remove the entry once upstream ships the fix.
 
 ---
 

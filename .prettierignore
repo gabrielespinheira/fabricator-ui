@@ -1,0 +1,11 @@
+dist
+node_modules
+.next
+build
+.source
+apps/web/registry/styles/**/*.css
+apps/web/registry/**/__index__.tsx
+apps/web/examples/__index__.tsx
+apps/web/public/r
+apps/web/styles
+tmp

@@ -1,0 +1,17 @@
+{
+  "$comment": "Registry items that intentionally differ from ui.shadcn.com. Each entry is a bug fix; report it upstream and remove the entry once upstream ships the fix.",
+  "exceptions": [
+    {
+      "item": "label",
+      "bases": ["aria"],
+      "reason": "Removed an unused `import * as React` that fails `noUnusedLocals` (on by default in the Vite template).",
+      "since": "2026-10-05"
+    },
+    {
+      "item": "scroll-area",
+      "bases": ["base"],
+      "reason": "Removed an unused `import * as React` that fails `noUnusedLocals` (on by default in the Vite template).",
+      "since": "2026-10-05"
+    }
+  ]
+}
