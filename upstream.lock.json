@@ -1,0 +1,35 @@
+{
+  "repository": "https://github.com/shadcn-ui/ui.git",
+  "ref": "295a1f114a138f23b5dfee0e0c6812394dfeb90c",
+  "sha": "295a1f114a138f23b5dfee0e0c6812394dfeb90c",
+  "date": "2026-10-02T15:31:59+04:00",
+  "paths": [
+    {
+      "from": "apps/v4",
+      "to": "apps/web"
+    }
+  ],
+  "excluded": [
+    "node_modules",
+    ".next",
+    ".source",
+    "public/r/styles",
+    "public/r/templates",
+    "public/r/registries-legacy.json",
+    "public/r/themes",
+    "public/r/themes.css",
+    "public/r/colors",
+    "scripts/monitor-registries.mts",
+    "scripts/validate-registries.mts",
+    "scripts/build-test-app.mts",
+    "app/r/registries.json",
+    "app/(app)/(styles)",
+    "registry/directory.json",
+    "registry.json",
+    "components/directory-list.tsx",
+    "hooks/use-search-registry.ts",
+    "lib/registry-health",
+    "content/docs/(root)/directory.mdx",
+    "content/docs/registry/health.mdx"
+  ]
+}
