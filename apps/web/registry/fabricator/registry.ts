@@ -86,5 +86,19 @@ export const fabricatorOverrides: Record<
  */
 export const BLEND_ITEMS = ["sounds", "radius-pill"]
 
+/**
+ * Upstream items the Fabricator library leaves out of Fabricator mode, mapped
+ * to the item that replaces them in other items' dependencies (null drops the
+ * dependency). The library doesn't ship controls that only restyle a raw
+ * native element: Native Select is replaced by Select everywhere. Blend mode
+ * keeps every upstream item, so existing projects and upstream parity are
+ * unaffected. Items that used an excluded one get a Fabricator override that
+ * uses the replacement (registry/fabricator/<base>/...).
+ */
+export const FABRICATOR_EXCLUDED_ITEMS: Record<string, string | null> = {
+  "native-select": "select",
+  "native-select-example": null,
+}
+
 /** Items that every Fabricator component installs alongside itself. */
 export const FABRICATOR_REQUIRED_ITEMS = ["foundations"]

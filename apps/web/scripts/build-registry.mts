@@ -31,6 +31,7 @@ import {
 import { toFabricatorStylesheet } from "@/registry/fabricator/foundations"
 import {
   BLEND_ITEMS,
+  FABRICATOR_EXCLUDED_ITEMS,
   FABRICATOR_REQUIRED_ITEMS,
   fabricatorItems,
   fabricatorOverrides,
@@ -1269,7 +1270,28 @@ function withFabricatorItems(
   overlay: Map<string, string>
 ): RegistryItem[] {
   const unique = (values: string[]) => Array.from(new Set(values))
-  const overridden = items.map((item) => {
+  // Excluded items leave Fabricator mode; dependencies on them point at their
+  // replacement instead (see FABRICATOR_EXCLUDED_ITEMS).
+  const replaceExcluded = (dependencies: string[] | undefined) =>
+    dependencies &&
+    unique(
+      dependencies.flatMap((name) => {
+        if (!(name in FABRICATOR_EXCLUDED_ITEMS)) return [name]
+        const replacement = FABRICATOR_EXCLUDED_ITEMS[name]
+        return replacement ? [replacement] : []
+      })
+    )
+  const included = items
+    .filter((item) => !(item.name in FABRICATOR_EXCLUDED_ITEMS))
+    .map((item) =>
+      item.registryDependencies
+        ? {
+            ...item,
+            registryDependencies: replaceExcluded(item.registryDependencies),
+          }
+        : item
+    )
+  const overridden = included.map((item) => {
     const override = fabricatorOverrides[item.name]
     // Extra dependencies only apply where this base has an override file.
     const hasOverrideFile = normalizeRegistryFiles(item).some((file) =>
@@ -1414,33 +1436,52 @@ async function buildStyledExamples(
       const outputDir = path.join(process.cwd(), dir)
       await fs.mkdir(outputDir, { recursive: true })
 
-      await runWithConcurrency(files, FILE_BUILD_CONCURRENCY, async (file) => {
-        const source = await fs.readFile(
-          path.join(examplesDir, baseName, file),
-          "utf8"
-        )
-        await writeIfChanged(
-          path.join(outputDir, file),
-          // No header comment: the docs show this file's source to readers.
-          rewriteLucideToSiteIcons(
-            source.replace(
-              /@\/styles\/(base|radix|aria)-[a-z0-9]+\//g,
-              `@/styles/$1-${style.name}/`
+      // Demos of items Fabricator mode leaves out aren't copied, and a demo in
+      // registry/fabricator/site-examples/<base>/ replaces the upstream one.
+      const styledFiles = files.filter(
+        (file) =>
+          !Object.keys(FABRICATOR_EXCLUDED_ITEMS).some((name) =>
+            file.startsWith(`${name}-`)
+          )
+      )
+      await runWithConcurrency(
+        styledFiles,
+        FILE_BUILD_CONCURRENCY,
+        async (file) => {
+          const overridePath = path.join(
+            process.cwd(),
+            "registry/fabricator/site-examples",
+            baseName,
+            file
+          )
+          const source = await fs
+            .readFile(overridePath, "utf8")
+            .catch(() =>
+              fs.readFile(path.join(examplesDir, baseName, file), "utf8")
+            )
+          await writeIfChanged(
+            path.join(outputDir, file),
+            // No header comment: the docs show this file's source to readers.
+            rewriteLucideToSiteIcons(
+              source.replace(
+                /@\/styles\/(base|radix|aria)-[a-z0-9]+\//g,
+                `@/styles/$1-${style.name}/`
+              )
             )
           )
-        )
-      })
+        }
+      )
 
       // Drop copies of demos that were removed or renamed.
-      const expected = new Set(files)
+      const expected = new Set(styledFiles)
       for (const existing of await collectExampleFiles(outputDir)) {
         if (!expected.has(existing)) {
           await fs.rm(path.join(outputDir, existing))
         }
       }
 
-      results.push({ baseName: key, files, dir })
-      console.log(`   Generated ${files.length} ${key} demos`)
+      results.push({ baseName: key, files: styledFiles, dir })
+      console.log(`   Generated ${styledFiles.length} ${key} demos`)
     }
   }
 
@@ -1504,6 +1545,13 @@ export const Index: Record<string, Record<string, any>> = {`
 
     for (const item of registry.items) {
       if (item.type === "registry:internal") {
+        continue
+      }
+      // Fabricator styles don't compile the items they leave out.
+      if (
+        isFabricatorStyleName(style.name) &&
+        item.name in FABRICATOR_EXCLUDED_ITEMS
+      ) {
         continue
       }
 

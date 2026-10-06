@@ -148,6 +148,18 @@ The cursor says what a press will do. Rules live in the style map, so consumers 
 
 Upstream marks menu, select and combobox rows `cursor-default` inline. The Fabricator overrides drop that token so the style map's `cursor-pointer` applies.
 
+## Rendering
+
+Everything should land on whole pixels and render smoothly.
+
+- **Text:** the foundations set grayscale anti-aliasing (`-webkit-font-smoothing: antialiased`, `-moz-osx-font-smoothing: grayscale`), `text-rendering: optimizeLegibility`, kerning, `font-optical-sizing: auto` and `font-synthesis: none` (no faux bold or italic) on `html`, and remove the tap highlight on touch.
+- **No half-pixel transforms at rest:** a `translate(-50%)` lands on half pixels for odd sizes and blurs text. Dialogs and alert dialogs are centered with `inset-0 m-auto h-fit` instead; enter/exit zooms still animate `transform`, which is back to `none` at rest.
+- **Fluid Hover** positions its highlight from `offsetTop`/`offsetLeft`, which are whole pixels.
+
+## Not in the library
+
+The Fabricator library doesn't ship controls that only restyle a raw native element. `FABRICATOR_EXCLUDED_ITEMS` in `registry.ts` leaves them out of Fabricator mode and points dependencies at the replacement: Native Select → Select. Blend mode keeps every upstream item.
+
 ## Component translation (shadcn → Fabricator)
 
 | Component                                                                   | Fabricator look                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |

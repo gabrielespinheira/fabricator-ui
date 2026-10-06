@@ -185,6 +185,19 @@ export const FABRICATOR_FOUNDATIONS: { cssVars: CssVars; css: CssObject } = {
   },
   css: {
     "@layer base": {
+      // Smooth, even text: grayscale anti-aliasing on macOS (subpixel
+      // rendering makes light-on-dark text look heavy and fringed), kerning
+      // and ligatures, the font's optical sizes, and no faux bold or italic
+      // when a weight is missing. No grey tap flash on touch.
+      html: {
+        "-webkit-font-smoothing": "antialiased",
+        "-moz-osx-font-smoothing": "grayscale",
+        "text-rendering": "optimizeLegibility",
+        "font-kerning": "normal",
+        "font-optical-sizing": "auto",
+        "font-synthesis": "none",
+        "-webkit-tap-highlight-color": "transparent",
+      },
       // Thin, low-contrast scrollbars that darken on hover. Fine pointers
       // only: touch devices keep their native overlay scrollbars.
       "@media (pointer: fine)": {

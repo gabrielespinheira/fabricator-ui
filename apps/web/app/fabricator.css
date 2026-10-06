@@ -167,6 +167,15 @@ html.dark {
 }
 
 @layer base {
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    font-kerning: normal;
+    font-optical-sizing: auto;
+    font-synthesis: none;
+    -webkit-tap-highlight-color: transparent;
+  }
   @media (pointer: fine) {
     * {
       scrollbar-width: thin;

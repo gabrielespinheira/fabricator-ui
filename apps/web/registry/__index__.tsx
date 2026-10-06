@@ -12255,28 +12255,6 @@ export const Index: Record<string, Record<string, any>> = {
         },
       },
     },
-    "native-select": {
-      name: "native-select",
-      title: "undefined",
-      description: "",
-      type: "registry:ui",
-      registryDependencies: undefined,
-      files: [
-        {
-          path: "styles/base-fabricator/ui/native-select.tsx",
-          type: "registry:ui",
-          target: "",
-        },
-      ],
-      categories: undefined,
-      meta: {
-        links: {
-          docs: "https://fabricator-ui.com/docs/components/base/native-select",
-          examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/native-select-example.tsx",
-        },
-      },
-    },
     direction: {
       name: "direction",
       title: "undefined",
@@ -13610,28 +13588,6 @@ export const Index: Record<string, Record<string, any>> = {
         },
       },
     },
-    "native-select": {
-      name: "native-select",
-      title: "undefined",
-      description: "",
-      type: "registry:ui",
-      registryDependencies: undefined,
-      files: [
-        {
-          path: "styles/radix-fabricator/ui/native-select.tsx",
-          type: "registry:ui",
-          target: "",
-        },
-      ],
-      categories: undefined,
-      meta: {
-        links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/native-select",
-          examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/native-select-example.tsx",
-        },
-      },
-    },
     direction: {
       name: "direction",
       title: "undefined",
@@ -14920,28 +14876,6 @@ export const Index: Record<string, Record<string, any>> = {
           docs: "https://fabricator-ui.com/docs/components/aria/kbd",
           examples:
             "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/kbd-example.tsx",
-        },
-      },
-    },
-    "native-select": {
-      name: "native-select",
-      title: "undefined",
-      description: "",
-      type: "registry:ui",
-      registryDependencies: undefined,
-      files: [
-        {
-          path: "styles/aria-fabricator/ui/native-select.tsx",
-          type: "registry:ui",
-          target: "",
-        },
-      ],
-      categories: undefined,
-      meta: {
-        links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/native-select",
-          examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/native-select-example.tsx",
         },
       },
     },

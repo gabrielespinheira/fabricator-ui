@@ -240,14 +240,6 @@ const SOURCES: CatalogSource[] = [
       import("@/examples/__styles__/base-fabricator/message-scroller-demo"),
   },
   {
-    slug: "native-select",
-    title: "Native Select",
-    category: "Forms",
-    height: "sm",
-    load: () =>
-      import("@/examples/__styles__/base-fabricator/native-select-demo"),
-  },
-  {
     slug: "navigation-menu",
     title: "Navigation Menu",
     category: "Navigation",

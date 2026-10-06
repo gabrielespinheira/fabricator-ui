@@ -58,7 +58,6 @@ The Fabricator design language rests on these systems, shipped in the `foundatio
 - [Checkbox](https://fabricator-ui.com/docs/components/base/checkbox.md): A control that allows the user to toggle between checked and not checked.
 - [Radio Group](https://fabricator-ui.com/docs/components/base/radio-group.md): A set of checkable buttons—known as radio buttons—where no more than one of the buttons can be checked at a time.
 - [Select](https://fabricator-ui.com/docs/components/base/select.md): Displays a list of options for the user to pick from—triggered by a button.
-- [Native Select](https://fabricator-ui.com/docs/components/base/native-select.md): A styled native HTML select element with consistent design system integration.
 - [Switch](https://fabricator-ui.com/docs/components/base/switch.md): A control that allows the user to toggle between checked and not checked.
 - [Slider](https://fabricator-ui.com/docs/components/base/slider.md): An input where the user selects a value from within a given range.
 - [Calendar](https://fabricator-ui.com/docs/components/base/calendar.md): A calendar component that allows users to select a date or a range of dates.

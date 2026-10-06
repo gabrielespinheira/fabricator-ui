@@ -111,6 +111,17 @@ const nextConfig = {
         destination: "/docs/components/base/toast.md",
         permanent: true,
       },
+      // Native Select isn't part of the Fabricator library; Select replaces it.
+      {
+        source: "/docs/components/:base(base|radix|aria)/native-select",
+        destination: "/docs/components/:base/select",
+        permanent: false,
+      },
+      {
+        source: "/docs/components/:base(base|radix|aria)/native-select.md",
+        destination: "/docs/components/:base/select.md",
+        permanent: false,
+      },
       // Component redirects (default to base).
       {
         source: "/docs/components/:name((?!radix|base|aria|form)[^/]+)",

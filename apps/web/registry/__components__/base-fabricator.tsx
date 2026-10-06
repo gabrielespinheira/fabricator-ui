@@ -438,14 +438,6 @@ export const Components: Record<string, any> = {
       ) || "kbd"
     return { default: mod.default || mod[exportName] }
   }),
-  "native-select": React.lazy(async () => {
-    const mod = await import("@/styles/base-fabricator/ui/native-select")
-    const exportName =
-      Object.keys(mod).find(
-        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
-      ) || "native-select"
-    return { default: mod.default || mod[exportName] }
-  }),
   direction: React.lazy(async () => {
     const mod = await import("@/styles/base-fabricator/ui/direction")
     const exportName =

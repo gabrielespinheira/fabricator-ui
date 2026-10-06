@@ -313,6 +313,11 @@ The Fabricator design language adapts Fluid Functionalism (MIT). **`apps/web/reg
 - **Tokens** live in `registry/fabricator/foundations.ts` (foundations: new token names only; palette: Fabricator values for the shadcn token names, applied by the `fabricator` preset).
 - **Look:** each component's placeholder rules are in `registry/styles/fabricator/<component>.css`. The build assembles them into `style-fabricator.css` and fails if any placeholder used by the components has no rule.
 - **Behaviour** that CSS can't express (fluid hover, sliding selection) is added with **Fabricator overrides**: `registry/fabricator/<base>/ui/<component>.tsx` is a copy of the upstream source with additive, container-level changes; `registry/fabricator/shared/` holds files every base uses (`lib/fluid-hover.tsx`). Overrides compile into the Fabricator style only, so upstream styles keep their exact output. They keep the full upstream API (superset rule). Extra registry dependencies go in `fabricatorOverrides` in `registry/fabricator/registry.ts`.
+- **Excluded items:** `FABRICATOR_EXCLUDED_ITEMS` in `registry/fabricator/registry.ts` lists upstream items the Fabricator library leaves out (Native Select: it only restyles a raw `<select>`; Select replaces it).
+  - The build drops them from Fabricator mode and the site indexes, and rewrites dependencies to the replacement.
+  - It also skips their demos in the Fabricator example copies.
+  - Items that used one get an override, and docs demos an override in `registry/fabricator/site-examples/<base>/`.
+  - Blend mode keeps every upstream item.
 - **After an upstream sync**, review the upstream changes to every overridden file (`git diff <old>..<new> -- apps/web/registry/bases/<base>/ui/<component>.tsx`) and port them into the override.
 
 - **Dimensions** (rationale in `PLAN.md` §6):
