@@ -14,6 +14,7 @@ import {
   SelectValue,
 } from "@/styles/base-fabricator/ui/select"
 
+import { CATALOG, type CatalogEntry } from "./catalog"
 import {
   CheckboxDemo,
   InputOTPDemo,
@@ -50,6 +51,8 @@ const CATEGORIES = [
   "Overlays",
   "Data",
   "Feedback",
+  "Chat",
+  "Layout",
 ] as const
 
 type Category = Exclude<(typeof CATEGORIES)[number], "All">
@@ -62,8 +65,10 @@ type GalleryItem = {
   /** Card height on multi-column layouts. */
   height: "sm" | "md" | "lg"
   isNew?: boolean
-  Demo: React.ComponentType
-}
+} & (
+  | { Demo: React.ComponentType; entry?: never }
+  | { entry: CatalogEntry; Demo?: never }
+)
 
 // Featured order. Columns fill top to bottom, so heights alternate to keep the
 // three columns roughly level.
@@ -226,6 +231,18 @@ const ITEMS: GalleryItem[] = [
   },
 ]
 
+// Curated demos first, then every other component with its docs demo.
+const ALL_ITEMS: GalleryItem[] = [
+  ...ITEMS,
+  ...CATALOG.map((entry) => ({
+    slug: entry.slug,
+    title: entry.title,
+    category: entry.category,
+    height: entry.height,
+    entry,
+  })),
+]
+
 const SORTS = [
   { value: "featured", label: "Featured" },
   { value: "name", label: "A–Z" },
@@ -257,7 +274,7 @@ export function Gallery() {
   const [sort, setSort] = React.useState("featured")
 
   const items = React.useMemo(() => {
-    const filtered = ITEMS.filter(
+    const filtered = ALL_ITEMS.filter(
       (item) => category === "All" || item.category === category
     )
     return sort === "name"
@@ -317,7 +334,7 @@ export function Gallery() {
       </div>
       {/* Three balanced flex columns on wide screens. Below xl the columns
           dissolve (display: contents) and CSS columns lay the cards out. */}
-      <div className="columns-1 gap-3 md:columns-2 xl:flex xl:items-start xl:gap-3">
+      <div className="columns-1 gap-3 md:columns-2 xl:flex xl:items-stretch xl:gap-3">
         {columns.map((column, index) => (
           <div
             key={index}
@@ -340,14 +357,21 @@ export function Gallery() {
 
 function GalleryCard({ item }: { item: GalleryItem }) {
   const href = `/docs/components/base/${item.slug}`
-  const { Demo } = item
 
   return (
     <article
       className={cn(
-        "group/card relative mb-3 flex min-h-[280px] break-inside-avoid items-center justify-center overflow-hidden rounded-[28px] bg-surface-3 px-6 pt-16 pb-12 shadow-surface-1 md:py-12 xl:mb-0 dark:bg-surface-2 dark:shadow-none",
-        HEIGHTS[item.height]
+        "group/card relative mb-3 flex min-h-[280px] break-inside-avoid items-center-safe justify-center overflow-hidden rounded-[28px] bg-surface-3 px-6 pt-16 pb-12 shadow-surface-1 md:py-12 xl:mb-0 dark:bg-surface-2 dark:shadow-none",
+        HEIGHTS[item.height],
+        // In the three-column layout, cards in shorter columns share the
+        // spare height (a few pixels each), so all columns end level.
+        "xl:h-auto xl:min-h-(--card-height) xl:grow"
       )}
+      style={
+        {
+          "--card-height": `${HEIGHT_PX[item.height]}px`,
+        } as React.CSSProperties
+      }
     >
       <Link
         href={href}
@@ -366,9 +390,83 @@ function GalleryCard({ item }: { item: GalleryItem }) {
       >
         <ArrowUpRightIcon className="size-4" />
       </Link>
-      <div className="flex w-full items-center justify-center">
-        <Demo />
+      <div
+        className="flex w-full max-w-full min-w-0 items-center justify-center"
+        style={item.entry?.zoom ? { zoom: item.entry.zoom } : undefined}
+      >
+        {item.Demo ? <item.Demo /> : <LazyDemo entry={item.entry} />}
       </div>
+      {/* Tall demos start at the top and fade out at the bottom edge. */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-linear-to-t from-surface-3 to-transparent dark:from-surface-2"
+      />
     </article>
   )
+}
+
+/**
+ * Mounts a catalog demo once its card comes near the viewport, so the page
+ * downloads each demo's code only when it is about to be seen.
+ */
+function LazyDemo({ entry }: { entry: CatalogEntry }) {
+  const ref = React.useRef<HTMLDivElement>(null)
+  const [visible, setVisible] = React.useState(false)
+
+  React.useEffect(() => {
+    const element = ref.current
+    if (!element) return
+    const observer = new IntersectionObserver(
+      ([observed]) => {
+        if (observed?.isIntersecting) {
+          setVisible(true)
+          observer.disconnect()
+        }
+      },
+      { rootMargin: "400px 0px" }
+    )
+    observer.observe(element)
+    return () => observer.disconnect()
+  }, [])
+
+  const { Demo } = entry
+  const placeholder = (
+    <div
+      aria-hidden
+      className="h-24 w-full max-w-64 animate-pulse rounded-xl bg-foreground/[0.04]"
+    />
+  )
+
+  return (
+    <div
+      ref={ref}
+      className="flex w-full max-w-full min-w-0 items-center justify-center"
+    >
+      {visible ? (
+        <DemoBoundary fallback={placeholder}>
+          <React.Suspense fallback={placeholder}>
+            <Demo />
+          </React.Suspense>
+        </DemoBoundary>
+      ) : (
+        placeholder
+      )}
+    </div>
+  )
+}
+
+/** Keeps one failing demo from taking the whole gallery down. */
+class DemoBoundary extends React.Component<
+  { fallback: React.ReactNode; children: React.ReactNode },
+  { failed: boolean }
+> {
+  state = { failed: false }
+
+  static getDerivedStateFromError() {
+    return { failed: true }
+  }
+
+  render() {
+    return this.state.failed ? this.props.fallback : this.props.children
+  }
 }

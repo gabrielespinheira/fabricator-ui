@@ -370,7 +370,10 @@ The website renders the Fabricator style, so it shows what `fabricator-ui add` i
     - `docs-shell-sidebar.tsx`, `docs-mobile-bar.tsx`, `docs-panel.tsx`: the docs shell (no top bar), with a left sidebar of search and nav groups, and a right panel for theme, primitive and contents.
     - `fluid-nav.tsx`: the site's link lists, which use the real Fluid Hover hook.
   - `app/fabricator-site.css`: site-only CSS such as docs typography. `app/fabricator.css` is generated; don't edit it.
-  - The homepage (`app/(app)/(root)/`) is a gallery of live Fabricator components imported from `@/styles/base-fabricator/ui/*`.
+  - The homepage (`app/(app)/(root)/`) is a gallery of every component.
+    - Hand-built demos (`_components/demos-*.tsx`, importing `@/styles/base-fabricator/ui/*`) come first.
+    - Every other component follows with its docs demo, listed in `_components/catalog.tsx` and lazy-loaded from `examples/__styles__/base-fabricator/` as its card nears the viewport.
+    - When you add a component, add it to the catalog with a category and card height.
 - **Docs pages** use the docs shell: `[data-slot=docs-shell]` hides the site header and footer.
 - **Site settings** (`lib/site-settings.ts`, stored in localStorage):
   - The settings menu (`components/fabricator/site-settings.tsx`) is in the top bar, the docs sidebar and the docs panel, and holds theme, sound, icons and radius.
