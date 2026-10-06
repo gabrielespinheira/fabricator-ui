@@ -3042,6 +3042,46 @@ export const Components: Record<string, any> = {
       ) || "scroll-fade-size"
     return { default: mod.default || mod[exportName] }
   }),
+  "search-always-open": React.lazy(async () => {
+    const mod = await import("@/examples/aria/search-always-open")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "search-always-open"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "search-controlled": React.lazy(async () => {
+    const mod = await import("@/examples/aria/search-controlled")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "search-controlled"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "search-demo": React.lazy(async () => {
+    const mod = await import("@/examples/aria/search-demo")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "search-demo"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "search-outline": React.lazy(async () => {
+    const mod = await import("@/examples/aria/search-outline")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "search-outline"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "search-sizes": React.lazy(async () => {
+    const mod = await import("@/examples/aria/search-sizes")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "search-sizes"
+    return { default: mod.default || mod[exportName] }
+  }),
   "select-autocomplete": React.lazy(async () => {
     const mod = await import("@/examples/aria/select-autocomplete")
     const exportName =

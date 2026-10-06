@@ -74,6 +74,7 @@ The Fabricator design language rests on these systems, shipped in the `foundatio
 - [Tabs](https://fabricator-ui.com/docs/components/base/tabs.md): A set of layered sections of content—known as tab panels—that are displayed one at a time.
 - [Separator](https://fabricator-ui.com/docs/components/base/separator.md): Visually or semantically separates content.
 - [Scroll Area](https://fabricator-ui.com/docs/components/base/scroll-area.md): Augments native scroll functionality for custom, cross-browser styling.
+- [Search](https://fabricator-ui.com/docs/components/base/search.md): A search button that springs open into a search field, as one object.
 - [Resizable](https://fabricator-ui.com/docs/components/base/resizable.md): Accessible resizable panel groups and layouts with keyboard support.
 
 ### Overlays & Dialogs

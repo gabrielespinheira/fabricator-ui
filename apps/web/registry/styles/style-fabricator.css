@@ -453,8 +453,11 @@
 
   /* Day buttons inherit the cell's colour (outside days stay muted) instead
      of the ghost button's muted text; hover is the ghost bg-hover. */
+  /* Selected days keep their foreground on hover (hover:text-foreground
+     would turn the number the same colour as the fill), and the keyboard
+     focus is the 1px focus ring instead of upstream's 3px halo. */
   .cn-calendar-day-button {
-    @apply cursor-pointer text-inherit text-[13px] hover:text-foreground;
+    @apply cursor-pointer text-inherit text-[13px] hover:text-foreground data-[selected-single=true]:hover:text-primary-foreground! data-[selected-single=true]:hover:bg-primary/90 data-[range-start=true]:hover:text-primary-foreground! data-[range-start=true]:hover:bg-primary/90 data-[range-end=true]:hover:text-primary-foreground! data-[range-end=true]:hover:bg-primary/90 group-data-[focused=true]/day:ring-1! group-data-[focused=true]/day:ring-focus-ring!;
   }
 
 /* MARK: Card */
@@ -507,19 +510,20 @@
 
 /* MARK: Checkbox */
 
-  /* 16px, rounded-[5px], 1.5px border that darkens on hover. Checked drops
-     the border and the fill: the foreground check alone marks the state, and
-     it pops in on the fast spring. Focus is the 1px blue ring. */
+  /* 18px, rounded-[6px], a quiet 1.5px outline that firms up on hover. Checked
+     fills with the foreground and the check pops in, inverted. Pressing gives
+     a little (scale 0.9) on the fast spring. Focus is the 1px ring, offset. */
   .cn-checkbox {
-    @apply cursor-pointer border-border text-foreground hover:border-neutral-400 dark:hover:border-neutral-500 data-checked:border-transparent dark:data-checked:border-transparent focus-visible:ring-ring aria-invalid:border-destructive/60 aria-invalid:hover:border-destructive aria-invalid:data-checked:border-transparent flex size-4 items-center justify-center rounded-[5px] border-[1.5px] bg-transparent transition-[border-color,box-shadow] duration-80 ease-spring group-has-disabled/field:opacity-50 focus-visible:ring-1 group-has-[:focus-visible]/field-label:ring-0;
+    @apply cursor-pointer flex size-[18px] items-center justify-center border-[1.5px] border-foreground/25 bg-transparent transition-[background-color,border-color,box-shadow,scale] duration-80 ease-spring hover:border-foreground/45 active:scale-90 motion-reduce:active:scale-100 focus-visible:ring-1 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background aria-invalid:border-destructive group-has-[:focus-visible]/field-label:ring-0 rounded-[6px] text-background data-checked:border-foreground data-checked:bg-foreground data-checked:hover:border-foreground aria-invalid:data-checked:border-destructive aria-invalid:data-checked:bg-destructive data-indeterminate:border-foreground data-indeterminate:bg-foreground group-has-disabled/field:opacity-50;
   }
 
   .cn-checkbox-aria {
-    @apply cursor-pointer data-hovered:border-neutral-400 dark:data-hovered:border-neutral-500 data-selected:border-transparent dark:data-selected:border-transparent data-focus-visible:ring-ring data-invalid:border-destructive/60 data-invalid:data-selected:border-transparent data-focus-visible:ring-1;
+    @apply cursor-pointer data-hovered:border-foreground/45 data-pressed:scale-90 motion-reduce:data-pressed:scale-100 data-selected:border-foreground data-selected:bg-foreground data-selected:data-hovered:border-foreground data-focus-visible:ring-1 data-focus-visible:ring-focus-ring data-focus-visible:ring-offset-2 data-focus-visible:ring-offset-background data-invalid:border-destructive data-invalid:data-selected:border-destructive data-invalid:data-selected:bg-destructive data-indeterminate:border-foreground data-indeterminate:bg-foreground;
   }
 
+  /* The check: 12px, heavier stroke, centred on whole pixels in the 18px box. */
   .cn-checkbox-indicator {
-    @apply animate-in fade-in-0 zoom-in-50 duration-80 ease-spring motion-reduce:zoom-in-100 [&>svg]:size-3.5 [&>svg]:stroke-[2.5];
+    @apply animate-in fade-in-0 zoom-in-50 duration-160 ease-spring-bounce motion-reduce:zoom-in-100 [&>svg]:size-3 [&>svg]:stroke-[3];
   }
 
 /* MARK: Combobox */
@@ -1621,23 +1625,23 @@
     @apply grid gap-3;
   }
 
-  /* 16px circle with a 1.5px border that darkens on hover. Checked drops
-     the ring; an 8px foreground dot pops in on the fast spring. The width is
-     important because the components carry an inline 1px `border`. */
+  /* 18px circle with the checkbox's outline. Checked fills with the foreground
+     and an inverted 6px dot pops in. The border width is important because
+     the components carry an inline 1px `border`. */
   .cn-radio-group-item {
-    @apply cursor-pointer border-border hover:border-neutral-400 dark:hover:border-neutral-500 data-checked:border-transparent dark:data-checked:border-transparent focus-visible:ring-ring aria-invalid:border-destructive/60 aria-invalid:hover:border-destructive aria-invalid:data-checked:border-transparent flex size-4 rounded-full border-[1.5px]! bg-transparent transition-[border-color,box-shadow] duration-80 ease-spring focus-visible:ring-1 group-has-[:focus-visible]/field-label:ring-0;
+    @apply cursor-pointer flex size-[18px] items-center justify-center border-[1.5px]! border-foreground/25 bg-transparent transition-[background-color,border-color,box-shadow,scale] duration-80 ease-spring hover:border-foreground/45 active:scale-90 motion-reduce:active:scale-100 focus-visible:ring-1 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background aria-invalid:border-destructive group-has-[:focus-visible]/field-label:ring-0 rounded-full data-checked:border-foreground data-checked:bg-foreground data-checked:hover:border-foreground aria-invalid:data-checked:border-destructive aria-invalid:data-checked:bg-destructive;
   }
 
   .cn-radio-group-item-aria {
-    @apply cursor-pointer data-hovered:border-neutral-400 dark:data-hovered:border-neutral-500 data-selected:border-transparent dark:data-selected:border-transparent data-focus-visible:ring-ring data-invalid:border-destructive/60 data-invalid:data-selected:border-transparent data-focus-visible:ring-1;
+    @apply cursor-pointer data-hovered:border-foreground/45 data-pressed:scale-90 motion-reduce:data-pressed:scale-100 data-selected:border-foreground data-selected:bg-foreground data-selected:data-hovered:border-foreground data-focus-visible:ring-1 data-focus-visible:ring-focus-ring data-focus-visible:ring-offset-2 data-focus-visible:ring-offset-background data-invalid:border-destructive data-invalid:data-selected:border-destructive data-invalid:data-selected:bg-destructive;
   }
 
   .cn-radio-group-indicator {
-    @apply flex size-4 items-center justify-center;
+    @apply flex size-full items-center justify-center;
   }
 
   .cn-radio-group-indicator-icon {
-    @apply bg-foreground animate-in fade-in-0 zoom-in-[0.3] absolute top-1/2 left-1/2 size-2 -translate-x-1/2 -translate-y-1/2 rounded-full duration-80 ease-spring motion-reduce:zoom-in-100;
+    @apply bg-background absolute top-1/2 left-1/2 size-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full animate-in fade-in-0 zoom-in-[0.3] duration-160 ease-spring-bounce motion-reduce:zoom-in-100;
   }
 
 /* MARK: Resizable */
@@ -1662,6 +1666,57 @@
      The colours are important to beat the component's inline bg-border. */
   .cn-scroll-area-thumb {
     @apply rounded-full bg-[rgb(var(--overlay)/0.08)]! opacity-0 [transition:opacity_120ms_ease-out_160ms,background-color_160ms,max-width_160ms,max-height_160ms] in-[[data-slot=scroll-area-scrollbar]:hover]:bg-[rgb(var(--overlay)/0.12)]! active:bg-[rgb(var(--overlay)/0.16)]! in-[[data-slot=scroll-area-scrollbar][data-orientation=vertical]]:mx-auto in-[[data-slot=scroll-area-scrollbar][data-orientation=vertical]]:max-w-1 in-[[data-slot=scroll-area-scrollbar][data-orientation=vertical]:hover]:max-w-1.5 in-[[data-slot=scroll-area-scrollbar][data-orientation=horizontal]]:my-auto in-[[data-slot=scroll-area-scrollbar][data-orientation=horizontal]]:max-h-1 in-[[data-slot=scroll-area-scrollbar][data-orientation=horizontal]:hover]:max-h-1.5 data-[state=visible]:opacity-100 in-[[data-slot=scroll-area-scrollbar][data-hovering]]:opacity-100 in-[[data-slot=scroll-area-scrollbar][data-scrolling]]:opacity-100 in-[[data-slot=scroll-area-scrollbar][data-hovering]]:[transition:opacity_160ms_ease-out,background-color_160ms,max-width_160ms,max-height_160ms] in-[[data-slot=scroll-area-scrollbar][data-scrolling]]:[transition:opacity_160ms_ease-out,background-color_160ms,max-width_160ms,max-height_160ms];
+  }
+
+/* MARK: Search */
+
+  /* One object: closed it is a round button (width = height), open it springs
+     to --search-width (default 320px, never wider than its parent). The width
+     opens on the slow spring and closes on the quicker exit tween; a press on
+     the closed button squashes it slightly on the fast spring ("give").
+     Corners stay a full pill. Fill is the translucent `active` overlay, so it sits
+     on any surface in both themes. */
+  .cn-search {
+    @apply text-foreground max-w-full rounded-full transition-[width,scale,background-color,box-shadow] duration-240 ease-spring-bounce not-data-open:duration-160 not-data-open:ease-exit has-[[data-slot=search-trigger]:active]:not-data-open:scale-[0.94] has-[[data-slot=search-trigger]:focus-visible]:ring-1 has-[[data-slot=search-trigger]:focus-visible]:ring-ring has-[[data-slot=search-input]:focus-visible]:ring-1 has-[[data-slot=search-input]:focus-visible]:ring-foreground/20 motion-reduce:transition-[background-color,box-shadow] motion-reduce:has-[[data-slot=search-trigger]:active]:not-data-open:scale-100;
+  }
+
+  .cn-search-variant-default {
+    @apply bg-active not-data-open:hover:bg-foreground/[0.13];
+  }
+
+  /* Bencho's "stroke": a hairline ring instead of the fill. */
+  .cn-search-variant-outline {
+    @apply ring-border bg-transparent ring-1 not-data-open:hover:bg-hover;
+  }
+
+  .cn-search-size-default {
+    @apply h-9 w-9 text-[13px] data-open:w-(--search-width,320px) [&_[data-slot=search-input]]:ps-9 [&_[data-slot=search-input]]:pe-3 has-[[data-slot=search-clear]]:[&_[data-slot=search-input]]:pe-9 [&_svg:not([class*='size-'])]:size-4;
+  }
+
+  .cn-search-size-sm {
+    @apply h-7 w-7 text-[12px] data-open:w-(--search-width,240px) [&_[data-slot=search-input]]:ps-7 [&_[data-slot=search-input]]:pe-2.5 has-[[data-slot=search-clear]]:[&_[data-slot=search-input]]:pe-7 [&_svg:not([class*='size-'])]:size-3.5;
+  }
+
+  .cn-search-size-lg {
+    @apply h-11 w-11 text-[15px] data-open:w-(--search-width,360px) [&_[data-slot=search-input]]:ps-11 [&_[data-slot=search-input]]:pe-4 has-[[data-slot=search-clear]]:[&_[data-slot=search-input]]:pe-11 [&_svg:not([class*='size-'])]:size-[18px];
+  }
+
+  /* Closed: the whole button. Open: just the icon, muted. */
+  .cn-search-trigger {
+    @apply cursor-pointer rounded-full text-foreground transition-colors duration-80 ease-spring group-data-open/search:text-muted-foreground;
+  }
+
+  .cn-search-icon {
+    @apply stroke-[1.75];
+  }
+
+  /* The field fades in once the width is on its way, and out at once. */
+  .cn-search-input {
+    @apply cursor-text text-foreground placeholder:text-muted-foreground opacity-0 transition-opacity duration-60 ease-exit group-data-open/search:opacity-100 group-data-open/search:delay-80 group-data-open/search:duration-160 group-data-open/search:ease-spring motion-reduce:delay-0;
+  }
+
+  .cn-search-clear {
+    @apply text-muted-foreground hover:text-foreground focus-visible:text-foreground cursor-pointer rounded-full transition-colors duration-80 ease-spring animate-in fade-in-0 zoom-in-75 motion-reduce:zoom-in-100 focus-visible:ring-1 focus-visible:ring-ring [&_svg:not([class*='size-'])]:size-3.5;
   }
 
 /* MARK: Select */

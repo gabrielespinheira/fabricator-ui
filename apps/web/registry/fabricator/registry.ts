@@ -46,6 +46,23 @@ export const fabricatorItems = [
     ],
   },
   {
+    name: "search",
+    type: "registry:ui",
+    title: "Search",
+    description:
+      "A search button that springs open into a search field as one object. Escape clears, then closes.",
+    files: [{ path: "ui/search.tsx", type: "registry:ui" }],
+    categories: ["forms"],
+    meta: {
+      fabricator: true,
+      links: {
+        docs: "https://fabricator-ui.com/docs/components/base/search",
+        examples:
+          "https://fabricator-ui.com/docs/components/base/search#examples",
+      },
+    },
+  },
+  {
     name: "radius-pill",
     type: "registry:theme",
     title: "Pill radius",

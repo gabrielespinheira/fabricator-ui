@@ -35,6 +35,9 @@ import {
   Calendar as LucideCalendar,
   CalendarIcon as LucideCalendarIcon,
   CalendarPlusIcon as LucideCalendarPlusIcon,
+  ChartBarIcon as LucideChartBarIcon,
+  ChartLineIcon as LucideChartLineIcon,
+  ChartPieIcon as LucideChartPieIcon,
   CheckCircle2Icon as LucideCheckCircle2Icon,
   CheckIcon as LucideCheckIcon,
   ChevronDown as LucideChevronDown,
@@ -126,6 +129,8 @@ import {
   Plus as LucidePlus,
   PlusIcon as LucidePlusIcon,
   RadioIcon as LucideRadioIcon,
+  RectangleHorizontalIcon as LucideRectangleHorizontalIcon,
+  RectangleVerticalIcon as LucideRectangleVerticalIcon,
   RefreshCcwIcon as LucideRefreshCcwIcon,
   RefreshCwIcon as LucideRefreshCwIcon,
   RotateCcwIcon as LucideRotateCcwIcon,
@@ -145,6 +150,7 @@ import {
   SmileIcon as LucideSmileIcon,
   Sparkles as LucideSparkles,
   SparklesIcon as LucideSparklesIcon,
+  SquareIcon as LucideSquareIcon,
   SquareTerminal as LucideSquareTerminal,
   StarIcon as LucideStarIcon,
   SunIcon as LucideSunIcon,
@@ -370,6 +376,24 @@ export const CalendarPlusIcon = createSiteIcon(LucideCalendarPlusIcon, {
   hugeicons: "CalendarAdd01Icon",
   phosphor: "CalendarPlusIcon",
   remixicon: "RiCalendarScheduleLine",
+})
+export const ChartBarIcon = createSiteIcon(LucideChartBarIcon, {
+  tabler: "IconChartBar",
+  hugeicons: "ChartHistogramIcon",
+  phosphor: "ChartBarIcon",
+  remixicon: "RiBarChartLine",
+})
+export const ChartLineIcon = createSiteIcon(LucideChartLineIcon, {
+  tabler: "IconChartLine",
+  hugeicons: "ChartIcon",
+  phosphor: "ChartLineIcon",
+  remixicon: "RiLineChartLine",
+})
+export const ChartPieIcon = createSiteIcon(LucideChartPieIcon, {
+  tabler: "IconChartPie",
+  hugeicons: "Chart03Icon",
+  phosphor: "ChartPieIcon",
+  remixicon: "RiPieChartLine",
 })
 export const CheckCircle2Icon = createSiteIcon(LucideCheckCircle2Icon, {
   tabler: "IconCircleCheckFilled",
@@ -921,6 +945,14 @@ export const RadioIcon = createSiteIcon(LucideRadioIcon, {
   phosphor: "RecordIcon",
   remixicon: "RiRecordCircleLine",
 })
+export const RectangleHorizontalIcon = createSiteIcon(
+  LucideRectangleHorizontalIcon,
+  {}
+)
+export const RectangleVerticalIcon = createSiteIcon(
+  LucideRectangleVerticalIcon,
+  {}
+)
 export const RefreshCcwIcon = createSiteIcon(LucideRefreshCcwIcon, {
   tabler: "IconRefresh",
   hugeicons: "ReloadIcon",
@@ -1034,6 +1066,12 @@ export const SparklesIcon = createSiteIcon(LucideSparklesIcon, {
   hugeicons: "SparklesIcon",
   phosphor: "SparkleIcon",
   remixicon: "RiSparklingLine",
+})
+export const SquareIcon = createSiteIcon(LucideSquareIcon, {
+  tabler: "IconPlayerStop",
+  hugeicons: "StopCircleIcon",
+  phosphor: "StopCircleIcon",
+  remixicon: "RiStopCircleLine",
 })
 export const SquareTerminal = createSiteIcon(LucideSquareTerminal, {
   tabler: "IconTerminal2",

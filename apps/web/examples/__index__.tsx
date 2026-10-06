@@ -1569,6 +1569,26 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "scroll-fade-size",
       filePath: "examples/base/scroll-fade-size.tsx",
     },
+    "search-always-open": {
+      name: "search-always-open",
+      filePath: "examples/base/search-always-open.tsx",
+    },
+    "search-controlled": {
+      name: "search-controlled",
+      filePath: "examples/base/search-controlled.tsx",
+    },
+    "search-demo": {
+      name: "search-demo",
+      filePath: "examples/base/search-demo.tsx",
+    },
+    "search-outline": {
+      name: "search-outline",
+      filePath: "examples/base/search-outline.tsx",
+    },
+    "search-sizes": {
+      name: "search-sizes",
+      filePath: "examples/base/search-sizes.tsx",
+    },
     "select-align-item": {
       name: "select-align-item",
       filePath: "examples/base/select-align-item.tsx",
@@ -3574,6 +3594,26 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "scroll-fade-size": {
       name: "scroll-fade-size",
       filePath: "examples/aria/scroll-fade-size.tsx",
+    },
+    "search-always-open": {
+      name: "search-always-open",
+      filePath: "examples/aria/search-always-open.tsx",
+    },
+    "search-controlled": {
+      name: "search-controlled",
+      filePath: "examples/aria/search-controlled.tsx",
+    },
+    "search-demo": {
+      name: "search-demo",
+      filePath: "examples/aria/search-demo.tsx",
+    },
+    "search-outline": {
+      name: "search-outline",
+      filePath: "examples/aria/search-outline.tsx",
+    },
+    "search-sizes": {
+      name: "search-sizes",
+      filePath: "examples/aria/search-sizes.tsx",
     },
     "select-autocomplete": {
       name: "select-autocomplete",
@@ -5608,6 +5648,26 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "scroll-fade-size": {
       name: "scroll-fade-size",
       filePath: "examples/radix/scroll-fade-size.tsx",
+    },
+    "search-always-open": {
+      name: "search-always-open",
+      filePath: "examples/radix/search-always-open.tsx",
+    },
+    "search-controlled": {
+      name: "search-controlled",
+      filePath: "examples/radix/search-controlled.tsx",
+    },
+    "search-demo": {
+      name: "search-demo",
+      filePath: "examples/radix/search-demo.tsx",
+    },
+    "search-outline": {
+      name: "search-outline",
+      filePath: "examples/radix/search-outline.tsx",
+    },
+    "search-sizes": {
+      name: "search-sizes",
+      filePath: "examples/radix/search-sizes.tsx",
     },
     "select-align-item": {
       name: "select-align-item",
@@ -7696,6 +7756,26 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "scroll-fade-size",
       filePath: "examples/__styles__/base-fabricator/scroll-fade-size.tsx",
     },
+    "search-always-open": {
+      name: "search-always-open",
+      filePath: "examples/__styles__/base-fabricator/search-always-open.tsx",
+    },
+    "search-controlled": {
+      name: "search-controlled",
+      filePath: "examples/__styles__/base-fabricator/search-controlled.tsx",
+    },
+    "search-demo": {
+      name: "search-demo",
+      filePath: "examples/__styles__/base-fabricator/search-demo.tsx",
+    },
+    "search-outline": {
+      name: "search-outline",
+      filePath: "examples/__styles__/base-fabricator/search-outline.tsx",
+    },
+    "search-sizes": {
+      name: "search-sizes",
+      filePath: "examples/__styles__/base-fabricator/search-sizes.tsx",
+    },
     "select-align-item": {
       name: "select-align-item",
       filePath: "examples/__styles__/base-fabricator/select-align-item.tsx",
@@ -9738,6 +9818,26 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "scroll-fade-size": {
       name: "scroll-fade-size",
       filePath: "examples/__styles__/aria-fabricator/scroll-fade-size.tsx",
+    },
+    "search-always-open": {
+      name: "search-always-open",
+      filePath: "examples/__styles__/aria-fabricator/search-always-open.tsx",
+    },
+    "search-controlled": {
+      name: "search-controlled",
+      filePath: "examples/__styles__/aria-fabricator/search-controlled.tsx",
+    },
+    "search-demo": {
+      name: "search-demo",
+      filePath: "examples/__styles__/aria-fabricator/search-demo.tsx",
+    },
+    "search-outline": {
+      name: "search-outline",
+      filePath: "examples/__styles__/aria-fabricator/search-outline.tsx",
+    },
+    "search-sizes": {
+      name: "search-sizes",
+      filePath: "examples/__styles__/aria-fabricator/search-sizes.tsx",
     },
     "select-autocomplete": {
       name: "select-autocomplete",
@@ -11822,6 +11922,26 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "scroll-fade-size": {
       name: "scroll-fade-size",
       filePath: "examples/__styles__/radix-fabricator/scroll-fade-size.tsx",
+    },
+    "search-always-open": {
+      name: "search-always-open",
+      filePath: "examples/__styles__/radix-fabricator/search-always-open.tsx",
+    },
+    "search-controlled": {
+      name: "search-controlled",
+      filePath: "examples/__styles__/radix-fabricator/search-controlled.tsx",
+    },
+    "search-demo": {
+      name: "search-demo",
+      filePath: "examples/__styles__/radix-fabricator/search-demo.tsx",
+    },
+    "search-outline": {
+      name: "search-outline",
+      filePath: "examples/__styles__/radix-fabricator/search-outline.tsx",
+    },
+    "search-sizes": {
+      name: "search-sizes",
+      filePath: "examples/__styles__/radix-fabricator/search-sizes.tsx",
     },
     "select-align-item": {
       name: "select-align-item",
