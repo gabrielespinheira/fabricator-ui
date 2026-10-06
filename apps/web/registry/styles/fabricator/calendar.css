@@ -23,6 +23,9 @@
 
   /* Day buttons inherit the cell's colour (outside days stay muted) instead
      of the ghost button's muted text; hover is the ghost bg-hover. */
+  /* Selected days keep their foreground on hover (hover:text-foreground
+     would turn the number the same colour as the fill), and the keyboard
+     focus is the 1px focus ring instead of upstream's 3px halo. */
   .cn-calendar-day-button {
-    @apply cursor-pointer text-inherit text-[13px] hover:text-foreground;
+    @apply cursor-pointer text-inherit text-[13px] hover:text-foreground data-[selected-single=true]:hover:text-primary-foreground! data-[selected-single=true]:hover:bg-primary/90 data-[range-start=true]:hover:text-primary-foreground! data-[range-start=true]:hover:bg-primary/90 data-[range-end=true]:hover:text-primary-foreground! data-[range-end=true]:hover:bg-primary/90 group-data-[focused=true]/day:ring-1! group-data-[focused=true]/day:ring-focus-ring!;
   }

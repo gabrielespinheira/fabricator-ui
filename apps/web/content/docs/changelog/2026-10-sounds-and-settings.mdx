@@ -42,6 +42,18 @@ Every Fabricator component now shows the cursor that matches what a press does:
 
 The rules live in the style, so `className` still overrides them.
 
+## Search
+
+A new component: a round search button that springs open into the field as one object, takes focus, and closes again on Escape or when you leave it empty. It has `default` and `outline` variants, three sizes, a clear button, and controlled or uncontrolled `open` and `value`. See [Search](/docs/components/base/search).
+
+```bash
+npx fabricator-ui@latest add search
+```
+
+## Checkbox and Radio Group
+
+Both are 18px with a quiet outline. Checked, they fill with the foreground colour, and an inverted check or dot pops in on the bouncy spring. They give a little when pressed, and focus is the 1px ring with an offset.
+
 ## Smoother rendering
 
 - The foundations turn on grayscale font anti-aliasing, legibility and kerning, optical sizes, and no faux bold or italic, for every app that uses Fabricator components.
@@ -52,5 +64,7 @@ The rules live in the style, so `className` still overrides them.
 - **Native Select** is no longer part of the Fabricator library: it only restyled the browser's own `<select>`. Use [Select](/docs/components/base/select). Blocks and examples that used it now use Select. Projects that keep their own style can still install it.
 
 ## Fixes
+
+- Calendar and Date Picker: hovering the selected day no longer hides its number, and keyboard focus uses the 1px focus ring.
 
 - Sidebar rows that open a collapsible now get the Fluid Hover highlight in every base.

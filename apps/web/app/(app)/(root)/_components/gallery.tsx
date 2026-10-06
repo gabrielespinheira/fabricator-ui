@@ -20,6 +20,7 @@ import {
   InputOTPDemo,
   RadioGroupDemo,
   SearchDemo,
+  SearchFieldDemo,
   SliderDemo,
   SwitchDemo,
 } from "./demos-forms"
@@ -214,6 +215,14 @@ const ITEMS: GalleryItem[] = [
     category: "Overlays",
     height: "sm",
     Demo: AlertDialogDemo,
+  },
+  {
+    slug: "search",
+    title: "Search",
+    category: "Forms",
+    height: "sm",
+    isNew: true,
+    Demo: SearchFieldDemo,
   },
   {
     slug: "input-group",

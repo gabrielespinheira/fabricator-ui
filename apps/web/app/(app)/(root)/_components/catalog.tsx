@@ -45,9 +45,10 @@ const SOURCES: CatalogSource[] = [
     slug: "aspect-ratio",
     title: "Aspect Ratio",
     category: "Layout",
-    height: "sm",
-    load: () =>
-      import("@/examples/__styles__/base-fabricator/aspect-ratio-demo"),
+    height: "md",
+    // A homepage demo: the photo reshapes between landscape, square and
+    // portrait.
+    load: () => import("./demos-media"),
   },
   {
     slug: "attachment",
