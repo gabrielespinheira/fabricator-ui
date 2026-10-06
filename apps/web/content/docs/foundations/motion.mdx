@@ -1,11 +1,11 @@
 ---
 title: Motion
-description: Three spring speeds, with exits one step quicker than entrances.
+description: Three spring speeds, 90, 210 and 290ms, with quicker exits and one scale for all of them.
 ---
 
 ## Installation
 
-The easings ship with the foundations, which every Fabricator component installs:
+The easings and duration tokens ship with the foundations, which every Fabricator component installs:
 
 ```bash
 npx fabricator-ui@latest add foundations
@@ -17,15 +17,17 @@ Every transition picks one of three tiers. Small changes use fast, things that s
 
 <MotionTiers />
 
-| Tier     | Enter                             | Exit                     | Use                                                                                          |
-| -------- | --------------------------------- | ------------------------ | -------------------------------------------------------------------------------------------- |
-| fast     | `duration-80 ease-spring`         | `duration-60 ease-exit`  | Hover, focus, colour, fades, tooltips, checkboxes and radios, popups, accordion, Fluid Hover |
-| moderate | `duration-160 ease-spring`        | `duration-120 ease-exit` | Selection backgrounds, tab indicators, switch thumbs, sheets and drawers, the sidebar        |
-| slow     | `duration-240 ease-spring-bounce` | `duration-160 ease-exit` | Dialogs                                                                                      |
+| Tier     | Enter                                      | Exit                             | Use                                                                                          |
+| -------- | ------------------------------------------ | -------------------------------- | -------------------------------------------------------------------------------------------- |
+| fast     | `duration-fast ease-spring` (90ms)         | `duration-fast-exit` (70ms)      | Hover, focus, colour, fades, tooltips, checkboxes and radios, popups, accordion, Fluid Hover |
+| moderate | `duration-moderate ease-spring` (210ms)    | `duration-moderate-exit` (160ms) | Selection backgrounds, tab indicators, switch thumbs, sheets and drawers, the sidebar        |
+| slow     | `duration-slow ease-spring-bounce` (290ms) | `duration-slow-exit` (220ms)     | Dialogs                                                                                      |
+
+Use the tier names, not milliseconds: `duration-fast`, `duration-moderate` and `duration-slow` for entrances, `duration-<tier>-exit` for exits, and `delay-<tier>` to wait one tier. Each one reads a token, so the [speed](#speed) setting changes them all.
 
 ## Slow in, faster out
 
-An exit on the same spring as the entrance lingers: by the time it settles you have already moved on. Exits use a plain tween, one tier quicker than the entrance.
+An exit on the same spring as the entrance lingers: by the time it settles you have already moved on. Exits use a plain tween, about a quarter quicker than the entrance: 70, 160 and 220ms.
 
 <MotionExit />
 
@@ -40,7 +42,7 @@ Springs are written as CSS `linear()` easings, sampled from a spring that settle
 | `ease-exit`          | `cubic-bezier(0.25, 0.1, 0.25, 1)`, for exits.       |
 
 ```tsx
-<div className="transition-transform duration-160 ease-spring" />
+<div className="transition-transform duration-moderate ease-spring" />
 ```
 
 ## Rules
@@ -50,6 +52,34 @@ Springs are written as CSS `linear()` easings, sampled from a spring that settle
 - Dialogs enter with a fade and a 0.97 zoom on the slow tier.
 - Pressing a button changes its background, never its scale.
 
+## Speed
+
+Every duration is a token. The foundations define the base values and one multiplier:
+
+| Token                    | Value   |
+| ------------------------ | ------- |
+| `--motion-fast`          | `90ms`  |
+| `--motion-fast-exit`     | `70ms`  |
+| `--motion-moderate`      | `210ms` |
+| `--motion-moderate-exit` | `160ms` |
+| `--motion-slow`          | `290ms` |
+| `--motion-slow-exit`     | `220ms` |
+| `--motion-scale`         | `1`     |
+
+The `duration-*` and `delay-*` utilities multiply the tier by `--motion-scale` where they are used, so you can slow an app down, speed it up, or stop it, for the whole page or one part of it:
+
+```css
+:root {
+  --motion-scale: 0.7; /* snappier */
+}
+
+.onboarding {
+  --motion-scale: 1.4; /* more relaxed, only here */
+}
+```
+
+`0` turns animation off: every transition and enter/exit animation finishes instantly. This site's settings menu has the same control (Relaxed, Default, Snappy, Off).
+
 ## Reduced motion
 
-Reduced motion means fewer and gentler animations, not none. With `prefers-reduced-motion: reduce`, components keep their fades and drop their slides and zooms, and Fluid Hover jumps instead of gliding. The foundations do this globally, so components don't need their own `motion-reduce:` variants.
+Reduced motion means fewer and gentler animations, not none. With `prefers-reduced-motion: reduce`, components keep their fades and drop their slides and zooms, and Fluid Hover jumps instead of gliding. The foundations do this globally, so components don't need their own `motion-reduce:` variants. It applies whatever `--motion-scale` is set to.

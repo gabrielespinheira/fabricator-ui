@@ -1,6 +1,6 @@
 ---
 title: October 2026 - Sounds, pill radius and site settings
-description: Interface sounds for every component, a pill radius, and a settings menu on the site for theme, sound, icons and radius.
+description: Interface sounds, status colours, motion speed tokens, a pill radius, a Search component, and a settings menu on the site for theme, sound, icons, radius and motion.
 date: 2026-10-06
 ---
 
@@ -30,6 +30,7 @@ The header, the docs sidebar and the docs side panel have a settings menu:
 - **Sound:** turns the component sounds on or off.
 - **Icons:** Lucide (the default), Tabler, HugeIcons, Phosphor or Remix Icon, applied live to every preview.
 - **Radius:** Rounded or Pill.
+- **Motion:** Relaxed, Default, Snappy or Off, scaling every animation.
 
 ## Cursors
 
@@ -50,9 +51,27 @@ A new component: a round search button that springs open into the field as one o
 npx fabricator-ui@latest add search
 ```
 
+## Motion speeds
+
+The three motion tiers are now tokens: fast 90ms, moderate 210ms and slow 290ms, with exits at 70ms, 160ms and 220ms. Components use the `duration-fast`, `duration-moderate` and `duration-slow` utilities (and their `-exit` forms), and `--motion-scale` scales every one of them at once. See [Motion](/docs/foundations/motion).
+
+## Collapsible
+
+Collapsible now looks and moves like Accordion: a title row with a chevron that turns on the spring, and content that opens and closes with the same height animation.
+
 ## Checkbox and Radio Group
 
-Both are 18px with a quiet outline. Checked, they fill with the foreground colour, and an inverted check or dot pops in on the bouncy spring. They give a little when pressed, and focus is the 1px ring with an offset.
+Both are 18px with a quiet outline. Checked, they fill with the foreground colour, and an inverted check or dot pops in on the bouncy spring. They give a little when pressed, and focus is the 1px ring with an offset. The check wipes in on the bouncy spring and fades out when cleared; switching radios crossfades the dots.
+
+## Status colours
+
+Info, success, warning and error each have a full palette: a solid for icons and fills, a text colour, a hairline border, and an eight-level tinted surface ladder that pairs with the surface shadows. Every pair meets WCAG AA in light and dark. See [Surfaces](/docs/foundations/surfaces#status-colours).
+
+- **Alert:** `info`, `success`, `warning` and `error` variants, and a `contrast` prop. `low` (the default) keeps the neutral panel and colours the icon; `high` tints the whole alert with a status hairline. See [Alert](/docs/components/base/alert#status).
+- **Badge:** `info`, `success`, `warning` and `error` variants. See [Badge](/docs/components/base/badge#status).
+- **Toast and Sonner:** success, info, warning and error icons take their status colour.
+
+The new variants are additive: `default` and `destructive` are unchanged.
 
 ## Smoother rendering
 
@@ -61,9 +80,14 @@ Both are 18px with a quiet outline. Checked, they fill with the foreground colou
 
 ## Removed
 
+- **Right-to-left docs and demos.** Fabricator UI is left-to-right only; the RTL guide, sections and demos are gone.
 - **Native Select** is no longer part of the Fabricator library: it only restyled the browser's own `<select>`. Use [Select](/docs/components/base/select). Blocks and examples that used it now use Select. Projects that keep their own style can still install it.
 
 ## Fixes
+
+- Sounds follow one rule set: turning something on plays the selection mark, turning it off a falling note, opening a surface two notes a fifth apart, committing an action a settling note, and tabs a note per position.
+- Scroll Area fades its edges where there is more to scroll.
+- Sonner toasts (Radix, React Aria) now get the Fabricator style.
 
 - Calendar and Date Picker: hovering the selected day no longer hides its number, and keyboard focus uses the 1px focus ring.
 

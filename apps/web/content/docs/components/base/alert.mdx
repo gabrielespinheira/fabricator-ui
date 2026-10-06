@@ -93,6 +93,16 @@ A basic alert with an icon, title and description.
   previewClassName="h-auto sm:h-72 p-6"
 />
 
+## Status
+
+Use `variant="info"`, `"success"`, `"warning"` or `"error"` for a status alert. With the default `contrast="low"`, the alert keeps the neutral panel and only the icon takes the status colour. Use `contrast="high"` to wash the whole alert in the status surface. Every status colour is checked for WCAG AA contrast in light and dark; see [Surfaces](/docs/foundations/surfaces#status-colours).
+
+<ComponentPreview
+  styleName="base-nova"
+  name="alert-status"
+  previewClassName="h-auto p-6"
+/>
+
 ## Destructive
 
 Use `variant="destructive"` to create a destructive alert.
@@ -123,26 +133,16 @@ You can customize the alert colors by adding custom classes such as `bg-amber-50
   previewClassName="h-auto sm:h-72 p-6"
 />
 
-## RTL
-
-To enable RTL support in Fabricator UI, see the [RTL configuration guide](/docs/rtl).
-
-<ComponentPreview
-  styleName="base-nova"
-  name="alert-rtl"
-  direction="rtl"
-  previewClassName="h-auto sm:h-72 p-6"
-/>
-
 ## API Reference
 
 ### Alert
 
 The `Alert` component displays a callout for user attention.
 
-| Prop      | Type                         | Default     |
-| --------- | ---------------------------- | ----------- |
-| `variant` | `"default" \| "destructive"` | `"default"` |
+| Prop       | Type                                                                        | Default     |
+| ---------- | --------------------------------------------------------------------------- | ----------- |
+| `variant`  | `"default" \| "destructive" \| "info" \| "success" \| "warning" \| "error"` | `"default"` |
+| `contrast` | `"low" \| "high"`                                                           | `"low"`     |
 
 ### AlertTitle
 

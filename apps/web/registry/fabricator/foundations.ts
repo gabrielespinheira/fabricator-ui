@@ -12,6 +12,8 @@
 // palette for the shadcn token names lives in FABRICATOR_PALETTE below and is
 // only applied by the `fabricator` preset.
 
+import { STATUS_CSS_VARS } from "@/registry/fabricator/status-colors"
+
 type CssVars = {
   theme: Record<string, string>
   light: Record<string, string>
@@ -96,7 +98,13 @@ function darkShadow(level: number) {
 // Spring tiers as CSS easing. `linear()` samples of a critically damped spring
 // and of a spring with a 0.12 bounce (damping ratio 0.88), both settling at the
 // end of the duration. Bigger moves use slower tiers; exits are plain tweens,
-// one tier quicker.
+// about a quarter quicker.
+//
+// Durations are tokens: `--motion-<tier>` and `--motion-<tier>-exit` hold the
+// base values, and `--motion-scale` (1 by default) multiplies all of them, so
+// one variable makes an app slower, snappier, or still (0). Utilities read
+// them through the `duration-<tier>` and `delay-<tier>` theme keys, which
+// multiply at the element, so the scale can also be set on a subtree.
 
 export const EASE_SPRING =
   "linear(0, 0.055, 0.1734, 0.3101, 0.4422, 0.5591, 0.6575, 0.7374, 0.8009, 0.8503, 0.8883, 0.9172, 0.9389, 0.9551, 0.9672, 0.9761, 0.9826, 0.9874, 0.9909, 0.9935, 0.9953, 0.9966, 0.9976, 0.9983, 1)"
@@ -105,10 +113,16 @@ export const EASE_SPRING_BOUNCE =
   "linear(0, 0.0565, 0.1816, 0.3296, 0.4743, 0.6026, 0.7093, 0.7941, 0.8588, 0.9067, 0.9409, 0.9646, 0.9804, 0.9906, 0.9968, 1.0004, 1.0022, 1.0029, 1.0029, 1.0027, 1.0023, 1.0018, 1.0014, 1.0011, 1)"
 
 export const MOTION = {
-  fast: { duration: 80, exit: 60 },
-  moderate: { duration: 160, exit: 120 },
-  slow: { duration: 240, exit: 160 },
+  fast: { duration: 90, exit: 70 },
+  moderate: { duration: 210, exit: 160 },
+  slow: { duration: 290, exit: 220 },
 } as const
+
+const MOTION_TIERS = Object.keys(MOTION) as (keyof typeof MOTION)[]
+
+/** `duration-fast`, `duration-fast-exit`, …: scaled by --motion-scale. */
+const scaled = (token: string) =>
+  `calc(var(--motion-${token}) * var(--motion-scale, 1))`
 
 // --- Foundations ------------------------------------------------------------
 
@@ -127,15 +141,28 @@ export const FABRICATOR_FOUNDATIONS: { cssVars: CssVars; css: CssObject } = {
       "color-tint": "var(--tint)",
       "color-tint-hover": "var(--tint-hover)",
       "color-destructive-light": "var(--destructive-light)",
+      // Info, success, warning and error, each with a surface ladder.
+      ...STATUS_CSS_VARS.theme,
       "color-focus-ring": "var(--focus-ring)",
-      "color-info": "var(--info)",
-      "color-success": "var(--success)",
-      "color-warning": "var(--warning)",
       "ease-spring": EASE_SPRING,
       "ease-spring-bounce": EASE_SPRING_BOUNCE,
       "ease-exit": "cubic-bezier(0.25, 0.1, 0.25, 1)",
+      ...Object.fromEntries(
+        MOTION_TIERS.flatMap((tier) => [
+          [`transition-duration-${tier}`, scaled(tier)],
+          [`transition-duration-${tier}-exit`, scaled(`${tier}-exit`)],
+          [`transition-delay-${tier}`, scaled(tier)],
+        ])
+      ),
     },
     light: {
+      "motion-scale": "1",
+      ...Object.fromEntries(
+        MOTION_TIERS.flatMap((tier) => [
+          [`motion-${tier}`, `${MOTION[tier].duration}ms`],
+          [`motion-${tier}-exit`, `${MOTION[tier].exit}ms`],
+        ])
+      ),
       ...Object.fromEntries(
         SURFACE_LEVELS.flatMap((level) => [
           [`surface-${level}`, LIGHT_SURFACES[level - 1]],
@@ -150,10 +177,8 @@ export const FABRICATOR_FOUNDATIONS: { cssVars: CssVars; css: CssObject } = {
       tint: "oklch(0 0 0 / 0.08)",
       "tint-hover": "oklch(0 0 0 / 0.065)",
       "destructive-light": "oklch(0.971 0.013 17.4)",
+      ...STATUS_CSS_VARS.light,
       "focus-ring": "oklch(0.693 0.161 265.2)",
-      info: "oklch(0.623 0.188 259.8)",
-      success: "oklch(0.723 0.192 149.6)",
-      warning: "oklch(0.769 0.165 70.1)",
     },
     dark: {
       ...Object.fromEntries(
@@ -177,10 +202,8 @@ export const FABRICATOR_FOUNDATIONS: { cssVars: CssVars; css: CssObject } = {
       tint: "oklch(1 0 0 / 0.25)",
       "tint-hover": "oklch(1 0 0 / 0.2)",
       "destructive-light": "oklch(0.258 0.089 26)",
+      ...STATUS_CSS_VARS.dark,
       "focus-ring": "oklch(0.693 0.161 265.2)",
-      info: "oklch(0.809 0.096 251.8)",
-      success: "oklch(0.871 0.136 154.4)",
-      warning: "oklch(0.879 0.153 91.6)",
     },
   },
   css: {

@@ -8,17 +8,19 @@
      and an inverted 6px dot pops in. The border width is important because
      the components carry an inline 1px `border`. */
   .cn-radio-group-item {
-    @apply cursor-pointer flex size-[18px] items-center justify-center border-[1.5px]! border-foreground/25 bg-transparent transition-[background-color,border-color,box-shadow,scale] duration-80 ease-spring hover:border-foreground/45 active:scale-90 motion-reduce:active:scale-100 focus-visible:ring-1 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background aria-invalid:border-destructive group-has-[:focus-visible]/field-label:ring-0 rounded-full data-checked:border-foreground data-checked:bg-foreground data-checked:hover:border-foreground aria-invalid:data-checked:border-destructive aria-invalid:data-checked:bg-destructive;
+    @apply cursor-pointer flex size-[18px] items-center justify-center border-[1.5px]! border-foreground/25 bg-transparent transition-[background-color,border-color,box-shadow,scale] duration-moderate ease-spring motion-reduce:transition-none hover:border-foreground/45 active:scale-90 motion-reduce:active:scale-100 focus-visible:ring-1 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background aria-invalid:border-destructive group-has-[:focus-visible]/field-label:ring-0 rounded-full data-checked:border-foreground data-checked:bg-foreground data-checked:hover:border-foreground aria-invalid:data-checked:border-destructive aria-invalid:data-checked:bg-destructive;
   }
 
   .cn-radio-group-item-aria {
     @apply cursor-pointer data-hovered:border-foreground/45 data-pressed:scale-90 motion-reduce:data-pressed:scale-100 data-selected:border-foreground data-selected:bg-foreground data-selected:data-hovered:border-foreground data-focus-visible:ring-1 data-focus-visible:ring-focus-ring data-focus-visible:ring-offset-2 data-focus-visible:ring-offset-background data-invalid:border-destructive data-invalid:data-selected:border-destructive data-invalid:data-selected:bg-destructive;
   }
 
+  /* Stays mounted: the dot scales in on the bouncy spring (duration-moderate)
+     and out on the exit tween (duration-fast-exit). Reduced motion: no transition. */
   .cn-radio-group-indicator {
-    @apply flex size-full items-center justify-center;
+    @apply flex size-full items-center justify-center opacity-0 scale-0 transition-[opacity,scale] duration-fast-exit ease-exit data-checked:opacity-100 data-checked:scale-100 data-checked:duration-moderate data-checked:ease-spring-bounce motion-reduce:transition-none;
   }
 
   .cn-radio-group-indicator-icon {
-    @apply bg-background absolute top-1/2 left-1/2 size-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full animate-in fade-in-0 zoom-in-[0.3] duration-160 ease-spring-bounce motion-reduce:zoom-in-100;
+    @apply bg-background absolute top-1/2 left-1/2 size-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full;
   }

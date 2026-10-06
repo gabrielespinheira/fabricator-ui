@@ -38,8 +38,12 @@ const SOURCES: CatalogSource[] = [
     slug: "alert",
     title: "Alert",
     category: "Feedback",
-    height: "sm",
-    load: () => import("@/examples/__styles__/base-fabricator/alert-demo"),
+    height: "md",
+    // Homepage demo: the status alerts, in both contrasts.
+    load: () =>
+      import("./demos-status").then((mod) => ({
+        AlertStatusDemo: mod.AlertStatusDemo,
+      })),
   },
   {
     slug: "aspect-ratio",
@@ -69,7 +73,11 @@ const SOURCES: CatalogSource[] = [
     title: "Badge",
     category: "Data",
     height: "sm",
-    load: () => import("@/examples/__styles__/base-fabricator/badge-demo"),
+    // Homepage demo: every variant, including the statuses.
+    load: () =>
+      import("./demos-status").then((mod) => ({
+        BadgeStatusDemo: mod.BadgeStatusDemo,
+      })),
   },
   {
     slug: "breadcrumb",

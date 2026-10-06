@@ -105,7 +105,7 @@ function WeightList({ animated }: { animated: boolean }) {
             }
             className={
               animated
-                ? "flex h-9 items-center rounded-lg px-3 text-start text-[13px] text-muted-foreground transition-[font-variation-settings,color] duration-160 ease-spring outline-none weight-normal hover:bg-hover focus-visible:ring-1 focus-visible:ring-ring aria-pressed:text-foreground aria-pressed:weight-semibold"
+                ? "flex h-9 items-center rounded-lg px-3 text-start text-[13px] text-muted-foreground transition-[font-variation-settings,color] duration-moderate ease-spring outline-none weight-normal hover:bg-hover focus-visible:ring-1 focus-visible:ring-ring aria-pressed:text-foreground aria-pressed:weight-semibold"
                 : "flex h-9 items-center rounded-lg px-3 text-start text-[13px] font-normal text-muted-foreground outline-none hover:bg-hover focus-visible:ring-1 focus-visible:ring-ring aria-pressed:font-semibold aria-pressed:text-foreground"
             }
           >

@@ -7,7 +7,7 @@
   /* Soft chat bubble: 8px corners, 14px text. Interactive bubbles (button,
      link) change colour on the fast tier and focus with the 1px blue ring. */
   .cn-bubble-content {
-    @apply rounded-lg border border-transparent px-3.5 py-2 text-[14px] leading-normal text-pretty [button,a]:duration-80 [button,a]:ease-spring [button,a]:outline-none [button,a]:focus-visible:ring-1 [button,a]:focus-visible:ring-ring group-data-[align=end]/bubble:self-end;
+    @apply rounded-lg border border-transparent px-3.5 py-2 text-[14px] leading-normal text-pretty [button,a]:duration-fast [button,a]:ease-spring [button,a]:outline-none [button,a]:focus-visible:ring-1 [button,a]:focus-visible:ring-ring group-data-[align=end]/bubble:self-end;
   }
 
   /* Neutral ladder, after Fluid Functionalism's chat: secondary is its

@@ -43,7 +43,7 @@ export function SoundCatalog() {
             key={sound.name}
             type="button"
             onClick={() => playSound(sound.name, { force: true })}
-            className="flex flex-col items-start gap-0.5 rounded-lg px-3 py-2.5 text-start transition-colors duration-80 ease-spring outline-none hover:bg-hover focus-visible:ring-1 focus-visible:ring-focus-ring active:bg-active"
+            className="flex flex-col items-start gap-0.5 rounded-lg px-3 py-2.5 text-start transition-colors duration-fast ease-spring outline-none hover:bg-hover focus-visible:ring-1 focus-visible:ring-focus-ring active:bg-active"
           >
             <span className="flex w-full items-center justify-between gap-2 text-[13px] font-medium text-foreground">
               {sound.name}

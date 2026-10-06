@@ -120,7 +120,6 @@ The Fabricator design language rests on these systems, shipped in the `foundatio
 - [Toggle](https://fabricator-ui.com/docs/components/base/toggle.md): A two-state button that can be either on or off.
 - [Toggle Group](https://fabricator-ui.com/docs/components/base/toggle-group.md): A set of two-state buttons that can be toggled on or off.
 - [Pagination](https://fabricator-ui.com/docs/components/base/pagination.md): Pagination with page navigation, next and previous links.
-- [Direction](https://fabricator-ui.com/docs/components/base/direction.md): A provider component that sets the text direction for your application.
 
 ### Chat & AI
 
@@ -139,13 +138,6 @@ The Fabricator design language rests on these systems, shipped in the `foundatio
 - [Dark Mode - Astro](https://fabricator-ui.com/docs/dark-mode/astro.md): Adding dark mode to your astro app.
 - [Dark Mode - Remix](https://fabricator-ui.com/docs/dark-mode/remix.md): Adding dark mode to your Remix app.
 - [Dark Mode - TanStack Start](https://fabricator-ui.com/docs/dark-mode/tanstack-start.md): Adding dark mode to your TanStack Start app.
-
-## RTL
-
-- [RTL](https://fabricator-ui.com/docs/rtl.md): Right-to-left support for Fabricator UI components.
-- [RTL - Next.js](https://fabricator-ui.com/docs/rtl/next.md): Create a new Next.js project with RTL support.
-- [RTL - Vite](https://fabricator-ui.com/docs/rtl/vite.md): Create a new Vite project with RTL support.
-- [RTL - TanStack Start](https://fabricator-ui.com/docs/rtl/start.md): Create a new TanStack Start project with RTL support.
 
 ## Forms
 

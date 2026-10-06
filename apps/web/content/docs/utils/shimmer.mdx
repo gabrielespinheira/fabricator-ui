@@ -116,7 +116,7 @@ Use `shimmer-angle-<number>` to set the tilt of the highlight band in degrees. T
 
 ## Reverse
 
-Use `shimmer-reverse` to sweep the highlight in the opposite direction. In RTL layouts the sweep already follows the reading direction. See [RTL](#rtl).
+Use `shimmer-reverse` to sweep the highlight in the opposite direction.
 
 ```tsx
 <p className="shimmer shimmer-reverse">Generating response&hellip;</p>
@@ -157,11 +157,3 @@ The shimmer is built on modern color features, [relative color syntax](https://d
 ## Reduced Motion
 
 When the user prefers reduced motion, the animation is disabled automatically and the text renders normally. There is nothing to configure.
-
-## RTL
-
-To enable RTL support in Fabricator UI, see the [RTL configuration guide](/docs/rtl).
-
-The sweep follows the reading direction, left to right in LTR and right to left in RTL, with no extra classes. Use `shimmer-reverse` to flip the direction manually.
-
-<ComponentPreview styleName="base-rhea" name="shimmer-rtl" />

@@ -63,7 +63,7 @@
   }
 
   .cn-sidebar-group-action {
-    @apply cursor-pointer text-muted-foreground ring-ring hover:bg-hover hover:text-foreground absolute top-3.5 end-3 w-5 rounded-md p-0 transition-colors duration-80 focus-visible:ring-1 [&>svg]:size-4;
+    @apply cursor-pointer text-muted-foreground ring-ring hover:bg-hover hover:text-foreground absolute top-3.5 end-3 w-5 rounded-md p-0 transition-colors duration-fast focus-visible:ring-1 [&>svg]:size-4;
   }
 
   /* Rows: 32px, px-2, gap-2, rounded-lg, 13px, muted at rest. Hover and the
@@ -72,7 +72,7 @@
      hover or active background: the gliding highlight and the sliding
      selection do. Pressed is a bg-active step. */
   .cn-sidebar-menu-button {
-    @apply cursor-pointer text-muted-foreground ring-ring gap-2 rounded-lg px-2 text-start text-[13px] font-normal transition-[width,height,padding,color,background-color] duration-80 group-has-data-[sidebar=menu-action]/menu-item:pe-8 group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! focus-visible:ring-1 [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] hover:bg-hover hover:text-foreground hover:[&_svg]:stroke-2 active:bg-active active:text-foreground data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-active:bg-active data-active:text-foreground data-active:font-semibold data-active:[&_svg]:stroke-2 data-open:text-foreground in-data-[fluid-hover]:hover:bg-transparent in-data-[fluid-hover]:data-active:bg-transparent;
+    @apply cursor-pointer text-muted-foreground ring-ring gap-2 rounded-lg px-2 text-start text-[13px] font-normal transition-[width,height,padding,color,background-color] duration-fast group-has-data-[sidebar=menu-action]/menu-item:pe-8 group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! focus-visible:ring-1 [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] hover:bg-hover hover:text-foreground hover:[&_svg]:stroke-2 active:bg-active active:text-foreground data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-active:bg-active data-active:text-foreground data-active:font-semibold data-active:[&_svg]:stroke-2 data-open:text-foreground in-data-[fluid-hover]:hover:bg-transparent in-data-[fluid-hover]:data-active:bg-transparent;
   }
 
   .cn-sidebar-menu-button-aria {
@@ -100,7 +100,7 @@
   }
 
   .cn-sidebar-menu-action {
-    @apply cursor-pointer text-muted-foreground ring-ring hover:bg-hover hover:text-foreground peer-hover/menu-button:text-foreground peer-data-fluid-hover-active/menu-button:text-foreground absolute top-1.5 end-1 aspect-square w-5 rounded-md p-0 transition-colors duration-80 peer-data-[size=default]/menu-button:top-1.5 peer-data-[size=lg]/menu-button:top-3.5 peer-data-[size=sm]/menu-button:top-1 focus-visible:ring-1 [&>svg]:size-4;
+    @apply cursor-pointer text-muted-foreground ring-ring hover:bg-hover hover:text-foreground peer-hover/menu-button:text-foreground peer-data-fluid-hover-active/menu-button:text-foreground absolute top-1.5 end-1 aspect-square w-5 rounded-md p-0 transition-colors duration-fast peer-data-[size=default]/menu-button:top-1.5 peer-data-[size=lg]/menu-button:top-3.5 peer-data-[size=sm]/menu-button:top-1 focus-visible:ring-1 [&>svg]:size-4;
   }
 
   .cn-sidebar-menu-badge {
@@ -127,5 +127,5 @@
 
   /* Sub-rows: 28px (24px small), same look as menu rows. */
   .cn-sidebar-menu-sub-button {
-    @apply cursor-pointer text-muted-foreground ring-ring h-7 gap-2 rounded-lg px-2 text-[13px] transition-[color,background-color] duration-80 in-data-[slot=sidebar-menu-sub]:translate-x-0 focus-visible:ring-1 data-[size=sm]:h-6 data-[size=sm]:text-[12px] [&>svg]:size-4 [&>svg]:stroke-[1.5] [&>svg]:text-current hover:bg-hover hover:text-foreground active:bg-active active:text-foreground data-fluid-hover-active:text-foreground data-fluid-hover-active:[&>svg]:stroke-2 data-active:bg-active data-active:text-foreground data-active:font-semibold in-data-[fluid-hover]:hover:bg-transparent in-data-[fluid-hover]:data-active:bg-transparent;
+    @apply cursor-pointer text-muted-foreground ring-ring h-7 gap-2 rounded-lg px-2 text-[13px] transition-[color,background-color] duration-fast in-data-[slot=sidebar-menu-sub]:translate-x-0 focus-visible:ring-1 data-[size=sm]:h-6 data-[size=sm]:text-[12px] [&>svg]:size-4 [&>svg]:stroke-[1.5] [&>svg]:text-current hover:bg-hover hover:text-foreground active:bg-active active:text-foreground data-fluid-hover-active:text-foreground data-fluid-hover-active:[&>svg]:stroke-2 data-active:bg-active data-active:text-foreground data-active:font-semibold in-data-[fluid-hover]:hover:bg-transparent in-data-[fluid-hover]:data-active:bg-transparent;
   }

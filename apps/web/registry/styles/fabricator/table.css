@@ -26,7 +26,7 @@
      no fluid container), and the lit row hides the dividers around it so the
      highlight reads as one block. Selected rows keep bg-active. */
   .cn-table-row {
-    @apply border-border/60 border-b transition-colors duration-80 in-data-[slot=table-body]:hover:bg-hover in-data-[fluid-hover]:in-data-[slot=table-body]:hover:bg-transparent data-fluid-hover-active:border-transparent has-[+[data-fluid-hover-active]]:border-transparent data-[state=selected]:bg-active;
+    @apply border-border/60 border-b transition-colors duration-fast in-data-[slot=table-body]:hover:bg-hover in-data-[fluid-hover]:in-data-[slot=table-body]:hover:bg-transparent data-fluid-hover-active:border-transparent has-[+[data-fluid-hover-active]]:border-transparent data-[state=selected]:bg-active;
   }
 
   .cn-table-row-aria {
@@ -45,7 +45,7 @@
   /* Cells: muted; the lit (or hovered) row turns foreground, footer cells
      stay foreground. */
   .cn-table-cell {
-    @apply text-muted-foreground px-3 py-2 align-middle whitespace-nowrap transition-colors duration-80 in-[tr:hover]:text-foreground in-data-fluid-hover-active:text-foreground in-data-[slot=table-footer]:text-foreground [&:has([role=checkbox])]:pe-0;
+    @apply text-muted-foreground px-3 py-2 align-middle whitespace-nowrap transition-colors duration-fast in-[tr:hover]:text-foreground in-data-fluid-hover-active:text-foreground in-data-[slot=table-footer]:text-foreground [&:has([role=checkbox])]:pe-0;
   }
 
   .cn-table-cell-aria {

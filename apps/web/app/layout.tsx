@@ -12,9 +12,9 @@ import { SiteSettingsEffects } from "@/components/fabricator/site-settings-effec
 import { TailwindIndicator } from "@/components/tailwind-indicator"
 import { ThemeProvider } from "@/components/theme-provider"
 import { TooltipProvider as BaseTooltipProvider } from "@/registry/bases/base/ui/tooltip"
-import { Toaster } from "@/registry/bases/radix/ui/sonner"
 import { TooltipProvider as RadixTooltipProvider } from "@/registry/bases/radix/ui/tooltip"
 import { Toaster as BaseToaster } from "@/styles/base-fabricator/ui/toast"
+import { Toaster } from "@/styles/radix-fabricator/ui/sonner"
 
 import "@/app/globals.css"
 import "@/app/typeset.css"

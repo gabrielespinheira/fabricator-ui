@@ -102,8 +102,8 @@ The field opens to `--search-width`. Set it with the `width` prop (any CSS lengt
 
 ## Motion
 
-- Opening springs the width on the slow tier (`duration-240 ease-spring-bounce`); the field fades in just after.
-- Closing is the quicker exit tween (`duration-160 ease-exit`).
+- Opening springs the width on the slow tier (`duration-slow ease-spring-bounce`, 290ms); the field fades in just after.
+- Closing is the quicker exit tween (`duration-slow-exit ease-exit`, 220ms).
 - A press on the closed button squashes it slightly on the fast tier.
 - With reduced motion, it opens and closes at once, without the width or the squash.
 
@@ -150,7 +150,3 @@ All other props go to the `<input>`, including `name`, `ref`, `onKeyDown` and `o
 - The clear button is named "Clear search" and returns focus to the field.
 - Focus shows the 1px focus ring. The cursor is a pointer on the closed button and a text cursor in the field.
 - Wrap it in `<form role="search">` to make it a search landmark.
-
-## RTL
-
-The icon sits at the inline start and the clear button at the inline end, so both follow the reading direction.

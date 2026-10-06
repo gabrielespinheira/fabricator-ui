@@ -29,7 +29,7 @@ export function SiteFooter() {
             <Link
               key={link.href}
               href={link.href}
-              className="rounded-sm transition-colors duration-80 ease-spring outline-none hover:text-foreground focus-visible:ring-1 focus-visible:ring-focus-ring"
+              className="rounded-sm transition-colors duration-fast ease-spring outline-none hover:text-foreground focus-visible:ring-1 focus-visible:ring-focus-ring"
             >
               {link.label}
             </Link>
@@ -38,7 +38,7 @@ export function SiteFooter() {
             href={siteConfig.links.github}
             target="_blank"
             rel="noreferrer"
-            className="rounded-sm transition-colors duration-80 ease-spring outline-none hover:text-foreground focus-visible:ring-1 focus-visible:ring-focus-ring"
+            className="rounded-sm transition-colors duration-fast ease-spring outline-none hover:text-foreground focus-visible:ring-1 focus-visible:ring-focus-ring"
           >
             <Icons.gitHub className="size-4" />
             <span className="sr-only">GitHub</span>

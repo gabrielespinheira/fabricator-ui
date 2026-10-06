@@ -75,7 +75,7 @@ export function SiteHeader() {
             href={siteConfig.links.github}
             target="_blank"
             rel="noreferrer"
-            className="hidden h-10 items-center gap-1.5 rounded-full bg-muted px-3.5 text-[13px] font-medium text-foreground transition-colors duration-80 ease-spring outline-none hover:bg-active focus-visible:ring-1 focus-visible:ring-focus-ring sm:flex"
+            className="hidden h-10 items-center gap-1.5 rounded-full bg-muted px-3.5 text-[13px] font-medium text-foreground transition-colors duration-fast ease-spring outline-none hover:bg-active focus-visible:ring-1 focus-visible:ring-focus-ring sm:flex"
           >
             <Icons.gitHub className="size-4" />
             <span className="sr-only">GitHub</span>
@@ -87,7 +87,7 @@ export function SiteHeader() {
           <DesignerActions />
           <Link
             href="/docs/installation"
-            className="flex h-10 items-center rounded-full bg-foreground px-4.5 text-[15px] font-medium text-background transition-[opacity,scale] duration-80 ease-spring outline-none group-has-data-[slot=designer]/layout:hidden hover:opacity-90 focus-visible:ring-1 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background active:scale-[0.97]"
+            className="flex h-10 items-center rounded-full bg-foreground px-4.5 text-[15px] font-medium text-background transition-[opacity,scale] duration-fast ease-spring outline-none group-has-data-[slot=designer]/layout:hidden hover:opacity-90 focus-visible:ring-1 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background active:scale-[0.97]"
           >
             Get started
           </Link>

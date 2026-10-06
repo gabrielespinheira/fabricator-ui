@@ -88,7 +88,7 @@ export function CodeBlockCommand({
                 <TabsTrigger
                   key={key}
                   value={key}
-                  className="h-7 rounded-md border-0 pt-0.5 shadow-none! transition-colors duration-80 ease-spring hover:bg-hover data-[state=active]:bg-active! dark:data-[state=active]:border-transparent"
+                  className="h-7 rounded-md border-0 pt-0.5 shadow-none! transition-colors duration-fast ease-spring hover:bg-hover data-[state=active]:bg-active! dark:data-[state=active]:border-transparent"
                 >
                   {key}
                 </TabsTrigger>

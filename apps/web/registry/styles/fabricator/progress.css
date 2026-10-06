@@ -11,7 +11,7 @@
   }
 
   .cn-progress-indicator {
-    @apply bg-foreground rounded-full duration-160 ease-spring;
+    @apply bg-foreground rounded-full duration-moderate ease-spring;
   }
 
   .cn-progress-label {

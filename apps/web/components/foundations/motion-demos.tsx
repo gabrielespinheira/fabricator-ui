@@ -10,21 +10,21 @@ import { Button } from "@/styles/base-fabricator/ui/button"
 const TIERS = [
   {
     name: "fast",
-    timing: "80ms enter · 60ms exit",
+    timing: "90ms enter · 70ms exit",
     use: "Hover, focus, fades, popups",
-    ball: "duration-60 ease-exit data-on:duration-80 data-on:ease-spring",
+    ball: "duration-fast-exit ease-exit data-on:duration-fast data-on:ease-spring",
   },
   {
     name: "moderate",
-    timing: "160ms enter · 120ms exit",
+    timing: "210ms enter · 160ms exit",
     use: "Selection, tabs, switches, sheets",
-    ball: "duration-120 ease-exit data-on:duration-160 data-on:ease-spring",
+    ball: "duration-moderate-exit ease-exit data-on:duration-moderate data-on:ease-spring",
   },
   {
     name: "slow",
-    timing: "240ms enter · 160ms exit, with bounce",
+    timing: "290ms enter · 220ms exit, with bounce",
     use: "Dialogs",
-    ball: "duration-160 ease-exit data-on:duration-240 data-on:ease-spring-bounce",
+    ball: "duration-slow-exit ease-exit data-on:duration-slow data-on:ease-spring-bounce",
   },
 ]
 
@@ -34,7 +34,7 @@ export function MotionTiers() {
   return (
     <DemoFrame
       className="flex-col items-stretch gap-5"
-      caption="Each ball enters on its tier's spring and returns on the exit tween, one step quicker."
+      caption="Each ball enters on its tier's spring and returns on the exit tween, about a quarter quicker. Change Motion in the settings menu to scale all three."
     >
       {TIERS.map((tier) => (
         <button
@@ -83,10 +83,10 @@ function Panel({ open, exit }: { open: boolean; exit: "same" | "faster" }) {
       <div
         data-open={open ? "" : undefined}
         className={cn(
-          "flex w-40 flex-col gap-1 rounded-xl bg-surface-5 p-4 opacity-0 shadow-surface-5 transition-[opacity,scale] motion-reduce:scale-100 data-open:scale-100 data-open:opacity-100 data-open:duration-240 data-open:ease-spring-bounce",
+          "flex w-40 flex-col gap-1 rounded-xl bg-surface-5 p-4 opacity-0 shadow-surface-5 transition-[opacity,scale] motion-reduce:scale-100 data-open:scale-100 data-open:opacity-100 data-open:duration-slow data-open:ease-spring-bounce",
           exit === "same"
-            ? "scale-[0.97] duration-240 ease-spring-bounce"
-            : "scale-[0.97] duration-160 ease-exit"
+            ? "scale-[0.97] duration-slow ease-spring-bounce"
+            : "scale-[0.97] duration-slow-exit ease-exit"
         )}
       >
         <span className="text-[13px] font-semibold text-foreground">

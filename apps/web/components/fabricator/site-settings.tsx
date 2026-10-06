@@ -15,8 +15,10 @@ import { useTheme } from "next-themes"
 
 import {
   ICON_LIBRARIES,
+  MOTION_SPEEDS,
   useSiteSetting,
   type SiteIconLibrary,
+  type SiteMotion,
   type SiteRadius,
 } from "@/lib/site-settings"
 import {
@@ -163,13 +165,14 @@ const RADII: { value: SiteRadius; label: string; icon: React.ReactNode }[] = [
   },
 ]
 
-/** Theme, sound, icons and radius: the rows of the settings menu. */
+/** Theme, sound, icons, radius and motion: the rows of the settings menu. */
 export function SiteSettingsFields({ className }: { className?: string }) {
   const hydrated = useHydrated()
   const { resolvedTheme, setTheme } = useTheme()
   const [sound, setSound] = useSiteSetting("sound")
   const [iconLibrary, setIconLibrary] = useSiteSetting("iconLibrary")
   const [radius, setRadius] = useSiteSetting("radius")
+  const [motion, setMotion] = useSiteSetting("motion")
 
   return (
     <div className={cn("flex flex-col", className)}>
@@ -211,6 +214,14 @@ export function SiteSettingsFields({ className }: { className?: string }) {
           options={RADII}
         />
       </SettingRow>
+      <SettingRow label="Motion">
+        <SettingSelect<SiteMotion>
+          label="Motion"
+          value={motion}
+          onValueChange={setMotion}
+          options={MOTION_SPEEDS.map(({ value, label }) => ({ value, label }))}
+        />
+      </SettingRow>
     </div>
   )
 }
@@ -228,7 +239,7 @@ export function SiteSettingsMenu({
       <PopoverTrigger
         aria-label="Settings"
         className={cn(
-          "flex size-10 items-center justify-center rounded-full bg-muted text-foreground transition-colors duration-80 ease-spring outline-none hover:bg-active focus-visible:ring-1 focus-visible:ring-focus-ring data-popup-open:bg-active [&_svg]:size-4.5",
+          "flex size-10 items-center justify-center rounded-full bg-muted text-foreground transition-colors duration-fast ease-spring outline-none hover:bg-active focus-visible:ring-1 focus-visible:ring-focus-ring data-popup-open:bg-active [&_svg]:size-4.5",
           className
         )}
       >

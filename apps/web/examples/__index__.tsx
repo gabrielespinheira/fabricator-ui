@@ -89,6 +89,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "alert-rtl",
       filePath: "examples/base/alert-rtl.tsx",
     },
+    "alert-status": {
+      name: "alert-status",
+      filePath: "examples/base/alert-status.tsx",
+    },
     "aspect-ratio-demo": {
       name: "aspect-ratio-demo",
       filePath: "examples/base/aspect-ratio-demo.tsx",
@@ -192,6 +196,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "badge-spinner": {
       name: "badge-spinner",
       filePath: "examples/base/badge-spinner.tsx",
+    },
+    "badge-status": {
+      name: "badge-status",
+      filePath: "examples/base/badge-status.tsx",
     },
     "badge-variants": {
       name: "badge-variants",
@@ -2159,6 +2167,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "alert-rtl",
       filePath: "examples/aria/alert-rtl.tsx",
     },
+    "alert-status": {
+      name: "alert-status",
+      filePath: "examples/aria/alert-status.tsx",
+    },
     "aspect-ratio-demo": {
       name: "aspect-ratio-demo",
       filePath: "examples/aria/aspect-ratio-demo.tsx",
@@ -2262,6 +2274,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "badge-spinner": {
       name: "badge-spinner",
       filePath: "examples/aria/badge-spinner.tsx",
+    },
+    "badge-status": {
+      name: "badge-status",
+      filePath: "examples/aria/badge-status.tsx",
     },
     "badge-variants": {
       name: "badge-variants",
@@ -4185,6 +4201,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "alert-rtl",
       filePath: "examples/radix/alert-rtl.tsx",
     },
+    "alert-status": {
+      name: "alert-status",
+      filePath: "examples/radix/alert-status.tsx",
+    },
     "aspect-ratio-demo": {
       name: "aspect-ratio-demo",
       filePath: "examples/radix/aspect-ratio-demo.tsx",
@@ -4288,6 +4308,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "badge-spinner": {
       name: "badge-spinner",
       filePath: "examples/radix/badge-spinner.tsx",
+    },
+    "badge-status": {
+      name: "badge-status",
+      filePath: "examples/radix/badge-status.tsx",
     },
     "badge-variants": {
       name: "badge-variants",
@@ -6183,10 +6207,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "accordion-multiple",
       filePath: "examples/__styles__/base-fabricator/accordion-multiple.tsx",
     },
-    "accordion-rtl": {
-      name: "accordion-rtl",
-      filePath: "examples/__styles__/base-fabricator/accordion-rtl.tsx",
-    },
     "ai-sdk-helper-demo": {
       name: "ai-sdk-helper-demo",
       filePath: "examples/__styles__/base-fabricator/ai-sdk-helper-demo.tsx",
@@ -6228,10 +6248,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "alert-dialog-media",
       filePath: "examples/__styles__/base-fabricator/alert-dialog-media.tsx",
     },
-    "alert-dialog-rtl": {
-      name: "alert-dialog-rtl",
-      filePath: "examples/__styles__/base-fabricator/alert-dialog-rtl.tsx",
-    },
     "alert-dialog-small-media": {
       name: "alert-dialog-small-media",
       filePath:
@@ -6241,9 +6257,9 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "alert-dialog-small",
       filePath: "examples/__styles__/base-fabricator/alert-dialog-small.tsx",
     },
-    "alert-rtl": {
-      name: "alert-rtl",
-      filePath: "examples/__styles__/base-fabricator/alert-rtl.tsx",
+    "alert-status": {
+      name: "alert-status",
+      filePath: "examples/__styles__/base-fabricator/alert-status.tsx",
     },
     "aspect-ratio-demo": {
       name: "aspect-ratio-demo",
@@ -6252,10 +6268,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "aspect-ratio-portrait": {
       name: "aspect-ratio-portrait",
       filePath: "examples/__styles__/base-fabricator/aspect-ratio-portrait.tsx",
-    },
-    "aspect-ratio-rtl": {
-      name: "aspect-ratio-rtl",
-      filePath: "examples/__styles__/base-fabricator/aspect-ratio-rtl.tsx",
     },
     "aspect-ratio-square": {
       name: "aspect-ratio-square",
@@ -6318,10 +6330,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "avatar-group",
       filePath: "examples/__styles__/base-fabricator/avatar-group.tsx",
     },
-    "avatar-rtl": {
-      name: "avatar-rtl",
-      filePath: "examples/__styles__/base-fabricator/avatar-rtl.tsx",
-    },
     "avatar-size": {
       name: "avatar-size",
       filePath: "examples/__styles__/base-fabricator/avatar-size.tsx",
@@ -6342,13 +6350,13 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "badge-link",
       filePath: "examples/__styles__/base-fabricator/badge-link.tsx",
     },
-    "badge-rtl": {
-      name: "badge-rtl",
-      filePath: "examples/__styles__/base-fabricator/badge-rtl.tsx",
-    },
     "badge-spinner": {
       name: "badge-spinner",
       filePath: "examples/__styles__/base-fabricator/badge-spinner.tsx",
+    },
+    "badge-status": {
+      name: "badge-status",
+      filePath: "examples/__styles__/base-fabricator/badge-status.tsx",
     },
     "badge-variants": {
       name: "badge-variants",
@@ -6373,10 +6381,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "breadcrumb-link": {
       name: "breadcrumb-link",
       filePath: "examples/__styles__/base-fabricator/breadcrumb-link.tsx",
-    },
-    "breadcrumb-rtl": {
-      name: "breadcrumb-rtl",
-      filePath: "examples/__styles__/base-fabricator/breadcrumb-rtl.tsx",
     },
     "breadcrumb-separator": {
       name: "breadcrumb-separator",
@@ -6468,10 +6472,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "button-group-popover",
       filePath: "examples/__styles__/base-fabricator/button-group-popover.tsx",
     },
-    "button-group-rtl": {
-      name: "button-group-rtl",
-      filePath: "examples/__styles__/base-fabricator/button-group-rtl.tsx",
-    },
     "button-group-select": {
       name: "button-group-select",
       filePath: "examples/__styles__/base-fabricator/button-group-select.tsx",
@@ -6509,10 +6509,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "button-rounded",
       filePath: "examples/__styles__/base-fabricator/button-rounded.tsx",
     },
-    "button-rtl": {
-      name: "button-rtl",
-      filePath: "examples/__styles__/base-fabricator/button-rtl.tsx",
-    },
     "button-secondary": {
       name: "button-secondary",
       filePath: "examples/__styles__/base-fabricator/button-secondary.tsx",
@@ -6549,10 +6545,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "calendar-demo",
       filePath: "examples/__styles__/base-fabricator/calendar-demo.tsx",
     },
-    "calendar-hijri": {
-      name: "calendar-hijri",
-      filePath: "examples/__styles__/base-fabricator/calendar-hijri.tsx",
-    },
     "calendar-multiple": {
       name: "calendar-multiple",
       filePath: "examples/__styles__/base-fabricator/calendar-multiple.tsx",
@@ -6564,10 +6556,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "calendar-range": {
       name: "calendar-range",
       filePath: "examples/__styles__/base-fabricator/calendar-range.tsx",
-    },
-    "calendar-rtl": {
-      name: "calendar-rtl",
-      filePath: "examples/__styles__/base-fabricator/calendar-rtl.tsx",
     },
     "calendar-time": {
       name: "calendar-time",
@@ -6588,10 +6576,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "card-image": {
       name: "card-image",
       filePath: "examples/__styles__/base-fabricator/card-image.tsx",
-    },
-    "card-rtl": {
-      name: "card-rtl",
-      filePath: "examples/__styles__/base-fabricator/card-rtl.tsx",
     },
     "card-small": {
       name: "card-small",
@@ -6620,10 +6604,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "carousel-plugin": {
       name: "carousel-plugin",
       filePath: "examples/__styles__/base-fabricator/carousel-plugin.tsx",
-    },
-    "carousel-rtl": {
-      name: "carousel-rtl",
-      filePath: "examples/__styles__/base-fabricator/carousel-rtl.tsx",
     },
     "carousel-size": {
       name: "carousel-size",
@@ -6657,10 +6637,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "chart-example",
       filePath: "examples/__styles__/base-fabricator/chart-example.tsx",
     },
-    "chart-rtl": {
-      name: "chart-rtl",
-      filePath: "examples/__styles__/base-fabricator/chart-rtl.tsx",
-    },
     "chart-tooltip": {
       name: "chart-tooltip",
       filePath: "examples/__styles__/base-fabricator/chart-tooltip.tsx",
@@ -6689,10 +6665,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "checkbox-invalid",
       filePath: "examples/__styles__/base-fabricator/checkbox-invalid.tsx",
     },
-    "checkbox-rtl": {
-      name: "checkbox-rtl",
-      filePath: "examples/__styles__/base-fabricator/checkbox-rtl.tsx",
-    },
     "checkbox-table": {
       name: "checkbox-table",
       filePath: "examples/__styles__/base-fabricator/checkbox-table.tsx",
@@ -6708,10 +6680,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "collapsible-file-tree": {
       name: "collapsible-file-tree",
       filePath: "examples/__styles__/base-fabricator/collapsible-file-tree.tsx",
-    },
-    "collapsible-rtl": {
-      name: "collapsible-rtl",
-      filePath: "examples/__styles__/base-fabricator/collapsible-rtl.tsx",
     },
     "collapsible-settings": {
       name: "collapsible-settings",
@@ -6762,10 +6730,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "combobox-popup",
       filePath: "examples/__styles__/base-fabricator/combobox-popup.tsx",
     },
-    "combobox-rtl": {
-      name: "combobox-rtl",
-      filePath: "examples/__styles__/base-fabricator/combobox-rtl.tsx",
-    },
     "command-basic": {
       name: "command-basic",
       filePath: "examples/__styles__/base-fabricator/command-basic.tsx",
@@ -6781,10 +6745,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "command-groups": {
       name: "command-groups",
       filePath: "examples/__styles__/base-fabricator/command-groups.tsx",
-    },
-    "command-rtl": {
-      name: "command-rtl",
-      filePath: "examples/__styles__/base-fabricator/command-rtl.tsx",
     },
     "command-scrollable": {
       name: "command-scrollable",
@@ -6824,10 +6784,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "context-menu-radio",
       filePath: "examples/__styles__/base-fabricator/context-menu-radio.tsx",
     },
-    "context-menu-rtl": {
-      name: "context-menu-rtl",
-      filePath: "examples/__styles__/base-fabricator/context-menu-rtl.tsx",
-    },
     "context-menu-shortcuts": {
       name: "context-menu-shortcuts",
       filePath:
@@ -6849,10 +6805,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "data-table-demo": {
       name: "data-table-demo",
       filePath: "examples/__styles__/base-fabricator/data-table-demo.tsx",
-    },
-    "data-table-rtl": {
-      name: "data-table-rtl",
-      filePath: "examples/__styles__/base-fabricator/data-table-rtl.tsx",
     },
     "date-picker-basic": {
       name: "date-picker-basic",
@@ -6879,10 +6831,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "date-picker-range",
       filePath: "examples/__styles__/base-fabricator/date-picker-range.tsx",
     },
-    "date-picker-rtl": {
-      name: "date-picker-rtl",
-      filePath: "examples/__styles__/base-fabricator/date-picker-rtl.tsx",
-    },
     "date-picker-time": {
       name: "date-picker-time",
       filePath: "examples/__styles__/base-fabricator/date-picker-time.tsx",
@@ -6899,10 +6847,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "dialog-no-close-button",
       filePath:
         "examples/__styles__/base-fabricator/dialog-no-close-button.tsx",
-    },
-    "dialog-rtl": {
-      name: "dialog-rtl",
-      filePath: "examples/__styles__/base-fabricator/dialog-rtl.tsx",
     },
     "dialog-scrollable-content": {
       name: "dialog-scrollable-content",
@@ -6928,10 +6872,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "drawer-non-modal": {
       name: "drawer-non-modal",
       filePath: "examples/__styles__/base-fabricator/drawer-non-modal.tsx",
-    },
-    "drawer-rtl": {
-      name: "drawer-rtl",
-      filePath: "examples/__styles__/base-fabricator/drawer-rtl.tsx",
     },
     "drawer-sides": {
       name: "drawer-sides",
@@ -6990,10 +6930,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       filePath:
         "examples/__styles__/base-fabricator/dropdown-menu-radio-icons.tsx",
     },
-    "dropdown-menu-rtl": {
-      name: "dropdown-menu-rtl",
-      filePath: "examples/__styles__/base-fabricator/dropdown-menu-rtl.tsx",
-    },
     "dropdown-menu-shortcuts": {
       name: "dropdown-menu-shortcuts",
       filePath:
@@ -7031,10 +6967,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "empty-outline",
       filePath: "examples/__styles__/base-fabricator/empty-outline.tsx",
     },
-    "empty-rtl": {
-      name: "empty-rtl",
-      filePath: "examples/__styles__/base-fabricator/empty-rtl.tsx",
-    },
     "field-checkbox": {
       name: "field-checkbox",
       filePath: "examples/__styles__/base-fabricator/field-checkbox.tsx",
@@ -7067,10 +6999,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "field-responsive",
       filePath: "examples/__styles__/base-fabricator/field-responsive.tsx",
     },
-    "field-rtl": {
-      name: "field-rtl",
-      filePath: "examples/__styles__/base-fabricator/field-rtl.tsx",
-    },
     "field-select": {
       name: "field-select",
       filePath: "examples/__styles__/base-fabricator/field-select.tsx",
@@ -7094,10 +7022,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "hover-card-demo": {
       name: "hover-card-demo",
       filePath: "examples/__styles__/base-fabricator/hover-card-demo.tsx",
-    },
-    "hover-card-rtl": {
-      name: "hover-card-rtl",
-      filePath: "examples/__styles__/base-fabricator/hover-card-rtl.tsx",
     },
     "hover-card-sides": {
       name: "hover-card-sides",
@@ -7203,10 +7127,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "input-group-label",
       filePath: "examples/__styles__/base-fabricator/input-group-label.tsx",
     },
-    "input-group-rtl": {
-      name: "input-group-rtl",
-      filePath: "examples/__styles__/base-fabricator/input-group-rtl.tsx",
-    },
     "input-group-spinner": {
       name: "input-group-spinner",
       filePath: "examples/__styles__/base-fabricator/input-group-spinner.tsx",
@@ -7292,10 +7212,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "input-otp-pattern",
       filePath: "examples/__styles__/base-fabricator/input-otp-pattern.tsx",
     },
-    "input-otp-rtl": {
-      name: "input-otp-rtl",
-      filePath: "examples/__styles__/base-fabricator/input-otp-rtl.tsx",
-    },
     "input-otp-separator": {
       name: "input-otp-separator",
       filePath: "examples/__styles__/base-fabricator/input-otp-separator.tsx",
@@ -7303,10 +7219,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "input-required": {
       name: "input-required",
       filePath: "examples/__styles__/base-fabricator/input-required.tsx",
-    },
-    "input-rtl": {
-      name: "input-rtl",
-      filePath: "examples/__styles__/base-fabricator/input-rtl.tsx",
     },
     "item-avatar": {
       name: "item-avatar",
@@ -7340,10 +7252,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "item-link",
       filePath: "examples/__styles__/base-fabricator/item-link.tsx",
     },
-    "item-rtl": {
-      name: "item-rtl",
-      filePath: "examples/__styles__/base-fabricator/item-rtl.tsx",
-    },
     "item-size": {
       name: "item-size",
       filePath: "examples/__styles__/base-fabricator/item-size.tsx",
@@ -7368,10 +7276,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "kbd-input-group",
       filePath: "examples/__styles__/base-fabricator/kbd-input-group.tsx",
     },
-    "kbd-rtl": {
-      name: "kbd-rtl",
-      filePath: "examples/__styles__/base-fabricator/kbd-rtl.tsx",
-    },
     "kbd-tooltip": {
       name: "kbd-tooltip",
       filePath: "examples/__styles__/base-fabricator/kbd-tooltip.tsx",
@@ -7379,10 +7283,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "label-demo": {
       name: "label-demo",
       filePath: "examples/__styles__/base-fabricator/label-demo.tsx",
-    },
-    "label-rtl": {
-      name: "label-rtl",
-      filePath: "examples/__styles__/base-fabricator/label-rtl.tsx",
     },
     "markdown-demo": {
       name: "markdown-demo",
@@ -7435,10 +7335,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "menubar-radio": {
       name: "menubar-radio",
       filePath: "examples/__styles__/base-fabricator/menubar-radio.tsx",
-    },
-    "menubar-rtl": {
-      name: "menubar-rtl",
-      filePath: "examples/__styles__/base-fabricator/menubar-rtl.tsx",
     },
     "menubar-submenu": {
       name: "menubar-submenu",
@@ -7539,10 +7435,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "navigation-menu-demo",
       filePath: "examples/__styles__/base-fabricator/navigation-menu-demo.tsx",
     },
-    "navigation-menu-rtl": {
-      name: "navigation-menu-rtl",
-      filePath: "examples/__styles__/base-fabricator/navigation-menu-rtl.tsx",
-    },
     "outline-item-group": {
       name: "outline-item-group",
       filePath: "examples/__styles__/base-fabricator/outline-item-group.tsx",
@@ -7554,10 +7446,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "pagination-icons-only": {
       name: "pagination-icons-only",
       filePath: "examples/__styles__/base-fabricator/pagination-icons-only.tsx",
-    },
-    "pagination-rtl": {
-      name: "pagination-rtl",
-      filePath: "examples/__styles__/base-fabricator/pagination-rtl.tsx",
     },
     "pagination-simple": {
       name: "pagination-simple",
@@ -7579,10 +7467,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "popover-form",
       filePath: "examples/__styles__/base-fabricator/popover-form.tsx",
     },
-    "popover-rtl": {
-      name: "popover-rtl",
-      filePath: "examples/__styles__/base-fabricator/popover-rtl.tsx",
-    },
     "progress-controlled": {
       name: "progress-controlled",
       filePath: "examples/__styles__/base-fabricator/progress-controlled.tsx",
@@ -7594,10 +7478,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "progress-label": {
       name: "progress-label",
       filePath: "examples/__styles__/base-fabricator/progress-label.tsx",
-    },
-    "progress-rtl": {
-      name: "progress-rtl",
-      filePath: "examples/__styles__/base-fabricator/progress-rtl.tsx",
     },
     "questionnaire-animated": {
       name: "questionnaire-animated",
@@ -7694,10 +7574,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "radio-group-invalid",
       filePath: "examples/__styles__/base-fabricator/radio-group-invalid.tsx",
     },
-    "radio-group-rtl": {
-      name: "radio-group-rtl",
-      filePath: "examples/__styles__/base-fabricator/radio-group-rtl.tsx",
-    },
     "resizable-demo": {
       name: "resizable-demo",
       filePath: "examples/__styles__/base-fabricator/resizable-demo.tsx",
@@ -7705,10 +7581,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "resizable-handle": {
       name: "resizable-handle",
       filePath: "examples/__styles__/base-fabricator/resizable-handle.tsx",
-    },
-    "resizable-rtl": {
-      name: "resizable-rtl",
-      filePath: "examples/__styles__/base-fabricator/resizable-rtl.tsx",
     },
     "resizable-vertical": {
       name: "resizable-vertical",
@@ -7722,10 +7594,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "scroll-area-horizontal-demo",
       filePath:
         "examples/__styles__/base-fabricator/scroll-area-horizontal-demo.tsx",
-    },
-    "scroll-area-rtl": {
-      name: "scroll-area-rtl",
-      filePath: "examples/__styles__/base-fabricator/scroll-area-rtl.tsx",
     },
     "scroll-fade-demo": {
       name: "scroll-fade-demo",
@@ -7747,10 +7615,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "scroll-fade-overflow": {
       name: "scroll-fade-overflow",
       filePath: "examples/__styles__/base-fabricator/scroll-fade-overflow.tsx",
-    },
-    "scroll-fade-rtl": {
-      name: "scroll-fade-rtl",
-      filePath: "examples/__styles__/base-fabricator/scroll-fade-rtl.tsx",
     },
     "scroll-fade-size": {
       name: "scroll-fade-size",
@@ -7796,10 +7660,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "select-invalid",
       filePath: "examples/__styles__/base-fabricator/select-invalid.tsx",
     },
-    "select-rtl": {
-      name: "select-rtl",
-      filePath: "examples/__styles__/base-fabricator/select-rtl.tsx",
-    },
     "select-scrollable": {
       name: "select-scrollable",
       filePath: "examples/__styles__/base-fabricator/select-scrollable.tsx",
@@ -7816,10 +7676,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "separator-menu",
       filePath: "examples/__styles__/base-fabricator/separator-menu.tsx",
     },
-    "separator-rtl": {
-      name: "separator-rtl",
-      filePath: "examples/__styles__/base-fabricator/separator-rtl.tsx",
-    },
     "separator-vertical": {
       name: "separator-vertical",
       filePath: "examples/__styles__/base-fabricator/separator-vertical.tsx",
@@ -7831,10 +7687,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "sheet-no-close-button": {
       name: "sheet-no-close-button",
       filePath: "examples/__styles__/base-fabricator/sheet-no-close-button.tsx",
-    },
-    "sheet-rtl": {
-      name: "sheet-rtl",
-      filePath: "examples/__styles__/base-fabricator/sheet-rtl.tsx",
     },
     "sheet-side": {
       name: "sheet-side",
@@ -7867,10 +7719,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "shimmer-once": {
       name: "shimmer-once",
       filePath: "examples/__styles__/base-fabricator/shimmer-once.tsx",
-    },
-    "shimmer-rtl": {
-      name: "shimmer-rtl",
-      filePath: "examples/__styles__/base-fabricator/shimmer-rtl.tsx",
     },
     "shimmer-spread": {
       name: "shimmer-spread",
@@ -7930,10 +7778,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "sidebar-rsc",
       filePath: "examples/__styles__/base-fabricator/sidebar-rsc.tsx",
     },
-    "sidebar-rtl": {
-      name: "sidebar-rtl",
-      filePath: "examples/__styles__/base-fabricator/sidebar-rtl.tsx",
-    },
     "skeleton-avatar": {
       name: "skeleton-avatar",
       filePath: "examples/__styles__/base-fabricator/skeleton-avatar.tsx",
@@ -7949,10 +7793,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "skeleton-form": {
       name: "skeleton-form",
       filePath: "examples/__styles__/base-fabricator/skeleton-form.tsx",
-    },
-    "skeleton-rtl": {
-      name: "skeleton-rtl",
-      filePath: "examples/__styles__/base-fabricator/skeleton-rtl.tsx",
     },
     "skeleton-table": {
       name: "skeleton-table",
@@ -7982,10 +7822,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "slider-range",
       filePath: "examples/__styles__/base-fabricator/slider-range.tsx",
     },
-    "slider-rtl": {
-      name: "slider-rtl",
-      filePath: "examples/__styles__/base-fabricator/slider-rtl.tsx",
-    },
     "slider-vertical": {
       name: "slider-vertical",
       filePath: "examples/__styles__/base-fabricator/slider-vertical.tsx",
@@ -8014,10 +7850,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "spinner-input-group",
       filePath: "examples/__styles__/base-fabricator/spinner-input-group.tsx",
     },
-    "spinner-rtl": {
-      name: "spinner-rtl",
-      filePath: "examples/__styles__/base-fabricator/spinner-rtl.tsx",
-    },
     "spinner-size": {
       name: "spinner-size",
       filePath: "examples/__styles__/base-fabricator/spinner-size.tsx",
@@ -8042,10 +7874,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "switch-invalid",
       filePath: "examples/__styles__/base-fabricator/switch-invalid.tsx",
     },
-    "switch-rtl": {
-      name: "switch-rtl",
-      filePath: "examples/__styles__/base-fabricator/switch-rtl.tsx",
-    },
     "switch-sizes": {
       name: "switch-sizes",
       filePath: "examples/__styles__/base-fabricator/switch-sizes.tsx",
@@ -8062,10 +7890,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "table-footer",
       filePath: "examples/__styles__/base-fabricator/table-footer.tsx",
     },
-    "table-rtl": {
-      name: "table-rtl",
-      filePath: "examples/__styles__/base-fabricator/table-rtl.tsx",
-    },
     "tabs-demo": {
       name: "tabs-demo",
       filePath: "examples/__styles__/base-fabricator/tabs-demo.tsx",
@@ -8081,10 +7905,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "tabs-line": {
       name: "tabs-line",
       filePath: "examples/__styles__/base-fabricator/tabs-line.tsx",
-    },
-    "tabs-rtl": {
-      name: "tabs-rtl",
-      filePath: "examples/__styles__/base-fabricator/tabs-rtl.tsx",
     },
     "tabs-vertical": {
       name: "tabs-vertical",
@@ -8114,10 +7934,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "textarea-invalid": {
       name: "textarea-invalid",
       filePath: "examples/__styles__/base-fabricator/textarea-invalid.tsx",
-    },
-    "textarea-rtl": {
-      name: "textarea-rtl",
-      filePath: "examples/__styles__/base-fabricator/textarea-rtl.tsx",
     },
     "toast-demo": {
       name: "toast-demo",
@@ -8156,10 +7972,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "toggle-group-outline",
       filePath: "examples/__styles__/base-fabricator/toggle-group-outline.tsx",
     },
-    "toggle-group-rtl": {
-      name: "toggle-group-rtl",
-      filePath: "examples/__styles__/base-fabricator/toggle-group-rtl.tsx",
-    },
     "toggle-group-sizes": {
       name: "toggle-group-sizes",
       filePath: "examples/__styles__/base-fabricator/toggle-group-sizes.tsx",
@@ -8175,10 +7987,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "toggle-outline": {
       name: "toggle-outline",
       filePath: "examples/__styles__/base-fabricator/toggle-outline.tsx",
-    },
-    "toggle-rtl": {
-      name: "toggle-rtl",
-      filePath: "examples/__styles__/base-fabricator/toggle-rtl.tsx",
     },
     "toggle-sizes": {
       name: "toggle-sizes",
@@ -8199,10 +8007,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "tooltip-keyboard": {
       name: "tooltip-keyboard",
       filePath: "examples/__styles__/base-fabricator/tooltip-keyboard.tsx",
-    },
-    "tooltip-rtl": {
-      name: "tooltip-rtl",
-      filePath: "examples/__styles__/base-fabricator/tooltip-rtl.tsx",
     },
     "tooltip-sides": {
       name: "tooltip-sides",
@@ -8257,10 +8061,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "typography-p",
       filePath: "examples/__styles__/base-fabricator/typography-p.tsx",
     },
-    "typography-rtl": {
-      name: "typography-rtl",
-      filePath: "examples/__styles__/base-fabricator/typography-rtl.tsx",
-    },
     "typography-small": {
       name: "typography-small",
       filePath: "examples/__styles__/base-fabricator/typography-small.tsx",
@@ -8294,10 +8094,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "accordion-multiple": {
       name: "accordion-multiple",
       filePath: "examples/__styles__/aria-fabricator/accordion-multiple.tsx",
-    },
-    "accordion-rtl": {
-      name: "accordion-rtl",
-      filePath: "examples/__styles__/aria-fabricator/accordion-rtl.tsx",
     },
     "alert-action": {
       name: "alert-action",
@@ -8336,10 +8132,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "alert-dialog-media",
       filePath: "examples/__styles__/aria-fabricator/alert-dialog-media.tsx",
     },
-    "alert-dialog-rtl": {
-      name: "alert-dialog-rtl",
-      filePath: "examples/__styles__/aria-fabricator/alert-dialog-rtl.tsx",
-    },
     "alert-dialog-small-media": {
       name: "alert-dialog-small-media",
       filePath:
@@ -8349,9 +8141,9 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "alert-dialog-small",
       filePath: "examples/__styles__/aria-fabricator/alert-dialog-small.tsx",
     },
-    "alert-rtl": {
-      name: "alert-rtl",
-      filePath: "examples/__styles__/aria-fabricator/alert-rtl.tsx",
+    "alert-status": {
+      name: "alert-status",
+      filePath: "examples/__styles__/aria-fabricator/alert-status.tsx",
     },
     "aspect-ratio-demo": {
       name: "aspect-ratio-demo",
@@ -8360,10 +8152,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "aspect-ratio-portrait": {
       name: "aspect-ratio-portrait",
       filePath: "examples/__styles__/aria-fabricator/aspect-ratio-portrait.tsx",
-    },
-    "aspect-ratio-rtl": {
-      name: "aspect-ratio-rtl",
-      filePath: "examples/__styles__/aria-fabricator/aspect-ratio-rtl.tsx",
     },
     "aspect-ratio-square": {
       name: "aspect-ratio-square",
@@ -8426,10 +8214,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "avatar-group",
       filePath: "examples/__styles__/aria-fabricator/avatar-group.tsx",
     },
-    "avatar-rtl": {
-      name: "avatar-rtl",
-      filePath: "examples/__styles__/aria-fabricator/avatar-rtl.tsx",
-    },
     "avatar-size": {
       name: "avatar-size",
       filePath: "examples/__styles__/aria-fabricator/avatar-size.tsx",
@@ -8450,13 +8234,13 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "badge-link",
       filePath: "examples/__styles__/aria-fabricator/badge-link.tsx",
     },
-    "badge-rtl": {
-      name: "badge-rtl",
-      filePath: "examples/__styles__/aria-fabricator/badge-rtl.tsx",
-    },
     "badge-spinner": {
       name: "badge-spinner",
       filePath: "examples/__styles__/aria-fabricator/badge-spinner.tsx",
+    },
+    "badge-status": {
+      name: "badge-status",
+      filePath: "examples/__styles__/aria-fabricator/badge-status.tsx",
     },
     "badge-variants": {
       name: "badge-variants",
@@ -8481,10 +8265,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "breadcrumb-link": {
       name: "breadcrumb-link",
       filePath: "examples/__styles__/aria-fabricator/breadcrumb-link.tsx",
-    },
-    "breadcrumb-rtl": {
-      name: "breadcrumb-rtl",
-      filePath: "examples/__styles__/aria-fabricator/breadcrumb-rtl.tsx",
     },
     "breadcrumb-separator": {
       name: "breadcrumb-separator",
@@ -8576,10 +8356,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "button-group-popover",
       filePath: "examples/__styles__/aria-fabricator/button-group-popover.tsx",
     },
-    "button-group-rtl": {
-      name: "button-group-rtl",
-      filePath: "examples/__styles__/aria-fabricator/button-group-rtl.tsx",
-    },
     "button-group-select": {
       name: "button-group-select",
       filePath: "examples/__styles__/aria-fabricator/button-group-select.tsx",
@@ -8617,10 +8393,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "button-rounded",
       filePath: "examples/__styles__/aria-fabricator/button-rounded.tsx",
     },
-    "button-rtl": {
-      name: "button-rtl",
-      filePath: "examples/__styles__/aria-fabricator/button-rtl.tsx",
-    },
     "button-secondary": {
       name: "button-secondary",
       filePath: "examples/__styles__/aria-fabricator/button-secondary.tsx",
@@ -8657,10 +8429,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "calendar-demo",
       filePath: "examples/__styles__/aria-fabricator/calendar-demo.tsx",
     },
-    "calendar-hijri": {
-      name: "calendar-hijri",
-      filePath: "examples/__styles__/aria-fabricator/calendar-hijri.tsx",
-    },
     "calendar-multiple": {
       name: "calendar-multiple",
       filePath: "examples/__styles__/aria-fabricator/calendar-multiple.tsx",
@@ -8672,10 +8440,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "calendar-range": {
       name: "calendar-range",
       filePath: "examples/__styles__/aria-fabricator/calendar-range.tsx",
-    },
-    "calendar-rtl": {
-      name: "calendar-rtl",
-      filePath: "examples/__styles__/aria-fabricator/calendar-rtl.tsx",
     },
     "calendar-time": {
       name: "calendar-time",
@@ -8692,10 +8456,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "card-image": {
       name: "card-image",
       filePath: "examples/__styles__/aria-fabricator/card-image.tsx",
-    },
-    "card-rtl": {
-      name: "card-rtl",
-      filePath: "examples/__styles__/aria-fabricator/card-rtl.tsx",
     },
     "card-small": {
       name: "card-small",
@@ -8724,10 +8484,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "carousel-plugin": {
       name: "carousel-plugin",
       filePath: "examples/__styles__/aria-fabricator/carousel-plugin.tsx",
-    },
-    "carousel-rtl": {
-      name: "carousel-rtl",
-      filePath: "examples/__styles__/aria-fabricator/carousel-rtl.tsx",
     },
     "carousel-size": {
       name: "carousel-size",
@@ -8761,10 +8517,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "chart-example",
       filePath: "examples/__styles__/aria-fabricator/chart-example.tsx",
     },
-    "chart-rtl": {
-      name: "chart-rtl",
-      filePath: "examples/__styles__/aria-fabricator/chart-rtl.tsx",
-    },
     "chart-tooltip": {
       name: "chart-tooltip",
       filePath: "examples/__styles__/aria-fabricator/chart-tooltip.tsx",
@@ -8793,10 +8545,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "checkbox-invalid",
       filePath: "examples/__styles__/aria-fabricator/checkbox-invalid.tsx",
     },
-    "checkbox-rtl": {
-      name: "checkbox-rtl",
-      filePath: "examples/__styles__/aria-fabricator/checkbox-rtl.tsx",
-    },
     "checkbox-table": {
       name: "checkbox-table",
       filePath: "examples/__styles__/aria-fabricator/checkbox-table.tsx",
@@ -8812,10 +8560,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "collapsible-file-tree": {
       name: "collapsible-file-tree",
       filePath: "examples/__styles__/aria-fabricator/collapsible-file-tree.tsx",
-    },
-    "collapsible-rtl": {
-      name: "collapsible-rtl",
-      filePath: "examples/__styles__/aria-fabricator/collapsible-rtl.tsx",
     },
     "collapsible-settings": {
       name: "collapsible-settings",
@@ -8857,10 +8601,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "combobox-multiple",
       filePath: "examples/__styles__/aria-fabricator/combobox-multiple.tsx",
     },
-    "combobox-rtl": {
-      name: "combobox-rtl",
-      filePath: "examples/__styles__/aria-fabricator/combobox-rtl.tsx",
-    },
     "command-basic": {
       name: "command-basic",
       filePath: "examples/__styles__/aria-fabricator/command-basic.tsx",
@@ -8876,10 +8616,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "command-groups": {
       name: "command-groups",
       filePath: "examples/__styles__/aria-fabricator/command-groups.tsx",
-    },
-    "command-rtl": {
-      name: "command-rtl",
-      filePath: "examples/__styles__/aria-fabricator/command-rtl.tsx",
     },
     "command-scrollable": {
       name: "command-scrollable",
@@ -8919,10 +8655,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "context-menu-radio",
       filePath: "examples/__styles__/aria-fabricator/context-menu-radio.tsx",
     },
-    "context-menu-rtl": {
-      name: "context-menu-rtl",
-      filePath: "examples/__styles__/aria-fabricator/context-menu-rtl.tsx",
-    },
     "context-menu-shortcuts": {
       name: "context-menu-shortcuts",
       filePath:
@@ -8944,10 +8676,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "data-table-demo": {
       name: "data-table-demo",
       filePath: "examples/__styles__/aria-fabricator/data-table-demo.tsx",
-    },
-    "data-table-rtl": {
-      name: "data-table-rtl",
-      filePath: "examples/__styles__/aria-fabricator/data-table-rtl.tsx",
     },
     "date-picker-basic": {
       name: "date-picker-basic",
@@ -8974,10 +8702,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "date-picker-range",
       filePath: "examples/__styles__/aria-fabricator/date-picker-range.tsx",
     },
-    "date-picker-rtl": {
-      name: "date-picker-rtl",
-      filePath: "examples/__styles__/aria-fabricator/date-picker-rtl.tsx",
-    },
     "date-picker-time": {
       name: "date-picker-time",
       filePath: "examples/__styles__/aria-fabricator/date-picker-time.tsx",
@@ -8994,10 +8718,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "dialog-no-close-button",
       filePath:
         "examples/__styles__/aria-fabricator/dialog-no-close-button.tsx",
-    },
-    "dialog-rtl": {
-      name: "dialog-rtl",
-      filePath: "examples/__styles__/aria-fabricator/dialog-rtl.tsx",
     },
     "dialog-scrollable-content": {
       name: "dialog-scrollable-content",
@@ -9023,10 +8743,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "drawer-non-modal": {
       name: "drawer-non-modal",
       filePath: "examples/__styles__/aria-fabricator/drawer-non-modal.tsx",
-    },
-    "drawer-rtl": {
-      name: "drawer-rtl",
-      filePath: "examples/__styles__/aria-fabricator/drawer-rtl.tsx",
     },
     "drawer-sides": {
       name: "drawer-sides",
@@ -9085,10 +8801,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       filePath:
         "examples/__styles__/aria-fabricator/dropdown-menu-radio-icons.tsx",
     },
-    "dropdown-menu-rtl": {
-      name: "dropdown-menu-rtl",
-      filePath: "examples/__styles__/aria-fabricator/dropdown-menu-rtl.tsx",
-    },
     "dropdown-menu-shortcuts": {
       name: "dropdown-menu-shortcuts",
       filePath:
@@ -9126,10 +8838,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "empty-outline",
       filePath: "examples/__styles__/aria-fabricator/empty-outline.tsx",
     },
-    "empty-rtl": {
-      name: "empty-rtl",
-      filePath: "examples/__styles__/aria-fabricator/empty-rtl.tsx",
-    },
     "field-checkbox": {
       name: "field-checkbox",
       filePath: "examples/__styles__/aria-fabricator/field-checkbox.tsx",
@@ -9162,10 +8870,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "field-responsive",
       filePath: "examples/__styles__/aria-fabricator/field-responsive.tsx",
     },
-    "field-rtl": {
-      name: "field-rtl",
-      filePath: "examples/__styles__/aria-fabricator/field-rtl.tsx",
-    },
     "field-select": {
       name: "field-select",
       filePath: "examples/__styles__/aria-fabricator/field-select.tsx",
@@ -9189,10 +8893,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "hover-card-demo": {
       name: "hover-card-demo",
       filePath: "examples/__styles__/aria-fabricator/hover-card-demo.tsx",
-    },
-    "hover-card-rtl": {
-      name: "hover-card-rtl",
-      filePath: "examples/__styles__/aria-fabricator/hover-card-rtl.tsx",
     },
     "hover-card-sides": {
       name: "hover-card-sides",
@@ -9298,10 +8998,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "input-group-label",
       filePath: "examples/__styles__/aria-fabricator/input-group-label.tsx",
     },
-    "input-group-rtl": {
-      name: "input-group-rtl",
-      filePath: "examples/__styles__/aria-fabricator/input-group-rtl.tsx",
-    },
     "input-group-spinner": {
       name: "input-group-spinner",
       filePath: "examples/__styles__/aria-fabricator/input-group-spinner.tsx",
@@ -9387,10 +9083,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "input-otp-pattern",
       filePath: "examples/__styles__/aria-fabricator/input-otp-pattern.tsx",
     },
-    "input-otp-rtl": {
-      name: "input-otp-rtl",
-      filePath: "examples/__styles__/aria-fabricator/input-otp-rtl.tsx",
-    },
     "input-otp-separator": {
       name: "input-otp-separator",
       filePath: "examples/__styles__/aria-fabricator/input-otp-separator.tsx",
@@ -9398,10 +9090,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "input-required": {
       name: "input-required",
       filePath: "examples/__styles__/aria-fabricator/input-required.tsx",
-    },
-    "input-rtl": {
-      name: "input-rtl",
-      filePath: "examples/__styles__/aria-fabricator/input-rtl.tsx",
     },
     "item-avatar": {
       name: "item-avatar",
@@ -9435,10 +9123,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "item-link",
       filePath: "examples/__styles__/aria-fabricator/item-link.tsx",
     },
-    "item-rtl": {
-      name: "item-rtl",
-      filePath: "examples/__styles__/aria-fabricator/item-rtl.tsx",
-    },
     "item-size": {
       name: "item-size",
       filePath: "examples/__styles__/aria-fabricator/item-size.tsx",
@@ -9463,10 +9147,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "kbd-input-group",
       filePath: "examples/__styles__/aria-fabricator/kbd-input-group.tsx",
     },
-    "kbd-rtl": {
-      name: "kbd-rtl",
-      filePath: "examples/__styles__/aria-fabricator/kbd-rtl.tsx",
-    },
     "kbd-tooltip": {
       name: "kbd-tooltip",
       filePath: "examples/__styles__/aria-fabricator/kbd-tooltip.tsx",
@@ -9474,10 +9154,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "label-demo": {
       name: "label-demo",
       filePath: "examples/__styles__/aria-fabricator/label-demo.tsx",
-    },
-    "label-rtl": {
-      name: "label-rtl",
-      filePath: "examples/__styles__/aria-fabricator/label-rtl.tsx",
     },
     "markdown-demo": {
       name: "markdown-demo",
@@ -9618,10 +9294,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "pagination-icons-only",
       filePath: "examples/__styles__/aria-fabricator/pagination-icons-only.tsx",
     },
-    "pagination-rtl": {
-      name: "pagination-rtl",
-      filePath: "examples/__styles__/aria-fabricator/pagination-rtl.tsx",
-    },
     "pagination-simple": {
       name: "pagination-simple",
       filePath: "examples/__styles__/aria-fabricator/pagination-simple.tsx",
@@ -9642,10 +9314,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "popover-form",
       filePath: "examples/__styles__/aria-fabricator/popover-form.tsx",
     },
-    "popover-rtl": {
-      name: "popover-rtl",
-      filePath: "examples/__styles__/aria-fabricator/popover-rtl.tsx",
-    },
     "progress-controlled": {
       name: "progress-controlled",
       filePath: "examples/__styles__/aria-fabricator/progress-controlled.tsx",
@@ -9657,10 +9325,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "progress-label": {
       name: "progress-label",
       filePath: "examples/__styles__/aria-fabricator/progress-label.tsx",
-    },
-    "progress-rtl": {
-      name: "progress-rtl",
-      filePath: "examples/__styles__/aria-fabricator/progress-rtl.tsx",
     },
     "questionnaire-animated": {
       name: "questionnaire-animated",
@@ -9757,10 +9421,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "radio-group-invalid",
       filePath: "examples/__styles__/aria-fabricator/radio-group-invalid.tsx",
     },
-    "radio-group-rtl": {
-      name: "radio-group-rtl",
-      filePath: "examples/__styles__/aria-fabricator/radio-group-rtl.tsx",
-    },
     "resizable-demo": {
       name: "resizable-demo",
       filePath: "examples/__styles__/aria-fabricator/resizable-demo.tsx",
@@ -9768,10 +9428,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "resizable-handle": {
       name: "resizable-handle",
       filePath: "examples/__styles__/aria-fabricator/resizable-handle.tsx",
-    },
-    "resizable-rtl": {
-      name: "resizable-rtl",
-      filePath: "examples/__styles__/aria-fabricator/resizable-rtl.tsx",
     },
     "resizable-vertical": {
       name: "resizable-vertical",
@@ -9785,10 +9441,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "scroll-area-horizontal-demo",
       filePath:
         "examples/__styles__/aria-fabricator/scroll-area-horizontal-demo.tsx",
-    },
-    "scroll-area-rtl": {
-      name: "scroll-area-rtl",
-      filePath: "examples/__styles__/aria-fabricator/scroll-area-rtl.tsx",
     },
     "scroll-fade-demo": {
       name: "scroll-fade-demo",
@@ -9810,10 +9462,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "scroll-fade-overflow": {
       name: "scroll-fade-overflow",
       filePath: "examples/__styles__/aria-fabricator/scroll-fade-overflow.tsx",
-    },
-    "scroll-fade-rtl": {
-      name: "scroll-fade-rtl",
-      filePath: "examples/__styles__/aria-fabricator/scroll-fade-rtl.tsx",
     },
     "scroll-fade-size": {
       name: "scroll-fade-size",
@@ -9859,10 +9507,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "select-invalid",
       filePath: "examples/__styles__/aria-fabricator/select-invalid.tsx",
     },
-    "select-rtl": {
-      name: "select-rtl",
-      filePath: "examples/__styles__/aria-fabricator/select-rtl.tsx",
-    },
     "select-scrollable": {
       name: "select-scrollable",
       filePath: "examples/__styles__/aria-fabricator/select-scrollable.tsx",
@@ -9879,10 +9523,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "separator-menu",
       filePath: "examples/__styles__/aria-fabricator/separator-menu.tsx",
     },
-    "separator-rtl": {
-      name: "separator-rtl",
-      filePath: "examples/__styles__/aria-fabricator/separator-rtl.tsx",
-    },
     "separator-vertical": {
       name: "separator-vertical",
       filePath: "examples/__styles__/aria-fabricator/separator-vertical.tsx",
@@ -9894,10 +9534,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "sheet-no-close-button": {
       name: "sheet-no-close-button",
       filePath: "examples/__styles__/aria-fabricator/sheet-no-close-button.tsx",
-    },
-    "sheet-rtl": {
-      name: "sheet-rtl",
-      filePath: "examples/__styles__/aria-fabricator/sheet-rtl.tsx",
     },
     "sheet-side": {
       name: "sheet-side",
@@ -9930,10 +9566,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "shimmer-once": {
       name: "shimmer-once",
       filePath: "examples/__styles__/aria-fabricator/shimmer-once.tsx",
-    },
-    "shimmer-rtl": {
-      name: "shimmer-rtl",
-      filePath: "examples/__styles__/aria-fabricator/shimmer-rtl.tsx",
     },
     "shimmer-spread": {
       name: "shimmer-spread",
@@ -9993,10 +9625,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "sidebar-rsc",
       filePath: "examples/__styles__/aria-fabricator/sidebar-rsc.tsx",
     },
-    "sidebar-rtl": {
-      name: "sidebar-rtl",
-      filePath: "examples/__styles__/aria-fabricator/sidebar-rtl.tsx",
-    },
     "skeleton-avatar": {
       name: "skeleton-avatar",
       filePath: "examples/__styles__/aria-fabricator/skeleton-avatar.tsx",
@@ -10012,10 +9640,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "skeleton-form": {
       name: "skeleton-form",
       filePath: "examples/__styles__/aria-fabricator/skeleton-form.tsx",
-    },
-    "skeleton-rtl": {
-      name: "skeleton-rtl",
-      filePath: "examples/__styles__/aria-fabricator/skeleton-rtl.tsx",
     },
     "skeleton-table": {
       name: "skeleton-table",
@@ -10044,10 +9668,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "slider-range": {
       name: "slider-range",
       filePath: "examples/__styles__/aria-fabricator/slider-range.tsx",
-    },
-    "slider-rtl": {
-      name: "slider-rtl",
-      filePath: "examples/__styles__/aria-fabricator/slider-rtl.tsx",
     },
     "slider-vertical": {
       name: "slider-vertical",
@@ -10093,10 +9713,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "spinner-input-group",
       filePath: "examples/__styles__/aria-fabricator/spinner-input-group.tsx",
     },
-    "spinner-rtl": {
-      name: "spinner-rtl",
-      filePath: "examples/__styles__/aria-fabricator/spinner-rtl.tsx",
-    },
     "spinner-size": {
       name: "spinner-size",
       filePath: "examples/__styles__/aria-fabricator/spinner-size.tsx",
@@ -10121,10 +9737,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "switch-invalid",
       filePath: "examples/__styles__/aria-fabricator/switch-invalid.tsx",
     },
-    "switch-rtl": {
-      name: "switch-rtl",
-      filePath: "examples/__styles__/aria-fabricator/switch-rtl.tsx",
-    },
     "switch-sizes": {
       name: "switch-sizes",
       filePath: "examples/__styles__/aria-fabricator/switch-sizes.tsx",
@@ -10141,10 +9753,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "table-footer",
       filePath: "examples/__styles__/aria-fabricator/table-footer.tsx",
     },
-    "table-rtl": {
-      name: "table-rtl",
-      filePath: "examples/__styles__/aria-fabricator/table-rtl.tsx",
-    },
     "tabs-demo": {
       name: "tabs-demo",
       filePath: "examples/__styles__/aria-fabricator/tabs-demo.tsx",
@@ -10160,10 +9768,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "tabs-line": {
       name: "tabs-line",
       filePath: "examples/__styles__/aria-fabricator/tabs-line.tsx",
-    },
-    "tabs-rtl": {
-      name: "tabs-rtl",
-      filePath: "examples/__styles__/aria-fabricator/tabs-rtl.tsx",
     },
     "tabs-vertical": {
       name: "tabs-vertical",
@@ -10188,10 +9792,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "textarea-invalid": {
       name: "textarea-invalid",
       filePath: "examples/__styles__/aria-fabricator/textarea-invalid.tsx",
-    },
-    "textarea-rtl": {
-      name: "textarea-rtl",
-      filePath: "examples/__styles__/aria-fabricator/textarea-rtl.tsx",
     },
     "toggle-demo": {
       name: "toggle-demo",
@@ -10218,10 +9818,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "toggle-group-outline",
       filePath: "examples/__styles__/aria-fabricator/toggle-group-outline.tsx",
     },
-    "toggle-group-rtl": {
-      name: "toggle-group-rtl",
-      filePath: "examples/__styles__/aria-fabricator/toggle-group-rtl.tsx",
-    },
     "toggle-group-sizes": {
       name: "toggle-group-sizes",
       filePath: "examples/__styles__/aria-fabricator/toggle-group-sizes.tsx",
@@ -10237,10 +9833,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "toggle-outline": {
       name: "toggle-outline",
       filePath: "examples/__styles__/aria-fabricator/toggle-outline.tsx",
-    },
-    "toggle-rtl": {
-      name: "toggle-rtl",
-      filePath: "examples/__styles__/aria-fabricator/toggle-rtl.tsx",
     },
     "toggle-sizes": {
       name: "toggle-sizes",
@@ -10261,10 +9853,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "tooltip-keyboard": {
       name: "tooltip-keyboard",
       filePath: "examples/__styles__/aria-fabricator/tooltip-keyboard.tsx",
-    },
-    "tooltip-rtl": {
-      name: "tooltip-rtl",
-      filePath: "examples/__styles__/aria-fabricator/tooltip-rtl.tsx",
     },
     "tooltip-sides": {
       name: "tooltip-sides",
@@ -10319,10 +9907,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "typography-p",
       filePath: "examples/__styles__/aria-fabricator/typography-p.tsx",
     },
-    "typography-rtl": {
-      name: "typography-rtl",
-      filePath: "examples/__styles__/aria-fabricator/typography-rtl.tsx",
-    },
     "typography-small": {
       name: "typography-small",
       filePath: "examples/__styles__/aria-fabricator/typography-small.tsx",
@@ -10356,10 +9940,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "accordion-multiple": {
       name: "accordion-multiple",
       filePath: "examples/__styles__/radix-fabricator/accordion-multiple.tsx",
-    },
-    "accordion-rtl": {
-      name: "accordion-rtl",
-      filePath: "examples/__styles__/radix-fabricator/accordion-rtl.tsx",
     },
     "alert-action": {
       name: "alert-action",
@@ -10398,10 +9978,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "alert-dialog-media",
       filePath: "examples/__styles__/radix-fabricator/alert-dialog-media.tsx",
     },
-    "alert-dialog-rtl": {
-      name: "alert-dialog-rtl",
-      filePath: "examples/__styles__/radix-fabricator/alert-dialog-rtl.tsx",
-    },
     "alert-dialog-small-media": {
       name: "alert-dialog-small-media",
       filePath:
@@ -10411,9 +9987,9 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "alert-dialog-small",
       filePath: "examples/__styles__/radix-fabricator/alert-dialog-small.tsx",
     },
-    "alert-rtl": {
-      name: "alert-rtl",
-      filePath: "examples/__styles__/radix-fabricator/alert-rtl.tsx",
+    "alert-status": {
+      name: "alert-status",
+      filePath: "examples/__styles__/radix-fabricator/alert-status.tsx",
     },
     "aspect-ratio-demo": {
       name: "aspect-ratio-demo",
@@ -10423,10 +9999,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "aspect-ratio-portrait",
       filePath:
         "examples/__styles__/radix-fabricator/aspect-ratio-portrait.tsx",
-    },
-    "aspect-ratio-rtl": {
-      name: "aspect-ratio-rtl",
-      filePath: "examples/__styles__/radix-fabricator/aspect-ratio-rtl.tsx",
     },
     "aspect-ratio-square": {
       name: "aspect-ratio-square",
@@ -10489,10 +10061,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "avatar-group",
       filePath: "examples/__styles__/radix-fabricator/avatar-group.tsx",
     },
-    "avatar-rtl": {
-      name: "avatar-rtl",
-      filePath: "examples/__styles__/radix-fabricator/avatar-rtl.tsx",
-    },
     "avatar-size": {
       name: "avatar-size",
       filePath: "examples/__styles__/radix-fabricator/avatar-size.tsx",
@@ -10513,13 +10081,13 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "badge-link",
       filePath: "examples/__styles__/radix-fabricator/badge-link.tsx",
     },
-    "badge-rtl": {
-      name: "badge-rtl",
-      filePath: "examples/__styles__/radix-fabricator/badge-rtl.tsx",
-    },
     "badge-spinner": {
       name: "badge-spinner",
       filePath: "examples/__styles__/radix-fabricator/badge-spinner.tsx",
+    },
+    "badge-status": {
+      name: "badge-status",
+      filePath: "examples/__styles__/radix-fabricator/badge-status.tsx",
     },
     "badge-variants": {
       name: "badge-variants",
@@ -10544,10 +10112,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "breadcrumb-link": {
       name: "breadcrumb-link",
       filePath: "examples/__styles__/radix-fabricator/breadcrumb-link.tsx",
-    },
-    "breadcrumb-rtl": {
-      name: "breadcrumb-rtl",
-      filePath: "examples/__styles__/radix-fabricator/breadcrumb-rtl.tsx",
     },
     "breadcrumb-separator": {
       name: "breadcrumb-separator",
@@ -10644,10 +10208,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "button-group-popover",
       filePath: "examples/__styles__/radix-fabricator/button-group-popover.tsx",
     },
-    "button-group-rtl": {
-      name: "button-group-rtl",
-      filePath: "examples/__styles__/radix-fabricator/button-group-rtl.tsx",
-    },
     "button-group-select": {
       name: "button-group-select",
       filePath: "examples/__styles__/radix-fabricator/button-group-select.tsx",
@@ -10680,10 +10240,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "button-rounded": {
       name: "button-rounded",
       filePath: "examples/__styles__/radix-fabricator/button-rounded.tsx",
-    },
-    "button-rtl": {
-      name: "button-rtl",
-      filePath: "examples/__styles__/radix-fabricator/button-rtl.tsx",
     },
     "button-secondary": {
       name: "button-secondary",
@@ -10722,10 +10278,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "calendar-demo",
       filePath: "examples/__styles__/radix-fabricator/calendar-demo.tsx",
     },
-    "calendar-hijri": {
-      name: "calendar-hijri",
-      filePath: "examples/__styles__/radix-fabricator/calendar-hijri.tsx",
-    },
     "calendar-multiple": {
       name: "calendar-multiple",
       filePath: "examples/__styles__/radix-fabricator/calendar-multiple.tsx",
@@ -10737,10 +10289,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "calendar-range": {
       name: "calendar-range",
       filePath: "examples/__styles__/radix-fabricator/calendar-range.tsx",
-    },
-    "calendar-rtl": {
-      name: "calendar-rtl",
-      filePath: "examples/__styles__/radix-fabricator/calendar-rtl.tsx",
     },
     "calendar-time": {
       name: "calendar-time",
@@ -10762,10 +10310,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "card-image": {
       name: "card-image",
       filePath: "examples/__styles__/radix-fabricator/card-image.tsx",
-    },
-    "card-rtl": {
-      name: "card-rtl",
-      filePath: "examples/__styles__/radix-fabricator/card-rtl.tsx",
     },
     "card-small": {
       name: "card-small",
@@ -10794,10 +10338,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "carousel-plugin": {
       name: "carousel-plugin",
       filePath: "examples/__styles__/radix-fabricator/carousel-plugin.tsx",
-    },
-    "carousel-rtl": {
-      name: "carousel-rtl",
-      filePath: "examples/__styles__/radix-fabricator/carousel-rtl.tsx",
     },
     "carousel-size": {
       name: "carousel-size",
@@ -10832,10 +10372,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "chart-example",
       filePath: "examples/__styles__/radix-fabricator/chart-example.tsx",
     },
-    "chart-rtl": {
-      name: "chart-rtl",
-      filePath: "examples/__styles__/radix-fabricator/chart-rtl.tsx",
-    },
     "chart-tooltip": {
       name: "chart-tooltip",
       filePath: "examples/__styles__/radix-fabricator/chart-tooltip.tsx",
@@ -10864,10 +10400,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "checkbox-invalid",
       filePath: "examples/__styles__/radix-fabricator/checkbox-invalid.tsx",
     },
-    "checkbox-rtl": {
-      name: "checkbox-rtl",
-      filePath: "examples/__styles__/radix-fabricator/checkbox-rtl.tsx",
-    },
     "checkbox-table": {
       name: "checkbox-table",
       filePath: "examples/__styles__/radix-fabricator/checkbox-table.tsx",
@@ -10884,10 +10416,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "collapsible-file-tree",
       filePath:
         "examples/__styles__/radix-fabricator/collapsible-file-tree.tsx",
-    },
-    "collapsible-rtl": {
-      name: "collapsible-rtl",
-      filePath: "examples/__styles__/radix-fabricator/collapsible-rtl.tsx",
     },
     "collapsible-settings": {
       name: "collapsible-settings",
@@ -10938,10 +10466,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "combobox-popup",
       filePath: "examples/__styles__/radix-fabricator/combobox-popup.tsx",
     },
-    "combobox-rtl": {
-      name: "combobox-rtl",
-      filePath: "examples/__styles__/radix-fabricator/combobox-rtl.tsx",
-    },
     "command-basic": {
       name: "command-basic",
       filePath: "examples/__styles__/radix-fabricator/command-basic.tsx",
@@ -10957,10 +10481,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "command-groups": {
       name: "command-groups",
       filePath: "examples/__styles__/radix-fabricator/command-groups.tsx",
-    },
-    "command-rtl": {
-      name: "command-rtl",
-      filePath: "examples/__styles__/radix-fabricator/command-rtl.tsx",
     },
     "command-scrollable": {
       name: "command-scrollable",
@@ -11000,10 +10520,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "context-menu-radio",
       filePath: "examples/__styles__/radix-fabricator/context-menu-radio.tsx",
     },
-    "context-menu-rtl": {
-      name: "context-menu-rtl",
-      filePath: "examples/__styles__/radix-fabricator/context-menu-rtl.tsx",
-    },
     "context-menu-shortcuts": {
       name: "context-menu-shortcuts",
       filePath:
@@ -11025,10 +10541,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "data-table-demo": {
       name: "data-table-demo",
       filePath: "examples/__styles__/radix-fabricator/data-table-demo.tsx",
-    },
-    "data-table-rtl": {
-      name: "data-table-rtl",
-      filePath: "examples/__styles__/radix-fabricator/data-table-rtl.tsx",
     },
     "date-picker-basic": {
       name: "date-picker-basic",
@@ -11055,10 +10567,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "date-picker-range",
       filePath: "examples/__styles__/radix-fabricator/date-picker-range.tsx",
     },
-    "date-picker-rtl": {
-      name: "date-picker-rtl",
-      filePath: "examples/__styles__/radix-fabricator/date-picker-rtl.tsx",
-    },
     "date-picker-time": {
       name: "date-picker-time",
       filePath: "examples/__styles__/radix-fabricator/date-picker-time.tsx",
@@ -11076,10 +10584,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       filePath:
         "examples/__styles__/radix-fabricator/dialog-no-close-button.tsx",
     },
-    "dialog-rtl": {
-      name: "dialog-rtl",
-      filePath: "examples/__styles__/radix-fabricator/dialog-rtl.tsx",
-    },
     "dialog-scrollable-content": {
       name: "dialog-scrollable-content",
       filePath:
@@ -11096,10 +10600,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "drawer-dialog": {
       name: "drawer-dialog",
       filePath: "examples/__styles__/radix-fabricator/drawer-dialog.tsx",
-    },
-    "drawer-rtl": {
-      name: "drawer-rtl",
-      filePath: "examples/__styles__/radix-fabricator/drawer-rtl.tsx",
     },
     "drawer-scrollable-content": {
       name: "drawer-scrollable-content",
@@ -11156,10 +10656,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       filePath:
         "examples/__styles__/radix-fabricator/dropdown-menu-radio-icons.tsx",
     },
-    "dropdown-menu-rtl": {
-      name: "dropdown-menu-rtl",
-      filePath: "examples/__styles__/radix-fabricator/dropdown-menu-rtl.tsx",
-    },
     "dropdown-menu-shortcuts": {
       name: "dropdown-menu-shortcuts",
       filePath:
@@ -11198,10 +10694,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "empty-outline",
       filePath: "examples/__styles__/radix-fabricator/empty-outline.tsx",
     },
-    "empty-rtl": {
-      name: "empty-rtl",
-      filePath: "examples/__styles__/radix-fabricator/empty-rtl.tsx",
-    },
     "field-checkbox": {
       name: "field-checkbox",
       filePath: "examples/__styles__/radix-fabricator/field-checkbox.tsx",
@@ -11234,10 +10726,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "field-responsive",
       filePath: "examples/__styles__/radix-fabricator/field-responsive.tsx",
     },
-    "field-rtl": {
-      name: "field-rtl",
-      filePath: "examples/__styles__/radix-fabricator/field-rtl.tsx",
-    },
     "field-select": {
       name: "field-select",
       filePath: "examples/__styles__/radix-fabricator/field-select.tsx",
@@ -11261,10 +10749,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "hover-card-demo": {
       name: "hover-card-demo",
       filePath: "examples/__styles__/radix-fabricator/hover-card-demo.tsx",
-    },
-    "hover-card-rtl": {
-      name: "hover-card-rtl",
-      filePath: "examples/__styles__/radix-fabricator/hover-card-rtl.tsx",
     },
     "hover-card-sides": {
       name: "hover-card-sides",
@@ -11371,10 +10855,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "input-group-label",
       filePath: "examples/__styles__/radix-fabricator/input-group-label.tsx",
     },
-    "input-group-rtl": {
-      name: "input-group-rtl",
-      filePath: "examples/__styles__/radix-fabricator/input-group-rtl.tsx",
-    },
     "input-group-spinner": {
       name: "input-group-spinner",
       filePath: "examples/__styles__/radix-fabricator/input-group-spinner.tsx",
@@ -11461,10 +10941,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "input-otp-pattern",
       filePath: "examples/__styles__/radix-fabricator/input-otp-pattern.tsx",
     },
-    "input-otp-rtl": {
-      name: "input-otp-rtl",
-      filePath: "examples/__styles__/radix-fabricator/input-otp-rtl.tsx",
-    },
     "input-otp-separator": {
       name: "input-otp-separator",
       filePath: "examples/__styles__/radix-fabricator/input-otp-separator.tsx",
@@ -11472,10 +10948,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "input-required": {
       name: "input-required",
       filePath: "examples/__styles__/radix-fabricator/input-required.tsx",
-    },
-    "input-rtl": {
-      name: "input-rtl",
-      filePath: "examples/__styles__/radix-fabricator/input-rtl.tsx",
     },
     "item-avatar": {
       name: "item-avatar",
@@ -11509,10 +10981,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "item-link",
       filePath: "examples/__styles__/radix-fabricator/item-link.tsx",
     },
-    "item-rtl": {
-      name: "item-rtl",
-      filePath: "examples/__styles__/radix-fabricator/item-rtl.tsx",
-    },
     "item-size": {
       name: "item-size",
       filePath: "examples/__styles__/radix-fabricator/item-size.tsx",
@@ -11537,10 +11005,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "kbd-input-group",
       filePath: "examples/__styles__/radix-fabricator/kbd-input-group.tsx",
     },
-    "kbd-rtl": {
-      name: "kbd-rtl",
-      filePath: "examples/__styles__/radix-fabricator/kbd-rtl.tsx",
-    },
     "kbd-tooltip": {
       name: "kbd-tooltip",
       filePath: "examples/__styles__/radix-fabricator/kbd-tooltip.tsx",
@@ -11548,10 +11012,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "label-demo": {
       name: "label-demo",
       filePath: "examples/__styles__/radix-fabricator/label-demo.tsx",
-    },
-    "label-rtl": {
-      name: "label-rtl",
-      filePath: "examples/__styles__/radix-fabricator/label-rtl.tsx",
     },
     "markdown-demo": {
       name: "markdown-demo",
@@ -11604,10 +11064,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "menubar-radio": {
       name: "menubar-radio",
       filePath: "examples/__styles__/radix-fabricator/menubar-radio.tsx",
-    },
-    "menubar-rtl": {
-      name: "menubar-rtl",
-      filePath: "examples/__styles__/radix-fabricator/menubar-rtl.tsx",
     },
     "menubar-submenu": {
       name: "menubar-submenu",
@@ -11705,10 +11161,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "navigation-menu-demo",
       filePath: "examples/__styles__/radix-fabricator/navigation-menu-demo.tsx",
     },
-    "navigation-menu-rtl": {
-      name: "navigation-menu-rtl",
-      filePath: "examples/__styles__/radix-fabricator/navigation-menu-rtl.tsx",
-    },
     "outline-item-group": {
       name: "outline-item-group",
       filePath: "examples/__styles__/radix-fabricator/outline-item-group.tsx",
@@ -11721,10 +11173,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "pagination-icons-only",
       filePath:
         "examples/__styles__/radix-fabricator/pagination-icons-only.tsx",
-    },
-    "pagination-rtl": {
-      name: "pagination-rtl",
-      filePath: "examples/__styles__/radix-fabricator/pagination-rtl.tsx",
     },
     "pagination-simple": {
       name: "pagination-simple",
@@ -11746,10 +11194,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "popover-form",
       filePath: "examples/__styles__/radix-fabricator/popover-form.tsx",
     },
-    "popover-rtl": {
-      name: "popover-rtl",
-      filePath: "examples/__styles__/radix-fabricator/popover-rtl.tsx",
-    },
     "progress-controlled": {
       name: "progress-controlled",
       filePath: "examples/__styles__/radix-fabricator/progress-controlled.tsx",
@@ -11761,10 +11205,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "progress-label": {
       name: "progress-label",
       filePath: "examples/__styles__/radix-fabricator/progress-label.tsx",
-    },
-    "progress-rtl": {
-      name: "progress-rtl",
-      filePath: "examples/__styles__/radix-fabricator/progress-rtl.tsx",
     },
     "questionnaire-animated": {
       name: "questionnaire-animated",
@@ -11861,10 +11301,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "radio-group-invalid",
       filePath: "examples/__styles__/radix-fabricator/radio-group-invalid.tsx",
     },
-    "radio-group-rtl": {
-      name: "radio-group-rtl",
-      filePath: "examples/__styles__/radix-fabricator/radio-group-rtl.tsx",
-    },
     "resizable-demo": {
       name: "resizable-demo",
       filePath: "examples/__styles__/radix-fabricator/resizable-demo.tsx",
@@ -11872,10 +11308,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "resizable-handle": {
       name: "resizable-handle",
       filePath: "examples/__styles__/radix-fabricator/resizable-handle.tsx",
-    },
-    "resizable-rtl": {
-      name: "resizable-rtl",
-      filePath: "examples/__styles__/radix-fabricator/resizable-rtl.tsx",
     },
     "resizable-vertical": {
       name: "resizable-vertical",
@@ -11889,10 +11321,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "scroll-area-horizontal-demo",
       filePath:
         "examples/__styles__/radix-fabricator/scroll-area-horizontal-demo.tsx",
-    },
-    "scroll-area-rtl": {
-      name: "scroll-area-rtl",
-      filePath: "examples/__styles__/radix-fabricator/scroll-area-rtl.tsx",
     },
     "scroll-fade-demo": {
       name: "scroll-fade-demo",
@@ -11914,10 +11342,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "scroll-fade-overflow": {
       name: "scroll-fade-overflow",
       filePath: "examples/__styles__/radix-fabricator/scroll-fade-overflow.tsx",
-    },
-    "scroll-fade-rtl": {
-      name: "scroll-fade-rtl",
-      filePath: "examples/__styles__/radix-fabricator/scroll-fade-rtl.tsx",
     },
     "scroll-fade-size": {
       name: "scroll-fade-size",
@@ -11963,10 +11387,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "select-invalid",
       filePath: "examples/__styles__/radix-fabricator/select-invalid.tsx",
     },
-    "select-rtl": {
-      name: "select-rtl",
-      filePath: "examples/__styles__/radix-fabricator/select-rtl.tsx",
-    },
     "select-scrollable": {
       name: "select-scrollable",
       filePath: "examples/__styles__/radix-fabricator/select-scrollable.tsx",
@@ -11983,10 +11403,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "separator-menu",
       filePath: "examples/__styles__/radix-fabricator/separator-menu.tsx",
     },
-    "separator-rtl": {
-      name: "separator-rtl",
-      filePath: "examples/__styles__/radix-fabricator/separator-rtl.tsx",
-    },
     "separator-vertical": {
       name: "separator-vertical",
       filePath: "examples/__styles__/radix-fabricator/separator-vertical.tsx",
@@ -11999,10 +11415,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "sheet-no-close-button",
       filePath:
         "examples/__styles__/radix-fabricator/sheet-no-close-button.tsx",
-    },
-    "sheet-rtl": {
-      name: "sheet-rtl",
-      filePath: "examples/__styles__/radix-fabricator/sheet-rtl.tsx",
     },
     "sheet-side": {
       name: "sheet-side",
@@ -12035,10 +11447,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "shimmer-once": {
       name: "shimmer-once",
       filePath: "examples/__styles__/radix-fabricator/shimmer-once.tsx",
-    },
-    "shimmer-rtl": {
-      name: "shimmer-rtl",
-      filePath: "examples/__styles__/radix-fabricator/shimmer-rtl.tsx",
     },
     "shimmer-spread": {
       name: "shimmer-spread",
@@ -12098,10 +11506,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "sidebar-rsc",
       filePath: "examples/__styles__/radix-fabricator/sidebar-rsc.tsx",
     },
-    "sidebar-rtl": {
-      name: "sidebar-rtl",
-      filePath: "examples/__styles__/radix-fabricator/sidebar-rtl.tsx",
-    },
     "skeleton-avatar": {
       name: "skeleton-avatar",
       filePath: "examples/__styles__/radix-fabricator/skeleton-avatar.tsx",
@@ -12117,10 +11521,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "skeleton-form": {
       name: "skeleton-form",
       filePath: "examples/__styles__/radix-fabricator/skeleton-form.tsx",
-    },
-    "skeleton-rtl": {
-      name: "skeleton-rtl",
-      filePath: "examples/__styles__/radix-fabricator/skeleton-rtl.tsx",
     },
     "skeleton-table": {
       name: "skeleton-table",
@@ -12149,10 +11549,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "slider-range": {
       name: "slider-range",
       filePath: "examples/__styles__/radix-fabricator/slider-range.tsx",
-    },
-    "slider-rtl": {
-      name: "slider-rtl",
-      filePath: "examples/__styles__/radix-fabricator/slider-rtl.tsx",
     },
     "slider-vertical": {
       name: "slider-vertical",
@@ -12198,10 +11594,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "spinner-input-group",
       filePath: "examples/__styles__/radix-fabricator/spinner-input-group.tsx",
     },
-    "spinner-rtl": {
-      name: "spinner-rtl",
-      filePath: "examples/__styles__/radix-fabricator/spinner-rtl.tsx",
-    },
     "spinner-size": {
       name: "spinner-size",
       filePath: "examples/__styles__/radix-fabricator/spinner-size.tsx",
@@ -12226,10 +11618,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "switch-invalid",
       filePath: "examples/__styles__/radix-fabricator/switch-invalid.tsx",
     },
-    "switch-rtl": {
-      name: "switch-rtl",
-      filePath: "examples/__styles__/radix-fabricator/switch-rtl.tsx",
-    },
     "switch-sizes": {
       name: "switch-sizes",
       filePath: "examples/__styles__/radix-fabricator/switch-sizes.tsx",
@@ -12246,10 +11634,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "table-footer",
       filePath: "examples/__styles__/radix-fabricator/table-footer.tsx",
     },
-    "table-rtl": {
-      name: "table-rtl",
-      filePath: "examples/__styles__/radix-fabricator/table-rtl.tsx",
-    },
     "tabs-demo": {
       name: "tabs-demo",
       filePath: "examples/__styles__/radix-fabricator/tabs-demo.tsx",
@@ -12265,10 +11649,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "tabs-line": {
       name: "tabs-line",
       filePath: "examples/__styles__/radix-fabricator/tabs-line.tsx",
-    },
-    "tabs-rtl": {
-      name: "tabs-rtl",
-      filePath: "examples/__styles__/radix-fabricator/tabs-rtl.tsx",
     },
     "tabs-vertical": {
       name: "tabs-vertical",
@@ -12293,10 +11673,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "textarea-invalid": {
       name: "textarea-invalid",
       filePath: "examples/__styles__/radix-fabricator/textarea-invalid.tsx",
-    },
-    "textarea-rtl": {
-      name: "textarea-rtl",
-      filePath: "examples/__styles__/radix-fabricator/textarea-rtl.tsx",
     },
     "toggle-demo": {
       name: "toggle-demo",
@@ -12324,10 +11700,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "toggle-group-outline",
       filePath: "examples/__styles__/radix-fabricator/toggle-group-outline.tsx",
     },
-    "toggle-group-rtl": {
-      name: "toggle-group-rtl",
-      filePath: "examples/__styles__/radix-fabricator/toggle-group-rtl.tsx",
-    },
     "toggle-group-sizes": {
       name: "toggle-group-sizes",
       filePath: "examples/__styles__/radix-fabricator/toggle-group-sizes.tsx",
@@ -12344,10 +11716,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "toggle-outline": {
       name: "toggle-outline",
       filePath: "examples/__styles__/radix-fabricator/toggle-outline.tsx",
-    },
-    "toggle-rtl": {
-      name: "toggle-rtl",
-      filePath: "examples/__styles__/radix-fabricator/toggle-rtl.tsx",
     },
     "toggle-sizes": {
       name: "toggle-sizes",
@@ -12368,10 +11736,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "tooltip-keyboard": {
       name: "tooltip-keyboard",
       filePath: "examples/__styles__/radix-fabricator/tooltip-keyboard.tsx",
-    },
-    "tooltip-rtl": {
-      name: "tooltip-rtl",
-      filePath: "examples/__styles__/radix-fabricator/tooltip-rtl.tsx",
     },
     "tooltip-sides": {
       name: "tooltip-sides",
@@ -12426,10 +11790,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "typography-p": {
       name: "typography-p",
       filePath: "examples/__styles__/radix-fabricator/typography-p.tsx",
-    },
-    "typography-rtl": {
-      name: "typography-rtl",
-      filePath: "examples/__styles__/radix-fabricator/typography-rtl.tsx",
     },
     "typography-small": {
       name: "typography-small",

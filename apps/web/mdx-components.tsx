@@ -307,7 +307,7 @@ export const mdxComponents = {
   }: React.ComponentProps<typeof TabsTrigger>) => (
     <TabsTrigger
       className={cn(
-        "not-typset h-8 flex-none rounded-lg border-0 bg-transparent px-3 text-[13px] font-medium text-muted-foreground transition-colors duration-80 ease-spring hover:bg-hover hover:text-foreground data-[state=active]:bg-active data-[state=active]:text-foreground data-[state=active]:shadow-none! dark:data-[state=active]:border-transparent dark:data-[state=active]:bg-active",
+        "not-typset h-8 flex-none rounded-lg border-0 bg-transparent px-3 text-[13px] font-medium text-muted-foreground transition-colors duration-fast ease-spring hover:bg-hover hover:text-foreground data-[state=active]:bg-active data-[state=active]:text-foreground data-[state=active]:shadow-none! dark:data-[state=active]:border-transparent dark:data-[state=active]:bg-active",
         className
       )}
       {...props}

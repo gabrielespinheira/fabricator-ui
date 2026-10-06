@@ -10,13 +10,13 @@
      trigger nearest the pointer; an open trigger keeps a hover fill while
      the pointer is in its menu. */
   .cn-menubar-trigger {
-    @apply cursor-pointer text-muted-foreground h-7 rounded-lg px-2.5 text-[13px] font-normal transition-colors duration-80 hover:bg-hover hover:text-foreground in-data-[fluid-hover]:hover:bg-transparent focus-visible:ring-1 focus-visible:ring-ring data-fluid-hover-active:text-foreground aria-expanded:text-foreground not-data-fluid-hover-active:aria-expanded:bg-hover;
+    @apply cursor-pointer text-muted-foreground h-7 rounded-lg px-2.5 text-[13px] font-normal transition-colors duration-fast hover:bg-hover hover:text-foreground in-data-[fluid-hover]:hover:bg-transparent focus-visible:ring-1 focus-visible:ring-ring data-fluid-hover-active:text-foreground aria-expanded:text-foreground not-data-fluid-hover-active:aria-expanded:bg-hover;
   }
 
   /* Menus: the popup recipe (surface 3, rounded-xl, p-1, fast spring),
      sized to their rows rather than to the trigger. */
   .cn-menubar-content {
-    @apply bg-surface-3 shadow-surface-3 text-popover-foreground relative isolate w-auto min-w-36 rounded-xl p-1 duration-80 ease-spring data-open:animate-in data-open:fade-in-0 data-open:zoom-in-[0.97] data-[side=bottom]:slide-in-from-top-1 data-[side=left]:slide-in-from-right-1 data-[side=right]:slide-in-from-left-1 data-[side=top]:slide-in-from-bottom-1 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-[0.97] data-closed:duration-60 data-closed:ease-exit;
+    @apply bg-surface-3 shadow-surface-3 text-popover-foreground relative isolate w-auto min-w-36 rounded-xl p-1 duration-fast ease-spring data-open:animate-in data-open:fade-in-0 data-open:zoom-in-[0.97] data-[side=bottom]:slide-in-from-top-1 data-[side=left]:slide-in-from-right-1 data-[side=right]:slide-in-from-left-1 data-[side=top]:slide-in-from-bottom-1 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-[0.97] data-closed:duration-fast-exit data-closed:ease-exit;
   }
 
   .cn-menubar-content-logical {
@@ -26,13 +26,13 @@
   /* Rows: 36px, 13px, muted at rest; the lit row turns foreground and
      thickens its icon. Destructive rows stay destructive when lit. */
   .cn-menubar-item {
-    @apply cursor-pointer text-muted-foreground h-9 gap-2 rounded-lg px-2 text-[13px] transition-colors duration-80 data-disabled:opacity-50 data-inset:pl-8 [&_svg:not([class*='size-'])]:size-4 [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] data-highlighted:bg-hover data-highlighted:text-foreground data-highlighted:[&_svg]:stroke-2 in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover data-focused:text-foreground data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-[variant=destructive]:text-destructive! data-[variant=destructive]:*:[svg]:text-destructive!;
+    @apply cursor-pointer text-muted-foreground h-9 gap-2 rounded-lg px-2 text-[13px] transition-colors duration-fast data-disabled:opacity-50 data-inset:pl-8 [&_svg:not([class*='size-'])]:size-4 [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] data-highlighted:bg-hover data-highlighted:text-foreground data-highlighted:[&_svg]:stroke-2 in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover data-focused:text-foreground data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-[variant=destructive]:text-destructive! data-[variant=destructive]:*:[svg]:text-destructive!;
   }
 
   /* Checkbox and radio rows keep the check on the start side. Checked rows
      are foreground and semibold. */
   .cn-menubar-checkbox-item {
-    @apply cursor-pointer text-muted-foreground h-9 gap-2 rounded-lg py-0 pr-2 pl-8 text-[13px] transition-[color,background-color] duration-80 data-inset:pl-8 data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover data-focused:text-foreground data-fluid-hover-active:text-foreground data-checked:text-foreground data-checked:font-semibold;
+    @apply cursor-pointer text-muted-foreground h-9 gap-2 rounded-lg py-0 pr-2 pl-8 text-[13px] transition-[color,background-color] duration-fast data-inset:pl-8 data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover data-focused:text-foreground data-fluid-hover-active:text-foreground data-checked:text-foreground data-checked:font-semibold;
   }
 
   .cn-menubar-checkbox-item-indicator {
@@ -40,7 +40,7 @@
   }
 
   .cn-menubar-radio-item {
-    @apply cursor-pointer text-muted-foreground h-9 gap-2 rounded-lg py-0 pr-2 pl-8 text-[13px] transition-[color,background-color] duration-80 data-disabled:opacity-50 data-inset:pl-8 [&_svg:not([class*='size-'])]:size-4 data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover data-focused:text-foreground data-fluid-hover-active:text-foreground data-checked:text-foreground data-checked:font-semibold;
+    @apply cursor-pointer text-muted-foreground h-9 gap-2 rounded-lg py-0 pr-2 pl-8 text-[13px] transition-[color,background-color] duration-fast data-disabled:opacity-50 data-inset:pl-8 [&_svg:not([class*='size-'])]:size-4 data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover data-focused:text-foreground data-fluid-hover-active:text-foreground data-checked:text-foreground data-checked:font-semibold;
   }
 
   .cn-menubar-radio-item-indicator {
@@ -61,9 +61,9 @@
 
   /* An open sub-trigger stays lit while the pointer is in its submenu. */
   .cn-menubar-sub-trigger {
-    @apply cursor-pointer text-muted-foreground h-9 gap-2 rounded-lg px-2 text-[13px] transition-colors duration-80 data-inset:pl-8 [&_svg:not([class*='size-'])]:size-4 [&_svg]:stroke-[1.5] data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover data-focused:text-foreground data-fluid-hover-active:text-foreground data-open:text-foreground data-popup-open:text-foreground not-data-fluid-hover-active:data-open:bg-hover not-data-fluid-hover-active:data-popup-open:bg-hover;
+    @apply cursor-pointer text-muted-foreground h-9 gap-2 rounded-lg px-2 text-[13px] transition-colors duration-fast data-inset:pl-8 [&_svg:not([class*='size-'])]:size-4 [&_svg]:stroke-[1.5] data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover data-focused:text-foreground data-fluid-hover-active:text-foreground data-open:text-foreground data-popup-open:text-foreground not-data-fluid-hover-active:data-open:bg-hover not-data-fluid-hover-active:data-popup-open:bg-hover;
   }
 
   .cn-menubar-sub-content {
-    @apply bg-surface-3 shadow-surface-3 text-popover-foreground relative isolate min-w-32 rounded-xl p-1 duration-80 ease-spring data-open:animate-in data-open:fade-in-0 data-open:zoom-in-[0.97] data-[side=bottom]:slide-in-from-top-1 data-[side=left]:slide-in-from-right-1 data-[side=right]:slide-in-from-left-1 data-[side=top]:slide-in-from-bottom-1 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-[0.97] data-closed:duration-60 data-closed:ease-exit;
+    @apply bg-surface-3 shadow-surface-3 text-popover-foreground relative isolate min-w-32 rounded-xl p-1 duration-fast ease-spring data-open:animate-in data-open:fade-in-0 data-open:zoom-in-[0.97] data-[side=bottom]:slide-in-from-top-1 data-[side=left]:slide-in-from-right-1 data-[side=right]:slide-in-from-left-1 data-[side=top]:slide-in-from-bottom-1 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-[0.97] data-closed:duration-fast-exit data-closed:ease-exit;
   }

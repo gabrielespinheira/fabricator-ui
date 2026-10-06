@@ -83,7 +83,7 @@ export function FluidNavLink({
       aria-current={isActive ? "page" : undefined}
       className={cn(
         "relative flex items-center gap-2 rounded-lg text-muted-foreground outline-none select-none focus-visible:ring-1 focus-visible:ring-focus-ring data-[active=true]:text-foreground data-[fluid-hover-active]:text-foreground",
-        "transition-colors duration-80 ease-spring",
+        "transition-colors duration-fast ease-spring",
         className
       )}
       {...props}

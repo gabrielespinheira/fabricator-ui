@@ -48,19 +48,22 @@ Sounds are off until `enabled` is `true`, or until you call `setSoundsEnabled(tr
 
 ## What plays when
 
-| Interaction                                                            | Sound                      |
-| ---------------------------------------------------------------------- | -------------------------- |
-| Button, menu item, button link                                         | `tap`                      |
-| Tab, radio, option, menu radio, toggle group item, pressed toggle      | `tick`                     |
-| Checkbox, menu checkbox                                                | `check` / `uncheck`        |
-| Switch                                                                 | `toggle-on` / `toggle-off` |
-| Dialog, alert dialog, sheet, drawer                                    | `open`, then `close`       |
-| Popover, dropdown, context menu, menubar, select, combobox, hover card | `pop`                      |
-| Toast                                                                  | `notify`                   |
-| Slider step                                                            | `notch`                    |
-| A control with `aria-disabled="true"`                                  | `deny`                     |
+The sounds follow one rule set, the same one Bencho's components use: turning something on plays the selection mark, turning it off a falling note, opening a surface two notes a fifth apart, and committing an action a slow, settling note.
 
-Triggers that open a popup stay quiet, so opening a menu plays one `pop` rather than a tap and a pop. Tooltips never play: they appear too often.
+| Interaction                                                                               | Sound                                    |
+| ----------------------------------------------------------------------------------------- | ---------------------------------------- |
+| Button (outline, secondary, ghost, link), menu item, button link                          | `tap`                                    |
+| Primary or destructive button                                                             | `success`                                |
+| Radio, option, menu radio                                                                 | `tap`                                    |
+| Checkbox, menu checkbox                                                                   | `check` on, `uncheck` off                |
+| Switch, toggle, toggle group item                                                         | `toggle-on` on, `toggle-off` off         |
+| Tab                                                                                       | `note`, one chord tone per position      |
+| Dialog, alert dialog, sheet, drawer, popover, menus, select, combobox, hover card, Search | `open` as it opens, `close` as it closes |
+| Toast                                                                                     | `notify`                                 |
+| Slider step                                                                               | `notch`                                  |
+| A control with `aria-disabled="true"`                                                     | `deny`                                   |
+
+Triggers that open a popup stay quiet, so opening a menu plays one `open` rather than a tap and an open. A click that also closes a popup (a Cancel button) plays only `close`. Tooltips never play: they appear too often.
 
 ## Choose a sound
 

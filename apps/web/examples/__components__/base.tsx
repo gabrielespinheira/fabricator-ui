@@ -174,6 +174,14 @@ export const Components: Record<string, any> = {
       ) || "alert-rtl"
     return { default: mod.default || mod[exportName] }
   }),
+  "alert-status": React.lazy(async () => {
+    const mod = await import("@/examples/base/alert-status")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "alert-status"
+    return { default: mod.default || mod[exportName] }
+  }),
   "aspect-ratio-demo": React.lazy(async () => {
     const mod = await import("@/examples/base/aspect-ratio-demo")
     const exportName =
@@ -380,6 +388,14 @@ export const Components: Record<string, any> = {
       Object.keys(mod).find(
         (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
       ) || "badge-spinner"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "badge-status": React.lazy(async () => {
+    const mod = await import("@/examples/base/badge-status")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "badge-status"
     return { default: mod.default || mod[exportName] }
   }),
   "badge-variants": React.lazy(async () => {

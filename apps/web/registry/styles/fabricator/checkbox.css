@@ -1,17 +1,20 @@
 /* MARK: Checkbox */
 
   /* 18px, rounded-[6px], a quiet 1.5px outline that firms up on hover. Checked
-     fills with the foreground and the check pops in, inverted. Pressing gives
-     a little (scale 0.9) on the fast spring. Focus is the 1px ring, offset. */
+     fills with the foreground and the check pops in, inverted. Fill, border and
+     the press give (scale 0.9) move on the moderate spring (duration-moderate). Focus is the 1px ring, offset. */
   .cn-checkbox {
-    @apply cursor-pointer flex size-[18px] items-center justify-center border-[1.5px] border-foreground/25 bg-transparent transition-[background-color,border-color,box-shadow,scale] duration-80 ease-spring hover:border-foreground/45 active:scale-90 motion-reduce:active:scale-100 focus-visible:ring-1 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background aria-invalid:border-destructive group-has-[:focus-visible]/field-label:ring-0 rounded-[6px] text-background data-checked:border-foreground data-checked:bg-foreground data-checked:hover:border-foreground aria-invalid:data-checked:border-destructive aria-invalid:data-checked:bg-destructive data-indeterminate:border-foreground data-indeterminate:bg-foreground group-has-disabled/field:opacity-50;
+    @apply cursor-pointer flex size-[18px] items-center justify-center border-[1.5px] border-foreground/25 bg-transparent transition-[background-color,border-color,box-shadow,scale] duration-moderate ease-spring motion-reduce:transition-none hover:border-foreground/45 active:scale-90 motion-reduce:active:scale-100 focus-visible:ring-1 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background aria-invalid:border-destructive group-has-[:focus-visible]/field-label:ring-0 rounded-[6px] text-background data-checked:border-foreground data-checked:bg-foreground data-checked:hover:border-foreground aria-invalid:data-checked:border-destructive aria-invalid:data-checked:bg-destructive data-indeterminate:border-foreground data-indeterminate:bg-foreground group-has-disabled/field:opacity-50;
   }
 
   .cn-checkbox-aria {
     @apply cursor-pointer data-hovered:border-foreground/45 data-pressed:scale-90 motion-reduce:data-pressed:scale-100 data-selected:border-foreground data-selected:bg-foreground data-selected:data-hovered:border-foreground data-focus-visible:ring-1 data-focus-visible:ring-focus-ring data-focus-visible:ring-offset-2 data-focus-visible:ring-offset-background data-invalid:border-destructive data-invalid:data-selected:border-destructive data-invalid:data-selected:bg-destructive data-indeterminate:border-foreground data-indeterminate:bg-foreground;
   }
 
-  /* The check: 12px, heavier stroke, centred on whole pixels in the 18px box. */
+  /* The check: 12px, heavier stroke, centred on whole pixels in the 18px box.
+     It stays mounted. Checking wipes it in from the start edge while it
+     scales up from 0.6 on the bouncy spring (duration-moderate); unchecking
+     fades and shrinks it on the exit tween (duration-fast-exit). Reduced motion: no transition. */
   .cn-checkbox-indicator {
-    @apply animate-in fade-in-0 zoom-in-50 duration-160 ease-spring-bounce motion-reduce:zoom-in-100 [&>svg]:size-3 [&>svg]:stroke-[3];
+    @apply [&>svg]:size-3 [&>svg]:stroke-[3] opacity-0 scale-[0.6] [clip-path:inset(0_100%_0_0)] transition-[opacity,scale,clip-path] duration-fast-exit ease-exit data-checked:opacity-100 data-checked:scale-100 data-checked:[clip-path:inset(0_0_0_0)] data-checked:duration-moderate data-checked:ease-spring-bounce data-indeterminate:opacity-100 data-indeterminate:scale-100 data-indeterminate:[clip-path:inset(0_0_0_0)] data-indeterminate:duration-moderate data-indeterminate:ease-spring-bounce data-[state=indeterminate]:opacity-100 data-[state=indeterminate]:scale-100 data-[state=indeterminate]:[clip-path:inset(0_0_0_0)] data-[state=indeterminate]:duration-moderate data-[state=indeterminate]:ease-spring-bounce motion-reduce:transition-none;
   }

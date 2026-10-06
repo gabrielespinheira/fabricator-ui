@@ -122,6 +122,32 @@ const nextConfig = {
         destination: "/docs/components/:base/select.md",
         permanent: false,
       },
+      // RTL isn't part of Fabricator UI.
+      {
+        source: "/docs/rtl",
+        destination: "/docs",
+        permanent: false,
+      },
+      {
+        source: "/docs/rtl/:path*",
+        destination: "/docs",
+        permanent: false,
+      },
+      {
+        source: "/docs/rtl.md",
+        destination: "/docs.md",
+        permanent: false,
+      },
+      {
+        source: "/docs/components/:base(base|radix|aria)/direction",
+        destination: "/docs/components",
+        permanent: false,
+      },
+      {
+        source: "/examples/rtl",
+        destination: "/examples/dashboard",
+        permanent: false,
+      },
       // Component redirects (default to base).
       {
         source: "/docs/components/:name((?!radix|base|aria|form)[^/]+)",
@@ -199,7 +225,8 @@ const nextConfig = {
           { key: "Access-Control-Allow-Origin", value: "*" },
           {
             key: "Cache-Control",
-            value: "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400",
+            value:
+              "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400",
           },
         ],
       },

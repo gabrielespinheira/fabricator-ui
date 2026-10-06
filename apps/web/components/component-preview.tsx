@@ -15,7 +15,6 @@ export function ComponentPreview({
   hideCode = false,
   chromeLessOnMobile = false,
   styleName = "base-nova",
-  direction = "ltr",
   caption,
   ...props
 }: React.ComponentProps<"div"> & {
@@ -27,7 +26,6 @@ export function ComponentPreview({
   type?: "block" | "component" | "example"
   chromeLessOnMobile?: boolean
   previewClassName?: string
-  direction?: "ltr" | "rtl"
   caption?: string
 }) {
   if (type === "block") {
@@ -111,7 +109,6 @@ export function ComponentPreview({
         />
       }
       chromeLessOnMobile={chromeLessOnMobile}
-      direction={direction}
       styleName={siteStyleName}
       {...props}
     />

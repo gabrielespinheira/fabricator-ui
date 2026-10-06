@@ -67,3 +67,31 @@ html[data-radius="pill"]:root {
     cursor: pointer;
   }
 }
+
+/* Motion setting (lib/site-settings.ts). Every Fabricator duration is
+   `calc(var(--motion-<tier>) * var(--motion-scale, 1))`, so one variable
+   scales the whole site. Specificity beats `html:root` in fabricator.css.
+   Off also drops slides and zooms, like the foundations' reduced-motion
+   rules; a system reduced-motion preference still applies on top. */
+html[data-motion="relaxed"]:root {
+  --motion-scale: 1.4;
+}
+
+html[data-motion="snappy"]:root {
+  --motion-scale: 0.7;
+}
+
+html[data-motion="off"]:root {
+  --motion-scale: 0;
+}
+
+html[data-motion="off"] *,
+html[data-motion="off"] ::before,
+html[data-motion="off"] ::after {
+  --tw-enter-translate-x: 0 !important;
+  --tw-enter-translate-y: 0 !important;
+  --tw-exit-translate-x: 0 !important;
+  --tw-exit-translate-y: 0 !important;
+  --tw-enter-scale: 1 !important;
+  --tw-exit-scale: 1 !important;
+}

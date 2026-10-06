@@ -209,7 +209,7 @@ export default async function Page(props: {
 }
 
 const NAV_ICON_CLASS =
-  "flex size-8 items-center justify-center rounded-lg text-muted-foreground outline-none transition-colors duration-80 ease-spring hover:bg-hover hover:text-foreground focus-visible:ring-1 focus-visible:ring-focus-ring [&_svg]:size-4"
+  "flex size-8 items-center justify-center rounded-lg text-muted-foreground outline-none transition-colors duration-fast ease-spring hover:bg-hover hover:text-foreground focus-visible:ring-1 focus-visible:ring-focus-ring [&_svg]:size-4"
 
 const NAV_LINK_CLASS =
-  "flex h-9 items-center gap-2 rounded-lg px-3 text-[14px] font-medium text-muted-foreground outline-none transition-colors duration-80 ease-spring hover:bg-hover hover:text-foreground focus-visible:ring-1 focus-visible:ring-focus-ring"
+  "flex h-9 items-center gap-2 rounded-lg px-3 text-[14px] font-medium text-muted-foreground outline-none transition-colors duration-fast ease-spring hover:bg-hover hover:text-foreground focus-visible:ring-1 focus-visible:ring-focus-ring"

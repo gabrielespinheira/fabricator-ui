@@ -4,13 +4,13 @@
      transparent → hover tint (unless focused) → card while anything inside has focus, no blue
      halo. Invalid controls turn the ring red and tint the hover. */
   .cn-input-group {
-    @apply ring-border hover:not-focus-within:bg-muted/50 focus-within:bg-card focus-within:ring-foreground/25 has-[[data-slot][aria-invalid=true]]:ring-destructive/50 has-[[data-slot][aria-invalid=true]]:hover:not-focus-within:bg-destructive-light/60 has-disabled:bg-transparent h-9 rounded-lg border-0 bg-transparent ring-1 transition-[color,background-color,box-shadow] duration-80 ease-spring in-data-[slot=combobox-content]:focus-within:ring-border has-disabled:opacity-50 has-[>[data-align=block-end]]:h-auto has-[>[data-align=block-end]]:flex-col has-[>[data-align=block-start]]:h-auto has-[>[data-align=block-start]]:flex-col has-[>[data-align=block-end]]:[&>input]:pt-3 has-[>[data-align=block-start]]:[&>input]:pb-3 has-[>[data-align=inline-end]]:[&>input]:pr-1.5 has-[>[data-align=inline-start]]:[&>input]:pl-1.5;
+    @apply ring-border hover:not-focus-within:bg-muted/50 focus-within:bg-card focus-within:ring-foreground/25 has-[[data-slot][aria-invalid=true]]:ring-destructive/50 has-[[data-slot][aria-invalid=true]]:hover:not-focus-within:bg-destructive-light/60 has-disabled:bg-transparent h-9 rounded-lg border-0 bg-transparent ring-1 transition-[color,background-color,box-shadow] duration-fast ease-spring in-data-[slot=combobox-content]:focus-within:ring-border has-disabled:opacity-50 has-[>[data-align=block-end]]:h-auto has-[>[data-align=block-end]]:flex-col has-[>[data-align=block-start]]:h-auto has-[>[data-align=block-start]]:flex-col has-[>[data-align=block-end]]:[&>input]:pt-3 has-[>[data-align=block-start]]:[&>input]:pb-3 has-[>[data-align=inline-end]]:[&>input]:pr-1.5 has-[>[data-align=inline-start]]:[&>input]:pl-1.5;
   }
 
   /* Addons: muted 13px text and 16px icons at stroke 1.5; they wake to
      foreground (stroke 2) while the group has focus. */
   .cn-input-group-addon {
-    @apply text-muted-foreground group-focus-within/input-group:text-foreground h-auto gap-2 py-1.5 text-[13px] font-normal transition-colors duration-80 group-data-[disabled=true]/input-group:opacity-50 [&>kbd]:rounded-[5px] [&>svg]:stroke-[1.5] [&>svg]:transition-[stroke-width] group-focus-within/input-group:[&>svg]:stroke-2 [&>svg:not([class*='size-'])]:size-4;
+    @apply text-muted-foreground group-focus-within/input-group:text-foreground h-auto gap-2 py-1.5 text-[13px] font-normal transition-colors duration-fast group-data-[disabled=true]/input-group:opacity-50 [&>kbd]:rounded-[5px] [&>svg]:stroke-[1.5] [&>svg]:transition-[stroke-width] group-focus-within/input-group:[&>svg]:stroke-2 [&>svg:not([class*='size-'])]:size-4;
   }
 
   .cn-input-group-addon-align-inline-start {

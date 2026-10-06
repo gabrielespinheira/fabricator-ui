@@ -10,7 +10,7 @@
 
   /* Month/year dropdowns: framed like an input, no blue halo. */
   .cn-calendar-dropdown-root {
-    @apply cursor-pointer ring-border has-focus:bg-card hover:bg-muted/50 ring-1 transition-[background-color,box-shadow] duration-80 ease-spring;
+    @apply cursor-pointer ring-border has-focus:bg-card hover:bg-muted/50 ring-1 transition-[background-color,box-shadow] duration-fast ease-spring;
   }
 
   .cn-calendar-caption-label {

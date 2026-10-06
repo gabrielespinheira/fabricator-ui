@@ -14,7 +14,7 @@ import {
 const FOLDERS = ["Inbox", "Drafts", "Sent", "Archive", "Trash"]
 
 const ITEM =
-  "flex h-9 w-full items-center rounded-lg px-3 text-start text-[13px] text-muted-foreground outline-none select-none transition-colors duration-80"
+  "flex h-9 w-full items-center rounded-lg px-3 text-start text-[13px] text-muted-foreground outline-none select-none transition-colors duration-fast"
 
 function PlainList() {
   return (
@@ -124,7 +124,7 @@ function FluidTabs() {
           role="tab"
           aria-selected={tab === active}
           onClick={() => setActive(tab)}
-          className="flex h-7 items-center rounded-lg px-3 text-[13px] text-muted-foreground transition-colors duration-80 outline-none select-none focus-visible:ring-1 focus-visible:ring-ring aria-selected:text-foreground data-fluid-hover-active:text-foreground"
+          className="flex h-7 items-center rounded-lg px-3 text-[13px] text-muted-foreground transition-colors duration-fast outline-none select-none focus-visible:ring-1 focus-visible:ring-ring aria-selected:text-foreground data-fluid-hover-active:text-foreground"
         >
           {tab}
         </button>

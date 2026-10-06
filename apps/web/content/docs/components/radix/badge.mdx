@@ -59,6 +59,12 @@ Use the `variant` prop to change the variant of the badge.
 
 <ComponentPreview styleName="radix-nova" name="badge-variants" />
 
+## Status
+
+Use `variant="info"`, `"success"`, `"warning"` or `"error"` for a status badge: a tinted pill with a status hairline. Icons take the status colour.
+
+<ComponentPreview styleName="radix-nova" name="badge-status" />
+
 ## With Icon
 
 You can render an icon inside the badge. Use `data-icon="inline-start"` to render the icon on the left and `data-icon="inline-end"` to render the icon on the right.
@@ -83,19 +89,13 @@ You can customize the colors of a badge by adding custom classes such as `bg-gre
 
 <ComponentPreview styleName="radix-nova" name="badge-colors" />
 
-## RTL
-
-To enable RTL support in Fabricator UI, see the [RTL configuration guide](/docs/rtl).
-
-<ComponentPreview styleName="radix-nova" name="badge-rtl" direction="rtl" />
-
 ## API Reference
 
 ### Badge
 
 The `Badge` component displays a badge or a component that looks like a badge.
 
-| Prop        | Type                                                                          | Default     |
-| ----------- | ----------------------------------------------------------------------------- | ----------- |
-| `variant`   | `"default" \| "secondary" \| "destructive" \| "outline" \| "ghost" \| "link"` | `"default"` |
-| `className` | `string`                                                                      | -           |
+| Prop        | Type                                                                                                                         | Default     |
+| ----------- | ---------------------------------------------------------------------------------------------------------------------------- | ----------- |
+| `variant`   | `"default" \| "secondary" \| "destructive" \| "outline" \| "ghost" \| "link" \| "info" \| "success" \| "warning" \| "error"` | `"default"` |
+| `className` | `string`                                                                                                                     | -           |

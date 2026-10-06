@@ -6,6 +6,7 @@ import {
   resolveStateSound,
   type ClickTarget,
 } from "@/registry/fabricator/shared/components/sound-effects"
+import { noteStep } from "@/registry/fabricator/shared/lib/sounds"
 
 function target(overrides: Partial<ClickTarget>): ClickTarget {
   return { tag: "div", ...overrides }
@@ -47,23 +48,52 @@ describe("resolveClickSound", () => {
     )
   })
 
-  it("ticks for selection", () => {
-    for (const role of ["radio", "tab", "option", "menuitemradio"]) {
-      expect(resolveClickSound(target({ role }))).toBe("tick")
+  it("taps for a single pick in a set", () => {
+    for (const role of ["radio", "option", "menuitemradio"]) {
+      expect(resolveClickSound(target({ role }))).toBe("tap")
     }
+  })
+
+  it("treats pressed toggles as on/off controls", () => {
     expect(
       resolveClickSound(target({ tag: "button", slot: "toggle-group-item" }))
-    ).toBe("tick")
+    ).toBe("press")
     expect(resolveClickSound(target({ tag: "button", pressed: true }))).toBe(
-      "tick"
+      "press"
     )
+  })
+
+  it("plays a note per tab", () => {
+    expect(resolveClickSound(target({ role: "tab" }))).toBe("step")
   })
 
   it("taps for buttons, menu items and button links", () => {
     expect(resolveClickSound(target({ tag: "button" }))).toBe("tap")
+    expect(
+      resolveClickSound(
+        target({ tag: "button", slot: "button", variant: "outline" })
+      )
+    ).toBe("tap")
     expect(resolveClickSound(target({ role: "menuitem" }))).toBe("tap")
     expect(resolveClickSound(target({ tag: "a", slot: "button" }))).toBe("tap")
     expect(resolveClickSound(target({ tag: "a" }))).toBe(null)
+  })
+
+  it("settles for primary and destructive buttons", () => {
+    for (const variant of ["default", "destructive"]) {
+      expect(
+        resolveClickSound(target({ tag: "button", slot: "button", variant }))
+      ).toBe("success")
+    }
+  })
+})
+
+describe("noteStep", () => {
+  it("rises through a chord and wraps", () => {
+    const steps = [0, 1, 2, 3].map(noteStep)
+    expect(steps).toEqual([...steps].sort((a, b) => a - b))
+    expect(noteStep(2)).toBe(1)
+    expect(noteStep(6)).toBe(noteStep(0))
   })
 })
 
@@ -80,8 +110,9 @@ describe("resolveSlotSound", () => {
   it("maps popups to sounds", () => {
     expect(resolveSlotSound("dialog-content", "appear")).toBe("open")
     expect(resolveSlotSound("sheet-content", "disappear")).toBe("close")
-    expect(resolveSlotSound("dropdown-menu-content", "appear")).toBe("pop")
-    expect(resolveSlotSound("dropdown-menu-content", "disappear")).toBe(null)
+    expect(resolveSlotSound("dropdown-menu-content", "appear")).toBe("open")
+    expect(resolveSlotSound("dropdown-menu-content", "disappear")).toBe("close")
+    expect(resolveSlotSound("search", "appear")).toBe("open")
     expect(resolveSlotSound("toast", "appear")).toBe("notify")
     expect(resolveSlotSound("button", "appear")).toBe(null)
   })

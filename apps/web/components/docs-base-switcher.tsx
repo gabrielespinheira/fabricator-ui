@@ -31,7 +31,7 @@ export function DocsBaseSwitcher({
           key={baseItem.name}
           href={`${hrefPrefix}/${baseItem.name}/${component}`}
           data-active={base === baseItem.name}
-          className="inline-flex h-8 items-center justify-center rounded-lg px-3 text-[13px] font-medium text-muted-foreground transition-colors duration-80 ease-spring outline-none hover:bg-hover hover:text-foreground focus-visible:ring-1 focus-visible:ring-focus-ring data-[active=true]:bg-active data-[active=true]:text-foreground"
+          className="inline-flex h-8 items-center justify-center rounded-lg px-3 text-[13px] font-medium text-muted-foreground transition-colors duration-fast ease-spring outline-none hover:bg-hover hover:text-foreground focus-visible:ring-1 focus-visible:ring-focus-ring data-[active=true]:bg-active data-[active=true]:text-foreground"
         >
           {baseItem.title}
         </Link>

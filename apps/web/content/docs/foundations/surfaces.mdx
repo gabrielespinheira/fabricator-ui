@@ -50,23 +50,51 @@ Hover and press states are translucent overlays, so they work on any surface.
 | `bg-tint`, `bg-tint-hover` | 8%, 6.5% black | 25%, 20% white | Secondary buttons and fills        |
 | `bg-destructive-light`     | Pale red       | Deep red       | Destructive buttons and fills      |
 
+## Status colours
+
+Info, success, warning and error each have a full palette, so any component can carry a status: alerts, badges, toasts, callouts or your own. Every status has the same eight-level ladder as the neutral surfaces, tinted, and works with the same shadows, so you can raise parts inside a status block exactly like on the page.
+
+<StatusLadders />
+
+Each status also has a solid colour for icons and fills, a foreground for text on that solid, a text colour for copy on its surfaces (and on the neutral ones), and a hairline border:
+
+<StatusTokens />
+
+| Token                        | Utility                                  | Use                                           |
+| ---------------------------- | ---------------------------------------- | --------------------------------------------- |
+| `--<status>-surface-1` … `8` | `bg-<status>-surface-1` … `8`            | Tinted surfaces; pair with `shadow-surface-N` |
+| `--<status>`                 | `bg-<status>`, `text-<status>`, `fill-…` | Icons, dots, solid fills                      |
+| `--<status>-foreground`      | `text-<status>-foreground`               | Text on a solid `bg-<status>`                 |
+| `--<status>-text`            | `text-<status>-text`                     | Text on status and neutral surfaces           |
+| `--<status>-border`          | `border-<status>-border`, `ring-…`       | Hairlines                                     |
+
+`<status>` is `info`, `success`, `warning` or `error`. Every pair is checked for WCAG AA in light and dark: text at 4.5:1 and the solid at 3:1 on all sixteen surfaces, and the foreground at 4.5:1 on the solid.
+
+```tsx
+<div className="rounded-xl bg-success-surface-3 p-4 text-success-text shadow-surface-3">
+  Deployed to production.
+</div>
+```
+
+Use the low-contrast form (a neutral surface with a status-coloured icon) for most messages, and the tinted surfaces when the whole block should read as the status. [Alert](/docs/components/base/alert#status) offers both through its `contrast` prop.
+
 ## Focus
 
 Focus is a 1px blue ring with no offset, the same in both themes: `focus-visible:ring-1 focus-visible:ring-ring`. The colour is also available as `--focus-ring`.
 
 ## Tokens
 
-| Variable                           | Utility                                 |
-| ---------------------------------- | --------------------------------------- |
-| `--surface-1` … `8`                | `bg-surface-1` … `bg-surface-8`         |
-| `--shadow-1` … `8`                 | `shadow-surface-1` … `shadow-surface-8` |
-| `--hover`                          | `bg-hover`                              |
-| `--active`                         | `bg-active`                             |
-| `--selected`                       | `bg-selected`                           |
-| `--tint`                           | `bg-tint`                               |
-| `--tint-hover`                     | `bg-tint-hover`                         |
-| `--destructive-light`              | `bg-destructive-light`                  |
-| `--focus-ring`                     | `ring-focus-ring`                       |
-| `--info`, `--success`, `--warning` | `text-info`, `bg-success`, …            |
+| Variable                                                         | Utility                                 |
+| ---------------------------------------------------------------- | --------------------------------------- |
+| `--surface-1` … `8`                                              | `bg-surface-1` … `bg-surface-8`         |
+| `--shadow-1` … `8`                                               | `shadow-surface-1` … `shadow-surface-8` |
+| `--hover`                                                        | `bg-hover`                              |
+| `--active`                                                       | `bg-active`                             |
+| `--selected`                                                     | `bg-selected`                           |
+| `--tint`                                                         | `bg-tint`                               |
+| `--tint-hover`                                                   | `bg-tint-hover`                         |
+| `--destructive-light`                                            | `bg-destructive-light`                  |
+| `--focus-ring`                                                   | `ring-focus-ring`                       |
+| `--info`, `--success`, `--warning`, `--error` and their palettes | See [Status colours](#status-colours)   |
 
 These are new names: the theme tokens such as `background`, `card` and `border` keep their meaning, so components from other registries still fit in.

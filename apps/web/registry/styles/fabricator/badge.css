@@ -4,7 +4,7 @@
      1px blue edge: the inline focus border turns blue and the 3px halo is
      switched off. */
   .cn-badge {
-    @apply h-6 gap-1.5 rounded-lg border border-transparent px-2.5 text-[12px] font-medium transition-colors duration-80 ease-spring focus-visible:ring-0! aria-invalid:border-destructive/50 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2 [&>svg]:size-3! [&>svg]:stroke-[1.5];
+    @apply h-6 gap-1.5 rounded-lg border border-transparent px-2.5 text-[12px] font-medium transition-colors duration-fast ease-spring focus-visible:ring-0! aria-invalid:border-destructive/50 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2 [&>svg]:size-3! [&>svg]:stroke-[1.5];
   }
 
   .cn-badge-variant-default {
@@ -29,4 +29,24 @@
 
   .cn-badge-variant-link {
     @apply text-foreground underline-offset-4 hover:underline;
+  }
+
+  /* Statuses: a tinted pill (the most tinted surface in light, level 3 in
+     dark) with a status hairline and the status text colour; icons take the
+     solid colour. AA in both themes (status-colors.test.ts). */
+
+  .cn-badge-variant-info {
+    @apply bg-info-surface-1 dark:bg-info-surface-3 border-info-border text-info-text [&>svg]:text-info [a]:hover:bg-info-surface-2 dark:[a]:hover:bg-info-surface-4;
+  }
+
+  .cn-badge-variant-success {
+    @apply bg-success-surface-1 dark:bg-success-surface-3 border-success-border text-success-text [&>svg]:text-success [a]:hover:bg-success-surface-2 dark:[a]:hover:bg-success-surface-4;
+  }
+
+  .cn-badge-variant-warning {
+    @apply bg-warning-surface-1 dark:bg-warning-surface-3 border-warning-border text-warning-text [&>svg]:text-warning [a]:hover:bg-warning-surface-2 dark:[a]:hover:bg-warning-surface-4;
+  }
+
+  .cn-badge-variant-error {
+    @apply bg-error-surface-1 dark:bg-error-surface-3 border-error-border text-error-text [&>svg]:text-error [a]:hover:bg-error-surface-2 dark:[a]:hover:bg-error-surface-4;
   }

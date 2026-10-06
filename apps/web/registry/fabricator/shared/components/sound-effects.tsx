@@ -5,6 +5,7 @@ import * as React from "react"
 import {
   getSoundsEnabled,
   isSoundName,
+  noteStep,
   playSound,
   setSoundsEnabled,
   setSoundVolume,
@@ -54,10 +55,18 @@ export type ClickTarget = {
   disabled?: boolean
   hasPopup?: boolean
   pressed?: boolean
+  /** data-variant, for buttons: primary and destructive actions settle. */
+  variant?: string | null
 }
 
 /** A sound now, or a sound that depends on the state after the click. */
-export type ClickSound = SoundName | "toggle" | "check" | null
+export type ClickSound =
+  | SoundName
+  | "toggle"
+  | "check"
+  | "press"
+  | "step"
+  | null
 
 export function resolveClickSound(target: ClickTarget): ClickSound {
   if (target.sound) {
@@ -68,6 +77,7 @@ export function resolveClickSound(target: ClickTarget): ClickSound {
   if (target.hasPopup) return null
 
   const role = target.role
+  // On/off controls: the selection mark turning on, a falling note off.
   if (role === "switch" || target.slot === "switch") return "toggle"
   if (
     role === "checkbox" ||
@@ -76,17 +86,25 @@ export function resolveClickSound(target: ClickTarget): ClickSound {
   ) {
     return "check"
   }
+  if (target.slot === "toggle-group-item" || target.pressed) return "press"
+  // Tabs play a note per position, rising from first to last.
+  if (role === "tab") return "step"
+  // A single pick in a set, and plain actions: the soft tap.
   if (
     role === "radio" ||
-    role === "tab" ||
     role === "option" ||
     role === "menuitemradio" ||
     role === "treeitem" ||
-    (target.tag === "input" && target.type === "radio") ||
-    target.slot === "toggle-group-item" ||
-    target.pressed
+    (target.tag === "input" && target.type === "radio")
   ) {
-    return "tick"
+    return "tap"
+  }
+  // Primary and destructive buttons commit something: the settling note.
+  if (
+    (target.slot === "button" || target.tag === "button") &&
+    (target.variant === "default" || target.variant === "destructive")
+  ) {
+    return "success"
   }
   if (
     role === "menuitem" ||
@@ -109,14 +127,13 @@ export function resolveStateSound(
   return checked ? "check" : "uncheck"
 }
 
+// Every surface that opens over the page blooms open and falls closed.
 const OPEN_SLOTS = [
   "dialog-content",
   "alert-dialog-content",
   "sheet-content",
   "drawer-content",
-]
-
-const POP_SLOTS = [
+  "search",
   "popover-content",
   "dropdown-menu-content",
   "dropdown-menu-sub-content",
@@ -140,20 +157,17 @@ export function resolveSlotSound(
   if (!slot) return null
   if (OPEN_SLOTS.includes(slot)) return phase === "appear" ? "open" : "close"
   if (phase === "disappear") return null
-  if (POP_SLOTS.includes(slot)) return "pop"
   if (NOTIFY_SLOTS.includes(slot)) return "notify"
   return null
 }
 
 const WATCHED = [
-  ...[...OPEN_SLOTS, ...POP_SLOTS, ...NOTIFY_SLOTS].map(
-    (slot) => `[data-slot="${slot}"]`
-  ),
+  ...[...OPEN_SLOTS, ...NOTIFY_SLOTS].map((slot) => `[data-slot="${slot}"]`),
   "[data-sonner-toast]",
 ].join(", ")
 
 // Several popups can change in one batch; the most meaningful one plays.
-const PRIORITY: SoundName[] = ["open", "notify", "close", "pop"]
+const PRIORITY: SoundName[] = ["open", "notify", "close"]
 
 function describe(element: Element): ClickTarget {
   const soundHost = element.closest("[data-sound]")
@@ -171,6 +185,7 @@ function describe(element: Element): ClickTarget {
       return value !== null && value !== "false"
     })(),
     pressed: element.hasAttribute("aria-pressed"),
+    variant: element.getAttribute("data-variant"),
   }
 }
 
@@ -183,12 +198,32 @@ function isChecked(element: Element) {
   )
 }
 
+function isPressed(element: Element) {
+  return (
+    element.getAttribute("aria-pressed") === "true" ||
+    element.hasAttribute("data-pressed") ||
+    element.getAttribute("data-state") === "on" ||
+    element.hasAttribute("data-selected")
+  )
+}
+
+/** The tab's position among the tabs of its list. */
+function tabIndex(element: Element) {
+  const list = element.closest('[role="tablist"]')
+  if (!list) return 0
+  return Array.from(list.querySelectorAll('[role="tab"]')).indexOf(element)
+}
+
 function slotOf(element: Element) {
   if (element.hasAttribute("data-sonner-toast")) return "toast"
   return element.getAttribute("data-slot")
 }
 
 function isOpen(element: Element) {
+  // Search is open while it carries data-open (it never unmounts).
+  if (element.getAttribute("data-slot") === "search") {
+    return element.hasAttribute("data-open")
+  }
   const state = element.getAttribute("data-state")
   return state !== "closed" && !element.hasAttribute("data-closed")
 }
@@ -227,12 +262,16 @@ export function installSoundEffects(root: Document = document) {
     cancelPendingClick()
     pendingClick = requestAnimationFrame(() => {
       pendingClick = null
-      // Switches and checkboxes: read the state the click committed.
-      playSound(
-        sound === "toggle" || sound === "check"
-          ? resolveStateSound(sound, isChecked(control))
-          : sound
-      )
+      // On/off controls: read the state the click committed.
+      if (sound === "toggle" || sound === "check") {
+        playSound(resolveStateSound(sound, isChecked(control)))
+      } else if (sound === "press") {
+        playSound(isPressed(control) ? "toggle-on" : "toggle-off")
+      } else if (sound === "step") {
+        playSound("note", { pitch: noteStep(tabIndex(control)) })
+      } else {
+        playSound(sound)
+      }
     })
   }
 
@@ -254,8 +293,12 @@ export function installSoundEffects(root: Document = document) {
       for (const match of matches) {
         if (match.closest('[data-sound="none"]')) continue
         const next = phase === "appear" && isOpen(match) ? "open" : "closed"
-        if (announced.get(match) === next) continue
+        const previous = announced.get(match)
+        if (previous === next) continue
         announced.set(match, next)
+        // Something that mounts closed (a collapsed Search, a kept-mounted
+        // popup) has nothing to announce yet.
+        if (previous === undefined && next === "closed") continue
         const sound = resolveSlotSound(
           slotOf(match),
           next === "open" ? "appear" : "disappear"

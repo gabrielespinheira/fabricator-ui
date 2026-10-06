@@ -512,7 +512,7 @@ Candidates that fit the TODO and inspiration list and are absent upstream: Surfa
 - [ ] ≥ 1 `*-example` demo per variant or state. Docs page per base with props table and accessibility notes.
 - [ ] `shadcn add --dry-run` succeeds for every base × style. CLI e2e installs it into every template and the result typechecks and builds.
 - [ ] axe passes. Keyboard navigation verified. `prefers-reduced-motion` respected.
-- [ ] Visual snapshots approved (light/dark, LTR/RTL).
+- [ ] Visual snapshots approved (light/dark). Fabricator UI is left-to-right only.
 - [ ] Changelog entry.
 
 ---

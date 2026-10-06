@@ -4,7 +4,7 @@
      made transparent). Idle drafts keep a dashed hairline instead; errors a
      destructive one. Focus is the 1px blue ring. */
   .cn-attachment {
-    @apply bg-surface-2 shadow-surface-2 dark:shadow-surface-3 w-fit rounded-lg border-transparent transition-[background-color,box-shadow] duration-80 ease-spring focus-within:ring-1 focus-within:ring-ring data-[state=idle]:border-border data-[state=idle]:shadow-none data-[state=error]:shadow-none;
+    @apply bg-surface-2 shadow-surface-2 dark:shadow-surface-3 w-fit rounded-lg border-transparent transition-[background-color,box-shadow] duration-fast ease-spring focus-within:ring-1 focus-within:ring-ring data-[state=idle]:border-border data-[state=idle]:shadow-none data-[state=error]:shadow-none;
   }
 
   .cn-attachment-orientation-horizontal {
@@ -37,7 +37,7 @@
   }
 
   .cn-attachment-media-variant-image {
-    @apply opacity-60 transition-opacity duration-160 ease-spring group-data-[state=idle]/attachment:opacity-100 group-data-[state=done]/attachment:opacity-100;
+    @apply opacity-60 transition-opacity duration-moderate ease-spring group-data-[state=idle]/attachment:opacity-100 group-data-[state=done]/attachment:opacity-100;
   }
 
   .cn-attachment-content {

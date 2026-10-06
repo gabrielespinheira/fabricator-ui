@@ -5,7 +5,7 @@
      is a 1px blue ring with no halo; icons draw at stroke 1.5 and thicken
      to 2 on hover or while the button's popup is open. */
   .cn-button {
-    @apply cursor-pointer aria-disabled:cursor-not-allowed rounded-lg border border-transparent text-[13px] font-medium duration-80 ease-spring focus-visible:ring-1 focus-visible:ring-ring aria-invalid:ring-1 aria-invalid:ring-destructive/50 [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] [&_svg]:duration-80 hover:[&_svg]:stroke-2 aria-expanded:[&_svg]:stroke-2 [&_svg:not([class*='size-'])]:size-4;
+    @apply cursor-pointer aria-disabled:cursor-not-allowed rounded-lg border border-transparent text-[13px] font-medium duration-fast ease-spring focus-visible:ring-1 focus-visible:ring-ring aria-invalid:ring-1 aria-invalid:ring-destructive/50 [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] [&_svg]:duration-fast hover:[&_svg]:stroke-2 aria-expanded:[&_svg]:stroke-2 [&_svg:not([class*='size-'])]:size-4;
   }
 
   /* Primary is the foreground colour. React Aria reports presses with

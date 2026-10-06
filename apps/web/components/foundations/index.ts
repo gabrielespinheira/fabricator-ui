@@ -12,6 +12,10 @@ import {
   SoundPlayground,
 } from "@/components/foundations/sound-demos"
 import {
+  StatusLadders,
+  StatusTokens,
+} from "@/components/foundations/status-demos"
+import {
   SurfaceLadder,
   SurfaceNesting,
   SurfaceOverlays,
@@ -33,6 +37,8 @@ export const foundationsMdxComponents = {
   SizesDemo,
   SoundCatalog,
   SoundPlayground,
+  StatusLadders,
+  StatusTokens,
   SurfaceLadder,
   SurfaceNesting,
   SurfaceOverlays,

@@ -7,6 +7,7 @@ import * as React from "react"
  * - sound: whether components play interface sounds (off by default).
  * - iconLibrary: the icon pack the site's previews render (Lucide by default).
  * - radius: "rounded" (--radius 0.5rem) or "pill" (--radius 1.25rem).
+ * - motion: scales every animation through --motion-scale.
  */
 export const ICON_LIBRARIES = [
   { value: "lucide", label: "Lucide" },
@@ -19,10 +20,20 @@ export const ICON_LIBRARIES = [
 export type SiteIconLibrary = (typeof ICON_LIBRARIES)[number]["value"]
 export type SiteRadius = "rounded" | "pill"
 
+export const MOTION_SPEEDS = [
+  { value: "relaxed", label: "Relaxed", scale: 1.4 },
+  { value: "default", label: "Default", scale: 1 },
+  { value: "snappy", label: "Snappy", scale: 0.7 },
+  { value: "off", label: "Off", scale: 0 },
+] as const
+
+export type SiteMotion = (typeof MOTION_SPEEDS)[number]["value"]
+
 export type SiteSettings = {
   sound: boolean
   iconLibrary: SiteIconLibrary
   radius: SiteRadius
+  motion: SiteMotion
 }
 
 export const SITE_SETTINGS_STORAGE_KEY = "fabricator-settings"
@@ -31,6 +42,7 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
   sound: false,
   iconLibrary: "lucide",
   radius: "rounded",
+  motion: "default",
 }
 
 const listeners = new Set<() => void>()
@@ -58,6 +70,9 @@ function read(): SiteSettings {
       stored.radius === "pill" || stored.radius === "rounded"
         ? stored.radius
         : DEFAULT_SITE_SETTINGS.radius,
+    motion: MOTION_SPEEDS.some((speed) => speed.value === stored.motion)
+      ? (stored.motion as SiteMotion)
+      : DEFAULT_SITE_SETTINGS.motion,
   }
   return current
 }
@@ -109,9 +124,10 @@ export function useSiteSetting<K extends keyof SiteSettings>(key: K) {
 }
 
 /**
- * Runs before paint (inlined in <head>) so a stored Pill radius doesn't flash
- * Rounded first. Keep in step with the radius rule in app/fabricator-site.css.
+ * Runs before paint (inlined in <head>) so a stored Pill radius or motion
+ * speed doesn't flash the defaults first. Keep in step with the rules in
+ * app/fabricator-site.css.
  */
 export const SITE_SETTINGS_SCRIPT = `try{var s=JSON.parse(localStorage.getItem(${JSON.stringify(
   SITE_SETTINGS_STORAGE_KEY
-)})||"{}");if(s.radius==="pill")document.documentElement.dataset.radius="pill"}catch(e){}`
+)})||"{}"),d=document.documentElement.dataset;if(s.radius==="pill")d.radius="pill";if(s.motion&&s.motion!=="default")d.motion=s.motion}catch(e){}`

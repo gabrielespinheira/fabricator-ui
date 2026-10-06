@@ -148,7 +148,7 @@ export function CheckboxDemo() {
             assigned.map((person) => (
               <span
                 key={person.id}
-                className="size-8 rounded-full ring-2 ring-surface-3 transition-transform duration-160 ease-spring-bounce dark:ring-surface-2"
+                className="size-8 rounded-full ring-2 ring-surface-3 transition-transform duration-moderate ease-spring-bounce dark:ring-surface-2"
                 style={{ background: person.gradient }}
               />
             ))

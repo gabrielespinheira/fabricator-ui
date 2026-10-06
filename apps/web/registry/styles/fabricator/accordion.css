@@ -16,14 +16,14 @@
      an open item's trigger turns foreground and semibold. Focus is a 1px
      blue ring. */
   .cn-accordion-trigger {
-    @apply cursor-pointer text-muted-foreground rounded-lg px-3 py-2 text-start text-[13px] leading-5 font-normal transition-[color,background-color] duration-80 hover:bg-hover hover:text-foreground in-data-[fluid-hover]:hover:bg-transparent data-fluid-hover-active:text-foreground aria-expanded:text-foreground aria-expanded:font-semibold focus-visible:ring-ring focus-visible:ring-1 **:data-[slot=accordion-trigger-icon]:ms-auto **:data-[slot=accordion-trigger-icon]:mt-0.5 **:data-[slot=accordion-trigger-icon]:size-4;
+    @apply cursor-pointer text-muted-foreground rounded-lg px-3 py-2 text-start text-[13px] leading-5 font-normal transition-[color,background-color] duration-fast hover:bg-hover hover:text-foreground in-data-[fluid-hover]:hover:bg-transparent data-fluid-hover-active:text-foreground aria-expanded:text-foreground aria-expanded:font-semibold focus-visible:ring-ring focus-visible:ring-1 **:data-[slot=accordion-trigger-icon]:ms-auto **:data-[slot=accordion-trigger-icon]:mt-0.5 **:data-[slot=accordion-trigger-icon]:size-4;
   }
 
   /* One chevron that points to the end and turns 90° to point down when
      open (the second, "up" chevron of the source is never shown). Its stroke
      thickens on hover, when lit and when open. */
   .cn-accordion-trigger-icon {
-    @apply text-muted-foreground -rotate-90 stroke-[1.5] transition-[rotate,color,stroke-width] duration-80 ease-spring group-hover/accordion-trigger:text-foreground group-hover/accordion-trigger:stroke-2 group-data-fluid-hover-active/accordion-trigger:text-foreground group-data-fluid-hover-active/accordion-trigger:stroke-2 group-aria-expanded/accordion-trigger:text-foreground group-aria-expanded/accordion-trigger:stroke-2 group-aria-expanded/accordion-trigger:rotate-0 rtl:rotate-90 group-aria-expanded/accordion-trigger:not-[[data-slot=accordion-trigger-icon]~*]:inline-block group-aria-expanded/accordion-trigger:[[data-slot=accordion-trigger-icon]~&]:hidden motion-reduce:transition-colors;
+    @apply text-muted-foreground -rotate-90 stroke-[1.5] transition-[rotate,color,stroke-width] duration-fast ease-spring group-hover/accordion-trigger:text-foreground group-hover/accordion-trigger:stroke-2 group-data-fluid-hover-active/accordion-trigger:text-foreground group-data-fluid-hover-active/accordion-trigger:stroke-2 group-aria-expanded/accordion-trigger:text-foreground group-aria-expanded/accordion-trigger:stroke-2 group-aria-expanded/accordion-trigger:rotate-0 rtl:rotate-90 group-aria-expanded/accordion-trigger:not-[[data-slot=accordion-trigger-icon]~*]:inline-block group-aria-expanded/accordion-trigger:[[data-slot=accordion-trigger-icon]~&]:hidden motion-reduce:transition-colors;
   }
 
   .cn-accordion-content {

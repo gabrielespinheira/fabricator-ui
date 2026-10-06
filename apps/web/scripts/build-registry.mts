@@ -413,13 +413,13 @@ function normalizeRegistryFiles(item: RegistryItem): Array<{
   )
 }
 
+// Fabricator UI is left-to-right only, so the Fabricator styles need no
+// ui-rtl copies; the upstream nova styles keep theirs.
 function shouldGenerateRtlStyles(styleName: string) {
   return (
     styleName === "base-nova" ||
     styleName === "radix-nova" ||
-    styleName === "aria-nova" ||
-    // The docs render RTL demos in the Fabricator style too (lib/site-style.ts).
-    isFabricatorStyleName(styleName)
+    styleName === "aria-nova"
   )
 }
 
@@ -1438,8 +1438,13 @@ async function buildStyledExamples(
 
       // Demos of items Fabricator mode leaves out aren't copied, and a demo in
       // registry/fabricator/site-examples/<base>/ replaces the upstream one.
+      // RTL demos aren't part of Fabricator UI either: the site renders
+      // left-to-right only, so `*-rtl` demos (and the right-to-left Persian
+      // calendar) stay upstream-only.
       const styledFiles = files.filter(
         (file) =>
+          !file.endsWith("-rtl.tsx") &&
+          file !== "calendar-hijri.tsx" &&
           !Object.keys(FABRICATOR_EXCLUDED_ITEMS).some((name) =>
             file.startsWith(`${name}-`)
           )

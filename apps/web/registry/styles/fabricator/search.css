@@ -7,7 +7,7 @@
      Corners stay a full pill. Fill is the translucent `active` overlay, so it sits
      on any surface in both themes. */
   .cn-search {
-    @apply text-foreground max-w-full rounded-full transition-[width,scale,background-color,box-shadow] duration-240 ease-spring-bounce not-data-open:duration-160 not-data-open:ease-exit has-[[data-slot=search-trigger]:active]:not-data-open:scale-[0.94] has-[[data-slot=search-trigger]:focus-visible]:ring-1 has-[[data-slot=search-trigger]:focus-visible]:ring-ring has-[[data-slot=search-input]:focus-visible]:ring-1 has-[[data-slot=search-input]:focus-visible]:ring-foreground/20 motion-reduce:transition-[background-color,box-shadow] motion-reduce:has-[[data-slot=search-trigger]:active]:not-data-open:scale-100;
+    @apply text-foreground max-w-full rounded-full transition-[width,scale,background-color,box-shadow] duration-slow ease-spring-bounce not-data-open:duration-slow-exit not-data-open:ease-exit has-[[data-slot=search-trigger]:active]:not-data-open:scale-[0.94] has-[[data-slot=search-trigger]:focus-visible]:ring-1 has-[[data-slot=search-trigger]:focus-visible]:ring-ring has-[[data-slot=search-input]:focus-visible]:ring-1 has-[[data-slot=search-input]:focus-visible]:ring-foreground/20 motion-reduce:transition-[background-color,box-shadow] motion-reduce:has-[[data-slot=search-trigger]:active]:not-data-open:scale-100;
   }
 
   .cn-search-variant-default {
@@ -33,7 +33,7 @@
 
   /* Closed: the whole button. Open: just the icon, muted. */
   .cn-search-trigger {
-    @apply cursor-pointer rounded-full text-foreground transition-colors duration-80 ease-spring group-data-open/search:text-muted-foreground;
+    @apply cursor-pointer rounded-full text-foreground transition-colors duration-fast ease-spring group-data-open/search:text-muted-foreground;
   }
 
   .cn-search-icon {
@@ -42,9 +42,9 @@
 
   /* The field fades in once the width is on its way, and out at once. */
   .cn-search-input {
-    @apply cursor-text text-foreground placeholder:text-muted-foreground opacity-0 transition-opacity duration-60 ease-exit group-data-open/search:opacity-100 group-data-open/search:delay-80 group-data-open/search:duration-160 group-data-open/search:ease-spring motion-reduce:delay-0;
+    @apply cursor-text text-foreground placeholder:text-muted-foreground opacity-0 transition-opacity duration-fast-exit ease-exit group-data-open/search:opacity-100 group-data-open/search:delay-fast group-data-open/search:duration-moderate group-data-open/search:ease-spring motion-reduce:delay-0;
   }
 
   .cn-search-clear {
-    @apply text-muted-foreground hover:text-foreground focus-visible:text-foreground cursor-pointer rounded-full transition-colors duration-80 ease-spring animate-in fade-in-0 zoom-in-75 motion-reduce:zoom-in-100 focus-visible:ring-1 focus-visible:ring-ring [&_svg:not([class*='size-'])]:size-3.5;
+    @apply text-muted-foreground hover:text-foreground focus-visible:text-foreground cursor-pointer rounded-full transition-colors duration-fast ease-spring animate-in fade-in-0 zoom-in-75 motion-reduce:zoom-in-100 focus-visible:ring-1 focus-visible:ring-ring [&_svg:not([class*='size-'])]:size-3.5;
   }

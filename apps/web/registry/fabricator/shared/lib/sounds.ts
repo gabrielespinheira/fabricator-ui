@@ -28,6 +28,7 @@ export type SoundName =
   | "notify"
   | "success"
   | "copy"
+  | "note"
 
 export type SoundCategory =
   | "Actions"
@@ -48,96 +49,102 @@ export type SoundInfo = {
   pitch: number
 }
 
+// The catalogue follows the roles in Bencho's sound library
+// (https://bencho.dev/sounds): the same jobs, lengths and pitches, made here
+// with our own synthesis. Everything is a sine with a short attack, a gentle
+// pitch fall and an exponential tail, so the set sounds like one instrument.
 export const SOUNDS: readonly SoundInfo[] = [
   {
     name: "tap",
     category: "Actions",
-    description: "A soft, short knock for the moment a button is pressed.",
-    length: 60,
-    pitch: 180,
-  },
-  {
-    name: "copy",
-    category: "Actions",
-    description: "A light double tap for copying to the clipboard.",
-    length: 90,
-    pitch: 520,
+    description: "A soft, short note for the moment a finger lands.",
+    length: 100,
+    pitch: 168,
   },
   {
     name: "tick",
     category: "Selection",
-    description: "A small, dry tick for picking a tab, a row or an option.",
-    length: 45,
-    pitch: 440,
+    description: "The selection mark, for a row, a tool or a tab.",
+    length: 150,
+    pitch: 196,
   },
   {
     name: "check",
     category: "Selection",
-    description: "Two quick rising notes for ticking a box.",
-    length: 90,
-    pitch: 370,
+    description: "A box being checked: the selection mark.",
+    length: 150,
+    pitch: 196,
   },
   {
     name: "uncheck",
     category: "Selection",
-    description: "The same two notes, falling, for clearing a box.",
-    length: 80,
+    description: "A falling note for a box being cleared.",
+    length: 95,
     pitch: 330,
   },
   {
     name: "toggle-on",
     category: "Selection",
-    description: "A rising latch for a switch turning on.",
-    length: 110,
-    pitch: 262,
+    description: "A switch turning on: the selection mark.",
+    length: 150,
+    pitch: 196,
   },
   {
     name: "toggle-off",
     category: "Selection",
-    description: "A falling latch for a switch turning off.",
-    length: 100,
+    description: "A falling note for anything switching off.",
+    length: 95,
     pitch: 330,
-  },
-  {
-    name: "pop",
-    category: "Notifications",
-    description: "The one voice that rises, for a small thing appearing.",
-    length: 40,
-    pitch: 680,
-  },
-  {
-    name: "notify",
-    category: "Notifications",
-    description: "A warm two-tone chime for alerts and arrivals.",
-    length: 320,
-    pitch: 659,
   },
   {
     name: "open",
     category: "Navigation",
-    description: "Two notes a fifth apart, for a dialog or sheet opening.",
-    length: 300,
+    description:
+      "Two notes a fifth apart, for a menu, a field or a sheet opening.",
+    length: 360,
     pitch: 196,
   },
   {
     name: "close",
     category: "Navigation",
-    description: "A deep, short fall for something closing.",
-    length: 140,
-    pitch: 220,
+    description: "A falling note for anything closing.",
+    length: 95,
+    pitch: 330,
+  },
+  {
+    name: "note",
+    category: "Navigation",
+    description:
+      "A warm note per tab: each position plays the next note of a chord.",
+    length: 270,
+    pitch: 196,
   },
   {
     name: "whisk",
     category: "Navigation",
-    description: "A soft breath of air for moving between views.",
+    description: "A deep, short sound for moving between views.",
     length: 130,
     pitch: 124,
   },
   {
+    name: "pop",
+    category: "Notifications",
+    description: "The one voice that rises, for a small thing appearing.",
+    length: 45,
+    pitch: 680,
+  },
+  {
+    name: "notify",
+    category: "Notifications",
+    description: "A warm chime for alerts and arrivals.",
+    length: 270,
+    pitch: 220,
+  },
+  {
     name: "notch",
     category: "Movement",
-    description: "A tiny, high tick, quiet enough to hear forty times a drag.",
-    length: 25,
+    description: "A quiet, high blip light enough to repeat along a drag.",
+    length: 35,
     pitch: 660,
   },
   {
@@ -150,9 +157,16 @@ export const SOUNDS: readonly SoundInfo[] = [
   {
     name: "success",
     category: "Progress",
-    description: "Three rising notes for something completing.",
-    length: 360,
-    pitch: 392,
+    description: "A slow, settling note for an action completing.",
+    length: 330,
+    pitch: 262,
+  },
+  {
+    name: "copy",
+    category: "Actions",
+    description: "The rising blip, for something copied.",
+    length: 45,
+    pitch: 680,
   },
 ]
 
@@ -236,7 +250,6 @@ const MAX_VOICES = 6
 
 let context: AudioContext | null = null
 let master: GainNode | null = null
-let noiseBuffer: AudioBuffer | null = null
 const lastPlayed = new Map<SoundName, number>()
 let voicesEndAt: number[] = []
 
@@ -259,16 +272,6 @@ function getContext() {
   }
   if (context.state === "suspended") void context.resume()
   return context
-}
-
-function getNoise(ctx: AudioContext) {
-  if (!noiseBuffer || noiseBuffer.sampleRate !== ctx.sampleRate) {
-    const length = Math.floor(ctx.sampleRate * 0.5)
-    noiseBuffer = ctx.createBuffer(1, length, ctx.sampleRate)
-    const data = noiseBuffer.getChannelData(0)
-    for (let i = 0; i < length; i++) data[i] = Math.random() * 2 - 1
-  }
-  return noiseBuffer
 }
 
 type ToneOptions = {
@@ -305,43 +308,6 @@ function tone(ctx: AudioContext, out: AudioNode, t0: number, o: ToneOptions) {
   return start + attack + o.decay
 }
 
-type NoiseOptions = {
-  filter?: BiquadFilterType
-  freq: number
-  to?: number
-  q?: number
-  at?: number
-  attack?: number
-  decay: number
-  gain: number
-}
-
-function noise(ctx: AudioContext, out: AudioNode, t0: number, o: NoiseOptions) {
-  const start = t0 + (o.at ?? 0)
-  const attack = o.attack ?? 0.002
-  const source = ctx.createBufferSource()
-  source.buffer = getNoise(ctx)
-  const filter = ctx.createBiquadFilter()
-  filter.type = o.filter ?? "bandpass"
-  filter.frequency.setValueAtTime(o.freq, start)
-  if (o.to) {
-    filter.frequency.exponentialRampToValueAtTime(
-      o.to,
-      start + attack + o.decay
-    )
-  }
-  filter.Q.value = o.q ?? 1
-  const env = ctx.createGain()
-  env.gain.setValueAtTime(0.0001, start)
-  env.gain.exponentialRampToValueAtTime(o.gain, start + attack)
-  env.gain.exponentialRampToValueAtTime(0.0001, start + attack + o.decay)
-  source.connect(filter).connect(env).connect(out)
-  // Start somewhere in the buffer so repeated plays don't sound identical.
-  source.start(start, Math.random() * 0.3)
-  source.stop(start + attack + o.decay + 0.02)
-  return start + attack + o.decay
-}
-
 type Voice = (
   ctx: AudioContext,
   out: AudioNode,
@@ -350,168 +316,70 @@ type Voice = (
 ) => number
 
 // `p` scales every frequency (the `pitch` option); 1 is the designed pitch.
+// Every voice is a sine: a 4ms attack, a pitch fall over most of its length,
+// and an exponential tail.
+const fall = (
+  ctx: AudioContext,
+  out: AudioNode,
+  t: number,
+  freq: number,
+  to: number,
+  length: number,
+  gain: number,
+  at = 0
+) =>
+  tone(ctx, out, t, {
+    freq,
+    to,
+    glide: length * 0.9,
+    decay: length,
+    gain,
+    at,
+  })
+
 const VOICES: Record<SoundName, Voice> = {
   tap: (ctx, out, t, p) =>
-    Math.max(
-      tone(ctx, out, t, {
-        freq: 180 * p,
-        to: 120 * p,
-        glide: 0.05,
-        type: "triangle",
-        decay: 0.055,
-        gain: 0.5,
-      }),
-      noise(ctx, out, t, { freq: 2200 * p, q: 1.2, decay: 0.012, gain: 0.12 })
-    ),
-  copy: (ctx, out, t, p) =>
-    Math.max(
-      tone(ctx, out, t, { freq: 520 * p, decay: 0.035, gain: 0.22 }),
-      tone(ctx, out, t, { freq: 660 * p, at: 0.05, decay: 0.04, gain: 0.2 })
-    ),
-  tick: (ctx, out, t, p) =>
-    Math.max(
-      tone(ctx, out, t, { freq: 440 * p, to: 392 * p, decay: 0.04, gain: 0.2 }),
-      noise(ctx, out, t, { freq: 2800 * p, q: 4, decay: 0.012, gain: 0.1 })
-    ),
-  check: (ctx, out, t, p) =>
-    Math.max(
-      tone(ctx, out, t, {
-        freq: 370 * p,
-        type: "triangle",
-        decay: 0.04,
-        gain: 0.26,
-      }),
-      tone(ctx, out, t, {
-        freq: 555 * p,
-        type: "triangle",
-        at: 0.035,
-        decay: 0.055,
-        gain: 0.22,
-      })
-    ),
-  uncheck: (ctx, out, t, p) =>
-    Math.max(
-      tone(ctx, out, t, {
-        freq: 330 * p,
-        type: "triangle",
-        decay: 0.035,
-        gain: 0.22,
-      }),
-      tone(ctx, out, t, {
-        freq: 247 * p,
-        type: "triangle",
-        at: 0.03,
-        decay: 0.05,
-        gain: 0.2,
-      })
-    ),
+    tone(ctx, out, t, { freq: 168 * p, decay: 0.1, gain: 0.26 }),
+  tick: (ctx, out, t, p) => fall(ctx, out, t, 196 * p, 130 * p, 0.15, 0.26),
+  check: (ctx, out, t, p) => fall(ctx, out, t, 196 * p, 130 * p, 0.15, 0.26),
   "toggle-on": (ctx, out, t, p) =>
-    Math.max(
-      tone(ctx, out, t, {
-        freq: 262 * p,
-        to: 392 * p,
-        glide: 0.07,
-        decay: 0.1,
-        gain: 0.28,
-      }),
-      noise(ctx, out, t, { freq: 3200 * p, q: 3, decay: 0.01, gain: 0.08 })
-    ),
+    fall(ctx, out, t, 196 * p, 130 * p, 0.15, 0.26),
+  uncheck: (ctx, out, t, p) => fall(ctx, out, t, 330 * p, 247 * p, 0.095, 0.2),
   "toggle-off": (ctx, out, t, p) =>
-    Math.max(
-      tone(ctx, out, t, {
-        freq: 330 * p,
-        to: 220 * p,
-        glide: 0.07,
-        decay: 0.09,
-        gain: 0.26,
-      }),
-      noise(ctx, out, t, { freq: 2400 * p, q: 3, decay: 0.01, gain: 0.07 })
-    ),
-  pop: (ctx, out, t, p) =>
-    tone(ctx, out, t, {
-      freq: 520 * p,
-      to: 880 * p,
-      glide: 0.03,
-      decay: 0.04,
-      gain: 0.22,
-    }),
-  notify: (ctx, out, t, p) =>
-    Math.max(
-      tone(ctx, out, t, { freq: 659 * p, decay: 0.22, gain: 0.2 }),
-      tone(ctx, out, t, { freq: 659 * 2.76 * p, decay: 0.08, gain: 0.03 }),
-      tone(ctx, out, t, { freq: 523 * p, at: 0.09, decay: 0.24, gain: 0.2 }),
-      tone(ctx, out, t, {
-        freq: 523 * 2.76 * p,
-        at: 0.09,
-        decay: 0.08,
-        gain: 0.03,
-      })
-    ),
+    fall(ctx, out, t, 330 * p, 247 * p, 0.095, 0.2),
+  close: (ctx, out, t, p) => fall(ctx, out, t, 330 * p, 247 * p, 0.095, 0.2),
+  // A fifth: the low note, and the high note a breath later.
   open: (ctx, out, t, p) =>
     Math.max(
-      tone(ctx, out, t, {
-        freq: 196 * p,
-        attack: 0.01,
-        decay: 0.24,
-        gain: 0.24,
-      }),
-      tone(ctx, out, t, {
-        freq: 294 * p,
-        at: 0.06,
-        attack: 0.01,
-        decay: 0.24,
-        gain: 0.2,
-      })
+      fall(ctx, out, t, 196 * p, 174 * p, 0.36, 0.2),
+      fall(ctx, out, t, 294 * p, 262 * p, 0.3, 0.16, 0.03)
     ),
-  close: (ctx, out, t, p) =>
-    tone(ctx, out, t, {
-      freq: 220 * p,
-      to: 130 * p,
-      glide: 0.1,
-      attack: 0.006,
-      decay: 0.13,
-      gain: 0.26,
-    }),
-  whisk: (ctx, out, t, p) =>
+  note: (ctx, out, t, p) => fall(ctx, out, t, 196 * p, 174 * p, 0.27, 0.22),
+  whisk: (ctx, out, t, p) => fall(ctx, out, t, 124 * p, 104 * p, 0.13, 0.28),
+  pop: (ctx, out, t, p) => fall(ctx, out, t, 680 * p, 930 * p, 0.045, 0.14),
+  copy: (ctx, out, t, p) => fall(ctx, out, t, 680 * p, 930 * p, 0.045, 0.14),
+  // A warm root with its fifth arriving just after.
+  notify: (ctx, out, t, p) =>
     Math.max(
-      noise(ctx, out, t, {
-        freq: 600 * p,
-        to: 1800 * p,
-        q: 0.8,
-        attack: 0.04,
-        decay: 0.09,
-        gain: 0.16,
-      }),
-      tone(ctx, out, t, { freq: 124 * p, attack: 0.02, decay: 0.1, gain: 0.1 })
+      fall(ctx, out, t, 220 * p, 208 * p, 0.27, 0.18),
+      fall(ctx, out, t, 330 * p, 311 * p, 0.22, 0.12, 0.06)
     ),
   notch: (ctx, out, t, p) =>
-    tone(ctx, out, t, {
-      freq: 660 * p,
-      attack: 0.002,
-      decay: 0.02,
-      gain: 0.07,
-    }),
-  deny: (ctx, out, t, p) => {
-    const filter = ctx.createBiquadFilter()
-    filter.type = "lowpass"
-    filter.frequency.value = 900
-    filter.connect(out)
-    return tone(ctx, filter, t, {
-      freq: 208 * p,
-      to: 156 * p,
-      glide: 0.1,
-      type: "triangle",
-      attack: 0.006,
-      decay: 0.11,
-      gain: 0.36,
-    })
-  },
-  success: (ctx, out, t, p) =>
-    Math.max(
-      tone(ctx, out, t, { freq: 392 * p, decay: 0.12, gain: 0.18 }),
-      tone(ctx, out, t, { freq: 494 * p, at: 0.07, decay: 0.12, gain: 0.18 }),
-      tone(ctx, out, t, { freq: 587 * p, at: 0.14, decay: 0.22, gain: 0.18 })
-    ),
+    tone(ctx, out, t, { freq: 660 * p, decay: 0.035, gain: 0.06 }),
+  deny: (ctx, out, t, p) => fall(ctx, out, t, 208 * p, 150 * p, 0.12, 0.24),
+  success: (ctx, out, t, p) => fall(ctx, out, t, 262 * p, 247 * p, 0.33, 0.22),
+}
+
+/**
+ * Chord tones for `note`, as `pitch` multipliers of its 196Hz: C, E, G, C, E,
+ * G. Navigation passes the item's position, so tabs and dock items play a
+ * rising arpeggio from first to last.
+ */
+export const NOTE_STEPS = [131, 163, 196, 262, 330, 392].map((hz) => hz / 196)
+
+/** The `pitch` for the item at `index` in a row of navigation items. */
+export function noteStep(index: number) {
+  return NOTE_STEPS[Math.max(0, index) % NOTE_STEPS.length]
 }
 
 export type PlayOptions = {
