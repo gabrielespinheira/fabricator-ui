@@ -30,7 +30,7 @@
   }
 
   .cn-input-group-button {
-    @apply gap-1.5 text-[13px];
+    @apply cursor-pointer gap-1.5 text-[13px];
   }
 
   .cn-input-group-button-size-xs {

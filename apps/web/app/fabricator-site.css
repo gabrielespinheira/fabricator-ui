@@ -53,3 +53,17 @@
 html[data-radius="pill"]:root {
   --radius: 1.25rem;
 }
+
+/* Site chrome: Tailwind v4 gives buttons the default cursor. Clickable chrome
+   (search, copy, code and preview tabs, legacy buttons) gets the pointer that
+   the components' own style map rules give them. Component previews are left
+   out so a missing cursor in a component never hides behind this rule. */
+@layer base {
+  :where(button, [role="button"], [role="tab"], summary):not(
+    :disabled,
+    [aria-disabled="true"],
+    [data-slot="preview"] *
+  ) {
+    cursor: pointer;
+  }
+}

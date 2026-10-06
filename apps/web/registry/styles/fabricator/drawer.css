@@ -18,7 +18,7 @@
   }
 
   .cn-drawer-handle {
-    @apply bg-active mx-auto mt-4 hidden h-1 w-12 shrink-0 rounded-full;
+    @apply cursor-grab active:cursor-grabbing bg-active mx-auto mt-4 hidden h-1 w-12 shrink-0 rounded-full;
   }
 
   .cn-drawer-swipe-handle {

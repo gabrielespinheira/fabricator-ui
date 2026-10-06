@@ -10,7 +10,7 @@
 
   /* Month/year dropdowns: framed like an input, no blue halo. */
   .cn-calendar-dropdown-root {
-    @apply ring-border has-focus:bg-card hover:bg-muted/50 ring-1 transition-[background-color,box-shadow] duration-80 ease-spring;
+    @apply cursor-pointer ring-border has-focus:bg-card hover:bg-muted/50 ring-1 transition-[background-color,box-shadow] duration-80 ease-spring;
   }
 
   .cn-calendar-caption-label {
@@ -24,5 +24,5 @@
   /* Day buttons inherit the cell's colour (outside days stay muted) instead
      of the ghost button's muted text; hover is the ghost bg-hover. */
   .cn-calendar-day-button {
-    @apply text-inherit text-[13px] hover:text-foreground;
+    @apply cursor-pointer text-inherit text-[13px] hover:text-foreground;
   }

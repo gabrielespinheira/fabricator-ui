@@ -1,7 +1,7 @@
 /* MARK: Slider */
 
   .cn-slider {
-    @apply data-vertical:min-h-40;
+    @apply cursor-pointer data-disabled:cursor-not-allowed data-vertical:min-h-40;
   }
 
   /* An 18px pill framed by the border colour, transparent inside. */
@@ -17,5 +17,5 @@
   /* White 16px knob with a soft drop shadow and hairline. Focus shows a 1px
      blue ring 4px outside the knob (::before); ::after widens the hit area. */
   .cn-slider-thumb {
-    @apply relative size-4 rounded-full bg-white shadow-[0_1px_2px_rgb(0_0_0/0.1)] ring-1 ring-black/5 transition-[box-shadow] duration-80 ease-spring before:absolute before:-inset-1 before:rounded-full before:border before:border-ring before:opacity-0 before:transition-opacity before:duration-80 after:absolute after:-inset-2 hover:shadow-[0_1px_3px_rgb(0_0_0/0.16)] focus-visible:outline-hidden focus-visible:before:opacity-100 has-focus-visible:before:opacity-100 data-focus-visible:before:opacity-100;
+    @apply cursor-grab active:cursor-grabbing data-dragging:cursor-grabbing data-disabled:cursor-not-allowed relative size-4 rounded-full bg-white shadow-[0_1px_2px_rgb(0_0_0/0.1)] ring-1 ring-black/5 transition-[box-shadow] duration-80 ease-spring before:absolute before:-inset-1 before:rounded-full before:border before:border-ring before:opacity-0 before:transition-opacity before:duration-80 after:absolute after:-inset-2 hover:shadow-[0_1px_3px_rgb(0_0_0/0.16)] focus-visible:outline-hidden focus-visible:before:opacity-100 has-focus-visible:before:opacity-100 data-focus-visible:before:opacity-100;
   }

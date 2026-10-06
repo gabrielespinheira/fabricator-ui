@@ -18,7 +18,7 @@
      an open item's trigger turns foreground and semibold. Focus is a 1px
      blue ring. */
   .cn-accordion-trigger {
-    @apply text-muted-foreground rounded-lg px-3 py-2 text-start text-[13px] leading-5 font-normal transition-[color,background-color] duration-80 hover:bg-hover hover:text-foreground in-data-[fluid-hover]:hover:bg-transparent data-fluid-hover-active:text-foreground aria-expanded:text-foreground aria-expanded:font-semibold focus-visible:ring-ring focus-visible:ring-1 **:data-[slot=accordion-trigger-icon]:ms-auto **:data-[slot=accordion-trigger-icon]:mt-0.5 **:data-[slot=accordion-trigger-icon]:size-4;
+    @apply cursor-pointer text-muted-foreground rounded-lg px-3 py-2 text-start text-[13px] leading-5 font-normal transition-[color,background-color] duration-80 hover:bg-hover hover:text-foreground in-data-[fluid-hover]:hover:bg-transparent data-fluid-hover-active:text-foreground aria-expanded:text-foreground aria-expanded:font-semibold focus-visible:ring-ring focus-visible:ring-1 **:data-[slot=accordion-trigger-icon]:ms-auto **:data-[slot=accordion-trigger-icon]:mt-0.5 **:data-[slot=accordion-trigger-icon]:size-4;
   }
 
   /* One chevron that points to the end and turns 90° to point down when
@@ -169,7 +169,7 @@
   }
 
   .cn-attachment-trigger {
-    @apply absolute inset-0 z-10 rounded-[inherit] outline-none;
+    @apply cursor-pointer absolute inset-0 z-10 rounded-[inherit] outline-none;
   }
 
 /* MARK: Avatar */
@@ -241,7 +241,7 @@
   }
 
   .cn-breadcrumb-link {
-    @apply hover:text-foreground focus-visible:ring-ring rounded-[4px] transition-colors duration-80 ease-spring outline-none focus-visible:ring-1;
+    @apply cursor-pointer hover:text-foreground focus-visible:ring-ring rounded-[4px] transition-colors duration-80 ease-spring outline-none focus-visible:ring-1;
   }
 
   .cn-breadcrumb-page {
@@ -358,7 +358,7 @@
      is a 1px blue ring with no halo; icons draw at stroke 1.5 and thicken
      to 2 on hover or while the button's popup is open. */
   .cn-button {
-    @apply rounded-lg border border-transparent text-[13px] font-medium duration-80 ease-spring focus-visible:ring-1 focus-visible:ring-ring aria-invalid:ring-1 aria-invalid:ring-destructive/50 [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] [&_svg]:duration-80 hover:[&_svg]:stroke-2 aria-expanded:[&_svg]:stroke-2 [&_svg:not([class*='size-'])]:size-4;
+    @apply cursor-pointer aria-disabled:cursor-not-allowed rounded-lg border border-transparent text-[13px] font-medium duration-80 ease-spring focus-visible:ring-1 focus-visible:ring-ring aria-invalid:ring-1 aria-invalid:ring-destructive/50 [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] [&_svg]:duration-80 hover:[&_svg]:stroke-2 aria-expanded:[&_svg]:stroke-2 [&_svg:not([class*='size-'])]:size-4;
   }
 
   /* Primary is the foreground colour. React Aria reports presses with
@@ -436,7 +436,7 @@
 
   /* Month/year dropdowns: framed like an input, no blue halo. */
   .cn-calendar-dropdown-root {
-    @apply ring-border has-focus:bg-card hover:bg-muted/50 ring-1 transition-[background-color,box-shadow] duration-80 ease-spring;
+    @apply cursor-pointer ring-border has-focus:bg-card hover:bg-muted/50 ring-1 transition-[background-color,box-shadow] duration-80 ease-spring;
   }
 
   .cn-calendar-caption-label {
@@ -450,7 +450,7 @@
   /* Day buttons inherit the cell's colour (outside days stay muted) instead
      of the ghost button's muted text; hover is the ghost bg-hover. */
   .cn-calendar-day-button {
-    @apply text-inherit text-[13px] hover:text-foreground;
+    @apply cursor-pointer text-inherit text-[13px] hover:text-foreground;
   }
 
 /* MARK: Card */
@@ -507,11 +507,11 @@
      the border and the fill: the foreground check alone marks the state, and
      it pops in on the fast spring. Focus is the 1px blue ring. */
   .cn-checkbox {
-    @apply border-border text-foreground hover:border-neutral-400 dark:hover:border-neutral-500 data-checked:border-transparent dark:data-checked:border-transparent focus-visible:ring-ring aria-invalid:border-destructive/60 aria-invalid:hover:border-destructive aria-invalid:data-checked:border-transparent flex size-4 items-center justify-center rounded-[5px] border-[1.5px] bg-transparent transition-[border-color,box-shadow] duration-80 ease-spring group-has-disabled/field:opacity-50 focus-visible:ring-1 group-has-[:focus-visible]/field-label:ring-0;
+    @apply cursor-pointer border-border text-foreground hover:border-neutral-400 dark:hover:border-neutral-500 data-checked:border-transparent dark:data-checked:border-transparent focus-visible:ring-ring aria-invalid:border-destructive/60 aria-invalid:hover:border-destructive aria-invalid:data-checked:border-transparent flex size-4 items-center justify-center rounded-[5px] border-[1.5px] bg-transparent transition-[border-color,box-shadow] duration-80 ease-spring group-has-disabled/field:opacity-50 focus-visible:ring-1 group-has-[:focus-visible]/field-label:ring-0;
   }
 
   .cn-checkbox-aria {
-    @apply data-hovered:border-neutral-400 dark:data-hovered:border-neutral-500 data-selected:border-transparent dark:data-selected:border-transparent data-focus-visible:ring-ring data-invalid:border-destructive/60 data-invalid:data-selected:border-transparent data-focus-visible:ring-1;
+    @apply cursor-pointer data-hovered:border-neutral-400 dark:data-hovered:border-neutral-500 data-selected:border-transparent dark:data-selected:border-transparent data-focus-visible:ring-ring data-invalid:border-destructive/60 data-invalid:data-selected:border-transparent data-focus-visible:ring-1;
   }
 
   .cn-checkbox-indicator {
@@ -539,11 +539,11 @@
      rows are foreground and semibold with a check; in single selection
      their bg-active fill slides between rows inside the fluid list. */
   .cn-combobox-item {
-    @apply text-muted-foreground h-9 gap-2 rounded-lg py-0 pr-8 pl-2 text-[13px] transition-colors duration-80 [&_svg:not([class*='size-'])]:size-4 [&_svg]:stroke-[1.5] data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-[selected]:bg-active data-[selected]:text-foreground data-[selected]:font-semibold in-data-[fluid-hover]:data-[selected]:bg-transparent;
+    @apply cursor-pointer text-muted-foreground h-9 gap-2 rounded-lg py-0 pr-8 pl-2 text-[13px] transition-colors duration-80 [&_svg:not([class*='size-'])]:size-4 [&_svg]:stroke-[1.5] data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-[selected]:bg-active data-[selected]:text-foreground data-[selected]:font-semibold in-data-[fluid-hover]:data-[selected]:bg-transparent;
   }
 
   .cn-combobox-item-aria {
-    @apply data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-[selected]:data-focused:bg-active in-data-[fluid-hover]:data-[selected]:data-focused:bg-transparent;
+    @apply cursor-pointer data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-[selected]:data-focused:bg-active in-data-[fluid-hover]:data-[selected]:data-focused:bg-transparent;
   }
 
   .cn-combobox-item-indicator {
@@ -568,7 +568,7 @@
   }
 
   .cn-combobox-trigger {
-    @apply [&_svg:not([class*='size-'])]:size-4;
+    @apply cursor-pointer [&_svg:not([class*='size-'])]:size-4;
   }
 
   .cn-combobox-trigger-icon {
@@ -578,7 +578,7 @@
   /* Chips field: the input recipe (1px ring-border frame, light fill on
      hover, card fill while focused). */
   .cn-combobox-chips {
-    @apply ring-border hover:bg-muted/50 focus-within:bg-card has-aria-invalid:ring-destructive/50 has-aria-invalid:hover:bg-destructive-light/60 flex min-h-9 flex-wrap items-center gap-1 rounded-lg bg-transparent px-2.5 py-1 text-[13px] ring-1 transition-[color,background-color,box-shadow] duration-80 has-data-[slot=combobox-chip]:px-1;
+    @apply cursor-text ring-border hover:bg-muted/50 focus-within:bg-card has-aria-invalid:ring-destructive/50 has-aria-invalid:hover:bg-destructive-light/60 flex min-h-9 flex-wrap items-center gap-1 rounded-lg bg-transparent px-2.5 py-1 text-[13px] ring-1 transition-[color,background-color,box-shadow] duration-80 has-data-[slot=combobox-chip]:px-1;
   }
 
   .cn-combobox-chip {
@@ -586,7 +586,7 @@
   }
 
   .cn-combobox-chip-remove {
-    @apply -ml-1 opacity-50 hover:opacity-100;
+    @apply cursor-pointer -ml-1 opacity-50 hover:opacity-100;
   }
 
   /* React Aria */
@@ -645,11 +645,11 @@
      data-selected="true"; inside the fluid list the glide highlight paints
      it. Checked rows are foreground and semibold. */
   .cn-command-item {
-    @apply text-muted-foreground relative flex h-9 cursor-default items-center gap-2 rounded-lg px-2 text-[13px] outline-hidden transition-colors duration-80 select-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] data-selected:bg-hover data-selected:text-foreground data-selected:[&_svg]:stroke-2 in-data-[fluid-hover]:data-selected:bg-transparent data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-[checked=true]:text-foreground data-[checked=true]:font-semibold;
+    @apply cursor-pointer text-muted-foreground relative flex h-9 items-center gap-2 rounded-lg px-2 text-[13px] outline-hidden transition-colors duration-80 select-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] data-selected:bg-hover data-selected:text-foreground data-selected:[&_svg]:stroke-2 in-data-[fluid-hover]:data-selected:bg-transparent data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-[checked=true]:text-foreground data-[checked=true]:font-semibold;
   }
 
   .cn-command-item-aria {
-    @apply data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-focused:[&_svg]:stroke-2;
+    @apply cursor-pointer data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-focused:[&_svg]:stroke-2;
   }
 
   .cn-command-shortcut {
@@ -678,16 +678,16 @@
      marks it data-focused) turns foreground and thickens its icon.
      Destructive rows stay destructive when lit. */
   .cn-context-menu-item {
-    @apply text-muted-foreground relative h-9 gap-2 rounded-lg px-2 text-[13px] transition-colors duration-80 data-inset:pl-8 [&_svg:not([class*='size-'])]:size-4 [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] data-highlighted:bg-hover data-highlighted:text-foreground data-highlighted:[&_svg]:stroke-2 in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-focused:[&_svg]:stroke-2 data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-[variant=destructive]:text-destructive! data-[variant=destructive]:*:[svg]:text-destructive;
+    @apply cursor-pointer text-muted-foreground relative h-9 gap-2 rounded-lg px-2 text-[13px] transition-colors duration-80 data-inset:pl-8 [&_svg:not([class*='size-'])]:size-4 [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] data-highlighted:bg-hover data-highlighted:text-foreground data-highlighted:[&_svg]:stroke-2 in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-focused:[&_svg]:stroke-2 data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-[variant=destructive]:text-destructive! data-[variant=destructive]:*:[svg]:text-destructive;
   }
 
   /* Checked rows are foreground and semibold, with a foreground check. */
   .cn-context-menu-checkbox-item {
-    @apply text-muted-foreground relative h-9 gap-2 rounded-lg py-0 pr-8 pl-2 text-[13px] transition-[color,background-color] duration-80 data-inset:pl-8 [&_svg:not([class*='size-'])]:size-4 data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-fluid-hover-active:text-foreground data-checked:text-foreground data-checked:font-semibold data-selected:text-foreground data-selected:font-semibold;
+    @apply cursor-pointer text-muted-foreground relative h-9 gap-2 rounded-lg py-0 pr-8 pl-2 text-[13px] transition-[color,background-color] duration-80 data-inset:pl-8 [&_svg:not([class*='size-'])]:size-4 data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-fluid-hover-active:text-foreground data-checked:text-foreground data-checked:font-semibold data-selected:text-foreground data-selected:font-semibold;
   }
 
   .cn-context-menu-radio-item {
-    @apply text-muted-foreground relative h-9 gap-2 rounded-lg py-0 pr-8 pl-2 text-[13px] transition-[color,background-color] duration-80 data-inset:pl-8 [&_svg:not([class*='size-'])]:size-4 data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-fluid-hover-active:text-foreground data-checked:text-foreground data-checked:font-semibold data-selected:text-foreground data-selected:font-semibold;
+    @apply cursor-pointer text-muted-foreground relative h-9 gap-2 rounded-lg py-0 pr-8 pl-2 text-[13px] transition-[color,background-color] duration-80 data-inset:pl-8 [&_svg:not([class*='size-'])]:size-4 data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-fluid-hover-active:text-foreground data-checked:text-foreground data-checked:font-semibold data-selected:text-foreground data-selected:font-semibold;
   }
 
   .cn-context-menu-item-indicator {
@@ -708,7 +708,7 @@
 
   /* An open sub-trigger stays lit while the pointer is in its submenu. */
   .cn-context-menu-sub-trigger {
-    @apply text-muted-foreground relative h-9 gap-2 rounded-lg px-2 text-[13px] transition-colors duration-80 data-inset:pl-8 [&_svg:not([class*='size-'])]:size-4 [&_svg]:stroke-[1.5] data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-fluid-hover-active:text-foreground data-open:text-foreground data-popup-open:text-foreground not-data-fluid-hover-active:data-open:bg-hover not-data-fluid-hover-active:data-popup-open:bg-hover;
+    @apply cursor-pointer text-muted-foreground relative h-9 gap-2 rounded-lg px-2 text-[13px] transition-colors duration-80 data-inset:pl-8 [&_svg:not([class*='size-'])]:size-4 [&_svg]:stroke-[1.5] data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-fluid-hover-active:text-foreground data-open:text-foreground data-popup-open:text-foreground not-data-fluid-hover-active:data-open:bg-hover not-data-fluid-hover-active:data-popup-open:bg-hover;
   }
 
   .cn-context-menu-sub-content {
@@ -745,7 +745,7 @@
 
   /* The close button is a small ghost icon button in the corner. */
   .cn-dialog-close {
-    @apply absolute end-3 top-3;
+    @apply cursor-pointer absolute end-3 top-3;
   }
 
   .cn-dialog-header {
@@ -795,7 +795,7 @@
   }
 
   .cn-drawer-handle {
-    @apply bg-active mx-auto mt-4 hidden h-1 w-12 shrink-0 rounded-full;
+    @apply cursor-grab active:cursor-grabbing bg-active mx-auto mt-4 hidden h-1 w-12 shrink-0 rounded-full;
   }
 
   .cn-drawer-swipe-handle {
@@ -844,15 +844,15 @@
      marks it data-focused) turns foreground and thickens its icon.
      Destructive rows stay destructive when lit. */
   .cn-dropdown-menu-item {
-    @apply text-muted-foreground relative h-9 gap-2 rounded-lg px-2 text-[13px] transition-colors duration-80 data-inset:pl-8 [&_svg:not([class*='size-'])]:size-4 [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] data-highlighted:bg-hover data-highlighted:text-foreground data-highlighted:[&_svg]:stroke-2 in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-focused:[&_svg]:stroke-2 data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-[variant=destructive]:text-destructive! data-[variant=destructive]:*:[svg]:text-destructive;
+    @apply cursor-pointer text-muted-foreground relative h-9 gap-2 rounded-lg px-2 text-[13px] transition-colors duration-80 data-inset:pl-8 [&_svg:not([class*='size-'])]:size-4 [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] data-highlighted:bg-hover data-highlighted:text-foreground data-highlighted:[&_svg]:stroke-2 in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-focused:[&_svg]:stroke-2 data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-[variant=destructive]:text-destructive! data-[variant=destructive]:*:[svg]:text-destructive;
   }
 
   .cn-dropdown-menu-checkbox-item {
-    @apply text-muted-foreground relative h-9 gap-2 rounded-lg py-0 pr-8 pl-2 text-[13px] transition-[color,background-color] duration-80 data-inset:pl-8 [&_svg:not([class*='size-'])]:size-4 data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-fluid-hover-active:text-foreground data-checked:text-foreground data-checked:font-semibold data-selected:text-foreground data-selected:font-semibold;
+    @apply cursor-pointer text-muted-foreground relative h-9 gap-2 rounded-lg py-0 pr-8 pl-2 text-[13px] transition-[color,background-color] duration-80 data-inset:pl-8 [&_svg:not([class*='size-'])]:size-4 data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-fluid-hover-active:text-foreground data-checked:text-foreground data-checked:font-semibold data-selected:text-foreground data-selected:font-semibold;
   }
 
   .cn-dropdown-menu-radio-item {
-    @apply text-muted-foreground relative h-9 gap-2 rounded-lg py-0 pr-8 pl-2 text-[13px] transition-[color,background-color] duration-80 data-inset:pl-8 [&_svg:not([class*='size-'])]:size-4 data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-fluid-hover-active:text-foreground data-checked:text-foreground data-checked:font-semibold data-selected:text-foreground data-selected:font-semibold;
+    @apply cursor-pointer text-muted-foreground relative h-9 gap-2 rounded-lg py-0 pr-8 pl-2 text-[13px] transition-[color,background-color] duration-80 data-inset:pl-8 [&_svg:not([class*='size-'])]:size-4 data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-fluid-hover-active:text-foreground data-checked:text-foreground data-checked:font-semibold data-selected:text-foreground data-selected:font-semibold;
   }
 
   .cn-dropdown-menu-item-indicator {
@@ -873,7 +873,7 @@
 
   /* An open sub-trigger stays lit while the pointer is in its submenu. */
   .cn-dropdown-menu-sub-trigger {
-    @apply text-muted-foreground relative h-9 gap-2 rounded-lg px-2 text-[13px] transition-colors duration-80 data-inset:pl-8 [&_svg:not([class*='size-'])]:size-4 [&_svg]:stroke-[1.5] data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-fluid-hover-active:text-foreground data-open:text-foreground data-popup-open:text-foreground not-data-fluid-hover-active:data-open:bg-hover not-data-fluid-hover-active:data-popup-open:bg-hover;
+    @apply cursor-pointer text-muted-foreground relative h-9 gap-2 rounded-lg px-2 text-[13px] transition-colors duration-80 data-inset:pl-8 [&_svg:not([class*='size-'])]:size-4 [&_svg]:stroke-[1.5] data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-fluid-hover-active:text-foreground data-open:text-foreground data-popup-open:text-foreground not-data-fluid-hover-active:data-open:bg-hover not-data-fluid-hover-active:data-popup-open:bg-hover;
   }
 
   .cn-dropdown-menu-sub-content {
@@ -957,11 +957,11 @@
      by a ring (no border), hover tint, the active step when checked, and the
      1px blue focus ring while its control has keyboard focus. */
   .cn-field-label {
-    @apply has-[>[data-slot=field]]:ring-border has-data-checked:bg-active dark:has-data-checked:bg-active has-[>[data-slot=field]]:has-data-checked:ring-foreground/20 group-data-[invalid=true]/field:text-destructive gap-2 text-[13px] leading-snug group-data-[disabled=true]/field:opacity-50 has-[>[data-slot=field]]:rounded-lg has-[>[data-slot=field]]:ring-1 has-[>[data-slot=field]]:transition-[background-color,box-shadow] has-[>[data-slot=field]]:duration-80 has-[>[data-slot=field]]:ease-spring has-[>[data-slot=field]]:not-has-[:disabled,[data-disabled]]:hover:bg-hover has-[>[data-slot=field]]:has-data-checked:hover:bg-active has-[>[data-slot=field]]:has-[:focus-visible]:ring-ring *:data-[slot=field]:p-3;
+    @apply has-[[data-slot=checkbox],[data-slot=switch],[data-slot=radio-group-item]]:cursor-pointer [[data-slot=checkbox]~&]:cursor-pointer [[data-slot=switch]~&]:cursor-pointer [[data-slot=radio-group-item]~&]:cursor-pointer in-[[data-slot=field]:has([data-slot=checkbox],[data-slot=switch],[data-slot=radio-group-item])]:cursor-pointer has-[>[data-slot=field]]:ring-border has-data-checked:bg-active dark:has-data-checked:bg-active has-[>[data-slot=field]]:has-data-checked:ring-foreground/20 group-data-[invalid=true]/field:text-destructive gap-2 text-[13px] leading-snug group-data-[disabled=true]/field:opacity-50 has-[>[data-slot=field]]:rounded-lg has-[>[data-slot=field]]:ring-1 has-[>[data-slot=field]]:transition-[background-color,box-shadow] has-[>[data-slot=field]]:duration-80 has-[>[data-slot=field]]:ease-spring has-[>[data-slot=field]]:not-has-[:disabled,[data-disabled]]:hover:bg-hover has-[>[data-slot=field]]:has-data-checked:hover:bg-active has-[>[data-slot=field]]:has-[:focus-visible]:ring-ring *:data-[slot=field]:p-3;
   }
 
   .cn-field-label-aria {
-    @apply has-data-selected:bg-active dark:has-data-selected:bg-active has-[>[data-slot=field]]:has-data-selected:ring-foreground/20 has-[>[data-slot=field]]:has-data-selected:hover:bg-active;
+    @apply has-[[data-slot=checkbox],[data-slot=switch],[data-slot=radio-group-item]]:cursor-pointer [[data-slot=checkbox]~&]:cursor-pointer [[data-slot=switch]~&]:cursor-pointer [[data-slot=radio-group-item]~&]:cursor-pointer in-[[data-slot=field]:has([data-slot=checkbox],[data-slot=switch],[data-slot=radio-group-item])]:cursor-pointer has-data-selected:bg-active dark:has-data-selected:bg-active has-[>[data-slot=field]]:has-data-selected:ring-foreground/20 has-[>[data-slot=field]]:has-data-selected:hover:bg-active;
   }
 
   .cn-field-title {
@@ -1049,7 +1049,7 @@
   }
 
   .cn-input-group-button {
-    @apply gap-1.5 text-[13px];
+    @apply cursor-pointer gap-1.5 text-[13px];
   }
 
   .cn-input-group-button-size-xs {
@@ -1097,7 +1097,7 @@
      surface with a firmer neutral ring (no blue halo). Invalid slots turn the
      ring red. */
   .cn-input-otp-slot {
-    @apply text-foreground ring-border data-[active=true]:bg-card data-[active=true]:ring-foreground/30 aria-invalid:ring-destructive/50 data-[active=true]:aria-invalid:ring-destructive size-9 rounded-lg bg-transparent text-[14px] tabular-nums ring-1 transition-[background-color,box-shadow] duration-80 ease-spring outline-none;
+    @apply cursor-text text-foreground ring-border data-[active=true]:bg-card data-[active=true]:ring-foreground/30 aria-invalid:ring-destructive/50 data-[active=true]:aria-invalid:ring-destructive size-9 rounded-lg bg-transparent text-[14px] tabular-nums ring-1 transition-[background-color,box-shadow] duration-80 ease-spring outline-none;
   }
 
   .cn-input-otp-caret-line {
@@ -1126,7 +1126,7 @@
      1px blue edge: the inline focus border turns blue and its 3px halo is
      switched off. */
   .cn-item {
-    @apply [a]:hover:bg-hover rounded-lg border text-[13px] focus-visible:ring-0!;
+    @apply [a&]:cursor-pointer [button&]:cursor-pointer [a]:hover:bg-hover rounded-lg border text-[13px] focus-visible:ring-0!;
   }
 
   .cn-item-variant-default {
@@ -1216,11 +1216,11 @@
 /* MARK: Label */
 
   .cn-label {
-    @apply text-foreground gap-2 text-[13px] leading-none font-medium group-data-[disabled=true]:opacity-50 peer-disabled:opacity-50;
+    @apply has-[[data-slot=checkbox],[data-slot=switch],[data-slot=radio-group-item]]:cursor-pointer [[data-slot=checkbox]~&]:cursor-pointer [[data-slot=switch]~&]:cursor-pointer [[data-slot=radio-group-item]~&]:cursor-pointer in-[[data-slot=field]:has([data-slot=checkbox],[data-slot=switch],[data-slot=radio-group-item])]:cursor-pointer text-foreground gap-2 text-[13px] leading-none font-medium group-data-[disabled=true]:opacity-50 peer-disabled:opacity-50;
   }
 
   .cn-label-aria {
-    @apply peer-data-disabled:opacity-50;
+    @apply has-[[data-slot=checkbox],[data-slot=switch],[data-slot=radio-group-item]]:cursor-pointer [[data-slot=checkbox]~&]:cursor-pointer [[data-slot=switch]~&]:cursor-pointer [[data-slot=radio-group-item]~&]:cursor-pointer in-[[data-slot=field]:has([data-slot=checkbox],[data-slot=switch],[data-slot=radio-group-item])]:cursor-pointer peer-data-disabled:opacity-50;
   }
 
 /* MARK: Marker */
@@ -1274,7 +1274,7 @@
      trigger nearest the pointer; an open trigger keeps a hover fill while
      the pointer is in its menu. */
   .cn-menubar-trigger {
-    @apply text-muted-foreground h-7 rounded-lg px-2.5 text-[13px] font-normal transition-colors duration-80 hover:bg-hover hover:text-foreground in-data-[fluid-hover]:hover:bg-transparent focus-visible:ring-1 focus-visible:ring-ring data-fluid-hover-active:text-foreground aria-expanded:text-foreground not-data-fluid-hover-active:aria-expanded:bg-hover;
+    @apply cursor-pointer text-muted-foreground h-7 rounded-lg px-2.5 text-[13px] font-normal transition-colors duration-80 hover:bg-hover hover:text-foreground in-data-[fluid-hover]:hover:bg-transparent focus-visible:ring-1 focus-visible:ring-ring data-fluid-hover-active:text-foreground aria-expanded:text-foreground not-data-fluid-hover-active:aria-expanded:bg-hover;
   }
 
   /* Menus: the popup recipe (surface 3, rounded-xl, p-1, fast spring),
@@ -1290,13 +1290,13 @@
   /* Rows: 36px, 13px, muted at rest; the lit row turns foreground and
      thickens its icon. Destructive rows stay destructive when lit. */
   .cn-menubar-item {
-    @apply text-muted-foreground h-9 gap-2 rounded-lg px-2 text-[13px] transition-colors duration-80 data-disabled:opacity-50 data-inset:pl-8 [&_svg:not([class*='size-'])]:size-4 [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] data-highlighted:bg-hover data-highlighted:text-foreground data-highlighted:[&_svg]:stroke-2 in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover data-focused:text-foreground data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-[variant=destructive]:text-destructive! data-[variant=destructive]:*:[svg]:text-destructive!;
+    @apply cursor-pointer text-muted-foreground h-9 gap-2 rounded-lg px-2 text-[13px] transition-colors duration-80 data-disabled:opacity-50 data-inset:pl-8 [&_svg:not([class*='size-'])]:size-4 [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] data-highlighted:bg-hover data-highlighted:text-foreground data-highlighted:[&_svg]:stroke-2 in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover data-focused:text-foreground data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-[variant=destructive]:text-destructive! data-[variant=destructive]:*:[svg]:text-destructive!;
   }
 
   /* Checkbox and radio rows keep the check on the start side. Checked rows
      are foreground and semibold. */
   .cn-menubar-checkbox-item {
-    @apply text-muted-foreground h-9 gap-2 rounded-lg py-0 pr-2 pl-8 text-[13px] transition-[color,background-color] duration-80 data-inset:pl-8 data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover data-focused:text-foreground data-fluid-hover-active:text-foreground data-checked:text-foreground data-checked:font-semibold;
+    @apply cursor-pointer text-muted-foreground h-9 gap-2 rounded-lg py-0 pr-2 pl-8 text-[13px] transition-[color,background-color] duration-80 data-inset:pl-8 data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover data-focused:text-foreground data-fluid-hover-active:text-foreground data-checked:text-foreground data-checked:font-semibold;
   }
 
   .cn-menubar-checkbox-item-indicator {
@@ -1304,7 +1304,7 @@
   }
 
   .cn-menubar-radio-item {
-    @apply text-muted-foreground h-9 gap-2 rounded-lg py-0 pr-2 pl-8 text-[13px] transition-[color,background-color] duration-80 data-disabled:opacity-50 data-inset:pl-8 [&_svg:not([class*='size-'])]:size-4 data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover data-focused:text-foreground data-fluid-hover-active:text-foreground data-checked:text-foreground data-checked:font-semibold;
+    @apply cursor-pointer text-muted-foreground h-9 gap-2 rounded-lg py-0 pr-2 pl-8 text-[13px] transition-[color,background-color] duration-80 data-disabled:opacity-50 data-inset:pl-8 [&_svg:not([class*='size-'])]:size-4 data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover data-focused:text-foreground data-fluid-hover-active:text-foreground data-checked:text-foreground data-checked:font-semibold;
   }
 
   .cn-menubar-radio-item-indicator {
@@ -1325,7 +1325,7 @@
 
   /* An open sub-trigger stays lit while the pointer is in its submenu. */
   .cn-menubar-sub-trigger {
-    @apply text-muted-foreground h-9 gap-2 rounded-lg px-2 text-[13px] transition-colors duration-80 data-inset:pl-8 [&_svg:not([class*='size-'])]:size-4 [&_svg]:stroke-[1.5] data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover data-focused:text-foreground data-fluid-hover-active:text-foreground data-open:text-foreground data-popup-open:text-foreground not-data-fluid-hover-active:data-open:bg-hover not-data-fluid-hover-active:data-popup-open:bg-hover;
+    @apply cursor-pointer text-muted-foreground h-9 gap-2 rounded-lg px-2 text-[13px] transition-colors duration-80 data-inset:pl-8 [&_svg:not([class*='size-'])]:size-4 [&_svg]:stroke-[1.5] data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover data-focused:text-foreground data-fluid-hover-active:text-foreground data-open:text-foreground data-popup-open:text-foreground not-data-fluid-hover-active:data-open:bg-hover not-data-fluid-hover-active:data-popup-open:bg-hover;
   }
 
   .cn-menubar-sub-content {
@@ -1346,7 +1346,7 @@
 
   /* Floating jump button: a raised round chip on surface 3. */
   .cn-message-scroller-button {
-    @apply shadow-surface-3 rounded-full border-0;
+    @apply cursor-pointer shadow-surface-3 rounded-full border-0;
   }
 
 /* MARK: Message */
@@ -1385,7 +1385,7 @@
   /* Same frame as the input (ring-border, hover tint, card on focus, no blue
      halo, red ring when invalid). sm is the compact step: h-7, 12px. */
   .cn-native-select {
-    @apply text-foreground ring-border placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground hover:bg-muted/50 focus-visible:bg-card focus-visible:ring-foreground/25 aria-invalid:ring-destructive/50 aria-invalid:hover:bg-destructive-light/60 aria-invalid:focus-visible:bg-card h-9 w-full min-w-0 appearance-none rounded-lg border-0 bg-transparent py-1 pr-8 pl-2.5 text-[13px] ring-1 transition-[color,background-color,box-shadow] duration-80 ease-spring select-none data-[size=sm]:h-7 data-[size=sm]:rounded-lg data-[size=sm]:py-0.5 data-[size=sm]:pr-7 data-[size=sm]:pl-2 data-[size=sm]:text-[12px];
+    @apply cursor-pointer text-foreground ring-border placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground hover:bg-muted/50 focus-visible:bg-card focus-visible:ring-foreground/25 aria-invalid:ring-destructive/50 aria-invalid:hover:bg-destructive-light/60 aria-invalid:focus-visible:bg-card h-9 w-full min-w-0 appearance-none rounded-lg border-0 bg-transparent py-1 pr-8 pl-2.5 text-[13px] ring-1 transition-[color,background-color,box-shadow] duration-80 ease-spring select-none data-[size=sm]:h-7 data-[size=sm]:rounded-lg data-[size=sm]:py-0.5 data-[size=sm]:pr-7 data-[size=sm]:pl-2 data-[size=sm]:text-[12px];
   }
 
   /* Muted chevron that wakes to foreground on hover; no rotation. */
@@ -1410,13 +1410,13 @@
      highlight lights the one nearest the pointer; an open trigger keeps a
      hover fill while the pointer is in its panel. */
   .cn-navigation-menu-trigger {
-    @apply text-muted-foreground rounded-lg px-3 text-[13px] font-normal transition-colors duration-80 hover:bg-hover hover:text-foreground in-data-[fluid-hover]:hover:bg-transparent focus-visible:ring-1 focus-visible:ring-ring data-fluid-hover-active:text-foreground data-open:text-foreground data-popup-open:text-foreground not-data-fluid-hover-active:data-open:bg-hover not-data-fluid-hover-active:data-popup-open:bg-hover disabled:opacity-50;
+    @apply cursor-pointer text-muted-foreground rounded-lg px-3 text-[13px] font-normal transition-colors duration-80 hover:bg-hover hover:text-foreground in-data-[fluid-hover]:hover:bg-transparent focus-visible:ring-1 focus-visible:ring-ring data-fluid-hover-active:text-foreground data-open:text-foreground data-popup-open:text-foreground not-data-fluid-hover-active:data-open:bg-hover not-data-fluid-hover-active:data-popup-open:bg-hover disabled:opacity-50;
   }
 
   /* Panel links: rounded-lg rows lit by the panel's fluid highlight. The
      current page's link is foreground on a bg-active fill. */
   .cn-navigation-menu-link {
-    @apply flex items-center gap-2 rounded-lg p-2 text-[13px] transition-colors duration-80 outline-none hover:bg-hover in-data-[fluid-hover]:hover:bg-transparent focus-visible:bg-hover data-active:bg-active data-active:text-foreground [&_svg:not([class*='size-'])]:size-4 [&_svg]:stroke-[1.5] data-fluid-hover-active:[&_svg]:stroke-2;
+    @apply cursor-pointer flex items-center gap-2 rounded-lg p-2 text-[13px] transition-colors duration-80 outline-none hover:bg-hover in-data-[fluid-hover]:hover:bg-transparent focus-visible:bg-hover data-active:bg-active data-active:text-foreground [&_svg:not([class*='size-'])]:size-4 [&_svg]:stroke-[1.5] data-fluid-hover-active:[&_svg]:stroke-2;
   }
 
   .cn-navigation-menu-trigger-icon {
@@ -1459,7 +1459,7 @@
   /* Links are ghost (outline when current) buttons. The current page reads
      as a selected item instead: active fill, foreground, semibold, no edge. */
   .cn-pagination-link {
-    @apply data-[active=true]:bg-active data-[active=true]:text-foreground data-[active=true]:border-transparent data-[active=true]:font-semibold;
+    @apply cursor-pointer data-[active=true]:bg-active data-[active=true]:text-foreground data-[active=true]:border-transparent data-[active=true]:font-semibold;
   }
 
   .cn-pagination-ellipsis {
@@ -1617,11 +1617,11 @@
      the ring; an 8px foreground dot pops in on the fast spring. The width is
      important because the components carry an inline 1px `border`. */
   .cn-radio-group-item {
-    @apply border-border hover:border-neutral-400 dark:hover:border-neutral-500 data-checked:border-transparent dark:data-checked:border-transparent focus-visible:ring-ring aria-invalid:border-destructive/60 aria-invalid:hover:border-destructive aria-invalid:data-checked:border-transparent flex size-4 rounded-full border-[1.5px]! bg-transparent transition-[border-color,box-shadow] duration-80 ease-spring focus-visible:ring-1 group-has-[:focus-visible]/field-label:ring-0;
+    @apply cursor-pointer border-border hover:border-neutral-400 dark:hover:border-neutral-500 data-checked:border-transparent dark:data-checked:border-transparent focus-visible:ring-ring aria-invalid:border-destructive/60 aria-invalid:hover:border-destructive aria-invalid:data-checked:border-transparent flex size-4 rounded-full border-[1.5px]! bg-transparent transition-[border-color,box-shadow] duration-80 ease-spring focus-visible:ring-1 group-has-[:focus-visible]/field-label:ring-0;
   }
 
   .cn-radio-group-item-aria {
-    @apply data-hovered:border-neutral-400 dark:data-hovered:border-neutral-500 data-selected:border-transparent dark:data-selected:border-transparent data-focus-visible:ring-ring data-invalid:border-destructive/60 data-invalid:data-selected:border-transparent data-focus-visible:ring-1;
+    @apply cursor-pointer data-hovered:border-neutral-400 dark:data-hovered:border-neutral-500 data-selected:border-transparent dark:data-selected:border-transparent data-focus-visible:ring-ring data-invalid:border-destructive/60 data-invalid:data-selected:border-transparent data-focus-visible:ring-1;
   }
 
   .cn-radio-group-indicator {
@@ -1662,7 +1662,7 @@
      fill on hover, 36px (sm 28px), 13px. Keyboard focus turns the ring
      blue; invalid turns it destructive. The chevron brightens on hover. */
   .cn-select-trigger {
-    @apply ring-border data-placeholder:text-muted-foreground hover:bg-muted/50 focus-visible:ring-ring aria-invalid:ring-destructive/50 aria-invalid:hover:bg-destructive-light/60 gap-2 rounded-lg bg-transparent py-0 pr-2 pl-2.5 text-[13px] ring-1 transition-[color,background-color,box-shadow] duration-80 select-none data-[size=default]:h-9 data-[size=sm]:h-7 data-[size=sm]:gap-1.5 data-[size=sm]:pl-2 data-[size=sm]:text-[12px] *:data-[slot=select-value]:flex *:data-[slot=select-value]:gap-2 [&_svg:not([class*='size-'])]:size-4 [&_svg]:stroke-[1.5] hover:[&>svg]:text-foreground;
+    @apply cursor-pointer ring-border data-placeholder:text-muted-foreground hover:bg-muted/50 focus-visible:ring-ring aria-invalid:ring-destructive/50 aria-invalid:hover:bg-destructive-light/60 gap-2 rounded-lg bg-transparent py-0 pr-2 pl-2.5 text-[13px] ring-1 transition-[color,background-color,box-shadow] duration-80 select-none data-[size=default]:h-9 data-[size=sm]:h-7 data-[size=sm]:gap-1.5 data-[size=sm]:pl-2 data-[size=sm]:text-[12px] *:data-[slot=select-value]:flex *:data-[slot=select-value]:gap-2 [&_svg:not([class*='size-'])]:size-4 [&_svg]:stroke-[1.5] hover:[&>svg]:text-foreground;
   }
 
   .cn-select-value {
@@ -1700,11 +1700,11 @@
      selected row is foreground and semibold on a bg-active fill, which
      slides between rows inside a fluid container. */
   .cn-select-item {
-    @apply text-muted-foreground h-9 gap-2 rounded-lg py-0 pr-8 pl-2 text-[13px] transition-colors duration-80 [&_svg:not([class*='size-'])]:size-4 [&_svg]:stroke-[1.5] data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-[selected]:bg-active data-[selected]:text-foreground data-[selected]:font-semibold in-data-[fluid-hover]:data-[selected]:bg-transparent data-checked:bg-active data-checked:text-foreground data-checked:font-semibold in-data-[fluid-hover]:data-checked:bg-transparent *:[span]:last:flex *:[span]:last:items-center *:[span]:last:gap-2;
+    @apply cursor-pointer text-muted-foreground h-9 gap-2 rounded-lg py-0 pr-8 pl-2 text-[13px] transition-colors duration-80 [&_svg:not([class*='size-'])]:size-4 [&_svg]:stroke-[1.5] data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-[selected]:bg-active data-[selected]:text-foreground data-[selected]:font-semibold in-data-[fluid-hover]:data-[selected]:bg-transparent data-checked:bg-active data-checked:text-foreground data-checked:font-semibold in-data-[fluid-hover]:data-checked:bg-transparent *:[span]:last:flex *:[span]:last:items-center *:[span]:last:gap-2;
   }
 
   .cn-select-item-aria {
-    @apply data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-[selected]:data-focused:bg-active in-data-[fluid-hover]:data-[selected]:data-focused:bg-transparent;
+    @apply cursor-pointer data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-[selected]:data-focused:bg-active in-data-[fluid-hover]:data-[selected]:data-focused:bg-transparent;
   }
 
   .cn-select-item-indicator {
@@ -1768,7 +1768,7 @@
   }
 
   .cn-sheet-close {
-    @apply absolute end-3 top-3;
+    @apply cursor-pointer absolute end-3 top-3;
   }
 
   .cn-sheet-header {
@@ -1852,7 +1852,7 @@
   }
 
   .cn-sidebar-group-action {
-    @apply text-muted-foreground ring-ring hover:bg-hover hover:text-foreground absolute top-3.5 end-3 w-5 rounded-md p-0 transition-colors duration-80 focus-visible:ring-1 [&>svg]:size-4;
+    @apply cursor-pointer text-muted-foreground ring-ring hover:bg-hover hover:text-foreground absolute top-3.5 end-3 w-5 rounded-md p-0 transition-colors duration-80 focus-visible:ring-1 [&>svg]:size-4;
   }
 
   /* Rows: 32px, px-2, gap-2, rounded-lg, 13px, muted at rest. Hover and the
@@ -1861,11 +1861,11 @@
      hover or active background: the gliding highlight and the sliding
      selection do. Pressed is a bg-active step. */
   .cn-sidebar-menu-button {
-    @apply text-muted-foreground ring-ring gap-2 rounded-lg px-2 text-start text-[13px] font-normal transition-[width,height,padding,color,background-color] duration-80 group-has-data-[sidebar=menu-action]/menu-item:pe-8 group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! focus-visible:ring-1 [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] hover:bg-hover hover:text-foreground hover:[&_svg]:stroke-2 active:bg-active active:text-foreground data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-active:bg-active data-active:text-foreground data-active:font-semibold data-active:[&_svg]:stroke-2 data-open:text-foreground in-data-[fluid-hover]:hover:bg-transparent in-data-[fluid-hover]:data-active:bg-transparent;
+    @apply cursor-pointer text-muted-foreground ring-ring gap-2 rounded-lg px-2 text-start text-[13px] font-normal transition-[width,height,padding,color,background-color] duration-80 group-has-data-[sidebar=menu-action]/menu-item:pe-8 group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! focus-visible:ring-1 [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] hover:bg-hover hover:text-foreground hover:[&_svg]:stroke-2 active:bg-active active:text-foreground data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-active:bg-active data-active:text-foreground data-active:font-semibold data-active:[&_svg]:stroke-2 data-open:text-foreground in-data-[fluid-hover]:hover:bg-transparent in-data-[fluid-hover]:data-active:bg-transparent;
   }
 
   .cn-sidebar-menu-button-aria {
-    @apply aria-expanded:text-foreground;
+    @apply cursor-pointer aria-expanded:text-foreground;
   }
 
   .cn-sidebar-menu-button-variant-default {
@@ -1889,7 +1889,7 @@
   }
 
   .cn-sidebar-menu-action {
-    @apply text-muted-foreground ring-ring hover:bg-hover hover:text-foreground peer-hover/menu-button:text-foreground peer-data-fluid-hover-active/menu-button:text-foreground absolute top-1.5 end-1 aspect-square w-5 rounded-md p-0 transition-colors duration-80 peer-data-[size=default]/menu-button:top-1.5 peer-data-[size=lg]/menu-button:top-3.5 peer-data-[size=sm]/menu-button:top-1 focus-visible:ring-1 [&>svg]:size-4;
+    @apply cursor-pointer text-muted-foreground ring-ring hover:bg-hover hover:text-foreground peer-hover/menu-button:text-foreground peer-data-fluid-hover-active/menu-button:text-foreground absolute top-1.5 end-1 aspect-square w-5 rounded-md p-0 transition-colors duration-80 peer-data-[size=default]/menu-button:top-1.5 peer-data-[size=lg]/menu-button:top-3.5 peer-data-[size=sm]/menu-button:top-1 focus-visible:ring-1 [&>svg]:size-4;
   }
 
   .cn-sidebar-menu-badge {
@@ -1916,7 +1916,7 @@
 
   /* Sub-rows: 28px (24px small), same look as menu rows. */
   .cn-sidebar-menu-sub-button {
-    @apply text-muted-foreground ring-ring h-7 gap-2 rounded-lg px-2 text-[13px] transition-[color,background-color] duration-80 in-data-[slot=sidebar-menu-sub]:translate-x-0 focus-visible:ring-1 data-[size=sm]:h-6 data-[size=sm]:text-[12px] [&>svg]:size-4 [&>svg]:stroke-[1.5] [&>svg]:text-current hover:bg-hover hover:text-foreground active:bg-active active:text-foreground data-fluid-hover-active:text-foreground data-fluid-hover-active:[&>svg]:stroke-2 data-active:bg-active data-active:text-foreground data-active:font-semibold in-data-[fluid-hover]:hover:bg-transparent in-data-[fluid-hover]:data-active:bg-transparent;
+    @apply cursor-pointer text-muted-foreground ring-ring h-7 gap-2 rounded-lg px-2 text-[13px] transition-[color,background-color] duration-80 in-data-[slot=sidebar-menu-sub]:translate-x-0 focus-visible:ring-1 data-[size=sm]:h-6 data-[size=sm]:text-[12px] [&>svg]:size-4 [&>svg]:stroke-[1.5] [&>svg]:text-current hover:bg-hover hover:text-foreground active:bg-active active:text-foreground data-fluid-hover-active:text-foreground data-fluid-hover-active:[&>svg]:stroke-2 data-active:bg-active data-active:text-foreground data-active:font-semibold in-data-[fluid-hover]:hover:bg-transparent in-data-[fluid-hover]:data-active:bg-transparent;
   }
 
 /* MARK: Skeleton */
@@ -1929,7 +1929,7 @@
 /* MARK: Slider */
 
   .cn-slider {
-    @apply data-vertical:min-h-40;
+    @apply cursor-pointer data-disabled:cursor-not-allowed data-vertical:min-h-40;
   }
 
   /* An 18px pill framed by the border colour, transparent inside. */
@@ -1945,7 +1945,7 @@
   /* White 16px knob with a soft drop shadow and hairline. Focus shows a 1px
      blue ring 4px outside the knob (::before); ::after widens the hit area. */
   .cn-slider-thumb {
-    @apply relative size-4 rounded-full bg-white shadow-[0_1px_2px_rgb(0_0_0/0.1)] ring-1 ring-black/5 transition-[box-shadow] duration-80 ease-spring before:absolute before:-inset-1 before:rounded-full before:border before:border-ring before:opacity-0 before:transition-opacity before:duration-80 after:absolute after:-inset-2 hover:shadow-[0_1px_3px_rgb(0_0_0/0.16)] focus-visible:outline-hidden focus-visible:before:opacity-100 has-focus-visible:before:opacity-100 data-focus-visible:before:opacity-100;
+    @apply cursor-grab active:cursor-grabbing data-dragging:cursor-grabbing data-disabled:cursor-not-allowed relative size-4 rounded-full bg-white shadow-[0_1px_2px_rgb(0_0_0/0.1)] ring-1 ring-black/5 transition-[box-shadow] duration-80 ease-spring before:absolute before:-inset-1 before:rounded-full before:border before:border-ring before:opacity-0 before:transition-opacity before:duration-80 after:absolute after:-inset-2 hover:shadow-[0_1px_3px_rgb(0_0_0/0.16)] focus-visible:outline-hidden focus-visible:before:opacity-100 has-focus-visible:before:opacity-100 data-focus-visible:before:opacity-100;
   }
 
 /* MARK: Switch */
@@ -1955,11 +1955,11 @@
      (a touch darker on hover); colours cross-fade on the fast tier. Focus is
      the 1px blue ring with a 2px background-filled offset. */
   .cn-switch {
-    @apply data-unchecked:bg-accent data-unchecked:hover:bg-[color-mix(in_oklab,var(--accent),rgb(var(--overlay))_10%)] data-checked:bg-focus-ring data-checked:hover:bg-[color-mix(in_oklab,var(--focus-ring),black_8%)] focus-visible:ring-ring ring-offset-background aria-invalid:ring-destructive/50 shrink-0 rounded-full border-0 px-0.5 duration-80 ease-spring focus-visible:ring-1 focus-visible:ring-offset-2 aria-invalid:ring-1 aria-invalid:ring-offset-2 group-has-[:focus-visible]/field-label:ring-0 data-[size=default]:h-5 data-[size=default]:w-[34px] data-[size=sm]:h-4 data-[size=sm]:w-7;
+    @apply cursor-pointer data-unchecked:bg-accent data-unchecked:hover:bg-[color-mix(in_oklab,var(--accent),rgb(var(--overlay))_10%)] data-checked:bg-focus-ring data-checked:hover:bg-[color-mix(in_oklab,var(--focus-ring),black_8%)] focus-visible:ring-ring ring-offset-background aria-invalid:ring-destructive/50 shrink-0 rounded-full border-0 px-0.5 duration-80 ease-spring focus-visible:ring-1 focus-visible:ring-offset-2 aria-invalid:ring-1 aria-invalid:ring-offset-2 group-has-[:focus-visible]/field-label:ring-0 data-[size=default]:h-5 data-[size=default]:w-[34px] data-[size=sm]:h-4 data-[size=sm]:w-7;
   }
 
   .cn-switch-aria {
-    @apply not-data-selected:bg-accent data-selected:bg-focus-ring data-hovered:not-data-selected:bg-[color-mix(in_oklab,var(--accent),rgb(var(--overlay))_10%)] data-hovered:data-selected:bg-[color-mix(in_oklab,var(--focus-ring),black_8%)] data-focus-visible:ring-ring data-invalid:ring-destructive/50 data-focus-visible:ring-1 data-focus-visible:ring-offset-2 data-invalid:ring-1 data-invalid:ring-offset-2;
+    @apply cursor-pointer not-data-selected:bg-accent data-selected:bg-focus-ring data-hovered:not-data-selected:bg-[color-mix(in_oklab,var(--accent),rgb(var(--overlay))_10%)] data-hovered:data-selected:bg-[color-mix(in_oklab,var(--focus-ring),black_8%)] data-focus-visible:ring-ring data-invalid:ring-destructive/50 data-focus-visible:ring-1 data-focus-visible:ring-offset-2 data-invalid:ring-1 data-invalid:ring-offset-2;
   }
 
   /* The thumb element only travels (moderate spring); its ::before draws the
@@ -2058,13 +2058,13 @@
      Without a fluid list (React Aria) the active tab paints its own raised
      pill; inside one the sliding overlay does, so the tab stays transparent. */
   .cn-tabs-trigger {
-    @apply gap-1.5 rounded-lg px-3 text-[13px] font-normal transition-[color,background-color,box-shadow] duration-80 ease-spring in-data-[slot=tabs-list]:h-7 in-data-[slot=tabs-list]:focus-visible:ring-0 [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] hover:[&_svg]:stroke-2 data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-active:font-semibold data-active:[&_svg]:stroke-2 group-data-[variant=default]/tabs-list:data-active:bg-surface-4 group-data-[variant=default]/tabs-list:data-active:shadow-surface-4 dark:group-data-[variant=default]/tabs-list:data-active:bg-surface-4 in-data-[fluid-hover]:group-data-[variant=default]/tabs-list:data-active:bg-transparent in-data-[fluid-hover]:group-data-[variant=default]/tabs-list:data-active:shadow-none dark:in-data-[fluid-hover]:group-data-[variant=default]/tabs-list:data-active:bg-transparent in-data-[fluid-hover]:group-data-[variant=line]/tabs-list:data-active:after:opacity-0 [&_svg:not([class*='size-'])]:size-4 has-data-[icon=inline-end]:pe-2.5 has-data-[icon=inline-start]:ps-2.5;
+    @apply cursor-pointer gap-1.5 rounded-lg px-3 text-[13px] font-normal transition-[color,background-color,box-shadow] duration-80 ease-spring in-data-[slot=tabs-list]:h-7 in-data-[slot=tabs-list]:focus-visible:ring-0 [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] hover:[&_svg]:stroke-2 data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-active:font-semibold data-active:[&_svg]:stroke-2 group-data-[variant=default]/tabs-list:data-active:bg-surface-4 group-data-[variant=default]/tabs-list:data-active:shadow-surface-4 dark:group-data-[variant=default]/tabs-list:data-active:bg-surface-4 in-data-[fluid-hover]:group-data-[variant=default]/tabs-list:data-active:bg-transparent in-data-[fluid-hover]:group-data-[variant=default]/tabs-list:data-active:shadow-none dark:in-data-[fluid-hover]:group-data-[variant=default]/tabs-list:data-active:bg-transparent in-data-[fluid-hover]:group-data-[variant=line]/tabs-list:data-active:after:opacity-0 [&_svg:not([class*='size-'])]:size-4 has-data-[icon=inline-end]:pe-2.5 has-data-[icon=inline-start]:ps-2.5;
   }
 
   /* React Aria marks the selected tab with data-selected. Inside a fluid list
      the sliding overlay paints the pill and the underline. */
   .cn-tabs-trigger-aria {
-    @apply data-selected:font-semibold data-selected:[&_svg]:stroke-2 group-data-[variant=default]/tabs-list:data-selected:bg-surface-4 group-data-[variant=default]/tabs-list:data-selected:shadow-surface-4 dark:group-data-[variant=default]/tabs-list:data-selected:bg-surface-4 in-data-[fluid-hover]:group-data-[variant=default]/tabs-list:data-selected:bg-transparent in-data-[fluid-hover]:group-data-[variant=default]/tabs-list:data-selected:shadow-none dark:in-data-[fluid-hover]:group-data-[variant=default]/tabs-list:data-selected:bg-transparent in-data-[fluid-hover]:group-data-[variant=line]/tabs-list:data-selected:after:opacity-0;
+    @apply cursor-pointer data-selected:font-semibold data-selected:[&_svg]:stroke-2 group-data-[variant=default]/tabs-list:data-selected:bg-surface-4 group-data-[variant=default]/tabs-list:data-selected:shadow-surface-4 dark:group-data-[variant=default]/tabs-list:data-selected:bg-surface-4 in-data-[fluid-hover]:group-data-[variant=default]/tabs-list:data-selected:bg-transparent in-data-[fluid-hover]:group-data-[variant=default]/tabs-list:data-selected:shadow-none dark:in-data-[fluid-hover]:group-data-[variant=default]/tabs-list:data-selected:bg-transparent in-data-[fluid-hover]:group-data-[variant=line]/tabs-list:data-selected:after:opacity-0;
   }
 
   /* The selected tab's pill: a raised surface (surface 4 + its shadow) that
@@ -2121,7 +2121,7 @@
      selected item with data-selected). The lit item turns
      foreground. Joined groups (spacing 0) square the inner corners. */
   .cn-toggle-group-item {
-    @apply data-[size=default]:h-9 data-[size=default]:min-w-9 data-[size=default]:px-3 data-[size=sm]:h-7 data-[size=sm]:min-w-7 data-[size=sm]:px-2.5 data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 group-data-[fluid-hover]/toggle-group:hover:bg-transparent! group-[[data-fluid-hover]:not([data-multiple])]/toggle-group:aria-pressed:bg-transparent! group-[[data-fluid-hover]:not([data-multiple])]/toggle-group:data-[state=on]:bg-transparent! group-[[data-fluid-hover]:not([data-multiple])]/toggle-group:data-pressed:bg-transparent! group-[[data-fluid-hover]:not([data-multiple])]/toggle-group:data-selected:bg-transparent! group-data-[spacing=0]/toggle-group:rounded-none group-data-horizontal/toggle-group:data-[spacing=0]:first:rounded-s-lg group-data-vertical/toggle-group:data-[spacing=0]:first:rounded-t-lg group-data-horizontal/toggle-group:data-[spacing=0]:last:rounded-e-lg group-data-vertical/toggle-group:data-[spacing=0]:last:rounded-b-lg;
+    @apply cursor-pointer data-[size=default]:h-9 data-[size=default]:min-w-9 data-[size=default]:px-3 data-[size=sm]:h-7 data-[size=sm]:min-w-7 data-[size=sm]:px-2.5 data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 group-data-[fluid-hover]/toggle-group:hover:bg-transparent! group-[[data-fluid-hover]:not([data-multiple])]/toggle-group:aria-pressed:bg-transparent! group-[[data-fluid-hover]:not([data-multiple])]/toggle-group:data-[state=on]:bg-transparent! group-[[data-fluid-hover]:not([data-multiple])]/toggle-group:data-pressed:bg-transparent! group-[[data-fluid-hover]:not([data-multiple])]/toggle-group:data-selected:bg-transparent! group-data-[spacing=0]/toggle-group:rounded-none group-data-horizontal/toggle-group:data-[spacing=0]:first:rounded-s-lg group-data-vertical/toggle-group:data-[spacing=0]:first:rounded-t-lg group-data-horizontal/toggle-group:data-[spacing=0]:last:rounded-e-lg group-data-vertical/toggle-group:data-[spacing=0]:last:rounded-b-lg;
   }
 
   /* Overlays follow the item shape: square inside a joined group. */
@@ -2140,12 +2140,12 @@
      are overridden with ! (they win any plain conflict), so the 1px blue
      focus ring and the interaction tokens hold in every build. */
   .cn-toggle {
-    @apply text-muted-foreground gap-1.5 rounded-lg text-[13px] font-medium transition-[color,background-color,box-shadow] duration-80 ease-spring hover:bg-hover! hover:text-foreground active:bg-active! focus-visible:ring-1! focus-visible:ring-ring aria-invalid:ring-1 aria-invalid:ring-destructive/50 aria-pressed:bg-active! aria-pressed:text-foreground data-[state=on]:bg-active! data-[state=on]:text-foreground [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] [&_svg]:duration-80 hover:[&_svg]:stroke-2 aria-pressed:[&_svg]:stroke-2 data-[state=on]:[&_svg]:stroke-2 [&_svg:not([class*='size-'])]:size-4;
+    @apply cursor-pointer text-muted-foreground gap-1.5 rounded-lg text-[13px] font-medium transition-[color,background-color,box-shadow] duration-80 ease-spring hover:bg-hover! hover:text-foreground active:bg-active! focus-visible:ring-1! focus-visible:ring-ring aria-invalid:ring-1 aria-invalid:ring-destructive/50 aria-pressed:bg-active! aria-pressed:text-foreground data-[state=on]:bg-active! data-[state=on]:text-foreground [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] [&_svg]:duration-80 hover:[&_svg]:stroke-2 aria-pressed:[&_svg]:stroke-2 data-[state=on]:[&_svg]:stroke-2 [&_svg:not([class*='size-'])]:size-4;
   }
 
   /* React Aria: data-selected is "on", data-pressed is the press itself. */
   .cn-toggle-aria {
-    @apply data-pressed:bg-active! data-selected:bg-active! data-selected:text-foreground data-selected:[&_svg]:stroke-2;
+    @apply cursor-pointer data-pressed:bg-active! data-selected:bg-active! data-selected:text-foreground data-selected:[&_svg]:stroke-2;
   }
 
   .cn-toggle-variant-default {

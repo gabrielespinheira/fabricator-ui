@@ -7,7 +7,7 @@
   /* Links are ghost (outline when current) buttons. The current page reads
      as a selected item instead: active fill, foreground, semibold, no edge. */
   .cn-pagination-link {
-    @apply data-[active=true]:bg-active data-[active=true]:text-foreground data-[active=true]:border-transparent data-[active=true]:font-semibold;
+    @apply cursor-pointer data-[active=true]:bg-active data-[active=true]:text-foreground data-[active=true]:border-transparent data-[active=true]:font-semibold;
   }
 
   .cn-pagination-ellipsis {

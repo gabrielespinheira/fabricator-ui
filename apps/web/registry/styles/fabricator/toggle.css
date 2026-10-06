@@ -5,12 +5,12 @@
      are overridden with ! (they win any plain conflict), so the 1px blue
      focus ring and the interaction tokens hold in every build. */
   .cn-toggle {
-    @apply text-muted-foreground gap-1.5 rounded-lg text-[13px] font-medium transition-[color,background-color,box-shadow] duration-80 ease-spring hover:bg-hover! hover:text-foreground active:bg-active! focus-visible:ring-1! focus-visible:ring-ring aria-invalid:ring-1 aria-invalid:ring-destructive/50 aria-pressed:bg-active! aria-pressed:text-foreground data-[state=on]:bg-active! data-[state=on]:text-foreground [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] [&_svg]:duration-80 hover:[&_svg]:stroke-2 aria-pressed:[&_svg]:stroke-2 data-[state=on]:[&_svg]:stroke-2 [&_svg:not([class*='size-'])]:size-4;
+    @apply cursor-pointer text-muted-foreground gap-1.5 rounded-lg text-[13px] font-medium transition-[color,background-color,box-shadow] duration-80 ease-spring hover:bg-hover! hover:text-foreground active:bg-active! focus-visible:ring-1! focus-visible:ring-ring aria-invalid:ring-1 aria-invalid:ring-destructive/50 aria-pressed:bg-active! aria-pressed:text-foreground data-[state=on]:bg-active! data-[state=on]:text-foreground [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] [&_svg]:duration-80 hover:[&_svg]:stroke-2 aria-pressed:[&_svg]:stroke-2 data-[state=on]:[&_svg]:stroke-2 [&_svg:not([class*='size-'])]:size-4;
   }
 
   /* React Aria: data-selected is "on", data-pressed is the press itself. */
   .cn-toggle-aria {
-    @apply data-pressed:bg-active! data-selected:bg-active! data-selected:text-foreground data-selected:[&_svg]:stroke-2;
+    @apply cursor-pointer data-pressed:bg-active! data-selected:bg-active! data-selected:text-foreground data-selected:[&_svg]:stroke-2;
   }
 
   .cn-toggle-variant-default {

@@ -4,7 +4,7 @@
      1px blue edge: the inline focus border turns blue and its 3px halo is
      switched off. */
   .cn-item {
-    @apply [a]:hover:bg-hover rounded-lg border text-[13px] focus-visible:ring-0!;
+    @apply [a&]:cursor-pointer [button&]:cursor-pointer [a]:hover:bg-hover rounded-lg border text-[13px] focus-visible:ring-0!;
   }
 
   .cn-item-variant-default {

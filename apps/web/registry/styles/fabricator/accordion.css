@@ -16,7 +16,7 @@
      an open item's trigger turns foreground and semibold. Focus is a 1px
      blue ring. */
   .cn-accordion-trigger {
-    @apply text-muted-foreground rounded-lg px-3 py-2 text-start text-[13px] leading-5 font-normal transition-[color,background-color] duration-80 hover:bg-hover hover:text-foreground in-data-[fluid-hover]:hover:bg-transparent data-fluid-hover-active:text-foreground aria-expanded:text-foreground aria-expanded:font-semibold focus-visible:ring-ring focus-visible:ring-1 **:data-[slot=accordion-trigger-icon]:ms-auto **:data-[slot=accordion-trigger-icon]:mt-0.5 **:data-[slot=accordion-trigger-icon]:size-4;
+    @apply cursor-pointer text-muted-foreground rounded-lg px-3 py-2 text-start text-[13px] leading-5 font-normal transition-[color,background-color] duration-80 hover:bg-hover hover:text-foreground in-data-[fluid-hover]:hover:bg-transparent data-fluid-hover-active:text-foreground aria-expanded:text-foreground aria-expanded:font-semibold focus-visible:ring-ring focus-visible:ring-1 **:data-[slot=accordion-trigger-icon]:ms-auto **:data-[slot=accordion-trigger-icon]:mt-0.5 **:data-[slot=accordion-trigger-icon]:size-4;
   }
 
   /* One chevron that points to the end and turns 90° to point down when

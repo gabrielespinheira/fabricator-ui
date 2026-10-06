@@ -5,11 +5,11 @@
      (a touch darker on hover); colours cross-fade on the fast tier. Focus is
      the 1px blue ring with a 2px background-filled offset. */
   .cn-switch {
-    @apply data-unchecked:bg-accent data-unchecked:hover:bg-[color-mix(in_oklab,var(--accent),rgb(var(--overlay))_10%)] data-checked:bg-focus-ring data-checked:hover:bg-[color-mix(in_oklab,var(--focus-ring),black_8%)] focus-visible:ring-ring ring-offset-background aria-invalid:ring-destructive/50 shrink-0 rounded-full border-0 px-0.5 duration-80 ease-spring focus-visible:ring-1 focus-visible:ring-offset-2 aria-invalid:ring-1 aria-invalid:ring-offset-2 group-has-[:focus-visible]/field-label:ring-0 data-[size=default]:h-5 data-[size=default]:w-[34px] data-[size=sm]:h-4 data-[size=sm]:w-7;
+    @apply cursor-pointer data-unchecked:bg-accent data-unchecked:hover:bg-[color-mix(in_oklab,var(--accent),rgb(var(--overlay))_10%)] data-checked:bg-focus-ring data-checked:hover:bg-[color-mix(in_oklab,var(--focus-ring),black_8%)] focus-visible:ring-ring ring-offset-background aria-invalid:ring-destructive/50 shrink-0 rounded-full border-0 px-0.5 duration-80 ease-spring focus-visible:ring-1 focus-visible:ring-offset-2 aria-invalid:ring-1 aria-invalid:ring-offset-2 group-has-[:focus-visible]/field-label:ring-0 data-[size=default]:h-5 data-[size=default]:w-[34px] data-[size=sm]:h-4 data-[size=sm]:w-7;
   }
 
   .cn-switch-aria {
-    @apply not-data-selected:bg-accent data-selected:bg-focus-ring data-hovered:not-data-selected:bg-[color-mix(in_oklab,var(--accent),rgb(var(--overlay))_10%)] data-hovered:data-selected:bg-[color-mix(in_oklab,var(--focus-ring),black_8%)] data-focus-visible:ring-ring data-invalid:ring-destructive/50 data-focus-visible:ring-1 data-focus-visible:ring-offset-2 data-invalid:ring-1 data-invalid:ring-offset-2;
+    @apply cursor-pointer not-data-selected:bg-accent data-selected:bg-focus-ring data-hovered:not-data-selected:bg-[color-mix(in_oklab,var(--accent),rgb(var(--overlay))_10%)] data-hovered:data-selected:bg-[color-mix(in_oklab,var(--focus-ring),black_8%)] data-focus-visible:ring-ring data-invalid:ring-destructive/50 data-focus-visible:ring-1 data-focus-visible:ring-offset-2 data-invalid:ring-1 data-invalid:ring-offset-2;
   }
 
   /* The thumb element only travels (moderate spring); its ::before draws the

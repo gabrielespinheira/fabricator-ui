@@ -15,13 +15,13 @@
      highlight lights the one nearest the pointer; an open trigger keeps a
      hover fill while the pointer is in its panel. */
   .cn-navigation-menu-trigger {
-    @apply text-muted-foreground rounded-lg px-3 text-[13px] font-normal transition-colors duration-80 hover:bg-hover hover:text-foreground in-data-[fluid-hover]:hover:bg-transparent focus-visible:ring-1 focus-visible:ring-ring data-fluid-hover-active:text-foreground data-open:text-foreground data-popup-open:text-foreground not-data-fluid-hover-active:data-open:bg-hover not-data-fluid-hover-active:data-popup-open:bg-hover disabled:opacity-50;
+    @apply cursor-pointer text-muted-foreground rounded-lg px-3 text-[13px] font-normal transition-colors duration-80 hover:bg-hover hover:text-foreground in-data-[fluid-hover]:hover:bg-transparent focus-visible:ring-1 focus-visible:ring-ring data-fluid-hover-active:text-foreground data-open:text-foreground data-popup-open:text-foreground not-data-fluid-hover-active:data-open:bg-hover not-data-fluid-hover-active:data-popup-open:bg-hover disabled:opacity-50;
   }
 
   /* Panel links: rounded-lg rows lit by the panel's fluid highlight. The
      current page's link is foreground on a bg-active fill. */
   .cn-navigation-menu-link {
-    @apply flex items-center gap-2 rounded-lg p-2 text-[13px] transition-colors duration-80 outline-none hover:bg-hover in-data-[fluid-hover]:hover:bg-transparent focus-visible:bg-hover data-active:bg-active data-active:text-foreground [&_svg:not([class*='size-'])]:size-4 [&_svg]:stroke-[1.5] data-fluid-hover-active:[&_svg]:stroke-2;
+    @apply cursor-pointer flex items-center gap-2 rounded-lg p-2 text-[13px] transition-colors duration-80 outline-none hover:bg-hover in-data-[fluid-hover]:hover:bg-transparent focus-visible:bg-hover data-active:bg-active data-active:text-foreground [&_svg:not([class*='size-'])]:size-4 [&_svg]:stroke-[1.5] data-fluid-hover-active:[&_svg]:stroke-2;
   }
 
   .cn-navigation-menu-trigger-icon {

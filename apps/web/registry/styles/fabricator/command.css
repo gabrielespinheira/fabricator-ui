@@ -49,11 +49,11 @@
      data-selected="true"; inside the fluid list the glide highlight paints
      it. Checked rows are foreground and semibold. */
   .cn-command-item {
-    @apply text-muted-foreground relative flex h-9 cursor-default items-center gap-2 rounded-lg px-2 text-[13px] outline-hidden transition-colors duration-80 select-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] data-selected:bg-hover data-selected:text-foreground data-selected:[&_svg]:stroke-2 in-data-[fluid-hover]:data-selected:bg-transparent data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-[checked=true]:text-foreground data-[checked=true]:font-semibold;
+    @apply cursor-pointer text-muted-foreground relative flex h-9 items-center gap-2 rounded-lg px-2 text-[13px] outline-hidden transition-colors duration-80 select-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] data-selected:bg-hover data-selected:text-foreground data-selected:[&_svg]:stroke-2 in-data-[fluid-hover]:data-selected:bg-transparent data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-[checked=true]:text-foreground data-[checked=true]:font-semibold;
   }
 
   .cn-command-item-aria {
-    @apply data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-focused:[&_svg]:stroke-2;
+    @apply cursor-pointer data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-focused:[&_svg]:stroke-2;
   }
 
   .cn-command-shortcut {

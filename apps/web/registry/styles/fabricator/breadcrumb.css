@@ -11,7 +11,7 @@
   }
 
   .cn-breadcrumb-link {
-    @apply hover:text-foreground focus-visible:ring-ring rounded-[4px] transition-colors duration-80 ease-spring outline-none focus-visible:ring-1;
+    @apply cursor-pointer hover:text-foreground focus-visible:ring-ring rounded-[4px] transition-colors duration-80 ease-spring outline-none focus-visible:ring-1;
   }
 
   .cn-breadcrumb-page {

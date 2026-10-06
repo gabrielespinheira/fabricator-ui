@@ -61,5 +61,5 @@
   }
 
   .cn-attachment-trigger {
-    @apply absolute inset-0 z-10 rounded-[inherit] outline-none;
+    @apply cursor-pointer absolute inset-0 z-10 rounded-[inherit] outline-none;
   }

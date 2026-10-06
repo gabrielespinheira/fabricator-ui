@@ -14,7 +14,7 @@
      surface with a firmer neutral ring (no blue halo). Invalid slots turn the
      ring red. */
   .cn-input-otp-slot {
-    @apply text-foreground ring-border data-[active=true]:bg-card data-[active=true]:ring-foreground/30 aria-invalid:ring-destructive/50 data-[active=true]:aria-invalid:ring-destructive size-9 rounded-lg bg-transparent text-[14px] tabular-nums ring-1 transition-[background-color,box-shadow] duration-80 ease-spring outline-none;
+    @apply cursor-text text-foreground ring-border data-[active=true]:bg-card data-[active=true]:ring-foreground/30 aria-invalid:ring-destructive/50 data-[active=true]:aria-invalid:ring-destructive size-9 rounded-lg bg-transparent text-[14px] tabular-nums ring-1 transition-[background-color,box-shadow] duration-80 ease-spring outline-none;
   }
 
   .cn-input-otp-caret-line {

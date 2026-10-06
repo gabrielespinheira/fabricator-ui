@@ -31,6 +31,17 @@ The header, the docs sidebar and the docs side panel have a settings menu:
 - **Icons:** Lucide (the default), Tabler, HugeIcons, Phosphor or Remix Icon, applied live to every preview.
 - **Radius:** Rounded or Pill.
 
+## Cursors
+
+Every Fabricator component now shows the cursor that matches what a press does:
+
+- `pointer` on anything that activates: buttons, toggles, tabs, accordion triggers, checkboxes, radios, switches, select and combobox triggers, and every menu, select, combobox and command row. Labels of checkboxes, switches and radios get it too.
+- `text` on input-OTP slots and the combobox chips row.
+- `grab`, then `grabbing`, on slider thumbs and drawer handles; the slider track is `pointer`.
+- `not-allowed` on disabled controls and slider thumbs, and on buttons that stay focusable while disabled.
+
+The rules live in the style, so `className` still overrides them.
+
 ## Fixes
 
 - Sidebar rows that open a collapsible now get the Fluid Hover highlight in every base.

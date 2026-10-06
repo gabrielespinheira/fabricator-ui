@@ -16,15 +16,15 @@
      marks it data-focused) turns foreground and thickens its icon.
      Destructive rows stay destructive when lit. */
   .cn-dropdown-menu-item {
-    @apply text-muted-foreground relative h-9 gap-2 rounded-lg px-2 text-[13px] transition-colors duration-80 data-inset:pl-8 [&_svg:not([class*='size-'])]:size-4 [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] data-highlighted:bg-hover data-highlighted:text-foreground data-highlighted:[&_svg]:stroke-2 in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-focused:[&_svg]:stroke-2 data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-[variant=destructive]:text-destructive! data-[variant=destructive]:*:[svg]:text-destructive;
+    @apply cursor-pointer text-muted-foreground relative h-9 gap-2 rounded-lg px-2 text-[13px] transition-colors duration-80 data-inset:pl-8 [&_svg:not([class*='size-'])]:size-4 [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] data-highlighted:bg-hover data-highlighted:text-foreground data-highlighted:[&_svg]:stroke-2 in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-focused:[&_svg]:stroke-2 data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-[variant=destructive]:text-destructive! data-[variant=destructive]:*:[svg]:text-destructive;
   }
 
   .cn-dropdown-menu-checkbox-item {
-    @apply text-muted-foreground relative h-9 gap-2 rounded-lg py-0 pr-8 pl-2 text-[13px] transition-[color,background-color] duration-80 data-inset:pl-8 [&_svg:not([class*='size-'])]:size-4 data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-fluid-hover-active:text-foreground data-checked:text-foreground data-checked:font-semibold data-selected:text-foreground data-selected:font-semibold;
+    @apply cursor-pointer text-muted-foreground relative h-9 gap-2 rounded-lg py-0 pr-8 pl-2 text-[13px] transition-[color,background-color] duration-80 data-inset:pl-8 [&_svg:not([class*='size-'])]:size-4 data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-fluid-hover-active:text-foreground data-checked:text-foreground data-checked:font-semibold data-selected:text-foreground data-selected:font-semibold;
   }
 
   .cn-dropdown-menu-radio-item {
-    @apply text-muted-foreground relative h-9 gap-2 rounded-lg py-0 pr-8 pl-2 text-[13px] transition-[color,background-color] duration-80 data-inset:pl-8 [&_svg:not([class*='size-'])]:size-4 data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-fluid-hover-active:text-foreground data-checked:text-foreground data-checked:font-semibold data-selected:text-foreground data-selected:font-semibold;
+    @apply cursor-pointer text-muted-foreground relative h-9 gap-2 rounded-lg py-0 pr-8 pl-2 text-[13px] transition-[color,background-color] duration-80 data-inset:pl-8 [&_svg:not([class*='size-'])]:size-4 data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-fluid-hover-active:text-foreground data-checked:text-foreground data-checked:font-semibold data-selected:text-foreground data-selected:font-semibold;
   }
 
   .cn-dropdown-menu-item-indicator {
@@ -45,7 +45,7 @@
 
   /* An open sub-trigger stays lit while the pointer is in its submenu. */
   .cn-dropdown-menu-sub-trigger {
-    @apply text-muted-foreground relative h-9 gap-2 rounded-lg px-2 text-[13px] transition-colors duration-80 data-inset:pl-8 [&_svg:not([class*='size-'])]:size-4 [&_svg]:stroke-[1.5] data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-fluid-hover-active:text-foreground data-open:text-foreground data-popup-open:text-foreground not-data-fluid-hover-active:data-open:bg-hover not-data-fluid-hover-active:data-popup-open:bg-hover;
+    @apply cursor-pointer text-muted-foreground relative h-9 gap-2 rounded-lg px-2 text-[13px] transition-colors duration-80 data-inset:pl-8 [&_svg:not([class*='size-'])]:size-4 [&_svg]:stroke-[1.5] data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-fluid-hover-active:text-foreground data-open:text-foreground data-popup-open:text-foreground not-data-fluid-hover-active:data-open:bg-hover not-data-fluid-hover-active:data-popup-open:bg-hover;
   }
 
   .cn-dropdown-menu-sub-content {

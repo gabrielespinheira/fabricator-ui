@@ -15,7 +15,7 @@
 
   /* The close button is a small ghost icon button in the corner. */
   .cn-dialog-close {
-    @apply absolute end-3 top-3;
+    @apply cursor-pointer absolute end-3 top-3;
   }
 
   .cn-dialog-header {
