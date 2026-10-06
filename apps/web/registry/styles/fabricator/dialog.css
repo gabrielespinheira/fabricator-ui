@@ -9,8 +9,11 @@
   /* Panel: surface 5 with its shadow ring (no border), rounded-xl, p-6.
      Enters on the slow spring (fade + a slight scale), exits as a quicker
      tween. */
+  /* Centered with inset-0 + m-auto, not top/left 50% + translate(-50%):
+     a translate lands on half pixels for odd sizes and blurs the text.
+     The ! beats the inline centering classes in the source. */
   .cn-dialog-content {
-    @apply bg-surface-5 shadow-surface-5 text-popover-foreground grid max-w-[calc(100%-2rem)] gap-4 rounded-xl p-6 text-[13px] duration-240 ease-spring-bounce data-open:animate-in data-open:fade-in-0 data-open:zoom-in-[0.97] data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-[0.97] data-closed:duration-160 data-closed:ease-exit sm:max-w-[400px];
+    @apply inset-0! m-auto! h-fit! translate-x-0! translate-y-0! bg-surface-5 shadow-surface-5 text-popover-foreground grid max-w-[calc(100%-2rem)] gap-4 rounded-xl p-6 text-[13px] duration-240 ease-spring-bounce data-open:animate-in data-open:fade-in-0 data-open:zoom-in-[0.97] data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-[0.97] data-closed:duration-160 data-closed:ease-exit sm:max-w-[400px];
   }
 
   /* The close button is a small ghost icon button in the corner. */
@@ -41,6 +44,7 @@
     @apply bg-black/40 duration-240 ease-spring-bounce data-entering:animate-in data-entering:fade-in-0 data-exiting:animate-out data-exiting:fade-out-0 data-exiting:duration-160 data-exiting:ease-exit dark:bg-black/80;
   }
 
+  /* Same pixel-snapped centering as the other bases. */
   .cn-dialog-content-aria {
-    @apply bg-surface-5 shadow-surface-5 text-popover-foreground grid max-w-[calc(100%-2rem)] gap-4 rounded-xl p-6 text-[13px] duration-240 ease-spring-bounce data-entering:animate-in data-entering:fade-in-0 data-entering:zoom-in-[0.97] data-exiting:animate-out data-exiting:fade-out-0 data-exiting:zoom-out-[0.97] data-exiting:duration-160 data-exiting:ease-exit sm:max-w-[400px];
+    @apply inset-0! m-auto! h-fit! translate-x-0! translate-y-0! bg-surface-5 shadow-surface-5 text-popover-foreground grid max-w-[calc(100%-2rem)] gap-4 rounded-xl p-6 text-[13px] duration-240 ease-spring-bounce data-entering:animate-in data-entering:fade-in-0 data-entering:zoom-in-[0.97] data-exiting:animate-out data-exiting:fade-out-0 data-exiting:zoom-out-[0.97] data-exiting:duration-160 data-exiting:ease-exit sm:max-w-[400px];
   }

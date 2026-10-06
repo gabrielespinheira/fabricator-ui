@@ -3262,56 +3262,6 @@ export const Components: Record<string, any> = {
       ) || "muted-item-group"
     return { default: mod.default || mod[exportName] }
   }),
-  "native-select-demo": React.lazy(async () => {
-    const mod = await import(
-      "@/examples/__styles__/radix-fabricator/native-select-demo"
-    )
-    const exportName =
-      Object.keys(mod).find(
-        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
-      ) || "native-select-demo"
-    return { default: mod.default || mod[exportName] }
-  }),
-  "native-select-disabled": React.lazy(async () => {
-    const mod = await import(
-      "@/examples/__styles__/radix-fabricator/native-select-disabled"
-    )
-    const exportName =
-      Object.keys(mod).find(
-        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
-      ) || "native-select-disabled"
-    return { default: mod.default || mod[exportName] }
-  }),
-  "native-select-groups": React.lazy(async () => {
-    const mod = await import(
-      "@/examples/__styles__/radix-fabricator/native-select-groups"
-    )
-    const exportName =
-      Object.keys(mod).find(
-        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
-      ) || "native-select-groups"
-    return { default: mod.default || mod[exportName] }
-  }),
-  "native-select-invalid": React.lazy(async () => {
-    const mod = await import(
-      "@/examples/__styles__/radix-fabricator/native-select-invalid"
-    )
-    const exportName =
-      Object.keys(mod).find(
-        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
-      ) || "native-select-invalid"
-    return { default: mod.default || mod[exportName] }
-  }),
-  "native-select-rtl": React.lazy(async () => {
-    const mod = await import(
-      "@/examples/__styles__/radix-fabricator/native-select-rtl"
-    )
-    const exportName =
-      Object.keys(mod).find(
-        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
-      ) || "native-select-rtl"
-    return { default: mod.default || mod[exportName] }
-  }),
   "navigation-menu-demo": React.lazy(async () => {
     const mod = await import(
       "@/examples/__styles__/radix-fabricator/navigation-menu-demo"

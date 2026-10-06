@@ -7475,27 +7475,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "muted-item-group",
       filePath: "examples/__styles__/base-fabricator/muted-item-group.tsx",
     },
-    "native-select-demo": {
-      name: "native-select-demo",
-      filePath: "examples/__styles__/base-fabricator/native-select-demo.tsx",
-    },
-    "native-select-disabled": {
-      name: "native-select-disabled",
-      filePath:
-        "examples/__styles__/base-fabricator/native-select-disabled.tsx",
-    },
-    "native-select-groups": {
-      name: "native-select-groups",
-      filePath: "examples/__styles__/base-fabricator/native-select-groups.tsx",
-    },
-    "native-select-invalid": {
-      name: "native-select-invalid",
-      filePath: "examples/__styles__/base-fabricator/native-select-invalid.tsx",
-    },
-    "native-select-rtl": {
-      name: "native-select-rtl",
-      filePath: "examples/__styles__/base-fabricator/native-select-rtl.tsx",
-    },
     "navigation-menu-demo": {
       name: "navigation-menu-demo",
       filePath: "examples/__styles__/base-fabricator/navigation-menu-demo.tsx",
@@ -9546,27 +9525,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "muted-item-group": {
       name: "muted-item-group",
       filePath: "examples/__styles__/aria-fabricator/muted-item-group.tsx",
-    },
-    "native-select-demo": {
-      name: "native-select-demo",
-      filePath: "examples/__styles__/aria-fabricator/native-select-demo.tsx",
-    },
-    "native-select-disabled": {
-      name: "native-select-disabled",
-      filePath:
-        "examples/__styles__/aria-fabricator/native-select-disabled.tsx",
-    },
-    "native-select-groups": {
-      name: "native-select-groups",
-      filePath: "examples/__styles__/aria-fabricator/native-select-groups.tsx",
-    },
-    "native-select-invalid": {
-      name: "native-select-invalid",
-      filePath: "examples/__styles__/aria-fabricator/native-select-invalid.tsx",
-    },
-    "native-select-rtl": {
-      name: "native-select-rtl",
-      filePath: "examples/__styles__/aria-fabricator/native-select-rtl.tsx",
     },
     "outline-item-group": {
       name: "outline-item-group",
@@ -11642,28 +11600,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "muted-item-group": {
       name: "muted-item-group",
       filePath: "examples/__styles__/radix-fabricator/muted-item-group.tsx",
-    },
-    "native-select-demo": {
-      name: "native-select-demo",
-      filePath: "examples/__styles__/radix-fabricator/native-select-demo.tsx",
-    },
-    "native-select-disabled": {
-      name: "native-select-disabled",
-      filePath:
-        "examples/__styles__/radix-fabricator/native-select-disabled.tsx",
-    },
-    "native-select-groups": {
-      name: "native-select-groups",
-      filePath: "examples/__styles__/radix-fabricator/native-select-groups.tsx",
-    },
-    "native-select-invalid": {
-      name: "native-select-invalid",
-      filePath:
-        "examples/__styles__/radix-fabricator/native-select-invalid.tsx",
-    },
-    "native-select-rtl": {
-      name: "native-select-rtl",
-      filePath: "examples/__styles__/radix-fabricator/native-select-rtl.tsx",
     },
     "navigation-menu-demo": {
       name: "navigation-menu-demo",

@@ -42,6 +42,15 @@ Every Fabricator component now shows the cursor that matches what a press does:
 
 The rules live in the style, so `className` still overrides them.
 
+## Smoother rendering
+
+- The foundations turn on grayscale font anti-aliasing, legibility and kerning, optical sizes, and no faux bold or italic, for every app that uses Fabricator components.
+- Dialogs and alert dialogs are centered without a half-pixel `translate`, so their text stays sharp at every window size.
+
+## Removed
+
+- **Native Select** is no longer part of the Fabricator library: it only restyled the browser's own `<select>`. Use [Select](/docs/components/base/select). Blocks and examples that used it now use Select. Projects that keep their own style can still install it.
+
 ## Fixes
 
 - Sidebar rows that open a collapsible now get the Fluid Hover highlight in every base.

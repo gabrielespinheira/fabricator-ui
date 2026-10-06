@@ -3168,56 +3168,6 @@ export const Components: Record<string, any> = {
       ) || "muted-item-group"
     return { default: mod.default || mod[exportName] }
   }),
-  "native-select-demo": React.lazy(async () => {
-    const mod = await import(
-      "@/examples/__styles__/aria-fabricator/native-select-demo"
-    )
-    const exportName =
-      Object.keys(mod).find(
-        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
-      ) || "native-select-demo"
-    return { default: mod.default || mod[exportName] }
-  }),
-  "native-select-disabled": React.lazy(async () => {
-    const mod = await import(
-      "@/examples/__styles__/aria-fabricator/native-select-disabled"
-    )
-    const exportName =
-      Object.keys(mod).find(
-        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
-      ) || "native-select-disabled"
-    return { default: mod.default || mod[exportName] }
-  }),
-  "native-select-groups": React.lazy(async () => {
-    const mod = await import(
-      "@/examples/__styles__/aria-fabricator/native-select-groups"
-    )
-    const exportName =
-      Object.keys(mod).find(
-        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
-      ) || "native-select-groups"
-    return { default: mod.default || mod[exportName] }
-  }),
-  "native-select-invalid": React.lazy(async () => {
-    const mod = await import(
-      "@/examples/__styles__/aria-fabricator/native-select-invalid"
-    )
-    const exportName =
-      Object.keys(mod).find(
-        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
-      ) || "native-select-invalid"
-    return { default: mod.default || mod[exportName] }
-  }),
-  "native-select-rtl": React.lazy(async () => {
-    const mod = await import(
-      "@/examples/__styles__/aria-fabricator/native-select-rtl"
-    )
-    const exportName =
-      Object.keys(mod).find(
-        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
-      ) || "native-select-rtl"
-    return { default: mod.default || mod[exportName] }
-  }),
   "outline-item-group": React.lazy(async () => {
     const mod = await import(
       "@/examples/__styles__/aria-fabricator/outline-item-group"
