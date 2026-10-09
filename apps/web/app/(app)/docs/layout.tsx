@@ -9,10 +9,7 @@ export default function DocsLayout({
 }) {
   return (
     <div data-slot="docs-shell" className="flex flex-1 items-start">
-      <DocsShellSidebar
-        tree={source.pageTree}
-        className="hidden lg:flex"
-      />
+      <DocsShellSidebar tree={source.pageTree} className="hidden lg:flex" />
       <div className="flex min-w-0 flex-1 flex-col">
         <DocsMobileBar tree={source.pageTree} />
         {children}

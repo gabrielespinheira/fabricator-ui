@@ -38,9 +38,7 @@ const EXCLUDED_PAGES = [
   "/docs/installation",
 ]
 
-const SITE_LINKS = [
-  { name: "Blocks", href: "/blocks", match: "/blocks" },
-]
+const SITE_LINKS = [{ name: "Blocks", href: "/blocks", match: "/blocks" }]
 
 const ITEM_CLASS =
   "h-8 shrink-0 px-2 text-[14px] data-[active=true]:font-medium"

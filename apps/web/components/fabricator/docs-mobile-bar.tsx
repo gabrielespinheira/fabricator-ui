@@ -8,11 +8,7 @@ import { Icons } from "@/components/icons"
 import { MobileNav } from "@/components/mobile-nav"
 
 /** The docs top bar below the `lg` breakpoint, where the sidebar is hidden. */
-export function DocsMobileBar({
-  tree,
-}: {
-  tree: typeof source.pageTree
-}) {
+export function DocsMobileBar({ tree }: { tree: typeof source.pageTree }) {
   return (
     <div className="sticky top-0 z-40 flex h-14 items-center gap-2 bg-background/90 px-4 backdrop-blur-md lg:hidden">
       <MobileNav tree={tree} items={siteConfig.navItems} />
