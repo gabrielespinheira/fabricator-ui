@@ -27,6 +27,23 @@
       // payloads) are migrated to the real path.
       "@/app/(create)/*": ["./app/(app)/(create)/*"],
       "@/app/(app)/create/*": ["./app/(app)/(create)/*"],
+      // Fabricator overlay files import shared libs as if they lived in each
+      // base (the build substitutes them per base); see registry/fabricator.
+      "@/registry/bases/*/lib/fluid-hover": [
+        "./registry/fabricator/shared/lib/fluid-hover"
+      ],
+      "@/registry/bases/*/lib/sounds": [
+        "./registry/fabricator/shared/lib/sounds"
+      ],
+      "@/registry/bases/*/components/sound-effects": [
+        "./registry/fabricator/shared/components/sound-effects"
+      ],
+      // Shared overlay files name the base as __base__ (the build substitutes
+      // each base); they typecheck against the Base UI tree, then the overlay.
+      "@/registry/bases/__base__/*": [
+        "./registry/bases/base/*",
+        "./registry/fabricator/shared/*"
+      ],
       "@/*": ["./*"],
       "react": ["./node_modules/@types/react"]
     }

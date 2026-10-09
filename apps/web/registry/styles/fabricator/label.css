@@ -1,0 +1,9 @@
+/* MARK: Label */
+
+  .cn-label {
+    @apply has-[[data-slot=checkbox],[data-slot=switch],[data-slot=radio-group-item]]:cursor-pointer [[data-slot=checkbox]~&]:cursor-pointer [[data-slot=switch]~&]:cursor-pointer [[data-slot=radio-group-item]~&]:cursor-pointer in-[[data-slot=field]:has([data-slot=checkbox],[data-slot=switch],[data-slot=radio-group-item])]:cursor-pointer text-foreground gap-2 text-[13px] leading-none font-medium group-data-[disabled=true]:opacity-50 peer-disabled:opacity-50;
+  }
+
+  .cn-label-aria {
+    @apply has-[[data-slot=checkbox],[data-slot=switch],[data-slot=radio-group-item]]:cursor-pointer [[data-slot=checkbox]~&]:cursor-pointer [[data-slot=switch]~&]:cursor-pointer [[data-slot=radio-group-item]~&]:cursor-pointer in-[[data-slot=field]:has([data-slot=checkbox],[data-slot=switch],[data-slot=radio-group-item])]:cursor-pointer peer-data-disabled:opacity-50;
+  }

@@ -1,0 +1,14 @@
+/* MARK: Fluid Hover */
+
+  /* The highlight that glides to the item nearest the pointer
+     (lib/fluid-hover). It fades in where it first appears, then moves on the
+     fast spring. Reduced motion keeps the fade and drops the travel. */
+  .cn-fluid-hover-highlight {
+    @apply bg-hover rounded-lg transition-opacity duration-fast ease-linear starting:opacity-0 data-animate:transition-[transform,width,height,opacity] data-animate:ease-spring motion-reduce:transition-opacity;
+  }
+
+  /* The selected item's background, sliding between selections on the
+     moderate spring. */
+  .cn-fluid-hover-selection {
+    @apply bg-active rounded-lg transition-opacity duration-fast ease-linear data-animate:transition-[transform,width,height,opacity] data-animate:duration-moderate data-animate:ease-spring motion-reduce:transition-opacity;
+  }

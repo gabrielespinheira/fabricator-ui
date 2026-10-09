@@ -37,8 +37,8 @@ Then import the shared utilities in your global CSS file:
 | `scroll-fade-b`                   | Fade mask on the bottom edge. <br /> `animation-timeline: scroll(self y);`                                          |
 | `scroll-fade-l`                   | Fade mask on the left edge. <br /> `animation-timeline: scroll(self x);`                                            |
 | `scroll-fade-r`                   | Fade mask on the right edge. <br /> `animation-timeline: scroll(self x);`                                           |
-| `scroll-fade-s`                   | Fade mask on the start edge, mirrors in RTL. <br /> `animation-timeline: scroll(self inline);`                      |
-| `scroll-fade-e`                   | Fade mask on the end edge, mirrors in RTL. <br /> `animation-timeline: scroll(self inline);`                        |
+| `scroll-fade-s`                   | Fade mask on the start edge. <br /> `animation-timeline: scroll(self inline);`                                      |
+| `scroll-fade-e`                   | Fade mask on the end edge. <br /> `animation-timeline: scroll(self inline);`                                        |
 | `scroll-fade-<number>`            | `--scroll-fade-size: calc(var(--spacing) * <number>);`                                                              |
 | `scroll-fade-[<value>]`           | `--scroll-fade-size: <value>;`                                                                                      |
 | `scroll-fade-{t,b,s,e}-<number>`  | `--scroll-fade-{t,b,s,e}-size: calc(var(--spacing) * <number>);`                                                    |
@@ -85,7 +85,7 @@ Use `scroll-fade-x` on containers that scroll horizontally, i.e. the element tha
 <div className="flex scroll-fade-x overflow-x-auto">{/* ... */}</div>
 ```
 
-The horizontal fade is direction-aware. In RTL layouts, the crisp edge and the fade follow the reading direction with no extra classes needed. `scroll-fade-<number>` and `scroll-fade-none` work the same for both axes.
+`scroll-fade-<number>` and `scroll-fade-none` work the same for both axes.
 
 ## Edge Fades
 
@@ -101,7 +101,7 @@ Use edge utilities when only one edge should track the scroll position.
 <div className="scroll-fade-b overflow-y-auto">{/* ... */}</div>
 ```
 
-The edge utilities are scroll-aware. Start edges fade in after you scroll away from the start, and end edges fade out when you reach the end. Use `scroll-fade-t`, `scroll-fade-b`, `scroll-fade-l`, and `scroll-fade-r` for physical edges. Use `scroll-fade-s` and `scroll-fade-e` for logical inline edges that mirror in RTL.
+The edge utilities are scroll-aware. Start edges fade in after you scroll away from the start, and end edges fade out when you reach the end. Use `scroll-fade-t`, `scroll-fade-b`, `scroll-fade-l`, and `scroll-fade-r` for physical edges. Use `scroll-fade-s` and `scroll-fade-e` for the logical start and end edges.
 
 ## Fade Size
 
@@ -131,7 +131,7 @@ To fade opposite edges by different amounts, use the per-edge modifiers `scroll-
 </div>
 ```
 
-Use the logical `s`/`e` modifiers for horizontal scrollers so the sizes mirror in RTL.
+Use the logical `s`/`e` modifiers for the start and end edges of horizontal scrollers.
 
 The fade eases in and out over a fixed scroll distance rather than appearing instantly. That distance is the `--scroll-fade-reveal` variable, `96px` by default and independent of the fade depth. Lower it for a snappier reveal or raise it for a more gradual one:
 
@@ -162,15 +162,3 @@ Use `scroll-fade-none` to remove the fade. It works in any class order, so the t
 The scroll-aware behavior is implemented with [CSS scroll-driven animations](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_scroll-driven_animations), with no JavaScript and no scroll listeners. In browsers that do not support scroll-driven animations, `scroll-fade` falls back to a static fade on both edges, and edge utilities fall back to a static fade on the selected edge.
 
 Since the mask is applied to the scroll container itself, a visible scrollbar fades with the content at the edges. Pair `scroll-fade` with `no-scrollbar`, which ships in the same package, if you want to hide the scrollbar entirely.
-
-## RTL
-
-To enable RTL support in Fabricator UI, see the [RTL configuration guide](/docs/rtl).
-
-`scroll-fade-x` follows the reading direction. At rest, the start edge is crisp and the end edge fades. In RTL layouts that means a crisp right edge and a fade on the left, mirrored from LTR.
-
-<ComponentPreview
-  styleName="base-nova"
-  name="scroll-fade-rtl"
-  direction="rtl"
-/>

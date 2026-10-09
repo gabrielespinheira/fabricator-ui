@@ -1,0 +1,50 @@
+/* MARK: Search */
+
+  /* One object: closed it is a round button (width = height), open it springs
+     to --search-width (default 320px, never wider than its parent). The width
+     opens on the slow spring and closes on the quicker exit tween; a press on
+     the closed button squashes it slightly on the fast spring ("give").
+     Corners stay a full pill. Fill is the translucent `active` overlay, so it sits
+     on any surface in both themes. */
+  .cn-search {
+    @apply text-foreground max-w-full rounded-full transition-[width,scale,background-color,box-shadow] duration-slow ease-spring-bounce not-data-open:duration-slow-exit not-data-open:ease-exit has-[[data-slot=search-trigger]:active]:not-data-open:scale-[0.94] has-[[data-slot=search-trigger]:focus-visible]:ring-1 has-[[data-slot=search-trigger]:focus-visible]:ring-ring has-[[data-slot=search-input]:focus-visible]:ring-1 has-[[data-slot=search-input]:focus-visible]:ring-foreground/20 motion-reduce:transition-[background-color,box-shadow] motion-reduce:has-[[data-slot=search-trigger]:active]:not-data-open:scale-100;
+  }
+
+  .cn-search-variant-default {
+    @apply bg-active not-data-open:hover:bg-foreground/[0.13];
+  }
+
+  /* Bencho's "stroke": a hairline ring instead of the fill. */
+  .cn-search-variant-outline {
+    @apply ring-border bg-transparent ring-1 not-data-open:hover:bg-hover;
+  }
+
+  .cn-search-size-default {
+    @apply h-9 w-9 text-[13px] data-open:w-(--search-width,320px) [&_[data-slot=search-input]]:ps-9 [&_[data-slot=search-input]]:pe-3 has-[[data-slot=search-clear]]:[&_[data-slot=search-input]]:pe-9 [&_svg:not([class*='size-'])]:size-4;
+  }
+
+  .cn-search-size-sm {
+    @apply h-7 w-7 text-[12px] data-open:w-(--search-width,240px) [&_[data-slot=search-input]]:ps-7 [&_[data-slot=search-input]]:pe-2.5 has-[[data-slot=search-clear]]:[&_[data-slot=search-input]]:pe-7 [&_svg:not([class*='size-'])]:size-3.5;
+  }
+
+  .cn-search-size-lg {
+    @apply h-11 w-11 text-[15px] data-open:w-(--search-width,360px) [&_[data-slot=search-input]]:ps-11 [&_[data-slot=search-input]]:pe-4 has-[[data-slot=search-clear]]:[&_[data-slot=search-input]]:pe-11 [&_svg:not([class*='size-'])]:size-[18px];
+  }
+
+  /* Closed: the whole button. Open: just the icon, muted. */
+  .cn-search-trigger {
+    @apply cursor-pointer rounded-full text-foreground transition-colors duration-fast ease-spring group-data-open/search:text-muted-foreground;
+  }
+
+  .cn-search-icon {
+    @apply stroke-[1.75];
+  }
+
+  /* The field fades in once the width is on its way, and out at once. */
+  .cn-search-input {
+    @apply cursor-text text-foreground placeholder:text-muted-foreground opacity-0 transition-opacity duration-fast-exit ease-exit group-data-open/search:opacity-100 group-data-open/search:delay-fast group-data-open/search:duration-moderate group-data-open/search:ease-spring motion-reduce:delay-0;
+  }
+
+  .cn-search-clear {
+    @apply text-muted-foreground hover:text-foreground focus-visible:text-foreground cursor-pointer rounded-full transition-colors duration-fast ease-spring animate-in fade-in-0 zoom-in-75 motion-reduce:zoom-in-100 focus-visible:ring-1 focus-visible:ring-ring [&_svg:not([class*='size-'])]:size-3.5;
+  }

@@ -15,6 +15,20 @@ export const legacyStyles = [
     name: "aria-nova",
     title: "React Aria Nova",
   },
+  // Fabricator style for the default base. Blocks render from raw base
+  // sources inside a `.style-fabricator` scope (see app/(view)/view).
+  {
+    name: "base-fabricator",
+    title: "Fabricator",
+  },
+  {
+    name: "radix-fabricator",
+    title: "Fabricator (Radix)",
+  },
+  {
+    name: "aria-fabricator",
+    title: "Fabricator (React Aria)",
+  },
 ] as const
 
 export type Style = (typeof legacyStyles)[number]

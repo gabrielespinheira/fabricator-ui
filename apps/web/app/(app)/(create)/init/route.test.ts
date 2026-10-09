@@ -6,6 +6,7 @@ import {
   POINTER_CURSOR_SELECTOR,
 } from "@/registry/config"
 import { toFabricatorRegistryBase } from "@/registry/fabricator-init"
+import { FABRICATOR_PALETTE } from "@/registry/fabricator/foundations"
 
 import { GET } from "./route"
 
@@ -34,6 +35,7 @@ describe("GET /init", () => {
       toFabricatorRegistryBase(buildRegistryBase(DEFAULT_CONFIG), {
         config: DEFAULT_CONFIG,
         mode: "fabricator",
+        palette: true,
       })
     )
     expect(json.css["@layer base"][POINTER_CURSOR_SELECTOR]).toBeUndefined()
@@ -69,7 +71,8 @@ describe("GET /init", () => {
       },
     })
     expect(json.cssVars.light).toBeDefined()
-    expect(json.cssVars.light.radius).toBe("0.625rem")
+    // The default (fabricator) preset applies the Fabricator palette.
+    expect(json.cssVars.light.radius).toBe(FABRICATOR_PALETTE.light.radius)
     expect(json.dependencies).toBeUndefined()
     expect(json.registryDependencies).toBeUndefined()
   })
@@ -106,6 +109,30 @@ describe("GET /init", () => {
 
     expect(response.status).toBe(200)
     expect(json.config.style).toBe("radix-nova")
+  })
+
+  it("installs the foundations in fabricator mode", async () => {
+    const response = await GET(createRequest())
+    const json = await response.json()
+
+    expect(json.registryDependencies).toContainEqual(
+      expect.stringMatching(/\/r\/fabricator\/base-nova\/foundations\.json$/)
+    )
+    expect(json.cssVars.light.background).toBe(
+      FABRICATOR_PALETTE.light.background
+    )
+  })
+
+  it("keeps a shadcn preset code's own colours", async () => {
+    const response = await GET({
+      nextUrl: new URL("http://localhost:4000/init?preset=b0"),
+    } as Parameters<typeof GET>[0])
+    const json = await response.json()
+
+    expect(response.status).toBe(200)
+    expect(json.cssVars.light.background).not.toBe(
+      FABRICATOR_PALETTE.light.background
+    )
   })
 
   it("rejects unknown preset names", async () => {

@@ -1,0 +1,24 @@
+/* MARK: Marker */
+
+  /* Status and thinking lines: 13px muted text with 1.5-stroke icons. Links
+     and button markers light up to foreground on the fast tier; the shimmer
+     on streaming states stays inline. */
+  .cn-marker {
+    @apply text-muted-foreground min-h-5 gap-2 text-start text-[13px] leading-snug transition-colors duration-fast ease-spring [&_svg:not([class*='size-'])]:size-4 [&_svg]:stroke-[1.5] [a]:underline [a]:decoration-current/30 [a]:underline-offset-3 [a]:hover:text-foreground [a]:hover:decoration-current/60 [button]:rounded-lg [button]:outline-none [button]:hover:text-foreground [button]:hover:[&_svg]:stroke-2 [button]:focus-visible:ring-1 [button]:focus-visible:ring-ring;
+  }
+
+  .cn-marker-variant-separator {
+    @apply before:bg-border/60 after:bg-border/60 before:h-px before:min-w-0 before:flex-1 after:h-px after:min-w-0 after:flex-1 before:me-1 after:ms-1;
+  }
+
+  .cn-marker-variant-border {
+    @apply border-border/60 border-b pb-2;
+  }
+
+  .cn-marker-icon {
+    @apply size-4 [&_svg:not([class*='size-'])]:size-4;
+  }
+
+  .cn-marker-content {
+    @apply group-data-[variant=separator]/marker:flex-none group-data-[variant=separator]/marker:text-center *:[a]:underline *:[a]:decoration-current/30 *:[a]:underline-offset-3 *:[a]:transition-colors *:[a]:duration-fast *:[a]:hover:text-foreground *:[a]:hover:decoration-current/60;
+  }

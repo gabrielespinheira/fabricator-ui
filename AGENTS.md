@@ -41,6 +41,7 @@ These invariants are what make Fabricator a drop-in for shadcn projects. A chang
    - `radius` (and the derived `--radius-*`), `font-sans`, `font-heading`, `font-mono`
 
    Fabricator tokens are added under new names (`--surface-*`, `--motion-*`, …) and shipped in the `cssVars` of the items that use them.
+
 5. **Base parity.** A change to a component, example or block in one base tree lands in all base trees in the same change. See "Bases" below.
 6. **Generated output is rebuilt, never hand-edited.** Edit the authored source and run the registry build. See "Registry" for which paths are generated.
 7. **Bun is the toolchain.** Use `bun install`, `bun run <script>`, `bunx --bun <bin>`, and keep a single `bun.lock`. The one exception is the release job, which uploads with `npm publish --provenance`.
@@ -65,22 +66,26 @@ Everywhere else, write "Fabricator UI", "the CLI" (`npx fabricator-ui@latest …
 
 The full target tree is in `PLAN.md` §4. Which paths are authored and which are generated:
 
-| Path | What | Authored? |
-|---|---|---|
-| `apps/web/registry/bases/{base,radix,aria}/` | Component, block, hook and lib source plus `_registry.ts` item declarations | ✅ authored |
-| `apps/web/registry/styles/style-*.css` | Style maps (8 upstream + Fabricator) | ✅ authored |
-| `apps/web/registry/{bases,styles,themes,fonts,config,presets}.ts` | Registry metadata, themes, presets, `registry:base` builder | ✅ authored |
-| `apps/web/examples/{base,radix,aria}/*.tsx` | Docs demos (flat folders, no subdirectories) | ✅ authored |
-| `apps/web/content/docs/**` | MDX docs (Fumadocs) | ✅ authored |
-| `apps/web/registry/**/__index__.tsx`, `__components__/`, `__blocks__.json`, `examples/__index__.tsx` | Runtime lookup indexes | ⚙️ generated, committed |
-| `apps/web/styles/<base>-<style>/` | Compiled components the docs import | ⚙️ generated, gitignored |
-| `apps/web/public/r/**` | Installable registry JSON | ⚙️ generated, gitignored (except small committed indexes) |
-| `packages/cli/` | `fabricator-ui` CLI (Node target, wraps `shadcn`) | ✅ authored |
-| `packages/react/` | `@fabricator-ui/react` headless primitives (later phase) | ✅ authored |
-| `packages/tests/` | CLI end-to-end tests against real templates | ✅ authored |
-| `skills/fabricator/` | Agent skill for consumers of the library | ✅ authored |
-| `upstream.lock.json`, `scripts/sync-upstream.ts` | Upstream pin and import tooling | ✅ authored |
-| `tmp/` | Personal experiments (Three.js hero prototype); gitignored | outside the product |
+| Path                                                                                                 | What                                                                                                                                                    | Authored?                                                 |
+| ---------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
+| `apps/web/registry/bases/{base,radix,aria}/`                                                         | Component, block, hook and lib source plus `_registry.ts` item declarations                                                                             | ✅ authored                                               |
+| `apps/web/registry/styles/style-*.css`                                                               | Style maps for the 8 upstream styles                                                                                                                    | ✅ authored                                               |
+| `apps/web/registry/styles/fabricator/*.css`                                                          | Fabricator style map, one file per component                                                                                                            | ✅ authored                                               |
+| `apps/web/registry/styles/style-fabricator.css`                                                      | Assembled Fabricator style map                                                                                                                          | ⚙️ generated, committed                                   |
+| `apps/web/registry/fabricator/`                                                                      | Fabricator foundations (`foundations.ts`), design spec (`DESIGN.md`), extra items and overrides (`registry.ts`), overlay sources (`shared/`, `<base>/`) | ✅ authored                                               |
+| `apps/web/app/fabricator.css`                                                                        | Foundations + palette stylesheet for the website                                                                                                        | ⚙️ generated, committed                                   |
+| `apps/web/registry/{bases,styles,themes,fonts,config,presets}.ts`                                    | Registry metadata, themes, presets, `registry:base` builder                                                                                             | ✅ authored                                               |
+| `apps/web/examples/{base,radix,aria}/*.tsx`                                                          | Docs demos (flat folders, no subdirectories)                                                                                                            | ✅ authored                                               |
+| `apps/web/content/docs/**`                                                                           | MDX docs (Fumadocs)                                                                                                                                     | ✅ authored                                               |
+| `apps/web/registry/**/__index__.tsx`, `__components__/`, `__blocks__.json`, `examples/__index__.tsx` | Runtime lookup indexes                                                                                                                                  | ⚙️ generated, committed                                   |
+| `apps/web/styles/<base>-<style>/`                                                                    | Compiled components the docs import                                                                                                                     | ⚙️ generated, gitignored                                  |
+| `apps/web/public/r/**`                                                                               | Installable registry JSON                                                                                                                               | ⚙️ generated, gitignored (except small committed indexes) |
+| `packages/cli/`                                                                                      | `fabricator-ui` CLI (Node target, wraps `shadcn`)                                                                                                       | ✅ authored                                               |
+| `packages/react/`                                                                                    | `@fabricator-ui/react` headless primitives (later phase)                                                                                                | ✅ authored                                               |
+| `packages/tests/`                                                                                    | CLI end-to-end tests against real templates                                                                                                             | ✅ authored                                               |
+| `skills/fabricator/`                                                                                 | Agent skill for consumers of the library                                                                                                                | ✅ authored                                               |
+| `upstream.lock.json`, `scripts/sync-upstream.ts`                                                     | Upstream pin and import tooling                                                                                                                         | ✅ authored                                               |
+| `tmp/`                                                                                               | Personal experiments (Three.js hero prototype); gitignored                                                                                              | outside the product                                       |
 
 ---
 
@@ -88,27 +93,28 @@ The full target tree is in `PLAN.md` §4. Which paths are authored and which are
 
 The root `package.json` is the source of truth for scripts. Keep this table in step when scripts change.
 
-| Task | Command |
-|---|---|
-| Install | `bun install` |
-| Website dev server | `bun run dev` (`apps/web`; run `registry:build` once on a fresh clone) |
-| Full registry build (canonical, formatted; run before committing) | `bun run registry:build` |
-| Targeted registry builds (fast, unformatted; run in `apps/web`) | `bun run registry:build --examples \| --indexes \| --style <id\|all> \| --registry <id\|all>` |
-| Lint, typecheck, format check | `bun run check` |
-| Unit tests | `bun run test` |
-| Upstream parity check (fetches ui.shadcn.com) | `bun run test:parity` (`--styles all` for every combination) |
-| CLI end-to-end (needs `bun run dev` running and `bun run cli:build`) | `bun run test:e2e` (`--only vite-base,existing-shadcn`, `--keep`) |
-| Run the local CLI against the local registry | `FABRICATOR_REGISTRY_URL=http://localhost:4000 bun run cli <init\|add\|…> -c <path-to-app>` |
-| Build the CLI | `bun run cli:build` |
-| Import upstream | `bun run sync:upstream --ref <sha\|tag>` |
-| Rebrand upstream demo content (after every sync) | `bun run rebrand` (`--check` to verify) |
-| Recapture mobile preview screenshots (dev server running) | `cd apps/web && bun run registry:capture --force && bun run pages:capture` |
-| Add a release note | `bunx changeset` |
+| Task                                                                 | Command                                                                                       |
+| -------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| Install                                                              | `bun install`                                                                                 |
+| Website dev server                                                   | `bun run dev` (`apps/web`; run `registry:build` once on a fresh clone)                        |
+| Full registry build (canonical, formatted; run before committing)    | `bun run registry:build`                                                                      |
+| Targeted registry builds (fast, unformatted; run in `apps/web`)      | `bun run registry:build --examples \| --indexes \| --style <id\|all> \| --registry <id\|all>` |
+| Lint, typecheck, format check                                        | `bun run check`                                                                               |
+| Unit tests                                                           | `bun run test`                                                                                |
+| Upstream parity check (fetches ui.shadcn.com)                        | `bun run test:parity` (`--styles all` for every combination)                                  |
+| CLI end-to-end (needs `bun run dev` running and `bun run cli:build`) | `bun run test:e2e` (`--only vite-base,existing-shadcn`, `--keep`)                             |
+| Run the local CLI against the local registry                         | `FABRICATOR_REGISTRY_URL=http://localhost:4000 bun run cli <init\|add\|…> -c <path-to-app>`   |
+| Build the CLI                                                        | `bun run cli:build`                                                                           |
+| Import upstream                                                      | `bun run sync:upstream --ref <sha\|tag>`                                                      |
+| Rebrand upstream demo content (after every sync)                     | `bun run rebrand` (`--check` to verify)                                                       |
+| Recapture mobile preview screenshots (dev server running)            | `cd apps/web && bun run registry:capture --force && bun run pages:capture`                    |
+| Add a release note                                                   | `bunx changeset`                                                                              |
 
 ### Toolchain notes
 
 - `bunfig.toml` sets `linker = "hoisted"`. Isolated installs create one copy of a package per peer set (for example `fumadocs-core` with Zod 3 and with Zod 4), which breaks TypeScript type identity and caused a Fumadocs runtime stack overflow.
 - Root `overrides` pin a few tools to upstream's resolved versions: `prettier` 3.6.2 (the registry build formats generated source; another version changes output and breaks parity), `eslint-plugin-react-hooks` 7.0.1, and `mdast-util-to-markdown` 2.1.2. Bump them only together with upstream, and rerun `test:parity`.
+- `next build` must fit in 8 GB, the memory of a standard Vercel build machine; above that the process is OOM-killed with no error and the deployment hangs in "Building". `apps/web/next.config.mjs` turns off the Turbopack build cache and source maps and runs the loaders as worker threads, and `scripts/build-registry.mts` writes lazy component shards only for the styles the site renders (`legacyStyles`). Before adding a route, a style or a lazy map to the site's module graph, check the build in a container limited to 4 CPUs and 8 GB (it needs ~7 GB today).
 - Turborepo's auto-written agent guidance is disabled (`"agentGuidance": false` in `turbo.json`) so this file stays the single source.
 
 ---
@@ -185,11 +191,11 @@ The split between inline classes and placeholders is what makes styles swappable
 
 ### Composition per base
 
-| Base | Composition API | Example |
-|---|---|---|
-| `radix` | `asChild` + `Slot.Root` from `radix-ui` | `<DialogClose asChild><Button/></DialogClose>` |
-| `base` | `render` prop, `useRender` / `mergeProps` | `<DialogPrimitive.Close render={<Button variant="ghost" />} />` |
-| `aria` | RAC render props and slots | per `react-aria-components` docs |
+| Base    | Composition API                           | Example                                                         |
+| ------- | ----------------------------------------- | --------------------------------------------------------------- |
+| `radix` | `asChild` + `Slot.Root` from `radix-ui`   | `<DialogClose asChild><Button/></DialogClose>`                  |
+| `base`  | `render` prop, `useRender` / `mergeProps` | `<DialogPrimitive.Close render={<Button variant="ghost" />} />` |
+| `aria`  | RAC render props and slots                | per `react-aria-components` docs                                |
 
 Part names follow each library (Radix `Overlay`/`Content`, Base UI `Backdrop`/`Popup`, RAC `ModalOverlay`/`Modal`). The `data-slot` and placeholder names stay identical across bases.
 
@@ -216,10 +222,10 @@ Part names follow each library (Radix `Overlay`/`Content`, Base UI `Backdrop`/`P
 - **Focus:** `focus-visible:` ring placeholders on every interactive element.
 - **Invalid state:** `aria-invalid:` styling on every form control. Forms use `Field`/`FieldGroup` with `data-invalid`.
 - **Motion:** honour `prefers-reduced-motion` through `motion-safe:` / `motion-reduce:` or the motion tokens.
-- **Direction (RTL-safe by default):**
-  - Write logical utilities: `ms-*`, `me-*`, `ps-*`, `pe-*`, `start-*`, `end-*`, `text-start`, `rounded-s-*`.
-  - Mark directional icons with `cn-rtl-flip`.
-  - Popups support `side="inline-start" | "inline-end"`.
+- **Direction:** Fabricator UI is left-to-right only.
+  - There are no RTL docs, demos or checks.
+  - Prefer logical utilities (`ms-*`, `ps-*`, `start-*`, `text-start`) anyway.
+  - Keep upstream's `cn-rtl-flip` markers in upstream-derived code (the CLI resolves them at install time).
 
 ### Dependencies
 
@@ -269,17 +275,17 @@ Items are TypeScript objects in each folder's `_registry.ts`, typed `Registry["i
 
 - **Type** by role:
 
-  | Role | Type |
-  |---|---|
-  | UI primitive | `registry:ui` |
-  | Composed component | `registry:component` |
-  | Block | `registry:block` |
-  | Route file | `registry:page` |
-  | Hook | `registry:hook` |
-  | Utility | `registry:lib` |
-  | Token set | `registry:theme` |
-  | Init payload | `registry:base` |
-  | Font | `registry:font` |
+  | Role                 | Type                              |
+  | -------------------- | --------------------------------- |
+  | UI primitive         | `registry:ui`                     |
+  | Composed component   | `registry:component`              |
+  | Block                | `registry:block`                  |
+  | Route file           | `registry:page`                   |
+  | Hook                 | `registry:hook`                   |
+  | Utility              | `registry:lib`                    |
+  | Token set            | `registry:theme`                  |
+  | Init payload         | `registry:base`                   |
+  | Font                 | `registry:font`                   |
   | Config or agent file | `registry:file` / `registry:item` |
 
 - **Targets:** `registry:page` and `registry:file` files need an explicit `target` (blocks use `app/<route>/page.tsx`). The CLI remaps it per framework.
@@ -298,13 +304,28 @@ Items are TypeScript objects in each folder's `_registry.ts`, typed `Registry["i
   - Catalogs: `public/r/registry.json`, `index.json`, `config.json`
 - **Rebuild:** after authored changes, run the full `bun run registry:build`. Targeted flags are for iteration only.
 - **Examples:** editing an existing example needs no rebuild. Adding, removing or renaming one needs `--examples`.
-- **`/init`** (`app/(app)/(create)/init/route.ts`) returns the `registry:base` payload. Its `config.registries` writes `@fabricator` into the user's `components.json`. Its `config.style` is always a valid upstream style id (contract item 2).
+- **`/init`** (`app/(app)/(create)/init/route.ts`; the `/create` page itself is removed for now, and only `/init`, its libs and `IconPlaceholder` remain in that folder) returns the `registry:base` payload. Its `config.registries` writes `@fabricator` into the user's `components.json`. Its `config.style` is always a valid upstream style id (contract item 2).
 
 ---
 
 ## Design system (Fabricator layer)
 
-The Fabricator look lives in `registry/styles/style-fabricator*.css` and in token sources under `registry/tokens/`. Redesigning an upstream component means editing its placeholders' rules in the Fabricator style maps. Its TSX changes only when structure must change, and then under the superset rule.
+The Fabricator design language adapts Fluid Functionalism (MIT). **`apps/web/registry/fabricator/DESIGN.md` is the specification**: surfaces, interaction tokens, sizes, motion tiers, fluid hover, scrollbars, and the look of every component. Read it before changing any Fabricator style or override.
+
+- **Tokens** live in `registry/fabricator/foundations.ts` (foundations: new token names only; palette: Fabricator values for the shadcn token names, applied by the `fabricator` preset).
+- **Motion timings are tokens**, never milliseconds:
+  - Use the tier utilities: `duration-fast` / `-moderate` / `-slow` (90 / 210 / 290ms), `duration-<tier>-exit` (70 / 160 / 220ms) and `delay-<tier>`.
+  - They resolve to `calc(var(--motion-<tier>) * var(--motion-scale, 1))`, so `--motion-scale` speeds up, slows down or stops (0) every animation.
+- **Look:** each component's placeholder rules are in `registry/styles/fabricator/<component>.css`. The build assembles them into `style-fabricator.css` and fails if any placeholder used by the components has no rule.
+- **Behaviour** that CSS can't express (fluid hover, sliding selection) is added with **Fabricator overrides**: `registry/fabricator/<base>/ui/<component>.tsx` is a copy of the upstream source with additive, container-level changes; `registry/fabricator/shared/` holds files every base uses (`lib/fluid-hover.tsx`). Overrides compile into the Fabricator style only, so upstream styles keep their exact output. They keep the full upstream API (superset rule). Extra registry dependencies go in `fabricatorOverrides` in `registry/fabricator/registry.ts`.
+- **Excluded items:** `FABRICATOR_EXCLUDED_ITEMS` in `registry/fabricator/registry.ts` lists upstream items the Fabricator library leaves out:
+  - Native Select: it only restyles a raw `<select>`; Select replaces it.
+  - Chart, for now, with the blocks built on it (`dashboard-01`, `preview`, `preview-02`). The `/charts` gallery and the Chart docs pages are removed, and their URLs redirect to `/docs/components`.
+  - The build drops them from Fabricator mode and the site indexes, and rewrites dependencies to the replacement.
+  - It also skips their demos in the Fabricator example copies.
+  - Items that used one get an override, and docs demos an override in `registry/fabricator/site-examples/<base>/`.
+  - Blend mode keeps every upstream item.
+- **After an upstream sync**, review the upstream changes to every overridden file (`git diff <old>..<new> -- apps/web/registry/bases/<base>/ui/<component>.tsx`) and port them into the override.
 
 - **Dimensions** (rationale in `PLAN.md` §6):
   - Colour, surfaces, motion, and square/rounded radius are **tokens**.
@@ -313,6 +334,21 @@ The Fabricator look lives in `registry/styles/style-fabricator*.css` and in toke
   - Values are OKLCH, defined for both `:root` and `.dark`.
   - Every foreground/background pair meets WCAG 2.2 AA (4.5:1 for text, 3:1 for UI and large text). The contrast check enforces this.
 - **Blend mode:** exclusive components ship rules for all 8 upstream styles too, tuned to sit naturally next to each style's upstream components.
+
+### Seeing style changes on the site
+
+The website renders the Fabricator style, so it shows what `fabricator-ui add` installs.
+
+- **Live CSS loop (no compile):** edit `registry/styles/fabricator/<component>.css`, run `bun run registry:build --examples` in `apps/web`, and open `/view/base-fabricator/<component>-example`. It renders the component's showcase from raw sources with the style map's CSS, and the dev server hot-reloads.
+- **Compiled loop (overrides, docs pages):** `scripts/build-fabricator.sh [base|radix|aria|all]` in `apps/web` rebuilds `styles/*-fabricator` under a lock (safe with parallel workers). Run the full `bun run registry:build` before committing.
+- **Stale Turbopack cache:** if the dev server can't resolve a newly generated file that exists on disk, stop it, delete `apps/web/.next/dev`, and restart.
+- **Where it applies** (`lib/site-style.ts`):
+  - Docs previews and code. Pages name upstream's default styles (`<base>-nova`, `<base>-rhea`), and `toSiteStyle()` maps them to `<base>-fabricator`. The build generates Fabricator copies of every demo in `examples/__styles__/` (gitignored).
+  - The homepage cards, which import `@/styles/base-fabricator/*`.
+  - The blocks gallery (`SITE_BLOCK_STYLE`), rendered from raw base sources inside a `.style-fabricator` scope (`app/style-registry.css`).
+  - The `.md` exports and `llms-full.txt`.
+- **Tailwind sources:** compiled styles live in gitignored `styles/<base>-<style>/`, which Tailwind doesn't detect on its own. Every style folder the site renders must have an `@source` line in `app/globals.css`, or classes used only by that style are never generated.
+- **Mobile screenshots:** after visible style changes, recapture with `bun run registry:capture --force && bun run pages:capture` (dev server running).
 
 ---
 
@@ -335,10 +371,31 @@ The Fabricator look lives in `registry/styles/style-fabricator*.css` and in toke
   5. Examples
   6. API reference
   7. Accessibility
-  8. RTL notes where relevant
 - **AI-facing outputs:** every docs page has a `.md` export, and `llms.txt` lists the docs. Both stay accurate as pages change.
 - **Registry endpoints** under `/r/**` return `application/json` with permissive CORS and long CDN caching.
 - **Site UI:** the website uses Fabricator components from the registry, so it is the library's flagship example.
+- **Site chrome** follows the Fabricator design (DESIGN.md), and lives in new files so upstream merges of the website stay small:
+  - `components/fabricator/`:
+    - `site-header.tsx` / `site-footer.tsx`: the minimal top bar and footer for the homepage and the full-width pages.
+    - `docs-shell-sidebar.tsx`, `docs-mobile-bar.tsx`, `docs-panel.tsx`: the docs shell (no top bar), with a left sidebar of search and nav groups, and a right panel for theme, primitive and contents.
+    - `fluid-nav.tsx`: the site's link lists, which use the real Fluid Hover hook.
+  - `app/fabricator-site.css`: site-only CSS such as docs typography. `app/fabricator.css` is generated; don't edit it.
+  - The homepage (`app/(app)/(root)/`) is a gallery of every component.
+    - Hand-built demos (`_components/demos-*.tsx`, importing `@/styles/base-fabricator/ui/*`) come first.
+    - Every other component follows with its docs demo, listed in `_components/catalog.tsx` and lazy-loaded from `examples/__styles__/base-fabricator/` as its card nears the viewport.
+    - When you add a component, add it to the catalog with a category and card height.
+- **Docs pages** use the docs shell: `[data-slot=docs-shell]` hides the site header and footer.
+- **Site settings** (`lib/site-settings.ts`, stored in localStorage):
+  - The settings menu (`components/fabricator/site-settings.tsx`) is in the top bar, the docs sidebar and the docs panel, and holds theme, sound, icons, radius, motion and surface (the surface tint, also set by the picker on the Surfaces page).
+  - `components/fabricator/site-settings-effects.tsx` applies them: it sets `data-radius` on `<html>` (Pill sets `--radius: 1.25rem` in `app/fabricator-site.css`) sets `data-motion` (Relaxed/Snappy/Off scale `--motion-scale` in `app/fabricator-site.css`), sets `--surface-hue` and `--surface-chroma` inline on `<html>` (the site's palette links `background`, `card`, `popover`, `sidebar` and `muted` to the surfaces, so they follow), and mounts the registry's `<SoundEffects />`.
+  - A script in `<head>` applies a stored Pill radius, motion speed and surface tint before paint.
+- **Site icons:** the Fabricator copies the site renders (`examples/__styles__/*-fabricator`, `styles/*-fabricator/ui`) import icons from `@/lib/site-icons`, not `lucide-react`, so previews follow the Icons setting.
+  - `lib/site-icons*.ts(x)` is generated by `bun run icons:build` (also part of `bun run dev`) and committed.
+  - The generator maps names through `registry/icons/site-mapping.json`, then `public/r/icons/index.json`.
+  - Everything shown to readers maps the import back to `lucide-react` (`lib/site-icons-display.ts`). Registry JSON never contains site icons.
+- **Sounds** (`registry/fabricator/shared/lib/sounds.ts` and `components/sound-effects.tsx`) are our own Web Audio synthesis.
+  - `<SoundEffects />` resolves sounds from `data-slot`, ARIA roles and `data-sound`, so components need no changes.
+  - Don't add audio files or third-party sound assets without a licence that allows redistribution under MIT.
 
 ---
 
@@ -372,7 +429,7 @@ A change is done when every applicable line below is true. Report each one as pa
 - [ ] `bun run test:parity` passes for upstream items whenever upstream-derived source, style maps or the build script changed.
 - [ ] For new or changed items, `shadcn add --dry-run` succeeds against the local registry for each base. `bun run test:e2e` passes when install behaviour, the CLI or `/init` changed.
 - [ ] Components have examples covering each variant and state, plus a docs page per base with the API table and accessibility notes.
-- [ ] The UI was checked in the running site, light and dark, LTR and RTL, keyboard only, at mobile and desktop widths. axe reports no violations on touched example pages.
+- [ ] The UI was checked in the running site, light and dark, keyboard only, at mobile and desktop widths. axe reports no violations on touched example pages.
 - [ ] A changeset exists for changes to published packages. User-visible registry changes get a changelog entry in `content/docs/changelog/`.
 - [ ] `AGENTS.md` / `PLAN.md` are updated if a convention or decision changed.
 

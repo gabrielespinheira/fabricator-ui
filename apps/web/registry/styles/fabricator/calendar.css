@@ -1,0 +1,31 @@
+/* MARK: Calendar */
+
+  /* 32px day cells with rounded-lg highlights, 13px numerals. Today is the
+     active step (bg-active) instead of muted, and so is a range's middle, so
+     both read in dark mode too; these use `!` because the component sets
+     bg-muted inline on those cells. */
+  .cn-calendar {
+    @apply p-3 text-[13px] [--cell-radius:var(--radius-lg)] [--cell-size:--spacing(8)] **:[.rdp-today]:bg-active! **:[.rdp-range\_start]:bg-active! **:[.rdp-range\_start]:after:bg-active! **:[.rdp-range\_end]:bg-active! **:[.rdp-range\_end]:after:bg-active! **:data-[range-middle=true]:bg-active! **:data-today:bg-active!;
+  }
+
+  /* Month/year dropdowns: framed like an input, no blue halo. */
+  .cn-calendar-dropdown-root {
+    @apply cursor-pointer ring-border has-focus:bg-card hover:bg-muted/50 ring-1 transition-[background-color,box-shadow] duration-fast ease-spring;
+  }
+
+  .cn-calendar-caption-label {
+    @apply h-7 pr-1.5 pl-2;
+  }
+
+  .cn-calendar-caption {
+    @apply text-foreground;
+  }
+
+  /* Day buttons inherit the cell's colour (outside days stay muted) instead
+     of the ghost button's muted text; hover is the ghost bg-hover. */
+  /* Selected days keep their foreground on hover (hover:text-foreground
+     would turn the number the same colour as the fill), and the keyboard
+     focus is the 1px focus ring instead of upstream's 3px halo. */
+  .cn-calendar-day-button {
+    @apply cursor-pointer text-inherit text-[13px] hover:text-foreground data-[selected-single=true]:hover:text-primary-foreground! data-[selected-single=true]:hover:bg-primary/90 data-[range-start=true]:hover:text-primary-foreground! data-[range-start=true]:hover:bg-primary/90 data-[range-end=true]:hover:text-primary-foreground! data-[range-end=true]:hover:bg-primary/90 group-data-[focused=true]/day:ring-1! group-data-[focused=true]/day:ring-focus-ring!;
+  }

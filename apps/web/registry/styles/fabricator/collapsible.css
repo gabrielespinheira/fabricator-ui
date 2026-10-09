@@ -1,0 +1,18 @@
+/* MARK: Collapsible */
+
+  .cn-collapsible-trigger {
+    @apply cursor-pointer;
+  }
+
+  /* Opens and closes like Accordion content: the same keyframes, on the
+     height each primitive measures. Reduced motion opens and closes at once
+     (the variant is repeated under data-open/-closed to outrank them). */
+  .cn-collapsible-content {
+    @apply data-open:animate-accordion-down data-closed:animate-accordion-up motion-reduce:data-open:animate-none motion-reduce:data-closed:animate-none;
+  }
+
+  /* React Aria transitions the measured height instead, on the moderate
+     spring, and closes on the exit tween (data-expanded is on the root). */
+  .cn-collapsible-content-aria {
+    @apply duration-moderate-exit ease-exit in-data-expanded:duration-moderate in-data-expanded:ease-spring motion-reduce:transition-none;
+  }

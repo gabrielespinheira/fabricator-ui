@@ -3,11 +3,11 @@
   "pages": [
     "components",
     "(root)",
+    "foundations",
     "changelog",
     "forms",
     "installation",
     "dark-mode",
-    "rtl",
     "utils",
     "registry"
   ]

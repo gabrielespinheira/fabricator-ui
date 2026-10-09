@@ -12,7 +12,24 @@ const CLI = path.join(ROOT, "packages/cli/dist/index.js")
 const REGISTRY_URL = (
   process.env.FABRICATOR_REGISTRY_URL ?? "http://localhost:4000"
 ).replace(/\/$/, "")
-const COMPONENTS = ["dialog", "select", "field", "sidebar", "calendar"]
+// dropdown-menu, select, sidebar and tabs pull in the Fluid Hover lib (every
+// base has Fabricator overrides for them); every installed file is typechecked.
+const COMPONENTS = [
+  "dialog",
+  "select",
+  "field",
+  "sidebar",
+  "calendar",
+  "dropdown-menu",
+  "tabs",
+  // Fabricator-only items: sounds (lib + component) and the pill radius theme.
+  "sounds",
+  "radius-pill",
+]
+
+// Fabricator-only components: not in blend mode, so only the Fabricator
+// scenarios install them.
+const FABRICATOR_ONLY_COMPONENTS = ["search"]
 
 const args = process.argv.slice(2)
 const only = getArg("--only")?.split(",")
@@ -173,7 +190,22 @@ const scenarios: Scenario[] = [
         button.includes(primitive),
         `button.tsx does not import ${primitive}`
       )
-      cli(["add", ...COMPONENTS, "-y", "-o", "-c", appDir], appDir)
+      cli(
+        [
+          "add",
+          ...COMPONENTS,
+          ...FABRICATOR_ONLY_COMPONENTS,
+          "-y",
+          "-o",
+          "-c",
+          appDir,
+        ],
+        appDir
+      )
+      assert(
+        fs.existsSync(path.join(appDir, "src/lib/fluid-hover.tsx")),
+        "lib/fluid-hover.tsx was not installed"
+      )
       writeViteApp(appDir, base)
       run("bun", ["run", "build"], appDir)
     },

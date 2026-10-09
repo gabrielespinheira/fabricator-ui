@@ -26,7 +26,6 @@ const CHROME_PATHS = [
 
 // Output paths are relative to public/ and end with -{theme}.webp.
 const PAGES = [
-  { url: "/", output: "images/full", width: 1600 },
   { url: "/examples/dashboard", output: "examples/dashboard", width: 1280 },
   { url: "/examples/tasks", output: "examples/tasks", width: 1280 },
   { url: "/examples/playground", output: "examples/playground", width: 1280 },

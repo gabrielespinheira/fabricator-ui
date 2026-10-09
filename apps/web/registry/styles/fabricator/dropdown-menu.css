@@ -1,0 +1,66 @@
+/* MARK: Dropdown Menu */
+
+  /* Popup: surface 3 with its shadow ring (no border), rounded-xl, p-1.
+     Enters on the fast spring with a 4px slide and a slight scale. The
+     content is a fluid hover container (relative isolate). */
+  .cn-dropdown-menu-content {
+    @apply bg-surface-3 shadow-surface-3 text-popover-foreground relative isolate min-w-32 rounded-xl p-1 duration-fast ease-spring data-open:animate-in data-open:fade-in-0 data-open:zoom-in-[0.97] data-[side=bottom]:slide-in-from-top-1 data-[side=left]:slide-in-from-right-1 data-[side=right]:slide-in-from-left-1 data-[side=top]:slide-in-from-bottom-1 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-[0.97] data-closed:duration-fast-exit data-closed:ease-exit;
+  }
+
+  .cn-dropdown-menu-content-logical {
+    @apply data-[side=inline-start]:slide-in-from-right-1 data-[side=inline-end]:slide-in-from-left-1;
+  }
+
+  /* Rows: 36px, 13px, muted at rest; the lit row (fluid highlight, or the
+     primitive's highlight where there is no fluid container; React Aria
+     marks it data-focused) turns foreground and thickens its icon.
+     Destructive rows stay destructive when lit. */
+  .cn-dropdown-menu-item {
+    @apply cursor-pointer text-muted-foreground relative h-9 gap-2 rounded-lg px-2 text-[13px] transition-colors duration-fast data-inset:pl-8 [&_svg:not([class*='size-'])]:size-4 [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] data-highlighted:bg-hover data-highlighted:text-foreground data-highlighted:[&_svg]:stroke-2 in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-focused:[&_svg]:stroke-2 data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-[variant=destructive]:text-destructive! data-[variant=destructive]:*:[svg]:text-destructive;
+  }
+
+  .cn-dropdown-menu-checkbox-item {
+    @apply cursor-pointer text-muted-foreground relative h-9 gap-2 rounded-lg py-0 pr-8 pl-2 text-[13px] transition-[color,background-color] duration-fast data-inset:pl-8 [&_svg:not([class*='size-'])]:size-4 data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-fluid-hover-active:text-foreground data-checked:text-foreground data-checked:font-semibold data-selected:text-foreground data-selected:font-semibold;
+  }
+
+  .cn-dropdown-menu-radio-item {
+    @apply cursor-pointer text-muted-foreground relative h-9 gap-2 rounded-lg py-0 pr-8 pl-2 text-[13px] transition-[color,background-color] duration-fast data-inset:pl-8 [&_svg:not([class*='size-'])]:size-4 data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-fluid-hover-active:text-foreground data-checked:text-foreground data-checked:font-semibold data-selected:text-foreground data-selected:font-semibold;
+  }
+
+  .cn-dropdown-menu-item-indicator {
+    @apply text-foreground absolute right-2 flex items-center justify-center;
+  }
+
+  .cn-dropdown-menu-label {
+    @apply text-muted-foreground px-2 py-1.5 text-[12px] font-normal data-inset:pl-8;
+  }
+
+  .cn-dropdown-menu-separator {
+    @apply bg-border/60 -mx-1 my-1 h-px;
+  }
+
+  .cn-dropdown-menu-shortcut {
+    @apply text-muted-foreground ml-auto text-[11px] tracking-normal;
+  }
+
+  /* An open sub-trigger stays lit while the pointer is in its submenu. */
+  .cn-dropdown-menu-sub-trigger {
+    @apply cursor-pointer text-muted-foreground relative h-9 gap-2 rounded-lg px-2 text-[13px] transition-colors duration-fast data-inset:pl-8 [&_svg:not([class*='size-'])]:size-4 [&_svg]:stroke-[1.5] data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-fluid-hover-active:text-foreground data-open:text-foreground data-popup-open:text-foreground not-data-fluid-hover-active:data-open:bg-hover not-data-fluid-hover-active:data-popup-open:bg-hover;
+  }
+
+  .cn-dropdown-menu-sub-content {
+    @apply bg-surface-3 shadow-surface-3 text-popover-foreground relative isolate min-w-[96px] rounded-xl p-1 duration-fast ease-spring data-open:animate-in data-open:fade-in-0 data-open:zoom-in-[0.97] data-[side=left]:slide-in-from-right-1 data-[side=right]:slide-in-from-left-1 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-[0.97] data-closed:duration-fast-exit data-closed:ease-exit;
+  }
+
+  .cn-dropdown-menu-subcontent {
+    @apply shadow-surface-3;
+  }
+
+  /* React Aria */
+  .cn-dropdown-menu-content-aria {
+    @apply bg-surface-3 shadow-surface-3 text-popover-foreground relative isolate min-w-32 rounded-xl p-1 duration-fast ease-spring data-entering:animate-in data-entering:fade-in-0 data-entering:zoom-in-[0.97] data-[placement=bottom]:slide-in-from-top-1 data-[placement=left]:slide-in-from-right-1 data-[placement=right]:slide-in-from-left-1 data-[placement=top]:slide-in-from-bottom-1 data-exiting:animate-out data-exiting:fade-out-0 data-exiting:zoom-out-[0.97] data-exiting:duration-fast-exit data-exiting:ease-exit;
+  }
+
+  .cn-dropdown-menu-sub-content-aria {
+    @apply bg-surface-3 shadow-surface-3 text-popover-foreground relative isolate min-w-[96px] rounded-xl p-1;
+  }

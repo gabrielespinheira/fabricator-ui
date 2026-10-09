@@ -1,0 +1,45 @@
+/* MARK: Alert Dialog */
+
+  /* Same scrim and panel recipe as Dialog: surface 5, rounded-xl, p-6,
+     slow spring in, quicker tween out. */
+  .cn-alert-dialog-overlay {
+    @apply bg-black/40 duration-slow ease-spring-bounce data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0 data-closed:duration-slow-exit data-closed:ease-exit dark:bg-black/80;
+  }
+
+  /* Centered with inset-0 + m-auto, not top/left 50% + translate(-50%):
+     a translate lands on half pixels for odd sizes and blurs the text.
+     The ! beats the inline centering classes in the source. */
+  .cn-alert-dialog-content {
+    @apply inset-0! m-auto! h-fit! translate-x-0! translate-y-0! bg-surface-5 shadow-surface-5 text-popover-foreground gap-4 rounded-xl p-6 text-[13px] duration-slow ease-spring-bounce data-open:animate-in data-open:fade-in-0 data-open:zoom-in-[0.97] data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-[0.97] data-closed:duration-slow-exit data-closed:ease-exit data-[size=default]:max-w-[calc(100%-2rem)] data-[size=sm]:max-w-xs data-[size=default]:sm:max-w-[400px];
+  }
+
+  .cn-alert-dialog-header {
+    @apply grid grid-rows-[auto_1fr] place-items-center gap-1.5 text-center has-data-[slot=alert-dialog-media]:grid-rows-[auto_auto_1fr] has-data-[slot=alert-dialog-media]:gap-x-4 sm:group-data-[size=default]/alert-dialog-content:place-items-start sm:group-data-[size=default]/alert-dialog-content:text-start sm:group-data-[size=default]/alert-dialog-content:has-data-[slot=alert-dialog-media]:grid-rows-[auto_1fr];
+  }
+
+  .cn-alert-dialog-media {
+    @apply bg-hover text-foreground mb-2 inline-flex size-10 items-center justify-center rounded-lg sm:group-data-[size=default]/alert-dialog-content:row-span-2 *:[svg:not([class*='size-'])]:size-5;
+  }
+
+  .cn-alert-dialog-title {
+    @apply text-foreground text-[16px] leading-tight font-bold sm:group-data-[size=default]/alert-dialog-content:group-has-data-[slot=alert-dialog-media]/alert-dialog-content:col-start-2;
+  }
+
+  .cn-alert-dialog-description {
+    @apply text-muted-foreground *:[a]:hover:text-foreground text-[13px] text-balance md:text-pretty *:[a]:underline *:[a]:underline-offset-3;
+  }
+
+  /* Right-aligned actions without the upstream muted footer bar. */
+  .cn-alert-dialog-footer {
+    @apply mt-2 gap-2;
+  }
+
+  /* React Aria */
+  .cn-alert-dialog-overlay-aria {
+    @apply bg-black/40 duration-slow ease-spring-bounce data-entering:animate-in data-entering:fade-in-0 data-exiting:animate-out data-exiting:fade-out-0 data-exiting:duration-slow-exit data-exiting:ease-exit dark:bg-black/80;
+  }
+
+  /* Same pixel-snapped centering as the other bases. */
+  .cn-alert-dialog-content-aria {
+    @apply inset-0! m-auto! h-fit! translate-x-0! translate-y-0! bg-surface-5 shadow-surface-5 text-popover-foreground gap-4 rounded-xl p-6 text-[13px] duration-slow ease-spring-bounce data-entering:animate-in data-entering:fade-in-0 data-entering:zoom-in-[0.97] data-exiting:animate-out data-exiting:fade-out-0 data-exiting:zoom-out-[0.97] data-exiting:duration-slow-exit data-exiting:ease-exit data-[size=default]:max-w-[calc(100%-2rem)] data-[size=sm]:max-w-xs data-[size=default]:sm:max-w-[400px];
+  }

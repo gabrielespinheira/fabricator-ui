@@ -44,6 +44,19 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   experimental: {
+    // `next build` was killed by the out-of-memory killer on a standard Vercel
+    // build machine (4 cores, 8 GB): compiling ~12k modules took more than
+    // 8 GB, the process died with no message, and the deployment sat in
+    // "Building".
+    // Next 16.3 turned on the Turbopack build cache by default and builds
+    // source maps for every chunk; neither is needed for a deploy. Running the
+    // MDX/PostCSS loaders as worker threads instead of child processes saves
+    // another ~0.5 GB. Together with the leaner component shards from
+    // `scripts/build-registry.mts`, the build fits in 7 GB (checked in a
+    // container limited to 4 CPUs).
+    turbopackFileSystemCacheForBuild: false,
+    turbopackSourceMaps: false,
+    turbopackPluginRuntimeStrategy: "workerThreads",
     // Rewrite barrel imports to deep imports so a single icon doesn't pull the
     // whole package into the module graph. Next already optimizes lucide-react,
     // @tabler/icons-react, date-fns and lodash-es by default; these are the
@@ -111,6 +124,70 @@ const nextConfig = {
         destination: "/docs/components/base/toast.md",
         permanent: true,
       },
+      // Native Select isn't part of the Fabricator library; Select replaces it.
+      {
+        source: "/docs/components/:base(base|radix|aria)/native-select",
+        destination: "/docs/components/:base/select",
+        permanent: false,
+      },
+      {
+        source: "/docs/components/:base(base|radix|aria)/native-select.md",
+        destination: "/docs/components/:base/select.md",
+        permanent: false,
+      },
+      // The Create and Colors pages aren't part of the site for now.
+      {
+        source: "/create",
+        destination: "/docs/installation",
+        permanent: false,
+      },
+      {
+        source: "/colors/:path*",
+        destination: "/docs/theming",
+        permanent: false,
+      },
+      // Chart isn't part of the Fabricator library for now.
+      {
+        source: "/charts/:path*",
+        destination: "/docs/components",
+        permanent: false,
+      },
+      {
+        source: "/docs/components/:base(base|radix|aria)/chart",
+        destination: "/docs/components",
+        permanent: false,
+      },
+      {
+        source: "/docs/components/:base(base|radix|aria)/chart.md",
+        destination: "/docs/components",
+        permanent: false,
+      },
+      // RTL isn't part of Fabricator UI.
+      {
+        source: "/docs/rtl",
+        destination: "/docs",
+        permanent: false,
+      },
+      {
+        source: "/docs/rtl/:path*",
+        destination: "/docs",
+        permanent: false,
+      },
+      {
+        source: "/docs/rtl.md",
+        destination: "/docs.md",
+        permanent: false,
+      },
+      {
+        source: "/docs/components/:base(base|radix|aria)/direction",
+        destination: "/docs/components",
+        permanent: false,
+      },
+      {
+        source: "/examples/rtl",
+        destination: "/examples/dashboard",
+        permanent: false,
+      },
       // Component redirects (default to base).
       {
         source: "/docs/components/:name((?!radix|base|aria|form)[^/]+)",
@@ -170,7 +247,7 @@ const nextConfig = {
       },
       {
         source: "/themes",
-        destination: "/create",
+        destination: "/docs/theming",
         permanent: true,
       },
       {
@@ -188,7 +265,8 @@ const nextConfig = {
           { key: "Access-Control-Allow-Origin", value: "*" },
           {
             key: "Cache-Control",
-            value: "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400",
+            value:
+              "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400",
           },
         ],
       },

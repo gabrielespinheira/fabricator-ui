@@ -15,6 +15,18 @@ The full documentation is also available as a single file: [llms-full.txt](https
 - [JavaScript](https://fabricator-ui.com/docs/javascript.md): How to use Fabricator UI with JavaScript
 - [Changelog](https://fabricator-ui.com/docs/changelog.md): Latest updates and announcements.
 
+## Foundations
+
+The Fabricator design language rests on these systems, shipped in the `foundations`, `fluid-hover` and `sounds` registry items.
+
+- [Fluid Hover](https://fabricator-ui.com/docs/foundations/fluid-hover.md): One highlight that glides to the item nearest the pointer, so a list never blinks between rows.
+- [Motion](https://fabricator-ui.com/docs/foundations/motion.md): Three spring speeds, with exits one step quicker than entrances.
+- [Scrollbars](https://fabricator-ui.com/docs/foundations/scrollbars.md): A thin scrollbar that stays out of the way but is there when you need it.
+- [Sizes](https://fabricator-ui.com/docs/foundations/sizes.md): 36px controls, 13px text, and corners that nest.
+- [Sounds](https://fabricator-ui.com/docs/foundations/sounds.md): Short, quiet interface sounds synthesized in the browser, off until you turn them on.
+- [Surfaces](https://fabricator-ui.com/docs/foundations/surfaces.md): Eight elevation levels, each with its own shadow, so layers stay distinct in light and dark mode.
+- [Typography](https://fabricator-ui.com/docs/foundations/typography.md): Inter at five sizes, with weights paired to optical size.
+
 ## Installation
 
 - [Installation](https://fabricator-ui.com/docs/installation.md): How to install dependencies and structure your app.
@@ -46,7 +58,6 @@ The full documentation is also available as a single file: [llms-full.txt](https
 - [Checkbox](https://fabricator-ui.com/docs/components/base/checkbox.md): A control that allows the user to toggle between checked and not checked.
 - [Radio Group](https://fabricator-ui.com/docs/components/base/radio-group.md): A set of checkable buttons—known as radio buttons—where no more than one of the buttons can be checked at a time.
 - [Select](https://fabricator-ui.com/docs/components/base/select.md): Displays a list of options for the user to pick from—triggered by a button.
-- [Native Select](https://fabricator-ui.com/docs/components/base/native-select.md): A styled native HTML select element with consistent design system integration.
 - [Switch](https://fabricator-ui.com/docs/components/base/switch.md): A control that allows the user to toggle between checked and not checked.
 - [Slider](https://fabricator-ui.com/docs/components/base/slider.md): An input where the user selects a value from within a given range.
 - [Calendar](https://fabricator-ui.com/docs/components/base/calendar.md): A calendar component that allows users to select a date or a range of dates.
@@ -63,6 +74,7 @@ The full documentation is also available as a single file: [llms-full.txt](https
 - [Tabs](https://fabricator-ui.com/docs/components/base/tabs.md): A set of layered sections of content—known as tab panels—that are displayed one at a time.
 - [Separator](https://fabricator-ui.com/docs/components/base/separator.md): Visually or semantically separates content.
 - [Scroll Area](https://fabricator-ui.com/docs/components/base/scroll-area.md): Augments native scroll functionality for custom, cross-browser styling.
+- [Search](https://fabricator-ui.com/docs/components/base/search.md): A search button that springs open into a search field, as one object.
 - [Resizable](https://fabricator-ui.com/docs/components/base/resizable.md): Accessible resizable panel groups and layouts with keyboard support.
 
 ### Overlays & Dialogs
@@ -95,7 +107,6 @@ The full documentation is also available as a single file: [llms-full.txt](https
 - [Card](https://fabricator-ui.com/docs/components/base/card.md): Displays a card with header, content, and footer.
 - [Table](https://fabricator-ui.com/docs/components/base/table.md): A responsive table component.
 - [Data Table](https://fabricator-ui.com/docs/components/base/data-table.md): Powerful table and datagrids built using TanStack Table.
-- [Chart](https://fabricator-ui.com/docs/components/base/chart.md): Beautiful charts. Built using Recharts. Copy and paste into your apps.
 - [Carousel](https://fabricator-ui.com/docs/components/base/carousel.md): A carousel with motion and swipe built using Embla.
 - [Aspect Ratio](https://fabricator-ui.com/docs/components/base/aspect-ratio.md): Displays content within a desired ratio.
 - [Typography](https://fabricator-ui.com/docs/components/base/typography.md): Styles for headings, paragraphs, lists, etc.
@@ -108,7 +119,6 @@ The full documentation is also available as a single file: [llms-full.txt](https
 - [Toggle](https://fabricator-ui.com/docs/components/base/toggle.md): A two-state button that can be either on or off.
 - [Toggle Group](https://fabricator-ui.com/docs/components/base/toggle-group.md): A set of two-state buttons that can be toggled on or off.
 - [Pagination](https://fabricator-ui.com/docs/components/base/pagination.md): Pagination with page navigation, next and previous links.
-- [Direction](https://fabricator-ui.com/docs/components/base/direction.md): A provider component that sets the text direction for your application.
 
 ### Chat & AI
 
@@ -127,13 +137,6 @@ The full documentation is also available as a single file: [llms-full.txt](https
 - [Dark Mode - Astro](https://fabricator-ui.com/docs/dark-mode/astro.md): Adding dark mode to your astro app.
 - [Dark Mode - Remix](https://fabricator-ui.com/docs/dark-mode/remix.md): Adding dark mode to your Remix app.
 - [Dark Mode - TanStack Start](https://fabricator-ui.com/docs/dark-mode/tanstack-start.md): Adding dark mode to your TanStack Start app.
-
-## RTL
-
-- [RTL](https://fabricator-ui.com/docs/rtl.md): Right-to-left support for Fabricator UI components.
-- [RTL - Next.js](https://fabricator-ui.com/docs/rtl/next.md): Create a new Next.js project with RTL support.
-- [RTL - Vite](https://fabricator-ui.com/docs/rtl/vite.md): Create a new Vite project with RTL support.
-- [RTL - TanStack Start](https://fabricator-ui.com/docs/rtl/start.md): Create a new TanStack Start project with RTL support.
 
 ## Forms
 

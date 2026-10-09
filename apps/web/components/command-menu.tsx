@@ -2,70 +2,78 @@
 
 import * as React from "react"
 import { usePathname, useRouter } from "next/navigation"
-import { IconArrowRight } from "@tabler/icons-react"
 import { cn } from "cn"
 import { useDocsSearch } from "fumadocs-core/search/client"
-import { CornerDownLeftIcon, SquareDashedIcon } from "lucide-react"
-import { Dialog as DialogPrimitive } from "radix-ui"
-import { encodePreset } from "shadcn/preset"
+import {
+  ArrowRightIcon,
+  CircleDashedIcon,
+  CornerDownLeftIcon,
+  FileTextIcon,
+  SquareDashedIcon,
+} from "lucide-react"
 
-import { type Color, type ColorPalette } from "@/lib/colors"
 import { trackEvent } from "@/lib/events"
 import { showMcpDocs } from "@/lib/flags"
 import { getCurrentBase, getPagesFromFolder } from "@/lib/page-tree"
 import { type source } from "@/lib/source"
 import { useConfig } from "@/hooks/use-config"
-import { useMutationObserver } from "@/hooks/use-mutation-observer"
 import { copyToClipboardWithMeta } from "@/components/copy-button"
-import { Button } from "@/registry/new-york-v4/ui/button"
+import { Button } from "@/styles/base-fabricator/ui/button"
 import {
   Command,
+  CommandDialog,
   CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
   CommandList,
-} from "@/registry/new-york-v4/ui/command"
-import {
-  Dialog,
-  DialogDescription,
-  DialogHeader,
-  DialogOverlay,
-  DialogPortal,
-  DialogTitle,
-  DialogTrigger,
-} from "@/registry/new-york-v4/ui/dialog"
-import { Separator } from "@/registry/new-york-v4/ui/separator"
-import { Spinner } from "@/registry/new-york-v4/ui/spinner"
-import { STYLES } from "@/registry/styles"
+  CommandShortcut,
+} from "@/styles/base-fabricator/ui/command"
+import { Kbd, KbdGroup } from "@/styles/base-fabricator/ui/kbd"
+import { Separator } from "@/styles/base-fabricator/ui/separator"
+import { Spinner } from "@/styles/base-fabricator/ui/spinner"
+
+type Block = { name: string; description: string; categories: string[] }
+
+/** What the highlighted item does: drives the footer hints and ⌘C. */
+type ItemAction = {
+  kind: "page" | "component" | "block"
+  copy?: string
+}
+
+const PAGE_ACTION: ItemAction = { kind: "page" }
+
+const ACTION_LABELS: Record<ItemAction["kind"], string> = {
+  page: "Go to page",
+  component: "Go to page",
+  block: "Open block",
+}
 
 export function CommandMenu({
   tree,
-  colors,
   blocks,
   navItems,
-  ...props
-}: React.ComponentProps<typeof Dialog> & {
+  trigger = "default",
+}: {
   tree: typeof source.pageTree
-  colors: ColorPalette[]
-  blocks?: { name: string; description: string; categories: string[] }[]
+  blocks?: Block[]
   navItems?: { href: string; label: string }[]
+  /** pill: the top bar's centred search. sidebar: the docs sidebar row. */
+  trigger?: "default" | "pill" | "sidebar"
 }) {
   const router = useRouter()
   const pathname = usePathname()
   const [config] = useConfig()
   const currentBase = getCurrentBase(pathname)
   const [open, setOpen] = React.useState(false)
+  const triggerRef = React.useRef<HTMLButtonElement>(null)
   const [renderDelayedGroups, setRenderDelayedGroups] = React.useState(false)
-  const [selectedType, setSelectedType] = React.useState<
-    "color" | "page" | "component" | "block" | "style" | null
-  >(null)
-  const [copyPayload, setCopyPayload] = React.useState("")
+  const [highlighted, setHighlighted] = React.useState("")
 
   const { search, setSearch, query } = useDocsSearch({
     type: "fetch",
   })
-  const packageManager = config.packageManager || "bun"
+  const runner = getRunner(config.packageManager || "bun")
 
   // Track search queries with debouncing to avoid excessive tracking.
   const searchTimeoutRef = React.useRef<NodeJS.Timeout | undefined>(undefined)
@@ -105,7 +113,7 @@ export function CommandMenu({
     [setSearch, trackSearchQuery]
   )
 
-  // Cleanup timeout on unmount.
+  // Render the long groups one frame after opening, so the dialog opens fast.
   React.useEffect(() => {
     if (open) {
       const frame = requestAnimationFrame(() => {
@@ -118,8 +126,10 @@ export function CommandMenu({
     }
 
     setRenderDelayedGroups(false)
+    setHighlighted("")
   }, [open])
 
+  // Cleanup timeout on unmount.
   React.useEffect(() => {
     return () => {
       if (searchTimeoutRef.current) {
@@ -139,47 +149,59 @@ export function CommandMenu({
     []
   )
 
-  const handlePageHighlight = React.useCallback(
-    (isComponent: boolean, item: { url: string; name?: React.ReactNode }) => {
-      if (isComponent) {
-        const componentName = item.url.split("/").pop()
-        setSelectedType("component")
-        setCopyPayload(
-          `${getRunner(packageManager)} fabricator-ui@latest add ${componentName}`
+  const pageGroups = React.useMemo(
+    () =>
+      tree.children.flatMap((group) => {
+        if (group.type !== "folder") {
+          return []
+        }
+
+        const pages = getPagesFromFolder(group, currentBase).filter(
+          (item) => showMcpDocs || !item.url.includes("/mcp")
         )
-      } else {
-        setSelectedType("page")
-        setCopyPayload("")
-      }
-    },
-    [packageManager, setSelectedType, setCopyPayload]
+
+        return pages.length > 0 ? [{ group, pages }] : []
+      }),
+    [tree.children, currentBase]
   )
 
-  const handleColorHighlight = React.useCallback(
-    (color: Color) => {
-      setSelectedType("color")
-      setCopyPayload(color.className)
-    },
-    [setSelectedType, setCopyPayload]
-  )
+  // cmdk reports the highlighted item by its value; this maps each value to
+  // what Enter and ⌘C do for it. Search results fall back to "page".
+  const actions = React.useMemo(() => {
+    const map = new Map<string, ItemAction>()
 
-  const handleBlockHighlight = React.useCallback(
-    (block: { name: string; description: string; categories: string[] }) => {
-      setSelectedType("block")
-      setCopyPayload(
-        `${getRunner(packageManager)} fabricator-ui@latest add ${block.name}`
-      )
-    },
-    [setSelectedType, setCopyPayload, packageManager]
-  )
+    navItems?.forEach((item) => {
+      map.set(navValue(item.label), { kind: "page" })
+    })
+    pageGroups.forEach(({ group, pages }) => {
+      pages.forEach((item) => {
+        map.set(
+          pageValue(group.name, item.name),
+          isComponentPage(item.url)
+            ? {
+                kind: "component",
+                copy: `${runner} fabricator-ui@latest add ${item.url.split("/").pop()}`,
+              }
+            : { kind: "page" }
+        )
+      })
+    })
+    blocks?.forEach((block) => {
+      map.set(block.name, {
+        kind: "block",
+        copy: `${runner} fabricator-ui@latest add ${block.name}`,
+      })
+    })
 
-  const runCommand = React.useCallback(
-    (command: () => unknown) => {
-      setOpen(false)
-      command()
-    },
-    [setOpen]
-  )
+    return map
+  }, [navItems, pageGroups, blocks, runner])
+
+  const action = actions.get(highlighted) ?? PAGE_ACTION
+
+  const runCommand = React.useCallback((command: () => unknown) => {
+    setOpen(false)
+    command()
+  }, [])
 
   const navItemsSection = React.useMemo(() => {
     if (!navItems || navItems.length === 0) {
@@ -187,155 +209,47 @@ export function CommandMenu({
     }
 
     return (
-      <CommandGroup
-        heading="Pages"
-        className="p-0! **:[[cmdk-group-heading]]:scroll-mt-16 **:[[cmdk-group-heading]]:p-3! **:[[cmdk-group-heading]]:pb-1!"
-      >
+      <CommandGroup heading="Pages">
         {navItems.map((item) => (
-          <CommandMenuItem
+          <CommandItem
             key={item.href}
-            value={`Navigation ${item.label}`}
+            value={navValue(item.label)}
             keywords={["nav", "navigation", item.label.toLowerCase()]}
-            onHighlight={() => {
-              setSelectedType("page")
-              setCopyPayload("")
-            }}
             onSelect={() => {
               runCommand(() => router.push(item.href))
             }}
           >
-            <IconArrowRight />
+            <ArrowRightIcon />
             {item.label}
-          </CommandMenuItem>
+          </CommandItem>
         ))}
       </CommandGroup>
     )
   }, [navItems, runCommand, router])
 
-  const stylesSection = React.useMemo(() => {
-    return (
-      <CommandGroup
-        heading="Styles"
-        className="p-0! **:[[cmdk-group-heading]]:scroll-mt-16 **:[[cmdk-group-heading]]:p-3! **:[[cmdk-group-heading]]:pb-1!"
-      >
-        {STYLES.map((style) => (
-          <CommandMenuItem
-            key={style.name}
-            value={`Style ${style.title} ${style.description}`}
-            keywords={["style", "preset", style.name, style.title]}
-            onHighlight={() => {
-              setSelectedType("style")
-              setCopyPayload("")
-            }}
-            onSelect={() => {
-              runCommand(() =>
-                router.push(
-                  `/create?preset=${encodePreset({ style: style.name })}`
-                )
-              )
-            }}
-          >
-            {style.icon}
-            {style.title}
-            <span className="ml-auto text-xs font-normal text-muted-foreground">
-              Open style in Create
-            </span>
-          </CommandMenuItem>
-        ))}
-      </CommandGroup>
-    )
-  }, [runCommand, router])
-
   const pageGroupsSection = React.useMemo(() => {
-    return tree.children.map((group) => {
-      if (group.type !== "folder") {
-        return null
-      }
+    return pageGroups.map(({ group, pages }) => (
+      <CommandGroup key={group.$id} heading={group.name}>
+        {pages.map((item) => {
+          const isComponent = isComponentPage(item.url)
 
-      const pages = getPagesFromFolder(group, currentBase).filter((item) => {
-        if (!showMcpDocs && item.url.includes("/mcp")) {
-          return false
-        }
-
-        return true
-      })
-
-      if (pages.length === 0) {
-        return null
-      }
-
-      return (
-        <CommandGroup
-          key={group.$id}
-          heading={group.name}
-          className="p-0! **:[[cmdk-group-heading]]:scroll-mt-16 **:[[cmdk-group-heading]]:p-3! **:[[cmdk-group-heading]]:pb-1!"
-        >
-          {pages.map((item) => {
-            const isComponent = item.url.includes("/components/")
-
-            return (
-              <CommandMenuItem
-                key={item.url}
-                value={
-                  item.name?.toString() ? `${group.name} ${item.name}` : ""
-                }
-                keywords={isComponent ? ["component"] : undefined}
-                onHighlight={() => handlePageHighlight(isComponent, item)}
-                onSelect={() => {
-                  runCommand(() => router.push(item.url))
-                }}
-              >
-                {isComponent ? (
-                  <div className="aspect-square size-4 rounded-full border border-dashed border-muted-foreground" />
-                ) : (
-                  <IconArrowRight />
-                )}
-                {item.name}
-              </CommandMenuItem>
-            )
-          })}
-        </CommandGroup>
-      )
-    })
-  }, [tree.children, currentBase, handlePageHighlight, runCommand, router])
-
-  const colorGroupsSection = React.useMemo(() => {
-    return colors.map((colorPalette) => (
-      <CommandGroup
-        key={colorPalette.name}
-        heading={
-          colorPalette.name.charAt(0).toUpperCase() + colorPalette.name.slice(1)
-        }
-        className="p-0! **:[[cmdk-group-heading]]:p-3!"
-      >
-        {colorPalette.colors.map((color) => (
-          <CommandMenuItem
-            key={color.hex}
-            value={color.className}
-            keywords={["color", color.name, color.className]}
-            onHighlight={() => handleColorHighlight(color)}
-            onSelect={() => {
-              runCommand(() =>
-                copyToClipboardWithMeta(color.oklch, {
-                  name: "copy_color",
-                  properties: { color: color.oklch },
-                })
-              )
-            }}
-          >
-            <div
-              className="border-ghost aspect-square size-4 rounded-sm bg-(--color) after:rounded-sm"
-              style={{ "--color": color.oklch } as React.CSSProperties}
-            />
-            {color.className}
-            <span className="ml-auto font-mono text-xs font-normal text-muted-foreground tabular-nums">
-              {color.oklch}
-            </span>
-          </CommandMenuItem>
-        ))}
+          return (
+            <CommandItem
+              key={item.url}
+              value={pageValue(group.name, item.name)}
+              keywords={isComponent ? ["component"] : undefined}
+              onSelect={() => {
+                runCommand(() => router.push(item.url))
+              }}
+            >
+              {isComponent ? <CircleDashedIcon /> : <ArrowRightIcon />}
+              {item.name}
+            </CommandItem>
+          )
+        })}
       </CommandGroup>
     ))
-  }, [colors, handleColorHighlight, runCommand])
+  }, [pageGroups, runCommand, router])
 
   const blocksSection = React.useMemo(() => {
     if (!blocks || blocks.length === 0) {
@@ -343,17 +257,11 @@ export function CommandMenu({
     }
 
     return (
-      <CommandGroup
-        heading="Blocks"
-        className="p-0! **:[[cmdk-group-heading]]:p-3!"
-      >
+      <CommandGroup heading="Blocks">
         {blocks.map((block) => (
-          <CommandMenuItem
+          <CommandItem
             key={block.name}
             value={block.name}
-            onHighlight={() => {
-              handleBlockHighlight(block)
-            }}
             keywords={[
               "block",
               block.name,
@@ -367,15 +275,15 @@ export function CommandMenu({
             }}
           >
             <SquareDashedIcon />
-            {block.description}
-            <span className="ml-auto font-mono text-xs font-normal text-muted-foreground tabular-nums">
+            <span className="truncate">{block.description}</span>
+            <CommandShortcut className="font-mono">
               {block.name}
-            </span>
-          </CommandMenuItem>
+            </CommandShortcut>
+          </CommandItem>
         ))}
       </CommandGroup>
     )
-  }, [blocks, handleBlockHighlight, runCommand, router])
+  }, [blocks, runCommand, router])
 
   React.useEffect(() => {
     const down = (e: KeyboardEvent) => {
@@ -389,63 +297,101 @@ export function CommandMenu({
           return
         }
 
+        // Pages mount one menu per breakpoint; only the visible one opens.
+        if (!open && !triggerRef.current?.checkVisibility()) {
+          return
+        }
+
         e.preventDefault()
         setOpen((open) => !open)
       }
 
-      if (e.key === "c" && (e.metaKey || e.ctrlKey)) {
-        runCommand(() => {
-          if (selectedType === "color") {
-            copyToClipboardWithMeta(copyPayload, {
-              name: "copy_color",
-              properties: { color: copyPayload },
-            })
-          }
-
-          if (selectedType === "block") {
-            copyToClipboardWithMeta(copyPayload, {
-              name: "copy_npm_command",
-              properties: { command: copyPayload, pm: packageManager },
-            })
-          }
-
-          if (selectedType === "page" || selectedType === "component") {
-            copyToClipboardWithMeta(copyPayload, {
-              name: "copy_npm_command",
-              properties: { command: copyPayload, pm: packageManager },
-            })
-          }
-        })
+      // ⌘C copies the highlighted item's payload, unless the reader is
+      // copying selected text.
+      if (
+        open &&
+        action.copy &&
+        e.key === "c" &&
+        (e.metaKey || e.ctrlKey) &&
+        !window.getSelection()?.toString()
+      ) {
+        e.preventDefault()
+        const payload = action.copy
+        runCommand(() =>
+          copyToClipboardWithMeta(payload, {
+            name: "copy_npm_command",
+            properties: {
+              command: payload,
+              pm: config.packageManager || "bun",
+            },
+          })
+        )
       }
     }
 
     document.addEventListener("keydown", down)
     return () => document.removeEventListener("keydown", down)
-  }, [copyPayload, runCommand, selectedType, packageManager])
+  }, [open, action, runCommand, config.packageManager])
 
   return (
-    <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger asChild>
+    <>
+      {trigger === "default" ? (
         <Button
           variant="outline"
-          className={cn(
-            "relative h-8 w-full justify-start rounded-lg border-none bg-muted pl-3 text-foreground shadow-none transition-colors hover:bg-muted/50 md:w-48 lg:w-40 xl:w-64 dark:bg-card"
-          )}
+          className="w-full justify-start text-muted-foreground md:w-48 lg:w-40 xl:w-64"
+          ref={triggerRef}
           onClick={() => setOpen(true)}
-          {...props}
         >
           <span className="hidden xl:inline-flex">Search documentation...</span>
           <span className="inline-flex xl:hidden">Search...</span>
         </Button>
-      </DialogTrigger>
-      <DialogContent className="rounded-xl border-none bg-clip-padding p-2 pb-11 shadow-2xl ring-4 ring-neutral-200/80 dark:bg-neutral-900 dark:ring-neutral-800">
-        <DialogHeader className="sr-only">
-          <DialogTitle>Search documentation...</DialogTitle>
-          <DialogDescription>Search for a command to run...</DialogDescription>
-        </DialogHeader>
+      ) : (
+        <button
+          type="button"
+          data-trigger={trigger}
+          className={cn(
+            "group/search flex items-center gap-2.5 text-muted-foreground outline-none select-none focus-visible:ring-1 focus-visible:ring-focus-ring",
+            trigger === "pill" &&
+              "h-12 w-60 rounded-full bg-muted px-4 text-[15px] transition-colors duration-moderate ease-spring hover:bg-active",
+            trigger === "sidebar" &&
+              "h-8 w-full rounded-lg px-2 text-[13px] transition-colors duration-fast ease-spring hover:bg-hover hover:text-foreground"
+          )}
+          ref={triggerRef}
+          onClick={() => setOpen(true)}
+        >
+          <svg
+            aria-hidden
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className={cn(
+              "shrink-0",
+              trigger === "pill" ? "size-4.5" : "size-3.5"
+            )}
+          >
+            <circle cx="11" cy="11" r="7" />
+            <path d="m20 20-3.5-3.5" />
+          </svg>
+          <span className="flex-1 text-start">Search</span>
+          <kbd className="pointer-events-none rounded-md bg-foreground/8 px-1.5 font-sans text-[11px] leading-5 font-medium text-muted-foreground">
+            ⌘K
+          </kbd>
+        </button>
+      )}
+      <CommandDialog
+        open={open}
+        onOpenChange={setOpen}
+        title="Search documentation"
+        description="Search pages, components, blocks, styles and colours."
+        className="sm:max-w-xl"
+      >
         <Command
-          className="rounded-none bg-transparent **:data-[slot=command-input]:h-9! **:data-[slot=command-input]:py-0 **:data-[slot=command-input-wrapper]:mb-0 **:data-[slot=command-input-wrapper]:h-9! **:data-[slot=command-input-wrapper]:rounded-md **:data-[slot=command-input-wrapper]:border **:data-[slot=command-input-wrapper]:border-input **:data-[slot=command-input-wrapper]:bg-input/50"
           filter={commandFilter}
+          value={highlighted}
+          onValueChange={setHighlighted}
         >
           <div className="relative">
             <CommandInput
@@ -453,21 +399,17 @@ export function CommandMenu({
               onValueChange={handleSearchChange}
             />
             {query.isLoading && (
-              <div className="pointer-events-none absolute top-1/2 right-3 z-10 flex -translate-y-1/2 items-center justify-center">
-                <Spinner className="size-4 text-muted-foreground" />
-              </div>
+              <Spinner className="pointer-events-none absolute end-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
             )}
           </div>
-          <CommandList className="no-scrollbar min-h-80 scroll-pt-2 scroll-pb-1.5">
-            <CommandEmpty className="py-12 text-center text-sm text-muted-foreground">
+          <CommandList className="max-h-96 min-h-80">
+            <CommandEmpty>
               {query.isLoading ? "Searching..." : "No results found."}
             </CommandEmpty>
             {navItemsSection}
-            {stylesSection}
             {renderDelayedGroups ? (
               <>
                 {pageGroupsSection}
-                {colorGroupsSection}
                 {blocksSection}
                 <SearchResults
                   setOpen={setOpen}
@@ -477,81 +419,32 @@ export function CommandMenu({
               </>
             ) : null}
           </CommandList>
-        </Command>
-        <div className="absolute inset-x-0 bottom-0 z-20 flex h-10 items-center gap-2 rounded-b-xl border-t border-t-neutral-100 bg-neutral-50 px-4 text-xs font-medium text-muted-foreground dark:border-t-neutral-700 dark:bg-neutral-800">
-          <div className="flex items-center gap-2">
-            <CommandMenuKbd>
-              <CornerDownLeftIcon />
-            </CommandMenuKbd>{" "}
-            {selectedType === "page" || selectedType === "component"
-              ? "Go to Page"
-              : null}
-            {selectedType === "color" ? "Copy OKLCH" : null}
-            {selectedType === "style" ? "Open in Create" : null}
+          <div className="flex h-10 items-center gap-3 border-t border-border/60 px-3 text-[12px] text-muted-foreground">
+            <div className="flex items-center gap-2">
+              <Kbd>
+                <CornerDownLeftIcon />
+              </Kbd>
+              {ACTION_LABELS[action.kind]}
+            </div>
+            {action.copy && (
+              <>
+                <Separator
+                  orientation="vertical"
+                  className="h-4 data-vertical:self-center"
+                />
+                <div className="flex min-w-0 items-center gap-2">
+                  <KbdGroup>
+                    <Kbd>⌘</Kbd>
+                    <Kbd>C</Kbd>
+                  </KbdGroup>
+                  <span className="truncate">{action.copy}</span>
+                </div>
+              </>
+            )}
           </div>
-          {copyPayload && (
-            <>
-              <Separator orientation="vertical" className="h-4!" />
-              <div className="flex items-center gap-1">
-                <CommandMenuKbd>⌘</CommandMenuKbd>
-                <CommandMenuKbd>C</CommandMenuKbd>
-                {copyPayload}
-              </div>
-            </>
-          )}
-        </div>
-      </DialogContent>
-    </Dialog>
-  )
-}
-
-function CommandMenuItem({
-  children,
-  className,
-  onHighlight,
-  ...props
-}: React.ComponentProps<typeof CommandItem> & {
-  onHighlight?: () => void
-  "data-selected"?: string
-  "aria-selected"?: string
-}) {
-  const ref = React.useRef<HTMLDivElement>(null)
-
-  useMutationObserver(ref, (mutations) => {
-    mutations.forEach((mutation) => {
-      if (
-        mutation.type === "attributes" &&
-        mutation.attributeName === "aria-selected" &&
-        ref.current?.getAttribute("aria-selected") === "true"
-      ) {
-        onHighlight?.()
-      }
-    })
-  })
-
-  return (
-    <CommandItem
-      ref={ref}
-      className={cn(
-        "h-9 rounded-md border border-transparent px-3! font-medium data-[selected=true]:border-input data-[selected=true]:bg-input/50",
-        className
-      )}
-      {...props}
-    >
-      {children}
-    </CommandItem>
-  )
-}
-
-function CommandMenuKbd({ className, ...props }: React.ComponentProps<"kbd">) {
-  return (
-    <kbd
-      className={cn(
-        "pointer-events-none flex h-5 items-center justify-center gap-1 rounded border bg-background px-1 font-sans text-[0.7rem] font-medium text-muted-foreground select-none [&_svg:not([class*='size-'])]:size-3",
-        className
-      )}
-      {...props}
-    />
+        </Command>
+      </CommandDialog>
+    </>
   )
 }
 
@@ -576,7 +469,8 @@ function SearchResults({
     return query.data.filter(
       (item, index, self) =>
         !(
-          item.type === "text" && item.content.trim().split(/\s+/).length <= 1
+          item.type === "text" &&
+          stripMarks(item.content).trim().split(/\s+/).length <= 1
         ) && index === self.findIndex((t) => t.content === item.content)
     )
   }, [query.data])
@@ -594,11 +488,10 @@ function SearchResults({
   }
 
   return (
-    <CommandGroup
-      className="px-0! **:[[cmdk-group-heading]]:scroll-mt-16 **:[[cmdk-group-heading]]:p-3! **:[[cmdk-group-heading]]:pb-1!"
-      heading="Search Results"
-    >
+    <CommandGroup heading="Search Results">
       {uniqueResults.map((item) => {
+        const text = stripMarks(item.content)
+
         return (
           <CommandItem
             key={item.id}
@@ -607,11 +500,13 @@ function SearchResults({
               router.push(item.url)
               setOpen(false)
             }}
-            className="h-9 rounded-md border border-transparent px-3! font-normal data-[selected=true]:border-input data-[selected=true]:bg-input/50"
-            keywords={[item.content]}
-            value={`${item.content} ${item.type}`}
+            keywords={[text]}
+            value={`${text} ${item.type}`}
           >
-            <div className="line-clamp-1 text-sm">{item.content}</div>
+            <FileTextIcon />
+            <span className="line-clamp-1">
+              <Highlighted content={item.content} />
+            </span>
           </CommandItem>
         )
       })}
@@ -619,28 +514,33 @@ function SearchResults({
   )
 }
 
-function DialogContent({
-  className,
-  children,
-  ...props
-}: React.ComponentProps<typeof DialogPrimitive.Content> & {
-  showCloseButton?: boolean
-}) {
-  return (
-    <DialogPortal data-slot="dialog-portal">
-      {/* <DialogOverlay /> */}
-      <DialogPrimitive.Content
-        data-slot="dialog-content"
-        className={cn(
-          "fixed top-[15%] left-[50%] z-50 grid w-full max-w-[calc(100%-2rem)] translate-x-[-50%] gap-4 rounded-lg border bg-background p-6 shadow-lg duration-200 outline-none sm:max-w-lg",
-          className
-        )}
-        {...props}
-      >
-        {children}
-      </DialogPrimitive.Content>
-    </DialogPortal>
+// Fumadocs marks query matches in `content` with <mark> tags.
+function Highlighted({ content }: { content: string }) {
+  return content.split(/(<mark>.*?<\/mark>)/g).map((part, index) =>
+    part.startsWith("<mark>") ? (
+      <mark key={index} className="bg-transparent text-foreground">
+        {stripMarks(part)}
+      </mark>
+    ) : (
+      part
+    )
   )
+}
+
+function stripMarks(content: string) {
+  return content.replace(/<\/?mark>/g, "")
+}
+
+function navValue(label: string) {
+  return `Navigation ${label}`
+}
+
+function pageValue(group: React.ReactNode, name: React.ReactNode) {
+  return name?.toString() ? `${group} ${name}` : ""
+}
+
+function isComponentPage(url: string) {
+  return url.includes("/components/")
 }
 
 function getRunner(packageManager: string) {

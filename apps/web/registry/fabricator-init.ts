@@ -16,6 +16,8 @@ import {
   getFabricatorRegistryUrl,
   getFabricatorSiteUrl,
 } from "@/registry/fabricator"
+import { FABRICATOR_PALETTE } from "@/registry/fabricator/foundations"
+import { FABRICATOR_REQUIRED_ITEMS } from "@/registry/fabricator/registry"
 
 export type FabricatorRegistryMode = "fabricator" | "blend"
 
@@ -93,8 +95,20 @@ export function parseRegistryMode(value: string | null) {
 type RegistryBase = {
   config?: Record<string, unknown>
   registryDependencies?: string[]
+  cssVars?: {
+    theme?: Record<string, string>
+    light?: Record<string, string>
+    dark?: Record<string, string>
+  }
   docs?: string
   [key: string]: unknown
+}
+
+/** True when the request asks for a Fabricator preset (or none), as opposed
+ *  to a shadcn preset code, which keeps its own colours. */
+export function usesFabricatorPalette(searchParams: URLSearchParams) {
+  const preset = searchParams.get("preset")
+  return preset === null || preset in FABRICATOR_PRESETS
 }
 
 export function toFabricatorRegistryBase<T extends RegistryBase>(
@@ -102,10 +116,13 @@ export function toFabricatorRegistryBase<T extends RegistryBase>(
   {
     config,
     mode,
+    palette = false,
     siteUrl = getFabricatorSiteUrl(),
   }: {
     config: Pick<DesignSystemConfig, "base" | "style">
     mode: FabricatorRegistryMode
+    /** Apply the Fabricator palette to the shadcn token names. */
+    palette?: boolean
     siteUrl?: string
   }
 ): T {
@@ -117,12 +134,32 @@ export function toFabricatorRegistryBase<T extends RegistryBase>(
 
   // registryDependencies resolve before the payload's own config is merged,
   // so @fabricator is not configured yet. Use absolute URLs instead.
-  const registryDependencies = registryBase.registryDependencies?.map(
-    (dependency) =>
-      dependency.startsWith("@") || dependency.includes("://")
-        ? dependency
-        : registryUrl.replace("{style}", styleId).replace("{name}", dependency)
+  // Fabricator mode installs the foundations (surfaces, interaction tokens,
+  // motion, scrollbars) that every Fabricator component builds on.
+  const dependencyNames = registryBase.registryDependencies
+    ? [
+        ...registryBase.registryDependencies,
+        ...(mode === "fabricator" ? FABRICATOR_REQUIRED_ITEMS : []),
+      ]
+    : undefined
+  const registryDependencies = dependencyNames?.map((dependency) =>
+    dependency.startsWith("@") || dependency.includes("://")
+      ? dependency
+      : registryUrl.replace("{style}", styleId).replace("{name}", dependency)
   )
+
+  const cssVars =
+    palette && mode === "fabricator" && registryBase.cssVars
+      ? {
+          ...registryBase.cssVars,
+          theme: {
+            ...registryBase.cssVars.theme,
+            ...FABRICATOR_PALETTE.theme,
+          },
+          light: { ...registryBase.cssVars.light, ...FABRICATOR_PALETTE.light },
+          dark: { ...registryBase.cssVars.dark, ...FABRICATOR_PALETTE.dark },
+        }
+      : registryBase.cssVars
 
   return {
     ...registryBase,
@@ -135,6 +172,7 @@ export function toFabricatorRegistryBase<T extends RegistryBase>(
       },
     },
     ...(registryDependencies && { registryDependencies }),
+    ...(cssVars && { cssVars }),
     ...(registryBase.docs && {
       docs: registryBase.docs.replaceAll(
         "https://ui.shadcn.com/docs",

@@ -1,0 +1,57 @@
+/* MARK: Alert */
+
+  /* Borderless: a hover-tinted panel, rounded-xl, 13px body. */
+  .cn-alert {
+    @apply grid gap-0.5 rounded-xl p-4 text-left text-[13px] has-data-[slot=alert-action]:relative has-data-[slot=alert-action]:pr-18 has-[>svg]:grid-cols-[auto_1fr] has-[>svg]:gap-x-2.5 *:[svg]:row-span-2 *:[svg]:translate-y-0.5 *:[svg]:stroke-[1.5] *:[svg]:text-current *:[svg:not([class*='size-'])]:size-4;
+  }
+
+  .cn-alert-variant-default {
+    @apply bg-hover text-foreground data-[contrast=high]:bg-active data-[contrast=high]:ring-border;
+  }
+
+  /* A red wash with foreground text; only the icon takes the colour. */
+  .cn-alert-variant-destructive {
+    @apply bg-destructive/12 text-foreground *:[svg]:text-destructive data-[contrast=high]:bg-destructive/18 data-[contrast=high]:ring-destructive/30;
+  }
+
+  /* Statuses (FF's banner): low contrast keeps the neutral panel and colours
+     only the icon; high contrast washes the panel in the status surface
+     (the most tinted level in light, level 3 in dark), adds a status hairline
+     and moves the description to the status text colour. The title stays
+     foreground. Every pair is AA (status-colors.test.ts). */
+  .cn-alert-variant-info {
+    @apply bg-hover text-foreground *:[svg]:text-info data-[contrast=high]:bg-info-surface-1 dark:data-[contrast=high]:bg-info-surface-3 data-[contrast=high]:ring-info-border data-[contrast=high]:*:data-[slot=alert-description]:text-info-text;
+  }
+
+  .cn-alert-variant-success {
+    @apply bg-hover text-foreground *:[svg]:text-success data-[contrast=high]:bg-success-surface-1 dark:data-[contrast=high]:bg-success-surface-3 data-[contrast=high]:ring-success-border data-[contrast=high]:*:data-[slot=alert-description]:text-success-text;
+  }
+
+  .cn-alert-variant-warning {
+    @apply bg-hover text-foreground *:[svg]:text-warning data-[contrast=high]:bg-warning-surface-1 dark:data-[contrast=high]:bg-warning-surface-3 data-[contrast=high]:ring-warning-border data-[contrast=high]:*:data-[slot=alert-description]:text-warning-text;
+  }
+
+  .cn-alert-variant-error {
+    @apply bg-hover text-foreground *:[svg]:text-error data-[contrast=high]:bg-error-surface-1 dark:data-[contrast=high]:bg-error-surface-3 data-[contrast=high]:ring-error-border data-[contrast=high]:*:data-[slot=alert-description]:text-error-text;
+  }
+
+  /* Contrast: high draws a hairline (each variant colours it); low has none. */
+  .cn-alert-contrast-low {
+    @apply ring-0;
+  }
+
+  .cn-alert-contrast-high {
+    @apply ring-1 ring-inset;
+  }
+
+  .cn-alert-title {
+    @apply text-[14px] leading-5 font-medium group-has-[>svg]/alert:col-start-2;
+  }
+
+  .cn-alert-description {
+    @apply text-foreground/70 text-[13px] text-balance md:text-pretty [&_p:not(:last-child)]:mb-4;
+  }
+
+  .cn-alert-action {
+    @apply absolute top-3 right-3;
+  }

@@ -102,14 +102,6 @@ export const Components: Record<string, any> = {
       ) || "carousel"
     return { default: mod.default || mod[exportName] }
   }),
-  chart: React.lazy(async () => {
-    const mod = await import("@/styles/base-fabricator/ui/chart")
-    const exportName =
-      Object.keys(mod).find(
-        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
-      ) || "chart"
-    return { default: mod.default || mod[exportName] }
-  }),
   checkbox: React.lazy(async () => {
     const mod = await import("@/styles/base-fabricator/ui/checkbox")
     const exportName =
@@ -436,14 +428,6 @@ export const Components: Record<string, any> = {
       Object.keys(mod).find(
         (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
       ) || "kbd"
-    return { default: mod.default || mod[exportName] }
-  }),
-  "native-select": React.lazy(async () => {
-    const mod = await import("@/styles/base-fabricator/ui/native-select")
-    const exportName =
-      Object.keys(mod).find(
-        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
-      ) || "native-select"
     return { default: mod.default || mod[exportName] }
   }),
   direction: React.lazy(async () => {

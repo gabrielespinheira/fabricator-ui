@@ -1,0 +1,177 @@
+/**
+ * Website chrome in the Fabricator style (authored; not part of the registry).
+ * Docs read like the Fluid Functionalism docs: 14px muted prose, 16px section
+ * headings, quiet code blocks.
+ */
+
+@layer components {
+  [data-slot="docs"] .typeset {
+    --typeset-size: 14px;
+    --typeset-leading: 1.65;
+    --typeset-flow: 1em;
+    font-size: var(--typeset-size);
+    color: var(--color-muted-foreground);
+  }
+}
+
+/* Full-page demos (ComponentPreview type="frame", e.g. Sidebar) break out of
+   the 632px prose into the docs column, up to 60rem, so app shells render at
+   desktop width without being scaled down. */
+@layer components {
+  [data-slot="docs"] > div:first-child {
+    container-type: inline-size;
+  }
+  [data-slot="docs"] [data-slot="component-preview"][data-frame] {
+    --frame-width: max(100%, min(60rem, 100cqw - 2rem));
+    width: var(--frame-width);
+    max-width: none;
+    margin-inline: calc((100% - var(--frame-width)) / 2);
+  }
+}
+
+@layer components {
+  [data-slot="docs"]
+    .typeset
+    *:not(
+      :where(
+        .not-typeset,
+        [data-not-typeset],
+        .not-typeset *,
+        [data-not-typeset] *
+      )
+    ) {
+    &:where(h2) {
+      font-size: calc(16em / 14);
+      font-weight: 550;
+      letter-spacing: -0.005em;
+      margin-block-start: 3em;
+    }
+    &:where(h3) {
+      font-size: calc(15em / 14);
+      font-weight: 550;
+      margin-block-start: 2em;
+    }
+    &:where(h4) {
+      font-size: 1em;
+      font-weight: 550;
+    }
+    &:where(strong, b, a, code) {
+      color: var(--color-foreground);
+    }
+  }
+}
+
+/* Radius setting (lib/site-settings.ts). Pill raises the radius token, so
+   36px controls become full pills (rounded-lg = 20px) inside containers that
+   stay concentric (rounded-xl = 28px). Specificity beats `html:root` in the
+   generated fabricator.css. */
+html[data-radius="pill"]:root {
+  --radius: 1.25rem;
+}
+
+/* Site chrome: Tailwind v4 gives buttons the default cursor. Clickable chrome
+   (search, copy, code and preview tabs, legacy buttons) gets the pointer that
+   the components' own style map rules give them. Component previews are left
+   out so a missing cursor in a component never hides behind this rule. */
+@layer base {
+  :where(button, [role="button"], [role="tab"], summary):not(
+    :disabled,
+    [aria-disabled="true"],
+    [data-slot="preview"] *
+  ) {
+    cursor: pointer;
+  }
+}
+
+/* Motion setting (lib/site-settings.ts). Every Fabricator duration is
+   `calc(var(--motion-<tier>) * var(--motion-scale, 1))`, so one variable
+   scales the whole site. Specificity beats `html:root` in fabricator.css.
+   Off also drops slides and zooms, like the foundations' reduced-motion
+   rules; a system reduced-motion preference still applies on top. */
+html[data-motion="relaxed"]:root {
+  --motion-scale: 1.4;
+}
+
+html[data-motion="snappy"]:root {
+  --motion-scale: 0.7;
+}
+
+html[data-motion="off"]:root {
+  --motion-scale: 0;
+}
+
+html[data-motion="off"] *,
+html[data-motion="off"] ::before,
+html[data-motion="off"] ::after {
+  --tw-enter-translate-x: 0 !important;
+  --tw-enter-translate-y: 0 !important;
+  --tw-exit-translate-x: 0 !important;
+  --tw-exit-translate-y: 0 !important;
+  --tw-enter-scale: 1 !important;
+  --tw-exit-scale: 1 !important;
+}
+
+/* Code blocks sit one step up the surface ladder (DESIGN.md: surface-2, like
+   cards and the sidebar's inset area), so they read as a raised panel instead
+   of blending into the page. `--code` also feeds the sticky line numbers,
+   the title bar and the copy button, which keeps them in step. Specificity
+   beats `:root` and `.dark` in globals.css, and in dark mode surface-2
+   resolves to its dark value. */
+html:root {
+  --code: var(--surface-2);
+}
+
+/* Surface tint (Settings → Surface, Surfaces → Base colour). The site's own
+   tokens from globals.css follow the surfaces too: `bg-surface` stages behind
+   previews are the page, and highlighted code lines a step off it. */
+html:root {
+  --surface: var(--surface-1);
+  --code-highlight: var(--muted);
+}
+
+html.dark:root {
+  --code-highlight: var(--surface-3);
+}
+
+/* Upstream's chat demos (Bubble, Message, Attachment, Message Scroller…)
+   wrap their previews in the legacy `.theme-blue`, which hard-codes neutral
+   page, card, border, muted and radius values. Keep its blue primary and
+   charts, and take everything else from the page, so those previews follow
+   the Fabricator palette, the surface tint and the radius setting. `inherit`
+   takes the computed value from <html>, in light and dark alike. */
+html:root .theme-blue {
+  --background: inherit;
+  --foreground: inherit;
+  --card: inherit;
+  --card-foreground: inherit;
+  --popover: inherit;
+  --popover-foreground: inherit;
+  --secondary: inherit;
+  --secondary-foreground: inherit;
+  --muted: inherit;
+  --muted-foreground: inherit;
+  --accent: inherit;
+  --accent-foreground: inherit;
+  --destructive: inherit;
+  --border: inherit;
+  --input: inherit;
+  --ring: inherit;
+  --radius: inherit;
+  --sidebar: inherit;
+  --sidebar-foreground: inherit;
+  --sidebar-accent: inherit;
+  --sidebar-accent-foreground: inherit;
+  --sidebar-border: inherit;
+  --sidebar-ring: inherit;
+}
+
+@layer base {
+  [data-rehype-pretty-code-figure] {
+    box-shadow: var(--shadow-2);
+  }
+
+  /* Inside the preview/code tabs the frame is the container's border. */
+  [data-slot="code"] [data-rehype-pretty-code-figure] {
+    box-shadow: none;
+  }
+}

@@ -1,0 +1,126 @@
+---
+title: Surfaces
+description: Eight elevation levels, each with its own shadow, so layers stay distinct in light and dark mode.
+---
+
+## Installation
+
+The surface tokens ship with the foundations:
+
+```bash
+npx fabricator-ui@latest add foundations
+```
+
+## The ladder
+
+Each level pairs a background with a shadow: `bg-surface-N shadow-surface-N`. In light mode, levels 1 and 2 are off-white and everything from level 3 up is white (tinted, when you set a [base colour](#base-colour)): the shadow alone carries the elevation. In dark mode, each level is a step lighter than the one below, and the shadow adds a faint top highlight and ring.
+
+<SurfaceLadder />
+
+**Surfaces have no borders.** Every surface shadow starts with a 1px ring, which draws the edge.
+
+## Base colour
+
+Every surface derives from one base colour, held by two variables: `--surface-hue` (an OKLCH hue in degrees) and `--surface-chroma` (how strongly the surfaces lean towards it, from `0` to `0.04`). Both are `0` by default, which gives the neutral ladder above. Set them here to tint this whole site:
+
+<SurfaceTintPicker />
+
+Each level takes a share of the chroma:
+
+- **Light mode** tints every level, like dark mode: the page takes 44% of the chroma (about `oklch(0.962 0.018)` at full strength) and the top level 21.5%. Colour needs room below white, so as the tint grows the ladder settles into a band just below white (0.962 to 0.981 at full strength), still lighter level by level, and `muted-foreground` darkens with it to stay AA on the page.
+- **Dark mode** carries the tint: level 1 takes 90% of the chroma, and each level above takes a little less, so the top of the ladder stays calm.
+
+At full strength, every level stays inside sRGB for any hue. Text stays AA wherever it was AA on the neutral ladder. The opaque `bg-selected` and `bg-muted` fills follow the tint too.
+
+```css
+/* light */
+--surface-1: oklch(
+  calc(0.985 - var(--surface-chroma) * 0.575) calc(var(--surface-chroma) * 0.44)
+    var(--surface-hue)
+);
+/* dark */
+--surface-1: oklch(0.205 calc(var(--surface-chroma) * 0.9) var(--surface-hue));
+```
+
+The `fabricator` preset writes `background`, `card`, `popover`, `sidebar`, `muted` and `muted-foreground` as plain colours, because the CLI only maps literal colours to Tailwind utilities. To have them follow the tint, point them at the surfaces, as the second part of the generated CSS does. Tailwind keeps the utilities the preset already mapped, so `bg-background` and `bg-card` keep working.
+
+## Where each level goes
+
+<SurfaceNesting />
+
+| Element                                                       | Classes                                                                         |
+| ------------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| Page                                                          | `bg-background` (surface 1)                                                     |
+| Sidebar                                                       | `bg-sidebar` (surface 2); an inset main area is `bg-surface-2 shadow-surface-2` |
+| Raised card                                                   | `bg-surface-3 shadow-surface-3`                                                 |
+| Popover, dropdown, select, combobox, context menu, hover card | `bg-surface-3 shadow-surface-3 rounded-xl`                                      |
+| Active tab                                                    | `bg-surface-4 shadow-surface-4`                                                 |
+| Dialog, alert dialog                                          | `bg-surface-5 shadow-surface-5 rounded-xl`                                      |
+| Sheet, drawer                                                 | `bg-surface-3 shadow-surface-3`                                                 |
+| Tooltip                                                       | Inverted: `bg-foreground text-background`                                       |
+
+Overlays behind dialogs and sheets are `bg-black/40`, and `bg-black/80` in dark mode.
+
+## Interaction overlays
+
+Hover and press states are translucent overlays, so they work on any surface.
+
+<SurfaceOverlays />
+
+| Token                      | Light          | Dark           | Use                                |
+| -------------------------- | -------------- | -------------- | ---------------------------------- |
+| `bg-hover`                 | 4% black       | 6% white       | Hover, the Fluid Hover highlight   |
+| `bg-active`                | 7% black       | 10% white      | Pressed, selected rows, toggled on |
+| `bg-selected`              | Solid grey     | Solid grey     | Selection that must stay opaque    |
+| `bg-tint`, `bg-tint-hover` | 8%, 6.5% black | 25%, 20% white | Secondary buttons and fills        |
+| `bg-destructive-light`     | Pale red       | Deep red       | Destructive buttons and fills      |
+
+## Status colours
+
+Info, success, warning and error each have a full palette, so any component can carry a status: alerts, badges, toasts, callouts or your own. Every status has the same eight-level ladder as the neutral surfaces, tinted, and works with the same shadows, so you can raise parts inside a status block exactly like on the page.
+
+<StatusLadders />
+
+Each status also has a solid colour for icons and fills, a foreground for text on that solid, a text colour for copy on its surfaces (and on the neutral ones), and a hairline border:
+
+<StatusTokens />
+
+| Token                        | Utility                                  | Use                                           |
+| ---------------------------- | ---------------------------------------- | --------------------------------------------- |
+| `--<status>-surface-1` … `8` | `bg-<status>-surface-1` … `8`            | Tinted surfaces; pair with `shadow-surface-N` |
+| `--<status>`                 | `bg-<status>`, `text-<status>`, `fill-…` | Icons, dots, solid fills                      |
+| `--<status>-foreground`      | `text-<status>-foreground`               | Text on a solid `bg-<status>`                 |
+| `--<status>-text`            | `text-<status>-text`                     | Text on status and neutral surfaces           |
+| `--<status>-border`          | `border-<status>-border`, `ring-…`       | Hairlines                                     |
+
+`<status>` is `info`, `success`, `warning` or `error`. Every pair is checked for WCAG AA in light and dark: text at 4.5:1 and the solid at 3:1 on all sixteen surfaces, and the foreground at 4.5:1 on the solid.
+
+```tsx
+<div className="rounded-xl bg-success-surface-3 p-4 text-success-text shadow-surface-3">
+  Deployed to production.
+</div>
+```
+
+Use the low-contrast form (a neutral surface with a status-coloured icon) for most messages, and the tinted surfaces when the whole block should read as the status. [Alert](/docs/components/base/alert#status) offers both through its `contrast` prop.
+
+## Focus
+
+Focus is a 1px blue ring with no offset, the same in both themes: `focus-visible:ring-1 focus-visible:ring-ring`. The colour is also available as `--focus-ring`.
+
+## Tokens
+
+| Variable                                                         | Utility                                           |
+| ---------------------------------------------------------------- | ------------------------------------------------- |
+| `--surface-hue`, `--surface-chroma`                              | The base colour (see [Base colour](#base-colour)) |
+| `--surface-1` … `8`                                              | `bg-surface-1` … `bg-surface-8`                   |
+| `--shadow-1` … `8`                                               | `shadow-surface-1` … `shadow-surface-8`           |
+| `--hover`                                                        | `bg-hover`                                        |
+| `--active`                                                       | `bg-active`                                       |
+| `--selected`                                                     | `bg-selected`                                     |
+| `--tint`                                                         | `bg-tint`                                         |
+| `--tint-hover`                                                   | `bg-tint-hover`                                   |
+| `--destructive-light`                                            | `bg-destructive-light`                            |
+| `--focus-ring`                                                   | `ring-focus-ring`                                 |
+| `--info`, `--success`, `--warning`, `--error` and their palettes | See [Status colours](#status-colours)             |
+
+These are new names: the theme tokens such as `background`, `card` and `border` keep their meaning, so components from other registries still fit in.

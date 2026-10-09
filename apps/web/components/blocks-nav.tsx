@@ -12,7 +12,7 @@ export function BlocksNav() {
   return (
     <div className="relative overflow-hidden">
       <ScrollArea className="max-w-none">
-        <div className="flex items-center">
+        <div className="flex items-center gap-1.5 py-0.5">
           <BlocksNavLink
             category={{ name: "Featured", slug: "", hidden: false }}
             isActive={pathname === "/blocks"}
@@ -46,7 +46,7 @@ function BlocksNavLink({
     <Link
       href={`/blocks/${category.slug}`}
       key={category.slug}
-      className="flex h-7 items-center justify-center px-4 text-center text-base font-medium text-muted-foreground transition-colors hover:text-primary data-[active=true]:text-primary"
+      className="flex h-9 shrink-0 items-center justify-center gap-2 rounded-full bg-muted px-3.5 text-center text-[15px] font-medium text-muted-foreground transition-colors duration-fast ease-spring outline-none hover:bg-active hover:text-foreground focus-visible:ring-1 focus-visible:ring-focus-ring data-[active=true]:bg-foreground data-[active=true]:text-background"
       data-active={isActive}
     >
       {category.name}

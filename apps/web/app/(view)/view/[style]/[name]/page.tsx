@@ -9,12 +9,15 @@ import {
   getRegistryComponent,
   getRegistryItem,
 } from "@/lib/registry"
+import { getRawStyleClass } from "@/lib/site-style"
 import { absoluteUrl } from "@/lib/utils"
 import { getStyle, legacyStyles, type Style } from "@/registry/_legacy-styles"
 
 import "@/app/legacy-themes.css"
+import "@/app/style-registry.css"
 
 import { ComponentPreview } from "./component-preview"
+import { RawStyleScope } from "./raw-style-scope"
 
 export const revalidate = false
 export const dynamic = "force-static"
@@ -127,6 +130,21 @@ export async function generateStaticParams() {
       //   }
       // }
 
+      // Fabricator styles also render the base's blocks (from raw sources).
+      if (getRawStyleClass(style.name)) {
+        const { Index: BasesIndex } = await import("@/registry/bases/__index__")
+        for (const item of Object.values(BasesIndex[baseName] ?? {})) {
+          // Blocks for the gallery; examples so style-map edits can be
+          // previewed live (raw sources + the style's CSS, no compile step).
+          if (
+            item.type === "registry:block" ||
+            item.type === "registry:example"
+          ) {
+            params.push({ style: style.name, name: item.name })
+          }
+        }
+      }
+
       continue
     }
 
@@ -179,9 +197,17 @@ export default async function BlockPage({
     return notFound()
   }
 
+  const rawStyleClass = getRawStyleClass(style.name)
+
   return (
     <ComponentPreview>
-      <Component />
+      {rawStyleClass ? (
+        <RawStyleScope className={rawStyleClass}>
+          <Component />
+        </RawStyleScope>
+      ) : (
+        <Component />
+      )}
     </ComponentPreview>
   )
 }

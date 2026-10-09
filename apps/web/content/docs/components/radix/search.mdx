@@ -1,0 +1,152 @@
+---
+title: Search
+description: A search button that springs open into a search field, as one object.
+base: radix
+component: true
+---
+
+<ComponentPreview styleName="radix-nova" name="search-demo" />
+
+Press the search button and it opens into the field: the round button springs its width open, the icon stays where it was, and the field takes focus. Escape clears the text, then closes it; leaving an empty field closes it too.
+
+Search is part of the Fabricator style. It's built on plain HTML, so the same component ships for every base.
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">Command</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx fabricator-ui@latest add search
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps className="mb-0 pt-2">
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  src="styles/radix-fabricator/ui/search.tsx"
+  title="components/ui/search.tsx"
+  styleName="radix-nova"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { Search } from "@/components/ui/search"
+```
+
+```tsx
+<Search placeholder="Search components" />
+```
+
+Wrap it in a form with `role="search"` when it searches the page or the site: the form is the landmark, and Enter submits it.
+
+```tsx
+<form role="search" action="/search">
+  <Search name="q" />
+</form>
+```
+
+## Examples
+
+### Outline
+
+`variant="outline"` swaps the fill for a hairline ring.
+
+<ComponentPreview styleName="radix-nova" name="search-outline" />
+
+### Sizes
+
+`size="sm"` is 28px and opens to 240px, the default is 36px and opens to 320px, and `size="lg"` is 44px and opens to 360px.
+
+<ComponentPreview styleName="radix-nova" name="search-sizes" />
+
+### Always open
+
+`collapsible={false}` renders the field without the button state, with the same look.
+
+<ComponentPreview styleName="radix-nova" name="search-always-open" />
+
+### Controlled
+
+Control the text with `value` and `onValueChange`, and the open state with `open` and `onOpenChange`.
+
+<ComponentPreview styleName="radix-nova" name="search-controlled" />
+
+## Width
+
+The field opens to `--search-width`. Set it with the `width` prop (any CSS length) or in CSS. It never grows wider than its parent.
+
+```tsx
+<Search width="24rem" />
+<Search width="100%" />
+```
+
+## Motion
+
+- Opening springs the width on the slow tier (`duration-slow ease-spring-bounce`, 290ms); the field fades in just after.
+- Closing is the quicker exit tween (`duration-slow-exit ease-exit`, 220ms).
+- A press on the closed button squashes it slightly on the fast tier.
+- With reduced motion, it opens and closes at once, without the width or the squash.
+
+## API Reference
+
+### Search
+
+All other props go to the `<input>`, including `name`, `ref`, `onKeyDown` and `onBlur`.
+
+| Prop            | Type                          | Default     |
+| --------------- | ----------------------------- | ----------- |
+| `variant`       | `"default" \| "outline"`      | `"default"` |
+| `size`          | `"sm" \| "default" \| "lg"`   | `"default"` |
+| `open`          | `boolean`                     | -           |
+| `defaultOpen`   | `boolean`                     | `false`     |
+| `onOpenChange`  | `(open: boolean) => void`     | -           |
+| `value`         | `string`                      | -           |
+| `defaultValue`  | `string`                      | `""`        |
+| `onValueChange` | `(value: string) => void`     | -           |
+| `collapsible`   | `boolean`                     | `true`      |
+| `clearable`     | `boolean`                     | `true`      |
+| `width`         | `string`                      | `"320px"`   |
+| `label`         | `string`                      | `"Search"`  |
+| `placeholder`   | `string`                      | `"Search"`  |
+| `rootProps`     | `React.ComponentProps<"div">` | -           |
+
+### Data attributes
+
+| Attribute                    | Element          | Present when                |
+| ---------------------------- | ---------------- | --------------------------- |
+| `data-slot="search"`         | root             | always                      |
+| `data-open`                  | root             | the field is showing        |
+| `data-variant`, `data-size`  | root             | always                      |
+| `data-collapsible`           | root             | `collapsible` is true       |
+| `data-slot="search-trigger"` | the round button | always                      |
+| `data-slot="search-input"`   | the `<input>`    | always                      |
+| `data-slot="search-clear"`   | the clear button | open with text, `clearable` |
+
+## Accessibility
+
+- Closed, it's a button named by `label` ("Search" by default), with `aria-expanded` and `aria-controls` pointing at the field. Enter or Space opens it and moves focus into the field.
+- Open, the field is a `type="search"` input with the same name. The button leaves the tab order, so Tab goes straight from the field to the next control.
+- Escape clears the text; a second Escape closes the field and returns focus to the button.
+- The clear button is named "Clear search" and returns focus to the field.
+- Focus shows the 1px focus ring. The cursor is a pointer on the closed button and a text cursor in the field.
+- Wrap it in `<form role="search">` to make it a search landmark.

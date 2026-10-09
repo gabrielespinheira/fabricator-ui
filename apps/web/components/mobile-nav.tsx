@@ -35,10 +35,6 @@ const TOP_LEVEL_SECTIONS = [
     href: "/docs/cli",
   },
   {
-    name: "RTL",
-    href: "/docs/rtl",
-  },
-  {
     name: "MCP Server",
     href: "/docs/mcp",
   },

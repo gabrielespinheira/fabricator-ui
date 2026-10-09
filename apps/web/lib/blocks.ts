@@ -5,6 +5,7 @@ import { type z } from "zod"
 
 import { registry as baseRegistry } from "@/registry/bases/base/registry"
 import { registry as radixRegistry } from "@/registry/bases/radix/registry"
+import { FABRICATOR_EXCLUDED_ITEMS } from "@/registry/fabricator/registry"
 
 export async function getAllBlockIds(
   types: z.infer<typeof registryItemSchema>["type"][] = [
@@ -67,6 +68,8 @@ export async function getAllBlocks(
       types.includes(block.type) &&
       (categories.length === 0 ||
         block.categories?.some((category) => categories.includes(category))) &&
-      !block.name.startsWith("chart-")
+      !block.name.startsWith("chart-") &&
+      // The gallery shows the Fabricator library, which leaves these out.
+      !(block.name in FABRICATOR_EXCLUDED_ITEMS)
   )
 }

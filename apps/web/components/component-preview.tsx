@@ -1,9 +1,12 @@
 import * as React from "react"
 import Image from "next/image"
+import { cn } from "cn"
 
 import { getRegistryComponent } from "@/lib/registry"
+import { toSiteStyle } from "@/lib/site-style"
 import { ComponentPreviewTabs } from "@/components/component-preview-tabs"
 import { ComponentSource } from "@/components/component-source"
+import { FramePreview } from "@/components/fabricator/frame-preview"
 
 export function ComponentPreview({
   name,
@@ -14,7 +17,6 @@ export function ComponentPreview({
   hideCode = false,
   chromeLessOnMobile = false,
   styleName = "base-nova",
-  direction = "ltr",
   caption,
   ...props
 }: React.ComponentProps<"div"> & {
@@ -23,10 +25,9 @@ export function ComponentPreview({
   align?: "center" | "start" | "end"
   description?: string
   hideCode?: boolean
-  type?: "block" | "component" | "example"
+  type?: "block" | "component" | "example" | "frame"
   chromeLessOnMobile?: boolean
   previewClassName?: string
-  direction?: "ltr" | "rtl"
   caption?: string
 }) {
   if (type === "block") {
@@ -50,7 +51,10 @@ export function ComponentPreview({
           className="absolute top-0 left-0 z-20 hidden h-full w-[1600px] max-w-none bg-background object-cover object-left-top md:hidden dark:block md:dark:hidden"
         />
         <div className="absolute inset-0 hidden w-[1600px] bg-background md:block">
-          <iframe src={`/view/${styleName}/${name}`} className="size-full" />
+          <iframe
+            src={`/view/${toSiteStyle(styleName)}/${name}`}
+            className="size-full"
+          />
         </div>
       </div>
     )
@@ -69,7 +73,34 @@ export function ComponentPreview({
     return content
   }
 
-  const Component = getRegistryComponent(name, styleName)
+  const siteStyleName = toSiteStyle(styleName)
+
+  // Fabricator: a full-page demo (app shells like Sidebar) in an iframe laid
+  // out at desktop width, with the usual Preview / Code tabs.
+  if (type === "frame") {
+    return (
+      <ComponentPreviewTabs
+        data-frame=""
+        className={className}
+        previewClassName={cn("h-[36rem] p-0", previewClassName)}
+        hideCode={hideCode}
+        component={
+          <FramePreview src={`/view/${siteStyleName}/${name}`} title={name} />
+        }
+        source={
+          <ComponentSource
+            name={name}
+            collapsible={false}
+            styleName={siteStyleName}
+          />
+        }
+        styleName={siteStyleName}
+        {...props}
+      />
+    )
+  }
+
+  const Component = getRegistryComponent(name, siteStyleName)
 
   if (!Component) {
     return (
@@ -94,20 +125,19 @@ export function ComponentPreview({
         <ComponentSource
           name={name}
           collapsible={false}
-          styleName={styleName}
+          styleName={siteStyleName}
         />
       }
       sourcePreview={
         <ComponentSource
           name={name}
           collapsible={false}
-          styleName={styleName}
+          styleName={siteStyleName}
           maxLines={3}
         />
       }
       chromeLessOnMobile={chromeLessOnMobile}
-      direction={direction}
-      styleName={styleName}
+      styleName={siteStyleName}
       {...props}
     />
   )

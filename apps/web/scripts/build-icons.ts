@@ -193,7 +193,7 @@ function generateIconMapping(iconMapping: IconMapping, warnings: string[]) {
     fs.existsSync(outputPath) &&
     fs.readFileSync(outputPath, "utf-8") === content
   ) {
-    return
+    return output
   }
 
   fs.writeFileSync(outputPath, content)
@@ -215,12 +215,200 @@ function generateIconMapping(iconMapping: IconMapping, warnings: string[]) {
       )
     }
   }
+
+  return output
 }
 
-function main() {
+async function main() {
   const { iconUsage, iconMapping, warnings } = scanIconUsage()
   generateIconFiles(iconUsage)
-  generateIconMapping(iconMapping, warnings)
+  const mapping = generateIconMapping(iconMapping, warnings)
+  await generateSiteIcons(mapping)
+}
+
+// --- Site icons ---------------------------------------------------------------
+// The website's Fabricator previews import Lucide icons from "@/lib/site-icons"
+// (the registry build rewrites "lucide-react" in those copies), so they follow
+// the icon pack picked in the site settings. This generates that module: one
+// component per Lucide icon the previews use, with the matching names in the
+// other packs, plus one module per pack with just those icons (loaded on
+// demand by lib/site-icons-runtime.tsx). The docs still show "lucide-react".
+
+const SITE_ICON_LIBRARIES = ["tabler", "hugeicons", "phosphor", "remixicon"]
+
+// Sources whose Lucide icons end up in the site's Fabricator previews.
+const SITE_ICON_SOURCES = [
+  "examples/base",
+  "examples/radix",
+  "examples/aria",
+  "registry/bases/base/ui",
+  "registry/bases/radix/ui",
+  "registry/bases/aria/ui",
+  "registry/fabricator",
+  "app/(app)/(root)/_components",
+  "components/foundations",
+]
+
+const LUCIDE_IMPORT_REGEX =
+  /import\s*\{([^}]*)\}\s*from\s*["'](?:lucide-react|@\/lib\/site-icons)["']/g
+const LUCIDE_PLACEHOLDER_REGEX =
+  /<IconPlaceholder\b[^>]*?\blucide=["']([^"']+)["']/g
+
+function scanSiteIconNames() {
+  const names = new Set<string>()
+  for (const dir of SITE_ICON_SOURCES) {
+    const fullDir = path.join(process.cwd(), dir)
+    if (!fs.existsSync(fullDir)) continue
+    for (const file of findTsxFiles(fullDir)) {
+      const content = fs.readFileSync(file, "utf-8")
+      for (const match of content.matchAll(LUCIDE_IMPORT_REGEX)) {
+        for (const specifier of match[1].split(",")) {
+          const name = specifier
+            .trim()
+            .split(/\s+as\s+/)[0]
+            .trim()
+          // Types (LucideIcon, LucideProps) are re-exported as they are.
+          if (name && !name.startsWith("type ") && !/^Lucide/.test(name)) {
+            names.add(name)
+          }
+        }
+      }
+      for (const match of content.matchAll(LUCIDE_PLACEHOLDER_REGEX)) {
+        names.add(match[1])
+      }
+    }
+  }
+  return Array.from(names).sort()
+}
+
+function exportedNames(file: string) {
+  if (!fs.existsSync(file)) return new Set<string>()
+  return new Set(
+    Array.from(
+      fs.readFileSync(file, "utf-8").matchAll(/export \{ (\w+) \}/g),
+      (match) => match[1]
+    )
+  )
+}
+
+async function generateSiteIcons(mapping: IconMapping) {
+  const siteMapping: IconMapping = JSON.parse(
+    fs.readFileSync(
+      path.join(process.cwd(), "registry/icons/site-mapping.json"),
+      "utf-8"
+    )
+  )
+  delete siteMapping.$comment
+
+  const lookup = (name: string) => {
+    const candidates = [
+      name,
+      name.replace(/Icon$/, ""),
+      name.endsWith("Icon") ? name : `${name}Icon`,
+    ]
+    const entry: Record<string, string> = {}
+    for (const source of [siteMapping, mapping]) {
+      for (const candidate of candidates) {
+        for (const library of SITE_ICON_LIBRARIES) {
+          const value = source[candidate]?.[library]
+          if (value && !entry[library]) entry[library] = value
+        }
+      }
+    }
+    return entry
+  }
+
+  const names = scanSiteIconNames()
+  const entries = names.map((name) => ({ name, mapping: lookup(name) }))
+  const libDir = path.join(process.cwd(), "lib")
+
+  // Names must exist in the installed packs. Names already in a generated
+  // module were checked when it was written; only new ones load the package.
+  for (const library of SITE_ICON_LIBRARIES) {
+    const file = path.join(libDir, `site-icons.${library}.ts`)
+    const known = exportedNames(file)
+    const unknown = entries
+      .map((entry) => entry.mapping[library])
+      .filter((value): value is string => !!value && !known.has(value))
+    if (unknown.length === 0) continue
+    const config = iconLibraries[library as IconLibraryName]
+    const available = new Set(Object.keys(await import(config.export)))
+    for (const entry of entries) {
+      const value = entry.mapping[library]
+      if (value && !known.has(value) && !available.has(value)) {
+        console.warn(
+          `⚠ Site icons: ${config.export} has no ${value} (for ${entry.name}); it falls back to Lucide.`
+        )
+        delete entry.mapping[library]
+      }
+    }
+  }
+
+  const header = "// Auto-generated by scripts/build-icons.ts. Do not edit.\n"
+  const files: Record<string, string> = {}
+
+  files["site-icons.tsx"] = `${header}"use client"
+
+import {
+${names.map((name) => `  ${name} as Lucide${name},`).join("\n")}
+} from "lucide-react"
+
+import { createSiteIcon } from "@/lib/site-icons-runtime"
+
+export type { LucideIcon, LucideProps } from "lucide-react"
+
+${entries
+  .map(
+    ({ name, mapping }) =>
+      `export const ${name} = createSiteIcon(Lucide${name}, ${JSON.stringify(
+        mapping
+      )})`
+  )
+  .join("\n")}
+`
+
+  for (const library of SITE_ICON_LIBRARIES) {
+    const config = iconLibraries[library as IconLibraryName]
+    const icons = Array.from(
+      new Set(
+        entries
+          .map((entry) => entry.mapping[library])
+          .filter((value): value is string => !!value)
+      )
+    ).sort()
+    files[`site-icons.${library}.ts`] = `${header}${icons
+      .map((icon) => `export { ${icon} } from "${config.export}"`)
+      .join("\n")}
+`
+  }
+
+  const { format, resolveConfig } = await import("prettier")
+  const written: string[] = []
+  for (const [filename, raw] of Object.entries(files)) {
+    const filepath = path.join(libDir, filename)
+    const content = await format(raw, {
+      ...(await resolveConfig(filepath)),
+      filepath,
+    })
+    if (
+      fs.existsSync(filepath) &&
+      fs.readFileSync(filepath, "utf-8") === content
+    ) {
+      continue
+    }
+    fs.writeFileSync(filepath, content)
+    written.push(filename)
+  }
+
+  if (written.length > 0) {
+    const mapped = entries.filter(
+      (entry) =>
+        Object.keys(entry.mapping).length === SITE_ICON_LIBRARIES.length
+    ).length
+    console.log(
+      `✓ Generated site icons: ${names.length} icons, ${mapped} in every pack (${written.join(", ")})`
+    )
+  }
 }
 
 const isWatchMode = process.argv.includes("--watch")
@@ -232,7 +420,7 @@ if (isWatchMode) {
   async function startWatcher() {
     const { default: chokidar } = await import("chokidar")
 
-    main()
+    await main()
 
     const watcher = chokidar.watch(REGISTRY_DIR, {
       ignored: /(^|[/\\])\../,
@@ -243,11 +431,9 @@ if (isWatchMode) {
     const rebuild = (filename: string) => {
       if (!filename.endsWith(".tsx")) return
 
-      try {
-        main()
-      } catch (error) {
+      main().catch((error) => {
         console.error("❌ Icons build failed:", error)
-      }
+      })
     }
 
     watcher.on("error", (error) => {
@@ -265,5 +451,5 @@ if (isWatchMode) {
 
   startWatcher()
 } else {
-  main()
+  await main()
 }

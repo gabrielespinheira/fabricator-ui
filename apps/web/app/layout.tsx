@@ -5,14 +5,16 @@ import { NuqsAdapter } from "nuqs/adapters/next/app"
 import { META_THEME_COLORS, siteConfig } from "@/lib/config"
 import { DOCS_SIDEBAR_SCROLL_RESTORE_SCRIPT } from "@/lib/docs-sidebar-scroll"
 import { fontVariables } from "@/lib/fonts"
+import { SITE_SETTINGS_SCRIPT } from "@/lib/site-settings"
 import { ActiveThemeProvider } from "@/components/active-theme"
 import { Analytics } from "@/components/analytics"
+import { SiteSettingsEffects } from "@/components/fabricator/site-settings-effects"
 import { TailwindIndicator } from "@/components/tailwind-indicator"
 import { ThemeProvider } from "@/components/theme-provider"
 import { TooltipProvider as BaseTooltipProvider } from "@/registry/bases/base/ui/tooltip"
-import { Toaster } from "@/registry/bases/radix/ui/sonner"
 import { TooltipProvider as RadixTooltipProvider } from "@/registry/bases/radix/ui/tooltip"
-import { Toaster as BaseToaster } from "@/styles/base-nova/ui/toast"
+import { Toaster as BaseToaster } from "@/styles/base-fabricator/ui/toast"
+import { Toaster } from "@/styles/radix-fabricator/ui/sonner"
 
 import "@/app/globals.css"
 import "@/app/typeset.css"
@@ -112,6 +114,7 @@ export default function RootLayout({
             `,
           }}
         />
+        <script dangerouslySetInnerHTML={{ __html: SITE_SETTINGS_SCRIPT }} />
         <meta name="theme-color" content={META_THEME_COLORS.light} />
       </head>
       <body
@@ -127,6 +130,7 @@ export default function RootLayout({
                   {children}
                   <Toaster position="top-center" />
                   <BaseToaster />
+                  <SiteSettingsEffects />
                 </RadixTooltipProvider>
               </BaseTooltipProvider>
             </NuqsAdapter>

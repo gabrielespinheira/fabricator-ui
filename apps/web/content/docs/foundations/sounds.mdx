@@ -1,0 +1,134 @@
+---
+title: Sounds
+description: Short, quiet interface sounds synthesized in the browser, off until you turn them on.
+---
+
+## Installation
+
+```bash
+npx fabricator-ui@latest add sounds
+```
+
+This adds `lib/sounds.ts`, the sound engine, and `components/sound-effects.tsx`, which plays sounds for every component. There are no audio files and no dependencies: each sound is a few short layers of oscillators and filtered noise, made with the Web Audio API when it plays.
+
+## The catalogue
+
+Thirty-two sounds, each made for one kind of component. Every family has its own material, so you can tell what you touched without looking:
+
+- **Buttons** are wood: a knock that gets heavier from secondary to primary, and a damped thud for destructive actions.
+- **Selection controls** are a mechanism: a checkbox clicks twice like a check mark being drawn, a toggle presses in and catches, and a radio clicks and rings.
+- **Switches** are liquid: a soft, round drop as the thumb settles on, and a quieter sigh as it lets go.
+- **Rows and links** are glass: a tick light enough for every menu item.
+- **Tabs** are bells, tuned to a chord across their positions.
+- **Surfaces** each move differently: menus pop, dialogs bloom on a fifth, alert dialogs open on a minor third, sheets and drawers move air, and accordions unfold.
+- **Toasts** chime by type: info, success, warning and error each have their own.
+
+Press one to hear it.
+
+<SoundCatalog />
+
+## Set up
+
+Render `<SoundEffects />` once, near the root of your app, and pass it the user's preference:
+
+```tsx title="components/providers.tsx"
+"use client"
+
+import { SoundEffects } from "@/components/sound-effects"
+
+export function Providers({
+  soundsOn,
+  children,
+}: {
+  soundsOn: boolean // the user's setting, however you store it
+  children: React.ReactNode
+}) {
+  return (
+    <>
+      <SoundEffects enabled={soundsOn} />
+      {children}
+    </>
+  )
+}
+```
+
+Sounds are off until `enabled` is `true`, or until you call `setSoundsEnabled(true)`. Nothing in the components changes: `<SoundEffects />` listens on the document and picks a sound from the control's role and `data-slot`, which are the same in every base.
+
+<SoundPlayground />
+
+## What plays when
+
+| Component                                                                        | Sound                                              |
+| -------------------------------------------------------------------------------- | -------------------------------------------------- |
+| Primary button                                                                   | `press`                                            |
+| Outline, secondary or ghost button                                               | `tap`                                              |
+| Destructive button                                                               | `thud`                                             |
+| Link button, menu item, sidebar and navigation link, breadcrumb, tree item       | `tick`                                             |
+| Checkbox, menu checkbox                                                          | `check` on, `uncheck` off                          |
+| Switch                                                                           | `toggle-on` on, `toggle-off` off                   |
+| Toggle, toggle group item                                                        | `latch` pressed, `unlatch` released                |
+| Radio, select and combobox option, command item, menu radio, calendar day        | `pick`                                             |
+| Tab                                                                              | `note`, one chord tone per position                |
+| Pagination, calendar month buttons                                               | `page`, higher for next, lower for previous        |
+| Carousel previous and next                                                       | `whisk`                                            |
+| Accordion, collapsible, `<details>`                                              | `expand` and `collapse`                            |
+| Dropdown, context menu, menubar, popover, select, combobox, hover card, nav menu | `pop` and `dismiss`                                |
+| Dialog, command palette, Search                                                  | `open` and `close`                                 |
+| Alert dialog                                                                     | `alert` and `close`                                |
+| Sheet, drawer                                                                    | `slide-in` and `slide-out`                         |
+| Toast                                                                            | `notify`, `success`, `warning` or `error`, by type |
+| Slider                                                                           | `notch`, pitched by the value                      |
+| Resizable handle                                                                 | `grab` and `drop`                                  |
+| A control with `aria-disabled="true"`                                            | `deny`                                             |
+
+Small buttons sound slightly higher and large ones slightly lower. Base UI's Button doesn't set `data-variant`, so the variant is read from the classes every style gives it.
+
+Triggers that open a popup stay quiet, so opening a menu plays one `pop` rather than a tap and a pop. A click that closes a popup plays only one sound: picking an option plays `pick`, and Cancel plays the surface closing. Surfaces only sound when someone has just clicked or typed, so a hover card or navigation menu opening under the pointer stays quiet. A loading toast plays when it settles into success or error. Tooltips and the sidebar toggle never play: they happen too often.
+
+## Choose a sound
+
+Set `data-sound` on any element to choose its sound, or `data-sound="none"` to silence it and everything inside it:
+
+```tsx
+<Button data-sound="copy" onClick={copyLink}>
+  Copy link
+</Button>
+
+<section data-sound="none">{/* a quiet area */}</section>
+```
+
+## Play sounds yourself
+
+```tsx
+import { playSound, useSound, useSoundsEnabled } from "@/lib/sounds"
+
+// Anywhere: plays only when sounds are on.
+playSound("success")
+
+// In a component: a stable callback.
+const playNotify = useSound("notify")
+
+// A settings toggle.
+const [enabled, setEnabled] = useSoundsEnabled()
+```
+
+| Function                    | Description                                                                                                                           |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------- |
+| `playSound(name, options?)` | Plays a sound. `volume` (0 to 1) and `pitch` (a multiplier) adjust one play; `force` plays it even when sounds are off, for previews. |
+| `useSound(name, options?)`  | A stable callback that plays the sound.                                                                                               |
+| `setSoundsEnabled(enabled)` | Turns sounds on or off. They start off.                                                                                               |
+| `useSoundsEnabled()`        | `[enabled, setEnabled]`, kept in sync everywhere.                                                                                     |
+| `setSoundVolume(volume)`    | The master volume, 0 to 1 (0.6 by default).                                                                                           |
+| `SOUNDS`                    | The catalogue: name, category, description, where it plays, length and pitch.                                                         |
+
+The same sound can't repeat within 35ms, and no more than six play at once, so a fast drag or a burst of events stays quiet. Each play is detuned by about 1%, so a sound repeated many times doesn't sound mechanical.
+
+## Accessibility
+
+- Sounds start off. Give people a visible switch, and remember their choice.
+- Sound is never the only feedback: every interaction that plays one also changes on screen.
+- Nothing plays while the tab is hidden, and the audio engine only starts after someone interacts with the page, as browsers require.
+
+## Credits
+
+The catalogue's roles are inspired by [Bencho's sound library](https://bencho.dev/sounds). The sounds themselves are original, synthesized by `lib/sounds.ts`.

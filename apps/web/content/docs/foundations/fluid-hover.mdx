@@ -1,0 +1,109 @@
+---
+title: Fluid Hover
+description: One highlight that glides to the item nearest the pointer, so a list never blinks between rows.
+---
+
+## Installation
+
+Fluid Hover is already wired into the menus, select, combobox, command, navigation menu, menubar, tabs, toggle group, sidebar, accordion and table, for every base. Install the hook on its own to use it in your own components:
+
+```bash
+npx fabricator-ui@latest add fluid-hover
+```
+
+## Blink or glide
+
+With a plain `:hover`, the highlight switches off in every gap between rows and back on at the next one. Each blink pulls the eye back to the list. Fluid Hover keeps one highlight and moves it: it fades in where the pointer enters, glides between items on the fast spring, and fades out when the pointer leaves.
+
+<FluidHoverCompare />
+
+## The rule
+
+The nearest item wins. On every pointer move, the hook measures the items in the container and lights the one closest to the pointer along the container's axis. There are no dead zones, so a click in the gap between two rows goes to the lit row.
+
+The highlight is a single element moved with a transform, and measurement runs once per animation frame, so long lists cost the same as short ones.
+
+## Three axes
+
+Lists, strips and grids feel the same under the pointer. Pass the axis the items run along.
+
+<FluidHoverAxes />
+
+| `axis`   | Use for                                                                                            |
+| -------- | -------------------------------------------------------------------------------------------------- |
+| `"y"`    | Lists: menus, selects, tables, sidebars. The default.                                              |
+| `"x"`    | Strips: tabs, toggle groups.                                                                       |
+| `"xy"`   | Grids: card groups.                                                                                |
+| `"auto"` | Follows the container's `aria-orientation` or `data-orientation`, for tabs that can turn vertical. |
+
+The tabs above also show the **selection background**: a second element, on `bg-active`, that slides between selected items on the moderate spring.
+
+## Groups and disabled items
+
+Each container has its own highlight. Split a list where the items stop being alternatives to each other, at a divider, and the highlight never crosses into the next group. A nested container, such as a submenu, keeps its own highlight and its events don't reach the parent.
+
+Disabled items are skipped: the highlight lights the nearest enabled item instead.
+
+<FluidHoverGroups />
+
+## Keyboard
+
+While the pointer is outside the container, the highlight follows the keyboard. It lights the item with keyboard focus, and the item the primitive marks as highlighted (for example `data-highlighted` in a menu). When the pointer comes back, it takes over again.
+
+## Use it in your own components
+
+`useFluidHover` returns a ref callback, props for the container, and the state of the two overlays.
+
+```tsx showLineNumbers
+import {
+  FluidHoverHighlight,
+  FluidHoverSelection,
+  useFluidHover,
+  useMergedRef,
+} from "@/lib/fluid-hover"
+
+function Menu({ ref, children, ...props }: React.ComponentProps<"div">) {
+  const fluid = useFluidHover<HTMLDivElement>({
+    items: '[role="menuitem"]',
+    highlighted: "[data-highlighted]",
+    selected: "[data-checked]",
+  })
+  const mergedRef = useMergedRef(fluid.attach, ref)
+
+  return (
+    <div
+      ref={mergedRef}
+      className="relative isolate"
+      {...fluid.props}
+      {...props}
+    >
+      <FluidHoverSelection selection={fluid.selection} />
+      <FluidHoverHighlight hover={fluid.hover} />
+      {children}
+    </div>
+  )
+}
+```
+
+- The container is `relative isolate`. The overlays sit under the items, at `-z-10` inside it.
+- Render `FluidHoverSelection` before `FluidHoverHighlight`.
+- The container gets `data-fluid-hover`, and the lit item gets `data-fluid-hover-active`. Style the lit item with `data-fluid-hover-active:text-foreground`, and turn off the item's own hover background inside a fluid container with `in-data-[fluid-hover]:hover:bg-transparent`.
+
+### Options
+
+| Option        | Default                                              | Description                                                                |
+| ------------- | ---------------------------------------------------- | -------------------------------------------------------------------------- |
+| `items`       | (required)                                           | Selector for the items inside the container.                               |
+| `disabled`    | `[data-disabled], [aria-disabled="true"], :disabled` | Items matching this are skipped.                                           |
+| `selected`    | none                                                 | Items matching this get the sliding selection background.                  |
+| `highlighted` | none                                                 | The primitive's keyboard highlight, followed while the pointer is outside. |
+| `axis`        | `"y"`                                                | `"x"`, `"y"`, `"xy"` or `"auto"`.                                          |
+| `gapClick`    | `true`                                               | A click between items goes to the lit item.                                |
+
+## Reduced motion
+
+With `prefers-reduced-motion: reduce`, the highlight still fades in and out, but jumps to the next item instead of gliding.
+
+## Credits
+
+The Fabricator foundations adapt [Fluid Functionalism](https://www.fluidfunctionalism.com) by Micka Touillaud (MIT).

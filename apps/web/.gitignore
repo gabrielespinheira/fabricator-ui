@@ -57,3 +57,6 @@ next-env.d.ts
 # `bun run registry:build --style all`). See styles/README.md.
 /styles/*
 !/styles/README.md
+
+# generated Fabricator-style copies of the demos (rebuilt by registry:build)
+/examples/__styles__/

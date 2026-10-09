@@ -36,14 +36,13 @@ Options:
   -b, --base <base>          the component library to use. (base, radix, aria)
   -p, --preset <preset>      use a preset configuration
   --monorepo                 scaffold a monorepo project.
-  --rtl                      enable RTL support.
   -h, --help                 display help for command
 ```
 
-For example, to create a Vite project on Radix UI with RTL support:
+For example, to create a Vite project on Radix UI:
 
 ```bash
-npx fabricator-ui@latest init -t vite -b radix --rtl
+npx fabricator-ui@latest init -t vite -b radix
 ```
 
 ---
@@ -80,7 +79,7 @@ To apply only the theme or the fonts from a preset, without reinstalling UI comp
 npx fabricator-ui@latest apply [preset] --only theme,font
 ```
 
-Supported values for `--only` are `theme` and `font`. Create a preset on the [Create](/create) page.
+Supported values for `--only` are `theme` and `font`.
 
 ---
 

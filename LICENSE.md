@@ -4,6 +4,8 @@ Copyright (c) 2026 Fabricator UI contributors
 
 Copyright (c) 2023 shadcn
 
+Copyright (c) 2026 Micka Touillaud (Fluid Functionalism)
+
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights

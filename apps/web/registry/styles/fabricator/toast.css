@@ -1,0 +1,20 @@
+/* MARK: Toast */
+
+  /* Surface 5 with its shadow ring (no border), rounded-xl, 13px. Applies
+     to the Base UI toast root and to each Sonner toast. The surface classes
+     are important: Sonner's own stylesheet (attribute selectors) and the
+     Base UI toast's inline border/bg-popover/shadow-lg would otherwise win. */
+  /* Status toasts (info, success, warning, error) colour only their icon,
+     with the status solid, on the neutral surface: FF's low-contrast
+     banner. Base UI marks the root with data-type and the icon with
+     data-slot=toast-icon; Sonner uses data-type and [data-icon]. */
+  .cn-toast {
+    @apply bg-surface-5! shadow-surface-5! text-popover-foreground rounded-xl! border-0! text-[13px] [&[data-type=info]_[data-slot=toast-icon]_svg]:text-info! [&[data-type=info]_[data-icon]_svg]:text-info! [&[data-type=success]_[data-slot=toast-icon]_svg]:text-success! [&[data-type=success]_[data-icon]_svg]:text-success! [&[data-type=warning]_[data-slot=toast-icon]_svg]:text-warning! [&[data-type=warning]_[data-icon]_svg]:text-warning! [&[data-type=error]_[data-slot=toast-icon]_svg]:text-error! [&[data-type=error]_[data-icon]_svg]:text-error!;
+  }
+
+  /* Sonner (Radix, React Aria): the same surface and status icons, applied
+     from the toaster, because the build compiles placeholders in className
+     only and Sonner takes its toast classes through toastOptions. */
+  .cn-sonner {
+    @apply [&_[data-sonner-toast]]:bg-surface-5! [&_[data-sonner-toast]]:shadow-surface-5! [&_[data-sonner-toast]]:text-popover-foreground! [&_[data-sonner-toast]]:rounded-xl! [&_[data-sonner-toast]]:border-0! [&_[data-sonner-toast]]:text-[13px]! [&_[data-sonner-toast][data-type=info]_[data-icon]_svg]:text-info! [&_[data-sonner-toast][data-type=success]_[data-icon]_svg]:text-success! [&_[data-sonner-toast][data-type=warning]_[data-icon]_svg]:text-warning! [&_[data-sonner-toast][data-type=error]_[data-icon]_svg]:text-error!;
+  }

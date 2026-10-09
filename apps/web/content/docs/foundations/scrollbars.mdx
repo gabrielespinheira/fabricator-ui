@@ -1,0 +1,34 @@
+---
+title: Scrollbars
+description: A thin scrollbar that stays out of the way but is there when you need it.
+---
+
+## Installation
+
+The scrollbar styles ship with the foundations:
+
+```bash
+npx fabricator-ui@latest add foundations
+```
+
+## Native scrollbars
+
+On devices with a fine pointer (a mouse or trackpad), every scrolling element gets a thin, low-contrast scrollbar that darkens on hover and while dragging. It needs no markup: any `overflow-auto` element picks it up. Touch devices keep their native overlay scrollbars.
+
+<ScrollbarsDemo />
+
+## ScrollArea
+
+The [Scroll Area](/docs/components/base/scroll-area) component draws its own scrollbar, so it looks the same in every browser:
+
+- The thumb is 4px wide at rest and 6px on hover, inset 4px from the edge.
+- It fades in when you hover or scroll (moderate, 210ms) and fades out shortly after (moderate exit, 160ms).
+- The thumb colour steps up from 8% to 12% on hover and 16% while dragging.
+
+## Utilities
+
+| Utility          | Description                                           |
+| ---------------- | ----------------------------------------------------- |
+| `scrollbar-hide` | Hides the scrollbar and keeps the element scrollable. |
+
+The scrollbar colour comes from the `--overlay` variable: black in light mode, white in dark mode.

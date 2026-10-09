@@ -1,0 +1,25 @@
+/* MARK: Scroll Area */
+
+  /* A 10px hit track; the visible part is the thumb. Radix mounts the
+     scrollbar on hover/scroll and unmounts it after its hide delay, so it
+     fades in and out with keyframes. */
+  .cn-scroll-area-scrollbar {
+    @apply data-horizontal:h-2.5 data-horizontal:flex-col data-vertical:h-full data-vertical:w-2.5 data-[state=visible]:animate-in data-[state=visible]:fade-in-0 data-[state=visible]:duration-moderate data-[state=hidden]:animate-out data-[state=hidden]:fade-out-0 data-[state=hidden]:duration-moderate-exit data-[state=hidden]:ease-exit;
+  }
+
+  /* Thin overlay-tinted thumb: 4px at rest, 6px while the pointer is on
+     the track, 8% → 12% → 16% (dragging). Base UI keeps the scrollbar
+     mounted, so the thumb itself fades in (moderate) while the area is hovered
+     or scrolling and out (moderate exit, after the moderate tier so it
+     narrows back first).
+     The colours are important to beat the component's inline bg-border. */
+  .cn-scroll-area-thumb {
+    @apply rounded-full bg-[rgb(var(--overlay)/0.08)]! opacity-0 [transition:opacity_calc(var(--motion-moderate-exit)*var(--motion-scale,1))_ease-out_calc(var(--motion-moderate)*var(--motion-scale,1)),background-color_calc(var(--motion-moderate)*var(--motion-scale,1)),max-width_calc(var(--motion-moderate)*var(--motion-scale,1)),max-height_calc(var(--motion-moderate)*var(--motion-scale,1))] in-[[data-slot=scroll-area-scrollbar]:hover]:bg-[rgb(var(--overlay)/0.12)]! active:bg-[rgb(var(--overlay)/0.16)]! in-[[data-slot=scroll-area-scrollbar][data-orientation=vertical]]:mx-auto in-[[data-slot=scroll-area-scrollbar][data-orientation=vertical]]:max-w-1 in-[[data-slot=scroll-area-scrollbar][data-orientation=vertical]:hover]:max-w-1.5 in-[[data-slot=scroll-area-scrollbar][data-orientation=horizontal]]:my-auto in-[[data-slot=scroll-area-scrollbar][data-orientation=horizontal]]:max-h-1 in-[[data-slot=scroll-area-scrollbar][data-orientation=horizontal]:hover]:max-h-1.5 data-[state=visible]:opacity-100 in-[[data-slot=scroll-area-scrollbar][data-hovering]]:opacity-100 in-[[data-slot=scroll-area-scrollbar][data-scrolling]]:opacity-100 in-[[data-slot=scroll-area-scrollbar][data-hovering]]:[transition:opacity_calc(var(--motion-moderate)*var(--motion-scale,1))_ease-out,background-color_calc(var(--motion-moderate)*var(--motion-scale,1)),max-width_calc(var(--motion-moderate)*var(--motion-scale,1)),max-height_calc(var(--motion-moderate)*var(--motion-scale,1))] in-[[data-slot=scroll-area-scrollbar][data-scrolling]]:[transition:opacity_calc(var(--motion-moderate)*var(--motion-scale,1))_ease-out,background-color_calc(var(--motion-moderate)*var(--motion-scale,1)),max-width_calc(var(--motion-moderate)*var(--motion-scale,1)),max-height_calc(var(--motion-moderate)*var(--motion-scale,1))];
+  }
+
+  /* Edges fade out where there is more to scroll (a scroll-driven mask from
+     shadcn/tailwind.css): the fade appears once you scroll away from an
+     edge and disappears when you reach it. */
+  .cn-scroll-area-viewport {
+    @apply scroll-fade;
+  }

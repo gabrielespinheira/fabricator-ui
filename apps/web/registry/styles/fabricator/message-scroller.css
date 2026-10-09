@@ -1,0 +1,16 @@
+/* MARK: Message Scroller */
+
+  /* Thin, low-contrast scrollbar (overlay 8%, 12% while the pointer is over
+     the conversation); the bottom scroll-fade stays inline. */
+  .cn-message-scroller-viewport {
+    @apply scrollbar-track-transparent scrollbar-thumb-[rgb(var(--overlay)/0.08)] hover:scrollbar-thumb-[rgb(var(--overlay)/0.12)];
+  }
+
+  .cn-message-scroller-content {
+    @apply gap-5;
+  }
+
+  /* Floating jump button: a raised round chip on surface 3. */
+  .cn-message-scroller-button {
+    @apply cursor-pointer shadow-surface-3 rounded-full border-0;
+  }

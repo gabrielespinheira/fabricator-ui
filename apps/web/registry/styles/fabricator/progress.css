@@ -1,0 +1,23 @@
+/* MARK: Progress */
+
+  /* 6px hover-tinted track; the foreground indicator moves on the moderate
+     spring. */
+  .cn-progress {
+    @apply bg-hover h-1.5 rounded-full;
+  }
+
+  .cn-progress-track {
+    @apply bg-hover h-1.5 rounded-full;
+  }
+
+  .cn-progress-indicator {
+    @apply bg-foreground rounded-full duration-moderate ease-spring;
+  }
+
+  .cn-progress-label {
+    @apply text-[13px] font-medium;
+  }
+
+  .cn-progress-value {
+    @apply text-muted-foreground ml-auto text-[13px] tabular-nums;
+  }

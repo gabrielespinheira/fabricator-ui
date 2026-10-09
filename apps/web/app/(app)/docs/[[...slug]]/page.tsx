@@ -1,16 +1,26 @@
+import * as React from "react"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 import { mdxComponents } from "@/mdx-components"
 import { IconArrowLeft, IconArrowRight } from "@tabler/icons-react"
+import { cn } from "cn"
 import { findNeighbour } from "fumadocs-core/page-tree"
 
+import { siteConfig } from "@/lib/config"
 import { replaceComponentsList } from "@/lib/llm"
 import { source } from "@/lib/source"
 import { absoluteUrl } from "@/lib/utils"
 import { DocsBaseSwitcher } from "@/components/docs-base-switcher"
 import { DocsCopyPage } from "@/components/docs-copy-page"
 import { DocsTableOfContents } from "@/components/docs-toc"
-import { Button } from "@/registry/new-york-v4/ui/button"
+import {
+  DocsPanelCard,
+  DocsPanelPrimitive,
+} from "@/components/fabricator/docs-panel"
+import { SiteSettingsFields } from "@/components/fabricator/site-settings"
+import { StarsCount } from "@/components/github-link"
+import { Icons } from "@/components/icons"
+import { BASES } from "@/registry/bases"
 
 export const revalidate = false
 export const dynamic = "force-static"
@@ -87,110 +97,119 @@ export default async function Page(props: {
     : findNeighbour(source.pageTree, page.url)
   const raw = replaceComponentsList(await page.data.getText("raw"))
 
+  const isComponentPage =
+    params.slug?.[0] === "components" && !!params.slug[1] && !!params.slug[2]
+  const bases = isComponentPage
+    ? BASES.filter((base) =>
+        source.getPage([`components/${base.name}/${params.slug[2]}`])
+      ).map((base) => ({ value: base.name, label: base.title ?? base.name }))
+    : []
+
   return (
-    <div
-      data-slot="docs"
-      className="flex scroll-mt-24 items-stretch pb-8 text-[1.05rem] sm:text-[15px] xl:w-full"
-    >
+    <div data-slot="docs" className="flex items-start gap-4 lg:pe-4">
       <div className="flex min-w-0 flex-1 flex-col">
-        <div className="h-(--top-spacing) shrink-0" />
-        <div className="mx-auto flex w-full max-w-160 min-w-0 flex-1 flex-col gap-6 px-4 py-6 text-foreground md:px-0 lg:py-8 dark:text-foreground">
-          <div className="flex flex-col gap-2">
-            <div className="flex flex-col gap-2">
-              <div className="flex items-center justify-between md:items-start">
-                <h1 className="scroll-m-24 text-3xl font-semibold tracking-tight sm:text-3xl">
-                  {doc.title}
-                </h1>
-                <div className="docs-nav flex items-center gap-2">
-                  <div className="hidden sm:block">
-                    <DocsCopyPage page={raw} url={absoluteUrl(page.url)} />
-                  </div>
-                  <div className="ml-auto flex gap-2">
-                    {neighbours.previous && (
-                      <Button
-                        variant="secondary"
-                        size="icon"
-                        className="extend-touch-target size-8 shadow-none md:size-7"
-                        asChild
-                      >
-                        <Link href={neighbours.previous.url}>
-                          <IconArrowLeft />
-                          <span className="sr-only">Previous</span>
-                        </Link>
-                      </Button>
-                    )}
-                    {neighbours.next && (
-                      <Button
-                        variant="secondary"
-                        size="icon"
-                        className="extend-touch-target size-8 shadow-none md:size-7"
-                        asChild
-                      >
-                        <Link href={neighbours.next.url}>
-                          <span className="sr-only">Next</span>
-                          <IconArrowRight />
-                        </Link>
-                      </Button>
-                    )}
-                  </div>
+        <div className="mx-auto flex w-full max-w-158 min-w-0 flex-1 flex-col gap-8 px-4 pt-8 pb-16 text-foreground md:px-0 lg:pt-24">
+          <header className="flex flex-col gap-2">
+            <div className="flex items-start justify-between gap-4">
+              <h1 className="scroll-m-24 text-[28px] leading-tight font-semibold tracking-tight text-balance">
+                {doc.title}
+              </h1>
+              <div className="docs-nav flex shrink-0 items-center gap-1 pt-1">
+                <div className="hidden sm:block">
+                  <DocsCopyPage page={raw} url={absoluteUrl(page.url)} />
                 </div>
+                {neighbours.previous && (
+                  <Link
+                    href={neighbours.previous.url}
+                    className={NAV_ICON_CLASS}
+                  >
+                    <IconArrowLeft />
+                    <span className="sr-only">Previous</span>
+                  </Link>
+                )}
+                {neighbours.next && (
+                  <Link href={neighbours.next.url} className={NAV_ICON_CLASS}>
+                    <span className="sr-only">Next</span>
+                    <IconArrowRight />
+                  </Link>
+                )}
               </div>
-              {doc.description && (
-                <p className="text-[1.05rem] text-muted-foreground sm:text-base sm:text-balance md:max-w-[80%]">
-                  {doc.description}
-                </p>
-              )}
             </div>
-          </div>
-          <div className="typeset w-full flex-1 pb-16 *:data-[slot=alert]:first:mt-0 sm:pb-0">
-            {params.slug &&
-              params.slug[0] === "components" &&
-              params.slug[1] &&
-              params.slug[2] && (
-                <DocsBaseSwitcher
-                  base={params.slug[1]}
-                  component={params.slug[2]}
-                  className="mb-4"
-                />
-              )}
+            {doc.description && (
+              <p className="max-w-[85%] text-[14px] text-balance text-muted-foreground">
+                {doc.description}
+              </p>
+            )}
+          </header>
+          <div className="typeset w-full flex-1 *:data-[slot=alert]:first:mt-0">
+            {isComponentPage && (
+              <DocsBaseSwitcher
+                base={params.slug[1]}
+                component={params.slug[2]}
+                className="mb-6 xl:hidden"
+              />
+            )}
             <MDX components={mdxComponents} />
           </div>
-          <div className="hidden h-16 w-full items-center gap-2 px-4 sm:flex sm:px-0">
+          <nav className="hidden items-center gap-2 sm:flex">
             {neighbours.previous && (
-              <Button
-                variant="secondary"
-                size="sm"
-                asChild
-                className="shadow-none"
-              >
-                <Link href={neighbours.previous.url}>
-                  <IconArrowLeft /> {neighbours.previous.name}
-                </Link>
-              </Button>
+              <Link href={neighbours.previous.url} className={NAV_LINK_CLASS}>
+                <IconArrowLeft className="size-4" />
+                {neighbours.previous.name}
+              </Link>
             )}
             {neighbours.next && (
-              <Button
-                variant="secondary"
-                size="sm"
-                className="ml-auto shadow-none"
-                asChild
+              <Link
+                href={neighbours.next.url}
+                className={cn(NAV_LINK_CLASS, "ms-auto")}
               >
-                <Link href={neighbours.next.url}>
-                  {neighbours.next.name} <IconArrowRight />
-                </Link>
-              </Button>
+                {neighbours.next.name}
+                <IconArrowRight className="size-4" />
+              </Link>
             )}
-          </div>
+          </nav>
         </div>
       </div>
-      <div className="sticky top-[calc(var(--header-height)+1px)] z-30 ml-auto hidden h-[90svh] w-(--sidebar-width) flex-col gap-4 overflow-hidden overscroll-none pb-8 xl:flex">
-        <div className="h-(--top-spacing) shrink-0"></div>
-        {doc.toc?.length ? (
-          <div className="flex scroll-fade scrollbar-none flex-col gap-8 overflow-y-auto px-8">
-            <DocsTableOfContents toc={doc.toc} />
+      <aside className="sticky top-0 hidden max-h-svh w-64 shrink-0 scroll-fade scrollbar-none flex-col gap-3 overflow-y-auto py-4 xl:flex">
+        <DocsPanelCard className="gap-1">
+          <div className="flex items-center justify-between pb-2">
+            <h2 className="text-[15px] font-semibold tracking-tight">
+              Make it yours
+            </h2>
+            <Link
+              href={siteConfig.links.github}
+              target="_blank"
+              rel="noreferrer"
+              className="flex items-center gap-1 rounded-md px-1 text-[12px] text-muted-foreground outline-none hover:text-foreground focus-visible:ring-1 focus-visible:ring-focus-ring"
+            >
+              <Icons.gitHub className="size-3.5" />
+              <span className="sr-only">GitHub</span>
+              <React.Suspense fallback={null}>
+                <StarsCount />
+              </React.Suspense>
+            </Link>
           </div>
+          <SiteSettingsFields />
+          {isComponentPage && bases.length > 1 && (
+            <DocsPanelPrimitive
+              base={params.slug[1]}
+              component={params.slug[2]}
+              bases={bases}
+            />
+          )}
+        </DocsPanelCard>
+        {doc.toc?.length ? (
+          <DocsPanelCard className="gap-2">
+            <DocsTableOfContents toc={doc.toc} />
+          </DocsPanelCard>
         ) : null}
-      </div>
+      </aside>
     </div>
   )
 }
+
+const NAV_ICON_CLASS =
+  "flex size-8 items-center justify-center rounded-lg text-muted-foreground outline-none transition-colors duration-fast ease-spring hover:bg-hover hover:text-foreground focus-visible:ring-1 focus-visible:ring-focus-ring [&_svg]:size-4"
+
+const NAV_LINK_CLASS =
+  "flex h-9 items-center gap-2 rounded-lg px-3 text-[14px] font-medium text-muted-foreground outline-none transition-colors duration-fast ease-spring hover:bg-hover hover:text-foreground focus-visible:ring-1 focus-visible:ring-focus-ring"

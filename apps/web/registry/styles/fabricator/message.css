@@ -1,0 +1,30 @@
+/* MARK: Message */
+
+  /* A turn: 14px chat body, avatar and content 8px apart. */
+  .cn-message {
+    @apply gap-2 text-[14px];
+  }
+
+  /* Lifts the avatar to the bubble when a footer row sits under it
+     (footer line 18px + content gap 6px). */
+  .cn-message-avatar {
+    @apply min-w-8 group-has-data-[slot=message-footer]/message:-translate-y-6;
+  }
+
+  .cn-message-content {
+    @apply gap-1.5 group-data-[align=end]/message:*:data-slot:self-end;
+  }
+
+  /* Meta rows: 12px muted captions, inset 4px from the bubble edge
+     (flush for ghost/plain assistant text). */
+  .cn-message-header {
+    @apply text-muted-foreground gap-2 px-1 text-[12px] leading-normal font-normal group-has-data-[variant=ghost]/message:px-0;
+  }
+
+  .cn-message-footer {
+    @apply text-muted-foreground gap-2 px-1 text-[12px] leading-normal font-normal tabular-nums group-has-data-[variant=ghost]/message:px-0;
+  }
+
+  .cn-message-group {
+    @apply gap-2;
+  }

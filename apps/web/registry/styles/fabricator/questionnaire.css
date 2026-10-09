@@ -1,0 +1,89 @@
+/* MARK: Questionnaire */
+
+  /* The Fabricator questionnaire (registry/fabricator/shared/ui/questionnaire.tsx)
+     reuses the library's controls: each mark stacks the Checkbox or Radio Group
+     item placeholders, the free-text answer the Input's, the shortcut the
+     Kbd's. The rules below only add what the questionnaire context needs. */
+
+  .cn-questionnaire {
+    @apply gap-3;
+  }
+
+  /* "Question 1 of 3": a quiet 12px caption. */
+  .cn-questionnaire-progress {
+    @apply text-[12px] font-normal;
+  }
+
+  .cn-questionnaire-item {
+    @apply flex flex-col gap-3;
+  }
+
+  .cn-questionnaire-title {
+    @apply text-foreground mb-0.5 text-[16px] leading-snug font-semibold;
+  }
+
+  .cn-questionnaire-description {
+    @apply text-muted-foreground text-[13px];
+  }
+
+  /* Choices bleed 8px each side so the mark lines up with the title. */
+  .cn-questionnaire-choices {
+    @apply -mx-2 gap-0.5;
+  }
+
+  /* A row is a Field choice card without the frame: 13px foreground label,
+     hover tint, the active step once chosen, and the 1px focus ring while its
+     input has keyboard focus. Colour moves on the fast spring. Rows keep the
+     44px touch target on small screens (padded so one line sits centred) and
+     tighten to 36px from sm up. */
+  .cn-questionnaire-choice {
+    @apply text-foreground gap-2.5 rounded-lg bg-transparent px-2 py-3 sm:min-h-9 sm:py-2 text-[13px] duration-fast ease-spring hover:bg-hover data-checked:bg-active data-checked:hover:bg-active has-[>input:focus-visible]:ring-1 has-[>input:focus-visible]:ring-focus-ring;
+  }
+
+  /* The Checkbox / Radio mark, lit by the whole row: the row's hover firms
+     the outline and its press gives the mark the control's scale. */
+  .cn-questionnaire-choice-indicator {
+    @apply group-hover/questionnaire-choice:border-foreground/45 data-checked:group-hover/questionnaire-choice:border-foreground aria-invalid:group-hover/questionnaire-choice:border-destructive group-active/questionnaire-choice:scale-90 motion-reduce:group-active/questionnaire-choice:scale-100;
+  }
+
+  /* The Fabricator dot and check are the Radio Group and Checkbox ones; these
+     two placeholders only appear in the upstream markup. */
+  .cn-questionnaire-choice-indicator-dot {
+    @apply bg-foreground size-2;
+  }
+
+  .cn-questionnaire-choice-indicator-check {
+    @apply size-3 stroke-[3];
+  }
+
+  .cn-questionnaire-choice-content {
+    @apply gap-0.5;
+  }
+
+  /* Captions: 12px muted, as in Field. */
+  .cn-questionnaire-choice-description {
+    @apply text-muted-foreground text-[12px] font-normal;
+  }
+
+  /* The Kbd keycap; it takes the foreground once its row is chosen. */
+  .cn-questionnaire-shortcut {
+    @apply transition-colors duration-fast ease-spring group-data-checked/questionnaire-choice:text-foreground;
+  }
+
+  /* Inside the choices, back out of their bleed so the field lines up with
+     the text. */
+  .cn-questionnaire-input-wrapper {
+    @apply in-data-[slot=questionnaire-choices]:mx-2 in-data-[slot=questionnaire-choices]:mt-1;
+  }
+
+  .cn-questionnaire-input {
+    @apply w-full;
+  }
+
+  .cn-questionnaire-error {
+    @apply text-[12px];
+  }
+
+  .cn-questionnaire-actions {
+    @apply mt-1 gap-2 sm:min-h-9;
+  }
