@@ -27,6 +27,7 @@
     "changeset": "changeset",
     "release": "changeset version",
     "release:publish": "./scripts/publish.sh",
+    "deploy": "./scripts/deploy.sh",
     "rebrand": "bun ./scripts/rebrand.ts"
   },
   "devDependencies": {
