@@ -114,6 +114,7 @@ The root `package.json` is the source of truth for scripts. Keep this table in s
 
 - `bunfig.toml` sets `linker = "hoisted"`. Isolated installs create one copy of a package per peer set (for example `fumadocs-core` with Zod 3 and with Zod 4), which breaks TypeScript type identity and caused a Fumadocs runtime stack overflow.
 - Root `overrides` pin a few tools to upstream's resolved versions: `prettier` 3.6.2 (the registry build formats generated source; another version changes output and breaks parity), `eslint-plugin-react-hooks` 7.0.1, and `mdast-util-to-markdown` 2.1.2. Bump them only together with upstream, and rerun `test:parity`.
+- `next build` must fit in 8 GB, the memory of a standard Vercel build machine; above that the process is OOM-killed with no error and the deployment hangs in "Building". `apps/web/next.config.mjs` turns off the Turbopack build cache and source maps and runs the loaders as worker threads, and `scripts/build-registry.mts` writes lazy component shards only for the styles the site renders (`legacyStyles`). Before adding a route, a style or a lazy map to the site's module graph, check the build in a container limited to 4 CPUs and 8 GB (it needs ~7 GB today).
 - Turborepo's auto-written agent guidance is disabled (`"agentGuidance": false` in `turbo.json`) so this file stays the single source.
 
 ---

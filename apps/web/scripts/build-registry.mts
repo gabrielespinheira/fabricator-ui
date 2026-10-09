@@ -300,6 +300,11 @@ function lazyComponentExpression(componentPath: string, name: string) {
       })`
 }
 
+// Styles the site renders at runtime (see registry/_legacy-styles.ts).
+const SITE_RENDERED_STYLES: ReadonlySet<string> = new Set(
+  legacyStyles.map((style) => style.name)
+)
+
 type ComponentShard = {
   key: string
   entries: string
@@ -1617,7 +1622,13 @@ export const Index: Record<string, Record<string, any>> = {`
 
     index += `
   },`
-    componentShards.push(shard)
+    // Only the styles the site renders get a lazy component shard. The other
+    // upstream styles stay in the metadata index, but a shard puts every one
+    // of its components into the module graph of each route that looks one
+    // up, which pushed `next build` past the 8 GB of a standard Vercel build.
+    if (SITE_RENDERED_STYLES.has(style.name)) {
+      componentShards.push(shard)
+    }
   }
 
   index += `

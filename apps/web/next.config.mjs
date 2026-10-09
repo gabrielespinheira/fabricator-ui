@@ -44,6 +44,19 @@ const nextConfig = {
     ignoreBuildErrors: true,
   },
   experimental: {
+    // `next build` was killed by the out-of-memory killer on a standard Vercel
+    // build machine (4 cores, 8 GB): compiling ~12k modules took more than
+    // 8 GB, the process died with no message, and the deployment sat in
+    // "Building".
+    // Next 16.3 turned on the Turbopack build cache by default and builds
+    // source maps for every chunk; neither is needed for a deploy. Running the
+    // MDX/PostCSS loaders as worker threads instead of child processes saves
+    // another ~0.5 GB. Together with the leaner component shards from
+    // `scripts/build-registry.mts`, the build fits in 7 GB (checked in a
+    // container limited to 4 CPUs).
+    turbopackFileSystemCacheForBuild: false,
+    turbopackSourceMaps: false,
+    turbopackPluginRuntimeStrategy: "workerThreads",
     // Rewrite barrel imports to deep imports so a single icon doesn't pull the
     // whole package into the module graph. Next already optimizes lucide-react,
     // @tabler/icons-react, date-fns and lodash-es by default; these are the
