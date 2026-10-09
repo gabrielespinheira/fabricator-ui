@@ -4,6 +4,7 @@ import {
   resolveClickSound,
   resolveSlotSound,
   resolveStateSound,
+  resolveToastSound,
   type ClickTarget,
 } from "@/registry/fabricator/shared/components/sound-effects"
 import { noteStep } from "@/registry/fabricator/shared/lib/sounds"
@@ -12,79 +13,124 @@ function target(overrides: Partial<ClickTarget>): ClickTarget {
   return { tag: "div", ...overrides }
 }
 
+function sound(overrides: Partial<ClickTarget>) {
+  return resolveClickSound(target(overrides))?.sound ?? null
+}
+
 describe("resolveClickSound", () => {
   it("prefers an explicit data-sound", () => {
-    expect(resolveClickSound(target({ tag: "button", sound: "copy" }))).toBe(
-      "copy"
-    )
-    expect(resolveClickSound(target({ tag: "button", sound: "none" }))).toBe(
-      null
-    )
+    expect(sound({ tag: "button", sound: "copy" })).toBe("copy")
+    expect(sound({ tag: "button", sound: "none" })).toBe(null)
   })
 
   it("denies disabled controls", () => {
-    expect(resolveClickSound(target({ tag: "button", disabled: true }))).toBe(
-      "deny"
-    )
+    expect(sound({ tag: "button", disabled: true })).toBe("deny")
   })
 
   it("stays quiet on popup triggers", () => {
-    expect(resolveClickSound(target({ tag: "button", hasPopup: true }))).toBe(
+    expect(sound({ tag: "button", hasPopup: true })).toBe(null)
+    expect(sound({ tag: "button", hasPopup: true, expandable: true })).toBe(
       null
     )
   })
 
-  it("defers switches and checkboxes to their new state", () => {
-    expect(resolveClickSound(target({ role: "switch" }))).toBe("toggle")
-    expect(resolveClickSound(target({ slot: "switch", tag: "button" }))).toBe(
-      "toggle"
-    )
-    expect(resolveClickSound(target({ role: "checkbox" }))).toBe("check")
-    expect(resolveClickSound(target({ role: "menuitemcheckbox" }))).toBe(
-      "check"
-    )
-    expect(resolveClickSound(target({ tag: "input", type: "checkbox" }))).toBe(
-      "check"
-    )
+  it("gives each on/off control its own pair", () => {
+    expect(sound({ role: "switch" })).toBe("switch")
+    expect(sound({ slot: "switch", tag: "button" })).toBe("switch")
+    expect(sound({ role: "checkbox" })).toBe("checkbox")
+    expect(sound({ role: "menuitemcheckbox" })).toBe("checkbox")
+    expect(sound({ tag: "input", type: "checkbox" })).toBe("checkbox")
+    expect(sound({ tag: "button", slot: "toggle-group-item" })).toBe("toggle")
+    expect(sound({ tag: "button", slot: "toggle" })).toBe("toggle")
+    expect(sound({ tag: "button", pressed: true })).toBe("toggle")
   })
 
-  it("taps for a single pick in a set", () => {
+  it("picks one choice from a set", () => {
     for (const role of ["radio", "option", "menuitemradio"]) {
-      expect(resolveClickSound(target({ role }))).toBe("tap")
+      expect(sound({ role })).toBe("pick")
     }
+    expect(sound({ tag: "input", type: "radio" })).toBe("pick")
+    expect(sound({ tag: "button", day: true })).toBe("pick")
   })
 
-  it("treats pressed toggles as on/off controls", () => {
+  it("rings a note per tab", () => {
+    expect(sound({ role: "tab" })).toBe("tab")
+  })
+
+  it("expands and collapses disclosures", () => {
     expect(
-      resolveClickSound(target({ tag: "button", slot: "toggle-group-item" }))
-    ).toBe("press")
-    expect(resolveClickSound(target({ tag: "button", pressed: true }))).toBe(
+      sound({ tag: "button", slot: "accordion-trigger", expandable: true })
+    ).toBe("disclosure")
+    expect(sound({ tag: "summary" })).toBe("disclosure")
+  })
+
+  it("keeps the sidebar toggle quiet", () => {
+    expect(sound({ tag: "button", slot: "sidebar-trigger" })).toBeNull()
+    expect(sound({ tag: "button", slot: "sidebar-rail" })).toBeNull()
+  })
+
+  it("turns pages and slides carousels, pitched by direction", () => {
+    const next = resolveClickSound(
+      target({ tag: "a", slot: "button", paging: true, direction: "next" })
+    )
+    const previous = resolveClickSound(
+      target({ tag: "a", slot: "button", paging: true, direction: "previous" })
+    )
+    expect(next?.sound).toBe("page")
+    expect(previous?.sound).toBe("page")
+    expect(next!.pitch!).toBeGreaterThan(previous!.pitch!)
+    expect(sound({ tag: "button", direction: "next" })).toBe("page")
+    expect(
+      sound({ tag: "button", slot: "carousel-next", direction: "next" })
+    ).toBe("whisk")
+  })
+
+  it("ticks for rows and links", () => {
+    expect(sound({ role: "menuitem" })).toBe("tick")
+    expect(sound({ role: "treeitem" })).toBe("tick")
+    expect(sound({ tag: "a", slot: "sidebar-menu-button" })).toBe("tick")
+    expect(sound({ tag: "a", slot: "breadcrumb-link" })).toBe("tick")
+    expect(sound({ tag: "a", slot: "item" })).toBe("tick")
+    expect(sound({ tag: "a" })).toBe(null)
+  })
+
+  it("weighs buttons by variant", () => {
+    const button = (variant?: string) =>
+      sound({ tag: "button", slot: "button", variant })
+    expect(button("default")).toBe("press")
+    expect(button("destructive")).toBe("thud")
+    expect(button("link")).toBe("tick")
+    expect(button("outline")).toBe("tap")
+    expect(button("ghost")).toBe("tap")
+    expect(button()).toBe("tap")
+    expect(sound({ tag: "a", slot: "button", variant: "default" })).toBe(
       "press"
     )
-  })
-
-  it("plays a note per tab", () => {
-    expect(resolveClickSound(target({ role: "tab" }))).toBe("step")
-  })
-
-  it("taps for buttons, menu items and button links", () => {
-    expect(resolveClickSound(target({ tag: "button" }))).toBe("tap")
+    // Directional buttons drawn as Buttons, like the questionnaire's.
     expect(
-      resolveClickSound(
-        target({ tag: "button", slot: "button", variant: "outline" })
-      )
+      sound({
+        tag: "button",
+        slot: "questionnaire-next",
+        direction: "next",
+        variant: "default",
+      })
+    ).toBe("press")
+    expect(
+      sound({
+        tag: "button",
+        slot: "questionnaire-previous",
+        direction: "previous",
+        variant: "outline",
+      })
     ).toBe("tap")
-    expect(resolveClickSound(target({ role: "menuitem" }))).toBe("tap")
-    expect(resolveClickSound(target({ tag: "a", slot: "button" }))).toBe("tap")
-    expect(resolveClickSound(target({ tag: "a" }))).toBe(null)
   })
 
-  it("settles for primary and destructive buttons", () => {
-    for (const variant of ["default", "destructive"]) {
-      expect(
-        resolveClickSound(target({ tag: "button", slot: "button", variant }))
-      ).toBe("success")
-    }
+  it("pitches small buttons up and large ones down", () => {
+    const pitch = (size: string) =>
+      resolveClickSound(target({ tag: "button", slot: "button", size }))?.pitch
+    expect(pitch("sm")).toBeGreaterThan(1)
+    expect(pitch("lg")).toBeLessThan(1)
+    expect(pitch("default")).toBe(undefined)
   })
 })
 
@@ -98,65 +144,98 @@ describe("noteStep", () => {
 })
 
 describe("resolveStateSound", () => {
-  it("rises when turning on and falls when turning off", () => {
-    expect(resolveStateSound("toggle", true)).toBe("toggle-on")
-    expect(resolveStateSound("toggle", false)).toBe("toggle-off")
-    expect(resolveStateSound("check", true)).toBe("check")
-    expect(resolveStateSound("check", false)).toBe("uncheck")
+  it("plays a different pair for each kind of control", () => {
+    const pairs = (["switch", "checkbox", "toggle", "disclosure"] as const).map(
+      (kind) => [resolveStateSound(kind, true), resolveStateSound(kind, false)]
+    )
+    expect(pairs).toEqual([
+      ["toggle-on", "toggle-off"],
+      ["check", "uncheck"],
+      ["latch", "unlatch"],
+      ["expand", "collapse"],
+    ])
   })
 })
 
 describe("resolveSlotSound", () => {
-  it("maps popups to sounds", () => {
+  it("gives each kind of surface its own sound", () => {
+    expect(resolveSlotSound("dropdown-menu-content", "appear")).toBe("pop")
+    expect(resolveSlotSound("select-content", "disappear")).toBe("dismiss")
     expect(resolveSlotSound("dialog-content", "appear")).toBe("open")
-    expect(resolveSlotSound("sheet-content", "disappear")).toBe("close")
-    expect(resolveSlotSound("dropdown-menu-content", "appear")).toBe("open")
-    expect(resolveSlotSound("dropdown-menu-content", "disappear")).toBe("close")
     expect(resolveSlotSound("search", "appear")).toBe("open")
-    expect(resolveSlotSound("toast", "appear")).toBe("notify")
+    expect(resolveSlotSound("dialog-content", "disappear")).toBe("close")
+    expect(resolveSlotSound("alert-dialog-content", "appear")).toBe("alert")
+    expect(resolveSlotSound("sheet-content", "appear")).toBe("slide-in")
+    expect(resolveSlotSound("drawer-content", "disappear")).toBe("slide-out")
     expect(resolveSlotSound("button", "appear")).toBe(null)
+  })
+
+  it("chimes toasts by type", () => {
+    expect(resolveSlotSound("toast", "appear")).toBe("notify")
+    expect(resolveSlotSound("toast", "appear", "success")).toBe("success")
+    expect(resolveSlotSound("toast", "disappear", "success")).toBe(null)
+    expect(resolveToastSound("error")).toBe("error")
+    expect(resolveToastSound("warning")).toBe("warning")
+    expect(resolveToastSound("info")).toBe("notify")
+    expect(resolveToastSound("loading")).toBe(null)
   })
 })
 
-// A fake AudioContext that counts the voices played.
+// A fake AudioContext that records what every play schedules.
 function installFakeAudio() {
-  const oscillators: number[] = []
-  const param = () => ({
+  const log: unknown[] = []
+  const clock = { now: 0 }
+  const param = (name: string) => ({
     value: 0,
-    setValueAtTime: () => {},
-    exponentialRampToValueAtTime: () => {},
+    setValueAtTime: (value: number, time: number) =>
+      log.push([name, "set", value, time - clock.now]),
+    exponentialRampToValueAtTime: (value: number, time: number) =>
+      log.push([name, "ramp", value, time - clock.now]),
     setTargetAtTime: () => {},
   })
-  const node = () => ({
-    connect(next: unknown) {
-      return next ?? this
-    },
-    disconnect: () => {},
-    start: () => {},
-    stop: () => {},
-    gain: param(),
-    frequency: param(),
-    Q: param(),
-    type: "",
-    buffer: null,
-  })
+  const node = (kind: string) => {
+    const created = {
+      connect(next: unknown) {
+        return next ?? this
+      },
+      disconnect: () => {},
+      start: () => {},
+      stop: () => {},
+      gain: param(`${kind}.gain`),
+      frequency: param(`${kind}.frequency`),
+      Q: param(`${kind}.Q`),
+      buffer: null,
+    }
+    let type = ""
+    Object.defineProperty(created, "type", {
+      get: () => type,
+      set: (value: string) => {
+        type = value
+        log.push([kind, "type", value])
+      },
+    })
+    return created
+  }
   class FakeAudioContext {
-    currentTime = 0
     sampleRate = 8000
     state = "running"
-    destination = node()
+    destination = node("destination")
+    get currentTime() {
+      return clock.now
+    }
     createOscillator() {
-      oscillators.push(1)
-      return node()
+      log.push(["oscillator"])
+      return node("oscillator")
     }
     createGain() {
-      return node()
+      return node("gain")
     }
     createBiquadFilter() {
-      return node()
+      return node("filter")
     }
     createBufferSource() {
-      return node()
+      log.push(["noise"])
+      return node("noise")
     }
     createBuffer(_channels: number, length: number, sampleRate: number) {
       return { sampleRate, getChannelData: () => new Float32Array(length) }
@@ -170,7 +249,13 @@ function installFakeAudio() {
     setTimeout: () => 0,
   })
   vi.stubGlobal("document", { hidden: false })
-  return oscillators
+  return {
+    log,
+    /** Moves time on so earlier sounds have rung out. */
+    advance: () => {
+      clock.now += 10
+    },
+  }
 }
 
 describe("playSound", () => {
@@ -179,29 +264,29 @@ describe("playSound", () => {
   })
   afterEach(() => {
     vi.unstubAllGlobals()
-    vi.useRealTimers()
+    vi.restoreAllMocks()
   })
 
   it("is silent until enabled, unless forced", async () => {
-    const oscillators = installFakeAudio()
+    const { log } = installFakeAudio()
     const sounds = await import("@/registry/fabricator/shared/lib/sounds")
     expect(sounds.getSoundsEnabled()).toBe(false)
     sounds.playSound("tap")
-    expect(oscillators.length).toBe(0)
+    expect(log.length).toBe(0)
     sounds.playSound("tap", { force: true })
-    expect(oscillators.length).toBeGreaterThan(0)
+    expect(log.length).toBeGreaterThan(0)
   })
 
   it("does not retrigger the same sound within the throttle window", async () => {
-    const oscillators = installFakeAudio()
+    const { log } = installFakeAudio()
     const sounds = await import("@/registry/fabricator/shared/lib/sounds")
     sounds.setSoundsEnabled(true)
     sounds.playSound("pop")
-    const afterFirst = oscillators.length
+    const afterFirst = log.length
     sounds.playSound("pop")
-    expect(oscillators.length).toBe(afterFirst)
+    expect(log.length).toBe(afterFirst)
     sounds.playSound("tick")
-    expect(oscillators.length).toBeGreaterThan(afterFirst)
+    expect(log.length).toBeGreaterThan(afterFirst)
   })
 
   it("notifies subscribers when toggled", async () => {
@@ -216,9 +301,29 @@ describe("playSound", () => {
 
   it("lists metadata for every sound", async () => {
     const sounds = await import("@/registry/fabricator/shared/lib/sounds")
-    expect(sounds.SOUNDS.length).toBeGreaterThanOrEqual(14)
+    expect(sounds.SOUNDS.length).toBeGreaterThanOrEqual(30)
     for (const sound of sounds.SOUNDS) {
       expect(sounds.isSoundName(sound.name)).toBe(true)
+      expect(sound.length).toBeGreaterThan(0)
+      expect(sound.usedBy).not.toBe("")
+    }
+  })
+
+  it("never gives two sounds the same synthesis", async () => {
+    vi.spyOn(Math, "random").mockReturnValue(0.5)
+    const { log, advance } = installFakeAudio()
+    const sounds = await import("@/registry/fabricator/shared/lib/sounds")
+    const prints = new Map<string, string>()
+    for (const { name } of sounds.SOUNDS) {
+      log.length = 0
+      advance()
+      sounds.playSound(name, { force: true })
+      const print = JSON.stringify(log)
+      expect(print.length).toBeGreaterThan(2)
+      expect(prints.get(print), `${name} sounds like another sound`).toBe(
+        undefined
+      )
+      prints.set(print, name)
     }
   })
 })

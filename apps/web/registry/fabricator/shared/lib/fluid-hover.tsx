@@ -64,6 +64,11 @@ function measure(element: HTMLElement, container: HTMLElement): Rect {
   return { top, left, width: element.offsetWidth, height: element.offsetHeight }
 }
 
+// The item to light for a pointer position. Grids (xy) take the item under
+// the pointer, else the nearest centre. Lists (y) and strips (x) measure along
+// their axis so the gaps between items stay lit; when a strip wraps onto
+// several rows (or a list into columns), the row under the pointer comes
+// first, so items stacked in other rows never win.
 function pickNearest(
   container: HTMLElement,
   elements: HTMLElement[],
@@ -75,9 +80,10 @@ function pickNearest(
   const scaleY = container.offsetHeight
     ? box.height / container.offsetHeight
     : 1
-  let containing: HTMLElement | null = null
-  let nearest: HTMLElement | null = null
-  let nearestDistance = Infinity
+  let best: HTMLElement | null = null
+  // [distance to the item's row or column, 0 when the pointer is inside the
+  // item along the axis else 1, distance to the item's centre]
+  let bestScore: [number, number, number] = [Infinity, Infinity, Infinity]
 
   for (const element of elements) {
     const rect = measure(element, container)
@@ -88,29 +94,33 @@ function pickNearest(
       box.top + (container.clientTop + rect.top - container.scrollTop) * scaleY
     const width = rect.width * scaleX
     const height = rect.height * scaleY
-    const insideX = point.x >= left && point.x <= left + width
-    const insideY = point.y >= top && point.y <= top + height
+    const gapX = Math.max(left - point.x, 0, point.x - (left + width))
+    const gapY = Math.max(top - point.y, 0, point.y - (top + height))
+    const toCentreX = Math.abs(point.x - (left + width / 2))
+    const toCentreY = Math.abs(point.y - (top + height / 2))
 
-    let distance: number
-    if (axis === "xy") {
-      if (insideX && insideY) containing = element
-      distance = Math.hypot(
-        point.x - (left + width / 2),
-        point.y - (top + height / 2)
-      )
-    } else if (axis === "x") {
-      if (insideX) containing = element
-      distance = Math.abs(point.x - (left + width / 2))
-    } else {
-      if (insideY) containing = element
-      distance = Math.abs(point.y - (top + height / 2))
-    }
-    if (distance < nearestDistance) {
-      nearestDistance = distance
-      nearest = element
+    const score: [number, number, number] =
+      axis === "xy"
+        ? [
+            0,
+            gapX === 0 && gapY === 0 ? 0 : 1,
+            Math.hypot(toCentreX, toCentreY),
+          ]
+        : axis === "x"
+          ? [gapY, gapX === 0 ? 0 : 1, toCentreX]
+          : [gapX, gapY === 0 ? 0 : 1, toCentreY]
+
+    if (
+      score[0] < bestScore[0] ||
+      (score[0] === bestScore[0] &&
+        (score[1] < bestScore[1] ||
+          (score[1] === bestScore[1] && score[2] < bestScore[2])))
+    ) {
+      bestScore = score
+      best = element
     }
   }
-  return containing ?? nearest
+  return best
 }
 
 type Overlay = { rect: Rect | null; session: number; animate: boolean }

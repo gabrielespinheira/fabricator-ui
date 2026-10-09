@@ -11294,28 +11294,6 @@ export const Index: Record<string, Record<string, any>> = {
         },
       },
     },
-    chart: {
-      name: "chart",
-      title: "undefined",
-      description: "",
-      type: "registry:ui",
-      registryDependencies: ["card"],
-      files: [
-        {
-          path: "styles/base-fabricator/ui/chart.tsx",
-          type: "registry:ui",
-          target: "",
-        },
-      ],
-      categories: undefined,
-      meta: {
-        links: {
-          docs: "https://fabricator-ui.com/docs/components/base/chart",
-          examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/chart-example.tsx",
-        },
-      },
-    },
     checkbox: {
       name: "checkbox",
       title: "undefined",
@@ -12650,28 +12628,6 @@ export const Index: Record<string, Record<string, any>> = {
         },
       },
     },
-    chart: {
-      name: "chart",
-      title: "undefined",
-      description: "",
-      type: "registry:ui",
-      registryDependencies: undefined,
-      files: [
-        {
-          path: "styles/radix-fabricator/ui/chart.tsx",
-          type: "registry:ui",
-          target: "",
-        },
-      ],
-      categories: undefined,
-      meta: {
-        links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/chart",
-          examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/chart-example.tsx",
-        },
-      },
-    },
     checkbox: {
       name: "checkbox",
       title: "undefined",
@@ -13980,28 +13936,6 @@ export const Index: Record<string, Record<string, any>> = {
           examples:
             "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/carousel-example.tsx",
           api: "https://www.embla-carousel.com/docs/api",
-        },
-      },
-    },
-    chart: {
-      name: "chart",
-      title: "undefined",
-      description: "",
-      type: "registry:ui",
-      registryDependencies: ["card"],
-      files: [
-        {
-          path: "styles/aria-fabricator/ui/chart.tsx",
-          type: "registry:ui",
-          target: "",
-        },
-      ],
-      categories: undefined,
-      meta: {
-        links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/chart",
-          examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/chart-example.tsx",
         },
       },
     },

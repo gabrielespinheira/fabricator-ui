@@ -303,7 +303,7 @@ Items are TypeScript objects in each folder's `_registry.ts`, typed `Registry["i
   - Catalogs: `public/r/registry.json`, `index.json`, `config.json`
 - **Rebuild:** after authored changes, run the full `bun run registry:build`. Targeted flags are for iteration only.
 - **Examples:** editing an existing example needs no rebuild. Adding, removing or renaming one needs `--examples`.
-- **`/init`** (`app/(app)/(create)/init/route.ts`) returns the `registry:base` payload. Its `config.registries` writes `@fabricator` into the user's `components.json`. Its `config.style` is always a valid upstream style id (contract item 2).
+- **`/init`** (`app/(app)/(create)/init/route.ts`; the `/create` page itself is removed for now, and only `/init`, its libs and `IconPlaceholder` remain in that folder) returns the `registry:base` payload. Its `config.registries` writes `@fabricator` into the user's `components.json`. Its `config.style` is always a valid upstream style id (contract item 2).
 
 ---
 
@@ -317,7 +317,9 @@ The Fabricator design language adapts Fluid Functionalism (MIT). **`apps/web/reg
   - They resolve to `calc(var(--motion-<tier>) * var(--motion-scale, 1))`, so `--motion-scale` speeds up, slows down or stops (0) every animation.
 - **Look:** each component's placeholder rules are in `registry/styles/fabricator/<component>.css`. The build assembles them into `style-fabricator.css` and fails if any placeholder used by the components has no rule.
 - **Behaviour** that CSS can't express (fluid hover, sliding selection) is added with **Fabricator overrides**: `registry/fabricator/<base>/ui/<component>.tsx` is a copy of the upstream source with additive, container-level changes; `registry/fabricator/shared/` holds files every base uses (`lib/fluid-hover.tsx`). Overrides compile into the Fabricator style only, so upstream styles keep their exact output. They keep the full upstream API (superset rule). Extra registry dependencies go in `fabricatorOverrides` in `registry/fabricator/registry.ts`.
-- **Excluded items:** `FABRICATOR_EXCLUDED_ITEMS` in `registry/fabricator/registry.ts` lists upstream items the Fabricator library leaves out (Native Select: it only restyles a raw `<select>`; Select replaces it).
+- **Excluded items:** `FABRICATOR_EXCLUDED_ITEMS` in `registry/fabricator/registry.ts` lists upstream items the Fabricator library leaves out:
+  - Native Select: it only restyles a raw `<select>`; Select replaces it.
+  - Chart, for now, with the blocks built on it (`dashboard-01`, `preview`, `preview-02`). The `/charts` gallery and the Chart docs pages are removed, and their URLs redirect to `/docs/components`.
   - The build drops them from Fabricator mode and the site indexes, and rewrites dependencies to the replacement.
   - It also skips their demos in the Fabricator example copies.
   - Items that used one get an override, and docs demos an override in `registry/fabricator/site-examples/<base>/`.
@@ -344,7 +346,6 @@ The website renders the Fabricator style, so it shows what `fabricator-ui add` i
   - The homepage cards, which import `@/styles/base-fabricator/*`.
   - The blocks gallery (`SITE_BLOCK_STYLE`), rendered from raw base sources inside a `.style-fabricator` scope (`app/style-registry.css`).
   - The `.md` exports and `llms-full.txt`.
-- **Where it doesn't:** charts and `/create` keep upstream styles. Charts exist only in the legacy `new-york-v4` tree, and `/create` uses upstream preset codes.
 - **Tailwind sources:** compiled styles live in gitignored `styles/<base>-<style>/`, which Tailwind doesn't detect on its own. Every style folder the site renders must have an `@source` line in `app/globals.css`, or classes used only by that style are never generated.
 - **Mobile screenshots:** after visible style changes, recapture with `bun run registry:capture --force && bun run pages:capture` (dev server running).
 
@@ -384,9 +385,9 @@ The website renders the Fabricator style, so it shows what `fabricator-ui add` i
     - When you add a component, add it to the catalog with a category and card height.
 - **Docs pages** use the docs shell: `[data-slot=docs-shell]` hides the site header and footer.
 - **Site settings** (`lib/site-settings.ts`, stored in localStorage):
-  - The settings menu (`components/fabricator/site-settings.tsx`) is in the top bar, the docs sidebar and the docs panel, and holds theme, sound, icons, radius and motion.
-  - `components/fabricator/site-settings-effects.tsx` applies them: it sets `data-radius` on `<html>` (Pill sets `--radius: 1.25rem` in `app/fabricator-site.css`) sets `data-motion` (Relaxed/Snappy/Off scale `--motion-scale` in `app/fabricator-site.css`), and mounts the registry's `<SoundEffects />`.
-  - A script in `<head>` applies a stored Pill radius and motion speed before paint.
+  - The settings menu (`components/fabricator/site-settings.tsx`) is in the top bar, the docs sidebar and the docs panel, and holds theme, sound, icons, radius, motion and surface (the surface tint, also set by the picker on the Surfaces page).
+  - `components/fabricator/site-settings-effects.tsx` applies them: it sets `data-radius` on `<html>` (Pill sets `--radius: 1.25rem` in `app/fabricator-site.css`) sets `data-motion` (Relaxed/Snappy/Off scale `--motion-scale` in `app/fabricator-site.css`), sets `--surface-hue` and `--surface-chroma` inline on `<html>` (the site's palette links `background`, `card`, `popover`, `sidebar` and `muted` to the surfaces, so they follow), and mounts the registry's `<SoundEffects />`.
+  - A script in `<head>` applies a stored Pill radius, motion speed and surface tint before paint.
 - **Site icons:** the Fabricator copies the site renders (`examples/__styles__/*-fabricator`, `styles/*-fabricator/ui`) import icons from `@/lib/site-icons`, not `lucide-react`, so previews follow the Icons setting.
   - `lib/site-icons*.ts(x)` is generated by `bun run icons:build` (also part of `bun run dev`) and committed.
   - The generator maps names through `registry/icons/site-mapping.json`, then `public/r/icons/index.json`.

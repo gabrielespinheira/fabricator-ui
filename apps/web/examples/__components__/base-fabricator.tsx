@@ -1052,74 +1052,6 @@ export const Components: Record<string, any> = {
       ) || "carousel-spacing"
     return { default: mod.default || mod[exportName] }
   }),
-  "chart-demo": React.lazy(async () => {
-    const mod = await import("@/examples/__styles__/base-fabricator/chart-demo")
-    const exportName =
-      Object.keys(mod).find(
-        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
-      ) || "chart-demo"
-    return { default: mod.default || mod[exportName] }
-  }),
-  "chart-example-axis": React.lazy(async () => {
-    const mod = await import(
-      "@/examples/__styles__/base-fabricator/chart-example-axis"
-    )
-    const exportName =
-      Object.keys(mod).find(
-        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
-      ) || "chart-example-axis"
-    return { default: mod.default || mod[exportName] }
-  }),
-  "chart-example-grid": React.lazy(async () => {
-    const mod = await import(
-      "@/examples/__styles__/base-fabricator/chart-example-grid"
-    )
-    const exportName =
-      Object.keys(mod).find(
-        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
-      ) || "chart-example-grid"
-    return { default: mod.default || mod[exportName] }
-  }),
-  "chart-example-legend": React.lazy(async () => {
-    const mod = await import(
-      "@/examples/__styles__/base-fabricator/chart-example-legend"
-    )
-    const exportName =
-      Object.keys(mod).find(
-        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
-      ) || "chart-example-legend"
-    return { default: mod.default || mod[exportName] }
-  }),
-  "chart-example-tooltip": React.lazy(async () => {
-    const mod = await import(
-      "@/examples/__styles__/base-fabricator/chart-example-tooltip"
-    )
-    const exportName =
-      Object.keys(mod).find(
-        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
-      ) || "chart-example-tooltip"
-    return { default: mod.default || mod[exportName] }
-  }),
-  "chart-example": React.lazy(async () => {
-    const mod = await import(
-      "@/examples/__styles__/base-fabricator/chart-example"
-    )
-    const exportName =
-      Object.keys(mod).find(
-        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
-      ) || "chart-example"
-    return { default: mod.default || mod[exportName] }
-  }),
-  "chart-tooltip": React.lazy(async () => {
-    const mod = await import(
-      "@/examples/__styles__/base-fabricator/chart-tooltip"
-    )
-    const exportName =
-      Object.keys(mod).find(
-        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
-      ) || "chart-tooltip"
-    return { default: mod.default || mod[exportName] }
-  }),
   "checkbox-basic": React.lazy(async () => {
     const mod = await import(
       "@/examples/__styles__/base-fabricator/checkbox-basic"
@@ -3672,6 +3604,16 @@ export const Components: Record<string, any> = {
       ) || "shimmer-spread"
     return { default: mod.default || mod[exportName] }
   }),
+  "sidebar-actions": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/base-fabricator/sidebar-actions"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "sidebar-actions"
+    return { default: mod.default || mod[exportName] }
+  }),
   "sidebar-controlled": React.lazy(async () => {
     const mod = await import(
       "@/examples/__styles__/base-fabricator/sidebar-controlled"
@@ -3690,6 +3632,16 @@ export const Components: Record<string, any> = {
       Object.keys(mod).find(
         (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
       ) || "sidebar-demo"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "sidebar-floating": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/base-fabricator/sidebar-floating"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "sidebar-floating"
     return { default: mod.default || mod[exportName] }
   }),
   "sidebar-footer": React.lazy(async () => {
@@ -3742,6 +3694,16 @@ export const Components: Record<string, any> = {
       ) || "sidebar-header"
     return { default: mod.default || mod[exportName] }
   }),
+  "sidebar-icon": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/base-fabricator/sidebar-icon"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "sidebar-icon"
+    return { default: mod.default || mod[exportName] }
+  }),
   "sidebar-menu-action": React.lazy(async () => {
     const mod = await import(
       "@/examples/__styles__/base-fabricator/sidebar-menu-action"
@@ -3792,6 +3754,36 @@ export const Components: Record<string, any> = {
       ) || "sidebar-menu"
     return { default: mod.default || mod[exportName] }
   }),
+  "sidebar-nested": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/base-fabricator/sidebar-nested"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "sidebar-nested"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "sidebar-peek": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/base-fabricator/sidebar-peek"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "sidebar-peek"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "sidebar-right": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/base-fabricator/sidebar-right"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "sidebar-right"
+    return { default: mod.default || mod[exportName] }
+  }),
   "sidebar-rsc": React.lazy(async () => {
     const mod = await import(
       "@/examples/__styles__/base-fabricator/sidebar-rsc"
@@ -3800,6 +3792,26 @@ export const Components: Record<string, any> = {
       Object.keys(mod).find(
         (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
       ) || "sidebar-rsc"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "sidebar-sections": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/base-fabricator/sidebar-sections"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "sidebar-sections"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "sidebar-status": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/base-fabricator/sidebar-status"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "sidebar-status"
     return { default: mod.default || mod[exportName] }
   }),
   "skeleton-avatar": React.lazy(async () => {

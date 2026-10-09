@@ -1,10 +1,12 @@
 import * as React from "react"
 import Image from "next/image"
+import { cn } from "cn"
 
 import { getRegistryComponent } from "@/lib/registry"
 import { toSiteStyle } from "@/lib/site-style"
 import { ComponentPreviewTabs } from "@/components/component-preview-tabs"
 import { ComponentSource } from "@/components/component-source"
+import { FramePreview } from "@/components/fabricator/frame-preview"
 
 export function ComponentPreview({
   name,
@@ -23,7 +25,7 @@ export function ComponentPreview({
   align?: "center" | "start" | "end"
   description?: string
   hideCode?: boolean
-  type?: "block" | "component" | "example"
+  type?: "block" | "component" | "example" | "frame"
   chromeLessOnMobile?: boolean
   previewClassName?: string
   caption?: string
@@ -72,6 +74,32 @@ export function ComponentPreview({
   }
 
   const siteStyleName = toSiteStyle(styleName)
+
+  // Fabricator: a full-page demo (app shells like Sidebar) in an iframe laid
+  // out at desktop width, with the usual Preview / Code tabs.
+  if (type === "frame") {
+    return (
+      <ComponentPreviewTabs
+        data-frame=""
+        className={className}
+        previewClassName={cn("h-[36rem] p-0", previewClassName)}
+        hideCode={hideCode}
+        component={
+          <FramePreview src={`/view/${siteStyleName}/${name}`} title={name} />
+        }
+        source={
+          <ComponentSource
+            name={name}
+            collapsible={false}
+            styleName={siteStyleName}
+          />
+        }
+        styleName={siteStyleName}
+        {...props}
+      />
+    )
+  }
+
   const Component = getRegistryComponent(name, siteStyleName)
 
   if (!Component) {

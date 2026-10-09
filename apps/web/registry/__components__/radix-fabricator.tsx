@@ -102,14 +102,6 @@ export const Components: Record<string, any> = {
       ) || "carousel"
     return { default: mod.default || mod[exportName] }
   }),
-  chart: React.lazy(async () => {
-    const mod = await import("@/styles/radix-fabricator/ui/chart")
-    const exportName =
-      Object.keys(mod).find(
-        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
-      ) || "chart"
-    return { default: mod.default || mod[exportName] }
-  }),
   checkbox: React.lazy(async () => {
     const mod = await import("@/styles/radix-fabricator/ui/checkbox")
     const exportName =

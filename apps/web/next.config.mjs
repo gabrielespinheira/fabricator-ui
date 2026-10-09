@@ -122,6 +122,33 @@ const nextConfig = {
         destination: "/docs/components/:base/select.md",
         permanent: false,
       },
+      // The Create and Colors pages aren't part of the site for now.
+      {
+        source: "/create",
+        destination: "/docs/installation",
+        permanent: false,
+      },
+      {
+        source: "/colors/:path*",
+        destination: "/docs/theming",
+        permanent: false,
+      },
+      // Chart isn't part of the Fabricator library for now.
+      {
+        source: "/charts/:path*",
+        destination: "/docs/components",
+        permanent: false,
+      },
+      {
+        source: "/docs/components/:base(base|radix|aria)/chart",
+        destination: "/docs/components",
+        permanent: false,
+      },
+      {
+        source: "/docs/components/:base(base|radix|aria)/chart.md",
+        destination: "/docs/components",
+        permanent: false,
+      },
       // RTL isn't part of Fabricator UI.
       {
         source: "/docs/rtl",
@@ -207,7 +234,7 @@ const nextConfig = {
       },
       {
         source: "/themes",
-        destination: "/create",
+        destination: "/docs/theming",
         permanent: true,
       },
       {

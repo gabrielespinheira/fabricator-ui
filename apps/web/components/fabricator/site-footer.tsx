@@ -12,7 +12,7 @@ const LINKS = [
 /** The footer for the homepage and the full-width pages. */
 export function SiteFooter() {
   return (
-    <footer className="group-has-data-[slot=designer]/layout:hidden group-has-data-[slot=docs-shell]/layout:hidden">
+    <footer className="group-has-data-[slot=docs-shell]/layout:hidden">
       <div className="flex justify-center py-16">
         <span className="flex size-10 items-center justify-center rounded-xl bg-muted text-muted-foreground">
           <Icons.logo className="size-5" />

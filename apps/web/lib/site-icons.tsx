@@ -13,6 +13,7 @@ import {
   ArrowLeftIcon as LucideArrowLeftIcon,
   ArrowRightIcon as LucideArrowRightIcon,
   ArrowUpDown as LucideArrowUpDown,
+  ArrowUpDownIcon as LucideArrowUpDownIcon,
   ArrowUpIcon as LucideArrowUpIcon,
   ArrowUpRightIcon as LucideArrowUpRightIcon,
   AudioLinesIcon as LucideAudioLinesIcon,
@@ -27,8 +28,10 @@ import {
   BookmarkIcon as LucideBookmarkIcon,
   BookOpen as LucideBookOpen,
   BookOpenCheck as LucideBookOpenCheck,
+  BookOpenIcon as LucideBookOpenIcon,
   Bot as LucideBot,
   BotIcon as LucideBotIcon,
+  BoxIcon as LucideBoxIcon,
   Building2Icon as LucideBuilding2Icon,
   Calculator as LucideCalculator,
   CalculatorIcon as LucideCalculatorIcon,
@@ -46,6 +49,7 @@ import {
   ChevronRight as LucideChevronRight,
   ChevronRightIcon as LucideChevronRightIcon,
   ChevronsUpDown as LucideChevronsUpDown,
+  ChevronsUpDownIcon as LucideChevronsUpDownIcon,
   ChevronUpIcon as LucideChevronUpIcon,
   CircleAlertIcon as LucideCircleAlertIcon,
   CircleCheckIcon as LucideCircleCheckIcon,
@@ -83,6 +87,7 @@ import {
   GlobeIcon as LucideGlobeIcon,
   HelpCircle as LucideHelpCircle,
   HelpCircleIcon as LucideHelpCircleIcon,
+  HistoryIcon as LucideHistoryIcon,
   HomeIcon as LucideHomeIcon,
   ImageIcon as LucideImageIcon,
   InboxIcon as LucideInboxIcon,
@@ -151,7 +156,9 @@ import {
   Sparkles as LucideSparkles,
   SparklesIcon as LucideSparklesIcon,
   SquareIcon as LucideSquareIcon,
+  SquarePenIcon as LucideSquarePenIcon,
   SquareTerminal as LucideSquareTerminal,
+  SquareTerminalIcon as LucideSquareTerminalIcon,
   StarIcon as LucideStarIcon,
   SunIcon as LucideSunIcon,
   TableIcon as LucideTableIcon,
@@ -168,6 +175,7 @@ import {
   User as LucideUser,
   UserIcon as LucideUserIcon,
   UserRoundXIcon as LucideUserRoundXIcon,
+  UsersIcon as LucideUsersIcon,
   VolumeOffIcon as LucideVolumeOffIcon,
   WalletIcon as LucideWalletIcon,
   XIcon as LucideXIcon,
@@ -240,6 +248,12 @@ export const ArrowRightIcon = createSiteIcon(LucideArrowRightIcon, {
   remixicon: "RiArrowRightLine",
 })
 export const ArrowUpDown = createSiteIcon(LucideArrowUpDown, {
+  tabler: "IconArrowsUpDown",
+  hugeicons: "ArrowUpDownIcon",
+  phosphor: "ArrowsDownUpIcon",
+  remixicon: "RiArrowUpDownLine",
+})
+export const ArrowUpDownIcon = createSiteIcon(LucideArrowUpDownIcon, {
   tabler: "IconArrowsUpDown",
   hugeicons: "ArrowUpDownIcon",
   phosphor: "ArrowsDownUpIcon",
@@ -323,6 +337,12 @@ export const BookOpenCheck = createSiteIcon(LucideBookOpenCheck, {
   phosphor: "BookOpenIcon",
   remixicon: "RiBookOpenLine",
 })
+export const BookOpenIcon = createSiteIcon(LucideBookOpenIcon, {
+  tabler: "IconBook",
+  hugeicons: "BookOpen02Icon",
+  phosphor: "BookOpenIcon",
+  remixicon: "RiBookOpenLine",
+})
 export const BookmarkIcon = createSiteIcon(LucideBookmarkIcon, {
   tabler: "IconBookmark",
   hugeicons: "BookmarkIcon",
@@ -341,6 +361,7 @@ export const BotIcon = createSiteIcon(LucideBotIcon, {
   phosphor: "RobotIcon",
   remixicon: "RiRobotLine",
 })
+export const BoxIcon = createSiteIcon(LucideBoxIcon, {})
 export const Building2Icon = createSiteIcon(LucideBuilding2Icon, {
   tabler: "IconBuildingBank",
   hugeicons: "BankIcon",
@@ -444,6 +465,12 @@ export const ChevronUpIcon = createSiteIcon(LucideChevronUpIcon, {
   remixicon: "RiArrowUpSLine",
 })
 export const ChevronsUpDown = createSiteIcon(LucideChevronsUpDown, {
+  tabler: "IconSelector",
+  hugeicons: "UnfoldMoreIcon",
+  phosphor: "CaretUpDownIcon",
+  remixicon: "RiArrowUpDownLine",
+})
+export const ChevronsUpDownIcon = createSiteIcon(LucideChevronsUpDownIcon, {
   tabler: "IconSelector",
   hugeicons: "UnfoldMoreIcon",
   phosphor: "CaretUpDownIcon",
@@ -666,6 +693,7 @@ export const HelpCircleIcon = createSiteIcon(LucideHelpCircleIcon, {
   phosphor: "QuestionIcon",
   remixicon: "RiQuestionLine",
 })
+export const HistoryIcon = createSiteIcon(LucideHistoryIcon, {})
 export const HomeIcon = createSiteIcon(LucideHomeIcon, {
   tabler: "IconHome",
   hugeicons: "HomeIcon",
@@ -1073,7 +1101,14 @@ export const SquareIcon = createSiteIcon(LucideSquareIcon, {
   phosphor: "StopCircleIcon",
   remixicon: "RiStopCircleLine",
 })
+export const SquarePenIcon = createSiteIcon(LucideSquarePenIcon, {})
 export const SquareTerminal = createSiteIcon(LucideSquareTerminal, {
+  tabler: "IconTerminal2",
+  hugeicons: "ComputerTerminal01Icon",
+  phosphor: "TerminalWindowIcon",
+  remixicon: "RiTerminalBoxLine",
+})
+export const SquareTerminalIcon = createSiteIcon(LucideSquareTerminalIcon, {
   tabler: "IconTerminal2",
   hugeicons: "ComputerTerminal01Icon",
   phosphor: "TerminalWindowIcon",
@@ -1174,6 +1209,12 @@ export const UserRoundXIcon = createSiteIcon(LucideUserRoundXIcon, {
   hugeicons: "UserRemove01Icon",
   phosphor: "UserMinusIcon",
   remixicon: "RiUserUnfollowLine",
+})
+export const UsersIcon = createSiteIcon(LucideUsersIcon, {
+  tabler: "IconUsers",
+  hugeicons: "UserGroupIcon",
+  phosphor: "UsersIcon",
+  remixicon: "RiGroupLine",
 })
 export const VolumeOffIcon = createSiteIcon(LucideVolumeOffIcon, {
   tabler: "IconVolume",

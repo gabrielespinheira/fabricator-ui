@@ -64,6 +64,24 @@ describe("pickNearest", () => {
     )
   })
 
+  it("keeps to the pointer's row when a strip wraps", () => {
+    // Two rows: a wide first row, and a second row whose items sit under
+    // the first row's first two.
+    const chips = [
+      item({ top: 0, left: 0, width: 90, height: 32 }),
+      item({ top: 0, left: 94, width: 70, height: 32 }),
+      item({ top: 0, left: 168, width: 70, height: 32 }),
+      item({ top: 36, left: 0, width: 70, height: 32 }),
+      item({ top: 36, left: 74, width: 70, height: 32 }),
+    ]
+    const strip = container(240, 68)
+    expect(pickNearest(strip, chips, { x: 20, y: 16 }, "x")).toBe(chips[0])
+    expect(pickNearest(strip, chips, { x: 100, y: 16 }, "x")).toBe(chips[1])
+    expect(pickNearest(strip, chips, { x: 20, y: 50 }, "x")).toBe(chips[3])
+    // Past the end of the second row: its last item, not one above.
+    expect(pickNearest(strip, chips, { x: 200, y: 50 }, "x")).toBe(chips[4])
+  })
+
   it("uses straight-line distance for grids", () => {
     const cells = [
       item({ top: 0, left: 0, width: 100, height: 100 }),

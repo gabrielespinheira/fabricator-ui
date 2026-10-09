@@ -72,7 +72,7 @@ import { ThemeProvider } from "next-themes"
 # Apply the default Fabricator preset.
 npx fabricator-ui@latest apply
 
-# Apply a preset code from fabricator-ui.com/create.
+# Apply a preset code.
 npx fabricator-ui@latest apply a2r6bw
 
 # Only the theme (colors) or fonts; components are not reinstalled.

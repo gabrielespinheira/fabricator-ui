@@ -5,7 +5,6 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "cn"
 
-import { type ColorPalette } from "@/lib/colors"
 import { siteConfig } from "@/lib/config"
 import { PAGES_NEW } from "@/lib/docs"
 import { showMcpDocs } from "@/lib/flags"
@@ -41,9 +40,6 @@ const EXCLUDED_PAGES = [
 
 const SITE_LINKS = [
   { name: "Blocks", href: "/blocks", match: "/blocks" },
-  { name: "Charts", href: "/charts/area", match: "/charts" },
-  { name: "Colors", href: "/colors", match: "/colors" },
-  { name: "Create", href: "/create", match: "/create" },
 ]
 
 const ITEM_CLASS =
@@ -51,11 +47,9 @@ const ITEM_CLASS =
 
 export function DocsShellSidebar({
   tree,
-  colors,
   className,
 }: {
   tree: typeof source.pageTree
-  colors: ColorPalette[]
   className?: string
 }) {
   const pathname = usePathname()
@@ -129,7 +123,6 @@ export function DocsShellSidebar({
       <div className="px-2">
         <CommandMenu
           tree={tree}
-          colors={colors}
           navItems={siteConfig.navItems}
           trigger="sidebar"
         />

@@ -19,6 +19,31 @@ Each level pairs a background with a shadow: `bg-surface-N shadow-surface-N`. In
 
 **Surfaces have no borders.** Every surface shadow starts with a 1px ring, which draws the edge.
 
+## Base colour
+
+Every surface derives from one base colour, held by two variables: `--surface-hue` (an OKLCH hue in degrees) and `--surface-chroma` (how strongly the surfaces lean towards it, from `0` to `0.04`). Both are `0` by default, which gives the neutral ladder above. Set them here to tint this whole site:
+
+<SurfaceTintPicker />
+
+Each level takes a share of the chroma:
+
+- **Light mode** tints every level: most at the page (about `oklch(0.962 0.018)` at full strength), fading towards white at the top. Colour needs room below white, so each level gets a little darker as the tint grows, and `muted-foreground` darkens with it to stay AA on the page.
+- **Dark mode** carries the tint: level 1 takes 90% of the chroma, and each level above takes a little less, so the top of the ladder stays calm.
+
+At full strength, every level stays inside sRGB for any hue. Text stays AA wherever it was AA on the neutral ladder. The opaque `bg-selected` and `bg-muted` fills follow the tint too.
+
+```css
+/* light */
+--surface-1: oklch(
+  calc(0.985 - var(--surface-chroma) * 0.575) calc(var(--surface-chroma) * 0.44)
+    var(--surface-hue)
+);
+/* dark */
+--surface-1: oklch(0.205 calc(var(--surface-chroma) * 0.9) var(--surface-hue));
+```
+
+The `fabricator` preset writes `background`, `card`, `popover`, `sidebar`, `muted` and `muted-foreground` as plain colours, because the CLI only maps literal colours to Tailwind utilities. To have them follow the tint, point them at the surfaces, as the second part of the generated CSS does. Tailwind keeps the utilities the preset already mapped, so `bg-background` and `bg-card` keep working.
+
 ## Where each level goes
 
 <SurfaceNesting />
@@ -84,17 +109,18 @@ Focus is a 1px blue ring with no offset, the same in both themes: `focus-visible
 
 ## Tokens
 
-| Variable                                                         | Utility                                 |
-| ---------------------------------------------------------------- | --------------------------------------- |
-| `--surface-1` … `8`                                              | `bg-surface-1` … `bg-surface-8`         |
-| `--shadow-1` … `8`                                               | `shadow-surface-1` … `shadow-surface-8` |
-| `--hover`                                                        | `bg-hover`                              |
-| `--active`                                                       | `bg-active`                             |
-| `--selected`                                                     | `bg-selected`                           |
-| `--tint`                                                         | `bg-tint`                               |
-| `--tint-hover`                                                   | `bg-tint-hover`                         |
-| `--destructive-light`                                            | `bg-destructive-light`                  |
-| `--focus-ring`                                                   | `ring-focus-ring`                       |
-| `--info`, `--success`, `--warning`, `--error` and their palettes | See [Status colours](#status-colours)   |
+| Variable                                                         | Utility                                           |
+| ---------------------------------------------------------------- | ------------------------------------------------- |
+| `--surface-hue`, `--surface-chroma`                              | The base colour (see [Base colour](#base-colour)) |
+| `--surface-1` … `8`                                              | `bg-surface-1` … `bg-surface-8`                   |
+| `--shadow-1` … `8`                                               | `shadow-surface-1` … `shadow-surface-8`           |
+| `--hover`                                                        | `bg-hover`                                        |
+| `--active`                                                       | `bg-active`                                       |
+| `--selected`                                                     | `bg-selected`                                     |
+| `--tint`                                                         | `bg-tint`                                         |
+| `--tint-hover`                                                   | `bg-tint-hover`                                   |
+| `--destructive-light`                                            | `bg-destructive-light`                            |
+| `--focus-ring`                                                   | `ring-focus-ring`                                 |
+| `--info`, `--success`, `--warning`, `--error` and their palettes | See [Status colours](#status-colours)             |
 
 These are new names: the theme tokens such as `background`, `card` and `border` keep their meaning, so components from other registries still fit in.

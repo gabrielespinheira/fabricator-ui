@@ -1,12 +1,12 @@
 ---
 title: October 2026 - Sounds, pill radius and site settings
-description: Interface sounds, status colours, motion speed tokens, a pill radius, a Search component, and a settings menu on the site for theme, sound, icons, radius and motion.
+description: Interface sounds, status colours, motion speed tokens, a surface base colour, a pill radius, a Search component, and a settings menu on the site for theme, sound, icons, radius, motion and surface.
 date: 2026-10-06
 ---
 
 ## Sounds
 
-`@fabricator/sounds` adds interface sounds, synthesized with the Web Audio API: no audio files and no dependencies. There are 15 short voices for taps, selection, checks, switches, popups, dialogs, sliders, refusals, notifications and completion. The catalogue is inspired by [Bencho's sound library](https://bencho.dev/sounds); the sounds themselves are our own.
+`@fabricator/sounds` adds interface sounds, synthesized with the Web Audio API: no audio files and no dependencies. There are 32 short sounds, one for each kind of component: buttons by weight (primary, secondary, destructive), rows and links, checkboxes, switches, toggles, radios and options, tabs, pagination, carousels, accordions, menus, dialogs, alert dialogs, sheets and drawers, toasts by type, sliders, resizable handles and refusals. The catalogue is inspired by [Bencho's sound library](https://bencho.dev/sounds); the sounds themselves are our own, except the switch pair, which comes from Bencho's liquid toggle.
 
 Mount `<SoundEffects />` once at the root of your app and every component plays the right sound, in every base, with no changes to the components themselves. Sounds are off until you turn them on. Sounds and the pill radius also install in existing projects that keep their own style, because they only rely on attributes every component shares. Use `data-sound` to change or silence a sound, and `playSound` or `useSound` for your own interactions. See [Sounds](/docs/foundations/sounds).
 
@@ -22,6 +22,14 @@ Every corner comes from the `--radius` token. `@fabricator/radius-pill` sets it 
 npx fabricator-ui@latest add radius-pill
 ```
 
+## Surface base colour
+
+Every surface is now calculated from one base colour, held by `--surface-hue` and `--surface-chroma`. Both default to `0`, the neutral ladder, so nothing changes until you set them. Set them and every level takes the tint, in light and dark mode, and text keeps its AA contrast. The [Surfaces](/docs/foundations/surfaces#base-colour) page has hue and strength sliders that preview both themes and generate the CSS.
+
+```bash
+npx fabricator-ui@latest add foundations
+```
+
 ## Site settings
 
 The header, the docs sidebar and the docs side panel have a settings menu:
@@ -31,6 +39,7 @@ The header, the docs sidebar and the docs side panel have a settings menu:
 - **Icons:** Lucide (the default), Tabler, HugeIcons, Phosphor or Remix Icon, applied live to every preview.
 - **Radius:** Rounded or Pill.
 - **Motion:** Relaxed, Default, Snappy or Off, scaling every animation.
+- **Surface:** Neutral, a tinted preset (Slate, Sand, Sage, Ocean, Indigo, Plum, Rose), or a custom tint from the Surfaces page, applied to the whole site.
 
 ## Cursors
 
@@ -63,6 +72,10 @@ Collapsible now looks and moves like Accordion: a title row with a chevron that 
 
 Both are 18px with a quiet outline. Checked, they fill with the foreground colour, and an inverted check or dot pops in on the bouncy spring. They give a little when pressed, and focus is the 1px ring with an offset. The check wipes in on the bouncy spring and fades out when cleared; switching radios crossfades the dots.
 
+## Questionnaire
+
+Questionnaire now uses the library's own controls. Single-choice answers show the Radio Group mark and multiple-choice answers the Checkbox mark, both lit by the whole row, so hovering or pressing a row firms or presses its mark. The free-text answer is the Input, lined up with the question text, and shortcut keys are Kbd keycaps. Rows read like Field choice cards: foreground labels, a hover tint, and the active fill once chosen.
+
 ## Status colours
 
 Info, success, warning and error each have a full palette: a solid for icons and fills, a text colour, a hairline border, and an eight-level tinted surface ladder that pairs with the surface shadows. Every pair meets WCAG AA in light and dark. See [Surfaces](/docs/foundations/surfaces#status-colours).
@@ -85,7 +98,7 @@ The new variants are additive: `default` and `destructive` are unchanged.
 
 ## Fixes
 
-- Sounds follow one rule set: turning something on plays the selection mark, turning it off a falling note, opening a surface two notes a fifth apart, committing an action a settling note, and tabs a note per position.
+- Every kind of component has its own sound, and each family its own material: buttons knock, selection controls click, rows tick, tabs ring, menus pop, dialogs bloom, sheets slide and toasts chime by type. Primary and destructive buttons now sound different from the others in Base UI too.
 - Scroll Area fades its edges where there is more to scroll.
 - Sonner toasts (Radix, React Aria) now get the Fabricator style.
 

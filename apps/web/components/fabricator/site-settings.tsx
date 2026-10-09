@@ -16,11 +16,17 @@ import { useTheme } from "next-themes"
 import {
   ICON_LIBRARIES,
   MOTION_SPEEDS,
+  SURFACE_PRESETS,
   useSiteSetting,
   type SiteIconLibrary,
   type SiteMotion,
   type SiteRadius,
 } from "@/lib/site-settings"
+import {
+  sameTint,
+  tintToHex,
+  type SurfaceTint,
+} from "@/registry/fabricator/surface-tint"
 import {
   Popover,
   PopoverContent,
@@ -31,6 +37,7 @@ import {
   SelectContent,
   SelectGroup,
   SelectItem,
+  SelectSeparator,
   SelectTrigger,
   SelectValue,
 } from "@/styles/base-fabricator/ui/select"
@@ -165,7 +172,92 @@ const RADII: { value: SiteRadius; label: string; icon: React.ReactNode }[] = [
   },
 ]
 
-/** Theme, sound, icons, radius and motion: the rows of the settings menu. */
+/** A dot in the tint's colour, for the surface options. */
+export function TintSwatch({
+  tint,
+  className,
+}: {
+  tint: SurfaceTint
+  className?: string
+}) {
+  return (
+    <span
+      aria-hidden
+      className={cn(
+        "size-3 shrink-0 self-center rounded-full shadow-[inset_0_0_0_1px_rgb(0_0_0/0.12)] dark:shadow-[inset_0_0_0_1px_rgb(255_255_255/0.16)]",
+        className
+      )}
+      style={{ backgroundColor: tintToHex(tint) }}
+    />
+  )
+}
+
+/**
+ * Surface presets, plus "Custom" while a colour from the Surfaces page is
+ * set. The trigger shows the current swatch; the list opens below it, tall
+ * enough to need no scrolling.
+ */
+function SurfaceSelect() {
+  const [surface, setSurface] = useSiteSetting("surface")
+  const preset = SURFACE_PRESETS.find(({ tint }) => sameTint(tint, surface))
+  const value = preset?.value ?? "custom"
+
+  return (
+    <Select
+      items={[
+        ...SURFACE_PRESETS.map(({ value, label }) => ({ value, label })),
+        { value: "custom", label: "Custom" },
+      ]}
+      value={value}
+      onValueChange={(next) => {
+        const selected = SURFACE_PRESETS.find((option) => option.value === next)
+        if (selected) setSurface(selected.tint)
+      }}
+    >
+      <SelectTrigger
+        aria-label="Surface"
+        size="sm"
+        className="-me-2 gap-1.5 text-[13px] ring-0 hover:bg-hover"
+      >
+        <SelectValue>
+          {() => (
+            <>
+              <TintSwatch tint={surface} />
+              {preset?.label ?? "Custom"}
+            </>
+          )}
+        </SelectValue>
+      </SelectTrigger>
+      <SelectContent
+        align="end"
+        alignItemWithTrigger={false}
+        className="min-w-40"
+      >
+        <SelectGroup>
+          {SURFACE_PRESETS.map((option) => (
+            <SelectItem key={option.value} value={option.value}>
+              <TintSwatch tint={option.tint} />
+              {option.label}
+            </SelectItem>
+          ))}
+        </SelectGroup>
+        {preset ? null : (
+          <>
+            <SelectSeparator />
+            <SelectGroup>
+              <SelectItem value="custom">
+                <TintSwatch tint={surface} />
+                Custom
+              </SelectItem>
+            </SelectGroup>
+          </>
+        )}
+      </SelectContent>
+    </Select>
+  )
+}
+
+/** Theme, sound, icons, radius, motion and surface: the settings menu rows. */
 export function SiteSettingsFields({ className }: { className?: string }) {
   const hydrated = useHydrated()
   const { resolvedTheme, setTheme } = useTheme()
@@ -221,6 +313,9 @@ export function SiteSettingsFields({ className }: { className?: string }) {
           onValueChange={setMotion}
           options={MOTION_SPEEDS.map(({ value, label }) => ({ value, label }))}
         />
+      </SettingRow>
+      <SettingRow label="Surface">
+        <SurfaceSelect />
       </SettingRow>
     </div>
   )

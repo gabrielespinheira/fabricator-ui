@@ -116,15 +116,6 @@ const SOURCES: CatalogSource[] = [
     load: () => import("@/examples/__styles__/base-fabricator/carousel-demo"),
   },
   {
-    slug: "chart",
-    title: "Chart",
-    category: "Data",
-    height: "lg",
-    // The lead chart demo is a full-width dashboard card; this one fits.
-    load: () =>
-      import("@/examples/__styles__/base-fabricator/chart-example-legend"),
-  },
-  {
     slug: "collapsible",
     title: "Collapsible",
     category: "Navigation",

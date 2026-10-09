@@ -1,5 +1,12 @@
 import * as React from "react"
 
+import {
+  NEUTRAL_TINT,
+  normalizeTint,
+  SURFACE_MAX_CHROMA,
+  type SurfaceTint,
+} from "@/registry/fabricator/surface-tint"
+
 /**
  * Website preferences (the settings menu in the header and the docs panel).
  * Theme lives in next-themes; everything else lives here, in localStorage.
@@ -8,6 +15,7 @@ import * as React from "react"
  * - iconLibrary: the icon pack the site's previews render (Lucide by default).
  * - radius: "rounded" (--radius 0.5rem) or "pill" (--radius 1.25rem).
  * - motion: scales every animation through --motion-scale.
+ * - surface: the surface tint, --surface-hue and --surface-chroma on <html>.
  */
 export const ICON_LIBRARIES = [
   { value: "lucide", label: "Lucide" },
@@ -29,11 +37,28 @@ export const MOTION_SPEEDS = [
 
 export type SiteMotion = (typeof MOTION_SPEEDS)[number]["value"]
 
+/** Named surface tints for the settings menu and the Surfaces page. */
+export const SURFACE_PRESETS: {
+  value: string
+  label: string
+  tint: SurfaceTint
+}[] = [
+  { value: "neutral", label: "Neutral", tint: NEUTRAL_TINT },
+  { value: "slate", label: "Slate", tint: { hue: 260, chroma: 0.02 } },
+  { value: "sand", label: "Sand", tint: { hue: 75, chroma: 0.018 } },
+  { value: "sage", label: "Sage", tint: { hue: 145, chroma: 0.022 } },
+  { value: "ocean", label: "Ocean", tint: { hue: 220, chroma: 0.035 } },
+  { value: "indigo", label: "Indigo", tint: { hue: 272, chroma: 0.04 } },
+  { value: "plum", label: "Plum", tint: { hue: 325, chroma: 0.035 } },
+  { value: "rose", label: "Rose", tint: { hue: 15, chroma: 0.03 } },
+]
+
 export type SiteSettings = {
   sound: boolean
   iconLibrary: SiteIconLibrary
   radius: SiteRadius
   motion: SiteMotion
+  surface: SurfaceTint
 }
 
 export const SITE_SETTINGS_STORAGE_KEY = "fabricator-settings"
@@ -43,6 +68,7 @@ export const DEFAULT_SITE_SETTINGS: SiteSettings = {
   iconLibrary: "lucide",
   radius: "rounded",
   motion: "default",
+  surface: NEUTRAL_TINT,
 }
 
 const listeners = new Set<() => void>()
@@ -73,6 +99,7 @@ function read(): SiteSettings {
     motion: MOTION_SPEEDS.some((speed) => speed.value === stored.motion)
       ? (stored.motion as SiteMotion)
       : DEFAULT_SITE_SETTINGS.motion,
+    surface: normalizeTint(stored.surface),
   }
   return current
 }
@@ -123,11 +150,23 @@ export function useSiteSetting<K extends keyof SiteSettings>(key: K) {
   return [settings[key], set] as const
 }
 
+/** Sets the surface tint on <html>; neutral removes it. */
+export function applySurfaceTint(tint: SurfaceTint) {
+  const style = document.documentElement.style
+  if (tint.chroma === 0) {
+    style.removeProperty("--surface-hue")
+    style.removeProperty("--surface-chroma")
+  } else {
+    style.setProperty("--surface-hue", String(tint.hue))
+    style.setProperty("--surface-chroma", String(tint.chroma))
+  }
+}
+
 /**
- * Runs before paint (inlined in <head>) so a stored Pill radius or motion
- * speed doesn't flash the defaults first. Keep in step with the rules in
- * app/fabricator-site.css.
+ * Runs before paint (inlined in <head>) so a stored Pill radius, motion
+ * speed or surface tint doesn't flash the defaults first. Keep in step with
+ * the rules in app/fabricator-site.css and with applySurfaceTint.
  */
 export const SITE_SETTINGS_SCRIPT = `try{var s=JSON.parse(localStorage.getItem(${JSON.stringify(
   SITE_SETTINGS_STORAGE_KEY
-)})||"{}"),d=document.documentElement.dataset;if(s.radius==="pill")d.radius="pill";if(s.motion&&s.motion!=="default")d.motion=s.motion}catch(e){}`
+)})||"{}"),r=document.documentElement,d=r.dataset,t=s.surface;if(s.radius==="pill")d.radius="pill";if(s.motion&&s.motion!=="default")d.motion=s.motion;if(t&&isFinite(t.hue)&&t.chroma>0&&t.chroma<=${SURFACE_MAX_CHROMA}){r.style.setProperty("--surface-hue",t.hue);r.style.setProperty("--surface-chroma",t.chroma)}}catch(e){}`

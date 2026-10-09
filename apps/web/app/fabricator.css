@@ -1,6 +1,8 @@
 /* Generated from registry/fabricator/foundations.ts by scripts/build-registry.mts. Do not edit. */
 
 html:root {
+  --surface-hue: 0;
+  --surface-chroma: 0;
   --motion-scale: 1;
   --motion-fast: 90ms;
   --motion-fast-exit: 70ms;
@@ -8,27 +10,27 @@ html:root {
   --motion-moderate-exit: 160ms;
   --motion-slow: 290ms;
   --motion-slow-exit: 220ms;
-  --surface-1: oklch(0.985 0 0);
+  --surface-1: oklch(calc(0.985 - var(--surface-chroma) * 0.575) calc(var(--surface-chroma) * 0.44) var(--surface-hue));
   --shadow-1: 0 0 0 1px var(--shadow-color);
-  --surface-2: oklch(0.991 0 0);
+  --surface-2: oklch(calc(0.991 - var(--surface-chroma) * 0.5) calc(var(--surface-chroma) * 0.335) var(--surface-hue));
   --shadow-2: 0 0 0 1px var(--shadow-color), 0 1px 1px -0.5px var(--shadow-color);
-  --surface-3: oklch(1 0 0);
+  --surface-3: oklch(calc(1 - var(--surface-chroma) * 0.55) calc(var(--surface-chroma) * 0.25) var(--surface-hue));
   --shadow-3: 0 0 0 1px var(--shadow-color), 0 1px 1px -0.5px var(--shadow-color), 0 3px 3px -1.5px var(--shadow-color);
-  --surface-4: oklch(1 0 0);
+  --surface-4: oklch(calc(1 - var(--surface-chroma) * 0.45) calc(var(--surface-chroma) * 0.205) var(--surface-hue));
   --shadow-4: 0 0 0 1px var(--shadow-color), 0 1px 1px -0.5px var(--shadow-color), 0 3px 3px -1.5px var(--shadow-color), 0 6px 6px -3px var(--shadow-color);
-  --surface-5: oklch(1 0 0);
+  --surface-5: oklch(calc(1 - var(--surface-chroma) * 0.35) calc(var(--surface-chroma) * 0.16) var(--surface-hue));
   --shadow-5: 0 0 0 1px var(--shadow-color), 0 1px 1px -0.5px var(--shadow-color), 0 3px 3px -1.5px var(--shadow-color), 0 6px 6px -3px var(--shadow-color), 0 12px 12px -6px var(--shadow-color);
-  --surface-6: oklch(1 0 0);
+  --surface-6: oklch(calc(1 - var(--surface-chroma) * 0.275) calc(var(--surface-chroma) * 0.125) var(--surface-hue));
   --shadow-6: 0 0 0 1px var(--shadow-color), 0 1px 1px -0.5px var(--shadow-color), 0 3px 3px -1.5px var(--shadow-color), 0 6px 6px -3px var(--shadow-color), 0 12px 12px -6px var(--shadow-color), 0 24px 24px -12px var(--shadow-color);
-  --surface-7: oklch(1 0 0);
+  --surface-7: oklch(calc(1 - var(--surface-chroma) * 0.2) calc(var(--surface-chroma) * 0.09) var(--surface-hue));
   --shadow-7: 0 0 0 1px var(--shadow-color), 0 1px 1px -0.5px var(--shadow-color), 0 3px 3px -1.5px var(--shadow-color), 0 6px 6px -3px var(--shadow-color), 0 12px 12px -6px var(--shadow-color), 0 24px 24px -12px var(--shadow-color), 0 48px 48px -24px var(--shadow-color);
-  --surface-8: oklch(1 0 0);
+  --surface-8: oklch(calc(1 - var(--surface-chroma) * 0.125) calc(var(--surface-chroma) * 0.055) var(--surface-hue));
   --shadow-8: 0 0 0 1px var(--shadow-color), 0 1px 1px -0.5px var(--shadow-color), 0 3px 3px -1.5px var(--shadow-color), 0 6px 6px -3px var(--shadow-color), 0 12px 12px -6px var(--shadow-color), 0 24px 24px -12px var(--shadow-color), 0 48px 48px -24px var(--shadow-color), 0 96px 96px -48px var(--shadow-color);
   --shadow-color: oklch(0 0 0 / 0.06);
   --overlay: 0 0 0;
   --hover: oklch(0 0 0 / 0.04);
   --active: oklch(0 0 0 / 0.07);
-  --selected: oklch(0.87 0 0);
+  --selected: oklch(0.87 calc(var(--surface-chroma) * 0.3) var(--surface-hue));
   --tint: oklch(0 0 0 / 0.08);
   --tint-hover: oklch(0 0 0 / 0.065);
   --destructive-light: oklch(0.971 0.013 17.4);
@@ -82,18 +84,18 @@ html:root {
   --error-surface-8: oklch(0.999 0.0117 25);
   --focus-ring: oklch(0.693 0.161 265.2);
   --radius: 0.5rem;
-  --background: oklch(0.985 0 0);
+  --background: var(--surface-1);
   --foreground: oklch(0.205 0 0);
-  --card: oklch(1 0 0);
+  --card: var(--surface-3);
   --card-foreground: oklch(0.205 0 0);
-  --popover: oklch(1 0 0);
+  --popover: var(--surface-3);
   --popover-foreground: oklch(0.205 0 0);
   --primary: oklch(0.205 0 0);
   --primary-foreground: oklch(0.985 0 0);
   --secondary: oklch(0 0 0 / 0.08);
   --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.967 0.001 286.4);
-  --muted-foreground: oklch(0.556 0 0);
+  --muted: oklch(calc(0.967 - var(--surface-chroma) * 0.5) calc(var(--surface-chroma) * 0.4) var(--surface-hue));
+  --muted-foreground: oklch(calc(0.556 - var(--surface-chroma) * 0.4) 0 0);
   --accent: oklch(0 0 0 / 0.04);
   --accent-foreground: oklch(0.205 0 0);
   --destructive: oklch(0.637 0.208 25.3);
@@ -105,7 +107,7 @@ html:root {
   --chart-3: oklch(0.439 0 0);
   --chart-4: oklch(0.371 0 0);
   --chart-5: oklch(0.264 0 0);
-  --sidebar: oklch(0.991 0 0);
+  --sidebar: var(--surface-2);
   --sidebar-foreground: oklch(0.205 0 0);
   --sidebar-primary: oklch(0.205 0 0);
   --sidebar-primary-foreground: oklch(0.985 0 0);
@@ -116,21 +118,21 @@ html:root {
 }
 
 html.dark {
-  --surface-1: oklch(0.205 0 0);
+  --surface-1: oklch(0.205 calc(var(--surface-chroma) * 0.9) var(--surface-hue));
   --shadow-1: inset 0 0 0 1px var(--dm-ring-base);
-  --surface-2: oklch(0.235 0 0);
+  --surface-2: oklch(0.235 calc(var(--surface-chroma) * 0.85) var(--surface-hue));
   --shadow-2: inset 0 1px 0 0 var(--dm-hi-base), inset 0 0 0 1px var(--dm-ring-base), 0 1px 1px -0.5px var(--dm-drop);
-  --surface-3: oklch(0.264 0 0);
+  --surface-3: oklch(0.264 calc(var(--surface-chroma) * 0.8) var(--surface-hue));
   --shadow-3: inset 0 1px 0 0 var(--dm-hi-mid), inset 0 0 0 1px var(--dm-ring-base), 0 0 0 1px oklch(0 0 0 / 0.12), 0 1px 1px -0.5px var(--dm-drop), 0 3px 3px -1.5px var(--dm-drop);
-  --surface-4: oklch(0.293 0 0);
+  --surface-4: oklch(0.293 calc(var(--surface-chroma) * 0.75) var(--surface-hue));
   --shadow-4: inset 0 1px 0 0 var(--dm-hi-mid), inset 0 0 0 1px var(--dm-ring-mid), 0 0 0 1px oklch(0 0 0 / 0.14), 0 1px 1px -0.5px var(--dm-drop), 0 3px 3px -1.5px var(--dm-drop), 0 6px 6px -3px var(--dm-drop);
-  --surface-5: oklch(0.321 0 0);
+  --surface-5: oklch(0.321 calc(var(--surface-chroma) * 0.7) var(--surface-hue));
   --shadow-5: inset 0 1px 0 0 var(--dm-hi-high), inset 0 0 0 1px var(--dm-ring-mid), 0 0 0 1px oklch(0 0 0 / 0.16), 0 1px 1px -0.5px var(--dm-drop), 0 3px 3px -1.5px var(--dm-drop), 0 6px 6px -3px var(--dm-drop), 0 12px 12px -6px var(--dm-drop);
-  --surface-6: oklch(0.348 0 0);
+  --surface-6: oklch(0.348 calc(var(--surface-chroma) * 0.65) var(--surface-hue));
   --shadow-6: inset 0 1px 0 0 var(--dm-hi-high), inset 0 0 0 1px var(--dm-ring-high), 0 0 0 1px oklch(0 0 0 / 0.18), 0 1px 1px -0.5px var(--dm-drop), 0 3px 3px -1.5px var(--dm-drop), 0 6px 6px -3px var(--dm-drop), 0 12px 12px -6px var(--dm-drop), 0 24px 24px -12px var(--dm-drop);
-  --surface-7: oklch(0.375 0 0);
+  --surface-7: oklch(0.375 calc(var(--surface-chroma) * 0.6) var(--surface-hue));
   --shadow-7: inset 0 1px 0 0 var(--dm-hi-peak), inset 0 0 0 1px var(--dm-ring-high), 0 0 0 1px oklch(0 0 0 / 0.2), 0 1px 1px -0.5px var(--dm-drop), 0 3px 3px -1.5px var(--dm-drop), 0 6px 6px -3px var(--dm-drop), 0 12px 12px -6px var(--dm-drop), 0 24px 24px -12px var(--dm-drop), 0 48px 48px -24px var(--dm-drop);
-  --surface-8: oklch(0.402 0 0);
+  --surface-8: oklch(0.402 calc(var(--surface-chroma) * 0.55) var(--surface-hue));
   --shadow-8: inset 0 1px 0 0 var(--dm-hi-peak), inset 0 0 0 1px var(--dm-ring-high), 0 0 0 1px oklch(0 0 0 / 0.22), 0 1px 1px -0.5px var(--dm-drop), 0 3px 3px -1.5px var(--dm-drop), 0 6px 6px -3px var(--dm-drop), 0 12px 12px -6px var(--dm-drop), 0 24px 24px -12px var(--dm-drop), 0 48px 48px -24px var(--dm-drop), 0 96px 96px -48px var(--dm-drop);
   --dm-hi-base: oklch(1 0 0 / 0.01);
   --dm-hi-mid: oklch(1 0 0 / 0.02);
@@ -143,7 +145,7 @@ html.dark {
   --overlay: 255 255 255;
   --hover: oklch(1 0 0 / 0.06);
   --active: oklch(1 0 0 / 0.1);
-  --selected: oklch(0.439 0 0);
+  --selected: oklch(0.439 calc(var(--surface-chroma) * 0.6) var(--surface-hue));
   --tint: oklch(1 0 0 / 0.25);
   --tint-hover: oklch(1 0 0 / 0.2);
   --destructive-light: oklch(0.258 0.089 26);
@@ -196,17 +198,17 @@ html.dark {
   --error-surface-7: oklch(0.385 0.0172 25);
   --error-surface-8: oklch(0.412 0.0156 25);
   --focus-ring: oklch(0.693 0.161 265.2);
-  --background: oklch(0.205 0 0);
+  --background: var(--surface-1);
   --foreground: oklch(0.97 0 0);
-  --card: oklch(0.264 0 0);
+  --card: var(--surface-3);
   --card-foreground: oklch(0.97 0 0);
-  --popover: oklch(0.264 0 0);
+  --popover: var(--surface-3);
   --popover-foreground: oklch(0.97 0 0);
   --primary: oklch(0.97 0 0);
   --primary-foreground: oklch(0.205 0 0);
   --secondary: oklch(1 0 0 / 0.25);
   --secondary-foreground: oklch(0.97 0 0);
-  --muted: oklch(0.235 0 0);
+  --muted: oklch(0.235 calc(var(--surface-chroma) * 0.85) var(--surface-hue));
   --muted-foreground: oklch(0.715 0 0);
   --accent: oklch(1 0 0 / 0.06);
   --accent-foreground: oklch(0.97 0 0);
@@ -219,7 +221,7 @@ html.dark {
   --chart-3: oklch(0.556 0 0);
   --chart-4: oklch(0.439 0 0);
   --chart-5: oklch(0.371 0 0);
-  --sidebar: oklch(0.235 0 0);
+  --sidebar: var(--surface-2);
   --sidebar-foreground: oklch(0.97 0 0);
   --sidebar-primary: oklch(0.97 0 0);
   --sidebar-primary-foreground: oklch(0.205 0 0);

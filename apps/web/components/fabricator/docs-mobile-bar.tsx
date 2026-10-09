@@ -1,6 +1,5 @@
 import Link from "next/link"
 
-import { type ColorPalette } from "@/lib/colors"
 import { siteConfig } from "@/lib/config"
 import type { source } from "@/lib/source"
 import { CommandMenu } from "@/components/command-menu"
@@ -11,10 +10,8 @@ import { MobileNav } from "@/components/mobile-nav"
 /** The docs top bar below the `lg` breakpoint, where the sidebar is hidden. */
 export function DocsMobileBar({
   tree,
-  colors,
 }: {
   tree: typeof source.pageTree
-  colors: ColorPalette[]
 }) {
   return (
     <div className="sticky top-0 z-40 flex h-14 items-center gap-2 bg-background/90 px-4 backdrop-blur-md lg:hidden">
@@ -32,7 +29,6 @@ export function DocsMobileBar({
         <div className="w-28">
           <CommandMenu
             tree={tree}
-            colors={colors}
             navItems={siteConfig.navItems}
             trigger="sidebar"
           />

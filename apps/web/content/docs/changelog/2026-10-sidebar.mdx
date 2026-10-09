@@ -1,0 +1,27 @@
+---
+title: October 2026 - A new Sidebar
+description: The Sidebar drags to resize, peeks out when collapsed, collapses its sections, shows status dots, and animates its toggle.
+date: 2026-10-09
+---
+
+## Sidebar
+
+The Fabricator Sidebar keeps every part and prop it had, and adds:
+
+- **Resize:** drag `SidebarRail` to resize the sidebar between 160px and 360px. Drag past the minimum to collapse it; click the rail to collapse or expand. Its tooltip explains both and shows the shortcut.
+- **Peek:** `peek="hover"` (or `"click"`) on `SidebarProvider` floats a collapsed sidebar out as a card from its edge or its trigger, without pinning it open.
+- **Collapsible sections:** `collapsible` on `SidebarGroup` turns its label into an accordion toggle with a hover-revealed chevron. `SidebarGroupActions` holds up to three actions on the label row.
+- **Rows:** `icon`, `status` (`active`, `unread`, `idle`) and `dot` on `SidebarMenuButton`; `SidebarMenuActions` for several row actions; labels stop exactly short of badges and actions; `open` on `SidebarMenuSub` collapses a sub-tree on the moderate spring.
+- **Keyboard:** Arrow keys, Home and End move between rows. `shortcut` on the provider changes or turns off the <Kbd>⌘B</Kbd> toggle; a bare key like `"["` works too.
+- **Toggle:** the trigger's panel glyph morphs between open and closed, mirrors for a right-side sidebar, and its tooltip names the action and the shortcut.
+
+The docs page now shows every example live at desktop width. See [Sidebar](/docs/components/base/sidebar).
+
+```bash
+npx fabricator-ui@latest add sidebar
+```
+
+## Removed
+
+- **Chart** is no longer part of the Fabricator library for now, and neither are its docs pages, the Charts gallery or the Dashboard block built on it. Projects that keep their own style can still install them.
+- **The Create and Colors pages** are gone from the site for now. Preset codes still work with `init --preset` and `apply`.

@@ -1697,6 +1697,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "shimmer-spread",
       filePath: "examples/base/shimmer-spread.tsx",
     },
+    "sidebar-actions": {
+      name: "sidebar-actions",
+      filePath: "examples/base/sidebar-actions.tsx",
+    },
     "sidebar-controlled": {
       name: "sidebar-controlled",
       filePath: "examples/base/sidebar-controlled.tsx",
@@ -1704,6 +1708,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "sidebar-demo": {
       name: "sidebar-demo",
       filePath: "examples/base/sidebar-demo.tsx",
+    },
+    "sidebar-floating": {
+      name: "sidebar-floating",
+      filePath: "examples/base/sidebar-floating.tsx",
     },
     "sidebar-footer": {
       name: "sidebar-footer",
@@ -1725,6 +1733,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "sidebar-header",
       filePath: "examples/base/sidebar-header.tsx",
     },
+    "sidebar-icon": {
+      name: "sidebar-icon",
+      filePath: "examples/base/sidebar-icon.tsx",
+    },
     "sidebar-menu-action": {
       name: "sidebar-menu-action",
       filePath: "examples/base/sidebar-menu-action.tsx",
@@ -1745,6 +1757,18 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "sidebar-menu",
       filePath: "examples/base/sidebar-menu.tsx",
     },
+    "sidebar-nested": {
+      name: "sidebar-nested",
+      filePath: "examples/base/sidebar-nested.tsx",
+    },
+    "sidebar-peek": {
+      name: "sidebar-peek",
+      filePath: "examples/base/sidebar-peek.tsx",
+    },
+    "sidebar-right": {
+      name: "sidebar-right",
+      filePath: "examples/base/sidebar-right.tsx",
+    },
     "sidebar-rsc": {
       name: "sidebar-rsc",
       filePath: "examples/base/sidebar-rsc.tsx",
@@ -1752,6 +1776,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "sidebar-rtl": {
       name: "sidebar-rtl",
       filePath: "examples/base/sidebar-rtl.tsx",
+    },
+    "sidebar-sections": {
+      name: "sidebar-sections",
+      filePath: "examples/base/sidebar-sections.tsx",
+    },
+    "sidebar-status": {
+      name: "sidebar-status",
+      filePath: "examples/base/sidebar-status.tsx",
     },
     "skeleton-avatar": {
       name: "skeleton-avatar",
@@ -3731,6 +3763,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "shimmer-spread",
       filePath: "examples/aria/shimmer-spread.tsx",
     },
+    "sidebar-actions": {
+      name: "sidebar-actions",
+      filePath: "examples/aria/sidebar-actions.tsx",
+    },
     "sidebar-controlled": {
       name: "sidebar-controlled",
       filePath: "examples/aria/sidebar-controlled.tsx",
@@ -3738,6 +3774,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "sidebar-demo": {
       name: "sidebar-demo",
       filePath: "examples/aria/sidebar-demo.tsx",
+    },
+    "sidebar-floating": {
+      name: "sidebar-floating",
+      filePath: "examples/aria/sidebar-floating.tsx",
     },
     "sidebar-footer": {
       name: "sidebar-footer",
@@ -3759,6 +3799,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "sidebar-header",
       filePath: "examples/aria/sidebar-header.tsx",
     },
+    "sidebar-icon": {
+      name: "sidebar-icon",
+      filePath: "examples/aria/sidebar-icon.tsx",
+    },
     "sidebar-menu-action": {
       name: "sidebar-menu-action",
       filePath: "examples/aria/sidebar-menu-action.tsx",
@@ -3779,6 +3823,18 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "sidebar-menu",
       filePath: "examples/aria/sidebar-menu.tsx",
     },
+    "sidebar-nested": {
+      name: "sidebar-nested",
+      filePath: "examples/aria/sidebar-nested.tsx",
+    },
+    "sidebar-peek": {
+      name: "sidebar-peek",
+      filePath: "examples/aria/sidebar-peek.tsx",
+    },
+    "sidebar-right": {
+      name: "sidebar-right",
+      filePath: "examples/aria/sidebar-right.tsx",
+    },
     "sidebar-rsc": {
       name: "sidebar-rsc",
       filePath: "examples/aria/sidebar-rsc.tsx",
@@ -3786,6 +3842,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "sidebar-rtl": {
       name: "sidebar-rtl",
       filePath: "examples/aria/sidebar-rtl.tsx",
+    },
+    "sidebar-sections": {
+      name: "sidebar-sections",
+      filePath: "examples/aria/sidebar-sections.tsx",
+    },
+    "sidebar-status": {
+      name: "sidebar-status",
+      filePath: "examples/aria/sidebar-status.tsx",
     },
     "skeleton-avatar": {
       name: "skeleton-avatar",
@@ -5793,6 +5857,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "shimmer-spread",
       filePath: "examples/radix/shimmer-spread.tsx",
     },
+    "sidebar-actions": {
+      name: "sidebar-actions",
+      filePath: "examples/radix/sidebar-actions.tsx",
+    },
     "sidebar-controlled": {
       name: "sidebar-controlled",
       filePath: "examples/radix/sidebar-controlled.tsx",
@@ -5800,6 +5868,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "sidebar-demo": {
       name: "sidebar-demo",
       filePath: "examples/radix/sidebar-demo.tsx",
+    },
+    "sidebar-floating": {
+      name: "sidebar-floating",
+      filePath: "examples/radix/sidebar-floating.tsx",
     },
     "sidebar-footer": {
       name: "sidebar-footer",
@@ -5821,6 +5893,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "sidebar-header",
       filePath: "examples/radix/sidebar-header.tsx",
     },
+    "sidebar-icon": {
+      name: "sidebar-icon",
+      filePath: "examples/radix/sidebar-icon.tsx",
+    },
     "sidebar-menu-action": {
       name: "sidebar-menu-action",
       filePath: "examples/radix/sidebar-menu-action.tsx",
@@ -5841,6 +5917,18 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "sidebar-menu",
       filePath: "examples/radix/sidebar-menu.tsx",
     },
+    "sidebar-nested": {
+      name: "sidebar-nested",
+      filePath: "examples/radix/sidebar-nested.tsx",
+    },
+    "sidebar-peek": {
+      name: "sidebar-peek",
+      filePath: "examples/radix/sidebar-peek.tsx",
+    },
+    "sidebar-right": {
+      name: "sidebar-right",
+      filePath: "examples/radix/sidebar-right.tsx",
+    },
     "sidebar-rsc": {
       name: "sidebar-rsc",
       filePath: "examples/radix/sidebar-rsc.tsx",
@@ -5848,6 +5936,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "sidebar-rtl": {
       name: "sidebar-rtl",
       filePath: "examples/radix/sidebar-rtl.tsx",
+    },
+    "sidebar-sections": {
+      name: "sidebar-sections",
+      filePath: "examples/radix/sidebar-sections.tsx",
+    },
+    "sidebar-status": {
+      name: "sidebar-status",
+      filePath: "examples/radix/sidebar-status.tsx",
     },
     "skeleton-avatar": {
       name: "skeleton-avatar",
@@ -6612,34 +6708,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "carousel-spacing": {
       name: "carousel-spacing",
       filePath: "examples/__styles__/base-fabricator/carousel-spacing.tsx",
-    },
-    "chart-demo": {
-      name: "chart-demo",
-      filePath: "examples/__styles__/base-fabricator/chart-demo.tsx",
-    },
-    "chart-example-axis": {
-      name: "chart-example-axis",
-      filePath: "examples/__styles__/base-fabricator/chart-example-axis.tsx",
-    },
-    "chart-example-grid": {
-      name: "chart-example-grid",
-      filePath: "examples/__styles__/base-fabricator/chart-example-grid.tsx",
-    },
-    "chart-example-legend": {
-      name: "chart-example-legend",
-      filePath: "examples/__styles__/base-fabricator/chart-example-legend.tsx",
-    },
-    "chart-example-tooltip": {
-      name: "chart-example-tooltip",
-      filePath: "examples/__styles__/base-fabricator/chart-example-tooltip.tsx",
-    },
-    "chart-example": {
-      name: "chart-example",
-      filePath: "examples/__styles__/base-fabricator/chart-example.tsx",
-    },
-    "chart-tooltip": {
-      name: "chart-tooltip",
-      filePath: "examples/__styles__/base-fabricator/chart-tooltip.tsx",
     },
     "checkbox-basic": {
       name: "checkbox-basic",
@@ -7724,6 +7792,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "shimmer-spread",
       filePath: "examples/__styles__/base-fabricator/shimmer-spread.tsx",
     },
+    "sidebar-actions": {
+      name: "sidebar-actions",
+      filePath: "examples/__styles__/base-fabricator/sidebar-actions.tsx",
+    },
     "sidebar-controlled": {
       name: "sidebar-controlled",
       filePath: "examples/__styles__/base-fabricator/sidebar-controlled.tsx",
@@ -7731,6 +7803,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "sidebar-demo": {
       name: "sidebar-demo",
       filePath: "examples/__styles__/base-fabricator/sidebar-demo.tsx",
+    },
+    "sidebar-floating": {
+      name: "sidebar-floating",
+      filePath: "examples/__styles__/base-fabricator/sidebar-floating.tsx",
     },
     "sidebar-footer": {
       name: "sidebar-footer",
@@ -7753,6 +7829,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "sidebar-header",
       filePath: "examples/__styles__/base-fabricator/sidebar-header.tsx",
     },
+    "sidebar-icon": {
+      name: "sidebar-icon",
+      filePath: "examples/__styles__/base-fabricator/sidebar-icon.tsx",
+    },
     "sidebar-menu-action": {
       name: "sidebar-menu-action",
       filePath: "examples/__styles__/base-fabricator/sidebar-menu-action.tsx",
@@ -7774,9 +7854,29 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "sidebar-menu",
       filePath: "examples/__styles__/base-fabricator/sidebar-menu.tsx",
     },
+    "sidebar-nested": {
+      name: "sidebar-nested",
+      filePath: "examples/__styles__/base-fabricator/sidebar-nested.tsx",
+    },
+    "sidebar-peek": {
+      name: "sidebar-peek",
+      filePath: "examples/__styles__/base-fabricator/sidebar-peek.tsx",
+    },
+    "sidebar-right": {
+      name: "sidebar-right",
+      filePath: "examples/__styles__/base-fabricator/sidebar-right.tsx",
+    },
     "sidebar-rsc": {
       name: "sidebar-rsc",
       filePath: "examples/__styles__/base-fabricator/sidebar-rsc.tsx",
+    },
+    "sidebar-sections": {
+      name: "sidebar-sections",
+      filePath: "examples/__styles__/base-fabricator/sidebar-sections.tsx",
+    },
+    "sidebar-status": {
+      name: "sidebar-status",
+      filePath: "examples/__styles__/base-fabricator/sidebar-status.tsx",
     },
     "skeleton-avatar": {
       name: "skeleton-avatar",
@@ -8492,34 +8592,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "carousel-spacing": {
       name: "carousel-spacing",
       filePath: "examples/__styles__/aria-fabricator/carousel-spacing.tsx",
-    },
-    "chart-demo": {
-      name: "chart-demo",
-      filePath: "examples/__styles__/aria-fabricator/chart-demo.tsx",
-    },
-    "chart-example-axis": {
-      name: "chart-example-axis",
-      filePath: "examples/__styles__/aria-fabricator/chart-example-axis.tsx",
-    },
-    "chart-example-grid": {
-      name: "chart-example-grid",
-      filePath: "examples/__styles__/aria-fabricator/chart-example-grid.tsx",
-    },
-    "chart-example-legend": {
-      name: "chart-example-legend",
-      filePath: "examples/__styles__/aria-fabricator/chart-example-legend.tsx",
-    },
-    "chart-example-tooltip": {
-      name: "chart-example-tooltip",
-      filePath: "examples/__styles__/aria-fabricator/chart-example-tooltip.tsx",
-    },
-    "chart-example": {
-      name: "chart-example",
-      filePath: "examples/__styles__/aria-fabricator/chart-example.tsx",
-    },
-    "chart-tooltip": {
-      name: "chart-tooltip",
-      filePath: "examples/__styles__/aria-fabricator/chart-tooltip.tsx",
     },
     "checkbox-basic": {
       name: "checkbox-basic",
@@ -9571,6 +9643,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "shimmer-spread",
       filePath: "examples/__styles__/aria-fabricator/shimmer-spread.tsx",
     },
+    "sidebar-actions": {
+      name: "sidebar-actions",
+      filePath: "examples/__styles__/aria-fabricator/sidebar-actions.tsx",
+    },
     "sidebar-controlled": {
       name: "sidebar-controlled",
       filePath: "examples/__styles__/aria-fabricator/sidebar-controlled.tsx",
@@ -9578,6 +9654,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "sidebar-demo": {
       name: "sidebar-demo",
       filePath: "examples/__styles__/aria-fabricator/sidebar-demo.tsx",
+    },
+    "sidebar-floating": {
+      name: "sidebar-floating",
+      filePath: "examples/__styles__/aria-fabricator/sidebar-floating.tsx",
     },
     "sidebar-footer": {
       name: "sidebar-footer",
@@ -9600,6 +9680,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "sidebar-header",
       filePath: "examples/__styles__/aria-fabricator/sidebar-header.tsx",
     },
+    "sidebar-icon": {
+      name: "sidebar-icon",
+      filePath: "examples/__styles__/aria-fabricator/sidebar-icon.tsx",
+    },
     "sidebar-menu-action": {
       name: "sidebar-menu-action",
       filePath: "examples/__styles__/aria-fabricator/sidebar-menu-action.tsx",
@@ -9621,9 +9705,29 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "sidebar-menu",
       filePath: "examples/__styles__/aria-fabricator/sidebar-menu.tsx",
     },
+    "sidebar-nested": {
+      name: "sidebar-nested",
+      filePath: "examples/__styles__/aria-fabricator/sidebar-nested.tsx",
+    },
+    "sidebar-peek": {
+      name: "sidebar-peek",
+      filePath: "examples/__styles__/aria-fabricator/sidebar-peek.tsx",
+    },
+    "sidebar-right": {
+      name: "sidebar-right",
+      filePath: "examples/__styles__/aria-fabricator/sidebar-right.tsx",
+    },
     "sidebar-rsc": {
       name: "sidebar-rsc",
       filePath: "examples/__styles__/aria-fabricator/sidebar-rsc.tsx",
+    },
+    "sidebar-sections": {
+      name: "sidebar-sections",
+      filePath: "examples/__styles__/aria-fabricator/sidebar-sections.tsx",
+    },
+    "sidebar-status": {
+      name: "sidebar-status",
+      filePath: "examples/__styles__/aria-fabricator/sidebar-status.tsx",
     },
     "skeleton-avatar": {
       name: "skeleton-avatar",
@@ -10346,35 +10450,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "carousel-spacing": {
       name: "carousel-spacing",
       filePath: "examples/__styles__/radix-fabricator/carousel-spacing.tsx",
-    },
-    "chart-demo": {
-      name: "chart-demo",
-      filePath: "examples/__styles__/radix-fabricator/chart-demo.tsx",
-    },
-    "chart-example-axis": {
-      name: "chart-example-axis",
-      filePath: "examples/__styles__/radix-fabricator/chart-example-axis.tsx",
-    },
-    "chart-example-grid": {
-      name: "chart-example-grid",
-      filePath: "examples/__styles__/radix-fabricator/chart-example-grid.tsx",
-    },
-    "chart-example-legend": {
-      name: "chart-example-legend",
-      filePath: "examples/__styles__/radix-fabricator/chart-example-legend.tsx",
-    },
-    "chart-example-tooltip": {
-      name: "chart-example-tooltip",
-      filePath:
-        "examples/__styles__/radix-fabricator/chart-example-tooltip.tsx",
-    },
-    "chart-example": {
-      name: "chart-example",
-      filePath: "examples/__styles__/radix-fabricator/chart-example.tsx",
-    },
-    "chart-tooltip": {
-      name: "chart-tooltip",
-      filePath: "examples/__styles__/radix-fabricator/chart-tooltip.tsx",
     },
     "checkbox-basic": {
       name: "checkbox-basic",
@@ -11452,6 +11527,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "shimmer-spread",
       filePath: "examples/__styles__/radix-fabricator/shimmer-spread.tsx",
     },
+    "sidebar-actions": {
+      name: "sidebar-actions",
+      filePath: "examples/__styles__/radix-fabricator/sidebar-actions.tsx",
+    },
     "sidebar-controlled": {
       name: "sidebar-controlled",
       filePath: "examples/__styles__/radix-fabricator/sidebar-controlled.tsx",
@@ -11459,6 +11538,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "sidebar-demo": {
       name: "sidebar-demo",
       filePath: "examples/__styles__/radix-fabricator/sidebar-demo.tsx",
+    },
+    "sidebar-floating": {
+      name: "sidebar-floating",
+      filePath: "examples/__styles__/radix-fabricator/sidebar-floating.tsx",
     },
     "sidebar-footer": {
       name: "sidebar-footer",
@@ -11481,6 +11564,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "sidebar-header",
       filePath: "examples/__styles__/radix-fabricator/sidebar-header.tsx",
     },
+    "sidebar-icon": {
+      name: "sidebar-icon",
+      filePath: "examples/__styles__/radix-fabricator/sidebar-icon.tsx",
+    },
     "sidebar-menu-action": {
       name: "sidebar-menu-action",
       filePath: "examples/__styles__/radix-fabricator/sidebar-menu-action.tsx",
@@ -11502,9 +11589,29 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "sidebar-menu",
       filePath: "examples/__styles__/radix-fabricator/sidebar-menu.tsx",
     },
+    "sidebar-nested": {
+      name: "sidebar-nested",
+      filePath: "examples/__styles__/radix-fabricator/sidebar-nested.tsx",
+    },
+    "sidebar-peek": {
+      name: "sidebar-peek",
+      filePath: "examples/__styles__/radix-fabricator/sidebar-peek.tsx",
+    },
+    "sidebar-right": {
+      name: "sidebar-right",
+      filePath: "examples/__styles__/radix-fabricator/sidebar-right.tsx",
+    },
     "sidebar-rsc": {
       name: "sidebar-rsc",
       filePath: "examples/__styles__/radix-fabricator/sidebar-rsc.tsx",
+    },
+    "sidebar-sections": {
+      name: "sidebar-sections",
+      filePath: "examples/__styles__/radix-fabricator/sidebar-sections.tsx",
+    },
+    "sidebar-status": {
+      name: "sidebar-status",
+      filePath: "examples/__styles__/radix-fabricator/sidebar-status.tsx",
     },
     "skeleton-avatar": {
       name: "skeleton-avatar",

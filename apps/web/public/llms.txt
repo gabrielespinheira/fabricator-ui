@@ -107,7 +107,6 @@ The Fabricator design language rests on these systems, shipped in the `foundatio
 - [Card](https://fabricator-ui.com/docs/components/base/card.md): Displays a card with header, content, and footer.
 - [Table](https://fabricator-ui.com/docs/components/base/table.md): A responsive table component.
 - [Data Table](https://fabricator-ui.com/docs/components/base/data-table.md): Powerful table and datagrids built using TanStack Table.
-- [Chart](https://fabricator-ui.com/docs/components/base/chart.md): Beautiful charts. Built using Recharts. Copy and paste into your apps.
 - [Carousel](https://fabricator-ui.com/docs/components/base/carousel.md): A carousel with motion and swipe built using Embla.
 - [Aspect Ratio](https://fabricator-ui.com/docs/components/base/aspect-ratio.md): Displays content within a desired ratio.
 - [Typography](https://fabricator-ui.com/docs/components/base/typography.md): Styles for headings, paragraphs, lists, etc.

@@ -77,7 +77,7 @@ export default function IndexPage() {
           href="/docs/changelog"
           className="group/badge inline-flex h-10 items-center gap-1.5 rounded-full border border-border px-4 text-sm font-medium transition-[background-color,scale] duration-moderate ease-spring outline-none hover:bg-hover focus-visible:ring-2 focus-visible:ring-focus-ring active:scale-[0.97]"
         >
-          Now with Fluid Hover
+          v{siteConfig.version}
           <ArrowRightIcon className="size-3.5 text-muted-foreground transition-transform duration-moderate ease-spring group-hover/badge:translate-x-0.5" />
         </Link>
         <h1 className="mt-7 max-w-[16ch] text-[34px] leading-[1.06] font-medium tracking-[-0.022em] text-balance sm:max-w-none sm:text-[40px]">

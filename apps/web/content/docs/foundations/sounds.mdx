@@ -9,11 +9,21 @@ description: Short, quiet interface sounds synthesized in the browser, off until
 npx fabricator-ui@latest add sounds
 ```
 
-This adds `lib/sounds.ts`, the sound engine, and `components/sound-effects.tsx`, which plays sounds for every component. There are no audio files and no dependencies: each sound is a few milliseconds of oscillators and filtered noise, made with the Web Audio API when it plays.
+This adds `lib/sounds.ts`, the sound engine, and `components/sound-effects.tsx`, which plays sounds for every component. There are no audio files and no dependencies: each sound is a few short layers of oscillators and filtered noise, made with the Web Audio API when it plays.
 
 ## The catalogue
 
-Fifteen sounds, each made for one kind of moment. Press one to hear it.
+Thirty-two sounds, each made for one kind of component. Every family has its own material, so you can tell what you touched without looking:
+
+- **Buttons** are wood: a knock that gets heavier from secondary to primary, and a damped thud for destructive actions.
+- **Selection controls** are a mechanism: a checkbox clicks twice like a check mark being drawn, a toggle presses in and catches, and a radio clicks and rings.
+- **Switches** are liquid: a soft, round drop as the thumb settles on, and a quieter sigh as it lets go.
+- **Rows and links** are glass: a tick light enough for every menu item.
+- **Tabs** are bells, tuned to a chord across their positions.
+- **Surfaces** each move differently: menus pop, dialogs bloom on a fifth, alert dialogs open on a minor third, sheets and drawers move air, and accordions unfold.
+- **Toasts** chime by type: info, success, warning and error each have their own.
+
+Press one to hear it.
 
 <SoundCatalog />
 
@@ -48,22 +58,32 @@ Sounds are off until `enabled` is `true`, or until you call `setSoundsEnabled(tr
 
 ## What plays when
 
-The sounds follow one rule set, the same one Bencho's components use: turning something on plays the selection mark, turning it off a falling note, opening a surface two notes a fifth apart, and committing an action a slow, settling note.
+| Component                                                                        | Sound                                              |
+| -------------------------------------------------------------------------------- | -------------------------------------------------- |
+| Primary button                                                                   | `press`                                            |
+| Outline, secondary or ghost button                                               | `tap`                                              |
+| Destructive button                                                               | `thud`                                             |
+| Link button, menu item, sidebar and navigation link, breadcrumb, tree item       | `tick`                                             |
+| Checkbox, menu checkbox                                                          | `check` on, `uncheck` off                          |
+| Switch                                                                           | `toggle-on` on, `toggle-off` off                   |
+| Toggle, toggle group item                                                        | `latch` pressed, `unlatch` released                |
+| Radio, select and combobox option, command item, menu radio, calendar day        | `pick`                                             |
+| Tab                                                                              | `note`, one chord tone per position                |
+| Pagination, calendar month buttons                                               | `page`, higher for next, lower for previous        |
+| Carousel previous and next                                                       | `whisk`                                            |
+| Accordion, collapsible, `<details>`                                              | `expand` and `collapse`                            |
+| Dropdown, context menu, menubar, popover, select, combobox, hover card, nav menu | `pop` and `dismiss`                                |
+| Dialog, command palette, Search                                                  | `open` and `close`                                 |
+| Alert dialog                                                                     | `alert` and `close`                                |
+| Sheet, drawer                                                                    | `slide-in` and `slide-out`                         |
+| Toast                                                                            | `notify`, `success`, `warning` or `error`, by type |
+| Slider                                                                           | `notch`, pitched by the value                      |
+| Resizable handle                                                                 | `grab` and `drop`                                  |
+| A control with `aria-disabled="true"`                                            | `deny`                                             |
 
-| Interaction                                                                               | Sound                                    |
-| ----------------------------------------------------------------------------------------- | ---------------------------------------- |
-| Button (outline, secondary, ghost, link), menu item, button link                          | `tap`                                    |
-| Primary or destructive button                                                             | `success`                                |
-| Radio, option, menu radio                                                                 | `tap`                                    |
-| Checkbox, menu checkbox                                                                   | `check` on, `uncheck` off                |
-| Switch, toggle, toggle group item                                                         | `toggle-on` on, `toggle-off` off         |
-| Tab                                                                                       | `note`, one chord tone per position      |
-| Dialog, alert dialog, sheet, drawer, popover, menus, select, combobox, hover card, Search | `open` as it opens, `close` as it closes |
-| Toast                                                                                     | `notify`                                 |
-| Slider step                                                                               | `notch`                                  |
-| A control with `aria-disabled="true"`                                                     | `deny`                                   |
+Small buttons sound slightly higher and large ones slightly lower. Base UI's Button doesn't set `data-variant`, so the variant is read from the classes every style gives it.
 
-Triggers that open a popup stay quiet, so opening a menu plays one `open` rather than a tap and an open. A click that also closes a popup (a Cancel button) plays only `close`. Tooltips never play: they appear too often.
+Triggers that open a popup stay quiet, so opening a menu plays one `pop` rather than a tap and a pop. A click that closes a popup plays only one sound: picking an option plays `pick`, and Cancel plays the surface closing. Surfaces only sound when someone has just clicked or typed, so a hover card or navigation menu opening under the pointer stays quiet. A loading toast plays when it settles into success or error. Tooltips and the sidebar toggle never play: they happen too often.
 
 ## Choose a sound
 
@@ -99,9 +119,9 @@ const [enabled, setEnabled] = useSoundsEnabled()
 | `setSoundsEnabled(enabled)` | Turns sounds on or off. They start off.                                                                                               |
 | `useSoundsEnabled()`        | `[enabled, setEnabled]`, kept in sync everywhere.                                                                                     |
 | `setSoundVolume(volume)`    | The master volume, 0 to 1 (0.6 by default).                                                                                           |
-| `SOUNDS`                    | The catalogue: name, category, description, length and pitch.                                                                         |
+| `SOUNDS`                    | The catalogue: name, category, description, where it plays, length and pitch.                                                         |
 
-The same sound can't repeat within 35ms, and no more than six play at once, so a fast drag or a burst of events stays quiet.
+The same sound can't repeat within 35ms, and no more than six play at once, so a fast drag or a burst of events stays quiet. Each play is detuned by about 1%, so a sound repeated many times doesn't sound mechanical.
 
 ## Accessibility
 
@@ -111,4 +131,4 @@ The same sound can't repeat within 35ms, and no more than six play at once, so a
 
 ## Credits
 
-The catalogue is inspired by [Bencho's sound library](https://bencho.dev/sounds). The sounds themselves are original, synthesized by `lib/sounds.ts`.
+The catalogue's roles are inspired by [Bencho's sound library](https://bencho.dev/sounds). The sounds themselves are original, synthesized by `lib/sounds.ts`.

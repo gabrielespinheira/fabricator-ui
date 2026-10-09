@@ -263,7 +263,7 @@ npx fabricator-ui@latest doctor
 **Named preset:** `fabricator` (default)
 **Templates:** `next`, `vite`, `start`, `react-router`, `astro` (all support `--monorepo`) and `laravel` (not supported for monorepo)
 **Bases:** `base` (Base UI, default), `radix`, `aria` (React Aria Components)
-**Preset codes:** Version-prefixed base62 strings (e.g. `a2r6bw` or `b0`), from [fabricator-ui.com/create](https://fabricator-ui.com/create).
+**Preset codes:** Version-prefixed base62 strings (e.g. `a2r6bw` or `b0`).
 
 ## Detailed References
 

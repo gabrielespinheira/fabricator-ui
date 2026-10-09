@@ -20,6 +20,7 @@ import {
   SurfaceNesting,
   SurfaceOverlays,
 } from "@/components/foundations/surface-demos"
+import { SurfaceTintPicker } from "@/components/foundations/surface-tint-picker"
 import {
   TypographyRoles,
   TypographyWeights,
@@ -42,6 +43,7 @@ export const foundationsMdxComponents = {
   SurfaceLadder,
   SurfaceNesting,
   SurfaceOverlays,
+  SurfaceTintPicker,
   TypographyRoles,
   TypographyWeights,
   TypographyWeightState,

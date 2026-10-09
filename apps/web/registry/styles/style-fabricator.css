@@ -1614,6 +1614,11 @@
 
 /* MARK: Questionnaire */
 
+  /* The Fabricator questionnaire (registry/fabricator/shared/ui/questionnaire.tsx)
+     reuses the library's controls: each mark stacks the Checkbox or Radio Group
+     item placeholders, the free-text answer the Input's, the shortcut the
+     Kbd's. The rules below only add what the questionnaire context needs. */
+
   .cn-questionnaire {
     @apply gap-3;
   }
@@ -1628,67 +1633,73 @@
   }
 
   .cn-questionnaire-title {
-    @apply text-foreground text-[16px] leading-snug font-semibold [&:not(:has(~[data-slot=questionnaire-description]))]:mb-1;
+    @apply text-foreground mb-0.5 text-[16px] leading-snug font-semibold;
   }
 
   .cn-questionnaire-description {
     @apply text-muted-foreground text-[13px];
   }
 
-  /* Choices bleed 8px each side so the indicator lines up with the title. */
+  /* Choices bleed 8px each side so the mark lines up with the title. */
   .cn-questionnaire-choices {
     @apply -mx-2 gap-0.5;
   }
 
-  /* Rows, as in Fluid Functionalism's question card: muted at rest, hover
-     fill and foreground when lit, bg-active and semibold when chosen. Focus
-     is the 1px blue ring; colour moves on the fast spring. */
+  /* A row is a Field choice card without the frame: 13px foreground label,
+     hover tint, the active step once chosen, and the 1px focus ring while its
+     input has keyboard focus. Colour moves on the fast spring. Rows keep the
+     44px touch target on small screens (padded so one line sits centred) and
+     tighten to 36px from sm up. */
   .cn-questionnaire-choice {
-    @apply text-muted-foreground min-h-9 gap-2.5 rounded-lg bg-transparent px-2 py-2 text-[13px] duration-fast ease-spring hover:bg-hover hover:text-foreground data-checked:bg-active data-checked:text-foreground data-checked:font-semibold data-invalid:ring-1 data-invalid:ring-destructive/50 has-[>input:focus-visible]:ring-1 has-[>input:focus-visible]:ring-ring;
+    @apply text-foreground gap-2.5 rounded-lg bg-transparent px-2 py-3 sm:min-h-9 sm:py-2 text-[13px] duration-fast ease-spring hover:bg-hover data-checked:bg-active data-checked:hover:bg-active has-[>input:focus-visible]:ring-1 has-[>input:focus-visible]:ring-focus-ring;
   }
 
-  /* Radio / checkbox mark: 1.5px border ring; checked drops the ring and
-     shows the foreground dot or check. */
+  /* The Checkbox / Radio mark, lit by the whole row: the row's hover firms
+     the outline and its press gives the mark the control's scale. */
   .cn-questionnaire-choice-indicator {
-    @apply border-border size-4 translate-y-px rounded-[5px] border-[1.5px] bg-transparent transition-colors duration-fast ease-spring group-hover/questionnaire-choice:border-neutral-400 dark:group-hover/questionnaire-choice:border-neutral-500 group-data-checked/questionnaire-choice:border-transparent dark:group-data-checked/questionnaire-choice:border-transparent group-data-checked/questionnaire-choice:text-foreground;
+    @apply group-hover/questionnaire-choice:border-foreground/45 data-checked:group-hover/questionnaire-choice:border-foreground aria-invalid:group-hover/questionnaire-choice:border-destructive group-active/questionnaire-choice:scale-90 motion-reduce:group-active/questionnaire-choice:scale-100;
   }
 
+  /* The Fabricator dot and check are the Radio Group and Checkbox ones; these
+     two placeholders only appear in the upstream markup. */
   .cn-questionnaire-choice-indicator-dot {
-    @apply bg-foreground size-2 duration-fast ease-spring animate-in zoom-in-50 fade-in-0 motion-reduce:zoom-in-100;
+    @apply bg-foreground size-2;
   }
 
   .cn-questionnaire-choice-indicator-check {
-    @apply size-3.5 stroke-2 duration-fast ease-spring animate-in zoom-in-75 fade-in-0 motion-reduce:zoom-in-100;
+    @apply size-3 stroke-[3];
   }
 
   .cn-questionnaire-choice-content {
     @apply gap-0.5;
   }
 
+  /* Captions: 12px muted, as in Field. */
   .cn-questionnaire-choice-description {
     @apply text-muted-foreground text-[12px] font-normal;
   }
 
-  /* Shortcut key: a kbd chip; inverted once its row is chosen. */
+  /* The Kbd keycap; it takes the foreground once its row is chosen. */
   .cn-questionnaire-shortcut {
-    @apply bg-hover text-muted-foreground h-[18px] min-w-[18px] translate-y-0 items-center justify-center rounded-[5px] px-1 font-sans text-[11px] leading-none font-normal transition-colors duration-fast group-data-checked/questionnaire-choice:bg-foreground group-data-checked/questionnaire-choice:text-background;
+    @apply transition-colors duration-fast ease-spring group-data-checked/questionnaire-choice:text-foreground;
   }
 
+  /* Inside the choices, back out of their bleed so the field lines up with
+     the text. */
   .cn-questionnaire-input-wrapper {
+    @apply in-data-[slot=questionnaire-choices]:mx-2 in-data-[slot=questionnaire-choices]:mt-1;
+  }
+
+  .cn-questionnaire-input {
     @apply w-full;
   }
 
-  /* Free-text answer: the input recipe (hairline ring, no blue halo). */
-  .cn-questionnaire-input {
-    @apply ring-border placeholder:text-muted-foreground hover:bg-muted/50 focus-visible:bg-card aria-invalid:ring-destructive/50 aria-invalid:hover:bg-destructive-light/60 h-9 rounded-lg border-0 bg-transparent px-2.5 py-1 text-[13px] ring-1 duration-fast ease-spring;
-  }
-
   .cn-questionnaire-error {
-    @apply mt-1.5 text-[12px];
+    @apply text-[12px];
   }
 
   .cn-questionnaire-actions {
-    @apply gap-2 sm:min-h-9;
+    @apply mt-1 gap-2 sm:min-h-9;
   }
 
 /* MARK: Radio Group */
@@ -1934,20 +1945,56 @@
 
 /* MARK: Sidebar */
 
-  /* Keeps the timing of the container's inline width transition, so the gap
-     and the panel move together. */
+  /* The gap and the container move together on the moderate tier: the
+     spring to open, the exit tween to close. A peeking sidebar lays out as
+     expanded (data-collapsible=""), so its card slides in on the spring. */
   .cn-sidebar-gap {
-    @apply transition-[width] duration-200 ease-linear;
+    @apply transition-[width] duration-moderate ease-spring group-data-[collapsible=icon]:duration-moderate-exit group-data-[collapsible=icon]:ease-exit group-data-[collapsible=offcanvas]:duration-moderate-exit group-data-[collapsible=offcanvas]:ease-exit motion-reduce:transition-none;
+  }
+
+  .cn-sidebar-container {
+    @apply transition-[left,right,width,padding] duration-moderate ease-spring group-data-[collapsible=icon]:duration-moderate-exit group-data-[collapsible=icon]:ease-exit group-data-[collapsible=offcanvas]:duration-moderate-exit group-data-[collapsible=offcanvas]:ease-exit motion-reduce:transition-none;
   }
 
   /* The panel is surface 2 (bg-sidebar). Floating: a rounded-xl surface
-     whose shadow ring is its edge (no ring/border). */
+     whose shadow ring is its edge (no ring/border). Peeking: a floating card
+     one surface up (surface 3, the sheet level). */
   .cn-sidebar-inner {
-    @apply bg-sidebar group-data-[variant=floating]:shadow-surface-2 group-data-[variant=floating]:rounded-xl;
+    @apply bg-sidebar transition-[border-radius,box-shadow,background-color] duration-moderate ease-spring group-data-[variant=floating]:shadow-surface-2 group-data-[variant=floating]:rounded-xl group-data-peeking:bg-surface-3 group-data-peeking:shadow-surface-3 group-data-peeking:rounded-xl;
   }
 
+  /* The edge handle: drag to resize, click to collapse. A hairline on the
+     sidebar's edge brightens on hover and while dragging. Collapsed, it only
+     expands. */
   .cn-sidebar-rail {
-    @apply hover:after:bg-border;
+    @apply cursor-col-resize group-data-[state=collapsed]:cursor-pointer after:bg-transparent after:transition-colors after:duration-fast hover:after:bg-foreground/25 data-dragging:after:bg-foreground/25 group-data-[collapsible=offcanvas]:hover:after:bg-border;
+  }
+
+  .cn-sidebar-rail-tooltip {
+    @apply py-1.5;
+  }
+
+  .cn-sidebar-rail-tooltip-verb {
+    @apply weight-semibold;
+  }
+
+  /* The collapsed sidebar's reveal strip: a hairline on its edge that shows
+     on hover and focus. */
+  .cn-sidebar-peek-strip {
+    @apply cursor-pointer after:absolute after:inset-y-0 after:w-px after:bg-border after:opacity-0 after:transition-opacity after:duration-fast hover:after:opacity-100 focus-visible:after:bg-ring focus-visible:after:opacity-100 data-[side=left]:after:left-0 data-[side=right]:after:right-0;
+  }
+
+  /* The panel glyph: the cut-out morphs on the moderate spring. */
+  .cn-sidebar-toggle-icon {
+    @apply size-4;
+  }
+
+  .cn-sidebar-toggle-icon-panel {
+    @apply transition-[d] duration-moderate ease-spring motion-reduce:transition-none;
+  }
+
+  .cn-sidebar-shortcut {
+    @apply -my-1;
   }
 
   /* Inset main area: surface 2 with its shadow ring, rounded-xl. */
@@ -1955,16 +2002,20 @@
     @apply bg-background md:peer-data-[variant=inset]:bg-surface-2 md:peer-data-[variant=inset]:shadow-surface-2 md:peer-data-[variant=inset]:m-2 md:peer-data-[variant=inset]:ms-0 md:peer-data-[variant=inset]:rounded-xl md:peer-data-[variant=inset]:peer-data-[state=collapsed]:ms-2;
   }
 
+  /* The field ladder: transparent at rest, a hover fill with a hairline,
+     the card fill while focused. */
   .cn-sidebar-input {
-    @apply bg-background h-8 w-full text-[13px] shadow-none;
+    @apply h-8 w-full bg-transparent text-[13px] shadow-[0_0_0_1px_transparent] hover:bg-hover hover:shadow-[0_0_0_1px_var(--border)] focus-visible:bg-card;
   }
 
   .cn-sidebar-header {
     @apply gap-2 p-2;
   }
 
+  /* The rows fade out under the header and footer while there is more to
+     scroll. */
   .cn-sidebar-content {
-    @apply no-scrollbar gap-0;
+    @apply no-scrollbar scroll-fade gap-0;
   }
 
   .cn-sidebar-footer {
@@ -1981,9 +2032,11 @@
 
   /* Each menu is a fluid hover container (relative isolate): a bg-hover
      highlight glides between its buttons, and the active button's bg-active
-     background slides between active buttons on the moderate spring. */
+     background slides between active buttons on the moderate spring. Rows
+     keep a 2px gap, so neighbouring highlights never touch; a press in the
+     gap goes to the nearest row. */
   .cn-sidebar-menu {
-    @apply relative isolate gap-0;
+    @apply relative isolate gap-0.5;
   }
 
   .cn-sidebar-group-content {
@@ -1991,22 +2044,45 @@
   }
 
   /* Group labels: 12px muted (full muted-foreground, not /70, to keep
-     4.5:1 on surface 2). */
+     4.5:1 on surface 2). A collapsible group's label (the one holding the
+     chevron) is its toggle: it pads past the header's action cluster, so the
+     chevron sits one gap left of it. */
   .cn-sidebar-group-label {
-    @apply text-muted-foreground ring-ring h-8 rounded-lg px-2 text-[12px] font-normal transition-[margin,opacity] duration-200 ease-linear group-data-[collapsible=icon]:-mt-8 group-data-[collapsible=icon]:opacity-0 focus-visible:ring-1 [&>svg]:size-4;
+    @apply text-muted-foreground ring-ring h-8 rounded-lg px-2 text-[12px] font-normal transition-[margin,opacity,color] duration-moderate ease-spring group-data-[collapsible=icon]:-mt-8 group-data-[collapsible=icon]:opacity-0 focus-visible:ring-1 [&>svg]:size-4 has-data-[slot=sidebar-group-label-chevron]:cursor-pointer has-data-[slot=sidebar-group-label-chevron]:gap-2 has-data-[slot=sidebar-group-label-chevron]:text-start has-data-[slot=sidebar-group-label-chevron]:pe-[var(--sidebar-group-actions-pad,0.5rem)] has-data-[slot=sidebar-group-label-chevron]:hover:text-foreground;
   }
 
+  /* The chevron takes an action-sized box. Open, it hides until the header
+     is hovered or focused (touch keeps it); closed, it stays as the reopen
+     cue. It points down while open. */
+  .cn-sidebar-group-label-chevron {
+    @apply -me-1.5 size-6 in-aria-[expanded=true]:w-0 in-aria-[expanded=true]:opacity-0 group-hover/group-header:w-6 group-hover/group-header:opacity-100 group-focus-within/group-header:w-6 group-focus-within/group-header:opacity-100 pointer-coarse:w-6 pointer-coarse:opacity-100 [&>svg]:size-4 [&>svg]:stroke-[1.5] [&>svg]:transition-transform [&>svg]:duration-fast [&>svg]:ease-spring in-aria-[expanded=true]:[&>svg]:rotate-90;
+  }
+
+  /* Header actions: 24px boxes on the rows' trailing axis. */
   .cn-sidebar-group-action {
-    @apply cursor-pointer text-muted-foreground ring-ring hover:bg-hover hover:text-foreground absolute top-3.5 end-3 w-5 rounded-md p-0 transition-colors duration-fast focus-visible:ring-1 [&>svg]:size-4;
+    @apply cursor-pointer text-muted-foreground ring-ring hover:bg-hover hover:text-foreground absolute top-3 end-3 size-6 rounded-md p-0 transition-colors duration-fast focus-visible:ring-1 [&>svg]:size-4 [&>svg]:stroke-[1.5] hover:[&>svg]:stroke-2;
+  }
+
+  .cn-sidebar-group-actions {
+    @apply top-3 end-3 gap-1;
+  }
+
+  /* Collapsible groups and sub-trees: height and opacity on the moderate
+     tier. Reduced motion keeps the fade. */
+  .cn-sidebar-collapse {
+    @apply transition-[grid-template-rows,opacity] duration-moderate ease-spring data-[state=closed]:opacity-0 data-[state=closed]:duration-moderate-exit data-[state=closed]:ease-exit motion-reduce:transition-opacity;
   }
 
   /* Rows: 32px, px-2, gap-2, rounded-lg, 13px, muted at rest. Hover and the
      lit row turn foreground (and thicken the icon); the active row is
-     foreground + semibold on bg-active. Inside a fluid menu the row paints no
-     hover or active background: the gliding highlight and the sliding
-     selection do. Pressed is a bg-active step. */
+     foreground + semibold on bg-active, without shifting layout. Inside a
+     fluid menu the row paints no hover or active background: the gliding
+     highlight and the sliding selection do. Pressed is a bg-active step.
+     The end padding clears the row's badge and actions exactly
+     (--sidebar-menu-gutter, published by the row); a row that publishes
+     nothing (the upstream markup) clears one action. */
   .cn-sidebar-menu-button {
-    @apply cursor-pointer text-muted-foreground ring-ring gap-2 rounded-lg px-2 text-start text-[13px] font-normal transition-[width,height,padding,color,background-color] duration-fast group-has-data-[sidebar=menu-action]/menu-item:pe-8 group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! focus-visible:ring-1 [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] hover:bg-hover hover:text-foreground hover:[&_svg]:stroke-2 active:bg-active active:text-foreground data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-active:bg-active data-active:text-foreground data-active:font-semibold data-active:[&_svg]:stroke-2 data-open:text-foreground in-data-[fluid-hover]:hover:bg-transparent in-data-[fluid-hover]:data-active:bg-transparent;
+    @apply cursor-pointer text-muted-foreground ring-ring gap-2 rounded-lg px-2 pe-[var(--sidebar-menu-gutter,0.5rem)] text-start text-[13px] weight-normal transition-[width,height,padding,color,background-color,font-variation-settings] duration-fast group-hover/menu-item:pe-[var(--sidebar-menu-gutter-hover,0.5rem)] group-focus-within/menu-item:pe-[var(--sidebar-menu-gutter-hover,0.5rem)] group-has-[>[data-sidebar=menu-action]]/menu-item:pe-[var(--sidebar-menu-gutter,2rem)] group-hover/menu-item:group-has-[>[data-sidebar=menu-action]]/menu-item:pe-[var(--sidebar-menu-gutter-hover,2rem)] group-focus-within/menu-item:group-has-[>[data-sidebar=menu-action]]/menu-item:pe-[var(--sidebar-menu-gutter-hover,2rem)] group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! focus-visible:ring-1 [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] hover:bg-hover hover:text-foreground hover:[&_svg]:stroke-2 active:bg-active active:text-foreground data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-active:bg-active data-active:text-foreground data-active:weight-semibold data-active:[&_svg]:stroke-2 data-open:text-foreground in-data-[fluid-hover]:hover:bg-transparent in-data-[fluid-hover]:data-active:bg-transparent;
   }
 
   .cn-sidebar-menu-button-aria {
@@ -2033,12 +2109,24 @@
     @apply h-12 text-[13px] group-data-[collapsible=icon]:p-0!;
   }
 
+  /* Status dots sit in the icon column: filled or ring, muted at rest and
+     foreground/60 when the row is lit or active. */
+  .cn-sidebar-menu-dot {
+    @apply size-2 text-muted-foreground/50 transition-colors duration-fast data-[dot=filled]:bg-current data-[dot=ring]:shadow-[inset_0_0_0_1px_currentColor] group-hover/menu-button:text-foreground/60 group-data-active/menu-button:text-foreground/60 group-data-fluid-hover-active/menu-button:text-foreground/60;
+  }
+
+  /* Row actions: 24px boxes centred on the badge's axis; with a badge on
+     the row, the action sits left of it. */
   .cn-sidebar-menu-action {
-    @apply cursor-pointer text-muted-foreground ring-ring hover:bg-hover hover:text-foreground peer-hover/menu-button:text-foreground peer-data-fluid-hover-active/menu-button:text-foreground absolute top-1.5 end-1 aspect-square w-5 rounded-md p-0 transition-colors duration-fast peer-data-[size=default]/menu-button:top-1.5 peer-data-[size=lg]/menu-button:top-3.5 peer-data-[size=sm]/menu-button:top-1 focus-visible:ring-1 [&>svg]:size-4;
+    @apply cursor-pointer text-muted-foreground ring-ring hover:bg-hover hover:text-foreground peer-hover/menu-button:text-foreground peer-data-fluid-hover-active/menu-button:text-foreground absolute top-1 end-1.5 size-6 rounded-md p-0 transition-[color,background-color,opacity] duration-fast group-has-[>[data-sidebar=menu-badge]]/menu-item:end-8.5 group-has-[>[data-sidebar=menu-badge]]/menu-sub-item:end-8.5 peer-data-[size=lg]/menu-button:top-3 peer-data-[size=sm]/menu-button:top-0.5 in-data-[sidebar=menu-sub-item]:top-0.5 focus-visible:ring-1 [&>svg]:size-4 [&>svg]:stroke-[1.5] hover:[&>svg]:stroke-2;
+  }
+
+  .cn-sidebar-menu-actions {
+    @apply top-1 end-1.5 gap-1 transition-opacity duration-fast group-has-[>[data-sidebar=menu-badge]]/menu-item:end-8.5 group-has-[>[data-sidebar=menu-badge]]/menu-sub-item:end-8.5 peer-data-[size=lg]/menu-button:top-3 peer-data-[size=sm]/menu-button:top-0.5 in-data-[sidebar=menu-sub-item]:top-0.5;
   }
 
   .cn-sidebar-menu-badge {
-    @apply text-muted-foreground peer-hover/menu-button:text-foreground peer-data-fluid-hover-active/menu-button:text-foreground peer-data-active/menu-button:text-foreground pointer-events-none absolute end-1 flex h-5 min-w-5 rounded-md px-1 text-[12px] font-medium tabular-nums peer-data-[size=default]/menu-button:top-1.5 peer-data-[size=lg]/menu-button:top-3.5 peer-data-[size=sm]/menu-button:top-1;
+    @apply text-muted-foreground weight-normal peer-hover/menu-button:text-foreground peer-data-fluid-hover-active/menu-button:text-foreground peer-data-active/menu-button:text-foreground peer-data-active/menu-button:weight-semibold pointer-events-none absolute end-2 top-1.5 flex h-5 min-w-5 rounded-md px-1 text-[12px] tabular-nums transition-[color,font-variation-settings] duration-fast peer-data-[size=lg]/menu-button:top-3.5 peer-data-[size=sm]/menu-button:top-1 in-data-[sidebar=menu-sub-item]:top-1;
   }
 
   .cn-sidebar-menu-skeleton {
@@ -2056,12 +2144,12 @@
   /* Sub-menus hang off a hairline under the parent icon (15px in), so a
      sub-row label lines up with the parent label. */
   .cn-sidebar-menu-sub {
-    @apply border-border ms-[15px] me-0 gap-0 border-s ps-2 pe-0 py-0.5 group-data-[collapsible=icon]:hidden;
+    @apply border-border ms-[15px] me-0 gap-0.5 border-s ps-2 pe-0 py-0.5 group-data-[collapsible=icon]:hidden;
   }
 
-  /* Sub-rows: 28px (24px small), same look as menu rows. */
+  /* Sub-rows: 28px (24px small), 2px apart, same look as menu rows. */
   .cn-sidebar-menu-sub-button {
-    @apply cursor-pointer text-muted-foreground ring-ring h-7 gap-2 rounded-lg px-2 text-[13px] transition-[color,background-color] duration-fast in-data-[slot=sidebar-menu-sub]:translate-x-0 focus-visible:ring-1 data-[size=sm]:h-6 data-[size=sm]:text-[12px] [&>svg]:size-4 [&>svg]:stroke-[1.5] [&>svg]:text-current hover:bg-hover hover:text-foreground active:bg-active active:text-foreground data-fluid-hover-active:text-foreground data-fluid-hover-active:[&>svg]:stroke-2 data-active:bg-active data-active:text-foreground data-active:font-semibold in-data-[fluid-hover]:hover:bg-transparent in-data-[fluid-hover]:data-active:bg-transparent;
+    @apply cursor-pointer text-muted-foreground ring-ring h-7 gap-2 rounded-lg px-2 pe-[var(--sidebar-menu-gutter,0.5rem)] text-[13px] weight-normal transition-[color,background-color,padding,font-variation-settings] duration-fast in-data-[slot=sidebar-menu-sub]:translate-x-0 group-hover/menu-sub-item:pe-[var(--sidebar-menu-gutter-hover,0.5rem)] group-focus-within/menu-sub-item:pe-[var(--sidebar-menu-gutter-hover,0.5rem)] focus-visible:ring-1 data-[size=sm]:h-6 data-[size=sm]:text-[12px] [&>svg]:size-4 [&>svg]:stroke-[1.5] [&>svg]:text-current hover:bg-hover hover:text-foreground active:bg-active active:text-foreground data-fluid-hover-active:text-foreground data-fluid-hover-active:[&>svg]:stroke-2 data-active:bg-active data-active:text-foreground data-active:weight-semibold in-data-[fluid-hover]:hover:bg-transparent in-data-[fluid-hover]:data-active:bg-transparent;
   }
 
 /* MARK: Skeleton */

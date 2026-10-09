@@ -1,11 +1,9 @@
 import * as React from "react"
 import Link from "next/link"
 
-import { getColors } from "@/lib/colors"
 import { siteConfig } from "@/lib/config"
 import { source } from "@/lib/source"
 import { CommandMenu } from "@/components/command-menu"
-import { DesignerActions } from "@/components/designer-actions"
 import { FluidNav, FluidNavLink } from "@/components/fabricator/fluid-nav"
 import { SiteSettingsMenu } from "@/components/fabricator/site-settings"
 import { StarsCount } from "@/components/github-link"
@@ -14,7 +12,6 @@ import { MobileNav } from "@/components/mobile-nav"
 
 /** The top bar for the homepage and the full-width pages. */
 export function SiteHeader() {
-  const colors = getColors()
   const pageTree = source.pageTree
   const navItems = siteConfig.navItems.filter((item) => item.href !== "/")
 
@@ -46,7 +43,6 @@ export function SiteHeader() {
               <FluidNavLink
                 key={item.href}
                 href={item.href}
-                match={item.href.startsWith("/charts") ? "/charts" : undefined}
                 className="h-9 px-3 text-[15px] font-medium"
               >
                 {item.label}
@@ -57,7 +53,6 @@ export function SiteHeader() {
         <div className="hidden justify-center lg:flex">
           <CommandMenu
             tree={pageTree}
-            colors={colors}
             navItems={siteConfig.navItems}
             trigger="pill"
           />
@@ -66,7 +61,6 @@ export function SiteHeader() {
           <div className="hidden w-32 sm:block lg:hidden">
             <CommandMenu
               tree={pageTree}
-              colors={colors}
               navItems={siteConfig.navItems}
               trigger="sidebar"
             />
@@ -84,10 +78,9 @@ export function SiteHeader() {
             </React.Suspense>
           </Link>
           <SiteSettingsMenu />
-          <DesignerActions />
           <Link
             href="/docs/installation"
-            className="flex h-10 items-center rounded-full bg-foreground px-4.5 text-[15px] font-medium text-background transition-[opacity,scale] duration-fast ease-spring outline-none group-has-data-[slot=designer]/layout:hidden hover:opacity-90 focus-visible:ring-1 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background active:scale-[0.97]"
+            className="flex h-10 items-center rounded-full bg-foreground px-4.5 text-[15px] font-medium text-background transition-[opacity,scale] duration-fast ease-spring outline-none hover:opacity-90 focus-visible:ring-1 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background active:scale-[0.97]"
           >
             Get started
           </Link>

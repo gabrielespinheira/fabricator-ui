@@ -13,6 +13,14 @@
 // only applied by the `fabricator` preset.
 
 import { STATUS_CSS_VARS } from "@/registry/fabricator/status-colors"
+import {
+  MUTED_FOREGROUND_STEP,
+  NEUTRAL_TINT,
+  SURFACE_STEPS,
+  surfaceLadder,
+  TINTED_NEUTRALS,
+  tintedCss,
+} from "@/registry/fabricator/surface-tint"
 
 type CssVars = {
   theme: Record<string, string>
@@ -26,30 +34,14 @@ export type CssObject = { [selector: string]: CssObject | string }
 // --- Surfaces ---------------------------------------------------------------
 // An eight-level ladder. Light: two tinted steps, then flat white separated by
 // shadow. Dark: each level lifts the background and adds an inset highlight.
+// Every level derives from the surface tint (--surface-hue, --surface-chroma;
+// see surface-tint.ts), which is neutral by default.
 
 const SURFACE_LEVELS = [1, 2, 3, 4, 5, 6, 7, 8] as const
 
-const LIGHT_SURFACES = [
-  "oklch(0.985 0 0)",
-  "oklch(0.991 0 0)",
-  "oklch(1 0 0)",
-  "oklch(1 0 0)",
-  "oklch(1 0 0)",
-  "oklch(1 0 0)",
-  "oklch(1 0 0)",
-  "oklch(1 0 0)",
-]
-
-const DARK_SURFACES = [
-  "oklch(0.205 0 0)",
-  "oklch(0.235 0 0)",
-  "oklch(0.264 0 0)",
-  "oklch(0.293 0 0)",
-  "oklch(0.321 0 0)",
-  "oklch(0.348 0 0)",
-  "oklch(0.375 0 0)",
-  "oklch(0.402 0 0)",
-]
+// The neutral ladder as literal colours, for the palette below.
+const LIGHT_SURFACES = surfaceLadder("light", NEUTRAL_TINT)
+const DARK_SURFACES = surfaceLadder("dark", NEUTRAL_TINT)
 
 // Drops double in size per level; spread is minus half the blur.
 const DROPS = [1, 3, 6, 12, 24, 48, 96]
@@ -156,6 +148,8 @@ export const FABRICATOR_FOUNDATIONS: { cssVars: CssVars; css: CssObject } = {
       ),
     },
     light: {
+      "surface-hue": String(NEUTRAL_TINT.hue),
+      "surface-chroma": String(NEUTRAL_TINT.chroma),
       "motion-scale": "1",
       ...Object.fromEntries(
         MOTION_TIERS.flatMap((tier) => [
@@ -165,7 +159,7 @@ export const FABRICATOR_FOUNDATIONS: { cssVars: CssVars; css: CssObject } = {
       ),
       ...Object.fromEntries(
         SURFACE_LEVELS.flatMap((level) => [
-          [`surface-${level}`, LIGHT_SURFACES[level - 1]],
+          [`surface-${level}`, tintedCss(SURFACE_STEPS.light[level - 1])],
           [`shadow-${level}`, lightShadow(level)],
         ])
       ),
@@ -173,7 +167,7 @@ export const FABRICATOR_FOUNDATIONS: { cssVars: CssVars; css: CssObject } = {
       overlay: "0 0 0",
       hover: "oklch(0 0 0 / 0.04)",
       active: "oklch(0 0 0 / 0.07)",
-      selected: "oklch(0.87 0 0)",
+      selected: tintedCss(TINTED_NEUTRALS.light.selected),
       tint: "oklch(0 0 0 / 0.08)",
       "tint-hover": "oklch(0 0 0 / 0.065)",
       "destructive-light": "oklch(0.971 0.013 17.4)",
@@ -183,7 +177,7 @@ export const FABRICATOR_FOUNDATIONS: { cssVars: CssVars; css: CssObject } = {
     dark: {
       ...Object.fromEntries(
         SURFACE_LEVELS.flatMap((level) => [
-          [`surface-${level}`, DARK_SURFACES[level - 1]],
+          [`surface-${level}`, tintedCss(SURFACE_STEPS.dark[level - 1])],
           [`shadow-${level}`, darkShadow(level)],
         ])
       ),
@@ -198,7 +192,7 @@ export const FABRICATOR_FOUNDATIONS: { cssVars: CssVars; css: CssObject } = {
       overlay: "255 255 255",
       hover: "oklch(1 0 0 / 0.06)",
       active: "oklch(1 0 0 / 0.1)",
-      selected: "oklch(0.439 0 0)",
+      selected: tintedCss(TINTED_NEUTRALS.dark.selected),
       tint: "oklch(1 0 0 / 0.25)",
       "tint-hover": "oklch(1 0 0 / 0.2)",
       "destructive-light": "oklch(0.258 0.089 26)",
@@ -380,6 +374,28 @@ export const FABRICATOR_PALETTE: CssVars = {
   },
 }
 
+// --- Tinted palette ---------------------------------------------------------
+// The palette above holds literal copies of the neutral surfaces. A project
+// that tints its surfaces points these tokens at them instead, so the page,
+// cards, popovers, the sidebar and muted fills follow the tint. The website
+// does this (toFabricatorStylesheet), and the Surfaces page copies it.
+
+const linkPalette = (mode: "light" | "dark") => ({
+  background: "var(--surface-1)",
+  card: "var(--surface-3)",
+  popover: "var(--surface-3)",
+  sidebar: "var(--surface-2)",
+  muted: tintedCss(TINTED_NEUTRALS[mode].muted),
+})
+
+export const SURFACE_PALETTE_LINKS = {
+  light: {
+    ...linkPalette("light"),
+    "muted-foreground": tintedCss(MUTED_FOREGROUND_STEP),
+  },
+  dark: linkPalette("dark"),
+}
+
 // --- CSS output -------------------------------------------------------------
 
 function serializeCss(object: CssObject, indent = ""): string {
@@ -401,7 +417,8 @@ function vars(entries: Record<string, string>, indent = "  ") {
 /**
  * The foundations and palette as a stylesheet, for the website. The selectors
  * are one notch more specific than `:root`/`.dark` so they win over tokens a
- * stylesheet defines later in the same file.
+ * stylesheet defines later in the same file. The palette is linked to the
+ * surfaces, so the site's surface setting retints everything.
  */
 export function toFabricatorStylesheet({
   light = "html:root",
@@ -409,8 +426,8 @@ export function toFabricatorStylesheet({
 }: { light?: string; dark?: string } = {}) {
   return [
     "/* Generated from registry/fabricator/foundations.ts by scripts/build-registry.mts. Do not edit. */",
-    `${light} {\n${vars({ ...FABRICATOR_FOUNDATIONS.cssVars.light, ...FABRICATOR_PALETTE.light })}\n}`,
-    `${dark} {\n${vars({ ...FABRICATOR_FOUNDATIONS.cssVars.dark, ...FABRICATOR_PALETTE.dark })}\n}`,
+    `${light} {\n${vars({ ...FABRICATOR_FOUNDATIONS.cssVars.light, ...FABRICATOR_PALETTE.light, ...SURFACE_PALETTE_LINKS.light })}\n}`,
+    `${dark} {\n${vars({ ...FABRICATOR_FOUNDATIONS.cssVars.dark, ...FABRICATOR_PALETTE.dark, ...SURFACE_PALETTE_LINKS.dark })}\n}`,
     `@theme inline {\n${vars({ ...FABRICATOR_FOUNDATIONS.cssVars.theme, ...FABRICATOR_PALETTE.theme })}\n}`,
     serializeCss(FABRICATOR_FOUNDATIONS.css),
     "",

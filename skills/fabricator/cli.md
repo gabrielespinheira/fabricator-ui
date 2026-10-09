@@ -298,7 +298,7 @@ Pass `--monorepo` with a template to scaffold a monorepo (the app lives in `apps
 Three ways to specify a preset via `init --preset` or `apply [preset]`:
 
 1. **Named:** `fabricator` (the default)
-2. **Code:** `a2r6bw` (version-prefixed base62 string, e.g. `a2r6bw` or `b0`), from [fabricator-ui.com/create](https://fabricator-ui.com/create)
+2. **Code:** `a2r6bw` (version-prefixed base62 string, e.g. `a2r6bw` or `b0`)
 3. **URL:** `"https://fabricator-ui.com/init?base=radix&preset=fabricator&..."`
 
 > **IMPORTANT:** Never try to decode, fetch, or resolve preset codes manually. Preset codes are opaque — pass them directly to `npx fabricator-ui@latest init --preset <code>` or `npx fabricator-ui@latest apply <code>` and let the CLI handle resolution.
