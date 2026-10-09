@@ -13,7 +13,7 @@ npx fabricator-ui@latest add foundations
 
 ## The ladder
 
-Each level pairs a background with a shadow: `bg-surface-N shadow-surface-N`. In light mode, levels 1 and 2 are off-white and everything from level 3 up is white: the shadow alone carries the elevation. In dark mode, each level is a step lighter than the one below, and the shadow adds a faint top highlight and ring.
+Each level pairs a background with a shadow: `bg-surface-N shadow-surface-N`. In light mode, levels 1 and 2 are off-white and everything from level 3 up is white (tinted, when you set a [base colour](#base-colour)): the shadow alone carries the elevation. In dark mode, each level is a step lighter than the one below, and the shadow adds a faint top highlight and ring.
 
 <SurfaceLadder />
 
@@ -27,7 +27,7 @@ Every surface derives from one base colour, held by two variables: `--surface-hu
 
 Each level takes a share of the chroma:
 
-- **Light mode** tints every level: most at the page (about `oklch(0.962 0.018)` at full strength), fading towards white at the top. Colour needs room below white, so each level gets a little darker as the tint grows, and `muted-foreground` darkens with it to stay AA on the page.
+- **Light mode** tints every level, like dark mode: the page takes 44% of the chroma (about `oklch(0.962 0.018)` at full strength) and the top level 21.5%. Colour needs room below white, so as the tint grows the ladder settles into a band just below white (0.962 to 0.981 at full strength), still lighter level by level, and `muted-foreground` darkens with it to stay AA on the page.
 - **Dark mode** carries the tint: level 1 takes 90% of the chroma, and each level above takes a little less, so the top of the ladder stays calm.
 
 At full strength, every level stays inside sRGB for any hue. Text stays AA wherever it was AA on the neutral ladder. The opaque `bg-selected` and `bg-muted` fills follow the tint too.

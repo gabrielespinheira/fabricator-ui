@@ -69,6 +69,20 @@ describe("surface tint", () => {
       MUTED_FOREGROUND_STEP,
     ]
 
+    it(`${mode}: rises level by level and keeps the tint to the top`, () => {
+      for (const chroma of STRENGTHS) {
+        const values = SURFACE_STEPS[mode].map((step) => ({
+          l: step.l - chroma * (step.drop ?? 0),
+          c: chroma * step.share,
+        }))
+        values.slice(1).forEach((value, index) => {
+          expect(value.l).toBeGreaterThan(values[index].l)
+        })
+        // Like dark, the top level carries a good part of the page's tint.
+        expect(values[7].c / values[0].c).toBeGreaterThanOrEqual(0.4)
+      }
+    })
+
     it(`${mode}: stays inside sRGB for every hue`, () => {
       for (const hue of HUES) {
         for (const chroma of STRENGTHS) {

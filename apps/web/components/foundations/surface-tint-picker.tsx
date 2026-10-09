@@ -6,13 +6,16 @@ import { SURFACE_PRESETS, useSiteSetting } from "@/lib/site-settings"
 import { CopyButton } from "@/components/copy-button"
 import { TintSwatch } from "@/components/fabricator/site-settings"
 import { DemoFrame } from "@/components/foundations/demo-frame"
-import { SURFACE_PALETTE_LINKS } from "@/registry/fabricator/foundations"
+import {
+  FABRICATOR_FOUNDATIONS,
+  FABRICATOR_PALETTE,
+  SURFACE_PALETTE_LINKS,
+} from "@/registry/fabricator/foundations"
 import {
   isNeutralTint,
   normalizeTint,
   sameTint,
   SURFACE_MAX_CHROMA,
-  surfaceLadder,
   type SurfaceTint,
 } from "@/registry/fabricator/surface-tint"
 import { Slider } from "@/styles/base-fabricator/ui/slider"
@@ -44,43 +47,98 @@ function cssFor(tint: SurfaceTint) {
   ].join("\n\n")
 }
 
-// Each ladder sits on its own theme's page (level 1), and each level is a
-// tile with that theme's edge, so the light tint reads against the light
-// page, not against the docs around it.
-const LADDER_THEME = {
-  light: {
-    label: "Light",
-    text: "oklch(0.205 0 0)",
-    muted: "oklch(0.556 0 0)",
-    edge: "0 0 0 1px oklch(0 0 0 / 0.06), 0 1px 2px -1px oklch(0 0 0 / 0.08)",
-  },
-  dark: {
-    label: "Dark",
-    text: "oklch(0.97 0 0)",
-    muted: "oklch(0.715 0 0)",
-    edge: "inset 0 1px 0 0 oklch(1 0 0 / 0.04), inset 0 0 0 1px oklch(1 0 0 / 0.06)",
-  },
+// Each theme's tokens, scoped to a scene so both themes render side by side
+// whatever the site's theme. The surfaces stay calc() expressions, so they
+// read the live --surface-hue and --surface-chroma from <html>. The tint,
+// radius and motion speed are left to the site's settings.
+const SITE_SETTING_VARS = /^(surface-hue|surface-chroma|radius|motion)/
+
+function themeVars(mode: "light" | "dark") {
+  const vars = {
+    ...FABRICATOR_FOUNDATIONS.cssVars[mode],
+    ...FABRICATOR_PALETTE[mode],
+    ...SURFACE_PALETTE_LINKS[mode],
+  }
+  return {
+    colorScheme: mode,
+    ...Object.fromEntries(
+      Object.entries(vars)
+        .filter(([name]) => !SITE_SETTING_VARS.test(name))
+        .map(([name, value]) => [`--${name}`, value])
+    ),
+  } as React.CSSProperties
 }
 
-function Ladder({ mode, tint }: { mode: "light" | "dark"; tint: SurfaceTint }) {
-  const theme = LADDER_THEME[mode]
-  const ladder = surfaceLadder(mode, tint)
+const THEME_VARS = { light: themeVars("light"), dark: themeVars("dark") }
 
+// Class names are written out in full so Tailwind generates them.
+const LEVELS = [
+  "bg-surface-1 shadow-surface-1",
+  "bg-surface-2 shadow-surface-2",
+  "bg-surface-3 shadow-surface-3",
+  "bg-surface-4 shadow-surface-4",
+  "bg-surface-5 shadow-surface-5",
+  "bg-surface-6 shadow-surface-6",
+  "bg-surface-7 shadow-surface-7",
+  "bg-surface-8 shadow-surface-8",
+]
+
+/**
+ * A small interface in one theme: page (1), sidebar (2), card (3), active
+ * tab (4) and a dialog (5), then the whole ladder.
+ */
+function ThemeScene({ mode }: { mode: "light" | "dark" }) {
   return (
     <div
-      className="flex flex-col gap-3 rounded-xl p-3 ring-1 ring-border"
-      style={{ backgroundColor: ladder[0], color: theme.text }}
+      style={THEME_VARS[mode]}
+      className="flex flex-col overflow-hidden rounded-xl bg-surface-1 text-foreground shadow-surface-1"
     >
-      <span className="text-[12px]" style={{ color: theme.muted }}>
-        {theme.label}
-      </span>
-      <div className="grid grid-cols-8 gap-1.5">
-        {ladder.map((color, index) => (
+      <div className="relative flex h-56">
+        <div className="flex w-24 shrink-0 flex-col gap-0.5 bg-surface-2 p-1.5 shadow-surface-2">
+          <span className="px-1.5 py-1 text-[11px] text-muted-foreground">
+            {mode === "light" ? "Light" : "Dark"}
+          </span>
+          <span className="rounded-md bg-active px-1.5 py-1 text-[11px]">
+            Threads
+          </span>
+          <span className="rounded-md px-1.5 py-1 text-[11px] text-muted-foreground">
+            Agents
+          </span>
+          <span className="rounded-md px-1.5 py-1 text-[11px] text-muted-foreground">
+            Settings
+          </span>
+        </div>
+        <div className="flex min-w-0 flex-1 flex-col gap-2 p-2.5">
+          <div className="flex w-fit rounded-lg bg-muted p-0.5">
+            <span className="rounded-md bg-surface-4 px-2 py-0.5 text-[11px] shadow-surface-4">
+              Overview
+            </span>
+            <span className="px-2 py-0.5 text-[11px] text-muted-foreground">
+              Logs
+            </span>
+          </div>
+          <div className="flex flex-col gap-0.5 rounded-lg bg-surface-3 p-2.5 shadow-surface-3">
+            <span className="text-[12px] font-medium">Runs this week</span>
+            <span className="text-[11px] text-muted-foreground">
+              128 runs, 4 failed
+            </span>
+          </div>
+        </div>
+        <div className="absolute right-2.5 bottom-2.5 flex w-36 flex-col gap-1.5 rounded-lg bg-surface-5 p-2.5 shadow-surface-5">
+          <span className="text-[12px] font-semibold">Rerun failed?</span>
+          <span className="text-[11px] leading-snug text-muted-foreground">
+            Four jobs will run again.
+          </span>
+          <span className="mt-0.5 self-end rounded-md bg-primary px-2 py-0.5 text-[11px] text-primary-foreground">
+            Rerun
+          </span>
+        </div>
+      </div>
+      <div className="grid grid-cols-8 gap-1.5 border-t border-border p-2.5">
+        {LEVELS.map((className, index) => (
           <div
             key={index}
-            title={`surface-${index + 1}: ${color}`}
-            className="flex aspect-square items-end rounded-md p-1 text-[11px] tabular-nums"
-            style={{ backgroundColor: color, boxShadow: theme.edge }}
+            className={`flex h-7 items-center justify-center rounded-md text-[11px] tabular-nums ${className}`}
           >
             {index + 1}
           </div>
@@ -200,8 +258,8 @@ export function SurfaceTintPicker() {
         </div>
 
         <div className="grid gap-3 sm:grid-cols-2">
-          <Ladder mode="light" tint={surface} />
-          <Ladder mode="dark" tint={surface} />
+          <ThemeScene mode="light" />
+          <ThemeScene mode="dark" />
         </div>
       </DemoFrame>
 

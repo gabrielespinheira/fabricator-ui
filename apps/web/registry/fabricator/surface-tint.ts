@@ -31,20 +31,22 @@ export const SURFACE_MAX_CHROMA = 0.04
 type Step = { l: number; share: number; drop?: number }
 
 // Lightness and chroma per level, 1 to 8. Light: off-white page and sidebar,
-// then white from level 3, separated by shadow; tinted, the page is about
-// oklch(0.962 0.018) at full strength and the levels fade towards white. Dark:
-// each level lifts the background, and the tint tapers off so the top of the
-// ladder stays calm.
+// then white from level 3, separated by shadow. Tinted, every level moves
+// into a band just below white (0.962 to 0.981 at full strength), still
+// lighter level by level, because colour needs room below white; chroma
+// tapers from 44% at the page to 21.5% at the top, about half, as in dark.
+// Dark: each level lifts the background, and the tint tapers from 90% to 55%
+// so the top of the ladder stays calm.
 export const SURFACE_STEPS: Record<"light" | "dark", Step[]> = {
   light: [
     { l: 0.985, share: 0.44, drop: 0.575 },
-    { l: 0.991, share: 0.335, drop: 0.5 },
-    { l: 1, share: 0.25, drop: 0.55 },
-    { l: 1, share: 0.205, drop: 0.45 },
-    { l: 1, share: 0.16, drop: 0.35 },
-    { l: 1, share: 0.125, drop: 0.275 },
-    { l: 1, share: 0.09, drop: 0.2 },
-    { l: 1, share: 0.055, drop: 0.125 },
+    { l: 0.991, share: 0.395, drop: 0.625 },
+    { l: 1, share: 0.36, drop: 0.775 },
+    { l: 1, share: 0.325, drop: 0.7 },
+    { l: 1, share: 0.29, drop: 0.625 },
+    { l: 1, share: 0.265, drop: 0.575 },
+    { l: 1, share: 0.24, drop: 0.525 },
+    { l: 1, share: 0.215, drop: 0.475 },
   ],
   dark: [
     { l: 0.205, share: 0.9 },

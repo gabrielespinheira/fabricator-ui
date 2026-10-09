@@ -27,7 +27,7 @@ const LEVELS = [
 /** The eight levels, in the current theme. */
 export function SurfaceLadder() {
   return (
-    <DemoFrame caption="Switch the theme to compare. Light flattens to white from level 3 and lets the shadow carry the elevation; dark lifts each level a step lighter.">
+    <DemoFrame caption="Switch the theme to compare. Neutral light flattens to white from level 3 and lets the shadow carry the elevation; dark lifts each level a step lighter. With a base colour, every level in both themes carries the tint.">
       <div className="grid w-full grid-cols-4 gap-4 sm:grid-cols-8">
         {LEVELS.map(({ level, className, use }) => (
           <div key={level} className="flex flex-col items-center gap-2">
