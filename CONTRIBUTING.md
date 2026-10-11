@@ -33,4 +33,5 @@ Docs demos live in `apps/web/examples/{base,radix,aria}` and docs pages in `apps
 
 - Conventional Commits with a scope: `feat(registry): add stepper`, `fix(cli): …`, `chore(upstream): sync shadcn-ui/ui@<sha>`.
 - Changes to the published `fabricator-ui` package need a changeset: `bunx changeset`.
+- Releasing: merging changesets makes the Release workflow open a "version packages" pull request. After it merges, the maintainer runs `bun run deploy` on `main`, which deploys the site, publishes the new CLI version to npm, tags it and creates the GitHub release.
 - Pull requests describe what changed, which bases and styles were touched, and include screenshots for visual changes.

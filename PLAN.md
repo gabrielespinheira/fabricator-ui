@@ -557,7 +557,7 @@ Candidates that fit the TODO and inspiration list and are absent upstream: Surfa
 
 ### Phase 3: CLI (≈ 1 week)
 - [ ] `packages/cli` with `init`, `add`, `apply`, `search/list/view/docs`, `diff`, `doctor`, `mcp`.
-- [ ] e2e matrix in CI against a locally served registry (Node and Bun). Publish `0.1.0` from GitHub Actions: Changesets for versions and changelogs, `bun pm pack` to build the tarball, then `npm publish <tgz> --provenance --access public` using npm trusted publishing (OIDC, no long-lived token). `bun publish` has no provenance flag, which is why the final upload uses the npm binary that ships with Node on the CI runner. This is the only place npm is invoked.
+- [ ] e2e matrix in CI against a locally served registry (Node and Bun). Releases (changed 2026-10-11): Changesets for versions and changelogs, with the Release workflow opening the version pull request. Publishing is local, after the site deploys (`bun run deploy` → `scripts/publish.sh`): `bun pm pack` builds the tarball, `npm publish <tgz> --access public` uploads it (npm 2FA in the browser), then the script pushes the `fabricator-ui@<version>` tag and creates the GitHub release from `CHANGELOG.md`. This keeps the site and the CLI shipping together. Trade-off: no npm provenance. This is the only place npm is invoked.
 
 ### Phase 4: Fabricator design system v1 (≈ 2–4 weeks, iterative)
 - [ ] Token spec (§6): colors, surfaces, radius, density, motion, typography. Contrast CI.
