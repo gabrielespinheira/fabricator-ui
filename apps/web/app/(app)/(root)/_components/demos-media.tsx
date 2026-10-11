@@ -42,6 +42,10 @@ const SHAPES = [
 
 type Shape = (typeof SHAPES)[number]["value"]
 
+function isShape(value: unknown): value is Shape {
+  return SHAPES.some((item) => item.value === value)
+}
+
 export function AspectRatioDemo() {
   const [shape, setShape] = React.useState<Shape>("portrait")
   const current = SHAPES.find((item) => item.value === shape) ?? SHAPES[2]
@@ -55,7 +59,7 @@ export function AspectRatioDemo() {
       >
         <AspectRatio
           ratio={current.ratio}
-          className="overflow-hidden rounded-2xl bg-muted shadow-surface-3 transition-[aspect-ratio] duration-slow ease-spring-bounce motion-reduce:transition-none"
+          className="overflow-hidden rounded-lg bg-muted transition-[aspect-ratio] duration-slow ease-spring-bounce motion-reduce:transition-none"
         >
           <Image
             src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=640&auto=format&fit=crop&q=80"
@@ -71,20 +75,13 @@ export function AspectRatioDemo() {
         aria-label="Shape"
         value={[shape]}
         onValueChange={(next) => {
-          const value = next[0] as Shape | undefined
-          if (value) setShape(value)
+          const value = next[0]
+          if (isShape(value)) setShape(value)
         }}
-        spacing={0.5}
-        className="rounded-full bg-foreground/[0.06] p-1 data-[size=default]:rounded-full [&_[data-slot^=fluid-hover]]:rounded-full"
       >
         {SHAPES.map(({ value, label, Icon }) => (
-          <ToggleGroupItem
-            key={value}
-            value={value}
-            aria-label={label}
-            className="h-8 min-w-10 rounded-full! px-3 text-muted-foreground aria-pressed:text-foreground"
-          >
-            <Icon className="size-4" />
+          <ToggleGroupItem key={value} value={value} aria-label={label}>
+            <Icon />
           </ToggleGroupItem>
         ))}
       </ToggleGroup>
