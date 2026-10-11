@@ -39,7 +39,7 @@ export const fabricatorItems = [
     type: "registry:lib",
     title: "Sounds",
     description:
-      "Interface sounds synthesized with the Web Audio API, and <SoundEffects /> to play them for every component. Off until you turn them on.",
+      "Interface sounds synthesized with the Web Audio API, and <SoundEffects /> to play them for every component. On by default.",
     files: [
       { path: "lib/sounds.ts", type: "registry:lib" },
       { path: "components/sound-effects.tsx", type: "registry:component" },

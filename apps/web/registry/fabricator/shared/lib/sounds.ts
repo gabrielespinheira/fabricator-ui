@@ -17,10 +17,10 @@ import * as React from "react"
  * - Popups pop, dialogs bloom, sheets and drawers move air.
  * - Toasts chime by type: info, success, warning and error.
  *
- * Sounds are OFF until something calls `setSoundsEnabled(true)` (or renders
- * `<SoundEffects enabled />`): a library must never surprise people with
- * audio. Playing always follows a user gesture, which is when browsers allow
- * an AudioContext to start.
+ * Sounds are on by default; turn them off with `setSoundsEnabled(false)` (or
+ * `<SoundEffects enabled={false} />`), for example from a user setting. Playing
+ * always follows a user gesture, which is when browsers allow an AudioContext
+ * to start.
  */
 
 export type SoundName =
@@ -482,7 +482,7 @@ export function isSoundName(value: unknown): value is SoundName {
 
 type State = { enabled: boolean; volume: number }
 
-let state: State = { enabled: false, volume: 0.6 }
+let state: State = { enabled: true, volume: 0.6 }
 const listeners = new Set<() => void>()
 
 function emit() {

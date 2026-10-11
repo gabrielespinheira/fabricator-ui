@@ -23,7 +23,7 @@ The Fabricator design language rests on these systems, shipped in the `foundatio
 - [Motion](https://fabricator-ui.vercel.app/docs/foundations/motion.md): Three spring speeds, with exits one step quicker than entrances.
 - [Scrollbars](https://fabricator-ui.vercel.app/docs/foundations/scrollbars.md): A thin scrollbar that stays out of the way but is there when you need it.
 - [Sizes](https://fabricator-ui.vercel.app/docs/foundations/sizes.md): 36px controls, 13px text, and corners that nest.
-- [Sounds](https://fabricator-ui.vercel.app/docs/foundations/sounds.md): Short, quiet interface sounds synthesized in the browser, off until you turn them on.
+- [Sounds](https://fabricator-ui.vercel.app/docs/foundations/sounds.md): Short, quiet interface sounds synthesized in the browser, on by default.
 - [Surfaces](https://fabricator-ui.vercel.app/docs/foundations/surfaces.md): Eight elevation levels, each with its own shadow, so layers stay distinct in light and dark mode.
 - [Typography](https://fabricator-ui.vercel.app/docs/foundations/typography.md): Inter at five sizes, with weights paired to optical size.
 

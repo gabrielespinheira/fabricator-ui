@@ -11,7 +11,7 @@ import {
  * Website preferences (the settings menu in the header and the docs panel).
  * Theme lives in next-themes; everything else lives here, in localStorage.
  *
- * - sound: whether components play interface sounds (off by default).
+ * - sound: whether components play interface sounds (on by default).
  * - iconLibrary: the icon pack the site's previews render (Lucide by default).
  * - radius: "rounded" (--radius 0.5rem) or "pill" (--radius 1.25rem).
  * - motion: scales every animation through --motion-scale.
@@ -64,7 +64,7 @@ export type SiteSettings = {
 export const SITE_SETTINGS_STORAGE_KEY = "fabricator-settings"
 
 export const DEFAULT_SITE_SETTINGS: SiteSettings = {
-  sound: false,
+  sound: true,
   iconLibrary: "lucide",
   radius: "rounded",
   motion: "default",

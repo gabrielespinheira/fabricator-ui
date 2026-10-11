@@ -267,10 +267,18 @@ describe("playSound", () => {
     vi.restoreAllMocks()
   })
 
-  it("is silent until enabled, unless forced", async () => {
+  it("plays by default", async () => {
     const { log } = installFakeAudio()
     const sounds = await import("@/registry/fabricator/shared/lib/sounds")
-    expect(sounds.getSoundsEnabled()).toBe(false)
+    expect(sounds.getSoundsEnabled()).toBe(true)
+    sounds.playSound("tap")
+    expect(log.length).toBeGreaterThan(0)
+  })
+
+  it("is silent once disabled, unless forced", async () => {
+    const { log } = installFakeAudio()
+    const sounds = await import("@/registry/fabricator/shared/lib/sounds")
+    sounds.setSoundsEnabled(false)
     sounds.playSound("tap")
     expect(log.length).toBe(0)
     sounds.playSound("tap", { force: true })
@@ -293,8 +301,8 @@ describe("playSound", () => {
     const sounds = await import("@/registry/fabricator/shared/lib/sounds")
     const listener = vi.fn()
     const unsubscribe = sounds.subscribeSounds(listener)
-    sounds.setSoundsEnabled(true)
-    sounds.setSoundsEnabled(true)
+    sounds.setSoundsEnabled(false)
+    sounds.setSoundsEnabled(false)
     expect(listener).toHaveBeenCalledTimes(1)
     unsubscribe()
   })
