@@ -4,6 +4,7 @@ import * as React from "react"
 import { cn } from "cn"
 import {
   CircleIcon,
+  MonitorIcon,
   MoonIcon,
   Settings2Icon,
   SquareIcon,
@@ -103,14 +104,14 @@ function Segmented<T extends string>({
       }}
       spacing={0.5}
       size="sm"
-      className="rounded-full bg-foreground/[0.06] p-0.5 data-[size=sm]:rounded-full [&_[data-slot^=fluid-hover]]:rounded-full"
+      className="rounded-lg bg-foreground/[0.06] p-0.5 [&_[data-slot^=fluid-hover]]:rounded-md"
     >
       {options.map((option) => (
         <ToggleGroupItem
           key={option.value}
           value={option.value}
           aria-label={option.label}
-          className="h-7 min-w-8 rounded-full! px-2 text-muted-foreground aria-pressed:text-foreground [&_svg]:size-4"
+          className="h-7 min-w-8 rounded-md! px-2 text-muted-foreground aria-pressed:text-foreground [&_svg]:size-4"
         >
           {option.icon}
         </ToggleGroupItem>
@@ -257,10 +258,17 @@ function SurfaceSelect() {
   )
 }
 
+const THEMES = ["light", "system", "dark"] as const
+type ThemeSetting = (typeof THEMES)[number]
+
+function isThemeSetting(value: unknown): value is ThemeSetting {
+  return THEMES.some((theme) => theme === value)
+}
+
 /** Theme, sound, icons, radius, motion and surface: the settings menu rows. */
 export function SiteSettingsFields({ className }: { className?: string }) {
   const hydrated = useHydrated()
-  const { resolvedTheme, setTheme } = useTheme()
+  const { theme, setTheme } = useTheme()
   const [sound, setSound] = useSiteSetting("sound")
   const [iconLibrary, setIconLibrary] = useSiteSetting("iconLibrary")
   const [radius, setRadius] = useSiteSetting("radius")
@@ -271,10 +279,11 @@ export function SiteSettingsFields({ className }: { className?: string }) {
       <SettingRow label="Theme">
         <Segmented
           label="Theme"
-          value={hydrated && resolvedTheme === "dark" ? "dark" : "light"}
+          value={hydrated && isThemeSetting(theme) ? theme : "system"}
           onValueChange={setTheme}
           options={[
             { value: "light", label: "Light", icon: <SunIcon /> },
+            { value: "system", label: "System", icon: <MonitorIcon /> },
             { value: "dark", label: "Dark", icon: <MoonIcon /> },
           ]}
         />
@@ -334,7 +343,7 @@ export function SiteSettingsMenu({
       <PopoverTrigger
         aria-label="Settings"
         className={cn(
-          "flex size-10 items-center justify-center rounded-full bg-muted text-foreground transition-colors duration-fast ease-spring outline-none hover:bg-active focus-visible:ring-1 focus-visible:ring-focus-ring data-popup-open:bg-active [&_svg]:size-4.5",
+          "flex size-10 items-center justify-center rounded-lg bg-muted text-foreground transition-colors duration-fast ease-spring outline-none hover:bg-active focus-visible:ring-1 focus-visible:ring-focus-ring data-popup-open:bg-active [&_svg]:size-4.5",
           className
         )}
       >
