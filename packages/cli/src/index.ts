@@ -28,7 +28,7 @@ export function createProgram(): Command {
     .showHelpAfterError()
     .addHelpText(
       "beforeAll",
-      `${highlight.bold("fabricator-ui")} ${highlight.dim(`v${pkg.version} · https://fabricator-ui.com`)}\n`
+      `${highlight.bold("fabricator-ui")} ${highlight.dim(`v${pkg.version} · https://fabricator-ui.vercel.app`)}\n`
     )
     .addHelpText(
       "afterAll",

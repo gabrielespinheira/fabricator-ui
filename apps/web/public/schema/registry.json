@@ -25,7 +25,7 @@
       "type": "array",
       "default": [],
       "items": {
-        "$ref": "https://fabricator-ui.com/schema/registry-item.json"
+        "$ref": "https://fabricator-ui.vercel.app/schema/registry-item.json"
       }
     },
     "pagination": {

@@ -228,7 +228,7 @@ function buildFontSection(
 
 function buildComponentsJsonSection(config: DesignSystemConfig) {
   const componentsJson = {
-    $schema: "https://fabricator-ui.com/schema.json",
+    $schema: "https://fabricator-ui.vercel.app/schema.json",
     style: `${config.base}-${config.style}`,
     tailwind: {
       css: "app/globals.css",

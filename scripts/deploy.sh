@@ -34,7 +34,7 @@ if [ "$mode" = production ]; then
 fi
 
 # Inlined into pages and metadata at build time. Vercel has no variables set.
-export NEXT_PUBLIC_APP_URL="${NEXT_PUBLIC_APP_URL:-https://fabricator-ui.com}"
+export NEXT_PUBLIC_APP_URL="${NEXT_PUBLIC_APP_URL:-https://fabricator-ui.vercel.app}"
 export NEXT_PUBLIC_V0_URL="${NEXT_PUBLIC_V0_URL:-https://v0.dev}"
 
 [ -f .vercel/project.json ] || vercel link --yes --project fabricator-ui --scope sharphaw

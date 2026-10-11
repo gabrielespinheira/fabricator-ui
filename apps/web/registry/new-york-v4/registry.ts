@@ -43,7 +43,7 @@ const NEW_YORK_V4_STYLE = {
 
 export const registry = {
   name: "Fabricator UI",
-  homepage: "https://fabricator-ui.com",
+  homepage: "https://fabricator-ui.vercel.app",
   items: z.array(registryItemSchema).parse(
     [
       {

@@ -212,7 +212,7 @@ Create a `components.json` file in the root of your project.
 
 ```json title="components.json" showLineNumbers
 {
-  "$schema": "https://fabricator-ui.com/schema.json",
+  "$schema": "https://fabricator-ui.vercel.app/schema.json",
   "style": "base-nova",
   "rsc": false,
   "tsx": true,
@@ -232,12 +232,12 @@ Create a `components.json` file in the root of your project.
   },
   "iconLibrary": "lucide",
   "registries": {
-    "@fabricator": "https://fabricator-ui.com/r/{style}/{name}.json"
+    "@fabricator": "https://fabricator-ui.vercel.app/r/{style}/{name}.json"
   }
 }
 ```
 
-The `registries` entry lets the CLI resolve `@fabricator/<name>`. Use `https://fabricator-ui.com/r/fabricator/{style}/{name}.json` instead for the Fabricator design. See <Link href="/docs/registry">Registry</Link>.
+The `registries` entry lets the CLI resolve `@fabricator/<name>`. Use `https://fabricator-ui.vercel.app/r/fabricator/{style}/{name}.json` instead for the Fabricator design. See <Link href="/docs/registry">Registry</Link>.
 
 If you're using `package.json#imports`, use the corresponding `#...` aliases instead:
 

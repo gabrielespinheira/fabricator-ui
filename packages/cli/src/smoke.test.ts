@@ -57,7 +57,7 @@ describe.skipIf(!existsSync(bin))("built CLI (node dist/index.js)", () => {
     try {
       const output = run(["init", "--dry-run", "-t", "next"], dir)
       expect(output).toContain(
-        `init "https://fabricator-ui.com/init?base=base&preset=fabricator&template=next" --template next --base base --cwd ${dir}`
+        `init "https://fabricator-ui.vercel.app/init?base=base&preset=fabricator&template=next" --template next --base base --cwd ${dir}`
       )
       expect(output).toContain(
         `add @fabricator/button --overwrite --yes --cwd ${path.join(dir, "next-app")}`

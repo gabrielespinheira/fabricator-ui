@@ -95,7 +95,7 @@ function assertRegistry(appDir: string, mode: "fabricator" | "blend") {
   )
   if (mode === "fabricator") {
     assert(
-      config.$schema === "https://fabricator-ui.com/schema.json",
+      config.$schema === "https://fabricator-ui.vercel.app/schema.json",
       `components.json $schema is ${config.$schema}`
     )
   }

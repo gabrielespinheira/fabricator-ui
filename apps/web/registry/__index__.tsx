@@ -6966,9 +6966,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/accordion",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/accordion",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/accordion-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/accordion-example.tsx",
           api: "https://base-ui.com/react/components/accordion.md",
         },
       },
@@ -6989,9 +6989,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/alert",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/alert",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/alert-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/alert-example.tsx",
         },
       },
     },
@@ -7011,9 +7011,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/alert-dialog",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/alert-dialog",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/alert-dialog-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/alert-dialog-example.tsx",
           api: "https://base-ui.com/react/components/alert-dialog.md",
         },
       },
@@ -7034,9 +7034,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/aspect-ratio",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/aspect-ratio",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/aspect-ratio-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/aspect-ratio-example.tsx",
         },
       },
     },
@@ -7056,9 +7056,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/avatar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/avatar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/avatar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/avatar-example.tsx",
           api: "https://base-ui.com/react/components/avatar.md",
         },
       },
@@ -7079,9 +7079,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/badge",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/badge",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/badge-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/badge-example.tsx",
         },
       },
     },
@@ -7101,9 +7101,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/breadcrumb",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/breadcrumb",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/breadcrumb-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/breadcrumb-example.tsx",
         },
       },
     },
@@ -7123,9 +7123,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/button",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/button",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/button-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/button-example.tsx",
         },
       },
     },
@@ -7145,9 +7145,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/button-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/button-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/button-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/button-group-example.tsx",
         },
       },
     },
@@ -7167,9 +7167,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/calendar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/calendar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/calendar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/calendar-example.tsx",
           api: "https://react-day-picker.js.org",
         },
       },
@@ -7190,9 +7190,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/card",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/card",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/card-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/card-example.tsx",
         },
       },
     },
@@ -7212,9 +7212,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/carousel",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/carousel",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/carousel-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/carousel-example.tsx",
           api: "https://www.embla-carousel.com/get-started/react",
         },
       },
@@ -7235,9 +7235,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/chart",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/chart",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/chart-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/chart-example.tsx",
         },
       },
     },
@@ -7257,9 +7257,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/checkbox",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/checkbox",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/checkbox-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/checkbox-example.tsx",
           api: "https://base-ui.com/react/components/checkbox.md",
         },
       },
@@ -7280,9 +7280,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/collapsible",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/collapsible",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/collapsible-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/collapsible-example.tsx",
           api: "https://base-ui.com/react/components/collapsible.md",
         },
       },
@@ -7303,9 +7303,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/combobox",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/combobox",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/combobox-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/combobox-example.tsx",
           api: "https://base-ui.com/react/components/combobox.md",
         },
       },
@@ -7326,9 +7326,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/command",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/command",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/command-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/command-example.tsx",
           api: "https://github.com/dip/cmdk",
         },
       },
@@ -7349,9 +7349,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/context-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/context-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/context-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/context-menu-example.tsx",
           api: "https://base-ui.com/react/components/context-menu.md",
         },
       },
@@ -7372,9 +7372,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/dialog",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/dialog",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/dialog-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/dialog-example.tsx",
           api: "https://base-ui.com/react/components/dialog.md",
         },
       },
@@ -7395,9 +7395,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/drawer",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/drawer",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/drawer-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/drawer-example.tsx",
           api: "https://base-ui.com/react/components/drawer.md",
         },
       },
@@ -7418,9 +7418,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/dropdown-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/dropdown-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/dropdown-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/dropdown-menu-example.tsx",
           api: "https://base-ui.com/react/components/menu.md",
         },
       },
@@ -7441,9 +7441,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/empty",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/empty",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/empty-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/empty-example.tsx",
         },
       },
     },
@@ -7463,9 +7463,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/field",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/field",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/field-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/field-example.tsx",
         },
       },
     },
@@ -7485,9 +7485,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/hover-card",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/hover-card",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/hover-card-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/hover-card-example.tsx",
           api: "https://base-ui.com/react/components/hover-card.md",
         },
       },
@@ -7508,9 +7508,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/input",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/input",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/input-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/input-example.tsx",
         },
       },
     },
@@ -7530,9 +7530,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/input-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/input-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/input-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/input-group-example.tsx",
         },
       },
     },
@@ -7552,9 +7552,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/input-otp",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/input-otp",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/input-otp-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/input-otp-example.tsx",
           api: "https://input-otp.rodz.dev",
         },
       },
@@ -7575,9 +7575,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/item",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/item",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/item-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/item-example.tsx",
         },
       },
     },
@@ -7597,9 +7597,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/label",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/label",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/label-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/label-example.tsx",
           api: "https://base-ui.com/react/components/label.md",
         },
       },
@@ -7620,9 +7620,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/menubar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/menubar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/menubar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/menubar-example.tsx",
           api: "https://base-ui.com/react/components/menubar.md",
         },
       },
@@ -7643,9 +7643,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/navigation-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/navigation-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/navigation-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/navigation-menu-example.tsx",
           api: "https://base-ui.com/react/components/navigation-menu.md",
         },
       },
@@ -7666,9 +7666,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/pagination",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/pagination",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/pagination-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/pagination-example.tsx",
         },
       },
     },
@@ -7688,9 +7688,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/popover",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/popover",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/popover-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/popover-example.tsx",
           api: "https://base-ui.com/react/components/popover.md",
         },
       },
@@ -7711,9 +7711,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/progress",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/progress",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/progress-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/progress-example.tsx",
           api: "https://base-ui.com/react/components/progress.md",
         },
       },
@@ -7734,9 +7734,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/radio-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/radio-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/radio-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/radio-group-example.tsx",
           api: "https://base-ui.com/react/components/radio-group.md",
         },
       },
@@ -7757,9 +7757,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/resizable",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/resizable",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/resizable-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/resizable-example.tsx",
           api: "https://github.com/bvaughn/react-resizable-panels",
         },
       },
@@ -7780,9 +7780,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/scroll-area",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/scroll-area",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/scroll-area-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/scroll-area-example.tsx",
           api: "https://base-ui.com/react/components/scroll-area.md",
         },
       },
@@ -7803,9 +7803,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/select",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/select",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/select-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/select-example.tsx",
           api: "https://base-ui.com/react/components/select.md",
         },
       },
@@ -7826,9 +7826,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/separator",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/separator",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/separator-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/separator-example.tsx",
           api: "https://base-ui.com/react/components/separator.md",
         },
       },
@@ -7849,9 +7849,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/sheet",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/sheet",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/sheet-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/sheet-example.tsx",
           api: "https://base-ui.com/react/components/dialog.md",
         },
       },
@@ -7880,9 +7880,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/sidebar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/sidebar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/sidebar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/sidebar-example.tsx",
         },
       },
     },
@@ -7902,9 +7902,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/skeleton",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/skeleton",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/skeleton-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/skeleton-example.tsx",
         },
       },
     },
@@ -7924,9 +7924,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/slider",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/slider",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/slider-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/slider-example.tsx",
           api: "https://base-ui.com/react/components/slider.md",
         },
       },
@@ -7947,9 +7947,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/sonner",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/sonner",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/sonner-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/sonner-example.tsx",
           api: "https://sonner.emilkowal.ski",
         },
       },
@@ -7970,9 +7970,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/spinner",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/spinner",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/spinner-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/spinner-example.tsx",
         },
       },
     },
@@ -7992,9 +7992,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/switch",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/switch",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/switch-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/switch-example.tsx",
           api: "https://base-ui.com/react/components/switch.md",
         },
       },
@@ -8015,9 +8015,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/table",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/table",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/table-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/table-example.tsx",
         },
       },
     },
@@ -8037,9 +8037,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/tabs",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/tabs",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/tabs-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/tabs-example.tsx",
           api: "https://base-ui.com/react/components/tabs.md",
         },
       },
@@ -8060,9 +8060,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/textarea",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/textarea",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/textarea-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/textarea-example.tsx",
         },
       },
     },
@@ -8082,9 +8082,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/toast",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/toast",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/toast-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/toast-example.tsx",
           api: "https://base-ui.com/react/components/toast.md",
         },
       },
@@ -8105,9 +8105,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/toggle",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/toggle",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/toggle-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/toggle-example.tsx",
           api: "https://base-ui.com/react/components/toggle.md",
         },
       },
@@ -8128,9 +8128,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/toggle-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/toggle-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/toggle-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/toggle-group-example.tsx",
           api: "https://base-ui.com/react/components/toggle-group.md",
         },
       },
@@ -8151,9 +8151,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/tooltip",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/tooltip",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/tooltip-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/tooltip-example.tsx",
           api: "https://base-ui.com/react/components/tooltip.md",
         },
       },
@@ -8174,9 +8174,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/kbd",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/kbd",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/kbd-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/kbd-example.tsx",
         },
       },
     },
@@ -8196,9 +8196,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/native-select",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/native-select",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/native-select-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/native-select-example.tsx",
         },
       },
     },
@@ -8218,7 +8218,7 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/direction",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/direction",
           api: "https://base-ui.com/react/utils/direction-provider.md",
         },
       },
@@ -8287,9 +8287,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/questionnaire",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/questionnaire",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/questionnaire-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/questionnaire-example.tsx",
         },
       },
     },
@@ -8343,9 +8343,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/accordion",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/accordion",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/accordion-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/accordion-example.tsx",
           api: "https://www.radix-ui.com/primitives/docs/components/accordion.md",
         },
       },
@@ -8366,9 +8366,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/alert",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/alert",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/alert-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/alert-example.tsx",
         },
       },
     },
@@ -8388,9 +8388,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/alert-dialog",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/alert-dialog",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/alert-dialog-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/alert-dialog-example.tsx",
           api: "https://www.radix-ui.com/primitives/docs/components/alert-dialog.md",
         },
       },
@@ -8411,9 +8411,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/aspect-ratio",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/aspect-ratio",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/aspect-ratio-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/aspect-ratio-example.tsx",
           api: "https://www.radix-ui.com/primitives/docs/components/aspect-ratio.md",
         },
       },
@@ -8434,9 +8434,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/avatar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/avatar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/avatar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/avatar-example.tsx",
           api: "https://www.radix-ui.com/primitives/docs/components/avatar.md",
         },
       },
@@ -8457,9 +8457,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/badge",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/badge",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/badge-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/badge-example.tsx",
         },
       },
     },
@@ -8479,9 +8479,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/breadcrumb",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/breadcrumb",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/breadcrumb-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/breadcrumb-example.tsx",
         },
       },
     },
@@ -8501,9 +8501,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/button",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/button",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/button-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/button-example.tsx",
         },
       },
     },
@@ -8523,9 +8523,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/button-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/button-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/button-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/button-group-example.tsx",
         },
       },
     },
@@ -8545,9 +8545,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/calendar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/calendar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/calendar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/calendar-example.tsx",
           api: "https://react-day-picker.js.org",
         },
       },
@@ -8568,9 +8568,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/card",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/card",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/card-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/card-example.tsx",
         },
       },
     },
@@ -8590,9 +8590,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/carousel",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/carousel",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/carousel-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/carousel-example.tsx",
           api: "https://www.embla-carousel.com/get-started/react",
         },
       },
@@ -8613,9 +8613,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/chart",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/chart",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/chart-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/chart-example.tsx",
         },
       },
     },
@@ -8635,9 +8635,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/checkbox",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/checkbox",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/checkbox-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/checkbox-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/checkbox.md",
         },
       },
@@ -8658,9 +8658,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/collapsible",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/collapsible",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/collapsible-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/collapsible-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/collapsible.md",
         },
       },
@@ -8681,9 +8681,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/combobox",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/combobox",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/combobox-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/combobox-example.tsx",
           api: "https://base-ui.com/react/components/combobox",
         },
       },
@@ -8704,9 +8704,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/command",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/command",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/command-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/command-example.tsx",
           api: "https://github.com/dip/cmdk",
         },
       },
@@ -8727,9 +8727,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/context-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/context-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/context-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/context-menu-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/context-menu.md",
         },
       },
@@ -8750,9 +8750,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/dialog",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/dialog",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/dialog-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/dialog-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/dialog.md",
         },
       },
@@ -8773,9 +8773,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/drawer",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/drawer",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/drawer-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/drawer-example.tsx",
           api: "https://vaul.emilkowal.ski/getting-started",
         },
       },
@@ -8796,9 +8796,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/dropdown-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/dropdown-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/dropdown-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/dropdown-menu-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/dropdown-menu.md",
         },
       },
@@ -8819,9 +8819,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/empty",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/empty",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/empty-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/empty-example.tsx",
         },
       },
     },
@@ -8841,9 +8841,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/field",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/field",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/field-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/field-example.tsx",
         },
       },
     },
@@ -8863,9 +8863,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/hover-card",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/hover-card",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/hover-card-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/hover-card-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/hover-card.md",
         },
       },
@@ -8886,9 +8886,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/input",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/input",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/input-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/input-example.tsx",
         },
       },
     },
@@ -8908,9 +8908,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/input-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/input-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/input-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/input-group-example.tsx",
         },
       },
     },
@@ -8930,9 +8930,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/input-otp",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/input-otp",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/input-otp-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/input-otp-example.tsx",
           api: "https://input-otp.rodz.dev",
         },
       },
@@ -8953,9 +8953,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/item",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/item",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/item-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/item-example.tsx",
         },
       },
     },
@@ -8975,9 +8975,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/label",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/label",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/label-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/label-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/label.md",
         },
       },
@@ -8998,9 +8998,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/menubar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/menubar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/menubar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/menubar-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/menubar.md",
         },
       },
@@ -9021,9 +9021,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/navigation-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/navigation-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/navigation-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/navigation-menu-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/navigation-menu.md",
         },
       },
@@ -9044,9 +9044,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/pagination",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/pagination",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/pagination-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/pagination-example.tsx",
         },
       },
     },
@@ -9066,9 +9066,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/popover",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/popover",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/popover-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/popover-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/popover.md",
         },
       },
@@ -9089,9 +9089,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/progress",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/progress",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/progress-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/progress-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/progress.md",
         },
       },
@@ -9112,9 +9112,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/radio-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/radio-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/radio-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/radio-group-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/radio-group.md",
         },
       },
@@ -9135,9 +9135,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/resizable",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/resizable",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/resizable-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/resizable-example.tsx",
           api: "https://github.com/bvaughn/react-resizable-panels",
         },
       },
@@ -9158,9 +9158,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/scroll-area",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/scroll-area",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/scroll-area-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/scroll-area-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/scroll-area.md",
         },
       },
@@ -9181,9 +9181,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/select",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/select",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/select-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/select-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/select.md",
         },
       },
@@ -9204,9 +9204,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/separator",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/separator",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/separator-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/separator-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/separator.md",
         },
       },
@@ -9227,9 +9227,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/sheet",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/sheet",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/sheet-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/sheet-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/dialog.md",
         },
       },
@@ -9258,9 +9258,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/sidebar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/sidebar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/sidebar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/sidebar-example.tsx",
         },
       },
     },
@@ -9280,9 +9280,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/skeleton",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/skeleton",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/skeleton-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/skeleton-example.tsx",
         },
       },
     },
@@ -9302,9 +9302,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/slider",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/slider",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/slider-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/slider-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/slider.md",
         },
       },
@@ -9325,9 +9325,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/sonner",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/sonner",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/sonner-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/sonner-example.tsx",
           api: "https://sonner.emilkowal.ski",
         },
       },
@@ -9348,9 +9348,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/spinner",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/spinner",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/spinner-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/spinner-example.tsx",
         },
       },
     },
@@ -9370,9 +9370,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/switch",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/switch",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/switch-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/switch-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/switch.md",
         },
       },
@@ -9393,9 +9393,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/table",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/table",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/table-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/table-example.tsx",
         },
       },
     },
@@ -9415,9 +9415,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/tabs",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/tabs",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/tabs-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/tabs-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/tabs.md",
         },
       },
@@ -9438,9 +9438,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/textarea",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/textarea",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/textarea-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/textarea-example.tsx",
         },
       },
     },
@@ -9460,9 +9460,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/toggle",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/toggle",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/toggle-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/toggle-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/toggle.md",
         },
       },
@@ -9483,9 +9483,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/toggle-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/toggle-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/toggle-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/toggle-group-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/toggle-group.md",
         },
       },
@@ -9506,9 +9506,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/tooltip",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/tooltip",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/tooltip-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/tooltip-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/tooltip.md",
         },
       },
@@ -9529,9 +9529,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/kbd",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/kbd",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/kbd-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/kbd-example.tsx",
         },
       },
     },
@@ -9551,9 +9551,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/native-select",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/native-select",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/native-select-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/native-select-example.tsx",
         },
       },
     },
@@ -9573,7 +9573,7 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/direction",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/direction",
           api: "https://www.radix-ui.com/primitives/docs/utilities/direction-provider.md",
         },
       },
@@ -9642,9 +9642,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/questionnaire",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/questionnaire",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/questionnaire-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/questionnaire-example.tsx",
         },
       },
     },
@@ -9698,9 +9698,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/accordion",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/accordion",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/accordion-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/accordion-example.tsx",
           api: "https://react-aria.adobe.com/DisclosureGroup#api",
         },
       },
@@ -9721,9 +9721,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/alert",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/alert",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/alert-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/alert-example.tsx",
         },
       },
     },
@@ -9743,9 +9743,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/alert-dialog",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/alert-dialog",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/alert-dialog-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/alert-dialog-example.tsx",
           api: "https://react-aria.adobe.com/Modal#api",
         },
       },
@@ -9766,9 +9766,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/aspect-ratio",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/aspect-ratio",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/aspect-ratio-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/aspect-ratio-example.tsx",
         },
       },
     },
@@ -9788,9 +9788,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/avatar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/avatar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/avatar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/avatar-example.tsx",
         },
       },
     },
@@ -9810,9 +9810,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/badge",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/badge",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/badge-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/badge-example.tsx",
         },
       },
     },
@@ -9832,9 +9832,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/breadcrumb",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/breadcrumb",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/breadcrumb-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/breadcrumb-example.tsx",
           api: "https://react-aria.adobe.com/Breadcrumbs#api",
         },
       },
@@ -9855,9 +9855,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/button",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/button",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/button-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/button-example.tsx",
           api: "https://react-aria.adobe.com/Button#api",
         },
       },
@@ -9878,9 +9878,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/button-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/button-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/button-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/button-group-example.tsx",
         },
       },
     },
@@ -9900,9 +9900,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/calendar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/calendar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/calendar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/calendar-example.tsx",
           api: "https://react-aria.adobe.com/Calendar#api",
         },
       },
@@ -9923,9 +9923,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/card",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/card",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/card-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/card-example.tsx",
         },
       },
     },
@@ -9945,9 +9945,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/carousel",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/carousel",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/carousel-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/carousel-example.tsx",
           api: "https://www.embla-carousel.com/docs/api",
         },
       },
@@ -9968,9 +9968,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/chart",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/chart",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/chart-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/chart-example.tsx",
         },
       },
     },
@@ -9990,9 +9990,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/checkbox",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/checkbox",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/checkbox-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/checkbox-example.tsx",
           api: "https://react-aria.adobe.com/Checkbox#api",
         },
       },
@@ -10013,9 +10013,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/collapsible",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/collapsible",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/collapsible-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/collapsible-example.tsx",
           api: "https://react-aria.adobe.com/Disclosure#api",
         },
       },
@@ -10036,9 +10036,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/combobox",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/combobox",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/combobox-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/combobox-example.tsx",
           api: "https://react-aria.adobe.com/ComboBox#api",
         },
       },
@@ -10059,9 +10059,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/command",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/command",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/command-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/command-example.tsx",
           api: "https://react-aria.adobe.com/Autocomplete#api",
         },
       },
@@ -10082,9 +10082,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/context-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/context-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/context-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/context-menu-example.tsx",
           api: "https://react-aria.adobe.com/Menu#api",
         },
       },
@@ -10105,9 +10105,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/dialog",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/dialog",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/dialog-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/dialog-example.tsx",
           api: "https://react-aria.adobe.com/Modal#api",
         },
       },
@@ -10128,9 +10128,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/drawer",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/drawer",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/drawer-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/drawer-example.tsx",
           api: "https://base-ui.com/react/components/drawer.md",
         },
       },
@@ -10151,9 +10151,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/dropdown-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/dropdown-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/dropdown-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/dropdown-menu-example.tsx",
           api: "https://react-aria.adobe.com/Menu#api",
         },
       },
@@ -10174,9 +10174,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/empty",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/empty",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/empty-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/empty-example.tsx",
         },
       },
     },
@@ -10196,9 +10196,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/field",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/field",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/field-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/field-example.tsx",
         },
       },
     },
@@ -10218,9 +10218,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/hover-card",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/hover-card",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/hover-card-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/hover-card-example.tsx",
           api: "https://react-aria.adobe.com/PreviewTrigger#api",
         },
       },
@@ -10241,9 +10241,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/input",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/input",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/input-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/input-example.tsx",
           api: "https://react-aria.adobe.com/TextField#api",
         },
       },
@@ -10264,9 +10264,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/input-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/input-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/input-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/input-group-example.tsx",
           api: "https://react-aria.adobe.com/Group#api",
         },
       },
@@ -10287,9 +10287,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/input-otp",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/input-otp",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/input-otp-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/input-otp-example.tsx",
           api: "https://input-otp.rodz.dev",
         },
       },
@@ -10310,9 +10310,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/item",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/item",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/item-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/item-example.tsx",
           api: "https://react-aria.adobe.com/Link#api",
         },
       },
@@ -10333,9 +10333,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/label",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/label",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/label-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/label-example.tsx",
           api: "https://react-aria.adobe.com/TextField#api",
         },
       },
@@ -10356,9 +10356,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/pagination",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/pagination",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/pagination-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/pagination-example.tsx",
         },
       },
     },
@@ -10378,9 +10378,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/popover",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/popover",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/popover-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/popover-example.tsx",
           api: "https://react-aria.adobe.com/Popover#api",
         },
       },
@@ -10401,9 +10401,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/progress",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/progress",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/progress-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/progress-example.tsx",
           api: "https://react-aria.adobe.com/ProgressBar#api",
         },
       },
@@ -10424,9 +10424,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/radio-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/radio-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/radio-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/radio-group-example.tsx",
           api: "https://react-aria.adobe.com/RadioGroup#api",
         },
       },
@@ -10447,9 +10447,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/resizable",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/resizable",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/resizable-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/resizable-example.tsx",
           api: "https://github.com/bvaughn/react-resizable-panels",
         },
       },
@@ -10470,9 +10470,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/scroll-area",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/scroll-area",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/scroll-area-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/scroll-area-example.tsx",
         },
       },
     },
@@ -10492,9 +10492,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/select",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/select",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/select-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/select-example.tsx",
           api: "https://react-aria.adobe.com/Select#api",
         },
       },
@@ -10515,9 +10515,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/separator",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/separator",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/separator-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/separator-example.tsx",
           api: "https://react-aria.adobe.com/Separator#api",
         },
       },
@@ -10538,9 +10538,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/sheet",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/sheet",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/sheet-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/sheet-example.tsx",
           api: "https://react-aria.adobe.com/Modal#api",
         },
       },
@@ -10569,9 +10569,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/sidebar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/sidebar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/sidebar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/sidebar-example.tsx",
         },
       },
     },
@@ -10591,9 +10591,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/skeleton",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/skeleton",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/skeleton-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/skeleton-example.tsx",
         },
       },
     },
@@ -10613,9 +10613,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/slider",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/slider",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/slider-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/slider-example.tsx",
           api: "https://react-aria.adobe.com/Slider#api",
         },
       },
@@ -10636,9 +10636,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/sonner",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/sonner",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/sonner-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/sonner-example.tsx",
           api: "https://sonner.emilkowal.ski",
         },
       },
@@ -10659,9 +10659,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/spinner",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/spinner",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/spinner-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/spinner-example.tsx",
         },
       },
     },
@@ -10681,9 +10681,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/switch",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/switch",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/switch-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/switch-example.tsx",
           api: "https://react-aria.adobe.com/Switch#api",
         },
       },
@@ -10704,9 +10704,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/table",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/table",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/table-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/table-example.tsx",
           api: "https://react-aria.adobe.com/Table#api",
         },
       },
@@ -10727,9 +10727,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/tabs",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/tabs",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/tabs-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/tabs-example.tsx",
           api: "https://react-aria.adobe.com/Tabs#api",
         },
       },
@@ -10750,9 +10750,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/textarea",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/textarea",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/textarea-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/textarea-example.tsx",
           api: "https://react-aria.adobe.com/TextField#api",
         },
       },
@@ -10773,9 +10773,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/toggle",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/toggle",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/toggle-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/toggle-example.tsx",
           api: "https://react-aria.adobe.com/ToggleButton#api",
         },
       },
@@ -10796,9 +10796,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/toggle-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/toggle-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/toggle-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/toggle-group-example.tsx",
           api: "https://react-aria.adobe.com/ToggleButtonGroup#api",
         },
       },
@@ -10819,9 +10819,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/tooltip",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/tooltip",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/tooltip-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/tooltip-example.tsx",
           api: "https://react-aria.adobe.com/Tooltip#api",
         },
       },
@@ -10842,9 +10842,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/kbd",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/kbd",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/kbd-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/kbd-example.tsx",
         },
       },
     },
@@ -10864,9 +10864,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/native-select",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/native-select",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/native-select-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/native-select-example.tsx",
         },
       },
     },
@@ -10886,7 +10886,7 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/direction",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/direction",
           api: "https://react-aria.adobe.com/I18nProvider#api",
         },
       },
@@ -10907,9 +10907,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/attachment",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/attachment",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/attachment-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/attachment-example.tsx",
         },
       },
     },
@@ -10929,9 +10929,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/bubble",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/bubble",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/bubble-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/bubble-example.tsx",
         },
       },
     },
@@ -10951,9 +10951,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/message-scroller",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/message-scroller",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/message-scroller-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/message-scroller-example.tsx",
         },
       },
     },
@@ -10973,9 +10973,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/questionnaire",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/questionnaire",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/questionnaire-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/questionnaire-example.tsx",
         },
       },
     },
@@ -10995,9 +10995,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/marker",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/marker",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/marker-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/marker-example.tsx",
         },
       },
     },
@@ -11017,9 +11017,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/message",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/message",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/message-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/message-example.tsx",
         },
       },
     },
@@ -11041,9 +11041,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/accordion",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/accordion",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/accordion-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/accordion-example.tsx",
           api: "https://base-ui.com/react/components/accordion.md",
         },
       },
@@ -11064,9 +11064,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/alert",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/alert",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/alert-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/alert-example.tsx",
         },
       },
     },
@@ -11086,9 +11086,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/alert-dialog",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/alert-dialog",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/alert-dialog-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/alert-dialog-example.tsx",
           api: "https://base-ui.com/react/components/alert-dialog.md",
         },
       },
@@ -11109,9 +11109,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/aspect-ratio",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/aspect-ratio",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/aspect-ratio-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/aspect-ratio-example.tsx",
         },
       },
     },
@@ -11131,9 +11131,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/avatar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/avatar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/avatar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/avatar-example.tsx",
           api: "https://base-ui.com/react/components/avatar.md",
         },
       },
@@ -11154,9 +11154,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/badge",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/badge",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/badge-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/badge-example.tsx",
         },
       },
     },
@@ -11176,9 +11176,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/breadcrumb",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/breadcrumb",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/breadcrumb-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/breadcrumb-example.tsx",
         },
       },
     },
@@ -11198,9 +11198,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/button",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/button",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/button-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/button-example.tsx",
         },
       },
     },
@@ -11220,9 +11220,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/button-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/button-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/button-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/button-group-example.tsx",
         },
       },
     },
@@ -11242,9 +11242,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/calendar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/calendar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/calendar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/calendar-example.tsx",
           api: "https://react-day-picker.js.org",
         },
       },
@@ -11265,9 +11265,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/card",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/card",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/card-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/card-example.tsx",
         },
       },
     },
@@ -11287,9 +11287,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/carousel",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/carousel",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/carousel-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/carousel-example.tsx",
           api: "https://www.embla-carousel.com/get-started/react",
         },
       },
@@ -11310,9 +11310,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/checkbox",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/checkbox",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/checkbox-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/checkbox-example.tsx",
           api: "https://base-ui.com/react/components/checkbox.md",
         },
       },
@@ -11333,9 +11333,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/collapsible",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/collapsible",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/collapsible-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/collapsible-example.tsx",
           api: "https://base-ui.com/react/components/collapsible.md",
         },
       },
@@ -11356,9 +11356,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/combobox",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/combobox",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/combobox-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/combobox-example.tsx",
           api: "https://base-ui.com/react/components/combobox.md",
         },
       },
@@ -11379,9 +11379,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/command",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/command",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/command-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/command-example.tsx",
           api: "https://github.com/dip/cmdk",
         },
       },
@@ -11402,9 +11402,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/context-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/context-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/context-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/context-menu-example.tsx",
           api: "https://base-ui.com/react/components/context-menu.md",
         },
       },
@@ -11425,9 +11425,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/dialog",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/dialog",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/dialog-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/dialog-example.tsx",
           api: "https://base-ui.com/react/components/dialog.md",
         },
       },
@@ -11448,9 +11448,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/drawer",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/drawer",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/drawer-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/drawer-example.tsx",
           api: "https://base-ui.com/react/components/drawer.md",
         },
       },
@@ -11471,9 +11471,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/dropdown-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/dropdown-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/dropdown-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/dropdown-menu-example.tsx",
           api: "https://base-ui.com/react/components/menu.md",
         },
       },
@@ -11494,9 +11494,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/empty",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/empty",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/empty-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/empty-example.tsx",
         },
       },
     },
@@ -11516,9 +11516,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/field",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/field",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/field-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/field-example.tsx",
         },
       },
     },
@@ -11538,9 +11538,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/hover-card",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/hover-card",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/hover-card-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/hover-card-example.tsx",
           api: "https://base-ui.com/react/components/hover-card.md",
         },
       },
@@ -11561,9 +11561,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/input",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/input",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/input-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/input-example.tsx",
         },
       },
     },
@@ -11583,9 +11583,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/input-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/input-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/input-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/input-group-example.tsx",
         },
       },
     },
@@ -11605,9 +11605,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/input-otp",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/input-otp",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/input-otp-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/input-otp-example.tsx",
           api: "https://input-otp.rodz.dev",
         },
       },
@@ -11628,9 +11628,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/item",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/item",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/item-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/item-example.tsx",
         },
       },
     },
@@ -11650,9 +11650,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/label",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/label",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/label-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/label-example.tsx",
           api: "https://base-ui.com/react/components/label.md",
         },
       },
@@ -11673,9 +11673,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/menubar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/menubar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/menubar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/menubar-example.tsx",
           api: "https://base-ui.com/react/components/menubar.md",
         },
       },
@@ -11696,9 +11696,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/navigation-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/navigation-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/navigation-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/navigation-menu-example.tsx",
           api: "https://base-ui.com/react/components/navigation-menu.md",
         },
       },
@@ -11719,9 +11719,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/pagination",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/pagination",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/pagination-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/pagination-example.tsx",
         },
       },
     },
@@ -11741,9 +11741,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/popover",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/popover",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/popover-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/popover-example.tsx",
           api: "https://base-ui.com/react/components/popover.md",
         },
       },
@@ -11764,9 +11764,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/progress",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/progress",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/progress-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/progress-example.tsx",
           api: "https://base-ui.com/react/components/progress.md",
         },
       },
@@ -11787,9 +11787,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/radio-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/radio-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/radio-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/radio-group-example.tsx",
           api: "https://base-ui.com/react/components/radio-group.md",
         },
       },
@@ -11810,9 +11810,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/resizable",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/resizable",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/resizable-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/resizable-example.tsx",
           api: "https://github.com/bvaughn/react-resizable-panels",
         },
       },
@@ -11833,9 +11833,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/scroll-area",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/scroll-area",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/scroll-area-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/scroll-area-example.tsx",
           api: "https://base-ui.com/react/components/scroll-area.md",
         },
       },
@@ -11856,9 +11856,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/select",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/select",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/select-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/select-example.tsx",
           api: "https://base-ui.com/react/components/select.md",
         },
       },
@@ -11879,9 +11879,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/separator",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/separator",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/separator-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/separator-example.tsx",
           api: "https://base-ui.com/react/components/separator.md",
         },
       },
@@ -11902,9 +11902,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/sheet",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/sheet",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/sheet-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/sheet-example.tsx",
           api: "https://base-ui.com/react/components/dialog.md",
         },
       },
@@ -11933,9 +11933,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/sidebar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/sidebar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/sidebar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/sidebar-example.tsx",
         },
       },
     },
@@ -11955,9 +11955,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/skeleton",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/skeleton",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/skeleton-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/skeleton-example.tsx",
         },
       },
     },
@@ -11977,9 +11977,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/slider",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/slider",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/slider-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/slider-example.tsx",
           api: "https://base-ui.com/react/components/slider.md",
         },
       },
@@ -12000,9 +12000,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/sonner",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/sonner",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/sonner-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/sonner-example.tsx",
           api: "https://sonner.emilkowal.ski",
         },
       },
@@ -12023,9 +12023,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/spinner",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/spinner",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/spinner-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/spinner-example.tsx",
         },
       },
     },
@@ -12045,9 +12045,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/switch",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/switch",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/switch-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/switch-example.tsx",
           api: "https://base-ui.com/react/components/switch.md",
         },
       },
@@ -12068,9 +12068,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/table",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/table",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/table-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/table-example.tsx",
         },
       },
     },
@@ -12090,9 +12090,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/tabs",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/tabs",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/tabs-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/tabs-example.tsx",
           api: "https://base-ui.com/react/components/tabs.md",
         },
       },
@@ -12113,9 +12113,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/textarea",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/textarea",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/textarea-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/textarea-example.tsx",
         },
       },
     },
@@ -12135,9 +12135,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/toast",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/toast",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/toast-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/toast-example.tsx",
           api: "https://base-ui.com/react/components/toast.md",
         },
       },
@@ -12158,9 +12158,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/toggle",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/toggle",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/toggle-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/toggle-example.tsx",
           api: "https://base-ui.com/react/components/toggle.md",
         },
       },
@@ -12181,9 +12181,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/toggle-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/toggle-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/toggle-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/toggle-group-example.tsx",
           api: "https://base-ui.com/react/components/toggle-group.md",
         },
       },
@@ -12204,9 +12204,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/tooltip",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/tooltip",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/tooltip-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/tooltip-example.tsx",
           api: "https://base-ui.com/react/components/tooltip.md",
         },
       },
@@ -12227,9 +12227,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/kbd",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/kbd",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/kbd-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/kbd-example.tsx",
         },
       },
     },
@@ -12249,7 +12249,7 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/direction",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/direction",
           api: "https://base-ui.com/react/utils/direction-provider.md",
         },
       },
@@ -12318,9 +12318,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/questionnaire",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/questionnaire",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/questionnaire-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/questionnaire-example.tsx",
         },
       },
     },
@@ -12374,9 +12374,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/accordion",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/accordion",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/accordion-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/accordion-example.tsx",
           api: "https://www.radix-ui.com/primitives/docs/components/accordion.md",
         },
       },
@@ -12397,9 +12397,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/alert",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/alert",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/alert-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/alert-example.tsx",
         },
       },
     },
@@ -12419,9 +12419,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/alert-dialog",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/alert-dialog",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/alert-dialog-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/alert-dialog-example.tsx",
           api: "https://www.radix-ui.com/primitives/docs/components/alert-dialog.md",
         },
       },
@@ -12442,9 +12442,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/aspect-ratio",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/aspect-ratio",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/aspect-ratio-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/aspect-ratio-example.tsx",
           api: "https://www.radix-ui.com/primitives/docs/components/aspect-ratio.md",
         },
       },
@@ -12465,9 +12465,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/avatar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/avatar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/avatar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/avatar-example.tsx",
           api: "https://www.radix-ui.com/primitives/docs/components/avatar.md",
         },
       },
@@ -12488,9 +12488,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/badge",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/badge",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/badge-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/badge-example.tsx",
         },
       },
     },
@@ -12510,9 +12510,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/breadcrumb",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/breadcrumb",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/breadcrumb-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/breadcrumb-example.tsx",
         },
       },
     },
@@ -12532,9 +12532,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/button",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/button",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/button-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/button-example.tsx",
         },
       },
     },
@@ -12554,9 +12554,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/button-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/button-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/button-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/button-group-example.tsx",
         },
       },
     },
@@ -12576,9 +12576,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/calendar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/calendar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/calendar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/calendar-example.tsx",
           api: "https://react-day-picker.js.org",
         },
       },
@@ -12599,9 +12599,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/card",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/card",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/card-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/card-example.tsx",
         },
       },
     },
@@ -12621,9 +12621,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/carousel",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/carousel",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/carousel-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/carousel-example.tsx",
           api: "https://www.embla-carousel.com/get-started/react",
         },
       },
@@ -12644,9 +12644,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/checkbox",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/checkbox",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/checkbox-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/checkbox-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/checkbox.md",
         },
       },
@@ -12667,9 +12667,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/collapsible",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/collapsible",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/collapsible-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/collapsible-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/collapsible.md",
         },
       },
@@ -12690,9 +12690,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/combobox",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/combobox",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/combobox-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/combobox-example.tsx",
           api: "https://base-ui.com/react/components/combobox",
         },
       },
@@ -12713,9 +12713,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/command",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/command",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/command-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/command-example.tsx",
           api: "https://github.com/dip/cmdk",
         },
       },
@@ -12736,9 +12736,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/context-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/context-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/context-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/context-menu-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/context-menu.md",
         },
       },
@@ -12759,9 +12759,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/dialog",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/dialog",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/dialog-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/dialog-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/dialog.md",
         },
       },
@@ -12782,9 +12782,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/drawer",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/drawer",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/drawer-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/drawer-example.tsx",
           api: "https://vaul.emilkowal.ski/getting-started",
         },
       },
@@ -12805,9 +12805,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/dropdown-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/dropdown-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/dropdown-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/dropdown-menu-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/dropdown-menu.md",
         },
       },
@@ -12828,9 +12828,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/empty",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/empty",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/empty-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/empty-example.tsx",
         },
       },
     },
@@ -12850,9 +12850,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/field",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/field",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/field-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/field-example.tsx",
         },
       },
     },
@@ -12872,9 +12872,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/hover-card",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/hover-card",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/hover-card-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/hover-card-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/hover-card.md",
         },
       },
@@ -12895,9 +12895,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/input",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/input",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/input-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/input-example.tsx",
         },
       },
     },
@@ -12917,9 +12917,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/input-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/input-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/input-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/input-group-example.tsx",
         },
       },
     },
@@ -12939,9 +12939,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/input-otp",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/input-otp",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/input-otp-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/input-otp-example.tsx",
           api: "https://input-otp.rodz.dev",
         },
       },
@@ -12962,9 +12962,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/item",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/item",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/item-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/item-example.tsx",
         },
       },
     },
@@ -12984,9 +12984,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/label",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/label",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/label-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/label-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/label.md",
         },
       },
@@ -13007,9 +13007,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/menubar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/menubar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/menubar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/menubar-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/menubar.md",
         },
       },
@@ -13030,9 +13030,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/navigation-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/navigation-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/navigation-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/navigation-menu-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/navigation-menu.md",
         },
       },
@@ -13053,9 +13053,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/pagination",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/pagination",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/pagination-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/pagination-example.tsx",
         },
       },
     },
@@ -13075,9 +13075,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/popover",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/popover",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/popover-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/popover-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/popover.md",
         },
       },
@@ -13098,9 +13098,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/progress",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/progress",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/progress-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/progress-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/progress.md",
         },
       },
@@ -13121,9 +13121,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/radio-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/radio-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/radio-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/radio-group-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/radio-group.md",
         },
       },
@@ -13144,9 +13144,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/resizable",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/resizable",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/resizable-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/resizable-example.tsx",
           api: "https://github.com/bvaughn/react-resizable-panels",
         },
       },
@@ -13167,9 +13167,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/scroll-area",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/scroll-area",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/scroll-area-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/scroll-area-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/scroll-area.md",
         },
       },
@@ -13190,9 +13190,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/select",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/select",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/select-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/select-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/select.md",
         },
       },
@@ -13213,9 +13213,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/separator",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/separator",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/separator-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/separator-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/separator.md",
         },
       },
@@ -13236,9 +13236,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/sheet",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/sheet",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/sheet-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/sheet-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/dialog.md",
         },
       },
@@ -13267,9 +13267,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/sidebar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/sidebar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/sidebar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/sidebar-example.tsx",
         },
       },
     },
@@ -13289,9 +13289,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/skeleton",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/skeleton",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/skeleton-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/skeleton-example.tsx",
         },
       },
     },
@@ -13311,9 +13311,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/slider",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/slider",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/slider-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/slider-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/slider.md",
         },
       },
@@ -13334,9 +13334,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/sonner",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/sonner",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/sonner-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/sonner-example.tsx",
           api: "https://sonner.emilkowal.ski",
         },
       },
@@ -13357,9 +13357,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/spinner",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/spinner",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/spinner-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/spinner-example.tsx",
         },
       },
     },
@@ -13379,9 +13379,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/switch",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/switch",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/switch-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/switch-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/switch.md",
         },
       },
@@ -13402,9 +13402,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/table",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/table",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/table-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/table-example.tsx",
         },
       },
     },
@@ -13424,9 +13424,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/tabs",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/tabs",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/tabs-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/tabs-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/tabs.md",
         },
       },
@@ -13447,9 +13447,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/textarea",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/textarea",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/textarea-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/textarea-example.tsx",
         },
       },
     },
@@ -13469,9 +13469,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/toggle",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/toggle",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/toggle-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/toggle-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/toggle.md",
         },
       },
@@ -13492,9 +13492,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/toggle-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/toggle-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/toggle-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/toggle-group-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/toggle-group.md",
         },
       },
@@ -13515,9 +13515,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/tooltip",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/tooltip",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/tooltip-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/tooltip-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/tooltip.md",
         },
       },
@@ -13538,9 +13538,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/kbd",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/kbd",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/kbd-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/kbd-example.tsx",
         },
       },
     },
@@ -13560,7 +13560,7 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/direction",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/direction",
           api: "https://www.radix-ui.com/primitives/docs/utilities/direction-provider.md",
         },
       },
@@ -13629,9 +13629,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/questionnaire",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/questionnaire",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/questionnaire-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/questionnaire-example.tsx",
         },
       },
     },
@@ -13685,9 +13685,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/accordion",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/accordion",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/accordion-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/accordion-example.tsx",
           api: "https://react-aria.adobe.com/DisclosureGroup#api",
         },
       },
@@ -13708,9 +13708,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/alert",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/alert",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/alert-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/alert-example.tsx",
         },
       },
     },
@@ -13730,9 +13730,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/alert-dialog",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/alert-dialog",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/alert-dialog-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/alert-dialog-example.tsx",
           api: "https://react-aria.adobe.com/Modal#api",
         },
       },
@@ -13753,9 +13753,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/aspect-ratio",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/aspect-ratio",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/aspect-ratio-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/aspect-ratio-example.tsx",
         },
       },
     },
@@ -13775,9 +13775,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/avatar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/avatar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/avatar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/avatar-example.tsx",
         },
       },
     },
@@ -13797,9 +13797,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/badge",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/badge",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/badge-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/badge-example.tsx",
         },
       },
     },
@@ -13819,9 +13819,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/breadcrumb",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/breadcrumb",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/breadcrumb-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/breadcrumb-example.tsx",
           api: "https://react-aria.adobe.com/Breadcrumbs#api",
         },
       },
@@ -13842,9 +13842,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/button",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/button",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/button-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/button-example.tsx",
           api: "https://react-aria.adobe.com/Button#api",
         },
       },
@@ -13865,9 +13865,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/button-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/button-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/button-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/button-group-example.tsx",
         },
       },
     },
@@ -13887,9 +13887,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/calendar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/calendar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/calendar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/calendar-example.tsx",
           api: "https://react-aria.adobe.com/Calendar#api",
         },
       },
@@ -13910,9 +13910,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/card",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/card",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/card-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/card-example.tsx",
         },
       },
     },
@@ -13932,9 +13932,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/carousel",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/carousel",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/carousel-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/carousel-example.tsx",
           api: "https://www.embla-carousel.com/docs/api",
         },
       },
@@ -13955,9 +13955,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/checkbox",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/checkbox",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/checkbox-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/checkbox-example.tsx",
           api: "https://react-aria.adobe.com/Checkbox#api",
         },
       },
@@ -13978,9 +13978,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/collapsible",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/collapsible",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/collapsible-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/collapsible-example.tsx",
           api: "https://react-aria.adobe.com/Disclosure#api",
         },
       },
@@ -14001,9 +14001,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/combobox",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/combobox",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/combobox-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/combobox-example.tsx",
           api: "https://react-aria.adobe.com/ComboBox#api",
         },
       },
@@ -14024,9 +14024,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/command",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/command",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/command-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/command-example.tsx",
           api: "https://react-aria.adobe.com/Autocomplete#api",
         },
       },
@@ -14047,9 +14047,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/context-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/context-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/context-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/context-menu-example.tsx",
           api: "https://react-aria.adobe.com/Menu#api",
         },
       },
@@ -14070,9 +14070,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/dialog",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/dialog",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/dialog-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/dialog-example.tsx",
           api: "https://react-aria.adobe.com/Modal#api",
         },
       },
@@ -14093,9 +14093,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/drawer",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/drawer",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/drawer-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/drawer-example.tsx",
           api: "https://base-ui.com/react/components/drawer.md",
         },
       },
@@ -14116,9 +14116,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/dropdown-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/dropdown-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/dropdown-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/dropdown-menu-example.tsx",
           api: "https://react-aria.adobe.com/Menu#api",
         },
       },
@@ -14139,9 +14139,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/empty",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/empty",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/empty-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/empty-example.tsx",
         },
       },
     },
@@ -14161,9 +14161,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/field",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/field",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/field-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/field-example.tsx",
         },
       },
     },
@@ -14183,9 +14183,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/hover-card",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/hover-card",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/hover-card-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/hover-card-example.tsx",
           api: "https://react-aria.adobe.com/PreviewTrigger#api",
         },
       },
@@ -14206,9 +14206,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/input",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/input",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/input-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/input-example.tsx",
           api: "https://react-aria.adobe.com/TextField#api",
         },
       },
@@ -14229,9 +14229,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/input-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/input-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/input-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/input-group-example.tsx",
           api: "https://react-aria.adobe.com/Group#api",
         },
       },
@@ -14252,9 +14252,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/input-otp",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/input-otp",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/input-otp-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/input-otp-example.tsx",
           api: "https://input-otp.rodz.dev",
         },
       },
@@ -14275,9 +14275,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/item",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/item",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/item-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/item-example.tsx",
           api: "https://react-aria.adobe.com/Link#api",
         },
       },
@@ -14298,9 +14298,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/label",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/label",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/label-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/label-example.tsx",
           api: "https://react-aria.adobe.com/TextField#api",
         },
       },
@@ -14321,9 +14321,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/pagination",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/pagination",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/pagination-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/pagination-example.tsx",
         },
       },
     },
@@ -14343,9 +14343,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/popover",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/popover",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/popover-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/popover-example.tsx",
           api: "https://react-aria.adobe.com/Popover#api",
         },
       },
@@ -14366,9 +14366,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/progress",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/progress",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/progress-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/progress-example.tsx",
           api: "https://react-aria.adobe.com/ProgressBar#api",
         },
       },
@@ -14389,9 +14389,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/radio-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/radio-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/radio-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/radio-group-example.tsx",
           api: "https://react-aria.adobe.com/RadioGroup#api",
         },
       },
@@ -14412,9 +14412,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/resizable",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/resizable",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/resizable-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/resizable-example.tsx",
           api: "https://github.com/bvaughn/react-resizable-panels",
         },
       },
@@ -14435,9 +14435,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/scroll-area",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/scroll-area",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/scroll-area-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/scroll-area-example.tsx",
         },
       },
     },
@@ -14457,9 +14457,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/select",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/select",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/select-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/select-example.tsx",
           api: "https://react-aria.adobe.com/Select#api",
         },
       },
@@ -14480,9 +14480,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/separator",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/separator",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/separator-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/separator-example.tsx",
           api: "https://react-aria.adobe.com/Separator#api",
         },
       },
@@ -14503,9 +14503,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/sheet",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/sheet",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/sheet-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/sheet-example.tsx",
           api: "https://react-aria.adobe.com/Modal#api",
         },
       },
@@ -14534,9 +14534,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/sidebar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/sidebar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/sidebar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/sidebar-example.tsx",
         },
       },
     },
@@ -14556,9 +14556,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/skeleton",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/skeleton",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/skeleton-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/skeleton-example.tsx",
         },
       },
     },
@@ -14578,9 +14578,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/slider",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/slider",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/slider-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/slider-example.tsx",
           api: "https://react-aria.adobe.com/Slider#api",
         },
       },
@@ -14601,9 +14601,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/sonner",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/sonner",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/sonner-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/sonner-example.tsx",
           api: "https://sonner.emilkowal.ski",
         },
       },
@@ -14624,9 +14624,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/spinner",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/spinner",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/spinner-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/spinner-example.tsx",
         },
       },
     },
@@ -14646,9 +14646,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/switch",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/switch",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/switch-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/switch-example.tsx",
           api: "https://react-aria.adobe.com/Switch#api",
         },
       },
@@ -14669,9 +14669,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/table",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/table",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/table-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/table-example.tsx",
           api: "https://react-aria.adobe.com/Table#api",
         },
       },
@@ -14692,9 +14692,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/tabs",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/tabs",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/tabs-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/tabs-example.tsx",
           api: "https://react-aria.adobe.com/Tabs#api",
         },
       },
@@ -14715,9 +14715,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/textarea",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/textarea",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/textarea-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/textarea-example.tsx",
           api: "https://react-aria.adobe.com/TextField#api",
         },
       },
@@ -14738,9 +14738,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/toggle",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/toggle",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/toggle-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/toggle-example.tsx",
           api: "https://react-aria.adobe.com/ToggleButton#api",
         },
       },
@@ -14761,9 +14761,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/toggle-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/toggle-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/toggle-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/toggle-group-example.tsx",
           api: "https://react-aria.adobe.com/ToggleButtonGroup#api",
         },
       },
@@ -14784,9 +14784,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/tooltip",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/tooltip",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/tooltip-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/tooltip-example.tsx",
           api: "https://react-aria.adobe.com/Tooltip#api",
         },
       },
@@ -14807,9 +14807,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/kbd",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/kbd",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/kbd-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/kbd-example.tsx",
         },
       },
     },
@@ -14829,7 +14829,7 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/direction",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/direction",
           api: "https://react-aria.adobe.com/I18nProvider#api",
         },
       },
@@ -14850,9 +14850,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/attachment",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/attachment",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/attachment-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/attachment-example.tsx",
         },
       },
     },
@@ -14872,9 +14872,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/bubble",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/bubble",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/bubble-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/bubble-example.tsx",
         },
       },
     },
@@ -14894,9 +14894,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/message-scroller",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/message-scroller",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/message-scroller-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/message-scroller-example.tsx",
         },
       },
     },
@@ -14916,9 +14916,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/questionnaire",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/questionnaire",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/questionnaire-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/questionnaire-example.tsx",
         },
       },
     },
@@ -14938,9 +14938,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/marker",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/marker",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/marker-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/marker-example.tsx",
         },
       },
     },
@@ -14960,9 +14960,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/message",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/message",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/message-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/message-example.tsx",
         },
       },
     },
@@ -14984,9 +14984,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/accordion",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/accordion",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/accordion-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/accordion-example.tsx",
           api: "https://base-ui.com/react/components/accordion.md",
         },
       },
@@ -15007,9 +15007,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/alert",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/alert",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/alert-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/alert-example.tsx",
         },
       },
     },
@@ -15029,9 +15029,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/alert-dialog",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/alert-dialog",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/alert-dialog-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/alert-dialog-example.tsx",
           api: "https://base-ui.com/react/components/alert-dialog.md",
         },
       },
@@ -15052,9 +15052,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/aspect-ratio",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/aspect-ratio",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/aspect-ratio-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/aspect-ratio-example.tsx",
         },
       },
     },
@@ -15074,9 +15074,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/avatar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/avatar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/avatar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/avatar-example.tsx",
           api: "https://base-ui.com/react/components/avatar.md",
         },
       },
@@ -15097,9 +15097,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/badge",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/badge",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/badge-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/badge-example.tsx",
         },
       },
     },
@@ -15119,9 +15119,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/breadcrumb",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/breadcrumb",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/breadcrumb-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/breadcrumb-example.tsx",
         },
       },
     },
@@ -15141,9 +15141,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/button",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/button",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/button-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/button-example.tsx",
         },
       },
     },
@@ -15163,9 +15163,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/button-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/button-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/button-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/button-group-example.tsx",
         },
       },
     },
@@ -15185,9 +15185,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/calendar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/calendar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/calendar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/calendar-example.tsx",
           api: "https://react-day-picker.js.org",
         },
       },
@@ -15208,9 +15208,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/card",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/card",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/card-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/card-example.tsx",
         },
       },
     },
@@ -15230,9 +15230,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/carousel",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/carousel",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/carousel-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/carousel-example.tsx",
           api: "https://www.embla-carousel.com/get-started/react",
         },
       },
@@ -15253,9 +15253,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/chart",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/chart",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/chart-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/chart-example.tsx",
         },
       },
     },
@@ -15275,9 +15275,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/checkbox",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/checkbox",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/checkbox-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/checkbox-example.tsx",
           api: "https://base-ui.com/react/components/checkbox.md",
         },
       },
@@ -15298,9 +15298,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/collapsible",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/collapsible",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/collapsible-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/collapsible-example.tsx",
           api: "https://base-ui.com/react/components/collapsible.md",
         },
       },
@@ -15321,9 +15321,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/combobox",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/combobox",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/combobox-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/combobox-example.tsx",
           api: "https://base-ui.com/react/components/combobox.md",
         },
       },
@@ -15344,9 +15344,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/command",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/command",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/command-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/command-example.tsx",
           api: "https://github.com/dip/cmdk",
         },
       },
@@ -15367,9 +15367,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/context-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/context-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/context-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/context-menu-example.tsx",
           api: "https://base-ui.com/react/components/context-menu.md",
         },
       },
@@ -15390,9 +15390,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/dialog",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/dialog",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/dialog-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/dialog-example.tsx",
           api: "https://base-ui.com/react/components/dialog.md",
         },
       },
@@ -15413,9 +15413,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/drawer",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/drawer",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/drawer-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/drawer-example.tsx",
           api: "https://base-ui.com/react/components/drawer.md",
         },
       },
@@ -15436,9 +15436,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/dropdown-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/dropdown-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/dropdown-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/dropdown-menu-example.tsx",
           api: "https://base-ui.com/react/components/menu.md",
         },
       },
@@ -15459,9 +15459,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/empty",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/empty",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/empty-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/empty-example.tsx",
         },
       },
     },
@@ -15481,9 +15481,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/field",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/field",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/field-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/field-example.tsx",
         },
       },
     },
@@ -15503,9 +15503,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/hover-card",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/hover-card",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/hover-card-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/hover-card-example.tsx",
           api: "https://base-ui.com/react/components/hover-card.md",
         },
       },
@@ -15526,9 +15526,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/input",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/input",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/input-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/input-example.tsx",
         },
       },
     },
@@ -15548,9 +15548,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/input-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/input-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/input-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/input-group-example.tsx",
         },
       },
     },
@@ -15570,9 +15570,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/input-otp",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/input-otp",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/input-otp-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/input-otp-example.tsx",
           api: "https://input-otp.rodz.dev",
         },
       },
@@ -15593,9 +15593,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/item",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/item",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/item-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/item-example.tsx",
         },
       },
     },
@@ -15615,9 +15615,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/label",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/label",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/label-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/label-example.tsx",
           api: "https://base-ui.com/react/components/label.md",
         },
       },
@@ -15638,9 +15638,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/menubar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/menubar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/menubar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/menubar-example.tsx",
           api: "https://base-ui.com/react/components/menubar.md",
         },
       },
@@ -15661,9 +15661,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/navigation-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/navigation-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/navigation-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/navigation-menu-example.tsx",
           api: "https://base-ui.com/react/components/navigation-menu.md",
         },
       },
@@ -15684,9 +15684,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/pagination",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/pagination",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/pagination-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/pagination-example.tsx",
         },
       },
     },
@@ -15706,9 +15706,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/popover",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/popover",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/popover-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/popover-example.tsx",
           api: "https://base-ui.com/react/components/popover.md",
         },
       },
@@ -15729,9 +15729,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/progress",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/progress",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/progress-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/progress-example.tsx",
           api: "https://base-ui.com/react/components/progress.md",
         },
       },
@@ -15752,9 +15752,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/radio-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/radio-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/radio-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/radio-group-example.tsx",
           api: "https://base-ui.com/react/components/radio-group.md",
         },
       },
@@ -15775,9 +15775,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/resizable",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/resizable",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/resizable-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/resizable-example.tsx",
           api: "https://github.com/bvaughn/react-resizable-panels",
         },
       },
@@ -15798,9 +15798,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/scroll-area",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/scroll-area",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/scroll-area-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/scroll-area-example.tsx",
           api: "https://base-ui.com/react/components/scroll-area.md",
         },
       },
@@ -15821,9 +15821,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/select",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/select",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/select-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/select-example.tsx",
           api: "https://base-ui.com/react/components/select.md",
         },
       },
@@ -15844,9 +15844,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/separator",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/separator",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/separator-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/separator-example.tsx",
           api: "https://base-ui.com/react/components/separator.md",
         },
       },
@@ -15867,9 +15867,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/sheet",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/sheet",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/sheet-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/sheet-example.tsx",
           api: "https://base-ui.com/react/components/dialog.md",
         },
       },
@@ -15898,9 +15898,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/sidebar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/sidebar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/sidebar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/sidebar-example.tsx",
         },
       },
     },
@@ -15920,9 +15920,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/skeleton",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/skeleton",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/skeleton-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/skeleton-example.tsx",
         },
       },
     },
@@ -15942,9 +15942,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/slider",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/slider",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/slider-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/slider-example.tsx",
           api: "https://base-ui.com/react/components/slider.md",
         },
       },
@@ -15965,9 +15965,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/sonner",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/sonner",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/sonner-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/sonner-example.tsx",
           api: "https://sonner.emilkowal.ski",
         },
       },
@@ -15988,9 +15988,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/spinner",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/spinner",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/spinner-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/spinner-example.tsx",
         },
       },
     },
@@ -16010,9 +16010,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/switch",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/switch",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/switch-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/switch-example.tsx",
           api: "https://base-ui.com/react/components/switch.md",
         },
       },
@@ -16033,9 +16033,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/table",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/table",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/table-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/table-example.tsx",
         },
       },
     },
@@ -16055,9 +16055,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/tabs",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/tabs",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/tabs-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/tabs-example.tsx",
           api: "https://base-ui.com/react/components/tabs.md",
         },
       },
@@ -16078,9 +16078,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/textarea",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/textarea",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/textarea-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/textarea-example.tsx",
         },
       },
     },
@@ -16100,9 +16100,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/toast",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/toast",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/toast-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/toast-example.tsx",
           api: "https://base-ui.com/react/components/toast.md",
         },
       },
@@ -16123,9 +16123,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/toggle",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/toggle",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/toggle-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/toggle-example.tsx",
           api: "https://base-ui.com/react/components/toggle.md",
         },
       },
@@ -16146,9 +16146,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/toggle-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/toggle-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/toggle-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/toggle-group-example.tsx",
           api: "https://base-ui.com/react/components/toggle-group.md",
         },
       },
@@ -16169,9 +16169,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/tooltip",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/tooltip",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/tooltip-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/tooltip-example.tsx",
           api: "https://base-ui.com/react/components/tooltip.md",
         },
       },
@@ -16192,9 +16192,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/kbd",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/kbd",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/kbd-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/kbd-example.tsx",
         },
       },
     },
@@ -16214,9 +16214,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/native-select",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/native-select",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/native-select-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/native-select-example.tsx",
         },
       },
     },
@@ -16236,7 +16236,7 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/direction",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/direction",
           api: "https://base-ui.com/react/utils/direction-provider.md",
         },
       },
@@ -16305,9 +16305,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/questionnaire",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/questionnaire",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/questionnaire-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/questionnaire-example.tsx",
         },
       },
     },
@@ -16361,9 +16361,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/accordion",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/accordion",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/accordion-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/accordion-example.tsx",
           api: "https://base-ui.com/react/components/accordion.md",
         },
       },
@@ -16384,9 +16384,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/alert",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/alert",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/alert-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/alert-example.tsx",
         },
       },
     },
@@ -16406,9 +16406,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/alert-dialog",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/alert-dialog",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/alert-dialog-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/alert-dialog-example.tsx",
           api: "https://base-ui.com/react/components/alert-dialog.md",
         },
       },
@@ -16429,9 +16429,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/aspect-ratio",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/aspect-ratio",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/aspect-ratio-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/aspect-ratio-example.tsx",
         },
       },
     },
@@ -16451,9 +16451,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/avatar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/avatar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/avatar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/avatar-example.tsx",
           api: "https://base-ui.com/react/components/avatar.md",
         },
       },
@@ -16474,9 +16474,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/badge",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/badge",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/badge-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/badge-example.tsx",
         },
       },
     },
@@ -16496,9 +16496,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/breadcrumb",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/breadcrumb",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/breadcrumb-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/breadcrumb-example.tsx",
         },
       },
     },
@@ -16518,9 +16518,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/button",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/button",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/button-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/button-example.tsx",
         },
       },
     },
@@ -16540,9 +16540,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/button-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/button-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/button-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/button-group-example.tsx",
         },
       },
     },
@@ -16562,9 +16562,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/calendar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/calendar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/calendar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/calendar-example.tsx",
           api: "https://react-day-picker.js.org",
         },
       },
@@ -16585,9 +16585,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/card",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/card",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/card-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/card-example.tsx",
         },
       },
     },
@@ -16607,9 +16607,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/carousel",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/carousel",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/carousel-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/carousel-example.tsx",
           api: "https://www.embla-carousel.com/get-started/react",
         },
       },
@@ -16630,9 +16630,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/chart",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/chart",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/chart-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/chart-example.tsx",
         },
       },
     },
@@ -16652,9 +16652,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/checkbox",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/checkbox",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/checkbox-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/checkbox-example.tsx",
           api: "https://base-ui.com/react/components/checkbox.md",
         },
       },
@@ -16675,9 +16675,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/collapsible",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/collapsible",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/collapsible-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/collapsible-example.tsx",
           api: "https://base-ui.com/react/components/collapsible.md",
         },
       },
@@ -16698,9 +16698,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/combobox",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/combobox",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/combobox-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/combobox-example.tsx",
           api: "https://base-ui.com/react/components/combobox.md",
         },
       },
@@ -16721,9 +16721,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/command",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/command",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/command-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/command-example.tsx",
           api: "https://github.com/dip/cmdk",
         },
       },
@@ -16744,9 +16744,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/context-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/context-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/context-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/context-menu-example.tsx",
           api: "https://base-ui.com/react/components/context-menu.md",
         },
       },
@@ -16767,9 +16767,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/dialog",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/dialog",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/dialog-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/dialog-example.tsx",
           api: "https://base-ui.com/react/components/dialog.md",
         },
       },
@@ -16790,9 +16790,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/drawer",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/drawer",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/drawer-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/drawer-example.tsx",
           api: "https://base-ui.com/react/components/drawer.md",
         },
       },
@@ -16813,9 +16813,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/dropdown-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/dropdown-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/dropdown-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/dropdown-menu-example.tsx",
           api: "https://base-ui.com/react/components/menu.md",
         },
       },
@@ -16836,9 +16836,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/empty",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/empty",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/empty-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/empty-example.tsx",
         },
       },
     },
@@ -16858,9 +16858,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/field",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/field",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/field-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/field-example.tsx",
         },
       },
     },
@@ -16880,9 +16880,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/hover-card",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/hover-card",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/hover-card-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/hover-card-example.tsx",
           api: "https://base-ui.com/react/components/hover-card.md",
         },
       },
@@ -16903,9 +16903,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/input",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/input",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/input-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/input-example.tsx",
         },
       },
     },
@@ -16925,9 +16925,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/input-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/input-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/input-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/input-group-example.tsx",
         },
       },
     },
@@ -16947,9 +16947,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/input-otp",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/input-otp",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/input-otp-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/input-otp-example.tsx",
           api: "https://input-otp.rodz.dev",
         },
       },
@@ -16970,9 +16970,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/item",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/item",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/item-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/item-example.tsx",
         },
       },
     },
@@ -16992,9 +16992,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/label",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/label",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/label-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/label-example.tsx",
           api: "https://base-ui.com/react/components/label.md",
         },
       },
@@ -17015,9 +17015,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/menubar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/menubar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/menubar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/menubar-example.tsx",
           api: "https://base-ui.com/react/components/menubar.md",
         },
       },
@@ -17038,9 +17038,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/navigation-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/navigation-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/navigation-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/navigation-menu-example.tsx",
           api: "https://base-ui.com/react/components/navigation-menu.md",
         },
       },
@@ -17061,9 +17061,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/pagination",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/pagination",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/pagination-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/pagination-example.tsx",
         },
       },
     },
@@ -17083,9 +17083,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/popover",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/popover",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/popover-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/popover-example.tsx",
           api: "https://base-ui.com/react/components/popover.md",
         },
       },
@@ -17106,9 +17106,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/progress",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/progress",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/progress-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/progress-example.tsx",
           api: "https://base-ui.com/react/components/progress.md",
         },
       },
@@ -17129,9 +17129,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/radio-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/radio-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/radio-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/radio-group-example.tsx",
           api: "https://base-ui.com/react/components/radio-group.md",
         },
       },
@@ -17152,9 +17152,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/resizable",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/resizable",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/resizable-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/resizable-example.tsx",
           api: "https://github.com/bvaughn/react-resizable-panels",
         },
       },
@@ -17175,9 +17175,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/scroll-area",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/scroll-area",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/scroll-area-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/scroll-area-example.tsx",
           api: "https://base-ui.com/react/components/scroll-area.md",
         },
       },
@@ -17198,9 +17198,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/select",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/select",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/select-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/select-example.tsx",
           api: "https://base-ui.com/react/components/select.md",
         },
       },
@@ -17221,9 +17221,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/separator",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/separator",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/separator-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/separator-example.tsx",
           api: "https://base-ui.com/react/components/separator.md",
         },
       },
@@ -17244,9 +17244,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/sheet",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/sheet",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/sheet-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/sheet-example.tsx",
           api: "https://base-ui.com/react/components/dialog.md",
         },
       },
@@ -17275,9 +17275,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/sidebar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/sidebar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/sidebar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/sidebar-example.tsx",
         },
       },
     },
@@ -17297,9 +17297,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/skeleton",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/skeleton",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/skeleton-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/skeleton-example.tsx",
         },
       },
     },
@@ -17319,9 +17319,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/slider",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/slider",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/slider-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/slider-example.tsx",
           api: "https://base-ui.com/react/components/slider.md",
         },
       },
@@ -17342,9 +17342,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/sonner",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/sonner",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/sonner-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/sonner-example.tsx",
           api: "https://sonner.emilkowal.ski",
         },
       },
@@ -17365,9 +17365,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/spinner",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/spinner",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/spinner-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/spinner-example.tsx",
         },
       },
     },
@@ -17387,9 +17387,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/switch",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/switch",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/switch-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/switch-example.tsx",
           api: "https://base-ui.com/react/components/switch.md",
         },
       },
@@ -17410,9 +17410,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/table",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/table",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/table-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/table-example.tsx",
         },
       },
     },
@@ -17432,9 +17432,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/tabs",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/tabs",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/tabs-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/tabs-example.tsx",
           api: "https://base-ui.com/react/components/tabs.md",
         },
       },
@@ -17455,9 +17455,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/textarea",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/textarea",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/textarea-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/textarea-example.tsx",
         },
       },
     },
@@ -17477,9 +17477,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/toast",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/toast",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/toast-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/toast-example.tsx",
           api: "https://base-ui.com/react/components/toast.md",
         },
       },
@@ -17500,9 +17500,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/toggle",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/toggle",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/toggle-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/toggle-example.tsx",
           api: "https://base-ui.com/react/components/toggle.md",
         },
       },
@@ -17523,9 +17523,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/toggle-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/toggle-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/toggle-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/toggle-group-example.tsx",
           api: "https://base-ui.com/react/components/toggle-group.md",
         },
       },
@@ -17546,9 +17546,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/tooltip",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/tooltip",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/tooltip-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/tooltip-example.tsx",
           api: "https://base-ui.com/react/components/tooltip.md",
         },
       },
@@ -17569,9 +17569,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/kbd",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/kbd",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/kbd-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/kbd-example.tsx",
         },
       },
     },
@@ -17591,9 +17591,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/native-select",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/native-select",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/native-select-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/native-select-example.tsx",
         },
       },
     },
@@ -17613,7 +17613,7 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/direction",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/direction",
           api: "https://base-ui.com/react/utils/direction-provider.md",
         },
       },
@@ -17682,9 +17682,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/questionnaire",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/questionnaire",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/questionnaire-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/questionnaire-example.tsx",
         },
       },
     },
@@ -17738,9 +17738,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/accordion",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/accordion",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/accordion-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/accordion-example.tsx",
           api: "https://base-ui.com/react/components/accordion.md",
         },
       },
@@ -17761,9 +17761,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/alert",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/alert",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/alert-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/alert-example.tsx",
         },
       },
     },
@@ -17783,9 +17783,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/alert-dialog",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/alert-dialog",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/alert-dialog-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/alert-dialog-example.tsx",
           api: "https://base-ui.com/react/components/alert-dialog.md",
         },
       },
@@ -17806,9 +17806,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/aspect-ratio",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/aspect-ratio",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/aspect-ratio-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/aspect-ratio-example.tsx",
         },
       },
     },
@@ -17828,9 +17828,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/avatar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/avatar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/avatar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/avatar-example.tsx",
           api: "https://base-ui.com/react/components/avatar.md",
         },
       },
@@ -17851,9 +17851,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/badge",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/badge",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/badge-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/badge-example.tsx",
         },
       },
     },
@@ -17873,9 +17873,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/breadcrumb",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/breadcrumb",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/breadcrumb-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/breadcrumb-example.tsx",
         },
       },
     },
@@ -17895,9 +17895,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/button",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/button",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/button-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/button-example.tsx",
         },
       },
     },
@@ -17917,9 +17917,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/button-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/button-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/button-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/button-group-example.tsx",
         },
       },
     },
@@ -17939,9 +17939,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/calendar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/calendar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/calendar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/calendar-example.tsx",
           api: "https://react-day-picker.js.org",
         },
       },
@@ -17962,9 +17962,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/card",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/card",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/card-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/card-example.tsx",
         },
       },
     },
@@ -17984,9 +17984,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/carousel",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/carousel",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/carousel-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/carousel-example.tsx",
           api: "https://www.embla-carousel.com/get-started/react",
         },
       },
@@ -18007,9 +18007,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/chart",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/chart",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/chart-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/chart-example.tsx",
         },
       },
     },
@@ -18029,9 +18029,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/checkbox",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/checkbox",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/checkbox-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/checkbox-example.tsx",
           api: "https://base-ui.com/react/components/checkbox.md",
         },
       },
@@ -18052,9 +18052,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/collapsible",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/collapsible",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/collapsible-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/collapsible-example.tsx",
           api: "https://base-ui.com/react/components/collapsible.md",
         },
       },
@@ -18075,9 +18075,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/combobox",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/combobox",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/combobox-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/combobox-example.tsx",
           api: "https://base-ui.com/react/components/combobox.md",
         },
       },
@@ -18098,9 +18098,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/command",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/command",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/command-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/command-example.tsx",
           api: "https://github.com/dip/cmdk",
         },
       },
@@ -18121,9 +18121,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/context-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/context-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/context-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/context-menu-example.tsx",
           api: "https://base-ui.com/react/components/context-menu.md",
         },
       },
@@ -18144,9 +18144,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/dialog",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/dialog",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/dialog-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/dialog-example.tsx",
           api: "https://base-ui.com/react/components/dialog.md",
         },
       },
@@ -18167,9 +18167,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/drawer",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/drawer",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/drawer-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/drawer-example.tsx",
           api: "https://base-ui.com/react/components/drawer.md",
         },
       },
@@ -18190,9 +18190,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/dropdown-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/dropdown-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/dropdown-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/dropdown-menu-example.tsx",
           api: "https://base-ui.com/react/components/menu.md",
         },
       },
@@ -18213,9 +18213,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/empty",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/empty",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/empty-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/empty-example.tsx",
         },
       },
     },
@@ -18235,9 +18235,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/field",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/field",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/field-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/field-example.tsx",
         },
       },
     },
@@ -18257,9 +18257,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/hover-card",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/hover-card",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/hover-card-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/hover-card-example.tsx",
           api: "https://base-ui.com/react/components/hover-card.md",
         },
       },
@@ -18280,9 +18280,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/input",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/input",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/input-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/input-example.tsx",
         },
       },
     },
@@ -18302,9 +18302,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/input-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/input-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/input-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/input-group-example.tsx",
         },
       },
     },
@@ -18324,9 +18324,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/input-otp",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/input-otp",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/input-otp-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/input-otp-example.tsx",
           api: "https://input-otp.rodz.dev",
         },
       },
@@ -18347,9 +18347,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/item",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/item",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/item-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/item-example.tsx",
         },
       },
     },
@@ -18369,9 +18369,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/label",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/label",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/label-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/label-example.tsx",
           api: "https://base-ui.com/react/components/label.md",
         },
       },
@@ -18392,9 +18392,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/menubar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/menubar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/menubar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/menubar-example.tsx",
           api: "https://base-ui.com/react/components/menubar.md",
         },
       },
@@ -18415,9 +18415,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/navigation-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/navigation-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/navigation-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/navigation-menu-example.tsx",
           api: "https://base-ui.com/react/components/navigation-menu.md",
         },
       },
@@ -18438,9 +18438,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/pagination",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/pagination",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/pagination-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/pagination-example.tsx",
         },
       },
     },
@@ -18460,9 +18460,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/popover",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/popover",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/popover-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/popover-example.tsx",
           api: "https://base-ui.com/react/components/popover.md",
         },
       },
@@ -18483,9 +18483,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/progress",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/progress",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/progress-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/progress-example.tsx",
           api: "https://base-ui.com/react/components/progress.md",
         },
       },
@@ -18506,9 +18506,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/radio-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/radio-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/radio-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/radio-group-example.tsx",
           api: "https://base-ui.com/react/components/radio-group.md",
         },
       },
@@ -18529,9 +18529,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/resizable",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/resizable",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/resizable-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/resizable-example.tsx",
           api: "https://github.com/bvaughn/react-resizable-panels",
         },
       },
@@ -18552,9 +18552,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/scroll-area",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/scroll-area",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/scroll-area-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/scroll-area-example.tsx",
           api: "https://base-ui.com/react/components/scroll-area.md",
         },
       },
@@ -18575,9 +18575,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/select",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/select",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/select-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/select-example.tsx",
           api: "https://base-ui.com/react/components/select.md",
         },
       },
@@ -18598,9 +18598,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/separator",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/separator",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/separator-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/separator-example.tsx",
           api: "https://base-ui.com/react/components/separator.md",
         },
       },
@@ -18621,9 +18621,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/sheet",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/sheet",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/sheet-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/sheet-example.tsx",
           api: "https://base-ui.com/react/components/dialog.md",
         },
       },
@@ -18652,9 +18652,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/sidebar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/sidebar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/sidebar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/sidebar-example.tsx",
         },
       },
     },
@@ -18674,9 +18674,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/skeleton",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/skeleton",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/skeleton-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/skeleton-example.tsx",
         },
       },
     },
@@ -18696,9 +18696,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/slider",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/slider",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/slider-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/slider-example.tsx",
           api: "https://base-ui.com/react/components/slider.md",
         },
       },
@@ -18719,9 +18719,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/sonner",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/sonner",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/sonner-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/sonner-example.tsx",
           api: "https://sonner.emilkowal.ski",
         },
       },
@@ -18742,9 +18742,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/spinner",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/spinner",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/spinner-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/spinner-example.tsx",
         },
       },
     },
@@ -18764,9 +18764,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/switch",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/switch",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/switch-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/switch-example.tsx",
           api: "https://base-ui.com/react/components/switch.md",
         },
       },
@@ -18787,9 +18787,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/table",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/table",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/table-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/table-example.tsx",
         },
       },
     },
@@ -18809,9 +18809,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/tabs",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/tabs",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/tabs-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/tabs-example.tsx",
           api: "https://base-ui.com/react/components/tabs.md",
         },
       },
@@ -18832,9 +18832,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/textarea",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/textarea",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/textarea-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/textarea-example.tsx",
         },
       },
     },
@@ -18854,9 +18854,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/toast",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/toast",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/toast-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/toast-example.tsx",
           api: "https://base-ui.com/react/components/toast.md",
         },
       },
@@ -18877,9 +18877,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/toggle",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/toggle",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/toggle-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/toggle-example.tsx",
           api: "https://base-ui.com/react/components/toggle.md",
         },
       },
@@ -18900,9 +18900,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/toggle-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/toggle-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/toggle-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/toggle-group-example.tsx",
           api: "https://base-ui.com/react/components/toggle-group.md",
         },
       },
@@ -18923,9 +18923,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/tooltip",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/tooltip",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/tooltip-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/tooltip-example.tsx",
           api: "https://base-ui.com/react/components/tooltip.md",
         },
       },
@@ -18946,9 +18946,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/kbd",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/kbd",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/kbd-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/kbd-example.tsx",
         },
       },
     },
@@ -18968,9 +18968,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/native-select",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/native-select",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/native-select-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/native-select-example.tsx",
         },
       },
     },
@@ -18990,7 +18990,7 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/direction",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/direction",
           api: "https://base-ui.com/react/utils/direction-provider.md",
         },
       },
@@ -19059,9 +19059,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/questionnaire",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/questionnaire",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/questionnaire-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/questionnaire-example.tsx",
         },
       },
     },
@@ -19115,9 +19115,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/accordion",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/accordion",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/accordion-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/accordion-example.tsx",
           api: "https://base-ui.com/react/components/accordion.md",
         },
       },
@@ -19138,9 +19138,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/alert",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/alert",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/alert-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/alert-example.tsx",
         },
       },
     },
@@ -19160,9 +19160,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/alert-dialog",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/alert-dialog",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/alert-dialog-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/alert-dialog-example.tsx",
           api: "https://base-ui.com/react/components/alert-dialog.md",
         },
       },
@@ -19183,9 +19183,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/aspect-ratio",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/aspect-ratio",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/aspect-ratio-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/aspect-ratio-example.tsx",
         },
       },
     },
@@ -19205,9 +19205,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/avatar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/avatar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/avatar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/avatar-example.tsx",
           api: "https://base-ui.com/react/components/avatar.md",
         },
       },
@@ -19228,9 +19228,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/badge",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/badge",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/badge-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/badge-example.tsx",
         },
       },
     },
@@ -19250,9 +19250,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/breadcrumb",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/breadcrumb",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/breadcrumb-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/breadcrumb-example.tsx",
         },
       },
     },
@@ -19272,9 +19272,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/button",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/button",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/button-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/button-example.tsx",
         },
       },
     },
@@ -19294,9 +19294,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/button-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/button-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/button-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/button-group-example.tsx",
         },
       },
     },
@@ -19316,9 +19316,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/calendar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/calendar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/calendar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/calendar-example.tsx",
           api: "https://react-day-picker.js.org",
         },
       },
@@ -19339,9 +19339,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/card",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/card",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/card-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/card-example.tsx",
         },
       },
     },
@@ -19361,9 +19361,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/carousel",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/carousel",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/carousel-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/carousel-example.tsx",
           api: "https://www.embla-carousel.com/get-started/react",
         },
       },
@@ -19384,9 +19384,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/chart",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/chart",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/chart-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/chart-example.tsx",
         },
       },
     },
@@ -19406,9 +19406,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/checkbox",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/checkbox",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/checkbox-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/checkbox-example.tsx",
           api: "https://base-ui.com/react/components/checkbox.md",
         },
       },
@@ -19429,9 +19429,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/collapsible",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/collapsible",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/collapsible-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/collapsible-example.tsx",
           api: "https://base-ui.com/react/components/collapsible.md",
         },
       },
@@ -19452,9 +19452,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/combobox",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/combobox",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/combobox-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/combobox-example.tsx",
           api: "https://base-ui.com/react/components/combobox.md",
         },
       },
@@ -19475,9 +19475,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/command",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/command",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/command-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/command-example.tsx",
           api: "https://github.com/dip/cmdk",
         },
       },
@@ -19498,9 +19498,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/context-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/context-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/context-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/context-menu-example.tsx",
           api: "https://base-ui.com/react/components/context-menu.md",
         },
       },
@@ -19521,9 +19521,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/dialog",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/dialog",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/dialog-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/dialog-example.tsx",
           api: "https://base-ui.com/react/components/dialog.md",
         },
       },
@@ -19544,9 +19544,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/drawer",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/drawer",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/drawer-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/drawer-example.tsx",
           api: "https://base-ui.com/react/components/drawer.md",
         },
       },
@@ -19567,9 +19567,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/dropdown-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/dropdown-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/dropdown-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/dropdown-menu-example.tsx",
           api: "https://base-ui.com/react/components/menu.md",
         },
       },
@@ -19590,9 +19590,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/empty",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/empty",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/empty-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/empty-example.tsx",
         },
       },
     },
@@ -19612,9 +19612,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/field",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/field",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/field-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/field-example.tsx",
         },
       },
     },
@@ -19634,9 +19634,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/hover-card",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/hover-card",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/hover-card-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/hover-card-example.tsx",
           api: "https://base-ui.com/react/components/hover-card.md",
         },
       },
@@ -19657,9 +19657,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/input",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/input",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/input-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/input-example.tsx",
         },
       },
     },
@@ -19679,9 +19679,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/input-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/input-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/input-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/input-group-example.tsx",
         },
       },
     },
@@ -19701,9 +19701,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/input-otp",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/input-otp",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/input-otp-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/input-otp-example.tsx",
           api: "https://input-otp.rodz.dev",
         },
       },
@@ -19724,9 +19724,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/item",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/item",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/item-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/item-example.tsx",
         },
       },
     },
@@ -19746,9 +19746,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/label",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/label",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/label-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/label-example.tsx",
           api: "https://base-ui.com/react/components/label.md",
         },
       },
@@ -19769,9 +19769,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/menubar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/menubar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/menubar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/menubar-example.tsx",
           api: "https://base-ui.com/react/components/menubar.md",
         },
       },
@@ -19792,9 +19792,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/navigation-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/navigation-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/navigation-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/navigation-menu-example.tsx",
           api: "https://base-ui.com/react/components/navigation-menu.md",
         },
       },
@@ -19815,9 +19815,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/pagination",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/pagination",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/pagination-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/pagination-example.tsx",
         },
       },
     },
@@ -19837,9 +19837,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/popover",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/popover",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/popover-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/popover-example.tsx",
           api: "https://base-ui.com/react/components/popover.md",
         },
       },
@@ -19860,9 +19860,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/progress",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/progress",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/progress-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/progress-example.tsx",
           api: "https://base-ui.com/react/components/progress.md",
         },
       },
@@ -19883,9 +19883,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/radio-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/radio-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/radio-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/radio-group-example.tsx",
           api: "https://base-ui.com/react/components/radio-group.md",
         },
       },
@@ -19906,9 +19906,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/resizable",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/resizable",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/resizable-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/resizable-example.tsx",
           api: "https://github.com/bvaughn/react-resizable-panels",
         },
       },
@@ -19929,9 +19929,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/scroll-area",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/scroll-area",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/scroll-area-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/scroll-area-example.tsx",
           api: "https://base-ui.com/react/components/scroll-area.md",
         },
       },
@@ -19952,9 +19952,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/select",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/select",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/select-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/select-example.tsx",
           api: "https://base-ui.com/react/components/select.md",
         },
       },
@@ -19975,9 +19975,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/separator",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/separator",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/separator-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/separator-example.tsx",
           api: "https://base-ui.com/react/components/separator.md",
         },
       },
@@ -19998,9 +19998,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/sheet",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/sheet",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/sheet-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/sheet-example.tsx",
           api: "https://base-ui.com/react/components/dialog.md",
         },
       },
@@ -20029,9 +20029,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/sidebar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/sidebar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/sidebar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/sidebar-example.tsx",
         },
       },
     },
@@ -20051,9 +20051,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/skeleton",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/skeleton",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/skeleton-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/skeleton-example.tsx",
         },
       },
     },
@@ -20073,9 +20073,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/slider",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/slider",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/slider-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/slider-example.tsx",
           api: "https://base-ui.com/react/components/slider.md",
         },
       },
@@ -20096,9 +20096,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/sonner",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/sonner",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/sonner-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/sonner-example.tsx",
           api: "https://sonner.emilkowal.ski",
         },
       },
@@ -20119,9 +20119,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/spinner",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/spinner",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/spinner-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/spinner-example.tsx",
         },
       },
     },
@@ -20141,9 +20141,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/switch",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/switch",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/switch-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/switch-example.tsx",
           api: "https://base-ui.com/react/components/switch.md",
         },
       },
@@ -20164,9 +20164,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/table",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/table",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/table-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/table-example.tsx",
         },
       },
     },
@@ -20186,9 +20186,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/tabs",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/tabs",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/tabs-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/tabs-example.tsx",
           api: "https://base-ui.com/react/components/tabs.md",
         },
       },
@@ -20209,9 +20209,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/textarea",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/textarea",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/textarea-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/textarea-example.tsx",
         },
       },
     },
@@ -20231,9 +20231,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/toast",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/toast",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/toast-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/toast-example.tsx",
           api: "https://base-ui.com/react/components/toast.md",
         },
       },
@@ -20254,9 +20254,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/toggle",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/toggle",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/toggle-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/toggle-example.tsx",
           api: "https://base-ui.com/react/components/toggle.md",
         },
       },
@@ -20277,9 +20277,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/toggle-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/toggle-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/toggle-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/toggle-group-example.tsx",
           api: "https://base-ui.com/react/components/toggle-group.md",
         },
       },
@@ -20300,9 +20300,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/tooltip",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/tooltip",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/tooltip-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/tooltip-example.tsx",
           api: "https://base-ui.com/react/components/tooltip.md",
         },
       },
@@ -20323,9 +20323,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/kbd",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/kbd",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/kbd-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/kbd-example.tsx",
         },
       },
     },
@@ -20345,9 +20345,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/native-select",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/native-select",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/native-select-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/native-select-example.tsx",
         },
       },
     },
@@ -20367,7 +20367,7 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/direction",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/direction",
           api: "https://base-ui.com/react/utils/direction-provider.md",
         },
       },
@@ -20436,9 +20436,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/questionnaire",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/questionnaire",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/questionnaire-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/questionnaire-example.tsx",
         },
       },
     },
@@ -20492,9 +20492,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/accordion",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/accordion",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/accordion-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/accordion-example.tsx",
           api: "https://base-ui.com/react/components/accordion.md",
         },
       },
@@ -20515,9 +20515,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/alert",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/alert",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/alert-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/alert-example.tsx",
         },
       },
     },
@@ -20537,9 +20537,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/alert-dialog",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/alert-dialog",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/alert-dialog-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/alert-dialog-example.tsx",
           api: "https://base-ui.com/react/components/alert-dialog.md",
         },
       },
@@ -20560,9 +20560,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/aspect-ratio",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/aspect-ratio",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/aspect-ratio-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/aspect-ratio-example.tsx",
         },
       },
     },
@@ -20582,9 +20582,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/avatar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/avatar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/avatar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/avatar-example.tsx",
           api: "https://base-ui.com/react/components/avatar.md",
         },
       },
@@ -20605,9 +20605,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/badge",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/badge",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/badge-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/badge-example.tsx",
         },
       },
     },
@@ -20627,9 +20627,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/breadcrumb",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/breadcrumb",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/breadcrumb-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/breadcrumb-example.tsx",
         },
       },
     },
@@ -20649,9 +20649,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/button",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/button",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/button-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/button-example.tsx",
         },
       },
     },
@@ -20671,9 +20671,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/button-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/button-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/button-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/button-group-example.tsx",
         },
       },
     },
@@ -20693,9 +20693,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/calendar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/calendar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/calendar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/calendar-example.tsx",
           api: "https://react-day-picker.js.org",
         },
       },
@@ -20716,9 +20716,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/card",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/card",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/card-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/card-example.tsx",
         },
       },
     },
@@ -20738,9 +20738,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/carousel",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/carousel",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/carousel-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/carousel-example.tsx",
           api: "https://www.embla-carousel.com/get-started/react",
         },
       },
@@ -20761,9 +20761,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/chart",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/chart",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/chart-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/chart-example.tsx",
         },
       },
     },
@@ -20783,9 +20783,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/checkbox",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/checkbox",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/checkbox-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/checkbox-example.tsx",
           api: "https://base-ui.com/react/components/checkbox.md",
         },
       },
@@ -20806,9 +20806,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/collapsible",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/collapsible",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/collapsible-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/collapsible-example.tsx",
           api: "https://base-ui.com/react/components/collapsible.md",
         },
       },
@@ -20829,9 +20829,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/combobox",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/combobox",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/combobox-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/combobox-example.tsx",
           api: "https://base-ui.com/react/components/combobox.md",
         },
       },
@@ -20852,9 +20852,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/command",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/command",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/command-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/command-example.tsx",
           api: "https://github.com/dip/cmdk",
         },
       },
@@ -20875,9 +20875,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/context-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/context-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/context-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/context-menu-example.tsx",
           api: "https://base-ui.com/react/components/context-menu.md",
         },
       },
@@ -20898,9 +20898,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/dialog",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/dialog",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/dialog-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/dialog-example.tsx",
           api: "https://base-ui.com/react/components/dialog.md",
         },
       },
@@ -20921,9 +20921,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/drawer",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/drawer",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/drawer-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/drawer-example.tsx",
           api: "https://base-ui.com/react/components/drawer.md",
         },
       },
@@ -20944,9 +20944,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/dropdown-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/dropdown-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/dropdown-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/dropdown-menu-example.tsx",
           api: "https://base-ui.com/react/components/menu.md",
         },
       },
@@ -20967,9 +20967,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/empty",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/empty",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/empty-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/empty-example.tsx",
         },
       },
     },
@@ -20989,9 +20989,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/field",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/field",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/field-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/field-example.tsx",
         },
       },
     },
@@ -21011,9 +21011,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/hover-card",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/hover-card",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/hover-card-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/hover-card-example.tsx",
           api: "https://base-ui.com/react/components/hover-card.md",
         },
       },
@@ -21034,9 +21034,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/input",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/input",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/input-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/input-example.tsx",
         },
       },
     },
@@ -21056,9 +21056,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/input-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/input-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/input-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/input-group-example.tsx",
         },
       },
     },
@@ -21078,9 +21078,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/input-otp",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/input-otp",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/input-otp-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/input-otp-example.tsx",
           api: "https://input-otp.rodz.dev",
         },
       },
@@ -21101,9 +21101,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/item",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/item",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/item-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/item-example.tsx",
         },
       },
     },
@@ -21123,9 +21123,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/label",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/label",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/label-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/label-example.tsx",
           api: "https://base-ui.com/react/components/label.md",
         },
       },
@@ -21146,9 +21146,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/menubar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/menubar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/menubar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/menubar-example.tsx",
           api: "https://base-ui.com/react/components/menubar.md",
         },
       },
@@ -21169,9 +21169,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/navigation-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/navigation-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/navigation-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/navigation-menu-example.tsx",
           api: "https://base-ui.com/react/components/navigation-menu.md",
         },
       },
@@ -21192,9 +21192,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/pagination",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/pagination",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/pagination-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/pagination-example.tsx",
         },
       },
     },
@@ -21214,9 +21214,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/popover",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/popover",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/popover-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/popover-example.tsx",
           api: "https://base-ui.com/react/components/popover.md",
         },
       },
@@ -21237,9 +21237,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/progress",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/progress",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/progress-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/progress-example.tsx",
           api: "https://base-ui.com/react/components/progress.md",
         },
       },
@@ -21260,9 +21260,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/radio-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/radio-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/radio-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/radio-group-example.tsx",
           api: "https://base-ui.com/react/components/radio-group.md",
         },
       },
@@ -21283,9 +21283,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/resizable",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/resizable",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/resizable-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/resizable-example.tsx",
           api: "https://github.com/bvaughn/react-resizable-panels",
         },
       },
@@ -21306,9 +21306,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/scroll-area",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/scroll-area",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/scroll-area-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/scroll-area-example.tsx",
           api: "https://base-ui.com/react/components/scroll-area.md",
         },
       },
@@ -21329,9 +21329,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/select",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/select",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/select-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/select-example.tsx",
           api: "https://base-ui.com/react/components/select.md",
         },
       },
@@ -21352,9 +21352,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/separator",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/separator",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/separator-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/separator-example.tsx",
           api: "https://base-ui.com/react/components/separator.md",
         },
       },
@@ -21375,9 +21375,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/sheet",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/sheet",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/sheet-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/sheet-example.tsx",
           api: "https://base-ui.com/react/components/dialog.md",
         },
       },
@@ -21406,9 +21406,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/sidebar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/sidebar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/sidebar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/sidebar-example.tsx",
         },
       },
     },
@@ -21428,9 +21428,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/skeleton",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/skeleton",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/skeleton-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/skeleton-example.tsx",
         },
       },
     },
@@ -21450,9 +21450,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/slider",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/slider",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/slider-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/slider-example.tsx",
           api: "https://base-ui.com/react/components/slider.md",
         },
       },
@@ -21473,9 +21473,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/sonner",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/sonner",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/sonner-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/sonner-example.tsx",
           api: "https://sonner.emilkowal.ski",
         },
       },
@@ -21496,9 +21496,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/spinner",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/spinner",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/spinner-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/spinner-example.tsx",
         },
       },
     },
@@ -21518,9 +21518,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/switch",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/switch",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/switch-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/switch-example.tsx",
           api: "https://base-ui.com/react/components/switch.md",
         },
       },
@@ -21541,9 +21541,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/table",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/table",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/table-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/table-example.tsx",
         },
       },
     },
@@ -21563,9 +21563,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/tabs",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/tabs",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/tabs-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/tabs-example.tsx",
           api: "https://base-ui.com/react/components/tabs.md",
         },
       },
@@ -21586,9 +21586,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/textarea",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/textarea",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/textarea-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/textarea-example.tsx",
         },
       },
     },
@@ -21608,9 +21608,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/toast",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/toast",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/toast-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/toast-example.tsx",
           api: "https://base-ui.com/react/components/toast.md",
         },
       },
@@ -21631,9 +21631,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/toggle",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/toggle",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/toggle-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/toggle-example.tsx",
           api: "https://base-ui.com/react/components/toggle.md",
         },
       },
@@ -21654,9 +21654,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/toggle-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/toggle-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/toggle-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/toggle-group-example.tsx",
           api: "https://base-ui.com/react/components/toggle-group.md",
         },
       },
@@ -21677,9 +21677,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/tooltip",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/tooltip",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/tooltip-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/tooltip-example.tsx",
           api: "https://base-ui.com/react/components/tooltip.md",
         },
       },
@@ -21700,9 +21700,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/kbd",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/kbd",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/kbd-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/kbd-example.tsx",
         },
       },
     },
@@ -21722,9 +21722,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/native-select",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/native-select",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/native-select-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/native-select-example.tsx",
         },
       },
     },
@@ -21744,7 +21744,7 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/direction",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/direction",
           api: "https://base-ui.com/react/utils/direction-provider.md",
         },
       },
@@ -21813,9 +21813,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/questionnaire",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/questionnaire",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/questionnaire-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/questionnaire-example.tsx",
         },
       },
     },
@@ -21869,9 +21869,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/accordion",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/accordion",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/accordion-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/accordion-example.tsx",
           api: "https://base-ui.com/react/components/accordion.md",
         },
       },
@@ -21892,9 +21892,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/alert",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/alert",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/alert-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/alert-example.tsx",
         },
       },
     },
@@ -21914,9 +21914,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/alert-dialog",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/alert-dialog",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/alert-dialog-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/alert-dialog-example.tsx",
           api: "https://base-ui.com/react/components/alert-dialog.md",
         },
       },
@@ -21937,9 +21937,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/aspect-ratio",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/aspect-ratio",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/aspect-ratio-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/aspect-ratio-example.tsx",
         },
       },
     },
@@ -21959,9 +21959,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/avatar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/avatar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/avatar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/avatar-example.tsx",
           api: "https://base-ui.com/react/components/avatar.md",
         },
       },
@@ -21982,9 +21982,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/badge",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/badge",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/badge-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/badge-example.tsx",
         },
       },
     },
@@ -22004,9 +22004,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/breadcrumb",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/breadcrumb",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/breadcrumb-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/breadcrumb-example.tsx",
         },
       },
     },
@@ -22026,9 +22026,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/button",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/button",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/button-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/button-example.tsx",
         },
       },
     },
@@ -22048,9 +22048,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/button-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/button-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/button-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/button-group-example.tsx",
         },
       },
     },
@@ -22070,9 +22070,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/calendar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/calendar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/calendar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/calendar-example.tsx",
           api: "https://react-day-picker.js.org",
         },
       },
@@ -22093,9 +22093,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/card",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/card",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/card-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/card-example.tsx",
         },
       },
     },
@@ -22115,9 +22115,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/carousel",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/carousel",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/carousel-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/carousel-example.tsx",
           api: "https://www.embla-carousel.com/get-started/react",
         },
       },
@@ -22138,9 +22138,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/chart",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/chart",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/chart-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/chart-example.tsx",
         },
       },
     },
@@ -22160,9 +22160,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/checkbox",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/checkbox",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/checkbox-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/checkbox-example.tsx",
           api: "https://base-ui.com/react/components/checkbox.md",
         },
       },
@@ -22183,9 +22183,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/collapsible",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/collapsible",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/collapsible-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/collapsible-example.tsx",
           api: "https://base-ui.com/react/components/collapsible.md",
         },
       },
@@ -22206,9 +22206,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/combobox",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/combobox",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/combobox-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/combobox-example.tsx",
           api: "https://base-ui.com/react/components/combobox.md",
         },
       },
@@ -22229,9 +22229,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/command",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/command",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/command-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/command-example.tsx",
           api: "https://github.com/dip/cmdk",
         },
       },
@@ -22252,9 +22252,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/context-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/context-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/context-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/context-menu-example.tsx",
           api: "https://base-ui.com/react/components/context-menu.md",
         },
       },
@@ -22275,9 +22275,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/dialog",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/dialog",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/dialog-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/dialog-example.tsx",
           api: "https://base-ui.com/react/components/dialog.md",
         },
       },
@@ -22298,9 +22298,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/drawer",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/drawer",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/drawer-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/drawer-example.tsx",
           api: "https://base-ui.com/react/components/drawer.md",
         },
       },
@@ -22321,9 +22321,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/dropdown-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/dropdown-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/dropdown-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/dropdown-menu-example.tsx",
           api: "https://base-ui.com/react/components/menu.md",
         },
       },
@@ -22344,9 +22344,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/empty",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/empty",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/empty-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/empty-example.tsx",
         },
       },
     },
@@ -22366,9 +22366,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/field",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/field",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/field-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/field-example.tsx",
         },
       },
     },
@@ -22388,9 +22388,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/hover-card",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/hover-card",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/hover-card-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/hover-card-example.tsx",
           api: "https://base-ui.com/react/components/hover-card.md",
         },
       },
@@ -22411,9 +22411,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/input",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/input",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/input-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/input-example.tsx",
         },
       },
     },
@@ -22433,9 +22433,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/input-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/input-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/input-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/input-group-example.tsx",
         },
       },
     },
@@ -22455,9 +22455,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/input-otp",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/input-otp",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/input-otp-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/input-otp-example.tsx",
           api: "https://input-otp.rodz.dev",
         },
       },
@@ -22478,9 +22478,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/item",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/item",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/item-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/item-example.tsx",
         },
       },
     },
@@ -22500,9 +22500,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/label",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/label",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/label-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/label-example.tsx",
           api: "https://base-ui.com/react/components/label.md",
         },
       },
@@ -22523,9 +22523,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/menubar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/menubar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/menubar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/menubar-example.tsx",
           api: "https://base-ui.com/react/components/menubar.md",
         },
       },
@@ -22546,9 +22546,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/navigation-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/navigation-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/navigation-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/navigation-menu-example.tsx",
           api: "https://base-ui.com/react/components/navigation-menu.md",
         },
       },
@@ -22569,9 +22569,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/pagination",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/pagination",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/pagination-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/pagination-example.tsx",
         },
       },
     },
@@ -22591,9 +22591,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/popover",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/popover",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/popover-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/popover-example.tsx",
           api: "https://base-ui.com/react/components/popover.md",
         },
       },
@@ -22614,9 +22614,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/progress",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/progress",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/progress-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/progress-example.tsx",
           api: "https://base-ui.com/react/components/progress.md",
         },
       },
@@ -22637,9 +22637,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/radio-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/radio-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/radio-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/radio-group-example.tsx",
           api: "https://base-ui.com/react/components/radio-group.md",
         },
       },
@@ -22660,9 +22660,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/resizable",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/resizable",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/resizable-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/resizable-example.tsx",
           api: "https://github.com/bvaughn/react-resizable-panels",
         },
       },
@@ -22683,9 +22683,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/scroll-area",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/scroll-area",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/scroll-area-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/scroll-area-example.tsx",
           api: "https://base-ui.com/react/components/scroll-area.md",
         },
       },
@@ -22706,9 +22706,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/select",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/select",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/select-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/select-example.tsx",
           api: "https://base-ui.com/react/components/select.md",
         },
       },
@@ -22729,9 +22729,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/separator",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/separator",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/separator-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/separator-example.tsx",
           api: "https://base-ui.com/react/components/separator.md",
         },
       },
@@ -22752,9 +22752,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/sheet",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/sheet",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/sheet-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/sheet-example.tsx",
           api: "https://base-ui.com/react/components/dialog.md",
         },
       },
@@ -22783,9 +22783,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/sidebar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/sidebar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/sidebar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/sidebar-example.tsx",
         },
       },
     },
@@ -22805,9 +22805,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/skeleton",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/skeleton",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/skeleton-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/skeleton-example.tsx",
         },
       },
     },
@@ -22827,9 +22827,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/slider",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/slider",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/slider-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/slider-example.tsx",
           api: "https://base-ui.com/react/components/slider.md",
         },
       },
@@ -22850,9 +22850,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/sonner",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/sonner",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/sonner-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/sonner-example.tsx",
           api: "https://sonner.emilkowal.ski",
         },
       },
@@ -22873,9 +22873,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/spinner",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/spinner",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/spinner-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/spinner-example.tsx",
         },
       },
     },
@@ -22895,9 +22895,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/switch",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/switch",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/switch-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/switch-example.tsx",
           api: "https://base-ui.com/react/components/switch.md",
         },
       },
@@ -22918,9 +22918,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/table",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/table",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/table-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/table-example.tsx",
         },
       },
     },
@@ -22940,9 +22940,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/tabs",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/tabs",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/tabs-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/tabs-example.tsx",
           api: "https://base-ui.com/react/components/tabs.md",
         },
       },
@@ -22963,9 +22963,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/textarea",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/textarea",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/textarea-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/textarea-example.tsx",
         },
       },
     },
@@ -22985,9 +22985,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/toast",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/toast",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/toast-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/toast-example.tsx",
           api: "https://base-ui.com/react/components/toast.md",
         },
       },
@@ -23008,9 +23008,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/toggle",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/toggle",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/toggle-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/toggle-example.tsx",
           api: "https://base-ui.com/react/components/toggle.md",
         },
       },
@@ -23031,9 +23031,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/toggle-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/toggle-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/toggle-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/toggle-group-example.tsx",
           api: "https://base-ui.com/react/components/toggle-group.md",
         },
       },
@@ -23054,9 +23054,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/tooltip",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/tooltip",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/tooltip-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/tooltip-example.tsx",
           api: "https://base-ui.com/react/components/tooltip.md",
         },
       },
@@ -23077,9 +23077,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/kbd",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/kbd",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/kbd-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/kbd-example.tsx",
         },
       },
     },
@@ -23099,9 +23099,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/native-select",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/native-select",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/native-select-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/native-select-example.tsx",
         },
       },
     },
@@ -23121,7 +23121,7 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/direction",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/direction",
           api: "https://base-ui.com/react/utils/direction-provider.md",
         },
       },
@@ -23190,9 +23190,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/questionnaire",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/questionnaire",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/questionnaire-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/questionnaire-example.tsx",
         },
       },
     },
@@ -23246,9 +23246,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/accordion",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/accordion",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/accordion-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/accordion-example.tsx",
           api: "https://base-ui.com/react/components/accordion.md",
         },
       },
@@ -23269,9 +23269,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/alert",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/alert",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/alert-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/alert-example.tsx",
         },
       },
     },
@@ -23291,9 +23291,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/alert-dialog",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/alert-dialog",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/alert-dialog-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/alert-dialog-example.tsx",
           api: "https://base-ui.com/react/components/alert-dialog.md",
         },
       },
@@ -23314,9 +23314,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/aspect-ratio",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/aspect-ratio",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/aspect-ratio-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/aspect-ratio-example.tsx",
         },
       },
     },
@@ -23336,9 +23336,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/avatar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/avatar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/avatar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/avatar-example.tsx",
           api: "https://base-ui.com/react/components/avatar.md",
         },
       },
@@ -23359,9 +23359,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/badge",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/badge",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/badge-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/badge-example.tsx",
         },
       },
     },
@@ -23381,9 +23381,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/breadcrumb",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/breadcrumb",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/breadcrumb-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/breadcrumb-example.tsx",
         },
       },
     },
@@ -23403,9 +23403,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/button",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/button",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/button-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/button-example.tsx",
         },
       },
     },
@@ -23425,9 +23425,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/button-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/button-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/button-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/button-group-example.tsx",
         },
       },
     },
@@ -23447,9 +23447,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/calendar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/calendar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/calendar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/calendar-example.tsx",
           api: "https://react-day-picker.js.org",
         },
       },
@@ -23470,9 +23470,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/card",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/card",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/card-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/card-example.tsx",
         },
       },
     },
@@ -23492,9 +23492,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/carousel",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/carousel",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/carousel-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/carousel-example.tsx",
           api: "https://www.embla-carousel.com/get-started/react",
         },
       },
@@ -23515,9 +23515,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/chart",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/chart",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/chart-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/chart-example.tsx",
         },
       },
     },
@@ -23537,9 +23537,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/checkbox",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/checkbox",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/checkbox-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/checkbox-example.tsx",
           api: "https://base-ui.com/react/components/checkbox.md",
         },
       },
@@ -23560,9 +23560,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/collapsible",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/collapsible",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/collapsible-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/collapsible-example.tsx",
           api: "https://base-ui.com/react/components/collapsible.md",
         },
       },
@@ -23583,9 +23583,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/combobox",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/combobox",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/combobox-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/combobox-example.tsx",
           api: "https://base-ui.com/react/components/combobox.md",
         },
       },
@@ -23606,9 +23606,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/command",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/command",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/command-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/command-example.tsx",
           api: "https://github.com/dip/cmdk",
         },
       },
@@ -23629,9 +23629,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/context-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/context-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/context-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/context-menu-example.tsx",
           api: "https://base-ui.com/react/components/context-menu.md",
         },
       },
@@ -23652,9 +23652,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/dialog",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/dialog",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/dialog-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/dialog-example.tsx",
           api: "https://base-ui.com/react/components/dialog.md",
         },
       },
@@ -23675,9 +23675,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/drawer",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/drawer",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/drawer-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/drawer-example.tsx",
           api: "https://base-ui.com/react/components/drawer.md",
         },
       },
@@ -23698,9 +23698,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/dropdown-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/dropdown-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/dropdown-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/dropdown-menu-example.tsx",
           api: "https://base-ui.com/react/components/menu.md",
         },
       },
@@ -23721,9 +23721,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/empty",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/empty",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/empty-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/empty-example.tsx",
         },
       },
     },
@@ -23743,9 +23743,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/field",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/field",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/field-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/field-example.tsx",
         },
       },
     },
@@ -23765,9 +23765,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/hover-card",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/hover-card",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/hover-card-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/hover-card-example.tsx",
           api: "https://base-ui.com/react/components/hover-card.md",
         },
       },
@@ -23788,9 +23788,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/input",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/input",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/input-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/input-example.tsx",
         },
       },
     },
@@ -23810,9 +23810,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/input-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/input-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/input-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/input-group-example.tsx",
         },
       },
     },
@@ -23832,9 +23832,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/input-otp",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/input-otp",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/input-otp-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/input-otp-example.tsx",
           api: "https://input-otp.rodz.dev",
         },
       },
@@ -23855,9 +23855,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/item",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/item",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/item-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/item-example.tsx",
         },
       },
     },
@@ -23877,9 +23877,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/label",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/label",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/label-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/label-example.tsx",
           api: "https://base-ui.com/react/components/label.md",
         },
       },
@@ -23900,9 +23900,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/menubar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/menubar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/menubar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/menubar-example.tsx",
           api: "https://base-ui.com/react/components/menubar.md",
         },
       },
@@ -23923,9 +23923,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/navigation-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/navigation-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/navigation-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/navigation-menu-example.tsx",
           api: "https://base-ui.com/react/components/navigation-menu.md",
         },
       },
@@ -23946,9 +23946,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/pagination",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/pagination",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/pagination-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/pagination-example.tsx",
         },
       },
     },
@@ -23968,9 +23968,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/popover",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/popover",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/popover-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/popover-example.tsx",
           api: "https://base-ui.com/react/components/popover.md",
         },
       },
@@ -23991,9 +23991,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/progress",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/progress",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/progress-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/progress-example.tsx",
           api: "https://base-ui.com/react/components/progress.md",
         },
       },
@@ -24014,9 +24014,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/radio-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/radio-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/radio-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/radio-group-example.tsx",
           api: "https://base-ui.com/react/components/radio-group.md",
         },
       },
@@ -24037,9 +24037,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/resizable",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/resizable",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/resizable-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/resizable-example.tsx",
           api: "https://github.com/bvaughn/react-resizable-panels",
         },
       },
@@ -24060,9 +24060,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/scroll-area",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/scroll-area",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/scroll-area-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/scroll-area-example.tsx",
           api: "https://base-ui.com/react/components/scroll-area.md",
         },
       },
@@ -24083,9 +24083,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/select",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/select",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/select-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/select-example.tsx",
           api: "https://base-ui.com/react/components/select.md",
         },
       },
@@ -24106,9 +24106,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/separator",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/separator",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/separator-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/separator-example.tsx",
           api: "https://base-ui.com/react/components/separator.md",
         },
       },
@@ -24129,9 +24129,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/sheet",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/sheet",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/sheet-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/sheet-example.tsx",
           api: "https://base-ui.com/react/components/dialog.md",
         },
       },
@@ -24160,9 +24160,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/sidebar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/sidebar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/sidebar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/sidebar-example.tsx",
         },
       },
     },
@@ -24182,9 +24182,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/skeleton",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/skeleton",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/skeleton-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/skeleton-example.tsx",
         },
       },
     },
@@ -24204,9 +24204,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/slider",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/slider",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/slider-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/slider-example.tsx",
           api: "https://base-ui.com/react/components/slider.md",
         },
       },
@@ -24227,9 +24227,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/sonner",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/sonner",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/sonner-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/sonner-example.tsx",
           api: "https://sonner.emilkowal.ski",
         },
       },
@@ -24250,9 +24250,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/spinner",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/spinner",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/spinner-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/spinner-example.tsx",
         },
       },
     },
@@ -24272,9 +24272,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/switch",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/switch",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/switch-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/switch-example.tsx",
           api: "https://base-ui.com/react/components/switch.md",
         },
       },
@@ -24295,9 +24295,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/table",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/table",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/table-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/table-example.tsx",
         },
       },
     },
@@ -24317,9 +24317,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/tabs",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/tabs",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/tabs-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/tabs-example.tsx",
           api: "https://base-ui.com/react/components/tabs.md",
         },
       },
@@ -24340,9 +24340,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/textarea",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/textarea",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/textarea-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/textarea-example.tsx",
         },
       },
     },
@@ -24362,9 +24362,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/toast",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/toast",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/toast-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/toast-example.tsx",
           api: "https://base-ui.com/react/components/toast.md",
         },
       },
@@ -24385,9 +24385,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/toggle",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/toggle",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/toggle-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/toggle-example.tsx",
           api: "https://base-ui.com/react/components/toggle.md",
         },
       },
@@ -24408,9 +24408,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/toggle-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/toggle-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/toggle-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/toggle-group-example.tsx",
           api: "https://base-ui.com/react/components/toggle-group.md",
         },
       },
@@ -24431,9 +24431,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/tooltip",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/tooltip",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/tooltip-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/tooltip-example.tsx",
           api: "https://base-ui.com/react/components/tooltip.md",
         },
       },
@@ -24454,9 +24454,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/kbd",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/kbd",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/kbd-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/kbd-example.tsx",
         },
       },
     },
@@ -24476,9 +24476,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/native-select",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/native-select",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/native-select-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/native-select-example.tsx",
         },
       },
     },
@@ -24498,7 +24498,7 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/direction",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/direction",
           api: "https://base-ui.com/react/utils/direction-provider.md",
         },
       },
@@ -24567,9 +24567,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/base/questionnaire",
+          docs: "https://fabricator-ui.vercel.app/docs/components/base/questionnaire",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/base/examples/questionnaire-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/base/examples/questionnaire-example.tsx",
         },
       },
     },
@@ -24623,9 +24623,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/accordion",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/accordion",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/accordion-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/accordion-example.tsx",
           api: "https://react-aria.adobe.com/DisclosureGroup#api",
         },
       },
@@ -24646,9 +24646,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/alert",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/alert",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/alert-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/alert-example.tsx",
         },
       },
     },
@@ -24668,9 +24668,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/alert-dialog",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/alert-dialog",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/alert-dialog-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/alert-dialog-example.tsx",
           api: "https://react-aria.adobe.com/Modal#api",
         },
       },
@@ -24691,9 +24691,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/aspect-ratio",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/aspect-ratio",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/aspect-ratio-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/aspect-ratio-example.tsx",
         },
       },
     },
@@ -24713,9 +24713,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/avatar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/avatar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/avatar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/avatar-example.tsx",
         },
       },
     },
@@ -24735,9 +24735,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/badge",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/badge",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/badge-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/badge-example.tsx",
         },
       },
     },
@@ -24757,9 +24757,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/breadcrumb",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/breadcrumb",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/breadcrumb-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/breadcrumb-example.tsx",
           api: "https://react-aria.adobe.com/Breadcrumbs#api",
         },
       },
@@ -24780,9 +24780,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/button",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/button",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/button-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/button-example.tsx",
           api: "https://react-aria.adobe.com/Button#api",
         },
       },
@@ -24803,9 +24803,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/button-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/button-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/button-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/button-group-example.tsx",
         },
       },
     },
@@ -24825,9 +24825,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/calendar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/calendar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/calendar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/calendar-example.tsx",
           api: "https://react-aria.adobe.com/Calendar#api",
         },
       },
@@ -24848,9 +24848,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/card",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/card",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/card-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/card-example.tsx",
         },
       },
     },
@@ -24870,9 +24870,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/carousel",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/carousel",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/carousel-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/carousel-example.tsx",
           api: "https://www.embla-carousel.com/docs/api",
         },
       },
@@ -24893,9 +24893,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/chart",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/chart",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/chart-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/chart-example.tsx",
         },
       },
     },
@@ -24915,9 +24915,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/checkbox",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/checkbox",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/checkbox-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/checkbox-example.tsx",
           api: "https://react-aria.adobe.com/Checkbox#api",
         },
       },
@@ -24938,9 +24938,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/collapsible",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/collapsible",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/collapsible-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/collapsible-example.tsx",
           api: "https://react-aria.adobe.com/Disclosure#api",
         },
       },
@@ -24961,9 +24961,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/combobox",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/combobox",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/combobox-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/combobox-example.tsx",
           api: "https://react-aria.adobe.com/ComboBox#api",
         },
       },
@@ -24984,9 +24984,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/command",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/command",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/command-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/command-example.tsx",
           api: "https://react-aria.adobe.com/Autocomplete#api",
         },
       },
@@ -25007,9 +25007,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/context-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/context-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/context-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/context-menu-example.tsx",
           api: "https://react-aria.adobe.com/Menu#api",
         },
       },
@@ -25030,9 +25030,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/dialog",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/dialog",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/dialog-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/dialog-example.tsx",
           api: "https://react-aria.adobe.com/Modal#api",
         },
       },
@@ -25053,9 +25053,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/drawer",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/drawer",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/drawer-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/drawer-example.tsx",
           api: "https://base-ui.com/react/components/drawer.md",
         },
       },
@@ -25076,9 +25076,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/dropdown-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/dropdown-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/dropdown-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/dropdown-menu-example.tsx",
           api: "https://react-aria.adobe.com/Menu#api",
         },
       },
@@ -25099,9 +25099,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/empty",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/empty",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/empty-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/empty-example.tsx",
         },
       },
     },
@@ -25121,9 +25121,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/field",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/field",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/field-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/field-example.tsx",
         },
       },
     },
@@ -25143,9 +25143,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/hover-card",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/hover-card",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/hover-card-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/hover-card-example.tsx",
           api: "https://react-aria.adobe.com/PreviewTrigger#api",
         },
       },
@@ -25166,9 +25166,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/input",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/input",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/input-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/input-example.tsx",
           api: "https://react-aria.adobe.com/TextField#api",
         },
       },
@@ -25189,9 +25189,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/input-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/input-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/input-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/input-group-example.tsx",
           api: "https://react-aria.adobe.com/Group#api",
         },
       },
@@ -25212,9 +25212,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/input-otp",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/input-otp",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/input-otp-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/input-otp-example.tsx",
           api: "https://input-otp.rodz.dev",
         },
       },
@@ -25235,9 +25235,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/item",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/item",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/item-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/item-example.tsx",
           api: "https://react-aria.adobe.com/Link#api",
         },
       },
@@ -25258,9 +25258,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/label",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/label",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/label-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/label-example.tsx",
           api: "https://react-aria.adobe.com/TextField#api",
         },
       },
@@ -25281,9 +25281,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/pagination",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/pagination",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/pagination-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/pagination-example.tsx",
         },
       },
     },
@@ -25303,9 +25303,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/popover",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/popover",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/popover-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/popover-example.tsx",
           api: "https://react-aria.adobe.com/Popover#api",
         },
       },
@@ -25326,9 +25326,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/progress",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/progress",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/progress-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/progress-example.tsx",
           api: "https://react-aria.adobe.com/ProgressBar#api",
         },
       },
@@ -25349,9 +25349,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/radio-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/radio-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/radio-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/radio-group-example.tsx",
           api: "https://react-aria.adobe.com/RadioGroup#api",
         },
       },
@@ -25372,9 +25372,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/resizable",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/resizable",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/resizable-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/resizable-example.tsx",
           api: "https://github.com/bvaughn/react-resizable-panels",
         },
       },
@@ -25395,9 +25395,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/scroll-area",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/scroll-area",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/scroll-area-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/scroll-area-example.tsx",
         },
       },
     },
@@ -25417,9 +25417,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/select",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/select",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/select-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/select-example.tsx",
           api: "https://react-aria.adobe.com/Select#api",
         },
       },
@@ -25440,9 +25440,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/separator",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/separator",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/separator-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/separator-example.tsx",
           api: "https://react-aria.adobe.com/Separator#api",
         },
       },
@@ -25463,9 +25463,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/sheet",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/sheet",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/sheet-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/sheet-example.tsx",
           api: "https://react-aria.adobe.com/Modal#api",
         },
       },
@@ -25494,9 +25494,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/sidebar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/sidebar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/sidebar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/sidebar-example.tsx",
         },
       },
     },
@@ -25516,9 +25516,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/skeleton",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/skeleton",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/skeleton-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/skeleton-example.tsx",
         },
       },
     },
@@ -25538,9 +25538,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/slider",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/slider",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/slider-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/slider-example.tsx",
           api: "https://react-aria.adobe.com/Slider#api",
         },
       },
@@ -25561,9 +25561,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/sonner",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/sonner",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/sonner-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/sonner-example.tsx",
           api: "https://sonner.emilkowal.ski",
         },
       },
@@ -25584,9 +25584,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/spinner",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/spinner",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/spinner-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/spinner-example.tsx",
         },
       },
     },
@@ -25606,9 +25606,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/switch",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/switch",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/switch-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/switch-example.tsx",
           api: "https://react-aria.adobe.com/Switch#api",
         },
       },
@@ -25629,9 +25629,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/table",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/table",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/table-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/table-example.tsx",
           api: "https://react-aria.adobe.com/Table#api",
         },
       },
@@ -25652,9 +25652,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/tabs",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/tabs",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/tabs-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/tabs-example.tsx",
           api: "https://react-aria.adobe.com/Tabs#api",
         },
       },
@@ -25675,9 +25675,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/textarea",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/textarea",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/textarea-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/textarea-example.tsx",
           api: "https://react-aria.adobe.com/TextField#api",
         },
       },
@@ -25698,9 +25698,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/toggle",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/toggle",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/toggle-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/toggle-example.tsx",
           api: "https://react-aria.adobe.com/ToggleButton#api",
         },
       },
@@ -25721,9 +25721,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/toggle-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/toggle-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/toggle-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/toggle-group-example.tsx",
           api: "https://react-aria.adobe.com/ToggleButtonGroup#api",
         },
       },
@@ -25744,9 +25744,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/tooltip",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/tooltip",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/tooltip-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/tooltip-example.tsx",
           api: "https://react-aria.adobe.com/Tooltip#api",
         },
       },
@@ -25767,9 +25767,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/kbd",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/kbd",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/kbd-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/kbd-example.tsx",
         },
       },
     },
@@ -25789,9 +25789,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/native-select",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/native-select",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/native-select-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/native-select-example.tsx",
         },
       },
     },
@@ -25811,7 +25811,7 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/direction",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/direction",
           api: "https://react-aria.adobe.com/I18nProvider#api",
         },
       },
@@ -25832,9 +25832,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/attachment",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/attachment",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/attachment-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/attachment-example.tsx",
         },
       },
     },
@@ -25854,9 +25854,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/bubble",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/bubble",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/bubble-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/bubble-example.tsx",
         },
       },
     },
@@ -25876,9 +25876,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/message-scroller",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/message-scroller",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/message-scroller-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/message-scroller-example.tsx",
         },
       },
     },
@@ -25898,9 +25898,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/questionnaire",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/questionnaire",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/questionnaire-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/questionnaire-example.tsx",
         },
       },
     },
@@ -25920,9 +25920,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/marker",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/marker",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/marker-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/marker-example.tsx",
         },
       },
     },
@@ -25942,9 +25942,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/message",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/message",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/message-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/message-example.tsx",
         },
       },
     },
@@ -25966,9 +25966,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/accordion",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/accordion",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/accordion-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/accordion-example.tsx",
           api: "https://react-aria.adobe.com/DisclosureGroup#api",
         },
       },
@@ -25989,9 +25989,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/alert",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/alert",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/alert-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/alert-example.tsx",
         },
       },
     },
@@ -26011,9 +26011,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/alert-dialog",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/alert-dialog",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/alert-dialog-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/alert-dialog-example.tsx",
           api: "https://react-aria.adobe.com/Modal#api",
         },
       },
@@ -26034,9 +26034,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/aspect-ratio",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/aspect-ratio",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/aspect-ratio-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/aspect-ratio-example.tsx",
         },
       },
     },
@@ -26056,9 +26056,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/avatar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/avatar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/avatar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/avatar-example.tsx",
         },
       },
     },
@@ -26078,9 +26078,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/badge",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/badge",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/badge-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/badge-example.tsx",
         },
       },
     },
@@ -26100,9 +26100,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/breadcrumb",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/breadcrumb",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/breadcrumb-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/breadcrumb-example.tsx",
           api: "https://react-aria.adobe.com/Breadcrumbs#api",
         },
       },
@@ -26123,9 +26123,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/button",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/button",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/button-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/button-example.tsx",
           api: "https://react-aria.adobe.com/Button#api",
         },
       },
@@ -26146,9 +26146,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/button-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/button-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/button-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/button-group-example.tsx",
         },
       },
     },
@@ -26168,9 +26168,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/calendar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/calendar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/calendar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/calendar-example.tsx",
           api: "https://react-aria.adobe.com/Calendar#api",
         },
       },
@@ -26191,9 +26191,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/card",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/card",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/card-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/card-example.tsx",
         },
       },
     },
@@ -26213,9 +26213,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/carousel",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/carousel",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/carousel-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/carousel-example.tsx",
           api: "https://www.embla-carousel.com/docs/api",
         },
       },
@@ -26236,9 +26236,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/chart",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/chart",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/chart-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/chart-example.tsx",
         },
       },
     },
@@ -26258,9 +26258,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/checkbox",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/checkbox",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/checkbox-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/checkbox-example.tsx",
           api: "https://react-aria.adobe.com/Checkbox#api",
         },
       },
@@ -26281,9 +26281,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/collapsible",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/collapsible",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/collapsible-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/collapsible-example.tsx",
           api: "https://react-aria.adobe.com/Disclosure#api",
         },
       },
@@ -26304,9 +26304,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/combobox",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/combobox",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/combobox-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/combobox-example.tsx",
           api: "https://react-aria.adobe.com/ComboBox#api",
         },
       },
@@ -26327,9 +26327,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/command",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/command",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/command-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/command-example.tsx",
           api: "https://react-aria.adobe.com/Autocomplete#api",
         },
       },
@@ -26350,9 +26350,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/context-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/context-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/context-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/context-menu-example.tsx",
           api: "https://react-aria.adobe.com/Menu#api",
         },
       },
@@ -26373,9 +26373,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/dialog",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/dialog",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/dialog-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/dialog-example.tsx",
           api: "https://react-aria.adobe.com/Modal#api",
         },
       },
@@ -26396,9 +26396,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/drawer",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/drawer",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/drawer-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/drawer-example.tsx",
           api: "https://base-ui.com/react/components/drawer.md",
         },
       },
@@ -26419,9 +26419,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/dropdown-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/dropdown-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/dropdown-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/dropdown-menu-example.tsx",
           api: "https://react-aria.adobe.com/Menu#api",
         },
       },
@@ -26442,9 +26442,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/empty",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/empty",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/empty-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/empty-example.tsx",
         },
       },
     },
@@ -26464,9 +26464,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/field",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/field",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/field-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/field-example.tsx",
         },
       },
     },
@@ -26486,9 +26486,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/hover-card",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/hover-card",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/hover-card-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/hover-card-example.tsx",
           api: "https://react-aria.adobe.com/PreviewTrigger#api",
         },
       },
@@ -26509,9 +26509,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/input",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/input",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/input-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/input-example.tsx",
           api: "https://react-aria.adobe.com/TextField#api",
         },
       },
@@ -26532,9 +26532,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/input-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/input-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/input-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/input-group-example.tsx",
           api: "https://react-aria.adobe.com/Group#api",
         },
       },
@@ -26555,9 +26555,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/input-otp",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/input-otp",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/input-otp-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/input-otp-example.tsx",
           api: "https://input-otp.rodz.dev",
         },
       },
@@ -26578,9 +26578,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/item",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/item",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/item-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/item-example.tsx",
           api: "https://react-aria.adobe.com/Link#api",
         },
       },
@@ -26601,9 +26601,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/label",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/label",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/label-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/label-example.tsx",
           api: "https://react-aria.adobe.com/TextField#api",
         },
       },
@@ -26624,9 +26624,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/pagination",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/pagination",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/pagination-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/pagination-example.tsx",
         },
       },
     },
@@ -26646,9 +26646,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/popover",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/popover",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/popover-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/popover-example.tsx",
           api: "https://react-aria.adobe.com/Popover#api",
         },
       },
@@ -26669,9 +26669,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/progress",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/progress",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/progress-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/progress-example.tsx",
           api: "https://react-aria.adobe.com/ProgressBar#api",
         },
       },
@@ -26692,9 +26692,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/radio-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/radio-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/radio-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/radio-group-example.tsx",
           api: "https://react-aria.adobe.com/RadioGroup#api",
         },
       },
@@ -26715,9 +26715,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/resizable",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/resizable",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/resizable-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/resizable-example.tsx",
           api: "https://github.com/bvaughn/react-resizable-panels",
         },
       },
@@ -26738,9 +26738,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/scroll-area",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/scroll-area",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/scroll-area-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/scroll-area-example.tsx",
         },
       },
     },
@@ -26760,9 +26760,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/select",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/select",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/select-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/select-example.tsx",
           api: "https://react-aria.adobe.com/Select#api",
         },
       },
@@ -26783,9 +26783,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/separator",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/separator",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/separator-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/separator-example.tsx",
           api: "https://react-aria.adobe.com/Separator#api",
         },
       },
@@ -26806,9 +26806,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/sheet",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/sheet",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/sheet-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/sheet-example.tsx",
           api: "https://react-aria.adobe.com/Modal#api",
         },
       },
@@ -26837,9 +26837,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/sidebar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/sidebar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/sidebar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/sidebar-example.tsx",
         },
       },
     },
@@ -26859,9 +26859,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/skeleton",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/skeleton",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/skeleton-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/skeleton-example.tsx",
         },
       },
     },
@@ -26881,9 +26881,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/slider",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/slider",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/slider-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/slider-example.tsx",
           api: "https://react-aria.adobe.com/Slider#api",
         },
       },
@@ -26904,9 +26904,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/sonner",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/sonner",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/sonner-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/sonner-example.tsx",
           api: "https://sonner.emilkowal.ski",
         },
       },
@@ -26927,9 +26927,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/spinner",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/spinner",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/spinner-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/spinner-example.tsx",
         },
       },
     },
@@ -26949,9 +26949,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/switch",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/switch",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/switch-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/switch-example.tsx",
           api: "https://react-aria.adobe.com/Switch#api",
         },
       },
@@ -26972,9 +26972,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/table",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/table",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/table-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/table-example.tsx",
           api: "https://react-aria.adobe.com/Table#api",
         },
       },
@@ -26995,9 +26995,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/tabs",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/tabs",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/tabs-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/tabs-example.tsx",
           api: "https://react-aria.adobe.com/Tabs#api",
         },
       },
@@ -27018,9 +27018,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/textarea",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/textarea",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/textarea-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/textarea-example.tsx",
           api: "https://react-aria.adobe.com/TextField#api",
         },
       },
@@ -27041,9 +27041,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/toggle",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/toggle",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/toggle-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/toggle-example.tsx",
           api: "https://react-aria.adobe.com/ToggleButton#api",
         },
       },
@@ -27064,9 +27064,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/toggle-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/toggle-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/toggle-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/toggle-group-example.tsx",
           api: "https://react-aria.adobe.com/ToggleButtonGroup#api",
         },
       },
@@ -27087,9 +27087,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/tooltip",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/tooltip",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/tooltip-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/tooltip-example.tsx",
           api: "https://react-aria.adobe.com/Tooltip#api",
         },
       },
@@ -27110,9 +27110,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/kbd",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/kbd",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/kbd-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/kbd-example.tsx",
         },
       },
     },
@@ -27132,9 +27132,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/native-select",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/native-select",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/native-select-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/native-select-example.tsx",
         },
       },
     },
@@ -27154,7 +27154,7 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/direction",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/direction",
           api: "https://react-aria.adobe.com/I18nProvider#api",
         },
       },
@@ -27175,9 +27175,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/attachment",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/attachment",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/attachment-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/attachment-example.tsx",
         },
       },
     },
@@ -27197,9 +27197,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/bubble",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/bubble",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/bubble-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/bubble-example.tsx",
         },
       },
     },
@@ -27219,9 +27219,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/message-scroller",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/message-scroller",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/message-scroller-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/message-scroller-example.tsx",
         },
       },
     },
@@ -27241,9 +27241,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/questionnaire",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/questionnaire",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/questionnaire-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/questionnaire-example.tsx",
         },
       },
     },
@@ -27263,9 +27263,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/marker",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/marker",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/marker-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/marker-example.tsx",
         },
       },
     },
@@ -27285,9 +27285,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/message",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/message",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/message-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/message-example.tsx",
         },
       },
     },
@@ -27309,9 +27309,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/accordion",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/accordion",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/accordion-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/accordion-example.tsx",
           api: "https://react-aria.adobe.com/DisclosureGroup#api",
         },
       },
@@ -27332,9 +27332,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/alert",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/alert",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/alert-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/alert-example.tsx",
         },
       },
     },
@@ -27354,9 +27354,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/alert-dialog",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/alert-dialog",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/alert-dialog-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/alert-dialog-example.tsx",
           api: "https://react-aria.adobe.com/Modal#api",
         },
       },
@@ -27377,9 +27377,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/aspect-ratio",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/aspect-ratio",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/aspect-ratio-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/aspect-ratio-example.tsx",
         },
       },
     },
@@ -27399,9 +27399,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/avatar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/avatar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/avatar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/avatar-example.tsx",
         },
       },
     },
@@ -27421,9 +27421,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/badge",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/badge",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/badge-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/badge-example.tsx",
         },
       },
     },
@@ -27443,9 +27443,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/breadcrumb",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/breadcrumb",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/breadcrumb-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/breadcrumb-example.tsx",
           api: "https://react-aria.adobe.com/Breadcrumbs#api",
         },
       },
@@ -27466,9 +27466,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/button",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/button",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/button-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/button-example.tsx",
           api: "https://react-aria.adobe.com/Button#api",
         },
       },
@@ -27489,9 +27489,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/button-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/button-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/button-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/button-group-example.tsx",
         },
       },
     },
@@ -27511,9 +27511,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/calendar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/calendar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/calendar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/calendar-example.tsx",
           api: "https://react-aria.adobe.com/Calendar#api",
         },
       },
@@ -27534,9 +27534,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/card",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/card",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/card-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/card-example.tsx",
         },
       },
     },
@@ -27556,9 +27556,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/carousel",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/carousel",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/carousel-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/carousel-example.tsx",
           api: "https://www.embla-carousel.com/docs/api",
         },
       },
@@ -27579,9 +27579,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/chart",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/chart",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/chart-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/chart-example.tsx",
         },
       },
     },
@@ -27601,9 +27601,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/checkbox",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/checkbox",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/checkbox-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/checkbox-example.tsx",
           api: "https://react-aria.adobe.com/Checkbox#api",
         },
       },
@@ -27624,9 +27624,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/collapsible",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/collapsible",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/collapsible-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/collapsible-example.tsx",
           api: "https://react-aria.adobe.com/Disclosure#api",
         },
       },
@@ -27647,9 +27647,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/combobox",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/combobox",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/combobox-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/combobox-example.tsx",
           api: "https://react-aria.adobe.com/ComboBox#api",
         },
       },
@@ -27670,9 +27670,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/command",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/command",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/command-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/command-example.tsx",
           api: "https://react-aria.adobe.com/Autocomplete#api",
         },
       },
@@ -27693,9 +27693,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/context-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/context-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/context-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/context-menu-example.tsx",
           api: "https://react-aria.adobe.com/Menu#api",
         },
       },
@@ -27716,9 +27716,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/dialog",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/dialog",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/dialog-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/dialog-example.tsx",
           api: "https://react-aria.adobe.com/Modal#api",
         },
       },
@@ -27739,9 +27739,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/drawer",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/drawer",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/drawer-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/drawer-example.tsx",
           api: "https://base-ui.com/react/components/drawer.md",
         },
       },
@@ -27762,9 +27762,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/dropdown-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/dropdown-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/dropdown-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/dropdown-menu-example.tsx",
           api: "https://react-aria.adobe.com/Menu#api",
         },
       },
@@ -27785,9 +27785,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/empty",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/empty",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/empty-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/empty-example.tsx",
         },
       },
     },
@@ -27807,9 +27807,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/field",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/field",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/field-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/field-example.tsx",
         },
       },
     },
@@ -27829,9 +27829,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/hover-card",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/hover-card",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/hover-card-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/hover-card-example.tsx",
           api: "https://react-aria.adobe.com/PreviewTrigger#api",
         },
       },
@@ -27852,9 +27852,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/input",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/input",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/input-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/input-example.tsx",
           api: "https://react-aria.adobe.com/TextField#api",
         },
       },
@@ -27875,9 +27875,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/input-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/input-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/input-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/input-group-example.tsx",
           api: "https://react-aria.adobe.com/Group#api",
         },
       },
@@ -27898,9 +27898,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/input-otp",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/input-otp",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/input-otp-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/input-otp-example.tsx",
           api: "https://input-otp.rodz.dev",
         },
       },
@@ -27921,9 +27921,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/item",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/item",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/item-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/item-example.tsx",
           api: "https://react-aria.adobe.com/Link#api",
         },
       },
@@ -27944,9 +27944,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/label",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/label",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/label-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/label-example.tsx",
           api: "https://react-aria.adobe.com/TextField#api",
         },
       },
@@ -27967,9 +27967,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/pagination",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/pagination",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/pagination-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/pagination-example.tsx",
         },
       },
     },
@@ -27989,9 +27989,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/popover",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/popover",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/popover-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/popover-example.tsx",
           api: "https://react-aria.adobe.com/Popover#api",
         },
       },
@@ -28012,9 +28012,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/progress",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/progress",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/progress-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/progress-example.tsx",
           api: "https://react-aria.adobe.com/ProgressBar#api",
         },
       },
@@ -28035,9 +28035,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/radio-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/radio-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/radio-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/radio-group-example.tsx",
           api: "https://react-aria.adobe.com/RadioGroup#api",
         },
       },
@@ -28058,9 +28058,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/resizable",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/resizable",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/resizable-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/resizable-example.tsx",
           api: "https://github.com/bvaughn/react-resizable-panels",
         },
       },
@@ -28081,9 +28081,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/scroll-area",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/scroll-area",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/scroll-area-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/scroll-area-example.tsx",
         },
       },
     },
@@ -28103,9 +28103,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/select",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/select",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/select-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/select-example.tsx",
           api: "https://react-aria.adobe.com/Select#api",
         },
       },
@@ -28126,9 +28126,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/separator",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/separator",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/separator-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/separator-example.tsx",
           api: "https://react-aria.adobe.com/Separator#api",
         },
       },
@@ -28149,9 +28149,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/sheet",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/sheet",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/sheet-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/sheet-example.tsx",
           api: "https://react-aria.adobe.com/Modal#api",
         },
       },
@@ -28180,9 +28180,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/sidebar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/sidebar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/sidebar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/sidebar-example.tsx",
         },
       },
     },
@@ -28202,9 +28202,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/skeleton",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/skeleton",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/skeleton-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/skeleton-example.tsx",
         },
       },
     },
@@ -28224,9 +28224,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/slider",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/slider",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/slider-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/slider-example.tsx",
           api: "https://react-aria.adobe.com/Slider#api",
         },
       },
@@ -28247,9 +28247,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/sonner",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/sonner",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/sonner-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/sonner-example.tsx",
           api: "https://sonner.emilkowal.ski",
         },
       },
@@ -28270,9 +28270,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/spinner",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/spinner",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/spinner-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/spinner-example.tsx",
         },
       },
     },
@@ -28292,9 +28292,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/switch",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/switch",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/switch-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/switch-example.tsx",
           api: "https://react-aria.adobe.com/Switch#api",
         },
       },
@@ -28315,9 +28315,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/table",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/table",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/table-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/table-example.tsx",
           api: "https://react-aria.adobe.com/Table#api",
         },
       },
@@ -28338,9 +28338,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/tabs",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/tabs",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/tabs-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/tabs-example.tsx",
           api: "https://react-aria.adobe.com/Tabs#api",
         },
       },
@@ -28361,9 +28361,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/textarea",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/textarea",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/textarea-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/textarea-example.tsx",
           api: "https://react-aria.adobe.com/TextField#api",
         },
       },
@@ -28384,9 +28384,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/toggle",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/toggle",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/toggle-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/toggle-example.tsx",
           api: "https://react-aria.adobe.com/ToggleButton#api",
         },
       },
@@ -28407,9 +28407,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/toggle-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/toggle-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/toggle-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/toggle-group-example.tsx",
           api: "https://react-aria.adobe.com/ToggleButtonGroup#api",
         },
       },
@@ -28430,9 +28430,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/tooltip",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/tooltip",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/tooltip-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/tooltip-example.tsx",
           api: "https://react-aria.adobe.com/Tooltip#api",
         },
       },
@@ -28453,9 +28453,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/kbd",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/kbd",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/kbd-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/kbd-example.tsx",
         },
       },
     },
@@ -28475,9 +28475,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/native-select",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/native-select",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/native-select-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/native-select-example.tsx",
         },
       },
     },
@@ -28497,7 +28497,7 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/direction",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/direction",
           api: "https://react-aria.adobe.com/I18nProvider#api",
         },
       },
@@ -28518,9 +28518,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/attachment",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/attachment",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/attachment-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/attachment-example.tsx",
         },
       },
     },
@@ -28540,9 +28540,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/bubble",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/bubble",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/bubble-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/bubble-example.tsx",
         },
       },
     },
@@ -28562,9 +28562,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/message-scroller",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/message-scroller",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/message-scroller-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/message-scroller-example.tsx",
         },
       },
     },
@@ -28584,9 +28584,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/questionnaire",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/questionnaire",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/questionnaire-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/questionnaire-example.tsx",
         },
       },
     },
@@ -28606,9 +28606,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/marker",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/marker",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/marker-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/marker-example.tsx",
         },
       },
     },
@@ -28628,9 +28628,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/message",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/message",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/message-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/message-example.tsx",
         },
       },
     },
@@ -28652,9 +28652,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/accordion",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/accordion",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/accordion-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/accordion-example.tsx",
           api: "https://react-aria.adobe.com/DisclosureGroup#api",
         },
       },
@@ -28675,9 +28675,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/alert",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/alert",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/alert-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/alert-example.tsx",
         },
       },
     },
@@ -28697,9 +28697,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/alert-dialog",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/alert-dialog",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/alert-dialog-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/alert-dialog-example.tsx",
           api: "https://react-aria.adobe.com/Modal#api",
         },
       },
@@ -28720,9 +28720,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/aspect-ratio",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/aspect-ratio",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/aspect-ratio-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/aspect-ratio-example.tsx",
         },
       },
     },
@@ -28742,9 +28742,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/avatar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/avatar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/avatar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/avatar-example.tsx",
         },
       },
     },
@@ -28764,9 +28764,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/badge",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/badge",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/badge-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/badge-example.tsx",
         },
       },
     },
@@ -28786,9 +28786,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/breadcrumb",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/breadcrumb",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/breadcrumb-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/breadcrumb-example.tsx",
           api: "https://react-aria.adobe.com/Breadcrumbs#api",
         },
       },
@@ -28809,9 +28809,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/button",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/button",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/button-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/button-example.tsx",
           api: "https://react-aria.adobe.com/Button#api",
         },
       },
@@ -28832,9 +28832,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/button-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/button-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/button-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/button-group-example.tsx",
         },
       },
     },
@@ -28854,9 +28854,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/calendar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/calendar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/calendar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/calendar-example.tsx",
           api: "https://react-aria.adobe.com/Calendar#api",
         },
       },
@@ -28877,9 +28877,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/card",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/card",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/card-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/card-example.tsx",
         },
       },
     },
@@ -28899,9 +28899,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/carousel",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/carousel",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/carousel-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/carousel-example.tsx",
           api: "https://www.embla-carousel.com/docs/api",
         },
       },
@@ -28922,9 +28922,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/chart",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/chart",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/chart-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/chart-example.tsx",
         },
       },
     },
@@ -28944,9 +28944,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/checkbox",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/checkbox",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/checkbox-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/checkbox-example.tsx",
           api: "https://react-aria.adobe.com/Checkbox#api",
         },
       },
@@ -28967,9 +28967,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/collapsible",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/collapsible",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/collapsible-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/collapsible-example.tsx",
           api: "https://react-aria.adobe.com/Disclosure#api",
         },
       },
@@ -28990,9 +28990,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/combobox",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/combobox",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/combobox-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/combobox-example.tsx",
           api: "https://react-aria.adobe.com/ComboBox#api",
         },
       },
@@ -29013,9 +29013,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/command",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/command",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/command-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/command-example.tsx",
           api: "https://react-aria.adobe.com/Autocomplete#api",
         },
       },
@@ -29036,9 +29036,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/context-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/context-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/context-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/context-menu-example.tsx",
           api: "https://react-aria.adobe.com/Menu#api",
         },
       },
@@ -29059,9 +29059,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/dialog",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/dialog",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/dialog-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/dialog-example.tsx",
           api: "https://react-aria.adobe.com/Modal#api",
         },
       },
@@ -29082,9 +29082,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/drawer",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/drawer",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/drawer-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/drawer-example.tsx",
           api: "https://base-ui.com/react/components/drawer.md",
         },
       },
@@ -29105,9 +29105,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/dropdown-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/dropdown-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/dropdown-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/dropdown-menu-example.tsx",
           api: "https://react-aria.adobe.com/Menu#api",
         },
       },
@@ -29128,9 +29128,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/empty",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/empty",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/empty-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/empty-example.tsx",
         },
       },
     },
@@ -29150,9 +29150,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/field",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/field",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/field-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/field-example.tsx",
         },
       },
     },
@@ -29172,9 +29172,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/hover-card",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/hover-card",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/hover-card-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/hover-card-example.tsx",
           api: "https://react-aria.adobe.com/PreviewTrigger#api",
         },
       },
@@ -29195,9 +29195,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/input",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/input",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/input-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/input-example.tsx",
           api: "https://react-aria.adobe.com/TextField#api",
         },
       },
@@ -29218,9 +29218,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/input-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/input-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/input-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/input-group-example.tsx",
           api: "https://react-aria.adobe.com/Group#api",
         },
       },
@@ -29241,9 +29241,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/input-otp",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/input-otp",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/input-otp-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/input-otp-example.tsx",
           api: "https://input-otp.rodz.dev",
         },
       },
@@ -29264,9 +29264,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/item",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/item",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/item-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/item-example.tsx",
           api: "https://react-aria.adobe.com/Link#api",
         },
       },
@@ -29287,9 +29287,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/label",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/label",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/label-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/label-example.tsx",
           api: "https://react-aria.adobe.com/TextField#api",
         },
       },
@@ -29310,9 +29310,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/pagination",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/pagination",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/pagination-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/pagination-example.tsx",
         },
       },
     },
@@ -29332,9 +29332,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/popover",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/popover",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/popover-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/popover-example.tsx",
           api: "https://react-aria.adobe.com/Popover#api",
         },
       },
@@ -29355,9 +29355,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/progress",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/progress",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/progress-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/progress-example.tsx",
           api: "https://react-aria.adobe.com/ProgressBar#api",
         },
       },
@@ -29378,9 +29378,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/radio-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/radio-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/radio-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/radio-group-example.tsx",
           api: "https://react-aria.adobe.com/RadioGroup#api",
         },
       },
@@ -29401,9 +29401,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/resizable",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/resizable",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/resizable-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/resizable-example.tsx",
           api: "https://github.com/bvaughn/react-resizable-panels",
         },
       },
@@ -29424,9 +29424,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/scroll-area",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/scroll-area",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/scroll-area-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/scroll-area-example.tsx",
         },
       },
     },
@@ -29446,9 +29446,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/select",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/select",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/select-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/select-example.tsx",
           api: "https://react-aria.adobe.com/Select#api",
         },
       },
@@ -29469,9 +29469,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/separator",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/separator",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/separator-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/separator-example.tsx",
           api: "https://react-aria.adobe.com/Separator#api",
         },
       },
@@ -29492,9 +29492,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/sheet",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/sheet",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/sheet-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/sheet-example.tsx",
           api: "https://react-aria.adobe.com/Modal#api",
         },
       },
@@ -29523,9 +29523,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/sidebar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/sidebar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/sidebar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/sidebar-example.tsx",
         },
       },
     },
@@ -29545,9 +29545,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/skeleton",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/skeleton",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/skeleton-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/skeleton-example.tsx",
         },
       },
     },
@@ -29567,9 +29567,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/slider",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/slider",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/slider-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/slider-example.tsx",
           api: "https://react-aria.adobe.com/Slider#api",
         },
       },
@@ -29590,9 +29590,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/sonner",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/sonner",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/sonner-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/sonner-example.tsx",
           api: "https://sonner.emilkowal.ski",
         },
       },
@@ -29613,9 +29613,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/spinner",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/spinner",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/spinner-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/spinner-example.tsx",
         },
       },
     },
@@ -29635,9 +29635,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/switch",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/switch",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/switch-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/switch-example.tsx",
           api: "https://react-aria.adobe.com/Switch#api",
         },
       },
@@ -29658,9 +29658,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/table",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/table",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/table-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/table-example.tsx",
           api: "https://react-aria.adobe.com/Table#api",
         },
       },
@@ -29681,9 +29681,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/tabs",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/tabs",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/tabs-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/tabs-example.tsx",
           api: "https://react-aria.adobe.com/Tabs#api",
         },
       },
@@ -29704,9 +29704,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/textarea",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/textarea",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/textarea-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/textarea-example.tsx",
           api: "https://react-aria.adobe.com/TextField#api",
         },
       },
@@ -29727,9 +29727,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/toggle",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/toggle",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/toggle-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/toggle-example.tsx",
           api: "https://react-aria.adobe.com/ToggleButton#api",
         },
       },
@@ -29750,9 +29750,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/toggle-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/toggle-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/toggle-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/toggle-group-example.tsx",
           api: "https://react-aria.adobe.com/ToggleButtonGroup#api",
         },
       },
@@ -29773,9 +29773,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/tooltip",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/tooltip",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/tooltip-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/tooltip-example.tsx",
           api: "https://react-aria.adobe.com/Tooltip#api",
         },
       },
@@ -29796,9 +29796,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/kbd",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/kbd",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/kbd-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/kbd-example.tsx",
         },
       },
     },
@@ -29818,9 +29818,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/native-select",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/native-select",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/native-select-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/native-select-example.tsx",
         },
       },
     },
@@ -29840,7 +29840,7 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/direction",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/direction",
           api: "https://react-aria.adobe.com/I18nProvider#api",
         },
       },
@@ -29861,9 +29861,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/attachment",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/attachment",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/attachment-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/attachment-example.tsx",
         },
       },
     },
@@ -29883,9 +29883,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/bubble",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/bubble",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/bubble-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/bubble-example.tsx",
         },
       },
     },
@@ -29905,9 +29905,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/message-scroller",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/message-scroller",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/message-scroller-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/message-scroller-example.tsx",
         },
       },
     },
@@ -29927,9 +29927,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/questionnaire",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/questionnaire",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/questionnaire-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/questionnaire-example.tsx",
         },
       },
     },
@@ -29949,9 +29949,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/marker",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/marker",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/marker-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/marker-example.tsx",
         },
       },
     },
@@ -29971,9 +29971,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/message",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/message",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/message-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/message-example.tsx",
         },
       },
     },
@@ -29995,9 +29995,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/accordion",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/accordion",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/accordion-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/accordion-example.tsx",
           api: "https://react-aria.adobe.com/DisclosureGroup#api",
         },
       },
@@ -30018,9 +30018,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/alert",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/alert",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/alert-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/alert-example.tsx",
         },
       },
     },
@@ -30040,9 +30040,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/alert-dialog",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/alert-dialog",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/alert-dialog-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/alert-dialog-example.tsx",
           api: "https://react-aria.adobe.com/Modal#api",
         },
       },
@@ -30063,9 +30063,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/aspect-ratio",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/aspect-ratio",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/aspect-ratio-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/aspect-ratio-example.tsx",
         },
       },
     },
@@ -30085,9 +30085,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/avatar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/avatar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/avatar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/avatar-example.tsx",
         },
       },
     },
@@ -30107,9 +30107,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/badge",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/badge",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/badge-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/badge-example.tsx",
         },
       },
     },
@@ -30129,9 +30129,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/breadcrumb",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/breadcrumb",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/breadcrumb-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/breadcrumb-example.tsx",
           api: "https://react-aria.adobe.com/Breadcrumbs#api",
         },
       },
@@ -30152,9 +30152,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/button",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/button",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/button-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/button-example.tsx",
           api: "https://react-aria.adobe.com/Button#api",
         },
       },
@@ -30175,9 +30175,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/button-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/button-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/button-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/button-group-example.tsx",
         },
       },
     },
@@ -30197,9 +30197,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/calendar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/calendar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/calendar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/calendar-example.tsx",
           api: "https://react-aria.adobe.com/Calendar#api",
         },
       },
@@ -30220,9 +30220,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/card",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/card",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/card-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/card-example.tsx",
         },
       },
     },
@@ -30242,9 +30242,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/carousel",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/carousel",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/carousel-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/carousel-example.tsx",
           api: "https://www.embla-carousel.com/docs/api",
         },
       },
@@ -30265,9 +30265,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/chart",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/chart",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/chart-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/chart-example.tsx",
         },
       },
     },
@@ -30287,9 +30287,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/checkbox",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/checkbox",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/checkbox-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/checkbox-example.tsx",
           api: "https://react-aria.adobe.com/Checkbox#api",
         },
       },
@@ -30310,9 +30310,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/collapsible",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/collapsible",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/collapsible-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/collapsible-example.tsx",
           api: "https://react-aria.adobe.com/Disclosure#api",
         },
       },
@@ -30333,9 +30333,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/combobox",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/combobox",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/combobox-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/combobox-example.tsx",
           api: "https://react-aria.adobe.com/ComboBox#api",
         },
       },
@@ -30356,9 +30356,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/command",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/command",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/command-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/command-example.tsx",
           api: "https://react-aria.adobe.com/Autocomplete#api",
         },
       },
@@ -30379,9 +30379,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/context-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/context-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/context-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/context-menu-example.tsx",
           api: "https://react-aria.adobe.com/Menu#api",
         },
       },
@@ -30402,9 +30402,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/dialog",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/dialog",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/dialog-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/dialog-example.tsx",
           api: "https://react-aria.adobe.com/Modal#api",
         },
       },
@@ -30425,9 +30425,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/drawer",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/drawer",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/drawer-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/drawer-example.tsx",
           api: "https://base-ui.com/react/components/drawer.md",
         },
       },
@@ -30448,9 +30448,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/dropdown-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/dropdown-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/dropdown-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/dropdown-menu-example.tsx",
           api: "https://react-aria.adobe.com/Menu#api",
         },
       },
@@ -30471,9 +30471,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/empty",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/empty",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/empty-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/empty-example.tsx",
         },
       },
     },
@@ -30493,9 +30493,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/field",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/field",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/field-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/field-example.tsx",
         },
       },
     },
@@ -30515,9 +30515,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/hover-card",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/hover-card",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/hover-card-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/hover-card-example.tsx",
           api: "https://react-aria.adobe.com/PreviewTrigger#api",
         },
       },
@@ -30538,9 +30538,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/input",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/input",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/input-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/input-example.tsx",
           api: "https://react-aria.adobe.com/TextField#api",
         },
       },
@@ -30561,9 +30561,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/input-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/input-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/input-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/input-group-example.tsx",
           api: "https://react-aria.adobe.com/Group#api",
         },
       },
@@ -30584,9 +30584,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/input-otp",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/input-otp",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/input-otp-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/input-otp-example.tsx",
           api: "https://input-otp.rodz.dev",
         },
       },
@@ -30607,9 +30607,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/item",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/item",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/item-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/item-example.tsx",
           api: "https://react-aria.adobe.com/Link#api",
         },
       },
@@ -30630,9 +30630,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/label",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/label",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/label-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/label-example.tsx",
           api: "https://react-aria.adobe.com/TextField#api",
         },
       },
@@ -30653,9 +30653,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/pagination",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/pagination",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/pagination-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/pagination-example.tsx",
         },
       },
     },
@@ -30675,9 +30675,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/popover",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/popover",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/popover-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/popover-example.tsx",
           api: "https://react-aria.adobe.com/Popover#api",
         },
       },
@@ -30698,9 +30698,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/progress",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/progress",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/progress-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/progress-example.tsx",
           api: "https://react-aria.adobe.com/ProgressBar#api",
         },
       },
@@ -30721,9 +30721,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/radio-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/radio-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/radio-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/radio-group-example.tsx",
           api: "https://react-aria.adobe.com/RadioGroup#api",
         },
       },
@@ -30744,9 +30744,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/resizable",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/resizable",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/resizable-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/resizable-example.tsx",
           api: "https://github.com/bvaughn/react-resizable-panels",
         },
       },
@@ -30767,9 +30767,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/scroll-area",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/scroll-area",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/scroll-area-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/scroll-area-example.tsx",
         },
       },
     },
@@ -30789,9 +30789,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/select",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/select",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/select-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/select-example.tsx",
           api: "https://react-aria.adobe.com/Select#api",
         },
       },
@@ -30812,9 +30812,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/separator",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/separator",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/separator-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/separator-example.tsx",
           api: "https://react-aria.adobe.com/Separator#api",
         },
       },
@@ -30835,9 +30835,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/sheet",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/sheet",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/sheet-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/sheet-example.tsx",
           api: "https://react-aria.adobe.com/Modal#api",
         },
       },
@@ -30866,9 +30866,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/sidebar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/sidebar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/sidebar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/sidebar-example.tsx",
         },
       },
     },
@@ -30888,9 +30888,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/skeleton",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/skeleton",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/skeleton-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/skeleton-example.tsx",
         },
       },
     },
@@ -30910,9 +30910,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/slider",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/slider",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/slider-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/slider-example.tsx",
           api: "https://react-aria.adobe.com/Slider#api",
         },
       },
@@ -30933,9 +30933,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/sonner",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/sonner",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/sonner-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/sonner-example.tsx",
           api: "https://sonner.emilkowal.ski",
         },
       },
@@ -30956,9 +30956,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/spinner",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/spinner",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/spinner-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/spinner-example.tsx",
         },
       },
     },
@@ -30978,9 +30978,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/switch",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/switch",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/switch-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/switch-example.tsx",
           api: "https://react-aria.adobe.com/Switch#api",
         },
       },
@@ -31001,9 +31001,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/table",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/table",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/table-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/table-example.tsx",
           api: "https://react-aria.adobe.com/Table#api",
         },
       },
@@ -31024,9 +31024,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/tabs",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/tabs",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/tabs-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/tabs-example.tsx",
           api: "https://react-aria.adobe.com/Tabs#api",
         },
       },
@@ -31047,9 +31047,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/textarea",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/textarea",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/textarea-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/textarea-example.tsx",
           api: "https://react-aria.adobe.com/TextField#api",
         },
       },
@@ -31070,9 +31070,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/toggle",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/toggle",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/toggle-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/toggle-example.tsx",
           api: "https://react-aria.adobe.com/ToggleButton#api",
         },
       },
@@ -31093,9 +31093,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/toggle-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/toggle-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/toggle-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/toggle-group-example.tsx",
           api: "https://react-aria.adobe.com/ToggleButtonGroup#api",
         },
       },
@@ -31116,9 +31116,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/tooltip",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/tooltip",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/tooltip-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/tooltip-example.tsx",
           api: "https://react-aria.adobe.com/Tooltip#api",
         },
       },
@@ -31139,9 +31139,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/kbd",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/kbd",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/kbd-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/kbd-example.tsx",
         },
       },
     },
@@ -31161,9 +31161,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/native-select",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/native-select",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/native-select-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/native-select-example.tsx",
         },
       },
     },
@@ -31183,7 +31183,7 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/direction",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/direction",
           api: "https://react-aria.adobe.com/I18nProvider#api",
         },
       },
@@ -31204,9 +31204,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/attachment",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/attachment",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/attachment-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/attachment-example.tsx",
         },
       },
     },
@@ -31226,9 +31226,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/bubble",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/bubble",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/bubble-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/bubble-example.tsx",
         },
       },
     },
@@ -31248,9 +31248,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/message-scroller",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/message-scroller",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/message-scroller-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/message-scroller-example.tsx",
         },
       },
     },
@@ -31270,9 +31270,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/questionnaire",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/questionnaire",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/questionnaire-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/questionnaire-example.tsx",
         },
       },
     },
@@ -31292,9 +31292,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/marker",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/marker",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/marker-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/marker-example.tsx",
         },
       },
     },
@@ -31314,9 +31314,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/message",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/message",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/message-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/message-example.tsx",
         },
       },
     },
@@ -31338,9 +31338,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/accordion",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/accordion",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/accordion-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/accordion-example.tsx",
           api: "https://react-aria.adobe.com/DisclosureGroup#api",
         },
       },
@@ -31361,9 +31361,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/alert",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/alert",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/alert-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/alert-example.tsx",
         },
       },
     },
@@ -31383,9 +31383,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/alert-dialog",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/alert-dialog",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/alert-dialog-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/alert-dialog-example.tsx",
           api: "https://react-aria.adobe.com/Modal#api",
         },
       },
@@ -31406,9 +31406,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/aspect-ratio",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/aspect-ratio",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/aspect-ratio-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/aspect-ratio-example.tsx",
         },
       },
     },
@@ -31428,9 +31428,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/avatar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/avatar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/avatar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/avatar-example.tsx",
         },
       },
     },
@@ -31450,9 +31450,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/badge",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/badge",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/badge-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/badge-example.tsx",
         },
       },
     },
@@ -31472,9 +31472,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/breadcrumb",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/breadcrumb",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/breadcrumb-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/breadcrumb-example.tsx",
           api: "https://react-aria.adobe.com/Breadcrumbs#api",
         },
       },
@@ -31495,9 +31495,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/button",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/button",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/button-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/button-example.tsx",
           api: "https://react-aria.adobe.com/Button#api",
         },
       },
@@ -31518,9 +31518,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/button-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/button-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/button-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/button-group-example.tsx",
         },
       },
     },
@@ -31540,9 +31540,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/calendar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/calendar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/calendar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/calendar-example.tsx",
           api: "https://react-aria.adobe.com/Calendar#api",
         },
       },
@@ -31563,9 +31563,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/card",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/card",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/card-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/card-example.tsx",
         },
       },
     },
@@ -31585,9 +31585,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/carousel",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/carousel",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/carousel-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/carousel-example.tsx",
           api: "https://www.embla-carousel.com/docs/api",
         },
       },
@@ -31608,9 +31608,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/chart",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/chart",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/chart-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/chart-example.tsx",
         },
       },
     },
@@ -31630,9 +31630,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/checkbox",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/checkbox",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/checkbox-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/checkbox-example.tsx",
           api: "https://react-aria.adobe.com/Checkbox#api",
         },
       },
@@ -31653,9 +31653,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/collapsible",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/collapsible",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/collapsible-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/collapsible-example.tsx",
           api: "https://react-aria.adobe.com/Disclosure#api",
         },
       },
@@ -31676,9 +31676,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/combobox",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/combobox",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/combobox-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/combobox-example.tsx",
           api: "https://react-aria.adobe.com/ComboBox#api",
         },
       },
@@ -31699,9 +31699,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/command",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/command",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/command-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/command-example.tsx",
           api: "https://react-aria.adobe.com/Autocomplete#api",
         },
       },
@@ -31722,9 +31722,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/context-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/context-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/context-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/context-menu-example.tsx",
           api: "https://react-aria.adobe.com/Menu#api",
         },
       },
@@ -31745,9 +31745,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/dialog",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/dialog",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/dialog-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/dialog-example.tsx",
           api: "https://react-aria.adobe.com/Modal#api",
         },
       },
@@ -31768,9 +31768,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/drawer",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/drawer",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/drawer-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/drawer-example.tsx",
           api: "https://base-ui.com/react/components/drawer.md",
         },
       },
@@ -31791,9 +31791,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/dropdown-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/dropdown-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/dropdown-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/dropdown-menu-example.tsx",
           api: "https://react-aria.adobe.com/Menu#api",
         },
       },
@@ -31814,9 +31814,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/empty",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/empty",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/empty-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/empty-example.tsx",
         },
       },
     },
@@ -31836,9 +31836,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/field",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/field",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/field-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/field-example.tsx",
         },
       },
     },
@@ -31858,9 +31858,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/hover-card",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/hover-card",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/hover-card-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/hover-card-example.tsx",
           api: "https://react-aria.adobe.com/PreviewTrigger#api",
         },
       },
@@ -31881,9 +31881,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/input",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/input",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/input-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/input-example.tsx",
           api: "https://react-aria.adobe.com/TextField#api",
         },
       },
@@ -31904,9 +31904,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/input-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/input-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/input-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/input-group-example.tsx",
           api: "https://react-aria.adobe.com/Group#api",
         },
       },
@@ -31927,9 +31927,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/input-otp",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/input-otp",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/input-otp-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/input-otp-example.tsx",
           api: "https://input-otp.rodz.dev",
         },
       },
@@ -31950,9 +31950,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/item",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/item",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/item-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/item-example.tsx",
           api: "https://react-aria.adobe.com/Link#api",
         },
       },
@@ -31973,9 +31973,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/label",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/label",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/label-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/label-example.tsx",
           api: "https://react-aria.adobe.com/TextField#api",
         },
       },
@@ -31996,9 +31996,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/pagination",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/pagination",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/pagination-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/pagination-example.tsx",
         },
       },
     },
@@ -32018,9 +32018,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/popover",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/popover",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/popover-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/popover-example.tsx",
           api: "https://react-aria.adobe.com/Popover#api",
         },
       },
@@ -32041,9 +32041,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/progress",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/progress",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/progress-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/progress-example.tsx",
           api: "https://react-aria.adobe.com/ProgressBar#api",
         },
       },
@@ -32064,9 +32064,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/radio-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/radio-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/radio-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/radio-group-example.tsx",
           api: "https://react-aria.adobe.com/RadioGroup#api",
         },
       },
@@ -32087,9 +32087,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/resizable",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/resizable",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/resizable-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/resizable-example.tsx",
           api: "https://github.com/bvaughn/react-resizable-panels",
         },
       },
@@ -32110,9 +32110,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/scroll-area",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/scroll-area",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/scroll-area-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/scroll-area-example.tsx",
         },
       },
     },
@@ -32132,9 +32132,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/select",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/select",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/select-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/select-example.tsx",
           api: "https://react-aria.adobe.com/Select#api",
         },
       },
@@ -32155,9 +32155,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/separator",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/separator",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/separator-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/separator-example.tsx",
           api: "https://react-aria.adobe.com/Separator#api",
         },
       },
@@ -32178,9 +32178,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/sheet",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/sheet",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/sheet-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/sheet-example.tsx",
           api: "https://react-aria.adobe.com/Modal#api",
         },
       },
@@ -32209,9 +32209,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/sidebar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/sidebar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/sidebar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/sidebar-example.tsx",
         },
       },
     },
@@ -32231,9 +32231,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/skeleton",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/skeleton",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/skeleton-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/skeleton-example.tsx",
         },
       },
     },
@@ -32253,9 +32253,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/slider",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/slider",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/slider-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/slider-example.tsx",
           api: "https://react-aria.adobe.com/Slider#api",
         },
       },
@@ -32276,9 +32276,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/sonner",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/sonner",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/sonner-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/sonner-example.tsx",
           api: "https://sonner.emilkowal.ski",
         },
       },
@@ -32299,9 +32299,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/spinner",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/spinner",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/spinner-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/spinner-example.tsx",
         },
       },
     },
@@ -32321,9 +32321,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/switch",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/switch",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/switch-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/switch-example.tsx",
           api: "https://react-aria.adobe.com/Switch#api",
         },
       },
@@ -32344,9 +32344,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/table",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/table",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/table-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/table-example.tsx",
           api: "https://react-aria.adobe.com/Table#api",
         },
       },
@@ -32367,9 +32367,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/tabs",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/tabs",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/tabs-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/tabs-example.tsx",
           api: "https://react-aria.adobe.com/Tabs#api",
         },
       },
@@ -32390,9 +32390,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/textarea",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/textarea",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/textarea-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/textarea-example.tsx",
           api: "https://react-aria.adobe.com/TextField#api",
         },
       },
@@ -32413,9 +32413,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/toggle",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/toggle",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/toggle-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/toggle-example.tsx",
           api: "https://react-aria.adobe.com/ToggleButton#api",
         },
       },
@@ -32436,9 +32436,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/toggle-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/toggle-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/toggle-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/toggle-group-example.tsx",
           api: "https://react-aria.adobe.com/ToggleButtonGroup#api",
         },
       },
@@ -32459,9 +32459,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/tooltip",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/tooltip",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/tooltip-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/tooltip-example.tsx",
           api: "https://react-aria.adobe.com/Tooltip#api",
         },
       },
@@ -32482,9 +32482,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/kbd",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/kbd",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/kbd-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/kbd-example.tsx",
         },
       },
     },
@@ -32504,9 +32504,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/native-select",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/native-select",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/native-select-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/native-select-example.tsx",
         },
       },
     },
@@ -32526,7 +32526,7 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/direction",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/direction",
           api: "https://react-aria.adobe.com/I18nProvider#api",
         },
       },
@@ -32547,9 +32547,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/attachment",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/attachment",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/attachment-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/attachment-example.tsx",
         },
       },
     },
@@ -32569,9 +32569,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/bubble",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/bubble",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/bubble-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/bubble-example.tsx",
         },
       },
     },
@@ -32591,9 +32591,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/message-scroller",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/message-scroller",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/message-scroller-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/message-scroller-example.tsx",
         },
       },
     },
@@ -32613,9 +32613,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/questionnaire",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/questionnaire",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/questionnaire-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/questionnaire-example.tsx",
         },
       },
     },
@@ -32635,9 +32635,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/marker",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/marker",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/marker-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/marker-example.tsx",
         },
       },
     },
@@ -32657,9 +32657,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/message",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/message",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/message-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/message-example.tsx",
         },
       },
     },
@@ -32681,9 +32681,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/accordion",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/accordion",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/accordion-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/accordion-example.tsx",
           api: "https://react-aria.adobe.com/DisclosureGroup#api",
         },
       },
@@ -32704,9 +32704,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/alert",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/alert",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/alert-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/alert-example.tsx",
         },
       },
     },
@@ -32726,9 +32726,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/alert-dialog",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/alert-dialog",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/alert-dialog-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/alert-dialog-example.tsx",
           api: "https://react-aria.adobe.com/Modal#api",
         },
       },
@@ -32749,9 +32749,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/aspect-ratio",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/aspect-ratio",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/aspect-ratio-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/aspect-ratio-example.tsx",
         },
       },
     },
@@ -32771,9 +32771,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/avatar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/avatar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/avatar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/avatar-example.tsx",
         },
       },
     },
@@ -32793,9 +32793,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/badge",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/badge",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/badge-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/badge-example.tsx",
         },
       },
     },
@@ -32815,9 +32815,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/breadcrumb",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/breadcrumb",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/breadcrumb-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/breadcrumb-example.tsx",
           api: "https://react-aria.adobe.com/Breadcrumbs#api",
         },
       },
@@ -32838,9 +32838,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/button",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/button",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/button-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/button-example.tsx",
           api: "https://react-aria.adobe.com/Button#api",
         },
       },
@@ -32861,9 +32861,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/button-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/button-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/button-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/button-group-example.tsx",
         },
       },
     },
@@ -32883,9 +32883,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/calendar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/calendar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/calendar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/calendar-example.tsx",
           api: "https://react-aria.adobe.com/Calendar#api",
         },
       },
@@ -32906,9 +32906,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/card",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/card",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/card-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/card-example.tsx",
         },
       },
     },
@@ -32928,9 +32928,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/carousel",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/carousel",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/carousel-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/carousel-example.tsx",
           api: "https://www.embla-carousel.com/docs/api",
         },
       },
@@ -32951,9 +32951,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/chart",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/chart",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/chart-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/chart-example.tsx",
         },
       },
     },
@@ -32973,9 +32973,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/checkbox",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/checkbox",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/checkbox-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/checkbox-example.tsx",
           api: "https://react-aria.adobe.com/Checkbox#api",
         },
       },
@@ -32996,9 +32996,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/collapsible",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/collapsible",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/collapsible-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/collapsible-example.tsx",
           api: "https://react-aria.adobe.com/Disclosure#api",
         },
       },
@@ -33019,9 +33019,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/combobox",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/combobox",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/combobox-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/combobox-example.tsx",
           api: "https://react-aria.adobe.com/ComboBox#api",
         },
       },
@@ -33042,9 +33042,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/command",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/command",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/command-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/command-example.tsx",
           api: "https://react-aria.adobe.com/Autocomplete#api",
         },
       },
@@ -33065,9 +33065,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/context-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/context-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/context-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/context-menu-example.tsx",
           api: "https://react-aria.adobe.com/Menu#api",
         },
       },
@@ -33088,9 +33088,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/dialog",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/dialog",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/dialog-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/dialog-example.tsx",
           api: "https://react-aria.adobe.com/Modal#api",
         },
       },
@@ -33111,9 +33111,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/drawer",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/drawer",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/drawer-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/drawer-example.tsx",
           api: "https://base-ui.com/react/components/drawer.md",
         },
       },
@@ -33134,9 +33134,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/dropdown-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/dropdown-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/dropdown-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/dropdown-menu-example.tsx",
           api: "https://react-aria.adobe.com/Menu#api",
         },
       },
@@ -33157,9 +33157,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/empty",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/empty",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/empty-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/empty-example.tsx",
         },
       },
     },
@@ -33179,9 +33179,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/field",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/field",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/field-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/field-example.tsx",
         },
       },
     },
@@ -33201,9 +33201,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/hover-card",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/hover-card",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/hover-card-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/hover-card-example.tsx",
           api: "https://react-aria.adobe.com/PreviewTrigger#api",
         },
       },
@@ -33224,9 +33224,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/input",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/input",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/input-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/input-example.tsx",
           api: "https://react-aria.adobe.com/TextField#api",
         },
       },
@@ -33247,9 +33247,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/input-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/input-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/input-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/input-group-example.tsx",
           api: "https://react-aria.adobe.com/Group#api",
         },
       },
@@ -33270,9 +33270,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/input-otp",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/input-otp",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/input-otp-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/input-otp-example.tsx",
           api: "https://input-otp.rodz.dev",
         },
       },
@@ -33293,9 +33293,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/item",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/item",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/item-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/item-example.tsx",
           api: "https://react-aria.adobe.com/Link#api",
         },
       },
@@ -33316,9 +33316,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/label",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/label",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/label-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/label-example.tsx",
           api: "https://react-aria.adobe.com/TextField#api",
         },
       },
@@ -33339,9 +33339,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/pagination",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/pagination",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/pagination-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/pagination-example.tsx",
         },
       },
     },
@@ -33361,9 +33361,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/popover",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/popover",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/popover-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/popover-example.tsx",
           api: "https://react-aria.adobe.com/Popover#api",
         },
       },
@@ -33384,9 +33384,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/progress",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/progress",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/progress-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/progress-example.tsx",
           api: "https://react-aria.adobe.com/ProgressBar#api",
         },
       },
@@ -33407,9 +33407,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/radio-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/radio-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/radio-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/radio-group-example.tsx",
           api: "https://react-aria.adobe.com/RadioGroup#api",
         },
       },
@@ -33430,9 +33430,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/resizable",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/resizable",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/resizable-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/resizable-example.tsx",
           api: "https://github.com/bvaughn/react-resizable-panels",
         },
       },
@@ -33453,9 +33453,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/scroll-area",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/scroll-area",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/scroll-area-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/scroll-area-example.tsx",
         },
       },
     },
@@ -33475,9 +33475,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/select",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/select",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/select-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/select-example.tsx",
           api: "https://react-aria.adobe.com/Select#api",
         },
       },
@@ -33498,9 +33498,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/separator",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/separator",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/separator-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/separator-example.tsx",
           api: "https://react-aria.adobe.com/Separator#api",
         },
       },
@@ -33521,9 +33521,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/sheet",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/sheet",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/sheet-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/sheet-example.tsx",
           api: "https://react-aria.adobe.com/Modal#api",
         },
       },
@@ -33552,9 +33552,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/sidebar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/sidebar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/sidebar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/sidebar-example.tsx",
         },
       },
     },
@@ -33574,9 +33574,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/skeleton",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/skeleton",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/skeleton-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/skeleton-example.tsx",
         },
       },
     },
@@ -33596,9 +33596,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/slider",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/slider",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/slider-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/slider-example.tsx",
           api: "https://react-aria.adobe.com/Slider#api",
         },
       },
@@ -33619,9 +33619,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/sonner",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/sonner",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/sonner-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/sonner-example.tsx",
           api: "https://sonner.emilkowal.ski",
         },
       },
@@ -33642,9 +33642,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/spinner",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/spinner",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/spinner-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/spinner-example.tsx",
         },
       },
     },
@@ -33664,9 +33664,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/switch",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/switch",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/switch-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/switch-example.tsx",
           api: "https://react-aria.adobe.com/Switch#api",
         },
       },
@@ -33687,9 +33687,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/table",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/table",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/table-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/table-example.tsx",
           api: "https://react-aria.adobe.com/Table#api",
         },
       },
@@ -33710,9 +33710,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/tabs",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/tabs",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/tabs-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/tabs-example.tsx",
           api: "https://react-aria.adobe.com/Tabs#api",
         },
       },
@@ -33733,9 +33733,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/textarea",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/textarea",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/textarea-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/textarea-example.tsx",
           api: "https://react-aria.adobe.com/TextField#api",
         },
       },
@@ -33756,9 +33756,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/toggle",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/toggle",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/toggle-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/toggle-example.tsx",
           api: "https://react-aria.adobe.com/ToggleButton#api",
         },
       },
@@ -33779,9 +33779,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/toggle-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/toggle-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/toggle-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/toggle-group-example.tsx",
           api: "https://react-aria.adobe.com/ToggleButtonGroup#api",
         },
       },
@@ -33802,9 +33802,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/tooltip",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/tooltip",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/tooltip-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/tooltip-example.tsx",
           api: "https://react-aria.adobe.com/Tooltip#api",
         },
       },
@@ -33825,9 +33825,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/kbd",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/kbd",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/kbd-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/kbd-example.tsx",
         },
       },
     },
@@ -33847,9 +33847,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/native-select",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/native-select",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/native-select-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/native-select-example.tsx",
         },
       },
     },
@@ -33869,7 +33869,7 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/direction",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/direction",
           api: "https://react-aria.adobe.com/I18nProvider#api",
         },
       },
@@ -33890,9 +33890,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/attachment",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/attachment",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/attachment-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/attachment-example.tsx",
         },
       },
     },
@@ -33912,9 +33912,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/bubble",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/bubble",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/bubble-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/bubble-example.tsx",
         },
       },
     },
@@ -33934,9 +33934,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/message-scroller",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/message-scroller",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/message-scroller-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/message-scroller-example.tsx",
         },
       },
     },
@@ -33956,9 +33956,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/questionnaire",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/questionnaire",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/questionnaire-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/questionnaire-example.tsx",
         },
       },
     },
@@ -33978,9 +33978,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/marker",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/marker",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/marker-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/marker-example.tsx",
         },
       },
     },
@@ -34000,9 +34000,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/aria/message",
+          docs: "https://fabricator-ui.vercel.app/docs/components/aria/message",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/message-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/message-example.tsx",
         },
       },
     },
@@ -34024,9 +34024,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/accordion",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/accordion",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/accordion-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/accordion-example.tsx",
           api: "https://www.radix-ui.com/primitives/docs/components/accordion.md",
         },
       },
@@ -34047,9 +34047,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/alert",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/alert",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/alert-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/alert-example.tsx",
         },
       },
     },
@@ -34069,9 +34069,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/alert-dialog",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/alert-dialog",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/alert-dialog-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/alert-dialog-example.tsx",
           api: "https://www.radix-ui.com/primitives/docs/components/alert-dialog.md",
         },
       },
@@ -34092,9 +34092,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/aspect-ratio",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/aspect-ratio",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/aspect-ratio-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/aspect-ratio-example.tsx",
           api: "https://www.radix-ui.com/primitives/docs/components/aspect-ratio.md",
         },
       },
@@ -34115,9 +34115,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/avatar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/avatar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/avatar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/avatar-example.tsx",
           api: "https://www.radix-ui.com/primitives/docs/components/avatar.md",
         },
       },
@@ -34138,9 +34138,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/badge",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/badge",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/badge-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/badge-example.tsx",
         },
       },
     },
@@ -34160,9 +34160,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/breadcrumb",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/breadcrumb",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/breadcrumb-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/breadcrumb-example.tsx",
         },
       },
     },
@@ -34182,9 +34182,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/button",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/button",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/button-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/button-example.tsx",
         },
       },
     },
@@ -34204,9 +34204,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/button-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/button-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/button-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/button-group-example.tsx",
         },
       },
     },
@@ -34226,9 +34226,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/calendar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/calendar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/calendar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/calendar-example.tsx",
           api: "https://react-day-picker.js.org",
         },
       },
@@ -34249,9 +34249,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/card",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/card",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/card-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/card-example.tsx",
         },
       },
     },
@@ -34271,9 +34271,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/carousel",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/carousel",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/carousel-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/carousel-example.tsx",
           api: "https://www.embla-carousel.com/get-started/react",
         },
       },
@@ -34294,9 +34294,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/chart",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/chart",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/chart-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/chart-example.tsx",
         },
       },
     },
@@ -34316,9 +34316,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/checkbox",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/checkbox",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/checkbox-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/checkbox-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/checkbox.md",
         },
       },
@@ -34339,9 +34339,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/collapsible",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/collapsible",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/collapsible-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/collapsible-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/collapsible.md",
         },
       },
@@ -34362,9 +34362,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/combobox",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/combobox",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/combobox-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/combobox-example.tsx",
           api: "https://base-ui.com/react/components/combobox",
         },
       },
@@ -34385,9 +34385,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/command",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/command",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/command-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/command-example.tsx",
           api: "https://github.com/dip/cmdk",
         },
       },
@@ -34408,9 +34408,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/context-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/context-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/context-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/context-menu-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/context-menu.md",
         },
       },
@@ -34431,9 +34431,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/dialog",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/dialog",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/dialog-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/dialog-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/dialog.md",
         },
       },
@@ -34454,9 +34454,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/drawer",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/drawer",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/drawer-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/drawer-example.tsx",
           api: "https://vaul.emilkowal.ski/getting-started",
         },
       },
@@ -34477,9 +34477,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/dropdown-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/dropdown-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/dropdown-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/dropdown-menu-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/dropdown-menu.md",
         },
       },
@@ -34500,9 +34500,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/empty",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/empty",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/empty-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/empty-example.tsx",
         },
       },
     },
@@ -34522,9 +34522,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/field",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/field",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/field-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/field-example.tsx",
         },
       },
     },
@@ -34544,9 +34544,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/hover-card",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/hover-card",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/hover-card-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/hover-card-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/hover-card.md",
         },
       },
@@ -34567,9 +34567,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/input",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/input",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/input-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/input-example.tsx",
         },
       },
     },
@@ -34589,9 +34589,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/input-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/input-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/input-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/input-group-example.tsx",
         },
       },
     },
@@ -34611,9 +34611,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/input-otp",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/input-otp",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/input-otp-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/input-otp-example.tsx",
           api: "https://input-otp.rodz.dev",
         },
       },
@@ -34634,9 +34634,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/item",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/item",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/item-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/item-example.tsx",
         },
       },
     },
@@ -34656,9 +34656,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/label",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/label",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/label-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/label-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/label.md",
         },
       },
@@ -34679,9 +34679,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/menubar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/menubar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/menubar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/menubar-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/menubar.md",
         },
       },
@@ -34702,9 +34702,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/navigation-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/navigation-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/navigation-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/navigation-menu-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/navigation-menu.md",
         },
       },
@@ -34725,9 +34725,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/pagination",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/pagination",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/pagination-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/pagination-example.tsx",
         },
       },
     },
@@ -34747,9 +34747,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/popover",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/popover",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/popover-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/popover-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/popover.md",
         },
       },
@@ -34770,9 +34770,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/progress",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/progress",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/progress-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/progress-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/progress.md",
         },
       },
@@ -34793,9 +34793,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/radio-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/radio-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/radio-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/radio-group-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/radio-group.md",
         },
       },
@@ -34816,9 +34816,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/resizable",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/resizable",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/resizable-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/resizable-example.tsx",
           api: "https://github.com/bvaughn/react-resizable-panels",
         },
       },
@@ -34839,9 +34839,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/scroll-area",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/scroll-area",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/scroll-area-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/scroll-area-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/scroll-area.md",
         },
       },
@@ -34862,9 +34862,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/select",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/select",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/select-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/select-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/select.md",
         },
       },
@@ -34885,9 +34885,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/separator",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/separator",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/separator-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/separator-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/separator.md",
         },
       },
@@ -34908,9 +34908,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/sheet",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/sheet",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/sheet-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/sheet-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/dialog.md",
         },
       },
@@ -34939,9 +34939,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/sidebar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/sidebar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/sidebar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/sidebar-example.tsx",
         },
       },
     },
@@ -34961,9 +34961,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/skeleton",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/skeleton",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/skeleton-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/skeleton-example.tsx",
         },
       },
     },
@@ -34983,9 +34983,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/slider",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/slider",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/slider-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/slider-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/slider.md",
         },
       },
@@ -35006,9 +35006,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/sonner",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/sonner",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/sonner-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/sonner-example.tsx",
           api: "https://sonner.emilkowal.ski",
         },
       },
@@ -35029,9 +35029,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/spinner",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/spinner",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/spinner-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/spinner-example.tsx",
         },
       },
     },
@@ -35051,9 +35051,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/switch",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/switch",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/switch-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/switch-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/switch.md",
         },
       },
@@ -35074,9 +35074,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/table",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/table",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/table-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/table-example.tsx",
         },
       },
     },
@@ -35096,9 +35096,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/tabs",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/tabs",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/tabs-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/tabs-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/tabs.md",
         },
       },
@@ -35119,9 +35119,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/textarea",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/textarea",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/textarea-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/textarea-example.tsx",
         },
       },
     },
@@ -35141,9 +35141,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/toggle",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/toggle",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/toggle-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/toggle-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/toggle.md",
         },
       },
@@ -35164,9 +35164,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/toggle-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/toggle-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/toggle-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/toggle-group-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/toggle-group.md",
         },
       },
@@ -35187,9 +35187,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/tooltip",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/tooltip",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/tooltip-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/tooltip-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/tooltip.md",
         },
       },
@@ -35210,9 +35210,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/kbd",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/kbd",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/kbd-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/kbd-example.tsx",
         },
       },
     },
@@ -35232,9 +35232,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/native-select",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/native-select",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/native-select-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/native-select-example.tsx",
         },
       },
     },
@@ -35254,7 +35254,7 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/direction",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/direction",
           api: "https://www.radix-ui.com/primitives/docs/utilities/direction-provider.md",
         },
       },
@@ -35323,9 +35323,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/questionnaire",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/questionnaire",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/questionnaire-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/questionnaire-example.tsx",
         },
       },
     },
@@ -35379,9 +35379,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/accordion",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/accordion",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/accordion-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/accordion-example.tsx",
           api: "https://www.radix-ui.com/primitives/docs/components/accordion.md",
         },
       },
@@ -35402,9 +35402,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/alert",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/alert",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/alert-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/alert-example.tsx",
         },
       },
     },
@@ -35424,9 +35424,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/alert-dialog",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/alert-dialog",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/alert-dialog-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/alert-dialog-example.tsx",
           api: "https://www.radix-ui.com/primitives/docs/components/alert-dialog.md",
         },
       },
@@ -35447,9 +35447,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/aspect-ratio",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/aspect-ratio",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/aspect-ratio-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/aspect-ratio-example.tsx",
           api: "https://www.radix-ui.com/primitives/docs/components/aspect-ratio.md",
         },
       },
@@ -35470,9 +35470,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/avatar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/avatar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/avatar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/avatar-example.tsx",
           api: "https://www.radix-ui.com/primitives/docs/components/avatar.md",
         },
       },
@@ -35493,9 +35493,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/badge",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/badge",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/badge-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/badge-example.tsx",
         },
       },
     },
@@ -35515,9 +35515,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/breadcrumb",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/breadcrumb",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/breadcrumb-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/breadcrumb-example.tsx",
         },
       },
     },
@@ -35537,9 +35537,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/button",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/button",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/button-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/button-example.tsx",
         },
       },
     },
@@ -35559,9 +35559,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/button-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/button-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/button-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/button-group-example.tsx",
         },
       },
     },
@@ -35581,9 +35581,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/calendar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/calendar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/calendar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/calendar-example.tsx",
           api: "https://react-day-picker.js.org",
         },
       },
@@ -35604,9 +35604,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/card",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/card",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/card-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/card-example.tsx",
         },
       },
     },
@@ -35626,9 +35626,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/carousel",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/carousel",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/carousel-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/carousel-example.tsx",
           api: "https://www.embla-carousel.com/get-started/react",
         },
       },
@@ -35649,9 +35649,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/chart",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/chart",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/chart-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/chart-example.tsx",
         },
       },
     },
@@ -35671,9 +35671,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/checkbox",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/checkbox",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/checkbox-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/checkbox-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/checkbox.md",
         },
       },
@@ -35694,9 +35694,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/collapsible",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/collapsible",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/collapsible-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/collapsible-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/collapsible.md",
         },
       },
@@ -35717,9 +35717,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/combobox",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/combobox",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/combobox-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/combobox-example.tsx",
           api: "https://base-ui.com/react/components/combobox",
         },
       },
@@ -35740,9 +35740,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/command",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/command",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/command-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/command-example.tsx",
           api: "https://github.com/dip/cmdk",
         },
       },
@@ -35763,9 +35763,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/context-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/context-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/context-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/context-menu-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/context-menu.md",
         },
       },
@@ -35786,9 +35786,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/dialog",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/dialog",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/dialog-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/dialog-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/dialog.md",
         },
       },
@@ -35809,9 +35809,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/drawer",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/drawer",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/drawer-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/drawer-example.tsx",
           api: "https://vaul.emilkowal.ski/getting-started",
         },
       },
@@ -35832,9 +35832,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/dropdown-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/dropdown-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/dropdown-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/dropdown-menu-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/dropdown-menu.md",
         },
       },
@@ -35855,9 +35855,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/empty",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/empty",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/empty-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/empty-example.tsx",
         },
       },
     },
@@ -35877,9 +35877,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/field",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/field",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/field-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/field-example.tsx",
         },
       },
     },
@@ -35899,9 +35899,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/hover-card",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/hover-card",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/hover-card-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/hover-card-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/hover-card.md",
         },
       },
@@ -35922,9 +35922,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/input",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/input",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/input-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/input-example.tsx",
         },
       },
     },
@@ -35944,9 +35944,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/input-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/input-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/input-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/input-group-example.tsx",
         },
       },
     },
@@ -35966,9 +35966,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/input-otp",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/input-otp",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/input-otp-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/input-otp-example.tsx",
           api: "https://input-otp.rodz.dev",
         },
       },
@@ -35989,9 +35989,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/item",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/item",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/item-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/item-example.tsx",
         },
       },
     },
@@ -36011,9 +36011,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/label",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/label",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/label-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/label-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/label.md",
         },
       },
@@ -36034,9 +36034,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/menubar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/menubar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/menubar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/menubar-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/menubar.md",
         },
       },
@@ -36057,9 +36057,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/navigation-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/navigation-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/navigation-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/navigation-menu-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/navigation-menu.md",
         },
       },
@@ -36080,9 +36080,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/pagination",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/pagination",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/pagination-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/pagination-example.tsx",
         },
       },
     },
@@ -36102,9 +36102,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/popover",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/popover",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/popover-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/popover-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/popover.md",
         },
       },
@@ -36125,9 +36125,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/progress",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/progress",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/progress-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/progress-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/progress.md",
         },
       },
@@ -36148,9 +36148,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/radio-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/radio-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/radio-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/radio-group-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/radio-group.md",
         },
       },
@@ -36171,9 +36171,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/resizable",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/resizable",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/resizable-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/resizable-example.tsx",
           api: "https://github.com/bvaughn/react-resizable-panels",
         },
       },
@@ -36194,9 +36194,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/scroll-area",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/scroll-area",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/scroll-area-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/scroll-area-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/scroll-area.md",
         },
       },
@@ -36217,9 +36217,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/select",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/select",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/select-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/select-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/select.md",
         },
       },
@@ -36240,9 +36240,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/separator",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/separator",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/separator-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/separator-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/separator.md",
         },
       },
@@ -36263,9 +36263,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/sheet",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/sheet",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/sheet-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/sheet-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/dialog.md",
         },
       },
@@ -36294,9 +36294,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/sidebar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/sidebar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/sidebar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/sidebar-example.tsx",
         },
       },
     },
@@ -36316,9 +36316,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/skeleton",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/skeleton",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/skeleton-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/skeleton-example.tsx",
         },
       },
     },
@@ -36338,9 +36338,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/slider",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/slider",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/slider-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/slider-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/slider.md",
         },
       },
@@ -36361,9 +36361,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/sonner",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/sonner",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/sonner-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/sonner-example.tsx",
           api: "https://sonner.emilkowal.ski",
         },
       },
@@ -36384,9 +36384,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/spinner",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/spinner",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/spinner-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/spinner-example.tsx",
         },
       },
     },
@@ -36406,9 +36406,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/switch",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/switch",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/switch-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/switch-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/switch.md",
         },
       },
@@ -36429,9 +36429,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/table",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/table",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/table-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/table-example.tsx",
         },
       },
     },
@@ -36451,9 +36451,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/tabs",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/tabs",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/tabs-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/tabs-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/tabs.md",
         },
       },
@@ -36474,9 +36474,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/textarea",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/textarea",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/textarea-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/textarea-example.tsx",
         },
       },
     },
@@ -36496,9 +36496,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/toggle",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/toggle",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/toggle-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/toggle-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/toggle.md",
         },
       },
@@ -36519,9 +36519,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/toggle-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/toggle-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/toggle-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/toggle-group-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/toggle-group.md",
         },
       },
@@ -36542,9 +36542,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/tooltip",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/tooltip",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/tooltip-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/tooltip-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/tooltip.md",
         },
       },
@@ -36565,9 +36565,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/kbd",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/kbd",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/kbd-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/kbd-example.tsx",
         },
       },
     },
@@ -36587,9 +36587,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/native-select",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/native-select",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/native-select-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/native-select-example.tsx",
         },
       },
     },
@@ -36609,7 +36609,7 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/direction",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/direction",
           api: "https://www.radix-ui.com/primitives/docs/utilities/direction-provider.md",
         },
       },
@@ -36678,9 +36678,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/questionnaire",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/questionnaire",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/questionnaire-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/questionnaire-example.tsx",
         },
       },
     },
@@ -36734,9 +36734,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/accordion",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/accordion",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/accordion-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/accordion-example.tsx",
           api: "https://www.radix-ui.com/primitives/docs/components/accordion.md",
         },
       },
@@ -36757,9 +36757,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/alert",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/alert",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/alert-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/alert-example.tsx",
         },
       },
     },
@@ -36779,9 +36779,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/alert-dialog",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/alert-dialog",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/alert-dialog-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/alert-dialog-example.tsx",
           api: "https://www.radix-ui.com/primitives/docs/components/alert-dialog.md",
         },
       },
@@ -36802,9 +36802,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/aspect-ratio",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/aspect-ratio",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/aspect-ratio-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/aspect-ratio-example.tsx",
           api: "https://www.radix-ui.com/primitives/docs/components/aspect-ratio.md",
         },
       },
@@ -36825,9 +36825,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/avatar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/avatar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/avatar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/avatar-example.tsx",
           api: "https://www.radix-ui.com/primitives/docs/components/avatar.md",
         },
       },
@@ -36848,9 +36848,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/badge",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/badge",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/badge-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/badge-example.tsx",
         },
       },
     },
@@ -36870,9 +36870,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/breadcrumb",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/breadcrumb",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/breadcrumb-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/breadcrumb-example.tsx",
         },
       },
     },
@@ -36892,9 +36892,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/button",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/button",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/button-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/button-example.tsx",
         },
       },
     },
@@ -36914,9 +36914,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/button-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/button-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/button-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/button-group-example.tsx",
         },
       },
     },
@@ -36936,9 +36936,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/calendar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/calendar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/calendar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/calendar-example.tsx",
           api: "https://react-day-picker.js.org",
         },
       },
@@ -36959,9 +36959,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/card",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/card",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/card-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/card-example.tsx",
         },
       },
     },
@@ -36981,9 +36981,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/carousel",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/carousel",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/carousel-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/carousel-example.tsx",
           api: "https://www.embla-carousel.com/get-started/react",
         },
       },
@@ -37004,9 +37004,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/chart",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/chart",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/chart-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/chart-example.tsx",
         },
       },
     },
@@ -37026,9 +37026,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/checkbox",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/checkbox",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/checkbox-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/checkbox-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/checkbox.md",
         },
       },
@@ -37049,9 +37049,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/collapsible",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/collapsible",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/collapsible-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/collapsible-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/collapsible.md",
         },
       },
@@ -37072,9 +37072,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/combobox",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/combobox",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/combobox-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/combobox-example.tsx",
           api: "https://base-ui.com/react/components/combobox",
         },
       },
@@ -37095,9 +37095,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/command",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/command",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/command-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/command-example.tsx",
           api: "https://github.com/dip/cmdk",
         },
       },
@@ -37118,9 +37118,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/context-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/context-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/context-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/context-menu-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/context-menu.md",
         },
       },
@@ -37141,9 +37141,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/dialog",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/dialog",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/dialog-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/dialog-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/dialog.md",
         },
       },
@@ -37164,9 +37164,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/drawer",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/drawer",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/drawer-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/drawer-example.tsx",
           api: "https://vaul.emilkowal.ski/getting-started",
         },
       },
@@ -37187,9 +37187,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/dropdown-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/dropdown-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/dropdown-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/dropdown-menu-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/dropdown-menu.md",
         },
       },
@@ -37210,9 +37210,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/empty",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/empty",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/empty-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/empty-example.tsx",
         },
       },
     },
@@ -37232,9 +37232,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/field",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/field",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/field-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/field-example.tsx",
         },
       },
     },
@@ -37254,9 +37254,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/hover-card",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/hover-card",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/hover-card-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/hover-card-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/hover-card.md",
         },
       },
@@ -37277,9 +37277,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/input",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/input",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/input-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/input-example.tsx",
         },
       },
     },
@@ -37299,9 +37299,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/input-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/input-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/input-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/input-group-example.tsx",
         },
       },
     },
@@ -37321,9 +37321,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/input-otp",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/input-otp",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/input-otp-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/input-otp-example.tsx",
           api: "https://input-otp.rodz.dev",
         },
       },
@@ -37344,9 +37344,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/item",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/item",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/item-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/item-example.tsx",
         },
       },
     },
@@ -37366,9 +37366,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/label",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/label",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/label-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/label-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/label.md",
         },
       },
@@ -37389,9 +37389,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/menubar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/menubar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/menubar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/menubar-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/menubar.md",
         },
       },
@@ -37412,9 +37412,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/navigation-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/navigation-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/navigation-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/navigation-menu-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/navigation-menu.md",
         },
       },
@@ -37435,9 +37435,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/pagination",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/pagination",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/pagination-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/pagination-example.tsx",
         },
       },
     },
@@ -37457,9 +37457,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/popover",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/popover",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/popover-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/popover-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/popover.md",
         },
       },
@@ -37480,9 +37480,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/progress",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/progress",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/progress-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/progress-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/progress.md",
         },
       },
@@ -37503,9 +37503,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/radio-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/radio-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/radio-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/radio-group-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/radio-group.md",
         },
       },
@@ -37526,9 +37526,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/resizable",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/resizable",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/resizable-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/resizable-example.tsx",
           api: "https://github.com/bvaughn/react-resizable-panels",
         },
       },
@@ -37549,9 +37549,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/scroll-area",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/scroll-area",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/scroll-area-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/scroll-area-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/scroll-area.md",
         },
       },
@@ -37572,9 +37572,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/select",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/select",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/select-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/select-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/select.md",
         },
       },
@@ -37595,9 +37595,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/separator",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/separator",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/separator-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/separator-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/separator.md",
         },
       },
@@ -37618,9 +37618,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/sheet",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/sheet",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/sheet-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/sheet-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/dialog.md",
         },
       },
@@ -37649,9 +37649,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/sidebar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/sidebar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/sidebar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/sidebar-example.tsx",
         },
       },
     },
@@ -37671,9 +37671,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/skeleton",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/skeleton",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/skeleton-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/skeleton-example.tsx",
         },
       },
     },
@@ -37693,9 +37693,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/slider",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/slider",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/slider-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/slider-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/slider.md",
         },
       },
@@ -37716,9 +37716,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/sonner",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/sonner",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/sonner-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/sonner-example.tsx",
           api: "https://sonner.emilkowal.ski",
         },
       },
@@ -37739,9 +37739,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/spinner",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/spinner",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/spinner-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/spinner-example.tsx",
         },
       },
     },
@@ -37761,9 +37761,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/switch",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/switch",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/switch-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/switch-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/switch.md",
         },
       },
@@ -37784,9 +37784,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/table",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/table",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/table-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/table-example.tsx",
         },
       },
     },
@@ -37806,9 +37806,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/tabs",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/tabs",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/tabs-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/tabs-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/tabs.md",
         },
       },
@@ -37829,9 +37829,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/textarea",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/textarea",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/textarea-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/textarea-example.tsx",
         },
       },
     },
@@ -37851,9 +37851,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/toggle",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/toggle",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/toggle-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/toggle-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/toggle.md",
         },
       },
@@ -37874,9 +37874,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/toggle-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/toggle-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/toggle-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/toggle-group-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/toggle-group.md",
         },
       },
@@ -37897,9 +37897,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/tooltip",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/tooltip",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/tooltip-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/tooltip-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/tooltip.md",
         },
       },
@@ -37920,9 +37920,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/kbd",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/kbd",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/kbd-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/kbd-example.tsx",
         },
       },
     },
@@ -37942,9 +37942,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/native-select",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/native-select",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/native-select-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/native-select-example.tsx",
         },
       },
     },
@@ -37964,7 +37964,7 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/direction",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/direction",
           api: "https://www.radix-ui.com/primitives/docs/utilities/direction-provider.md",
         },
       },
@@ -38033,9 +38033,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/questionnaire",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/questionnaire",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/questionnaire-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/questionnaire-example.tsx",
         },
       },
     },
@@ -38089,9 +38089,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/accordion",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/accordion",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/accordion-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/accordion-example.tsx",
           api: "https://www.radix-ui.com/primitives/docs/components/accordion.md",
         },
       },
@@ -38112,9 +38112,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/alert",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/alert",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/alert-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/alert-example.tsx",
         },
       },
     },
@@ -38134,9 +38134,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/alert-dialog",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/alert-dialog",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/alert-dialog-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/alert-dialog-example.tsx",
           api: "https://www.radix-ui.com/primitives/docs/components/alert-dialog.md",
         },
       },
@@ -38157,9 +38157,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/aspect-ratio",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/aspect-ratio",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/aspect-ratio-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/aspect-ratio-example.tsx",
           api: "https://www.radix-ui.com/primitives/docs/components/aspect-ratio.md",
         },
       },
@@ -38180,9 +38180,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/avatar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/avatar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/avatar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/avatar-example.tsx",
           api: "https://www.radix-ui.com/primitives/docs/components/avatar.md",
         },
       },
@@ -38203,9 +38203,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/badge",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/badge",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/badge-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/badge-example.tsx",
         },
       },
     },
@@ -38225,9 +38225,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/breadcrumb",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/breadcrumb",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/breadcrumb-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/breadcrumb-example.tsx",
         },
       },
     },
@@ -38247,9 +38247,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/button",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/button",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/button-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/button-example.tsx",
         },
       },
     },
@@ -38269,9 +38269,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/button-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/button-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/button-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/button-group-example.tsx",
         },
       },
     },
@@ -38291,9 +38291,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/calendar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/calendar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/calendar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/calendar-example.tsx",
           api: "https://react-day-picker.js.org",
         },
       },
@@ -38314,9 +38314,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/card",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/card",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/card-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/card-example.tsx",
         },
       },
     },
@@ -38336,9 +38336,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/carousel",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/carousel",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/carousel-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/carousel-example.tsx",
           api: "https://www.embla-carousel.com/get-started/react",
         },
       },
@@ -38359,9 +38359,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/chart",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/chart",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/chart-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/chart-example.tsx",
         },
       },
     },
@@ -38381,9 +38381,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/checkbox",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/checkbox",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/checkbox-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/checkbox-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/checkbox.md",
         },
       },
@@ -38404,9 +38404,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/collapsible",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/collapsible",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/collapsible-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/collapsible-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/collapsible.md",
         },
       },
@@ -38427,9 +38427,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/combobox",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/combobox",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/combobox-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/combobox-example.tsx",
           api: "https://base-ui.com/react/components/combobox",
         },
       },
@@ -38450,9 +38450,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/command",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/command",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/command-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/command-example.tsx",
           api: "https://github.com/dip/cmdk",
         },
       },
@@ -38473,9 +38473,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/context-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/context-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/context-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/context-menu-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/context-menu.md",
         },
       },
@@ -38496,9 +38496,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/dialog",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/dialog",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/dialog-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/dialog-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/dialog.md",
         },
       },
@@ -38519,9 +38519,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/drawer",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/drawer",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/drawer-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/drawer-example.tsx",
           api: "https://vaul.emilkowal.ski/getting-started",
         },
       },
@@ -38542,9 +38542,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/dropdown-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/dropdown-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/dropdown-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/dropdown-menu-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/dropdown-menu.md",
         },
       },
@@ -38565,9 +38565,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/empty",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/empty",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/empty-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/empty-example.tsx",
         },
       },
     },
@@ -38587,9 +38587,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/field",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/field",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/field-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/field-example.tsx",
         },
       },
     },
@@ -38609,9 +38609,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/hover-card",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/hover-card",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/hover-card-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/hover-card-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/hover-card.md",
         },
       },
@@ -38632,9 +38632,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/input",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/input",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/input-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/input-example.tsx",
         },
       },
     },
@@ -38654,9 +38654,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/input-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/input-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/input-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/input-group-example.tsx",
         },
       },
     },
@@ -38676,9 +38676,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/input-otp",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/input-otp",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/input-otp-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/input-otp-example.tsx",
           api: "https://input-otp.rodz.dev",
         },
       },
@@ -38699,9 +38699,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/item",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/item",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/item-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/item-example.tsx",
         },
       },
     },
@@ -38721,9 +38721,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/label",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/label",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/label-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/label-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/label.md",
         },
       },
@@ -38744,9 +38744,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/menubar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/menubar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/menubar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/menubar-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/menubar.md",
         },
       },
@@ -38767,9 +38767,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/navigation-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/navigation-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/navigation-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/navigation-menu-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/navigation-menu.md",
         },
       },
@@ -38790,9 +38790,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/pagination",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/pagination",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/pagination-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/pagination-example.tsx",
         },
       },
     },
@@ -38812,9 +38812,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/popover",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/popover",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/popover-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/popover-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/popover.md",
         },
       },
@@ -38835,9 +38835,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/progress",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/progress",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/progress-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/progress-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/progress.md",
         },
       },
@@ -38858,9 +38858,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/radio-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/radio-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/radio-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/radio-group-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/radio-group.md",
         },
       },
@@ -38881,9 +38881,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/resizable",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/resizable",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/resizable-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/resizable-example.tsx",
           api: "https://github.com/bvaughn/react-resizable-panels",
         },
       },
@@ -38904,9 +38904,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/scroll-area",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/scroll-area",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/scroll-area-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/scroll-area-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/scroll-area.md",
         },
       },
@@ -38927,9 +38927,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/select",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/select",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/select-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/select-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/select.md",
         },
       },
@@ -38950,9 +38950,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/separator",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/separator",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/separator-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/separator-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/separator.md",
         },
       },
@@ -38973,9 +38973,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/sheet",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/sheet",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/sheet-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/sheet-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/dialog.md",
         },
       },
@@ -39004,9 +39004,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/sidebar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/sidebar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/sidebar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/sidebar-example.tsx",
         },
       },
     },
@@ -39026,9 +39026,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/skeleton",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/skeleton",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/skeleton-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/skeleton-example.tsx",
         },
       },
     },
@@ -39048,9 +39048,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/slider",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/slider",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/slider-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/slider-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/slider.md",
         },
       },
@@ -39071,9 +39071,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/sonner",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/sonner",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/sonner-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/sonner-example.tsx",
           api: "https://sonner.emilkowal.ski",
         },
       },
@@ -39094,9 +39094,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/spinner",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/spinner",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/spinner-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/spinner-example.tsx",
         },
       },
     },
@@ -39116,9 +39116,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/switch",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/switch",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/switch-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/switch-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/switch.md",
         },
       },
@@ -39139,9 +39139,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/table",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/table",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/table-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/table-example.tsx",
         },
       },
     },
@@ -39161,9 +39161,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/tabs",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/tabs",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/tabs-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/tabs-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/tabs.md",
         },
       },
@@ -39184,9 +39184,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/textarea",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/textarea",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/textarea-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/textarea-example.tsx",
         },
       },
     },
@@ -39206,9 +39206,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/toggle",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/toggle",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/toggle-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/toggle-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/toggle.md",
         },
       },
@@ -39229,9 +39229,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/toggle-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/toggle-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/toggle-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/toggle-group-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/toggle-group.md",
         },
       },
@@ -39252,9 +39252,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/tooltip",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/tooltip",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/tooltip-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/tooltip-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/tooltip.md",
         },
       },
@@ -39275,9 +39275,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/kbd",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/kbd",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/kbd-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/kbd-example.tsx",
         },
       },
     },
@@ -39297,9 +39297,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/native-select",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/native-select",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/native-select-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/native-select-example.tsx",
         },
       },
     },
@@ -39319,7 +39319,7 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/direction",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/direction",
           api: "https://www.radix-ui.com/primitives/docs/utilities/direction-provider.md",
         },
       },
@@ -39388,9 +39388,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/questionnaire",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/questionnaire",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/questionnaire-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/questionnaire-example.tsx",
         },
       },
     },
@@ -39444,9 +39444,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/accordion",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/accordion",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/accordion-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/accordion-example.tsx",
           api: "https://www.radix-ui.com/primitives/docs/components/accordion.md",
         },
       },
@@ -39467,9 +39467,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/alert",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/alert",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/alert-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/alert-example.tsx",
         },
       },
     },
@@ -39489,9 +39489,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/alert-dialog",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/alert-dialog",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/alert-dialog-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/alert-dialog-example.tsx",
           api: "https://www.radix-ui.com/primitives/docs/components/alert-dialog.md",
         },
       },
@@ -39512,9 +39512,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/aspect-ratio",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/aspect-ratio",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/aspect-ratio-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/aspect-ratio-example.tsx",
           api: "https://www.radix-ui.com/primitives/docs/components/aspect-ratio.md",
         },
       },
@@ -39535,9 +39535,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/avatar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/avatar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/avatar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/avatar-example.tsx",
           api: "https://www.radix-ui.com/primitives/docs/components/avatar.md",
         },
       },
@@ -39558,9 +39558,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/badge",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/badge",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/badge-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/badge-example.tsx",
         },
       },
     },
@@ -39580,9 +39580,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/breadcrumb",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/breadcrumb",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/breadcrumb-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/breadcrumb-example.tsx",
         },
       },
     },
@@ -39602,9 +39602,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/button",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/button",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/button-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/button-example.tsx",
         },
       },
     },
@@ -39624,9 +39624,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/button-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/button-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/button-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/button-group-example.tsx",
         },
       },
     },
@@ -39646,9 +39646,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/calendar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/calendar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/calendar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/calendar-example.tsx",
           api: "https://react-day-picker.js.org",
         },
       },
@@ -39669,9 +39669,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/card",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/card",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/card-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/card-example.tsx",
         },
       },
     },
@@ -39691,9 +39691,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/carousel",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/carousel",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/carousel-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/carousel-example.tsx",
           api: "https://www.embla-carousel.com/get-started/react",
         },
       },
@@ -39714,9 +39714,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/chart",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/chart",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/chart-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/chart-example.tsx",
         },
       },
     },
@@ -39736,9 +39736,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/checkbox",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/checkbox",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/checkbox-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/checkbox-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/checkbox.md",
         },
       },
@@ -39759,9 +39759,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/collapsible",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/collapsible",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/collapsible-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/collapsible-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/collapsible.md",
         },
       },
@@ -39782,9 +39782,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/combobox",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/combobox",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/combobox-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/combobox-example.tsx",
           api: "https://base-ui.com/react/components/combobox",
         },
       },
@@ -39805,9 +39805,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/command",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/command",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/command-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/command-example.tsx",
           api: "https://github.com/dip/cmdk",
         },
       },
@@ -39828,9 +39828,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/context-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/context-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/context-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/context-menu-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/context-menu.md",
         },
       },
@@ -39851,9 +39851,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/dialog",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/dialog",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/dialog-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/dialog-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/dialog.md",
         },
       },
@@ -39874,9 +39874,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/drawer",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/drawer",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/drawer-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/drawer-example.tsx",
           api: "https://vaul.emilkowal.ski/getting-started",
         },
       },
@@ -39897,9 +39897,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/dropdown-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/dropdown-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/dropdown-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/dropdown-menu-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/dropdown-menu.md",
         },
       },
@@ -39920,9 +39920,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/empty",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/empty",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/empty-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/empty-example.tsx",
         },
       },
     },
@@ -39942,9 +39942,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/field",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/field",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/field-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/field-example.tsx",
         },
       },
     },
@@ -39964,9 +39964,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/hover-card",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/hover-card",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/hover-card-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/hover-card-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/hover-card.md",
         },
       },
@@ -39987,9 +39987,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/input",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/input",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/input-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/input-example.tsx",
         },
       },
     },
@@ -40009,9 +40009,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/input-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/input-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/input-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/input-group-example.tsx",
         },
       },
     },
@@ -40031,9 +40031,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/input-otp",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/input-otp",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/input-otp-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/input-otp-example.tsx",
           api: "https://input-otp.rodz.dev",
         },
       },
@@ -40054,9 +40054,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/item",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/item",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/item-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/item-example.tsx",
         },
       },
     },
@@ -40076,9 +40076,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/label",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/label",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/label-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/label-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/label.md",
         },
       },
@@ -40099,9 +40099,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/menubar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/menubar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/menubar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/menubar-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/menubar.md",
         },
       },
@@ -40122,9 +40122,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/navigation-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/navigation-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/navigation-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/navigation-menu-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/navigation-menu.md",
         },
       },
@@ -40145,9 +40145,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/pagination",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/pagination",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/pagination-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/pagination-example.tsx",
         },
       },
     },
@@ -40167,9 +40167,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/popover",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/popover",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/popover-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/popover-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/popover.md",
         },
       },
@@ -40190,9 +40190,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/progress",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/progress",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/progress-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/progress-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/progress.md",
         },
       },
@@ -40213,9 +40213,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/radio-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/radio-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/radio-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/radio-group-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/radio-group.md",
         },
       },
@@ -40236,9 +40236,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/resizable",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/resizable",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/resizable-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/resizable-example.tsx",
           api: "https://github.com/bvaughn/react-resizable-panels",
         },
       },
@@ -40259,9 +40259,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/scroll-area",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/scroll-area",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/scroll-area-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/scroll-area-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/scroll-area.md",
         },
       },
@@ -40282,9 +40282,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/select",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/select",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/select-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/select-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/select.md",
         },
       },
@@ -40305,9 +40305,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/separator",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/separator",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/separator-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/separator-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/separator.md",
         },
       },
@@ -40328,9 +40328,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/sheet",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/sheet",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/sheet-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/sheet-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/dialog.md",
         },
       },
@@ -40359,9 +40359,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/sidebar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/sidebar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/sidebar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/sidebar-example.tsx",
         },
       },
     },
@@ -40381,9 +40381,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/skeleton",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/skeleton",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/skeleton-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/skeleton-example.tsx",
         },
       },
     },
@@ -40403,9 +40403,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/slider",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/slider",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/slider-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/slider-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/slider.md",
         },
       },
@@ -40426,9 +40426,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/sonner",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/sonner",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/sonner-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/sonner-example.tsx",
           api: "https://sonner.emilkowal.ski",
         },
       },
@@ -40449,9 +40449,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/spinner",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/spinner",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/spinner-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/spinner-example.tsx",
         },
       },
     },
@@ -40471,9 +40471,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/switch",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/switch",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/switch-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/switch-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/switch.md",
         },
       },
@@ -40494,9 +40494,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/table",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/table",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/table-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/table-example.tsx",
         },
       },
     },
@@ -40516,9 +40516,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/tabs",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/tabs",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/tabs-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/tabs-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/tabs.md",
         },
       },
@@ -40539,9 +40539,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/textarea",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/textarea",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/textarea-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/textarea-example.tsx",
         },
       },
     },
@@ -40561,9 +40561,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/toggle",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/toggle",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/toggle-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/toggle-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/toggle.md",
         },
       },
@@ -40584,9 +40584,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/toggle-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/toggle-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/toggle-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/toggle-group-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/toggle-group.md",
         },
       },
@@ -40607,9 +40607,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/tooltip",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/tooltip",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/tooltip-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/tooltip-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/tooltip.md",
         },
       },
@@ -40630,9 +40630,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/kbd",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/kbd",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/kbd-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/kbd-example.tsx",
         },
       },
     },
@@ -40652,9 +40652,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/native-select",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/native-select",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/native-select-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/native-select-example.tsx",
         },
       },
     },
@@ -40674,7 +40674,7 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/direction",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/direction",
           api: "https://www.radix-ui.com/primitives/docs/utilities/direction-provider.md",
         },
       },
@@ -40743,9 +40743,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/questionnaire",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/questionnaire",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/questionnaire-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/questionnaire-example.tsx",
         },
       },
     },
@@ -40799,9 +40799,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/accordion",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/accordion",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/accordion-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/accordion-example.tsx",
           api: "https://www.radix-ui.com/primitives/docs/components/accordion.md",
         },
       },
@@ -40822,9 +40822,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/alert",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/alert",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/alert-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/alert-example.tsx",
         },
       },
     },
@@ -40844,9 +40844,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/alert-dialog",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/alert-dialog",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/alert-dialog-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/alert-dialog-example.tsx",
           api: "https://www.radix-ui.com/primitives/docs/components/alert-dialog.md",
         },
       },
@@ -40867,9 +40867,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/aspect-ratio",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/aspect-ratio",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/aspect-ratio-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/aspect-ratio-example.tsx",
           api: "https://www.radix-ui.com/primitives/docs/components/aspect-ratio.md",
         },
       },
@@ -40890,9 +40890,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/avatar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/avatar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/avatar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/avatar-example.tsx",
           api: "https://www.radix-ui.com/primitives/docs/components/avatar.md",
         },
       },
@@ -40913,9 +40913,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/badge",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/badge",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/badge-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/badge-example.tsx",
         },
       },
     },
@@ -40935,9 +40935,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/breadcrumb",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/breadcrumb",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/breadcrumb-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/breadcrumb-example.tsx",
         },
       },
     },
@@ -40957,9 +40957,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/button",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/button",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/button-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/button-example.tsx",
         },
       },
     },
@@ -40979,9 +40979,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/button-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/button-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/button-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/button-group-example.tsx",
         },
       },
     },
@@ -41001,9 +41001,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/calendar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/calendar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/calendar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/calendar-example.tsx",
           api: "https://react-day-picker.js.org",
         },
       },
@@ -41024,9 +41024,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/card",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/card",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/card-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/card-example.tsx",
         },
       },
     },
@@ -41046,9 +41046,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/carousel",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/carousel",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/carousel-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/carousel-example.tsx",
           api: "https://www.embla-carousel.com/get-started/react",
         },
       },
@@ -41069,9 +41069,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/chart",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/chart",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/chart-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/chart-example.tsx",
         },
       },
     },
@@ -41091,9 +41091,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/checkbox",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/checkbox",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/checkbox-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/checkbox-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/checkbox.md",
         },
       },
@@ -41114,9 +41114,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/collapsible",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/collapsible",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/collapsible-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/collapsible-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/collapsible.md",
         },
       },
@@ -41137,9 +41137,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/combobox",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/combobox",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/combobox-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/combobox-example.tsx",
           api: "https://base-ui.com/react/components/combobox",
         },
       },
@@ -41160,9 +41160,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/command",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/command",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/command-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/command-example.tsx",
           api: "https://github.com/dip/cmdk",
         },
       },
@@ -41183,9 +41183,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/context-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/context-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/context-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/context-menu-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/context-menu.md",
         },
       },
@@ -41206,9 +41206,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/dialog",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/dialog",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/dialog-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/dialog-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/dialog.md",
         },
       },
@@ -41229,9 +41229,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/drawer",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/drawer",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/drawer-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/drawer-example.tsx",
           api: "https://vaul.emilkowal.ski/getting-started",
         },
       },
@@ -41252,9 +41252,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/dropdown-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/dropdown-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/dropdown-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/dropdown-menu-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/dropdown-menu.md",
         },
       },
@@ -41275,9 +41275,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/empty",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/empty",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/empty-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/empty-example.tsx",
         },
       },
     },
@@ -41297,9 +41297,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/field",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/field",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/field-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/field-example.tsx",
         },
       },
     },
@@ -41319,9 +41319,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/hover-card",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/hover-card",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/hover-card-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/hover-card-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/hover-card.md",
         },
       },
@@ -41342,9 +41342,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/input",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/input",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/input-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/input-example.tsx",
         },
       },
     },
@@ -41364,9 +41364,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/input-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/input-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/input-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/input-group-example.tsx",
         },
       },
     },
@@ -41386,9 +41386,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/input-otp",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/input-otp",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/input-otp-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/input-otp-example.tsx",
           api: "https://input-otp.rodz.dev",
         },
       },
@@ -41409,9 +41409,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/item",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/item",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/item-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/item-example.tsx",
         },
       },
     },
@@ -41431,9 +41431,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/label",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/label",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/label-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/label-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/label.md",
         },
       },
@@ -41454,9 +41454,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/menubar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/menubar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/menubar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/menubar-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/menubar.md",
         },
       },
@@ -41477,9 +41477,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/navigation-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/navigation-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/navigation-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/navigation-menu-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/navigation-menu.md",
         },
       },
@@ -41500,9 +41500,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/pagination",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/pagination",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/pagination-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/pagination-example.tsx",
         },
       },
     },
@@ -41522,9 +41522,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/popover",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/popover",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/popover-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/popover-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/popover.md",
         },
       },
@@ -41545,9 +41545,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/progress",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/progress",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/progress-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/progress-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/progress.md",
         },
       },
@@ -41568,9 +41568,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/radio-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/radio-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/radio-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/radio-group-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/radio-group.md",
         },
       },
@@ -41591,9 +41591,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/resizable",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/resizable",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/resizable-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/resizable-example.tsx",
           api: "https://github.com/bvaughn/react-resizable-panels",
         },
       },
@@ -41614,9 +41614,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/scroll-area",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/scroll-area",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/scroll-area-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/scroll-area-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/scroll-area.md",
         },
       },
@@ -41637,9 +41637,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/select",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/select",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/select-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/select-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/select.md",
         },
       },
@@ -41660,9 +41660,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/separator",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/separator",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/separator-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/separator-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/separator.md",
         },
       },
@@ -41683,9 +41683,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/sheet",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/sheet",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/sheet-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/sheet-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/dialog.md",
         },
       },
@@ -41714,9 +41714,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/sidebar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/sidebar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/sidebar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/sidebar-example.tsx",
         },
       },
     },
@@ -41736,9 +41736,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/skeleton",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/skeleton",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/skeleton-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/skeleton-example.tsx",
         },
       },
     },
@@ -41758,9 +41758,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/slider",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/slider",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/slider-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/slider-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/slider.md",
         },
       },
@@ -41781,9 +41781,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/sonner",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/sonner",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/sonner-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/sonner-example.tsx",
           api: "https://sonner.emilkowal.ski",
         },
       },
@@ -41804,9 +41804,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/spinner",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/spinner",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/spinner-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/spinner-example.tsx",
         },
       },
     },
@@ -41826,9 +41826,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/switch",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/switch",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/switch-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/switch-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/switch.md",
         },
       },
@@ -41849,9 +41849,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/table",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/table",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/table-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/table-example.tsx",
         },
       },
     },
@@ -41871,9 +41871,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/tabs",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/tabs",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/tabs-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/tabs-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/tabs.md",
         },
       },
@@ -41894,9 +41894,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/textarea",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/textarea",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/textarea-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/textarea-example.tsx",
         },
       },
     },
@@ -41916,9 +41916,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/toggle",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/toggle",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/toggle-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/toggle-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/toggle.md",
         },
       },
@@ -41939,9 +41939,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/toggle-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/toggle-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/toggle-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/toggle-group-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/toggle-group.md",
         },
       },
@@ -41962,9 +41962,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/tooltip",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/tooltip",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/tooltip-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/tooltip-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/tooltip.md",
         },
       },
@@ -41985,9 +41985,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/kbd",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/kbd",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/kbd-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/kbd-example.tsx",
         },
       },
     },
@@ -42007,9 +42007,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/native-select",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/native-select",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/native-select-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/native-select-example.tsx",
         },
       },
     },
@@ -42029,7 +42029,7 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/direction",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/direction",
           api: "https://www.radix-ui.com/primitives/docs/utilities/direction-provider.md",
         },
       },
@@ -42098,9 +42098,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/questionnaire",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/questionnaire",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/questionnaire-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/questionnaire-example.tsx",
         },
       },
     },
@@ -42154,9 +42154,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/accordion",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/accordion",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/accordion-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/accordion-example.tsx",
           api: "https://www.radix-ui.com/primitives/docs/components/accordion.md",
         },
       },
@@ -42177,9 +42177,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/alert",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/alert",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/alert-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/alert-example.tsx",
         },
       },
     },
@@ -42199,9 +42199,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/alert-dialog",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/alert-dialog",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/alert-dialog-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/alert-dialog-example.tsx",
           api: "https://www.radix-ui.com/primitives/docs/components/alert-dialog.md",
         },
       },
@@ -42222,9 +42222,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/aspect-ratio",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/aspect-ratio",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/aspect-ratio-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/aspect-ratio-example.tsx",
           api: "https://www.radix-ui.com/primitives/docs/components/aspect-ratio.md",
         },
       },
@@ -42245,9 +42245,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/avatar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/avatar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/avatar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/avatar-example.tsx",
           api: "https://www.radix-ui.com/primitives/docs/components/avatar.md",
         },
       },
@@ -42268,9 +42268,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/badge",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/badge",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/badge-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/badge-example.tsx",
         },
       },
     },
@@ -42290,9 +42290,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/breadcrumb",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/breadcrumb",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/breadcrumb-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/breadcrumb-example.tsx",
         },
       },
     },
@@ -42312,9 +42312,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/button",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/button",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/button-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/button-example.tsx",
         },
       },
     },
@@ -42334,9 +42334,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/button-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/button-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/button-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/button-group-example.tsx",
         },
       },
     },
@@ -42356,9 +42356,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/calendar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/calendar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/calendar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/calendar-example.tsx",
           api: "https://react-day-picker.js.org",
         },
       },
@@ -42379,9 +42379,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/card",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/card",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/card-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/card-example.tsx",
         },
       },
     },
@@ -42401,9 +42401,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/carousel",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/carousel",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/carousel-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/carousel-example.tsx",
           api: "https://www.embla-carousel.com/get-started/react",
         },
       },
@@ -42424,9 +42424,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/chart",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/chart",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/chart-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/chart-example.tsx",
         },
       },
     },
@@ -42446,9 +42446,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/checkbox",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/checkbox",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/checkbox-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/checkbox-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/checkbox.md",
         },
       },
@@ -42469,9 +42469,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/collapsible",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/collapsible",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/collapsible-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/collapsible-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/collapsible.md",
         },
       },
@@ -42492,9 +42492,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/combobox",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/combobox",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/combobox-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/combobox-example.tsx",
           api: "https://base-ui.com/react/components/combobox",
         },
       },
@@ -42515,9 +42515,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/command",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/command",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/command-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/command-example.tsx",
           api: "https://github.com/dip/cmdk",
         },
       },
@@ -42538,9 +42538,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/context-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/context-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/context-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/context-menu-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/context-menu.md",
         },
       },
@@ -42561,9 +42561,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/dialog",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/dialog",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/dialog-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/dialog-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/dialog.md",
         },
       },
@@ -42584,9 +42584,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/drawer",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/drawer",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/drawer-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/drawer-example.tsx",
           api: "https://vaul.emilkowal.ski/getting-started",
         },
       },
@@ -42607,9 +42607,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/dropdown-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/dropdown-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/dropdown-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/dropdown-menu-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/dropdown-menu.md",
         },
       },
@@ -42630,9 +42630,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/empty",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/empty",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/empty-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/empty-example.tsx",
         },
       },
     },
@@ -42652,9 +42652,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/field",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/field",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/field-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/field-example.tsx",
         },
       },
     },
@@ -42674,9 +42674,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/hover-card",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/hover-card",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/hover-card-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/hover-card-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/hover-card.md",
         },
       },
@@ -42697,9 +42697,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/input",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/input",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/input-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/input-example.tsx",
         },
       },
     },
@@ -42719,9 +42719,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/input-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/input-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/input-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/input-group-example.tsx",
         },
       },
     },
@@ -42741,9 +42741,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/input-otp",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/input-otp",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/input-otp-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/input-otp-example.tsx",
           api: "https://input-otp.rodz.dev",
         },
       },
@@ -42764,9 +42764,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/item",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/item",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/item-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/item-example.tsx",
         },
       },
     },
@@ -42786,9 +42786,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/label",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/label",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/label-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/label-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/label.md",
         },
       },
@@ -42809,9 +42809,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/menubar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/menubar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/menubar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/menubar-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/menubar.md",
         },
       },
@@ -42832,9 +42832,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/navigation-menu",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/navigation-menu",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/navigation-menu-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/navigation-menu-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/navigation-menu.md",
         },
       },
@@ -42855,9 +42855,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/pagination",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/pagination",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/pagination-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/pagination-example.tsx",
         },
       },
     },
@@ -42877,9 +42877,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/popover",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/popover",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/popover-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/popover-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/popover.md",
         },
       },
@@ -42900,9 +42900,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/progress",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/progress",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/progress-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/progress-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/progress.md",
         },
       },
@@ -42923,9 +42923,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/radio-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/radio-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/radio-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/radio-group-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/radio-group.md",
         },
       },
@@ -42946,9 +42946,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/resizable",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/resizable",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/resizable-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/resizable-example.tsx",
           api: "https://github.com/bvaughn/react-resizable-panels",
         },
       },
@@ -42969,9 +42969,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/scroll-area",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/scroll-area",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/scroll-area-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/scroll-area-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/scroll-area.md",
         },
       },
@@ -42992,9 +42992,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/select",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/select",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/select-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/select-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/select.md",
         },
       },
@@ -43015,9 +43015,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/separator",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/separator",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/separator-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/separator-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/separator.md",
         },
       },
@@ -43038,9 +43038,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/sheet",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/sheet",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/sheet-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/sheet-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/dialog.md",
         },
       },
@@ -43069,9 +43069,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/sidebar",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/sidebar",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/sidebar-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/sidebar-example.tsx",
         },
       },
     },
@@ -43091,9 +43091,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/skeleton",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/skeleton",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/skeleton-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/skeleton-example.tsx",
         },
       },
     },
@@ -43113,9 +43113,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/slider",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/slider",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/slider-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/slider-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/slider.md",
         },
       },
@@ -43136,9 +43136,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/sonner",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/sonner",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/sonner-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/sonner-example.tsx",
           api: "https://sonner.emilkowal.ski",
         },
       },
@@ -43159,9 +43159,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/spinner",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/spinner",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/spinner-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/spinner-example.tsx",
         },
       },
     },
@@ -43181,9 +43181,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/switch",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/switch",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/switch-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/switch-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/switch.md",
         },
       },
@@ -43204,9 +43204,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/table",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/table",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/table-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/table-example.tsx",
         },
       },
     },
@@ -43226,9 +43226,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/tabs",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/tabs",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/tabs-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/tabs-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/tabs.md",
         },
       },
@@ -43249,9 +43249,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/textarea",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/textarea",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/textarea-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/textarea-example.tsx",
         },
       },
     },
@@ -43271,9 +43271,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/toggle",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/toggle",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/toggle-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/toggle-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/toggle.md",
         },
       },
@@ -43294,9 +43294,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/toggle-group",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/toggle-group",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/toggle-group-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/toggle-group-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/toggle-group.md",
         },
       },
@@ -43317,9 +43317,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/tooltip",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/tooltip",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/tooltip-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/tooltip-example.tsx",
           api: "https://www.radix-ui.com/docs/primitives/components/tooltip.md",
         },
       },
@@ -43340,9 +43340,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/kbd",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/kbd",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/kbd-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/kbd-example.tsx",
         },
       },
     },
@@ -43362,9 +43362,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/native-select",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/native-select",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/native-select-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/native-select-example.tsx",
         },
       },
     },
@@ -43384,7 +43384,7 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/direction",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/direction",
           api: "https://www.radix-ui.com/primitives/docs/utilities/direction-provider.md",
         },
       },
@@ -43453,9 +43453,9 @@ export const Index: Record<string, Record<string, any>> = {
       categories: undefined,
       meta: {
         links: {
-          docs: "https://fabricator-ui.com/docs/components/radix/questionnaire",
+          docs: "https://fabricator-ui.vercel.app/docs/components/radix/questionnaire",
           examples:
-            "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/questionnaire-example.tsx",
+            "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/questionnaire-example.tsx",
         },
       },
     },

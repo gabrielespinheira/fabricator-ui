@@ -85,7 +85,7 @@ npx fabricator-ui@latest apply a2r6bw --blend
 npx fabricator-ui@latest init --preset a2r6bw --force --no-reinstall
 
 # Use a custom init URL.
-npx fabricator-ui@latest apply "https://fabricator-ui.com/init?base=radix&preset=fabricator&theme=blue&..."
+npx fabricator-ui@latest apply "https://fabricator-ui.vercel.app/init?base=radix&preset=fabricator&theme=blue&..."
 ```
 
 Or edit CSS variables directly in the global CSS file.

@@ -320,7 +320,7 @@ function AttachmentContentOnly() {
             <AttachmentTrigger
               render={
                 <a
-                  href="https://fabricator-ui.com"
+                  href="https://fabricator-ui.vercel.app"
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Open Fabricator UI"
@@ -375,13 +375,13 @@ function AttachmentContentOnly() {
             <AttachmentContent>
               <AttachmentTitle>Compound components in React</AttachmentTitle>
               <AttachmentDescription>
-                fabricator-ui.com/docs
+                fabricator-ui.vercel.app/docs
               </AttachmentDescription>
             </AttachmentContent>
             <AttachmentTrigger
               render={
                 <a
-                  href="https://fabricator-ui.com/docs"
+                  href="https://fabricator-ui.vercel.app/docs"
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="Open Compound components in React"

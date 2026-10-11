@@ -1,6 +1,6 @@
 # Fabricator UI website
 
-The Next.js app behind [fabricator-ui.com](https://fabricator-ui.com). It holds the documentation, the block and chart galleries, the `/create` preset designer, and the `@fabricator` registry served under `/r`.
+The Next.js app behind [fabricator-ui.vercel.app](https://fabricator-ui.vercel.app). It holds the documentation, the block and chart galleries, the `/create` preset designer, and the `@fabricator` registry served under `/r`.
 
 ## Development
 

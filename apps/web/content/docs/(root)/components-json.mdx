@@ -22,11 +22,11 @@ See the <Link href="/docs/cli">CLI section</Link> for more information.
 
 ## $schema
 
-The JSON Schema for `components.json` is hosted at [https://fabricator-ui.com/schema.json](https://fabricator-ui.com/schema.json).
+The JSON Schema for `components.json` is hosted at [https://fabricator-ui.vercel.app/schema.json](https://fabricator-ui.vercel.app/schema.json).
 
 ```json title="components.json"
 {
-  "$schema": "https://fabricator-ui.com/schema.json"
+  "$schema": "https://fabricator-ui.vercel.app/schema.json"
 }
 ```
 
@@ -302,7 +302,7 @@ Configure the registries the CLI can install from. Each key is a namespace, and 
 ```json title="components.json"
 {
   "registries": {
-    "@fabricator": "https://fabricator-ui.com/r/{style}/{name}.json"
+    "@fabricator": "https://fabricator-ui.vercel.app/r/{style}/{name}.json"
   }
 }
 ```
@@ -312,7 +312,7 @@ Configure the registries the CLI can install from. Each key is a namespace, and 
 ```json title="components.json"
 {
   "registries": {
-    "@fabricator": "https://fabricator-ui.com/r/fabricator/{style}/{name}.json"
+    "@fabricator": "https://fabricator-ui.vercel.app/r/fabricator/{style}/{name}.json"
   }
 }
 ```
@@ -332,7 +332,7 @@ You can configure any number of registries next to `@fabricator`:
 ```json title="components.json"
 {
   "registries": {
-    "@fabricator": "https://fabricator-ui.com/r/{style}/{name}.json",
+    "@fabricator": "https://fabricator-ui.vercel.app/r/{style}/{name}.json",
     "@acme": "https://registry.acme.com/{name}.json",
     "@internal": "https://internal.company.com/{name}.json"
   }

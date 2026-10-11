@@ -12,9 +12,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/radix/accordion",
+        docs: "https://fabricator-ui.vercel.app/docs/components/radix/accordion",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/accordion-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/accordion-example.tsx",
         api: "https://www.radix-ui.com/primitives/docs/components/accordion.md",
       },
     },
@@ -30,9 +30,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/radix/alert",
+        docs: "https://fabricator-ui.vercel.app/docs/components/radix/alert",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/alert-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/alert-example.tsx",
       },
     },
   },
@@ -48,9 +48,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/radix/alert-dialog",
+        docs: "https://fabricator-ui.vercel.app/docs/components/radix/alert-dialog",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/alert-dialog-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/alert-dialog-example.tsx",
         api: "https://www.radix-ui.com/primitives/docs/components/alert-dialog.md",
       },
     },
@@ -66,9 +66,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/radix/aspect-ratio",
+        docs: "https://fabricator-ui.vercel.app/docs/components/radix/aspect-ratio",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/aspect-ratio-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/aspect-ratio-example.tsx",
         api: "https://www.radix-ui.com/primitives/docs/components/aspect-ratio.md",
       },
     },
@@ -84,9 +84,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/radix/avatar",
+        docs: "https://fabricator-ui.vercel.app/docs/components/radix/avatar",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/avatar-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/avatar-example.tsx",
         api: "https://www.radix-ui.com/primitives/docs/components/avatar.md",
       },
     },
@@ -102,9 +102,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/radix/badge",
+        docs: "https://fabricator-ui.vercel.app/docs/components/radix/badge",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/badge-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/badge-example.tsx",
       },
     },
   },
@@ -119,9 +119,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/radix/breadcrumb",
+        docs: "https://fabricator-ui.vercel.app/docs/components/radix/breadcrumb",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/breadcrumb-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/breadcrumb-example.tsx",
       },
     },
   },
@@ -136,9 +136,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/radix/button",
+        docs: "https://fabricator-ui.vercel.app/docs/components/radix/button",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/button-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/button-example.tsx",
       },
     },
   },
@@ -154,9 +154,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/radix/button-group",
+        docs: "https://fabricator-ui.vercel.app/docs/components/radix/button-group",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/button-group-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/button-group-example.tsx",
       },
     },
   },
@@ -173,9 +173,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/radix/calendar",
+        docs: "https://fabricator-ui.vercel.app/docs/components/radix/calendar",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/calendar-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/calendar-example.tsx",
         api: "https://react-day-picker.js.org",
       },
     },
@@ -191,9 +191,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/radix/card",
+        docs: "https://fabricator-ui.vercel.app/docs/components/radix/card",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/card-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/card-example.tsx",
       },
     },
   },
@@ -210,9 +210,9 @@ export const ui: Registry["items"] = [
     dependencies: ["embla-carousel-react"],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/radix/carousel",
+        docs: "https://fabricator-ui.vercel.app/docs/components/radix/carousel",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/carousel-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/carousel-example.tsx",
         api: "https://www.embla-carousel.com/get-started/react",
       },
     },
@@ -229,9 +229,9 @@ export const ui: Registry["items"] = [
     dependencies: ["recharts@3.8.0"],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/radix/chart",
+        docs: "https://fabricator-ui.vercel.app/docs/components/radix/chart",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/chart-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/chart-example.tsx",
       },
     },
   },
@@ -246,9 +246,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/radix/checkbox",
+        docs: "https://fabricator-ui.vercel.app/docs/components/radix/checkbox",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/checkbox-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/checkbox-example.tsx",
         api: "https://www.radix-ui.com/docs/primitives/components/checkbox.md",
       },
     },
@@ -264,9 +264,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/radix/collapsible",
+        docs: "https://fabricator-ui.vercel.app/docs/components/radix/collapsible",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/collapsible-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/collapsible-example.tsx",
         api: "https://www.radix-ui.com/docs/primitives/components/collapsible.md",
       },
     },
@@ -284,9 +284,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/radix/combobox",
+        docs: "https://fabricator-ui.vercel.app/docs/components/radix/combobox",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/combobox-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/combobox-example.tsx",
         api: "https://base-ui.com/react/components/combobox",
       },
     },
@@ -304,9 +304,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/radix/command",
+        docs: "https://fabricator-ui.vercel.app/docs/components/radix/command",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/command-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/command-example.tsx",
         api: "https://github.com/dip/cmdk",
       },
     },
@@ -322,9 +322,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/radix/context-menu",
+        docs: "https://fabricator-ui.vercel.app/docs/components/radix/context-menu",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/context-menu-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/context-menu-example.tsx",
         api: "https://www.radix-ui.com/docs/primitives/components/context-menu.md",
       },
     },
@@ -341,9 +341,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/radix/dialog",
+        docs: "https://fabricator-ui.vercel.app/docs/components/radix/dialog",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/dialog-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/dialog-example.tsx",
         api: "https://www.radix-ui.com/docs/primitives/components/dialog.md",
       },
     },
@@ -360,9 +360,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/radix/drawer",
+        docs: "https://fabricator-ui.vercel.app/docs/components/radix/drawer",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/drawer-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/drawer-example.tsx",
         api: "https://vaul.emilkowal.ski/getting-started",
       },
     },
@@ -378,9 +378,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/radix/dropdown-menu",
+        docs: "https://fabricator-ui.vercel.app/docs/components/radix/dropdown-menu",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/dropdown-menu-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/dropdown-menu-example.tsx",
         api: "https://www.radix-ui.com/docs/primitives/components/dropdown-menu.md",
       },
     },
@@ -396,9 +396,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/radix/empty",
+        docs: "https://fabricator-ui.vercel.app/docs/components/radix/empty",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/empty-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/empty-example.tsx",
       },
     },
   },
@@ -414,9 +414,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/radix/field",
+        docs: "https://fabricator-ui.vercel.app/docs/components/radix/field",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/field-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/field-example.tsx",
       },
     },
   },
@@ -435,9 +435,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/radix/hover-card",
+        docs: "https://fabricator-ui.vercel.app/docs/components/radix/hover-card",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/hover-card-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/hover-card-example.tsx",
         api: "https://www.radix-ui.com/docs/primitives/components/hover-card.md",
       },
     },
@@ -453,9 +453,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/radix/input",
+        docs: "https://fabricator-ui.vercel.app/docs/components/radix/input",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/input-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/input-example.tsx",
       },
     },
   },
@@ -471,9 +471,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/radix/input-group",
+        docs: "https://fabricator-ui.vercel.app/docs/components/radix/input-group",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/input-group-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/input-group-example.tsx",
       },
     },
   },
@@ -489,9 +489,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/radix/input-otp",
+        docs: "https://fabricator-ui.vercel.app/docs/components/radix/input-otp",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/input-otp-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/input-otp-example.tsx",
         api: "https://input-otp.rodz.dev",
       },
     },
@@ -508,9 +508,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/radix/item",
+        docs: "https://fabricator-ui.vercel.app/docs/components/radix/item",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/item-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/item-example.tsx",
       },
     },
   },
@@ -525,9 +525,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/radix/label",
+        docs: "https://fabricator-ui.vercel.app/docs/components/radix/label",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/label-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/label-example.tsx",
         api: "https://www.radix-ui.com/docs/primitives/components/label.md",
       },
     },
@@ -543,9 +543,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/radix/menubar",
+        docs: "https://fabricator-ui.vercel.app/docs/components/radix/menubar",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/menubar-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/menubar-example.tsx",
         api: "https://www.radix-ui.com/docs/primitives/components/menubar.md",
       },
     },
@@ -561,9 +561,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/radix/navigation-menu",
+        docs: "https://fabricator-ui.vercel.app/docs/components/radix/navigation-menu",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/navigation-menu-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/navigation-menu-example.tsx",
         api: "https://www.radix-ui.com/docs/primitives/components/navigation-menu.md",
       },
     },
@@ -580,9 +580,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/radix/pagination",
+        docs: "https://fabricator-ui.vercel.app/docs/components/radix/pagination",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/pagination-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/pagination-example.tsx",
       },
     },
   },
@@ -597,9 +597,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/radix/popover",
+        docs: "https://fabricator-ui.vercel.app/docs/components/radix/popover",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/popover-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/popover-example.tsx",
         api: "https://www.radix-ui.com/docs/primitives/components/popover.md",
       },
     },
@@ -615,9 +615,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/radix/progress",
+        docs: "https://fabricator-ui.vercel.app/docs/components/radix/progress",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/progress-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/progress-example.tsx",
         api: "https://www.radix-ui.com/docs/primitives/components/progress.md",
       },
     },
@@ -633,9 +633,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/radix/radio-group",
+        docs: "https://fabricator-ui.vercel.app/docs/components/radix/radio-group",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/radio-group-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/radio-group-example.tsx",
         api: "https://www.radix-ui.com/docs/primitives/components/radio-group.md",
       },
     },
@@ -652,9 +652,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/radix/resizable",
+        docs: "https://fabricator-ui.vercel.app/docs/components/radix/resizable",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/resizable-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/resizable-example.tsx",
         api: "https://github.com/bvaughn/react-resizable-panels",
       },
     },
@@ -670,9 +670,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/radix/scroll-area",
+        docs: "https://fabricator-ui.vercel.app/docs/components/radix/scroll-area",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/scroll-area-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/scroll-area-example.tsx",
         api: "https://www.radix-ui.com/docs/primitives/components/scroll-area.md",
       },
     },
@@ -688,9 +688,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/radix/select",
+        docs: "https://fabricator-ui.vercel.app/docs/components/radix/select",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/select-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/select-example.tsx",
         api: "https://www.radix-ui.com/docs/primitives/components/select.md",
       },
     },
@@ -706,9 +706,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/radix/separator",
+        docs: "https://fabricator-ui.vercel.app/docs/components/radix/separator",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/separator-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/separator-example.tsx",
         api: "https://www.radix-ui.com/docs/primitives/components/separator.md",
       },
     },
@@ -725,9 +725,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/radix/sheet",
+        docs: "https://fabricator-ui.vercel.app/docs/components/radix/sheet",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/sheet-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/sheet-example.tsx",
         api: "https://www.radix-ui.com/docs/primitives/components/dialog.md",
       },
     },
@@ -752,9 +752,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/radix/sidebar",
+        docs: "https://fabricator-ui.vercel.app/docs/components/radix/sidebar",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/sidebar-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/sidebar-example.tsx",
       },
     },
   },
@@ -769,9 +769,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/radix/skeleton",
+        docs: "https://fabricator-ui.vercel.app/docs/components/radix/skeleton",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/skeleton-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/skeleton-example.tsx",
       },
     },
   },
@@ -786,9 +786,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/radix/slider",
+        docs: "https://fabricator-ui.vercel.app/docs/components/radix/slider",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/slider-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/slider-example.tsx",
         api: "https://www.radix-ui.com/docs/primitives/components/slider.md",
       },
     },
@@ -805,9 +805,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/radix/sonner",
+        docs: "https://fabricator-ui.vercel.app/docs/components/radix/sonner",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/sonner-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/sonner-example.tsx",
         api: "https://sonner.emilkowal.ski",
       },
     },
@@ -823,9 +823,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/radix/spinner",
+        docs: "https://fabricator-ui.vercel.app/docs/components/radix/spinner",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/spinner-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/spinner-example.tsx",
       },
     },
   },
@@ -840,9 +840,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/radix/switch",
+        docs: "https://fabricator-ui.vercel.app/docs/components/radix/switch",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/switch-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/switch-example.tsx",
         api: "https://www.radix-ui.com/docs/primitives/components/switch.md",
       },
     },
@@ -858,9 +858,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/radix/table",
+        docs: "https://fabricator-ui.vercel.app/docs/components/radix/table",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/table-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/table-example.tsx",
       },
     },
   },
@@ -875,9 +875,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/radix/tabs",
+        docs: "https://fabricator-ui.vercel.app/docs/components/radix/tabs",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/tabs-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/tabs-example.tsx",
         api: "https://www.radix-ui.com/docs/primitives/components/tabs.md",
       },
     },
@@ -893,9 +893,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/radix/textarea",
+        docs: "https://fabricator-ui.vercel.app/docs/components/radix/textarea",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/textarea-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/textarea-example.tsx",
       },
     },
   },
@@ -910,9 +910,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/radix/toggle",
+        docs: "https://fabricator-ui.vercel.app/docs/components/radix/toggle",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/toggle-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/toggle-example.tsx",
         api: "https://www.radix-ui.com/docs/primitives/components/toggle.md",
       },
     },
@@ -929,9 +929,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/radix/toggle-group",
+        docs: "https://fabricator-ui.vercel.app/docs/components/radix/toggle-group",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/toggle-group-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/toggle-group-example.tsx",
         api: "https://www.radix-ui.com/docs/primitives/components/toggle-group.md",
       },
     },
@@ -963,9 +963,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/radix/tooltip",
+        docs: "https://fabricator-ui.vercel.app/docs/components/radix/tooltip",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/tooltip-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/tooltip-example.tsx",
         api: "https://www.radix-ui.com/docs/primitives/components/tooltip.md",
       },
     },
@@ -981,9 +981,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/radix/kbd",
+        docs: "https://fabricator-ui.vercel.app/docs/components/radix/kbd",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/kbd-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/kbd-example.tsx",
       },
     },
   },
@@ -998,9 +998,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/radix/native-select",
+        docs: "https://fabricator-ui.vercel.app/docs/components/radix/native-select",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/native-select-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/native-select-example.tsx",
       },
     },
   },
@@ -1015,7 +1015,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/radix/direction",
+        docs: "https://fabricator-ui.vercel.app/docs/components/radix/direction",
         api: "https://www.radix-ui.com/primitives/docs/utilities/direction-provider.md",
       },
     },
@@ -1066,9 +1066,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/radix/questionnaire",
+        docs: "https://fabricator-ui.vercel.app/docs/components/radix/questionnaire",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/radix/examples/questionnaire-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/radix/examples/questionnaire-example.tsx",
       },
     },
   },

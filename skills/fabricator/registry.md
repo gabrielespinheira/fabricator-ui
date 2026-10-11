@@ -33,22 +33,22 @@ project's `style` field.
 ## The `@fabricator` Registry
 
 Fabricator UI is served as the `@fabricator` registry from
-`https://fabricator-ui.com/r`. `npx fabricator-ui@latest init` writes it to
+`https://fabricator-ui.vercel.app/r`. `npx fabricator-ui@latest init` writes it to
 `components.json`; `add`, `apply`, and `mcp init` add it if it is missing.
 
 ```json
 {
-  "$schema": "https://fabricator-ui.com/schema.json",
+  "$schema": "https://fabricator-ui.vercel.app/schema.json",
   "style": "base-nova",
   "registries": {
-    "@fabricator": "https://fabricator-ui.com/r/fabricator/{style}/{name}.json"
+    "@fabricator": "https://fabricator-ui.vercel.app/r/fabricator/{style}/{name}.json"
   }
 }
 ```
 
 With this config, `npx fabricator-ui@latest add button` installs
 `@fabricator/button` from
-`https://fabricator-ui.com/r/fabricator/base-nova/button.json`.
+`https://fabricator-ui.vercel.app/r/fabricator/base-nova/button.json`.
 
 Rules:
 
@@ -68,8 +68,8 @@ The registry is served in two modes. The URL in `components.json` picks one.
 
 | Mode           | URL template                                                 | What the project gets                                                   |
 | -------------- | ------------------------------------------------------------ | ----------------------------------------------------------------------- |
-| **Fabricator** | `https://fabricator-ui.com/r/fabricator/{style}/{name}.json` | Components compiled in the Fabricator design for the base in `style`.   |
-| **Blend**      | `https://fabricator-ui.com/r/{style}/{name}.json`            | Components compiled in the project's current style (e.g. `nova`, `vega`). |
+| **Fabricator** | `https://fabricator-ui.vercel.app/r/fabricator/{style}/{name}.json` | Components compiled in the Fabricator design for the base in `style`.   |
+| **Blend**      | `https://fabricator-ui.vercel.app/r/{style}/{name}.json`            | Components compiled in the project's current style (e.g. `nova`, `vega`). |
 
 - **Fabricator mode** is the default for new projects (`init -t <template>`)
   and after `apply`.
@@ -90,7 +90,7 @@ ones with auth headers:
 ```json
 {
   "registries": {
-    "@fabricator": "https://fabricator-ui.com/r/fabricator/{style}/{name}.json",
+    "@fabricator": "https://fabricator-ui.vercel.app/r/fabricator/{style}/{name}.json",
     "@acme": "https://registry.acme.com/{name}.json",
     "@internal": {
       "url": "https://internal.company.com/{name}.json",

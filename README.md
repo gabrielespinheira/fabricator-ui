@@ -7,7 +7,7 @@ An open-source React component library you copy into your project, with a design
 - **Drop-in compatible** with existing shadcn/ui projects through the `@fabricator` registry.
 - **Next.js, Vite, React Router, TanStack Start, Astro and Laravel.** React 19 and Tailwind CSS v4.
 
-Documentation: https://fabricator-ui.com
+Documentation: https://fabricator-ui.vercel.app
 
 ## Quick start
 

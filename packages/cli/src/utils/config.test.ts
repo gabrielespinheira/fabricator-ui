@@ -11,7 +11,7 @@ import {
   withTemporaryRegistry,
 } from "./config"
 
-const URL = "https://fabricator-ui.com/r/fabricator/{style}/{name}.json"
+const URL = "https://fabricator-ui.vercel.app/r/fabricator/{style}/{name}.json"
 
 let dir: string
 const file = () => path.join(dir, "components.json")

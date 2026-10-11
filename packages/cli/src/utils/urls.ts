@@ -1,4 +1,4 @@
-export const DEFAULT_BASE_URL = "https://fabricator-ui.com"
+export const DEFAULT_BASE_URL = "https://fabricator-ui.vercel.app"
 export const REGISTRY_URL_ENV = "FABRICATOR_REGISTRY_URL"
 export const DEFAULT_PRESET = "fabricator"
 export const DEFAULT_STYLE = "base-nova"
