@@ -377,7 +377,7 @@ The website renders the Fabricator style, so it shows what `fabricator-ui add` i
 - **Site chrome** follows the Fabricator design (DESIGN.md), and lives in new files so upstream merges of the website stay small:
   - `components/fabricator/`:
     - `site-header.tsx` / `site-footer.tsx`: the minimal top bar and footer for the homepage and the full-width pages.
-    - `docs-shell-sidebar.tsx`, `docs-mobile-bar.tsx`, `docs-panel.tsx`: the docs shell (no top bar), with a left sidebar of search and nav groups, and a right panel for theme, primitive and contents.
+    - `docs-shell-sidebar.tsx`, `docs-mobile-bar.tsx`, `docs-panel.tsx`: the docs shell (no top bar), with a left sidebar of search and nav groups, and a right panel for the site settings and the primitive switcher.
     - `fluid-nav.tsx`: the site's link lists, which use the real Fluid Hover hook.
   - `app/fabricator-site.css`: site-only CSS such as docs typography. `app/fabricator.css` is generated; don't edit it.
   - The homepage (`app/(app)/(root)/`) is a gallery of every component.

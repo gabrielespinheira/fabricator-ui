@@ -11,8 +11,7 @@ import { replaceComponentsList } from "@/lib/llm"
 import { source } from "@/lib/source"
 import { absoluteUrl } from "@/lib/utils"
 import { DocsBaseSwitcher } from "@/components/docs-base-switcher"
-import { DocsCopyPage } from "@/components/docs-copy-page"
-import { DocsTableOfContents } from "@/components/docs-toc"
+import { DocsCopyPage } from "@/components/fabricator/docs-copy-page"
 import {
   DocsPanelCard,
   DocsPanelPrimitive,
@@ -198,11 +197,6 @@ export default async function Page(props: {
             />
           )}
         </DocsPanelCard>
-        {doc.toc?.length ? (
-          <DocsPanelCard className="gap-2">
-            <DocsTableOfContents toc={doc.toc} />
-          </DocsPanelCard>
-        ) : null}
       </aside>
     </div>
   )
