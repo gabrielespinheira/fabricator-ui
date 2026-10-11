@@ -9,7 +9,13 @@
 #   bun run deploy              production deploy; only from a clean, pushed `main`
 #   bun run deploy -- --preview preview deploy of the current checkout
 #
-# Needs the Vercel CLI, logged in to the `sharphaw` team (`vercel login`).
+# A production deploy then releases the CLI (scripts/publish.sh): it publishes
+# the version in packages/cli/package.json to npm if it is new, and tags it
+# with a GitHub release. The site ships first, so a new CLI never points at
+# registry items the site does not serve yet.
+#
+# Needs the Vercel CLI, logged in to the `sharphaw` team (`vercel login`), and
+# for production also `npm login` and `gh auth login`.
 # No token is stored in the repo. The first run links `.vercel/` (gitignored).
 set -euo pipefail
 
@@ -31,6 +37,9 @@ if [ "$mode" = production ]; then
   git fetch --quiet origin main
   [ "$(git rev-parse HEAD)" = "$(git rev-parse origin/main)" ] \
     || { echo "main is not at origin/main. Pull or push first." >&2; exit 1; }
+  # Fail before the long build, not after it.
+  npm whoami > /dev/null 2>&1 || { echo "Log in to npm first: npm login" >&2; exit 1; }
+  gh auth status > /dev/null 2>&1 || { echo "Log in to GitHub first: gh auth login" >&2; exit 1; }
 fi
 
 # Inlined into pages and metadata at build time. Vercel has no variables set.
@@ -48,3 +57,7 @@ vercel pull --yes --environment="$mode"
 vercel build ${prod_flag[@]+"${prod_flag[@]}"}
 # The output has ~48k files; Vercel accepts 15k per upload, so send one archive.
 vercel deploy --prebuilt --archive=tgz ${prod_flag[@]+"${prod_flag[@]}"}
+
+if [ "$mode" = production ]; then
+  ./scripts/publish.sh
+fi

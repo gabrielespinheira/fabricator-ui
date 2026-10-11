@@ -44,7 +44,7 @@ These invariants are what make Fabricator a drop-in for shadcn projects. A chang
 
 5. **Base parity.** A change to a component, example or block in one base tree lands in all base trees in the same change. See "Bases" below.
 6. **Generated output is rebuilt, never hand-edited.** Edit the authored source and run the registry build. See "Registry" for which paths are generated.
-7. **Bun is the toolchain.** Use `bun install`, `bun run <script>`, `bunx --bun <bin>`, and keep a single `bun.lock`. The one exception is the release job, which uploads with `npm publish --provenance`.
+7. **Bun is the toolchain.** Use `bun install`, `bun run <script>`, `bunx --bun <bin>`, and keep a single `bun.lock`. The one exception is `scripts/publish.sh`, which uploads the Bun-packed tarball with `npm publish`.
 8. **Attribution.** Files derived from upstream stay under MIT, with shadcn's copyright kept in `LICENSE.md`/`NOTICE.md`. Site copy, logos and branding are Fabricator's own.
 
 ---
@@ -110,6 +110,7 @@ The root `package.json` is the source of truth for scripts. Keep this table in s
 | Recapture mobile preview screenshots (dev server running)            | `cd apps/web && bun run registry:capture --force && bun run pages:capture`                    |
 | Add a release note                                                   | `bunx changeset`                                                                              |
 | Deploy the website (builds here, uploads prebuilt to Vercel)         | `bun run deploy` from a clean, pushed `main`; `bun run deploy -- --preview` for a preview     |
+| Release the CLI (npm, git tag, GitHub release; part of `deploy`)     | `bun run release:publish` (needs `npm login` and `gh auth login`)                             |
 
 ### Toolchain notes
 
@@ -406,7 +407,7 @@ The website renders the Fabricator style, so it shows what `fabricator-ui add` i
 - **Registry logic stays in shadcn.** Resolution, file writing and transforms are not re-implemented here; any gap goes to `PLAN.md` first.
 - **Runtime:** Node ≥ 20.18.1, ESM, `#!/usr/bin/env node`. The code uses Node APIs only, so it runs identically under `npx`, `pnpm dlx`, `yarn dlx` and `bunx`.
 - **`shadcn` upgrades:** bumping the pinned version is its own change, verified by the e2e matrix.
-- **Releases:** every user-facing change gets a changeset.
+- **Releases:** every user-facing change gets a changeset. The Release workflow turns pending changesets into a "version packages" pull request; after it merges, a production `bun run deploy` ships the site and then publishes the new version to npm, tags it and creates its GitHub release (`scripts/publish.sh`). Releases are published from the maintainer's machine, so npm shows no provenance.
 
 ---
 
