@@ -30,6 +30,7 @@ import {
   CommandShortcut,
 } from "@/styles/base-fabricator/ui/command"
 import { Kbd, KbdGroup } from "@/styles/base-fabricator/ui/kbd"
+import { Search } from "@/styles/base-fabricator/ui/search"
 import { Separator } from "@/styles/base-fabricator/ui/separator"
 import { Spinner } from "@/styles/base-fabricator/ui/spinner"
 
@@ -58,8 +59,11 @@ export function CommandMenu({
   tree: typeof source.pageTree
   blocks?: Block[]
   navItems?: { href: string; label: string }[]
-  /** pill: the top bar's centred search. sidebar: the docs sidebar row. */
-  trigger?: "default" | "pill" | "sidebar"
+  /**
+   * pill: a wide search button. sidebar: the docs sidebar row. search: the
+   * top bar's collapsible Search field, which hands its text to the dialog.
+   */
+  trigger?: "default" | "pill" | "sidebar" | "search"
 }) {
   const router = useRouter()
   const pathname = usePathname()
@@ -67,6 +71,10 @@ export function CommandMenu({
   const currentBase = getCurrentBase(pathname)
   const [open, setOpen] = React.useState(false)
   const triggerRef = React.useRef<HTMLButtonElement>(null)
+  const searchRootRef = React.useRef<HTMLDivElement>(null)
+  const [inputValue, setInputValue] = React.useState("")
+  const [fieldValue, setFieldValue] = React.useState("")
+  const [isFieldOpen, setFieldOpen] = React.useState(false)
   const [renderDelayedGroups, setRenderDelayedGroups] = React.useState(false)
   const [highlighted, setHighlighted] = React.useState("")
 
@@ -198,10 +206,34 @@ export function CommandMenu({
 
   const action = actions.get(highlighted) ?? PAGE_ACTION
 
-  const runCommand = React.useCallback((command: () => unknown) => {
-    setOpen(false)
-    command()
+  // Closing the dialog empties the top bar's field, which then collapses.
+  const changeOpen = React.useCallback((next: boolean) => {
+    setOpen(next)
+    if (next) return
+    setInputValue("")
+    setFieldValue("")
+    setFieldOpen(false)
   }, [])
+
+  // The top bar's field hands what is typed to the dialog's input.
+  const searchFromField = React.useCallback(
+    (text: string) => {
+      setFieldValue(text)
+      if (!text) return
+      setInputValue(text)
+      handleSearchChange(text)
+      setOpen(true)
+    },
+    [handleSearchChange]
+  )
+
+  const runCommand = React.useCallback(
+    (command: () => unknown) => {
+      changeOpen(false)
+      command()
+    },
+    [changeOpen]
+  )
 
   const navItemsSection = React.useMemo(() => {
     if (!navItems || navItems.length === 0) {
@@ -298,12 +330,13 @@ export function CommandMenu({
         }
 
         // Pages mount one menu per breakpoint; only the visible one opens.
-        if (!open && !triggerRef.current?.checkVisibility()) {
+        const visibleTrigger = triggerRef.current ?? searchRootRef.current
+        if (!open && !visibleTrigger?.checkVisibility()) {
           return
         }
 
         e.preventDefault()
-        setOpen((open) => !open)
+        changeOpen(!open)
       }
 
       // ⌘C copies the highlighted item's payload, unless the reader is
@@ -331,7 +364,7 @@ export function CommandMenu({
 
     document.addEventListener("keydown", down)
     return () => document.removeEventListener("keydown", down)
-  }, [open, action, runCommand, config.packageManager])
+  }, [open, action, runCommand, changeOpen, config.packageManager])
 
   return (
     <>
@@ -345,6 +378,17 @@ export function CommandMenu({
           <span className="hidden xl:inline-flex">Search documentation...</span>
           <span className="inline-flex xl:hidden">Search...</span>
         </Button>
+      ) : trigger === "search" ? (
+        <Search
+          rootProps={{ ref: searchRootRef }}
+          open={isFieldOpen}
+          onOpenChange={setFieldOpen}
+          value={fieldValue}
+          onValueChange={searchFromField}
+          label="Search documentation"
+          placeholder="Search documentation"
+          width="240px"
+        />
       ) : (
         <button
           type="button"
@@ -383,7 +427,7 @@ export function CommandMenu({
       )}
       <CommandDialog
         open={open}
-        onOpenChange={setOpen}
+        onOpenChange={changeOpen}
         title="Search documentation"
         description="Search pages, components, blocks, styles and colours."
         className="sm:max-w-xl"
@@ -396,7 +440,11 @@ export function CommandMenu({
           <div className="relative">
             <CommandInput
               placeholder="Search documentation..."
-              onValueChange={handleSearchChange}
+              value={inputValue}
+              onValueChange={(value) => {
+                setInputValue(value)
+                handleSearchChange(value)
+              }}
             />
             {query.isLoading && (
               <Spinner className="pointer-events-none absolute end-4 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
@@ -412,7 +460,7 @@ export function CommandMenu({
                 {pageGroupsSection}
                 {blocksSection}
                 <SearchResults
-                  setOpen={setOpen}
+                  setOpen={changeOpen}
                   query={query}
                   search={search}
                 />

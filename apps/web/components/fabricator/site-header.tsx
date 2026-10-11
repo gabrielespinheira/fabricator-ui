@@ -20,7 +20,7 @@ export function SiteHeader() {
       data-slot="site-header"
       className="relative z-50 w-full bg-background group-has-data-[slot=docs-shell]/layout:hidden"
     >
-      <div className="grid h-18 grid-cols-[1fr_auto] items-center gap-4 px-4 sm:px-5 lg:grid-cols-[1fr_auto_1fr]">
+      <div className="grid h-18 grid-cols-[1fr_auto] items-center gap-4 px-4 sm:px-5">
         <div className="flex items-center gap-3">
           <MobileNav
             tree={pageTree}
@@ -49,13 +49,13 @@ export function SiteHeader() {
               </FluidNavLink>
             ))}
           </FluidNav>
-        </div>
-        <div className="hidden justify-center lg:flex">
-          <CommandMenu
-            tree={pageTree}
-            navItems={siteConfig.navItems}
-            trigger="pill"
-          />
+          <div className="hidden lg:flex">
+            <CommandMenu
+              tree={pageTree}
+              navItems={siteConfig.navItems}
+              trigger="search"
+            />
+          </div>
         </div>
         <div className="flex items-center justify-end gap-2">
           <div className="hidden w-32 sm:block lg:hidden">
@@ -69,7 +69,7 @@ export function SiteHeader() {
             href={siteConfig.links.github}
             target="_blank"
             rel="noreferrer"
-            className="hidden h-10 items-center gap-1.5 rounded-full bg-muted px-3.5 text-[13px] font-medium text-foreground transition-colors duration-fast ease-spring outline-none hover:bg-active focus-visible:ring-1 focus-visible:ring-focus-ring sm:flex"
+            className="hidden h-10 items-center gap-1.5 rounded-lg bg-muted px-3.5 text-[13px] font-medium text-foreground transition-colors duration-fast ease-spring outline-none hover:bg-active focus-visible:ring-1 focus-visible:ring-focus-ring sm:flex"
           >
             <Icons.gitHub className="size-4" />
             <span className="sr-only">GitHub</span>
@@ -80,7 +80,7 @@ export function SiteHeader() {
           <SiteSettingsMenu />
           <Link
             href="/docs/installation"
-            className="flex h-10 items-center rounded-full bg-foreground px-4.5 text-[15px] font-medium text-background transition-[opacity,scale] duration-fast ease-spring outline-none hover:opacity-90 focus-visible:ring-1 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background active:scale-[0.97]"
+            className="flex h-10 items-center rounded-lg bg-foreground px-4.5 text-[15px] font-medium text-background transition-[opacity,scale] duration-fast ease-spring outline-none hover:opacity-90 focus-visible:ring-1 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background active:scale-[0.97]"
           >
             Get started
           </Link>
