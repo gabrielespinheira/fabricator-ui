@@ -1,6 +1,7 @@
 import Link from "next/link"
 
 import { siteConfig } from "@/lib/config"
+import { SharpHawWordmark } from "@/components/fabricator/sharphaw-wordmark"
 import { Icons } from "@/components/icons"
 
 const LINKS = [
@@ -23,8 +24,7 @@ export function SiteFooter() {
           <span className="text-foreground">Open source</span> under the MIT
           License
         </p>
-        <p className="text-center">© {new Date().getFullYear()}</p>
-        <nav className="flex items-center justify-center gap-4 sm:justify-end">
+        <nav className="flex items-center justify-center gap-4">
           {LINKS.map((link) => (
             <Link
               key={link.href}
@@ -44,6 +44,20 @@ export function SiteFooter() {
             <span className="sr-only">GitHub</span>
           </Link>
         </nav>
+        <p className="flex items-center justify-center gap-2 sm:justify-end">
+          © {new Date().getFullYear()}
+          <span aria-hidden>·</span>
+          <a
+            href="https://sharphaw.com"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center gap-1.5 rounded-sm transition-colors duration-fast ease-spring outline-none hover:text-foreground focus-visible:ring-1 focus-visible:ring-focus-ring"
+          >
+            Built by
+            <SharpHawWordmark className="h-5 w-auto" />
+            <span className="sr-only">SharpHaw (opens in a new tab)</span>
+          </a>
+        </p>
       </div>
     </footer>
   )
