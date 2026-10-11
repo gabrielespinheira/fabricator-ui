@@ -319,6 +319,7 @@ The Fabricator design language adapts Fluid Functionalism (MIT). **`apps/web/reg
   - They resolve to `calc(var(--motion-<tier>) * var(--motion-scale, 1))`, so `--motion-scale` speeds up, slows down or stops (0) every animation.
 - **Look:** each component's placeholder rules are in `registry/styles/fabricator/<component>.css`. The build assembles them into `style-fabricator.css` and fails if any placeholder used by the components has no rule.
 - **Behaviour** that CSS can't express (fluid hover, sliding selection) is added with **Fabricator overrides**: `registry/fabricator/<base>/ui/<component>.tsx` is a copy of the upstream source with additive, container-level changes; `registry/fabricator/shared/` holds files every base uses (`lib/fluid-hover.tsx`). Overrides compile into the Fabricator style only, so upstream styles keep their exact output. They keep the full upstream API (superset rule). Extra registry dependencies go in `fabricatorOverrides` in `registry/fabricator/registry.ts`.
+- **Blocks gallery:** `/blocks` is removed for now and redirects to `/docs/components`. Block items stay in the registry and install with `add`.
 - **Excluded items:** `FABRICATOR_EXCLUDED_ITEMS` in `registry/fabricator/registry.ts` lists upstream items the Fabricator library leaves out:
   - Native Select: it only restyles a raw `<select>`; Select replaces it.
   - Chart, for now, with the blocks built on it (`dashboard-01`, `preview`, `preview-02`). The `/charts` gallery and the Chart docs pages are removed, and their URLs redirect to `/docs/components`.
@@ -345,7 +346,6 @@ The website renders the Fabricator style, so it shows what `fabricator-ui add` i
 - **Where it applies** (`lib/site-style.ts`):
   - Docs previews and code. Pages name upstream's default styles (`<base>-nova`, `<base>-rhea`), and `toSiteStyle()` maps them to `<base>-fabricator`. The build generates Fabricator copies of every demo in `examples/__styles__/` (gitignored).
   - The homepage cards, which import `@/styles/base-fabricator/*`.
-  - The blocks gallery (`SITE_BLOCK_STYLE`), rendered from raw base sources inside a `.style-fabricator` scope (`app/style-registry.css`).
   - The `.md` exports and `llms-full.txt`.
 - **Tailwind sources:** compiled styles live in gitignored `styles/<base>-<style>/`, which Tailwind doesn't detect on its own. Every style folder the site renders must have an `@source` line in `app/globals.css`, or classes used only by that style are never generated.
 - **Mobile screenshots:** after visible style changes, recapture with `bun run registry:capture --force && bun run pages:capture` (dev server running).

@@ -139,13 +139,6 @@ The Fabricator design language rests on these systems, shipped in the `foundatio
 - [Dark Mode - Remix](https://fabricator-ui.vercel.app/docs/dark-mode/remix.md): Adding dark mode to your Remix app.
 - [Dark Mode - TanStack Start](https://fabricator-ui.vercel.app/docs/dark-mode/tanstack-start.md): Adding dark mode to your TanStack Start app.
 
-## Forms
-
-- [Forms](https://fabricator-ui.vercel.app/docs/forms.md): Build forms with React and Fabricator UI.
-- [React Hook Form](https://fabricator-ui.vercel.app/docs/forms/react-hook-form.md): Build forms in React using React Hook Form and Zod.
-- [TanStack Form](https://fabricator-ui.vercel.app/docs/forms/tanstack-form.md): Build forms in React using TanStack Form and Zod.
-- [Formisch](https://fabricator-ui.vercel.app/docs/forms/formisch.md): Build forms in React using Formisch and Valibot.
-
 ## Utilities
 
 - [scroll-fade](https://fabricator-ui.vercel.app/docs/utils/scroll-fade.md): Utilities for adding a fade effect to the edges of a scroll container.

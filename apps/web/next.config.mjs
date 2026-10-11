@@ -92,25 +92,46 @@ const nextConfig = {
   },
   redirects() {
     return [
-      // Form redirects to /docs/forms.
+      // The blocks gallery is removed for now.
+      {
+        source: "/blocks/:path*",
+        destination: "/docs/components",
+        permanent: false,
+      },
+      {
+        source: "/blocks",
+        destination: "/docs/components",
+        permanent: false,
+      },
+      // Form and the removed /docs/forms guides redirect to Field.
+      {
+        source: "/docs/forms/:path*",
+        destination: "/docs/components/base/field",
+        permanent: true,
+      },
+      {
+        source: "/docs/forms",
+        destination: "/docs/components/base/field",
+        permanent: true,
+      },
       {
         source: "/docs/components/form",
-        destination: "/docs/forms",
+        destination: "/docs/components/base/field",
         permanent: true,
       },
       {
         source: "/docs/components/radix/form",
-        destination: "/docs/forms",
+        destination: "/docs/components/radix/field",
         permanent: true,
       },
       {
         source: "/docs/components/base/form",
-        destination: "/docs/forms",
+        destination: "/docs/components/base/field",
         permanent: true,
       },
       {
         source: "/docs/components/aria/form",
-        destination: "/docs/forms",
+        destination: "/docs/components/aria/field",
         permanent: true,
       },
       // Base UI Sonner redirects to Toast.
@@ -255,21 +276,6 @@ const nextConfig = {
         destination: `${GITHUB_RAW_URL}/:path*`,
         permanent: false,
       },
-    ]
-  },
-  headers() {
-    return [
-      {
-        source: "/r/:path*",
-        headers: [
-          { key: "Access-Control-Allow-Origin", value: "*" },
-          {
-            key: "Cache-Control",
-            value:
-              "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400",
-          },
-        ],
-      },
       // Registry: the removed blend-mode URLs (/r/{style}/{name}.json and
       // upstream-style /r/styles/...) now serve the Fabricator style, so
       // projects initialized with them keep installing.
@@ -284,6 +290,21 @@ const nextConfig = {
           "/r/styles/:style((?:base|radix|aria)-(?!fabricator)[a-z]+|new-york-v4)/:name",
         destination: "/r/fabricator/:style/:name",
         permanent: true,
+      },
+    ]
+  },
+  headers() {
+    return [
+      {
+        source: "/r/:path*",
+        headers: [
+          { key: "Access-Control-Allow-Origin", value: "*" },
+          {
+            key: "Cache-Control",
+            value:
+              "public, max-age=0, s-maxage=3600, stale-while-revalidate=86400",
+          },
+        ],
       },
     ]
   },

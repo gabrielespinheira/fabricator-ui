@@ -1,17 +1,12 @@
 import type { MetadataRoute } from "next"
 
-import { registryCategories } from "@/lib/categories"
 import { siteConfig } from "@/lib/config"
 import { source } from "@/lib/source"
 
-const staticRoutes = ["/", "/blocks"]
+const staticRoutes = ["/"]
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const urls = [
-    ...staticRoutes,
-    ...source.getPages().map((page) => page.url),
-    ...registryCategories.map((category) => `/blocks/${category.slug}`),
-  ]
+  const urls = [...staticRoutes, ...source.getPages().map((page) => page.url)]
 
   return [...new Set(urls)].map((path) => ({
     url: new URL(path, siteConfig.url).toString(),

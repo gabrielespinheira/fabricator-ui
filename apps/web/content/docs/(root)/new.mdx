@@ -49,26 +49,6 @@ To try a different preset, apply it to your project with its preset code.
 npx fabricator-ui@latest apply [CODE]
 ```
 
-## Add a block
-
-You can add a block to your project using the CLI.
-
-```bash
-npx fabricator-ui@latest add login-03
-```
-
-This will add the `login-03` block to your project. Import and use it in your code.
-
-```tsx title="app/page.tsx"
-import { Login03 } from "@/components/login-03"
-
-export default function Home() {
-  return <Login03 />
-}
-```
-
-Browse all blocks on the [Blocks](/blocks) page.
-
 ## Other Registries
 
 You can also install items from other namespaced registries configured in your `components.json`. Namespaced names are passed through unchanged.
