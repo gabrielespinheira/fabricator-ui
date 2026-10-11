@@ -383,7 +383,7 @@ The website renders the Fabricator style, so it shows what `fabricator-ui add` i
   - The homepage (`app/(app)/(root)/`) is a gallery of every component.
     - Hand-built demos (`_components/demos-*.tsx`, importing `@/styles/base-fabricator/ui/*`) come first.
     - Every other component follows with its docs demo, listed in `_components/catalog.tsx` and lazy-loaded from `examples/__styles__/base-fabricator/` as its card nears the viewport.
-    - When you add a component, add it to the catalog with a category and card height.
+    - When you add a component, add it to the catalog with a card height, and give it a group in `lib/component-groups.ts` (the docs sidebar and the homepage filter share these groups; a test fails while a component page has none).
 - **Docs pages** use the docs shell: `[data-slot=docs-shell]` hides the site header and footer.
 - **Site settings** (`lib/site-settings.ts`, stored in localStorage):
   - The settings menu (`components/fabricator/site-settings.tsx`) is in the top bar, the docs sidebar and the docs panel, and holds theme, sound, icons, radius, motion and surface (the surface tint, also set by the picker on the Surfaces page).

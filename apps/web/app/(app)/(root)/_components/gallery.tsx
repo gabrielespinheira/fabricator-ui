@@ -3,6 +3,7 @@
 import * as React from "react"
 import Link from "next/link"
 
+import { COMPONENT_GROUPS, getComponentGroup } from "@/lib/component-groups"
 import { ArrowUpRightIcon } from "@/lib/site-icons"
 import { cn } from "@/lib/utils"
 import {
@@ -13,6 +14,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/styles/base-fabricator/ui/select"
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/styles/base-fabricator/ui/tabs"
 
 import { CATALOG, type CatalogEntry } from "./catalog"
 import {
@@ -44,25 +51,18 @@ import {
   TooltipDemo,
 } from "./demos-other"
 
-const CATEGORIES = [
-  "All",
-  "Menus",
-  "Forms",
-  "Navigation",
-  "Overlays",
-  "Data",
-  "Feedback",
-  "Chat",
-  "Layout",
-] as const
+const CATEGORIES = ["All", ...COMPONENT_GROUPS] as const
 
-type Category = Exclude<(typeof CATEGORIES)[number], "All">
+function isCategoryFilter(
+  value: unknown
+): value is (typeof CATEGORIES)[number] {
+  return CATEGORIES.some((name) => name === value)
+}
 
 type GalleryItem = {
   /** Component docs slug. */
   slug: string
   title: string
-  category: Category
   /** Card height on multi-column layouts. */
   height: "sm" | "md" | "lg"
   isNew?: boolean
@@ -77,7 +77,6 @@ const ITEMS: GalleryItem[] = [
   {
     slug: "dropdown-menu",
     title: "Dropdown Menu",
-    category: "Menus",
     height: "sm",
     isNew: true,
     Demo: DropdownDemo,
@@ -85,7 +84,6 @@ const ITEMS: GalleryItem[] = [
   {
     slug: "tabs",
     title: "Tabs",
-    category: "Navigation",
     height: "sm",
     isNew: true,
     Demo: TabsDemo,
@@ -93,28 +91,24 @@ const ITEMS: GalleryItem[] = [
   {
     slug: "switch",
     title: "Switch",
-    category: "Forms",
     height: "md",
     Demo: SwitchDemo,
   },
   {
     slug: "slider",
     title: "Slider",
-    category: "Forms",
     height: "sm",
     Demo: SliderDemo,
   },
   {
     slug: "toast",
     title: "Toast",
-    category: "Feedback",
     height: "sm",
     Demo: ToastDemo,
   },
   {
     slug: "command",
     title: "Command",
-    category: "Menus",
     height: "lg",
     isNew: true,
     Demo: CommandDemo,
@@ -122,7 +116,6 @@ const ITEMS: GalleryItem[] = [
   {
     slug: "sidebar",
     title: "Sidebar",
-    category: "Navigation",
     height: "lg",
     isNew: true,
     Demo: SidebarDemo,
@@ -130,14 +123,12 @@ const ITEMS: GalleryItem[] = [
   {
     slug: "radio-group",
     title: "Radio Group",
-    category: "Forms",
     height: "md",
     Demo: RadioGroupDemo,
   },
   {
     slug: "toggle-group",
     title: "Toggle Group",
-    category: "Navigation",
     height: "md",
     isNew: true,
     Demo: ToggleGroupDemo,
@@ -145,7 +136,6 @@ const ITEMS: GalleryItem[] = [
   {
     slug: "select",
     title: "Select",
-    category: "Menus",
     height: "sm",
     isNew: true,
     Demo: SelectDemo,
@@ -153,7 +143,6 @@ const ITEMS: GalleryItem[] = [
   {
     slug: "table",
     title: "Table",
-    category: "Data",
     height: "md",
     isNew: true,
     Demo: TableDemo,
@@ -161,35 +150,30 @@ const ITEMS: GalleryItem[] = [
   {
     slug: "input-otp",
     title: "Input OTP",
-    category: "Forms",
     height: "sm",
     Demo: InputOTPDemo,
   },
   {
     slug: "calendar",
     title: "Calendar",
-    category: "Data",
     height: "lg",
     Demo: CalendarDemo,
   },
   {
     slug: "checkbox",
     title: "Checkbox",
-    category: "Forms",
     height: "md",
     Demo: CheckboxDemo,
   },
   {
     slug: "tooltip",
     title: "Tooltip",
-    category: "Overlays",
     height: "sm",
     Demo: TooltipDemo,
   },
   {
     slug: "accordion",
     title: "Accordion",
-    category: "Navigation",
     height: "md",
     isNew: true,
     Demo: AccordionDemo,
@@ -197,7 +181,6 @@ const ITEMS: GalleryItem[] = [
   {
     slug: "combobox",
     title: "Combobox",
-    category: "Menus",
     height: "sm",
     isNew: true,
     Demo: ComboboxDemo,
@@ -205,21 +188,18 @@ const ITEMS: GalleryItem[] = [
   {
     slug: "progress",
     title: "Progress",
-    category: "Feedback",
     height: "sm",
     Demo: ProgressDemo,
   },
   {
     slug: "alert-dialog",
     title: "Alert Dialog",
-    category: "Overlays",
     height: "sm",
     Demo: AlertDialogDemo,
   },
   {
     slug: "search",
     title: "Search",
-    category: "Forms",
     height: "sm",
     isNew: true,
     Demo: SearchFieldDemo,
@@ -227,14 +207,12 @@ const ITEMS: GalleryItem[] = [
   {
     slug: "input-group",
     title: "Input Group",
-    category: "Forms",
     height: "sm",
     Demo: SearchDemo,
   },
   {
     slug: "button",
     title: "Button",
-    category: "Feedback",
     height: "md",
     Demo: ButtonDemo,
   },
@@ -246,7 +224,6 @@ const ALL_ITEMS: GalleryItem[] = [
   ...CATALOG.map((entry) => ({
     slug: entry.slug,
     title: entry.title,
-    category: entry.category,
     height: entry.height,
     entry,
   })),
@@ -284,7 +261,7 @@ export function Gallery() {
 
   const items = React.useMemo(() => {
     const filtered = ALL_ITEMS.filter(
-      (item) => category === "All" || item.category === category
+      (item) => category === "All" || getComponentGroup(item.slug) === category
     )
     return sort === "name"
       ? [...filtered].sort((a, b) => a.title.localeCompare(b.title))
@@ -294,30 +271,23 @@ export function Gallery() {
   const columns = React.useMemo(() => balance(items, 3), [items])
 
   return (
-    <section
-      aria-label="Components"
+    <Tabs
+      render={<section aria-label="Components" />}
+      value={category}
+      onValueChange={(value) => {
+        if (isCategoryFilter(value)) setCategory(value)
+      }}
       className="flex flex-col gap-5 px-4 pb-20 sm:px-5"
     >
       <div className="flex items-center gap-3">
-        <div
-          role="group"
-          aria-label="Filter by category"
-          className="-mx-4 scrollbar-hide flex min-w-0 flex-1 gap-1.5 overflow-x-auto px-4 sm:mx-0 sm:px-0"
-        >
-          {CATEGORIES.map((name) => (
-            <button
-              key={name}
-              type="button"
-              aria-pressed={category === name}
-              onClick={() => setCategory(name)}
-              className={cn(
-                "h-9 shrink-0 rounded-full bg-foreground/[0.06] px-3.5 text-[15px] font-medium text-foreground/75 transition-[background-color,color,scale] duration-moderate ease-spring outline-none hover:bg-foreground/10 hover:text-foreground focus-visible:ring-2 focus-visible:ring-focus-ring active:scale-[0.97] motion-reduce:transition-none",
-                "aria-pressed:bg-foreground aria-pressed:text-background"
-              )}
-            >
-              {name}
-            </button>
-          ))}
+        <div className="-mx-4 scrollbar-hide flex min-w-0 flex-1 overflow-x-auto px-4 sm:mx-0 sm:px-0">
+          <TabsList aria-label="Filter by category">
+            {CATEGORIES.map((name) => (
+              <TabsTrigger key={name} value={name}>
+                {name}
+              </TabsTrigger>
+            ))}
+          </TabsList>
         </div>
         <Select
           items={SORTS}
@@ -326,7 +296,7 @@ export function Gallery() {
         >
           <SelectTrigger
             aria-label="Sort components"
-            className="hidden h-9! shrink-0 rounded-full px-4 text-[15px] sm:flex"
+            className="hidden h-9! shrink-0 px-4 text-[15px] sm:flex"
           >
             <SelectValue />
           </SelectTrigger>
@@ -343,7 +313,11 @@ export function Gallery() {
       </div>
       {/* Three balanced flex columns on wide screens. Below xl the columns
           dissolve (display: contents) and CSS columns lay the cards out. */}
-      <div className="columns-1 gap-3 md:columns-2 xl:flex xl:items-stretch xl:gap-3">
+      {/* The panel keeps the page's text size: demos inherit it, as in the docs. */}
+      <TabsContent
+        value={category}
+        className="columns-1 gap-3 text-base md:columns-2 xl:flex xl:items-stretch xl:gap-3"
+      >
         {columns.map((column, index) => (
           <div
             key={index}
@@ -354,13 +328,13 @@ export function Gallery() {
             ))}
           </div>
         ))}
-      </div>
+      </TabsContent>
       {items.length === 0 && (
         <p className="py-16 text-center text-sm text-muted-foreground">
           Nothing in this category yet.
         </p>
       )}
-    </section>
+    </Tabs>
   )
 }
 
@@ -370,7 +344,7 @@ function GalleryCard({ item }: { item: GalleryItem }) {
   return (
     <article
       className={cn(
-        "group/card relative mb-3 flex min-h-[280px] break-inside-avoid items-center-safe justify-center overflow-hidden rounded-[28px] bg-surface-3 px-6 pt-16 pb-12 shadow-surface-1 md:py-12 xl:mb-0 dark:bg-surface-2 dark:shadow-none",
+        "group/card relative mb-3 flex min-h-[280px] break-inside-avoid items-center-safe justify-center overflow-hidden rounded-[28px] bg-surface-3 px-6 pt-16 pb-12 shadow-surface-1 md:py-12 xl:mb-0 dark:bg-surface-2 dark:shadow-surface-2",
         HEIGHTS[item.height],
         // In the three-column layout, cards in shorter columns share the
         // spare height (a few pixels each), so all columns end level.
@@ -395,7 +369,7 @@ function GalleryCard({ item }: { item: GalleryItem }) {
       <Link
         href={href}
         aria-label={`${item.title} docs`}
-        className="absolute top-4 right-4 z-10 flex size-8 items-center justify-center rounded-full bg-foreground/[0.07] text-foreground/70 opacity-0 transition-[opacity,background-color] duration-moderate ease-spring outline-none group-focus-within/card:opacity-100 group-hover/card:opacity-100 hover:bg-foreground/[0.12] hover:text-foreground focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-focus-ring"
+        className="absolute top-4 right-4 z-10 flex size-8 items-center justify-center rounded-lg bg-foreground/[0.07] text-foreground/70 opacity-0 transition-[opacity,background-color] duration-moderate ease-spring outline-none group-focus-within/card:opacity-100 group-hover/card:opacity-100 hover:bg-foreground/[0.12] hover:text-foreground focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-focus-ring"
       >
         <ArrowUpRightIcon className="size-4" />
       </Link>
