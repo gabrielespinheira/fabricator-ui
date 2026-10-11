@@ -3,6 +3,7 @@ import Link from "next/link"
 import { ArrowRightIcon } from "lucide-react"
 
 import { siteConfig } from "@/lib/config"
+import { HeroCommand } from "@/components/fabricator/hero-command"
 
 import { Gallery } from "./_components/gallery"
 
@@ -10,7 +11,7 @@ const title = "Components that move with you"
 const metadataTitle = `${siteConfig.name} - ${title}`
 const description = siteConfig.description
 const heroDescription =
-  "Open-code React components for Base UI, Radix and React Aria. Fluid hover, spring motion and layered surfaces, ready to copy into your project."
+  "Fabricator UI is a React component library you add to your project as source code, with one command. Over 60 accessible components for Base UI, Radix or React Aria, each with fluid hover, spring motion and its own interface sound. The code lives in your repo, so you can change any of it."
 
 const websiteJsonLd = {
   "@context": "https://schema.org",
@@ -75,7 +76,7 @@ export default function IndexPage() {
       <section className="flex flex-col items-center px-4 pt-20 pb-16 text-center sm:pt-24 sm:pb-20">
         <Link
           href="/docs/changelog"
-          className="group/badge inline-flex h-10 items-center gap-1.5 rounded-full border border-border px-4 text-sm font-medium transition-[background-color,scale] duration-moderate ease-spring outline-none hover:bg-hover focus-visible:ring-2 focus-visible:ring-focus-ring active:scale-[0.97]"
+          className="group/badge inline-flex h-10 items-center gap-1.5 rounded-lg border border-border px-4 text-sm font-medium transition-[background-color,scale] duration-moderate ease-spring outline-none hover:bg-hover focus-visible:ring-2 focus-visible:ring-focus-ring active:scale-[0.97]"
         >
           v{siteConfig.version}
           <ArrowRightIcon className="size-3.5 text-muted-foreground transition-transform duration-moderate ease-spring group-hover/badge:translate-x-0.5" />
@@ -83,13 +84,13 @@ export default function IndexPage() {
         <h1 className="mt-7 max-w-[16ch] text-[34px] leading-[1.06] font-medium tracking-[-0.022em] text-balance sm:max-w-none sm:text-[40px]">
           {title}
         </h1>
-        <p className="mt-4 max-w-[460px] text-[15px] leading-normal text-balance text-muted-foreground">
+        <p className="mt-4 max-w-[540px] text-[15px] leading-normal text-balance text-muted-foreground">
           {heroDescription}
         </p>
         <div className="mt-7 flex items-center gap-5">
           <Link
             href="/docs/installation"
-            className="inline-flex h-10 items-center rounded-full bg-foreground px-5 text-[15px] font-medium text-background transition-[opacity,scale] duration-moderate ease-spring outline-none hover:opacity-90 focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background active:scale-[0.97]"
+            className="inline-flex h-10 items-center rounded-lg bg-foreground px-5 text-[15px] font-medium text-background transition-[opacity,scale] duration-moderate ease-spring outline-none hover:opacity-90 focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background active:scale-[0.97]"
           >
             Get started
           </Link>
@@ -100,6 +101,7 @@ export default function IndexPage() {
             Browse components
           </Link>
         </div>
+        <HeroCommand className="mt-10" />
       </section>
       <Gallery />
     </div>
