@@ -96,7 +96,7 @@ The registry also works with the shadcn CLI directly. See [Registry](https://fab
 ## AI assistants
 
 - **MCP:** `npx fabricator-ui@latest mcp init --client <claude|cursor|vscode|codex|opencode>` lets your assistant browse, search and install components. See [MCP](https://fabricator-ui.vercel.app/docs/mcp).
-- **Agent skill:** copy [`skills/fabricator`](skills/fabricator) into `.claude/skills/` (or your agent's skills folder) to teach it how to add, compose and style Fabricator components.
+- **Agent skill:** `npx skills add gabrielespinheira/fabricator-ui` teaches your assistant how to add, compose and style Fabricator components. See [Agent Skill](https://fabricator-ui.vercel.app/docs/skills) and [skills.sh](https://skills.sh/gabrielespinheira/fabricator-ui/fabricator).
 - **Docs for models:** [`llms.txt`](https://fabricator-ui.vercel.app/llms.txt), [`llms-full.txt`](https://fabricator-ui.vercel.app/llms-full.txt), and `.md` on any docs URL.
 
 ## Documentation

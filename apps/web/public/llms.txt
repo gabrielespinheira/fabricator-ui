@@ -43,6 +43,7 @@ The Fabricator design language rests on these systems, shipped in the `foundatio
 
 - [Registry](https://fabricator-ui.vercel.app/docs/registry.md): How the @fabricator registry works, and how to use it from an existing project.
 - [MCP Server](https://fabricator-ui.vercel.app/docs/mcp.md): Use the Fabricator MCP server to browse, search, and install Fabricator UI components with your AI assistant.
+- [Agent Skill](https://fabricator-ui.vercel.app/docs/skills.md): Install the Fabricator agent skill so Claude Code, Codex, Cursor and other AI assistants build with Fabricator UI the right way.
 
 ## Components
 
