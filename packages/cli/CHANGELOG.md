@@ -1,5 +1,11 @@
 # fabricator-ui
 
+## 0.2.1
+
+### Patch Changes
+
+- [#5](https://github.com/gabrielespinheira/fabricator-ui/pull/5) [`e53c245`](https://github.com/gabrielespinheira/fabricator-ui/commit/e53c2454a7aa2ab610a60013ac26b0cd52a771bc) Thanks [@gabrielespinheira](https://github.com/gabrielespinheira)! - Use `https://fabricator-ui.vercel.app` as the default registry host.
+
 ## 0.2.0
 
 ### Minor Changes
