@@ -1,7 +1,6 @@
 import { describe, expect, it } from "vitest"
 
 import {
-  blendRegistryTemplate,
   buildInitUrl,
   DEFAULT_BASE_URL,
   fabricatorCatalogUrl,
@@ -39,12 +38,9 @@ describe("getBaseUrl", () => {
 })
 
 describe("registry templates", () => {
-  it("builds the fabricator and blend mode templates", () => {
+  it("builds the registry template and catalog URL", () => {
     expect(fabricatorRegistryTemplate(BASE)).toBe(
       "https://fabricator-ui.vercel.app/r/fabricator/{style}/{name}.json"
-    )
-    expect(blendRegistryTemplate(BASE)).toBe(
-      "https://fabricator-ui.vercel.app/r/{style}/{name}.json"
     )
     expect(fabricatorCatalogUrl(BASE, "base-nova")).toBe(
       "https://fabricator-ui.vercel.app/r/fabricator/base-nova/registry.json"
@@ -108,12 +104,6 @@ describe("buildInitUrl", () => {
     ).toContain("template=next-monorepo")
     expect(buildInitUrl({ template: "vite", monorepo: false }, BASE)).toContain(
       "template=vite"
-    )
-  })
-
-  it("adds registry=blend in blend mode", () => {
-    expect(buildInitUrl({ registry: "blend" }, BASE)).toBe(
-      "https://fabricator-ui.vercel.app/init?base=base&preset=fabricator&registry=blend"
     )
   })
 

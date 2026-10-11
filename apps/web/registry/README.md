@@ -32,7 +32,10 @@ Persistent (committed):
   combination, imported by the docs app.
 - `../styles/<style>/ui-rtl/*` — RTL variants, generated for `base-nova` and
   `radix-nova` only.
-- `../public/r/*` — installable registry JSON served by the website and the CLI.
+- `../public/r/*` — installable registry JSON (Fabricator styles only) served
+  by the website and the CLI.
+- `../.upstream-registry/<style>/*` — registry JSON for the upstream styles,
+  read by `bun run test:parity`. Gitignored and never published.
 
 Temporary (created during the build, then cleaned up):
 
@@ -59,14 +62,14 @@ Registry URLs (rewrites in `next.config.mjs`):
 
 | URL | Serves |
 | --- | --- |
-| `/r/<base>-<style>/<name>.json` | Blend mode: the item compiled in the project's own shadcn style (`public/r/styles/<base>-<style>`). |
-| `/r/fabricator/<base>-<style>/<name>.json` | Fabricator mode: the item compiled with the Fabricator style for the project's base (`public/r/styles/<base>-fabricator`). |
-| `/r/styles/<style>/<name>.json` | The raw build output (same layout as ui.shadcn.com). |
+| `/r/fabricator/<base>-<style>/<name>.json` | The item compiled with the Fabricator style for the project's base (`public/r/styles/<base>-fabricator`). |
+| `/r/styles/<base>-fabricator/<name>.json` | The raw build output (same layout as ui.shadcn.com). |
+| `/r/<base>-<style>/<name>.json`, `/r/styles/<base>-<style>/<name>.json` | Retired blend-mode URLs: permanent redirects to `/r/fabricator/<base>-<style>/<name>.json`. |
 | `/init?…` | The `registry:base` payload for `shadcn init <url>` / `fabricator-ui init`. |
 
 Run `bun run test:parity` from the repo root after changing upstream-derived
-source, style maps or the build script. Blend-mode output for upstream items
-must match ui.shadcn.com exactly.
+source, style maps or the build script. The upstream-style output in
+`.upstream-registry/` must match ui.shadcn.com exactly.
 
 ## The style model
 
@@ -88,7 +91,8 @@ bun run registry:build
 ```
 
 This runs the full pipeline: build the bases, generate every combination, write
-the runtime indexes, export `public/r/` for every style, copy the compiled UI
+the runtime indexes, export registry JSON for every style (`public/r/` for
+Fabricator styles, `.upstream-registry/` for upstream ones), copy the compiled UI
 into `styles/`, and build the RTL styles. It is the canonical build — generated
 output is prettier-formatted. **Run this before committing or for production.**
 
@@ -107,7 +111,7 @@ bun run registry:build --examples            # examples/__index__.tsx
 bun run registry:build --indexes             # runtime registry indexes
 bun run registry:build --style base-nova     # styles/base-nova/ui (+ ui-rtl)
 bun run registry:build --style all           # every generated combination
-bun run registry:build --registry base-nova  # public/r/styles/base-nova
+bun run registry:build --registry base-nova  # .upstream-registry/base-nova
 bun run registry:build --registry all        # every style, incl. new-york-v4
 ```
 

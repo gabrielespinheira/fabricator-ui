@@ -35,10 +35,9 @@ Use `Field orientation="horizontal"` for settings pages. Use `FieldLabel classNa
 - Simple text input → `Input`
 - Dropdown with predefined options → `Select`
 - Searchable dropdown → `Combobox`
-- Native HTML select (no JS) → `native-select`
 - Boolean toggle → `Switch` (for settings) or `Checkbox` (for forms)
 - Single choice from few options → `RadioGroup`
-- Toggle between 2–5 options → `ToggleGroup` + `ToggleGroupItem`
+- Toggle between 2–7 options → `ToggleGroup` + `ToggleGroupItem`
 - OTP/verification code → `InputOTP`
 - Multi-line text → `Textarea`
 
@@ -189,4 +188,4 @@ Both attributes are needed — `data-invalid`/`data-disabled` styles the field (
 </Field>
 ```
 
-Works for all controls: `Input`, `Textarea`, `Select`, `Checkbox`, `RadioGroupItem`, `Switch`, `Slider`, `NativeSelect`, `InputOTP`.
+Works for all controls: `Input`, `Textarea`, `Select`, `Checkbox`, `RadioGroupItem`, `Switch`, `Slider`, `InputOTP`.

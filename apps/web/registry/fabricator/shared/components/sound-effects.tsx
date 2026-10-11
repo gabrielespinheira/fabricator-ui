@@ -629,7 +629,7 @@ export function SoundEffects({
   enabled,
   volume,
 }: {
-  /** Turns sounds on or off. Sounds are off until something turns them on. */
+  /** Turns sounds on or off. Sounds are on by default. */
   enabled?: boolean
   /** Master volume, 0 to 1. */
   volume?: number

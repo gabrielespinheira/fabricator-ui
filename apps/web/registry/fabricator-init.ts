@@ -12,14 +12,11 @@ import { DEFAULT_CONFIG, type DesignSystemConfig } from "@/registry/config"
 import {
   FABRICATOR_NAMESPACE,
   FABRICATOR_REGISTRY,
-  getBlendRegistryUrl,
   getFabricatorRegistryUrl,
   getFabricatorSiteUrl,
 } from "@/registry/fabricator"
 import { FABRICATOR_PALETTE } from "@/registry/fabricator/foundations"
 import { FABRICATOR_REQUIRED_ITEMS } from "@/registry/fabricator/registry"
-
-export type FabricatorRegistryMode = "fabricator" | "blend"
 
 // Named presets accepted by `?preset=<name>`. Values fill any design-system
 // param the request leaves out; explicit params always win.
@@ -79,19 +76,6 @@ export function resolveFabricatorSearchParams(searchParams: URLSearchParams) {
   return { success: true as const, params }
 }
 
-export function parseRegistryMode(value: string | null) {
-  if (value === null || value === "fabricator") {
-    return { success: true as const, mode: "fabricator" as const }
-  }
-  if (value === "blend") {
-    return { success: true as const, mode: "blend" as const }
-  }
-  return {
-    success: false as const,
-    error: 'Invalid registry value. Use "fabricator" or "blend".',
-  }
-}
-
 type RegistryBase = {
   config?: Record<string, unknown>
   registryDependencies?: string[]
@@ -115,32 +99,24 @@ export function toFabricatorRegistryBase<T extends RegistryBase>(
   registryBase: T,
   {
     config,
-    mode,
     palette = false,
     siteUrl = getFabricatorSiteUrl(),
   }: {
     config: Pick<DesignSystemConfig, "base" | "style">
-    mode: FabricatorRegistryMode
     /** Apply the Fabricator palette to the shadcn token names. */
     palette?: boolean
     siteUrl?: string
   }
 ): T {
-  const registryUrl =
-    mode === "fabricator"
-      ? getFabricatorRegistryUrl(siteUrl)
-      : getBlendRegistryUrl(siteUrl)
+  const registryUrl = getFabricatorRegistryUrl(siteUrl)
   const styleId = `${config.base}-${config.style}`
 
   // registryDependencies resolve before the payload's own config is merged,
   // so @fabricator is not configured yet. Use absolute URLs instead.
-  // Fabricator mode installs the foundations (surfaces, interaction tokens,
-  // motion, scrollbars) that every Fabricator component builds on.
+  // Install the foundations (surfaces, interaction tokens, motion,
+  // scrollbars) that every Fabricator component builds on.
   const dependencyNames = registryBase.registryDependencies
-    ? [
-        ...registryBase.registryDependencies,
-        ...(mode === "fabricator" ? FABRICATOR_REQUIRED_ITEMS : []),
-      ]
+    ? [...registryBase.registryDependencies, ...FABRICATOR_REQUIRED_ITEMS]
     : undefined
   const registryDependencies = dependencyNames?.map((dependency) =>
     dependency.startsWith("@") || dependency.includes("://")
@@ -149,7 +125,7 @@ export function toFabricatorRegistryBase<T extends RegistryBase>(
   )
 
   const cssVars =
-    palette && mode === "fabricator" && registryBase.cssVars
+    palette && registryBase.cssVars
       ? {
           ...registryBase.cssVars,
           theme: {

@@ -23,7 +23,7 @@ The Fabricator design language rests on these systems, shipped in the `foundatio
 - [Motion](https://fabricator-ui.vercel.app/docs/foundations/motion.md): Three spring speeds, with exits one step quicker than entrances.
 - [Scrollbars](https://fabricator-ui.vercel.app/docs/foundations/scrollbars.md): A thin scrollbar that stays out of the way but is there when you need it.
 - [Sizes](https://fabricator-ui.vercel.app/docs/foundations/sizes.md): 36px controls, 13px text, and corners that nest.
-- [Sounds](https://fabricator-ui.vercel.app/docs/foundations/sounds.md): Short, quiet interface sounds synthesized in the browser, off until you turn them on.
+- [Sounds](https://fabricator-ui.vercel.app/docs/foundations/sounds.md): Short, quiet interface sounds synthesized in the browser, on by default.
 - [Surfaces](https://fabricator-ui.vercel.app/docs/foundations/surfaces.md): Eight elevation levels, each with its own shadow, so layers stay distinct in light and dark mode.
 - [Typography](https://fabricator-ui.vercel.app/docs/foundations/typography.md): Inter at five sizes, with weights paired to optical size.
 
@@ -43,6 +43,7 @@ The Fabricator design language rests on these systems, shipped in the `foundatio
 
 - [Registry](https://fabricator-ui.vercel.app/docs/registry.md): How the @fabricator registry works, and how to use it from an existing project.
 - [MCP Server](https://fabricator-ui.vercel.app/docs/mcp.md): Use the Fabricator MCP server to browse, search, and install Fabricator UI components with your AI assistant.
+- [Agent Skill](https://fabricator-ui.vercel.app/docs/skills.md): Install the Fabricator agent skill so Claude Code, Codex, Cursor and other AI assistants build with Fabricator UI the right way.
 
 ## Components
 
@@ -137,13 +138,6 @@ The Fabricator design language rests on these systems, shipped in the `foundatio
 - [Dark Mode - Astro](https://fabricator-ui.vercel.app/docs/dark-mode/astro.md): Adding dark mode to your astro app.
 - [Dark Mode - Remix](https://fabricator-ui.vercel.app/docs/dark-mode/remix.md): Adding dark mode to your Remix app.
 - [Dark Mode - TanStack Start](https://fabricator-ui.vercel.app/docs/dark-mode/tanstack-start.md): Adding dark mode to your TanStack Start app.
-
-## Forms
-
-- [Forms](https://fabricator-ui.vercel.app/docs/forms.md): Build forms with React and Fabricator UI.
-- [React Hook Form](https://fabricator-ui.vercel.app/docs/forms/react-hook-form.md): Build forms in React using React Hook Form and Zod.
-- [TanStack Form](https://fabricator-ui.vercel.app/docs/forms/tanstack-form.md): Build forms in React using TanStack Form and Zod.
-- [Formisch](https://fabricator-ui.vercel.app/docs/forms/formisch.md): Build forms in React using Formisch and Valibot.
 
 ## Utilities
 

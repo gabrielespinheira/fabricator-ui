@@ -1,0 +1,9 @@
+---
+title: October 2026 - Tabs track on every surface
+description: The default Tabs track is now a translucent step, so it stays visible on any surface.
+date: 2026-10-11
+---
+
+The default Tabs track used `bg-muted`. In dark mode `muted` is the same colour as `surface-2`, so Tabs placed on a `surface-2` card lost their track. The track is now `bg-foreground/[0.05]`, a translucent step over whatever sits underneath, in every base. Run `npx fabricator-ui@latest add tabs` to update, or `npx fabricator-ui@latest diff tabs` to see the change first.
+
+See [Tabs](/docs/components/base/tabs).

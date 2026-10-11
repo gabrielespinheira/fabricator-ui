@@ -80,7 +80,7 @@ export function CommandDemo() {
   }
 
   return (
-    <Command className="w-[300px] rounded-xl shadow-surface-3">
+    <Command className="w-[300px] rounded-lg border">
       <CommandInput placeholder="Type a command or search…" />
       <CommandList className="max-h-none">
         <CommandEmpty>No results found.</CommandEmpty>

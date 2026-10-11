@@ -42,7 +42,8 @@ if [ "$mode" = production ]; then
   gh auth status > /dev/null 2>&1 || { echo "Log in to GitHub first: gh auth login" >&2; exit 1; }
 fi
 
-# Inlined into pages and metadata at build time. Vercel has no variables set.
+# Inlined into pages and metadata at build time. The only Vercel variable is
+# NEXT_PUBLIC_POSTHOG_KEY, which `vercel pull` below brings into the build.
 export NEXT_PUBLIC_APP_URL="${NEXT_PUBLIC_APP_URL:-https://fabricator-ui.vercel.app}"
 export NEXT_PUBLIC_V0_URL="${NEXT_PUBLIC_V0_URL:-https://v0.dev}"
 

@@ -92,25 +92,46 @@ const nextConfig = {
   },
   redirects() {
     return [
-      // Form redirects to /docs/forms.
+      // The blocks gallery is removed for now.
+      {
+        source: "/blocks/:path*",
+        destination: "/docs/components",
+        permanent: false,
+      },
+      {
+        source: "/blocks",
+        destination: "/docs/components",
+        permanent: false,
+      },
+      // Form and the removed /docs/forms guides redirect to Field.
+      {
+        source: "/docs/forms/:path*",
+        destination: "/docs/components/base/field",
+        permanent: true,
+      },
+      {
+        source: "/docs/forms",
+        destination: "/docs/components/base/field",
+        permanent: true,
+      },
       {
         source: "/docs/components/form",
-        destination: "/docs/forms",
+        destination: "/docs/components/base/field",
         permanent: true,
       },
       {
         source: "/docs/components/radix/form",
-        destination: "/docs/forms",
+        destination: "/docs/components/radix/field",
         permanent: true,
       },
       {
         source: "/docs/components/base/form",
-        destination: "/docs/forms",
+        destination: "/docs/components/base/field",
         permanent: true,
       },
       {
         source: "/docs/components/aria/form",
-        destination: "/docs/forms",
+        destination: "/docs/components/aria/field",
         permanent: true,
       },
       // Base UI Sonner redirects to Toast.
@@ -255,6 +276,21 @@ const nextConfig = {
         destination: `${GITHUB_RAW_URL}/:path*`,
         permanent: false,
       },
+      // Registry: the removed blend-mode URLs (/r/{style}/{name}.json and
+      // upstream-style /r/styles/...) now serve the Fabricator style, so
+      // projects initialized with them keep installing.
+      {
+        source:
+          "/r/:style((?:base|radix|aria)-[a-z]+|new-york-v4|new-york)/:name",
+        destination: "/r/fabricator/:style/:name",
+        permanent: true,
+      },
+      {
+        source:
+          "/r/styles/:style((?:base|radix|aria)-(?!fabricator)[a-z]+|new-york-v4)/:name",
+        destination: "/r/fabricator/:style/:name",
+        permanent: true,
+      },
     ]
   },
   headers() {
@@ -282,7 +318,7 @@ const nextConfig = {
         source: "/init.md",
         destination: "/init/md",
       },
-      // Registry: Fabricator mode. Serves the Fabricator style compiled for
+      // Registry. Serves the Fabricator style compiled for
       // the base in the project's style id (e.g. base-nova -> base-fabricator).
       {
         source: "/r/fabricator/:base(base|radix|aria)-:style/:name",
@@ -291,16 +327,6 @@ const nextConfig = {
       {
         source: "/r/fabricator/:style(new-york|new-york-v4|default)/:name",
         destination: "/r/styles/radix-fabricator/:name",
-      },
-      // Registry: blend mode. Serves items compiled in the project's own
-      // style, e.g. /r/base-nova/button.json.
-      {
-        source: "/r/:style((?:base|radix|aria)-[a-z]+|new-york-v4)/:name",
-        destination: "/r/styles/:style/:name",
-      },
-      {
-        source: "/r/new-york/:name",
-        destination: "/r/styles/new-york-v4/:name",
       },
     ]
   },

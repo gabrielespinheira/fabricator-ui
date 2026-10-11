@@ -5,6 +5,7 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "cn"
 
+import { groupComponentPages } from "@/lib/component-groups"
 import { siteConfig } from "@/lib/config"
 import { PAGES_NEW } from "@/lib/docs"
 import { showMcpDocs } from "@/lib/flags"
@@ -28,7 +29,7 @@ const TOP_LINKS = [
 
 // Folder order; anything not listed follows in page-tree order.
 const GROUP_ORDER = ["Get Started", "Foundations", "Components"]
-const COUNTED_GROUPS = ["Foundations", "Components"]
+const COUNTED_GROUPS = ["Foundations"]
 const EXCLUDED_SECTIONS = ["installation", "dark-mode", "changelog", "rtl"]
 const EXCLUDED_PAGES = [
   "/docs",
@@ -37,8 +38,6 @@ const EXCLUDED_PAGES = [
   "/docs/new",
   "/docs/installation",
 ]
-
-const SITE_LINKS = [{ name: "Blocks", href: "/blocks", match: "/blocks" }]
 
 const ITEM_CLASS =
   "h-8 shrink-0 px-2 text-[14px] data-[active=true]:font-medium"
@@ -65,15 +64,25 @@ export function DocsShellSidebar({
     }
     return [...folders]
       .sort((a, b) => rank(a) - rank(b))
-      .map((folder) => ({
-        id: folder.$id ?? String(folder.name),
-        name: String(folder.name),
-        pages: getPagesFromFolder(folder, currentBase).filter(
+      .flatMap((folder) => {
+        const id = folder.$id ?? String(folder.name)
+        const name = String(folder.name)
+        const pages = getPagesFromFolder(folder, currentBase).filter(
           (page) =>
             !EXCLUDED_PAGES.includes(page.url) &&
             (showMcpDocs || !page.url.includes("/mcp"))
-        ),
-      }))
+        )
+        // Components split into their groups (lib/component-groups.ts).
+        if (id === "components") {
+          return groupComponentPages(pages).map((entry) => ({
+            id: `components-${entry.group}`,
+            name: entry.group,
+            pages: entry.pages,
+            isCounted: true,
+          }))
+        }
+        return [{ id, name, pages, isCounted: COUNTED_GROUPS.includes(name) }]
+      })
       .filter((group) => group.pages.length > 0)
   }, [tree, currentBase])
 
@@ -145,7 +154,7 @@ export function DocsShellSidebar({
           <section key={group.id} className="flex flex-col gap-1">
             <h3 className="flex h-7 items-center justify-between px-2 text-[12px] font-medium text-muted-foreground">
               {group.name}
-              {COUNTED_GROUPS.includes(group.name) && (
+              {group.isCounted && (
                 <span className="tabular-nums">{group.pages.length}</span>
               )}
             </h3>
@@ -169,23 +178,6 @@ export function DocsShellSidebar({
             </FluidNav>
           </section>
         ))}
-        <section className="flex flex-col gap-1">
-          <h3 className="flex h-7 items-center px-2 text-[12px] font-medium text-muted-foreground">
-            More
-          </h3>
-          <FluidNav>
-            {SITE_LINKS.map((link) => (
-              <FluidNavLink
-                key={link.href}
-                href={link.href}
-                match={link.match}
-                className={ITEM_CLASS}
-              >
-                {link.name}
-              </FluidNavLink>
-            ))}
-          </FluidNav>
-        </section>
       </div>
     </aside>
   )

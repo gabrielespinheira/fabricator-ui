@@ -39,7 +39,7 @@ export const fabricatorItems = [
     type: "registry:lib",
     title: "Sounds",
     description:
-      "Interface sounds synthesized with the Web Audio API, and <SoundEffects /> to play them for every component. Off until you turn them on.",
+      "Interface sounds synthesized with the Web Audio API, and <SoundEffects /> to play them for every component. On by default.",
     files: [
       { path: "lib/sounds.ts", type: "registry:lib" },
       { path: "components/sound-effects.tsx", type: "registry:component" },
@@ -96,22 +96,14 @@ export const fabricatorOverrides: Record<
 }
 
 /**
- * Fabricator items that don't depend on the Fabricator style, so they also
- * ship in blend mode (/r/{style}/{name}.json) for existing projects: sounds
- * key on data-slot and ARIA attributes that every style shares, and the radius
- * item only sets --radius.
- */
-export const BLEND_ITEMS = ["sounds", "radius-pill"]
-
-/**
- * Upstream items the Fabricator library leaves out of Fabricator mode, mapped
+ * Upstream items the Fabricator library leaves out of its registry, mapped
  * to the item that replaces them in other items' dependencies (null drops the
  * dependency). The library doesn't ship controls that only restyle a raw
  * native element: Native Select is replaced by Select everywhere. Chart is
  * left out for now, together with the blocks built on it (dashboard-01 and
- * the preview / preview-02 showcase blocks). Blend mode
- * keeps every upstream item, so existing projects and upstream parity are
- * unaffected. Items that used an excluded one get a Fabricator override that
+ * the preview / preview-02 showcase blocks). The upstream styles, compiled
+ * only for the parity check, keep every upstream item. Items that used an
+ * excluded one get a Fabricator override that
  * uses the replacement (registry/fabricator/<base>/...).
  */
 export const FABRICATOR_EXCLUDED_ITEMS: Record<string, string | null> = {

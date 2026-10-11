@@ -2283,6 +2283,14 @@
     @apply relative isolate rounded-xl p-1 group-data-horizontal/tabs:h-9 data-[variant=line]:rounded-none data-[variant=line]:bg-transparent;
   }
 
+  /* The default track is a translucent foreground step instead of bg-muted:
+     in dark mode muted equals surface-2, so a muted track vanished on
+     surface-2 cards. A step over whatever is underneath shows on every
+     surface. */
+  .cn-tabs-list-variant-default {
+    @apply bg-foreground/[0.05];
+  }
+
   /* Triggers: 28px, 13px, muted at rest; hover, the lit tab and the active
      tab turn foreground, and only the active tab turns semibold. Focus is a
      1px blue outline (the 3px halo is dropped). The resting colour is the

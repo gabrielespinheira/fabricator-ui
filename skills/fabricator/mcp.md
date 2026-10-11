@@ -130,7 +130,7 @@ registries can be used directly as `owner/repo` sources without configuration.
 - URLs must contain `{name}`.
 - `${VAR}` references are resolved from environment variables.
 
-See [registry.md](./registry.md) for blend vs Fabricator mode.
+See [registry.md](./registry.md) for how the registry URL resolves.
 
 ---
 

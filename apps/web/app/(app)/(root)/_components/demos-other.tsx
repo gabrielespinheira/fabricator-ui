@@ -133,10 +133,7 @@ export function SidebarDemo() {
       className="min-h-0 w-auto"
       style={{ "--sidebar-width": "220px" } as React.CSSProperties}
     >
-      <Sidebar
-        collapsible="none"
-        className="rounded-xl bg-transparent shadow-none"
-      >
+      <Sidebar collapsible="none" className="rounded-xl">
         <SidebarContent>
           <SidebarGroup>
             <SidebarGroupLabel>Workspace</SidebarGroupLabel>
@@ -200,7 +197,7 @@ export function CalendarDemo() {
       selected={date}
       onSelect={setDate}
       defaultMonth={new Date(2026, 9, 1)}
-      className="rounded-xl shadow-surface-3"
+      className="rounded-lg border"
     />
   )
 }
@@ -227,9 +224,7 @@ export function TableDemo() {
           {TEAM.map((member) => (
             <TableRow key={member.name}>
               <TableCell className="font-medium">{member.name}</TableCell>
-              <TableCell className="text-muted-foreground">
-                {member.role}
-              </TableCell>
+              <TableCell>{member.role}</TableCell>
               <TableCell className="text-end">
                 <Badge
                   variant={member.status === "Active" ? "secondary" : "outline"}
@@ -276,7 +271,7 @@ export function ToastDemo() {
 
 export function TooltipDemo() {
   return (
-    <div className="flex items-center gap-1 rounded-xl p-1 shadow-surface-3">
+    <div className="flex items-center gap-1">
       {[
         { label: "Bold", icon: BoldIcon },
         { label: "Italic", icon: ItalicIcon },

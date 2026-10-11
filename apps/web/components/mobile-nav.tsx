@@ -5,6 +5,7 @@ import Link, { type LinkProps } from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import { cn } from "cn"
 
+import { groupComponentPages } from "@/lib/component-groups"
 import { PAGES_NEW } from "@/lib/docs"
 import { showMcpDocs } from "@/lib/flags"
 import { getCurrentBase, getPagesFromFolder } from "@/lib/page-tree"
@@ -41,10 +42,6 @@ const TOP_LEVEL_SECTIONS = [
   {
     name: "Registry",
     href: "/docs/registry",
-  },
-  {
-    name: "Forms",
-    href: "/docs/forms",
   },
   {
     name: "Changelog",
@@ -141,38 +138,46 @@ export function MobileNav({
             </div>
           </div>
           <div className="flex flex-col gap-8">
-            {tree?.children?.map((group, index) => {
-              if (group.type === "folder") {
-                const pages = getPagesFromFolder(group, currentBase)
-                return (
-                  <div key={index} className="flex flex-col gap-4">
-                    <div className="text-sm font-medium text-muted-foreground">
-                      {group.name}
-                    </div>
-                    <div className="flex flex-col gap-3">
-                      {pages.map((item) => {
-                        if (!showMcpDocs && item.url.includes("/mcp")) {
-                          return null
-                        }
-                        return (
-                          <MobileLink
-                            key={`${item.url}-${index}`}
-                            href={item.url}
-                            onOpenChange={setOpen}
-                            className="flex items-center gap-2"
-                          >
-                            {item.name}{" "}
-                            {PAGES_NEW.includes(item.url) && (
-                              <span className="flex size-2 rounded-full bg-blue-500" />
-                            )}
-                          </MobileLink>
-                        )
-                      })}
-                    </div>
+            {tree?.children
+              ?.flatMap((folder) => {
+                if (folder.type !== "folder") return []
+                const pages = getPagesFromFolder(folder, currentBase)
+                // Components split into their groups (lib/component-groups.ts).
+                if (folder.$id === "components") {
+                  return groupComponentPages(pages).map((entry) => ({
+                    name: entry.group,
+                    pages: entry.pages,
+                  }))
+                }
+                return [{ name: String(folder.name), pages }]
+              })
+              .map((section) => (
+                <div key={section.name} className="flex flex-col gap-4">
+                  <div className="text-sm font-medium text-muted-foreground">
+                    {section.name}
                   </div>
-                )
-              }
-            })}
+                  <div className="flex flex-col gap-3">
+                    {section.pages.map((item) => {
+                      if (!showMcpDocs && item.url.includes("/mcp")) {
+                        return null
+                      }
+                      return (
+                        <MobileLink
+                          key={item.url}
+                          href={item.url}
+                          onOpenChange={setOpen}
+                          className="flex items-center gap-2"
+                        >
+                          {item.name}{" "}
+                          {PAGES_NEW.includes(item.url) && (
+                            <span className="flex size-2 rounded-full bg-blue-500" />
+                          )}
+                        </MobileLink>
+                      )
+                    })}
+                  </div>
+                </div>
+              ))}
           </div>
         </div>
       </PopoverContent>

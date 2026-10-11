@@ -268,7 +268,7 @@ function buildAvailableComponentsSection(config: DesignSystemConfig) {
     ${list}
 
     To fetch the source for a component, use:
-    \`${siteConfig.url}/r/styles/${style}/<component>.json\`
+    \`${siteConfig.url}/r/fabricator/${style}/<component>.json\`
 
     For documentation and examples, visit:
     \`${siteConfig.url}/docs/components/${config.base}/<component>\`

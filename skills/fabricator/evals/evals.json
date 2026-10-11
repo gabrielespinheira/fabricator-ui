@@ -75,12 +75,12 @@
     },
     {
       "id": 6,
-      "prompt": "Add a button, a dialog and a date picker to my existing Vite project. It already has a components.json with \"style\": \"radix-vega\" but no @fabricator registry. I want to keep my current look.",
-      "expected_output": "Uses the Fabricator CLI to add the @fabricator registry in blend mode and install components by bare name, without changing the style id.",
+      "prompt": "Add a button, a dialog and a date picker to my existing Vite project. It already has a components.json with \"style\": \"radix-vega\" but no @fabricator registry. I want to keep my current theme.",
+      "expected_output": "Uses the Fabricator CLI to add the @fabricator registry only and install components by bare name, without changing the style id.",
       "files": [],
       "expectations": [
         "Runs the Fabricator CLI (npx/pnpm dlx/yarn dlx/bunx fabricator-ui@latest), not a hand-written fetch of component files",
-        "Keeps the current look via blend mode: `fabricator-ui init --yes` / the 'add @fabricator registry only' option, or `--blend`",
+        "Keeps the current theme via `fabricator-ui init --yes` / the 'add @fabricator registry only' option, not `apply`",
         "Installs with bare names (e.g. `fabricator-ui add button dialog`), which resolve to @fabricator, or explicit @fabricator/<name> addresses",
         "Does not change the `style` field to a custom value such as \"fabricator\"; it stays \"radix-vega\"",
         "Checks the installed components list or uses `search`/`docs` before writing code that imports the new components",

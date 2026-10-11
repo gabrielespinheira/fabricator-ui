@@ -9,7 +9,6 @@ import {
   parseRegistryBaseParts,
 } from "@/registry/config"
 import {
-  parseRegistryMode,
   resolveFabricatorSearchParams,
   toFabricatorRegistryBase,
   usesFabricatorPalette,
@@ -24,11 +23,6 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: resolved.error }, { status: 400 })
     }
     const searchParams = resolved.params
-
-    const modeResult = parseRegistryMode(searchParams.get("registry"))
-    if (!modeResult.success) {
-      return NextResponse.json({ error: modeResult.error }, { status: 400 })
-    }
 
     const result = parseDesignSystemConfig(searchParams)
 
@@ -53,7 +47,6 @@ export async function GET(request: NextRequest) {
         : buildRegistryBase(result.data),
       {
         config: result.data,
-        mode: modeResult.mode,
         palette: usesFabricatorPalette(request.nextUrl.searchParams),
       }
     )

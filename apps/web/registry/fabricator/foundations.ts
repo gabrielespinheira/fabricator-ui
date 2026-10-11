@@ -3,7 +3,7 @@
 // https://github.com/mickadesign/fluid-functionalism.
 //
 // This module is the single source of truth. The registry build turns it into
-// the `foundations` registry item (installed with every Fabricator-mode
+// the `foundations` registry item (installed with every Fabricator
 // component), the /init payload adds it to new projects, and the website's
 // app/fabricator.css is generated from it.
 //

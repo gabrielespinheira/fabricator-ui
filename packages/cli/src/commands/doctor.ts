@@ -14,11 +14,7 @@ import {
 import { highlight, logger } from "../utils/logger"
 import { NAMESPACE } from "../utils/names"
 import { captureShadcn } from "../utils/shadcn"
-import {
-  blendRegistryTemplate,
-  fabricatorRegistryTemplate,
-  getBaseUrl,
-} from "../utils/urls"
+import { fabricatorRegistryTemplate, getBaseUrl } from "../utils/urls"
 import { fail, resolveCwd } from "./shared"
 
 export type CheckStatus = "pass" | "warn" | "fail"
@@ -114,18 +110,19 @@ export function collectChecks(input: DoctorInput): Check[] {
     }
 
     const registry = getRegistryUrl(config, NAMESPACE)
-    if (registry) {
-      const mode =
-        registry === fabricatorRegistryTemplate(input.baseUrl) ||
-        registry.includes("/r/fabricator/")
-          ? "Fabricator mode"
-          : registry === blendRegistryTemplate(input.baseUrl) ||
-              /\/r\/\{style\}\//.test(registry)
-            ? "blend mode"
-            : "custom URL"
+    if (registry && /\/r\/\{style\}\//.test(registry)) {
+      checks.push({
+        status: "warn",
+        label: `${NAMESPACE} registry uses the retired blend-mode URL`,
+        fix: `It redirects to the Fabricator style. Set "${NAMESPACE}" in "registries" to "${fabricatorRegistryTemplate(input.baseUrl)}".`,
+      })
+    } else if (registry) {
+      const source = registry.includes("/r/fabricator/")
+        ? "Fabricator UI"
+        : "custom URL"
       checks.push({
         status: "pass",
-        label: `${NAMESPACE} registry configured (${mode})`,
+        label: `${NAMESPACE} registry configured (${source})`,
       })
     } else {
       checks.push({

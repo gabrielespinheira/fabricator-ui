@@ -1,282 +1,143 @@
 ---
 name: fabricator
-description: Manages Fabricator UI components and projects — adding, searching, fixing, debugging, styling, and composing UI, including chat interfaces. Provides project context, component docs, and usage examples. Applies when working with Fabricator UI, the fabricator-ui CLI, the @fabricator registry, Fabricator presets or --preset codes, or any project whose components.json lists @fabricator. Also triggers for "fabricator-ui init", "add from @fabricator", "apply a Fabricator preset", or "switch to --preset".
+description: Builds UI with Fabricator UI, the copy-in React component library installed with the fabricator-ui CLI from the @fabricator registry. Use when adding, composing, styling, fixing or updating its components and blocks; when running fabricator-ui init, add, apply or doctor; when applying a Fabricator preset or --preset code; or in any project whose components.json lists @fabricator.
 user-invocable: false
 allowed-tools: Bash(npx fabricator-ui@latest *), Bash(pnpm dlx fabricator-ui@latest *), Bash(bunx --bun fabricator-ui@latest *), Bash(yarn dlx fabricator-ui@latest *)
 ---
 
 # Fabricator UI
 
-An open-code React component library. Components are added to the user's project as source code by the Fabricator CLI (`fabricator-ui`), from the `@fabricator` registry. Docs: [fabricator-ui.vercel.app](https://fabricator-ui.vercel.app).
+Fabricator UI is a React component library added to a project as source code. The CLI (`fabricator-ui`) installs items from the `@fabricator` registry into the user's own files, so installed components are the project's code to read and edit. Docs: [fabricator-ui.vercel.app](https://fabricator-ui.vercel.app).
 
-> **IMPORTANT:** Run all CLI commands with the project's package runner: `npx fabricator-ui@latest`, `pnpm dlx fabricator-ui@latest`, `yarn dlx fabricator-ui@latest`, or `bunx --bun fabricator-ui@latest`. Pick it from the project's lockfile. Examples below use `npx fabricator-ui@latest`; substitute the right runner.
-
-## Current Project Context
-
-```json
-!`npx fabricator-ui@latest info --json`
-```
-
-The JSON above contains the project info, the `components.json` config, and the installed components. Use `npx fabricator-ui@latest docs <component>` to get documentation and example URLs for any component.
-
-## Principles
-
-1. **Use existing components first.** Run `npx fabricator-ui@latest search` before writing custom UI.
-2. **Compose, don't reinvent.** Settings page = Tabs + Card + form controls. Dashboard = Sidebar + Card + Chart + Table.
-3. **Use built-in variants before custom styles.** `variant="outline"`, `size="sm"`, etc.
-4. **Use semantic colors.** `bg-primary`, `text-muted-foreground`, never raw values like `bg-blue-500`.
-
-## Critical Rules
-
-These rules are **always enforced**. Each links to a file with Incorrect/Correct code pairs.
-
-### Styling & Tailwind → [styling.md](./rules/styling.md)
-
-- **`className` for layout, not styling.** Never override component colors or typography.
-- **No `space-x-*` or `space-y-*`.** Use `flex` with `gap-*`. For vertical stacks, `flex flex-col gap-*`.
-- **Use `size-*` when width and height are equal.** `size-10` not `w-10 h-10`.
-- **Use `truncate` shorthand.** Not `overflow-hidden text-ellipsis whitespace-nowrap`.
-- **No manual `dark:` color overrides.** Use semantic tokens (`bg-background`, `text-muted-foreground`).
-- **Use `cn()` for conditional classes.** Don't write manual template literal ternaries.
-- **No manual `z-index` on overlay components.** Dialog, Sheet, Popover, etc. handle their own stacking.
-
-### Forms & Inputs → [forms.md](./rules/forms.md)
-
-- **Forms use `FieldGroup` + `Field`.** Never use raw `div` with `space-y-*` or `grid gap-*` for form layout.
-- **`InputGroup` uses `InputGroupInput`/`InputGroupTextarea`.** Never raw `Input`/`Textarea` inside `InputGroup`.
-- **Buttons inside inputs use `InputGroup` + `InputGroupAddon`.**
-- **Option sets (2–7 choices) use `ToggleGroup`.** Don't loop `Button` with manual active state.
-- **`FieldSet` + `FieldLegend` for grouping related checkboxes/radios.** Don't use a `div` with a heading.
-- **Field validation uses `data-invalid` + `aria-invalid`.** `data-invalid` on `Field`, `aria-invalid` on the control. For disabled: `data-disabled` on `Field`, `disabled` on the control.
-
-### Component Structure → [composition.md](./rules/composition.md)
-
-- **Items always inside their Group.** `SelectItem` → `SelectGroup`. `DropdownMenuItem` → `DropdownMenuGroup`. `CommandItem` → `CommandGroup`.
-- **Custom triggers follow the base.** `asChild` (radix), `render` (base), or the trigger wraps the button and overlay (aria). Check `config.base` from project context. → [base-vs-radix.md](./rules/base-vs-radix.md)
-- **Dialog, Sheet, and Drawer always need a Title.** `DialogTitle`, `SheetTitle`, `DrawerTitle` required for accessibility. Use `className="sr-only"` if visually hidden.
-- **Use full Card composition.** `CardHeader`/`CardTitle`/`CardDescription`/`CardContent`/`CardFooter`. Don't dump everything in `CardContent`.
-- **Button has no `isPending`/`isLoading`.** Compose with `Spinner` + `data-icon` + `disabled`.
-- **`TabsTrigger` must be inside `TabsList`.** Never render triggers directly in `Tabs`.
-- **`Avatar` always needs `AvatarFallback`.** For when the image fails to load.
-
-### Use Components, Not Custom Markup → [composition.md](./rules/composition.md)
-
-- **Use existing components before custom markup.** Check if a component exists before writing a styled `div`.
-- **Callouts use `Alert`.** Don't build custom styled divs.
-- **Empty states use `Empty`.** Don't build custom empty state markup.
-- **Toast follows the project base.** Use `toast` from the `toast` component for
-  Base UI projects. Use `toast()` from `sonner` for Radix and React Aria
-  projects.
-- **Use `Separator`** instead of `<hr>` or `<div className="border-t">`.
-- **Use `Skeleton`** for loading placeholders. No custom `animate-pulse` divs.
-- **Use `Badge`** instead of custom styled spans.
-
-### Icons → [icons.md](./rules/icons.md)
-
-- **Icons in `Button` use `data-icon`.** `data-icon="inline-start"` or `data-icon="inline-end"` on the icon.
-- **No sizing classes on icons inside components.** Components handle icon sizing via CSS. No `size-4` or `w-4 h-4`.
-- **Pass icons as objects, not string keys.** `icon={CheckIcon}`, not a string lookup.
-
-### Chat & Messaging → [chat.md](./rules/chat.md)
-
-- **Chat UI composes the chat primitives.** Conversations use `MessageScroller`, rows use `Message`, surfaces use `Bubble`. Never hand-rolled bubble `div`s or a raw scroll container.
-- **`MessageScroller` owns scroll behavior.** Streaming follow, anchoring, and jump-to-latest (`MessageScrollerButton`) are built in. Don't write a `useStickToBottom`/`ResizeObserver` hook.
-- **Attachments use `Attachment`; system notes and dividers use `Marker`.** Not `Item` cards or `Separator` + a label.
-
-### CLI & Config → [cli.md](./cli.md)
-
-- **Install through the Fabricator CLI.** `npx fabricator-ui@latest add <name>` resolves bare names to `@fabricator/<name>`. Use `--upstream` only when the user explicitly asks for the upstream item.
-- **Never set a custom `style` id.** `components.json` `style` is always `<base>-<style>` (base `base|radix|aria`, style `vega|nova|maia|lyra|mira|luma|sera|rhea`). The Fabricator look comes from the `@fabricator` registry URL, never from `style`.
-- **Never decode preset codes or build init URLs by hand.** Pass preset names, codes, or URLs straight to `init --preset` or `apply`.
-- **Run `npx fabricator-ui@latest doctor` when something is off.** It checks `components.json`, the style id, the `@fabricator` registry, Tailwind v4, React 19, the `shadcn/tailwind.css` import, and `cn`, and prints a fix for each failure.
-
-## Key Patterns
-
-These are the most common patterns that differentiate correct Fabricator UI code. For edge cases, see the linked rule files above.
-
-```tsx
-// Form layout: FieldGroup + Field, not div + Label.
-<FieldGroup>
-  <Field>
-    <FieldLabel htmlFor="email">Email</FieldLabel>
-    <Input id="email" />
-  </Field>
-</FieldGroup>
-
-// Validation: data-invalid on Field, aria-invalid on the control.
-<Field data-invalid>
-  <FieldLabel>Email</FieldLabel>
-  <Input aria-invalid />
-  <FieldDescription>Invalid email.</FieldDescription>
-</Field>
-
-// Icons in buttons: data-icon, no sizing classes.
-<Button>
-  <SearchIcon data-icon="inline-start" />
-  Search
-</Button>
-
-// Spacing: gap-*, not space-y-*.
-<div className="flex flex-col gap-4">  // correct
-<div className="space-y-4">           // wrong
-
-// Equal dimensions: size-*, not w-* h-*.
-<Avatar className="size-10">   // correct
-<Avatar className="w-10 h-10"> // wrong
-
-// Status colors: Badge variants or semantic tokens, not raw colors.
-<Badge variant="secondary">+20.1%</Badge>    // correct
-<span className="text-emerald-600">+20.1%</span> // wrong
-```
-
-## Component Selection
-
-| Need                       | Use                                                                                                 |
-| -------------------------- | --------------------------------------------------------------------------------------------------- |
-| Button/action              | `Button` with appropriate variant                                                                   |
-| Form inputs                | `Input`, `Select`, `Combobox`, `Switch`, `Checkbox`, `RadioGroup`, `Textarea`, `InputOTP`, `Slider` |
-| Toggle between 2–5 options | `ToggleGroup` + `ToggleGroupItem`                                                                   |
-| Data display               | `Table`, `Card`, `Badge`, `Avatar`                                                                  |
-| Navigation                 | `Sidebar`, `NavigationMenu`, `Breadcrumb`, `Tabs`, `Pagination`                                     |
-| Overlays                   | `Dialog` (modal), `Sheet` (side panel), `Drawer` (bottom sheet), `AlertDialog` (confirmation)       |
-| Feedback                   | `toast` (Base UI), `sonner` (Radix/Aria), `Alert`, `Progress`, `Skeleton`, `Spinner`                |
-| Command palette            | `Command` inside `Dialog`                                                                           |
-| Charts                     | `Chart` (wraps Recharts)                                                                            |
-| Layout                     | `Card`, `Separator`, `Resizable`, `ScrollArea`, `Accordion`, `Collapsible`                          |
-| Empty states               | `Empty`                                                                                             |
-| Menus                      | `DropdownMenu`, `ContextMenu`, `Menubar`                                                            |
-| Tooltips/info              | `Tooltip`, `HoverCard`, `Popover`                                                                   |
-| Chat / conversation UI     | `MessageScroller`, `Message`, `Bubble`, `Attachment`, `Marker`                                      |
-
-## Key Fields
-
-The injected project context contains these key fields:
-
-- **`config.aliases`** → use the actual alias prefix for imports (e.g. `@/`, `~/`), never hardcode.
-- **`project.rsc`** → when `true`, components using `useState`, `useEffect`, event handlers, or browser APIs need `"use client"` at the top of the file. Always reference this field when advising on the directive.
-- **`project.tailwindVersion`** → Fabricator UI targets `"v4"` (`@theme inline` blocks). If it is `"v3"`, run `doctor` and tell the user.
-- **`project.tailwindCss`** → the global CSS file where custom CSS variables are defined. Always edit this file, never create a new one.
-- **`project.framework`** → routing and file conventions (e.g. Next.js App Router vs Vite SPA).
-- **`config.style`** → `<base>-<style>`, e.g. `base-nova`. Never change it to a custom value.
-- **`config.base`** → primitive library (`base`, `radix`, or `aria`). Affects component APIs and available props.
-- **`config.iconLibrary`** → determines icon imports. Use `lucide-react` for `lucide`, `@tabler/icons-react` for `tabler`, etc. Never assume `lucide-react`.
-- **`config.rtl`** → when `true`, use logical utilities (`ms-*`, `me-*`, `start-*`, `end-*`) instead of `ml-*`/`mr-*`/`left-*`/`right-*`.
-- **`config.resolvedPaths`** → exact file-system destinations for components, utils, hooks, etc.
-- **`config.registries`** → configured registries. `@fabricator` must be present; its URL tells you the mode (see [registry.md](./registry.md)).
-- **`components`** → installed component names.
-
-For non-Fabricator dependencies, use the package manager from the lockfile (`pnpm add date-fns` vs `npm install date-fns`). See [cli.md — `info`](./cli.md#info--project-information) for the full field reference.
-
-## Component Docs, Examples, and Usage
-
-Run `npx fabricator-ui@latest docs <component>` to get the URLs for a component's documentation, examples, and API reference for the project's base. Fetch these URLs to get the actual content.
-
-```bash
-npx fabricator-ui@latest docs button dialog select
-```
-
-Every docs page is also available as markdown by appending `.md` (e.g. `https://fabricator-ui.vercel.app/docs/components/base/button.md`). The full docs are at `https://fabricator-ui.vercel.app/llms-full.txt`.
-
-**When creating, fixing, debugging, or using a component, always run `npx fabricator-ui@latest docs` and fetch the URLs first.** This ensures you're working with the correct API and usage patterns rather than guessing. This matters most for `aria` projects, whose APIs follow React Aria Components.
+**Runner:** run the CLI with the runner that matches the project's lockfile: `npx fabricator-ui@latest`, `pnpm dlx fabricator-ui@latest`, `yarn dlx fabricator-ui@latest` or `bunx --bun fabricator-ui@latest`. Examples here use `npx`.
 
 ## Workflow
 
-1. **Get project context** — already injected above. Run `npx fabricator-ui@latest info` again if you need to refresh.
-2. **Check installed components first** — before running `add`, check the `components` list from project context or list the `config.resolvedPaths.ui` directory. Don't import components that haven't been added, and don't re-add ones already installed.
-3. **Find components** — `npx fabricator-ui@latest search <query>` searches the `@fabricator` registry.
-4. **Get docs and examples** — run `npx fabricator-ui@latest docs <component>` to get URLs, then fetch them. Use `npx fabricator-ui@latest view` to browse registry items you haven't installed. To preview changes to installed components, use `npx fabricator-ui@latest add <component> --diff`.
-5. **Install or update** — `npx fabricator-ui@latest add`. When updating existing components, use `--dry-run` and `--diff` to preview changes first (see [Updating Components](#updating-components) below).
-6. **Fix imports in third-party components** — After adding components from other registries (e.g. `@acme/...`), check the added non-UI files for hardcoded import paths like `@/components/ui/...`. These won't match the project's actual aliases. Use `config.aliases.ui` from `npx fabricator-ui@latest info` (e.g. `@workspace/ui/components`) and rewrite the imports accordingly. The CLI rewrites imports for its own UI files, but third-party registry components may use default paths that don't match the project.
-7. **Review added components** — After adding a component or block from any registry, **always read the added files and verify they are correct**. Check for missing sub-components (e.g. `SelectItem` without `SelectGroup`), missing imports, incorrect composition, or violations of the [Critical Rules](#critical-rules). Also replace any icon imports with the project's `iconLibrary` from the project context (e.g. if the registry item uses `lucide-react` but the project uses `hugeicons`, swap the imports and icon names accordingly). Fix all issues before moving on.
-8. **Registry must be explicit** — Bare names mean `@fabricator`. When the user asks for a block or component that `search` doesn't find in `@fabricator`, **do not guess another registry**. Ask which registry to use (`@acme`, `owner/repo`, a URL). Never pick a third-party registry on the user's behalf.
-9. **Switching presets** — Ask the user first: **overwrite**, **partial**, **blend**, **merge**, or **skip**?
-   - **Overwrite**: `npx fabricator-ui@latest apply <preset>`. Applies the theme and fonts, then reinstalls the installed components from `@fabricator`.
-   - **Partial**: `npx fabricator-ui@latest apply <preset> --only theme,font`. Updates only the selected preset parts without reinstalling components. Supported values are `theme` and `font`; comma-separated combinations are allowed.
-   - **Blend**: `npx fabricator-ui@latest apply <preset> --blend`. Keeps the current look for components and switches `@fabricator` to blend mode.
-   - **Merge**: `npx fabricator-ui@latest init --preset <preset> --force --no-reinstall`, then run `npx fabricator-ui@latest info` to list installed components, then for each installed component use `--dry-run` and `--diff` to [smart merge](#updating-components) it individually.
-   - **Skip**: `npx fabricator-ui@latest init --preset <preset> --force --no-reinstall`. Only updates config and CSS, leaves components as-is.
-   - **Important**: Always run preset commands inside the user's project directory. `apply` only works in an existing project with a `components.json` file. The CLI preserves the current base (`base`, `radix`, or `aria`) from `components.json`. If you must use a scratch/temp directory (e.g. for `--dry-run` comparisons), pass `--base <current-base>` explicitly — preset codes do not encode the base.
+1. **Read the project context.** Run `npx fabricator-ui@latest info --json` in the project root before any other step, and keep its output as the project context for the whole task. Done when you know `config.base`, `config.iconLibrary`, `config.aliases`, `project.rsc`, `project.tailwindCss` and the installed `components` (see [Project context](#project-context)). If the command reports no `components.json`, the project is not set up: offer `npx fabricator-ui@latest init`.
+2. **Reuse what is installed.** Check the `components` list (or the `config.resolvedPaths.ui` directory) and import installed components as they are. Add only what is missing.
+3. **Find the item.** `npx fabricator-ui@latest search <query>` searches `@fabricator`. Bare names mean `@fabricator`. When `search` finds nothing, ask the user which registry to use (`@acme`, `owner/repo`, a URL); the user picks third-party registries.
+4. **Read the docs.** Run `npx fabricator-ui@latest docs <component...>` and fetch the URLs it prints (append `.md` to any docs page for markdown). Done when you have read the API and examples for every component you will write or change, for the project's base. This matters most for `aria` projects, whose APIs follow React Aria Components.
+5. **Install.** `npx fabricator-ui@latest add <name...>`. For components already installed, follow [Updating components](#updating-components).
+6. **Review what was added.** Read every file the CLI wrote. Done when each one passes the [Critical rules](#critical-rules), imports use `config.aliases`, and icon imports match `config.iconLibrary`. Files from third-party registries may hardcode `@/components/ui/...` or another icon library; rewrite them to the project's aliases and icons.
+7. **Write the UI** by composing installed components under the [Critical rules](#critical-rules). Done when every rule file linked from a rule you touched has been applied to the code you wrote.
 
-## Updating Components
+When something is off (imports fail, styles missing, wrong look), run `npx fabricator-ui@latest doctor`. It checks `components.json`, the style id, the `@fabricator` registry, Tailwind v4, React 19, the `shadcn/tailwind.css` import and `cn`, and prints a fix for each failure.
 
-When the user asks to update a component from the registry while keeping their local changes, use `--dry-run` and `--diff` to intelligently merge. **NEVER fetch raw files from GitHub manually — always use the CLI.**
+## Project context
 
-1. Run `npx fabricator-ui@latest add <component> --dry-run` to see all files that would be affected.
-2. For each file, run `npx fabricator-ui@latest add <component> --diff <file>` to see what changed in the registry vs local. `npx fabricator-ui@latest diff <component>` gives the same comparison for the whole item.
-3. Decide per file based on the diff:
-   - No local changes → safe to overwrite.
-   - Has local changes → read the local file, analyze the diff, and apply registry updates while preserving local modifications.
-   - User says "just update everything" → use `--overwrite`, but confirm first.
-4. **Never use `--overwrite` without the user's explicit approval.**
+Fields of `info --json` that decide how you write code:
 
-## Quick Reference
+- **`config.base`**: `base` (Base UI), `radix` or `aria` (React Aria Components). Sets component APIs and trigger composition ([base-vs-radix.md](./rules/base-vs-radix.md)).
+- **`config.iconLibrary`**: the icon package to import from: `lucide` → `lucide-react`, `tabler` → `@tabler/icons-react`, and so on ([icons.md](./rules/icons.md)).
+- **`config.aliases`**: the import prefixes (`@/`, `~/`, `@workspace/ui/components`). Write imports with these.
+- **`config.resolvedPaths`**: the file-system destinations for components, utils and hooks.
+- **`config.style`**: `<base>-<style>`, for example `base-nova`. Leave it as it is (see [CLI and config](#cli-and-config)).
+- **`config.registries`**: `@fabricator` is always present; its URL sets the mode ([registry.md](./registry.md)).
+- **`config.rtl`**: when `true`, write logical utilities (`ms-*`, `me-*`, `start-*`, `end-*`).
+- **`project.rsc`**: when `true`, files that use state, effects, event handlers or browser APIs start with `"use client"`.
+- **`project.tailwindVersion`**: Fabricator UI targets `v4`. On `v3`, run `doctor` and tell the user.
+- **`project.tailwindCss`**: the global CSS file. Custom CSS variables go here ([customization.md](./customization.md)).
+- **`project.framework`**: routing and file conventions (Next.js App Router, Vite, and others).
+- **`components`**: the installed component names.
 
-```bash
-# Create a new project (in an empty directory).
-npx fabricator-ui@latest init -t next --name my-app
-npx fabricator-ui@latest init -t vite --name my-app --base radix
-npx fabricator-ui@latest init -t next --name my-app --preset a2r6bw
+Install other npm packages with the package manager from the lockfile. Full field list: [cli.md, `info`](./cli.md#info--project-information).
 
-# Create a monorepo project.
-npx fabricator-ui@latest init -t next --name my-app --monorepo
+## Critical rules
 
-# Initialize an existing project (prompts: add @fabricator only, or apply the Fabricator theme).
-npx fabricator-ui@latest init
-npx fabricator-ui@latest init --yes      # non-interactive: add @fabricator only, keep the current theme
-npx fabricator-ui@latest init --dry-run  # print what would run
+Each group links to a file with Incorrect/Correct pairs. Read the file before writing code in its area.
 
-# Apply a preset to an existing project.
-npx fabricator-ui@latest apply                 # the default `fabricator` preset
-npx fabricator-ui@latest apply a2r6bw
-npx fabricator-ui@latest apply a2r6bw --only theme
-npx fabricator-ui@latest apply a2r6bw --only theme,font
-npx fabricator-ui@latest apply fabricator --blend
+### Styling → [styling.md](./rules/styling.md)
 
-# Add components.
-npx fabricator-ui@latest add button card dialog      # → @fabricator/button, ...
-npx fabricator-ui@latest add @acme/shimmer-button
-npx fabricator-ui@latest add owner/repo/item
-npx fabricator-ui@latest add --all
+- **Variants first, then semantic tokens.** `variant="outline"`, `size="sm"`; colours from tokens (`bg-primary`, `text-muted-foreground`, `text-destructive`), which cover light and dark. Raw palette colours (`bg-blue-500`) and `dark:` colour overrides break theming.
+- **`className` on library components is for layout** (`max-w-md`, `mx-auto`, `mt-4`), leaving colours and typography to the component.
+- **Spacing with `flex`/`grid` and `gap-*`**, vertical stacks as `flex flex-col gap-*` (in place of `space-x-*`/`space-y-*`).
+- **`size-*` for equal width and height**, `truncate` for single-line overflow, `cn()` for conditional classes.
+- **Overlays manage their own stacking.** Dialog, Sheet, Drawer, Popover, Tooltip, DropdownMenu and HoverCard take no `z-*` classes.
 
-# Preview changes before adding/updating.
-npx fabricator-ui@latest add button --dry-run
-npx fabricator-ui@latest add button --diff button.tsx
-npx fabricator-ui@latest add @acme/form --view button.tsx
-npx fabricator-ui@latest diff button
+### Forms → [forms.md](./rules/forms.md)
 
-# Search the @fabricator registry.
-npx fabricator-ui@latest search sidebar
-npx fabricator-ui@latest search -q "menu" -t ui
-npx fabricator-ui@latest list                 # everything
+- **Form layout is `FieldGroup` + `Field`**; related checkboxes and radios group in `FieldSet` + `FieldLegend`.
+- **Validation:** `data-invalid` on `Field`, `aria-invalid` on the control. Disabled: `data-disabled` on `Field`, `disabled` on the control.
+- **`InputGroup` takes `InputGroupInput`/`InputGroupTextarea`**, with buttons and icons in `InputGroupAddon`.
+- **Option sets of 2 to 7 choices use `ToggleGroup`**, which owns the active state.
 
-# Get component docs and example URLs.
-npx fabricator-ui@latest docs button dialog select
+### Composition → [composition.md](./rules/composition.md)
 
-# View registry item details (for items not yet installed).
-npx fabricator-ui@latest view button
-npx fabricator-ui@latest view @acme/login-form
+- **Items sit inside their group:** `SelectItem` in `SelectGroup`, `DropdownMenuItem` in `DropdownMenuGroup`, `CommandItem` in `CommandGroup`, `TabsTrigger` in `TabsList`.
+- **Custom triggers follow `config.base`:** `render` (base), `asChild` (radix), or the trigger wrapping the button and overlay (aria). See [base-vs-radix.md](./rules/base-vs-radix.md).
+- **Dialog, Sheet and Drawer always have a Title** (`DialogTitle`, `SheetTitle`, `DrawerTitle`), with `className="sr-only"` when it should be hidden.
+- **Cards use the full structure:** `CardHeader`, `CardTitle`, `CardDescription`, `CardContent`, `CardFooter`.
+- **`Avatar` always has `AvatarFallback`.**
+- **Loading buttons compose `Spinner` + `data-icon` + `disabled`.** Button has no `isLoading` prop.
+- **Each role has its component:** callouts `Alert`, empty states `Empty`, loading placeholders `Skeleton`, dividers `Separator`, labels and statuses `Badge`.
+- **Toasts follow the base:** `toast` from the `toast` component for Base UI, `toast()` from `sonner` for Radix and React Aria.
 
-# Check the project setup.
-npx fabricator-ui@latest doctor
-```
+### Icons → [icons.md](./rules/icons.md)
 
-**Named preset:** `fabricator` (default)
-**Templates:** `next`, `vite`, `start`, `react-router`, `astro` (all support `--monorepo`) and `laravel` (not supported for monorepo)
-**Bases:** `base` (Base UI, default), `radix`, `aria` (React Aria Components)
-**Preset codes:** Version-prefixed base62 strings (e.g. `a2r6bw` or `b0`).
+- **Icons in buttons take `data-icon="inline-start"` or `"inline-end"`.** Components size their icons, so icons carry no `size-*`/`w-*`/`h-*` classes.
+- **Pass icons as components** (`icon={CheckIcon}`), not string keys.
 
-## Detailed References
+### Chat → [chat.md](./rules/chat.md)
 
-- [rules/forms.md](./rules/forms.md) — FieldGroup, Field, InputGroup, ToggleGroup, FieldSet, validation states
-- [rules/composition.md](./rules/composition.md) — Groups, overlays, Card, Tabs, Avatar, Alert, Empty, Toast, Separator, Skeleton, Badge, Button loading
-- [rules/chat.md](./rules/chat.md) — MessageScroller, Message, Bubble, Attachment, Marker; streaming, anchoring, jump-to-latest
-- [rules/icons.md](./rules/icons.md) — data-icon, icon sizing, passing icons as objects
-- [rules/styling.md](./rules/styling.md) — Semantic colors, variants, className, spacing, size, truncate, dark mode, cn(), z-index
-- [rules/base-vs-radix.md](./rules/base-vs-radix.md) — asChild vs render vs React Aria triggers, Select, ToggleGroup, Slider, Accordion
-- [cli.md](./cli.md) — Commands, flags, presets, templates
-- [registry.md](./registry.md) — The `@fabricator` registry, blend vs Fabricator mode, other namespaced registries, item addresses
-- [customization.md](./customization.md) — Theming, CSS variables, extending components
-- [mcp.md](./mcp.md) — The Fabricator MCP server
+- **Chat UI composes the chat primitives:** `MessageScroller` for the conversation, `Message` for rows, `Bubble` for surfaces, `Attachment` for files, `Marker` for system notes and dividers.
+- **`MessageScroller` owns scrolling:** streaming follow, anchoring and jump-to-latest (`MessageScrollerButton`) are built in.
+
+### CLI and config → [cli.md](./cli.md)
+
+- **Install through the Fabricator CLI.** `add <name>` resolves to `@fabricator/<name>`. Add `--upstream` only when the user asks for the upstream shadcn/ui item.
+- **`components.json` `style` stays a valid id**, `<base>-<style>` with base `base|radix|aria` and style `vega|nova|maia|lyra|mira|luma|sera|rhea`. The Fabricator look comes from the `@fabricator` registry URL; a custom `style` value breaks every install.
+- **Presets go to the CLI as given.** Pass preset names, codes or URLs straight to `init --preset` or `apply`; the CLI decodes them.
+- **Registry files come from the CLI** (`add`, `view`, `diff`), never from raw GitHub files.
+
+## Component selection
+
+| Need                  | Use                                                                                                 |
+| --------------------- | --------------------------------------------------------------------------------------------------- |
+| Action                | `Button` with a variant                                                                             |
+| Form inputs           | `Input`, `Select`, `Combobox`, `Switch`, `Checkbox`, `RadioGroup`, `Textarea`, `InputOTP`, `Slider` |
+| 2 to 7 options        | `ToggleGroup` + `ToggleGroupItem`                                                                   |
+| Data display          | `Table`, `Card`, `Badge`, `Avatar`                                                                  |
+| Navigation            | `Sidebar`, `NavigationMenu`, `Breadcrumb`, `Tabs`, `Pagination`                                     |
+| Overlays              | `Dialog` (modal), `Sheet` (side panel), `Drawer` (bottom sheet), `AlertDialog` (confirmation)       |
+| Feedback              | `toast` (Base UI), `sonner` (Radix, Aria), `Alert`, `Progress`, `Skeleton`, `Spinner`               |
+| Command palette       | `Command` inside `Dialog`                                                                           |
+| Layout                | `Card`, `Separator`, `Resizable`, `ScrollArea`, `Accordion`, `Collapsible`                          |
+| Empty states          | `Empty`                                                                                             |
+| Menus                 | `DropdownMenu`, `ContextMenu`, `Menubar`                                                            |
+| Tooltips and info     | `Tooltip`, `HoverCard`, `Popover`                                                                   |
+| Chat, conversation UI | `MessageScroller`, `Message`, `Bubble`, `Attachment`, `Marker`                                      |
+
+`@fabricator` leaves out two upstream items: `native-select` (use `Select`) and `chart`. For charts, ask the user before installing upstream's with `add chart --upstream`.
+
+## Updating components
+
+When the user asks to update installed components and keep their local changes:
+
+1. `npx fabricator-ui@latest add <component> --dry-run` lists every file the update touches.
+2. For each file, `npx fabricator-ui@latest add <component> --diff <file>` shows registry vs local (`diff <component>` shows the whole item).
+3. Decide per file: no local changes → overwrite; local changes → read the local file and apply the registry changes while keeping the local edits.
+4. `--overwrite` replaces local edits, so run it only after the user approves it explicitly.
+
+Done when every file in the dry-run list is overwritten, merged, or left as the user chose.
+
+## Switching presets
+
+Ask the user which mode they want, then run it inside the project (`apply` needs a `components.json`; the CLI keeps the current base):
+
+- **Overwrite**: `apply <preset>`. Theme and fonts, then reinstalls installed components from `@fabricator`.
+- **Partial**: `apply <preset> --only theme,font` (either or both). No component reinstall.
+- **Merge**: `init --preset <preset> --force --no-reinstall`, then update each installed component with [Updating components](#updating-components).
+- **Skip**: `init --preset <preset> --force --no-reinstall`. Config and CSS only.
+
+Preset codes do not encode the base: in a scratch directory (for example for `--dry-run` comparisons), pass `--base <current-base>`.
+
+## References
+
+- [cli.md](./cli.md): every command and flag, templates, presets, quick reference
+- [registry.md](./registry.md): the `@fabricator` registry and its URL, other registries, item addresses
+- [customization.md](./customization.md): theming, CSS variables, custom colours, extending components
+- [mcp.md](./mcp.md): the Fabricator MCP server
+- [rules/base-vs-radix.md](./rules/base-vs-radix.md): `render` vs `asChild` vs React Aria triggers, Select, ToggleGroup, Slider, Accordion per base
 
 ---
 

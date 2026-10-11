@@ -1,0 +1,173 @@
+---
+title: Agent Skill
+description: Install the Fabricator agent skill so Claude Code, Codex, Cursor and other AI assistants build with Fabricator UI the right way.
+---
+
+The Fabricator skill teaches your AI assistant how to work with Fabricator UI. With it installed, the assistant reads your project setup, finds components in the `@fabricator` registry, installs them with the CLI, and writes code that follows the library's composition and styling rules for your base and icon library.
+
+For example, you can ask:
+
+- _"Add a login form with email and password fields."_
+- _"Build a settings page with tabs for profile, notifications and billing."_
+- _"Create a dashboard with a sidebar, stat cards and a data table."_
+- _"Make a chat view that streams the assistant's replies."_
+- _"Switch this project to preset a2r6bw."_
+- _"Update the button component but keep my changes."_
+
+The skill is published on [skills.sh](https://skills.sh/gabrielespinheira/fabricator-ui/fabricator), the open directory of agent skills.
+
+---
+
+## Installation
+
+<Steps>
+
+### Set up Fabricator UI
+
+The skill works in projects whose `components.json` lists the `@fabricator` registry. If yours doesn't yet, run `init`. See [Installation](/docs/installation).
+
+```bash
+npx fabricator-ui@latest init
+```
+
+### Install the skill
+
+Run the following command in the root of your project:
+
+```bash
+npx skills add gabrielespinheira/fabricator-ui
+```
+
+The CLI asks which agents to install the skill for, then copies it into each agent's skills folder (for Claude Code, `.claude/skills/fabricator`). It also writes a `skills-lock.json` that records the source and version. Commit both so everyone on the project gets the skill.
+
+### Start your assistant
+
+Restart your assistant, or start a new session, and ask for something you want to build. The skill loads on its own when the task involves Fabricator UI.
+
+</Steps>
+
+### Installation options
+
+Install for a specific agent and skip the prompts:
+
+```bash
+npx skills add gabrielespinheira/fabricator-ui --skill fabricator --agent claude-code --yes
+```
+
+Install for every agent the CLI supports:
+
+```bash
+npx skills add gabrielespinheira/fabricator-ui --agent '*'
+```
+
+Install once for your user account, so the skill is available in every project:
+
+```bash
+npx skills add gabrielespinheira/fabricator-ui --global
+```
+
+### Manual installation
+
+The skill is a folder of Markdown files. To install it without the skills CLI, copy [`skills/fabricator`](https://github.com/gabrielespinheira/fabricator-ui/tree/main/skills/fabricator) from the repository into your agent's skills folder, for example `.claude/skills/fabricator` for Claude Code.
+
+---
+
+## Usage
+
+You don't call the skill by name. Its description tells the assistant when to load it: when you ask to add, compose, style, fix or update Fabricator UI components, when a task involves the `fabricator-ui` CLI or a Fabricator preset, or when the project's `components.json` lists `@fabricator`. Ask for what you want in plain language.
+
+When the skill loads, the assistant follows the same workflow every time:
+
+1. **Read the project.** It runs `npx fabricator-ui@latest info --json` to learn your framework, Tailwind version, import aliases, base (`base`, `radix` or `aria`), icon library and installed components.
+2. **Reuse what you have.** It checks the installed components before adding anything.
+3. **Find the right item.** It searches the `@fabricator` registry with `search`. If an item isn't there, it asks you which registry to use instead of picking one for you.
+4. **Read the docs.** It runs `docs` for each component it will use and reads the pages for your base, so it writes the real API instead of guessing.
+5. **Install and review.** It installs with `add`, then reads every file that was written and fixes aliases, icon imports and composition.
+6. **Write the UI** with the installed components, following the rules below.
+
+The skill allows the assistant to run `fabricator-ui` commands through `npx`, `pnpm dlx`, `yarn dlx` and `bunx`, picking the runner that matches your lockfile.
+
+### Updating components
+
+Ask the assistant to update a component and keep your changes. It previews the update with `add --dry-run` and `--diff`, overwrites the files you haven't touched, and merges registry changes into the ones you have. It only runs `--overwrite` after you approve it.
+
+### Switching presets
+
+Ask the assistant to switch presets. It asks how you want to apply the preset (overwrite, partial, merge or skip) and then runs the matching `apply` or `init --preset` command. See [CLI](/docs/cli#apply).
+
+---
+
+## What the skill knows
+
+| Area          | What the assistant learns                                                                                                                 |
+| ------------- | ----------------------------------------------------------------------------------------------------------------------------------------- |
+| Styling       | Variants before custom classes, semantic colour tokens, `gap-*` spacing, `size-*`, `cn()`, and leaving overlay stacking to the components |
+| Forms         | `FieldGroup` and `Field` layout, validation with `data-invalid` and `aria-invalid`, `InputGroup`, `ToggleGroup` for option sets           |
+| Composition   | Items inside their groups, titles on dialogs and sheets, the full Card structure, `Alert`, `Empty`, `Skeleton`, `Badge`, loading buttons  |
+| Bases         | `render` for Base UI, `asChild` for Radix, and React Aria triggers, plus the API differences of Select, ToggleGroup, Slider and Accordion |
+| Icons         | Imports from your configured icon library, `data-icon` in buttons, and letting components size their icons                                |
+| Chat          | `MessageScroller`, `Message`, `Bubble`, `Attachment` and `Marker`, with built-in streaming and scroll anchoring                           |
+| CLI           | Every `fabricator-ui` command and flag, dry runs, diffs, presets and templates                                                            |
+| Registry      | The `@fabricator` registry and its URL, other namespaced registries and item addresses                                                    |
+| Customization | CSS variables, dark mode, custom colours, radius, and extending components with variants                                                  |
+| MCP           | Setting up the [Fabricator MCP server](/docs/mcp)                                                                                         |
+
+Each rule area is a separate file with incorrect and correct code examples. The assistant reads a file only when the task touches its area, so the skill adds little to the context of each session.
+
+---
+
+## Skill and MCP server
+
+The skill and the [MCP server](/docs/mcp) work well together:
+
+- The **skill** carries knowledge: the workflow, the rules and the CLI reference. It is plain text in your project and needs no running process.
+- The **MCP server** gives the assistant tools to list, search, view and install items from every registry in your `components.json`.
+
+With the skill alone, the assistant uses the CLI for the same tasks. Add the MCP server if your assistant works better with tools than with shell commands, or if you browse many registries.
+
+---
+
+## Keeping it up to date
+
+Update the skill to the latest version:
+
+```bash
+npx skills update fabricator
+```
+
+List the skills installed in your project:
+
+```bash
+npx skills list
+```
+
+Remove the skill:
+
+```bash
+npx skills remove fabricator
+```
+
+---
+
+## Troubleshooting
+
+### The assistant doesn't use the skill
+
+1. **Check that it's installed.** Run `npx skills list` and look for `fabricator` under your agent.
+2. **Start a new session.** Most assistants read skills when a session starts.
+3. **Check the project.** Run `npx fabricator-ui@latest doctor`. The skill looks for `@fabricator` in your `components.json`.
+4. **Name the library.** Mentioning "Fabricator UI" or `@fabricator` in your request makes the assistant load the skill.
+
+### The assistant writes code for the wrong base or icon library
+
+The skill reads both from `npx fabricator-ui@latest info --json`. Run it yourself and check `config.base` and `config.iconLibrary`. If they are wrong, fix them in `components.json`.
+
+---
+
+## Learn More
+
+- [skills.sh](https://skills.sh/gabrielespinheira/fabricator-ui/fabricator): the Fabricator skill in the skills directory
+- [Source](https://github.com/gabrielespinheira/fabricator-ui/tree/main/skills/fabricator): the skill's files on GitHub
+- [CLI](/docs/cli): the `fabricator-ui` command reference
+- [MCP Server](/docs/mcp): connect the Fabricator MCP server
+- [Registry](/docs/registry): the `@fabricator` registry and its modes

@@ -58,16 +58,13 @@ Each component is written against a primitive library, called a base:
 
 The same component looks and behaves the same in every base. Pick the base when you create a project, and the CLI installs the matching source.
 
-## Styles
+## Style
 
-Components are written once with semantic classes, then compiled into a visual style at build time. Eight styles are available: `vega`, `nova`, `maia`, `lyra`, `mira`, `luma`, `sera` and `rhea`. The Fabricator style is in progress.
+Every component ships in one visual style: the Fabricator design you see in these docs. Components are written with semantic classes and compiled into that style at build time, so the code you install is plain Tailwind. Colours, radius and fonts come from your theme's CSS variables.
 
 ## Registry
 
-Fabricator UI is distributed as a [registry](/docs/registry). It serves components, blocks, themes and an init payload, and it supports two modes:
-
-- **Blend mode:** components compiled in your current style, so they sit naturally next to the components you already have.
-- **Fabricator mode:** components compiled in the Fabricator design for your base.
+Fabricator UI is distributed as a [registry](/docs/registry). It serves components, blocks, themes and an init payload, compiled in the Fabricator style for your base.
 
 ## AI-Ready
 

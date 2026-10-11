@@ -14,7 +14,7 @@
 | Phase | State |
 |---|---|
 | 0. Repo foundation | ✅ Bun workspaces + Turborepo, CI and release workflows, MIT + NOTICE, AGENTS.md, GitHub repo (gabrielespinheira/fabricator-ui, nothing pushed yet). Pending: first commit, Vercel project, domain, npm name reservation. |
-| 1. Clone shadcn at parity | ✅ Full upstream registry (3 bases × 8 styles) builds; `test:parity --styles all` matches ui.shadcn.com for all 5,120 items (2 documented bug-fix exceptions). `/init` endpoint, blend and Fabricator registry modes, and the `fabricator` style (a copy of nova) are live. The `upstream/shadcn` vendor branch is created on the first `bun run sync:upstream`. |
+| 1. Clone shadcn at parity | ✅ Full upstream registry (3 bases × 8 styles) builds; `test:parity --styles all` matches ui.shadcn.com for all 5,120 items (2 documented bug-fix exceptions). `/init` endpoint, the Fabricator registry URL, and the `fabricator` style (a copy of nova) are live. Blend mode was removed on 2026-10-11 (D4). The `upstream/shadcn` vendor branch is created on the first `bun run sync:upstream`. |
 | 2. Website MVP | ✅ Docs site (Next 16 + Fumadocs): all component pages, blocks, charts, create, `.md` routes, `llms.txt` and `llms-full.txt`; `next build` passes (647 pages). Brand policy applied (see AGENTS.md): demo content rebranded by `scripts/rebrand.ts`, Typeset builder removed, own schema URLs, mobile preview screenshots recaptured from this site (`registry:capture`, `pages:capture`). Pending: deploy, final logo/OG art. |
 | 3. CLI | ✅ `packages/cli` (`fabricator-ui` 0.2.0, unpublished): init, add, apply, search/list, view, docs, diff, info, doctor, mcp (own `fabricator` MCP server config), `--verbose`. 63 unit tests; e2e suite passes for Vite × {Base UI, Radix, React Aria}, Next.js, and an existing shadcn project. |
 | 4. Fabricator design system | 🟡 Tooling ready: the website (docs previews and code, homepage, blocks, Markdown exports) renders the Fabricator style, so edits to `apps/web/registry/styles/style-fabricator.css` show up after `registry:build --style all`. Next: the tokens and the style itself. |
@@ -160,7 +160,7 @@ shadcn-ui/ui
 | **D1** | **Distribute through the official `shadcn` CLI as the engine.** Fabricator is a spec-compliant shadcn registry hosted at `fabricator-ui.vercel.app/r`. | Gives users zero-friction compatibility (`bunx --bun shadcn add @fabricator/x`). We inherit every framework, transform, monorepo, RTL, and icon feature for free, with no fork to maintain. |
 | **D2** | **Ship `fabricator-ui` as a thin wrapper CLI** that depends on a pinned `shadcn` and delegates commands. | Gives us a branded UX (`bunx --bun fabricator-ui init`), our defaults, and our own commands (`doctor`, `upgrade`) without re-implementing resolution. If shadcn ever exposes a programmatic API (`shadcn/registry` already exports resolve/add helpers), we can call it in-process. |
 | **D3** | **Namespace `@fabricator`, registered in the shadcn directory.** Also make the repo a valid **GitHub registry** (root `registry.json` with `include`), so `bunx --bun shadcn add gabrielespinheira/fabricator-ui/<item>` works too. | Auto-discovery means users never need to edit `components.json`. GitHub addressing is a free fallback that keeps working even if the site is down. |
-| **D4** | **Two registry URL modes:**<br>• **Blend mode** (directory default): `https://fabricator-ui.vercel.app/r/{style}/{name}.json`. Exclusive components are compiled for the user's existing shadcn style (nova, vega, …), so they look native in any shadcn app.<br>• **Fabricator mode** (written by `fabricator-ui init`): `https://fabricator-ui.vercel.app/r/fabricator/{style}/{name}.json`. Serves the Fabricator design for the base parsed from `{style}`. | This meets both audiences: existing shadcn users who want extra components, and new users who want the Fabricator look. `@dashboardblocks` and `@better-auth-ui` already use the `{style}` pattern in the directory. |
+| **D4** | **One registry URL** (changed 2026-10-11): `https://fabricator-ui.vercel.app/r/fabricator/{style}/{name}.json`, written by `fabricator-ui init` and used for the directory entry. It serves the Fabricator design for the base parsed from `{style}`. The upstream styles are still compiled, into the gitignored `apps/web/.upstream-registry/`, for the parity check only. The retired blend-mode URLs (`/r/{style}/{name}.json`, `/r/styles/<base>-<upstream style>/…`) permanently redirect to the Fabricator URL. | Originally two modes, with a **blend mode** that compiled items in the user's own shadcn style. It was dropped: it only re-served upstream items (already on ui.shadcn.com) plus two style-independent items, and it would have made every exclusive component carry rules for all 8 upstream styles. Fabricator components still fit any shadcn project through the token contract (§6.1). |
 | **D5** | **The `style` field in `components.json` always stays a valid shadcn style** (for example `base-nova`). It is never set to `base-fabricator`. | A bare `shadcn add button`, and any third-party item with a bare `registryDependencies: ["button"]`, resolves against `ui.shadcn.com/r/styles/{style}/…`. A custom style name would 404 there and break compatibility with the whole ecosystem. The Fabricator look comes from the D4 URL, not from the `style` field. |
 | **D6** | **All Fabricator `registryDependencies` are fully qualified** (`@fabricator/button`). Bare names are used only when we intentionally depend on upstream shadcn. | A bare name always resolves to `@shadcn`. |
 | **D7** | **API superset rule:** a Fabricator replacement for a shadcn component keeps the same item name, file path, export names, props, variants, and `data-slot`s. We may **add** props and variants but never remove or rename them. | Code written against shadcn must keep compiling when a user swaps in `@fabricator/button`. This is also what makes upstream merges cheap. |
@@ -197,7 +197,7 @@ fabricator-ui/
 │     ├─ content/docs/                   # MDX: (root)/, components/{base,radix,aria}/, installation/, registry/, …
 │     ├─ registry/
 │     │  ├─ bases/{base,radix,aria}/{ui,examples,blocks,lib,hooks,components,internal}/
-│     │  ├─ styles/style-{vega,nova,maia,lyra,mira,luma,sera,rhea}.css   # upstream (blend mode)
+│     │  ├─ styles/style-{vega,nova,maia,lyra,mira,luma,sera,rhea}.css   # upstream (parity only)
 │     │  ├─ styles/style-fabricator.css (+ -compact etc.)                # OUR design system
 │     │  ├─ tokens/                      # Fabricator token sources (colors, surfaces, motion…)
 │     │  ├─ bases.ts styles.ts themes.ts fonts.ts config.ts presets.ts
@@ -241,14 +241,14 @@ Adapted from upstream's 1,840-line script, keeping its stages:
 2. For each **base × style** (8 upstream styles + Fabricator styles): `createStyleMap(styleCss)` → `transformStyle(source)`. Write a temporary `registry/<base>-<style>/…`. Cache by sha256.
 3. Generate `registry/__index__.tsx` and `examples/__index__.tsx` for the docs site.
 4. Write the per-style `registry.json`, then `shadcn build` into the output tree:
-   - **Blend mode:** `public/r/<base>-<style>/<name>.json` (24 combos)
-   - **Fabricator mode:** `public/r/fabricator/<base>-<style>/<name>.json`. Content is compiled with `style-fabricator.css` for that base. It is the same for every shadcn style suffix, so it can be emitted once per base and copied or rewritten in routing.
+   - **Published:** `public/r/styles/<base>-fabricator/<name>.json`, served at `/r/fabricator/<base>-<style>/<name>.json` by a rewrite. Content is compiled with `style-fabricator.css` for that base, the same for every shadcn style suffix.
+   - **Parity only:** `.upstream-registry/<base>-<style>/<name>.json` for the 8 upstream styles (24 combos), gitignored and never published.
 5. Write `public/r/registry.json` (the catalog for `shadcn search @fabricator`), `public/r/index.json` (merged across bases with `meta.links`), `public/r/config.json` (Fabricator presets), and `public/r/colors/*.json`.
 6. Copy compiled UI into `styles/<base>-<style>/ui` for docs imports, resolving `IconPlaceholder` to lucide. Also build the RTL variants.
 
 Turbo task: `build` depends on `registry:build`. Generated folders are gitignored (same as upstream), except small committed indexes.
 
-**Routing alternative.** Instead of materialising every combination, `app/r/[...path]/route.ts` can serve Fabricator mode by parsing `<base>` from the `{style}` segment and returning the prebuilt per-base file, with `generateStaticParams` + `force-static` so it is still CDN-cached. Start with plain static files and switch only if the build size becomes a problem.
+**Routing alternative.** Instead of materialising every combination, `app/r/[...path]/route.ts` can serve the registry by parsing `<base>` from the `{style}` segment and returning the prebuilt per-base file, with `generateStaticParams` + `force-static` so it is still CDN-cached. Start with plain static files and switch only if the build size becomes a problem.
 
 ### 5.3 The init endpoint: `GET /init`
 Returns a `registry:base` item, modelled on upstream `buildRegistryBase`:
@@ -283,7 +283,7 @@ Returns a `registry:base` item, modelled on upstream `buildRegistryBase`:
   - public, flat (`/r/registry.json` + `/r/<name>.json`)
   - no `content` in catalog `files`
   - passes `pnpm validate:registries` in their repo
-  - Use the **blend-mode** URL with `{style}` for the directory entry.
+  - Use the `/r/fabricator/{style}/{name}.json` URL for the directory entry (D4).
 - [ ] Root `registry.json` (with `include`) so GitHub addressing works: `bunx --bun shadcn add gabrielespinheira/fabricator-ui/<item>`.
 - [ ] Keep Registry Health green: HTTPS, JSON content-type, unique names, every item passing `shadcn add --dry-run`. Add our own CI check that mimics theirs.
 - [ ] Optional: dynamic search (`?q=`) once the catalog grows past a few hundred items.
@@ -318,7 +318,7 @@ Starting point is `tmp/TODO.md`: Colors, Surfaces, Radius (square | rounded | pi
   - `font-sans`, `font-heading`, `font-mono`
 
   Every upstream and third-party component depends on these names.
-- **Add Fabricator tokens** with distinct names, delivered through the `cssVars` of the items that need them, so blend-mode users receive them only when required:
+- **Add Fabricator tokens** with distinct names, delivered through the `cssVars` of the items that need them, so projects receive them only when required:
   - Surfaces: `--surface-sunken`, `--surface`, `--surface-raised`, `--surface-overlay` (+ foregrounds), in light and dark
   - Elevation: `--shadow-*`
   - Motion: `--motion-duration-{fast,base,slow}`, `--motion-ease-{standard,emphasized,spring}`, respecting `prefers-reduced-motion`
@@ -342,7 +342,7 @@ Starting point is `tmp/TODO.md`: Colors, Surfaces, Radius (square | rounded | pi
 1. Copy `style-nova.css` → `style-fabricator.css`, keeping all ~420 `cn-*` selectors.
 2. Redesign component by component in the docs site. Use the `/preview/[base]/[name]` route and a Storybook-like "sink" page (upstream has `internal/sink`) that renders every component in every state.
 3. Use the build script to diff compiled output against nova so changes stay intentional.
-4. Exclusive components ship `cn-*` rules for **all 8 upstream styles + Fabricator styles**, so they work in blend mode. A lint script fails the build if any `cn-*` class used in source is missing from any style map.
+4. Exclusive components ship `cn-*` rules for the Fabricator styles only (D4). A lint script fails the build if any `cn-*` class used in source is missing from a style map it compiles into.
 
 ---
 
@@ -388,7 +388,7 @@ Next 16 (App Router, Turbopack), React 19.2, Tailwind 4.3, Fumadocs 16 (core/ui/
 | Route | Content |
 |---|---|
 | `/` | Landing: hero (possibly the Three.js fabricator scene from `tmp/`, lazy-loaded with a static poster fallback), value props, live component grid, install command. |
-| `/docs` | Introduction, Installation (next, vite, react-router, tanstack-start, astro, laravel, manual), `components.json`, Theming and tokens, Design system (Surfaces, Radius, Size, Motion, Color), Dark mode, RTL, CLI, Registry (how to consume `@fabricator`, use in an existing shadcn project, blend vs Fabricator mode), MCP, Agent skills, Figma (later), Changelog. |
+| `/docs` | Introduction, Installation (next, vite, react-router, tanstack-start, astro, laravel, manual), `components.json`, Theming and tokens, Design system (Surfaces, Radius, Size, Motion, Color), Dark mode, RTL, CLI, Registry (how to consume `@fabricator`, use in an existing shadcn project), MCP, Agent skills, Figma (later), Changelog. |
 | `/docs/components/[base]/[name]` | One page per component per base, with a **base switcher** (Base UI / Radix / React Aria). Sections: Preview + code, Installation (CLI tabs plus a Manual tab with full source), Usage, Composition tree, Examples, API reference (props tables), Accessibility, Changelog notes. |
 | `/blocks`, `/blocks/[category]` | Block viewer: iframe at desktop/tablet/mobile widths, resizable panel, code view with file tree, copy CLI command. |
 | `/charts/[type]` | Chart gallery (area, bar, line, pie, radar, radial, tooltip). |
@@ -544,8 +544,8 @@ Candidates that fit the TODO and inspiration list and are absent upstream: Surfa
 ### Phase 1: Clone shadcn at parity (≈ 1–2 weeks)
 - [ ] Write `scripts/sync-upstream.ts` and the `upstream/shadcn` vendor branch. Import the pinned SHA.
 - [ ] Scaffold `apps/web` by porting the upstream v4 app (Next/Fumadocs config, layouts, preview components, build script), renamed and with shadcn branding removed.
-- [ ] `registry:build` produces blend-mode output for all 3 bases × 8 styles.
-- [ ] **Parity test:** for every item, compare our `public/r/<base>-<style>/<name>.json` file contents with `https://ui.shadcn.com/r/styles/<base>-<style>/<name>.json`, ignoring `meta.links` and paths. Must be 100% identical.
+- [ ] `registry:build` produces output for all 3 bases × 8 styles (parity only since D4 changed).
+- [ ] **Parity test:** for every item, compare our `.upstream-registry/<base>-<style>/<name>.json` file contents with `https://ui.shadcn.com/r/styles/<base>-<style>/<name>.json`, ignoring `meta.links` and paths. Must be 100% identical.
 - [ ] `/init` endpoint returns a valid `registry:base`. `bunx --bun shadcn init http://localhost:3000/init` works in a fresh Next and Vite app and writes the `@fabricator` registry into `components.json`.
 - [ ] `bunx --bun shadcn add @fabricator/button` works in an existing shadcn project (local `registries` override pointing at localhost).
 - **Exit criteria:** the full upstream catalog is installable from our registry, every template builds, and the docs site renders every component page.
@@ -561,13 +561,13 @@ Candidates that fit the TODO and inspiration list and are absent upstream: Surfa
 
 ### Phase 4: Fabricator design system v1 (≈ 2–4 weeks, iterative)
 - [ ] Token spec (§6): colors, surfaces, radius, density, motion, typography. Contrast CI.
-- [ ] `style-fabricator.css` (+ `-compact`, pill variant). Fabricator mode URLs. Fabricator presets in `/r/config.json`.
+- [ ] `style-fabricator.css` (+ `-compact`, pill variant). The `/r/fabricator/` registry URL. Fabricator presets in `/r/config.json`.
 - [ ] `/create` designer for Fabricator dimensions.
 - [ ] Re-skin the website with the design system.
 - [ ] Decide the default icon library and fonts.
 
 ### Phase 5: Exclusive components (ongoing)
-- [ ] Prioritise the §9.1 backlog. Ship each against the DoD (§10) with blend-mode style rules for all 8 shadcn styles.
+- [ ] Prioritise the §9.1 backlog. Ship each against the DoD (§10), with Fabricator style rules only (D4).
 - [ ] Optional `@fabricator-ui/react` headless package for complex logic.
 
 ### Phase 6: Launch and ecosystem
@@ -584,8 +584,8 @@ Candidates that fit the TODO and inspiration list and are absent upstream: Surfa
 |---|---|
 | Upstream changes CLI internals or schema (it moves fast: v4 in 2026-03, Base UI default in 2026-07, `cn` package in 2026-09). | Pin `shadcn` in our CLI. Validate items with `shadcn/schema` at build. Parity and e2e suites run nightly against `shadcn@latest` to catch breakage early. |
 | `@shadcn` built-in registry can't be overridden, so bare names in third-party items pull upstream components over ours. | D5/D6. `fabricator-ui add` rewrites bare names. Document that the CLI prompts before overwriting. `doctor` detects mixed sources. |
-| Maintenance cost of 3 bases × N styles for exclusive components. | Base UI is the primary target, with fallbacks for the others. CI lint guarantees every `cn-*` rule exists in every style. Pure-HTML components share one source. |
-| Build size and time from many combinations. | Cache by hash (upstream does this). Fabricator mode is built once per base. Route-level static generation if needed. |
+| Maintenance cost of 3 bases for exclusive components. | Base UI is the primary target, with fallbacks for the others. Exclusive components need Fabricator style rules only (D4). Pure-HTML components share one source. |
+| Build size and time from many combinations. | Cache by hash (upstream does this). The published registry is built once per base. Route-level static generation if needed. |
 | Legal and brand: copying shadcn's site and branding. | Keep the MIT notice. Remove all shadcn branding, logos, and copy from the site. Credit shadcn/ui prominently. |
 | Registry downtime breaks installs. | Static CDN hosting on Vercel, the GitHub-registry fallback, and health monitoring. |
 
@@ -594,7 +594,7 @@ Candidates that fit the TODO and inspiration list and are absent upstream: Surfa
 ## 14. Open questions for you
 
 1. **Bases:** ship all three (Base UI, Radix, React Aria) from day one as planned, or launch with Base UI + Radix and add Aria later?
-2. **Upstream styles on the site:** should our docs keep showing all 8 shadcn styles (useful for blend-mode users), or only Fabricator styles plus a single "shadcn compatibility" toggle?
+2. ~~**Upstream styles on the site**~~ Answered (2026-10-11): Fabricator style only; blend mode removed (D4).
 3. **Chat and AI components** (`message-scroller`, `questionnaire` via `@shadcn/react`): keep them as-is in v1?
 4. **Exclusive components:** which 5–10 from §9.1 (or others) are the first priority?
 5. ~~**GitHub org/repo name**~~ Answered: `gabrielespinheira/fabricator-ui`.
@@ -631,7 +631,7 @@ Candidates that fit the TODO and inspiration list and are absent upstream: Surfa
 bunx --bun fabricator-ui@latest init -t next
 #   = bunx --bun shadcn@latest init "https://fabricator-ui.vercel.app/init?base=base&preset=fabricator" -t next
 
-# Existing shadcn project: just add components (blend mode, auto-discovered namespace)
+# Existing shadcn project: just add components (auto-discovered namespace)
 bunx --bun shadcn@latest add @fabricator/stepper
 
 # Existing shadcn project: adopt the Fabricator theme

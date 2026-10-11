@@ -86,17 +86,17 @@ Pick the primitive library with `--base base | radix | aria`. Every flag is docu
 
 ## Already using shadcn/ui?
 
-Fabricator UI is a drop-in for shadcn/ui projects. Components keep every upstream name, prop, variant and `data-slot`, and only add to them. Run `init` in your project and choose one of two modes:
+Fabricator UI is a drop-in for shadcn/ui projects. Components keep every upstream name, prop, variant and `data-slot`, and only add to them. Run `init` in your project and choose one of two options:
 
-- **Blend:** keep your current style and theme. Fabricator components are compiled to match it.
-- **Fabricator:** switch to the Fabricator theme and reinstall your components with it.
+- **Add the registry only:** keep your current theme. Fabricator components use its colours, radius and fonts.
+- **Apply the Fabricator theme:** switch to the Fabricator theme and reinstall your components with it.
 
 The registry also works with the shadcn CLI directly. See [Registry](https://fabricator-ui.vercel.app/docs/registry).
 
 ## AI assistants
 
 - **MCP:** `npx fabricator-ui@latest mcp init --client <claude|cursor|vscode|codex|opencode>` lets your assistant browse, search and install components. See [MCP](https://fabricator-ui.vercel.app/docs/mcp).
-- **Agent skill:** copy [`skills/fabricator`](skills/fabricator) into `.claude/skills/` (or your agent's skills folder) to teach it how to add, compose and style Fabricator components.
+- **Agent skill:** `npx skills add gabrielespinheira/fabricator-ui` teaches your assistant how to add, compose and style Fabricator components. See [Agent Skill](https://fabricator-ui.vercel.app/docs/skills) and [skills.sh](https://skills.sh/gabrielespinheira/fabricator-ui/fabricator).
 - **Docs for models:** [`llms.txt`](https://fabricator-ui.vercel.app/llms.txt), [`llms-full.txt`](https://fabricator-ui.vercel.app/llms-full.txt), and `.md` on any docs URL.
 
 ## Documentation
