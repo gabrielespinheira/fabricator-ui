@@ -19,6 +19,7 @@
         ".next/**",
         "!.next/cache/**",
         "public/r/**",
+        ".upstream-registry/**",
         "styles/**"
       ]
     },

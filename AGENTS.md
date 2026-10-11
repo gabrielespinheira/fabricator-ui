@@ -14,15 +14,14 @@ These words have exact meanings here. Use them in code review, commits and docs.
 
 - **Upstream**: `shadcn-ui/ui`, pinned to the SHA in `upstream.lock.json` (until that file exists: `295a1f11`, 2026-10-02).
 - **Base**: the primitive library a component is built on: `base` (Base UI, the primary target), `radix` (`radix-ui`), `aria` (`react-aria-components`). Each base has its own hand-written source tree.
-- **Style**: a visual language compiled into components at build time. There are 8 upstream styles (`vega`, `nova`, `maia`, `lyra`, `mira`, `luma`, `sera`, `rhea`) and the Fabricator styles (`fabricator`, plus variants). The full id is `<base>-<style>`, for example `base-nova`.
+- **Style**: a visual language compiled into components at build time. The library ships one: the Fabricator style (`fabricator`). The 8 upstream styles (`vega`, `nova`, `maia`, `lyra`, `mira`, `luma`, `sera`, `rhea`) are still compiled, but only for the parity check; they are never published. The full id is `<base>-<style>`, for example `base-nova`.
 - **Placeholder**: a semantic `cn-*` class in component source (`cn-button-variant-outline`). It holds no CSS. The build replaces it with Tailwind classes.
 - **Style map**: `registry/styles/style-<style>.css`. It maps every placeholder to Tailwind utilities via `@apply`.
 - **Parity**:
   - Across bases: the same component behaves and looks the same in every base.
-  - With upstream: our compiled output for an upstream item is byte-identical to `ui.shadcn.com/r/styles/<base>-<style>/<name>.json`.
+  - With upstream: our compiled output for an upstream item in an upstream style (`apps/web/.upstream-registry/`) is byte-identical to `ui.shadcn.com/r/styles/<base>-<style>/<name>.json`.
 - **Superset**: a Fabricator component that replaces an upstream one keeps every name, prop, variant, export and `data-slot`. It only adds.
-- **Blend mode**: the registry URL `/r/{style}/{name}.json`. Items are compiled with the user's own shadcn style.
-- **Fabricator mode**: the registry URL `/r/fabricator/{style}/{name}.json`. Items are compiled with the Fabricator style for the user's base.
+- **Registry URL**: `/r/fabricator/{style}/{name}.json`. Items are compiled with the Fabricator style for the base in the user's `style`. The retired blend-mode URLs (`/r/{style}/{name}.json`, `/r/styles/<base>-<upstream style>/…`) redirect to it.
 
 ---
 
@@ -31,7 +30,7 @@ These words have exact meanings here. Use them in code review, commits and docs.
 These invariants are what make Fabricator a drop-in for shadcn projects. A change that breaks one is a bug, even if everything builds.
 
 1. **Superset.** Replacements keep the upstream item name, target file path, export names, props, variant names and `data-slot` values. New props and variants are additive and optional.
-2. **Valid shadcn style ids only.** Any `components.json` we write or generate has `"style": "<base>-<upstream style>"`. The Fabricator look comes from the Fabricator-mode registry URL, never from the `style` field. Bare names like `button` always resolve against ui.shadcn.com, so a custom style id would 404 for every user.
+2. **Valid shadcn style ids only.** Any `components.json` we write or generate has `"style": "<base>-<upstream style>"`. The Fabricator look comes from the `/r/fabricator/` registry URL, never from the `style` field. Bare names like `button` always resolve against ui.shadcn.com, so a custom style id would 404 for every user.
 3. **Namespaced dependencies.** `registryDependencies` reference our own items as `@fabricator/<name>`. A bare name means "install upstream shadcn's item", and is written only when that is the intent.
 4. **The token contract.** Every shadcn CSS variable keeps its name and meaning:
    - `background`, `foreground`
@@ -69,7 +68,7 @@ The full target tree is in `PLAN.md` §4. Which paths are authored and which are
 | Path                                                                                                 | What                                                                                                                                                    | Authored?                                                 |
 | ---------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
 | `apps/web/registry/bases/{base,radix,aria}/`                                                         | Component, block, hook and lib source plus `_registry.ts` item declarations                                                                             | ✅ authored                                               |
-| `apps/web/registry/styles/style-*.css`                                                               | Style maps for the 8 upstream styles                                                                                                                    | ✅ authored                                               |
+| `apps/web/registry/styles/style-*.css`                                                               | Style maps for the 8 upstream styles (parity and upstream sync only)                                                                                   | ✅ authored                                               |
 | `apps/web/registry/styles/fabricator/*.css`                                                          | Fabricator style map, one file per component                                                                                                            | ✅ authored                                               |
 | `apps/web/registry/styles/style-fabricator.css`                                                      | Assembled Fabricator style map                                                                                                                          | ⚙️ generated, committed                                   |
 | `apps/web/registry/fabricator/`                                                                      | Fabricator foundations (`foundations.ts`), design spec (`DESIGN.md`), extra items and overrides (`registry.ts`), overlay sources (`shared/`, `<base>/`) | ✅ authored                                               |
@@ -179,7 +178,7 @@ The split between inline classes and placeholders is what makes styles swappable
 
 - **Inline in source:** structure and behaviour that every style shares. That means display, flex/grid mechanics, positioning, `z-50` on overlay popups, `outline-none`, `select-none`, disabled mechanics, `[&_svg]:pointer-events-none`, and group names (`group/button`).
 - **Placeholder (`cn-<component>[-<part>][-variant-<v>|-size-<s>]`):** anything a style could change. That means radius, colour, border, shadow, spacing, height, gap, typography, focus ring, invalid state, and animation timing.
-- **Style map coverage:** every placeholder used in source has a rule in **every** style map, both upstream and Fabricator. The build's coverage lint enforces this.
+- **Style map coverage:** every placeholder used in upstream-derived source has a rule in **every** style map, upstream and Fabricator. Placeholders used only by Fabricator overrides and exclusive components need a rule in the Fabricator style map only. The build's coverage lint enforces this.
 - **Rule order in style maps:** follow upstream, under a `/* MARK: <Component> */` heading.
 - **State variants:** use the cross-base variants from `shadcn/tailwind.css` (`data-open:`, `data-closed:`, `data-checked:`, `data-selected:`, `data-disabled:`, …). These match Radix `data-state` and Base UI attributes alike.
 - **Install-time markers** stay as literal classes for the CLI to resolve: `cn-menu-target`, `cn-menu-translucent`, `cn-font-heading`, `cn-rtl-flip`, `cn-logical-sides`.
@@ -301,8 +300,8 @@ Items are TypeScript objects in each folder's `_registry.ts`, typed `Registry["i
 
 - **Pipeline:** placeholders + style map → `createStyleMap` / `transformStyle` from `shadcn/utils` → `shadcn build`.
 - **Output paths:**
-  - Blend mode: `public/r/<base>-<style>/<name>.json`
-  - Fabricator mode: `public/r/fabricator/<base>-<style>/<name>.json`
+  - Published: `public/r/styles/<base>-fabricator/<name>.json`, served at `/r/fabricator/<base>-<style>/<name>.json` (rewrites in `next.config.mjs`)
+  - Upstream styles, for `test:parity` only: `.upstream-registry/<base>-<style>/<name>.json` (gitignored, never published)
   - Catalogs: `public/r/registry.json`, `index.json`, `config.json`
 - **Rebuild:** after authored changes, run the full `bun run registry:build`. Targeted flags are for iteration only.
 - **Examples:** editing an existing example needs no rebuild. Adding, removing or renaming one needs `--examples`.
@@ -323,10 +322,10 @@ The Fabricator design language adapts Fluid Functionalism (MIT). **`apps/web/reg
 - **Excluded items:** `FABRICATOR_EXCLUDED_ITEMS` in `registry/fabricator/registry.ts` lists upstream items the Fabricator library leaves out:
   - Native Select: it only restyles a raw `<select>`; Select replaces it.
   - Chart, for now, with the blocks built on it (`dashboard-01`, `preview`, `preview-02`). The `/charts` gallery and the Chart docs pages are removed, and their URLs redirect to `/docs/components`.
-  - The build drops them from Fabricator mode and the site indexes, and rewrites dependencies to the replacement.
+  - The build drops them from the published registry and the site indexes, and rewrites dependencies to the replacement.
   - It also skips their demos in the Fabricator example copies.
   - Items that used one get an override, and docs demos an override in `registry/fabricator/site-examples/<base>/`.
-  - Blend mode keeps every upstream item.
+  - The upstream styles, compiled only for the parity check, keep every upstream item.
 - **After an upstream sync**, review the upstream changes to every overridden file (`git diff <old>..<new> -- apps/web/registry/bases/<base>/ui/<component>.tsx`) and port them into the override.
 
 - **Dimensions** (rationale in `PLAN.md` §6):
@@ -335,7 +334,6 @@ The Fabricator design language adapts Fluid Functionalism (MIT). **`apps/web/reg
 - **Colour:**
   - Values are OKLCH, defined for both `:root` and `.dark`.
   - Every foreground/background pair meets WCAG 2.2 AA (4.5:1 for text, 3:1 for UI and large text). The contrast check enforces this.
-- **Blend mode:** exclusive components ship rules for all 8 upstream styles too, tuned to sit naturally next to each style's upstream components.
 
 ### Seeing style changes on the site
 

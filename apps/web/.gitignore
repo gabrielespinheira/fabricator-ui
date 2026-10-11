@@ -53,6 +53,9 @@ next-env.d.ts
 /public/r/styles/
 /public/r/colors/
 
+# upstream styles compiled only for `bun run test:parity`; never published.
+/.upstream-registry/
+
 # generated style sources (rebuilt by registry:build, or targeted via
 # `bun run registry:build --style all`). See styles/README.md.
 /styles/*

@@ -295,19 +295,7 @@ Configure the registries the CLI can install from. Each key is a namespace, and 
 
 ### The @fabricator registry
 
-`npx fabricator-ui@latest init` adds the `@fabricator` registry for you. To add it by hand, add one of the following entries.
-
-**Blend mode.** Components are compiled in your current style, so they match the components you already have:
-
-```json title="components.json"
-{
-  "registries": {
-    "@fabricator": "https://fabricator-ui.vercel.app/r/{style}/{name}.json"
-  }
-}
-```
-
-**Fabricator mode.** Components are compiled in the Fabricator design for your base:
+`npx fabricator-ui@latest init` adds the `@fabricator` registry for you. To add it by hand, add this entry. Components are compiled in the Fabricator design for your base:
 
 ```json title="components.json"
 {
@@ -323,7 +311,7 @@ The CLI replaces `{style}` with the `style` field of your `components.json` and 
 npx fabricator-ui@latest add button
 ```
 
-See <Link href="/docs/registry">Registry</Link> for the difference between the two modes.
+See <Link href="/docs/registry">Registry</Link> for how the URL resolves.
 
 ### Other registries
 
@@ -332,7 +320,7 @@ You can configure any number of registries next to `@fabricator`:
 ```json title="components.json"
 {
   "registries": {
-    "@fabricator": "https://fabricator-ui.vercel.app/r/{style}/{name}.json",
+    "@fabricator": "https://fabricator-ui.vercel.app/r/fabricator/{style}/{name}.json",
     "@acme": "https://registry.acme.com/{name}.json",
     "@internal": "https://internal.company.com/{name}.json"
   }

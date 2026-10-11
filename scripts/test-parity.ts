@@ -1,8 +1,8 @@
 /**
  * Upstream parity check.
  *
- * Compares the installable registry JSON we build (apps/web/public/r/styles)
- * with what ui.shadcn.com serves for the same <base>-<style> combination.
+ * Compares the registry JSON we build for the upstream styles
+ * (apps/web/.upstream-registry, never published) with what ui.shadcn.com serves for the same <base>-<style> combination.
  * Everything that affects an install must match: type, files (path, type,
  * target, content), dependencies, registryDependencies, cssVars, css, envVars.
  * `meta` (docs links) is ours and is ignored.
@@ -19,7 +19,7 @@ import * as prettier from "prettier"
 import { rebrandCode } from "./rebrand"
 
 const ROOT = path.resolve(import.meta.dirname, "..")
-const OUTPUT_DIR = path.join(ROOT, "apps/web/public/r/styles")
+const OUTPUT_DIR = path.join(ROOT, "apps/web/.upstream-registry")
 const UPSTREAM_URL =
   process.env.UPSTREAM_REGISTRY_URL ?? "https://ui.shadcn.com/r"
 const CONCURRENCY = 16
@@ -66,17 +66,11 @@ async function getStyles() {
     return arg.split(",")
   }
   const entries = await fs.readdir(OUTPUT_DIR, { withFileTypes: true })
-  return (
-    entries
-      // Upstream combinations only: *-fabricator styles do not exist upstream.
-      .filter(
-        (entry) =>
-          entry.isDirectory() &&
-          /^(base|radix|aria)-/.test(entry.name) &&
-          !entry.name.endsWith("-fabricator")
-      )
-      .map((entry) => entry.name)
-  )
+  return entries
+    .filter(
+      (entry) => entry.isDirectory() && /^(base|radix|aria)-/.test(entry.name)
+    )
+    .map((entry) => entry.name)
 }
 
 function normalize(item: Item) {
@@ -122,7 +116,9 @@ let rebranded = 0
 const PRETTIER_ROOT = path.join(ROOT, "apps/web/registry")
 
 async function rebrandItem(item: Item): Promise<Item> {
-  const files = item.files as Array<{ path: string; content?: string }> | undefined
+  const files = item.files as
+    | Array<{ path: string; content?: string }>
+    | undefined
   if (!files) return item
   return {
     ...item,
@@ -190,7 +186,9 @@ for (const style of await getStyles()) {
 
 console.log(`\nCompared ${compared} items against ${UPSTREAM_URL}.`)
 if (rebranded) {
-  console.log(`ℹ ${rebranded} items match after rebranding demo content (scripts/rebrand.ts).`)
+  console.log(
+    `ℹ ${rebranded} items match after rebranding demo content (scripts/rebrand.ts).`
+  )
 }
 if (missingUpstream.length) {
   console.log(

@@ -37,17 +37,12 @@ export function getBaseUrl(env: NodeJS.ProcessEnv = process.env): string {
   return value.replace(/\/+$/, "")
 }
 
-/** Fabricator mode: items are compiled with the Fabricator style for the user's base. */
+/** The registry template: items are compiled with the Fabricator style for the user's base. */
 export function fabricatorRegistryTemplate(baseUrl: string): string {
   return `${baseUrl}/r/fabricator/{style}/{name}.json`
 }
 
-/** Blend mode: items are compiled with the user's own shadcn style. */
-export function blendRegistryTemplate(baseUrl: string): string {
-  return `${baseUrl}/r/{style}/{name}.json`
-}
-
-/** A single Fabricator-mode item URL for an explicit style. */
+/** A single item URL for an explicit style. */
 export function fabricatorItemUrl(
   baseUrl: string,
   style: string,
@@ -56,7 +51,7 @@ export function fabricatorItemUrl(
   return `${baseUrl}/r/fabricator/${style}/${name}.json`
 }
 
-/** The Fabricator-mode catalog (`registry.json`) for a style. */
+/** The catalog (`registry.json`) for a style. */
 export function fabricatorCatalogUrl(baseUrl: string, style: string): string {
   return fabricatorItemUrl(baseUrl, style, "registry")
 }
@@ -80,8 +75,6 @@ export interface InitUrlOptions {
   template?: string
   monorepo?: boolean
   only?: string
-  /** `blend` keeps the user's shadcn look and writes the blend-mode registry URL. */
-  registry?: "blend"
 }
 
 const STRING_PARAMS = [
@@ -129,7 +122,6 @@ export function buildInitUrl(
     )
   }
   if (options.only) params.set("only", options.only)
-  if (options.registry) params.set("registry", options.registry)
 
   return `${baseUrl}/init?${params.toString()}`
 }

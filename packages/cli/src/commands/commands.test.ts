@@ -316,6 +316,32 @@ describe("doctor", () => {
     ])
   })
 
+  it("warns about the retired blend-mode registry URL", () => {
+    const checks = collectChecks({
+      baseUrl,
+      componentsJson: {
+        exists: true,
+        path: "/w/components.json",
+        raw: "",
+        config: {
+          ...healthy,
+          registries: { "@fabricator": `${baseUrl}/r/{style}/{name}.json` },
+        },
+      },
+      info: { project: { tailwindVersion: "v4" } },
+      packageJson: { dependencies: { react: "19.2.0", cn: "^1.0.0" } },
+      css: '@import "tailwindcss";\n@import "shadcn/tailwind.css";\n',
+      cssPath: "app/globals.css",
+    })
+    expect(checks.filter((c) => c.status !== "pass")).toEqual([
+      expect.objectContaining({
+        status: "warn",
+        label: "@fabricator registry uses the retired blend-mode URL",
+        fix: expect.stringContaining("/r/fabricator/{style}/{name}.json"),
+      }),
+    ])
+  })
+
   it("fails without components.json", () => {
     const checks = collectChecks({
       baseUrl,

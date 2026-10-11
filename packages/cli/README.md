@@ -33,7 +33,7 @@ npx fabricator-ui@latest init
 
 If the directory already has a `components.json`, you are asked whether to:
 
-1. **Add the `@fabricator` registry only** and keep your current theme. Components are compiled for your current style (blend mode). `--yes` picks this option.
+1. **Add the `@fabricator` registry only** and keep your current theme. Fabricator components use your theme's colours. `--yes` picks this option.
 2. **Apply the Fabricator theme** and reinstall your components.
 
 | Option                                                        | Description                                                                       |
@@ -41,7 +41,6 @@ If the directory already has a `components.json`, you are asked whether to:
 | `-t, --template <template>`                                   | Create a new project: `next`, `start`, `vite`, `react-router`, `laravel`, `astro` |
 | `-b, --base <base>`                                           | Component library: `base` (Base UI, default), `radix` or `aria`                   |
 | `-p, --preset <preset>`                                       | Preset name (default `fabricator`), preset code, or a full init URL               |
-| `--blend`                                                     | Keep your current look: install Fabricator components in your current style       |
 | `--monorepo`, `--no-monorepo`                                 | Scaffold a monorepo, or skip the prompt                                           |
 | `--rtl`, `--no-rtl`                                           | Enable or disable RTL support                                                     |
 | `--pointer`                                                   | Use a pointer cursor for buttons                                                  |

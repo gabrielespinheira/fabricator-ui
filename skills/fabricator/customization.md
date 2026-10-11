@@ -78,9 +78,6 @@ npx fabricator-ui@latest apply a2r6bw
 # Only the theme (colors) or fonts; components are not reinstalled.
 npx fabricator-ui@latest apply a2r6bw --only theme,font
 
-# Keep the current look for components.
-npx fabricator-ui@latest apply a2r6bw --blend
-
 # Preserve existing components instead.
 npx fabricator-ui@latest init --preset a2r6bw --force --no-reinstall
 

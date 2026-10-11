@@ -11,7 +11,6 @@ import { highlight, logger } from "../utils/logger"
 import { rewriteNames } from "../utils/names"
 import { exitLike, formatShadcnCommand, runShadcn } from "../utils/shadcn"
 import {
-  blendRegistryTemplate,
   buildInitUrl,
   fabricatorRegistryTemplate,
   getBaseUrl,
@@ -34,7 +33,6 @@ export interface InitOptions {
   silent?: boolean
   cssVariables?: boolean
   reinstall?: boolean
-  blend?: boolean
   dryRun?: boolean
 }
 
@@ -139,21 +137,16 @@ async function initExistingProject(
   options: InitOptions & { base: Base },
   baseUrl: string
 ): Promise<void> {
-  const blendTemplate = blendRegistryTemplate(baseUrl)
   const registryArgs = [
     "registry",
     "add",
-    `@fabricator=${blendTemplate}`,
+    `@fabricator=${fabricatorRegistryTemplate(baseUrl)}`,
     "--cwd",
     options.cwd,
     ...(options.silent ? ["--silent"] : []),
   ]
   const applyUrl = buildInitUrl(
-    {
-      base: options.base,
-      preset: options.preset,
-      registry: options.blend ? "blend" : undefined,
-    },
+    { base: options.base, preset: options.preset },
     baseUrl
   )
   const applyArgs = [
@@ -193,7 +186,7 @@ async function initExistingProject(
               "Add the @fabricator registry only (keep your current theme)",
             value: "registry" as const,
             description:
-              "Fabricator components are compiled for your current style.",
+              "Fabricator components use your current theme colours.",
           },
           {
             title: "Apply the Fabricator theme",
@@ -256,7 +249,6 @@ export async function init(
       pointer: options.pointer,
       template: options.template,
       monorepo: options.monorepo,
-      registry: options.blend ? "blend" : undefined,
     },
     baseUrl
   )
@@ -353,10 +345,6 @@ export function createInitCommand(): Command {
     .option("--no-css-variables", "do not use CSS variables for theming")
     .option("--reinstall", "re-install existing UI components")
     .option("--no-reinstall", "do not re-install existing UI components")
-    .option(
-      "--blend",
-      "keep your current look: install Fabricator components in your current style"
-    )
     .option("-y, --yes", "skip confirmation prompts")
     .option("-f, --force", "force overwrite of an existing components.json")
     .option(

@@ -34,7 +34,6 @@ describe("GET /init", () => {
     expect(json).toEqual(
       toFabricatorRegistryBase(buildRegistryBase(DEFAULT_CONFIG), {
         config: DEFAULT_CONFIG,
-        mode: "fabricator",
         palette: true,
       })
     )
@@ -77,7 +76,7 @@ describe("GET /init", () => {
     expect(json.registryDependencies).toBeUndefined()
   })
 
-  it("configures the @fabricator registry in fabricator mode", async () => {
+  it("configures the @fabricator registry", async () => {
     const response = await GET(createRequest())
     const json = await response.json()
 
@@ -90,15 +89,17 @@ describe("GET /init", () => {
     }
   })
 
-  it("configures blend mode when registry=blend", async () => {
-    const response = await GET(createRequest("?registry=blend&style=vega"))
+  it("uses the Fabricator registry for any upstream style", async () => {
+    const response = await GET(createRequest("?style=vega"))
     const json = await response.json()
 
     expect(json.config.style).toBe("base-vega")
     expect(json.config.registries["@fabricator"]).toMatch(
-      /\/r\/\{style\}\/\{name\}\.json$/
+      /\/r\/fabricator\/\{style\}\/\{name\}\.json$/
     )
-    expect(json.registryDependencies[0]).toMatch(/\/r\/base-vega\/utils\.json$/)
+    expect(json.registryDependencies[0]).toMatch(
+      /\/r\/fabricator\/base-vega\/utils\.json$/
+    )
   })
 
   it("fills missing params from the default Fabricator preset", async () => {
@@ -111,7 +112,7 @@ describe("GET /init", () => {
     expect(json.config.style).toBe("radix-nova")
   })
 
-  it("installs the foundations in fabricator mode", async () => {
+  it("installs the foundations", async () => {
     const response = await GET(createRequest())
     const json = await response.json()
 

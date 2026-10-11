@@ -7,7 +7,7 @@ about the `@fabricator` registry or another namespaced registry.
 
 - Mental model
 - The `@fabricator` registry
-- Fabricator mode vs blend mode
+- The registry URL
 - Other namespaced registries
 - Address schemes
 - Inspecting items before installing
@@ -62,25 +62,17 @@ Rules:
 - Fabricator UI also works in existing shadcn/ui projects: add the `@fabricator`
   registry with `npx fabricator-ui@latest init` and keep everything else.
 
-## Fabricator Mode vs Blend Mode
+## The Registry URL
 
-The registry is served in two modes. The URL in `components.json` picks one.
+`components.json` points `@fabricator` at one URL template:
+`https://fabricator-ui.vercel.app/r/fabricator/{style}/{name}.json`. Components
+are compiled in the Fabricator design for the base in `style` (`base`, `radix`
+or `aria`); colours, radius and fonts come from the project's theme.
 
-| Mode           | URL template                                                 | What the project gets                                                   |
-| -------------- | ------------------------------------------------------------ | ----------------------------------------------------------------------- |
-| **Fabricator** | `https://fabricator-ui.vercel.app/r/fabricator/{style}/{name}.json` | Components compiled in the Fabricator design for the base in `style`.   |
-| **Blend**      | `https://fabricator-ui.vercel.app/r/{style}/{name}.json`            | Components compiled in the project's current style (e.g. `nova`, `vega`). |
-
-- **Fabricator mode** is the default for new projects (`init -t <template>`)
-  and after `apply`.
-- **Blend mode** is for existing projects that want to keep their look:
-  `init --yes` (or picking "Add the @fabricator registry only"), `init --blend`,
-  or `apply --blend`. Fabricator-only components then match the components the
-  project already has.
-
-When advising on styling, read `config.registries["@fabricator"]` from
-`npx fabricator-ui@latest info --json` to know which mode the project uses. To
-switch modes, use `apply` / `apply --blend` rather than editing the URL by hand.
+Projects set up with the retired blend-mode URL
+(`https://fabricator-ui.vercel.app/r/{style}/{name}.json`) are redirected to the
+same items. `npx fabricator-ui@latest doctor` flags it; replace it with the URL
+above.
 
 ## Other Namespaced Registries
 
@@ -161,7 +153,7 @@ installing when the user asks for a review.
   `style` id or a missing `@fabricator` entry are the usual causes.
 - **Private registry 401/403** → check that the `${VAR}` in `headers` is set in
   the environment.
-- **Wrong look after install** → check whether `@fabricator` is in Fabricator
-  or blend mode (URL contains `/r/fabricator/` or not).
+- **Old registry URL** → if `@fabricator` points at `/r/{style}/{name}.json`
+  (no `/r/fabricator/`), update it to the URL above.
 - **Local registry host** → set `FABRICATOR_REGISTRY_URL` (e.g.
   `http://localhost:4000`) for the CLI run.

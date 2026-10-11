@@ -36,7 +36,6 @@ Sets up Fabricator UI in an existing project, or creates a new project when `--t
 | `--pointer`                             |       | Use a pointer cursor for buttons                                                | `false`                    |
 | `--css-variables` / `--no-css-variables`|       | Theme with CSS variables / inline utility colors                                | CSS variables              |
 | `--reinstall` / `--no-reinstall`        |       | Re-install / keep existing UI components                                        | —                          |
-| `--blend`                               |       | Keep the current look: install Fabricator components in the current style       | `false`                    |
 | `--yes`                                 | `-y`  | Skip confirmation prompts                                                       | `false`                    |
 | `--force`                               | `-f`  | Force overwrite of an existing `components.json`                                | `false`                    |
 | `--cwd <cwd>`                           | `-c`  | Working directory                                                               | current                    |
@@ -46,7 +45,7 @@ Sets up Fabricator UI in an existing project, or creates a new project when `--t
 
 **Existing projects.** When `components.json` already exists (and neither `--force` nor `--template` is passed), `init` asks:
 
-1. **Add the `@fabricator` registry only** and keep the current theme. Components are compiled for the current style (blend mode). `--yes` picks this option.
+1. **Add the `@fabricator` registry only** and keep the current theme. Fabricator components use the current theme colours. `--yes` picks this option.
 2. **Apply the Fabricator theme** and reinstall components. Ask the user to commit their work first.
 
 **New projects.** With `--template`, the project is created in `<cwd>/<name>` (monorepos keep the app in `apps/web`), the `@fabricator` registry is configured, and the starter button is replaced with `@fabricator/button`.
@@ -63,7 +62,6 @@ Applies a preset (default `fabricator`) to an existing project: theme, fonts, an
 | ----------------- | ----- | ------------------------------------------------------------ | ---------------- |
 | `--only <parts>`  |       | Apply only parts of the preset: `theme`, `font` (comma-separated); no component reinstall | —                |
 | `--base <base>`   | `-b`  | Component library: `base`, `radix`, or `aria`               | the project's    |
-| `--blend`         |       | Keep the current look for components (no reinstall)          | `false`          |
 | `--yes`           | `-y`  | Skip confirmation prompt                                     | `false`          |
 | `--cwd <cwd>`     | `-c`  | Working directory                                            | current          |
 | `--silent`        | `-s`  | Mute output                                                  | `false`          |
@@ -305,11 +303,10 @@ Three ways to specify a preset via `init --preset` or `apply [preset]`:
 
 ## Switching Presets
 
-Ask the user first: **overwrite**, **partial**, **blend**, **merge**, or **skip** existing components?
+Ask the user first: **overwrite**, **partial**, **merge**, or **skip** existing components?
 
 - **Overwrite / Re-install** → `npx fabricator-ui@latest apply <preset>`. Applies theme and fonts, then reinstalls installed components from `@fabricator`. Use when the user hasn't customized components.
 - **Partial** → `npx fabricator-ui@latest apply <preset> --only theme,font`. No component reinstall.
-- **Blend** → `npx fabricator-ui@latest apply <preset> --blend`. Keeps the current look for components.
 - **Merge** → `npx fabricator-ui@latest init --preset <preset> --force --no-reinstall`, then run `npx fabricator-ui@latest info` to get the list of installed components and use the [smart merge workflow](./SKILL.md#updating-components) to update them one by one, preserving local changes. Use when the user has customized components.
 - **Skip** → `npx fabricator-ui@latest init --preset <preset> --force --no-reinstall`. Only updates config and CSS variables, leaves existing components as-is.
 

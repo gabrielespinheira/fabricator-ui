@@ -177,7 +177,7 @@ Everything should land on whole pixels and render smoothly.
 
 ## Not in the library
 
-The Fabricator library doesn't ship controls that only restyle a raw native element. `FABRICATOR_EXCLUDED_ITEMS` in `registry.ts` leaves them out of Fabricator mode and points dependencies at the replacement: Native Select → Select. Chart is left out for now, with the blocks built on it (Dashboard 01 and the `preview` / `preview-02` showcase blocks). Blend mode keeps every upstream item.
+The Fabricator library doesn't ship controls that only restyle a raw native element. `FABRICATOR_EXCLUDED_ITEMS` in `registry.ts` leaves them out of the published registry and points dependencies at the replacement: Native Select → Select. Chart is left out for now, with the blocks built on it (Dashboard 01 and the `preview` / `preview-02` showcase blocks). The upstream styles, compiled only for the parity check, keep every upstream item.
 
 ## Component translation (shadcn → Fabricator)
 

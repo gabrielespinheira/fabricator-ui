@@ -2,7 +2,8 @@
 //
 // Upstream styles live in registry/styles.tsx (vega, nova, …). Fabricator
 // styles are compiled by the same pipeline from registry/styles/style-<name>.css
-// and served in "Fabricator mode" at /r/fabricator/{style}/{name}.json.
+// and served at /r/fabricator/{style}/{name}.json. Upstream styles are only
+// compiled for the parity check.
 
 export const FABRICATOR_STYLES = [
   {
@@ -27,14 +28,9 @@ export function getFabricatorSiteUrl() {
   ).replace(/\/$/, "")
 }
 
-// Fabricator-mode registry URL template written into components.json by /init.
+// Registry URL template written into components.json by /init.
 export function getFabricatorRegistryUrl(siteUrl = getFabricatorSiteUrl()) {
   return `${siteUrl}/r/fabricator/{style}/{name}.json`
-}
-
-// Blend-mode registry URL template: items compiled in the project's own style.
-export function getBlendRegistryUrl(siteUrl = getFabricatorSiteUrl()) {
-  return `${siteUrl}/r/{style}/{name}.json`
 }
 
 export function isFabricatorStyleName(styleName: string) {

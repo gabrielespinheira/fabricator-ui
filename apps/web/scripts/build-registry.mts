@@ -30,7 +30,6 @@ import {
 } from "@/registry/fabricator"
 import { toFabricatorStylesheet } from "@/registry/fabricator/foundations"
 import {
-  BLEND_ITEMS,
   FABRICATOR_EXCLUDED_ITEMS,
   FABRICATOR_REQUIRED_ITEMS,
   fabricatorItems,
@@ -54,7 +53,9 @@ import { STYLES } from "@/registry/styles"
  * - examples/__index__.tsx
  * - styles/<base-style>/ui/*
  * - styles/<base-style>/ui-rtl/* for base-nova and radix-nova only
- * - public/r/*
+ * - public/r/* (Fabricator styles and catalogs)
+ * - .upstream-registry/<base-style>/* (upstream styles, read by test:parity;
+ *   never published)
  *
  * Temporary outputs:
  * - registry/<base-style>/*
@@ -66,7 +67,8 @@ import { STYLES } from "@/registry/styles"
  * 3. Build registry/__index__.tsx for runtime lookup across legacy styles and
  *    generated base-style combinations.
  * 4. Build examples/__index__.tsx from authored demos.
- * 5. Export public/r/* for every style through the shadcn CLI.
+ * 5. Export registry JSON for every style through the shadcn CLI: Fabricator
+ *    styles to public/r/styles, upstream styles to .upstream-registry.
  * 6. Copy compiled ui/* from the temporary registries into styles/<style>/ui.
  * 7. Build styles/<style>/ui-rtl for base-nova and radix-nova only.
  * 8. Format the generated persistent outputs.
@@ -76,7 +78,7 @@ import { STYLES } from "@/registry/styles"
  * - --examples rebuilds examples/__index__.tsx only.
  * - --indexes rebuilds the runtime registry indexes only.
  * - --style <style|all> rebuilds local styles/<style>/ui (+ ui-rtl).
- * - --registry <style|all> rebuilds installable public/r/styles/<style>.
+ * - --registry <style|all> rebuilds the registry JSON for <style>.
  * Running with no options performs the full build described above.
  */
 
@@ -90,6 +92,14 @@ const FABRICATOR_SITE_FILES = (fabricatorItems as RegistryItem[])
   .flatMap((item) => item.files ?? [])
   .map((file) => file.path)
   .filter((filePath) => !filePath.startsWith("ui/"))
+
+// Only Fabricator styles are published. Upstream styles are still compiled so
+// test:parity can compare them with ui.shadcn.com, but into a private folder.
+function getRegistryOutputPath(styleName: string) {
+  return isFabricatorStyleName(styleName)
+    ? `public/r/styles/${styleName}`
+    : `.upstream-registry/${styleName}`
+}
 
 // Fabricator-style copies of the demos (see buildStyledExamples).
 const STYLED_EXAMPLES_DIR = "examples/__styles__"
@@ -202,7 +212,8 @@ Run with no options for a full registry build, or target a single artifact:
   --examples              Rebuild examples/__index__.tsx only.
   --indexes               Rebuild the runtime registry indexes only.
   --style <style|all>     Rebuild local generated style files under styles/<style>/ui.
-  --registry <style|all>  Rebuild installable registry JSON under public/r/styles/<style>.
+  --registry <style|all>  Rebuild registry JSON (public/r/styles/<style> for Fabricator
+                          styles, .upstream-registry/<style> for upstream styles).
 
 <style> must be "all" or a known final style id (e.g. base-nova, radix-nova, base-sera, new-york-v4).
 Flags can be combined, e.g. --style base-nova --registry base-nova.`
@@ -1125,10 +1136,10 @@ async function buildBases(bases: Base[], targetStyleNames?: Set<string>) {
         baseRegistry,
         registryItems: isFabricator
           ? withFabricatorItems(registryItems, fabricatorOverlay)
-          : withBlendItems(registryItems),
+          : registryItems,
         sourceFiles: isFabricator
           ? new Map([...sourceFiles, ...fabricatorOverlay])
-          : new Map([...sourceFiles, ...blendFiles(fabricatorOverlay)]),
+          : sourceFiles,
         styleHash,
         transformCacheHash,
         styleMap,
@@ -1275,7 +1286,7 @@ function withFabricatorItems(
   overlay: Map<string, string>
 ): RegistryItem[] {
   const unique = (values: string[]) => Array.from(new Set(values))
-  // Excluded items leave Fabricator mode; dependencies on them point at their
+  // Excluded items leave the Fabricator styles; dependencies on them point at their
   // replacement instead (see FABRICATOR_EXCLUDED_ITEMS).
   const replaceExcluded = (dependencies: string[] | undefined) =>
     dependencies &&
@@ -1322,28 +1333,6 @@ function withFabricatorItems(
       (item) => !names.has(item.name)
     ),
   ]
-}
-
-// Upstream styles get the style-independent Fabricator items (BLEND_ITEMS)
-// and only their overlay files, so every upstream item keeps its exact output.
-function blendItems() {
-  return (fabricatorItems as RegistryItem[]).filter((item) =>
-    BLEND_ITEMS.includes(item.name)
-  )
-}
-
-function withBlendItems(items: RegistryItem[]): RegistryItem[] {
-  const names = new Set(items.map((item) => item.name))
-  return [...items, ...blendItems().filter((item) => !names.has(item.name))]
-}
-
-function blendFiles(overlay: Map<string, string>) {
-  const paths = new Set(
-    blendItems().flatMap((item) =>
-      normalizeRegistryFiles(item).map((file) => file.path)
-    )
-  )
-  return [...overlay].filter(([filePath]) => paths.has(filePath))
 }
 
 async function buildExamplesIndex() {
@@ -1441,7 +1430,7 @@ async function buildStyledExamples(
       const outputDir = path.join(process.cwd(), dir)
       await fs.mkdir(outputDir, { recursive: true })
 
-      // Demos of items Fabricator mode leaves out aren't copied, and a demo in
+      // Demos of items the Fabricator styles leave out aren't copied, and a demo in
       // registry/fabricator/site-examples/<base>/ replaces the upstream one.
       // RTL demos aren't part of Fabricator UI either: the site renders
       // left-to-right only, so `*-rtl` demos (and the right-to-left Persian
@@ -1695,7 +1684,7 @@ async function buildRegistryJsonFile(styleName: string) {
     ),
   }
 
-  const outputDir = path.join(process.cwd(), `public/r/styles/${styleName}`)
+  const outputDir = path.join(process.cwd(), getRegistryOutputPath(styleName))
   await rimraf(outputDir)
   await fs.mkdir(outputDir, { recursive: true })
 
@@ -1783,7 +1772,7 @@ async function getItemDependencies(
 }
 
 async function buildRegistry(styleName: string) {
-  const outputPath = `public/r/styles/${styleName}`
+  const outputPath = getRegistryOutputPath(styleName)
   const registryPath = `registry-${styleName}.json`
 
   await new Promise<void>((resolve, reject) => {

@@ -1,0 +1,13 @@
+---
+title: October 2026 - One style
+description: Every component now ships in the Fabricator style only. Blend mode is removed.
+date: 2026-10-11
+---
+
+The registry now serves one style: the Fabricator design shown in these docs. Blend mode, which compiled components in your project's own shadcn style, is removed.
+
+- **One registry URL:** `https://fabricator-ui.vercel.app/r/fabricator/{style}/{name}.json`. The base is read from your `style` field, and colours, radius and fonts come from your theme.
+- **Old URLs keep working:** `https://fabricator-ui.vercel.app/r/{style}/{name}.json` redirects to the Fabricator style. Run `npx fabricator-ui@latest doctor` to find it, then update the `@fabricator` entry in `components.json`.
+- **CLI:** `init` and `apply` no longer accept `--blend`. "Add the @fabricator registry only" writes the new URL.
+
+See [Registry](/docs/registry).

@@ -575,7 +575,7 @@ async function getRegistryItemFile(
   config: z.infer<typeof configSchema>
 ) {
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_APP_URL}/r/styles/${getStyle(designSystemConfig)}/${name}.json`
+    `${process.env.NEXT_PUBLIC_APP_URL}/r/fabricator/${getStyle(designSystemConfig)}/${name}.json`
   )
 
   if (!response.ok) {

@@ -17,7 +17,6 @@ export interface ApplyOptions {
   yes?: boolean
   cwd?: string
   silent?: boolean
-  blend?: boolean
 }
 
 export function buildApplyArgs(
@@ -78,12 +77,7 @@ export async function apply(
 
   const baseUrl = getBaseUrl()
   const applyUrl = buildInitUrl(
-    {
-      base,
-      preset,
-      only: rawOptions.only,
-      registry: rawOptions.blend ? "blend" : undefined,
-    },
+    { base, preset, only: rawOptions.only },
     baseUrl
   )
   const result = await runShadcn(
@@ -101,7 +95,7 @@ export async function apply(
     )
   }
 
-  if (rawOptions.only || rawOptions.blend) {
+  if (rawOptions.only) {
     exitLike(result)
     return
   }
@@ -135,7 +129,6 @@ export function createApplyCommand(): Command {
       "-b, --base <base>",
       "component library: base, radix or aria (default: the project's base)"
     )
-    .option("--blend", "keep your current look for components")
     .option("-y, --yes", "skip confirmation prompt")
     .option(
       "-c, --cwd <cwd>",

@@ -27,8 +27,7 @@ const COMPONENTS = [
   "radius-pill",
 ]
 
-// Fabricator-only components: not in blend mode, so only the Fabricator
-// scenarios install them.
+// Fabricator-only components (no upstream item of the same name).
 const FABRICATOR_ONLY_COMPONENTS = ["search"]
 
 const args = process.argv.slice(2)
@@ -82,28 +81,28 @@ function assert(condition: unknown, message: string): asserts condition {
   if (!condition) throw new Error(message)
 }
 
-function assertRegistry(appDir: string, mode: "fabricator" | "blend") {
+function assertRegistry(appDir: string) {
   const config = readJson(path.join(appDir, "components.json"))
   const url: string | undefined = config.registries?.["@fabricator"]
-  const expected =
-    mode === "fabricator"
-      ? `${REGISTRY_URL}/r/fabricator/{style}/{name}.json`
-      : `${REGISTRY_URL}/r/{style}/{name}.json`
+  const expected = `${REGISTRY_URL}/r/fabricator/{style}/{name}.json`
   assert(
     url === expected,
     `components.json @fabricator is ${url}, expected ${expected}`
   )
-  if (mode === "fabricator") {
-    assert(
-      config.$schema === "https://fabricator-ui.vercel.app/schema.json",
-      `components.json $schema is ${config.$schema}`
-    )
-  }
   assert(
     /^(base|radix|aria)-[a-z]+$/.test(config.style),
     `components.json style ${config.style} is not a valid shadcn style id`
   )
   return config
+}
+
+// Projects created from /init get the Fabricator schema URL.
+function assertInitSchema(appDir: string) {
+  const config = readJson(path.join(appDir, "components.json"))
+  assert(
+    config.$schema === "https://fabricator-ui.vercel.app/schema.json",
+    `components.json $schema is ${config.$schema}`
+  )
 }
 
 // React Aria composes dialogs differently: DialogTrigger wraps the button and
@@ -176,7 +175,8 @@ const scenarios: Scenario[] = [
     run(dir: string) {
       cli(["init", "-t", "vite", "-b", base, "-n", "app", "-y", "-c", dir], dir)
       const appDir = path.join(dir, "app")
-      assertRegistry(appDir, "fabricator")
+      assertRegistry(appDir)
+      assertInitSchema(appDir)
       const button = fs.readFileSync(
         path.join(appDir, "src/components/ui/button.tsx"),
         "utf8"
@@ -218,7 +218,8 @@ const scenarios: Scenario[] = [
         dir
       )
       const appDir = path.join(dir, "app")
-      assertRegistry(appDir, "fabricator")
+      assertRegistry(appDir)
+      assertInitSchema(appDir)
       cli(["add", "dialog", "field", "-y", "-o", "-c", appDir], appDir)
       run("bun", ["run", "build"], appDir)
     },
@@ -250,12 +251,23 @@ const scenarios: Scenario[] = [
         "fresh shadcn project already has @fabricator"
       )
 
-      // `init` in an existing project adds the registry in blend mode (with --yes).
+      // `init` in an existing project only adds the registry (with --yes).
       cli(["init", "-y", "-c", appDir], appDir)
-      const after = assertRegistry(appDir, "blend")
+      const after = assertRegistry(appDir)
       assert(after.style === before.style, "init changed the project's style")
 
-      cli(["add", ...COMPONENTS, "-y", "-o", "-c", appDir], appDir)
+      cli(
+        [
+          "add",
+          ...COMPONENTS,
+          ...FABRICATOR_ONLY_COMPONENTS,
+          "-y",
+          "-o",
+          "-c",
+          appDir,
+        ],
+        appDir
+      )
       writeViteApp(appDir, "base")
       run("bun", ["run", "build"], appDir)
 

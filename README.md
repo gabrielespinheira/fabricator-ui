@@ -86,10 +86,10 @@ Pick the primitive library with `--base base | radix | aria`. Every flag is docu
 
 ## Already using shadcn/ui?
 
-Fabricator UI is a drop-in for shadcn/ui projects. Components keep every upstream name, prop, variant and `data-slot`, and only add to them. Run `init` in your project and choose one of two modes:
+Fabricator UI is a drop-in for shadcn/ui projects. Components keep every upstream name, prop, variant and `data-slot`, and only add to them. Run `init` in your project and choose one of two options:
 
-- **Blend:** keep your current style and theme. Fabricator components are compiled to match it.
-- **Fabricator:** switch to the Fabricator theme and reinstall your components with it.
+- **Add the registry only:** keep your current theme. Fabricator components use its colours, radius and fonts.
+- **Apply the Fabricator theme:** switch to the Fabricator theme and reinstall your components with it.
 
 The registry also works with the shadcn CLI directly. See [Registry](https://fabricator-ui.vercel.app/docs/registry).
 
