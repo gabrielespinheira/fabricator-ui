@@ -116,7 +116,7 @@ registries can be used directly as `owner/repo` sources without configuration.
 ```json
 {
   "registries": {
-    "@fabricator": "https://fabricator-ui.com/r/fabricator/{style}/{name}.json",
+    "@fabricator": "https://fabricator-ui.vercel.app/r/fabricator/{style}/{name}.json",
     "@acme": "https://acme.com/r/{name}.json",
     "@private": {
       "url": "https://private.com/r/{name}.json",

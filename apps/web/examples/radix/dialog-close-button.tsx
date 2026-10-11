@@ -32,7 +32,7 @@ export function DialogCloseButton() {
             </Label>
             <Input
               id="link"
-              defaultValue="https://fabricator-ui.com/docs/installation"
+              defaultValue="https://fabricator-ui.vercel.app/docs/installation"
               readOnly
             />
           </div>

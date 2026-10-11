@@ -12,9 +12,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/aria/accordion",
+        docs: "https://fabricator-ui.vercel.app/docs/components/aria/accordion",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/accordion-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/accordion-example.tsx",
         api: "https://react-aria.adobe.com/DisclosureGroup#api",
       },
     },
@@ -30,9 +30,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/aria/alert",
+        docs: "https://fabricator-ui.vercel.app/docs/components/aria/alert",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/alert-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/alert-example.tsx",
       },
     },
   },
@@ -48,9 +48,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/aria/alert-dialog",
+        docs: "https://fabricator-ui.vercel.app/docs/components/aria/alert-dialog",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/alert-dialog-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/alert-dialog-example.tsx",
         api: "https://react-aria.adobe.com/Modal#api",
       },
     },
@@ -66,9 +66,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/aria/aspect-ratio",
+        docs: "https://fabricator-ui.vercel.app/docs/components/aria/aspect-ratio",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/aspect-ratio-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/aspect-ratio-example.tsx",
       },
     },
   },
@@ -83,9 +83,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/aria/avatar",
+        docs: "https://fabricator-ui.vercel.app/docs/components/aria/avatar",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/avatar-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/avatar-example.tsx",
       },
     },
   },
@@ -100,9 +100,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/aria/badge",
+        docs: "https://fabricator-ui.vercel.app/docs/components/aria/badge",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/badge-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/badge-example.tsx",
       },
     },
   },
@@ -117,9 +117,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/aria/breadcrumb",
+        docs: "https://fabricator-ui.vercel.app/docs/components/aria/breadcrumb",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/breadcrumb-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/breadcrumb-example.tsx",
         api: "https://react-aria.adobe.com/Breadcrumbs#api",
       },
     },
@@ -135,9 +135,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/aria/button",
+        docs: "https://fabricator-ui.vercel.app/docs/components/aria/button",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/button-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/button-example.tsx",
         api: "https://react-aria.adobe.com/Button#api",
       },
     },
@@ -154,9 +154,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/aria/button-group",
+        docs: "https://fabricator-ui.vercel.app/docs/components/aria/button-group",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/button-group-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/button-group-example.tsx",
       },
     },
   },
@@ -172,9 +172,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/aria/calendar",
+        docs: "https://fabricator-ui.vercel.app/docs/components/aria/calendar",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/calendar-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/calendar-example.tsx",
         api: "https://react-aria.adobe.com/Calendar#api",
       },
     },
@@ -190,9 +190,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/aria/card",
+        docs: "https://fabricator-ui.vercel.app/docs/components/aria/card",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/card-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/card-example.tsx",
       },
     },
   },
@@ -209,9 +209,9 @@ export const ui: Registry["items"] = [
     dependencies: ["embla-carousel-react"],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/aria/carousel",
+        docs: "https://fabricator-ui.vercel.app/docs/components/aria/carousel",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/carousel-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/carousel-example.tsx",
         api: "https://www.embla-carousel.com/docs/api",
       },
     },
@@ -229,9 +229,9 @@ export const ui: Registry["items"] = [
     dependencies: ["recharts@3.8.0"],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/aria/chart",
+        docs: "https://fabricator-ui.vercel.app/docs/components/aria/chart",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/chart-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/chart-example.tsx",
       },
     },
   },
@@ -246,9 +246,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/aria/checkbox",
+        docs: "https://fabricator-ui.vercel.app/docs/components/aria/checkbox",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/checkbox-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/checkbox-example.tsx",
         api: "https://react-aria.adobe.com/Checkbox#api",
       },
     },
@@ -264,9 +264,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/aria/collapsible",
+        docs: "https://fabricator-ui.vercel.app/docs/components/aria/collapsible",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/collapsible-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/collapsible-example.tsx",
         api: "https://react-aria.adobe.com/Disclosure#api",
       },
     },
@@ -283,9 +283,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/aria/combobox",
+        docs: "https://fabricator-ui.vercel.app/docs/components/aria/combobox",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/combobox-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/combobox-example.tsx",
         api: "https://react-aria.adobe.com/ComboBox#api",
       },
     },
@@ -302,9 +302,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/aria/command",
+        docs: "https://fabricator-ui.vercel.app/docs/components/aria/command",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/command-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/command-example.tsx",
         api: "https://react-aria.adobe.com/Autocomplete#api",
       },
     },
@@ -320,9 +320,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/aria/context-menu",
+        docs: "https://fabricator-ui.vercel.app/docs/components/aria/context-menu",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/context-menu-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/context-menu-example.tsx",
         api: "https://react-aria.adobe.com/Menu#api",
       },
     },
@@ -339,9 +339,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/aria/dialog",
+        docs: "https://fabricator-ui.vercel.app/docs/components/aria/dialog",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/dialog-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/dialog-example.tsx",
         api: "https://react-aria.adobe.com/Modal#api",
       },
     },
@@ -358,9 +358,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/aria/drawer",
+        docs: "https://fabricator-ui.vercel.app/docs/components/aria/drawer",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/drawer-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/drawer-example.tsx",
         api: "https://base-ui.com/react/components/drawer.md",
       },
     },
@@ -376,9 +376,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/aria/dropdown-menu",
+        docs: "https://fabricator-ui.vercel.app/docs/components/aria/dropdown-menu",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/dropdown-menu-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/dropdown-menu-example.tsx",
         api: "https://react-aria.adobe.com/Menu#api",
       },
     },
@@ -394,9 +394,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/aria/empty",
+        docs: "https://fabricator-ui.vercel.app/docs/components/aria/empty",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/empty-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/empty-example.tsx",
       },
     },
   },
@@ -412,9 +412,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/aria/field",
+        docs: "https://fabricator-ui.vercel.app/docs/components/aria/field",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/field-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/field-example.tsx",
       },
     },
   },
@@ -433,9 +433,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/aria/hover-card",
+        docs: "https://fabricator-ui.vercel.app/docs/components/aria/hover-card",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/hover-card-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/hover-card-example.tsx",
         api: "https://react-aria.adobe.com/PreviewTrigger#api",
       },
     },
@@ -451,9 +451,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/aria/input",
+        docs: "https://fabricator-ui.vercel.app/docs/components/aria/input",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/input-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/input-example.tsx",
         api: "https://react-aria.adobe.com/TextField#api",
       },
     },
@@ -470,9 +470,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/aria/input-group",
+        docs: "https://fabricator-ui.vercel.app/docs/components/aria/input-group",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/input-group-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/input-group-example.tsx",
         api: "https://react-aria.adobe.com/Group#api",
       },
     },
@@ -489,9 +489,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/aria/input-otp",
+        docs: "https://fabricator-ui.vercel.app/docs/components/aria/input-otp",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/input-otp-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/input-otp-example.tsx",
         api: "https://input-otp.rodz.dev",
       },
     },
@@ -508,9 +508,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/aria/item",
+        docs: "https://fabricator-ui.vercel.app/docs/components/aria/item",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/item-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/item-example.tsx",
         api: "https://react-aria.adobe.com/Link#api",
       },
     },
@@ -526,9 +526,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/aria/label",
+        docs: "https://fabricator-ui.vercel.app/docs/components/aria/label",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/label-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/label-example.tsx",
         api: "https://react-aria.adobe.com/TextField#api",
       },
     },
@@ -545,9 +545,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/aria/pagination",
+        docs: "https://fabricator-ui.vercel.app/docs/components/aria/pagination",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/pagination-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/pagination-example.tsx",
       },
     },
   },
@@ -562,9 +562,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/aria/popover",
+        docs: "https://fabricator-ui.vercel.app/docs/components/aria/popover",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/popover-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/popover-example.tsx",
         api: "https://react-aria.adobe.com/Popover#api",
       },
     },
@@ -580,9 +580,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/aria/progress",
+        docs: "https://fabricator-ui.vercel.app/docs/components/aria/progress",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/progress-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/progress-example.tsx",
         api: "https://react-aria.adobe.com/ProgressBar#api",
       },
     },
@@ -598,9 +598,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/aria/radio-group",
+        docs: "https://fabricator-ui.vercel.app/docs/components/aria/radio-group",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/radio-group-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/radio-group-example.tsx",
         api: "https://react-aria.adobe.com/RadioGroup#api",
       },
     },
@@ -617,9 +617,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/aria/resizable",
+        docs: "https://fabricator-ui.vercel.app/docs/components/aria/resizable",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/resizable-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/resizable-example.tsx",
         api: "https://github.com/bvaughn/react-resizable-panels",
       },
     },
@@ -635,9 +635,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/aria/scroll-area",
+        docs: "https://fabricator-ui.vercel.app/docs/components/aria/scroll-area",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/scroll-area-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/scroll-area-example.tsx",
       },
     },
   },
@@ -653,9 +653,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/aria/select",
+        docs: "https://fabricator-ui.vercel.app/docs/components/aria/select",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/select-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/select-example.tsx",
         api: "https://react-aria.adobe.com/Select#api",
       },
     },
@@ -671,9 +671,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/aria/separator",
+        docs: "https://fabricator-ui.vercel.app/docs/components/aria/separator",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/separator-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/separator-example.tsx",
         api: "https://react-aria.adobe.com/Separator#api",
       },
     },
@@ -690,9 +690,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/aria/sheet",
+        docs: "https://fabricator-ui.vercel.app/docs/components/aria/sheet",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/sheet-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/sheet-example.tsx",
         api: "https://react-aria.adobe.com/Modal#api",
       },
     },
@@ -717,9 +717,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/aria/sidebar",
+        docs: "https://fabricator-ui.vercel.app/docs/components/aria/sidebar",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/sidebar-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/sidebar-example.tsx",
       },
     },
   },
@@ -734,9 +734,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/aria/skeleton",
+        docs: "https://fabricator-ui.vercel.app/docs/components/aria/skeleton",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/skeleton-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/skeleton-example.tsx",
       },
     },
   },
@@ -751,9 +751,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/aria/slider",
+        docs: "https://fabricator-ui.vercel.app/docs/components/aria/slider",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/slider-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/slider-example.tsx",
         api: "https://react-aria.adobe.com/Slider#api",
       },
     },
@@ -770,9 +770,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/aria/sonner",
+        docs: "https://fabricator-ui.vercel.app/docs/components/aria/sonner",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/sonner-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/sonner-example.tsx",
         api: "https://sonner.emilkowal.ski",
       },
     },
@@ -788,9 +788,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/aria/spinner",
+        docs: "https://fabricator-ui.vercel.app/docs/components/aria/spinner",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/spinner-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/spinner-example.tsx",
       },
     },
   },
@@ -805,9 +805,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/aria/switch",
+        docs: "https://fabricator-ui.vercel.app/docs/components/aria/switch",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/switch-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/switch-example.tsx",
         api: "https://react-aria.adobe.com/Switch#api",
       },
     },
@@ -823,9 +823,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/aria/table",
+        docs: "https://fabricator-ui.vercel.app/docs/components/aria/table",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/table-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/table-example.tsx",
         api: "https://react-aria.adobe.com/Table#api",
       },
     },
@@ -841,9 +841,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/aria/tabs",
+        docs: "https://fabricator-ui.vercel.app/docs/components/aria/tabs",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/tabs-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/tabs-example.tsx",
         api: "https://react-aria.adobe.com/Tabs#api",
       },
     },
@@ -859,9 +859,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/aria/textarea",
+        docs: "https://fabricator-ui.vercel.app/docs/components/aria/textarea",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/textarea-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/textarea-example.tsx",
         api: "https://react-aria.adobe.com/TextField#api",
       },
     },
@@ -877,9 +877,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/aria/toggle",
+        docs: "https://fabricator-ui.vercel.app/docs/components/aria/toggle",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/toggle-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/toggle-example.tsx",
         api: "https://react-aria.adobe.com/ToggleButton#api",
       },
     },
@@ -896,9 +896,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/aria/toggle-group",
+        docs: "https://fabricator-ui.vercel.app/docs/components/aria/toggle-group",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/toggle-group-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/toggle-group-example.tsx",
         api: "https://react-aria.adobe.com/ToggleButtonGroup#api",
       },
     },
@@ -914,9 +914,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/aria/tooltip",
+        docs: "https://fabricator-ui.vercel.app/docs/components/aria/tooltip",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/tooltip-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/tooltip-example.tsx",
         api: "https://react-aria.adobe.com/Tooltip#api",
       },
     },
@@ -932,9 +932,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/aria/kbd",
+        docs: "https://fabricator-ui.vercel.app/docs/components/aria/kbd",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/kbd-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/kbd-example.tsx",
       },
     },
   },
@@ -949,9 +949,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/aria/native-select",
+        docs: "https://fabricator-ui.vercel.app/docs/components/aria/native-select",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/native-select-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/native-select-example.tsx",
       },
     },
   },
@@ -966,7 +966,7 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/aria/direction",
+        docs: "https://fabricator-ui.vercel.app/docs/components/aria/direction",
         api: "https://react-aria.adobe.com/I18nProvider#api",
       },
     },
@@ -983,9 +983,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/aria/attachment",
+        docs: "https://fabricator-ui.vercel.app/docs/components/aria/attachment",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/attachment-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/attachment-example.tsx",
       },
     },
   },
@@ -1000,9 +1000,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/aria/bubble",
+        docs: "https://fabricator-ui.vercel.app/docs/components/aria/bubble",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/bubble-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/bubble-example.tsx",
       },
     },
   },
@@ -1019,9 +1019,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/aria/message-scroller",
+        docs: "https://fabricator-ui.vercel.app/docs/components/aria/message-scroller",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/message-scroller-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/message-scroller-example.tsx",
       },
     },
   },
@@ -1038,9 +1038,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/aria/questionnaire",
+        docs: "https://fabricator-ui.vercel.app/docs/components/aria/questionnaire",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/questionnaire-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/questionnaire-example.tsx",
       },
     },
   },
@@ -1055,9 +1055,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/aria/marker",
+        docs: "https://fabricator-ui.vercel.app/docs/components/aria/marker",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/marker-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/marker-example.tsx",
       },
     },
   },
@@ -1072,9 +1072,9 @@ export const ui: Registry["items"] = [
     ],
     meta: {
       links: {
-        docs: "https://fabricator-ui.com/docs/components/aria/message",
+        docs: "https://fabricator-ui.vercel.app/docs/components/aria/message",
         examples:
-          "https://fabricator-ui.com/code/apps/web/registry/bases/aria/examples/message-example.tsx",
+          "https://fabricator-ui.vercel.app/code/apps/web/registry/bases/aria/examples/message-example.tsx",
       },
     },
   },

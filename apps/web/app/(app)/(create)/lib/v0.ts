@@ -279,7 +279,7 @@ function buildGlobalsCss(
 function buildComponentsJson(designSystemConfig: DesignSystemConfig) {
   const content = JSON.stringify(
     {
-      $schema: "https://fabricator-ui.com/schema.json",
+      $schema: "https://fabricator-ui.vercel.app/schema.json",
       style: getStyle(designSystemConfig),
       rsc: true,
       tsx: true,
@@ -541,7 +541,7 @@ async function buildComponentFiles(designSystemConfig: DesignSystemConfig) {
 
 function buildTransformConfig(designSystemConfig: DesignSystemConfig) {
   return {
-    $schema: "https://fabricator-ui.com/schema.json",
+    $schema: "https://fabricator-ui.vercel.app/schema.json",
     style: getStyle(designSystemConfig),
     rsc: true,
     tsx: true,

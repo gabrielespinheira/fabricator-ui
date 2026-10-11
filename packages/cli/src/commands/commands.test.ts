@@ -11,7 +11,7 @@ import { buildInitArgs, buildStarterButtonArgs, findProjectDir } from "./init"
 import { buildSearchArgs } from "./search"
 
 const INIT_URL =
-  "https://fabricator-ui.com/init?base=base&preset=fabricator&template=next"
+  "https://fabricator-ui.vercel.app/init?base=base&preset=fabricator&template=next"
 
 describe("buildInitArgs", () => {
   it("puts the init URL first, rewrites components and forwards flags", () => {
@@ -251,7 +251,7 @@ describe("docs helpers", () => {
 })
 
 describe("doctor", () => {
-  const baseUrl = "https://fabricator-ui.com"
+  const baseUrl = "https://fabricator-ui.vercel.app"
   const healthy = {
     style: "base-nova",
     tailwind: { config: "", css: "app/globals.css" },

@@ -7,7 +7,7 @@ allowed-tools: Bash(npx fabricator-ui@latest *), Bash(pnpm dlx fabricator-ui@lat
 
 # Fabricator UI
 
-An open-code React component library. Components are added to the user's project as source code by the Fabricator CLI (`fabricator-ui`), from the `@fabricator` registry. Docs: [fabricator-ui.com](https://fabricator-ui.com).
+An open-code React component library. Components are added to the user's project as source code by the Fabricator CLI (`fabricator-ui`), from the `@fabricator` registry. Docs: [fabricator-ui.vercel.app](https://fabricator-ui.vercel.app).
 
 > **IMPORTANT:** Run all CLI commands with the project's package runner: `npx fabricator-ui@latest`, `pnpm dlx fabricator-ui@latest`, `yarn dlx fabricator-ui@latest`, or `bunx --bun fabricator-ui@latest`. Pick it from the project's lockfile. Examples below use `npx fabricator-ui@latest`; substitute the right runner.
 
@@ -175,7 +175,7 @@ Run `npx fabricator-ui@latest docs <component>` to get the URLs for a component'
 npx fabricator-ui@latest docs button dialog select
 ```
 
-Every docs page is also available as markdown by appending `.md` (e.g. `https://fabricator-ui.com/docs/components/base/button.md`). The full docs are at `https://fabricator-ui.com/llms-full.txt`.
+Every docs page is also available as markdown by appending `.md` (e.g. `https://fabricator-ui.vercel.app/docs/components/base/button.md`). The full docs are at `https://fabricator-ui.vercel.app/llms-full.txt`.
 
 **When creating, fixing, debugging, or using a component, always run `npx fabricator-ui@latest docs` and fetch the URLs first.** This ensures you're working with the correct API and usage patterns rather than guessing. This matters most for `aria` projects, whose APIs follow React Aria Components.
 

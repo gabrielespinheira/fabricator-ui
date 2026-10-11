@@ -56,9 +56,9 @@ export const fabricatorItems = [
     meta: {
       fabricator: true,
       links: {
-        docs: "https://fabricator-ui.com/docs/components/base/search",
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/search",
         examples:
-          "https://fabricator-ui.com/docs/components/base/search#examples",
+          "https://fabricator-ui.vercel.app/docs/components/base/search#examples",
       },
     },
   },

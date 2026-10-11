@@ -19,7 +19,7 @@ function getStyleFromStyleName(styleName: string) {
 
 function buildDisplayConfig(styleName: string) {
   return {
-    $schema: "https://fabricator-ui.com/schema.json",
+    $schema: "https://fabricator-ui.vercel.app/schema.json",
     style: styleName,
     rsc: true,
     tsx: true,

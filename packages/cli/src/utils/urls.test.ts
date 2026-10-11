@@ -9,7 +9,7 @@ import {
   getBaseUrl,
 } from "./urls"
 
-const BASE = "https://fabricator-ui.com"
+const BASE = "https://fabricator-ui.vercel.app"
 
 describe("getBaseUrl", () => {
   it("defaults to the production site", () => {
@@ -41,13 +41,13 @@ describe("getBaseUrl", () => {
 describe("registry templates", () => {
   it("builds the fabricator and blend mode templates", () => {
     expect(fabricatorRegistryTemplate(BASE)).toBe(
-      "https://fabricator-ui.com/r/fabricator/{style}/{name}.json"
+      "https://fabricator-ui.vercel.app/r/fabricator/{style}/{name}.json"
     )
     expect(blendRegistryTemplate(BASE)).toBe(
-      "https://fabricator-ui.com/r/{style}/{name}.json"
+      "https://fabricator-ui.vercel.app/r/{style}/{name}.json"
     )
     expect(fabricatorCatalogUrl(BASE, "base-nova")).toBe(
-      "https://fabricator-ui.com/r/fabricator/base-nova/registry.json"
+      "https://fabricator-ui.vercel.app/r/fabricator/base-nova/registry.json"
     )
   })
 })
@@ -55,7 +55,7 @@ describe("registry templates", () => {
 describe("buildInitUrl", () => {
   it("uses base=base and preset=fabricator by default", () => {
     expect(buildInitUrl({}, BASE)).toBe(
-      "https://fabricator-ui.com/init?base=base&preset=fabricator"
+      "https://fabricator-ui.vercel.app/init?base=base&preset=fabricator"
     )
   })
 
@@ -77,7 +77,7 @@ describe("buildInitUrl", () => {
       BASE
     )
     expect(url).toBe(
-      "https://fabricator-ui.com/init?base=radix&preset=fabricator&style=vega&theme=zinc&iconLibrary=tabler&font=inter&radius=large&rtl=true&pointer=true&template=next&only=theme%2Cfont"
+      "https://fabricator-ui.vercel.app/init?base=radix&preset=fabricator&style=vega&theme=zinc&iconLibrary=tabler&font=inter&radius=large&rtl=true&pointer=true&template=next&only=theme%2Cfont"
     )
   })
 
@@ -88,7 +88,7 @@ describe("buildInitUrl", () => {
 
   it("passes shadcn preset codes through for the server to decode", () => {
     expect(buildInitUrl({ preset: "b0" }, BASE)).toBe(
-      "https://fabricator-ui.com/init?base=base&preset=b0"
+      "https://fabricator-ui.vercel.app/init?base=base&preset=b0"
     )
   })
 
@@ -113,7 +113,7 @@ describe("buildInitUrl", () => {
 
   it("adds registry=blend in blend mode", () => {
     expect(buildInitUrl({ registry: "blend" }, BASE)).toBe(
-      "https://fabricator-ui.com/init?base=base&preset=fabricator&registry=blend"
+      "https://fabricator-ui.vercel.app/init?base=base&preset=fabricator&registry=blend"
     )
   })
 

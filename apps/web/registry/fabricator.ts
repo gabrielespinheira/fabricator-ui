@@ -18,7 +18,7 @@ export const FABRICATOR_NAMESPACE = "@fabricator"
 
 export const FABRICATOR_REGISTRY = {
   name: "fabricator",
-  homepage: "https://fabricator-ui.com",
+  homepage: "https://fabricator-ui.vercel.app",
 } as const
 
 export function getFabricatorSiteUrl() {

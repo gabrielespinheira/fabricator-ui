@@ -176,7 +176,7 @@ Displays item info including file contents. Bare names resolve to `@fabricator`.
 npx fabricator-ui@latest docs <components...> [options]
 ```
 
-Outputs the documentation, example, and API reference URLs for one or more components, for the project's base. Fetch the URLs to get the actual content. Docs pages are also available as markdown by appending `.md`, e.g. `https://fabricator-ui.com/docs/components/base/button.md`. The full docs are at `https://fabricator-ui.com/llms-full.txt`.
+Outputs the documentation, example, and API reference URLs for one or more components, for the project's base. Fetch the URLs to get the actual content. Docs pages are also available as markdown by appending `.md`, e.g. `https://fabricator-ui.vercel.app/docs/components/base/button.md`. The full docs are at `https://fabricator-ui.vercel.app/llms-full.txt`.
 
 | Flag            | Short | Description                                   | Default       |
 | --------------- | ----- | --------------------------------------------- | ------------- |
@@ -274,7 +274,7 @@ npx fabricator-ui@latest mcp init --client claude  # write editor config
 | ------------------------- | -------------------------------------------------------------------------------------------------- |
 | `--verbose`               | Print the underlying commands as they run                                                          |
 | `--version`, `-v`         | Print the CLI version                                                                              |
-| `FABRICATOR_REGISTRY_URL` | Registry host to use instead of `https://fabricator-ui.com` (e.g. `http://localhost:4000`)         |
+| `FABRICATOR_REGISTRY_URL` | Registry host to use instead of `https://fabricator-ui.vercel.app` (e.g. `http://localhost:4000`)         |
 
 ---
 
@@ -299,7 +299,7 @@ Three ways to specify a preset via `init --preset` or `apply [preset]`:
 
 1. **Named:** `fabricator` (the default)
 2. **Code:** `a2r6bw` (version-prefixed base62 string, e.g. `a2r6bw` or `b0`)
-3. **URL:** `"https://fabricator-ui.com/init?base=radix&preset=fabricator&..."`
+3. **URL:** `"https://fabricator-ui.vercel.app/init?base=radix&preset=fabricator&..."`
 
 > **IMPORTANT:** Never try to decode, fetch, or resolve preset codes manually. Preset codes are opaque — pass them directly to `npx fabricator-ui@latest init --preset <code>` or `npx fabricator-ui@latest apply <code>` and let the CLI handle resolution.
 

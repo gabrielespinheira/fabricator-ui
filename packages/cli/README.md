@@ -1,6 +1,6 @@
 # fabricator-ui
 
-The command-line tool for [Fabricator UI](https://fabricator-ui.com), an open-source React component library. Components are copied into your project as source code, so you own them.
+The command-line tool for [Fabricator UI](https://fabricator-ui.vercel.app), an open-source React component library. Components are copied into your project as source code, so you own them.
 
 ## Usage
 
@@ -94,14 +94,14 @@ Prints information about your project.
 
 ## Options
 
-| Option / variable         | Description                                                                                       |
-| ------------------------- | ------------------------------------------------------------------------------------------------- |
-| `--verbose`               | Print the underlying commands as they run                                                         |
-| `FABRICATOR_REGISTRY_URL` | Registry host to use instead of `https://fabricator-ui.com` (for example `http://localhost:4000`) |
+| Option / variable         | Description                                                                                              |
+| ------------------------- | -------------------------------------------------------------------------------------------------------- |
+| `--verbose`               | Print the underlying commands as they run                                                                |
+| `FABRICATOR_REGISTRY_URL` | Registry host to use instead of `https://fabricator-ui.vercel.app` (for example `http://localhost:4000`) |
 
 ## How it works
 
-The CLI is built on the official shadcn CLI, pinned to a tested version. It builds the Fabricator init URL and registry addresses, and delegates resolution and installation. Your `components.json` stays compatible with the shadcn toolchain; see [Registry](https://fabricator-ui.com/docs/registry) for using it directly.
+The CLI is built on the official shadcn CLI, pinned to a tested version. It builds the Fabricator init URL and registry addresses, and delegates resolution and installation. Your `components.json` stays compatible with the shadcn toolchain; see [Registry](https://fabricator-ui.vercel.app/docs/registry) for using it directly.
 
 ## Acknowledgements
 

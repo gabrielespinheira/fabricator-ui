@@ -1,7 +1,7 @@
 import cliPackage from "../../../packages/cli/package.json"
 
 const siteUrl = (
-  process.env.NEXT_PUBLIC_APP_URL || "https://fabricator-ui.com"
+  process.env.NEXT_PUBLIC_APP_URL || "https://fabricator-ui.vercel.app"
 ).replace(/\/$/, "")
 
 export const siteConfig = {

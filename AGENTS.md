@@ -1,6 +1,6 @@
 # AGENTS.md: Fabricator UI
 
-Fabricator UI is an open-source React component library distributed as copy-in source through the shadcn CLI. It has its own design system and is fully compatible with shadcn/ui. This repository holds the component registry, the `fabricator-ui` CLI, and the Next.js website (fabricator-ui.com) that documents and serves the registry.
+Fabricator UI is an open-source React component library distributed as copy-in source through the shadcn CLI. It has its own design system and is fully compatible with shadcn/ui. This repository holds the component registry, the `fabricator-ui` CLI, and the Next.js website (fabricator-ui.vercel.app) that documents and serves the registry.
 
 This file is the shared contract for every coding agent (Claude Code, Codex, others) and every human contributor. `CLAUDE.md` imports it; there is no other copy. When a convention changes, update this file in the same change.
 
@@ -58,7 +58,7 @@ Fabricator UI is its own product. It is built on shadcn/ui, and that name appear
 - **Technical identifiers users install or import:** the `shadcn` npm package (`shadcn/tailwind.css`), `@shadcn/react`, and the shadcn CLI where a command has no Fabricator equivalent (`migrate`).
 - **Internal engineering docs and code:** `PLAN.md`, this file, upstream-sync tooling, import statements and code comments.
 
-Everywhere else, write "Fabricator UI", "the CLI" (`npx fabricator-ui@latest …`), "the registry" and "styles". Demo content (avatars, handles, emails, sample links) uses the Fabricator identity defined in `scripts/rebrand.ts`; `bun run rebrand --check` runs in CI. Schemas point at `https://fabricator-ui.com/schema.json` and `/schema/registry-item.json`.
+Everywhere else, write "Fabricator UI", "the CLI" (`npx fabricator-ui@latest …`), "the registry" and "styles". Demo content (avatars, handles, emails, sample links) uses the Fabricator identity defined in `scripts/rebrand.ts`; `bun run rebrand --check` runs in CI. Schemas point at `https://fabricator-ui.vercel.app/schema.json` and `/schema/registry-item.json`.
 
 ---
 
@@ -268,8 +268,8 @@ Items are TypeScript objects in each folder's `_registry.ts`, typed `Registry["i
   categories: ["navigation"],
   meta: {
     fabricator: true,                       // true for items that do not exist upstream
-    links: { docs: "https://fabricator-ui.com/docs/components/base/stepper",
-             examples: "https://fabricator-ui.com/docs/components/base/stepper#examples" },
+    links: { docs: "https://fabricator-ui.vercel.app/docs/components/base/stepper",
+             examples: "https://fabricator-ui.vercel.app/docs/components/base/stepper#examples" },
   },
 }
 ```

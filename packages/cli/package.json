@@ -4,7 +4,7 @@
   "description": "The Fabricator UI command-line tool: create projects and add components.",
   "license": "MIT",
   "type": "module",
-  "homepage": "https://fabricator-ui.com",
+  "homepage": "https://fabricator-ui.vercel.app",
   "repository": {
     "type": "git",
     "url": "https://github.com/gabrielespinheira/fabricator-ui",

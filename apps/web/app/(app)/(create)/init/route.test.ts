@@ -58,7 +58,7 @@ describe("GET /init", () => {
     expect(response.status).toBe(200)
     expect(json.type).toBe("registry:base")
     expect(json.config).toEqual({
-      $schema: "https://fabricator-ui.com/schema.json",
+      $schema: "https://fabricator-ui.vercel.app/schema.json",
       menuColor: "default",
       menuAccent: "subtle",
       tailwind: {
