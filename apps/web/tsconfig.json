@@ -18,7 +18,6 @@
         "name": "next"
       }
     ],
-    "baseUrl": ".",
     "paths": {
       // Temp aliases: registry sources import @/app/(create)/* (ships
       // verbatim in published registry payloads) and a handful still use

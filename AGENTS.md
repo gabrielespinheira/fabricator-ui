@@ -354,7 +354,7 @@ The website renders the Fabricator style, so it shows what `fabricator-ui add` i
 
 ## Website (`apps/web`)
 
-- **Stack:** Next.js 16 App Router, React 19.2, Tailwind 4, Fumadocs, `rehype-pretty-code` + shiki, next-themes, jotai, nuqs.
+- **Stack:** Next.js 16 App Router, React 19.3, Tailwind 4, Fumadocs, `rehype-pretty-code` + shiki, next-themes, jotai, nuqs.
 - **Rendering:**
   - Docs, component and block pages are statically generated (`generateStaticParams`, `dynamic = "force-static"`).
   - Server Components by default. `"use client"` goes on the smallest interactive leaf.

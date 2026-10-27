@@ -139,7 +139,7 @@ shadcn-ui/ui
 **The key fact our architecture relies on.** `shadcn init <url>` and `shadcn init --preset <url>` fetch a **`registry:base`** item from any URL. That item's `config` (a deep-partial `components.json`, **including `registries`**) is merged into the user's `components.json` (`packages/shadcn/src/commands/init.ts`, `mergeConfig`). With `extends: "none"`, the item replaces shadcn's default style index. **That means one URL from our site can fully configure a Fabricator project, using only the official CLI.**
 
 ### 2.6 Website stack (what we replicate)
-- **Framework:** Next 16 (Turbopack) and React 19.2.
+- **Framework:** Next 16 (Turbopack) and React 19.3.
 - **Styling:** Tailwind 4.3 and `tw-animate-css`.
 - **Docs:** Fumadocs (`fumadocs-core/ui/mdx`), with `rehype-pretty-code` + shiki for highlighting.
 - **State:** next-themes, jotai (persisted user prefs), nuqs (URL state for the creator).
@@ -223,7 +223,7 @@ fabricator-ui/
 └─ tmp/                                  # existing Three.js experiments (gitignored), to mine for the hero
 ```
 
-**Tooling:** Bun ≥ 1.4 (workspaces declared in the root `package.json` `"workspaces": ["apps/*", "packages/*"]`, `"packageManager": "bun@1.4.x"`), Turborepo 2 (supports Bun workspaces and `bun.lock`), TypeScript 5.x, ESLint 9 + Prettier (with `prettier-plugin-tailwindcss` and `@ianvs/prettier-plugin-sort-imports`), Vitest 3 (run via `bun run test`; `bun test` is an option for pure-logic packages), Changesets, commitlint, lefthook. Supply-chain safety equivalent to upstream's pnpm `minimumReleaseAge`: set `[install] minimumReleaseAge = 172800` (48h, in seconds) in `bunfig.toml`, matching Bun's `--minimum-release-age` flag. Node ≥ 20.18.1 stays installed for running Next.js tooling parity checks and for testing the CLI under Node.
+**Tooling:** Bun ≥ 1.4 (workspaces declared in the root `package.json` `"workspaces": ["apps/*", "packages/*"]`, `"packageManager": "bun@1.4.x"`), Turborepo 2 (supports Bun workspaces and `bun.lock`), TypeScript 6.x (typescript-eslint does not support 7 yet), ESLint 10 + Prettier (with `prettier-plugin-tailwindcss` and `@ianvs/prettier-plugin-sort-imports`), Vitest 5 (run via `bun run test`; `bun test` is an option for pure-logic packages), Changesets, commitlint, lefthook. Supply-chain safety equivalent to upstream's pnpm `minimumReleaseAge`: set `[install] minimumReleaseAge = 172800` (48h, in seconds) in `bunfig.toml`, matching Bun's `--minimum-release-age` flag. Node ≥ 20.18.1 stays installed for running Next.js tooling parity checks and for testing the CLI under Node.
 
 ---
 
@@ -382,7 +382,7 @@ Starting point is `tmp/TODO.md`: Colors, Surfaces, Radius (square | rounded | pi
 ## 8. The website (`apps/web`)
 
 ### 8.1 Stack
-Next 16 (App Router, Turbopack), React 19.2, Tailwind 4.3, Fumadocs 16 (core/ui/mdx), rehype-pretty-code + shiki, next-themes, jotai, nuqs, `@vercel/analytics`, `next/og`. Hosted on **Vercel**. `bun run build` = `registry:build && next build`. Vercel detects `bun.lock` and installs with Bun.
+Next 16 (App Router, Turbopack), React 19.3, Tailwind 4.3, Fumadocs 16 (core/ui/mdx), rehype-pretty-code + shiki, next-themes, jotai, nuqs, `@vercel/analytics`, `next/og`. Hosted on **Vercel**. `bun run build` = `registry:build && next build`. Vercel detects `bun.lock` and installs with Bun.
 
 ### 8.2 Information architecture
 | Route | Content |
