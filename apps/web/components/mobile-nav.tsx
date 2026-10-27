@@ -28,10 +28,6 @@ const TOP_LEVEL_SECTIONS = [
     href: "/docs/installation",
   },
   {
-    name: "Theming",
-    href: "/docs/theming",
-  },
-  {
     name: "CLI",
     href: "/docs/cli",
   },

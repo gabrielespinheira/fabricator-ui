@@ -164,7 +164,7 @@ const nextConfig = {
       },
       {
         source: "/colors/:path*",
-        destination: "/docs/theming",
+        destination: "/docs/foundations/surfaces",
         permanent: false,
       },
       // Chart isn't part of the Fabricator library for now.
@@ -182,6 +182,28 @@ const nextConfig = {
         source: "/docs/components/:base(base|radix|aria)/chart.md",
         destination: "/docs/components",
         permanent: false,
+      },
+      // Theming is removed; Surfaces covers the colour tokens.
+      {
+        source: "/docs/theming",
+        destination: "/docs/foundations/surfaces",
+        permanent: true,
+      },
+      {
+        source: "/docs/theming.md",
+        destination: "/docs/foundations/surfaces.md",
+        permanent: true,
+      },
+      // Scrollbars moved from Foundations to Utilities.
+      {
+        source: "/docs/foundations/scrollbars",
+        destination: "/docs/utils/scrollbars",
+        permanent: true,
+      },
+      {
+        source: "/docs/foundations/scrollbars.md",
+        destination: "/docs/utils/scrollbars.md",
+        permanent: true,
       },
       // RTL isn't part of Fabricator UI.
       {
@@ -268,7 +290,7 @@ const nextConfig = {
       },
       {
         source: "/themes",
-        destination: "/docs/theming",
+        destination: "/docs/foundations/surfaces",
         permanent: true,
       },
       {
