@@ -29,7 +29,7 @@ export function SiteFooter() {
             <Link
               key={link.href}
               href={link.href}
-              className="rounded-sm transition-colors duration-fast ease-spring outline-none hover:text-foreground focus-visible:ring-1 focus-visible:ring-focus-ring"
+              className="rounded-sm transition-colors duration-feedback ease-feedback outline-none hover:text-foreground focus-visible:ring-1 focus-visible:ring-focus-ring"
             >
               {link.label}
             </Link>
@@ -38,7 +38,7 @@ export function SiteFooter() {
             href={siteConfig.links.github}
             target="_blank"
             rel="noreferrer"
-            className="rounded-sm transition-colors duration-fast ease-spring outline-none hover:text-foreground focus-visible:ring-1 focus-visible:ring-focus-ring"
+            className="rounded-sm transition-colors duration-feedback ease-feedback outline-none hover:text-foreground focus-visible:ring-1 focus-visible:ring-focus-ring"
           >
             <Icons.gitHub className="size-4" />
             <span className="sr-only">GitHub</span>
@@ -51,7 +51,7 @@ export function SiteFooter() {
             href="https://sharphaw.com"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-1.5 rounded-sm transition-colors duration-fast ease-spring outline-none hover:text-foreground focus-visible:ring-1 focus-visible:ring-focus-ring"
+            className="flex items-center gap-1.5 rounded-sm transition-colors duration-feedback ease-feedback outline-none hover:text-foreground focus-visible:ring-1 focus-visible:ring-focus-ring"
           >
             Built by
             <SharpHawWordmark className="h-5 w-auto" />

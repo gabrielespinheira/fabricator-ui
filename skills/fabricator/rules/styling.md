@@ -14,6 +14,7 @@ See [customization.md](../customization.md) for theming, CSS variables, and addi
 - Use cn() for conditional classes
 - No manual z-index on overlay components
 - Use shimmer / scroll-fade utilities, not custom animations
+- Animate with motion roles, never milliseconds
 
 ---
 
@@ -183,3 +184,25 @@ For scroll-aware edge fading on a scroll container, use `scroll-fade` (and the a
 ```tsx
 <span className="shimmer">Thinking…</span>
 ```
+
+---
+
+## Animate with motion roles, never milliseconds
+
+Fabricator components move by role, and one speed setting (`data-motion`) retimes all of them. Custom UI uses the same role utilities so it keeps pace. Fixed durations and curves ignore the speed the project picks.
+
+**Incorrect:**
+
+```tsx
+<div className="transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] hover:bg-muted" />
+<div className="animate-in fade-in zoom-in-95 duration-200" />
+```
+
+**Correct:**
+
+```tsx
+<div className="transition-colors duration-feedback ease-feedback hover:bg-muted" />
+<div className="motion-popup data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0" />
+```
+
+Roles: `duration-feedback` (hover, colour), `duration-move ease-move` (things that move on screen), `motion-tooltip`, `motion-popup`, `motion-dialog`, `motion-sheet`, `motion-disclosure`, `motion-toast`, `motion-press`. To change how fast everything moves, set `data-motion="smooth|snappy|instant|off"` on `<html>`; don't edit durations per component.

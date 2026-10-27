@@ -57,7 +57,7 @@ export function ComponentPreviewTabs({
                 role="tab"
                 aria-selected={view === value}
                 onClick={() => setView(value)}
-                className="h-8 rounded-lg px-3 text-[13px] font-medium text-muted-foreground capitalize transition-colors duration-fast ease-spring outline-none hover:bg-hover hover:text-foreground focus-visible:ring-1 focus-visible:ring-focus-ring aria-selected:bg-active aria-selected:text-foreground"
+                className="h-8 rounded-lg px-3 text-[13px] font-medium text-muted-foreground capitalize transition-colors duration-feedback ease-feedback outline-none hover:bg-hover hover:text-foreground focus-visible:ring-1 focus-visible:ring-focus-ring aria-selected:bg-active aria-selected:text-foreground"
               >
                 {value}
               </button>

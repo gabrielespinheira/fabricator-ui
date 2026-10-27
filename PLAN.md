@@ -321,7 +321,7 @@ Starting point is `tmp/TODO.md`: Colors, Surfaces, Radius (square | rounded | pi
 - **Add Fabricator tokens** with distinct names, delivered through the `cssVars` of the items that need them, so projects receive them only when required:
   - Surfaces: `--surface-sunken`, `--surface`, `--surface-raised`, `--surface-overlay` (+ foregrounds), in light and dark
   - Elevation: `--shadow-*`
-  - Motion: `--motion-duration-{fast,base,slow}`, `--motion-ease-{standard,emphasized,spring}`, respecting `prefers-reduced-motion`
+  - Motion: a duration and exit per role (`--motion-<role>`, `--motion-<role>-exit`), `--motion-ease-{enter,move,exit,feedback,drawer}`, surface scales and travel, set by four speeds (`data-motion`: smooth, default, snappy, instant) and respecting `prefers-reduced-motion` (`registry/fabricator/motion.ts`)
   - Density: `--control-height-{sm,md,lg}` (optional, if compact mode is token-driven rather than style-driven)
 - Colors are OKLCH, and every pair is checked for WCAG AA contrast in CI (script in `apps/web/scripts`).
 
@@ -562,7 +562,7 @@ Candidates that fit the TODO and inspiration list and are absent upstream: Surfa
 ### Phase 4: Fabricator design system v1 (≈ 2–4 weeks, iterative)
 - [ ] Token spec (§6): colors, surfaces, radius, density, motion, typography. Contrast CI.
 - [ ] `style-fabricator.css` (+ `-compact`, pill variant). The `/r/fabricator/` registry URL. Fabricator presets in `/r/config.json`.
-- [ ] `/create` designer for Fabricator dimensions.
+- [x] `/create` designer for Fabricator dimensions (2026-10-27: the Get started page; the look travels to `/init` as URL params).
 - [ ] Re-skin the website with the design system.
 - [ ] Decide the default icon library and fonts.
 

@@ -191,12 +191,12 @@ export function DocsShellSidebar({
               render={<section />}
             >
               <h3>
-                <CollapsibleTrigger className="group/group-trigger flex h-8 w-full items-center gap-2 rounded-lg px-2 text-start text-[12px] font-medium text-muted-foreground transition-colors duration-fast outline-none hover:text-foreground focus-visible:ring-1 focus-visible:ring-focus-ring">
+                <CollapsibleTrigger className="group/group-trigger flex h-8 w-full items-center gap-2 rounded-lg px-2 text-start text-[12px] font-medium text-muted-foreground transition-colors duration-feedback outline-none hover:text-foreground focus-visible:ring-1 focus-visible:ring-focus-ring">
                   <span className="flex-1 truncate">{group.name}</span>
                   {group.isCounted && (
                     <span className="tabular-nums">{group.pages.length}</span>
                   )}
-                  <ChevronRightIcon className="size-4 shrink-0 stroke-[1.5] transition-transform duration-fast ease-spring group-aria-expanded/group-trigger:rotate-90 motion-reduce:transition-none" />
+                  <ChevronRightIcon className="size-4 shrink-0 stroke-[1.5] transition-transform duration-feedback ease-feedback group-aria-expanded/group-trigger:rotate-90 motion-reduce:transition-none" />
                 </CollapsibleTrigger>
               </h3>
               {/* Closed groups stay in the page, so find-in-page opens them

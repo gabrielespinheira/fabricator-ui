@@ -10,6 +10,7 @@ Components reference semantic CSS variable tokens. Change the variables to chang
 - Changing the theme (presets, CSS variables)
 - Adding custom colors
 - Border radius
+- Motion (speeds and roles)
 - Customizing components (variants, className, wrappers)
 - Checking for updates
 
@@ -125,6 +126,38 @@ Fabricator UI requires Tailwind CSS v4. If `project.tailwindVersion` is `"v3"`, 
 ## Border Radius
 
 `--radius` controls border radius globally. Components derive values from it (`rounded-lg` = `var(--radius)`, `rounded-md` = `calc(var(--radius) - 2px)`).
+
+---
+
+## Motion
+
+Every component's animation reads motion tokens from the foundations, by role: `feedback` (hover, colour), `press`, `glide` (Fluid Hover), `move` (indicators, switches, selection), `tooltip`, `popup`, `dialog`, `sheet`, `disclosure` (accordion, collapsible) and `toast`.
+
+**Pick a speed** with `data-motion` on `<html>`; default needs nothing:
+
+| Speed     | For                            |
+| --------- | ------------------------------ |
+| `smooth`  | Marketing sites, landing pages |
+| `default` | Most products                  |
+| `snappy`  | Apps people use all day        |
+| `instant` | Dense dashboards, power tools  |
+| `off`     | No motion                      |
+
+```html
+<html data-motion="snappy"></html>
+```
+
+`data-motion` on any element sets the speed for its subtree. Tooltips, menus, popovers and dialogs render in a portal, so they follow `<html>`. `prefers-reduced-motion` drops slides, zooms and the press at every speed.
+
+**Animate your own UI with the same roles.** Never write milliseconds or a curve:
+
+```tsx
+<a className="transition-colors duration-feedback ease-feedback" />
+<span className="transition-transform duration-move ease-move" />
+<div className="motion-popup origin-(--transform-origin) data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0" />
+```
+
+Retune a role in the global CSS: `:root { --motion-popup: 200ms; }` (default speed) or under `:root[data-motion="smooth"]`. `--motion-scale` multiplies every duration. `duration-fast`, `duration-moderate`, `duration-slow` and `ease-spring` still work as aliases.
 
 ---
 

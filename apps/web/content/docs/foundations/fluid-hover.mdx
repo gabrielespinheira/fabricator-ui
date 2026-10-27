@@ -13,7 +13,7 @@ npx fabricator-ui@latest add fluid-hover
 
 ## Blink or glide
 
-With a plain `:hover`, the highlight switches off in every gap between rows and back on at the next one. Each blink pulls the eye back to the list. Fluid Hover keeps one highlight and moves it: it fades in where the pointer enters, glides between items on the fast spring, and fades out when the pointer leaves.
+With a plain `:hover`, the highlight switches off in every gap between rows and back on at the next one. Each blink pulls the eye back to the list. Fluid Hover keeps one highlight and moves it: it fades in where the pointer enters, glides between items on the glide timing (an ease-out, 150ms at the default [speed](/docs/foundations/motion)), and fades out when the pointer leaves.
 
 <FluidHoverCompare />
 
@@ -36,7 +36,7 @@ Lists, strips and grids feel the same under the pointer. Pass the axis the items
 | `"xy"`   | Grids: card groups.                                                                                |
 | `"auto"` | Follows the container's `aria-orientation` or `data-orientation`, for tabs that can turn vertical. |
 
-The tabs above also show the **selection background**: a second element, on `bg-active`, that slides between selected items on the moderate spring.
+The tabs above also show the **selection background**: a second element, on `bg-active`, that slides between selected items on the move timing (ease-in-out, 250ms at the default speed).
 
 ## Groups and disabled items
 

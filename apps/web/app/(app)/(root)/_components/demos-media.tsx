@@ -52,14 +52,14 @@ export function AspectRatioDemo() {
 
   return (
     <div className="flex flex-col items-center gap-4">
-      {/* Width and the ratio both animate, on the bouncy spring. */}
+      {/* Width and the ratio both animate, on the move timing. */}
       <div
-        className="transition-[width] duration-slow ease-spring-bounce motion-reduce:transition-none"
+        className="transition-[width] duration-move ease-move motion-reduce:transition-none"
         style={{ width: current.width }}
       >
         <AspectRatio
           ratio={current.ratio}
-          className="overflow-hidden rounded-lg bg-muted transition-[aspect-ratio] duration-slow ease-spring-bounce motion-reduce:transition-none"
+          className="overflow-hidden rounded-lg bg-muted transition-[aspect-ratio] duration-move ease-move motion-reduce:transition-none"
         >
           <Image
             src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?w=640&auto=format&fit=crop&q=80"

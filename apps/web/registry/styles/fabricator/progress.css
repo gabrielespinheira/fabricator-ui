@@ -1,7 +1,7 @@
 /* MARK: Progress */
 
-  /* 6px hover-tinted track; the foreground indicator moves on the moderate
-     spring. */
+  /* 6px hover-tinted track; the indicator, in the primary role's fill,
+     moves on the move timing. */
   .cn-progress {
     @apply bg-hover h-1.5 rounded-full;
   }
@@ -11,7 +11,7 @@
   }
 
   .cn-progress-indicator {
-    @apply bg-foreground rounded-full duration-moderate ease-spring;
+    @apply bg-primary rounded-full duration-move ease-move;
   }
 
   .cn-progress-label {

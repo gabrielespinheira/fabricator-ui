@@ -173,7 +173,8 @@ export function AccordionDemo() {
       <AccordionItem value="motion">
         <AccordionTrigger>How does motion work?</AccordionTrigger>
         <AccordionContent>
-          Spring easings in three speeds. Bigger moves use slower springs.
+          Every animation has a role, and one setting picks the speed, from
+          smooth for websites to instant for dashboards.
         </AccordionContent>
       </AccordionItem>
       <AccordionItem value="bases">

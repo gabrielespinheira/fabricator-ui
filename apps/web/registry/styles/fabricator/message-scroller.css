@@ -12,5 +12,5 @@
 
   /* Floating jump button: a raised round chip on surface 3. */
   .cn-message-scroller-button {
-    @apply cursor-pointer shadow-surface-3 rounded-full border-0;
+    @apply cursor-pointer shadow-surface-3 rounded-full border-0 duration-popup! ease-enter! data-[active=false]:scale-(--motion-popup-scale)! data-[active=false]:duration-popup-exit! data-[active=false]:ease-exit!;
   }

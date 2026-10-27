@@ -4,7 +4,7 @@
      1px blue edge: the inline focus border turns blue and the 3px halo is
      switched off. */
   .cn-badge {
-    @apply h-6 gap-1.5 rounded-lg border border-transparent px-2.5 text-[12px] font-medium transition-colors duration-fast ease-spring focus-visible:ring-0! aria-invalid:border-destructive/50 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2 [&>svg]:size-3! [&>svg]:stroke-[1.5];
+    @apply h-6 gap-1.5 rounded-lg border border-transparent px-2.5 text-[12px] font-medium transition-colors duration-feedback ease-feedback focus-visible:ring-0! aria-invalid:border-destructive/50 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2 [&>svg]:size-3! [&>svg]:stroke-[1.5];
   }
 
   .cn-badge-variant-default {
@@ -19,8 +19,10 @@
     @apply border-border text-foreground [a]:hover:bg-hover;
   }
 
+  /* The destructive role in the status recipe below; error is another name
+     for it. */
   .cn-badge-variant-destructive {
-    @apply bg-destructive-light text-destructive [a]:hover:bg-destructive/15;
+    @apply bg-destructive-surface-1 dark:bg-destructive-surface-3 border-destructive-border text-destructive-text [&>svg]:text-destructive [a]:hover:bg-destructive-surface-2 dark:[a]:hover:bg-destructive-surface-4;
   }
 
   .cn-badge-variant-ghost {
@@ -28,12 +30,12 @@
   }
 
   .cn-badge-variant-link {
-    @apply text-foreground underline-offset-4 hover:underline;
+    @apply text-primary-text underline-offset-4 hover:underline;
   }
 
   /* Statuses: a tinted pill (the most tinted surface in light, level 3 in
      dark) with a status hairline and the status text colour; icons take the
-     solid colour. AA in both themes (status-colors.test.ts). */
+     role's fill. AA in both themes (color-roles.test.ts). */
 
   .cn-badge-variant-info {
     @apply bg-info-surface-1 dark:bg-info-surface-3 border-info-border text-info-text [&>svg]:text-info [a]:hover:bg-info-surface-2 dark:[a]:hover:bg-info-surface-4;
@@ -48,5 +50,5 @@
   }
 
   .cn-badge-variant-error {
-    @apply bg-error-surface-1 dark:bg-error-surface-3 border-error-border text-error-text [&>svg]:text-error [a]:hover:bg-error-surface-2 dark:[a]:hover:bg-error-surface-4;
+    @apply bg-destructive-surface-1 dark:bg-destructive-surface-3 border-destructive-border text-destructive-text [&>svg]:text-destructive [a]:hover:bg-destructive-surface-2 dark:[a]:hover:bg-destructive-surface-4;
   }

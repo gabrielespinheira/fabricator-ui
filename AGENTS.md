@@ -305,7 +305,8 @@ Items are TypeScript objects in each folder's `_registry.ts`, typed `Registry["i
   - Catalogs: `public/r/registry.json`, `index.json`, `config.json`
 - **Rebuild:** after authored changes, run the full `bun run registry:build`. Targeted flags are for iteration only.
 - **Examples:** editing an existing example needs no rebuild. Adding, removing or renaming one needs `--examples`.
-- **`/init`** (`app/(app)/(create)/init/route.ts`; the `/create` page itself is removed for now, and only `/init`, its libs and `IconPlaceholder` remain in that folder) returns the `registry:base` payload. Its `config.registries` writes `@fabricator` into the user's `components.json`. Its `config.style` is always a valid upstream style id (contract item 2).
+- **`/init`** (`app/(app)/(create)/init/route.ts`) returns the `registry:base` payload. Its `config.registries` writes `@fabricator` into the user's `components.json`. Its `config.style` is always a valid upstream style id (contract item 2). It also takes a look (`registry/fabricator/look.ts`: `surface`, the six colour roles as `<hue>_<chroma>`, `shape=pill`, `motion=<speed>`) and adds its cssVars on top of the Fabricator palette.
+- **`/create`** (`app/(app)/(create)/create/`) is the Get started page: the Make it yours settings beside the homepage gallery, then project, extras and the install commands. Its choices are URL state (`setupParsers` in `(create)/lib/setup.ts`); the look lives in the site settings. `buildSetupCommands` turns a setup into commands and is unit-tested; keep it in step with the CLI's flags.
 
 ---
 
@@ -314,9 +315,11 @@ Items are TypeScript objects in each folder's `_registry.ts`, typed `Registry["i
 The Fabricator design language adapts Fluid Functionalism (MIT). **`apps/web/registry/fabricator/DESIGN.md` is the specification**: surfaces, interaction tokens, sizes, motion tiers, fluid hover, scrollbars, and the look of every component. Read it before changing any Fabricator style or override.
 
 - **Tokens** live in `registry/fabricator/foundations.ts` (foundations: new token names only; palette: Fabricator values for the shadcn token names, applied by the `fabricator` preset).
-- **Motion timings are tokens**, never milliseconds:
-  - Use the tier utilities: `duration-fast` / `-moderate` / `-slow` (90 / 210 / 290ms), `duration-<tier>-exit` (70 / 160 / 220ms) and `delay-<tier>`.
-  - They resolve to `calc(var(--motion-<tier>) * var(--motion-scale, 1))`, so `--motion-scale` speeds up, slows down or stops (0) every animation.
+- **Motion is by role, never milliseconds** (`registry/fabricator/motion.ts`, spec in DESIGN.md):
+  - Surfaces use one utility each: `motion-tooltip`, `-popup`, `-dialog`, `-scrim`, `-sheet`, `-disclosure`, `-toast`; buttons and toggles add `motion-press`.
+  - Everything else uses `duration-<role>`, `duration-<role>-exit` and `delay-<role>` (feedback, glide, move, …) with `ease-enter`, `-move`, `-exit`, `-feedback` or `-drawer`.
+  - Four speeds set the tokens: `smooth` (websites), `default` (Emil Kowalski's timings), `snappy`, `instant` (dashboards). `data-motion` on `<html>` or any element picks one, `off` stops motion, and `--motion-scale` multiplies every duration.
+  - `registry/fabricator/__tests__/motion-usage.test.ts` fails on fixed durations, literal curves, fixed zooms and the retired tier names (`duration-fast`, `ease-spring`, …), which stay only as aliases for consumers.
 - **Look:** each component's placeholder rules are in `registry/styles/fabricator/<component>.css`. The build assembles them into `style-fabricator.css` and fails if any placeholder used by the components has no rule.
 - **Behaviour** that CSS can't express (fluid hover, sliding selection) is added with **Fabricator overrides**: `registry/fabricator/<base>/ui/<component>.tsx` is a copy of the upstream source with additive, container-level changes; `registry/fabricator/shared/` holds files every base uses (`lib/fluid-hover.tsx`). Overrides compile into the Fabricator style only, so upstream styles keep their exact output. They keep the full upstream API (superset rule). Extra registry dependencies go in `fabricatorOverrides` in `registry/fabricator/registry.ts`.
 - **Blocks gallery:** `/blocks` is removed for now and redirects to `/docs/components`. Block items stay in the registry and install with `add`.
@@ -335,6 +338,7 @@ The Fabricator design language adapts Fluid Functionalism (MIT). **`apps/web/reg
 - **Colour:**
   - Values are OKLCH, defined for both `:root` and `.dark`.
   - Every foreground/background pair meets WCAG 2.2 AA (4.5:1 for text, 3:1 for UI and large text). The contrast check enforces this.
+  - Colour comes from six roles (`primary`, `secondary`, `info`, `success`, `warning`, `destructive`), each derived from `--<role>-hue` and `--<role>-chroma` by one recipe in `registry/fabricator/color-roles.ts`. Primary and secondary take any hue; the statuses keep to their family (`ROLE_HUE_RANGES`: info blue, success green, warning orange to yellow, destructive red to orange), clamped in the CSS too. Components use the role tokens (`bg-<role>`, `text-<role>-text`, `bg-<role>-surface-N`, …) or neutrals, never a raw colour. States are opacity steps of the fill (`/90`, `/80`; soft `/12`, `/16`, `/20`). The foundations never define the shadcn role names; the palette writes them as literals.
 
 ### Seeing style changes on the site
 
@@ -386,9 +390,9 @@ The website renders the Fabricator style, so it shows what `fabricator-ui add` i
     - When you add a component, add it to the catalog with a card height, and give it a group in `lib/component-groups.ts` (the docs sidebar and the homepage filter share these groups; a test fails while a component page has none).
 - **Docs pages** use the docs shell: `[data-slot=docs-shell]` hides the site header and footer.
 - **Site settings** (`lib/site-settings.ts`, stored in localStorage):
-  - The settings menu (`components/fabricator/site-settings.tsx`) is in the top bar, the docs sidebar and the docs panel, and holds theme, sound, icons, radius, motion and surface (the surface tint, also set by the picker on the Surfaces page).
-  - `components/fabricator/site-settings-effects.tsx` applies them: it sets `data-radius` on `<html>` (Pill sets `--radius: 1.25rem` in `app/fabricator-site.css`) sets `data-motion` (Relaxed/Snappy/Off scale `--motion-scale` in `app/fabricator-site.css`), sets `--surface-hue` and `--surface-chroma` inline on `<html>` (the site's palette links `background`, `card`, `popover`, `sidebar` and `muted` to the surfaces, so they follow), and mounts the registry's `<SoundEffects />`.
-  - A script in `<head>` applies a stored Pill radius, motion speed and surface tint before paint.
+  - The settings menu (`components/fabricator/site-settings.tsx`) is in the top bar, the docs sidebar and the docs panel, and holds theme, sound, icons, radius, motion, surface (the surface tint, also set by the picker on the Surfaces page) and primary (the primary colour role; the Colors page sets every role).
+  - `components/fabricator/site-settings-effects.tsx` applies them: it sets `data-radius` on `<html>` (Pill sets `--radius: 1.25rem` in `app/fabricator-site.css`) sets `data-motion` (Smooth, Snappy, Instant or Off: the foundations' speed switches; Default removes it), sets `--surface-hue` and `--surface-chroma` inline on `<html>` (the site's palette links `background`, `card`, `popover`, `sidebar` and `muted` to the surfaces, so they follow), sets each colour role's `--<role>-hue` and `--<role>-chroma` the same way (the palette links `primary`, `secondary` and `destructive` to the roles), and mounts the registry's `<SoundEffects />`.
+  - A script in `<head>` applies a stored Pill radius, motion speed, surface tint and colour roles before paint.
 - **Site icons:** the Fabricator copies the site renders (`examples/__styles__/*-fabricator`, `styles/*-fabricator/ui`) import icons from `@/lib/site-icons`, not `lucide-react`, so previews follow the Icons setting.
   - `lib/site-icons*.ts(x)` is generated by `bun run icons:build` (also part of `bun run dev`) and committed.
   - The generator maps names through `registry/icons/site-mapping.json`, then `public/r/icons/index.json`.

@@ -54,9 +54,14 @@ const nextConfig = {
     // another ~0.5 GB. Together with the leaner component shards from
     // `scripts/build-registry.mts`, the build fits in 7 GB (checked in a
     // container limited to 4 CPUs).
+    // Worker threads are for builds only: in `next dev` a worker that first ran
+    // the MDX loaders later receives the PostCSS job for app/globals.css and
+    // fails with "Cannot read properties of undefined (reading 'map')".
     turbopackFileSystemCacheForBuild: false,
     turbopackSourceMaps: false,
-    turbopackPluginRuntimeStrategy: "workerThreads",
+    ...(process.env.NODE_ENV !== "development" && {
+      turbopackPluginRuntimeStrategy: "workerThreads",
+    }),
     // Rewrite barrel imports to deep imports so a single icon doesn't pull the
     // whole package into the module graph. Next already optimizes lucide-react,
     // @tabler/icons-react, date-fns and lodash-es by default; these are the
@@ -156,12 +161,7 @@ const nextConfig = {
         destination: "/docs/components/:base/select.md",
         permanent: false,
       },
-      // The Create and Colors pages aren't part of the site for now.
-      {
-        source: "/create",
-        destination: "/docs/installation",
-        permanent: false,
-      },
+      // The Colors page isn't part of the site for now.
       {
         source: "/colors/:path*",
         destination: "/docs/foundations/surfaces",

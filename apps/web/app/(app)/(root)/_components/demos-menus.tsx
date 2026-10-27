@@ -146,22 +146,22 @@ export function DropdownDemo() {
   )
 }
 
-const SPRINGS = [
-  { value: "fast", label: "Fast spring" },
-  { value: "moderate", label: "Moderate spring" },
-  { value: "slow", label: "Slow spring" },
-  { value: "none", label: "No animation" },
+const SPEEDS = [
+  { value: "smooth", label: "Smooth" },
+  { value: "default", label: "Default" },
+  { value: "snappy", label: "Snappy" },
+  { value: "instant", label: "Instant" },
 ]
 
 export function SelectDemo() {
   return (
-    <Select items={SPRINGS} defaultValue="moderate">
+    <Select items={SPEEDS} defaultValue="default">
       <SelectTrigger className="w-[220px]">
         <SelectValue />
       </SelectTrigger>
       <SelectContent>
         <SelectGroup>
-          {SPRINGS.map((item) => (
+          {SPEEDS.map((item) => (
             <SelectItem key={item.value} value={item.value}>
               {item.label}
             </SelectItem>

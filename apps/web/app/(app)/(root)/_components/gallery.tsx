@@ -358,7 +358,7 @@ function GalleryCard({ item }: { item: GalleryItem }) {
     >
       <Link
         href={href}
-        className="absolute top-4 left-4 z-10 inline-flex h-6 items-center gap-1 rounded-lg bg-foreground/[0.07] px-2 text-xs font-medium text-foreground/80 transition-colors duration-fast outline-none hover:bg-foreground/[0.12] hover:text-foreground focus-visible:ring-2 focus-visible:ring-focus-ring"
+        className="absolute top-4 left-4 z-10 inline-flex h-6 items-center gap-1 rounded-lg bg-foreground/[0.07] px-2 text-xs font-medium text-foreground/80 transition-colors duration-feedback outline-none hover:bg-foreground/[0.12] hover:text-foreground focus-visible:ring-2 focus-visible:ring-focus-ring"
       >
         {item.isNew && (
           <span aria-hidden className="size-1.5 rounded-full bg-info" />
@@ -369,7 +369,7 @@ function GalleryCard({ item }: { item: GalleryItem }) {
       <Link
         href={href}
         aria-label={`${item.title} docs`}
-        className="absolute top-4 right-4 z-10 flex size-8 items-center justify-center rounded-lg bg-foreground/[0.07] text-foreground/70 opacity-0 transition-[opacity,background-color] duration-moderate ease-spring outline-none group-focus-within/card:opacity-100 group-hover/card:opacity-100 hover:bg-foreground/[0.12] hover:text-foreground focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-focus-ring"
+        className="absolute top-4 right-4 z-10 flex size-8 items-center justify-center rounded-lg bg-foreground/[0.07] text-foreground/70 opacity-0 transition-[opacity,background-color] duration-move ease-move outline-none group-focus-within/card:opacity-100 group-hover/card:opacity-100 hover:bg-foreground/[0.12] hover:text-foreground focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-focus-ring"
       >
         <ArrowUpRightIcon className="size-4" />
       </Link>

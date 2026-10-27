@@ -99,6 +99,8 @@ function CommandDialog({
       )}
       showCloseButton={showCloseButton}
       isDismissable
+      // Opened from the keyboard many times a day: no animation.
+      data-motion="off"
       {...props}
     >
       <DialogHeader className="sr-only">
