@@ -28,6 +28,7 @@ import {
   useFluidHover,
   useMergedRef,
 } from "@/registry/bases/aria/lib/fluid-hover"
+import { useDensity } from "@/registry/bases/aria/ui/density"
 import {
   InputGroup,
   InputGroupAddon,
@@ -153,9 +154,12 @@ function SelectPopover({
   className?: string
   children?: React.ReactNode
 }) {
+  const density = useDensity()
+
   return (
     <PopoverPrimitive
       data-slot="select-content"
+      data-density={density}
       placement={placement}
       offset={offset}
       crossOffset={crossOffset}
@@ -174,6 +178,9 @@ function SelectPopover({
 // glides between options and the selected option's fill slides between rows.
 // The list renders a collection, so the overlays are portalled into it rather
 // than passed as children.
+//
+// Its popups take the density of the nearest DensityProvider, which their
+// portals would otherwise lose (registry/fabricator/density.ts).
 function SelectList<T extends object>({
   className,
   ref,

@@ -2,7 +2,7 @@
 
   /* Borderless: a hover-tinted panel, rounded-xl, 13px body. */
   .cn-alert {
-    @apply grid gap-0.5 rounded-xl p-4 text-left text-[13px] has-data-[slot=alert-action]:relative has-data-[slot=alert-action]:pr-18 has-[>svg]:grid-cols-[auto_1fr] has-[>svg]:gap-x-2.5 *:[svg]:row-span-2 *:[svg]:translate-y-0.5 *:[svg]:stroke-[1.5] *:[svg]:text-current *:[svg:not([class*='size-'])]:size-4;
+    @apply grid gap-0.5 rounded-xl p-(--density-16) text-left text-(length:--density-text-13) has-data-[slot=alert-action]:relative has-data-[slot=alert-action]:pr-18 has-[>svg]:grid-cols-[auto_1fr] has-[>svg]:gap-x-(--density-10) *:[svg]:row-span-2 *:[svg]:translate-y-0.5 *:[svg]:stroke-[1.5] *:[svg]:text-current *:[svg:not([class*='size-'])]:size-(--density-icon-16);
   }
 
   .cn-alert-variant-default {
@@ -46,11 +46,11 @@
   }
 
   .cn-alert-title {
-    @apply text-[14px] leading-5 font-medium group-has-[>svg]/alert:col-start-2;
+    @apply text-(length:--density-text-14) leading-5 font-medium group-has-[>svg]/alert:col-start-2;
   }
 
   .cn-alert-description {
-    @apply text-foreground/70 text-[13px] text-balance md:text-pretty [&_p:not(:last-child)]:mb-4;
+    @apply text-foreground/70 text-(length:--density-text-13) text-balance md:text-pretty [&_p:not(:last-child)]:mb-4;
   }
 
   .cn-alert-action {

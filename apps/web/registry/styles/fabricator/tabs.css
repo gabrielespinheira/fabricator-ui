@@ -1,14 +1,14 @@
 /* MARK: Tabs */
 
   .cn-tabs {
-    @apply gap-2;
+    @apply gap-(--density-8);
   }
 
   /* Track: muted, rounded-xl, p-1, 36px tall. The list is a fluid hover
      container (relative isolate): the selected pill and the hover pill are
      overlays under the triggers. The line variant drops the track. */
   .cn-tabs-list {
-    @apply relative isolate rounded-xl p-1 group-data-horizontal/tabs:h-9 data-[variant=line]:rounded-none data-[variant=line]:bg-transparent;
+    @apply relative isolate rounded-xl p-(--density-4) group-data-horizontal/tabs:h-(--density-36) data-[variant=line]:rounded-none data-[variant=line]:bg-transparent;
   }
 
   /* The default track is a translucent foreground step instead of bg-muted:
@@ -27,7 +27,7 @@
      Without a fluid list (React Aria) the active tab paints its own raised
      pill; inside one the sliding overlay does, so the tab stays transparent. */
   .cn-tabs-trigger {
-    @apply cursor-pointer gap-1.5 rounded-lg px-3 text-[13px] font-normal transition-[color,background-color,box-shadow] duration-feedback ease-feedback in-data-[slot=tabs-list]:h-7 in-data-[slot=tabs-list]:focus-visible:ring-0 [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] hover:[&_svg]:stroke-2 data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-active:font-semibold data-active:[&_svg]:stroke-2 group-data-[variant=default]/tabs-list:data-active:bg-surface-4 group-data-[variant=default]/tabs-list:data-active:shadow-surface-4 dark:group-data-[variant=default]/tabs-list:data-active:bg-surface-4 in-data-[fluid-hover]:group-data-[variant=default]/tabs-list:data-active:bg-transparent in-data-[fluid-hover]:group-data-[variant=default]/tabs-list:data-active:shadow-none dark:in-data-[fluid-hover]:group-data-[variant=default]/tabs-list:data-active:bg-transparent in-data-[fluid-hover]:group-data-[variant=line]/tabs-list:data-active:after:opacity-0 [&_svg:not([class*='size-'])]:size-4 has-data-[icon=inline-end]:pe-2.5 has-data-[icon=inline-start]:ps-2.5;
+    @apply cursor-pointer gap-(--density-6) rounded-lg px-(--density-12) text-(length:--density-text-13) font-normal transition-[color,background-color,box-shadow] duration-feedback ease-feedback in-data-[slot=tabs-list]:h-(--density-28) in-data-[slot=tabs-list]:focus-visible:ring-0 [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] hover:[&_svg]:stroke-2 data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-active:font-semibold data-active:[&_svg]:stroke-2 group-data-[variant=default]/tabs-list:data-active:bg-surface-4 group-data-[variant=default]/tabs-list:data-active:shadow-surface-4 dark:group-data-[variant=default]/tabs-list:data-active:bg-surface-4 in-data-[fluid-hover]:group-data-[variant=default]/tabs-list:data-active:bg-transparent in-data-[fluid-hover]:group-data-[variant=default]/tabs-list:data-active:shadow-none dark:in-data-[fluid-hover]:group-data-[variant=default]/tabs-list:data-active:bg-transparent in-data-[fluid-hover]:group-data-[variant=line]/tabs-list:data-active:after:opacity-0 [&_svg:not([class*='size-'])]:size-(--density-icon-16) has-data-[icon=inline-end]:pe-(--density-10) has-data-[icon=inline-start]:ps-(--density-10);
   }
 
   /* React Aria marks the selected tab with data-selected. Inside a fluid list
@@ -51,5 +51,5 @@
   }
 
   .cn-tabs-content {
-    @apply text-[13px];
+    @apply text-(length:--density-text-13);
   }

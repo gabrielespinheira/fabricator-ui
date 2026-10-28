@@ -6,24 +6,24 @@
      Kbd's. The rules below only add what the questionnaire context needs. */
 
   .cn-questionnaire {
-    @apply gap-3;
+    @apply gap-(--density-12);
   }
 
   /* "Question 1 of 3": a quiet 12px caption. */
   .cn-questionnaire-progress {
-    @apply text-[12px] font-normal;
+    @apply text-(length:--density-text-12) font-normal;
   }
 
   .cn-questionnaire-item {
-    @apply flex flex-col gap-3;
+    @apply flex flex-col gap-(--density-12);
   }
 
   .cn-questionnaire-title {
-    @apply text-foreground mb-0.5 text-[16px] leading-snug font-semibold;
+    @apply text-foreground mb-0.5 text-(length:--density-text-16) leading-snug font-semibold;
   }
 
   .cn-questionnaire-description {
-    @apply text-muted-foreground text-[13px];
+    @apply text-muted-foreground text-(length:--density-text-13);
   }
 
   /* Choices bleed 8px each side so the mark lines up with the title. */
@@ -37,7 +37,7 @@
      44px touch target on small screens (padded so one line sits centred) and
      tighten to 36px from sm up. */
   .cn-questionnaire-choice {
-    @apply text-foreground gap-2.5 rounded-lg bg-transparent px-2 py-3 sm:min-h-9 sm:py-2 text-[13px] duration-feedback ease-feedback hover:bg-hover data-checked:bg-active data-checked:hover:bg-active has-[>input:focus-visible]:ring-1 has-[>input:focus-visible]:ring-focus-ring;
+    @apply text-foreground gap-(--density-10) rounded-lg bg-transparent px-(--density-8) py-(--density-12) sm:min-h-(--density-36) sm:py-(--density-8) text-(length:--density-text-13) duration-feedback ease-feedback hover:bg-hover data-checked:bg-active data-checked:hover:bg-active has-[>input:focus-visible]:ring-1 has-[>input:focus-visible]:ring-focus-ring;
   }
 
   /* The Checkbox / Radio mark, lit by the whole row: the row's hover firms
@@ -62,7 +62,7 @@
 
   /* Captions: 12px muted, as in Field. */
   .cn-questionnaire-choice-description {
-    @apply text-muted-foreground text-[12px] font-normal;
+    @apply text-muted-foreground text-(length:--density-text-12) font-normal;
   }
 
   /* The Kbd keycap; it takes the foreground once its row is chosen. */
@@ -81,9 +81,9 @@
   }
 
   .cn-questionnaire-error {
-    @apply text-[12px];
+    @apply text-(length:--density-text-12);
   }
 
   .cn-questionnaire-actions {
-    @apply mt-1 gap-2 sm:min-h-9;
+    @apply mt-1 gap-(--density-8) sm:min-h-(--density-36);
   }

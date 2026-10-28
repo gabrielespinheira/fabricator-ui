@@ -6,6 +6,7 @@ import { LinkIcon } from "lucide-react"
 
 import { CheckIcon, CopyIcon } from "@/lib/site-icons"
 import {
+  DENSITY_OPTIONS,
   ICON_LIBRARIES,
   MOTION_SPEEDS,
   SURFACE_PRESETS,
@@ -310,6 +311,9 @@ function SetupSummary({
           </SummaryRow>
           <SummaryRow label="Radius">
             {look.radius === "pill" ? "Pill" : "Rounded"}
+          </SummaryRow>
+          <SummaryRow label="Density">
+            {DENSITY_OPTIONS.find(({ value }) => value === look.density)?.label}
           </SummaryRow>
           <SummaryRow label="Motion">
             {MOTION_SPEEDS.find(({ value }) => value === look.motion)?.label}

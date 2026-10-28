@@ -16,7 +16,7 @@ export function LookControls({ onNext }: { onNext: () => void }) {
     <div className="flex flex-col gap-4">
       <p className="text-[13px] leading-relaxed text-muted-foreground">
         Change anything and the dashboard follows. Your colours, surface,
-        radius, motion and icons go into the install command.
+        radius, density, motion and icons go into the install command.
       </p>
       <div className="rounded-2xl bg-surface-3 px-3 py-1 shadow-surface-1 dark:bg-surface-2 dark:shadow-surface-2">
         <SiteSettingsFields />

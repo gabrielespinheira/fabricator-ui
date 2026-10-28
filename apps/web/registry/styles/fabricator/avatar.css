@@ -1,7 +1,7 @@
 /* MARK: Avatar */
 
   .cn-avatar {
-    @apply size-8 rounded-full after:rounded-full data-[size=lg]:size-10 data-[size=sm]:size-6;
+    @apply size-(--density-32) rounded-full after:rounded-full data-[size=lg]:size-(--density-40) data-[size=sm]:size-(--density-24);
   }
 
   /* Initials on the active fill, muted. */
@@ -18,5 +18,5 @@
   }
 
   .cn-avatar-group-count {
-    @apply bg-active text-muted-foreground size-8 rounded-full text-[12px] font-medium group-has-data-[size=lg]/avatar-group:size-10 group-has-data-[size=sm]/avatar-group:size-6 [&>svg]:size-4 [&>svg]:stroke-[1.5] group-has-data-[size=lg]/avatar-group:[&>svg]:size-5 group-has-data-[size=sm]/avatar-group:[&>svg]:size-3;
+    @apply bg-active text-muted-foreground size-(--density-32) rounded-full text-(length:--density-text-12) font-medium group-has-data-[size=lg]/avatar-group:size-(--density-40) group-has-data-[size=sm]/avatar-group:size-(--density-24) [&>svg]:size-(--density-icon-16) [&>svg]:stroke-[1.5] group-has-data-[size=lg]/avatar-group:[&>svg]:size-(--density-20) group-has-data-[size=sm]/avatar-group:[&>svg]:size-3;
   }

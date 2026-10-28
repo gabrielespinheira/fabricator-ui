@@ -15,9 +15,9 @@
   }
 
   .cn-progress-label {
-    @apply text-[13px] font-medium;
+    @apply text-(length:--density-text-13) font-medium;
   }
 
   .cn-progress-value {
-    @apply text-muted-foreground ml-auto text-[13px] tabular-nums;
+    @apply text-muted-foreground ml-auto text-(length:--density-text-13) tabular-nums;
   }

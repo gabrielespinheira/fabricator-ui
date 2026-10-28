@@ -3,8 +3,8 @@
 // The setup page (/create) writes them into the init URL, and /init turns
 // them into the payload's cssVars. Values are `<hue>_<chroma>` for colours
 // (no characters that need encoding, so the URL in a command stays readable),
-// `shape=pill` and `motion=<speed>`. Only values that differ from the
-// defaults are written.
+// `shape=pill`, `motion=<speed>` and `density=<compact|spacious>`. Only values
+// that differ from the defaults are written.
 
 import {
   COLOR_ROLES,
@@ -15,6 +15,13 @@ import {
   type ColorRole,
   type RoleColor,
 } from "@/registry/fabricator/color-roles"
+import {
+  DEFAULT_DENSITY,
+  DENSITIES,
+  DENSITY_NAMES,
+  toDensityVars,
+  type DensityName,
+} from "@/registry/fabricator/density"
 import { SURFACE_PALETTE_LINKS } from "@/registry/fabricator/foundations"
 import {
   DEFAULT_MOTION_SPEED,
@@ -41,6 +48,7 @@ export type FabricatorLook = {
   colors: Record<ColorRole, RoleColor>
   radius: LookShape
   motion: LookMotion
+  density: DensityName
 }
 
 export const DEFAULT_LOOK: FabricatorLook = {
@@ -48,6 +56,7 @@ export const DEFAULT_LOOK: FabricatorLook = {
   colors: ROLE_DEFAULTS,
   radius: "rounded",
   motion: DEFAULT_MOTION_SPEED,
+  density: DEFAULT_DENSITY,
 }
 
 /** Every param the look reads and writes. */
@@ -56,6 +65,7 @@ export const LOOK_PARAM_NAMES = [
   ...COLOR_ROLES,
   "shape",
   "motion",
+  "density",
 ] as const
 
 /** The radius Pill sets (the website's Pill setting uses the same value). */
@@ -96,6 +106,9 @@ export function lookToSearchParams(look: FabricatorLook) {
   }
   if (look.radius !== DEFAULT_LOOK.radius) params.set("shape", look.radius)
   if (look.motion !== DEFAULT_LOOK.motion) params.set("motion", look.motion)
+  if (look.density !== DEFAULT_LOOK.density) {
+    params.set("density", look.density)
+  }
   return params
 }
 
@@ -149,7 +162,18 @@ export function parseLook(searchParams: URLSearchParams): ParseResult {
     }
   }
 
-  return { success: true, look: { surface, colors, radius: shape, motion } }
+  const density = searchParams.get("density") ?? DEFAULT_LOOK.density
+  if (!isOneOf(DENSITY_NAMES, density)) {
+    return {
+      success: false,
+      error: `Invalid "density": ${density}. Use one of: ${DENSITY_NAMES.join(", ")}.`,
+    }
+  }
+
+  return {
+    success: true,
+    look: { surface, colors, radius: shape, motion, density },
+  }
 }
 
 /**
@@ -189,6 +213,12 @@ export function lookCssVars(look: FabricatorLook) {
     light["motion-scale"] = "0"
   } else if (look.motion !== DEFAULT_MOTION_SPEED) {
     Object.assign(light, toMotionVars(MOTION_SPEEDS[look.motion]))
+  }
+
+  // The project's density sits in :root; data-density still switches any
+  // part of the page.
+  if (look.density !== DEFAULT_DENSITY) {
+    Object.assign(light, toDensityVars(DENSITIES[look.density]))
   }
 
   return { light, dark }

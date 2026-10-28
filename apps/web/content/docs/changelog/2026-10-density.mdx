@@ -1,0 +1,35 @@
+---
+title: October 2026 - Density
+description: Compact, default and spacious. Set a density on any container and every component inside resizes, the popups it opens included.
+date: 2026-10-28
+---
+
+## Density
+
+Fabricator UI now builds websites as well as dashboards from the same components. Three densities size every component: `compact` for dashboards, toolbars and dense tables (28px controls, 12px text), `default` for apps (36px, 13px, as before) and `spacious` for websites and landing pages (44px controls, 15px text, 18px icons). Controls, menu and table rows, text, icons, padding, gaps and segmented tracks all follow, and tracks stay concentric at every density.
+
+Set one on any element with `data-density`, and everything inside follows. `DensityProvider` does the same and also reaches the menus, selects, popovers, tooltips, dialogs and sheets its components open in portals, so a compact dashboard header opens compact menus and a spacious landing page opens spacious selects. Nest them freely.
+
+```tsx
+import { DensityProvider } from "@/components/ui/density"
+
+export default function MarketingLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return <DensityProvider density="spacious">{children}</DensityProvider>
+}
+```
+
+```bash
+npx fabricator-ui@latest add density
+```
+
+Pick a project-wide density on [Get started](/create): the install command writes it into your stylesheet. The settings menu on this site has a Density row, and the [Density](/docs/foundations/density) page, which replaces Sizes, shows all three side by side. The `density-compact`, `density-default` and `density-spacious` utilities take breakpoints, and your own components can use the same tokens: `h-(--density-36)`, `text-(length:--density-text-13)`, `size-(--density-icon-16)`.
+
+## Breaking changes
+
+- `size="sm"` now pins a control to the compact density and `size="lg"` to spacious, whatever its container says. Small sizes look as before. Large ones grow: Button and Toggle `lg` and `icon-lg` go from 40px to 44px with 15px text, matching Search `lg`.
+- Updating a Fabricator component also installs the `foundations` density tokens and, for overlays, the `density` item.
+- `/docs/foundations/sizes` redirects to `/docs/foundations/density`.

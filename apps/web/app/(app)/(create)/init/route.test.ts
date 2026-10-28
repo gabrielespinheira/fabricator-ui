@@ -153,6 +153,17 @@ describe("GET /init", () => {
     expect(json.cssVars.dark.background).toBe("var(--surface-1)")
   })
 
+  it("sets the project's density", async () => {
+    const response = await GET(createRequest("?density=spacious"))
+    const json = await response.json()
+
+    expect(response.status).toBe(200)
+    expect(json.cssVars.light).toMatchObject({
+      "density-36": "2.75rem",
+      "density-text-13": "15px",
+    })
+  })
+
   it("rejects an invalid look", async () => {
     const response = await GET(createRequest("?motion=fast"))
     const json = await response.json()

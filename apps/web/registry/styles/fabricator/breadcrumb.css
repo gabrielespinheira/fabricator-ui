@@ -3,7 +3,7 @@
   /* Muted trail; links turn foreground on hover, the current page is
      foreground. */
   .cn-breadcrumb-list {
-    @apply text-muted-foreground gap-1.5 text-[13px];
+    @apply text-muted-foreground gap-(--density-6) text-(length:--density-text-13);
   }
 
   .cn-breadcrumb-item {
@@ -19,9 +19,9 @@
   }
 
   .cn-breadcrumb-separator {
-    @apply text-muted-foreground/60 [&>svg]:size-3.5 [&>svg]:stroke-[1.5];
+    @apply text-muted-foreground/60 [&>svg]:size-(--density-icon-14) [&>svg]:stroke-[1.5];
   }
 
   .cn-breadcrumb-ellipsis {
-    @apply size-5 [&>svg]:size-4 [&>svg]:stroke-[1.5];
+    @apply size-(--density-20) [&>svg]:size-(--density-icon-16) [&>svg]:stroke-[1.5];
   }

@@ -34,6 +34,27 @@ html:root {
   --motion-tooltip-travel: 0px;
   --motion-popup-travel: 0px;
   --motion-popup-blur: 0px;
+  --density-4: 0.25rem;
+  --density-6: 0.375rem;
+  --density-8: 0.5rem;
+  --density-10: 0.625rem;
+  --density-12: 0.75rem;
+  --density-14: 0.875rem;
+  --density-16: 1rem;
+  --density-20: 1.25rem;
+  --density-24: 1.5rem;
+  --density-28: 1.75rem;
+  --density-32: 2rem;
+  --density-36: 2.25rem;
+  --density-40: 2.5rem;
+  --density-48: 3rem;
+  --density-text-11: 11px;
+  --density-text-12: 12px;
+  --density-text-13: 13px;
+  --density-text-14: 14px;
+  --density-text-16: 16px;
+  --density-icon-14: 0.875rem;
+  --density-icon-16: 1rem;
   --surface-1: oklch(calc(0.985 - var(--surface-chroma) * 0.575) calc(var(--surface-chroma) * 0.44) var(--surface-hue));
   --shadow-1: 0 0 0 1px var(--shadow-color);
   --surface-2: oklch(calc(0.991 - var(--surface-chroma) * 0.625) calc(var(--surface-chroma) * 0.395) var(--surface-hue));
@@ -730,6 +751,144 @@ html.dark {
   &:active:not(:disabled, [aria-disabled="true"], [data-disabled], :where([data-slot="button-group"], [data-slot="input-group"]) *), &[data-pressed]:not(:where([data-slot="button-group"], [data-slot="input-group"]) *) {
     scale: var(--motion-press-scale);
   }
+}
+:root[data-density="compact"], [data-density="compact"] {
+  --density-4: 0.125rem;
+  --density-6: 0.25rem;
+  --density-8: 0.375rem;
+  --density-10: 0.5rem;
+  --density-12: 0.625rem;
+  --density-14: 0.75rem;
+  --density-16: 0.75rem;
+  --density-20: 1rem;
+  --density-24: 1.25rem;
+  --density-28: 1.5rem;
+  --density-32: 1.75rem;
+  --density-36: 1.75rem;
+  --density-40: 2rem;
+  --density-48: 2.5rem;
+  --density-text-11: 11px;
+  --density-text-12: 12px;
+  --density-text-13: 12px;
+  --density-text-14: 13px;
+  --density-text-16: 15px;
+  --density-icon-14: 0.75rem;
+  --density-icon-16: 0.875rem;
+}
+:root[data-density="default"], [data-density="default"] {
+  --density-4: 0.25rem;
+  --density-6: 0.375rem;
+  --density-8: 0.5rem;
+  --density-10: 0.625rem;
+  --density-12: 0.75rem;
+  --density-14: 0.875rem;
+  --density-16: 1rem;
+  --density-20: 1.25rem;
+  --density-24: 1.5rem;
+  --density-28: 1.75rem;
+  --density-32: 2rem;
+  --density-36: 2.25rem;
+  --density-40: 2.5rem;
+  --density-48: 3rem;
+  --density-text-11: 11px;
+  --density-text-12: 12px;
+  --density-text-13: 13px;
+  --density-text-14: 14px;
+  --density-text-16: 16px;
+  --density-icon-14: 0.875rem;
+  --density-icon-16: 1rem;
+}
+:root[data-density="spacious"], [data-density="spacious"] {
+  --density-4: 0.25rem;
+  --density-6: 0.5rem;
+  --density-8: 0.625rem;
+  --density-10: 0.75rem;
+  --density-12: 0.875rem;
+  --density-14: 1rem;
+  --density-16: 1.25rem;
+  --density-20: 1.5rem;
+  --density-24: 1.75rem;
+  --density-28: 2.25rem;
+  --density-32: 2.5rem;
+  --density-36: 2.75rem;
+  --density-40: 3rem;
+  --density-48: 3.5rem;
+  --density-text-11: 12px;
+  --density-text-12: 13px;
+  --density-text-13: 15px;
+  --density-text-14: 16px;
+  --density-text-16: 18px;
+  --density-icon-14: 1rem;
+  --density-icon-16: 1.125rem;
+}
+@utility density-compact {
+  --density-4: 0.125rem;
+  --density-6: 0.25rem;
+  --density-8: 0.375rem;
+  --density-10: 0.5rem;
+  --density-12: 0.625rem;
+  --density-14: 0.75rem;
+  --density-16: 0.75rem;
+  --density-20: 1rem;
+  --density-24: 1.25rem;
+  --density-28: 1.5rem;
+  --density-32: 1.75rem;
+  --density-36: 1.75rem;
+  --density-40: 2rem;
+  --density-48: 2.5rem;
+  --density-text-11: 11px;
+  --density-text-12: 12px;
+  --density-text-13: 12px;
+  --density-text-14: 13px;
+  --density-text-16: 15px;
+  --density-icon-14: 0.75rem;
+  --density-icon-16: 0.875rem;
+}
+@utility density-default {
+  --density-4: 0.25rem;
+  --density-6: 0.375rem;
+  --density-8: 0.5rem;
+  --density-10: 0.625rem;
+  --density-12: 0.75rem;
+  --density-14: 0.875rem;
+  --density-16: 1rem;
+  --density-20: 1.25rem;
+  --density-24: 1.5rem;
+  --density-28: 1.75rem;
+  --density-32: 2rem;
+  --density-36: 2.25rem;
+  --density-40: 2.5rem;
+  --density-48: 3rem;
+  --density-text-11: 11px;
+  --density-text-12: 12px;
+  --density-text-13: 13px;
+  --density-text-14: 14px;
+  --density-text-16: 16px;
+  --density-icon-14: 0.875rem;
+  --density-icon-16: 1rem;
+}
+@utility density-spacious {
+  --density-4: 0.25rem;
+  --density-6: 0.5rem;
+  --density-8: 0.625rem;
+  --density-10: 0.75rem;
+  --density-12: 0.875rem;
+  --density-14: 1rem;
+  --density-16: 1.25rem;
+  --density-20: 1.5rem;
+  --density-24: 1.75rem;
+  --density-28: 2.25rem;
+  --density-32: 2.5rem;
+  --density-36: 2.75rem;
+  --density-40: 3rem;
+  --density-48: 3.5rem;
+  --density-text-11: 12px;
+  --density-text-12: 13px;
+  --density-text-13: 15px;
+  --density-text-14: 16px;
+  --density-text-16: 18px;
+  --density-icon-14: 1rem;
+  --density-icon-16: 1.125rem;
 }
 @utility scrollbar-hide {
   -ms-overflow-style: none;

@@ -10,11 +10,15 @@ import {
   useFluidHover,
   useMergedRef,
 } from "@/registry/bases/base/lib/fluid-hover"
+import { useDensity } from "@/registry/bases/base/ui/density"
 import { IconPlaceholder } from "@/app/(create)/components/icon-placeholder"
 
 // Fabricator override of the upstream navigation menu: the menu is a fluid
 // hover strip, so one highlight glides between the top-level triggers and
 // links, and each content panel is a fluid hover container for its links.
+//
+// The popup takes the density of the nearest DensityProvider, which its
+// portal would otherwise lose (registry/fabricator/density.ts).
 const CONTENT = '[data-slot="navigation-menu-content"]'
 const STRIP_ITEMS = `[data-slot="navigation-menu-trigger"], [data-slot="navigation-menu-link"]:not(${CONTENT} *)`
 const CONTENT_LINKS = '[data-slot="navigation-menu-link"]'
@@ -168,9 +172,12 @@ function NavigationMenuPositioner({
   alignOffset = 0,
   ...props
 }: NavigationMenuPrimitive.Positioner.Props) {
+  const density = useDensity()
+
   return (
     <NavigationMenuPrimitive.Portal>
       <NavigationMenuPrimitive.Positioner
+        data-density={density}
         side={side}
         sideOffset={sideOffset}
         align={align}

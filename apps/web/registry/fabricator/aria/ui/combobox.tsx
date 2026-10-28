@@ -41,6 +41,7 @@ import {
   useMergedRef,
 } from "@/registry/bases/aria/lib/fluid-hover"
 import { Button } from "@/registry/bases/aria/ui/button"
+import { useDensity } from "@/registry/bases/aria/ui/density"
 import {
   InputGroup,
   InputGroupAddon,
@@ -168,9 +169,12 @@ function ComboboxContent({
   children?: React.ReactNode
   anchor?: React.RefObject<HTMLDivElement | null>
 }) {
+  const density = useDensity()
+
   return (
     <PopoverPrimitive
       data-slot="combobox-content"
+      data-density={density}
       placement={placement}
       offset={offset}
       crossOffset={crossOffset}
@@ -188,6 +192,9 @@ function ComboboxContent({
 // glides between options; in single selection the selected option's fill
 // slides between rows. The list renders a collection, so the overlays are
 // portalled into it rather than passed as children.
+//
+// Its popups take the density of the nearest DensityProvider, which their
+// portals would otherwise lose (registry/fabricator/density.ts).
 const COMBOBOX_SELECTED =
   '[data-slot="combobox-list"]:not([aria-multiselectable="true"]) [data-selected]'
 

@@ -4,53 +4,53 @@
      transparent → hover tint (unless focused) → card while anything inside has focus, no blue
      halo. Invalid controls turn the ring red and tint the hover. */
   .cn-input-group {
-    @apply ring-border hover:not-focus-within:bg-muted/50 focus-within:bg-card focus-within:ring-foreground/25 has-[[data-slot][aria-invalid=true]]:ring-destructive/50 has-[[data-slot][aria-invalid=true]]:hover:not-focus-within:bg-destructive/5 has-disabled:bg-transparent h-9 rounded-lg border-0 bg-transparent ring-1 transition-[color,background-color,box-shadow] duration-feedback ease-feedback in-data-[slot=combobox-content]:focus-within:ring-border has-disabled:opacity-50 has-[>[data-align=block-end]]:h-auto has-[>[data-align=block-end]]:flex-col has-[>[data-align=block-start]]:h-auto has-[>[data-align=block-start]]:flex-col has-[>[data-align=block-end]]:[&>input]:pt-3 has-[>[data-align=block-start]]:[&>input]:pb-3 has-[>[data-align=inline-end]]:[&>input]:pr-1.5 has-[>[data-align=inline-start]]:[&>input]:pl-1.5;
+    @apply ring-border hover:not-focus-within:bg-muted/50 focus-within:bg-card focus-within:ring-foreground/25 has-[[data-slot][aria-invalid=true]]:ring-destructive/50 has-[[data-slot][aria-invalid=true]]:hover:not-focus-within:bg-destructive/5 has-disabled:bg-transparent h-(--density-36) rounded-lg border-0 bg-transparent ring-1 transition-[color,background-color,box-shadow] duration-feedback ease-feedback in-data-[slot=combobox-content]:focus-within:ring-border has-disabled:opacity-50 has-[>[data-align=block-end]]:h-auto has-[>[data-align=block-end]]:flex-col has-[>[data-align=block-start]]:h-auto has-[>[data-align=block-start]]:flex-col has-[>[data-align=block-end]]:[&>input]:pt-(--density-12) has-[>[data-align=block-start]]:[&>input]:pb-(--density-12) has-[>[data-align=inline-end]]:[&>input]:pr-(--density-6) has-[>[data-align=inline-start]]:[&>input]:pl-(--density-6);
   }
 
   /* Addons: muted 13px text and 16px icons at stroke 1.5; they wake to
      foreground (stroke 2) while the group has focus. */
   .cn-input-group-addon {
-    @apply text-muted-foreground group-focus-within/input-group:text-foreground h-auto gap-2 py-1.5 text-[13px] font-normal transition-colors duration-feedback group-data-[disabled=true]/input-group:opacity-50 [&>kbd]:rounded-[5px] [&>svg]:stroke-[1.5] [&>svg]:transition-[stroke-width] group-focus-within/input-group:[&>svg]:stroke-2 [&>svg:not([class*='size-'])]:size-4;
+    @apply text-muted-foreground group-focus-within/input-group:text-foreground h-auto gap-(--density-8) py-(--density-6) text-(length:--density-text-13) font-normal transition-colors duration-feedback group-data-[disabled=true]/input-group:opacity-50 [&>kbd]:rounded-[5px] [&>svg]:stroke-[1.5] [&>svg]:transition-[stroke-width] group-focus-within/input-group:[&>svg]:stroke-2 [&>svg:not([class*='size-'])]:size-(--density-icon-16);
   }
 
   .cn-input-group-addon-align-inline-start {
-    @apply pl-2.5 has-[>button]:ml-[-0.3rem] has-[>kbd]:ml-[-0.15rem];
+    @apply pl-(--density-10) has-[>button]:ml-[-0.3rem] has-[>kbd]:ml-[-0.15rem];
   }
 
   .cn-input-group-addon-align-inline-end {
-    @apply pr-2.5 has-[>button]:mr-[-0.3rem] has-[>kbd]:mr-[-0.15rem];
+    @apply pr-(--density-10) has-[>button]:mr-[-0.3rem] has-[>kbd]:mr-[-0.15rem];
   }
 
   .cn-input-group-addon-align-block-start {
-    @apply px-2.5 pt-2 group-has-[>input]/input-group:pt-2 [.border-b]:border-border/60 [.border-b]:pb-2;
+    @apply px-(--density-10) pt-(--density-8) group-has-[>input]/input-group:pt-(--density-8) [.border-b]:border-border/60 [.border-b]:pb-(--density-8);
   }
 
   .cn-input-group-addon-align-block-end {
-    @apply px-2.5 pb-2 group-has-[>input]/input-group:pb-2 [.border-t]:border-border/60 [.border-t]:pt-2;
+    @apply px-(--density-10) pb-(--density-8) group-has-[>input]/input-group:pb-(--density-8) [.border-t]:border-border/60 [.border-t]:pt-(--density-8);
   }
 
   .cn-input-group-button {
-    @apply cursor-pointer gap-1.5 text-[13px];
+    @apply cursor-pointer gap-(--density-6) text-(length:--density-text-13);
   }
 
   .cn-input-group-button-size-xs {
-    @apply h-6 gap-1 rounded-md px-2 text-[12px] [&>svg:not([class*='size-'])]:size-3.5;
+    @apply h-(--density-24) gap-1 rounded-md px-(--density-8) text-(length:--density-text-12) [&>svg:not([class*='size-'])]:size-(--density-icon-14);
   }
 
   .cn-input-group-button-size-sm {
-    @apply h-7 gap-1 rounded-md px-2.5 text-[12px] [&>svg:not([class*='size-'])]:size-3.5;
+    @apply h-(--density-28) gap-1 rounded-md px-(--density-10) text-(length:--density-text-12) [&>svg:not([class*='size-'])]:size-(--density-icon-14);
   }
 
   .cn-input-group-button-size-icon-xs {
-    @apply size-6 rounded-md p-0 has-[>svg]:p-0 [&>svg:not([class*='size-'])]:size-3.5;
+    @apply size-(--density-24) rounded-md p-0 has-[>svg]:p-0 [&>svg:not([class*='size-'])]:size-(--density-icon-14);
   }
 
   .cn-input-group-button-size-icon-sm {
-    @apply size-7 rounded-md p-0 has-[>svg]:p-0;
+    @apply size-(--density-28) rounded-md p-0 has-[>svg]:p-0;
   }
 
   .cn-input-group-text {
-    @apply text-muted-foreground gap-2 text-[13px] [&_svg:not([class*='size-'])]:size-4;
+    @apply text-muted-foreground gap-(--density-8) text-(length:--density-text-13) [&_svg:not([class*='size-'])]:size-(--density-icon-16);
   }
 
   /* The control drops its own frame and fills; the group draws both. */
@@ -59,5 +59,5 @@
   }
 
   .cn-input-group-textarea {
-    @apply rounded-none border-0 bg-transparent py-2 shadow-none ring-0 hover:bg-transparent focus-visible:bg-transparent focus-visible:ring-0 disabled:bg-transparent aria-invalid:ring-0 aria-invalid:hover:bg-transparent aria-invalid:focus-visible:bg-transparent;
+    @apply rounded-none border-0 bg-transparent py-(--density-8) shadow-none ring-0 hover:bg-transparent focus-visible:bg-transparent focus-visible:ring-0 disabled:bg-transparent aria-invalid:ring-0 aria-invalid:hover:bg-transparent aria-invalid:focus-visible:bg-transparent;
   }

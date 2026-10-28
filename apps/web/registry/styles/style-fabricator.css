@@ -18,7 +18,7 @@
      an open item's trigger turns foreground and semibold. Focus is a 1px
      blue ring. */
   .cn-accordion-trigger {
-    @apply cursor-pointer text-muted-foreground rounded-lg px-3 py-2 text-start text-[13px] leading-5 font-normal transition-[color,background-color] duration-feedback hover:bg-hover hover:text-foreground in-data-[fluid-hover]:hover:bg-transparent data-fluid-hover-active:text-foreground aria-expanded:text-foreground aria-expanded:font-semibold focus-visible:ring-ring focus-visible:ring-1 **:data-[slot=accordion-trigger-icon]:ms-auto **:data-[slot=accordion-trigger-icon]:mt-0.5 **:data-[slot=accordion-trigger-icon]:size-4;
+    @apply cursor-pointer text-muted-foreground rounded-lg px-(--density-12) py-(--density-8) text-start text-(length:--density-text-13) leading-5 font-normal transition-[color,background-color] duration-feedback hover:bg-hover hover:text-foreground in-data-[fluid-hover]:hover:bg-transparent data-fluid-hover-active:text-foreground aria-expanded:text-foreground aria-expanded:font-semibold focus-visible:ring-ring focus-visible:ring-1 **:data-[slot=accordion-trigger-icon]:ms-auto **:data-[slot=accordion-trigger-icon]:mt-0.5 **:data-[slot=accordion-trigger-icon]:size-4;
   }
 
   /* One chevron that points to the end and turns 90° to point down when
@@ -29,11 +29,11 @@
   }
 
   .cn-accordion-content {
-    @apply text-muted-foreground motion-disclosure data-open:animate-accordion-down data-closed:animate-accordion-up text-[13px];
+    @apply text-muted-foreground motion-disclosure data-open:animate-accordion-down data-closed:animate-accordion-up text-(length:--density-text-13);
   }
 
   .cn-accordion-content-inner {
-    @apply px-3 pt-1 pb-3;
+    @apply px-(--density-12) pt-1 pb-(--density-12);
   }
 
 /* MARK: Alert Dialog */
@@ -48,28 +48,28 @@
      a translate lands on half pixels for odd sizes and blurs the text.
      The ! beats the inline centering classes in the source. */
   .cn-alert-dialog-content {
-    @apply inset-0! m-auto! h-fit! translate-x-0! translate-y-0! bg-surface-5 shadow-surface-5 text-popover-foreground gap-4 rounded-xl p-6 text-[13px] motion-dialog data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0 data-[size=default]:max-w-[calc(100%-2rem)] data-[size=sm]:max-w-xs data-[size=default]:sm:max-w-[400px];
+    @apply inset-0! m-auto! h-fit! translate-x-0! translate-y-0! bg-surface-5 shadow-surface-5 text-popover-foreground gap-(--density-16) rounded-xl p-(--density-24) text-(length:--density-text-13) motion-dialog data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0 data-[size=default]:max-w-[calc(100%-2rem)] data-[size=sm]:max-w-xs data-[size=default]:sm:max-w-[400px];
   }
 
   .cn-alert-dialog-header {
-    @apply grid grid-rows-[auto_1fr] place-items-center gap-1.5 text-center has-data-[slot=alert-dialog-media]:grid-rows-[auto_auto_1fr] has-data-[slot=alert-dialog-media]:gap-x-4 sm:group-data-[size=default]/alert-dialog-content:place-items-start sm:group-data-[size=default]/alert-dialog-content:text-start sm:group-data-[size=default]/alert-dialog-content:has-data-[slot=alert-dialog-media]:grid-rows-[auto_1fr];
+    @apply grid grid-rows-[auto_1fr] place-items-center gap-(--density-6) text-center has-data-[slot=alert-dialog-media]:grid-rows-[auto_auto_1fr] has-data-[slot=alert-dialog-media]:gap-x-(--density-16) sm:group-data-[size=default]/alert-dialog-content:place-items-start sm:group-data-[size=default]/alert-dialog-content:text-start sm:group-data-[size=default]/alert-dialog-content:has-data-[slot=alert-dialog-media]:grid-rows-[auto_1fr];
   }
 
   .cn-alert-dialog-media {
-    @apply bg-hover text-foreground mb-2 inline-flex size-10 items-center justify-center rounded-lg sm:group-data-[size=default]/alert-dialog-content:row-span-2 *:[svg:not([class*='size-'])]:size-5;
+    @apply bg-hover text-foreground mb-2 inline-flex size-(--density-40) items-center justify-center rounded-lg sm:group-data-[size=default]/alert-dialog-content:row-span-2 *:[svg:not([class*='size-'])]:size-(--density-20);
   }
 
   .cn-alert-dialog-title {
-    @apply text-foreground text-[16px] leading-tight font-bold sm:group-data-[size=default]/alert-dialog-content:group-has-data-[slot=alert-dialog-media]/alert-dialog-content:col-start-2;
+    @apply text-foreground text-(length:--density-text-16) leading-tight font-bold sm:group-data-[size=default]/alert-dialog-content:group-has-data-[slot=alert-dialog-media]/alert-dialog-content:col-start-2;
   }
 
   .cn-alert-dialog-description {
-    @apply text-muted-foreground *:[a]:hover:text-foreground text-[13px] text-balance md:text-pretty *:[a]:underline *:[a]:underline-offset-3;
+    @apply text-muted-foreground *:[a]:hover:text-foreground text-(length:--density-text-13) text-balance md:text-pretty *:[a]:underline *:[a]:underline-offset-3;
   }
 
   /* Right-aligned actions without the upstream muted footer bar. */
   .cn-alert-dialog-footer {
-    @apply mt-2 gap-2;
+    @apply mt-2 gap-(--density-8);
   }
 
   /* React Aria */
@@ -79,14 +79,14 @@
 
   /* Same pixel-snapped centering as the other bases. */
   .cn-alert-dialog-content-aria {
-    @apply inset-0! m-auto! h-fit! translate-x-0! translate-y-0! bg-surface-5 shadow-surface-5 text-popover-foreground gap-4 rounded-xl p-6 text-[13px] motion-dialog data-entering:animate-in data-entering:fade-in-0 data-exiting:animate-out data-exiting:fade-out-0 data-[size=default]:max-w-[calc(100%-2rem)] data-[size=sm]:max-w-xs data-[size=default]:sm:max-w-[400px];
+    @apply inset-0! m-auto! h-fit! translate-x-0! translate-y-0! bg-surface-5 shadow-surface-5 text-popover-foreground gap-(--density-16) rounded-xl p-(--density-24) text-(length:--density-text-13) motion-dialog data-entering:animate-in data-entering:fade-in-0 data-exiting:animate-out data-exiting:fade-out-0 data-[size=default]:max-w-[calc(100%-2rem)] data-[size=sm]:max-w-xs data-[size=default]:sm:max-w-[400px];
   }
 
 /* MARK: Alert */
 
   /* Borderless: a hover-tinted panel, rounded-xl, 13px body. */
   .cn-alert {
-    @apply grid gap-0.5 rounded-xl p-4 text-left text-[13px] has-data-[slot=alert-action]:relative has-data-[slot=alert-action]:pr-18 has-[>svg]:grid-cols-[auto_1fr] has-[>svg]:gap-x-2.5 *:[svg]:row-span-2 *:[svg]:translate-y-0.5 *:[svg]:stroke-[1.5] *:[svg]:text-current *:[svg:not([class*='size-'])]:size-4;
+    @apply grid gap-0.5 rounded-xl p-(--density-16) text-left text-(length:--density-text-13) has-data-[slot=alert-action]:relative has-data-[slot=alert-action]:pr-18 has-[>svg]:grid-cols-[auto_1fr] has-[>svg]:gap-x-(--density-10) *:[svg]:row-span-2 *:[svg]:translate-y-0.5 *:[svg]:stroke-[1.5] *:[svg]:text-current *:[svg:not([class*='size-'])]:size-(--density-icon-16);
   }
 
   .cn-alert-variant-default {
@@ -130,11 +130,11 @@
   }
 
   .cn-alert-title {
-    @apply text-[14px] leading-5 font-medium group-has-[>svg]/alert:col-start-2;
+    @apply text-(length:--density-text-14) leading-5 font-medium group-has-[>svg]/alert:col-start-2;
   }
 
   .cn-alert-description {
-    @apply text-foreground/70 text-[13px] text-balance md:text-pretty [&_p:not(:last-child)]:mb-4;
+    @apply text-foreground/70 text-(length:--density-text-13) text-balance md:text-pretty [&_p:not(:last-child)]:mb-4;
   }
 
   .cn-alert-action {
@@ -162,21 +162,21 @@
      horizontal tile with text gets a wider end, a text-only chip a wider
      inline inset. */
   .cn-attachment-size-default {
-    @apply gap-2.5 p-1.5 text-[13px] data-[orientation=horizontal]:has-data-[slot=attachment-content]:pe-2.5 not-has-data-[slot=attachment-media]:px-2.5 not-has-data-[slot=attachment-media]:py-2;
+    @apply gap-(--density-10) p-(--density-6) text-(length:--density-text-13) data-[orientation=horizontal]:has-data-[slot=attachment-content]:pe-(--density-10) not-has-data-[slot=attachment-media]:px-(--density-10) not-has-data-[slot=attachment-media]:py-(--density-8);
   }
 
   .cn-attachment-size-sm {
-    @apply gap-2 p-1 text-[12px] data-[orientation=horizontal]:has-data-[slot=attachment-content]:pe-2 not-has-data-[slot=attachment-media]:px-2 not-has-data-[slot=attachment-media]:py-1.5;
+    @apply gap-(--density-8) p-1 text-(length:--density-text-12) data-[orientation=horizontal]:has-data-[slot=attachment-content]:pe-(--density-8) not-has-data-[slot=attachment-media]:px-(--density-8) not-has-data-[slot=attachment-media]:py-(--density-6);
   }
 
   .cn-attachment-size-xs {
-    @apply gap-1.5 rounded-lg p-1 text-[12px] data-[orientation=horizontal]:has-data-[slot=attachment-content]:pe-1.5 not-has-data-[slot=attachment-media]:px-1.5;
+    @apply gap-(--density-6) rounded-lg p-1 text-(length:--density-text-12) data-[orientation=horizontal]:has-data-[slot=attachment-content]:pe-(--density-6) not-has-data-[slot=attachment-media]:px-(--density-6);
   }
 
   /* Media well: the hover fill with an inset hairline painted over the
      preview (Fluid Functionalism's file thumbnail). */
   .cn-attachment-media {
-    @apply bg-hover text-muted-foreground w-9 rounded-md outline-1 -outline-offset-1 outline-black/10 dark:outline-white/10 group-data-[size=sm]/attachment:w-7 group-data-[size=xs]/attachment:w-6 group-data-[size=xs]/attachment:rounded-[5px] [&_svg:not([class*='size-'])]:size-4 [&_svg]:stroke-[1.5] group-data-[size=xs]/attachment:[&_svg:not([class*='size-'])]:size-3.5 group-data-[orientation=vertical]/attachment:w-full group-data-[orientation=vertical]/attachment:rounded-lg group-data-[orientation=vertical]/attachment:[&_svg:not([class*='size-'])]:size-6 group-data-[orientation=vertical]/attachment:*:data-[slot=spinner]:size-6!;
+    @apply bg-hover text-muted-foreground w-9 rounded-md outline-1 -outline-offset-1 outline-black/10 dark:outline-white/10 group-data-[size=sm]/attachment:w-7 group-data-[size=xs]/attachment:w-6 group-data-[size=xs]/attachment:rounded-[5px] [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5] group-data-[size=xs]/attachment:[&_svg:not([class*='size-'])]:size-(--density-icon-14) group-data-[orientation=vertical]/attachment:w-full group-data-[orientation=vertical]/attachment:rounded-lg group-data-[orientation=vertical]/attachment:[&_svg:not([class*='size-'])]:size-(--density-24) group-data-[orientation=vertical]/attachment:*:data-[slot=spinner]:size-(--density-24)!;
   }
 
   .cn-attachment-media-variant-image {
@@ -192,7 +192,7 @@
   }
 
   .cn-attachment-description {
-    @apply mt-0.5 text-[12px] tabular-nums;
+    @apply mt-0.5 text-(length:--density-text-12) tabular-nums;
   }
 
   .cn-attachment-actions {
@@ -200,7 +200,7 @@
   }
 
   .cn-attachment-group {
-    @apply gap-2 scroll-px-1 p-1;
+    @apply gap-(--density-8) scroll-px-1 p-1;
   }
 
   .cn-attachment-trigger {
@@ -210,7 +210,7 @@
 /* MARK: Avatar */
 
   .cn-avatar {
-    @apply size-8 rounded-full after:rounded-full data-[size=lg]:size-10 data-[size=sm]:size-6;
+    @apply size-(--density-32) rounded-full after:rounded-full data-[size=lg]:size-(--density-40) data-[size=sm]:size-(--density-24);
   }
 
   /* Initials on the active fill, muted. */
@@ -227,7 +227,7 @@
   }
 
   .cn-avatar-group-count {
-    @apply bg-active text-muted-foreground size-8 rounded-full text-[12px] font-medium group-has-data-[size=lg]/avatar-group:size-10 group-has-data-[size=sm]/avatar-group:size-6 [&>svg]:size-4 [&>svg]:stroke-[1.5] group-has-data-[size=lg]/avatar-group:[&>svg]:size-5 group-has-data-[size=sm]/avatar-group:[&>svg]:size-3;
+    @apply bg-active text-muted-foreground size-(--density-32) rounded-full text-(length:--density-text-12) font-medium group-has-data-[size=lg]/avatar-group:size-(--density-40) group-has-data-[size=sm]/avatar-group:size-(--density-24) [&>svg]:size-(--density-icon-16) [&>svg]:stroke-[1.5] group-has-data-[size=lg]/avatar-group:[&>svg]:size-(--density-20) group-has-data-[size=sm]/avatar-group:[&>svg]:size-3;
   }
 
 /* MARK: Badge */
@@ -236,7 +236,7 @@
      1px blue edge: the inline focus border turns blue and the 3px halo is
      switched off. */
   .cn-badge {
-    @apply h-6 gap-1.5 rounded-lg border border-transparent px-2.5 text-[12px] font-medium transition-colors duration-feedback ease-feedback focus-visible:ring-0! aria-invalid:border-destructive/50 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2 [&>svg]:size-3! [&>svg]:stroke-[1.5];
+    @apply h-(--density-24) gap-(--density-6) rounded-lg border border-transparent px-(--density-10) text-(length:--density-text-12) font-medium transition-colors duration-feedback ease-feedback focus-visible:ring-0! aria-invalid:border-destructive/50 has-data-[icon=inline-end]:pr-(--density-8) has-data-[icon=inline-start]:pl-(--density-8) [&>svg]:size-3! [&>svg]:stroke-[1.5];
   }
 
   .cn-badge-variant-default {
@@ -290,7 +290,7 @@
   /* Muted trail; links turn foreground on hover, the current page is
      foreground. */
   .cn-breadcrumb-list {
-    @apply text-muted-foreground gap-1.5 text-[13px];
+    @apply text-muted-foreground gap-(--density-6) text-(length:--density-text-13);
   }
 
   .cn-breadcrumb-item {
@@ -306,11 +306,11 @@
   }
 
   .cn-breadcrumb-separator {
-    @apply text-muted-foreground/60 [&>svg]:size-3.5 [&>svg]:stroke-[1.5];
+    @apply text-muted-foreground/60 [&>svg]:size-(--density-icon-14) [&>svg]:stroke-[1.5];
   }
 
   .cn-breadcrumb-ellipsis {
-    @apply size-5 [&>svg]:size-4 [&>svg]:stroke-[1.5];
+    @apply size-(--density-20) [&>svg]:size-(--density-icon-16) [&>svg]:stroke-[1.5];
   }
 
 /* MARK: Bubble */
@@ -322,7 +322,7 @@
   /* Soft chat bubble: 8px corners, 14px text. Interactive bubbles (button,
      link) change colour on the feedback timing and focus with the 1px blue ring. */
   .cn-bubble-content {
-    @apply rounded-lg border border-transparent px-3.5 py-2 text-[14px] leading-normal text-pretty [button,a]:duration-feedback [button,a]:ease-feedback [button,a]:outline-none [button,a]:focus-visible:ring-1 [button,a]:focus-visible:ring-ring group-data-[align=end]/bubble:self-end;
+    @apply rounded-lg border border-transparent px-(--density-14) py-(--density-8) text-(length:--density-text-14) leading-normal text-pretty [button,a]:duration-feedback [button,a]:ease-feedback [button,a]:outline-none [button,a]:focus-visible:ring-1 [button,a]:focus-visible:ring-ring group-data-[align=end]/bubble:self-end;
   }
 
   /* Neutral ladder, after Fluid Functionalism's chat: secondary is its
@@ -361,7 +361,7 @@
 
   /* Reactions: a small raised pill on surface 3 (the shadow ring is its edge). */
   .cn-bubble-reactions {
-    @apply bg-surface-3 shadow-surface-3 h-6 shrink-0 gap-0.5 rounded-full px-1.5 text-[12px] has-[button]:p-0.5;
+    @apply bg-surface-3 shadow-surface-3 h-(--density-24) shrink-0 gap-0.5 rounded-full px-(--density-6) text-(length:--density-text-12) has-[button]:p-0.5;
   }
 
   .cn-bubble-reactions-side-top {
@@ -387,7 +387,7 @@
 /* MARK: Button Group */
 
   .cn-button-group {
-    @apply has-[>[data-slot=button-group]]:gap-2 has-[select[aria-hidden=true]:last-child]:[&>[data-slot=select-trigger]:last-of-type]:rounded-r-lg;
+    @apply has-[>[data-slot=button-group]]:gap-(--density-8) has-[select[aria-hidden=true]:last-child]:[&>[data-slot=select-trigger]:last-of-type]:rounded-r-lg;
   }
 
   .cn-button-group-orientation-horizontal {
@@ -401,7 +401,7 @@
   /* An addon cell: hover fill with a hairline edge, muted 13px text, sized
      like the 36px controls beside it. */
   .cn-button-group-text {
-    @apply bg-hover border-border text-muted-foreground gap-2 rounded-lg border px-3 text-[13px] font-medium [&_svg]:stroke-[1.5] [&_svg:not([class*='size-'])]:size-4;
+    @apply bg-hover border-border text-muted-foreground gap-(--density-8) rounded-lg border px-(--density-12) text-(length:--density-text-13) font-medium [&_svg]:stroke-[1.5] [&_svg:not([class*='size-'])]:size-(--density-icon-16);
   }
 
   .cn-button-group-separator {
@@ -410,13 +410,13 @@
 
 /* MARK: Button */
 
-  /* 36px controls, 13px medium text, rounded-lg. Colour changes run on the
-     feedback timing; pressed is a background step plus the press scale
-     (motion-press; joined groups stay flat). Focus
-     is a 1px blue ring with no halo; icons draw at stroke 1.5 and thicken
-     to 2 on hover or while the button's popup is open. */
+  /* 36px controls at the default density, 13px medium text, rounded-lg.
+     Colour changes run on the feedback timing; pressed is a background step
+     plus the press scale (motion-press; joined groups stay flat). Focus is a
+     1px blue ring with no halo; icons draw at stroke 1.5 and thicken to 2 on
+     hover or while the button's popup is open. */
   .cn-button {
-    @apply cursor-pointer aria-disabled:cursor-not-allowed rounded-lg border border-transparent text-[13px] font-medium duration-feedback ease-feedback motion-press focus-visible:ring-1 focus-visible:ring-ring aria-invalid:ring-1 aria-invalid:ring-destructive/50 [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] [&_svg]:duration-feedback hover:[&_svg]:stroke-2 aria-expanded:[&_svg]:stroke-2 [&_svg:not([class*='size-'])]:size-4;
+    @apply cursor-pointer aria-disabled:cursor-not-allowed rounded-lg border border-transparent text-(length:--density-text-13) font-medium duration-feedback ease-feedback motion-press focus-visible:ring-1 focus-visible:ring-ring aria-invalid:ring-1 aria-invalid:ring-destructive/50 [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] [&_svg]:duration-feedback hover:[&_svg]:stroke-2 aria-expanded:[&_svg]:stroke-2 [&_svg:not([class*='size-'])]:size-(--density-icon-16);
   }
 
   /* The primary role's fill (the foreground colour while primary is
@@ -454,21 +454,24 @@
     @apply text-primary-text underline-offset-4 hover:underline;
   }
 
-  /* An icon sits 4px closer to its edge than text does. */
+  /* Sizes follow the density (registry/fabricator/density.ts): default takes
+     the nearest one, sm pins the button to compact and lg to spacious, so a
+     size prop always means the same height. An icon sits a step closer to
+     its edge than text does. xs is the fixed 24px floor. */
   .cn-button-size-xs {
     @apply h-6 gap-1 px-2 text-[12px] has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-3;
   }
 
   .cn-button-size-sm {
-    @apply h-7 gap-1 px-3 text-[12px] has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2 [&_svg:not([class*='size-'])]:size-3.5;
+    @apply density-compact h-(--density-36) gap-(--density-6) px-(--density-16) has-data-[icon=inline-end]:pr-(--density-12) has-data-[icon=inline-start]:pl-(--density-12);
   }
 
   .cn-button-size-default {
-    @apply h-9 gap-1.5 px-4 has-data-[icon=inline-end]:pr-3 has-data-[icon=inline-start]:pl-3;
+    @apply h-(--density-36) gap-(--density-6) px-(--density-16) has-data-[icon=inline-end]:pr-(--density-12) has-data-[icon=inline-start]:pl-(--density-12);
   }
 
   .cn-button-size-lg {
-    @apply h-10 gap-1.5 px-5 has-data-[icon=inline-end]:pr-4 has-data-[icon=inline-start]:pl-4;
+    @apply density-spacious h-(--density-36) gap-(--density-6) px-(--density-16) has-data-[icon=inline-end]:pr-(--density-12) has-data-[icon=inline-start]:pl-(--density-12);
   }
 
   .cn-button-size-icon-xs {
@@ -476,15 +479,15 @@
   }
 
   .cn-button-size-icon-sm {
-    @apply size-7 [&_svg:not([class*='size-'])]:size-3.5;
+    @apply density-compact size-(--density-36);
   }
 
   .cn-button-size-icon {
-    @apply size-9;
+    @apply size-(--density-36);
   }
 
   .cn-button-size-icon-lg {
-    @apply size-10;
+    @apply density-spacious size-(--density-36);
   }
 
 /* MARK: Calendar */
@@ -494,7 +497,7 @@
      both read in dark mode too; these use `!` because the component sets
      bg-muted inline on those cells. */
   .cn-calendar {
-    @apply p-3 text-[13px] [--cell-radius:var(--radius-lg)] [--cell-size:--spacing(8)] **:[.rdp-today]:bg-active! **:[.rdp-range\_start]:bg-active! **:[.rdp-range\_start]:after:bg-active! **:[.rdp-range\_end]:bg-active! **:[.rdp-range\_end]:after:bg-active! **:data-[range-middle=true]:bg-active! **:data-today:bg-active!;
+    @apply p-(--density-12) text-(length:--density-text-13) [--cell-radius:var(--radius-lg)] [--cell-size:var(--density-32)] **:[.rdp-today]:bg-active! **:[.rdp-range\_start]:bg-active! **:[.rdp-range\_start]:after:bg-active! **:[.rdp-range\_end]:bg-active! **:[.rdp-range\_end]:after:bg-active! **:data-[range-middle=true]:bg-active! **:data-today:bg-active!;
   }
 
   /* Month/year dropdowns: framed like an input, no blue halo. */
@@ -503,7 +506,7 @@
   }
 
   .cn-calendar-caption-label {
-    @apply h-7 pr-1.5 pl-2;
+    @apply h-(--density-28) pr-(--density-6) pl-(--density-8);
   }
 
   .cn-calendar-caption {
@@ -516,7 +519,7 @@
      would turn the number the same colour as the fill), and the keyboard
      focus is the 1px focus ring instead of upstream's 3px halo. */
   .cn-calendar-day-button {
-    @apply cursor-pointer text-inherit text-[13px] hover:text-foreground data-[selected-single=true]:hover:text-primary-foreground! data-[selected-single=true]:hover:bg-primary/90 data-[range-start=true]:hover:text-primary-foreground! data-[range-start=true]:hover:bg-primary/90 data-[range-end=true]:hover:text-primary-foreground! data-[range-end=true]:hover:bg-primary/90 group-data-[focused=true]/day:ring-1! group-data-[focused=true]/day:ring-focus-ring!;
+    @apply cursor-pointer text-inherit text-(length:--density-text-13) hover:text-foreground data-[selected-single=true]:hover:text-primary-foreground! data-[selected-single=true]:hover:bg-primary/90 data-[range-start=true]:hover:text-primary-foreground! data-[range-start=true]:hover:bg-primary/90 data-[range-end=true]:hover:text-primary-foreground! data-[range-end=true]:hover:bg-primary/90 group-data-[focused=true]/day:ring-1! group-data-[focused=true]/day:ring-focus-ring!;
   }
 
 /* MARK: Card */
@@ -525,7 +528,7 @@
      border or ring), rounded-xl. 16px rhythm (12px for size="sm"). The
      footer has no muted bar, so the card keeps its bottom padding. */
   .cn-card {
-    @apply bg-card text-card-foreground shadow-surface-2 gap-(--card-spacing) overflow-hidden rounded-xl py-(--card-spacing) text-[13px] [--card-spacing:--spacing(4)] has-[>img:first-child]:pt-0 data-[size=sm]:[--card-spacing:--spacing(3)] *:[img:first-child]:rounded-t-xl *:[img:last-child]:rounded-b-xl;
+    @apply bg-card text-card-foreground shadow-surface-2 gap-(--card-spacing) overflow-hidden rounded-xl py-(--card-spacing) text-(length:--density-text-13) [--card-spacing:var(--density-16)] has-[>img:first-child]:pt-0 data-[size=sm]:[--card-spacing:var(--density-12)] *:[img:first-child]:rounded-t-xl *:[img:last-child]:rounded-b-xl;
   }
 
   .cn-card-header {
@@ -533,11 +536,11 @@
   }
 
   .cn-card-title {
-    @apply text-foreground text-[14px] leading-snug font-medium group-data-[size=sm]/card:text-[13px];
+    @apply text-foreground text-(length:--density-text-14) leading-snug font-medium group-data-[size=sm]/card:text-(length:--density-text-13);
   }
 
   .cn-card-description {
-    @apply text-muted-foreground text-[13px] group-data-[size=sm]/card:text-[12px];
+    @apply text-muted-foreground text-(length:--density-text-13) group-data-[size=sm]/card:text-(length:--density-text-12);
   }
 
   .cn-card-content {
@@ -545,7 +548,7 @@
   }
 
   .cn-card-footer {
-    @apply gap-2 rounded-b-xl px-(--card-spacing) [.border-t]:border-border/60 [.border-t]:pt-(--card-spacing);
+    @apply gap-(--density-8) rounded-b-xl px-(--card-spacing) [.border-t]:border-border/60 [.border-t]:pt-(--card-spacing);
   }
 
 /* MARK: Carousel */
@@ -564,7 +567,7 @@
   /* Popup recipe at tooltip scale: surface 3 with its shadow ring, no
      border. */
   .cn-chart-tooltip {
-    @apply bg-surface-3 shadow-surface-3 text-popover-foreground gap-1.5 rounded-lg px-2.5 py-1.5 text-[12px];
+    @apply bg-surface-3 shadow-surface-3 text-popover-foreground gap-(--density-6) rounded-lg px-(--density-10) py-(--density-6) text-(length:--density-text-12);
   }
 
 /* MARK: Checkbox */
@@ -574,7 +577,7 @@
      pops in in its foreground. Fill and border change on the feedback
      timing, with a press give (scale 0.9). Focus is the 1px ring, offset. */
   .cn-checkbox {
-    @apply cursor-pointer flex size-[18px] items-center justify-center border-[1.5px] border-foreground/25 bg-transparent transition-[background-color,border-color,box-shadow,scale] duration-feedback ease-feedback motion-reduce:transition-none hover:border-foreground/45 active:scale-90 motion-reduce:active:scale-100 focus-visible:ring-1 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background aria-invalid:border-destructive group-has-[:focus-visible]/field-label:ring-0 rounded-[6px] text-primary-foreground data-checked:border-primary data-checked:bg-primary data-checked:hover:border-primary aria-invalid:data-checked:border-destructive aria-invalid:data-checked:bg-destructive data-indeterminate:border-primary data-indeterminate:bg-primary group-has-disabled/field:opacity-50;
+    @apply cursor-pointer flex size-[calc(var(--density-icon-16)+2px)] items-center justify-center border-[1.5px] border-foreground/25 bg-transparent transition-[background-color,border-color,box-shadow,scale] duration-feedback ease-feedback motion-reduce:transition-none hover:border-foreground/45 active:scale-90 motion-reduce:active:scale-100 focus-visible:ring-1 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background aria-invalid:border-destructive group-has-[:focus-visible]/field-label:ring-0 rounded-[6px] text-primary-foreground data-checked:border-primary data-checked:bg-primary data-checked:hover:border-primary aria-invalid:data-checked:border-destructive aria-invalid:data-checked:bg-destructive data-indeterminate:border-primary data-indeterminate:bg-primary group-has-disabled/field:opacity-50;
   }
 
   .cn-checkbox-aria {
@@ -586,7 +589,7 @@
      scales up from 0.6 on the move timing with the entrance curve; unchecking
      fades and shrinks it on the feedback exit. Reduced motion: no transition. */
   .cn-checkbox-indicator {
-    @apply [&>svg]:size-3 [&>svg]:stroke-[3] opacity-0 scale-[0.6] [clip-path:inset(0_100%_0_0)] transition-[opacity,scale,clip-path] duration-feedback-exit ease-exit data-checked:opacity-100 data-checked:scale-100 data-checked:[clip-path:inset(0_0_0_0)] data-checked:duration-move data-checked:ease-enter data-indeterminate:opacity-100 data-indeterminate:scale-100 data-indeterminate:[clip-path:inset(0_0_0_0)] data-indeterminate:duration-move data-indeterminate:ease-enter data-[state=indeterminate]:opacity-100 data-[state=indeterminate]:scale-100 data-[state=indeterminate]:[clip-path:inset(0_0_0_0)] data-[state=indeterminate]:duration-move data-[state=indeterminate]:ease-enter motion-reduce:transition-none;
+    @apply [&>svg]:size-[calc(var(--density-icon-16)-4px)] [&>svg]:stroke-[3] opacity-0 scale-[0.6] [clip-path:inset(0_100%_0_0)] transition-[opacity,scale,clip-path] duration-feedback-exit ease-exit data-checked:opacity-100 data-checked:scale-100 data-checked:[clip-path:inset(0_0_0_0)] data-checked:duration-move data-checked:ease-enter data-indeterminate:opacity-100 data-indeterminate:scale-100 data-indeterminate:[clip-path:inset(0_0_0_0)] data-indeterminate:duration-move data-indeterminate:ease-enter data-[state=indeterminate]:opacity-100 data-[state=indeterminate]:scale-100 data-[state=indeterminate]:[clip-path:inset(0_0_0_0)] data-[state=indeterminate]:duration-move data-[state=indeterminate]:ease-enter motion-reduce:transition-none;
   }
 
 /* MARK: Collapsible */
@@ -614,7 +617,7 @@
      popup motion. A search field inside the popup sits in its own row above
      the list. */
   .cn-combobox-content {
-    @apply bg-surface-3 shadow-surface-3 text-popover-foreground max-h-72 min-w-36 overflow-hidden rounded-xl motion-popup data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0 *:data-[slot=input-group]:m-1 *:data-[slot=input-group]:mb-0 *:data-[slot=input-group]:h-9 *:data-[slot=input-group]:shadow-none;
+    @apply bg-surface-3 shadow-surface-3 text-popover-foreground max-h-72 min-w-36 overflow-hidden rounded-xl motion-popup data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0 *:data-[slot=input-group]:m-1 *:data-[slot=input-group]:mb-0 *:data-[slot=input-group]:h-(--density-36) *:data-[slot=input-group]:shadow-none;
   }
 
   .cn-combobox-content-logical {
@@ -622,14 +625,14 @@
   }
 
   .cn-combobox-label {
-    @apply text-muted-foreground px-2 py-1.5 text-[12px];
+    @apply text-muted-foreground px-(--density-8) py-(--density-6) text-(length:--density-text-12);
   }
 
   /* Rows: 36px, 13px, muted at rest; the lit row turns foreground. Selected
      rows are foreground and semibold with a check; in single selection
      their bg-active fill slides between rows inside the fluid list. */
   .cn-combobox-item {
-    @apply cursor-pointer text-muted-foreground h-9 gap-2 rounded-lg py-0 pr-8 pl-2 text-[13px] transition-colors duration-feedback [&_svg:not([class*='size-'])]:size-4 [&_svg]:stroke-[1.5] data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-[selected]:bg-active data-[selected]:text-foreground data-[selected]:font-semibold in-data-[fluid-hover]:data-[selected]:bg-transparent;
+    @apply cursor-pointer text-muted-foreground h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) text-(length:--density-text-13) transition-colors duration-feedback [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5] data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-[selected]:bg-active data-[selected]:text-foreground data-[selected]:font-semibold in-data-[fluid-hover]:data-[selected]:bg-transparent;
   }
 
   .cn-combobox-item-aria {
@@ -637,11 +640,11 @@
   }
 
   .cn-combobox-item-indicator {
-    @apply text-foreground pointer-events-none absolute right-2 flex size-4 items-center justify-center;
+    @apply text-foreground pointer-events-none absolute right-(--density-8) flex size-(--density-icon-16) items-center justify-center;
   }
 
   .cn-combobox-empty {
-    @apply text-muted-foreground hidden w-full justify-center py-4 text-center text-[13px] group-data-empty/combobox-content:flex;
+    @apply text-muted-foreground hidden w-full justify-center py-(--density-16) text-center text-(length:--density-text-13) group-data-empty/combobox-content:flex;
   }
 
   /* The list scrolls and is the fluid hover container (relative isolate). */
@@ -650,7 +653,7 @@
   }
 
   .cn-combobox-item-text {
-    @apply flex flex-1 gap-2;
+    @apply flex flex-1 gap-(--density-8);
   }
 
   .cn-combobox-separator {
@@ -658,21 +661,21 @@
   }
 
   .cn-combobox-trigger {
-    @apply cursor-pointer [&_svg:not([class*='size-'])]:size-4;
+    @apply cursor-pointer [&_svg:not([class*='size-'])]:size-(--density-icon-16);
   }
 
   .cn-combobox-trigger-icon {
-    @apply text-muted-foreground size-4 transition-colors duration-feedback;
+    @apply text-muted-foreground size-(--density-icon-16) transition-colors duration-feedback;
   }
 
   /* Chips field: the input recipe (1px ring-border frame, light fill on
      hover, card fill while focused). */
   .cn-combobox-chips {
-    @apply cursor-text ring-border hover:bg-muted/50 focus-within:bg-card has-aria-invalid:ring-destructive/50 has-aria-invalid:hover:bg-destructive/5 flex min-h-9 flex-wrap items-center gap-1 rounded-lg bg-transparent px-2.5 py-1 text-[13px] ring-1 transition-[color,background-color,box-shadow] duration-feedback has-data-[slot=combobox-chip]:px-1;
+    @apply cursor-text ring-border hover:bg-muted/50 focus-within:bg-card has-aria-invalid:ring-destructive/50 has-aria-invalid:hover:bg-destructive/5 flex min-h-(--density-36) flex-wrap items-center gap-1 rounded-lg bg-transparent px-(--density-10) py-1 text-(length:--density-text-13) ring-1 transition-[color,background-color,box-shadow] duration-feedback has-data-[slot=combobox-chip]:px-1;
   }
 
   .cn-combobox-chip {
-    @apply bg-active text-foreground flex h-6 w-fit items-center justify-center gap-1 rounded-md px-2 text-[12px] font-medium whitespace-nowrap has-data-[slot=combobox-chip-remove]:pr-0;
+    @apply bg-active text-foreground flex h-(--density-24) w-fit items-center justify-center gap-1 rounded-md px-(--density-8) text-(length:--density-text-12) font-medium whitespace-nowrap has-data-[slot=combobox-chip-remove]:pr-0;
   }
 
   .cn-combobox-chip-remove {
@@ -681,7 +684,7 @@
 
   /* React Aria */
   .cn-combobox-content-aria {
-    @apply bg-surface-3 shadow-surface-3 text-popover-foreground max-h-72 min-w-36 overflow-hidden rounded-xl motion-popup data-entering:animate-in data-entering:fade-in-0 data-exiting:animate-out data-exiting:fade-out-0 *:data-[slot=input-group]:m-1 *:data-[slot=input-group]:mb-0 *:data-[slot=input-group]:h-9 *:data-[slot=input-group]:shadow-none;
+    @apply bg-surface-3 shadow-surface-3 text-popover-foreground max-h-72 min-w-36 overflow-hidden rounded-xl motion-popup data-entering:animate-in data-entering:fade-in-0 data-exiting:animate-out data-exiting:fade-out-0 *:data-[slot=input-group]:m-1 *:data-[slot=input-group]:mb-0 *:data-[slot=input-group]:h-(--density-36) *:data-[slot=input-group]:shadow-none;
   }
 
 /* MARK: Command */
@@ -702,15 +705,15 @@
 
   /* The search row: 48px, 14px (one step above the rows), no frame. */
   .cn-command-input-group {
-    @apply h-12! gap-2.5 rounded-none! border-0! bg-transparent! px-1 shadow-none! ring-0! *:data-[slot=input-group-addon]:pl-2!;
+    @apply h-(--density-48)! gap-(--density-10) rounded-none! border-0! bg-transparent! px-1 shadow-none! ring-0! *:data-[slot=input-group-addon]:pl-(--density-8)!;
   }
 
   .cn-command-input-icon {
-    @apply text-muted-foreground size-4 shrink-0 stroke-[1.5] transition-[color,stroke-width] duration-feedback group-focus-within/input-group:text-foreground group-focus-within/input-group:stroke-2;
+    @apply text-muted-foreground size-(--density-icon-16) shrink-0 stroke-[1.5] transition-[color,stroke-width] duration-feedback group-focus-within/input-group:text-foreground group-focus-within/input-group:stroke-2;
   }
 
   .cn-command-input {
-    @apply placeholder:text-muted-foreground w-full text-[14px];
+    @apply placeholder:text-muted-foreground w-full text-(length:--density-text-14);
   }
 
   /* The list is divided from the search row and is the fluid hover
@@ -720,11 +723,11 @@
   }
 
   .cn-command-empty {
-    @apply text-muted-foreground py-6 text-center text-[13px];
+    @apply text-muted-foreground py-(--density-24) text-center text-(length:--density-text-13);
   }
 
   .cn-command-group {
-    @apply text-foreground **:[[cmdk-group-heading]]:text-muted-foreground overflow-hidden **:[[cmdk-group-heading]]:flex **:[[cmdk-group-heading]]:h-7 **:[[cmdk-group-heading]]:items-center **:[[cmdk-group-heading]]:px-2 **:[[cmdk-group-heading]]:text-[12px] **:[[cmdk-group-heading]]:font-normal;
+    @apply text-foreground **:[[cmdk-group-heading]]:text-muted-foreground overflow-hidden **:[[cmdk-group-heading]]:flex **:[[cmdk-group-heading]]:h-(--density-28) **:[[cmdk-group-heading]]:items-center **:[[cmdk-group-heading]]:px-(--density-8) **:[[cmdk-group-heading]]:text-(length:--density-text-12) **:[[cmdk-group-heading]]:font-normal;
   }
 
   .cn-command-separator {
@@ -735,7 +738,7 @@
      data-selected="true"; inside the fluid list the glide highlight paints
      it. Checked rows are foreground and semibold. */
   .cn-command-item {
-    @apply cursor-pointer text-muted-foreground relative flex h-9 items-center gap-2 rounded-lg px-2 text-[13px] outline-hidden transition-colors duration-feedback select-none [&_svg:not([class*='size-'])]:size-4 [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] data-selected:bg-hover data-selected:text-foreground data-selected:[&_svg]:stroke-2 in-data-[fluid-hover]:data-selected:bg-transparent data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-[checked=true]:text-foreground data-[checked=true]:font-semibold;
+    @apply cursor-pointer text-muted-foreground relative flex h-(--density-36) items-center gap-(--density-8) rounded-lg px-(--density-8) text-(length:--density-text-13) outline-hidden transition-colors duration-feedback select-none [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] data-selected:bg-hover data-selected:text-foreground data-selected:[&_svg]:stroke-2 in-data-[fluid-hover]:data-selected:bg-transparent data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-[checked=true]:text-foreground data-[checked=true]:font-semibold;
   }
 
   .cn-command-item-aria {
@@ -743,7 +746,7 @@
   }
 
   .cn-command-shortcut {
-    @apply text-muted-foreground ml-auto text-[11px] tracking-normal;
+    @apply text-muted-foreground ml-auto text-(length:--density-text-11) tracking-normal;
   }
 
   .cn-command-shortcut-aria {
@@ -768,24 +771,24 @@
      marks it data-focused) turns foreground and thickens its icon.
      Destructive rows stay destructive when lit. */
   .cn-context-menu-item {
-    @apply cursor-pointer text-muted-foreground relative h-9 gap-2 rounded-lg px-2 text-[13px] transition-colors duration-feedback data-inset:pl-8 [&_svg:not([class*='size-'])]:size-4 [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] data-highlighted:bg-hover data-highlighted:text-foreground data-highlighted:[&_svg]:stroke-2 in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-focused:[&_svg]:stroke-2 data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-[variant=destructive]:text-destructive-text! data-[variant=destructive]:*:[svg]:text-destructive;
+    @apply cursor-pointer text-muted-foreground relative h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8) text-(length:--density-text-13) transition-colors duration-feedback data-inset:pl-[calc(var(--density-8)*2+var(--density-icon-16))] [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] data-highlighted:bg-hover data-highlighted:text-foreground data-highlighted:[&_svg]:stroke-2 in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-focused:[&_svg]:stroke-2 data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-[variant=destructive]:text-destructive-text! data-[variant=destructive]:*:[svg]:text-destructive;
   }
 
   /* Checked rows are foreground and semibold, with a foreground check. */
   .cn-context-menu-checkbox-item {
-    @apply cursor-pointer text-muted-foreground relative h-9 gap-2 rounded-lg py-0 pr-8 pl-2 text-[13px] transition-[color,background-color] duration-feedback data-inset:pl-8 [&_svg:not([class*='size-'])]:size-4 data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-fluid-hover-active:text-foreground data-checked:text-foreground data-checked:font-semibold data-selected:text-foreground data-selected:font-semibold;
+    @apply cursor-pointer text-muted-foreground relative h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) text-(length:--density-text-13) transition-[color,background-color] duration-feedback data-inset:pl-[calc(var(--density-8)*2+var(--density-icon-16))] [&_svg:not([class*='size-'])]:size-(--density-icon-16) data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-fluid-hover-active:text-foreground data-checked:text-foreground data-checked:font-semibold data-selected:text-foreground data-selected:font-semibold;
   }
 
   .cn-context-menu-radio-item {
-    @apply cursor-pointer text-muted-foreground relative h-9 gap-2 rounded-lg py-0 pr-8 pl-2 text-[13px] transition-[color,background-color] duration-feedback data-inset:pl-8 [&_svg:not([class*='size-'])]:size-4 data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-fluid-hover-active:text-foreground data-checked:text-foreground data-checked:font-semibold data-selected:text-foreground data-selected:font-semibold;
+    @apply cursor-pointer text-muted-foreground relative h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) text-(length:--density-text-13) transition-[color,background-color] duration-feedback data-inset:pl-[calc(var(--density-8)*2+var(--density-icon-16))] [&_svg:not([class*='size-'])]:size-(--density-icon-16) data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-fluid-hover-active:text-foreground data-checked:text-foreground data-checked:font-semibold data-selected:text-foreground data-selected:font-semibold;
   }
 
   .cn-context-menu-item-indicator {
-    @apply text-foreground absolute right-2 flex items-center justify-center;
+    @apply text-foreground absolute right-(--density-8) flex items-center justify-center;
   }
 
   .cn-context-menu-label {
-    @apply text-muted-foreground px-2 py-1.5 text-[12px] font-normal data-inset:pl-8;
+    @apply text-muted-foreground px-(--density-8) py-(--density-6) text-(length:--density-text-12) font-normal data-inset:pl-[calc(var(--density-8)*2+var(--density-icon-16))];
   }
 
   .cn-context-menu-separator {
@@ -793,12 +796,12 @@
   }
 
   .cn-context-menu-shortcut {
-    @apply text-muted-foreground ml-auto text-[11px] tracking-normal;
+    @apply text-muted-foreground ml-auto text-(length:--density-text-11) tracking-normal;
   }
 
   /* An open sub-trigger stays lit while the pointer is in its submenu. */
   .cn-context-menu-sub-trigger {
-    @apply cursor-pointer text-muted-foreground relative h-9 gap-2 rounded-lg px-2 text-[13px] transition-colors duration-feedback data-inset:pl-8 [&_svg:not([class*='size-'])]:size-4 [&_svg]:stroke-[1.5] data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-fluid-hover-active:text-foreground data-open:text-foreground data-popup-open:text-foreground not-data-fluid-hover-active:data-open:bg-hover not-data-fluid-hover-active:data-popup-open:bg-hover;
+    @apply cursor-pointer text-muted-foreground relative h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8) text-(length:--density-text-13) transition-colors duration-feedback data-inset:pl-[calc(var(--density-8)*2+var(--density-icon-16))] [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5] data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-fluid-hover-active:text-foreground data-open:text-foreground data-popup-open:text-foreground not-data-fluid-hover-active:data-open:bg-hover not-data-fluid-hover-active:data-popup-open:bg-hover;
   }
 
   .cn-context-menu-sub-content {
@@ -834,7 +837,7 @@
      a translate lands on half pixels for odd sizes and blurs the text.
      The ! beats the inline centering classes in the source. */
   .cn-dialog-content {
-    @apply inset-0! m-auto! h-fit! translate-x-0! translate-y-0! bg-surface-5 shadow-surface-5 text-popover-foreground grid max-w-[calc(100%-2rem)] gap-4 rounded-xl p-6 text-[13px] motion-dialog data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0 sm:max-w-[400px];
+    @apply inset-0! m-auto! h-fit! translate-x-0! translate-y-0! bg-surface-5 shadow-surface-5 text-popover-foreground grid max-w-[calc(100%-2rem)] gap-(--density-16) rounded-xl p-(--density-24) text-(length:--density-text-13) motion-dialog data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0 sm:max-w-[400px];
   }
 
   /* The close button is a small ghost icon button in the corner. */
@@ -843,21 +846,21 @@
   }
 
   .cn-dialog-header {
-    @apply gap-1.5;
+    @apply gap-(--density-6);
   }
 
   /* Right-aligned actions without the upstream muted footer bar; the extra
      margin gives 24px between the body and the actions. */
   .cn-dialog-footer {
-    @apply mt-2 gap-2;
+    @apply mt-2 gap-(--density-8);
   }
 
   .cn-dialog-title {
-    @apply text-foreground text-[16px] leading-tight font-bold;
+    @apply text-foreground text-(length:--density-text-16) leading-tight font-bold;
   }
 
   .cn-dialog-description {
-    @apply text-muted-foreground *:[a]:hover:text-foreground text-[13px] *:[a]:underline *:[a]:underline-offset-3;
+    @apply text-muted-foreground *:[a]:hover:text-foreground text-(length:--density-text-13) *:[a]:underline *:[a]:underline-offset-3;
   }
 
   /* React Aria */
@@ -867,7 +870,7 @@
 
   /* Same pixel-snapped centering as the other bases. */
   .cn-dialog-content-aria {
-    @apply inset-0! m-auto! h-fit! translate-x-0! translate-y-0! bg-surface-5 shadow-surface-5 text-popover-foreground grid max-w-[calc(100%-2rem)] gap-4 rounded-xl p-6 text-[13px] motion-dialog data-entering:animate-in data-entering:fade-in-0 data-exiting:animate-out data-exiting:fade-out-0 sm:max-w-[400px];
+    @apply inset-0! m-auto! h-fit! translate-x-0! translate-y-0! bg-surface-5 shadow-surface-5 text-popover-foreground grid max-w-[calc(100%-2rem)] gap-(--density-16) rounded-xl p-(--density-24) text-(length:--density-text-13) motion-dialog data-entering:animate-in data-entering:fade-in-0 data-exiting:animate-out data-exiting:fade-out-0 sm:max-w-[400px];
   }
 
 /* MARK: Drawer */
@@ -884,11 +887,11 @@
   /* Panel: surface 3 whose shadow ring is the edge (no border); the edge
      that meets the screen is square, the free edge rounded-xl. */
   .cn-drawer-content {
-    @apply bg-surface-3 shadow-surface-3 text-popover-foreground flex h-auto flex-col text-[13px] data-[vaul-drawer-direction=bottom]:rounded-t-xl data-[vaul-drawer-direction=left]:rounded-r-xl data-[vaul-drawer-direction=right]:rounded-l-xl data-[vaul-drawer-direction=top]:rounded-b-xl;
+    @apply bg-surface-3 shadow-surface-3 text-popover-foreground flex h-auto flex-col text-(length:--density-text-13) data-[vaul-drawer-direction=bottom]:rounded-t-xl data-[vaul-drawer-direction=left]:rounded-r-xl data-[vaul-drawer-direction=right]:rounded-l-xl data-[vaul-drawer-direction=top]:rounded-b-xl;
   }
 
   .cn-drawer-popup {
-    @apply bg-surface-3 shadow-surface-3 text-popover-foreground text-[13px] data-[swipe-direction=down]:rounded-t-xl data-[swipe-direction=left]:rounded-r-xl data-[swipe-direction=right]:rounded-l-xl data-[swipe-direction=up]:rounded-b-xl duration-sheet! ease-drawer! data-ending-style:duration-[calc(var(--drawer-swipe-strength)*var(--motion-sheet-exit)*var(--motion-scale,1))]! data-swiping:duration-0! data-nested-drawer-swiping:duration-0! data-ending-style:data-swiping:duration-[calc(var(--drawer-swipe-strength)*var(--motion-sheet-exit)*var(--motion-scale,1))]! data-ending-style:data-nested-drawer-swiping:duration-[calc(var(--drawer-swipe-strength)*var(--motion-sheet-exit)*var(--motion-scale,1))]!;
+    @apply bg-surface-3 shadow-surface-3 text-popover-foreground text-(length:--density-text-13) data-[swipe-direction=down]:rounded-t-xl data-[swipe-direction=left]:rounded-r-xl data-[swipe-direction=right]:rounded-l-xl data-[swipe-direction=up]:rounded-b-xl duration-sheet! ease-drawer! data-ending-style:duration-[calc(var(--drawer-swipe-strength)*var(--motion-sheet-exit)*var(--motion-scale,1))]! data-swiping:duration-0! data-nested-drawer-swiping:duration-0! data-ending-style:data-swiping:duration-[calc(var(--drawer-swipe-strength)*var(--motion-sheet-exit)*var(--motion-scale,1))]! data-ending-style:data-nested-drawer-swiping:duration-[calc(var(--drawer-swipe-strength)*var(--motion-sheet-exit)*var(--motion-scale,1))]!;
   }
 
   /* The panel's content fades while a nested drawer covers it, on the
@@ -906,27 +909,27 @@
   }
 
   .cn-drawer-header {
-    @apply gap-1.5 p-4 md:gap-1.5 md:text-start;
+    @apply gap-(--density-6) p-(--density-16) md:gap-(--density-6) md:text-start;
   }
 
   .cn-drawer-header-base {
-    @apply gap-1.5 p-4 pb-0 md:gap-1.5 md:text-start;
+    @apply gap-(--density-6) p-(--density-16) pb-0 md:gap-(--density-6) md:text-start;
   }
 
   .cn-drawer-title {
-    @apply text-foreground text-[16px] leading-tight font-bold;
+    @apply text-foreground text-(length:--density-text-16) leading-tight font-bold;
   }
 
   .cn-drawer-description {
-    @apply text-muted-foreground text-[13px];
+    @apply text-muted-foreground text-(length:--density-text-13);
   }
 
   .cn-drawer-footer {
-    @apply gap-2 p-4;
+    @apply gap-(--density-8) p-(--density-16);
   }
 
   .cn-drawer-footer-base {
-    @apply gap-2 p-4 pt-0;
+    @apply gap-(--density-8) p-(--density-16) pt-0;
   }
 
 /* MARK: Dropdown Menu */
@@ -947,23 +950,23 @@
      marks it data-focused) turns foreground and thickens its icon.
      Destructive rows stay destructive when lit. */
   .cn-dropdown-menu-item {
-    @apply cursor-pointer text-muted-foreground relative h-9 gap-2 rounded-lg px-2 text-[13px] transition-colors duration-feedback data-inset:pl-8 [&_svg:not([class*='size-'])]:size-4 [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] data-highlighted:bg-hover data-highlighted:text-foreground data-highlighted:[&_svg]:stroke-2 in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-focused:[&_svg]:stroke-2 data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-[variant=destructive]:text-destructive-text! data-[variant=destructive]:*:[svg]:text-destructive;
+    @apply cursor-pointer text-muted-foreground relative h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8) text-(length:--density-text-13) transition-colors duration-feedback data-inset:pl-[calc(var(--density-8)*2+var(--density-icon-16))] [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] data-highlighted:bg-hover data-highlighted:text-foreground data-highlighted:[&_svg]:stroke-2 in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-focused:[&_svg]:stroke-2 data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-[variant=destructive]:text-destructive-text! data-[variant=destructive]:*:[svg]:text-destructive;
   }
 
   .cn-dropdown-menu-checkbox-item {
-    @apply cursor-pointer text-muted-foreground relative h-9 gap-2 rounded-lg py-0 pr-8 pl-2 text-[13px] transition-[color,background-color] duration-feedback data-inset:pl-8 [&_svg:not([class*='size-'])]:size-4 data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-fluid-hover-active:text-foreground data-checked:text-foreground data-checked:font-semibold data-selected:text-foreground data-selected:font-semibold;
+    @apply cursor-pointer text-muted-foreground relative h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) text-(length:--density-text-13) transition-[color,background-color] duration-feedback data-inset:pl-[calc(var(--density-8)*2+var(--density-icon-16))] [&_svg:not([class*='size-'])]:size-(--density-icon-16) data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-fluid-hover-active:text-foreground data-checked:text-foreground data-checked:font-semibold data-selected:text-foreground data-selected:font-semibold;
   }
 
   .cn-dropdown-menu-radio-item {
-    @apply cursor-pointer text-muted-foreground relative h-9 gap-2 rounded-lg py-0 pr-8 pl-2 text-[13px] transition-[color,background-color] duration-feedback data-inset:pl-8 [&_svg:not([class*='size-'])]:size-4 data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-fluid-hover-active:text-foreground data-checked:text-foreground data-checked:font-semibold data-selected:text-foreground data-selected:font-semibold;
+    @apply cursor-pointer text-muted-foreground relative h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) text-(length:--density-text-13) transition-[color,background-color] duration-feedback data-inset:pl-[calc(var(--density-8)*2+var(--density-icon-16))] [&_svg:not([class*='size-'])]:size-(--density-icon-16) data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-fluid-hover-active:text-foreground data-checked:text-foreground data-checked:font-semibold data-selected:text-foreground data-selected:font-semibold;
   }
 
   .cn-dropdown-menu-item-indicator {
-    @apply text-foreground absolute right-2 flex items-center justify-center;
+    @apply text-foreground absolute right-(--density-8) flex items-center justify-center;
   }
 
   .cn-dropdown-menu-label {
-    @apply text-muted-foreground px-2 py-1.5 text-[12px] font-normal data-inset:pl-8;
+    @apply text-muted-foreground px-(--density-8) py-(--density-6) text-(length:--density-text-12) font-normal data-inset:pl-[calc(var(--density-8)*2+var(--density-icon-16))];
   }
 
   .cn-dropdown-menu-separator {
@@ -971,12 +974,12 @@
   }
 
   .cn-dropdown-menu-shortcut {
-    @apply text-muted-foreground ml-auto text-[11px] tracking-normal;
+    @apply text-muted-foreground ml-auto text-(length:--density-text-11) tracking-normal;
   }
 
   /* An open sub-trigger stays lit while the pointer is in its submenu. */
   .cn-dropdown-menu-sub-trigger {
-    @apply cursor-pointer text-muted-foreground relative h-9 gap-2 rounded-lg px-2 text-[13px] transition-colors duration-feedback data-inset:pl-8 [&_svg:not([class*='size-'])]:size-4 [&_svg]:stroke-[1.5] data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-fluid-hover-active:text-foreground data-open:text-foreground data-popup-open:text-foreground not-data-fluid-hover-active:data-open:bg-hover not-data-fluid-hover-active:data-popup-open:bg-hover;
+    @apply cursor-pointer text-muted-foreground relative h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8) text-(length:--density-text-13) transition-colors duration-feedback data-inset:pl-[calc(var(--density-8)*2+var(--density-icon-16))] [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5] data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover in-data-[fluid-hover]:data-focused:bg-transparent data-focused:text-foreground data-fluid-hover-active:text-foreground data-open:text-foreground data-popup-open:text-foreground not-data-fluid-hover-active:data-open:bg-hover not-data-fluid-hover-active:data-popup-open:bg-hover;
   }
 
   .cn-dropdown-menu-sub-content {
@@ -999,11 +1002,11 @@
 /* MARK: Empty */
 
   .cn-empty {
-    @apply border-border gap-4 rounded-xl border-dashed p-6;
+    @apply border-border gap-(--density-16) rounded-xl border-dashed p-(--density-24);
   }
 
   .cn-empty-header {
-    @apply gap-1.5;
+    @apply gap-(--density-6);
   }
 
   .cn-empty-media {
@@ -1017,11 +1020,11 @@
   /* A raised tile: surface 4 with its shadow ring (one step above the card
      it usually sits on), no border. */
   .cn-empty-media-icon {
-    @apply bg-surface-4 shadow-surface-4 text-foreground flex size-10 shrink-0 items-center justify-center rounded-xl [&_svg]:stroke-[1.5] [&_svg:not([class*='size-'])]:size-5;
+    @apply bg-surface-4 shadow-surface-4 text-foreground flex size-(--density-40) shrink-0 items-center justify-center rounded-xl [&_svg]:stroke-[1.5] [&_svg:not([class*='size-'])]:size-(--density-20);
   }
 
   .cn-empty-title {
-    @apply text-[14px] font-semibold tracking-normal;
+    @apply text-(length:--density-text-14) font-semibold tracking-normal;
   }
 
   .cn-empty-description {
@@ -1029,27 +1032,27 @@
   }
 
   .cn-empty-content {
-    @apply gap-2.5 text-[13px];
+    @apply gap-(--density-10) text-(length:--density-text-13);
   }
 
 /* MARK: Field */
 
   .cn-field-set {
-    @apply gap-4 has-[>[data-slot=checkbox-group]]:gap-3 has-[>[data-slot=radio-group]]:gap-3;
+    @apply gap-(--density-16) has-[>[data-slot=checkbox-group]]:gap-(--density-12) has-[>[data-slot=radio-group]]:gap-(--density-12);
   }
 
   .cn-field-legend {
-    @apply text-foreground mb-1.5 font-medium data-[variant=label]:text-[13px] data-[variant=legend]:text-[14px];
+    @apply text-foreground mb-1.5 font-medium data-[variant=label]:text-(length:--density-text-13) data-[variant=legend]:text-(length:--density-text-14);
   }
 
   .cn-field-group {
-    @apply gap-5 data-[slot=checkbox-group]:gap-3 *:data-[slot=field-group]:gap-4;
+    @apply gap-(--density-20) data-[slot=checkbox-group]:gap-(--density-12) *:data-[slot=field-group]:gap-(--density-16);
   }
 
   /* Label, control and caption sit close; an invalid field turns its label
      red. */
   .cn-field {
-    @apply data-[invalid=true]:text-destructive-text gap-1.5;
+    @apply data-[invalid=true]:text-destructive-text gap-(--density-6);
   }
 
   .cn-field-content {
@@ -1060,7 +1063,7 @@
      by a ring (no border), hover tint, the active step when checked, and the
      1px blue focus ring while its control has keyboard focus. */
   .cn-field-label {
-    @apply has-[[data-slot=checkbox],[data-slot=switch],[data-slot=radio-group-item]]:cursor-pointer [[data-slot=checkbox]~&]:cursor-pointer [[data-slot=switch]~&]:cursor-pointer [[data-slot=radio-group-item]~&]:cursor-pointer in-[[data-slot=field]:has([data-slot=checkbox],[data-slot=switch],[data-slot=radio-group-item])]:cursor-pointer has-[>[data-slot=field]]:ring-border has-data-checked:bg-active dark:has-data-checked:bg-active has-[>[data-slot=field]]:has-data-checked:ring-foreground/20 group-data-[invalid=true]/field:text-destructive-text gap-2 text-[13px] leading-snug group-data-[disabled=true]/field:opacity-50 has-[>[data-slot=field]]:rounded-lg has-[>[data-slot=field]]:ring-1 has-[>[data-slot=field]]:transition-[background-color,box-shadow] has-[>[data-slot=field]]:duration-feedback has-[>[data-slot=field]]:ease-feedback has-[>[data-slot=field]]:not-has-[:disabled,[data-disabled]]:hover:bg-hover has-[>[data-slot=field]]:has-data-checked:hover:bg-active has-[>[data-slot=field]]:has-[:focus-visible]:ring-ring *:data-[slot=field]:p-3;
+    @apply has-[[data-slot=checkbox],[data-slot=switch],[data-slot=radio-group-item]]:cursor-pointer [[data-slot=checkbox]~&]:cursor-pointer [[data-slot=switch]~&]:cursor-pointer [[data-slot=radio-group-item]~&]:cursor-pointer in-[[data-slot=field]:has([data-slot=checkbox],[data-slot=switch],[data-slot=radio-group-item])]:cursor-pointer has-[>[data-slot=field]]:ring-border has-data-checked:bg-active dark:has-data-checked:bg-active has-[>[data-slot=field]]:has-data-checked:ring-foreground/20 group-data-[invalid=true]/field:text-destructive-text gap-(--density-8) text-(length:--density-text-13) leading-snug group-data-[disabled=true]/field:opacity-50 has-[>[data-slot=field]]:rounded-lg has-[>[data-slot=field]]:ring-1 has-[>[data-slot=field]]:transition-[background-color,box-shadow] has-[>[data-slot=field]]:duration-feedback has-[>[data-slot=field]]:ease-feedback has-[>[data-slot=field]]:not-has-[:disabled,[data-disabled]]:hover:bg-hover has-[>[data-slot=field]]:has-data-checked:hover:bg-active has-[>[data-slot=field]]:has-[:focus-visible]:ring-ring *:data-[slot=field]:p-(--density-12);
   }
 
   .cn-field-label-aria {
@@ -1068,24 +1071,24 @@
   }
 
   .cn-field-title {
-    @apply text-foreground group-data-[invalid=true]/field:text-destructive-text gap-2 text-[13px] leading-snug font-medium group-data-[disabled=true]/field:opacity-50;
+    @apply text-foreground group-data-[invalid=true]/field:text-destructive-text gap-(--density-8) text-(length:--density-text-13) leading-snug font-medium group-data-[disabled=true]/field:opacity-50;
   }
 
   /* Captions: 12px muted. */
   .cn-field-description {
-    @apply text-muted-foreground text-left text-[12px] [[data-variant=legend]+&]:-mt-1.5;
+    @apply text-muted-foreground text-left text-(length:--density-text-12) [[data-variant=legend]+&]:-mt-1.5;
   }
 
   .cn-field-separator {
-    @apply -my-2 h-5 text-[12px] group-data-[variant=outline]/field-group:-mb-2;
+    @apply -my-2 h-(--density-20) text-(length:--density-text-12) group-data-[variant=outline]/field-group:-mb-2;
   }
 
   .cn-field-separator-content {
-    @apply text-muted-foreground px-2;
+    @apply text-muted-foreground px-(--density-8);
   }
 
   .cn-field-error {
-    @apply text-destructive-text text-[12px];
+    @apply text-destructive-text text-(length:--density-text-12);
   }
 
 /* MARK: Fluid Hover */
@@ -1109,7 +1112,7 @@
   /* Popup recipe: surface 3 with its shadow ring (no border), rounded-xl,
      p-3, 13px, on the popup motion. */
   .cn-hover-card-content {
-    @apply bg-surface-3 shadow-surface-3 text-popover-foreground w-64 rounded-xl p-3 text-[13px] motion-popup data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0;
+    @apply bg-surface-3 shadow-surface-3 text-popover-foreground w-64 rounded-xl p-(--density-12) text-(length:--density-text-13) motion-popup data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0;
   }
 
   .cn-hover-card-content-logical {
@@ -1118,7 +1121,7 @@
 
   /* React Aria */
   .cn-hover-card-content-aria {
-    @apply bg-surface-3 shadow-surface-3 text-popover-foreground w-64 rounded-xl p-3 text-[13px] motion-popup data-entering:animate-in data-entering:fade-in-0 data-exiting:animate-out data-exiting:fade-out-0;
+    @apply bg-surface-3 shadow-surface-3 text-popover-foreground w-64 rounded-xl p-(--density-12) text-(length:--density-text-13) motion-popup data-entering:animate-in data-entering:fade-in-0 data-exiting:animate-out data-exiting:fade-out-0;
   }
 
 /* MARK: Input Group */
@@ -1127,53 +1130,53 @@
      transparent → hover tint (unless focused) → card while anything inside has focus, no blue
      halo. Invalid controls turn the ring red and tint the hover. */
   .cn-input-group {
-    @apply ring-border hover:not-focus-within:bg-muted/50 focus-within:bg-card focus-within:ring-foreground/25 has-[[data-slot][aria-invalid=true]]:ring-destructive/50 has-[[data-slot][aria-invalid=true]]:hover:not-focus-within:bg-destructive/5 has-disabled:bg-transparent h-9 rounded-lg border-0 bg-transparent ring-1 transition-[color,background-color,box-shadow] duration-feedback ease-feedback in-data-[slot=combobox-content]:focus-within:ring-border has-disabled:opacity-50 has-[>[data-align=block-end]]:h-auto has-[>[data-align=block-end]]:flex-col has-[>[data-align=block-start]]:h-auto has-[>[data-align=block-start]]:flex-col has-[>[data-align=block-end]]:[&>input]:pt-3 has-[>[data-align=block-start]]:[&>input]:pb-3 has-[>[data-align=inline-end]]:[&>input]:pr-1.5 has-[>[data-align=inline-start]]:[&>input]:pl-1.5;
+    @apply ring-border hover:not-focus-within:bg-muted/50 focus-within:bg-card focus-within:ring-foreground/25 has-[[data-slot][aria-invalid=true]]:ring-destructive/50 has-[[data-slot][aria-invalid=true]]:hover:not-focus-within:bg-destructive/5 has-disabled:bg-transparent h-(--density-36) rounded-lg border-0 bg-transparent ring-1 transition-[color,background-color,box-shadow] duration-feedback ease-feedback in-data-[slot=combobox-content]:focus-within:ring-border has-disabled:opacity-50 has-[>[data-align=block-end]]:h-auto has-[>[data-align=block-end]]:flex-col has-[>[data-align=block-start]]:h-auto has-[>[data-align=block-start]]:flex-col has-[>[data-align=block-end]]:[&>input]:pt-(--density-12) has-[>[data-align=block-start]]:[&>input]:pb-(--density-12) has-[>[data-align=inline-end]]:[&>input]:pr-(--density-6) has-[>[data-align=inline-start]]:[&>input]:pl-(--density-6);
   }
 
   /* Addons: muted 13px text and 16px icons at stroke 1.5; they wake to
      foreground (stroke 2) while the group has focus. */
   .cn-input-group-addon {
-    @apply text-muted-foreground group-focus-within/input-group:text-foreground h-auto gap-2 py-1.5 text-[13px] font-normal transition-colors duration-feedback group-data-[disabled=true]/input-group:opacity-50 [&>kbd]:rounded-[5px] [&>svg]:stroke-[1.5] [&>svg]:transition-[stroke-width] group-focus-within/input-group:[&>svg]:stroke-2 [&>svg:not([class*='size-'])]:size-4;
+    @apply text-muted-foreground group-focus-within/input-group:text-foreground h-auto gap-(--density-8) py-(--density-6) text-(length:--density-text-13) font-normal transition-colors duration-feedback group-data-[disabled=true]/input-group:opacity-50 [&>kbd]:rounded-[5px] [&>svg]:stroke-[1.5] [&>svg]:transition-[stroke-width] group-focus-within/input-group:[&>svg]:stroke-2 [&>svg:not([class*='size-'])]:size-(--density-icon-16);
   }
 
   .cn-input-group-addon-align-inline-start {
-    @apply pl-2.5 has-[>button]:ml-[-0.3rem] has-[>kbd]:ml-[-0.15rem];
+    @apply pl-(--density-10) has-[>button]:ml-[-0.3rem] has-[>kbd]:ml-[-0.15rem];
   }
 
   .cn-input-group-addon-align-inline-end {
-    @apply pr-2.5 has-[>button]:mr-[-0.3rem] has-[>kbd]:mr-[-0.15rem];
+    @apply pr-(--density-10) has-[>button]:mr-[-0.3rem] has-[>kbd]:mr-[-0.15rem];
   }
 
   .cn-input-group-addon-align-block-start {
-    @apply px-2.5 pt-2 group-has-[>input]/input-group:pt-2 [.border-b]:border-border/60 [.border-b]:pb-2;
+    @apply px-(--density-10) pt-(--density-8) group-has-[>input]/input-group:pt-(--density-8) [.border-b]:border-border/60 [.border-b]:pb-(--density-8);
   }
 
   .cn-input-group-addon-align-block-end {
-    @apply px-2.5 pb-2 group-has-[>input]/input-group:pb-2 [.border-t]:border-border/60 [.border-t]:pt-2;
+    @apply px-(--density-10) pb-(--density-8) group-has-[>input]/input-group:pb-(--density-8) [.border-t]:border-border/60 [.border-t]:pt-(--density-8);
   }
 
   .cn-input-group-button {
-    @apply cursor-pointer gap-1.5 text-[13px];
+    @apply cursor-pointer gap-(--density-6) text-(length:--density-text-13);
   }
 
   .cn-input-group-button-size-xs {
-    @apply h-6 gap-1 rounded-md px-2 text-[12px] [&>svg:not([class*='size-'])]:size-3.5;
+    @apply h-(--density-24) gap-1 rounded-md px-(--density-8) text-(length:--density-text-12) [&>svg:not([class*='size-'])]:size-(--density-icon-14);
   }
 
   .cn-input-group-button-size-sm {
-    @apply h-7 gap-1 rounded-md px-2.5 text-[12px] [&>svg:not([class*='size-'])]:size-3.5;
+    @apply h-(--density-28) gap-1 rounded-md px-(--density-10) text-(length:--density-text-12) [&>svg:not([class*='size-'])]:size-(--density-icon-14);
   }
 
   .cn-input-group-button-size-icon-xs {
-    @apply size-6 rounded-md p-0 has-[>svg]:p-0 [&>svg:not([class*='size-'])]:size-3.5;
+    @apply size-(--density-24) rounded-md p-0 has-[>svg]:p-0 [&>svg:not([class*='size-'])]:size-(--density-icon-14);
   }
 
   .cn-input-group-button-size-icon-sm {
-    @apply size-7 rounded-md p-0 has-[>svg]:p-0;
+    @apply size-(--density-28) rounded-md p-0 has-[>svg]:p-0;
   }
 
   .cn-input-group-text {
-    @apply text-muted-foreground gap-2 text-[13px] [&_svg:not([class*='size-'])]:size-4;
+    @apply text-muted-foreground gap-(--density-8) text-(length:--density-text-13) [&_svg:not([class*='size-'])]:size-(--density-icon-16);
   }
 
   /* The control drops its own frame and fills; the group draws both. */
@@ -1182,26 +1185,26 @@
   }
 
   .cn-input-group-textarea {
-    @apply rounded-none border-0 bg-transparent py-2 shadow-none ring-0 hover:bg-transparent focus-visible:bg-transparent focus-visible:ring-0 disabled:bg-transparent aria-invalid:ring-0 aria-invalid:hover:bg-transparent aria-invalid:focus-visible:bg-transparent;
+    @apply rounded-none border-0 bg-transparent py-(--density-8) shadow-none ring-0 hover:bg-transparent focus-visible:bg-transparent focus-visible:ring-0 disabled:bg-transparent aria-invalid:ring-0 aria-invalid:hover:bg-transparent aria-invalid:focus-visible:bg-transparent;
   }
 
 /* MARK: Input OTP */
 
   .cn-input-otp {
-    @apply gap-2;
+    @apply gap-(--density-8);
   }
 
   /* Slots stand apart (each is framed like an input), so the group only
      spaces them. */
   .cn-input-otp-group {
-    @apply gap-1.5 rounded-lg;
+    @apply gap-(--density-6) rounded-lg;
   }
 
   /* 36px slots framed by ring-border; the active slot lifts to the card
      surface with a firmer neutral ring (no blue halo). Invalid slots turn the
      ring red. */
   .cn-input-otp-slot {
-    @apply cursor-text text-foreground ring-border data-[active=true]:bg-card data-[active=true]:ring-foreground/30 aria-invalid:ring-destructive/50 data-[active=true]:aria-invalid:ring-destructive size-9 rounded-lg bg-transparent text-[14px] tabular-nums ring-1 transition-[background-color,box-shadow] duration-feedback ease-feedback outline-none;
+    @apply cursor-text text-foreground ring-border data-[active=true]:bg-card data-[active=true]:ring-foreground/30 aria-invalid:ring-destructive/50 data-[active=true]:aria-invalid:ring-destructive size-(--density-36) rounded-lg bg-transparent text-(length:--density-text-14) tabular-nums ring-1 transition-[background-color,box-shadow] duration-feedback ease-feedback outline-none;
   }
 
   .cn-input-otp-caret-line {
@@ -1209,7 +1212,7 @@
   }
 
   .cn-input-otp-separator {
-    @apply text-muted-foreground [&_svg:not([class*='size-'])]:size-4 [&_svg]:stroke-[1.5];
+    @apply text-muted-foreground [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5];
   }
 
 /* MARK: Input */
@@ -1221,7 +1224,7 @@
      Inside an input group the group draws the frame, so the control drops
      its own (data-slot=input-group-control). */
   .cn-input {
-    @apply text-foreground ring-border hover:bg-muted/50 focus-visible:bg-card focus-visible:ring-foreground/25 aria-invalid:ring-destructive/50 aria-invalid:hover:bg-destructive/5 aria-invalid:focus-visible:bg-card h-9 rounded-lg border-0 bg-transparent px-2.5 py-1 text-base ring-1 transition-[color,background-color,box-shadow] duration-feedback ease-feedback file:h-7 file:text-[13px] file:font-medium md:text-[13px] data-[slot=input-group-control]:bg-transparent data-[slot=input-group-control]:ring-0 data-[slot=input-group-control]:hover:bg-transparent data-[slot=input-group-control]:focus-visible:bg-transparent data-[slot=input-group-control]:aria-invalid:hover:bg-transparent;
+    @apply text-foreground ring-border hover:bg-muted/50 focus-visible:bg-card focus-visible:ring-foreground/25 aria-invalid:ring-destructive/50 aria-invalid:hover:bg-destructive/5 aria-invalid:focus-visible:bg-card h-(--density-36) rounded-lg border-0 bg-transparent px-(--density-10) py-1 text-base ring-1 transition-[color,background-color,box-shadow] duration-feedback ease-feedback file:h-(--density-28) file:text-(length:--density-text-13) file:font-medium md:text-(length:--density-text-13) data-[slot=input-group-control]:bg-transparent data-[slot=input-group-control]:ring-0 data-[slot=input-group-control]:hover:bg-transparent data-[slot=input-group-control]:focus-visible:bg-transparent data-[slot=input-group-control]:aria-invalid:hover:bg-transparent;
   }
 
 /* MARK: Item */
@@ -1230,7 +1233,7 @@
      1px blue edge: the inline focus border turns blue and its 3px halo is
      switched off. */
   .cn-item {
-    @apply [a&]:cursor-pointer [button&]:cursor-pointer [a]:hover:bg-hover rounded-lg border text-[13px] focus-visible:ring-0! duration-feedback! ease-feedback!;
+    @apply [a&]:cursor-pointer [button&]:cursor-pointer [a]:hover:bg-hover rounded-lg border text-(length:--density-text-13) focus-visible:ring-0! duration-feedback! ease-feedback!;
   }
 
   .cn-item-variant-default {
@@ -1246,19 +1249,19 @@
   }
 
   .cn-item-size-default {
-    @apply gap-3 p-3;
+    @apply gap-(--density-12) p-(--density-12);
   }
 
   .cn-item-size-sm {
-    @apply gap-2.5 px-3 py-2;
+    @apply gap-(--density-10) px-(--density-12) py-(--density-8);
   }
 
   .cn-item-size-xs {
-    @apply gap-2 px-2 py-1.5 in-data-[slot=dropdown-menu-content]:p-0;
+    @apply gap-(--density-8) px-(--density-8) py-(--density-6) in-data-[slot=dropdown-menu-content]:p-0;
   }
 
   .cn-item-media {
-    @apply gap-2 group-has-data-[slot=item-description]/item:translate-y-0.5 group-has-data-[slot=item-description]/item:self-start;
+    @apply gap-(--density-8) group-has-data-[slot=item-description]/item:translate-y-0.5 group-has-data-[slot=item-description]/item:self-start;
   }
 
   .cn-item-media-variant-default {
@@ -1266,11 +1269,11 @@
   }
 
   .cn-item-media-variant-icon {
-    @apply [&_svg]:stroke-[1.5] [&_svg:not([class*='size-'])]:size-4;
+    @apply [&_svg]:stroke-[1.5] [&_svg:not([class*='size-'])]:size-(--density-icon-16);
   }
 
   .cn-item-media-variant-image {
-    @apply size-10 overflow-hidden rounded-lg group-data-[size=sm]/item:size-8 group-data-[size=xs]/item:size-6 group-data-[size=xs]/item:rounded-md [&_img]:size-full [&_img]:object-cover;
+    @apply size-(--density-40) overflow-hidden rounded-lg group-data-[size=sm]/item:size-(--density-32) group-data-[size=xs]/item:size-(--density-24) group-data-[size=xs]/item:rounded-md [&_img]:size-full [&_img]:object-cover;
   }
 
   .cn-item-content {
@@ -1278,27 +1281,27 @@
   }
 
   .cn-item-title {
-    @apply gap-2 text-[13px] leading-snug font-medium underline-offset-4;
+    @apply gap-(--density-8) text-(length:--density-text-13) leading-snug font-medium underline-offset-4;
   }
 
   .cn-item-description {
-    @apply text-muted-foreground text-left text-[13px] leading-normal group-data-[size=xs]/item:text-[12px];
+    @apply text-muted-foreground text-left text-(length:--density-text-13) leading-normal group-data-[size=xs]/item:text-(length:--density-text-12);
   }
 
   .cn-item-actions {
-    @apply gap-2;
+    @apply gap-(--density-8);
   }
 
   .cn-item-header {
-    @apply gap-2;
+    @apply gap-(--density-8);
   }
 
   .cn-item-footer {
-    @apply gap-2;
+    @apply gap-(--density-8);
   }
 
   .cn-item-group {
-    @apply gap-3 has-data-[size=sm]:gap-2 has-data-[size=xs]:gap-1;
+    @apply gap-(--density-12) has-data-[size=sm]:gap-(--density-8) has-data-[size=xs]:gap-1;
   }
 
   .cn-item-separator {
@@ -1310,7 +1313,7 @@
   /* A quiet 20px keycap: hover fill, 11px muted text. Inside the inverted
      tooltip it takes the tooltip's own colours. */
   .cn-kbd {
-    @apply bg-hover text-muted-foreground in-data-[slot=tooltip-content]:bg-background/20 in-data-[slot=tooltip-content]:text-background dark:in-data-[slot=tooltip-content]:bg-background/10 h-5 w-fit min-w-5 gap-1 rounded-[5px] px-1 font-sans text-[11px] font-medium [&_svg:not([class*='size-'])]:size-3;
+    @apply bg-hover text-muted-foreground in-data-[slot=tooltip-content]:bg-background/20 in-data-[slot=tooltip-content]:text-background dark:in-data-[slot=tooltip-content]:bg-background/10 h-(--density-20) w-fit min-w-(--density-20) gap-1 rounded-[5px] px-1 font-sans text-(length:--density-text-11) font-medium [&_svg:not([class*='size-'])]:size-3;
   }
 
   .cn-kbd-group {
@@ -1320,7 +1323,7 @@
 /* MARK: Label */
 
   .cn-label {
-    @apply has-[[data-slot=checkbox],[data-slot=switch],[data-slot=radio-group-item]]:cursor-pointer [[data-slot=checkbox]~&]:cursor-pointer [[data-slot=switch]~&]:cursor-pointer [[data-slot=radio-group-item]~&]:cursor-pointer in-[[data-slot=field]:has([data-slot=checkbox],[data-slot=switch],[data-slot=radio-group-item])]:cursor-pointer text-foreground gap-2 text-[13px] leading-none font-medium group-data-[disabled=true]:opacity-50 peer-disabled:opacity-50;
+    @apply has-[[data-slot=checkbox],[data-slot=switch],[data-slot=radio-group-item]]:cursor-pointer [[data-slot=checkbox]~&]:cursor-pointer [[data-slot=switch]~&]:cursor-pointer [[data-slot=radio-group-item]~&]:cursor-pointer in-[[data-slot=field]:has([data-slot=checkbox],[data-slot=switch],[data-slot=radio-group-item])]:cursor-pointer text-foreground gap-(--density-8) text-(length:--density-text-13) leading-none font-medium group-data-[disabled=true]:opacity-50 peer-disabled:opacity-50;
   }
 
   .cn-label-aria {
@@ -1333,7 +1336,7 @@
      and button markers light up to foreground on the feedback timing; the shimmer
      on streaming states stays inline. */
   .cn-marker {
-    @apply text-muted-foreground min-h-5 gap-2 text-start text-[13px] leading-snug transition-colors duration-feedback ease-feedback [&_svg:not([class*='size-'])]:size-4 [&_svg]:stroke-[1.5] [a]:underline [a]:decoration-current/30 [a]:underline-offset-3 [a]:hover:text-foreground [a]:hover:decoration-current/60 [button]:rounded-lg [button]:outline-none [button]:hover:text-foreground [button]:hover:[&_svg]:stroke-2 [button]:focus-visible:ring-1 [button]:focus-visible:ring-ring;
+    @apply text-muted-foreground min-h-(--density-20) gap-(--density-8) text-start text-(length:--density-text-13) leading-snug transition-colors duration-feedback ease-feedback [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5] [a]:underline [a]:decoration-current/30 [a]:underline-offset-3 [a]:hover:text-foreground [a]:hover:decoration-current/60 [button]:rounded-lg [button]:outline-none [button]:hover:text-foreground [button]:hover:[&_svg]:stroke-2 [button]:focus-visible:ring-1 [button]:focus-visible:ring-ring;
   }
 
   .cn-marker-variant-separator {
@@ -1341,11 +1344,11 @@
   }
 
   .cn-marker-variant-border {
-    @apply border-border/60 border-b pb-2;
+    @apply border-border/60 border-b pb-(--density-8);
   }
 
   .cn-marker-icon {
-    @apply size-4 [&_svg:not([class*='size-'])]:size-4;
+    @apply size-(--density-icon-16) [&_svg:not([class*='size-'])]:size-(--density-icon-16);
   }
 
   .cn-marker-content {
@@ -1371,14 +1374,14 @@
   /* The bar is a raised strip (surface 2 ring, no border) and a fluid hover
      container for its triggers (relative isolate). */
   .cn-menubar {
-    @apply bg-card shadow-surface-2 relative isolate h-9 gap-0.5 rounded-xl p-1;
+    @apply bg-card shadow-surface-2 relative isolate h-(--density-36) gap-0.5 rounded-xl p-(--density-4);
   }
 
   /* Triggers: 28px, 13px, muted at rest. The fluid highlight lights the
      trigger nearest the pointer; an open trigger keeps a hover fill while
      the pointer is in its menu. */
   .cn-menubar-trigger {
-    @apply cursor-pointer text-muted-foreground h-7 rounded-lg px-2.5 text-[13px] font-normal transition-colors duration-feedback hover:bg-hover hover:text-foreground in-data-[fluid-hover]:hover:bg-transparent focus-visible:ring-1 focus-visible:ring-ring data-fluid-hover-active:text-foreground aria-expanded:text-foreground not-data-fluid-hover-active:aria-expanded:bg-hover;
+    @apply cursor-pointer text-muted-foreground h-(--density-28) rounded-lg px-(--density-10) text-(length:--density-text-13) font-normal transition-colors duration-feedback hover:bg-hover hover:text-foreground in-data-[fluid-hover]:hover:bg-transparent focus-visible:ring-1 focus-visible:ring-ring data-fluid-hover-active:text-foreground aria-expanded:text-foreground not-data-fluid-hover-active:aria-expanded:bg-hover;
   }
 
   /* Menus: the popup recipe (surface 3, rounded-xl, p-1, popup motion),
@@ -1394,29 +1397,29 @@
   /* Rows: 36px, 13px, muted at rest; the lit row turns foreground and
      thickens its icon. Destructive rows stay destructive when lit. */
   .cn-menubar-item {
-    @apply cursor-pointer text-muted-foreground h-9 gap-2 rounded-lg px-2 text-[13px] transition-colors duration-feedback data-disabled:opacity-50 data-inset:pl-8 [&_svg:not([class*='size-'])]:size-4 [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] data-highlighted:bg-hover data-highlighted:text-foreground data-highlighted:[&_svg]:stroke-2 in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover data-focused:text-foreground data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-[variant=destructive]:text-destructive-text! data-[variant=destructive]:*:[svg]:text-destructive!;
+    @apply cursor-pointer text-muted-foreground h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8) text-(length:--density-text-13) transition-colors duration-feedback data-disabled:opacity-50 data-inset:pl-[calc(var(--density-8)*2+var(--density-icon-16))] [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] data-highlighted:bg-hover data-highlighted:text-foreground data-highlighted:[&_svg]:stroke-2 in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover data-focused:text-foreground data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-[variant=destructive]:text-destructive-text! data-[variant=destructive]:*:[svg]:text-destructive!;
   }
 
   /* Checkbox and radio rows keep the check on the start side. Checked rows
      are foreground and semibold. */
   .cn-menubar-checkbox-item {
-    @apply cursor-pointer text-muted-foreground h-9 gap-2 rounded-lg py-0 pr-2 pl-8 text-[13px] transition-[color,background-color] duration-feedback data-inset:pl-8 data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover data-focused:text-foreground data-fluid-hover-active:text-foreground data-checked:text-foreground data-checked:font-semibold;
+    @apply cursor-pointer text-muted-foreground h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-(--density-8) pl-[calc(var(--density-8)*2+var(--density-icon-16))] text-(length:--density-text-13) transition-[color,background-color] duration-feedback data-inset:pl-[calc(var(--density-8)*2+var(--density-icon-16))] data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover data-focused:text-foreground data-fluid-hover-active:text-foreground data-checked:text-foreground data-checked:font-semibold;
   }
 
   .cn-menubar-checkbox-item-indicator {
-    @apply text-foreground left-2 size-4 [&_svg:not([class*='size-'])]:size-4;
+    @apply text-foreground left-(--density-8) size-(--density-icon-16) [&_svg:not([class*='size-'])]:size-(--density-icon-16);
   }
 
   .cn-menubar-radio-item {
-    @apply cursor-pointer text-muted-foreground h-9 gap-2 rounded-lg py-0 pr-2 pl-8 text-[13px] transition-[color,background-color] duration-feedback data-disabled:opacity-50 data-inset:pl-8 [&_svg:not([class*='size-'])]:size-4 data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover data-focused:text-foreground data-fluid-hover-active:text-foreground data-checked:text-foreground data-checked:font-semibold;
+    @apply cursor-pointer text-muted-foreground h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-(--density-8) pl-[calc(var(--density-8)*2+var(--density-icon-16))] text-(length:--density-text-13) transition-[color,background-color] duration-feedback data-disabled:opacity-50 data-inset:pl-[calc(var(--density-8)*2+var(--density-icon-16))] [&_svg:not([class*='size-'])]:size-(--density-icon-16) data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover data-focused:text-foreground data-fluid-hover-active:text-foreground data-checked:text-foreground data-checked:font-semibold;
   }
 
   .cn-menubar-radio-item-indicator {
-    @apply text-foreground left-2 size-4 [&_svg:not([class*='size-'])]:size-4;
+    @apply text-foreground left-(--density-8) size-(--density-icon-16) [&_svg:not([class*='size-'])]:size-(--density-icon-16);
   }
 
   .cn-menubar-label {
-    @apply text-muted-foreground px-2 py-1.5 text-[12px] font-normal data-inset:pl-8;
+    @apply text-muted-foreground px-(--density-8) py-(--density-6) text-(length:--density-text-12) font-normal data-inset:pl-[calc(var(--density-8)*2+var(--density-icon-16))];
   }
 
   .cn-menubar-separator {
@@ -1424,12 +1427,12 @@
   }
 
   .cn-menubar-shortcut {
-    @apply text-muted-foreground text-[11px] tracking-normal;
+    @apply text-muted-foreground text-(length:--density-text-11) tracking-normal;
   }
 
   /* An open sub-trigger stays lit while the pointer is in its submenu. */
   .cn-menubar-sub-trigger {
-    @apply cursor-pointer text-muted-foreground h-9 gap-2 rounded-lg px-2 text-[13px] transition-colors duration-feedback data-inset:pl-8 [&_svg:not([class*='size-'])]:size-4 [&_svg]:stroke-[1.5] data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover data-focused:text-foreground data-fluid-hover-active:text-foreground data-open:text-foreground data-popup-open:text-foreground not-data-fluid-hover-active:data-open:bg-hover not-data-fluid-hover-active:data-popup-open:bg-hover;
+    @apply cursor-pointer text-muted-foreground h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8) text-(length:--density-text-13) transition-colors duration-feedback data-inset:pl-[calc(var(--density-8)*2+var(--density-icon-16))] [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5] data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover data-focused:text-foreground data-fluid-hover-active:text-foreground data-open:text-foreground data-popup-open:text-foreground not-data-fluid-hover-active:data-open:bg-hover not-data-fluid-hover-active:data-popup-open:bg-hover;
   }
 
   .cn-menubar-sub-content {
@@ -1457,31 +1460,31 @@
 
   /* A turn: 14px chat body, avatar and content 8px apart. */
   .cn-message {
-    @apply gap-2 text-[14px];
+    @apply gap-(--density-8) text-(length:--density-text-14);
   }
 
   /* Lifts the avatar to the bubble when a footer row sits under it
      (footer line 18px + content gap 6px). */
   .cn-message-avatar {
-    @apply min-w-8 group-has-data-[slot=message-footer]/message:-translate-y-6;
+    @apply min-w-(--density-32) group-has-data-[slot=message-footer]/message:-translate-y-6;
   }
 
   .cn-message-content {
-    @apply gap-1.5 group-data-[align=end]/message:*:data-slot:self-end;
+    @apply gap-(--density-6) group-data-[align=end]/message:*:data-slot:self-end;
   }
 
   /* Meta rows: 12px muted captions, inset 4px from the bubble edge
      (flush for ghost/plain assistant text). */
   .cn-message-header {
-    @apply text-muted-foreground gap-2 px-1 text-[12px] leading-normal font-normal group-has-data-[variant=ghost]/message:px-0;
+    @apply text-muted-foreground gap-(--density-8) px-1 text-(length:--density-text-12) leading-normal font-normal group-has-data-[variant=ghost]/message:px-0;
   }
 
   .cn-message-footer {
-    @apply text-muted-foreground gap-2 px-1 text-[12px] leading-normal font-normal tabular-nums group-has-data-[variant=ghost]/message:px-0;
+    @apply text-muted-foreground gap-(--density-8) px-1 text-(length:--density-text-12) leading-normal font-normal tabular-nums group-has-data-[variant=ghost]/message:px-0;
   }
 
   .cn-message-group {
-    @apply gap-2;
+    @apply gap-(--density-8);
   }
 
 /* MARK: Native Select */
@@ -1514,13 +1517,13 @@
      highlight lights the one nearest the pointer; an open trigger keeps a
      hover fill while the pointer is in its panel. */
   .cn-navigation-menu-trigger {
-    @apply cursor-pointer text-muted-foreground rounded-lg px-3 text-[13px] font-normal transition-colors duration-feedback hover:bg-hover hover:text-foreground in-data-[fluid-hover]:hover:bg-transparent focus-visible:ring-1 focus-visible:ring-ring data-fluid-hover-active:text-foreground data-open:text-foreground data-popup-open:text-foreground not-data-fluid-hover-active:data-open:bg-hover not-data-fluid-hover-active:data-popup-open:bg-hover disabled:opacity-50;
+    @apply cursor-pointer text-muted-foreground rounded-lg px-(--density-12) text-(length:--density-text-13) font-normal transition-colors duration-feedback hover:bg-hover hover:text-foreground in-data-[fluid-hover]:hover:bg-transparent focus-visible:ring-1 focus-visible:ring-ring data-fluid-hover-active:text-foreground data-open:text-foreground data-popup-open:text-foreground not-data-fluid-hover-active:data-open:bg-hover not-data-fluid-hover-active:data-popup-open:bg-hover disabled:opacity-50;
   }
 
   /* Panel links: rounded-lg rows lit by the panel's fluid highlight. The
      current page's link is foreground on a bg-active fill. */
   .cn-navigation-menu-link {
-    @apply cursor-pointer flex items-center gap-2 rounded-lg p-2 text-[13px] transition-colors duration-feedback outline-none hover:bg-hover in-data-[fluid-hover]:hover:bg-transparent focus-visible:bg-hover data-active:bg-active data-active:text-foreground [&_svg:not([class*='size-'])]:size-4 [&_svg]:stroke-[1.5] data-fluid-hover-active:[&_svg]:stroke-2;
+    @apply cursor-pointer flex items-center gap-(--density-8) rounded-lg p-(--density-8) text-(length:--density-text-13) transition-colors duration-feedback outline-none hover:bg-hover in-data-[fluid-hover]:hover:bg-transparent focus-visible:bg-hover data-active:bg-active data-active:text-foreground [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5] data-fluid-hover-active:[&_svg]:stroke-2;
   }
 
   .cn-navigation-menu-trigger-icon {
@@ -1567,15 +1570,15 @@
   }
 
   .cn-pagination-ellipsis {
-    @apply text-muted-foreground size-9 items-center justify-center [&_svg]:stroke-[1.5] [&_svg:not([class*='size-'])]:size-4;
+    @apply text-muted-foreground size-(--density-36) items-center justify-center [&_svg]:stroke-[1.5] [&_svg:not([class*='size-'])]:size-(--density-icon-16);
   }
 
   .cn-pagination-previous {
-    @apply pl-2.5!;
+    @apply pl-(--density-10)!;
   }
 
   .cn-pagination-next {
-    @apply pr-2.5!;
+    @apply pr-(--density-10)!;
   }
 
 /* MARK: Popover */
@@ -1584,7 +1587,7 @@
      p-3, 13px. Grows from its trigger on the popup motion and closes quicker
      than it opened. */
   .cn-popover-content {
-    @apply bg-surface-3 shadow-surface-3 text-popover-foreground flex flex-col gap-3 rounded-xl p-3 text-[13px] motion-popup data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0;
+    @apply bg-surface-3 shadow-surface-3 text-popover-foreground flex flex-col gap-(--density-12) rounded-xl p-(--density-12) text-(length:--density-text-13) motion-popup data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0;
   }
 
   .cn-popover-content-logical {
@@ -1592,20 +1595,20 @@
   }
 
   .cn-popover-header {
-    @apply flex flex-col gap-1 text-[13px];
+    @apply flex flex-col gap-1 text-(length:--density-text-13);
   }
 
   .cn-popover-title {
-    @apply text-foreground text-[14px] leading-snug font-medium;
+    @apply text-foreground text-(length:--density-text-14) leading-snug font-medium;
   }
 
   .cn-popover-description {
-    @apply text-muted-foreground text-[13px];
+    @apply text-muted-foreground text-(length:--density-text-13);
   }
 
   /* React Aria */
   .cn-popover-content-aria {
-    @apply bg-surface-3 shadow-surface-3 text-popover-foreground flex flex-col gap-3 rounded-xl p-3 text-[13px] motion-popup data-entering:animate-in data-entering:fade-in-0 data-exiting:animate-out data-exiting:fade-out-0;
+    @apply bg-surface-3 shadow-surface-3 text-popover-foreground flex flex-col gap-(--density-12) rounded-xl p-(--density-12) text-(length:--density-text-13) motion-popup data-entering:animate-in data-entering:fade-in-0 data-exiting:animate-out data-exiting:fade-out-0;
   }
 
 /* MARK: Progress */
@@ -1625,11 +1628,11 @@
   }
 
   .cn-progress-label {
-    @apply text-[13px] font-medium;
+    @apply text-(length:--density-text-13) font-medium;
   }
 
   .cn-progress-value {
-    @apply text-muted-foreground ml-auto text-[13px] tabular-nums;
+    @apply text-muted-foreground ml-auto text-(length:--density-text-13) tabular-nums;
   }
 
 /* MARK: Questionnaire */
@@ -1640,24 +1643,24 @@
      Kbd's. The rules below only add what the questionnaire context needs. */
 
   .cn-questionnaire {
-    @apply gap-3;
+    @apply gap-(--density-12);
   }
 
   /* "Question 1 of 3": a quiet 12px caption. */
   .cn-questionnaire-progress {
-    @apply text-[12px] font-normal;
+    @apply text-(length:--density-text-12) font-normal;
   }
 
   .cn-questionnaire-item {
-    @apply flex flex-col gap-3;
+    @apply flex flex-col gap-(--density-12);
   }
 
   .cn-questionnaire-title {
-    @apply text-foreground mb-0.5 text-[16px] leading-snug font-semibold;
+    @apply text-foreground mb-0.5 text-(length:--density-text-16) leading-snug font-semibold;
   }
 
   .cn-questionnaire-description {
-    @apply text-muted-foreground text-[13px];
+    @apply text-muted-foreground text-(length:--density-text-13);
   }
 
   /* Choices bleed 8px each side so the mark lines up with the title. */
@@ -1671,7 +1674,7 @@
      44px touch target on small screens (padded so one line sits centred) and
      tighten to 36px from sm up. */
   .cn-questionnaire-choice {
-    @apply text-foreground gap-2.5 rounded-lg bg-transparent px-2 py-3 sm:min-h-9 sm:py-2 text-[13px] duration-feedback ease-feedback hover:bg-hover data-checked:bg-active data-checked:hover:bg-active has-[>input:focus-visible]:ring-1 has-[>input:focus-visible]:ring-focus-ring;
+    @apply text-foreground gap-(--density-10) rounded-lg bg-transparent px-(--density-8) py-(--density-12) sm:min-h-(--density-36) sm:py-(--density-8) text-(length:--density-text-13) duration-feedback ease-feedback hover:bg-hover data-checked:bg-active data-checked:hover:bg-active has-[>input:focus-visible]:ring-1 has-[>input:focus-visible]:ring-focus-ring;
   }
 
   /* The Checkbox / Radio mark, lit by the whole row: the row's hover firms
@@ -1696,7 +1699,7 @@
 
   /* Captions: 12px muted, as in Field. */
   .cn-questionnaire-choice-description {
-    @apply text-muted-foreground text-[12px] font-normal;
+    @apply text-muted-foreground text-(length:--density-text-12) font-normal;
   }
 
   /* The Kbd keycap; it takes the foreground once its row is chosen. */
@@ -1715,24 +1718,24 @@
   }
 
   .cn-questionnaire-error {
-    @apply text-[12px];
+    @apply text-(length:--density-text-12);
   }
 
   .cn-questionnaire-actions {
-    @apply mt-1 gap-2 sm:min-h-9;
+    @apply mt-1 gap-(--density-8) sm:min-h-(--density-36);
   }
 
 /* MARK: Radio Group */
 
   .cn-radio-group {
-    @apply grid gap-3;
+    @apply grid gap-(--density-12);
   }
 
   /* 18px circle with the checkbox's outline. Checked fills with the primary role
      (the foreground while neutral) and a 6px dot pops in in its foreground. The border width is important because
      the components carry an inline 1px `border`. */
   .cn-radio-group-item {
-    @apply cursor-pointer flex size-[18px] items-center justify-center border-[1.5px]! border-foreground/25 bg-transparent transition-[background-color,border-color,box-shadow,scale] duration-feedback ease-feedback motion-reduce:transition-none hover:border-foreground/45 active:scale-90 motion-reduce:active:scale-100 focus-visible:ring-1 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background aria-invalid:border-destructive group-has-[:focus-visible]/field-label:ring-0 rounded-full data-checked:border-primary data-checked:bg-primary data-checked:hover:border-primary aria-invalid:data-checked:border-destructive aria-invalid:data-checked:bg-destructive;
+    @apply cursor-pointer flex size-[calc(var(--density-icon-16)+2px)] items-center justify-center border-[1.5px]! border-foreground/25 bg-transparent transition-[background-color,border-color,box-shadow,scale] duration-feedback ease-feedback motion-reduce:transition-none hover:border-foreground/45 active:scale-90 motion-reduce:active:scale-100 focus-visible:ring-1 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background aria-invalid:border-destructive group-has-[:focus-visible]/field-label:ring-0 rounded-full data-checked:border-primary data-checked:bg-primary data-checked:hover:border-primary aria-invalid:data-checked:border-destructive aria-invalid:data-checked:bg-destructive;
   }
 
   .cn-radio-group-item-aria {
@@ -1802,16 +1805,18 @@
     @apply ring-border bg-transparent ring-1 not-data-open:hover:bg-hover;
   }
 
+  /* Sizes follow the density: default takes the nearest one, sm pins the
+     search to compact and lg to spacious. Each size opens to its own width. */
   .cn-search-size-default {
-    @apply h-9 w-9 text-[13px] data-open:w-(--search-width,320px) [&_[data-slot=search-input]]:ps-9 [&_[data-slot=search-input]]:pe-3 has-[[data-slot=search-clear]]:[&_[data-slot=search-input]]:pe-9 [&_svg:not([class*='size-'])]:size-4;
+    @apply h-(--density-36) w-(--density-36) text-(length:--density-text-13) [&_[data-slot=search-input]]:ps-(--density-36) [&_[data-slot=search-input]]:pe-(--density-12) has-[[data-slot=search-clear]]:[&_[data-slot=search-input]]:pe-(--density-36) [&_svg:not([class*='size-'])]:size-(--density-icon-16) data-open:w-(--search-width,320px);
   }
 
   .cn-search-size-sm {
-    @apply h-7 w-7 text-[12px] data-open:w-(--search-width,240px) [&_[data-slot=search-input]]:ps-7 [&_[data-slot=search-input]]:pe-2.5 has-[[data-slot=search-clear]]:[&_[data-slot=search-input]]:pe-7 [&_svg:not([class*='size-'])]:size-3.5;
+    @apply density-compact h-(--density-36) w-(--density-36) text-(length:--density-text-13) [&_[data-slot=search-input]]:ps-(--density-36) [&_[data-slot=search-input]]:pe-(--density-12) has-[[data-slot=search-clear]]:[&_[data-slot=search-input]]:pe-(--density-36) [&_svg:not([class*='size-'])]:size-(--density-icon-16) data-open:w-(--search-width,240px);
   }
 
   .cn-search-size-lg {
-    @apply h-11 w-11 text-[15px] data-open:w-(--search-width,360px) [&_[data-slot=search-input]]:ps-11 [&_[data-slot=search-input]]:pe-4 has-[[data-slot=search-clear]]:[&_[data-slot=search-input]]:pe-11 [&_svg:not([class*='size-'])]:size-[18px];
+    @apply density-spacious h-(--density-36) w-(--density-36) text-(length:--density-text-13) [&_[data-slot=search-input]]:ps-(--density-36) [&_[data-slot=search-input]]:pe-(--density-12) has-[[data-slot=search-clear]]:[&_[data-slot=search-input]]:pe-(--density-36) [&_svg:not([class*='size-'])]:size-(--density-icon-16) data-open:w-(--search-width,360px);
   }
 
   /* Closed: the whole button. Open: just the icon, muted. */
@@ -1829,16 +1834,17 @@
   }
 
   .cn-search-clear {
-    @apply text-muted-foreground hover:text-foreground focus-visible:text-foreground cursor-pointer rounded-full transition-colors duration-feedback ease-feedback animate-in fade-in-0 zoom-in-75 motion-reduce:zoom-in-100 focus-visible:ring-1 focus-visible:ring-ring [&_svg:not([class*='size-'])]:size-3.5;
+    @apply text-muted-foreground hover:text-foreground focus-visible:text-foreground cursor-pointer rounded-full transition-colors duration-feedback ease-feedback animate-in fade-in-0 zoom-in-75 motion-reduce:zoom-in-100 focus-visible:ring-1 focus-visible:ring-ring [&_svg:not([class*='size-'])]:size-(--density-icon-14);
   }
 
 /* MARK: Select */
 
   /* Trigger: the input recipe. A 1px ring-border frame (no border), a light
-     fill on hover, 36px (sm 28px), 13px. Keyboard focus turns the ring
+     fill on hover, 36px and 13px at the default density; size sm pins it to
+     compact (28px, 12px). Keyboard focus turns the ring
      blue; invalid turns it destructive. The chevron brightens on hover. */
   .cn-select-trigger {
-    @apply cursor-pointer ring-border data-placeholder:text-muted-foreground hover:bg-muted/50 focus-visible:ring-ring aria-invalid:ring-destructive/50 aria-invalid:hover:bg-destructive/5 gap-2 rounded-lg bg-transparent py-0 pr-2 pl-2.5 text-[13px] ring-1 transition-[color,background-color,box-shadow] duration-feedback select-none data-[size=default]:h-9 data-[size=sm]:h-7 data-[size=sm]:gap-1.5 data-[size=sm]:pl-2 data-[size=sm]:text-[12px] *:data-[slot=select-value]:flex *:data-[slot=select-value]:gap-2 [&_svg:not([class*='size-'])]:size-4 [&_svg]:stroke-[1.5] hover:[&>svg]:text-foreground;
+    @apply cursor-pointer ring-border data-placeholder:text-muted-foreground hover:bg-muted/50 focus-visible:ring-ring aria-invalid:ring-destructive/50 aria-invalid:hover:bg-destructive/5 h-(--density-36) gap-(--density-8) rounded-lg bg-transparent py-0 pr-(--density-8) pl-(--density-10) text-(length:--density-text-13) ring-1 transition-[color,background-color,box-shadow] duration-feedback select-none data-[size=sm]:density-compact *:data-[slot=select-value]:flex *:data-[slot=select-value]:gap-(--density-8) [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5] hover:[&>svg]:text-foreground;
   }
 
   .cn-select-value {
@@ -1850,7 +1856,7 @@
   }
 
   .cn-select-trigger-icon {
-    @apply text-muted-foreground size-4 transition-colors duration-feedback;
+    @apply text-muted-foreground size-(--density-icon-16) transition-colors duration-feedback;
   }
 
   /* Popup: surface 3 with its shadow ring (no border), rounded-xl, p-1, on
@@ -1869,14 +1875,14 @@
   }
 
   .cn-select-label {
-    @apply text-muted-foreground px-2 py-1.5 text-[12px];
+    @apply text-muted-foreground px-(--density-8) py-(--density-6) text-(length:--density-text-12);
   }
 
   /* Rows: 36px, 13px, muted at rest; the lit row turns foreground. The
      selected row is foreground and semibold on a bg-active fill, which
      slides between rows inside a fluid container. */
   .cn-select-item {
-    @apply cursor-pointer text-muted-foreground h-9 gap-2 rounded-lg py-0 pr-8 pl-2 text-[13px] transition-colors duration-feedback [&_svg:not([class*='size-'])]:size-4 [&_svg]:stroke-[1.5] data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-[selected]:bg-active data-[selected]:text-foreground data-[selected]:font-semibold in-data-[fluid-hover]:data-[selected]:bg-transparent data-checked:bg-active data-checked:text-foreground data-checked:font-semibold in-data-[fluid-hover]:data-checked:bg-transparent *:[span]:last:flex *:[span]:last:items-center *:[span]:last:gap-2;
+    @apply cursor-pointer text-muted-foreground h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) text-(length:--density-text-13) transition-colors duration-feedback [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5] data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-[selected]:bg-active data-[selected]:text-foreground data-[selected]:font-semibold in-data-[fluid-hover]:data-[selected]:bg-transparent data-checked:bg-active data-checked:text-foreground data-checked:font-semibold in-data-[fluid-hover]:data-checked:bg-transparent *:[span]:last:flex *:[span]:last:items-center *:[span]:last:gap-(--density-8);
   }
 
   .cn-select-item-aria {
@@ -1884,7 +1890,7 @@
   }
 
   .cn-select-item-indicator {
-    @apply text-foreground pointer-events-none absolute right-2 flex size-4 items-center justify-center;
+    @apply text-foreground pointer-events-none absolute right-(--density-8) flex size-(--density-icon-16) items-center justify-center;
   }
 
   .cn-select-group {
@@ -1892,7 +1898,7 @@
   }
 
   .cn-select-item-text {
-    @apply flex flex-1 gap-2;
+    @apply flex flex-1 gap-(--density-8);
   }
 
   .cn-select-separator {
@@ -1900,15 +1906,15 @@
   }
 
   .cn-select-scroll-up-button {
-    @apply bg-surface-3 text-muted-foreground z-10 flex cursor-default items-center justify-center py-1 [&_svg:not([class*='size-'])]:size-4;
+    @apply bg-surface-3 text-muted-foreground z-10 flex cursor-default items-center justify-center py-1 [&_svg:not([class*='size-'])]:size-(--density-icon-16);
   }
 
   .cn-select-scroll-down-button {
-    @apply bg-surface-3 text-muted-foreground z-10 flex cursor-default items-center justify-center py-1 [&_svg:not([class*='size-'])]:size-4;
+    @apply bg-surface-3 text-muted-foreground z-10 flex cursor-default items-center justify-center py-1 [&_svg:not([class*='size-'])]:size-(--density-icon-16);
   }
 
   .cn-select-empty-aria {
-    @apply text-muted-foreground hidden w-full justify-center py-4 text-center text-[13px] group-data-empty/select-list:flex;
+    @apply text-muted-foreground hidden w-full justify-center py-(--density-16) text-center text-(length:--density-text-13) group-data-empty/select-list:flex;
   }
 
   /* React Aria */
@@ -1941,7 +1947,7 @@
   /* Panel: surface 3 whose shadow ring is the edge (no border). Slides
      and fades on the sheet motion (the drawer curve); closes quicker. */
   .cn-sheet-content {
-    @apply bg-surface-3 shadow-surface-3 text-popover-foreground fixed z-50 flex flex-col gap-4 text-[13px] transition motion-sheet data-[side=bottom]:inset-x-0 data-[side=bottom]:bottom-0 data-[side=bottom]:h-auto data-[side=left]:inset-y-0 data-[side=left]:left-0 data-[side=left]:h-full data-[side=left]:w-3/4 data-[side=right]:inset-y-0 data-[side=right]:right-0 data-[side=right]:h-full data-[side=right]:w-3/4 data-[side=top]:inset-x-0 data-[side=top]:top-0 data-[side=top]:h-auto data-[side=left]:sm:max-w-sm data-[side=right]:sm:max-w-sm;
+    @apply bg-surface-3 shadow-surface-3 text-popover-foreground fixed z-50 flex flex-col gap-(--density-16) text-(length:--density-text-13) transition motion-sheet data-[side=bottom]:inset-x-0 data-[side=bottom]:bottom-0 data-[side=bottom]:h-auto data-[side=left]:inset-y-0 data-[side=left]:left-0 data-[side=left]:h-full data-[side=left]:w-3/4 data-[side=right]:inset-y-0 data-[side=right]:right-0 data-[side=right]:h-full data-[side=right]:w-3/4 data-[side=top]:inset-x-0 data-[side=top]:top-0 data-[side=top]:h-auto data-[side=left]:sm:max-w-sm data-[side=right]:sm:max-w-sm;
   }
 
   .cn-sheet-close {
@@ -1949,19 +1955,19 @@
   }
 
   .cn-sheet-header {
-    @apply gap-1.5 p-4;
+    @apply gap-(--density-6) p-(--density-16);
   }
 
   .cn-sheet-footer {
-    @apply gap-2 p-4;
+    @apply gap-(--density-8) p-(--density-16);
   }
 
   .cn-sheet-title {
-    @apply text-foreground text-[16px] leading-tight font-bold;
+    @apply text-foreground text-(length:--density-text-16) leading-tight font-bold;
   }
 
   .cn-sheet-description {
-    @apply text-muted-foreground text-[13px];
+    @apply text-muted-foreground text-(length:--density-text-13);
   }
 
 /* MARK: Sidebar */
@@ -1992,7 +1998,7 @@
   }
 
   .cn-sidebar-rail-tooltip {
-    @apply py-1.5;
+    @apply py-(--density-6);
   }
 
   .cn-sidebar-rail-tooltip-verb {
@@ -2007,7 +2013,7 @@
 
   /* The panel glyph: the cut-out morphs on the move timing. */
   .cn-sidebar-toggle-icon {
-    @apply size-4;
+    @apply size-(--density-icon-16);
   }
 
   .cn-sidebar-toggle-icon-panel {
@@ -2026,11 +2032,11 @@
   /* The field ladder: transparent at rest, a hover fill with a hairline,
      the card fill while focused. */
   .cn-sidebar-input {
-    @apply h-8 w-full bg-transparent text-[13px] shadow-[0_0_0_1px_transparent] hover:bg-hover hover:shadow-[0_0_0_1px_var(--border)] focus-visible:bg-card;
+    @apply h-(--density-32) w-full bg-transparent text-(length:--density-text-13) shadow-[0_0_0_1px_transparent] hover:bg-hover hover:shadow-[0_0_0_1px_var(--border)] focus-visible:bg-card;
   }
 
   .cn-sidebar-header {
-    @apply gap-2 p-2;
+    @apply gap-(--density-8) p-(--density-8);
   }
 
   /* The rows fade out under the header and footer while there is more to
@@ -2040,7 +2046,7 @@
   }
 
   .cn-sidebar-footer {
-    @apply gap-2 p-2;
+    @apply gap-(--density-8) p-(--density-8);
   }
 
   .cn-sidebar-separator {
@@ -2048,7 +2054,7 @@
   }
 
   .cn-sidebar-group {
-    @apply p-2;
+    @apply p-(--density-8);
   }
 
   /* Each menu is a fluid hover container (relative isolate): a bg-hover
@@ -2061,7 +2067,7 @@
   }
 
   .cn-sidebar-group-content {
-    @apply text-[13px];
+    @apply text-(length:--density-text-13);
   }
 
   /* Group labels: 12px muted (full muted-foreground, not /70, to keep
@@ -2069,23 +2075,23 @@
      chevron) is its toggle: it pads past the header's action cluster, so the
      chevron sits one gap left of it. */
   .cn-sidebar-group-label {
-    @apply text-muted-foreground ring-ring h-8 rounded-lg px-2 text-[12px] font-normal transition-[margin,opacity,color] duration-move ease-move group-data-[collapsible=icon]:-mt-8 group-data-[collapsible=icon]:opacity-0 focus-visible:ring-1 [&>svg]:size-4 has-data-[slot=sidebar-group-label-chevron]:cursor-pointer has-data-[slot=sidebar-group-label-chevron]:gap-2 has-data-[slot=sidebar-group-label-chevron]:text-start has-data-[slot=sidebar-group-label-chevron]:pe-[var(--sidebar-group-actions-pad,0.5rem)] has-data-[slot=sidebar-group-label-chevron]:hover:text-foreground;
+    @apply text-muted-foreground ring-ring h-(--density-32) rounded-lg px-(--density-8) text-(length:--density-text-12) font-normal transition-[margin,opacity,color] duration-move ease-move group-data-[collapsible=icon]:-mt-(--density-32) group-data-[collapsible=icon]:opacity-0 focus-visible:ring-1 [&>svg]:size-(--density-icon-16) has-data-[slot=sidebar-group-label-chevron]:cursor-pointer has-data-[slot=sidebar-group-label-chevron]:gap-(--density-8) has-data-[slot=sidebar-group-label-chevron]:text-start has-data-[slot=sidebar-group-label-chevron]:pe-[var(--sidebar-group-actions-pad,var(--density-8))] has-data-[slot=sidebar-group-label-chevron]:hover:text-foreground;
   }
 
   /* The chevron takes an action-sized box. Open, it hides until the header
      is hovered or focused (touch keeps it); closed, it stays as the reopen
      cue. It points down while open. */
   .cn-sidebar-group-label-chevron {
-    @apply -me-1.5 size-6 in-aria-[expanded=true]:w-0 in-aria-[expanded=true]:opacity-0 group-hover/group-header:w-6 group-hover/group-header:opacity-100 group-focus-within/group-header:w-6 group-focus-within/group-header:opacity-100 pointer-coarse:w-6 pointer-coarse:opacity-100 [&>svg]:size-4 [&>svg]:stroke-[1.5] [&>svg]:transition-transform [&>svg]:duration-feedback [&>svg]:ease-feedback in-aria-[expanded=true]:[&>svg]:rotate-90;
+    @apply -me-(--density-6) size-(--density-24) in-aria-[expanded=true]:w-0 in-aria-[expanded=true]:opacity-0 group-hover/group-header:w-(--density-24) group-hover/group-header:opacity-100 group-focus-within/group-header:w-(--density-24) group-focus-within/group-header:opacity-100 pointer-coarse:w-(--density-24) pointer-coarse:opacity-100 [&>svg]:size-(--density-icon-16) [&>svg]:stroke-[1.5] [&>svg]:transition-transform [&>svg]:duration-feedback [&>svg]:ease-feedback in-aria-[expanded=true]:[&>svg]:rotate-90;
   }
 
   /* Header actions: 24px boxes on the rows' trailing axis. */
   .cn-sidebar-group-action {
-    @apply cursor-pointer text-muted-foreground ring-ring hover:bg-hover hover:text-foreground absolute top-3 end-3 size-6 rounded-md p-0 transition-colors duration-feedback focus-visible:ring-1 [&>svg]:size-4 [&>svg]:stroke-[1.5] hover:[&>svg]:stroke-2;
+    @apply cursor-pointer text-muted-foreground ring-ring hover:bg-hover hover:text-foreground absolute top-[calc(var(--density-8)+(var(--density-32)-var(--density-24))/2)] end-[calc(var(--density-8)+(var(--density-32)-var(--density-24))/2)] size-(--density-24) rounded-md p-0 transition-colors duration-feedback focus-visible:ring-1 [&>svg]:size-(--density-icon-16) [&>svg]:stroke-[1.5] hover:[&>svg]:stroke-2;
   }
 
   .cn-sidebar-group-actions {
-    @apply top-3 end-3 gap-1;
+    @apply top-[calc(var(--density-8)+(var(--density-32)-var(--density-24))/2)] end-[calc(var(--density-8)+(var(--density-32)-var(--density-24))/2)] gap-1;
   }
 
   /* Collapsible groups and sub-trees: height and opacity on the move
@@ -2103,7 +2109,7 @@
      (--sidebar-menu-gutter, published by the row); a row that publishes
      nothing (the upstream markup) clears one action. */
   .cn-sidebar-menu-button {
-    @apply cursor-pointer text-muted-foreground ring-ring gap-2 rounded-lg px-2 pe-[var(--sidebar-menu-gutter,0.5rem)] text-start text-[13px] weight-normal transition-[width,height,padding,color,background-color,font-variation-settings] duration-feedback group-hover/menu-item:pe-[var(--sidebar-menu-gutter-hover,0.5rem)] group-focus-within/menu-item:pe-[var(--sidebar-menu-gutter-hover,0.5rem)] group-has-[>[data-sidebar=menu-action]]/menu-item:pe-[var(--sidebar-menu-gutter,2rem)] group-hover/menu-item:group-has-[>[data-sidebar=menu-action]]/menu-item:pe-[var(--sidebar-menu-gutter-hover,2rem)] group-focus-within/menu-item:group-has-[>[data-sidebar=menu-action]]/menu-item:pe-[var(--sidebar-menu-gutter-hover,2rem)] group-data-[collapsible=icon]:size-8! group-data-[collapsible=icon]:p-2! focus-visible:ring-1 [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] hover:bg-hover hover:text-foreground hover:[&_svg]:stroke-2 active:bg-active active:text-foreground data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-active:bg-active data-active:text-foreground data-active:weight-semibold data-active:[&_svg]:stroke-2 data-open:text-foreground in-data-[fluid-hover]:hover:bg-transparent in-data-[fluid-hover]:data-active:bg-transparent;
+    @apply cursor-pointer text-muted-foreground ring-ring gap-(--density-8) rounded-lg px-(--density-8) pe-[var(--sidebar-menu-gutter,var(--density-8))] text-start text-(length:--density-text-13) weight-normal transition-[width,height,padding,color,background-color,font-variation-settings] duration-feedback group-hover/menu-item:pe-[var(--sidebar-menu-gutter-hover,var(--density-8))] group-focus-within/menu-item:pe-[var(--sidebar-menu-gutter-hover,var(--density-8))] group-has-[>[data-sidebar=menu-action]]/menu-item:pe-[var(--sidebar-menu-gutter,var(--density-32))] group-hover/menu-item:group-has-[>[data-sidebar=menu-action]]/menu-item:pe-[var(--sidebar-menu-gutter-hover,var(--density-32))] group-focus-within/menu-item:group-has-[>[data-sidebar=menu-action]]/menu-item:pe-[var(--sidebar-menu-gutter-hover,var(--density-32))] group-data-[collapsible=icon]:size-(--density-32)! group-data-[collapsible=icon]:p-[calc((var(--density-32)-var(--density-icon-16))/2)]! focus-visible:ring-1 [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] hover:bg-hover hover:text-foreground hover:[&_svg]:stroke-2 active:bg-active active:text-foreground data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-active:bg-active data-active:text-foreground data-active:weight-semibold data-active:[&_svg]:stroke-2 data-open:text-foreground in-data-[fluid-hover]:hover:bg-transparent in-data-[fluid-hover]:data-active:bg-transparent;
   }
 
   .cn-sidebar-menu-button-aria {
@@ -2119,15 +2125,15 @@
   }
 
   .cn-sidebar-menu-button-size-default {
-    @apply h-8 text-[13px];
+    @apply h-(--density-32) text-(length:--density-text-13);
   }
 
   .cn-sidebar-menu-button-size-sm {
-    @apply h-7 text-[12px];
+    @apply h-(--density-28) text-(length:--density-text-12);
   }
 
   .cn-sidebar-menu-button-size-lg {
-    @apply h-12 text-[13px] group-data-[collapsible=icon]:p-0!;
+    @apply h-(--density-48) text-(length:--density-text-13) group-data-[collapsible=icon]:p-0!;
   }
 
   /* Status dots sit in the icon column: filled or ring, muted at rest and
@@ -2139,23 +2145,23 @@
   /* Row actions: 24px boxes centred on the badge's axis; with a badge on
      the row, the action sits left of it. */
   .cn-sidebar-menu-action {
-    @apply cursor-pointer text-muted-foreground ring-ring hover:bg-hover hover:text-foreground peer-hover/menu-button:text-foreground peer-data-fluid-hover-active/menu-button:text-foreground absolute top-1 end-1.5 size-6 rounded-md p-0 transition-[color,background-color,opacity] duration-feedback group-has-[>[data-sidebar=menu-badge]]/menu-item:end-8.5 group-has-[>[data-sidebar=menu-badge]]/menu-sub-item:end-8.5 peer-data-[size=lg]/menu-button:top-3 peer-data-[size=sm]/menu-button:top-0.5 in-data-[sidebar=menu-sub-item]:top-0.5 focus-visible:ring-1 [&>svg]:size-4 [&>svg]:stroke-[1.5] hover:[&>svg]:stroke-2;
+    @apply cursor-pointer text-muted-foreground ring-ring hover:bg-hover hover:text-foreground peer-hover/menu-button:text-foreground peer-data-fluid-hover-active/menu-button:text-foreground absolute top-[calc((var(--density-32)-var(--density-24))/2)] end-(--density-6) size-(--density-24) rounded-md p-0 transition-[color,background-color,opacity] duration-feedback group-has-[>[data-sidebar=menu-badge]]/menu-item:end-[calc(var(--density-8)+var(--density-20)+var(--density-6))] group-has-[>[data-sidebar=menu-badge]]/menu-sub-item:end-[calc(var(--density-8)+var(--density-20)+var(--density-6))] peer-data-[size=lg]/menu-button:top-[calc((var(--density-48)-var(--density-24))/2)] peer-data-[size=sm]/menu-button:top-[calc((var(--density-28)-var(--density-24))/2)] in-data-[sidebar=menu-sub-item]:top-[calc((var(--density-28)-var(--density-24))/2)] focus-visible:ring-1 [&>svg]:size-(--density-icon-16) [&>svg]:stroke-[1.5] hover:[&>svg]:stroke-2;
   }
 
   .cn-sidebar-menu-actions {
-    @apply top-1 end-1.5 gap-1 transition-opacity duration-feedback group-has-[>[data-sidebar=menu-badge]]/menu-item:end-8.5 group-has-[>[data-sidebar=menu-badge]]/menu-sub-item:end-8.5 peer-data-[size=lg]/menu-button:top-3 peer-data-[size=sm]/menu-button:top-0.5 in-data-[sidebar=menu-sub-item]:top-0.5;
+    @apply top-[calc((var(--density-32)-var(--density-24))/2)] end-(--density-6) gap-1 transition-opacity duration-feedback group-has-[>[data-sidebar=menu-badge]]/menu-item:end-[calc(var(--density-8)+var(--density-20)+var(--density-6))] group-has-[>[data-sidebar=menu-badge]]/menu-sub-item:end-[calc(var(--density-8)+var(--density-20)+var(--density-6))] peer-data-[size=lg]/menu-button:top-[calc((var(--density-48)-var(--density-24))/2)] peer-data-[size=sm]/menu-button:top-[calc((var(--density-28)-var(--density-24))/2)] in-data-[sidebar=menu-sub-item]:top-[calc((var(--density-28)-var(--density-24))/2)];
   }
 
   .cn-sidebar-menu-badge {
-    @apply text-muted-foreground weight-normal peer-hover/menu-button:text-foreground peer-data-fluid-hover-active/menu-button:text-foreground peer-data-active/menu-button:text-foreground peer-data-active/menu-button:weight-semibold pointer-events-none absolute end-2 top-1.5 flex h-5 min-w-5 rounded-md px-1 text-[12px] tabular-nums transition-[color,font-variation-settings] duration-feedback peer-data-[size=lg]/menu-button:top-3.5 peer-data-[size=sm]/menu-button:top-1 in-data-[sidebar=menu-sub-item]:top-1;
+    @apply text-muted-foreground weight-normal peer-hover/menu-button:text-foreground peer-data-fluid-hover-active/menu-button:text-foreground peer-data-active/menu-button:text-foreground peer-data-active/menu-button:weight-semibold pointer-events-none absolute end-(--density-8) top-[calc((var(--density-32)-var(--density-20))/2)] flex h-(--density-20) min-w-(--density-20) rounded-md px-1 text-(length:--density-text-12) tabular-nums transition-[color,font-variation-settings] duration-feedback peer-data-[size=lg]/menu-button:top-[calc((var(--density-48)-var(--density-20))/2)] peer-data-[size=sm]/menu-button:top-[calc((var(--density-28)-var(--density-20))/2)] in-data-[sidebar=menu-sub-item]:top-[calc((var(--density-28)-var(--density-20))/2)];
   }
 
   .cn-sidebar-menu-skeleton {
-    @apply h-8 gap-2 rounded-lg px-2;
+    @apply h-(--density-32) gap-(--density-8) rounded-lg px-(--density-8);
   }
 
   .cn-sidebar-menu-skeleton-icon {
-    @apply size-4 rounded-md;
+    @apply size-(--density-icon-16) rounded-md;
   }
 
   .cn-sidebar-menu-skeleton-text {
@@ -2165,12 +2171,12 @@
   /* Sub-menus hang off a hairline under the parent icon (15px in), so a
      sub-row label lines up with the parent label. */
   .cn-sidebar-menu-sub {
-    @apply border-border ms-[15px] me-0 gap-0.5 border-s ps-2 pe-0 py-0.5 group-data-[collapsible=icon]:hidden;
+    @apply border-border ms-[calc(var(--density-8)+var(--density-icon-16)/2-1px)] me-0 gap-0.5 border-s ps-(--density-8) pe-0 py-0.5 group-data-[collapsible=icon]:hidden;
   }
 
   /* Sub-rows: 28px (24px small), 2px apart, same look as menu rows. */
   .cn-sidebar-menu-sub-button {
-    @apply cursor-pointer text-muted-foreground ring-ring h-7 gap-2 rounded-lg px-2 pe-[var(--sidebar-menu-gutter,0.5rem)] text-[13px] weight-normal transition-[color,background-color,padding,font-variation-settings] duration-feedback in-data-[slot=sidebar-menu-sub]:translate-x-0 group-hover/menu-sub-item:pe-[var(--sidebar-menu-gutter-hover,0.5rem)] group-focus-within/menu-sub-item:pe-[var(--sidebar-menu-gutter-hover,0.5rem)] focus-visible:ring-1 data-[size=sm]:h-6 data-[size=sm]:text-[12px] [&>svg]:size-4 [&>svg]:stroke-[1.5] [&>svg]:text-current hover:bg-hover hover:text-foreground active:bg-active active:text-foreground data-fluid-hover-active:text-foreground data-fluid-hover-active:[&>svg]:stroke-2 data-active:bg-active data-active:text-foreground data-active:weight-semibold in-data-[fluid-hover]:hover:bg-transparent in-data-[fluid-hover]:data-active:bg-transparent;
+    @apply cursor-pointer text-muted-foreground ring-ring h-(--density-28) gap-(--density-8) rounded-lg px-(--density-8) pe-[var(--sidebar-menu-gutter,var(--density-8))] text-(length:--density-text-13) weight-normal transition-[color,background-color,padding,font-variation-settings] duration-feedback in-data-[slot=sidebar-menu-sub]:translate-x-0 group-hover/menu-sub-item:pe-[var(--sidebar-menu-gutter-hover,var(--density-8))] group-focus-within/menu-sub-item:pe-[var(--sidebar-menu-gutter-hover,var(--density-8))] focus-visible:ring-1 data-[size=sm]:h-(--density-24) data-[size=sm]:text-(length:--density-text-12) [&>svg]:size-(--density-icon-16) [&>svg]:stroke-[1.5] [&>svg]:text-current hover:bg-hover hover:text-foreground active:bg-active active:text-foreground data-fluid-hover-active:text-foreground data-fluid-hover-active:[&>svg]:stroke-2 data-active:bg-active data-active:text-foreground data-active:weight-semibold in-data-[fluid-hover]:hover:bg-transparent in-data-[fluid-hover]:data-active:bg-transparent;
   }
 
 /* MARK: Skeleton */
@@ -2188,7 +2194,7 @@
 
   /* An 18px pill framed by the border colour, transparent inside. */
   .cn-slider-track {
-    @apply border-border rounded-full border bg-transparent data-horizontal:h-[18px] data-horizontal:w-full data-vertical:h-full data-vertical:w-[18px];
+    @apply border-border rounded-full border bg-transparent data-horizontal:h-[calc(var(--density-icon-16)+2px)] data-horizontal:w-full data-vertical:h-full data-vertical:w-[calc(var(--density-icon-16)+2px)];
   }
 
   /* The filled range is a soft wash of the primary role: a neutral grey
@@ -2200,17 +2206,18 @@
   /* White 16px knob with a soft drop shadow and hairline. Focus shows a 1px
      blue ring 4px outside the knob (::before); ::after widens the hit area. */
   .cn-slider-thumb {
-    @apply cursor-grab active:cursor-grabbing data-dragging:cursor-grabbing data-disabled:cursor-not-allowed relative size-4 rounded-full bg-white shadow-[0_1px_2px_rgb(0_0_0/0.1)] ring-1 ring-black/5 transition-[box-shadow] duration-feedback ease-feedback before:absolute before:-inset-1 before:rounded-full before:border before:border-ring before:opacity-0 before:transition-opacity before:duration-feedback after:absolute after:-inset-2 hover:shadow-[0_1px_3px_rgb(0_0_0/0.16)] focus-visible:outline-hidden focus-visible:before:opacity-100 has-focus-visible:before:opacity-100 data-focus-visible:before:opacity-100;
+    @apply cursor-grab active:cursor-grabbing data-dragging:cursor-grabbing data-disabled:cursor-not-allowed relative size-(--density-icon-16) rounded-full bg-white shadow-[0_1px_2px_rgb(0_0_0/0.1)] ring-1 ring-black/5 transition-[box-shadow] duration-feedback ease-feedback before:absolute before:-inset-1 before:rounded-full before:border before:border-ring before:opacity-0 before:transition-opacity before:duration-feedback after:absolute after:-inset-2 hover:shadow-[0_1px_3px_rgb(0_0_0/0.16)] focus-visible:outline-hidden focus-visible:before:opacity-100 has-focus-visible:before:opacity-100 data-focus-visible:before:opacity-100;
   }
 
 /* MARK: Switch */
 
-  /* Track 34x20 (sm 28x16), 2px around the thumb. Off is the accent tint
+  /* Track 34x20 at the default density (size sm pins it to compact: 28x16),
+     2px around the thumb; the thumb travels the width minus the height. Off is the accent tint
      (10% of the overlay colour mixed in on hover), on is the primary role's
      fill (90% on hover); colours cross-fade on the feedback timing. Focus is
      the 1px blue ring with a 2px background-filled offset. */
   .cn-switch {
-    @apply cursor-pointer data-unchecked:bg-accent data-unchecked:hover:bg-[color-mix(in_oklab,var(--accent),rgb(var(--overlay))_10%)] data-checked:bg-primary data-checked:hover:bg-primary/90 focus-visible:ring-ring ring-offset-background aria-invalid:ring-destructive/50 shrink-0 rounded-full border-0 px-0.5 duration-feedback ease-feedback focus-visible:ring-1 focus-visible:ring-offset-2 aria-invalid:ring-1 aria-invalid:ring-offset-2 group-has-[:focus-visible]/field-label:ring-0 data-[size=default]:h-5 data-[size=default]:w-[34px] data-[size=sm]:h-4 data-[size=sm]:w-7;
+    @apply cursor-pointer data-unchecked:bg-accent data-unchecked:hover:bg-[color-mix(in_oklab,var(--accent),rgb(var(--overlay))_10%)] data-checked:bg-primary data-checked:hover:bg-primary/90 focus-visible:ring-ring ring-offset-background aria-invalid:ring-destructive/50 shrink-0 rounded-full border-0 px-0.5 duration-feedback ease-feedback focus-visible:ring-1 focus-visible:ring-offset-2 aria-invalid:ring-1 aria-invalid:ring-offset-2 group-has-[:focus-visible]/field-label:ring-0 h-(--density-20) w-[calc(var(--density-20)+var(--density-14))] data-[size=sm]:density-compact;
   }
 
   .cn-switch-aria {
@@ -2222,11 +2229,11 @@
      transition-transform. Hover stretches it 2px into a pill toward the
      centre of the track; press stretches it further and squashes it. */
   .cn-switch-thumb {
-    @apply relative rounded-full bg-transparent duration-move ease-move before:absolute before:inset-0 before:rounded-full before:bg-white data-checked:before:bg-primary-foreground before:shadow-[0_1px_2px_rgb(0_0_0/0.15),0_0_0_0.5px_rgb(0_0_0/0.04)] before:transition-[inset,background-color] before:duration-move before:ease-move group-data-[size=default]/switch:size-4 group-data-[size=sm]/switch:size-3 group-data-[size=default]/switch:data-checked:translate-x-3.5 group-data-[size=sm]/switch:data-checked:translate-x-3 group-data-[size=default]/switch:data-unchecked:translate-x-0 group-data-[size=sm]/switch:data-unchecked:translate-x-0 group-hover/switch:data-unchecked:before:-right-0.5 group-hover/switch:data-checked:before:-left-0.5 group-active/switch:data-unchecked:before:-right-1 group-active/switch:data-checked:before:-left-1 group-active/switch:before:inset-y-0.5 motion-reduce:before:transition-none;
+    @apply relative rounded-full bg-transparent duration-move ease-move before:absolute before:inset-0 before:rounded-full before:bg-white data-checked:before:bg-primary-foreground before:shadow-[0_1px_2px_rgb(0_0_0/0.15),0_0_0_0.5px_rgb(0_0_0/0.04)] before:transition-[inset,background-color] before:duration-move before:ease-move size-[calc(var(--density-20)-4px)] data-checked:translate-x-(--density-14) data-unchecked:translate-x-0 group-hover/switch:data-unchecked:before:-right-0.5 group-hover/switch:data-checked:before:-left-0.5 group-active/switch:data-unchecked:before:-right-1 group-active/switch:data-checked:before:-left-1 group-active/switch:before:inset-y-0.5 motion-reduce:before:transition-none;
   }
 
   .cn-switch-thumb-aria {
-    @apply group-data-[size=default]/switch:data-selected:translate-x-3.5 group-data-[size=sm]/switch:data-selected:translate-x-3 group-data-[size=default]/switch:not-data-selected:translate-x-0 group-data-[size=sm]/switch:not-data-selected:translate-x-0 group-data-hovered/switch:not-data-selected:before:-right-0.5 group-data-hovered/switch:data-selected:before:-left-0.5 group-data-pressed/switch:not-data-selected:before:-right-1 group-data-pressed/switch:data-selected:before:-left-1 group-data-pressed/switch:before:inset-y-0.5 data-selected:before:bg-primary-foreground;
+    @apply data-selected:translate-x-(--density-14) not-data-selected:translate-x-0 group-data-hovered/switch:not-data-selected:before:-right-0.5 group-data-hovered/switch:data-selected:before:-left-0.5 group-data-pressed/switch:not-data-selected:before:-right-1 group-data-pressed/switch:data-selected:before:-left-1 group-data-pressed/switch:before:inset-y-0.5 data-selected:before:bg-primary-foreground;
   }
 
 /* MARK: Table */
@@ -2238,7 +2245,7 @@
   }
 
   .cn-table {
-    @apply w-full caption-bottom text-[13px];
+    @apply w-full caption-bottom text-(length:--density-text-13);
   }
 
   .cn-table-header {
@@ -2266,7 +2273,7 @@
 
   /* Head: 36px, px-3, foreground semibold. */
   .cn-table-head {
-    @apply text-foreground h-9 px-3 text-start align-middle font-semibold whitespace-nowrap [&:has([role=checkbox])]:pe-0;
+    @apply text-foreground h-(--density-36) px-(--density-12) text-start align-middle font-semibold whitespace-nowrap [&:has([role=checkbox])]:pe-0;
   }
 
   .cn-table-head-aria {
@@ -2276,7 +2283,7 @@
   /* Cells: muted; the lit (or hovered) row turns foreground, footer cells
      stay foreground. */
   .cn-table-cell {
-    @apply text-muted-foreground px-3 py-2 align-middle whitespace-nowrap transition-colors duration-feedback in-[tr:hover]:text-foreground in-data-fluid-hover-active:text-foreground in-data-[slot=table-footer]:text-foreground [&:has([role=checkbox])]:pe-0;
+    @apply text-muted-foreground px-(--density-12) py-(--density-8) align-middle whitespace-nowrap transition-colors duration-feedback in-[tr:hover]:text-foreground in-data-fluid-hover-active:text-foreground in-data-[slot=table-footer]:text-foreground [&:has([role=checkbox])]:pe-0;
   }
 
   .cn-table-cell-aria {
@@ -2284,7 +2291,7 @@
   }
 
   .cn-table-caption {
-    @apply text-muted-foreground mt-4 text-[12px];
+    @apply text-muted-foreground mt-4 text-(length:--density-text-12);
   }
 
   /* The fluid row highlight is square: rows span the table edge to edge. */
@@ -2295,14 +2302,14 @@
 /* MARK: Tabs */
 
   .cn-tabs {
-    @apply gap-2;
+    @apply gap-(--density-8);
   }
 
   /* Track: muted, rounded-xl, p-1, 36px tall. The list is a fluid hover
      container (relative isolate): the selected pill and the hover pill are
      overlays under the triggers. The line variant drops the track. */
   .cn-tabs-list {
-    @apply relative isolate rounded-xl p-1 group-data-horizontal/tabs:h-9 data-[variant=line]:rounded-none data-[variant=line]:bg-transparent;
+    @apply relative isolate rounded-xl p-(--density-4) group-data-horizontal/tabs:h-(--density-36) data-[variant=line]:rounded-none data-[variant=line]:bg-transparent;
   }
 
   /* The default track is a translucent foreground step instead of bg-muted:
@@ -2321,7 +2328,7 @@
      Without a fluid list (React Aria) the active tab paints its own raised
      pill; inside one the sliding overlay does, so the tab stays transparent. */
   .cn-tabs-trigger {
-    @apply cursor-pointer gap-1.5 rounded-lg px-3 text-[13px] font-normal transition-[color,background-color,box-shadow] duration-feedback ease-feedback in-data-[slot=tabs-list]:h-7 in-data-[slot=tabs-list]:focus-visible:ring-0 [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] hover:[&_svg]:stroke-2 data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-active:font-semibold data-active:[&_svg]:stroke-2 group-data-[variant=default]/tabs-list:data-active:bg-surface-4 group-data-[variant=default]/tabs-list:data-active:shadow-surface-4 dark:group-data-[variant=default]/tabs-list:data-active:bg-surface-4 in-data-[fluid-hover]:group-data-[variant=default]/tabs-list:data-active:bg-transparent in-data-[fluid-hover]:group-data-[variant=default]/tabs-list:data-active:shadow-none dark:in-data-[fluid-hover]:group-data-[variant=default]/tabs-list:data-active:bg-transparent in-data-[fluid-hover]:group-data-[variant=line]/tabs-list:data-active:after:opacity-0 [&_svg:not([class*='size-'])]:size-4 has-data-[icon=inline-end]:pe-2.5 has-data-[icon=inline-start]:ps-2.5;
+    @apply cursor-pointer gap-(--density-6) rounded-lg px-(--density-12) text-(length:--density-text-13) font-normal transition-[color,background-color,box-shadow] duration-feedback ease-feedback in-data-[slot=tabs-list]:h-(--density-28) in-data-[slot=tabs-list]:focus-visible:ring-0 [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] hover:[&_svg]:stroke-2 data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-active:font-semibold data-active:[&_svg]:stroke-2 group-data-[variant=default]/tabs-list:data-active:bg-surface-4 group-data-[variant=default]/tabs-list:data-active:shadow-surface-4 dark:group-data-[variant=default]/tabs-list:data-active:bg-surface-4 in-data-[fluid-hover]:group-data-[variant=default]/tabs-list:data-active:bg-transparent in-data-[fluid-hover]:group-data-[variant=default]/tabs-list:data-active:shadow-none dark:in-data-[fluid-hover]:group-data-[variant=default]/tabs-list:data-active:bg-transparent in-data-[fluid-hover]:group-data-[variant=line]/tabs-list:data-active:after:opacity-0 [&_svg:not([class*='size-'])]:size-(--density-icon-16) has-data-[icon=inline-end]:pe-(--density-10) has-data-[icon=inline-start]:ps-(--density-10);
   }
 
   /* React Aria marks the selected tab with data-selected. Inside a fluid list
@@ -2345,7 +2352,7 @@
   }
 
   .cn-tabs-content {
-    @apply text-[13px];
+    @apply text-(length:--density-text-13);
   }
 
 /* MARK: Textarea */
@@ -2353,7 +2360,7 @@
   /* Same frame as the input: ring-border, transparent → hover tint → card on
      focus, no blue halo; invalid ring red with a red-tinted hover. */
   .cn-textarea {
-    @apply text-foreground ring-border hover:bg-muted/50 focus-visible:bg-card focus-visible:ring-foreground/25 aria-invalid:ring-destructive/50 aria-invalid:hover:bg-destructive/5 aria-invalid:focus-visible:bg-card min-h-16 rounded-lg border-0 bg-transparent px-2.5 py-2 text-base ring-1 transition-[color,background-color,box-shadow] duration-feedback ease-feedback md:text-[13px] data-[slot=input-group-control]:bg-transparent data-[slot=input-group-control]:ring-0 data-[slot=input-group-control]:hover:bg-transparent data-[slot=input-group-control]:focus-visible:bg-transparent data-[slot=input-group-control]:aria-invalid:hover:bg-transparent;
+    @apply text-foreground ring-border hover:bg-muted/50 focus-visible:bg-card focus-visible:ring-foreground/25 aria-invalid:ring-destructive/50 aria-invalid:hover:bg-destructive/5 aria-invalid:focus-visible:bg-card min-h-16 rounded-lg border-0 bg-transparent px-(--density-10) py-(--density-8) text-base ring-1 transition-[color,background-color,box-shadow] duration-feedback ease-feedback md:text-(length:--density-text-13) data-[slot=input-group-control]:bg-transparent data-[slot=input-group-control]:ring-0 data-[slot=input-group-control]:hover:bg-transparent data-[slot=input-group-control]:focus-visible:bg-transparent data-[slot=input-group-control]:aria-invalid:hover:bg-transparent;
   }
 
 /* MARK: Toast */
@@ -2367,14 +2374,14 @@
      surface: FF's low-contrast banner. Base UI marks the root with data-type and the icon with
      data-slot=toast-icon; Sonner uses data-type and [data-icon]. */
   .cn-toast {
-    @apply bg-surface-5! shadow-surface-5! text-popover-foreground rounded-xl! border-0! text-[13px] [&[data-type=info]_[data-slot=toast-icon]_svg]:text-info! [&[data-type=info]_[data-icon]_svg]:text-info! [&[data-type=success]_[data-slot=toast-icon]_svg]:text-success! [&[data-type=success]_[data-icon]_svg]:text-success! [&[data-type=warning]_[data-slot=toast-icon]_svg]:text-warning! [&[data-type=warning]_[data-icon]_svg]:text-warning! [&[data-type=error]_[data-slot=toast-icon]_svg]:text-destructive! [&[data-type=error]_[data-icon]_svg]:text-destructive! [transition:transform_calc(var(--motion-toast)*var(--motion-scale,1))_var(--motion-ease-enter),opacity_calc(var(--motion-toast)*var(--motion-scale,1))_var(--motion-ease-enter),height_calc(var(--motion-feedback)*var(--motion-scale,1))_var(--motion-ease-feedback)]!;
+    @apply bg-surface-5! shadow-surface-5! text-popover-foreground rounded-xl! border-0! text-(length:--density-text-13) [&[data-type=info]_[data-slot=toast-icon]_svg]:text-info! [&[data-type=info]_[data-icon]_svg]:text-info! [&[data-type=success]_[data-slot=toast-icon]_svg]:text-success! [&[data-type=success]_[data-icon]_svg]:text-success! [&[data-type=warning]_[data-slot=toast-icon]_svg]:text-warning! [&[data-type=warning]_[data-icon]_svg]:text-warning! [&[data-type=error]_[data-slot=toast-icon]_svg]:text-destructive! [&[data-type=error]_[data-icon]_svg]:text-destructive! [transition:transform_calc(var(--motion-toast)*var(--motion-scale,1))_var(--motion-ease-enter),opacity_calc(var(--motion-toast)*var(--motion-scale,1))_var(--motion-ease-enter),height_calc(var(--motion-feedback)*var(--motion-scale,1))_var(--motion-ease-feedback)]!;
   }
 
   /* Sonner (Radix, React Aria): the same surface and status icons, applied
      from the toaster, because the build compiles placeholders in className
      only and Sonner takes its toast classes through toastOptions. */
   .cn-sonner {
-    @apply [&_[data-sonner-toast]]:bg-surface-5! [&_[data-sonner-toast]]:shadow-surface-5! [&_[data-sonner-toast]]:text-popover-foreground! [&_[data-sonner-toast]]:rounded-xl! [&_[data-sonner-toast]]:border-0! [&_[data-sonner-toast]]:text-[13px]! [&_[data-sonner-toast][data-type=info]_[data-icon]_svg]:text-info! [&_[data-sonner-toast][data-type=success]_[data-icon]_svg]:text-success! [&_[data-sonner-toast][data-type=warning]_[data-icon]_svg]:text-warning! [&_[data-sonner-toast][data-type=error]_[data-icon]_svg]:text-destructive! [&_[data-sonner-toast]]:[transition-duration:calc(var(--motion-toast)*var(--motion-scale,1))]! [&_[data-sonner-toast]]:[transition-timing-function:var(--motion-ease-enter)]!;
+    @apply [&_[data-sonner-toast]]:bg-surface-5! [&_[data-sonner-toast]]:shadow-surface-5! [&_[data-sonner-toast]]:text-popover-foreground! [&_[data-sonner-toast]]:rounded-xl! [&_[data-sonner-toast]]:border-0! [&_[data-sonner-toast]]:text-(length:--density-text-13)! [&_[data-sonner-toast][data-type=info]_[data-icon]_svg]:text-info! [&_[data-sonner-toast][data-type=success]_[data-icon]_svg]:text-success! [&_[data-sonner-toast][data-type=warning]_[data-icon]_svg]:text-warning! [&_[data-sonner-toast][data-type=error]_[data-icon]_svg]:text-destructive! [&_[data-sonner-toast]]:[transition-duration:calc(var(--motion-toast)*var(--motion-scale,1))]! [&_[data-sonner-toast]]:[transition-timing-function:var(--motion-ease-enter)]!;
   }
 
 /* MARK: Toggle Group */
@@ -2387,7 +2394,8 @@
     @apply relative isolate rounded-lg data-[size=sm]:rounded-lg;
   }
 
-  /* Items: 36px, px-3, rounded-lg (28px / px-2.5 when compact). Inside a
+  /* Items: 36px, px-3, rounded-lg at the default density; size sm pins them
+     to compact (28px, px-2.5). Inside a
      fluid group the items paint no hover background (the highlight does),
      and in a single-select group no pressed background either (the sliding
      selection does). The toggle style map sets those backgrounds with !, so
@@ -2395,7 +2403,7 @@
      selected item with data-selected). The lit item turns
      foreground. Joined groups (spacing 0) square the inner corners. */
   .cn-toggle-group-item {
-    @apply cursor-pointer data-[size=default]:h-9 data-[size=default]:min-w-9 data-[size=default]:px-3 data-[size=sm]:h-7 data-[size=sm]:min-w-7 data-[size=sm]:px-2.5 data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 group-data-[fluid-hover]/toggle-group:hover:bg-transparent! group-[[data-fluid-hover]:not([data-multiple])]/toggle-group:aria-pressed:bg-transparent! group-[[data-fluid-hover]:not([data-multiple])]/toggle-group:data-[state=on]:bg-transparent! group-[[data-fluid-hover]:not([data-multiple])]/toggle-group:data-pressed:bg-transparent! group-[[data-fluid-hover]:not([data-multiple])]/toggle-group:data-selected:bg-transparent! group-data-[spacing=0]/toggle-group:rounded-none group-data-horizontal/toggle-group:data-[spacing=0]:first:rounded-s-lg group-data-vertical/toggle-group:data-[spacing=0]:first:rounded-t-lg group-data-horizontal/toggle-group:data-[spacing=0]:last:rounded-e-lg group-data-vertical/toggle-group:data-[spacing=0]:last:rounded-b-lg;
+    @apply cursor-pointer data-[size=default]:h-(--density-36) data-[size=default]:min-w-(--density-36) data-[size=default]:px-(--density-12) data-[size=sm]:density-compact data-[size=sm]:h-(--density-36) data-[size=sm]:min-w-(--density-36) data-[size=sm]:px-(--density-12) data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 group-data-[fluid-hover]/toggle-group:hover:bg-transparent! group-[[data-fluid-hover]:not([data-multiple])]/toggle-group:aria-pressed:bg-transparent! group-[[data-fluid-hover]:not([data-multiple])]/toggle-group:data-[state=on]:bg-transparent! group-[[data-fluid-hover]:not([data-multiple])]/toggle-group:data-pressed:bg-transparent! group-[[data-fluid-hover]:not([data-multiple])]/toggle-group:data-selected:bg-transparent! group-data-[spacing=0]/toggle-group:rounded-none group-data-horizontal/toggle-group:data-[spacing=0]:first:rounded-s-lg group-data-vertical/toggle-group:data-[spacing=0]:first:rounded-t-lg group-data-horizontal/toggle-group:data-[spacing=0]:last:rounded-e-lg group-data-vertical/toggle-group:data-[spacing=0]:last:rounded-b-lg;
   }
 
   /* Overlays follow the item shape: square inside a joined group. */
@@ -2414,7 +2422,7 @@
      are overridden with ! (they win any plain conflict), so the 1px blue
      focus ring and the interaction tokens hold in every build. */
   .cn-toggle {
-    @apply cursor-pointer text-muted-foreground gap-1.5 rounded-lg text-[13px] font-medium transition-[color,background-color,box-shadow,scale] duration-feedback ease-feedback motion-press hover:bg-hover! hover:text-foreground active:bg-active! focus-visible:ring-1! focus-visible:ring-ring aria-invalid:ring-1 aria-invalid:ring-destructive/50 aria-pressed:bg-active! aria-pressed:text-foreground data-[state=on]:bg-active! data-[state=on]:text-foreground [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] [&_svg]:duration-feedback hover:[&_svg]:stroke-2 aria-pressed:[&_svg]:stroke-2 data-[state=on]:[&_svg]:stroke-2 [&_svg:not([class*='size-'])]:size-4;
+    @apply cursor-pointer text-muted-foreground gap-(--density-6) rounded-lg text-(length:--density-text-13) font-medium transition-[color,background-color,box-shadow,scale] duration-feedback ease-feedback motion-press hover:bg-hover! hover:text-foreground active:bg-active! focus-visible:ring-1! focus-visible:ring-ring aria-invalid:ring-1 aria-invalid:ring-destructive/50 aria-pressed:bg-active! aria-pressed:text-foreground data-[state=on]:bg-active! data-[state=on]:text-foreground [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] [&_svg]:duration-feedback hover:[&_svg]:stroke-2 aria-pressed:[&_svg]:stroke-2 data-[state=on]:[&_svg]:stroke-2 [&_svg:not([class*='size-'])]:size-(--density-icon-16);
   }
 
   /* React Aria: data-selected is "on", data-pressed is the press itself. */
@@ -2430,17 +2438,19 @@
     @apply border-border border bg-transparent;
   }
 
-  /* Icon-only toggles come out square: 16px icon + 2 × 10px = 36px. */
+  /* Icon-only toggles come out square: 16px icon + 2 × 10px = 36px. Like
+     buttons, sm pins the toggle to the compact density and lg to spacious;
+     default follows the nearest one. */
   .cn-toggle-size-default {
-    @apply h-9 min-w-9 px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2;
+    @apply h-(--density-36) min-w-(--density-36) px-(--density-10) has-data-[icon=inline-end]:pr-(--density-8) has-data-[icon=inline-start]:pl-(--density-8);
   }
 
   .cn-toggle-size-sm {
-    @apply h-7 min-w-7 gap-1 px-2 text-[12px] has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-3.5;
+    @apply density-compact h-(--density-36) min-w-(--density-36) px-(--density-10) has-data-[icon=inline-end]:pr-(--density-8) has-data-[icon=inline-start]:pl-(--density-8);
   }
 
   .cn-toggle-size-lg {
-    @apply h-10 min-w-10 px-3 has-data-[icon=inline-end]:pr-2.5 has-data-[icon=inline-start]:pl-2.5;
+    @apply density-spacious h-(--density-36) min-w-(--density-36) px-(--density-10) has-data-[icon=inline-end]:pr-(--density-8) has-data-[icon=inline-start]:pl-(--density-8);
   }
 
 /* MARK: Tooltip */
@@ -2449,7 +2459,7 @@
      12px medium, px-2 py-1, rounded-lg. Grows from its trigger on the
      tooltip motion; no animation once another tooltip was just open. */
   .cn-tooltip-content {
-    @apply inline-flex items-center gap-1.5 rounded-lg px-2 py-1 text-[12px] leading-4 font-medium motion-tooltip data-open:animate-in data-open:fade-in-0 data-[state=delayed-open]:animate-in data-[state=delayed-open]:fade-in-0 data-closed:animate-out data-closed:fade-out-0 has-data-[slot=kbd]:pe-1 **:data-[slot=kbd]:relative **:data-[slot=kbd]:isolate **:data-[slot=kbd]:z-50 **:data-[slot=kbd]:rounded-[5px];
+    @apply inline-flex items-center gap-(--density-6) rounded-lg px-(--density-8) py-1 text-(length:--density-text-12) leading-4 font-medium motion-tooltip data-open:animate-in data-open:fade-in-0 data-[state=delayed-open]:animate-in data-[state=delayed-open]:fade-in-0 data-closed:animate-out data-closed:fade-out-0 has-data-[slot=kbd]:pe-1 **:data-[slot=kbd]:relative **:data-[slot=kbd]:isolate **:data-[slot=kbd]:z-50 **:data-[slot=kbd]:rounded-[5px];
   }
 
   .cn-tooltip-content-logical {
@@ -2468,6 +2478,6 @@
 
   /* React Aria */
   .cn-tooltip-content-aria {
-    @apply inline-flex items-center gap-1.5 rounded-lg px-2 py-1 text-[12px] leading-4 font-medium motion-tooltip data-entering:animate-in data-entering:fade-in-0 data-exiting:animate-out data-exiting:fade-out-0 has-data-[slot=kbd]:pe-1 **:data-[slot=kbd]:relative **:data-[slot=kbd]:isolate **:data-[slot=kbd]:z-50 **:data-[slot=kbd]:rounded-[5px];
+    @apply inline-flex items-center gap-(--density-6) rounded-lg px-(--density-8) py-1 text-(length:--density-text-12) leading-4 font-medium motion-tooltip data-entering:animate-in data-entering:fade-in-0 data-exiting:animate-out data-exiting:fade-out-0 has-data-[slot=kbd]:pe-1 **:data-[slot=kbd]:relative **:data-[slot=kbd]:isolate **:data-[slot=kbd]:z-50 **:data-[slot=kbd]:rounded-[5px];
   }
 }

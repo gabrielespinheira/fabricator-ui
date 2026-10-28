@@ -1,5 +1,5 @@
-// Fabricator UI foundations: surfaces, interaction overlays, focus, motion and
-// scrollbars. Adapted from Fluid Functionalism by Micka Touillaud (MIT),
+// Fabricator UI foundations: surfaces, interaction overlays, focus, motion,
+// density and scrollbars. Adapted from Fluid Functionalism by Micka Touillaud (MIT),
 // https://github.com/mickadesign/fluid-functionalism.
 //
 // This module is the single source of truth. The registry build turns it into
@@ -18,6 +18,7 @@ import {
   ROLE_PALETTE_LINKS,
   rolePalette,
 } from "@/registry/fabricator/color-roles"
+import { DENSITY_CSS, DENSITY_ROOT_VARS } from "@/registry/fabricator/density"
 import {
   MOTION_CSS,
   MOTION_ROOT_VARS,
@@ -124,6 +125,8 @@ export const FABRICATOR_FOUNDATIONS: { cssVars: CssVars; css: CssObject } = {
       "surface-chroma": String(NEUTRAL_TINT.chroma),
       // The default motion speed; the others switch with data-motion.
       ...MOTION_ROOT_VARS,
+      // The default density; the others switch with data-density.
+      ...DENSITY_ROOT_VARS,
       ...Object.fromEntries(
         SURFACE_LEVELS.flatMap((level) => [
           [`surface-${level}`, tintedCss(SURFACE_STEPS.light[level - 1])],
@@ -232,6 +235,8 @@ export const FABRICATOR_FOUNDATIONS: { cssVars: CssVars; css: CssObject } = {
     },
     // Speeds (data-motion) and the motion utilities (motion-popup, …).
     ...MOTION_CSS,
+    // Densities (data-density) and the density-* utilities.
+    ...DENSITY_CSS,
     "@utility scrollbar-hide": {
       "-ms-overflow-style": "none",
       "scrollbar-width": "none",

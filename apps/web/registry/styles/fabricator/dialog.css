@@ -14,7 +14,7 @@
      a translate lands on half pixels for odd sizes and blurs the text.
      The ! beats the inline centering classes in the source. */
   .cn-dialog-content {
-    @apply inset-0! m-auto! h-fit! translate-x-0! translate-y-0! bg-surface-5 shadow-surface-5 text-popover-foreground grid max-w-[calc(100%-2rem)] gap-4 rounded-xl p-6 text-[13px] motion-dialog data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0 sm:max-w-[400px];
+    @apply inset-0! m-auto! h-fit! translate-x-0! translate-y-0! bg-surface-5 shadow-surface-5 text-popover-foreground grid max-w-[calc(100%-2rem)] gap-(--density-16) rounded-xl p-(--density-24) text-(length:--density-text-13) motion-dialog data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0 sm:max-w-[400px];
   }
 
   /* The close button is a small ghost icon button in the corner. */
@@ -23,21 +23,21 @@
   }
 
   .cn-dialog-header {
-    @apply gap-1.5;
+    @apply gap-(--density-6);
   }
 
   /* Right-aligned actions without the upstream muted footer bar; the extra
      margin gives 24px between the body and the actions. */
   .cn-dialog-footer {
-    @apply mt-2 gap-2;
+    @apply mt-2 gap-(--density-8);
   }
 
   .cn-dialog-title {
-    @apply text-foreground text-[16px] leading-tight font-bold;
+    @apply text-foreground text-(length:--density-text-16) leading-tight font-bold;
   }
 
   .cn-dialog-description {
-    @apply text-muted-foreground *:[a]:hover:text-foreground text-[13px] *:[a]:underline *:[a]:underline-offset-3;
+    @apply text-muted-foreground *:[a]:hover:text-foreground text-(length:--density-text-13) *:[a]:underline *:[a]:underline-offset-3;
   }
 
   /* React Aria */
@@ -47,5 +47,5 @@
 
   /* Same pixel-snapped centering as the other bases. */
   .cn-dialog-content-aria {
-    @apply inset-0! m-auto! h-fit! translate-x-0! translate-y-0! bg-surface-5 shadow-surface-5 text-popover-foreground grid max-w-[calc(100%-2rem)] gap-4 rounded-xl p-6 text-[13px] motion-dialog data-entering:animate-in data-entering:fade-in-0 data-exiting:animate-out data-exiting:fade-out-0 sm:max-w-[400px];
+    @apply inset-0! m-auto! h-fit! translate-x-0! translate-y-0! bg-surface-5 shadow-surface-5 text-popover-foreground grid max-w-[calc(100%-2rem)] gap-(--density-16) rounded-xl p-(--density-24) text-(length:--density-text-13) motion-dialog data-entering:animate-in data-entering:fade-in-0 data-exiting:animate-out data-exiting:fade-out-0 sm:max-w-[400px];
   }

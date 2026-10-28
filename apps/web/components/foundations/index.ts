@@ -1,6 +1,13 @@
 // Live demos for the Foundations docs pages (content/docs/foundations).
 import { ColorRolePicker } from "@/components/foundations/color-role-picker"
 import {
+  DensityCompare,
+  DensityDashboardHeader,
+  DensityLanding,
+  DensityPinned,
+  ShapeDemo,
+} from "@/components/foundations/density-demos"
+import {
   FluidHoverAxes,
   FluidHoverCompare,
   FluidHoverGroups,
@@ -11,7 +18,6 @@ import {
   MotionSurfaces,
 } from "@/components/foundations/motion-demos"
 import { ScrollbarsDemo } from "@/components/foundations/scrollbar-demos"
-import { ShapeDemo, SizesDemo } from "@/components/foundations/size-demos"
 import {
   SoundCatalog,
   SoundPlayground,
@@ -29,6 +35,10 @@ import {
 
 export const foundationsMdxComponents = {
   ColorRolePicker,
+  DensityCompare,
+  DensityDashboardHeader,
+  DensityLanding,
+  DensityPinned,
   FluidHoverAxes,
   FluidHoverCompare,
   FluidHoverGroups,
@@ -37,7 +47,6 @@ export const foundationsMdxComponents = {
   MotionSurfaces,
   ScrollbarsDemo,
   ShapeDemo,
-  SizesDemo,
   SoundCatalog,
   SoundPlayground,
   SurfaceLadder,

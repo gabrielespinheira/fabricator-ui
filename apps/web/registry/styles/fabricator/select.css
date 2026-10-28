@@ -1,10 +1,11 @@
 /* MARK: Select */
 
   /* Trigger: the input recipe. A 1px ring-border frame (no border), a light
-     fill on hover, 36px (sm 28px), 13px. Keyboard focus turns the ring
+     fill on hover, 36px and 13px at the default density; size sm pins it to
+     compact (28px, 12px). Keyboard focus turns the ring
      blue; invalid turns it destructive. The chevron brightens on hover. */
   .cn-select-trigger {
-    @apply cursor-pointer ring-border data-placeholder:text-muted-foreground hover:bg-muted/50 focus-visible:ring-ring aria-invalid:ring-destructive/50 aria-invalid:hover:bg-destructive/5 gap-2 rounded-lg bg-transparent py-0 pr-2 pl-2.5 text-[13px] ring-1 transition-[color,background-color,box-shadow] duration-feedback select-none data-[size=default]:h-9 data-[size=sm]:h-7 data-[size=sm]:gap-1.5 data-[size=sm]:pl-2 data-[size=sm]:text-[12px] *:data-[slot=select-value]:flex *:data-[slot=select-value]:gap-2 [&_svg:not([class*='size-'])]:size-4 [&_svg]:stroke-[1.5] hover:[&>svg]:text-foreground;
+    @apply cursor-pointer ring-border data-placeholder:text-muted-foreground hover:bg-muted/50 focus-visible:ring-ring aria-invalid:ring-destructive/50 aria-invalid:hover:bg-destructive/5 h-(--density-36) gap-(--density-8) rounded-lg bg-transparent py-0 pr-(--density-8) pl-(--density-10) text-(length:--density-text-13) ring-1 transition-[color,background-color,box-shadow] duration-feedback select-none data-[size=sm]:density-compact *:data-[slot=select-value]:flex *:data-[slot=select-value]:gap-(--density-8) [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5] hover:[&>svg]:text-foreground;
   }
 
   .cn-select-value {
@@ -16,7 +17,7 @@
   }
 
   .cn-select-trigger-icon {
-    @apply text-muted-foreground size-4 transition-colors duration-feedback;
+    @apply text-muted-foreground size-(--density-icon-16) transition-colors duration-feedback;
   }
 
   /* Popup: surface 3 with its shadow ring (no border), rounded-xl, p-1, on
@@ -35,14 +36,14 @@
   }
 
   .cn-select-label {
-    @apply text-muted-foreground px-2 py-1.5 text-[12px];
+    @apply text-muted-foreground px-(--density-8) py-(--density-6) text-(length:--density-text-12);
   }
 
   /* Rows: 36px, 13px, muted at rest; the lit row turns foreground. The
      selected row is foreground and semibold on a bg-active fill, which
      slides between rows inside a fluid container. */
   .cn-select-item {
-    @apply cursor-pointer text-muted-foreground h-9 gap-2 rounded-lg py-0 pr-8 pl-2 text-[13px] transition-colors duration-feedback [&_svg:not([class*='size-'])]:size-4 [&_svg]:stroke-[1.5] data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-[selected]:bg-active data-[selected]:text-foreground data-[selected]:font-semibold in-data-[fluid-hover]:data-[selected]:bg-transparent data-checked:bg-active data-checked:text-foreground data-checked:font-semibold in-data-[fluid-hover]:data-checked:bg-transparent *:[span]:last:flex *:[span]:last:items-center *:[span]:last:gap-2;
+    @apply cursor-pointer text-muted-foreground h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) text-(length:--density-text-13) transition-colors duration-feedback [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5] data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-[selected]:bg-active data-[selected]:text-foreground data-[selected]:font-semibold in-data-[fluid-hover]:data-[selected]:bg-transparent data-checked:bg-active data-checked:text-foreground data-checked:font-semibold in-data-[fluid-hover]:data-checked:bg-transparent *:[span]:last:flex *:[span]:last:items-center *:[span]:last:gap-(--density-8);
   }
 
   .cn-select-item-aria {
@@ -50,7 +51,7 @@
   }
 
   .cn-select-item-indicator {
-    @apply text-foreground pointer-events-none absolute right-2 flex size-4 items-center justify-center;
+    @apply text-foreground pointer-events-none absolute right-(--density-8) flex size-(--density-icon-16) items-center justify-center;
   }
 
   .cn-select-group {
@@ -58,7 +59,7 @@
   }
 
   .cn-select-item-text {
-    @apply flex flex-1 gap-2;
+    @apply flex flex-1 gap-(--density-8);
   }
 
   .cn-select-separator {
@@ -66,15 +67,15 @@
   }
 
   .cn-select-scroll-up-button {
-    @apply bg-surface-3 text-muted-foreground z-10 flex cursor-default items-center justify-center py-1 [&_svg:not([class*='size-'])]:size-4;
+    @apply bg-surface-3 text-muted-foreground z-10 flex cursor-default items-center justify-center py-1 [&_svg:not([class*='size-'])]:size-(--density-icon-16);
   }
 
   .cn-select-scroll-down-button {
-    @apply bg-surface-3 text-muted-foreground z-10 flex cursor-default items-center justify-center py-1 [&_svg:not([class*='size-'])]:size-4;
+    @apply bg-surface-3 text-muted-foreground z-10 flex cursor-default items-center justify-center py-1 [&_svg:not([class*='size-'])]:size-(--density-icon-16);
   }
 
   .cn-select-empty-aria {
-    @apply text-muted-foreground hidden w-full justify-center py-4 text-center text-[13px] group-data-empty/select-list:flex;
+    @apply text-muted-foreground hidden w-full justify-center py-(--density-16) text-center text-(length:--density-text-13) group-data-empty/select-list:flex;
   }
 
   /* React Aria */

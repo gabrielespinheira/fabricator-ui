@@ -12,11 +12,11 @@
   /* Panel: surface 3 whose shadow ring is the edge (no border); the edge
      that meets the screen is square, the free edge rounded-xl. */
   .cn-drawer-content {
-    @apply bg-surface-3 shadow-surface-3 text-popover-foreground flex h-auto flex-col text-[13px] data-[vaul-drawer-direction=bottom]:rounded-t-xl data-[vaul-drawer-direction=left]:rounded-r-xl data-[vaul-drawer-direction=right]:rounded-l-xl data-[vaul-drawer-direction=top]:rounded-b-xl;
+    @apply bg-surface-3 shadow-surface-3 text-popover-foreground flex h-auto flex-col text-(length:--density-text-13) data-[vaul-drawer-direction=bottom]:rounded-t-xl data-[vaul-drawer-direction=left]:rounded-r-xl data-[vaul-drawer-direction=right]:rounded-l-xl data-[vaul-drawer-direction=top]:rounded-b-xl;
   }
 
   .cn-drawer-popup {
-    @apply bg-surface-3 shadow-surface-3 text-popover-foreground text-[13px] data-[swipe-direction=down]:rounded-t-xl data-[swipe-direction=left]:rounded-r-xl data-[swipe-direction=right]:rounded-l-xl data-[swipe-direction=up]:rounded-b-xl duration-sheet! ease-drawer! data-ending-style:duration-[calc(var(--drawer-swipe-strength)*var(--motion-sheet-exit)*var(--motion-scale,1))]! data-swiping:duration-0! data-nested-drawer-swiping:duration-0! data-ending-style:data-swiping:duration-[calc(var(--drawer-swipe-strength)*var(--motion-sheet-exit)*var(--motion-scale,1))]! data-ending-style:data-nested-drawer-swiping:duration-[calc(var(--drawer-swipe-strength)*var(--motion-sheet-exit)*var(--motion-scale,1))]!;
+    @apply bg-surface-3 shadow-surface-3 text-popover-foreground text-(length:--density-text-13) data-[swipe-direction=down]:rounded-t-xl data-[swipe-direction=left]:rounded-r-xl data-[swipe-direction=right]:rounded-l-xl data-[swipe-direction=up]:rounded-b-xl duration-sheet! ease-drawer! data-ending-style:duration-[calc(var(--drawer-swipe-strength)*var(--motion-sheet-exit)*var(--motion-scale,1))]! data-swiping:duration-0! data-nested-drawer-swiping:duration-0! data-ending-style:data-swiping:duration-[calc(var(--drawer-swipe-strength)*var(--motion-sheet-exit)*var(--motion-scale,1))]! data-ending-style:data-nested-drawer-swiping:duration-[calc(var(--drawer-swipe-strength)*var(--motion-sheet-exit)*var(--motion-scale,1))]!;
   }
 
   /* The panel's content fades while a nested drawer covers it, on the
@@ -34,25 +34,25 @@
   }
 
   .cn-drawer-header {
-    @apply gap-1.5 p-4 md:gap-1.5 md:text-start;
+    @apply gap-(--density-6) p-(--density-16) md:gap-(--density-6) md:text-start;
   }
 
   .cn-drawer-header-base {
-    @apply gap-1.5 p-4 pb-0 md:gap-1.5 md:text-start;
+    @apply gap-(--density-6) p-(--density-16) pb-0 md:gap-(--density-6) md:text-start;
   }
 
   .cn-drawer-title {
-    @apply text-foreground text-[16px] leading-tight font-bold;
+    @apply text-foreground text-(length:--density-text-16) leading-tight font-bold;
   }
 
   .cn-drawer-description {
-    @apply text-muted-foreground text-[13px];
+    @apply text-muted-foreground text-(length:--density-text-13);
   }
 
   .cn-drawer-footer {
-    @apply gap-2 p-4;
+    @apply gap-(--density-8) p-(--density-16);
   }
 
   .cn-drawer-footer-base {
-    @apply gap-2 p-4 pt-0;
+    @apply gap-(--density-8) p-(--density-16) pt-0;
   }

@@ -19,16 +19,18 @@
     @apply ring-border bg-transparent ring-1 not-data-open:hover:bg-hover;
   }
 
+  /* Sizes follow the density: default takes the nearest one, sm pins the
+     search to compact and lg to spacious. Each size opens to its own width. */
   .cn-search-size-default {
-    @apply h-9 w-9 text-[13px] data-open:w-(--search-width,320px) [&_[data-slot=search-input]]:ps-9 [&_[data-slot=search-input]]:pe-3 has-[[data-slot=search-clear]]:[&_[data-slot=search-input]]:pe-9 [&_svg:not([class*='size-'])]:size-4;
+    @apply h-(--density-36) w-(--density-36) text-(length:--density-text-13) [&_[data-slot=search-input]]:ps-(--density-36) [&_[data-slot=search-input]]:pe-(--density-12) has-[[data-slot=search-clear]]:[&_[data-slot=search-input]]:pe-(--density-36) [&_svg:not([class*='size-'])]:size-(--density-icon-16) data-open:w-(--search-width,320px);
   }
 
   .cn-search-size-sm {
-    @apply h-7 w-7 text-[12px] data-open:w-(--search-width,240px) [&_[data-slot=search-input]]:ps-7 [&_[data-slot=search-input]]:pe-2.5 has-[[data-slot=search-clear]]:[&_[data-slot=search-input]]:pe-7 [&_svg:not([class*='size-'])]:size-3.5;
+    @apply density-compact h-(--density-36) w-(--density-36) text-(length:--density-text-13) [&_[data-slot=search-input]]:ps-(--density-36) [&_[data-slot=search-input]]:pe-(--density-12) has-[[data-slot=search-clear]]:[&_[data-slot=search-input]]:pe-(--density-36) [&_svg:not([class*='size-'])]:size-(--density-icon-16) data-open:w-(--search-width,240px);
   }
 
   .cn-search-size-lg {
-    @apply h-11 w-11 text-[15px] data-open:w-(--search-width,360px) [&_[data-slot=search-input]]:ps-11 [&_[data-slot=search-input]]:pe-4 has-[[data-slot=search-clear]]:[&_[data-slot=search-input]]:pe-11 [&_svg:not([class*='size-'])]:size-[18px];
+    @apply density-spacious h-(--density-36) w-(--density-36) text-(length:--density-text-13) [&_[data-slot=search-input]]:ps-(--density-36) [&_[data-slot=search-input]]:pe-(--density-12) has-[[data-slot=search-clear]]:[&_[data-slot=search-input]]:pe-(--density-36) [&_svg:not([class*='size-'])]:size-(--density-icon-16) data-open:w-(--search-width,360px);
   }
 
   /* Closed: the whole button. Open: just the icon, muted. */
@@ -46,5 +48,5 @@
   }
 
   .cn-search-clear {
-    @apply text-muted-foreground hover:text-foreground focus-visible:text-foreground cursor-pointer rounded-full transition-colors duration-feedback ease-feedback animate-in fade-in-0 zoom-in-75 motion-reduce:zoom-in-100 focus-visible:ring-1 focus-visible:ring-ring [&_svg:not([class*='size-'])]:size-3.5;
+    @apply text-muted-foreground hover:text-foreground focus-visible:text-foreground cursor-pointer rounded-full transition-colors duration-feedback ease-feedback animate-in fade-in-0 zoom-in-75 motion-reduce:zoom-in-100 focus-visible:ring-1 focus-visible:ring-ring [&_svg:not([class*='size-'])]:size-(--density-icon-14);
   }

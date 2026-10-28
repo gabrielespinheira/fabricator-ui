@@ -16,7 +16,7 @@
      an open item's trigger turns foreground and semibold. Focus is a 1px
      blue ring. */
   .cn-accordion-trigger {
-    @apply cursor-pointer text-muted-foreground rounded-lg px-3 py-2 text-start text-[13px] leading-5 font-normal transition-[color,background-color] duration-feedback hover:bg-hover hover:text-foreground in-data-[fluid-hover]:hover:bg-transparent data-fluid-hover-active:text-foreground aria-expanded:text-foreground aria-expanded:font-semibold focus-visible:ring-ring focus-visible:ring-1 **:data-[slot=accordion-trigger-icon]:ms-auto **:data-[slot=accordion-trigger-icon]:mt-0.5 **:data-[slot=accordion-trigger-icon]:size-4;
+    @apply cursor-pointer text-muted-foreground rounded-lg px-(--density-12) py-(--density-8) text-start text-(length:--density-text-13) leading-5 font-normal transition-[color,background-color] duration-feedback hover:bg-hover hover:text-foreground in-data-[fluid-hover]:hover:bg-transparent data-fluid-hover-active:text-foreground aria-expanded:text-foreground aria-expanded:font-semibold focus-visible:ring-ring focus-visible:ring-1 **:data-[slot=accordion-trigger-icon]:ms-auto **:data-[slot=accordion-trigger-icon]:mt-0.5 **:data-[slot=accordion-trigger-icon]:size-4;
   }
 
   /* One chevron that points to the end and turns 90° to point down when
@@ -27,9 +27,9 @@
   }
 
   .cn-accordion-content {
-    @apply text-muted-foreground motion-disclosure data-open:animate-accordion-down data-closed:animate-accordion-up text-[13px];
+    @apply text-muted-foreground motion-disclosure data-open:animate-accordion-down data-closed:animate-accordion-up text-(length:--density-text-13);
   }
 
   .cn-accordion-content-inner {
-    @apply px-3 pt-1 pb-3;
+    @apply px-(--density-12) pt-1 pb-(--density-12);
   }

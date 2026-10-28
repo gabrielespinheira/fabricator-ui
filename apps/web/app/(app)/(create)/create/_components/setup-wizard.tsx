@@ -53,6 +53,7 @@ function useSettingsFromShareLink() {
       colors: look.colors,
       radius: look.radius,
       motion: look.motion,
+      density: look.density,
     })
     for (const name of SETTINGS_PARAMS) url.searchParams.delete(name)
     window.history.replaceState(window.history.state, "", url)
@@ -78,6 +79,7 @@ export function SetupWizard() {
       colors: settings.colors,
       radius: settings.radius,
       motion: settings.motion,
+      density: settings.density,
     },
   }
 

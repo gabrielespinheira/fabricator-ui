@@ -4,7 +4,7 @@
      1px blue edge: the inline focus border turns blue and the 3px halo is
      switched off. */
   .cn-badge {
-    @apply h-6 gap-1.5 rounded-lg border border-transparent px-2.5 text-[12px] font-medium transition-colors duration-feedback ease-feedback focus-visible:ring-0! aria-invalid:border-destructive/50 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2 [&>svg]:size-3! [&>svg]:stroke-[1.5];
+    @apply h-(--density-24) gap-(--density-6) rounded-lg border border-transparent px-(--density-10) text-(length:--density-text-12) font-medium transition-colors duration-feedback ease-feedback focus-visible:ring-0! aria-invalid:border-destructive/50 has-data-[icon=inline-end]:pr-(--density-8) has-data-[icon=inline-start]:pl-(--density-8) [&>svg]:size-3! [&>svg]:stroke-[1.5];
   }
 
   .cn-badge-variant-default {

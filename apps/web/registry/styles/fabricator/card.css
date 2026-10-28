@@ -4,7 +4,7 @@
      border or ring), rounded-xl. 16px rhythm (12px for size="sm"). The
      footer has no muted bar, so the card keeps its bottom padding. */
   .cn-card {
-    @apply bg-card text-card-foreground shadow-surface-2 gap-(--card-spacing) overflow-hidden rounded-xl py-(--card-spacing) text-[13px] [--card-spacing:--spacing(4)] has-[>img:first-child]:pt-0 data-[size=sm]:[--card-spacing:--spacing(3)] *:[img:first-child]:rounded-t-xl *:[img:last-child]:rounded-b-xl;
+    @apply bg-card text-card-foreground shadow-surface-2 gap-(--card-spacing) overflow-hidden rounded-xl py-(--card-spacing) text-(length:--density-text-13) [--card-spacing:var(--density-16)] has-[>img:first-child]:pt-0 data-[size=sm]:[--card-spacing:var(--density-12)] *:[img:first-child]:rounded-t-xl *:[img:last-child]:rounded-b-xl;
   }
 
   .cn-card-header {
@@ -12,11 +12,11 @@
   }
 
   .cn-card-title {
-    @apply text-foreground text-[14px] leading-snug font-medium group-data-[size=sm]/card:text-[13px];
+    @apply text-foreground text-(length:--density-text-14) leading-snug font-medium group-data-[size=sm]/card:text-(length:--density-text-13);
   }
 
   .cn-card-description {
-    @apply text-muted-foreground text-[13px] group-data-[size=sm]/card:text-[12px];
+    @apply text-muted-foreground text-(length:--density-text-13) group-data-[size=sm]/card:text-(length:--density-text-12);
   }
 
   .cn-card-content {
@@ -24,5 +24,5 @@
   }
 
   .cn-card-footer {
-    @apply gap-2 rounded-b-xl px-(--card-spacing) [.border-t]:border-border/60 [.border-t]:pt-(--card-spacing);
+    @apply gap-(--density-8) rounded-b-xl px-(--card-spacing) [.border-t]:border-border/60 [.border-t]:pt-(--card-spacing);
   }

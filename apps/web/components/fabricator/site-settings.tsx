@@ -15,6 +15,7 @@ import {
 import { useTheme } from "next-themes"
 
 import {
+  DENSITY_OPTIONS,
   ICON_LIBRARIES,
   MOTION_SPEEDS,
   ROLE_PRESETS,
@@ -29,6 +30,7 @@ import {
   sameRoleColor,
   type RoleColor,
 } from "@/registry/fabricator/color-roles"
+import type { DensityName } from "@/registry/fabricator/density"
 import {
   sameTint,
   tintToHex,
@@ -354,8 +356,8 @@ function isThemeSetting(value: unknown): value is ThemeSetting {
 }
 
 /**
- * Theme, sound, icons, radius, motion, surface and primary colour: the
- * settings menu rows.
+ * Theme, sound, icons, radius, density, motion, surface and primary colour:
+ * the settings menu rows.
  */
 export function SiteSettingsFields({ className }: { className?: string }) {
   const hydrated = useHydrated()
@@ -364,6 +366,7 @@ export function SiteSettingsFields({ className }: { className?: string }) {
   const [iconLibrary, setIconLibrary] = useSiteSetting("iconLibrary")
   const [radius, setRadius] = useSiteSetting("radius")
   const [motion, setMotion] = useSiteSetting("motion")
+  const [density, setDensity] = useSiteSetting("density")
 
   return (
     <div className={cn("flex flex-col", className)}>
@@ -404,6 +407,14 @@ export function SiteSettingsFields({ className }: { className?: string }) {
           value={radius}
           onValueChange={setRadius}
           options={RADII}
+        />
+      </SettingRow>
+      <SettingRow label="Density">
+        <SettingSelect<DensityName>
+          label="Density"
+          value={density}
+          onValueChange={setDensity}
+          options={DENSITY_OPTIONS}
         />
       </SettingRow>
       <SettingRow label="Motion">

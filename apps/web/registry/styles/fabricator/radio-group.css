@@ -1,14 +1,14 @@
 /* MARK: Radio Group */
 
   .cn-radio-group {
-    @apply grid gap-3;
+    @apply grid gap-(--density-12);
   }
 
   /* 18px circle with the checkbox's outline. Checked fills with the primary role
      (the foreground while neutral) and a 6px dot pops in in its foreground. The border width is important because
      the components carry an inline 1px `border`. */
   .cn-radio-group-item {
-    @apply cursor-pointer flex size-[18px] items-center justify-center border-[1.5px]! border-foreground/25 bg-transparent transition-[background-color,border-color,box-shadow,scale] duration-feedback ease-feedback motion-reduce:transition-none hover:border-foreground/45 active:scale-90 motion-reduce:active:scale-100 focus-visible:ring-1 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background aria-invalid:border-destructive group-has-[:focus-visible]/field-label:ring-0 rounded-full data-checked:border-primary data-checked:bg-primary data-checked:hover:border-primary aria-invalid:data-checked:border-destructive aria-invalid:data-checked:bg-destructive;
+    @apply cursor-pointer flex size-[calc(var(--density-icon-16)+2px)] items-center justify-center border-[1.5px]! border-foreground/25 bg-transparent transition-[background-color,border-color,box-shadow,scale] duration-feedback ease-feedback motion-reduce:transition-none hover:border-foreground/45 active:scale-90 motion-reduce:active:scale-100 focus-visible:ring-1 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background aria-invalid:border-destructive group-has-[:focus-visible]/field-label:ring-0 rounded-full data-checked:border-primary data-checked:bg-primary data-checked:hover:border-primary aria-invalid:data-checked:border-destructive aria-invalid:data-checked:bg-destructive;
   }
 
   .cn-radio-group-item-aria {

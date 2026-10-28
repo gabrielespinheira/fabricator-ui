@@ -11,6 +11,7 @@ Components reference semantic CSS variable tokens. Change the variables to chang
 - Adding custom colors
 - Border radius
 - Motion (speeds and roles)
+- Density (compact, default, spacious)
 - Customizing components (variants, className, wrappers)
 - Checking for updates
 
@@ -158,6 +159,33 @@ Every component's animation reads motion tokens from the foundations, by role: `
 ```
 
 Retune a role in the global CSS: `:root { --motion-popup: 200ms; }` (default speed) or under `:root[data-motion="smooth"]`. `--motion-scale` multiplies every duration. `duration-fast`, `duration-moderate`, `duration-slow` and `ease-spring` still work as aliases.
+
+---
+
+## Density
+
+Every component sizes itself from the density: controls and menu rows, text, icons, padding and gaps.
+
+| Density    | For                            | Controls | Text |
+| ---------- | ------------------------------ | -------- | ---- |
+| `compact`  | Dashboards, toolbars, tables   | 28px     | 12px |
+| `default`  | Apps                           | 36px     | 13px |
+| `spacious` | Websites, landing pages        | 44px     | 15px |
+
+**Set it on a region.** `DensityProvider` sets it for everything inside, including the popups and dialogs those components open in portals; `data-density` on any element does the same without the portals:
+
+```tsx
+import { DensityProvider } from "@/components/ui/density"
+
+<DensityProvider density="spacious">{/* the marketing pages */}</DensityProvider>
+<DensityProvider density="compact"><header>{/* dashboard toolbar */}</header></DensityProvider>
+```
+
+For the whole project, `<html data-density="spacious">`, or the `density` param of the init URL. `density-compact`, `density-default` and `density-spacious` are utilities too, so `md:density-spacious` works.
+
+**Pin one component.** `size="sm"` is compact and `size="lg"` spacious on Button, Toggle, ToggleGroup, SelectTrigger, Switch and Search; anything else takes `data-density="compact"`.
+
+**Size your own UI with the tokens**, each named after its default value: `h-(--density-36)` (28 / 36 / 44px), `px-(--density-12)`, `gap-(--density-8)`, `text-(length:--density-text-13)`, `size-(--density-icon-16)`. Use the variable syntax, not new theme keys, so `cn()` still merges a consumer's `h-12` over them.
 
 ---
 

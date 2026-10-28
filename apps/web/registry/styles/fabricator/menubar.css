@@ -3,14 +3,14 @@
   /* The bar is a raised strip (surface 2 ring, no border) and a fluid hover
      container for its triggers (relative isolate). */
   .cn-menubar {
-    @apply bg-card shadow-surface-2 relative isolate h-9 gap-0.5 rounded-xl p-1;
+    @apply bg-card shadow-surface-2 relative isolate h-(--density-36) gap-0.5 rounded-xl p-(--density-4);
   }
 
   /* Triggers: 28px, 13px, muted at rest. The fluid highlight lights the
      trigger nearest the pointer; an open trigger keeps a hover fill while
      the pointer is in its menu. */
   .cn-menubar-trigger {
-    @apply cursor-pointer text-muted-foreground h-7 rounded-lg px-2.5 text-[13px] font-normal transition-colors duration-feedback hover:bg-hover hover:text-foreground in-data-[fluid-hover]:hover:bg-transparent focus-visible:ring-1 focus-visible:ring-ring data-fluid-hover-active:text-foreground aria-expanded:text-foreground not-data-fluid-hover-active:aria-expanded:bg-hover;
+    @apply cursor-pointer text-muted-foreground h-(--density-28) rounded-lg px-(--density-10) text-(length:--density-text-13) font-normal transition-colors duration-feedback hover:bg-hover hover:text-foreground in-data-[fluid-hover]:hover:bg-transparent focus-visible:ring-1 focus-visible:ring-ring data-fluid-hover-active:text-foreground aria-expanded:text-foreground not-data-fluid-hover-active:aria-expanded:bg-hover;
   }
 
   /* Menus: the popup recipe (surface 3, rounded-xl, p-1, popup motion),
@@ -26,29 +26,29 @@
   /* Rows: 36px, 13px, muted at rest; the lit row turns foreground and
      thickens its icon. Destructive rows stay destructive when lit. */
   .cn-menubar-item {
-    @apply cursor-pointer text-muted-foreground h-9 gap-2 rounded-lg px-2 text-[13px] transition-colors duration-feedback data-disabled:opacity-50 data-inset:pl-8 [&_svg:not([class*='size-'])]:size-4 [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] data-highlighted:bg-hover data-highlighted:text-foreground data-highlighted:[&_svg]:stroke-2 in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover data-focused:text-foreground data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-[variant=destructive]:text-destructive-text! data-[variant=destructive]:*:[svg]:text-destructive!;
+    @apply cursor-pointer text-muted-foreground h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8) text-(length:--density-text-13) transition-colors duration-feedback data-disabled:opacity-50 data-inset:pl-[calc(var(--density-8)*2+var(--density-icon-16))] [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] data-highlighted:bg-hover data-highlighted:text-foreground data-highlighted:[&_svg]:stroke-2 in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover data-focused:text-foreground data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-[variant=destructive]:text-destructive-text! data-[variant=destructive]:*:[svg]:text-destructive!;
   }
 
   /* Checkbox and radio rows keep the check on the start side. Checked rows
      are foreground and semibold. */
   .cn-menubar-checkbox-item {
-    @apply cursor-pointer text-muted-foreground h-9 gap-2 rounded-lg py-0 pr-2 pl-8 text-[13px] transition-[color,background-color] duration-feedback data-inset:pl-8 data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover data-focused:text-foreground data-fluid-hover-active:text-foreground data-checked:text-foreground data-checked:font-semibold;
+    @apply cursor-pointer text-muted-foreground h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-(--density-8) pl-[calc(var(--density-8)*2+var(--density-icon-16))] text-(length:--density-text-13) transition-[color,background-color] duration-feedback data-inset:pl-[calc(var(--density-8)*2+var(--density-icon-16))] data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover data-focused:text-foreground data-fluid-hover-active:text-foreground data-checked:text-foreground data-checked:font-semibold;
   }
 
   .cn-menubar-checkbox-item-indicator {
-    @apply text-foreground left-2 size-4 [&_svg:not([class*='size-'])]:size-4;
+    @apply text-foreground left-(--density-8) size-(--density-icon-16) [&_svg:not([class*='size-'])]:size-(--density-icon-16);
   }
 
   .cn-menubar-radio-item {
-    @apply cursor-pointer text-muted-foreground h-9 gap-2 rounded-lg py-0 pr-2 pl-8 text-[13px] transition-[color,background-color] duration-feedback data-disabled:opacity-50 data-inset:pl-8 [&_svg:not([class*='size-'])]:size-4 data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover data-focused:text-foreground data-fluid-hover-active:text-foreground data-checked:text-foreground data-checked:font-semibold;
+    @apply cursor-pointer text-muted-foreground h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-(--density-8) pl-[calc(var(--density-8)*2+var(--density-icon-16))] text-(length:--density-text-13) transition-[color,background-color] duration-feedback data-disabled:opacity-50 data-inset:pl-[calc(var(--density-8)*2+var(--density-icon-16))] [&_svg:not([class*='size-'])]:size-(--density-icon-16) data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover data-focused:text-foreground data-fluid-hover-active:text-foreground data-checked:text-foreground data-checked:font-semibold;
   }
 
   .cn-menubar-radio-item-indicator {
-    @apply text-foreground left-2 size-4 [&_svg:not([class*='size-'])]:size-4;
+    @apply text-foreground left-(--density-8) size-(--density-icon-16) [&_svg:not([class*='size-'])]:size-(--density-icon-16);
   }
 
   .cn-menubar-label {
-    @apply text-muted-foreground px-2 py-1.5 text-[12px] font-normal data-inset:pl-8;
+    @apply text-muted-foreground px-(--density-8) py-(--density-6) text-(length:--density-text-12) font-normal data-inset:pl-[calc(var(--density-8)*2+var(--density-icon-16))];
   }
 
   .cn-menubar-separator {
@@ -56,12 +56,12 @@
   }
 
   .cn-menubar-shortcut {
-    @apply text-muted-foreground text-[11px] tracking-normal;
+    @apply text-muted-foreground text-(length:--density-text-11) tracking-normal;
   }
 
   /* An open sub-trigger stays lit while the pointer is in its submenu. */
   .cn-menubar-sub-trigger {
-    @apply cursor-pointer text-muted-foreground h-9 gap-2 rounded-lg px-2 text-[13px] transition-colors duration-feedback data-inset:pl-8 [&_svg:not([class*='size-'])]:size-4 [&_svg]:stroke-[1.5] data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover data-focused:text-foreground data-fluid-hover-active:text-foreground data-open:text-foreground data-popup-open:text-foreground not-data-fluid-hover-active:data-open:bg-hover not-data-fluid-hover-active:data-popup-open:bg-hover;
+    @apply cursor-pointer text-muted-foreground h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8) text-(length:--density-text-13) transition-colors duration-feedback data-inset:pl-[calc(var(--density-8)*2+var(--density-icon-16))] [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5] data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-focused:bg-hover data-focused:text-foreground data-fluid-hover-active:text-foreground data-open:text-foreground data-popup-open:text-foreground not-data-fluid-hover-active:data-open:bg-hover not-data-fluid-hover-active:data-popup-open:bg-hover;
   }
 
   .cn-menubar-sub-content {

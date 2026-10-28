@@ -19,21 +19,21 @@
      horizontal tile with text gets a wider end, a text-only chip a wider
      inline inset. */
   .cn-attachment-size-default {
-    @apply gap-2.5 p-1.5 text-[13px] data-[orientation=horizontal]:has-data-[slot=attachment-content]:pe-2.5 not-has-data-[slot=attachment-media]:px-2.5 not-has-data-[slot=attachment-media]:py-2;
+    @apply gap-(--density-10) p-(--density-6) text-(length:--density-text-13) data-[orientation=horizontal]:has-data-[slot=attachment-content]:pe-(--density-10) not-has-data-[slot=attachment-media]:px-(--density-10) not-has-data-[slot=attachment-media]:py-(--density-8);
   }
 
   .cn-attachment-size-sm {
-    @apply gap-2 p-1 text-[12px] data-[orientation=horizontal]:has-data-[slot=attachment-content]:pe-2 not-has-data-[slot=attachment-media]:px-2 not-has-data-[slot=attachment-media]:py-1.5;
+    @apply gap-(--density-8) p-1 text-(length:--density-text-12) data-[orientation=horizontal]:has-data-[slot=attachment-content]:pe-(--density-8) not-has-data-[slot=attachment-media]:px-(--density-8) not-has-data-[slot=attachment-media]:py-(--density-6);
   }
 
   .cn-attachment-size-xs {
-    @apply gap-1.5 rounded-lg p-1 text-[12px] data-[orientation=horizontal]:has-data-[slot=attachment-content]:pe-1.5 not-has-data-[slot=attachment-media]:px-1.5;
+    @apply gap-(--density-6) rounded-lg p-1 text-(length:--density-text-12) data-[orientation=horizontal]:has-data-[slot=attachment-content]:pe-(--density-6) not-has-data-[slot=attachment-media]:px-(--density-6);
   }
 
   /* Media well: the hover fill with an inset hairline painted over the
      preview (Fluid Functionalism's file thumbnail). */
   .cn-attachment-media {
-    @apply bg-hover text-muted-foreground w-9 rounded-md outline-1 -outline-offset-1 outline-black/10 dark:outline-white/10 group-data-[size=sm]/attachment:w-7 group-data-[size=xs]/attachment:w-6 group-data-[size=xs]/attachment:rounded-[5px] [&_svg:not([class*='size-'])]:size-4 [&_svg]:stroke-[1.5] group-data-[size=xs]/attachment:[&_svg:not([class*='size-'])]:size-3.5 group-data-[orientation=vertical]/attachment:w-full group-data-[orientation=vertical]/attachment:rounded-lg group-data-[orientation=vertical]/attachment:[&_svg:not([class*='size-'])]:size-6 group-data-[orientation=vertical]/attachment:*:data-[slot=spinner]:size-6!;
+    @apply bg-hover text-muted-foreground w-9 rounded-md outline-1 -outline-offset-1 outline-black/10 dark:outline-white/10 group-data-[size=sm]/attachment:w-7 group-data-[size=xs]/attachment:w-6 group-data-[size=xs]/attachment:rounded-[5px] [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5] group-data-[size=xs]/attachment:[&_svg:not([class*='size-'])]:size-(--density-icon-14) group-data-[orientation=vertical]/attachment:w-full group-data-[orientation=vertical]/attachment:rounded-lg group-data-[orientation=vertical]/attachment:[&_svg:not([class*='size-'])]:size-(--density-24) group-data-[orientation=vertical]/attachment:*:data-[slot=spinner]:size-(--density-24)!;
   }
 
   .cn-attachment-media-variant-image {
@@ -49,7 +49,7 @@
   }
 
   .cn-attachment-description {
-    @apply mt-0.5 text-[12px] tabular-nums;
+    @apply mt-0.5 text-(length:--density-text-12) tabular-nums;
   }
 
   .cn-attachment-actions {
@@ -57,7 +57,7 @@
   }
 
   .cn-attachment-group {
-    @apply gap-2 scroll-px-1 p-1;
+    @apply gap-(--density-8) scroll-px-1 p-1;
   }
 
   .cn-attachment-trigger {

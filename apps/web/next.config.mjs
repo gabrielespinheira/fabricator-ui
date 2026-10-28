@@ -205,6 +205,17 @@ const nextConfig = {
         destination: "/docs/foundations/colors.md",
         permanent: true,
       },
+      // Sizes became Density.
+      {
+        source: "/docs/foundations/sizes",
+        destination: "/docs/foundations/density",
+        permanent: true,
+      },
+      {
+        source: "/docs/foundations/sizes.md",
+        destination: "/docs/foundations/density.md",
+        permanent: true,
+      },
       // Scrollbars moved from Foundations to Utilities.
       {
         source: "/docs/foundations/scrollbars",

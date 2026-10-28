@@ -2,6 +2,7 @@ import { runInNewContext } from "node:vm"
 import { afterEach, describe, expect, it, vi } from "vitest"
 
 import {
+  DENSITY_OPTIONS,
   getSiteSettings,
   MOTION_SPEEDS,
   ROLE_PRESETS,
@@ -15,6 +16,7 @@ import {
   roleMaxChroma,
   sameRoleColor,
 } from "@/registry/fabricator/color-roles"
+import { DENSITY_NAMES } from "@/registry/fabricator/density"
 import { MOTION_SPEED_NAMES } from "@/registry/fabricator/motion"
 
 function fakeStorage(stored: unknown) {
@@ -121,5 +123,47 @@ describe("motion setting", () => {
       document: { documentElement: { dataset, style: { setProperty() {} } } },
     })
     expect(dataset.motion).toBe("smooth")
+  })
+})
+
+describe("density setting", () => {
+  it("offers the foundations' densities, smallest first", () => {
+    expect(DENSITY_OPTIONS.map((density) => density.value)).toEqual([
+      ...DENSITY_NAMES,
+    ])
+  })
+
+  it("sets a stored density on <html> before paint", () => {
+    const dataset: Record<string, string> = {}
+    runInNewContext(SITE_SETTINGS_SCRIPT, {
+      localStorage: fakeStorage({ density: "spacious" }),
+      document: { documentElement: { dataset, style: { setProperty() {} } } },
+    })
+    expect(dataset.density).toBe("spacious")
+  })
+
+  it("leaves <html> alone for the default or an unknown density", () => {
+    for (const density of ["default", "huge"]) {
+      const dataset: Record<string, string> = {}
+      runInNewContext(SITE_SETTINGS_SCRIPT, {
+        localStorage: fakeStorage({ density }),
+        document: { documentElement: { dataset, style: { setProperty() {} } } },
+      })
+      expect(dataset).toEqual({})
+    }
+  })
+
+  it("reads a stored density and drops an unknown one", async () => {
+    vi.stubGlobal("window", {})
+    vi.stubGlobal("localStorage", fakeStorage({ density: "compact" }))
+    const first = await import("@/lib/site-settings")
+    expect(first.getSiteSettings().density).toBe("compact")
+
+    vi.resetModules()
+    vi.stubGlobal("localStorage", fakeStorage({ density: "huge" }))
+    const second = await import("@/lib/site-settings")
+    expect(second.getSiteSettings().density).toBe("default")
+    vi.unstubAllGlobals()
+    vi.resetModules()
   })
 })

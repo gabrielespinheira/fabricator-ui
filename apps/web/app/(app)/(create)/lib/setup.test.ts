@@ -65,6 +65,16 @@ describe("buildInitUrl", () => {
   })
 })
 
+describe("buildInitUrl with a density", () => {
+  it("writes the density into the init URL", () => {
+    const url = buildInitUrl(
+      { ...DEFAULT_SETUP, look: { ...DEFAULT_LOOK, density: "spacious" } },
+      SITE
+    )
+    expect(url).toBe(`${SITE}/init?base=base&template=next&density=spacious`)
+  })
+})
+
 describe("buildSetupCommands", () => {
   it("creates a Next.js app with the defaults", () => {
     expect(codes({})).toEqual([

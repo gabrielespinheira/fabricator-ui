@@ -7,7 +7,7 @@
   }
 
   .cn-table {
-    @apply w-full caption-bottom text-[13px];
+    @apply w-full caption-bottom text-(length:--density-text-13);
   }
 
   .cn-table-header {
@@ -35,7 +35,7 @@
 
   /* Head: 36px, px-3, foreground semibold. */
   .cn-table-head {
-    @apply text-foreground h-9 px-3 text-start align-middle font-semibold whitespace-nowrap [&:has([role=checkbox])]:pe-0;
+    @apply text-foreground h-(--density-36) px-(--density-12) text-start align-middle font-semibold whitespace-nowrap [&:has([role=checkbox])]:pe-0;
   }
 
   .cn-table-head-aria {
@@ -45,7 +45,7 @@
   /* Cells: muted; the lit (or hovered) row turns foreground, footer cells
      stay foreground. */
   .cn-table-cell {
-    @apply text-muted-foreground px-3 py-2 align-middle whitespace-nowrap transition-colors duration-feedback in-[tr:hover]:text-foreground in-data-fluid-hover-active:text-foreground in-data-[slot=table-footer]:text-foreground [&:has([role=checkbox])]:pe-0;
+    @apply text-muted-foreground px-(--density-12) py-(--density-8) align-middle whitespace-nowrap transition-colors duration-feedback in-[tr:hover]:text-foreground in-data-fluid-hover-active:text-foreground in-data-[slot=table-footer]:text-foreground [&:has([role=checkbox])]:pe-0;
   }
 
   .cn-table-cell-aria {
@@ -53,7 +53,7 @@
   }
 
   .cn-table-caption {
-    @apply text-muted-foreground mt-4 text-[12px];
+    @apply text-muted-foreground mt-4 text-(length:--density-text-12);
   }
 
   /* The fluid row highlight is square: rows span the table edge to edge. */

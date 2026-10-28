@@ -11,7 +11,7 @@ import { SoundEffects } from "@/styles/base-fabricator/components/sound-effects"
 
 /** Applies the website settings that live outside React's tree. */
 export function SiteSettingsEffects() {
-  const { radius, sound, motion, surface, colors } = useSiteSettings()
+  const { radius, sound, motion, density, surface, colors } = useSiteSettings()
 
   React.useEffect(() => {
     const root = document.documentElement
@@ -30,6 +30,15 @@ export function SiteSettingsEffects() {
       root.dataset.motion = motion
     }
   }, [motion])
+
+  React.useEffect(() => {
+    const root = document.documentElement
+    if (density === "default") {
+      delete root.dataset.density
+    } else {
+      root.dataset.density = density
+    }
+  }, [density])
 
   React.useEffect(() => {
     applySurfaceTint(surface)

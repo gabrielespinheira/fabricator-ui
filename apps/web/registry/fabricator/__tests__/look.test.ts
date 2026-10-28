@@ -4,6 +4,7 @@ import {
   ROLE_DEFAULTS,
   ROLE_PALETTE_LINKS,
 } from "@/registry/fabricator/color-roles"
+import { DENSITIES, toDensityVars } from "@/registry/fabricator/density"
 import { SURFACE_PALETTE_LINKS } from "@/registry/fabricator/foundations"
 import {
   DEFAULT_LOOK,
@@ -23,6 +24,7 @@ const CUSTOM_LOOK: FabricatorLook = {
   },
   radius: "pill",
   motion: "snappy",
+  density: "spacious",
 }
 
 describe("lookToSearchParams", () => {
@@ -37,6 +39,7 @@ describe("lookToSearchParams", () => {
       success: "165_0.09",
       shape: "pill",
       motion: "snappy",
+      density: "spacious",
     })
   })
 
@@ -87,6 +90,7 @@ describe("parseLook", () => {
     ["primary=blue_0.2", "primary"],
     ["shape=square", "shape"],
     ["motion=fast", "motion"],
+    ["density=comfortable", "density"],
   ])("rejects %s", (query, param) => {
     const result = parseLook(new URLSearchParams(query))
     expect(result.success).toBe(false)
@@ -139,6 +143,12 @@ describe("lookCssVars", () => {
     expect(lookCssVars({ ...DEFAULT_LOOK, radius: "pill" }).light).toEqual({
       radius: "1.25rem",
     })
+  })
+
+  it("sets the density's tokens", () => {
+    expect(lookCssVars({ ...DEFAULT_LOOK, density: "compact" }).light).toEqual(
+      toDensityVars(DENSITIES.compact)
+    )
   })
 
   it("sets the motion speed's tokens", () => {

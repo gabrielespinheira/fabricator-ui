@@ -10,6 +10,7 @@ import {
   useFluidHover,
   useMergedRef,
 } from "@/registry/bases/base/lib/fluid-hover"
+import { useDensity } from "@/registry/bases/base/ui/density"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -30,6 +31,9 @@ import { IconPlaceholder } from "@/app/(create)/components/icon-placeholder"
 // Fabricator override of the upstream menubar: the bar is a fluid hover
 // strip, so one highlight glides between its triggers. The menus come from
 // the dropdown menu, which is a fluid hover container itself.
+//
+// Its popups take the density of the nearest DensityProvider, which their
+// portals would otherwise lose (registry/fabricator/density.ts).
 const MENUBAR_TRIGGERS = '[data-slot="menubar-trigger"]'
 
 // The menus are the bar's React children, rendered in portals, so their
@@ -106,9 +110,12 @@ function MenubarContent({
   sideOffset = 8,
   ...props
 }: React.ComponentProps<typeof DropdownMenuContent>) {
+  const density = useDensity()
+
   return (
     <DropdownMenuContent
       data-slot="menubar-content"
+      data-density={density}
       align={align}
       alignOffset={alignOffset}
       sideOffset={sideOffset}
@@ -284,9 +291,12 @@ function MenubarSubContent({
   className,
   ...props
 }: React.ComponentProps<typeof DropdownMenuSubContent>) {
+  const density = useDensity()
+
   return (
     <DropdownMenuSubContent
       data-slot="menubar-sub-content"
+      data-density={density}
       className={cn(
         "cn-menubar-sub-content cn-menu-target cn-menu-translucent",
         className
