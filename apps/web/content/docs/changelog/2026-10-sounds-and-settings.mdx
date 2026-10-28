@@ -24,7 +24,7 @@ npx fabricator-ui@latest add radius-pill
 
 ## Surface base colour
 
-Every surface is now calculated from one base colour, held by `--surface-hue` and `--surface-chroma`. Both default to `0`, the neutral ladder, so nothing changes until you set them. Set them and every level takes the tint, in light and dark mode, and text keeps its AA contrast. The [Surfaces](/docs/foundations/surfaces#base-colour) page has hue and strength sliders that preview both themes and generate the CSS.
+Every surface is now calculated from one base colour, held by `--surface-hue` and `--surface-chroma`. Both default to `0`, the neutral ladder, so nothing changes until you set them. Set them and every level takes the tint, in light and dark mode, and text keeps its AA contrast. The [Colors](/docs/foundations/colors#base-colour) page has hue and strength sliders that preview both themes and generate the CSS.
 
 ```bash
 npx fabricator-ui@latest add foundations
@@ -78,7 +78,7 @@ Questionnaire now uses the library's own controls. Single-choice answers show th
 
 ## Status colours
 
-Info, success, warning and error each have a full palette: a solid for icons and fills, a text colour, a hairline border, and an eight-level tinted surface ladder that pairs with the surface shadows. Every pair meets WCAG AA in light and dark. See [Surfaces](/docs/foundations/surfaces#status-colours).
+Info, success, warning and error each have a full palette: a solid for icons and fills, a text colour, a hairline border, and an eight-level tinted surface ladder that pairs with the surface shadows. Every pair meets WCAG AA in light and dark. See [Colors](/docs/foundations/colors).
 
 - **Alert:** `info`, `success`, `warning` and `error` variants, and a `contrast` prop. `low` (the default) keeps the neutral panel and colours the icon; `high` tints the whole alert with a status hairline. See [Alert](/docs/components/base/alert#status).
 - **Badge:** `info`, `success`, `warning` and `error` variants. See [Badge](/docs/components/base/badge#status).

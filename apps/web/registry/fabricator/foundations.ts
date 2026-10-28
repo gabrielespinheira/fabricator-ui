@@ -355,7 +355,7 @@ export const FABRICATOR_PALETTE: CssVars = {
 // these tokens at the live recipes instead, so the page, cards, popovers, the
 // sidebar and muted fills follow the tint, and primary, secondary and
 // destructive follow their roles (ROLE_PALETTE_LINKS). The website does this
-// (toFabricatorStylesheet), and the Surfaces and Colors pages copy it.
+// (toFabricatorStylesheet), and the Colors page copies it.
 
 const linkPalette = (mode: "light" | "dark") => ({
   background: "var(--surface-1)",

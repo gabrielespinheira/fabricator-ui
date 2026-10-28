@@ -1,0 +1,26 @@
+---
+title: October 2026 - Colour roles
+description: Primary, secondary, info, success, warning and destructive, each set by a hue and a strength, with one recipe for every state and a Colors page to pick them.
+date: 2026-10-27
+---
+
+## Colour roles
+
+The surface tint now has company. Six colour roles, `primary`, `secondary`, `info`, `success`, `warning` and `destructive`, are each held by two variables, `--<role>-hue` and `--<role>-chroma`, and one recipe turns them into the same tokens for every role: a fill and the text on it, a text colour for any surface, a border, and an eight-level tinted ladder. Every pair is AA in light and dark at any hue and strength, which the tests check around the colour wheel.
+
+Primary and secondary are neutral by default, so nothing changes until you pick a colour, and they take any hue. The statuses keep to their family: info is blue, success green, warning orange to yellow, destructive red to orange. Pick one and it carries through the components: primary buttons, links, checked checkboxes and radios, switches, progress bars, slider ranges and selected days take the primary colour; secondary buttons the secondary one; destructive buttons, menu items, invalid fields and error messages the destructive one.
+
+States follow one rule in every role: hover is the fill at 90%, pressed at 80%, and the soft form (the destructive button, invalid fields) is a 12% wash of the fill with the role's text colour. Focus keeps its blue ring.
+
+The new [Colors](/docs/foundations/colors) page has a picker for every role, with presets and hue and strength sliders, an app preview in light and dark built from the real components, the role's tokens with their contrast ratios, and the CSS to copy. The settings menu has a Primary row. The Surfaces page is now part of Colors: the picker's first tab sets the surface tint, and the surface ladder, where each level goes and the interaction overlays are documented there.
+
+```bash
+npx fabricator-ui@latest add foundations
+```
+
+## Breaking changes
+
+- The `error-*` tokens are now `destructive-*` (`bg-destructive-surface-3`, `text-destructive-text`, `border-destructive-border`, …). `<Alert variant="error">` and `<Badge variant="error">` still work and look the same as `destructive`.
+- `--destructive-light` and `bg-destructive-light` are removed. Use `bg-destructive/12` for a soft destructive fill.
+- The switch is on in the primary colour, not the focus blue. While primary is neutral that is the foreground colour.
+- `destructive` in the `fabricator` preset is now the destructive role's fill, a little darker so text in it passes AA.

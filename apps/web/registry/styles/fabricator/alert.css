@@ -9,16 +9,17 @@
     @apply bg-hover text-foreground data-[contrast=high]:bg-active data-[contrast=high]:ring-border;
   }
 
-  /* A red wash with foreground text; only the icon takes the colour. */
+  /* The destructive role in the status recipe below; error is another name
+     for it. */
   .cn-alert-variant-destructive {
-    @apply bg-destructive/12 text-foreground *:[svg]:text-destructive data-[contrast=high]:bg-destructive/18 data-[contrast=high]:ring-destructive/30;
+    @apply bg-hover text-foreground *:[svg]:text-destructive data-[contrast=high]:bg-destructive-surface-1 dark:data-[contrast=high]:bg-destructive-surface-3 data-[contrast=high]:ring-destructive-border data-[contrast=high]:*:data-[slot=alert-description]:text-destructive-text;
   }
 
   /* Statuses (FF's banner): low contrast keeps the neutral panel and colours
      only the icon; high contrast washes the panel in the status surface
      (the most tinted level in light, level 3 in dark), adds a status hairline
      and moves the description to the status text colour. The title stays
-     foreground. Every pair is AA (status-colors.test.ts). */
+     foreground. Every pair is AA (color-roles.test.ts). */
   .cn-alert-variant-info {
     @apply bg-hover text-foreground *:[svg]:text-info data-[contrast=high]:bg-info-surface-1 dark:data-[contrast=high]:bg-info-surface-3 data-[contrast=high]:ring-info-border data-[contrast=high]:*:data-[slot=alert-description]:text-info-text;
   }
@@ -32,7 +33,7 @@
   }
 
   .cn-alert-variant-error {
-    @apply bg-hover text-foreground *:[svg]:text-error data-[contrast=high]:bg-error-surface-1 dark:data-[contrast=high]:bg-error-surface-3 data-[contrast=high]:ring-error-border data-[contrast=high]:*:data-[slot=alert-description]:text-error-text;
+    @apply bg-hover text-foreground *:[svg]:text-destructive data-[contrast=high]:bg-destructive-surface-1 dark:data-[contrast=high]:bg-destructive-surface-3 data-[contrast=high]:ring-destructive-border data-[contrast=high]:*:data-[slot=alert-description]:text-destructive-text;
   }
 
   /* Contrast: high draws a hairline (each variant colours it); low has none. */

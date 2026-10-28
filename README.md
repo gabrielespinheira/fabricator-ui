@@ -106,7 +106,7 @@ The registry also works with the shadcn CLI directly. See [Registry](https://fab
 | Installation       | [fabricator-ui.vercel.app/docs/installation](https://fabricator-ui.vercel.app/docs/installation)                                                                                                                           |
 | Components         | [fabricator-ui.vercel.app/docs/components](https://fabricator-ui.vercel.app/docs/components)                                                                                                                               |
 | Dark mode          | [Dark mode](https://fabricator-ui.vercel.app/docs/dark-mode)                                                                                                                                                               |
-| Design foundations | [Surfaces](https://fabricator-ui.vercel.app/docs/foundations/surfaces) · [Motion](https://fabricator-ui.vercel.app/docs/foundations/motion) · [Fluid hover](https://fabricator-ui.vercel.app/docs/foundations/fluid-hover) |
+| Design foundations | [Colors](https://fabricator-ui.vercel.app/docs/foundations/colors) · [Motion](https://fabricator-ui.vercel.app/docs/foundations/motion) · [Fluid hover](https://fabricator-ui.vercel.app/docs/foundations/fluid-hover) |
 | Monorepos          | [fabricator-ui.vercel.app/docs/monorepo](https://fabricator-ui.vercel.app/docs/monorepo)                                                                                                                                   |
 
 ## Repository

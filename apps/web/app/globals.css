@@ -46,7 +46,9 @@
 @custom-variant style-rhea (&:where(.style-rhea *));
 @custom-variant style-fabricator (&:where(.style-fabricator *));
 
-@custom-variant dark (&:is(.dark *));
+/* A [data-theme-scene=light] preview stays light inside the dark site (the
+   Colors page shows both themes side by side). */
+@custom-variant dark (&:is(.dark *):not([data-theme-scene="light"] *));
 @custom-variant fixed (&:is(.layout-fixed *));
 
 @theme inline {

@@ -164,7 +164,7 @@ const nextConfig = {
       // The Colors page isn't part of the site for now.
       {
         source: "/colors/:path*",
-        destination: "/docs/foundations/surfaces",
+        destination: "/docs/foundations/colors",
         permanent: false,
       },
       // Chart isn't part of the Fabricator library for now.
@@ -183,15 +183,26 @@ const nextConfig = {
         destination: "/docs/components",
         permanent: false,
       },
-      // Theming is removed; Surfaces covers the colour tokens.
+      // Theming is removed, and Surfaces is part of Colors: Colors covers
+      // every colour token.
       {
         source: "/docs/theming",
-        destination: "/docs/foundations/surfaces",
+        destination: "/docs/foundations/colors",
         permanent: true,
       },
       {
         source: "/docs/theming.md",
-        destination: "/docs/foundations/surfaces.md",
+        destination: "/docs/foundations/colors.md",
+        permanent: true,
+      },
+      {
+        source: "/docs/foundations/surfaces",
+        destination: "/docs/foundations/colors",
+        permanent: true,
+      },
+      {
+        source: "/docs/foundations/surfaces.md",
+        destination: "/docs/foundations/colors.md",
         permanent: true,
       },
       // Scrollbars moved from Foundations to Utilities.
@@ -290,7 +301,7 @@ const nextConfig = {
       },
       {
         source: "/themes",
-        destination: "/docs/foundations/surfaces",
+        destination: "/docs/foundations/colors",
         permanent: true,
       },
       {

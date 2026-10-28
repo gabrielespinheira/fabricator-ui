@@ -163,7 +163,7 @@ export function oklchToLinearRgb(l: number, c: number, h: number) {
   ] as const
 }
 
-function oklchToHex(l: number, c: number, h: number) {
+export function oklchToHex(l: number, c: number, h: number) {
   // Reduce chroma until the colour fits sRGB, so the hue stays true.
   let chroma = c
   let rgb = oklchToLinearRgb(l, chroma, h)

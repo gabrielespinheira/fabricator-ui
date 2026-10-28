@@ -22,7 +22,7 @@ export const fabricatorItems = [
     type: "registry:lib",
     title: "Foundations",
     description:
-      "Fabricator surfaces, interaction tokens, focus colour, spring easings and scrollbars.",
+      "Fabricator surfaces, colour roles, interaction tokens, focus colour, spring easings and scrollbars.",
     cssVars: FABRICATOR_FOUNDATIONS.cssVars,
     css: FABRICATOR_FOUNDATIONS.css,
   },

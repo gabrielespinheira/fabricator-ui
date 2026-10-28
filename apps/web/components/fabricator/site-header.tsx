@@ -39,7 +39,7 @@ export function SiteHeader() {
               {siteConfig.name}
             </span>
           </Link>
-          <FluidNav axis="x" className="ms-4 hidden lg:flex">
+          <FluidNav axis="x" className="ms-4 hidden gap-1 lg:flex">
             {navItems.map((item) => (
               <FluidNavLink
                 key={item.href}

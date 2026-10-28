@@ -2,8 +2,8 @@
 
   /* The group is a fluid hover container (relative isolate): one bg-hover
      highlight glides between items, and in a single-select group the
-     pressed item's bg-active background slides between items on the
-     moderate spring. */
+     pressed item's bg-active background slides between items on the move
+     timing. */
   .cn-toggle-group {
     @apply relative isolate rounded-lg data-[size=sm]:rounded-lg;
   }

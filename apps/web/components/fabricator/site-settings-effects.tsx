@@ -2,12 +2,16 @@
 
 import * as React from "react"
 
-import { applySurfaceTint, useSiteSettings } from "@/lib/site-settings"
+import {
+  applyColorRoles,
+  applySurfaceTint,
+  useSiteSettings,
+} from "@/lib/site-settings"
 import { SoundEffects } from "@/styles/base-fabricator/components/sound-effects"
 
 /** Applies the website settings that live outside React's tree. */
 export function SiteSettingsEffects() {
-  const { radius, sound, motion, surface } = useSiteSettings()
+  const { radius, sound, motion, surface, colors } = useSiteSettings()
 
   React.useEffect(() => {
     const root = document.documentElement
@@ -30,6 +34,10 @@ export function SiteSettingsEffects() {
   React.useEffect(() => {
     applySurfaceTint(surface)
   }, [surface])
+
+  React.useEffect(() => {
+    applyColorRoles(colors)
+  }, [colors])
 
   // Every component on the site plays its sounds through one listener.
   return <SoundEffects enabled={sound} />

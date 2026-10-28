@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest"
 
-import { contrast } from "@/registry/fabricator/__tests__/contrast"
+import { contrast } from "@/registry/fabricator/contrast"
 import {
   FABRICATOR_FOUNDATIONS,
   FABRICATOR_PALETTE,

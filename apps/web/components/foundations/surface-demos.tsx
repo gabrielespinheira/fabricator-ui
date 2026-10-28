@@ -99,12 +99,7 @@ const OVERLAYS = [
   { name: "hover", className: "bg-hover", use: "Lit rows, ghost hover" },
   { name: "active", className: "bg-active", use: "Pressed, selected" },
   { name: "selected", className: "bg-selected", use: "Solid selection" },
-  { name: "tint", className: "bg-tint", use: "Secondary fill" },
-  {
-    name: "destructive-light",
-    className: "bg-destructive-light",
-    use: "Destructive fill",
-  },
+  { name: "tint", className: "bg-tint", use: "Translucent fill" },
 ]
 
 /** Interaction overlays on a raised surface. */
