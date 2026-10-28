@@ -1,18 +1,15 @@
 import { type Metadata } from "next"
-import Link from "next/link"
 
 import { siteConfig } from "@/lib/config"
 import { Announcement } from "@/components/announcement"
-import { HeroCommand } from "@/components/fabricator/hero-command"
-import { Button } from "@/styles/base-fabricator/ui/button"
 
 import { Gallery } from "./_components/gallery"
 
-const title = "Components that move with you"
-const metadataTitle = `${siteConfig.name} - ${title}`
+const tagline = "Components that move with you"
+const metadataTitle = `${siteConfig.name} - ${tagline}`
 const description = siteConfig.description
 const heroDescription =
-  "Fabricator UI is a React component library you add to your project as source code, with one command. Over 60 accessible components for Base UI, Radix or React Aria, each with fluid hover, motion at four speeds and its own interface sound. The code lives in your repo, so you can change any of it."
+  "Interface components with a design language of their own. Every button, menu and dialog moves, responds and sounds like part of the same product, and the code lives in your project so you can make it yours."
 
 const websiteJsonLd = {
   "@context": "https://schema.org",
@@ -46,7 +43,7 @@ export const metadata: Metadata = {
     images: [
       {
         url: `/og?title=${encodeURIComponent(
-          title
+          tagline
         )}&description=${encodeURIComponent(description)}`,
       },
     ],
@@ -58,7 +55,7 @@ export const metadata: Metadata = {
     images: [
       {
         url: `/og?title=${encodeURIComponent(
-          title
+          tagline
         )}&description=${encodeURIComponent(description)}`,
       },
     ],
@@ -74,32 +71,14 @@ export default function IndexPage() {
           __html: JSON.stringify(websiteJsonLd).replace(/</g, "\\u003c"),
         }}
       />
-      <section className="flex flex-col items-center px-4 pt-20 pb-16 text-center sm:pt-24 sm:pb-20">
+      <section className="flex flex-col items-center px-4 pt-14 pb-12 text-center sm:pt-16 sm:pb-14">
         <Announcement />
-        <h1 className="mt-7 max-w-[16ch] text-[34px] leading-[1.06] font-medium tracking-[-0.022em] text-balance sm:max-w-none sm:text-[40px]">
-          {title}
+        <h1 className="mt-4 max-w-[16ch] text-5xl leading-[1.06] font-medium tracking-[-0.022em] text-balance sm:max-w-none sm:text-6xl">
+          {siteConfig.name}
         </h1>
         <p className="mt-4 max-w-[540px] text-[15px] leading-normal text-balance text-muted-foreground">
           {heroDescription}
         </p>
-        <div className="mt-7 flex items-center gap-3">
-          <Button
-            size="lg"
-            nativeButton={false}
-            render={<Link href="/create" />}
-          >
-            Get started
-          </Button>
-          <Button
-            variant="ghost"
-            size="lg"
-            nativeButton={false}
-            render={<Link href="/docs/components" />}
-          >
-            Browse components
-          </Button>
-        </div>
-        <HeroCommand className="mt-10" />
       </section>
       <Gallery />
     </div>

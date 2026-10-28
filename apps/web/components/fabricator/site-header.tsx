@@ -1,12 +1,9 @@
-import * as React from "react"
 import Link from "next/link"
 
 import { siteConfig } from "@/lib/config"
 import { source } from "@/lib/source"
-import { CommandMenu } from "@/components/command-menu"
 import { FluidNav, FluidNavLink } from "@/components/fabricator/fluid-nav"
 import { SiteSettingsMenu } from "@/components/fabricator/site-settings"
-import { StarsCount } from "@/components/github-link"
 import { Icons } from "@/components/icons"
 import { MobileNav } from "@/components/mobile-nav"
 import { Button } from "@/styles/base-fabricator/ui/button"
@@ -50,47 +47,10 @@ export function SiteHeader() {
               </FluidNavLink>
             ))}
           </FluidNav>
-          <div className="hidden lg:flex">
-            <CommandMenu
-              tree={pageTree}
-              navItems={siteConfig.navItems}
-              trigger="search"
-            />
-          </div>
         </div>
         <div className="flex items-center justify-end gap-2">
-          <div className="hidden w-32 sm:block lg:hidden">
-            <CommandMenu
-              tree={pageTree}
-              navItems={siteConfig.navItems}
-              trigger="sidebar"
-            />
-          </div>
-          <Button
-            variant="ghost"
-            size="lg"
-            className="hidden px-3.5 sm:inline-flex"
-            nativeButton={false}
-            render={
-              <Link
-                href={siteConfig.links.github}
-                target="_blank"
-                rel="noreferrer"
-              />
-            }
-          >
-            <Icons.gitHub />
-            <span className="sr-only">GitHub</span>
-            <React.Suspense fallback={null}>
-              <StarsCount />
-            </React.Suspense>
-          </Button>
-          <SiteSettingsMenu />
-          <Button
-            size="lg"
-            nativeButton={false}
-            render={<Link href="/create" />}
-          >
+          <SiteSettingsMenu size="icon" />
+          <Button nativeButton={false} render={<Link href="/create" />}>
             Get started
           </Button>
         </div>
