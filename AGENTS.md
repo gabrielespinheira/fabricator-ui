@@ -381,7 +381,7 @@ The website renders the Fabricator style, so it shows what `fabricator-ui add` i
 - **Site chrome** follows the Fabricator design (DESIGN.md), and lives in new files so upstream merges of the website stay small:
   - `components/fabricator/`:
     - `site-header.tsx` / `site-footer.tsx`: the minimal top bar and footer for the homepage and the full-width pages.
-    - `docs-shell-sidebar.tsx`, `docs-mobile-bar.tsx`, `docs-panel.tsx`: the docs shell (no top bar), with a left sidebar of search and nav groups, and a right panel for the site settings and the primitive switcher.
+    - `docs-shell-sidebar.tsx`, `docs-mobile-bar.tsx`: the docs shell (no top bar), with a left sidebar of search, settings and nav groups, and the page content centred beside it. Component pages switch primitive with `DocsBaseSwitcher` above the content.
     - `fluid-nav.tsx`: the site's link lists, which use the real Fluid Hover hook.
   - `app/fabricator-site.css`: site-only CSS such as docs typography. `app/fabricator.css` is generated; don't edit it.
   - The homepage (`app/(app)/(root)/`) is a gallery of every component.
@@ -390,7 +390,7 @@ The website renders the Fabricator style, so it shows what `fabricator-ui add` i
     - When you add a component, add it to the catalog with a card height, and give it a group in `lib/component-groups.ts` (the docs sidebar and the homepage filter share these groups; a test fails while a component page has none).
 - **Docs pages** use the docs shell: `[data-slot=docs-shell]` hides the site header and footer.
 - **Site settings** (`lib/site-settings.ts`, stored in localStorage):
-  - The settings menu (`components/fabricator/site-settings.tsx`) is in the top bar, the docs sidebar and the docs panel, and holds theme, sound, icons, radius, motion, surface (the surface tint, also set by the picker on the Surfaces page) and primary (the primary colour role; the Colors page sets every role).
+  - The settings menu (`components/fabricator/site-settings.tsx`) is in the top bar and the docs sidebar, and holds theme, sound, icons, radius, motion, surface (the surface tint, also set by the Surface tab on the Colors page) and primary (the primary colour role; the Colors page sets every role).
   - `components/fabricator/site-settings-effects.tsx` applies them: it sets `data-radius` on `<html>` (Pill sets `--radius: 1.25rem` in `app/fabricator-site.css`) sets `data-motion` (Smooth, Snappy, Instant or Off: the foundations' speed switches; Default removes it), sets `--surface-hue` and `--surface-chroma` inline on `<html>` (the site's palette links `background`, `card`, `popover`, `sidebar` and `muted` to the surfaces, so they follow), sets each colour role's `--<role>-hue` and `--<role>-chroma` the same way (the palette links `primary`, `secondary` and `destructive` to the roles), and mounts the registry's `<SoundEffects />`.
   - A script in `<head>` applies a stored Pill radius, motion speed, surface tint and colour roles before paint.
 - **Site icons:** the Fabricator copies the site renders (`examples/__styles__/*-fabricator`, `styles/*-fabricator/ui`) import icons from `@/lib/site-icons`, not `lucide-react`, so previews follow the Icons setting.

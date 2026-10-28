@@ -1,9 +1,10 @@
 import { type Metadata } from "next"
 import Link from "next/link"
-import { ArrowRightIcon } from "lucide-react"
 
 import { siteConfig } from "@/lib/config"
+import { Announcement } from "@/components/announcement"
 import { HeroCommand } from "@/components/fabricator/hero-command"
+import { Button } from "@/styles/base-fabricator/ui/button"
 
 import { Gallery } from "./_components/gallery"
 
@@ -74,32 +75,29 @@ export default function IndexPage() {
         }}
       />
       <section className="flex flex-col items-center px-4 pt-20 pb-16 text-center sm:pt-24 sm:pb-20">
-        <Link
-          href="/docs/changelog"
-          className="group/badge inline-flex h-10 items-center gap-1.5 rounded-lg border border-border px-4 text-sm font-medium transition-[background-color,scale] duration-move ease-move outline-none hover:bg-hover focus-visible:ring-2 focus-visible:ring-focus-ring active:scale-[0.97]"
-        >
-          v{siteConfig.version}
-          <ArrowRightIcon className="size-3.5 text-muted-foreground transition-transform duration-move ease-move group-hover/badge:translate-x-0.5" />
-        </Link>
+        <Announcement />
         <h1 className="mt-7 max-w-[16ch] text-[34px] leading-[1.06] font-medium tracking-[-0.022em] text-balance sm:max-w-none sm:text-[40px]">
           {title}
         </h1>
         <p className="mt-4 max-w-[540px] text-[15px] leading-normal text-balance text-muted-foreground">
           {heroDescription}
         </p>
-        <div className="mt-7 flex items-center gap-5">
-          <Link
-            href="/create"
-            className="inline-flex h-10 items-center rounded-lg bg-foreground px-5 text-[15px] font-medium text-background transition-[opacity,scale] duration-move ease-move outline-none hover:opacity-90 focus-visible:ring-2 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background active:scale-[0.97]"
+        <div className="mt-7 flex items-center gap-3">
+          <Button
+            size="lg"
+            nativeButton={false}
+            render={<Link href="/create" />}
           >
             Get started
-          </Link>
-          <Link
-            href="/docs/components"
-            className="rounded-md text-[15px] font-medium text-muted-foreground transition-colors duration-feedback outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-focus-ring"
+          </Button>
+          <Button
+            variant="ghost"
+            size="lg"
+            nativeButton={false}
+            render={<Link href="/docs/components" />}
           >
             Browse components
-          </Link>
+          </Button>
         </div>
         <HeroCommand className="mt-10" />
       </section>

@@ -34,6 +34,7 @@ import {
   tintToHex,
   type SurfaceTint,
 } from "@/registry/fabricator/surface-tint"
+import { Button } from "@/styles/base-fabricator/ui/button"
 import {
   Popover,
   PopoverContent,
@@ -425,20 +426,17 @@ export function SiteSettingsFields({ className }: { className?: string }) {
 
 /** The settings button and menu for the top bar and the docs sidebar. */
 export function SiteSettingsMenu({
-  className,
   align = "end",
+  size = "icon-lg",
 }: {
-  className?: string
   align?: "start" | "center" | "end"
+  size?: "icon-sm" | "icon" | "icon-lg"
 }) {
   return (
     <Popover>
       <PopoverTrigger
         aria-label="Settings"
-        className={cn(
-          "flex size-10 items-center justify-center rounded-lg bg-muted text-foreground transition-colors duration-feedback ease-feedback outline-none hover:bg-active focus-visible:ring-1 focus-visible:ring-focus-ring data-popup-open:bg-active [&_svg]:size-4.5",
-          className
-        )}
+        render={<Button variant="ghost" size={size} />}
       >
         <Settings2Icon />
       </PopoverTrigger>

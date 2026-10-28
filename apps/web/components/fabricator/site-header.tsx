@@ -9,6 +9,7 @@ import { SiteSettingsMenu } from "@/components/fabricator/site-settings"
 import { StarsCount } from "@/components/github-link"
 import { Icons } from "@/components/icons"
 import { MobileNav } from "@/components/mobile-nav"
+import { Button } from "@/styles/base-fabricator/ui/button"
 
 /** The top bar for the homepage and the full-width pages. */
 export function SiteHeader() {
@@ -65,25 +66,33 @@ export function SiteHeader() {
               trigger="sidebar"
             />
           </div>
-          <Link
-            href={siteConfig.links.github}
-            target="_blank"
-            rel="noreferrer"
-            className="hidden h-10 items-center gap-1.5 rounded-lg bg-muted px-3.5 text-[13px] font-medium text-foreground transition-colors duration-feedback ease-feedback outline-none hover:bg-active focus-visible:ring-1 focus-visible:ring-focus-ring sm:flex"
+          <Button
+            variant="ghost"
+            size="lg"
+            className="hidden px-3.5 sm:inline-flex"
+            nativeButton={false}
+            render={
+              <Link
+                href={siteConfig.links.github}
+                target="_blank"
+                rel="noreferrer"
+              />
+            }
           >
-            <Icons.gitHub className="size-4" />
+            <Icons.gitHub />
             <span className="sr-only">GitHub</span>
             <React.Suspense fallback={null}>
               <StarsCount />
             </React.Suspense>
-          </Link>
+          </Button>
           <SiteSettingsMenu />
-          <Link
-            href="/create"
-            className="flex h-10 items-center rounded-lg bg-foreground px-4.5 text-[15px] font-medium text-background transition-[opacity,scale] duration-feedback ease-feedback outline-none hover:opacity-90 focus-visible:ring-1 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background active:scale-[0.97]"
+          <Button
+            size="lg"
+            nativeButton={false}
+            render={<Link href="/create" />}
           >
             Get started
-          </Link>
+          </Button>
         </div>
       </div>
     </header>

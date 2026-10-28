@@ -276,12 +276,6 @@ const SOURCES: CatalogSource[] = [
     height: "sm",
     load: () => import("@/examples/__styles__/base-fabricator/toggle-demo"),
   },
-  {
-    slug: "typography",
-    title: "Typography",
-    height: "lg",
-    load: () => import("@/examples/__styles__/base-fabricator/typography-demo"),
-  },
 ]
 
 // Demos export their component as the default, as a named `…Demo`, or as

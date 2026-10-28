@@ -17,7 +17,7 @@ import {
 } from "@/registry/fabricator/surface-tint"
 
 /**
- * Website preferences (the settings menu in the header and the docs panel).
+ * Website preferences (the settings menu in the header and the docs sidebar).
  * Theme lives in next-themes; everything else lives here, in localStorage.
  *
  * - sound: whether components play interface sounds (on by default).
@@ -50,7 +50,7 @@ export const MOTION_SPEEDS = [
 
 export type SiteMotion = (typeof MOTION_SPEEDS)[number]["value"]
 
-/** Named surface tints for the settings menu and the Surfaces page. */
+/** Named surface tints for the settings menu and the Colors page. */
 export const SURFACE_PRESETS: {
   value: string
   label: string

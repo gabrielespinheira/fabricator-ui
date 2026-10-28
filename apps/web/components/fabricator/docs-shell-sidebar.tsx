@@ -28,22 +28,29 @@ import {
 
 const TOP_LINKS = [
   { name: "Home", href: "/", exact: true },
-  { name: "Introduction", href: "/docs", exact: true },
-  { name: "Installation", href: "/docs/installation", exact: false },
   { name: "Changelog", href: "/docs/changelog", exact: false },
 ]
 
 // Folder order; anything not listed follows in page-tree order.
-const GROUP_ORDER = ["Get Started", "Tooling", "Foundations", "Components"]
+const GROUP_ORDER = [
+  "Get Started",
+  "Foundations",
+  "Components",
+  "Tooling",
+  "Utilities",
+]
 const COUNTED_GROUPS = ["Foundations"]
 const EXCLUDED_SECTIONS = ["installation", "dark-mode", "changelog", "rtl"]
-const EXCLUDED_PAGES = [
-  "/docs",
-  "/docs/changelog",
-  "/docs/rtl",
-  "/docs/new",
-  "/docs/installation",
-]
+const EXCLUDED_PAGES = ["/docs/changelog", "/docs/rtl", "/docs/new"]
+// Pages whose section has its own sub-pages (framework guides), which keep
+// the link active.
+const SECTION_PAGES = ["/docs/installation"]
+
+function isPageActive(url: string, pathname: string) {
+  return SECTION_PAGES.includes(url)
+    ? pathname.startsWith(url)
+    : pathname === url
+}
 
 const ITEM_CLASS =
   "h-8 shrink-0 px-2 text-[14px] data-[active=true]:font-medium"
@@ -95,7 +102,7 @@ export function DocsShellSidebar({
   // Only the current page's group starts open. Navigating into a closed group
   // opens it too; groups the reader opened stay open.
   const activeGroupId = groups.find((group) =>
-    group.pages.some((page) => page.url === pathname)
+    group.pages.some((page) => isPageActive(page.url, pathname))
   )?.id
   const [openGroupIds, setOpenGroupIds] = React.useState(
     () => new Set(activeGroupId ? [activeGroupId] : [])
@@ -154,10 +161,7 @@ export function DocsShellSidebar({
           </span>
           {siteConfig.name}
         </Link>
-        <SiteSettingsMenu
-          align="start"
-          className="size-7 rounded-lg bg-transparent text-muted-foreground hover:bg-hover hover:text-foreground data-popup-open:bg-hover [&_svg]:size-4"
-        />
+        <SiteSettingsMenu align="start" size="icon-sm" />
       </div>
       <div className="px-2">
         <CommandMenu
@@ -207,7 +211,7 @@ export function DocsShellSidebar({
                     <FluidNavLink
                       key={page.url}
                       href={page.url}
-                      exact
+                      exact={!SECTION_PAGES.includes(page.url)}
                       className={ITEM_CLASS}
                     >
                       {page.name}

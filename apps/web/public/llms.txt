@@ -16,11 +16,11 @@ The full documentation is also available as a single file: [llms-full.txt](https
 
 The Fabricator design language rests on these systems, shipped in the `foundations`, `fluid-hover` and `sounds` registry items.
 
-- [Fluid Hover](https://fabricator-ui.vercel.app/docs/foundations/fluid-hover.md): One highlight that glides to the item nearest the pointer, so a list never blinks between rows.
+- [Colors](https://fabricator-ui.vercel.app/docs/foundations/colors.md): Eight surface levels and six colour roles, each set by a hue and a strength, with every state AA in light and dark.
 - [Motion](https://fabricator-ui.vercel.app/docs/foundations/motion.md): Three spring speeds, with exits one step quicker than entrances.
+- [Fluid Hover](https://fabricator-ui.vercel.app/docs/foundations/fluid-hover.md): One highlight that glides to the item nearest the pointer, so a list never blinks between rows.
 - [Sizes](https://fabricator-ui.vercel.app/docs/foundations/sizes.md): 36px controls, 13px text, and corners that nest.
 - [Sounds](https://fabricator-ui.vercel.app/docs/foundations/sounds.md): Short, quiet interface sounds synthesized in the browser, on by default.
-- [Surfaces](https://fabricator-ui.vercel.app/docs/foundations/surfaces.md): Eight elevation levels, each with its own shadow, so layers stay distinct in light and dark mode.
 - [Typography](https://fabricator-ui.vercel.app/docs/foundations/typography.md): Inter at five sizes, with weights paired to optical size.
 
 ## Installation

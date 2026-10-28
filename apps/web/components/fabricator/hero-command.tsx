@@ -6,7 +6,12 @@ import { CheckIcon, CopyIcon } from "lucide-react"
 
 import { useConfig } from "@/hooks/use-config"
 import { copyToClipboardWithMeta } from "@/components/copy-button"
-import { Button } from "@/styles/base-fabricator/ui/button"
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupInput,
+} from "@/styles/base-fabricator/ui/input-group"
 import {
   ToggleGroup,
   ToggleGroupItem,
@@ -78,23 +83,24 @@ export function HeroCommand({ className }: { className?: string }) {
           </ToggleGroupItem>
         ))}
       </ToggleGroup>
-      <div className="flex h-9 w-full items-center gap-2 rounded-lg border border-border ps-4 pe-1 font-mono text-[12px] sm:text-[13px]">
-        <span
-          aria-hidden
-          className="hidden text-muted-foreground select-none sm:inline"
-        >
-          $
-        </span>
-        <code className="min-w-0 flex-1 truncate text-start">{command}</code>
-        <Button
-          variant="ghost"
-          size="icon-sm"
-          aria-label={hasCopied ? "Copied" : "Copy command"}
-          onClick={copyCommand}
-        >
-          {hasCopied ? <CheckIcon /> : <CopyIcon />}
-        </Button>
-      </div>
+      <InputGroup className="font-mono">
+        <InputGroupAddon className="hidden sm:flex">$</InputGroupAddon>
+        <InputGroupInput
+          readOnly
+          value={command}
+          aria-label="Install command"
+          onFocus={(event) => event.currentTarget.select()}
+        />
+        <InputGroupAddon align="inline-end">
+          <InputGroupButton
+            size="icon-xs"
+            aria-label={hasCopied ? "Copied" : "Copy command"}
+            onClick={copyCommand}
+          >
+            {hasCopied ? <CheckIcon /> : <CopyIcon />}
+          </InputGroupButton>
+        </InputGroupAddon>
+      </InputGroup>
       <span aria-live="polite" className="sr-only">
         {hasCopied ? "Command copied to clipboard" : ""}
       </span>

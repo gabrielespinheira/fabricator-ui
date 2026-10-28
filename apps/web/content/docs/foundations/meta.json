@@ -1,11 +1,11 @@
 {
   "title": "Foundations",
   "pages": [
-    "fluid-hover",
+    "colors",
     "motion",
+    "fluid-hover",
     "sizes",
     "sounds",
-    "surfaces",
     "typography"
   ]
 }
