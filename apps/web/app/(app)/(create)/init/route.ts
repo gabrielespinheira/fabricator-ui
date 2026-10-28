@@ -13,6 +13,7 @@ import {
   toFabricatorRegistryBase,
   usesFabricatorPalette,
 } from "@/registry/fabricator-init"
+import { parseLook } from "@/registry/fabricator/look"
 import { parseDesignSystemConfig } from "@/app/(app)/(create)/lib/parse-config"
 import { getPresetCode } from "@/app/(app)/(create)/lib/preset-code"
 
@@ -28,6 +29,11 @@ export async function GET(request: NextRequest) {
 
     if (!result.success) {
       return NextResponse.json({ error: result.error }, { status: 400 })
+    }
+
+    const lookResult = parseLook(searchParams)
+    if (!lookResult.success) {
+      return NextResponse.json({ error: lookResult.error }, { status: 400 })
     }
 
     const onlyResult = parseRegistryBaseParts(searchParams.get("only"))
@@ -48,6 +54,7 @@ export async function GET(request: NextRequest) {
       {
         config: result.data,
         palette: usesFabricatorPalette(request.nextUrl.searchParams),
+        look: lookResult.look,
       }
     )
     const parseResult = registryItemSchema.safeParse(registryBase)

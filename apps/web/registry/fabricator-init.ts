@@ -16,6 +16,11 @@ import {
   getFabricatorSiteUrl,
 } from "@/registry/fabricator"
 import { FABRICATOR_PALETTE } from "@/registry/fabricator/foundations"
+import {
+  DEFAULT_LOOK,
+  lookCssVars,
+  type FabricatorLook,
+} from "@/registry/fabricator/look"
 import { FABRICATOR_REQUIRED_ITEMS } from "@/registry/fabricator/registry"
 
 // Named presets accepted by `?preset=<name>`. Values fill any design-system
@@ -100,11 +105,14 @@ export function toFabricatorRegistryBase<T extends RegistryBase>(
   {
     config,
     palette = false,
+    look = DEFAULT_LOOK,
     siteUrl = getFabricatorSiteUrl(),
   }: {
     config: Pick<DesignSystemConfig, "base" | "style">
     /** Apply the Fabricator palette to the shadcn token names. */
     palette?: boolean
+    /** The setup page's settings, applied on top of the palette. */
+    look?: FabricatorLook
     siteUrl?: string
   }
 ): T {
@@ -124,6 +132,9 @@ export function toFabricatorRegistryBase<T extends RegistryBase>(
       : registryUrl.replace("{style}", styleId).replace("{name}", dependency)
   )
 
+  // The look's variables override the foundations' defaults: shadcn merges
+  // an item's cssVars after its registryDependencies'.
+  const lookVars = lookCssVars(look)
   const cssVars =
     palette && registryBase.cssVars
       ? {
@@ -132,8 +143,16 @@ export function toFabricatorRegistryBase<T extends RegistryBase>(
             ...registryBase.cssVars.theme,
             ...FABRICATOR_PALETTE.theme,
           },
-          light: { ...registryBase.cssVars.light, ...FABRICATOR_PALETTE.light },
-          dark: { ...registryBase.cssVars.dark, ...FABRICATOR_PALETTE.dark },
+          light: {
+            ...registryBase.cssVars.light,
+            ...FABRICATOR_PALETTE.light,
+            ...lookVars.light,
+          },
+          dark: {
+            ...registryBase.cssVars.dark,
+            ...FABRICATOR_PALETTE.dark,
+            ...lookVars.dark,
+          },
         }
       : registryBase.cssVars
 
