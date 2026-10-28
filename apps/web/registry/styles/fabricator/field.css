@@ -1,21 +1,21 @@
 /* MARK: Field */
 
   .cn-field-set {
-    @apply gap-4 has-[>[data-slot=checkbox-group]]:gap-3 has-[>[data-slot=radio-group]]:gap-3;
+    @apply gap-(--density-16) has-[>[data-slot=checkbox-group]]:gap-(--density-12) has-[>[data-slot=radio-group]]:gap-(--density-12);
   }
 
   .cn-field-legend {
-    @apply text-foreground mb-1.5 font-medium data-[variant=label]:text-[13px] data-[variant=legend]:text-[14px];
+    @apply text-foreground mb-1.5 font-medium data-[variant=label]:text-(length:--density-text-13) data-[variant=legend]:text-(length:--density-text-14);
   }
 
   .cn-field-group {
-    @apply gap-5 data-[slot=checkbox-group]:gap-3 *:data-[slot=field-group]:gap-4;
+    @apply gap-(--density-20) data-[slot=checkbox-group]:gap-(--density-12) *:data-[slot=field-group]:gap-(--density-16);
   }
 
   /* Label, control and caption sit close; an invalid field turns its label
      red. */
   .cn-field {
-    @apply data-[invalid=true]:text-destructive gap-1.5;
+    @apply data-[invalid=true]:text-destructive-text gap-(--density-6);
   }
 
   .cn-field-content {
@@ -26,7 +26,7 @@
      by a ring (no border), hover tint, the active step when checked, and the
      1px blue focus ring while its control has keyboard focus. */
   .cn-field-label {
-    @apply has-[[data-slot=checkbox],[data-slot=switch],[data-slot=radio-group-item]]:cursor-pointer [[data-slot=checkbox]~&]:cursor-pointer [[data-slot=switch]~&]:cursor-pointer [[data-slot=radio-group-item]~&]:cursor-pointer in-[[data-slot=field]:has([data-slot=checkbox],[data-slot=switch],[data-slot=radio-group-item])]:cursor-pointer has-[>[data-slot=field]]:ring-border has-data-checked:bg-active dark:has-data-checked:bg-active has-[>[data-slot=field]]:has-data-checked:ring-foreground/20 group-data-[invalid=true]/field:text-destructive gap-2 text-[13px] leading-snug group-data-[disabled=true]/field:opacity-50 has-[>[data-slot=field]]:rounded-lg has-[>[data-slot=field]]:ring-1 has-[>[data-slot=field]]:transition-[background-color,box-shadow] has-[>[data-slot=field]]:duration-fast has-[>[data-slot=field]]:ease-spring has-[>[data-slot=field]]:not-has-[:disabled,[data-disabled]]:hover:bg-hover has-[>[data-slot=field]]:has-data-checked:hover:bg-active has-[>[data-slot=field]]:has-[:focus-visible]:ring-ring *:data-[slot=field]:p-3;
+    @apply has-[[data-slot=checkbox],[data-slot=switch],[data-slot=radio-group-item]]:cursor-pointer [[data-slot=checkbox]~&]:cursor-pointer [[data-slot=switch]~&]:cursor-pointer [[data-slot=radio-group-item]~&]:cursor-pointer in-[[data-slot=field]:has([data-slot=checkbox],[data-slot=switch],[data-slot=radio-group-item])]:cursor-pointer has-[>[data-slot=field]]:ring-border has-data-checked:bg-active dark:has-data-checked:bg-active has-[>[data-slot=field]]:has-data-checked:ring-foreground/20 group-data-[invalid=true]/field:text-destructive-text gap-(--density-8) text-(length:--density-text-13) leading-snug group-data-[disabled=true]/field:opacity-50 has-[>[data-slot=field]]:rounded-lg has-[>[data-slot=field]]:ring-1 has-[>[data-slot=field]]:transition-[background-color,box-shadow] has-[>[data-slot=field]]:duration-feedback has-[>[data-slot=field]]:ease-feedback has-[>[data-slot=field]]:not-has-[:disabled,[data-disabled]]:hover:bg-hover has-[>[data-slot=field]]:has-data-checked:hover:bg-active has-[>[data-slot=field]]:has-[:focus-visible]:ring-ring *:data-[slot=field]:p-(--density-12);
   }
 
   .cn-field-label-aria {
@@ -34,22 +34,22 @@
   }
 
   .cn-field-title {
-    @apply text-foreground group-data-[invalid=true]/field:text-destructive gap-2 text-[13px] leading-snug font-medium group-data-[disabled=true]/field:opacity-50;
+    @apply text-foreground group-data-[invalid=true]/field:text-destructive-text gap-(--density-8) text-(length:--density-text-13) leading-snug font-medium group-data-[disabled=true]/field:opacity-50;
   }
 
   /* Captions: 12px muted. */
   .cn-field-description {
-    @apply text-muted-foreground text-left text-[12px] [[data-variant=legend]+&]:-mt-1.5;
+    @apply text-muted-foreground text-left text-(length:--density-text-12) [[data-variant=legend]+&]:-mt-1.5;
   }
 
   .cn-field-separator {
-    @apply -my-2 h-5 text-[12px] group-data-[variant=outline]/field-group:-mb-2;
+    @apply -my-2 h-(--density-20) text-(length:--density-text-12) group-data-[variant=outline]/field-group:-mb-2;
   }
 
   .cn-field-separator-content {
-    @apply text-muted-foreground px-2;
+    @apply text-muted-foreground px-(--density-8);
   }
 
   .cn-field-error {
-    @apply text-destructive text-[12px];
+    @apply text-destructive-text text-(length:--density-text-12);
   }

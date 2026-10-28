@@ -1,85 +1,128 @@
 ---
 title: Motion
-description: Three spring speeds, 90, 210 and 290ms, with quicker exits and one scale for all of them.
+description: Four speeds, from smooth for websites to instant for dashboards. Components move by role, so one setting retimes all of them.
 ---
 
 ## Installation
 
-The easings and duration tokens ship with the foundations, which every Fabricator component installs:
+The motion tokens, speeds and utilities ship with the foundations, which every Fabricator component installs:
 
 ```bash
 npx fabricator-ui@latest add foundations
 ```
 
-## Three speeds
+## Speeds
 
-Every transition picks one of three tiers. Small changes use fast, things that slide use moderate, and dialogs use slow. No component invents its own timing, so components that were never designed together still move at the same pace.
+Fabricator UI works for marketing sites and for software people use all day, and those want different motion. Pick one of four speeds; every component follows it.
 
-<MotionTiers />
+<MotionSpeeds />
 
-| Tier     | Enter                                      | Exit                             | Use                                                                                          |
-| -------- | ------------------------------------------ | -------------------------------- | -------------------------------------------------------------------------------------------- |
-| fast     | `duration-fast ease-spring` (90ms)         | `duration-fast-exit` (70ms)      | Hover, focus, colour, fades, tooltips, checkboxes and radios, popups, accordion, Fluid Hover |
-| moderate | `duration-moderate ease-spring` (210ms)    | `duration-moderate-exit` (160ms) | Selection backgrounds, tab indicators, switch thumbs, sheets and drawers, the sidebar        |
-| slow     | `duration-slow ease-spring-bounce` (290ms) | `duration-slow-exit` (220ms)     | Dialogs                                                                                      |
+| Speed     | For                     | Tooltip | Popup | Dialog | Popups grow from     |
+| --------- | ----------------------- | ------- | ----- | ------ | -------------------- |
+| `smooth`  | Marketing sites         | 200ms   | 280ms | 380ms  | 0.94, slide and blur |
+| `default` | Most products           | 125ms   | 180ms | 250ms  | 0.95                 |
+| `snappy`  | Apps used all day       | 100ms   | 140ms | 180ms  | 0.97                 |
+| `instant` | Dashboards, power tools | none    | 80ms  | 100ms  | no zoom, fade only   |
 
-Use the tier names, not milliseconds: `duration-fast`, `duration-moderate` and `duration-slow` for entrances, `duration-<tier>-exit` for exits, and `delay-<tier>` to wait one tier. Each one reads a token, so the [speed](#speed) setting changes them all.
+Exits are about 30% quicker than entrances at every speed. Buttons press to 0.97 (0.98 when snappy, not at all when instant), and sheets take 500, 400, 300 and 200ms. Default needs nothing. Set another speed with `data-motion` on `<html>`:
 
-## Slow in, faster out
+```html
+<html data-motion="smooth"></html>
+```
 
-An exit on the same spring as the entrance lingers: by the time it settles you have already moved on. Exits use a plain tween, about a quarter quicker than the entrance: 70, 160 and 220ms.
-
-<MotionExit />
-
-## Easings
-
-Springs are written as CSS `linear()` easings, sampled from a spring that settles exactly at the end of its duration. They are theme tokens, so they work with any Tailwind transition or animation utility.
-
-| Utility              | Curve                                                |
-| -------------------- | ---------------------------------------------------- |
-| `ease-spring`        | A critically damped spring: lands with no overshoot. |
-| `ease-spring-bounce` | A spring with a small bounce (0.12), for dialogs.    |
-| `ease-exit`          | `cubic-bezier(0.25, 0.1, 0.25, 1)`, for exits.       |
+`data-motion` works on any element too, and sets the speed for everything inside it, so a marketing page inside an app can be smooth while the rest stays snappy:
 
 ```tsx
-<div className="transition-transform duration-moderate ease-spring" />
+<section data-motion="smooth">{/* hero, pricing, … */}</section>
 ```
+
+Tooltips, menus, popovers and dialogs render in a portal at the end of `<body>`, so they follow the speed on `<html>`. `data-motion="off"` stops all motion.
+
+## Roles
+
+Every animation belongs to a role, and reads that role's tokens. No component writes milliseconds, so components that were never designed together still move at the same pace, and a speed changes all of them at once.
+
+| Role       | Covers                                                                  | Use                               | Default     |
+| ---------- | ----------------------------------------------------------------------- | --------------------------------- | ----------- |
+| feedback   | Hover, colour, focus, icon stroke and weight changes                    | `duration-feedback ease-feedback` | 150 / 100ms |
+| press      | Buttons and toggles while held                                          | `motion-press`                    | scale 0.97  |
+| glide      | The [Fluid Hover](/docs/foundations/fluid-hover) highlight              | `duration-glide ease-enter`       | 150 / 100ms |
+| move       | Tab indicators, switch thumbs, selection, checkmarks, progress, sidebar | `duration-move ease-move`         | 250 / 180ms |
+| tooltip    | Tooltips                                                                | `motion-tooltip`                  | 125 / 90ms  |
+| popup      | Menus, selects, comboboxes, popovers, hover cards, navigation menus     | `motion-popup`                    | 180 / 120ms |
+| dialog     | Dialogs and alert dialogs; their scrims                                 | `motion-dialog`, `motion-scrim`   | 250 / 180ms |
+| sheet      | Sheets and drawers                                                      | `motion-sheet`                    | 400 / 250ms |
+| disclosure | Accordion and collapsible panels                                        | `motion-disclosure`               | 200 / 150ms |
+| toast      | Toasts                                                                  | `motion-toast`                    | 350 / 220ms |
+
+The `motion-<surface>` utilities hold the whole recipe: the entrance and exit durations and curves, the scale a surface grows from, and its slide from the trigger side. They work with keyframe animations (`animate-in`, `animate-out`) and with transitions alike. The Radix Drawer is the one exception: it uses Vaul, whose 500ms timing lives in its JavaScript.
+
+## Surfaces
+
+<MotionSurfaces />
 
 ## Rules
 
+The default speed follows Emil Kowalski's guidance on interface animation:
+
+- **Ease-out for anything that enters or leaves**: it moves at once, so it feels responsive. Ease-in-out for things that move on screen, plain `ease` for colour.
+- **Exits are quicker than entrances**: you have already moved on.
+- **Popups grow from their trigger**; dialogs grow from the centre. Nothing scales up from less than 0.9.
+- **Buttons give a little when pressed** (0.97). Joined button groups stay flat.
+- **Tooltips wait before the first one**, then appear at once while you move between them, or when they open on focus.
+- **Nothing opened from the keyboard animates**: the command palette appears at once.
 - Animate `transform` and `opacity`. Avoid animating layout.
-- Popups enter with a fade, a 0.97 zoom and a 4px slide from the trigger side, on the fast tier.
-- Dialogs enter with a fade and a 0.97 zoom on the slow tier.
-- Pressing a button changes its background, never its scale.
 
-## Speed
+<MotionExit />
 
-Every duration is a token. The foundations define the base values and one multiplier:
+## Building a component
 
-| Token                    | Value   |
-| ------------------------ | ------- |
-| `--motion-fast`          | `90ms`  |
-| `--motion-fast-exit`     | `70ms`  |
-| `--motion-moderate`      | `210ms` |
-| `--motion-moderate-exit` | `160ms` |
-| `--motion-slow`          | `290ms` |
-| `--motion-slow-exit`     | `220ms` |
-| `--motion-scale`         | `1`     |
+Pick the role and use its utilities. Never write milliseconds or a curve:
 
-The `duration-*` and `delay-*` utilities multiply the tier by `--motion-scale` where they are used, so you can slow an app down, speed it up, or stop it, for the whole page or one part of it:
+```tsx
+// A popup: one utility, plus the keyframes it times.
+<PopoverPrimitive.Popup className="motion-popup origin-(--transform-origin) data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0" />
+
+// Colour on hover.
+<a className="transition-colors duration-feedback ease-feedback" />
+
+// Something that moves.
+<span className="transition-transform duration-move ease-move" />
+```
+
+`duration-<role>`, `duration-<role>-exit` and `delay-<role>` exist for every role, and the curves are `ease-enter`, `ease-move`, `ease-exit`, `ease-feedback` and `ease-drawer`. In this repository a test fails when a Fabricator style or override uses a fixed duration, a literal curve or a fixed zoom.
+
+## Tokens
+
+The speeds set these tokens. Retune any of them in `:root` for the default speed, or under `:root[data-motion="<speed>"]` for another:
+
+| Token                                                                     | Holds                                  |
+| ------------------------------------------------------------------------- | -------------------------------------- |
+| `--motion-<role>`, `--motion-<role>-exit`                                 | Each role's entrance and exit duration |
+| `--motion-ease-enter`, `--motion-ease-move`, `--motion-ease-exit`         | The entrance, movement and exit curves |
+| `--motion-ease-feedback`, `--motion-ease-drawer`                          | Colour changes; sheets and drawers     |
+| `--motion-press-scale`                                                    | The scale while pressed                |
+| `--motion-tooltip-scale`, `--motion-popup-scale`, `--motion-dialog-scale` | The scale each surface grows from      |
+| `--motion-tooltip-travel`, `--motion-popup-travel`                        | The slide from the trigger side        |
+| `--motion-popup-blur`                                                     | The blur popups fade through           |
+| `--motion-scale`                                                          | A multiplier on every duration (1)     |
 
 ```css
 :root {
-  --motion-scale: 0.7; /* snappier */
+  --motion-popup: 200ms; /* menus a little slower at the default speed */
+}
+
+:root[data-motion="smooth"] {
+  --motion-popup-blur: 0px; /* smooth, without the blur */
 }
 
 .onboarding {
-  --motion-scale: 1.4; /* more relaxed, only here */
+  --motion-scale: 1.4; /* everything more relaxed, only here */
 }
 ```
 
-`0` turns animation off: every transition and enter/exit animation finishes instantly. This site's settings menu has the same control (Relaxed, Default, Snappy, Off).
+The earlier names keep working: `duration-fast`, `duration-moderate` and `duration-slow` are the feedback, move and dialog durations, and `ease-spring` is the entrance curve.
 
 ## Reduced motion
 
-Reduced motion means fewer and gentler animations, not none. With `prefers-reduced-motion: reduce`, components keep their fades and drop their slides and zooms, and Fluid Hover jumps instead of gliding. The foundations do this globally, so components don't need their own `motion-reduce:` variants. It applies whatever `--motion-scale` is set to.
+Reduced motion means fewer and gentler animations, not none. With `prefers-reduced-motion: reduce`, components keep their fades and drop their slides, zooms, blur and press, and Fluid Hover jumps instead of gliding. It applies at every speed.

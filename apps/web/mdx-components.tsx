@@ -353,7 +353,7 @@ export const mdxComponents = {
     <Link
       data-not-typeset
       className={cn(
-        "flex w-full flex-col items-center rounded-2xl bg-surface p-6 text-surface-foreground transition-colors hover:bg-surface/80 sm:p-10",
+        "flex w-full flex-col items-center rounded-xl bg-surface-3 p-6 text-foreground shadow-surface-3 transition-[background-color,box-shadow] duration-fast outline-none hover:bg-surface-4 hover:shadow-surface-4 focus-visible:ring-1 focus-visible:ring-focus-ring sm:p-10",
         className
       )}
       {...props}

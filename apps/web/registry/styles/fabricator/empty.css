@@ -1,11 +1,11 @@
 /* MARK: Empty */
 
   .cn-empty {
-    @apply border-border gap-4 rounded-xl border-dashed p-6;
+    @apply border-border gap-(--density-16) rounded-xl border-dashed p-(--density-24);
   }
 
   .cn-empty-header {
-    @apply gap-1.5;
+    @apply gap-(--density-6);
   }
 
   .cn-empty-media {
@@ -19,11 +19,11 @@
   /* A raised tile: surface 4 with its shadow ring (one step above the card
      it usually sits on), no border. */
   .cn-empty-media-icon {
-    @apply bg-surface-4 shadow-surface-4 text-foreground flex size-10 shrink-0 items-center justify-center rounded-xl [&_svg]:stroke-[1.5] [&_svg:not([class*='size-'])]:size-5;
+    @apply bg-surface-4 shadow-surface-4 text-foreground flex size-(--density-40) shrink-0 items-center justify-center rounded-xl [&_svg]:stroke-[1.5] [&_svg:not([class*='size-'])]:size-(--density-20);
   }
 
   .cn-empty-title {
-    @apply text-[14px] font-semibold tracking-normal;
+    @apply text-(length:--density-text-14) font-semibold tracking-normal;
   }
 
   .cn-empty-description {
@@ -31,5 +31,5 @@
   }
 
   .cn-empty-content {
-    @apply gap-2.5 text-[13px];
+    @apply gap-(--density-10) text-(length:--density-text-13);
   }

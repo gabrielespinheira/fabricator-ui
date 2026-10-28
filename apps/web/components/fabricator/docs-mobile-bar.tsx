@@ -29,7 +29,7 @@ export function DocsMobileBar({ tree }: { tree: typeof source.pageTree }) {
             trigger="sidebar"
           />
         </div>
-        <SiteSettingsMenu className="size-8 rounded-lg bg-transparent hover:bg-hover" />
+        <SiteSettingsMenu size="icon" />
       </div>
     </div>
   )

@@ -22,9 +22,24 @@ export const fabricatorItems = [
     type: "registry:lib",
     title: "Foundations",
     description:
-      "Fabricator surfaces, interaction tokens, focus colour, spring easings and scrollbars.",
+      "Fabricator surfaces, colour roles, interaction tokens, focus colour, motion, densities and scrollbars.",
     cssVars: FABRICATOR_FOUNDATIONS.cssVars,
     css: FABRICATOR_FOUNDATIONS.css,
+  },
+  {
+    name: "density",
+    type: "registry:ui",
+    title: "Density",
+    description:
+      "DensityProvider sets compact, default or spacious for everything inside it, including the popups and dialogs it opens.",
+    files: [{ path: "ui/density.tsx", type: "registry:ui" }],
+    categories: ["layout"],
+    meta: {
+      fabricator: true,
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/foundations/density",
+      },
+    },
   },
   {
     name: "fluid-hover",
@@ -81,13 +96,21 @@ export const fabricatorOverrides: Record<
   string,
   { dependencies?: string[]; registryDependencies?: string[] }
 > = {
-  "dropdown-menu": { registryDependencies: ["fluid-hover"] },
-  "context-menu": { registryDependencies: ["fluid-hover"] },
-  menubar: { registryDependencies: ["fluid-hover"] },
-  select: { registryDependencies: ["fluid-hover"] },
-  combobox: { registryDependencies: ["fluid-hover"] },
+  // Portalled popups, dialogs and sheets read the nearest DensityProvider.
+  dialog: { registryDependencies: ["density"] },
+  "alert-dialog": { registryDependencies: ["density"] },
+  sheet: { registryDependencies: ["density"] },
+  drawer: { registryDependencies: ["density"] },
+  popover: { registryDependencies: ["density"] },
+  "hover-card": { registryDependencies: ["density"] },
+  tooltip: { registryDependencies: ["density"] },
+  "dropdown-menu": { registryDependencies: ["fluid-hover", "density"] },
+  "context-menu": { registryDependencies: ["fluid-hover", "density"] },
+  menubar: { registryDependencies: ["fluid-hover", "density"] },
+  select: { registryDependencies: ["fluid-hover", "density"] },
+  combobox: { registryDependencies: ["fluid-hover", "density"] },
   command: { registryDependencies: ["fluid-hover"] },
-  "navigation-menu": { registryDependencies: ["fluid-hover"] },
+  "navigation-menu": { registryDependencies: ["fluid-hover", "density"] },
   tabs: { registryDependencies: ["fluid-hover"] },
   "toggle-group": { registryDependencies: ["fluid-hover"] },
   sidebar: { registryDependencies: ["fluid-hover", "kbd"] },

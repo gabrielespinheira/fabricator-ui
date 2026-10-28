@@ -1,13 +1,13 @@
 ---
 title: Search
-description: A search button that springs open into a search field, as one object.
+description: A search button that opens into a search field, as one object.
 base: base
 component: true
 ---
 
 <ComponentPreview styleName="base-nova" name="search-demo" />
 
-Press the search button and it opens into the field: the round button springs its width open, the icon stays where it was, and the field takes focus. Escape clears the text, then closes it; leaving an empty field closes it too.
+Press the search button and it opens into the field: the round button grows to its full width, the icon stays where it was, and the field takes focus. Escape clears the text, then closes it; leaving an empty field closes it too.
 
 Search is part of the Fabricator style. It's built on plain HTML, so the same component ships for every base.
 
@@ -102,9 +102,9 @@ The field opens to `--search-width`. Set it with the `width` prop (any CSS lengt
 
 ## Motion
 
-- Opening springs the width on the slow tier (`duration-slow ease-spring-bounce`, 290ms); the field fades in just after.
-- Closing is the quicker exit tween (`duration-slow-exit ease-exit`, 220ms).
-- A press on the closed button squashes it slightly on the fast tier.
+- Opening grows the width on the move timing (`duration-move ease-move`, 250ms at the default [speed](/docs/foundations/motion)); the field fades in just after.
+- Closing uses the quicker exit (`duration-move-exit ease-exit`, 180ms).
+- A press on the closed button gives slightly, to the press scale (`--motion-press-scale`).
 - With reduced motion, it opens and closes at once, without the width or the squash.
 
 ## API Reference

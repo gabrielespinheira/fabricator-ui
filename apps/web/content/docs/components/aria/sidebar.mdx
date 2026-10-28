@@ -196,7 +196,7 @@ A badge sits at the end of the row and turns semibold on the active row. An acti
 
 ### Nested rows
 
-`open` on `SidebarMenuSub` collapses the sub-tree on the moderate spring; wire it to the parent row. The hover highlight glides from the parent into its children, and arrow keys skip a closed sub-tree.
+`open` on `SidebarMenuSub` collapses the sub-tree on the move timing; wire it to the parent row. The hover highlight glides from the parent into its children, and arrow keys skip a closed sub-tree.
 
 <ComponentPreview styleName="aria-nova" name="sidebar-nested" type="frame" />
 
@@ -255,11 +255,11 @@ turns it off. With providers nested, the innermost one around the focus answers.
 
 ## Motion
 
-- Opening and closing move on the moderate tier: the spring to open (210ms), the exit tween to close (160ms). A peeking card slides in on the same spring.
+- Opening and closing use the move timing: ease-in-out to open (250ms at the default [speed](/docs/foundations/motion)), the quicker exit to close (180ms). A peeking card slides in on the same timing.
 - While the rail is dragged, the width follows the pointer with no transition.
-- Sections and sub-trees collapse on the moderate tier, height and opacity together.
-- The hover highlight glides on the fast tier; the active row's background slides on the moderate one.
-- The toggle's panel glyph morphs on the moderate spring (browsers that can't animate an SVG path swap it).
+- Sections and sub-trees collapse on the move timing, height and opacity together.
+- The hover highlight glides on the glide timing; the active row's background slides on the move timing.
+- The toggle's panel glyph morphs on the move timing (browsers that can't animate an SVG path swap it).
 - With reduced motion, the sidebar, the card and the glyph change at once, and collapses only fade.
 
 ## API Reference

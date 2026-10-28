@@ -5,9 +5,9 @@
   }
 
   /* Soft chat bubble: 8px corners, 14px text. Interactive bubbles (button,
-     link) change colour on the fast tier and focus with the 1px blue ring. */
+     link) change colour on the feedback timing and focus with the 1px blue ring. */
   .cn-bubble-content {
-    @apply rounded-lg border border-transparent px-3.5 py-2 text-[14px] leading-normal text-pretty [button,a]:duration-fast [button,a]:ease-spring [button,a]:outline-none [button,a]:focus-visible:ring-1 [button,a]:focus-visible:ring-ring group-data-[align=end]/bubble:self-end;
+    @apply rounded-lg border border-transparent px-(--density-14) py-(--density-8) text-(length:--density-text-14) leading-normal text-pretty [button,a]:duration-feedback [button,a]:ease-feedback [button,a]:outline-none [button,a]:focus-visible:ring-1 [button,a]:focus-visible:ring-ring group-data-[align=end]/bubble:self-end;
   }
 
   /* Neutral ladder, after Fluid Functionalism's chat: secondary is its
@@ -41,12 +41,12 @@
   }
 
   .cn-bubble-variant-destructive {
-    @apply *:data-[slot=bubble-content]:bg-destructive-light *:data-[slot=bubble-content]:text-destructive [&>[data-slot=bubble-content]:is(button,a):hover]:bg-destructive/15;
+    @apply *:data-[slot=bubble-content]:bg-destructive/12 *:data-[slot=bubble-content]:text-destructive-text [&>[data-slot=bubble-content]:is(button,a):hover]:bg-destructive/16;
   }
 
   /* Reactions: a small raised pill on surface 3 (the shadow ring is its edge). */
   .cn-bubble-reactions {
-    @apply bg-surface-3 shadow-surface-3 h-6 shrink-0 gap-0.5 rounded-full px-1.5 text-[12px] has-[button]:p-0.5;
+    @apply bg-surface-3 shadow-surface-3 h-(--density-24) shrink-0 gap-0.5 rounded-full px-(--density-6) text-(length:--density-text-12) has-[button]:p-0.5;
   }
 
   .cn-bubble-reactions-side-top {

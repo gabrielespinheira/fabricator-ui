@@ -1,0 +1,27 @@
+---
+title: October 2026 - Motion speeds
+description: Four motion speeds, from smooth for websites to instant for dashboards, and motion by role in every component, on Emil Kowalski's timings.
+date: 2026-10-27
+---
+
+## Four speeds
+
+Fabricator UI now has four motion speeds: `smooth` for marketing sites, `default` for most products, `snappy` for apps people use all day and `instant` for dense dashboards. Each speed has its own durations, curves and scales rather than one multiplier, so smooth settles softly and instant stays out of the way. Set one with `data-motion` on `<html>`, or on any element to change one part of a page; `data-motion="off"` stops motion. The settings menu on this site has the same choice. See [Motion](/docs/foundations/motion).
+
+```bash
+npx fabricator-ui@latest add foundations
+```
+
+## Motion by role
+
+Every animation now belongs to a role: feedback, press, glide, move, tooltip, popup, dialog, sheet, disclosure and toast. Each surface has one utility (`motion-popup`, `motion-dialog`, …) holding its whole recipe, and everything else uses `duration-<role>` and `ease-<curve>`. The default speed follows Emil Kowalski's guidance:
+
+- Tooltips open in 125ms and appear at once while you move between them.
+- Menus and popovers open in 180ms from 0.95 and grow from their trigger; dialogs open in 250ms from the centre.
+- Exits are about 30% quicker than entrances, on a strong ease-out; things that move on screen use ease-in-out.
+- Buttons and toggles give to 0.97 when pressed.
+- The command palette opens with no animation, because it is opened from the keyboard.
+
+Toasts, sheets, the Base UI drawer, items and the message scroller no longer use their own fixed timings. The Radix drawer keeps Vaul's.
+
+The earlier names, `duration-fast`, `duration-moderate`, `duration-slow` and `ease-spring`, keep working as aliases.

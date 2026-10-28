@@ -23,12 +23,16 @@ import {
   useFluidHover,
   useMergedRef,
 } from "@/registry/bases/aria/lib/fluid-hover"
+import { useDensity } from "@/registry/bases/aria/ui/density"
 import { IconPlaceholder } from "@/app/(create)/components/icon-placeholder"
 
 // Fabricator override of the upstream dropdown menu: the menu is a fluid
 // hover container, so one highlight glides between items (keyboard
 // navigation moves the same highlight). The menu renders a collection, so the
 // highlight is portalled into it rather than passed as a child.
+//
+// Its popups take the density of the nearest DensityProvider, which their
+// portals would otherwise lose (registry/fabricator/density.ts).
 const MENU_ITEMS =
   '[role="menuitem"], [role="menuitemcheckbox"], [role="menuitemradio"]'
 
@@ -65,10 +69,12 @@ function DropdownMenu({
   })
   const [menu, setMenu] = React.useState<HTMLDivElement | null>(null)
   const mergedRef = useMergedRef(fluid.attach, setMenu, ref)
+  const density = useDensity()
 
   return (
     <PopoverPrimitive
       data-slot={dataSlot}
+      data-density={density}
       placement={placement}
       offset={offset}
       crossOffset={crossOffset}

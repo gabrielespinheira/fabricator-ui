@@ -1,5 +1,5 @@
-// Fabricator UI foundations: surfaces, interaction overlays, focus, motion and
-// scrollbars. Adapted from Fluid Functionalism by Micka Touillaud (MIT),
+// Fabricator UI foundations: surfaces, interaction overlays, focus, motion,
+// density and scrollbars. Adapted from Fluid Functionalism by Micka Touillaud (MIT),
 // https://github.com/mickadesign/fluid-functionalism.
 //
 // This module is the single source of truth. The registry build turns it into
@@ -10,9 +10,20 @@
 // Every token here has a new name, so installing it never overwrites a
 // project's shadcn tokens (AGENTS.md, contract item 4). The Fabricator colour
 // palette for the shadcn token names lives in FABRICATOR_PALETTE below and is
-// only applied by the `fabricator` preset.
+// only applied by the `fabricator` preset. The colour roles (primary,
+// secondary, info, success, warning, destructive) come from color-roles.ts.
 
-import { STATUS_CSS_VARS } from "@/registry/fabricator/status-colors"
+import {
+  ROLE_CSS_VARS,
+  ROLE_PALETTE_LINKS,
+  rolePalette,
+} from "@/registry/fabricator/color-roles"
+import { DENSITY_CSS, DENSITY_ROOT_VARS } from "@/registry/fabricator/density"
+import {
+  MOTION_CSS,
+  MOTION_ROOT_VARS,
+  MOTION_THEME,
+} from "@/registry/fabricator/motion"
 import {
   MUTED_FOREGROUND_STEP,
   NEUTRAL_TINT,
@@ -86,36 +97,6 @@ function darkShadow(level: number) {
     .join(", ")
 }
 
-// --- Motion -----------------------------------------------------------------
-// Spring tiers as CSS easing. `linear()` samples of a critically damped spring
-// and of a spring with a 0.12 bounce (damping ratio 0.88), both settling at the
-// end of the duration. Bigger moves use slower tiers; exits are plain tweens,
-// about a quarter quicker.
-//
-// Durations are tokens: `--motion-<tier>` and `--motion-<tier>-exit` hold the
-// base values, and `--motion-scale` (1 by default) multiplies all of them, so
-// one variable makes an app slower, snappier, or still (0). Utilities read
-// them through the `duration-<tier>` and `delay-<tier>` theme keys, which
-// multiply at the element, so the scale can also be set on a subtree.
-
-export const EASE_SPRING =
-  "linear(0, 0.055, 0.1734, 0.3101, 0.4422, 0.5591, 0.6575, 0.7374, 0.8009, 0.8503, 0.8883, 0.9172, 0.9389, 0.9551, 0.9672, 0.9761, 0.9826, 0.9874, 0.9909, 0.9935, 0.9953, 0.9966, 0.9976, 0.9983, 1)"
-
-export const EASE_SPRING_BOUNCE =
-  "linear(0, 0.0565, 0.1816, 0.3296, 0.4743, 0.6026, 0.7093, 0.7941, 0.8588, 0.9067, 0.9409, 0.9646, 0.9804, 0.9906, 0.9968, 1.0004, 1.0022, 1.0029, 1.0029, 1.0027, 1.0023, 1.0018, 1.0014, 1.0011, 1)"
-
-export const MOTION = {
-  fast: { duration: 90, exit: 70 },
-  moderate: { duration: 210, exit: 160 },
-  slow: { duration: 290, exit: 220 },
-} as const
-
-const MOTION_TIERS = Object.keys(MOTION) as (keyof typeof MOTION)[]
-
-/** `duration-fast`, `duration-fast-exit`, …: scaled by --motion-scale. */
-const scaled = (token: string) =>
-  `calc(var(--motion-${token}) * var(--motion-scale, 1))`
-
 // --- Foundations ------------------------------------------------------------
 
 export const FABRICATOR_FOUNDATIONS: { cssVars: CssVars; css: CssObject } = {
@@ -132,31 +113,20 @@ export const FABRICATOR_FOUNDATIONS: { cssVars: CssVars; css: CssObject } = {
       "color-selected": "var(--selected)",
       "color-tint": "var(--tint)",
       "color-tint-hover": "var(--tint-hover)",
-      "color-destructive-light": "var(--destructive-light)",
-      // Info, success, warning and error, each with a surface ladder.
-      ...STATUS_CSS_VARS.theme,
+      // Every colour role's text, border and surface ladder, and the status
+      // fills (info, success, warning) with their foregrounds.
+      ...ROLE_CSS_VARS.theme,
       "color-focus-ring": "var(--focus-ring)",
-      "ease-spring": EASE_SPRING,
-      "ease-spring-bounce": EASE_SPRING_BOUNCE,
-      "ease-exit": "cubic-bezier(0.25, 0.1, 0.25, 1)",
-      ...Object.fromEntries(
-        MOTION_TIERS.flatMap((tier) => [
-          [`transition-duration-${tier}`, scaled(tier)],
-          [`transition-duration-${tier}-exit`, scaled(`${tier}-exit`)],
-          [`transition-delay-${tier}`, scaled(tier)],
-        ])
-      ),
+      // Motion: duration-<role>, delay-<role> and ease-<curve> (motion.ts).
+      ...MOTION_THEME,
     },
     light: {
       "surface-hue": String(NEUTRAL_TINT.hue),
       "surface-chroma": String(NEUTRAL_TINT.chroma),
-      "motion-scale": "1",
-      ...Object.fromEntries(
-        MOTION_TIERS.flatMap((tier) => [
-          [`motion-${tier}`, `${MOTION[tier].duration}ms`],
-          [`motion-${tier}-exit`, `${MOTION[tier].exit}ms`],
-        ])
-      ),
+      // The default motion speed; the others switch with data-motion.
+      ...MOTION_ROOT_VARS,
+      // The default density; the others switch with data-density.
+      ...DENSITY_ROOT_VARS,
       ...Object.fromEntries(
         SURFACE_LEVELS.flatMap((level) => [
           [`surface-${level}`, tintedCss(SURFACE_STEPS.light[level - 1])],
@@ -170,8 +140,7 @@ export const FABRICATOR_FOUNDATIONS: { cssVars: CssVars; css: CssObject } = {
       selected: tintedCss(TINTED_NEUTRALS.light.selected),
       tint: "oklch(0 0 0 / 0.08)",
       "tint-hover": "oklch(0 0 0 / 0.065)",
-      "destructive-light": "oklch(0.971 0.013 17.4)",
-      ...STATUS_CSS_VARS.light,
+      ...ROLE_CSS_VARS.light,
       "focus-ring": "oklch(0.693 0.161 265.2)",
     },
     dark: {
@@ -195,8 +164,7 @@ export const FABRICATOR_FOUNDATIONS: { cssVars: CssVars; css: CssObject } = {
       selected: tintedCss(TINTED_NEUTRALS.dark.selected),
       tint: "oklch(1 0 0 / 0.25)",
       "tint-hover": "oklch(1 0 0 / 0.2)",
-      "destructive-light": "oklch(0.258 0.089 26)",
-      ...STATUS_CSS_VARS.dark,
+      ...ROLE_CSS_VARS.dark,
       "focus-ring": "oklch(0.693 0.161 265.2)",
     },
   },
@@ -248,8 +216,9 @@ export const FABRICATOR_FOUNDATIONS: { cssVars: CssVars; css: CssObject } = {
         },
       },
       // Reduced motion: fewer and gentler, not none. Enter/exit animations
-      // keep their fades and drop slides and zooms. `!important` in the base
-      // layer beats the per-component animation utilities.
+      // keep their fades and drop slides, zooms, blur and the press.
+      // `!important` in the base layer beats the motion utilities and the
+      // speed switches, whatever speed is set.
       "@media (prefers-reduced-motion: reduce)": {
         "*, ::before, ::after": {
           "--tw-enter-translate-x": "0 !important",
@@ -258,9 +227,16 @@ export const FABRICATOR_FOUNDATIONS: { cssVars: CssVars; css: CssObject } = {
           "--tw-exit-translate-y": "0 !important",
           "--tw-enter-scale": "1 !important",
           "--tw-exit-scale": "1 !important",
+          "--tw-enter-blur": "0 !important",
+          "--tw-exit-blur": "0 !important",
+          "--motion-press-scale": "1 !important",
         },
       },
     },
+    // Speeds (data-motion) and the motion utilities (motion-popup, …).
+    ...MOTION_CSS,
+    // Densities (data-density) and the density-* utilities.
+    ...DENSITY_CSS,
     "@utility scrollbar-hide": {
       "-ms-overflow-style": "none",
       "scrollbar-width": "none",
@@ -291,12 +267,16 @@ export const FABRICATOR_FOUNDATIONS: { cssVars: CssVars; css: CssObject } = {
 
 // --- Palette ----------------------------------------------------------------
 // The Fabricator colours for the shadcn token names. Neutral, with the page on
-// surface-1 and raised containers on surface-3. Applied by the `fabricator`
-// preset only, so other presets keep their own colours.
+// surface-1 and raised containers on surface-3; primary, secondary and
+// destructive are the colour roles at their defaults. Applied by the
+// `fabricator` preset only, so other presets keep their own colours.
 //
 // Colour tokens hold literal colours, never var() or color-mix(): the CLI only
 // maps a token to `--color-<name>` in `@theme inline` when its value is a
 // colour, so `bg-background` and `border-border` would not exist otherwise.
+
+const LIGHT_ROLES = rolePalette("light")
+const DARK_ROLES = rolePalette("dark")
 
 export const FABRICATOR_PALETTE: CssVars = {
   theme: {
@@ -313,15 +293,15 @@ export const FABRICATOR_PALETTE: CssVars = {
     "card-foreground": "oklch(0.205 0 0)",
     popover: LIGHT_SURFACES[2],
     "popover-foreground": "oklch(0.205 0 0)",
-    primary: "oklch(0.205 0 0)",
-    "primary-foreground": "oklch(0.985 0 0)",
-    secondary: "oklch(0 0 0 / 0.08)",
-    "secondary-foreground": "oklch(0.205 0 0)",
+    primary: LIGHT_ROLES.primary,
+    "primary-foreground": LIGHT_ROLES["primary-foreground"],
+    secondary: LIGHT_ROLES.secondary,
+    "secondary-foreground": LIGHT_ROLES["secondary-foreground"],
     muted: "oklch(0.967 0.001 286.4)",
     "muted-foreground": "oklch(0.556 0 0)",
     accent: "oklch(0 0 0 / 0.04)",
     "accent-foreground": "oklch(0.205 0 0)",
-    destructive: "oklch(0.637 0.208 25.3)",
+    destructive: LIGHT_ROLES.destructive,
     border: "oklch(0.205 0 0 / 0.12)",
     input: "oklch(0.922 0 0)",
     ring: "oklch(0.693 0.161 265.2)",
@@ -332,8 +312,8 @@ export const FABRICATOR_PALETTE: CssVars = {
     "chart-5": "oklch(0.264 0 0)",
     sidebar: LIGHT_SURFACES[1],
     "sidebar-foreground": "oklch(0.205 0 0)",
-    "sidebar-primary": "oklch(0.205 0 0)",
-    "sidebar-primary-foreground": "oklch(0.985 0 0)",
+    "sidebar-primary": LIGHT_ROLES["sidebar-primary"],
+    "sidebar-primary-foreground": LIGHT_ROLES["sidebar-primary-foreground"],
     "sidebar-accent": "oklch(0 0 0 / 0.04)",
     "sidebar-accent-foreground": "oklch(0.205 0 0)",
     "sidebar-border": "oklch(0.205 0 0 / 0.12)",
@@ -346,15 +326,15 @@ export const FABRICATOR_PALETTE: CssVars = {
     "card-foreground": "oklch(0.97 0 0)",
     popover: DARK_SURFACES[2],
     "popover-foreground": "oklch(0.97 0 0)",
-    primary: "oklch(0.97 0 0)",
-    "primary-foreground": "oklch(0.205 0 0)",
-    secondary: "oklch(1 0 0 / 0.25)",
-    "secondary-foreground": "oklch(0.97 0 0)",
+    primary: DARK_ROLES.primary,
+    "primary-foreground": DARK_ROLES["primary-foreground"],
+    secondary: DARK_ROLES.secondary,
+    "secondary-foreground": DARK_ROLES["secondary-foreground"],
     muted: "oklch(0.235 0 0)",
     "muted-foreground": "oklch(0.715 0 0)",
     accent: "oklch(1 0 0 / 0.06)",
     "accent-foreground": "oklch(0.97 0 0)",
-    destructive: "oklch(0.808 0.103 19.6)",
+    destructive: DARK_ROLES.destructive,
     border: "oklch(0.97 0 0 / 0.12)",
     input: "oklch(0.371 0 0)",
     ring: "oklch(0.693 0.161 265.2)",
@@ -365,8 +345,8 @@ export const FABRICATOR_PALETTE: CssVars = {
     "chart-5": "oklch(0.371 0 0)",
     sidebar: DARK_SURFACES[1],
     "sidebar-foreground": "oklch(0.97 0 0)",
-    "sidebar-primary": "oklch(0.97 0 0)",
-    "sidebar-primary-foreground": "oklch(0.205 0 0)",
+    "sidebar-primary": DARK_ROLES["sidebar-primary"],
+    "sidebar-primary-foreground": DARK_ROLES["sidebar-primary-foreground"],
     "sidebar-accent": "oklch(1 0 0 / 0.06)",
     "sidebar-accent-foreground": "oklch(0.97 0 0)",
     "sidebar-border": "oklch(0.97 0 0 / 0.12)",
@@ -375,10 +355,12 @@ export const FABRICATOR_PALETTE: CssVars = {
 }
 
 // --- Tinted palette ---------------------------------------------------------
-// The palette above holds literal copies of the neutral surfaces. A project
-// that tints its surfaces points these tokens at them instead, so the page,
-// cards, popovers, the sidebar and muted fills follow the tint. The website
-// does this (toFabricatorStylesheet), and the Surfaces page copies it.
+// The palette above holds literal copies of the neutral surfaces and of the
+// default roles. A project that tints its surfaces or sets its roles points
+// these tokens at the live recipes instead, so the page, cards, popovers, the
+// sidebar and muted fills follow the tint, and primary, secondary and
+// destructive follow their roles (ROLE_PALETTE_LINKS). The website does this
+// (toFabricatorStylesheet), and the Colors page copies it.
 
 const linkPalette = (mode: "light" | "dark") => ({
   background: "var(--surface-1)",
@@ -394,6 +376,12 @@ export const SURFACE_PALETTE_LINKS = {
     "muted-foreground": tintedCss(MUTED_FOREGROUND_STEP),
   },
   dark: linkPalette("dark"),
+}
+
+/** Every link: the surfaces and the colour roles. */
+export const PALETTE_LINKS = {
+  light: { ...SURFACE_PALETTE_LINKS.light, ...ROLE_PALETTE_LINKS.light },
+  dark: { ...SURFACE_PALETTE_LINKS.dark, ...ROLE_PALETTE_LINKS.dark },
 }
 
 // --- CSS output -------------------------------------------------------------
@@ -418,7 +406,7 @@ function vars(entries: Record<string, string>, indent = "  ") {
  * The foundations and palette as a stylesheet, for the website. The selectors
  * are one notch more specific than `:root`/`.dark` so they win over tokens a
  * stylesheet defines later in the same file. The palette is linked to the
- * surfaces, so the site's surface setting retints everything.
+ * surfaces and the colour roles, so the site's settings retint everything.
  */
 export function toFabricatorStylesheet({
   light = "html:root",
@@ -426,8 +414,8 @@ export function toFabricatorStylesheet({
 }: { light?: string; dark?: string } = {}) {
   return [
     "/* Generated from registry/fabricator/foundations.ts by scripts/build-registry.mts. Do not edit. */",
-    `${light} {\n${vars({ ...FABRICATOR_FOUNDATIONS.cssVars.light, ...FABRICATOR_PALETTE.light, ...SURFACE_PALETTE_LINKS.light })}\n}`,
-    `${dark} {\n${vars({ ...FABRICATOR_FOUNDATIONS.cssVars.dark, ...FABRICATOR_PALETTE.dark, ...SURFACE_PALETTE_LINKS.dark })}\n}`,
+    `${light} {\n${vars({ ...FABRICATOR_FOUNDATIONS.cssVars.light, ...FABRICATOR_PALETTE.light, ...PALETTE_LINKS.light })}\n}`,
+    `${dark} {\n${vars({ ...FABRICATOR_FOUNDATIONS.cssVars.dark, ...FABRICATOR_PALETTE.dark, ...PALETTE_LINKS.dark })}\n}`,
     `@theme inline {\n${vars({ ...FABRICATOR_FOUNDATIONS.cssVars.theme, ...FABRICATOR_PALETTE.theme })}\n}`,
     serializeCss(FABRICATOR_FOUNDATIONS.css),
     "",

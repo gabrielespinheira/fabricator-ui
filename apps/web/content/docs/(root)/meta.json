@@ -3,18 +3,11 @@
   "pages": [
     "index",
     "[Installation](/docs/installation)",
+    "[Dark Mode](/docs/dark-mode)",
     "components-json",
     "package-imports",
-    "theming",
-    "[Dark Mode](/docs/dark-mode)",
-    "[CLI](/docs/cli)",
-    "[Registry](/docs/registry)",
-    "mcp",
-    "skills",
     "monorepo",
-    "javascript",
     "[Changelog](/docs/changelog)",
-    "[llms.txt](/llms.txt)",
     "!new"
   ]
 }

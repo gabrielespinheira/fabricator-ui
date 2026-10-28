@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import { Vazirmatn } from "next/font/google"
+import { DayPicker } from "@daypicker/persian"
 import { cn } from "cn"
 import {
   ChevronDownIcon,
@@ -9,7 +10,6 @@ import {
   ChevronRightIcon,
 } from "lucide-react"
 import { getDefaultClassNames, type DayButton } from "react-day-picker"
-import { DayPicker } from "react-day-picker/persian"
 
 import { Button, buttonVariants } from "@/registry/new-york-v4/ui/button"
 

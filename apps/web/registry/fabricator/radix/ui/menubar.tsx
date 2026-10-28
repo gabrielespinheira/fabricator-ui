@@ -9,12 +9,16 @@ import {
   useFluidHover,
   useMergedRef,
 } from "@/registry/bases/radix/lib/fluid-hover"
+import { useDensity } from "@/registry/bases/radix/ui/density"
 import { IconPlaceholder } from "@/app/(create)/components/icon-placeholder"
 
 // Fabricator override of the upstream menubar: the bar is a fluid hover
 // strip, so one highlight glides between its triggers, and the menus are
 // fluid hover containers (keyboard navigation from the primitive moves the
 // same highlight).
+//
+// Its popups take the density of the nearest DensityProvider, which their
+// portals would otherwise lose (registry/fabricator/density.ts).
 const MENUBAR_TRIGGERS = '[data-slot="menubar-trigger"]'
 const MENU_ITEMS =
   '[role="menuitem"], [role="menuitemcheckbox"], [role="menuitemradio"]'
@@ -115,11 +119,13 @@ function MenubarContent({
   ...props
 }: React.ComponentProps<typeof MenubarPrimitive.Content>) {
   const { fluid, mergedRef } = useMenuFluidHover(ref)
+  const density = useDensity()
 
   return (
     <MenubarPortal>
       <MenubarPrimitive.Content
         data-slot="menubar-content"
+        data-density={density}
         align={align}
         alignOffset={alignOffset}
         sideOffset={sideOffset}
@@ -318,10 +324,12 @@ function MenubarSubContent({
   ...props
 }: React.ComponentProps<typeof MenubarPrimitive.SubContent>) {
   const { fluid, mergedRef } = useMenuFluidHover(ref)
+  const density = useDensity()
 
   return (
     <MenubarPrimitive.SubContent
       data-slot="menubar-sub-content"
+      data-density={density}
       className={cn(
         "cn-menubar-sub-content cn-menu-target cn-menu-translucent z-50 origin-(--radix-menubar-content-transform-origin) overflow-hidden",
         className

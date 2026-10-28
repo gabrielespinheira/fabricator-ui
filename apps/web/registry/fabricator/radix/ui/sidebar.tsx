@@ -52,7 +52,8 @@ const SIDEBAR_COOKIE_NAME = "sidebar_state"
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7
 const SIDEBAR_WIDTH = "16rem"
 const SIDEBAR_WIDTH_MOBILE = "18rem"
-const SIDEBAR_WIDTH_ICON = "3rem"
+// A collapsed row (--density-32) plus the group padding on each side.
+const SIDEBAR_WIDTH_ICON = "calc(var(--density-32) + 2 * var(--density-8))"
 const SIDEBAR_KEYBOARD_SHORTCUT = "b"
 /** Drag-resize clamp for SidebarRail (px). */
 const SIDEBAR_MIN_WIDTH = 160
@@ -1212,7 +1213,7 @@ function SidebarGroupLabel({
       style={
         group.actionsCount > 0
           ? ({
-              "--sidebar-group-actions-pad": `${group.actionsCount * 28 + 6}px`,
+              "--sidebar-group-actions-pad": `calc(${group.actionsCount} * (var(--density-24) + 4px) + var(--density-6))`,
             } as React.CSSProperties)
           : undefined
       }
@@ -1377,8 +1378,9 @@ function SidebarMenu({
 }
 
 // The trailing run a row's label must clear: the badge's slot (rightmost)
-// and the action cluster (24px apiece, 4px apart), plus one gap. Published
-// on the row as --sidebar-menu-gutter (at rest) and
+// and the action cluster (24px apiece at the default density, 4px apart),
+// plus one gap, as a CSS length in density tokens so it follows the density.
+// Published on the row as --sidebar-menu-gutter (at rest) and
 // --sidebar-menu-gutter-hover (once hover-revealed actions show).
 type SidebarMenuItemContextProps = {
   setActions: (count: number, showOnHover: boolean) => void
@@ -1390,10 +1392,10 @@ const SidebarMenuItemContext =
   React.createContext<SidebarMenuItemContextProps | null>(null)
 
 function rowGutter(actionCount: number, hasBadge: boolean) {
-  if (!actionCount && !hasBadge) return 8
-  const actions = actionCount ? actionCount * 24 + (actionCount - 1) * 4 : 0
-  const run = (hasBadge ? 24 : 0) + actions + (hasBadge && actionCount ? 4 : 0)
-  return (hasBadge ? 8 : 6) + run + 4
+  if (!actionCount && !hasBadge) return "var(--density-8)"
+  const slots = actionCount + (hasBadge ? 1 : 0)
+  const edge = hasBadge ? "var(--density-8)" : "var(--density-6)"
+  return `calc(${edge} + ${slots} * var(--density-24) + ${slots * 4}px)`
 }
 
 function useMenuRow(isSubRow: boolean) {
@@ -1427,8 +1429,8 @@ function useMenuRow(isSubRow: boolean) {
   const rest = trailing.showOnHover ? rowGutter(0, trailing.hasBadge) : hover
   // Always set, so a sub-row never inherits its parent row's gutter.
   const style = {
-    "--sidebar-menu-gutter": `${rest}px`,
-    "--sidebar-menu-gutter-hover": `${hover}px`,
+    "--sidebar-menu-gutter": rest,
+    "--sidebar-menu-gutter-hover": hover,
   } as React.CSSProperties
 
   return { context, style }

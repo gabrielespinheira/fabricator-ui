@@ -136,6 +136,42 @@ describe("GET /init", () => {
     )
   })
 
+  it("applies the look from the setup page", async () => {
+    const response = await GET(
+      createRequest("?surface=145_0.022&primary=260_0.15&shape=pill")
+    )
+    const json = await response.json()
+
+    expect(response.status).toBe(200)
+    expect(json.cssVars.light).toMatchObject({
+      radius: "1.25rem",
+      "surface-hue": "145",
+      "primary-hue": "260",
+      "primary-chroma": "0.15",
+      background: "var(--surface-1)",
+    })
+    expect(json.cssVars.dark.background).toBe("var(--surface-1)")
+  })
+
+  it("sets the project's density", async () => {
+    const response = await GET(createRequest("?density=spacious"))
+    const json = await response.json()
+
+    expect(response.status).toBe(200)
+    expect(json.cssVars.light).toMatchObject({
+      "density-36": "2.75rem",
+      "density-text-13": "15px",
+    })
+  })
+
+  it("rejects an invalid look", async () => {
+    const response = await GET(createRequest("?motion=fast"))
+    const json = await response.json()
+
+    expect(response.status).toBe(400)
+    expect(json.error).toContain('"motion"')
+  })
+
   it("rejects unknown preset names", async () => {
     const response = await GET({
       nextUrl: new URL("http://localhost:4000/init?preset=nope"),

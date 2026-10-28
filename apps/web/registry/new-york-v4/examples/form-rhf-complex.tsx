@@ -62,7 +62,7 @@ const addons = [
 const formSchema = z.object({
   plan: z
     .string({
-      required_error: "Please select a subscription plan",
+      error: "Please select a subscription plan",
     })
     .min(1, "Please select a subscription plan")
     .refine((value) => value === "basic" || value === "pro", {
@@ -70,7 +70,7 @@ const formSchema = z.object({
     }),
   billingPeriod: z
     .string({
-      required_error: "Please select a billing period",
+      error: "Please select a billing period",
     })
     .min(1, "Please select a billing period"),
   addons: z
@@ -87,7 +87,11 @@ const formSchema = z.object({
 })
 
 export default function FormRhfComplex() {
-  const form = useForm<z.infer<typeof formSchema>>({
+  const form = useForm<
+    z.input<typeof formSchema>,
+    unknown,
+    z.output<typeof formSchema>
+  >({
     resolver: zodResolver(formSchema),
     defaultValues: {
       plan: "basic",

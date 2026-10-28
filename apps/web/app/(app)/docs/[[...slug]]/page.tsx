@@ -1,4 +1,3 @@
-import * as React from "react"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 import { mdxComponents } from "@/mdx-components"
@@ -6,20 +5,11 @@ import { IconArrowLeft, IconArrowRight } from "@tabler/icons-react"
 import { cn } from "cn"
 import { findNeighbour } from "fumadocs-core/page-tree"
 
-import { siteConfig } from "@/lib/config"
 import { replaceComponentsList } from "@/lib/llm"
 import { source } from "@/lib/source"
 import { absoluteUrl } from "@/lib/utils"
 import { DocsBaseSwitcher } from "@/components/docs-base-switcher"
 import { DocsCopyPage } from "@/components/fabricator/docs-copy-page"
-import {
-  DocsPanelCard,
-  DocsPanelPrimitive,
-} from "@/components/fabricator/docs-panel"
-import { SiteSettingsFields } from "@/components/fabricator/site-settings"
-import { StarsCount } from "@/components/github-link"
-import { Icons } from "@/components/icons"
-import { BASES } from "@/registry/bases"
 
 export const revalidate = false
 export const dynamic = "force-static"
@@ -98,16 +88,11 @@ export default async function Page(props: {
 
   const isComponentPage =
     params.slug?.[0] === "components" && !!params.slug[1] && !!params.slug[2]
-  const bases = isComponentPage
-    ? BASES.filter((base) =>
-        source.getPage([`components/${base.name}/${params.slug[2]}`])
-      ).map((base) => ({ value: base.name, label: base.title ?? base.name }))
-    : []
 
   return (
-    <div data-slot="docs" className="flex items-start gap-4 lg:pe-4">
+    <div data-slot="docs" className="flex items-start">
       <div className="flex min-w-0 flex-1 flex-col">
-        <div className="mx-auto flex w-full max-w-158 min-w-0 flex-1 flex-col gap-8 px-4 pt-8 pb-16 text-foreground md:px-0 lg:pt-24">
+        <div className="mx-auto flex w-full max-w-3xl min-w-0 flex-1 flex-col gap-8 px-4 pt-8 pb-16 text-foreground md:px-0 lg:pt-24">
           <header className="flex flex-col gap-2">
             <div className="flex items-start justify-between gap-4">
               <h1 className="scroll-m-24 text-[28px] leading-tight font-semibold tracking-tight text-balance">
@@ -145,7 +130,7 @@ export default async function Page(props: {
               <DocsBaseSwitcher
                 base={params.slug[1]}
                 component={params.slug[2]}
-                className="mb-6 xl:hidden"
+                className="mb-6"
               />
             )}
             <MDX components={mdxComponents} />
@@ -169,41 +154,12 @@ export default async function Page(props: {
           </nav>
         </div>
       </div>
-      <aside className="sticky top-0 hidden max-h-svh w-64 shrink-0 scroll-fade scrollbar-none flex-col gap-3 overflow-y-auto py-4 xl:flex">
-        <DocsPanelCard className="gap-1">
-          <div className="flex items-center justify-between pb-2">
-            <h2 className="text-[15px] font-semibold tracking-tight">
-              Make it yours
-            </h2>
-            <Link
-              href={siteConfig.links.github}
-              target="_blank"
-              rel="noreferrer"
-              className="flex items-center gap-1 rounded-md px-1 text-[12px] text-muted-foreground outline-none hover:text-foreground focus-visible:ring-1 focus-visible:ring-focus-ring"
-            >
-              <Icons.gitHub className="size-3.5" />
-              <span className="sr-only">GitHub</span>
-              <React.Suspense fallback={null}>
-                <StarsCount />
-              </React.Suspense>
-            </Link>
-          </div>
-          <SiteSettingsFields />
-          {isComponentPage && bases.length > 1 && (
-            <DocsPanelPrimitive
-              base={params.slug[1]}
-              component={params.slug[2]}
-              bases={bases}
-            />
-          )}
-        </DocsPanelCard>
-      </aside>
     </div>
   )
 }
 
 const NAV_ICON_CLASS =
-  "flex size-8 items-center justify-center rounded-lg text-muted-foreground outline-none transition-colors duration-fast ease-spring hover:bg-hover hover:text-foreground focus-visible:ring-1 focus-visible:ring-focus-ring [&_svg]:size-4"
+  "flex size-8 items-center justify-center rounded-lg text-muted-foreground outline-none transition-colors duration-feedback ease-feedback hover:bg-hover hover:text-foreground focus-visible:ring-1 focus-visible:ring-focus-ring [&_svg]:size-4"
 
 const NAV_LINK_CLASS =
-  "flex h-9 items-center gap-2 rounded-lg px-3 text-[14px] font-medium text-muted-foreground outline-none transition-colors duration-fast ease-spring hover:bg-hover hover:text-foreground focus-visible:ring-1 focus-visible:ring-focus-ring"
+  "flex h-9 items-center gap-2 rounded-lg px-3 text-[14px] font-medium text-muted-foreground outline-none transition-colors duration-feedback ease-feedback hover:bg-hover hover:text-foreground focus-visible:ring-1 focus-visible:ring-focus-ring"

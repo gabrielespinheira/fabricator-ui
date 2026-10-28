@@ -6,6 +6,8 @@ import Link from "next/link"
 import { COMPONENT_GROUPS, getComponentGroup } from "@/lib/component-groups"
 import { ArrowUpRightIcon } from "@/lib/site-icons"
 import { cn } from "@/lib/utils"
+import { Badge } from "@/styles/base-fabricator/ui/badge"
+import { Button } from "@/styles/base-fabricator/ui/button"
 import {
   Select,
   SelectContent,
@@ -356,23 +358,27 @@ function GalleryCard({ item }: { item: GalleryItem }) {
         } as React.CSSProperties
       }
     >
-      <Link
-        href={href}
-        className="absolute top-4 left-4 z-10 inline-flex h-6 items-center gap-1 rounded-lg bg-foreground/[0.07] px-2 text-xs font-medium text-foreground/80 transition-colors duration-fast outline-none hover:bg-foreground/[0.12] hover:text-foreground focus-visible:ring-2 focus-visible:ring-focus-ring"
+      <Badge
+        variant="secondary"
+        className="absolute top-4 left-4 z-10"
+        render={<Link href={href} />}
       >
         {item.isNew && (
           <span aria-hidden className="size-1.5 rounded-full bg-info" />
         )}
         {item.title}
         {item.isNew && <span className="sr-only">(new)</span>}
-      </Link>
-      <Link
-        href={href}
+      </Badge>
+      <Button
+        variant="ghost"
+        size="icon-sm"
         aria-label={`${item.title} docs`}
-        className="absolute top-4 right-4 z-10 flex size-8 items-center justify-center rounded-lg bg-foreground/[0.07] text-foreground/70 opacity-0 transition-[opacity,background-color] duration-moderate ease-spring outline-none group-focus-within/card:opacity-100 group-hover/card:opacity-100 hover:bg-foreground/[0.12] hover:text-foreground focus-visible:opacity-100 focus-visible:ring-2 focus-visible:ring-focus-ring"
+        className="absolute top-4 right-4 z-10 opacity-0 group-focus-within/card:opacity-100 group-hover/card:opacity-100 focus-visible:opacity-100"
+        nativeButton={false}
+        render={<Link href={href} />}
       >
-        <ArrowUpRightIcon className="size-4" />
-      </Link>
+        <ArrowUpRightIcon />
+      </Button>
       <div
         className="flex w-full max-w-full min-w-0 items-center justify-center"
         style={item.entry?.zoom ? { zoom: item.entry.zoom } : undefined}

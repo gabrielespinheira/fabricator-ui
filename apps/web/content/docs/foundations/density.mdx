@@ -1,0 +1,163 @@
+---
+title: Density
+description: Compact for dashboards, default for apps, spacious for websites. Set it on any container and everything inside follows.
+---
+
+## Installation
+
+The density tokens, switches and utilities ship with the foundations, which every Fabricator component installs. `DensityProvider` is its own item:
+
+```bash
+npx fabricator-ui@latest add density
+```
+
+## Three densities
+
+Fabricator UI builds dashboards and websites from the same components, and those want different room. Every component sizes itself from the density, so changing it resizes all of them together: controls, menu rows, text, icons, padding and gaps.
+
+<DensityCompare />
+
+|                                | Compact                            | Default  | Spacious                   |
+| ------------------------------ | ---------------------------------- | -------- | -------------------------- |
+| For                            | Dashboards, toolbars, dense tables | Apps     | Websites and landing pages |
+| Controls and menu rows         | 28px                               | 36px     | 44px                       |
+| Body text                      | 12px                               | 13px     | 15px                       |
+| Icons                          | 14px                               | 16px     | 18px                       |
+| Padding: controls / rows       | 10 / 6px                           | 12 / 8px | 14 / 10px                  |
+| Segmented item / track padding | 24 / 2px                           | 28 / 4px | 36 / 4px                   |
+| Card spacing                   | 12px                               | 16px     | 20px                       |
+
+Spacious controls are 44px, the touch target size WCAG 2.5.5 asks for; compact stays above the 24px minimum. Tracks keep their items concentric at every density: a 28px tab in a 36px list with 4px of padding becomes a 24px tab in a 28px list with 2px.
+
+## Set it on a container
+
+`data-density` on any element sets the density for everything inside it. It needs no JavaScript and works in Server Components:
+
+```tsx
+<main data-density="spacious">{/* hero, features, pricing, … */}</main>
+```
+
+Densities nest, so a compact toolbar can sit inside a spacious page, and `data-density="default"` sets one region back.
+
+### With popups
+
+Menus, selects, popovers, tooltips, dialogs and sheets render in a portal at the end of `<body>`, outside the container, so the attribute alone doesn't reach them: they follow `<html>`. `DensityProvider` sets the attribute and passes the density through React context, which portals keep, so everything a component opens matches the region it opened from:
+
+```tsx
+import { DensityProvider } from "@/components/ui/density"
+
+export default function MarketingLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return <DensityProvider density="spacious">{children}</DensityProvider>
+}
+```
+
+`DensityProvider` renders a `display: contents` wrapper, so it doesn't change your layout. Give it a `className` to make it a real box.
+
+<DensityLanding />
+
+The same works the other way round. A dashboard keeps the default density and makes its header compact:
+
+```tsx
+<DensityProvider density="compact">
+  <header className="flex items-center gap-2 border-b px-3 py-2">
+    {/* breadcrumb, search, notifications, workspace menu */}
+  </header>
+</DensityProvider>
+```
+
+<DensityDashboardHeader />
+
+Toasts render once for the whole app, so they follow `<html>`.
+
+## Set it on one component
+
+A `size` prop pins a component to a density, whatever its container says: `size="sm"` is compact and `size="lg"` is spacious. Without one, the component follows its container. Button, Toggle, Toggle Group, Select, Switch and Search take `size`. Icon buttons have the same pair: `icon-sm` and `icon-lg`.
+
+Every other component takes `data-density` directly:
+
+```tsx
+<Button size="sm">Filter</Button>
+<Input data-density="compact" placeholder="Search" />
+```
+
+<DensityPinned />
+
+Containers keep their own `size` for their own job: a small Card, Item or Attachment is a smaller layout, and an Avatar's size is the picture's. They follow the density too, so a small card in a compact region is smaller still.
+
+## For the whole project
+
+To use one density everywhere, set it on `<html>`:
+
+```html
+<html data-density="spacious"></html>
+```
+
+Or choose it on [Get started](/create): the install command writes that density into your stylesheet's `:root`, and `data-density` still switches any part of the page. The settings menu in this site's header sets the density for every preview here.
+
+The `density-compact`, `density-default` and `density-spacious` utilities do the same as the attribute from a class, so they take breakpoints:
+
+```tsx
+<main className="md:density-spacious">
+  {/* default on phones, spacious from md */}
+</main>
+```
+
+Density pairs well with [motion](/docs/foundations/motion): spacious with `smooth` for websites, compact with `snappy` or `instant` for dashboards. The two are set separately.
+
+## Tokens
+
+Components size themselves with CSS variables, never fixed pixels, and your own components can use the same ones. Each variable is named after its default value:
+
+| Token                       | Compact | Default | Spacious | Used for                      |
+| --------------------------- | ------- | ------- | -------- | ----------------------------- |
+| `--density-36`              | 28px    | 36px    | 44px     | Controls, menu and table rows |
+| `--density-32`              | 28px    | 32px    | 40px     | Sidebar rows, avatars         |
+| `--density-28`              | 24px    | 28px    | 36px     | Tabs and segmented items      |
+| `--density-24`              | 20px    | 24px    | 28px     | Badges, chips, row actions    |
+| `--density-16`              | 12px    | 16px    | 20px     | Button padding, card spacing  |
+| `--density-12`              | 10px    | 12px    | 14px     | Control padding               |
+| `--density-8`               | 6px     | 8px     | 10px     | Row padding, gaps             |
+| `--density-text-13`         | 12px    | 13px    | 15px     | Body and control text         |
+| `--density-text-12`         | 12px    | 12px    | 13px     | Captions, labels, errors      |
+| `--density-text-14` / `-16` | 13 / 15 | 14 / 16 | 16 / 18  | Card and dialog titles        |
+| `--density-icon-16` / `-14` | 14 / 12 | 16 / 14 | 18 / 16  | Icons                         |
+
+The full set runs from `--density-4` to `--density-48`. Use them with Tailwind's variable syntax:
+
+```tsx
+<div className="flex h-(--density-36) items-center gap-(--density-8) px-(--density-12) text-(length:--density-text-13)">
+  <SparklesIcon className="size-(--density-icon-16)" />
+  Upgrade
+</div>
+```
+
+They are variables rather than theme keys like `h-control` so that class merging recognises them: a `className="h-12"` you pass to a component still replaces its `h-(--density-36)`.
+
+## Shape
+
+Items, buttons, inputs and highlights are `rounded-lg` (8px). Containers such as popups, cards, dialogs and tab tracks are `rounded-xl` (12px). A container holds its items with 4px of padding (`p-1`), so the inner and outer corners are concentric.
+
+<ShapeDemo />
+
+Checkboxes use `rounded-[6px]`. Switches, badge dots and avatars are fully round.
+
+## Rounded or pill
+
+Every corner comes from the `--radius` token: items and controls use `rounded-lg` (`--radius`) and containers `rounded-xl` (`--radius` × 1.4). Two values are supported:
+
+| Radius  | `--radius`         | Controls (36px)   | Containers |
+| ------- | ------------------ | ----------------- | ---------- |
+| Rounded | `0.5rem` (default) | 8px               | 12px       |
+| Pill    | `1.25rem`          | 20px, a full pill | 28px       |
+
+Pill keeps containers concentric with their items, so menus, selects and tab tracks round out along with their rows. To switch a project to pill, add the radius item:
+
+```bash
+npx fabricator-ui@latest add radius-pill
+```
+
+It sets `--radius: 1.25rem` in your stylesheet. To go back, set `--radius` to `0.5rem`. Try both from the settings menu in the header of this site.

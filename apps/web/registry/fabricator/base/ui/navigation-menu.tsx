@@ -10,11 +10,15 @@ import {
   useFluidHover,
   useMergedRef,
 } from "@/registry/bases/base/lib/fluid-hover"
+import { useDensity } from "@/registry/bases/base/ui/density"
 import { IconPlaceholder } from "@/app/(create)/components/icon-placeholder"
 
 // Fabricator override of the upstream navigation menu: the menu is a fluid
 // hover strip, so one highlight glides between the top-level triggers and
 // links, and each content panel is a fluid hover container for its links.
+//
+// The popup takes the density of the nearest DensityProvider, which its
+// portal would otherwise lose (registry/fabricator/density.ts).
 const CONTENT = '[data-slot="navigation-menu-content"]'
 const STRIP_ITEMS = `[data-slot="navigation-menu-trigger"], [data-slot="navigation-menu-link"]:not(${CONTENT} *)`
 const CONTENT_LINKS = '[data-slot="navigation-menu-link"]'
@@ -147,7 +151,7 @@ function NavigationMenuContent({
     <NavigationMenuPrimitive.Content
       data-slot="navigation-menu-content"
       className={cn(
-        "cn-navigation-menu-content data-ending-style:data-activation-direction=left:translate-x-[50%] data-ending-style:data-activation-direction=right:translate-x-[-50%] data-starting-style:data-activation-direction=left:translate-x-[-50%] data-starting-style:data-activation-direction=right:translate-x-[50%] h-full w-auto transition-[opacity,transform,translate] duration-[0.35s] data-ending-style:opacity-0 data-starting-style:opacity-0 **:data-[slot=navigation-menu-link]:focus:ring-0 **:data-[slot=navigation-menu-link]:focus:outline-none",
+        "cn-navigation-menu-content data-ending-style:data-activation-direction=left:translate-x-[50%] data-ending-style:data-activation-direction=right:translate-x-[-50%] data-starting-style:data-activation-direction=left:translate-x-[-50%] data-starting-style:data-activation-direction=right:translate-x-[50%] h-full w-auto transition-[opacity,transform,translate] data-ending-style:opacity-0 data-starting-style:opacity-0 **:data-[slot=navigation-menu-link]:focus:ring-0 **:data-[slot=navigation-menu-link]:focus:outline-none",
         className
       )}
       ref={mergedRef}
@@ -168,20 +172,23 @@ function NavigationMenuPositioner({
   alignOffset = 0,
   ...props
 }: NavigationMenuPrimitive.Positioner.Props) {
+  const density = useDensity()
+
   return (
     <NavigationMenuPrimitive.Portal>
       <NavigationMenuPrimitive.Positioner
+        data-density={density}
         side={side}
         sideOffset={sideOffset}
         align={align}
         alignOffset={alignOffset}
         className={cn(
-          "cn-navigation-menu-positioner isolate z-50 h-(--positioner-height) w-(--positioner-width) max-w-(--available-width) transition-[top,left,right,bottom] duration-[0.35s] data-instant:transition-none",
+          "cn-navigation-menu-positioner isolate z-50 h-(--positioner-height) w-(--positioner-width) max-w-(--available-width) transition-[top,left,right,bottom] data-instant:transition-none",
           className
         )}
         {...props}
       >
-        <NavigationMenuPrimitive.Popup className="cn-navigation-menu-popup data-[ending-style]:easing-[ease] xs:w-(--popup-width) relative h-(--popup-height) w-(--popup-width) origin-(--transform-origin) transition-[opacity,transform,width,height,scale,translate] duration-[0.35s] ease-[cubic-bezier(0.22,1,0.36,1)]">
+        <NavigationMenuPrimitive.Popup className="cn-navigation-menu-popup data-[ending-style]:easing-[ease] xs:w-(--popup-width) relative h-(--popup-height) w-(--popup-width) origin-(--transform-origin) transition-[opacity,transform,width,height,scale,translate]">
           <NavigationMenuPrimitive.Viewport className="relative size-full overflow-hidden" />
         </NavigationMenuPrimitive.Popup>
       </NavigationMenuPrimitive.Positioner>

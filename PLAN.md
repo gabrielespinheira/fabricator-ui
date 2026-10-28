@@ -139,7 +139,7 @@ shadcn-ui/ui
 **The key fact our architecture relies on.** `shadcn init <url>` and `shadcn init --preset <url>` fetch a **`registry:base`** item from any URL. That item's `config` (a deep-partial `components.json`, **including `registries`**) is merged into the user's `components.json` (`packages/shadcn/src/commands/init.ts`, `mergeConfig`). With `extends: "none"`, the item replaces shadcn's default style index. **That means one URL from our site can fully configure a Fabricator project, using only the official CLI.**
 
 ### 2.6 Website stack (what we replicate)
-- **Framework:** Next 16 (Turbopack) and React 19.2.
+- **Framework:** Next 16 (Turbopack) and React 19.3.
 - **Styling:** Tailwind 4.3 and `tw-animate-css`.
 - **Docs:** Fumadocs (`fumadocs-core/ui/mdx`), with `rehype-pretty-code` + shiki for highlighting.
 - **State:** next-themes, jotai (persisted user prefs), nuqs (URL state for the creator).
@@ -198,7 +198,7 @@ fabricator-ui/
 │     ├─ registry/
 │     │  ├─ bases/{base,radix,aria}/{ui,examples,blocks,lib,hooks,components,internal}/
 │     │  ├─ styles/style-{vega,nova,maia,lyra,mira,luma,sera,rhea}.css   # upstream (parity only)
-│     │  ├─ styles/style-fabricator.css (+ -compact etc.)                # OUR design system
+│     │  ├─ styles/style-fabricator.css                                  # OUR design system
 │     │  ├─ tokens/                      # Fabricator token sources (colors, surfaces, motion…)
 │     │  ├─ bases.ts styles.ts themes.ts fonts.ts config.ts presets.ts
 │     │  └─ __index__.tsx __components__/ (generated)
@@ -223,7 +223,7 @@ fabricator-ui/
 └─ tmp/                                  # existing Three.js experiments (gitignored), to mine for the hero
 ```
 
-**Tooling:** Bun ≥ 1.4 (workspaces declared in the root `package.json` `"workspaces": ["apps/*", "packages/*"]`, `"packageManager": "bun@1.4.x"`), Turborepo 2 (supports Bun workspaces and `bun.lock`), TypeScript 5.x, ESLint 9 + Prettier (with `prettier-plugin-tailwindcss` and `@ianvs/prettier-plugin-sort-imports`), Vitest 3 (run via `bun run test`; `bun test` is an option for pure-logic packages), Changesets, commitlint, lefthook. Supply-chain safety equivalent to upstream's pnpm `minimumReleaseAge`: set `[install] minimumReleaseAge = 172800` (48h, in seconds) in `bunfig.toml`, matching Bun's `--minimum-release-age` flag. Node ≥ 20.18.1 stays installed for running Next.js tooling parity checks and for testing the CLI under Node.
+**Tooling:** Bun ≥ 1.4 (workspaces declared in the root `package.json` `"workspaces": ["apps/*", "packages/*"]`, `"packageManager": "bun@1.4.x"`), Turborepo 2 (supports Bun workspaces and `bun.lock`), TypeScript 6.x (typescript-eslint does not support 7 yet), ESLint 10 + Prettier (with `prettier-plugin-tailwindcss` and `@ianvs/prettier-plugin-sort-imports`), Vitest 5 (run via `bun run test`; `bun test` is an option for pure-logic packages), Changesets, commitlint, lefthook. Supply-chain safety equivalent to upstream's pnpm `minimumReleaseAge`: set `[install] minimumReleaseAge = 172800` (48h, in seconds) in `bunfig.toml`, matching Bun's `--minimum-release-age` flag. Node ≥ 20.18.1 stays installed for running Next.js tooling parity checks and for testing the CLI under Node.
 
 ---
 
@@ -275,7 +275,7 @@ Returns a `registry:base` item, modelled on upstream `buildRegistryBase`:
 - `/init.md` returns manual install instructions for agents and for people who don't use the CLI.
 
 ### 5.4 Presets
-- Ship named Fabricator presets in `public/r/config.json`, for example `fabricator`, `fabricator-compact`, `fabricator-square`, `fabricator-pill`.
+- Ship named Fabricator presets in `public/r/config.json`, for example `fabricator`, `fabricator-square`, `fabricator-pill`. Density is a look param (`density=compact|spacious`), not a preset.
 - **Do not reuse shadcn's preset code format.** It is a frozen bit layout with shadcn-only enums, so it cannot carry our dimensions. Use **readable preset URLs** (`/init?preset=fabricator&radius=pill`). If short codes are wanted later, define a separate codec in `packages/cli`, prefixed `f…` to avoid collisions.
 
 ### 5.5 Discovery and listing
@@ -321,8 +321,8 @@ Starting point is `tmp/TODO.md`: Colors, Surfaces, Radius (square | rounded | pi
 - **Add Fabricator tokens** with distinct names, delivered through the `cssVars` of the items that need them, so projects receive them only when required:
   - Surfaces: `--surface-sunken`, `--surface`, `--surface-raised`, `--surface-overlay` (+ foregrounds), in light and dark
   - Elevation: `--shadow-*`
-  - Motion: `--motion-duration-{fast,base,slow}`, `--motion-ease-{standard,emphasized,spring}`, respecting `prefers-reduced-motion`
-  - Density: `--control-height-{sm,md,lg}` (optional, if compact mode is token-driven rather than style-driven)
+  - Motion: a duration and exit per role (`--motion-<role>`, `--motion-<role>-exit`), `--motion-ease-{enter,move,exit,feedback,drawer}`, surface scales and travel, set by four speeds (`data-motion`: smooth, default, snappy, instant) and respecting `prefers-reduced-motion` (`registry/fabricator/motion.ts`)
+  - Density: one size ladder named by default px (`--density-4` … `--density-48`), text steps (`--density-text-11` … `-16`) and icon sizes (`--density-icon-14`, `-16`), set by three densities (`data-density`: compact, default, spacious; `registry/fabricator/density.ts`)
 - Colors are OKLCH, and every pair is checked for WCAG AA contrast in CI (script in `apps/web/scripts`).
 
 ### 6.2 Mapping each TODO dimension
@@ -332,7 +332,7 @@ Starting point is `tmp/TODO.md`: Colors, Surfaces, Radius (square | rounded | pi
 | Surfaces | New tokens (above) plus `Surface` component(s). Style map classes use `bg-surface-raised` etc. |
 | Radius: square / rounded | `--radius` token (`0` vs default). No recompile needed. |
 | Radius: pill | **Style-level.** Needs `rounded-full` on controls, not a bigger `--radius`, so it is a style variant (`style-fabricator-pill.css` or `@apply` overrides layered on `style-fabricator.css`). |
-| Size: default / compact | **Style-level**, the same way shadcn splits `luma`/`rhea` and `vega`/`nova`. Ship `fabricator` and `fabricator-compact` style maps. |
+| Density: compact / default / spacious | **Token-level** (changed 2026-10-28; first planned as a `fabricator-compact` style map). Style maps size everything with `--density-*` variables, so `data-density` on any element, a `density-*` utility, or `DensityProvider` (which also reaches portals) switches a subtree at runtime, and one compiled style serves dashboards and websites. A control's `size="sm"` / `"lg"` pins compact / spacious. `/init?density=` writes a project default into `:root`. |
 | Theme: system / dark / light | `next-themes` (Next) or the documented provider for Vite and others. Docs pages mirror upstream's `dark-mode/*` pages. |
 | Icon pack | Reuse upstream `IconPlaceholder` and CLI `iconLibrary` (lucide, tabler, hugeicons, phosphor, remixicon). A custom Fabricator icon pack would need a new placeholder attribute, which the shadcn CLI does not support. Option: ship icons as a `registry:ui` `icons` item, resolved to lucide by default. |
 | Motion | Tokens plus `tw-animate-css`. Optional `motion` (Framer) only in exclusive components that need springs, listed as an item dependency. |
@@ -382,7 +382,7 @@ Starting point is `tmp/TODO.md`: Colors, Surfaces, Radius (square | rounded | pi
 ## 8. The website (`apps/web`)
 
 ### 8.1 Stack
-Next 16 (App Router, Turbopack), React 19.2, Tailwind 4.3, Fumadocs 16 (core/ui/mdx), rehype-pretty-code + shiki, next-themes, jotai, nuqs, `@vercel/analytics`, `next/og`. Hosted on **Vercel**. `bun run build` = `registry:build && next build`. Vercel detects `bun.lock` and installs with Bun.
+Next 16 (App Router, Turbopack), React 19.3, Tailwind 4.3, Fumadocs 16 (core/ui/mdx), rehype-pretty-code + shiki, next-themes, jotai, nuqs, `@vercel/analytics`, `next/og`. Hosted on **Vercel**. `bun run build` = `registry:build && next build`. Vercel detects `bun.lock` and installs with Bun.
 
 ### 8.2 Information architecture
 | Route | Content |
@@ -392,7 +392,7 @@ Next 16 (App Router, Turbopack), React 19.2, Tailwind 4.3, Fumadocs 16 (core/ui/
 | `/docs/components/[base]/[name]` | One page per component per base, with a **base switcher** (Base UI / Radix / React Aria). Sections: Preview + code, Installation (CLI tabs plus a Manual tab with full source), Usage, Composition tree, Examples, API reference (props tables), Accessibility, Changelog notes. |
 | `/blocks`, `/blocks/[category]` | Block viewer: iframe at desktop/tablet/mobile widths, resizable panel, code view with file tree, copy CLI command. |
 | `/charts/[type]` | Chart gallery (area, bar, line, pie, radar, radial, tooltip). |
-| `/create` | Fabricator preset designer: base, style (fabricator / compact / pill), color, surface, radius, font, icon library, motion, RTL. Live iframe preview through `postMessage`. Outputs the `bunx --bun fabricator-ui init --preset …` command, the raw `bunx --bun shadcn init <url>` command, and a share URL. |
+| `/create` | Fabricator preset designer: base, style (fabricator / pill), density (compact / default / spacious), color, surface, radius, font, icon library, motion, RTL. Live iframe preview through `postMessage`. Outputs the `bunx --bun fabricator-ui init --preset …` command, the raw `bunx --bun shadcn init <url>` command, and a share URL. |
 | `/colors` | Token and palette browser (OKLCH values, copy as CSS var / Tailwind class). |
 | `/docs/*.md`, `/llms.txt`, `/llms-full.txt` | AI-friendly exports. Upstream has no `llms-full.txt`; we can add one. |
 | `/r/**` | Registry JSON (§5). |
@@ -562,7 +562,7 @@ Candidates that fit the TODO and inspiration list and are absent upstream: Surfa
 ### Phase 4: Fabricator design system v1 (≈ 2–4 weeks, iterative)
 - [ ] Token spec (§6): colors, surfaces, radius, density, motion, typography. Contrast CI.
 - [ ] `style-fabricator.css` (+ `-compact`, pill variant). The `/r/fabricator/` registry URL. Fabricator presets in `/r/config.json`.
-- [ ] `/create` designer for Fabricator dimensions.
+- [x] `/create` designer for Fabricator dimensions (2026-10-27: the Get started page; the look travels to `/init` as URL params).
 - [ ] Re-skin the website with the design system.
 - [ ] Decide the default icon library and fonts.
 

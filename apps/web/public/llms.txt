@@ -7,24 +7,20 @@ The full documentation is also available as a single file: [llms-full.txt](https
 ## Overview
 
 - [Introduction](https://fabricator-ui.vercel.app/docs.md): Fabricator UI is the foundation for your design system. Accessible components, three primitive bases, its own design language. Open Source. Open Code.
-- [CLI](https://fabricator-ui.vercel.app/docs/cli.md): Use the fabricator-ui CLI to create projects, add components and check your setup.
 - [components.json](https://fabricator-ui.vercel.app/docs/components-json.md): Configuration for your project.
-- [Theming](https://fabricator-ui.vercel.app/docs/theming.md): Using CSS variables and theme tokens.
 - [Package Imports](https://fabricator-ui.vercel.app/docs/package-imports.md): Configure Fabricator UI with package.json imports.
 - [Monorepo](https://fabricator-ui.vercel.app/docs/monorepo.md): Using Fabricator UI components and the CLI in a monorepo.
-- [JavaScript](https://fabricator-ui.vercel.app/docs/javascript.md): How to use Fabricator UI with JavaScript
 - [Changelog](https://fabricator-ui.vercel.app/docs/changelog.md): Latest updates and announcements.
 
 ## Foundations
 
-The Fabricator design language rests on these systems, shipped in the `foundations`, `fluid-hover` and `sounds` registry items.
+The Fabricator design language rests on these systems, shipped in the `foundations`, `density`, `fluid-hover` and `sounds` registry items.
 
-- [Fluid Hover](https://fabricator-ui.vercel.app/docs/foundations/fluid-hover.md): One highlight that glides to the item nearest the pointer, so a list never blinks between rows.
+- [Colors](https://fabricator-ui.vercel.app/docs/foundations/colors.md): Eight surface levels and six colour roles, each set by a hue and a strength, with every state AA in light and dark.
 - [Motion](https://fabricator-ui.vercel.app/docs/foundations/motion.md): Three spring speeds, with exits one step quicker than entrances.
-- [Scrollbars](https://fabricator-ui.vercel.app/docs/foundations/scrollbars.md): A thin scrollbar that stays out of the way but is there when you need it.
-- [Sizes](https://fabricator-ui.vercel.app/docs/foundations/sizes.md): 36px controls, 13px text, and corners that nest.
+- [Fluid Hover](https://fabricator-ui.vercel.app/docs/foundations/fluid-hover.md): One highlight that glides to the item nearest the pointer, so a list never blinks between rows.
+- [Density](https://fabricator-ui.vercel.app/docs/foundations/density.md): Compact for dashboards, default for apps, spacious for websites. Set it on any container and everything inside follows.
 - [Sounds](https://fabricator-ui.vercel.app/docs/foundations/sounds.md): Short, quiet interface sounds synthesized in the browser, on by default.
-- [Surfaces](https://fabricator-ui.vercel.app/docs/foundations/surfaces.md): Eight elevation levels, each with its own shadow, so layers stay distinct in light and dark mode.
 - [Typography](https://fabricator-ui.vercel.app/docs/foundations/typography.md): Inter at five sizes, with weights paired to optical size.
 
 ## Installation
@@ -39,11 +35,13 @@ The Fabricator design language rests on these systems, shipped in the `foundatio
 - [TanStack Router](https://fabricator-ui.vercel.app/docs/installation/tanstack-router.md): Install and configure Fabricator UI for TanStack Router.
 - [Manual Installation](https://fabricator-ui.vercel.app/docs/installation/manual.md): Add dependencies to your project manually.
 
-## Registry
+## Tooling
 
+- [CLI](https://fabricator-ui.vercel.app/docs/cli.md): Use the fabricator-ui CLI to create projects, add components and check your setup.
 - [Registry](https://fabricator-ui.vercel.app/docs/registry.md): How the @fabricator registry works, and how to use it from an existing project.
 - [MCP Server](https://fabricator-ui.vercel.app/docs/mcp.md): Use the Fabricator MCP server to browse, search, and install Fabricator UI components with your AI assistant.
 - [Agent Skill](https://fabricator-ui.vercel.app/docs/skills.md): Install the Fabricator agent skill so Claude Code, Codex, Cursor and other AI assistants build with Fabricator UI the right way.
+- [JavaScript](https://fabricator-ui.vercel.app/docs/javascript.md): How to use Fabricator UI with JavaScript
 
 ## Components
 
@@ -142,6 +140,7 @@ The Fabricator design language rests on these systems, shipped in the `foundatio
 ## Utilities
 
 - [scroll-fade](https://fabricator-ui.vercel.app/docs/utils/scroll-fade.md): Utilities for adding a fade effect to the edges of a scroll container.
+- [Scrollbars](https://fabricator-ui.vercel.app/docs/utils/scrollbars.md): A thin scrollbar that stays out of the way but is there when you need it.
 - [shimmer](https://fabricator-ui.vercel.app/docs/utils/shimmer.md): Utilities for adding a shimmer effect to text elements.
 
 ## Schemas

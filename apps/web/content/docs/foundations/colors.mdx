@@ -1,0 +1,208 @@
+---
+title: Colors
+description: Eight surface levels and six colour roles, each set by a hue and a strength, with every state AA in light and dark.
+---
+
+## Installation
+
+The surface and colour tokens ship with the foundations:
+
+```bash
+npx fabricator-ui@latest add foundations
+```
+
+## Pick your colours
+
+Every colour in the components comes from two places: the **surfaces**, eight elevation levels from the page to the top of a stack, and six **colour roles**. Each is one base colour held by two variables, a hue (`--surface-hue`, `--<role>-hue`, in OKLCH degrees) and a strength (`--surface-chroma`, `--<role>-chroma`). At strength 0 they are neutral: that is the default for the surfaces, primary and secondary, so the components stay black and white until you pick a colour.
+
+<ColorRolePicker />
+
+The strength slider is a share of the most the colour can hold: 0.04 for the surfaces, and for a role the most chroma its hue can take with every fill, text and border inside sRGB. That limit depends on the hue: a blue can go much further than a cyan before it leaves the gamut.
+
+## Surfaces
+
+### The ladder
+
+Each level pairs a background with a shadow: `bg-surface-N shadow-surface-N`. In light mode, levels 1 and 2 are off-white and everything from level 3 up is white (tinted, when you set a [base colour](#base-colour)): the shadow alone carries the elevation. In dark mode, each level is a step lighter than the one below, and the shadow adds a faint top highlight and ring.
+
+<SurfaceLadder />
+
+**Surfaces have no borders.** Every surface shadow starts with a 1px ring, which draws the edge.
+
+### Base colour
+
+Every surface derives from one base colour: `--surface-hue` and `--surface-chroma` (from `0` to `0.04`). Both are `0` by default, which gives the neutral ladder above. Set them with the Surface tab of the picker. Each level takes a share of the chroma:
+
+- **Light mode** tints every level, like dark mode: the page takes 44% of the chroma (about `oklch(0.962 0.018)` at full strength) and the top level 21.5%. Colour needs room below white, so as the tint grows the ladder settles into a band just below white (0.962 to 0.981 at full strength), still lighter level by level, and `muted-foreground` darkens with it to stay AA on the page.
+- **Dark mode** carries the tint: level 1 takes 90% of the chroma, and each level above takes a little less, so the top of the ladder stays calm.
+
+At full strength, every level stays inside sRGB for any hue. Text stays AA wherever it was AA on the neutral ladder. The opaque `bg-selected` and `bg-muted` fills follow the tint too.
+
+```css
+/* light */
+--surface-1: oklch(
+  calc(0.985 - var(--surface-chroma) * 0.575) calc(var(--surface-chroma) * 0.44)
+    var(--surface-hue)
+);
+/* dark */
+--surface-1: oklch(0.205 calc(var(--surface-chroma) * 0.9) var(--surface-hue));
+```
+
+### Where each level goes
+
+<SurfaceNesting />
+
+| Element                                                       | Classes                                                                         |
+| ------------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| Page                                                          | `bg-background` (surface 1)                                                     |
+| Sidebar                                                       | `bg-sidebar` (surface 2); an inset main area is `bg-surface-2 shadow-surface-2` |
+| Raised card                                                   | `bg-surface-3 shadow-surface-3`                                                 |
+| Popover, dropdown, select, combobox, context menu, hover card | `bg-surface-3 shadow-surface-3 rounded-xl`                                      |
+| Active tab                                                    | `bg-surface-4 shadow-surface-4`                                                 |
+| Dialog, alert dialog                                          | `bg-surface-5 shadow-surface-5 rounded-xl`                                      |
+| Sheet, drawer                                                 | `bg-surface-3 shadow-surface-3`                                                 |
+| Tooltip                                                       | Inverted: `bg-foreground text-background`                                       |
+
+Overlays behind dialogs and sheets are `bg-black/40`, and `bg-black/80` in dark mode.
+
+### Interaction overlays
+
+Hover and press states are translucent overlays, so they work on any surface.
+
+<SurfaceOverlays />
+
+| Token                      | Light          | Dark           | Use                                |
+| -------------------------- | -------------- | -------------- | ---------------------------------- |
+| `bg-hover`                 | 4% black       | 6% white       | Hover, the Fluid Hover highlight   |
+| `bg-active`                | 7% black       | 10% white      | Pressed, selected rows, toggled on |
+| `bg-selected`              | Solid grey     | Solid grey     | Selection that must stay opaque    |
+| `bg-tint`, `bg-tint-hover` | 8%, 6.5% black | 25%, 20% white | Translucent fills                  |
+
+## Colour roles
+
+Each role is one base colour, and every token it needs is calculated from it.
+
+| Role          | Where it shows                                                                                                           |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------ |
+| `primary`     | Primary buttons, links, checked checkboxes and radios, switches that are on, progress bars, slider ranges, selected days |
+| `secondary`   | Secondary buttons, as a soft tint                                                                                        |
+| `info`        | Info alerts, badges and toasts                                                                                           |
+| `success`     | Success alerts, badges and toasts                                                                                        |
+| `warning`     | Warning alerts, badges and toasts                                                                                        |
+| `destructive` | Destructive buttons and menu items, invalid fields and their messages, error alerts, badges and toasts                   |
+
+### Hues
+
+Primary and secondary take any hue. The statuses keep to their family, so a status always reads as what it is:
+
+| Role          | Hues    | Tones                 | Default     |
+| ------------- | ------- | --------------------- | ----------- |
+| `info`        | 215–275 | Sky, blue, indigo     | 260 (blue)  |
+| `success`     | 125–175 | Lime, green, emerald  | 150 (green) |
+| `warning`     | 45–100  | Orange, amber, yellow | 70 (amber)  |
+| `destructive` | 10–50   | Rose, red, orange     | 25 (red)    |
+
+The CSS clamps a status hue to its range, so a hand-written `--warning-hue: 300` stays yellow.
+
+### Role tokens
+
+Every role has the same tokens, so a component can carry any of them:
+
+| Token                      | Utility                              | Use                                                 |
+| -------------------------- | ------------------------------------ | --------------------------------------------------- |
+| `--<role>`                 | `bg-<role>`, `text-<role>`, `fill-…` | The fill: buttons, checked controls, icons and dots |
+| `--<role>-foreground`      | `text-<role>-foreground`             | Text on the fill                                    |
+| `--<role>-text`            | `text-<role>-text`                   | Coloured text on any surface                        |
+| `--<role>-border`          | `border-<role>-border`, `ring-…`     | Hairlines                                           |
+| `--<role>-surface-1` … `8` | `bg-<role>-surface-1` … `8`          | Tinted surfaces; pair with `shadow-surface-N`       |
+
+```tsx
+<div className="rounded-xl bg-success-surface-3 p-4 text-success-text shadow-surface-3">
+  Deployed to production.
+</div>
+```
+
+Secondary is the soft role, as in shadcn: its fill is a translucent tint (8% black in light, 25% white in dark, when neutral), and its foreground is its text colour.
+
+How the values are made:
+
+- **Light mode.** The fill starts at the foreground colour and, as the chroma grows to 0.06, moves to a mid-tone (lightness 0.48) and takes on the colour. Past that point only the chroma grows. Text on it is white. The text colour moves from the foreground to lightness 0.45.
+- **Dark mode.** The fill starts near white and moves to a light tint (lightness 0.74, chroma up to 0.13), with dark text on it. The text colour settles at lightness 0.85.
+- **Surfaces.** The same eight levels as the neutral ladder, tinted: light mode lifts towards white, dark mode a step lighter per level, and the chroma tapers as the levels rise.
+
+### States
+
+One rule covers every role, so the states stay consistent across the library. Because the states are opacity steps of the fill, they also work with any other palette.
+
+| State    | Solid                                          | Soft                                           |
+| -------- | ---------------------------------------------- | ---------------------------------------------- |
+| Rest     | `bg-<role> text-<role>-foreground`             | `bg-<role>/12 text-<role>-text`                |
+| Hover    | `hover:bg-<role>/90`                           | `hover:bg-<role>/16`                           |
+| Pressed  | `active:bg-<role>/80`                          | `active:bg-<role>/20`                          |
+| Disabled | `disabled:opacity-50`                          | `disabled:opacity-50`                          |
+| Focus    | `focus-visible:ring-1 focus-visible:ring-ring` | `focus-visible:ring-1 focus-visible:ring-ring` |
+
+Statuses use a third form, from the [Alert](/docs/components/base/alert#status): a neutral panel with an icon in the fill colour (low contrast), or `bg-<role>-surface-1 dark:bg-<role>-surface-3` with `ring-<role>-border` and the description in `text-<role>-text` (high contrast). Badges always use the tinted form.
+
+### Error and destructive
+
+`error` is another name for `destructive`. `<Alert variant="error">` and `<Badge variant="error">` look the same as their `destructive` variants, and toasts of type `error` use the destructive colour.
+
+### Defaults
+
+| Role          | Hue | Chroma      |
+| ------------- | --- | ----------- |
+| `primary`     | 0   | 0 (neutral) |
+| `secondary`   | 0   | 0 (neutral) |
+| `info`        | 260 | 0.18        |
+| `success`     | 150 | 0.13        |
+| `warning`     | 70  | 0.1         |
+| `destructive` | 25  | 0.19        |
+
+## Focus
+
+Focus is a 1px blue ring with no offset, the same in both themes and in every role, so it stays visible whatever colours you pick: `focus-visible:ring-1 focus-visible:ring-ring`. The colour is also available as `--focus-ring`.
+
+## Contrast
+
+The tests check the surfaces and every role around the colour wheel, in light and dark:
+
+- Text is AA on every surface level, tinted or not. Muted text is AA on every level in light, and up to dialogs (level 5) in dark, where the top levels keep 3:1.
+- A role's foreground on its fill is at least 4.5:1 at rest and on hover. Pressed, shown only while the pointer is down, keeps 3:1.
+- A role's text is at least 4.5:1 on every neutral surface, every tinted surface at full strength, and its own ladder.
+- A role's fill is at least 3:1 on all of them, for icons and checked controls.
+- Secondary text is at least 4.5:1 on its soft fill, on the levels a button sits on (page to dialog).
+- Surfaces, fills, text and borders stay inside sRGB at every strength the picker offers. The light tinted role ladders can leave sRGB near the top, where screens clip them towards white.
+
+## In your project
+
+The `fabricator` preset writes the theme tokens it shares with other registries (`background`, `card`, `popover`, `sidebar`, `muted`, `muted-foreground`, `primary`, `primary-foreground`, `secondary`, `secondary-foreground` and `destructive`) as plain colours at the defaults, because the CLI only maps plain colours to Tailwind utilities. To use your own colours, set the variables and point those tokens at the surfaces and the roles, as the CSS under the picker does. Tailwind keeps the utilities the preset already mapped, so `bg-background` and `bg-primary` keep working.
+
+```css
+:root {
+  --surface-hue: 145;
+  --surface-chroma: 0.022;
+  --primary-hue: 277;
+  --primary-chroma: 0.2975;
+}
+```
+
+The other tokens (`--surface-N`, `--<role>-text`, `--<role>-surface-N`, `--info`, …) always follow the variables.
+
+## Tokens
+
+| Variable                             | Utility                                                     |
+| ------------------------------------ | ----------------------------------------------------------- |
+| `--surface-hue`, `--surface-chroma`  | The surfaces' base colour (see [Base colour](#base-colour)) |
+| `--surface-1` … `8`                  | `bg-surface-1` … `bg-surface-8`                             |
+| `--shadow-1` … `8`                   | `shadow-surface-1` … `shadow-surface-8`                     |
+| `--hover`                            | `bg-hover`                                                  |
+| `--active`                           | `bg-active`                                                 |
+| `--selected`                         | `bg-selected`                                               |
+| `--tint`                             | `bg-tint`                                                   |
+| `--tint-hover`                       | `bg-tint-hover`                                             |
+| `--focus-ring`                       | `ring-focus-ring`                                           |
+| `--<role>-hue`, `--<role>-chroma`    | A role's base colour (see [Hues](#hues))                    |
+| `--<role>`, `--<role>-foreground`, … | See [Role tokens](#role-tokens)                             |
+
+These are new names: the theme tokens such as `background`, `card` and `border` keep their meaning, so components from other registries still fit in.

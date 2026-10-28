@@ -53,6 +53,7 @@ Each group links to a file with Incorrect/Correct pairs. Read the file before wr
 - **Spacing with `flex`/`grid` and `gap-*`**, vertical stacks as `flex flex-col gap-*` (in place of `space-x-*`/`space-y-*`).
 - **`size-*` for equal width and height**, `truncate` for single-line overflow, `cn()` for conditional classes.
 - **Overlays manage their own stacking.** Dialog, Sheet, Drawer, Popover, Tooltip, DropdownMenu and HoverCard take no `z-*` classes.
+- **Density on the region, not sizes per component.** `<DensityProvider density="compact">` around a dashboard toolbar, `"spacious"` around a marketing page; `size="sm"`/`"lg"` only to pin one control. No `h-7 text-xs` overrides.
 
 ### Forms → [forms.md](./rules/forms.md)
 

@@ -18,7 +18,6 @@
         "name": "next"
       }
     ],
-    "baseUrl": ".",
     "paths": {
       // Temp aliases: registry sources import @/app/(create)/* (ships
       // verbatim in published registry payloads) and a handful still use
@@ -37,6 +36,9 @@
       ],
       "@/registry/bases/*/components/sound-effects": [
         "./registry/fabricator/shared/components/sound-effects"
+      ],
+      "@/registry/bases/*/ui/density": [
+        "./registry/fabricator/shared/ui/density"
       ],
       // Shared overlay files name the base as __base__ (the build substitutes
       // each base); they typecheck against the Base UI tree, then the overlay.

@@ -1,10 +1,10 @@
 /* MARK: Marker */
 
   /* Status and thinking lines: 13px muted text with 1.5-stroke icons. Links
-     and button markers light up to foreground on the fast tier; the shimmer
+     and button markers light up to foreground on the feedback timing; the shimmer
      on streaming states stays inline. */
   .cn-marker {
-    @apply text-muted-foreground min-h-5 gap-2 text-start text-[13px] leading-snug transition-colors duration-fast ease-spring [&_svg:not([class*='size-'])]:size-4 [&_svg]:stroke-[1.5] [a]:underline [a]:decoration-current/30 [a]:underline-offset-3 [a]:hover:text-foreground [a]:hover:decoration-current/60 [button]:rounded-lg [button]:outline-none [button]:hover:text-foreground [button]:hover:[&_svg]:stroke-2 [button]:focus-visible:ring-1 [button]:focus-visible:ring-ring;
+    @apply text-muted-foreground min-h-(--density-20) gap-(--density-8) text-start text-(length:--density-text-13) leading-snug transition-colors duration-feedback ease-feedback [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5] [a]:underline [a]:decoration-current/30 [a]:underline-offset-3 [a]:hover:text-foreground [a]:hover:decoration-current/60 [button]:rounded-lg [button]:outline-none [button]:hover:text-foreground [button]:hover:[&_svg]:stroke-2 [button]:focus-visible:ring-1 [button]:focus-visible:ring-ring;
   }
 
   .cn-marker-variant-separator {
@@ -12,13 +12,13 @@
   }
 
   .cn-marker-variant-border {
-    @apply border-border/60 border-b pb-2;
+    @apply border-border/60 border-b pb-(--density-8);
   }
 
   .cn-marker-icon {
-    @apply size-4 [&_svg:not([class*='size-'])]:size-4;
+    @apply size-(--density-icon-16) [&_svg:not([class*='size-'])]:size-(--density-icon-16);
   }
 
   .cn-marker-content {
-    @apply group-data-[variant=separator]/marker:flex-none group-data-[variant=separator]/marker:text-center *:[a]:underline *:[a]:decoration-current/30 *:[a]:underline-offset-3 *:[a]:transition-colors *:[a]:duration-fast *:[a]:hover:text-foreground *:[a]:hover:decoration-current/60;
+    @apply group-data-[variant=separator]/marker:flex-none group-data-[variant=separator]/marker:text-center *:[a]:underline *:[a]:decoration-current/30 *:[a]:underline-offset-3 *:[a]:transition-colors *:[a]:duration-feedback *:[a]:hover:text-foreground *:[a]:hover:decoration-current/60;
   }

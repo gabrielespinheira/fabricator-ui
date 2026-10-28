@@ -11,6 +11,7 @@ import {
   useMergedRef,
 } from "@/registry/bases/base/lib/fluid-hover"
 import { Button } from "@/registry/bases/base/ui/button"
+import { useDensity } from "@/registry/bases/base/ui/density"
 import {
   InputGroup,
   InputGroupAddon,
@@ -23,6 +24,9 @@ import { IconPlaceholder } from "@/app/(create)/components/icon-placeholder"
 // container, so one highlight glides between items (keyboard navigation from
 // the primitive moves the same highlight). In single selection the selected
 // item's background slides when the selection changes.
+//
+// Its popups take the density of the nearest DensityProvider, which their
+// portals would otherwise lose (registry/fabricator/density.ts).
 const COMBOBOX_SELECTED =
   '[data-slot="combobox-list"]:not([aria-multiselectable="true"]) [data-selected]'
 
@@ -124,6 +128,8 @@ function ComboboxContent({
     ComboboxPrimitive.Positioner.Props,
     "side" | "align" | "sideOffset" | "alignOffset" | "anchor"
   >) {
+  const density = useDensity()
+
   return (
     <ComboboxPrimitive.Portal>
       <ComboboxPrimitive.Positioner
@@ -136,6 +142,7 @@ function ComboboxContent({
       >
         <ComboboxPrimitive.Popup
           data-slot="combobox-content"
+          data-density={density}
           data-chips={!!anchor}
           className={cn(
             "cn-combobox-content cn-combobox-content-logical cn-menu-target cn-menu-translucent group/combobox-content relative max-h-(--available-height) w-(--anchor-width) max-w-(--available-width) min-w-[calc(var(--anchor-width)+--spacing(7))] origin-(--transform-origin) data-[chips=true]:min-w-(--anchor-width)",

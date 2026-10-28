@@ -10,12 +10,16 @@ import {
   useFluidHover,
   useMergedRef,
 } from "@/registry/bases/base/lib/fluid-hover"
+import { useDensity } from "@/registry/bases/base/ui/density"
 import { IconPlaceholder } from "@/app/(create)/components/icon-placeholder"
 
 // Fabricator override of the upstream select: the popup is a fluid hover
 // container, so one highlight glides between items (keyboard navigation from
 // the primitive moves the same highlight) and the selected item's background
 // slides when the selection changes.
+//
+// Its popups take the density of the nearest DensityProvider, which their
+// portals would otherwise lose (registry/fabricator/density.ts).
 const Select = SelectPrimitive.Root
 
 function SelectGroup({ className, ...props }: SelectPrimitive.Group.Props) {
@@ -94,6 +98,7 @@ function SelectContent({
     selected: "[data-selected]",
   })
   const mergedRef = useMergedRef(fluid.attach, ref)
+  const density = useDensity()
 
   return (
     <SelectPrimitive.Portal>
@@ -107,6 +112,7 @@ function SelectContent({
       >
         <SelectPrimitive.Popup
           data-slot="select-content"
+          data-density={density}
           data-align-trigger={alignItemWithTrigger}
           className={cn(
             "cn-select-content cn-select-content-logical cn-menu-target cn-menu-translucent relative isolate z-50 max-h-(--available-height) w-(--anchor-width) origin-(--transform-origin) overflow-x-hidden overflow-y-auto data-[align-trigger=true]:animate-none",

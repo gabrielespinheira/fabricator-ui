@@ -10,12 +10,16 @@ import {
   useFluidHover,
   useMergedRef,
 } from "@/registry/bases/radix/lib/fluid-hover"
+import { useDensity } from "@/registry/bases/radix/ui/density"
 import { IconPlaceholder } from "@/app/(create)/components/icon-placeholder"
 
 // Fabricator override of the upstream select: the viewport (the scrolling
 // list) is a fluid hover container, so one highlight glides between items
 // (keyboard navigation from the primitive moves the same highlight) and the
 // selected item's background slides when the selection changes.
+//
+// Its popups take the density of the nearest DensityProvider, which their
+// portals would otherwise lose (registry/fabricator/density.ts).
 function Select({
   ...props
 }: React.ComponentProps<typeof SelectPrimitive.Root>) {
@@ -87,11 +91,13 @@ function SelectContent({
     selected: '[data-state="checked"]',
   })
   const containerRef = useMergedRef(fluid.attach)
+  const density = useDensity()
 
   return (
     <SelectPrimitive.Portal>
       <SelectPrimitive.Content
         data-slot="select-content"
+        data-density={density}
         data-align-trigger={position === "item-aligned"}
         className={cn(
           "cn-select-content cn-menu-target cn-menu-translucent relative z-50 max-h-(--radix-select-content-available-height) origin-(--radix-select-content-transform-origin) overflow-x-hidden overflow-y-auto data-[align-trigger=true]:animate-none",

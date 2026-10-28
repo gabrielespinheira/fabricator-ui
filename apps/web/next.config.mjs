@@ -49,14 +49,15 @@ const nextConfig = {
     // 8 GB, the process died with no message, and the deployment sat in
     // "Building".
     // Next 16.3 turned on the Turbopack build cache by default and builds
-    // source maps for every chunk; neither is needed for a deploy. Running the
-    // MDX/PostCSS loaders as worker threads instead of child processes saves
-    // another ~0.5 GB. Together with the leaner component shards from
-    // `scripts/build-registry.mts`, the build fits in 7 GB (checked in a
-    // container limited to 4 CPUs).
+    // source maps for every chunk; neither is needed for a deploy. Together with
+    // the leaner component shards from `scripts/build-registry.mts`, the build
+    // fits in 8 GB.
+    // Don't set `turbopackPluginRuntimeStrategy: "workerThreads"`: it saves
+    // ~0.5 GB, but a worker that ran the MDX loaders later receives a PostCSS
+    // job and fails with "Cannot read properties of undefined (reading 'map')",
+    // in `next dev` and in `next build`.
     turbopackFileSystemCacheForBuild: false,
     turbopackSourceMaps: false,
-    turbopackPluginRuntimeStrategy: "workerThreads",
     // Rewrite barrel imports to deep imports so a single icon doesn't pull the
     // whole package into the module graph. Next already optimizes lucide-react,
     // @tabler/icons-react, date-fns and lodash-es by default; these are the
@@ -156,15 +157,10 @@ const nextConfig = {
         destination: "/docs/components/:base/select.md",
         permanent: false,
       },
-      // The Create and Colors pages aren't part of the site for now.
-      {
-        source: "/create",
-        destination: "/docs/installation",
-        permanent: false,
-      },
+      // The Colors page isn't part of the site for now.
       {
         source: "/colors/:path*",
-        destination: "/docs/theming",
+        destination: "/docs/foundations/colors",
         permanent: false,
       },
       // Chart isn't part of the Fabricator library for now.
@@ -182,6 +178,50 @@ const nextConfig = {
         source: "/docs/components/:base(base|radix|aria)/chart.md",
         destination: "/docs/components",
         permanent: false,
+      },
+      // Theming is removed, and Surfaces is part of Colors: Colors covers
+      // every colour token.
+      {
+        source: "/docs/theming",
+        destination: "/docs/foundations/colors",
+        permanent: true,
+      },
+      {
+        source: "/docs/theming.md",
+        destination: "/docs/foundations/colors.md",
+        permanent: true,
+      },
+      {
+        source: "/docs/foundations/surfaces",
+        destination: "/docs/foundations/colors",
+        permanent: true,
+      },
+      {
+        source: "/docs/foundations/surfaces.md",
+        destination: "/docs/foundations/colors.md",
+        permanent: true,
+      },
+      // Sizes became Density.
+      {
+        source: "/docs/foundations/sizes",
+        destination: "/docs/foundations/density",
+        permanent: true,
+      },
+      {
+        source: "/docs/foundations/sizes.md",
+        destination: "/docs/foundations/density.md",
+        permanent: true,
+      },
+      // Scrollbars moved from Foundations to Utilities.
+      {
+        source: "/docs/foundations/scrollbars",
+        destination: "/docs/utils/scrollbars",
+        permanent: true,
+      },
+      {
+        source: "/docs/foundations/scrollbars.md",
+        destination: "/docs/utils/scrollbars.md",
+        permanent: true,
       },
       // RTL isn't part of Fabricator UI.
       {
@@ -268,7 +308,7 @@ const nextConfig = {
       },
       {
         source: "/themes",
-        destination: "/docs/theming",
+        destination: "/docs/foundations/colors",
         permanent: true,
       },
       {

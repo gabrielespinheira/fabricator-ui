@@ -1,14 +1,12 @@
-import * as React from "react"
 import Link from "next/link"
 
 import { siteConfig } from "@/lib/config"
 import { source } from "@/lib/source"
-import { CommandMenu } from "@/components/command-menu"
 import { FluidNav, FluidNavLink } from "@/components/fabricator/fluid-nav"
 import { SiteSettingsMenu } from "@/components/fabricator/site-settings"
-import { StarsCount } from "@/components/github-link"
 import { Icons } from "@/components/icons"
 import { MobileNav } from "@/components/mobile-nav"
+import { Button } from "@/styles/base-fabricator/ui/button"
 
 /** The top bar for the homepage and the full-width pages. */
 export function SiteHeader() {
@@ -38,7 +36,7 @@ export function SiteHeader() {
               {siteConfig.name}
             </span>
           </Link>
-          <FluidNav axis="x" className="ms-4 hidden lg:flex">
+          <FluidNav axis="x" className="ms-4 hidden gap-1 lg:flex">
             {navItems.map((item) => (
               <FluidNavLink
                 key={item.href}
@@ -49,41 +47,12 @@ export function SiteHeader() {
               </FluidNavLink>
             ))}
           </FluidNav>
-          <div className="hidden lg:flex">
-            <CommandMenu
-              tree={pageTree}
-              navItems={siteConfig.navItems}
-              trigger="search"
-            />
-          </div>
         </div>
         <div className="flex items-center justify-end gap-2">
-          <div className="hidden w-32 sm:block lg:hidden">
-            <CommandMenu
-              tree={pageTree}
-              navItems={siteConfig.navItems}
-              trigger="sidebar"
-            />
-          </div>
-          <Link
-            href={siteConfig.links.github}
-            target="_blank"
-            rel="noreferrer"
-            className="hidden h-10 items-center gap-1.5 rounded-lg bg-muted px-3.5 text-[13px] font-medium text-foreground transition-colors duration-fast ease-spring outline-none hover:bg-active focus-visible:ring-1 focus-visible:ring-focus-ring sm:flex"
-          >
-            <Icons.gitHub className="size-4" />
-            <span className="sr-only">GitHub</span>
-            <React.Suspense fallback={null}>
-              <StarsCount />
-            </React.Suspense>
-          </Link>
-          <SiteSettingsMenu />
-          <Link
-            href="/docs/installation"
-            className="flex h-10 items-center rounded-lg bg-foreground px-4.5 text-[15px] font-medium text-background transition-[opacity,scale] duration-fast ease-spring outline-none hover:opacity-90 focus-visible:ring-1 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background active:scale-[0.97]"
-          >
+          <SiteSettingsMenu size="icon" />
+          <Button nativeButton={false} render={<Link href="/create" />}>
             Get started
-          </Link>
+          </Button>
         </div>
       </div>
     </header>

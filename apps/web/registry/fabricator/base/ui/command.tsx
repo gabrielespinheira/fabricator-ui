@@ -66,6 +66,8 @@ function CommandDialog({
         <DialogDescription>{description}</DialogDescription>
       </DialogHeader>
       <DialogContent
+        // Opened from the keyboard many times a day: no animation.
+        data-motion="off"
         className={cn(
           "cn-command-dialog top-1/3 translate-y-0 overflow-hidden p-0",
           className

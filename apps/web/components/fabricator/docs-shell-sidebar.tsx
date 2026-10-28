@@ -4,6 +4,7 @@ import * as React from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "cn"
+import { ChevronRightIcon } from "lucide-react"
 
 import { groupComponentPages } from "@/lib/component-groups"
 import { siteConfig } from "@/lib/config"
@@ -19,25 +20,37 @@ import { CommandMenu } from "@/components/command-menu"
 import { FluidNav, FluidNavLink } from "@/components/fabricator/fluid-nav"
 import { SiteSettingsMenu } from "@/components/fabricator/site-settings"
 import { Icons } from "@/components/icons"
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/styles/base-fabricator/ui/collapsible"
 
 const TOP_LINKS = [
   { name: "Home", href: "/", exact: true },
-  { name: "Introduction", href: "/docs", exact: true },
-  { name: "Installation", href: "/docs/installation", exact: false },
   { name: "Changelog", href: "/docs/changelog", exact: false },
 ]
 
 // Folder order; anything not listed follows in page-tree order.
-const GROUP_ORDER = ["Get Started", "Foundations", "Components"]
+const GROUP_ORDER = [
+  "Get Started",
+  "Foundations",
+  "Components",
+  "Tooling",
+  "Utilities",
+]
 const COUNTED_GROUPS = ["Foundations"]
 const EXCLUDED_SECTIONS = ["installation", "dark-mode", "changelog", "rtl"]
-const EXCLUDED_PAGES = [
-  "/docs",
-  "/docs/changelog",
-  "/docs/rtl",
-  "/docs/new",
-  "/docs/installation",
-]
+const EXCLUDED_PAGES = ["/docs/changelog", "/docs/rtl", "/docs/new"]
+// Pages whose section has its own sub-pages (framework guides), which keep
+// the link active.
+const SECTION_PAGES = ["/docs/installation"]
+
+function isPageActive(url: string, pathname: string) {
+  return SECTION_PAGES.includes(url)
+    ? pathname.startsWith(url)
+    : pathname === url
+}
 
 const ITEM_CLASS =
   "h-8 shrink-0 px-2 text-[14px] data-[active=true]:font-medium"
@@ -86,6 +99,32 @@ export function DocsShellSidebar({
       .filter((group) => group.pages.length > 0)
   }, [tree, currentBase])
 
+  // Only the current page's group starts open. Navigating into a closed group
+  // opens it too; groups the reader opened stay open.
+  const activeGroupId = groups.find((group) =>
+    group.pages.some((page) => isPageActive(page.url, pathname))
+  )?.id
+  const [openGroupIds, setOpenGroupIds] = React.useState(
+    () => new Set(activeGroupId ? [activeGroupId] : [])
+  )
+  const [previousActiveGroupId, setPreviousActiveGroupId] =
+    React.useState(activeGroupId)
+  if (activeGroupId !== previousActiveGroupId) {
+    setPreviousActiveGroupId(activeGroupId)
+    if (activeGroupId) {
+      setOpenGroupIds((ids) => new Set(ids).add(activeGroupId))
+    }
+  }
+
+  const setGroupOpen = (id: string, isOpen: boolean) => {
+    setOpenGroupIds((ids) => {
+      const next = new Set(ids)
+      if (isOpen) next.add(id)
+      else next.delete(id)
+      return next
+    })
+  }
+
   // Bring the active page into view on first load. The layout persists across
   // navigations, so the scroll position is kept after that.
   React.useEffect(() => {
@@ -122,10 +161,7 @@ export function DocsShellSidebar({
           </span>
           {siteConfig.name}
         </Link>
-        <SiteSettingsMenu
-          align="start"
-          className="size-7 rounded-lg bg-transparent text-muted-foreground hover:bg-hover hover:text-foreground data-popup-open:bg-hover [&_svg]:size-4"
-        />
+        <SiteSettingsMenu align="start" size="icon-sm" />
       </div>
       <div className="px-2">
         <CommandMenu
@@ -138,7 +174,7 @@ export function DocsShellSidebar({
         ref={scrollRef}
         className="flex min-h-0 flex-1 scroll-fade flex-col gap-5 overflow-y-auto px-2 pt-2 pb-8"
       >
-        <FluidNav>
+        <FluidNav className="gap-0.5">
           {TOP_LINKS.map((link) => (
             <FluidNavLink
               key={link.href}
@@ -150,34 +186,48 @@ export function DocsShellSidebar({
             </FluidNavLink>
           ))}
         </FluidNav>
-        {groups.map((group) => (
-          <section key={group.id} className="flex flex-col gap-1">
-            <h3 className="flex h-7 items-center justify-between px-2 text-[12px] font-medium text-muted-foreground">
-              {group.name}
-              {group.isCounted && (
-                <span className="tabular-nums">{group.pages.length}</span>
-              )}
-            </h3>
-            <FluidNav>
-              {group.pages.map((page) => (
-                <FluidNavLink
-                  key={page.url}
-                  href={page.url}
-                  exact
-                  className={ITEM_CLASS}
-                >
-                  {page.name}
-                  {PAGES_NEW.includes(page.url) && (
-                    <span
-                      className="size-1.5 rounded-full bg-focus-ring"
-                      title="New"
-                    />
+        <div className="flex flex-col gap-0.5">
+          {groups.map((group) => (
+            <Collapsible
+              key={group.id}
+              open={openGroupIds.has(group.id)}
+              onOpenChange={(isOpen) => setGroupOpen(group.id, isOpen)}
+              render={<section />}
+            >
+              <h3>
+                <CollapsibleTrigger className="group/group-trigger flex h-8 w-full items-center gap-2 rounded-lg px-2 text-start text-[12px] font-medium text-muted-foreground transition-colors duration-feedback outline-none hover:text-foreground focus-visible:ring-1 focus-visible:ring-focus-ring">
+                  <span className="flex-1 truncate">{group.name}</span>
+                  {group.isCounted && (
+                    <span className="tabular-nums">{group.pages.length}</span>
                   )}
-                </FluidNavLink>
-              ))}
-            </FluidNav>
-          </section>
-        ))}
+                  <ChevronRightIcon className="size-4 shrink-0 stroke-[1.5] transition-transform duration-feedback ease-feedback group-aria-expanded/group-trigger:rotate-90 motion-reduce:transition-none" />
+                </CollapsibleTrigger>
+              </h3>
+              {/* Closed groups stay in the page, so find-in-page opens them
+                  and crawlers still see every link. */}
+              <CollapsibleContent hiddenUntilFound>
+                <FluidNav className="gap-0.5 pt-1 pb-3">
+                  {group.pages.map((page) => (
+                    <FluidNavLink
+                      key={page.url}
+                      href={page.url}
+                      exact={!SECTION_PAGES.includes(page.url)}
+                      className={ITEM_CLASS}
+                    >
+                      {page.name}
+                      {PAGES_NEW.includes(page.url) && (
+                        <span
+                          className="size-1.5 rounded-full bg-focus-ring"
+                          title="New"
+                        />
+                      )}
+                    </FluidNavLink>
+                  ))}
+                </FluidNav>
+              </CollapsibleContent>
+            </Collapsible>
+          ))}
+        </div>
       </div>
     </aside>
   )

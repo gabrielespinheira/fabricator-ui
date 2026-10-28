@@ -3,7 +3,7 @@ import { z } from "zod"
 export const formSchema = z.object({
   plan: z
     .string({
-      required_error: "Please select a subscription plan",
+      error: "Please select a subscription plan",
     })
     .min(1, "Please select a subscription plan")
     .refine((value) => value === "basic" || value === "pro", {
@@ -11,7 +11,7 @@ export const formSchema = z.object({
     }),
   billingPeriod: z
     .string({
-      required_error: "Please select a billing period",
+      error: "Please select a billing period",
     })
     .min(1, "Please select a billing period"),
   addons: z

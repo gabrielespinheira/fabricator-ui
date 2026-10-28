@@ -9,11 +9,15 @@ import {
   useFluidHover,
   useMergedRef,
 } from "@/registry/bases/radix/lib/fluid-hover"
+import { useDensity } from "@/registry/bases/radix/ui/density"
 import { IconPlaceholder } from "@/app/(create)/components/icon-placeholder"
 
 // Fabricator override of the upstream context menu: the content and
 // sub-content are fluid hover containers, so one highlight glides between
 // items (keyboard navigation from the primitive moves the same highlight).
+//
+// Its popups take the density of the nearest DensityProvider, which their
+// portals would otherwise lose (registry/fabricator/density.ts).
 const MENU_ITEMS =
   '[role="menuitem"], [role="menuitemcheckbox"], [role="menuitemradio"]'
 
@@ -87,11 +91,13 @@ function ContextMenuContent({
   side?: "top" | "right" | "bottom" | "left"
 }) {
   const { fluid, mergedRef } = useMenuFluidHover(ref)
+  const density = useDensity()
 
   return (
     <ContextMenuPrimitive.Portal>
       <ContextMenuPrimitive.Content
         data-slot="context-menu-content"
+        data-density={density}
         className={cn(
           "cn-context-menu-content cn-menu-target cn-menu-translucent z-50 max-h-(--radix-context-menu-content-available-height) origin-(--radix-context-menu-content-transform-origin) overflow-x-hidden overflow-y-auto",
           className
@@ -168,10 +174,12 @@ function ContextMenuSubContent({
   ...props
 }: React.ComponentProps<typeof ContextMenuPrimitive.SubContent>) {
   const { fluid, mergedRef } = useMenuFluidHover(ref)
+  const density = useDensity()
 
   return (
     <ContextMenuPrimitive.SubContent
       data-slot="context-menu-sub-content"
+      data-density={density}
       className={cn(
         "cn-context-menu-sub-content cn-menu-target cn-menu-translucent z-50 origin-(--radix-context-menu-content-transform-origin) overflow-hidden",
         className

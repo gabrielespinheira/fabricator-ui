@@ -9,11 +9,15 @@ import {
   useFluidHover,
   useMergedRef,
 } from "@/registry/bases/base/lib/fluid-hover"
+import { useDensity } from "@/registry/bases/base/ui/density"
 import { IconPlaceholder } from "@/app/(create)/components/icon-placeholder"
 
 // Fabricator override of the upstream dropdown menu: the content is a fluid
 // hover container, so one highlight glides between items (keyboard
 // navigation from the primitive moves the same highlight).
+//
+// Its popups take the density of the nearest DensityProvider, which their
+// portals would otherwise lose (registry/fabricator/density.ts).
 const MENU_ITEMS =
   '[role="menuitem"], [role="menuitemcheckbox"], [role="menuitemradio"]'
 
@@ -48,6 +52,7 @@ function DropdownMenuContent({
     highlighted: "[data-highlighted]",
   })
   const mergedRef = useMergedRef(fluid.attach, ref)
+  const density = useDensity()
 
   return (
     <MenuPrimitive.Portal>
@@ -60,6 +65,7 @@ function DropdownMenuContent({
       >
         <MenuPrimitive.Popup
           data-slot="dropdown-menu-content"
+          data-density={density}
           className={cn(
             "cn-dropdown-menu-content cn-dropdown-menu-content-logical cn-menu-target cn-menu-translucent z-50 max-h-(--available-height) w-(--anchor-width) origin-(--transform-origin) overflow-x-hidden overflow-y-auto outline-none data-closed:overflow-hidden",
             className
@@ -163,9 +169,12 @@ function DropdownMenuSubContent({
   className,
   ...props
 }: React.ComponentProps<typeof DropdownMenuContent>) {
+  const density = useDensity()
+
   return (
     <DropdownMenuContent
       data-slot="dropdown-menu-sub-content"
+      data-density={density}
       className={cn(
         "cn-dropdown-menu-sub-content cn-menu-target cn-menu-translucent w-auto",
         className

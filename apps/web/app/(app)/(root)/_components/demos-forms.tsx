@@ -73,24 +73,24 @@ export function SliderDemo() {
   )
 }
 
-const SPRINGS = [
-  { value: "fast", label: "Fast spring" },
-  { value: "moderate", label: "Moderate spring" },
-  { value: "slow", label: "Slow spring" },
-  { value: "none", label: "No animation" },
+const SPEEDS = [
+  { value: "smooth", label: "Smooth" },
+  { value: "default", label: "Default" },
+  { value: "snappy", label: "Snappy" },
+  { value: "instant", label: "Instant" },
 ]
 
 export function RadioGroupDemo() {
   return (
-    <RadioGroup defaultValue="moderate" className="w-[200px]">
-      {SPRINGS.map((spring) => (
-        <Field key={spring.value} orientation="horizontal">
+    <RadioGroup defaultValue="default" className="w-[200px]">
+      {SPEEDS.map((speed) => (
+        <Field key={speed.value} orientation="horizontal">
           <RadioGroupItem
-            value={spring.value}
-            id={`home-spring-${spring.value}`}
+            value={speed.value}
+            id={`home-speed-${speed.value}`}
           />
-          <FieldLabel htmlFor={`home-spring-${spring.value}`}>
-            {spring.label}
+          <FieldLabel htmlFor={`home-speed-${speed.value}`}>
+            {speed.label}
           </FieldLabel>
         </Field>
       ))}
@@ -186,7 +186,7 @@ export function SearchDemo() {
   )
 }
 
-/** Search: a round button that springs open into the field. */
+/** Search: a round button that opens into the field. */
 export function SearchFieldDemo() {
   return (
     <div className="flex w-[280px] justify-center">

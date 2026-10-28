@@ -3,7 +3,7 @@
   /* A quiet 20px keycap: hover fill, 11px muted text. Inside the inverted
      tooltip it takes the tooltip's own colours. */
   .cn-kbd {
-    @apply bg-hover text-muted-foreground in-data-[slot=tooltip-content]:bg-background/20 in-data-[slot=tooltip-content]:text-background dark:in-data-[slot=tooltip-content]:bg-background/10 h-5 w-fit min-w-5 gap-1 rounded-[5px] px-1 font-sans text-[11px] font-medium [&_svg:not([class*='size-'])]:size-3;
+    @apply bg-hover text-muted-foreground in-data-[slot=tooltip-content]:bg-background/20 in-data-[slot=tooltip-content]:text-background dark:in-data-[slot=tooltip-content]:bg-background/10 h-(--density-20) w-fit min-w-(--density-20) gap-1 rounded-[5px] px-1 font-sans text-(length:--density-text-11) font-medium [&_svg:not([class*='size-'])]:size-3;
   }
 
   .cn-kbd-group {

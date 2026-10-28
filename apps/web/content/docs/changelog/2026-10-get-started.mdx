@@ -1,0 +1,33 @@
+---
+title: October 2026 - Get started page
+description: Set up your look while every component previews it, pick a framework and extras, and copy the commands that install exactly that.
+date: 2026-10-27
+---
+
+## Get started
+
+The new [Get started](/create) page walks you through a setup in four steps:
+
+1. **Look.** The Make it yours settings (theme, sound, icons, radius, motion, surface and primary colour) sit beside every component, and the components follow each change.
+2. **Project.** A new project or an existing one, the framework (Next.js, Vite, TanStack Start, React Router, Astro or Laravel), its name, the component primitives and an optional monorepo.
+3. **Extras.** Every component or just the starter, interface sounds, and for your AI assistant the agent skill and the MCP server.
+4. **Install.** The commands in order for npm, pnpm, yarn or bun, each with a line on what it does, plus a link that opens the page with your setup, so a designer can hand it to a developer.
+
+The colours you set on the [Colors](/docs/foundations/colors) page carry over.
+
+## Your look in the init URL
+
+`/init` now installs a look on top of the Fabricator palette. Colours are `<hue>_<chroma>`; only what differs from the defaults needs a param:
+
+| Param                                                               | Example             |
+| ------------------------------------------------------------------- | ------------------- |
+| `surface`                                                           | `surface=145_0.022` |
+| `primary`, `secondary`, `info`, `success`, `warning`, `destructive` | `primary=260_0.15`  |
+| `shape`                                                             | `shape=pill`        |
+| `motion`                                                            | `motion=snappy`     |
+
+```bash
+npx fabricator-ui@latest init -t next -p "https://fabricator-ui.vercel.app/init?base=base&template=next&primary=260_0.15&shape=pill"
+```
+
+A tinted surface or a new primary, secondary or destructive colour also points the theme tokens at the live recipes, as the Colors page shows, so you can retint the project later by changing two variables.

@@ -14,6 +14,8 @@ See [customization.md](../customization.md) for theming, CSS variables, and addi
 - Use cn() for conditional classes
 - No manual z-index on overlay components
 - Use shimmer / scroll-fade utilities, not custom animations
+- Animate with motion roles, never milliseconds
+- Set density on a container, not sizes on every component
 
 ---
 
@@ -183,3 +185,61 @@ For scroll-aware edge fading on a scroll container, use `scroll-fade` (and the a
 ```tsx
 <span className="shimmer">Thinking…</span>
 ```
+
+---
+
+## Animate with motion roles, never milliseconds
+
+Fabricator components move by role, and one speed setting (`data-motion`) retimes all of them. Custom UI uses the same role utilities so it keeps pace. Fixed durations and curves ignore the speed the project picks.
+
+**Incorrect:**
+
+```tsx
+<div className="transition-all duration-300 ease-[cubic-bezier(0.4,0,0.2,1)] hover:bg-muted" />
+<div className="animate-in fade-in zoom-in-95 duration-200" />
+```
+
+**Correct:**
+
+```tsx
+<div className="transition-colors duration-feedback ease-feedback hover:bg-muted" />
+<div className="motion-popup data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0" />
+```
+
+Roles: `duration-feedback` (hover, colour), `duration-move ease-move` (things that move on screen), `motion-tooltip`, `motion-popup`, `motion-dialog`, `motion-sheet`, `motion-disclosure`, `motion-toast`, `motion-press`. To change how fast everything moves, set `data-motion="smooth|snappy|instant|off"` on `<html>`; don't edit durations per component.
+
+---
+
+## Set density on a container, not sizes on every component
+
+Fabricator components size themselves from the density: `compact` (dashboards, toolbars), `default` (apps) or `spacious` (websites, landing pages). Set it once on the region, and use a `size` prop only to pin one component. Overriding heights and text sizes per component drifts from the rest of the page.
+
+**Incorrect:**
+
+```tsx
+<header className="flex items-center gap-2">
+  <Button size="sm">New</Button>
+  <Input className="h-7 text-xs" placeholder="Search" />
+  <Select>
+    <SelectTrigger size="sm">…</SelectTrigger>
+  </Select>
+</header>
+```
+
+**Correct:**
+
+```tsx
+import { DensityProvider } from "@/components/ui/density"
+
+<DensityProvider density="compact">
+  <header className="flex items-center gap-2">
+    <Button>New</Button>
+    <Input placeholder="Search" />
+    <Select>
+      <SelectTrigger>…</SelectTrigger>
+    </Select>
+  </header>
+</DensityProvider>
+```
+
+`DensityProvider` also reaches the menus, popovers, tooltips and dialogs those components open in portals; a bare `data-density="compact"` attribute sizes everything else. For a whole marketing site, `<html data-density="spacious">`. `size="sm"` pins one control to compact and `size="lg"` to spacious; `data-density` pins any other component. Your own components stay density-aware with the tokens, named after their default value: `h-(--density-36)`, `px-(--density-12)`, `gap-(--density-8)`, `text-(length:--density-text-13)`, `size-(--density-icon-16)`.

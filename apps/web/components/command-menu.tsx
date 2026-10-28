@@ -396,9 +396,9 @@ export function CommandMenu({
           className={cn(
             "group/search flex items-center gap-2.5 text-muted-foreground outline-none select-none focus-visible:ring-1 focus-visible:ring-focus-ring",
             trigger === "pill" &&
-              "h-12 w-60 rounded-full bg-muted px-4 text-[15px] transition-colors duration-moderate ease-spring hover:bg-active",
+              "h-12 w-60 rounded-full bg-muted px-4 text-[15px] transition-colors duration-move ease-move hover:bg-active",
             trigger === "sidebar" &&
-              "h-8 w-full rounded-lg px-2 text-[13px] transition-colors duration-fast ease-spring hover:bg-hover hover:text-foreground"
+              "h-8 w-full rounded-lg px-2 text-[13px] transition-colors duration-feedback ease-feedback hover:bg-hover hover:text-foreground"
           )}
           ref={triggerRef}
           onClick={() => setOpen(true)}

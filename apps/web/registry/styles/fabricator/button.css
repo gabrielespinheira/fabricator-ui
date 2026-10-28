@@ -1,15 +1,17 @@
 /* MARK: Button */
 
-  /* 36px controls, 13px medium text, rounded-lg. Colour changes run on the
-     fast tier; pressed is a background step (no translate or scale). Focus
-     is a 1px blue ring with no halo; icons draw at stroke 1.5 and thicken
-     to 2 on hover or while the button's popup is open. */
+  /* 36px controls at the default density, 13px medium text, rounded-lg.
+     Colour changes run on the feedback timing; pressed is a background step
+     plus the press scale (motion-press; joined groups stay flat). Focus is a
+     1px blue ring with no halo; icons draw at stroke 1.5 and thicken to 2 on
+     hover or while the button's popup is open. */
   .cn-button {
-    @apply cursor-pointer aria-disabled:cursor-not-allowed rounded-lg border border-transparent text-[13px] font-medium duration-fast ease-spring focus-visible:ring-1 focus-visible:ring-ring aria-invalid:ring-1 aria-invalid:ring-destructive/50 [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] [&_svg]:duration-fast hover:[&_svg]:stroke-2 aria-expanded:[&_svg]:stroke-2 [&_svg:not([class*='size-'])]:size-4;
+    @apply cursor-pointer aria-disabled:cursor-not-allowed rounded-lg border border-transparent text-(length:--density-text-13) font-medium duration-feedback ease-feedback motion-press focus-visible:ring-1 focus-visible:ring-ring aria-invalid:ring-1 aria-invalid:ring-destructive/50 [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] [&_svg]:duration-feedback hover:[&_svg]:stroke-2 aria-expanded:[&_svg]:stroke-2 [&_svg:not([class*='size-'])]:size-(--density-icon-16);
   }
 
-  /* Primary is the foreground colour. React Aria reports presses with
-     data-pressed. */
+  /* The primary role's fill (the foreground colour while primary is
+     neutral); hover and press are the fill at 90% and 80%. React Aria
+     reports presses with data-pressed. */
   .cn-button-variant-default {
     @apply bg-primary text-primary-foreground hover:bg-primary/90 active:bg-primary/80 aria-expanded:bg-primary/80 data-pressed:bg-primary/80;
   }
@@ -20,9 +22,10 @@
     @apply border-border text-foreground hover:bg-hover active:bg-active aria-expanded:bg-active data-pressed:bg-active aria-invalid:border-destructive/50 bg-transparent;
   }
 
-  /* Translucent tint, so it takes on the surface under it. */
+  /* The secondary role: a translucent tint, so it takes on the surface
+     under it. */
   .cn-button-variant-secondary {
-    @apply bg-tint text-foreground hover:bg-tint-hover active:bg-tint aria-expanded:bg-tint data-pressed:bg-tint;
+    @apply bg-secondary text-secondary-foreground hover:bg-secondary/80 active:bg-secondary aria-expanded:bg-secondary data-pressed:bg-secondary;
   }
 
   /* Muted at rest, foreground when lit. */
@@ -30,29 +33,35 @@
     @apply text-muted-foreground hover:bg-hover hover:text-foreground active:bg-active aria-expanded:bg-active aria-expanded:text-foreground data-pressed:bg-active bg-transparent;
   }
 
+  /* The soft form of the destructive role: a wash of its fill with its
+     text colour. */
   .cn-button-variant-destructive {
-    @apply bg-destructive-light text-destructive hover:bg-destructive/15 active:bg-destructive/20 aria-expanded:bg-destructive/20 data-pressed:bg-destructive/20;
+    @apply bg-destructive/12 text-destructive-text hover:bg-destructive/16 active:bg-destructive/20 aria-expanded:bg-destructive/20 data-pressed:bg-destructive/20;
   }
 
+  /* The primary role's text colour (the foreground while neutral). */
   .cn-button-variant-link {
-    @apply text-foreground underline-offset-4 hover:underline;
+    @apply text-primary-text underline-offset-4 hover:underline;
   }
 
-  /* An icon sits 4px closer to its edge than text does. */
+  /* Sizes follow the density (registry/fabricator/density.ts): default takes
+     the nearest one, sm pins the button to compact and lg to spacious, so a
+     size prop always means the same height. An icon sits a step closer to
+     its edge than text does. xs is the fixed 24px floor. */
   .cn-button-size-xs {
     @apply h-6 gap-1 px-2 text-[12px] has-data-[icon=inline-end]:pr-1.5 has-data-[icon=inline-start]:pl-1.5 [&_svg:not([class*='size-'])]:size-3;
   }
 
   .cn-button-size-sm {
-    @apply h-7 gap-1 px-3 text-[12px] has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2 [&_svg:not([class*='size-'])]:size-3.5;
+    @apply density-compact h-(--density-36) gap-(--density-6) px-(--density-16) has-data-[icon=inline-end]:pr-(--density-12) has-data-[icon=inline-start]:pl-(--density-12);
   }
 
   .cn-button-size-default {
-    @apply h-9 gap-1.5 px-4 has-data-[icon=inline-end]:pr-3 has-data-[icon=inline-start]:pl-3;
+    @apply h-(--density-36) gap-(--density-6) px-(--density-16) has-data-[icon=inline-end]:pr-(--density-12) has-data-[icon=inline-start]:pl-(--density-12);
   }
 
   .cn-button-size-lg {
-    @apply h-10 gap-1.5 px-5 has-data-[icon=inline-end]:pr-4 has-data-[icon=inline-start]:pl-4;
+    @apply density-spacious h-(--density-36) gap-(--density-6) px-(--density-16) has-data-[icon=inline-end]:pr-(--density-12) has-data-[icon=inline-start]:pl-(--density-12);
   }
 
   .cn-button-size-icon-xs {
@@ -60,13 +69,13 @@
   }
 
   .cn-button-size-icon-sm {
-    @apply size-7 [&_svg:not([class*='size-'])]:size-3.5;
+    @apply density-compact size-(--density-36);
   }
 
   .cn-button-size-icon {
-    @apply size-9;
+    @apply size-(--density-36);
   }
 
   .cn-button-size-icon-lg {
-    @apply size-10;
+    @apply density-spacious size-(--density-36);
   }

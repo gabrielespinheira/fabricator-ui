@@ -115,7 +115,7 @@ The root `package.json` is the source of truth for scripts. Keep this table in s
 
 - `bunfig.toml` sets `linker = "hoisted"`. Isolated installs create one copy of a package per peer set (for example `fumadocs-core` with Zod 3 and with Zod 4), which breaks TypeScript type identity and caused a Fumadocs runtime stack overflow.
 - Root `overrides` pin a few tools to upstream's resolved versions: `prettier` 3.6.2 (the registry build formats generated source; another version changes output and breaks parity), `eslint-plugin-react-hooks` 7.0.1, and `mdast-util-to-markdown` 2.1.2. Bump them only together with upstream, and rerun `test:parity`.
-- The website is built on the maintainer's machine and uploaded prebuilt (`scripts/deploy.sh`); Vercel's Git builds are off (`apps/web/vercel.json`). If they are turned back on, `next build` must fit in 8 GB, the memory of a standard Vercel build machine; above that the process is OOM-killed with no error and the deployment hangs in "Building". `apps/web/next.config.mjs` turns off the Turbopack build cache and source maps and runs the loaders as worker threads, and `scripts/build-registry.mts` writes lazy component shards only for the styles the site renders (`legacyStyles`). Before adding a route, a style or a lazy map to the site's module graph, check the build in a container limited to 4 CPUs and 8 GB (it needs ~7 GB today).
+- The website is built on the maintainer's machine and uploaded prebuilt (`scripts/deploy.sh`); Vercel's Git builds are off (`apps/web/vercel.json`). If they are turned back on, `next build` must fit in 8 GB, the memory of a standard Vercel build machine; above that the process is OOM-killed with no error and the deployment hangs in "Building". `apps/web/next.config.mjs` turns off the Turbopack build cache and source maps (not worker threads for the loaders: a worker that ran MDX later fails on a PostCSS job), and `scripts/build-registry.mts` writes lazy component shards only for the styles the site renders (`legacyStyles`). Before adding a route, a style or a lazy map to the site's module graph, check the build in a container limited to 4 CPUs and 8 GB (it needed ~7 GB with worker threads, about 0.5 GB more without).
 - Turborepo's auto-written agent guidance is disabled (`"agentGuidance": false` in `turbo.json`) so this file stays the single source.
 
 ---
@@ -305,18 +305,27 @@ Items are TypeScript objects in each folder's `_registry.ts`, typed `Registry["i
   - Catalogs: `public/r/registry.json`, `index.json`, `config.json`
 - **Rebuild:** after authored changes, run the full `bun run registry:build`. Targeted flags are for iteration only.
 - **Examples:** editing an existing example needs no rebuild. Adding, removing or renaming one needs `--examples`.
-- **`/init`** (`app/(app)/(create)/init/route.ts`; the `/create` page itself is removed for now, and only `/init`, its libs and `IconPlaceholder` remain in that folder) returns the `registry:base` payload. Its `config.registries` writes `@fabricator` into the user's `components.json`. Its `config.style` is always a valid upstream style id (contract item 2).
+- **`/init`** (`app/(app)/(create)/init/route.ts`) returns the `registry:base` payload. Its `config.registries` writes `@fabricator` into the user's `components.json`. Its `config.style` is always a valid upstream style id (contract item 2). It also takes a look (`registry/fabricator/look.ts`: `surface`, the six colour roles as `<hue>_<chroma>`, `shape=pill`, `motion=<speed>`, `density=<compact|spacious>`) and adds its cssVars on top of the Fabricator palette.
+- **`/create`** (`app/(app)/(create)/create/`) is the Get started page: the Make it yours settings beside the homepage gallery, then project, extras and the install commands. Its choices are URL state (`setupParsers` in `(create)/lib/setup.ts`); the look lives in the site settings. `buildSetupCommands` turns a setup into commands and is unit-tested; keep it in step with the CLI's flags.
 
 ---
 
 ## Design system (Fabricator layer)
 
-The Fabricator design language adapts Fluid Functionalism (MIT). **`apps/web/registry/fabricator/DESIGN.md` is the specification**: surfaces, interaction tokens, sizes, motion tiers, fluid hover, scrollbars, and the look of every component. Read it before changing any Fabricator style or override.
+The Fabricator design language adapts Fluid Functionalism (MIT). **`apps/web/registry/fabricator/DESIGN.md` is the specification**: surfaces, interaction tokens, density, motion tiers, fluid hover, scrollbars, and the look of every component. Read it before changing any Fabricator style or override.
 
 - **Tokens** live in `registry/fabricator/foundations.ts` (foundations: new token names only; palette: Fabricator values for the shadcn token names, applied by the `fabricator` preset).
-- **Motion timings are tokens**, never milliseconds:
-  - Use the tier utilities: `duration-fast` / `-moderate` / `-slow` (90 / 210 / 290ms), `duration-<tier>-exit` (70 / 160 / 220ms) and `delay-<tier>`.
-  - They resolve to `calc(var(--motion-<tier>) * var(--motion-scale, 1))`, so `--motion-scale` speeds up, slows down or stops (0) every animation.
+- **Motion is by role, never milliseconds** (`registry/fabricator/motion.ts`, spec in DESIGN.md):
+  - Surfaces use one utility each: `motion-tooltip`, `-popup`, `-dialog`, `-scrim`, `-sheet`, `-disclosure`, `-toast`; buttons and toggles add `motion-press`.
+  - Everything else uses `duration-<role>`, `duration-<role>-exit` and `delay-<role>` (feedback, glide, move, …) with `ease-enter`, `-move`, `-exit`, `-feedback` or `-drawer`.
+  - Four speeds set the tokens: `smooth` (websites), `default` (Emil Kowalski's timings), `snappy`, `instant` (dashboards). `data-motion` on `<html>` or any element picks one, `off` stops motion, and `--motion-scale` multiplies every duration.
+  - `registry/fabricator/__tests__/motion-usage.test.ts` fails on fixed durations, literal curves, fixed zooms and the retired tier names (`duration-fast`, `ease-spring`, …), which stay only as aliases for consumers.
+- **Sizes come from the density, never fixed pixels** (`registry/fabricator/density.ts`, spec in DESIGN.md):
+  - Three densities set the tokens: `compact` (dashboards), `default` (apps), `spacious` (websites). `data-density` on `<html>` or any element picks one; the `density-<name>` utilities do the same from a class.
+  - Style maps use the tokens, each named after its default value: `h-(--density-36)`, `px-(--density-16)`, `text-(length:--density-text-13)`, `size-(--density-icon-16)`. Not theme keys (`h-control`): class merging wouldn't recognise them.
+  - A control's `size="sm"` adds `density-compact` and `size="lg"` `density-spacious`; the default size follows the nearest density.
+  - Portalled parts read `useDensity()` from `DensityProvider` (`registry/fabricator/shared/ui/density.tsx`) and set `data-density`, so a new overlay override does the same.
+  - `registry/fabricator/__tests__/density-usage.test.ts` fails on fixed control heights, text sizes and icon sizes in the style maps.
 - **Look:** each component's placeholder rules are in `registry/styles/fabricator/<component>.css`. The build assembles them into `style-fabricator.css` and fails if any placeholder used by the components has no rule.
 - **Behaviour** that CSS can't express (fluid hover, sliding selection) is added with **Fabricator overrides**: `registry/fabricator/<base>/ui/<component>.tsx` is a copy of the upstream source with additive, container-level changes; `registry/fabricator/shared/` holds files every base uses (`lib/fluid-hover.tsx`). Overrides compile into the Fabricator style only, so upstream styles keep their exact output. They keep the full upstream API (superset rule). Extra registry dependencies go in `fabricatorOverrides` in `registry/fabricator/registry.ts`.
 - **Blocks gallery:** `/blocks` is removed for now and redirects to `/docs/components`. Block items stay in the registry and install with `add`.
@@ -330,11 +339,11 @@ The Fabricator design language adapts Fluid Functionalism (MIT). **`apps/web/reg
 - **After an upstream sync**, review the upstream changes to every overridden file (`git diff <old>..<new> -- apps/web/registry/bases/<base>/ui/<component>.tsx`) and port them into the override.
 
 - **Dimensions** (rationale in `PLAN.md` §6):
-  - Colour, surfaces, motion, and square/rounded radius are **tokens**.
-  - Density (default/compact) and pill radius are **styles**.
+  - Colour, surfaces, motion, density (compact/default/spacious) and radius (rounded/pill) are **tokens**, switchable at runtime.
 - **Colour:**
   - Values are OKLCH, defined for both `:root` and `.dark`.
   - Every foreground/background pair meets WCAG 2.2 AA (4.5:1 for text, 3:1 for UI and large text). The contrast check enforces this.
+  - Colour comes from six roles (`primary`, `secondary`, `info`, `success`, `warning`, `destructive`), each derived from `--<role>-hue` and `--<role>-chroma` by one recipe in `registry/fabricator/color-roles.ts`. Primary and secondary take any hue; the statuses keep to their family (`ROLE_HUE_RANGES`: info blue, success green, warning orange to yellow, destructive red to orange), clamped in the CSS too. Components use the role tokens (`bg-<role>`, `text-<role>-text`, `bg-<role>-surface-N`, …) or neutrals, never a raw colour. States are opacity steps of the fill (`/90`, `/80`; soft `/12`, `/16`, `/20`). The foundations never define the shadcn role names; the palette writes them as literals.
 
 ### Seeing style changes on the site
 
@@ -354,7 +363,7 @@ The website renders the Fabricator style, so it shows what `fabricator-ui add` i
 
 ## Website (`apps/web`)
 
-- **Stack:** Next.js 16 App Router, React 19.2, Tailwind 4, Fumadocs, `rehype-pretty-code` + shiki, next-themes, jotai, nuqs.
+- **Stack:** Next.js 16 App Router, React 19.3, Tailwind 4, Fumadocs, `rehype-pretty-code` + shiki, next-themes, jotai, nuqs.
 - **Rendering:**
   - Docs, component and block pages are statically generated (`generateStaticParams`, `dynamic = "force-static"`).
   - Server Components by default. `"use client"` goes on the smallest interactive leaf.
@@ -377,7 +386,7 @@ The website renders the Fabricator style, so it shows what `fabricator-ui add` i
 - **Site chrome** follows the Fabricator design (DESIGN.md), and lives in new files so upstream merges of the website stay small:
   - `components/fabricator/`:
     - `site-header.tsx` / `site-footer.tsx`: the minimal top bar and footer for the homepage and the full-width pages.
-    - `docs-shell-sidebar.tsx`, `docs-mobile-bar.tsx`, `docs-panel.tsx`: the docs shell (no top bar), with a left sidebar of search and nav groups, and a right panel for the site settings and the primitive switcher.
+    - `docs-shell-sidebar.tsx`, `docs-mobile-bar.tsx`: the docs shell (no top bar), with a left sidebar of search, settings and nav groups, and the page content centred beside it. Component pages switch primitive with `DocsBaseSwitcher` above the content.
     - `fluid-nav.tsx`: the site's link lists, which use the real Fluid Hover hook.
   - `app/fabricator-site.css`: site-only CSS such as docs typography. `app/fabricator.css` is generated; don't edit it.
   - The homepage (`app/(app)/(root)/`) is a gallery of every component.
@@ -386,9 +395,9 @@ The website renders the Fabricator style, so it shows what `fabricator-ui add` i
     - When you add a component, add it to the catalog with a card height, and give it a group in `lib/component-groups.ts` (the docs sidebar and the homepage filter share these groups; a test fails while a component page has none).
 - **Docs pages** use the docs shell: `[data-slot=docs-shell]` hides the site header and footer.
 - **Site settings** (`lib/site-settings.ts`, stored in localStorage):
-  - The settings menu (`components/fabricator/site-settings.tsx`) is in the top bar, the docs sidebar and the docs panel, and holds theme, sound, icons, radius, motion and surface (the surface tint, also set by the picker on the Surfaces page).
-  - `components/fabricator/site-settings-effects.tsx` applies them: it sets `data-radius` on `<html>` (Pill sets `--radius: 1.25rem` in `app/fabricator-site.css`) sets `data-motion` (Relaxed/Snappy/Off scale `--motion-scale` in `app/fabricator-site.css`), sets `--surface-hue` and `--surface-chroma` inline on `<html>` (the site's palette links `background`, `card`, `popover`, `sidebar` and `muted` to the surfaces, so they follow), and mounts the registry's `<SoundEffects />`.
-  - A script in `<head>` applies a stored Pill radius, motion speed and surface tint before paint.
+  - The settings menu (`components/fabricator/site-settings.tsx`) is in the top bar and the docs sidebar, and holds theme, sound, icons, radius, density, motion, surface (the surface tint, also set by the Surface tab on the Colors page) and primary (the primary colour role; the Colors page sets every role).
+  - `components/fabricator/site-settings-effects.tsx` applies them: it sets `data-radius` on `<html>` (Pill sets `--radius: 1.25rem` in `app/fabricator-site.css`) sets `data-motion` (Smooth, Snappy, Instant or Off: the foundations' speed switches; Default removes it), sets `data-density` (Compact or Spacious; Default removes it), sets `--surface-hue` and `--surface-chroma` inline on `<html>` (the site's palette links `background`, `card`, `popover`, `sidebar` and `muted` to the surfaces, so they follow), sets each colour role's `--<role>-hue` and `--<role>-chroma` the same way (the palette links `primary`, `secondary` and `destructive` to the roles), and mounts the registry's `<SoundEffects />`.
+  - A script in `<head>` applies a stored Pill radius, motion speed, density, surface tint and colour roles before paint.
 - **Site icons:** the Fabricator copies the site renders (`examples/__styles__/*-fabricator`, `styles/*-fabricator/ui`) import icons from `@/lib/site-icons`, not `lucide-react`, so previews follow the Icons setting.
   - `lib/site-icons*.ts(x)` is generated by `bun run icons:build` (also part of `bun run dev`) and committed.
   - The generator maps names through `registry/icons/site-mapping.json`, then `public/r/icons/index.json`.
