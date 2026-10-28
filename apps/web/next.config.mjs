@@ -49,19 +49,15 @@ const nextConfig = {
     // 8 GB, the process died with no message, and the deployment sat in
     // "Building".
     // Next 16.3 turned on the Turbopack build cache by default and builds
-    // source maps for every chunk; neither is needed for a deploy. Running the
-    // MDX/PostCSS loaders as worker threads instead of child processes saves
-    // another ~0.5 GB. Together with the leaner component shards from
-    // `scripts/build-registry.mts`, the build fits in 7 GB (checked in a
-    // container limited to 4 CPUs).
-    // Worker threads are for builds only: in `next dev` a worker that first ran
-    // the MDX loaders later receives the PostCSS job for app/globals.css and
-    // fails with "Cannot read properties of undefined (reading 'map')".
+    // source maps for every chunk; neither is needed for a deploy. Together with
+    // the leaner component shards from `scripts/build-registry.mts`, the build
+    // fits in 8 GB.
+    // Don't set `turbopackPluginRuntimeStrategy: "workerThreads"`: it saves
+    // ~0.5 GB, but a worker that ran the MDX loaders later receives a PostCSS
+    // job and fails with "Cannot read properties of undefined (reading 'map')",
+    // in `next dev` and in `next build`.
     turbopackFileSystemCacheForBuild: false,
     turbopackSourceMaps: false,
-    ...(process.env.NODE_ENV !== "development" && {
-      turbopackPluginRuntimeStrategy: "workerThreads",
-    }),
     // Rewrite barrel imports to deep imports so a single icon doesn't pull the
     // whole package into the module graph. Next already optimizes lucide-react,
     // @tabler/icons-react, date-fns and lodash-es by default; these are the
