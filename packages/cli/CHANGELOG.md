@@ -1,5 +1,15 @@
 # fabricator-ui
 
+## 0.4.0
+
+### Minor Changes
+
+- [#10](https://github.com/gabrielespinheira/fabricator-ui/pull/10) [`3e35d46`](https://github.com/gabrielespinheira/fabricator-ui/commit/3e35d460d7c95d40ccc1743dbdebde4dcc8e6a46) Thanks [@gabrielespinheira](https://github.com/gabrielespinheira)! - Add colour roles to the registry. Primary, secondary, info, success, warning and destructive are each set by `--<role>-hue` and `--<role>-chroma`, and every component takes its colours from them. Breaking: the `error-*` and `destructive-light` tokens are removed; use `destructive-*` (the `error` variants of Alert and Badge stay, as another name for `destructive`).
+
+### Patch Changes
+
+- [#10](https://github.com/gabrielespinheira/fabricator-ui/pull/10) [`47c102e`](https://github.com/gabrielespinheira/fabricator-ui/commit/47c102e2e6acdb32b104740aa72581c0c2c857d9) Thanks [@gabrielespinheira](https://github.com/gabrielespinheira)! - Update the bundled `shadcn` to 4.22.1.
+
 ## 0.3.0
 
 ### Minor Changes
