@@ -1,0 +1,13 @@
+{
+  "title": "Bun",
+  "group": "Product & dev",
+  "tags": [
+    "javascript",
+    "runtime",
+    "package manager"
+  ],
+  "aliases": [],
+  "hex": "#000000",
+  "source": "Simple Icons 16.36.0 (https://bun.sh/press-kit)",
+  "license": "CC0-1.0"
+}

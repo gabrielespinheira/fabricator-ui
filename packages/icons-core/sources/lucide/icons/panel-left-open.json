@@ -1,0 +1,28 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "mittalyashu",
+    "danielbayley",
+    "ericfennis"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:panel-left",
+    "$group:direction-right",
+    "show",
+    "reveal",
+    "chevron",
+    "right",
+    ">"
+  ],
+  "categories": [
+    "$extends:panel-left"
+  ],
+  "aliases": [
+    {
+      "name": "sidebar-open",
+      "deprecationReason": "alias.name",
+      "deprecated": true
+    }
+  ]
+}

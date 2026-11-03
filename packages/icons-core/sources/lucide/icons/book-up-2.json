@@ -1,0 +1,15 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "danielbayley"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:book-up",
+    "$group:direction-up",
+    "force"
+  ],
+  "categories": [
+    "$extends:book-up"
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "karsa-mistmere",
+    "ericfennis",
+    "jguddas"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:calendar",
+    "$group:plus",
+    "subscribe"
+  ],
+  "categories": [
+    "$extends:calendar"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "title": "Asana",
+  "group": "Product & dev",
+  "tags": [
+    "tasks",
+    "project",
+    "work"
+  ],
+  "aliases": [],
+  "hex": "#F06A6A",
+  "scale": 0.91,
+  "source": "Simple Icons 16.36.0 (https://asana.com/brand)",
+  "license": "CC0-1.0",
+  "guidelines": "https://asana.com/brand"
+}

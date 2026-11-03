@@ -1,0 +1,17 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "colebemis"
+  ],
+  "use-cases": [],
+  "tags": [
+    "music",
+    "sound",
+    "mute",
+    "speaker"
+  ],
+  "categories": [
+    "communication",
+    "multimedia"
+  ]
+}

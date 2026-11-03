@@ -1,0 +1,18 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "colebemis",
+    "csandman",
+    "ericfennis",
+    "jamiemlaw"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:wind",
+    "$group:direction-down",
+    "pressure"
+  ],
+  "categories": [
+    "$extends:wind"
+  ]
+}

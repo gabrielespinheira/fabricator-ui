@@ -1,0 +1,16 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "danielbayley"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:database",
+    "$extends:zap",
+    "cache busting",
+    "crash"
+  ],
+  "categories": [
+    "$extends:database"
+  ]
+}

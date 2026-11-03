@@ -1,0 +1,42 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "danielbayley"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$group:position-right",
+    "insert",
+    "add",
+    "left",
+    "slot",
+    "squeeze",
+    "space",
+    "vertical",
+    "grid",
+    "table",
+    "rows",
+    "cells",
+    "excel",
+    "spreadsheet",
+    "accountancy",
+    "data",
+    "enter",
+    "entry",
+    "entries",
+    "blocks",
+    "rectangles",
+    "chevron"
+  ],
+  "categories": [
+    "layout",
+    "design"
+  ],
+  "aliases": [
+    {
+      "name": "between-horizonal-end",
+      "deprecated": true,
+      "deprecationReason": "alias.typo"
+    }
+  ]
+}

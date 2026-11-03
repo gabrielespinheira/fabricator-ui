@@ -1,0 +1,13 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "danielbayley"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:library"
+  ],
+  "categories": [
+    "$extends:library"
+  ]
+}

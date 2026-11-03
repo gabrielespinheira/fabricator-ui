@@ -1,0 +1,16 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "danielbayley",
+    "jguddas"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:copy",
+    "$group:check"
+  ],
+  "categories": [
+    "$extends:copy",
+    "notifications"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "danielbayley"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:gallery-vertical",
+    "$group:position-bottom",
+    "history",
+    "versions",
+    "backup",
+    "time machine"
+  ],
+  "categories": [
+    "$extends:gallery-vertical",
+    "files"
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "danielbayley",
+    "jguddas"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$group:graph",
+    "action",
+    "continuous integration",
+    "ci",
+    "automation",
+    "devops",
+    "node",
+    "connection"
+  ],
+  "categories": [
+    "development"
+  ]
+}

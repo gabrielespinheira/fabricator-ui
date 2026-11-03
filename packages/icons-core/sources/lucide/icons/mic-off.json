@@ -1,0 +1,19 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "colebemis",
+    "csandman",
+    "ericfennis",
+    "karsa-mistmere",
+    "LieOnLion"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:mic",
+    "$group:off",
+    "mute"
+  ],
+  "categories": [
+    "$extends:mic"
+  ]
+}

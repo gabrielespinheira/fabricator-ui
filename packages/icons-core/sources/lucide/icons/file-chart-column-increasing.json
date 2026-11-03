@@ -1,0 +1,22 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "karsa-mistmere",
+    "danielbayley"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:file-chart-column",
+    "trending up"
+  ],
+  "categories": [
+    "$extends:file-chart-column"
+  ],
+  "aliases": [
+    {
+      "name": "file-bar-chart",
+      "deprecated": true,
+      "deprecationReason": "alias.name"
+    }
+  ]
+}

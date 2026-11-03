@@ -1,0 +1,20 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "karsa-mistmere",
+    "jguddas"
+  ],
+  "use-cases": [
+    "Adding a new property or home, e.g. in real estate apps",
+    "Represent medical facilities or additions to a home"
+  ],
+  "tags": [
+    "$extends:house",
+    "$group:plus",
+    "medical"
+  ],
+  "categories": [
+    "buildings",
+    "medical"
+  ]
+}

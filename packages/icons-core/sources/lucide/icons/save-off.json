@@ -1,0 +1,15 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "AnnaSasDev"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:save",
+    "$group:off",
+    "unsalvageable"
+  ],
+  "categories": [
+    "$extends:save"
+  ]
+}

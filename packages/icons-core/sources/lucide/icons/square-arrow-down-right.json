@@ -1,0 +1,25 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "danielbayley",
+    "jguddas"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$group:direction-down-right",
+    "sign",
+    "keyboard",
+    "button",
+    "turn"
+  ],
+  "categories": [
+    "arrows"
+  ],
+  "aliases": [
+    {
+      "name": "arrow-down-right-square",
+      "deprecationReason": "alias.name",
+      "deprecated": true
+    }
+  ]
+}

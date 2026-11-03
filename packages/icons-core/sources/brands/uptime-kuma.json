@@ -1,0 +1,16 @@
+{
+  "title": "Uptime Kuma",
+  "group": "Product & dev",
+  "tags": [
+    "uptime",
+    "status",
+    "monitor",
+    "incidents"
+  ],
+  "aliases": [
+    "uptimekuma"
+  ],
+  "hex": "#5CDD8B",
+  "source": "Simple Icons 16.36.0 (https://uptime.kuma.pet)",
+  "license": "CC0-1.0"
+}

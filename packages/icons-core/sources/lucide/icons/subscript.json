@@ -1,0 +1,16 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "nabanita-sarkar",
+    "ericfennis",
+    "mittalyashu"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$group:letter",
+    "$group:digit"
+  ],
+  "categories": [
+    "text"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "title": "Mixpanel",
+  "group": "Marketing & commerce",
+  "tags": [
+    "analytics",
+    "events",
+    "product"
+  ],
+  "aliases": [],
+  "hex": "#7856FF",
+  "scale": 0.84,
+  "source": "Simple Icons 16.36.0 (https://mixpanel.com)",
+  "license": "CC0-1.0",
+  "guidelines": "https://brand.mixpanel.com"
+}

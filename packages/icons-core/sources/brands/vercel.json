@@ -1,0 +1,15 @@
+{
+  "title": "Vercel",
+  "group": "Product & dev",
+  "tags": [
+    "hosting",
+    "deploy",
+    "next.js"
+  ],
+  "aliases": [],
+  "hex": "#000000",
+  "scale": 0.93,
+  "source": "Simple Icons 16.36.0 (https://vercel.com/geist/brands)",
+  "license": "CC0-1.0",
+  "guidelines": "https://vercel.com/geist/brands"
+}

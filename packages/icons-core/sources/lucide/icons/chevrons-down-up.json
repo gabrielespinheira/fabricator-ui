@@ -1,0 +1,18 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "PeterlitsZo",
+    "mittalyashu",
+    "ericfennis"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$group:direction-down",
+    "$group:direction-up",
+    "collapse",
+    "fold"
+  ],
+  "categories": [
+    "arrows"
+  ]
+}

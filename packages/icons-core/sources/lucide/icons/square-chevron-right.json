@@ -1,0 +1,36 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "danielbayley",
+    "ericfennis"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$group:direction-right",
+    "$group:navigation-next",
+    "next",
+    "more than",
+    "greater",
+    "menu",
+    "panel",
+    "code",
+    "coding",
+    "command line",
+    "terminal",
+    "prompt",
+    "shell",
+    "console",
+    ">"
+  ],
+  "categories": [
+    "arrows",
+    "development"
+  ],
+  "aliases": [
+    {
+      "name": "chevron-right-square",
+      "deprecationReason": "alias.name",
+      "deprecated": true
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "ashygee",
+    "mittalyashu",
+    "ericfennis",
+    "jguddas"
+  ],
+  "use-cases": [],
+  "tags": [
+    "vector",
+    "drawing",
+    "path"
+  ],
+  "categories": [
+    "design",
+    "cursors"
+  ]
+}

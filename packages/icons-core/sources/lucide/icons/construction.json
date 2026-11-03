@@ -1,0 +1,19 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "karsa-mistmere",
+    "ericfennis",
+    "jguddas"
+  ],
+  "use-cases": [],
+  "tags": [
+    "roadwork",
+    "maintenance",
+    "blockade",
+    "barricade"
+  ],
+  "categories": [
+    "development",
+    "transportation"
+  ]
+}

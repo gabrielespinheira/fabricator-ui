@@ -1,0 +1,19 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "colebemis",
+    "karsa-mistmere"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$group:cog",
+    "computing",
+    "fixed",
+    "build",
+    "construction",
+    "parts"
+  ],
+  "categories": [
+    "account"
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "ericfennis",
+    "mittalyashu"
+  ],
+  "use-cases": [],
+  "tags": [
+    "currency",
+    "money",
+    "payment",
+    "bill",
+    "cash",
+    "funds",
+    "transaction",
+    "finance"
+  ],
+  "categories": [
+    "finance"
+  ]
+}

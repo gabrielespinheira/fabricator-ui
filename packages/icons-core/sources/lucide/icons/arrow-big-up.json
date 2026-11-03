@@ -1,0 +1,28 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "Andreto",
+    "mittalyashu",
+    "danielbayley",
+    "karsa-mistmere",
+    "jamiemlaw",
+    "jguddas"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$group:direction-up",
+    "$group:navigation-previous",
+    "shift",
+    "keyboard",
+    "button",
+    "mac",
+    "capitalize",
+    "capitalise",
+    "forward"
+  ],
+  "categories": [
+    "arrows",
+    "text",
+    "gaming"
+  ]
+}

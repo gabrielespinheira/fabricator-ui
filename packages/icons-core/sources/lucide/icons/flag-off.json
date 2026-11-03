@@ -1,0 +1,19 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "karsa-mistmere",
+    "cyberalien",
+    "ericfennis",
+    "jamiemlaw"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:flag",
+    "$group:off",
+    "unflag",
+    "unmark"
+  ],
+  "categories": [
+    "$extends:flag"
+  ]
+}

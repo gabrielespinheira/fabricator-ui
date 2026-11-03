@@ -1,0 +1,21 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "danielbayley"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:scan",
+    "$group:search",
+    "preview",
+    "expand",
+    "fullscreen",
+    "gallery",
+    "image"
+  ],
+  "categories": [
+    "photography",
+    "multimedia",
+    "accessibility"
+  ]
+}

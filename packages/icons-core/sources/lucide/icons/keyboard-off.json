@@ -1,0 +1,16 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "Diottodev",
+    "karsa-mistmere"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:keyboard",
+    "$group:off",
+    "unkeys"
+  ],
+  "categories": [
+    "$extends:keyboard"
+  ]
+}

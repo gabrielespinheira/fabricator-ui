@@ -1,0 +1,14 @@
+{
+  "title": "Bluesky",
+  "group": "Social",
+  "tags": [
+    "bsky",
+    "social",
+    "atproto"
+  ],
+  "aliases": [],
+  "hex": "#1185FE",
+  "source": "Simple Icons 16.36.0 (https://bsky.social/about/blog/press-faq)",
+  "license": "CC0-1.0",
+  "guidelines": "https://bsky.social/about/blog/press-faq"
+}

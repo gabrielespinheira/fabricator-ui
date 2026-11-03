@@ -1,0 +1,17 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "lscheibel",
+    "ericfennis"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:vibrate",
+    "$group:off",
+    "notifications"
+  ],
+  "categories": [
+    "devices",
+    "notifications"
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "danielbayley"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:calendar-plus"
+  ],
+  "categories": [
+    "$extends:calendar-plus"
+  ]
+}

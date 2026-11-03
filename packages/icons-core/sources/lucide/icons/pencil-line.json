@@ -1,0 +1,25 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "colebemis",
+    "csandman",
+    "mittalyashu",
+    "ericfennis",
+    "danielbayley",
+    "karsa-mistmere",
+    "jguddas"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:pencil",
+    "biro",
+    "ink",
+    "marker",
+    "felt tip"
+  ],
+  "categories": [
+    "text",
+    "design",
+    "tools"
+  ]
+}

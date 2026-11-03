@@ -1,0 +1,16 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "guanboo-yang",
+    "karsa-mistmere"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$group:check",
+    "list",
+    "bom"
+  ],
+  "categories": [
+    "$extends:list"
+  ]
+}

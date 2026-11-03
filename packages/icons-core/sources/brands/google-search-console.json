@@ -1,0 +1,18 @@
+{
+  "title": "Google Search Console",
+  "group": "Marketing & commerce",
+  "tags": [
+    "gsc",
+    "search console",
+    "seo",
+    "google",
+    "webmaster"
+  ],
+  "aliases": [
+    "googlesearchconsole"
+  ],
+  "hex": "#458CF5",
+  "source": "Simple Icons 16.36.0 (https://search.google.com/search-console)",
+  "license": "CC0-1.0",
+  "artSource": "Google's logo_search_console.svg, via SharpOS @sharp/core-brand-icons 3.0.1 (unknown)"
+}

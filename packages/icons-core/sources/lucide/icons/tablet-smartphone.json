@@ -1,0 +1,24 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "danielbayley"
+  ],
+  "use-cases": [
+    "Previewing layouts across mobile device sizes",
+    "Testing responsive behavior on handheld screens",
+    "Representing mobile-first design workflows"
+  ],
+  "tags": [
+    "$extends:tablet",
+    "phone",
+    "cellphone",
+    "screens",
+    "browser",
+    "testing"
+  ],
+  "categories": [
+    "$extends:tablet",
+    "design",
+    "development"
+  ]
+}

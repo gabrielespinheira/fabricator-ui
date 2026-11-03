@@ -1,0 +1,16 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "colebemis"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$group:direction-right",
+    "$group:navigation-last",
+    "turn",
+    "corner"
+  ],
+  "categories": [
+    "arrows"
+  ]
+}

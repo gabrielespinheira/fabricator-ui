@@ -1,0 +1,24 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "mittalyashu",
+    "jguddas"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$group:pause",
+    "music",
+    "audio"
+  ],
+  "categories": [
+    "$extends:octagon",
+    "multimedia"
+  ],
+  "aliases": [
+    {
+      "name": "pause-octagon",
+      "deprecationReason": "alias.name",
+      "deprecated": true
+    }
+  ]
+}

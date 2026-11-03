@@ -1,0 +1,132 @@
+{
+  "name": "@fabricator-ui/icons",
+  "version": "0.0.0",
+  "description": "Fabricator Icons for React: every Lucide icon under its Lucide name, plus brand marks.",
+  "license": "MIT",
+  "type": "module",
+  "homepage": "https://fabricator-ui.vercel.app/icons",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gabrielespinheira/fabricator-ui",
+    "directory": "packages/icons"
+  },
+  "bugs": {
+    "url": "https://github.com/gabrielespinheira/fabricator-ui/issues"
+  },
+  "keywords": [
+    "fabricator-ui",
+    "icons",
+    "lucide",
+    "brand-icons",
+    "react",
+    "svg"
+  ],
+  "sideEffects": false,
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/esm/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/cjs/index.d.ts",
+        "default": "./dist/cjs/index.js"
+      }
+    },
+    "./brands": {
+      "import": {
+        "types": "./dist/esm/brands.d.ts",
+        "default": "./dist/esm/brands.js"
+      },
+      "require": {
+        "types": "./dist/cjs/brands.d.ts",
+        "default": "./dist/cjs/brands.js"
+      }
+    },
+    "./duotone": {
+      "import": {
+        "types": "./dist/esm/duotone.d.ts",
+        "default": "./dist/esm/duotone.js"
+      },
+      "require": {
+        "types": "./dist/cjs/duotone.d.ts",
+        "default": "./dist/cjs/duotone.js"
+      }
+    },
+    "./dynamic": {
+      "import": {
+        "types": "./dist/esm/dynamic.d.ts",
+        "default": "./dist/esm/dynamic.js"
+      },
+      "require": {
+        "types": "./dist/cjs/dynamic.d.ts",
+        "default": "./dist/cjs/dynamic.js"
+      }
+    },
+    "./catalog": {
+      "import": {
+        "types": "./dist/esm/catalog.d.ts",
+        "default": "./dist/esm/catalog.js"
+      },
+      "require": {
+        "types": "./dist/cjs/catalog.d.ts",
+        "default": "./dist/cjs/catalog.js"
+      }
+    },
+    "./icons/*": {
+      "import": {
+        "types": "./dist/esm/generated/icons/*.d.ts",
+        "default": "./dist/esm/generated/icons/*.js"
+      },
+      "require": {
+        "types": "./dist/cjs/generated/icons/*.d.ts",
+        "default": "./dist/cjs/generated/icons/*.js"
+      }
+    },
+    "./brands/*": {
+      "import": {
+        "types": "./dist/esm/generated/brands/*.d.ts",
+        "default": "./dist/esm/generated/brands/*.js"
+      },
+      "require": {
+        "types": "./dist/cjs/generated/brands/*.d.ts",
+        "default": "./dist/cjs/generated/brands/*.js"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "LICENSE.md",
+    "BRANDS.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "generate": "bun ./scripts/generate.ts",
+    "build": "bun run generate && bun ./scripts/build.ts",
+    "typecheck": "bun run generate && tsc --noEmit",
+    "test": "bun run generate && vitest run && bun ./scripts/size.ts",
+    "format:write": "prettier --write \"{src,scripts}/**/*.ts\" \"!src/generated/**\" \"*.json\" \"README.md\" --cache",
+    "format:check": "prettier --check \"{src,scripts}/**/*.ts\" \"!src/generated/**\" \"*.json\" \"README.md\" --cache"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0"
+  },
+  "devDependencies": {
+    "@fabricator-ui/icons-core": "workspace:*",
+    "@lucide/icons": "1.66.0",
+    "@types/node": "^20.19.0",
+    "@types/react": "19.3.0",
+    "@types/react-dom": "19.3.0",
+    "lucide-react-parity": "npm:lucide-react@1.66.0",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "typescript": "^6.0.3",
+    "vitest": "^5.0.5"
+  }
+}

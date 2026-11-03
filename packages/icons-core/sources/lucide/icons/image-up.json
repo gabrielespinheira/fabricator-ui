@@ -1,0 +1,19 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "colebemis",
+    "karsa-mistmere",
+    "ericfennis",
+    "jguddas"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:image",
+    "$group:direction-up",
+    "upload",
+    "import"
+  ],
+  "categories": [
+    "$extends:image"
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "danielbayley"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:book",
+    "$group:check",
+    "read",
+    "authored",
+    "published",
+    "informed",
+    "knowledgeable",
+    "educated",
+    "schooled",
+    "examined",
+    "tested",
+    "marked",
+    "passed",
+    "graduated",
+    "studied",
+    "learned",
+    "lesson",
+    "researched",
+    "documented",
+    "revealed",
+    "blank",
+    "plain language",
+    "true",
+    "truth",
+    "corrected"
+  ],
+  "categories": [
+    "$extends:book"
+  ]
+}

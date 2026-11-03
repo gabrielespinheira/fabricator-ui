@@ -1,0 +1,26 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "karsa-mistmere"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$group:direction-down",
+    "$group:direction-up",
+    "$group:sort",
+    "bidirectional",
+    "two-way",
+    "2-way",
+    "swap",
+    "switch",
+    "network",
+    "traffic",
+    "flow",
+    "mobile data",
+    "internet",
+    "move"
+  ],
+  "categories": [
+    "arrows"
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "danielbayley"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:ticket",
+    "$group:percent",
+    "book",
+    "purchase"
+  ],
+  "categories": [
+    "transportation",
+    "shopping"
+  ]
+}

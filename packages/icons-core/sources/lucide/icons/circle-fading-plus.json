@@ -1,0 +1,19 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "jordan808",
+    "jguddas"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$group:plus",
+    "stories",
+    "social media",
+    "sharing",
+    "content"
+  ],
+  "categories": [
+    "communication",
+    "social"
+  ]
+}

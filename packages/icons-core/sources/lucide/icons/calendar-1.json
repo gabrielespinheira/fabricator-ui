@@ -1,0 +1,21 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "colebemis",
+    "ericfennis",
+    "peteruithoven"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:calendar",
+    "$group:digit",
+    "single",
+    "singular",
+    "once",
+    "1",
+    "first"
+  ],
+  "categories": [
+    "$extends:calendar"
+  ]
+}

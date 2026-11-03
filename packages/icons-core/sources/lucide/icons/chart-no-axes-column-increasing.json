@@ -1,0 +1,23 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "colebemis",
+    "ericfennis",
+    "karsa-mistmere"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:chart-no-axes-column",
+    "trending up"
+  ],
+  "categories": [
+    "$extends:chart-no-axes-column"
+  ],
+  "aliases": [
+    {
+      "name": "bar-chart",
+      "deprecated": true,
+      "deprecationReason": "alias.name"
+    }
+  ]
+}

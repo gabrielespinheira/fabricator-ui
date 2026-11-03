@@ -1,0 +1,17 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "karsa-mistmere",
+    "ericfennis",
+    "jamiemlaw"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:lamp",
+    "$group:direction-down",
+    "wall"
+  ],
+  "categories": [
+    "$extends:lamp"
+  ]
+}

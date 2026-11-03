@@ -1,0 +1,20 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "danielbayley"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:book",
+    "$group:direction-down",
+    "code",
+    "coding",
+    "version control",
+    "git",
+    "repository",
+    "pull"
+  ],
+  "categories": [
+    "development"
+  ]
+}

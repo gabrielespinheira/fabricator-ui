@@ -1,0 +1,17 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "karsa-mistmere",
+    "ericfennis"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:dna",
+    "$group:off",
+    "gmo free"
+  ],
+  "categories": [
+    "$extends:dna",
+    "food-beverage"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "karsa-mistmere",
+    "danielbayley"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:chart-column",
+    "multivariate"
+  ],
+  "categories": [
+    "$extends:chart-column"
+  ]
+}

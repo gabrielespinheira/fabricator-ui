@@ -1,0 +1,15 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "danielbayley",
+    "jguddas"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:bookmark",
+    "$group:x"
+  ],
+  "categories": [
+    "$extends:bookmark"
+  ]
+}

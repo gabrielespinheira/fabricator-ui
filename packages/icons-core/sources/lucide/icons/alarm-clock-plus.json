@@ -1,0 +1,27 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "mittalyashu",
+    "ericfennis",
+    "jguddas",
+    "karsa-mistmere"
+  ],
+  "use-cases": [
+    "Adding a scheduled wake-up reminder in clock apps",
+    "Creating an additional alarm for a daily routine"
+  ],
+  "tags": [
+    "$extends:alarm-clock",
+    "$group:plus"
+  ],
+  "categories": [
+    "$extends:alarm-clock"
+  ],
+  "aliases": [
+    {
+      "name": "alarm-plus",
+      "deprecationReason": "alias.name",
+      "deprecated": true
+    }
+  ]
+}

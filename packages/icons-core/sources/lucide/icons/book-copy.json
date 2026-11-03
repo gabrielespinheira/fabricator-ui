@@ -1,0 +1,35 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "danielbayley",
+    "jguddas",
+    "karsa-mistmere"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:book",
+    "$extends:copy",
+    "code",
+    "coding",
+    "version control",
+    "git",
+    "repository",
+    "fork",
+    "books",
+    "copies",
+    "copied",
+    "plagiarism",
+    "plagiarised",
+    "plagiarized",
+    "reading list",
+    "informed",
+    "knowledgeable",
+    "knowledgable",
+    "smart",
+    "intelligent",
+    "intellectual"
+  ],
+  "categories": [
+    "$extends:book"
+  ]
+}

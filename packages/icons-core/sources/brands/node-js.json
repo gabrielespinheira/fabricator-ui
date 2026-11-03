@@ -1,0 +1,15 @@
+{
+  "title": "Node.js",
+  "group": "Product & dev",
+  "tags": [
+    "nodejs",
+    "javascript",
+    "runtime",
+    "server"
+  ],
+  "aliases": [],
+  "hex": "#5FA04E",
+  "source": "Simple Icons 16.36.0 (https://nodejs.org/en/about/branding)",
+  "license": "CC0-1.0",
+  "guidelines": "https://nodejs.org/en/about/branding"
+}

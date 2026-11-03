@@ -28,7 +28,11 @@
     "release": "changeset version",
     "release:publish": "./scripts/publish.sh",
     "deploy": "./scripts/deploy.sh",
-    "rebrand": "bun ./scripts/rebrand.ts"
+    "rebrand": "bun ./scripts/rebrand.ts",
+    "icons:sync": "bun ./packages/icons-core/scripts/sync-lucide.ts",
+    "icons:brands": "bun ./packages/icons-core/scripts/import-brands.ts",
+    "icons:check": "bun ./packages/icons-core/scripts/check.ts",
+    "icons:sheet": "bun ./packages/icons-core/scripts/sheet.ts"
   },
   "devDependencies": {
     "@changesets/changelog-github": "^1.0.1",

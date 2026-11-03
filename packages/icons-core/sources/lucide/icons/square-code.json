@@ -1,0 +1,28 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "danielbayley",
+    "jguddas",
+    "karsa-mistmere",
+    "ericfennis"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$group:code",
+    "gist",
+    "source",
+    "html",
+    "xml"
+  ],
+  "categories": [
+    "text",
+    "development"
+  ],
+  "aliases": [
+    {
+      "name": "code-square",
+      "deprecationReason": "alias.name",
+      "deprecated": true
+    }
+  ]
+}

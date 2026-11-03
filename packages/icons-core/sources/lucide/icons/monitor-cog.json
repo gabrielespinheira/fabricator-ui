@@ -1,0 +1,20 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "karsa-mistmere",
+    "colebemis",
+    "UsamaKhan"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:monitor",
+    "$group:cog",
+    "executable",
+    "system",
+    "network",
+    "computing"
+  ],
+  "categories": [
+    "$extends:monitor"
+  ]
+}

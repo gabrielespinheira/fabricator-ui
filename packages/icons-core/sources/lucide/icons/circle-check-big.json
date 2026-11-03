@@ -1,0 +1,23 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "colebemis",
+    "csandman",
+    "ericfennis",
+    "jguddas"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:circle-check"
+  ],
+  "categories": [
+    "$extends:circle-check"
+  ],
+  "aliases": [
+    {
+      "name": "check-circle",
+      "deprecationReason": "alias.name",
+      "deprecated": true
+    }
+  ]
+}

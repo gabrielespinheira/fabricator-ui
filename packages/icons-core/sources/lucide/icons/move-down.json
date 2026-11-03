@@ -1,0 +1,14 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "jonas-hoebenreich"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:move",
+    "$group:direction-down"
+  ],
+  "categories": [
+    "arrows"
+  ]
+}

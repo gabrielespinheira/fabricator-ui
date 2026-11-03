@@ -1,0 +1,13 @@
+{
+  "title": "Stripe",
+  "group": "Marketing & commerce",
+  "tags": [
+    "payments",
+    "billing",
+    "checkout"
+  ],
+  "aliases": [],
+  "hex": "#635BFF",
+  "source": "Simple Icons 16.36.0 (https://stripe.com/newsroom/information)",
+  "license": "CC0-1.0"
+}

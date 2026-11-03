@@ -1,0 +1,22 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "danielbayley",
+    "jguddas",
+    "karsa-mistmere"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:monitor",
+    "$group:pause",
+    "video",
+    "movie",
+    "film",
+    "hibernate",
+    "boot"
+  ],
+  "categories": [
+    "$extends:monitor",
+    "multimedia"
+  ]
+}

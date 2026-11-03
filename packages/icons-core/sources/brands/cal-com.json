@@ -1,0 +1,18 @@
+{
+  "title": "Cal.com",
+  "group": "Product & dev",
+  "tags": [
+    "cal",
+    "calcom",
+    "booking",
+    "scheduling",
+    "meetings"
+  ],
+  "aliases": [
+    "cal"
+  ],
+  "hex": "#000000",
+  "source": "SharpOS @sharp/core-brand-icons 3.0.1 (origin not recorded)",
+  "license": "unknown",
+  "artSource": "SharpOS @sharp/core-brand-icons 3.0.1 (origin not recorded) (unknown)"
+}

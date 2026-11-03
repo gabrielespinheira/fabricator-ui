@@ -1,0 +1,19 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "yukosgiti",
+    "ericfennis",
+    "csandman"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:monitor",
+    "$group:off",
+    "offline",
+    "disconnected",
+    "power"
+  ],
+  "categories": [
+    "$extends:monitor"
+  ]
+}

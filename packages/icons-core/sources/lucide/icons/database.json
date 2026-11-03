@@ -1,0 +1,47 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "colebemis",
+    "jguddas"
+  ],
+  "use-cases": [],
+  "tags": [
+    "storage",
+    "memory",
+    "container",
+    "tin",
+    "pot",
+    "bytes",
+    "servers",
+    "sql",
+    "db",
+    "query",
+    "sqlite",
+    "mysql",
+    "backup",
+    "export",
+    "import",
+    "dump",
+    "restore",
+    "migration",
+    "schema",
+    "records",
+    "tables",
+    "snapshot",
+    "archive",
+    "server",
+    "attachment",
+    "artifact",
+    "log",
+    "relational",
+    "dataset",
+    "dbms",
+    "structured data",
+    "data source",
+    "data"
+  ],
+  "categories": [
+    "devices",
+    "development"
+  ]
+}

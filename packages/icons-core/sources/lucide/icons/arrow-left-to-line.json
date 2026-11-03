@@ -1,0 +1,19 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "danielbayley",
+    "ericfennis"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:arrow-left",
+    "$group:direction-left",
+    "$group:navigation-first",
+    "collapse",
+    "fold",
+    "|<-"
+  ],
+  "categories": [
+    "$extends:arrow-left"
+  ]
+}

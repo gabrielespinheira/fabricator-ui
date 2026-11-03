@@ -1,0 +1,17 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "danielbayley"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:notebook",
+    "$group:pen",
+    "noted",
+    "eraser",
+    "rubber"
+  ],
+  "categories": [
+    "text"
+  ]
+}

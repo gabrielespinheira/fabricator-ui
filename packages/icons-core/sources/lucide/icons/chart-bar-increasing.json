@@ -1,0 +1,14 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "karsa-mistmere"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:chart-bar",
+    "trending up"
+  ],
+  "categories": [
+    "$extends:chart-bar"
+  ]
+}

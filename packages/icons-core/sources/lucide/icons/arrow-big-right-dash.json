@@ -1,0 +1,19 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "danielbayley",
+    "karsa-mistmere",
+    "jamiemlaw",
+    "jguddas"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:arrow-big-right",
+    "$group:direction-right",
+    "turn",
+    "corner"
+  ],
+  "categories": [
+    "$extends:arrow-big-right"
+  ]
+}

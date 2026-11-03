@@ -1,0 +1,24 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "danielbayley",
+    "ericfennis"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:arrow-right",
+    "$group:direction-right",
+    "$group:navigation-last",
+    "tab",
+    "keyboard",
+    "mac",
+    "indent",
+    "collapse",
+    "fold",
+    "->|"
+  ],
+  "categories": [
+    "$extends:arrow-right",
+    "development"
+  ]
+}

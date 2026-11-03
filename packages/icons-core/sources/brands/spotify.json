@@ -1,0 +1,14 @@
+{
+  "title": "Spotify",
+  "group": "Marketing & commerce",
+  "tags": [
+    "music",
+    "podcast",
+    "audio"
+  ],
+  "aliases": [],
+  "hex": "#1ED760",
+  "source": "Simple Icons 16.36.0 (https://developer.spotify.com/documentation/general/design-and-branding/#using-our-logo)",
+  "license": "CC0-1.0",
+  "guidelines": "https://developer.spotify.com/documentation/general/design-and-branding/#using-our-logo"
+}

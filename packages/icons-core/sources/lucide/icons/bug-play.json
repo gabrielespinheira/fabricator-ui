@@ -1,0 +1,18 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "danielbayley",
+    "jguddas",
+    "karsa-mistmere",
+    "jamiemlaw"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:bug",
+    "$group:play",
+    "reproduce"
+  ],
+  "categories": [
+    "$extends:bug"
+  ]
+}

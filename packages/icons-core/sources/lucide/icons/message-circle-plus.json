@@ -1,0 +1,16 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "danielbayley",
+    "jguddas",
+    "karsa-mistmere"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:message-circle",
+    "$group:plus"
+  ],
+  "categories": [
+    "$extends:message-circle"
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "Andreto",
+    "mittalyashu",
+    "danielbayley",
+    "karsa-mistmere",
+    "jamiemlaw",
+    "jguddas"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$group:direction-down",
+    "$group:navigation-next",
+    "backwards",
+    "reverse"
+  ],
+  "categories": [
+    "arrows",
+    "gaming"
+  ]
+}

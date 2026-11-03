@@ -11,15 +11,15 @@
 
 ## Status (2026-10-05)
 
-| Phase | State |
-|---|---|
-| 0. Repo foundation | ✅ Bun workspaces + Turborepo, CI and release workflows, MIT + NOTICE, AGENTS.md, GitHub repo (gabrielespinheira/fabricator-ui, nothing pushed yet). Pending: first commit, Vercel project, domain, npm name reservation. |
-| 1. Clone shadcn at parity | ✅ Full upstream registry (3 bases × 8 styles) builds; `test:parity --styles all` matches ui.shadcn.com for all 5,120 items (2 documented bug-fix exceptions). `/init` endpoint, the Fabricator registry URL, and the `fabricator` style (a copy of nova) are live. Blend mode was removed on 2026-10-11 (D4). The `upstream/shadcn` vendor branch is created on the first `bun run sync:upstream`. |
-| 2. Website MVP | ✅ Docs site (Next 16 + Fumadocs): all component pages, blocks, charts, create, `.md` routes, `llms.txt` and `llms-full.txt`; `next build` passes (647 pages). Brand policy applied (see AGENTS.md): demo content rebranded by `scripts/rebrand.ts`, Typeset builder removed, own schema URLs, mobile preview screenshots recaptured from this site (`registry:capture`, `pages:capture`). Pending: deploy, final logo/OG art. |
-| 3. CLI | ✅ `packages/cli` (`fabricator-ui` 0.2.0, unpublished): init, add, apply, search/list, view, docs, diff, info, doctor, mcp (own `fabricator` MCP server config), `--verbose`. 63 unit tests; e2e suite passes for Vite × {Base UI, Radix, React Aria}, Next.js, and an existing shadcn project. |
-| 4. Fabricator design system | 🟡 Tooling ready: the website (docs previews and code, homepage, blocks, Markdown exports) renders the Fabricator style, so edits to `apps/web/registry/styles/style-fabricator.css` show up after `registry:build --style all`. Next: the tokens and the style itself. |
-| 5. Exclusive components | ⏳ Not started. |
-| 6. Launch and ecosystem | 🟡 Agent skill in `skills/fabricator`. Pending: npm publish, Vercel deploy, registry directory PR. GitHub addresses (`owner/repo/item`) are not supported: registry sources contain style placeholders and are only installable after the build, so the registry is served from the site. |
+| Phase                       | State                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 0. Repo foundation          | ✅ Bun workspaces + Turborepo, CI and release workflows, MIT + NOTICE, AGENTS.md, GitHub repo (gabrielespinheira/fabricator-ui, nothing pushed yet). Pending: first commit, Vercel project, domain, npm name reservation.                                                                                                                                                                                                      |
+| 1. Clone shadcn at parity   | ✅ Full upstream registry (3 bases × 8 styles) builds; `test:parity --styles all` matches ui.shadcn.com for all 5,120 items (2 documented bug-fix exceptions). `/init` endpoint, the Fabricator registry URL, and the `fabricator` style (a copy of nova) are live. Blend mode was removed on 2026-10-11 (D4). The `upstream/shadcn` vendor branch is created on the first `bun run sync:upstream`.                            |
+| 2. Website MVP              | ✅ Docs site (Next 16 + Fumadocs): all component pages, blocks, charts, create, `.md` routes, `llms.txt` and `llms-full.txt`; `next build` passes (647 pages). Brand policy applied (see AGENTS.md): demo content rebranded by `scripts/rebrand.ts`, Typeset builder removed, own schema URLs, mobile preview screenshots recaptured from this site (`registry:capture`, `pages:capture`). Pending: deploy, final logo/OG art. |
+| 3. CLI                      | ✅ `packages/cli` (`fabricator-ui` 0.2.0, unpublished): init, add, apply, search/list, view, docs, diff, info, doctor, mcp (own `fabricator` MCP server config), `--verbose`. 63 unit tests; e2e suite passes for Vite × {Base UI, Radix, React Aria}, Next.js, and an existing shadcn project.                                                                                                                                |
+| 4. Fabricator design system | 🟡 Tooling ready: the website (docs previews and code, homepage, blocks, Markdown exports) renders the Fabricator style, so edits to `apps/web/registry/styles/style-fabricator.css` show up after `registry:build --style all`. Next: the tokens and the style itself.                                                                                                                                                        |
+| 5. Exclusive components     | 🟡 Search; the App Shell family (2026-11-03): App Shell, App Nav, Tab Strip, Workspace Switcher, User Menu, the `app-shell-model` and `sortable` libs, and blocks `app-shell-01`…`05`. Plan and research in `docs/plans/app-shell.md`.                                                                                                                                                                                         |
+| 6. Launch and ecosystem     | 🟡 Agent skill in `skills/fabricator`. Pending: npm publish, Vercel deploy, registry directory PR. GitHub addresses (`owner/repo/item`) are not supported: registry sources contain style placeholders and are only installable after the build, so the registry is served from the site.                                                                                                                                      |
 
 ---
 
@@ -36,6 +36,7 @@
 ## 1. Goals and non-goals
 
 ### Goals
+
 - A **React-only** component library distributed as source code (copy-in), installable through a CLI.
 - It works in **Next.js (App and Pages Router), Vite, React Router, TanStack Start, and Astro**, which are the same targets as shadcn. Laravel and Inertia work automatically because shadcn supports them.
 - **Drop-in compatible with existing shadcn projects:**
@@ -48,7 +49,9 @@
 - Open source under MIT, with proper shadcn attribution.
 
 ### Non-goals (for now)
-- Vue, Svelte, or React Native ports.
+
+- Vue or Svelte ports.
+- React Native components (for now). Changed 2026-11-03: the App Shell's model (`lib/app-shell-model.ts`) has no DOM, so native apps share it today; native rendering is a later target (D14).
 - Tailwind CSS v3 support. All of shadcn's current bases and styles are v4-only, and we follow that.
 - A runtime npm component package such as `@fabricator-ui/components`. Distribution is copy-in. Headless logic can ship as npm later (see §5.8).
 - Forking or replacing the `shadcn` CLI engine.
@@ -82,15 +85,16 @@ shadcn-ui/ui
 
 ### 2.2 The three axes: base × style × theme
 
-| Axis | Values | How it is applied |
-|---|---|---|
-| **Base** (primitive library) | `base` (Base UI, **default since 2026-07**), `radix` (`radix-ui` unified pkg), `aria` (React Aria Components) | Separate hand-written source tree per base, kept in parity by convention. Same `cn-*` names and `data-slot`s; only primitives, imports, and part names differ. |
-| **Style** (visual language) | `vega` (classic), `nova` (compact, **default**), `maia` (soft/rounded), `lyra` (boxy, mono), `mira` (dense), `luma` (soft elevation), `sera` (editorial), `rhea` (compact luma) | **Build-time.** Source uses semantic placeholder classes (`cn-button`, `cn-button-variant-default`). `style-<x>.css` maps each placeholder to Tailwind classes. `createStyleMap()` and `transformStyle()` (exported from `shadcn/utils`) inline them with `twMerge`. Output: `public/r/styles/<base>-<style>/<item>.json`. |
-| **Theme** (tokens) | 7 base colors (neutral, stone, zinc, mauve, olive, mist, taupe) + 17 accent themes + chart colors + radius (`default/none/small/medium/large`) + menu color/accent + 26 fonts + 5 icon libraries | CSS variables (OKLCH) written into the user's CSS by the CLI. These are encoded into **preset codes** (base62, bit-packed). |
+| Axis                         | Values                                                                                                                                                                                           | How it is applied                                                                                                                                                                                                                                                                                                          |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Base** (primitive library) | `base` (Base UI, **default since 2026-07**), `radix` (`radix-ui` unified pkg), `aria` (React Aria Components)                                                                                    | Separate hand-written source tree per base, kept in parity by convention. Same `cn-*` names and `data-slot`s; only primitives, imports, and part names differ.                                                                                                                                                             |
+| **Style** (visual language)  | `vega` (classic), `nova` (compact, **default**), `maia` (soft/rounded), `lyra` (boxy, mono), `mira` (dense), `luma` (soft elevation), `sera` (editorial), `rhea` (compact luma)                  | **Build-time.** Source uses semantic placeholder classes (`cn-button`, `cn-button-variant-default`). `style-<x>.css` maps each placeholder to Tailwind classes. `createStyleMap()` and `transformStyle()` (exported from `shadcn/utils`) inline them with `twMerge`. Output: `public/r/styles/<base>-<style>/<item>.json`. |
+| **Theme** (tokens)           | 7 base colors (neutral, stone, zinc, mauve, olive, mist, taupe) + 17 accent themes + chart colors + radius (`default/none/small/medium/large`) + menu color/accent + 26 fonts + 5 icon libraries | CSS variables (OKLCH) written into the user's CSS by the CLI. These are encoded into **preset codes** (base62, bit-packed).                                                                                                                                                                                                |
 
 `components.json` stores `"style": "<base>-<style>"`, for example `base-nova`. The base is parsed from the prefix.
 
 ### 2.3 Component source conventions (must be preserved)
+
 - Plain function components. No `forwardRef` (React 19).
 - `data-slot="<component>-<part>"` on every part. Styles use `has-data-[slot=…]` and `in-data-[slot=…]`.
 - `cva` for variants. `cn` is imported from the **`cn` npm package** (replaced clsx + tailwind-merge in 2026-09). `lib/utils.ts` is just `export { cn } from "cn"`.
@@ -102,6 +106,7 @@ shadcn-ui/ui
 - Focus ring: `focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50`. Invalid state: `aria-invalid:border-destructive aria-invalid:ring-destructive/20`.
 
 ### 2.4 Registry model (what we plug into)
+
 - **`registry.json`** (catalog): `{ $schema, name, homepage, include?, items[] }`. Large registries can compose files with `include`.
 - **`registry-item.json`** fields:
   - `name`, `type`, `title`, `description`, `author`
@@ -121,12 +126,13 @@ shadcn-ui/ui
 - **Auto-discovery:** an unknown `@ns` is looked up in the public directory (`ui.shadcn.com/r/registries.json`, sourced from `apps/v4/registry/directory.json`) and written into `components.json` automatically.
 - **Resolution:** `registryDependencies` are resolved recursively across registries, topologically sorted with themes first, and cssVars, css, and deps are deep-merged.
   - Install order: dependencies → env → fonts → files → CSS.
-- **Install-time transforms (run inside the user's project):** import alias rewrite → strip `"use client"` if `rsc:false` → css-vars → tw-prefix → icons → menu → asChild→render (base-*) → RTL logical classes → Next 16 `middleware`→`proxy` → heading font → cleanup `cn-*` → TSX→JSX if `tsx:false`.
+- **Install-time transforms (run inside the user's project):** import alias rewrite → strip `"use client"` if `rsc:false` → css-vars → tw-prefix → icons → menu → asChild→render (base-_) → RTL logical classes → Next 16 `middleware`→`proxy` → heading font → cleanup `cn-_`→ TSX→JSX if`tsx:false`.
 - **`shadcn build`** reads `registry.json`, inlines file contents, and writes `public/r/<name>.json`. It applies **no** code transforms; those happen at install.
 - **Dynamic search:** `registry.json?q=&type=&limit=&offset=`. A server may return `pagination` to take over filtering.
 - **Directory listing** is a PR to `apps/v4/registry/directory.json`. After that, Registry Health monitoring scores reliability, correctness, and installability.
 
 ### 2.5 CLI v4 surface (what our wrapper delegates to)
+
 - `init [items…]` (alias `create`): `-t next|vite|start|react-router|laravel|astro`, `-b base|radix|aria`, `--monorepo`, `-p/--preset <name|code|url>`, `--rtl`, `--pointer`, `--css-variables`.
 - `add`: `-o`, `-a`, `-p`, `--dry-run`, `--diff`, `--view`.
 - `apply --preset … [--only theme,font]`.
@@ -139,6 +145,7 @@ shadcn-ui/ui
 **The key fact our architecture relies on.** `shadcn init <url>` and `shadcn init --preset <url>` fetch a **`registry:base`** item from any URL. That item's `config` (a deep-partial `components.json`, **including `registries`**) is merged into the user's `components.json` (`packages/shadcn/src/commands/init.ts`, `mergeConfig`). With `extends: "none"`, the item replaces shadcn's default style index. **That means one URL from our site can fully configure a Fabricator project, using only the official CLI.**
 
 ### 2.6 Website stack (what we replicate)
+
 - **Framework:** Next 16 (Turbopack) and React 19.3.
 - **Styling:** Tailwind 4.3 and `tw-animate-css`.
 - **Docs:** Fumadocs (`fumadocs-core/ui/mdx`), with `rehype-pretty-code` + shiki for highlighting.
@@ -155,21 +162,24 @@ shadcn-ui/ui
 
 ## 3. Architecture decisions
 
-| # | Decision | Rationale |
-|---|---|---|
-| **D1** | **Distribute through the official `shadcn` CLI as the engine.** Fabricator is a spec-compliant shadcn registry hosted at `fabricator-ui.vercel.app/r`. | Gives users zero-friction compatibility (`bunx --bun shadcn add @fabricator/x`). We inherit every framework, transform, monorepo, RTL, and icon feature for free, with no fork to maintain. |
-| **D2** | **Ship `fabricator-ui` as a thin wrapper CLI** that depends on a pinned `shadcn` and delegates commands. | Gives us a branded UX (`bunx --bun fabricator-ui init`), our defaults, and our own commands (`doctor`, `upgrade`) without re-implementing resolution. If shadcn ever exposes a programmatic API (`shadcn/registry` already exports resolve/add helpers), we can call it in-process. |
-| **D3** | **Namespace `@fabricator`, registered in the shadcn directory.** Also make the repo a valid **GitHub registry** (root `registry.json` with `include`), so `bunx --bun shadcn add gabrielespinheira/fabricator-ui/<item>` works too. | Auto-discovery means users never need to edit `components.json`. GitHub addressing is a free fallback that keeps working even if the site is down. |
-| **D4** | **One registry URL** (changed 2026-10-11): `https://fabricator-ui.vercel.app/r/fabricator/{style}/{name}.json`, written by `fabricator-ui init` and used for the directory entry. It serves the Fabricator design for the base parsed from `{style}`. The upstream styles are still compiled, into the gitignored `apps/web/.upstream-registry/`, for the parity check only. The retired blend-mode URLs (`/r/{style}/{name}.json`, `/r/styles/<base>-<upstream style>/…`) permanently redirect to the Fabricator URL. | Originally two modes, with a **blend mode** that compiled items in the user's own shadcn style. It was dropped: it only re-served upstream items (already on ui.shadcn.com) plus two style-independent items, and it would have made every exclusive component carry rules for all 8 upstream styles. Fabricator components still fit any shadcn project through the token contract (§6.1). |
-| **D5** | **The `style` field in `components.json` always stays a valid shadcn style** (for example `base-nova`). It is never set to `base-fabricator`. | A bare `shadcn add button`, and any third-party item with a bare `registryDependencies: ["button"]`, resolves against `ui.shadcn.com/r/styles/{style}/…`. A custom style name would 404 there and break compatibility with the whole ecosystem. The Fabricator look comes from the D4 URL, not from the `style` field. |
-| **D6** | **All Fabricator `registryDependencies` are fully qualified** (`@fabricator/button`). Bare names are used only when we intentionally depend on upstream shadcn. | A bare name always resolves to `@shadcn`. |
-| **D7** | **API superset rule:** a Fabricator replacement for a shadcn component keeps the same item name, file path, export names, props, variants, and `data-slot`s. We may **add** props and variants but never remove or rename them. | Code written against shadcn must keep compiling when a user swaps in `@fabricator/button`. This is also what makes upstream merges cheap. |
-| **D8** | **Vendor upstream source with the same `cn-*` + style-map architecture**, and reuse `createStyleMap` and `transformStyle` from `shadcn/utils` in our build script. | Our design system becomes `registry/styles/style-fabricator.css` plus tokens. Redesigning a component usually means editing CSS maps, not the TSX, so upstream fixes to the TSX merge cleanly. |
-| **D9** | **Vendor all three bases. Base UI is the primary target** (default in docs and init). Radix and Aria follow in parity. For exclusive components with no matching primitive in a base, serve the Base UI implementation as a fallback (shadcn already does this for `combobox` in Radix). | Matches upstream defaults. Keeps a clear priority order without dropping users of other bases. |
-| **D10** | **Upstream sync via a vendor branch** (`upstream/shadcn`), which holds pristine snapshots imported by `scripts/sync-upstream.ts` at a pinned SHA recorded in `upstream.lock.json`. It is merged into `main` with normal git 3-way merges. | Upstream ships often (68 changelog entries since 2023). A vendor branch turns each upgrade into a reviewable merge instead of a manual re-copy. |
-| **D11** | **Tailwind v4 only, React 19 only.** | Matches every current upstream base and style. |
-| **D13** | **Bun is the repo's package manager and script runner** (`bun install`, `bun run`, `bunx`, one `bun.lock`). npm and pnpm are not used to develop this repo. Two exceptions: the published CLI still targets **Node** (users run it with `npx`, `pnpm dlx`, `yarn dlx` or `bunx`), and the docs still show all four package-manager tabs, defaulting to **bun**. | Fast installs and scripts. Upstream already runs its registry build with Bun (`bun ./scripts/build-registry.mts`). Users keep whatever package manager they have; the shadcn CLI detects it on their side. |
-| **D12** | **MIT license with attribution:** keep shadcn's copyright notice in `LICENSE.md` and in a `NOTICE`/README credits section. | Required by MIT for substantial copies, and good open-source practice. |
+| #       | Decision                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | Rationale                                                                                                                                                                                                                                                                                                                                                                                   |
+| ------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **D1**  | **Distribute through the official `shadcn` CLI as the engine.** Fabricator is a spec-compliant shadcn registry hosted at `fabricator-ui.vercel.app/r`.                                                                                                                                                                                                                                                                                                                                                                                   | Gives users zero-friction compatibility (`bunx --bun shadcn add @fabricator/x`). We inherit every framework, transform, monorepo, RTL, and icon feature for free, with no fork to maintain.                                                                                                                                                                                                 |
+| **D2**  | **Ship `fabricator-ui` as a thin wrapper CLI** that depends on a pinned `shadcn` and delegates commands.                                                                                                                                                                                                                                                                                                                                                                                                                                 | Gives us a branded UX (`bunx --bun fabricator-ui init`), our defaults, and our own commands (`doctor`, `upgrade`) without re-implementing resolution. If shadcn ever exposes a programmatic API (`shadcn/registry` already exports resolve/add helpers), we can call it in-process.                                                                                                         |
+| **D3**  | **Namespace `@fabricator`, registered in the shadcn directory.** Also make the repo a valid **GitHub registry** (root `registry.json` with `include`), so `bunx --bun shadcn add gabrielespinheira/fabricator-ui/<item>` works too.                                                                                                                                                                                                                                                                                                      | Auto-discovery means users never need to edit `components.json`. GitHub addressing is a free fallback that keeps working even if the site is down.                                                                                                                                                                                                                                          |
+| **D4**  | **One registry URL** (changed 2026-10-11): `https://fabricator-ui.vercel.app/r/fabricator/{style}/{name}.json`, written by `fabricator-ui init` and used for the directory entry. It serves the Fabricator design for the base parsed from `{style}`. The upstream styles are still compiled, into the gitignored `apps/web/.upstream-registry/`, for the parity check only. The retired blend-mode URLs (`/r/{style}/{name}.json`, `/r/styles/<base>-<upstream style>/…`) permanently redirect to the Fabricator URL.                   | Originally two modes, with a **blend mode** that compiled items in the user's own shadcn style. It was dropped: it only re-served upstream items (already on ui.shadcn.com) plus two style-independent items, and it would have made every exclusive component carry rules for all 8 upstream styles. Fabricator components still fit any shadcn project through the token contract (§6.1). |
+| **D5**  | **The `style` field in `components.json` always stays a valid shadcn style** (for example `base-nova`). It is never set to `base-fabricator`.                                                                                                                                                                                                                                                                                                                                                                                            | A bare `shadcn add button`, and any third-party item with a bare `registryDependencies: ["button"]`, resolves against `ui.shadcn.com/r/styles/{style}/…`. A custom style name would 404 there and break compatibility with the whole ecosystem. The Fabricator look comes from the D4 URL, not from the `style` field.                                                                      |
+| **D6**  | **All Fabricator `registryDependencies` are fully qualified** (`@fabricator/button`). Bare names are used only when we intentionally depend on upstream shadcn.                                                                                                                                                                                                                                                                                                                                                                          | A bare name always resolves to `@shadcn`.                                                                                                                                                                                                                                                                                                                                                   |
+| **D7**  | **API superset rule:** a Fabricator replacement for a shadcn component keeps the same item name, file path, export names, props, variants, and `data-slot`s. We may **add** props and variants but never remove or rename them.                                                                                                                                                                                                                                                                                                          | Code written against shadcn must keep compiling when a user swaps in `@fabricator/button`. This is also what makes upstream merges cheap.                                                                                                                                                                                                                                                   |
+| **D8**  | **Vendor upstream source with the same `cn-*` + style-map architecture**, and reuse `createStyleMap` and `transformStyle` from `shadcn/utils` in our build script.                                                                                                                                                                                                                                                                                                                                                                       | Our design system becomes `registry/styles/style-fabricator.css` plus tokens. Redesigning a component usually means editing CSS maps, not the TSX, so upstream fixes to the TSX merge cleanly.                                                                                                                                                                                              |
+| **D9**  | **Vendor all three bases. Base UI is the primary target** (default in docs and init). Radix and Aria follow in parity. For exclusive components with no matching primitive in a base, serve the Base UI implementation as a fallback (shadcn already does this for `combobox` in Radix).                                                                                                                                                                                                                                                 | Matches upstream defaults. Keeps a clear priority order without dropping users of other bases.                                                                                                                                                                                                                                                                                              |
+| **D10** | **Upstream sync via a vendor branch** (`upstream/shadcn`), which holds pristine snapshots imported by `scripts/sync-upstream.ts` at a pinned SHA recorded in `upstream.lock.json`. It is merged into `main` with normal git 3-way merges.                                                                                                                                                                                                                                                                                                | Upstream ships often (68 changelog entries since 2023). A vendor branch turns each upgrade into a reviewable merge instead of a manual re-copy.                                                                                                                                                                                                                                             |
+| **D11** | **Tailwind v4 only, React 19 only.**                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | Matches every current upstream base and style.                                                                                                                                                                                                                                                                                                                                              |
+| **D13** | **Bun is the repo's package manager and script runner** (`bun install`, `bun run`, `bunx`, one `bun.lock`). npm and pnpm are not used to develop this repo. Two exceptions: the published CLI still targets **Node** (users run it with `npx`, `pnpm dlx`, `yarn dlx` or `bunx`), and the docs still show all four package-manager tabs, defaulting to **bun**.                                                                                                                                                                          | Fast installs and scripts. Upstream already runs its registry build with Bun (`bun ./scripts/build-registry.mts`). Users keep whatever package manager they have; the shadcn CLI detects it on their side.                                                                                                                                                                                  |
+| **D14** | **React Native shares models, not components** (added 2026-11-03). Behaviour that both a web and a native app need (navigation config and matching, tab state, panel placement, shortcuts) ships as DOM-free `registry:lib` files that install into Expo projects as they are. Native components, if they come, are a separate registry target outside the three bases (the bases are DOM primitive libraries, and base parity can't apply), with their own styling decision (Uniwind for Tailwind v4, NativeWind or StyleSheet tokens). | SharpOS and Relay both ship web and Expo apps from one team; neither shares a React component across them, both share pure models, and their duplication bugs are in what they didn't share (routes, icons, active matching, tab kinds).                                                                                                                                                    |
+| **D15** | **One drag-and-drop adapter** (added 2026-11-03): components import `lib/sortable.tsx`, never a drag-and-drop library. It wraps `@dnd-kit/react`, pinned exactly while it is pre-1.0, for pointer sorting only; keyboard reordering and a menu alternative (WCAG 2.5.7) are the components' own.                                                                                                                                                                                                                                         | `@dnd-kit/core` has had no release since December 2024; `@dnd-kit/react` is its maintained successor but changes its API between minors. The adapter keeps that risk in one file.                                                                                                                                                                                                           |
+| **D16** | **Fabricator Icons is Lucide plus brands, in its own packages** (added 2026-11-03; plan in `docs/plans/icon-pack.md`). Lucide is vendored at a pinned tag and never edited: same names, same geometry, so `lucide-react` code moves by import path. Brand marks start from SharpOS's set, are never redrawn, and stay out when their owners' terms forbid redistribution. React, React Native and static packages build from one source in `packages/icons-core`. Registry components keep `IconPlaceholder`; a Fabricator option comes through the registry `params` route, opt-in. | The shadcn CLI hard-codes five icon libraries, so a sixth can't come through `iconLibrary`. Lucide dropped brand logos in v1 for trademark reasons, which rules out redrawing them in the outline style. |
+| **D12** | **MIT license with attribution:** keep shadcn's copyright notice in `LICENSE.md` and in a `NOTICE`/README credits section.                                                                                                                                                                                                                                                                                                                                                                                                               | Required by MIT for substantial copies, and good open-source practice.                                                                                                                                                                                                                                                                                                                      |
 
 ---
 
@@ -230,13 +240,16 @@ fabricator-ui/
 ## 5. The registry (core product)
 
 ### 5.1 Source layout and item declaration
+
 - Items are declared in TypeScript (`_registry.ts` per folder, typed `Registry["items"]` from `shadcn/schema`) and aggregated per base in `bases/<base>/registry.ts`. They are validated with `registryItemSchema` from zod at build time, exactly like upstream.
 - Each base has `index` and `style` items of type `registry:style` that carry the base primitive dependency (`@base-ui/react`, `radix-ui`, or `react-aria-components`) plus `cn`, `class-variance-authority`, `tw-animate-css`, `shadcn` (for `shadcn/tailwind.css`), and the shared `css` block.
 - Fabricator-exclusive items live in the same base trees and are flagged with `meta: { fabricator: true }` and `categories`. This keeps one pipeline for everything.
 - Each item has `meta.links.docs` and `meta.links.examples` pointing to `fabricator-ui.vercel.app`, so `shadcn docs @fabricator/x` works.
 
 ### 5.2 Build pipeline (`apps/web/scripts/build-registry.mts`)
+
 Adapted from upstream's 1,840-line script, keeping its stages:
+
 1. Build the base indexes (`registry/bases/__index__.tsx`, `__components__/<base>.tsx` lazy shards).
 2. For each **base × style** (8 upstream styles + Fabricator styles): `createStyleMap(styleCss)` → `transformStyle(source)`. Write a temporary `registry/<base>-<style>/…`. Cache by sha256.
 3. Generate `registry/__index__.tsx` and `examples/__index__.tsx` for the docs site.
@@ -251,7 +264,9 @@ Turbo task: `build` depends on `registry:build`. Generated folders are gitignore
 **Routing alternative.** Instead of materialising every combination, `app/r/[...path]/route.ts` can serve the registry by parsing `<base>` from the `{style}` segment and returning the prebuilt per-base file, with `generateStaticParams` + `force-static` so it is still CDN-cached. Start with plain static files and switch only if the build size becomes a problem.
 
 ### 5.3 The init endpoint: `GET /init`
+
 Returns a `registry:base` item, modelled on upstream `buildRegistryBase`:
+
 ```jsonc
 {
   "$schema": "https://ui.shadcn.com/schema/registry-item.json",
@@ -270,15 +285,18 @@ Returns a `registry:base` item, modelled on upstream `buildRegistryBase`:
   "css": { "@import \"tw-animate-css\"": {}, "@import \"shadcn/tailwind.css\"": {}, "@layer base": { … } }
 }
 ```
+
 - Query params mirror upstream (`base`, `theme`, `font`, `radius`, `iconLibrary`, `rtl`, …) plus Fabricator dimensions (`density`, `surface`, `motion`).
 - Works with the official CLI as-is: `bunx --bun shadcn@latest init https://fabricator-ui.vercel.app/init?base=base` or `--preset <url>`.
 - `/init.md` returns manual install instructions for agents and for people who don't use the CLI.
 
 ### 5.4 Presets
+
 - Ship named Fabricator presets in `public/r/config.json`, for example `fabricator`, `fabricator-square`, `fabricator-pill`. Density is a look param (`density=compact|spacious`), not a preset.
 - **Do not reuse shadcn's preset code format.** It is a frozen bit layout with shadcn-only enums, so it cannot carry our dimensions. Use **readable preset URLs** (`/init?preset=fabricator&radius=pill`). If short codes are wanted later, define a separate codec in `packages/cli`, prefixed `f…` to avoid collisions.
 
 ### 5.5 Discovery and listing
+
 - [ ] Submit `@fabricator` to the `apps/v4/registry/directory.json` PR. Requirements:
   - public, flat (`/r/registry.json` + `/r/<name>.json`)
   - no `content` in catalog `files`
@@ -289,16 +307,19 @@ Returns a `registry:base` item, modelled on upstream `buildRegistryBase`:
 - [ ] Optional: dynamic search (`?q=`) once the catalog grows past a few hundred items.
 
 ### 5.6 Item naming
+
 - Upstream replacements use the **same names** (`button`, `dialog`, `sidebar`, …) per D7.
 - Exclusive components use descriptive, unprefixed names (`surface`, `stepper`, …). Each name is checked against upstream's list so a future shadcn component never collides with an existing Fabricator one. If it does collide, the upstream one wins and ours is renamed in a major version.
 - Blocks: `<category>-<nn>` (`login-01`), matching upstream.
 - Examples: `<component>-example` / `<component>-demo` (MCP's `get_item_examples_from_registries` searches these patterns).
 
 ### 5.7 Versioning
+
 - The site serves the latest version. Breaking registry changes are announced in the changelog with a migration guide, the same way shadcn handles them.
 - Optional channel URLs: `/r/next/…` (canary) and `/r/v1/…` (frozen), selectable through `components.json` `registries` URL or `params.version`.
 
 ### 5.8 Headless package (later, optional)
+
 Mirror upstream's `@shadcn/react` pattern: complex stateful logic ships as an npm package (`@fabricator-ui/react/<primitive>`), while the styled wrapper is a copy-in registry file listing it in `dependencies`. Only use this for components whose logic users should not fork, such as virtualisation or complex gestures.
 
 ---
@@ -308,6 +329,7 @@ Mirror upstream's `@shadcn/react` pattern: complex stateful logic ships as an np
 Starting point is `tmp/TODO.md`: Colors, Surfaces, Radius (square | rounded | pill), Icon pack, Size (default | compact), Theme (system | dark | light), and Motion. Inspiration sources are listed in `tmp/README.md` (fluidfunctionalism, kibo-ui, skiper-ui, magicui, …).
 
 ### 6.1 Token contract
+
 - **Never rename or remove shadcn tokens:**
   - `background`, `foreground`
   - `card`, `popover`, `primary`, `secondary`, `muted`, `accent` (each with `-foreground`)
@@ -318,6 +340,7 @@ Starting point is `tmp/TODO.md`: Colors, Surfaces, Radius (square | rounded | pi
   - `font-sans`, `font-heading`, `font-mono`
 
   Every upstream and third-party component depends on these names.
+
 - **Add Fabricator tokens** with distinct names, delivered through the `cssVars` of the items that need them, so projects receive them only when required:
   - Surfaces: `--surface-sunken`, `--surface`, `--surface-raised`, `--surface-overlay` (+ foregrounds), in light and dark
   - Elevation: `--shadow-*`
@@ -326,19 +349,21 @@ Starting point is `tmp/TODO.md`: Colors, Surfaces, Radius (square | rounded | pi
 - Colors are OKLCH, and every pair is checked for WCAG AA contrast in CI (script in `apps/web/scripts`).
 
 ### 6.2 Mapping each TODO dimension
-| Dimension | Mechanism |
-|---|---|
-| Colors | Theme `cssVars` (base color + accent), delivered by the `/init` payload and `registry:theme` items (`@fabricator/theme-<x>`). |
-| Surfaces | New tokens (above) plus `Surface` component(s). Style map classes use `bg-surface-raised` etc. |
-| Radius: square / rounded | `--radius` token (`0` vs default). No recompile needed. |
-| Radius: pill | **Style-level.** Needs `rounded-full` on controls, not a bigger `--radius`, so it is a style variant (`style-fabricator-pill.css` or `@apply` overrides layered on `style-fabricator.css`). |
+
+| Dimension                             | Mechanism                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| ------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Colors                                | Theme `cssVars` (base color + accent), delivered by the `/init` payload and `registry:theme` items (`@fabricator/theme-<x>`).                                                                                                                                                                                                                                                                                                                                        |
+| Surfaces                              | New tokens (above) plus `Surface` component(s). Style map classes use `bg-surface-raised` etc.                                                                                                                                                                                                                                                                                                                                                                       |
+| Radius: square / rounded              | `--radius` token (`0` vs default). No recompile needed.                                                                                                                                                                                                                                                                                                                                                                                                              |
+| Radius: pill                          | **Style-level.** Needs `rounded-full` on controls, not a bigger `--radius`, so it is a style variant (`style-fabricator-pill.css` or `@apply` overrides layered on `style-fabricator.css`).                                                                                                                                                                                                                                                                          |
 | Density: compact / default / spacious | **Token-level** (changed 2026-10-28; first planned as a `fabricator-compact` style map). Style maps size everything with `--density-*` variables, so `data-density` on any element, a `density-*` utility, or `DensityProvider` (which also reaches portals) switches a subtree at runtime, and one compiled style serves dashboards and websites. A control's `size="sm"` / `"lg"` pins compact / spacious. `/init?density=` writes a project default into `:root`. |
-| Theme: system / dark / light | `next-themes` (Next) or the documented provider for Vite and others. Docs pages mirror upstream's `dark-mode/*` pages. |
-| Icon pack | Reuse upstream `IconPlaceholder` and CLI `iconLibrary` (lucide, tabler, hugeicons, phosphor, remixicon). A custom Fabricator icon pack would need a new placeholder attribute, which the shadcn CLI does not support. Option: ship icons as a `registry:ui` `icons` item, resolved to lucide by default. |
-| Motion | Tokens plus `tw-animate-css`. Optional `motion` (Framer) only in exclusive components that need springs, listed as an item dependency. |
-| Fonts | Reuse shadcn `registry:font` items (bare `font-inter` works), or publish our own `@fabricator/font-*`. |
+| Theme: system / dark / light          | `next-themes` (Next) or the documented provider for Vite and others. Docs pages mirror upstream's `dark-mode/*` pages.                                                                                                                                                                                                                                                                                                                                               |
+| Icon pack                             | Fabricator Icons (D16, `docs/plans/icon-pack.md`): Lucide 1:1 plus brand marks, as `@fabricator-ui/icons`, `-react-native` and `-static`. Registry components keep `IconPlaceholder` and the CLI's `iconLibrary` (Lucide by default renders the same glyphs); a Fabricator option comes later through the registry `params` route, since the shadcn CLI only knows five libraries.                                                                                       |
+| Motion                                | Tokens plus `tw-animate-css`. Optional `motion` (Framer) only in exclusive components that need springs, listed as an item dependency.                                                                                                                                                                                                                                                                                                                               |
+| Fonts                                 | Reuse shadcn `registry:font` items (bare `font-inter` works), or publish our own `@fabricator/font-*`.                                                                                                                                                                                                                                                                                                                                                               |
 
 ### 6.3 Style authoring workflow
+
 1. Copy `style-nova.css` → `style-fabricator.css`, keeping all ~420 `cn-*` selectors.
 2. Redesign component by component in the docs site. Use the `/preview/[base]/[name]` route and a Storybook-like "sink" page (upstream has `internal/sink`) that renders every component in every state.
 3. Use the build script to diff compiled output against nova so changes stay intentional.
@@ -349,23 +374,26 @@ Starting point is `tmp/TODO.md`: Colors, Surfaces, Radius (square | rounded | pi
 ## 7. The `fabricator-ui` CLI (`packages/cli`)
 
 ### 7.1 Package
+
 - `name: "fabricator-ui"`, `bin: { "fabricator-ui": "./dist/index.js" }` with a `#!/usr/bin/env node` shebang, ESM. Built with `bun build ./src/index.ts --target=node --format=esm --outdir=dist` (or tsup if bundling edge cases appear). `engines.node >= 20.18.1`. It must not use Bun-only APIs (`Bun.*`, `bun:*`), because most users will run it under Node.
 - Deps: `shadcn` (pinned, e.g. `4.21.x`; bumped deliberately with a test run), `commander`, `prompts`/`@clack/prompts`, `execa`, `zod`, `kleur`.
 - Usage (all supported for users): `bunx --bun fabricator-ui@latest <cmd>`, `npx fabricator-ui@latest …`, `pnpm dlx fabricator-ui …`, `yarn dlx fabricator-ui …`. CI runs the e2e suite under both Node and Bun.
 
 ### 7.2 Commands
-| Command | Behaviour |
-|---|---|
+
+| Command                                                                                                                      | Behaviour                                                                                                                                                                                                                                                                                                                                    |
+| ---------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `init [--template next\|vite\|start\|react-router\|astro] [--base base\|radix\|aria] [--preset <name>] [--monorepo] [--rtl]` | Builds the `https://fabricator-ui.vercel.app/init?...` URL from flags or prompts, then runs `shadcn init <url> [flags]`. In an existing shadcn project, offers to **add the `@fabricator` registry** (`shadcn registry add @fabricator=<url>`) without touching the theme, or to apply the Fabricator theme (`shadcn apply --preset <url>`). |
-| `add <items…>` | Rewrites bare names to `@fabricator/<name>` (`--shadcn` keeps upstream), then runs `shadcn add`. Passes through `--overwrite`, `--all`, `--path`, `--dry-run`, `--diff`, `--view`. |
-| `apply [preset]` | Runs `shadcn apply --preset <fabricator-url>`, with `--only theme,font` passed through. |
-| `search` / `list` / `view` / `docs` | Run the shadcn commands scoped to `@fabricator`. |
-| `diff [item]` | Runs `shadcn add @fabricator/<item> --diff` to show upstream changes against local edits. |
-| `doctor` | Runs `shadcn info --json` and checks: Tailwind v4, React 19, `components.json` valid, `@fabricator` registry configured, the `style` field is a valid shadcn style, `shadcn/tailwind.css` imported, Fabricator tokens present. Prints fixes. |
-| `mcp` / `mcp init --client …` | Writes MCP config for `bunx --bun shadcn@latest mcp` with the `@fabricator` registry present (shadcn's MCP server already reads `components.json` registries). |
-| `upgrade` | Re-installs all Fabricator items present in the project with `--diff` review (a later phase). |
+| `add <items…>`                                                                                                               | Rewrites bare names to `@fabricator/<name>` (`--shadcn` keeps upstream), then runs `shadcn add`. Passes through `--overwrite`, `--all`, `--path`, `--dry-run`, `--diff`, `--view`.                                                                                                                                                           |
+| `apply [preset]`                                                                                                             | Runs `shadcn apply --preset <fabricator-url>`, with `--only theme,font` passed through.                                                                                                                                                                                                                                                      |
+| `search` / `list` / `view` / `docs`                                                                                          | Run the shadcn commands scoped to `@fabricator`.                                                                                                                                                                                                                                                                                             |
+| `diff [item]`                                                                                                                | Runs `shadcn add @fabricator/<item> --diff` to show upstream changes against local edits.                                                                                                                                                                                                                                                    |
+| `doctor`                                                                                                                     | Runs `shadcn info --json` and checks: Tailwind v4, React 19, `components.json` valid, `@fabricator` registry configured, the `style` field is a valid shadcn style, `shadcn/tailwind.css` imported, Fabricator tokens present. Prints fixes.                                                                                                 |
+| `mcp` / `mcp init --client …`                                                                                                | Writes MCP config for `bunx --bun shadcn@latest mcp` with the `@fabricator` registry present (shadcn's MCP server already reads `components.json` registries).                                                                                                                                                                               |
+| `upgrade`                                                                                                                    | Re-installs all Fabricator items present in the project with `--diff` review (a later phase).                                                                                                                                                                                                                                                |
 
 ### 7.3 Implementation notes
+
 - Locate the shadcn binary with `require.resolve("shadcn/package.json")` and run it with `execa(process.execPath, [bin, ...args], { stdio: "inherit" })`. Forward exit codes and signals.
 - Respect the package manager detected from `npm_config_user_agent` (shadcn already does this inside).
 - Telemetry: none by default.
@@ -382,25 +410,28 @@ Starting point is `tmp/TODO.md`: Colors, Surfaces, Radius (square | rounded | pi
 ## 8. The website (`apps/web`)
 
 ### 8.1 Stack
+
 Next 16 (App Router, Turbopack), React 19.3, Tailwind 4.3, Fumadocs 16 (core/ui/mdx), rehype-pretty-code + shiki, next-themes, jotai, nuqs, `@vercel/analytics`, `next/og`. Hosted on **Vercel**. `bun run build` = `registry:build && next build`. Vercel detects `bun.lock` and installs with Bun.
 
 ### 8.2 Information architecture
-| Route | Content |
-|---|---|
-| `/` | Landing: hero (possibly the Three.js fabricator scene from `tmp/`, lazy-loaded with a static poster fallback), value props, live component grid, install command. |
-| `/docs` | Introduction, Installation (next, vite, react-router, tanstack-start, astro, laravel, manual), `components.json`, Theming and tokens, Design system (Surfaces, Radius, Size, Motion, Color), Dark mode, RTL, CLI, Registry (how to consume `@fabricator`, use in an existing shadcn project), MCP, Agent skills, Figma (later), Changelog. |
-| `/docs/components/[base]/[name]` | One page per component per base, with a **base switcher** (Base UI / Radix / React Aria). Sections: Preview + code, Installation (CLI tabs plus a Manual tab with full source), Usage, Composition tree, Examples, API reference (props tables), Accessibility, Changelog notes. |
-| `/blocks`, `/blocks/[category]` | Block viewer: iframe at desktop/tablet/mobile widths, resizable panel, code view with file tree, copy CLI command. |
-| `/charts/[type]` | Chart gallery (area, bar, line, pie, radar, radial, tooltip). |
-| `/create` | Fabricator preset designer: base, style (fabricator / pill), density (compact / default / spacious), color, surface, radius, font, icon library, motion, RTL. Live iframe preview through `postMessage`. Outputs the `bunx --bun fabricator-ui init --preset …` command, the raw `bunx --bun shadcn init <url>` command, and a share URL. |
-| `/colors` | Token and palette browser (OKLCH values, copy as CSS var / Tailwind class). |
-| `/docs/*.md`, `/llms.txt`, `/llms-full.txt` | AI-friendly exports. Upstream has no `llms-full.txt`; we can add one. |
-| `/r/**` | Registry JSON (§5). |
-| `/init`, `/init.md` | CLI init payload (§5.3). |
-| `/schema/*.json` | Re-host or link shadcn's schemas. Items keep `$schema: https://ui.shadcn.com/schema/registry-item.json`. |
-| `/og`, `/sitemap.xml`, `/robots.txt`, `/rss.xml` | SEO and syndication. |
+
+| Route                                            | Content                                                                                                                                                                                                                                                                                                                                    |
+| ------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `/`                                              | Landing: hero (possibly the Three.js fabricator scene from `tmp/`, lazy-loaded with a static poster fallback), value props, live component grid, install command.                                                                                                                                                                          |
+| `/docs`                                          | Introduction, Installation (next, vite, react-router, tanstack-start, astro, laravel, manual), `components.json`, Theming and tokens, Design system (Surfaces, Radius, Size, Motion, Color), Dark mode, RTL, CLI, Registry (how to consume `@fabricator`, use in an existing shadcn project), MCP, Agent skills, Figma (later), Changelog. |
+| `/docs/components/[base]/[name]`                 | One page per component per base, with a **base switcher** (Base UI / Radix / React Aria). Sections: Preview + code, Installation (CLI tabs plus a Manual tab with full source), Usage, Composition tree, Examples, API reference (props tables), Accessibility, Changelog notes.                                                           |
+| `/blocks`, `/blocks/[category]`                  | Block viewer: iframe at desktop/tablet/mobile widths, resizable panel, code view with file tree, copy CLI command.                                                                                                                                                                                                                         |
+| `/charts/[type]`                                 | Chart gallery (area, bar, line, pie, radar, radial, tooltip).                                                                                                                                                                                                                                                                              |
+| `/create`                                        | Fabricator preset designer: base, style (fabricator / pill), density (compact / default / spacious), color, surface, radius, font, icon library, motion, RTL. Live iframe preview through `postMessage`. Outputs the `bunx --bun fabricator-ui init --preset …` command, the raw `bunx --bun shadcn init <url>` command, and a share URL.  |
+| `/colors`                                        | Token and palette browser (OKLCH values, copy as CSS var / Tailwind class).                                                                                                                                                                                                                                                                |
+| `/docs/*.md`, `/llms.txt`, `/llms-full.txt`      | AI-friendly exports. Upstream has no `llms-full.txt`; we can add one.                                                                                                                                                                                                                                                                      |
+| `/r/**`                                          | Registry JSON (§5).                                                                                                                                                                                                                                                                                                                        |
+| `/init`, `/init.md`                              | CLI init payload (§5.3).                                                                                                                                                                                                                                                                                                                   |
+| `/schema/*.json`                                 | Re-host or link shadcn's schemas. Items keep `$schema: https://ui.shadcn.com/schema/registry-item.json`.                                                                                                                                                                                                                                   |
+| `/og`, `/sitemap.xml`, `/robots.txt`, `/rss.xml` | SEO and syndication.                                                                                                                                                                                                                                                                                                                       |
 
 ### 8.3 Site components to port from upstream (`apps/v4/components/*`)
+
 `component-preview`, `component-preview-tabs`, `component-source`, `code-block-command` (package-manager tabs), `code-tabs` (CLI/Manual), `copy-button`, `docs-base-switcher`, `block-viewer`, `block-display`, `chart-display`, `command-menu` (⌘K, `/`, with ⌘C to copy an add command), `docs-sidebar`, `docs-toc`, `docs-copy-page` (copy markdown, open in ChatGPT/Claude/v0), `theme-provider` (with the "d" hotkey), `mode-switcher`, `site-header`/`footer`, `open-in-v0-button` (v0 accepts any registry item URL).
 
 Supporting libs: `lib/registry.ts`, `lib/highlight-code.ts` (shiki + package-manager transformer + LRU cache), `lib/format-code.ts` (rewrite internal imports to `@/components/ui/*`), `lib/llm.ts` (inline demo source into markdown), `lib/source.ts` (Fumadocs loader), `lib/page-tree.ts` (per-base filtering).
@@ -408,6 +439,7 @@ Supporting libs: `lib/registry.ts`, `lib/highlight-code.ts` (shiki + package-man
 Re-skin all of these with the Fabricator design. The site should be the flagship demo of the system.
 
 ### 8.4 Quality targets
+
 - Lighthouse ≥ 95 on docs pages. Previews are lazy and code is highlighted on the server.
 - All docs pages statically generated (`force-static` + `generateStaticParams`).
 - Visual regression screenshots per component × base × style (Playwright; upstream has `registry:capture` scripts to borrow).
@@ -419,73 +451,74 @@ Re-skin all of these with the Fabricator design. The site should be the flagship
 
 Everything below is vendored from upstream `apps/v4/registry/bases/*` at the pinned SHA. Columns show the primitive per base (R = `radix-ui`, B = `@base-ui/react`, A = `react-aria-components`, — = plain HTML).
 
-| Component | R / B / A | Extra npm deps | registryDependencies |
-|---|---|---|---|
-| accordion | R/B/A | | |
-| alert | —/—/— | | |
-| alert-dialog | R/B/A | | button |
-| aspect-ratio | R/—/— | | |
-| attachment | R/B/— | | button |
-| avatar | R/B/— | | |
-| badge | R/B/— | | |
-| breadcrumb | R/B/A | | |
-| bubble | R/B/— | | |
-| button | R/B/A | | |
-| button-group | R/B/— | | separator |
-| calendar | R/B/A | react-day-picker, date-fns (R/B) | button (+select on aria) |
-| card | — | | |
-| carousel | — | embla-carousel-react | button |
-| chart | — | recharts@3.8 | card |
-| checkbox | R/B/A | | |
-| collapsible | R/B/A | | |
-| combobox | B/B/A | | button, input-group |
-| command | R/B/A | cmdk (R/B) | dialog, input-group |
-| context-menu | R/B/A | | |
-| dialog | R/B/A | | button |
-| direction | R/B/A | | |
-| drawer | vaul / B / B | | |
-| dropdown-menu | R/B/A | | |
-| empty | — | | |
-| field | — | | label, separator |
-| form | (nyv4 only: react-hook-form, zod) | | |
-| hover-card | R/B/A | | |
-| input | —/B/A | | |
-| input-group | —/—/A | | button, input, textarea |
-| input-otp | — | input-otp | |
-| item | R/B/A | | separator |
-| kbd | —/—/A | | |
-| label | R/—/A | | |
-| marker | R/B/— | | |
-| menubar | R/B/✗ | | |
-| message | — | | |
-| message-scroller | — | @shadcn/react | button |
-| native-select | — | | |
-| navigation-menu | R/B/✗ | | |
-| pagination | — | | button |
-| popover | R/B/A | | |
-| progress | R/B/A | | |
-| questionnaire | — | @shadcn/react | button |
-| radio-group | R/B/A | | |
-| resizable | — | react-resizable-panels@4 | |
-| scroll-area | R/B/— | | |
-| select | R/B/A | | |
-| separator | R/B/A | | |
-| sheet | R/B/A | | button |
-| sidebar | R/B/A | | button, separator, sheet, tooltip, input, use-mobile, skeleton |
-| skeleton | — | | |
-| slider | R/B/A | | |
-| sonner | — | sonner, next-themes | (Radix/Aria; Base uses `toast`) |
-| spinner | — | | |
-| switch | R/B/A | | |
-| table | —/—/A | | |
-| tabs | R/B/A | | |
-| textarea | —/—/A | | |
-| toast | ✗/B/✗ | | button |
-| toggle | R/B/A | | |
-| toggle-group | R/B/A | | toggle |
-| tooltip | R/B/A | | |
+| Component        | R / B / A                         | Extra npm deps                   | registryDependencies                                           |
+| ---------------- | --------------------------------- | -------------------------------- | -------------------------------------------------------------- |
+| accordion        | R/B/A                             |                                  |                                                                |
+| alert            | —/—/—                             |                                  |                                                                |
+| alert-dialog     | R/B/A                             |                                  | button                                                         |
+| aspect-ratio     | R/—/—                             |                                  |                                                                |
+| attachment       | R/B/—                             |                                  | button                                                         |
+| avatar           | R/B/—                             |                                  |                                                                |
+| badge            | R/B/—                             |                                  |                                                                |
+| breadcrumb       | R/B/A                             |                                  |                                                                |
+| bubble           | R/B/—                             |                                  |                                                                |
+| button           | R/B/A                             |                                  |                                                                |
+| button-group     | R/B/—                             |                                  | separator                                                      |
+| calendar         | R/B/A                             | react-day-picker, date-fns (R/B) | button (+select on aria)                                       |
+| card             | —                                 |                                  |                                                                |
+| carousel         | —                                 | embla-carousel-react             | button                                                         |
+| chart            | —                                 | recharts@3.8                     | card                                                           |
+| checkbox         | R/B/A                             |                                  |                                                                |
+| collapsible      | R/B/A                             |                                  |                                                                |
+| combobox         | B/B/A                             |                                  | button, input-group                                            |
+| command          | R/B/A                             | cmdk (R/B)                       | dialog, input-group                                            |
+| context-menu     | R/B/A                             |                                  |                                                                |
+| dialog           | R/B/A                             |                                  | button                                                         |
+| direction        | R/B/A                             |                                  |                                                                |
+| drawer           | vaul / B / B                      |                                  |                                                                |
+| dropdown-menu    | R/B/A                             |                                  |                                                                |
+| empty            | —                                 |                                  |                                                                |
+| field            | —                                 |                                  | label, separator                                               |
+| form             | (nyv4 only: react-hook-form, zod) |                                  |                                                                |
+| hover-card       | R/B/A                             |                                  |                                                                |
+| input            | —/B/A                             |                                  |                                                                |
+| input-group      | —/—/A                             |                                  | button, input, textarea                                        |
+| input-otp        | —                                 | input-otp                        |                                                                |
+| item             | R/B/A                             |                                  | separator                                                      |
+| kbd              | —/—/A                             |                                  |                                                                |
+| label            | R/—/A                             |                                  |                                                                |
+| marker           | R/B/—                             |                                  |                                                                |
+| menubar          | R/B/✗                             |                                  |                                                                |
+| message          | —                                 |                                  |                                                                |
+| message-scroller | —                                 | @shadcn/react                    | button                                                         |
+| native-select    | —                                 |                                  |                                                                |
+| navigation-menu  | R/B/✗                             |                                  |                                                                |
+| pagination       | —                                 |                                  | button                                                         |
+| popover          | R/B/A                             |                                  |                                                                |
+| progress         | R/B/A                             |                                  |                                                                |
+| questionnaire    | —                                 | @shadcn/react                    | button                                                         |
+| radio-group      | R/B/A                             |                                  |                                                                |
+| resizable        | —                                 | react-resizable-panels@4         |                                                                |
+| scroll-area      | R/B/—                             |                                  |                                                                |
+| select           | R/B/A                             |                                  |                                                                |
+| separator        | R/B/A                             |                                  |                                                                |
+| sheet            | R/B/A                             |                                  | button                                                         |
+| sidebar          | R/B/A                             |                                  | button, separator, sheet, tooltip, input, use-mobile, skeleton |
+| skeleton         | —                                 |                                  |                                                                |
+| slider           | R/B/A                             |                                  |                                                                |
+| sonner           | —                                 | sonner, next-themes              | (Radix/Aria; Base uses `toast`)                                |
+| spinner          | —                                 |                                  |                                                                |
+| switch           | R/B/A                             |                                  |                                                                |
+| table            | —/—/A                             |                                  |                                                                |
+| tabs             | R/B/A                             |                                  |                                                                |
+| textarea         | —/—/A                             |                                  |                                                                |
+| toast            | ✗/B/✗                             |                                  | button                                                         |
+| toggle           | R/B/A                             |                                  |                                                                |
+| toggle-group     | R/B/A                             |                                  | toggle                                                         |
+| tooltip          | R/B/A                             |                                  |                                                                |
 
 Plus:
+
 - **lib:** `utils` (`cn`)
 - **hook:** `use-mobile`
 - **blocks per base:** login-01…05, signup-01…05, dashboard-01 (@dnd-kit, @tanstack/react-table, zod), sidebar-01…16, preview-01…03
@@ -493,10 +526,14 @@ Plus:
 - **themes:** 24, **fonts:** 26 × 2, **examples:** ~500 per base
 
 **Two dependencies to decide on early:**
+
 - `message-scroller` and `questionnaire` depend on **`@shadcn/react`**. Either keep that dependency (it's MIT and on npm, which is simplest) or re-home the logic into `@fabricator-ui/react` later.
 - The chat components (`message`, `bubble`, `attachment`, `marker`, `message-scroller`) are documented together with `@shadcn/helpers` (AI-SDK mocks). Mirror those docs only if we keep chat as a focus.
 
 ### 9.1 Fabricator-exclusive component backlog (to be confirmed)
+
+Shipped: Search; App Shell, App Nav, Tab Strip, Workspace Switcher, User Menu (2026-11-03).
+
 Candidates that fit the TODO and inspiration list and are absent upstream: Surface/Panel system, Segmented control, Stepper, Timeline, Stat/KPI card, Tag input, File dropzone, Color picker, Number input/stepper, Date-range picker (preset ranges), Rating, Tree view, Kanban, Sortable list, Virtualised list/table, Code block (shiki), Copy button, Marquee, Animated number, Dock, Spotlight/command palette variants, Motion primitives (reveal, stagger, morph), Toolbar, Banner/Announcement bar, Rich-text editor (later). Each one goes through §10's Definition of Done.
 
 ---
@@ -527,6 +564,7 @@ Candidates that fit the TODO and inspiration list and are absent upstream: Surfa
    - `apps/v4/scripts/build-registry.mts`
 
    It rewrites `apps/v4/` → `apps/web/` and commits with the SHA in the message and `upstream.lock.json`.
+
 2. Merge `upstream/shadcn` into `main` and resolve conflicts. Our changes mostly live in **new files** (`style-fabricator.css`, tokens, exclusive items, site re-skin), which keeps conflicts small.
 3. Run the parity and e2e suites, then release.
 4. Cadence: check monthly, or on notable upstream changelog entries. Watch `apps/v4/content/docs/changelog/`.
@@ -536,12 +574,14 @@ Candidates that fit the TODO and inspiration list and are absent upstream: Surfa
 ## 12. Roadmap
 
 ### Phase 0: Repo foundation (≈ 1–2 days)
+
 - [ ] `git init` hygiene: create `main` (repo is on `master` with no commits), add `.gitignore` (keep `tmp/` ignored), `LICENSE.md` (MIT + shadcn notice), `NOTICE.md`, `README.md`, `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md`.
 - [ ] Bun workspaces + Turborepo + shared tsconfig, ESLint, Prettier, Changesets, commitlint, Husky/lefthook.
 - [ ] GitHub repo, CI skeleton (lint, typecheck, test, build), Vercel project for `apps/web`, domain `fabricator-ui.vercel.app`.
 - [ ] Reserve the npm name `fabricator-ui` (publish a 0.0.0 placeholder) and the `@fabricator-ui` npm org.
 
 ### Phase 1: Clone shadcn at parity (≈ 1–2 weeks)
+
 - [ ] Write `scripts/sync-upstream.ts` and the `upstream/shadcn` vendor branch. Import the pinned SHA.
 - [ ] Scaffold `apps/web` by porting the upstream v4 app (Next/Fumadocs config, layouts, preview components, build script), renamed and with shadcn branding removed.
 - [ ] `registry:build` produces output for all 3 bases × 8 styles (parity only since D4 changed).
@@ -551,15 +591,18 @@ Candidates that fit the TODO and inspiration list and are absent upstream: Surfa
 - **Exit criteria:** the full upstream catalog is installable from our registry, every template builds, and the docs site renders every component page.
 
 ### Phase 2: Website MVP (≈ 1–2 weeks, overlaps with Phase 1)
+
 - [ ] Landing, docs shell, sidebar, TOC, search (⌘K), dark mode, components pages with base switcher, blocks viewer, charts, changelog, OG images, sitemap, `llms.txt`, `.md` routes.
 - [ ] Docs for: installation per framework, using Fabricator in an existing shadcn project, `components.json`, theming, CLI, registry, MCP.
 - [ ] Deploy to Vercel (preview per PR). Monitor `/r/**` responses (JSON content-type, CORS `*`, caching headers).
 
 ### Phase 3: CLI (≈ 1 week)
+
 - [ ] `packages/cli` with `init`, `add`, `apply`, `search/list/view/docs`, `diff`, `doctor`, `mcp`.
 - [ ] e2e matrix in CI against a locally served registry (Node and Bun). Releases (changed 2026-10-11): Changesets for versions and changelogs, with the Release workflow opening the version pull request. Publishing is local, after the site deploys (`bun run deploy` → `scripts/publish.sh`): `bun pm pack` builds the tarball, `npm publish <tgz> --access public` uploads it (npm 2FA in the browser), then the script pushes the `fabricator-ui@<version>` tag and creates the GitHub release from `CHANGELOG.md`. This keeps the site and the CLI shipping together. Trade-off: no npm provenance. This is the only place npm is invoked.
 
 ### Phase 4: Fabricator design system v1 (≈ 2–4 weeks, iterative)
+
 - [ ] Token spec (§6): colors, surfaces, radius, density, motion, typography. Contrast CI.
 - [ ] `style-fabricator.css` (+ `-compact`, pill variant). The `/r/fabricator/` registry URL. Fabricator presets in `/r/config.json`.
 - [x] `/create` designer for Fabricator dimensions (2026-10-27: the Get started page; the look travels to `/init` as URL params).
@@ -567,10 +610,12 @@ Candidates that fit the TODO and inspiration list and are absent upstream: Surfa
 - [ ] Decide the default icon library and fonts.
 
 ### Phase 5: Exclusive components (ongoing)
+
 - [ ] Prioritise the §9.1 backlog. Ship each against the DoD (§10), with Fabricator style rules only (D4).
 - [ ] Optional `@fabricator-ui/react` headless package for complex logic.
 
 ### Phase 6: Launch and ecosystem
+
 - [ ] PR to shadcn's `directory.json` for `@fabricator`. Verify Registry Health.
 - [ ] `skills/fabricator` agent skill (`bunx --bun skills add gabrielespinheira/fabricator-ui`), modelled on `skills/shadcn` (rules for styling, forms, composition, icons, with Incorrect/Correct pairs). MCP docs.
 - [ ] "Open in v0" buttons. Optional Fabricator starter templates (`templates/*`) usable with `shadcn init -t` equivalents through our CLI.
@@ -580,14 +625,14 @@ Candidates that fit the TODO and inspiration list and are absent upstream: Surfa
 
 ## 13. Risks and mitigations
 
-| Risk | Mitigation |
-|---|---|
-| Upstream changes CLI internals or schema (it moves fast: v4 in 2026-03, Base UI default in 2026-07, `cn` package in 2026-09). | Pin `shadcn` in our CLI. Validate items with `shadcn/schema` at build. Parity and e2e suites run nightly against `shadcn@latest` to catch breakage early. |
-| `@shadcn` built-in registry can't be overridden, so bare names in third-party items pull upstream components over ours. | D5/D6. `fabricator-ui add` rewrites bare names. Document that the CLI prompts before overwriting. `doctor` detects mixed sources. |
-| Maintenance cost of 3 bases for exclusive components. | Base UI is the primary target, with fallbacks for the others. Exclusive components need Fabricator style rules only (D4). Pure-HTML components share one source. |
-| Build size and time from many combinations. | Cache by hash (upstream does this). The published registry is built once per base. Route-level static generation if needed. |
-| Legal and brand: copying shadcn's site and branding. | Keep the MIT notice. Remove all shadcn branding, logos, and copy from the site. Credit shadcn/ui prominently. |
-| Registry downtime breaks installs. | Static CDN hosting on Vercel, the GitHub-registry fallback, and health monitoring. |
+| Risk                                                                                                                          | Mitigation                                                                                                                                                       |
+| ----------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Upstream changes CLI internals or schema (it moves fast: v4 in 2026-03, Base UI default in 2026-07, `cn` package in 2026-09). | Pin `shadcn` in our CLI. Validate items with `shadcn/schema` at build. Parity and e2e suites run nightly against `shadcn@latest` to catch breakage early.        |
+| `@shadcn` built-in registry can't be overridden, so bare names in third-party items pull upstream components over ours.       | D5/D6. `fabricator-ui add` rewrites bare names. Document that the CLI prompts before overwriting. `doctor` detects mixed sources.                                |
+| Maintenance cost of 3 bases for exclusive components.                                                                         | Base UI is the primary target, with fallbacks for the others. Exclusive components need Fabricator style rules only (D4). Pure-HTML components share one source. |
+| Build size and time from many combinations.                                                                                   | Cache by hash (upstream does this). The published registry is built once per base. Route-level static generation if needed.                                      |
+| Legal and brand: copying shadcn's site and branding.                                                                          | Keep the MIT notice. Remove all shadcn branding, logos, and copy from the site. Credit shadcn/ui prominently.                                                    |
+| Registry downtime breaks installs.                                                                                            | Static CDN hosting on Vercel, the GitHub-registry fallback, and health monitoring.                                                                               |
 
 ---
 
@@ -598,31 +643,31 @@ Candidates that fit the TODO and inspiration list and are absent upstream: Surfa
 3. **Chat and AI components** (`message-scroller`, `questionnaire` via `@shadcn/react`): keep them as-is in v1?
 4. **Exclusive components:** which 5–10 from §9.1 (or others) are the first priority?
 5. ~~**GitHub org/repo name**~~ Answered: `gabrielespinheira/fabricator-ui`.
-6. **Icon pack:** reuse the five supported libraries, or design a custom Fabricator set (§6.2 caveat)?
+6. ~~**Icon pack**~~ Answered (2026-11-03): Fabricator Icons, built on Lucide (D16).
 
 ---
 
 ## Appendix A: Upstream reference paths (in `shadcn-ui/ui` @ `295a1f11`)
 
-| Topic | Path |
-|---|---|
-| components.json + registry schemas | `packages/registry/src/registry/schema.ts` |
-| Address resolution / namespaces / GitHub | `packages/registry/src/registry/{address,builder,fetcher,resolver,api,github*}.ts` |
-| Install transforms | `packages/registry/src/utils/transformers/*`, `packages/registry/src/utils/updaters/*` |
-| Framework detection | `packages/registry/src/utils/get-project-info.ts`, `utils/frameworks.ts` |
-| CLI commands | `packages/shadcn/src/commands/*` (init merges `registry:base` config at `init.ts` `mergeConfig`) |
-| Presets | `packages/shadcn/src/preset/*`, `packages/registry/src/preset/preset.ts` |
-| Style map compiler | `packages/shadcn/src/styles/{create-style-map,transform-style-map}.ts` (exported via `shadcn/utils`) |
-| Shared CSS | `packages/shadcn/src/tailwind.css` (`shadcn/tailwind.css`) |
-| MCP server | `packages/shadcn/src/mcp/index.ts` |
-| Registry source | `apps/v4/registry/**` (see `apps/v4/registry/README.md`) |
-| Registry build | `apps/v4/scripts/build-registry.mts` |
-| registry:base builder | `apps/v4/registry/config.ts` (`buildRegistryBase`, `buildRegistryTheme`) |
-| Init endpoint | `apps/v4/app/(app)/(create)/init/route.ts` |
-| Docs previews | `apps/v4/components/{component-preview,component-source,block-viewer}.tsx`, `apps/v4/lib/{registry,highlight-code,llm}.ts` |
-| Directory | `apps/v4/registry/directory.json`, docs `apps/v4/content/docs/registry/*.mdx` |
-| Templates | `templates/*`, `packages/shadcn/src/templates/*` |
-| Agent skills | `skills/shadcn/*`, `skills/migrate-radix-to-base/*` |
+| Topic                                    | Path                                                                                                                       |
+| ---------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
+| components.json + registry schemas       | `packages/registry/src/registry/schema.ts`                                                                                 |
+| Address resolution / namespaces / GitHub | `packages/registry/src/registry/{address,builder,fetcher,resolver,api,github*}.ts`                                         |
+| Install transforms                       | `packages/registry/src/utils/transformers/*`, `packages/registry/src/utils/updaters/*`                                     |
+| Framework detection                      | `packages/registry/src/utils/get-project-info.ts`, `utils/frameworks.ts`                                                   |
+| CLI commands                             | `packages/shadcn/src/commands/*` (init merges `registry:base` config at `init.ts` `mergeConfig`)                           |
+| Presets                                  | `packages/shadcn/src/preset/*`, `packages/registry/src/preset/preset.ts`                                                   |
+| Style map compiler                       | `packages/shadcn/src/styles/{create-style-map,transform-style-map}.ts` (exported via `shadcn/utils`)                       |
+| Shared CSS                               | `packages/shadcn/src/tailwind.css` (`shadcn/tailwind.css`)                                                                 |
+| MCP server                               | `packages/shadcn/src/mcp/index.ts`                                                                                         |
+| Registry source                          | `apps/v4/registry/**` (see `apps/v4/registry/README.md`)                                                                   |
+| Registry build                           | `apps/v4/scripts/build-registry.mts`                                                                                       |
+| registry:base builder                    | `apps/v4/registry/config.ts` (`buildRegistryBase`, `buildRegistryTheme`)                                                   |
+| Init endpoint                            | `apps/v4/app/(app)/(create)/init/route.ts`                                                                                 |
+| Docs previews                            | `apps/v4/components/{component-preview,component-source,block-viewer}.tsx`, `apps/v4/lib/{registry,highlight-code,llm}.ts` |
+| Directory                                | `apps/v4/registry/directory.json`, docs `apps/v4/content/docs/registry/*.mdx`                                              |
+| Templates                                | `templates/*`, `packages/shadcn/src/templates/*`                                                                           |
+| Agent skills                             | `skills/shadcn/*`, `skills/migrate-radix-to-base/*`                                                                        |
 
 ## Appendix B: Commands users will run
 

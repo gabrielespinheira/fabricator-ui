@@ -1,0 +1,21 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "danielbayley",
+    "karsa-mistmere",
+    "jguddas"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:message-square",
+    "blockquote",
+    "quotation",
+    "indent",
+    "reply",
+    "response"
+  ],
+  "categories": [
+    "$extends:message-square",
+    "text"
+  ]
+}

@@ -1,0 +1,22 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "zishankadri",
+    "jamiemlaw",
+    "jguddas"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:sun",
+    "dark",
+    "moon",
+    "sun",
+    "theme",
+    "auto theme",
+    "system theme",
+    "appearance"
+  ],
+  "categories": [
+    "accessibility"
+  ]
+}

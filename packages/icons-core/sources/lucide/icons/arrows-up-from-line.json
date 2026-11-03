@@ -1,0 +1,22 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "danielbayley",
+    "ericfennis"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$group:direction-up",
+    "orientation",
+    "this way up",
+    "package",
+    "box",
+    "fragile",
+    "postage",
+    "shipping"
+  ],
+  "categories": [
+    "arrows",
+    "transportation"
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "title": "Tauri",
+  "group": "Product & dev",
+  "tags": [
+    "desktop",
+    "rust"
+  ],
+  "aliases": [],
+  "hex": "#24C8D8",
+  "source": "Simple Icons 16.36.0 (https://github.com/tauri-apps/tauri-docs/blob/b1cdfa9d7c6d0b17dae60a90266ddced40a7b384/static/img/tauri.svg)",
+  "license": "CC-BY-NC-ND-4.0",
+  "guidelines": "https://github.com/tauri-apps/tauri-docs/blob/b1cdfa9d7c6d0b17dae60a90266ddced40a7b384/static/img/Brand_Guidelines.pdf"
+}

@@ -1,0 +1,20 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "ericfennis"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:laptop"
+  ],
+  "categories": [
+    "$extends:laptop"
+  ],
+  "aliases": [
+    {
+      "name": "laptop-2",
+      "deprecated": true,
+      "deprecationReason": "alias.name"
+    }
+  ]
+}

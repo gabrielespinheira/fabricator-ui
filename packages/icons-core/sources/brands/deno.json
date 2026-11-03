@@ -1,0 +1,14 @@
+{
+  "title": "Deno",
+  "group": "Product & dev",
+  "tags": [
+    "javascript",
+    "typescript",
+    "runtime"
+  ],
+  "aliases": [],
+  "hex": "#000000",
+  "source": "Simple Icons 16.36.0 (https://github.com/denoland/docs/blob/5dee713844c7447f80acd4093caa9d350d80bf36/static/img/logo.svg)",
+  "license": "MIT",
+  "guidelines": "https://deno.com/brand"
+}

@@ -1,0 +1,25 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "danielbayley",
+    "jguddas"
+  ],
+  "use-cases": [
+    "Ungrouping or separating combined elements",
+    "Managing collections of items",
+    "Managing notifications"
+  ],
+  "tags": [
+    "cubes",
+    "packages",
+    "parts",
+    "units",
+    "collection",
+    "cluster",
+    "separate"
+  ],
+  "categories": [
+    "files",
+    "layout"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "taichimaeda",
+    "ericfennis"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:bot",
+    "$group:off"
+  ],
+  "categories": [
+    "$extends:bot"
+  ]
+}

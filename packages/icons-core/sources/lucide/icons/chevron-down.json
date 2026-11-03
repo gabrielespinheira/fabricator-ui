@@ -1,0 +1,18 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "colebemis"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$group:direction-down",
+    "$group:navigation-next",
+    "backwards",
+    "reverse",
+    "slow",
+    "dropdown"
+  ],
+  "categories": [
+    "arrows"
+  ]
+}

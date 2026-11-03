@@ -1,0 +1,28 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "danielbayley"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:scan",
+    "preview",
+    "zoom",
+    "expand",
+    "fullscreen",
+    "gallery",
+    "image",
+    "watch",
+    "retina",
+    "biometric",
+    "identification",
+    "authentication",
+    "access",
+    "login"
+  ],
+  "categories": [
+    "photography",
+    "security",
+    "account"
+  ]
+}

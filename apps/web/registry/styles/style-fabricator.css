@@ -141,6 +141,266 @@
     @apply absolute top-3 right-3;
   }
 
+/* MARK: App Nav */
+
+  .cn-app-nav {
+    @apply gap-0;
+  }
+
+  /* A dragged row lifts onto a floating card. */
+  .cn-app-nav-item {
+    @apply data-dragging:z-10 data-dragging:rounded-lg data-dragging:bg-surface-3 data-dragging:shadow-surface-3;
+  }
+
+  /* Points right while closed, down while open, on the move timing. */
+  .cn-app-nav-chevron {
+    @apply ms-auto flex text-muted-foreground transition-transform duration-move ease-move data-open:rotate-90 motion-reduce:transition-none [&_svg]:size-(--density-icon-14);
+  }
+
+  .cn-app-nav-menu {
+    @apply min-w-48;
+  }
+
+  .cn-app-nav-customize {
+    @apply sm:max-w-md;
+  }
+
+  .cn-app-nav-customize-list {
+    @apply max-h-[60svh] gap-(--density-16) overflow-y-auto;
+  }
+
+  .cn-app-nav-customize-group {
+    @apply gap-0.5;
+  }
+
+  .cn-app-nav-customize-label {
+    @apply px-(--density-8) pb-(--density-4) text-(length:--density-text-12) text-muted-foreground;
+  }
+
+  .cn-app-nav-customize-row {
+    @apply min-h-(--density-36) cursor-pointer gap-(--density-8) rounded-lg px-(--density-8) text-(length:--density-text-13) hover:bg-hover [&>svg]:size-(--density-icon-16) [&>svg]:shrink-0 [&>svg]:stroke-[1.5] [&>svg]:text-muted-foreground;
+  }
+
+/* MARK: App Shell */
+
+  /* The frame. Three surfaces step up from it: the frame and the sidebar
+     on surface 1, side panels on surface 2, the main column on surface 3,
+     so each region reads apart in light and dark. Override them with
+     --app-shell-frame, --app-shell-panel and --app-shell-main (a colour or
+     a surface, never --background). While a panel resizes, nothing
+     animates and text can't be selected.
+
+     Desktop apps (the `window` prop): drag regions move the window
+     (Electron reads app-region, Tauri its own attribute); buttons, links,
+     fields and tabs inside them stay clickable; a collapsed off-canvas
+     sidebar drops its region, because Electron ignores opacity and
+     clipping.
+
+     Native controls. The sidebar's top band holds the sidebar toggle (and
+     the traffic lights before it on macOS); while the sidebar isn't
+     expanded, the main column's top row starts after the toggle (on phones,
+     where the header holds the toggle, after the lights). macOS:
+     the main column's and the panel's top rows centre on the lights (44px
+     in the inset cards with the lights at { x: 16, y: 23 }). Windows and Linux (the
+     overlay): the top row at the end clears the controls (the main
+     column's, or an open right panel's), and every top row is as tall as
+     the controls. Fullscreen sets both insets to zero.
+
+     Translucent windows (a native material behind the page) turn the frame
+     and the sidebar transparent; phones keep the page surface.
+
+     With a status bar, the main column and the panels end above it
+     (--app-shell-status-bar-height, 36px; 0 on phones, which hide it).
+
+     A titlebar row sits above the fixed sidebar, which starts below it. */
+  .cn-app-shell {
+    @apply [--app-shell-frame:var(--surface-1)] [--app-shell-panel:var(--surface-2)] [--app-shell-main:var(--surface-3)] data-translucent:not-data-[size=phone]:[--app-shell-frame:transparent] [--app-shell-status-bar-height:0px] has-[[data-slot=app-shell-status-bar]]:not-data-[size=phone]:[--app-shell-status-bar-height:var(--density-36)] [--app-shell-window-toggle-end:calc(max(var(--density-16),var(--app-shell-window-inset-start))+var(--density-28)+var(--density-8))] data-[size=phone]:[--app-shell-window-toggle-end:max(var(--density-12),var(--app-shell-window-inset-start))] [--app-shell-window-row-height:var(--app-shell-titlebar-height)] has-[[data-slot=sidebar][data-variant=inset]]:[--app-shell-window-row-height:max(var(--density-40),calc(var(--app-shell-titlebar-height)-var(--density-16)))] bg-(--app-shell-frame) text-foreground [&_[data-slot=sidebar]:not([data-peeking])_[data-slot=sidebar-inner]]:bg-(--app-shell-frame) [&_[data-slot=sidebar]:not([data-state])]:bg-(--app-shell-frame) data-resizing:select-none data-resizing:[&_*]:transition-none data-window-controls:[&_:is([data-drag-region],[data-slot=sidebar-header])]:[-webkit-app-region:drag] data-window-controls:[&_:is([data-drag-region],[data-slot=sidebar-header])]:[app-region:drag] data-window-controls:[&_:is([data-drag-region],[data-slot=sidebar-header])_:is(button,a,input,textarea,select,[role=button],[role=tab],[data-no-drag])]:[-webkit-app-region:no-drag] data-window-controls:[&_:is([data-drag-region],[data-slot=sidebar-header])_:is(button,a,input,textarea,select,[role=button],[role=tab],[data-no-drag])]:[app-region:no-drag] data-window-controls:[&_[data-state=collapsed][data-collapsible=offcanvas]_[data-slot=sidebar-header]]:[-webkit-app-region:no-drag] data-window-controls:[&_[data-state=collapsed][data-collapsible=offcanvas]_[data-slot=sidebar-header]]:[app-region:no-drag] data-window-controls:not-data-titlebar:[&_[data-slot=sidebar-header]]:pt-(--app-shell-titlebar-height) data-window-controls:not-data-titlebar:[&_[data-slot=sidebar-inner]>[data-slot=sidebar-content]:first-child]:pt-(--app-shell-titlebar-height) data-window-controls:not-data-titlebar:[&:not(:has([data-slot=sidebar][data-state=expanded]))_[data-slot=sidebar-inset]>:first-child]:ps-(--app-shell-window-toggle-end) data-[window-controls=macos]:not-data-titlebar:[&_:is([data-slot=sidebar-inset],[data-slot=app-shell-panel-inner])>:first-child]:h-(--app-shell-window-row-height) data-window-controls:[&_[data-slot=app-shell-window-toggle]>*]:[-webkit-app-region:no-drag] data-window-controls:[&_[data-slot=app-shell-window-toggle]>*]:[app-region:no-drag] data-[window-controls=overlay]:not-data-titlebar:[&:not(:has([data-slot=app-shell-panel][data-side=right][data-state=open]))_[data-slot=sidebar-inset]>:first-child]:pe-(--app-shell-window-inset-end) data-[window-controls=overlay]:not-data-titlebar:[&_[data-slot=app-shell-panel][data-side=right]_[data-slot=app-shell-panel-header]]:pe-(--app-shell-window-inset-end) data-[window-controls=overlay]:not-data-titlebar:[&_:is([data-slot=sidebar-inset],[data-slot=app-shell-panel-inner])>:first-child]:min-h-(--app-shell-titlebar-height) data-titlebar:[&_[data-slot=sidebar-container]]:top-(--app-shell-titlebar-height) data-titlebar:[&_[data-slot=sidebar-container]]:h-[calc(100svh-var(--app-shell-titlebar-height))] data-titlebar:[&_[data-slot=sidebar-peek-strip]]:top-(--app-shell-titlebar-height);
+  }
+
+  .cn-app-shell-skip-link {
+    @apply rounded-lg bg-surface-3 px-(--density-12) py-(--density-8) text-(length:--density-text-13) shadow-surface-3 ring-1 ring-ring focus-visible:start-(--density-8) focus-visible:top-(--density-8);
+  }
+
+  /* The frame shows through the sidebar wrapper. --app-shell-sidebar-gap
+     is the room the desktop sidebar takes beside the main column (its gap's
+     width in each state), for the status bar to start after it. */
+  .cn-app-shell-body {
+    @apply relative has-data-[variant=inset]:bg-transparent [--app-shell-sidebar-gap:0px] md:has-[>[data-slot=sidebar]:not([data-collapsible=offcanvas],[data-collapsible=icon],[data-peeking])]:[--app-shell-sidebar-gap:var(--sidebar-width)] md:has-[>[data-slot=sidebar][data-collapsible=icon][data-variant=sidebar]]:[--app-shell-sidebar-gap:var(--sidebar-width-icon)] md:has-[>[data-slot=sidebar][data-collapsible=icon]:not([data-variant=sidebar])]:[--app-shell-sidebar-gap:calc(var(--sidebar-width-icon)+var(--spacing)*4)];
+  }
+
+  /* The full-width row above everything. It clears the native controls at
+     both ends (and the sidebar toggle) and shares the sidebar's surface. */
+  .cn-app-shell-titlebar {
+    @apply h-(--app-shell-titlebar-height) gap-(--density-8) bg-(--app-shell-frame) ps-[max(var(--density-8),var(--app-shell-window-inset-start))] pe-[max(var(--density-8),var(--app-shell-window-inset-end))] in-[[data-window-controls]:has([data-slot=sidebar][data-state])]:ps-(--app-shell-window-toggle-end);
+  }
+
+  /* The desktop sidebar toggle: in the window's top band, after the
+     traffic lights on macOS and centred on them (in the titlebar row when
+     there is one). */
+  .cn-app-shell-window-toggle {
+    @apply start-[max(var(--density-16),var(--app-shell-window-inset-start))] h-(--app-shell-titlebar-height) in-data-titlebar:-translate-y-full;
+  }
+
+  /* The main column: the top surface, a card with the inset sidebar.
+     Inside it --background is that surface, so anything painting
+     bg-background matches the plane it sits on. Phones show only the
+     main column, on the page surface. */
+  .cn-app-shell-main {
+    @apply isolate mb-(--app-shell-status-bar-height) bg-(--app-shell-frame) md:bg-(--app-shell-main) md:[--background:var(--app-shell-main)] md:peer-data-[variant=inset]:mb-[max(var(--density-8),var(--app-shell-status-bar-height))] md:peer-data-[variant=inset]:bg-(--app-shell-main) md:peer-data-[variant=inset]:shadow-surface-3;
+  }
+
+  /* The header: 48px, a hairline once the content scrolls. */
+  .cn-app-shell-header {
+    @apply h-(--density-48) gap-(--density-8) border-b border-transparent px-(--density-12) transition-[border-color] duration-feedback ease-feedback data-scrolled:border-border;
+  }
+
+  .cn-app-shell-header-trigger {
+    @apply -ms-(--density-4);
+  }
+
+  /* Breadcrumb: the trail, then the page title in its place once the
+     page's heading scrolls away (a short rise on the move timing; reduced
+     motion keeps the fade). */
+  .cn-app-shell-breadcrumb {
+    @apply text-(length:--density-text-13);
+  }
+
+  .cn-app-shell-breadcrumb-trail {
+    @apply transition-[opacity,translate] duration-move ease-move in-data-title:pointer-events-none in-data-title:-translate-y-1 in-data-title:opacity-0 motion-reduce:translate-y-0;
+  }
+
+  .cn-app-shell-breadcrumb-list {
+    @apply gap-(--density-6) text-(length:--density-text-13);
+  }
+
+  .cn-app-shell-breadcrumb-text {
+    @apply text-muted-foreground;
+  }
+
+  .cn-app-shell-breadcrumb-fold {
+    @apply flex cursor-pointer items-center rounded-md text-muted-foreground ring-ring transition-colors duration-feedback hover:text-foreground focus-visible:ring-1;
+  }
+
+  .cn-app-shell-breadcrumb-current {
+    @apply flex min-w-0 cursor-pointer items-center gap-(--density-4) rounded-md ring-ring focus-visible:ring-1 [&_svg]:size-(--density-icon-14) [&_svg]:shrink-0 [&_svg]:text-muted-foreground;
+  }
+
+  .cn-app-shell-breadcrumb-title {
+    @apply pointer-events-none translate-y-1 text-(length:--density-text-13) weight-semibold opacity-0 transition-[opacity,translate] duration-move ease-move in-data-title:pointer-events-auto in-data-title:translate-y-0 in-data-title:opacity-100 motion-reduce:translate-y-0;
+  }
+
+  .cn-app-shell-page-title {
+    @apply text-2xl weight-semibold tracking-tight;
+  }
+
+  .cn-app-shell-header-actions {
+    @apply gap-(--density-4);
+  }
+
+  /* The phone's primary action: a round button above the content, clear
+     of the tab bar when the main column has one. */
+  .cn-app-shell-fab {
+    @apply end-(--density-16) bottom-(--density-16) rounded-full shadow-surface-4 in-[[data-app-shell-main]:has(>[data-slot=app-shell-bottom-nav])]:bottom-[calc(var(--density-48)+var(--density-16)+env(safe-area-inset-bottom))];
+  }
+
+  .cn-app-shell-kbd {
+    @apply ms-(--density-6);
+  }
+
+  /* Reached from the skip link or F6, the content shows an inset ring. */
+  .cn-app-shell-content {
+    @apply overscroll-contain focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-inset;
+  }
+
+  /* The status bar sits on the frame under the main column and the
+     panels, from the sidebar's edge to the window's (glass in a translucent
+     window). 28px items (compact ghost buttons, or text) in a 36px row, 12px
+     muted text. Its start follows the sidebar on the move timing. Phones
+     hide it. */
+  .cn-app-shell-status-bar {
+    @apply start-(--app-shell-sidebar-gap) h-(--density-36) gap-0 px-(--density-4) text-(length:--density-text-12) text-muted-foreground transition-[inset-inline-start,inset-inline-end] duration-move ease-move in-[:has(>[data-slot=sidebar]:is([data-collapsible=icon],[data-collapsible=offcanvas]))]:duration-move-exit in-[:has(>[data-slot=sidebar]:is([data-collapsible=icon],[data-collapsible=offcanvas]))]:ease-exit in-[:has(>[data-slot=sidebar][data-side=right])]:start-0 in-[:has(>[data-slot=sidebar][data-side=right])]:end-(--app-shell-sidebar-gap) in-[:has(>[data-slot=sidebar][data-resizing])]:transition-none in-data-[size=phone]:hidden motion-reduce:transition-none [&>span]:px-(--density-8) [&>span]:truncate;
+  }
+
+  /* Panels. Inline, a column on the panel surface (one step below the main
+     column) that opens and closes its width on the move timing (the
+     quicker exit to close). With the inset sidebar it is a card like the
+     main column. On phones, `swap` makes the panel the screen. */
+  .cn-app-shell-panel {
+    @apply mb-(--app-shell-status-bar-height) border-border bg-(--app-shell-panel) [--background:var(--app-shell-panel)] transition-[width,margin,box-shadow] duration-move ease-move data-closed:duration-move-exit data-closed:ease-exit data-[side=left]:border-e data-[side=right]:border-s data-closed:border-transparent data-[placement=swap]:border-0 data-[placement=swap]:bg-(--app-shell-frame) data-[placement=swap]:[--background:var(--app-shell-frame)] motion-reduce:transition-none group-has-data-[variant=inset]/sidebar-wrapper:my-2 group-has-data-[variant=inset]/sidebar-wrapper:mb-[max(var(--density-8),var(--app-shell-status-bar-height))] group-has-data-[variant=inset]/sidebar-wrapper:rounded-xl group-has-data-[variant=inset]/sidebar-wrapper:border-0 group-has-data-[variant=inset]/sidebar-wrapper:shadow-surface-2 group-has-data-[variant=inset]/sidebar-wrapper:data-[side=right]:me-2 group-has-data-[variant=inset]/sidebar-wrapper:data-[side=left]:me-2 group-has-data-[variant=inset]/sidebar-wrapper:data-closed:me-0 group-has-data-[variant=inset]/sidebar-wrapper:data-closed:shadow-none;
+  }
+
+  .cn-app-shell-panel-inner {
+    @apply min-w-0;
+  }
+
+  .cn-app-shell-panel-sheet {
+    @apply w-(--app-shell-panel-width) max-w-[calc(100%-var(--density-48))] sm:max-w-[calc(100%-var(--density-48))];
+  }
+
+  .cn-app-shell-panel-drawer {
+    @apply max-h-[85svh];
+  }
+
+  /* The panel's edge: a hairline that brightens on hover, while dragging
+     and with focus. */
+  .cn-app-shell-panel-resize-handle {
+    @apply w-2 cursor-col-resize after:absolute after:inset-y-0 after:w-px after:bg-transparent after:transition-colors after:duration-feedback hover:after:bg-foreground/25 focus-visible:after:bg-ring data-dragging:after:bg-foreground/25 data-[side=left]:end-0 data-[side=left]:after:end-0 data-[side=right]:start-0 data-[side=right]:after:start-0;
+  }
+
+  .cn-app-shell-panel-header {
+    @apply h-(--density-48) gap-(--density-6) px-(--density-12);
+  }
+
+  .cn-app-shell-panel-title {
+    @apply text-(length:--density-text-13) weight-semibold;
+  }
+
+  .cn-app-shell-panel-tabs-root {
+    @apply gap-0;
+  }
+
+  .cn-app-shell-panel-tabs {
+    @apply justify-start;
+  }
+
+  /* Below a 360px panel the view tabs show their icons only. */
+  .cn-app-shell-panel-tab {
+    @apply @max-[22.5rem]/app-shell-panel:px-(--density-8);
+  }
+
+  .cn-app-shell-panel-tab-label {
+    @apply @max-[22.5rem]/app-shell-panel:sr-only;
+  }
+
+  .cn-app-shell-panel-view {
+    @apply text-(length:--density-text-13);
+  }
+
+  .cn-app-shell-panel-content {
+    @apply text-(length:--density-text-13);
+  }
+
+  .cn-app-shell-panel-close {
+    @apply ms-auto -me-(--density-4);
+  }
+
+  .cn-app-shell-panel-trigger {
+    @apply data-open:bg-active data-open:text-foreground;
+  }
+
+  /* The phone tab bar: icon over label, above the home indicator. */
+  .cn-app-shell-bottom-nav {
+    @apply border-t border-border bg-(--app-shell-frame) pb-[env(safe-area-inset-bottom)];
+  }
+
+  .cn-app-shell-bottom-nav-item {
+    @apply min-h-(--density-48) cursor-pointer gap-(--density-4) text-(length:--density-text-11) text-muted-foreground transition-colors duration-feedback ease-feedback outline-none hover:text-foreground focus-visible:text-foreground aria-[current=page]:text-foreground aria-[current=page]:weight-semibold [&_svg]:size-(--density-icon-16) [&_svg]:stroke-[1.5] aria-[current=page]:[&_svg]:stroke-2;
+  }
+
+  .cn-app-shell-bottom-nav-label {
+    @apply max-w-full px-(--density-4);
+  }
+
 /* MARK: Attachment */
 
   /* A soft tile: the surface shadow ring is the edge (the inline border is
@@ -2011,13 +2271,14 @@
     @apply cursor-pointer after:absolute after:inset-y-0 after:w-px after:bg-border after:opacity-0 after:transition-opacity after:duration-feedback hover:after:opacity-100 focus-visible:after:bg-ring focus-visible:after:opacity-100 data-[side=left]:after:left-0 data-[side=right]:after:right-0;
   }
 
-  /* The panel glyph: the cut-out morphs on the move timing. */
+  /* The panel glyph, 18px: the sidebar inside it is drawn in the page
+     colour and morphs on the move timing. */
   .cn-sidebar-toggle-icon {
-    @apply size-(--density-icon-16);
+    @apply size-[calc(var(--density-icon-16)*1.125)];
   }
 
   .cn-sidebar-toggle-icon-panel {
-    @apply transition-[d] duration-move ease-move motion-reduce:transition-none;
+    @apply fill-background transition-[d] duration-move ease-move motion-reduce:transition-none;
   }
 
   .cn-sidebar-shortcut {
@@ -2058,24 +2319,24 @@
   }
 
   /* Each menu is a fluid hover container (relative isolate): a bg-hover
-     highlight glides between its buttons, and the active button's bg-active
-     background slides between active buttons on the move timing. Rows
-     keep a 2px gap, so neighbouring highlights never touch; a press in the
-     gap goes to the nearest row. */
+     highlight glides between its buttons, and the active button's raised
+     bg-active background slides between active buttons on the move timing.
+     Rows keep a 2px gap, so neighbouring highlights never touch; a press in
+     the gap goes to the nearest row. */
   .cn-sidebar-menu {
-    @apply relative isolate gap-0.5;
+    @apply relative isolate gap-0.5 [&>[data-slot=fluid-hover-selection]]:shadow-surface-2;
   }
 
   .cn-sidebar-group-content {
     @apply text-(length:--density-text-13);
   }
 
-  /* Group labels: 12px muted (full muted-foreground, not /70, to keep
-     4.5:1 on surface 2). A collapsible group's label (the one holding the
+  /* Group labels: 12px medium, muted (full muted-foreground, not /70, to
+     keep 4.5:1 on surface 2). A collapsible group's label (the one holding the
      chevron) is its toggle: it pads past the header's action cluster, so the
      chevron sits one gap left of it. */
   .cn-sidebar-group-label {
-    @apply text-muted-foreground ring-ring h-(--density-32) rounded-lg px-(--density-8) text-(length:--density-text-12) font-normal transition-[margin,opacity,color] duration-move ease-move group-data-[collapsible=icon]:-mt-(--density-32) group-data-[collapsible=icon]:opacity-0 focus-visible:ring-1 [&>svg]:size-(--density-icon-16) has-data-[slot=sidebar-group-label-chevron]:cursor-pointer has-data-[slot=sidebar-group-label-chevron]:gap-(--density-8) has-data-[slot=sidebar-group-label-chevron]:text-start has-data-[slot=sidebar-group-label-chevron]:pe-[var(--sidebar-group-actions-pad,var(--density-8))] has-data-[slot=sidebar-group-label-chevron]:hover:text-foreground;
+    @apply text-muted-foreground ring-ring h-(--density-32) rounded-lg px-(--density-8) text-(length:--density-text-12) weight-medium transition-[margin,opacity,color] duration-move ease-move group-data-[collapsible=icon]:-mt-(--density-32) group-data-[collapsible=icon]:opacity-0 focus-visible:ring-1 [&>svg]:size-(--density-icon-16) has-data-[slot=sidebar-group-label-chevron]:cursor-pointer has-data-[slot=sidebar-group-label-chevron]:gap-(--density-8) has-data-[slot=sidebar-group-label-chevron]:text-start has-data-[slot=sidebar-group-label-chevron]:pe-[var(--sidebar-group-actions-pad,var(--density-8))] has-data-[slot=sidebar-group-label-chevron]:hover:text-foreground;
   }
 
   /* The chevron takes an action-sized box. Open, it hides until the header
@@ -2100,16 +2361,17 @@
     @apply transition-[grid-template-rows,opacity] duration-move ease-move data-[state=closed]:opacity-0 data-[state=closed]:duration-move-exit data-[state=closed]:ease-exit motion-reduce:transition-opacity;
   }
 
-  /* Rows: 32px, px-2, gap-2, rounded-lg, 13px, muted at rest. Hover and the
-     lit row turn foreground (and thicken the icon); the active row is
-     foreground + semibold on bg-active, without shifting layout. Inside a
+  /* Rows: 32px, px-2, gap-2, rounded-lg, 13px: the label at foreground/80
+     and the icon muted at rest. Hover and the lit row turn both foreground
+     (and thicken the icon); the active row is foreground on a raised
+     bg-active. Inside a
      fluid menu the row paints no hover or active background: the gliding
      highlight and the sliding selection do. Pressed is a bg-active step.
      The end padding clears the row's badge and actions exactly
      (--sidebar-menu-gutter, published by the row); a row that publishes
      nothing (the upstream markup) clears one action. */
   .cn-sidebar-menu-button {
-    @apply cursor-pointer text-muted-foreground ring-ring gap-(--density-8) rounded-lg px-(--density-8) pe-[var(--sidebar-menu-gutter,var(--density-8))] text-start text-(length:--density-text-13) weight-normal transition-[width,height,padding,color,background-color,font-variation-settings] duration-feedback group-hover/menu-item:pe-[var(--sidebar-menu-gutter-hover,var(--density-8))] group-focus-within/menu-item:pe-[var(--sidebar-menu-gutter-hover,var(--density-8))] group-has-[>[data-sidebar=menu-action]]/menu-item:pe-[var(--sidebar-menu-gutter,var(--density-32))] group-hover/menu-item:group-has-[>[data-sidebar=menu-action]]/menu-item:pe-[var(--sidebar-menu-gutter-hover,var(--density-32))] group-focus-within/menu-item:group-has-[>[data-sidebar=menu-action]]/menu-item:pe-[var(--sidebar-menu-gutter-hover,var(--density-32))] group-data-[collapsible=icon]:size-(--density-32)! group-data-[collapsible=icon]:p-[calc((var(--density-32)-var(--density-icon-16))/2)]! focus-visible:ring-1 [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] hover:bg-hover hover:text-foreground hover:[&_svg]:stroke-2 active:bg-active active:text-foreground data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-active:bg-active data-active:text-foreground data-active:weight-semibold data-active:[&_svg]:stroke-2 data-open:text-foreground in-data-[fluid-hover]:hover:bg-transparent in-data-[fluid-hover]:data-active:bg-transparent;
+    @apply cursor-pointer text-foreground/80 ring-ring gap-(--density-8) rounded-lg px-(--density-8) pe-[var(--sidebar-menu-gutter,var(--density-8))] text-start text-(length:--density-text-13) weight-normal transition-[width,height,padding,color,background-color,box-shadow] duration-feedback group-hover/menu-item:pe-[var(--sidebar-menu-gutter-hover,var(--density-8))] group-focus-within/menu-item:pe-[var(--sidebar-menu-gutter-hover,var(--density-8))] group-has-[>[data-sidebar=menu-action]]/menu-item:pe-[var(--sidebar-menu-gutter,var(--density-32))] group-hover/menu-item:group-has-[>[data-sidebar=menu-action]]/menu-item:pe-[var(--sidebar-menu-gutter-hover,var(--density-32))] group-focus-within/menu-item:group-has-[>[data-sidebar=menu-action]]/menu-item:pe-[var(--sidebar-menu-gutter-hover,var(--density-32))] group-data-[collapsible=icon]:size-(--density-32)! group-data-[collapsible=icon]:p-[calc((var(--density-32)-var(--density-icon-16))/2)]! focus-visible:ring-1 [&_svg]:stroke-[1.5] [&_svg:not([class*='text-'])]:text-muted-foreground [&_svg]:transition-[stroke-width,color] hover:bg-hover hover:text-foreground hover:[&_svg]:stroke-2 hover:[&_svg:not([class*='text-'])]:text-foreground active:bg-active active:text-foreground data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-fluid-hover-active:[&_svg:not([class*='text-'])]:text-foreground data-active:bg-active data-active:text-foreground data-active:shadow-surface-2 data-active:[&_svg]:stroke-2 data-active:[&_svg:not([class*='text-'])]:text-foreground data-open:text-foreground data-open:[&_svg:not([class*='text-'])]:text-foreground in-data-[fluid-hover]:hover:bg-transparent in-data-[fluid-hover]:data-active:bg-transparent in-data-[fluid-hover]:data-active:shadow-none;
   }
 
   .cn-sidebar-menu-button-aria {
@@ -2153,7 +2415,7 @@
   }
 
   .cn-sidebar-menu-badge {
-    @apply text-muted-foreground weight-normal peer-hover/menu-button:text-foreground peer-data-fluid-hover-active/menu-button:text-foreground peer-data-active/menu-button:text-foreground peer-data-active/menu-button:weight-semibold pointer-events-none absolute end-(--density-8) top-[calc((var(--density-32)-var(--density-20))/2)] flex h-(--density-20) min-w-(--density-20) rounded-md px-1 text-(length:--density-text-12) tabular-nums transition-[color,font-variation-settings] duration-feedback peer-data-[size=lg]/menu-button:top-[calc((var(--density-48)-var(--density-20))/2)] peer-data-[size=sm]/menu-button:top-[calc((var(--density-28)-var(--density-20))/2)] in-data-[sidebar=menu-sub-item]:top-[calc((var(--density-28)-var(--density-20))/2)];
+    @apply text-muted-foreground weight-normal peer-hover/menu-button:text-foreground peer-data-fluid-hover-active/menu-button:text-foreground peer-data-active/menu-button:text-foreground pointer-events-none absolute end-(--density-8) top-[calc((var(--density-32)-var(--density-20))/2)] flex h-(--density-20) min-w-(--density-20) rounded-md px-1 text-(length:--density-text-12) tabular-nums transition-[color,font-variation-settings] duration-feedback peer-data-[size=lg]/menu-button:top-[calc((var(--density-48)-var(--density-20))/2)] peer-data-[size=sm]/menu-button:top-[calc((var(--density-28)-var(--density-20))/2)] in-data-[sidebar=menu-sub-item]:top-[calc((var(--density-28)-var(--density-20))/2)];
   }
 
   .cn-sidebar-menu-skeleton {
@@ -2176,7 +2438,7 @@
 
   /* Sub-rows: 28px (24px small), 2px apart, same look as menu rows. */
   .cn-sidebar-menu-sub-button {
-    @apply cursor-pointer text-muted-foreground ring-ring h-(--density-28) gap-(--density-8) rounded-lg px-(--density-8) pe-[var(--sidebar-menu-gutter,var(--density-8))] text-(length:--density-text-13) weight-normal transition-[color,background-color,padding,font-variation-settings] duration-feedback in-data-[slot=sidebar-menu-sub]:translate-x-0 group-hover/menu-sub-item:pe-[var(--sidebar-menu-gutter-hover,var(--density-8))] group-focus-within/menu-sub-item:pe-[var(--sidebar-menu-gutter-hover,var(--density-8))] focus-visible:ring-1 data-[size=sm]:h-(--density-24) data-[size=sm]:text-(length:--density-text-12) [&>svg]:size-(--density-icon-16) [&>svg]:stroke-[1.5] [&>svg]:text-current hover:bg-hover hover:text-foreground active:bg-active active:text-foreground data-fluid-hover-active:text-foreground data-fluid-hover-active:[&>svg]:stroke-2 data-active:bg-active data-active:text-foreground data-active:weight-semibold in-data-[fluid-hover]:hover:bg-transparent in-data-[fluid-hover]:data-active:bg-transparent;
+    @apply cursor-pointer text-foreground/80 ring-ring h-(--density-28) gap-(--density-8) rounded-lg px-(--density-8) pe-[var(--sidebar-menu-gutter,var(--density-8))] text-(length:--density-text-13) weight-normal transition-[color,background-color,padding,box-shadow] duration-feedback in-data-[slot=sidebar-menu-sub]:translate-x-0 group-hover/menu-sub-item:pe-[var(--sidebar-menu-gutter-hover,var(--density-8))] group-focus-within/menu-sub-item:pe-[var(--sidebar-menu-gutter-hover,var(--density-8))] focus-visible:ring-1 data-[size=sm]:h-(--density-24) data-[size=sm]:text-(length:--density-text-12) [&>svg]:size-(--density-icon-16) [&>svg]:stroke-[1.5] [&>svg]:text-current hover:bg-hover hover:text-foreground active:bg-active active:text-foreground data-fluid-hover-active:text-foreground data-fluid-hover-active:[&>svg]:stroke-2 data-active:bg-active data-active:text-foreground data-active:shadow-surface-2 in-data-[fluid-hover]:hover:bg-transparent in-data-[fluid-hover]:data-active:bg-transparent in-data-[fluid-hover]:data-active:shadow-none;
   }
 
 /* MARK: Skeleton */
@@ -2234,6 +2496,89 @@
 
   .cn-switch-thumb-aria {
     @apply data-selected:translate-x-(--density-14) not-data-selected:translate-x-0 group-data-hovered/switch:not-data-selected:before:-right-0.5 group-data-hovered/switch:data-selected:before:-left-0.5 group-data-pressed/switch:not-data-selected:before:-right-1 group-data-pressed/switch:data-selected:before:-left-1 group-data-pressed/switch:before:inset-y-0.5 data-selected:before:bg-primary-foreground;
+  }
+
+/* MARK: Tab Strip */
+
+  /* A 40px row of document tabs on the surface it sits on. `sm` pins it to
+     the compact density. */
+  .cn-tab-strip {
+    @apply h-(--density-40) gap-(--density-4) px-(--density-6) data-[size=sm]:density-compact;
+  }
+
+  /* The list scrolls sideways under faded edges, with no scrollbar. It is a
+     fluid hover container: the active tab's raised pill slides between tabs
+     and a hover highlight glides. While a tab drags, the overlays hide and
+     the active tab paints its own pill. */
+  .cn-tab-strip-list {
+    @apply no-scrollbar scroll-fade-x h-full gap-(--density-4) py-(--density-4) data-dragging:[&>[data-slot^=fluid-hover]]:opacity-0;
+  }
+
+  .cn-tab-strip-selection {
+    @apply rounded-lg bg-surface-4 shadow-surface-4;
+  }
+
+  /* Tabs: up to 192px, down to 144px before the strip scrolls; pinned tabs
+     are their icon. 13px, muted at rest; the active tab is foreground and
+     semibold without shifting. A preview tab is italic. */
+  .cn-tab-strip-tab {
+    @apply h-full w-48 min-w-36 rounded-lg text-(length:--density-text-13) text-muted-foreground transition-[color,opacity] duration-feedback ease-feedback data-active:text-foreground data-fluid-hover-active:text-foreground data-pinned:w-auto data-pinned:min-w-0 data-preview:italic data-dragging:z-10 in-data-dragging:data-active:bg-surface-4 in-data-dragging:data-active:shadow-surface-4;
+  }
+
+  .cn-tab-strip-trigger {
+    @apply h-full cursor-pointer gap-(--density-6) rounded-lg ps-(--density-10) pe-(--density-4) text-start ring-ring focus-visible:ring-1 in-data-fluid-hover-active:text-foreground in-data-pinned:justify-center in-data-pinned:px-(--density-10) [&_svg]:shrink-0 [&_svg]:stroke-[1.5] [&_svg:not([class*='size-'])]:size-(--density-icon-14) in-data-active:[&_svg]:stroke-2;
+  }
+
+  .cn-tab-strip-title {
+    @apply weight-normal in-data-active:weight-semibold;
+  }
+
+  /* The close button's slot is always there, so titles never reflow. The
+     button shows on hover, on the active tab and on touch; a dirty tab
+     shows its dot instead until hovered. */
+  .cn-tab-strip-close-slot {
+    @apply relative me-(--density-4) flex size-(--density-20) shrink-0 items-center justify-center;
+  }
+
+  .cn-tab-strip-close {
+    @apply flex size-(--density-20) cursor-pointer items-center justify-center rounded-md text-muted-foreground opacity-0 transition-opacity duration-feedback ease-feedback group-hover/tab-strip-tab:opacity-100 group-data-active/tab-strip-tab:opacity-100 pointer-coarse:opacity-100 hover:bg-hover hover:text-foreground [&_svg]:size-(--density-icon-14) group-data-[status=dirty]/tab-strip-tab:not-group-hover/tab-strip-tab:opacity-0;
+  }
+
+  .cn-tab-strip-dirty {
+    @apply pointer-events-none absolute size-2 rounded-full bg-foreground/60 transition-opacity duration-feedback ease-feedback group-hover/tab-strip-tab:opacity-0;
+  }
+
+  .cn-tab-strip-waiting {
+    @apply size-1.5 shrink-0 rounded-full bg-primary motion-safe:animate-pulse;
+  }
+
+  .cn-tab-strip-error {
+    @apply flex text-destructive [&_svg]:size-(--density-icon-14);
+  }
+
+  .cn-tab-strip-rename {
+    @apply h-(--density-24) rounded-md bg-card px-(--density-6) text-(length:--density-text-13) ring-1 ring-ring;
+  }
+
+  .cn-tab-strip-new {
+    @apply shrink-0;
+  }
+
+  .cn-tab-strip-overflow {
+    @apply shrink-0;
+  }
+
+  .cn-tab-strip-overflow-menu {
+    @apply max-h-80 min-w-56;
+  }
+
+  .cn-tab-strip-menu {
+    @apply min-w-48;
+  }
+
+  /* A shortcut inside an inverted tooltip. */
+  .cn-tab-strip-shortcut {
+    @apply ms-(--density-6) text-background/70;
   }
 
 /* MARK: Table */
@@ -2479,5 +2824,107 @@
   /* React Aria */
   .cn-tooltip-content-aria {
     @apply inline-flex items-center gap-(--density-6) rounded-lg px-(--density-8) py-1 text-(length:--density-text-12) leading-4 font-medium motion-tooltip data-entering:animate-in data-entering:fade-in-0 data-exiting:animate-out data-exiting:fade-out-0 has-data-[slot=kbd]:pe-1 **:data-[slot=kbd]:relative **:data-[slot=kbd]:isolate **:data-[slot=kbd]:z-50 **:data-[slot=kbd]:rounded-[5px];
+  }
+
+/* MARK: User Menu */
+
+  /* The mark (data-user-menu="mark") is the avatar alone, as a round
+     button. */
+  .cn-user-menu-trigger {
+    @apply data-popup-open:bg-hover data-popup-open:text-foreground data-open:bg-hover data-open:text-foreground data-[user-menu=mark]:flex data-[user-menu=mark]:shrink-0 data-[user-menu=mark]:cursor-pointer data-[user-menu=mark]:items-center data-[user-menu=mark]:justify-center data-[user-menu=mark]:rounded-full data-[user-menu=mark]:ring-ring data-[user-menu=mark]:outline-none data-[user-menu=mark]:focus-visible:ring-1 data-[user-menu=mark]:focus-visible:ring-offset-1 data-[user-menu=mark]:focus-visible:ring-offset-background;
+  }
+
+  /* Initials in full foreground: the avatar's muted fallback text misses
+     4.5:1 on its fill in light mode. */
+  .cn-user-menu-avatar {
+    @apply size-(--density-32) [&_[data-slot=avatar-fallback]]:text-foreground;
+  }
+
+  .cn-user-menu-details {
+    @apply leading-tight;
+  }
+
+  .cn-user-menu-name {
+    @apply text-(length:--density-text-13) weight-semibold text-foreground;
+  }
+
+  .cn-user-menu-email {
+    @apply text-(length:--density-text-12) text-muted-foreground;
+  }
+
+  .cn-user-menu-chevron {
+    @apply size-(--density-icon-16) text-muted-foreground;
+  }
+
+  .cn-user-menu-content {
+    @apply min-w-56;
+  }
+
+  .cn-user-menu-label {
+    @apply gap-(--density-8) px-(--density-8) py-(--density-6) font-normal text-foreground;
+  }
+
+/* MARK: Workspace Switcher */
+
+  /* The mark (data-workspace-switcher="mark") is the logo alone as a 36px
+     button. */
+  .cn-workspace-switcher-trigger {
+    @apply data-popup-open:bg-hover data-popup-open:text-foreground data-open:bg-hover data-open:text-foreground data-[workspace-switcher=mark]:flex data-[workspace-switcher=mark]:size-(--density-36) data-[workspace-switcher=mark]:shrink-0 data-[workspace-switcher=mark]:cursor-pointer data-[workspace-switcher=mark]:items-center data-[workspace-switcher=mark]:justify-center data-[workspace-switcher=mark]:rounded-lg data-[workspace-switcher=mark]:ring-ring data-[workspace-switcher=mark]:outline-none data-[workspace-switcher=mark]:transition-colors data-[workspace-switcher=mark]:duration-feedback data-[workspace-switcher=mark]:ease-feedback data-[workspace-switcher=mark]:hover:bg-hover data-[workspace-switcher=mark]:focus-visible:ring-1;
+  }
+
+  /* The logo: a 32px rounded square in the primary colour, or the image. */
+  .cn-workspace-switcher-logo {
+    @apply size-(--density-32) rounded-lg bg-primary text-(length:--density-text-13) weight-semibold text-primary-foreground [&_img]:size-full [&_img]:object-cover [&_svg]:size-(--density-icon-16);
+  }
+
+  .cn-workspace-switcher-logo-sm {
+    @apply size-(--density-24) rounded-md text-(length:--density-text-11) [&_svg]:size-(--density-icon-14);
+  }
+
+  .cn-workspace-switcher-text {
+    @apply leading-tight;
+  }
+
+  .cn-workspace-switcher-name {
+    @apply text-(length:--density-text-13) weight-semibold text-foreground;
+  }
+
+  .cn-workspace-switcher-description {
+    @apply text-(length:--density-text-12) text-muted-foreground;
+  }
+
+  .cn-workspace-switcher-chevron {
+    @apply size-(--density-icon-16) text-muted-foreground;
+  }
+
+  .cn-workspace-switcher-check {
+    @apply size-(--density-icon-16) text-foreground;
+  }
+
+  .cn-workspace-switcher-menu {
+    @apply min-w-56;
+  }
+
+  /* Two-line rows: the name over its description. */
+  .cn-workspace-switcher-item {
+    @apply h-auto gap-(--density-8) py-(--density-6);
+  }
+
+  /* A shortcut inside an inverted tooltip. */
+  .cn-workspace-switcher-shortcut {
+    @apply ms-(--density-6) text-background/70;
+  }
+
+  /* While the app opens the workspace: the page dims behind its logo. */
+  .cn-workspace-switcher-overlay {
+    @apply gap-(--density-16) bg-background/80 backdrop-blur-sm animate-in fade-in duration-move ease-enter;
+  }
+
+  .cn-workspace-switcher-overlay-logo {
+    @apply size-(--density-48) rounded-xl text-(length:--density-text-16);
+  }
+
+  .cn-workspace-switcher-overlay-text {
+    @apply flex items-center gap-(--density-8) text-(length:--density-text-13) text-muted-foreground;
   }
 }

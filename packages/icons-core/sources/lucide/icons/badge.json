@@ -1,0 +1,30 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "karsa-mistmere",
+    "jguddas"
+  ],
+  "use-cases": [],
+  "tags": [
+    "seal",
+    "emblem",
+    "rosette",
+    "insignia",
+    "sticker",
+    "stamp",
+    "label",
+    "award",
+    "achievement",
+    "certification",
+    "official",
+    "status",
+    "starburst",
+    "scalloped",
+    "shape"
+  ],
+  "categories": [
+    "account",
+    "social",
+    "shapes"
+  ]
+}

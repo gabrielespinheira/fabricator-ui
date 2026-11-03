@@ -1,0 +1,15 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "karsa-mistmere"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:flower"
+  ],
+  "categories": [
+    "nature",
+    "sustainability",
+    "seasons"
+  ]
+}

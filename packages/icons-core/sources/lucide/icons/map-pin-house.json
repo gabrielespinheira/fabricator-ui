@@ -1,0 +1,30 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "karsa-mistmere",
+    "colebemis",
+    "csandman",
+    "ericfennis"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:map-pin",
+    "home",
+    "living",
+    "building",
+    "residence",
+    "architecture",
+    "address",
+    "poi",
+    "real estate",
+    "property",
+    "navigation",
+    "destination",
+    "geolocation",
+    "place",
+    "landmark"
+  ],
+  "categories": [
+    "$extends:map-pin"
+  ]
+}

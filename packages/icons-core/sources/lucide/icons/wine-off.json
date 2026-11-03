@@ -1,0 +1,21 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "karsa-mistmere",
+    "ericfennis"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:wine",
+    "$group:off",
+    "alcohol free",
+    "abstinence",
+    "abstaining",
+    "teetotalism",
+    "allergy",
+    "intolerance"
+  ],
+  "categories": [
+    "$extends:wine"
+  ]
+}

@@ -1,0 +1,37 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "colebemis",
+    "ericfennis"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$group:plus",
+    "positive",
+    "calculate",
+    "crosshair",
+    "aim",
+    "target",
+    "scope",
+    "sight",
+    "reticule",
+    "maximum",
+    "upgrade",
+    "operator",
+    "join",
+    "concatenate",
+    "code",
+    "coding"
+  ],
+  "categories": [
+    "math",
+    "development"
+  ],
+  "aliases": [
+    {
+      "name": "plus-circle",
+      "deprecationReason": "alias.name",
+      "deprecated": true
+    }
+  ]
+}

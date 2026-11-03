@@ -1,0 +1,25 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "Alportan"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$group:chart",
+    "$group:direction-up",
+    "$group:direction-down",
+    "arrows",
+    "estimated",
+    "indeterminate",
+    "data fluctuation",
+    "uncertain",
+    "forecast",
+    "variable",
+    "prediction",
+    "dynamic",
+    "volatile"
+  ],
+  "categories": [
+    "$extends:trending-up"
+  ]
+}

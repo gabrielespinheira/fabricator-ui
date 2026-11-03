@@ -1,0 +1,50 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "colebemis",
+    "csandman",
+    "ericfennis",
+    "karsa-mistmere"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:shield",
+    "$group:off",
+    "unshielded",
+    "insecure",
+    "unsecured",
+    "unsafe",
+    "unprotected",
+    "unguarded",
+    "unarmored",
+    "unarmoured",
+    "defenseless",
+    "defenceless",
+    "undefended",
+    "interception",
+    "unprevented",
+    "undetected",
+    "exploit",
+    "vulnerability",
+    "vulnerable",
+    "weakness",
+    "infected",
+    "infection",
+    "compromised",
+    "data leak",
+    "unaudited",
+    "unverified",
+    "error",
+    "damaged",
+    "injured",
+    "hit",
+    "expired",
+    "eliminated"
+  ],
+  "categories": [
+    "account",
+    "security",
+    "development",
+    "gaming"
+  ]
+}

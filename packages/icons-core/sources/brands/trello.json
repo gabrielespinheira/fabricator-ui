@@ -1,0 +1,15 @@
+{
+  "title": "Trello",
+  "group": "Product & dev",
+  "tags": [
+    "board",
+    "kanban",
+    "tasks"
+  ],
+  "aliases": [],
+  "hex": "#0052CC",
+  "scale": 0.84,
+  "source": "Simple Icons 16.36.0 (https://atlassian.design/resources/logo-library)",
+  "license": "CC0-1.0",
+  "guidelines": "https://atlassian.design/foundations/logos"
+}

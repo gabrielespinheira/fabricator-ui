@@ -1,0 +1,99 @@
+{
+  "name": "@fabricator-ui/icons-static",
+  "version": "0.0.0",
+  "description": "Fabricator Icons as SVG files, a sprite, JSON data and SVG strings, plus a PNG exporter for desktop apps.",
+  "license": "MIT",
+  "type": "module",
+  "homepage": "https://fabricator-ui.vercel.app/icons",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gabrielespinheira/fabricator-ui",
+    "directory": "packages/icons-static"
+  },
+  "bugs": {
+    "url": "https://github.com/gabrielespinheira/fabricator-ui/issues"
+  },
+  "keywords": [
+    "fabricator-ui",
+    "icons",
+    "lucide",
+    "brand-icons",
+    "svg",
+    "sprite"
+  ],
+  "sideEffects": false,
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/esm/index.d.ts",
+  "bin": {
+    "fabricator-icons": "./dist/esm/cli.js"
+  },
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/esm/index.d.ts",
+        "default": "./dist/esm/index.js"
+      },
+      "require": {
+        "types": "./dist/cjs/index.d.ts",
+        "default": "./dist/cjs/index.js"
+      }
+    },
+    "./brands": {
+      "import": {
+        "types": "./dist/esm/brands.d.ts",
+        "default": "./dist/esm/brands.js"
+      },
+      "require": {
+        "types": "./dist/cjs/brands.d.ts",
+        "default": "./dist/cjs/brands.js"
+      }
+    },
+    "./icons/*.svg": "./icons/*.svg",
+    "./brands/*.svg": "./brands/*.svg",
+    "./sprite.svg": "./sprite.svg",
+    "./brands-sprite.svg": "./brands-sprite.svg",
+    "./icon-nodes.json": "./icon-nodes.json",
+    "./brand-nodes.json": "./brand-nodes.json",
+    "./tags.json": "./tags.json",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "icons",
+    "brands",
+    "sprite.svg",
+    "brands-sprite.svg",
+    "icon-nodes.json",
+    "brand-nodes.json",
+    "tags.json",
+    "LICENSE.md",
+    "BRANDS.md"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "generate": "bun ./scripts/generate.ts",
+    "build": "bun run generate && bun ./scripts/build.ts",
+    "typecheck": "bun run generate && tsc --noEmit",
+    "test": "bun run generate && vitest run",
+    "format:write": "prettier --write \"{src,scripts}/**/*.ts\" \"!src/generated/**\" \"*.json\" \"README.md\" --cache",
+    "format:check": "prettier --check \"{src,scripts}/**/*.ts\" \"!src/generated/**\" \"*.json\" \"README.md\" --cache"
+  },
+  "peerDependencies": {
+    "@resvg/resvg-js": "^2.6.2"
+  },
+  "peerDependenciesMeta": {
+    "@resvg/resvg-js": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@fabricator-ui/icons-core": "workspace:*",
+    "@resvg/resvg-js": "2.6.2",
+    "@types/node": "^20.19.0",
+    "typescript": "^6.0.3",
+    "vitest": "^5.0.5"
+  }
+}

@@ -2,6 +2,7 @@
 "use client"
 
 import {
+  ActivityIcon as LucideActivityIcon,
   AlertCircleIcon as LucideAlertCircleIcon,
   AlertTriangleIcon as LucideAlertTriangleIcon,
   AlignCenterIcon as LucideAlignCenterIcon,
@@ -33,6 +34,7 @@ import {
   BotIcon as LucideBotIcon,
   BoxIcon as LucideBoxIcon,
   Building2Icon as LucideBuilding2Icon,
+  BuildingIcon as LucideBuildingIcon,
   Calculator as LucideCalculator,
   CalculatorIcon as LucideCalculatorIcon,
   Calendar as LucideCalendar,
@@ -60,18 +62,21 @@ import {
   Clock2Icon as LucideClock2Icon,
   ClockIcon as LucideClockIcon,
   CodeIcon as LucideCodeIcon,
+  CogIcon as LucideCogIcon,
   Command as LucideCommand,
   CopyIcon as LucideCopyIcon,
   CreditCard as LucideCreditCard,
   CreditCardIcon as LucideCreditCardIcon,
   DotIcon as LucideDotIcon,
   DownloadIcon as LucideDownloadIcon,
+  EllipsisIcon as LucideEllipsisIcon,
   ExternalLinkIcon as LucideExternalLinkIcon,
   EyeIcon as LucideEyeIcon,
   EyeOffIcon as LucideEyeOffIcon,
   FileCodeIcon as LucideFileCodeIcon,
   FileIcon as LucideFileIcon,
   FileSearchIcon as LucideFileSearchIcon,
+  FilesIcon as LucideFilesIcon,
   FileTextIcon as LucideFileTextIcon,
   FileWarningIcon as LucideFileWarningIcon,
   Folder as LucideFolder,
@@ -97,6 +102,7 @@ import {
   KeyboardIcon as LucideKeyboardIcon,
   LanguagesIcon as LucideLanguagesIcon,
   LayersIcon as LucideLayersIcon,
+  LayoutDashboardIcon as LucideLayoutDashboardIcon,
   LayoutGridIcon as LucideLayoutGridIcon,
   LayoutIcon as LucideLayoutIcon,
   LifeBuoyIcon as LucideLifeBuoyIcon,
@@ -127,6 +133,7 @@ import {
   PanelLeftCloseIcon as LucidePanelLeftCloseIcon,
   PanelLeftIcon as LucidePanelLeftIcon,
   PanelLeftOpenIcon as LucidePanelLeftOpenIcon,
+  PanelRightIcon as LucidePanelRightIcon,
   PaperclipIcon as LucidePaperclipIcon,
   PencilIcon as LucidePencilIcon,
   PieChart as LucidePieChart,
@@ -151,6 +158,7 @@ import {
   ShareIcon as LucideShareIcon,
   ShieldAlertIcon as LucideShieldAlertIcon,
   ShieldIcon as LucideShieldIcon,
+  SlidersHorizontalIcon as LucideSlidersHorizontalIcon,
   Smile as LucideSmile,
   SmileIcon as LucideSmileIcon,
   Sparkles as LucideSparkles,
@@ -164,6 +172,7 @@ import {
   TableIcon as LucideTableIcon,
   TagIcon as LucideTagIcon,
   TelescopeIcon as LucideTelescopeIcon,
+  TerminalIcon as LucideTerminalIcon,
   ThumbsDownIcon as LucideThumbsDownIcon,
   ThumbsUpIcon as LucideThumbsUpIcon,
   Trash2 as LucideTrash2,
@@ -187,6 +196,12 @@ import { createSiteIcon } from "@/lib/site-icons-runtime"
 
 export type { LucideIcon, LucideProps } from "lucide-react"
 
+export const ActivityIcon = createSiteIcon(LucideActivityIcon, {
+  tabler: "IconActivity",
+  hugeicons: "ActivityIcon",
+  phosphor: "ActivityIcon",
+  remixicon: "RiPulseLine",
+})
 export const AlertCircleIcon = createSiteIcon(LucideAlertCircleIcon, {
   tabler: "IconAlertCircle",
   hugeicons: "AlertCircleIcon",
@@ -368,6 +383,7 @@ export const Building2Icon = createSiteIcon(LucideBuilding2Icon, {
   phosphor: "BankIcon",
   remixicon: "RiBankLine",
 })
+export const BuildingIcon = createSiteIcon(LucideBuildingIcon, {})
 export const Calculator = createSiteIcon(LucideCalculator, {
   tabler: "IconCalculator",
   hugeicons: "CalculatorIcon",
@@ -533,6 +549,7 @@ export const CodeIcon = createSiteIcon(LucideCodeIcon, {
   phosphor: "CodeIcon",
   remixicon: "RiCodeLine",
 })
+export const CogIcon = createSiteIcon(LucideCogIcon, {})
 export const Command = createSiteIcon(LucideCommand, {
   tabler: "IconInnerShadowTop",
   hugeicons: "CommandIcon",
@@ -567,6 +584,7 @@ export const DownloadIcon = createSiteIcon(LucideDownloadIcon, {
   phosphor: "DownloadIcon",
   remixicon: "RiDownloadLine",
 })
+export const EllipsisIcon = createSiteIcon(LucideEllipsisIcon, {})
 export const ExternalLinkIcon = createSiteIcon(LucideExternalLinkIcon, {
   tabler: "IconExternalLink",
   hugeicons: "LinkSquare02Icon",
@@ -615,6 +633,7 @@ export const FileWarningIcon = createSiteIcon(LucideFileWarningIcon, {
   phosphor: "FileXIcon",
   remixicon: "RiFileWarningLine",
 })
+export const FilesIcon = createSiteIcon(LucideFilesIcon, {})
 export const Folder = createSiteIcon(LucideFolder, {
   tabler: "IconFolder",
   hugeicons: "Folder01Icon",
@@ -747,6 +766,12 @@ export const LayersIcon = createSiteIcon(LucideLayersIcon, {
   hugeicons: "Layers01Icon",
   phosphor: "StackIcon",
   remixicon: "RiStackLine",
+})
+export const LayoutDashboardIcon = createSiteIcon(LucideLayoutDashboardIcon, {
+  tabler: "IconDashboard",
+  hugeicons: "DashboardSquare01Icon",
+  phosphor: "SquaresFourIcon",
+  remixicon: "RiDashboardLine",
 })
 export const LayoutGridIcon = createSiteIcon(LucideLayoutGridIcon, {
   tabler: "IconLayoutGrid",
@@ -931,6 +956,7 @@ export const PanelLeftOpenIcon = createSiteIcon(LucidePanelLeftOpenIcon, {
   phosphor: "SidebarIcon",
   remixicon: "RiSidebarUnfoldLine",
 })
+export const PanelRightIcon = createSiteIcon(LucidePanelRightIcon, {})
 export const PaperclipIcon = createSiteIcon(LucidePaperclipIcon, {
   tabler: "IconPaperclip",
   hugeicons: "AttachmentIcon",
@@ -1071,6 +1097,10 @@ export const ShieldIcon = createSiteIcon(LucideShieldIcon, {
   phosphor: "ShieldIcon",
   remixicon: "RiShieldLine",
 })
+export const SlidersHorizontalIcon = createSiteIcon(
+  LucideSlidersHorizontalIcon,
+  {}
+)
 export const Smile = createSiteIcon(LucideSmile, {
   tabler: "IconMoodSmile",
   hugeicons: "SmileIcon",
@@ -1143,6 +1173,12 @@ export const TelescopeIcon = createSiteIcon(LucideTelescopeIcon, {
   hugeicons: "Telescope01Icon",
   phosphor: "BinocularsIcon",
   remixicon: "RiSearchEyeLine",
+})
+export const TerminalIcon = createSiteIcon(LucideTerminalIcon, {
+  tabler: "IconTerminal",
+  hugeicons: "ComputerTerminal01Icon",
+  phosphor: "TerminalIcon",
+  remixicon: "RiTerminalBoxLine",
 })
 export const ThumbsDownIcon = createSiteIcon(LucideThumbsDownIcon, {
   tabler: "IconThumbDown",

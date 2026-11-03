@@ -1,0 +1,24 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "danielbayley",
+    "karsa-mistmere"
+  ],
+  "use-cases": [
+    "Disconnecting or unplugging a device",
+    "Indicating a API management page"
+  ],
+  "tags": [
+    "electricity",
+    "energy",
+    "electronics",
+    "socket",
+    "outlet",
+    "disconnect"
+  ],
+  "categories": [
+    "devices",
+    "development",
+    "connectivity"
+  ]
+}

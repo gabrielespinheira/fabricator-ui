@@ -1,0 +1,13 @@
+{
+  "title": "Supabase",
+  "group": "Product & dev",
+  "tags": [
+    "database",
+    "postgres",
+    "backend"
+  ],
+  "aliases": [],
+  "hex": "#3FCF8E",
+  "source": "Simple Icons 16.36.0 (https://github.com/supabase/supabase/blob/4031a7549f5d46da7bc79c01d56be4177dc7c114/packages/common/assets/images/supabase-logo-wordmark--light.svg)",
+  "license": "CC0-1.0"
+}
