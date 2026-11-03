@@ -4,6 +4,7 @@ import path from "node:path"
 import { contrast, DARK_SURFACE } from "./brand-colors"
 import { SCALE_FLOOR } from "./brand-scale"
 import { loadBrands } from "./brands"
+import { getBounds, type Bounds } from "./geometry"
 import { isKebabCase } from "./names"
 import { loadOutlineIcons, readBrandStopwords, readCategories } from "./outline"
 import { DUOTONE_SOURCES, OUTLINE_SOURCES } from "./paths"
@@ -68,6 +69,31 @@ export function checkOriginals(directory = OUTLINE_SOURCES) {
   return errors
 }
 
+const isLegible = (fill: string) => contrast(fill, DARK_SURFACE) > 1.5
+
+function overlaps(a: Bounds, b: Bounds) {
+  return (
+    a.minX < b.maxX && b.minX < a.maxX && a.minY < b.maxY && b.minY < a.maxY
+  )
+}
+
+/**
+ * Art fills that would vanish on the dark surface: near-black fills that
+ * don't touch any legible shape. Details on a coloured shape (JavaScript's
+ * letters) and outlines around one (Bun's) keep the mark visible.
+ */
+export function exposedDarkFills(node: IconElement[]) {
+  const legible = node
+    .filter(([, { fill }]) => fill?.startsWith("#") && isLegible(fill))
+    .map((element) => getBounds([element]))
+  return node.flatMap(([tag, attributes]) => {
+    const fill = attributes.fill
+    if (!fill?.startsWith("#") || isLegible(fill)) return []
+    const bounds = getBounds([[tag, attributes]])
+    return legible.some((other) => overlaps(other, bounds)) ? [] : [fill]
+  })
+}
+
 export function checkBrands() {
   const errors: string[] = []
   for (const brand of loadBrands()) {
@@ -89,15 +115,10 @@ export function checkBrands() {
     ) {
       report("the dark-mode colour is illegible on the dark surface")
     }
-    for (const [, attributes] of brand.art?.node ?? []) {
-      if (
-        attributes.fill?.startsWith("#") &&
-        contrast(attributes.fill, DARK_SURFACE) <= 1.5
-      ) {
-        report(
-          `art fill ${attributes.fill} vanishes on the dark surface; leave it unfilled to follow currentColor`
-        )
-      }
+    for (const fill of exposedDarkFills(brand.art?.node ?? [])) {
+      report(
+        `art fill ${fill} vanishes on the dark surface; leave it unfilled to follow currentColor, or draw it on a legible shape`
+      )
     }
   }
   return errors

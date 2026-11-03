@@ -8,8 +8,9 @@
   ],
   "aliases": [],
   "hex": "#4FC08D",
-  "scale": 0.895,
+  "scale": 0.925,
   "source": "Simple Icons 16.36.0 (https://github.com/vuejs/art/blob/a1c78b74569b70a25300925b4eacfefcc143b8f6/logo.svg)",
   "license": "CC-BY-NC-SA-4.0",
-  "guidelines": "https://github.com/vuejs/art/blob/a1c78b74569b70a25300925b4eacfefcc143b8f6/README.md"
+  "guidelines": "https://github.com/vuejs/art/blob/a1c78b74569b70a25300925b4eacfefcc143b8f6/README.md",
+  "artSource": "gilbarbara/logos via @iconify-json/logos 1.2.18 (CC0-1.0)"
 }

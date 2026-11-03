@@ -5,6 +5,7 @@ import { parseBrandArt } from "./brand-art"
 import { contrast, DARK_SURFACE } from "./brand-colors"
 import { SCALE_FLOOR } from "./brand-scale"
 import { loadBrands } from "./brands"
+import { exposedDarkFills } from "./check"
 import { PACKAGE_ROOT } from "./paths"
 import { getBrandViewBox } from "./runtime/attributes"
 import { readJson, sharposFixtureSchema } from "./schemas"
@@ -26,6 +27,19 @@ function sharedBrand(slug: string) {
 
 /** OpenAI's terms forbid redistributing its logo; see allowlist.json. */
 const HELD = ["openai"]
+/**
+ * Marks SharpOS draws in one flat colour that Fabricator draws in their real
+ * colours with `color="brand"`; their art has its own box, so the viewBox differs.
+ */
+const NEW_ART = [
+  "airtable",
+  "cloudflare",
+  "facebook",
+  "miro",
+  "posthog",
+  "reddit",
+  "shopify",
+]
 /** SharpOS's path predates Simple Icons' current one, or is a placeholder for art-only marks. */
 const NEWER_MONO = ["openrouter", "cal", "linkedin"]
 
@@ -79,8 +93,14 @@ describe("SharpOS parity", () => {
     }
   })
 
+  it("adds brand-colour art to the marks SharpOS flattens", () => {
+    expect(NEW_ART.filter((slug) => !sharedBrand(slug).art)).toEqual([])
+  })
+
   it("keeps SharpOS's optical scales and viewBoxes", () => {
-    for (const expected of shared) {
+    for (const expected of shared.filter(
+      (brand) => !NEW_ART.includes(brand.slug)
+    )) {
       const brand = sharedBrand(expected.slug)
       expect(brand.scale, expected.slug).toBe(expected.scale)
       expect(
@@ -125,14 +145,7 @@ describe("brand rules", () => {
 
   it("keeps every declared art fill visible on the dark surface", () => {
     for (const brand of brands) {
-      for (const [, attributes] of brand.art?.node ?? []) {
-        if (attributes.fill?.startsWith("#")) {
-          expect(
-            contrast(attributes.fill, DARK_SURFACE),
-            `${brand.name} ${attributes.fill}`
-          ).toBeGreaterThan(1.5)
-        }
-      }
+      expect(exposedDarkFills(brand.art?.node ?? []), brand.name).toEqual([])
     }
   })
 

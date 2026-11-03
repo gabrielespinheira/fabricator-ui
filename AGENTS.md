@@ -67,29 +67,30 @@ Everywhere else, write "Fabricator UI", "the CLI" (`npx fabricator-ui@latest …
 
 The full target tree is in `PLAN.md` §4. Which paths are authored and which are generated:
 
-| Path                                                                                                 | What                                                                                                                                                    | Authored?                                                 |
-| ---------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------- |
-| `apps/web/registry/bases/{base,radix,aria}/`                                                         | Component, block, hook and lib source plus `_registry.ts` item declarations                                                                             | ✅ authored                                               |
-| `apps/web/registry/styles/style-*.css`                                                               | Style maps for the 8 upstream styles (parity and upstream sync only)                                                                                    | ✅ authored                                               |
-| `apps/web/registry/styles/fabricator/*.css`                                                          | Fabricator style map, one file per component                                                                                                            | ✅ authored                                               |
-| `apps/web/registry/styles/style-fabricator.css`                                                      | Assembled Fabricator style map                                                                                                                          | ⚙️ generated, committed                                   |
-| `apps/web/registry/fabricator/`                                                                      | Fabricator foundations (`foundations.ts`), design spec (`DESIGN.md`), extra items and overrides (`registry.ts`), overlay sources (`shared/`, `<base>/`) | ✅ authored                                               |
-| `apps/web/app/fabricator.css`                                                                        | Foundations + palette stylesheet for the website                                                                                                        | ⚙️ generated, committed                                   |
-| `apps/web/registry/{bases,styles,themes,fonts,config,presets}.ts`                                    | Registry metadata, themes, presets, `registry:base` builder                                                                                             | ✅ authored                                               |
-| `apps/web/examples/{base,radix,aria}/*.tsx`                                                          | Docs demos (flat folders, no subdirectories)                                                                                                            | ✅ authored                                               |
-| `apps/web/content/docs/**`                                                                           | MDX docs (Fumadocs)                                                                                                                                     | ✅ authored                                               |
-| `apps/web/registry/**/__index__.tsx`, `__components__/`, `__blocks__.json`, `examples/__index__.tsx` | Runtime lookup indexes                                                                                                                                  | ⚙️ generated, committed                                   |
-| `apps/web/styles/<base>-<style>/`                                                                    | Compiled components the docs import                                                                                                                     | ⚙️ generated, gitignored                                  |
-| `apps/web/public/r/**`                                                                               | Installable registry JSON                                                                                                                               | ⚙️ generated, gitignored (except small committed indexes) |
-| `packages/cli/`                                                                                      | `fabricator-ui` CLI (Node target, wraps `shadcn`)                                                                                                       | ✅ authored                                               |
-| `packages/react/`                                                                                    | `@fabricator-ui/react` headless primitives (later phase)                                                                                                | ✅ authored                                               |
-| `packages/tests/`                                                                                    | CLI end-to-end tests against real templates                                                                                                             | ✅ authored                                               |
+| Path                                                                                                 | What                                                                                                                                                    | Authored?                                                                                             |
+| ---------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- |
+| `apps/web/registry/bases/{base,radix,aria}/`                                                         | Component, block, hook and lib source plus `_registry.ts` item declarations                                                                             | ✅ authored                                                                                           |
+| `apps/web/registry/styles/style-*.css`                                                               | Style maps for the 8 upstream styles (parity and upstream sync only)                                                                                    | ✅ authored                                                                                           |
+| `apps/web/registry/styles/fabricator/*.css`                                                          | Fabricator style map, one file per component                                                                                                            | ✅ authored                                                                                           |
+| `apps/web/registry/styles/style-fabricator.css`                                                      | Assembled Fabricator style map                                                                                                                          | ⚙️ generated, committed                                                                               |
+| `apps/web/registry/fabricator/`                                                                      | Fabricator foundations (`foundations.ts`), design spec (`DESIGN.md`), extra items and overrides (`registry.ts`), overlay sources (`shared/`, `<base>/`) | ✅ authored                                                                                           |
+| `apps/web/app/fabricator.css`                                                                        | Foundations + palette stylesheet for the website                                                                                                        | ⚙️ generated, committed                                                                               |
+| `apps/web/registry/{bases,styles,themes,fonts,config,presets}.ts`                                    | Registry metadata, themes, presets, `registry:base` builder                                                                                             | ✅ authored                                                                                           |
+| `apps/web/examples/{base,radix,aria}/*.tsx`                                                          | Docs demos (flat folders, no subdirectories)                                                                                                            | ✅ authored                                                                                           |
+| `apps/web/content/docs/**`                                                                           | MDX docs (Fumadocs)                                                                                                                                     | ✅ authored                                                                                           |
+| `apps/web/registry/**/__index__.tsx`, `__components__/`, `__blocks__.json`, `examples/__index__.tsx` | Runtime lookup indexes                                                                                                                                  | ⚙️ generated, committed                                                                               |
+| `apps/web/styles/<base>-<style>/`                                                                    | Compiled components the docs import                                                                                                                     | ⚙️ generated, gitignored                                                                              |
+| `apps/web/public/r/**`                                                                               | Installable registry JSON                                                                                                                               | ⚙️ generated, gitignored (except small committed indexes)                                             |
+| `apps/desktop/`                                                                                      | Desktop example: Electron (`electron/`) and Tauri (`src-tauri/`) windows around the website's `/desktop` route (`app/(view)/desktop/`)                  | ✅ authored                                                                                           |
+| `packages/cli/`                                                                                      | `fabricator-ui` CLI (Node target, wraps `shadcn`)                                                                                                       | ✅ authored                                                                                           |
+| `packages/react/`                                                                                    | `@fabricator-ui/react` headless primitives (later phase)                                                                                                | ✅ authored                                                                                           |
+| `packages/tests/`                                                                                    | CLI end-to-end tests against real templates                                                                                                             | ✅ authored                                                                                           |
 | `packages/icons-core/`                                                                               | Fabricator Icons sources (vendored Lucide, originals, brand allowlist), checks and generators; private. Plan: `docs/plans/icon-pack.md`                 | ✅ authored (`sources/lucide/` and imported brand files are written by `icons:sync` / `icons:brands`) |
-| `packages/icons/`, `packages/icons-react-native/`, `packages/icons-static/`                          | `@fabricator-ui/icons` (React), `-react-native`, `-static` (files, sprites, PNG CLI); `src/generated/`, `dist/` and the static outputs are gitignored | ✅ authored                                               |
-| `skills/fabricator/`                                                                                 | Agent skill for consumers of the library                                                                                                                | ✅ authored                                               |
-| `DESIGN.md`                                                                                          | Design system for products built with the library, which projects copy; `bunx @google/design.md lint DESIGN.md` validates it                          | ✅ authored                                               |
-| `upstream.lock.json`, `scripts/sync-upstream.ts`                                                     | Upstream pin and import tooling                                                                                                                         | ✅ authored                                               |
-| `tmp/`                                                                                               | Personal experiments (Three.js hero prototype); gitignored                                                                                              | outside the product                                       |
+| `packages/icons/`, `packages/icons-react-native/`, `packages/icons-static/`                          | `@fabricator-ui/icons` (React), `-react-native`, `-static` (files, sprites, PNG CLI); `src/generated/`, `dist/` and the static outputs are gitignored   | ✅ authored                                                                                           |
+| `skills/fabricator/`                                                                                 | Agent skill for consumers of the library                                                                                                                | ✅ authored                                                                                           |
+| `DESIGN.md`                                                                                          | Design system for products built with the library, which projects copy; `bunx @google/design.md lint DESIGN.md` validates it                            | ✅ authored                                                                                           |
+| `upstream.lock.json`, `scripts/sync-upstream.ts`                                                     | Upstream pin and import tooling                                                                                                                         | ✅ authored                                                                                           |
+| `tmp/`                                                                                               | Personal experiments (Three.js hero prototype); gitignored                                                                                              | outside the product                                                                                   |
 
 ---
 
@@ -97,28 +98,29 @@ The full target tree is in `PLAN.md` §4. Which paths are authored and which are
 
 The root `package.json` is the source of truth for scripts. Keep this table in step when scripts change.
 
-| Task                                                                 | Command                                                                                       |
-| -------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
-| Install                                                              | `bun install`                                                                                 |
-| Website dev server                                                   | `bun run dev` (`apps/web`; run `registry:build` once on a fresh clone)                        |
-| Full registry build (canonical, formatted; run before committing)    | `bun run registry:build`                                                                      |
-| Targeted registry builds (fast, unformatted; run in `apps/web`)      | `bun run registry:build --examples \| --indexes \| --style <id\|all> \| --registry <id\|all>` |
-| Lint, typecheck, format check                                        | `bun run check`                                                                               |
-| Unit tests                                                           | `bun run test`                                                                                |
-| Upstream parity check (fetches ui.shadcn.com)                        | `bun run test:parity` (`--styles all` for every combination)                                  |
-| CLI end-to-end (needs `bun run dev` running and `bun run cli:build`) | `bun run test:e2e` (`--only vite-base,existing-shadcn`, `--keep`)                             |
-| Run the local CLI against the local registry                         | `FABRICATOR_REGISTRY_URL=http://localhost:4000 bun run cli <init\|add\|…> -c <path-to-app>`   |
-| Build the CLI                                                        | `bun run cli:build`                                                                           |
-| Import upstream                                                      | `bun run sync:upstream --ref <sha\|tag>`                                                      |
-| Rebrand upstream demo content (after every sync)                     | `bun run rebrand` (`--check` to verify)                                                       |
-| Vendor Lucide's icons at a tag                                       | `bun run icons:sync --ref <tag>` (then bump the parity dev deps in `packages/icons`)          |
-| Import brand marks from the allowlist                                | `bun run icons:brands` (`--measure` sets optical scales for new marks)                        |
-| Check icon sources (originals, brands, duotone; part of `check`)    | `bun run icons:check`                                                                         |
-| Review sheet for new icons (PNG to attach to the PR)                 | `bun run icons:sheet <names...>`                                                              |
-| Recapture mobile preview screenshots (dev server running)            | `cd apps/web && bun run registry:capture --force && bun run pages:capture`                    |
-| Add a release note                                                   | `bunx changeset`                                                                              |
-| Deploy the website (builds here, uploads prebuilt to Vercel)         | `bun run deploy` from a clean, pushed `main`; `bun run deploy -- --preview` for a preview     |
-| Release the CLI (npm, git tag, GitHub release; part of `deploy`)     | `bun run release:publish` (needs `npm login` and `gh auth login`)                             |
+| Task                                                                 | Command                                                                                                  |
+| -------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| Install                                                              | `bun install`                                                                                            |
+| Website dev server                                                   | `bun run dev` (`apps/web`; run `registry:build` once on a fresh clone)                                   |
+| Desktop example (starts the website unless it already runs)          | `bun run desktop` (Electron) or `bun run desktop:tauri` (needs Rust; the first run compiles for minutes) |
+| Full registry build (canonical, formatted; run before committing)    | `bun run registry:build`                                                                                 |
+| Targeted registry builds (fast, unformatted; run in `apps/web`)      | `bun run registry:build --examples \| --indexes \| --style <id\|all> \| --registry <id\|all>`            |
+| Lint, typecheck, format check                                        | `bun run check`                                                                                          |
+| Unit tests                                                           | `bun run test`                                                                                           |
+| Upstream parity check (fetches ui.shadcn.com)                        | `bun run test:parity` (`--styles all` for every combination)                                             |
+| CLI end-to-end (needs `bun run dev` running and `bun run cli:build`) | `bun run test:e2e` (`--only vite-base,existing-shadcn`, `--keep`)                                        |
+| Run the local CLI against the local registry                         | `FABRICATOR_REGISTRY_URL=http://localhost:4000 bun run cli <init\|add\|…> -c <path-to-app>`              |
+| Build the CLI                                                        | `bun run cli:build`                                                                                      |
+| Import upstream                                                      | `bun run sync:upstream --ref <sha\|tag>`                                                                 |
+| Rebrand upstream demo content (after every sync)                     | `bun run rebrand` (`--check` to verify)                                                                  |
+| Vendor Lucide's icons at a tag                                       | `bun run icons:sync --ref <tag>` (then bump the parity dev deps in `packages/icons`)                     |
+| Import brand marks from the allowlist                                | `bun run icons:brands` (`--measure` sets optical scales for new marks)                                   |
+| Check icon sources (originals, brands, duotone; part of `check`)     | `bun run icons:check`                                                                                    |
+| Review sheet for new icons (PNG to attach to the PR)                 | `bun run icons:sheet <names...>`                                                                         |
+| Recapture mobile preview screenshots (dev server running)            | `cd apps/web && bun run registry:capture --force && bun run pages:capture`                               |
+| Add a release note                                                   | `bunx changeset`                                                                                         |
+| Deploy the website (builds here, uploads prebuilt to Vercel)         | `bun run deploy` from a clean, pushed `main`; `bun run deploy -- --preview` for a preview                |
+| Release the CLI (npm, git tag, GitHub release; part of `deploy`)     | `bun run release:publish` (needs `npm login` and `gh auth login`)                                        |
 
 ### Toolchain notes
 
@@ -147,18 +149,22 @@ To see what upstream actually ships, run `bunx --bun shadcn@latest view @shadcn/
 ### File conventions
 
 ```tsx
-"use client" // only when the file uses state, effects, context, events or an interactive primitive
+"use client"
 
+// only when the file uses state, effects, context, events or an interactive primitive
 import * as React from "react"
-import { cva, type VariantProps } from "class-variance-authority"
 import { Dialog as DialogPrimitive } from "@base-ui/react/dialog" // base-specific import
+import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "cn"
 
 function DialogContent({ className, ...props }: DialogPrimitive.Popup.Props) {
   return (
     <DialogPrimitive.Popup
       data-slot="dialog-content"
-      className={cn("cn-dialog-content fixed top-1/2 left-1/2 z-50 grid w-full", className)}
+      className={cn(
+        "cn-dialog-content fixed top-1/2 left-1/2 z-50 grid w-full",
+        className
+      )}
       {...props}
     />
   )

@@ -44,10 +44,22 @@ export const brandStopwordsSchema = z.record(z.string(), z.string())
 
 const sourceRefSchema = z.discriminatedUnion("from", [
   z.object({ from: z.literal("simple-icons"), slug: z.string() }),
-  z.object({ from: z.literal("logos"), icon: z.string() }),
+  z.object({
+    from: z.literal("logos"),
+    icon: z.string(),
+    /** The paint for unfilled shapes, which the logos set means as black. */
+    unfilled: z.string().optional(),
+    /** Outdated colours (lowercase) mapped to the brand's current ones. */
+    recolor: z.record(z.string(), z.string()).optional(),
+  }),
   z.object({ from: z.literal("sharpos"), slug: z.string() }),
   /** Mono only: the entry's single-path art, in one colour. */
   z.object({ from: z.literal("art") }),
+  /** Art only: the one-colour mark in its hex over a white shape, so cut-outs read white. */
+  z.object({
+    from: z.literal("underlay"),
+    shape: z.enum(["circle", "square"]),
+  }),
 ])
 
 export type SourceRef = z.infer<typeof sourceRefSchema>

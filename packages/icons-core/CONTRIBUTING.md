@@ -31,6 +31,8 @@ It prints what was added, changed, aliased and removed. Then run `bun run test` 
 ## Adding a brand mark
 
 1. Add an entry to `sources/brands/allowlist.json`: `name` (kebab-case), `title`, `group`, `tags`, `aliases`, and `mono` (and `art` for multi-colour marks) pointing at Simple Icons, Iconify's `logos` set, or official brand assets.
+   - Give a mark `art` when its logo has more than one colour or white details, so `color="brand"` shows the real logo. Use Iconify's `logos` set (`{ "from": "logos", "icon": "chrome" }`); add `"unfilled": "#000000"` when the artwork leaves black shapes unfilled, and `"recolor"` to swap a colour the brand has since changed. When the logos artwork is outdated, `{ "from": "underlay", "shape": "circle" | "square" }` draws the current one-colour path over white, so its cut-outs read white.
+   - Gradient artwork is refused; such marks keep their official flat colour.
 2. Read the brand's terms. If they forbid redistributing the logo, add the entry with `held` and the reason instead.
 3. Run `bun run icons:brands --measure`. It imports the mark and measures its optical scale against the frozen median.
 4. Run `bun run icons:check` and `bun run test`.

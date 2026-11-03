@@ -15,6 +15,10 @@
       "mono": {
         "from": "simple-icons",
         "slug": "airtable"
+      },
+      "art": {
+        "from": "logos",
+        "icon": "airtable"
       }
     },
     {
@@ -137,11 +141,11 @@
       ],
       "aliases": [],
       "hex": "#0052CC",
+      "scale": 0.916,
       "mono": {
         "from": "simple-icons",
         "slug": "bitbucket"
-      },
-      "scale": 0.916
+      }
     },
     {
       "name": "bluesky",
@@ -189,6 +193,11 @@
       "mono": {
         "from": "simple-icons",
         "slug": "bun"
+      },
+      "art": {
+        "from": "logos",
+        "icon": "bun",
+        "unfilled": "#000000"
       }
     },
     {
@@ -262,6 +271,10 @@
       "mono": {
         "from": "simple-icons",
         "slug": "cloudflare"
+      },
+      "art": {
+        "from": "logos",
+        "icon": "cloudflare-icon"
       }
     },
     {
@@ -425,11 +438,11 @@
       ],
       "aliases": [],
       "hex": "#1C2024",
+      "scale": 0.876,
       "mono": {
         "from": "simple-icons",
         "slug": "expo"
-      },
-      "scale": 0.876
+      }
     },
     {
       "name": "facebook",
@@ -445,6 +458,10 @@
       "mono": {
         "from": "simple-icons",
         "slug": "facebook"
+      },
+      "art": {
+        "from": "underlay",
+        "shape": "circle"
       }
     },
     {
@@ -545,6 +562,10 @@
       "mono": {
         "from": "simple-icons",
         "slug": "gitlab"
+      },
+      "art": {
+        "from": "logos",
+        "icon": "gitlab-icon"
       }
     },
     {
@@ -672,6 +693,10 @@
       "mono": {
         "from": "simple-icons",
         "slug": "googlechrome"
+      },
+      "art": {
+        "from": "logos",
+        "icon": "chrome"
       }
     },
     {
@@ -866,11 +891,16 @@
       ],
       "aliases": [],
       "hex": "#F7DF1E",
+      "scale": 0.84,
       "mono": {
         "from": "simple-icons",
         "slug": "javascript"
       },
-      "scale": 0.84
+      "art": {
+        "from": "logos",
+        "icon": "javascript",
+        "unfilled": "#000000"
+      }
     },
     {
       "name": "linear",
@@ -1050,6 +1080,11 @@
       "mono": {
         "from": "simple-icons",
         "slug": "miro"
+      },
+      "art": {
+        "from": "logos",
+        "icon": "miro-icon",
+        "unfilled": "#000000"
       }
     },
     {
@@ -1161,11 +1196,18 @@
       ],
       "aliases": [],
       "hex": "#CB3837",
+      "scale": 0.84,
       "mono": {
         "from": "simple-icons",
         "slug": "npm"
       },
-      "scale": 0.84
+      "art": {
+        "from": "logos",
+        "icon": "npm-icon",
+        "recolor": {
+          "#c12127": "#CB3837"
+        }
+      }
     },
     {
       "name": "openai",
@@ -1261,11 +1303,11 @@
       ],
       "aliases": [],
       "hex": "#F69220",
+      "scale": 0.84,
       "mono": {
         "from": "simple-icons",
         "slug": "pnpm"
-      },
-      "scale": 0.84
+      }
     },
     {
       "name": "posthog",
@@ -1282,6 +1324,10 @@
       "mono": {
         "from": "simple-icons",
         "slug": "posthog"
+      },
+      "art": {
+        "from": "logos",
+        "icon": "posthog-icon"
       }
     },
     {
@@ -1314,6 +1360,10 @@
       "mono": {
         "from": "simple-icons",
         "slug": "reddit"
+      },
+      "art": {
+        "from": "underlay",
+        "shape": "circle"
       }
     },
     {
@@ -1376,11 +1426,11 @@
       ],
       "aliases": [],
       "hex": "#000000",
+      "scale": 0.863,
       "mono": {
         "from": "simple-icons",
         "slug": "shadcnui"
-      },
-      "scale": 0.863
+      }
     },
     {
       "name": "shopify",
@@ -1396,6 +1446,10 @@
       "mono": {
         "from": "simple-icons",
         "slug": "shopify"
+      },
+      "art": {
+        "from": "logos",
+        "icon": "shopify"
       }
     },
     {
@@ -1552,6 +1606,10 @@
       "mono": {
         "from": "simple-icons",
         "slug": "tauri"
+      },
+      "art": {
+        "from": "logos",
+        "icon": "tauri"
       }
     },
     {
@@ -1665,11 +1723,15 @@
       ],
       "aliases": [],
       "hex": "#3178C6",
+      "scale": 0.84,
       "mono": {
         "from": "simple-icons",
         "slug": "typescript"
       },
-      "scale": 0.84
+      "art": {
+        "from": "logos",
+        "icon": "typescript-icon"
+      }
     },
     {
       "name": "uptime-kuma",
@@ -1762,11 +1824,15 @@
       ],
       "aliases": [],
       "hex": "#4FC08D",
+      "scale": 0.925,
       "mono": {
         "from": "simple-icons",
         "slug": "vuedotjs"
       },
-      "scale": 0.895
+      "art": {
+        "from": "logos",
+        "icon": "vue"
+      }
     },
     {
       "name": "webflow",

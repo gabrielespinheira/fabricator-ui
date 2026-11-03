@@ -3,7 +3,12 @@ import os from "node:os"
 import path from "node:path"
 import { afterEach, describe, expect, it } from "vitest"
 
-import { checkDuotone, checkOriginals, checkSources } from "./check"
+import {
+  checkDuotone,
+  checkOriginals,
+  checkSources,
+  exposedDarkFills,
+} from "./check"
 
 const svg = (children: string) =>
   `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${children}</svg>`
@@ -86,5 +91,25 @@ describe("checkDuotone", () => {
       "duotone/square: the outline part must equal the outline icon",
       "duotone/square: <path> in the secondary layer must be a closed shape",
     ])
+  })
+})
+
+describe("exposedDarkFills", () => {
+  it("passes dark fills that touch a legible shape", () => {
+    expect(
+      exposedDarkFills([
+        [
+          "rect",
+          { x: "0", y: "0", width: "24", height: "24", fill: "#F7DF1E" },
+        ],
+        ["path", { d: "M6 6h8v8H6z", fill: "#000000" }],
+      ])
+    ).toEqual([])
+  })
+
+  it("reports dark fills with no legible shape near them", () => {
+    expect(
+      exposedDarkFills([["path", { d: "M6 6h8v8H6z", fill: "#000000" }]])
+    ).toEqual(["#000000"])
   })
 })

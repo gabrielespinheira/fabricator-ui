@@ -9,7 +9,12 @@ import { createRequire } from "node:module"
 import path from "node:path"
 import { parseArgs } from "node:util"
 
-import { parseBrandArt, toMonoPath } from "../src/brand-art"
+import {
+  buildUnderlayArt,
+  parseBrandArt,
+  toMonoPath,
+  type BrandArtOptions,
+} from "../src/brand-art"
 import { getOpticalScale, measureReach } from "../src/brand-scale"
 import type { BrandMetadata } from "../src/brands"
 import { readLock, writeLock } from "../src/lock"
@@ -80,20 +85,37 @@ function simpleIcon(slug: string) {
   return { data, d }
 }
 
-function logosIcon(icon: string) {
+function logosIcon(icon: string, options: BrandArtOptions = {}) {
   const data = logos.icons[icon]
   if (!data)
     throw new Error(`@iconify-json/logos ${logosVersion} has no ${icon}`)
   const width = data.width ?? logos.width ?? 256
   const height = data.height ?? logos.height ?? 256
-  return { width, height, node: parseBrandArt(data.body, width, height) }
+  return {
+    width,
+    height,
+    node: parseBrandArt(data.body, width, height, options),
+  }
 }
 
-function art(ref: SourceRef) {
+type MonoMark = { d: string; hex: string; source: string; license: string }
+
+function art(ref: SourceRef, mark?: MonoMark) {
   switch (ref.from) {
+    case "underlay": {
+      if (!mark) throw new Error("an underlay needs the one-colour mark")
+      return {
+        ...buildUnderlayArt(mark.d, mark.hex, ref.shape),
+        source: `${mark.source}, over a white ${ref.shape}`,
+        license: mark.license,
+      }
+    }
     case "logos":
       return {
-        ...logosIcon(ref.icon),
+        ...logosIcon(ref.icon, {
+          ...(ref.unfilled && { unfilled: ref.unfilled }),
+          ...(ref.recolor && { recolor: ref.recolor }),
+        }),
         source: `gilbarbara/logos via @iconify-json/logos ${logosVersion}`,
         license: "CC0-1.0",
       }
@@ -144,6 +166,8 @@ function mono(entry: AllowlistEntry) {
       throw new Error(
         'use { from: "art" } to make a one-colour mark from logos art'
       )
+    case "underlay":
+      throw new Error("an underlay is art, not a one-colour mark")
     case "sharpos": {
       const brand = sharpos.get(ref.slug)
       if (!brand) throw new Error(`SharpOS has no ${ref.slug}`)
@@ -188,9 +212,9 @@ for (const entry of allowlist.brands) {
     continue
   }
   const one = mono(entry)
-  const multi = entry.art && art(entry.art)
   const hex = entry.hex ?? one.hex
   if (!hex) throw new Error(`${entry.name}: no hex`)
+  const multi = entry.art && art(entry.art, { ...one, hex })
 
   if (values.measure && !sharpos.has(entry.aliases[0] ?? entry.name)) {
     const svg = multi

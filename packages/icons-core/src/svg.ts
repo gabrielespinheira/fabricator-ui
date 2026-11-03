@@ -11,6 +11,8 @@ export type ParsedSvg = {
   attributes: Record<string, string>
   node: IconElement[]
   groups: SvgGroup[]
+  /** Shapes and groups in document order, for art where paint order matters. */
+  ordered: (IconElement | SvgGroup)[]
 }
 
 export class SvgParseError extends Error {
@@ -40,21 +42,26 @@ export function parseSvg(source: string): ParsedSvg {
 
   const node: IconElement[] = []
   const groups: SvgGroup[] = []
+  const ordered: (IconElement | SvgGroup)[] = []
   for (const child of root.children) {
     if (child.type !== "element") continue
     if (child.name === "g") {
-      groups.push({
+      const group = {
         attributes: { ...child.attributes },
         node: child.children
           .filter((grandchild) => grandchild.type === "element")
           .map(toElement),
-      })
+      }
+      groups.push(group)
+      ordered.push(group)
       continue
     }
-    node.push(toElement(child))
+    const element = toElement(child)
+    node.push(element)
+    ordered.push(element)
   }
 
-  return { attributes: { ...root.attributes }, node, groups }
+  return { attributes: { ...root.attributes }, node, groups, ordered }
 }
 
 function renderAttributes(attributes: Record<string, string>) {
