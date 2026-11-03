@@ -1,0 +1,16 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "Kaladii",
+    "ericfennis",
+    "jguddas"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:battery",
+    "$group:exclamation-mark"
+  ],
+  "categories": [
+    "$extends:battery"
+  ]
+}

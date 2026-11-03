@@ -1,0 +1,19 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "colebemis",
+    "ericfennis",
+    "csandman",
+    "johnletey",
+    "jguddas",
+    "Footagesus"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:droplet",
+    "$group:off"
+  ],
+  "categories": [
+    "$extends:droplet"
+  ]
+}

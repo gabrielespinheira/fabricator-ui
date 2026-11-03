@@ -1,0 +1,28 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "danielbayley"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$group:letter",
+    "sum",
+    "calculate",
+    "formula",
+    "math",
+    "enumeration",
+    "enumerate"
+  ],
+  "categories": [
+    "letters-digits",
+    "text",
+    "math"
+  ],
+  "aliases": [
+    {
+      "name": "sigma-square",
+      "deprecationReason": "alias.name",
+      "deprecated": true
+    }
+  ]
+}

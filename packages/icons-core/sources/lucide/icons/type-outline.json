@@ -1,0 +1,20 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "karsa-mistmere",
+    "colebemis",
+    "ericfennis"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:type",
+    "silhouette",
+    "profile",
+    "contour",
+    "stroke",
+    "line"
+  ],
+  "categories": [
+    "$extends:type"
+  ]
+}

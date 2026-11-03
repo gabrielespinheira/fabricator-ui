@@ -1,0 +1,36 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "danielbayley"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$group:chart",
+    "trading",
+    "trader",
+    "financial",
+    "markets",
+    "portfolio",
+    "assets",
+    "prices",
+    "value",
+    "valuation",
+    "commodities",
+    "currencies",
+    "currency",
+    "stocks",
+    "exchange",
+    "hedge fund"
+  ],
+  "categories": [
+    "charts",
+    "finance"
+  ],
+  "aliases": [
+    {
+      "name": "candlestick-chart",
+      "deprecated": true,
+      "deprecationReason": "alias.name"
+    }
+  ]
+}

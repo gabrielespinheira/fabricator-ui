@@ -1,0 +1,20 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "maxwellito",
+    "karsa-mistmere",
+    "jguddas"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$group:minus",
+    "pencil",
+    "drawing",
+    "undo",
+    "trash"
+  ],
+  "categories": [
+    "text",
+    "design"
+  ]
+}

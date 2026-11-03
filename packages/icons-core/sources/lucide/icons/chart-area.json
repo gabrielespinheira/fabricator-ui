@@ -1,0 +1,20 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "nstokoe"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$group:chart"
+  ],
+  "categories": [
+    "charts"
+  ],
+  "aliases": [
+    {
+      "name": "area-chart",
+      "deprecated": true,
+      "deprecationReason": "alias.name"
+    }
+  ]
+}

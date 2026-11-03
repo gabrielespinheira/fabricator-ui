@@ -1,0 +1,20 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "danielbayley",
+    "ericfennis"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:panel-right",
+    "$group:direction-left",
+    "show",
+    "reveal",
+    "chevron",
+    "left",
+    "<"
+  ],
+  "categories": [
+    "$extends:panel-right"
+  ]
+}

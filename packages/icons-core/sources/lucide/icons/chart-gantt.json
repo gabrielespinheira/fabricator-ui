@@ -1,0 +1,31 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "karsa-mistmere",
+    "danielbayley",
+    "jguddas"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$group:chart",
+    "timeline",
+    "planning",
+    "projects",
+    "manage",
+    "overview",
+    "roadmap",
+    "plan",
+    "deadline",
+    "date",
+    "event",
+    "range",
+    "period",
+    "productivity",
+    "work",
+    "agile"
+  ],
+  "categories": [
+    "charts",
+    "time"
+  ]
+}

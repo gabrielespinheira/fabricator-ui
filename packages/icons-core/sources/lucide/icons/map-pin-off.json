@@ -1,0 +1,17 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "karsa-mistmere",
+    "ericfennis"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:map-pin",
+    "$group:off",
+    "remove"
+  ],
+  "categories": [
+    "navigation",
+    "travel"
+  ]
+}

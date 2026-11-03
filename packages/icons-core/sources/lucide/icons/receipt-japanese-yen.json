@@ -1,0 +1,19 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "it-is-not",
+    "ericfennis",
+    "karsa-mistmere"
+  ],
+  "deprecated": true,
+  "deprecationReason": "icon.use-case",
+  "use-cases": [],
+  "tags": [
+    "$extends:receipt",
+    "jpy",
+    "¥"
+  ],
+  "categories": [
+    "$extends:receipt"
+  ]
+}

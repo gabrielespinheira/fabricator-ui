@@ -1,0 +1,17 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "karsa-mistmere",
+    "colebemis",
+    "csandman",
+    "ericfennis"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:user-round",
+    "$group:pen"
+  ],
+  "categories": [
+    "$extends:user-round"
+  ]
+}

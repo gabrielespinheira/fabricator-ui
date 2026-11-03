@@ -1,0 +1,24 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "karsa-mistmere"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:user-round",
+    "$group:x",
+    "unfollow",
+    "unsubscribe",
+    "unavailable"
+  ],
+  "categories": [
+    "$extends:user-round"
+  ],
+  "aliases": [
+    {
+      "name": "user-x-2",
+      "deprecated": true,
+      "deprecationReason": "alias.name"
+    }
+  ]
+}

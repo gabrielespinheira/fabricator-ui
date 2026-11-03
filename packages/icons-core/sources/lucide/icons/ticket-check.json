@@ -1,0 +1,21 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "danielbayley"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:ticket",
+    "$group:check",
+    "booked",
+    "purchased",
+    "receipt",
+    "redeemed",
+    "certified",
+    "checked",
+    "used"
+  ],
+  "categories": [
+    "transportation"
+  ]
+}

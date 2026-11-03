@@ -1,0 +1,17 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "danielbayley",
+    "karsa-mistmere"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:message-square",
+    "$group:dot",
+    "unresolved"
+  ],
+  "categories": [
+    "$extends:message-square",
+    "notifications"
+  ]
+}

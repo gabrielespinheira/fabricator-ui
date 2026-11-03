@@ -1,0 +1,16 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "ericfennis",
+    "jguddas"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:laptop-minimal",
+    "$group:check"
+  ],
+  "categories": [
+    "$extends:laptop-minimal",
+    "notifications"
+  ]
+}

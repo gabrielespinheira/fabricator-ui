@@ -1,0 +1,21 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "danielbayley",
+    "jguddas",
+    "karsa-mistmere"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:message-circle",
+    "$group:heart",
+    "positive",
+    "interest",
+    "valentine",
+    "dating",
+    "date"
+  ],
+  "categories": [
+    "$extends:message-circle"
+  ]
+}

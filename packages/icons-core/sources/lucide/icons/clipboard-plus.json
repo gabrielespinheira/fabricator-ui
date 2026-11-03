@@ -1,0 +1,22 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "colebemis",
+    "csandman",
+    "ericfennis",
+    "karsa-mistmere"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:clipboard",
+    "$group:plus",
+    "document",
+    "medical",
+    "report",
+    "doctor"
+  ],
+  "categories": [
+    "$extends:clipboard",
+    "medical"
+  ]
+}

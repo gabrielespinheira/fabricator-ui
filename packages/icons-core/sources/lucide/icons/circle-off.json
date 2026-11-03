@@ -1,0 +1,26 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "danielbayley"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$group:off",
+    "diameter",
+    "zero",
+    "Ø",
+    "nothing",
+    "null",
+    "void",
+    "no",
+    "stop",
+    "error",
+    "incorrect",
+    "mistake",
+    "wrong",
+    "failure"
+  ],
+  "categories": [
+    "$extends:circle"
+  ]
+}

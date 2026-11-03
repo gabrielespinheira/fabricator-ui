@@ -1,0 +1,19 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "colebemis",
+    "ericfennis",
+    "jguddas"
+  ],
+  "use-cases": [],
+  "tags": [
+    "connection",
+    "signal",
+    "wireless",
+    "network"
+  ],
+  "categories": [
+    "connectivity",
+    "devices"
+  ]
+}

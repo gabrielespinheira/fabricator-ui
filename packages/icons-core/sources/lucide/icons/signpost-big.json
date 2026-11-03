@@ -1,0 +1,15 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "danielbayley"
+  ],
+  "use-cases": [
+    "$extends:signpost"
+  ],
+  "tags": [
+    "$extends:signpost"
+  ],
+  "categories": [
+    "$extends:signpost"
+  ]
+}

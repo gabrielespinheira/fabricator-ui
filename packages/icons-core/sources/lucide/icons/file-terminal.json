@@ -1,0 +1,19 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "karsa-mistmere",
+    "danielbayley"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:file",
+    "terminal",
+    "bash",
+    "script",
+    "executable"
+  ],
+  "categories": [
+    "$extends:file",
+    "development"
+  ]
+}
