@@ -15,10 +15,10 @@ Built, in `packages/icons-core`, `packages/icons`, `packages/icons-react-native`
 - Static strings are exported in PascalCase (`House`, `GithubColor`), as `lucide-static` does.
 - The React Native package ships outline icons, brands and `IconProvider`. It has no `dynamic` or `catalog` entry: use `@fabricator-ui/icons/catalog` for the data.
 - Duotone: loader, check, generator, renderers (CSS variables on the web, props on React Native) and the `/duotone` entries exist. No duotone icon is drawn yet; that is the Phase 5 pilot.
+- Website (added later the same day): the `/icons` page (search, set and category filters, size and stroke preview, a detail panel with JSX and SVG copy, SVG and PNG downloads, install command, provenance), five docs pages under `/docs/icons`, a changelog entry, `llms.txt` entries, nav and footer links, the sitemap, and icon rules in `skills/fabricator`. The catalog gained `outlineCategories`; `/brands` exports `getBrandViewBox`; `@fabricator-ui/icons-static/nodes` exports the shape data typed.
 
 Not built yet:
 
-- The `/icons` page, the docs pages, the `llms.txt` entries and the skill rules (Phase 2). They live in `apps/web`, which another session is changing, and this build was limited to new paths.
 - Registry integration (Phase 3, I10): it changes `build-registry.mts`, `next.config.mjs` and `/init`, for the same reason.
 - The Expo check on the iOS simulator. The React Native renderers are unit-tested with `react-native` and `react-native-svg` mocked at the boundary, and typecheck against the real packages.
 - Publishing: `scripts/publish.sh` still publishes only the CLI.

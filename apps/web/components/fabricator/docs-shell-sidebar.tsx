@@ -36,6 +36,7 @@ const GROUP_ORDER = [
   "Get Started",
   "Foundations",
   "Components",
+  "Icons",
   "Tooling",
   "Utilities",
 ]

@@ -23,6 +23,16 @@ The Fabricator design language rests on these systems, shipped in the `foundatio
 - [Sounds](https://fabricator-ui.vercel.app/docs/foundations/sounds.md): Short, quiet interface sounds synthesized in the browser, on by default.
 - [Typography](https://fabricator-ui.vercel.app/docs/foundations/typography.md): Inter at five sizes, with weights paired to optical size.
 
+## Icons
+
+Fabricator Icons: every Lucide icon (2,015, Lucide 1.66.0) under its Lucide name with the same shapes, plus 108 brand marks. Packages: `@fabricator-ui/icons` (React; brands at `@fabricator-ui/icons/brands`, names from data at `/dynamic`, search at `/catalog`), `@fabricator-ui/icons-react-native`, `@fabricator-ui/icons-static` (SVG files, sprites, JSON, strings, and a `fabricator-icons png` command for desktop tray icons). Browse them at https://fabricator-ui.vercel.app/icons.
+
+- [Icons](https://fabricator-ui.vercel.app/docs/icons.md): Every Lucide icon under its Lucide name, plus brand marks in one colour or their own, for React, React Native and plain SVG.
+- [React](https://fabricator-ui.vercel.app/docs/icons/react.md): Outline icons and brand marks as React components, with Lucide's props, for web apps and the Electron and Tauri renderers.
+- [React Native](https://fabricator-ui.vercel.app/docs/icons/react-native.md): The same icons and brand marks for React Native and Expo, drawn with react-native-svg, following light and dark mode.
+- [Static and desktop](https://fabricator-ui.vercel.app/docs/icons/static.md): SVG files, sprites, JSON and SVG strings for any framework, and PNG tray and menu icons for Electron and Tauri.
+- [Brands](https://fabricator-ui.vercel.app/docs/icons/brands.md): 108 brand marks in one colour or their own, never redrawn, with their sources, licences and guidelines.
+
 ## Installation
 
 - [Installation](https://fabricator-ui.vercel.app/docs/installation.md): How to install dependencies and structure your app.
@@ -70,6 +80,11 @@ The Fabricator design language rests on these systems, shipped in the `foundatio
 - [Breadcrumb](https://fabricator-ui.vercel.app/docs/components/base/breadcrumb.md): Displays the path to the current resource using a hierarchy of links.
 - [Navigation Menu](https://fabricator-ui.vercel.app/docs/components/base/navigation-menu.md): A collection of links for navigating websites.
 - [Sidebar](https://fabricator-ui.vercel.app/docs/components/base/sidebar.md): A composable, themeable and customizable sidebar component.
+- [App Shell](https://fabricator-ui.vercel.app/docs/components/base/app-shell.md): The frame an app lives in: sidebar, main column, panels that dock or float, shortcuts, and desktop window chrome.
+- [App Nav](https://fabricator-ui.vercel.app/docs/components/base/app-nav.md): Renders a navigation model into the Sidebar, with row actions, reordering, pinning and hiding.
+- [Tab Strip](https://fabricator-ui.vercel.app/docs/components/base/tab-strip.md): Document tabs, as in a browser or an editor: pin, preview, reorder, close, reopen and rename.
+- [Workspace Switcher](https://fabricator-ui.vercel.app/docs/components/base/workspace-switcher.md): Switches the organization or workspace: a menu for a few, a searchable dialog for many.
+- [User Menu](https://fabricator-ui.vercel.app/docs/components/base/user-menu.md): The signed-in person's menu, as a sidebar row or an avatar.
 - [Tabs](https://fabricator-ui.vercel.app/docs/components/base/tabs.md): A set of layered sections of content—known as tab panels—that are displayed one at a time.
 - [Separator](https://fabricator-ui.vercel.app/docs/components/base/separator.md): Visually or semantically separates content.
 - [Scroll Area](https://fabricator-ui.vercel.app/docs/components/base/scroll-area.md): Augments native scroll functionality for custom, cross-browser styling.

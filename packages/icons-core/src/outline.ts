@@ -3,7 +3,12 @@ import path from "node:path"
 import type { z } from "zod"
 
 import { LUCIDE_SOURCES, OUTLINE_SOURCES } from "./paths"
-import { brandStopwordsSchema, iconMetadataSchema, readJson } from "./schemas"
+import {
+  brandStopwordsSchema,
+  categorySchema,
+  iconMetadataSchema,
+  readJson,
+} from "./schemas"
 import { parseSvg } from "./svg"
 import type { IconOrigin, OutlineIcon } from "./types"
 import { validateOutlineSvg } from "./validate"
@@ -73,6 +78,17 @@ export function readCategories() {
     .filter((file) => file.endsWith(".json"))
     .map((file) => file.slice(0, -5))
     .sort()
+}
+
+/** Lucide's categories with their titles, sorted by name. */
+export function readCategoryTitles() {
+  return readCategories().map((name) => ({
+    name,
+    title: readJson(
+      path.join(LUCIDE_SOURCES, "categories", `${name}.json`),
+      categorySchema
+    ).title,
+  }))
 }
 
 export function readBrandStopwords() {

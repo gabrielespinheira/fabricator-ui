@@ -59,3 +59,21 @@ describe("catalog", () => {
     expect(github?.set === "brands" && github.license).toBe("CC0-1.0")
   })
 })
+
+describe("categories", () => {
+  it("lists every outline category with Lucide's title", async () => {
+    const { outlineCategories } = await import("./catalog")
+    expect(outlineCategories).toContainEqual({
+      name: "food-beverage",
+      title: "Food & beverage",
+    })
+    expect(outlineCategories.length).toBeGreaterThan(40)
+  })
+})
+
+describe("getBrandViewBox", () => {
+  it("is exported for custom renderers", async () => {
+    const { getBrandViewBox } = await import("./brands")
+    expect(getBrandViewBox(24, 24, 0.8)).toBe("-3 -3 30 30")
+  })
+})

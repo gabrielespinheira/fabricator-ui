@@ -99,3 +99,54 @@ function StatusBadge({ icon: Icon }: { icon: React.ComponentType }) {
 
 <StatusBadge icon={CheckIcon} />
 ```
+
+---
+
+## Brand logos come from `@fabricator-ui/icons/brands`
+
+Lucide has no brand icons. Don't hand-write a logo `<svg>`, draw one with outline icons, or import brand icons from `lucide-react`. Install `@fabricator-ui/icons` and import the mark; `color="brand"` gives the brand's own colours.
+
+**Incorrect:**
+
+```tsx
+<Button variant="outline">
+  <svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373…" /></svg>
+  Continue with GitHub
+</Button>
+```
+
+**Correct:**
+
+```tsx
+import { GithubIcon } from "@fabricator-ui/icons/brands"
+
+<Button variant="outline">
+  <GithubIcon data-icon="inline-start" />
+  Continue with GitHub
+</Button>
+```
+
+Slack, Microsoft, AWS, Visual Studio Code and OpenAI aren't in the set: their owners' terms forbid redistributing the logos. Point the user to the brand's own kit instead of drawing one.
+
+---
+
+## Icon names stored in data use `DynamicIcon`
+
+When the icon comes from data (a CMS, a database, a user's choice), render it by name with `DynamicIcon` instead of building a lookup map. It loads each icon on demand and renders `fallback` for unknown names.
+
+**Correct:**
+
+```tsx
+import { DynamicIcon } from "@fabricator-ui/icons/dynamic"
+
+<DynamicIcon name={project.icon} fallback={<FolderIcon />} />
+<DynamicIcon set="brands" name={integration.slug} />
+```
+
+For an icon picker, `searchIcons` from `@fabricator-ui/icons/catalog` searches names, aliases, tags and brand titles.
+
+---
+
+## `@fabricator-ui/icons` is a drop-in for `lucide-react`
+
+The outline icons are Lucide's, under Lucide's names and aliases, with Lucide's props. In a project that uses `@fabricator-ui/icons`, import outline icons from it rather than adding `lucide-react` next to it. Registry components keep importing from `config.iconLibrary`; both render the same glyphs.

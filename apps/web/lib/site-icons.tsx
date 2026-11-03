@@ -109,6 +109,7 @@ import {
   Link2Icon as LucideLink2Icon,
   ListFilterIcon as LucideListFilterIcon,
   ListIcon as LucideListIcon,
+  ListTodoIcon as LucideListTodoIcon,
   Loader2Icon as LucideLoader2Icon,
   LoaderIcon as LucideLoaderIcon,
   LogOut as LucideLogOut,
@@ -128,6 +129,7 @@ import {
   MoonIcon as LucideMoonIcon,
   MoreHorizontal as LucideMoreHorizontal,
   MoreHorizontalIcon as LucideMoreHorizontalIcon,
+  NewspaperIcon as LucideNewspaperIcon,
   OctagonXIcon as LucideOctagonXIcon,
   PaletteIcon as LucidePaletteIcon,
   PanelLeftCloseIcon as LucidePanelLeftCloseIcon,
@@ -145,6 +147,7 @@ import {
   RectangleVerticalIcon as LucideRectangleVerticalIcon,
   RefreshCcwIcon as LucideRefreshCcwIcon,
   RefreshCwIcon as LucideRefreshCwIcon,
+  RocketIcon as LucideRocketIcon,
   RotateCcwIcon as LucideRotateCcwIcon,
   RotateCwIcon as LucideRotateCwIcon,
   SaveIcon as LucideSaveIcon,
@@ -159,6 +162,7 @@ import {
   ShieldAlertIcon as LucideShieldAlertIcon,
   ShieldIcon as LucideShieldIcon,
   SlidersHorizontalIcon as LucideSlidersHorizontalIcon,
+  SmartphoneIcon as LucideSmartphoneIcon,
   Smile as LucideSmile,
   SmileIcon as LucideSmileIcon,
   Sparkles as LucideSparkles,
@@ -168,6 +172,7 @@ import {
   SquareTerminal as LucideSquareTerminal,
   SquareTerminalIcon as LucideSquareTerminalIcon,
   StarIcon as LucideStarIcon,
+  StickyNoteIcon as LucideStickyNoteIcon,
   SunIcon as LucideSunIcon,
   TableIcon as LucideTableIcon,
   TagIcon as LucideTagIcon,
@@ -809,6 +814,7 @@ export const ListIcon = createSiteIcon(LucideListIcon, {
   phosphor: "ListIcon",
   remixicon: "RiListUnordered",
 })
+export const ListTodoIcon = createSiteIcon(LucideListTodoIcon, {})
 export const Loader2Icon = createSiteIcon(LucideLoader2Icon, {
   tabler: "IconLoader",
   hugeicons: "Loading03Icon",
@@ -926,6 +932,7 @@ export const MoreHorizontalIcon = createSiteIcon(LucideMoreHorizontalIcon, {
   phosphor: "DotsThreeOutlineIcon",
   remixicon: "RiMoreLine",
 })
+export const NewspaperIcon = createSiteIcon(LucideNewspaperIcon, {})
 export const OctagonXIcon = createSiteIcon(LucideOctagonXIcon, {
   tabler: "IconAlertOctagon",
   hugeicons: "MultiplicationSignCircleIcon",
@@ -1019,6 +1026,7 @@ export const RefreshCwIcon = createSiteIcon(LucideRefreshCwIcon, {
   phosphor: "ArrowsClockwiseIcon",
   remixicon: "RiRefreshLine",
 })
+export const RocketIcon = createSiteIcon(LucideRocketIcon, {})
 export const RotateCcwIcon = createSiteIcon(LucideRotateCcwIcon, {
   tabler: "IconRotate",
   hugeicons: "RotateLeft01Icon",
@@ -1101,6 +1109,7 @@ export const SlidersHorizontalIcon = createSiteIcon(
   LucideSlidersHorizontalIcon,
   {}
 )
+export const SmartphoneIcon = createSiteIcon(LucideSmartphoneIcon, {})
 export const Smile = createSiteIcon(LucideSmile, {
   tabler: "IconMoodSmile",
   hugeicons: "SmileIcon",
@@ -1150,6 +1159,7 @@ export const StarIcon = createSiteIcon(LucideStarIcon, {
   phosphor: "StarIcon",
   remixicon: "RiStarLine",
 })
+export const StickyNoteIcon = createSiteIcon(LucideStickyNoteIcon, {})
 export const SunIcon = createSiteIcon(LucideSunIcon, {
   tabler: "IconSun",
   hugeicons: "Sun03Icon",

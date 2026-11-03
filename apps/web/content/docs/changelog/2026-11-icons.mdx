@@ -1,0 +1,30 @@
+---
+title: November 2026 - Icons
+description: Fabricator Icons. Every Lucide icon under its Lucide name, 108 brand marks in one colour or their own, for React, React Native, plain SVG and desktop trays.
+date: 2026-11-03
+---
+
+## Fabricator Icons
+
+Fabricator UI now has its own icon packages. The outline set is all 2,015 Lucide icons, with Lucide's names, aliases and shapes, so code written for `lucide-react` moves over by changing the import:
+
+```tsx
+import { HouseIcon } from "@fabricator-ui/icons"
+import { GithubIcon } from "@fabricator-ui/icons/brands"
+```
+
+```bash
+npm install @fabricator-ui/icons
+```
+
+The icons render in Server Components, and one icon costs about 1 KB, minified and gzipped.
+
+108 brand marks come with them, from Instagram and LinkedIn to Node.js and Tauri. They draw in one colour by default; `color="brand"` uses each brand's own colours, multi-colour art included, and lifts colours that would vanish in dark mode. The marks are never redrawn. Five brands whose terms forbid redistribution are left out; [Brands](/docs/icons/brands) lists them and why.
+
+The same icons ship for React Native and Expo in `@fabricator-ui/icons-react-native`, where they follow the device's light and dark mode with no setup, and as SVG files, sprites, JSON and strings in `@fabricator-ui/icons-static`. That package also renders PNG tray and menu icons for Electron and Tauri, macOS template images included:
+
+```bash
+npx fabricator-icons png bell --size 16 --scale 1,2 --template
+```
+
+Search and copy every icon, as JSX, SVG or PNG, on the new [Icons](/icons) page, and read the [docs](/docs/icons).

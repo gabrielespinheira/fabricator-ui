@@ -44,6 +44,7 @@ html:root {
   --density-20: 1.25rem;
   --density-24: 1.5rem;
   --density-28: 1.75rem;
+  --density-30: 1.875rem;
   --density-32: 2rem;
   --density-36: 2.25rem;
   --density-40: 2.5rem;
@@ -763,6 +764,7 @@ html.dark {
   --density-20: 1rem;
   --density-24: 1.25rem;
   --density-28: 1.5rem;
+  --density-30: 1.625rem;
   --density-32: 1.75rem;
   --density-36: 1.75rem;
   --density-40: 2rem;
@@ -786,6 +788,7 @@ html.dark {
   --density-20: 1.25rem;
   --density-24: 1.5rem;
   --density-28: 1.75rem;
+  --density-30: 1.875rem;
   --density-32: 2rem;
   --density-36: 2.25rem;
   --density-40: 2.5rem;
@@ -809,6 +812,7 @@ html.dark {
   --density-20: 1.5rem;
   --density-24: 1.75rem;
   --density-28: 2.25rem;
+  --density-30: 2.375rem;
   --density-32: 2.5rem;
   --density-36: 2.75rem;
   --density-40: 3rem;
@@ -832,6 +836,7 @@ html.dark {
   --density-20: 1rem;
   --density-24: 1.25rem;
   --density-28: 1.5rem;
+  --density-30: 1.625rem;
   --density-32: 1.75rem;
   --density-36: 1.75rem;
   --density-40: 2rem;
@@ -855,6 +860,7 @@ html.dark {
   --density-20: 1.25rem;
   --density-24: 1.5rem;
   --density-28: 1.75rem;
+  --density-30: 1.875rem;
   --density-32: 2rem;
   --density-36: 2.25rem;
   --density-40: 2.5rem;
@@ -878,6 +884,7 @@ html.dark {
   --density-20: 1.5rem;
   --density-24: 1.75rem;
   --density-28: 2.25rem;
+  --density-30: 2.375rem;
   --density-32: 2.5rem;
   --density-36: 2.75rem;
   --density-40: 3rem;

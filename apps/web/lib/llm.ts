@@ -72,10 +72,10 @@ export function replaceComponentsList(content: string) {
     .replace(/<ComponentsList\s*\/>/g, getComponentsList("all"))
 }
 
-// Live demos on the Foundations pages have no Markdown form; the prose and
-// tables around them carry the content.
+// Live demos on the Foundations and Icons pages have no Markdown form; the
+// prose and tables around them carry the content.
 const FOUNDATIONS_DEMO =
-  /^<(?:Density|FluidHover|Motion|Scrollbars|Shape|Surface|Typography)\w*\s*\/>\n+/gm
+  /^<(?:Density|FluidHover|Icons|Motion|Scrollbars|Shape|Surface|Typography)\w*\s*\/>\n+/gm
 
 export function processMdxForLLMs(content: string, style: Style["name"]) {
   content = replaceComponentsList(content).replace(FOUNDATIONS_DEMO, "")

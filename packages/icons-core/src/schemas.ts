@@ -38,6 +38,8 @@ export const iconsLockSchema = z.object({
   logos: z.object({ version: z.string() }).optional(),
 })
 
+export const categorySchema = z.object({ title: z.string() })
+
 export const brandStopwordsSchema = z.record(z.string(), z.string())
 
 const sourceRefSchema = z.discriminatedUnion("from", [

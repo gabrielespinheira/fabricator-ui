@@ -70,3 +70,11 @@ describe("static brand outputs", () => {
     expect(GithubColor).toContain("<svg")
   })
 })
+
+describe("typed shape data", () => {
+  it("exports every outline icon and brand mark", async () => {
+    const { brandNodes, outlineNodes } = await import("./nodes")
+    expect(outlineNodes.house?.length).toBeGreaterThan(0)
+    expect(brandNodes.google?.art?.width).toBe(256)
+  })
+})

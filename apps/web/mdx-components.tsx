@@ -13,6 +13,7 @@ import { ComponentSource } from "@/components/component-source"
 import { ComponentsList } from "@/components/components-list"
 import { CopyButton } from "@/components/copy-button"
 import { foundationsMdxComponents } from "@/components/foundations"
+import { iconsMdxComponents } from "@/components/icon-demos"
 import { getIconForLanguageExtension } from "@/components/icons"
 import {
   Accordion,
@@ -361,4 +362,5 @@ export const mdxComponents = {
   ),
   Kbd,
   ...foundationsMdxComponents,
+  ...iconsMdxComponents,
 }

@@ -1,0 +1,75 @@
+---
+title: Static and desktop
+description: SVG files, sprites, JSON and SVG strings for any framework, and PNG tray and menu icons for Electron and Tauri.
+---
+
+## Installation
+
+```bash
+npm install @fabricator-ui/icons-static
+```
+
+## What's inside
+
+| Path                                  | Content                                           |
+| ------------------------------------- | ------------------------------------------------- |
+| `icons/<name>.svg`                    | Outline icons, byte for byte as Lucide ships them |
+| `brands/<name>.svg`                   | Brand marks in one colour (`currentColor`)        |
+| `brands/color/<name>.svg`             | Brand marks in their own colours                  |
+| `sprite.svg`, `brands-sprite.svg`     | Every icon or mark as a `<symbol>`                |
+| `icon-nodes.json`, `brand-nodes.json` | Shapes per icon; brand art, colours and scale     |
+| `tags.json`                           | Search tags per outline icon                      |
+| `@fabricator-ui/icons-static/nodes`   | The same shape data as typed modules              |
+
+## SVG strings
+
+For server templates, Vue, Svelte, web components or plain HTML:
+
+```ts
+import { House } from "@fabricator-ui/icons-static"
+import { Github, GithubColor } from "@fabricator-ui/icons-static/brands"
+
+element.innerHTML = House
+```
+
+Names are PascalCase, with Lucide's aliases.
+
+## Sprite
+
+Serve `sprite.svg` and reference each icon by name. The stroke attributes live on each symbol:
+
+```html
+<svg width="24" height="24" aria-hidden="true">
+  <use href="/sprite.svg#house" />
+</svg>
+```
+
+## Desktop apps
+
+Electron and Tauri render their interface in a webview, so use [`@fabricator-ui/icons`](/docs/icons/react) there. Trays, menus and notifications need raster images instead. The `fabricator-icons` command renders them from the same data:
+
+```bash
+npm install --save-dev @resvg/resvg-js
+npx fabricator-icons png house bell --size 16 --scale 1,2 --template --out src-tauri/icons/tray
+```
+
+| Option                    | Default   | Description                                                              |
+| ------------------------- | --------- | ------------------------------------------------------------------------ |
+| `--set <outline\|brands>` | `outline` | Which set the names come from. Aliases work.                             |
+| `--size <points>`         | `16`      | Width and height at 1x.                                                  |
+| `--scale <list>`          | `1,2`     | Pixel densities: `house.png`, `house@2x.png`.                            |
+| `--color <colour>`        | `#000000` | Any CSS colour; `brand` for brand colours.                               |
+| `--stroke <width>`        | `2`       | Stroke width of outline icons.                                           |
+| `--template`              |           | macOS template images: black on transparent, named `<name>Template.png`. |
+| `--out <directory>`       | `.`       | Where to write the files.                                                |
+
+Electron's `Tray` treats files named `…Template.png` as macOS template images, which follow the menu bar's colour. In Tauri, pass the PNG to the tray with `iconAsTemplate: true`, and enable the `image-png` Cargo feature to load it.
+
+In Electron's main process:
+
+```ts
+import path from "node:path"
+import { Tray } from "electron"
+
+const tray = new Tray(path.join(__dirname, "icons/bellTemplate.png"))
+```

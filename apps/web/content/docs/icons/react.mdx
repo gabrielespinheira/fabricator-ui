@@ -1,0 +1,143 @@
+---
+title: React
+description: Outline icons and brand marks as React components, with Lucide's props, for web apps and the Electron and Tauri renderers.
+---
+
+## Installation
+
+```bash
+npm install @fabricator-ui/icons
+```
+
+React 19 or later. Icons are plain components without context or `"use client"`, so they render in Server Components.
+
+## Usage
+
+```tsx
+import { HouseIcon } from "@fabricator-ui/icons"
+
+export function Home() {
+  return (
+    <HouseIcon size={20} strokeWidth={1.5} className="text-muted-foreground" />
+  )
+}
+```
+
+Each icon is exported twice, as `HouseIcon` and `House`, and under Lucide's aliases (`HomeIcon`). One icon module is about 1 KB minified and gzipped, the shared renderer included.
+
+Electron and Tauri apps render React in a webview, so this package covers their interface. For tray and menu icons, which need PNG files, see [Static and desktop](/docs/icons/static#desktop-apps).
+
+## API reference
+
+### Outline icons
+
+| Prop                  | Type               | Default        | Description                                               |
+| --------------------- | ------------------ | -------------- | --------------------------------------------------------- |
+| `size`                | `number \| string` | `24`           | Width and height.                                         |
+| `color`               | `string`           | `currentColor` | Stroke colour.                                            |
+| `strokeWidth`         | `number \| string` | `2`            | Stroke width, in the 24 × 24 grid.                        |
+| `absoluteStrokeWidth` | `boolean`          | `false`        | Keeps the stroke's pixel width at any size.               |
+| `nonScalingStroke`    | `boolean`          | `false`        | Adds `vector-effect="non-scaling-stroke"` to every shape. |
+| `className`           | `string`           |                | Merged after `fab-icon fab-icon-<name>`.                  |
+| `secondaryColor`      | `string`           | icon colour    | Duotone only: the secondary layer's colour.               |
+| `secondaryOpacity`    | `number \| string` | `0.2`          | Duotone only: the secondary layer's opacity.              |
+
+Any other SVG attribute passes through, and children render after the shapes.
+
+### Brand marks
+
+`GithubIcon` below follows the text colour; `GoogleIcon` uses Google's own colours:
+
+```tsx
+import { GithubIcon, GoogleIcon } from "@fabricator-ui/icons/brands"
+
+<GithubIcon />
+<GoogleIcon color="brand" />
+```
+
+| Prop        | Type                | Default        | Description                                                                                                                                       |
+| ----------- | ------------------- | -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `size`      | `number \| string`  | `24`           | Width and height.                                                                                                                                 |
+| `color`     | `"brand" \| string` | `currentColor` | Any CSS colour. `"brand"` uses the mark's multi-colour art where it has some, else its official colour, lifted in dark mode when it would vanish. |
+| `className` | `string`            |                | Merged after `fab-icon fab-brand-<name>`.                                                                                                         |
+
+Brand marks ignore `strokeWidth`, `absoluteStrokeWidth` and `nonScalingStroke`, so a list of mixed icons can share props. Two brand names repeat outline names, `apple` and `x`; import one under another name when a file needs both:
+
+```tsx
+import { XIcon } from "@fabricator-ui/icons"
+import { XIcon as XBrandIcon } from "@fabricator-ui/icons/brands"
+```
+
+`color="brand"` switches between light and dark with CSS `light-dark()`, which follows `color-scheme`. next-themes sets `color-scheme` for you. If your app only toggles a `.dark` class, add:
+
+```css
+.dark {
+  color-scheme: dark;
+}
+```
+
+Browsers without `light-dark()` keep the light colour.
+
+### Icons named in data
+
+```tsx
+import { DynamicIcon } from "@fabricator-ui/icons/dynamic"
+
+<DynamicIcon name={page.icon} fallback={<FileIcon />} />
+<DynamicIcon set="brands" name="instagram" />
+```
+
+`DynamicIcon` loads each icon on demand, by name or alias, and renders `fallback` while it loads and for names the set doesn't have. It takes the props of the icon it renders. `loadIcon(name, set)` preloads one. It's a Client Component.
+
+### Search and metadata
+
+```tsx
+import { searchIcons } from "@fabricator-ui/icons/catalog"
+
+const results = searchIcons("twitter", { set: "brands" })
+```
+
+`results` holds the X mark's entry: its former name is one of its tags.
+
+`@fabricator-ui/icons/catalog` lists every icon with its aliases, tags and categories (`outlineCatalog`, `outlineCategories`), and every brand with its title, group, colour, source and licence (`brandCatalog`). `searchIcons` matches names, aliases, tags, brand titles and categories, ignoring case and punctuation. The catalog covers every icon, so import it where you need it, such as an icon picker, rather than on every page.
+
+### Custom icons
+
+```tsx
+import { createIcon, Icon } from "@fabricator-ui/icons"
+
+const Burger = createIcon({
+  name: "burger",
+  node: [["path", { d: "M4 12h16" }]],
+})
+
+<Icon data={{ name: "burger", node: [["path", { d: "M4 12h16" }]] }} />
+```
+
+`createIcon` and `Icon` take the same data the package's own icons are built from, and `createBrandIcon` and `BrandIcon` do the same for brand marks.
+
+## Duotone
+
+Duotone icons add a translucent layer under the outline. They share their outline icon's name and live in their own entry, so switching is an import change:
+
+```tsx
+import { HouseIcon } from "@fabricator-ui/icons/duotone"
+```
+
+The secondary layer takes the icon colour at 20% opacity. Theme it with `secondaryColor` and `secondaryOpacity`, or with CSS for a whole subtree:
+
+```css
+.toolbar {
+  --icon-secondary-color: var(--primary);
+  --icon-secondary-opacity: 0.16;
+}
+```
+
+The first duotone icons are still being drawn; until then the entry is empty.
+
+## Accessibility
+
+- Icons are `aria-hidden` by default, because most sit beside text that already says what they mean.
+- Give an icon `aria-label`, `aria-labelledby`, `title` or a `<title>` child and it stays visible to assistive technology.
+- On an icon-only button, label the button rather than the icon: `<Button aria-label="Settings"><SettingsIcon /></Button>`.
+- With `color="brand"`, a colour below 3:1 against the dark surface is lifted to 4.5:1 in dark mode, and black marks follow the text colour.

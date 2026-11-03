@@ -49,6 +49,16 @@
         "default": "./dist/cjs/brands.js"
       }
     },
+    "./nodes": {
+      "import": {
+        "types": "./dist/esm/nodes.d.ts",
+        "default": "./dist/esm/nodes.js"
+      },
+      "require": {
+        "types": "./dist/cjs/nodes.d.ts",
+        "default": "./dist/cjs/nodes.js"
+      }
+    },
     "./icons/*.svg": "./icons/*.svg",
     "./brands/*.svg": "./brands/*.svg",
     "./sprite.svg": "./sprite.svg",

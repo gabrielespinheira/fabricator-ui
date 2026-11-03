@@ -1,4 +1,8 @@
-import { brandCatalog, outlineCatalog } from "./generated/catalog-data.js"
+import {
+  brandCatalog,
+  outlineCatalog,
+  outlineCategories,
+} from "./generated/catalog-data.js"
 import { searchCatalog } from "./generated/runtime/search.js"
 import type { CatalogEntry, IconSet } from "./generated/runtime/types.js"
 
@@ -18,10 +22,11 @@ export function getIconEntry(name: string, set: IconSet = "outline") {
   )
 }
 
-export { brandCatalog, outlineCatalog }
+export { brandCatalog, outlineCatalog, outlineCategories }
 export type {
   BrandCatalogEntry,
   CatalogEntry,
+  IconCategory,
   IconSet,
   OutlineCatalogEntry,
 } from "./generated/runtime/types.js"

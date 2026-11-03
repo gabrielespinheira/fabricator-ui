@@ -1,7 +1,7 @@
 import { loadBrands } from "./brands"
 import { loadDuotoneIcons } from "./duotone"
 import { getExportNames } from "./names"
-import { loadOutlineIcons } from "./outline"
+import { loadOutlineIcons, readCategoryTitles } from "./outline"
 import {
   readRuntimeFiles,
   toCamelCaseAttributes,
@@ -141,7 +141,9 @@ function catalogData(icons: OutlineIcon[], brands: BrandIcon[]) {
     ...(mark.guidelines && { guidelines: mark.guidelines }),
     ...(mark.artSource && { artSource: mark.artSource }),
   }))
-  return withGeneratedHeader(`import type { BrandCatalogEntry, OutlineCatalogEntry } from "./runtime/types.js"
+  return withGeneratedHeader(`import type { BrandCatalogEntry, IconCategory, OutlineCatalogEntry } from "./runtime/types.js"
+
+export const outlineCategories: IconCategory[] = ${JSON.stringify(readCategoryTitles())}
 
 export const outlineCatalog: OutlineCatalogEntry[] = ${JSON.stringify(outline)}
 

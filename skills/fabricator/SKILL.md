@@ -77,6 +77,8 @@ Each group links to a file with Incorrect/Correct pairs. Read the file before wr
 
 - **Icons in buttons take `data-icon="inline-start"` or `"inline-end"`.** Components size their icons, so icons carry no `size-*`/`w-*`/`h-*` classes.
 - **Pass icons as components** (`icon={CheckIcon}`), not string keys.
+- **Brand logos come from `@fabricator-ui/icons/brands`** (`<GithubIcon />`, `color="brand"` for brand colours). Never hand-draw a logo.
+- **Icon names stored in data render with `DynamicIcon`** from `@fabricator-ui/icons/dynamic`.
 
 ### Chat → [chat.md](./rules/chat.md)
 

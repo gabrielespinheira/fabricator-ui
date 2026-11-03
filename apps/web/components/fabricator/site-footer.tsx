@@ -6,6 +6,7 @@ import { Icons } from "@/components/icons"
 
 const LINKS = [
   { href: "/docs", label: "Docs" },
+  { href: "/icons", label: "Icons" },
   { href: "/docs/changelog", label: "Changelog" },
   { href: "/llms.txt", label: "llms.txt" },
 ]

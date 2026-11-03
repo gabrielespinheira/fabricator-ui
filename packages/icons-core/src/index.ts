@@ -22,6 +22,7 @@ export {
   loadOutlineIcons,
   readBrandStopwords,
   readCategories,
+  readCategoryTitles,
   IconSourceError,
 } from "./outline"
 export {

@@ -1,0 +1,73 @@
+---
+title: Icons
+description: Every Lucide icon under its Lucide name, plus brand marks in one colour or their own, for React, React Native and plain SVG.
+---
+
+<IconsShowcase />
+
+Fabricator Icons is the icon set of Fabricator UI:
+
+- **Outline icons.** All 2,015 [Lucide](https://lucide.dev) icons, from Lucide 1.66.0, with Lucide's names and the same shapes. Code written for `lucide-react` moves over by changing the import path.
+- **Brand marks.** 108 logos, from social networks to developer tools, drawn as their owners publish them. They render in one colour, or in the brand's own colours with `color="brand"`. See [Brands](/docs/icons/brands).
+- **Duotone.** A translucent second layer for outline icons. The packages render it today; the first duotone icons are still being drawn.
+
+Search, preview and copy every icon on the [Icons](/icons) page.
+
+## Packages
+
+| Package                                                         | For                                                                                    |
+| --------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| [`@fabricator-ui/icons`](/docs/icons/react)                     | React: web apps, and the renderers of Electron and Tauri apps                          |
+| [`@fabricator-ui/icons-react-native`](/docs/icons/react-native) | React Native and Expo                                                                  |
+| [`@fabricator-ui/icons-static`](/docs/icons/static)             | SVG files, sprites, JSON and SVG strings for any framework, and PNGs for desktop trays |
+
+All three are built from the same sources, so an icon looks the same on every platform.
+
+## Quick start
+
+```bash
+npm install @fabricator-ui/icons
+```
+
+```tsx
+import { BellIcon, HouseIcon } from "@fabricator-ui/icons"
+import { GithubIcon } from "@fabricator-ui/icons/brands"
+
+export function Toolbar() {
+  return (
+    <nav className="flex items-center gap-3">
+      <HouseIcon className="size-4" />
+      <BellIcon className="size-4" />
+      <GithubIcon className="size-4" />
+    </nav>
+  )
+}
+```
+
+## Moving from lucide-react
+
+Every icon keeps its Lucide name, its `Icon`-suffixed form and Lucide's aliases, and takes Lucide's props, so moving is an import change. Replace `lucide-react` with `@fabricator-ui/icons`:
+
+```tsx
+import { HouseIcon, Settings } from "@fabricator-ui/icons"
+```
+
+Three things differ:
+
+- There is no `LucideProvider`. Set sizes and strokes with props or CSS; without a context, icons stay server components.
+- The `Lucide`-prefixed names (`LucideHouse`) aren't exported.
+- Icons carry the classes `fab-icon fab-icon-<name>` instead of `lucide lucide-<name>`.
+
+## Icons in Fabricator UI components
+
+Components from the registry draw their icons with the icon library in your `components.json` (`iconLibrary`), Lucide by default. The outline set is Lucide's, so those icons and `@fabricator-ui/icons` look identical side by side. Fabricator components draw icons at 14, 16 or 18px, following the [density](/docs/foundations/density), with a 1.5 stroke that turns 2 on hover.
+
+## How the icons are drawn
+
+The outline icons follow Lucide's [design rules](https://lucide.dev/contribute/icons/specification): a 24 × 24 canvas, 2px strokes with round caps and joins, at least 1px from the edge, and at least 2px between shapes. Icons Fabricator adds are drawn to the same rules, reviewed at 14 to 24px and stroke 1.5 and 2, and checked by a script before they ship. Generic icons go to Lucide first.
+
+Brand marks keep their owners' shapes. The only change is a uniform scale, so a mark that reaches the corners of its box doesn't look larger than its neighbours.
+
+## Licence
+
+The code is MIT. The outline icons are Lucide's, under the ISC licence. Brand marks are trademarks of their owners, covered by neither: read [Brands](/docs/icons/brands) before you use one.

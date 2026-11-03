@@ -68,6 +68,12 @@ export type BrandCatalogEntry = {
   artSource?: string
 }
 
+/** An outline category, with Lucide's title for it. */
+export type IconCategory = {
+  name: string
+  title: string
+}
+
 export type CatalogEntry = OutlineCatalogEntry | BrandCatalogEntry
 
 export type IconSet = CatalogEntry["set"]
