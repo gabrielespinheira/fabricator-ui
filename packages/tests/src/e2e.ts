@@ -28,7 +28,14 @@ const COMPONENTS = [
 ]
 
 // Fabricator-only components (no upstream item of the same name).
-const FABRICATOR_ONLY_COMPONENTS = ["search"]
+const FABRICATOR_ONLY_COMPONENTS = [
+  "search",
+  "app-shell",
+  "app-nav",
+  "tab-strip",
+  "workspace-switcher",
+  "user-menu",
+]
 
 const args = process.argv.slice(2)
 const only = getArg("--only")?.split(",")
@@ -206,6 +213,12 @@ const scenarios: Scenario[] = [
         fs.existsSync(path.join(appDir, "src/lib/fluid-hover.tsx")),
         "lib/fluid-hover.tsx was not installed"
       )
+      for (const lib of ["app-shell-model.ts", "sortable.tsx"]) {
+        assert(
+          fs.existsSync(path.join(appDir, "src/lib", lib)),
+          `lib/${lib} was not installed`
+        )
+      }
       writeViteApp(appDir, base)
       run("bun", ["run", "build"], appDir)
     },

@@ -58,6 +58,11 @@ const GROUP_BY_SLUG: Record<string, ComponentGroup> = {
   command: "Overlays & Menus",
   // Navigation & Layout
   sidebar: "Navigation & Layout",
+  "app-shell": "Navigation & Layout",
+  "app-nav": "Navigation & Layout",
+  "tab-strip": "Navigation & Layout",
+  "workspace-switcher": "Navigation & Layout",
+  "user-menu": "Navigation & Layout",
   "navigation-menu": "Navigation & Layout",
   tabs: "Navigation & Layout",
   breadcrumb: "Navigation & Layout",

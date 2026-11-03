@@ -193,6 +193,7 @@ function SidebarProvider({
   peek = "none",
   width: widthProp,
   widthMobile = SIDEBAR_WIDTH_MOBILE,
+  onWidthChange,
   className,
   style,
   children,
@@ -218,6 +219,8 @@ function SidebarProvider({
   width?: string
   /** Width of the mobile drawer. Default 18rem. */
   widthMobile?: string
+  /** Called once when a SidebarRail resize ends, with the new width. */
+  onWidthChange?: (width: string) => void
 }) {
   const isMobile = useIsMobile()
   const [openMobile, setOpenMobile] = React.useState(false)
@@ -252,6 +255,17 @@ function SidebarProvider({
     setWidth(startWidth)
   }
   const [isResizing, setIsResizing] = React.useState(false)
+
+  // Report the width once a rail drag ends, not on every frame of it.
+  const onWidthChangeRef = React.useRef(onWidthChange)
+  const wasResizing = React.useRef(false)
+  React.useLayoutEffect(() => {
+    onWidthChangeRef.current = onWidthChange
+  })
+  React.useEffect(() => {
+    if (wasResizing.current && !isResizing) onWidthChangeRef.current?.(width)
+    wasResizing.current = isResizing
+  }, [isResizing, width])
 
   // This is the internal state of the sidebar.
   // We use openProp and setOpenProp for control from outside the component.
@@ -667,9 +681,9 @@ function SidebarDesktop({
   )
 }
 
-// The panel glyph from SharpOS: a rounded frame with the sidebar cut out of
-// it. The cut-out widens when the sidebar is open; the path morphs on the
-// moderate tier where CSS `d` transitions are supported, and swaps elsewhere.
+// The panel glyph: a filled frame with the sidebar drawn inside it in the
+// page colour. The sidebar widens when open; the path morphs on the move
+// timing where CSS `d` transitions are supported, and swaps elsewhere.
 const TOGGLE_FRAME =
   "M11 3H13C16.7712 3 18.6569 3 19.8284 4.17157C21 5.34315 21 7.22876 21 11V13C21 16.7712 21 18.6569 19.8284 19.8284C18.6569 21 16.7712 21 13 21H11C7.2288 21 5.3431 21 4.1716 19.8284C3 18.6569 3 16.7712 3 13V11C3 7.22876 3 5.34315 4.1716 4.17157C5.3431 3 7.2288 3 11 3Z"
 const TOGGLE_PANEL_CLOSED =
@@ -686,7 +700,6 @@ function SidebarToggleIcon({
   side: SidebarSide
   className?: string
 }) {
-  const maskId = `sidebar-toggle-${React.useId().replace(/[^a-zA-Z0-9-]/g, "")}`
   const panel = open ? TOGGLE_PANEL_OPEN : TOGGLE_PANEL_CLOSED
 
   return (
@@ -702,26 +715,18 @@ function SidebarToggleIcon({
         className
       )}
     >
-      <mask id={maskId}>
-        <path
-          d={TOGGLE_FRAME}
-          fill="white"
-          stroke="white"
-          strokeWidth={1.5}
-          strokeLinejoin="round"
-        />
-        <path
-          d={panel}
-          fill="black"
-          className="cn-sidebar-toggle-icon-panel"
-          style={{ d: `path("${panel}")` } as React.CSSProperties}
-        />
-      </mask>
-      <rect
-        width="24"
-        height="24"
+      <path
+        d={TOGGLE_FRAME}
         fill="currentColor"
-        mask={`url(#${maskId})`}
+        stroke="currentColor"
+        strokeWidth={1.5}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d={panel}
+        className="cn-sidebar-toggle-icon-panel"
+        style={{ d: `path("${panel}")` } as React.CSSProperties}
       />
     </svg>
   )
@@ -1214,7 +1219,7 @@ function SidebarGroupLabel({
             {children}
             <span
               data-slot="sidebar-group-label-chevron"
-              className="cn-sidebar-group-label-chevron ms-auto flex shrink-0 items-center justify-center overflow-hidden"
+              className="cn-sidebar-group-label-chevron flex shrink-0 items-center justify-center overflow-hidden"
             >
               <IconPlaceholder
                 lucide="ChevronRightIcon"
@@ -1317,7 +1322,12 @@ const MENU_BUTTON = [
 ]
   .map((selector) => `${selector}`)
   .join(", ")
-const ACTIVE_MENU_BUTTON = MENU_BUTTON.split(", ")
+// The sliding selection marks an active top-level row. A nested row that is
+// current paints its own quieter background instead.
+const ACTIVE_MENU_BUTTON = [
+  '[data-slot="sidebar-menu-button"]',
+  '[data-sidebar="menu-button"]',
+]
   .map((selector) =>
     selector.replace(/(\])/, '$1[data-active]:not([data-active="false"])')
   )
@@ -1613,7 +1623,7 @@ function SidebarMenuAction({
           "cn-sidebar-menu-action flex items-center justify-center outline-hidden transition-transform group-data-[collapsible=icon]:hidden after:absolute after:-inset-2 md:after:hidden [&>svg]:shrink-0",
           showOnHover &&
             !inCluster &&
-            "group-focus-within/menu-item:opacity-100 group-hover/menu-item:opacity-100 peer-data-active/menu-button:text-sidebar-accent-foreground aria-expanded:opacity-100 md:opacity-0 md:peer-data-fluid-hover-active/menu-button:opacity-100",
+            "peer-hover/menu-button:opacity-100 peer-focus-visible/menu-button:opacity-100 peer-data-active/menu-button:text-sidebar-accent-foreground hover:opacity-100 focus-visible:opacity-100 aria-expanded:opacity-100 md:opacity-0 md:peer-data-fluid-hover-active/menu-button:opacity-100",
           inCluster && "relative inset-auto",
           className
         ),
@@ -1660,7 +1670,7 @@ function SidebarMenuActions({
       className={cn(
         "cn-sidebar-menu-actions absolute z-10 flex items-center group-data-[collapsible=icon]:hidden",
         showOnHover &&
-          "group-focus-within/menu-item:opacity-100 group-hover/menu-item:opacity-100 has-aria-expanded:opacity-100 has-data-popup-open:opacity-100 md:opacity-0",
+          "peer-hover/menu-button:opacity-100 peer-focus-visible/menu-button:opacity-100 focus-within:opacity-100 hover:opacity-100 has-aria-expanded:opacity-100 has-data-popup-open:opacity-100 md:opacity-0 md:peer-data-fluid-hover-active/menu-button:opacity-100",
         className
       )}
       {...props}
@@ -1738,9 +1748,20 @@ function SidebarMenuSkeleton({
   )
 }
 
+// Fabricator: how deep a sub-menu sits, 1 under a top-level row. Its rows
+// read it as --sidebar-menu-depth and indent one step a level, so sub-menus
+// nest to any depth.
+const SidebarMenuDepthContext = React.createContext(0)
+
+type SidebarMenuDepthStyle = React.CSSProperties & {
+  "--sidebar-menu-depth": number
+}
+
 function SidebarMenuSub({
   className,
   open,
+  style,
+  children,
   ...props
 }: React.ComponentProps<"ul"> & {
   /**
@@ -1749,14 +1770,24 @@ function SidebarMenuSub({
    */
   open?: boolean
 }) {
+  const depth = React.useContext(SidebarMenuDepthContext) + 1
+  const depthStyle: SidebarMenuDepthStyle = {
+    ...style,
+    "--sidebar-menu-depth": depth,
+  }
   const list = (
     <ul
       data-slot="sidebar-menu-sub"
       data-sidebar="menu-sub"
       data-state={open === undefined ? undefined : open ? "open" : "closed"}
       className={cn("cn-sidebar-menu-sub flex min-w-0 flex-col", className)}
+      style={depthStyle}
       {...props}
-    />
+    >
+      <SidebarMenuDepthContext.Provider value={depth}>
+        {children}
+      </SidebarMenuDepthContext.Provider>
+    </ul>
   )
 
   if (open === undefined) {
@@ -1806,7 +1837,7 @@ function SidebarMenuSubButton({
     props: mergeProps<"a">(
       {
         className: cn(
-          "cn-sidebar-menu-sub-button flex min-w-0 -translate-x-px items-center overflow-hidden outline-hidden group-data-[collapsible=icon]:hidden disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 [&>span:last-child]:truncate [&>svg]:shrink-0",
+          "cn-sidebar-menu-sub-button peer/menu-button flex min-w-0 -translate-x-px items-center overflow-hidden outline-hidden group-data-[collapsible=icon]:hidden disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 [&>span:last-child]:truncate [&>svg]:shrink-0",
           className
         ),
         children: Icon ? (

@@ -21,6 +21,15 @@ import { RawStyleScope } from "./raw-style-scope"
 
 export const revalidate = false
 export const dynamic = "force-static"
+
+// Examples that fill a whole screen render in a frame of their own.
+const FRAME_EXAMPLE_PREFIXES = [
+  "sidebar-",
+  "app-shell-",
+  "app-nav-",
+  "workspace-switcher-",
+  "user-menu-",
+]
 export const dynamicParams = false
 
 const getCachedRegistryItem = React.cache(
@@ -100,7 +109,11 @@ export async function generateStaticParams() {
       const examples = ExamplesIndex[baseName]
       if (examples) {
         for (const exampleName of Object.keys(examples)) {
-          if (exampleName.startsWith("sidebar-")) {
+          if (
+            FRAME_EXAMPLE_PREFIXES.some((prefix) =>
+              exampleName.startsWith(prefix)
+            )
+          ) {
             params.push({
               style: style.name,
               name: exampleName,

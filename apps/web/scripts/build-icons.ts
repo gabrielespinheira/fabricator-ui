@@ -246,6 +246,7 @@ const SITE_ICON_SOURCES = [
   "registry/bases/aria/ui",
   "registry/fabricator",
   "app/(app)/(root)/_components",
+  "app/(view)/app-shell",
   "components/foundations",
 ]
 

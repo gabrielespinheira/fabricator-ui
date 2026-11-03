@@ -1,0 +1,82 @@
+/* MARK: Tab Strip */
+
+  /* A 40px row of document tabs on the surface it sits on. `sm` pins it to
+     the compact density. */
+  .cn-tab-strip {
+    @apply h-(--density-40) gap-(--density-4) px-(--density-6) data-[size=sm]:density-compact;
+  }
+
+  /* The list scrolls sideways under faded edges, with no scrollbar. It is a
+     fluid hover container: the active tab's raised pill slides between tabs
+     and a hover highlight glides. While a tab drags, the overlays hide and
+     the active tab paints its own pill. */
+  .cn-tab-strip-list {
+    @apply no-scrollbar scroll-fade-x h-full gap-(--density-4) py-(--density-4) data-dragging:[&>[data-slot^=fluid-hover]]:opacity-0;
+  }
+
+  .cn-tab-strip-selection {
+    @apply rounded-lg bg-surface-4 shadow-surface-4;
+  }
+
+  /* Tabs: up to 192px, down to 144px before the strip scrolls; pinned tabs
+     are their icon. 13px, muted at rest; the active tab is foreground and
+     semibold without shifting. A preview tab is italic. */
+  .cn-tab-strip-tab {
+    @apply h-full w-48 min-w-36 rounded-lg text-(length:--density-text-13) text-muted-foreground transition-[color,opacity] duration-feedback ease-feedback data-active:text-foreground data-fluid-hover-active:text-foreground data-pinned:w-auto data-pinned:min-w-0 data-preview:italic data-dragging:z-10 in-data-dragging:data-active:bg-surface-4 in-data-dragging:data-active:shadow-surface-4;
+  }
+
+  .cn-tab-strip-trigger {
+    @apply h-full cursor-pointer gap-(--density-6) rounded-lg ps-(--density-10) pe-(--density-4) text-start ring-ring focus-visible:ring-1 in-data-fluid-hover-active:text-foreground in-data-pinned:justify-center in-data-pinned:px-(--density-10) [&_svg]:shrink-0 [&_svg]:stroke-[1.5] [&_svg:not([class*='size-'])]:size-(--density-icon-14) in-data-active:[&_svg]:stroke-2;
+  }
+
+  .cn-tab-strip-title {
+    @apply weight-normal in-data-active:weight-semibold;
+  }
+
+  /* The close button's slot is always there, so titles never reflow. The
+     button shows on hover, on the active tab and on touch; a dirty tab
+     shows its dot instead until hovered. */
+  .cn-tab-strip-close-slot {
+    @apply relative me-(--density-4) flex size-(--density-20) shrink-0 items-center justify-center;
+  }
+
+  .cn-tab-strip-close {
+    @apply flex size-(--density-20) cursor-pointer items-center justify-center rounded-md text-muted-foreground opacity-0 transition-opacity duration-feedback ease-feedback group-hover/tab-strip-tab:opacity-100 group-data-active/tab-strip-tab:opacity-100 pointer-coarse:opacity-100 hover:bg-hover hover:text-foreground [&_svg]:size-(--density-icon-14) group-data-[status=dirty]/tab-strip-tab:not-group-hover/tab-strip-tab:opacity-0;
+  }
+
+  .cn-tab-strip-dirty {
+    @apply pointer-events-none absolute size-2 rounded-full bg-foreground/60 transition-opacity duration-feedback ease-feedback group-hover/tab-strip-tab:opacity-0;
+  }
+
+  .cn-tab-strip-waiting {
+    @apply size-1.5 shrink-0 rounded-full bg-primary motion-safe:animate-pulse;
+  }
+
+  .cn-tab-strip-error {
+    @apply flex text-destructive [&_svg]:size-(--density-icon-14);
+  }
+
+  .cn-tab-strip-rename {
+    @apply h-(--density-24) rounded-md bg-card px-(--density-6) text-(length:--density-text-13) ring-1 ring-ring;
+  }
+
+  .cn-tab-strip-new {
+    @apply shrink-0;
+  }
+
+  .cn-tab-strip-overflow {
+    @apply shrink-0;
+  }
+
+  .cn-tab-strip-overflow-menu {
+    @apply max-h-80 min-w-56;
+  }
+
+  .cn-tab-strip-menu {
+    @apply min-w-48;
+  }
+
+  /* A shortcut inside an inverted tooltip. */
+  .cn-tab-strip-shortcut {
+    @apply ms-(--density-6) text-background/70;
+  }

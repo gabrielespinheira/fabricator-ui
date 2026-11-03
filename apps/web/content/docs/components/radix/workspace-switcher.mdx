@@ -1,0 +1,130 @@
+---
+title: Workspace Switcher
+description: Switches the organization or workspace an app shows. A menu for a few, a searchable dialog for many.
+base: radix
+component: true
+---
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="workspace-switcher-demo"
+  type="frame"
+/>
+
+Workspace Switcher shows the current organization, team or workspace and switches to another. Pick the variant by how many a person usually has:
+
+- `menu` lists them in a dropdown, then Create and Manage.
+- `command` opens a searchable dialog. Add more groups as children, such as pending invitations.
+
+While your app loads the workspace someone picked, pass its id as `switchingTo` and an overlay covers the wait.
+
+Workspace Switcher is part of the Fabricator style.
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">Command</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx fabricator-ui@latest add workspace-switcher
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps className="mb-0 pt-2">
+
+<Step>
+  Install [App Shell](/docs/components/radix/app-shell), Sidebar, Command,
+  Dropdown Menu, Spinner and Tooltip.
+</Step>
+
+<Step>Copy Workspace Switcher into your project.</Step>
+
+<ComponentSource
+  src="styles/radix-fabricator/ui/workspace-switcher.tsx"
+  title="components/ui/workspace-switcher.tsx"
+  styleName="radix-nova"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { WorkspaceSwitcher } from "@/components/ui/workspace-switcher"
+```
+
+```tsx
+<SidebarHeader>
+  <WorkspaceSwitcher
+    workspaces={organizations}
+    activeId={organization.id}
+    onSelect={switchOrganization}
+    onCreate={() => router.push("/new")}
+    onManage={() => router.push("/settings/organizations")}
+  />
+</SidebarHeader>
+```
+
+Each workspace is `{ id, name, logo?, description? }`. Without a `logo`, the name's first letter shows on the primary colour.
+
+## Sizes
+
+- `size="row"` fills the sidebar header with the logo, the name and the description. In the collapsed icon rail only the logo shows.
+- `size="mark"` is the logo alone, for a header row it shares with a [User Menu](/docs/components/radix/user-menu) mark and the sidebar toggle.
+
+## Switching
+
+`onSelect` gets the id. Switching usually means loading data or navigating; set `switchingTo` until it's done:
+
+```tsx
+const [switchingTo, setSwitchingTo] = React.useState<string | null>(null)
+
+async function switchOrganization(id: string) {
+  setSwitchingTo(id)
+  await setActiveOrganization(id)
+  router.push(`/${id}`)
+  setSwitchingTo(null)
+}
+```
+
+Inside an App Shell, <Kbd>⌘O</Kbd> opens the switcher. Change it with `shortcut`, or pass `null`.
+
+## API Reference
+
+### WorkspaceSwitcher
+
+| Prop          | Type                                              | Default               |
+| ------------- | ------------------------------------------------- | --------------------- |
+| `workspaces`  | `{ id, name, logo?, description? }[]`             | -                     |
+| `activeId`    | `string`                                          | -                     |
+| `onSelect`    | `(id: string) => void`                            | -                     |
+| `onCreate`    | `() => void`                                      | -                     |
+| `onManage`    | `() => void`                                      | -                     |
+| `createLabel` | `string`                                          | `"Create workspace"`  |
+| `manageLabel` | `string`                                          | `"Manage workspaces"` |
+| `label`       | `string`                                          | `"Workspaces"`        |
+| `variant`     | `"menu" \| "command"`                             | `"menu"`              |
+| `size`        | `"row" \| "mark"`                                 | `"row"`               |
+| `shortcut`    | `string \| null`                                  | `"mod+o"`             |
+| `switchingTo` | `string \| null`                                  | -                     |
+| `children`    | menu items (`menu`) or command groups (`command`) | -                     |
+
+## Accessibility
+
+- The trigger is a button. The mark is named "Workspaces:" followed by the current name, and shows the name and shortcut in a tooltip.
+- The menu marks the current workspace with a check; the dialog has a title and a search field, and arrow keys move through the results.
+- The switching overlay is a `status`, so screen readers announce that the switch is under way.

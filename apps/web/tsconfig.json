@@ -40,6 +40,50 @@
       "@/registry/bases/*/ui/density": [
         "./registry/fabricator/shared/ui/density"
       ],
+      "@/registry/bases/*/lib/app-shell-model": [
+        "./registry/fabricator/shared/lib/app-shell-model"
+      ],
+      "@/registry/bases/*/lib/sortable": [
+        "./registry/fabricator/shared/lib/sortable"
+      ],
+      // Every base overrides the Sidebar with a superset of upstream's API;
+      // App Shell and App Nav use the additions (peek, status, actions…).
+      "@/registry/bases/*/ui/sidebar": ["./registry/fabricator/*/ui/sidebar"],
+      // Fabricator-exclusive components live only in the overlay, per base.
+      "@/registry/bases/*/ui/app-shell": [
+        "./registry/fabricator/*/ui/app-shell"
+      ],
+      "@/registry/bases/*/ui/tab-strip": [
+        "./registry/fabricator/*/ui/tab-strip"
+      ],
+      "@/registry/bases/*/ui/app-nav": [
+        "./registry/fabricator/*/ui/app-nav"
+      ],
+      "@/registry/bases/*/ui/workspace-switcher": [
+        "./registry/fabricator/*/ui/workspace-switcher"
+      ],
+      "@/registry/bases/*/ui/user-menu": [
+        "./registry/fabricator/*/ui/user-menu"
+      ],
+      // Shared blocks compose the overlay's Base UI components.
+      "@/registry/bases/__base__/ui/sidebar": [
+        "./registry/fabricator/base/ui/sidebar"
+      ],
+      "@/registry/bases/__base__/ui/app-shell": [
+        "./registry/fabricator/base/ui/app-shell"
+      ],
+      "@/registry/bases/__base__/ui/tab-strip": [
+        "./registry/fabricator/base/ui/tab-strip"
+      ],
+      "@/registry/bases/__base__/ui/app-nav": [
+        "./registry/fabricator/base/ui/app-nav"
+      ],
+      "@/registry/bases/__base__/ui/workspace-switcher": [
+        "./registry/fabricator/base/ui/workspace-switcher"
+      ],
+      "@/registry/bases/__base__/ui/user-menu": [
+        "./registry/fabricator/base/ui/user-menu"
+      ],
       // Shared overlay files name the base as __base__ (the build substitutes
       // each base); they typecheck against the Base UI tree, then the overlay.
       "@/registry/bases/__base__/*": [

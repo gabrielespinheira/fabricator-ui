@@ -30,7 +30,7 @@ export function isDensityName(value: unknown): value is DensityName {
 
 /** Spacing and size steps, named by their default size in px. */
 export const DENSITY_SPACE_STEPS = [
-  4, 6, 8, 10, 12, 14, 16, 20, 24, 28, 32, 36, 40, 48,
+  4, 6, 8, 10, 12, 14, 16, 20, 24, 28, 30, 32, 36, 40, 48,
 ] as const
 
 /** Text sizes, named by their default size in px. */
@@ -67,6 +67,7 @@ export const DENSITIES: Record<DensityName, Density> = {
       20: 16,
       24: 20,
       28: 24,
+      30: 26,
       32: 28,
       36: 28,
       40: 32,
@@ -88,6 +89,7 @@ export const DENSITIES: Record<DensityName, Density> = {
       20: 20,
       24: 24,
       28: 28,
+      30: 30,
       32: 32,
       36: 36,
       40: 40,
@@ -110,6 +112,7 @@ export const DENSITIES: Record<DensityName, Density> = {
       20: 24,
       24: 28,
       28: 36,
+      30: 38,
       32: 40,
       36: 44,
       40: 48,

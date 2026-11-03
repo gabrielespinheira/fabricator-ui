@@ -25,6 +25,13 @@ import {
 
 import { CATALOG, type CatalogEntry } from "./catalog"
 import {
+  AppNavCardDemo,
+  AppShellCardDemo,
+  TabStripCardDemo,
+  UserMenuCardDemo,
+  WorkspaceSwitcherCardDemo,
+} from "./demos-app-shell"
+import {
   CheckboxDemo,
   InputOTPDemo,
   RadioGroupDemo,
@@ -121,6 +128,41 @@ const ITEMS: GalleryItem[] = [
     height: "lg",
     isNew: true,
     Demo: SidebarDemo,
+  },
+  {
+    slug: "app-shell",
+    title: "App Shell",
+    height: "lg",
+    isNew: true,
+    Demo: AppShellCardDemo,
+  },
+  {
+    slug: "app-nav",
+    title: "App Nav",
+    height: "lg",
+    isNew: true,
+    Demo: AppNavCardDemo,
+  },
+  {
+    slug: "tab-strip",
+    title: "Tab Strip",
+    height: "sm",
+    isNew: true,
+    Demo: TabStripCardDemo,
+  },
+  {
+    slug: "workspace-switcher",
+    title: "Workspace Switcher",
+    height: "md",
+    isNew: true,
+    Demo: WorkspaceSwitcherCardDemo,
+  },
+  {
+    slug: "user-menu",
+    title: "User Menu",
+    height: "md",
+    isNew: true,
+    Demo: UserMenuCardDemo,
   },
   {
     slug: "radio-group",

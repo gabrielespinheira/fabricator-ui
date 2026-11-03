@@ -1,0 +1,24 @@
+---
+title: November 2026 - App Shell
+description: App Shell, App Nav, Tab Strip, Workspace Switcher and User Menu, for the frame of an app on the web, on phones and in desktop windows.
+date: 2026-11-03
+---
+
+Five new components put an app's frame together:
+
+- [App Shell](/docs/components/base/app-shell): the Sidebar, a main column with a header, breadcrumb and status bar, side panels that dock beside the page or float over it, one shortcut registry, and the native window controls of Electron and Tauri apps. Its layout follows its own width.
+- [App Nav](/docs/components/base/app-nav): a navigation model rendered into the Sidebar, nested to any depth, with row actions, reordering at every level, pinning and hiding.
+- [Tab Strip](/docs/components/base/tab-strip): document tabs with pinned and preview tabs, drag to reorder, close variants, reopen and rename.
+- [Workspace Switcher](/docs/components/base/workspace-switcher) and [User Menu](/docs/components/base/user-menu).
+
+Five blocks, `app-shell-01` to `app-shell-05`, start you from a workspace app, a workbench, a classic SaaS layout, a desktop app and a mobile-first app.
+
+The behaviour lives in `lib/app-shell-model.ts`, which has no DOM, so a React Native app can share the navigation config, the tab state and the shortcuts.
+
+In a desktop window the sidebar toggle sits in the window's top band, beside the traffic lights on macOS, and `isTranslucent` lets the window's material (macOS vibrancy, Windows Mica) show through the sidebar and the status bar, which sits on the frame under the main column and the panels. Try every option on the [playground](/app-shell).
+
+The Sidebar's provider gained `onWidthChange`, called when a rail resize ends. Its rows are 30px and calmer at rest, with labels at 80% foreground and muted icons, and the active row sits raised on its background instead of turning semibold. Sub-menus nest to any depth, 16px a level, with a guide line that shows on hover and a quiet wash on the current nested row. Group headers are 24px with the chevron after the label, and the toggle draws a filled panel glyph at 18px. Density gained a 30px step (`--density-30`).
+
+```bash
+npx fabricator-ui@latest add app-shell app-nav tab-strip workspace-switcher user-menu
+```

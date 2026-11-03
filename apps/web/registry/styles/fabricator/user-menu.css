@@ -1,0 +1,37 @@
+/* MARK: User Menu */
+
+  /* The mark (data-user-menu="mark") is the avatar alone, as a round
+     button. */
+  .cn-user-menu-trigger {
+    @apply data-popup-open:bg-hover data-popup-open:text-foreground data-open:bg-hover data-open:text-foreground data-[user-menu=mark]:flex data-[user-menu=mark]:shrink-0 data-[user-menu=mark]:cursor-pointer data-[user-menu=mark]:items-center data-[user-menu=mark]:justify-center data-[user-menu=mark]:rounded-full data-[user-menu=mark]:ring-ring data-[user-menu=mark]:outline-none data-[user-menu=mark]:focus-visible:ring-1 data-[user-menu=mark]:focus-visible:ring-offset-1 data-[user-menu=mark]:focus-visible:ring-offset-background;
+  }
+
+  /* Initials in full foreground: the avatar's muted fallback text misses
+     4.5:1 on its fill in light mode. */
+  .cn-user-menu-avatar {
+    @apply size-(--density-32) [&_[data-slot=avatar-fallback]]:text-foreground;
+  }
+
+  .cn-user-menu-details {
+    @apply leading-tight;
+  }
+
+  .cn-user-menu-name {
+    @apply text-(length:--density-text-13) weight-semibold text-foreground;
+  }
+
+  .cn-user-menu-email {
+    @apply text-(length:--density-text-12) text-muted-foreground;
+  }
+
+  .cn-user-menu-chevron {
+    @apply size-(--density-icon-16) text-muted-foreground;
+  }
+
+  .cn-user-menu-content {
+    @apply min-w-56;
+  }
+
+  .cn-user-menu-label {
+    @apply gap-(--density-8) px-(--density-8) py-(--density-6) font-normal text-foreground;
+  }

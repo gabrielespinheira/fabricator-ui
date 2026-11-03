@@ -186,6 +186,8 @@ A badge sits at the end of the row and turns semibold on the active row. An acti
 
 `open` on `SidebarMenuSub` collapses the sub-tree on the move timing; wire it to the parent row. The hover highlight glides from the parent into its children, and arrow keys skip a closed sub-tree.
 
+Sub-menus nest to any depth: put a `SidebarMenuSub` in a `SidebarMenuSubItem`. Each level indents 16px (the depth is published as `--sidebar-menu-depth`), rows stay full width, and a hairline under the parent's icon shows while the list is hovered or holds focus. A current nested row (`isActive`) sits on a quiet wash; the sliding selection marks top-level rows only.
+
 <ComponentPreview styleName="base-nova" name="sidebar-nested" type="frame" />
 
 ### Peek
@@ -254,16 +256,17 @@ turns it off. With providers nested, the innermost one around the focus answers.
 
 ### SidebarProvider
 
-| Prop           | Type                           | Default   |
-| -------------- | ------------------------------ | --------- |
-| `defaultOpen`  | `boolean`                      | `true`    |
-| `open`         | `boolean`                      | -         |
-| `onOpenChange` | `(open: boolean) => void`      | -         |
-| `persist`      | `boolean`                      | `true`    |
-| `shortcut`     | `string \| null`               | `"mod+b"` |
-| `peek`         | `"none" \| "hover" \| "click"` | `"none"`  |
-| `width`        | `string`                       | `"16rem"` |
-| `widthMobile`  | `string`                       | `"18rem"` |
+| Prop            | Type                           | Default   |
+| --------------- | ------------------------------ | --------- |
+| `defaultOpen`   | `boolean`                      | `true`    |
+| `open`          | `boolean`                      | -         |
+| `onOpenChange`  | `(open: boolean) => void`      | -         |
+| `persist`       | `boolean`                      | `true`    |
+| `shortcut`      | `string \| null`               | `"mod+b"` |
+| `peek`          | `"none" \| "hover" \| "click"` | `"none"`  |
+| `width`         | `string`                       | `"16rem"` |
+| `widthMobile`   | `string`                       | `"18rem"` |
+| `onWidthChange` | `(width: string) => void`      | -         |
 
 `persist` saves the desktop state to the `sidebar_state` cookie for 7 days; the drawer's state isn't saved. Peek works with `collapsible="offcanvas"`. The width is also published as `--sidebar-width`; a `--sidebar-width` set in `style` is used as the starting width.
 
@@ -351,7 +354,7 @@ To render a link, use the `render` prop (`render={<Link href="/inbox" />}`):
 | `SidebarMenuSubButton` | `size`     | `"sm" \| "md"`        | `"md"`  |
 | `SidebarMenuSubButton` | `icon`     | `React.ComponentType` | -       |
 
-Without `open` the sub-menu is always shown.
+Without `open` the sub-menu is always shown. Sub-row icons show at 14px.
 
 ### SidebarMenuBadge, SidebarMenuSkeleton
 

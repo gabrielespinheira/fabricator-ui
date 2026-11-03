@@ -1,0 +1,212 @@
+---
+title: App Nav
+description: Renders a navigation model into the Sidebar, with groups, badges, statuses, children, row actions, reordering, pinning and hiding.
+base: aria
+component: true
+---
+
+<ComponentPreview styleName="aria-nova" name="app-nav-demo" type="frame" />
+
+App Nav turns a plain list of groups and items into [Sidebar](/docs/components/aria/sidebar) rows. The list is data from `lib/app-shell-model.ts`, so the same config can drive a web sidebar and a native app's drawer, and route matching lives in one place.
+
+Everything a person changes (the order, what is pinned or hidden, which groups are open) comes back as one serializable value, `preferences`, for you to store where you like.
+
+App Nav is part of the Fabricator style.
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">Command</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx fabricator-ui@latest add app-nav
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps className="mb-0 pt-2">
+
+<Step>
+  Install [App Shell](/docs/components/aria/app-shell) and the drag-and-drop
+  adapter (see [Tab Strip](/docs/components/aria/tab-strip)), then Sidebar,
+  Button, Context Menu, Dialog, Dropdown Menu and Switch.
+</Step>
+
+<Step>Copy App Nav into your project.</Step>
+
+<ComponentSource
+  src="styles/aria-fabricator/ui/app-nav.tsx"
+  title="components/ui/app-nav.tsx"
+  styleName="aria-nova"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { AppNav, type AppNavGroup } from "@/components/ui/app-nav"
+```
+
+```tsx
+const groups: AppNavGroup[] = [
+  {
+    id: "main",
+    items: [
+      { id: "home", label: "Home", href: "/", icon: HomeIcon },
+      { id: "inbox", label: "Inbox", href: "/inbox", icon: InboxIcon, badge: 3 },
+    ],
+  },
+  {
+    id: "projects",
+    label: "Projects",
+    collapsible: true,
+    reorderable: true,
+    items: projects.map((project) => ({
+      id: project.id,
+      label: project.name,
+      href: `/projects/${project.id}`,
+      actions: [{ id: "rename", label: "Rename", onSelect: () => rename(project) }],
+    })),
+  },
+]
+
+<SidebarContent>
+  <AppNav groups={groups} pathname={pathname} renderLink={(item) => <Link href={item.href ?? "/"} />} />
+</SidebarContent>
+```
+
+## The model
+
+| Field (item) | What it does                                                                                             |
+| ------------ | -------------------------------------------------------------------------------------------------------- |
+| `href`       | The row links to it. Items with `children` and no `href` toggle instead.                                 |
+| `match`      | `exact: true` matches only the item's own path; `prefixes` adds paths it owns.                           |
+| `icon`       | A component, shown in the row and in the collapsed rail.                                                 |
+| `badge`      | A count or a short label on the row's trailing edge.                                                     |
+| `status`     | `active` and `unread` draw a filled dot, `idle` a ring.                                                  |
+| `children`   | Items under this one, nested to any depth; the sub-tree opens on its own when it holds the current page. |
+| `actions`    | The row's menu entries (`{ id, label, icon?, shortcut?, destructive?, separatorBefore?, onSelect }`).    |
+| `mobile`     | `"tab"` puts the item in `AppNavBottomBar` on phones.                                                    |
+
+Groups take `label`, `collapsible`, `defaultOpen`, `reorderable` and `actions` (shown as buttons in the group's header).
+
+The current page decides the active item: the item whose `href` or `prefixes` match the longest part of `pathname` wins. Pass `activeId` to set it yourself.
+
+## Nesting
+
+`children` nest to any depth. Each level sits 16px further in, with 14px icons and muted labels; a hairline under the parent's icon shows while you point at the list.
+
+- **Opening.** A row with children swaps its icon for a chevron while it is hovered or focused (always on touch, and when it has no icon). The chevron opens and closes the row; the row itself still goes to its page. A row without an `href` opens and closes on click. Open rows are remembered in `preferences.open`.
+- **The current page.** Its top-level row is raised, as the page's own row is when it sits at the top; a nested page's row sits on a quieter wash.
+- **Icons.** A row without an `icon` keeps the icon column when a sibling has one, so labels line up.
+
+`getNavPath(groups, id)` in the model returns an item and its ancestors, for breadcrumbs.
+
+## Examples
+
+### In an App Shell
+
+With a Workspace Switcher above and a User Menu below.
+
+<ComponentPreview styleName="aria-nova" name="app-shell-demo" type="frame" />
+
+## Reordering
+
+Rows in a `reorderable` group drag to a new place in their list: top-level rows within the group, children among their siblings at any depth. From the keyboard, focus a row and press <Kbd>⌥⇧↑</Kbd> or <Kbd>⌥⇧↓</Kbd>; every row's menu also has Move up and Move down, and a top-level row's has Move to, which sends it to another reorderable group. Moves are announced.
+
+The new order is saved in `preferences.order`, by group id for top-level rows and by item id for children. When your items change, saved orders adapt: unknown ids are dropped and new items appear after the saved ones.
+
+## Customizing
+
+`customizable` adds Pin to top and Hide to every row's menu. Pinned items show in a group at the top (`pinnedLabel`, "Pinned" by default). `AppNavCustomize` opens a dialog that lists every item with a switch to show or hide it, and a Reset button:
+
+```tsx
+const [preferences, setPreferences] = React.useState(EMPTY_NAV_PREFERENCES)
+
+<AppNav groups={groups} preferences={preferences} onPreferencesChange={setPreferences} customizable />
+<SidebarFooter>
+  <AppNavCustomize groups={groups} preferences={preferences} onPreferencesChange={setPreferences} />
+</SidebarFooter>
+```
+
+Store `preferences` per person (a database, localStorage, the [App Shell storage](/docs/components/aria/app-shell#saving-the-layout)) and restore it with `parseNavPreferences`, which drops anything malformed.
+
+## On phones
+
+The Sidebar becomes a sheet below 768px, and App Nav closes it after a row is picked. For a tab bar, mark items `mobile: "tab"` and render `AppNavBottomBar` in the main column:
+
+```tsx
+<AppShellMain>
+  …
+  <AppNavBottomBar
+    groups={groups}
+    pathname={pathname}
+    renderLink={renderLink}
+  />
+</AppShellMain>
+```
+
+## API Reference
+
+### AppNav
+
+Also takes the props of a `<nav>`.
+
+| Prop                  | Type                                    | Default         |
+| --------------------- | --------------------------------------- | --------------- |
+| `groups`              | `AppNavGroup[]`                         | -               |
+| `pathname`            | `string`                                | `""`            |
+| `activeId`            | `string \| null`                        | from `pathname` |
+| `preferences`         | `NavPreferences`                        | -               |
+| `defaultPreferences`  | `NavPreferences`                        | empty           |
+| `onPreferencesChange` | `(preferences: NavPreferences) => void` | -               |
+| `renderLink`          | `(item) => React.ReactElement`          | an `<a>`        |
+| `onNavigate`          | `(item) => void`                        | -               |
+| `customizable`        | `boolean`                               | `false`         |
+| `pinnedLabel`         | `string`                                | `"Pinned"`      |
+| `aria-label`          | `string`                                | `"Main"`        |
+
+### AppNavCustomize
+
+| Prop                  | Type                                    | Default               |
+| --------------------- | --------------------------------------- | --------------------- |
+| `groups`              | `AppNavGroup[]`                         | -                     |
+| `preferences`         | `NavPreferences`                        | -                     |
+| `onPreferencesChange` | `(preferences: NavPreferences) => void` | -                     |
+| `children`            | the trigger element                     | a ghost button        |
+| `label`               | `string`                                | `"Customize"`         |
+| `title`               | `string`                                | `"Customize sidebar"` |
+
+### AppNavBottomBar
+
+| Prop         | Type                           | Default         |
+| ------------ | ------------------------------ | --------------- |
+| `groups`     | `AppNavGroup[]`                | -               |
+| `pathname`   | `string`                       | `""`            |
+| `activeId`   | `string \| null`               | from `pathname` |
+| `renderLink` | `(item) => React.ReactElement` | an `<a>`        |
+
+## Accessibility
+
+- App Nav is a `nav` landmark labelled "Main". The current page's row has `aria-current="page"`; the raised top-level row above a nested page doesn't.
+- Rows with children have `aria-expanded`, on the row when it only toggles and on its chevron button when it links; collapsible group labels are buttons.
+- <Kbd>↑</Kbd> and <Kbd>↓</Kbd> move between visible rows at every depth.
+  <Kbd>→</Kbd> opens a row, <Kbd>←</Kbd> closes it, and <Kbd>←</Kbd> on a closed
+  row moves to its parent.
+- Each row's actions are in a menu reachable from its ⋯ button and from the context menu key.
+- Every drag has keyboard and menu alternatives, and moves are announced in a live region (WCAG 2.5.7).
+- In the collapsed rail, each row's tooltip names it.
