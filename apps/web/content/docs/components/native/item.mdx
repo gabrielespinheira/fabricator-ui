@@ -1,0 +1,241 @@
+---
+title: Item
+description: A versatile component for displaying content with media, title, description, and actions.
+base: native
+component: true
+---
+
+## Installation
+
+```bash
+npx fabricator-ui@latest add item
+```
+
+## Usage
+
+```tsx
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Button } from "@/components/ui/button"
+import {
+  Item,
+  ItemActions,
+  ItemContent,
+  ItemDescription,
+  ItemFooter,
+  ItemGroup,
+  ItemHeader,
+  ItemMedia,
+  ItemSeparator,
+  ItemTitle,
+} from "@/components/ui/item"
+import { Text } from "@/components/ui/text"
+```
+
+```tsx
+{
+  VARIANTS.map((variant) => (
+    <Item key={variant} variant={variant}>
+      <ItemContent>
+        <ItemTitle>{variant}</ItemTitle>
+        <ItemDescription>
+          A title and a description, with room for an action.
+        </ItemDescription>
+      </ItemContent>
+      <ItemActions>
+        <Button variant="outline" size="sm">
+          Action
+        </Button>
+      </ItemActions>
+    </Item>
+  ))
+}
+```
+
+## Composition
+
+- `Item`
+- `ItemActions`
+- `ItemContent`
+- `ItemDescription`
+- `ItemFooter`
+- `ItemGroup`
+- `ItemHeader`
+- `ItemMedia`
+- `ItemSeparator`
+- `ItemTitle`
+
+## Examples
+
+```tsx showLineNumbers title="item-example.tsx"
+import {
+  BadgeCheckIcon,
+  ChevronRightIcon,
+  InboxIcon,
+  PlusIcon,
+} from "@fabricator-ui/icons-react-native"
+import { Image, Pressable } from "react-native"
+
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Button } from "@/components/ui/button"
+import {
+  Item,
+  ItemActions,
+  ItemContent,
+  ItemDescription,
+  ItemFooter,
+  ItemGroup,
+  ItemHeader,
+  ItemMedia,
+  ItemSeparator,
+  ItemTitle,
+} from "@/components/ui/item"
+import { Text } from "@/components/ui/text"
+
+const PHOTO =
+  "https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=900&auto=format&fit=crop&q=80"
+
+const VARIANTS = ["default", "outline", "muted"] as const
+const SIZES = ["default", "sm", "xs"] as const
+
+function ItemExample() {
+  return (
+    <ExampleWrapper>
+      <Example title="Variants" className="items-stretch">
+        {VARIANTS.map((variant) => (
+          <Item key={variant} variant={variant}>
+            <ItemContent>
+              <ItemTitle>{variant}</ItemTitle>
+              <ItemDescription>
+                A title and a description, with room for an action.
+              </ItemDescription>
+            </ItemContent>
+            <ItemActions>
+              <Button variant="outline" size="sm">
+                Action
+              </Button>
+            </ItemActions>
+          </Item>
+        ))}
+      </Example>
+      <Example title="Sizes" className="items-stretch">
+        {SIZES.map((size) => (
+          <Item key={size} size={size} variant="outline">
+            <ItemMedia variant="icon">
+              <InboxIcon />
+            </ItemMedia>
+            <ItemContent>
+              <ItemTitle>Size {size}</ItemTitle>
+              <ItemDescription>Spacing follows the size.</ItemDescription>
+            </ItemContent>
+          </Item>
+        ))}
+      </Example>
+      <Example title="Media" className="items-stretch">
+        <Item variant="outline">
+          <ItemMedia>
+            <Avatar>
+              <AvatarImage
+                src="https://github.com/gabrielespinheira.png"
+                alt="@gabrielespinheira"
+              />
+              <AvatarFallback>GE</AvatarFallback>
+            </Avatar>
+          </ItemMedia>
+          <ItemContent>
+            <ItemTitle>Gabs</ItemTitle>
+            <ItemDescription>gabs@fabricator.dev</ItemDescription>
+          </ItemContent>
+          <ItemActions>
+            <Button
+              size="icon-sm"
+              variant="outline"
+              accessibilityLabel="Invite"
+            >
+              <PlusIcon />
+            </Button>
+          </ItemActions>
+        </Item>
+        {SIZES.map((size) => (
+          <Item key={size} size={size} variant="outline">
+            <ItemMedia variant="image">
+              <Image src={PHOTO} alt="An office with plants by the window" />
+            </ItemMedia>
+            <ItemContent>
+              <ItemTitle>Workspace</ItemTitle>
+            </ItemContent>
+            <ItemContent className="items-end">
+              <Text className="text-muted-foreground">$12</Text>
+            </ItemContent>
+          </Item>
+        ))}
+      </Example>
+      <Example title="Pressable" className="items-stretch">
+        <Item
+          variant="outline"
+          size="sm"
+          render={<Pressable onPress={() => {}} />}
+        >
+          <ItemMedia>
+            <BadgeCheckIcon />
+          </ItemMedia>
+          <ItemContent>
+            <ItemTitle>Your profile has been verified.</ItemTitle>
+          </ItemContent>
+          <ItemActions>
+            <ChevronRightIcon />
+          </ItemActions>
+        </Item>
+      </Example>
+      <Example title="Header and footer" className="items-stretch">
+        <Item variant="outline">
+          <ItemHeader>
+            <Text>Acme Inc</Text>
+            <Text className="text-muted-foreground">Today</Text>
+          </ItemHeader>
+          <ItemContent>
+            <ItemTitle>Invoice paid</ItemTitle>
+          </ItemContent>
+          <ItemFooter>
+            <Text className="text-muted-foreground">Paid by card</Text>
+            <Button size="xs" variant="ghost">
+              Receipt
+            </Button>
+          </ItemFooter>
+        </Item>
+      </Example>
+      <Example title="Group" className="items-stretch">
+        <ItemGroup>
+          <Item size="sm">
+            <ItemContent>
+              <ItemTitle>Inbox</ItemTitle>
+            </ItemContent>
+          </Item>
+          <ItemSeparator />
+          <Item size="sm">
+            <ItemContent>
+              <ItemTitle>Archive</ItemTitle>
+            </ItemContent>
+          </Item>
+        </ItemGroup>
+      </Example>
+    </ExampleWrapper>
+  )
+}
+
+export { ItemExample }
+```
+
+## API reference
+
+| Prop      | Values                                         |
+| --------- | ---------------------------------------------- |
+| `variant` | `default`, `icon`, `image`, `muted`, `outline` |
+| `size`    | `default`, `sm`, `xs`                          |
+
+## Differences from web
+
+**Same.** It works as it does on the web, with `onPress` for `onClick`.
+
+## Accessibility
+
+Parts set `role="list"`, read by VoiceOver and TalkBack. Give a control with no text an `accessibilityLabel`.

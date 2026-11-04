@@ -1,0 +1,69 @@
+---
+title: Input
+description: A text input component for forms and user data entry with built-in styling and accessibility features.
+base: native
+component: true
+---
+
+## Installation
+
+```bash
+npx fabricator-ui@latest add input
+```
+
+## Usage
+
+```tsx
+import { Input } from "@/components/ui/input"
+```
+
+```tsx
+<Input placeholder="Email" keyboardType="email-address" autoCapitalize="none" />
+```
+
+## Examples
+
+```tsx showLineNumbers title="input-example.tsx"
+import { Input } from "@/components/ui/input"
+
+function InputExample() {
+  return (
+    <ExampleWrapper>
+      <Example title="Default">
+        <Input
+          placeholder="Email"
+          keyboardType="email-address"
+          autoCapitalize="none"
+        />
+      </Example>
+      <Example title="With a value">
+        <Input defaultValue="gabs@fabricator.dev" />
+      </Example>
+      <Example title="Invalid">
+        <Input aria-invalid defaultValue="not an email" />
+      </Example>
+      <Example title="Disabled">
+        <Input
+          editable={false}
+          defaultValue="Read only"
+          className="opacity-50"
+        />
+      </Example>
+    </ExampleWrapper>
+  )
+}
+
+export { InputExample }
+```
+
+## API reference
+
+Props it adds to what it wraps: `"aria-invalid"`, `disabled`.
+
+## Differences from web
+
+**Same.** `onChangeText` is the usual way to read a value, as with any `TextInput`.
+
+## Accessibility
+
+Text is read as it appears. Give a control with no text an `accessibilityLabel`.

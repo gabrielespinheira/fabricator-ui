@@ -226,16 +226,18 @@
 
   /* Sub-menus nest to any depth (--sidebar-menu-depth, 1 under a
      top-level row) and stay full width, so the hover and the current row's
-     background span the column. A hairline under the parent's icon shows
-     while the list is hovered or holds focus. */
+     background span the column. Each level moves in by one icon and its gap,
+     so a row's icon starts under its parent's label. A hairline under the
+     parent's icon shows while the list is hovered or holds focus. */
   .cn-sidebar-menu-sub {
-    @apply relative ms-0 me-0 gap-0.5 border-0 ps-0 pe-0 pt-0.5 pb-0 group-data-[collapsible=icon]:hidden before:pointer-events-none before:absolute before:inset-y-1 before:start-[calc(var(--density-16)*var(--sidebar-menu-depth,1))] before:w-px before:bg-border before:opacity-0 before:transition-opacity before:duration-feedback hover:before:opacity-100 has-focus-visible:before:opacity-100 has-[>[data-dragging]]:before:opacity-100;
+    @apply relative ms-0 me-0 gap-0.5 border-0 ps-0 pe-0 pt-0.5 pb-0 group-data-[collapsible=icon]:hidden before:pointer-events-none before:absolute before:inset-y-1 before:start-[calc(var(--density-8)+var(--density-icon-16)/2+(var(--density-icon-16)+var(--density-8))*(var(--sidebar-menu-depth,1)-1))] before:w-px before:bg-border before:opacity-0 before:transition-opacity before:duration-feedback hover:before:opacity-100 has-focus-visible:before:opacity-100 has-[>[data-dragging]]:before:opacity-100;
   }
 
-  /* Nested rows: 30px (24px small), 2px apart, each level 16px further in,
-     14px icons; a row without an icon starts its label under its parent's. Muted at rest, foreground when hovered or lit; the current
-     one sits on a quiet wash (half the hover fill) instead of the raised
-     selection, which marks its top-level row. */
+  /* Nested rows: 30px (24px small), 2px apart, on the top-level rows' grid: the
+     same 16px icons, and whatever comes first (the icon, or the label without
+     one) starts under the parent's label. Muted at rest, foreground when
+     hovered or lit; the current one sits on a quiet wash (half the hover fill)
+     instead of the raised selection, which marks its top-level row. */
   .cn-sidebar-menu-sub-button {
-    @apply cursor-pointer text-muted-foreground ring-ring h-(--density-30) gap-(--density-8) rounded-lg ps-[calc(var(--density-8)+var(--density-16)*var(--sidebar-menu-depth,1))] not-has-[>svg,>[data-slot=sidebar-menu-icon]]:ps-[calc(var(--density-16)*(var(--sidebar-menu-depth,1)+1))] pe-[var(--sidebar-menu-gutter,var(--density-8))] text-(length:--density-text-13) weight-normal transition-[color,background-color,padding] duration-feedback in-data-[slot=sidebar-menu-sub]:translate-x-0 hover:pe-[var(--sidebar-menu-gutter-hover,var(--density-8))] data-fluid-hover-active:pe-[var(--sidebar-menu-gutter-hover,var(--density-8))] focus-visible:pe-[var(--sidebar-menu-gutter-hover,var(--density-8))] focus-visible:ring-1 data-[size=sm]:h-(--density-24) data-[size=sm]:text-(length:--density-text-12) [&>svg]:size-(--density-icon-14) [&>svg]:stroke-[1.5] [&>svg:not([class*='text-'])]:text-muted-foreground [&>svg]:transition-[stroke-width,color] hover:bg-hover hover:text-foreground hover:[&>svg:not([class*='text-'])]:text-foreground active:bg-active active:text-foreground data-fluid-hover-active:text-foreground data-fluid-hover-active:[&>svg]:stroke-2 data-fluid-hover-active:[&>svg:not([class*='text-'])]:text-foreground data-active:bg-hover/50 data-active:text-foreground data-active:[&>svg:not([class*='text-'])]:text-foreground in-data-[fluid-hover]:not-data-active:hover:bg-transparent;
+    @apply cursor-pointer text-muted-foreground ring-ring h-(--density-30) gap-(--density-8) rounded-lg ps-[calc(var(--density-8)+(var(--density-icon-16)+var(--density-8))*var(--sidebar-menu-depth,1))] pe-[var(--sidebar-menu-gutter,var(--density-8))] text-(length:--density-text-13) weight-normal transition-[color,background-color,padding] duration-feedback in-data-[slot=sidebar-menu-sub]:translate-x-0 hover:pe-[var(--sidebar-menu-gutter-hover,var(--density-8))] data-fluid-hover-active:pe-[var(--sidebar-menu-gutter-hover,var(--density-8))] focus-visible:pe-[var(--sidebar-menu-gutter-hover,var(--density-8))] focus-visible:ring-1 data-[size=sm]:h-(--density-24) data-[size=sm]:text-(length:--density-text-12) [&>svg]:size-(--density-icon-16) [&>svg]:stroke-[1.5] [&>svg:not([class*='text-'])]:text-muted-foreground [&>svg]:transition-[stroke-width,color] hover:bg-hover hover:text-foreground hover:[&>svg:not([class*='text-'])]:text-foreground active:bg-active active:text-foreground data-fluid-hover-active:text-foreground data-fluid-hover-active:[&>svg]:stroke-2 data-fluid-hover-active:[&>svg:not([class*='text-'])]:text-foreground data-active:bg-hover/50 data-active:text-foreground data-active:[&>svg:not([class*='text-'])]:text-foreground in-data-[fluid-hover]:not-data-active:hover:bg-transparent;
   }

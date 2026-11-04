@@ -1,0 +1,105 @@
+---
+title: Toggle
+description: A two-state button that can be either on or off.
+base: native
+component: true
+---
+
+## Installation
+
+```bash
+npx fabricator-ui@latest add toggle
+```
+
+## Usage
+
+```tsx
+import { Text } from "@/components/ui/text"
+import { Toggle } from "@/components/ui/toggle"
+```
+
+```tsx
+<Toggle accessibilityLabel="Bold">
+  <BoldIcon />
+</Toggle>
+<Toggle accessibilityLabel="Italic" variant="outline">
+  <ItalicIcon />
+</Toggle>
+<Toggle defaultPressed>On</Toggle>
+<Toggle variant="outline" defaultPressed>
+  On
+</Toggle>
+```
+
+## Examples
+
+```tsx showLineNumbers title="toggle-example.tsx"
+import * as React from "react"
+import { BoldIcon, ItalicIcon } from "@fabricator-ui/icons-react-native"
+
+import { Text } from "@/components/ui/text"
+import { Toggle } from "@/components/ui/toggle"
+
+function ToggleExample() {
+  const [isBold, setIsBold] = React.useState(true)
+  return (
+    <ExampleWrapper>
+      <Example title="Variants" className="flex-row items-center">
+        <Toggle accessibilityLabel="Bold">
+          <BoldIcon />
+        </Toggle>
+        <Toggle accessibilityLabel="Italic" variant="outline">
+          <ItalicIcon />
+        </Toggle>
+        <Toggle defaultPressed>On</Toggle>
+        <Toggle variant="outline" defaultPressed>
+          On
+        </Toggle>
+      </Example>
+      <Example title="Sizes" className="flex-row items-center">
+        <Toggle size="sm" accessibilityLabel="Small">
+          <BoldIcon />
+        </Toggle>
+        <Toggle size="default" accessibilityLabel="Default">
+          <BoldIcon />
+        </Toggle>
+        <Toggle size="lg" accessibilityLabel="Large">
+          <BoldIcon />
+        </Toggle>
+      </Example>
+      <Example title="Controlled" className="flex-row items-center">
+        <Toggle pressed={isBold} onPressedChange={setIsBold}>
+          <BoldIcon />
+          Bold
+        </Toggle>
+        <Text className="text-muted-foreground">{isBold ? "On" : "Off"}</Text>
+      </Example>
+      <Example title="Disabled" className="flex-row items-center">
+        <Toggle disabled>Off</Toggle>
+        <Toggle disabled defaultPressed>
+          On
+        </Toggle>
+      </Example>
+    </ExampleWrapper>
+  )
+}
+
+export { ToggleExample }
+```
+
+## API reference
+
+| Prop      | Values                |
+| --------- | --------------------- |
+| `variant` | `default`, `outline`  |
+| `size`    | `default`, `lg`, `sm` |
+
+Props it adds to what it wraps: `defaultPressed`, `onPressedChange`, `pressed`.
+
+## Differences from web
+
+**Same.** It works as it does on the web, with `onPress` for `onClick`.
+
+## Accessibility
+
+Text is read as it appears. Give a control with no text an `accessibilityLabel`.

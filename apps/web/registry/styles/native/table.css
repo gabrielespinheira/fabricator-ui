@@ -1,0 +1,64 @@
+/* MARK: Table */
+
+  /* The container scrolls sideways when the columns don't fit. */
+  .cn-table-container {
+    @apply w-full;
+  }
+
+  .cn-table {
+    @apply flex-col;
+  }
+
+  .cn-table-text {
+    @apply text-(length:--density-text-13);
+  }
+
+  .cn-table-header {
+    @apply border-border/60 border-b;
+  }
+
+  .cn-table-body {
+    @apply flex-col;
+  }
+
+  .cn-table-footer {
+    @apply border-border/60 border-t;
+  }
+
+  /* Rows: soft dividers; a pressed body row lights up with bg-hover, and selected
+     rows keep bg-active. The last body row has no divider, the footer's and the
+     header's come from their sections. */
+  .cn-table-row {
+    @apply border-border/60 border-b data-[last=true]:border-b-0 data-[section=header]:border-b-0 data-[section=footer]:border-b-0 data-[section=body]:active:bg-hover data-[state=selected]:bg-active;
+  }
+
+  /* Head: 36pt, px-3, foreground semibold. */
+  .cn-table-head {
+    @apply h-(--density-36) px-(--density-12);
+  }
+
+  .cn-table-head-text {
+    @apply text-foreground text-start font-semibold;
+  }
+
+  /* Cells: muted; footer cells stay foreground and medium. */
+  .cn-table-cell {
+    @apply px-(--density-12) py-(--density-8);
+  }
+
+  .cn-table-cell-text {
+    @apply text-muted-foreground;
+  }
+
+  .cn-table-cell-text-footer {
+    @apply text-foreground font-medium;
+  }
+
+  .cn-table-caption {
+    @apply text-muted-foreground mt-4 text-center text-(length:--density-text-12);
+  }
+
+  /* The lit row is square: rows span the table edge to edge. */
+  .cn-table-highlight {
+    @apply rounded-none;
+  }

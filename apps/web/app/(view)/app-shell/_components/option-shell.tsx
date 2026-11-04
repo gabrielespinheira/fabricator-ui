@@ -65,7 +65,7 @@ function TabRow({ children }: { children: React.ReactNode }) {
   return (
     <div
       {...dragRegion}
-      className="flex h-(--density-48) shrink-0 items-center gap-(--density-8) pe-(--density-12) [&>[data-slot=tab-strip]]:-me-(--density-6)"
+      className="flex h-(--density-48) shrink-0 items-center gap-(--density-8) pe-(--app-shell-control-inset) [&>[data-slot=tab-strip]]:-me-(--density-6)"
     >
       {children}
     </div>
@@ -105,6 +105,8 @@ export function OptionShell({
   options,
   storageKey,
   shellWindow,
+  workspaces = WORKSPACES,
+  user = USER,
   groups,
   navLabel,
   pathname,
@@ -117,6 +119,7 @@ export function OptionShell({
   panelId,
   panelLabel,
   panelViews,
+  isPanelOpenByDefault = true,
   panel,
   status,
   children,
@@ -124,6 +127,8 @@ export function OptionShell({
   options: PlaygroundOptions
   storageKey: string
   shellWindow?: AppShellWindow
+  workspaces?: React.ComponentProps<typeof WorkspaceSwitcher>["workspaces"]
+  user?: React.ComponentProps<typeof UserMenu>["user"]
   groups: AppNavGroup[]
   navLabel?: string
   pathname: string
@@ -139,16 +144,17 @@ export function OptionShell({
   panelId: string
   panelLabel: string
   panelViews?: React.ComponentProps<typeof AppShellPanel>["views"]
+  isPanelOpenByDefault?: boolean
   panel: React.ReactNode
   status: React.ReactNode
   children: React.ReactNode
 }) {
-  const [workspace, setWorkspace] = React.useState("acme")
+  const [workspace, setWorkspace] = React.useState(workspaces[0]?.id)
   const [preferences, setPreferences] = React.useState<NavPreferences>(
     EMPTY_NAV_PREFERENCES
   )
   const tabsPlacement = getTabsPlacement(options)
-  const workspaceName = WORKSPACES.find((entry) => entry.id === workspace)?.name
+  const workspaceName = workspaces.find((entry) => entry.id === workspace)?.name
   // Always in the main column's top row: it pins over the panel's header.
   const panelTrigger = options.panel && <AppShellPanelTrigger panel={panelId} />
 
@@ -168,7 +174,7 @@ export function OptionShell({
       <Sidebar variant={options.variant} collapsible={options.collapse}>
         <SidebarHeader className="flex-row items-center">
           {options.account === "header" && (
-            <UserMenu variant="mark" align="start" user={USER}>
+            <UserMenu variant="mark" align="start" user={user}>
               <UserMenuItems />
             </UserMenu>
           )}
@@ -179,7 +185,7 @@ export function OptionShell({
               <WorkspaceSwitcher
                 variant={options.switcher}
                 size={options.account === "header" ? "mark" : "row"}
-                workspaces={WORKSPACES}
+                workspaces={workspaces}
                 activeId={workspace}
                 onSelect={setWorkspace}
                 onCreate={() => {}}
@@ -213,7 +219,7 @@ export function OptionShell({
               />
             )}
             {options.account === "footer" && (
-              <UserMenu user={USER}>
+              <UserMenu user={user}>
                 <UserMenuItems />
               </UserMenu>
             )}
@@ -284,7 +290,7 @@ export function OptionShell({
         <AppShellPanel
           id={panelId}
           label={panelLabel}
-          defaultOpen
+          defaultOpen={isPanelOpenByDefault}
           mobile={options.panelMobile}
           views={panelViews}
         >

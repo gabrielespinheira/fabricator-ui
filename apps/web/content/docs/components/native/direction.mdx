@@ -1,0 +1,63 @@
+---
+title: Direction
+description: "Fabricator is left-to-right only: the provider passes its children through."
+base: native
+component: true
+---
+
+## Installation
+
+```bash
+npx fabricator-ui@latest add direction
+```
+
+## Usage
+
+```tsx
+import { DirectionProvider, useDirection } from "@/components/ui/direction"
+import { Text } from "@/components/ui/text"
+```
+
+```tsx
+<DirectionProvider direction="rtl">
+  <CurrentDirection />
+</DirectionProvider>
+```
+
+## Examples
+
+```tsx showLineNumbers title="direction-example.tsx"
+import { DirectionProvider, useDirection } from "@/components/ui/direction"
+import { Text } from "@/components/ui/text"
+
+function CurrentDirection() {
+  const direction = useDirection()
+  return <Text>This screen reads {direction}.</Text>
+}
+
+function DirectionExample() {
+  return (
+    <ExampleWrapper>
+      <Example title="Left to right, always">
+        <DirectionProvider direction="rtl">
+          <CurrentDirection />
+        </DirectionProvider>
+      </Example>
+    </ExampleWrapper>
+  )
+}
+
+export { DirectionExample }
+```
+
+## API reference
+
+Props it adds to what it wraps: `direction`.
+
+## Differences from web
+
+**Kept for imports.** Fabricator UI is left-to-right only, so `DirectionProvider` passes its children through.
+
+## Accessibility
+
+Text is read as it appears. Give a control with no text an `accessibilityLabel`.

@@ -617,6 +617,8 @@ Component names, props, variants and `data-slot` values are stable, and new ones
 
 The `@fabricator` registry leaves out Native Select (use `Select`) and, for now, Chart. React Aria projects have no `Menubar` or `NavigationMenu`; use a `DropdownMenu` per menu and a header of links.
 
+React Native projects install the same names with the same variants, sizes and tokens. Where a web input doesn't exist, a touch one takes its place: `ContextMenu`, `Tooltip` and `HoverCard` open on a long press, `Select` is a sheet on phones and a popover on tablets, and `Menubar` and `NavigationMenu` open sheets from a row of triggers. Phones default to the spacious density, because 44pt is the touch target. Feedback is haptic instead of sound. Wrap the app in `FabricatorRoot` once. `Text` is the only way to draw text, so text inside a container still goes through the container's `TextStyle`.
+
 ### Variants and sizes
 
 | Component               | Variants                                                                                                | Sizes and other props                                                                                                                                              |

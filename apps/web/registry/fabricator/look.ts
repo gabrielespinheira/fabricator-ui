@@ -22,7 +22,7 @@ import {
   toDensityVars,
   type DensityName,
 } from "@/registry/fabricator/density"
-import { SURFACE_PALETTE_LINKS } from "@/registry/fabricator/foundations"
+import { SURFACE_PALETTE_LINKS } from "@/registry/fabricator/foundation-tokens"
 import {
   DEFAULT_MOTION_SPEED,
   MOTION_SPEED_NAMES,

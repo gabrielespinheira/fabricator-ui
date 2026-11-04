@@ -1,0 +1,186 @@
+---
+title: Pagination
+description: Pagination with page navigation, next and previous links.
+base: native
+component: true
+---
+
+## Installation
+
+```bash
+npx fabricator-ui@latest add pagination
+```
+
+## Usage
+
+```tsx
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination"
+import { Text } from "@/components/ui/text"
+```
+
+```tsx
+<Pagination>
+  <PaginationContent>
+    <PaginationItem>
+      <PaginationPrevious
+        disabled={page === 1}
+        onPress={() => setPage(page - 1)}
+      />
+    </PaginationItem>
+    {PAGES.slice(0, 3).map((value) => (
+      <PaginationItem key={value}>
+        <PaginationLink
+          isActive={page === value}
+          onPress={() => setPage(value)}
+        >
+          {value}
+        </PaginationLink>
+      </PaginationItem>
+    ))}
+    <PaginationItem>
+      <PaginationEllipsis />
+    </PaginationItem>
+    <PaginationItem>
+      <PaginationNext
+        disabled={page === PAGES.length}
+        onPress={() => setPage(page + 1)}
+      />
+    </PaginationItem>
+  </PaginationContent>
+</Pagination>
+<Text className="text-center text-muted-foreground">Page {page}</Text>
+```
+
+## Composition
+
+- `Pagination`
+- `PaginationContent`
+- `PaginationEllipsis`
+- `PaginationItem`
+- `PaginationLink`
+- `PaginationNext`
+- `PaginationPrevious`
+
+## Examples
+
+```tsx showLineNumbers title="pagination-example.tsx"
+import * as React from "react"
+
+import {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination"
+import { Text } from "@/components/ui/text"
+
+const PAGES = [1, 2, 3, 4, 5]
+
+function PaginationExample() {
+  const [page, setPage] = React.useState(2)
+  return (
+    <ExampleWrapper>
+      <Example title="Default" className="items-stretch">
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious
+                disabled={page === 1}
+                onPress={() => setPage(page - 1)}
+              />
+            </PaginationItem>
+            {PAGES.slice(0, 3).map((value) => (
+              <PaginationItem key={value}>
+                <PaginationLink
+                  isActive={page === value}
+                  onPress={() => setPage(value)}
+                >
+                  {value}
+                </PaginationLink>
+              </PaginationItem>
+            ))}
+            <PaginationItem>
+              <PaginationEllipsis />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationNext
+                disabled={page === PAGES.length}
+                onPress={() => setPage(page + 1)}
+              />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
+        <Text className="text-center text-muted-foreground">Page {page}</Text>
+      </Example>
+      <Example title="Numbers only" className="items-stretch">
+        <Pagination>
+          <PaginationContent>
+            {PAGES.map((value) => (
+              <PaginationItem key={value}>
+                <PaginationLink isActive={value === 2}>{value}</PaginationLink>
+              </PaginationItem>
+            ))}
+          </PaginationContent>
+        </Pagination>
+      </Example>
+      <Example title="Link sizes" className="items-stretch">
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationLink size="icon-sm">1</PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink size="icon-lg" isActive>
+                2
+              </PaginationLink>
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink size="default">Three</PaginationLink>
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
+      </Example>
+      <Example
+        title="Custom labels, shown from tablet width"
+        className="items-stretch"
+      >
+        <Pagination>
+          <PaginationContent>
+            <PaginationItem>
+              <PaginationPrevious text="Back" />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationNext text="Forward" />
+            </PaginationItem>
+          </PaginationContent>
+        </Pagination>
+      </Example>
+    </ExampleWrapper>
+  )
+}
+
+export { PaginationExample }
+```
+
+## API reference
+
+Props it adds to what it wraps: `text`.
+
+## Differences from web
+
+**Same.** It works as it does on the web, with `onPress` for `onClick`.
+
+## Accessibility
+
+Parts set `role="link"`, `role="list"`, `role="listitem"`, `role="navigation"`, read by VoiceOver and TalkBack. Give a control with no text an `accessibilityLabel`.

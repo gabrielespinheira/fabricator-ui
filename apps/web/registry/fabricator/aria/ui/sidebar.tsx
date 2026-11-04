@@ -825,13 +825,13 @@ function SidebarDesktop({
         data-side={side}
         className={cn(
           "cn-sidebar-container fixed inset-y-0 z-10 hidden h-svh w-(--sidebar-width) group-data-peeking:z-50 group-data-resizing:transition-none data-[side=left]:left-0 data-[side=left]:group-data-[collapsible=offcanvas]:left-[calc(var(--sidebar-width)*-1)] data-[side=right]:right-0 data-[side=right]:group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)] md:flex",
-          // A floating card has room all round. Inset only matches the main
-          // card's top and bottom margins: the rows keep their own 8px from
-          // the edges, and a peek floats as a card.
+          // A floating card has room all round. Inset runs the full height:
+          // its rows keep 8px from every edge, the main card's own margin, and
+          // a peek floats as a card.
           variant === "floating" &&
             "p-2 group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+(--spacing(4))+2px)]",
           variant === "inset" &&
-            "py-2 group-data-peeking:px-2 group-data-[collapsible=icon]:w-(--sidebar-width-icon)",
+            "group-data-peeking:p-2 group-data-[collapsible=icon]:w-(--sidebar-width-icon)",
           variant === "sidebar" &&
             cn(
               "group-data-peeking:py-2 group-data-[collapsible=icon]:w-(--sidebar-width-icon)",

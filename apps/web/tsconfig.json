@@ -106,5 +106,18 @@
     "next.config.mjs",
     ".next/dev/types/**/*.ts"
   ],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules",
+    "registry/native/ui",
+    "registry/native/components",
+    "registry/native/blocks",
+    "registry/native/hooks",
+    "registry/native/lib/*.tsx",
+    "registry/native/lib/motion.ts",
+    "registry/native/lib/apply-look.ts",
+    "registry/native/lib/sounds.ts",
+    "registry/native/lib/field-model.ts",
+    "examples/native",
+    "styles/native"
+  ]
 }

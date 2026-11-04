@@ -6,12 +6,14 @@ import {
   useColorScheme,
 } from "react-native"
 
-import { DEFAULT_LOOK, type FabricatorLook } from "@/registry/fabricator/look"
+import type { FabricatorLook } from "@/registry/fabricator/look"
 import {
+  DEFAULT_NATIVE_LOOK,
   getLookFromUrl,
   getNativeTheme,
   type NativeTheme,
 } from "@/registry/fabricator/native-theme"
+import { applyLook } from "@/registry/native/lib/apply-look"
 
 export type Theme = NativeTheme
 export type ThemeChoice = "system" | "light" | "dark"
@@ -25,15 +27,6 @@ export const FONT = {
   regular: "Inter-Regular",
   medium: "Inter-Medium",
   semibold: "Inter-SemiBold",
-}
-
-/**
- * The website's default look, at the spacious density: the default's 30pt rows
- * are small for a finger. Settings switches it, and a link sets it.
- */
-const DEFAULT_NATIVE_LOOK: FabricatorLook = {
-  ...DEFAULT_LOOK,
-  density: "spacious",
 }
 
 type ThemeContextValue = {
@@ -59,6 +52,11 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       themeChoice === "system" ? "unspecified" : themeChoice
     )
   }, [themeChoice])
+
+  // The registry's components read the theme through Uniwind.
+  React.useEffect(() => {
+    applyLook(look)
+  }, [look])
 
   // A browser's settings can't reach the app; a link carries them.
   React.useEffect(() => {

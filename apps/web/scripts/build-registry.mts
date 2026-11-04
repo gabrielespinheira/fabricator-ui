@@ -39,6 +39,8 @@ import {
 import { fonts } from "@/registry/fonts"
 import { STYLES } from "@/registry/styles"
 
+import { buildNativeRegistry } from "./build-native-registry.mjs"
+
 /*
  * build-registry.mts is the single v4 registry pipeline.
  *
@@ -818,6 +820,9 @@ async function runFullBuild() {
   console.log("\n🧹 Cleaning up...")
   await cleanUpTemporaryFiles(stylesToBuild.map((style) => style.name))
   await saveTransformCache()
+
+  console.log("\n📱 Building the React Native registry...")
+  await buildNativeRegistry()
 }
 
 async function runTargetedBuild(options: BuildOptions) {

@@ -1,0 +1,167 @@
+---
+title: Resizable
+description: Accessible resizable panel groups and layouts with keyboard support.
+base: native
+component: true
+---
+
+## Installation
+
+```bash
+npx fabricator-ui@latest add resizable
+```
+
+## Usage
+
+```tsx
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "@/components/ui/resizable"
+import { Text } from "@/components/ui/text"
+```
+
+```tsx
+<ResizablePanelGroup
+  orientation="horizontal"
+  className="h-52 rounded-lg border border-border"
+>
+  <ResizablePanel defaultSize="50%">
+    <Pane>One</Pane>
+  </ResizablePanel>
+  <ResizableHandle withHandle />
+  <ResizablePanel defaultSize="50%">
+    <ResizablePanelGroup orientation="vertical">
+      <ResizablePanel defaultSize="25%">
+        <Pane>Two</Pane>
+      </ResizablePanel>
+      <ResizableHandle withHandle />
+      <ResizablePanel defaultSize="75%">
+        <Pane>Three</Pane>
+      </ResizablePanel>
+    </ResizablePanelGroup>
+  </ResizablePanel>
+</ResizablePanelGroup>
+```
+
+## Composition
+
+- `ResizableHandle`
+- `ResizablePanel`
+- `ResizablePanelGroup`
+
+## Examples
+
+```tsx showLineNumbers title="resizable-example.tsx"
+import * as React from "react"
+import { View } from "react-native"
+
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "@/components/ui/resizable"
+import { Text } from "@/components/ui/text"
+
+function Pane({ children }: { children: string }) {
+  return (
+    <View className="h-full items-center justify-center p-6">
+      <Text className="font-semibold">{children}</Text>
+    </View>
+  )
+}
+
+function ResizableExample() {
+  const [sidebar, setSidebar] = React.useState(25)
+  return (
+    <ExampleWrapper>
+      <Example title="Nested" className="items-stretch">
+        <ResizablePanelGroup
+          orientation="horizontal"
+          className="h-52 rounded-lg border border-border"
+        >
+          <ResizablePanel defaultSize="50%">
+            <Pane>One</Pane>
+          </ResizablePanel>
+          <ResizableHandle withHandle />
+          <ResizablePanel defaultSize="50%">
+            <ResizablePanelGroup orientation="vertical">
+              <ResizablePanel defaultSize="25%">
+                <Pane>Two</Pane>
+              </ResizablePanel>
+              <ResizableHandle withHandle />
+              <ResizablePanel defaultSize="75%">
+                <Pane>Three</Pane>
+              </ResizablePanel>
+            </ResizablePanelGroup>
+          </ResizablePanel>
+        </ResizablePanelGroup>
+      </Example>
+      <Example title="Limits, and reading the size" className="items-stretch">
+        <ResizablePanelGroup
+          orientation="horizontal"
+          className="h-40 rounded-lg border border-border"
+        >
+          <ResizablePanel
+            defaultSize="25%"
+            minSize="15%"
+            maxSize="60%"
+            onResize={(size) => setSidebar(Math.round(size.asPercentage))}
+          >
+            <Pane>Sidebar</Pane>
+          </ResizablePanel>
+          <ResizableHandle withHandle />
+          <ResizablePanel>
+            <Pane>Content</Pane>
+          </ResizablePanel>
+        </ResizablePanelGroup>
+        <Text className="text-muted-foreground">Sidebar at {sidebar}%</Text>
+      </Example>
+      <Example title="Vertical, without a grip" className="items-stretch">
+        <ResizablePanelGroup
+          orientation="vertical"
+          className="h-52 rounded-lg border border-border"
+        >
+          <ResizablePanel defaultSize="25%">
+            <Pane>Header</Pane>
+          </ResizablePanel>
+          <ResizableHandle />
+          <ResizablePanel defaultSize="75%">
+            <Pane>Content</Pane>
+          </ResizablePanel>
+        </ResizablePanelGroup>
+      </Example>
+      <Example title="Disabled" className="items-stretch">
+        <ResizablePanelGroup
+          orientation="horizontal"
+          disabled
+          className="h-32 rounded-lg border border-border"
+        >
+          <ResizablePanel>
+            <Pane>One</Pane>
+          </ResizablePanel>
+          <ResizableHandle withHandle />
+          <ResizablePanel>
+            <Pane>Two</Pane>
+          </ResizablePanel>
+        </ResizablePanelGroup>
+      </Example>
+    </ExampleWrapper>
+  )
+}
+
+export { ResizableExample }
+```
+
+## API reference
+
+Props it adds to what it wraps: `defaultLayout`, `direction`, `disabled`, `onLayoutChange`, `onLayoutChanged`, `orientation`, `withHandle`.
+
+## Differences from web
+
+**New engine.** `react-resizable-panels` is DOM-only. A drag handle, with increment and decrement actions for screen readers.
+
+## Accessibility
+
+Text is read as it appears. Give a control with no text an `accessibilityLabel`.

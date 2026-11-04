@@ -1,8 +1,6 @@
 // The CLI commands the setup cards show: what installs the selected settings
 // and what installs the shell with its selected options.
 
-import { createSerializer } from "nuqs/server"
-
 import type { SiteIconLibrary, SiteSettings } from "@/lib/site-settings"
 import type { AppShellWindow } from "@/styles/base-fabricator/ui/app-shell"
 import {
@@ -13,34 +11,14 @@ import {
   type PackageManager,
 } from "@/app/(app)/(create)/lib/setup"
 
-import { normalizeInstallOptions } from "./app-shell-source"
-import {
-  playgroundParsers,
-  type PlaygroundOptions,
-  type WINDOWS,
-} from "./options"
+import { buildAppShellInstallUrl } from "./app-shell-source"
+import type { PlaygroundOptions, WINDOWS } from "./options"
 
 type CommandContext = {
   siteUrl: string
   packageManager: PackageManager
   /** The site's Icons setting. */
   iconLibrary?: SiteIconLibrary
-}
-
-const serializeOptions = createSerializer(playgroundParsers)
-
-/** The endpoint for these choices: only what differs from the defaults. */
-export function buildAppShellInstallUrl(
-  options: PlaygroundOptions,
-  siteUrl: string,
-  iconLibrary: SiteIconLibrary = DEFAULT_SETUP.iconLibrary
-) {
-  const query = serializeOptions(normalizeInstallOptions(options))
-  const icons =
-    iconLibrary === DEFAULT_SETUP.iconLibrary
-      ? ""
-      : `${query ? "&" : "?"}iconLibrary=${iconLibrary}`
-  return `${siteUrl}/init/app-shell${query}${icons}`
 }
 
 /**
@@ -63,6 +41,7 @@ export function buildSettingsCommands(
   return buildSetupCommands(
     {
       ...DEFAULT_SETUP,
+      appShell: false,
       project: "existing",
       sound: settings.sound,
       iconLibrary: settings.iconLibrary,

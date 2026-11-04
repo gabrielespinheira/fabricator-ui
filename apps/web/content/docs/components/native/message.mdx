@@ -1,0 +1,233 @@
+---
+title: Message
+description: Displays a message in a conversation, with optional avatar, header, footer, and alignment.
+base: native
+component: true
+---
+
+## Installation
+
+```bash
+npx fabricator-ui@latest add message
+```
+
+## Usage
+
+```tsx
+import {
+  Attachment,
+  AttachmentContent,
+  AttachmentDescription,
+  AttachmentMedia,
+  AttachmentTitle,
+} from "@/components/ui/attachment"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Bubble, BubbleContent } from "@/components/ui/bubble"
+import { Button } from "@/components/ui/button"
+import {
+  Message,
+  MessageAvatar,
+  MessageContent,
+  MessageFooter,
+  MessageGroup,
+  MessageHeader,
+} from "@/components/ui/message"
+import { Text } from "@/components/ui/text"
+```
+
+```tsx
+<Message align="start">
+  <MessageContent>
+    <Bubble variant="muted">
+      <BubbleContent>Did the build pass?</BubbleContent>
+    </Bubble>
+  </MessageContent>
+</Message>
+<Message align="end">
+  <MessageContent>
+    <Bubble>
+      <BubbleContent>It did, on the first try.</BubbleContent>
+    </Bubble>
+  </MessageContent>
+</Message>
+```
+
+## Composition
+
+- `Message`
+- `MessageAvatar`
+- `MessageContent`
+- `MessageFooter`
+- `MessageGroup`
+- `MessageHeader`
+
+## Examples
+
+```tsx showLineNumbers title="message-example.tsx"
+import { CopyIcon, FileTextIcon } from "@fabricator-ui/icons-react-native"
+
+import {
+  Attachment,
+  AttachmentContent,
+  AttachmentDescription,
+  AttachmentMedia,
+  AttachmentTitle,
+} from "@/components/ui/attachment"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Bubble, BubbleContent } from "@/components/ui/bubble"
+import { Button } from "@/components/ui/button"
+import {
+  Message,
+  MessageAvatar,
+  MessageContent,
+  MessageFooter,
+  MessageGroup,
+  MessageHeader,
+} from "@/components/ui/message"
+import { Text } from "@/components/ui/text"
+
+function MessageExample() {
+  return (
+    <ExampleWrapper>
+      <Example title="Alignment" className="items-stretch">
+        <Message align="start">
+          <MessageContent>
+            <Bubble variant="muted">
+              <BubbleContent>Did the build pass?</BubbleContent>
+            </Bubble>
+          </MessageContent>
+        </Message>
+        <Message align="end">
+          <MessageContent>
+            <Bubble>
+              <BubbleContent>It did, on the first try.</BubbleContent>
+            </Bubble>
+          </MessageContent>
+        </Message>
+      </Example>
+      <Example title="Avatar" className="items-stretch">
+        <Message>
+          <MessageAvatar>
+            <Avatar>
+              <AvatarImage
+                src="https://github.com/gabrielespinheira.png"
+                alt="@gabrielespinheira"
+              />
+              <AvatarFallback>GE</AvatarFallback>
+            </Avatar>
+          </MessageAvatar>
+          <MessageContent>
+            <Bubble variant="muted">
+              <BubbleContent>
+                The component and example JSON now live under the UI registry.
+              </BubbleContent>
+            </Bubble>
+          </MessageContent>
+        </Message>
+        <Message align="end">
+          <MessageAvatar>
+            <Avatar>
+              <AvatarFallback>ER</AvatarFallback>
+            </Avatar>
+          </MessageAvatar>
+          <MessageContent>
+            <Bubble>
+              <BubbleContent>Good. Ship it.</BubbleContent>
+            </Bubble>
+          </MessageContent>
+        </Message>
+      </Example>
+      <Example title="Header and footer" className="items-stretch">
+        <Message>
+          <MessageAvatar>
+            <Avatar>
+              <AvatarFallback>OL</AvatarFallback>
+            </Avatar>
+          </MessageAvatar>
+          <MessageContent>
+            <MessageHeader>Olivia</MessageHeader>
+            <Bubble variant="muted">
+              <BubbleContent>I already checked the logs.</BubbleContent>
+            </Bubble>
+            <MessageFooter>Delivered 9:41</MessageFooter>
+          </MessageContent>
+        </Message>
+        <Message align="end">
+          <MessageContent>
+            <Bubble>
+              <BubbleContent>Send the report to the team.</BubbleContent>
+            </Bubble>
+            <MessageFooter>Read yesterday</MessageFooter>
+          </MessageContent>
+        </Message>
+      </Example>
+      <Example title="Ghost reply and attachment" className="items-stretch">
+        <Message>
+          <MessageContent>
+            <MessageHeader>Assistant</MessageHeader>
+            <Bubble variant="ghost">
+              <BubbleContent>
+                Here is the summary. Plain text runs the full width, with no
+                frame around it.
+              </BubbleContent>
+            </Bubble>
+            <Attachment>
+              <AttachmentMedia>
+                <FileTextIcon />
+              </AttachmentMedia>
+              <AttachmentContent>
+                <AttachmentTitle>summary.pdf</AttachmentTitle>
+                <AttachmentDescription>PDF · 1.4 MB</AttachmentDescription>
+              </AttachmentContent>
+            </Attachment>
+            <MessageFooter>
+              <Button size="icon-xs" variant="ghost" accessibilityLabel="Copy">
+                <CopyIcon />
+              </Button>
+              <Text className="text-xs text-muted-foreground">12 seconds</Text>
+            </MessageFooter>
+          </MessageContent>
+        </Message>
+      </Example>
+      <Example title="Group" className="items-stretch">
+        <MessageGroup>
+          <Message>
+            <MessageAvatar />
+            <MessageContent>
+              <Bubble variant="muted">
+                <BubbleContent>I checked the registry addresses.</BubbleContent>
+              </Bubble>
+            </MessageContent>
+          </Message>
+          <Message>
+            <MessageAvatar>
+              <Avatar>
+                <AvatarFallback>GE</AvatarFallback>
+              </Avatar>
+            </MessageAvatar>
+            <MessageContent>
+              <Bubble variant="muted">
+                <BubbleContent>They all resolve.</BubbleContent>
+              </Bubble>
+            </MessageContent>
+          </Message>
+        </MessageGroup>
+      </Example>
+    </ExampleWrapper>
+  )
+}
+
+export { MessageExample }
+```
+
+## API reference
+
+Props it adds to what it wraps: `align`.
+
+## Differences from web
+
+**Same.** It works as it does on the web, with `onPress` for `onClick`.
+
+## Accessibility
+
+Text is read as it appears. Give a control with no text an `accessibilityLabel`.

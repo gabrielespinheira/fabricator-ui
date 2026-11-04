@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest"
 
 import { ROLE_DEFAULTS } from "@/registry/fabricator/color-roles"
 import { DEFAULT_LOOK } from "@/registry/fabricator/look"
+import { DEFAULT_PLAYGROUND_OPTIONS } from "@/app/(view)/app-shell/_lib/options"
 
 import {
   buildInitUrl,
@@ -19,8 +20,9 @@ function commands(
   setup: Partial<Setup>,
   packageManager: PackageManager = "npm"
 ) {
+  // Tests of the other steps read better without the shell's command.
   return buildSetupCommands(
-    { ...DEFAULT_SETUP, ...setup },
+    { ...DEFAULT_SETUP, appShell: false, ...setup },
     { siteUrl: SITE, packageManager }
   )
 }
@@ -28,6 +30,125 @@ function commands(
 function codes(setup: Partial<Setup>, packageManager: PackageManager = "npm") {
   return commands(setup, packageManager).map((command) => command.code)
 }
+
+describe("the App Shell", () => {
+  const appShell = true
+  const shellCommand = (setup: Partial<Setup>) =>
+    commands({ appShell, ...setup }).find(
+      (command) => command.id === "app-shell"
+    )?.code
+
+  it("is part of the default setup, between init and the dev server", () => {
+    expect(DEFAULT_SETUP.appShell).toBe(true)
+    expect(codes({ appShell })).toEqual([
+      "npx fabricator-ui@latest init -t next -n my-app --no-monorepo",
+      "cd my-app",
+      `npx fabricator-ui@latest add app-shell "${SITE}/init/app-shell"`,
+      "npm run dev",
+    ])
+  })
+
+  it("carries the choices in its URL", () => {
+    expect(
+      shellCommand({
+        shell: {
+          ...DEFAULT_PLAYGROUND_OPTIONS,
+          variant: "floating",
+          tabs: "main",
+        },
+      })
+    ).toBe(
+      `npx fabricator-ui@latest add app-shell "${SITE}/init/app-shell?variant=floating&tabs=main"`
+    )
+  })
+
+  it("carries an icon library other than the default", () => {
+    expect(shellCommand({ iconLibrary: "lucide" })).toBe(
+      `npx fabricator-ui@latest add app-shell "${SITE}/init/app-shell?iconLibrary=lucide"`
+    )
+  })
+
+  it("targets the app in a monorepo", () => {
+    expect(shellCommand({ monorepo: true })).toBe(
+      `npx fabricator-ui@latest add app-shell "${SITE}/init/app-shell" -c apps/web`
+    )
+  })
+
+  it("is left out when turned off", () => {
+    expect(shellCommand({ appShell: false })).toBeUndefined()
+  })
+
+  it("is left out for React Native, which has no App Shell yet", () => {
+    expect(shellCommand({ framework: "expo" })).toBeUndefined()
+  })
+
+  it("follows the package manager", () => {
+    expect(codes({ appShell }, "bun")).toContain(
+      `bunx --bun fabricator-ui@latest add app-shell "${SITE}/init/app-shell"`
+    )
+  })
+})
+
+describe("Expo", () => {
+  const expo = { framework: "expo" as const }
+
+  it("creates the app, then installs Fabricator UI in it", () => {
+    expect(codes(expo)).toEqual(
+      expect.arrayContaining([
+        "npx create-expo-app@latest my-app",
+        "cd my-app",
+        "npx fabricator-ui@latest init",
+        "npx expo run:ios",
+      ])
+    )
+  })
+
+  it("names the project", () => {
+    expect(codes({ ...expo, name: "acme" })).toContain(
+      "npx create-expo-app@latest acme"
+    )
+  })
+
+  it("skips creating an app that exists", () => {
+    const list = codes({ ...expo, project: "existing" })
+    expect(list.join(" ")).not.toContain("create-expo-app")
+    expect(list).toContain("npx fabricator-ui@latest init")
+  })
+
+  it("carries the look in a native init URL", () => {
+    const init = codes({
+      ...expo,
+      look: { ...DEFAULT_LOOK, radius: "pill" },
+    }).find((code) => code.includes("fabricator-ui@latest init"))
+    expect(init).toBe(
+      `npx fabricator-ui@latest init -p "${SITE}/init?platform=native&shape=pill"`
+    )
+  })
+
+  it("shows how to wrap the root layout", () => {
+    const wrap = commands(expo).find((command) => command.id === "root")
+    expect(wrap?.language).toBe("tsx")
+    expect(wrap?.code).toContain("<FabricatorRoot>")
+  })
+
+  it("adds every component and turns on feedback when asked", () => {
+    const list = codes({ ...expo, components: "all", sound: true })
+    expect(list).toContain("npx fabricator-ui@latest add --all")
+    expect(list).toContain("npx fabricator-ui@latest add sounds")
+  })
+
+  it("follows the package manager", () => {
+    expect(codes(expo, "bun")).toContain(
+      "bunx --bun create-expo-app@latest my-app"
+    )
+  })
+
+  it("keeps the assistant steps", () => {
+    expect(
+      codes({ ...expo, assistant: "claude", skill: true, mcp: false }).join(" ")
+    ).toContain("npx skills add")
+  })
+})
 
 describe("buildInitUrl", () => {
   it("is undefined when everything is the default", () => {
@@ -184,6 +305,12 @@ describe("setup params", () => {
       assistant: "claude",
       skill: false,
       mcp: true,
+      appShell: false,
+      shell: {
+        ...DEFAULT_PLAYGROUND_OPTIONS,
+        variant: "floating",
+        tabs: "main",
+      },
     }
     expect(parseSetupParams(setupToParams(setup))).toEqual(setup)
   })

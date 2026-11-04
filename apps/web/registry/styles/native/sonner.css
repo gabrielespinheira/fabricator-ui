@@ -1,0 +1,7 @@
+/* MARK: Sonner */
+
+  /* Each toast takes `cn-toast` from toast.css. Sonner adds a row for its cancel,
+     action and close buttons. */
+  .cn-sonner-actions {
+    @apply gap-(--density-8);
+  }

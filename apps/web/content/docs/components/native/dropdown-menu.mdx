@@ -1,0 +1,289 @@
+---
+title: Dropdown Menu
+description: Displays a menu to the user — such as a set of actions or functions — triggered by a button.
+base: native
+component: true
+---
+
+## Installation
+
+```bash
+npx fabricator-ui@latest add dropdown-menu
+```
+
+## Usage
+
+```tsx
+import { Button } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuPortal,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+```
+
+```tsx
+<DropdownMenu>
+  <DropdownMenuTrigger render={<Button variant="outline" />}>
+    Open
+  </DropdownMenuTrigger>
+  <DropdownMenuContent>
+    <DropdownMenuGroup>
+      <DropdownMenuLabel>gabs@fabricator.dev</DropdownMenuLabel>
+      <DropdownMenuItem>
+        <UserIcon />
+        Profile
+        <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+      </DropdownMenuItem>
+      <DropdownMenuItem>
+        <CreditCardIcon />
+        Billing
+      </DropdownMenuItem>
+      <DropdownMenuItem disabled>
+        <SettingsIcon />
+        Settings
+      </DropdownMenuItem>
+    </DropdownMenuGroup>
+    <DropdownMenuSeparator />
+    <DropdownMenuItem inset>Support</DropdownMenuItem>
+    <DropdownMenuItem variant="destructive">
+      <LogOutIcon />
+      Log out
+    </DropdownMenuItem>
+  </DropdownMenuContent>
+</DropdownMenu>
+```
+
+## Composition
+
+- `DropdownMenu`
+- `DropdownMenuCheckboxItem`
+- `DropdownMenuContent`
+- `DropdownMenuGroup`
+- `DropdownMenuItem`
+- `DropdownMenuLabel`
+- `DropdownMenuPortal`
+- `DropdownMenuRadioGroup`
+- `DropdownMenuRadioItem`
+- `DropdownMenuSeparator`
+- `DropdownMenuShortcut`
+- `DropdownMenuSub`
+- `DropdownMenuSubContent`
+- `DropdownMenuSubTrigger`
+- `DropdownMenuTrigger`
+
+## Examples
+
+```tsx showLineNumbers title="dropdown-menu-example.tsx"
+import * as React from "react"
+import {
+  CreditCardIcon,
+  LogOutIcon,
+  SettingsIcon,
+  UserIcon,
+} from "@fabricator-ui/icons-react-native"
+
+import { Button } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuPortal,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+
+function DropdownMenuExample() {
+  const [isOpen, setIsOpen] = React.useState(false)
+  const [showStatus, setShowStatus] = React.useState(true)
+  const [position, setPosition] = React.useState("bottom")
+  return (
+    <ExampleWrapper>
+      <Example title="Groups, labels, icons and shortcuts">
+        <DropdownMenu>
+          <DropdownMenuTrigger render={<Button variant="outline" />}>
+            Open
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuGroup>
+              <DropdownMenuLabel>gabs@fabricator.dev</DropdownMenuLabel>
+              <DropdownMenuItem>
+                <UserIcon />
+                Profile
+                <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+              </DropdownMenuItem>
+              <DropdownMenuItem>
+                <CreditCardIcon />
+                Billing
+              </DropdownMenuItem>
+              <DropdownMenuItem disabled>
+                <SettingsIcon />
+                Settings
+              </DropdownMenuItem>
+            </DropdownMenuGroup>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem inset>Support</DropdownMenuItem>
+            <DropdownMenuItem variant="destructive">
+              <LogOutIcon />
+              Log out
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </Example>
+      <Example title="Checkbox items">
+        <DropdownMenu>
+          <DropdownMenuTrigger render={<Button variant="outline" />}>
+            View
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuLabel>Appearance</DropdownMenuLabel>
+            <DropdownMenuCheckboxItem
+              checked={showStatus}
+              onCheckedChange={setShowStatus}
+            >
+              Status bar
+            </DropdownMenuCheckboxItem>
+            <DropdownMenuCheckboxItem defaultChecked>
+              Activity bar
+            </DropdownMenuCheckboxItem>
+            <DropdownMenuCheckboxItem disabled>Panel</DropdownMenuCheckboxItem>
+            <DropdownMenuCheckboxItem closeOnClick>
+              Closes when pressed
+            </DropdownMenuCheckboxItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </Example>
+      <Example title="Radio group">
+        <DropdownMenu>
+          <DropdownMenuTrigger render={<Button variant="outline" />}>
+            Panel: {position}
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuLabel>Panel position</DropdownMenuLabel>
+            <DropdownMenuRadioGroup
+              value={position}
+              onValueChange={setPosition}
+            >
+              <DropdownMenuRadioItem value="top">Top</DropdownMenuRadioItem>
+              <DropdownMenuRadioItem value="bottom">
+                Bottom
+              </DropdownMenuRadioItem>
+              <DropdownMenuRadioItem value="right" disabled>
+                Right
+              </DropdownMenuRadioItem>
+            </DropdownMenuRadioGroup>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </Example>
+      <Example title="Submenus expand inline">
+        <DropdownMenu>
+          <DropdownMenuTrigger render={<Button variant="outline" />}>
+            Team
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuItem>Team</DropdownMenuItem>
+            <DropdownMenuSub>
+              <DropdownMenuSubTrigger>Invite users</DropdownMenuSubTrigger>
+              <DropdownMenuPortal>
+                <DropdownMenuSubContent>
+                  <DropdownMenuItem>Email</DropdownMenuItem>
+                  <DropdownMenuItem>Message</DropdownMenuItem>
+                  <DropdownMenuSub>
+                    <DropdownMenuSubTrigger>
+                      More options
+                    </DropdownMenuSubTrigger>
+                    <DropdownMenuPortal>
+                      <DropdownMenuSubContent>
+                        <DropdownMenuItem>Slack</DropdownMenuItem>
+                        <DropdownMenuItem>Webhook</DropdownMenuItem>
+                      </DropdownMenuSubContent>
+                    </DropdownMenuPortal>
+                  </DropdownMenuSub>
+                </DropdownMenuSubContent>
+              </DropdownMenuPortal>
+            </DropdownMenuSub>
+            <DropdownMenuItem>New team</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </Example>
+      <Example title="Sides and alignment" className="flex-row flex-wrap">
+        <DropdownMenu>
+          <DropdownMenuTrigger render={<Button variant="outline" />}>
+            Above, at the end
+          </DropdownMenuTrigger>
+          <DropdownMenuContent side="top" align="end">
+            <DropdownMenuItem>First</DropdownMenuItem>
+            <DropdownMenuItem>Second</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </Example>
+      <Example title="Long menus scroll">
+        <DropdownMenu>
+          <DropdownMenuTrigger render={<Button variant="outline" />}>
+            Every option
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            {Array.from({ length: 40 }, (_, index) => (
+              <DropdownMenuItem key={index}>
+                Option {index + 1}
+              </DropdownMenuItem>
+            ))}
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </Example>
+      <Example title="Controlled">
+        <Button variant="outline" onPress={() => setIsOpen(true)}>
+          Open from state
+        </Button>
+        <DropdownMenu open={isOpen} onOpenChange={setIsOpen}>
+          <DropdownMenuTrigger render={<Button variant="secondary" />}>
+            Anchor
+          </DropdownMenuTrigger>
+          <DropdownMenuContent>
+            <DropdownMenuItem>Closes through onOpenChange</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
+      </Example>
+    </ExampleWrapper>
+  )
+}
+
+export { DropdownMenuExample }
+```
+
+## API reference
+
+| Prop      | Values                   |
+| --------- | ------------------------ |
+| `variant` | `default`, `destructive` |
+
+Props it adds to what it wraps: `checked`, `closeOnClick`, `defaultChecked`, `defaultOpen`, `defaultValue`, `inset`, `onCheckedChange`, `onOpenChange`, `onValueChange`, `open`, `side`, `value`, `variant`.
+
+## Differences from web
+
+**Same.** It works as it does on the web, with `onPress` for `onClick`.
+
+## Accessibility
+
+Text is read as it appears. Give a control with no text an `accessibilityLabel`.

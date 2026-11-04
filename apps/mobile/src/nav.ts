@@ -9,6 +9,8 @@ import {
   GlobeIcon,
   HomeIcon,
   InboxIcon,
+  LayoutGridIcon,
+  LayoutTemplateIcon,
   LifeBuoyIcon,
   ListTodoIcon,
   MessageSquareIcon,
@@ -31,6 +33,25 @@ export const WORKSPACES = [
 export const USER = { name: "Gabs Fabricator", email: "gabs@fabricator.dev" }
 
 export const NAV_GROUPS: NativeNavGroup[] = [
+  {
+    id: "library",
+    label: "Library",
+    items: [
+      {
+        id: "components",
+        label: "Components",
+        href: "/components",
+        icon: LayoutGridIcon,
+        mobile: "tab",
+      },
+      {
+        id: "blocks",
+        label: "Blocks",
+        href: "/blocks",
+        icon: LayoutTemplateIcon,
+      },
+    ],
+  },
   {
     id: "main",
     items: [

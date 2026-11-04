@@ -16,12 +16,12 @@
      with the row's hover, light or focus (always without an icon or on
      touch). */
   .cn-app-nav-toggle {
-    @apply z-10 cursor-pointer rounded-sm text-muted-foreground ring-ring outline-none top-[calc((var(--density-30)-var(--density-icon-16))/2)] start-[calc(var(--density-8)+var(--density-16)*var(--sidebar-menu-depth,0))] size-(--density-icon-16) opacity-0 transition-opacity duration-feedback hover:text-foreground hover:opacity-100 focus-visible:opacity-100 focus-visible:ring-1 peer-hover/menu-button:opacity-100 peer-data-fluid-hover-active/menu-button:opacity-100 peer-focus-visible/menu-button:opacity-100 data-bare:opacity-100 pointer-coarse:opacity-100 in-data-[slot=sidebar-menu-sub]:top-[calc((var(--density-30)-var(--density-icon-14))/2)] in-data-[slot=sidebar-menu-sub]:size-(--density-icon-14) [--app-nav-toggle-target:max(var(--density-24),1.5rem)] pointer-coarse:size-(--app-nav-toggle-target) pointer-coarse:m-[calc((var(--density-icon-16)-var(--app-nav-toggle-target))/2)] pointer-coarse:in-data-[slot=sidebar-menu-sub]:size-(--app-nav-toggle-target) pointer-coarse:in-data-[slot=sidebar-menu-sub]:m-[calc((var(--density-icon-14)-var(--app-nav-toggle-target))/2)] after:absolute after:-inset-1 [&_svg]:size-(--density-icon-14) [&_svg]:stroke-[1.5] [&_svg]:transition-transform [&_svg]:duration-feedback [&_svg]:ease-feedback aria-expanded:[&_svg]:rotate-90 motion-reduce:[&_svg]:transition-none group-data-[collapsible=icon]:hidden;
+    @apply z-10 cursor-pointer rounded-sm text-muted-foreground ring-ring outline-none top-[calc((var(--density-30)-var(--density-icon-16))/2)] start-[calc(var(--density-8)+(var(--density-icon-16)+var(--density-8))*var(--sidebar-menu-depth,0))] size-(--density-icon-16) opacity-0 transition-opacity duration-feedback hover:text-foreground hover:opacity-100 focus-visible:opacity-100 focus-visible:ring-1 peer-hover/menu-button:opacity-100 peer-data-fluid-hover-active/menu-button:opacity-100 peer-focus-visible/menu-button:opacity-100 data-bare:opacity-100 pointer-coarse:opacity-100 [--app-nav-toggle-target:max(var(--density-24),1.5rem)] pointer-coarse:size-(--app-nav-toggle-target) pointer-coarse:m-[calc((var(--density-icon-16)-var(--app-nav-toggle-target))/2)] after:absolute after:-inset-1 [&_svg]:size-(--density-icon-14) [&_svg]:stroke-[1.5] [&_svg]:transition-transform [&_svg]:duration-feedback [&_svg]:ease-feedback aria-expanded:[&_svg]:rotate-90 motion-reduce:[&_svg]:transition-none group-data-[collapsible=icon]:hidden;
   }
 
   /* The icon column of a row without an icon. */
   .cn-app-nav-icon-space {
-    @apply size-(--density-icon-16) in-data-[slot=sidebar-menu-sub]:size-(--density-icon-14);
+    @apply size-(--density-icon-16);
   }
 
   .cn-app-nav-menu {
@@ -53,9 +53,9 @@
     @apply px-(--density-8) pb-(--density-4) text-(length:--density-text-12) text-muted-foreground;
   }
 
-  /* Children indent 16px a level under their parent. */
+  /* As in the sidebar, a child's icon starts under its parent's label. */
   .cn-app-nav-customize-row {
-    @apply min-h-(--density-36) gap-(--density-4) rounded-lg pe-(--density-8) ps-[calc(var(--density-4)+var(--density-16)*var(--app-nav-depth,0))] text-(length:--density-text-13) hover:bg-hover;
+    @apply min-h-(--density-36) gap-(--density-4) rounded-lg pe-(--density-8) ps-[calc(var(--density-4)+(var(--density-icon-16)+var(--density-8))*var(--app-nav-depth,0))] text-(length:--density-text-13) hover:bg-hover;
   }
 
   /* The grip drags, and arrow keys move the row. A row alone in its list has

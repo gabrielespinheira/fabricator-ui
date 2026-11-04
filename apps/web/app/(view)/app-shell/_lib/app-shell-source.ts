@@ -3,7 +3,7 @@
 // the parts' shared API, so one source fits every base, and the project's
 // components.json resolves the `@fabricator` dependencies to its own.
 
-import { createLoader } from "nuqs/server"
+import { createLoader, createSerializer } from "nuqs/server"
 
 import { FABRICATOR_ICONS_PACKAGE } from "@/registry/fabricator"
 
@@ -115,6 +115,22 @@ export function normalizeInstallOptions(
     panelMobile: options.panel ? options.panelMobile : panelMobile,
     glass: options.window === "web" ? glass : options.glass,
   }
+}
+
+const serializeOptions = createSerializer(playgroundParsers)
+
+/** The endpoint for these choices: only what differs from the defaults. */
+export function buildAppShellInstallUrl(
+  options: PlaygroundOptions,
+  siteUrl: string,
+  iconLibrary = "fabricator"
+) {
+  const query = serializeOptions(normalizeInstallOptions(options))
+  const icons =
+    iconLibrary === "fabricator"
+      ? ""
+      : `${query ? "&" : "?"}iconLibrary=${iconLibrary}`
+  return `${siteUrl}/init/app-shell${query}${icons}`
 }
 
 /** Reads the endpoint's query; anything unknown keeps its default. */
@@ -329,7 +345,7 @@ function buildHelpers(options: PlaygroundOptions) {
           "  return (",
           "    <div",
           "      {...dragRegion}",
-          '      className="flex h-(--density-48) shrink-0 items-center gap-(--density-8) pe-(--density-12) [&>[data-slot=tab-strip]]:-me-(--density-6)"',
+          '      className="flex h-(--density-48) shrink-0 items-center gap-(--density-8) pe-(--app-shell-control-inset) [&>[data-slot=tab-strip]]:-me-(--density-6)"',
           "    >",
           "      {children}",
           "    </div>",

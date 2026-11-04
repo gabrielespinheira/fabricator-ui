@@ -1,3 +1,5 @@
+import "./global.css"
+
 import * as React from "react"
 import {
   APP_SHELL_CONTENT_WIDTHS,
@@ -21,6 +23,7 @@ import {
 } from "lucide-react-native"
 import {
   Alert,
+  Linking,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -33,6 +36,15 @@ import {
   useSafeAreaInsets,
 } from "react-native-safe-area-context"
 
+import { FabricatorRoot } from "@/registry/native/ui/fabricator-root"
+
+import {
+  BlockLibrary,
+  BLOCKS_HREF,
+  ComponentLibrary,
+  COMPONENTS_HREF,
+} from "./library/component-library"
+import { getPathFromUrl } from "./library/library-model"
 import { NAV_GROUPS, WORKSPACES } from "./nav"
 import { SettingsCard } from "./settings"
 import {
@@ -40,7 +52,7 @@ import {
   ShellOptionsCard,
   type ShellOptions,
 } from "./shell-options"
-import { IconButton } from "./shell/icon-button"
+import { getControlInset, IconButton } from "./shell/icon-button"
 import { PanelContent, PanelSheet } from "./shell/panel"
 import { Sidebar } from "./shell/sidebar"
 import { SidebarReveal } from "./shell/sidebar-reveal"
@@ -56,6 +68,9 @@ const HOME_HREF = "/"
 const SETTINGS_HREF = "/settings"
 
 const showNewTask = () => Alert.alert("New task")
+
+const isLibraryPath = (pathname: string) =>
+  pathname.startsWith(COMPONENTS_HREF) || pathname.startsWith(BLOCKS_HREF)
 
 /** The two setup cards: side by side where they fit, stacked on a phone. */
 function SetupCards({
@@ -88,15 +103,35 @@ function Page({
   setup,
   contentSize,
   bottomInset = 0,
+  onNavigate,
 }: {
   title: string
   pathname: string
   setup: React.ReactNode
   contentSize: AppShellContentSize
   bottomInset?: number
+  onNavigate: (href: string) => void
 }) {
   const styles = useStyles(buildStyles)
   const isSetup = pathname === HOME_HREF || pathname === SETTINGS_HREF
+  if (pathname.startsWith(BLOCKS_HREF)) {
+    return (
+      <BlockLibrary
+        pathname={pathname}
+        onNavigate={onNavigate}
+        bottomInset={bottomInset}
+      />
+    )
+  }
+  if (pathname.startsWith(COMPONENTS_HREF)) {
+    return (
+      <ComponentLibrary
+        pathname={pathname}
+        onNavigate={onNavigate}
+        bottomInset={bottomInset}
+      />
+    )
+  }
   return (
     <ScrollView
       contentContainerStyle={[
@@ -219,6 +254,15 @@ function Shell() {
   const isPhone = size === "phone"
 
   const [pathname, setPathname] = React.useState(HOME_HREF)
+  React.useEffect(() => {
+    const open = (url: string | null | undefined) => {
+      const path = getPathFromUrl(url)
+      if (path) setPathname(path)
+    }
+    void Linking.getInitialURL().then(open)
+    const subscription = Linking.addEventListener("url", ({ url }) => open(url))
+    return () => subscription.remove()
+  }, [])
   const [preferences, setPreferences] = React.useState<NavPreferences>(
     EMPTY_NAV_PREFERENCES
   )
@@ -256,7 +300,7 @@ function Shell() {
   })
   const hasPanel = options.panel && placement !== null
   const isFlat = options.style !== "inset"
-  const gutter = isFlat ? 0 : theme.space[6]
+  const gutter = isFlat ? 0 : theme.space[8]
 
   const isDocked = placement === "inline"
   const isPanelOpen = isDocked ? panel.open : isFloatingOpen
@@ -271,7 +315,7 @@ function Shell() {
   }
   // The panel's toggle holds the card's top corner, open or closed, centred
   // in the row of whichever header is under it.
-  const panelToggleInset = (theme.space[48] - theme.compact.space[36]) / 2
+  const panelToggleInset = getControlInset(theme)
   const closePanel = () => setPanelOpen(false)
   const togglePanel = () => setPanelOpen(!isPanelOpen)
   const panelContent = (
@@ -375,8 +419,9 @@ function Shell() {
                 setup={setup}
                 contentSize={options.contentSize}
                 bottomInset={options.tabBar ? 0 : insets.bottom}
+                onNavigate={setPathname}
               />
-              {options.actions && (
+              {options.actions && !isLibraryPath(pathname) && (
                 <FloatingButton
                   bottomInset={options.tabBar ? 0 : insets.bottom}
                 />
@@ -401,6 +446,7 @@ function Shell() {
     <View
       style={[
         styles.frame,
+        isFloatingSidebar && styles.frameFloating,
         { paddingLeft: insets.left, paddingRight: insets.right },
       ]}
     >
@@ -477,6 +523,7 @@ function Shell() {
               pathname={pathname}
               setup={setup}
               contentSize={options.contentSize}
+              onNavigate={setPathname}
             />
           </View>
           {hasPanel && isDocked && panel.open && (
@@ -501,7 +548,7 @@ function Shell() {
                 styles.panelToggle,
                 {
                   top: insets.top + gutter + panelToggleInset,
-                  right: gutter + theme.space[12],
+                  right: gutter + panelToggleInset,
                 },
               ]}
             >
@@ -511,7 +558,11 @@ function Shell() {
         </View>
         {options.status && (
           <View
-            style={[styles.statusBar, { paddingBottom: insets.bottom }]}
+            style={[
+              styles.statusBar,
+              isFloatingSidebar && styles.statusBarFloating,
+              { paddingBottom: insets.bottom },
+            ]}
             accessibilityRole="summary"
           >
             <GitBranchIcon
@@ -538,10 +589,12 @@ function ThemedStatusBar() {
 export function App() {
   return (
     <SafeAreaProvider>
-      <ThemeProvider>
-        <ThemedStatusBar />
-        <Shell />
-      </ThemeProvider>
+      <FabricatorRoot>
+        <ThemeProvider>
+          <ThemedStatusBar />
+          <Shell />
+        </ThemeProvider>
+      </FabricatorRoot>
     </SafeAreaProvider>
   )
 }
@@ -561,13 +614,20 @@ const buildStyles = (theme: Theme) =>
       flexDirection: "row",
       backgroundColor: theme.colors.frame,
     },
+    // A floating sidebar is the one card: the rest takes the main colour.
+    frameFloating: { backgroundColor: theme.colors.main },
+    statusBarFloating: {
+      borderTopWidth: StyleSheet.hairlineWidth,
+      borderTopColor: theme.colors.border,
+    },
     phoneHeader: { backgroundColor: theme.colors.main },
     header: {
       height: theme.space[48],
       flexDirection: "row",
       alignItems: "center",
       gap: theme.space[8],
-      paddingHorizontal: theme.space[12],
+      paddingLeft: theme.space[12],
+      paddingRight: getControlInset(theme),
     },
     phoneTitle: {
       flex: 1,
@@ -599,7 +659,7 @@ const buildStyles = (theme: Theme) =>
       backgroundColor: theme.colors.placeholder,
     },
     // The website's -ms-(--density-4), read inside the button's compact density.
-    headerTrigger: { marginLeft: -theme.compact.space[4] },
+    headerTrigger: { marginLeft: getControlInset(theme) - theme.space[12] },
     toggleSlot: { width: theme.compact.space[36] },
     panelToggle: { position: "absolute" },
     sidebarFlush: {
@@ -628,8 +688,8 @@ const buildStyles = (theme: Theme) =>
     cards: {
       flex: 1,
       flexDirection: "row",
-      gap: theme.space[6],
-      paddingRight: theme.space[6],
+      gap: theme.space[8],
+      paddingRight: theme.space[8],
     },
     card: {
       borderRadius: theme.radius.xl,

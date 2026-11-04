@@ -1,0 +1,82 @@
+---
+title: Spinner
+description: An indicator that can be used to show a loading state.
+base: native
+component: true
+---
+
+## Installation
+
+```bash
+npx fabricator-ui@latest add spinner
+```
+
+## Usage
+
+```tsx
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { Spinner } from "@/components/ui/spinner"
+```
+
+```tsx
+<Spinner className="size-3" />
+<Spinner />
+<Spinner className="size-6" />
+<Spinner className="size-8" />
+```
+
+## Examples
+
+```tsx showLineNumbers title="spinner-example.tsx"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { Spinner } from "@/components/ui/spinner"
+
+function SpinnerExample() {
+  return (
+    <ExampleWrapper>
+      <Example title="Sizes" className="flex-row items-center">
+        <Spinner className="size-3" />
+        <Spinner />
+        <Spinner className="size-6" />
+        <Spinner className="size-8" />
+      </Example>
+      <Example title="Colours" className="flex-row items-center">
+        <Spinner className="text-primary" />
+        <Spinner className="text-destructive" />
+        <Spinner className="text-muted-foreground" />
+      </Example>
+      <Example title="In a button" className="flex-row flex-wrap items-center">
+        <Button disabled>
+          <Spinner />
+          Saving
+        </Button>
+        <Button variant="outline" disabled>
+          <Spinner />
+          Loading
+        </Button>
+      </Example>
+      <Example title="In a badge">
+        <Badge variant="secondary">
+          <Spinner className="size-3" />
+          Syncing
+        </Badge>
+      </Example>
+      <Example title="Labelled">
+        <Spinner aria-label="Sending your message" />
+      </Example>
+    </ExampleWrapper>
+  )
+}
+
+export { SpinnerExample }
+```
+
+## Differences from web
+
+**Same.** It works as it does on the web, with `onPress` for `onClick`.
+
+## Accessibility
+
+Parts set `role="status"`, read by VoiceOver and TalkBack. Give a control with no text an `accessibilityLabel`.

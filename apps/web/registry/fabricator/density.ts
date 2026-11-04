@@ -16,7 +16,7 @@
 // `registry/fabricator/__tests__/density-usage.test.ts` fails on fixed
 // control sizes in the style maps.
 
-import type { CssObject } from "@/registry/fabricator/foundations"
+import type { CssObject } from "@/registry/fabricator/css-object"
 
 export const DENSITY_NAMES = ["compact", "default", "spacious"] as const
 

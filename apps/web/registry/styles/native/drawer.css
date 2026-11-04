@@ -1,0 +1,51 @@
+/* MARK: Drawer */
+
+  /* Scrim: 40% black (80% in dark), no blur. Dragging tracks the finger; a
+     release keeps the swipe's speed (lib/sheet-surface). */
+  .cn-drawer-overlay {
+    @apply bg-black/40 dark:bg-black/80;
+  }
+
+  /* Panel: surface 3 whose shadow ring is the edge (no border); the edge that
+     meets the screen is square, the free edge rounded-xl. A drawer along the
+     sides takes 3/4 of the width, at most 384pt from sm up. */
+  .cn-drawer-popup {
+    @apply bg-surface-3 shadow-surface-3 data-[swipe-axis=x]:w-3/4 data-[swipe-axis=x]:flex-row data-[swipe-axis=x]:sm:w-96 data-[swipe-axis=y]:max-h-[90%] data-[swipe-direction=down]:rounded-t-xl data-[swipe-direction=left]:rounded-r-xl data-[swipe-direction=right]:rounded-l-xl data-[swipe-direction=up]:rounded-b-xl;
+  }
+
+  .cn-drawer-text {
+    @apply text-popover-foreground text-(length:--density-text-13);
+  }
+
+  /* Beside the handle of a side drawer, it takes the rest of the width. */
+  .cn-drawer-content-base {
+    @apply data-[swipe-axis=x]:flex-1;
+  }
+
+  /* The bar a finger reaches for, along the edge away from the one it swipes
+     toward. */
+  .cn-drawer-swipe-handle {
+    @apply data-[swipe-axis=x]:h-full data-[swipe-axis=x]:w-5 data-[swipe-axis=y]:h-5 data-[swipe-axis=y]:w-full;
+  }
+
+  .cn-drawer-swipe-handle-bar {
+    @apply bg-active rounded-full data-[swipe-axis=x]:h-12 data-[swipe-axis=x]:w-1 data-[swipe-axis=y]:h-1 data-[swipe-axis=y]:w-12;
+  }
+
+  .cn-drawer-header-base {
+    @apply gap-(--density-6) p-(--density-16) pb-0;
+  }
+
+  /* Centred on a drawer that comes from the bottom or top, from the start from md
+     up. */
+  .cn-drawer-title {
+    @apply text-foreground text-(length:--density-text-16) leading-tight font-bold data-[swipe-axis=y]:text-center data-[swipe-axis=y]:md:text-start;
+  }
+
+  .cn-drawer-description {
+    @apply text-muted-foreground text-(length:--density-text-13) data-[swipe-axis=y]:text-center data-[swipe-axis=y]:md:text-start;
+  }
+
+  .cn-drawer-footer-base {
+    @apply gap-(--density-8) p-(--density-16) pt-0;
+  }

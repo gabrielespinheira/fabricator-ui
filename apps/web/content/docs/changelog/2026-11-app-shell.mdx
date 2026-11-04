@@ -23,7 +23,11 @@ On phones the shell shows the sidebar behind the page, which moves aside and shr
 
 `AppShellContent` takes a `size` (`sm`, `md` or `lg`) that centres the page in a column and gives it the page's padding; left out, the page has the main column's full width.
 
-The Sidebar's rows sit 8px from its edges in the `inset` variant, as in `sidebar`, and groups sit 16px apart. Group actions, badges, row actions, the header's trigger and the large rows' chevrons share one axis. `SidebarGroupActions` gained `showOnHover`, App Nav uses it, and a closed group hides its actions. `AppNavCustomize`'s default trigger is a sidebar row with an icon, so it fits the icon rail.
+The [Get started](/create) page previews the real App Shell. A new Shell step sets its options, and the install commands add it with those choices.
+
+With the floating sidebar, only the card has a background: the space around it, the status bar and a titlebar take the main column's colour, and in a translucent window the card shows the glass. The App Shell sits on one 8px grid: the main card and the panel keep 8px from the window and each other, the Sidebar's rows keep 8px from all four of its edges, and the top rows of the Sidebar and the main column line up in every sidebar style. The controls at the ends of the top row sit as far from the card's side as from its top, in every layout and density.
+
+The Sidebar's rows sit 8px from its edges in the `inset` variant, as in `sidebar`, and groups sit 16px apart. Group actions, badges, row actions, the header's trigger and the large rows' chevrons share one axis. Nested rows use the same 16px icons, and each one's icon starts under its parent's label. `SidebarGroupActions` gained `showOnHover`, App Nav uses it, and a closed group hides its actions. `AppNavCustomize`'s default trigger is a sidebar row with an icon, so it fits the icon rail.
 
 App Nav's Customize dialog reorders rows too, by dragging their grips or with the arrow keys, in any group. A dragged row lifts off the list, and a slot marks where it lands.
 

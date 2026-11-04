@@ -25,12 +25,18 @@ import {
   ASSISTANTS,
   buildSetupCommands,
   FRAMEWORKS,
+  isNativeFramework,
   PACKAGE_MANAGERS,
   SETUP_BASES,
   setupToParams,
   type Framework,
   type Setup,
 } from "@/app/(app)/(create)/lib/setup"
+import {
+  SIDEBAR_COLLAPSE_CHOICES,
+  SIDEBAR_VARIANT_CHOICES,
+  TAB_PLACEMENT_CHOICES,
+} from "@/app/(view)/app-shell/_lib/options"
 
 import type { StepName } from "./setup-wizard"
 import { StepFooter } from "./step-parts"
@@ -330,6 +336,41 @@ function SetupSummary({
               {extras.length > 0 ? extras.join(", ") : "None"}
             </button>
           </SummaryRow>
+        </SummaryCard>
+        <SummaryCard title="App Shell" onEdit={() => onEdit("shell")}>
+          {setup.appShell && !isNativeFramework(setup.framework) ? (
+            <>
+              <SummaryRow label="Sidebar">
+                {
+                  SIDEBAR_VARIANT_CHOICES.find(
+                    ({ value }) => value === setup.shell.variant
+                  )?.label
+                }
+              </SummaryRow>
+              <SummaryRow label="Collapse">
+                {
+                  SIDEBAR_COLLAPSE_CHOICES.find(
+                    ({ value }) => value === setup.shell.collapse
+                  )?.label
+                }
+              </SummaryRow>
+              <SummaryRow label="Tabs">
+                {
+                  TAB_PLACEMENT_CHOICES.find(
+                    ({ value }) => value === setup.shell.tabs
+                  )?.label
+                }
+              </SummaryRow>
+              <SummaryRow label="Right panel">
+                {setup.shell.panel ? "On" : "Off"}
+              </SummaryRow>
+              <SummaryRow label="Status bar">
+                {setup.shell.status ? "On" : "Off"}
+              </SummaryRow>
+            </>
+          ) : (
+            <SummaryRow label="In your project">No</SummaryRow>
+          )}
         </SummaryCard>
       </div>
     </section>

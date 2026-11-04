@@ -38,6 +38,14 @@ export function IconButton({
   )
 }
 
+/**
+ * Keeps a control at the top row's end as far from the card's side as from its
+ * top: half of what the button leaves in the row.
+ */
+export function getControlInset(theme: Theme) {
+  return (theme.space[48] - theme.compact.space[36]) / 2
+}
+
 const buildStyles = (theme: Theme) =>
   StyleSheet.create({
     button: {

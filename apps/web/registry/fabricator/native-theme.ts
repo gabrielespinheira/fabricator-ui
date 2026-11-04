@@ -4,25 +4,30 @@
 // __tests__/native-theme.test.ts pins the result to values measured in a
 // browser.
 
-import { roleLiterals } from "@/registry/fabricator/color-roles"
+import { COLOR_ROLES, roleLiterals } from "@/registry/fabricator/color-roles"
 import { DENSITIES } from "@/registry/fabricator/density"
+import { getDensityVariables } from "@/registry/fabricator/density-variables"
 import {
-  FABRICATOR_FOUNDATIONS,
   FABRICATOR_PALETTE,
-} from "@/registry/fabricator/foundations"
+  FABRICATOR_TOKENS,
+} from "@/registry/fabricator/foundation-tokens"
 import {
+  DEFAULT_LOOK,
   parseLook,
   PILL_RADIUS,
   type FabricatorLook,
 } from "@/registry/fabricator/look"
 import {
   DEFAULT_MOTION_SPEED,
+  MOTION_ROLES,
+  MOTION_SPEED_NAMES,
   MOTION_SPEEDS,
 } from "@/registry/fabricator/motion"
 import {
   MUTED_FOREGROUND_STEP,
   oklchToHex,
   SURFACE_STEPS,
+  surfaceLadder,
   TINTED_NEUTRALS,
   tintedLiteral,
 } from "@/registry/fabricator/surface-tint"
@@ -97,6 +102,19 @@ function resolveShadow(shadow: string, vars: Record<string, string>) {
     .replace(/,(?=\S)/g, ", ")
 }
 
+/** Uniwind splits a shadow list on commas, so its colours can't contain any. */
+function toHexAlphaColors(shadow: string) {
+  return shadow.replace(
+    /rgba\((\d+), (\d+), (\d+), ([\d.]+)\)/g,
+    (_match, red: string, green: string, blue: string, alpha: string) => {
+      const channels = [red, green, blue, Number(alpha) * 255].map((channel) =>
+        Math.round(Number(channel)).toString(16).padStart(2, "0")
+      )
+      return `#${channels.join("")}`
+    }
+  )
+}
+
 function getBezier(easing: string) {
   const match = BEZIER_PATTERN.exec(easing)
   if (!match) throw new NativeThemeError(`Not a cubic-bezier(): ${easing}`)
@@ -118,7 +136,7 @@ function getRadiusScale(look: FabricatorLook) {
 
 function getColors(mode: NativeMode, look: FabricatorLook) {
   const palette = FABRICATOR_PALETTE[mode]
-  const foundations = FABRICATOR_FOUNDATIONS.cssVars[mode]
+  const foundations = FABRICATOR_TOKENS[mode]
   const surface = (level: 1 | 3 | 4) =>
     tintedLiteral(SURFACE_STEPS[mode][level - 1], look.surface)
   const muted =
@@ -164,8 +182,8 @@ function getColors(mode: NativeMode, look: FabricatorLook) {
 
 function getShadows(mode: NativeMode) {
   const vars = {
-    ...FABRICATOR_FOUNDATIONS.cssVars.light,
-    ...FABRICATOR_FOUNDATIONS.cssVars[mode],
+    ...FABRICATOR_TOKENS.light,
+    ...FABRICATOR_TOKENS[mode],
   }
   const selection = resolveShadow(vars["shadow-2"], vars)
   return {
@@ -212,6 +230,200 @@ export function getNativeTheme(mode: NativeMode, look: FabricatorLook) {
 }
 
 export type NativeTheme = ReturnType<typeof getNativeTheme>
+
+/**
+ * A phone's default look: the website's, at the spacious density, because the
+ * default's 36pt controls and 30pt rows are small for a finger.
+ */
+export const DEFAULT_NATIVE_LOOK: FabricatorLook = {
+  ...DEFAULT_LOOK,
+  density: "spacious",
+}
+
+type NativeVariables = Record<string, string | number>
+
+function getMotionVariables(motion: FabricatorLook["motion"]): NativeVariables {
+  const isOff = motion === "off"
+  const speed = MOTION_SPEEDS[isOff ? DEFAULT_MOTION_SPEED : motion]
+  return {
+    ...Object.fromEntries(
+      MOTION_ROLES.flatMap((role) => [
+        [`--motion-${role}`, isOff ? 0 : speed.durations[role].enter],
+        [`--motion-${role}-exit`, isOff ? 0 : speed.durations[role].exit],
+      ])
+    ),
+    "--motion-scale": isOff ? 0 : 1,
+    // Uniwind's compiler can't hold a cubic-bezier() in a variable, so the
+    // theme names the speed and lib/motion reads its curves from motion.ts.
+    "--motion-speed": MOTION_SPEED_NAMES.indexOf(
+      isOff ? DEFAULT_MOTION_SPEED : motion
+    ),
+    "--motion-press-scale": isOff ? 1 : speed.scales.press,
+    "--motion-tooltip-scale": speed.scales.tooltip,
+    "--motion-popup-scale": speed.scales.popup,
+    "--motion-dialog-scale": speed.scales.dialog,
+    "--motion-tooltip-travel": speed.travel.tooltip,
+    "--motion-popup-travel": speed.travel.popup,
+  }
+}
+
+function getRoleVariables(mode: NativeMode, look: FabricatorLook) {
+  return Object.fromEntries(
+    COLOR_ROLES.flatMap((role) =>
+      Object.entries(roleLiterals(role, mode, look.colors[role])).map(
+        ([name, value]) => [`--${name}`, toNativeColor(value)]
+      )
+    )
+  )
+}
+
+/** Colours the look leaves alone: the palette and the interaction tokens. */
+const LITERAL_COLOR_TOKENS = [
+  "foreground",
+  "card-foreground",
+  "popover-foreground",
+  "accent",
+  "accent-foreground",
+  "border",
+  "input",
+  "ring",
+  "chart-1",
+  "chart-2",
+  "chart-3",
+  "chart-4",
+  "chart-5",
+  "sidebar-foreground",
+  "sidebar-accent",
+  "sidebar-accent-foreground",
+  "sidebar-border",
+  "sidebar-ring",
+] as const
+
+const SURFACE_LEVELS = [1, 2, 3, 4, 5, 6, 7, 8] as const
+
+/**
+ * Every token for one look in one mode, under the website's names, as literal
+ * values. `Uniwind.updateCSSVariables` takes this as it is, and the installed
+ * stylesheet is written from it, so a look set at install and one set at
+ * runtime draw the same.
+ */
+export function getNativeCssVariables(
+  mode: NativeMode,
+  look: FabricatorLook
+): NativeVariables {
+  const palette = FABRICATOR_PALETTE[mode]
+  const tokens = { ...FABRICATOR_TOKENS.light, ...FABRICATOR_TOKENS[mode] }
+  const surfaces = surfaceLadder(mode, look.surface).map(toNativeColor)
+  const roles = getRoleVariables(mode, look)
+  const radius = getRadiusScale(look)
+  const appShell = getColors(mode, look)
+
+  return {
+    ...Object.fromEntries(
+      LITERAL_COLOR_TOKENS.map((name) => [
+        `--${name}`,
+        toNativeColor(palette[name]),
+      ])
+    ),
+    ...roles,
+    "--sidebar-primary": roles["--primary"],
+    "--sidebar-primary-foreground": roles["--primary-foreground"],
+    ...Object.fromEntries(
+      SURFACE_LEVELS.flatMap((level) => [
+        [`--surface-${level}`, surfaces[level - 1]],
+        [
+          `--shadow-${level}`,
+          toHexAlphaColors(resolveShadow(tokens[`shadow-${level}`], tokens)),
+        ],
+      ])
+    ),
+    "--background": surfaces[0],
+    "--card": surfaces[2],
+    "--popover": surfaces[2],
+    "--sidebar": surfaces[1],
+    "--muted": toNativeColor(
+      tintedLiteral(TINTED_NEUTRALS[mode].muted, look.surface)
+    ),
+    "--muted-foreground": toNativeColor(
+      mode === "light"
+        ? tintedLiteral(MUTED_FOREGROUND_STEP, look.surface)
+        : palette["muted-foreground"]
+    ),
+    "--selected": toNativeColor(
+      tintedLiteral(TINTED_NEUTRALS[mode].selected, look.surface)
+    ),
+    "--hover": toNativeColor(tokens.hover),
+    "--active": toNativeColor(tokens.active),
+    "--tint": toNativeColor(tokens.tint),
+    "--tint-hover": toNativeColor(tokens["tint-hover"]),
+    "--focus-ring": toNativeColor(tokens["focus-ring"]),
+    "--app-shell-frame": appShell.frame,
+    "--app-shell-main": appShell.main,
+    "--app-shell-panel": appShell.panel,
+    "--app-shell-frame-muted": appShell.mutedOnFrame,
+    "--app-shell-card-shadow": toHexAlphaColors(getShadows(mode).card),
+    "--radius": radius.lg,
+    "--radius-sm": radius.sm,
+    "--radius-md": radius.md,
+    "--radius-lg": radius.lg,
+    "--radius-xl": radius.xl,
+    "--radius-2xl": radius["2xl"],
+    ...getDensityVariables(DENSITIES[look.density]),
+    ...getMotionVariables(look.motion),
+  }
+}
+
+// Written with a unit in the stylesheet; Uniwind reads a bare number as one.
+const PIXEL_TOKEN = /^--(radius|density-|motion-.*-travel)/
+
+function toCssBlock(variables: NativeVariables, indent: string): string {
+  return Object.entries(variables)
+    .map(([name, value]) => {
+      const unit =
+        typeof value === "number" && PIXEL_TOKEN.test(name) ? "px" : ""
+      return `${indent}${name}: ${value}${unit};`
+    })
+    .join("\n")
+}
+
+/** The website's Tailwind names, minus the motion keys only CSS can read. */
+function getThemeMapping() {
+  const palette = Object.keys(FABRICATOR_PALETTE.light).filter(
+    (name) => name !== "radius"
+  )
+  return {
+    ...Object.fromEntries(
+      palette.map((name) => [`--color-${name}`, `var(--${name})`])
+    ),
+    ...Object.fromEntries(
+      Object.entries(FABRICATOR_TOKENS.theme)
+        .filter(
+          ([name]) =>
+            name.startsWith("color-") || name.startsWith("shadow-surface-")
+        )
+        .map(([name, value]) => [`--${name}`, value])
+    ),
+    "--color-app-shell-frame": "var(--app-shell-frame)",
+    "--color-app-shell-main": "var(--app-shell-main)",
+    "--color-app-shell-panel": "var(--app-shell-panel)",
+    "--shadow-app-shell-card": "var(--app-shell-card-shadow)",
+  }
+}
+
+/**
+ * The installed theme file: every token per mode, nested the way Uniwind reads
+ * themes, and the Tailwind names the components use.
+ */
+export function toNativeStylesheet(look: FabricatorLook = DEFAULT_NATIVE_LOOK) {
+  const mode = (name: NativeMode) =>
+    `    @variant ${name} {\n${toCssBlock(getNativeCssVariables(name, look), "      ")}\n    }`
+  return [
+    "/* Fabricator UI's tokens for React Native. Generated; change the look with `fabricator-ui init` or at runtime with applyLook. */",
+    `@layer theme {\n  :root {\n${mode("light")}\n${mode("dark")}\n  }\n}`,
+    `@theme inline {\n${toCssBlock(getThemeMapping(), "  ")}\n}`,
+    "",
+  ].join("\n\n")
+}
 
 const LOOK_URL_PATTERN = /^fabricator-ui:\/\/look\/?(?:\?(.*))?$/
 

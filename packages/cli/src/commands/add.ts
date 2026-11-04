@@ -8,8 +8,10 @@ import {
 } from "../utils/config"
 import { highlight, logger } from "../utils/logger"
 import { NAMESPACE, rewriteNames, usesFabricator } from "../utils/names"
+import { registryTemplateFor } from "../utils/native"
 import { exitLike, runShadcn, type ShadcnResult } from "../utils/shadcn"
-import { fabricatorRegistryTemplate, getBaseUrl } from "../utils/urls"
+import { getBaseUrl } from "../utils/urls"
+import { alignExpoDependencies } from "./init-native"
 import {
   fail,
   fetchCatalog,
@@ -68,7 +70,7 @@ export async function runWithFabricatorRegistry(
   const config = requireComponentsJson(cwd)
   if (hasRegistry(config, NAMESPACE)) return runShadcn(args)
 
-  const url = fabricatorRegistryTemplate(getBaseUrl())
+  const url = registryTemplateFor(cwd, getBaseUrl())
   if (options.readOnly) {
     if (!options.silent) {
       logger.note(
@@ -144,12 +146,14 @@ export async function add(
   const args = ["add", ...items, ...flags]
   if (!usesFabricator(items)) return exitLike(await runShadcn(args))
   const readOnly = Boolean(options.dryRun || options.diff || options.view)
-  exitLike(
-    await runWithFabricatorRegistry(cwd, args, {
-      readOnly,
-      silent: options.silent,
-    })
-  )
+  const result = await runWithFabricatorRegistry(cwd, args, {
+    readOnly,
+    silent: options.silent,
+  })
+  if (result.code === 0 && !result.signal && !readOnly) {
+    await alignExpoDependencies(cwd, { silent: options.silent })
+  }
+  exitLike(result)
 }
 
 export function createAddCommand(): Command {

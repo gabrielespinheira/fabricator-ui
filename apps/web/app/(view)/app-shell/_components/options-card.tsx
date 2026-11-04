@@ -29,6 +29,9 @@ import {
   countChangedOptions,
   DEFAULT_PLAYGROUND_OPTIONS,
   isPeekAvailable,
+  SIDEBAR_COLLAPSE_CHOICES,
+  SIDEBAR_VARIANT_CHOICES,
+  TAB_PLACEMENT_CHOICES,
   type PlaygroundOptions,
 } from "../_lib/options"
 import { CardInstall } from "./cli-command"
@@ -61,7 +64,7 @@ function OptionChoice<T extends string>({
   )
 }
 
-function OptionSwitch({
+export function OptionSwitch({
   label,
   checked,
   disabled = false,
@@ -100,6 +103,211 @@ function OptionSection({
   )
 }
 
+/** Every option, in two columns once their container has room. */
+export function AppShellOptionFields({
+  options,
+  setOptions,
+  hidden,
+}: {
+  options: PlaygroundOptions
+  setOptions: SetOptions
+  /** Options this shell can't honour. */
+  hidden?: ReadonlySet<keyof PlaygroundOptions>
+}) {
+  const isShown = (option: keyof PlaygroundOptions) => !hidden?.has(option)
+  // Without a choice of runtime, the real window decides what applies.
+  const isWindowOff = isShown("window") && options.window === "web"
+
+  return (
+    <div className="grid items-start gap-x-10 gap-y-6 @xl:grid-cols-2">
+      <OptionSection title="Sidebar">
+        <OptionChoice
+          label="Style"
+          value={options.variant}
+          choices={SIDEBAR_VARIANT_CHOICES}
+          onChange={(variant) => setOptions({ variant })}
+        />
+        <OptionChoice
+          label="Collapse"
+          value={options.collapse}
+          choices={SIDEBAR_COLLAPSE_CHOICES}
+          onChange={(collapse) => setOptions({ collapse })}
+        />
+        <OptionChoice
+          label="Peek"
+          value={options.peek}
+          disabled={!isPeekAvailable(options)}
+          choices={[
+            { value: "none", label: "Off" },
+            { value: "hover", label: "Hover" },
+            { value: "click", label: "Click" },
+          ]}
+          onChange={(peek) => setOptions({ peek })}
+        />
+        <OptionChoice
+          label="On phones"
+          value={options.mobileSidebar}
+          choices={[
+            { value: "reveal", label: "Reveal" },
+            { value: "sheet", label: "Sheet" },
+          ]}
+          onChange={(mobileSidebar) => setOptions({ mobileSidebar })}
+        />
+        <OptionChoice
+          label="Workspaces"
+          value={options.switcher}
+          choices={[
+            { value: "menu", label: "Menu" },
+            { value: "command", label: "Search" },
+            { value: "none", label: "None" },
+          ]}
+          onChange={(switcher) => setOptions({ switcher })}
+        />
+        <OptionChoice
+          label="Account"
+          value={options.account}
+          choices={[
+            { value: "footer", label: "Bottom" },
+            { value: "header", label: "Top" },
+            { value: "none", label: "None" },
+          ]}
+          onChange={(account) => setOptions({ account })}
+        />
+        <OptionSwitch
+          label="Drag to reorder"
+          checked={options.reorder}
+          onChange={(reorder) => setOptions({ reorder })}
+        />
+        <OptionSwitch
+          label="Pin, hide and customize"
+          checked={options.customize}
+          onChange={(customize) => setOptions({ customize })}
+        />
+      </OptionSection>
+      <div className="flex flex-col gap-6">
+        <OptionSection title="Main">
+          <OptionChoice
+            label="Tabs"
+            value={options.tabs}
+            choices={TAB_PLACEMENT_CHOICES}
+            onChange={(tabs) => setOptions({ tabs })}
+          />
+          <OptionChoice
+            label="Content width"
+            value={options.contentSize}
+            choices={[
+              { value: "sm", label: "Narrow" },
+              { value: "md", label: "Default" },
+              { value: "lg", label: "Wide" },
+            ]}
+            onChange={(contentSize) => setOptions({ contentSize })}
+          />
+          <OptionSwitch
+            label="Breadcrumb"
+            checked={options.breadcrumb}
+            onChange={(breadcrumb) => setOptions({ breadcrumb })}
+          />
+          <OptionSwitch
+            label="Header actions"
+            checked={options.actions}
+            onChange={(actions) => setOptions({ actions })}
+          />
+          <OptionSwitch
+            label="Status bar"
+            checked={options.status}
+            onChange={(status) => setOptions({ status })}
+          />
+          {isShown("bottomNav") && (
+            <OptionSwitch
+              label="Tab bar on phones"
+              checked={options.bottomNav}
+              onChange={(bottomNav) => setOptions({ bottomNav })}
+            />
+          )}
+        </OptionSection>
+        <OptionSection title="Right panel">
+          <OptionSwitch
+            label="Panel"
+            checked={options.panel}
+            onChange={(panel) => setOptions({ panel })}
+          />
+          <OptionChoice
+            label="On phones"
+            value={options.panelMobile}
+            disabled={!options.panel}
+            choices={[
+              { value: "drawer", label: "Drawer" },
+              { value: "swap", label: "Screen" },
+              { value: "none", label: "None" },
+            ]}
+            onChange={(panelMobile) => setOptions({ panelMobile })}
+          />
+        </OptionSection>
+        {(isShown("window") || isShown("fullscreen") || isShown("glass")) && (
+          <>
+            <OptionSection title="Window">
+              {isShown("window") && (
+                <OptionChoice
+                  label="Runs in"
+                  value={options.window}
+                  choices={[
+                    { value: "web", label: "Browser" },
+                    { value: "macos", label: "macOS" },
+                    { value: "windows", label: "Windows" },
+                  ]}
+                  onChange={(runtime) => setOptions({ window: runtime })}
+                />
+              )}
+              {isShown("fullscreen") && (
+                <OptionSwitch
+                  label="Fullscreen"
+                  checked={options.fullscreen}
+                  disabled={isWindowOff}
+                  onChange={(fullscreen) => setOptions({ fullscreen })}
+                />
+              )}
+              {isShown("glass") && (
+                <OptionSwitch
+                  label="Glass sidebar"
+                  checked={options.glass}
+                  disabled={isWindowOff}
+                  onChange={(glass) => setOptions({ glass })}
+                />
+              )}
+            </OptionSection>
+          </>
+        )}
+      </div>
+    </div>
+  )
+}
+
+/** Back to the defaults, with how many options differ from them. */
+export function ResetOptionsButton({
+  changed,
+  onReset,
+}: {
+  changed: number
+  onReset: () => void
+}) {
+  return (
+    <Button
+      variant="outline"
+      size="sm"
+      disabled={changed === 0}
+      onClick={onReset}
+    >
+      <RotateCcwIcon data-icon="inline-start" />
+      Reset
+      {changed > 0 && (
+        <Badge variant="secondary" className="ms-0.5">
+          {changed}
+        </Badge>
+      )}
+    </Button>
+  )
+}
+
 /** The shell's options, on a Home page. The URL keeps every choice. */
 function OptionsCard({
   options,
@@ -120,9 +328,6 @@ function OptionsCard({
   const { packageManager } = usePackageManager()
   const [iconLibrary] = useSiteSetting("iconLibrary")
   const changed = countChangedOptions(options, defaults)
-  const isShown = (option: keyof PlaygroundOptions) => !hidden?.has(option)
-  // Without a choice of runtime, the real window decides what applies.
-  const isWindowOff = isShown("window") && options.window === "web"
 
   return (
     <Card>
@@ -140,197 +345,18 @@ function OptionsCard({
           >
             Docs
           </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            disabled={changed === 0}
-            onClick={() => setOptions(null)}
-          >
-            <RotateCcwIcon data-icon="inline-start" />
-            Reset
-            {changed > 0 && (
-              <Badge variant="secondary" className="ms-0.5">
-                {changed}
-              </Badge>
-            )}
-          </Button>
+          <ResetOptionsButton
+            changed={changed}
+            onReset={() => setOptions(null)}
+          />
         </CardAction>
       </CardHeader>
       <CardContent className="@container">
-        <div className="grid items-start gap-x-10 gap-y-6 @xl:grid-cols-2">
-          <OptionSection title="Sidebar">
-            <OptionChoice
-              label="Style"
-              value={options.variant}
-              choices={[
-                { value: "inset", label: "Inset" },
-                { value: "sidebar", label: "Flush" },
-                { value: "floating", label: "Floating" },
-              ]}
-              onChange={(variant) => setOptions({ variant })}
-            />
-            <OptionChoice
-              label="Collapse"
-              value={options.collapse}
-              choices={[
-                { value: "icon", label: "Icons" },
-                { value: "offcanvas", label: "Hide" },
-                { value: "none", label: "Never" },
-              ]}
-              onChange={(collapse) => setOptions({ collapse })}
-            />
-            <OptionChoice
-              label="Peek"
-              value={options.peek}
-              disabled={!isPeekAvailable(options)}
-              choices={[
-                { value: "none", label: "Off" },
-                { value: "hover", label: "Hover" },
-                { value: "click", label: "Click" },
-              ]}
-              onChange={(peek) => setOptions({ peek })}
-            />
-            <OptionChoice
-              label="On phones"
-              value={options.mobileSidebar}
-              choices={[
-                { value: "reveal", label: "Reveal" },
-                { value: "sheet", label: "Sheet" },
-              ]}
-              onChange={(mobileSidebar) => setOptions({ mobileSidebar })}
-            />
-            <OptionChoice
-              label="Workspaces"
-              value={options.switcher}
-              choices={[
-                { value: "menu", label: "Menu" },
-                { value: "command", label: "Search" },
-                { value: "none", label: "None" },
-              ]}
-              onChange={(switcher) => setOptions({ switcher })}
-            />
-            <OptionChoice
-              label="Account"
-              value={options.account}
-              choices={[
-                { value: "footer", label: "Bottom" },
-                { value: "header", label: "Top" },
-                { value: "none", label: "None" },
-              ]}
-              onChange={(account) => setOptions({ account })}
-            />
-            <OptionSwitch
-              label="Drag to reorder"
-              checked={options.reorder}
-              onChange={(reorder) => setOptions({ reorder })}
-            />
-            <OptionSwitch
-              label="Pin, hide and customize"
-              checked={options.customize}
-              onChange={(customize) => setOptions({ customize })}
-            />
-          </OptionSection>
-          <div className="flex flex-col gap-6">
-            <OptionSection title="Main">
-              <OptionChoice
-                label="Tabs"
-                value={options.tabs}
-                choices={[
-                  { value: "none", label: "None" },
-                  { value: "main", label: "Page" },
-                  { value: "titlebar", label: "Titlebar" },
-                ]}
-                onChange={(tabs) => setOptions({ tabs })}
-              />
-              <OptionChoice
-                label="Content width"
-                value={options.contentSize}
-                choices={[
-                  { value: "sm", label: "Narrow" },
-                  { value: "md", label: "Default" },
-                  { value: "lg", label: "Wide" },
-                ]}
-                onChange={(contentSize) => setOptions({ contentSize })}
-              />
-              <OptionSwitch
-                label="Breadcrumb"
-                checked={options.breadcrumb}
-                onChange={(breadcrumb) => setOptions({ breadcrumb })}
-              />
-              <OptionSwitch
-                label="Header actions"
-                checked={options.actions}
-                onChange={(actions) => setOptions({ actions })}
-              />
-              <OptionSwitch
-                label="Status bar"
-                checked={options.status}
-                onChange={(status) => setOptions({ status })}
-              />
-              {isShown("bottomNav") && (
-                <OptionSwitch
-                  label="Tab bar on phones"
-                  checked={options.bottomNav}
-                  onChange={(bottomNav) => setOptions({ bottomNav })}
-                />
-              )}
-            </OptionSection>
-            <OptionSection title="Right panel">
-              <OptionSwitch
-                label="Panel"
-                checked={options.panel}
-                onChange={(panel) => setOptions({ panel })}
-              />
-              <OptionChoice
-                label="On phones"
-                value={options.panelMobile}
-                disabled={!options.panel}
-                choices={[
-                  { value: "drawer", label: "Drawer" },
-                  { value: "swap", label: "Screen" },
-                  { value: "none", label: "None" },
-                ]}
-                onChange={(panelMobile) => setOptions({ panelMobile })}
-              />
-            </OptionSection>
-            {(isShown("window") ||
-              isShown("fullscreen") ||
-              isShown("glass")) && (
-              <>
-                <OptionSection title="Window">
-                  {isShown("window") && (
-                    <OptionChoice
-                      label="Runs in"
-                      value={options.window}
-                      choices={[
-                        { value: "web", label: "Browser" },
-                        { value: "macos", label: "macOS" },
-                        { value: "windows", label: "Windows" },
-                      ]}
-                      onChange={(runtime) => setOptions({ window: runtime })}
-                    />
-                  )}
-                  {isShown("fullscreen") && (
-                    <OptionSwitch
-                      label="Fullscreen"
-                      checked={options.fullscreen}
-                      disabled={isWindowOff}
-                      onChange={(fullscreen) => setOptions({ fullscreen })}
-                    />
-                  )}
-                  {isShown("glass") && (
-                    <OptionSwitch
-                      label="Glass sidebar"
-                      checked={options.glass}
-                      disabled={isWindowOff}
-                      onChange={(glass) => setOptions({ glass })}
-                    />
-                  )}
-                </OptionSection>
-              </>
-            )}
-          </div>
-        </div>
+        <AppShellOptionFields
+          options={options}
+          setOptions={setOptions}
+          hidden={hidden}
+        />
       </CardContent>
       <CardInstall
         commands={[

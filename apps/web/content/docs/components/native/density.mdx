@@ -1,0 +1,72 @@
+---
+title: Density
+description: "DensityProvider sets compact, default or spacious for everything inside it, including the overlays it opens."
+base: native
+component: true
+---
+
+## Installation
+
+```bash
+npx fabricator-ui@latest add density
+```
+
+## Usage
+
+```tsx
+import { Button } from "@/components/ui/button"
+import { DensityProvider } from "@/components/ui/density"
+import { Input } from "@/components/ui/input"
+```
+
+```tsx
+<DensityProvider density={density}>
+  <Button>Control</Button>
+  <Input placeholder="Text field" />
+</DensityProvider>
+```
+
+## Composition
+
+- `Density`
+- `DensityProvider`
+- `DensityScope`
+
+## Examples
+
+```tsx showLineNumbers title="density-example.tsx"
+import { Button } from "@/components/ui/button"
+import { DensityProvider } from "@/components/ui/density"
+import { Input } from "@/components/ui/input"
+
+const DENSITIES = ["compact", "default", "spacious"] as const
+
+function DensityExample() {
+  return (
+    <ExampleWrapper>
+      {DENSITIES.map((density) => (
+        <Example key={density} title={density}>
+          <DensityProvider density={density}>
+            <Button>Control</Button>
+            <Input placeholder="Text field" />
+          </DensityProvider>
+        </Example>
+      ))}
+    </ExampleWrapper>
+  )
+}
+
+export { DensityExample }
+```
+
+## API reference
+
+Props it adds to what it wraps: `density`.
+
+## Differences from web
+
+**Same.** `DensityProvider` sets scoped variables, with no wrapper view. Phones default to spacious.
+
+## Accessibility
+
+Text is read as it appears. Give a control with no text an `accessibilityLabel`.

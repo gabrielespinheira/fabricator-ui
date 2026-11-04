@@ -13,6 +13,11 @@ import {
 } from "../utils/config"
 import { highlight, logger } from "../utils/logger"
 import { NAMESPACE } from "../utils/names"
+import {
+  isReactNativeProject,
+  nativeRegistryTemplate,
+  usesNativeRegistry,
+} from "../utils/native"
 import { captureShadcn } from "../utils/shadcn"
 import { fabricatorRegistryTemplate, getBaseUrl } from "../utils/urls"
 import { fail, resolveCwd } from "./shared"
@@ -44,6 +49,7 @@ export interface DoctorInput {
   /** `undefined` when components.json has no `tailwind.css`; `null` when the file does not exist. */
   css?: string | null
   cssPath?: string
+  metroConfig?: string | null
   baseUrl: string
 }
 
@@ -66,9 +72,76 @@ export function majorVersion(range: string): number | undefined {
   return match ? Number(match[1]) : undefined
 }
 
+function getNativeChecks(
+  input: DoctorInput,
+  config: ComponentsJson | undefined
+) {
+  const checks: Check[] = []
+  const reactNative = dependencyVersion(input.packageJson, "react-native")
+  const minor = reactNative
+    ? Number(/\d+\.(\d+)/.exec(reactNative)?.[1])
+    : Number.NaN
+  if (reactNative && !Number.isNaN(minor) && minor < 86) {
+    checks.push({
+      status: "fail",
+      label: `React Native ${reactNative} is too old`,
+      fix: "Fabricator UI needs React Native 0.86 or newer: Reanimated 4 peers on it.",
+    })
+  }
+
+  if (!usesNativeRegistry(config)) {
+    checks.push({
+      status: "fail",
+      label: `${NAMESPACE} registry serves web components to a React Native project`,
+      fix: `Set "${NAMESPACE}" in "registries" to "${nativeRegistryTemplate(input.baseUrl)}".`,
+    })
+  } else {
+    checks.push({ status: "pass", label: "React Native registry configured" })
+  }
+
+  if (dependencyVersion(input.packageJson, "uniwind")) {
+    checks.push({ status: "pass", label: "Uniwind installed" })
+  } else {
+    checks.push({
+      status: "fail",
+      label: "uniwind is not a dependency",
+      fix: `Run ${highlight.info("fabricator-ui init")}: components style themselves through Uniwind.`,
+    })
+  }
+
+  if (input.metroConfig?.includes("withUniwindConfig")) {
+    checks.push({ status: "pass", label: "Metro runs Uniwind" })
+  } else {
+    checks.push({
+      status: "fail",
+      label: "metro.config.js doesn't use withUniwindConfig",
+      fix: 'Wrap the export in withUniwindConfig from "uniwind/metro": classes do nothing without it.',
+    })
+  }
+
+  if (input.css && /@import\s+["']uniwind["']/.test(input.css)) {
+    checks.push({ status: "pass", label: "Stylesheet imports Uniwind" })
+  } else if (input.css) {
+    checks.push({
+      status: "fail",
+      label: "The stylesheet doesn't import Uniwind",
+      fix: 'Add @import "uniwind"; after @import "tailwindcss"; in it.',
+    })
+  }
+  return checks
+}
+
 export function collectChecks(input: DoctorInput): Check[] {
   const checks: Check[] = []
   const read = input.componentsJson
+  if (isReactNativeProject(input.packageJson)) {
+    checks.push(
+      ...getNativeChecks(
+        input,
+        read.exists && "config" in read ? read.config : undefined
+      )
+    )
+  }
 
   if (!read.exists) {
     checks.push({
@@ -199,6 +272,8 @@ export function collectChecks(input: DoctorInput): Check[] {
         label: `CSS file not found (${input.cssPath})`,
         fix: 'Fix "tailwind.css" in components.json.',
       })
+    } else if (isReactNativeProject(input.packageJson)) {
+      // Uniwind's import is checked with the native checks.
     } else if (
       /@import\s+(url\()?\s*["']shadcn\/tailwind\.css["']/.test(input.css)
     ) {
@@ -248,6 +323,10 @@ function readJson<T>(file: string): T | undefined {
 async function gather(cwd: string): Promise<DoctorInput> {
   const componentsJson = readComponentsJson(cwd)
   const input: DoctorInput = { componentsJson, baseUrl: getBaseUrl() }
+  const metroPath = path.join(cwd, "metro.config.js")
+  input.metroConfig = existsSync(metroPath)
+    ? readFileSync(metroPath, "utf8")
+    : null
 
   if (componentsJson.exists) {
     const result = await captureShadcn(["info", "--json", "--cwd", cwd])

@@ -1,0 +1,78 @@
+---
+title: React Native differences
+description: What each React Native component does differently from its web version, and why.
+---
+
+Every component has a React Native version with the same name, exports, variants, sizes and tokens. A check in the repo compares them, so this table is the complete list of differences.
+
+Across all of them: `onPress` replaces `onClick`, `hover:` styles become `active:`, and text goes through `Text`, since React Native has no cascade. A screen written for the web won't run on native unchanged, because `<div>` and `<span>` don't exist there.
+
+- **Same**: the same use.
+- **Touch input**: the same API, with a touch gesture in place of a web input.
+- **New engine**: the same API, with a DOM-only library replaced underneath.
+- **Kept for imports**: exists so code compiles, and does nothing.
+
+Interface sounds are haptic on React Native, under the same `<SoundEffects />`.
+
+| Component                                                    | Kind             | What's different                                                                                                 |
+| ------------------------------------------------------------ | ---------------- | ---------------------------------------------------------------------------------------------------------------- |
+| [Accordion](/docs/components/native/accordion)               | Same             |                                                                                                                  |
+| [Alert](/docs/components/native/alert)                       | Same             |                                                                                                                  |
+| [Alert Dialog](/docs/components/native/alert-dialog)         | Same             |                                                                                                                  |
+| [Aspect Ratio](/docs/components/native/aspect-ratio)         | Same             |                                                                                                                  |
+| [Attachment](/docs/components/native/attachment)             | Same             |                                                                                                                  |
+| [Avatar](/docs/components/native/avatar)                     | Same             |                                                                                                                  |
+| [Badge](/docs/components/native/badge)                       | Same             |                                                                                                                  |
+| [Breadcrumb](/docs/components/native/breadcrumb)             | Same             | Links are pressables: use `onPress` or `render`.                                                                 |
+| [Bubble](/docs/components/native/bubble)                     | Same             |                                                                                                                  |
+| [Button](/docs/components/native/button)                     | Same             | `onPress` replaces `onClick`. Small sizes keep a 44pt target through `hitSlop`.                                  |
+| [Button Group](/docs/components/native/button-group)         | Same             |                                                                                                                  |
+| [Calendar](/docs/components/native/calendar)                 | New engine       | `react-day-picker` is DOM-only, so the grid is its own on `date-fns`, with the same props where they aren't DOM. |
+| [Card](/docs/components/native/card)                         | Same             |                                                                                                                  |
+| [Carousel](/docs/components/native/carousel)                 | New engine       | `embla` is DOM-only. Paging is native, with the same parts and `CarouselApi`.                                    |
+| [Checkbox](/docs/components/native/checkbox)                 | Same             |                                                                                                                  |
+| [Collapsible](/docs/components/native/collapsible)           | Same             |                                                                                                                  |
+| [Combobox](/docs/components/native/combobox)                 | New engine       | A filtered list in an overlay, in place of Base UI's combobox, with the same parts.                              |
+| [Command](/docs/components/native/command)                   | New engine       | `cmdk` is DOM-only. A filtered list, with the same parts. No keyboard shortcut opens it.                         |
+| [Context Menu](/docs/components/native/context-menu)         | Touch input      | A long press opens it, in place of a right click.                                                                |
+| [Density](/docs/components/native/density)                   | Same             | `DensityProvider` sets scoped variables, with no wrapper view. Phones default to spacious.                       |
+| [Dialog](/docs/components/native/dialog)                     | Same             |                                                                                                                  |
+| [Direction](/docs/components/native/direction)               | Kept for imports | Fabricator UI is left-to-right only, so `DirectionProvider` passes its children through.                         |
+| [Drawer](/docs/components/native/drawer)                     | New engine       | `vaul` is DOM-only. Gestures run on the UI thread, with swipe to dismiss and keyboard avoidance.                 |
+| [Dropdown Menu](/docs/components/native/dropdown-menu)       | Same             |                                                                                                                  |
+| [Empty](/docs/components/native/empty)                       | Same             |                                                                                                                  |
+| [Field](/docs/components/native/field)                       | Same             |                                                                                                                  |
+| [Hover Card](/docs/components/native/hover-card)             | Touch input      | A long press opens it; a tap still goes through to the trigger.                                                  |
+| [Input](/docs/components/native/input)                       | Same             | `onChangeText` is the usual way to read a value, as with any `TextInput`.                                        |
+| [Input Group](/docs/components/native/input-group)           | Same             |                                                                                                                  |
+| [Input Otp](/docs/components/native/input-otp)               | New engine       | `input-otp` is DOM-only. A hidden `TextInput` takes the code, with one-time-code autofill.                       |
+| [Item](/docs/components/native/item)                         | Same             |                                                                                                                  |
+| [Kbd](/docs/components/native/kbd)                           | Same             | Visual only. Useful on tablets with a hardware keyboard.                                                         |
+| [Label](/docs/components/native/label)                       | Same             |                                                                                                                  |
+| [Marker](/docs/components/native/marker)                     | Same             |                                                                                                                  |
+| [Message](/docs/components/native/message)                   | Same             |                                                                                                                  |
+| [Message Scroller](/docs/components/native/message-scroller) | New engine       | An inverted list that sticks to the bottom.                                                                      |
+| [Pagination](/docs/components/native/pagination)             | Same             |                                                                                                                  |
+| [Popover](/docs/components/native/popover)                   | Same             |                                                                                                                  |
+| [Progress](/docs/components/native/progress)                 | Same             |                                                                                                                  |
+| [Questionnaire](/docs/components/native/questionnaire)       | Same             |                                                                                                                  |
+| [Radio Group](/docs/components/native/radio-group)           | Same             |                                                                                                                  |
+| [Resizable](/docs/components/native/resizable)               | New engine       | `react-resizable-panels` is DOM-only. A drag handle, with increment and decrement actions for screen readers.    |
+| [Scroll Area](/docs/components/native/scroll-area)           | Same             | Touch keeps native scrolling, so `ScrollBar` renders nothing, as it does on touch devices on the web.            |
+| [Search](/docs/components/native/search)                     | New engine       | A filtered list in an overlay, with no keyboard shortcut to open it.                                             |
+| [Select](/docs/components/native/select)                     | Touch input      | Opens as a sheet on phones and a popover on tablets.                                                             |
+| [Separator](/docs/components/native/separator)               | Same             |                                                                                                                  |
+| [Sheet](/docs/components/native/sheet)                       | New engine       | Gestures run on the UI thread, with swipe to dismiss and keyboard avoidance.                                     |
+| [Skeleton](/docs/components/native/skeleton)                 | Same             |                                                                                                                  |
+| [Slider](/docs/components/native/slider)                     | Same             |                                                                                                                  |
+| [Sonner](/docs/components/native/sonner)                     | New engine       | Sonner is DOM-only. It shares one engine with `toast`, keeping its API.                                          |
+| [Spinner](/docs/components/native/spinner)                   | Same             |                                                                                                                  |
+| [Switch](/docs/components/native/switch)                     | Same             | Drawn by Fabricator UI, rather than the system's switch, so it matches the website.                              |
+| [Tab Strip](/docs/components/native/tab-strip)               | Touch input      | Tabs reorder on a long press, and the strip scrolls sideways.                                                    |
+| [Table](/docs/components/native/table)                       | Same             | Views in a horizontal scroll: React Native has no table layout.                                                  |
+| [Tabs](/docs/components/native/tabs)                         | Same             |                                                                                                                  |
+| [Textarea](/docs/components/native/textarea)                 | Same             |                                                                                                                  |
+| [Toast](/docs/components/native/toast)                       | New engine       | Swipe to dismiss. It shares one engine with `sonner`.                                                            |
+| [Toggle](/docs/components/native/toggle)                     | Same             |                                                                                                                  |
+| [Toggle Group](/docs/components/native/toggle-group)         | Same             |                                                                                                                  |
+| [Tooltip](/docs/components/native/tooltip)                   | Touch input      | A long press shows it, and screen readers read it as the trigger's hint.                                         |

@@ -1,0 +1,122 @@
+---
+title: Slider
+description: An input where the user selects a value from within a given range.
+base: native
+component: true
+---
+
+## Installation
+
+```bash
+npx fabricator-ui@latest add slider
+```
+
+## Usage
+
+```tsx
+import { Slider } from "@/components/ui/slider"
+import { Text } from "@/components/ui/text"
+```
+
+```tsx
+<Slider accessibilityLabel="Volume" defaultValue={[50]} max={100} />
+```
+
+## Examples
+
+```tsx showLineNumbers title="slider-example.tsx"
+import * as React from "react"
+import { View } from "react-native"
+
+import { Slider } from "@/components/ui/slider"
+import { Text } from "@/components/ui/text"
+
+function SliderExample() {
+  const [value, setValue] = React.useState<readonly number[]>([0.3, 0.7])
+  const [committed, setCommitted] = React.useState(40)
+  return (
+    <ExampleWrapper>
+      <Example title="One thumb">
+        <Slider accessibilityLabel="Volume" defaultValue={[50]} max={100} />
+      </Example>
+      <Example title="A range, in steps of 5">
+        <Slider
+          accessibilityLabel="Price"
+          defaultValue={[25, 50]}
+          max={100}
+          step={5}
+        />
+      </Example>
+      <Example title="Three thumbs">
+        <Slider
+          accessibilityLabel="Stops"
+          defaultValue={[10, 20, 70]}
+          max={100}
+          step={10}
+        />
+      </Example>
+      <Example title="Thumbs keep a distance">
+        <Slider
+          accessibilityLabel="Hours"
+          defaultValue={[20, 40]}
+          minStepsBetweenValues={10}
+        />
+      </Example>
+      <Example title="Controlled">
+        <Slider
+          accessibilityLabel="Temperature"
+          value={value}
+          onValueChange={(next) => {
+            if (typeof next !== "number") setValue(next)
+          }}
+          min={0}
+          max={1}
+          step={0.1}
+        />
+        <Text className="text-muted-foreground">{value.join(", ")}</Text>
+      </Example>
+      <Example title="A number, committed on release">
+        <Slider
+          accessibilityLabel="Brightness"
+          defaultValue={40}
+          onValueCommitted={(next) => {
+            if (typeof next === "number") setCommitted(next)
+          }}
+        />
+        <Text className="text-muted-foreground">Saved: {committed}</Text>
+      </Example>
+      <Example title="Vertical">
+        <View className="h-40 flex-row gap-6">
+          <Slider
+            accessibilityLabel="Bass"
+            orientation="vertical"
+            defaultValue={[50]}
+          />
+          <Slider
+            accessibilityLabel="Treble"
+            orientation="vertical"
+            defaultValue={[25]}
+          />
+        </View>
+      </Example>
+      <Example title="Disabled">
+        <Slider accessibilityLabel="Locked" disabled defaultValue={[50]} />
+      </Example>
+    </ExampleWrapper>
+  )
+}
+
+export { SliderExample }
+```
+
+## API reference
+
+Props it adds to what it wraps: `defaultValue`, `disabled`, `max`, `min`, `minStepsBetweenValues`, `onValueChange`, `onValueCommitted`, `orientation`, `step`, `thumbCollisionBehavior`, `value`.
+
+## Differences from web
+
+**Same.** It works as it does on the web, with `onPress` for `onClick`.
+
+## Accessibility
+
+Text is read as it appears. Give a control with no text an `accessibilityLabel`.

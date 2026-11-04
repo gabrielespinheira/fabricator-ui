@@ -1,0 +1,81 @@
+/* MARK: Calendar */
+
+  /* 32pt day cells with rounded-lg highlights, 13pt numerals. A cell grows past
+     32pt when the calendar is given a wider box: on a phone, `w-full` makes the
+     days finger-sized. */
+  .cn-calendar {
+    @apply p-(--density-12);
+  }
+
+  .cn-calendar-text {
+    @apply text-foreground text-(length:--density-text-13);
+  }
+
+  .cn-calendar-nav-button {
+    @apply size-(--density-32) rounded-lg;
+  }
+
+  .cn-calendar-month-caption {
+    @apply h-(--density-32) px-(--density-32);
+  }
+
+  /* Month and year pickers: framed like an input. */
+  .cn-calendar-dropdowns {
+    @apply h-(--density-32) gap-1.5;
+  }
+
+  .cn-calendar-dropdown-root {
+    @apply border-border active:bg-active rounded-lg border;
+  }
+
+  .cn-calendar-caption-label {
+    @apply h-(--density-28) pr-(--density-6) pl-(--density-8);
+  }
+
+  .cn-calendar-caption-text {
+    @apply text-foreground text-(length:--density-text-13) font-medium;
+  }
+
+  .cn-calendar-caption-icon {
+    @apply text-muted-foreground;
+  }
+
+  .cn-calendar-caption {
+    @apply text-foreground text-(length:--density-text-13) font-medium;
+  }
+
+  .cn-calendar-options {
+    @apply max-h-56;
+  }
+
+  .cn-calendar-weekday {
+    @apply min-w-(--density-32) flex-1;
+  }
+
+  .cn-calendar-weekday-text {
+    @apply text-muted-foreground text-[12px] font-normal;
+  }
+
+  .cn-calendar-week-number {
+    @apply w-(--density-32);
+  }
+
+  /* Today, and a range's middle and ends, are the active step: they read in dark
+     mode too. The range runs edge to edge between its rounded ends. */
+  .cn-calendar-day {
+    @apply min-w-(--density-32) rounded-lg data-[today=true]:bg-active data-[range-start=true]:bg-active data-[range-end=true]:bg-active data-[range-middle=true]:bg-active data-[range-middle=true]:rounded-none data-[range-start=true]:rounded-r-none data-[range-end=true]:rounded-l-none;
+  }
+
+  .cn-calendar-day-button {
+    @apply h-auto min-w-(--density-32) gap-1 rounded-lg border-0 data-[selected-single=true]:bg-primary data-[selected-single=true]:active:bg-primary/80 data-[range-start=true]:bg-primary data-[range-start=true]:active:bg-primary/80 data-[range-end=true]:bg-primary data-[range-end=true]:active:bg-primary/80 data-[range-middle=true]:bg-transparent data-[range-middle=true]:rounded-none;
+  }
+
+  /* Numerals: foreground, muted outside the month and when disabled, in the
+     primary's foreground on its fill. */
+  .cn-calendar-day-button-text {
+    @apply text-foreground text-(length:--density-text-13) leading-none font-normal data-[outside=true]:text-muted-foreground data-[disabled=true]:text-muted-foreground data-[selected-single=true]:text-primary-foreground data-[range-start=true]:text-primary-foreground data-[range-end=true]:text-primary-foreground;
+  }
+
+  .cn-calendar-footer {
+    @apply mt-(--density-12);
+  }

@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { cn } from "cn"
 import { format } from "date-fns"
 import { type DateRange } from "react-day-picker"
 
@@ -20,6 +21,7 @@ import {
   AlertDescription,
   AlertTitle,
 } from "@/styles/base-fabricator/ui/alert"
+import { AppShellPageTitle } from "@/styles/base-fabricator/ui/app-shell"
 import {
   Avatar,
   AvatarFallback,
@@ -122,15 +124,11 @@ import {
   TabsTrigger,
 } from "@/styles/base-fabricator/ui/tabs"
 import { Textarea } from "@/styles/base-fabricator/ui/textarea"
-import { createToastManager, Toaster } from "@/styles/base-fabricator/ui/toast"
+import { toast } from "@/styles/base-fabricator/ui/toast"
 import {
   ToggleGroup,
   ToggleGroupItem,
 } from "@/styles/base-fabricator/ui/toggle-group"
-
-// A manager of its own, so the preview never doubles up with a toaster
-// mounted elsewhere on the page.
-const previewToast = createToastManager()
 
 type Status = "On track" | "In review" | "At risk"
 
@@ -217,13 +215,10 @@ const ROLES = [
 
 export function DashboardOverview() {
   return (
-    <main
-      id="dashboard"
-      className="@container flex flex-col gap-6 bg-surface-1 p-4 @xl:p-6"
-    >
+    <div className="@container flex flex-col gap-6 pb-28">
       <div className="flex flex-wrap items-end justify-between gap-4">
         <div className="flex flex-col gap-1">
-          <h3 className="text-xl font-semibold tracking-tight">Overview</h3>
+          <AppShellPageTitle>Overview</AppShellPageTitle>
           <p className="text-sm text-muted-foreground">
             How your studio is doing this month.
           </p>
@@ -233,7 +228,7 @@ export function DashboardOverview() {
           <Button
             variant="outline"
             onClick={() =>
-              previewToast.add({
+              toast.add({
                 title: "Export started",
                 description: "We'll email the CSV when it's ready.",
               })
@@ -291,8 +286,7 @@ export function DashboardOverview() {
           <PreferencesCard />
         </div>
       </div>
-      <Toaster toastManager={previewToast} />
-    </main>
+    </div>
   )
 }
 
@@ -380,7 +374,7 @@ function NewProjectDialog() {
           <DialogClose
             render={<Button />}
             onClick={() =>
-              previewToast.add({
+              toast.add({
                 title: "Project created",
                 description: "Spring campaign is ready for its first task.",
               })
@@ -529,6 +523,8 @@ function ProjectsTable({
             <TableRow
               key={project.name}
               data-state={isSelected ? "selected" : undefined}
+              // Muted text misses 4.5:1 on a selected row's fill.
+              className={cn(isSelected && "[&_td]:text-foreground")}
             >
               <TableCell>
                 <Checkbox
@@ -546,13 +542,18 @@ function ProjectsTable({
               <TableCell>
                 <div className="flex items-center gap-2.5">
                   <Avatar className="size-7">
-                    <AvatarFallback className="text-[11px]">
+                    <AvatarFallback className="text-[11px] text-foreground">
                       {project.owner}
                     </AvatarFallback>
                   </Avatar>
                   <div className="flex min-w-0 flex-col">
                     <span className="truncate font-medium">{project.name}</span>
-                    <span className="truncate text-xs text-muted-foreground">
+                    <span
+                      className={cn(
+                        "truncate text-xs",
+                        !isSelected && "text-muted-foreground"
+                      )}
+                    >
                       {project.client}
                     </span>
                   </div>
@@ -570,7 +571,12 @@ function ProjectsTable({
                   className="w-24"
                 />
               </TableCell>
-              <TableCell className="hidden text-muted-foreground tabular-nums @xl:table-cell">
+              <TableCell
+                className={cn(
+                  "hidden tabular-nums @xl:table-cell",
+                  !isSelected && "text-muted-foreground"
+                )}
+              >
                 {project.due}
               </TableCell>
               <TableCell>
@@ -716,7 +722,7 @@ function PreferencesCard() {
           <Separator />
           <Field>
             <div className="flex items-center justify-between">
-              <FieldLabel htmlFor="preview-capacity">
+              <FieldLabel id="preview-capacity-label">
                 Weekly capacity
               </FieldLabel>
               <span className="text-sm text-muted-foreground tabular-nums">
@@ -724,7 +730,7 @@ function PreferencesCard() {
               </span>
             </div>
             <Slider
-              id="preview-capacity"
+              aria-labelledby="preview-capacity-label"
               value={[capacity]}
               onValueChange={(next) =>
                 setCapacity(Array.isArray(next) ? next[0] : next)

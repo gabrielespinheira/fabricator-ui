@@ -7,7 +7,13 @@ import { buildAddFlags } from "./add"
 import { buildApplyArgs, buildReinstallArgs } from "./apply"
 import { extractDocLinks, itemNameOf } from "./docs"
 import { collectChecks, majorVersion } from "./doctor"
-import { buildInitArgs, buildStarterButtonArgs, findProjectDir } from "./init"
+import {
+  buildInitArgs,
+  buildStarterButtonArgs,
+  findProjectDir,
+  resolvePlatform,
+} from "./init"
+import { getNativeNextSteps } from "./init-native"
 import { buildSearchArgs } from "./search"
 
 const INIT_URL =
@@ -348,5 +354,125 @@ describe("doctor", () => {
       componentsJson: { exists: false, path: "/w/components.json" },
     })
     expect(checks.map((c) => c.status)).toEqual(["fail", "fail"])
+  })
+})
+
+describe("resolvePlatform", () => {
+  it("follows the flag", () => {
+    expect(resolvePlatform("native", undefined)).toBe("native")
+    expect(resolvePlatform("web", { dependencies: { expo: "58.0.0" } })).toBe(
+      "web"
+    )
+  })
+
+  it("detects a React Native project", () => {
+    expect(
+      resolvePlatform(undefined, { dependencies: { expo: "58.0.0" } })
+    ).toBe("native")
+    expect(
+      resolvePlatform(undefined, { dependencies: { next: "16.0.0" } })
+    ).toBe("web")
+  })
+
+  it("rejects anything else", () => {
+    expect(() => resolvePlatform("tv", undefined)).toThrow(/Invalid platform/)
+  })
+})
+
+describe("getNativeNextSteps", () => {
+  it("imports the stylesheet relative to the root layout", () => {
+    expect(getNativeNextSteps("src/global.css")[0]).toContain("../global.css")
+  })
+
+  it("names the root and a clean restart", () => {
+    const steps = getNativeNextSteps("global.css").join(" ")
+    expect(steps).toContain("FabricatorRoot")
+    expect(steps).toContain("--clear")
+  })
+})
+
+describe("doctor on React Native", () => {
+  const packageJson = {
+    dependencies: {
+      expo: "~58.0.0",
+      react: "19.3.0",
+      "react-native": "0.88.1",
+      uniwind: "1.13.1",
+    },
+  }
+  const nativeConfig = {
+    exists: true as const,
+    path: "components.json",
+    raw: "{}",
+    config: {
+      style: "base-nova",
+      registries: {
+        "@fabricator": "https://x.dev/r/fabricator/native/{name}.json",
+      },
+    },
+  }
+  const labels = (input: Partial<Parameters<typeof collectChecks>[0]>) =>
+    collectChecks({
+      componentsJson: nativeConfig,
+      baseUrl: "https://x.dev",
+      packageJson,
+      css: '@import "tailwindcss";\n@import "uniwind";\n',
+      metroConfig: "module.exports = withUniwindConfig(config)",
+      ...input,
+    })
+      .filter((check) => check.status === "fail")
+      .map((check) => check.label)
+
+  it("passes a set-up project", () => {
+    expect(labels({})).toEqual([])
+  })
+
+  it("fails without Uniwind in Metro", () => {
+    expect(labels({ metroConfig: "module.exports = config" })).toContain(
+      "metro.config.js doesn't use withUniwindConfig"
+    )
+  })
+
+  it("fails when the registry serves web components", () => {
+    expect(
+      labels({
+        componentsJson: {
+          ...nativeConfig,
+          config: {
+            style: "base-nova",
+            registries: {
+              "@fabricator": "https://x.dev/r/fabricator/{style}/{name}.json",
+            },
+          },
+        },
+      })
+    ).toContain(
+      "@fabricator registry serves web components to a React Native project"
+    )
+  })
+
+  it("fails on an old React Native", () => {
+    expect(
+      labels({
+        packageJson: {
+          dependencies: {
+            ...packageJson.dependencies,
+            "react-native": "0.79.0",
+          },
+        },
+      })
+    ).toContain("React Native 0.79.0 is too old")
+  })
+
+  it("adds nothing for a web project", () => {
+    const failures = collectChecks({
+      componentsJson: {
+        ...nativeConfig,
+        config: { style: "base-nova", registries: {} },
+      },
+      baseUrl: "https://x.dev",
+      packageJson: { dependencies: { react: "19.3.0", next: "16.0.0" } },
+    }).map((check) => check.label)
+    expect(failures.join(" ")).not.toContain("Uniwind")
   })
 })

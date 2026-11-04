@@ -282,9 +282,135 @@ function installConfiguredShell(appDir: string) {
   )
 }
 
+// Imports every installed component, so a bad import fails the bundle.
+function writeExpoScreen(appDir: string) {
+  const uiDir = path.join(appDir, "src/components/ui")
+  const names = fs
+    .readdirSync(uiDir)
+    .filter((file) => file.endsWith(".tsx"))
+    .map((file) => file.replace(/\.tsx$/, ""))
+  fs.rmSync(path.join(appDir, "src/app/explore.tsx"), { force: true })
+  fs.writeFileSync(
+    path.join(appDir, "src/app/index.tsx"),
+    `${names.map((name, index) => `import * as C${index} from "@/components/ui/${name}"`).join("\n")}
+import { Text, View } from "react-native"
+
+import { Button } from "@/components/ui/button"
+
+const ALL = [${names.map((_name, index) => `C${index}`).join(", ")}]
+
+export default function Index() {
+  return (
+    <View className="bg-background flex-1 items-center justify-center gap-4">
+      <Text className="text-foreground">{ALL.length} modules</Text>
+      <Button variant="outline" size="sm">Save</Button>
+    </View>
+  )
+}
+`
+  )
+  fs.writeFileSync(
+    path.join(appDir, "src/app/_layout.tsx"),
+    `import "../global.css"
+
+import { Stack } from "expo-router"
+
+import { FabricatorRoot } from "@/components/ui/fabricator-root"
+
+export default function RootLayout() {
+  return (
+    <FabricatorRoot>
+      <Stack />
+    </FabricatorRoot>
+  )
+}
+`
+  )
+  return names
+}
+
+// Only the library's files: Expo's template has type errors of its own.
+function assertInstalledTypes(appDir: string) {
+  const result = spawnSync("npx", ["tsc", "--noEmit"], {
+    cwd: appDir,
+    env,
+    encoding: "utf8",
+  })
+  const errors = result.stdout
+    .split("\n")
+    .filter((line) => /^src\/(components\/ui|lib)\/.*error TS/.test(line))
+  assert(
+    errors.length === 0,
+    `Installed files have type errors:\n${errors.join("\n")}`
+  )
+}
+
 type Scenario = { name: string; run: (dir: string) => void }
 
 const scenarios: Scenario[] = [
+  {
+    name: "expo",
+    run(dir: string) {
+      run(
+        "bunx",
+        ["--bun", "create-expo-app@latest", "app", "--no-install"],
+        dir
+      )
+      const appDir = path.join(dir, "app")
+      run("bun", ["install"], appDir)
+      cli(["init", "-y", "-c", appDir], appDir)
+
+      const config = readJson(path.join(appDir, "components.json"))
+      const expected = `${REGISTRY_URL}/r/fabricator/native/{name}.json`
+      assert(
+        config.registries?.["@fabricator"] === expected,
+        `components.json @fabricator is ${config.registries?.["@fabricator"]}, expected ${expected}`
+      )
+      // Base styles rewrite asChild at install, which the primitives don't read.
+      assert(
+        /^radix-[a-z]+$/.test(config.style),
+        `components.json style ${config.style} would rewrite asChild`
+      )
+      assert(
+        fs.existsSync(path.join(appDir, "src/fabricator.css")),
+        "The theme was not installed"
+      )
+      const css = fs.readFileSync(path.join(appDir, "src/global.css"), "utf8")
+      assert(css.includes('@import "uniwind"'), "global.css lacks Uniwind")
+      assert(
+        css.includes('@import "./fabricator.css"'),
+        "global.css lacks the theme"
+      )
+
+      // The template's own collapsible.tsx is replaced: -o answers the prompt.
+      cli(["add", "--all", "-y", "-o", "-c", appDir], appDir)
+      cli(["add", "native-theme", "sounds", "-y", "-o", "-c", appDir], appDir)
+      const names = writeExpoScreen(appDir)
+      assert(names.length >= 60, `Only ${names.length} components installed`)
+      const button = fs.readFileSync(
+        path.join(appDir, "src/components/ui/button.tsx"),
+        "utf8"
+      )
+      assert(button.includes('from "react-native"'), "button.tsx is not native")
+      assert(!button.includes("registry/"), "button.tsx has a registry import")
+
+      run(
+        "npx",
+        [
+          "expo",
+          "export",
+          "--platform",
+          "ios",
+          "--platform",
+          "android",
+          "--output-dir",
+          "dist",
+        ],
+        appDir
+      )
+      assertInstalledTypes(appDir)
+    },
+  },
   ...(["base", "radix", "aria"] as const).map((base) => ({
     name: `vite-${base}`,
     run(dir: string) {
@@ -414,24 +540,30 @@ const scenarios: Scenario[] = [
 
 // Packs the workspace's icons and serves them, in its own process: every step
 // below blocks this one with spawnSync.
-const packDir = fs.mkdtempSync(path.join(os.tmpdir(), "fabricator-e2e-npm-"))
-const iconsDir = path.join(ROOT, "packages/icons")
-spawnSync("bun", ["pm", "pack", "--destination", packDir, "--quiet"], {
-  cwd: iconsDir,
-  stdio: "inherit",
-})
-const [tarball] = fs.readdirSync(packDir)
-assert(
-  tarball,
-  "Packing @fabricator-ui/icons failed: run `bun run build` first"
+const packedIcons = ["packages/icons", "packages/icons-react-native"].flatMap(
+  (packagePath) => {
+    const packDir = fs.mkdtempSync(
+      path.join(os.tmpdir(), "fabricator-e2e-npm-")
+    )
+    const packageDir = path.join(ROOT, packagePath)
+    spawnSync("bun", ["pm", "pack", "--destination", packDir, "--quiet"], {
+      cwd: packageDir,
+      stdio: "inherit",
+    })
+    const [tarball] = fs.readdirSync(packDir)
+    assert(
+      tarball,
+      `Packing ${packagePath} failed: run \`bun run build\` first`
+    )
+    return [path.join(packDir, tarball), path.join(packageDir, "package.json")]
+  }
 )
 const localNpm = spawn(
   "bun",
   [
     path.join(import.meta.dirname, "local-npm.ts"),
     String(LOCAL_NPM_PORT),
-    path.join(packDir, tarball),
-    path.join(iconsDir, "package.json"),
+    ...packedIcons,
   ],
   { stdio: "inherit" }
 )
@@ -448,7 +580,7 @@ for (let attempt = 0; attempt < 50; attempt++) {
 }
 
 const health = await fetch(
-  `${REGISTRY_URL}/r/fabricator/base-nova/registry.json`
+  `${REGISTRY_URL}/r/fabricator/native/registry.json`
 ).catch(() => null)
 if (!health?.ok) {
   console.error(

@@ -6,13 +6,28 @@
       "@fabricator-ui/app-shell-model": [
         "../web/registry/fabricator/shared/lib/app-shell-model.ts"
       ],
-      "@/registry/fabricator/*": [
-        "../web/registry/fabricator/*"
-      ]
+      "@fabricator-ui/icons-react-native": [
+        "../../packages/icons-react-native/dist/esm/index.d.ts"
+      ],
+      "@fabricator-ui/icons-react-native/brands": [
+        "../../packages/icons-react-native/dist/esm/brands.d.ts"
+      ],
+      "@/registry/fabricator/*": ["../web/registry/fabricator/*"],
+      "@/registry/native/*": ["../web/registry/native/*"],
+      "@/examples/native/*": ["../web/examples/native/*"],
+      "@/lib/component-groups": ["../web/lib/component-groups.ts"]
     }
   },
   "include": [
     "index.ts",
-    "src"
+    "src",
+    "../web/registry/native/**/*.ts",
+    "../web/registry/native/**/*.tsx",
+    "../web/examples/native/**/*.tsx"
+  ],
+  "exclude": [
+    "../web/registry/native/_registry.ts",
+    "../web/registry/native/items",
+    "../web/registry/native/**/*.test.ts"
   ]
 }

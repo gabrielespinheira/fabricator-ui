@@ -2,7 +2,7 @@ import { Modal, StyleSheet, Text, View } from "react-native"
 
 import { PANEL_VIEWS } from "../nav"
 import { FONT, useStyles, useTheme, type Theme } from "../theme"
-import { IconButton } from "./icon-button"
+import { getControlInset, IconButton } from "./icon-button"
 import { SegmentedControl } from "./segmented-control"
 import { SidebarToggleIcon } from "./sidebar-toggle-icon"
 
@@ -99,7 +99,8 @@ const buildStyles = (theme: Theme) =>
       alignItems: "center",
       justifyContent: "space-between",
       gap: theme.space[6],
-      paddingHorizontal: theme.space[12],
+      paddingLeft: theme.space[12],
+      paddingRight: getControlInset(theme),
     },
     toggleSlot: { width: theme.compact.space[36] },
     body: {

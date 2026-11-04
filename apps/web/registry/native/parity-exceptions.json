@@ -1,0 +1,163 @@
+[
+  {
+    "item": "density",
+    "kind": "slot",
+    "name": "density-provider",
+    "reason": "ScopedVariables is a variable boundary, not a view: there is no element to carry the slot.",
+    "date": "2026-11-04"
+  },
+  {
+    "item": "tooltip",
+    "kind": "slot",
+    "name": "tooltip-provider",
+    "reason": "TooltipProvider only holds a delay in context, like density's provider: there is no element to carry the slot.",
+    "date": "2026-11-04"
+  },
+  {
+    "item": "tooltip",
+    "kind": "placeholder",
+    "name": "cn-tooltip-arrow",
+    "reason": "The website's arrow is invisible and only adds the 4pt Radix computes the side offset from. The native primitive has no arrow and takes sideOffset directly.",
+    "date": "2026-11-04"
+  },
+  {
+    "item": "tooltip",
+    "kind": "placeholder",
+    "name": "cn-tooltip-arrow-logical",
+    "reason": "The second half of the same invisible arrow.",
+    "date": "2026-11-04"
+  },
+  {
+    "item": "tab-strip",
+    "kind": "placeholder",
+    "name": "cn-tab-strip-shortcut",
+    "reason": "It styles a keyboard shortcut inside the new tab button's hover tooltip. A touch screen has neither the hover nor the shortcut.",
+    "date": "2026-11-04"
+  },
+  {
+    "item": "scroll-area",
+    "kind": "slot",
+    "name": "scroll-area-scrollbar",
+    "reason": "Touch keeps the platform's own scroll indicators, so ScrollBar renders nothing and has no track or thumb to style. It stays exported, and a horizontal one sets the axis, so the website's markup still works.",
+    "date": "2026-11-04"
+  },
+  {
+    "item": "scroll-area",
+    "kind": "slot",
+    "name": "scroll-area-thumb",
+    "reason": "The thumb of the same scrollbar: there is no element to carry the slot.",
+    "date": "2026-11-04"
+  },
+  {
+    "item": "scroll-area",
+    "kind": "placeholder",
+    "name": "cn-scroll-area-scrollbar",
+    "reason": "Styles the scrollbar's track, which native doesn't draw.",
+    "date": "2026-11-04"
+  },
+  {
+    "item": "scroll-area",
+    "kind": "placeholder",
+    "name": "cn-scroll-area-thumb",
+    "reason": "Styles the scrollbar's thumb, which native doesn't draw.",
+    "date": "2026-11-04"
+  },
+  {
+    "item": "sidebar",
+    "kind": "slot",
+    "name": "sidebar-peek-strip",
+    "reason": "The strip a collapsed sidebar peeks from on hover or click. Peeking needs a pointer, and a finger on a screen's edge belongs to the system's gestures, so `peek` is accepted and does nothing.",
+    "date": "2026-11-04"
+  },
+  {
+    "item": "sidebar",
+    "kind": "placeholder",
+    "name": "cn-sidebar-peek-strip",
+    "reason": "The same strip's hairline.",
+    "date": "2026-11-04"
+  },
+  {
+    "item": "sidebar",
+    "kind": "placeholder",
+    "name": "cn-sidebar-shortcut",
+    "reason": "A keycap for the toggle's shortcut in a tooltip. React Native has no global key events, so the shortcut can't fire and the tooltip doesn't promise one.",
+    "date": "2026-11-04"
+  },
+  {
+    "item": "workspace-switcher",
+    "kind": "placeholder",
+    "name": "cn-workspace-switcher-shortcut",
+    "reason": "A keycap for the switcher's shortcut in a tooltip. React Native has no global key events, so the shortcut can't fire and nothing promises one.",
+    "date": "2026-11-04"
+  },
+  {
+    "item": "app-shell",
+    "kind": "placeholder",
+    "name": "cn-app-shell-kbd",
+    "reason": "A keycap for a shortcut in a tooltip. React Native has no global key events, so nothing promises one.",
+    "date": "2026-11-04"
+  },
+  {
+    "item": "app-shell",
+    "kind": "slot",
+    "name": "app-shell-window-toggle",
+    "reason": "The sidebar toggle in a desktop window's top band, beside the traffic lights. React Native draws no window controls here, so `window` is accepted and does nothing.",
+    "date": "2026-11-04"
+  },
+  {
+    "item": "app-shell",
+    "kind": "placeholder",
+    "name": "cn-app-shell-window-toggle",
+    "reason": "The same toggle's place in the window's top band.",
+    "date": "2026-11-04"
+  },
+  {
+    "item": "app-shell",
+    "kind": "slot",
+    "name": "app-shell-panel-trigger-guard",
+    "reason": "Gives a pinned toggle's spot back from a desktop window's drag region. Windows don't drag from their content here.",
+    "date": "2026-11-04"
+  },
+  {
+    "item": "app-shell",
+    "kind": "placeholder",
+    "name": "cn-app-shell-panel-trigger-guard",
+    "reason": "The same guard's box.",
+    "date": "2026-11-04"
+  },
+  {
+    "item": "app-shell",
+    "kind": "slot",
+    "name": "app-shell-panel-resize-handle",
+    "reason": "Resizing a docked panel by its 8pt edge needs a pointer. On touch a panel keeps its width; `minWidth` and `maxWidth` still clamp it.",
+    "date": "2026-11-04"
+  },
+  {
+    "item": "app-shell",
+    "kind": "placeholder",
+    "name": "cn-app-shell-panel-resize-handle",
+    "reason": "The same handle's hairline.",
+    "date": "2026-11-04"
+  },
+  {
+    "item": "app-shell",
+    "kind": "slot",
+    "name": "sidebar-gap",
+    "reason": "Not a part: the website finds the sidebar's gap by this selector to measure it. Here the Sidebar reports its width through `onGapWidthChange`.",
+    "date": "2026-11-04"
+  },
+  {
+    "item": "app-shell",
+    "kind": "slot",
+    "name": "sidebar-container",
+    "reason": "Not a part: one of the selectors F6 moves focus between. There is no key to press and no selector to find it with.",
+    "date": "2026-11-04"
+  },
+  {
+    "item": "app-shell",
+    "kind": "slot",
+    "name": "tab-strip",
+    "reason": "Not a part: a selector, for F6's regions and for the header's inset when a tab strip starts it. Neither exists here: no key to press, no `has-*`.",
+    "date": "2026-11-04"
+  }
+]

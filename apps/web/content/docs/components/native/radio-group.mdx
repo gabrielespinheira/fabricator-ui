@@ -1,0 +1,115 @@
+---
+title: Radio Group
+description: A set of checkable buttons—known as radio buttons—where no more than one of the buttons can be checked at a time.
+base: native
+component: true
+---
+
+## Installation
+
+```bash
+npx fabricator-ui@latest add radio-group
+```
+
+## Usage
+
+```tsx
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { Text } from "@/components/ui/text"
+```
+
+```tsx
+<RadioGroup defaultValue="comfortable">
+  <RadioGroupItem accessibilityLabel="Default" value="default" />
+  <RadioGroupItem accessibilityLabel="Comfortable" value="comfortable" />
+  <RadioGroupItem accessibilityLabel="Compact" value="compact" />
+</RadioGroup>
+```
+
+## Composition
+
+- `RadioGroup`
+- `RadioGroupItem`
+
+## Examples
+
+```tsx showLineNumbers title="radio-group-example.tsx"
+import * as React from "react"
+import { Pressable } from "react-native"
+
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
+import { Text } from "@/components/ui/text"
+
+const PLANS = ["Starter", "Pro", "Enterprise"]
+
+function RadioGroupExample() {
+  const [plan, setPlan] = React.useState("Pro")
+  return (
+    <ExampleWrapper>
+      <Example title="Default">
+        <RadioGroup defaultValue="comfortable">
+          <RadioGroupItem accessibilityLabel="Default" value="default" />
+          <RadioGroupItem
+            accessibilityLabel="Comfortable"
+            value="comfortable"
+          />
+          <RadioGroupItem accessibilityLabel="Compact" value="compact" />
+        </RadioGroup>
+      </Example>
+      <Example title="Controlled, with labels">
+        <RadioGroup value={plan} onValueChange={setPlan}>
+          {PLANS.map((name) => (
+            <Pressable
+              key={name}
+              className="flex-row items-center gap-2"
+              onPress={() => setPlan(name)}
+            >
+              <RadioGroupItem accessibilityLabel={name} value={name} />
+              <Text>{name}</Text>
+            </Pressable>
+          ))}
+        </RadioGroup>
+        <Text className="text-muted-foreground">Plan: {plan}</Text>
+      </Example>
+      <Example title="Invalid">
+        <RadioGroup defaultValue="no">
+          <RadioGroupItem accessibilityLabel="Yes" value="yes" aria-invalid />
+          <RadioGroupItem accessibilityLabel="No" value="no" aria-invalid />
+        </RadioGroup>
+      </Example>
+      <Example title="A disabled item">
+        <RadioGroup defaultValue="on">
+          <RadioGroupItem accessibilityLabel="Available" value="on" />
+          <RadioGroupItem accessibilityLabel="Sold out" value="off" disabled />
+        </RadioGroup>
+      </Example>
+      <Example title="All disabled">
+        <RadioGroup disabled defaultValue="a">
+          <RadioGroupItem accessibilityLabel="Option A" value="a" />
+          <RadioGroupItem accessibilityLabel="Option B" value="b" />
+        </RadioGroup>
+      </Example>
+      <Example title="Read only">
+        <RadioGroup readOnly defaultValue="a">
+          <RadioGroupItem accessibilityLabel="Option A" value="a" />
+          <RadioGroupItem accessibilityLabel="Option B" value="b" />
+        </RadioGroup>
+      </Example>
+    </ExampleWrapper>
+  )
+}
+
+export { RadioGroupExample }
+```
+
+## API reference
+
+Props it adds to what it wraps: `"aria-invalid"`, `defaultValue`, `disabled`, `onValueChange`, `readOnly`, `value`.
+
+## Differences from web
+
+**Same.** It works as it does on the web, with `onPress` for `onClick`.
+
+## Accessibility
+
+Parts set `role="radio"`, `role="radiogroup"`, read by VoiceOver and TalkBack. Give a control with no text an `accessibilityLabel`.

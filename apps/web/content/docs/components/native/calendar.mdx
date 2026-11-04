@@ -1,0 +1,157 @@
+---
+title: Calendar
+description: A calendar component that allows users to select a date or a range of dates.
+base: native
+component: true
+---
+
+## Installation
+
+```bash
+npx fabricator-ui@latest add calendar
+```
+
+## Usage
+
+```tsx
+import {
+  Calendar,
+  CalendarDayButton,
+  type DateRange,
+} from "@/components/ui/calendar"
+import { Text } from "@/components/ui/text"
+```
+
+```tsx
+<Calendar mode="single" selected={date} onSelect={setDate} className="w-full" />
+```
+
+## Composition
+
+- `Calendar`
+- `CalendarDayButton`
+- `DateRange`
+
+## Examples
+
+```tsx showLineNumbers title="calendar-example.tsx"
+import * as React from "react"
+import { addDays } from "date-fns"
+
+import {
+  Calendar,
+  CalendarDayButton,
+  type DateRange,
+} from "@/components/ui/calendar"
+import { Text } from "@/components/ui/text"
+
+const YEAR = new Date().getFullYear()
+const BOOKED = Array.from(
+  { length: 15 },
+  (_, index) => new Date(YEAR, 0, 12 + index)
+)
+
+function CalendarExample() {
+  const [date, setDate] = React.useState<Date | undefined>(new Date())
+  const [dates, setDates] = React.useState<Date[] | undefined>([])
+  const [range, setRange] = React.useState<DateRange | undefined>({
+    from: new Date(YEAR, 0, 12),
+    to: addDays(new Date(YEAR, 0, 12), 10),
+  })
+  const [booked, setBooked] = React.useState<Date | undefined>(
+    new Date(YEAR, 0, 6)
+  )
+  return (
+    <ExampleWrapper>
+      <Example title="Single, full width" className="items-stretch">
+        <Calendar
+          mode="single"
+          selected={date}
+          onSelect={setDate}
+          className="w-full"
+        />
+      </Example>
+      <Example title="Uncontrolled">
+        <Calendar mode="single" />
+      </Example>
+      <Example title="Multiple, up to three">
+        <Calendar
+          mode="multiple"
+          max={3}
+          selected={dates}
+          onSelect={setDates}
+        />
+      </Example>
+      <Example title="Range, two months">
+        <Calendar
+          mode="range"
+          defaultMonth={range?.from}
+          selected={range}
+          onSelect={setRange}
+          numberOfMonths={2}
+        />
+      </Example>
+      <Example title="Disabled dates">
+        <Calendar
+          mode="single"
+          defaultMonth={booked}
+          selected={booked}
+          onSelect={setBooked}
+          disabled={BOOKED}
+          modifiers={{ booked: BOOKED }}
+          modifiersClassNames={{ booked: "opacity-100" }}
+        />
+      </Example>
+      <Example title="Month and year pickers">
+        <Calendar mode="single" captionLayout="dropdown" />
+      </Example>
+      <Example title="Month picker">
+        <Calendar mode="single" captionLayout="dropdown-months" />
+      </Example>
+      <Example title="Year picker">
+        <Calendar mode="single" captionLayout="dropdown-years" />
+      </Example>
+      <Example title="Week starts on Monday, with week numbers">
+        <Calendar mode="single" weekStartsOn={1} showWeekNumber />
+      </Example>
+      <Example title="No outside days">
+        <Calendar mode="single" showOutsideDays={false} fixedWeeks />
+      </Example>
+      <Example title="Custom days">
+        <Calendar
+          mode="single"
+          className="w-full"
+          components={{
+            DayButton: ({ children, modifiers, day, ...props }) => (
+              <CalendarDayButton day={day} modifiers={modifiers} {...props}>
+                {children}
+                {!modifiers.outside && (
+                  <Text className="text-[10px] text-muted-foreground">
+                    {day.date.getDay() === 0 || day.date.getDay() === 6
+                      ? "$120"
+                      : "$100"}
+                  </Text>
+                )}
+              </CalendarDayButton>
+            ),
+          }}
+        />
+      </Example>
+    </ExampleWrapper>
+  )
+}
+
+export { CalendarExample }
+```
+
+## API reference
+
+Props it adds to what it wraps: `buttonVariant`, `day`, `locale`, `modifiers`.
+
+## Differences from web
+
+**New engine.** `react-day-picker` is DOM-only, so the grid is its own on `date-fns`, with the same props where they aren't DOM.
+
+## Accessibility
+
+Parts set `role="button"`, `role="columnheader"`, `role="grid"`, `role="row"`, read by VoiceOver and TalkBack. Give a control with no text an `accessibilityLabel`.

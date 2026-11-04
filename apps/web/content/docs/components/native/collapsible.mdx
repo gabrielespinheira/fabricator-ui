@@ -1,0 +1,128 @@
+---
+title: Collapsible
+description: An interactive component which expands/collapses a panel.
+base: native
+component: true
+---
+
+## Installation
+
+```bash
+npx fabricator-ui@latest add collapsible
+```
+
+## Usage
+
+```tsx
+import { Button } from "@/components/ui/button"
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible"
+import { Text } from "@/components/ui/text"
+```
+
+```tsx
+<Collapsible className="w-full gap-2">
+  <CollapsibleTrigger>Order #4189</CollapsibleTrigger>
+  <CollapsibleContent className="gap-1">
+    <Text className="text-muted-foreground">Shipped to Acme Inc.</Text>
+    <Text className="text-muted-foreground">Arrives on Thursday.</Text>
+  </CollapsibleContent>
+</Collapsible>
+```
+
+## Composition
+
+- `Collapsible`
+- `CollapsibleContent`
+- `CollapsibleTrigger`
+- `DisclosurePanel`
+
+## Examples
+
+```tsx showLineNumbers title="collapsible-example.tsx"
+import * as React from "react"
+import { ChevronsUpDownIcon } from "@fabricator-ui/icons-react-native"
+import { View } from "react-native"
+
+import { Button } from "@/components/ui/button"
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible"
+import { Text } from "@/components/ui/text"
+
+function CollapsibleExample() {
+  const [isOpen, setIsOpen] = React.useState(false)
+  return (
+    <ExampleWrapper>
+      <Example title="Default">
+        <Collapsible className="w-full gap-2">
+          <CollapsibleTrigger>Order #4189</CollapsibleTrigger>
+          <CollapsibleContent className="gap-1">
+            <Text className="text-muted-foreground">Shipped to Acme Inc.</Text>
+            <Text className="text-muted-foreground">Arrives on Thursday.</Text>
+          </CollapsibleContent>
+        </Collapsible>
+      </Example>
+      <Example title="Open at the start">
+        <Collapsible defaultOpen className="w-full gap-2">
+          <CollapsibleTrigger>Shipping address</CollapsibleTrigger>
+          <CollapsibleContent>
+            <Text className="text-muted-foreground">
+              100 Market St, San Francisco
+            </Text>
+          </CollapsibleContent>
+        </Collapsible>
+      </Example>
+      <Example title="Controlled, with render">
+        <Collapsible
+          open={isOpen}
+          onOpenChange={setIsOpen}
+          className="w-full gap-2"
+        >
+          <View className="flex-row items-center justify-between">
+            <Text>{isOpen ? "Open" : "Closed"}</Text>
+            <CollapsibleTrigger
+              accessibilityLabel="Toggle details"
+              render={<Button variant="ghost" size="icon-sm" />}
+            >
+              <ChevronsUpDownIcon />
+            </CollapsibleTrigger>
+          </View>
+          <CollapsibleContent>
+            <Text className="text-muted-foreground">
+              Notifications go to gabs@fabricator.dev.
+            </Text>
+          </CollapsibleContent>
+        </Collapsible>
+      </Example>
+      <Example title="Disabled">
+        <Collapsible disabled className="w-full">
+          <CollapsibleTrigger>Archived orders</CollapsibleTrigger>
+          <CollapsibleContent>
+            <Text>Nothing to show.</Text>
+          </CollapsibleContent>
+        </Collapsible>
+      </Example>
+    </ExampleWrapper>
+  )
+}
+
+export { CollapsibleExample }
+```
+
+## API reference
+
+Props it adds to what it wraps: `isOpen`, `keepMounted`.
+
+## Differences from web
+
+**Same.** It works as it does on the web, with `onPress` for `onClick`.
+
+## Accessibility
+
+Parts set `role="region"`, read by VoiceOver and TalkBack. Give a control with no text an `accessibilityLabel`.

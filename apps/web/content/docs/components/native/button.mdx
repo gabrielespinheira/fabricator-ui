@@ -1,0 +1,115 @@
+---
+title: Button
+description: Displays a button or a component that looks like a button.
+base: native
+component: true
+---
+
+## Installation
+
+```bash
+npx fabricator-ui@latest add button
+```
+
+## Usage
+
+```tsx
+import { Button } from "@/components/ui/button"
+```
+
+```tsx
+{
+  VARIANTS.map((variant) => (
+    <Button key={variant} variant={variant}>
+      {variant}
+    </Button>
+  ))
+}
+```
+
+## Examples
+
+```tsx showLineNumbers title="button-example.tsx"
+import { ArrowRightIcon, PlusIcon } from "@fabricator-ui/icons-react-native"
+import { View } from "react-native"
+
+import { Button } from "@/components/ui/button"
+
+const VARIANTS = [
+  "default",
+  "outline",
+  "secondary",
+  "ghost",
+  "destructive",
+  "link",
+] as const
+
+function ButtonExample() {
+  return (
+    <ExampleWrapper>
+      <Example title="Variants" className="flex-row flex-wrap">
+        {VARIANTS.map((variant) => (
+          <Button key={variant} variant={variant}>
+            {variant}
+          </Button>
+        ))}
+      </Example>
+      <Example title="Sizes" className="flex-row flex-wrap items-center">
+        <Button size="xs">Extra small</Button>
+        <Button size="sm">Small</Button>
+        <Button>Default</Button>
+        <Button size="lg">Large</Button>
+      </Example>
+      <Example title="Icon sizes" className="flex-row flex-wrap items-center">
+        <Button size="icon-xs" variant="outline" accessibilityLabel="Add">
+          <PlusIcon />
+        </Button>
+        <Button size="icon-sm" variant="outline" accessibilityLabel="Add">
+          <PlusIcon />
+        </Button>
+        <Button size="icon" variant="outline" accessibilityLabel="Add">
+          <PlusIcon />
+        </Button>
+        <Button size="icon-lg" variant="outline" accessibilityLabel="Add">
+          <PlusIcon />
+        </Button>
+      </Example>
+      <Example title="With an icon" className="flex-row flex-wrap">
+        <Button>
+          <PlusIcon />
+          New task
+        </Button>
+        <Button variant="outline">
+          Continue
+          <ArrowRightIcon />
+        </Button>
+      </Example>
+      <Example title="Disabled">
+        <View className="flex-row gap-2">
+          <Button disabled>Disabled</Button>
+          <Button disabled variant="outline">
+            Disabled
+          </Button>
+        </View>
+      </Example>
+    </ExampleWrapper>
+  )
+}
+
+export { ButtonExample }
+```
+
+## API reference
+
+| Prop      | Values                                                               |
+| --------- | -------------------------------------------------------------------- |
+| `variant` | `default`, `destructive`, `ghost`, `link`, `outline`, `secondary`    |
+| `size`    | `default`, `icon`, `icon-lg`, `icon-sm`, `icon-xs`, `lg`, `sm`, `xs` |
+
+## Differences from web
+
+**Same.** `onPress` replaces `onClick`. Small sizes keep a 44pt target through `hitSlop`.
+
+## Accessibility
+
+Text is read as it appears. Give a control with no text an `accessibilityLabel`.

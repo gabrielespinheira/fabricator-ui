@@ -1,0 +1,20 @@
+/* MARK: Resizable */
+
+  .cn-resizable-panel-group {
+    @apply overflow-hidden;
+  }
+
+  /* The target is a finger wide and overlaps the panels: its margins leave only
+     the 1pt line in the layout. */
+  .cn-resizable-handle {
+    @apply z-10 data-[orientation=horizontal]:-mx-[21.5px] data-[orientation=horizontal]:w-11 data-[orientation=vertical]:-my-[21.5px] data-[orientation=vertical]:h-11;
+  }
+
+  /* `orientation` is the group's: panels side by side part with an upright line. */
+  .cn-resizable-handle-line {
+    @apply bg-border data-[dragging=true]:bg-foreground/25 data-[orientation=horizontal]:h-full data-[orientation=horizontal]:w-px data-[orientation=vertical]:h-px data-[orientation=vertical]:w-full;
+  }
+
+  .cn-resizable-handle-icon {
+    @apply bg-border data-[dragging=true]:bg-foreground/25 rounded-full data-[orientation=horizontal]:h-6 data-[orientation=horizontal]:w-1 data-[orientation=vertical]:h-1 data-[orientation=vertical]:w-6;
+  }

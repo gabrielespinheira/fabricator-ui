@@ -16,6 +16,11 @@ import {
   parseLook,
   type FabricatorLook,
 } from "@/registry/fabricator/look"
+import { buildAppShellInstallUrl } from "@/app/(view)/app-shell/_lib/app-shell-source"
+import {
+  playgroundParsers,
+  type PlaygroundOptions,
+} from "@/app/(view)/app-shell/_lib/options"
 
 export const FRAMEWORKS = [
   {
@@ -43,6 +48,11 @@ export const FRAMEWORKS = [
     value: "laravel",
     label: "Laravel",
     description: "PHP apps with Inertia and React.",
+  },
+  {
+    value: "expo",
+    label: "Expo",
+    description: "iOS and Android apps with React Native.",
   },
 ] as const
 
@@ -120,6 +130,8 @@ export const setupParsers = {
   name: parseAsString.withDefault(""),
   monorepo: parseAsBoolean.withDefault(false),
   base: parseAsStringLiteral(BASE_VALUES).withDefault("base"),
+  /** Install the App Shell with the options in `shell`. */
+  appShell: parseAsBoolean.withDefault(true),
   /** Install the interface sounds. */
   sound: parseAsBoolean.withDefault(false),
   /** "all" adds every component; "starter" keeps what init installs. */
@@ -136,12 +148,15 @@ export type SetupChoices = inferParserType<typeof setupParsers>
 export type Setup = SetupChoices & {
   iconLibrary: IconLibraryName
   look: FabricatorLook
+  /** The App Shell's options, URL state of their own. */
+  shell: PlaygroundOptions
 }
 
 export const DEFAULT_SETUP: Setup = {
   ...createLoader(setupParsers)(new URLSearchParams()),
   iconLibrary: "fabricator",
   look: DEFAULT_LOOK,
+  shell: createLoader(playgroundParsers)(new URLSearchParams()),
 }
 
 export type SetupCommand = {
@@ -162,6 +177,11 @@ function projectName(setup: Setup) {
 /** Laravel has no template: the Laravel installer creates the app. */
 function usesTemplate(setup: Setup) {
   return setup.project === "new" && setup.framework !== "laravel"
+}
+
+/** Web only: React Native projects have one source, with no base or monorepo. */
+export function isNativeFramework(framework: Framework) {
+  return framework === "expo"
 }
 
 /**
@@ -212,7 +232,138 @@ const SOUND_EFFECTS_SNIPPET = `import { SoundEffects } from "@/components/sound-
 // In your root layout, next to {children}:
 <SoundEffects />`
 
+function assistantSteps(setup: Setup): SetupCommand[] {
+  const result: SetupCommand[] = []
+  const assistant = ASSISTANTS.find(({ value }) => value === setup.assistant)
+  if (assistant && setup.skill) {
+    result.push({
+      id: "skill",
+      title: `Teach ${assistant.label} Fabricator UI`,
+      description:
+        "Installs the agent skill, so your assistant uses the right components and patterns.",
+      code: `npx skills add ${SKILL_SOURCE} --skill fabricator --agent ${assistant.agent} --yes`,
+      language: "bash",
+    })
+  }
+  if (assistant && setup.mcp) {
+    result.push({
+      id: "mcp",
+      title: `Connect ${assistant.label} to the registry`,
+      description:
+        "Adds the MCP server, so your assistant can search and install components.",
+      code: `${CLI} mcp init --client ${assistant.value}`,
+      language: "bash",
+    })
+  }
+  return result
+}
+
+const ROOT_LAYOUT_SNIPPET = `import "../global.css"
+
+import { FabricatorRoot } from "@/components/ui/fabricator-root"
+
+// In your root layout, around everything:
+<FabricatorRoot>
+  <Stack />
+</FabricatorRoot>`
+
+/** The look for a React Native init, when it differs from the default. */
+function buildNativeInitUrl(setup: Setup, siteUrl: string) {
+  const lookParams = lookToSearchParams(setup.look)
+  if (lookParams.size === 0) return undefined
+  return `${siteUrl}/init?platform=native&${lookParams}`
+}
+
+/** Expo has no shadcn template: create-expo-app makes the app, then init runs. */
+function expoSteps(setup: Setup, siteUrl: string): SetupCommand[] {
+  const isNew = setup.project === "new"
+  const name = projectName(setup)
+  const initUrl = buildNativeInitUrl(setup, siteUrl)
+  const result: SetupCommand[] = []
+
+  if (isNew) {
+    result.push(
+      {
+        id: "create",
+        title: "Create the Expo app",
+        description: "Creates a new app with Expo Router.",
+        code: `npx create-expo-app@latest ${name}`,
+        language: "bash",
+      },
+      {
+        id: "cd",
+        title: "Open the project folder",
+        description: "Run the next commands from here.",
+        code: `cd ${name}`,
+        language: "bash",
+      }
+    )
+  }
+
+  result.push(
+    {
+      id: "init",
+      title: "Set up Fabricator UI",
+      description:
+        "Adds Uniwind, the theme and the registry for React Native, and matches packages to your Expo SDK.",
+      code: `${CLI} init${initUrl ? ` -p "${initUrl}"` : ""}`,
+      language: "bash",
+    },
+    {
+      id: "root",
+      title: "Wrap your app",
+      description:
+        "Sets up gestures, safe areas and where overlays render. Do this once.",
+      code: ROOT_LAYOUT_SNIPPET,
+      language: "tsx",
+    }
+  )
+
+  if (setup.components === "all") {
+    result.push({
+      id: "components",
+      title: "Add every component",
+      description: "Copies all Fabricator UI components into your project.",
+      code: `${CLI} add --all`,
+      language: "bash",
+    })
+  }
+
+  if (setup.sound) {
+    result.push(
+      {
+        id: "sounds",
+        title: "Add haptic feedback",
+        description: "React Native controls answer with haptics, not sounds.",
+        code: `${CLI} add sounds`,
+        language: "bash",
+      },
+      {
+        id: "sounds-mount",
+        title: "Turn feedback on",
+        description: "Wrap your app in it, inside FabricatorRoot.",
+        code: `import { SoundEffects } from "@/components/sound-effects"
+
+<SoundEffects>{children}</SoundEffects>`,
+        language: "tsx",
+      }
+    )
+  }
+
+  result.push(...assistantSteps(setup), {
+    id: "dev",
+    title: "Build and run the app",
+    description:
+      "The first build takes minutes, since native modules were added.",
+    code: "npx expo run:ios",
+    language: "bash",
+  })
+
+  return result
+}
+
 function steps(setup: Setup, siteUrl: string): SetupCommand[] {
+  if (setup.framework === "expo") return expoSteps(setup, siteUrl)
   const isNew = setup.project === "new"
   const isLaravel = setup.framework === "laravel"
   const name = projectName(setup)
@@ -272,6 +423,18 @@ function steps(setup: Setup, siteUrl: string): SetupCommand[] {
     })
   }
 
+  if (setup.appShell) {
+    const url = buildAppShellInstallUrl(setup.shell, siteUrl, setup.iconLibrary)
+    result.push({
+      id: "app-shell",
+      title: "Add the App Shell",
+      description:
+        "Writes components/app-shell-layout.tsx with your choices. Wrap your routes in it and pass it the pathname.",
+      code: `${CLI} add app-shell "${url}"${appFlag}`,
+      language: "bash",
+    })
+  }
+
   if (setup.sound) {
     result.push(
       {
@@ -291,27 +454,7 @@ function steps(setup: Setup, siteUrl: string): SetupCommand[] {
     )
   }
 
-  const assistant = ASSISTANTS.find(({ value }) => value === setup.assistant)
-  if (assistant && setup.skill) {
-    result.push({
-      id: "skill",
-      title: `Teach ${assistant.label} Fabricator UI`,
-      description:
-        "Installs the agent skill, so your assistant uses the right components and patterns.",
-      code: `npx skills add ${SKILL_SOURCE} --skill fabricator --agent ${assistant.agent} --yes`,
-      language: "bash",
-    })
-  }
-  if (assistant && setup.mcp) {
-    result.push({
-      id: "mcp",
-      title: `Connect ${assistant.label} to the registry`,
-      description:
-        "Adds the MCP server, so your assistant can search and install components.",
-      code: `${CLI} mcp init --client ${assistant.value}`,
-      language: "bash",
-    })
-  }
+  result.push(...assistantSteps(setup))
 
   if (isNew) {
     result.push({
@@ -364,12 +507,17 @@ export function buildSetupCommands(
 
 const serializeChoices = createSerializer(setupParsers)
 const loadChoices = createLoader(setupParsers)
+const serializeShell = createSerializer(playgroundParsers)
+const loadShell = createLoader(playgroundParsers)
 
 /** The setup as URL params; only what differs from the defaults. */
 export function setupToParams(setup: Setup) {
   const params = new URLSearchParams(
     serializeChoices({ ...setup, name: setup.name.trim() || null })
   )
+  for (const [key, value] of new URLSearchParams(serializeShell(setup.shell))) {
+    params.set(key, value)
+  }
   if (setup.iconLibrary !== DEFAULT_SETUP.iconLibrary) {
     params.set("iconLibrary", setup.iconLibrary)
   }
@@ -385,6 +533,7 @@ export function parseSetupParams(params: URLSearchParams): Setup {
   const look = parseLook(params)
   return {
     ...loadChoices(params),
+    shell: loadShell(params),
     iconLibrary: isIconLibraryName(iconLibrary)
       ? iconLibrary
       : DEFAULT_SETUP.iconLibrary,

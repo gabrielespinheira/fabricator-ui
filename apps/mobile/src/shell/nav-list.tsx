@@ -196,7 +196,6 @@ function NavRow({
   const isLit = isRaised || isCurrent
   const toggle = () => setOpen(item.id, !isOpen)
   const Icon = item.icon
-  const iconSize = depth === 0 ? theme.icon[16] : theme.icon[14]
 
   return (
     <View style={styles.rows}>
@@ -213,7 +212,9 @@ function NavRow({
           style={({ pressed }) => [
             styles.row,
             {
-              paddingLeft: theme.space[8] + depth * theme.space[16],
+              // A row's icon starts under its parent's label.
+              paddingLeft:
+                theme.space[8] + depth * (theme.icon[16] + theme.space[8]),
               paddingRight: hasChildren ? theme.space[36] : theme.space[8],
             },
             isRaised && styles.rowRaised,
@@ -223,14 +224,14 @@ function NavRow({
         >
           {Icon ? (
             <Icon
-              size={iconSize}
+              size={theme.icon[16]}
               strokeWidth={isLit ? 2 : 1.5}
               color={
                 isLit ? theme.colors.foreground : theme.colors.mutedOnFrame
               }
             />
           ) : (
-            <View style={{ width: iconSize }} />
+            <View style={{ width: theme.icon[16] }} />
           )}
           <Text
             numberOfLines={1}

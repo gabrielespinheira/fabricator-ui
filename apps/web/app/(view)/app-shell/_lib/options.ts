@@ -21,6 +21,24 @@ export const CONTENT_SIZES = ["sm", "md", "lg"] as const
 export const PANEL_MOBILE = ["drawer", "swap", "none"] as const
 export const WINDOWS = ["web", "macos", "windows"] as const
 
+export const SIDEBAR_VARIANT_CHOICES = [
+  { value: "inset", label: "Inset" },
+  { value: "sidebar", label: "Flush" },
+  { value: "floating", label: "Floating" },
+] as const
+
+export const SIDEBAR_COLLAPSE_CHOICES = [
+  { value: "icon", label: "Icons" },
+  { value: "offcanvas", label: "Hide" },
+  { value: "none", label: "Never" },
+] as const
+
+export const TAB_PLACEMENT_CHOICES = [
+  { value: "none", label: "None" },
+  { value: "main", label: "Page" },
+  { value: "titlebar", label: "Titlebar" },
+] as const
+
 export const playgroundParsers = {
   variant: parseAsStringLiteral(SIDEBAR_VARIANTS).withDefault("inset"),
   collapse: parseAsStringLiteral(SIDEBAR_COLLAPSE).withDefault("icon"),

@@ -3,7 +3,7 @@
   /* A 40px row of document tabs on the surface it sits on. `sm` pins it to
      the compact density. */
   .cn-tab-strip {
-    @apply h-(--density-40) gap-(--density-4) px-(--density-6) in-data-[slot=app-shell-header]:-me-(--density-6) data-[size=sm]:density-compact;
+    @apply h-(--density-40) gap-(--density-4) px-(--density-6) in-data-[slot=app-shell-header]:-me-(--density-6) in-data-[slot=app-shell-titlebar]:not-in-data-[window-controls=overlay]:-me-(--density-6) data-[size=sm]:density-compact;
   }
 
   /* The list is as wide as its tabs, so the new tab button follows the last

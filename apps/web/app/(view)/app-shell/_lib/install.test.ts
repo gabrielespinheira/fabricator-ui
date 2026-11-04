@@ -5,6 +5,7 @@ import { DEFAULT_SITE_SETTINGS } from "@/lib/site-settings"
 import { GET } from "@/app/(app)/(create)/init/app-shell/route"
 
 import {
+  buildAppShellInstallUrl,
   buildAppShellItem,
   buildAppShellSource,
   getAppShellDependencies,
@@ -13,7 +14,6 @@ import {
 } from "./app-shell-source"
 import {
   buildAppShellCommand,
-  buildAppShellInstallUrl,
   buildSettingsCommands,
   getWindowOption,
 } from "./install"
