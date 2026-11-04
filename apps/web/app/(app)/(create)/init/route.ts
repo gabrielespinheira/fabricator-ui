@@ -11,6 +11,7 @@ import {
 import {
   resolveFabricatorSearchParams,
   toFabricatorRegistryBase,
+  usesFabricatorIcons,
   usesFabricatorPalette,
 } from "@/registry/fabricator-init"
 import { parseLook } from "@/registry/fabricator/look"
@@ -55,6 +56,8 @@ export async function GET(request: NextRequest) {
         config: result.data,
         palette: usesFabricatorPalette(request.nextUrl.searchParams),
         look: lookResult.look,
+        icons: usesFabricatorIcons(request.nextUrl.searchParams),
+        isPartial: onlyResult.parts !== undefined,
       }
     )
     const parseResult = registryItemSchema.safeParse(registryBase)

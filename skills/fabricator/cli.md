@@ -231,7 +231,7 @@ Displays project info, `components.json` configuration, and installed components
 | `base`               | `string`  | Primitive library (`base`, `radix`, or `aria`) — determines component APIs and props       |
 | `rsc`                | `boolean` | RSC flag from config                                                                       |
 | `typescript`         | `boolean` | TypeScript flag                                                                            |
-| `iconLibrary`        | `string`  | Icon library — determines icon import package (e.g. `lucide-react`, `@tabler/icons-react`) |
+| `iconLibrary`        | `string`  | Icon library — determines icon import package (e.g. `lucide-react`, `@tabler/icons-react`), unless the `@fabricator` registry entry has `params.icons: "fabricator"`, which means `@fabricator-ui/icons` |
 | `rtl`                | `boolean` | Whether RTL support is enabled                                                             |
 | `aliases.components` | `string`  | Component import alias (e.g. `@/components`)                                               |
 | `aliases.utils`      | `string`  | Utils import alias (e.g. `@/lib/utils`)                                                    |

@@ -23,6 +23,8 @@ The icons render in Server Components, and one icon costs about 1 KB, minified a
 
 447 of the icons also animate. Import them from `@fabricator-ui/icons/animated` with [Motion](https://motion.dev) installed, under the same names and props, and they play on hover or from a `ref`, and stay still with reduced motion. The animations come from [lucide-animated](https://lucide-animated.com); see [Animated](/docs/icons/animated).
 
+New projects use these icons: `init` and the [Get started](/create) page install `@fabricator-ui/icons`, and components import from it. Existing projects keep the icons they have, and `iconLibrary=lucide` on the init URL keeps Lucide. They draw the same shapes.
+
 The same icons ship for React Native and Expo in `@fabricator-ui/icons-react-native`, where they follow the device's light and dark mode with no setup, and as SVG files, sprites, JSON and strings in `@fabricator-ui/icons-static`. That package also renders PNG tray and menu icons for Electron and Tauri, macOS template images included:
 
 ```bash

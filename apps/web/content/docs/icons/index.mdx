@@ -14,6 +14,29 @@ Fabricator Icons is the icon set of Fabricator UI:
 
 Search, preview and copy every icon on the [Icons](/icons) page.
 
+## In Fabricator UI components
+
+A new project uses Fabricator Icons: `init` and the [Get started](/create) page install this package, and every component you add imports from it. To keep Lucide or use another pack, pick it in the Icons setting on Get started, which adds it to the command:
+
+```bash
+npx fabricator-ui@latest init -p "https://fabricator-ui.vercel.app/init?iconLibrary=lucide"
+```
+
+An existing project keeps the icons it has. To move one over, set its registry entry in `components.json`, then add its components again with `--overwrite`:
+
+```json title="components.json"
+{
+  "registries": {
+    "@fabricator": {
+      "url": "https://fabricator-ui.vercel.app/r/fabricator/{style}/{name}.json",
+      "params": { "icons": "fabricator" }
+    }
+  }
+}
+```
+
+`iconLibrary` stays `lucide` in both cases, because the shadcn CLI only knows its five libraries. The outline icons have Lucide's names and shapes, so nothing changes on screen.
+
 ## Packages
 
 | Package                                                         | For                                                                                    |

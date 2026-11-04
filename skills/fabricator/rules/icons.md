@@ -1,6 +1,11 @@
 # Icons
 
-**Always use the project's configured `iconLibrary` for imports.** Check `config.iconLibrary` in `info --json`: `lucide` → `lucide-react`, `tabler` → `@tabler/icons-react`, etc. Never assume `lucide-react`.
+**Always use the project's icon package for imports.** Check `info --json`:
+
+1. `config.registries["@fabricator"].params.icons` is `"fabricator"` (new projects): import from `@fabricator-ui/icons`. Its `iconLibrary` says `lucide` only because the shadcn CLI knows no other value.
+2. Otherwise `config.iconLibrary`: `lucide` → `lucide-react`, `tabler` → `@tabler/icons-react`, etc.
+
+Never assume `lucide-react`.
 
 ---
 

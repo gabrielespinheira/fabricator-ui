@@ -10,10 +10,14 @@ import { isPresetCode } from "shadcn/preset"
 
 import { DEFAULT_CONFIG, type DesignSystemConfig } from "@/registry/config"
 import {
+  FABRICATOR_ICON_LIBRARY,
+  FABRICATOR_ICONS_PACKAGE,
+  FABRICATOR_ICONS_PARAMS,
   FABRICATOR_NAMESPACE,
   FABRICATOR_REGISTRY,
   getFabricatorRegistryUrl,
   getFabricatorSiteUrl,
+  LUCIDE_ICONS_PACKAGE,
 } from "@/registry/fabricator"
 import { FABRICATOR_PALETTE } from "@/registry/fabricator/foundations"
 import {
@@ -57,6 +61,12 @@ export function resolveFabricatorSearchParams(searchParams: URLSearchParams) {
   const params = new URLSearchParams(searchParams)
   const preset = params.get("preset")
 
+  // shadcn's schema has no Fabricator library: the preset fills in its "lucide",
+  // and usesFabricatorIcons decides what the project gets.
+  if (params.get("iconLibrary") === FABRICATOR_ICON_LIBRARY) {
+    params.delete("iconLibrary")
+  }
+
   if (preset && isPresetCode(preset)) {
     return { success: true as const, params }
   }
@@ -81,8 +91,20 @@ export function resolveFabricatorSearchParams(searchParams: URLSearchParams) {
   return { success: true as const, params }
 }
 
+/**
+ * Fabricator's icons are the default. An explicit library or a shadcn preset
+ * code, which carries its own, opts out.
+ */
+export function usesFabricatorIcons(searchParams: URLSearchParams) {
+  const preset = searchParams.get("preset")
+  if (preset && isPresetCode(preset)) return false
+  const library = searchParams.get("iconLibrary")
+  return library === null || library === FABRICATOR_ICON_LIBRARY
+}
+
 type RegistryBase = {
   config?: Record<string, unknown>
+  dependencies?: string[]
   registryDependencies?: string[]
   cssVars?: {
     theme?: Record<string, string>
@@ -106,6 +128,8 @@ export function toFabricatorRegistryBase<T extends RegistryBase>(
     config,
     palette = false,
     look = DEFAULT_LOOK,
+    icons = false,
+    isPartial = false,
     siteUrl = getFabricatorSiteUrl(),
   }: {
     config: Pick<DesignSystemConfig, "base" | "style">
@@ -113,6 +137,10 @@ export function toFabricatorRegistryBase<T extends RegistryBase>(
     palette?: boolean
     /** The setup page's settings, applied on top of the palette. */
     look?: FabricatorLook
+    /** Install Fabricator's icons: see usesFabricatorIcons. */
+    icons?: boolean
+    /** A partial payload (`only=theme`) leaves the project's registry entry alone. */
+    isPartial?: boolean
     siteUrl?: string
   }
 ): T {
@@ -126,10 +154,13 @@ export function toFabricatorRegistryBase<T extends RegistryBase>(
   const dependencyNames = registryBase.registryDependencies
     ? [...registryBase.registryDependencies, ...FABRICATOR_REQUIRED_ITEMS]
     : undefined
+  const iconsQuery = icons
+    ? `?${new URLSearchParams(FABRICATOR_ICONS_PARAMS)}`
+    : ""
   const registryDependencies = dependencyNames?.map((dependency) =>
     dependency.startsWith("@") || dependency.includes("://")
       ? dependency
-      : registryUrl.replace("{style}", styleId).replace("{name}", dependency)
+      : `${registryUrl.replace("{style}", styleId).replace("{name}", dependency)}${iconsQuery}`
   )
 
   // The look's variables override the foundations' defaults: shadcn merges
@@ -156,16 +187,29 @@ export function toFabricatorRegistryBase<T extends RegistryBase>(
         }
       : registryBase.cssVars
 
+  const dependencies =
+    icons &&
+    registryBase.dependencies?.map((dependency) =>
+      dependency === LUCIDE_ICONS_PACKAGE
+        ? FABRICATOR_ICONS_PACKAGE
+        : dependency
+    )
+
   return {
     ...registryBase,
     $schema: `${FABRICATOR_REGISTRY.homepage}/schema/registry-item.json`,
     config: {
       $schema: `${FABRICATOR_REGISTRY.homepage}/schema.json`,
       ...registryBase.config,
-      registries: {
-        [FABRICATOR_NAMESPACE]: registryUrl,
-      },
+      ...(!isPartial && {
+        registries: {
+          [FABRICATOR_NAMESPACE]: icons
+            ? { url: registryUrl, params: FABRICATOR_ICONS_PARAMS }
+            : registryUrl,
+        },
+      }),
     },
+    ...(dependencies && { dependencies }),
     ...(registryDependencies && { registryDependencies }),
     ...(cssVars && { cssVars }),
     ...(registryBase.docs && {

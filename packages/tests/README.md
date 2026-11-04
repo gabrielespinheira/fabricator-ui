@@ -9,4 +9,6 @@ bun run test:e2e            # terminal 2: every scenario
 bun run test:e2e --only vite-base,existing-shadcn
 ```
 
+Scenarios install `@fabricator-ui/icons` from a tarball of the workspace package (`src/local-npm.ts`), and everything else from npm, so they test the icons this checkout builds. Build the package first: `bun run dev` and `bun run build` both do.
+
 Set `FABRICATOR_REGISTRY_URL` to test another deployment. Apps are created under the OS temp dir and removed on success (`--keep` keeps them).

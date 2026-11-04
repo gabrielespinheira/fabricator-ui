@@ -16,7 +16,7 @@ Components are styled using Tailwind CSS. You need to install Tailwind CSS in yo
 Add the following dependencies to your project:
 
 ```bash
-npm install shadcn class-variance-authority cn lucide-react tw-animate-css
+npm install shadcn class-variance-authority cn @fabricator-ui/icons tw-animate-css
 ```
 
 ### Configure import aliases
@@ -232,12 +232,15 @@ Create a `components.json` file in the root of your project.
   },
   "iconLibrary": "lucide",
   "registries": {
-    "@fabricator": "https://fabricator-ui.vercel.app/r/fabricator/{style}/{name}.json"
+    "@fabricator": {
+      "url": "https://fabricator-ui.vercel.app/r/fabricator/{style}/{name}.json",
+      "params": { "icons": "fabricator" }
+    }
   }
 }
 ```
 
-The `registries` entry lets the CLI resolve `@fabricator/<name>`. See <Link href="/docs/registry">Registry</Link>.
+The `registries` entry lets the CLI resolve `@fabricator/<name>`, and its `params` install components with [Fabricator Icons](/docs/icons). `iconLibrary` stays `lucide`, the value that keeps upstream's items installable. To use another library, set it there and write the entry as a plain URL. See <Link href="/docs/registry">Registry</Link>.
 
 If you're using `package.json#imports`, use the corresponding `#...` aliases instead:
 

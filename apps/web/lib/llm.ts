@@ -3,7 +3,7 @@ import { ExamplesIndex } from "@/examples/__index__"
 
 import { PAGES_NEW } from "@/lib/docs"
 import { getPagesFromFolder, type PageTreeFolder } from "@/lib/page-tree"
-import { restoreLucideImports } from "@/lib/site-icons-display"
+import { restoreIconImports } from "@/lib/site-icons-display"
 import { source } from "@/lib/source"
 import { absoluteUrl } from "@/lib/utils"
 import { Index as StylesIndex } from "@/registry/__index__"
@@ -103,7 +103,7 @@ export function processMdxForLLMs(content: string, style: Style["name"]) {
         return match
       }
 
-      let source = restoreLucideImports(fs.readFileSync(src, "utf8"))
+      let source = restoreIconImports(fs.readFileSync(src, "utf8"))
 
       // Replace all base-specific paths.
       for (const base of BASES) {
