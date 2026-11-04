@@ -1,0 +1,30 @@
+/* MARK: Popover */
+
+  /* Popup recipe: surface 3 with its shadow ring (no border), rounded-xl, p-3,
+     13pt. Grows from its centre on the popup motion and closes quicker than it
+     opened (useSurfaceAnimation). */
+  .cn-popover-content {
+    @apply bg-surface-3 shadow-surface-3 rounded-xl p-(--density-12);
+  }
+
+  /* On the website this holds the motion, which is useSurfaceAnimation here. It
+     keeps the spacing instead. */
+  .cn-popover-content-logical {
+    @apply gap-(--density-12);
+  }
+
+  .cn-popover-text {
+    @apply text-popover-foreground text-(length:--density-text-13);
+  }
+
+  .cn-popover-header {
+    @apply gap-1;
+  }
+
+  .cn-popover-title {
+    @apply text-foreground text-(length:--density-text-14) leading-snug font-medium;
+  }
+
+  .cn-popover-description {
+    @apply text-muted-foreground text-(length:--density-text-13);
+  }

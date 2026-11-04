@@ -1,0 +1,36 @@
+/* MARK: Card */
+
+  /* Surface 3 with its shadow ring, rounded-xl. py-(--density-16) with
+     px on the parts; sm tightens through the same parts. */
+  .cn-card {
+    @apply bg-surface-3 shadow-surface-3 gap-(--density-16) rounded-xl py-(--density-16) data-[size=sm]:gap-(--density-12) data-[size=sm]:py-(--density-12);
+  }
+
+  .cn-card-text {
+    @apply text-card-foreground text-(length:--density-text-13);
+  }
+
+  .cn-card-header {
+    @apply gap-(--density-4) px-(--density-16) data-[size=sm]:px-(--density-12);
+  }
+
+  .cn-card-title {
+    @apply text-foreground text-(length:--density-text-14) font-medium leading-snug data-[size=sm]:text-(length:--density-text-13);
+  }
+
+  .cn-card-description {
+    @apply text-muted-foreground text-(length:--density-text-13);
+  }
+
+  /* The header's top-right corner. */
+  .cn-card-action {
+    @apply absolute end-(--density-16) top-0;
+  }
+
+  .cn-card-content {
+    @apply gap-(--density-8) px-(--density-16) data-[size=sm]:px-(--density-12);
+  }
+
+  .cn-card-footer {
+    @apply gap-(--density-8) px-(--density-16) data-[size=sm]:px-(--density-12);
+  }

@@ -1,0 +1,299 @@
+import * as React from "react"
+import { Example, ExampleWrapper } from "@/examples/native/example"
+
+import { Button } from "@/registry/native/ui/button"
+import {
+  Questionnaire,
+  QuestionnaireActions,
+  QuestionnaireChoice,
+  QuestionnaireChoiceDescription,
+  QuestionnaireChoices,
+  QuestionnaireDescription,
+  QuestionnaireError,
+  QuestionnaireInput,
+  QuestionnaireItem,
+  QuestionnaireNext,
+  QuestionnairePrevious,
+  QuestionnaireProgress,
+  QuestionnaireSkip,
+  QuestionnaireSubmit,
+  QuestionnaireTitle,
+  useQuestionnaire,
+  type QuestionnaireAnswers,
+} from "@/registry/native/ui/questionnaire"
+import { Text } from "@/registry/native/ui/text"
+
+const PLAN_ITEMS = [
+  {
+    name: "direction",
+    required: true,
+    choices: [
+      { value: "tools" },
+      { value: "approvals" },
+      { value: "handoffs" },
+    ],
+  },
+  {
+    name: "signals",
+    choices: [
+      { value: "progress" },
+      { value: "decisions" },
+      { value: "risks" },
+    ],
+  },
+  { name: "timing", required: true },
+]
+
+function Answers({ answers }: { answers: QuestionnaireAnswers | null }) {
+  if (!answers) return null
+  return (
+    <Text className="text-muted-foreground">{JSON.stringify(answers)}</Text>
+  )
+}
+
+function ResetButton() {
+  const { reset } = useQuestionnaire()
+  return (
+    <Button variant="ghost" onPress={reset}>
+      Reset
+    </Button>
+  )
+}
+
+function QuestionnaireExample() {
+  const [plan, setPlan] = React.useState<QuestionnaireAnswers | null>(null)
+  const [item, setItem] = React.useState("scope")
+  const [runtime, setRuntime] = React.useState("local")
+  const conditionalItems = React.useMemo(
+    () => [
+      { name: "runtime", required: true },
+      { name: "environment", required: true, disabled: runtime !== "cloud" },
+      { name: "approval", required: true },
+    ],
+    [runtime]
+  )
+  return (
+    <ExampleWrapper>
+      <Example
+        title="Required, multiple, skip and free text"
+        className="items-stretch"
+      >
+        <Questionnaire
+          defaultItem="direction"
+          items={PLAN_ITEMS}
+          shortcuts="letters"
+          onSubmit={setPlan}
+        >
+          <QuestionnaireProgress />
+          <QuestionnaireItem name="direction" required>
+            <QuestionnaireTitle>
+              What should the agent build next?
+            </QuestionnaireTitle>
+            <QuestionnaireDescription>
+              Choose a direction or describe another task.
+            </QuestionnaireDescription>
+            <QuestionnaireChoices>
+              <QuestionnaireChoice value="tools">
+                <Text className="font-medium">Tool call timeline</Text>
+                <QuestionnaireChoiceDescription>
+                  Show what the agent ran and what came back.
+                </QuestionnaireChoiceDescription>
+              </QuestionnaireChoice>
+              <QuestionnaireChoice value="approvals">
+                Approval checkpoints
+              </QuestionnaireChoice>
+              <QuestionnaireChoice value="handoffs">
+                Sub-agent handoffs
+              </QuestionnaireChoice>
+              <QuestionnaireInput
+                aria-label="Another agent feature"
+                placeholder="Describe another feature..."
+              />
+            </QuestionnaireChoices>
+            <QuestionnaireError />
+          </QuestionnaireItem>
+          <QuestionnaireItem name="signals" multiple>
+            <QuestionnaireTitle>
+              What should every update include?
+            </QuestionnaireTitle>
+            <QuestionnaireDescription>
+              Select all that apply, or skip this question.
+            </QuestionnaireDescription>
+            <QuestionnaireChoices>
+              <QuestionnaireChoice value="progress">
+                Progress
+              </QuestionnaireChoice>
+              <QuestionnaireChoice value="decisions" disabled>
+                Decisions
+              </QuestionnaireChoice>
+              <QuestionnaireChoice value="risks">Risks</QuestionnaireChoice>
+            </QuestionnaireChoices>
+            <QuestionnaireError />
+          </QuestionnaireItem>
+          <QuestionnaireItem name="timing" required>
+            <QuestionnaireTitle>When should work begin?</QuestionnaireTitle>
+            <QuestionnaireChoices>
+              <QuestionnaireChoice value="now">Start now</QuestionnaireChoice>
+              <QuestionnaireChoice value="backlog">
+                Add it to the backlog
+              </QuestionnaireChoice>
+            </QuestionnaireChoices>
+            <QuestionnaireError />
+          </QuestionnaireItem>
+          <QuestionnaireActions>
+            <QuestionnairePrevious />
+            <QuestionnaireSkip />
+            <QuestionnaireNext>Next</QuestionnaireNext>
+            <QuestionnaireSubmit>Save plan</QuestionnaireSubmit>
+          </QuestionnaireActions>
+        </Questionnaire>
+        <Answers answers={plan} />
+      </Example>
+      <Example title="Controlled item" className="items-stretch">
+        <Text className="text-muted-foreground">Checkpoint: {item}</Text>
+        <Questionnaire item={item} onItemChange={setItem}>
+          <QuestionnaireProgress />
+          <QuestionnaireItem name="scope" required>
+            <QuestionnaireTitle>What may the agent change?</QuestionnaireTitle>
+            <QuestionnaireChoices>
+              <QuestionnaireChoice value="component">
+                Only the target component
+              </QuestionnaireChoice>
+              <QuestionnaireChoice value="feature">
+                The complete feature area
+              </QuestionnaireChoice>
+            </QuestionnaireChoices>
+            <QuestionnaireError />
+          </QuestionnaireItem>
+          <QuestionnaireItem name="checks" required>
+            <QuestionnaireTitle>Which checks should it run?</QuestionnaireTitle>
+            <QuestionnaireChoices>
+              <QuestionnaireChoice value="targeted">
+                Targeted tests
+              </QuestionnaireChoice>
+              <QuestionnaireChoice value="full">
+                Full verification
+              </QuestionnaireChoice>
+            </QuestionnaireChoices>
+            <QuestionnaireError />
+          </QuestionnaireItem>
+          <QuestionnaireActions>
+            <QuestionnairePrevious size="sm" variant="ghost" />
+            <QuestionnaireNext size="sm" />
+            <QuestionnaireSubmit size="sm" />
+          </QuestionnaireActions>
+        </Questionnaire>
+      </Example>
+      <Example
+        title="Conditional, with a controlled choice"
+        className="items-stretch"
+      >
+        <Questionnaire defaultItem="runtime" items={conditionalItems}>
+          <QuestionnaireProgress />
+          <QuestionnaireItem name="runtime" required>
+            <QuestionnaireTitle>Where should the agent run?</QuestionnaireTitle>
+            <QuestionnaireDescription>
+              Cloud runs add an environment question.
+            </QuestionnaireDescription>
+            <QuestionnaireChoices>
+              <QuestionnaireChoice
+                checked={runtime === "local"}
+                value="local"
+                onChange={() => setRuntime("local")}
+              >
+                Local workspace
+              </QuestionnaireChoice>
+              <QuestionnaireChoice
+                checked={runtime === "cloud"}
+                value="cloud"
+                onChange={() => setRuntime("cloud")}
+              >
+                Cloud workspace
+              </QuestionnaireChoice>
+            </QuestionnaireChoices>
+          </QuestionnaireItem>
+          <QuestionnaireItem
+            disabled={runtime !== "cloud"}
+            name="environment"
+            required
+          >
+            <QuestionnaireTitle>Which environment?</QuestionnaireTitle>
+            <QuestionnaireChoices>
+              <QuestionnaireChoice value="preview">Preview</QuestionnaireChoice>
+              <QuestionnaireChoice value="staging">Staging</QuestionnaireChoice>
+            </QuestionnaireChoices>
+            <QuestionnaireError />
+          </QuestionnaireItem>
+          <QuestionnaireItem name="approval" required>
+            <QuestionnaireTitle>When should it ask first?</QuestionnaireTitle>
+            <QuestionnaireChoices>
+              <QuestionnaireChoice value="writes">
+                Before writing files
+              </QuestionnaireChoice>
+              <QuestionnaireChoice value="sensitive">
+                Only for sensitive actions
+              </QuestionnaireChoice>
+            </QuestionnaireChoices>
+            <QuestionnaireError />
+          </QuestionnaireItem>
+          <QuestionnaireActions>
+            <QuestionnairePrevious />
+            <QuestionnaireNext />
+            <QuestionnaireSubmit />
+          </QuestionnaireActions>
+        </Questionnaire>
+      </Example>
+      <Example
+        title="Saved answers, reset, and an invalid item"
+        className="items-stretch"
+      >
+        <Questionnaire defaultItem="verification">
+          <QuestionnaireProgress />
+          <QuestionnaireItem name="change" required>
+            <QuestionnaireTitle>
+              What kind of migration is this?
+            </QuestionnaireTitle>
+            <QuestionnaireChoices>
+              <QuestionnaireChoice value="incremental" defaultChecked>
+                Incremental migration
+              </QuestionnaireChoice>
+              <QuestionnaireChoice value="cutover">
+                Single cutover
+              </QuestionnaireChoice>
+            </QuestionnaireChoices>
+          </QuestionnaireItem>
+          <QuestionnaireItem name="verification" multiple required>
+            <QuestionnaireTitle>How should it be verified?</QuestionnaireTitle>
+            <QuestionnaireChoices>
+              <QuestionnaireChoice value="tests" defaultChecked>
+                Run migration tests
+              </QuestionnaireChoice>
+              <QuestionnaireChoice value="typecheck" defaultChecked>
+                Run the typecheck
+              </QuestionnaireChoice>
+              <QuestionnaireChoice value="manual">
+                Perform a manual smoke test
+              </QuestionnaireChoice>
+            </QuestionnaireChoices>
+          </QuestionnaireItem>
+          <QuestionnaireItem name="notes" invalid>
+            <QuestionnaireTitle>Anything else to remember?</QuestionnaireTitle>
+            <QuestionnaireInput
+              aria-label="Saved migration note"
+              defaultValue="Keep the public API stable."
+            />
+            <QuestionnaireError>Too vague to act on.</QuestionnaireError>
+          </QuestionnaireItem>
+          <QuestionnaireActions>
+            <ResetButton />
+            <QuestionnairePrevious />
+            <QuestionnaireNext />
+            <QuestionnaireSubmit />
+          </QuestionnaireActions>
+        </Questionnaire>
+      </Example>
+    </ExampleWrapper>
+  )
+}
+
+export { QuestionnaireExample }

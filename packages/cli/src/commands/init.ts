@@ -9,14 +9,21 @@ import {
 } from "../utils/config"
 import { highlight, logger } from "../utils/logger"
 import { rewriteNames } from "../utils/names"
+import {
+  isReactNativeProject,
+  readPackageJson,
+  type ProjectPackageJson,
+} from "../utils/native"
 import { exitLike, formatShadcnCommand, runShadcn } from "../utils/shadcn"
 import {
   buildInitUrl,
+  buildNativeInitUrl,
   fabricatorRegistryTemplate,
   getBaseUrl,
   isBase,
   type Base,
 } from "../utils/urls"
+import { initNative } from "./init-native"
 import { fail, promptSelect, resolveCwd } from "./shared"
 
 export interface InitOptions {
@@ -34,6 +41,7 @@ export interface InitOptions {
   cssVariables?: boolean
   reinstall?: boolean
   dryRun?: boolean
+  platform?: string
 }
 
 /** Arguments for `shadcn init <initUrl> [components…] [flags]`. */
@@ -222,12 +230,43 @@ async function initExistingProject(
   return exitLike(result)
 }
 
+/** Which platform to set up: the flag, or what the project already is. */
+export function resolvePlatform(
+  platform: string | undefined,
+  pkg: ProjectPackageJson | undefined
+): "web" | "native" {
+  if (platform === "web" || platform === "native") return platform
+  if (platform !== undefined) {
+    throw new Error(`Invalid platform: ${platform}. Use web or native.`)
+  }
+  return isReactNativeProject(pkg) ? "native" : "web"
+}
+
 export async function init(
   components: string[],
   rawOptions: InitOptions
 ): Promise<void> {
   const cwd = resolveCwd(rawOptions.cwd)
   const baseUrl = getBaseUrl()
+  const pkg = readPackageJson(cwd)
+  if (
+    resolvePlatform(rawOptions.platform, pkg) === "native" &&
+    !rawOptions.template
+  ) {
+    if (!pkg) {
+      fail(
+        "No package.json here. Create the app first with npx create-expo-app, then run init inside it."
+      )
+    }
+    return initNative(rewriteNames(components), {
+      cwd,
+      baseUrl,
+      initUrl: buildNativeInitUrl(rawOptions.preset, baseUrl),
+      yes: rawOptions.yes,
+      silent: rawOptions.silent,
+      dryRun: rawOptions.dryRun,
+    })
+  }
   const existing = readComponentsJson(cwd)
   const existingStyle =
     existing.exists && "config" in existing ? existing.config.style : undefined
@@ -335,6 +374,10 @@ export function createInitCommand(): Command {
       "-p, --preset <preset>",
       "Fabricator preset name, preset code or init URL",
       "fabricator"
+    )
+    .option(
+      "--platform <platform>",
+      "web or native (default: native in an Expo or React Native project)"
     )
     .option("--monorepo", "scaffold a monorepo project")
     .option("--no-monorepo", "skip the monorepo prompt")

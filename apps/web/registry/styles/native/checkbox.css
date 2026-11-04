@@ -1,0 +1,15 @@
+/* MARK: Checkbox */
+
+  /* 18pt, rounded-[6px], a quiet 1.5pt outline. Checked fills with the primary
+     role and the check pops in in its foreground. */
+  .cn-checkbox {
+    @apply size-[calc(var(--density-icon-16)+2px)] rounded-[6px] border-[1.5px] border-foreground/25 bg-transparent active:scale-90 data-[state=checked]:border-primary data-[state=checked]:bg-primary data-[state=indeterminate]:border-primary data-[state=indeterminate]:bg-primary data-[invalid=true]:border-destructive;
+  }
+
+  .cn-checkbox-indicator {
+    @apply size-[calc(var(--density-icon-16)-4px)];
+  }
+
+  .cn-checkbox-indicator-text {
+    @apply text-primary-foreground;
+  }

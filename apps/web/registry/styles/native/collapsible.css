@@ -1,0 +1,13 @@
+/* MARK: Collapsible */
+
+  /* Pressed dims the bare trigger: there is no hover to answer with. */
+  .cn-collapsible-trigger {
+    @apply active:opacity-70 disabled:opacity-50;
+  }
+
+  /* Opens and closes like Accordion content: DisclosurePanel animates the
+     measured height on the disclosure timing, and Reduce Motion opens and closes
+     at once. */
+  .cn-collapsible-content {
+    @apply w-full;
+  }

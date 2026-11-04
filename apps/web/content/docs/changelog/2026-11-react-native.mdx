@@ -1,0 +1,28 @@
+---
+title: November 2026 - React Native
+description: Every component now has a React Native version, under the same name, with the same variants, sizes and tokens.
+date: 2026-11-04
+---
+
+## React Native
+
+Fabricator UI now runs on iOS and Android. In an Expo project, the same commands install the native version of each component, and the code looks the same:
+
+```bash
+npx fabricator-ui@latest init
+npx fabricator-ui@latest add button dialog select
+```
+
+```tsx
+import { Button } from "@/components/ui/button"
+
+;<Button variant="outline" size="sm" onPress={save}>
+  Save
+</Button>
+```
+
+The theme comes from the same tokens as the website, so a look draws the same on both: surface tint, colour roles, radius, density and motion, in light and dark. `applyLook` changes it at runtime.
+
+Touch takes over where a web input doesn't exist. Context menus, tooltips and hover cards open on a long press, selects are sheets on phones and popovers on tablets, and sheets and drawers swipe to dismiss. Controls give haptic feedback instead of sound once `<SoundEffects />` is mounted.
+
+Read the [installation guide](/docs/installation/react-native) and [what's different from web](/docs/installation/react-native-differences). Every component page has a React Native tab.

@@ -25,13 +25,13 @@ function findFiles(dir: string, fileName: string): string[] {
 }
 
 describe("calendar registry items", () => {
-  // React Aria's calendar is built on react-aria-components, not
-  // react-day-picker, so the aria base and its styles are out of scope.
+  // React Aria's calendar is built on react-aria-components and the native one
+  // on date-fns, not react-day-picker, so they are out of scope.
   const sourceFiles = [
     ...findFiles(resolve(appDir, "registry/bases"), "calendar.tsx"),
     ...findFiles(resolve(appDir, "registry/new-york-v4"), "calendar.tsx"),
     ...findFiles(resolve(appDir, "styles"), "calendar.tsx"),
-  ].filter((file) => !/[\\/](aria|aria-[a-z]+)[\\/]/.test(file))
+  ].filter((file) => !/[\\/](aria|aria-[a-z]+|native)[\\/]/.test(file))
   // Only the frozen legacy styles are checked here: they have no .tsx source
   // and are maintained by editing the published JSON directly in git. All
   // other styles are generated from the sources checked above.

@@ -1,0 +1,43 @@
+/* MARK: Empty */
+
+  .cn-empty {
+    @apply border-border gap-(--density-16) rounded-xl border-dashed p-(--density-24);
+  }
+
+  .cn-empty-text {
+    @apply text-center text-(length:--density-text-13);
+  }
+
+  .cn-empty-header {
+    @apply gap-(--density-6);
+  }
+
+  .cn-empty-media {
+    @apply mb-2;
+  }
+
+  .cn-empty-media-text {
+    @apply text-foreground;
+  }
+
+  .cn-empty-media-default {
+    @apply bg-transparent;
+  }
+
+  /* A raised tile: surface 4 with its shadow ring (one step above the card it
+     usually sits on), no border. */
+  .cn-empty-media-icon {
+    @apply bg-surface-4 shadow-surface-4 size-(--density-40) rounded-xl;
+  }
+
+  .cn-empty-title {
+    @apply text-foreground text-(length:--density-text-14) font-semibold tracking-normal;
+  }
+
+  .cn-empty-description {
+    @apply text-muted-foreground text-(length:--density-text-13) leading-relaxed;
+  }
+
+  .cn-empty-content {
+    @apply gap-(--density-10);
+  }

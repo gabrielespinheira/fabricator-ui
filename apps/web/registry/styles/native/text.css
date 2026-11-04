@@ -1,0 +1,7 @@
+/* MARK: Text */
+
+  /* The body text: foreground at the default text size. React Native doesn't
+     inherit, so every Text carries it and controls override through TextStyle. */
+  .cn-text {
+    @apply text-foreground text-(length:--density-text-13);
+  }

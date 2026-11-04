@@ -1,0 +1,10 @@
+/* MARK: Carousel */
+
+  /* Round arrow buttons (outline icon-sm buttons in the component). */
+  .cn-carousel-previous {
+    @apply rounded-full;
+  }
+
+  .cn-carousel-next {
+    @apply rounded-full;
+  }

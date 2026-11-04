@@ -1,0 +1,23 @@
+/* MARK: Message Scroller */
+
+  .cn-message-scroller {
+    @apply flex-1;
+  }
+
+  /* Hidden until it has jumped to its opening position. */
+  .cn-message-scroller-viewport {
+    @apply data-[pending-scroll=true]:opacity-0;
+  }
+
+  .cn-message-scroller-content {
+    @apply gap-5;
+  }
+
+  .cn-message-scroller-item {
+    @apply w-full;
+  }
+
+  /* Floating jump button: a raised round chip on surface 3. */
+  .cn-message-scroller-button {
+    @apply shadow-surface-3 bg-background active:bg-muted rounded-full border-0;
+  }

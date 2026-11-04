@@ -15,11 +15,24 @@ import {
   usesFabricatorPalette,
 } from "@/registry/fabricator-init"
 import { parseLook } from "@/registry/fabricator/look"
+import {
+  buildNativeInit,
+  isNativeInit,
+  parseNativeLook,
+} from "@/registry/native-init"
 import { parseDesignSystemConfig } from "@/app/(app)/(create)/lib/parse-config"
 import { getPresetCode } from "@/app/(app)/(create)/lib/preset-code"
 
 export async function GET(request: NextRequest) {
   try {
+    if (isNativeInit(request.nextUrl.searchParams)) {
+      const look = parseNativeLook(request.nextUrl.searchParams)
+      if (!look.success) {
+        return NextResponse.json({ error: look.error }, { status: 400 })
+      }
+      return NextResponse.json(buildNativeInit(look.look))
+    }
+
     const resolved = resolveFabricatorSearchParams(request.nextUrl.searchParams)
     if (!resolved.success) {
       return NextResponse.json({ error: resolved.error }, { status: 400 })

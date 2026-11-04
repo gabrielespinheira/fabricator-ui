@@ -1,51 +1,63 @@
 /**
- * A small npm registry for the end-to-end tests: `@fabricator-ui/icons` comes
- * from a tarball of the workspace package, everything else from npm. So the
- * tests install the icons this checkout builds, published or not.
+ * A small npm registry for the end-to-end tests: the icon packages come from
+ * tarballs of the workspace packages, everything else from npm. So the tests
+ * install the icons this checkout builds, published or not.
  *
- *   bun ./src/local-npm.ts <port> <tarball> <package.json>
+ *   bun ./src/local-npm.ts <port> <tarball> <package.json> [<tarball> <package.json>…]
  */
 import { createHash } from "node:crypto"
 import fs from "node:fs"
 
-const [port, tarballPath, packageJsonPath] = process.argv.slice(2)
-if (!port || !tarballPath || !packageJsonPath) {
-  throw new Error("Usage: local-npm.ts <port> <tarball> <package.json>")
+const [port, ...packageArgs] = process.argv.slice(2)
+if (!port || packageArgs.length === 0 || packageArgs.length % 2 !== 0) {
+  throw new Error(
+    "Usage: local-npm.ts <port> <tarball> <package.json> [<tarball> <package.json>…]"
+  )
 }
 
 const NPM = "https://registry.npmjs.org"
-const NAME = "@fabricator-ui/icons"
-const TARBALL_ROUTE = "/-/fabricator-ui-icons.tgz"
 
-const tarball = fs.readFileSync(tarballPath)
-const { devDependencies: _devDependencies, ...manifest } = JSON.parse(
-  fs.readFileSync(packageJsonPath, "utf8")
-)
-const packument = JSON.stringify({
-  name: NAME,
-  "dist-tags": { latest: manifest.version },
-  versions: {
-    [manifest.version]: {
-      ...manifest,
-      dist: {
-        tarball: `http://localhost:${port}${TARBALL_ROUTE}`,
-        shasum: createHash("sha1").update(tarball).digest("hex"),
-        integrity: `sha512-${createHash("sha512").update(tarball).digest("base64")}`,
+const packages = new Map<string, { packument: string; tarball: Buffer }>()
+const tarballs = new Map<string, Buffer>()
+
+for (let index = 0; index < packageArgs.length; index += 2) {
+  const tarball = fs.readFileSync(packageArgs[index]!)
+  const { devDependencies: _devDependencies, ...manifest } = JSON.parse(
+    fs.readFileSync(packageArgs[index + 1]!, "utf8")
+  )
+  const route = `/-/${manifest.name.replace(/[@/]/g, "-")}.tgz`
+  tarballs.set(route, tarball)
+  packages.set(manifest.name, {
+    tarball,
+    packument: JSON.stringify({
+      name: manifest.name,
+      "dist-tags": { latest: manifest.version },
+      versions: {
+        [manifest.version]: {
+          ...manifest,
+          dist: {
+            tarball: `http://localhost:${port}${route}`,
+            shasum: createHash("sha1").update(tarball).digest("hex"),
+            integrity: `sha512-${createHash("sha512").update(tarball).digest("base64")}`,
+          },
+        },
       },
-    },
-  },
-})
+    }),
+  })
+}
 
 Bun.serve({
   port: Number(port),
   async fetch(request) {
     const { pathname, search } = new URL(request.url)
-    if (decodeURIComponent(pathname) === `/${NAME}`) {
-      return new Response(packument, {
+    const local = packages.get(decodeURIComponent(pathname).slice(1))
+    if (local) {
+      return new Response(local.packument, {
         headers: { "content-type": "application/json" },
       })
     }
-    if (pathname === TARBALL_ROUTE) return new Response(tarball)
+    const tarball = tarballs.get(pathname)
+    if (tarball) return new Response(tarball)
     const accept = request.headers.get("accept")
     const response = await fetch(`${NPM}${pathname}${search}`, {
       headers: accept ? { accept } : {},

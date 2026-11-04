@@ -1,0 +1,105 @@
+/* MARK: Select */
+
+  /* Trigger: the input recipe. A hairline frame, a light fill when pressed, 36pt
+     and 13pt at the default density; size sm pins it to compact. Invalid turns the
+     frame destructive. */
+  .cn-select-trigger {
+    @apply border-border active:bg-muted/50 data-[invalid=true]:border-destructive/50 data-[invalid=true]:active:bg-destructive/5 h-(--density-36) gap-(--density-8) rounded-lg border bg-transparent py-0 pr-(--density-8) pl-(--density-10);
+  }
+
+  .cn-select-trigger-text {
+    @apply text-foreground text-(length:--density-text-13);
+  }
+
+  .cn-select-value {
+    @apply text-start data-[placeholder=true]:text-muted-foreground;
+  }
+
+  .cn-select-trigger-icon {
+    @apply size-(--density-icon-16);
+  }
+
+  .cn-select-trigger-icon-text {
+    @apply text-muted-foreground;
+  }
+
+  /* Popup: surface 3 with its shadow ring (no border), rounded-xl, p-1, on the
+     popup motion. On a phone it opens as a sheet on the sheet motion, its square
+     edge on the screen's, with the rows in reach of a thumb. */
+  .cn-select-content {
+    @apply bg-surface-3 shadow-surface-3 rounded-xl p-1 data-[presentation=sheet]:max-h-[80%] data-[presentation=sheet]:rounded-b-none data-[presentation=sheet]:px-(--density-8);
+  }
+
+  /* On the website this holds the motion, which is useSurfaceAnimation here. It
+     keeps the least width instead. */
+  .cn-select-content-logical {
+    @apply min-w-36;
+  }
+
+  .cn-select-text {
+    @apply text-popover-foreground text-(length:--density-text-13);
+  }
+
+  .cn-select-sheet-handle {
+    @apply py-(--density-8);
+  }
+
+  .cn-select-sheet-handle-bar {
+    @apply bg-active h-1 w-12 rounded-full;
+  }
+
+  .cn-select-label {
+    @apply text-muted-foreground px-(--density-8) py-(--density-6) text-(length:--density-text-12);
+  }
+
+  /* Rows: 36pt, 13pt, muted at rest; the pressed row lights up. The selected row
+     is foreground and semibold on a bg-active fill. */
+  .cn-select-item {
+    @apply h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) active:bg-hover data-[selected=true]:bg-active;
+  }
+
+  .cn-select-item-label {
+    @apply text-muted-foreground text-(length:--density-text-13);
+  }
+
+  .cn-select-item-label-selected {
+    @apply text-foreground font-semibold;
+  }
+
+  .cn-select-item-indicator {
+    @apply right-(--density-8);
+  }
+
+  .cn-select-item-indicator-text {
+    @apply text-foreground;
+  }
+
+  .cn-select-item-indicator-icon {
+    @apply size-(--density-icon-16);
+  }
+
+  /* On the website this keeps a scrolled-to group off the edge. A touch list has
+     no need, so it only spans the list. */
+  .cn-select-group {
+    @apply w-full;
+  }
+
+  .cn-select-item-text {
+    @apply gap-(--density-8);
+  }
+
+  .cn-select-separator {
+    @apply bg-border/60 -mx-1 my-1 h-px;
+  }
+
+  .cn-select-scroll-up-button {
+    @apply py-1;
+  }
+
+  .cn-select-scroll-down-button {
+    @apply py-1;
+  }
+
+  .cn-select-scroll-button-text {
+    @apply text-muted-foreground;
+  }

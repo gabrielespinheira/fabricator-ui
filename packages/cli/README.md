@@ -49,6 +49,8 @@ If the directory already has a `components.json`, you are asked whether to:
 | `-y, --yes`, `-f, --force`, `-s, --silent`, `-c, --cwd <cwd>` | Skip prompts, overwrite config, mute output, set the working directory            |
 | `--dry-run`                                                   | Print the underlying commands instead of running them                             |
 
+In an Expo or React Native project, `init` sets up the React Native components instead: Uniwind, the theme and a `@fabricator` registry for native. `--platform web|native` overrides the detection.
+
 ### `add`
 
 ```bash

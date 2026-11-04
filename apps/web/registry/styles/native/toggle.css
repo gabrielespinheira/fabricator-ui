@@ -1,0 +1,40 @@
+/* MARK: Toggle */
+
+  /* Ghost look: pressed is the hover fill, on is the active fill, and the press
+     scale comes from usePressScale. */
+  .cn-toggle {
+    @apply active:bg-hover data-[state=on]:bg-active gap-(--density-6) rounded-lg;
+  }
+
+  /* 13pt medium, muted at rest and foreground when on. The icon's stroke follows:
+     1.5, then 2. */
+  .cn-toggle-text {
+    @apply text-muted-foreground text-(length:--density-text-13) font-medium;
+  }
+
+  .cn-toggle-text-on {
+    @apply text-foreground;
+  }
+
+  .cn-toggle-variant-default {
+    @apply bg-transparent;
+  }
+
+  .cn-toggle-variant-outline {
+    @apply border-border border bg-transparent;
+  }
+
+  /* Icon-only toggles come out square: 16pt icon + 2 x 10pt = 36pt. Like buttons,
+     sm pins the toggle to the compact density and lg to spacious; default follows
+     the nearest one. */
+  .cn-toggle-size-default {
+    @apply h-(--density-36) min-w-(--density-36) px-(--density-10);
+  }
+
+  .cn-toggle-size-sm {
+    @apply h-(--density-36) min-w-(--density-36) px-(--density-10);
+  }
+
+  .cn-toggle-size-lg {
+    @apply h-(--density-36) min-w-(--density-36) px-(--density-10);
+  }

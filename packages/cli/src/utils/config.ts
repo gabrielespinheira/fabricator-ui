@@ -68,8 +68,9 @@ export function hasRegistry(
   return config?.registries?.[namespace] !== undefined
 }
 
-/** The project's style when it is a valid `<base>-<style>` id, else the default. */
+/** The catalog a project reads: `native`, its `<base>-<style>` id, or the default. */
 export function getCatalogStyle(config: ComponentsJson | undefined): string {
+  if (getRegistryUrl(config)?.includes("/r/fabricator/native/")) return "native"
   const style = config?.style
   return typeof style === "string" && STYLE_PATTERN.test(style)
     ? style

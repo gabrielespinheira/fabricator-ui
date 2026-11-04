@@ -1,0 +1,5 @@
+/* MARK: Spinner */
+
+  .cn-spinner {
+    @apply size-(--density-icon-16);
+  }

@@ -1,0 +1,82 @@
+/* MARK: Workspace Switcher */
+
+  /* The mark (data-workspace-switcher="mark") is the logo alone as a 36pt button. */
+  .cn-workspace-switcher-trigger {
+    @apply data-[state=open]:bg-hover data-[workspace-switcher=mark]:size-(--density-36) data-[workspace-switcher=mark]:rounded-lg data-[workspace-switcher=mark]:active:bg-hover;
+  }
+
+  /* The logo: a 32pt rounded square in the primary colour, or the image. */
+  .cn-workspace-switcher-logo {
+    @apply bg-primary size-(--density-32) rounded-lg;
+  }
+
+  .cn-workspace-switcher-logo-text {
+    @apply text-primary-foreground text-(length:--density-text-13) font-semibold;
+  }
+
+  .cn-workspace-switcher-logo-sm {
+    @apply size-(--density-24) rounded-md;
+  }
+
+  .cn-workspace-switcher-logo-sm-text {
+    @apply text-primary-foreground text-(length:--density-text-11) font-semibold;
+  }
+
+  .cn-workspace-switcher-text {
+    @apply min-w-0;
+  }
+
+  .cn-workspace-switcher-name {
+    @apply text-foreground text-(length:--density-text-13) font-semibold;
+  }
+
+  .cn-workspace-switcher-description {
+    @apply text-muted-foreground text-(length:--density-text-12);
+  }
+
+  /* On the axis of the rows' actions and badges. */
+  .cn-workspace-switcher-chevron {
+    @apply mr-[calc((var(--density-20)-var(--density-icon-16))/2)] size-(--density-icon-16);
+  }
+
+  .cn-workspace-switcher-chevron-text {
+    @apply text-muted-foreground;
+  }
+
+  .cn-workspace-switcher-check {
+    @apply ml-auto size-(--density-icon-16);
+  }
+
+  .cn-workspace-switcher-check-text {
+    @apply text-foreground;
+  }
+
+  .cn-workspace-switcher-menu {
+    @apply min-w-56;
+  }
+
+  /* Two-line rows: the name over its description. */
+  .cn-workspace-switcher-item {
+    @apply h-auto gap-(--density-8) py-(--density-6);
+  }
+
+  /* While the app opens the workspace: the page dims behind its logo. */
+  .cn-workspace-switcher-overlay {
+    @apply bg-background/80 gap-(--density-16);
+  }
+
+  .cn-workspace-switcher-overlay-logo {
+    @apply size-(--density-48) rounded-xl;
+  }
+
+  .cn-workspace-switcher-overlay-logo-text {
+    @apply text-primary-foreground text-(length:--density-text-16) font-semibold;
+  }
+
+  .cn-workspace-switcher-overlay-text {
+    @apply gap-(--density-8);
+  }
+
+  .cn-workspace-switcher-overlay-label {
+    @apply text-muted-foreground text-(length:--density-text-13);
+  }

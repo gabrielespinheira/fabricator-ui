@@ -1,0 +1,19 @@
+/* MARK: Menu Sheet */
+
+  /* A menu on a phone: surface 3 from the bottom, on the sheet motion, with its
+     square bottom on the screen's edge. */
+  .cn-menu-sheet {
+    @apply bg-surface-3 shadow-surface-3 max-h-[80%] rounded-t-xl px-(--density-8);
+  }
+
+  .cn-menu-sheet-text {
+    @apply text-popover-foreground text-(length:--density-text-13);
+  }
+
+  .cn-menu-sheet-handle {
+    @apply py-(--density-8);
+  }
+
+  .cn-menu-sheet-handle-bar {
+    @apply bg-active h-1 w-12 rounded-full;
+  }

@@ -1,0 +1,37 @@
+/* MARK: Dialog */
+
+  /* Scrim: 40% black (80% in dark). */
+  .cn-dialog-overlay {
+    @apply bg-black/40 dark:bg-black/80;
+  }
+
+  /* Panel: surface 5 with its shadow ring, rounded-xl, p-6. */
+  .cn-dialog-content {
+    @apply bg-surface-5 shadow-surface-5 max-w-[92%] gap-(--density-16) rounded-xl p-(--density-24) sm:max-w-[400px];
+  }
+
+  .cn-dialog-text {
+    @apply text-popover-foreground text-(length:--density-text-13);
+  }
+
+  /* The close button is a small ghost icon button in the corner. */
+  .cn-dialog-close {
+    @apply end-3 top-3;
+  }
+
+  .cn-dialog-header {
+    @apply gap-(--density-6);
+  }
+
+  /* Stacked actions on phones; the margin gives 24pt above them. */
+  .cn-dialog-footer {
+    @apply mt-2 gap-(--density-8) sm:flex-row sm:justify-end;
+  }
+
+  .cn-dialog-title {
+    @apply text-foreground text-(length:--density-text-16) leading-tight font-bold;
+  }
+
+  .cn-dialog-description {
+    @apply text-muted-foreground text-(length:--density-text-13);
+  }

@@ -1,0 +1,37 @@
+/* MARK: Toast */
+
+  /* Surface 5 with its shadow ring (no border), rounded-xl, 13pt. Applies to the
+     toast root of both `toast` and `sonner`. */
+  .cn-toast {
+    @apply bg-surface-5 shadow-surface-5 rounded-xl;
+  }
+
+  .cn-toast-text {
+    @apply text-popover-foreground text-(length:--density-text-13);
+  }
+
+  .cn-toast-title {
+    @apply text-(length:--density-text-13) font-medium;
+  }
+
+  .cn-toast-description {
+    @apply text-muted-foreground text-(length:--density-text-13);
+  }
+
+  /* Status toasts colour only their icon, with the role's fill (error is the
+     destructive role), on the neutral surface. */
+  .cn-toast-icon-info {
+    @apply text-info;
+  }
+
+  .cn-toast-icon-success {
+    @apply text-success;
+  }
+
+  .cn-toast-icon-warning {
+    @apply text-warning;
+  }
+
+  .cn-toast-icon-error {
+    @apply text-destructive;
+  }

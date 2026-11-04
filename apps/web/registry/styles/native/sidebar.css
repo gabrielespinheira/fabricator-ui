@@ -1,0 +1,280 @@
+/* MARK: Sidebar */
+
+  /* The frame behind a phone's page. Inside an App Shell the shell's frame shows
+     through instead. */
+  .cn-sidebar-wrapper {
+    @apply data-[reveal=closed]:bg-sidebar data-[reveal=open]:bg-sidebar data-[reveal=closed]:overflow-hidden data-[reveal=open]:overflow-hidden;
+  }
+
+  /* The room the docked sidebar takes in the row: its width moves on the move
+     timing, with the quicker exit to close (useMotion). */
+  .cn-sidebar-gap {
+    @apply bg-transparent;
+  }
+
+  /* The panel floats over its gap. Floating: room all round, with the insets in a
+     style. Otherwise a hairline on its inner edge (`bordered`). */
+  .cn-sidebar-container {
+    @apply border-border z-10 data-[edge=left]:border-r data-[edge=right]:border-l data-[side=left]:left-0 data-[side=right]:right-0 data-[variant=floating]:px-(--density-8);
+  }
+
+  /* The panel is surface 2 (bg-sidebar). Floating: a rounded-xl surface whose
+     shadow ring is its edge. */
+  .cn-sidebar-inner {
+    @apply bg-sidebar data-[variant=floating]:shadow-surface-2 data-[variant=floating]:overflow-hidden data-[variant=floating]:rounded-xl;
+  }
+
+  .cn-sidebar-text {
+    @apply text-sidebar-foreground text-(length:--density-text-13);
+  }
+
+  /* The phone's sidebar as a sheet: the panel's fill runs under the status bar. */
+  .cn-sidebar-sheet {
+    @apply bg-sidebar shadow-surface-3;
+  }
+
+  /* The edge handle: a tap collapses or expands. The website's drag needs a
+     pointer, so it stays the tap. */
+  .cn-sidebar-rail {
+    @apply w-4 data-[side=left]:-right-2 data-[side=right]:-left-2;
+  }
+
+  .cn-sidebar-rail-target {
+    @apply active:bg-foreground/10;
+  }
+
+  .cn-sidebar-rail-tooltip {
+    @apply py-(--density-6);
+  }
+
+  .cn-sidebar-rail-tooltip-verb {
+    @apply font-semibold;
+  }
+
+  /* The panel glyph takes muted text, and the sidebar inside it is drawn in the
+     page colour. The icon reads these as colours: its path can't take a class. */
+  .cn-sidebar-toggle-icon {
+    @apply text-muted-foreground;
+  }
+
+  .cn-sidebar-toggle-icon-panel {
+    @apply text-background;
+  }
+
+  .cn-sidebar-trigger {
+    @apply shrink-0;
+  }
+
+  /* The page. Inset main area: surface 2 with its shadow ring, rounded-xl. While
+     the phone sidebar is revealed it moves aside and shrinks towards the sidebar's
+     edge on the sheet's timing, and its corners and shadow leave last. */
+  .cn-sidebar-inset {
+    @apply bg-background data-[aside=true]:shadow-surface-6 data-[layout=card]:bg-surface-2 data-[layout=card]:shadow-surface-2 data-[aside=true]:overflow-hidden data-[layout=card]:overflow-hidden data-[aside=true]:rounded-2xl data-[layout=card]:rounded-xl data-[reveal=true]:z-10;
+  }
+
+  /* The revealed sidebar: behind the page, drifting a little as it uncovers. */
+  .cn-sidebar-reveal {
+    @apply z-0 data-[aside=false]:hidden data-[side=left]:left-0 data-[side=right]:right-0;
+  }
+
+  /* The page in view beside the revealed sidebar: a tap closes, a drag follows. */
+  .cn-sidebar-reveal-close {
+    @apply z-30;
+  }
+
+  /* The field ladder: transparent at rest, the card fill while focused. */
+  .cn-sidebar-input {
+    @apply bg-transparent focus:bg-card h-(--density-32) text-(length:--density-text-13);
+  }
+
+  .cn-sidebar-header {
+    @apply gap-(--density-8) p-(--density-8);
+  }
+
+  .cn-sidebar-content {
+    @apply min-h-0;
+  }
+
+  .cn-sidebar-footer {
+    @apply gap-(--density-8) p-(--density-8);
+  }
+
+  .cn-sidebar-separator {
+    @apply bg-border/60 mx-2;
+  }
+
+  /* Groups sit 16pt apart, and rows 8pt from the sidebar's edges. */
+  .cn-sidebar-group {
+    @apply p-(--density-8);
+  }
+
+  /* Rows keep a 2pt gap, so neighbouring fills never touch. */
+  .cn-sidebar-menu {
+    @apply gap-0.5;
+  }
+
+  .cn-sidebar-group-content {
+    @apply w-full;
+  }
+
+  /* Group labels: a 24pt header 4pt above the rows, 12pt medium, muted (full
+     muted-foreground, not /70, to keep 4.5:1 on surface 2). Gone on the rail. */
+  .cn-sidebar-group-label {
+    @apply mb-(--density-4) h-(--density-24) gap-0.5 rounded-md px-(--density-8) data-[collapsible=icon]:hidden;
+  }
+
+  .cn-sidebar-group-label-text {
+    @apply text-muted-foreground text-(length:--density-text-12) font-medium;
+  }
+
+  /* The 14pt chevron right after the label. Touch has no hover, so it stays. It
+     points down while open. */
+  .cn-sidebar-group-label-chevron {
+    @apply size-(--density-icon-14);
+  }
+
+  /* Header actions: 24pt boxes on the axis of the rows' actions and badges, over
+     the group's padding or at the end of a collapsible group's header. */
+  .cn-sidebar-group-action {
+    @apply size-(--density-24) rounded-md active:bg-hover data-[place=group]:top-(--density-8) data-[place=group]:right-[calc(var(--density-8)+var(--density-6))] data-[place=header]:top-0 data-[place=header]:right-(--density-6);
+  }
+
+  .cn-sidebar-group-action-text {
+    @apply text-muted-foreground;
+  }
+
+  .cn-sidebar-group-actions {
+    @apply gap-1 data-[place=group]:top-(--density-8) data-[place=group]:right-[calc(var(--density-8)+var(--density-6))] data-[place=header]:top-0 data-[place=header]:right-(--density-6);
+  }
+
+  .cn-sidebar-collapse {
+    @apply min-w-0;
+  }
+
+  /* Rows: 30pt, gap-2, rounded-lg, 13pt: the label at foreground/80 and the icon
+     muted at rest. The active row is foreground on a raised bg-active. Pressed is
+     the hover fill. On the rail a row is a 32pt square with only its icon. */
+  .cn-sidebar-menu-button {
+    @apply gap-(--density-8) rounded-lg pr-(--density-8) pl-(--density-8) disabled:opacity-50 data-[active=true]:bg-active data-[active=true]:shadow-surface-2 data-[collapsible=icon]:size-(--density-32) data-[collapsible=icon]:justify-center data-[collapsible=icon]:pr-0 data-[collapsible=icon]:pl-0;
+  }
+
+  .cn-sidebar-menu-button-variant-default {
+    @apply active:bg-hover;
+  }
+
+  .cn-sidebar-menu-button-variant-outline {
+    @apply border border-border bg-transparent active:bg-hover;
+  }
+
+  .cn-sidebar-menu-button-size-default {
+    @apply h-(--density-30);
+  }
+
+  .cn-sidebar-menu-button-size-sm {
+    @apply h-(--density-28);
+  }
+
+  .cn-sidebar-menu-button-size-lg {
+    @apply h-(--density-48);
+  }
+
+  .cn-sidebar-menu-button-text {
+    @apply text-foreground/80 text-(length:--density-text-13) font-normal;
+  }
+
+  .cn-sidebar-menu-button-text-size-sm {
+    @apply text-(length:--density-text-12);
+  }
+
+  .cn-sidebar-menu-button-text-active {
+    @apply text-foreground;
+  }
+
+  .cn-sidebar-menu-button-label {
+    @apply flex-1 data-[collapsible=icon]:hidden;
+  }
+
+  .cn-sidebar-menu-button-icon {
+    @apply text-muted-foreground;
+  }
+
+  .cn-sidebar-menu-button-icon-active {
+    @apply text-foreground;
+  }
+
+  /* Status dots sit in the icon column: filled or ring, muted at rest and
+     foreground/60 when the row is active. */
+  .cn-sidebar-menu-dot-slot {
+    @apply size-(--density-icon-16);
+  }
+
+  .cn-sidebar-menu-dot {
+    @apply size-2 rounded-full data-[dot=filled]:bg-muted-foreground/50 data-[dot=ring]:border data-[dot=ring]:border-muted-foreground/50 data-[active=true]:data-[dot=filled]:bg-foreground/60 data-[active=true]:data-[dot=ring]:border-foreground/60;
+  }
+
+  /* Row actions: 24pt boxes centred on the row, each placed by what else its row
+     holds (lib/sidebar-layout-model). In a cluster they flow in its row. */
+  .cn-sidebar-menu-action {
+    @apply size-(--density-24) rounded-md active:bg-hover data-[row-size=default]:top-[calc((var(--density-30)-var(--density-24))/2)] data-[row-size=lg]:top-[calc((var(--density-48)-var(--density-24))/2)] data-[row-size=sm]:top-[calc((var(--density-28)-var(--density-24))/2)];
+  }
+
+  .cn-sidebar-menu-action-text {
+    @apply text-muted-foreground;
+  }
+
+  .cn-sidebar-menu-actions {
+    @apply gap-1 data-[row-size=default]:top-[calc((var(--density-30)-var(--density-24))/2)] data-[row-size=lg]:top-[calc((var(--density-48)-var(--density-24))/2)] data-[row-size=sm]:top-[calc((var(--density-28)-var(--density-24))/2)];
+  }
+
+  .cn-sidebar-menu-badge {
+    @apply h-(--density-20) min-w-(--density-20) rounded-md px-1 data-[row-size=default]:top-[calc((var(--density-30)-var(--density-20))/2)] data-[row-size=lg]:top-[calc((var(--density-48)-var(--density-20))/2)] data-[row-size=sm]:top-[calc((var(--density-28)-var(--density-20))/2)];
+  }
+
+  .cn-sidebar-menu-badge-text {
+    @apply text-muted-foreground text-(length:--density-text-12) font-normal tabular-nums;
+  }
+
+  .cn-sidebar-menu-badge-text-active {
+    @apply text-foreground;
+  }
+
+  .cn-sidebar-menu-skeleton {
+    @apply h-(--density-30) gap-(--density-8) rounded-lg px-(--density-8);
+  }
+
+  .cn-sidebar-menu-skeleton-icon {
+    @apply size-(--density-icon-16) rounded-md;
+  }
+
+  .cn-sidebar-menu-skeleton-text {
+    @apply h-4;
+  }
+
+  /* Sub-menus nest to any depth and stay full width, so the current row's fill
+     spans the column. Gone on the rail. */
+  .cn-sidebar-menu-sub {
+    @apply gap-0.5 pt-0.5 data-[collapsible=icon]:hidden;
+  }
+
+  /* Nested rows: 30pt (24pt small), 2pt apart, each level 16pt further in, 14pt
+     icons. Muted at rest; the current one sits on a quiet wash (half the hover
+     fill) instead of the raised selection, which marks its top-level row. */
+  .cn-sidebar-menu-sub-button {
+    @apply h-(--density-30) gap-(--density-8) rounded-lg active:bg-hover disabled:opacity-50 data-[active=true]:bg-hover/50 data-[collapsible=icon]:hidden data-[size=sm]:h-(--density-24);
+  }
+
+  .cn-sidebar-menu-sub-button-text {
+    @apply text-muted-foreground text-(length:--density-text-13) font-normal;
+  }
+
+  .cn-sidebar-menu-sub-button-text-size-sm {
+    @apply text-(length:--density-text-12);
+  }
+
+  .cn-sidebar-menu-sub-button-text-active {
+    @apply text-foreground;
+  }
+
+  .cn-sidebar-menu-sub-button-label {
+    @apply flex-1;
+  }

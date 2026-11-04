@@ -15,6 +15,7 @@ import { CopyButton } from "@/components/copy-button"
 import { foundationsMdxComponents } from "@/components/foundations"
 import { iconsMdxComponents } from "@/components/icon-demos"
 import { getIconForLanguageExtension } from "@/components/icons"
+import { NativePreview } from "@/components/native-preview"
 import {
   Accordion,
   AccordionContent,
@@ -346,6 +347,7 @@ export const mdxComponents = {
   AspectRatio,
   CodeTabs,
   ComponentPreview,
+  NativePreview,
   ComponentSource,
   CodeCollapsibleWrapper,
   ComponentsList: ComponentsListWrapper,

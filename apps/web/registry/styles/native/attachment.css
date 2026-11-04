@@ -1,0 +1,98 @@
+/* MARK: Attachment */
+
+  /* A soft tile: the surface shadow ring is the edge (the border is made
+     transparent). Idle drafts keep a dashed hairline instead; errors a destructive
+     one. */
+  .cn-attachment {
+    @apply bg-surface-2 shadow-surface-2 dark:shadow-surface-3 rounded-lg border-transparent data-[state=idle]:border-border data-[state=idle]:border-dashed data-[state=idle]:shadow-none data-[state=error]:border-destructive/30 data-[state=error]:shadow-none;
+  }
+
+  .cn-attachment-text {
+    @apply text-card-foreground;
+  }
+
+  .cn-attachment-text-size-default {
+    @apply text-(length:--density-text-13);
+  }
+
+  .cn-attachment-text-size-sm {
+    @apply text-(length:--density-text-12);
+  }
+
+  .cn-attachment-text-size-xs {
+    @apply text-(length:--density-text-12);
+  }
+
+  .cn-attachment-orientation-horizontal {
+    @apply min-w-40;
+  }
+
+  .cn-attachment-orientation-vertical {
+    @apply w-24 rounded-xl data-[content=true]:w-30;
+  }
+
+  /* Padding: a media tile is inset evenly (concentric with its well); a
+     horizontal tile with text gets a wider end, a text-only chip a wider inline
+     inset. */
+  .cn-attachment-size-default {
+    @apply gap-(--density-10) p-(--density-6) data-[end-inset=true]:pe-(--density-10) data-[media=false]:px-(--density-10) data-[media=false]:py-(--density-8);
+  }
+
+  .cn-attachment-size-sm {
+    @apply gap-(--density-8) p-1 data-[end-inset=true]:pe-(--density-8) data-[media=false]:px-(--density-8) data-[media=false]:py-(--density-6);
+  }
+
+  .cn-attachment-size-xs {
+    @apply gap-(--density-6) rounded-lg p-1 data-[end-inset=true]:pe-(--density-6) data-[media=false]:px-(--density-6);
+  }
+
+  /* Media well: the hover fill with an inset hairline painted over the preview. */
+  .cn-attachment-media {
+    @apply bg-hover w-9 rounded-md outline-1 -outline-offset-1 outline-black/10 dark:outline-white/10 data-[layout=sm]:w-7 data-[layout=xs]:w-6 data-[layout=xs]:rounded-[5px] data-[layout=vertical]:w-full data-[layout=vertical]:rounded-lg data-[state=error]:bg-destructive/10;
+  }
+
+  .cn-attachment-media-text {
+    @apply text-muted-foreground;
+  }
+
+  .cn-attachment-media-text-state-error {
+    @apply text-destructive;
+  }
+
+  .cn-attachment-media-variant-icon {
+    @apply opacity-100;
+  }
+
+  .cn-attachment-media-variant-image {
+    @apply opacity-60 data-[state=idle]:opacity-100 data-[state=done]:opacity-100;
+  }
+
+  .cn-attachment-content {
+    @apply data-[orientation=vertical]:px-1 data-[orientation=vertical]:pb-0.5;
+  }
+
+  .cn-attachment-title {
+    @apply text-foreground leading-tight font-medium;
+  }
+
+  .cn-attachment-description {
+    @apply text-muted-foreground data-[state=error]:text-destructive/80 mt-0.5 text-(length:--density-text-12) leading-tight tabular-nums;
+  }
+
+  .cn-attachment-actions {
+    @apply relative z-20 gap-0.5 data-[orientation=vertical]:absolute data-[orientation=vertical]:end-2.5 data-[orientation=vertical]:top-2.5 data-[orientation=vertical]:gap-1;
+  }
+
+  .cn-attachment-action {
+    @apply shrink-0;
+  }
+
+  /* The padding leaves room for the tiles' shadows, which the scroller clips. */
+  .cn-attachment-group {
+    @apply gap-(--density-8) p-1;
+  }
+
+  /* Covers the tile; pressed lights it up. */
+  .cn-attachment-trigger {
+    @apply active:bg-hover rounded-lg;
+  }

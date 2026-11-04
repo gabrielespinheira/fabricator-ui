@@ -1,0 +1,6 @@
+/* MARK: Skeleton */
+
+  /* The hover fill, so it reads on any surface in both themes. */
+  .cn-skeleton {
+    @apply bg-hover rounded-md;
+  }

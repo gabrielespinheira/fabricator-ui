@@ -35,6 +35,14 @@ jobs:
         run: bun run test
       - name: Upstream parity (ui.shadcn.com)
         run: bun run test:parity --styles all
+      - name: React Native parity with the web components
+        working-directory: apps/web
+        run: bun run native:parity --strict
+      - name: React Native types
+        run: |
+          bun run --cwd packages/icons-react-native build
+          bun install --cwd apps/mobile --frozen-lockfile
+          bun run --cwd apps/mobile typecheck
 
   e2e:
     name: CLI end-to-end

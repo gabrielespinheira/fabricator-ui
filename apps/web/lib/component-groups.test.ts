@@ -8,7 +8,7 @@ import {
   groupComponentPages,
 } from "@/lib/component-groups"
 
-const BASES = ["base", "radix", "aria"]
+const BASES = ["base", "radix", "aria", "native"]
 
 function getComponentSlugs(base: string) {
   return readdirSync(path.join(process.cwd(), "content/docs/components", base))

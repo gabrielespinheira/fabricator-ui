@@ -1,0 +1,112 @@
+/* MARK: Combobox */
+
+  /* The popup is a dialog on the popup's surface. Its field sits in its own row
+     above the list. */
+  .cn-combobox-content {
+    @apply bg-surface-3 shadow-surface-3 gap-0 overflow-hidden rounded-xl p-0 sm:max-w-[400px];
+  }
+
+  /* A percentage here resolves against the dialog's own content height. */
+  .cn-combobox-content-logical {
+    @apply max-h-96;
+  }
+
+  .cn-combobox-label {
+    @apply text-muted-foreground px-(--density-8) py-(--density-6) text-(length:--density-text-12);
+  }
+
+  /* Rows: 36pt, 13pt, muted at rest; a pressed row steps through the interaction
+     tokens. Selected rows are foreground and semibold on the active fill, with a
+     check at the end. */
+  .cn-combobox-item {
+    @apply active:bg-hover data-[selected=true]:bg-active h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8);
+  }
+
+  .cn-combobox-item-text {
+    @apply text-muted-foreground text-(length:--density-text-13);
+  }
+
+  .cn-combobox-item-text-selected {
+    @apply text-foreground text-(length:--density-text-13) font-semibold;
+  }
+
+  .cn-combobox-item-indicator {
+    @apply right-(--density-8) size-(--density-icon-16);
+  }
+
+  .cn-combobox-item-indicator-icon {
+    @apply text-foreground;
+  }
+
+  .cn-combobox-empty {
+    @apply text-muted-foreground py-(--density-16) text-center text-(length:--density-text-13);
+  }
+
+  /* The list scrolls under the field. */
+  .cn-combobox-list {
+    @apply max-h-72 p-1 data-[empty=true]:p-0;
+  }
+
+  .cn-combobox-group {
+    @apply flex-col;
+  }
+
+  .cn-combobox-separator {
+    @apply bg-border/60 -mx-1 my-1 h-px;
+  }
+
+  .cn-combobox-trigger {
+    @apply active:opacity-70 gap-(--density-6);
+  }
+
+  .cn-combobox-trigger-icon {
+    @apply text-muted-foreground;
+  }
+
+  .cn-combobox-clear {
+    @apply rounded-full;
+  }
+
+  .cn-combobox-clear-icon {
+    @apply text-muted-foreground;
+  }
+
+  /* The field: a hairline frame, transparent at rest, lifted to the card surface
+     while its list is open. Invalid turns the frame red. Inside the popup it sits
+     in a margin with no frame of its own. */
+  .cn-combobox-input {
+    @apply border-border data-[open=true]:bg-card data-[open=true]:border-foreground/25 data-[invalid=true]:border-destructive/50 h-(--density-36) gap-(--density-6) rounded-lg border bg-transparent px-(--density-10) data-[popup=true]:m-1 data-[popup=true]:mb-0;
+  }
+
+  .cn-combobox-input-text {
+    @apply text-foreground text-(length:--density-text-13) data-[empty=true]:text-muted-foreground;
+  }
+
+  .cn-combobox-input-field {
+    @apply text-foreground h-full py-0 text-(length:--density-text-13);
+  }
+
+  /* Chips field: the input recipe, growing with its chips. */
+  .cn-combobox-chips {
+    @apply border-border data-[open=true]:bg-card data-[open=true]:border-foreground/25 data-[invalid=true]:border-destructive/50 min-h-(--density-36) gap-1 rounded-lg border bg-transparent px-(--density-10) py-1 data-[has-chips=true]:px-1;
+  }
+
+  .cn-combobox-chip {
+    @apply bg-active h-(--density-24) gap-1 self-start rounded-md px-(--density-8) data-[removable=true]:pr-0;
+  }
+
+  .cn-combobox-chip-text {
+    @apply text-foreground text-(length:--density-text-12) font-medium;
+  }
+
+  .cn-combobox-chip-remove {
+    @apply -ml-1 opacity-50;
+  }
+
+  .cn-combobox-chip-indicator-icon {
+    @apply text-foreground;
+  }
+
+  .cn-combobox-chip-input {
+    @apply text-muted-foreground py-0 text-(length:--density-text-13);
+  }

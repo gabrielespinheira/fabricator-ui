@@ -359,6 +359,11 @@ const nextConfig = {
         source: "/init.md",
         destination: "/init/md",
       },
+      // The React Native registry: one source, whatever the project's style id.
+      {
+        source: "/r/fabricator/native/:name",
+        destination: "/r/native/:name",
+      },
       // Registry. Serves the Fabricator style compiled for
       // the base in the project's style id (e.g. base-nova -> base-fabricator).
       // Fabricator's icons, the default: `/init` writes this param into the

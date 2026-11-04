@@ -1,0 +1,44 @@
+/* MARK: Accordion */
+
+  .cn-accordion {
+    @apply w-full;
+  }
+
+  /* No dividers between items. */
+  .cn-accordion-item {
+    @apply border-0;
+  }
+
+  /* Triggers: rounded-lg rows. The website's one glides a highlight under the
+     pointer; a finger only presses one row at a time, so pressed is a fill. */
+  .cn-accordion-trigger {
+    @apply active:bg-hover gap-(--density-8) rounded-lg px-(--density-12) py-(--density-8);
+  }
+
+  /* 13pt and muted at rest. An open item's trigger turns foreground and
+     semibold. */
+  .cn-accordion-trigger-text {
+    @apply text-muted-foreground text-start text-(length:--density-text-13) leading-5 font-normal;
+  }
+
+  .cn-accordion-trigger-text-open {
+    @apply text-foreground font-semibold;
+  }
+
+  /* One chevron that points to the end and turns 90 degrees to point down when
+     open, on the disclosure timing. Its stroke thickens when open. */
+  .cn-accordion-trigger-icon {
+    @apply mt-0.5 ms-auto size-(--density-icon-16);
+  }
+
+  .cn-accordion-content-text {
+    @apply text-muted-foreground text-(length:--density-text-13);
+  }
+
+  .cn-accordion-content {
+    @apply w-full;
+  }
+
+  .cn-accordion-content-inner {
+    @apply px-(--density-12) pt-1 pb-(--density-12);
+  }

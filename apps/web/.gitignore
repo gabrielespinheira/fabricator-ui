@@ -51,6 +51,7 @@ next-env.d.ts
 # generated registry output (rebuilt by `bun run registry:build` on every
 # deploy). Only small, stable catalogs under public/r are committed.
 /public/r/styles/
+/public/r/native/
 /public/r/colors/
 
 # upstream styles compiled only for `bun run test:parity`; never published.

@@ -13,7 +13,7 @@
 // press, tooltips that skip their animation once one is open, and nothing
 // under 0.9 scale.
 
-import type { CssObject } from "@/registry/fabricator/foundations"
+import type { CssObject } from "@/registry/fabricator/css-object"
 
 export const MOTION_ROLES = [
   // Hover, colour, focus, icon stroke and weight changes.

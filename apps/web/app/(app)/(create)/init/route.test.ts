@@ -34,6 +34,32 @@ function createCliRequest(search = "") {
   } as Parameters<typeof GET>[0]
 }
 
+describe("GET /init?platform=native", () => {
+  const nativeRequest = (search = "") =>
+    ({
+      nextUrl: new URL(`http://localhost:4000/init?platform=native${search}`),
+    }) as Parameters<typeof GET>[0]
+
+  it("returns the React Native setup with its theme", async () => {
+    const response = await GET(nativeRequest())
+    const json = await response.json()
+    expect(response.status).toBe(200)
+    expect(json.registryDependencies).toEqual(["@fabricator/index"])
+    expect(json.files[0].content).toContain("--density-36: 44px;")
+  })
+
+  it("takes a look", async () => {
+    const response = await GET(nativeRequest("&shape=pill"))
+    const json = await response.json()
+    expect(json.files[0].content).toContain("--radius: 20px;")
+  })
+
+  it("rejects a bad look", async () => {
+    const response = await GET(nativeRequest("&motion=warp"))
+    expect(response.status).toBe(400)
+  })
+})
+
 describe("GET /init", () => {
   it("returns the full registry base when only is omitted", async () => {
     const response = await GET(createRequest())

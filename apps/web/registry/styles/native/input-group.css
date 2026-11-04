@@ -1,0 +1,80 @@
+/* MARK: Input Group */
+
+  /* The group is the frame (same recipe as the input): a hairline, transparent at
+     rest, lifted to the card surface while anything inside has focus. Invalid
+     controls turn the frame red. It stacks when an addon is block-aligned, and
+     grows when it holds a textarea. */
+  .cn-input-group {
+    @apply border-border data-[focused=true]:bg-card data-[focused=true]:border-foreground/25 data-[invalid=true]:border-destructive/50 h-(--density-36) rounded-lg border bg-transparent data-[disabled=true]:opacity-50 data-[stacked=true]:h-auto data-[stacked=true]:flex-col data-[stacked=true]:items-stretch data-[tall=true]:h-auto;
+  }
+
+  .cn-input-group-addon {
+    @apply h-auto gap-(--density-8) py-(--density-6);
+  }
+
+  /* Addons: muted 13pt text and icons at stroke 1.5; they wake to foreground
+     (stroke 2) while the group has focus. */
+  .cn-input-group-addon-text {
+    @apply text-muted-foreground text-(length:--density-text-13) font-normal;
+  }
+
+  .cn-input-group-addon-text-focused {
+    @apply text-foreground;
+  }
+
+  .cn-input-group-addon-align-inline-start {
+    @apply pl-(--density-10);
+  }
+
+  .cn-input-group-addon-align-inline-end {
+    @apply pr-(--density-10);
+  }
+
+  .cn-input-group-addon-align-block-start {
+    @apply px-(--density-10) pt-(--density-8);
+  }
+
+  .cn-input-group-addon-align-block-end {
+    @apply px-(--density-10) pb-(--density-8);
+  }
+
+  .cn-input-group-button {
+    @apply gap-(--density-6);
+  }
+
+  .cn-input-group-button-text {
+    @apply text-(length:--density-text-12);
+  }
+
+  .cn-input-group-button-size-xs {
+    @apply h-(--density-24) gap-1 rounded-md px-(--density-8);
+  }
+
+  .cn-input-group-button-size-sm {
+    @apply h-(--density-28) gap-1 rounded-md px-(--density-10);
+  }
+
+  .cn-input-group-button-size-icon-xs {
+    @apply size-(--density-24) rounded-md p-0;
+  }
+
+  .cn-input-group-button-size-icon-sm {
+    @apply size-(--density-28) rounded-md p-0;
+  }
+
+  .cn-input-group-text {
+    @apply gap-(--density-8);
+  }
+
+  .cn-input-group-text-text {
+    @apply text-muted-foreground text-(length:--density-text-13);
+  }
+
+  /* The control drops its own frame and fills; the group draws both. */
+  .cn-input-group-input {
+    @apply focus:border-0 focus:bg-transparent h-full rounded-none border-0 bg-transparent data-[stacked=true]:h-(--density-36) data-[stacked=true]:flex-none;
+  }
+
+  .cn-input-group-textarea {
+    @apply focus:border-0 focus:bg-transparent rounded-none border-0 bg-transparent py-(--density-8) data-[stacked=true]:flex-none;
+  }

@@ -11,6 +11,8 @@ Fabricator UI is a React component library added to a project as source code. Th
 
 **Runner:** run the CLI with the runner that matches the project's lockfile: `npx fabricator-ui@latest`, `pnpm dlx fabricator-ui@latest`, `yarn dlx fabricator-ui@latest` or `bunx --bun fabricator-ui@latest`. Examples here use `npx`.
 
+**React Native:** in an Expo or React Native project the same commands install native versions under the same names. Read [rules/react-native.md](rules/react-native.md) first: web patterns like `onClick`, `<div>` and `hover:` don't apply there.
+
 ## Workflow
 
 1. **Read the project context.** Run `npx fabricator-ui@latest info --json` in the project root before any other step, and keep its output as the project context for the whole task. Done when you know `config.base`, `config.iconLibrary`, `config.aliases`, `project.rsc`, `project.tailwindCss` and the installed `components` (see [Project context](#project-context)). If the command reports no `components.json`, the project is not set up: offer `npx fabricator-ui@latest init`.

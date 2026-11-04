@@ -1,0 +1,63 @@
+/* MARK: Avatar */
+
+  .cn-avatar {
+    @apply size-(--density-32) rounded-full data-[size=lg]:size-(--density-40) data-[size=sm]:size-(--density-24);
+  }
+
+  /* A hairline over the image, the website's ::after. */
+  .cn-avatar-edge {
+    @apply border-border rounded-full border;
+  }
+
+  /* Initials on the active fill, muted. */
+  .cn-avatar-fallback {
+    @apply bg-active rounded-full;
+  }
+
+  .cn-avatar-fallback-text {
+    @apply text-muted-foreground font-medium;
+  }
+
+  .cn-avatar-fallback-text-size-default {
+    @apply text-(length:--density-text-14);
+  }
+
+  .cn-avatar-fallback-text-size-sm {
+    @apply text-(length:--density-text-12);
+  }
+
+  .cn-avatar-fallback-text-size-lg {
+    @apply text-(length:--density-text-14);
+  }
+
+  .cn-avatar-image {
+    @apply rounded-full;
+  }
+
+  /* A border takes room where the website's ring doesn't: 4pt larger than the
+     website's dot, and pushed out by the ring's width. */
+  .cn-avatar-badge {
+    @apply bg-primary border-background -end-0.5 -bottom-0.5 rounded-full border-2 data-[size=default]:size-3.5 data-[size=lg]:size-4 data-[size=sm]:size-3;
+  }
+
+  .cn-avatar-badge-text {
+    @apply text-primary-foreground;
+  }
+
+  .cn-avatar-group {
+    @apply gap-0;
+  }
+
+  /* -space-x-2 and ring-2 together: the wrapper's border adds 4pt, so overlapping
+     by 12pt leaves avatars 8pt over each other, as on the website. */
+  .cn-avatar-group-item {
+    @apply border-background -ms-3 rounded-full border-2 data-[first=true]:ms-0;
+  }
+
+  .cn-avatar-group-count {
+    @apply bg-active size-(--density-32) rounded-full data-[size=lg]:size-(--density-40) data-[size=sm]:size-(--density-24);
+  }
+
+  .cn-avatar-group-count-text {
+    @apply text-muted-foreground text-(length:--density-text-12) font-medium;
+  }

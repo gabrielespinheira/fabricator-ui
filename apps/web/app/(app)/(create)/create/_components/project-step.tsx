@@ -14,6 +14,7 @@ import { Switch } from "@/styles/base-fabricator/ui/switch"
 import {
   DEFAULT_PROJECT_NAME,
   FRAMEWORKS,
+  isNativeFramework,
   SETUP_BASES,
   type SetupChoices,
 } from "@/app/(app)/(create)/lib/setup"
@@ -39,6 +40,7 @@ const BASE_VALUES = SETUP_BASES.map(({ value }) => value)
 export function ProjectStep({ choices, onChange, onBack, onNext }: StepProps) {
   const isNew = choices.project === "new"
   const isLaravel = choices.framework === "laravel"
+  const isNative = isNativeFramework(choices.framework)
 
   return (
     <FieldGroup className="w-full max-w-2xl gap-10">
@@ -117,34 +119,36 @@ export function ProjectStep({ choices, onChange, onBack, onNext }: StepProps) {
         <p className="text-[13px] leading-relaxed text-muted-foreground">
           The CLI finds your framework on its own. It works with Next.js, Vite,
           TanStack Start, React Router, Astro and Laravel apps that use React 19
-          and Tailwind CSS v4.
+          and Tailwind CSS v4, and with Expo apps.
         </p>
       )}
 
-      <StepSection
-        title="Component primitives"
-        description="The library that handles keyboard, focus and screen readers under each component. Every one looks the same."
-      >
-        <RadioGroup
-          value={choices.base}
-          onValueChange={(value) => {
-            const base = pick(BASE_VALUES, value)
-            if (base) onChange({ base })
-          }}
-          className="grid gap-3 sm:grid-cols-3"
+      {isNative ? null : (
+        <StepSection
+          title="Component primitives"
+          description="The library that handles keyboard, focus and screen readers under each component. Every one looks the same."
         >
-          {SETUP_BASES.map((base) => (
-            <ChoiceCard
-              key={base.value}
-              value={base.value}
-              title={base.label}
-              description={base.description}
-            />
-          ))}
-        </RadioGroup>
-      </StepSection>
+          <RadioGroup
+            value={choices.base}
+            onValueChange={(value) => {
+              const base = pick(BASE_VALUES, value)
+              if (base) onChange({ base })
+            }}
+            className="grid gap-3 sm:grid-cols-3"
+          >
+            {SETUP_BASES.map((base) => (
+              <ChoiceCard
+                key={base.value}
+                value={base.value}
+                title={base.label}
+                description={base.description}
+              />
+            ))}
+          </RadioGroup>
+        </StepSection>
+      )}
 
-      {isNew && !isLaravel ? (
+      {isNew && !isLaravel && !isNative ? (
         <FieldLabel htmlFor="monorepo">
           <Field orientation="horizontal">
             <FieldContent>

@@ -1,0 +1,20 @@
+/* MARK: Radio Group */
+
+  .cn-radio-group {
+    @apply gap-(--density-12);
+  }
+
+  /* 18pt circle with the checkbox's outline. Checked fills with the primary role
+     and a 6pt dot pops in in its foreground. Invalid turns the outline, and the
+     checked fill, destructive. */
+  .cn-radio-group-item {
+    @apply border-foreground/25 data-[state=checked]:border-primary data-[state=checked]:bg-primary data-[invalid=true]:border-destructive data-[invalid=true]:data-[state=checked]:border-destructive data-[invalid=true]:data-[state=checked]:bg-destructive size-[calc(var(--density-icon-16)+2px)] rounded-full border-[1.5px] bg-transparent active:scale-90;
+  }
+
+  .cn-radio-group-indicator {
+    @apply size-full;
+  }
+
+  .cn-radio-group-indicator-icon {
+    @apply bg-primary-foreground size-1.5 rounded-full;
+  }

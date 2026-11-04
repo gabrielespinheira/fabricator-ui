@@ -1,0 +1,51 @@
+/* MARK: Alert Dialog */
+
+  /* Same scrim and panel recipe as Dialog: surface 5, rounded-xl, p-6, on the
+     dialog motion. */
+  .cn-alert-dialog-overlay {
+    @apply bg-black/40 dark:bg-black/80;
+  }
+
+  .cn-alert-dialog-content {
+    @apply bg-surface-5 shadow-surface-5 gap-(--density-16) rounded-xl p-(--density-24) data-[size=default]:max-w-[92%] data-[size=sm]:max-w-xs data-[size=default]:sm:max-w-[400px];
+  }
+
+  .cn-alert-dialog-text {
+    @apply text-popover-foreground text-(length:--density-text-13);
+  }
+
+  /* Centred, except a default dialog from sm up, which reads from the start. */
+  .cn-alert-dialog-header {
+    @apply items-center gap-(--density-6) data-[size=default]:sm:items-start;
+  }
+
+  /* The icon tile above the title. */
+  .cn-alert-dialog-media {
+    @apply bg-hover mb-2 size-(--density-40) items-center justify-center rounded-lg;
+  }
+
+  .cn-alert-dialog-media-text {
+    @apply text-foreground;
+  }
+
+  .cn-alert-dialog-title {
+    @apply text-foreground text-center text-(length:--density-text-16) leading-tight font-bold data-[size=default]:sm:text-start;
+  }
+
+  .cn-alert-dialog-description {
+    @apply text-muted-foreground text-center text-(length:--density-text-13) data-[size=default]:sm:text-start;
+  }
+
+  /* Stacked actions on phones; side by side from sm up. A small dialog always
+     has its two actions side by side, at equal widths. */
+  .cn-alert-dialog-footer {
+    @apply mt-2 gap-(--density-8) data-[size=sm]:flex-row sm:flex-row sm:justify-end;
+  }
+
+  .cn-alert-dialog-action {
+    @apply data-[size=sm]:flex-1;
+  }
+
+  .cn-alert-dialog-cancel {
+    @apply data-[size=sm]:flex-1;
+  }
