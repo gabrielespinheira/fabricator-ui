@@ -1,6 +1,6 @@
 # @fabricator-ui/icons-static
 
-Fabricator Icons without a framework: SVG files, sprites, JSON data and SVG strings, plus a PNG exporter for desktop tray and menu icons. Every [Lucide](https://lucide.dev) icon under its Lucide name, plus 108 brand marks. Part of [Fabricator UI](https://fabricator-ui.vercel.app).
+Fabricator Icons without a framework: SVG files, sprites, JSON data and SVG strings, plus a PNG exporter for desktop tray and menu icons. Every [Lucide](https://lucide.dev) icon under its Lucide name, plus 143 brand marks. Part of [Fabricator UI](https://fabricator-ui.vercel.app).
 
 ```sh
 npm install @fabricator-ui/icons-static
@@ -41,4 +41,4 @@ Brand marks are trademarks of their owners. Read [BRANDS.md](./BRANDS.md) before
 
 ## Licence
 
-MIT for Fabricator's code; the outline icons are Lucide's, under ISC. See [LICENSE.md](./LICENSE.md).
+MIT for Fabricator's code and Custom icons; the other outline icons are Lucide's, under ISC. See [LICENSE.md](./LICENSE.md).

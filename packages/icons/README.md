@@ -1,6 +1,6 @@
 # @fabricator-ui/icons
 
-Fabricator Icons for React: every [Lucide](https://lucide.dev) icon under its Lucide name, with identical geometry, plus 108 brand marks. Part of [Fabricator UI](https://fabricator-ui.vercel.app).
+Fabricator Icons for React: every [Lucide](https://lucide.dev) icon under its Lucide name, with identical geometry, Fabricator's own Custom icons, and 143 brand marks. Part of [Fabricator UI](https://fabricator-ui.vercel.app).
 
 ```sh
 npm install @fabricator-ui/icons
@@ -68,4 +68,4 @@ const Burger = createIcon({ name: "burger", node: [["path", { d: "M4 12h16" }]] 
 
 ## Licence
 
-MIT for Fabricator's code; the outline icons are Lucide's, under ISC. See [LICENSE.md](./LICENSE.md).
+MIT for Fabricator's code and Custom icons; the other outline icons are Lucide's, under ISC. See [LICENSE.md](./LICENSE.md).

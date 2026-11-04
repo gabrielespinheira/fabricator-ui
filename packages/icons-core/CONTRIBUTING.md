@@ -7,7 +7,7 @@
 | Path                            | What                                                              | Edited by                   |
 | ------------------------------- | ----------------------------------------------------------------- | --------------------------- |
 | `sources/lucide/`               | Lucide's icons and categories at the tag in `icons.lock.json`     | `bun run icons:sync` only   |
-| `sources/outline/`              | Fabricator originals: `<name>.svg` + `<name>.json`                | you                         |
+| `sources/outline/`              | Custom icons, Fabricator's own: `<name>.svg` + `<name>.json`      | you                         |
 | `sources/brands/allowlist.json` | Which brand marks ship, where each comes from, held marks and why | you                         |
 | `sources/brands/*.svg, *.json`  | Imported marks                                                    | `bun run icons:brands` only |
 | `sources/duotone/`              | Duotone icons: the outline icon plus `<g id="secondary">`         | you                         |
@@ -21,11 +21,13 @@ bun run icons:sync --ref <tag>
 
 It prints what was added, changed, aliased and removed. Then run `bun run test` (the parity tests compare against `@lucide/icons` and `lucide-react` at the same version, so bump those dev dependencies in `packages/icons` with the tag). A removal ships in a major release.
 
-## Adding an original icon
+## Adding a custom icon
 
-1. Check Lucide first. Generic icons go to Lucide; Fabricator keeps the ones Lucide declines and glyphs specific to Fabricator.
-2. Draw it on Lucide's spec (https://lucide.dev/contribute/icons/specification): 24 × 24, 2px round strokes, 1px safe zone, 2px gaps.
-3. Add `sources/outline/<name>.svg` with Lucide's root attributes and `<name>.json` with `tags` and `categories` (Lucide's category names).
+Fabricator's own icons form the Custom category. Every icon in `sources/outline/` is in it automatically, on top of any other category it names.
+
+1. Check Lucide's names and open pull requests, so we don't draw what is about to arrive. If Lucide later ships a name we use, `icons:check` fails: keep Lucide's and turn ours into an alias if it depicts the same thing, or rename ours.
+2. Draw it on Lucide's spec (https://lucide.dev/contribute/icons/specification): 24 × 24, 2px round strokes, 1px safe zone, 2px gaps. Reuse the modifier geometry in `docs/plans/icon-pack-expansion.md` so a variant matches its family.
+3. Add `sources/outline/<name>.svg` with Lucide's root attributes and `<name>.json` with `tags` and `categories` (Lucide's category names; `custom` is added for you).
 4. Run `bun run icons:check` and `bun run icons:sheet <name>`, and attach the sheet to the PR. Review it at 14, 16 and 18px, stroke 1.5 and 2, in light and dark.
 
 ## Adding a brand mark

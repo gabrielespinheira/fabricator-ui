@@ -29,6 +29,16 @@ const IMPORT_PATHS: Record<IconSet, string> = {
   animated: "@fabricator-ui/icons/animated",
 }
 
+/** One line on where an icon comes from, for its detail panel. */
+export function getIconDescription(entry: CatalogEntry) {
+  if (entry.set === "brands") return `${entry.title}, a trademark of its owner.`
+  if (entry.categories.includes("custom"))
+    return `Fabricator's ${entry.name} icon, drawn to Lucide's rules.`
+  return entry.set === "animated"
+    ? `Lucide's ${entry.name} icon, animated.`
+    : `Lucide's ${entry.name} icon.`
+}
+
 export function getImportLine(entry: CatalogEntry) {
   return `import { ${toComponentName(entry.name)} } from "${IMPORT_PATHS[entry.set]}"`
 }
