@@ -5,6 +5,8 @@ base: native
 component: true
 ---
 
+<NativePreview src="/images/native/avatar.jpg" alt="Avatar on iOS" />
+
 ## Installation
 
 ```bash
@@ -27,14 +29,12 @@ import { Text } from "@/components/ui/text"
 ```
 
 ```tsx
-{
-  SIZES.map((size) => (
-    <Avatar key={size} size={size}>
-      <AvatarImage src={GABS} alt="@gabrielespinheira" />
-      <AvatarFallback>GE</AvatarFallback>
-    </Avatar>
-  ))
-}
+{SIZES.map((size) => (
+  <Avatar key={size} size={size}>
+    <AvatarImage src={GABS} alt="@gabrielespinheira" />
+    <AvatarFallback>GE</AvatarFallback>
+  </Avatar>
+))}
 ```
 
 ## Composition
@@ -172,8 +172,8 @@ export { AvatarExample }
 
 ## API reference
 
-| Prop   | Values                |
-| ------ | --------------------- |
+| Prop | Values |
+| --- | --- |
 | `size` | `default`, `lg`, `sm` |
 
 Props it adds to what it wraps: `delay`, `onLoadingStatusChange`, `size`.

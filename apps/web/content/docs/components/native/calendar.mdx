@@ -5,6 +5,8 @@ base: native
 component: true
 ---
 
+<NativePreview src="/images/native/calendar.jpg" alt="Calendar on iOS" />
+
 ## Installation
 
 ```bash
@@ -23,7 +25,12 @@ import { Text } from "@/components/ui/text"
 ```
 
 ```tsx
-<Calendar mode="single" selected={date} onSelect={setDate} className="w-full" />
+<Calendar
+  mode="single"
+  selected={date}
+  onSelect={setDate}
+  className="w-full"
+/>
 ```
 
 ## Composition
@@ -145,6 +152,8 @@ export { CalendarExample }
 ```
 
 ## API reference
+
+
 
 Props it adds to what it wraps: `buttonVariant`, `day`, `locale`, `modifiers`.
 

@@ -4,6 +4,8 @@
     "accordion",
     "alert",
     "alert-dialog",
+    "app-nav",
+    "app-shell",
     "aspect-ratio",
     "attachment",
     "avatar",
@@ -36,8 +38,10 @@
     "kbd",
     "label",
     "marker",
+    "menubar",
     "message",
     "message-scroller",
+    "navigation-menu",
     "pagination",
     "popover",
     "progress",
@@ -49,6 +53,7 @@
     "select",
     "separator",
     "sheet",
+    "sidebar",
     "skeleton",
     "slider",
     "sonner",
@@ -62,6 +67,8 @@
     "toast",
     "toggle",
     "toggle-group",
-    "tooltip"
+    "tooltip",
+    "user-menu",
+    "workspace-switcher"
   ]
 }

@@ -5,6 +5,8 @@ base: native
 component: true
 ---
 
+<NativePreview src="/images/native/drawer.jpg" alt="Drawer on iOS" />
+
 ## Installation
 
 ```bash
@@ -36,12 +38,16 @@ import { Input } from "@/components/ui/input"
   <DrawerContent>
     <DrawerHeader>
       <DrawerTitle>Move goal</DrawerTitle>
-      <DrawerDescription>Set your daily activity goal.</DrawerDescription>
+      <DrawerDescription>
+        Set your daily activity goal.
+      </DrawerDescription>
     </DrawerHeader>
     <View className="m-4 h-40 rounded-2xl bg-muted" />
     <DrawerFooter>
       <DrawerClose render={<Button />}>Submit</DrawerClose>
-      <DrawerClose render={<Button variant="outline" />}>Cancel</DrawerClose>
+      <DrawerClose render={<Button variant="outline" />}>
+        Cancel
+      </DrawerClose>
     </DrawerFooter>
   </DrawerContent>
 </Drawer>
@@ -197,11 +203,13 @@ export { DrawerExample }
 
 ## API reference
 
+
+
 Props it adds to what it wraps: `defaultOpen`, `disablePointerDismissal`, `hostName`, `modal`, `onOpenChange`, `open`, `showSwipeHandle`, `snapPoints`, `swipeDirection`.
 
 ## Differences from web
 
-**New engine.** `vaul` is DOM-only. Gestures run on the UI thread, with swipe to dismiss and keyboard avoidance.
+**New engine.** `vaul` is DOM-only. Gestures run on the UI thread, with swipe to dismiss and keyboard avoidance. `snapPoints` is accepted and does nothing.
 
 ## Accessibility
 

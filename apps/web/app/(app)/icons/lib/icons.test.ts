@@ -9,6 +9,7 @@ import {
   buildSvgMarkup,
   filterByCategory,
   getCategoryOptions,
+  getIconDescription,
   getImportLine,
   getInstallCommand,
   getJsxSnippet,
@@ -50,6 +51,25 @@ const animatedBell: AnimatedCatalogEntry = {
   categories: ["notifications"],
   tags: [],
 }
+
+describe("getIconDescription", () => {
+  it("credits Lucide for Lucide's icons, animated or not", () => {
+    expect(getIconDescription(bell)).toBe("Lucide's bell icon.")
+    expect(getIconDescription(animatedBell)).toBe(
+      "Lucide's bell icon, animated."
+    )
+  })
+
+  it("names a custom icon as Fabricator's own", () => {
+    expect(
+      getIconDescription({ ...bell, name: "ui-dialog", categories: ["custom"] })
+    ).toBe("Fabricator's ui-dialog icon, drawn to Lucide's rules.")
+  })
+
+  it("names a brand's owner", () => {
+    expect(getIconDescription(github)).toBe("GitHub, a trademark of its owner.")
+  })
+})
 
 describe("animated icons", () => {
   it("import from their own entry, under the same name", () => {

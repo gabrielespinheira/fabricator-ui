@@ -313,6 +313,7 @@ function ComboboxInput({
         <TextInput
           data-slot="combobox-input"
           autoFocus={autoFocus ?? true}
+          autoCapitalize="none"
           autoCorrect={false}
           autoComplete="off"
           placeholder={placeholder ?? "Search"}
@@ -684,6 +685,8 @@ function ComboboxChipsInput({
       <TextInput
         data-slot="combobox-chip-input"
         autoFocus
+        autoCapitalize="none"
+        autoCorrect={false}
         placeholder={placeholder}
         placeholderTextColorClassName="accent-muted-foreground"
         selectionColorClassName="accent-primary"

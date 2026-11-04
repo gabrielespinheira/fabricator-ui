@@ -5,6 +5,8 @@ base: native
 component: true
 ---
 
+<NativePreview src="/images/native/sheet.jpg" alt="Sheet on iOS" />
+
 ## Installation
 
 ```bash
@@ -30,25 +32,27 @@ import { Text } from "@/components/ui/text"
 ```
 
 ```tsx
-{
-  SIDES.map((side) => (
-    <Sheet key={side}>
-      <SheetTrigger render={<Button variant="outline" />}>{side}</SheetTrigger>
-      <SheetContent side={side}>
-        <SheetHeader>
-          <SheetTitle>Edit profile</SheetTitle>
-          <SheetDescription>
-            Swipe toward the {side} edge, or press outside, to close.
-          </SheetDescription>
-        </SheetHeader>
-        <SheetFooter>
-          <SheetClose render={<Button />}>Save changes</SheetClose>
-          <SheetClose render={<Button variant="outline" />}>Cancel</SheetClose>
-        </SheetFooter>
-      </SheetContent>
-    </Sheet>
-  ))
-}
+{SIDES.map((side) => (
+  <Sheet key={side}>
+    <SheetTrigger render={<Button variant="outline" />}>
+      {side}
+    </SheetTrigger>
+    <SheetContent side={side}>
+      <SheetHeader>
+        <SheetTitle>Edit profile</SheetTitle>
+        <SheetDescription>
+          Swipe toward the {side} edge, or press outside, to close.
+        </SheetDescription>
+      </SheetHeader>
+      <SheetFooter>
+        <SheetClose render={<Button />}>Save changes</SheetClose>
+        <SheetClose render={<Button variant="outline" />}>
+          Cancel
+        </SheetClose>
+      </SheetFooter>
+    </SheetContent>
+  </Sheet>
+))}
 ```
 
 ## Composition
@@ -193,6 +197,8 @@ export { SheetExample }
 ```
 
 ## API reference
+
+
 
 Props it adds to what it wraps: `defaultOpen`, `disablePointerDismissal`, `modal`, `onOpenChange`, `open`, `showCloseButton`, `side`.
 

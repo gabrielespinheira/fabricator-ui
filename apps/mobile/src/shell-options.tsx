@@ -14,7 +14,9 @@ import {
   type ViewStyle,
 } from "react-native"
 
+import { hasLiquidGlass } from "./shell/glass"
 import { OptionCard } from "./shell/option-card"
+import type { TabBarStyle } from "./shell/tab-bar"
 import {
   FONT,
   useReducedMotion,
@@ -40,6 +42,7 @@ export type ShellOptions = {
   actions: boolean
   status: boolean
   tabBar: boolean
+  tabBarStyle: TabBarStyle
   panel: boolean
   panelOnPhones: PanelMobile
 }
@@ -55,8 +58,19 @@ export const DEFAULT_SHELL_OPTIONS: ShellOptions = {
   actions: true,
   status: true,
   tabBar: true,
+  tabBarStyle: "flat",
   panel: true,
   panelOnPhones: "drawer",
+}
+
+/** Glass is offered only where Apple's Liquid Glass can be drawn. */
+function getTabBarStyleChoices() {
+  const choices: { value: TabBarStyle; label: string }[] = [
+    { value: "flat", label: "Flat" },
+    { value: "floating", label: "Floating" },
+  ]
+  if (hasLiquidGlass()) choices.splice(1, 0, { value: "glass", label: "Glass" })
+  return choices
 }
 
 // The website's rows keep their size at every density: min-h-10, 13px.
@@ -347,6 +361,14 @@ export function ShellOptionsCard({
               label="Tab bar on phones"
               value={options.tabBar}
               onChange={(next) => change({ tabBar: next })}
+            />
+          )}
+          {isPhone && options.tabBar && (
+            <OptionChoice
+              label="Tab bar style"
+              value={options.tabBarStyle}
+              choices={getTabBarStyleChoices()}
+              onChange={(next) => change({ tabBarStyle: next })}
             />
           )}
         </Section>

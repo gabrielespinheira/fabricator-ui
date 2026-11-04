@@ -5,6 +5,8 @@ base: native
 component: true
 ---
 
+<NativePreview src="/images/native/resizable.jpg" alt="Resizable on iOS" />
+
 ## Installation
 
 ```bash
@@ -66,8 +68,10 @@ import { Text } from "@/components/ui/text"
 
 function Pane({ children }: { children: string }) {
   return (
-    <View className="h-full items-center justify-center p-6">
-      <Text className="font-semibold">{children}</Text>
+    <View className="h-full items-center justify-center p-1">
+      <Text numberOfLines={1} className="font-semibold">
+        {children}
+      </Text>
     </View>
   )
 }
@@ -156,11 +160,13 @@ export { ResizableExample }
 
 ## API reference
 
+
+
 Props it adds to what it wraps: `defaultLayout`, `direction`, `disabled`, `onLayoutChange`, `onLayoutChanged`, `orientation`, `withHandle`.
 
 ## Differences from web
 
-**New engine.** `react-resizable-panels` is DOM-only. A drag handle, with increment and decrement actions for screen readers.
+**New engine.** `react-resizable-panels` is DOM-only. A drag handle, with increment and decrement actions for screen readers. Panels don't collapse.
 
 ## Accessibility
 

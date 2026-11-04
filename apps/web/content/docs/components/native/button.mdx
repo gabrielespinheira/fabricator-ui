@@ -5,6 +5,8 @@ base: native
 component: true
 ---
 
+<NativePreview src="/images/native/button.jpg" alt="Button on iOS" />
+
 ## Installation
 
 ```bash
@@ -18,13 +20,11 @@ import { Button } from "@/components/ui/button"
 ```
 
 ```tsx
-{
-  VARIANTS.map((variant) => (
-    <Button key={variant} variant={variant}>
-      {variant}
-    </Button>
-  ))
-}
+{VARIANTS.map((variant) => (
+  <Button key={variant} variant={variant}>
+    {variant}
+  </Button>
+))}
 ```
 
 ## Examples
@@ -101,10 +101,10 @@ export { ButtonExample }
 
 ## API reference
 
-| Prop      | Values                                                               |
-| --------- | -------------------------------------------------------------------- |
-| `variant` | `default`, `destructive`, `ghost`, `link`, `outline`, `secondary`    |
-| `size`    | `default`, `icon`, `icon-lg`, `icon-sm`, `icon-xs`, `lg`, `sm`, `xs` |
+| Prop | Values |
+| --- | --- |
+| `variant` | `default`, `destructive`, `ghost`, `link`, `outline`, `secondary` |
+| `size` | `default`, `icon`, `icon-lg`, `icon-sm`, `icon-xs`, `lg`, `sm`, `xs` |
 
 ## Differences from web
 

@@ -5,6 +5,8 @@ base: native
 component: true
 ---
 
+<NativePreview src="/images/native/tabs.jpg" alt="Tabs on iOS" />
+
 ## Installation
 
 ```bash
@@ -14,7 +16,12 @@ npx fabricator-ui@latest add tabs
 ## Usage
 
 ```tsx
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/components/ui/tabs"
 import { Text } from "@/components/ui/text"
 ```
 
@@ -44,7 +51,12 @@ import { Text } from "@/components/ui/text"
 import * as React from "react"
 import { CodeIcon, EyeIcon } from "@fabricator-ui/icons-react-native"
 
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/components/ui/tabs"
 import { Text } from "@/components/ui/text"
 
 function TabsExample() {
@@ -131,8 +143,8 @@ export { TabsExample }
 
 ## API reference
 
-| Prop      | Values            |
-| --------- | ----------------- |
+| Prop | Values |
+| --- | --- |
 | `variant` | `default`, `line` |
 
 Props it adds to what it wraps: `defaultValue`, `keepMounted`, `onValueChange`, `value`.

@@ -56,6 +56,7 @@ import { SheetSurface } from "@/registry/native/lib/sheet-surface"
 import {
   getHeaderTriggerEnd,
   getInsetFrame,
+  getRegisteredCollapsible,
   getRevealPageTransform,
   getRevealProgress,
   getRevealSidebarStyle,
@@ -65,6 +66,7 @@ import {
   getSidebarGapWidth,
   getSidebarIconWidth,
   getSkeletonWidth,
+  getUnregisteredCollapsible,
   parseSidebarWidth,
   REVEAL_DRAG_SLOP,
   REVEAL_OPEN_EDGE,
@@ -124,7 +126,8 @@ type SidebarContextProps = {
 
 type SidebarInternalContextProps = {
   registerSide: (side: SidebarSide) => void
-  registerCollapsible: (collapsible: SidebarCollapsible | null) => void
+  registerCollapsible: (collapsible: SidebarCollapsible) => void
+  unregisterCollapsible: (collapsible: SidebarCollapsible) => void
   registerVariant: (variant: SidebarVariant) => void
   registerGapWidth: (width: number) => void
   collapsible: SidebarCollapsible | null
@@ -338,6 +341,16 @@ function SidebarProvider({
   const reportGapWidth = useLatestCallback((next: number) => {
     onGapWidthChange?.(next)
   })
+  const registerCollapsible = React.useCallback(
+    (next: SidebarCollapsible) =>
+      setCollapsible((current) => getRegisteredCollapsible(current, next)),
+    []
+  )
+  const unregisterCollapsible = React.useCallback(
+    (own: SidebarCollapsible) =>
+      setCollapsible((current) => getUnregisteredCollapsible(current, own)),
+    []
+  )
   const registerGapWidth = React.useCallback(
     (next: number) => {
       setGapWidth(next)
@@ -389,7 +402,8 @@ function SidebarProvider({
   const internalValue = React.useMemo<SidebarInternalContextProps>(
     () => ({
       registerSide: setSide,
-      registerCollapsible: setCollapsible,
+      registerCollapsible,
+      unregisterCollapsible,
       registerVariant: setVariant,
       registerGapWidth,
       collapsible,
@@ -406,9 +420,11 @@ function SidebarProvider({
       gapWidth,
       isAside,
       progress,
+      registerCollapsible,
       registerGapWidth,
       revealWidth,
       settleReveal,
+      unregisterCollapsible,
       variant,
     ]
   )
@@ -668,13 +684,10 @@ function SidebarSheet({
       side={side}
       className={cn("cn-sidebar-sheet", className)}
       style={[
-        {
-          width: internal.revealWidth,
-          maxWidth: windowWidth,
-          backgroundColor:
-            typeof frame?.["--sidebar"] === "string"
-              ? frame["--sidebar"]
-              : undefined,
+        { width: internal.revealWidth, maxWidth: windowWidth },
+        // An undefined backgroundColor would still override the class's.
+        typeof frame?.["--sidebar"] === "string" && {
+          backgroundColor: frame["--sidebar"],
         },
         style,
       ]}
@@ -839,16 +852,20 @@ function Sidebar({
   bordered?: boolean
 }) {
   const { isMobile, mobileSidebar, state, width } = useSidebar()
-  const { registerSide, registerCollapsible, registerVariant } =
-    useSidebarInternal()
+  const {
+    registerSide,
+    registerCollapsible,
+    unregisterCollapsible,
+    registerVariant,
+  } = useSidebarInternal()
   const insets = useShellInsets()
 
   React.useEffect(() => registerSide(side), [side, registerSide])
   React.useEffect(() => registerVariant(variant), [variant, registerVariant])
   React.useEffect(() => {
     registerCollapsible(collapsible)
-    return () => registerCollapsible(null)
-  }, [collapsible, registerCollapsible])
+    return () => unregisterCollapsible(collapsible)
+  }, [collapsible, registerCollapsible, unregisterCollapsible])
 
   if (collapsible === "none") {
     return (
@@ -1309,9 +1326,12 @@ const SidebarGroupContext =
  * the row's top edge.
  */
 function renderRowChildren(children: React.ReactNode) {
+  // A menu alone is the row itself (UserMenu, WorkspaceSwitcher), so it keeps its
+  // height. Beside a button, it's the row's action and sits over it.
+  const hasRowButton = React.Children.count(children) > 1
   return renderTextChildren(
     React.Children.map(children, (kid) =>
-      React.isValidElement(kid) && kid.type === DropdownMenu ? (
+      hasRowButton && React.isValidElement(kid) && kid.type === DropdownMenu ? (
         <View className="absolute inset-x-0 top-0">{kid}</View>
       ) : (
         kid

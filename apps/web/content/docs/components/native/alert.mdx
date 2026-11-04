@@ -5,6 +5,8 @@ base: native
 component: true
 ---
 
+<NativePreview src="/images/native/alert.jpg" alt="Alert on iOS" />
+
 ## Installation
 
 ```bash
@@ -27,7 +29,9 @@ import { Button } from "@/components/ui/button"
 <Alert>
   <InfoIcon />
   <AlertTitle>Heads up</AlertTitle>
-  <AlertDescription>Acme Inc changed its billing address.</AlertDescription>
+  <AlertDescription>
+    Acme Inc changed its billing address.
+  </AlertDescription>
 </Alert>
 ```
 
@@ -148,10 +152,10 @@ export { AlertExample }
 
 ## API reference
 
-| Prop       | Values                                                          |
-| ---------- | --------------------------------------------------------------- |
-| `variant`  | `default`, `destructive`, `error`, `info`, `success`, `warning` |
-| `contrast` | `high`, `low`                                                   |
+| Prop | Values |
+| --- | --- |
+| `variant` | `default`, `destructive`, `error`, `info`, `success`, `warning` |
+| `contrast` | `high`, `low` |
 
 ## Differences from web
 

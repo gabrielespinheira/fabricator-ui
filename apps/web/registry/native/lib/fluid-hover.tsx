@@ -32,8 +32,6 @@ export function useFluidHover({
 }: FluidHoverOptions = {}) {
   const [rows, setRows] = React.useState<Record<string, Rect>>({})
   const [lit, setLit] = React.useState<string | null>(null)
-  const previousLit = React.useRef<Rect | null>(null)
-  const previousSelected = React.useRef<Rect | null>(null)
 
   const getItemProps = React.useCallback(
     (key: string) => ({
@@ -60,20 +58,29 @@ export function useFluidHover({
 
   const litRect = lit ? (rows[lit] ?? null) : null
   const selectedRect = selected ? (rows[selected] ?? null) : null
+  const previousLit = usePreviousRect(litRect)
+  const previousSelected = usePreviousRect(selectedRect)
   const hover: Overlay = {
     rect: litRect,
-    animate: shouldGlide(previousLit.current, litRect),
+    animate: shouldGlide(previousLit, litRect),
   }
   const selection: Overlay = {
     rect: selectedRect,
-    animate: shouldGlide(previousSelected.current, selectedRect),
+    animate: shouldGlide(previousSelected, selectedRect),
   }
-  React.useEffect(() => {
-    previousLit.current = litRect
-    previousSelected.current = selectedRect
-  })
 
   return { getItemProps, hover, selection }
+}
+
+/** The rect before this one, so a highlight knows where it's gliding from. */
+function usePreviousRect(rect: Rect | null) {
+  const [history, setHistory] = React.useState<{
+    current: Rect | null
+    previous: Rect | null
+  }>({ current: rect, previous: null })
+  if (sameRect(history.current, rect)) return history.previous
+  setHistory({ current: rect, previous: history.current })
+  return history.current
 }
 
 function FluidHoverOverlay({

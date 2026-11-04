@@ -57,7 +57,7 @@ import { PanelContent, PanelSheet } from "./shell/panel"
 import { Sidebar } from "./shell/sidebar"
 import { SidebarReveal } from "./shell/sidebar-reveal"
 import { SidebarToggleIcon } from "./shell/sidebar-toggle-icon"
-import { TabBar } from "./shell/tab-bar"
+import { getTabBarClearance, TabBar } from "./shell/tab-bar"
 import { FONT, ThemeProvider, useStyles, useTheme, type Theme } from "./theme"
 
 // The Sidebar's and the panel's default widths on the website.
@@ -299,6 +299,9 @@ function Shell() {
     mobile: options.panelOnPhones,
   })
   const hasPanel = options.panel && placement !== null
+  const tabBarClearance = options.tabBar
+    ? getTabBarClearance(theme, options.tabBarStyle, insets.bottom)
+    : insets.bottom
   const isFlat = options.style !== "inset"
   const gutter = isFlat ? 0 : theme.space[8]
 
@@ -418,13 +421,11 @@ function Shell() {
                 pathname={pathname}
                 setup={setup}
                 contentSize={options.contentSize}
-                bottomInset={options.tabBar ? 0 : insets.bottom}
+                bottomInset={tabBarClearance}
                 onNavigate={setPathname}
               />
               {options.actions && !isLibraryPath(pathname) && (
-                <FloatingButton
-                  bottomInset={options.tabBar ? 0 : insets.bottom}
-                />
+                <FloatingButton bottomInset={tabBarClearance} />
               )}
             </View>
             {options.tabBar && (
@@ -433,6 +434,7 @@ function Shell() {
                 activeId={activeId}
                 onNavigate={navigate}
                 insetBottom={insets.bottom}
+                style={options.tabBarStyle}
               />
             )}
           </View>

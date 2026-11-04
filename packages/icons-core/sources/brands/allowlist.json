@@ -421,6 +421,22 @@
       }
     },
     {
+      "name": "cursor",
+      "title": "Cursor",
+      "group": "Product & dev",
+      "tags": [
+        "ai",
+        "editor",
+        "assistant",
+        "ide"
+      ],
+      "aliases": [],
+      "mono": {
+        "from": "simple-icons",
+        "slug": "cursor"
+      }
+    },
+    {
       "name": "datadog",
       "title": "Datadog",
       "group": "Product & dev",
@@ -1636,7 +1652,24 @@
         "from": "sharpos",
         "slug": "openai"
       },
-      "held": "OpenAI's usage terms make its logo permission non-transferable (https://openai.com/brand/#usage-terms), and Simple Icons removed this older mark at OpenAI's request. Held until OpenAI grants redistribution."
+      "credit": "OpenAI and its logo are trademarks of OpenAI and belong to it. Terms: https://openai.com/brand/"
+    },
+    {
+      "name": "opencode",
+      "title": "OpenCode",
+      "group": "Product & dev",
+      "tags": [
+        "ai",
+        "agent",
+        "assistant",
+        "terminal"
+      ],
+      "aliases": [],
+      "mono": {
+        "from": "simple-icons",
+        "slug": "opencode"
+      },
+      "scale": 0.872
     },
     {
       "name": "openrouter",

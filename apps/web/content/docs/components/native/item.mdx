@@ -5,6 +5,8 @@ base: native
 component: true
 ---
 
+<NativePreview src="/images/native/item.jpg" alt="Item on iOS" />
+
 ## Installation
 
 ```bash
@@ -14,7 +16,11 @@ npx fabricator-ui@latest add item
 ## Usage
 
 ```tsx
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import {
   Item,
@@ -32,23 +38,21 @@ import { Text } from "@/components/ui/text"
 ```
 
 ```tsx
-{
-  VARIANTS.map((variant) => (
-    <Item key={variant} variant={variant}>
-      <ItemContent>
-        <ItemTitle>{variant}</ItemTitle>
-        <ItemDescription>
-          A title and a description, with room for an action.
-        </ItemDescription>
-      </ItemContent>
-      <ItemActions>
-        <Button variant="outline" size="sm">
-          Action
-        </Button>
-      </ItemActions>
-    </Item>
-  ))
-}
+{VARIANTS.map((variant) => (
+  <Item key={variant} variant={variant}>
+    <ItemContent>
+      <ItemTitle>{variant}</ItemTitle>
+      <ItemDescription>
+        A title and a description, with room for an action.
+      </ItemDescription>
+    </ItemContent>
+    <ItemActions>
+      <Button variant="outline" size="sm">
+        Action
+      </Button>
+    </ItemActions>
+  </Item>
+))}
 ```
 
 ## Composition
@@ -75,7 +79,11 @@ import {
 } from "@fabricator-ui/icons-react-native"
 import { Image, Pressable } from "react-native"
 
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import {
   Item,
@@ -227,10 +235,10 @@ export { ItemExample }
 
 ## API reference
 
-| Prop      | Values                                         |
-| --------- | ---------------------------------------------- |
+| Prop | Values |
+| --- | --- |
 | `variant` | `default`, `icon`, `image`, `muted`, `outline` |
-| `size`    | `default`, `sm`, `xs`                          |
+| `size` | `default`, `sm`, `xs` |
 
 ## Differences from web
 

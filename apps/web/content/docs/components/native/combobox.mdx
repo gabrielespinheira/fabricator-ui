@@ -5,6 +5,8 @@ base: native
 component: true
 ---
 
+<NativePreview src="/images/native/combobox.jpg" alt="Combobox on iOS" />
+
 ## Installation
 
 ```bash
@@ -246,11 +248,13 @@ export { ComboboxExample }
 
 ## API reference
 
+
+
 Props it adds to what it wraps: `"aria-invalid"`, `align`, `alignOffset`, `anchor`, `disabled`, `items`, `placeholder`, `showClear`, `showRemove`, `showTrigger`, `side`, `sideOffset`, `value`.
 
 ## Differences from web
 
-**New engine.** A filtered list in an overlay, in place of Base UI's combobox, with the same parts.
+**New engine.** A filtered list in a dialog, in place of Base UI's combobox, with the same parts. Typing happens in the dialog rather than the trigger.
 
 ## Accessibility
 

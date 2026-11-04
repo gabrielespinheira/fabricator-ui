@@ -5,6 +5,8 @@ base: native
 component: true
 ---
 
+<NativePreview src="/images/native/dropdown-menu.jpg" alt="Dropdown Menu on iOS" />
+
 ## Installation
 
 ```bash
@@ -274,15 +276,15 @@ export { DropdownMenuExample }
 
 ## API reference
 
-| Prop      | Values                   |
-| --------- | ------------------------ |
+| Prop | Values |
+| --- | --- |
 | `variant` | `default`, `destructive` |
 
 Props it adds to what it wraps: `checked`, `closeOnClick`, `defaultChecked`, `defaultOpen`, `defaultValue`, `inset`, `onCheckedChange`, `onOpenChange`, `onValueChange`, `open`, `side`, `value`, `variant`.
 
 ## Differences from web
 
-**Same.** It works as it does on the web, with `onPress` for `onClick`.
+**Same.** `side` takes `top` and `bottom`; `left` and `right` fall back to `bottom`.
 
 ## Accessibility
 

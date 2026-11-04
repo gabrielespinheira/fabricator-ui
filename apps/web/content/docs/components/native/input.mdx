@@ -5,6 +5,8 @@ base: native
 component: true
 ---
 
+<NativePreview src="/images/native/input.jpg" alt="Input on iOS" />
+
 ## Installation
 
 ```bash
@@ -18,12 +20,17 @@ import { Input } from "@/components/ui/input"
 ```
 
 ```tsx
-<Input placeholder="Email" keyboardType="email-address" autoCapitalize="none" />
+<Input
+  placeholder="Email"
+  keyboardType="email-address"
+  autoCapitalize="none"
+/>
 ```
 
 ## Examples
 
 ```tsx showLineNumbers title="input-example.tsx"
+
 import { Input } from "@/components/ui/input"
 
 function InputExample() {
@@ -57,6 +64,8 @@ export { InputExample }
 ```
 
 ## API reference
+
+
 
 Props it adds to what it wraps: `"aria-invalid"`, `disabled`.
 

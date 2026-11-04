@@ -132,7 +132,7 @@ function CommandDialog({
           <DialogTitle>{title}</DialogTitle>
           <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
-        <Command className="bg-transparent">{children}</Command>
+        <Command className="h-auto bg-transparent">{children}</Command>
       </DialogContent>
     </Dialog>
   )
@@ -174,6 +174,7 @@ function CommandInput({
         <TextInput
           data-slot="command-input"
           role="searchbox"
+          autoCapitalize="none"
           autoCorrect={false}
           autoComplete="off"
           returnKeyType="search"

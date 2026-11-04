@@ -5,6 +5,8 @@ base: native
 component: true
 ---
 
+<NativePreview src="/images/native/bubble.jpg" alt="Bubble on iOS" />
+
 ## Installation
 
 ```bash
@@ -24,13 +26,11 @@ import { Text } from "@/components/ui/text"
 ```
 
 ```tsx
-{
-  VARIANTS.map((variant) => (
-    <Bubble key={variant} variant={variant}>
-      <BubbleContent>A {variant} bubble, in the chat.</BubbleContent>
-    </Bubble>
-  ))
-}
+{VARIANTS.map((variant) => (
+  <Bubble key={variant} variant={variant}>
+    <BubbleContent>A {variant} bubble, in the chat.</BubbleContent>
+  </Bubble>
+))}
 ```
 
 ## Composition
@@ -160,11 +160,11 @@ export { BubbleExample }
 
 ## API reference
 
-| Prop      | Values                                                                       |
-| --------- | ---------------------------------------------------------------------------- |
+| Prop | Values |
+| --- | --- |
 | `variant` | `default`, `destructive`, `ghost`, `muted`, `outline`, `secondary`, `tinted` |
-| `side`    | `bottom`, `top`                                                              |
-| `align`   | `end`, `start`                                                               |
+| `side` | `bottom`, `top` |
+| `align` | `end`, `start` |
 
 Props it adds to what it wraps: `align`, `side`.
 

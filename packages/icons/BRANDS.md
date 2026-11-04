@@ -41,6 +41,7 @@ next patch release.
 | Convex | `convex` | Simple Icons 16.36.0 (https://www.convex.dev/brand) | CC0-1.0 | [guidelines](https://www.convex.dev/brand) |
 | Coolify | `coolify` | Simple Icons 16.36.0 (https://github.com/coollabsio/coolify/blob/ac1d98f6035caff10f36fa10508326b4791dec07/public/coolify-logo-monochrome.svg) | CC0-1.0 |  |
 | CSS | `css` | Simple Icons 16.36.0 (https://github.com/CSS-Next/logo.css/blob/bacc20878227204b283c68a6b935f8279e06b0cd/css.svg); art: gilbarbara/logos via @iconify-json/logos 1.2.18 (CC0-1.0) | CC0-1.0 | [guidelines](https://github.com/CSS-Next/logo.css) |
+| Cursor | `cursor` | Simple Icons 16.36.0 (https://cursor.com/brand) | CC0-1.0 |  |
 | Datadog | `datadog` | Simple Icons 16.36.0 (https://www.datadoghq.com/about/resources) | CC0-1.0 | [guidelines](https://www.datadoghq.com/about/resources/) |
 | Deno | `deno` | Simple Icons 16.36.0 (https://github.com/denoland/docs/blob/5dee713844c7447f80acd4093caa9d350d80bf36/static/img/logo.svg) | MIT | [guidelines](https://deno.com/brand) |
 | Dev.to | `dev-to` | Simple Icons 16.36.0 (https://dev.to) | CC0-1.0 |  |
@@ -103,6 +104,8 @@ next patch release.
 | Node.js | `node-js` | Simple Icons 16.36.0 (https://nodejs.org/en/about/branding) | CC0-1.0 | [guidelines](https://nodejs.org/en/about/branding) |
 | Notion | `notion` | Simple Icons 16.36.0 (https://www.notion.so) | CC0-1.0 |  |
 | npm | `npm` | Simple Icons 16.36.0 (https://www.npmjs.com); art: gilbarbara/logos via @iconify-json/logos 1.2.18 (CC0-1.0) | CC0-1.0 | [guidelines](https://docs.npmjs.com/policies/logos-and-usage) |
+| OpenAI | `openai` | SharpOS @sharp/core-brand-icons 3.0.1 | unknown |  |
+| OpenCode | `opencode` | Simple Icons 16.36.0 (https://github.com/anomalyco/opencode/blob/1251a870cb384543c150c4a72fb101b55eec971b/packages/identity/mark.svg) | CC0-1.0 |  |
 | OpenRouter | `openrouter` | Simple Icons 16.36.0 (https://openrouter.ai) | CC0-1.0 |  |
 | Patreon | `patreon` | Simple Icons 16.36.0 (https://www.patreon.com/brand) | CC0-1.0 | [guidelines](https://www.patreon.com/brand) |
 | PayPal | `paypal` | Simple Icons 16.36.0 (https://www.paypal.com/us) | CC0-1.0 | [guidelines](https://newsroom.paypal-corp.com/media-resources) |
@@ -165,6 +168,7 @@ next patch release.
 Some marks' licences ask for credit:
 
 - Linux: Tux by Larry Ewing (lewing@isc.tamu.edu) and The GIMP. Linux® is the registered trademark of Linus Torvalds.
+- OpenAI: OpenAI and its logo are trademarks of OpenAI and belong to it. Terms: https://openai.com/brand/
 - PHP: PHP logo by Colin Viebrock, CC BY-SA 4.0 (https://www.php.net/download-logos.php), reduced to one colour by Simple Icons.
 
 ## Held
@@ -180,7 +184,6 @@ redistributing them in a library like this one.
 | GSAP | GSAP is a Webflow trademark, and Webflow's policy allows text references only and forbids changing its logos' colour (https://webflow.com/legal/trademark-usage-policy). |
 | Microsoft | Microsoft licenses its logos to third parties only by formal agreement (https://learn.microsoft.com/en-us/windows/apps/publish/partner-center/trademark-and-copyright-protection). |
 | MySQL | Oracle limits the MySQL logo to MySQL representatives and companies with a written agreement (https://www.mysql.com/about/legal/logos.html). |
-| OpenAI | OpenAI's usage terms make its logo permission non-transferable (https://openai.com/brand/#usage-terms), and Simple Icons removed this older mark at OpenAI's request. Held until OpenAI grants redistribution. |
 | Playwright | Playwright is a Microsoft product: its Apache-2.0 licence grants no trademark rights, and Microsoft licenses its logos only by agreement (https://github.com/microsoft/playwright/blob/main/LICENSE). |
 | Python | The PSF requires permission for logos in other colours and publishes no one-colour logo (https://www.python.org/psf/trademarks/). Its policy says such requests are likely to be approved. |
 | Slack | Slack's brand terms forbid distributing its logo files (https://slack.com/terms-of-service/slack-brand). |

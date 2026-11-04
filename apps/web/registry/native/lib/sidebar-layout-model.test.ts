@@ -4,6 +4,7 @@ import { getRevealDragProgress } from "@/registry/fabricator/shared/lib/sidebar-
 import {
   getHeaderTriggerEnd,
   getInsetFrame,
+  getRegisteredCollapsible,
   getRevealPageTransform,
   getRevealProgress,
   getRevealSidebarStyle,
@@ -13,6 +14,7 @@ import {
   getSidebarGapWidth,
   getSidebarIconWidth,
   getSkeletonWidth,
+  getUnregisteredCollapsible,
   parseSidebarWidth,
   toRevealDelta,
   toRevealVelocity,
@@ -310,5 +312,19 @@ describe("getSkeletonWidth", () => {
     expect(["62%", "74%", "55%", "82%", "68%"]).toContain(
       getSkeletonWidth(":r2:")
     )
+  })
+})
+
+describe("two sidebars in one provider", () => {
+  it("lets the one that collapses decide, whichever registers first", () => {
+    expect(getRegisteredCollapsible(null, "offcanvas")).toBe("offcanvas")
+    expect(getRegisteredCollapsible("none", "offcanvas")).toBe("offcanvas")
+    expect(getRegisteredCollapsible("offcanvas", "none")).toBe("offcanvas")
+    expect(getRegisteredCollapsible(null, "none")).toBe("none")
+  })
+
+  it("keeps the other's registration when one unmounts", () => {
+    expect(getUnregisteredCollapsible("offcanvas", "none")).toBe("offcanvas")
+    expect(getUnregisteredCollapsible("offcanvas", "offcanvas")).toBeNull()
   })
 })

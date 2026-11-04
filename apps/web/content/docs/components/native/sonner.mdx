@@ -5,6 +5,8 @@ base: native
 component: true
 ---
 
+<NativePreview src="/images/native/sonner.jpg" alt="Sonner on iOS" />
+
 ## Installation
 
 ```bash
@@ -157,7 +159,7 @@ export { SonnerExample }
 
 ## Differences from web
 
-**New engine.** Sonner is DOM-only. It shares one engine with `toast`, keeping its API.
+**New engine.** Sonner is DOM-only. It shares one engine with `toast`, keeping its API. `position` is accepted and unused: toasts stay at the top. A dialog opened later covers them.
 
 ## Accessibility
 

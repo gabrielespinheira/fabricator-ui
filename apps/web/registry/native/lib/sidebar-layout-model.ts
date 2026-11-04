@@ -9,6 +9,8 @@ export type SidebarSide = "left" | "right"
 export type SidebarVariant = "sidebar" | "floating" | "inset"
 export type SidebarCollapsible = "offcanvas" | "icon"
 
+export type SidebarRegistration = SidebarCollapsible | "none"
+
 export const SIDEBAR_WIDTH = "16rem"
 export const SIDEBAR_WIDTH_MOBILE = "18rem"
 
@@ -242,4 +244,22 @@ export function getSkeletonWidth(id: string) {
   let sum = 0
   for (let index = 0; index < id.length; index++) sum += id.charCodeAt(index)
   return SKELETON_WIDTHS[sum % SKELETON_WIDTHS.length] ?? SKELETON_WIDTHS[0]
+}
+
+/**
+ * Two sidebars can share a provider (sidebar-15). The one that collapses decides the
+ * phone's gestures, since one that never collapses has nothing to reveal.
+ */
+export function getRegisteredCollapsible(
+  current: SidebarRegistration | null,
+  next: SidebarRegistration
+) {
+  return next === "none" && current !== null ? current : next
+}
+
+export function getUnregisteredCollapsible(
+  current: SidebarRegistration | null,
+  own: SidebarRegistration
+) {
+  return current === own ? null : current
 }

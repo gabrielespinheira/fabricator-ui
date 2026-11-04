@@ -20,6 +20,7 @@ import {
 
 import {
   buildSvgMarkup,
+  getIconDescription,
   getImportLine,
   getJsxSnippet,
   getPackages,
@@ -208,13 +209,7 @@ export function IconDetail({
         <SheetTitle className="font-mono">
           {toComponentName(entry.name)}
         </SheetTitle>
-        <SheetDescription>
-          {entry.set === "brands"
-            ? `${title}, a trademark of its owner.`
-            : entry.set === "animated"
-              ? `Lucide's ${entry.name} icon, animated.`
-              : `Lucide's ${entry.name} icon.`}
-        </SheetDescription>
+        <SheetDescription>{getIconDescription(entry)}</SheetDescription>
       </SheetHeader>
 
       <div

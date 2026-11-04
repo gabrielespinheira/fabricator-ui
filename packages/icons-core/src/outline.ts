@@ -15,6 +15,9 @@ import { validateOutlineSvg } from "./validate"
 
 export type IconMetadata = z.infer<typeof iconMetadataSchema>
 
+/** Fabricator's own category. Every original is in it; no Lucide icon is. */
+export const CUSTOM_CATEGORY = { name: "custom", title: "Custom" }
+
 export class IconSourceError extends Error {
   override name = "IconSourceError"
 }
@@ -45,7 +48,10 @@ function readIcons(directory: string, origin: IconOrigin): OutlineIcon[] {
         origin,
         node: parsed.node,
         aliases: metadata.aliases ?? [],
-        categories: metadata.categories,
+        categories:
+          origin === "fabricator"
+            ? [...new Set([CUSTOM_CATEGORY.name, ...metadata.categories])]
+            : metadata.categories,
         tags: metadata.tags,
       }
     })
@@ -72,7 +78,7 @@ export function loadOutlineIcons({
   return icons.sort((a, b) => a.name.localeCompare(b.name))
 }
 
-export function readCategories() {
+function readLucideCategories() {
   return fs
     .readdirSync(path.join(LUCIDE_SOURCES, "categories"))
     .filter((file) => file.endsWith(".json"))
@@ -80,15 +86,22 @@ export function readCategories() {
     .sort()
 }
 
-/** Lucide's categories with their titles, sorted by name. */
+export function readCategories() {
+  return [CUSTOM_CATEGORY.name, ...readLucideCategories()]
+}
+
+/** Custom first, then Lucide's categories with their titles, sorted by name. */
 export function readCategoryTitles() {
-  return readCategories().map((name) => ({
-    name,
-    title: readJson(
-      path.join(LUCIDE_SOURCES, "categories", `${name}.json`),
-      categorySchema
-    ).title,
-  }))
+  return [
+    CUSTOM_CATEGORY,
+    ...readLucideCategories().map((name) => ({
+      name,
+      title: readJson(
+        path.join(LUCIDE_SOURCES, "categories", `${name}.json`),
+        categorySchema
+      ).title,
+    })),
+  ]
 }
 
 export function readBrandStopwords() {

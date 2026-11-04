@@ -3,9 +3,7 @@ export function getComponentTitle(name: string) {
   return name
     .split("-")
     .map((word) =>
-      word === "otp"
-        ? "OTP"
-        : word.charAt(0).toUpperCase() + word.slice(1)
+      word === "otp" ? "OTP" : word.charAt(0).toUpperCase() + word.slice(1)
     )
     .join(" ")
 }

@@ -241,6 +241,7 @@ function Search({
             placeholder={placeholder}
             placeholderTextColorClassName="accent-muted-foreground"
             selectionColorClassName="accent-primary"
+            autoCapitalize="none"
             autoComplete="off"
             autoCorrect={false}
             returnKeyType="search"

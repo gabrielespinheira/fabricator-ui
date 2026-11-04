@@ -5,6 +5,8 @@ base: native
 component: true
 ---
 
+<NativePreview src="/images/native/radio-group.jpg" alt="Radio Group on iOS" />
+
 ## Installation
 
 ```bash
@@ -21,7 +23,10 @@ import { Text } from "@/components/ui/text"
 ```tsx
 <RadioGroup defaultValue="comfortable">
   <RadioGroupItem accessibilityLabel="Default" value="default" />
-  <RadioGroupItem accessibilityLabel="Comfortable" value="comfortable" />
+  <RadioGroupItem
+    accessibilityLabel="Comfortable"
+    value="comfortable"
+  />
   <RadioGroupItem accessibilityLabel="Compact" value="compact" />
 </RadioGroup>
 ```
@@ -103,6 +108,8 @@ export { RadioGroupExample }
 ```
 
 ## API reference
+
+
 
 Props it adds to what it wraps: `"aria-invalid"`, `defaultValue`, `disabled`, `onValueChange`, `readOnly`, `value`.
 

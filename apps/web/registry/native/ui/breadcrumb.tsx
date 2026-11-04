@@ -40,6 +40,7 @@ function BreadcrumbList({
       ref={scrollRef}
       horizontal
       showsHorizontalScrollIndicator={false}
+      className="grow-0"
       onContentSizeChange={() =>
         scrollRef.current?.scrollToEnd({ animated: false })
       }

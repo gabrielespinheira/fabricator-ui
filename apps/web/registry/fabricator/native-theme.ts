@@ -303,9 +303,8 @@ const SURFACE_LEVELS = [1, 2, 3, 4, 5, 6, 7, 8] as const
 
 /**
  * Every token for one look in one mode, under the website's names, as literal
- * values. `Uniwind.updateCSSVariables` takes this as it is, and the installed
- * stylesheet is written from it, so a look set at install and one set at
- * runtime draw the same.
+ * values. The installed stylesheet is written from this, and a look set at
+ * runtime goes through `getNativeRuntimeVariables`, so both draw the same.
  */
 export function getNativeCssVariables(
   mode: NativeMode,
@@ -414,6 +413,23 @@ function getThemeMapping() {
  * The installed theme file: every token per mode, nested the way Uniwind reads
  * themes, and the Tailwind names the components use.
  */
+/**
+ * The same tokens for `Uniwind.updateCSSVariables`. Uniwind adds `px` to every
+ * number in a shadow as it resolves one, and turns a `-0.5px` it already has
+ * into `-0px.5px`, which React Native rejects along with the whole shadow.
+ */
+export function getNativeRuntimeVariables(
+  mode: NativeMode,
+  look: FabricatorLook
+): NativeVariables {
+  return Object.fromEntries(
+    Object.entries(getNativeCssVariables(mode, look)).map(([name, value]) => [
+      name,
+      name.includes("shadow") ? String(value).replace(/(\d)px/g, "$1") : value,
+    ])
+  )
+}
+
 export function toNativeStylesheet(look: FabricatorLook = DEFAULT_NATIVE_LOOK) {
   const mode = (name: NativeMode) =>
     `    @variant ${name} {\n${toCssBlock(getNativeCssVariables(name, look), "      ")}\n    }`

@@ -5,6 +5,8 @@ base: native
 component: true
 ---
 
+<NativePreview src="/images/native/table.jpg" alt="Table on iOS" />
+
 ## Installation
 
 ```bash
@@ -189,11 +191,13 @@ export { TableExample }
 
 ## API reference
 
+
+
 Props it adds to what it wraps: `"aria-expanded"`, `colSpan`.
 
 ## Differences from web
 
-**Same.** Views in a horizontal scroll: React Native has no table layout.
+**Same.** Views in a horizontal scroll: React Native has no table layout, so `rowSpan` isn't supported.
 
 ## Accessibility
 

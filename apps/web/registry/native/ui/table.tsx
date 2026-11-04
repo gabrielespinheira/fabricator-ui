@@ -86,7 +86,7 @@ function Table({
           data-slot="table-container"
           onLayout={(event) => setAvailable(event.nativeEvent.layout.width)}
           contentContainerClassName="min-w-full"
-          className="cn-table-container"
+          className="cn-table-container grow-0"
         >
           <TextStyle className="cn-table-text">
             <View

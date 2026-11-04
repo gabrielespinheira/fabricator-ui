@@ -447,6 +447,7 @@ The website renders the Fabricator style, so it shows what `fabricator-ui add` i
   - The generator maps names through `registry/icons/site-mapping.json`, then `public/r/icons/index.json`.
   - Everything shown to readers maps the import to `@fabricator-ui/icons`, what a project installs by default (`lib/site-icons-display.ts`). Registry JSON never contains site icons.
 - **Icons page and docs:** `/icons` (`app/(app)/icons/`) and `content/docs/icons/` render Fabricator Icons with the real packages.
+  - Fabricator's own icons (`packages/icons-core/sources/outline/`) are the Custom category, added by `loadOutlineIcons`. New candidates: `docs/plans/icon-pack-expansion.md`.
   - The page lazy-loads `@fabricator-ui/icons/catalog` and `@fabricator-ui/icons-static/nodes`, so its data stays out of every other page. Filters are URL state; the logic is in `app/(app)/icons/lib/icons.ts` and unit-tested.
   - The site imports the packages' built `dist/`: `bun run dev` and `bun run build` in `apps/web` run `icons:packages` first.
   - The Animated tab loads `@fabricator-ui/icons/animated`, and with it Motion, only when it opens; the docs demo goes through `next/dynamic` in a client module (`icons-animated-loader.tsx`), since every docs page imports the demo map and Next lists any client module a page can reach.

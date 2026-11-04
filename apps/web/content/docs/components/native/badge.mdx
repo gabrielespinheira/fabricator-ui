@@ -5,6 +5,8 @@ base: native
 component: true
 ---
 
+<NativePreview src="/images/native/badge.jpg" alt="Badge on iOS" />
+
 ## Installation
 
 ```bash
@@ -20,13 +22,11 @@ import { Text } from "@/components/ui/text"
 ```
 
 ```tsx
-{
-  VARIANTS.map((variant) => (
-    <Badge key={variant} variant={variant}>
-      {variant}
-    </Badge>
-  ))
-}
+{VARIANTS.map((variant) => (
+  <Badge key={variant} variant={variant}>
+    {variant}
+  </Badge>
+))}
 ```
 
 ## Examples
@@ -123,8 +123,8 @@ export { BadgeExample }
 
 ## API reference
 
-| Prop      | Values                                                                                                   |
-| --------- | -------------------------------------------------------------------------------------------------------- |
+| Prop | Values |
+| --- | --- |
 | `variant` | `default`, `destructive`, `error`, `ghost`, `info`, `link`, `outline`, `secondary`, `success`, `warning` |
 
 Props it adds to what it wraps: `"aria-invalid"`.

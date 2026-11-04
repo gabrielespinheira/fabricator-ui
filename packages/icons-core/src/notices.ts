@@ -39,8 +39,8 @@ export function licenseText({ animated = false } = {}) {
 ---
 
 The outline icons come from Lucide ${lucideLock?.tag ?? "unknown"} (https://lucide.dev), used under
-its licence, reproduced below. Brand marks are not covered by either licence:
-see BRANDS.md.
+its licence, reproduced below. The Custom icons are Fabricator's own, under the
+MIT licence above. Brand marks are not covered by either licence: see BRANDS.md.
 
 ${lucide}
 `

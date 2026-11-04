@@ -26,8 +26,6 @@ function sharedBrand(slug: string) {
   return brand
 }
 
-/** OpenAI's terms forbid redistributing its logo; see allowlist.json. */
-const HELD = ["openai"]
 /**
  * Marks SharpOS draws in one flat colour that Fabricator draws in their real
  * colours with `color="brand"`; their art has its own box, so the viewBox differs.
@@ -54,9 +52,9 @@ const NEWER_MONO = ["openrouter", "cal", "linkedin"]
 const NEWER_HEX: Record<string, string> = { miro: "#FFDD33" }
 
 describe("SharpOS parity", () => {
-  const shared = fixture.brands.filter((brand) => !HELD.includes(brand.slug))
+  const shared = fixture.brands
 
-  it("ships every SharpOS mark that isn't held", () => {
+  it("ships every SharpOS mark", () => {
     expect(
       shared
         .filter((brand) => !bySharposSlug.has(brand.slug))
@@ -131,6 +129,12 @@ describe("SharpOS parity", () => {
 })
 
 describe("brand rules", () => {
+  it("ships the mark of every AI assistant the setup page offers", () => {
+    const assistantMarks = ["claude", "cursor", "github", "openai", "opencode"]
+    const shipped = new Set(brands.map((brand) => brand.name))
+    expect(assistantMarks.filter((name) => !shipped.has(name))).toEqual([])
+  })
+
   it("records a source and licence for every mark", () => {
     expect(
       brands

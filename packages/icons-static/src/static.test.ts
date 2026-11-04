@@ -7,7 +7,8 @@ import { describe, expect, it } from "vitest"
 import { Home, House } from "./index"
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
-const lucide = loadOutlineIcons().filter((icon) => icon.origin === "lucide")
+const outline = loadOutlineIcons()
+const lucide = outline.filter((icon) => icon.origin === "lucide")
 
 describe("static outputs", () => {
   it("write every Lucide icon byte for byte as Lucide ships it", () => {
@@ -27,7 +28,7 @@ describe("static outputs", () => {
 
   it("put one symbol per icon in the sprite", () => {
     const sprite = fs.readFileSync(path.join(root, "sprite.svg"), "utf8")
-    expect(sprite.match(/<symbol /g)).toHaveLength(lucide.length)
+    expect(sprite.match(/<symbol /g)).toHaveLength(outline.length)
     expect(sprite).toContain(
       '<symbol id="house" viewBox="0 0 24 24" fill="none" stroke="currentColor"'
     )

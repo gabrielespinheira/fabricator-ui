@@ -5,6 +5,8 @@ base: native
 component: true
 ---
 
+<NativePreview src="/images/native/popover.jpg" alt="Popover on iOS" />
+
 ## Installation
 
 ```bash
@@ -35,7 +37,9 @@ import { Text } from "@/components/ui/text"
   <PopoverContent>
     <PopoverHeader>
       <PopoverTitle>Dimensions</PopoverTitle>
-      <PopoverDescription>Set the dimensions for the layer.</PopoverDescription>
+      <PopoverDescription>
+        Set the dimensions for the layer.
+      </PopoverDescription>
     </PopoverHeader>
     <View className="gap-2">
       <Input placeholder="Width" defaultValue="100%" />
@@ -153,11 +157,13 @@ export { PopoverExample }
 
 ## API reference
 
+
+
 Props it adds to what it wraps: `defaultOpen`, `onOpenChange`, `open`, `side`.
 
 ## Differences from web
 
-**Same.** It works as it does on the web, with `onPress` for `onClick`.
+**Same.** `side` takes `top` and `bottom`; `left` and `right` fall back to `bottom`.
 
 ## Accessibility
 

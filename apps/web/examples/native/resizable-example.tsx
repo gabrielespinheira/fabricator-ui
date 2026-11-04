@@ -11,8 +11,10 @@ import { Text } from "@/registry/native/ui/text"
 
 function Pane({ children }: { children: string }) {
   return (
-    <View className="h-full items-center justify-center p-6">
-      <Text className="font-semibold">{children}</Text>
+    <View className="h-full items-center justify-center p-1">
+      <Text numberOfLines={1} className="font-semibold">
+        {children}
+      </Text>
     </View>
   )
 }
