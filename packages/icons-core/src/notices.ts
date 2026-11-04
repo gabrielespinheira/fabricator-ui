@@ -81,6 +81,15 @@ next patch release.
 | --- | --- | --- | --- | --- |
 ${rows.join("\n")}
 
+## Credits
+
+Some marks' licences ask for credit:
+
+${brands
+  .filter((brand) => brand.credit)
+  .map((brand) => `- ${brand.title}: ${brand.credit}`)
+  .join("\n")}
+
 ## Held
 
 These marks are not included, because their owners' terms don't allow

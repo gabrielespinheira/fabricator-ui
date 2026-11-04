@@ -1,0 +1,14 @@
+{
+  "title": "Three.js",
+  "group": "Product & dev",
+  "tags": [
+    "3d",
+    "webgl",
+    "graphics"
+  ],
+  "aliases": [],
+  "hex": "#000000",
+  "scale": 0.91,
+  "source": "Simple Icons 16.36.0 (https://github.com/mrdoob/three.js/blob/a567b810cfcb7f6a03e4faea99f03c53081da477/files/icon.svg)",
+  "license": "CC0-1.0"
+}

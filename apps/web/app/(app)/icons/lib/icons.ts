@@ -1,6 +1,8 @@
 import type { IconElement } from "@fabricator-ui/icons"
 import {
   getBrandViewBox,
+  prefixGradientFills,
+  renderGradientMarkup,
   type BrandIconData,
 } from "@fabricator-ui/icons/brands"
 import type {
@@ -52,7 +54,7 @@ export function getJsxSnippet(
 
 export type PreviewIcon =
   | { set: "outline"; node: IconElement[] }
-  | { set: "brands"; data: Omit<BrandIconData, "name"> }
+  | { set: "brands"; name: string; data: Omit<BrandIconData, "name"> }
 
 export type SvgOptions = SnippetOptions & {
   /** The paint for strokes and one-colour marks; currentColor when copying. */
@@ -109,7 +111,11 @@ export function buildSvgMarkup(
   )
   const brandFill = data.colors.inherit ? color : data.colors.light
   const fill = brandColor && !art ? brandFill : color
-  return `<svg ${attributes({ ...box, viewBox, fill })}>${shapes(art?.node ?? data.node)}</svg>`
+  // Ids carry the brand's name, so pasted marks never share a gradient.
+  const prefix = `fab-${icon.name}-`
+  const defs = renderGradientMarkup(art?.gradients, prefix)
+  const node = prefixGradientFills(art?.node ?? data.node, defs ? prefix : "")
+  return `<svg ${attributes({ ...box, viewBox, fill })}>${defs}${shapes(node)}</svg>`
 }
 
 export type CategoryOption = { value: string; label: string; count: number }

@@ -1,8 +1,15 @@
 import svgpath from "svgpath"
+import { parseSync, stringify, type INode } from "svgson"
 
 import { getBounds } from "./geometry"
+import { prefixGradientFills, renderGradientMarkup } from "./runtime/gradients"
 import { parseSvg, type SvgGroup } from "./svg"
-import type { BrandArt, IconElement } from "./types"
+import type {
+  BrandArt,
+  BrandGradient,
+  GradientStop,
+  IconElement,
+} from "./types"
 
 const ART_ATTRIBUTES = new Set([
   "d",
@@ -152,6 +159,8 @@ export type BrandArtOptions = {
   unfilled?: string
   /** Outdated colours mapped to the brand's current ones (keys lowercase). */
   recolor?: Record<string, string>
+  /** Removes filters that only paint a shadow behind a shape; others stay refused. */
+  dropShadows?: boolean
 }
 
 /**
@@ -241,4 +250,251 @@ export function toMonoPath(node: IconElement[], width: number, height: number) {
     .scale(scale)
     .round(3)
     .toString()
+}
+
+const SHADOW_STEPS = new Set([
+  "feOffset",
+  "feGaussianBlur",
+  "feColorMatrix",
+  "feMerge",
+])
+
+/** A filter that paints a shadow, then the untouched shape on top of it. */
+function isDropShadow(filter: INode) {
+  const steps = filter.children.filter((step) => step.type === "element")
+  const last = steps.at(-1)
+  return (
+    steps.every((step) => SHADOW_STEPS.has(step.name)) &&
+    last?.name === "feMerge" &&
+    last.children.at(-1)?.attributes.in === "SourceGraphic"
+  )
+}
+
+function removeFilters(element: INode, ids: Set<string>): INode {
+  const { filter, ...others } = element.attributes
+  const id = filter?.match(/^url\(#([^)]+)\)$/)?.[1]
+  return {
+    ...element,
+    attributes: id && ids.has(id) ? others : element.attributes,
+    children: element.children.map((child) => removeFilters(child, ids)),
+  }
+}
+
+const TRANSLATE = /^translate\(\s*(-?[\d.]+)[\s,]+(-?[\d.]+)\s*\)$/
+
+/** Splits nested translated groups out of a group, in paint order, adding their translates. */
+function unnestGroups(element: INode): INode[] {
+  const outer = element.attributes.transform?.match(TRANSLATE)
+  if (element.name !== "g" || !outer) return [element]
+  const pieces: INode[] = []
+  let shapes: INode[] = []
+  const closeRun = () => {
+    if (shapes.length > 0) pieces.push({ ...element, children: shapes })
+    shapes = []
+  }
+  for (const child of element.children) {
+    const inner = child.attributes.transform?.match(TRANSLATE)
+    if (child.name !== "g" || !inner) {
+      shapes.push(child)
+      continue
+    }
+    closeRun()
+    const x = Number(outer[1]) + Number(inner[1])
+    const y = Number(outer[2]) + Number(inner[2])
+    pieces.push(
+      ...unnestGroups({
+        ...child,
+        attributes: {
+          ...child.attributes,
+          transform: `translate(${Number(x.toFixed(3))} ${Number(y.toFixed(3))})`,
+        },
+      })
+    )
+  }
+  closeRun()
+  return pieces
+}
+
+const GRADIENT_TYPES = new Set(["linearGradient", "radialGradient"])
+const GRADIENT_ATTRIBUTES = new Set([
+  "x1",
+  "y1",
+  "x2",
+  "y2",
+  "cx",
+  "cy",
+  "r",
+  "fx",
+  "fy",
+  "fr",
+  "gradientUnits",
+  "gradientTransform",
+  "spreadMethod",
+])
+
+function parseStop(stop: INode): GradientStop {
+  const style = Object.fromEntries(
+    (stop.attributes.style ?? "")
+      .split(";")
+      .map((declaration) => declaration.split(":").map((part) => part.trim()))
+      .filter(
+        (pair): pair is [string, string] =>
+          pair.length === 2 && Boolean(pair[0])
+      )
+  )
+  // SVG's default stop colour is black.
+  const color =
+    stop.attributes["stop-color"] ?? style["stop-color"] ?? "#000000"
+  const opacity = stop.attributes["stop-opacity"] ?? style["stop-opacity"]
+  return {
+    offset: stop.attributes.offset ?? "0",
+    color: COLOR_KEYWORDS[color] ?? color,
+    ...(opacity !== undefined && { opacity }),
+  }
+}
+
+function parseGradient(element: INode, id: string): BrandGradient {
+  if (element.attributes.href || element.attributes["xlink:href"]) {
+    throw new BrandArtError(
+      `gradient ${element.attributes.id} inherits from another; inline it first`
+    )
+  }
+  const attributes: Record<string, string> = {}
+  for (const [name, value] of Object.entries(element.attributes)) {
+    if (name === "id") continue
+    if (!GRADIENT_ATTRIBUTES.has(name)) {
+      throw new BrandArtError(`<${element.name}> has a ${name} attribute`)
+    }
+    attributes[name] = value
+  }
+  const stops = element.children.filter((child) => child.type === "element")
+  if (stops.some((stop) => stop.name !== "stop")) {
+    throw new BrandArtError(
+      `<${element.name}> holds something other than stops`
+    )
+  }
+  return {
+    type:
+      element.name === "linearGradient" ? "linearGradient" : "radialGradient",
+    id,
+    attributes,
+    stops: stops.map(parseStop),
+  }
+}
+
+/**
+ * parseBrandArt for art that may use gradients. Gradients get short local ids
+ * (g0, g1, …), which renderers prefix per instance so copies never collide;
+ * masks, clip paths, `<use>` and filters are refused, apart from the drop
+ * shadows `dropShadows` removes.
+ */
+export function parseBrandArtWithGradients(
+  body: string,
+  width: number,
+  height: number,
+  options: BrandArtOptions = {}
+): { node: IconElement[]; gradients: BrandGradient[] } {
+  const root = parseSync(
+    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${width} ${height}">${body}</svg>`
+  )
+  const gradientElements: INode[] = []
+  const shapes: INode[] = []
+  const shadows = new Set<string>()
+  for (const child of root.children) {
+    if (child.type !== "element") continue
+    if (child.name === "defs") {
+      for (const definition of child.children) {
+        if (definition.type !== "element") continue
+        if (
+          options.dropShadows &&
+          definition.name === "filter" &&
+          isDropShadow(definition)
+        ) {
+          shadows.add(definition.attributes.id ?? "")
+          continue
+        }
+        if (!GRADIENT_TYPES.has(definition.name)) {
+          throw new BrandArtError(
+            `<${definition.name}> in <defs> can't be reproduced in every renderer`
+          )
+        }
+        gradientElements.push(definition)
+      }
+      continue
+    }
+    if (GRADIENT_TYPES.has(child.name)) gradientElements.push(child)
+    else shapes.push(child)
+  }
+
+  const ids = new Map(
+    gradientElements.map((element, index) => [
+      element.attributes.id ?? "",
+      `g${index}`,
+    ])
+  )
+  const gradients = gradientElements.map((element, index) =>
+    parseGradient(element, `g${index}`)
+  )
+  const node = parseBrandArt(
+    stringify({
+      ...root,
+      children: shapes
+        .map((shape) => removeFilters(shape, shadows))
+        .flatMap(unnestGroups),
+    }).replace(/^<svg[^>]*>|<\/svg>$/g, ""),
+    width,
+    height,
+    options
+  ).map(([tag, attributes]): IconElement => {
+    const reference = attributes.fill?.match(
+      /^url\(\s*['"]?#([^'")]+)['"]?\s*\)$/
+    )?.[1]
+    if (reference === undefined) return [tag, attributes]
+    const id = ids.get(reference)
+    if (!id)
+      throw new BrandArtError(
+        `a fill points at gradient #${reference}, which the art doesn't define`
+      )
+    return [tag, { ...attributes, fill: `url(#${id})` }]
+  })
+  return { node, gradients }
+}
+
+function attributeString(values: Record<string, string>) {
+  return Object.entries(values)
+    .map(([name, value]) => `${name}="${value}"`)
+    .join(" ")
+}
+
+export {
+  prefixGradientFills,
+  renderGradientMarkup as renderGradients,
+} from "./runtime/gradients"
+
+/** The inside of an art SVG: gradient definitions, then the shapes. */
+export function renderArtBody(art: BrandArt, prefix = "") {
+  const shapes = prefixGradientFills(art.node, prefix)
+    .map(([tag, attributes]) => `<${tag} ${attributeString(attributes)}/>`)
+    .join("")
+  return `${renderGradientMarkup(art.gradients, prefix)}${shapes}`
+}
+
+/** Reads a whole art SVG file: its box from the viewBox, then shapes and gradients. */
+export function parseArtDocument(
+  source: string,
+  options: BrandArtOptions = {}
+): BrandArt {
+  const root = parseSync(source)
+  const [, , width, height] = (root.attributes.viewBox ?? "")
+    .split(/\s+/)
+    .map(Number)
+  if (!width || !height) throw new BrandArtError("the art has no viewBox")
+  const body = stringify(root).replace(/^<svg[^>]*>|<\/svg>$/g, "")
+  const { node, gradients } = parseBrandArtWithGradients(
+    body,
+    width,
+    height,
+    options
+  )
+  return { width, height, node, ...(gradients.length > 0 && { gradients }) }
 }

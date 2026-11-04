@@ -103,7 +103,7 @@ function joinLibrary(catalog: typeof Catalog, nodes: typeof Nodes): Library {
           art: { ...brand.art, node: toReactAttributes(brand.art.node) },
         }),
       },
-      source: { set: "brands", data: brand },
+      source: { set: "brands", name: entry.name, data: brand },
     })
   }
   const categoryTitles = new Map(

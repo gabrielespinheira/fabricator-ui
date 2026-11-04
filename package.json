@@ -6,13 +6,15 @@
   "type": "module",
   "packageManager": "bun@1.4.0",
   "workspaces": [
-    "apps/*",
+    "apps/desktop",
+    "apps/web",
     "packages/*"
   ],
   "scripts": {
     "dev": "turbo run dev --filter=web",
     "desktop": "bun run --cwd apps/desktop electron",
     "desktop:tauri": "bun run --cwd apps/desktop tauri",
+    "mobile": "bun install --cwd apps/mobile && bun run --cwd apps/mobile ios",
     "build": "turbo run build",
     "registry:build": "bun run --filter web registry:build",
     "cli": "bun ./packages/cli/src/index.ts",

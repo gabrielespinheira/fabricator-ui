@@ -4,6 +4,7 @@ import { describe, expect, it } from "vitest"
 
 import {
   BrandIcon,
+  FirefoxIcon,
   GithubIcon,
   GoogleIcon,
   Instagram,
@@ -86,5 +87,33 @@ describe('color="brand"', () => {
     const markup = render(createElement(BrandIcon, { data, color: "brand" }))
     expect(markup).toContain('fill="#1ED760"')
     expect(markup).not.toContain("style")
+  })
+})
+
+describe("gradient brand marks", () => {
+  it('draw their gradients with color="brand"', () => {
+    const markup = render(createElement(FirefoxIcon, { color: "brand" }))
+    expect(markup).toMatch(/<defs><radialGradient id="[^"]+g0"/)
+    expect(markup).toMatch(/fill="url\(#[^"]+g0\)"/)
+  })
+
+  it("give every copy its own gradient ids, so copies never collide", () => {
+    const markup = render(
+      createElement(
+        "div",
+        null,
+        createElement(FirefoxIcon, { color: "brand" }),
+        createElement(FirefoxIcon, { color: "brand" })
+      )
+    )
+    const ids = [...markup.matchAll(/<radialGradient id="([^"]+)g0"/g)].map(
+      (match) => match[1]
+    )
+    expect(ids).toHaveLength(2)
+    expect(ids[0]).not.toBe(ids[1])
+  })
+
+  it("draw no gradients in one colour", () => {
+    expect(render(createElement(FirefoxIcon))).not.toContain("<defs>")
   })
 })

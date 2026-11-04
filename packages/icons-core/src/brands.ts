@@ -2,6 +2,7 @@ import fs from "node:fs"
 import path from "node:path"
 import type { z } from "zod"
 
+import { parseArtDocument } from "./brand-art"
 import { resolveBrandColors } from "./brand-colors"
 import { BRAND_SOURCES } from "./paths"
 import { brandMetadataSchema, readJson } from "./schemas"
@@ -16,13 +17,7 @@ export class BrandSourceError extends Error {
 
 function readArt(file: string) {
   if (!fs.existsSync(file)) return undefined
-  const parsed = parseSvg(fs.readFileSync(file, "utf8"))
-  const [, , width, height] = (parsed.attributes.viewBox ?? "")
-    .split(" ")
-    .map(Number)
-  if (!width || !height)
-    throw new BrandSourceError(`${path.basename(file)}: missing viewBox`)
-  return { width, height, node: parsed.node }
+  return parseArtDocument(fs.readFileSync(file, "utf8"))
 }
 
 /** Every brand mark in sources/brands, sorted by name. */
@@ -59,6 +54,7 @@ export function loadBrands(directory = BRAND_SOURCES): BrandIcon[] {
         license: metadata.license,
         ...(metadata.guidelines && { guidelines: metadata.guidelines }),
         ...(metadata.artSource && { artSource: metadata.artSource }),
+        ...(metadata.credit && { credit: metadata.credit }),
       }
     })
 }

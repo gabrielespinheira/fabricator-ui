@@ -41,6 +41,7 @@ import {
   CalendarIcon as LucideCalendarIcon,
   CalendarPlusIcon as LucideCalendarPlusIcon,
   ChartBarIcon as LucideChartBarIcon,
+  ChartColumnIcon as LucideChartColumnIcon,
   ChartLineIcon as LucideChartLineIcon,
   ChartPieIcon as LucideChartPieIcon,
   CheckCircle2Icon as LucideCheckCircle2Icon,
@@ -178,6 +179,7 @@ import {
   TagIcon as LucideTagIcon,
   TelescopeIcon as LucideTelescopeIcon,
   TerminalIcon as LucideTerminalIcon,
+  TextCursorInputIcon as LucideTextCursorInputIcon,
   ThumbsDownIcon as LucideThumbsDownIcon,
   ThumbsUpIcon as LucideThumbsUpIcon,
   Trash2 as LucideTrash2,
@@ -425,6 +427,7 @@ export const ChartBarIcon = createSiteIcon(LucideChartBarIcon, {
   phosphor: "ChartBarIcon",
   remixicon: "RiBarChartLine",
 })
+export const ChartColumnIcon = createSiteIcon(LucideChartColumnIcon, {})
 export const ChartLineIcon = createSiteIcon(LucideChartLineIcon, {
   tabler: "IconChartLine",
   hugeicons: "ChartIcon",
@@ -1190,6 +1193,7 @@ export const TerminalIcon = createSiteIcon(LucideTerminalIcon, {
   phosphor: "TerminalIcon",
   remixicon: "RiTerminalBoxLine",
 })
+export const TextCursorInputIcon = createSiteIcon(LucideTextCursorInputIcon, {})
 export const ThumbsDownIcon = createSiteIcon(LucideThumbsDownIcon, {
   tabler: "IconThumbDown",
   hugeicons: "ThumbsDownIcon",

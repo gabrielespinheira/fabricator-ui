@@ -1,4 +1,4 @@
-import { createElement, type ReactElement, type SVGProps } from "react"
+import { createElement, useId, type ReactElement, type SVGProps } from "react"
 
 import {
   getBrandViewBox,
@@ -6,8 +6,9 @@ import {
   ICON_SIZE,
   mergeClasses,
 } from "./generated/runtime/attributes.js"
+import { prefixGradientFills } from "./generated/runtime/gradients.js"
 import { toPascalCase } from "./generated/runtime/names.js"
-import type { BrandIconData } from "./generated/runtime/types.js"
+import type { BrandGradient, BrandIconData } from "./generated/runtime/types.js"
 
 export type BrandIconProps = Omit<SVGProps<SVGSVGElement>, "color"> & {
   /** Width and height. Defaults to 24. */
@@ -43,7 +44,35 @@ function paint(
     : { fill: light, style: { fill: `light-dark(${light}, ${dark})` } }
 }
 
-/** Renders a brand mark as a filled `<svg>`. */
+function renderGradients(gradients: BrandGradient[], prefix: string) {
+  return createElement(
+    "defs",
+    { key: "defs" },
+    ...gradients.map((gradient) =>
+      createElement(
+        gradient.type,
+        {
+          key: gradient.id,
+          id: `${prefix}${gradient.id}`,
+          ...gradient.attributes,
+        },
+        ...gradient.stops.map((stop, index) =>
+          createElement("stop", {
+            key: index,
+            offset: stop.offset,
+            stopColor: stop.color,
+            ...(stop.opacity !== undefined && { stopOpacity: stop.opacity }),
+          })
+        )
+      )
+    )
+  )
+}
+
+/**
+ * Renders a brand mark as a filled `<svg>`. `gradientPrefix` keeps gradient
+ * ids unique per copy; the components pass one from `useId`.
+ */
 export function renderBrandIcon(
   data: BrandIconData,
   {
@@ -58,9 +87,11 @@ export function renderBrandIcon(
     style,
     children,
     ...rest
-  }: BrandIconProps
+  }: BrandIconProps,
+  gradientPrefix = ""
 ) {
   const art = color === "brand" ? data.art : undefined
+  const gradients = art?.gradients ?? []
   const isLabelled = Boolean(children) || hasA11yProp(rest)
   const { fill, style: paintStyle } = paint(data, color, Boolean(art))
   const mergedStyle =
@@ -83,7 +114,13 @@ export function renderBrandIcon(
       ...(mergedStyle && { style: mergedStyle }),
       ...rest,
     },
-    ...(art?.node ?? data.node).map(([tag, attributes], index) =>
+    ...(gradients.length > 0
+      ? [renderGradients(gradients, gradientPrefix)]
+      : []),
+    ...prefixGradientFills(
+      art?.node ?? data.node,
+      gradients.length > 0 ? gradientPrefix : ""
+    ).map(([tag, attributes], index) =>
       createElement(tag, { key: index, ...attributes })
     ),
     children
@@ -95,12 +132,13 @@ export function BrandIcon({
   data,
   ...props
 }: BrandIconProps & { data: BrandIconData }) {
-  return renderBrandIcon(data, props)
+  return renderBrandIcon(data, props, useId())
 }
 
 /** Turns brand data into a component, the way every brand mark is built. */
 export function createBrandIcon(data: BrandIconData): BrandIconComponent {
-  const Component = (props: BrandIconProps) => renderBrandIcon(data, props)
+  const Component = (props: BrandIconProps) =>
+    renderBrandIcon(data, props, useId())
   Component.displayName = `${toPascalCase(data.name)}Icon`
   return Component
 }

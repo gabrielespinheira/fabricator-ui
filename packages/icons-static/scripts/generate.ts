@@ -11,7 +11,9 @@ import {
   loadBrands,
   loadOutlineIcons,
   OUTLINE_ROOT_ATTRIBUTES,
+  prefixGradientFills,
   readRuntimeFiles,
+  renderGradients,
   renderSvg,
   renderSvgInline,
   toPascalCase,
@@ -67,7 +69,9 @@ function brandSvg(brand: BrandIcon, color: "mono" | "brand") {
   )
   const fill =
     color === "mono" || art || brand.colors.inherit ? "currentColor" : brand.hex
-  return renderSvg(
+  // Ids carry the brand's name, so different marks on one page never clash.
+  const prefix = `fab-${brand.name}-`
+  const svg = renderSvg(
     {
       xmlns: "http://www.w3.org/2000/svg",
       width: "24",
@@ -75,8 +79,11 @@ function brandSvg(brand: BrandIcon, color: "mono" | "brand") {
       viewBox,
       fill,
     },
-    art?.node ?? brand.node
+    prefixGradientFills(art?.node ?? brand.node, art?.gradients ? prefix : "")
   )
+  return art?.gradients
+    ? svg.replace(">\n", `>\n  ${renderGradients(art.gradients, prefix)}\n`)
+    : svg
 }
 
 function brandSprite(brands: BrandIcon[]) {

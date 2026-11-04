@@ -84,3 +84,20 @@ describe("exportPngs", () => {
     expect(() => resolveName("not-an-icon", "outline")).toThrow(/no icon named/)
   })
 })
+
+describe("gradient brand marks", () => {
+  it("render their gradients to PNG", async () => {
+    const directory = outDir()
+    expect(
+      buildSvg("firefox", { ...defaults, set: "brands", color: "brand" })
+    ).toContain("<radialGradient")
+    const [file] = await exportPngs(["firefox"], {
+      ...defaults,
+      set: "brands",
+      color: "brand",
+      scales: [1],
+      outDir: directory,
+    })
+    expect(fs.statSync(file ?? "").size).toBeGreaterThan(500)
+  })
+})

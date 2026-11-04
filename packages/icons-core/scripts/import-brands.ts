@@ -11,7 +11,10 @@ import { parseArgs } from "node:util"
 
 import {
   buildUnderlayArt,
+  parseArtDocument,
   parseBrandArt,
+  parseBrandArtWithGradients,
+  renderGradients,
   toMonoPath,
   type BrandArtOptions,
 } from "../src/brand-art"
@@ -91,11 +94,20 @@ function logosIcon(icon: string, options: BrandArtOptions = {}) {
     throw new Error(`@iconify-json/logos ${logosVersion} has no ${icon}`)
   const width = data.width ?? logos.width ?? 256
   const height = data.height ?? logos.height ?? 256
-  return {
+  const { node, gradients } = parseBrandArtWithGradients(
+    data.body,
     width,
     height,
-    node: parseBrandArt(data.body, width, height, options),
-  }
+    options
+  )
+  return { width, height, node, ...(gradients.length > 0 && { gradients }) }
+}
+
+const KIT_SOURCES = path.join(BRAND_SOURCES, "kits")
+const KIT_LICENSE = "The brand's terms"
+
+function readKit(file: string) {
+  return fs.readFileSync(path.join(KIT_SOURCES, file), "utf8")
 }
 
 type MonoMark = { d: string; hex: string; source: string; license: string }
@@ -115,9 +127,17 @@ function art(ref: SourceRef, mark?: MonoMark) {
         ...logosIcon(ref.icon, {
           ...(ref.unfilled && { unfilled: ref.unfilled }),
           ...(ref.recolor && { recolor: ref.recolor }),
+          ...(ref.dropShadows && { dropShadows: true }),
         }),
         source: `gilbarbara/logos via @iconify-json/logos ${logosVersion}`,
         license: "CC0-1.0",
+      }
+    case "kit":
+      return {
+        ...parseArtDocument(readKit(ref.file)),
+        source: ref.url,
+        license: KIT_LICENSE,
+        guidelines: ref.terms,
       }
     case "sharpos": {
       const brand = sharpos.get(ref.slug)
@@ -162,6 +182,16 @@ function mono(entry: AllowlistEntry) {
         ...(data.guidelines && { guidelines: data.guidelines }),
       }
     }
+    case "kit": {
+      const { width, height, node } = parseArtDocument(readKit(ref.file))
+      return {
+        d: toMonoPath(node, width, height),
+        hex: undefined,
+        source: ref.url,
+        license: KIT_LICENSE,
+        guidelines: ref.terms,
+      }
+    }
     case "logos":
       throw new Error(
         'use { from: "art" } to make a one-colour mark from logos art'
@@ -204,6 +234,10 @@ const allowlist = readJson(allowlistFile, allowlistSchema)
 
 const files = new Map<string, string>([
   ["allowlist.json", fs.readFileSync(allowlistFile, "utf8")],
+  // Kit files are sources, not output: keep them as they are.
+  ...fs
+    .readdirSync(KIT_SOURCES)
+    .map((file): [string, string] => [`kits/${file}`, readKit(file)]),
 ])
 const kept = new Map<string, string>()
 for (const entry of allowlist.brands) {
@@ -246,6 +280,9 @@ for (const entry of allowlist.brands) {
           fill: "currentColor",
         },
         multi.node
+      ).replace(
+        ">\n",
+        `>\n${multi.gradients ? `  ${renderGradients(multi.gradients)}\n` : ""}`
       )
     )
   }
@@ -260,7 +297,11 @@ for (const entry of allowlist.brands) {
     license: one.license,
     ...("guidelines" in one &&
       one.guidelines && { guidelines: one.guidelines }),
+    ...(multi &&
+      "guidelines" in multi &&
+      !("guidelines" in one) && { guidelines: multi.guidelines }),
     ...(multi && { artSource: `${multi.source} (${multi.license})` }),
+    ...(entry.credit && { credit: entry.credit }),
   }
   files.set(`${entry.name}.json`, `${JSON.stringify(metadata, null, 2)}\n`)
   kept.set(entry.name, "included")

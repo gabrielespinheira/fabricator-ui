@@ -1,0 +1,16 @@
+{
+  "title": "CSS",
+  "group": "Product & dev",
+  "tags": [
+    "css3",
+    "stylesheets",
+    "web"
+  ],
+  "aliases": [],
+  "hex": "#663399",
+  "scale": 0.849,
+  "source": "Simple Icons 16.36.0 (https://github.com/CSS-Next/logo.css/blob/bacc20878227204b283c68a6b935f8279e06b0cd/css.svg)",
+  "license": "CC0-1.0",
+  "guidelines": "https://github.com/CSS-Next/logo.css",
+  "artSource": "gilbarbara/logos via @iconify-json/logos 1.2.18 (CC0-1.0)"
+}

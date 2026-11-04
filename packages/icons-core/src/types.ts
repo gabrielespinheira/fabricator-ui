@@ -3,7 +3,9 @@ import type { BrandArt, BrandColors, IconElement } from "./runtime/types"
 export type {
   BrandArt,
   BrandColors,
+  BrandGradient,
   BrandIconData,
+  GradientStop,
   IconData,
   IconElement,
   IconTag,
@@ -67,4 +69,6 @@ export type BrandIcon = {
   guidelines?: string
   /** Where the multi-colour art comes from, when it differs from `source`. */
   artSource?: string
+  /** The credit the mark's licence asks for. */
+  credit?: string
 }

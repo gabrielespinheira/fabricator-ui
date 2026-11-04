@@ -1,4 +1,14 @@
-export { parseBrandArt, toMonoPath, BrandArtError } from "./brand-art"
+export {
+  BrandArtError,
+  buildUnderlayArt,
+  parseArtDocument,
+  parseBrandArt,
+  parseBrandArtWithGradients,
+  prefixGradientFills,
+  renderArtBody,
+  renderGradients,
+  toMonoPath,
+} from "./brand-art"
 export { contrast, DARK_SURFACE, resolveBrandColors } from "./brand-colors"
 export { getOpticalScale, measureReach, SCALE_FLOOR } from "./brand-scale"
 export { loadBrands, BrandSourceError, type BrandMetadata } from "./brands"

@@ -223,6 +223,7 @@ export function IconDetail({
                 : entry.source}
             </Fact>
             <Fact label="Licence">{entry.license}</Fact>
+            {entry.credit && <Fact label="Credit">{entry.credit}</Fact>}
             {entry.guidelines && (
               <Fact label="Guidelines">
                 <a

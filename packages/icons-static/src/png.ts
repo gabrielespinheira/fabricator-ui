@@ -4,6 +4,7 @@ import path from "node:path"
 import { brandAliases, outlineAliases } from "./generated/aliases.js"
 import { brandNodes, outlineNodes } from "./generated/nodes.js"
 import { getBrandViewBox, ICON_SIZE } from "./generated/runtime/attributes.js"
+import { renderGradientMarkup } from "./generated/runtime/gradients.js"
 import type { IconElement } from "./generated/runtime/types.js"
 
 export type IconSet = "outline" | "brands"
@@ -82,14 +83,16 @@ export function buildSvg(
   const brand = brandNodes[name]
   if (!brand) throw unknown(name, set)
   const art = paint === "brand" ? brand.art : undefined
-  const brandFill = brand.colors.inherit ? "#000000" : brand.colors.light
+  // Art carries its own colours; its unfilled parts take the light-mode foreground.
+  const brandFill = art || brand.colors.inherit ? "#000000" : brand.colors.light
   const fill = paint === "brand" ? brandFill : paint
   const box = getBrandViewBox(
     art?.width ?? ICON_SIZE,
     art?.height ?? ICON_SIZE,
     brand.scale
   )
-  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${box}" fill="${fill}">${shapes(art?.node ?? brand.node)}</svg>`
+  const defs = renderGradientMarkup(art?.gradients)
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${box}" fill="${fill}">${defs}${shapes(art?.node ?? brand.node)}</svg>`
 }
 
 function isModuleNotFound(error: unknown) {

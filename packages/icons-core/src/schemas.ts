@@ -28,6 +28,7 @@ export const brandMetadataSchema = z.object({
   license: z.string(),
   guidelines: z.string().optional(),
   artSource: z.string().optional(),
+  credit: z.string().optional(),
 })
 
 export const iconsLockSchema = z.object({
@@ -51,10 +52,23 @@ const sourceRefSchema = z.discriminatedUnion("from", [
     unfilled: z.string().optional(),
     /** Outdated colours (lowercase) mapped to the brand's current ones. */
     recolor: z.record(z.string(), z.string()).optional(),
+    /** Removes filters that only paint a shadow behind a shape. */
+    dropShadows: z.boolean().optional(),
   }),
   z.object({ from: z.literal("sharpos"), slug: z.string() }),
   /** Mono only: the entry's single-path art, in one colour. */
   z.object({ from: z.literal("art") }),
+  /**
+   * A file copied from the brand's own site or kit into sources/brands/kits/:
+   * a one-colour mark for `mono`, artwork for `art`. `terms` are the brand's
+   * terms for the logo, read before copying it.
+   */
+  z.object({
+    from: z.literal("kit"),
+    file: z.string(),
+    url: z.url(),
+    terms: z.url(),
+  }),
   /** Art only: the one-colour mark in its hex over a white shape, so cut-outs read white. */
   z.object({
     from: z.literal("underlay"),
@@ -77,6 +91,8 @@ export const allowlistSchema = z.object({
       scale: z.number().optional(),
       mono: sourceRefSchema.optional(),
       art: sourceRefSchema.optional(),
+      /** The credit the mark's licence asks for, shown wherever its source is. */
+      credit: z.string().optional(),
       held: z.string().optional(),
     })
   ),

@@ -1,0 +1,14 @@
+{
+  "title": "Laravel",
+  "group": "Product & dev",
+  "tags": [
+    "php",
+    "framework",
+    "backend"
+  ],
+  "aliases": [],
+  "hex": "#FF2D20",
+  "scale": 0.895,
+  "source": "Simple Icons 16.36.0 (https://github.com/laravel/art/tree/5a8325b064634b900f25dbb6f1cafd888b2d2211)",
+  "license": "CC0-1.0"
+}

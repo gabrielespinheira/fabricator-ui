@@ -99,6 +99,7 @@ describe("buildSvgMarkup", () => {
     const markup = buildSvgMarkup(
       {
         set: "brands",
+        name: "demo",
         data: {
           node: [["path", { d: "M0 0h24v24H0z" }]],
           colors: { inherit: false, light: "#0866FF", dark: "#0866FF" },
@@ -115,6 +116,7 @@ describe("buildSvgMarkup", () => {
     const art = buildSvgMarkup(
       {
         set: "brands",
+        name: "demo",
         data: {
           node: [["path", { d: "M0 0h24v24H0z" }]],
           art: {
@@ -132,6 +134,7 @@ describe("buildSvgMarkup", () => {
     const hex = buildSvgMarkup(
       {
         set: "brands",
+        name: "demo",
         data: {
           node: [["path", { d: "M0 0h1" }]],
           colors: { inherit: false, light: "#1ED760", dark: "#1ED760" },
@@ -140,6 +143,40 @@ describe("buildSvgMarkup", () => {
       { ...options, brandColor: true }
     )
     expect(hex).toContain('fill="#1ED760"')
+  })
+
+  it("carries gradient art's definitions, with ids named after the brand", () => {
+    const markup = buildSvgMarkup(
+      {
+        set: "brands",
+        name: "firefox",
+        data: {
+          node: [["path", { d: "M0 0h1" }]],
+          art: {
+            width: 256,
+            height: 256,
+            node: [["path", { fill: "url(#g0)", d: "M0 0h1" }]],
+            gradients: [
+              {
+                type: "linearGradient",
+                id: "g0",
+                attributes: { x1: "0", x2: "1" },
+                stops: [
+                  { offset: "0", color: "#FFE226" },
+                  { offset: "1", color: "#FF3647" },
+                ],
+              },
+            ],
+          },
+          colors: { inherit: false, light: "#FF7139", dark: "#FF7139" },
+        },
+      },
+      { ...options, brandColor: true }
+    )
+    expect(markup).toContain(
+      '<defs><linearGradient id="fab-firefox-g0" x1="0" x2="1"><stop offset="0" stop-color="#FFE226"/><stop offset="1" stop-color="#FF3647"/></linearGradient></defs>'
+    )
+    expect(markup).toContain('<path fill="url(#fab-firefox-g0)" d="M0 0h1"/>')
   })
 })
 

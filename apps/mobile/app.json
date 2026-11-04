@@ -1,0 +1,16 @@
+{
+  "expo": {
+    "name": "Fabricator UI",
+    "slug": "fabricator-ui-mobile",
+    "version": "0.0.0",
+    "orientation": "default",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "platforms": ["ios"],
+    "ios": {
+      "bundleIdentifier": "app.fabricator-ui.mobile",
+      "supportsTablet": true
+    },
+    "plugins": ["expo-status-bar"]
+  }
+}

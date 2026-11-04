@@ -1,6 +1,12 @@
 import { describe, expect, it } from "vitest"
 
-import { buildUnderlayArt, parseBrandArt, toMonoPath } from "./brand-art"
+import {
+  buildUnderlayArt,
+  parseBrandArt,
+  parseBrandArtWithGradients,
+  renderArtBody,
+  toMonoPath,
+} from "./brand-art"
 
 describe("parseBrandArt", () => {
   it("keeps paths and their fills, writing colour keywords as hex", () => {
@@ -144,5 +150,119 @@ describe("element transforms", () => {
         10
       )
     ).toThrow(/circle/)
+  })
+})
+
+describe("gradients", () => {
+  const body =
+    '<defs><linearGradient id="SVGabc" x1="0" y1="0" x2="1" y2="1" gradientUnits="userSpaceOnUse"><stop offset="0" stop-color="#ff0000"/><stop offset="1" stop-color="#0000ff" stop-opacity=".5"/></linearGradient></defs><path fill="url(#SVGabc)" d="M0 0h10v10H0z"/>'
+
+  it("keeps gradients with short local ids, and points fills at them", () => {
+    expect(parseBrandArtWithGradients(body, 10, 10)).toEqual({
+      node: [["path", { fill: "url(#g0)", d: "M0 0h10v10H0z" }]],
+      gradients: [
+        {
+          type: "linearGradient",
+          id: "g0",
+          attributes: {
+            x1: "0",
+            y1: "0",
+            x2: "1",
+            y2: "1",
+            gradientUnits: "userSpaceOnUse",
+          },
+          stops: [
+            { offset: "0", color: "#ff0000" },
+            { offset: "1", color: "#0000ff", opacity: ".5" },
+          ],
+        },
+      ],
+    })
+  })
+
+  it("refuses filters and masks, which can't be reproduced everywhere", () => {
+    expect(() =>
+      parseBrandArtWithGradients(
+        '<defs><filter id="f"/></defs><path filter="url(#f)" d="M0 0h1"/>',
+        10,
+        10
+      )
+    ).toThrow(/filter/)
+  })
+
+  it("flattens nested translated groups, in paint order", () => {
+    const { node } = parseBrandArtWithGradients(
+      '<g transform="translate(4 2)"><circle cx="1" cy="1" r="1" fill="#000"/><g transform="translate(9.688 8.719)"><circle cx="1" cy="1" r="1" fill="#111"/></g><circle cx="2" cy="2" r="1" fill="#222"/></g>',
+      20,
+      20
+    )
+    expect(node).toEqual([
+      ["circle", { cx: "5", cy: "3", r: "1", fill: "#000" }],
+      ["circle", { cx: "14.688", cy: "11.719", r: "1", fill: "#111" }],
+      ["circle", { cx: "6", cy: "4", r: "1", fill: "#222" }],
+    ])
+  })
+
+  describe("dropShadows", () => {
+    const shadow =
+      '<filter id="f"><feOffset dy="2" in="SourceAlpha" result="a"/><feGaussianBlur in="a" result="b" stdDeviation="2"/><feColorMatrix in="b" result="c" values="0 0 0 0 0"/><feMerge><feMergeNode in="c"/><feMergeNode in="SourceGraphic"/></feMerge></filter>'
+
+    it("removes a filter that only paints a shadow, and keeps the shape", () => {
+      const { node } = parseBrandArtWithGradients(
+        `<defs>${shadow}</defs><g transform="translate(1 1)"><circle cx="1" cy="1" r="1" fill="#fff" filter="url(#f)"/></g><path d="M0 0h1" filter="url(#f)"/>`,
+        10,
+        10,
+        { dropShadows: true, unfilled: "#000000" }
+      )
+      expect(node).toEqual([
+        ["circle", { cx: "2", cy: "2", r: "1", fill: "#fff" }],
+        ["path", { d: "M0 0h1", fill: "#000000" }],
+      ])
+    })
+
+    it("still refuses a shadow filter unless the entry asks", () => {
+      expect(() =>
+        parseBrandArtWithGradients(
+          `<defs>${shadow}</defs><path filter="url(#f)" d="M0 0h1"/>`,
+          10,
+          10
+        )
+      ).toThrow(/filter/)
+    })
+
+    it("still refuses a filter that changes the shape itself", () => {
+      for (const filter of [
+        '<filter id="f"><feGaussianBlur stdDeviation="2"/></filter>',
+        '<filter id="f"><feTurbulence/><feMerge><feMergeNode in="SourceGraphic"/></feMerge></filter>',
+        '<filter id="f"><feMerge><feMergeNode in="SourceGraphic"/><feMergeNode in="c"/></feMerge></filter>',
+      ]) {
+        expect(() =>
+          parseBrandArtWithGradients(
+            `<defs>${filter}</defs><path filter="url(#f)" d="M0 0h1"/>`,
+            10,
+            10,
+            { dropShadows: true }
+          )
+        ).toThrow(/filter/)
+      }
+    })
+  })
+
+  it("refuses fills that point at a gradient it doesn't have", () => {
+    expect(() =>
+      parseBrandArtWithGradients('<path fill="url(#nope)" d="M0 0h1"/>', 10, 10)
+    ).toThrow(/nope/)
+  })
+
+  it("prints art with its gradients, and reads it back", () => {
+    const art = {
+      width: 10,
+      height: 10,
+      ...parseBrandArtWithGradients(body, 10, 10),
+    }
+    expect(parseBrandArtWithGradients(renderArtBody(art), 10, 10)).toEqual({
+      node: art.node,
+      gradients: art.gradients,
+    })
   })
 })

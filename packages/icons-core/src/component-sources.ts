@@ -140,6 +140,7 @@ function catalogData(icons: OutlineIcon[], brands: BrandIcon[]) {
     license: mark.license,
     ...(mark.guidelines && { guidelines: mark.guidelines }),
     ...(mark.artSource && { artSource: mark.artSource }),
+    ...(mark.credit && { credit: mark.credit }),
   }))
   return withGeneratedHeader(`import type { BrandCatalogEntry, IconCategory, OutlineCatalogEntry } from "./runtime/types.js"
 

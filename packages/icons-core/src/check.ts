@@ -10,7 +10,7 @@ import { loadOutlineIcons, readBrandStopwords, readCategories } from "./outline"
 import { DUOTONE_SOURCES, OUTLINE_SOURCES } from "./paths"
 import { iconMetadataSchema, readJson } from "./schemas"
 import { parseSvg } from "./svg"
-import type { IconElement } from "./types"
+import type { BrandGradient, IconElement } from "./types"
 import { validateElements, validateOutlineSvg } from "./validate"
 
 function isClosed([tag, attributes]: IconElement) {
@@ -82,9 +82,22 @@ function overlaps(a: Bounds, b: Bounds) {
  * don't touch any legible shape. Details on a coloured shape (JavaScript's
  * letters) and outlines around one (Bun's) keep the mark visible.
  */
-export function exposedDarkFills(node: IconElement[]) {
+export function exposedDarkFills(
+  node: IconElement[],
+  gradients: BrandGradient[] = []
+) {
+  const stopsLegible = new Map(
+    gradients.map((gradient) => [
+      `url(#${gradient.id})`,
+      gradient.stops.some((stop) => isLegible(stop.color)),
+    ])
+  )
+  const fillIsLegible = (fill: string) =>
+    fill.startsWith("url(")
+      ? (stopsLegible.get(fill) ?? false)
+      : isLegible(fill)
   const legible = node
-    .filter(([, { fill }]) => fill?.startsWith("#") && isLegible(fill))
+    .filter(([, { fill }]) => fill !== undefined && fillIsLegible(fill))
     .map((element) => getBounds([element]))
   return node.flatMap(([tag, attributes]) => {
     const fill = attributes.fill
@@ -115,7 +128,10 @@ export function checkBrands() {
     ) {
       report("the dark-mode colour is illegible on the dark surface")
     }
-    for (const fill of exposedDarkFills(brand.art?.node ?? [])) {
+    for (const fill of exposedDarkFills(
+      brand.art?.node ?? [],
+      brand.art?.gradients
+    )) {
       report(
         `art fill ${fill} vanishes on the dark surface; leave it unfilled to follow currentColor, or draw it on a legible shape`
       )

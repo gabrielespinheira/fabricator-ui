@@ -1,0 +1,14 @@
+{
+  "title": "Jest",
+  "group": "Product & dev",
+  "tags": [
+    "testing",
+    "unit tests",
+    "javascript"
+  ],
+  "aliases": [],
+  "hex": "#C21325",
+  "scale": 0.88,
+  "source": "Simple Icons 16.36.0 (https://jestjs.io)",
+  "license": "CC0-1.0"
+}

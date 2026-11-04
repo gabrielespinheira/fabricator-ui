@@ -18,6 +18,10 @@ vi.mock("react-native-svg", () => ({
   Line: "line",
   Polyline: "polyline",
   Polygon: "polygon",
+  Defs: "defs",
+  LinearGradient: "linearGradient",
+  RadialGradient: "radialGradient",
+  Stop: "stop",
 }))
 
 const { HouseIcon, House, IconProvider, Icon, VaultIcon } = await import(
@@ -113,5 +117,25 @@ describe("brand icons", () => {
       )
     )
     expect(markup).toContain('fill="#f5f5f5"')
+  })
+})
+
+describe("gradient brand marks", () => {
+  it('draw their gradients with per-copy ids, with color="brand"', async () => {
+    const { FirefoxIcon } = await import("./brands")
+    const markup = render(
+      createElement(
+        "div",
+        null,
+        createElement(FirefoxIcon, { color: "brand" }),
+        createElement(FirefoxIcon, { color: "brand" })
+      )
+    )
+    const ids = [...markup.matchAll(/<radialgradient id="([^"]+)g0"/gi)].map(
+      (match) => match[1]
+    )
+    expect(ids).toHaveLength(2)
+    expect(ids[0]).not.toBe(ids[1])
+    expect(markup).toMatch(/fill="url\(#[^"]+g0\)"/)
   })
 })

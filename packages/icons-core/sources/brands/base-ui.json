@@ -1,0 +1,13 @@
+{
+  "title": "Base UI",
+  "group": "Product & dev",
+  "tags": [
+    "components",
+    "react",
+    "headless"
+  ],
+  "aliases": [],
+  "hex": "#EDEDED",
+  "source": "Simple Icons 16.36.0 (https://base-ui.com)",
+  "license": "CC0-1.0"
+}

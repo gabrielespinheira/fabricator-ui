@@ -1,0 +1,14 @@
+{
+  "title": "Hono",
+  "group": "Product & dev",
+  "tags": [
+    "web framework",
+    "edge",
+    "server"
+  ],
+  "aliases": [],
+  "hex": "#E36002",
+  "source": "Simple Icons 16.36.0 (https://github.com/honojs/hono/blob/76dbc74407329c46870af6aa4fab0c04036d8ae2/docs/images/hono-logo.svg)",
+  "license": "CC0-1.0",
+  "artSource": "gilbarbara/logos via @iconify-json/logos 1.2.18 (CC0-1.0)"
+}

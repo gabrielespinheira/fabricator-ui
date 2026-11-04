@@ -27,10 +27,26 @@ export type BrandColors = {
   dark: string
 }
 
+export type GradientStop = {
+  offset: string
+  color: string
+  opacity?: string
+}
+
+/** A gradient that art fills reference as `url(#<id>)`; renderers make the id unique per instance. */
+export type BrandGradient = {
+  type: "linearGradient" | "radialGradient"
+  id: string
+  attributes: Record<string, string>
+  stops: GradientStop[]
+}
+
 export type BrandArt = {
   width: number
   height: number
   node: IconElement[]
+  /** For logos whose colours are gradients (Firefox, Telegram). */
+  gradients?: BrandGradient[]
 }
 
 /** Brand marks: fill paint. */
@@ -66,6 +82,8 @@ export type BrandCatalogEntry = {
   guidelines?: string
   /** Where the multi-colour art comes from, when the mark has art. */
   artSource?: string
+  /** The credit the mark's licence asks for. */
+  credit?: string
 }
 
 /** An outline category, with Lucide's title for it. */

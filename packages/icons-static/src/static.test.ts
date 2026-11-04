@@ -78,3 +78,14 @@ describe("typed shape data", () => {
     expect(brandNodes.google?.art?.width).toBe(256)
   })
 })
+
+describe("gradient brand files", () => {
+  it("carry their gradients with ids named after the brand", () => {
+    const svg = fs.readFileSync(
+      path.join(root, "brands", "color", "firefox.svg"),
+      "utf8"
+    )
+    expect(svg).toContain('<radialGradient id="fab-firefox-g0"')
+    expect(svg).toContain('fill="url(#fab-firefox-g0)"')
+  })
+})

@@ -2,6 +2,23 @@
   "$comment": "Brand marks Fabricator ships. Edit this file, then run bun run icons:brands. A held mark stays out of every package; the reason says why.",
   "brands": [
     {
+      "name": "airbnb",
+      "title": "Airbnb",
+      "group": "Marketing & commerce",
+      "tags": [
+        "travel",
+        "stays",
+        "rentals"
+      ],
+      "aliases": [],
+      "scale": 0.883,
+      "mono": {
+        "from": "simple-icons",
+        "slug": "airbnb"
+      },
+      "held": "Airbnb forbids using its logos or icons without formal written permission (https://www.airbnb.com/help/article/3233)."
+    },
+    {
       "name": "airtable",
       "title": "Airtable",
       "group": "Product & dev",
@@ -100,6 +117,13 @@
       "mono": {
         "from": "simple-icons",
         "slug": "astro"
+      },
+      "art": {
+        "from": "logos",
+        "icon": "astro-icon",
+        "recolor": {
+          "#17191e": "currentColor"
+        }
       }
     },
     {
@@ -112,6 +136,21 @@
       ],
       "aliases": [],
       "held": "AWS licenses its logos only to customers and partners for specific uses, and fair use is plain text only (https://aws.amazon.com/trademark-guidelines/)."
+    },
+    {
+      "name": "base-ui",
+      "title": "Base UI",
+      "group": "Product & dev",
+      "tags": [
+        "components",
+        "react",
+        "headless"
+      ],
+      "aliases": [],
+      "mono": {
+        "from": "simple-icons",
+        "slug": "baseui"
+      }
     },
     {
       "name": "behance",
@@ -127,6 +166,38 @@
       "mono": {
         "from": "simple-icons",
         "slug": "behance"
+      }
+    },
+    {
+      "name": "better-auth",
+      "title": "Better Auth",
+      "group": "Product & dev",
+      "tags": [
+        "auth",
+        "authentication",
+        "typescript"
+      ],
+      "aliases": [],
+      "scale": 0.92,
+      "mono": {
+        "from": "simple-icons",
+        "slug": "betterauth"
+      }
+    },
+    {
+      "name": "biome",
+      "title": "Biome",
+      "group": "Product & dev",
+      "tags": [
+        "linter",
+        "formatter",
+        "toolchain"
+      ],
+      "aliases": [],
+      "scale": 0.899,
+      "mono": {
+        "from": "simple-icons",
+        "slug": "biome"
       }
     },
     {
@@ -161,6 +232,26 @@
       "mono": {
         "from": "simple-icons",
         "slug": "bluesky"
+      }
+    },
+    {
+      "name": "booking-com",
+      "title": "Booking.com",
+      "group": "Marketing & commerce",
+      "tags": [
+        "travel",
+        "hotels",
+        "bookings"
+      ],
+      "aliases": [],
+      "scale": 0.84,
+      "mono": {
+        "from": "simple-icons",
+        "slug": "bookingdotcom"
+      },
+      "art": {
+        "from": "underlay",
+        "shape": "square"
       }
     },
     {
@@ -291,6 +382,58 @@
       "mono": {
         "from": "simple-icons",
         "slug": "convex"
+      }
+    },
+    {
+      "name": "coolify",
+      "title": "Coolify",
+      "group": "Product & dev",
+      "tags": [
+        "self-hosting",
+        "deploy",
+        "paas"
+      ],
+      "aliases": [],
+      "scale": 0.855,
+      "mono": {
+        "from": "simple-icons",
+        "slug": "coolify"
+      }
+    },
+    {
+      "name": "css",
+      "title": "CSS",
+      "group": "Product & dev",
+      "tags": [
+        "css3",
+        "stylesheets",
+        "web"
+      ],
+      "aliases": [],
+      "scale": 0.849,
+      "mono": {
+        "from": "simple-icons",
+        "slug": "css"
+      },
+      "art": {
+        "from": "logos",
+        "icon": "css"
+      }
+    },
+    {
+      "name": "datadog",
+      "title": "Datadog",
+      "group": "Product & dev",
+      "tags": [
+        "monitoring",
+        "observability",
+        "apm"
+      ],
+      "aliases": [],
+      "scale": 0.925,
+      "mono": {
+        "from": "simple-icons",
+        "slug": "datadog"
       }
     },
     {
@@ -445,6 +588,22 @@
       }
     },
     {
+      "name": "express",
+      "title": "Express",
+      "group": "Product & dev",
+      "tags": [
+        "express.js",
+        "node",
+        "server"
+      ],
+      "aliases": [],
+      "scale": 0.883,
+      "mono": {
+        "from": "simple-icons",
+        "slug": "express"
+      }
+    },
+    {
       "name": "facebook",
       "title": "Facebook",
       "group": "Social",
@@ -513,6 +672,10 @@
       "mono": {
         "from": "simple-icons",
         "slug": "firefoxbrowser"
+      },
+      "art": {
+        "from": "logos",
+        "icon": "firefox"
       }
     },
     {
@@ -700,6 +863,26 @@
       }
     },
     {
+      "name": "google-cloud",
+      "title": "Google Cloud",
+      "group": "Product & dev",
+      "tags": [
+        "gcp",
+        "cloud",
+        "hosting"
+      ],
+      "aliases": [],
+      "mono": {
+        "from": "simple-icons",
+        "slug": "googlecloud"
+      },
+      "art": {
+        "from": "logos",
+        "icon": "google-cloud"
+      },
+      "held": "Google Cloud allows a plain-text mention only; its logo and icon need approval from Google's Cloud brand team (https://services.google.com/fh/files/misc/external_customer_co_branding_eligibility.pdf)."
+    },
+    {
       "name": "google-maps",
       "title": "Google Maps",
       "group": "Marketing & commerce",
@@ -795,6 +978,37 @@
       }
     },
     {
+      "name": "graphql",
+      "title": "GraphQL",
+      "group": "Product & dev",
+      "tags": [
+        "api",
+        "query",
+        "schema"
+      ],
+      "aliases": [],
+      "mono": {
+        "from": "simple-icons",
+        "slug": "graphql"
+      }
+    },
+    {
+      "name": "gsap",
+      "title": "GSAP",
+      "group": "Product & dev",
+      "tags": [
+        "greensock",
+        "animation",
+        "scroll"
+      ],
+      "aliases": [],
+      "mono": {
+        "from": "simple-icons",
+        "slug": "gsap"
+      },
+      "held": "GSAP is a Webflow trademark, and Webflow's policy allows text references only and forbids changing its logos' colour (https://webflow.com/legal/trademark-usage-policy)."
+    },
+    {
       "name": "hashnode",
       "title": "Hashnode",
       "group": "Social",
@@ -812,6 +1026,25 @@
       }
     },
     {
+      "name": "hono",
+      "title": "Hono",
+      "group": "Product & dev",
+      "tags": [
+        "web framework",
+        "edge",
+        "server"
+      ],
+      "aliases": [],
+      "mono": {
+        "from": "simple-icons",
+        "slug": "hono"
+      },
+      "art": {
+        "from": "logos",
+        "icon": "hono"
+      }
+    },
+    {
       "name": "hotjar",
       "title": "Hotjar",
       "group": "Marketing & commerce",
@@ -825,6 +1058,22 @@
       "mono": {
         "from": "simple-icons",
         "slug": "hotjar"
+      }
+    },
+    {
+      "name": "html5",
+      "title": "HTML5",
+      "group": "Product & dev",
+      "tags": [
+        "html",
+        "markup",
+        "web"
+      ],
+      "aliases": [],
+      "scale": 0.904,
+      "mono": {
+        "from": "simple-icons",
+        "slug": "html5"
       }
     },
     {
@@ -903,6 +1152,57 @@
       }
     },
     {
+      "name": "jest",
+      "title": "Jest",
+      "group": "Product & dev",
+      "tags": [
+        "testing",
+        "unit tests",
+        "javascript"
+      ],
+      "aliases": [],
+      "scale": 0.88,
+      "mono": {
+        "from": "simple-icons",
+        "slug": "jest"
+      }
+    },
+    {
+      "name": "konva",
+      "title": "Konva",
+      "group": "Product & dev",
+      "tags": [
+        "canvas",
+        "2d",
+        "graphics"
+      ],
+      "aliases": [],
+      "mono": {
+        "from": "simple-icons",
+        "slug": "konva"
+      },
+      "art": {
+        "from": "underlay",
+        "shape": "circle"
+      }
+    },
+    {
+      "name": "laravel",
+      "title": "Laravel",
+      "group": "Product & dev",
+      "tags": [
+        "php",
+        "framework",
+        "backend"
+      ],
+      "aliases": [],
+      "scale": 0.895,
+      "mono": {
+        "from": "simple-icons",
+        "slug": "laravel"
+      }
+    },
+    {
       "name": "linear",
       "title": "Linear",
       "group": "Product & dev",
@@ -954,6 +1254,22 @@
         "from": "simple-icons",
         "slug": "linktree"
       }
+    },
+    {
+      "name": "linux",
+      "title": "Linux",
+      "group": "Product & dev",
+      "tags": [
+        "tux",
+        "os",
+        "server"
+      ],
+      "aliases": [],
+      "mono": {
+        "from": "simple-icons",
+        "slug": "linux"
+      },
+      "credit": "Tux by Larry Ewing (lewing@isc.tamu.edu) and The GIMP. Linux® is the registered trademark of Linus Torvalds."
     },
     {
       "name": "loom",
@@ -1035,6 +1351,10 @@
       "mono": {
         "from": "simple-icons",
         "slug": "messenger"
+      },
+      "art": {
+        "from": "logos",
+        "icon": "messenger"
       }
     },
     {
@@ -1052,6 +1372,10 @@
       "mono": {
         "from": "simple-icons",
         "slug": "meta"
+      },
+      "art": {
+        "from": "logos",
+        "icon": "meta-icon"
       }
     },
     {
@@ -1075,7 +1399,7 @@
         "workshop"
       ],
       "aliases": [],
-      "hex": "#050038",
+      "hex": "#FFDD33",
       "scale": 0.87,
       "mono": {
         "from": "simple-icons",
@@ -1084,7 +1408,7 @@
       "art": {
         "from": "logos",
         "icon": "miro-icon",
-        "unfilled": "#000000"
+        "unfilled": "#1C1C1E"
       }
     },
     {
@@ -1102,6 +1426,92 @@
       "mono": {
         "from": "simple-icons",
         "slug": "mixpanel"
+      }
+    },
+    {
+      "name": "model-context-protocol",
+      "title": "Model Context Protocol",
+      "group": "Product & dev",
+      "tags": [
+        "mcp",
+        "ai",
+        "agents"
+      ],
+      "aliases": [],
+      "mono": {
+        "from": "simple-icons",
+        "slug": "modelcontextprotocol"
+      }
+    },
+    {
+      "name": "mongodb",
+      "title": "MongoDB",
+      "group": "Product & dev",
+      "tags": [
+        "database",
+        "nosql",
+        "mongo"
+      ],
+      "aliases": [],
+      "mono": {
+        "from": "simple-icons",
+        "slug": "mongodb"
+      }
+    },
+    {
+      "name": "motion",
+      "title": "Motion",
+      "group": "Product & dev",
+      "tags": [
+        "framer motion",
+        "animation",
+        "react"
+      ],
+      "aliases": [],
+      "hex": "#FBD509",
+      "scale": 0.84,
+      "mono": {
+        "from": "kit",
+        "file": "motion.svg",
+        "url": "https://motion.dev/",
+        "terms": "https://github.com/motiondivision/motion"
+      },
+      "art": {
+        "from": "kit",
+        "file": "motion.art.svg",
+        "url": "https://motion.dev/",
+        "terms": "https://github.com/motiondivision/motion"
+      }
+    },
+    {
+      "name": "mysql",
+      "title": "MySQL",
+      "group": "Product & dev",
+      "tags": [
+        "database",
+        "sql",
+        "oracle"
+      ],
+      "aliases": [],
+      "mono": {
+        "from": "simple-icons",
+        "slug": "mysql"
+      },
+      "held": "Oracle limits the MySQL logo to MySQL representatives and companies with a written agreement (https://www.mysql.com/about/legal/logos.html)."
+    },
+    {
+      "name": "nestjs",
+      "title": "NestJS",
+      "group": "Product & dev",
+      "tags": [
+        "node",
+        "framework",
+        "backend"
+      ],
+      "aliases": [],
+      "mono": {
+        "from": "simple-icons",
+        "slug": "nestjs"
       }
     },
     {
@@ -1278,6 +1688,22 @@
       }
     },
     {
+      "name": "php",
+      "title": "PHP",
+      "group": "Product & dev",
+      "tags": [
+        "language",
+        "backend",
+        "web"
+      ],
+      "aliases": [],
+      "mono": {
+        "from": "simple-icons",
+        "slug": "php"
+      },
+      "credit": "PHP logo by Colin Viebrock, CC BY-SA 4.0 (https://www.php.net/download-logos.php), reduced to one colour by Simple Icons."
+    },
+    {
       "name": "pinterest",
       "title": "Pinterest",
       "group": "Social",
@@ -1294,6 +1720,26 @@
       }
     },
     {
+      "name": "playwright",
+      "title": "Playwright",
+      "group": "Product & dev",
+      "tags": [
+        "testing",
+        "e2e",
+        "browser"
+      ],
+      "aliases": [],
+      "hex": "#2EAD33",
+      "mono": {
+        "from": "art"
+      },
+      "art": {
+        "from": "logos",
+        "icon": "playwright"
+      },
+      "held": "Playwright is a Microsoft product: its Apache-2.0 licence grants no trademark rights, and Microsoft licenses its logos only by agreement (https://github.com/microsoft/playwright/blob/main/LICENSE)."
+    },
+    {
       "name": "pnpm",
       "title": "pnpm",
       "group": "Product & dev",
@@ -1307,6 +1753,26 @@
       "mono": {
         "from": "simple-icons",
         "slug": "pnpm"
+      }
+    },
+    {
+      "name": "postgresql",
+      "title": "PostgreSQL",
+      "group": "Product & dev",
+      "tags": [
+        "postgres",
+        "database",
+        "sql"
+      ],
+      "aliases": [],
+      "mono": {
+        "from": "simple-icons",
+        "slug": "postgresql"
+      },
+      "art": {
+        "from": "logos",
+        "icon": "postgresql",
+        "unfilled": "#000000"
       }
     },
     {
@@ -1331,6 +1797,56 @@
       }
     },
     {
+      "name": "prisma",
+      "title": "Prisma",
+      "group": "Product & dev",
+      "tags": [
+        "orm",
+        "database",
+        "typescript"
+      ],
+      "aliases": [],
+      "mono": {
+        "from": "simple-icons",
+        "slug": "prisma"
+      }
+    },
+    {
+      "name": "python",
+      "title": "Python",
+      "group": "Product & dev",
+      "tags": [
+        "language",
+        "scripting",
+        "data"
+      ],
+      "aliases": [],
+      "mono": {
+        "from": "simple-icons",
+        "slug": "python"
+      },
+      "art": {
+        "from": "logos",
+        "icon": "python"
+      },
+      "held": "The PSF requires permission for logos in other colours and publishes no one-colour logo (https://www.python.org/psf/trademarks/). Its policy says such requests are likely to be approved."
+    },
+    {
+      "name": "radix-ui",
+      "title": "Radix UI",
+      "group": "Product & dev",
+      "tags": [
+        "components",
+        "react",
+        "primitives"
+      ],
+      "aliases": [],
+      "mono": {
+        "from": "simple-icons",
+        "slug": "radixui"
+      }
+    },
+    {
       "name": "react",
       "title": "React",
       "group": "Product & dev",
@@ -1344,6 +1860,37 @@
       "mono": {
         "from": "simple-icons",
         "slug": "react"
+      }
+    },
+    {
+      "name": "react-hook-form",
+      "title": "React Hook Form",
+      "group": "Product & dev",
+      "tags": [
+        "forms",
+        "react",
+        "validation"
+      ],
+      "aliases": [],
+      "scale": 0.872,
+      "mono": {
+        "from": "simple-icons",
+        "slug": "reacthookform"
+      }
+    },
+    {
+      "name": "react-query",
+      "title": "React Query",
+      "group": "Product & dev",
+      "tags": [
+        "tanstack query",
+        "tanstack",
+        "data fetching"
+      ],
+      "aliases": [],
+      "mono": {
+        "from": "simple-icons",
+        "slug": "reactquery"
       }
     },
     {
@@ -1397,6 +1944,12 @@
       "mono": {
         "from": "simple-icons",
         "slug": "safari"
+      },
+      "art": {
+        "from": "logos",
+        "icon": "safari",
+        "unfilled": "#000000",
+        "dropShadows": true
       }
     },
     {
@@ -1413,6 +1966,22 @@
       "mono": {
         "from": "simple-icons",
         "slug": "semrush"
+      }
+    },
+    {
+      "name": "sentry",
+      "title": "Sentry",
+      "group": "Product & dev",
+      "tags": [
+        "errors",
+        "monitoring",
+        "observability"
+      ],
+      "aliases": [],
+      "scale": 0.866,
+      "mono": {
+        "from": "simple-icons",
+        "slug": "sentry"
       }
     },
     {
@@ -1496,6 +2065,21 @@
       }
     },
     {
+      "name": "sqlite",
+      "title": "SQLite",
+      "group": "Product & dev",
+      "tags": [
+        "database",
+        "sql",
+        "embedded"
+      ],
+      "aliases": [],
+      "mono": {
+        "from": "simple-icons",
+        "slug": "sqlite"
+      }
+    },
+    {
       "name": "squarespace",
       "title": "Squarespace",
       "group": "Marketing & commerce",
@@ -1559,6 +2143,10 @@
       "mono": {
         "from": "simple-icons",
         "slug": "supabase"
+      },
+      "art": {
+        "from": "logos",
+        "icon": "supabase-icon"
       }
     },
     {
@@ -1625,6 +2213,45 @@
       "mono": {
         "from": "simple-icons",
         "slug": "telegram"
+      },
+      "art": {
+        "from": "logos",
+        "icon": "telegram"
+      }
+    },
+    {
+      "name": "terraform",
+      "title": "Terraform",
+      "group": "Product & dev",
+      "tags": [
+        "infrastructure",
+        "iac",
+        "hashicorp"
+      ],
+      "aliases": [],
+      "mono": {
+        "from": "simple-icons",
+        "slug": "terraform"
+      },
+      "held": "HashiCorp doesn't license its product logos to the public; apart from linking to the project from your own website, every use needs its written approval (https://www.hashicorp.com/en/trademark-policy)."
+    },
+    {
+      "name": "testing-library",
+      "title": "Testing Library",
+      "group": "Product & dev",
+      "tags": [
+        "testing",
+        "react",
+        "dom"
+      ],
+      "aliases": [],
+      "mono": {
+        "from": "simple-icons",
+        "slug": "testinglibrary"
+      },
+      "art": {
+        "from": "logos",
+        "icon": "testing-library"
       }
     },
     {
@@ -1641,6 +2268,22 @@
       "mono": {
         "from": "simple-icons",
         "slug": "threads"
+      }
+    },
+    {
+      "name": "three-js",
+      "title": "Three.js",
+      "group": "Product & dev",
+      "tags": [
+        "3d",
+        "webgl",
+        "graphics"
+      ],
+      "aliases": [],
+      "scale": 0.91,
+      "mono": {
+        "from": "simple-icons",
+        "slug": "threedotjs"
       }
     },
     {
@@ -1678,6 +2321,21 @@
       "mono": {
         "from": "simple-icons",
         "slug": "trello"
+      }
+    },
+    {
+      "name": "turborepo",
+      "title": "Turborepo",
+      "group": "Product & dev",
+      "tags": [
+        "monorepo",
+        "build",
+        "vercel"
+      ],
+      "aliases": [],
+      "mono": {
+        "from": "simple-icons",
+        "slug": "turborepo"
       }
     },
     {
@@ -1811,6 +2469,21 @@
       "mono": {
         "from": "simple-icons",
         "slug": "vite"
+      }
+    },
+    {
+      "name": "vitest",
+      "title": "Vitest",
+      "group": "Product & dev",
+      "tags": [
+        "testing",
+        "vite",
+        "unit tests"
+      ],
+      "aliases": [],
+      "mono": {
+        "from": "simple-icons",
+        "slug": "vitest"
       }
     },
     {
@@ -1969,6 +2642,21 @@
       "mono": {
         "from": "simple-icons",
         "slug": "zapier"
+      }
+    },
+    {
+      "name": "zod",
+      "title": "Zod",
+      "group": "Product & dev",
+      "tags": [
+        "validation",
+        "schema",
+        "typescript"
+      ],
+      "aliases": [],
+      "mono": {
+        "from": "simple-icons",
+        "slug": "zod"
       }
     },
     {
