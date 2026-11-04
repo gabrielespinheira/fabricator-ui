@@ -15,6 +15,7 @@ import {
   getNativeTheme,
   RADIUS_SCALE,
 } from "@/registry/fabricator/native-theme"
+import { APP_SHELL_CONTENT_WIDTHS } from "@/registry/fabricator/shared/lib/app-shell-model"
 
 // The website's computed values, measured in a browser on /app-shell.
 describe("getNativeTheme at the default look", () => {
@@ -60,6 +61,12 @@ describe("getNativeTheme at the default look", () => {
     expect(colors.wash).toBe("rgba(255, 255, 255, 0.03)")
     expect(colors.tabTrack).toBe("rgba(245, 245, 245, 0.05)")
     expect(colors.segmentedTrack).toBe("rgba(245, 245, 245, 0.06)")
+    expect(colors.segmentLabel).toBe("rgba(245, 245, 245, 0.7)")
+    expect(colors.switchThumb).toBe("#ffffff")
+    expect(colors.scrim).toBe("rgba(0, 0, 0, 0.8)")
+    expect(getNativeTheme("light", DEFAULT_LOOK).colors.scrim).toBe(
+      "rgba(0, 0, 0, 0.4)"
+    )
     expect(colors.placeholder).toBe("rgba(30, 30, 30, 0.5)")
   })
 
@@ -232,10 +239,10 @@ describe("the App Shell's tokens", () => {
   it("stay in step with the style map", () => {
     const percent = (share: number) => `black_${Math.round(share * 100)}%`
     expect(styleMap).toContain(
-      `[--app-shell-frame:color-mix(in_oklab,var(--surface-1),${percent(APP_SHELL_FRAME_BLACK.light)})]`
+      `[--app-shell-frame-fill:color-mix(in_oklab,var(--surface-1),${percent(APP_SHELL_FRAME_BLACK.light)})]`
     )
     expect(styleMap).toContain(
-      `dark:[--app-shell-frame:color-mix(in_oklab,var(--surface-1),${percent(APP_SHELL_FRAME_BLACK.dark)})]`
+      `dark:[--app-shell-frame-fill:color-mix(in_oklab,var(--surface-1),${percent(APP_SHELL_FRAME_BLACK.dark)})]`
     )
     expect(styleMap).toContain(
       `[--app-shell-frame-muted:color-mix(in_oklab,var(--muted-foreground),${percent(APP_SHELL_FRAME_MUTED_BLACK.light)})]`
@@ -243,6 +250,23 @@ describe("the App Shell's tokens", () => {
     expect(styleMap).toContain(
       `dark:[--app-shell-card-shadow:${APP_SHELL_CARD_SHADOW_DARK.replaceAll(" ", "_")}]`
     )
+  })
+
+  it("give the content the widths the model names", () => {
+    for (const [size, width] of Object.entries(APP_SHELL_CONTENT_WIDTHS)) {
+      expect(styleMap).toContain(
+        `data-[content-size=${size}]:[--app-shell-content-width:${width / 16}rem]`
+      )
+    }
+  })
+
+  it("leave a translucent window's frame to the native material", () => {
+    expect(styleMap).toContain(
+      "data-translucent:not-data-[size=phone]:[--app-shell-frame:transparent]"
+    )
+    // A theme variant writing the frame ties with the rule above on
+    // specificity, wins on order, and paints over the glass.
+    expect(styleMap).not.toMatch(/(dark|light):\[--app-shell-frame:/)
   })
 
   it("use the website's radius scale", () => {

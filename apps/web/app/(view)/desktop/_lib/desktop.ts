@@ -6,6 +6,8 @@ import { COMPONENT_GROUPS, type ComponentGroup } from "@/lib/component-groups"
 import type { NavGroup } from "@/styles/base-fabricator/lib/app-shell-model"
 import type { AppShellWindow } from "@/styles/base-fabricator/ui/app-shell"
 
+import { getTrafficLights } from "../../app-shell/_lib/options"
+
 export type DesktopRuntime = "electron" | "tauri" | "browser"
 export type DesktopPlatform = "mac" | "windows" | "linux"
 
@@ -13,9 +15,6 @@ export type DesktopHost = {
   runtime: DesktopRuntime
   platform: DesktopPlatform
 }
-
-/** Where the shells put the traffic lights: apps/desktop's Electron main and Tauri config. */
-const TRAFFIC_LIGHTS = { x: 16, y: 23 }
 
 const ELECTRON_PLATFORMS: Record<string, DesktopPlatform> = {
   darwin: "mac",
@@ -72,18 +71,40 @@ export function getAppearanceSetter(
   }
 }
 
-/** The window the App Shell lays out around in each shell. */
+/** The Electron bridge's traffic lights setter, for a layout that moves them. */
+export function getTrafficLightsSetter(
+  host: object
+): ((position: { x: number; y: number }) => void) | null {
+  const bridge = Reflect.get(host, "fabricatorDesktop")
+  if (!isRecord(bridge) || typeof bridge.setTrafficLights !== "function") {
+    return null
+  }
+  const { setTrafficLights } = bridge
+  return (position) => {
+    Reflect.apply(setTrafficLights, bridge, [position])
+  }
+}
+
+/**
+ * The window the App Shell lays out around in each shell. The lights start
+ * where apps/desktop's Electron main and Tauri config put them. Only Electron
+ * can move them afterwards, so only its titlebar row gets to be short.
+ */
 export function getDesktopWindow({
   runtime,
   platform,
   isFullscreen,
-}: DesktopHost & { isFullscreen: boolean }): AppShellWindow | undefined {
+  hasTitlebar,
+}: DesktopHost & {
+  isFullscreen: boolean
+  hasTitlebar: boolean
+}): AppShellWindow | undefined {
   if (runtime === "browser") return undefined
   if (platform === "mac") {
     return {
       controls: "macos",
       isFullscreen,
-      trafficLights: TRAFFIC_LIGHTS,
+      trafficLights: getTrafficLights(runtime === "electron" && hasTitlebar),
       isTranslucent: true,
     }
   }
@@ -116,6 +137,41 @@ export type ExplorerComponent = {
 
 export const COMPONENT_PATH = "/components/"
 
+/** The tab a navigation link opens: a component, the overview, or none. */
+export function getExplorerTabId(href: string | undefined) {
+  if (href === "/") return "overview"
+  if (href?.startsWith(COMPONENT_PATH)) return href.slice(COMPONENT_PATH.length)
+  return null
+}
+
+const NEW_TAB_PREFIX = "new-"
+
+/**
+ * The first free id for a blank tab. Pass the closed tabs too: they keep their
+ * ids, so reopening one never collides.
+ */
+export function getNewTabId(taken: string[]) {
+  let index = 1
+  while (taken.includes(`${NEW_TAB_PREFIX}${index}`)) index += 1
+  return `${NEW_TAB_PREFIX}${index}`
+}
+
+export function isNewTab(id: string | null) {
+  return id?.startsWith(NEW_TAB_PREFIX) ?? false
+}
+
+/** The window with its glass, or with an opaque frame over it. */
+export function withGlass(
+  shellWindow: AppShellWindow | undefined,
+  hasGlass: boolean
+): AppShellWindow | undefined {
+  if (!shellWindow) return undefined
+  return {
+    ...shellWindow,
+    isTranslucent: Boolean(shellWindow.isTranslucent) && hasGlass,
+  }
+}
+
 type ExplorerIcons<TIcon> = {
   overview: TIcon
   groups: Partial<Record<ComponentGroup, TIcon>>
@@ -128,7 +184,8 @@ type ExplorerIcons<TIcon> = {
  */
 export function getExplorerNavGroups<TIcon>(
   components: ExplorerComponent[],
-  icons: ExplorerIcons<TIcon>
+  icons: ExplorerIcons<TIcon>,
+  { reorderable = false }: { reorderable?: boolean } = {}
 ): NavGroup<TIcon>[] {
   const groupRows = COMPONENT_GROUPS.flatMap((group) => {
     const children = components
@@ -157,6 +214,6 @@ export function getExplorerNavGroups<TIcon>(
         { id: "overview", label: "Overview", href: "/", icon: icons.overview },
       ],
     },
-    { id: "components", label: "Components", items: groupRows },
+    { id: "components", label: "Components", reorderable, items: groupRows },
   ]
 }

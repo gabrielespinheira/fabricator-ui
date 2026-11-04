@@ -33,7 +33,6 @@ import {
   AppShellHeader,
   AppShellMain,
 } from "@/styles/aria-fabricator/ui/app-shell"
-import { Button } from "@/styles/aria-fabricator/ui/button"
 import {
   Sidebar,
   SidebarContent,
@@ -189,9 +188,7 @@ export function AppNavDemo() {
             groups={groups}
             preferences={preferences}
             onPreferencesChange={setPreferences}
-          >
-            <Button variant="ghost" size="sm" className="justify-start" />
-          </AppNavCustomize>
+          />
         </SidebarFooter>
         <SidebarRail />
       </Sidebar>

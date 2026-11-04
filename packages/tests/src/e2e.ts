@@ -2,7 +2,7 @@
  * End-to-end install tests for the fabricator-ui CLI and the @fabricator
  * registry. See ../README.md.
  */
-import { spawnSync } from "node:child_process"
+import { spawn, spawnSync } from "node:child_process"
 import fs from "node:fs"
 import os from "node:os"
 import path from "node:path"
@@ -46,9 +46,15 @@ function getArg(name: string) {
   return index === -1 ? undefined : args[index + 1]
 }
 
+const LOCAL_NPM_PORT = 4873
+const LOCAL_NPM = `http://localhost:${LOCAL_NPM_PORT}`
+
 const env = {
   ...process.env,
   FABRICATOR_REGISTRY_URL: REGISTRY_URL,
+  // Installs the icons this checkout builds: see local-npm.ts.
+  BUN_CONFIG_REGISTRY: LOCAL_NPM,
+  npm_config_registry: LOCAL_NPM,
   // Scaffold and install with Bun (the shadcn CLI reads the user agent).
   npm_config_user_agent: "bun/1.4.0",
   CI: "1",
@@ -88,9 +94,13 @@ function assert(condition: unknown, message: string): asserts condition {
   if (!condition) throw new Error(message)
 }
 
+const FABRICATOR_ICONS = "@fabricator-ui/icons"
+const LUCIDE = "lucide-react"
+
 function assertRegistry(appDir: string) {
   const config = readJson(path.join(appDir, "components.json"))
-  const url: string | undefined = config.registries?.["@fabricator"]
+  const entry = config.registries?.["@fabricator"]
+  const url: string | undefined = typeof entry === "string" ? entry : entry?.url
   const expected = `${REGISTRY_URL}/r/fabricator/{style}/{name}.json`
   assert(
     url === expected,
@@ -101,6 +111,47 @@ function assertRegistry(appDir: string) {
     `components.json style ${config.style} is not a valid shadcn style id`
   )
   return config
+}
+
+// A project's components, its dependencies and its registry entry all agree on
+// one icon pack. `iconLibrary` stays "lucide" either way: shadcn knows no other.
+function assertIconPack(appDir: string, pack: "fabricator" | "lucide") {
+  const config = readJson(path.join(appDir, "components.json"))
+  const isFabricator = pack === "fabricator"
+  assert(
+    config.iconLibrary === "lucide",
+    `components.json iconLibrary is ${config.iconLibrary}`
+  )
+  const params = config.registries?.["@fabricator"]?.params
+  assert(
+    isFabricator ? params?.icons === "fabricator" : params === undefined,
+    `@fabricator params are ${JSON.stringify(params)}, expected ${pack} icons`
+  )
+
+  const { dependencies } = readJson(path.join(appDir, "package.json"))
+  const [wanted, unwanted] = isFabricator
+    ? [FABRICATOR_ICONS, LUCIDE]
+    : [LUCIDE, FABRICATOR_ICONS]
+  assert(dependencies[wanted], `package.json lacks ${wanted}`)
+  assert(!dependencies[unwanted], `package.json has ${unwanted}`)
+
+  const uiDir = path.join(appDir, "src/components/ui")
+  const sources = fs
+    .readdirSync(uiDir)
+    .map((file) => fs.readFileSync(path.join(uiDir, file), "utf8"))
+  assert(
+    sources.some((source) => source.includes(`from "${wanted}"`)),
+    `no installed component imports ${wanted}`
+  )
+  const stray = sources.filter(
+    (source) =>
+      source.includes(`from "${unwanted}"`) ||
+      source.includes("IconPlaceholder")
+  )
+  assert(
+    stray.length === 0,
+    `${stray.length} components import ${unwanted} or keep IconPlaceholder`
+  )
 }
 
 // Projects created from /init get the Fabricator schema URL.
@@ -174,6 +225,63 @@ export default function App() {
   )
 }
 
+// A plain shadcn project created from ui.shadcn.com, untouched by Fabricator.
+function scaffoldShadcnApp(dir: string) {
+  const shadcnBin = path.join(
+    path.dirname(CLI),
+    "..",
+    "node_modules",
+    "shadcn",
+    "dist",
+    "index.js"
+  )
+  const bin = fs.existsSync(shadcnBin)
+    ? shadcnBin
+    : path.join(ROOT, "node_modules/shadcn/dist/index.js")
+  run(
+    "node",
+    [bin, "init", "-t", "vite", "-n", "app", "--defaults", "-y", "-c", dir],
+    dir
+  )
+  return path.join(dir, "app")
+}
+
+// The command the App Shell card shows: the shell written out from its options.
+// The project's own build then typechecks the file against this base's parts.
+function installConfiguredShell(appDir: string) {
+  const query =
+    "variant=floating&collapse=offcanvas&peek=hover&tabs=main&contentSize=lg"
+  cli(
+    [
+      "add",
+      "app-shell",
+      `${REGISTRY_URL}/init/app-shell?${query}`,
+      "-y",
+      "-o",
+      "-c",
+      appDir,
+    ],
+    appDir
+  )
+  const layout = fs.readFileSync(
+    path.join(appDir, "src/components/app-shell-layout.tsx"),
+    "utf8"
+  )
+  for (const expected of [
+    'variant="floating"',
+    'peek="hover"',
+    'size="lg"',
+    "<TabStripNew />",
+    "@/components/ui/app-shell",
+  ]) {
+    assert(layout.includes(expected), `app-shell-layout lacks ${expected}`)
+  }
+  assert(
+    !layout.includes("@/registry/"),
+    "app-shell-layout still imports from the registry"
+  )
+}
+
 type Scenario = { name: string; run: (dir: string) => void }
 
 const scenarios: Scenario[] = [
@@ -219,10 +327,28 @@ const scenarios: Scenario[] = [
           `lib/${lib} was not installed`
         )
       }
+      assertIconPack(appDir, "fabricator")
       writeViteApp(appDir, base)
+      installConfiguredShell(appDir)
       run("bun", ["run", "build"], appDir)
     },
   })),
+  {
+    name: "vite-lucide",
+    run(dir: string) {
+      // The setup page's command for a project that keeps Lucide.
+      const preset = `${REGISTRY_URL}/init?base=base&template=vite&iconLibrary=lucide`
+      cli(
+        ["init", "-t", "vite", "-p", preset, "-n", "app", "-y", "-c", dir],
+        dir
+      )
+      const appDir = path.join(dir, "app")
+      assertRegistry(appDir)
+      cli(["add", "dialog", "select", "-y", "-o", "-c", appDir], appDir)
+      assertIconPack(appDir, "lucide")
+      run("bun", ["run", "build"], appDir)
+    },
+  },
   {
     name: "next-base",
     run(dir: string) {
@@ -240,24 +366,7 @@ const scenarios: Scenario[] = [
   {
     name: "existing-shadcn",
     run(dir: string) {
-      // A plain shadcn project created from ui.shadcn.com, untouched by Fabricator.
-      const shadcnBin = path.join(
-        path.dirname(CLI),
-        "..",
-        "node_modules",
-        "shadcn",
-        "dist",
-        "index.js"
-      )
-      const bin = fs.existsSync(shadcnBin)
-        ? shadcnBin
-        : path.join(ROOT, "node_modules/shadcn/dist/index.js")
-      run(
-        "node",
-        [bin, "init", "-t", "vite", "-n", "app", "--defaults", "-y", "-c", dir],
-        dir
-      )
-      const appDir = path.join(dir, "app")
+      const appDir = scaffoldShadcnApp(dir)
       const before = readJson(path.join(appDir, "components.json"))
       assert(
         !before.registries?.["@fabricator"],
@@ -281,6 +390,8 @@ const scenarios: Scenario[] = [
         ],
         appDir
       )
+      // An existing project keeps its icons until it asks for Fabricator's.
+      assertIconPack(appDir, "lucide")
       writeViteApp(appDir, "base")
       run("bun", ["run", "build"], appDir)
 
@@ -289,7 +400,52 @@ const scenarios: Scenario[] = [
       run("bun", ["run", "build"], appDir)
     },
   },
+  {
+    name: "configured-shell-in-shadcn",
+    run(dir: string) {
+      // The App Shell card's command alone sets up the registry its file needs.
+      const appDir = scaffoldShadcnApp(dir)
+      installConfiguredShell(appDir)
+      assertRegistry(appDir)
+      run("bun", ["run", "build"], appDir)
+    },
+  },
 ]
+
+// Packs the workspace's icons and serves them, in its own process: every step
+// below blocks this one with spawnSync.
+const packDir = fs.mkdtempSync(path.join(os.tmpdir(), "fabricator-e2e-npm-"))
+const iconsDir = path.join(ROOT, "packages/icons")
+spawnSync("bun", ["pm", "pack", "--destination", packDir, "--quiet"], {
+  cwd: iconsDir,
+  stdio: "inherit",
+})
+const [tarball] = fs.readdirSync(packDir)
+assert(
+  tarball,
+  "Packing @fabricator-ui/icons failed: run `bun run build` first"
+)
+const localNpm = spawn(
+  "bun",
+  [
+    path.join(import.meta.dirname, "local-npm.ts"),
+    String(LOCAL_NPM_PORT),
+    path.join(packDir, tarball),
+    path.join(iconsDir, "package.json"),
+  ],
+  { stdio: "inherit" }
+)
+// It must not keep this process alive once the scenarios are done.
+localNpm.unref()
+process.on("exit", () => localNpm.kill())
+for (let attempt = 0; attempt < 50; attempt++) {
+  const isUp = await fetch(`${LOCAL_NPM}/${FABRICATOR_ICONS}`).then(
+    (response) => response.ok,
+    () => false
+  )
+  if (isUp) break
+  await new Promise((resolve) => setTimeout(resolve, 100))
+}
 
 const health = await fetch(
   `${REGISTRY_URL}/r/fabricator/base-nova/registry.json`

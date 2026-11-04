@@ -210,8 +210,8 @@ export function AppShellDemo() {
           />
           <AppShellPanelTrigger panel="inspector" />
         </AppShellHeader>
-        <AppShellContent>
-          <div className="mx-auto flex max-w-3xl flex-col gap-6 p-6">
+        <AppShellContent size="md">
+          <div className="flex flex-col gap-6">
             <AppShellPageTitle>Q4 launch</AppShellPageTitle>
             <p className="text-muted-foreground">
               Scroll down: the page title takes the breadcrumb&apos;s place in

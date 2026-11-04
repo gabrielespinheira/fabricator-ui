@@ -8,4 +8,6 @@ contextBridge.exposeInMainWorld("fabricatorDesktop", {
   platform: process.platform,
   setAppearance: (appearance) =>
     ipcRenderer.send("fabricator:appearance", appearance),
+  setTrafficLights: (position) =>
+    ipcRenderer.send("fabricator:traffic-lights", position),
 })

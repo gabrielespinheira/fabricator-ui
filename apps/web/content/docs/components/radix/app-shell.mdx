@@ -67,6 +67,12 @@ npx fabricator-ui@latest add app-shell
 
 </CodeTabs>
 
+To start from a shell with your options already set, pick them on [the App Shell page](/app-shell) and copy its command. It installs the parts and writes `components/app-shell-layout.tsx`, which is yours to edit:
+
+```bash
+npx fabricator-ui@latest add app-shell "https://fabricator-ui.vercel.app/init/app-shell?variant=floating&tabs=main"
+```
+
 ## Usage
 
 ```tsx
@@ -197,13 +203,32 @@ Inside the main column and the panels, `--background` is their surface, so anyth
 >
 ```
 
+## Content width
+
+`size` on `AppShellContent` centres the page in a column and gives it the page's padding, and the scrollbar stays at the edge of the main column. Set it per page, or from a setting your app offers.
+
+```tsx
+<AppShellContent size="md">
+  <AppShellPageTitle>Q4 launch</AppShellPageTitle>
+</AppShellContent>
+```
+
+| `size`       | Width  | For                                  |
+| ------------ | ------ | ------------------------------------ |
+| `sm`         | 672px  | Forms, settings, single-column flows |
+| `md`         | 896px  | Most pages                           |
+| `lg`         | 1152px | Dense pages and dashboards           |
+| _(left out)_ | Full   | Tables, boards, editors, chat        |
+
+For another width, set `--app-shell-content-width` on it along with a `size`. On a width narrower than the column, the page fills it.
+
 ## Panels
 
 `AppShellPanel` is a side column with its own state. Give it an `id`, a `label` and, optionally, `views`.
 
 - **Placement.** It docks beside the main column while there is room, and floats as a sheet when there isn't. On phones, `mobile` picks a bottom `drawer` (the default), `swap` (the panel becomes the screen, for list and detail layouts) or `none`.
 - **Views.** `AppShellPanelTabs` renders the `views` as tabs; each `AppShellPanelView` shows one. Below a 360px panel the tabs show their icons only.
-- **Triggers.** `AppShellPanelTrigger panel="inspector"` toggles it. Put it last in the header: it stays in the same spot on screen to open and close a docked right panel, sitting over the end of the panel's header while it's open, and `AppShellPanelClose` steps aside in its favour. Sheets and the whole-screen panel keep their close button, in that same spot. With `view`, the trigger shows that view, and pressing it again while that view shows closes the panel, as an editor's activity bar does.
+- **Triggers.** `AppShellPanelTrigger panel="inspector"` toggles it. Put it last in the main column's top row, the header or a tab row above it, so it lines up with the panel's header: it stays in the same spot on screen to open and close a docked right panel, sitting over the end of the panel's header while it's open, and `AppShellPanelClose` steps aside in its favour. Sheets and the whole-screen panel keep their close button, in that same spot. With `view`, the trigger shows that view, and pressing it again while that view shows closes the panel, as an editor's activity bar does.
 - **Resize.** Drag the panel's inner edge, or focus it and use the arrow keys (<Kbd>Shift</Kbd> for bigger steps), <Kbd>Home</Kbd> and <Kbd>End</Kbd>. Double-click resets the width. Dragging well past the minimum closes the panel.
 - **Shortcuts.** A right panel toggles with <Kbd>⌘\\</Kbd> (<Kbd>Ctrl+\\</Kbd> outside Apple platforms), also while typing in a field. `shortcut` changes it, and `shortcut={null}` turns it off; give each panel its own if two sit on the right. Each view's `shortcut` shows it.
 - **State.** Open, view and width are saved. A floating panel starts closed and its open state isn't saved, so opening it on a phone never changes the docked preference.
@@ -317,10 +342,10 @@ The `window` prop tells the shell where the native window controls are. The shel
 >
 ```
 
-- **The sidebar toggle.** The shell puts it in the window's top band, after the traffic lights on macOS, and keeps it there while the sidebar collapses. The header's own toggle only shows on phones. With an `AppShellTitlebar` row, the toggle sits in that row.
+- **The sidebar toggle.** The shell puts it in the window's top band, after the traffic lights on macOS, and keeps it there while the sidebar collapses. The header's own toggle only shows on phones. With an `AppShellTitlebar` row, the toggle sits in that row, which is as tall as the lights need: 40px at `{ x: 16, y: 13 }`, 60px at `{ x: 16, y: 23 }`. Electron can move them while running (`setWindowButtonPosition`); Tauri sets them when it creates the window.
 - **Insets.** The sidebar's top band holds the lights and the toggle; its header starts below them. While the sidebar is collapsed, the first row of the main column starts after the toggle. On macOS the first rows of the main column and the panels centre on the lights: at `{ x: 16, y: 23 }` they are 44px tall in the inset cards. With the overlay, the row at the top end clears the window buttons, using the Window Controls Overlay's `env(titlebar-area-*)`. In fullscreen both insets go away.
 - **Glass.** `isTranslucent` turns the frame and the sidebar transparent, so the window's material (macOS vibrancy, Windows Mica) shows through them; the main column and the panels stay opaque cards. Make the page transparent too (`html, body { background: transparent }`). On phone widths the frame keeps its surface.
-- **Drag regions.** The titlebar, the headers, the tab strip and the sidebar header move the window. Their buttons, links, fields and tabs stay clickable; mark anything else with `data-no-drag`. A collapsed off-canvas sidebar gives up its region, because Electron ignores opacity and clipping.
+- **Drag regions.** The titlebar, the headers, the tab strip and the sidebar header move the window. Their buttons, links, fields and tabs stay clickable; mark anything else with `data-no-drag`. A collapsed off-canvas sidebar gives up its region, because Electron ignores opacity and clipping. Electron also lets a drag region later in the document cancel an earlier `no-drag`, so a control you float over a later region needs that spot given back after it; the pinned panel toggle has this built in, and so does anything portalled outside the shell, such as dialogs and menus.
 
 The inset sidebar with off-canvas collapse matches a macOS app best: an icon rail is narrower than the traffic lights.
 
@@ -353,9 +378,9 @@ Native apps share the model, not the components. `lib/app-shell-model.ts` instal
 - shortcuts: `parseShortcut`, `matchesShortcut`, `formatShortcut`, for hardware keyboards on iPad
 - breadcrumbs, resize math, and the `ShellStorage` port (pass MMKV or SecureStore)
 
-Use the same navigation config on web and native, so routes, icons and active-page matching are defined once. `NavItem` takes the icon type as a parameter, so native items carry `lucide-react-native` icons where the web's carry `lucide-react`.
+Use the same navigation config on web and native, so routes, icons and active-page matching are defined once. `NavItem` takes the icon type as a parameter, so native items carry `@fabricator-ui/icons-react-native` icons where the web's carry `@fabricator-ui/icons`.
 
-The repository's [`apps/mobile`](https://github.com/gabrielespinheira/fabricator-ui/tree/main/apps/mobile) is an Expo example built this way. On a phone it has a header, bottom tabs, the sidebar behind the page and the panel as a native sheet. On an iPad it docks the sidebar and the panel beside the page as cards on the frame, with a status bar. It draws the website's theme from the same sources (surfaces, colour roles, density, radius, motion), resolved for React Native by `getNativeTheme(mode, look)` in `registry/fabricator/native-theme.ts`. That file stays in the repository and isn't a registry item. Its Home and Settings pages offer the website's look settings, and a link such as `fabricator-ui://look?surface=220_0.035&shape=pill` applies a look, with the same params as the [setup page](/create).
+The repository's [`apps/mobile`](https://github.com/gabrielespinheira/fabricator-ui/tree/main/apps/mobile) is an Expo example built this way. On a phone it has a header, bottom tabs, the sidebar behind the page and the panel as a native sheet. On an iPad it docks the sidebar and the panel beside the page as cards on the frame, with a status bar. It draws the website's theme from the same sources (surfaces, colour roles, density, radius, motion), resolved for React Native by `getNativeTheme(mode, look)` in `registry/fabricator/native-theme.ts`. That file stays in the repository and isn't a registry item. Its Home and Settings pages offer the website's look settings and the App Shell options native views can honour, and a link such as `fabricator-ui://look?surface=220_0.035&shape=pill` applies a look, with the same params as the [setup page](/create).
 
 ## API Reference
 
@@ -414,6 +439,12 @@ Also takes the Sidebar provider's props and the props of a `<div>`.
 | --------------- | -------------------------------------------------------- | ------- |
 | `actions`       | `{ id, label, icon?, onSelect, shortcut?, disabled? }[]` | `[]`    |
 | `primaryAction` | the same shape                                           | -       |
+
+### AppShellContent
+
+| Prop   | Type                   | Default        |
+| ------ | ---------------------- | -------------- |
+| `size` | `"sm" \| "md" \| "lg"` | - (full width) |
 
 ### AppShellPanelTrigger
 

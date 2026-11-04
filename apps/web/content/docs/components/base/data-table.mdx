@@ -377,8 +377,8 @@ Update our columns definition to add a new `actions` column. The `actions` cell 
 ```tsx showLineNumbers title="app/payments/columns.tsx" {4,6-14,18-45}
 "use client"
 
+import { MoreHorizontal } from "@fabricator-ui/icons"
 import { createColumnHelper } from "@tanstack/react-table"
-import { MoreHorizontal } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import {
@@ -543,8 +543,8 @@ We can now update the `email` header cell to add sorting controls.
 ```tsx showLineNumbers title="app/payments/columns.tsx" {4,8-18}
 "use client"
 
+import { ArrowUpDown } from "@fabricator-ui/icons"
 import { createColumnHelper } from "@tanstack/react-table"
-import { ArrowUpDown } from "lucide-react"
 
 export const columns = columnHelper.columns([
   columnHelper.accessor("email", {

@@ -11,7 +11,7 @@ import {
   MOTION_SPEEDS,
   SURFACE_PRESETS,
 } from "@/lib/site-settings"
-import { useConfig } from "@/hooks/use-config"
+import { usePackageManager } from "@/hooks/use-package-manager"
 import { CopyButton, copyToClipboardWithMeta } from "@/components/copy-button"
 import { getFabricatorSiteUrl } from "@/registry/fabricator"
 import { roleToHex } from "@/registry/fabricator/color-roles"
@@ -44,19 +44,6 @@ const DARK_MODE_GUIDES: Partial<Record<Framework, string>> = {
 
 const LINK_CLASS =
   "rounded-sm text-foreground underline underline-offset-4 outline-none hover:text-foreground/80 focus-visible:ring-1 focus-visible:ring-focus-ring"
-
-function subscribeNothing() {
-  return () => {}
-}
-
-/** False during server rendering and hydration, true after. */
-function useIsHydrated() {
-  return React.useSyncExternalStore(
-    subscribeNothing,
-    () => true,
-    () => false
-  )
-}
 
 /** Copies text, and says so for two seconds. */
 function useCopied() {
@@ -91,10 +78,7 @@ export function InstallStep({
   onBack: () => void
   onEdit: (step: StepName) => void
 }) {
-  const [config, setConfig] = useConfig()
-  // The stored choice is read on the client; the server renders bun.
-  const isHydrated = useIsHydrated()
-  const packageManager = isHydrated ? config.packageManager : "bun"
+  const { isHydrated, packageManager, setPackageManager } = usePackageManager()
   const [copied, copy] = useCopied()
 
   const commands = buildSetupCommands(setup, {
@@ -132,7 +116,7 @@ export function InstallStep({
             value={[packageManager]}
             onValueChange={(next) => {
               const selected = PACKAGE_MANAGERS.find((name) => name === next[0])
-              if (selected) setConfig({ ...config, packageManager: selected })
+              if (selected) setPackageManager(selected)
             }}
             spacing={0.5}
             size="sm"

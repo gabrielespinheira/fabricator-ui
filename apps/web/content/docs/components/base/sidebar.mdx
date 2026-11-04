@@ -76,7 +76,7 @@ export default async function Layout({
 ```tsx showLineNumbers title="components/app-sidebar.tsx"
 "use client"
 
-import { InboxIcon, SearchIcon } from "lucide-react"
+import { InboxIcon, SearchIcon } from "@fabricator-ui/icons"
 
 import {
   Sidebar,
@@ -166,7 +166,7 @@ SidebarProvider
 
 ### Collapsible sections
 
-`collapsible` on `SidebarGroup` turns its label into a toggle for everything after it. A chevron appears on hover and stays visible while the section is closed. `SidebarGroupActions` holds up to three actions on the label row.
+`collapsible` on `SidebarGroup` turns its label into a toggle for everything after it. A chevron appears on hover and stays visible while the section is closed. `SidebarGroupActions` holds up to three actions on the label row; a closed section hides them with its rows.
 
 <ComponentPreview styleName="base-nova" name="sidebar-sections" type="frame" />
 
@@ -344,7 +344,7 @@ To render a link, use the `render` prop (`render={<Link href="/inbox" />}`):
 | ------------- | --------- | ------- |
 | `showOnHover` | `boolean` | `false` |
 
-`SidebarMenuActions` wraps several `SidebarMenuAction`s; set `showOnHover` on the wrapper. `SidebarGroupActions` does the same for `SidebarGroupAction`s on a section's label row. Give every action an `aria-label`.
+`SidebarMenuActions` wraps several `SidebarMenuAction`s; set `showOnHover` on the wrapper. `SidebarGroupActions` does the same for `SidebarGroupAction`s on a section's label row, where `showOnHover` waits for the row to be hovered or focused. Give every action an `aria-label`.
 
 ### SidebarMenuSub, SidebarMenuSubButton
 

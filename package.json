@@ -36,6 +36,7 @@
     "icons:sync": "bun ./packages/icons-core/scripts/sync-lucide.ts",
     "icons:animated": "bun ./packages/icons-core/scripts/sync-animated.ts",
     "icons:audit": "bun run --cwd packages/icons audit:animated",
+    "release:icons": "./scripts/publish-icons.sh",
     "icons:brands": "bun ./packages/icons-core/scripts/import-brands.ts",
     "icons:check": "bun ./packages/icons-core/scripts/check.ts",
     "icons:sheet": "bun ./packages/icons-core/scripts/sheet.ts"

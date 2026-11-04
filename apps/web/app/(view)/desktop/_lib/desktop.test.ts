@@ -1,12 +1,64 @@
 import { describe, expect, it } from "vitest"
 
 import {
+  COMPONENT_PATH,
   getDesktopWindow,
   getExplorerNavGroups,
+  getExplorerTabId,
+  getNewTabId,
   getPlatform,
+  getTrafficLightsSetter,
   isFullscreenWindow,
+  isNewTab,
   readDesktopRuntime,
+  withGlass,
 } from "./desktop"
+
+describe("getExplorerTabId", () => {
+  it("reads the tab a link opens", () => {
+    expect(getExplorerTabId("/")).toBe("overview")
+    expect(getExplorerTabId(`${COMPONENT_PATH}button`)).toBe("button")
+  })
+
+  it("has no tab for anything else", () => {
+    expect(getExplorerTabId(undefined)).toBeNull()
+    expect(getExplorerTabId("/docs")).toBeNull()
+  })
+})
+
+describe("getNewTabId", () => {
+  it("numbers new tabs from one", () => {
+    expect(getNewTabId([])).toBe("new-1")
+    expect(getNewTabId(["overview", "button"])).toBe("new-1")
+  })
+
+  it("takes the first number nothing uses", () => {
+    expect(getNewTabId(["new-1", "button", "new-3"])).toBe("new-2")
+  })
+
+  it("is a new tab, and component tabs are not", () => {
+    expect(isNewTab(getNewTabId([]))).toBe(true)
+    expect(isNewTab("button")).toBe(false)
+    expect(isNewTab("overview")).toBe(false)
+    expect(isNewTab(null)).toBe(false)
+  })
+})
+
+describe("withGlass", () => {
+  const glassWindow = { controls: "macos", isTranslucent: true } as const
+
+  it("keeps the window's glass when asked", () => {
+    expect(withGlass(glassWindow, true)?.isTranslucent).toBe(true)
+  })
+
+  it("paints the frame opaque when not", () => {
+    expect(withGlass(glassWindow, false)?.isTranslucent).toBe(false)
+  })
+
+  it("leaves a browser without a window", () => {
+    expect(withGlass(undefined, true)).toBeUndefined()
+  })
+})
 
 describe("getPlatform", () => {
   it("reads the platform from the user agent", () => {
@@ -64,6 +116,7 @@ describe("getDesktopWindow", () => {
         runtime: "browser",
         platform: "mac",
         isFullscreen: false,
+        hasTitlebar: false,
       })
     ).toBeUndefined()
   })
@@ -80,6 +133,7 @@ describe("getDesktopWindow", () => {
         runtime: "electron",
         platform: "mac",
         isFullscreen: true,
+        hasTitlebar: false,
       })
     ).toEqual(expected)
     expect(
@@ -87,8 +141,31 @@ describe("getDesktopWindow", () => {
         runtime: "tauri",
         platform: "mac",
         isFullscreen: true,
+        hasTitlebar: false,
       })
     ).toEqual(expected)
+  })
+
+  it("centres Electron's lights in a titlebar row", () => {
+    expect(
+      getDesktopWindow({
+        runtime: "electron",
+        platform: "mac",
+        isFullscreen: false,
+        hasTitlebar: true,
+      })?.trafficLights
+    ).toEqual({ x: 16, y: 13 })
+  })
+
+  it("keeps Tauri's lights where the window was created with them", () => {
+    expect(
+      getDesktopWindow({
+        runtime: "tauri",
+        platform: "mac",
+        isFullscreen: false,
+        hasTitlebar: true,
+      })?.trafficLights
+    ).toEqual({ x: 16, y: 23 })
   })
 
   it("clears Electron's window buttons on Windows and Linux", () => {
@@ -97,6 +174,7 @@ describe("getDesktopWindow", () => {
         runtime: "electron",
         platform: "linux",
         isFullscreen: false,
+        hasTitlebar: false,
       })
     ).toEqual({ controls: "overlay", isFullscreen: false })
   })
@@ -107,8 +185,27 @@ describe("getDesktopWindow", () => {
         runtime: "tauri",
         platform: "windows",
         isFullscreen: false,
+        hasTitlebar: false,
       })
     ).toBeUndefined()
+  })
+})
+
+describe("getTrafficLightsSetter", () => {
+  it("moves the lights through the Electron bridge", () => {
+    const moved: unknown[] = []
+    const setter = getTrafficLightsSetter({
+      fabricatorDesktop: {
+        setTrafficLights: (position: unknown) => moved.push(position),
+      },
+    })
+    setter?.({ x: 16, y: 13 })
+    expect(moved).toEqual([{ x: 16, y: 13 }])
+  })
+
+  it("has nothing to call without the bridge", () => {
+    expect(getTrafficLightsSetter({})).toBeNull()
+    expect(getTrafficLightsSetter({ fabricatorDesktop: {} })).toBeNull()
   })
 })
 

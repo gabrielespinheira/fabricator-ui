@@ -33,17 +33,20 @@ const SIDEBAR_DRIFT = 0.12
 const CLOSED_SIDEBAR_OPACITY = 0.5
 
 /**
- * The phone's sidebar sits behind the page. Opening it moves the page aside and
- * shrinks it, with the rest of the page still in view beside the sidebar, on
- * the look's sheet timing. A tap on the page, or dragging it back, closes it; a
- * swipe from the leading edge opens it. Reduced motion moves it in place.
+ * The phone's sidebar. `reveal`: it sits behind the page, and opening it moves
+ * the page aside and shrinks it, with the rest of the page still in view beside
+ * it. `sheet`: it slides over the page and a scrim. Both run on the look's sheet
+ * timing: a tap on the page or dragging back closes it, a swipe from the leading
+ * edge opens it, and reduced motion moves it in place.
  */
 export function SidebarReveal({
+  variant,
   isOpen,
   onOpenChange,
   sidebar,
   children,
 }: {
+  variant: "reveal" | "sheet"
   isOpen: boolean
   onOpenChange: (isOpen: boolean) => void
   sidebar: React.ReactNode
@@ -58,6 +61,7 @@ export function SidebarReveal({
   // Stays true until the page is back, so its corners and shadow leave last.
   const [isAside, setIsAside] = React.useState(false)
   const reduceMotion = useReducedMotion()
+  const isSheet = variant === "sheet"
 
   const settle = React.useCallback(
     (toOpen: boolean) => {
@@ -143,18 +147,19 @@ export function SidebarReveal({
         pointerEvents={isOpen ? "auto" : "none"}
         style={[
           styles.sidebar,
+          isSheet && styles.sidebarOver,
           !isAside && styles.hidden,
           {
             width,
             opacity: progress.interpolate({
               inputRange: [0, 1],
-              outputRange: [CLOSED_SIDEBAR_OPACITY, 1],
+              outputRange: [isSheet ? 1 : CLOSED_SIDEBAR_OPACITY, 1],
             }),
             transform: [
               {
                 translateX: progress.interpolate({
                   inputRange: [0, 1],
-                  outputRange: [-width * SIDEBAR_DRIFT, 0],
+                  outputRange: [isSheet ? -width : -width * SIDEBAR_DRIFT, 0],
                 }),
               },
             ],
@@ -168,19 +173,19 @@ export function SidebarReveal({
         accessibilityElementsHidden={isOpen}
         style={[
           styles.page,
-          isAside && styles.pageAside,
+          isAside && !isSheet && styles.pageAside,
           {
             transform: [
               {
                 translateX: progress.interpolate({
                   inputRange: [0, 1],
-                  outputRange: [0, width],
+                  outputRange: [0, isSheet ? 0 : width],
                 }),
               },
               {
                 scale: progress.interpolate({
                   inputRange: [0, 1],
-                  outputRange: [1, REVEAL_SCALE],
+                  outputRange: [1, isSheet ? 1 : REVEAL_SCALE],
                 }),
               },
             ],
@@ -191,6 +196,12 @@ export function SidebarReveal({
           {children}
         </View>
       </Animated.View>
+      {isSheet && isAside && (
+        <Animated.View
+          pointerEvents="none"
+          style={[styles.scrim, { opacity: progress }]}
+        />
+      )}
       {isOpen && (
         <View
           {...closeDrag.panHandlers}
@@ -214,6 +225,16 @@ const buildStyles = (theme: Theme) =>
     frame: { flex: 1, backgroundColor: theme.colors.frame },
     sidebar: { position: "absolute", top: 0, bottom: 0, left: 0 },
     hidden: { display: "none" },
+    sidebarOver: {
+      zIndex: 2,
+      backgroundColor: theme.colors.frame,
+      boxShadow: theme.shadows.raised,
+    },
+    scrim: {
+      ...StyleSheet.absoluteFill,
+      zIndex: 1,
+      backgroundColor: theme.colors.scrim,
+    },
     page: {
       flex: 1,
       transformOrigin: "left center",
@@ -224,5 +245,5 @@ const buildStyles = (theme: Theme) =>
       boxShadow: theme.shadows.page,
       overflow: "hidden",
     },
-    closeArea: { position: "absolute", top: 0, bottom: 0, right: 0 },
+    closeArea: { position: "absolute", top: 0, bottom: 0, right: 0, zIndex: 3 },
   })

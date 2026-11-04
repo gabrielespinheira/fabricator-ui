@@ -19,6 +19,16 @@ In a desktop window the sidebar toggle sits in the window's top band, beside the
 
 On phones the shell shows the sidebar behind the page, which moves aside and shrinks beside it; `mobileSidebar="sheet"` keeps a sheet. The panel's toggle holds one spot on screen to open and close.
 
+[The App Shell page](/app-shell) gives you a command for the options you pick: `add app-shell` with its URL writes `components/app-shell-layout.tsx`, already set up with them.
+
+`AppShellContent` takes a `size` (`sm`, `md` or `lg`) that centres the page in a column and gives it the page's padding; left out, the page has the main column's full width.
+
+The Sidebar's rows sit 8px from its edges in the `inset` variant, as in `sidebar`, and groups sit 16px apart. Group actions, badges, row actions, the header's trigger and the large rows' chevrons share one axis. `SidebarGroupActions` gained `showOnHover`, App Nav uses it, and a closed group hides its actions. `AppNavCustomize`'s default trigger is a sidebar row with an icon, so it fits the icon rail.
+
+App Nav's Customize dialog reorders rows too, by dragging their grips or with the arrow keys, in any group. A dragged row lifts off the list, and a slot marks where it lands.
+
+Toggle Group's joined groups (`spacing={0}`) keep the first button's border and rounded corners, and clip the sliding selection to their own.
+
 The Sidebar's provider gained `onWidthChange`, called when a rail resize ends, and `mobileSidebar`. Its rows are 30px and calmer at rest, with labels at 80% foreground and muted icons, and the active row sits raised on its background instead of turning semibold. Sub-menus nest to any depth, 16px a level, with a guide line that shows on hover and a quiet wash on the current nested row. Group headers are 24px with the chevron after the label, and the toggle draws a filled panel glyph at 18px. Density gained a 30px step (`--density-30`).
 
 Tabs' resting labels are a step darker in light mode, so they meet 4.5:1 on the track.

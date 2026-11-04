@@ -291,14 +291,26 @@ function insertAt(ids: string[], id: string, index: number) {
 
 /**
  * Moves an item to a position in a list: a top-level item within its group
- * or into another, a child within its parent. Anything else is ignored.
+ * or into another, a child within its parent. Anything else is ignored. The
+ * index counts the rows on show; hidden rows keep their place among them.
  */
 export function moveNavItem<TIcon>(
   preferences: NavPreferences,
   groups: NavGroup<TIcon>[],
   { id, toParentId, toIndex }: NavMove
 ): NavPreferences {
-  const applied = applyNavPreferences(groups, preferences)
+  const applied = applyNavPreferences(groups, {
+    ...preferences,
+    hidden: [],
+  })
+  const hidden = new Set(preferences.hidden)
+  const place = (ids: string[]) => {
+    const onShow = ids.filter((other) => !hidden.has(other))
+    const next = onShow[toIndex]
+    const last = onShow.at(-1)
+    if (next !== undefined) return insertAt(ids, id, ids.indexOf(next))
+    return insertAt(ids, id, last === undefined ? 0 : ids.indexOf(last) + 1)
+  }
   const from = applied.find((group) =>
     group.items.some((item) => item.id === id)
   )
@@ -315,7 +327,7 @@ export function moveNavItem<TIcon>(
       ...preferences,
       order: {
         ...preferences.order,
-        [parent.id]: insertAt(siblings, id, toIndex),
+        [parent.id]: place(siblings),
       },
     }
   }
@@ -326,7 +338,7 @@ export function moveNavItem<TIcon>(
     .map((item) => item.id)
     .filter((itemId) => itemId !== id)
   const toIds = from === to ? fromIds : to.items.map((item) => item.id)
-  const nextToIds = insertAt(toIds, id, toIndex)
+  const nextToIds = place(toIds)
 
   return {
     ...preferences,
@@ -341,6 +353,26 @@ export function moveNavItem<TIcon>(
 function setMember(list: string[], id: string, isMember: boolean) {
   const without = list.filter((entry) => entry !== id)
   return isMember ? [...without, id] : without
+}
+
+/** Every row in its saved order, hidden ones too: what Customize lists. */
+export function getCustomizableNavGroups<TIcon>(
+  groups: NavGroup<TIcon>[],
+  preferences: NavPreferences
+) {
+  return applyNavPreferences(groups, { ...preferences, hidden: [] })
+}
+
+/** Moves a row within that list, where the index counts hidden rows too. */
+export function moveCustomizableNavItem<TIcon>(
+  preferences: NavPreferences,
+  groups: NavGroup<TIcon>[],
+  move: NavMove
+): NavPreferences {
+  return {
+    ...moveNavItem({ ...preferences, hidden: [] }, groups, move),
+    hidden: preferences.hidden,
+  }
 }
 
 export function setNavItemHidden(
@@ -462,12 +494,18 @@ export type OpenTabOptions = {
   after?: string
   /** Don't activate it. */
   background?: boolean
+  /**
+   * Open in this tab's place, as a page opens over a browser's new tab. The
+   * replaced tab isn't kept for reopening. A tab that is already open is shown
+   * where it is, and this one stays.
+   */
+  replace?: string
 }
 
 export function openTab(
   state: TabStripState,
   id: string,
-  { preview = false, after, background = false }: OpenTabOptions = {}
+  { preview = false, after, background = false, replace }: OpenTabOptions = {}
 ): TabStripState {
   const activate = (next: TabStripState) =>
     background ? next : activateTab(next, id)
@@ -479,10 +517,12 @@ export function openTab(
   }
 
   const closed = state.closed.filter((entry) => entry !== id)
-  const replaced =
+  const previewTab =
     preview && state.preview && state.tabs.includes(state.preview)
       ? state.preview
       : null
+  const replaced =
+    replace && state.tabs.includes(replace) ? replace : previewTab
 
   let tabs: string[]
   if (replaced) {
@@ -499,10 +539,11 @@ export function openTab(
   return activate({
     ...state,
     tabs,
+    pinned: state.pinned.map((entry) => (entry === replaced ? id : entry)),
     recent: replaced
       ? state.recent.filter((entry) => entry !== replaced)
       : state.recent,
-    preview: preview ? id : state.preview,
+    preview: preview ? id : state.preview === replaced ? null : state.preview,
     closed,
   })
 }
@@ -679,6 +720,14 @@ export function getTrafficLightsGeometry(position: { x: number; y: number }) {
     bandHeight: position.y * 2 + TRAFFIC_LIGHTS_HEIGHT,
   }
 }
+
+/**
+ * The widths of the page's column in AppShellContent, in px: forms and settings,
+ * most pages, and dense ones. The style map has them in rem.
+ */
+export const APP_SHELL_CONTENT_WIDTHS = { sm: 672, md: 896, lg: 1152 } as const
+
+export type AppShellContentSize = keyof typeof APP_SHELL_CONTENT_WIDTHS
 
 export type PanelPlacement = "inline" | "overlay" | "drawer" | "swap"
 

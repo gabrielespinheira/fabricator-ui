@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest"
 
 import {
   activateTab,
+  APP_SHELL_CONTENT_WIDTHS,
   applyNavPreferences,
   closeOtherTabs,
   closeTabs,
@@ -14,6 +15,7 @@ import {
   getActiveNavItem,
   getActiveTab,
   getBreadcrumbsFromPath,
+  getCustomizableNavGroups,
   getDefaultPanelShortcut,
   getMobileTabItems,
   getNavList,
@@ -28,6 +30,7 @@ import {
   getTrafficLightsGeometry,
   isChordShortcut,
   matchesShortcut,
+  moveCustomizableNavItem,
   moveNavItem,
   moveTab,
   openTab,
@@ -863,6 +866,179 @@ describe("getPanelTriggerAnchor", () => {
     expect(getPanelTriggerAnchor({ ...docked, ...change })).toEqual({
       isPinned: false,
       shift: 0,
+    })
+  })
+})
+
+describe("openTab over another tab", () => {
+  const blank = {
+    tabs: ["home", "button", "badge", "new-1"],
+    pinned: ["home"],
+    recent: ["new-1", "badge", "button", "home"],
+    preview: "badge",
+    closed: ["old"],
+  }
+
+  it("takes that tab's place and becomes active", () => {
+    const next = openTab(blank, "avatar", { replace: "new-1" })
+    expect(next.tabs).toEqual(["home", "button", "badge", "avatar"])
+    expect(getActiveTab(next)).toBe("avatar")
+  })
+
+  it("leaves an existing preview tab alone", () => {
+    const next = openTab(blank, "avatar", { preview: true, replace: "new-1" })
+    expect(next.tabs).toEqual(["home", "button", "badge", "avatar"])
+    expect(next.preview).toBe("avatar")
+  })
+
+  it("keeps the other preview tab when it opens a regular one", () => {
+    expect(openTab(blank, "avatar", { replace: "new-1" }).preview).toBe("badge")
+  })
+
+  it("forgets the replaced tab, so reopening doesn't bring it back", () => {
+    const next = openTab(blank, "avatar", { replace: "new-1" })
+    expect(next.closed).toEqual(["old"])
+    expect(next.recent).not.toContain("new-1")
+  })
+
+  it("clears the preview when it replaces the preview tab itself", () => {
+    const next = openTab(blank, "avatar", { replace: "badge" })
+    expect(next.tabs).toEqual(["home", "button", "avatar", "new-1"])
+    expect(next.preview).toBeNull()
+  })
+
+  it("keeps a pinned tab's place in the pinned block", () => {
+    const next = openTab(blank, "avatar", { replace: "home" })
+    expect(next.tabs[0]).toBe("avatar")
+    expect(next.pinned).toEqual(["avatar"])
+  })
+
+  it("shows a tab that is already open and keeps the other one", () => {
+    const next = openTab(blank, "button", { preview: true, replace: "new-1" })
+    expect(next.tabs).toEqual(blank.tabs)
+    expect(getActiveTab(next)).toBe("button")
+    expect(next.preview).toBe("badge")
+  })
+
+  it("opens normally when the tab to replace is gone", () => {
+    const next = openTab(blank, "avatar", { replace: "missing" })
+    expect(next.tabs).toEqual(["home", "button", "badge", "new-1", "avatar"])
+  })
+})
+
+describe("APP_SHELL_CONTENT_WIDTHS", () => {
+  it("offers three growing widths", () => {
+    expect(Object.keys(APP_SHELL_CONTENT_WIDTHS)).toEqual(["sm", "md", "lg"])
+    const { sm, md, lg } = APP_SHELL_CONTENT_WIDTHS
+    expect(sm).toBeLessThan(md)
+    expect(md).toBeLessThan(lg)
+  })
+})
+
+describe("the order and hidden rows", () => {
+  const tree = [
+    {
+      id: "work",
+      items: [
+        { id: "a", label: "A" },
+        { id: "b", label: "B" },
+        { id: "c", label: "C" },
+        { id: "d", label: "D" },
+      ],
+    },
+  ]
+  const ids = (group: { items: { id: string }[] }) =>
+    group.items.map((item) => item.id)
+  const hiding = (...hidden: string[]) => ({
+    ...EMPTY_NAV_PREFERENCES,
+    hidden,
+  })
+
+  describe("getCustomizableNavGroups", () => {
+    it("lists hidden rows, in the saved order", () => {
+      const preferences = {
+        ...EMPTY_NAV_PREFERENCES,
+        hidden: ["b"],
+        order: { work: ["d", "c", "b", "a"] },
+      }
+      const [group] = getCustomizableNavGroups(tree, preferences)
+      expect(group && ids(group)).toEqual(["d", "c", "b", "a"])
+    })
+  })
+
+  describe("moveNavItem", () => {
+    // In the sidebar the index counts the rows on show.
+    it("keeps a hidden row's place when another row moves", () => {
+      const preferences = moveNavItem(hiding("b"), tree, {
+        id: "d",
+        toParentId: "work",
+        toIndex: 0,
+      })
+      expect(preferences.order.work).toEqual(["d", "a", "b", "c"])
+    })
+
+    it("counts only the rows on show", () => {
+      const preferences = moveNavItem(hiding("b"), tree, {
+        id: "a",
+        toParentId: "work",
+        toIndex: 1,
+      })
+      expect(preferences.order.work).toEqual(["b", "c", "a", "d"])
+    })
+
+    it("lands after the last row on show, ahead of a hidden one", () => {
+      const preferences = moveNavItem(hiding("d"), tree, {
+        id: "a",
+        toParentId: "work",
+        toIndex: 2,
+      })
+      expect(preferences.order.work).toEqual(["b", "c", "a", "d"])
+    })
+  })
+
+  describe("moveCustomizableNavItem", () => {
+    it("counts hidden rows too, and leaves them hidden", () => {
+      const preferences = moveCustomizableNavItem(hiding("b"), tree, {
+        id: "d",
+        toParentId: "work",
+        toIndex: 1,
+      })
+      expect(preferences.order.work).toEqual(["a", "d", "b", "c"])
+      expect(preferences.hidden).toEqual(["b"])
+    })
+
+    it("moves a hidden row", () => {
+      const preferences = moveCustomizableNavItem(hiding("b"), tree, {
+        id: "b",
+        toParentId: "work",
+        toIndex: 3,
+      })
+      expect(preferences.order.work).toEqual(["a", "c", "d", "b"])
+      expect(preferences.hidden).toEqual(["b"])
+    })
+
+    it("moves a child among its siblings", () => {
+      const nested = [
+        {
+          id: "work",
+          items: [
+            {
+              id: "parent",
+              label: "Parent",
+              children: [
+                { id: "one", label: "One" },
+                { id: "two", label: "Two" },
+              ],
+            },
+          ],
+        },
+      ]
+      const preferences = moveCustomizableNavItem(
+        EMPTY_NAV_PREFERENCES,
+        nested,
+        { id: "two", toParentId: "parent", toIndex: 0 }
+      )
+      expect(preferences.order.parent).toEqual(["two", "one"])
     })
   })
 })

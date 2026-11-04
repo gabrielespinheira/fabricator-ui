@@ -3,11 +3,12 @@
   /* A 40px row of document tabs on the surface it sits on. `sm` pins it to
      the compact density. */
   .cn-tab-strip {
-    @apply h-(--density-40) gap-(--density-4) px-(--density-6) data-[size=sm]:density-compact;
+    @apply h-(--density-40) gap-(--density-4) px-(--density-6) in-data-[slot=app-shell-header]:-me-(--density-6) data-[size=sm]:density-compact;
   }
 
-  /* The list scrolls sideways under faded edges, with no scrollbar. It is a
-     fluid hover container: the active tab's raised pill slides between tabs
+  /* The list is as wide as its tabs, so the new tab button follows the last
+     one, and shrinks and then scrolls sideways under faded edges, with no
+     scrollbar. It is a fluid hover container: the active tab's raised pill slides between tabs
      and a hover highlight glides. While a tab drags, the overlays hide and
      the active tab paints its own pill. */
   .cn-tab-strip-list {
@@ -64,8 +65,9 @@
     @apply shrink-0;
   }
 
+  /* The menu of every tab ends the row. */
   .cn-tab-strip-overflow {
-    @apply shrink-0;
+    @apply ms-auto shrink-0;
   }
 
   .cn-tab-strip-overflow-menu {

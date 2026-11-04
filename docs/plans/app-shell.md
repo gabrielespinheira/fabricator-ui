@@ -740,3 +740,47 @@ Every phase meets the AGENTS.md definition of done before the next starts, and s
 - **Settings on the examples' home pages (after review):** the desktop example's Overview renders the website's `SiteSettingsFields` in a Card and opens on that tab. The React Native example opens on Home, with a native card built from the same measurements (row 40, select 28, track 32, swatch 12) and native menus for the choices. Sound and Icons stay on the web and desktop: the app has no audio engine, and it ships one icon library.
 - **The panel's shortcut (after review):** a right panel toggles with `mod+\` by default, as in Relay, also while typing, since a chord types nothing. Shortcut matching stays physical for letters and named keys, but a symbol matches by what it types: `\` sits elsewhere on Portuguese and Brazilian keyboards, where the US position types another character.
 - **The playground's Home (after review):** `/app-shell` opens on Home, which holds the website's settings and the shell's options as two cards; the floating Options button is gone. The options' own Density was removed, because it overrode the Settings card's Density on the same screen; density is no longer part of a shared layout link.
+- **Options on every home (after review):** `OptionShell` (`app/(view)/app-shell/_components/option-shell.tsx`) composes the shell from the option cards' choices, so the playground and the desktop example honour every option the same way; the desktop example starts from its own defaults and hides what the real window decides. `apps/mobile` has a native card with the options native views can honour: Style, Collapse (with an icon rail), the phone sidebar's Reveal or Sheet, Workspaces, Account, Breadcrumb, Header actions, Status bar, Tab bar, Panel and the panel on phones. Peek, a searchable workspace list, Customize, Drag to reorder, Tabs and Window have no native counterpart yet, and a row only shows on the devices where it does something.
+- **Titlebar row and panel toggle (after review):** the titlebar row is as tall as the
+  traffic lights need (`y * 2 + 14`), so `y: 23` made it 60px. The examples use `y: 13`
+  with a titlebar (40px): Electron moves its lights at runtime, Tauri 2.12.5 can't (the
+  setter is on its internal dispatcher only, and tao reapplies the creation position on
+  every redraw), so its titlebar stays 60px. The panel toggle pins over the panel's
+  header, so it has to live in the main column's top row: with tabs above the header it
+  goes in the tab row.
+- **The pinned toggle in a window (after review):** Electron applies `app-region` rects
+  in document order and the later one wins, and a press inside a drag rect never reaches
+  the page. The toggle lives in the main column, ahead of the panel's header, so with the
+  panel open it was dead in a real window while every CDP click passed. `AppShellPanel`
+  ends with a no-drag guard over the toggle's spot, on the aside because the inner header
+  slides during the animation. `__tests__/app-shell-window.test.ts` pins it.
+- **The row's end with the panel open (after review):** the pinned toggle used to keep
+  its slot so the row's content wouldn't move, but that content moves with the column's
+  edge anyway, and it left the tab strip's chevron and the actions stranded. Now the
+  anchor gives up its slot through a negative start margin on the panel's timing: the
+  row's content ends at the header's padding and the toggle's position is untouched.
+- **Tabs like the reference strip (after review):** the row runs the column's full width
+  on the strip's own 6px inset, with no header padding around it. The list sizes to its
+  tabs, so the new tab button follows the last one and the menu of every tab ends the row.
+  Tabs had an inline `shrink-0` that defeated their `min-w-36`; only pinned ones keep it.
+  The desktop example gets a blank "New tab" page. `openTab`'s `replace` option opens a
+  tab in the blank one's place (Relay's rule): closing the blank and opening a preview
+  instead replaced whichever preview tab existed elsewhere, and lost that tab.
+- **Content width (after review):** the pages hand-rolled `mx-auto max-w-*`. `AppShellContent`
+  takes `size`, three named widths (`APP_SHELL_CONTENT_WIDTHS`, which React Native shares);
+  left out, the page stays full width. It's padding on the scroller rather than a wrapper,
+  so the scrollbar stays at the column's edge. The value is `md`, not `default`, because
+  leaving the prop out means something else.
+- **Install commands on the setup cards (after review):** the Settings card reuses
+  `buildSetupCommands` (`init -p`, `add sounds`). App Shell options are props in code, so
+  `/init/app-shell` writes the file from them and serves it as a registry item. No CLI
+  release needed: `add` already passes URLs through. Theme stays out: it's each person's
+  preference, not the project's. The React Native example has no CLI equivalent.
+- **Reordering (after review):** the row actions' badge offset leaked to children and
+  doubled inside a cluster; it now reads "my parent has a badge beside me". A dragged row
+  lifts to surface 5 and dnd-kit's placeholder, restyled, marks where it lands. Customize
+  lists rows in their saved order, hidden ones included, with a grip (pointer and arrow
+  keys) in any group. `moveNavItem`'s index counts the rows on show and hidden rows keep
+  their place. Everything portalled outside the shell is `no-drag`: the dialog's Close and
+  menu items over a header's drag rect were dead in a real window.
+- **The setup cards (after review):** Settings and App Shell stack, each splitting its rows into two columns once the card has room (a container query), so a label stays near its control. Both use the Settings card's rows and pill control. This exposed a Toggle Group bug: the fluid hover's overlays come before the buttons, so `first:` never matched, and joined groups lost the first button's border and corners; they now use `first-of-type:` and clip the selection.

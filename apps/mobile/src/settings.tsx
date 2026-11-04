@@ -1,5 +1,4 @@
 import * as React from "react"
-import { getShellSize } from "@fabricator-ui/app-shell-model"
 import {
   ChevronDownIcon,
   MonitorIcon,
@@ -7,13 +6,7 @@ import {
   SunIcon,
   type LucideIcon,
 } from "lucide-react-native"
-import {
-  Pressable,
-  StyleSheet,
-  Text,
-  useWindowDimensions,
-  View,
-} from "react-native"
+import { Pressable, StyleSheet, Text, View, type ViewStyle } from "react-native"
 
 import { roleToHex, sameRoleColor } from "@/registry/fabricator/color-roles"
 import type { FabricatorLook } from "@/registry/fabricator/look"
@@ -27,6 +20,7 @@ import {
 import { sameTint, tintToHex } from "@/registry/fabricator/surface-tint"
 
 import { showActionMenu, type MenuButton } from "./shell/action-menu"
+import { OptionCard } from "./shell/option-card"
 import {
   FONT,
   useStyles,
@@ -41,7 +35,6 @@ const ROW_HEIGHT = 40
 const ROW_TEXT = 13
 const SEGMENT_WIDTH = 34
 const SWATCH_SIZE = 12
-const CARD_MAX_WIDTH = 320
 
 /** Reaches the rest of the row and the room above and below the 28pt button. */
 const SELECT_HIT_SLOP = { top: 6, bottom: 6, left: 48, right: 8 }
@@ -161,14 +154,7 @@ function SettingSelect<Option extends { label: string }>({
  * has no audio engine and ships one icon library. A link
  * (fabricator-ui://look?surface=220_0.035&shape=pill) sets the look at once.
  */
-export function SettingsCard({
-  hasHeader = true,
-}: {
-  /** Off on the Settings page, whose title already says it. */
-  hasHeader?: boolean
-}) {
-  const styles = useStyles(buildStyles)
-  const { width } = useWindowDimensions()
+export function SettingsCard({ style }: { style?: ViewStyle }) {
   const { look, setLook } = useThemeSettings()
   const change = (next: Partial<FabricatorLook>) =>
     setLook({ ...look, ...next })
@@ -178,105 +164,75 @@ export function SettingsCard({
   const primary = ROLE_PRESETS.primary.find((preset) =>
     sameRoleColor(preset.color, look.colors.primary)
   )
-  const isPhone = getShellSize(width) === "phone"
 
   return (
-    <View style={[styles.card, !isPhone && styles.cardNarrow]}>
-      {hasHeader && (
-        <View style={styles.cardHeader}>
-          <Text accessibilityRole="header" style={styles.cardTitle}>
-            Settings
-          </Text>
-          <Text style={styles.cardDescription}>
-            The website's settings; every screen here follows them.
-          </Text>
-        </View>
-      )}
-      <View style={styles.cardContent}>
-        <SettingRow label="Theme">
-          <ThemeSegmented />
-        </SettingRow>
-        <SettingRow label="Radius">
-          <SettingSelect
-            label="Radius"
-            options={RADIUS_OPTIONS}
-            value={
-              RADIUS_OPTIONS.find((option) => option.value === look.radius)
-                ?.label ?? look.radius
-            }
-            onChange={(option) => change({ radius: option.value })}
-          />
-        </SettingRow>
-        <SettingRow label="Density">
-          <SettingSelect
-            label="Density"
-            options={DENSITY_OPTIONS}
-            value={
-              DENSITY_OPTIONS.find((option) => option.value === look.density)
-                ?.label ?? look.density
-            }
-            onChange={(option) => change({ density: option.value })}
-          />
-        </SettingRow>
-        <SettingRow label="Motion">
-          <SettingSelect
-            label="Motion"
-            options={MOTION_OPTIONS}
-            value={
-              MOTION_OPTIONS.find((option) => option.value === look.motion)
-                ?.label ?? look.motion
-            }
-            onChange={(option) => change({ motion: option.value })}
-          />
-        </SettingRow>
-        <SettingRow label="Surface">
-          <SettingSelect
-            label="Surface"
-            options={SURFACE_PRESETS}
-            value={surface?.label ?? "Custom"}
-            swatch={tintToHex(look.surface)}
-            onChange={(option) => change({ surface: option.tint })}
-          />
-        </SettingRow>
-        <SettingRow label="Primary">
-          <SettingSelect
-            label="Primary"
-            options={ROLE_PRESETS.primary}
-            value={primary?.label ?? "Custom"}
-            swatch={roleToHex(look.colors.primary)}
-            onChange={(option) =>
-              change({ colors: { ...look.colors, primary: option.color } })
-            }
-          />
-        </SettingRow>
-      </View>
-    </View>
+    <OptionCard
+      title="Settings"
+      description="The website's settings; every screen here follows them."
+      style={style}
+    >
+      <SettingRow label="Theme">
+        <ThemeSegmented />
+      </SettingRow>
+      <SettingRow label="Radius">
+        <SettingSelect
+          label="Radius"
+          options={RADIUS_OPTIONS}
+          value={
+            RADIUS_OPTIONS.find((option) => option.value === look.radius)
+              ?.label ?? look.radius
+          }
+          onChange={(option) => change({ radius: option.value })}
+        />
+      </SettingRow>
+      <SettingRow label="Density">
+        <SettingSelect
+          label="Density"
+          options={DENSITY_OPTIONS}
+          value={
+            DENSITY_OPTIONS.find((option) => option.value === look.density)
+              ?.label ?? look.density
+          }
+          onChange={(option) => change({ density: option.value })}
+        />
+      </SettingRow>
+      <SettingRow label="Motion">
+        <SettingSelect
+          label="Motion"
+          options={MOTION_OPTIONS}
+          value={
+            MOTION_OPTIONS.find((option) => option.value === look.motion)
+              ?.label ?? look.motion
+          }
+          onChange={(option) => change({ motion: option.value })}
+        />
+      </SettingRow>
+      <SettingRow label="Surface">
+        <SettingSelect
+          label="Surface"
+          options={SURFACE_PRESETS}
+          value={surface?.label ?? "Custom"}
+          swatch={tintToHex(look.surface)}
+          onChange={(option) => change({ surface: option.tint })}
+        />
+      </SettingRow>
+      <SettingRow label="Primary">
+        <SettingSelect
+          label="Primary"
+          options={ROLE_PRESETS.primary}
+          value={primary?.label ?? "Custom"}
+          swatch={roleToHex(look.colors.primary)}
+          onChange={(option) =>
+            change({ colors: { ...look.colors, primary: option.color } })
+          }
+        />
+      </SettingRow>
+    </OptionCard>
   )
 }
 
 const buildStyles = (theme: Theme) =>
   StyleSheet.create({
-    card: {
-      gap: theme.space[16],
-      paddingVertical: theme.space[16],
-      borderRadius: theme.radius.xl,
-      backgroundColor: theme.colors.popover,
-      boxShadow: theme.shadows.selection,
-    },
-    cardNarrow: { maxWidth: CARD_MAX_WIDTH },
-    cardHeader: { gap: theme.space[4], paddingHorizontal: theme.space[16] },
-    cardTitle: {
-      fontFamily: FONT.medium,
-      fontSize: theme.text[14],
-      color: theme.colors.foreground,
-    },
-    cardDescription: {
-      fontFamily: FONT.regular,
-      fontSize: theme.text[13],
-      lineHeight: theme.text[13] * 1.5,
-      color: theme.colors.muted,
-    },
-    cardContent: { paddingHorizontal: theme.space[16] },
     row: {
       height: ROW_HEIGHT,
       flexDirection: "row",

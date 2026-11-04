@@ -60,13 +60,18 @@ export function PanelContent({
   )
 }
 
-/** The panel on a phone (and on a narrow iPad): the native sheet. */
+/** The panel on a phone (and on a narrow iPad): a native sheet, or the screen. */
 export function PanelSheet({
   isOpen,
+  isScreen,
+  insetTop,
   onClose,
   children,
 }: {
   isOpen: boolean
+  /** Takes the whole screen instead of a sheet. */
+  isScreen: boolean
+  insetTop: number
   onClose: () => void
   children: React.ReactNode
 }) {
@@ -74,11 +79,13 @@ export function PanelSheet({
   return (
     <Modal
       visible={isOpen}
-      presentationStyle="pageSheet"
+      presentationStyle={isScreen ? "fullScreen" : "pageSheet"}
       animationType="slide"
       onRequestClose={onClose}
     >
-      <View style={styles.sheet}>{children}</View>
+      <View style={[styles.sheet, isScreen && { paddingTop: insetTop }]}>
+        {children}
+      </View>
     </Modal>
   )
 }

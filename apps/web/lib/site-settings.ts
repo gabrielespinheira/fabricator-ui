@@ -32,7 +32,7 @@ import {
  * Theme lives in next-themes; everything else lives here, in localStorage.
  *
  * - sound: whether components play interface sounds (on by default).
- * - iconLibrary: the icon pack the site's previews render (Lucide by default).
+ * - iconLibrary: the icon pack the site's previews render (Fabricator by default).
  * - radius: "rounded" (--radius 0.5rem) or "pill" (--radius 1.25rem).
  * - motion: the motion speed, data-motion on <html> (smooth to instant, or off).
  * - density: compact, default or spacious, data-density on <html>.
@@ -41,6 +41,7 @@ import {
  *   --<role>-chroma on <html>.
  */
 export const ICON_LIBRARIES = [
+  { value: "fabricator", label: "Fabricator" },
   { value: "lucide", label: "Lucide" },
   { value: "tabler", label: "Tabler" },
   { value: "hugeicons", label: "HugeIcons" },
@@ -71,12 +72,33 @@ export const SITE_SETTINGS_STORAGE_KEY = "fabricator-settings"
 
 export const DEFAULT_SITE_SETTINGS: SiteSettings = {
   sound: true,
-  iconLibrary: "lucide",
+  iconLibrary: "fabricator",
   radius: "rounded",
   motion: "default",
   density: DEFAULT_DENSITY,
   surface: NEUTRAL_TINT,
   colors: ROLE_DEFAULTS,
+}
+
+/** Written with the settings since Fabricator became the default icon pack. */
+const ICON_PACK_VERSION = 2
+
+/**
+ * Saving any setting saved the whole object, so a stored "lucide" from before
+ * version 2 is the old default, not a choice. It moves to the new default,
+ * which draws the same icons.
+ */
+export function resolveStoredIconLibrary(stored: {
+  iconLibrary?: unknown
+  iconPackVersion?: unknown
+}): SiteIconLibrary {
+  const library = ICON_LIBRARIES.find(
+    ({ value }) => value === stored.iconLibrary
+  )?.value
+  if (!library) return DEFAULT_SITE_SETTINGS.iconLibrary
+  return library === "lucide" && stored.iconPackVersion !== ICON_PACK_VERSION
+    ? DEFAULT_SITE_SETTINGS.iconLibrary
+    : library
 }
 
 const listeners = new Set<() => void>()
@@ -95,11 +117,7 @@ function read(): SiteSettings {
       typeof stored.sound === "boolean"
         ? stored.sound
         : DEFAULT_SITE_SETTINGS.sound,
-    iconLibrary: ICON_LIBRARIES.some(
-      (library) => library.value === stored.iconLibrary
-    )
-      ? (stored.iconLibrary as SiteIconLibrary)
-      : DEFAULT_SITE_SETTINGS.iconLibrary,
+    iconLibrary: resolveStoredIconLibrary(stored),
     radius:
       stored.radius === "pill" || stored.radius === "rounded"
         ? stored.radius
@@ -136,7 +154,10 @@ export function getSiteSettings() {
 export function setSiteSettings(patch: Partial<SiteSettings>) {
   current = { ...read(), ...patch }
   try {
-    localStorage.setItem(SITE_SETTINGS_STORAGE_KEY, JSON.stringify(current))
+    localStorage.setItem(
+      SITE_SETTINGS_STORAGE_KEY,
+      JSON.stringify({ ...current, iconPackVersion: ICON_PACK_VERSION })
+    )
   } catch {}
   for (const listener of listeners) listener()
 }

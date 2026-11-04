@@ -6,7 +6,7 @@ import {
   parseAsBoolean,
   parseAsStringLiteral,
   type inferParserType,
-} from "nuqs"
+} from "nuqs/server"
 
 import type { AppShellWindow } from "@/styles/base-fabricator/ui/app-shell"
 
@@ -17,6 +17,7 @@ export const MOBILE_SIDEBARS = ["reveal", "sheet"] as const
 export const SWITCHER_VARIANTS = ["menu", "command", "none"] as const
 export const ACCOUNT_PLACEMENTS = ["footer", "header", "none"] as const
 export const TAB_PLACEMENTS = ["none", "main", "titlebar"] as const
+export const CONTENT_SIZES = ["sm", "md", "lg"] as const
 export const PANEL_MOBILE = ["drawer", "swap", "none"] as const
 export const WINDOWS = ["web", "macos", "windows"] as const
 
@@ -32,6 +33,7 @@ export const playgroundParsers = {
   breadcrumb: parseAsBoolean.withDefault(true),
   actions: parseAsBoolean.withDefault(true),
   tabs: parseAsStringLiteral(TAB_PLACEMENTS).withDefault("none"),
+  contentSize: parseAsStringLiteral(CONTENT_SIZES).withDefault("md"),
   panel: parseAsBoolean.withDefault(true),
   panelMobile: parseAsStringLiteral(PANEL_MOBILE).withDefault("drawer"),
   status: parseAsBoolean.withDefault(true),
@@ -52,15 +54,33 @@ const OPTION_KEYS = Object.keys(DEFAULT_PLAYGROUND_OPTIONS).filter(
 )
 
 /** How many options differ from the defaults (the Reset button's count). */
-export function countChangedOptions(options: PlaygroundOptions) {
-  return OPTION_KEYS.filter(
-    (key) => options[key] !== DEFAULT_PLAYGROUND_OPTIONS[key]
-  ).length
+export function countChangedOptions(
+  options: PlaygroundOptions,
+  defaults: PlaygroundOptions = DEFAULT_PLAYGROUND_OPTIONS
+) {
+  return OPTION_KEYS.filter((key) => options[key] !== defaults[key]).length
+}
+
+/**
+ * Where the tab strip goes. Tabs in the page take their own row, unless the
+ * header would hold nothing else: then the strip is the header.
+ */
+export function getTabsPlacement(options: PlaygroundOptions) {
+  if (options.tabs !== "main") return options.tabs
+  return options.breadcrumb || options.actions ? "row" : "header"
 }
 
 /** Peek floats a hidden sidebar out, so it needs the off-canvas collapse. */
 export function isPeekAvailable(options: PlaygroundOptions) {
   return options.collapse === "offcanvas"
+}
+
+/**
+ * Where the example's traffic lights sit: beside the main card's top row, or
+ * centred in a titlebar row, which is as tall as the lights need (40px here).
+ */
+export function getTrafficLights(hasTitlebar: boolean) {
+  return { x: 16, y: hasTitlebar ? 13 : 23 }
 }
 
 /** The native window the shell lays out around (none on the web). */
@@ -71,7 +91,7 @@ export function getPlaygroundWindow(
     return {
       controls: "macos",
       isFullscreen: options.fullscreen,
-      trafficLights: { x: 16, y: 23 },
+      trafficLights: getTrafficLights(options.tabs === "titlebar"),
       isTranslucent: options.glass,
     }
   }

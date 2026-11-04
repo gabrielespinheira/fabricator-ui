@@ -2,7 +2,8 @@
 // /desktop route. macOS gets the traffic lights inset beside the sidebar
 // toggle and the sidebar material behind a transparent page; Windows and
 // Linux get their window buttons drawn over the page (titleBarOverlay).
-// Keep the light position in step with apps/web/app/(view)/desktop/_lib/desktop.ts.
+// Keep the light position in step with getTrafficLights in
+// apps/web/app/(view)/app-shell/_lib/options.ts.
 import path from "node:path"
 import { fileURLToPath } from "node:url"
 import { app, BrowserWindow, ipcMain, nativeTheme, shell } from "electron"
@@ -53,6 +54,16 @@ ipcMain.on("fabricator:appearance", (_event, appearance) => {
   if (appearance === "light" || appearance === "dark") {
     nativeTheme.themeSource = appearance
   }
+})
+
+// The page moves the lights to fit its layout: a titlebar row is shorter.
+ipcMain.on("fabricator:traffic-lights", (event, position) => {
+  if (!isMac) return
+  if (!Number.isFinite(position?.x) || !Number.isFinite(position?.y)) return
+  BrowserWindow.fromWebContents(event.sender)?.setWindowButtonPosition({
+    x: position.x,
+    y: position.y,
+  })
 })
 
 app.whenReady().then(() => {

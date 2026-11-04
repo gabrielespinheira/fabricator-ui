@@ -33,6 +33,7 @@ import {
   selectPanelView,
   SHELL_BREAKPOINTS,
   stepSize,
+  type AppShellContentSize,
   type PanelMobile,
   type PanelPlacement,
   type PanelState,
@@ -248,7 +249,7 @@ type AppShellWindow = {
   controls: "none" | "macos" | "overlay"
   /** In fullscreen the traffic lights are gone, and so is their inset. */
   isFullscreen?: boolean
-  /** The `trafficLightPosition` the window was created with (px). */
+  /** Where the window's traffic lights are now (px): `trafficLightPosition`. */
   trafficLights?: { x: number; y: number }
   /**
    * The window paints a native material behind the page (Electron
@@ -1369,10 +1370,17 @@ function AppShellHeaderActions({
 /** The page's scroller: the only one in the main column. */
 function AppShellContent({
   id,
+  size,
   className,
   onScroll,
   ...props
-}: React.ComponentProps<"div">) {
+}: React.ComponentProps<"div"> & {
+  /**
+   * Centres the page in a column of this width, with the page's padding. Left
+   * out, the page has the column's full width, for tables, boards and editors.
+   */
+  size?: AppShellContentSize
+}) {
   const { contentId } = useAppShell()
   const { isScrolled, setIsScrolled, setScrollRoot, setContentTarget } =
     useAppShellScroll()
@@ -1387,6 +1395,7 @@ function AppShellContent({
       id={targetId}
       tabIndex={-1}
       data-slot="app-shell-content"
+      data-content-size={size}
       onScroll={(event) => {
         onScroll?.(event)
         const scrolled = event.currentTarget.scrollTop > 0
@@ -1800,6 +1809,15 @@ function AppShellPanel({
         >
           {content}
         </div>
+        {/* In a window, a press on a drag region moves the window, and a drag
+            region later in the document cancels an earlier no-drag one. The
+            pinned toggle comes before this panel's header, so its spot is given
+            back here, on the panel itself: the header slides under it. */}
+        <span
+          aria-hidden
+          data-slot="app-shell-panel-trigger-guard"
+          className="cn-app-shell-panel-trigger-guard pointer-events-none absolute end-0 top-0 hidden"
+        />
         {placement === "inline" && panel.open && <AppShellPanelResizeHandle />}
       </aside>
     </PanelContext.Provider>

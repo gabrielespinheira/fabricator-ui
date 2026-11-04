@@ -1,11 +1,13 @@
 import * as React from "react"
 import {
+  APP_SHELL_CONTENT_WIDTHS,
   EMPTY_NAV_PREFERENCES,
   getActiveNavItem,
   getNavPath,
   getPanelPlacement,
   getShellSize,
   revealPanelView,
+  type AppShellContentSize,
   type NavItem,
   type NavPreferences,
   type PanelState,
@@ -33,6 +35,11 @@ import {
 
 import { NAV_GROUPS, WORKSPACES } from "./nav"
 import { SettingsCard } from "./settings"
+import {
+  DEFAULT_SHELL_OPTIONS,
+  ShellOptionsCard,
+  type ShellOptions,
+} from "./shell-options"
 import { IconButton } from "./shell/icon-button"
 import { PanelContent, PanelSheet } from "./shell/panel"
 import { Sidebar } from "./shell/sidebar"
@@ -50,24 +57,73 @@ const SETTINGS_HREF = "/settings"
 
 const showNewTask = () => Alert.alert("New task")
 
-/** The page: its title, then its content on the page's own rhythm. */
-function Page({ title, pathname }: { title: string; pathname: string }) {
+/** The two setup cards: side by side where they fit, stacked on a phone. */
+function SetupCards({
+  options,
+  onOptionsChange,
+  isPhone,
+}: {
+  options: ShellOptions
+  onOptionsChange: (options: ShellOptions) => void
+  isPhone: boolean
+}) {
   const styles = useStyles(buildStyles)
   return (
-    <ScrollView contentContainerStyle={styles.page}>
+    <View style={styles.setup}>
+      <SettingsCard style={isPhone ? styles.setupFull : styles.setupSettings} />
+      <ShellOptionsCard
+        options={options}
+        onChange={onOptionsChange}
+        isPhone={isPhone}
+        style={isPhone ? styles.setupFull : styles.setupOptions}
+      />
+    </View>
+  )
+}
+
+/** The page: its title, then its content on the page's own rhythm. */
+function Page({
+  title,
+  pathname,
+  setup,
+  contentSize,
+  bottomInset = 0,
+}: {
+  title: string
+  pathname: string
+  setup: React.ReactNode
+  contentSize: AppShellContentSize
+  bottomInset?: number
+}) {
+  const styles = useStyles(buildStyles)
+  const isSetup = pathname === HOME_HREF || pathname === SETTINGS_HREF
+  return (
+    <ScrollView
+      contentContainerStyle={[
+        styles.page,
+        {
+          maxWidth: APP_SHELL_CONTENT_WIDTHS[contentSize],
+          paddingBottom: FAB_CLEARANCE + bottomInset,
+        },
+      ]}
+    >
       <Text accessibilityRole="header" style={styles.pageTitle}>
         {title}
       </Text>
-      {pathname === SETTINGS_HREF ? (
-        <SettingsCard hasHeader={false} />
+      {isSetup ? (
+        <>
+          <Text style={styles.pageText}>
+            Set up the shell and its look here.
+          </Text>
+          {setup}
+        </>
       ) : (
         <>
           <Text style={styles.pageText}>
-            The App Shell's model drives this screen: the active page, the open
-            rows, the bottom tabs, the breadcrumb and where the panel goes all
-            come from lib/app-shell-model, the same file the web shell runs.
+            The shell's options and settings are on Home. This screen's active
+            page, breadcrumb and panel placement come from lib/app-shell-model,
+            the same file the web shell runs.
           </Text>
-          {pathname === HOME_HREF && <SettingsCard />}
           {Array.from({ length: 6 }, (_, index) => (
             <View key={index} style={styles.placeholder} />
           ))}
@@ -131,7 +187,7 @@ function PrimaryButton() {
 }
 
 /** The primary action on a phone, floating over the page: size="icon-lg". */
-function FloatingButton() {
+function FloatingButton({ bottomInset }: { bottomInset: number }) {
   const theme = useTheme()
   const styles = useStyles(buildStyles)
   return (
@@ -139,7 +195,11 @@ function FloatingButton() {
       onPress={showNewTask}
       accessibilityRole="button"
       accessibilityLabel="New task"
-      style={({ pressed }) => [styles.fab, pressed && styles.primaryPressed]}
+      style={({ pressed }) => [
+        styles.fab,
+        { bottom: theme.space[16] + bottomInset },
+        pressed && styles.primaryPressed,
+      ]}
     >
       <PlusIcon
         size={theme.spacious.icon[16]}
@@ -163,6 +223,7 @@ function Shell() {
     EMPTY_NAV_PREFERENCES
   )
   const [workspaceId, setWorkspaceId] = React.useState("acme")
+  const [options, setOptions] = React.useState(DEFAULT_SHELL_OPTIONS)
   const [isDrawerOpen, setIsDrawerOpen] = React.useState(false)
   const [isSidebarOpen, setIsSidebarOpen] = React.useState(true)
   // Docked, the panel's open state is a preference. Floating (a phone, a
@@ -180,11 +241,22 @@ function Shell() {
   const title = path.at(-1)?.label ?? "Home"
   const workspace =
     WORKSPACES.find((entry) => entry.id === workspaceId) ?? WORKSPACES[0]
+  const isSidebarExpanded = options.collapse === "never" || isSidebarOpen
+  const railWidth = theme.space[32] + 2 * theme.space[8]
+  const sidebarWidth = isSidebarExpanded
+    ? SIDEBAR_WIDTH
+    : options.collapse === "icons"
+      ? railWidth
+      : 0
   const placement = getPanelPlacement({
     shellWidth: width - insets.left - insets.right,
-    occupiedWidth: !isPhone && isSidebarOpen ? SIDEBAR_WIDTH : 0,
+    occupiedWidth: isPhone ? 0 : sidebarWidth,
     panelWidth: panel.width,
+    mobile: options.panelOnPhones,
   })
+  const hasPanel = options.panel && placement !== null
+  const isFlat = options.style !== "inset"
+  const gutter = isFlat ? 0 : theme.space[6]
 
   const isDocked = placement === "inline"
   const isPanelOpen = isDocked ? panel.open : isFloatingOpen
@@ -226,6 +298,14 @@ function Shell() {
       />
     </IconButton>
   )
+  const setup = (
+    <SetupCards
+      options={options}
+      onOptionsChange={setOptions}
+      isPhone={isPhone}
+    />
+  )
+  const isFloatingSidebar = !isPhone && options.style === "floating"
   const sidebar = (
     <Sidebar
       activeId={activeId}
@@ -234,18 +314,36 @@ function Shell() {
       onNavigate={navigate}
       workspaceId={workspaceId}
       onWorkspaceChange={setWorkspaceId}
-      onToggle={() =>
-        isPhone ? setIsDrawerOpen(false) : setIsSidebarOpen(false)
+      onToggle={
+        isPhone
+          ? () => setIsDrawerOpen(false)
+          : options.collapse === "never"
+            ? undefined
+            : () => setIsSidebarOpen(false)
       }
-      insetTop={insets.top}
-      insetBottom={insets.bottom}
+      isRail={!isPhone && !isSidebarExpanded}
+      hasWorkspaces={options.workspaces === "menu"}
+      account={options.account}
+      insetTop={isFloatingSidebar ? 0 : insets.top}
+      insetBottom={isFloatingSidebar ? 0 : insets.bottom}
     />
+  )
+  const panelSheet = hasPanel && (
+    <PanelSheet
+      isOpen={isFloatingOpen}
+      isScreen={placement === "swap"}
+      insetTop={insets.top}
+      onClose={closePanel}
+    >
+      {panelContent}
+    </PanelSheet>
   )
 
   if (isPhone) {
     return (
       <>
         <SidebarReveal
+          variant={options.phoneSidebar}
           isOpen={isDrawerOpen}
           onOpenChange={setIsDrawerOpen}
           sidebar={sidebar}
@@ -267,24 +365,34 @@ function Shell() {
                 <Text numberOfLines={1} style={styles.phoneTitle}>
                   {title}
                 </Text>
-                {panelToggle}
+                {hasPanel && panelToggle}
               </View>
             </View>
             <View style={styles.fill}>
-              <Page title={title} pathname={pathname} />
-              <FloatingButton />
+              <Page
+                title={title}
+                pathname={pathname}
+                setup={setup}
+                contentSize={options.contentSize}
+                bottomInset={options.tabBar ? 0 : insets.bottom}
+              />
+              {options.actions && (
+                <FloatingButton
+                  bottomInset={options.tabBar ? 0 : insets.bottom}
+                />
+              )}
             </View>
-            <TabBar
-              groups={NAV_GROUPS}
-              activeId={activeId}
-              onNavigate={navigate}
-              insetBottom={insets.bottom}
-            />
+            {options.tabBar && (
+              <TabBar
+                groups={NAV_GROUPS}
+                activeId={activeId}
+                onNavigate={navigate}
+                insetBottom={insets.bottom}
+              />
+            )}
           </View>
         </SidebarReveal>
-        <PanelSheet isOpen={isFloatingOpen} onClose={closePanel}>
-          {panelContent}
-        </PanelSheet>
+        {panelSheet}
       </>
     )
   }
@@ -296,20 +404,50 @@ function Shell() {
         { paddingLeft: insets.left, paddingRight: insets.right },
       ]}
     >
-      {isSidebarOpen && <View style={{ width: SIDEBAR_WIDTH }}>{sidebar}</View>}
+      {sidebarWidth > 0 && (
+        <View
+          style={[
+            { width: sidebarWidth },
+            options.style === "flush" && styles.sidebarFlush,
+            isFloatingSidebar && [
+              styles.sidebarFloating,
+              {
+                paddingTop: insets.top + theme.space[8],
+                paddingBottom: insets.bottom + theme.space[8],
+              },
+            ],
+          ]}
+        >
+          <View style={isFloatingSidebar ? styles.sidebarCard : styles.fill}>
+            {sidebar}
+          </View>
+        </View>
+      )}
       <View style={styles.fill}>
         <View
           style={[
             styles.cards,
+            isFlat && styles.cardsFlat,
             {
-              paddingTop: insets.top + theme.space[6],
-              paddingLeft: isSidebarOpen ? 0 : theme.space[6],
+              paddingTop: isFlat ? 0 : insets.top + gutter,
+              paddingLeft: isFlat || sidebarWidth > 0 ? 0 : gutter,
+              paddingBottom: options.status
+                ? 0
+                : isFlat
+                  ? 0
+                  : insets.bottom + gutter,
             },
           ]}
         >
-          <View style={[styles.card, styles.fill]}>
+          <View
+            style={[
+              isFlat ? styles.flatColumn : styles.card,
+              styles.fill,
+              isFlat && { paddingTop: insets.top },
+            ]}
+          >
             <View style={styles.header}>
-              {!isSidebarOpen && (
+              {!isSidebarExpanded && (
                 <IconButton
                   label="Show the sidebar"
                   onPress={() => setIsSidebarOpen(true)}
@@ -322,47 +460,72 @@ function Shell() {
                   />
                 </IconButton>
               )}
-              <Breadcrumb
-                crumbs={[workspace.name, ...path.map((item) => item.label)]}
-              />
-              <PrimaryButton />
-              <View style={styles.toggleSlot} />
+              {options.breadcrumb ? (
+                <Breadcrumb
+                  crumbs={[workspace.name, ...path.map((item) => item.label)]}
+                />
+              ) : (
+                <Text numberOfLines={1} style={styles.phoneTitle}>
+                  {title}
+                </Text>
+              )}
+              {options.actions && <PrimaryButton />}
+              {hasPanel && <View style={styles.toggleSlot} />}
             </View>
-            <Page title={title} pathname={pathname} />
+            <Page
+              title={title}
+              pathname={pathname}
+              setup={setup}
+              contentSize={options.contentSize}
+            />
           </View>
-          {isDocked && panel.open && (
-            <View style={[styles.card, { width: panel.width }]}>
+          {hasPanel && isDocked && panel.open && (
+            <View
+              style={[
+                isFlat
+                  ? [
+                      styles.flatColumn,
+                      styles.panelFlat,
+                      { paddingTop: insets.top },
+                    ]
+                  : styles.card,
+                { width: panel.width },
+              ]}
+            >
               {panelContent}
             </View>
           )}
+          {hasPanel && (
+            <View
+              style={[
+                styles.panelToggle,
+                {
+                  top: insets.top + gutter + panelToggleInset,
+                  right: gutter + theme.space[12],
+                },
+              ]}
+            >
+              {panelToggle}
+            </View>
+          )}
+        </View>
+        {options.status && (
           <View
-            style={[
-              styles.panelToggle,
-              { top: insets.top + theme.space[6] + panelToggleInset },
-            ]}
+            style={[styles.statusBar, { paddingBottom: insets.bottom }]}
+            accessibilityRole="summary"
           >
-            {panelToggle}
+            <GitBranchIcon
+              size={theme.icon[14]}
+              color={theme.colors.mutedOnFrame}
+              strokeWidth={1.5}
+            />
+            <Text style={styles.status}>main</Text>
+            <Text style={styles.status}>Synced</Text>
+            <Text style={[styles.status, styles.statusEnd]}>4 open</Text>
           </View>
-        </View>
-        <View
-          style={[styles.statusBar, { paddingBottom: insets.bottom }]}
-          accessibilityRole="summary"
-        >
-          <GitBranchIcon
-            size={theme.icon[14]}
-            color={theme.colors.mutedOnFrame}
-            strokeWidth={1.5}
-          />
-          <Text style={styles.status}>main</Text>
-          <Text style={styles.status}>Synced</Text>
-          <Text style={[styles.status, styles.statusEnd]}>4 open</Text>
-        </View>
+        )}
       </View>
-      {!isDocked && (
-        <PanelSheet isOpen={isFloatingOpen} onClose={closePanel}>
-          {panelContent}
-        </PanelSheet>
-      )}
+      {!isDocked && panelSheet}
     </View>
   )
 }
@@ -386,7 +549,6 @@ export function App() {
 // The page's own rhythm is fixed on the website too: p-6, gap-6, h-32, an
 // unscaled 16px paragraph and a text-2xl title.
 const PAGE_SPACE = 24
-const PAGE_MAX_WIDTH = 768
 const PLACEHOLDER_HEIGHT = 128
 const FAB_CLEARANCE = 112
 
@@ -415,10 +577,8 @@ const buildStyles = (theme: Theme) =>
     },
     page: {
       width: "100%",
-      maxWidth: PAGE_MAX_WIDTH,
       alignSelf: "center",
       padding: PAGE_SPACE,
-      paddingBottom: FAB_CLEARANCE,
       gap: PAGE_SPACE,
     },
     pageTitle: {
@@ -441,10 +601,30 @@ const buildStyles = (theme: Theme) =>
     // The website's -ms-(--density-4), read inside the button's compact density.
     headerTrigger: { marginLeft: -theme.compact.space[4] },
     toggleSlot: { width: theme.compact.space[36] },
-    panelToggle: {
-      position: "absolute",
-      right: theme.space[6] + theme.space[12],
+    panelToggle: { position: "absolute" },
+    sidebarFlush: {
+      borderRightWidth: 1,
+      borderRightColor: theme.colors.border,
     },
+    sidebarFloating: { paddingHorizontal: theme.space[8] },
+    sidebarCard: {
+      flex: 1,
+      overflow: "hidden",
+      borderRadius: theme.radius.xl,
+      boxShadow: theme.shadows.selection,
+    },
+    cardsFlat: { gap: 0, paddingRight: 0 },
+    flatColumn: { backgroundColor: theme.colors.main },
+    panelFlat: { borderLeftWidth: 1, borderLeftColor: theme.colors.border },
+    setup: {
+      flexDirection: "row",
+      flexWrap: "wrap",
+      alignItems: "flex-start",
+      gap: PAGE_SPACE,
+    },
+    setupFull: { width: "100%" },
+    setupSettings: { flexGrow: 1, flexBasis: 256 },
+    setupOptions: { flexGrow: 1, flexBasis: 352, minWidth: 0 },
     cards: {
       flex: 1,
       flexDirection: "row",
@@ -494,7 +674,6 @@ const buildStyles = (theme: Theme) =>
     fab: {
       position: "absolute",
       right: theme.space[16],
-      bottom: theme.space[16],
       width: theme.spacious.space[36],
       height: theme.spacious.space[36],
       borderRadius: theme.spacious.space[36] / 2,

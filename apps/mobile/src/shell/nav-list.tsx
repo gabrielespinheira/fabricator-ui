@@ -56,6 +56,60 @@ export function NavList({
   )
 }
 
+/** The collapsed sidebar: every top-level row as its icon, on the Sidebar's rail. */
+export function NavRail({
+  groups,
+  activeId,
+  preferences,
+  onNavigate,
+}: {
+  groups: NavGroup<LucideIcon>[]
+  activeId: string | null
+  preferences: NavPreferences
+  onNavigate: (item: NativeNavItem) => void
+}) {
+  const theme = useTheme()
+  const styles = useStyles(buildStyles)
+  return (
+    <View role="navigation" aria-label="Main" style={styles.rail}>
+      {applyNavPreferences(groups, preferences).map((group) => (
+        <View key={group.id} style={styles.rows}>
+          {group.items.map((item) => {
+            const isLit = containsNavItem(item, activeId)
+            const Icon = item.icon
+            return (
+              <Pressable
+                key={item.id}
+                onPress={() => onNavigate(item)}
+                accessibilityRole="button"
+                accessibilityLabel={item.label}
+                accessibilityState={{ selected: isLit }}
+                style={({ pressed }) => [
+                  styles.railItem,
+                  isLit && styles.rowRaised,
+                  pressed && styles.rowPressed,
+                ]}
+              >
+                {Icon && (
+                  <Icon
+                    size={theme.icon[16]}
+                    strokeWidth={isLit ? 2 : 1.5}
+                    color={
+                      isLit
+                        ? theme.colors.foreground
+                        : theme.colors.mutedOnFrame
+                    }
+                  />
+                )}
+              </Pressable>
+            )
+          })}
+        </View>
+      ))}
+    </View>
+  )
+}
+
 function Chevron({
   isOpen,
   size,
@@ -239,11 +293,18 @@ function NavRow({
 
 const ROW_GAP = 2
 
+/**
+ * Where a row's trailing controls centre, from the row's end: the middle of a
+ * badge's 20px box. Everything at the end of the sidebar lines up on it.
+ */
+export function getRowAxis(theme: Theme) {
+  return theme.space[8] + theme.space[20] / 2
+}
+
 const buildStyles = (theme: Theme) =>
   StyleSheet.create({
     group: {
-      paddingHorizontal: theme.space[8],
-      paddingVertical: theme.space[4],
+      padding: theme.space[8],
     },
     groupHeader: {
       height: theme.space[24],
@@ -259,6 +320,18 @@ const buildStyles = (theme: Theme) =>
       color: theme.colors.mutedOnFrame,
     },
     rows: { gap: ROW_GAP },
+    rail: {
+      alignItems: "center",
+      gap: theme.space[8],
+      paddingVertical: theme.space[4],
+    },
+    railItem: {
+      width: theme.space[32],
+      height: theme.space[32],
+      borderRadius: theme.radius.lg,
+      alignItems: "center",
+      justifyContent: "center",
+    },
     row: {
       height: theme.space[30],
       flexDirection: "row",
@@ -278,6 +351,8 @@ const buildStyles = (theme: Theme) =>
       fontSize: theme.text[13],
     },
     badge: {
+      minWidth: theme.space[20],
+      textAlign: "center",
       fontFamily: FONT.regular,
       fontSize: theme.text[12],
       fontVariant: ["tabular-nums"],
@@ -285,7 +360,7 @@ const buildStyles = (theme: Theme) =>
     },
     disclosure: {
       position: "absolute",
-      right: theme.space[4],
+      right: getRowAxis(theme) - theme.space[28] / 2,
       top: (theme.space[30] - theme.space[28]) / 2,
       width: theme.space[28],
       height: theme.space[28],

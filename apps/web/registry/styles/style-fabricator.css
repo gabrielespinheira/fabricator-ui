@@ -147,11 +147,12 @@
     @apply gap-0;
   }
 
-  /* A dragged row lifts onto a floating card. A row with children gives
-     its icon's place to the chevron while it is hovered, lit or focused
-     (on touch, always). */
+  /* A dragged row lifts onto a floating surface, lit and without its controls,
+     and a slot (dnd-kit's placeholder, a copy of the row) marks where it lands.
+     A row with children gives its icon's place to the chevron while it is
+     hovered, lit or focused (on touch, always). */
   .cn-app-nav-item {
-    @apply data-dragging:z-10 data-dragging:rounded-lg data-dragging:bg-surface-3 data-dragging:shadow-surface-3 [&>:is([data-sidebar=menu-button],[data-sidebar=menu-sub-button])>:first-child]:transition-opacity [&>:is([data-sidebar=menu-button],[data-sidebar=menu-sub-button])>:first-child]:duration-feedback [&:has(>[data-slot=app-nav-toggle])>:is([data-sidebar=menu-button],[data-sidebar=menu-sub-button]):is(:hover,[data-fluid-hover-active],:focus-visible)>:first-child]:opacity-0 [&:has(>[data-slot=app-nav-toggle]:is(:hover,:focus-visible))>:is([data-sidebar=menu-button],[data-sidebar=menu-sub-button])>:first-child]:opacity-0 pointer-coarse:[&:has(>[data-slot=app-nav-toggle])>:is([data-sidebar=menu-button],[data-sidebar=menu-sub-button])>:first-child]:opacity-0;
+    @apply data-dragging:z-10 data-dragging:rounded-lg data-dragging:bg-surface-5 data-dragging:shadow-surface-5 data-dragging:[&>:is([data-sidebar=menu-button],[data-sidebar=menu-sub-button])]:text-foreground data-dragging:[&>:is([data-slot=sidebar-menu-actions],[data-slot=app-nav-toggle])]:hidden data-dnd-placeholder:visible! data-dnd-placeholder:bg-hover! data-dnd-placeholder:shadow-none! [&[data-dnd-placeholder]>*]:invisible [&>:is([data-sidebar=menu-button],[data-sidebar=menu-sub-button])>:first-child]:transition-opacity [&>:is([data-sidebar=menu-button],[data-sidebar=menu-sub-button])>:first-child]:duration-feedback [&:has(>[data-slot=app-nav-toggle])>:is([data-sidebar=menu-button],[data-sidebar=menu-sub-button]):is(:hover,[data-fluid-hover-active],:focus-visible)>:first-child]:opacity-0 [&:has(>[data-slot=app-nav-toggle]:is(:hover,:focus-visible))>:is([data-sidebar=menu-button],[data-sidebar=menu-sub-button])>:first-child]:opacity-0 pointer-coarse:[&:has(>[data-slot=app-nav-toggle])>:is([data-sidebar=menu-button],[data-sidebar=menu-sub-button])>:first-child]:opacity-0;
   }
 
   /* The chevron in the icon column: 14px (a 24px target on touch), turned down while open, shown
@@ -182,13 +183,32 @@
     @apply gap-0.5;
   }
 
+  .cn-app-nav-customize-rows {
+    @apply gap-0.5;
+  }
+
+  /* As in the sidebar: lifted while dragged, with a slot where it lands. */
+  .cn-app-nav-customize-item {
+    @apply gap-0.5 rounded-lg data-dragging:z-10 data-dragging:bg-surface-6 data-dragging:shadow-surface-6 data-dnd-placeholder:visible! data-dnd-placeholder:bg-hover! data-dnd-placeholder:shadow-none! [&[data-dnd-placeholder]>*]:invisible;
+  }
+
   .cn-app-nav-customize-label {
     @apply px-(--density-8) pb-(--density-4) text-(length:--density-text-12) text-muted-foreground;
   }
 
   /* Children indent 16px a level under their parent. */
   .cn-app-nav-customize-row {
-    @apply min-h-(--density-36) cursor-pointer gap-(--density-8) rounded-lg px-(--density-8) ps-[calc(var(--density-8)+var(--density-16)*var(--app-nav-depth,0))] text-(length:--density-text-13) hover:bg-hover [&>svg]:size-(--density-icon-16) [&>svg]:shrink-0 [&>svg]:stroke-[1.5] [&>svg]:text-muted-foreground;
+    @apply min-h-(--density-36) gap-(--density-4) rounded-lg pe-(--density-8) ps-[calc(var(--density-4)+var(--density-16)*var(--app-nav-depth,0))] text-(length:--density-text-13) hover:bg-hover;
+  }
+
+  /* The grip drags, and arrow keys move the row. A row alone in its list has
+     nowhere to go, so it keeps the space and hides the grip. */
+  .cn-app-nav-customize-handle {
+    @apply size-(--density-24) shrink-0 cursor-grab touch-none rounded-md text-muted-foreground ring-ring outline-none transition-colors duration-feedback hover:bg-hover hover:text-foreground focus-visible:ring-1 active:cursor-grabbing disabled:invisible [&>svg]:size-(--density-icon-14) [&>svg]:stroke-[1.5];
+  }
+
+  .cn-app-nav-customize-name {
+    @apply min-h-(--density-36) min-w-0 flex-1 cursor-pointer items-center gap-(--density-8) [&>svg]:size-(--density-icon-16) [&>svg]:shrink-0 [&>svg]:stroke-[1.5] [&>svg]:text-muted-foreground;
   }
 
 /* MARK: App Shell */
@@ -221,14 +241,20 @@
      the controls. Fullscreen sets both insets to zero.
 
      Translucent windows (a native material behind the page) turn the frame
-     and the sidebar transparent; phones keep the page surface.
+     and the sidebar transparent; phones keep the page surface. The theme
+     writes --app-shell-frame-fill, never --app-shell-frame: a dark: rule on
+     the frame itself would tie with the translucent one and cover the glass.
 
      With a status bar, the main column and the panels end above it
      (--app-shell-status-bar-height, 36px; 0 on phones, which hide it).
 
-     A titlebar row sits above the fixed sidebar, which starts below it. */
+     A titlebar row sits above the fixed sidebar, which starts below it.
+
+     Whatever is portalled outside the shell (dialogs, menus, toasts) floats over
+     its drag regions, so it takes itself out of them: in a window, a press on a
+     drag region moves the window and never reaches the page. */
   .cn-app-shell {
-    @apply [--app-shell-frame:color-mix(in_oklab,var(--surface-1),black_4%)] dark:[--app-shell-frame:color-mix(in_oklab,var(--surface-1),black_22%)] [--app-shell-main:var(--surface-1)] [--app-shell-panel:var(--app-shell-main)] [--app-shell-card-shadow:var(--shadow-surface-2)] dark:[--app-shell-card-shadow:inset_0_0_0_1px_var(--dm-ring-high),0_1px_2px_oklch(0_0_0/0.24)] [--app-shell-frame-muted:color-mix(in_oklab,var(--muted-foreground),black_10%)] dark:[--app-shell-frame-muted:var(--muted-foreground)] [&_:is([data-slot=sidebar-inner],[data-slot=app-shell-status-bar],[data-slot=app-shell-titlebar])]:[--muted-foreground:var(--app-shell-frame-muted)] data-translucent:not-data-[size=phone]:[--app-shell-frame:transparent] [--app-shell-panel-trigger-room:0px] has-[[data-slot=app-shell-panel-trigger-anchor][data-pinned]]:[--app-shell-panel-trigger-room:calc(1.75rem+var(--density-6))] [--app-shell-status-bar-height:0px] has-[[data-slot=app-shell-status-bar]]:not-data-[size=phone]:[--app-shell-status-bar-height:var(--density-36)] [--app-shell-window-toggle-end:calc(max(var(--density-16),var(--app-shell-window-inset-start))+var(--density-28)+var(--density-8))] data-[size=phone]:[--app-shell-window-toggle-end:max(var(--density-12),var(--app-shell-window-inset-start))] [--app-shell-window-row-height:var(--app-shell-titlebar-height)] has-[[data-slot=sidebar][data-variant=inset]]:[--app-shell-window-row-height:max(var(--density-40),calc(var(--app-shell-titlebar-height)-var(--density-16)))] bg-(--app-shell-frame) text-foreground [&_[data-slot=sidebar]:not([data-peeking])_[data-slot=sidebar-inner]]:bg-(--app-shell-frame) [&_[data-slot=sidebar]:not([data-state])]:bg-(--app-shell-frame) data-resizing:select-none data-resizing:[&_*]:transition-none data-window-controls:[&_:is([data-drag-region],[data-slot=sidebar-header])]:[-webkit-app-region:drag] data-window-controls:[&_:is([data-drag-region],[data-slot=sidebar-header])]:[app-region:drag] data-window-controls:[&_:is([data-drag-region],[data-slot=sidebar-header])_:is(button,a,input,textarea,select,[role=button],[role=tab],[data-no-drag])]:[-webkit-app-region:no-drag] data-window-controls:[&_:is([data-drag-region],[data-slot=sidebar-header])_:is(button,a,input,textarea,select,[role=button],[role=tab],[data-no-drag])]:[app-region:no-drag] data-window-controls:[&_[data-state=collapsed][data-collapsible=offcanvas]_[data-slot=sidebar-header]]:[-webkit-app-region:no-drag] data-window-controls:[&_[data-state=collapsed][data-collapsible=offcanvas]_[data-slot=sidebar-header]]:[app-region:no-drag] data-window-controls:not-data-titlebar:[&_[data-slot=sidebar]:not([data-variant=inset],[data-variant=floating])_[data-slot=sidebar-header]]:pt-(--app-shell-titlebar-height) data-window-controls:not-data-titlebar:[&_[data-slot=sidebar]:is([data-variant=inset],[data-variant=floating])_[data-slot=sidebar-header]]:pt-[calc(var(--app-shell-titlebar-height)-var(--density-8))] data-window-controls:not-data-titlebar:[&_[data-slot=sidebar-inner]>[data-slot=sidebar-content]:first-child]:pt-(--app-shell-titlebar-height) data-window-controls:not-data-titlebar:[&:not(:has([data-slot=sidebar][data-state=expanded]))_[data-slot=sidebar-inset]>:first-child]:ps-(--app-shell-window-toggle-end) data-[window-controls=macos]:not-data-titlebar:[&_:is([data-slot=sidebar-inset],[data-slot=app-shell-panel-inner])>:first-child]:h-(--app-shell-window-row-height) data-window-controls:[&_[data-slot=app-shell-window-toggle]>*]:[-webkit-app-region:no-drag] data-window-controls:[&_[data-slot=app-shell-window-toggle]>*]:[app-region:no-drag] data-[window-controls=overlay]:not-data-titlebar:[&:is(:not(:has([data-slot=app-shell-panel][data-side=right][data-state=open])),:has([data-slot=app-shell-panel-trigger-anchor][data-pinned]))_[data-slot=sidebar-inset]>:first-child]:pe-(--app-shell-window-inset-end) data-[window-controls=overlay]:not-data-titlebar:[&_[data-slot=app-shell-panel][data-side=right]_[data-slot=app-shell-panel-header]]:pe-[calc(var(--app-shell-window-inset-end)+var(--app-shell-panel-trigger-room))] data-[window-controls=overlay]:not-data-titlebar:[&_:is([data-slot=sidebar-inset],[data-slot=app-shell-panel-inner])>:first-child]:min-h-(--app-shell-titlebar-height) data-titlebar:[&_[data-slot=sidebar-container]]:top-(--app-shell-titlebar-height) data-titlebar:[&_[data-slot=sidebar-container]]:h-[calc(100svh-var(--app-shell-titlebar-height))] data-titlebar:[&_[data-slot=sidebar-peek-strip]]:top-(--app-shell-titlebar-height);
+    @apply [:is(body>:not(&,:has(&)),body>:not(&,:has(&))_*)]:[-webkit-app-region:no-drag] [:is(body>:not(&,:has(&)),body>:not(&,:has(&))_*)]:[app-region:no-drag] [--app-shell-frame-fill:color-mix(in_oklab,var(--surface-1),black_4%)] dark:[--app-shell-frame-fill:color-mix(in_oklab,var(--surface-1),black_22%)] [--app-shell-frame:var(--app-shell-frame-fill)] [--app-shell-main:var(--surface-1)] [--app-shell-panel:var(--app-shell-main)] [--app-shell-card-shadow:var(--shadow-surface-2)] dark:[--app-shell-card-shadow:inset_0_0_0_1px_var(--dm-ring-high),0_1px_2px_oklch(0_0_0/0.24)] [--app-shell-frame-muted:color-mix(in_oklab,var(--muted-foreground),black_10%)] dark:[--app-shell-frame-muted:var(--muted-foreground)] [&_:is([data-slot=sidebar-inner],[data-slot=app-shell-status-bar],[data-slot=app-shell-titlebar])]:[--muted-foreground:var(--app-shell-frame-muted)] data-translucent:not-data-[size=phone]:[--app-shell-frame:transparent] [--app-shell-panel-trigger-room:0px] has-[[data-slot=app-shell-panel-trigger-anchor][data-pinned]]:[--app-shell-panel-trigger-room:calc(1.75rem+var(--density-6))] [--app-shell-status-bar-height:0px] has-[[data-slot=app-shell-status-bar]]:not-data-[size=phone]:[--app-shell-status-bar-height:var(--density-36)] [--app-shell-window-toggle-end:calc(max(var(--density-16),var(--app-shell-window-inset-start))+var(--density-28)+var(--density-8))] data-[size=phone]:[--app-shell-window-toggle-end:max(var(--density-12),var(--app-shell-window-inset-start))] [--app-shell-window-row-height:var(--app-shell-titlebar-height)] has-[[data-slot=sidebar][data-variant=inset]]:[--app-shell-window-row-height:max(var(--density-40),calc(var(--app-shell-titlebar-height)-var(--density-16)))] bg-(--app-shell-frame) text-foreground [&_[data-slot=sidebar]:not([data-peeking])_[data-slot=sidebar-inner]]:bg-(--app-shell-frame) [&_[data-slot=sidebar]:not([data-state])]:bg-(--app-shell-frame) data-resizing:select-none data-resizing:[&_*]:transition-none data-window-controls:[&_:is([data-drag-region],[data-slot=sidebar-header])]:[-webkit-app-region:drag] data-window-controls:[&_:is([data-drag-region],[data-slot=sidebar-header])]:[app-region:drag] data-window-controls:[&_:is([data-drag-region],[data-slot=sidebar-header])_:is(button,a,input,textarea,select,[role=button],[role=tab],[data-no-drag])]:[-webkit-app-region:no-drag] data-window-controls:[&_:is([data-drag-region],[data-slot=sidebar-header])_:is(button,a,input,textarea,select,[role=button],[role=tab],[data-no-drag])]:[app-region:no-drag] data-window-controls:[&_[data-state=collapsed][data-collapsible=offcanvas]_[data-slot=sidebar-header]]:[-webkit-app-region:no-drag] data-window-controls:[&_[data-state=collapsed][data-collapsible=offcanvas]_[data-slot=sidebar-header]]:[app-region:no-drag] data-window-controls:not-data-titlebar:[&_[data-slot=sidebar]:not([data-variant=inset],[data-variant=floating])_[data-slot=sidebar-header]]:pt-(--app-shell-titlebar-height) data-window-controls:not-data-titlebar:[&_[data-slot=sidebar]:is([data-variant=inset],[data-variant=floating])_[data-slot=sidebar-header]]:pt-[calc(var(--app-shell-titlebar-height)-var(--density-8))] data-window-controls:not-data-titlebar:[&_[data-slot=sidebar-inner]>[data-slot=sidebar-content]:first-child]:pt-(--app-shell-titlebar-height) data-window-controls:not-data-titlebar:[&:not(:has([data-slot=sidebar][data-state=expanded]))_[data-slot=sidebar-inset]>:first-child]:ps-(--app-shell-window-toggle-end) data-[window-controls=macos]:not-data-titlebar:[&_:is([data-slot=sidebar-inset],[data-slot=app-shell-panel-inner])>:first-child]:h-(--app-shell-window-row-height) data-window-controls:[&_[data-slot=app-shell-window-toggle]>*]:[-webkit-app-region:no-drag] data-window-controls:[&_[data-slot=app-shell-window-toggle]>*]:[app-region:no-drag] data-[window-controls=overlay]:not-data-titlebar:[&:is(:not(:has([data-slot=app-shell-panel][data-side=right][data-state=open])),:has([data-slot=app-shell-panel-trigger-anchor][data-pinned]))_[data-slot=sidebar-inset]>:first-child]:pe-(--app-shell-window-inset-end) data-[window-controls=overlay]:not-data-titlebar:[&_[data-slot=app-shell-panel][data-side=right]_[data-slot=app-shell-panel-header]]:pe-[calc(var(--app-shell-window-inset-end)+var(--app-shell-panel-trigger-room))] data-[window-controls=overlay]:not-data-titlebar:[&_:is([data-slot=sidebar-inset],[data-slot=app-shell-panel-inner])>:first-child]:min-h-(--app-shell-titlebar-height) data-titlebar:[&_[data-slot=sidebar-container]]:top-(--app-shell-titlebar-height) data-titlebar:[&_[data-slot=sidebar-container]]:h-[calc(100svh-var(--app-shell-titlebar-height))] data-titlebar:[&_[data-slot=sidebar-peek-strip]]:top-(--app-shell-titlebar-height);
   }
 
   .cn-app-shell-skip-link {
@@ -239,7 +265,7 @@
      is the room the desktop sidebar takes beside the main column (its gap's
      width in each state), for the status bar to start after it. */
   .cn-app-shell-body {
-    @apply relative has-data-[variant=inset]:bg-transparent data-reveal:bg-transparent [--app-shell-sidebar-gap:0px] md:has-[>[data-slot=sidebar]:not([data-collapsible=offcanvas],[data-collapsible=icon],[data-peeking])]:[--app-shell-sidebar-gap:var(--sidebar-width)] md:has-[>[data-slot=sidebar][data-collapsible=icon][data-variant=sidebar]]:[--app-shell-sidebar-gap:var(--sidebar-width-icon)] md:has-[>[data-slot=sidebar][data-collapsible=icon]:not([data-variant=sidebar])]:[--app-shell-sidebar-gap:calc(var(--sidebar-width-icon)+var(--spacing)*4)];
+    @apply relative has-data-[variant=inset]:bg-transparent data-reveal:bg-transparent [--app-shell-sidebar-gap:0px] md:has-[>[data-slot=sidebar]:not([data-collapsible=offcanvas],[data-collapsible=icon],[data-peeking])]:[--app-shell-sidebar-gap:var(--sidebar-width)] md:has-[>[data-slot=sidebar][data-collapsible=icon]:not([data-variant=floating])]:[--app-shell-sidebar-gap:var(--sidebar-width-icon)] md:has-[>[data-slot=sidebar][data-collapsible=icon][data-variant=floating]]:[--app-shell-sidebar-gap:calc(var(--sidebar-width-icon)+var(--spacing)*4)];
   }
 
   /* The full-width row above everything. It clears the native controls at
@@ -260,12 +286,13 @@
      --background is that surface, so anything painting bg-background
      matches the plane it sits on. */
   .cn-app-shell-main {
-    @apply isolate has-[[data-slot=app-shell-panel-trigger-anchor][data-pinned]]:z-1 has-[[data-slot=app-shell-panel-trigger-anchor][data-pinned]]:overflow-x-visible has-[[data-slot=app-shell-panel-trigger-anchor][data-pinned]]:overflow-y-clip mb-(--app-shell-status-bar-height) bg-(--app-shell-main) [--background:var(--app-shell-main)] md:peer-data-[variant=inset]:mt-(--density-6) md:peer-data-[variant=inset]:me-(--density-6) md:peer-data-[variant=inset]:peer-data-[state=collapsed]:ms-(--density-6) md:peer-data-[variant=inset]:mb-[max(var(--density-6),var(--app-shell-status-bar-height))] md:peer-data-[variant=inset]:bg-(--app-shell-main) md:peer-data-[variant=inset]:shadow-(--app-shell-card-shadow)!;
+    @apply isolate has-[[data-slot=app-shell-panel-trigger-anchor][data-pinned]]:z-1 has-[[data-slot=app-shell-panel-trigger-anchor][data-pinned]]:overflow-x-visible has-[[data-slot=app-shell-panel-trigger-anchor][data-pinned]]:overflow-y-clip mb-(--app-shell-status-bar-height) bg-(--app-shell-main) [--background:var(--app-shell-main)] md:peer-data-[variant=inset]:mt-(--density-6) md:peer-data-[variant=inset]:me-(--density-6) md:peer-data-[variant=inset]:peer-data-[state=collapsed]:peer-not-data-[collapsible=icon]:ms-(--density-6) md:peer-data-[variant=inset]:mb-[max(var(--density-6),var(--app-shell-status-bar-height))] md:peer-data-[variant=inset]:bg-(--app-shell-main) md:peer-data-[variant=inset]:shadow-(--app-shell-card-shadow)!;
   }
 
-  /* The header: 48px, a hairline once the content scrolls. */
+  /* The header: 48px, a hairline once the content scrolls. A tab strip starting
+     it runs the full width, on its own inset. */
   .cn-app-shell-header {
-    @apply h-(--density-48) gap-(--density-8) border-b border-transparent px-(--density-12) transition-[border-color] duration-feedback ease-feedback data-scrolled:border-border;
+    @apply h-(--density-48) gap-(--density-8) border-b border-transparent px-(--density-12) has-[>[data-slot=tab-strip]:first-child]:ps-0 transition-[border-color] duration-feedback ease-feedback data-scrolled:border-border;
   }
 
   .cn-app-shell-header-trigger {
@@ -321,9 +348,11 @@
     @apply ms-(--density-6);
   }
 
-  /* Reached from the skip link or F6, the content shows an inset ring. */
+  /* Reached from the skip link or F6, the content shows an inset ring. With a
+     size, the page sits in a centred column of --app-shell-content-width: padding
+     rather than a wrapper, so the scrollbar stays at the column's edge. */
   .cn-app-shell-content {
-    @apply rounded-b-[inherit] overscroll-contain focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-inset;
+    @apply rounded-b-[inherit] overscroll-contain focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-inset [--app-shell-content-gutter:var(--density-24)] in-data-[size=phone]:[--app-shell-content-gutter:var(--density-16)] data-[content-size=sm]:[--app-shell-content-width:42rem] data-[content-size=md]:[--app-shell-content-width:56rem] data-[content-size=lg]:[--app-shell-content-width:72rem] data-content-size:py-(--app-shell-content-gutter) data-content-size:px-[max(var(--app-shell-content-gutter),calc((100%-var(--app-shell-content-width))/2))];
   }
 
   /* The status bar sits on the frame under the main column and the
@@ -407,10 +436,18 @@
 
   /* The toggle keeps its spot: as a docked panel opens, the main column gives
      up the panel's width (and the gutter between cards) and the toggle moves
-     back by exactly that, on the panel's own timing. It leaves its header
-     slot, so the header's other actions stay where they are. */
+     back by exactly that, on the panel's own timing. Moved away, it gives up
+     its slot and the gap before it (and the room for the window's buttons, which
+     the panel now clears), so the row's other content reaches the column's end. */
   .cn-app-shell-panel-trigger-anchor {
-    @apply [--app-shell-panel-trigger-gutter:0px] data-open:group-has-data-[variant=inset]/sidebar-wrapper:[--app-shell-panel-trigger-gutter:var(--density-6)] data-pinned:relative data-pinned:end-[calc(-1*(var(--app-shell-panel-trigger-shift)+var(--app-shell-panel-trigger-gutter)))] transition-[inset-inline-end] duration-move ease-move data-closed:duration-move-exit data-closed:ease-exit motion-reduce:transition-none;
+    @apply [--app-shell-panel-trigger-gutter:0px] data-open:group-has-data-[variant=inset]/sidebar-wrapper:[--app-shell-panel-trigger-gutter:var(--density-6)] relative end-[calc(-1*(var(--app-shell-panel-trigger-shift)+var(--app-shell-panel-trigger-gutter)))] data-pinned:data-open:ms-[calc(-1*(1.75rem+var(--density-8)+max(0px,var(--app-shell-window-inset-end)-var(--density-12))))] in-data-titlebar:data-pinned:data-open:ms-[calc(-1*(1.75rem+var(--density-8)))] transition-[inset-inline-end,margin-inline-start] duration-move ease-move data-closed:duration-move-exit data-closed:ease-exit motion-reduce:transition-none;
+  }
+
+  /* A pinned toggle's spot in a window, kept out of the panel header's drag
+     region: from the panel's end to the toggle's start, as tall as the header.
+     The window's buttons only take room in the top row without a titlebar. */
+  .cn-app-shell-panel-trigger-guard {
+    @apply h-(--density-48) w-[calc(var(--app-shell-window-inset-end)+var(--density-12)+var(--app-shell-panel-trigger-room))] in-data-titlebar:w-[calc(var(--density-12)+var(--app-shell-panel-trigger-room))] [-webkit-app-region:no-drag] [app-region:no-drag] in-data-[placement=inline]:in-data-[side=right]:in-[[data-slot=sidebar-wrapper]:has([data-slot=app-shell-panel-trigger-anchor][data-pinned])]:block;
   }
 
   /* The glyph shows the state; a fill only marks which view a trigger selects. */
@@ -2321,7 +2358,7 @@
      transform at all, so it stays a plain containing block. A drag writes
      --sidebar-reveal-progress and turns the transition off. */
   .cn-sidebar-inset {
-    @apply bg-background md:peer-data-[variant=inset]:bg-surface-2 md:peer-data-[variant=inset]:shadow-surface-2 md:peer-data-[variant=inset]:m-2 md:peer-data-[variant=inset]:ms-0 md:peer-data-[variant=inset]:rounded-xl md:peer-data-[variant=inset]:peer-data-[state=collapsed]:ms-2 group-data-reveal/sidebar-wrapper:z-10 group-data-reveal/sidebar-wrapper:origin-left group-data-[reveal-side=right]/sidebar-wrapper:origin-right group-data-reveal/sidebar-wrapper:overflow-hidden group-data-reveal/sidebar-wrapper:transition-[transform,border-radius,box-shadow] group-data-reveal/sidebar-wrapper:duration-sheet-exit group-data-reveal/sidebar-wrapper:ease-drawer group-data-[reveal=open]/sidebar-wrapper:duration-sheet group-data-[reveal=open]/sidebar-wrapper:rounded-2xl group-data-[reveal=open]/sidebar-wrapper:shadow-surface-6 group-data-[reveal=open]/sidebar-wrapper:[transform:translateX(calc(var(--sidebar-reveal-width)*var(--sidebar-reveal-direction)*var(--sidebar-reveal-progress,1)))_scale(calc(1-(1-var(--sidebar-reveal-scale))*var(--sidebar-reveal-progress,1)))] group-data-reveal-dragging/sidebar-wrapper:transition-none motion-reduce:transition-none;
+    @apply bg-background md:peer-data-[variant=inset]:bg-surface-2 md:peer-data-[variant=inset]:shadow-surface-2 md:peer-data-[variant=inset]:m-2 md:peer-data-[variant=inset]:ms-0 md:peer-data-[variant=inset]:rounded-xl md:peer-data-[variant=inset]:peer-data-[state=collapsed]:peer-not-data-[collapsible=icon]:ms-2 group-data-reveal/sidebar-wrapper:z-10 group-data-reveal/sidebar-wrapper:origin-left group-data-[reveal-side=right]/sidebar-wrapper:origin-right group-data-reveal/sidebar-wrapper:overflow-hidden group-data-reveal/sidebar-wrapper:transition-[transform,border-radius,box-shadow] group-data-reveal/sidebar-wrapper:duration-sheet-exit group-data-reveal/sidebar-wrapper:ease-drawer group-data-[reveal=open]/sidebar-wrapper:duration-sheet group-data-[reveal=open]/sidebar-wrapper:rounded-2xl group-data-[reveal=open]/sidebar-wrapper:shadow-surface-6 group-data-[reveal=open]/sidebar-wrapper:[transform:translateX(calc(var(--sidebar-reveal-width)*var(--sidebar-reveal-direction)*var(--sidebar-reveal-progress,1)))_scale(calc(1-(1-var(--sidebar-reveal-scale))*var(--sidebar-reveal-progress,1)))] group-data-reveal-dragging/sidebar-wrapper:transition-none motion-reduce:transition-none;
   }
 
   /* The room a revealed sidebar takes, and how small the page gets beside it.
@@ -2346,8 +2383,9 @@
     @apply h-(--density-32) w-full bg-transparent text-(length:--density-text-13) shadow-[0_0_0_1px_transparent] hover:bg-hover hover:shadow-[0_0_0_1px_var(--border)] focus-visible:bg-card;
   }
 
+  /* The trigger's centre sits on the axis of the rows' actions and badges. */
   .cn-sidebar-header {
-    @apply gap-(--density-8) p-(--density-8);
+    @apply gap-(--density-8) p-(--density-8) [--sidebar-row-axis:calc(var(--density-8)+var(--density-20)/2)] [&>[data-slot=sidebar-trigger]]:me-[calc(var(--sidebar-row-axis)-var(--density-36)/2)];
   }
 
   /* The rows fade out under the header and footer while there is more to
@@ -2364,9 +2402,9 @@
     @apply bg-border/60 mx-2;
   }
 
-  /* Groups sit 8px apart (4px above and below each). */
+  /* Groups sit 16px apart, and rows 8px from the sidebar's edges. */
   .cn-sidebar-group {
-    @apply px-(--density-8) py-(--density-4);
+    @apply p-(--density-8);
   }
 
   /* Each menu is a fluid hover container (relative isolate): a bg-hover
@@ -2375,7 +2413,8 @@
      Rows keep a 2px gap, so neighbouring highlights never touch; a press in
      the gap goes to the nearest row. */
   .cn-sidebar-menu {
-    @apply relative isolate gap-0.5 [&>[data-slot=fluid-hover-selection]]:shadow-surface-2;
+    /* The selection can't follow a lifted row: it's out of the list's layout, so offsets from it mean nothing. */
+    @apply relative isolate gap-0.5 [&>[data-slot=fluid-hover-selection]]:shadow-surface-2 has-[>[data-dragging]>[data-active]:not([data-active=false])]:[&>[data-slot=fluid-hover-selection]]:opacity-0;
   }
 
   .cn-sidebar-group-content {
@@ -2397,13 +2436,16 @@
     @apply size-(--density-icon-14) transition-opacity duration-feedback in-aria-[expanded=true]:opacity-0 group-hover/group-header:opacity-100 group-focus-within/group-header:opacity-100 pointer-coarse:opacity-100 [&>svg]:size-(--density-icon-14) [&>svg]:stroke-[1.5] [&>svg]:transition-transform [&>svg]:duration-feedback [&>svg]:ease-feedback in-aria-[expanded=true]:[&>svg]:rotate-90;
   }
 
-  /* Header actions: 24px boxes on the rows' trailing axis. */
+  /* Header actions: 24px boxes on the axis of the rows' actions and badges.
+     A closed group folds them away with its rows. */
   .cn-sidebar-group-action {
-    @apply cursor-pointer text-muted-foreground ring-ring hover:bg-hover hover:text-foreground absolute top-(--density-4) end-[calc(var(--density-8)+(var(--density-30)-var(--density-24))/2)] size-(--density-24) rounded-md p-0 transition-colors duration-feedback focus-visible:ring-1 [&>svg]:size-(--density-icon-16) [&>svg]:stroke-[1.5] hover:[&>svg]:stroke-2;
+    @apply cursor-pointer text-muted-foreground ring-ring hover:bg-hover hover:text-foreground absolute top-(--density-8) end-[calc(var(--density-8)+var(--density-6))] in-[[data-sidebar=group][data-state=closed]]:hidden size-(--density-24) rounded-md p-0 transition-colors duration-feedback focus-visible:ring-1 [&>svg]:size-(--density-icon-16) [&>svg]:stroke-[1.5] hover:[&>svg]:stroke-2;
   }
 
+  /* With showOnHover they wait for the label row: hovered, focused, or with
+     a menu open. Touch has no hover, so they stay. */
   .cn-sidebar-group-actions {
-    @apply top-(--density-4) end-[calc(var(--density-8)+(var(--density-30)-var(--density-24))/2)] gap-1;
+    @apply top-(--density-8) end-[calc(var(--density-8)+var(--density-6))] gap-1 in-[[data-sidebar=group][data-state=closed]]:hidden transition-opacity duration-feedback data-show-on-hover:opacity-0 data-show-on-hover:hover:opacity-100 data-show-on-hover:focus-within:opacity-100 data-show-on-hover:has-aria-expanded:opacity-100 data-show-on-hover:pointer-coarse:opacity-100 data-show-on-hover:[[data-sidebar=group-label]:is(:hover,:focus-visible)~&]:opacity-100;
   }
 
   /* Collapsible groups and sub-trees: height and opacity on the move
@@ -2458,11 +2500,11 @@
   /* Row actions: 24px boxes centred on the badge's axis; with a badge on
      the row, the action sits left of it. */
   .cn-sidebar-menu-action {
-    @apply cursor-pointer text-muted-foreground ring-ring hover:bg-hover hover:text-foreground peer-hover/menu-button:text-foreground peer-data-fluid-hover-active/menu-button:text-foreground absolute top-[calc((var(--density-30)-var(--density-24))/2)] end-(--density-6) size-(--density-24) rounded-md p-0 transition-[color,background-color,opacity] duration-feedback group-has-[>[data-sidebar=menu-badge]]/menu-item:end-[calc(var(--density-8)+var(--density-20)+var(--density-6))] group-has-[>[data-sidebar=menu-badge]]/menu-sub-item:end-[calc(var(--density-8)+var(--density-20)+var(--density-6))] peer-data-[size=lg]/menu-button:top-[calc((var(--density-48)-var(--density-24))/2)] peer-data-[size=sm]/menu-button:top-[calc((var(--density-28)-var(--density-24))/2)] in-data-[sidebar=menu-sub-item]:top-[calc((var(--density-30)-var(--density-24))/2)] focus-visible:ring-1 [&>svg]:size-(--density-icon-16) [&>svg]:stroke-[1.5] hover:[&>svg]:stroke-2;
+    @apply cursor-pointer text-muted-foreground ring-ring hover:bg-hover hover:text-foreground peer-hover/menu-button:text-foreground peer-data-fluid-hover-active/menu-button:text-foreground absolute top-[calc((var(--density-30)-var(--density-24))/2)] end-(--density-6) size-(--density-24) rounded-md p-0 transition-[color,background-color,opacity] duration-feedback [:has(>[data-sidebar=menu-badge])>&]:end-[calc(var(--density-8)+var(--density-20)+var(--density-6))] peer-data-[size=lg]/menu-button:top-[calc((var(--density-48)-var(--density-24))/2)] peer-data-[size=sm]/menu-button:top-[calc((var(--density-28)-var(--density-24))/2)] in-data-[sidebar=menu-sub-item]:not-in-data-[slot=sidebar-menu-actions]:top-[calc((var(--density-30)-var(--density-24))/2)] focus-visible:ring-1 [&>svg]:size-(--density-icon-16) [&>svg]:stroke-[1.5] hover:[&>svg]:stroke-2;
   }
 
   .cn-sidebar-menu-actions {
-    @apply top-[calc((var(--density-30)-var(--density-24))/2)] end-(--density-6) gap-1 transition-opacity duration-feedback group-has-[>[data-sidebar=menu-badge]]/menu-item:end-[calc(var(--density-8)+var(--density-20)+var(--density-6))] group-has-[>[data-sidebar=menu-badge]]/menu-sub-item:end-[calc(var(--density-8)+var(--density-20)+var(--density-6))] peer-data-[size=lg]/menu-button:top-[calc((var(--density-48)-var(--density-24))/2)] peer-data-[size=sm]/menu-button:top-[calc((var(--density-28)-var(--density-24))/2)] in-data-[sidebar=menu-sub-item]:top-[calc((var(--density-30)-var(--density-24))/2)];
+    @apply top-[calc((var(--density-30)-var(--density-24))/2)] end-(--density-6) gap-1 transition-opacity duration-feedback [:has(>[data-sidebar=menu-badge])>&]:end-[calc(var(--density-8)+var(--density-20)+var(--density-6))] peer-data-[size=lg]/menu-button:top-[calc((var(--density-48)-var(--density-24))/2)] peer-data-[size=sm]/menu-button:top-[calc((var(--density-28)-var(--density-24))/2)] in-data-[sidebar=menu-sub-item]:top-[calc((var(--density-30)-var(--density-24))/2)];
   }
 
   .cn-sidebar-menu-badge {
@@ -2486,7 +2528,7 @@
      background span the column. A hairline under the parent's icon shows
      while the list is hovered or holds focus. */
   .cn-sidebar-menu-sub {
-    @apply relative ms-0 me-0 gap-0.5 border-0 ps-0 pe-0 pt-0.5 pb-0 group-data-[collapsible=icon]:hidden before:pointer-events-none before:absolute before:inset-y-1 before:start-[calc(var(--density-16)*var(--sidebar-menu-depth,1))] before:w-px before:bg-border before:opacity-0 before:transition-opacity before:duration-feedback hover:before:opacity-100 has-focus-visible:before:opacity-100;
+    @apply relative ms-0 me-0 gap-0.5 border-0 ps-0 pe-0 pt-0.5 pb-0 group-data-[collapsible=icon]:hidden before:pointer-events-none before:absolute before:inset-y-1 before:start-[calc(var(--density-16)*var(--sidebar-menu-depth,1))] before:w-px before:bg-border before:opacity-0 before:transition-opacity before:duration-feedback hover:before:opacity-100 has-focus-visible:before:opacity-100 has-[>[data-dragging]]:before:opacity-100;
   }
 
   /* Nested rows: 30px (24px small), 2px apart, each level 16px further in,
@@ -2559,11 +2601,12 @@
   /* A 40px row of document tabs on the surface it sits on. `sm` pins it to
      the compact density. */
   .cn-tab-strip {
-    @apply h-(--density-40) gap-(--density-4) px-(--density-6) data-[size=sm]:density-compact;
+    @apply h-(--density-40) gap-(--density-4) px-(--density-6) in-data-[slot=app-shell-header]:-me-(--density-6) data-[size=sm]:density-compact;
   }
 
-  /* The list scrolls sideways under faded edges, with no scrollbar. It is a
-     fluid hover container: the active tab's raised pill slides between tabs
+  /* The list is as wide as its tabs, so the new tab button follows the last
+     one, and shrinks and then scrolls sideways under faded edges, with no
+     scrollbar. It is a fluid hover container: the active tab's raised pill slides between tabs
      and a hover highlight glides. While a tab drags, the overlays hide and
      the active tab paints its own pill. */
   .cn-tab-strip-list {
@@ -2620,8 +2663,9 @@
     @apply shrink-0;
   }
 
+  /* The menu of every tab ends the row. */
   .cn-tab-strip-overflow {
-    @apply shrink-0;
+    @apply ms-auto shrink-0;
   }
 
   .cn-tab-strip-overflow-menu {
@@ -2792,7 +2836,7 @@
      pressed item's bg-active background slides between items on the move
      timing. */
   .cn-toggle-group {
-    @apply relative isolate rounded-lg data-[size=sm]:rounded-lg;
+    @apply relative isolate rounded-lg data-[size=sm]:rounded-lg data-[spacing=0]:overflow-hidden;
   }
 
   /* Items: 36px, px-3, rounded-lg at the default density; size sm pins them
@@ -2802,12 +2846,14 @@
      selection does). The toggle style map sets those backgrounds with !, so
      these switches use ! too and win on specificity (React Aria marks the
      selected item with data-selected). The lit item turns
-     foreground. Joined groups (spacing 0) square the inner corners. */
+     foreground. Joined groups (spacing 0) square the inner corners; the first
+     button is first-of-type, because the group's overlays come before it. */
   .cn-toggle-group-item {
-    @apply cursor-pointer data-[size=default]:h-(--density-36) data-[size=default]:min-w-(--density-36) data-[size=default]:px-(--density-12) data-[size=sm]:density-compact data-[size=sm]:h-(--density-36) data-[size=sm]:min-w-(--density-36) data-[size=sm]:px-(--density-12) data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 group-data-[fluid-hover]/toggle-group:hover:bg-transparent! group-[[data-fluid-hover]:not([data-multiple])]/toggle-group:aria-pressed:bg-transparent! group-[[data-fluid-hover]:not([data-multiple])]/toggle-group:data-[state=on]:bg-transparent! group-[[data-fluid-hover]:not([data-multiple])]/toggle-group:data-pressed:bg-transparent! group-[[data-fluid-hover]:not([data-multiple])]/toggle-group:data-selected:bg-transparent! group-data-[spacing=0]/toggle-group:rounded-none group-data-horizontal/toggle-group:data-[spacing=0]:first:rounded-s-lg group-data-vertical/toggle-group:data-[spacing=0]:first:rounded-t-lg group-data-horizontal/toggle-group:data-[spacing=0]:last:rounded-e-lg group-data-vertical/toggle-group:data-[spacing=0]:last:rounded-b-lg;
+    @apply cursor-pointer data-[size=default]:h-(--density-36) data-[size=default]:min-w-(--density-36) data-[size=default]:px-(--density-12) data-[size=sm]:density-compact data-[size=sm]:h-(--density-36) data-[size=sm]:min-w-(--density-36) data-[size=sm]:px-(--density-12) data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 group-data-[fluid-hover]/toggle-group:hover:bg-transparent! group-[[data-fluid-hover]:not([data-multiple])]/toggle-group:aria-pressed:bg-transparent! group-[[data-fluid-hover]:not([data-multiple])]/toggle-group:data-[state=on]:bg-transparent! group-[[data-fluid-hover]:not([data-multiple])]/toggle-group:data-pressed:bg-transparent! group-[[data-fluid-hover]:not([data-multiple])]/toggle-group:data-selected:bg-transparent! group-data-[spacing=0]/toggle-group:rounded-none group-data-horizontal/toggle-group:data-[spacing=0]:first-of-type:rounded-s-lg group-data-vertical/toggle-group:data-[spacing=0]:first-of-type:rounded-t-lg group-data-[spacing=0]/toggle-group:focus-visible:ring-inset group-data-horizontal/toggle-group:data-[spacing=0]:last:rounded-e-lg group-data-vertical/toggle-group:data-[spacing=0]:last:rounded-b-lg;
   }
 
-  /* Overlays follow the item shape: square inside a joined group. */
+  /* Overlays follow the item shape: square inside a joined group, which clips
+     them to its corners. */
   .cn-toggle-group-selection {
     @apply group-data-[spacing=0]/toggle-group:rounded-none;
   }
@@ -2908,8 +2954,9 @@
     @apply text-(length:--density-text-12) text-muted-foreground;
   }
 
+  /* On the axis of the rows' actions and badges. */
   .cn-user-menu-chevron {
-    @apply size-(--density-icon-16) text-muted-foreground;
+    @apply me-[calc((var(--density-20)-var(--density-icon-16))/2)] size-(--density-icon-16) text-muted-foreground;
   }
 
   .cn-user-menu-content {
@@ -2949,8 +2996,9 @@
     @apply text-(length:--density-text-12) text-muted-foreground;
   }
 
+  /* On the axis of the rows' actions and badges. */
   .cn-workspace-switcher-chevron {
-    @apply size-(--density-icon-16) text-muted-foreground;
+    @apply me-[calc((var(--density-20)-var(--density-icon-16))/2)] size-(--density-icon-16) text-muted-foreground;
   }
 
   .cn-workspace-switcher-check {

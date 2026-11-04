@@ -814,7 +814,7 @@ function SidebarDesktop({
           "group-data-peeking:w-0 group-data-[collapsible=offcanvas]:w-0",
           "group-data-[side=right]:rotate-180",
           "group-data-resizing:transition-none",
-          variant === "floating" || variant === "inset"
+          variant === "floating"
             ? "group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+(--spacing(4)))]"
             : "group-data-[collapsible=icon]:w-(--sidebar-width-icon)"
         )}
@@ -825,15 +825,20 @@ function SidebarDesktop({
         data-side={side}
         className={cn(
           "cn-sidebar-container fixed inset-y-0 z-10 hidden h-svh w-(--sidebar-width) group-data-peeking:z-50 group-data-resizing:transition-none data-[side=left]:left-0 data-[side=left]:group-data-[collapsible=offcanvas]:left-[calc(var(--sidebar-width)*-1)] data-[side=right]:right-0 data-[side=right]:group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)] md:flex",
-          // Adjust the padding for floating and inset variants.
-          variant === "floating" || variant === "inset"
-            ? "p-2 group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+(--spacing(4))+2px)]"
-            : cn(
-                "group-data-peeking:py-2 group-data-[collapsible=icon]:w-(--sidebar-width-icon)",
-                bordered &&
-                  !peeking &&
-                  "group-data-[side=left]:border-r group-data-[side=right]:border-l"
-              ),
+          // A floating card has room all round. Inset only matches the main
+          // card's top and bottom margins: the rows keep their own 8px from
+          // the edges, and a peek floats as a card.
+          variant === "floating" &&
+            "p-2 group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+(--spacing(4))+2px)]",
+          variant === "inset" &&
+            "py-2 group-data-peeking:px-2 group-data-[collapsible=icon]:w-(--sidebar-width-icon)",
+          variant === "sidebar" &&
+            cn(
+              "group-data-peeking:py-2 group-data-[collapsible=icon]:w-(--sidebar-width-icon)",
+              bordered &&
+                !peeking &&
+                "group-data-[side=left]:border-r group-data-[side=right]:border-l"
+            ),
           className
         )}
         onPointerEnter={
@@ -1305,7 +1310,7 @@ function SidebarGroup({
           count +
           (React.isValidElement<{ children?: React.ReactNode }>(kid) &&
           kid.type === SidebarGroupActions
-            ? React.Children.count(kid.props.children)
+            ? React.Children.toArray(kid.props.children).length
             : 1),
         0
       )
@@ -1466,13 +1471,18 @@ function SidebarGroupAction({
 /** Up to three SidebarGroupActions in a row over the group label's end edge. */
 function SidebarGroupActions({
   className,
+  showOnHover = false,
   children,
   ...props
-}: React.ComponentProps<"div">) {
+}: React.ComponentProps<"div"> & {
+  /** Hide the actions until the label row is hovered or holds focus. */
+  showOnHover?: boolean
+}) {
   return (
     <div
       data-slot="sidebar-group-actions"
       data-sidebar="group-actions"
+      data-show-on-hover={showOnHover ? "" : undefined}
       className={cn(
         "cn-sidebar-group-actions absolute z-10 flex items-center group-data-[collapsible=icon]:hidden",
         className

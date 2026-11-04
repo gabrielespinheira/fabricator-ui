@@ -485,7 +485,7 @@ function TabStripList({
               data-dragging={isDragging ? "" : undefined}
               {...fluid.props}
               className={cn(
-                "cn-tab-strip-list relative isolate flex min-w-0 flex-1 items-center overflow-x-auto overscroll-x-contain",
+                "cn-tab-strip-list relative isolate flex min-w-0 items-center overflow-x-auto overscroll-x-contain",
                 className
               )}
               {...props}
@@ -850,7 +850,7 @@ function TabStripTab({
       data-closable={closable ? "" : undefined}
       data-dragging={isDragging ? "" : undefined}
       className={cn(
-        "cn-tab-strip-tab group/tab-strip-tab relative flex shrink-0 items-center",
+        "cn-tab-strip-tab group/tab-strip-tab relative flex items-center data-pinned:shrink-0",
         className
       )}
       {...props}

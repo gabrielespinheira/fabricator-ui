@@ -6,6 +6,7 @@ import { useTheme } from "next-themes"
 import {
   getAppearanceSetter,
   getDesktopWindow,
+  getTrafficLightsSetter,
   isFullscreenWindow,
   readDesktopRuntime,
 } from "./desktop"
@@ -28,9 +29,9 @@ function readFullscreen() {
  * The shell hosting the page and the window it gives the App Shell. Runs in
  * the browser only (the explorer renders without SSR). A translucent window
  * needs a transparent page, so the native glass shows through; Electron's
- * glass also takes the page's theme.
+ * glass also takes the page's theme, and its lights follow the layout.
  */
-export function useDesktopWindow() {
+export function useDesktopWindow({ hasTitlebar }: { hasTitlebar: boolean }) {
   const [host] = React.useState(() =>
     readDesktopRuntime(window, navigator.userAgent)
   )
@@ -39,7 +40,7 @@ export function useDesktopWindow() {
     readFullscreen,
     () => false
   )
-  const shellWindow = getDesktopWindow({ ...host, isFullscreen })
+  const shellWindow = getDesktopWindow({ ...host, isFullscreen, hasTitlebar })
   const { resolvedTheme } = useTheme()
 
   const isTranslucent = shellWindow?.isTranslucent ?? false
@@ -58,6 +59,13 @@ export function useDesktopWindow() {
     if (resolvedTheme !== "light" && resolvedTheme !== "dark") return
     getAppearanceSetter(window)?.(resolvedTheme)
   }, [resolvedTheme])
+
+  const lightsX = shellWindow?.trafficLights?.x
+  const lightsY = shellWindow?.trafficLights?.y
+  React.useEffect(() => {
+    if (lightsX === undefined || lightsY === undefined) return
+    getTrafficLightsSetter(window)?.({ x: lightsX, y: lightsY })
+  }, [lightsX, lightsY])
 
   return { host, shellWindow }
 }

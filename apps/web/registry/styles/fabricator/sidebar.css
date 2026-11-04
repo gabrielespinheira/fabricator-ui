@@ -59,7 +59,7 @@
      transform at all, so it stays a plain containing block. A drag writes
      --sidebar-reveal-progress and turns the transition off. */
   .cn-sidebar-inset {
-    @apply bg-background md:peer-data-[variant=inset]:bg-surface-2 md:peer-data-[variant=inset]:shadow-surface-2 md:peer-data-[variant=inset]:m-2 md:peer-data-[variant=inset]:ms-0 md:peer-data-[variant=inset]:rounded-xl md:peer-data-[variant=inset]:peer-data-[state=collapsed]:ms-2 group-data-reveal/sidebar-wrapper:z-10 group-data-reveal/sidebar-wrapper:origin-left group-data-[reveal-side=right]/sidebar-wrapper:origin-right group-data-reveal/sidebar-wrapper:overflow-hidden group-data-reveal/sidebar-wrapper:transition-[transform,border-radius,box-shadow] group-data-reveal/sidebar-wrapper:duration-sheet-exit group-data-reveal/sidebar-wrapper:ease-drawer group-data-[reveal=open]/sidebar-wrapper:duration-sheet group-data-[reveal=open]/sidebar-wrapper:rounded-2xl group-data-[reveal=open]/sidebar-wrapper:shadow-surface-6 group-data-[reveal=open]/sidebar-wrapper:[transform:translateX(calc(var(--sidebar-reveal-width)*var(--sidebar-reveal-direction)*var(--sidebar-reveal-progress,1)))_scale(calc(1-(1-var(--sidebar-reveal-scale))*var(--sidebar-reveal-progress,1)))] group-data-reveal-dragging/sidebar-wrapper:transition-none motion-reduce:transition-none;
+    @apply bg-background md:peer-data-[variant=inset]:bg-surface-2 md:peer-data-[variant=inset]:shadow-surface-2 md:peer-data-[variant=inset]:m-2 md:peer-data-[variant=inset]:ms-0 md:peer-data-[variant=inset]:rounded-xl md:peer-data-[variant=inset]:peer-data-[state=collapsed]:peer-not-data-[collapsible=icon]:ms-2 group-data-reveal/sidebar-wrapper:z-10 group-data-reveal/sidebar-wrapper:origin-left group-data-[reveal-side=right]/sidebar-wrapper:origin-right group-data-reveal/sidebar-wrapper:overflow-hidden group-data-reveal/sidebar-wrapper:transition-[transform,border-radius,box-shadow] group-data-reveal/sidebar-wrapper:duration-sheet-exit group-data-reveal/sidebar-wrapper:ease-drawer group-data-[reveal=open]/sidebar-wrapper:duration-sheet group-data-[reveal=open]/sidebar-wrapper:rounded-2xl group-data-[reveal=open]/sidebar-wrapper:shadow-surface-6 group-data-[reveal=open]/sidebar-wrapper:[transform:translateX(calc(var(--sidebar-reveal-width)*var(--sidebar-reveal-direction)*var(--sidebar-reveal-progress,1)))_scale(calc(1-(1-var(--sidebar-reveal-scale))*var(--sidebar-reveal-progress,1)))] group-data-reveal-dragging/sidebar-wrapper:transition-none motion-reduce:transition-none;
   }
 
   /* The room a revealed sidebar takes, and how small the page gets beside it.
@@ -84,8 +84,9 @@
     @apply h-(--density-32) w-full bg-transparent text-(length:--density-text-13) shadow-[0_0_0_1px_transparent] hover:bg-hover hover:shadow-[0_0_0_1px_var(--border)] focus-visible:bg-card;
   }
 
+  /* The trigger's centre sits on the axis of the rows' actions and badges. */
   .cn-sidebar-header {
-    @apply gap-(--density-8) p-(--density-8);
+    @apply gap-(--density-8) p-(--density-8) [--sidebar-row-axis:calc(var(--density-8)+var(--density-20)/2)] [&>[data-slot=sidebar-trigger]]:me-[calc(var(--sidebar-row-axis)-var(--density-36)/2)];
   }
 
   /* The rows fade out under the header and footer while there is more to
@@ -102,9 +103,9 @@
     @apply bg-border/60 mx-2;
   }
 
-  /* Groups sit 8px apart (4px above and below each). */
+  /* Groups sit 16px apart, and rows 8px from the sidebar's edges. */
   .cn-sidebar-group {
-    @apply px-(--density-8) py-(--density-4);
+    @apply p-(--density-8);
   }
 
   /* Each menu is a fluid hover container (relative isolate): a bg-hover
@@ -113,7 +114,8 @@
      Rows keep a 2px gap, so neighbouring highlights never touch; a press in
      the gap goes to the nearest row. */
   .cn-sidebar-menu {
-    @apply relative isolate gap-0.5 [&>[data-slot=fluid-hover-selection]]:shadow-surface-2;
+    /* The selection can't follow a lifted row: it's out of the list's layout, so offsets from it mean nothing. */
+    @apply relative isolate gap-0.5 [&>[data-slot=fluid-hover-selection]]:shadow-surface-2 has-[>[data-dragging]>[data-active]:not([data-active=false])]:[&>[data-slot=fluid-hover-selection]]:opacity-0;
   }
 
   .cn-sidebar-group-content {
@@ -135,13 +137,16 @@
     @apply size-(--density-icon-14) transition-opacity duration-feedback in-aria-[expanded=true]:opacity-0 group-hover/group-header:opacity-100 group-focus-within/group-header:opacity-100 pointer-coarse:opacity-100 [&>svg]:size-(--density-icon-14) [&>svg]:stroke-[1.5] [&>svg]:transition-transform [&>svg]:duration-feedback [&>svg]:ease-feedback in-aria-[expanded=true]:[&>svg]:rotate-90;
   }
 
-  /* Header actions: 24px boxes on the rows' trailing axis. */
+  /* Header actions: 24px boxes on the axis of the rows' actions and badges.
+     A closed group folds them away with its rows. */
   .cn-sidebar-group-action {
-    @apply cursor-pointer text-muted-foreground ring-ring hover:bg-hover hover:text-foreground absolute top-(--density-4) end-[calc(var(--density-8)+(var(--density-30)-var(--density-24))/2)] size-(--density-24) rounded-md p-0 transition-colors duration-feedback focus-visible:ring-1 [&>svg]:size-(--density-icon-16) [&>svg]:stroke-[1.5] hover:[&>svg]:stroke-2;
+    @apply cursor-pointer text-muted-foreground ring-ring hover:bg-hover hover:text-foreground absolute top-(--density-8) end-[calc(var(--density-8)+var(--density-6))] in-[[data-sidebar=group][data-state=closed]]:hidden size-(--density-24) rounded-md p-0 transition-colors duration-feedback focus-visible:ring-1 [&>svg]:size-(--density-icon-16) [&>svg]:stroke-[1.5] hover:[&>svg]:stroke-2;
   }
 
+  /* With showOnHover they wait for the label row: hovered, focused, or with
+     a menu open. Touch has no hover, so they stay. */
   .cn-sidebar-group-actions {
-    @apply top-(--density-4) end-[calc(var(--density-8)+(var(--density-30)-var(--density-24))/2)] gap-1;
+    @apply top-(--density-8) end-[calc(var(--density-8)+var(--density-6))] gap-1 in-[[data-sidebar=group][data-state=closed]]:hidden transition-opacity duration-feedback data-show-on-hover:opacity-0 data-show-on-hover:hover:opacity-100 data-show-on-hover:focus-within:opacity-100 data-show-on-hover:has-aria-expanded:opacity-100 data-show-on-hover:pointer-coarse:opacity-100 data-show-on-hover:[[data-sidebar=group-label]:is(:hover,:focus-visible)~&]:opacity-100;
   }
 
   /* Collapsible groups and sub-trees: height and opacity on the move
@@ -196,11 +201,11 @@
   /* Row actions: 24px boxes centred on the badge's axis; with a badge on
      the row, the action sits left of it. */
   .cn-sidebar-menu-action {
-    @apply cursor-pointer text-muted-foreground ring-ring hover:bg-hover hover:text-foreground peer-hover/menu-button:text-foreground peer-data-fluid-hover-active/menu-button:text-foreground absolute top-[calc((var(--density-30)-var(--density-24))/2)] end-(--density-6) size-(--density-24) rounded-md p-0 transition-[color,background-color,opacity] duration-feedback group-has-[>[data-sidebar=menu-badge]]/menu-item:end-[calc(var(--density-8)+var(--density-20)+var(--density-6))] group-has-[>[data-sidebar=menu-badge]]/menu-sub-item:end-[calc(var(--density-8)+var(--density-20)+var(--density-6))] peer-data-[size=lg]/menu-button:top-[calc((var(--density-48)-var(--density-24))/2)] peer-data-[size=sm]/menu-button:top-[calc((var(--density-28)-var(--density-24))/2)] in-data-[sidebar=menu-sub-item]:top-[calc((var(--density-30)-var(--density-24))/2)] focus-visible:ring-1 [&>svg]:size-(--density-icon-16) [&>svg]:stroke-[1.5] hover:[&>svg]:stroke-2;
+    @apply cursor-pointer text-muted-foreground ring-ring hover:bg-hover hover:text-foreground peer-hover/menu-button:text-foreground peer-data-fluid-hover-active/menu-button:text-foreground absolute top-[calc((var(--density-30)-var(--density-24))/2)] end-(--density-6) size-(--density-24) rounded-md p-0 transition-[color,background-color,opacity] duration-feedback [:has(>[data-sidebar=menu-badge])>&]:end-[calc(var(--density-8)+var(--density-20)+var(--density-6))] peer-data-[size=lg]/menu-button:top-[calc((var(--density-48)-var(--density-24))/2)] peer-data-[size=sm]/menu-button:top-[calc((var(--density-28)-var(--density-24))/2)] in-data-[sidebar=menu-sub-item]:not-in-data-[slot=sidebar-menu-actions]:top-[calc((var(--density-30)-var(--density-24))/2)] focus-visible:ring-1 [&>svg]:size-(--density-icon-16) [&>svg]:stroke-[1.5] hover:[&>svg]:stroke-2;
   }
 
   .cn-sidebar-menu-actions {
-    @apply top-[calc((var(--density-30)-var(--density-24))/2)] end-(--density-6) gap-1 transition-opacity duration-feedback group-has-[>[data-sidebar=menu-badge]]/menu-item:end-[calc(var(--density-8)+var(--density-20)+var(--density-6))] group-has-[>[data-sidebar=menu-badge]]/menu-sub-item:end-[calc(var(--density-8)+var(--density-20)+var(--density-6))] peer-data-[size=lg]/menu-button:top-[calc((var(--density-48)-var(--density-24))/2)] peer-data-[size=sm]/menu-button:top-[calc((var(--density-28)-var(--density-24))/2)] in-data-[sidebar=menu-sub-item]:top-[calc((var(--density-30)-var(--density-24))/2)];
+    @apply top-[calc((var(--density-30)-var(--density-24))/2)] end-(--density-6) gap-1 transition-opacity duration-feedback [:has(>[data-sidebar=menu-badge])>&]:end-[calc(var(--density-8)+var(--density-20)+var(--density-6))] peer-data-[size=lg]/menu-button:top-[calc((var(--density-48)-var(--density-24))/2)] peer-data-[size=sm]/menu-button:top-[calc((var(--density-28)-var(--density-24))/2)] in-data-[sidebar=menu-sub-item]:top-[calc((var(--density-30)-var(--density-24))/2)];
   }
 
   .cn-sidebar-menu-badge {
@@ -224,7 +229,7 @@
      background span the column. A hairline under the parent's icon shows
      while the list is hovered or holds focus. */
   .cn-sidebar-menu-sub {
-    @apply relative ms-0 me-0 gap-0.5 border-0 ps-0 pe-0 pt-0.5 pb-0 group-data-[collapsible=icon]:hidden before:pointer-events-none before:absolute before:inset-y-1 before:start-[calc(var(--density-16)*var(--sidebar-menu-depth,1))] before:w-px before:bg-border before:opacity-0 before:transition-opacity before:duration-feedback hover:before:opacity-100 has-focus-visible:before:opacity-100;
+    @apply relative ms-0 me-0 gap-0.5 border-0 ps-0 pe-0 pt-0.5 pb-0 group-data-[collapsible=icon]:hidden before:pointer-events-none before:absolute before:inset-y-1 before:start-[calc(var(--density-16)*var(--sidebar-menu-depth,1))] before:w-px before:bg-border before:opacity-0 before:transition-opacity before:duration-feedback hover:before:opacity-100 has-focus-visible:before:opacity-100 has-[>[data-dragging]]:before:opacity-100;
   }
 
   /* Nested rows: 30px (24px small), 2px apart, each level 16px further in,

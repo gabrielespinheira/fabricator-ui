@@ -149,6 +149,10 @@ function getColors(mode: NativeMode, look: FabricatorLook) {
     ),
     tabTrack: withAlpha(foreground, 0.05),
     segmentedTrack: withAlpha(foreground, 0.06),
+    segmentLabel: withAlpha(foreground, 0.7),
+    switchThumb: "#ffffff",
+    // The Sheet's scrim: bg-black/40, dark:bg-black/80.
+    scrim: mode === "light" ? "rgba(0, 0, 0, 0.4)" : "rgba(0, 0, 0, 0.8)",
     placeholder: withAlpha(
       toNativeColor(tintedLiteral(TINTED_NEUTRALS[mode].muted, look.surface)),
       0.5

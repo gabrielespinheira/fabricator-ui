@@ -15,7 +15,7 @@
 //   among their siblings); ⌥⇧↑ / ⌥⇧↓ do the same from the keyboard, and the
 //   row menu's Move to sends a top-level row to another reorderable group.
 // - With `customizable`, people can pin items to the top and hide them;
-//   AppNavCustomize lists everything to show or hide again.
+//   AppNavCustomize lists everything to show or hide again, and to reorder.
 // - Everything a person changes is one serializable value (preferences).
 import * as React from "react"
 import { cn } from "cn"
@@ -27,9 +27,11 @@ import {
   EMPTY_NAV_PREFERENCES,
   findNavItem,
   getActiveNavItem,
+  getCustomizableNavGroups,
   getMobileTabItems,
   getNavList,
   getPinnedNavItems,
+  moveCustomizableNavItem,
   moveNavItem,
   setNavItemHidden,
   setNavItemPinned,
@@ -404,11 +406,15 @@ function AppNav({
   )
 }
 
-function GroupActions({ actions }: { actions: AppNavAction[] }) {
+/**
+ * Called rather than rendered: SidebarGroup finds its header's actions by
+ * element type, to keep them on the label row when the rows collapse.
+ */
+function renderGroupActions(actions: AppNavAction[]) {
   const withIcons = actions.filter((action) => action.icon)
   const rest = actions.filter((action) => !action.icon)
   return (
-    <SidebarGroupActions>
+    <SidebarGroupActions showOnHover>
       {withIcons.map((action) => (
         <SidebarGroupAction
           key={action.id}
@@ -456,9 +462,9 @@ function AppNavGroupSection({ group }: { group: AppNavGroup }) {
       }
     >
       {group.label && <SidebarGroupLabel>{group.label}</SidebarGroupLabel>}
-      {group.actions && group.actions.length > 0 && (
-        <GroupActions actions={group.actions} />
-      )}
+      {group.actions &&
+        group.actions.length > 0 &&
+        renderGroupActions(group.actions)}
       <SidebarGroupContent>
         <SidebarMenu>
           {group.items.map((item, index) => (
@@ -663,6 +669,7 @@ function AppNavRow({
     index,
     group: `${idPrefix}${parentId}`,
     disabled: !reorderable || item.disabled,
+    hasVariableHeight: true,
   })
   const isTopLevel = depth === 0
   const entries = useRowEntries(item, {
@@ -859,59 +866,150 @@ function AppNavRow({
 
 // MARK: Customize
 
-/** A dialog that lists every item to show or hide, and resets the rest. */
 type CustomizeRowStyle = React.CSSProperties & { "--app-nav-depth": number }
 
-/** A switch per item, children indented under their parent. */
-function CustomizeRows({
-  items,
-  depth,
-  idPrefix,
-  preferences,
-  onPreferencesChange: updatePreferences,
-}: {
-  items: AppNavItem[]
+type CustomizeRowsProps = {
+  /** The group or item the list belongs to. */
+  parentId: string
   depth: number
   idPrefix: string
   preferences: NavPreferences
   onPreferencesChange: (preferences: NavPreferences) => void
-}) {
-  const indent: CustomizeRowStyle = { "--app-nav-depth": depth }
-  return items.map((item) => {
-    const switchId = `${idPrefix}-${item.id}`
-    return (
-      <React.Fragment key={item.id}>
-        <label
-          htmlFor={switchId}
-          style={indent}
-          className="cn-app-nav-customize-row flex items-center"
-        >
-          <IconSlot icon={item.icon} />
-          <span className="min-w-0 flex-1 truncate">{item.label}</span>
-          <Switch
-            id={switchId}
-            checked={!preferences.hidden.includes(item.id)}
-            onCheckedChange={(checked) =>
-              updatePreferences(
-                setNavItemHidden(preferences, item.id, !checked)
-              )
-            }
-          />
-        </label>
-        {item.children && item.children.length > 0 && (
-          <CustomizeRows
-            items={item.children}
-            depth={depth + 1}
-            idPrefix={idPrefix}
-            preferences={preferences}
-            onPreferencesChange={updatePreferences}
-          />
-        )}
-      </React.Fragment>
-    )
-  })
+  onMove: (id: string, toParentId: string, toIndex: number) => void
 }
 
+/** A row: a grip to move it, its name, and a switch to show or hide it. */
+function CustomizeRow({
+  item,
+  parentId,
+  index,
+  count,
+  depth,
+  idPrefix,
+  preferences,
+  onPreferencesChange: updatePreferences,
+  onMove,
+}: CustomizeRowsProps & {
+  item: AppNavItem
+  index: number
+  count: number
+}) {
+  const { attach, attachHandle, isDragging } = useSortableItem({
+    id: item.id,
+    index,
+    group: parentId,
+    disabled: count < 2,
+    hasVariableHeight: true,
+  })
+  const indent: CustomizeRowStyle = { "--app-nav-depth": depth }
+  const switchId = `${idPrefix}-${item.id}`
+  const moveTo = (button: HTMLElement, toIndex: number) => {
+    onMove(item.id, parentId, toIndex)
+    // React may reinsert the moved row, which drops the focus.
+    requestAnimationFrame(() => button.focus())
+  }
+
+  return (
+    <li
+      ref={attach}
+      data-dragging={isDragging ? "" : undefined}
+      className="cn-app-nav-customize-item flex flex-col"
+    >
+      <div
+        style={indent}
+        className="cn-app-nav-customize-row flex items-center"
+      >
+        <button
+          ref={attachHandle}
+          type="button"
+          data-slot="app-nav-customize-handle"
+          aria-label={`Move ${item.label}`}
+          disabled={count < 2}
+          onKeyDown={(event) => {
+            if (event.key === "ArrowUp" && index > 0) {
+              event.preventDefault()
+              moveTo(event.currentTarget, index - 1)
+            }
+            if (event.key === "ArrowDown" && index < count - 1) {
+              event.preventDefault()
+              moveTo(event.currentTarget, index + 1)
+            }
+          }}
+          className="cn-app-nav-customize-handle flex items-center justify-center"
+        >
+          <IconPlaceholder
+            lucide="GripVerticalIcon"
+            tabler="IconGripVertical"
+            hugeicons="DragDropVerticalIcon"
+            phosphor="DotsSixVerticalIcon"
+            remixicon="RiDraggable"
+          />
+        </button>
+        <label htmlFor={switchId} className="cn-app-nav-customize-name flex">
+          <IconSlot icon={item.icon} />
+          <span className="min-w-0 flex-1 truncate">{item.label}</span>
+        </label>
+        <Switch
+          id={switchId}
+          aria-label={item.label}
+          checked={!preferences.hidden.includes(item.id)}
+          onCheckedChange={(checked) =>
+            updatePreferences(setNavItemHidden(preferences, item.id, !checked))
+          }
+        />
+      </div>
+      {item.children && item.children.length > 0 && (
+        <CustomizeRows
+          items={item.children}
+          parentId={item.id}
+          depth={depth + 1}
+          idPrefix={idPrefix}
+          preferences={preferences}
+          onPreferencesChange={updatePreferences}
+          onMove={onMove}
+        />
+      )}
+    </li>
+  )
+}
+
+/** A list of rows, children indented under their parent. */
+function CustomizeRows({
+  items,
+  ...props
+}: CustomizeRowsProps & { items: AppNavItem[] }) {
+  return (
+    <ul className="cn-app-nav-customize-rows flex flex-col">
+      {items.map((item, index) => (
+        <CustomizeRow
+          key={item.id}
+          item={item}
+          index={index}
+          count={items.length}
+          {...props}
+        />
+      ))}
+    </ul>
+  )
+}
+
+/** The default trigger's icon and label, on the sidebar's row grid. */
+function CustomizeRowContent({ label }: { label: string }) {
+  return (
+    <>
+      <IconPlaceholder
+        lucide="Settings2Icon"
+        tabler="IconAdjustmentsHorizontal"
+        hugeicons="SlidersHorizontalIcon"
+        phosphor="SlidersHorizontalIcon"
+        remixicon="RiEqualizerLine"
+      />
+      <span>{label}</span>
+    </>
+  )
+}
+
+/** A dialog that lists every item to show or hide, and resets the rest. */
 function AppNavCustomize({
   groups,
   preferences,
@@ -919,13 +1017,13 @@ function AppNavCustomize({
   children,
   label = "Customize",
   title = "Customize sidebar",
-  description = "Choose what shows in the sidebar. Drag rows in the sidebar to reorder them.",
+  description = "Choose what shows in the sidebar, and drag rows to put them in order.",
 }: {
   /** The same groups and preferences the AppNav gets. */
   groups: AppNavGroup[]
   preferences: NavPreferences
   onPreferencesChange: (preferences: NavPreferences) => void
-  /** The trigger element, without children. Default: a ghost button. */
+  /** The trigger element, without children. Default: a sidebar row. */
   children?: React.ReactElement
   /** The trigger's text. */
   label?: string
@@ -933,10 +1031,20 @@ function AppNavCustomize({
   description?: string
 }) {
   const idPrefix = React.useId()
+  const [announcement, setAnnouncement] = React.useState("")
+  const rows = getCustomizableNavGroups(groups, preferences)
+  const move = (id: string, toParentId: string, toIndex: number) => {
+    updatePreferences(
+      moveCustomizableNavItem(preferences, groups, { id, toParentId, toIndex })
+    )
+    const total = getNavList(rows, toParentId)?.length ?? 1
+    const label = findNavItem(rows, id)?.label ?? id
+    setAnnouncement(describeMove(label, toIndex, total))
+  }
   return (
     <Dialog>
-      <DialogTrigger render={children ?? <Button variant="ghost" size="sm" />}>
-        {label}
+      <DialogTrigger render={children ?? <SidebarMenuButton tooltip={label} />}>
+        {children ? label : <CustomizeRowContent label={label} />}
       </DialogTrigger>
       <DialogContent className="cn-app-nav-customize">
         <DialogHeader>
@@ -944,24 +1052,34 @@ function AppNavCustomize({
           <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
         <div className="cn-app-nav-customize-list flex flex-col">
-          {groups.map((group) => (
-            <section
-              key={group.id}
-              aria-label={group.label ?? group.id}
-              className="cn-app-nav-customize-group flex flex-col"
-            >
-              {group.label && (
-                <h3 className="cn-app-nav-customize-label">{group.label}</h3>
-              )}
-              <CustomizeRows
-                items={group.items}
-                depth={0}
-                idPrefix={idPrefix}
-                preferences={preferences}
-                onPreferencesChange={updatePreferences}
-              />
-            </section>
-          ))}
+          <SortableProvider
+            axis="y"
+            onMove={(change) => move(change.id, change.toGroup, change.toIndex)}
+          >
+            {rows.map((group) => (
+              <section
+                key={group.id}
+                aria-label={group.label ?? group.id}
+                className="cn-app-nav-customize-group flex flex-col"
+              >
+                {group.label && (
+                  <h3 className="cn-app-nav-customize-label">{group.label}</h3>
+                )}
+                <CustomizeRows
+                  items={group.items}
+                  parentId={group.id}
+                  depth={0}
+                  idPrefix={idPrefix}
+                  preferences={preferences}
+                  onPreferencesChange={updatePreferences}
+                  onMove={move}
+                />
+              </section>
+            ))}
+          </SortableProvider>
+        </div>
+        <div role="status" aria-live="polite" className="sr-only">
+          {announcement}
         </div>
         <DialogFooter>
           <Button

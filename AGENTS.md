@@ -125,6 +125,7 @@ The root `package.json` is the source of truth for scripts. Keep this table in s
 | Add a release note                                                         | `bunx changeset`                                                                                         |
 | Deploy the website (builds here, uploads prebuilt to Vercel)               | `bun run deploy` from a clean, pushed `main`; `bun run deploy -- --preview` for a preview                |
 | Release the CLI (npm, git tag, GitHub release; part of `deploy`)           | `bun run release:publish` (needs `npm login` and `gh auth login`)                                        |
+| Publish the icon packages (part of `deploy`, before the site ships)        | `bun run release:icons` (needs `npm login`)                                                              |
 
 ### Toolchain notes
 
@@ -323,11 +324,13 @@ Items are TypeScript objects in each folder's `_registry.ts`, typed `Registry["i
 - **Pipeline:** placeholders + style map → `createStyleMap` / `transformStyle` from `shadcn/utils` → `shadcn build`.
 - **Output paths:**
   - Published: `public/r/styles/<base>-fabricator/<name>.json`, served at `/r/fabricator/<base>-<style>/<name>.json` (rewrites in `next.config.mjs`)
+  - The same items with Fabricator's icons: `public/r/styles/icons-fabricator/<base>/<name>.json`, served at the same URL with `?icons=fabricator`, the param `/init` writes into the project's registry entry (`registry/fabricator/fabricator-icons.ts`)
   - Upstream styles, for `test:parity` only: `.upstream-registry/<base>-<style>/<name>.json` (gitignored, never published)
   - Catalogs: `public/r/registry.json`, `index.json`, `config.json`
 - **Rebuild:** after authored changes, run the full `bun run registry:build`. Targeted flags are for iteration only.
 - **Examples:** editing an existing example needs no rebuild. Adding, removing or renaming one needs `--examples`.
-- **`/init`** (`app/(app)/(create)/init/route.ts`) returns the `registry:base` payload. Its `config.registries` writes `@fabricator` into the user's `components.json`. Its `config.style` is always a valid upstream style id (contract item 2). It also takes a look (`registry/fabricator/look.ts`: `surface`, the six colour roles as `<hue>_<chroma>`, `shape=pill`, `motion=<speed>`, `density=<compact|spacious>`) and adds its cssVars on top of the Fabricator palette.
+- **`/init`** (`app/(app)/(create)/init/route.ts`) returns the `registry:base` payload. Its `config.registries` writes `@fabricator` into the user's `components.json`. Its `config.style` is always a valid upstream style id (contract item 2). It defaults to Fabricator's icons, and `iconLibrary=<name>` or a shadcn preset code opts out (`usesFabricatorIcons`); `config.iconLibrary` stays a real shadcn library either way. It also takes a look (`registry/fabricator/look.ts`: `surface`, the six colour roles as `<hue>_<chroma>`, `shape=pill`, `motion=<speed>`, `density=<compact|spacious>`) and adds its cssVars on top of the Fabricator palette.
+- **`/init/app-shell`** (`app/(app)/(create)/init/app-shell/route.ts`) returns a `registry:block` whose one file is an App Shell written out from the option cards' choices (`app/(view)/app-shell/_lib/app-shell-source.ts`). It uses only the parts' shared API, so one source fits every base. A new option or part in the cards gets a branch there; `install.test.ts` and the `vite-*` e2e scenarios cover it. The cards' command names `app-shell` as well as the URL, because `add` only ensures the `@fabricator` registry when a Fabricator name is present.
 - **`/create`** (`app/(app)/(create)/create/`) is the Get started page: the Make it yours settings beside the homepage gallery, then project, extras and the install commands. Its choices are URL state (`setupParsers` in `(create)/lib/setup.ts`); the look lives in the site settings. `buildSetupCommands` turns a setup into commands and is unit-tested; keep it in step with the CLI's flags.
 
 ---
@@ -426,10 +429,10 @@ The website renders the Fabricator style, so it shows what `fabricator-ui add` i
   - The settings menu (`components/fabricator/site-settings.tsx`) is in the top bar and the docs sidebar, and holds theme, sound, icons, radius, density, motion, surface (the surface tint, also set by the Surface tab on the Colors page) and primary (the primary colour role; the Colors page sets every role).
   - `components/fabricator/site-settings-effects.tsx` applies them: it sets `data-radius` on `<html>` (Pill sets `--radius: 1.25rem` in `app/fabricator-site.css`) sets `data-motion` (Smooth, Snappy, Instant or Off: the foundations' speed switches; Default removes it), sets `data-density` (Compact or Spacious; Default removes it), sets `--surface-hue` and `--surface-chroma` inline on `<html>` (the site's palette links `background`, `card`, `popover`, `sidebar` and `muted` to the surfaces, so they follow), sets each colour role's `--<role>-hue` and `--<role>-chroma` the same way (the palette links `primary`, `secondary` and `destructive` to the roles), and mounts the registry's `<SoundEffects />`.
   - A script in `<head>` applies a stored Pill radius, motion speed, density, surface tint and colour roles before paint.
-- **Site icons:** the Fabricator copies the site renders (`examples/__styles__/*-fabricator`, `styles/*-fabricator/ui`) import icons from `@/lib/site-icons`, not `lucide-react`, so previews follow the Icons setting.
+- **Site icons:** the Fabricator copies the site renders (`examples/__styles__/*-fabricator`, `styles/*-fabricator/ui`) import icons from `@/lib/site-icons`, not `lucide-react`, so previews follow the Icons setting. They render `@fabricator-ui/icons`, the default pack; the other packs, Lucide included, load on demand.
   - `lib/site-icons*.ts(x)` is generated by `bun run icons:build` (also part of `bun run dev`) and committed.
   - The generator maps names through `registry/icons/site-mapping.json`, then `public/r/icons/index.json`.
-  - Everything shown to readers maps the import back to `lucide-react` (`lib/site-icons-display.ts`). Registry JSON never contains site icons.
+  - Everything shown to readers maps the import to `@fabricator-ui/icons`, what a project installs by default (`lib/site-icons-display.ts`). Registry JSON never contains site icons.
 - **Icons page and docs:** `/icons` (`app/(app)/icons/`) and `content/docs/icons/` render Fabricator Icons with the real packages.
   - The page lazy-loads `@fabricator-ui/icons/catalog` and `@fabricator-ui/icons-static/nodes`, so its data stays out of every other page. Filters are URL state; the logic is in `app/(app)/icons/lib/icons.ts` and unit-tested.
   - The site imports the packages' built `dist/`: `bun run dev` and `bun run build` in `apps/web` run `icons:packages` first.

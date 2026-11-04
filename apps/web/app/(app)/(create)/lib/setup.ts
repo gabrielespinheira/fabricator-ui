@@ -69,6 +69,7 @@ export const SETUP_BASES = [
 export type SetupBase = (typeof SETUP_BASES)[number]["value"]
 
 export const ICON_LIBRARY_NAMES = [
+  "fabricator",
   "lucide",
   "tabler",
   "hugeicons",
@@ -139,7 +140,7 @@ export type Setup = SetupChoices & {
 
 export const DEFAULT_SETUP: Setup = {
   ...createLoader(setupParsers)(new URLSearchParams()),
-  iconLibrary: "lucide",
+  iconLibrary: "fabricator",
   look: DEFAULT_LOOK,
 }
 
@@ -151,7 +152,7 @@ export type SetupCommand = {
   language: "bash" | "tsx"
 }
 
-const CLI = "npx fabricator-ui@latest"
+export const CLI = "npx fabricator-ui@latest"
 const SKILL_SOURCE = "gabrielespinheira/fabricator-ui"
 
 function projectName(setup: Setup) {
@@ -165,7 +166,7 @@ function usesTemplate(setup: Setup) {
 
 /**
  * The init URL for `-p`, when the setup differs from the CLI's defaults
- * (Base UI, Lucide, the default look). Mirrors the CLI's own buildInitUrl,
+ * (Base UI, Fabricator's icons, the default look). Mirrors the CLI's own buildInitUrl,
  * which a URL preset replaces.
  */
 export function buildInitUrl(setup: Setup, siteUrl: string) {
@@ -326,7 +327,10 @@ function steps(setup: Setup, siteUrl: string): SetupCommand[] {
 }
 
 /** Rewrites an npm command for another package manager. */
-function forPackageManager(code: string, packageManager: PackageManager) {
+export function forPackageManager(
+  code: string,
+  packageManager: PackageManager
+) {
   if (packageManager === "npm") return code
   if (code.startsWith("npx ")) {
     const runner = {

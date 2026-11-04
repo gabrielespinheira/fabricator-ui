@@ -2,9 +2,12 @@ import { runInNewContext } from "node:vm"
 import { afterEach, describe, expect, it, vi } from "vitest"
 
 import {
+  DEFAULT_SITE_SETTINGS,
   DENSITY_OPTIONS,
   getSiteSettings,
+  ICON_LIBRARIES,
   MOTION_SPEEDS,
+  resolveStoredIconLibrary,
   ROLE_PRESETS,
   SITE_SETTINGS_SCRIPT,
   SITE_SETTINGS_STORAGE_KEY,
@@ -165,5 +168,31 @@ describe("density setting", () => {
     expect(second.getSiteSettings().density).toBe("default")
     vi.unstubAllGlobals()
     vi.resetModules()
+  })
+})
+
+describe("icon pack", () => {
+  it("defaults to Fabricator, listed first", () => {
+    expect(DEFAULT_SITE_SETTINGS.iconLibrary).toBe("fabricator")
+    expect(ICON_LIBRARIES[0]?.value).toBe("fabricator")
+    expect(ICON_LIBRARIES.map(({ value }) => value)).toContain("lucide")
+  })
+
+  it("moves a stored Lucide to the new default: it was the old default, and it draws the same icons", () => {
+    expect(resolveStoredIconLibrary({ iconLibrary: "lucide" })).toBe(
+      "fabricator"
+    )
+  })
+
+  it("keeps a Lucide chosen since then", () => {
+    expect(
+      resolveStoredIconLibrary({ iconLibrary: "lucide", iconPackVersion: 2 })
+    ).toBe("lucide")
+  })
+
+  it("keeps any other choice, and falls back on an unknown one", () => {
+    expect(resolveStoredIconLibrary({ iconLibrary: "tabler" })).toBe("tabler")
+    expect(resolveStoredIconLibrary({ iconLibrary: "nope" })).toBe("fabricator")
+    expect(resolveStoredIconLibrary({})).toBe("fabricator")
   })
 })

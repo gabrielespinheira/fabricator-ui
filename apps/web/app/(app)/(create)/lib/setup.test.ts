@@ -194,3 +194,30 @@ describe("setup params", () => {
     ).toEqual(DEFAULT_SETUP)
   })
 })
+
+describe("the default icon pack", () => {
+  it("is Fabricator, which needs no flag", () => {
+    expect(DEFAULT_SETUP.iconLibrary).toBe("fabricator")
+    expect(buildInitUrl(DEFAULT_SETUP, SITE)).toBeUndefined()
+    expect(setupToParams(DEFAULT_SETUP).has("iconLibrary")).toBe(false)
+  })
+
+  it("asks for Lucide by name", () => {
+    expect(
+      buildInitUrl({ ...DEFAULT_SETUP, iconLibrary: "lucide" }, SITE)
+    ).toBe(`${SITE}/init?base=base&template=next&iconLibrary=lucide`)
+  })
+
+  it("reads Fabricator and Lucide from a share link", () => {
+    expect(
+      parseSetupParams(new URLSearchParams("iconLibrary=lucide")).iconLibrary
+    ).toBe("lucide")
+    expect(
+      parseSetupParams(new URLSearchParams("iconLibrary=fabricator"))
+        .iconLibrary
+    ).toBe("fabricator")
+    expect(parseSetupParams(new URLSearchParams()).iconLibrary).toBe(
+      "fabricator"
+    )
+  })
+})

@@ -120,12 +120,13 @@ The strip in an `AppShellTitlebar` row of a desktop window.
 
 - **Pinned** tabs lead the strip and show only their icon; the title is in a tooltip. Pinned tabs can't be closed from the strip, and Close others and Close all spare them.
 - A **preview** tab is italic, and the next preview replaces it in place. `openTab(state, id, { preview: true })` opens one; opening it again for real keeps it.
+- A **new tab page** gives way to what opens from it: `openTab(state, id, { replace: blankTabId })` opens in that tab's place, as in a browser, without keeping it for reopening. A tab that's already open is shown where it is, and the blank one stays.
 - **Status** shows `loading` (a spinner), `error` (an alert icon), `dirty` (a dot that turns into the close button on hover) and `waiting` (a pulsing dot).
 - **Closing** activates the most recently used tab, as editors do, or the neighbour when there is none. Closed tabs go on a reopen stack of 20.
 - **Renaming:** with `onRename`, double-click a tab or press <Kbd>F2</Kbd>; Enter saves and Escape cancels.
 - **Moving:** drag a tab, press <Kbd>⌥⇧←</Kbd> / <Kbd>⌥⇧→</Kbd>, or use Move left and Move right in its menu. Landing inside the pinned run pins a tab; landing past it unpins it.
 - **Menus:** right-click a tab for Pin, Rename, Move, Close, Close others, Close to the right, Close all and Reopen, followed by the tab's own `actions`. Right-click the empty strip for New tab and Reopen.
-- **Overflow:** the strip scrolls sideways under faded edges and keeps the active tab in view. `TabStripOverflow` adds a menu of every tab.
+- **Overflow:** tabs shrink from 192px to 144px, then the strip scrolls sideways under faded edges and keeps the active tab in view. `TabStripNew` follows the last tab, and `TabStripOverflow` adds a menu of every tab at the end of the row. Give the strip `min-w-0 flex-1` so it runs the full width of its row.
 
 ## Shortcuts
 

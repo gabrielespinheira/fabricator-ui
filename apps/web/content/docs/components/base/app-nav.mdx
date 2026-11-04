@@ -132,7 +132,7 @@ The new order is saved in `preferences.order`, by group id for top-level rows an
 
 ## Customizing
 
-`customizable` adds Pin to top and Hide to every row's menu. Pinned items show in a group at the top (`pinnedLabel`, "Pinned" by default). `AppNavCustomize` opens a dialog that lists every item with a switch to show or hide it, and a Reset button:
+`customizable` adds Pin to top and Hide to every row's menu. Pinned items show in a group at the top (`pinnedLabel`, "Pinned" by default). `AppNavCustomize` opens a dialog that lists every item in its saved order, with a grip to reorder it and a switch to show or hide it, and a Reset button. Reordering there works in any group, `reorderable` or not; focus a grip and press <Kbd>↑</Kbd> or <Kbd>↓</Kbd> to do it from the keyboard:
 
 ```tsx
 const [preferences, setPreferences] = React.useState(EMPTY_NAV_PREFERENCES)
@@ -187,7 +187,7 @@ Also takes the props of a `<nav>`.
 | `groups`              | `AppNavGroup[]`                         | -                     |
 | `preferences`         | `NavPreferences`                        | -                     |
 | `onPreferencesChange` | `(preferences: NavPreferences) => void` | -                     |
-| `children`            | the trigger element                     | a ghost button        |
+| `children`            | the trigger element                     | a sidebar row         |
 | `label`               | `string`                                | `"Customize"`         |
 | `title`               | `string`                                | `"Customize sidebar"` |
 
