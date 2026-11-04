@@ -43,6 +43,9 @@
       "@/registry/bases/*/lib/app-shell-model": [
         "./registry/fabricator/shared/lib/app-shell-model"
       ],
+      "@/registry/bases/*/lib/sidebar-model": [
+        "./registry/fabricator/shared/lib/sidebar-model"
+      ],
       "@/registry/bases/*/lib/sortable": [
         "./registry/fabricator/shared/lib/sortable"
       ],

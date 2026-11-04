@@ -22,8 +22,11 @@ describe("playground options", () => {
       tabs: "none",
       panel: true,
       window: "web",
-      density: "default",
     })
+  })
+
+  it("leaves density to the site's settings", () => {
+    expect(load("density=compact")).not.toHaveProperty("density")
   })
 
   it("reads the options from the URL", () => {
@@ -42,6 +45,12 @@ describe("playground options", () => {
   it("counts the options that differ from the defaults", () => {
     expect(countChangedOptions(DEFAULT_PLAYGROUND_OPTIONS)).toBe(0)
     expect(countChangedOptions(load("tabs=main&status=false"))).toBe(2)
+  })
+
+  it("reveals the phone sidebar unless asked for a sheet", () => {
+    expect(DEFAULT_PLAYGROUND_OPTIONS.mobileSidebar).toBe("reveal")
+    expect(load("mobileSidebar=sheet").mobileSidebar).toBe("sheet")
+    expect(load("mobileSidebar=drawer").mobileSidebar).toBe("reveal")
   })
 
   it("offers peek only for an off-canvas sidebar", () => {

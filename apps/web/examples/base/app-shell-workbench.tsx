@@ -192,7 +192,6 @@ export function AppShellWorkbench() {
         label="Resources"
         defaultOpen
         defaultWidth={300}
-        shortcut="mod+\"
         views={[
           {
             value: "files",

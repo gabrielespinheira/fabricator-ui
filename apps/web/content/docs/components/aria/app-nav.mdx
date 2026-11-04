@@ -147,7 +147,7 @@ Store `preferences` per person (a database, localStorage, the [App Shell storage
 
 ## On phones
 
-The Sidebar becomes a sheet below 768px, and App Nav closes it after a row is picked. For a tab bar, mark items `mobile: "tab"` and render `AppNavBottomBar` in the main column:
+Below 768px the Sidebar sits behind the page in an App Shell (a sheet elsewhere), and App Nav closes it after a row is picked. For a tab bar, mark items `mobile: "tab"` and render `AppNavBottomBar` in the main column:
 
 ```tsx
 <AppShellMain>

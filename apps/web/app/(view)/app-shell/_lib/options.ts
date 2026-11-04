@@ -13,17 +13,18 @@ import type { AppShellWindow } from "@/styles/base-fabricator/ui/app-shell"
 export const SIDEBAR_VARIANTS = ["inset", "sidebar", "floating"] as const
 export const SIDEBAR_COLLAPSE = ["icon", "offcanvas", "none"] as const
 export const SIDEBAR_PEEK = ["none", "hover", "click"] as const
+export const MOBILE_SIDEBARS = ["reveal", "sheet"] as const
 export const SWITCHER_VARIANTS = ["menu", "command", "none"] as const
 export const ACCOUNT_PLACEMENTS = ["footer", "header", "none"] as const
 export const TAB_PLACEMENTS = ["none", "main", "titlebar"] as const
 export const PANEL_MOBILE = ["drawer", "swap", "none"] as const
 export const WINDOWS = ["web", "macos", "windows"] as const
-export const DENSITIES = ["default", "compact", "spacious"] as const
 
 export const playgroundParsers = {
   variant: parseAsStringLiteral(SIDEBAR_VARIANTS).withDefault("inset"),
   collapse: parseAsStringLiteral(SIDEBAR_COLLAPSE).withDefault("icon"),
   peek: parseAsStringLiteral(SIDEBAR_PEEK).withDefault("none"),
+  mobileSidebar: parseAsStringLiteral(MOBILE_SIDEBARS).withDefault("reveal"),
   switcher: parseAsStringLiteral(SWITCHER_VARIANTS).withDefault("menu"),
   account: parseAsStringLiteral(ACCOUNT_PLACEMENTS).withDefault("footer"),
   customize: parseAsBoolean.withDefault(false),
@@ -38,7 +39,6 @@ export const playgroundParsers = {
   window: parseAsStringLiteral(WINDOWS).withDefault("web"),
   fullscreen: parseAsBoolean.withDefault(false),
   glass: parseAsBoolean.withDefault(true),
-  density: parseAsStringLiteral(DENSITIES).withDefault("default"),
 }
 
 export type PlaygroundOptions = inferParserType<typeof playgroundParsers>

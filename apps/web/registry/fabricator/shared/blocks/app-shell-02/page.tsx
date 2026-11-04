@@ -159,7 +159,6 @@ export default function Page() {
         label="Resources"
         defaultOpen
         defaultWidth={300}
-        shortcut="mod+\"
         views={[
           { value: "files", label: "Files", shortcut: "shift+mod+e" },
           { value: "search", label: "Search", shortcut: "shift+mod+f" },

@@ -266,6 +266,7 @@ turns it off. With providers nested, the innermost one around the focus answers.
 | `peek`          | `"none" \| "hover" \| "click"` | `"none"`  |
 | `width`         | `string`                       | `"16rem"` |
 | `widthMobile`   | `string`                       | `"18rem"` |
+| `mobileSidebar` | `"sheet" \| "reveal"`          | `"sheet"` |
 | `onWidthChange` | `(width: string) => void`      | -         |
 
 `persist` saves the desktop state to the `sidebar_state` cookie for 7 days; the drawer's state isn't saved. Peek works with `collapsible="offcanvas"`. The width is also published as `--sidebar-width`; a `--sidebar-width` set in `style` is used as the starting width.

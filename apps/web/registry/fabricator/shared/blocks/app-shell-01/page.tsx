@@ -273,7 +273,6 @@ export default function Page() {
         id="details"
         label="Details"
         defaultOpen
-        shortcut="mod+alt+b"
         views={[
           { value: "details", label: "Details" },
           { value: "activity", label: "Activity" },

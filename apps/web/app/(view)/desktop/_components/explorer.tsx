@@ -18,6 +18,7 @@ import {
   SunIcon,
   TextCursorInputIcon,
 } from "@/lib/site-icons"
+import { SiteSettingsFields } from "@/components/fabricator/site-settings"
 import { AppNav } from "@/styles/base-fabricator/ui/app-nav"
 import {
   AppShell,
@@ -34,6 +35,13 @@ import {
   AppShellStatusBar,
 } from "@/styles/base-fabricator/ui/app-shell"
 import { Button } from "@/styles/base-fabricator/ui/button"
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/styles/base-fabricator/ui/card"
 import {
   Sidebar,
   SidebarContent,
@@ -118,7 +126,7 @@ function ComponentStage({ item }: { item: GalleryItem }) {
 
 function Overview({ onOpen }: { onOpen: (slug: string) => void }) {
   return (
-    <div className="mx-auto flex max-w-3xl flex-col gap-6 p-6">
+    <div className="mx-auto flex max-w-5xl flex-col gap-6 p-6">
       <div className="flex flex-col gap-2">
         <AppShellPageTitle>Fabricator UI</AppShellPageTitle>
         <p className="text-muted-foreground">
@@ -127,23 +135,37 @@ function Overview({ onOpen }: { onOpen: (slug: string) => void }) {
           install command.
         </p>
       </div>
-      <div className="grid gap-3 sm:grid-cols-2">
-        {GROUP_ROWS.map((group) => {
-          const first = group.children?.[0]
-          return (
-            <button
-              key={group.id}
-              type="button"
-              onClick={() => first && onOpen(first.id)}
-              className="flex flex-col items-start gap-1 rounded-xl bg-muted/40 p-4 text-start transition-colors hover:bg-muted"
-            >
-              <span className="font-medium">{group.label}</span>
-              <span className="text-sm text-muted-foreground">
-                {group.children?.length} components
-              </span>
-            </button>
-          )
-        })}
+      <div className="flex flex-wrap items-start gap-6">
+        <Card className="w-full max-w-xs">
+          <CardHeader>
+            <CardTitle>Settings</CardTitle>
+            <CardDescription>
+              The same settings as the website; every component here follows
+              them.
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <SiteSettingsFields />
+          </CardContent>
+        </Card>
+        <div className="grid min-w-64 flex-1 gap-3 sm:grid-cols-2">
+          {GROUP_ROWS.map((group) => {
+            const first = group.children?.[0]
+            return (
+              <button
+                key={group.id}
+                type="button"
+                onClick={() => first && onOpen(first.id)}
+                className="flex flex-col items-start gap-1 rounded-xl bg-muted/40 p-4 text-start transition-colors hover:bg-muted"
+              >
+                <span className="font-medium">{group.label}</span>
+                <span className="text-sm text-muted-foreground">
+                  {group.children?.length} components
+                </span>
+              </button>
+            )
+          })}
+        </div>
       </div>
     </div>
   )
@@ -197,7 +219,7 @@ export function DesktopExplorer() {
     defaultState: {
       tabs: ["overview", "button"],
       pinned: ["overview"],
-      recent: ["button"],
+      recent: ["overview", "button"],
       preview: null,
       closed: [],
     },

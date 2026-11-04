@@ -15,6 +15,7 @@ import {
   ShareIcon,
   UserIcon,
 } from "@/lib/site-icons"
+import { SiteSettingsFields } from "@/components/fabricator/site-settings"
 import {
   EMPTY_NAV_PREFERENCES,
   getActiveNavItem,
@@ -47,6 +48,13 @@ import {
 } from "@/styles/base-fabricator/ui/app-shell"
 import { Button } from "@/styles/base-fabricator/ui/button"
 import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/styles/base-fabricator/ui/card"
+import {
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuSeparator,
@@ -71,7 +79,7 @@ import { UserMenu } from "@/styles/base-fabricator/ui/user-menu"
 import { WorkspaceSwitcher } from "@/styles/base-fabricator/ui/workspace-switcher"
 
 import { getPlaygroundWindow, playgroundParsers } from "../_lib/options"
-import { OptionsPanel } from "./options-panel"
+import { OptionsCard } from "./options-card"
 import {
   DOCUMENTS,
   getNavGroups,
@@ -162,9 +170,11 @@ function UserMenuItems() {
   )
 }
 
+const HOME_HREF = "/"
+
 export function AppShellPlayground() {
   const [options, setOptions] = useQueryStates(playgroundParsers)
-  const [pathname, setPathname] = React.useState("/projects/launch/tasks")
+  const [pathname, setPathname] = React.useState(HOME_HREF)
   const [workspace, setWorkspace] = React.useState("acme")
   const [preferences, setPreferences] = React.useState<NavPreferences>(
     EMPTY_NAV_PREFERENCES
@@ -255,10 +265,8 @@ export function AppShellPlayground() {
         storageKey="playground"
         storage={null}
         peek={options.peek}
+        mobileSidebar={options.mobileSidebar}
         window={shellWindow}
-        data-density={
-          options.density === "default" ? undefined : options.density
-        }
         titlebar={
           options.tabs === "titlebar" ? (
             <AppShellTitlebar>{tabStrip}</AppShellTitlebar>
@@ -357,21 +365,49 @@ export function AppShellPlayground() {
             {options.panel && <AppShellPanelTrigger panel="inspector" />}
           </AppShellHeader>
           <AppShellContent>
-            <div className="mx-auto flex max-w-3xl flex-col gap-6 p-6 pb-28">
-              <AppShellPageTitle>{pageTitle}</AppShellPageTitle>
-              <p className="text-muted-foreground">
-                Change the shell with Options below; the URL keeps every choice,
-                so a layout is a link. Press F6 to move between the sidebar, the
-                page and the panel.
-              </p>
-              {Array.from({ length: 6 }, (_, index) => (
-                <div
-                  key={index}
-                  aria-hidden
-                  className="h-32 rounded-xl bg-muted/50"
-                />
-              ))}
-            </div>
+            {pathname === HOME_HREF ? (
+              <div className="mx-auto flex max-w-5xl flex-col gap-6 p-6 pb-28">
+                <AppShellPageTitle>{pageTitle}</AppShellPageTitle>
+                <p className="text-muted-foreground">
+                  Set up the shell and its look here. Press F6 to move between
+                  the sidebar, the page and the panel.
+                </p>
+                <div className="flex flex-wrap items-start gap-6">
+                  <Card className="min-w-0 flex-[1_1_18rem] md:max-w-xs">
+                    <CardHeader>
+                      <CardTitle>Settings</CardTitle>
+                      <CardDescription>
+                        The same settings as the website; the whole page follows
+                        them.
+                      </CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                      <SiteSettingsFields />
+                    </CardContent>
+                  </Card>
+                  <OptionsCard
+                    options={options}
+                    setOptions={setOptions}
+                    className="min-w-0 flex-[1_1_22rem]"
+                  />
+                </div>
+              </div>
+            ) : (
+              <div className="mx-auto flex max-w-3xl flex-col gap-6 p-6 pb-28">
+                <AppShellPageTitle>{pageTitle}</AppShellPageTitle>
+                <p className="text-muted-foreground">
+                  The shell&apos;s options and settings are on Home. Press F6 to
+                  move between the sidebar, the page and the panel.
+                </p>
+                {Array.from({ length: 6 }, (_, index) => (
+                  <div
+                    key={index}
+                    aria-hidden
+                    className="h-32 rounded-xl bg-muted/50"
+                  />
+                ))}
+              </div>
+            )}
           </AppShellContent>
           {options.bottomNav && (
             <AppNavBottomBar
@@ -386,7 +422,6 @@ export function AppShellPlayground() {
             id="inspector"
             label="Inspector"
             defaultOpen
-            shortcut="mod+alt+b"
             mobile={options.panelMobile}
             views={[
               { value: "details", label: "Details", icon: InfoIcon },
@@ -405,7 +440,7 @@ export function AppShellPlayground() {
               <p className="font-medium">{pageTitle}</p>
               <p className="text-muted-foreground">
                 Drag the panel&apos;s edge to resize it, or past its minimum to
-                close it. Press ⌥⌘B to toggle it.
+                close it. Press ⌘\ to toggle it.
               </p>
             </AppShellPanelView>
             <AppShellPanelView
@@ -434,7 +469,6 @@ export function AppShellPlayground() {
         )}
       </AppShell>
       <WindowControls shellWindow={shellWindow} />
-      <OptionsPanel options={options} setOptions={setOptions} />
     </>
   )
 }

@@ -32,7 +32,7 @@ import {
 } from "react-native-safe-area-context"
 
 import { NAV_GROUPS, WORKSPACES } from "./nav"
-import { SettingsPage } from "./settings"
+import { SettingsCard } from "./settings"
 import { IconButton } from "./shell/icon-button"
 import { PanelContent, PanelSheet } from "./shell/panel"
 import { Sidebar } from "./shell/sidebar"
@@ -45,6 +45,7 @@ import { FONT, ThemeProvider, useStyles, useTheme, type Theme } from "./theme"
 const SIDEBAR_WIDTH = 256
 const PANEL_WIDTH = 320
 
+const HOME_HREF = "/"
 const SETTINGS_HREF = "/settings"
 
 const showNewTask = () => Alert.alert("New task")
@@ -58,15 +59,15 @@ function Page({ title, pathname }: { title: string; pathname: string }) {
         {title}
       </Text>
       {pathname === SETTINGS_HREF ? (
-        <SettingsPage />
+        <SettingsCard hasHeader={false} />
       ) : (
         <>
           <Text style={styles.pageText}>
             The App Shell's model drives this screen: the active page, the open
             rows, the bottom tabs, the breadcrumb and where the panel goes all
             come from lib/app-shell-model, the same file the web shell runs.
-            Change the look in Settings.
           </Text>
+          {pathname === HOME_HREF && <SettingsCard />}
           {Array.from({ length: 6 }, (_, index) => (
             <View key={index} style={styles.placeholder} />
           ))}
@@ -157,7 +158,7 @@ function Shell() {
   const size = getShellSize(width)
   const isPhone = size === "phone"
 
-  const [pathname, setPathname] = React.useState("/projects/launch/tasks")
+  const [pathname, setPathname] = React.useState(HOME_HREF)
   const [preferences, setPreferences] = React.useState<NavPreferences>(
     EMPTY_NAV_PREFERENCES
   )

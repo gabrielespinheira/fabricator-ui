@@ -1,50 +1,51 @@
-import type { LucideIcon } from "lucide-react-native"
-import { Pressable, StyleSheet } from "react-native"
+import { Pressable, StyleSheet, type ViewStyle } from "react-native"
 
-import type { Theme } from "../theme"
+import { useStyles, type Theme } from "../theme"
 
-/** A 36pt ghost icon button: muted, with the hover fill while pressed. */
+// A finger needs more than the button's 28pt: this makes the target 44pt.
+const HIT_SLOP = 8
+
+/**
+ * A ghost icon button, as the website's `size="icon-sm"`: 28pt at every density,
+ * with the hover fill while pressed.
+ */
 export function IconButton({
-  icon: Icon,
   label,
   onPress,
-  isActive = false,
-  theme,
+  isExpanded,
+  style,
+  children,
 }: {
-  icon: LucideIcon
   label: string
   onPress: () => void
-  isActive?: boolean
-  theme: Theme
+  /** For a button that shows and hides something. */
+  isExpanded?: boolean
+  style?: ViewStyle
+  children: React.ReactNode
 }) {
+  const styles = useStyles(buildStyles)
   return (
     <Pressable
       onPress={onPress}
       accessibilityRole="button"
       accessibilityLabel={label}
-      accessibilityState={{ selected: isActive }}
-      hitSlop={4}
-      style={({ pressed }) => [
-        styles.button,
-        isActive && { backgroundColor: theme.active },
-        pressed && { backgroundColor: theme.hover },
-      ]}
+      accessibilityState={{ expanded: isExpanded }}
+      hitSlop={HIT_SLOP}
+      style={({ pressed }) => [styles.button, style, pressed && styles.pressed]}
     >
-      <Icon
-        size={20}
-        strokeWidth={1.75}
-        color={isActive ? theme.foreground : theme.muted}
-      />
+      {children}
     </Pressable>
   )
 }
 
-const styles = StyleSheet.create({
-  button: {
-    width: 36,
-    height: 36,
-    borderRadius: 10,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-})
+const buildStyles = (theme: Theme) =>
+  StyleSheet.create({
+    button: {
+      width: theme.compact.space[36],
+      height: theme.compact.space[36],
+      borderRadius: theme.radius.lg,
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    pressed: { backgroundColor: theme.colors.hover },
+  })

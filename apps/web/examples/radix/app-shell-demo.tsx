@@ -232,7 +232,6 @@ export function AppShellDemo() {
         id="inspector"
         label="Inspector"
         defaultOpen
-        shortcut="mod+alt+b"
         views={[
           { value: "details", label: "Details", icon: InfoIcon },
           { value: "activity", label: "Activity", icon: ActivityIcon },
@@ -247,7 +246,7 @@ export function AppShellDemo() {
           <p className="font-medium">Q4 launch</p>
           <p className="text-muted-foreground">
             Drag the panel&apos;s edge to resize it, or past its minimum to
-            close it. Press ⌥⌘B to toggle it.
+            close it. Press ⌘\ to toggle it.
           </p>
         </AppShellPanelView>
         <AppShellPanelView

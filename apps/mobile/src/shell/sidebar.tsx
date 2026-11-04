@@ -1,28 +1,14 @@
 import * as React from "react"
 import type { NavItem, NavPreferences } from "@fabricator-ui/app-shell-model"
 import { ChevronsUpDownIcon, type LucideIcon } from "lucide-react-native"
-import {
-  ActionSheetIOS,
-  findNodeHandle,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from "react-native"
+import { Pressable, ScrollView, StyleSheet, Text, View } from "react-native"
 
 import { NAV_GROUPS, USER, WORKSPACES } from "../nav"
 import { FONT, useStyles, useTheme, type Theme } from "../theme"
+import { showActionMenu, type MenuButton } from "./action-menu"
 import { IconButton } from "./icon-button"
 import { NavList } from "./nav-list"
 import { SidebarToggleIcon } from "./sidebar-toggle-icon"
-
-type MenuButton = React.ComponentRef<typeof Pressable>
-
-/** Where a menu anchors: a popover on the button on iPad, ignored on iPhone. */
-function getAnchor(button: React.RefObject<MenuButton | null>) {
-  return findNodeHandle(button.current) ?? undefined
-}
 
 function getInitials(name: string) {
   return name
@@ -46,19 +32,16 @@ function WorkspaceSwitcher({
   const workspace =
     WORKSPACES.find((entry) => entry.id === workspaceId) ?? WORKSPACES[0]
   const choose = () =>
-    ActionSheetIOS.showActionSheetWithOptions(
-      {
-        anchor: getAnchor(button),
-        title: "Workspaces",
-        options: [...WORKSPACES.map((entry) => entry.name), "Cancel"],
-        cancelButtonIndex: WORKSPACES.length,
-        userInterfaceStyle: theme.mode,
-      },
-      (index) => {
+    showActionMenu({
+      button,
+      title: "Workspaces",
+      options: WORKSPACES.map((entry) => entry.name),
+      mode: theme.mode,
+      onSelect: (index) => {
         const picked = WORKSPACES[index]
         if (picked) onWorkspaceChange(picked.id)
-      }
-    )
+      },
+    })
   return (
     <Pressable
       ref={button}
@@ -92,17 +75,13 @@ function UserMenu() {
   const styles = useStyles(buildStyles)
   const button = React.useRef<MenuButton>(null)
   const open = () =>
-    ActionSheetIOS.showActionSheetWithOptions(
-      {
-        anchor: getAnchor(button),
-        title: USER.email,
-        options: ["Profile", "Notifications", "Sign out", "Cancel"],
-        destructiveButtonIndex: 2,
-        cancelButtonIndex: 3,
-        userInterfaceStyle: theme.mode,
-      },
-      () => {}
-    )
+    showActionMenu({
+      button,
+      title: USER.email,
+      options: ["Profile", "Notifications", "Sign out"],
+      destructiveIndex: 2,
+      mode: theme.mode,
+    })
   return (
     <Pressable
       ref={button}

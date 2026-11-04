@@ -14,6 +14,8 @@
 // - SidebarMenuButton `icon`, `status` and `dot`; SidebarGroupActions and
 //   SidebarMenuActions clusters; arrow keys move between rows.
 // - Each menu is a fluid hover container.
+// - SidebarProvider `mobileSidebar="reveal"` shows the phone sidebar behind the
+//   page instead of in a sheet over it.
 //
 // Motion is CSS on the motion tokens, so --motion-scale reaches all of it.
 import * as React from "react"
@@ -28,6 +30,11 @@ import {
   useFluidHover,
   useMergedRef,
 } from "@/registry/bases/radix/lib/fluid-hover"
+import {
+  getRevealDragProgress,
+  shouldRevealStayOpen,
+  TOGGLE_GLYPH,
+} from "@/registry/bases/radix/lib/sidebar-model"
 import { Button } from "@/registry/bases/radix/ui/button"
 import { Input } from "@/registry/bases/radix/ui/input"
 import { Kbd } from "@/registry/bases/radix/ui/kbd"
@@ -64,7 +71,11 @@ const SIDEBAR_COLLAPSE_SLOP = 56
 const SIDEBAR_PEEK_DELAY = 150
 const SIDEBAR_PEEK_DISMISS_DELAY = 250
 
+/** A press on the page moves this far before it counts as a drag (px). */
+const REVEAL_DRAG_SLOP = 4
+
 type SidebarSide = "left" | "right"
+type SidebarMobile = "sheet" | "reveal"
 type SidebarPeek = "none" | "hover" | "click"
 
 type SidebarContextProps = {
@@ -74,6 +85,8 @@ type SidebarContextProps = {
   openMobile: boolean
   setOpenMobile: React.Dispatch<React.SetStateAction<boolean>>
   isMobile: boolean
+  /** How the sidebar shows on phones. */
+  mobileSidebar: SidebarMobile
   toggleSidebar: () => void
   /** Live width; SidebarRail's drag updates it. */
   width: string
@@ -193,6 +206,7 @@ function SidebarProvider({
   peek = "none",
   width: widthProp,
   widthMobile = SIDEBAR_WIDTH_MOBILE,
+  mobileSidebar: mobileSidebarProp = "sheet",
   onWidthChange,
   className,
   style,
@@ -219,6 +233,11 @@ function SidebarProvider({
   width?: string
   /** Width of the mobile drawer. Default 18rem. */
   widthMobile?: string
+  /**
+   * On phones: a sheet over the page, or `reveal`, where the page moves aside
+   * and shrinks to show the sidebar behind it. Default "sheet".
+   */
+  mobileSidebar?: SidebarMobile
   /** Called once when a SidebarRail resize ends, with the new width. */
   onWidthChange?: (width: string) => void
 }) {
@@ -228,6 +247,8 @@ function SidebarProvider({
   const [collapsible, setCollapsible] = React.useState<
     "offcanvas" | "icon" | "none"
   >("offcanvas")
+  // A sidebar that never collapses stays in the layout, so nothing to reveal.
+  const mobileSidebar = collapsible === "none" ? "sheet" : mobileSidebarProp
   const wrapperRef = React.useRef<HTMLDivElement | null>(null)
   const mergedRef = useMergedRef(wrapperRef, ref)
 
@@ -358,6 +379,7 @@ function SidebarProvider({
       open,
       setOpen,
       isMobile,
+      mobileSidebar,
       openMobile,
       setOpenMobile,
       toggleSidebar,
@@ -375,6 +397,7 @@ function SidebarProvider({
       open,
       setOpen,
       isMobile,
+      mobileSidebar,
       openMobile,
       setOpenMobile,
       toggleSidebar,
@@ -406,6 +429,16 @@ function SidebarProvider({
         <div
           ref={mergedRef}
           data-slot="sidebar-wrapper"
+          data-reveal={
+            isMobile && mobileSidebar === "reveal"
+              ? openMobile
+                ? "open"
+                : "closed"
+              : undefined
+          }
+          data-reveal-side={
+            isMobile && mobileSidebar === "reveal" ? side : undefined
+          }
           style={
             {
               "--sidebar-width-icon": SIDEBAR_WIDTH_ICON,
@@ -415,7 +448,7 @@ function SidebarProvider({
             } as React.CSSProperties
           }
           className={cn(
-            "group/sidebar-wrapper flex min-h-svh w-full has-data-[variant=inset]:bg-sidebar",
+            "cn-sidebar-wrapper group/sidebar-wrapper flex min-h-svh w-full has-data-[variant=inset]:bg-sidebar",
             className
           )}
           {...props}
@@ -424,6 +457,156 @@ function SidebarProvider({
         </div>
       </SidebarInternalContext.Provider>
     </SidebarContext.Provider>
+  )
+}
+
+/**
+ * The phone sidebar as a surface behind the page: SidebarInset moves aside and
+ * shrinks to uncover it, with the rest of the page still in view. The page is
+ * inert while it is open. Focus moves in and returns; Escape, a tap on the page
+ * or dragging the page back closes it.
+ */
+function SidebarReveal({
+  side,
+  className,
+  children,
+  ...props
+}: React.ComponentProps<"div"> & { side: SidebarSide }) {
+  const { openMobile, setOpenMobile } = useSidebar()
+  const surfaceRef = React.useRef<HTMLDivElement>(null)
+  const previousFocus = React.useRef<Element | null>(null)
+  const wasDragged = React.useRef(false)
+  const drag = React.useRef<{
+    startX: number
+    lastX: number
+    lastTime: number
+    velocity: number
+  } | null>(null)
+
+  // Read before the page turns inert, which drops focus from the trigger.
+  React.useLayoutEffect(() => {
+    if (openMobile) previousFocus.current = document.activeElement
+  }, [openMobile])
+
+  React.useEffect(() => {
+    if (!openMobile) return
+    surfaceRef.current?.focus({ preventScroll: true })
+    return () => {
+      const previous = previousFocus.current
+      if (previous instanceof HTMLElement) {
+        previous.focus({ preventScroll: true })
+      }
+    }
+  }, [openMobile])
+
+  const toDelta = (clientX: number, startX: number) =>
+    side === "left" ? clientX - startX : startX - clientX
+
+  const getProgress = (clientX: number, startX: number) =>
+    getRevealDragProgress({
+      deltaX: toDelta(clientX, startX),
+      width: surfaceRef.current?.offsetWidth ?? 1,
+    })
+
+  const endDrag = (button: HTMLElement) => {
+    const wrapper = button.closest<HTMLElement>('[data-slot="sidebar-wrapper"]')
+    wrapper?.removeAttribute("data-reveal-dragging")
+    wrapper?.style.removeProperty("--sidebar-reveal-progress")
+    drag.current = null
+  }
+
+  return (
+    <>
+      <div
+        ref={surfaceRef}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Sidebar"
+        tabIndex={-1}
+        inert={!openMobile}
+        data-sidebar="sidebar"
+        data-slot="sidebar"
+        data-mobile="true"
+        data-side={side}
+        data-state={openMobile ? "open" : "closed"}
+        className={cn(
+          "cn-sidebar-reveal absolute inset-y-0 flex flex-col text-sidebar-foreground outline-none",
+          className
+        )}
+        onKeyDown={(event) => {
+          // A menu in a portal bubbles here too; it closes itself.
+          const isInside =
+            event.target instanceof Node &&
+            event.currentTarget.contains(event.target)
+          if (event.key === "Escape" && isInside) setOpenMobile(false)
+        }}
+        {...props}
+      >
+        <div
+          data-slot="sidebar-inner"
+          className="cn-sidebar-inner flex h-full w-full flex-col"
+        >
+          {children}
+        </div>
+      </div>
+      {openMobile && (
+        <button
+          type="button"
+          aria-label="Close sidebar"
+          data-slot="sidebar-reveal-close"
+          data-side={side}
+          className="cn-sidebar-reveal-close absolute inset-y-0 z-20 touch-none outline-none"
+          onClick={() => {
+            if (!wasDragged.current) setOpenMobile(false)
+            wasDragged.current = false
+          }}
+          onPointerDown={(event) => {
+            event.currentTarget.setPointerCapture(event.pointerId)
+            wasDragged.current = false
+            drag.current = {
+              startX: event.clientX,
+              lastX: event.clientX,
+              lastTime: event.timeStamp,
+              velocity: 0,
+            }
+          }}
+          onPointerMove={(event) => {
+            const current = drag.current
+            if (!current) return
+            if (Math.abs(event.clientX - current.startX) < REVEAL_DRAG_SLOP) {
+              return
+            }
+            wasDragged.current = true
+            const elapsed = event.timeStamp - current.lastTime
+            if (elapsed > 0) {
+              current.velocity = toDelta(event.clientX, current.lastX) / elapsed
+              current.lastX = event.clientX
+              current.lastTime = event.timeStamp
+            }
+            const wrapper = event.currentTarget.closest<HTMLElement>(
+              '[data-slot="sidebar-wrapper"]'
+            )
+            wrapper?.setAttribute("data-reveal-dragging", "")
+            wrapper?.style.setProperty(
+              "--sidebar-reveal-progress",
+              String(getProgress(event.clientX, current.startX))
+            )
+          }}
+          onPointerUp={(event) => {
+            const current = drag.current
+            endDrag(event.currentTarget)
+            if (!current || !wasDragged.current) return
+            const stayOpen = shouldRevealStayOpen({
+              progress: getProgress(current.lastX, current.startX),
+              velocity: current.velocity,
+              restedFor: event.timeStamp - current.lastTime,
+            })
+            if (!stayOpen) setOpenMobile(false)
+          }}
+          onPointerCancel={(event) => endDrag(event.currentTarget)}
+        />
+      )}
+    </>
   )
 }
 
@@ -443,8 +626,15 @@ function Sidebar({
   /** The `sidebar` variant's inner-edge border. Default true. */
   bordered?: boolean
 }) {
-  const { isMobile, state, openMobile, setOpenMobile, peek, isPeeking } =
-    useSidebar()
+  const {
+    isMobile,
+    mobileSidebar,
+    state,
+    openMobile,
+    setOpenMobile,
+    peek,
+    isPeeking,
+  } = useSidebar()
   const { registerSide, registerCollapsible } = useSidebarInternal()
 
   // The provider mirrors these into peek and the shortcut tooltips.
@@ -466,6 +656,14 @@ function Sidebar({
       >
         {children}
       </div>
+    )
+  }
+
+  if (isMobile && mobileSidebar === "reveal") {
+    return (
+      <SidebarReveal side={side} className={className} {...props}>
+        {children}
+      </SidebarReveal>
     )
   }
 
@@ -681,15 +879,8 @@ function SidebarDesktop({
   )
 }
 
-// The panel glyph: a filled frame with the sidebar drawn inside it in the
-// page colour. The sidebar widens when open; the path morphs on the move
-// timing where CSS `d` transitions are supported, and swaps elsewhere.
-const TOGGLE_FRAME =
-  "M11 3H13C16.7712 3 18.6569 3 19.8284 4.17157C21 5.34315 21 7.22876 21 11V13C21 16.7712 21 18.6569 19.8284 19.8284C18.6569 21 16.7712 21 13 21H11C7.2288 21 5.3431 21 4.1716 19.8284C3 18.6569 3 16.7712 3 13V11C3 7.22876 3 5.34315 4.1716 4.17157C5.3431 3 7.2288 3 11 3Z"
-const TOGGLE_PANEL_CLOSED =
-  "M10 5.5 C10 4.793 10 4.439 9.780 4.220 C9.560 4 9.207 4 8.5 4 H8.5 C6.379 4 5.318 4 4.659 4.659 C4 5.318 4 6.379 4 8.5 V15.5 C4 17.621 4 18.682 4.659 19.341 C5.318 20 6.379 20 8.5 20 H8.5 C9.207 20 9.561 20 9.780 19.780 C10 19.561 10 19.207 10 18.5 V5.5 Z"
-const TOGGLE_PANEL_OPEN =
-  "M14 6 C14 5.057 14 4.586 13.707 4.293 C13.414 4 12.943 4 12 4 H10 C7.172 4 5.757 4 4.879 4.879 C4 5.757 4 7.172 4 10 V14 C4 16.828 4 18.243 4.879 19.121 C5.757 20 7.172 20 10 20 H12 C12.943 20 13.414 20 13.707 19.707 C14 19.414 14 18.943 14 18 V6 Z"
+// The panel glyph (lib/sidebar-model). The path morphs on the move timing where
+// CSS `d` transitions are supported, and swaps elsewhere.
 
 function SidebarToggleIcon({
   open,
@@ -700,7 +891,7 @@ function SidebarToggleIcon({
   side: SidebarSide
   className?: string
 }) {
-  const panel = open ? TOGGLE_PANEL_OPEN : TOGGLE_PANEL_CLOSED
+  const panel = open ? TOGGLE_GLYPH.panelOpen : TOGGLE_GLYPH.panelClosed
 
   return (
     <svg
@@ -716,7 +907,7 @@ function SidebarToggleIcon({
       )}
     >
       <path
-        d={TOGGLE_FRAME}
+        d={TOGGLE_GLYPH.frame}
         fill="currentColor"
         stroke="currentColor"
         strokeWidth={1.5}
@@ -965,8 +1156,15 @@ function SidebarRail({
 }
 
 function SidebarInset({ className, ...props }: React.ComponentProps<"main">) {
+  const sidebar = React.useContext(SidebarContext)
+  const isRevealOpen =
+    sidebar !== null &&
+    sidebar.isMobile &&
+    sidebar.mobileSidebar === "reveal" &&
+    sidebar.openMobile
   return (
     <main
+      inert={isRevealOpen || undefined}
       data-slot="sidebar-inset"
       className={cn(
         "cn-sidebar-inset relative flex w-full flex-1 flex-col",
@@ -1856,6 +2054,7 @@ export {
   SidebarProvider,
   SidebarRail,
   SidebarSeparator,
+  SidebarToggleIcon,
   SidebarTrigger,
   useSidebar,
 }

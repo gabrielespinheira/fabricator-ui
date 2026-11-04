@@ -14,16 +14,19 @@ import {
   getActiveNavItem,
   getActiveTab,
   getBreadcrumbsFromPath,
+  getDefaultPanelShortcut,
   getMobileTabItems,
   getNavList,
   getNavPath,
   getNeighbourTab,
   getPanelPlacement,
+  getPanelTriggerAnchor,
   getPinnedNavItems,
   getResizedSize,
   getShellSize,
   getTabAtPosition,
   getTrafficLightsGeometry,
+  isChordShortcut,
   matchesShortcut,
   moveNavItem,
   moveTab,
@@ -464,9 +467,11 @@ describe("shortcuts", () => {
     code: string,
     modifiers: Partial<
       Record<"metaKey" | "ctrlKey" | "altKey" | "shiftKey", boolean>
-    > = {}
+    > = {},
+    key = ""
   ) => ({
     code,
+    key,
     metaKey: false,
     ctrlKey: false,
     altKey: false,
@@ -488,6 +493,62 @@ describe("shortcuts", () => {
     expect(parseShortcut("F6").code).toBe("F6")
     expect(parseShortcut("alt+1").code).toBe("Digit1")
     expect(parseShortcut("mod+\\").code).toBe("Backslash")
+  })
+
+  it("finds a symbol by what the key types, wherever the layout puts it", () => {
+    const backslash = parseShortcut("mod+\\")
+    const meta = { metaKey: true }
+    expect(
+      matchesShortcut(event("Backslash", meta, "\\"), backslash, "apple")
+    ).toBe(true)
+    // Portuguese and Brazilian keyboards: \\ sits on another key…
+    expect(
+      matchesShortcut(event("IntlBackslash", meta, "\\"), backslash, "apple")
+    ).toBe(true)
+    // …and the key at the US position types something else.
+    expect(
+      matchesShortcut(event("Backslash", meta, "]"), backslash, "apple")
+    ).toBe(false)
+  })
+
+  it("keeps a symbol's position when Shift or Option changes what it types", () => {
+    expect(
+      matchesShortcut(
+        event("BracketRight", { metaKey: true, shiftKey: true }, "}"),
+        parseShortcut("mod+shift+]"),
+        "apple"
+      )
+    ).toBe(true)
+    expect(
+      matchesShortcut(
+        event("BracketRight", { metaKey: true, altKey: true }, "‘"),
+        parseShortcut("alt+mod+]"),
+        "apple"
+      )
+    ).toBe(true)
+  })
+
+  it("keeps letters on their physical key", () => {
+    expect(
+      matchesShortcut(
+        event("KeyB", { metaKey: true }, "x"),
+        parseShortcut("mod+b"),
+        "apple"
+      )
+    ).toBe(true)
+  })
+
+  it("labels the panel's shortcut", () => {
+    expect(formatShortcut(parseShortcut("mod+\\"), "apple")).toBe("⌘\\")
+    expect(formatShortcut(parseShortcut("mod+\\"), "other")).toBe("Ctrl+\\")
+  })
+
+  it("tells chords, which type nothing, from keys that do", () => {
+    expect(isChordShortcut("mod+\\")).toBe(true)
+    expect(isChordShortcut("alt+1")).toBe(true)
+    expect(isChordShortcut("ctrl+tab")).toBe(true)
+    expect(isChordShortcut("[")).toBe(false)
+    expect(isChordShortcut("shift+x")).toBe(false)
   })
 
   it("reads mod as ⌘ on Apple platforms and Ctrl elsewhere", () => {
@@ -761,5 +822,47 @@ describe("getMobileTabItems", () => {
       "inbox",
       "settings",
     ])
+  })
+})
+
+describe("getDefaultPanelShortcut", () => {
+  it("gives a right panel ⌘\\, and a left panel none", () => {
+    expect(getDefaultPanelShortcut("right")).toBe("mod+\\")
+    expect(getDefaultPanelShortcut("left")).toBeNull()
+  })
+})
+
+describe("getPanelTriggerAnchor", () => {
+  const docked = {
+    hasView: false,
+    side: "right",
+    isFloating: false,
+    open: true,
+    width: 320,
+  } as const
+
+  it("offsets a docked panel's toggle by the width the main column gives up", () => {
+    expect(getPanelTriggerAnchor(docked)).toEqual({
+      isPinned: true,
+      shift: 320,
+    })
+  })
+
+  it("rests in the header while the panel is closed", () => {
+    expect(getPanelTriggerAnchor({ ...docked, open: false })).toEqual({
+      isPinned: true,
+      shift: 0,
+    })
+  })
+
+  it.each([
+    ["a floating panel", { isFloating: true }],
+    ["a left panel", { side: "left" }],
+    ["a trigger that selects one view", { hasView: true }],
+  ] as const)("doesn't pin %s", (_label, change) => {
+    expect(getPanelTriggerAnchor({ ...docked, ...change })).toEqual({
+      isPinned: false,
+      shift: 0,
+    })
   })
 })

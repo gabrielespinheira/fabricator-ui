@@ -86,6 +86,14 @@ export const fabricatorItems = [
     files: [{ path: "lib/app-shell-model.ts", type: "registry:lib" }],
   },
   {
+    name: "sidebar-model",
+    type: "registry:lib",
+    title: "Sidebar model",
+    description:
+      "The Sidebar's plain data and rules: its toggle's glyph, and how the phone sidebar's reveal moves and settles. No DOM, so a React Native shell can share it.",
+    files: [{ path: "lib/sidebar-model.ts", type: "registry:lib" }],
+  },
+  {
     name: "sortable",
     type: "registry:lib",
     title: "Sortable",
@@ -323,7 +331,7 @@ export const fabricatorOverrides: Record<
   "navigation-menu": { registryDependencies: ["fluid-hover", "density"] },
   tabs: { registryDependencies: ["fluid-hover"] },
   "toggle-group": { registryDependencies: ["fluid-hover"] },
-  sidebar: { registryDependencies: ["fluid-hover", "kbd"] },
+  sidebar: { registryDependencies: ["fluid-hover", "kbd", "sidebar-model"] },
   accordion: { registryDependencies: ["fluid-hover"] },
   table: { registryDependencies: ["fluid-hover"] },
 }

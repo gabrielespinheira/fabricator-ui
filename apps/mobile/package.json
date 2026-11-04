@@ -11,7 +11,9 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@expo-google-fonts/inter": "0.4.2",
     "expo": "~58.0.23",
+    "expo-font": "~58.0.11",
     "expo-status-bar": "~58.0.4",
     "lucide-react-native": "1.67.0",
     "react": "19.3.0",

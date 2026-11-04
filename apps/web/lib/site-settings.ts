@@ -4,7 +4,6 @@ import {
   COLOR_ROLES,
   normalizeRoleColor,
   ROLE_DEFAULTS,
-  roleMaxChroma,
   sameRoleColor,
   type ColorRole,
   type RoleColor,
@@ -14,6 +13,13 @@ import {
   isDensityName,
   type DensityName,
 } from "@/registry/fabricator/density"
+import {
+  DENSITY_OPTIONS,
+  MOTION_OPTIONS,
+  ROLE_PRESETS,
+  SURFACE_PRESETS,
+  type RolePreset,
+} from "@/registry/fabricator/look-presets"
 import {
   NEUTRAL_TINT,
   normalizeTint,
@@ -45,97 +51,11 @@ export const ICON_LIBRARIES = [
 export type SiteIconLibrary = (typeof ICON_LIBRARIES)[number]["value"]
 export type SiteRadius = "rounded" | "pill"
 
-/** The foundations' motion speeds (registry/fabricator/motion.ts), slowest first, then Off. */
-export const MOTION_SPEEDS = [
-  { value: "smooth", label: "Smooth" },
-  { value: "default", label: "Default" },
-  { value: "snappy", label: "Snappy" },
-  { value: "instant", label: "Instant" },
-  { value: "off", label: "Off" },
-] as const
+export { DENSITY_OPTIONS, ROLE_PRESETS, SURFACE_PRESETS }
+export { MOTION_OPTIONS as MOTION_SPEEDS }
+export type { RolePreset }
 
-export type SiteMotion = (typeof MOTION_SPEEDS)[number]["value"]
-
-/** The foundations' densities (registry/fabricator/density.ts), smallest first. */
-export const DENSITY_OPTIONS: { value: DensityName; label: string }[] = [
-  { value: "compact", label: "Compact" },
-  { value: "default", label: "Default" },
-  { value: "spacious", label: "Spacious" },
-]
-
-/** Named surface tints for the settings menu and the Colors page. */
-export const SURFACE_PRESETS: {
-  value: string
-  label: string
-  tint: SurfaceTint
-}[] = [
-  { value: "neutral", label: "Neutral", tint: NEUTRAL_TINT },
-  { value: "slate", label: "Slate", tint: { hue: 260, chroma: 0.02 } },
-  { value: "sand", label: "Sand", tint: { hue: 75, chroma: 0.018 } },
-  { value: "sage", label: "Sage", tint: { hue: 145, chroma: 0.022 } },
-  { value: "ocean", label: "Ocean", tint: { hue: 220, chroma: 0.035 } },
-  { value: "indigo", label: "Indigo", tint: { hue: 272, chroma: 0.04 } },
-  { value: "plum", label: "Plum", tint: { hue: 325, chroma: 0.035 } },
-  { value: "rose", label: "Rose", tint: { hue: 15, chroma: 0.03 } },
-]
-
-export type RolePreset = { value: string; label: string; color: RoleColor }
-
-/** A named hue at a strong but calm chroma: its maximum, up to 0.22. */
-function tone(value: string, label: string, hue: number): RolePreset {
-  return {
-    value,
-    label,
-    color: { hue, chroma: Math.min(roleMaxChroma(hue), 0.22) },
-  }
-}
-
-const WHEEL = [
-  tone("blue", "Blue", 260),
-  tone("indigo", "Indigo", 277),
-  tone("violet", "Violet", 300),
-  tone("pink", "Pink", 350),
-  tone("red", "Red", 25),
-  tone("orange", "Orange", 45),
-  tone("amber", "Amber", 75),
-  tone("green", "Green", 150),
-  tone("teal", "Teal", 190),
-]
-
-/**
- * Named colours for each role. Primary and secondary start neutral and take
- * any hue; each status offers tones of its own family, its default among them.
- */
-export const ROLE_PRESETS: Record<ColorRole, RolePreset[]> = {
-  primary: [
-    { value: "neutral", label: "Neutral", color: ROLE_DEFAULTS.primary },
-    ...WHEEL,
-  ],
-  secondary: [
-    { value: "neutral", label: "Neutral", color: ROLE_DEFAULTS.secondary },
-    ...WHEEL,
-  ],
-  info: [
-    tone("sky", "Sky", 232),
-    { value: "blue", label: "Blue", color: ROLE_DEFAULTS.info },
-    tone("indigo", "Indigo", 272),
-  ],
-  success: [
-    tone("lime", "Lime", 132),
-    { value: "green", label: "Green", color: ROLE_DEFAULTS.success },
-    tone("emerald", "Emerald", 165),
-  ],
-  warning: [
-    tone("orange", "Orange", 52),
-    { value: "amber", label: "Amber", color: ROLE_DEFAULTS.warning },
-    tone("yellow", "Yellow", 92),
-  ],
-  destructive: [
-    tone("rose", "Rose", 14),
-    { value: "red", label: "Red", color: ROLE_DEFAULTS.destructive },
-    tone("orange", "Orange", 42),
-  ],
-}
+export type SiteMotion = (typeof MOTION_OPTIONS)[number]["value"]
 
 export type SiteSettings = {
   sound: boolean
@@ -184,7 +104,7 @@ function read(): SiteSettings {
       stored.radius === "pill" || stored.radius === "rounded"
         ? stored.radius
         : DEFAULT_SITE_SETTINGS.radius,
-    motion: MOTION_SPEEDS.some((speed) => speed.value === stored.motion)
+    motion: MOTION_OPTIONS.some((speed) => speed.value === stored.motion)
       ? (stored.motion as SiteMotion)
       : DEFAULT_SITE_SETTINGS.motion,
     density: isDensityName(stored.density)

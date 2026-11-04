@@ -54,8 +54,28 @@
   }
 
   /* Inset main area: surface 2 with its shadow ring, rounded-xl. */
+  /* The page while the phone sidebar is revealed: it moves aside and shrinks
+     towards the sidebar's edge, on the sheet's timing. Closed it has no
+     transform at all, so it stays a plain containing block. A drag writes
+     --sidebar-reveal-progress and turns the transition off. */
   .cn-sidebar-inset {
-    @apply bg-background md:peer-data-[variant=inset]:bg-surface-2 md:peer-data-[variant=inset]:shadow-surface-2 md:peer-data-[variant=inset]:m-2 md:peer-data-[variant=inset]:ms-0 md:peer-data-[variant=inset]:rounded-xl md:peer-data-[variant=inset]:peer-data-[state=collapsed]:ms-2;
+    @apply bg-background md:peer-data-[variant=inset]:bg-surface-2 md:peer-data-[variant=inset]:shadow-surface-2 md:peer-data-[variant=inset]:m-2 md:peer-data-[variant=inset]:ms-0 md:peer-data-[variant=inset]:rounded-xl md:peer-data-[variant=inset]:peer-data-[state=collapsed]:ms-2 group-data-reveal/sidebar-wrapper:z-10 group-data-reveal/sidebar-wrapper:origin-left group-data-[reveal-side=right]/sidebar-wrapper:origin-right group-data-reveal/sidebar-wrapper:overflow-hidden group-data-reveal/sidebar-wrapper:transition-[transform,border-radius,box-shadow] group-data-reveal/sidebar-wrapper:duration-sheet-exit group-data-reveal/sidebar-wrapper:ease-drawer group-data-[reveal=open]/sidebar-wrapper:duration-sheet group-data-[reveal=open]/sidebar-wrapper:rounded-2xl group-data-[reveal=open]/sidebar-wrapper:shadow-surface-6 group-data-[reveal=open]/sidebar-wrapper:[transform:translateX(calc(var(--sidebar-reveal-width)*var(--sidebar-reveal-direction)*var(--sidebar-reveal-progress,1)))_scale(calc(1-(1-var(--sidebar-reveal-scale))*var(--sidebar-reveal-progress,1)))] group-data-reveal-dragging/sidebar-wrapper:transition-none motion-reduce:transition-none;
+  }
+
+  /* The room a revealed sidebar takes, and how small the page gets beside it.
+     lib/sidebar-model holds the same numbers for React Native. */
+  .cn-sidebar-wrapper {
+    @apply [--sidebar-reveal-scale:0.88] [--sidebar-reveal-width:min(var(--sidebar-width-mobile),calc(100%-56px))] [--sidebar-reveal-direction:1] data-[reveal-side=right]:[--sidebar-reveal-direction:-1] data-reveal:relative data-reveal:overflow-hidden data-reveal:bg-sidebar;
+  }
+
+  /* The revealed sidebar: behind the page, drifting a little as it uncovers. */
+  .cn-sidebar-reveal {
+    @apply z-0 w-(--sidebar-reveal-width) opacity-(--sidebar-reveal-opacity) [--sidebar-reveal-amount:0] data-open:[--sidebar-reveal-amount:var(--sidebar-reveal-progress,1)] [--sidebar-reveal-opacity:calc(0.5+0.5*var(--sidebar-reveal-amount))] [transform:translateX(calc(var(--sidebar-reveal-width)*var(--sidebar-reveal-direction)*-0.12*(1-var(--sidebar-reveal-amount))))] transition-[transform,opacity] duration-sheet-exit ease-drawer data-open:duration-sheet data-[side=left]:start-0 data-[side=right]:end-0 group-data-reveal-dragging/sidebar-wrapper:transition-none motion-reduce:transition-none;
+  }
+
+  /* The page in view beside the revealed sidebar: a tap closes, a drag follows. */
+  .cn-sidebar-reveal-close {
+    @apply cursor-pointer focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-inset data-[side=left]:start-(--sidebar-reveal-width) data-[side=left]:end-0 data-[side=right]:start-0 data-[side=right]:end-(--sidebar-reveal-width);
   }
 
   /* The field ladder: transparent at rest, a hover fill with a hairline,

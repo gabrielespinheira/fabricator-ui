@@ -16,11 +16,14 @@ import { Slot } from "radix-ui"
 import {
   foldBreadcrumbs,
   formatShortcut,
+  getDefaultPanelShortcut,
   getPanelPlacement,
+  getPanelTriggerAnchor,
   getResizedSize,
   getShellSize,
   getShellStorageKey,
   getTrafficLightsGeometry,
+  isChordShortcut,
   matchesShortcut,
   parseShellLayout,
   parseShortcut,
@@ -72,6 +75,7 @@ import {
 import {
   SidebarInset,
   SidebarProvider,
+  SidebarToggleIcon,
   SidebarTrigger,
   useSidebar,
 } from "@/registry/bases/radix/ui/sidebar"
@@ -264,6 +268,9 @@ type PanelConfig = {
   label: string
   defaults: PanelState
   shortcut: string | null
+  side: "left" | "right"
+  minWidth: number
+  maxWidth: number
 }
 
 type AppShellContextValue = {
@@ -407,6 +414,13 @@ type AppShellProps = React.ComponentProps<"div"> &
     | "peek"
     | "widthMobile"
   > & {
+    /**
+     * The sidebar on phones. `reveal`: the page moves aside and shrinks to show
+     * it behind. `sheet`: it slides over the page.
+     */
+    mobileSidebar?: React.ComponentProps<
+      typeof SidebarProvider
+    >["mobileSidebar"]
     /** Names this shell's saved layout: `app-shell.<storageKey>.layout`. */
     storageKey?: string
     /** Where the layout is saved. Default: a cookie. null saves nothing. */
@@ -446,6 +460,7 @@ function AppShell({
   shortcut,
   peek,
   widthMobile,
+  mobileSidebar = "reveal",
   className,
   style,
   children,
@@ -515,6 +530,9 @@ function AppShell({
         existing &&
         existing.label === config.label &&
         existing.shortcut === config.shortcut &&
+        existing.side === config.side &&
+        existing.minWidth === config.minWidth &&
+        existing.maxWidth === config.maxWidth &&
         existing.defaults.open === config.defaults.open &&
         existing.defaults.view === config.defaults.view &&
         existing.defaults.width === config.defaults.width
@@ -682,6 +700,7 @@ function AppShell({
             peek={peek}
             width={layout.sidebarWidth ?? sidebarWidthProp}
             widthMobile={widthMobile}
+            mobileSidebar={mobileSidebar}
             onWidthChange={setSidebarWidth}
             className="cn-app-shell-body min-h-0 flex-1"
           >
@@ -1514,17 +1533,21 @@ function useShellPanel(id: string) {
   const shell = useAppShell()
   const config = shell.configs[id]
   const saved = shell.panels[id] ?? config?.defaults ?? FALLBACK_PANEL
-  const open = shell.floating[id]
-    ? (shell.floatingOpen[id] ?? false)
-    : saved.open
+  const isFloating = shell.floating[id] ?? false
+  const open = isFloating ? (shell.floatingOpen[id] ?? false) : saved.open
+  const width = config
+    ? Math.max(config.minWidth, Math.min(config.maxWidth, saved.width))
+    : saved.width
   const { updatePanel } = shell
   return React.useMemo(
     () => ({
       open,
       view: saved.view,
-      width: saved.width,
+      width,
       label: config?.label ?? id,
       shortcut: config?.shortcut ?? null,
+      side: config?.side ?? null,
+      isFloating,
       domId: getPanelDomId(id),
       setOpen: (next: boolean) =>
         updatePanel(id, (panel) => ({ ...panel, open: next })),
@@ -1541,9 +1564,11 @@ function useShellPanel(id: string) {
       id,
       open,
       saved.view,
-      saved.width,
+      width,
       config?.label,
       config?.shortcut,
+      config?.side,
+      isFloating,
       updatePanel,
     ]
   )
@@ -1579,7 +1604,7 @@ function AppShellPanel({
   minWidth = 240,
   maxWidth = 640,
   mobile = "drawer",
-  shortcut = null,
+  shortcut: shortcutProp,
   className,
   style,
   children,
@@ -1598,11 +1623,13 @@ function AppShellPanel({
   maxWidth?: number
   /** On phones: a bottom drawer, the whole screen, or not shown. */
   mobile?: PanelMobile
-  /** Toggles the panel ("mod+alt+b"). */
+  /** Toggles the panel. Default ⌘\\ on the right, none on the left. null: none. */
   shortcut?: string | null
 }) {
   const shell = useAppShell()
   const elementRef = React.useRef<HTMLElement | null>(null)
+  const shortcut =
+    shortcutProp === undefined ? getDefaultPanelShortcut(side) : shortcutProp
   // Primitive dependencies only: `views` is usually an inline array.
   const initialView = defaultView ?? views[0]?.value ?? null
   const defaults = React.useMemo<PanelState>(
@@ -1611,8 +1638,16 @@ function AppShellPanel({
   )
   const { registerPanel } = shell
   React.useEffect(
-    () => registerPanel(id, { label, defaults, shortcut }),
-    [registerPanel, id, label, defaults, shortcut]
+    () =>
+      registerPanel(id, {
+        label,
+        defaults,
+        shortcut,
+        side,
+        minWidth,
+        maxWidth,
+      }),
+    [registerPanel, id, label, defaults, shortcut, side, minWidth, maxWidth]
   )
 
   const control = useShellPanel(id)
@@ -1623,7 +1658,12 @@ function AppShellPanel({
   }
 
   useShellShortcut(
-    { id: `panel.${id}.toggle`, keys: shortcut, label: `Toggle ${label}` },
+    {
+      id: `panel.${id}.toggle`,
+      keys: shortcut,
+      label: `Toggle ${label}`,
+      allowInInputs: shortcut !== null && isChordShortcut(shortcut),
+    },
     control.toggle
   )
 
@@ -1774,6 +1814,7 @@ function AppShellPanel({
 
 function AppShellPanelResizeHandle() {
   const {
+    id,
     domId,
     label,
     side,
@@ -1788,11 +1829,17 @@ function AppShellPanelResizeHandle() {
   const drag = React.useRef<{ startX: number; startWidth: number } | null>(null)
   const [isDragging, setIsDragging] = React.useState(false)
 
-  const preview = (width: number) =>
-    elementRef.current?.style.setProperty(
-      "--app-shell-panel-width",
-      `${width}px`
-    )
+  // The toggle follows live too, so it holds its spot while the panel resizes.
+  const preview = (width: number) => {
+    const element = elementRef.current
+    element?.style.setProperty("--app-shell-panel-width", `${width}px`)
+    element
+      ?.closest('[data-slot="app-shell"]')
+      ?.querySelector<HTMLElement>(
+        `[data-slot="app-shell-panel-trigger-anchor"][data-panel="${id}"]`
+      )
+      ?.style.setProperty("--app-shell-panel-trigger-shift", `${width}px`)
+  }
 
   const toDelta = (clientX: number, startX: number) =>
     side === "right" ? startX - clientX : clientX - startX
@@ -1965,7 +2012,7 @@ function AppShellPanelClose({
   children,
   ...props
 }: React.ComponentProps<typeof Button>) {
-  const { label, placement, setOpen } = usePanel()
+  const { label, placement, side, setOpen } = usePanel()
   return (
     <Button
       variant="ghost"
@@ -1977,15 +2024,7 @@ function AppShellPanelClose({
       {...props}
     >
       {children ??
-        (placement === "swap" ? (
-          <IconPlaceholder
-            lucide="ArrowLeftIcon"
-            tabler="IconArrowLeft"
-            hugeicons="ArrowLeft01Icon"
-            phosphor="ArrowLeftIcon"
-            remixicon="RiArrowLeftLine"
-          />
-        ) : (
+        (placement === "drawer" ? (
           <IconPlaceholder
             lucide="XIcon"
             tabler="IconX"
@@ -1993,6 +2032,8 @@ function AppShellPanelClose({
             phosphor="XIcon"
             remixicon="RiCloseLine"
           />
+        ) : (
+          <SidebarToggleIcon open side={side} />
         ))}
     </Button>
   )
@@ -2046,47 +2087,65 @@ function AppShellPanelTrigger({
 }) {
   const panel = useShellPanel(panelId)
   const isPressed = view ? panel.open && panel.view === view : panel.open
+  const anchor = getPanelTriggerAnchor({
+    hasView: view !== undefined,
+    side: panel.side,
+    isFloating: panel.isFloating,
+    open: panel.open,
+    width: panel.width,
+  })
   // A local provider: Radix tooltips need one, and the app may not have it.
   // The button's own data-state wins over the tooltip trigger's.
   return (
-    <TooltipProvider delayDuration={600}>
-      <Tooltip>
-        <TooltipTrigger asChild>
-          <Button
-            variant="ghost"
-            size="icon-sm"
-            aria-label={panel.label}
-            aria-expanded={isPressed}
-            aria-controls={panel.domId}
-            data-slot="app-shell-panel-trigger"
-            data-state={isPressed ? "open" : "closed"}
-            onClick={(event) => {
-              onClick?.(event)
-              if (view) panel.select(view)
-              else panel.toggle()
-            }}
-            className={cn("cn-app-shell-panel-trigger", className)}
-            {...props}
-          >
-            {children ?? (
-              <IconPlaceholder
-                lucide="PanelRightIcon"
-                tabler="IconLayoutSidebarRight"
-                hugeicons="LayoutRightIcon"
-                phosphor="SidebarSimpleIcon"
-                remixicon="RiLayoutRightLine"
-              />
+    <span
+      data-slot="app-shell-panel-trigger-anchor"
+      data-panel={panelId}
+      data-pinned={anchor.isPinned ? "" : undefined}
+      data-state={panel.open ? "open" : "closed"}
+      style={
+        {
+          "--app-shell-panel-trigger-shift": `${anchor.shift}px`,
+        } as React.CSSProperties
+      }
+      className="cn-app-shell-panel-trigger-anchor inline-flex shrink-0"
+    >
+      <TooltipProvider delayDuration={600}>
+        <Tooltip>
+          <TooltipTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon-sm"
+              aria-label={panel.label}
+              aria-expanded={isPressed}
+              aria-controls={panel.domId}
+              data-slot="app-shell-panel-trigger"
+              data-state={isPressed ? "open" : "closed"}
+              data-view={view}
+              onClick={(event) => {
+                onClick?.(event)
+                if (view) panel.select(view)
+                else panel.toggle()
+              }}
+              className={cn("cn-app-shell-panel-trigger", className)}
+              {...props}
+            >
+              {children ?? (
+                <SidebarToggleIcon
+                  open={isPressed}
+                  side={panel.side ?? "right"}
+                />
+              )}
+            </Button>
+          </TooltipTrigger>
+          <TooltipContent>
+            {panel.open ? "Hide" : "Show"} {panel.label.toLowerCase()}
+            {panel.shortcut && (
+              <ShortcutKbd shortcut={{ keys: panel.shortcut }} />
             )}
-          </Button>
-        </TooltipTrigger>
-        <TooltipContent>
-          {panel.open ? "Hide" : "Show"} {panel.label.toLowerCase()}
-          {panel.shortcut && (
-            <ShortcutKbd shortcut={{ keys: panel.shortcut }} />
-          )}
-        </TooltipContent>
-      </Tooltip>
-    </TooltipProvider>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>
+    </span>
   )
 }
 

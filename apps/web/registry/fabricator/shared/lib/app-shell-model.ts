@@ -713,6 +713,35 @@ export function getPanelPlacement({
 
 // MARK: Panels
 
+/** A right panel toggles with ⌘\\ unless it asks otherwise. */
+export function getDefaultPanelShortcut(side: "left" | "right") {
+  return side === "right" ? "mod+\\" : null
+}
+
+/**
+ * Where a panel's toggle sits. A docked right panel's toggle keeps its spot on
+ * screen: it rests at the end of the main header, and moves by exactly what
+ * the main column gives up as the panel opens. Anything else stays put.
+ */
+export function getPanelTriggerAnchor({
+  hasView,
+  side,
+  isFloating,
+  open,
+  width,
+}: {
+  /** The trigger selects one of the views, so several can exist. */
+  hasView: boolean
+  /** null until the panel has registered. */
+  side: "left" | "right" | null
+  isFloating: boolean
+  open: boolean
+  width: number
+}) {
+  const isPinned = !hasView && side === "right" && !isFloating
+  return { isPinned, shift: isPinned && open ? width : 0 }
+}
+
 export type PanelState = { open: boolean; view: string | null; width: number }
 
 /** Shows a view; selecting the view already showing closes the panel. */
@@ -813,6 +842,7 @@ export type ShortcutPlatform = "apple" | "other"
 /** The parts of a keyboard event a shortcut reads (DOM or native). */
 export type ShortcutEvent = {
   code: string
+  key: string
   metaKey: boolean
   ctrlKey: boolean
   altKey: boolean
@@ -852,6 +882,13 @@ const KEY_CODES: Record<string, string> = {
   arrowright: "ArrowRight",
 }
 
+// The one-character keys above are the symbols, which layouts move around.
+const SYMBOLS_BY_CODE: Record<string, string> = Object.fromEntries(
+  Object.entries(KEY_CODES)
+    .filter(([key]) => key.length === 1)
+    .map(([key, code]) => [code, key])
+)
+
 function toCode(key: string) {
   const lower = key.toLowerCase()
   if (KEY_CODES[lower]) return KEY_CODES[lower]
@@ -879,6 +916,27 @@ export function parseShortcut(value: string): Shortcut {
   }
 }
 
+/**
+ * Letters and named keys match by physical position, which survives layouts. A
+ * symbol matches by what it types, because layouts move it (\\ is elsewhere on
+ * Portuguese and Brazilian keyboards), unless Option or Shift changes what the
+ * key types: those chords keep the position.
+ */
+function matchesShortcutKey(event: ShortcutEvent, code: string) {
+  const symbol = SYMBOLS_BY_CODE[code]
+  const typesItsSymbol =
+    !event.altKey && !event.shiftKey && event.key.length === 1
+  return symbol !== undefined && typesItsSymbol
+    ? event.key === symbol
+    : event.code === code
+}
+
+/** A chord types nothing, so it can work while focus is in a text field. */
+export function isChordShortcut(value: string) {
+  const { mod, ctrl, alt, meta } = parseShortcut(value)
+  return mod || ctrl || alt || meta
+}
+
 export function matchesShortcut(
   event: ShortcutEvent,
   shortcut: Shortcut,
@@ -887,7 +945,7 @@ export function matchesShortcut(
   const meta = shortcut.meta || (shortcut.mod && platform === "apple")
   const ctrl = shortcut.ctrl || (shortcut.mod && platform === "other")
   return (
-    event.code === shortcut.code &&
+    matchesShortcutKey(event, shortcut.code) &&
     event.metaKey === meta &&
     event.ctrlKey === ctrl &&
     event.altKey === shortcut.alt &&

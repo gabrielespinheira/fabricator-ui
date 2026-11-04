@@ -136,7 +136,7 @@ AppShell                      SidebarProvider + the shell: layout, panels, short
 └── AppShellStatusBar         optional: a row on the frame under the main column and the panels
 ```
 
-`AppShell` takes the Sidebar's provider props (`defaultOpen`, `open`, `onOpenChange`, `persist`, `shortcut`, `peek`, `widthMobile`) and passes them on. The Sidebar keeps its own API and still works without a shell.
+`AppShell` takes the Sidebar's provider props (`defaultOpen`, `open`, `onOpenChange`, `persist`, `shortcut`, `peek`, `widthMobile`, `mobileSidebar`) and passes them on. The Sidebar keeps its own API and still works without a shell.
 
 ## Examples
 
@@ -166,8 +166,10 @@ The shell measures itself and places each part by the room it has. Before JavaSc
 
 | Shell width  | Sidebar                                         | Panels                                                              | Header                                                              |
 | ------------ | ----------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| under 768px  | a sheet (below a 768px viewport)                | a bottom drawer, the whole screen, or hidden                        | the current page only, actions in a menu, a floating primary action |
+| under 768px  | behind the page (below a 768px viewport)        | a bottom drawer, the whole screen, or hidden                        | the current page only, actions in a menu, a floating primary action |
 | 768px and up | expanded, an icon rail, or off-canvas with peek | docked while the main column keeps 520px, otherwise a sheet over it | full breadcrumb and actions                                         |
+
+On phones the sidebar sits behind the page: opening it moves the page aside and shrinks it, with the rest of the page still in view beside the sidebar. Press the page or drag it back to close. `mobileSidebar="sheet"` slides the sidebar over the page instead.
 
 Change where panels dock or float with `breakpoints` and the main column's minimum with `minMainWidth`; both also set `data-size` on the shell. The header's phone layout (the current page only, actions in a menu) follows a 48rem container query.
 
@@ -201,9 +203,9 @@ Inside the main column and the panels, `--background` is their surface, so anyth
 
 - **Placement.** It docks beside the main column while there is room, and floats as a sheet when there isn't. On phones, `mobile` picks a bottom `drawer` (the default), `swap` (the panel becomes the screen, for list and detail layouts) or `none`.
 - **Views.** `AppShellPanelTabs` renders the `views` as tabs; each `AppShellPanelView` shows one. Below a 360px panel the tabs show their icons only.
-- **Triggers.** `AppShellPanelTrigger panel="inspector"` toggles it. With `view`, the trigger shows that view, and pressing it again while that view shows closes the panel, as an editor's activity bar does.
+- **Triggers.** `AppShellPanelTrigger panel="inspector"` toggles it. Put it last in the header: it stays in the same spot on screen to open and close a docked right panel, sitting over the end of the panel's header while it's open, and `AppShellPanelClose` steps aside in its favour. Sheets and the whole-screen panel keep their close button, in that same spot. With `view`, the trigger shows that view, and pressing it again while that view shows closes the panel, as an editor's activity bar does.
 - **Resize.** Drag the panel's inner edge, or focus it and use the arrow keys (<Kbd>Shift</Kbd> for bigger steps), <Kbd>Home</Kbd> and <Kbd>End</Kbd>. Double-click resets the width. Dragging well past the minimum closes the panel.
-- **Shortcuts.** `shortcut` toggles the panel; each view's `shortcut` shows it.
+- **Shortcuts.** A right panel toggles with <Kbd>⌘\\</Kbd> (<Kbd>Ctrl+\\</Kbd> outside Apple platforms), also while typing in a field. `shortcut` changes it, and `shortcut={null}` turns it off; give each panel its own if two sit on the right. Each view's `shortcut` shows it.
 - **State.** Open, view and width are saved. A floating panel starts closed and its open state isn't saved, so opening it on a phone never changes the docked preference.
 
 Control a panel from anywhere in the shell with `useShellPanel(id)`:
@@ -257,7 +259,7 @@ useShellShortcut({ id: "issues.new", keys: "c", label: "New issue" }, () =>
 )
 ```
 
-- `mod` is <Kbd>⌘</Kbd> on Apple platforms and <Kbd>Ctrl</Kbd> elsewhere. Keys are matched by their physical position, so shortcuts survive keyboard layouts.
+- `mod` is <Kbd>⌘</Kbd> on Apple platforms and <Kbd>Ctrl</Kbd> elsewhere. Letters and named keys are matched by their physical position, so they survive keyboard layouts; symbols like <Kbd>\\</Kbd> by what they type, because layouts move them.
 - Shortcuts don't fire while typing in a field unless `allowInInputs` is set.
 - `webKeys` replaces `keys` in a browser, for keys the browser keeps (<Kbd>⌘T</Kbd>, <Kbd>⌘W</Kbd>, <Kbd>⌘1</Kbd>…<Kbd>⌘9</Kbd>). `webKeys: null` turns a shortcut off in a browser. On desktop (with the `window` prop) `keys` apply.
 - `useShellShortcuts()` lists every registered shortcut with its label, for a command palette, and `useShortcutLabel()` formats one for a tooltip.
@@ -353,7 +355,7 @@ Native apps share the model, not the components. `lib/app-shell-model.ts` instal
 
 Use the same navigation config on web and native, so routes, icons and active-page matching are defined once. `NavItem` takes the icon type as a parameter, so native items carry `lucide-react-native` icons where the web's carry `lucide-react`.
 
-The repository's [`apps/mobile`](https://github.com/gabrielespinheira/fabricator-ui/tree/main/apps/mobile) is an Expo example built this way. On a phone it has a header, bottom tabs, a drawer sidebar and the panel as a native sheet. On an iPad it docks the sidebar and the panel beside the page as cards on the frame, with a status bar.
+The repository's [`apps/mobile`](https://github.com/gabrielespinheira/fabricator-ui/tree/main/apps/mobile) is an Expo example built this way. On a phone it has a header, bottom tabs, the sidebar behind the page and the panel as a native sheet. On an iPad it docks the sidebar and the panel beside the page as cards on the frame, with a status bar. It draws the website's theme from the same sources (surfaces, colour roles, density, radius, motion), resolved for React Native by `getNativeTheme(mode, look)` in `registry/fabricator/native-theme.ts`. That file stays in the repository and isn't a registry item. Its Home and Settings pages offer the website's look settings, and a link such as `fabricator-ui://look?surface=220_0.035&shape=pill` applies a look, with the same params as the [setup page](/create).
 
 ## API Reference
 
@@ -372,24 +374,25 @@ Also takes the Sidebar provider's props and the props of a `<div>`.
 | `breakpoints`   | `{ tablet: number; desktop: number }` | `{ tablet: 768, desktop: 1024 }` |
 | `minMainWidth`  | `number`                              | `520`                            |
 | `shortcutScope` | `"window" \| "focus"`                 | `"window"`                       |
+| `mobileSidebar` | `"reveal" \| "sheet"`                 | `"reveal"`                       |
 
 `AppShellWindow` is `{ controls: "none" | "macos" | "overlay"; isFullscreen?: boolean; trafficLights?: { x: number; y: number }; overlayWidth?: number; isTranslucent?: boolean }`.
 
 ### AppShellPanel
 
-| Prop           | Type                                   | Default    |
-| -------------- | -------------------------------------- | ---------- |
-| `id`           | `string`                               | -          |
-| `label`        | `string`                               | -          |
-| `side`         | `"left" \| "right"`                    | `"right"`  |
-| `views`        | `{ value, label, icon?, shortcut? }[]` | `[]`       |
-| `defaultOpen`  | `boolean`                              | `false`    |
-| `defaultView`  | `string`                               | first view |
-| `defaultWidth` | `number`                               | `320`      |
-| `minWidth`     | `number`                               | `240`      |
-| `maxWidth`     | `number`                               | `640`      |
-| `mobile`       | `"drawer" \| "swap" \| "none"`         | `"drawer"` |
-| `shortcut`     | `string \| null`                       | `null`     |
+| Prop           | Type                                   | Default                              |
+| -------------- | -------------------------------------- | ------------------------------------ |
+| `id`           | `string`                               | -                                    |
+| `label`        | `string`                               | -                                    |
+| `side`         | `"left" \| "right"`                    | `"right"`                            |
+| `views`        | `{ value, label, icon?, shortcut? }[]` | `[]`                                 |
+| `defaultOpen`  | `boolean`                              | `false`                              |
+| `defaultView`  | `string`                               | first view                           |
+| `defaultWidth` | `number`                               | `320`                                |
+| `minWidth`     | `number`                               | `240`                                |
+| `maxWidth`     | `number`                               | `640`                                |
+| `mobile`       | `"drawer" \| "swap" \| "none"`         | `"drawer"`                           |
+| `shortcut`     | `string \| null`                       | `"mod+\\"` on the right, else `null` |
 
 ### AppShellHeader
 
@@ -446,6 +449,7 @@ Also takes the Sidebar provider's props and the props of a `<div>`.
 - A "Skip to content" link leads the shell. The content is focusable, and <Kbd>F6</Kbd> / <Kbd>⇧F6</Kbd> move between the sidebar, the tab strip, the content and open panels.
 - The main column is the `main` landmark, App Nav is a `nav` labelled "Main", a docked panel is an `aside` named by its `label`, and the status bar is the page's `footer`. Floating panels are modal sheets and drawers with a title.
 - A panel trigger has `aria-expanded` and `aria-controls`; its tooltip names the shortcut.
+- While a revealed sidebar is open the page is inert and the sidebar is a labelled modal `dialog`. Focus moves into it and returns to the trigger; Escape, a press on the page beside it, or dragging the page back closes it.
 - A panel's edge is a `separator` with its value, minimum and maximum, resizable from the keyboard.
 - While the page title stands in for the breadcrumb, the hidden trail is `aria-hidden`.
 - Shortcuts never fire while typing unless a shortcut allows it, and keys the browser keeps get browser-safe alternatives.
