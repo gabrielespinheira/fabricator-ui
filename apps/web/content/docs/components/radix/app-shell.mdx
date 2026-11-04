@@ -173,18 +173,26 @@ Change where panels dock or float with `breakpoints` and the main column's minim
 
 ## Surfaces
 
-The main column and the side panels are cards one step up from the frame, on the same surface and with the same edge, so they read as one set apart from the sidebar:
+The app's content sits on the page's own surface: the main column and the side panels are `surface-1`, the lowest step, on web, phones and desktop alike. The frame and the sidebar sit just below them, so the cards read apart from it; in a translucent desktop window the frame is the native material instead. With the inset sidebar, the main column and the panels are cards 6px from the window's edges with one edge: a light hairline in dark mode.
 
-| Region                    | Token               | Default           |
-| ------------------------- | ------------------- | ----------------- |
-| The frame and the sidebar | `--app-shell-frame` | `surface-1`       |
-| The main column           | `--app-shell-main`  | `surface-3`       |
-| Side panels               | `--app-shell-panel` | the main column's |
+| Region                    | Token                     | Default                                                |
+| ------------------------- | ------------------------- | ------------------------------------------------------ |
+| The frame and the sidebar | `--app-shell-frame`       | `surface-1` darkened (4% light, 22% dark)              |
+| The main column           | `--app-shell-main`        | `surface-1`                                            |
+| Side panels               | `--app-shell-panel`       | the main column's                                      |
+| The cards' edge           | `--app-shell-card-shadow` | `shadow-surface-2` (light), a 6% white hairline (dark) |
 
-Inside the main column and the panels, `--background` is their surface, so anything that paints `bg-background` matches the plane it sits on. Set the tokens on the shell to change the steps, with a colour or a surface (never `--background`, which points back at them):
+Inside the main column and the panels, `--background` is their surface, so anything that paints `bg-background` matches the plane it sits on. In light mode, muted text on the frame darkens a step to keep 4.5:1. Set the tokens on the shell to change any of it, with a colour, a surface or a shadow (never `--background`, which points back at them):
 
 ```tsx
-<AppShell style={{ "--app-shell-main": "var(--surface-2)" } as React.CSSProperties}>
+<AppShell
+  style={
+    {
+      "--app-shell-frame": "var(--surface-1)",
+      "--app-shell-main": "var(--surface-3)",
+    } as React.CSSProperties
+  }
+>
 ```
 
 ## Panels
@@ -337,13 +345,15 @@ The material follows the system's appearance; set `nativeTheme.themeSource` to y
 
 Native apps share the model, not the components. `lib/app-shell-model.ts` installs into an Expo project as it is, and holds:
 
-- navigation: `NavItem`, `NavGroup`, `getActiveNavItem`, and the preferences people change (`applyNavPreferences`, `moveNavItem`, `setNavItemHidden`, `setNavItemPinned`)
+- navigation: `NavItem`, `NavGroup`, `getActiveNavItem`, `getNavPath` (breadcrumbs), `getMobileTabItems` (the phone's bottom tabs), and the preferences people change (`applyNavPreferences`, `setNavOpen`, `moveNavItem`, `setNavItemHidden`, `setNavItemPinned`)
 - tabs: `TabStripState` and its operations (`openTab`, `closeTabs`, `moveTab`, `togglePinnedTab`, `reopenClosedTab`…)
 - layout: `getShellSize` and `getPanelPlacement`
 - shortcuts: `parseShortcut`, `matchesShortcut`, `formatShortcut`, for hardware keyboards on iPad
 - breadcrumbs, resize math, and the `ShellStorage` port (pass MMKV or SecureStore)
 
-Use the same navigation config on web and native, so routes, icons and active-page matching are defined once.
+Use the same navigation config on web and native, so routes, icons and active-page matching are defined once. `NavItem` takes the icon type as a parameter, so native items carry `lucide-react-native` icons where the web's carry `lucide-react`.
+
+The repository's [`apps/mobile`](https://github.com/gabrielespinheira/fabricator-ui/tree/main/apps/mobile) is an Expo example built this way. On a phone it has a header, bottom tabs, a drawer sidebar and the panel as a native sheet. On an iPad it docks the sidebar and the panel beside the page as cards on the frame, with a status bar.
 
 ## API Reference
 

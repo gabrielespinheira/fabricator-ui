@@ -1,0 +1,13 @@
+{
+  "extends": "expo/tsconfig.base",
+  "compilerOptions": {
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "paths": {
+      "@fabricator-ui/app-shell-model": [
+        "../web/registry/fabricator/shared/lib/app-shell-model.ts"
+      ]
+    }
+  },
+  "include": ["index.ts", "src"]
+}

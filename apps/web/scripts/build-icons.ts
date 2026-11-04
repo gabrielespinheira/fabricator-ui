@@ -247,6 +247,7 @@ const SITE_ICON_SOURCES = [
   "registry/fabricator",
   "app/(app)/(root)/_components",
   "app/(view)/app-shell",
+  "app/(view)/desktop",
   "components/foundations",
 ]
 

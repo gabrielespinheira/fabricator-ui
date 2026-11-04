@@ -14,6 +14,7 @@ import {
   getActiveNavItem,
   getActiveTab,
   getBreadcrumbsFromPath,
+  getMobileTabItems,
   getNavList,
   getNavPath,
   getNeighbourTab,
@@ -723,5 +724,42 @@ describe("nested navigation", () => {
         toIndex: 0,
       })
     ).toBe(EMPTY_NAV_PREFERENCES)
+  })
+})
+
+describe("getMobileTabItems", () => {
+  it("lists the items marked as phone tabs, at any depth, in order", () => {
+    const navGroups: NavGroup[] = [
+      {
+        id: "main",
+        items: [
+          { id: "home", label: "Home", href: "/", mobile: "tab" },
+          {
+            id: "projects",
+            label: "Projects",
+            children: [
+              { id: "inbox", label: "Inbox", href: "/inbox", mobile: "tab" },
+            ],
+          },
+        ],
+      },
+      {
+        id: "more",
+        items: [
+          { id: "help", label: "Help", href: "/help", mobile: "menu" },
+          {
+            id: "settings",
+            label: "Settings",
+            href: "/settings",
+            mobile: "tab",
+          },
+        ],
+      },
+    ]
+    expect(getMobileTabItems(navGroups).map((item) => item.id)).toEqual([
+      "home",
+      "inbox",
+      "settings",
+    ])
   })
 })

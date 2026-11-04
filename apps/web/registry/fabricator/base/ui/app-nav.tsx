@@ -27,6 +27,7 @@ import {
   EMPTY_NAV_PREFERENCES,
   findNavItem,
   getActiveNavItem,
+  getMobileTabItems,
   getNavList,
   getPinnedNavItems,
   moveNavItem,
@@ -977,7 +978,7 @@ function AppNavCustomize({
 
 // MARK: Bottom bar
 
-/** The items marked `mobile: "tab"`, as the phone tab bar. */
+/** The items marked `mobile: "tab"` (at any depth), as the phone tab bar. */
 function AppNavBottomBar({
   groups,
   pathname = "",
@@ -995,9 +996,7 @@ function AppNavBottomBar({
     activeIdProp === undefined
       ? getActiveNavItem(groups, pathname)
       : activeIdProp
-  const items = groups
-    .flatMap((group) => group.items)
-    .filter((item) => item.mobile === "tab")
+  const items = getMobileTabItems(groups)
   return (
     <AppShellBottomNav className={className} {...props}>
       {items.map((item) => (

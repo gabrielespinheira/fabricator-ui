@@ -68,7 +68,7 @@ function isCategoryFilter(
   return CATEGORIES.some((name) => name === value)
 }
 
-type GalleryItem = {
+export type GalleryItem = {
   /** Component docs slug. */
   slug: string
   title: string
@@ -263,7 +263,8 @@ const ITEMS: GalleryItem[] = [
 ]
 
 // Curated demos first, then every other component with its docs demo.
-const ALL_ITEMS: GalleryItem[] = [
+// Every component with its demo; the desktop example (/desktop) lists them too.
+export const GALLERY_ITEMS: GalleryItem[] = [
   ...ITEMS,
   ...CATALOG.map((entry) => ({
     slug: entry.slug,
@@ -304,7 +305,7 @@ export function Gallery() {
   const [sort, setSort] = React.useState("featured")
 
   const items = React.useMemo(() => {
-    const filtered = ALL_ITEMS.filter(
+    const filtered = GALLERY_ITEMS.filter(
       (item) => category === "All" || getComponentGroup(item.slug) === category
     )
     return sort === "name"

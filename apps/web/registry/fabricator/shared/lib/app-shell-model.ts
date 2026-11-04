@@ -189,6 +189,13 @@ export function findNavItem<TIcon>(groups: NavGroup<TIcon>[], id: string) {
   )
 }
 
+/** The items a phone shows as bottom tabs (`mobile: "tab"`), at any depth. */
+export function getMobileTabItems<TIcon>(groups: NavGroup<TIcon>[]) {
+  return flattenItems(groups.flatMap((group) => group.items)).filter(
+    (item) => item.mobile === "tab"
+  )
+}
+
 /** The item and its ancestors, outermost first (empty when it isn't there). */
 export function getNavPath<TIcon>(
   groups: NavGroup<TIcon>[],
