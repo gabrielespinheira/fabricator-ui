@@ -63,7 +63,7 @@ export function InstallCommand({ packages }: { packages: string[] }) {
         ))}
       </ToggleGroup>
       <div className="flex min-w-0 items-center gap-2 ps-2.5">
-        <code className="min-w-0 flex-1 truncate font-mono text-[13px]">
+        <code className="min-w-0 flex-1 font-mono text-[13px] [overflow-wrap:anywhere]">
           {command}
         </code>
         <Button

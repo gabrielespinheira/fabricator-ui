@@ -35,8 +35,21 @@ export const iconsLockSchema = z.object({
   lucide: z
     .object({ tag: z.string(), sha: z.string(), syncedAt: z.string() })
     .optional(),
+  animated: z
+    .object({ repository: z.string(), sha: z.string(), syncedAt: z.string() })
+    .optional(),
   simpleIcons: z.object({ version: z.string() }).optional(),
   logos: z.object({ version: z.string() }).optional(),
+})
+
+export const animatedMapSchema = z.object({
+  $comment: z.string(),
+  /** Upstream names Lucide draws under another name, beyond Lucide's own aliases. */
+  renames: z.record(z.string(), z.string()),
+  /** Upstream icons that don't ship, with why. */
+  excluded: z.record(z.string(), z.string()),
+  /** Icons that animate an older Lucide drawing; `icons:audit` keeps this honest. */
+  olderDrawings: z.array(z.string()),
 })
 
 export const categorySchema = z.object({ title: z.string() })

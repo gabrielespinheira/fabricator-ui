@@ -154,11 +154,11 @@
     @apply data-dragging:z-10 data-dragging:rounded-lg data-dragging:bg-surface-3 data-dragging:shadow-surface-3 [&>:is([data-sidebar=menu-button],[data-sidebar=menu-sub-button])>:first-child]:transition-opacity [&>:is([data-sidebar=menu-button],[data-sidebar=menu-sub-button])>:first-child]:duration-feedback [&:has(>[data-slot=app-nav-toggle])>:is([data-sidebar=menu-button],[data-sidebar=menu-sub-button]):is(:hover,[data-fluid-hover-active],:focus-visible)>:first-child]:opacity-0 [&:has(>[data-slot=app-nav-toggle]:is(:hover,:focus-visible))>:is([data-sidebar=menu-button],[data-sidebar=menu-sub-button])>:first-child]:opacity-0 pointer-coarse:[&:has(>[data-slot=app-nav-toggle])>:is([data-sidebar=menu-button],[data-sidebar=menu-sub-button])>:first-child]:opacity-0;
   }
 
-  /* The chevron in the icon column: 14px, turned down while open, shown
+  /* The chevron in the icon column: 14px (a 24px target on touch), turned down while open, shown
      with the row's hover, light or focus (always without an icon or on
      touch). */
   .cn-app-nav-toggle {
-    @apply z-10 cursor-pointer rounded-sm text-muted-foreground ring-ring outline-none top-[calc((var(--density-30)-var(--density-icon-16))/2)] start-[calc(var(--density-8)+var(--density-16)*var(--sidebar-menu-depth,0))] size-(--density-icon-16) opacity-0 transition-opacity duration-feedback hover:text-foreground hover:opacity-100 focus-visible:opacity-100 focus-visible:ring-1 peer-hover/menu-button:opacity-100 peer-data-fluid-hover-active/menu-button:opacity-100 peer-focus-visible/menu-button:opacity-100 data-bare:opacity-100 pointer-coarse:opacity-100 in-data-[slot=sidebar-menu-sub]:top-[calc((var(--density-30)-var(--density-icon-14))/2)] in-data-[slot=sidebar-menu-sub]:size-(--density-icon-14) after:absolute after:-inset-1 [&_svg]:size-(--density-icon-14) [&_svg]:stroke-[1.5] [&_svg]:transition-transform [&_svg]:duration-feedback [&_svg]:ease-feedback aria-expanded:[&_svg]:rotate-90 motion-reduce:[&_svg]:transition-none group-data-[collapsible=icon]:hidden;
+    @apply z-10 cursor-pointer rounded-sm text-muted-foreground ring-ring outline-none top-[calc((var(--density-30)-var(--density-icon-16))/2)] start-[calc(var(--density-8)+var(--density-16)*var(--sidebar-menu-depth,0))] size-(--density-icon-16) opacity-0 transition-opacity duration-feedback hover:text-foreground hover:opacity-100 focus-visible:opacity-100 focus-visible:ring-1 peer-hover/menu-button:opacity-100 peer-data-fluid-hover-active/menu-button:opacity-100 peer-focus-visible/menu-button:opacity-100 data-bare:opacity-100 pointer-coarse:opacity-100 in-data-[slot=sidebar-menu-sub]:top-[calc((var(--density-30)-var(--density-icon-14))/2)] in-data-[slot=sidebar-menu-sub]:size-(--density-icon-14) [--app-nav-toggle-target:max(var(--density-24),1.5rem)] pointer-coarse:size-(--app-nav-toggle-target) pointer-coarse:m-[calc((var(--density-icon-16)-var(--app-nav-toggle-target))/2)] pointer-coarse:in-data-[slot=sidebar-menu-sub]:size-(--app-nav-toggle-target) pointer-coarse:in-data-[slot=sidebar-menu-sub]:m-[calc((var(--density-icon-14)-var(--app-nav-toggle-target))/2)] after:absolute after:-inset-1 [&_svg]:size-(--density-icon-14) [&_svg]:stroke-[1.5] [&_svg]:transition-transform [&_svg]:duration-feedback [&_svg]:ease-feedback aria-expanded:[&_svg]:rotate-90 motion-reduce:[&_svg]:transition-none group-data-[collapsible=icon]:hidden;
   }
 
   /* The icon column of a row without an icon. */
@@ -228,7 +228,7 @@
 
      A titlebar row sits above the fixed sidebar, which starts below it. */
   .cn-app-shell {
-    @apply [--app-shell-frame:color-mix(in_oklab,var(--surface-1),black_4%)] dark:[--app-shell-frame:color-mix(in_oklab,var(--surface-1),black_22%)] [--app-shell-main:var(--surface-1)] [--app-shell-panel:var(--app-shell-main)] [--app-shell-card-shadow:var(--shadow-surface-2)] dark:[--app-shell-card-shadow:inset_0_0_0_1px_var(--dm-ring-high),0_1px_2px_oklch(0_0_0/0.24)] [--app-shell-frame-muted:color-mix(in_oklab,var(--muted-foreground),black_10%)] dark:[--app-shell-frame-muted:var(--muted-foreground)] [&_:is([data-slot=sidebar-inner],[data-slot=app-shell-status-bar],[data-slot=app-shell-titlebar])]:[--muted-foreground:var(--app-shell-frame-muted)] data-translucent:not-data-[size=phone]:[--app-shell-frame:transparent] [--app-shell-status-bar-height:0px] has-[[data-slot=app-shell-status-bar]]:not-data-[size=phone]:[--app-shell-status-bar-height:var(--density-36)] [--app-shell-window-toggle-end:calc(max(var(--density-16),var(--app-shell-window-inset-start))+var(--density-28)+var(--density-8))] data-[size=phone]:[--app-shell-window-toggle-end:max(var(--density-12),var(--app-shell-window-inset-start))] [--app-shell-window-row-height:var(--app-shell-titlebar-height)] has-[[data-slot=sidebar][data-variant=inset]]:[--app-shell-window-row-height:max(var(--density-40),calc(var(--app-shell-titlebar-height)-var(--density-16)))] bg-(--app-shell-frame) text-foreground [&_[data-slot=sidebar]:not([data-peeking])_[data-slot=sidebar-inner]]:bg-(--app-shell-frame) [&_[data-slot=sidebar]:not([data-state])]:bg-(--app-shell-frame) data-resizing:select-none data-resizing:[&_*]:transition-none data-window-controls:[&_:is([data-drag-region],[data-slot=sidebar-header])]:[-webkit-app-region:drag] data-window-controls:[&_:is([data-drag-region],[data-slot=sidebar-header])]:[app-region:drag] data-window-controls:[&_:is([data-drag-region],[data-slot=sidebar-header])_:is(button,a,input,textarea,select,[role=button],[role=tab],[data-no-drag])]:[-webkit-app-region:no-drag] data-window-controls:[&_:is([data-drag-region],[data-slot=sidebar-header])_:is(button,a,input,textarea,select,[role=button],[role=tab],[data-no-drag])]:[app-region:no-drag] data-window-controls:[&_[data-state=collapsed][data-collapsible=offcanvas]_[data-slot=sidebar-header]]:[-webkit-app-region:no-drag] data-window-controls:[&_[data-state=collapsed][data-collapsible=offcanvas]_[data-slot=sidebar-header]]:[app-region:no-drag] data-window-controls:not-data-titlebar:[&_[data-slot=sidebar]:not([data-variant=inset],[data-variant=floating])_[data-slot=sidebar-header]]:pt-(--app-shell-titlebar-height) data-window-controls:not-data-titlebar:[&_[data-slot=sidebar]:is([data-variant=inset],[data-variant=floating])_[data-slot=sidebar-header]]:pt-[calc(var(--app-shell-titlebar-height)-var(--density-8))] data-window-controls:not-data-titlebar:[&_[data-slot=sidebar-inner]>[data-slot=sidebar-content]:first-child]:pt-(--app-shell-titlebar-height) data-window-controls:not-data-titlebar:[&:not(:has([data-slot=sidebar][data-state=expanded]))_[data-slot=sidebar-inset]>:first-child]:ps-(--app-shell-window-toggle-end) data-[window-controls=macos]:not-data-titlebar:[&_:is([data-slot=sidebar-inset],[data-slot=app-shell-panel-inner])>:first-child]:h-(--app-shell-window-row-height) data-window-controls:[&_[data-slot=app-shell-window-toggle]>*]:[-webkit-app-region:no-drag] data-window-controls:[&_[data-slot=app-shell-window-toggle]>*]:[app-region:no-drag] data-[window-controls=overlay]:not-data-titlebar:[&:not(:has([data-slot=app-shell-panel][data-side=right][data-state=open]))_[data-slot=sidebar-inset]>:first-child]:pe-(--app-shell-window-inset-end) data-[window-controls=overlay]:not-data-titlebar:[&_[data-slot=app-shell-panel][data-side=right]_[data-slot=app-shell-panel-header]]:pe-(--app-shell-window-inset-end) data-[window-controls=overlay]:not-data-titlebar:[&_:is([data-slot=sidebar-inset],[data-slot=app-shell-panel-inner])>:first-child]:min-h-(--app-shell-titlebar-height) data-titlebar:[&_[data-slot=sidebar-container]]:top-(--app-shell-titlebar-height) data-titlebar:[&_[data-slot=sidebar-container]]:h-[calc(100svh-var(--app-shell-titlebar-height))] data-titlebar:[&_[data-slot=sidebar-peek-strip]]:top-(--app-shell-titlebar-height);
+    @apply [--app-shell-frame:color-mix(in_oklab,var(--surface-1),black_4%)] dark:[--app-shell-frame:color-mix(in_oklab,var(--surface-1),black_22%)] [--app-shell-main:var(--surface-1)] [--app-shell-panel:var(--app-shell-main)] [--app-shell-card-shadow:var(--shadow-surface-2)] dark:[--app-shell-card-shadow:inset_0_0_0_1px_var(--dm-ring-high),0_1px_2px_oklch(0_0_0/0.24)] [--app-shell-frame-muted:color-mix(in_oklab,var(--muted-foreground),black_10%)] dark:[--app-shell-frame-muted:var(--muted-foreground)] [&_:is([data-slot=sidebar-inner],[data-slot=app-shell-status-bar],[data-slot=app-shell-titlebar])]:[--muted-foreground:var(--app-shell-frame-muted)] data-translucent:not-data-[size=phone]:[--app-shell-frame:transparent] [--app-shell-panel-trigger-room:0px] has-[[data-slot=app-shell-panel-trigger-anchor][data-pinned]]:[--app-shell-panel-trigger-room:calc(1.75rem+var(--density-6))] [--app-shell-status-bar-height:0px] has-[[data-slot=app-shell-status-bar]]:not-data-[size=phone]:[--app-shell-status-bar-height:var(--density-36)] [--app-shell-window-toggle-end:calc(max(var(--density-16),var(--app-shell-window-inset-start))+var(--density-28)+var(--density-8))] data-[size=phone]:[--app-shell-window-toggle-end:max(var(--density-12),var(--app-shell-window-inset-start))] [--app-shell-window-row-height:var(--app-shell-titlebar-height)] has-[[data-slot=sidebar][data-variant=inset]]:[--app-shell-window-row-height:max(var(--density-40),calc(var(--app-shell-titlebar-height)-var(--density-16)))] bg-(--app-shell-frame) text-foreground [&_[data-slot=sidebar]:not([data-peeking])_[data-slot=sidebar-inner]]:bg-(--app-shell-frame) [&_[data-slot=sidebar]:not([data-state])]:bg-(--app-shell-frame) data-resizing:select-none data-resizing:[&_*]:transition-none data-window-controls:[&_:is([data-drag-region],[data-slot=sidebar-header])]:[-webkit-app-region:drag] data-window-controls:[&_:is([data-drag-region],[data-slot=sidebar-header])]:[app-region:drag] data-window-controls:[&_:is([data-drag-region],[data-slot=sidebar-header])_:is(button,a,input,textarea,select,[role=button],[role=tab],[data-no-drag])]:[-webkit-app-region:no-drag] data-window-controls:[&_:is([data-drag-region],[data-slot=sidebar-header])_:is(button,a,input,textarea,select,[role=button],[role=tab],[data-no-drag])]:[app-region:no-drag] data-window-controls:[&_[data-state=collapsed][data-collapsible=offcanvas]_[data-slot=sidebar-header]]:[-webkit-app-region:no-drag] data-window-controls:[&_[data-state=collapsed][data-collapsible=offcanvas]_[data-slot=sidebar-header]]:[app-region:no-drag] data-window-controls:not-data-titlebar:[&_[data-slot=sidebar]:not([data-variant=inset],[data-variant=floating])_[data-slot=sidebar-header]]:pt-(--app-shell-titlebar-height) data-window-controls:not-data-titlebar:[&_[data-slot=sidebar]:is([data-variant=inset],[data-variant=floating])_[data-slot=sidebar-header]]:pt-[calc(var(--app-shell-titlebar-height)-var(--density-8))] data-window-controls:not-data-titlebar:[&_[data-slot=sidebar-inner]>[data-slot=sidebar-content]:first-child]:pt-(--app-shell-titlebar-height) data-window-controls:not-data-titlebar:[&:not(:has([data-slot=sidebar][data-state=expanded]))_[data-slot=sidebar-inset]>:first-child]:ps-(--app-shell-window-toggle-end) data-[window-controls=macos]:not-data-titlebar:[&_:is([data-slot=sidebar-inset],[data-slot=app-shell-panel-inner])>:first-child]:h-(--app-shell-window-row-height) data-window-controls:[&_[data-slot=app-shell-window-toggle]>*]:[-webkit-app-region:no-drag] data-window-controls:[&_[data-slot=app-shell-window-toggle]>*]:[app-region:no-drag] data-[window-controls=overlay]:not-data-titlebar:[&:is(:not(:has([data-slot=app-shell-panel][data-side=right][data-state=open])),:has([data-slot=app-shell-panel-trigger-anchor][data-pinned]))_[data-slot=sidebar-inset]>:first-child]:pe-(--app-shell-window-inset-end) data-[window-controls=overlay]:not-data-titlebar:[&_[data-slot=app-shell-panel][data-side=right]_[data-slot=app-shell-panel-header]]:pe-[calc(var(--app-shell-window-inset-end)+var(--app-shell-panel-trigger-room))] data-[window-controls=overlay]:not-data-titlebar:[&_:is([data-slot=sidebar-inset],[data-slot=app-shell-panel-inner])>:first-child]:min-h-(--app-shell-titlebar-height) data-titlebar:[&_[data-slot=sidebar-container]]:top-(--app-shell-titlebar-height) data-titlebar:[&_[data-slot=sidebar-container]]:h-[calc(100svh-var(--app-shell-titlebar-height))] data-titlebar:[&_[data-slot=sidebar-peek-strip]]:top-(--app-shell-titlebar-height);
   }
 
   .cn-app-shell-skip-link {
@@ -239,7 +239,7 @@
      is the room the desktop sidebar takes beside the main column (its gap's
      width in each state), for the status bar to start after it. */
   .cn-app-shell-body {
-    @apply relative has-data-[variant=inset]:bg-transparent [--app-shell-sidebar-gap:0px] md:has-[>[data-slot=sidebar]:not([data-collapsible=offcanvas],[data-collapsible=icon],[data-peeking])]:[--app-shell-sidebar-gap:var(--sidebar-width)] md:has-[>[data-slot=sidebar][data-collapsible=icon][data-variant=sidebar]]:[--app-shell-sidebar-gap:var(--sidebar-width-icon)] md:has-[>[data-slot=sidebar][data-collapsible=icon]:not([data-variant=sidebar])]:[--app-shell-sidebar-gap:calc(var(--sidebar-width-icon)+var(--spacing)*4)];
+    @apply relative has-data-[variant=inset]:bg-transparent data-reveal:bg-transparent [--app-shell-sidebar-gap:0px] md:has-[>[data-slot=sidebar]:not([data-collapsible=offcanvas],[data-collapsible=icon],[data-peeking])]:[--app-shell-sidebar-gap:var(--sidebar-width)] md:has-[>[data-slot=sidebar][data-collapsible=icon][data-variant=sidebar]]:[--app-shell-sidebar-gap:var(--sidebar-width-icon)] md:has-[>[data-slot=sidebar][data-collapsible=icon]:not([data-variant=sidebar])]:[--app-shell-sidebar-gap:calc(var(--sidebar-width-icon)+var(--spacing)*4)];
   }
 
   /* The full-width row above everything. It clears the native controls at
@@ -260,7 +260,7 @@
      --background is that surface, so anything painting bg-background
      matches the plane it sits on. */
   .cn-app-shell-main {
-    @apply isolate mb-(--app-shell-status-bar-height) bg-(--app-shell-main) [--background:var(--app-shell-main)] md:peer-data-[variant=inset]:mt-(--density-6) md:peer-data-[variant=inset]:me-(--density-6) md:peer-data-[variant=inset]:peer-data-[state=collapsed]:ms-(--density-6) md:peer-data-[variant=inset]:mb-[max(var(--density-6),var(--app-shell-status-bar-height))] md:peer-data-[variant=inset]:bg-(--app-shell-main) md:peer-data-[variant=inset]:shadow-(--app-shell-card-shadow)!;
+    @apply isolate has-[[data-slot=app-shell-panel-trigger-anchor][data-pinned]]:z-1 has-[[data-slot=app-shell-panel-trigger-anchor][data-pinned]]:overflow-x-visible has-[[data-slot=app-shell-panel-trigger-anchor][data-pinned]]:overflow-y-clip mb-(--app-shell-status-bar-height) bg-(--app-shell-main) [--background:var(--app-shell-main)] md:peer-data-[variant=inset]:mt-(--density-6) md:peer-data-[variant=inset]:me-(--density-6) md:peer-data-[variant=inset]:peer-data-[state=collapsed]:ms-(--density-6) md:peer-data-[variant=inset]:mb-[max(var(--density-6),var(--app-shell-status-bar-height))] md:peer-data-[variant=inset]:bg-(--app-shell-main) md:peer-data-[variant=inset]:shadow-(--app-shell-card-shadow)!;
   }
 
   /* The header: 48px, a hairline once the content scrolls. */
@@ -323,7 +323,7 @@
 
   /* Reached from the skip link or F6, the content shows an inset ring. */
   .cn-app-shell-content {
-    @apply overscroll-contain focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-inset;
+    @apply rounded-b-[inherit] overscroll-contain focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-inset;
   }
 
   /* The status bar sits on the frame under the main column and the
@@ -341,7 +341,7 @@
      (shadow-surface-3); otherwise a hairline parts them. On phones, `swap`
      makes the panel the screen. */
   .cn-app-shell-panel {
-    @apply mb-(--app-shell-status-bar-height) border-border bg-(--app-shell-panel) [--background:var(--app-shell-panel)] transition-[width,margin,box-shadow] duration-move ease-move data-closed:duration-move-exit data-closed:ease-exit data-[side=left]:border-e data-[side=right]:border-s data-closed:border-transparent data-[placement=swap]:border-0 data-[placement=swap]:bg-(--app-shell-frame) data-[placement=swap]:[--background:var(--app-shell-frame)] motion-reduce:transition-none group-has-data-[variant=inset]/sidebar-wrapper:my-(--density-6) group-has-data-[variant=inset]/sidebar-wrapper:mb-[max(var(--density-6),var(--app-shell-status-bar-height))] group-has-data-[variant=inset]/sidebar-wrapper:rounded-xl group-has-data-[variant=inset]/sidebar-wrapper:border-0 group-has-data-[variant=inset]/sidebar-wrapper:data-[side=left]:border-e-0 group-has-data-[variant=inset]/sidebar-wrapper:data-[side=right]:border-s-0 group-has-data-[variant=inset]/sidebar-wrapper:shadow-(--app-shell-card-shadow) group-has-data-[variant=inset]/sidebar-wrapper:data-[side=right]:me-(--density-6) group-has-data-[variant=inset]/sidebar-wrapper:data-[side=left]:me-(--density-6) group-has-data-[variant=inset]/sidebar-wrapper:data-closed:me-0 group-has-data-[variant=inset]/sidebar-wrapper:data-closed:shadow-none;
+    @apply mb-(--app-shell-status-bar-height) border-border bg-(--app-shell-panel) [--background:var(--app-shell-panel)] transition-[width,margin,border-width,box-shadow] duration-move ease-move data-closed:duration-move-exit data-closed:ease-exit data-[placement=inline]:data-open:data-[side=left]:border-e data-[placement=inline]:data-open:data-[side=right]:border-s data-[placement=swap]:border-0 data-[placement=swap]:bg-(--app-shell-frame) data-[placement=swap]:[--background:var(--app-shell-frame)] motion-reduce:transition-none group-has-data-[variant=inset]/sidebar-wrapper:my-(--density-6) group-has-data-[variant=inset]/sidebar-wrapper:mb-[max(var(--density-6),var(--app-shell-status-bar-height))] group-has-data-[variant=inset]/sidebar-wrapper:rounded-xl group-has-data-[variant=inset]/sidebar-wrapper:border-0 group-has-data-[variant=inset]/sidebar-wrapper:data-[placement=inline]:data-open:data-[side=left]:border-e-0 group-has-data-[variant=inset]/sidebar-wrapper:data-[placement=inline]:data-open:data-[side=right]:border-s-0 group-has-data-[variant=inset]/sidebar-wrapper:shadow-(--app-shell-card-shadow) group-has-data-[variant=inset]/sidebar-wrapper:data-open:me-(--density-6) group-has-data-[variant=inset]/sidebar-wrapper:data-closed:shadow-none;
   }
 
   .cn-app-shell-panel-inner {
@@ -349,7 +349,7 @@
   }
 
   .cn-app-shell-panel-sheet {
-    @apply w-(--app-shell-panel-width) max-w-[calc(100%-var(--density-48))] sm:max-w-[calc(100%-var(--density-48))];
+    @apply [--background:var(--surface-3)] w-(--app-shell-panel-width) max-w-[calc(100%-var(--density-48))] sm:max-w-[calc(100%-var(--density-48))];
   }
 
   .cn-app-shell-panel-drawer {
@@ -362,8 +362,12 @@
     @apply w-2 cursor-col-resize after:absolute after:inset-y-0 after:w-px after:bg-transparent after:transition-colors after:duration-feedback hover:after:bg-foreground/25 focus-visible:after:bg-ring data-dragging:after:bg-foreground/25 data-[side=left]:end-0 data-[side=left]:after:end-0 data-[side=right]:start-0 data-[side=right]:after:start-0;
   }
 
+  /* A docked panel's header leaves room for the toggle pinned over its end.
+     It has the main header's height and hairline, so a button at its end sits
+     where the main header's did. A sheet from the edge has no card gutter, so
+     beside an inset sidebar it takes that distance itself. */
   .cn-app-shell-panel-header {
-    @apply h-(--density-48) gap-(--density-6) px-(--density-12);
+    @apply h-(--density-48) gap-(--density-6) border-b border-transparent px-(--density-12) in-data-[placement=inline]:pe-[calc(var(--density-12)+var(--app-shell-panel-trigger-room))] in-data-[placement=overlay]:in-[:root:has([data-slot=sidebar][data-variant=inset])]:mt-(--density-6) in-data-[placement=overlay]:in-[:root:has([data-slot=sidebar][data-variant=inset])]:pe-[calc(var(--density-12)+var(--density-6))];
   }
 
   .cn-app-shell-panel-title {
@@ -395,12 +399,23 @@
     @apply text-(length:--density-text-13);
   }
 
+  /* Beside a pinned toggle, which closes the panel from the same spot, the
+     panel's own button steps aside. */
   .cn-app-shell-panel-close {
-    @apply ms-auto -me-(--density-4);
+    @apply ms-auto in-data-[placement=inline]:in-[[data-slot=sidebar-wrapper]:has([data-slot=app-shell-panel-trigger-anchor][data-pinned])]:hidden;
   }
 
+  /* The toggle keeps its spot: as a docked panel opens, the main column gives
+     up the panel's width (and the gutter between cards) and the toggle moves
+     back by exactly that, on the panel's own timing. It leaves its header
+     slot, so the header's other actions stay where they are. */
+  .cn-app-shell-panel-trigger-anchor {
+    @apply [--app-shell-panel-trigger-gutter:0px] data-open:group-has-data-[variant=inset]/sidebar-wrapper:[--app-shell-panel-trigger-gutter:var(--density-6)] data-pinned:relative data-pinned:end-[calc(-1*(var(--app-shell-panel-trigger-shift)+var(--app-shell-panel-trigger-gutter)))] transition-[inset-inline-end] duration-move ease-move data-closed:duration-move-exit data-closed:ease-exit motion-reduce:transition-none;
+  }
+
+  /* The glyph shows the state; a fill only marks which view a trigger selects. */
   .cn-app-shell-panel-trigger {
-    @apply data-open:bg-active data-open:text-foreground;
+    @apply data-view:data-open:bg-active data-view:data-open:text-foreground not-data-view:aria-expanded:not-hover:bg-transparent not-data-view:aria-expanded:not-hover:text-muted-foreground;
   }
 
   /* The phone tab bar: icon over label, above the home indicator. */
@@ -2301,8 +2316,28 @@
   }
 
   /* Inset main area: surface 2 with its shadow ring, rounded-xl. */
+  /* The page while the phone sidebar is revealed: it moves aside and shrinks
+     towards the sidebar's edge, on the sheet's timing. Closed it has no
+     transform at all, so it stays a plain containing block. A drag writes
+     --sidebar-reveal-progress and turns the transition off. */
   .cn-sidebar-inset {
-    @apply bg-background md:peer-data-[variant=inset]:bg-surface-2 md:peer-data-[variant=inset]:shadow-surface-2 md:peer-data-[variant=inset]:m-2 md:peer-data-[variant=inset]:ms-0 md:peer-data-[variant=inset]:rounded-xl md:peer-data-[variant=inset]:peer-data-[state=collapsed]:ms-2;
+    @apply bg-background md:peer-data-[variant=inset]:bg-surface-2 md:peer-data-[variant=inset]:shadow-surface-2 md:peer-data-[variant=inset]:m-2 md:peer-data-[variant=inset]:ms-0 md:peer-data-[variant=inset]:rounded-xl md:peer-data-[variant=inset]:peer-data-[state=collapsed]:ms-2 group-data-reveal/sidebar-wrapper:z-10 group-data-reveal/sidebar-wrapper:origin-left group-data-[reveal-side=right]/sidebar-wrapper:origin-right group-data-reveal/sidebar-wrapper:overflow-hidden group-data-reveal/sidebar-wrapper:transition-[transform,border-radius,box-shadow] group-data-reveal/sidebar-wrapper:duration-sheet-exit group-data-reveal/sidebar-wrapper:ease-drawer group-data-[reveal=open]/sidebar-wrapper:duration-sheet group-data-[reveal=open]/sidebar-wrapper:rounded-2xl group-data-[reveal=open]/sidebar-wrapper:shadow-surface-6 group-data-[reveal=open]/sidebar-wrapper:[transform:translateX(calc(var(--sidebar-reveal-width)*var(--sidebar-reveal-direction)*var(--sidebar-reveal-progress,1)))_scale(calc(1-(1-var(--sidebar-reveal-scale))*var(--sidebar-reveal-progress,1)))] group-data-reveal-dragging/sidebar-wrapper:transition-none motion-reduce:transition-none;
+  }
+
+  /* The room a revealed sidebar takes, and how small the page gets beside it.
+     lib/sidebar-reveal holds the same numbers for React Native. */
+  .cn-sidebar-wrapper {
+    @apply [--sidebar-reveal-scale:0.88] [--sidebar-reveal-width:min(var(--sidebar-width-mobile),calc(100%-56px))] [--sidebar-reveal-direction:1] data-[reveal-side=right]:[--sidebar-reveal-direction:-1] data-reveal:relative data-reveal:overflow-hidden data-reveal:bg-sidebar;
+  }
+
+  /* The revealed sidebar: behind the page, drifting a little as it uncovers. */
+  .cn-sidebar-reveal {
+    @apply z-0 w-(--sidebar-reveal-width) opacity-(--sidebar-reveal-opacity) [--sidebar-reveal-amount:0] data-open:[--sidebar-reveal-amount:var(--sidebar-reveal-progress,1)] [--sidebar-reveal-opacity:calc(0.5+0.5*var(--sidebar-reveal-amount))] [transform:translateX(calc(var(--sidebar-reveal-width)*var(--sidebar-reveal-direction)*-0.12*(1-var(--sidebar-reveal-amount))))] transition-[transform,opacity] duration-sheet-exit ease-drawer data-open:duration-sheet data-[side=left]:start-0 data-[side=right]:end-0 group-data-reveal-dragging/sidebar-wrapper:transition-none motion-reduce:transition-none;
+  }
+
+  /* The page in view beside the revealed sidebar: a tap closes, a drag follows. */
+  .cn-sidebar-reveal-close {
+    @apply cursor-pointer focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-inset data-[side=left]:start-(--sidebar-reveal-width) data-[side=left]:end-0 data-[side=right]:start-0 data-[side=right]:end-(--sidebar-reveal-width);
   }
 
   /* The field ladder: transparent at rest, a hover fill with a hairline,

@@ -1,4 +1,5 @@
 import {
+  animatedCatalog,
   brandCatalog,
   outlineCatalog,
   outlineCategories,
@@ -7,7 +8,11 @@ import { searchCatalog } from "./generated/runtime/search.js"
 import type { CatalogEntry, IconSet } from "./generated/runtime/types.js"
 
 /** Every icon and brand mark, with the metadata pickers and search need. */
-export const catalog: CatalogEntry[] = [...outlineCatalog, ...brandCatalog]
+export const catalog: CatalogEntry[] = [
+  ...outlineCatalog,
+  ...brandCatalog,
+  ...animatedCatalog,
+]
 
 /** Searches names, aliases, tags, brand titles and categories, ignoring case and punctuation. */
 export function searchIcons(query: string, options: { set?: IconSet } = {}) {
@@ -22,8 +27,9 @@ export function getIconEntry(name: string, set: IconSet = "outline") {
   )
 }
 
-export { brandCatalog, outlineCatalog, outlineCategories }
+export { animatedCatalog, brandCatalog, outlineCatalog, outlineCategories }
 export type {
+  AnimatedCatalogEntry,
   BrandCatalogEntry,
   CatalogEntry,
   IconCategory,

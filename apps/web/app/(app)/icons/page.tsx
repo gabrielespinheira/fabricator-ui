@@ -7,7 +7,7 @@ import { InstallCommand } from "./_components/install-command"
 
 const title = "Icons"
 const description =
-  "Every Lucide icon under its Lucide name, plus brand marks in one colour or their own, for React, React Native and plain SVG."
+  "Every Lucide icon under its Lucide name, plus brand marks in one colour or their own and animated icons, for React, React Native and plain SVG."
 
 const ogImage = `/og?title=${encodeURIComponent(title)}&description=${encodeURIComponent(description)}`
 
@@ -31,8 +31,12 @@ export default function IconsPage() {
         </h1>
         <p className="max-w-[560px] text-[15px] leading-normal text-balance text-muted-foreground">
           Every Lucide icon under its Lucide name, plus brand marks in one
-          colour or their own. Switching from <code>lucide-react</code> is an
-          import change. Also for{" "}
+          colour or their own and{" "}
+          <Link href="/docs/icons/animated" className={LINK_CLASS}>
+            animated icons
+          </Link>
+          . Switching from <code>lucide-react</code> is an import change. Also
+          for{" "}
           <Link href="/docs/icons/react-native" className={LINK_CLASS}>
             React Native
           </Link>{" "}

@@ -23,6 +23,13 @@ export {
   type ComponentSourceOptions,
 } from "./component-sources"
 export { getBounds, type Bounds } from "./geometry"
+export {
+  AnimatedTransformError,
+  loadAnimatedIcons,
+  transformAnimatedIcon,
+  type AnimatedIcon,
+} from "./animated"
+export { animatedMapSchema, readJson } from "./schemas"
 export { brandsText, licenseText } from "./notices"
 export { getBrandViewBox } from "./runtime/attributes"
 export { diffIconSets, type IconSetDiff } from "./icon-set-diff"

@@ -1,6 +1,7 @@
 import fs from "node:fs"
 import path from "node:path"
 
+import { AnimatedTransformError, loadAnimatedIcons } from "./animated"
 import { contrast, DARK_SURFACE } from "./brand-colors"
 import { SCALE_FLOOR } from "./brand-scale"
 import { loadBrands } from "./brands"
@@ -176,6 +177,23 @@ export function checkDuotone(directory = DUOTONE_SOURCES) {
   return errors
 }
 
+/** Every vendored animated icon must ship under a Lucide name, or say why not. */
+export function checkAnimated() {
+  try {
+    loadAnimatedIcons()
+    return []
+  } catch (error) {
+    if (error instanceof AnimatedTransformError)
+      return [`animated: ${error.message}`]
+    throw error
+  }
+}
+
 export function checkSources() {
-  return [...checkOriginals(), ...checkBrands(), ...checkDuotone()]
+  return [
+    ...checkOriginals(),
+    ...checkBrands(),
+    ...checkDuotone(),
+    ...checkAnimated(),
+  ]
 }

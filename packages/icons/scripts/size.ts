@@ -32,7 +32,34 @@ function measure(label: string, source: string) {
   return gzipSync(output).length
 }
 
+function measureAnimated() {
+  const entry = path.join(scratch, "animated.ts")
+  fs.writeFileSync(
+    entry,
+    `import { BellIcon } from ${JSON.stringify(path.join(root, "src/animated.ts"))}\nconsole.log(BellIcon)\n`
+  )
+  const bundle = (external: string[]) =>
+    gzipSync(
+      execFileSync(
+        process.execPath,
+        [
+          "build",
+          entry,
+          "--minify",
+          "--target=browser",
+          ...external.flatMap((name) => ["--external", name]),
+        ],
+        { cwd: root, encoding: "utf8" }
+      )
+    ).length
+  const react = ["react", "react/jsx-runtime"]
+  console.log(
+    `Animated BellIcon, min+gzip: ${bundle([...react, "motion/react"])} B, plus Motion ${bundle(react)} B in all`
+  )
+}
+
 try {
+  measureAnimated()
   const ours = measure(
     "fabricator",
     `import { HouseIcon } from ${JSON.stringify(path.join(root, "src/index.ts"))}\nconsole.log(HouseIcon)\n`

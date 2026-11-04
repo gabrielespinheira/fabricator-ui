@@ -25,13 +25,14 @@ The Fabricator design language rests on these systems, shipped in the `foundatio
 
 ## Icons
 
-Fabricator Icons: every Lucide icon (2,015, Lucide 1.66.0) under its Lucide name with the same shapes, plus 140 brand marks. Packages: `@fabricator-ui/icons` (React; brands at `@fabricator-ui/icons/brands`, names from data at `/dynamic`, search at `/catalog`), `@fabricator-ui/icons-react-native`, `@fabricator-ui/icons-static` (SVG files, sprites, JSON, strings, and a `fabricator-icons png` command for desktop tray icons). Browse them at https://fabricator-ui.vercel.app/icons.
+Fabricator Icons: every Lucide icon (2,015, Lucide 1.66.0) under its Lucide name with the same shapes, plus 140 brand marks and 447 animated icons. Packages: `@fabricator-ui/icons` (React; brands at `@fabricator-ui/icons/brands`, animated icons at `@fabricator-ui/icons/animated` with Motion, names from data at `/dynamic`, search at `/catalog`), `@fabricator-ui/icons-react-native`, `@fabricator-ui/icons-static` (SVG files, sprites, JSON, strings, and a `fabricator-icons png` command for desktop tray icons). Browse them at https://fabricator-ui.vercel.app/icons.
 
-- [Icons](https://fabricator-ui.vercel.app/docs/icons.md): Every Lucide icon under its Lucide name, plus brand marks in one colour or their own, for React, React Native and plain SVG.
+- [Icons](https://fabricator-ui.vercel.app/docs/icons.md): Every Lucide icon under its Lucide name, plus brand marks in one colour or their own and animated icons, for React, React Native and plain SVG.
 - [React](https://fabricator-ui.vercel.app/docs/icons/react.md): Outline icons and brand marks as React components, with Lucide's props, for web apps and the Electron and Tauri renderers.
 - [React Native](https://fabricator-ui.vercel.app/docs/icons/react-native.md): The same icons and brand marks for React Native and Expo, drawn with react-native-svg, following light and dark mode.
 - [Static and desktop](https://fabricator-ui.vercel.app/docs/icons/static.md): SVG files, sprites, JSON and SVG strings for any framework, and PNG tray and menu icons for Electron and Tauri.
-- [Brands](https://fabricator-ui.vercel.app/docs/icons/brands.md): 108 brand marks in one colour or their own, never redrawn, with their sources, licences and guidelines.
+- [Brands](https://fabricator-ui.vercel.app/docs/icons/brands.md): 140 brand marks in one colour or their own, never redrawn, with their sources, licences and guidelines.
+- [Animated](https://fabricator-ui.vercel.app/docs/icons/animated.md): 447 Lucide icons that animate on hover, with the same names and props as the outline icons, built on Motion.
 
 ## Installation
 

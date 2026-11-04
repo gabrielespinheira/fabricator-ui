@@ -1,4 +1,5 @@
 import type {
+  AnimatedCatalogEntry,
   BrandCatalogEntry,
   OutlineCatalogEntry,
 } from "@fabricator-ui/icons/catalog"
@@ -11,6 +12,7 @@ import {
   getImportLine,
   getInstallCommand,
   getJsxSnippet,
+  getPackages,
   toComponentName,
   toReactAttributes,
 } from "./icons"
@@ -40,6 +42,49 @@ const github: BrandCatalogEntry = {
   source: "Simple Icons",
   license: "CC0-1.0",
 }
+
+const animatedBell: AnimatedCatalogEntry = {
+  name: "bell",
+  set: "animated",
+  aliases: [],
+  categories: ["notifications"],
+  tags: [],
+}
+
+describe("animated icons", () => {
+  it("import from their own entry, under the same name", () => {
+    expect(getImportLine(animatedBell)).toBe(
+      'import { BellIcon } from "@fabricator-ui/icons/animated"'
+    )
+  })
+
+  it("take the same props as outline icons in a snippet", () => {
+    expect(
+      getJsxSnippet(animatedBell, {
+        size: 16,
+        strokeWidth: 1.5,
+        brandColor: true,
+      })
+    ).toBe("<BellIcon size={16} strokeWidth={1.5} />")
+  })
+
+  it("need Motion installed, which the other sets don't", () => {
+    expect(getPackages("animated")).toEqual(["@fabricator-ui/icons", "motion"])
+    expect(getPackages("outline")).toEqual(["@fabricator-ui/icons"])
+    expect(getPackages("brands")).toEqual(["@fabricator-ui/icons"])
+  })
+
+  it("filter by Lucide's categories, counted within their own set", () => {
+    const titles = [{ name: "notifications", title: "Notifications" }]
+    expect(
+      getCategoryOptions([animatedBell, house], titles, "animated")
+    ).toEqual([{ value: "notifications", label: "Notifications", count: 1 }])
+    expect(filterByCategory([animatedBell], "notifications")).toEqual([
+      animatedBell,
+    ])
+    expect(filterByCategory([animatedBell], "home")).toEqual([])
+  })
+})
 
 describe("snippets", () => {
   it("names components the way the package exports them", () => {

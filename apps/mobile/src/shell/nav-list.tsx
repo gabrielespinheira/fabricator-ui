@@ -9,7 +9,7 @@ import {
 import { ChevronRightIcon, type LucideIcon } from "lucide-react-native"
 import { Pressable, StyleSheet, Text, View } from "react-native"
 
-import { SIZE, type Theme } from "../theme"
+import { FONT, useStyles, useTheme, type Theme } from "../theme"
 
 type NativeNavItem = NavItem<LucideIcon>
 
@@ -18,14 +18,14 @@ type NavContext = {
   preferences: NavPreferences
   setOpen: (id: string, open: boolean) => void
   onNavigate: (item: NativeNavItem) => void
-  theme: Theme
 }
 
 /**
  * App Nav on native views: the model's groups and rows, nested to any depth.
- * The top-level row holding the page is raised (the active fill with a
- * hairline edge); a nested page sits on a wash. Rows with children open from their trailing chevron, the iOS place
- * for a disclosure; a row without a page opens from anywhere on it.
+ * The top-level row holding the page is raised (the active fill and the
+ * selection's shadow); a nested page sits on a wash. Rows with children open
+ * from a trailing chevron, always visible because touch has no hover; a row
+ * without a page opens from anywhere on it.
  */
 export function NavList({
   groups,
@@ -33,14 +33,12 @@ export function NavList({
   preferences,
   onPreferencesChange,
   onNavigate,
-  theme,
 }: {
   groups: NavGroup<LucideIcon>[]
   activeId: string | null
   preferences: NavPreferences
   onPreferencesChange: (preferences: NavPreferences) => void
   onNavigate: (item: NativeNavItem) => void
-  theme: Theme
 }) {
   const context: NavContext = {
     activeId,
@@ -48,10 +46,9 @@ export function NavList({
     setOpen: (id, open) =>
       onPreferencesChange(setNavOpen(preferences, id, open)),
     onNavigate,
-    theme,
   }
   return (
-    <View role="navigation" aria-label="Main" style={styles.list}>
+    <View role="navigation" aria-label="Main">
       {applyNavPreferences(groups, preferences).map((group) => (
         <NavGroupSection key={group.id} group={group} context={context} />
       ))}
@@ -72,7 +69,7 @@ function Chevron({
     <ChevronRightIcon
       size={size}
       color={color}
-      strokeWidth={1.75}
+      strokeWidth={1.5}
       style={{ transform: [{ rotate: isOpen ? "90deg" : "0deg" }] }}
     />
   )
@@ -85,7 +82,9 @@ function NavGroupSection({
   group: NavGroup<LucideIcon>
   context: NavContext
 }) {
-  const { preferences, setOpen, theme } = context
+  const theme = useTheme()
+  const styles = useStyles(buildStyles)
+  const { preferences, setOpen } = context
   const canCollapse = Boolean(group.collapsible && group.label)
   const isOpen = preferences.open[group.id] ?? group.defaultOpen ?? true
   return (
@@ -98,18 +97,23 @@ function NavGroupSection({
           accessibilityState={canCollapse ? { expanded: isOpen } : undefined}
           style={styles.groupHeader}
         >
-          <Text style={[styles.groupLabel, { color: theme.mutedOnFrame }]}>
-            {group.label}
-          </Text>
+          <Text style={styles.groupLabel}>{group.label}</Text>
           {canCollapse && (
-            <Chevron isOpen={isOpen} size={14} color={theme.mutedOnFrame} />
+            <Chevron
+              isOpen={isOpen}
+              size={theme.icon[14]}
+              color={theme.colors.mutedOnFrame}
+            />
           )}
         </Pressable>
       )}
-      {isOpen &&
-        group.items.map((item) => (
-          <NavRow key={item.id} item={item} depth={0} context={context} />
-        ))}
+      {isOpen && (
+        <View style={styles.rows}>
+          {group.items.map((item) => (
+            <NavRow key={item.id} item={item} depth={0} context={context} />
+          ))}
+        </View>
+      )}
     </View>
   )
 }
@@ -123,7 +127,9 @@ function NavRow({
   depth: number
   context: NavContext
 }) {
-  const { activeId, preferences, setOpen, onNavigate, theme } = context
+  const theme = useTheme()
+  const styles = useStyles(buildStyles)
+  const { activeId, preferences, setOpen, onNavigate } = context
   const children = item.children ?? []
   const hasChildren = children.length > 0
   const isCurrent = item.id === activeId
@@ -136,15 +142,15 @@ function NavRow({
   const isLit = isRaised || isCurrent
   const toggle = () => setOpen(item.id, !isOpen)
   const Icon = item.icon
-  const iconSize = depth === 0 ? SIZE.icon : SIZE.nestedIcon
+  const iconSize = depth === 0 ? theme.icon[16] : theme.icon[14]
 
   return (
-    <View>
+    <View style={styles.rows}>
       <View>
         <Pressable
           onPress={item.href || !hasChildren ? () => onNavigate(item) : toggle}
           disabled={item.disabled}
-          accessibilityRole={item.href ? "link" : "button"}
+          accessibilityRole="button"
           accessibilityState={{
             selected: isCurrent,
             disabled: item.disabled,
@@ -153,22 +159,21 @@ function NavRow({
           style={({ pressed }) => [
             styles.row,
             {
-              paddingLeft: 10 + depth * SIZE.indent,
-              paddingRight: hasChildren ? 44 : 12,
+              paddingLeft: theme.space[8] + depth * theme.space[16],
+              paddingRight: hasChildren ? theme.space[36] : theme.space[8],
             },
-            isRaised && {
-              backgroundColor: theme.active,
-              borderColor: theme.cardEdge,
-            },
-            !isRaised && isCurrent && { backgroundColor: theme.wash },
-            pressed && { backgroundColor: theme.hover },
+            isRaised && styles.rowRaised,
+            !isRaised && isCurrent && styles.rowCurrent,
+            pressed && styles.rowPressed,
           ]}
         >
           {Icon ? (
             <Icon
               size={iconSize}
-              strokeWidth={1.75}
-              color={isLit ? theme.foreground : theme.muted}
+              strokeWidth={isLit ? 2 : 1.5}
+              color={
+                isLit ? theme.colors.foreground : theme.colors.mutedOnFrame
+              }
             />
           ) : (
             <View style={{ width: iconSize }} />
@@ -179,17 +184,22 @@ function NavRow({
               styles.label,
               {
                 color: isLit
-                  ? theme.foreground
+                  ? theme.colors.foreground
                   : depth === 0
-                    ? theme.foregroundSoft
-                    : theme.muted,
+                    ? theme.colors.foregroundSoft
+                    : theme.colors.mutedOnFrame,
               },
             ]}
           >
             {item.label}
           </Text>
           {item.badge !== undefined && (
-            <Text style={[styles.badge, { color: theme.mutedOnFrame }]}>
+            <Text
+              style={[
+                styles.badge,
+                isLit && { color: theme.colors.foreground },
+              ]}
+            >
               {item.badge}
             </Text>
           )}
@@ -203,61 +213,84 @@ function NavRow({
             accessibilityState={{ expanded: isOpen }}
             style={({ pressed }) => [
               styles.disclosure,
-              pressed && { backgroundColor: theme.hover },
+              pressed && styles.rowPressed,
             ]}
           >
-            <Chevron isOpen={isOpen} size={16} color={theme.muted} />
+            <Chevron
+              isOpen={isOpen}
+              size={theme.icon[14]}
+              color={theme.colors.mutedOnFrame}
+            />
           </Pressable>
         )}
       </View>
-      {isOpen && (
-        <View style={styles.children}>
-          {children.map((child) => (
-            <NavRow
-              key={child.id}
-              item={child}
-              depth={depth + 1}
-              context={context}
-            />
-          ))}
-        </View>
-      )}
+      {isOpen &&
+        children.map((child) => (
+          <NavRow
+            key={child.id}
+            item={child}
+            depth={depth + 1}
+            context={context}
+          />
+        ))}
     </View>
   )
 }
 
-const styles = StyleSheet.create({
-  list: { gap: 8 },
-  group: { gap: 2 },
-  groupHeader: {
-    height: 28,
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 2,
-    paddingHorizontal: 10,
-    marginBottom: 2,
-  },
-  groupLabel: { fontSize: SIZE.caption, fontWeight: "500" },
-  row: {
-    height: SIZE.row,
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 10,
-    borderRadius: SIZE.rowRadius,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: "transparent",
-  },
-  label: { flex: 1, fontSize: SIZE.text },
-  badge: { fontSize: SIZE.small, fontVariant: ["tabular-nums"] },
-  disclosure: {
-    position: "absolute",
-    right: 4,
-    top: (SIZE.row - 32) / 2,
-    width: 32,
-    height: 32,
-    borderRadius: 8,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  children: { gap: 2, paddingTop: 2 },
-})
+const ROW_GAP = 2
+
+const buildStyles = (theme: Theme) =>
+  StyleSheet.create({
+    group: {
+      paddingHorizontal: theme.space[8],
+      paddingVertical: theme.space[4],
+    },
+    groupHeader: {
+      height: theme.space[24],
+      marginBottom: theme.space[4],
+      paddingHorizontal: theme.space[8],
+      flexDirection: "row",
+      alignItems: "center",
+      gap: theme.space[4],
+    },
+    groupLabel: {
+      fontFamily: FONT.medium,
+      fontSize: theme.text[12],
+      color: theme.colors.mutedOnFrame,
+    },
+    rows: { gap: ROW_GAP },
+    row: {
+      height: theme.space[30],
+      flexDirection: "row",
+      alignItems: "center",
+      gap: theme.space[8],
+      borderRadius: theme.radius.lg,
+    },
+    rowRaised: {
+      backgroundColor: theme.colors.active,
+      boxShadow: theme.shadows.selection,
+    },
+    rowCurrent: { backgroundColor: theme.colors.wash },
+    rowPressed: { backgroundColor: theme.colors.hover },
+    label: {
+      flex: 1,
+      fontFamily: FONT.regular,
+      fontSize: theme.text[13],
+    },
+    badge: {
+      fontFamily: FONT.regular,
+      fontSize: theme.text[12],
+      fontVariant: ["tabular-nums"],
+      color: theme.colors.mutedOnFrame,
+    },
+    disclosure: {
+      position: "absolute",
+      right: theme.space[4],
+      top: (theme.space[30] - theme.space[28]) / 2,
+      width: theme.space[28],
+      height: theme.space[28],
+      borderRadius: theme.radius.md,
+      alignItems: "center",
+      justifyContent: "center",
+    },
+  })

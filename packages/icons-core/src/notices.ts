@@ -3,7 +3,7 @@ import path from "node:path"
 
 import { loadBrands } from "./brands"
 import { readLock } from "./lock"
-import { BRAND_SOURCES, LUCIDE_SOURCES } from "./paths"
+import { ANIMATED_SOURCES, BRAND_SOURCES, LUCIDE_SOURCES } from "./paths"
 import { allowlistSchema, readJson } from "./schemas"
 
 const MIT = `MIT License
@@ -29,20 +29,33 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.`
 
 /** The package licence: MIT for Fabricator's code, Lucide's ISC (and Feather's MIT) for the icons. */
-export function licenseText() {
+export function licenseText({ animated = false } = {}) {
   const lucide = fs
     .readFileSync(path.join(LUCIDE_SOURCES, "LICENSE"), "utf8")
     .trim()
-  const tag = readLock().lucide?.tag ?? "unknown"
-  return `${MIT}
+  const { lucide: lucideLock, animated: animatedLock } = readLock()
+  const notice = `${MIT}
 
 ---
 
-The outline icons come from Lucide ${tag} (https://lucide.dev), used under
+The outline icons come from Lucide ${lucideLock?.tag ?? "unknown"} (https://lucide.dev), used under
 its licence, reproduced below. Brand marks are not covered by either licence:
 see BRANDS.md.
 
 ${lucide}
+`
+  if (!animated) return notice
+  const license = fs
+    .readFileSync(path.join(ANIMATED_SOURCES, "LICENSE"), "utf8")
+    .trim()
+  return `${notice}
+---
+
+The animations in the \`/animated\` entry come from lucide-animated
+(https://lucide-animated.com, ${animatedLock?.sha.slice(0, 7) ?? "unknown"}), used under its licence, reproduced
+below.
+
+${license}
 `
 }
 

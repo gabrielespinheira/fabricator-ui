@@ -40,6 +40,14 @@ It prints what was added, changed, aliased and removed. Then run `bun run test` 
 
 Marks are never redrawn: the only change allowed is the uniform scale.
 
+## Animated icons
+
+Don't edit `sources/animated/`: it's vendored from [lucide-animated](https://lucide-animated.com). To update it:
+
+1. Run `bun run icons:animated --ref <sha>`, then `bun run icons:check`.
+2. A new upstream icon must take a Lucide name. If its name isn't one, add it to `renames` in `sources/animated.json`, or to `excluded` with the reason.
+3. Run `bun run icons:audit`. It opens every icon in Chrome and fails when hover or a ref does nothing, an icon doesn't return to rest, reduced motion is ignored, or an icon at rest differs from the outline icon without being listed in `olderDrawings`. It also runs after a Lucide upgrade, since the generator gives each icon our current geometry where the parts line up.
+
 ## Duotone
 
 Add `sources/duotone/<name>.svg`: the outline icon unchanged, plus one `<g id="secondary">` of closed shapes inset from the outline by at least half a stroke. The icon must still read with the layer hidden. `bun run icons:check` enforces the structure.

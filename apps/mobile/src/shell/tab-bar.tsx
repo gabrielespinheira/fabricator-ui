@@ -7,7 +7,7 @@ import {
 import type { LucideIcon } from "lucide-react-native"
 import { Pressable, StyleSheet, Text, View } from "react-native"
 
-import { SIZE, type Theme } from "../theme"
+import { FONT, useStyles, useTheme, type Theme } from "../theme"
 
 /** The phone's bottom tabs: the items marked `mobile: "tab"`, as on the web. */
 export function TabBar({
@@ -15,47 +15,38 @@ export function TabBar({
   activeId,
   onNavigate,
   insetBottom,
-  theme,
 }: {
   groups: NavGroup<LucideIcon>[]
   activeId: string | null
   onNavigate: (item: NavItem<LucideIcon>) => void
   insetBottom: number
-  theme: Theme
 }) {
+  const theme = useTheme()
+  const styles = useStyles(buildStyles)
   return (
     <View
-      role="tablist"
-      style={[
-        styles.bar,
-        {
-          paddingBottom: insetBottom,
-          backgroundColor: theme.main,
-          borderTopColor: theme.border,
-        },
-      ]}
+      accessibilityRole="tabbar"
+      style={[styles.bar, { paddingBottom: insetBottom }]}
     >
       {getMobileTabItems(groups).map((item) => {
         const isActive = containsNavItem(item, activeId)
-        const color = isActive ? theme.foreground : theme.muted
         const Icon = item.icon
         return (
           <Pressable
             key={item.id}
             onPress={() => onNavigate(item)}
-            role="tab"
+            accessibilityRole="button"
             accessibilityState={{ selected: isActive }}
             style={styles.item}
           >
             {Icon && (
-              <Icon size={22} color={color} strokeWidth={isActive ? 2 : 1.75} />
+              <Icon
+                size={theme.icon[16]}
+                color={isActive ? theme.colors.foreground : theme.colors.muted}
+                strokeWidth={isActive ? 2 : 1.5}
+              />
             )}
-            <Text
-              style={[
-                styles.label,
-                { color, fontWeight: isActive ? "600" : "400" },
-              ]}
-            >
+            <Text style={[styles.label, isActive && styles.labelActive]}>
               {item.label}
             </Text>
           </Pressable>
@@ -65,17 +56,28 @@ export function TabBar({
   )
 }
 
-const styles = StyleSheet.create({
-  bar: {
-    flexDirection: "row",
-    borderTopWidth: StyleSheet.hairlineWidth,
-  },
-  item: {
-    flex: 1,
-    height: SIZE.tabBar,
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 3,
-  },
-  label: { fontSize: 11 },
-})
+const buildStyles = (theme: Theme) =>
+  StyleSheet.create({
+    bar: {
+      flexDirection: "row",
+      borderTopWidth: 1,
+      borderTopColor: theme.colors.border,
+      backgroundColor: theme.colors.main,
+    },
+    item: {
+      flex: 1,
+      minHeight: theme.space[48],
+      alignItems: "center",
+      justifyContent: "center",
+      gap: theme.space[4],
+    },
+    label: {
+      fontFamily: FONT.regular,
+      fontSize: theme.text[11],
+      color: theme.colors.muted,
+    },
+    labelActive: {
+      fontFamily: FONT.semibold,
+      color: theme.colors.foreground,
+    },
+  })

@@ -35,8 +35,14 @@ import {
 import {
   filterByCategory,
   getCategoryOptions,
+  toComponentName,
   toReactAttributes,
 } from "../lib/icons"
+import {
+  AnimatedIconView,
+  useAnimatedComponents,
+  type AnimatedComponents,
+} from "./animated-icon-view"
 import { IconDetail } from "./icon-detail"
 import {
   IconPreview,
@@ -44,7 +50,7 @@ import {
   type PreviewOptions,
 } from "./icon-preview"
 
-const SETS = ["outline", "brands"] as const
+const SETS = ["outline", "brands", "animated"] as const
 const SIZES = [16, 20, 24] as const
 const STROKES = [1.5, 2] as const
 const COLORS = ["mono", "brand"] as const
@@ -106,6 +112,17 @@ function joinLibrary(catalog: typeof Catalog, nodes: typeof Nodes): Library {
       source: { set: "brands", name: entry.name, data: brand },
     })
   }
+  for (const entry of catalog.animatedCatalog) {
+    const node = nodes.outlineNodes[entry.name]
+    if (!node)
+      throw new MissingShapesError(`No shapes for the ${entry.name} icon`)
+    icons.set(key("animated", entry.name), {
+      set: "animated",
+      entry,
+      data: { name: entry.name, node: toReactAttributes(node) },
+      source: { set: "outline", node },
+    })
+  }
   const categoryTitles = new Map(
     catalog.outlineCategories.map((category) => [category.name, category.title])
   )
@@ -134,20 +151,41 @@ const IconCell = React.memo(function IconCell({
   icon,
   options,
   onSelect,
+  animated,
 }: {
   icon: LoadedIcon
   options: PreviewOptions
   onSelect: (name: string) => void
+  /** Empty until the animated icons load; the outline drawing stands in. */
+  animated?: AnimatedComponents | null
 }) {
+  const [isActive, setIsActive] = React.useState(false)
   const label = icon.set === "brands" ? icon.entry.title : icon.entry.name
+  const moving =
+    icon.set === "animated"
+      ? animated?.get(toComponentName(icon.entry.name))
+      : undefined
   return (
     <li className="[contain-intrinsic-size:auto_96px] [content-visibility:auto]">
       <button
         type="button"
         onClick={() => onSelect(icon.entry.name)}
+        onMouseEnter={() => setIsActive(true)}
+        onMouseLeave={() => setIsActive(false)}
+        onFocus={() => setIsActive(true)}
+        onBlur={() => setIsActive(false)}
         className="flex h-24 w-full flex-col items-center justify-center gap-2.5 rounded-xl px-1 text-foreground outline-none hover:bg-hover focus-visible:ring-1 focus-visible:ring-focus-ring active:bg-active"
       >
-        <IconPreview icon={icon} {...options} />
+        {moving ? (
+          <AnimatedIconView
+            component={moving}
+            isPlaying={isActive}
+            size={options.size}
+            strokeWidth={options.strokeWidth}
+          />
+        ) : (
+          <IconPreview icon={icon} {...options} />
+        )}
         <span className="w-full truncate text-center text-[11px] text-muted-foreground">
           {label}
         </span>
@@ -200,6 +238,7 @@ function NumberToggle<Value extends number>({
 export function IconsBrowser() {
   const library = useLibrary()
   const [params, setParams] = useQueryStates(iconParsers)
+  const animated = useAnimatedComponents(params.set === "animated")
   const options: PreviewOptions = {
     size: params.size,
     strokeWidth: params.stroke,
@@ -241,6 +280,7 @@ export function IconsBrowser() {
     ? {
         outline: library.catalog.outlineCatalog.length,
         brands: library.catalog.brandCatalog.length,
+        animated: library.catalog.animatedCatalog.length,
       }
     : undefined
   const categoryItems = [
@@ -298,6 +338,13 @@ export function IconsBrowser() {
             Brands
             {counts && <span className="tabular-nums">{counts.brands}</span>}
           </ToggleGroupItem>
+          <ToggleGroupItem
+            value="animated"
+            className="gap-1.5 rounded-md! px-3"
+          >
+            Animated
+            {counts && <span className="tabular-nums">{counts.animated}</span>}
+          </ToggleGroupItem>
         </ToggleGroup>
         <Select
           items={categoryItems}
@@ -328,7 +375,7 @@ export function IconsBrowser() {
             onValueChange={(size) => void setParams({ size })}
             format={(size) => `${size}px`}
           />
-          {params.set === "outline" ? (
+          {params.set !== "brands" ? (
             <NumberToggle
               label="Stroke width"
               values={STROKES}
@@ -395,6 +442,7 @@ export function IconsBrowser() {
                 icon={icon}
                 options={options}
                 onSelect={select}
+                animated={icon.set === "animated" ? animated : undefined}
               />
             ))}
           </ul>
@@ -413,6 +461,7 @@ export function IconsBrowser() {
               icon={selected}
               options={options}
               categoryTitles={library.categoryTitles}
+              animated={animated}
             />
           )}
         </SheetContent>

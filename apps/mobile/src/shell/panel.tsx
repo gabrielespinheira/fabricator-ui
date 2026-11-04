@@ -1,58 +1,10 @@
-import { XIcon } from "lucide-react-native"
-import { Modal, Pressable, StyleSheet, Text, View } from "react-native"
+import { Modal, StyleSheet, Text, View } from "react-native"
 
 import { PANEL_VIEWS } from "../nav"
-import { SIZE, type Theme } from "../theme"
+import { FONT, useStyles, useTheme, type Theme } from "../theme"
 import { IconButton } from "./icon-button"
-
-/** The panel's views as a segmented control, Fabricator's tab track. */
-function ViewTabs({
-  view,
-  onViewChange,
-  theme,
-}: {
-  view: string | null
-  onViewChange: (view: string) => void
-  theme: Theme
-}) {
-  return (
-    <View
-      role="tablist"
-      style={[styles.track, { backgroundColor: theme.hover }]}
-    >
-      {PANEL_VIEWS.map((entry) => {
-        const isActive = entry.value === view
-        return (
-          <Pressable
-            key={entry.value}
-            role="tab"
-            accessibilityState={{ selected: isActive }}
-            onPress={() => onViewChange(entry.value)}
-            style={[
-              styles.tab,
-              isActive && [
-                styles.tabActive,
-                { backgroundColor: theme.popover, borderColor: theme.cardEdge },
-              ],
-            ]}
-          >
-            <Text
-              style={[
-                styles.tabLabel,
-                {
-                  color: isActive ? theme.foreground : theme.muted,
-                  fontWeight: isActive ? "600" : "500",
-                },
-              ]}
-            >
-              {entry.label}
-            </Text>
-          </Pressable>
-        )
-      })}
-    </View>
-  )
-}
+import { SegmentedControl } from "./segmented-control"
+import { SidebarToggleIcon } from "./sidebar-toggle-icon"
 
 const BODIES: Record<string, (title: string) => string> = {
   details: (title) =>
@@ -67,31 +19,42 @@ export function PanelContent({
   view,
   onViewChange,
   onClose,
-  theme,
+  isDocked,
 }: {
   title: string
   view: string | null
   onViewChange: (view: string) => void
   onClose: () => void
-  theme: Theme
+  /** Docked, the shell's toggle stays over this header's end and closes it. */
+  isDocked: boolean
 }) {
+  const theme = useTheme()
+  const styles = useStyles(buildStyles)
   const body = BODIES[view ?? "details"] ?? BODIES.details
   return (
     <View style={styles.panel}>
       <View style={styles.header}>
-        <ViewTabs view={view} onViewChange={onViewChange} theme={theme} />
-        <IconButton
-          icon={XIcon}
-          label="Close the panel"
-          onPress={onClose}
-          theme={theme}
+        <SegmentedControl
+          label="Panel view"
+          options={PANEL_VIEWS}
+          value={view}
+          onChange={onViewChange}
         />
+        {isDocked ? (
+          <View style={styles.toggleSlot} />
+        ) : (
+          <IconButton label="Close the panel" onPress={onClose} isExpanded>
+            <SidebarToggleIcon
+              isOpen
+              side="right"
+              background={theme.colors.panel}
+            />
+          </IconButton>
+        )}
       </View>
       <View style={styles.body}>
-        <Text style={[styles.title, { color: theme.foreground }]}>{title}</Text>
-        <Text style={[styles.text, { color: theme.muted }]}>
-          {body?.(title)}
-        </Text>
+        <Text style={styles.title}>{title}</Text>
+        <Text style={styles.text}>{body?.(title)}</Text>
       </View>
     </View>
   )
@@ -101,14 +64,13 @@ export function PanelContent({
 export function PanelSheet({
   isOpen,
   onClose,
-  theme,
   children,
 }: {
   isOpen: boolean
   onClose: () => void
-  theme: Theme
   children: React.ReactNode
 }) {
+  const styles = useStyles(buildStyles)
   return (
     <Modal
       visible={isOpen}
@@ -116,46 +78,42 @@ export function PanelSheet({
       animationType="slide"
       onRequestClose={onClose}
     >
-      <View style={[styles.sheet, { backgroundColor: theme.main }]}>
-        {children}
-      </View>
+      <View style={styles.sheet}>{children}</View>
     </Modal>
   )
 }
 
-const styles = StyleSheet.create({
-  panel: { flex: 1 },
-  header: {
-    height: SIZE.header,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    paddingHorizontal: 8,
-  },
-  track: {
-    flexDirection: "row",
-    padding: 3,
-    borderRadius: 11,
-    gap: 2,
-  },
-  tab: {
-    height: 30,
-    paddingHorizontal: 12,
-    borderRadius: 8,
-    alignItems: "center",
-    justifyContent: "center",
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: "transparent",
-  },
-  tabActive: {
-    shadowColor: "#000000",
-    shadowOpacity: 0.12,
-    shadowRadius: 1,
-    shadowOffset: { width: 0, height: 1 },
-  },
-  tabLabel: { fontSize: SIZE.small },
-  body: { paddingHorizontal: 16, paddingTop: 8, gap: 8 },
-  title: { fontSize: SIZE.text, fontWeight: "600" },
-  text: { fontSize: SIZE.text, lineHeight: 22 },
-  sheet: { flex: 1, paddingTop: 8 },
-})
+const buildStyles = (theme: Theme) =>
+  StyleSheet.create({
+    panel: { flex: 1 },
+    header: {
+      height: theme.space[48],
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "space-between",
+      gap: theme.space[6],
+      paddingHorizontal: theme.space[12],
+    },
+    toggleSlot: { width: theme.compact.space[36] },
+    body: {
+      paddingHorizontal: theme.space[16],
+      paddingTop: theme.space[8],
+      gap: theme.space[8],
+    },
+    title: {
+      fontFamily: FONT.semibold,
+      fontSize: theme.text[13],
+      color: theme.colors.foreground,
+    },
+    text: {
+      fontFamily: FONT.regular,
+      fontSize: theme.text[13],
+      lineHeight: theme.text[13] * 1.5,
+      color: theme.colors.muted,
+    },
+    sheet: {
+      flex: 1,
+      paddingTop: theme.space[8],
+      backgroundColor: theme.colors.panel,
+    },
+  })

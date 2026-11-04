@@ -92,6 +92,16 @@ export type IconCategory = {
   title: string
 }
 
-export type CatalogEntry = OutlineCatalogEntry | BrandCatalogEntry
+/** A Lucide icon with an animated version in `/animated`, under the same name. */
+export type AnimatedCatalogEntry = Omit<OutlineCatalogEntry, "set"> & {
+  set: "animated"
+  /** It animates an older Lucide drawing, so at rest it differs from the outline icon. */
+  isOlderDrawing?: boolean
+}
+
+export type CatalogEntry =
+  | OutlineCatalogEntry
+  | BrandCatalogEntry
+  | AnimatedCatalogEntry
 
 export type IconSet = CatalogEntry["set"]

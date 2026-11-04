@@ -12,8 +12,10 @@ import {
 } from "react-native"
 
 import { NAV_GROUPS, USER, WORKSPACES } from "../nav"
-import { SIZE, type Theme } from "../theme"
+import { FONT, useStyles, useTheme, type Theme } from "../theme"
+import { IconButton } from "./icon-button"
 import { NavList } from "./nav-list"
+import { SidebarToggleIcon } from "./sidebar-toggle-icon"
 
 type MenuButton = React.ComponentRef<typeof Pressable>
 
@@ -34,12 +36,12 @@ function getInitials(name: string) {
 function WorkspaceSwitcher({
   workspaceId,
   onWorkspaceChange,
-  theme,
 }: {
   workspaceId: string
   onWorkspaceChange: (id: string) => void
-  theme: Theme
 }) {
+  const theme = useTheme()
+  const styles = useStyles(buildStyles)
   const button = React.useRef<MenuButton>(null)
   const workspace =
     WORKSPACES.find((entry) => entry.id === workspaceId) ?? WORKSPACES[0]
@@ -50,7 +52,7 @@ function WorkspaceSwitcher({
         title: "Workspaces",
         options: [...WORKSPACES.map((entry) => entry.name), "Cancel"],
         cancelButtonIndex: WORKSPACES.length,
-        userInterfaceStyle: theme.isDark ? "dark" : "light",
+        userInterfaceStyle: theme.mode,
       },
       (index) => {
         const picked = WORKSPACES[index]
@@ -63,36 +65,31 @@ function WorkspaceSwitcher({
       onPress={choose}
       accessibilityRole="button"
       accessibilityLabel={`Workspace: ${workspace.name}. Switch workspace`}
-      style={({ pressed }) => [
-        styles.identity,
-        pressed && { backgroundColor: theme.hover },
-      ]}
+      style={({ pressed }) => [styles.identity, pressed && styles.pressed]}
     >
-      <View style={[styles.mark, { backgroundColor: theme.mark }]}>
-        <Text style={[styles.markText, { color: theme.markForeground }]}>
-          {workspace.name[0]}
-        </Text>
+      <View style={styles.mark}>
+        <Text style={styles.markText}>{workspace.name[0]}</Text>
       </View>
       <View style={styles.identityText}>
-        <Text
-          numberOfLines={1}
-          style={[styles.identityName, { color: theme.foreground }]}
-        >
+        <Text numberOfLines={1} style={styles.identityName}>
           {workspace.name}
         </Text>
-        <Text
-          numberOfLines={1}
-          style={[styles.identityMeta, { color: theme.mutedOnFrame }]}
-        >
+        <Text numberOfLines={1} style={styles.identityMeta}>
           {workspace.plan}
         </Text>
       </View>
-      <ChevronsUpDownIcon size={16} color={theme.muted} strokeWidth={1.75} />
+      <ChevronsUpDownIcon
+        size={theme.icon[16]}
+        color={theme.colors.mutedOnFrame}
+        strokeWidth={1.5}
+      />
     </Pressable>
   )
 }
 
-function UserMenu({ theme }: { theme: Theme }) {
+function UserMenu() {
+  const theme = useTheme()
+  const styles = useStyles(buildStyles)
   const button = React.useRef<MenuButton>(null)
   const open = () =>
     ActionSheetIOS.showActionSheetWithOptions(
@@ -102,7 +99,7 @@ function UserMenu({ theme }: { theme: Theme }) {
         options: ["Profile", "Notifications", "Sign out", "Cancel"],
         destructiveButtonIndex: 2,
         cancelButtonIndex: 3,
-        userInterfaceStyle: theme.isDark ? "dark" : "light",
+        userInterfaceStyle: theme.mode,
       },
       () => {}
     )
@@ -112,31 +109,24 @@ function UserMenu({ theme }: { theme: Theme }) {
       onPress={open}
       accessibilityRole="button"
       accessibilityLabel={`${USER.name}, account menu`}
-      style={({ pressed }) => [
-        styles.identity,
-        pressed && { backgroundColor: theme.hover },
-      ]}
+      style={({ pressed }) => [styles.identity, pressed && styles.pressed]}
     >
-      <View style={[styles.avatar, { backgroundColor: theme.active }]}>
-        <Text style={[styles.avatarText, { color: theme.foreground }]}>
-          {getInitials(USER.name)}
-        </Text>
+      <View style={styles.avatar}>
+        <Text style={styles.avatarText}>{getInitials(USER.name)}</Text>
       </View>
       <View style={styles.identityText}>
-        <Text
-          numberOfLines={1}
-          style={[styles.identityName, { color: theme.foreground }]}
-        >
+        <Text numberOfLines={1} style={styles.identityName}>
           {USER.name}
         </Text>
-        <Text
-          numberOfLines={1}
-          style={[styles.identityMeta, { color: theme.mutedOnFrame }]}
-        >
+        <Text numberOfLines={1} style={styles.identityMeta}>
           {USER.email}
         </Text>
       </View>
-      <ChevronsUpDownIcon size={16} color={theme.muted} strokeWidth={1.75} />
+      <ChevronsUpDownIcon
+        size={theme.icon[16]}
+        color={theme.colors.mutedOnFrame}
+        strokeWidth={1.5}
+      />
     </Pressable>
   )
 }
@@ -149,9 +139,9 @@ export function Sidebar({
   onNavigate,
   workspaceId,
   onWorkspaceChange,
+  onToggle,
   insetTop,
   insetBottom,
-  theme,
 }: {
   activeId: string | null
   preferences: NavPreferences
@@ -159,66 +149,101 @@ export function Sidebar({
   onNavigate: (item: NavItem<LucideIcon>) => void
   workspaceId: string
   onWorkspaceChange: (id: string) => void
+  onToggle: () => void
   insetTop: number
   insetBottom: number
-  theme: Theme
 }) {
+  const theme = useTheme()
+  const styles = useStyles(buildStyles)
   return (
-    <View style={[styles.sidebar, { backgroundColor: theme.frame }]}>
-      <View style={[styles.header, { paddingTop: insetTop + 8 }]}>
-        <WorkspaceSwitcher
-          workspaceId={workspaceId}
-          onWorkspaceChange={onWorkspaceChange}
-          theme={theme}
-        />
+    <View style={styles.sidebar}>
+      <View style={[styles.header, { paddingTop: insetTop + theme.space[8] }]}>
+        <View style={styles.switcher}>
+          <WorkspaceSwitcher
+            workspaceId={workspaceId}
+            onWorkspaceChange={onWorkspaceChange}
+          />
+        </View>
+        <IconButton label="Hide the sidebar" onPress={onToggle} isExpanded>
+          <SidebarToggleIcon
+            isOpen
+            color={theme.colors.mutedOnFrame}
+            background={theme.colors.main}
+          />
+        </IconButton>
       </View>
-      <ScrollView contentContainerStyle={styles.content}>
+      <ScrollView>
         <NavList
           groups={NAV_GROUPS}
           activeId={activeId}
           preferences={preferences}
           onPreferencesChange={onPreferencesChange}
           onNavigate={onNavigate}
-          theme={theme}
         />
       </ScrollView>
       <View style={[styles.footer, { paddingBottom: insetBottom + 8 }]}>
-        <UserMenu theme={theme} />
+        <UserMenu />
       </View>
     </View>
   )
 }
 
-const styles = StyleSheet.create({
-  sidebar: { flex: 1 },
-  header: { paddingHorizontal: 8, paddingBottom: 8 },
-  content: { paddingHorizontal: 8, paddingBottom: 16 },
-  footer: { paddingHorizontal: 8, paddingTop: 8 },
-  identity: {
-    minHeight: 52,
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 10,
-    paddingHorizontal: 8,
-    borderRadius: SIZE.rowRadius,
-  },
-  mark: {
-    width: 32,
-    height: 32,
-    borderRadius: 9,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  markText: { fontSize: 15, fontWeight: "600" },
-  avatar: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  avatarText: { fontSize: 12, fontWeight: "600" },
-  identityText: { flex: 1, minWidth: 0 },
-  identityName: { fontSize: SIZE.text, fontWeight: "600" },
-  identityMeta: { fontSize: SIZE.small },
-})
+const buildStyles = (theme: Theme) =>
+  StyleSheet.create({
+    sidebar: { flex: 1, backgroundColor: theme.colors.frame },
+    header: {
+      flexDirection: "row",
+      alignItems: "center",
+      gap: theme.space[8],
+      paddingHorizontal: theme.space[8],
+      paddingBottom: theme.space[4],
+    },
+    switcher: { flex: 1, minWidth: 0 },
+    footer: { paddingHorizontal: theme.space[8], paddingTop: theme.space[4] },
+    identity: {
+      minHeight: theme.space[48],
+      flexDirection: "row",
+      alignItems: "center",
+      gap: theme.space[8],
+      paddingHorizontal: theme.space[8],
+      borderRadius: theme.radius.lg,
+    },
+    pressed: { backgroundColor: theme.colors.hover },
+    mark: {
+      width: theme.space[32],
+      height: theme.space[32],
+      borderRadius: theme.radius.lg,
+      backgroundColor: theme.colors.primary,
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    markText: {
+      fontFamily: FONT.semibold,
+      fontSize: theme.text[13],
+      color: theme.colors.primaryForeground,
+    },
+    avatar: {
+      width: theme.space[32],
+      height: theme.space[32],
+      borderRadius: theme.space[32] / 2,
+      backgroundColor: theme.colors.active,
+      alignItems: "center",
+      justifyContent: "center",
+    },
+    avatarText: {
+      fontFamily: FONT.medium,
+      fontSize: theme.text[12],
+      color: theme.colors.foreground,
+    },
+    identityText: { flex: 1, minWidth: 0 },
+    identityName: {
+      fontFamily: FONT.semibold,
+      fontSize: theme.text[13],
+      color: theme.colors.foreground,
+    },
+    identityMeta: {
+      fontFamily: FONT.regular,
+      fontSize: theme.text[12],
+      color: theme.colors.mutedOnFrame,
+    },
+  })

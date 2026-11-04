@@ -22,8 +22,14 @@ import {
   buildSvgMarkup,
   getImportLine,
   getJsxSnippet,
+  getPackages,
   toComponentName,
 } from "../lib/icons"
+import {
+  AnimatedIconView,
+  type AnimatedComponent,
+  type AnimatedComponents,
+} from "./animated-icon-view"
 import {
   IconPreview,
   type LoadedIcon,
@@ -100,22 +106,87 @@ function Fact({
   )
 }
 
+const PLAY_MILLISECONDS = 1800
+
+/** Plays on opening, on hover and on request; the cell's hover has ended by then. */
+function AnimatedDetailPreview({
+  component,
+  strokeWidth,
+}: {
+  component: AnimatedComponent
+  strokeWidth: number
+}) {
+  const [isHovered, setIsHovered] = React.useState(false)
+  const [isReplaying, setIsReplaying] = React.useState(true)
+  React.useEffect(() => {
+    if (!isReplaying) return
+    const timer = setTimeout(() => setIsReplaying(false), PLAY_MILLISECONDS)
+    return () => clearTimeout(timer)
+  }, [isReplaying])
+  const isPlaying = isHovered || isReplaying
+  return (
+    <div className="flex flex-col items-center gap-3">
+      <div
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        className="flex flex-col items-center gap-5"
+      >
+        <AnimatedIconView
+          component={component}
+          isPlaying={isPlaying}
+          size={96}
+          strokeWidth={strokeWidth}
+        />
+        <div
+          className="flex items-end gap-5 text-muted-foreground"
+          aria-hidden="true"
+        >
+          {SAMPLE_SIZES.map((size) => (
+            <AnimatedIconView
+              key={size}
+              component={component}
+              isPlaying={isPlaying}
+              size={size}
+              strokeWidth={strokeWidth}
+            />
+          ))}
+        </div>
+      </div>
+      <Button
+        variant="ghost"
+        size="sm"
+        disabled={isReplaying}
+        onClick={() => setIsReplaying(true)}
+      >
+        Play
+      </Button>
+    </div>
+  )
+}
+
 /** The selected icon: previews, names, snippets, downloads and provenance. */
 export function IconDetail({
   icon,
   options,
   categoryTitles,
+  animated,
 }: {
   icon: LoadedIcon
   options: PreviewOptions
   /** Category titles by name, from the catalog. */
   categoryTitles: Map<string, string>
+  /** The animated icons, once loaded. */
+  animated: AnimatedComponents | null
 }) {
   const previewRef = React.useRef<HTMLDivElement>(null)
   const { entry } = icon
   const title = entry.set === "brands" ? entry.title : entry.name
   const snippet = `${getImportLine(entry)}\n\n${getJsxSnippet(entry, options)}`
   const svg = buildSvgMarkup(icon.source, { ...options, color: "currentColor" })
+  const moving =
+    entry.set === "animated"
+      ? animated?.get(toComponentName(entry.name))
+      : undefined
 
   const downloadPng = async () => {
     // A standalone PNG can't follow the text colour: paint it with the
@@ -140,7 +211,9 @@ export function IconDetail({
         <SheetDescription>
           {entry.set === "brands"
             ? `${title}, a trademark of its owner.`
-            : `Lucide's ${entry.name} icon.`}
+            : entry.set === "animated"
+              ? `Lucide's ${entry.name} icon, animated.`
+              : `Lucide's ${entry.name} icon.`}
         </SheetDescription>
       </SheetHeader>
 
@@ -148,15 +221,24 @@ export function IconDetail({
         ref={previewRef}
         className="flex flex-col items-center gap-5 rounded-xl bg-surface-2 py-8 text-foreground shadow-surface-2"
       >
-        <IconPreview icon={icon} {...options} size={96} />
-        <div
-          className="flex items-end gap-5 text-muted-foreground"
-          aria-hidden="true"
-        >
-          {SAMPLE_SIZES.map((size) => (
-            <IconPreview key={size} icon={icon} {...options} size={size} />
-          ))}
-        </div>
+        {moving ? (
+          <AnimatedDetailPreview
+            component={moving}
+            strokeWidth={options.strokeWidth}
+          />
+        ) : (
+          <>
+            <IconPreview icon={icon} {...options} size={96} />
+            <div
+              className="flex items-end gap-5 text-muted-foreground"
+              aria-hidden="true"
+            >
+              {SAMPLE_SIZES.map((size) => (
+                <IconPreview key={size} icon={icon} {...options} size={size} />
+              ))}
+            </div>
+          </>
+        )}
       </div>
 
       <div className="flex flex-col gap-2">
@@ -165,31 +247,62 @@ export function IconDetail({
         </pre>
         <div className="grid grid-cols-2 gap-2">
           <CopyAction label="Copy JSX" value={snippet} />
-          <CopyAction label="Copy SVG" value={svg} />
-          <Button
-            variant="outline"
-            onClick={() =>
-              downloadBlob(
-                new Blob([svg], { type: "image/svg+xml" }),
-                `${entry.name}.svg`
-              )
-            }
-          >
-            <DownloadIcon data-icon="inline-start" />
-            Download SVG
-          </Button>
-          <Button variant="outline" onClick={() => void downloadPng()}>
-            <DownloadIcon data-icon="inline-start" />
-            Download PNG
-          </Button>
+          {entry.set === "animated" ? (
+            <Button
+              variant="outline"
+              nativeButton={false}
+              render={<Link href={`/icons?icon=${entry.name}`} />}
+            >
+              Static icon
+            </Button>
+          ) : (
+            <>
+              <CopyAction label="Copy SVG" value={svg} />
+              <Button
+                variant="outline"
+                onClick={() =>
+                  downloadBlob(
+                    new Blob([svg], { type: "image/svg+xml" }),
+                    `${entry.name}.svg`
+                  )
+                }
+              >
+                <DownloadIcon data-icon="inline-start" />
+                Download SVG
+              </Button>
+              <Button variant="outline" onClick={() => void downloadPng()}>
+                <DownloadIcon data-icon="inline-start" />
+                Download PNG
+              </Button>
+            </>
+          )}
         </div>
       </div>
 
-      <InstallCommand packages={["@fabricator-ui/icons"]} />
+      <InstallCommand packages={getPackages(entry.set)} />
 
       <dl className="flex flex-col gap-4">
-        {entry.set === "outline" ? (
+        {entry.set !== "brands" ? (
           <>
+            {entry.set === "animated" && (
+              <Fact label="Animation">
+                <a
+                  href="https://lucide-animated.com"
+                  target="_blank"
+                  rel="noreferrer"
+                  className="inline-flex items-center gap-1 underline underline-offset-4"
+                >
+                  lucide-animated, MIT
+                  <ArrowUpRightIcon className="size-3.5" />
+                </a>
+              </Fact>
+            )}
+            {entry.set === "animated" && entry.isOlderDrawing && (
+              <Fact label="Drawing">
+                Animates an older Lucide drawing, so at rest it differs slightly
+                from the outline icon.
+              </Fact>
+            )}
             {entry.aliases.length > 0 && (
               <Fact label="Also exported as">
                 {entry.aliases.map((alias) => (

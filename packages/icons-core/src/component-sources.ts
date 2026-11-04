@@ -1,3 +1,4 @@
+import { loadAnimatedIcons, type AnimatedIcon } from "./animated"
 import { loadBrands } from "./brands"
 import { loadDuotoneIcons } from "./duotone"
 import { getExportNames } from "./names"
@@ -7,7 +8,11 @@ import {
   toCamelCaseAttributes,
   withGeneratedHeader,
 } from "./output"
-import type { BrandCatalogEntry, OutlineCatalogEntry } from "./runtime/types"
+import type {
+  AnimatedCatalogEntry,
+  BrandCatalogEntry,
+  OutlineCatalogEntry,
+} from "./runtime/types"
 import { renderSvgInline } from "./svg"
 import type {
   BrandIcon,
@@ -120,7 +125,29 @@ ${brand.join("\n")}
 `)
 }
 
-function catalogData(icons: OutlineIcon[], brands: BrandIcon[]) {
+function animatedBarrel(animated: AnimatedIcon[], icons: OutlineIcon[]) {
+  const outline = new Map(icons.map((icon) => [icon.name, icon]))
+  const lines = animated.map(({ name }) => {
+    const [component, ...others] = [
+      name,
+      ...(outline.get(name)?.aliases.map((alias) => alias.name) ?? []),
+    ].flatMap(getExportNames)
+    const specifiers = [
+      component,
+      ...new Set(others.filter((other) => other !== component)),
+    ].map((exportName) =>
+      exportName === component ? exportName : `${component} as ${exportName}`
+    )
+    return `export { ${specifiers.join(", ")} } from "./animated/${name}.js"`
+  })
+  return withGeneratedHeader(`${lines.join("\n")}\n`)
+}
+
+function catalogData(
+  icons: OutlineIcon[],
+  brands: BrandIcon[],
+  animated: AnimatedIcon[]
+) {
   const outline: OutlineCatalogEntry[] = icons.map((icon) => ({
     name: icon.name,
     set: "outline",
@@ -142,13 +169,24 @@ function catalogData(icons: OutlineIcon[], brands: BrandIcon[]) {
     ...(mark.artSource && { artSource: mark.artSource }),
     ...(mark.credit && { credit: mark.credit }),
   }))
-  return withGeneratedHeader(`import type { BrandCatalogEntry, IconCategory, OutlineCatalogEntry } from "./runtime/types.js"
+  const moving: AnimatedCatalogEntry[] = outline.flatMap((entry) => {
+    const icon = animated.find(({ name }) => name === entry.name)
+    if (!icon) return []
+    return {
+      ...entry,
+      set: "animated" as const,
+      ...(icon.isOlderDrawing && { isOlderDrawing: true }),
+    }
+  })
+  return withGeneratedHeader(`import type { AnimatedCatalogEntry, BrandCatalogEntry, IconCategory, OutlineCatalogEntry } from "./runtime/types.js"
 
 export const outlineCategories: IconCategory[] = ${JSON.stringify(readCategoryTitles())}
 
 export const outlineCatalog: OutlineCatalogEntry[] = ${JSON.stringify(outline)}
 
 export const brandCatalog: BrandCatalogEntry[] = ${JSON.stringify(brand)}
+
+export const animatedCatalog: AnimatedCatalogEntry[] = ${JSON.stringify(moving)}
 `)
 }
 
@@ -244,6 +282,8 @@ export type ComponentSourceOptions = {
   dynamic: boolean
   /** The catalog of names, tags and provenance. */
   catalog: boolean
+  /** The Motion-animated icons, which only web targets can run. */
+  animated?: boolean
 }
 
 /**
@@ -254,6 +294,7 @@ export type ComponentSourceOptions = {
 export function buildComponentSources({
   dynamic,
   catalog,
+  animated,
 }: ComponentSourceOptions) {
   const icons = loadOutlineIcons()
   const brands = loadBrands()
@@ -269,7 +310,10 @@ export function buildComponentSources({
     files.set(`duotone/${icon.name}.ts`, duotoneModule(icon))
   files.set("brands.ts", brandBarrel(brands))
   files.set("duotone.ts", duotoneBarrel(duotone))
+  const moving = animated ? loadAnimatedIcons(icons) : []
+  for (const icon of moving) files.set(`animated/${icon.name}.tsx`, icon.source)
+  if (animated) files.set("animated.ts", animatedBarrel(moving, icons))
   if (dynamic) files.set("dynamic-imports.ts", dynamicImports(icons, brands))
-  if (catalog) files.set("catalog-data.ts", catalogData(icons, brands))
-  return { files, icons, brands, duotone }
+  if (catalog) files.set("catalog-data.ts", catalogData(icons, brands, moving))
+  return { files, icons, brands, duotone, animated: moving }
 }

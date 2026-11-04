@@ -84,7 +84,7 @@ function StatusBadge({ icon }: { icon: string }) {
   return <Icon />
 }
 
-<StatusBadge icon="check" />
+;<StatusBadge icon="check" />
 ```
 
 **Correct:**
@@ -97,7 +97,7 @@ function StatusBadge({ icon: Icon }: { icon: React.ComponentType }) {
   return <Icon />
 }
 
-<StatusBadge icon={CheckIcon} />
+;<StatusBadge icon={CheckIcon} />
 ```
 
 ---
@@ -110,7 +110,9 @@ Lucide has no brand icons. Don't hand-write a logo `<svg>`, draw one with outlin
 
 ```tsx
 <Button variant="outline">
-  <svg viewBox="0 0 24 24"><path d="M12 .297c-6.63 0-12 5.373…" /></svg>
+  <svg viewBox="0 0 24 24">
+    <path d="M12 .297c-6.63 0-12 5.373…" />
+  </svg>
   Continue with GitHub
 </Button>
 ```
@@ -120,7 +122,7 @@ Lucide has no brand icons. Don't hand-write a logo `<svg>`, draw one with outlin
 ```tsx
 import { GithubIcon } from "@fabricator-ui/icons/brands"
 
-<Button variant="outline">
+;<Button variant="outline">
   <GithubIcon data-icon="inline-start" />
   Continue with GitHub
 </Button>
@@ -150,3 +152,25 @@ For an icon picker, `searchIcons` from `@fabricator-ui/icons/catalog` searches n
 ## `@fabricator-ui/icons` is a drop-in for `lucide-react`
 
 The outline icons are Lucide's, under Lucide's names and aliases, with Lucide's props. In a project that uses `@fabricator-ui/icons`, import outline icons from it rather than adding `lucide-react` next to it. Registry components keep importing from `config.iconLibrary`; both render the same glyphs.
+
+---
+
+## Animated icons
+
+`@fabricator-ui/icons/animated` has Lucide icons that play on hover, with the same names and props as the outline icons, on Motion (`motion`, an optional peer). They're web only, and they stay still with reduced motion.
+
+An icon in a button should play when the button is hovered. Pass a `ref`, which takes the icon off its own hover, and pair `startAnimation` with `stopAnimation`:
+
+```tsx
+const icon = useRef<AnimatedIconHandle>(null)
+
+<Button
+  onMouseEnter={() => icon.current?.startAnimation()}
+  onMouseLeave={() => icon.current?.stopAnimation()}
+>
+  <UploadIcon ref={icon} data-icon="inline-start" />
+  Upload
+</Button>
+```
+
+Use them where motion carries meaning (a copy confirming, a bell ringing), not on every icon in a list.

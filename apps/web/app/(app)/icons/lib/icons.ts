@@ -23,12 +23,21 @@ export function toComponentName(name: string) {
   return `${pascal}Icon`
 }
 
+const IMPORT_PATHS: Record<IconSet, string> = {
+  outline: "@fabricator-ui/icons",
+  brands: "@fabricator-ui/icons/brands",
+  animated: "@fabricator-ui/icons/animated",
+}
+
 export function getImportLine(entry: CatalogEntry) {
-  const from =
-    entry.set === "brands"
-      ? "@fabricator-ui/icons/brands"
-      : "@fabricator-ui/icons"
-  return `import { ${toComponentName(entry.name)} } from "${from}"`
+  return `import { ${toComponentName(entry.name)} } from "${IMPORT_PATHS[entry.set]}"`
+}
+
+/** What a set needs installed: only the animated icons use Motion. */
+export function getPackages(set: IconSet) {
+  return set === "animated"
+    ? ["@fabricator-ui/icons", "motion"]
+    : ["@fabricator-ui/icons"]
 }
 
 export type SnippetOptions = {
@@ -44,7 +53,7 @@ export function getJsxSnippet(
 ) {
   const props = [
     size !== DEFAULT_SIZE && `size={${size}}`,
-    entry.set === "outline" &&
+    entry.set !== "brands" &&
       strokeWidth !== DEFAULT_STROKE_WIDTH &&
       `strokeWidth={${strokeWidth}}`,
     entry.set === "brands" && brandColor && 'color="brand"',
