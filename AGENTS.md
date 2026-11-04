@@ -348,7 +348,7 @@ Items are TypeScript objects in each folder's `_registry.ts`, typed `Registry["i
 
 ## Design system (Fabricator layer)
 
-The Fabricator design language adapts Fluid Functionalism (MIT). **`apps/web/registry/fabricator/DESIGN.md` is the specification**: surfaces, interaction tokens, density, motion speeds, fluid hover, scrollbars, the look of every component, and the known deviations from it. Read it before changing any Fabricator style or override. The root `DESIGN.md` says how products use the components; a change to a look or a rule updates both.
+**`apps/web/registry/fabricator/DESIGN.md` is the specification of the Fabricator design language**: surfaces, interaction tokens, density, motion speeds, fluid hover, scrollbars, the look of every component, and the known deviations from it. Read it before changing any Fabricator style or override. The root `DESIGN.md` says how products use the components; a change to a look or a rule updates both.
 
 - **Tokens** live in `registry/fabricator/foundations.ts` (foundations: new token names only; palette: Fabricator values for the shadcn token names, applied by the `fabricator` preset).
 - **Motion is by role, never milliseconds** (`registry/fabricator/motion.ts`, spec in DESIGN.md):
@@ -385,7 +385,7 @@ The Fabricator design language adapts Fluid Functionalism (MIT). **`apps/web/reg
 
 `registry/fabricator/native-theme.ts` resolves a look to what React Native can draw (no OKLCH, CSS variables or `calc()`), from the modules the website's stylesheet is generated from; never write a colour or size by hand in `apps/mobile`. `getNativeCssVariables` gives every token under the website's names: `toNativeStylesheet` writes them into the installed `fabricator.css`, and `applyLook` hands them to Uniwind at runtime. Its tests pin the result to values measured in a browser and read `app-shell.css` and `globals.css`, so a change to the tokens or the radius scale fails there until `native-theme.ts` follows. `registry/fabricator/look-presets.ts` holds the named choices both settings UIs offer. Modules native installs import (`foundation-tokens.ts`, not `foundations.ts`) stay free of React, the DOM and the website's CSS.
 
-Uniwind's compiler can't hold a `cubic-bezier()` in a variable, so `--motion-speed` names the speed and `lib/motion.ts` reads its curves from `motion.ts`. It splits shadow lists on commas, so shadow colours are written as hex. Reanimated's `Keyframe` left surfaces invisible, so `useSurfaceAnimation` uses custom worklets. Expo's Metro reads `tsconfig` paths at runtime, which `apps/mobile` turns off because its aliases differ between types (source) and bundling (compiled).
+Uniwind's compiler can't hold a `cubic-bezier()` in a variable, so `--motion-speed` names the speed and `lib/motion.ts` reads its curves from `motion.ts`. It splits shadow lists on commas, so shadow colours are written as hex, and it mangles a runtime `-0.5px`, so `applyLook` goes through `getNativeRuntimeVariables`. Reanimated's `Keyframe` left surfaces invisible, so `useSurfaceAnimation` uses custom worklets. Expo's Metro reads `tsconfig` paths at runtime, which `apps/mobile` turns off because its aliases differ between types (source) and bundling (compiled).
 
 ### Seeing style changes on the site
 

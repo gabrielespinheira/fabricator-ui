@@ -1,8 +1,7 @@
 "use client"
 
 // Fabricator Sidebar. Keeps the upstream API (every export, prop, variant and
-// data-slot) and adds the Fluid Functionalism sidebar behaviour by Micka
-// Touillaud (MIT), https://github.com/mickadesign/fluid-functionalism:
+// data-slot) and adds:
 //
 // - SidebarRail drags to resize (clamped, past the minimum it collapses) and
 //   clicks to collapse; its tooltip explains both with the shortcut.

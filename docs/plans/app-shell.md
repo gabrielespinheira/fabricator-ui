@@ -34,7 +34,7 @@ Paths are relative to `~/Dev/repos/sharpos` and `~/Dev/app-ideas/relay`.
 
 The shell lives in `packages/shared/hub-kit` and is shared by web (Next.js), desktop (Electron) and native (Expo Router).
 
-**Web layout.** `hub-kit/src/web/pages/hub-shell.tsx` nests about ten providers (sidebar, header banner, document title, page title, header rail, loading indicator, slots), then renders `AppSidebar` (`variant="inset"`), an agent chat dock, and `HubShellInset`, a `<main>` that is the only scroller. The sidebar is a vendored Fluid Functionalism sidebar with shadcn's names (`packages/core/ui/src/components/sidebar-core.tsx`), the same lineage as Fabricator's override: offcanvas plus hover peek, a 14 to 22rem resize rail with a throw-to-collapse overshoot, groups that collapse by measured height.
+**Web layout.** `hub-kit/src/web/pages/hub-shell.tsx` nests about ten providers (sidebar, header banner, document title, page title, header rail, loading indicator, slots), then renders `AppSidebar` (`variant="inset"`), an agent chat dock, and `HubShellInset`, a `<main>` that is the only scroller. The sidebar is a vendored sidebar with shadcn's names (`packages/core/ui/src/components/sidebar-core.tsx`), close to Fabricator's override: offcanvas plus hover peek, a 14 to 22rem resize rail with a throw-to-collapse overshoot, groups that collapse by measured height.
 
 **Sidebar contents.**
 

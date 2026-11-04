@@ -260,7 +260,7 @@ Examples import from `@/components/ui/*` and use the Base UI base. Read the proj
 
 ## Overview
 
-Fabricator interfaces are calm and exact. They feel like well-made tools: neutral surfaces, one clear action, quiet chrome and the content in front. Colour carries meaning (the main action, a selection, a status), so it stays rare and reads at once. Depth comes from surfaces lifted by shadow. Motion confirms what happened and gets out of the way. Every size follows the density of the region it sits in. The language adapts [Fluid Functionalism](https://www.fluidfunctionalism.com) by Micka Touillaud.
+Fabricator interfaces are calm and exact. They feel like well-made tools: neutral surfaces, one clear action, quiet chrome and the content in front. Colour carries meaning (the main action, a selection, a status), so it stays rare and reads at once. Depth comes from surfaces lifted by shadow. Motion confirms what happened and gets out of the way. Every size follows the density of the region it sits in.
 
 ### Product modes
 

@@ -2,7 +2,7 @@
 
 How the Fabricator style is built: the foundations (tokens), the rules every style map and override follows, and the look of every component. Read it before changing a style map, a token or an override. How to design products with the components is the job of the root [`DESIGN.md`](../../../../DESIGN.md); keep the two in step when a look or a rule changes.
 
-The style adapts [Fluid Functionalism](https://www.fluidfunctionalism.com) by Micka Touillaud (MIT, [source](https://github.com/mickadesign/fluid-functionalism)) onto Fabricator's shadcn-compatible components. Components keep their shadcn API (AGENTS.md, contract item 1); the Fabricator style changes only their look and interaction, and upstream styles keep their exact output.
+Components keep their shadcn API (AGENTS.md, contract item 1); the Fabricator style changes only their look and interaction, and upstream styles keep their exact output.
 
 Six systems carry the design: **surfaces**, **colour roles**, **density**, **motion**, **fluid hover** and **scrollbars**. Everything else follows from them.
 
@@ -111,7 +111,7 @@ The foundations never define the shadcn names (`primary`, `primary-foreground`, 
 
 **Primary** drives the default button, links (`text-primary-text`), checked and indeterminate checkboxes and radios (`bg-primary`, mark in `primary-foreground`), the switch track when on (knob `primary-foreground`), progress, the slider range (`bg-primary/10 dark:bg-primary/15`), the selected calendar day, the workspace logo fallback and the tab strip's waiting dot. **Secondary** drives the secondary button. **Destructive** drives the destructive button and menu items, invalid fields and their messages.
 
-Statuses (info, success, warning, destructive) have two contrasts, as on Fluid Functionalism's banner:
+Statuses (info, success, warning, destructive) have two contrasts:
 
 - **Low** (default): the neutral panel (`bg-hover`, foreground text) with only the icon in `text-<s>`.
 - **High:** `bg-<s>-surface-1 dark:bg-<s>-surface-3`, `ring-1 ring-inset ring-<s>-border`, description in `text-<s>-text`; the title stays foreground. The default variant at high contrast is `bg-active ring-border`.
