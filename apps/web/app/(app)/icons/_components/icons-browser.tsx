@@ -28,6 +28,12 @@ import {
 import { Sheet, SheetContent } from "@/styles/base-fabricator/ui/sheet"
 import { Spinner } from "@/styles/base-fabricator/ui/spinner"
 import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/styles/base-fabricator/ui/tabs"
+import {
   ToggleGroup,
   ToggleGroupItem,
 } from "@/styles/base-fabricator/ui/toggle-group"
@@ -55,6 +61,8 @@ const SIZES = [16, 20, 24] as const
 const STROKES = [1.5, 2] as const
 const COLORS = ["mono", "brand"] as const
 const ALL = "all"
+// The three tabs and their counts need 332px: under that, the labels alone fit.
+const TAB_COUNT_CLASS = "tabular-nums max-[359px]:hidden"
 
 const iconParsers = {
   q: parseAsString.withDefault(""),
@@ -295,9 +303,14 @@ export function IconsBrowser() {
   ]
 
   return (
-    <section
-      aria-label="Icons"
-      className="flex flex-col gap-4 px-4 pb-20 sm:px-5"
+    <Tabs
+      render={<section aria-label="Icons" />}
+      value={params.set}
+      onValueChange={(next) => {
+        const set = SETS.find((candidate) => candidate === next)
+        if (set) void setParams({ set, category: null, icon: null })
+      }}
+      className="gap-4 px-4 pb-20 sm:px-5"
     >
       <div className="sticky top-0 z-10 -mx-4 flex flex-wrap items-center gap-2 bg-background/90 px-4 py-3 backdrop-blur sm:-mx-5 sm:px-5">
         <Search
@@ -313,39 +326,31 @@ export function IconsBrowser() {
           width="100%"
           rootProps={{ className: "min-w-0 flex-1 basis-60 sm:max-w-sm" }}
         />
-        <ToggleGroup
+        <TabsList
           // The sliding selection measures its items once: remount it when
           // the counts arrive and widen them.
           key={counts ? "counted" : "loading"}
           aria-label="Icon set"
-          value={[params.set]}
-          onValueChange={(next) => {
-            const set = SETS.find((candidate) => candidate === next[0])
-            if (set) void setParams({ set, category: null, icon: null })
-          }}
-          spacing={0.5}
-          className="rounded-lg p-0.5 [&_[data-slot^=fluid-hover]]:rounded-md"
         >
-          <ToggleGroupItem value="outline" className="gap-1.5 rounded-md! px-3">
+          <TabsTrigger value="outline">
             Outline
             {counts && (
-              <span className="tabular-nums">
+              <span className={TAB_COUNT_CLASS}>
                 {counts.outline.toLocaleString("en")}
               </span>
             )}
-          </ToggleGroupItem>
-          <ToggleGroupItem value="brands" className="gap-1.5 rounded-md! px-3">
+          </TabsTrigger>
+          <TabsTrigger value="brands">
             Brands
-            {counts && <span className="tabular-nums">{counts.brands}</span>}
-          </ToggleGroupItem>
-          <ToggleGroupItem
-            value="animated"
-            className="gap-1.5 rounded-md! px-3"
-          >
+            {counts && <span className={TAB_COUNT_CLASS}>{counts.brands}</span>}
+          </TabsTrigger>
+          <TabsTrigger value="animated">
             Animated
-            {counts && <span className="tabular-nums">{counts.animated}</span>}
-          </ToggleGroupItem>
-        </ToggleGroup>
+            {counts && (
+              <span className={TAB_COUNT_CLASS}>{counts.animated}</span>
+            )}
+          </TabsTrigger>
+        </TabsList>
         <Select
           items={categoryItems}
           value={params.category ?? ALL}
@@ -412,42 +417,49 @@ export function IconsBrowser() {
         </div>
       </div>
 
-      {!library ? (
-        <div
-          className="flex justify-center py-24 text-muted-foreground"
-          role="status"
-        >
-          <Spinner />
-          <span className="sr-only">Loading icons</span>
-        </div>
-      ) : results.length === 0 ? (
-        <Empty>
-          <EmptyHeader>
-            <EmptyTitle>No icons match “{params.q}”</EmptyTitle>
-            <EmptyDescription>
-              Try another word, or search the other set.
-            </EmptyDescription>
-          </EmptyHeader>
-        </Empty>
-      ) : (
-        <>
-          <p className="text-[13px] text-muted-foreground" aria-live="polite">
-            {results.length.toLocaleString("en")}{" "}
-            {results.length === 1 ? "icon" : "icons"}
-          </p>
-          <ul className="grid grid-cols-[repeat(auto-fill,minmax(96px,1fr))] gap-1">
-            {results.map((icon) => (
-              <IconCell
-                key={key(icon.set, icon.entry.name)}
-                icon={icon}
-                options={options}
-                onSelect={select}
-                animated={icon.set === "animated" ? animated : undefined}
-              />
-            ))}
-          </ul>
-        </>
-      )}
+      {/* The tiles are the tab stops here, so the panel isn't one itself. */}
+      <TabsContent
+        value={params.set}
+        tabIndex={-1}
+        className="flex flex-col gap-4"
+      >
+        {!library ? (
+          <div
+            className="flex justify-center py-24 text-muted-foreground"
+            role="status"
+          >
+            <Spinner />
+            <span className="sr-only">Loading icons</span>
+          </div>
+        ) : results.length === 0 ? (
+          <Empty>
+            <EmptyHeader>
+              <EmptyTitle>No icons match “{params.q}”</EmptyTitle>
+              <EmptyDescription>
+                Try another word, or search the other set.
+              </EmptyDescription>
+            </EmptyHeader>
+          </Empty>
+        ) : (
+          <>
+            <p className="text-[13px] text-muted-foreground" aria-live="polite">
+              {results.length.toLocaleString("en")}{" "}
+              {results.length === 1 ? "icon" : "icons"}
+            </p>
+            <ul className="grid grid-cols-[repeat(auto-fill,minmax(96px,1fr))] gap-1">
+              {results.map((icon) => (
+                <IconCell
+                  key={key(icon.set, icon.entry.name)}
+                  icon={icon}
+                  options={options}
+                  onSelect={select}
+                  animated={icon.set === "animated" ? animated : undefined}
+                />
+              ))}
+            </ul>
+          </>
+        )}
+      </TabsContent>
 
       <Sheet
         open={selected !== undefined}
@@ -466,6 +478,6 @@ export function IconsBrowser() {
           )}
         </SheetContent>
       </Sheet>
-    </section>
+    </Tabs>
   )
 }

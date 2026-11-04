@@ -2325,7 +2325,7 @@
   }
 
   /* The room a revealed sidebar takes, and how small the page gets beside it.
-     lib/sidebar-reveal holds the same numbers for React Native. */
+     lib/sidebar-model holds the same numbers for React Native. */
   .cn-sidebar-wrapper {
     @apply [--sidebar-reveal-scale:0.88] [--sidebar-reveal-width:min(var(--sidebar-width-mobile),calc(100%-56px))] [--sidebar-reveal-direction:1] data-[reveal-side=right]:[--sidebar-reveal-direction:-1] data-reveal:relative data-reveal:overflow-hidden data-reveal:bg-sidebar;
   }
@@ -2723,9 +2723,9 @@
 
   /* Triggers: 28px, 13px, muted at rest; hover, the lit tab and the active
      tab turn foreground, and only the active tab turns semibold. Focus is a
-     1px blue outline (the 3px halo is dropped). The resting colour is the
-     source's foreground/60 (dark: muted-foreground): muted-foreground on the
-     muted track misses 4.5:1 in light.
+     1px blue outline (the 3px halo is dropped). The resting colour is
+     foreground/65 (dark: muted-foreground), one step above the source's /60:
+     on the translucent track, /60 and muted-foreground both miss 4.5:1 in light.
      Without a fluid list (React Aria) the active tab paints its own raised
      pill; inside one the sliding overlay does, so the tab stays transparent. */
   .cn-tabs-trigger {

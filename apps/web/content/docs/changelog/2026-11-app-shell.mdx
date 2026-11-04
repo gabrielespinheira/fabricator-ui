@@ -17,7 +17,11 @@ The behaviour lives in `lib/app-shell-model.ts`, which has no DOM, so a React Na
 
 In a desktop window the sidebar toggle sits in the window's top band, beside the traffic lights on macOS, and `isTranslucent` lets the window's material (macOS vibrancy, Windows Mica) show through the sidebar and the status bar, which sits on the frame under the main column and the panels. Try every option on the [playground](/app-shell).
 
-The Sidebar's provider gained `onWidthChange`, called when a rail resize ends. Its rows are 30px and calmer at rest, with labels at 80% foreground and muted icons, and the active row sits raised on its background instead of turning semibold. Sub-menus nest to any depth, 16px a level, with a guide line that shows on hover and a quiet wash on the current nested row. Group headers are 24px with the chevron after the label, and the toggle draws a filled panel glyph at 18px. Density gained a 30px step (`--density-30`).
+On phones the shell shows the sidebar behind the page, which moves aside and shrinks beside it; `mobileSidebar="sheet"` keeps a sheet. The panel's toggle holds one spot on screen to open and close.
+
+The Sidebar's provider gained `onWidthChange`, called when a rail resize ends, and `mobileSidebar`. Its rows are 30px and calmer at rest, with labels at 80% foreground and muted icons, and the active row sits raised on its background instead of turning semibold. Sub-menus nest to any depth, 16px a level, with a guide line that shows on hover and a quiet wash on the current nested row. Group headers are 24px with the chevron after the label, and the toggle draws a filled panel glyph at 18px. Density gained a 30px step (`--density-30`).
+
+Tabs' resting labels are a step darker in light mode, so they meet 4.5:1 on the track.
 
 ```bash
 npx fabricator-ui@latest add app-shell app-nav tab-strip workspace-switcher user-menu
