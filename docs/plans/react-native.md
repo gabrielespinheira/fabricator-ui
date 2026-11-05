@@ -181,7 +181,7 @@ React Native Web, React Strict DOM or Tamagui-style single trees would replace B
 | `backdrop-blur`                      | `expo-blur` in one adapter (2 usages).                                                                                                                                                                                                   |
 | `scroll-fade`                        | Gradient overlay on the scroll edges.                                                                                                                                                                                                    |
 | `shadow-surface-N`                   | RN `boxShadow`, strings already resolved by `native-theme.ts`. Android output needs checking.                                                                                                                                            |
-| Fluid Hover                          | Same `useFluidHover` export. Highlight follows the finger across a list; the selection background slides. Pure geometry moves to a shared module with its existing tests.                                                                |
+| Fluid Hover                          | Same `useFluidHover` export, driven on the UI thread. A press lights a row, a drag moves the highlight across strips and menus with a tick per row, and letting go activates the lit row. The selection background slides.               |
 | `lib/sortable.tsx`                   | Same adapter shape on gesture handler and Reanimated (D15 still applies). The menu alternative stays.                                                                                                                                    |
 | `<SoundEffects />` by DOM delegation | No DOM to delegate from, so `useFeedback("press")` is called by components. Sounds are rendered from `sounds.ts` to WAV at build time, played with `expo-audio`, alongside `expo-haptics`.                                               |
 | `data-slot`                          | Kept on every part. RN ignores it and it maps to `testID` by default, so tests and the parity check can read it.                                                                                                                         |
@@ -464,8 +464,8 @@ Pick: Fabricator-drawn everywhere for 1.0, because you asked for "really similar
 Alternative: a `presentation="native"` prop on Select and Context Menu through `@expo/ui`, added later on demand. Real tradeoff: iOS users do expect the system menu and date wheel.
 
 **4. Sound and haptics defaults on native?**
-Pick: haptics on, sound off. Interface sounds in a phone app are unusual and web's default doesn't translate.
-Alternative: match web with both on.
+Pick: both on, as on the web (changed 2026-11-04: Gabs asked for sounds to match the web). The ring switch silences sounds and other apps' audio keeps playing, which answers the original worry about sound in a phone app.
+Alternative: haptics on, sound off, which was the first pick.
 
 **5. Android at launch, or iOS first?**
 Pick: both from Phase 0. An Android gap found in Phase 3 costs far more than checking as we go, and "cross platform" is your stated goal. It needs Android Studio installed on this machine.
@@ -510,7 +510,7 @@ Alternative: none worth taking.
 - **The CLI writes setup files itself.** `shadcn init` needs Tailwind already configured, so native `init` writes `components.json`, Metro config and stylesheet imports, then runs `shadcn add`.
 - **Expo's `tsconfigPaths` is off in `apps/mobile`.** Metro reads `tsconfig` paths at runtime, and the app's aliases differ between types (source) and bundling (compiled).
 - **`foundation-tokens.ts` split out of `foundations.ts`,** so the runtime look doesn't install the website's CSS. The website's generated stylesheet is byte-identical.
-- **Sounds are haptics only.** Decision 4 kept sound off by default. Audio isn't ported at all: registry JSON can't carry binary assets, and the synth is Web Audio.
+- **Sounds render on the device.** Registry JSON can't carry binary assets and the website's synth is Web Audio, so the recipes moved to a DOM-free `sound-recipes.ts`, and `lib/sound-synth.ts` renders each to a WAV in the cache on first use. Not the build-time rendering §4 planned. Playback through `expo-audio` starts about 90ms after a press on the simulator; `react-native-audio-api` would be nearer zero, at the cost of a native dependency.
 - **Expo Router stays out of the example,** per the settled note in §14.
 
 **Bugs only the running app showed.** Types, parity and unit tests passed with each of these in place:
@@ -521,7 +521,13 @@ Alternative: none worth taking.
 - **`size-full` inside a dialog fills the window,** so CommandDialog covered the screen and ran under the status bar.
 - **A horizontal `ScrollView` grows by default.** Navigation Menu stretched its parent until the list took `grow-0`.
 
+**Polish pass (2026-11-04), on the iOS Simulator:** registry text had never set Inter, so it drew the system font at Inter's tight line height; `--font-sans` and `Text` fix that. `<SoundEffects />` wasn't mounted in the example, and feedback sat in React context, which portals leave, so every overlay was silent; it's module state now. A player seeked at its end and played in the same tick drops the play, which only timing samples on the device showed. Fluid Hover moved to the UI thread, follows a drag, and now covers the 13 components the web has it on. Slow-motion review: `fabricator-ui://motion?scale=10`.
+
 **Not verified:**
+
+- **By ear.** Every recipe renders within 1.4 dB of real Web Audio, measured in headless Chrome, and the players run on the simulator, but nobody has listened. Haptics don't exist on the simulator.
+- **Sound latency on a device.** Playback starts about 90ms after a press on the simulator, through `expo-audio`'s AVPlayer.
+- **Release builds.** All of this ran in dev mode, where a screen with many controls, like Calendar, takes a moment to mount.
 
 - **Android never ran.** This machine has no SDK, `adb` or emulator, so `expo export` bundling it is all that was checked.
 - **VoiceOver and TalkBack.** Roles and labels were read from the accessibility tree; no screen reader pass ran.
@@ -532,7 +538,10 @@ Alternative: none worth taking.
 
 **Still open:**
 
+- `@rn-primitives/portal`'s `PortalHost` renders its portals without keys, so when one closes, the ones after it can remount. Read from its source, not seen running: a dialog open over a toast that expires would lose its state. A keyed host needs a patch or a fork of that package.
+- `init` doesn't write the `expo-font` config yet: `/docs/installation/react-native` has it as a manual step. Without it, text falls back to the system font.
+
 - `apps/mobile/src/shell/` still draws its own shell rather than using the registry's App Shell.
-- Tab-strip tabs reorder from their menu only: `lib/sortable.tsx` isn't wired in, and its 250ms long press competes with the tab's 500ms menu.
+- Tab-strip tabs reorder from their menu only: `lib/sortable.tsx` isn't wired in, and its 400ms long press competes with the tab's 500ms menu.
 - `Gesture.Pan` and `runOnJS` are deprecated in the installed gesture handler and Reanimated.
 - A `DropdownMenuPortal` passed directly into a phone `MenuSheet` renders nothing, because `DropdownMenuInsideContext` isn't exported.

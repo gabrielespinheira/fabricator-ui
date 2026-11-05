@@ -142,7 +142,7 @@ Across all of them: \`onPress\` replaces \`onClick\`, \`hover:\` styles become \
 - **New engine**: the same API, with a DOM-only library replaced underneath.
 - **Kept for imports**: exists so code compiles, and does nothing.
 
-Interface sounds are haptic on React Native, under the same \`<SoundEffects />\`.
+Interface sounds are the same on React Native, under the same \`<SoundEffects />\`, with a haptic for each. The ring switch silences them.
 
 | Component | Kind | What's different |
 | --- | --- | --- |

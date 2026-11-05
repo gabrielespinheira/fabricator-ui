@@ -103,3 +103,29 @@ function Menu({ ref, children, ...props }: React.ComponentProps<"div">) {
 ## Reduced motion
 
 With `prefers-reduced-motion: reduce`, the highlight still fades in and out, but jumps to the next item instead of gliding.
+
+## On touch
+
+React Native has no pointer to follow, so a finger takes its place. A press fades the highlight in where it lands, and another press before it has faded glides there. Dragging across tabs, a toggle group or a menu moves the highlight from row to row with a light tick, and letting go activates the row under your finger. In a list that scrolls, a short hold starts the drag, so a flick still scrolls.
+
+```tsx
+import { FluidHoverList, useFluidRow } from "@/lib/fluid-hover"
+
+function Row({ onPress, children }) {
+  const { rowProps } = useFluidRow({ onActivate: onPress })
+  return (
+    <Pressable onPress={onPress} {...rowProps}>
+      {children}
+    </Pressable>
+  )
+}
+
+function List() {
+  return (
+    <FluidHoverList track="drag">
+      <Row onPress={openProfile}>Profile</Row>
+      <Row onPress={openBilling}>Billing</Row>
+    </FluidHoverList>
+  )
+}
+```

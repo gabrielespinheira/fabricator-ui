@@ -195,6 +195,11 @@ describe("getNativeCssVariables", () => {
 describe("toNativeStylesheet", () => {
   const css = toNativeStylesheet(DEFAULT_NATIVE_LOOK)
 
+  it("names the fonts, which a project's text falls back to the system without", () => {
+    expect(css).toContain("--font-sans: Inter;")
+    expect(css).toContain("--font-heading: Inter;")
+  })
+
   it("defaults native projects to the spacious density", () => {
     expect(DEFAULT_NATIVE_LOOK.density).toBe("spacious")
     expect(css).toContain("--density-36: 44px;")

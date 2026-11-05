@@ -36,7 +36,7 @@ Check `info --json` first: `project.framework` is `Expo`, or `components.json`'s
 | `truncate`                        | `numberOfLines={1}` on `Text`                                           |
 | `motion-*` utilities              | `useMotion`, `useSurfaceAnimation`, `usePressScale` from `@/lib/motion` |
 | Icons from `@fabricator-ui/icons` | `@fabricator-ui/icons-react-native`, same names                         |
-| `<SoundEffects />`                | Wraps the app, and gives haptics                                        |
+| `<SoundEffects />`                | Mounts once, and gives the same sounds plus a haptic for each           |
 | Right click, hover                | A long press opens `ContextMenu`, `Tooltip` and `HoverCard`             |
 | `<a href>`                        | `<Link asChild>` from Expo Router around a pressable                    |
 

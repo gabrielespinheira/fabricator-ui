@@ -84,6 +84,15 @@ export function getValueAtPosition(
   return clamp(roundValueToStep(min + ratio * (max - min), step, min), min, max)
 }
 
+/** A step's pitch, rising along the scale: the website's `0.8 + position * 0.6`. */
+export function getNotchPitch(
+  value: number,
+  { min, max }: { min: number; max: number }
+) {
+  const position = max > min ? clamp((value - min) / (max - min), 0, 1) : 0.5
+  return 0.8 + position * 0.6
+}
+
 /** The thumb a press takes. Of two on one value, the one that can move there. */
 export function getClosestThumb(values: readonly number[], target: number) {
   "worklet"

@@ -9,16 +9,20 @@
     @apply border-0;
   }
 
-  /* Triggers: rounded-lg rows. The website's one glides a highlight under the
-     pointer; a finger only presses one row at a time, so pressed is a fill. */
+  /* Triggers: rounded-lg rows. The root's Fluid Hover paints the pressed row: a
+     press fades its highlight in, and another before it has faded glides there. */
   .cn-accordion-trigger {
-    @apply active:bg-hover gap-(--density-8) rounded-lg px-(--density-12) py-(--density-8);
+    @apply gap-(--density-8) rounded-lg px-(--density-12) py-(--density-8);
   }
 
-  /* 13pt and muted at rest. An open item's trigger turns foreground and
-     semibold. */
+  /* 13pt and muted at rest. The lit trigger turns foreground, and an open item's
+     trigger foreground and semibold. */
   .cn-accordion-trigger-text {
     @apply text-muted-foreground text-start text-(length:--density-text-13) leading-5 font-normal;
+  }
+
+  .cn-accordion-trigger-text-lit {
+    @apply text-foreground;
   }
 
   .cn-accordion-trigger-text-open {
@@ -26,7 +30,8 @@
   }
 
   /* One chevron that points to the end and turns 90 degrees to point down when
-     open, on the disclosure timing. Its stroke thickens when open. */
+     open, on the disclosure timing both ways, as the website's transition does.
+     Reduce Motion drops the turn. Its stroke thickens when lit and when open. */
   .cn-accordion-trigger-icon {
     @apply mt-0.5 ms-auto size-(--density-icon-16);
   }

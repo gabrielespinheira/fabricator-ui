@@ -1,7 +1,9 @@
 /* MARK: Text */
 
-  /* The body text: foreground at the default text size. React Native doesn't
-     inherit, so every Text carries it and controls override through TextStyle. */
+  /* The body text: Inter in foreground at the default text size. React Native
+     doesn't inherit, so every Text carries it and controls override through
+     TextStyle. font-medium and font-semibold pick Inter's 500 and 600 cuts, the
+     closest to the website's 450 and 550. */
   .cn-text {
-    @apply text-foreground text-(length:--density-text-13);
+    @apply text-foreground font-sans text-(length:--density-text-13);
   }

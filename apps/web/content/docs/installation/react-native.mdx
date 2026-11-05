@@ -53,11 +53,65 @@ export default function RootLayout() {
 }
 ```
 
+## Use Inter
+
+The theme sets its text in Inter. Without the font, text falls back to the system's. Embed it through `expo-font` in `app.json`:
+
+```json title="app.json"
+{
+  "expo": {
+    "plugins": [
+      [
+        "expo-font",
+        {
+          "ios": {
+            "fonts": [
+              "node_modules/@expo-google-fonts/inter/400Regular/Inter_400Regular.ttf",
+              "node_modules/@expo-google-fonts/inter/500Medium/Inter_500Medium.ttf",
+              "node_modules/@expo-google-fonts/inter/600SemiBold/Inter_600SemiBold.ttf"
+            ]
+          },
+          "android": {
+            "fonts": [
+              {
+                "fontFamily": "Inter",
+                "fontDefinitions": [
+                  {
+                    "path": "node_modules/@expo-google-fonts/inter/400Regular/Inter_400Regular.ttf",
+                    "weight": 400
+                  },
+                  {
+                    "path": "node_modules/@expo-google-fonts/inter/500Medium/Inter_500Medium.ttf",
+                    "weight": 500
+                  },
+                  {
+                    "path": "node_modules/@expo-google-fonts/inter/600SemiBold/Inter_600SemiBold.ttf",
+                    "weight": 600
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    ]
+  }
+}
+```
+
 Then build a development client, since native modules were added, and start Metro with a clean cache:
 
 ```bash
 npx expo run:ios
 npx expo start --clear
+```
+
+## Turn on sounds
+
+Mount `<SoundEffects />` once, as on the web. Controls then play the same sounds, with a haptic for each. The ring switch silences the sounds, and other apps' audio keeps playing under them.
+
+```bash
+npx fabricator-ui@latest add sounds
 ```
 
 ## Add components

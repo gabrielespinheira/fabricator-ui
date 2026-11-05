@@ -311,11 +311,11 @@ export { MenubarExample }
 
 
 
-Props it adds to what it wraps: `checked`, `closeOnClick`, `defaultChecked`, `defaultValue`, `inset`, `onCheckedChange`, `onValueChange`, `value`.
+Props it adds to what it wraps: `checked`, `closeOnClick`, `defaultChecked`, `defaultValue`, `inset`, `onCheckedChange`, `onPress`, `onValueChange`, `value`.
 
 ## Differences from web
 
-**Touch input.** A desktop pattern: triggers in a row that scrolls, each opening its menu. Rows paint their own pressed fill, with no gliding highlight.
+**Touch input.** A desktop pattern: triggers in a row that scrolls, each opening its menu. A press lights a trigger; a drag scrolls the row. Shortcuts show from the `sm` breakpoint, since a phone has no keyboard.
 
 ## Accessibility
 

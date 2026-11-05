@@ -96,13 +96,15 @@ function SearchForm() {
         accessibilityLabel="Search"
         placeholder="Search the docs..."
         returnKeyType="search"
-        className="pl-8"
+        className="pl-[calc(var(--density-8)*2+var(--density-icon-16))]"
       />
       <View
         pointerEvents="none"
         className="absolute inset-y-0 left-2 justify-center opacity-50"
       >
-        <SearchIcon />
+        <TextStyle>
+          <SearchIcon />
+        </TextStyle>
       </View>
     </View>
   )

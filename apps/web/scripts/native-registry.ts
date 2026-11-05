@@ -26,7 +26,11 @@ export function getTokenFile(name: string) {
 /** Files every native theme installs from the shared tokens. */
 export const SHARED_TOKEN_FILES = Object.keys(TOKEN_MODULES).map(getTokenFile)
 
-const SHARED_LIB_FILES = ["app-shell-model", "sidebar-model"] as const
+const SHARED_LIB_FILES = [
+  "app-shell-model",
+  "sidebar-model",
+  "sound-recipes",
+] as const
 
 /**
  * Where a native item's file comes from. Most live in registry/native; the

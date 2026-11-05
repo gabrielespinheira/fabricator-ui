@@ -4,6 +4,7 @@ import { cn } from "cn"
 import { KeyboardAvoidingView, Platform, View } from "react-native"
 import Animated from "react-native-reanimated"
 
+import { useMountFeedback } from "@/registry/native/lib/feedback"
 import { useSurfaceAnimation } from "@/registry/native/lib/motion"
 import { resolveRender, type RenderProps } from "@/registry/native/lib/render"
 import { Button } from "@/registry/native/ui/button"
@@ -63,6 +64,12 @@ function AlertDialogOverlay({
   )
 }
 
+// The primitive's portal renders this only while the dialog is open.
+function AlertDialogFeedback() {
+  useMountFeedback("alert")
+  return null
+}
+
 function AlertDialogContent({
   className,
   size = "default",
@@ -76,6 +83,7 @@ function AlertDialogContent({
   return (
     <AlertDialogPortal>
       <DensityScope density={density}>
+        <AlertDialogFeedback />
         <AlertDialogPrimitive.Overlay
           aria-modal
           className="absolute inset-0 items-center justify-center"

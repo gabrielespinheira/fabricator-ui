@@ -129,6 +129,10 @@ The same sound can't repeat within 35ms, and no more than six play at once, so a
 - Sound is never the only feedback: every interaction that plays one also changes on screen.
 - Nothing plays while the tab is hidden, and the audio engine only starts after someone interacts with the page, as browsers require.
 
+## On React Native
+
+`<SoundEffects />` plays the same catalogue, from the same recipes. React Native has no Web Audio, so each sound is rendered to a small file the first time it's needed, and `expo-audio` plays it. Every sound also has a haptic, which `haptics={false}` turns off. The ring switch silences the sounds, and music or calls in other apps keep playing under them.
+
 ## Credits
 
 The catalogue's roles are inspired by [Bencho's sound library](https://bencho.dev/sounds). The sounds themselves are original, synthesized by `lib/sounds.ts`.
