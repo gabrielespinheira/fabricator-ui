@@ -39,7 +39,7 @@ import {
   TAB_PLACEMENT_CHOICES,
 } from "@/app/(view)/app-shell/_lib/options"
 
-import { PackageManagerSwitch } from "./command-dock"
+import { CommandText, PackageManagerSwitch } from "./command-dock"
 import { PlanList } from "./plan-list"
 import type { StepName } from "./setup-wizard"
 import { StepFooter } from "./step-parts"
@@ -116,9 +116,10 @@ export function InstallStep({
           <PackageManagerSwitch />
         </div>
         <figure className="relative overflow-hidden rounded-xl bg-code">
-          <pre className="overflow-x-auto py-4 ps-4 pe-12 font-mono text-sm leading-relaxed [overflow-wrap:anywhere] whitespace-pre-wrap text-code-foreground">
-            <code>{command}</code>
-          </pre>
+          <CommandText
+            command={command}
+            className="my-4 ms-4 me-12 text-sm leading-relaxed"
+          />
           <CopyButton
             value={command}
             event="copy_npm_command"

@@ -6,6 +6,7 @@ import {
   ASSISTANT_VALUES,
   BASE_VALUES,
   BASES,
+  CLI_PACKAGE,
   DEFAULT_PROJECT_SETUP,
   DESKTOP_RUNTIME_VALUES,
   formatCommand,
@@ -180,6 +181,13 @@ export function buildSetupCommand(
   packageManager: PackageManager
 ) {
   return formatCommand(toCliArgs(toProjectSetup(setup)), packageManager)
+}
+
+/** The command, then each flag with its value: where a long command can wrap. */
+export function getCommandParts(command: string) {
+  const parts = command.split(/ (?=--?[a-z])/)
+  const cliIndex = parts.findIndex((part) => part.includes(CLI_PACKAGE))
+  return [parts.slice(0, cliIndex + 1).join(" "), ...parts.slice(cliIndex + 1)]
 }
 
 export function getSetupPlan(setup: Setup) {

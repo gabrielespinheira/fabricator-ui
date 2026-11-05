@@ -6,6 +6,7 @@ import { DEFAULT_PLAYGROUND_OPTIONS } from "@/app/(view)/app-shell/_lib/options"
 import {
   buildSetupCommand,
   DEFAULT_SETUP,
+  getCommandParts,
   getSetupPlan,
   getShellProject,
   parseSetupParams,
@@ -94,6 +95,32 @@ describe("buildSetupCommand", () => {
         "npm"
       )
     ).toContain('--shell "glass=false"')
+  })
+})
+
+describe("getCommandParts", () => {
+  const command =
+    'bunx --bun fabricator-ui@latest create my-app -t vite --mobile --desktop tauri --look "surface=260_0.02,primary=260_0.2" --yes'
+
+  it("keeps the command whole, and each flag with its value", () => {
+    expect(getCommandParts(command)).toEqual([
+      "bunx --bun fabricator-ui@latest create my-app",
+      "-t vite",
+      "--mobile",
+      "--desktop tauri",
+      '--look "surface=260_0.02,primary=260_0.2"',
+      "--yes",
+    ])
+  })
+
+  it("adds up to the command people copy", () => {
+    expect(getCommandParts(command).join(" ")).toBe(command)
+  })
+
+  it("has no flags to split when there are none", () => {
+    expect(getCommandParts("npx fabricator-ui@latest init")).toEqual([
+      "npx fabricator-ui@latest init",
+    ])
   })
 })
 
