@@ -46,6 +46,7 @@ import {
   getActiveNavItem,
   getCustomizableNavGroups,
   getMobileTabItems,
+  getNavRailLabel,
   getPinnedNavItems,
   moveCustomizableNavItem,
   moveNavItem,
@@ -103,6 +104,7 @@ import {
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
+  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuSub,
   DropdownMenuSubContent,
@@ -557,6 +559,85 @@ type AppNavRowProps = {
   idPrefix?: string
 }
 
+/**
+ * A row's children have no room on the rail, so pressing it lists them beside it:
+ * its own page first, then its children, to any depth, as submenus.
+ */
+function AppNavRailItems({
+  item,
+  nav,
+}: {
+  item: AppNavItem
+  /** A portal leaves the React tree, so what it needs comes through props. */
+  nav: Pick<AppNavContextValue, "activeId" | "renderLink" | "onNavigate">
+}) {
+  const { activeId, renderLink, onNavigate } = nav
+  const getEntryProps = (entry: AppNavItem) => ({
+    disabled: entry.disabled,
+    "data-current": entry.id === activeId,
+    render: entry.href && renderLink ? renderLink(entry) : undefined,
+    onPress: () => onNavigate?.(entry),
+  })
+  return (
+    <DropdownMenuGroup>
+      {item.href ? (
+        <DropdownMenuItem {...getEntryProps(item)}>
+          {item.label}
+        </DropdownMenuItem>
+      ) : (
+        <DropdownMenuLabel>{item.label}</DropdownMenuLabel>
+      )}
+      {(item.children ?? []).map((child) =>
+        child.children?.length ? (
+          <DropdownMenuSub key={child.id}>
+            <DropdownMenuSubTrigger disabled={child.disabled}>
+              <IconSlot icon={child.icon} />
+              {child.label}
+            </DropdownMenuSubTrigger>
+            <DropdownMenuSubContent>
+              <AppNavRailItems item={child} nav={nav} />
+            </DropdownMenuSubContent>
+          </DropdownMenuSub>
+        ) : (
+          <DropdownMenuItem key={child.id} {...getEntryProps(child)}>
+            <IconSlot icon={child.icon} />
+            {child.label}
+          </DropdownMenuItem>
+        )
+      )}
+    </DropdownMenuGroup>
+  )
+}
+
+/** Its own component: beside other children, a bare DropdownMenu is the row's action. */
+function AppNavRailMenu({
+  item,
+  button,
+  entries,
+  run,
+}: {
+  item: AppNavItem
+  button: React.ReactElement<{ children?: React.ReactNode }>
+  entries: NavRowEntry<AppNavIcon>[]
+  run: RunEntry
+}) {
+  const nav = useAppNav()
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger render={button} />
+      <DropdownMenuContent
+        side="right"
+        align="start"
+        className="cn-app-nav-menu"
+      >
+        <AppNavRailItems item={item} nav={nav} />
+        {entries.length > 0 ? <DropdownMenuSeparator /> : null}
+        <DropdownMenuEntries entries={entries} run={run} />
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
+}
+
 function AppNavRow({
   item,
   parentId,
@@ -578,11 +659,13 @@ function AppNavRow({
     move,
   } = useAppNav()
   const collapse = useSidebarCollapse()
+  // On the rail a row's children have no room, so pressing it lists them instead.
+  const hasRailMenu = collapse === "icon" && Boolean(item.children?.length)
   const sortable = useSortableItem({
     id: `${idPrefix}${item.id}`,
     index,
     group: `${idPrefix}${parentId}`,
-    disabled: !reorderable || item.disabled,
+    disabled: !reorderable || item.disabled || hasRailMenu,
     hasVariableHeight: true,
   })
   const isTopLevel = depth === 0
@@ -618,7 +701,8 @@ function AppNavRow({
     updatePreferences(setNavOpen(preferences, item.id, !isOpen))
   // A row without a page of its own toggles its children.
   const select = item.href || !hasChildren ? () => onNavigate?.(item) : toggle
-  const link = item.href && renderLink ? renderLink(item) : undefined
+  const link =
+    item.href && renderLink && !hasRailMenu ? renderLink(item) : undefined
 
   const icon =
     item.icon ??
@@ -646,22 +730,25 @@ function AppNavRow({
 
   // Long-pressing a row that drags would start the drag, so its menu is the
   // trailing button's alone. On the rail there's no room for one.
-  const hasContextMenu = entries.length > 0 && !reorderable
-  const showsTooltip = collapse === "icon" && !hasContextMenu && !reorderable
+  const hasContextMenu = entries.length > 0 && !reorderable && !hasRailMenu
+  const showsTooltip =
+    collapse === "icon" && !hasContextMenu && !reorderable && !hasRailMenu
 
   const button = isTopLevel ? (
     <SidebarMenuButton
       render={link}
       // The selection marks the top-level row that is the page or holds it.
       isActive={isCurrent || holdsActive}
-      aria-expanded={!item.href && hasChildren ? isOpen : undefined}
+      aria-expanded={
+        !item.href && hasChildren && !hasRailMenu ? isOpen : undefined
+      }
       icon={icon}
       status={item.status}
-      tooltip={showsTooltip ? item.label : undefined}
+      tooltip={showsTooltip ? getNavRailLabel(item) : undefined}
       disabled={item.disabled}
       accessibilityActions={accessibilityActions}
       onAccessibilityAction={onAccessibilityAction}
-      onPress={select}
+      onPress={hasRailMenu ? undefined : select}
     >
       {item.label}
     </SidebarMenuButton>
@@ -690,7 +777,14 @@ function AppNavRow({
       style={sortable.style}
       onLayout={sortable.onLayout}
     >
-      {reorderable ? (
+      {hasRailMenu ? (
+        <AppNavRailMenu
+          item={item}
+          button={button}
+          entries={entries}
+          run={run}
+        />
+      ) : reorderable ? (
         // Only the row itself: its children have rows and gestures of their own.
         <GestureDetector gesture={sortable.gesture}>
           <Animated.View collapsable={false}>{button}</Animated.View>
@@ -705,13 +799,17 @@ function AppNavRow({
       ) : (
         button
       )}
-      {hasChildren && !sortable.isDragging && (
+      {hasChildren && !hasRailMenu && !sortable.isDragging && (
         <RowToggle label={item.label} isOpen={isOpen} onToggle={toggle} />
       )}
       {item.badge !== undefined && (
         <SidebarMenuBadge>{item.badge}</SidebarMenuBadge>
       )}
-      {entries.length > 0 && !sortable.isDragging && (
+      {/* The rail has no room for a badge: a dot on the icon stands for it. */}
+      {collapse === "icon" && item.badge !== undefined ? (
+        <View pointerEvents="none" className="cn-app-nav-rail-badge absolute" />
+      ) : null}
+      {entries.length > 0 && !hasRailMenu && !sortable.isDragging && (
         <SidebarMenuActions showOnHover>
           <DropdownMenu>
             <DropdownMenuTrigger
@@ -733,7 +831,7 @@ function AppNavRow({
           </DropdownMenu>
         </SidebarMenuActions>
       )}
-      {hasChildren && (
+      {hasChildren && !hasRailMenu && (
         <SidebarMenuSub open={isOpen}>
           {children.map((child, childIndex) => (
             <AppNavRow

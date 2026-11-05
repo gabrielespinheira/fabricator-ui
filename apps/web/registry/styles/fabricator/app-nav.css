@@ -7,9 +7,10 @@
   /* A dragged row lifts onto a floating surface, lit and without its controls,
      and a slot (dnd-kit's placeholder, a copy of the row) marks where it lands.
      A row with children gives its icon's place to the chevron while it is
-     hovered, lit or focused (on touch, always). */
+     hovered, lit or focused (on touch, always). On the rail, where a badge has
+     no room, a dot on the icon stands for it; the tooltip has its value. */
   .cn-app-nav-item {
-    @apply data-dragging:z-10 data-dragging:rounded-lg data-dragging:bg-surface-5 data-dragging:shadow-surface-5 data-dragging:[&>:is([data-sidebar=menu-button],[data-sidebar=menu-sub-button])]:text-foreground data-dragging:[&>:is([data-slot=sidebar-menu-actions],[data-slot=app-nav-toggle])]:hidden data-dnd-placeholder:visible! data-dnd-placeholder:bg-hover! data-dnd-placeholder:shadow-none! [&[data-dnd-placeholder]>*]:invisible [&>:is([data-sidebar=menu-button],[data-sidebar=menu-sub-button])>:first-child]:transition-opacity [&>:is([data-sidebar=menu-button],[data-sidebar=menu-sub-button])>:first-child]:duration-feedback [&:has(>[data-slot=app-nav-toggle])>:is([data-sidebar=menu-button],[data-sidebar=menu-sub-button]):is(:hover,[data-fluid-hover-active],:focus-visible)>:first-child]:opacity-0 [&:has(>[data-slot=app-nav-toggle]:is(:hover,:focus-visible))>:is([data-sidebar=menu-button],[data-sidebar=menu-sub-button])>:first-child]:opacity-0 pointer-coarse:[&:has(>[data-slot=app-nav-toggle])>:is([data-sidebar=menu-button],[data-sidebar=menu-sub-button])>:first-child]:opacity-0;
+    @apply group-data-[collapsible=icon]:data-badge:after:pointer-events-none group-data-[collapsible=icon]:data-badge:after:absolute group-data-[collapsible=icon]:data-badge:after:end-[calc(50%-var(--density-icon-16)/2-1px)] group-data-[collapsible=icon]:data-badge:after:top-[calc(50%-var(--density-icon-16)/2-1px)] group-data-[collapsible=icon]:data-badge:after:size-1.5 group-data-[collapsible=icon]:data-badge:after:rounded-full group-data-[collapsible=icon]:data-badge:after:bg-primary data-dragging:z-10 data-dragging:rounded-lg data-dragging:bg-surface-5 data-dragging:shadow-surface-5 data-dragging:[&>:is([data-sidebar=menu-button],[data-sidebar=menu-sub-button])]:text-foreground data-dragging:[&>:is([data-slot=sidebar-menu-actions],[data-slot=app-nav-toggle])]:hidden data-dnd-placeholder:visible! data-dnd-placeholder:bg-hover! data-dnd-placeholder:shadow-none! [&[data-dnd-placeholder]>*]:invisible [&>:is([data-sidebar=menu-button],[data-sidebar=menu-sub-button])>:first-child]:transition-opacity [&>:is([data-sidebar=menu-button],[data-sidebar=menu-sub-button])>:first-child]:duration-feedback [&:has(>[data-slot=app-nav-toggle])>:is([data-sidebar=menu-button],[data-sidebar=menu-sub-button]):is(:hover,[data-fluid-hover-active],:focus-visible)>:first-child]:opacity-0 [&:has(>[data-slot=app-nav-toggle]:is(:hover,:focus-visible))>:is([data-sidebar=menu-button],[data-sidebar=menu-sub-button])>:first-child]:opacity-0 pointer-coarse:[&:has(>[data-slot=app-nav-toggle])>:is([data-sidebar=menu-button],[data-sidebar=menu-sub-button])>:first-child]:opacity-0;
   }
 
   /* The chevron in the icon column: 14px (a 24px target on touch), turned down while open, shown
@@ -24,8 +25,9 @@
     @apply size-(--density-icon-16);
   }
 
+  /* The rail's menu marks the page it holds. */
   .cn-app-nav-menu {
-    @apply min-w-48;
+    @apply min-w-48 [&_[data-current]]:bg-active [&_[data-current]]:text-foreground;
   }
 
   .cn-app-nav-customize {

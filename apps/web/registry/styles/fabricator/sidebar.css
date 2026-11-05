@@ -115,7 +115,7 @@
      the gap goes to the nearest row. */
   .cn-sidebar-menu {
     /* The selection can't follow a lifted row: it's out of the list's layout, so offsets from it mean nothing. */
-    @apply relative isolate gap-0.5 [&>[data-slot=fluid-hover-selection]]:shadow-surface-2 has-[>[data-dragging]>[data-active]:not([data-active=false])]:[&>[data-slot=fluid-hover-selection]]:opacity-0;
+    @apply relative isolate gap-0.5 group-data-[collapsible=icon]:items-center [&>[data-slot=fluid-hover-selection]]:shadow-surface-2 has-[>[data-dragging]>[data-active]:not([data-active=false])]:[&>[data-slot=fluid-hover-selection]]:opacity-0;
   }
 
   .cn-sidebar-group-content {

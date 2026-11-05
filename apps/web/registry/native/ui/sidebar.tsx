@@ -52,6 +52,7 @@ import {
   TOGGLE_GLYPH_SCALE,
 } from "@/registry/fabricator/shared/lib/sidebar-model"
 import { useIsMobile } from "@/registry/native/hooks/use-mobile"
+import { getTouchSlop } from "@/registry/native/lib/density-scale"
 import { useFeedback } from "@/registry/native/lib/feedback"
 import {
   FluidHoverHighlight,
@@ -79,6 +80,7 @@ import {
   getSidebarIconWidth,
   getSkeletonWidth,
   getUnregisteredCollapsible,
+  isRowActionShown,
   parseSidebarWidth,
   REVEAL_DRAG_SLOP,
   REVEAL_OPEN_EDGE,
@@ -103,7 +105,7 @@ import {
 } from "@/registry/native/ui/tooltip"
 
 const SIDEBAR_KEYBOARD_SHORTCUT = "b"
-const DEFAULT_WIDTH = parseSidebarWidth(SIDEBAR_WIDTH, 256)
+const DEFAULT_WIDTH = parseSidebarWidth(SIDEBAR_WIDTH, 288)
 const DEFAULT_WIDTH_MOBILE = parseSidebarWidth(SIDEBAR_WIDTH_MOBILE, 288)
 const NO_INSETS: EdgeInsets = { top: 0, right: 0, bottom: 0, left: 0 }
 
@@ -223,8 +225,8 @@ function useSidebarPortal() {
 
 /** What the docked sidebar takes beside the main column, and how it sits there. */
 function useSidebarLayout() {
-  const { variant, gapWidth } = useSidebarInternal()
-  return { variant, gapWidth }
+  const { variant, gapWidth, collapsible } = useSidebarInternal()
+  return { variant, gapWidth, collapsible }
 }
 
 function SidebarProvider({
@@ -450,6 +452,7 @@ function SidebarProvider({
           data-slot="sidebar-wrapper"
           data-reveal={isReveal ? (openMobile ? "open" : "closed") : undefined}
           data-reveal-side={isReveal ? side : undefined}
+          data-variant={variant}
           className={cn("cn-sidebar-wrapper flex-1 flex-row", className)}
           style={[
             isMobile
@@ -768,6 +771,7 @@ function SidebarDesktop({
     collapsible,
     side,
     width: sidebarWidth,
+    edgeInset: side === "left" ? insets.left : insets.right,
   })
 
   React.useEffect(() => {
@@ -1036,7 +1040,9 @@ function SidebarTrigger({
       size="icon-sm"
       washClassName={sidebarTriggerWashVariants()}
       hitSlop={8}
-      aria-expanded={expanded}
+      // Not `aria-expanded`: a button holds its pressed fill while its popup is open,
+      // and a sidebar isn't one. The glyph says it's open.
+      accessibilityState={{ expanded }}
       accessibilityLabel={
         accessibilityLabel ??
         (expanded ? "Hide the sidebar" : "Show the sidebar")
@@ -1062,17 +1068,9 @@ function SidebarTrigger({
     />
   )
   const glyph = children ?? <SidebarToggleIcon open={expanded} side={side} />
-  // No tooltip on a phone: nothing hovers there, and a long press taking over a
-  // slow tap would leave the sidebar shut.
-  if (isMobile) return React.cloneElement(button, undefined, glyph)
-  return (
-    <Tooltip>
-      <TooltipTrigger render={button}>{glyph}</TooltipTrigger>
-      <TooltipContent side="bottom">
-        {expanded ? "Collapse sidebar" : "Expand sidebar"}
-      </TooltipContent>
-    </Tooltip>
-  )
+  // No tooltip: nothing hovers on a touch screen, and a long press taking over a
+  // slow tap would leave the sidebar as it was.
+  return React.cloneElement(button, undefined, glyph)
 }
 
 /** The edge handle: a tap collapses or expands. Nothing to reach on a phone. */
@@ -1429,6 +1427,7 @@ function SidebarGroup({
 }) {
   const [uncontrolledOpen, setUncontrolledOpen] = React.useState(defaultOpen)
   const open = openProp ?? uncontrolledOpen
+  const collapse = useSidebarCollapse()
   const toggle = React.useCallback(() => {
     const next = !open
     setUncontrolledOpen(next)
@@ -1468,7 +1467,8 @@ function SidebarGroup({
               {headerActions}
             </SidebarGroupHeaderContext>
           </View>
-          <SidebarCollapse open={open}>
+          {/* A rail has no label to reopen a group with, so its rows always show. */}
+          <SidebarCollapse open={open || collapse === "icon"}>
             {tail.filter((kid) => !isHeaderAction(kid))}
           </SidebarCollapse>
         </>
@@ -2122,6 +2122,13 @@ function renderRowIcon(icon: SidebarIcon) {
   return <Icon data-slot="sidebar-menu-icon" />
 }
 
+// What sets each row's height, for the reach that takes it to a full touch target.
+const ROW_HEIGHT_TOKENS = {
+  default: "--density-30",
+  sm: "--density-28",
+  lg: "--density-48",
+} as const
+
 function SidebarMenuButton({
   render,
   asChild,
@@ -2192,6 +2199,13 @@ function SidebarMenuButton({
   }, [active, isLit, resolvedSize, setButton])
 
   const isRail = collapse === "icon"
+  const height = parseNumber(
+    useCSSVariable(
+      isRail ? "--density-32" : ROW_HEIGHT_TOKENS[size ?? "default"]
+    ),
+    30
+  )
+  const rowSlop = getTouchSlop(height)
   const text = getTextContent(children)
   const content = (
     <TextStyle
@@ -2239,6 +2253,7 @@ function SidebarMenuButton({
       disabled: Boolean(disabled),
       ...accessibilityState,
     },
+    hitSlop: { top: rowSlop, bottom: rowSlop },
     className: cn(sidebarMenuButtonVariants({ variant, size }), className),
     style: [
       !isRail && row ? { paddingRight: row.trailing.gutter } : undefined,
@@ -2278,7 +2293,7 @@ function SidebarMenuAction({
   className,
   render,
   asChild,
-  showOnHover: _showOnHover = false,
+  showOnHover = false,
   children,
   style,
   accessibilityState,
@@ -2286,7 +2301,7 @@ function SidebarMenuAction({
   ...props
 }: Omit<React.ComponentProps<typeof Pressable>, "children" | "style"> &
   RenderProps & {
-    /** Kept so code from the website compiles: touch has no hover, so it stays. */
+    /** On a tablet it waits for its row to be current or lit; a phone keeps it. */
     showOnHover?: boolean
     children?: React.ReactNode
     style?: React.ComponentProps<typeof View>["style"]
@@ -2295,6 +2310,16 @@ function SidebarMenuAction({
   const inCluster = React.use(SidebarActionsClusterContext)
   const collapse = useSidebarCollapse()
   const feedback = useFeedback()
+  const { isMobile } = useSidebar()
+  // A cluster shows and hides as one.
+  const isShown =
+    inCluster ||
+    isRowActionShown({
+      showOnHover,
+      isMobile,
+      isActive: row?.isActive ?? false,
+      isLit: row?.isLit ?? false,
+    })
 
   // A lone action reserves its own slot; a cluster reserves its whole run.
   const setActions = row?.setActions
@@ -2322,8 +2347,10 @@ function SidebarMenuAction({
     "data-slot": "sidebar-menu-action",
     "data-sidebar": "menu-action",
     "data-row-size": inCluster ? undefined : (row?.size ?? "default"),
+    "data-shown": isShown,
     role: "button" as const,
     hitSlop: 8,
+    pointerEvents: isShown ? ("auto" as const) : ("none" as const),
     className: cn(
       "cn-sidebar-menu-action items-center justify-center",
       !inCluster && "absolute",
@@ -2350,16 +2377,23 @@ function SidebarMenuAction({
 /** Several SidebarMenuActions in a row at the row's end. */
 function SidebarMenuActions({
   className,
-  showOnHover: _showOnHover = false,
+  showOnHover = false,
   children,
   style,
   ...props
 }: React.ComponentProps<typeof View> & {
-  /** Kept so code from the website compiles: touch has no hover, so they stay. */
+  /** On a tablet they wait for their row to be current or lit; a phone keeps them. */
   showOnHover?: boolean
 }) {
   const row = React.use(SidebarMenuItemContext)
   const collapse = useSidebarCollapse()
+  const { isMobile } = useSidebar()
+  const isShown = isRowActionShown({
+    showOnHover,
+    isMobile,
+    isActive: row?.isActive ?? false,
+    isLit: row?.isLit ?? false,
+  })
   const count = React.Children.count(children)
   const setActions = row?.setActions
   React.useLayoutEffect(() => {
@@ -2373,6 +2407,8 @@ function SidebarMenuActions({
       data-slot="sidebar-menu-actions"
       data-sidebar="menu-actions"
       data-row-size={row?.size ?? "default"}
+      data-shown={isShown}
+      pointerEvents={isShown ? "auto" : "none"}
       className={cn(
         "cn-sidebar-menu-actions absolute z-10 flex-row items-center",
         className
@@ -2577,6 +2613,12 @@ function SidebarMenuSubButton({
   const start = parseNumber(space8, 8)
   const step = parseNumber(space16, 16)
   const rowSize = size === "sm" ? "sm" : "default"
+  const rowSlop = getTouchSlop(
+    parseNumber(
+      useCSSVariable(size === "sm" ? "--density-24" : "--density-30"),
+      30
+    )
+  )
   const fluid = useMenuFluidRow({
     disabled,
     onLayout,
@@ -2626,6 +2668,7 @@ function SidebarMenuSubButton({
     role: "button" as const,
     disabled,
     "aria-expanded": ariaExpanded,
+    hitSlop: { top: rowSlop, bottom: rowSlop },
     accessibilityState: {
       selected: isActive,
       disabled: Boolean(disabled),

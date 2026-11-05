@@ -74,6 +74,14 @@ function getWeekEnd(date: Date, options: WeekOptions) {
   return options.ISOWeek ? endOfISOWeek(date) : endOfWeek(date, options)
 }
 
+/**
+ * Whether a calendar was given its box's whole width. On a tablet one that wasn't
+ * keeps to its own size, and one that was keeps its rows short.
+ */
+export function isStretchedCalendar(className: string | undefined) {
+  return /(^|\s)w-full(\s|$)/.test(className ?? "")
+}
+
 export function getMonthWeeks(
   month: Date,
   options: WeekOptions & { fixedWeeks?: boolean } = {}

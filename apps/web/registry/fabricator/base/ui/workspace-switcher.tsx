@@ -207,7 +207,7 @@ function WorkspaceSwitcher({
   const trigger = isMark ? (
     <button type="button" {...triggerProps} />
   ) : (
-    <SidebarMenuButton size="lg" {...triggerProps} />
+    <SidebarMenuButton size="lg" tooltip={active.name} {...triggerProps} />
   )
 
   const wrap = (node: React.ReactNode) =>

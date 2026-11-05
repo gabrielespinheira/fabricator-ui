@@ -13,6 +13,7 @@ import {
   getStartingMonth,
   getWeekdays,
   getYearOptions,
+  isStretchedCalendar,
   matchesDate,
   selectMultiple,
   selectRange,
@@ -366,5 +367,19 @@ describe("months", () => {
 describe("formatters", () => {
   it("writes the caption", () => {
     expect(formatCaption(day(5, 1))).toBe("June 2026")
+  })
+})
+
+describe("isStretchedCalendar", () => {
+  it("is what `w-full` asks for", () => {
+    expect(isStretchedCalendar("w-full")).toBe(true)
+    expect(isStretchedCalendar("mt-2 w-full rounded-lg")).toBe(true)
+  })
+
+  it("isn't anything else", () => {
+    expect(isStretchedCalendar(undefined)).toBe(false)
+    expect(isStretchedCalendar("")).toBe(false)
+    expect(isStretchedCalendar("sm:w-full")).toBe(false)
+    expect(isStretchedCalendar("w-fullish")).toBe(false)
   })
 })

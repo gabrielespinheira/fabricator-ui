@@ -568,7 +568,14 @@ function TabStripTab({
       onLayout?.(event)
     },
   })
-  const iconSize = parseNumber(useCSSVariable("--density-icon-14"), 14)
+  const [iconToken, padToken] = useCSSVariable([
+    "--density-icon-14",
+    "--density-4",
+  ])
+  const iconSize = parseNumber(iconToken, 14)
+  // A press takes the strip's whole height. The list scrolls, so it clips any
+  // reach past its own edges.
+  const tabSlop = parseNumber(padToken, 4)
 
   const { registerTab } = strip
   React.useLayoutEffect(
@@ -576,13 +583,18 @@ function TabStripTab({
     [registerTab, tabValue, index, title, pinned, closable, actions]
   )
 
-  const hasMenu = hasMenuEntries(strip, true) || actions.length > 0
+  // The primitive's `disabled` turns off its press too, and a tab with no menu
+  // still has to select, so it's a plain press.
+  const Trigger =
+    hasMenuEntries(strip, true) || actions.length > 0
+      ? ContextMenuTrigger
+      : Pressable
   const content = (
     <IconProvider size={iconSize} strokeWidth={isActive || isLit ? 2 : 1.5}>
       {isRenaming ? (
         <TabRenameInput value={tabValue} title={title} />
       ) : (
-        <ContextMenuTrigger
+        <Trigger
           data-slot="tab-strip-trigger"
           data-pinned={pinned}
           role="tab"
@@ -590,7 +602,7 @@ function TabStripTab({
           aria-selected={isActive}
           aria-disabled={false}
           accessibilityState={{ selected: isActive }}
-          disabled={!hasMenu}
+          hitSlop={{ top: tabSlop, bottom: tabSlop }}
           className="cn-tab-strip-trigger min-w-0 flex-1 flex-row items-center data-[pinned=true]:flex-none"
           onPress={() => {
             feedback("note", { pitch: noteStep(index) })
@@ -617,7 +629,7 @@ function TabStripTab({
               className="cn-tab-strip-waiting"
             />
           )}
-        </ContextMenuTrigger>
+        </Trigger>
       )}
       {closable && !isRenaming && (
         <View

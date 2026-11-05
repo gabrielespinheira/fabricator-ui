@@ -211,7 +211,7 @@ function WorkspaceSwitcher({
   const trigger = isMark ? (
     <ButtonPrimitive {...triggerProps}>{triggerContent}</ButtonPrimitive>
   ) : (
-    <SidebarMenuButton size="lg" {...triggerProps}>
+    <SidebarMenuButton size="lg" tooltip={active.name} {...triggerProps}>
       {triggerContent}
     </SidebarMenuButton>
   )

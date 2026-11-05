@@ -210,7 +210,7 @@ function WorkspaceSwitcher({
       {triggerContent}
     </button>
   ) : (
-    <SidebarMenuButton size="lg" {...triggerProps}>
+    <SidebarMenuButton size="lg" tooltip={active.name} {...triggerProps}>
       {triggerContent}
     </SidebarMenuButton>
   )

@@ -26,7 +26,7 @@ export const NATIVE_DIFFERENCES: Record<
   },
   "app-shell": {
     tier: "touch",
-    note: "On phones the sidebar reveals behind the page, panels open as sheets with a grab handle and full-width tabs, a panel's toggle draws a bottom panel, and the nav's mobile items become a tab bar, flat or floating, on a surface of your own through `capsule` (a `GlassView` for Liquid Glass). The page scrolls under the header, which sits on a fade behind the status bar, instead of showing a hairline. The breadcrumb shows the way up, and the page's name only once its heading has scrolled away. `window`, `shortcut` and `shortcutScope` are accepted and do nothing, since React Native has no window controls or global key events. Panels don't drag to resize, and the layout is only saved if you pass `storage`.",
+    note: "On tablets the sidebar's toggle stays in the header while the sidebar can collapse, and the toggles have no tooltip. On phones the sidebar reveals behind the page, panels open as sheets with a grab handle and full-width tabs, a panel's toggle draws a bottom panel, and the nav's mobile items become a tab bar, flat or floating, on a surface of your own through `capsule` (a `GlassView` for Liquid Glass). The page scrolls under the header, which sits on a fade behind the status bar, instead of showing a hairline. The breadcrumb shows the way up, and the page's name only once its heading has scrolled away. `window`, `shortcut` and `shortcutScope` are accepted and do nothing, since React Native has no window controls or global key events. Panels don't drag to resize, and the layout is only saved if you pass `storage`.",
   },
   "aspect-ratio": SAME,
   attachment: SAME,
@@ -72,7 +72,7 @@ export const NATIVE_DIFFERENCES: Record<
   },
   density: {
     tier: "same",
-    note: '`DensityProvider` sets scoped variables, with no wrapper view. Phones default to spacious, and there a control\'s `size="sm"` is a step down, 36pt, and `size="lg"` a step up, 52pt, rather than compact and spacious.',
+    note: '`DensityProvider` sets scoped variables, with no wrapper view. Phones default to spacious, and there a control\'s `size="sm"` is a step down, 36pt, and `size="lg"` a step up, 52pt, rather than compact and spacious. Tablets take their own step in place of spacious: 40pt controls with the same 15pt text, `sm` 34pt, `lg` 48pt. `FabricatorRoot` sets it from the window\'s width; a density picked on purpose stays.',
   },
   drawer: {
     tier: "engine",
@@ -148,7 +148,7 @@ export const NATIVE_DIFFERENCES: Record<
   },
   sidebar: {
     tier: "touch",
-    note: "On phones it reveals behind the page, following the finger, or slides over it from an edge swipe. `SidebarRail` toggles on a tap instead of resizing, and row actions always show. `persist`, `shortcut`, `peek` and `onWidthChange` are accepted and do nothing.",
+    note: "On phones it reveals behind the page, following the finger, or slides over it from an edge swipe. `SidebarRail` toggles on a tap instead of resizing. Row actions always show on phones; on tablets they wait for the current row or a trackpad's hover, and a long press reaches the rest. `persist`, `shortcut`, `peek` and `onWidthChange` are accepted and do nothing.",
   },
   skeleton: SAME,
   slider: SAME,

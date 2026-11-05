@@ -83,34 +83,34 @@ describe("buildNativeAppShellSource", () => {
     expect(code.match(/mobile: "tab"/g)?.length).toBe(3)
   })
 
-  it("draws the tab bar in its style", () => {
-    const flat = source({ bottomNav: true })
-    expect(flat).not.toContain('variant="floating"')
-    expect(flat).not.toContain("expo-glass-effect")
-
-    const floating = source({ bottomNav: true, bottomNavStyle: "floating" })
-    expect(floating).toContain('variant="floating"')
-    expect(floating).not.toContain("GlassView")
-
-    const glass = source({ bottomNav: true, bottomNavStyle: "glass" })
+  it("draws the tab bar in Liquid Glass unless asked otherwise", () => {
+    const glass = source({ bottomNav: true })
     expect(glass).toContain('variant="floating"')
     expect(glass).toContain('from "expo-glass-effect"')
     // Without Liquid Glass, a GlassView is a see-through View.
     expect(glass).toContain(
       "capsule={isLiquidGlassAvailable() ? <GlassView isInteractive /> : undefined}"
     )
+
+    const flat = source({ bottomNav: true, bottomNavStyle: "flat" })
+    expect(flat).not.toContain('variant="floating"')
+    expect(flat).not.toContain("expo-glass-effect")
+
+    const floating = source({ bottomNav: true, bottomNavStyle: "floating" })
+    expect(floating).toContain('variant="floating"')
+    expect(floating).not.toContain("GlassView")
   })
 
   it("installs the glass module only for the glass tab bar", () => {
     const dependencies = (changes: Partial<PlaygroundOptions>) =>
       buildNativeAppShellItem(pick(changes)).dependencies
-    expect(
-      dependencies({ bottomNav: true, bottomNavStyle: "glass" })
-    ).toContain("expo-glass-effect")
+    expect(dependencies({ bottomNav: true })).toContain("expo-glass-effect")
     expect(
       dependencies({ bottomNav: false, bottomNavStyle: "glass" })
     ).not.toContain("expo-glass-effect")
-    expect(dependencies({ bottomNav: true })).not.toContain("expo-glass-effect")
+    expect(
+      dependencies({ bottomNav: true, bottomNavStyle: "flat" })
+    ).not.toContain("expo-glass-effect")
   })
 
   it("ignores what needs a pointer or a window", () => {

@@ -11,7 +11,9 @@ export type SidebarCollapsible = "offcanvas" | "icon"
 
 export type SidebarRegistration = SidebarCollapsible | "none"
 
-export const SIDEBAR_WIDTH = "16rem"
+// Wider than the website's 16rem: a tablet's 15pt rows need the same room its 13pt
+// rows have, and a phone's sheet is this wide already.
+export const SIDEBAR_WIDTH = "18rem"
 export const SIDEBAR_WIDTH_MOBILE = "18rem"
 
 /** How close to the leading edge a swipe has to start to open the reveal. */
@@ -36,6 +38,25 @@ export function parseSidebarWidth(width: string, fallback: number) {
   if (!match) return fallback
   const value = Number(match[1])
   return match[2] === "rem" ? value * REM : value
+}
+
+/**
+ * Whether a row's trailing actions show. The website's `showOnHover` waits for the
+ * pointer. A tablet's rows wait too, for a trackpad or the row being the current
+ * one; a long press reaches the rest. A phone has no pointer, so they stay.
+ */
+export function isRowActionShown({
+  showOnHover,
+  isMobile,
+  isActive,
+  isLit,
+}: {
+  showOnHover: boolean
+  isMobile: boolean
+  isActive: boolean
+  isLit: boolean
+}) {
+  return !showOnHover || isMobile || isActive || isLit
 }
 
 /** A collapsed row plus the group's padding on each side. */
@@ -88,14 +109,18 @@ export function getSidebarContainerOffset({
   collapsible,
   side,
   width,
+  edgeInset = 0,
 }: {
   isCollapsed: boolean
   collapsible: SidebarCollapsible
   side: SidebarSide
   width: number
+  /** The safe area on its side, which the sidebar starts past. */
+  edgeInset?: number
 }) {
   if (!isCollapsed || collapsible !== "offcanvas") return 0
-  return side === "left" ? -width : width
+  const distance = width + edgeInset
+  return side === "left" ? -distance : distance
 }
 
 /**

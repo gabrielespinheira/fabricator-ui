@@ -106,7 +106,7 @@ function SetupCards({
         options={options}
         onChange={onOptionsChange}
         isPhone={isPhone}
-        className={isPhone ? "w-full" : "min-w-88 flex-1"}
+        className={isPhone ? "w-full" : "min-w-88 flex-[1.4]"}
       />
     </View>
   )
@@ -325,7 +325,9 @@ function Shell() {
           {panelTrigger}
         </AppShellHeader>
         {hasRowOfTabs ? (
-          <View className="flex-row items-center">{pageTabStrip}</View>
+          <View className="flex-row items-center md:pl-(--density-24)">
+            {pageTabStrip}
+          </View>
         ) : null}
         <Page
           title={title}

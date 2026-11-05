@@ -69,17 +69,21 @@ export function getOtherPanelsWidth(
     .reduce((total, [, other]) => total + other.width, 0)
 }
 
-/** `auto` shows the toggle only where the sidebar can't show its own. */
+/**
+ * `auto` keeps the toggle in the header wherever it does something. The website's
+ * sidebar hides it until the pointer finds the sidebar; a finger has nothing to find.
+ */
 export function shouldShowHeaderTrigger({
   trigger,
   isMobile,
-  state,
+  canCollapse,
 }: {
   trigger: "auto" | "always" | "never"
   isMobile: boolean
-  state: "expanded" | "collapsed"
+  /** A sidebar that never collapses has nothing to toggle on a tablet. */
+  canCollapse: boolean
 }) {
-  if (trigger === "auto") return isMobile || state === "collapsed"
+  if (trigger === "auto") return isMobile || canCollapse
   return trigger === "always"
 }
 
@@ -191,6 +195,24 @@ export function getContentColumn({
   }
 }
 
+/**
+ * How far a column without a card drops its top row, to share a centre with the
+ * sidebar's first row. A card's own gutter already puts it there.
+ */
+export function getShellRowOffset({
+  variant,
+  isPhone,
+  rowInset,
+}: {
+  variant: "sidebar" | "floating" | "inset"
+  isPhone: boolean
+  /** How far a sidebar's rows, and a floating sidebar's card, sit from their edges. */
+  rowInset: number
+}) {
+  if (isPhone || variant === "inset") return 0
+  return variant === "floating" ? 2 * rowInset : rowInset
+}
+
 /** A docked panel's place in the window: as the main column's, on its edge. */
 export function getPanelFrame({
   isCard,
@@ -198,15 +220,21 @@ export function getPanelFrame({
   insetTop,
   insetBottom,
   gutter,
+  rowOffset = 0,
 }: {
   isCard: boolean
   statusBarHeight: number
   insetTop: number
   insetBottom: number
   gutter: number
+  rowOffset?: number
 }) {
   if (!isCard) {
-    return { paddingTop: insetTop, marginTop: 0, marginBottom: statusBarHeight }
+    return {
+      paddingTop: insetTop + rowOffset,
+      marginTop: 0,
+      marginBottom: statusBarHeight,
+    }
   }
   return {
     paddingTop: 0,
@@ -239,6 +267,7 @@ export function getPinnedTriggerPosition({
   rowHeight,
   buttonSize,
   rowPadding,
+  rowOffset = 0,
 }: {
   insetTop: number
   insetRight: number
@@ -246,11 +275,34 @@ export function getPinnedTriggerPosition({
   rowHeight: number
   buttonSize: number
   rowPadding: number
+  rowOffset?: number
 }) {
   return {
-    top: insetTop + gutter + (rowHeight - buttonSize) / 2,
+    top: insetTop + gutter + rowOffset + (rowHeight - buttonSize) / 2,
     right: insetRight + gutter + rowPadding,
   }
+}
+
+/**
+ * The room a pinned toggle's slot takes in the main header. Closed, the toggle sits
+ * there. Open, it's over the panel, so the slot only lines the header's last action
+ * up with the page's right edge.
+ */
+export function getPinnedAnchorWidth({
+  isOpen,
+  buttonSize,
+  pageGutter,
+  rowPadding,
+  gap,
+}: {
+  isOpen: boolean
+  buttonSize: number
+  pageGutter: number
+  rowPadding: number
+  gap: number
+}) {
+  if (!isOpen) return buttonSize
+  return Math.max(0, pageGutter - rowPadding - gap)
 }
 
 /** What a docked panel's header leaves for the toggle pinned over its end. */

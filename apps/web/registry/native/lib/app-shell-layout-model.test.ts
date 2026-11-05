@@ -12,7 +12,9 @@ import {
   getPanelFrame,
   getPanelHeaderEnd,
   getPhoneTrail,
+  getPinnedAnchorWidth,
   getPinnedTriggerPosition,
+  getShellRowOffset,
   getStatusBarHeight,
   isTitleScrolledAway,
   shouldShowHeaderTrigger,
@@ -117,29 +119,46 @@ describe("shouldShowHeaderTrigger", () => {
       shouldShowHeaderTrigger({
         trigger: "always",
         isMobile: false,
-        state: "expanded",
+        canCollapse: false,
       })
     ).toBe(true)
     expect(
       shouldShowHeaderTrigger({
         trigger: "never",
         isMobile: true,
-        state: "collapsed",
+        canCollapse: true,
       })
     ).toBe(false)
   })
 
-  it("shows itself where the sidebar can't show its own", () => {
-    const auto = { trigger: "auto" as const }
+  it("stays in a tablet's toolbar while the sidebar can collapse, open or not", () => {
     expect(
-      shouldShowHeaderTrigger({ ...auto, isMobile: true, state: "expanded" })
+      shouldShowHeaderTrigger({
+        trigger: "auto",
+        isMobile: false,
+        canCollapse: true,
+      })
     ).toBe(true)
+  })
+
+  it("has nothing to do beside a tablet's sidebar that never collapses", () => {
     expect(
-      shouldShowHeaderTrigger({ ...auto, isMobile: false, state: "collapsed" })
-    ).toBe(true)
-    expect(
-      shouldShowHeaderTrigger({ ...auto, isMobile: false, state: "expanded" })
+      shouldShowHeaderTrigger({
+        trigger: "auto",
+        isMobile: false,
+        canCollapse: false,
+      })
     ).toBe(false)
+  })
+
+  it("is how a phone reaches its sidebar, whichever kind it is", () => {
+    expect(
+      shouldShowHeaderTrigger({
+        trigger: "auto",
+        isMobile: true,
+        canCollapse: false,
+      })
+    ).toBe(true)
   })
 })
 
@@ -279,6 +298,32 @@ describe("getContentColumn", () => {
   })
 })
 
+describe("getShellRowOffset", () => {
+  it("drops a flush column's top row by the sidebar's padding", () => {
+    expect(
+      getShellRowOffset({ variant: "sidebar", isPhone: false, rowInset: 10 })
+    ).toBe(10)
+  })
+
+  it("drops it by the card's gutter too beside a floating sidebar", () => {
+    expect(
+      getShellRowOffset({ variant: "floating", isPhone: false, rowInset: 10 })
+    ).toBe(20)
+  })
+
+  it("leaves it to the card's own gutter beside an inset sidebar", () => {
+    expect(
+      getShellRowOffset({ variant: "inset", isPhone: false, rowInset: 10 })
+    ).toBe(0)
+  })
+
+  it("has no sidebar to line up with on a phone", () => {
+    expect(
+      getShellRowOffset({ variant: "floating", isPhone: true, rowInset: 10 })
+    ).toBe(0)
+  })
+})
+
 describe("getPanelFrame", () => {
   const base = {
     statusBarHeight: 0,
@@ -286,6 +331,12 @@ describe("getPanelFrame", () => {
     insetBottom: 20,
     gutter: 6,
   }
+
+  it("drops a flat column's top row with the main column's", () => {
+    expect(
+      getPanelFrame({ ...base, isCard: false, rowOffset: 20 }).paddingTop
+    ).toBe(44)
+  })
 
   it("pads a flat column under the status bar", () => {
     expect(getPanelFrame({ ...base, isCard: false })).toEqual({
@@ -325,7 +376,44 @@ describe("getStatusBarHeight", () => {
   })
 })
 
+describe("getPinnedAnchorWidth", () => {
+  const metrics = { buttonSize: 34, pageGutter: 28, rowPadding: 14, gap: 10 }
+
+  it("holds the toggle's room while it sits over this header", () => {
+    expect(getPinnedAnchorWidth({ ...metrics, isOpen: false })).toBe(34)
+  })
+
+  it("lines the header's end up with the page's once it's over the panel", () => {
+    const width = getPinnedAnchorWidth({ ...metrics, isOpen: true })
+    expect(width + metrics.gap + metrics.rowPadding).toBe(metrics.pageGutter)
+  })
+
+  it("never asks for less than nothing", () => {
+    expect(
+      getPinnedAnchorWidth({
+        ...metrics,
+        pageGutter: 16,
+        isOpen: true,
+      })
+    ).toBe(0)
+  })
+})
+
 describe("getPinnedTriggerPosition", () => {
+  it("drops with a row that has dropped, keeping its distance from the side", () => {
+    expect(
+      getPinnedTriggerPosition({
+        insetTop: 32,
+        insetRight: 0,
+        gutter: 0,
+        rowHeight: 52,
+        buttonSize: 34,
+        rowPadding: 14,
+        rowOffset: 20,
+      })
+    ).toEqual({ top: 32 + 20 + 9, right: 14 })
+  })
+
   it("centres the toggle in the row of whichever header is under it", () => {
     expect(
       getPinnedTriggerPosition({

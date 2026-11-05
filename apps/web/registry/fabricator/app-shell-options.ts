@@ -147,13 +147,16 @@ const SECTION_LAYOUT = {
   all: [
     {
       title: "Sidebar",
-      keys: ["switcher", "account", "reorder", "customize"],
+      keys: ["variant", "switcher", "account", "reorder", "customize"],
     },
-    { title: "Main", keys: ["tabs", "breadcrumb", "actions", "panel"] },
+    {
+      title: "Main",
+      keys: ["tabs", "contentSize", "breadcrumb", "actions", "panel"],
+    },
   ],
   desktop: [
-    { title: "Sidebar", keys: ["variant", "collapse", "peek"] },
-    { title: "Main", keys: ["contentSize", "status"] },
+    { title: "Sidebar", keys: ["collapse", "peek"] },
+    { title: "Main", keys: ["status"] },
     { title: "Window", keys: ["window", "fullscreen", "glass"] },
   ],
   mobile: [

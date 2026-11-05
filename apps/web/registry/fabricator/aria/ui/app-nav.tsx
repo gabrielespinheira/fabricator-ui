@@ -35,6 +35,7 @@ import {
   getCustomizableNavGroups,
   getMobileTabItems,
   getNavList,
+  getNavRailLabel,
   getPinnedNavItems,
   moveCustomizableNavItem,
   moveNavItem,
@@ -104,6 +105,7 @@ import {
   SidebarMenuSubButton,
   SidebarMenuSubItem,
   useSidebar,
+  useSidebarCollapse,
 } from "@/registry/bases/aria/ui/sidebar"
 import { Switch } from "@/registry/bases/aria/ui/switch"
 import { IconPlaceholder } from "@/app/(create)/components/icon-placeholder"
@@ -722,6 +724,54 @@ type AppNavRowProps = {
   idPrefix?: string
 }
 
+/**
+ * A row's children have no room on the rail, so pressing it lists them beside it:
+ * its own page first, then its children, to any depth, as submenus.
+ */
+function AppNavRailItems({ item }: { item: AppNavItem }) {
+  const { activeId, renderLink, onNavigate } = useAppNav()
+  const getEntryProps = (entry: AppNavItem) => ({
+    id: entry.id,
+    textValue: entry.label,
+    isDisabled: entry.disabled,
+    "data-current": entry.id === activeId ? "" : undefined,
+    href: entry.href,
+    render: entry.href ? renderLinkElement(renderLink(entry)) : undefined,
+    onAction: () => onNavigate?.(entry),
+  })
+  return (
+    <DropdownMenuGroup>
+      {item.href ? (
+        <DropdownMenuItem {...getEntryProps(item)} id={`${item.id}-page`}>
+          {item.label}
+        </DropdownMenuItem>
+      ) : null}
+      {(item.children ?? []).map((child) =>
+        child.children?.length ? (
+          <DropdownMenuSub key={child.id}>
+            <DropdownMenuSubTrigger
+              id={child.id}
+              textValue={child.label}
+              isDisabled={child.disabled}
+            >
+              <IconSlot icon={child.icon} />
+              {child.label}
+            </DropdownMenuSubTrigger>
+            <DropdownMenuSubContent>
+              <AppNavRailItems item={child} />
+            </DropdownMenuSubContent>
+          </DropdownMenuSub>
+        ) : (
+          <DropdownMenuItem key={child.id} {...getEntryProps(child)}>
+            <IconSlot icon={child.icon} />
+            {child.label}
+          </DropdownMenuItem>
+        )
+      )}
+    </DropdownMenuGroup>
+  )
+}
+
 function AppNavRow({
   item,
   parentId,
@@ -740,11 +790,14 @@ function AppNavRow({
     updatePreferences,
     move,
   } = useAppNav()
+  const collapse = useSidebarCollapse()
+  // On the rail a row's children have no room, so pressing it lists them instead.
+  const hasRailMenu = collapse === "icon" && Boolean(item.children?.length)
   const { attach, attachHandle, isDragging } = useSortableItem({
     id: `${idPrefix}${item.id}`,
     index,
     group: `${idPrefix}${parentId}`,
-    disabled: !reorderable || item.disabled,
+    disabled: !reorderable || item.disabled || hasRailMenu,
     hasVariableHeight: true,
   })
   const isTopLevel = depth === 0
@@ -786,6 +839,7 @@ function AppNavRow({
         return
       }
     }
+    if (hasRailMenu) return
     if (!hasModifier && event.key === "ArrowRight" && hasChildren && !isOpen) {
       event.preventDefault()
       setOpen(true)
@@ -829,7 +883,7 @@ function AppNavRow({
 
   // The selection marks the top-level row that is the page or holds it.
   const button = isTopLevel ? (
-    item.href ? (
+    item.href && !hasRailMenu ? (
       <SidebarMenuButton
         ref={attachHandle}
         href={item.href}
@@ -838,7 +892,7 @@ function AppNavRow({
         aria-current={isCurrent ? "page" : undefined}
         icon={iconComponent}
         status={item.status}
-        tooltip={item.label}
+        tooltip={getNavRailLabel(item)}
         isDisabled={item.disabled}
         onPress={select}
         onKeyDown={handleKeyDown}
@@ -850,12 +904,12 @@ function AppNavRow({
         ref={attachHandle}
         isActive={isCurrent || holdsActive}
         aria-current={isCurrent ? "page" : undefined}
-        aria-expanded={hasChildren ? isOpen : undefined}
+        aria-expanded={hasChildren && !hasRailMenu ? isOpen : undefined}
         icon={iconComponent}
         status={item.status}
-        tooltip={item.label}
+        tooltip={getNavRailLabel(item)}
         isDisabled={item.disabled}
-        onPress={select}
+        onPress={hasRailMenu ? undefined : select}
         onKeyDown={handleKeyDown}
       >
         {content}
@@ -897,9 +951,19 @@ function AppNavRow({
       ref={attach}
       data-slot="app-nav-item"
       data-dragging={isDragging ? "" : undefined}
+      data-badge={item.badge !== undefined ? "" : undefined}
       className="cn-app-nav-item"
     >
-      {entries.length > 0 ? (
+      {hasRailMenu ? (
+        <DropdownMenuTrigger>
+          {button}
+          <DropdownMenu placement="right top" className="cn-app-nav-menu">
+            <AppNavRailItems item={item} />
+            {entries.length > 0 && <DropdownMenuSeparator />}
+            <DropdownMenuEntries entries={entries} />
+          </DropdownMenu>
+        </DropdownMenuTrigger>
+      ) : entries.length > 0 ? (
         <ContextMenuTrigger>
           {button}
           {/* The row is the trigger, so the menu sizes to its items. */}
@@ -910,7 +974,7 @@ function AppNavRow({
       ) : (
         button
       )}
-      {hasChildren && (
+      {hasChildren && !hasRailMenu && (
         // A row without a page is its own toggle; this one serves the
         // pointer there, and the keyboard on rows that link.
         <button
@@ -949,7 +1013,7 @@ function AppNavRow({
           </DropdownMenuTrigger>
         </SidebarMenuActions>
       )}
-      {hasChildren && (
+      {hasChildren && !hasRailMenu && (
         <SidebarMenuSub open={isOpen}>
           {children.map((child, childIndex) => (
             <AppNavRow

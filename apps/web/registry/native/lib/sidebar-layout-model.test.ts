@@ -15,6 +15,7 @@ import {
   getSidebarIconWidth,
   getSkeletonWidth,
   getUnregisteredCollapsible,
+  isRowActionShown,
   parseSidebarWidth,
   toRevealDelta,
   toRevealVelocity,
@@ -85,6 +86,26 @@ describe("the docked sidebar's widths", () => {
     expect(
       getSidebarContainerOffset({ ...collapsed, side: "right", width: 256 })
     ).toBe(256)
+  })
+
+  it("clears the safe area it starts past, leaving nothing in it", () => {
+    const collapsed = { isCollapsed: true, collapsible: "offcanvas" as const }
+    expect(
+      getSidebarContainerOffset({
+        ...collapsed,
+        side: "left",
+        width: 256,
+        edgeInset: 59,
+      })
+    ).toBe(-315)
+    expect(
+      getSidebarContainerOffset({
+        ...collapsed,
+        side: "right",
+        width: 256,
+        edgeInset: 59,
+      })
+    ).toBe(315)
   })
 
   it("stays put otherwise", () => {
@@ -333,5 +354,28 @@ describe("two sidebars in one provider", () => {
   it("keeps the other's registration when one unmounts", () => {
     expect(getUnregisteredCollapsible("offcanvas", "none")).toBe("offcanvas")
     expect(getUnregisteredCollapsible("offcanvas", "offcanvas")).toBeNull()
+  })
+})
+
+describe("isRowActionShown", () => {
+  const rest = {
+    showOnHover: true,
+    isMobile: false,
+    isActive: false,
+    isLit: false,
+  }
+
+  it("waits for a tablet's row to be active or lit, as the website's hover does", () => {
+    expect(isRowActionShown(rest)).toBe(false)
+    expect(isRowActionShown({ ...rest, isActive: true })).toBe(true)
+    expect(isRowActionShown({ ...rest, isLit: true })).toBe(true)
+  })
+
+  it("stays on a phone, which has no pointer to reveal it", () => {
+    expect(isRowActionShown({ ...rest, isMobile: true })).toBe(true)
+  })
+
+  it("stays when it isn't asked to wait", () => {
+    expect(isRowActionShown({ ...rest, showOnHover: false })).toBe(true)
   })
 })

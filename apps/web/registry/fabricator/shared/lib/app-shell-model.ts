@@ -196,6 +196,14 @@ export function getMobileTabItems<TIcon>(groups: NavGroup<TIcon>[]) {
   )
 }
 
+/** What a row says on the rail: its label, and the badge there's no room for. */
+export function getNavRailLabel<TIcon>({
+  label,
+  badge,
+}: Pick<NavItem<TIcon>, "label" | "badge">) {
+  return badge === undefined ? label : `${label} · ${badge}`
+}
+
 /** The item and its ancestors, outermost first (empty when it isn't there). */
 export function getNavPath<TIcon>(
   groups: NavGroup<TIcon>[],
@@ -708,6 +716,9 @@ export function getShellSize(
 const TRAFFIC_LIGHTS_WIDTH = 52
 const TRAFFIC_LIGHTS_HEIGHT = 14
 const TRAFFIC_LIGHTS_GAP = 20
+// What a rail of icons keeps past the lights, for the toggle after them to sit
+// inside the main card by the header's inset.
+const TRAFFIC_LIGHTS_RAIL_END = 8
 
 /**
  * Windows and Linux draw their window buttons over the page, so a window there
@@ -722,12 +733,14 @@ export function hasWindowTitlebar(
 /**
  * Where the shell's chrome goes around the traffic lights: content starts
  * `insetStart` px from the window's edge, and the top band is `bandHeight`
- * px tall, so a row filling it centres on the lights.
+ * px tall, so a row filling it centres on the lights. A rail of icons is
+ * `railWidth` px wide, so the lights stay on it.
  */
 export function getTrafficLightsGeometry(position: { x: number; y: number }) {
   return {
     insetStart: position.x + TRAFFIC_LIGHTS_WIDTH + TRAFFIC_LIGHTS_GAP,
     bandHeight: position.y * 2 + TRAFFIC_LIGHTS_HEIGHT,
+    railWidth: position.x + TRAFFIC_LIGHTS_WIDTH + TRAFFIC_LIGHTS_RAIL_END,
   }
 }
 

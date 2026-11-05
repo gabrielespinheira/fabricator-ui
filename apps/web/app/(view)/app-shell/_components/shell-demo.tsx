@@ -114,6 +114,7 @@ export function ShellDemo({
   documents,
   initialTabs,
   isPanelOpenByDefault,
+  bottomNavClassName,
   renderPage,
 }: {
   options: PlaygroundOptions
@@ -125,6 +126,7 @@ export function ShellDemo({
   documents: Record<string, { title: string; icon: typeof FileTextIcon }>
   initialTabs: TabStripState
   isPanelOpenByDefault?: boolean
+  bottomNavClassName?: string
   renderPage: (page: { isHome: boolean; title: string }) => React.ReactNode
 }) {
   const [pathname, setPathname] = React.useState(HOME_HREF)
@@ -197,6 +199,7 @@ export function ShellDemo({
         options={options}
         storageKey="playground"
         shellWindow={shellWindow}
+        bottomNavClassName={bottomNavClassName}
         workspaces={workspaces}
         user={user}
         groups={groups}

@@ -50,6 +50,7 @@ describe("buildAppShellInstallUrl", () => {
   it("leaves out what the preview alone uses or the choices rule out", () => {
     const url = buildAppShellInstallUrl(
       pick({
+        collapse: "icon",
         fullscreen: true,
         glass: false,
         peek: "hover",
@@ -58,7 +59,7 @@ describe("buildAppShellInstallUrl", () => {
       }),
       SITE
     )
-    expect(url).toBe(`${SITE}/init/app-shell?panel=false`)
+    expect(url).toBe(`${SITE}/init/app-shell?collapse=icon&panel=false`)
   })
 
   it("round-trips through the endpoint's parser", () => {
@@ -155,14 +156,14 @@ describe("normalizeInstallOptions", () => {
   it("drops the tab bar's style without a tab bar", () => {
     expect(
       normalizeInstallOptions(
-        pick({ bottomNav: false, bottomNavStyle: "glass" })
-      ).bottomNavStyle
-    ).toBe("flat")
-    expect(
-      normalizeInstallOptions(
-        pick({ bottomNav: true, bottomNavStyle: "glass" })
+        pick({ bottomNav: false, bottomNavStyle: "floating" })
       ).bottomNavStyle
     ).toBe("glass")
+    expect(
+      normalizeInstallOptions(
+        pick({ bottomNav: true, bottomNavStyle: "floating" })
+      ).bottomNavStyle
+    ).toBe("floating")
   })
 })
 
@@ -174,10 +175,13 @@ describe("toProjectSetup", () => {
       shell: {
         ...DEFAULT_SETUP.shell,
         bottomNav: true,
-        bottomNavStyle: "glass",
+        bottomNavStyle: "floating",
       },
     })
-    expect(shell).toMatchObject({ bottomNav: "true", bottomNavStyle: "glass" })
+    expect(shell).toMatchObject({
+      bottomNav: "true",
+      bottomNavStyle: "floating",
+    })
   })
 })
 

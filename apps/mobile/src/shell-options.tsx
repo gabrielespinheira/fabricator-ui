@@ -280,7 +280,11 @@ export function ShellOptionsCard({
           >
             <RotateCcwIcon />
             Reset
-            {changed > 0 ? <Badge variant="secondary">{changed}</Badge> : null}
+            {changed > 0 ? (
+              <Badge variant="secondary" className="self-center">
+                {changed}
+              </Badge>
+            ) : null}
           </Button>
         </CardAction>
       </CardHeader>

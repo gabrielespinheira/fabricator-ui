@@ -100,6 +100,7 @@ function UserMenu({
         ) : (
           <SidebarMenuButton
             size="lg"
+            tooltip={user.name}
             className={cn("cn-user-menu-trigger", className)}
           >
             <UserAvatar user={user} />

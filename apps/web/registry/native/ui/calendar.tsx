@@ -28,6 +28,7 @@ import {
   getStartingMonth,
   getWeekdays,
   getYearOptions,
+  isStretchedCalendar,
   selectMultiple,
   selectRange,
   selectSingle,
@@ -533,6 +534,7 @@ function Calendar(props: CalendarProps & { buttonVariant?: ButtonVariant }) {
               month={month}
               displayIndex={displayIndex}
               classNames={classNames}
+              isStretched={isStretchedCalendar(className)}
               captionLayout={captionLayout}
               formatters={formatters}
               formatOptions={formatOptions}
@@ -569,6 +571,7 @@ function CalendarMonth({
   month,
   displayIndex,
   classNames,
+  isStretched,
   captionLayout,
   formatters,
   formatOptions,
@@ -591,6 +594,7 @@ function CalendarMonth({
   month: Date
   displayIndex: number
   classNames: CalendarClassNames
+  isStretched: boolean
   captionLayout: CaptionLayout
   formatters: CalendarFormatters
   formatOptions: { locale?: Locale }
@@ -634,7 +638,13 @@ function CalendarMonth({
   }
 
   return (
-    <View className={cn("w-full flex-col gap-4", classNames.month)}>
+    <View
+      data-stretched={isStretched}
+      className={cn(
+        "cn-calendar-month w-full flex-col gap-4",
+        classNames.month
+      )}
+    >
       <View
         className={cn(
           "cn-calendar-month-caption w-full flex-row items-center justify-center",
@@ -765,6 +775,7 @@ function CalendarMonth({
                     data-range-start={dayModifiers.range_start}
                     data-range-middle={dayModifiers.range_middle}
                     data-range-end={dayModifiers.range_end}
+                    data-stretched={isStretched}
                     className={cn(
                       "cn-calendar-day relative aspect-square flex-1",
                       classNames.day,

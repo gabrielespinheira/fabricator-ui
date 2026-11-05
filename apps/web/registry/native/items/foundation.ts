@@ -75,14 +75,14 @@ export const foundationItems: Registry["items"] = [
     type: "registry:ui",
     title: "Fabricator Root",
     description:
-      "Wraps the app once: gestures, safe-area classes and the place overlays render.",
+      "Wraps the app once: gestures, safe-area classes, the sizes for this device and the place overlays render.",
     dependencies: [
       "@rn-primitives/portal",
       "react-native-gesture-handler",
       "react-native-safe-area-context",
       "uniwind@1.13.1",
     ],
-    registryDependencies: ["@fabricator/feedback"],
+    registryDependencies: ["@fabricator/density", "@fabricator/feedback"],
     files: [{ path: "ui/fabricator-root.tsx", type: "registry:ui" }],
     meta: docs("fabricator-root"),
   },
@@ -103,6 +103,7 @@ export const foundationItems: Registry["items"] = [
     files: [
       { path: "ui/text.tsx", type: "registry:ui" },
       { path: "lib/text-children.ts", type: "registry:lib" },
+      { path: "lib/data-variants.ts", type: "registry:lib" },
       { path: "lib/motion-tokens.ts", type: "registry:lib" },
     ],
     meta: docs("text"),

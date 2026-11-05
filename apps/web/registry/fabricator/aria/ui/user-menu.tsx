@@ -114,6 +114,7 @@ function UserMenu({
       ) : (
         <SidebarMenuButton
           size="lg"
+          tooltip={user.name}
           data-user-menu={variant}
           data-popup-open={open ? "" : undefined}
           className={cn("cn-user-menu-trigger", className)}

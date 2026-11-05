@@ -403,6 +403,23 @@ function getWindowStyle(window: AppShellWindow | undefined) {
   }
 }
 
+/**
+ * On macOS a rail of icons is wide enough that the traffic lights stay on it.
+ * A titlebar row has them above the rail, so there it keeps its own width.
+ */
+function getRailStyle(
+  window: AppShellWindow | undefined,
+  hasTitlebar: boolean
+) {
+  if (window?.controls !== "macos" || window.isFullscreen || hasTitlebar) {
+    return undefined
+  }
+  const { railWidth } = getTrafficLightsGeometry(
+    window.trafficLights ?? DEFAULT_TRAFFIC_LIGHTS
+  )
+  return { "--sidebar-width-icon": `${railWidth}px` } as React.CSSProperties
+}
+
 // MARK: AppShell
 
 type AppShellProps = React.ComponentProps<"div"> &
@@ -710,6 +727,7 @@ function AppShell({
             widthMobile={widthMobile}
             mobileSidebar={mobileSidebar}
             onWidthChange={setSidebarWidth}
+            style={getRailStyle(windowProp, Boolean(shellTitlebar))}
             className="cn-app-shell-body min-h-0 flex-1"
           >
             {children}

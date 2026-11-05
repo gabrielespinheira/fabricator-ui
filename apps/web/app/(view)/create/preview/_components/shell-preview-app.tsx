@@ -24,11 +24,23 @@ import {
 } from "./preview-data"
 
 /**
+ * Stands in for a React Native app's tab bar, whose styles the web's doesn't have.
+ * A blurred capsule is as close as a browser gets to Liquid Glass.
+ */
+const NATIVE_TAB_BAR_CLASSES = {
+  flat: undefined,
+  floating:
+    "absolute inset-x-3 bottom-2 z-20 rounded-full border-0 bg-sidebar p-1 shadow-surface-3",
+  glass:
+    "absolute inset-x-3 bottom-2 z-20 rounded-full border border-foreground/10 bg-background/40 p-1 shadow-surface-3 backdrop-blur-xl backdrop-saturate-150",
+}
+
+/**
  * The App Shell on /create, inside the page's iframe. It starts from its address
  * and follows the options the page sends, so a change never reloads it.
  */
 export function ShellPreviewApp() {
-  const [{ desktop, ...options }, setOptions] =
+  const [{ desktop, nativeTabBar, ...options }, setOptions] =
     useQueryStates(shellPreviewParsers)
   const groups = React.useMemo(
     () => getPreviewNavGroups({ reorderable: options.reorder }),
@@ -55,6 +67,11 @@ export function ShellPreviewApp() {
     <ShellDemo
       options={options}
       desktopRuntime={desktop ?? undefined}
+      bottomNavClassName={
+        nativeTabBar
+          ? NATIVE_TAB_BAR_CLASSES[options.bottomNavStyle]
+          : undefined
+      }
       workspaces={PREVIEW_WORKSPACES}
       user={PREVIEW_USER}
       groups={groups}

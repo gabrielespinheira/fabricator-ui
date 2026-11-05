@@ -108,6 +108,7 @@ type SidebarContextProps = {
 
 type SidebarInternalContextProps = {
   registerSide: (side: SidebarSide) => void
+  collapsible: "offcanvas" | "icon" | "none" | null
   registerCollapsible: (collapsible: "offcanvas" | "icon" | "none") => void
   setIsResizing: React.Dispatch<React.SetStateAction<boolean>>
   // One hover-intent timer serves every surface that can float the sidebar
@@ -417,13 +418,14 @@ function SidebarProvider({
   const internalValue = React.useMemo<SidebarInternalContextProps>(
     () => ({
       registerSide: setSide,
+      collapsible,
       registerCollapsible: setCollapsible,
       setIsResizing,
       schedulePeek,
       scheduleDismissPeek,
       cancelPeekTimer,
     }),
-    [schedulePeek, scheduleDismissPeek, cancelPeekTimer]
+    [collapsible, schedulePeek, scheduleDismissPeek, cancelPeekTimer]
   )
 
   return (
@@ -1282,6 +1284,7 @@ function SidebarGroup({
 }) {
   const [uncontrolledOpen, setUncontrolledOpen] = React.useState(defaultOpen)
   const open = openProp ?? uncontrolledOpen
+  const collapse = useSidebarCollapse()
   const contentId = React.useId()
   const toggle = React.useCallback(() => {
     const next = !open
@@ -1325,7 +1328,8 @@ function SidebarGroup({
             {kids[labelIndex]}
             {headerActions}
           </div>
-          <SidebarCollapse id={contentId} open={open}>
+          {/* A rail has no label to reopen a group with, so its rows always show. */}
+          <SidebarCollapse id={contentId} open={open || collapse === "icon"}>
             {tail.filter((kid) => !isHeaderAction(kid))}
           </SidebarCollapse>
         </>
@@ -1707,6 +1711,18 @@ function SidebarMenuDot({ dot }: { dot: "filled" | "ring" }) {
   )
 }
 
+/** "icon" while the docked sidebar is its rail of icons: parts hide what won't fit. */
+function useSidebarCollapse() {
+  const sidebar = React.useContext(SidebarContext)
+  const internal = React.useContext(SidebarInternalContext)
+  if (!sidebar || sidebar.isMobile || sidebar.state === "expanded") {
+    return undefined
+  }
+  return internal?.collapsible === "icon" && !sidebar.isPeeking
+    ? ("icon" as const)
+    : undefined
+}
+
 function SidebarMenuButton({
   isActive = false,
   variant = "default",
@@ -1732,7 +1748,7 @@ function SidebarMenuButton({
   /** A visual-only dot when `status` doesn't fit. Ignored with `icon`. */
   dot?: "filled" | "ring"
 } & VariantProps<typeof sidebarMenuButtonVariants>) {
-  const { isMobile, state } = useSidebar()
+  const collapse = useSidebarCollapse()
   const active = isActive || status === "active"
   const resolvedDot =
     dot ?? (status ? (status === "idle" ? "ring" : "filled") : undefined)
@@ -1797,7 +1813,7 @@ function SidebarMenuButton({
   }
 
   return (
-    <TooltipTrigger isDisabled={state !== "collapsed" || isMobile}>
+    <TooltipTrigger isDisabled={collapse !== "icon"}>
       {comp}
       <Tooltip placement="right" {...tooltip} />
     </TooltipTrigger>
@@ -2095,4 +2111,5 @@ export {
   SidebarToggleIcon,
   SidebarTrigger,
   useSidebar,
+  useSidebarCollapse,
 }

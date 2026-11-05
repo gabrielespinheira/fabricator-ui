@@ -6,7 +6,6 @@ import { createLoader, parseAsBoolean, parseAsStringLiteral } from "nuqs"
 import {
   ACCOUNT_PLACEMENTS,
   playgroundParsers,
-  SIDEBAR_COLLAPSE,
   SWITCHER_VARIANTS,
   TAB_PLACEMENTS,
   type PlaygroundOptions,
@@ -14,7 +13,6 @@ import {
 
 export const explorerParsers = {
   ...playgroundParsers,
-  collapse: parseAsStringLiteral(SIDEBAR_COLLAPSE).withDefault("offcanvas"),
   switcher: parseAsStringLiteral(SWITCHER_VARIANTS).withDefault("none"),
   account: parseAsStringLiteral(ACCOUNT_PLACEMENTS).withDefault("none"),
   reorder: parseAsBoolean.withDefault(false),

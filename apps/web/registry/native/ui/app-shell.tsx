@@ -87,7 +87,9 @@ import {
   getPanelFrame,
   getPanelHeaderEnd,
   getPhoneTrail,
+  getPinnedAnchorWidth,
   getPinnedTriggerPosition,
+  getShellRowOffset,
   getStatusBarHeight,
   isTitleScrolledAway,
   shouldShowHeaderTrigger,
@@ -835,27 +837,41 @@ function AppShellTitlebar({
 
 // MARK: Main column
 
+/** How far the columns without a card drop, to line up with the sidebar's first row. */
+function useShellRowOffset() {
+  const { size } = useAppShell()
+  const { variant } = useSidebarLayout()
+  const rowInset = parseNumber(useCSSVariable("--density-8"), 8)
+  return getShellRowOffset({ variant, isPhone: size === "phone", rowInset })
+}
+
 function AppShellMain({
   className,
   children,
+  style,
   ...props
 }: React.ComponentProps<typeof SidebarInset>) {
   const shell = useAppShell()
   const insets = useShellInsets()
   const fabHost = useFabHost()
   const { phoneHeaderHeight } = useAppShellScroll()
-  const [gutter, statusRow] = useCSSVariable(["--density-6", "--density-36"])
+  const [gutter, statusRow] = useCSSVariable(["--density-8", "--density-32"])
+  const rowOffset = useShellRowOffset()
   return (
     <SidebarInset
       data-app-shell-main=""
       isFlushTop={phoneHeaderHeight > 0}
-      gutter={parseNumber(gutter, 6)}
+      gutter={parseNumber(gutter, 8)}
       statusBarHeight={getStatusBarHeight({
         hasStatusBar: shell.hasStatusBar && shell.size !== "phone",
-        row: parseNumber(statusRow, 36),
+        row: parseNumber(statusRow, 32),
         insetBottom: insets.bottom,
       })}
       className={cn("cn-app-shell-main min-h-0 min-w-0", className)}
+      style={[
+        rowOffset > 0 ? { paddingTop: insets.top + rowOffset } : undefined,
+        style,
+      ]}
       {...props}
     >
       {children}
@@ -876,12 +892,13 @@ function AppShellHeader({
   ...props
 }: React.ComponentProps<typeof View> & {
   /**
-   * The sidebar toggle at the start. `auto` shows it only while the sidebar
-   * is collapsed or on phones, where the sidebar can't show its own.
+   * The sidebar toggle at the start. `auto` keeps it there wherever it does
+   * something: on phones, and on tablets unless the sidebar never collapses.
    */
   trigger?: "auto" | "always" | "never"
 }) {
-  const { state, isMobile } = useSidebar()
+  const { isMobile } = useSidebar()
+  const { collapsible } = useSidebarLayout()
   const { size } = useAppShell()
   const { isScrolled, setPhoneHeaderHeight } = useAppShellScroll()
   const insets = useShellInsets()
@@ -912,7 +929,11 @@ function AppShellHeader({
       {isPhone && typeof color === "string" ? (
         <HeaderFade color={color} insetTop={insets.top} rowHeight={row} />
       ) : null}
-      {shouldShowHeaderTrigger({ trigger, isMobile, state }) && (
+      {shouldShowHeaderTrigger({
+        trigger,
+        isMobile,
+        canCollapse: collapsible !== null && collapsible !== "none",
+      }) && (
         <SidebarTrigger
           className="cn-app-shell-header-trigger"
           // A thumb's target on a phone.
@@ -1025,6 +1046,7 @@ function PhoneBreadcrumb({
                   <DropdownMenuTrigger
                     className="cn-app-shell-breadcrumb-fold items-center"
                     accessibilityLabel="Show more"
+                    hitSlop={10}
                   >
                     <BreadcrumbEllipsis />
                   </DropdownMenuTrigger>
@@ -1162,6 +1184,7 @@ function TrailBreadcrumb({
                         <DropdownMenuTrigger
                           className="cn-app-shell-breadcrumb-fold items-center"
                           accessibilityLabel="Show more"
+                          hitSlop={10}
                         >
                           <BreadcrumbEllipsis />
                         </DropdownMenuTrigger>
@@ -1504,6 +1527,7 @@ function AppShellStatusBar({
   ...props
 }: React.ComponentProps<typeof View>) {
   const { size, setHasStatusBar, sidebarWidth } = useAppShell()
+  const { variant } = useSidebarLayout()
   const insets = useShellInsets()
   const isPhone = size === "phone"
   React.useLayoutEffect(() => {
@@ -1516,6 +1540,7 @@ function AppShellStatusBar({
       <TextStyle className="cn-app-shell-status-bar-text">
         <View
           data-slot="app-shell-status-bar"
+          data-variant={variant}
           role="summary"
           className={cn("cn-app-shell-status-bar absolute bottom-0", className)}
           style={[
@@ -1930,11 +1955,12 @@ function AppShellPanel({
   const motion = useMotion("move")
   const { width: windowWidth } = useWindowDimensions()
   const [gutterToken, statusRow, sheetMargin] = useCSSVariable([
-    "--density-6",
-    "--density-36",
+    "--density-8",
+    "--density-32",
     "--density-48",
   ])
-  const gutter = parseNumber(gutterToken, 6)
+  const gutter = parseNumber(gutterToken, 8)
+  const rowOffset = useShellRowOffset()
   const shortcut =
     shortcutProp === undefined ? getDefaultPanelShortcut(side) : shortcutProp
   // Primitive dependencies only: `views` is usually an inline array.
@@ -2161,12 +2187,13 @@ function AppShellPanel({
             isCard,
             statusBarHeight: getStatusBarHeight({
               hasStatusBar: shell.hasStatusBar,
-              row: parseNumber(statusRow, 36),
+              row: parseNumber(statusRow, 32),
               insetBottom: insets.bottom,
             }),
             insetTop: insets.top,
             insetBottom: insets.bottom,
             gutter,
+            rowOffset,
           }),
           style,
         ]}
@@ -2357,11 +2384,13 @@ function AppShellPanelTrigger({
   const insets = useShellInsets()
   const { variant } = useSidebarLayout()
   const name = React.useId()
-  const [row, padding, gutter] = useCSSVariable([
+  const [row, padding, gutter, pageGutter] = useCSSVariable([
     "--density-48",
     "--density-12",
-    "--density-6",
+    "--density-8",
+    "--density-24",
   ])
+  const rowOffset = useShellRowOffset()
   // The same size as the sidebar's toggle across the header from it.
   const glyphSize =
     parseNumber(useCSSVariable("--density-icon-16"), 16) * TOGGLE_GLYPH_SCALE
@@ -2394,7 +2423,9 @@ function AppShellPanelTrigger({
       // A thumb's target on a phone, as the sidebar's toggle across from it.
       size={isPhone ? "icon" : "icon-sm"}
       accessibilityLabel={hint}
-      aria-expanded={isPressed}
+      // Not `aria-expanded`: a button holds its pressed fill while its popup is open,
+      // and a panel isn't one. The glyph says it's open.
+      accessibilityState={{ expanded: isPressed }}
       data-slot="app-shell-panel-trigger"
       data-state={isPressed ? "open" : "closed"}
       data-phone={isPhone}
@@ -2417,16 +2448,9 @@ function AppShellPanelTrigger({
     ) : (
       <SidebarToggleIcon open={isPressed} side={panel.side ?? "right"} />
     ))
-  // No tooltip on a phone: nothing hovers there, and a long press taking over a
-  // slow tap would leave the panel shut.
-  const button = isPhone ? (
-    React.cloneElement(panelButton, undefined, glyph)
-  ) : (
-    <Tooltip>
-      <TooltipTrigger render={panelButton}>{glyph}</TooltipTrigger>
-      <TooltipContent>{hint}</TooltipContent>
-    </Tooltip>
-  )
+  // No tooltip: nothing hovers on a touch screen, and a long press taking over a
+  // slow tap would leave the panel as it was.
+  const button = React.cloneElement(panelButton, undefined, glyph)
 
   // A docked right panel's toggle keeps its spot, open or closed: it sits over the
   // frame's corner, and only its room stays in the header.
@@ -2439,7 +2463,15 @@ function AppShellPanelTrigger({
           data-pinned="true"
           data-state={panel.open ? "open" : "closed"}
           className="cn-app-shell-panel-trigger-anchor"
-          style={{ width: smallButton }}
+          style={{
+            width: getPinnedAnchorWidth({
+              isOpen: panel.open,
+              buttonSize: smallButton,
+              pageGutter: parseNumber(pageGutter, 24),
+              rowPadding: parseNumber(padding, 12),
+              gap: parseNumber(gutter, 8),
+            }),
+          }}
         />
         <Portal name={name} hostName={pinnedHost}>
           <View
@@ -2448,10 +2480,11 @@ function AppShellPanelTrigger({
             style={getPinnedTriggerPosition({
               insetTop: insets.top,
               insetRight: insets.right,
-              gutter: variant === "inset" ? parseNumber(gutter, 6) : 0,
+              gutter: variant === "inset" ? parseNumber(gutter, 8) : 0,
               rowHeight: parseNumber(row, 48),
               buttonSize: smallButton,
               rowPadding: parseNumber(padding, 12),
+              rowOffset,
             })}
           >
             {button}

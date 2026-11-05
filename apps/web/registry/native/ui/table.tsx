@@ -242,6 +242,8 @@ function TableRow({
       data-lit={isLit}
       data-before-lit={Boolean(isBeforeLit)}
       role="row"
+      // A one-line row is a point short of a full touch target.
+      hitSlop={1}
       aria-expanded={isExpanded}
       // Only a row that does something reads as one element to a screen reader:
       // otherwise its cells, and anything in them, stay reachable one by one.

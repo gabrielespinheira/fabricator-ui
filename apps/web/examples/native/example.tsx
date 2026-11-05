@@ -50,13 +50,13 @@ function Example({
   return (
     <View className="gap-1.5" {...props}>
       {title ? (
-        <Text className="px-1 text-xs font-medium text-muted-foreground">
+        <Text className="px-1 text-(length:--density-text-12) font-medium text-muted-foreground">
           {title}
         </Text>
       ) : null}
       <View
         className={cn(
-          "items-start gap-4 rounded-xl bg-card p-5 shadow-surface-2",
+          "items-start gap-(--density-16) rounded-xl bg-card p-(--density-20) shadow-surface-2",
           className
         )}
       >

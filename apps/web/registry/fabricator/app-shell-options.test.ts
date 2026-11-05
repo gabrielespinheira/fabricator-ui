@@ -90,20 +90,20 @@ describe("getShellOptionSections", () => {
       project: everything,
     })
     expect(getKeys(getSection(sections, "all"))).toEqual([
+      "variant",
       "switcher",
       "account",
       "reorder",
       "customize",
       "tabs",
+      "contentSize",
       "breadcrumb",
       "actions",
       "panel",
     ])
     expect(getKeys(getSection(sections, "desktop"))).toEqual([
-      "variant",
       "collapse",
       "peek",
-      "contentSize",
       "status",
       "window",
       "fullscreen",

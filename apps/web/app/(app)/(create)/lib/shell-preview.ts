@@ -5,6 +5,7 @@
 import {
   createLoader,
   createSerializer,
+  parseAsBoolean,
   parseAsStringLiteral,
 } from "nuqs/server"
 import { z } from "zod"
@@ -12,14 +13,19 @@ import { z } from "zod"
 import {
   playgroundParsers,
   type PlaygroundOptions,
+  type PreviewSize,
 } from "@/app/(view)/app-shell/_lib/options"
 
 export const SHELL_PREVIEW_PATH = "/create/preview"
 
-/** The options, and the runtime the preview draws a window for. */
+/**
+ * The options, the runtime the preview draws a window for, and whether its tab
+ * bar stands for a React Native app's, which has styles the web's doesn't.
+ */
 export const shellPreviewParsers = {
   ...playgroundParsers,
   desktop: parseAsStringLiteral(["electron", "tauri"] as const),
+  nativeTabBar: parseAsBoolean.withDefault(false),
 }
 
 const serializeOptions = createSerializer(shellPreviewParsers)
@@ -28,14 +34,61 @@ const loadOptions = createLoader(shellPreviewParsers)
 /** The options as a query: only what differs from the defaults. */
 export function getShellPreviewQuery(
   options: PlaygroundOptions,
-  desktop: "electron" | "tauri" | null = null
+  desktop: "electron" | "tauri" | null = null,
+  nativeTabBar = false
 ) {
-  return serializeOptions({ ...options, desktop })
+  return serializeOptions({ ...options, desktop, nativeTabBar })
 }
 
 /** Reads a query; anything unknown keeps its default. */
 export function loadShellPreviewOptions(query: string) {
   return loadOptions(new URLSearchParams(query))
+}
+
+type Size = { width: number; height: number }
+
+// A window keeps this much of the stage around it, for its shadow.
+const WINDOW_MARGIN = 12
+// Narrower than this, a desktop app's window draws as it never does in practice.
+const WINDOW_MIN_WIDTH = 1100
+
+// Each with its bezel: a 1180 by 820 tablet in landscape, a 390 by 844 phone.
+const DEVICE_FRAMES = {
+  tablet: { width: 1204, height: 844 },
+  phone: { width: 410, height: 864 },
+}
+
+/**
+ * The size to draw a preview at, and how far to scale it into the stage, so the
+ * shell lays out as it does at that size rather than at the column's width.
+ */
+export function getPreviewLayout(
+  size: PreviewSize,
+  stage: Size
+): { frame: Size; scale: number } {
+  if (size === "browser") return { frame: stage, scale: 1 }
+  if (size === "tablet" || size === "phone") {
+    const frame = DEVICE_FRAMES[size]
+    if (stage.width === 0) return { frame, scale: 1 }
+    return {
+      frame,
+      scale: Math.min(
+        1,
+        stage.width / frame.width,
+        stage.height / frame.height
+      ),
+    }
+  }
+  const room = {
+    width: Math.max(stage.width - 2 * WINDOW_MARGIN, 0),
+    height: Math.max(stage.height - 2 * WINDOW_MARGIN, 0),
+  }
+  const scale =
+    room.width === 0 ? 1 : Math.min(1, room.width / WINDOW_MIN_WIDTH)
+  return {
+    frame: { width: room.width / scale, height: room.height / scale },
+    scale,
+  }
 }
 
 export const SHELL_PREVIEW_READY = { type: "fabricator:shell-preview-ready" }

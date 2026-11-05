@@ -471,22 +471,22 @@ Use a plain `SidebarProvider`, `Sidebar` and `SidebarInset` only for a screen th
 
 - Build mobile first and widen with `sm:`, `md:`, `lg:`. Grids collapse to one column: `grid gap-4 sm:grid-cols-2 lg:grid-cols-3`.
 - On phones the App Shell's Sidebar sits behind the page, which moves aside and shrinks to show it (`mobileSidebar="reveal"`, the default); a Sidebar on its own, or `mobileSidebar="sheet"`, is a sheet over the page. Long tasks on phones belong in a `Drawer`; a common pattern renders `Dialog` from `md` and `Drawer` below it.
-- Touch-first screens use `spacious` (44px targets). `compact` keeps every target above the 24px minimum, so keep it for pointer-first tools.
+- Touch-first screens use `spacious` (44px targets; on a React Native tablet that resolves to 40pt controls with a 44pt reach). `compact` keeps every target above the 24px minimum, so keep it for pointer-first tools.
 - Fabricator UI is left to right only. Write logical utilities anyway (`ms-*`, `ps-*`, `start-*`, `text-start`).
 
 ## Elevation & Depth
 
 Depth is an eight-level ladder of surfaces. Each level pairs a background with a shadow, and the shadow starts with a 1px ring that draws the edge, so surfaces have no borders.
 
-| Level      | Classes                         | Holds                                                                                                                    |
-| ---------- | ------------------------------- | ------------------------------------------------------------------------------------------------------------------------ |
-| 1          | `bg-background`                 | The page and the app frame                                                                                               |
-| 2          | `bg-surface-2 shadow-surface-2` | Sidebar (`bg-sidebar`; in an App Shell it sits on the frame), side panels, inset regions, the default Card               |
-| 3          | `bg-surface-3 shadow-surface-3` | Raised cards, the App Shell main column (with the inset sidebar), menus, selects, popovers, hover cards, sheets, drawers |
-| 4          | `bg-surface-4 shadow-surface-4` | The active tab and segmented selection (on React Native in dark, a translucent step over the track); anything raised inside a level-3 surface                                         |
-| 5          | `bg-surface-5 shadow-surface-5` | Dialogs, alert dialogs, toasts                                                                                           |
-| 6–8        | `bg-surface-N shadow-surface-N` | Rare: surfaces stacked above a dialog                                                                                    |
-| (inverted) | `bg-foreground text-background` | Tooltips                                                                                                                 |
+| Level      | Classes                         | Holds                                                                                                                                         |
+| ---------- | ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1          | `bg-background`                 | The page and the app frame                                                                                                                    |
+| 2          | `bg-surface-2 shadow-surface-2` | Sidebar (`bg-sidebar`; in an App Shell it sits on the frame), side panels, inset regions, the default Card                                    |
+| 3          | `bg-surface-3 shadow-surface-3` | Raised cards, the App Shell main column (with the inset sidebar), menus, selects, popovers, hover cards, sheets, drawers                      |
+| 4          | `bg-surface-4 shadow-surface-4` | The active tab and segmented selection (on React Native in dark, a translucent step over the track); anything raised inside a level-3 surface |
+| 5          | `bg-surface-5 shadow-surface-5` | Dialogs, alert dialogs, toasts                                                                                                                |
+| 6–8        | `bg-surface-N shadow-surface-N` | Rare: surfaces stacked above a dialog                                                                                                         |
+| (inverted) | `bg-foreground text-background` | Tooltips                                                                                                                                      |
 
 In light mode levels 3 and up are all white and only the shadow shows the height; in dark mode each level is a step lighter. Scrims behind dialogs and sheets belong to those components.
 
@@ -617,7 +617,7 @@ Component names, props, variants and `data-slot` values are stable, and new ones
 
 The `@fabricator` registry leaves out Native Select (use `Select`) and, for now, Chart. React Aria projects have no `Menubar` or `NavigationMenu`; use a `DropdownMenu` per menu and a header of links.
 
-React Native projects install the same names with the same variants, sizes and tokens. Where a web input doesn't exist, a touch one takes its place: `ContextMenu`, `Tooltip` and `HoverCard` open on a long press, `Select` is a sheet on phones and a popover on tablets, and `Menubar` and `NavigationMenu` open sheets from a row of triggers. Phones default to the spacious density, because 44pt is the touch target. A finger takes the pointer's place in Fluid Hover: a press lights a row, and dragging across a strip or a menu moves the highlight, with letting go activating the lit row. Feedback is the same sounds with a haptic for each, and the ring switch silences the sounds. Wrap the app in `FabricatorRoot` once. `Text` is the only way to draw text, so text inside a container still goes through the container's `TextStyle`.
+React Native projects install the same names with the same variants, sizes and tokens. Where a web input doesn't exist, a touch one takes its place: `ContextMenu`, `Tooltip` and `HoverCard` open on a long press, `Select` is a sheet on phones and a popover on tablets, and `Menubar` and `NavigationMenu` open sheets from a row of triggers. Phones default to the spacious density, because 44pt is the touch target; tablets take their own step, 40pt controls with the same 15pt text, and keep the 44pt target through `hitSlop`. A finger takes the pointer's place in Fluid Hover: a press lights a row, and dragging across a strip or a menu moves the highlight, with letting go activating the lit row. Feedback is the same sounds with a haptic for each, and the ring switch silences the sounds. Wrap the app in `FabricatorRoot` once. `Text` is the only way to draw text, so text inside a container still goes through the container's `TextStyle`.
 
 ### Variants and sizes
 
@@ -702,7 +702,7 @@ React Native projects install the same names with the same variants, sizes and t
 ### Navigation
 
 - **App navigation is data.** `AppNav` renders groups of items (`{ id, label, href, icon, badge, status, children, actions }`) into the Sidebar: the current page comes from `pathname` (the longest match wins), parents of the current page open, row actions appear in a hover menu and on right-click, `reorderable` groups sort by drag or ⌥⇧↑/↓, and `customizable` adds pinning and hiding (`AppNavCustomize` opens the dialog that shows or hides each item and puts rows in order, by grip or arrow keys, even in groups that aren't `reorderable`). Save the `preferences` it hands back. Hand-written `SidebarMenu` rows are for bespoke rows only.
-- **Sidebar anatomy:** `SidebarHeader` holds the Workspace Switcher (a row, or marks beside the `SidebarTrigger`); `SidebarContent` holds the navigation; `SidebarFooter` holds the User Menu and `AppNavCustomize`. Rows are an icon and a short label, with counts as badges and live state as status dots; they keep 8px from the sidebar's edges, and every trailing control shares one axis. `collapsible="icon"` collapses to an icon rail with tooltips; `peek="hover"` (with `offcanvas`) shows the closed sidebar as a card. `mod+B` toggles it.
+- **Sidebar anatomy:** `SidebarHeader` holds the Workspace Switcher (a row, or marks beside the `SidebarTrigger`); `SidebarContent` holds the navigation; `SidebarFooter` holds the User Menu and `AppNavCustomize`. Rows are an icon and a short label, with counts as badges and live state as status dots; they keep 8px from the sidebar's edges, and every trailing control shares one axis. `collapsible="icon"` collapses to an icon rail: tooltips name every row, a dot stands for a badge, and a row with children opens a menu of them; `peek="hover"` (with `offcanvas`) shows the closed sidebar as a card. `mod+B` toggles it.
 - **WorkspaceSwitcher:** `variant="menu"` for a few workspaces, `variant="command"` for many. Set `switchingTo` while the next one loads (a full-screen status overlay) and clear it when done. `mod+O` opens it inside an App Shell.
 - **UserMenu:** `variant="row"` in the sidebar footer, `variant="mark"` (the avatar) in a header row. Its children are `DropdownMenuGroup`s: account items first, Sign out last in its own group.
 - **TabStrip** holds documents the person opens and closes (files, records, chats), with pinned and preview tabs, drag to reorder, a reopen stack and editor shortcuts. Drive it with `useTabStripState` and link the content with `panelId`. Give it `min-w-0 flex-1` so it runs the full width of its row: `TabStripNew` follows the last tab, and `TabStripOverflow` ends the row. Keep the URL on the active tab with `router.replace`, so Back walks pages.

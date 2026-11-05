@@ -24,6 +24,11 @@
     @apply size-(--density-icon-16) data-[nested=true]:size-(--density-icon-14);
   }
 
+  /* Where a badge has no room, a dot on the icon. */
+  .cn-app-nav-rail-badge {
+    @apply size-1.5 rounded-full bg-primary top-1.5 right-1.5;
+  }
+
   .cn-app-nav-menu {
     @apply min-w-48;
   }

@@ -113,6 +113,7 @@ export function OptionShell({
   renderLink,
   brand,
   rootCrumb,
+  bottomNavClassName,
   crumbs,
   pageTitle,
   tabStrip,
@@ -137,6 +138,7 @@ export function OptionShell({
   brand?: React.ReactNode
   /** The trail's first crumb. Default: the workspace. */
   rootCrumb?: string
+  bottomNavClassName?: string
   /** The trail after the first crumb, the current page last. */
   crumbs: Crumb[]
   pageTitle: React.ReactNode
@@ -283,6 +285,7 @@ export function OptionShell({
             groups={groups}
             pathname={pathname}
             renderLink={renderLink}
+            className={bottomNavClassName}
           />
         )}
       </AppShellMain>

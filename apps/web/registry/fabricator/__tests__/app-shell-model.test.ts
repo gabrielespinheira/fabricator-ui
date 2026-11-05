@@ -20,6 +20,7 @@ import {
   getMobileTabItems,
   getNavList,
   getNavPath,
+  getNavRailLabel,
   getNeighbourTab,
   getPanelPlacement,
   getPanelTriggerAnchor,
@@ -663,11 +664,31 @@ describe("traffic lights", () => {
     expect(getTrafficLightsGeometry({ x: 16, y: 23 })).toEqual({
       insetStart: 88,
       bandHeight: 60,
+      railWidth: 76,
     })
     expect(getTrafficLightsGeometry({ x: 20, y: 12 })).toEqual({
       insetStart: 92,
       bandHeight: 38,
+      railWidth: 80,
     })
+  })
+
+  it("keeps the rail wide enough that the lights stay on it", () => {
+    const { insetStart, railWidth } = getTrafficLightsGeometry({ x: 16, y: 23 })
+    expect(railWidth).toBeGreaterThan(16 + 52)
+    // The toggle stays put at insetStart: inside the main card, by the header's inset.
+    expect(insetStart - railWidth).toBe(12)
+  })
+})
+
+describe("getNavRailLabel", () => {
+  it("is the row's label, with the badge the rail has no room for", () => {
+    expect(getNavRailLabel({ label: "Inbox" })).toBe("Inbox")
+    expect(getNavRailLabel({ label: "Inbox", badge: 4 })).toBe("Inbox · 4")
+    expect(getNavRailLabel({ label: "Inbox", badge: "New" })).toBe(
+      "Inbox · New"
+    )
+    expect(getNavRailLabel({ label: "Inbox", badge: 0 })).toBe("Inbox · 0")
   })
 })
 

@@ -40,7 +40,7 @@ export const WINDOWS = ["web", "macos", "windows"] as const
 
 export const playgroundParsers = {
   variant: parseAsStringLiteral(SIDEBAR_VARIANTS).withDefault("inset"),
-  collapse: parseAsStringLiteral(SIDEBAR_COLLAPSE).withDefault("icon"),
+  collapse: parseAsStringLiteral(SIDEBAR_COLLAPSE).withDefault("offcanvas"),
   peek: parseAsStringLiteral(SIDEBAR_PEEK).withDefault("none"),
   mobileSidebar: parseAsStringLiteral(MOBILE_SIDEBARS).withDefault("reveal"),
   switcher: parseAsStringLiteral(SWITCHER_VARIANTS).withDefault("menu"),
@@ -56,7 +56,7 @@ export const playgroundParsers = {
   status: parseAsBoolean.withDefault(true),
   bottomNav: parseAsBoolean.withDefault(false),
   // React Native only: its example's card sets it, and so does /create for a project with a React Native app.
-  bottomNavStyle: parseAsStringLiteral(BOTTOM_NAV_STYLES).withDefault("flat"),
+  bottomNavStyle: parseAsStringLiteral(BOTTOM_NAV_STYLES).withDefault("glass"),
   window: parseAsStringLiteral(WINDOWS).withDefault("web"),
   fullscreen: parseAsBoolean.withDefault(false),
   glass: parseAsBoolean.withDefault(true),
@@ -111,14 +111,16 @@ export function getShellOptionNotes({
   return {
     ...(isMixed ? { peek: "Web and desktop only." } : {}),
     ...(hasDesktop ? { glass: "macOS only." } : {}),
-    // The preview is the website's shell, whose tab bar has one look.
     ...(hasMobile
-      ? { bottomNavStyle: "In the React Native app; the preview stays flat." }
+      ? {
+          bottomNavStyle:
+            "React Native only. Glass needs iOS 26; elsewhere it's a plain capsule.",
+        }
       : {}),
   }
 }
 
-export type PreviewSize = "browser" | "macos" | "windows" | "phone"
+export type PreviewSize = "browser" | "macos" | "windows" | "tablet" | "phone"
 
 /** What the preview can show, for the apps a project has. */
 export function getPreviewChoices({
@@ -126,6 +128,14 @@ export function getPreviewChoices({
   hasDesktop,
   hasMobile,
 }: ShellProject): ReadonlyArray<{ value: PreviewSize; label: string }> {
+  const tablet = {
+    value: "tablet" as const,
+    label: hasMobile ? "Tablet" : "Tablet width",
+  }
+  const phone = {
+    value: "phone" as const,
+    label: hasMobile ? "Phone" : "Phone width",
+  }
   return [
     ...(hasWeb ? [{ value: "browser" as const, label: "Browser" }] : []),
     ...(hasDesktop
@@ -134,10 +144,8 @@ export function getPreviewChoices({
           { value: "windows" as const, label: "Windows" },
         ]
       : []),
-    {
-      value: "phone" as const,
-      label: hasMobile ? "Phone" : "Phone width",
-    },
+    // A React Native project is mostly phones, so it opens on one.
+    ...(hasWeb || hasDesktop ? [tablet, phone] : [phone, tablet]),
   ]
 }
 

@@ -28,6 +28,7 @@ import {
   playgroundParsers,
   type PlaygroundOptions,
   type PreviewSize,
+  type ShellProject,
 } from "@/app/(view)/app-shell/_lib/options"
 
 import { ExtrasControls } from "./extras-step"
@@ -100,17 +101,28 @@ function useOldShareLink() {
 }
 
 const previewParsers = {
-  preview: parseAsStringLiteral(["browser", "phone"] as const).withDefault(
-    "browser"
-  ),
+  preview: parseAsStringLiteral([
+    "browser",
+    "tablet",
+    "phone",
+  ] as const).withDefault("browser"),
 }
 
 function getPreviewSize(
   options: PlaygroundOptions,
-  preview: "browser" | "phone"
+  preview: "browser" | "tablet" | "phone"
 ): PreviewSize {
-  if (preview === "phone") return "phone"
+  if (preview !== "browser") return preview
   return options.window === "web" ? "browser" : options.window
+}
+
+function describePreview(size: PreviewSize, { hasMobile }: ShellProject) {
+  if (size !== "tablet" && size !== "phone") {
+    return "Sample content. Your project starts with an empty Home."
+  }
+  return hasMobile
+    ? `Drawn with the web shell at a ${size}'s size. Your mobile app follows the same options, in React Native.`
+    : `The same shell at a ${size}'s width.`
 }
 
 export function SetupWizard() {
@@ -154,7 +166,9 @@ export function SetupWizard() {
   const desktop = choices.desktop === "none" ? null : choices.desktop
 
   const choosePreview = (next: PreviewSize) => {
-    void setPreview({ preview: next === "phone" ? "phone" : "browser" })
+    void setPreview({
+      preview: next === "tablet" || next === "phone" ? next : "browser",
+    })
     void setShell({
       window: next === "macos" || next === "windows" ? next : "web",
     })
@@ -247,12 +261,8 @@ export function SetupWizard() {
             className={cn("flex flex-col gap-3", !hasShellPreview && "hidden")}
           >
             <div className="flex flex-wrap items-center justify-between gap-3">
-              <p className="text-[13px] text-muted-foreground">
-                {size === "phone"
-                  ? project.hasMobile
-                    ? "Drawn with the web shell at phone width. Your mobile app follows the same options, in React Native."
-                    : "The same shell at a phone's width."
-                  : "Sample content. Your project starts with an empty Home."}
+              <p className="min-w-48 flex-1 text-[13px] text-muted-foreground">
+                {describePreview(size, project)}
               </p>
               {previewChoices.length > 1 ? (
                 <Segmented
@@ -267,6 +277,7 @@ export function SetupWizard() {
               options={previewOptions}
               size={size}
               desktop={desktop}
+              hasNativeTabBar={project.hasMobile && size === "phone"}
               windowTitle={projectName(projectSetup)}
             />
           </section>

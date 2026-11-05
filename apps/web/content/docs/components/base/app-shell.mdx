@@ -341,7 +341,7 @@ The `window` prop tells the shell where the native window controls are. The shel
 - **Glass.** `isTranslucent` turns the frame and the sidebar transparent, so the window's material (macOS vibrancy, Windows Mica) shows through them; the main column and the panels stay opaque cards. Make the page transparent too (`html, body { background: transparent }`). On phone widths the frame keeps its surface.
 - **Drag regions.** The titlebar, the headers, the tab strip and the sidebar header move the window. Their buttons, links, fields and tabs stay clickable; mark anything else with `data-no-drag`. A collapsed off-canvas sidebar gives up its region, because Electron ignores opacity and clipping. Electron also lets a drag region later in the document cancel an earlier `no-drag`, so a control you float over a later region needs that spot given back after it; the pinned panel toggle has this built in, and so does anything portalled outside the shell, such as dialogs and menus.
 
-The inset sidebar with off-canvas collapse matches a macOS app best: an icon rail is narrower than the traffic lights.
+The inset sidebar with off-canvas collapse matches a macOS app best. With `collapsible="icon"`, the rail widens to keep the traffic lights on it.
 
 A project created with `--desktop` finds its window at runtime, so one layout serves a browser and a desktop app. `useDesktopWindow` comes with the `desktop-window` item, which reads Electron's preload bridge and Tauri's internals:
 

@@ -56,7 +56,7 @@ describe("the React Native App Shell card", () => {
   })
 
   it("starts from the website's defaults, with a tab bar", () => {
-    expect(getDefaultShellOptions({ hasGlass: false })).toEqual({
+    expect(getDefaultShellOptions({ hasGlass: true })).toEqual({
       ...DEFAULT_PLAYGROUND_OPTIONS,
       bottomNav: true,
     })
@@ -88,6 +88,8 @@ describe("the React Native App Shell card", () => {
 
   it("explains what this device or build can't draw", () => {
     expect(getOptionNotes({ isPhone: true, hasGlass: true })).toEqual({
+      variant: expect.stringContaining("tablets"),
+      contentSize: expect.stringContaining("tablets"),
       actions: expect.stringContaining("tablets"),
     })
     expect(getOptionNotes({ isPhone: false, hasGlass: true })).toEqual({})
@@ -106,11 +108,7 @@ describe("the card's install command", () => {
 
   it("carries only what differs from the website's defaults", () => {
     const params = parseCommand(defaults)
-    expect([...params.keys()].sort()).toEqual([
-      "bottomNav",
-      "bottomNavStyle",
-      "platform",
-    ])
+    expect([...params.keys()].sort()).toEqual(["bottomNav", "platform"])
   })
 
   it("leaves out what a switched-off part would ignore", () => {

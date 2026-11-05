@@ -7,6 +7,12 @@
     @apply p-(--density-12);
   }
 
+  /* A tablet has room to spare, and a square day would take all of it: a month keeps
+     to seven 40-step days, however wide its box, unless it's given `w-full`. */
+  .cn-calendar-month {
+    @apply md:data-[stretched=false]:w-[calc(var(--density-40)*7)] md:data-[stretched=false]:max-w-full;
+  }
+
   .cn-calendar-text {
     @apply text-foreground text-(length:--density-text-13);
   }
@@ -53,7 +59,7 @@
   }
 
   .cn-calendar-weekday-text {
-    @apply text-muted-foreground text-[12px] font-normal;
+    @apply text-muted-foreground text-(length:--density-text-12) font-normal;
   }
 
   .cn-calendar-week-number {
@@ -63,11 +69,11 @@
   /* Today, and a range's middle and ends, are the active step: they read in dark
      mode too. The range runs edge to edge between its rounded ends. */
   .cn-calendar-day {
-    @apply min-w-(--density-32) rounded-lg data-[today=true]:bg-active data-[range-start=true]:bg-active data-[range-end=true]:bg-active data-[range-middle=true]:bg-active data-[range-middle=true]:rounded-none data-[range-start=true]:rounded-r-none data-[range-end=true]:rounded-l-none;
+    @apply md:data-[stretched=true]:aspect-auto md:data-[stretched=true]:h-(--density-48) min-w-(--density-32) rounded-lg data-[today=true]:bg-active data-[range-start=true]:bg-active data-[range-end=true]:bg-active data-[range-middle=true]:bg-active data-[range-middle=true]:rounded-none data-[range-start=true]:rounded-r-none data-[range-end=true]:rounded-l-none;
   }
 
   .cn-calendar-day-button {
-    @apply h-auto min-w-(--density-32) gap-1 rounded-lg border-0 data-[selected-single=true]:bg-primary data-[range-start=true]:bg-primary data-[range-end=true]:bg-primary data-[range-middle=true]:bg-transparent data-[range-middle=true]:rounded-none;
+    @apply md:aspect-auto md:h-full h-auto min-w-(--density-32) gap-1 rounded-lg border-0 data-[selected-single=true]:bg-primary data-[range-start=true]:bg-primary data-[range-end=true]:bg-primary data-[range-middle=true]:bg-transparent data-[range-middle=true]:rounded-none;
   }
 
   /* Pressed, under the numeral and easing in and out: the next interaction step, as

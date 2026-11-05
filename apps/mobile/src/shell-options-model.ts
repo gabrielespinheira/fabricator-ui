@@ -26,7 +26,7 @@ const SITE_URL = "https://fabricator-ui.vercel.app"
 
 const WEBSITE_DEFAULTS: ShellOptions = {
   variant: "inset",
-  collapse: "icon",
+  collapse: "offcanvas",
   peek: "none",
   mobileSidebar: "reveal",
   switcher: "menu",
@@ -39,7 +39,7 @@ const WEBSITE_DEFAULTS: ShellOptions = {
   actions: true,
   status: true,
   bottomNav: false,
-  bottomNavStyle: "flat",
+  bottomNavStyle: "glass",
   panel: true,
   panelMobile: "drawer",
   window: "web",
@@ -101,9 +101,17 @@ export function getOptionNotes({
   hasGlass: boolean
 }): Partial<Record<keyof ShellOptions, string>> {
   return {
-    // On a phone the library floats the primary action over the page, and this
-    // example shows no floating button.
-    ...(isPhone ? { actions: "This example shows them on tablets." } : {}),
+    ...(isPhone
+      ? {
+          // A phone's sidebar opens over or beside the page, and any column is
+          // wider than its screen.
+          variant: "Shows on tablets.",
+          contentSize: "Shows on tablets.",
+          // The library floats the primary action over the page there, and this
+          // example shows no floating button.
+          actions: "This example shows them on tablets.",
+        }
+      : {}),
     ...(hasGlass
       ? {}
       : {

@@ -62,7 +62,8 @@ export function PageTabs({
     <TabStrip
       {...tabs.stripProps}
       onNew={openNewTab}
-      className="min-w-0 flex-1"
+      // Its first tab sits on the page's edge on a tablet, in the header or below it.
+      className="min-w-0 flex-1 md:pl-0"
     >
       <TabStripList aria-label="Open pages">
         {tabs.state.tabs.map((id) => (

@@ -14,7 +14,9 @@ import {
   View,
   type GestureResponderEvent,
 } from "react-native"
+import { useCSSVariable } from "uniwind"
 
+import { getTouchSlop } from "@/registry/native/lib/density-scale"
 import { useFeedback } from "@/registry/native/lib/feedback"
 import {
   filterItems,
@@ -33,6 +35,7 @@ import {
   useFluidHover,
   useFluidRow,
 } from "@/registry/native/lib/fluid-hover"
+import { parseNumber } from "@/registry/native/lib/motion-tokens"
 import { renderSlot, type RenderProps } from "@/registry/native/lib/render"
 import { Button } from "@/registry/native/ui/button"
 import { Dialog, DialogContent } from "@/registry/native/ui/dialog"
@@ -251,12 +254,14 @@ function ComboboxTrigger({
   RenderProps & { children?: React.ReactNode }) {
   const combobox = useCombobox()
   const isDisabled = props.disabled ?? combobox.disabled
+  const iconSize = parseNumber(useCSSVariable("--density-icon-16"), 16)
   const shared = {
     "data-slot": "combobox-trigger",
     role: "combobox" as const,
     "aria-expanded": combobox.isOpen,
     "aria-disabled": isDisabled,
-    hitSlop: 8,
+    // Drawn as bare as its chevron, so the reach makes up the whole target.
+    hitSlop: getTouchSlop(iconSize),
     onPress: (event: Parameters<NonNullable<typeof onPress>>[0]) => {
       combobox.setOpen(true)
       onPress?.(event)

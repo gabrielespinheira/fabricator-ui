@@ -10,8 +10,10 @@ import {
   View,
   type GestureResponderEvent,
 } from "react-native"
+import { useCSSVariable } from "uniwind"
 
 import { useFeedback } from "@/registry/native/lib/feedback"
+import { parseNumber } from "@/registry/native/lib/motion-tokens"
 import { renderSlot, type RenderProps } from "@/registry/native/lib/render"
 import { renderTextChildren, Text, TextStyle } from "@/registry/native/ui/text"
 
@@ -95,7 +97,8 @@ function BreadcrumbLink({
   const shared = {
     "data-slot": "breadcrumb-link",
     role: "link" as const,
-    hitSlop: 8,
+    // A line of text, taken to a full touch target.
+    hitSlop: 12,
     className: cn("cn-breadcrumb-link", className),
     onPress: (event: GestureResponderEvent) => {
       feedback("tick")
@@ -131,6 +134,7 @@ function BreadcrumbSeparator({
   className,
   ...props
 }: React.ComponentProps<typeof View>) {
+  const size = parseNumber(useCSSVariable("--density-icon-14"), 14)
   return (
     <TextStyle className="cn-breadcrumb-separator-text">
       <View
@@ -141,7 +145,7 @@ function BreadcrumbSeparator({
         {...props}
       >
         {children === undefined ? (
-          <ChevronRightIcon size={14} strokeWidth={1.5} />
+          <ChevronRightIcon size={size} strokeWidth={1.5} />
         ) : (
           renderTextChildren(children)
         )}

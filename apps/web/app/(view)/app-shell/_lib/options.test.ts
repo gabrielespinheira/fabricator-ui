@@ -20,7 +20,8 @@ describe("playground options", () => {
   it("starts from an inset sidebar with a panel and no tabs", () => {
     expect(DEFAULT_PLAYGROUND_OPTIONS).toMatchObject({
       variant: "inset",
-      collapse: "icon",
+      collapse: "offcanvas",
+      bottomNavStyle: "glass",
       switcher: "menu",
       account: "footer",
       tabs: "none",
@@ -58,7 +59,7 @@ describe("playground options", () => {
   })
 
   it("counts against the defaults it is given", () => {
-    const defaults = load("collapse=offcanvas")
+    const defaults = load("collapse=icon")
     expect(countChangedOptions(defaults, defaults)).toBe(0)
     expect(countChangedOptions(DEFAULT_PLAYGROUND_OPTIONS, defaults)).toBe(1)
   })
@@ -154,11 +155,20 @@ describe("what a project's shell offers", () => {
   it("previews the sizes a project has", () => {
     const values = (project: typeof web) =>
       getPreviewChoices(project).map(({ value }) => value)
-    expect(values(web)).toEqual(["browser", "phone"])
-    expect(values(both)).toEqual(["browser", "macos", "windows", "phone"])
-    expect(values(expo)).toEqual(["phone"])
+    expect(values(web)).toEqual(["browser", "tablet", "phone"])
+    expect(values(both)).toEqual([
+      "browser",
+      "macos",
+      "windows",
+      "tablet",
+      "phone",
+    ])
+    // A React Native project is mostly phones, so it opens on one.
+    expect(values(expo)).toEqual(["phone", "tablet"])
     expect(getPreviewChoices(web).at(-1)?.label).toBe("Phone width")
+    expect(getPreviewChoices(web).at(-2)?.label).toBe("Tablet width")
     expect(getPreviewChoices(mobile).at(-1)?.label).toBe("Phone")
+    expect(getPreviewChoices(mobile).at(-2)?.label).toBe("Tablet")
   })
 })
 
