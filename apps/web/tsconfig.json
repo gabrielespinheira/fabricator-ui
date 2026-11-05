@@ -120,6 +120,7 @@
     "registry/native/lib/apply-look.ts",
     "registry/native/lib/sounds.ts",
     "registry/native/lib/field-model.ts",
+    "registry/native/lib/field-frame.ts",
     "examples/native",
     "styles/native"
   ]
