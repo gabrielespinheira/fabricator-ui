@@ -426,7 +426,7 @@
   /* The status bar sits on the frame under the main column and the panels, from
      the sidebar's edge to the window's: a quiet band, 36pt at a tablet's density plus
      half the home indicator's space, with 13pt muted text centred in it. Its ends sit
-     on the page's edges, in a style. Phones hide it. */
+     the 12-step inside the card's edges on both sides, in a style. Phones hide it. */
   .cn-app-shell-status-bar {
     @apply border-border bg-transparent data-[variant=floating]:border-t;
   }

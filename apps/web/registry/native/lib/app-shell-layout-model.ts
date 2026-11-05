@@ -262,29 +262,25 @@ export function getStatusBarHeight({
 }
 
 /**
- * Where the status bar's content starts and ends: on the page's edges. The bar runs
- * from the sidebar to the window, so a card's gutter has to be cleared on the sides
- * that have one, and under a docked panel it ends on the panel's content instead.
+ * Where the status bar's content starts and ends: the same distance inside the card's
+ * edges on both sides, whatever is open above it. The bar runs from the sidebar to the
+ * window, so a card's gutter has to be cleared on the sides that have one.
  */
 export function getStatusBarPadding({
   isCard,
   hasSidebarBeside,
-  hasRightPanel,
   gutter,
-  pageGutter,
-  panelGutter,
+  rowInset,
 }: {
   isCard: boolean
   hasSidebarBeside: boolean
-  hasRightPanel: boolean
   gutter: number
-  pageGutter: number
-  panelGutter: number
+  rowInset: number
 }) {
   const cardInset = isCard ? gutter : 0
   return {
-    paddingLeft: pageGutter + (hasSidebarBeside ? 0 : cardInset),
-    paddingRight: cardInset + (hasRightPanel ? panelGutter : pageGutter),
+    paddingLeft: rowInset + (hasSidebarBeside ? 0 : cardInset),
+    paddingRight: rowInset + cardInset,
   }
 }
 

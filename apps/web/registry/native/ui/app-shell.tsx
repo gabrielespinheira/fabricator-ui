@@ -1527,21 +1527,15 @@ function AppShellStatusBar({
   style,
   ...props
 }: React.ComponentProps<typeof View>) {
-  const { size, setHasStatusBar, sidebarWidth, panels, floating, configs } =
-    useAppShell()
+  const { size, setHasStatusBar, sidebarWidth } = useAppShell()
   const { variant } = useSidebarLayout()
   const insets = useShellInsets()
-  const [row, gutter, pageGutter, panelGutter] = useCSSVariable([
+  const [row, gutter, rowInset] = useCSSVariable([
     "--density-32",
     "--density-8",
-    "--density-24",
-    "--density-16",
+    "--density-12",
   ])
   const isPhone = size === "phone"
-  const hasRightPanel = Object.entries(panels).some(
-    ([id, panel]) =>
-      panel.open && !floating[id] && (configs[id]?.side ?? "right") === "right"
-  )
   React.useLayoutEffect(() => {
     setHasStatusBar(true)
     return () => setHasStatusBar(false)
@@ -1574,10 +1568,8 @@ function AppShellStatusBar({
             style={getStatusBarPadding({
               isCard: variant === "inset",
               hasSidebarBeside: sidebarWidth > 0,
-              hasRightPanel,
               gutter: parseNumber(gutter, 8),
-              pageGutter: parseNumber(pageGutter, 24),
-              panelGutter: parseNumber(panelGutter, 16),
+              rowInset: parseNumber(rowInset, 12),
             })}
           >
             {renderTextChildren(children)}

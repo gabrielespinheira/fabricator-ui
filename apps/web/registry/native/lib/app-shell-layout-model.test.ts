@@ -387,39 +387,28 @@ describe("getStatusBarHeight", () => {
 })
 
 describe("getStatusBarPadding", () => {
-  const base = {
-    gutter: 10,
-    pageGutter: 28,
-    panelGutter: 18,
-    hasSidebarBeside: true,
-    hasRightPanel: false,
-  }
+  const base = { gutter: 10, rowInset: 14, hasSidebarBeside: true }
 
-  it("puts both ends on the page's edges inside a card", () => {
-    expect(getStatusBarPadding({ ...base, isCard: true })).toEqual({
-      paddingLeft: 28,
-      paddingRight: 38,
+  it("sits as far inside a card's left edge as inside its right", () => {
+    const { paddingLeft, paddingRight } = getStatusBarPadding({
+      ...base,
+      isCard: true,
     })
+    // The bar starts at the card's left edge, and ends past its right by the gutter.
+    expect(paddingLeft).toBe(14)
+    expect(paddingRight - base.gutter).toBe(14)
   })
 
-  it("adds the card's gutter on the left once no sidebar is beside it", () => {
+  it("clears the card's gutter on the left once no sidebar is beside it", () => {
     expect(
       getStatusBarPadding({ ...base, isCard: true, hasSidebarBeside: false })
-        .paddingLeft
-    ).toBe(38)
+    ).toEqual({ paddingLeft: 24, paddingRight: 24 })
   })
 
-  it("ends on a docked panel's content when one is open", () => {
-    expect(
-      getStatusBarPadding({ ...base, isCard: true, hasRightPanel: true })
-        .paddingRight
-    ).toBe(28)
-  })
-
-  it("has no card's gutter to clear beside a flat column", () => {
+  it("has no gutter to clear beside a flat column", () => {
     expect(getStatusBarPadding({ ...base, isCard: false })).toEqual({
-      paddingLeft: 28,
-      paddingRight: 28,
+      paddingLeft: 14,
+      paddingRight: 14,
     })
   })
 })
