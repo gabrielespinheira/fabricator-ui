@@ -323,7 +323,7 @@ function Sidebar08({
     <SidebarProvider>
       <AppSidebar onNavigate={onNavigate} />
       <SidebarInset>
-        <View className="h-16 shrink-0 flex-row items-center gap-2 px-4">
+        <View className="h-16 shrink-0 flex-row items-center gap-2 px-4 md:h-(--density-48)">
           <SidebarTrigger className="-ml-1" />
           <Separator
             orientation="vertical"

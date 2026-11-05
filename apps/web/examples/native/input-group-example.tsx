@@ -20,7 +20,7 @@ import { Text } from "@/registry/native/ui/text"
 function InputGroupExample() {
   const [query, setQuery] = React.useState("")
   return (
-    <ExampleWrapper>
+    <ExampleWrapper fit>
       <Example title="Addons on each side">
         <InputGroup>
           <InputGroupInput placeholder="Search" />

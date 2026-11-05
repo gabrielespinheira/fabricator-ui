@@ -10,7 +10,7 @@
      sheet motion (the drawer curve); closes quicker. Side panels take 3/4 of the
      width, at most 384pt from sm up. */
   .cn-sheet-content {
-    @apply bg-surface-3 shadow-surface-3 gap-(--density-16) data-[side=left]:w-3/4 data-[side=left]:sm:max-w-sm data-[side=right]:w-3/4 data-[side=right]:sm:max-w-sm;
+    @apply md:data-[side=bottom]:rounded-t-xl md:data-[side=top]:rounded-b-xl bg-surface-3 shadow-surface-3 gap-(--density-16) data-[side=left]:w-3/4 data-[side=left]:sm:max-w-sm data-[side=right]:w-3/4 data-[side=right]:sm:max-w-sm;
   }
 
   .cn-sheet-text {

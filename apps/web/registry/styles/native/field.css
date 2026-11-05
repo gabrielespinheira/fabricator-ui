@@ -39,7 +39,7 @@
      a whole Field is a choice card: framed by a hairline, pressed tint, the active
      step when its control is on. */
   .cn-field-label {
-    @apply data-[card=true]:border-border data-[card=true]:active:bg-hover data-[checked=true]:bg-active data-[checked=true]:border-foreground/20 gap-(--density-8) data-[card=true]:w-full data-[card=true]:flex-col data-[card=true]:items-stretch data-[card=true]:rounded-lg data-[card=true]:border data-[disabled=true]:opacity-50 data-[orientation=horizontal]:flex-1;
+    @apply data-[card=true]:border-border data-[card=true]:active:bg-hover data-[checked=true]:bg-active data-[checked=true]:border-foreground/20 gap-(--density-8) data-[card=true]:w-full data-[card=true]:flex-col data-[card=true]:items-stretch data-[card=true]:rounded-lg data-[card=true]:border data-[disabled=true]:opacity-50 data-[orientation=horizontal]:flex-1 sm:data-[orientation=responsive]:self-center;
   }
 
   /* 13pt labels, red inside an invalid field. */

@@ -7,7 +7,7 @@ import { Textarea } from "@/registry/native/ui/textarea"
 function TextareaExample() {
   const [value, setValue] = React.useState("Thanks for the quick reply.")
   return (
-    <ExampleWrapper>
+    <ExampleWrapper fit>
       <Example title="Default">
         <Textarea placeholder="Type your message here." />
       </Example>

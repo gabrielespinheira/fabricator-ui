@@ -523,7 +523,7 @@ function Sidebar15({
     <SidebarProvider>
       <SidebarLeft onNavigate={onNavigate} />
       <SidebarInset>
-        <View className="h-14 shrink-0 flex-row items-center gap-2 bg-background px-3">
+        <View className="h-14 shrink-0 flex-row items-center gap-2 bg-background px-3 md:h-[calc(var(--density-48)+2*var(--density-8))]">
           <SidebarTrigger />
           <Separator
             orientation="vertical"

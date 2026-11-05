@@ -11,7 +11,7 @@ import {
 function ProgressExample() {
   const [value, setValue] = React.useState(40)
   return (
-    <ExampleWrapper>
+    <ExampleWrapper fit>
       <Example title="Values" className="items-stretch">
         <Progress value={0} accessibilityLabel="Not started" />
         <Progress value={56} accessibilityLabel="Uploading" />

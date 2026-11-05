@@ -6,6 +6,7 @@ import Animated from "react-native-reanimated"
 
 import { useMountFeedback } from "@/registry/native/lib/feedback"
 import { useSurfaceAnimation } from "@/registry/native/lib/motion"
+import { NO_LAYOUT } from "@/registry/native/lib/overlay-model"
 import { resolveRender, type RenderProps } from "@/registry/native/lib/render"
 import { Button } from "@/registry/native/ui/button"
 import { DensityScope, useDensity } from "@/registry/native/ui/density"
@@ -17,7 +18,13 @@ type AlertDialogSize = "default" | "sm"
 const AlertDialogContext = React.createContext<AlertDialogSize>("default")
 
 function AlertDialog(props: AlertDialogPrimitive.RootProps) {
-  return <AlertDialogPrimitive.Root data-slot="alert-dialog" {...props} />
+  return (
+    <AlertDialogPrimitive.Root
+      data-slot="alert-dialog"
+      style={NO_LAYOUT}
+      {...props}
+    />
+  )
 }
 
 function AlertDialogTrigger({

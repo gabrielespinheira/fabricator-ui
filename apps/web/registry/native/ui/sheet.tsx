@@ -9,6 +9,7 @@ import { cn } from "cn"
 import { Pressable, View, type GestureResponderEvent } from "react-native"
 import type Animated from "react-native-reanimated"
 
+import { NO_LAYOUT } from "@/registry/native/lib/overlay-model"
 import { renderSlot, type RenderProps } from "@/registry/native/lib/render"
 import type { SheetSide } from "@/registry/native/lib/sheet-model"
 import {
@@ -65,7 +66,7 @@ function Sheet({
   )
   return (
     <SheetContext value={context}>
-      <View data-slot="sheet" {...props}>
+      <View data-slot="sheet" style={NO_LAYOUT} {...props}>
         {children}
       </View>
     </SheetContext>

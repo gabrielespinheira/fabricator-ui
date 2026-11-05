@@ -25,7 +25,7 @@ function AspectRatioExample() {
       <Example title="Square" className="items-stretch">
         <AspectRatio
           ratio={1}
-          className="items-center justify-center rounded-lg bg-muted"
+          className="items-center justify-center rounded-lg bg-muted md:w-60"
         >
           <Text className="text-muted-foreground">1:1</Text>
         </AspectRatio>

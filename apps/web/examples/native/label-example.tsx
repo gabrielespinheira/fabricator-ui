@@ -9,7 +9,7 @@ import { Label } from "@/registry/native/ui/label"
 function LabelExample() {
   const [isChecked, setIsChecked] = React.useState(false)
   return (
-    <ExampleWrapper>
+    <ExampleWrapper fit>
       <Example title="With a checkbox">
         <Pressable
           className="flex-row items-center gap-2"

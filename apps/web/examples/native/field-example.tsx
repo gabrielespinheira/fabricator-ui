@@ -22,7 +22,7 @@ import { Textarea } from "@/registry/native/ui/textarea"
 function FieldExample() {
   const [isAccepted, setIsAccepted] = React.useState(true)
   return (
-    <ExampleWrapper>
+    <ExampleWrapper fit>
       <Example title="Vertical">
         <FieldGroup>
           <Field orientation="vertical">

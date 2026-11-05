@@ -9,6 +9,7 @@ import { cn } from "cn"
 import { Pressable, View, type GestureResponderEvent } from "react-native"
 import type Animated from "react-native-reanimated"
 
+import { NO_LAYOUT } from "@/registry/native/lib/overlay-model"
 import { renderSlot, type RenderProps } from "@/registry/native/lib/render"
 import {
   getSideForSwipe,
@@ -93,7 +94,7 @@ function Drawer({
   )
   return (
     <DrawerContext value={context}>
-      <View data-slot="drawer" {...props}>
+      <View data-slot="drawer" style={NO_LAYOUT} {...props}>
         {children}
       </View>
     </DrawerContext>

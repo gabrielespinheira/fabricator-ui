@@ -15,7 +15,7 @@ function KbdExample() {
         </Kbd>
       </Example>
       <Example title="Group">
-        <KbdGroup>
+        <KbdGroup className="self-start">
           <Kbd>
             <CommandIcon />
           </Kbd>

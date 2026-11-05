@@ -102,7 +102,7 @@ function AppShell02({
         </SidebarContent>
       </Sidebar>
       <AppShellMain>
-        <View className="shrink-0 flex-row items-center gap-1 px-2">
+        <View className="h-(--density-48) shrink-0 flex-row items-center gap-1 px-2">
           <SidebarTrigger />
           <TabStrip
             {...tabs.stripProps}

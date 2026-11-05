@@ -199,7 +199,7 @@ const data = {
 }
 
 function NavActions() {
-  const { height } = useWindowDimensions()
+  const { width, height } = useWindowDimensions()
   return (
     <View className="shrink-0 flex-row items-center gap-2">
       <Text className="hidden font-medium text-muted-foreground md:flex">
@@ -230,7 +230,7 @@ function NavActions() {
         >
           {/* The sidebar's parts without its root: a popover's portal leaves the
               provider, which Sidebar needs and they don't. */}
-          <ScrollView style={{ maxHeight: getMenuMaxHeight(height) }}>
+          <ScrollView style={{ maxHeight: getMenuMaxHeight(height, width) }}>
             {data.actions.map((group, index) => (
               <SidebarGroup
                 key={index}
@@ -457,7 +457,7 @@ function Sidebar10({
     <SidebarProvider>
       <AppSidebar onNavigate={onNavigate} />
       <SidebarInset>
-        <View className="h-14 shrink-0 flex-row items-center gap-2 px-3">
+        <View className="h-14 shrink-0 flex-row items-center gap-2 px-3 md:h-[calc(var(--density-48)+2*var(--density-8))]">
           <SidebarTrigger />
           <Separator
             orientation="vertical"

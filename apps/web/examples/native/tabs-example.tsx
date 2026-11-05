@@ -13,7 +13,7 @@ import { Text } from "@/registry/native/ui/text"
 function TabsExample() {
   const [tab, setTab] = React.useState("analytics")
   return (
-    <ExampleWrapper>
+    <ExampleWrapper fit>
       <Example title="Default">
         <Tabs defaultValue="overview" className="w-full">
           <TabsList>
