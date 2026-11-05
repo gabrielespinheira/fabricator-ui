@@ -209,8 +209,8 @@ Props it adds to what it wraps: `defaultOpen`, `disablePointerDismissal`, `hostN
 
 ## Differences from web
 
-**New engine.** `vaul` is DOM-only. Gestures run on the UI thread, with swipe to dismiss and keyboard avoidance. `snapPoints` is accepted and does nothing.
+**New engine.** `vaul` is DOM-only. Gestures run on the UI thread, with swipe to dismiss and keyboard avoidance. `snapPoints` is accepted and does nothing. On iOS a bottom drawer has the system sheet's corner, 38pt and continuous. The swipe handle is also a button that closes it.
 
 ## Accessibility
 
-Parts set `role="heading"`, read by VoiceOver and TalkBack. Give a control with no text an `accessibilityLabel`.
+Parts set `role="button"`, `role="heading"`, read by VoiceOver and TalkBack. Give a control with no text an `accessibilityLabel`.

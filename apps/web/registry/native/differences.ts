@@ -26,7 +26,7 @@ export const NATIVE_DIFFERENCES: Record<
   },
   "app-shell": {
     tier: "touch",
-    note: "On tablets the sidebar's toggle stays in the header while the sidebar can collapse, the toggles have no tooltip, and the status bar is its row plus half the home indicator's space, with its ends the same distance inside the cards' edges. On phones the sidebar reveals behind the page, panels open as sheets with a grab handle and full-width tabs, a panel's toggle draws a bottom panel, and the nav's mobile items become a tab bar, flat or floating, on a surface of your own through `capsule` (a `GlassView` for Liquid Glass). The page scrolls under the header, which sits on a fade behind the status bar, instead of showing a hairline. The breadcrumb shows the way up, and the page's name only once its heading has scrolled away. `window`, `shortcut` and `shortcutScope` are accepted and do nothing, since React Native has no window controls or global key events. Panels don't drag to resize, and the layout is only saved if you pass `storage`.",
+    note: "On tablets the sidebar's toggle stays in the header while the sidebar can collapse, the toggles have no tooltip, and the status bar is its row plus half the home indicator's space, with its ends the same distance inside the cards' edges. On phones the sidebar reveals behind the page, panels open as sheets with centred tabs and a grab handle in place of a close button, a panel's toggle draws a bottom panel, and the nav's mobile items become a tab bar, flat or floating, on a surface of your own through `capsule` (a `GlassView` for Liquid Glass). The page scrolls under the header, which sits on a fade behind the status bar, instead of showing a hairline. The breadcrumb shows the way up, and the page's name only once its heading has scrolled away. `window`, `shortcut` and `shortcutScope` are accepted and do nothing, since React Native has no window controls or global key events. Panels don't drag to resize, and the layout is only saved if you pass `storage`.",
   },
   "aspect-ratio": SAME,
   attachment: SAME,
@@ -76,7 +76,7 @@ export const NATIVE_DIFFERENCES: Record<
   },
   drawer: {
     tier: "engine",
-    note: "`vaul` is DOM-only. Gestures run on the UI thread, with swipe to dismiss and keyboard avoidance. `snapPoints` is accepted and does nothing.",
+    note: "`vaul` is DOM-only. Gestures run on the UI thread, with swipe to dismiss and keyboard avoidance. `snapPoints` is accepted and does nothing. On iOS a bottom drawer has the system sheet's corner, 38pt and continuous. The swipe handle is also a button that closes it.",
   },
   "dropdown-menu": {
     tier: "same",
