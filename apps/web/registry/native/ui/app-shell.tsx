@@ -48,7 +48,6 @@ import Animated, {
 import { SafeAreaInsetsContext } from "react-native-safe-area-context"
 import { ScopedVariables, useCSSVariable, useResolveClassNames } from "uniwind"
 
-import { DENSITIES } from "@/registry/fabricator/density"
 import {
   foldBreadcrumbs,
   formatShortcut,
@@ -121,6 +120,7 @@ import {
   BreadcrumbSeparator,
 } from "@/registry/native/ui/breadcrumb"
 import { Button } from "@/registry/native/ui/button"
+import { useControlSize } from "@/registry/native/ui/density"
 import { Drawer, DrawerContent } from "@/registry/native/ui/drawer"
 import {
   DropdownMenu,
@@ -154,10 +154,6 @@ import {
   TooltipTrigger,
 } from "@/registry/native/ui/tooltip"
 
-// A button of size="icon-sm" pins the compact density, and size="icon-lg" the
-// spacious one, whatever the shell's density is.
-const ICON_SM = DENSITIES.compact.space[36]
-const ICON_LG = DENSITIES.spacious.space[36]
 /** Below this a panel's view tabs show their icons only (pt). */
 const PANEL_TABS_LABEL_WIDTH = 360
 
@@ -1449,6 +1445,7 @@ function AppShellContent({
     onContentScroll(0)
   }, [onContentScroll])
   const [phoneGutter, gutter] = useCSSVariable(["--density-16", "--density-24"])
+  const { height: fabButton } = useControlSize("lg")
   const isPhone = shell.size === "phone"
   const column = getContentColumn({
     size,
@@ -1465,7 +1462,7 @@ function AppShellContent({
       }),
     fabClearance: getFabClearance({
       hasFab: isPhone && scroll.hasFab,
-      buttonSize: ICON_LG,
+      buttonSize: fabButton,
       gap: parseNumber(phoneGutter, 16),
     }),
     topInset: scroll.phoneHeaderHeight,
@@ -2193,6 +2190,7 @@ function AppShellPanelHeader({
   style,
   ...props
 }: React.ComponentProps<typeof View>) {
+  const { height: smallButton } = useControlSize("sm")
   const { placement } = usePanel()
   const { pinnedTriggers } = useAppShell()
   const [padding, gap] = useCSSVariable(["--density-12", "--density-6"])
@@ -2210,7 +2208,7 @@ function AppShellPanelHeader({
           ? {
               paddingRight: getPanelHeaderEnd({
                 rowPadding: parseNumber(padding, 12),
-                buttonSize: ICON_SM,
+                buttonSize: smallButton,
                 gap: parseNumber(gap, 6),
               }),
             }
@@ -2367,6 +2365,7 @@ function AppShellPanelTrigger({
   // The same size as the sidebar's toggle across the header from it.
   const glyphSize =
     parseNumber(useCSSVariable("--density-icon-16"), 16) * TOGGLE_GLYPH_SCALE
+  const { height: smallButton } = useControlSize("sm")
   const isPhone = shell.size === "phone"
   const isPressed = view ? panel.open && panel.view === view : panel.open
   const anchor = getPanelTriggerAnchor({
@@ -2440,7 +2439,7 @@ function AppShellPanelTrigger({
           data-pinned="true"
           data-state={panel.open ? "open" : "closed"}
           className="cn-app-shell-panel-trigger-anchor"
-          style={{ width: ICON_SM }}
+          style={{ width: smallButton }}
         />
         <Portal name={name} hostName={pinnedHost}>
           <View
@@ -2451,7 +2450,7 @@ function AppShellPanelTrigger({
               insetRight: insets.right,
               gutter: variant === "inset" ? parseNumber(gutter, 6) : 0,
               rowHeight: parseNumber(row, 48),
-              buttonSize: ICON_SM,
+              buttonSize: smallButton,
               rowPadding: parseNumber(padding, 12),
             })}
           >

@@ -43,7 +43,6 @@ import Svg, { Path } from "react-native-svg"
 import { scheduleOnRN } from "react-native-worklets"
 import { ScopedVariables, useCSSVariable, useResolveClassNames } from "uniwind"
 
-import { DENSITIES } from "@/registry/fabricator/density"
 import {
   getRevealDragProgress,
   getRevealWidth,
@@ -90,6 +89,7 @@ import {
 } from "@/registry/native/lib/sidebar-layout-model"
 import { wrapTextChildren } from "@/registry/native/lib/text-children"
 import { Button } from "@/registry/native/ui/button"
+import { useControlSize } from "@/registry/native/ui/density"
 import { DropdownMenu } from "@/registry/native/ui/dropdown-menu"
 import { Input } from "@/registry/native/ui/input"
 import { ScrollArea } from "@/registry/native/ui/scroll-area"
@@ -473,6 +473,14 @@ function SidebarInner({
   ...props
 }: React.ComponentProps<typeof View>) {
   const frame = React.use(SidebarFrameContext)
+  const { isMobile } = useSidebar()
+  const control = parseNumber(useCSSVariable("--density-36"), 36)
+  // A finger's rows: as tall as a control on a phone, where a pointer's 38pt row
+  // is a miss away from the next. Everything lined up on a row reads this token.
+  const variables = React.useMemo(
+    () => (isMobile ? { ...frame, "--density-30": control } : frame),
+    [control, frame, isMobile]
+  )
   const inner = (
     <TextStyle className="cn-sidebar-text">
       <View
@@ -485,8 +493,8 @@ function SidebarInner({
       </View>
     </TextStyle>
   )
-  if (!frame) return inner
-  return <ScopedVariables variables={frame}>{inner}</ScopedVariables>
+  if (!variables) return inner
+  return <ScopedVariables variables={variables}>{inner}</ScopedVariables>
 }
 
 function useRevealCloseGesture(side: SidebarSide) {
@@ -1016,6 +1024,7 @@ function SidebarTrigger({
   const { toggleSidebar, open, openMobile, isMobile, side } = useSidebar()
   const isInHeader = React.use(SidebarHeaderContext)
   const [rowEnd, badge] = useCSSVariable(["--density-8", "--density-20"])
+  const { height: smallButton } = useControlSize("sm")
   const expanded = isMobile ? openMobile : open
   // Silent, as on the website: it opens and closes too often to sound.
   const button = (
@@ -1039,8 +1048,7 @@ function SidebarTrigger({
               marginRight: getHeaderTriggerEnd({
                 rowEnd: parseNumber(rowEnd, 8),
                 badge: parseNumber(badge, 20),
-                // size="icon-sm" pins the compact density.
-                button: DENSITIES.compact.space[36],
+                button: smallButton,
               }),
             }
           : undefined,

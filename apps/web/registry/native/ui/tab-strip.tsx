@@ -72,7 +72,7 @@ import {
   ContextMenuSeparator,
   ContextMenuTrigger,
 } from "@/registry/native/ui/context-menu"
-import { DensityScope } from "@/registry/native/ui/density"
+import { DensityScope, useControlSize } from "@/registry/native/ui/density"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -225,9 +225,10 @@ function TabStrip({
     moveBy,
   }
 
+  const { density } = useControlSize(size)
   return (
     <TabStripContext value={contextValue}>
-      <DensityScope density={size === "sm" ? "compact" : undefined}>
+      <DensityScope density={density}>
         <View
           data-slot="tab-strip"
           data-size={size}

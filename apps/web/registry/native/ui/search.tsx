@@ -24,7 +24,7 @@ import {
   nextSearchAction,
   toDimension,
 } from "@/registry/native/lib/search-model"
-import { DensityScope, type Density } from "@/registry/native/ui/density"
+import { DensityScope, useControlSize } from "@/registry/native/ui/density"
 import { TextStyle } from "@/registry/native/ui/text"
 
 // A search button that opens into a search field, as one object: the round
@@ -60,12 +60,6 @@ const searchVariants = cva(
 )
 
 type SearchSize = NonNullable<VariantProps<typeof searchVariants>["size"]>
-
-// A control's size="sm" pins it to compact and size="lg" to spacious.
-const SIZE_DENSITY: Partial<Record<SearchSize, Density>> = {
-  sm: "compact",
-  lg: "spacious",
-}
 
 type SearchProps = Omit<
   React.ComponentProps<typeof TextInput>,
@@ -210,9 +204,10 @@ function Search({
         )
   const openWidth = toDimension(width)
   const hasClear = clearable && open && Boolean(value)
+  const { density } = useControlSize(size)
 
   return (
-    <DensityScope density={SIZE_DENSITY[size ?? "default"]}>
+    <DensityScope density={density}>
       <Animated.View
         data-slot="search"
         data-open={open}

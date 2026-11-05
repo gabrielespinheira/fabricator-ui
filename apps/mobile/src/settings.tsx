@@ -22,7 +22,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/registry/native/ui/card"
-import { DensityScope } from "@/registry/native/ui/density"
 import {
   Select,
   SelectContent,
@@ -75,22 +74,20 @@ function ThemeSegmented() {
         if (picked) setThemeChoice(picked.value)
       }}
     >
-      <DensityScope density="compact">
-        <TabsList accessibilityLabel="Theme">
-          {THEME_OPTIONS.map((option) => {
-            const Icon = option.icon
-            return (
-              <TabsTrigger
-                key={option.value}
-                value={option.value}
-                accessibilityLabel={`Theme: ${option.label}`}
-              >
-                <Icon />
-              </TabsTrigger>
-            )
-          })}
-        </TabsList>
-      </DensityScope>
+      <TabsList accessibilityLabel="Theme">
+        {THEME_OPTIONS.map((option) => {
+          const Icon = option.icon
+          return (
+            <TabsTrigger
+              key={option.value}
+              value={option.value}
+              accessibilityLabel={`Theme: ${option.label}`}
+            >
+              <Icon />
+            </TabsTrigger>
+          )
+        })}
+      </TabsList>
     </Tabs>
   )
 }

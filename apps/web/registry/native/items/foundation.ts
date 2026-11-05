@@ -116,6 +116,8 @@ export const foundationItems: Registry["items"] = [
     dependencies: ["uniwind@1.13.1"],
     files: [
       { path: "ui/density.tsx", type: "registry:ui" },
+      { path: "lib/density-scale.ts", type: "registry:lib" },
+      { path: "lib/motion-tokens.ts", type: "registry:lib" },
       tokenFile("css-object"),
       tokenFile("density"),
       tokenFile("density-variables"),

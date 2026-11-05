@@ -17,6 +17,7 @@ import {
 } from "react-native"
 import Animated from "react-native-reanimated"
 
+import { getTouchSlop } from "@/registry/native/lib/density-scale"
 import { useFeedback, useMountFeedback } from "@/registry/native/lib/feedback"
 import {
   FluidHoverArea,
@@ -46,7 +47,11 @@ import {
   SheetSurface,
   SheetSurfaceScrollView,
 } from "@/registry/native/lib/sheet-surface"
-import { DensityScope, useDensity } from "@/registry/native/ui/density"
+import {
+  DensityScope,
+  useControlSize,
+  useDensity,
+} from "@/registry/native/ui/density"
 import { renderTextChildren, Text, TextStyle } from "@/registry/native/ui/text"
 
 type SelectContextValue = {
@@ -212,8 +217,9 @@ function SelectTrigger({
   children?: React.ReactNode
 }) {
   const select = useSelect()
+  const { density, height } = useControlSize(size)
   return (
-    <DensityScope density={size === "sm" ? "compact" : undefined}>
+    <DensityScope density={density}>
       <TextStyle className="cn-select-trigger-text">
         <PopoverPrimitive.Trigger
           ref={select.triggerRef}
@@ -223,6 +229,7 @@ function SelectTrigger({
           role="combobox"
           aria-invalid={isInvalid}
           disabled={disabled ?? select.disabled}
+          hitSlop={getTouchSlop(height)}
           className={cn(
             "cn-select-trigger flex-row items-center justify-between disabled:opacity-50",
             className

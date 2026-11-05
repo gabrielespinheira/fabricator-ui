@@ -26,7 +26,6 @@ import {
   CardHeader,
   CardTitle,
 } from "@/registry/native/ui/card"
-import { DensityScope } from "@/registry/native/ui/density"
 import { Separator } from "@/registry/native/ui/separator"
 import { Switch } from "@/registry/native/ui/switch"
 import { Text } from "@/registry/native/ui/text"
@@ -114,19 +113,17 @@ function OptionRow({
   }
   return (
     <OptionRowLayout row={row}>
-      <DensityScope density="compact">
-        <SegmentedControl
-          label={row.label}
-          options={
-            row.key === "bottomNavStyle"
-              ? getTabBarStyleChoices({ hasGlass: hasLiquidGlass() })
-              : row.choices
-          }
-          value={options[row.key]}
-          disabled={row.isDisabled}
-          onChange={(value) => change({ [row.key]: value })}
-        />
-      </DensityScope>
+      <SegmentedControl
+        label={row.label}
+        options={
+          row.key === "bottomNavStyle"
+            ? getTabBarStyleChoices({ hasGlass: hasLiquidGlass() })
+            : row.choices
+        }
+        value={options[row.key]}
+        disabled={row.isDisabled}
+        onChange={(value) => change({ [row.key]: value })}
+      />
     </OptionRowLayout>
   )
 }

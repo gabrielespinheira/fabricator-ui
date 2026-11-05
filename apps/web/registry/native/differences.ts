@@ -72,7 +72,7 @@ export const NATIVE_DIFFERENCES: Record<
   },
   density: {
     tier: "same",
-    note: "`DensityProvider` sets scoped variables, with no wrapper view. Phones default to spacious.",
+    note: '`DensityProvider` sets scoped variables, with no wrapper view. Phones default to spacious, and there a control\'s `size="sm"` is a step down, 36pt, and `size="lg"` a step up, 52pt, rather than compact and spacious.',
   },
   drawer: {
     tier: "engine",

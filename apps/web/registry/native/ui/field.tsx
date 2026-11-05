@@ -166,7 +166,8 @@ function FieldLabel({
       // Not one accessible element: the control inside must stay reachable.
       accessible={false}
       disabled={scope.isDisabled}
-      hitSlop={8}
+      // A line of label text, taken to a full touch target.
+      hitSlop={12}
       className={cn(
         "cn-field-label flex-row items-center self-start",
         className
