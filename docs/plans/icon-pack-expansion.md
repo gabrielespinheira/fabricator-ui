@@ -191,7 +191,7 @@ Each name is `<base>-<variant>`. `inbox` is the third most used icon in the regi
 | `box-sparkles`          | Cut box and sparkle         | Model                   | Good                                                   |
 | `database-sparkles`     | Database and sparkle        | Dataset, knowledge base | Good, dense (34.9% ink)                                |
 | `token-stack`           | Three stacked discs         | Tokens, usage           | Close to `database`, which has sides                   |
-| `vector-nodes`          | Triangle of nodes and a dot | Embeddings              | Good, distinct from `share-2`                          |
+| `vector-nodes`          | Triangle of joined nodes    | Embeddings              | Good, distinct from `share-2`                          |
 | `context-gauge`         | Partial ring around lines   | Context window          | Good                                                   |
 
 **Accounts and security: drawn.** `fingerprint-check`, `scan-face-check`, `shield-key`, `badge-key`, `key-rotate`, `monitor-key`, `monitor-lock`, `user-crown`, `user-eye`, `user-wrench`, `users-crown`, `building-user`, `building-lock`
