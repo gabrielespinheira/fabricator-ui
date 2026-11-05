@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { projectName } from "@fabricator-ui/setup"
 import { cn } from "cn"
 import { parseAsStringLiteral, useQueryState, useQueryStates } from "nuqs"
 
@@ -29,7 +30,6 @@ import {
   type PreviewSize,
 } from "@/app/(view)/app-shell/_lib/options"
 
-import { CommandDock } from "./command-dock"
 import { ExtrasControls } from "./extras-step"
 import { InstallStep, SetupSummary } from "./install-step"
 import { LookControls } from "./look-step"
@@ -191,8 +191,8 @@ export function SetupWizard() {
             </h1>
             <p className="text-sm leading-relaxed text-muted-foreground">
               Tell us about your project, make it yours, and run one command.
-              Every step has a sensible default, so copy the command whenever
-              you like.
+              Every step has a sensible default, so skip to Install whenever you
+              like.
             </p>
           </header>
           <TabsList aria-label="Setup steps" className="w-full">
@@ -267,16 +267,11 @@ export function SetupWizard() {
               options={previewOptions}
               size={size}
               desktop={desktop}
+              windowTitle={projectName(projectSetup)}
             />
           </section>
           {hasProjectPreview ? (
-            <div
-              // It scrolls, with nothing in it to focus, so keys reach it here.
-              tabIndex={0}
-              role="region"
-              aria-label="What the command creates"
-              className="no-scrollbar flex flex-col gap-4 rounded-2xl outline-none focus-visible:ring-2 focus-visible:ring-ring/50 lg:max-h-[calc(100svh-9.5rem)] lg:overflow-y-auto"
-            >
+            <div className="flex flex-col gap-4">
               <ProjectTree setup={projectSetup} />
               <section
                 aria-label="What the command does"
@@ -294,7 +289,6 @@ export function SetupWizard() {
           </TabsContent>
         </div>
       </div>
-      {step === "install" ? null : <CommandDock setup={setup} />}
     </Tabs>
   )
 }

@@ -22,6 +22,7 @@ export const ACCOUNT_PLACEMENTS = ["footer", "header", "none"] as const
 export const TAB_PLACEMENTS = ["none", "main", "titlebar"] as const
 export const CONTENT_SIZES = ["sm", "md", "lg"] as const
 export const PANEL_MOBILE = ["drawer", "swap", "none"] as const
+export const BOTTOM_NAV_STYLES = ["flat", "floating", "glass"] as const
 export const WINDOWS = ["web", "macos", "windows"] as const
 
 export const SIDEBAR_VARIANT_CHOICES = [
@@ -59,6 +60,8 @@ export const playgroundParsers = {
   panelMobile: parseAsStringLiteral(PANEL_MOBILE).withDefault("drawer"),
   status: parseAsBoolean.withDefault(true),
   bottomNav: parseAsBoolean.withDefault(false),
+  // React Native only: its example app's card sets it, and no website card does.
+  bottomNavStyle: parseAsStringLiteral(BOTTOM_NAV_STYLES).withDefault("flat"),
   window: parseAsStringLiteral(WINDOWS).withDefault("web"),
   fullscreen: parseAsBoolean.withDefault(false),
   glass: parseAsBoolean.withDefault(true),
@@ -189,7 +192,8 @@ export function getPlaygroundWindow(
       controls: "overlay",
       isFullscreen: options.fullscreen,
       overlayWidth: 138,
-      isTranslucent: options.glass,
+      // A project's Electron app sets no material on Windows.
+      isTranslucent: options.glass && !runtime,
     }
   }
   return undefined

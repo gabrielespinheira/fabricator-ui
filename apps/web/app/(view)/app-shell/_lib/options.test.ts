@@ -198,3 +198,19 @@ describe("the window a runtime draws", () => {
     expect(getPlaygroundWindow(options, "tauri")).toBeUndefined()
   })
 })
+
+describe("the Windows window in the preview", () => {
+  const windows = {
+    ...DEFAULT_PLAYGROUND_OPTIONS,
+    window: "windows",
+    glass: true,
+  } as const
+
+  it("has no glass in a project's Electron app, which sets no material there", () => {
+    expect(getPlaygroundWindow(windows, "electron")?.isTranslucent).toBe(false)
+  })
+
+  it("keeps it on the App Shell's own page, where any app can add Mica", () => {
+    expect(getPlaygroundWindow(windows)?.isTranslucent).toBe(true)
+  })
+})

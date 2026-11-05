@@ -42,8 +42,8 @@ import {
   TAB_PLACEMENT_CHOICES,
 } from "@/app/(view)/app-shell/_lib/options"
 
-import { CommandText, PackageManagerSwitch } from "./command-dock"
 import { PlanList } from "./plan-list"
+import { CommandText, PackageManagerSwitch } from "./setup-command"
 import type { StepName } from "./setup-wizard"
 import { StepFooter } from "./step-parts"
 

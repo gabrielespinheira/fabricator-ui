@@ -28,6 +28,7 @@ import {
   getShellSize,
   getTabAtPosition,
   getTrafficLightsGeometry,
+  hasWindowTitlebar,
   isChordShortcut,
   matchesShortcut,
   moveCustomizableNavItem,
@@ -1040,5 +1041,23 @@ describe("the order and hidden rows", () => {
       )
       expect(preferences.order.parent).toEqual(["two", "one"])
     })
+  })
+})
+
+describe("hasWindowTitlebar", () => {
+  it("gives a window's overlaid buttons a row of their own", () => {
+    expect(hasWindowTitlebar({ controls: "overlay" })).toBe(true)
+  })
+
+  it("has none in fullscreen, where the buttons are gone", () => {
+    expect(hasWindowTitlebar({ controls: "overlay", isFullscreen: true })).toBe(
+      false
+    )
+  })
+
+  it("has none for the traffic lights or in a browser", () => {
+    expect(hasWindowTitlebar({ controls: "macos" })).toBe(false)
+    expect(hasWindowTitlebar({ controls: "none" })).toBe(false)
+    expect(hasWindowTitlebar(undefined)).toBe(false)
   })
 })

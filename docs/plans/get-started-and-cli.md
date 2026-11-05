@@ -242,7 +242,7 @@ One pure module turns a `Setup` into steps. The site shows them, the CLI runs th
 ```
 packages/setup/src/          private, pure, zod; imported by the site, bundled into the CLI
   setup.ts                   schema, defaults, normalizeSetup, old link params
-  cli-args.ts                toCliArgs: what the dock prints
+  cli-args.ts                toCliArgs: what the Install step prints
   plan.ts                    planSetup: Step[], getNextSteps, getPrerequisites
   tree.ts                    getProjectTree
 packages/cli/src/
@@ -535,3 +535,4 @@ To move to Blossom, whoever accepts OpenAI's terms downloads the file into `sour
 - **What ran, and what only built.** A generated monorepo's web app, Electron window and iOS app were run. The App Shell mounts in all three, the window finds its runtime with no control under a drag region, and the iOS sidebar and navigation work. Tauri got `cargo check`, and Android got nothing beyond `expo-doctor`. The glass hasn't been seen, and the sounds on iOS haven't been listened to.
 - **Generated Expo apps are named after the project.** The template calls the app after its folder and leaves the store ids to a prompt on the first native build, so `scaffold-mobile` sets `name`, `ios.bundleIdentifier` and `android.package`. Found by running one.
 - **The Install step has a prompt for AI agents.** Added after the plan. `getAgentPrompt` in `packages/setup` writes the same command, then what a person would do next: fix failures, check with `doctor` and a build, add a theme toggle, and replace the sample navigation. It won't install prerequisites without asking.
+- **There's no command dock.** It was built as planned, then removed at Gabs's request on 2026-11-05. The command is on the Install step, and every other step has its defaults, so the tabs can skip straight there.

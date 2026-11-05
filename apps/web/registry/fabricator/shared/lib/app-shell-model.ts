@@ -710,6 +710,16 @@ const TRAFFIC_LIGHTS_HEIGHT = 14
 const TRAFFIC_LIGHTS_GAP = 20
 
 /**
+ * Windows and Linux draw their window buttons over the page, so a window there
+ * gets a row of its own for them, as native apps have. Fullscreen hides them.
+ */
+export function hasWindowTitlebar(
+  window: { controls: string; isFullscreen?: boolean } | undefined
+) {
+  return window?.controls === "overlay" && !window.isFullscreen
+}
+
+/**
  * Where the shell's chrome goes around the traffic lights: content starts
  * `insetStart` px from the window's edge, and the top band is `bandHeight`
  * px tall, so a row filling it centres on the lights.

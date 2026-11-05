@@ -35,6 +35,7 @@ import {
 
 import { getPlaygroundWindow, type PlaygroundOptions } from "../_lib/options"
 import { OptionShell } from "./option-shell"
+import { WindowsCaptionButtons } from "./windows-caption-buttons"
 
 // A browser has no native window, so the demo draws what the shell lays out
 // around: the desktop seen through the window's material, and the window
@@ -72,19 +73,7 @@ function WindowControls({ shellWindow }: { shellWindow?: AppShellWindow }) {
     )
   }
   return (
-    <div
-      aria-hidden
-      className="pointer-events-none fixed end-0 top-0 z-50 flex h-10 text-muted-foreground"
-    >
-      {["—", "☐", "✕"].map((glyph) => (
-        <span
-          key={glyph}
-          className="flex w-[46px] items-center justify-center text-xs"
-        >
-          {glyph}
-        </span>
-      ))}
-    </div>
+    <WindowsCaptionButtons className="pointer-events-none fixed end-0 top-0 z-50 h-(--density-40)" />
   )
 }
 

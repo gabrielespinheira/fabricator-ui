@@ -8,6 +8,7 @@ import { normalizeInstallOptions } from "./app-shell-source"
 import type { PlaygroundOptions } from "./options"
 
 const REGISTRY = "@/registry/native"
+const GLASS_PACKAGE = "expo-glass-effect"
 const ICONS_PACKAGE = "@fabricator-ui/icons-react-native"
 
 const blank = (line: string) => line.trim() === ""
@@ -20,6 +21,10 @@ function importLines(names: string[], from: string) {
   const oneLine = `import { ${names.join(", ")} } from "${from}"`
   if (names.length === 1 || oneLine.length <= 80) return [oneLine]
   return ["import {", ...names.map((name) => `  ${name},`), `} from "${from}"`]
+}
+
+function hasGlassTabBar(options: PlaygroundOptions) {
+  return options.bottomNav && options.bottomNavStyle === "glass"
 }
 
 export function getNativeAppShellDependencies(options: PlaygroundOptions) {
@@ -95,6 +100,9 @@ function buildImports(options: PlaygroundOptions) {
     ...(options.collapse === "none" ? [] : ["SidebarTrigger"]),
   ]
   return [
+    ...(hasGlassTabBar(options)
+      ? importLines(["GlassView", "isLiquidGlassAvailable"], GLASS_PACKAGE)
+      : []),
     ...importLines(usedIcons(options), ICONS_PACKAGE),
     ...(isRowOfTabs ? importLines(["View"], "react-native") : []),
     "",
@@ -368,6 +376,14 @@ function buildMain(options: PlaygroundOptions) {
           "    groups={groups}",
           "    pathname={pathname}",
           "    onNavigate={onNavigate}",
+          ...(options.bottomNavStyle === "flat"
+            ? []
+            : ['    variant="floating"']),
+          ...(hasGlassTabBar(options)
+            ? [
+                "    capsule={isLiquidGlassAvailable() ? <GlassView isInteractive /> : undefined}",
+              ]
+            : []),
           "  />",
         ]
       : []),
@@ -478,7 +494,10 @@ export function buildNativeAppShellItem(rawOptions: PlaygroundOptions) {
     title: "App Shell layout",
     description:
       "An App Shell written out from your settings, for React Native.",
-    dependencies: [ICONS_PACKAGE],
+    dependencies: [
+      ICONS_PACKAGE,
+      ...(hasGlassTabBar(options) ? [GLASS_PACKAGE] : []),
+    ],
     registryDependencies: getNativeAppShellDependencies(options),
     files: [
       {
@@ -498,6 +517,12 @@ export function buildNativeAppShellItem(rawOptions: PlaygroundOptions) {
       '  import { AppShellRoot } from "@/components/app-shell-root"',
       "",
       "  <AppShellRoot><Slot /></AppShellRoot>",
+      ...(hasGlassTabBar(options)
+        ? [
+            "",
+            "Liquid Glass is a native module: rebuild the app with `npx expo run:ios`.",
+          ]
+        : []),
     ].join("\n"),
     meta: { fabricator: true },
   }

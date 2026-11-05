@@ -24,6 +24,7 @@ import {
   getShellSize,
   getShellStorageKey,
   getTrafficLightsGeometry,
+  hasWindowTitlebar,
   isChordShortcut,
   matchesShortcut,
   parseShellLayout,
@@ -432,7 +433,10 @@ type AppShellProps = React.ComponentProps<"div"> &
     sidebarWidth?: string
     /** Desktop apps: where the native window controls are. */
     window?: AppShellWindow
-    /** A full-width row above the sidebar and main column (AppShellTitlebar). */
+    /**
+     * A full-width row above the sidebar and main column (AppShellTitlebar).
+     * A window with overlaid buttons gets an empty one if you don't pass it.
+     */
     titlebar?: React.ReactNode
     breakpoints?: ShellBreakpoints
     /** The narrowest the main column gets before panels float over it. */
@@ -663,6 +667,9 @@ function AppShell({
     }
   }, [shortcuts, isDesktop, platform, shortcutScope])
 
+  const shellTitlebar =
+    titlebar ?? (hasWindowTitlebar(windowProp) ? <AppShellTitlebar /> : null)
+
   return (
     <AppShellContext.Provider value={contextValue}>
       <AppShellScrollProvider>
@@ -676,7 +683,7 @@ function AppShell({
               : undefined
           }
           data-fullscreen={windowProp?.isFullscreen ? "" : undefined}
-          data-titlebar={titlebar ? "" : undefined}
+          data-titlebar={shellTitlebar ? "" : undefined}
           data-translucent={windowProp?.isTranslucent ? "" : undefined}
           className={cn(
             "cn-app-shell group/app-shell @container/app-shell relative isolate flex h-svh w-full flex-col overflow-hidden",
@@ -691,7 +698,7 @@ function AppShell({
           {...props}
         >
           <AppShellSkipLink fallbackId={contentId} />
-          {titlebar}
+          {shellTitlebar}
           <SidebarProvider
             defaultOpen={defaultOpen}
             open={open}

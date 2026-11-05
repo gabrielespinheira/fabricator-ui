@@ -156,7 +156,7 @@ A tab strip above the content, a panel whose views are picked from triggers in t
 
 ### Desktop app
 
-An Electron or Tauri window laid out like a native macOS app: the sidebar toggle beside the traffic lights, tabs in the main card's top row, and the window's material showing through the sidebar. On Windows and Linux the top rows clear the window buttons, and in fullscreen both insets go away. The preview draws the native controls and the material; in a real window they are the system's.
+An Electron or Tauri window laid out like a native macOS app: the sidebar toggle beside the traffic lights, tabs in the main card's top row, and the window's material showing through the sidebar. On Windows and Linux the window buttons get a titlebar row of their own, and in fullscreen both the insets and that row go away. The preview draws the native controls and the material; in a real window they are the system's.
 
 <ComponentPreview styleName="aria-nova" name="app-shell-desktop" type="frame" />
 
@@ -337,7 +337,7 @@ The `window` prop tells the shell where the native window controls are. The shel
 ```
 
 - **The sidebar toggle.** The shell puts it in the window's top band, after the traffic lights on macOS, and keeps it there while the sidebar collapses. The header's own toggle only shows on phones. With an `AppShellTitlebar` row, the toggle sits in that row, which is as tall as the lights need: 40px at `{ x: 16, y: 13 }`, 60px at `{ x: 16, y: 23 }`. Electron can move them while running (`setWindowButtonPosition`); Tauri sets them when it creates the window.
-- **Insets.** The sidebar's top band holds the lights and the toggle; its header starts below them. While the sidebar is collapsed, the first row of the main column starts after the toggle. On macOS the first rows of the main column and the panels centre on the lights: at `{ x: 16, y: 23 }` they are 44px tall in the inset cards. With the overlay, the row at the top end clears the window buttons, using the Window Controls Overlay's `env(titlebar-area-*)`. In fullscreen both insets go away.
+- **Insets.** The sidebar's top band holds the lights and the toggle; its header starts below them. While the sidebar is collapsed, the first row of the main column starts after the toggle. On macOS the first rows of the main column and the panels centre on the lights: at `{ x: 16, y: 23 }` they are 44px tall in the inset cards. With the overlay, the shell adds an empty titlebar row unless you pass your own, as tall as the window buttons and clear of them, using the Window Controls Overlay's `env(titlebar-area-*)`. In fullscreen both insets and that row go away.
 - **Glass.** `isTranslucent` turns the frame and the sidebar transparent, so the window's material (macOS vibrancy, Windows Mica) shows through them; the main column and the panels stay opaque cards. Make the page transparent too (`html, body { background: transparent }`). On phone widths the frame keeps its surface.
 - **Drag regions.** The titlebar, the headers, the tab strip and the sidebar header move the window. Their buttons, links, fields and tabs stay clickable; mark anything else with `data-no-drag`. A collapsed off-canvas sidebar gives up its region, because Electron ignores opacity and clipping. Electron also lets a drag region later in the document cancel an earlier `no-drag`, so a control you float over a later region needs that spot given back after it; the pinned panel toggle has this built in, and so does anything portalled outside the shell, such as dialogs and menus.
 
