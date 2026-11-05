@@ -11,6 +11,7 @@ import {
   getOtherPanelsWidth,
   getPanelFrame,
   getPanelHeaderEnd,
+  getPhoneTrail,
   getPinnedTriggerPosition,
   getStatusBarHeight,
   isTitleScrolledAway,
@@ -357,6 +358,66 @@ describe("getPanelHeaderEnd", () => {
     expect(getPanelHeaderEnd({ rowPadding: 12, buttonSize: 28, gap: 6 })).toBe(
       46
     )
+  })
+})
+
+describe("getPhoneTrail", () => {
+  const home = { label: "Home" }
+  const ui = { label: "UI" }
+  const avatar = { label: "Avatar" }
+  const atRest = { hasPageTitle: true, isTitleAway: false }
+
+  it("leaves the current page to its own heading while that's on screen", () => {
+    expect(getPhoneTrail({ items: [home], ...atRest })).toEqual({
+      folded: [],
+      parent: null,
+      current: home,
+      showsCurrent: false,
+    })
+  })
+
+  it("keeps the way up in the header, beside the page's heading", () => {
+    const trail = getPhoneTrail({ items: [ui, avatar], ...atRest })
+    expect(trail.parent).toBe(ui)
+    expect(trail.current).toBe(avatar)
+    expect(trail.showsCurrent).toBe(false)
+  })
+
+  it("takes the page's name over once its heading scrolls away", () => {
+    expect(
+      getPhoneTrail({
+        items: [ui, avatar],
+        hasPageTitle: true,
+        isTitleAway: true,
+      }).showsCurrent
+    ).toBe(true)
+  })
+
+  it("names the page itself when it has no heading", () => {
+    expect(
+      getPhoneTrail({
+        items: [home],
+        hasPageTitle: false,
+        isTitleAway: false,
+      }).showsCurrent
+    ).toBe(true)
+  })
+
+  it("folds what a phone has no room for, keeping the nearest parent", () => {
+    const projects = { label: "Projects" }
+    const launch = { label: "Q4 launch" }
+    const specs = { label: "Specs" }
+    const trail = getPhoneTrail({
+      items: [ui, projects, launch, specs],
+      ...atRest,
+    })
+    expect(trail.folded).toEqual([ui, projects])
+    expect(trail.parent).toBe(launch)
+    expect(trail.current).toBe(specs)
+  })
+
+  it("has nothing to show for no items", () => {
+    expect(getPhoneTrail({ items: [], ...atRest }).current).toBeNull()
   })
 })
 

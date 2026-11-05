@@ -1,6 +1,20 @@
-import { RotateCcwIcon, ShareIcon } from "@fabricator-ui/icons-react-native"
+import {
+  IconProvider,
+  LayersIcon,
+  RotateCcwIcon,
+  ShareIcon,
+  SmartphoneIcon,
+  TabletIcon,
+} from "@fabricator-ui/icons-react-native"
 import { Share, View } from "react-native"
+import { useCSSVariable } from "uniwind"
 
+import {
+  getShellOptionSections,
+  type ShellOptionGroup,
+  type ShellOptionRow,
+  type ShellOptionSection,
+} from "@/registry/fabricator/app-shell-options"
 import { Badge } from "@/registry/native/ui/badge"
 import { Button } from "@/registry/native/ui/button"
 import {
@@ -13,6 +27,7 @@ import {
   CardTitle,
 } from "@/registry/native/ui/card"
 import { DensityScope } from "@/registry/native/ui/density"
+import { Separator } from "@/registry/native/ui/separator"
 import { Switch } from "@/registry/native/ui/switch"
 import { Text } from "@/registry/native/ui/text"
 
@@ -22,6 +37,9 @@ import {
   getDefaultShellOptions,
   getOptionNotes,
   getTabBarStyleChoices,
+  getUnseenSection,
+  NATIVE_HIDDEN_OPTIONS,
+  NATIVE_PROJECT,
   type ShellOptions,
 } from "./shell-options-model"
 import { hasLiquidGlass } from "./shell/glass"
@@ -33,55 +51,37 @@ export const DEFAULT_SHELL_OPTIONS = getDefaultShellOptions({
   hasGlass: hasLiquidGlass(),
 })
 
-const GLASS_NOTE =
-  "Glass needs iOS 26 and a build with its module: bun run mobile."
+const SECTION_ICONS = {
+  all: LayersIcon,
+  desktop: TabletIcon,
+  mobile: SmartphoneIcon,
+} as const
 
-function Section({
-  title,
+type ChangeOptions = (next: Partial<ShellOptions>) => void
+
+function OptionRowLayout({
+  row,
   children,
 }: {
-  title: string
+  row: ShellOptionRow
   children: React.ReactNode
 }) {
   return (
-    <View>
-      <Text
-        role="heading"
-        className="pb-1 text-(length:--density-text-12) font-medium text-foreground"
-      >
-        {title}
-      </Text>
-      {children}
-    </View>
-  )
-}
-
-function OptionRow({
-  label,
-  note,
-  isDisabled,
-  children,
-}: {
-  label: string
-  note?: string
-  isDisabled: boolean
-  children: React.ReactNode
-}) {
-  return (
-    <View className="min-h-10 flex-row flex-wrap items-center justify-between gap-x-3 gap-y-1 py-1">
-      <View className="max-w-full shrink gap-0.5">
+    <View className="min-h-10 flex-row items-center justify-between gap-x-3 py-1">
+      {/* Takes what the control leaves, so a long note wraps instead of the row. */}
+      <View className="flex-1 gap-0.5">
         <Text
           className={
-            isDisabled
+            row.isDisabled
               ? "text-(length:--density-text-13) text-muted-foreground/60"
               : "text-(length:--density-text-13) text-muted-foreground"
           }
         >
-          {label}
+          {row.label}
         </Text>
-        {note ? (
-          <Text className="text-(length:--density-text-11) text-muted-foreground/60">
-            {note}
+        {row.note ? (
+          <Text className="text-(length:--density-text-11) text-muted-foreground">
+            {row.note}
           </Text>
         ) : null}
       </View>
@@ -90,59 +90,121 @@ function OptionRow({
   )
 }
 
-/** One of a few, as labels on the tab track. */
-function OptionChoice<Value extends string>({
-  label,
-  note,
-  value,
-  choices,
-  disabled = false,
-  onChange,
+/** A row's control: a switch, or one of a few as labels on the tab track. */
+function OptionRow({
+  row,
+  options,
+  change,
 }: {
-  label: string
-  note?: string
-  value: Value
-  choices: readonly { value: Value; label: string; disabled?: boolean }[]
-  disabled?: boolean
-  onChange: (value: Value) => void
+  row: ShellOptionRow
+  options: ShellOptions
+  change: ChangeOptions
 }) {
+  if (row.kind === "switch") {
+    return (
+      <OptionRowLayout row={row}>
+        <Switch
+          accessibilityLabel={row.label}
+          checked={options[row.key]}
+          disabled={row.isDisabled}
+          onCheckedChange={(checked) => change({ [row.key]: checked })}
+        />
+      </OptionRowLayout>
+    )
+  }
   return (
-    <OptionRow label={label} note={note} isDisabled={disabled}>
+    <OptionRowLayout row={row}>
       <DensityScope density="compact">
         <SegmentedControl
-          label={label}
-          options={choices}
-          value={value}
-          disabled={disabled}
-          onChange={onChange}
+          label={row.label}
+          options={
+            row.key === "bottomNavStyle"
+              ? getTabBarStyleChoices({ hasGlass: hasLiquidGlass() })
+              : row.choices
+          }
+          value={options[row.key]}
+          disabled={row.isDisabled}
+          onChange={(value) => change({ [row.key]: value })}
         />
       </DensityScope>
-    </OptionRow>
+    </OptionRowLayout>
   )
 }
 
-function OptionSwitch({
-  label,
-  note,
-  value,
-  disabled = false,
-  onChange,
+function OptionGroup({
+  group,
+  options,
+  change,
 }: {
-  label: string
-  note?: string
-  value: boolean
-  disabled?: boolean
-  onChange: (value: boolean) => void
+  group: ShellOptionGroup
+  options: ShellOptions
+  change: ChangeOptions
 }) {
   return (
-    <OptionRow label={label} note={note} isDisabled={disabled}>
-      <Switch
-        accessibilityLabel={label}
-        checked={value}
-        disabled={disabled}
-        onCheckedChange={onChange}
-      />
-    </OptionRow>
+    <View>
+      <Text
+        role="heading"
+        className="pb-1 text-(length:--density-text-12) font-medium text-foreground"
+      >
+        {group.title}
+      </Text>
+      {group.rows.map((row) => (
+        <OptionRow key={row.key} row={row} options={options} change={change} />
+      ))}
+    </View>
+  )
+}
+
+/** One kind of screen's options: its name and reach, then its groups. */
+function OptionSection({
+  section,
+  isUnseen,
+  options,
+  change,
+}: {
+  section: ShellOptionSection
+  /** This device can't show them, but the install command has them. */
+  isUnseen: boolean
+  options: ShellOptions
+  change: ChangeOptions
+}) {
+  const Icon = SECTION_ICONS[section.id]
+  const color = useCSSVariable("--muted-foreground")
+  return (
+    <View className="gap-4">
+      <View className="flex-row items-start gap-2.5">
+        <View className="pt-0.5">
+          <IconProvider
+            size={16}
+            color={typeof color === "string" ? color : undefined}
+          >
+            <Icon />
+          </IconProvider>
+        </View>
+        <View className="flex-1">
+          <Text
+            role="heading"
+            className="text-(length:--density-text-14) font-medium text-foreground"
+          >
+            {section.title}
+          </Text>
+          <Text className="text-(length:--density-text-12) text-muted-foreground">
+            {section.description}
+            {isUnseen
+              ? " This device can't show them, but the install command has them."
+              : ""}
+          </Text>
+        </View>
+      </View>
+      {section.groups.map((group) => (
+        <OptionGroup
+          key={group.title}
+          group={group}
+          options={options}
+          change={change}
+        />
+      ))}
+    </View>
   )
 }
 
@@ -180,10 +242,7 @@ function InstallCommand({ options }: { options: ShellOptions }) {
   )
 }
 
-/**
- * The website's App Shell card: the same rows in the same order. A row that
- * can't show its effect on this device stays, disabled, and says where it applies.
- */
+/** The website's App Shell card: what applies everywhere, then each kind of screen. */
 export function ShellOptionsCard({
   options,
   onChange,
@@ -195,11 +254,15 @@ export function ShellOptionsCard({
   isPhone: boolean
   className?: string
 }) {
-  const change = (next: Partial<ShellOptions>) =>
-    onChange({ ...options, ...next })
+  const change: ChangeOptions = (next) => onChange({ ...options, ...next })
   const changed = countChangedOptions(options, DEFAULT_SHELL_OPTIONS)
-  const notes = getOptionNotes({ isPhone })
-  const hasGlass = hasLiquidGlass()
+  const unseenSection = getUnseenSection({ isPhone })
+  const sections = getShellOptionSections({
+    options,
+    project: NATIVE_PROJECT,
+    hidden: NATIVE_HIDDEN_OPTIONS,
+    notes: getOptionNotes({ isPhone, hasGlass: hasLiquidGlass() }),
+  })
 
   return (
     <Card className={className}>
@@ -224,150 +287,18 @@ export function ShellOptionsCard({
           </Button>
         </CardAction>
       </CardHeader>
-      <CardContent className="gap-6">
-        <Section title="Sidebar">
-          <OptionChoice
-            label="Style"
-            note={notes.variant}
-            disabled={notes.variant !== undefined}
-            value={options.variant}
-            choices={[
-              { value: "inset", label: "Inset" },
-              { value: "sidebar", label: "Flush" },
-              { value: "floating", label: "Floating" },
-            ]}
-            onChange={(variant) => change({ variant })}
-          />
-          <OptionChoice
-            label="Collapse"
-            note={notes.collapse}
-            disabled={notes.collapse !== undefined}
-            value={options.collapse}
-            choices={[
-              { value: "icon", label: "Icons" },
-              { value: "offcanvas", label: "Hide" },
-              { value: "none", label: "Never" },
-            ]}
-            onChange={(collapse) => change({ collapse })}
-          />
-          <OptionChoice
-            label="On phones"
-            note={notes.mobileSidebar}
-            disabled={notes.mobileSidebar !== undefined}
-            value={options.mobileSidebar}
-            choices={[
-              { value: "reveal", label: "Reveal" },
-              { value: "sheet", label: "Sheet" },
-            ]}
-            onChange={(mobileSidebar) => change({ mobileSidebar })}
-          />
-          <OptionChoice
-            label="Workspaces"
-            value={options.switcher}
-            choices={[
-              { value: "menu", label: "Menu" },
-              { value: "command", label: "Search" },
-              { value: "none", label: "None" },
-            ]}
-            onChange={(switcher) => change({ switcher })}
-          />
-          <OptionChoice
-            label="Account"
-            value={options.account}
-            choices={[
-              { value: "footer", label: "Bottom" },
-              { value: "header", label: "Top" },
-              { value: "none", label: "None" },
-            ]}
-            onChange={(account) => change({ account })}
-          />
-          <OptionSwitch
-            label="Drag to reorder"
-            value={options.reorder}
-            onChange={(reorder) => change({ reorder })}
-          />
-          <OptionSwitch
-            label="Pin, hide and customize"
-            value={options.customize}
-            onChange={(customize) => change({ customize })}
-          />
-        </Section>
-        <Section title="Main">
-          <OptionChoice
-            label="Tabs"
-            value={options.tabs}
-            choices={[
-              { value: "none", label: "None" },
-              { value: "main", label: "Page" },
-            ]}
-            onChange={(tabs) => change({ tabs })}
-          />
-          <OptionChoice
-            label="Content width"
-            note={notes.contentSize}
-            disabled={notes.contentSize !== undefined}
-            value={options.contentSize}
-            choices={[
-              { value: "sm", label: "Narrow" },
-              { value: "md", label: "Default" },
-              { value: "lg", label: "Wide" },
-            ]}
-            onChange={(contentSize) => change({ contentSize })}
-          />
-          <OptionSwitch
-            label="Breadcrumb"
-            value={options.breadcrumb}
-            onChange={(breadcrumb) => change({ breadcrumb })}
-          />
-          <OptionSwitch
-            label="Header actions"
-            note={notes.actions}
-            disabled={notes.actions !== undefined}
-            value={options.actions}
-            onChange={(actions) => change({ actions })}
-          />
-          <OptionSwitch
-            label="Status bar"
-            note={notes.status}
-            disabled={notes.status !== undefined}
-            value={options.status}
-            onChange={(status) => change({ status })}
-          />
-          <OptionSwitch
-            label="Tab bar on phones"
-            note={notes.bottomNav}
-            disabled={notes.bottomNav !== undefined}
-            value={options.bottomNav}
-            onChange={(bottomNav) => change({ bottomNav })}
-          />
-          <OptionChoice
-            label="Tab bar style"
-            note={notes.bottomNavStyle ?? (hasGlass ? undefined : GLASS_NOTE)}
-            disabled={notes.bottomNavStyle !== undefined || !options.bottomNav}
-            value={options.bottomNavStyle}
-            choices={getTabBarStyleChoices({ hasGlass })}
-            onChange={(bottomNavStyle) => change({ bottomNavStyle })}
-          />
-        </Section>
-        <Section title="Right panel">
-          <OptionSwitch
-            label="Panel"
-            value={options.panel}
-            onChange={(panel) => change({ panel })}
-          />
-          <OptionChoice
-            label="On phones"
-            note={notes.panelMobile}
-            disabled={notes.panelMobile !== undefined || !options.panel}
-            value={options.panelMobile}
-            choices={[
-              { value: "drawer", label: "Drawer" },
-              { value: "swap", label: "Screen" },
-              { value: "none", label: "None" },
-            ]}
-            onChange={(panelMobile) => change({ panelMobile })}
-          />
-        </Section>
+      <CardContent className="gap-5">
+        {sections.map((section, index) => (
+          <View key={section.id} className="gap-5">
+            {index > 0 ? <Separator /> : null}
+            <OptionSection
+              section={section}
+              isUnseen={section.id === unseenSection}
+              options={options}
+              change={change}
+            />
+          </View>
+        ))}
       </CardContent>
       <InstallCommand options={options} />
     </Card>

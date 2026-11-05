@@ -27,10 +27,13 @@ import { Button } from "@/registry/native/ui/button"
 import { Input } from "@/registry/native/ui/input"
 import { Text, TextStyle } from "@/registry/native/ui/text"
 
-import { filterComponents, getComponentTitle } from "./library-model"
-
-export const COMPONENTS_HREF = "/components"
-export const BLOCKS_HREF = "/blocks"
+import {
+  BLOCKS_HREF,
+  COMPONENTS_HREF,
+  filterComponents,
+  getComponentTitle,
+  getDemoName,
+} from "./library-model"
 
 const FOUNDATIONS = ["text", "density"]
 
@@ -39,13 +42,6 @@ const PAGE_TRAVEL = 16
 
 function getGroup(name: string): ComponentGroup | "Foundations" {
   return FOUNDATIONS.includes(name) ? "Foundations" : getComponentGroup(name)
-}
-
-/** The block a path opens, full screen, if it opens one. */
-export function getBlockName(pathname: string) {
-  return pathname.startsWith(`${BLOCKS_HREF}/`)
-    ? pathname.slice(BLOCKS_HREF.length + 1)
-    : null
 }
 
 function ComponentRow({
@@ -111,7 +107,7 @@ function ComponentList({ onNavigate }: { onNavigate: (href: string) => void }) {
       keyboardShouldPersistTaps="handled"
       contentContainerClassName="gap-6"
     >
-      <AppShellPageTitle>Components</AppShellPageTitle>
+      <AppShellPageTitle>UI</AppShellPageTitle>
       <Input
         placeholder={`Search ${Object.keys(NATIVE_EXAMPLES).length} components`}
         value={query}
@@ -149,37 +145,13 @@ function ComponentList({ onNavigate }: { onNavigate: (href: string) => void }) {
   )
 }
 
-function ComponentDemo({
-  name,
-  onNavigate,
-}: {
-  name: string
-  onNavigate: (href: string) => void
-}) {
-  const feedback = useFeedback()
+function ComponentDemo({ name }: { name: string }) {
   const getExample = NATIVE_EXAMPLES[name]
   const Example = getExample?.()
-  // The way back and the title scroll with the demo, under the header, and the
-  // title takes the header's place once it's gone.
+  // The way back is in the header's breadcrumb. The title scrolls with the demo,
+  // under the header, and takes the header's place once it's gone.
   const heading = (
-    <View className="gap-1">
-      <Pressable
-        role="link"
-        accessibilityLabel="All components"
-        onPress={() => {
-          feedback("tick")
-          onNavigate(COMPONENTS_HREF)
-        }}
-        hitSlop={12}
-        className="flex-row items-center gap-1 self-start"
-      >
-        <TextStyle className="text-(length:--density-text-13) text-muted-foreground">
-          <ChevronLeftIcon size={16} strokeWidth={1.5} />
-          <Text>Components</Text>
-        </TextStyle>
-      </Pressable>
-      <AppShellPageTitle>{getComponentTitle(name)}</AppShellPageTitle>
-    </View>
+    <AppShellPageTitle>{getComponentTitle(name)}</AppShellPageTitle>
   )
   if (!Example) {
     return (
@@ -275,11 +247,11 @@ export function ComponentLibrary({
   pathname: string
   onNavigate: (href: string) => void
 }) {
-  const name = pathname.slice(COMPONENTS_HREF.length + 1)
+  const name = getDemoName(pathname)
   return (
     <PageTransition pageKey={pathname} isBack={!name}>
       {name ? (
-        <ComponentDemo name={name} onNavigate={onNavigate} />
+        <ComponentDemo name={name} />
       ) : (
         <ComponentList onNavigate={onNavigate} />
       )}

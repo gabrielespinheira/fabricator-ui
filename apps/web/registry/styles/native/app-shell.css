@@ -70,16 +70,26 @@
   }
 
   .cn-app-shell-breadcrumb-text {
-    @apply text-muted-foreground text-(length:--density-text-13);
+    @apply text-muted-foreground text-(length:--density-text-13) data-[phone=true]:text-(length:--density-text-16);
   }
 
   .cn-app-shell-breadcrumb-fold {
     @apply rounded-md active:opacity-70;
   }
 
-  /* A phone's trail is the current page; it opens a menu of its parents. */
+  /* A phone's trail: the page's name beside the way up, once its heading is gone. */
   .cn-app-shell-breadcrumb-current {
-    @apply min-w-0 gap-(--density-4) rounded-md active:opacity-70;
+    @apply gap-(--density-6);
+  }
+
+  /* A phone's trail reads as its title bar: a size up from a tablet's, the way up
+     muted and the page semibold. */
+  .cn-app-shell-breadcrumb-phone-parent {
+    @apply text-(length:--density-text-16);
+  }
+
+  .cn-app-shell-breadcrumb-phone-page {
+    @apply text-(length:--density-text-16) font-semibold;
   }
 
   .cn-app-shell-breadcrumb-title {
@@ -192,7 +202,7 @@
 
   /* The glyph shows the state; a fill only marks which view a trigger selects. */
   .cn-app-shell-panel-trigger {
-    @apply data-[selected=true]:bg-active;
+    @apply data-[phone=true]:-mr-(--density-4) data-[selected=true]:bg-active;
   }
 
   /* The phone tab bar: icon over label, above the home indicator. */

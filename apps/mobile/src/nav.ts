@@ -34,12 +34,12 @@ export const USER = { name: "Gabs Fabricator", email: "gabs@fabricator.dev" }
 
 export const NAV_GROUPS: AppNavGroup[] = [
   {
-    id: "library",
-    label: "Library",
+    id: "main",
     items: [
+      { id: "home", label: "Home", href: "/", icon: HomeIcon, mobile: "tab" },
       {
         id: "components",
-        label: "Components",
+        label: "UI",
         href: "/components",
         icon: LayoutGridIcon,
         mobile: "tab",
@@ -50,12 +50,6 @@ export const NAV_GROUPS: AppNavGroup[] = [
         href: "/blocks",
         icon: LayoutTemplateIcon,
       },
-    ],
-  },
-  {
-    id: "main",
-    items: [
-      { id: "home", label: "Home", href: "/", icon: HomeIcon, mobile: "tab" },
       {
         id: "inbox",
         label: "Inbox",

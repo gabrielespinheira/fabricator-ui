@@ -267,6 +267,31 @@ export function getPanelHeaderEnd({
 }
 
 /** Whether the page's heading has left the top of its scroller. */
+/**
+ * What a phone's breadcrumb has room for: the nearest parent, with the ancestors
+ * above it folded into a menu, then the current page. While the page's own heading
+ * is on screen the current page stays out of the header, which would only say it
+ * twice; it takes over once the heading scrolls away.
+ */
+export function getPhoneTrail<T>({
+  items,
+  hasPageTitle,
+  isTitleAway,
+}: {
+  /** Root first; the last item is the current page. */
+  items: T[]
+  hasPageTitle: boolean
+  isTitleAway: boolean
+}) {
+  const parents = items.slice(0, -1)
+  return {
+    folded: parents.slice(0, -1),
+    parent: parents.at(-1) ?? null,
+    current: items.at(-1) ?? null,
+    showsCurrent: !hasPageTitle || isTitleAway,
+  }
+}
+
 export function isTitleScrolledAway({
   titleBottom,
   scrollY,

@@ -1,14 +1,20 @@
 import { describe, expect, it } from "vitest"
 
+import { getShellOptionSections } from "@/registry/fabricator/app-shell-options"
+
 import {
   buildInstallCommand,
   countChangedOptions,
   getDefaultShellOptions,
   getOptionNotes,
   getTabBarStyleChoices,
+  getUnseenSection,
+  NATIVE_HIDDEN_OPTIONS,
+  NATIVE_PROJECT,
   type ShellOptions,
 } from "../../../../../mobile/src/shell-options-model"
 import { parseAppShellParams } from "./app-shell-source"
+import { DEFAULT_PLAYGROUND_OPTIONS } from "./options"
 
 const defaults = getDefaultShellOptions({ hasGlass: true })
 
@@ -28,9 +34,9 @@ describe("the React Native App Shell card", () => {
 
   it("always offers Glass, disabled when it can't be drawn", () => {
     expect(getTabBarStyleChoices({ hasGlass: true })).toEqual([
-      { value: "flat", label: "Flat" },
+      { value: "flat", label: "Flat", disabled: false },
       { value: "glass", label: "Glass", disabled: false },
-      { value: "floating", label: "Floating" },
+      { value: "floating", label: "Floating", disabled: false },
     ])
     expect(getTabBarStyleChoices({ hasGlass: false })[1]).toEqual({
       value: "glass",
@@ -49,20 +55,45 @@ describe("the React Native App Shell card", () => {
     ).toBe(2)
   })
 
-  it("says where a row applies, by the kind of device", () => {
-    expect(Object.keys(getOptionNotes({ isPhone: true })).sort()).toEqual([
-      "actions",
-      "collapse",
-      "contentSize",
-      "status",
-      "variant",
+  it("starts from the website's defaults, with a tab bar", () => {
+    expect(getDefaultShellOptions({ hasGlass: false })).toEqual({
+      ...DEFAULT_PLAYGROUND_OPTIONS,
+      bottomNav: true,
+    })
+  })
+
+  it("lays out what a React Native project can honour, phones first", () => {
+    const sections = getShellOptionSections({
+      options: defaults,
+      project: NATIVE_PROJECT,
+      hidden: NATIVE_HIDDEN_OPTIONS,
+    })
+    expect(sections.map(({ title }) => title)).toEqual([
+      "All platforms",
+      "Phones",
+      "Tablets",
     ])
-    expect(Object.keys(getOptionNotes({ isPhone: false })).sort()).toEqual([
-      "bottomNav",
-      "bottomNavStyle",
-      "mobileSidebar",
-      "panelMobile",
-    ])
+    const keys = sections.flatMap(({ groups }) =>
+      groups.flatMap(({ rows }) => rows.map(({ key }) => key))
+    )
+    for (const missing of ["peek", "window", "fullscreen", "glass"] as const) {
+      expect(keys).not.toContain(missing)
+    }
+  })
+
+  it("marks the section this device can't show", () => {
+    expect(getUnseenSection({ isPhone: true })).toBe("desktop")
+    expect(getUnseenSection({ isPhone: false })).toBe("mobile")
+  })
+
+  it("explains what this device or build can't draw", () => {
+    expect(getOptionNotes({ isPhone: true, hasGlass: true })).toEqual({
+      actions: expect.stringContaining("tablets"),
+    })
+    expect(getOptionNotes({ isPhone: false, hasGlass: true })).toEqual({})
+    expect(getOptionNotes({ isPhone: false, hasGlass: false })).toEqual({
+      bottomNavStyle: expect.stringContaining("Glass"),
+    })
   })
 })
 
@@ -80,6 +111,18 @@ describe("the card's install command", () => {
       "bottomNavStyle",
       "platform",
     ])
+  })
+
+  it("leaves out what a switched-off part would ignore", () => {
+    const params = parseCommand({
+      ...defaults,
+      bottomNav: false,
+      bottomNavStyle: "floating",
+      panel: false,
+      panelMobile: "swap",
+    })
+    expect(params.has("bottomNavStyle")).toBe(false)
+    expect(params.has("panelMobile")).toBe(false)
   })
 
   it("is read back by the endpoint as the same choices", () => {

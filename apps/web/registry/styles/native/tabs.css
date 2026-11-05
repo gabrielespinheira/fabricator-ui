@@ -43,9 +43,12 @@
   }
 
   /* The selected tab's pill: a raised surface that slides on the move timing. The
-     line variant draws a foreground underline instead. */
+     line variant draws a foreground underline instead. In dark a fixed surface
+     can't sit above the track, which is a step over whatever is underneath: on a
+     card, surface 4 is darker than it. So the pill is a step over the track too,
+     about 1.5:1 against it on every surface. */
   .cn-tabs-selection {
-    @apply bg-surface-4 shadow-surface-4 rounded-lg data-[variant=line]:bg-transparent data-[variant=line]:shadow-none;
+    @apply bg-surface-4 dark:bg-foreground/14 shadow-surface-4 rounded-lg data-[variant=line]:bg-transparent dark:data-[variant=line]:bg-transparent data-[variant=line]:shadow-none;
   }
 
   .cn-tabs-selection-line {
