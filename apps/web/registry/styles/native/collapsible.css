@@ -6,8 +6,8 @@
   }
 
   /* Opens and closes like Accordion content: DisclosurePanel animates the
-     measured height on the disclosure timing, and Reduce Motion opens and closes
-     at once. */
+     measured height on the disclosure timing, with the quicker exit to close.
+     Reduce Motion drops the height's travel and keeps a fade. */
   .cn-collapsible-content {
     @apply w-full;
   }

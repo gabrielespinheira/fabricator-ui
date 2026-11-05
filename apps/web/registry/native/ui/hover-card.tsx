@@ -4,6 +4,7 @@ import { cn } from "cn"
 import { Pressable } from "react-native"
 import Animated from "react-native-reanimated"
 
+import { useMountFeedback } from "@/registry/native/lib/feedback"
 import { useSurfaceAnimation } from "@/registry/native/lib/motion"
 import {
   COLLISION_INSETS,
@@ -99,6 +100,12 @@ function HoverCardTrigger({
   )
 }
 
+// The primitive's portal renders this only while the card is open.
+function HoverCardFeedback() {
+  useMountFeedback("popup")
+  return null
+}
+
 function HoverCardContent({
   className,
   side = "bottom",
@@ -112,13 +119,19 @@ function HoverCardContent({
   side?: "top" | "right" | "bottom" | "left"
 }) {
   const density = useDensity()
-  const { entering, exiting } = useSurfaceAnimation("popup")
+  // The primitive clamps to the screen and never flips, so this is what renders.
+  const renderedSide = getVerticalSide(side)
+  const { entering, exiting, origin } = useSurfaceAnimation("popup", {
+    side: renderedSide,
+    align,
+  })
   return (
     <HoverCardPrimitive.Portal data-slot="hover-card-portal">
       <DensityScope density={density}>
+        <HoverCardFeedback />
         <HoverCardPrimitive.Overlay aria-modal className="absolute inset-0">
           <HoverCardPrimitive.Content
-            side={getVerticalSide(side)}
+            side={renderedSide}
             sideOffset={sideOffset}
             align={align}
             alignOffset={alignOffset}
@@ -129,6 +142,7 @@ function HoverCardContent({
               data-slot="hover-card-content"
               entering={entering}
               exiting={exiting}
+              style={origin}
               className={cn(
                 "cn-hover-card-content cn-hover-card-content-logical",
                 className

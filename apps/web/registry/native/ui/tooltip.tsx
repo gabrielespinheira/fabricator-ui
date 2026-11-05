@@ -145,7 +145,11 @@ function TooltipContent({
 }: TooltipPrimitive.ContentProps) {
   const density = useDensity()
   const { setHint } = useTooltip()
-  const { entering, exiting } = useSurfaceAnimation("tooltip")
+  // The primitive draws `left` and `right` on top, and clamps rather than flips.
+  const { entering, exiting, origin } = useSurfaceAnimation("tooltip", {
+    side: side === "bottom" ? "bottom" : "top",
+    align,
+  })
   const text = getTextContent(children)
   React.useEffect(() => {
     setHint(text || undefined)
@@ -166,6 +170,7 @@ function TooltipContent({
               data-slot="tooltip-content"
               entering={entering}
               exiting={exiting}
+              style={origin}
               className={cn(
                 "cn-tooltip-content cn-tooltip-content-logical max-w-xs flex-row items-center bg-foreground",
                 className

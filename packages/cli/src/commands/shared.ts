@@ -1,5 +1,11 @@
 import path from "node:path"
-import prompts from "prompts"
+import {
+  autocompleteMultiselect,
+  cancel,
+  isCancel,
+  multiselect,
+  select,
+} from "@clack/prompts"
 
 import {
   getCatalogStyle,
@@ -76,32 +82,71 @@ export async function fetchCatalog(
   )
 }
 
+function isAnswered<T>(value: T): value is Exclude<T, symbol> {
+  return !isCancel(value)
+}
+
+/** Ends the run the way pressing Ctrl+C does. */
+export function exitIfCancelled<T>(value: T): Exclude<T, symbol> {
+  if (isAnswered(value)) return value
+  cancel("Cancelled.")
+  process.exit(1)
+}
+
+export type PromptChoice<T extends string> = {
+  title: string
+  value: T
+  description?: string
+}
+
+function toPromptOptions(choices: readonly PromptChoice<string>[]) {
+  return choices.map(({ title, value, description }) => ({
+    label: title,
+    value,
+    hint: description,
+  }))
+}
+
 export async function promptSelect<T extends string>(
   message: string,
-  choices: { title: string; value: T; description?: string }[]
+  choices: readonly PromptChoice<T>[]
 ): Promise<T> {
-  const { value } = await prompts(
-    { type: "select", name: "value", message, choices, initial: 0 },
-    { onCancel: () => process.exit(1) }
+  const answer = exitIfCancelled(
+    await select<string>({ message, options: toPromptOptions(choices) })
   )
-  return value as T
+  const chosen = choices.find(({ value }) => value === answer)
+  if (!chosen) throw new Error(`Unknown choice: ${answer}`)
+  return chosen.value
+}
+
+/** Any number of answers, none included; a long list wants promptMultiselect. */
+export async function promptCheckboxes<T extends string>(
+  message: string,
+  choices: readonly PromptChoice<T>[]
+): Promise<T[]> {
+  const answers = exitIfCancelled(
+    await multiselect<string>({
+      message,
+      required: false,
+      options: toPromptOptions(choices),
+    })
+  )
+  return choices
+    .filter(({ value }) => answers.includes(value))
+    .map(({ value }) => value)
 }
 
 export async function promptMultiselect(
   message: string,
   choices: { title: string; value: string; description?: string }[]
 ): Promise<string[]> {
-  const { value } = await prompts(
-    {
-      type: "autocompleteMultiselect",
-      name: "value",
+  return exitIfCancelled(
+    await autocompleteMultiselect<string>({
       message,
-      choices,
-      min: 1,
-    },
-    { onCancel: () => process.exit(1) }
+      required: true,
+      options: toPromptOptions(choices),
+    })
   )
-  return (value as string[] | undefined) ?? []
 }
 
 export function fail(error: unknown): never {

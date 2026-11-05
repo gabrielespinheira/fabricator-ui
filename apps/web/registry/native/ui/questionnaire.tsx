@@ -6,9 +6,17 @@ import {
 } from "@rn-primitives/hooks"
 import { cn } from "cn"
 import { Pressable, TextInput, View } from "react-native"
-import Animated, { useAnimatedStyle } from "react-native-reanimated"
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from "react-native-reanimated"
+import { useCSSVariable } from "uniwind"
 
-import { usePressScale } from "@/registry/native/lib/motion"
+import { useFeedback } from "@/registry/native/lib/feedback"
+import { useMotion, usePressScale } from "@/registry/native/lib/motion"
+import { parseNumber } from "@/registry/native/lib/motion-tokens"
+import { PressWash } from "@/registry/native/lib/press-wash"
 import {
   applyAnswer,
   applyInput,
@@ -39,6 +47,11 @@ import { renderTextChildren, Text, TextStyle } from "@/registry/native/ui/text"
 // a choice's mark takes the Checkbox or Radio Group item's placeholders, the
 // free-text answer the Input's, and the shortcut the Kbd's. A web form hands its
 // answers to `onSubmit` as form data; here they come as an object.
+
+// The row's press gives the mark the control's own: the website's `scale-90`.
+const MARK_PRESS_GIVE = 0.1
+// The check is this much smaller than the icon size, as in Checkbox.
+const CHECK_INSET = 4
 
 type QuestionnaireAnswers = Record<string, string | string[] | undefined>
 
@@ -118,6 +131,31 @@ function QuestionnaireChoiceIndicator({
 }) {
   const state = checked ? "checked" : "unchecked"
 
+  // The marks stay mounted, and come and go as the Checkbox's and Radio Group's
+  // do: in on the move timing, out on the feedback exit.
+  const enter = useMotion("move")
+  const exit = useMotion("feedback")
+  const progress = useSharedValue(checked ? 1 : 0)
+  React.useEffect(() => {
+    progress.value = withTiming(checked ? 1 : 0, {
+      duration: checked ? enter.enterMs : exit.exitMs,
+      easing: checked ? enter.enterEasing : exit.exitEasing,
+    })
+  }, [checked, enter, exit, progress])
+  const dotStyle = useAnimatedStyle(() => ({
+    opacity: progress.value,
+    transform: [{ scale: progress.value }],
+  }))
+  const checkStyle = useAnimatedStyle(() => ({
+    opacity: progress.value,
+    transform: [{ scale: 0.6 + 0.4 * progress.value }],
+  }))
+  const wipeStyle = useAnimatedStyle(() => ({
+    width: `${progress.value * 100}%`,
+  }))
+  const checkSize =
+    parseNumber(useCSSVariable("--density-icon-16"), 16) - CHECK_INSET
+
   if (type === "radio") {
     return (
       <View
@@ -128,17 +166,16 @@ function QuestionnaireChoiceIndicator({
         data-invalid={invalid}
         className="cn-radio-group-item cn-questionnaire-choice-indicator relative shrink-0 items-center justify-center"
       >
-        {checked ? (
+        <Animated.View
+          data-state={state}
+          className="cn-radio-group-indicator items-center justify-center"
+          style={dotStyle}
+        >
           <View
-            data-state={state}
-            className="cn-radio-group-indicator items-center justify-center"
-          >
-            <View
-              data-slot="questionnaire-choice-indicator-dot"
-              className="cn-radio-group-indicator-icon"
-            />
-          </View>
-        ) : null}
+            data-slot="questionnaire-choice-indicator-dot"
+            className="cn-radio-group-indicator-icon"
+          />
+        </Animated.View>
       </View>
     )
   }
@@ -152,16 +189,20 @@ function QuestionnaireChoiceIndicator({
       data-invalid={invalid}
       className="cn-checkbox cn-questionnaire-choice-indicator relative shrink-0 items-center justify-center"
     >
-      {checked ? (
-        <TextStyle className="cn-checkbox-indicator-text">
-          <View
-            data-slot="questionnaire-choice-indicator-check"
-            className="cn-checkbox-indicator items-center justify-center"
+      <TextStyle className="cn-checkbox-indicator-text">
+        <Animated.View
+          data-slot="questionnaire-choice-indicator-check"
+          className="cn-checkbox-indicator items-center justify-center"
+          style={checkStyle}
+        >
+          <Animated.View
+            className="h-full self-start overflow-hidden"
+            style={wipeStyle}
           >
-            <CheckIcon strokeWidth={3} />
-          </View>
-        </TextStyle>
-      ) : null}
+            <CheckIcon size={checkSize} strokeWidth={3} />
+          </Animated.View>
+        </Animated.View>
+      </TextStyle>
     </View>
   )
 }
@@ -555,9 +596,14 @@ function QuestionnaireChoice({
   const shortcut = item.shortcuts.get(value)
 
   const press = usePressScale()
+  const motion = useMotion("feedback")
+  const isFlat = motion.isReduced || motion.isOff
   const markStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: press.scale.value }],
+    transform: [
+      { scale: isFlat ? 1 : 1 - MARK_PRESS_GIVE * press.progress.value },
+    ],
   }))
+  const feedback = useFeedback()
 
   React.useLayoutEffect(() => {
     if (!defaultChecked) return
@@ -591,6 +637,8 @@ function QuestionnaireChoice({
       }}
       onPress={() => {
         const next = multiple ? !isChecked : true
+        if (multiple) feedback(next ? "check" : "uncheck")
+        else if (!isChecked) feedback("pick")
         onChange?.(next)
         if (!isControlled || (isSkipped && checked === next)) {
           update(name, (answer) => applyAnswer(answer, value, next, multiple))
@@ -598,6 +646,7 @@ function QuestionnaireChoice({
       }}
       {...props}
     >
+      <PressWash press={press} className="cn-questionnaire-choice-wash" />
       <Animated.View
         data-slot="questionnaire-choice-input"
         className="cn-questionnaire-choice-input"

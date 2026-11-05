@@ -8,3 +8,12 @@
   .cn-carousel-next {
     @apply rounded-full;
   }
+
+  /* The pressed wash follows the round arrow. */
+  .cn-carousel-previous-wash {
+    @apply rounded-full;
+  }
+
+  .cn-carousel-next-wash {
+    @apply rounded-full;
+  }

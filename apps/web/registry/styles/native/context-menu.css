@@ -22,14 +22,21 @@
     @apply text-popover-foreground text-(length:--density-text-13);
   }
 
-  /* Rows: 36pt, 13pt, muted at rest; the pressed row lights up. Touch has no
-     resting highlight, so one row at a time is lit only under the finger. */
+  /* Rows: 36pt, 13pt, muted at rest. They paint nothing themselves: one highlight
+     glides under the finger (Fluid Hover). Touch has no resting highlight, so a
+     row is lit only while the finger is on it. */
   .cn-context-menu-item {
-    @apply h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8) active:bg-hover data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))];
+    @apply h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8) data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))];
   }
 
   .cn-context-menu-item-text {
     @apply text-muted-foreground text-(length:--density-text-13);
+  }
+
+  /* Under the highlight a row reads foreground, as a hovered one does on the
+     website. */
+  .cn-context-menu-item-text-lit {
+    @apply text-foreground text-(length:--density-text-13);
   }
 
   /* Destructive rows stay destructive when lit. */
@@ -47,12 +54,17 @@
     @apply text-foreground font-semibold;
   }
 
+  /* Lit, it reads foreground too; only choosing it changes the weight. */
+  .cn-context-menu-choice-text-lit {
+    @apply text-foreground;
+  }
+
   .cn-context-menu-checkbox-item {
-    @apply h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) active:bg-hover data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))];
+    @apply h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))];
   }
 
   .cn-context-menu-radio-item {
-    @apply h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) active:bg-hover data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))];
+    @apply h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))];
   }
 
   .cn-context-menu-item-indicator {
@@ -71,13 +83,15 @@
     @apply bg-border/60 -mx-1 my-1 h-px;
   }
 
+  /* Keyboard shortcuts wait for a tablet: a phone has no keyboard to press them on. */
   .cn-context-menu-shortcut {
-    @apply text-muted-foreground ml-auto text-(length:--density-text-11) tracking-normal;
+    @apply hidden sm:flex text-muted-foreground ml-auto text-(length:--density-text-11) tracking-normal;
   }
 
-  /* An open sub-trigger stays lit while its submenu shows below it. */
+  /* An open sub-trigger keeps a fill while its submenu shows below it, and gives
+     way to the highlight while it's lit, so the two never stack. */
   .cn-context-menu-sub-trigger {
-    @apply h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8) active:bg-hover data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))] data-[state=open]:bg-hover;
+    @apply h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8) data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))] data-[state=open]:data-[lit=false]:bg-hover;
   }
 
   /* A submenu expands inline, indented under a hairline: a phone has no room

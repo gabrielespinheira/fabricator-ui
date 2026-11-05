@@ -8,7 +8,7 @@ Configuration is read from `components.json`.
 
 ## Contents
 
-- Commands: init, apply, add (dry-run, smart merge), search, view, docs, diff, info, doctor, mcp
+- Commands: create, init, apply, add (dry-run, smart merge), apps, agents, upgrade, search, view, docs, diff, info, doctor, mcp
 - Global options and environment
 - Templates: next, vite, start, react-router, astro, laravel
 - Presets: named, code, URL
@@ -18,13 +18,61 @@ Configuration is read from `components.json`.
 
 ## Commands
 
+### `create` — Create a project or monorepo in one command
+
+```bash
+npx fabricator-ui@latest create [name] [options]
+```
+
+Creates the app, installs the look and components, adds the App Shell and sounds to the root layout, and sets up AI assistants. Prefer it for a new project: it needs no follow-up commands or file edits. Pass `--yes` when running without a person, and use `--dry-run --json` to read the plan first.
+
+| Flag                            | Short | Description                                                               |
+| ------------------------------- | ----- | ------------------------------------------------------------------------- |
+| `--template <framework>`        | `-t`  | `next` (default), `vite`, `start`, `react-router`, `astro`, `laravel`, `expo` |
+| `--base <base>`                 | `-b`  | `base` (default), `radix` or `aria`                                       |
+| `--monorepo`                    |       | `apps/web` and `packages/ui`                                              |
+| `--mobile`                      |       | Add `apps/mobile`: React Native with Expo. Implies `--monorepo`           |
+| `--desktop <runtime>`           |       | Add `apps/desktop`: `electron` or `tauri`. Implies `--monorepo`           |
+| `--look <values>`               |       | `key=value` pairs: `primary=260_0.2,shape=pill`                           |
+| `--shell [options]` / `--no-shell` |    | The App Shell, with `key=value` options: `variant=floating,tabs=main`     |
+| `--icons <library>`             |       | An icon library other than Fabricator's                                   |
+| `--no-sounds`                   |       | Skip the interface sounds                                                 |
+| `--all`                         |       | Add every component                                                       |
+| `--agents <assistants>`         |       | `claude`, `cursor`, `vscode`, `codex`, `opencode`, comma-separated        |
+| `--no-skill` / `--no-mcp`       |       | Narrow what `--agents` sets up                                            |
+| `--yes`                         | `-y`  | Use the defaults for anything not given                                   |
+| `--dry-run` / `--json`          |       | Print the plan; machine-readable output                                   |
+
+### `apps add` — Add an app to a monorepo
+
+```bash
+npx fabricator-ui@latest apps add mobile
+npx fabricator-ui@latest apps add desktop electron
+```
+
+### `agents add` — Set up AI assistants
+
+```bash
+npx fabricator-ui@latest agents add claude codex
+```
+
+Writes the skill and the MCP server for each. `--no-skill` and `--no-mcp` narrow it.
+
+### `upgrade` — Reinstall components at their latest versions
+
+```bash
+npx fabricator-ui@latest upgrade [items...] [--dry-run] [--yes] [--force]
+```
+
+Overwrites component files, so it stops on uncommitted work unless `--force` is passed.
+
 ### `init` — Initialize or create a project
 
 ```bash
 npx fabricator-ui@latest init [components...] [options]
 ```
 
-Sets up Fabricator UI in an existing project, or creates a new project when `--template` is passed. Optionally installs components in the same step (bare names resolve to `@fabricator`). `create` is an alias for `init`.
+Sets up Fabricator UI in an existing project, or creates a new project when `--template` is passed. In an existing project, `--shell`, `--sounds`, `--look`, `--all` and `--agents` do what `create` does, changing only what they name. Optionally installs components in the same step (bare names resolve to `@fabricator`). `create` is an alias for `init`.
 
 | Flag                                    | Short | Description                                                                     | Default                    |
 | --------------------------------------- | ----- | ------------------------------------------------------------------------------- | -------------------------- |

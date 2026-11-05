@@ -15,11 +15,13 @@
     @apply text-muted-foreground px-(--density-8) py-(--density-6) text-(length:--density-text-12);
   }
 
-  /* Rows: 36pt, 13pt, muted at rest; a pressed row steps through the interaction
-     tokens. Selected rows are foreground and semibold on the active fill, with a
-     check at the end. */
+  /* Rows: 36pt, 13pt, muted at rest. They paint nothing themselves: one highlight
+     glides under the finger, and one bg-active selection slides to the selected
+     row (Fluid Hover). Selected rows are foreground and semibold, with a check at
+     the end. With several chosen there's no one row to slide to, so each fills
+     itself. */
   .cn-combobox-item {
-    @apply active:bg-hover data-[selected=true]:bg-active h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8);
+    @apply data-[multiple=true]:data-[selected=true]:bg-active h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8);
   }
 
   .cn-combobox-item-text {
@@ -28,6 +30,12 @@
 
   .cn-combobox-item-text-selected {
     @apply text-foreground text-(length:--density-text-13) font-semibold;
+  }
+
+  /* Under the highlight a row reads foreground, as a hovered one does on the
+     website; only selecting it changes the weight. */
+  .cn-combobox-item-text-lit {
+    @apply text-foreground text-(length:--density-text-13);
   }
 
   .cn-combobox-item-indicator {
@@ -83,7 +91,7 @@
   }
 
   .cn-combobox-input-field {
-    @apply text-foreground h-full py-0 text-(length:--density-text-13);
+    @apply font-sans text-foreground h-full py-0 text-(length:--density-text-13);
   }
 
   /* Chips field: the input recipe, growing with its chips. */
@@ -108,5 +116,5 @@
   }
 
   .cn-combobox-chip-input {
-    @apply text-muted-foreground py-0 text-(length:--density-text-13);
+    @apply font-sans text-muted-foreground py-0 text-(length:--density-text-13);
   }

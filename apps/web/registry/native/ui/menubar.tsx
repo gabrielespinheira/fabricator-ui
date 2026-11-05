@@ -2,14 +2,21 @@
 // as a popover, or a sheet on phones. The menus come from the dropdown menu, as on
 // the website.
 import * as React from "react"
-import { CheckIcon } from "@fabricator-ui/icons-react-native"
+import { CheckIcon, IconProvider } from "@fabricator-ui/icons-react-native"
 import * as DropdownMenuPrimitive from "@rn-primitives/dropdown-menu"
 import { useControllableState } from "@rn-primitives/hooks"
 import { cva } from "class-variance-authority"
 import { cn } from "cn"
-import { ScrollView, View } from "react-native"
+import { ScrollView, View, type GestureResponderEvent } from "react-native"
 
 import { useIsMobile } from "@/registry/native/hooks/use-mobile"
+import { useFeedback } from "@/registry/native/lib/feedback"
+import {
+  FluidHoverHighlight,
+  FluidHoverProvider,
+  useFluidHover,
+  useFluidRow,
+} from "@/registry/native/lib/fluid-hover"
 import { MenuSheet } from "@/registry/native/lib/menu-sheet"
 import {
   DropdownMenu,
@@ -29,15 +36,35 @@ import { renderTextChildren, TextStyle } from "@/registry/native/ui/text"
 
 // Rows in a sheet are already home: a portal inside one has nowhere better to go.
 const MenubarSheetContext = React.createContext(false)
-const MenubarRadioContext = React.createContext<string | undefined>(undefined)
+const MenubarRadioContext = React.createContext<{
+  value: string | undefined
+  onValueChange: (value: string) => void
+} | null>(null)
 
-const menubarListVariants = cva("cn-menubar-list flex-row")
+// Letting go over a row after a drag runs this too, with no press to pass on.
+type MenubarRowPress = (event?: GestureResponderEvent) => void
+
+const menubarListVariants = cva("cn-menubar-list relative flex-row")
+
+/** What the primitive does when one of its rows closes the menu. */
+function useCloseMenu() {
+  const { onOpenChange, setTriggerPosition, setContentLayout } =
+    DropdownMenuPrimitive.useRootContext()
+  return () => {
+    setTriggerPosition(null)
+    setContentLayout(null)
+    onOpenChange(false)
+  }
+}
 
 function Menubar({
   className,
   children,
   ...props
 }: React.ComponentProps<typeof View>) {
+  // The bar scrolls sideways, so a drag there stays a scroll: a press lights a
+  // trigger, and glides from the last one.
+  const fluid = useFluidHover({ axis: "x" })
   return (
     <View
       data-slot="menubar"
@@ -49,9 +76,13 @@ function Menubar({
         horizontal
         showsHorizontalScrollIndicator={false}
         className="grow-0"
-        contentContainerClassName={menubarListVariants()}
       >
-        {children}
+        <FluidHoverProvider fluid={fluid}>
+          <View ref={fluid.attach} className={menubarListVariants()}>
+            <FluidHoverHighlight hover={fluid.hover} />
+            {children}
+          </View>
+        </FluidHoverProvider>
       </ScrollView>
     </View>
   )
@@ -83,24 +114,27 @@ function MenubarTrigger({
   ...props
 }: React.ComponentProps<typeof DropdownMenuTrigger>) {
   const { open } = DropdownMenuPrimitive.useRootContext()
-  const trigger = (
-    <DropdownMenuTrigger
-      data-slot="menubar-trigger"
-      data-state={open ? "open" : "closed"}
-      hitSlop={4}
-      className={cn(
-        "cn-menubar-trigger flex-row items-center justify-center",
-        className
-      )}
-      {...props}
-    />
-  )
-  return open ? (
-    <TextStyle className="cn-menubar-trigger-text cn-menubar-trigger-text-open">
-      {trigger}
+  const { isLit, rowProps } = useFluidRow(props)
+  return (
+    <TextStyle
+      className={
+        open || isLit
+          ? cn("cn-menubar-trigger-text cn-menubar-trigger-text-open")
+          : cn("cn-menubar-trigger-text")
+      }
+    >
+      <DropdownMenuTrigger
+        data-slot="menubar-trigger"
+        data-state={open ? "open" : "closed"}
+        hitSlop={4}
+        className={cn(
+          "cn-menubar-trigger flex-row items-center justify-center",
+          className
+        )}
+        {...props}
+        {...rowProps}
+      />
     </TextStyle>
-  ) : (
-    <TextStyle className="cn-menubar-trigger-text">{trigger}</TextStyle>
   )
 }
 
@@ -156,20 +190,28 @@ function MenubarItem({
   )
 }
 
-// A chosen row reads foreground and semibold.
+// A chosen row reads foreground and semibold; a lit one foreground, with a heavier icon.
 function MenubarChoiceText({
   isChecked,
+  isLit,
   children,
 }: {
   isChecked: boolean
+  isLit: boolean
   children?: React.ReactNode
 }) {
-  return isChecked ? (
-    <TextStyle className="cn-menubar-choice-text cn-menubar-choice-text-checked">
-      {children}
+  return (
+    <TextStyle
+      className={
+        isChecked
+          ? cn("cn-menubar-choice-text cn-menubar-choice-text-checked")
+          : isLit
+            ? cn("cn-menubar-choice-text cn-menubar-choice-text-lit")
+            : cn("cn-menubar-choice-text")
+      }
+    >
+      <IconProvider strokeWidth={isLit ? 2 : 1.5}>{children}</IconProvider>
     </TextStyle>
-  ) : (
-    <TextStyle className="cn-menubar-choice-text">{children}</TextStyle>
   )
 }
 
@@ -181,16 +223,18 @@ function MenubarCheckboxItem({
   onCheckedChange,
   inset,
   closeOnClick = false,
+  onPress,
   ...props
 }: Omit<
   DropdownMenuPrimitive.CheckboxItemProps,
-  "children" | "checked" | "onCheckedChange"
+  "children" | "checked" | "onCheckedChange" | "onPress"
 > & {
   checked?: boolean
   defaultChecked?: boolean
   onCheckedChange?: (checked: boolean) => void
   inset?: boolean
   closeOnClick?: boolean
+  onPress?: MenubarRowPress
   children?: React.ReactNode
 }) {
   const [isChecked = false, setIsChecked] = useControllableState({
@@ -198,8 +242,19 @@ function MenubarCheckboxItem({
     defaultProp: defaultChecked,
     onChange: onCheckedChange,
   })
+  const feedback = useFeedback()
+  const closeMenu = useCloseMenu()
+  const { isLit, rowProps } = useFluidRow({
+    ...props,
+    onActivate: () => {
+      feedback(isChecked ? "uncheck" : "check")
+      setIsChecked(!isChecked)
+      if (closeOnClick) closeMenu()
+      onPress?.()
+    },
+  })
   return (
-    <MenubarChoiceText isChecked={isChecked}>
+    <MenubarChoiceText isChecked={isChecked} isLit={isLit}>
       <DropdownMenuPrimitive.CheckboxItem
         data-slot="menubar-checkbox-item"
         data-inset={inset}
@@ -210,7 +265,12 @@ function MenubarCheckboxItem({
           "cn-menubar-checkbox-item relative flex-row items-center",
           className
         )}
+        onPress={(event) => {
+          feedback(isChecked ? "uncheck" : "check")
+          onPress?.(event)
+        }}
         {...props}
+        {...rowProps}
       >
         <View
           pointerEvents="none"
@@ -242,7 +302,7 @@ function MenubarRadioGroup({
     onChange: onValueChange,
   })
   return (
-    <MenubarRadioContext value={current}>
+    <MenubarRadioContext value={{ value: current, onValueChange: setCurrent }}>
       <DropdownMenuPrimitive.RadioGroup
         data-slot="menubar-radio-group"
         value={current}
@@ -259,15 +319,29 @@ function MenubarRadioItem({
   inset,
   value,
   closeOnClick = false,
+  onPress,
   ...props
-}: Omit<DropdownMenuPrimitive.RadioItemProps, "children"> & {
+}: Omit<DropdownMenuPrimitive.RadioItemProps, "children" | "onPress"> & {
   inset?: boolean
   closeOnClick?: boolean
+  onPress?: MenubarRowPress
   children?: React.ReactNode
 }) {
-  const isChecked = React.use(MenubarRadioContext) === value
+  const radio = React.use(MenubarRadioContext)
+  const isChecked = radio?.value === value
+  const feedback = useFeedback()
+  const closeMenu = useCloseMenu()
+  const { isLit, rowProps } = useFluidRow({
+    ...props,
+    onActivate: () => {
+      feedback("pick")
+      radio?.onValueChange(value)
+      if (closeOnClick) closeMenu()
+      onPress?.()
+    },
+  })
   return (
-    <MenubarChoiceText isChecked={isChecked}>
+    <MenubarChoiceText isChecked={isChecked} isLit={isLit}>
       <DropdownMenuPrimitive.RadioItem
         data-slot="menubar-radio-item"
         data-inset={inset}
@@ -277,7 +351,12 @@ function MenubarRadioItem({
           "cn-menubar-radio-item relative flex-row items-center",
           className
         )}
+        onPress={(event) => {
+          feedback("pick")
+          onPress?.(event)
+        }}
         {...props}
+        {...rowProps}
       >
         <View
           pointerEvents="none"

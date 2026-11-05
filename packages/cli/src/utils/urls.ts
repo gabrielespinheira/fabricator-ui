@@ -62,10 +62,12 @@ export function fabricatorCatalogUrl(baseUrl: string, style: string): string {
  */
 export function buildNativeInitUrl(
   preset: string | undefined,
-  baseUrl: string = getBaseUrl()
+  baseUrl: string = getBaseUrl(),
+  look: Record<string, string> = {}
 ): string {
   if (preset && isUrl(preset)) return preset
-  return `${baseUrl}/init?platform=native`
+  const params = new URLSearchParams({ platform: "native", ...look })
+  return `${baseUrl}/init?${params.toString()}`
 }
 
 export interface InitUrlOptions {
@@ -87,6 +89,8 @@ export interface InitUrlOptions {
   template?: string
   monorepo?: boolean
   only?: string
+  /** The look's values, as `/init` reads them. */
+  look?: Record<string, string>
 }
 
 const STRING_PARAMS = [
@@ -134,6 +138,9 @@ export function buildInitUrl(
     )
   }
   if (options.only) params.set("only", options.only)
+  for (const [key, value] of Object.entries(options.look ?? {})) {
+    params.set(key, value)
+  }
 
   return `${baseUrl}/init?${params.toString()}`
 }

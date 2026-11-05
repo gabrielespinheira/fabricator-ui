@@ -41,10 +41,7 @@ export const NATIVE_DIFFERENCES: Record<
     tier: "same",
     note: "`onPress` replaces `onClick`. Small sizes keep a 44pt target through `hitSlop`.",
   },
-  "button-group": {
-    tier: "same",
-    note: "Grouped buttons keep their press scale.",
-  },
+  "button-group": SAME,
   calendar: {
     tier: "engine",
     note: "`react-day-picker` is DOM-only, so the grid is its own on `date-fns`, with the same props where they aren't DOM.",
@@ -62,11 +59,11 @@ export const NATIVE_DIFFERENCES: Record<
   },
   command: {
     tier: "engine",
-    note: "`cmdk` is DOM-only. A filtered list, with the same parts. Results keep their written order instead of ranking by score, and no keyboard shortcut opens it.",
+    note: "`cmdk` is DOM-only. A filtered list, with the same parts. Results keep their written order instead of ranking by score, and no keyboard shortcut opens it. Shortcuts show from the `sm` breakpoint, since a phone has no keyboard.",
   },
   "context-menu": {
     tier: "touch",
-    note: "A long press opens it, in place of a right click.",
+    note: "A long press opens it, in place of a right click. Shortcuts show from the `sm` breakpoint, since a phone has no keyboard.",
   },
   dialog: SAME,
   direction: {
@@ -83,7 +80,7 @@ export const NATIVE_DIFFERENCES: Record<
   },
   "dropdown-menu": {
     tier: "same",
-    note: "`side` takes `top` and `bottom`; `left` and `right` fall back to `bottom`.",
+    note: "`side` takes `top` and `bottom`; `left` and `right` fall back to `bottom`. Shortcuts show from the `sm` breakpoint, since a phone has no keyboard.",
   },
   empty: SAME,
   field: SAME,
@@ -109,7 +106,7 @@ export const NATIVE_DIFFERENCES: Record<
   marker: SAME,
   menubar: {
     tier: "touch",
-    note: "A desktop pattern: triggers in a row that scrolls, each opening its menu. Rows paint their own pressed fill, with no gliding highlight.",
+    note: "A desktop pattern: triggers in a row that scrolls, each opening its menu. A press lights a trigger; a drag scrolls the row. Shortcuts show from the `sm` breakpoint, since a phone has no keyboard.",
   },
   message: SAME,
   "message-scroller": {
@@ -118,7 +115,7 @@ export const NATIVE_DIFFERENCES: Record<
   },
   "navigation-menu": {
     tier: "touch",
-    note: "A desktop pattern: each trigger opens its content in a popover, or a sheet on phones. Rows paint their own pressed fill, with no gliding highlight.",
+    note: "A desktop pattern: each trigger opens its content in a popover, or a sheet on phones. A press lights a trigger; a drag scrolls the row.",
   },
   pagination: SAME,
   popover: {
@@ -126,7 +123,10 @@ export const NATIVE_DIFFERENCES: Record<
     note: "`side` takes `top` and `bottom`; `left` and `right` fall back to `bottom`.",
   },
   progress: SAME,
-  questionnaire: SAME,
+  questionnaire: {
+    tier: "same",
+    note: "Key hints show from the `sm` breakpoint, since a phone has no keyboard.",
+  },
   "radio-group": SAME,
   resizable: {
     tier: "engine",
@@ -136,10 +136,7 @@ export const NATIVE_DIFFERENCES: Record<
     tier: "same",
     note: "Touch keeps native scrolling, so `ScrollBar` renders nothing, as it does on touch devices on the web.",
   },
-  search: {
-    tier: "engine",
-    note: "A filtered list in an overlay, with no keyboard shortcut to open it.",
-  },
+  search: SAME,
   select: {
     tier: "touch",
     note: "Opens as a sheet on phones and a popover on tablets.",
@@ -151,7 +148,7 @@ export const NATIVE_DIFFERENCES: Record<
   },
   sidebar: {
     tier: "touch",
-    note: "On phones it reveals behind the page, following the finger, or slides over it from an edge swipe. `SidebarRail` toggles on a tap instead of resizing, row actions always show, and rows paint their own pressed fill. `persist`, `shortcut`, `peek` and `onWidthChange` are accepted and do nothing.",
+    note: "On phones it reveals behind the page, following the finger, or slides over it from an edge swipe. `SidebarRail` toggles on a tap instead of resizing, and row actions always show. `persist`, `shortcut`, `peek` and `onWidthChange` are accepted and do nothing.",
   },
   skeleton: SAME,
   slider: SAME,

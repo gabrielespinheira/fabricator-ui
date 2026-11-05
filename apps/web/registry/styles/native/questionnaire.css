@@ -33,16 +33,20 @@
     @apply -mx-2 gap-0.5;
   }
 
-  /* A row is a Field choice card without the frame: 13pt foreground label, a tint
-     when pressed, the active step once chosen. Rows keep the 44pt touch target on
-     small screens (padded so one line sits centred) and tighten to 36pt from sm
-     up. */
+  /* A row is a Field choice card without the frame: 13pt foreground label, the
+     active step once chosen. Rows keep the 44pt touch target on small screens
+     (padded so one line sits centred) and tighten to 36pt from sm up. */
   .cn-questionnaire-choice {
-    @apply gap-(--density-10) rounded-lg bg-transparent px-(--density-8) py-(--density-12) active:bg-hover data-[checked=true]:bg-active sm:min-h-(--density-36) sm:py-(--density-8);
+    @apply gap-(--density-10) rounded-lg bg-transparent px-(--density-8) py-(--density-12) data-[checked=true]:bg-active sm:min-h-(--density-36) sm:py-(--density-8);
   }
 
-  /* The Checkbox or Radio mark, lit by the whole row: the look is theirs, and its
-     press is the row's, through usePressScale. It keeps to the first line. */
+  /* Pressed is a tint, easing in and out under the row's content. */
+  .cn-questionnaire-choice-wash {
+    @apply bg-hover rounded-lg;
+  }
+
+  /* The Checkbox or Radio mark, lit by the whole row: the look is theirs, and the
+     row's press gives it the control's scale. It keeps to the first line. */
   .cn-questionnaire-choice-indicator {
     @apply self-start;
   }
@@ -67,12 +71,13 @@
   }
 
   /* The Kbd keycap, which holds the look, at the end of the row. */
+  /* Keyboard shortcuts wait for a tablet: a phone has no keyboard to press them on. */
   .cn-questionnaire-choice-shortcut {
-    @apply ms-auto shrink-0;
+    @apply hidden sm:flex ms-auto shrink-0;
   }
 
   .cn-questionnaire-shortcut {
-    @apply self-start;
+    @apply hidden sm:flex self-start;
   }
 
   /* It takes the foreground once its row is chosen. */

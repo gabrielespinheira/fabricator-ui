@@ -1,11 +1,13 @@
 import * as React from "react"
+import { IconProvider } from "@fabricator-ui/icons-react-native"
 import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "cn"
 import { Pressable, type GestureResponderEvent } from "react-native"
 import Animated, { useAnimatedStyle } from "react-native-reanimated"
 
-import { useFeedback } from "@/registry/native/lib/feedback"
+import { useFeedback, type FeedbackName } from "@/registry/native/lib/feedback"
 import { usePressScale } from "@/registry/native/lib/motion"
+import { PressWash } from "@/registry/native/lib/press-wash"
 import { renderSlot, type RenderProps } from "@/registry/native/lib/render"
 import { DensityScope, type Density } from "@/registry/native/ui/density"
 import { renderTextChildren, TextStyle } from "@/registry/native/ui/text"
@@ -69,8 +71,41 @@ const buttonTextVariants = cva("cn-button-text", {
   },
 })
 
+// The pressed fill, a layer under the label that eases in and out.
+const buttonWashVariants = cva("cn-button-wash", {
+  variants: {
+    variant: {
+      default: "cn-button-wash-variant-default",
+      outline: "cn-button-wash-variant-outline",
+      secondary: "cn-button-wash-variant-secondary",
+      ghost: "cn-button-wash-variant-ghost",
+      destructive: "cn-button-wash-variant-destructive",
+      link: "cn-button-wash-variant-link",
+    },
+  },
+  defaultVariants: {
+    variant: "default",
+  },
+})
+
+// A joined button squares the corners it shares, and its wash follows them.
+const WASH_CORNERS: Partial<Record<string, ReturnType<typeof cva>>> = {
+  "horizontal-first": cva("cn-button-wash-horizontal-first"),
+  "horizontal-middle": cva("cn-button-wash-horizontal-middle"),
+  "horizontal-last": cva("cn-button-wash-horizontal-last"),
+  "vertical-first": cva("cn-button-wash-vertical-first"),
+  "vertical-middle": cva("cn-button-wash-vertical-middle"),
+  "vertical-last": cva("cn-button-wash-vertical-last"),
+}
+
 type ButtonSize = NonNullable<VariantProps<typeof buttonVariants>["size"]>
 type ButtonVariant = VariantProps<typeof buttonVariants>["variant"]
+
+/**
+ * Joined controls stay flat when pressed, as the website's `motion-press` has
+ * them inside a button group or an input group. The pressed wash still shows.
+ */
+const ButtonJoinedContext = React.createContext(false)
 
 // A control's size="sm" pins it to compact and size="lg" to spacious.
 const SIZE_DENSITY: Partial<Record<ButtonSize, Density>> = {
@@ -80,15 +115,44 @@ const SIZE_DENSITY: Partial<Record<ButtonSize, Density>> = {
   "icon-lg": "spacious",
 }
 
-// Heavier for the primary action, a damped thud for a destructive one.
+// Heavier for the primary action, a damped thud for a destructive one, the
+// lightest sound for a link.
 function getButtonFeedback(variant: ButtonVariant) {
   if (variant === "default") return "press"
   if (variant === "destructive") return "thud"
+  if (variant === "link") return "tick"
   return "tap"
 }
 
-// Small controls keep a finger-sized target.
-const SMALL_SIZES: ButtonSize[] = ["xs", "sm", "icon-xs", "icon-sm"]
+// Smaller buttons sound a little higher, larger ones a little lower.
+const SIZE_PITCH: Partial<Record<string, number>> = {
+  xs: 1.12,
+  "icon-xs": 1.12,
+  sm: 1.06,
+  "icon-sm": 1.06,
+  lg: 0.92,
+  "icon-lg": 0.92,
+}
+
+// What takes each size to a 44pt target: xs is a fixed 24pt, sm pins compact's
+// 28pt, default is 36pt at the default density, and lg pins spacious' 44pt.
+const HIT_SLOP: Partial<Record<ButtonSize, number>> = {
+  xs: 10,
+  "icon-xs": 10,
+  sm: 8,
+  "icon-sm": 8,
+  default: 4,
+  icon: 4,
+}
+
+function getHitSlop(size: ButtonSize, groupItem: string | undefined) {
+  const slop = HIT_SLOP[size]
+  if (!slop || !groupItem) return slop
+  // Joined buttons touch: reaching along the group would take a neighbour's press.
+  return groupItem.startsWith("horizontal")
+    ? { top: slop, bottom: slop }
+    : { left: slop, right: slop }
+}
 
 function Button({
   className,
@@ -102,24 +166,43 @@ function Button({
   onPressOut,
   style,
   hitSlop,
+  washClassName,
+  "data-sound": sound,
   ...props
 }: React.ComponentProps<typeof Pressable> &
   VariantProps<typeof buttonVariants> &
-  RenderProps & { className?: string; children?: React.ReactNode }) {
+  RenderProps & {
+    className?: string
+    children?: React.ReactNode
+    /** For a button drawn with other corners, so the pressed wash matches them. */
+    washClassName?: string
+    /** Another sound in place of the button's, or `none`, as on the website. */
+    "data-sound"?: FeedbackName | "none"
+    /** Set by ButtonGroup: where this button sits, joined to its neighbours. */
+    "data-group-item"?: string
+    /** The size a part draws itself, when it isn't `size`: it sets the pitch. */
+    "data-size"?: string | null
+  }) {
   const press = usePressScale()
   const feedback = useFeedback()
+  const isJoined = React.use(ButtonJoinedContext)
   const pressStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: press.scale.value }],
+    transform: [{ scale: isJoined ? 1 : press.scale.value }],
   }))
   const resolvedSize = size ?? "default"
+  const groupItem = props["data-group-item"]
   const shared = {
     "data-slot": "button",
     role: "button" as const,
     accessibilityState: { disabled: Boolean(props.disabled) },
-    hitSlop: hitSlop ?? (SMALL_SIZES.includes(resolvedSize) ? 8 : undefined),
+    hitSlop: hitSlop ?? getHitSlop(resolvedSize, groupItem),
     className: cn(buttonVariants({ variant, size, className })),
     onPress: (event: GestureResponderEvent) => {
-      feedback(getButtonFeedback(variant))
+      if (sound !== "none") {
+        feedback(sound ?? getButtonFeedback(variant), {
+          pitch: SIZE_PITCH[props["data-size"] ?? resolvedSize],
+        })
+      }
       onPress?.(event)
     },
     ...props,
@@ -133,25 +216,35 @@ function Button({
   return (
     <DensityScope density={SIZE_DENSITY[resolvedSize]}>
       <TextStyle className={buttonTextVariants({ variant, size })}>
-        {slotted ?? (
-          <AnimatedPressable
-            {...shared}
-            style={[pressStyle, style]}
-            onPressIn={(event) => {
-              press.onPressIn()
-              onPressIn?.(event)
-            }}
-            onPressOut={(event) => {
-              press.onPressOut()
-              onPressOut?.(event)
-            }}
-          >
-            {renderTextChildren(children)}
-          </AnimatedPressable>
-        )}
+        <IconProvider strokeWidth={1.5}>
+          {slotted ?? (
+            <AnimatedPressable
+              {...shared}
+              style={[pressStyle, style]}
+              onPressIn={(event) => {
+                press.onPressIn()
+                onPressIn?.(event)
+              }}
+              onPressOut={(event) => {
+                press.onPressOut()
+                onPressOut?.(event)
+              }}
+            >
+              <PressWash
+                press={press}
+                className={cn(
+                  buttonWashVariants({ variant }),
+                  groupItem ? WASH_CORNERS[groupItem]?.() : undefined,
+                  washClassName
+                )}
+              />
+              {renderTextChildren(children)}
+            </AnimatedPressable>
+          )}
+        </IconProvider>
       </TextStyle>
     </DensityScope>
   )
 }
 
-export { Button, buttonTextVariants, buttonVariants }
+export { Button, ButtonJoinedContext, buttonTextVariants, buttonVariants }

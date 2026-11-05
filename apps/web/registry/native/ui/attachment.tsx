@@ -2,11 +2,24 @@ import * as React from "react"
 import { IconProvider } from "@fabricator-ui/icons-react-native"
 import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "cn"
-import { Pressable, ScrollView, View } from "react-native"
-import Animated from "react-native-reanimated"
+import {
+  Pressable,
+  ScrollView,
+  View,
+  type GestureResponderEvent,
+} from "react-native"
+import Animated, {
+  ReduceMotion,
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from "react-native-reanimated"
 import { useCSSVariable } from "uniwind"
 
+import { useFeedback } from "@/registry/native/lib/feedback"
+import { useMotion, usePressScale } from "@/registry/native/lib/motion"
 import { parseNumber } from "@/registry/native/lib/motion-tokens"
+import { PressWash } from "@/registry/native/lib/press-wash"
 import { renderSlot, type RenderProps } from "@/registry/native/lib/render"
 import { Button } from "@/registry/native/ui/button"
 import { usePulse } from "@/registry/native/ui/skeleton"
@@ -125,6 +138,9 @@ const attachmentMediaTextVariants = cva("cn-attachment-media-text", {
   },
 })
 
+// The website's `opacity-60` on an image still on its way.
+const DIMMED = 0.6
+
 const MEDIA_ICON_TOKEN: Record<AttachmentSize, string> = {
   default: "--density-icon-16",
   sm: "--density-icon-16",
@@ -134,6 +150,7 @@ const MEDIA_ICON_TOKEN: Record<AttachmentSize, string> = {
 function AttachmentMedia({
   className,
   variant = "icon",
+  style,
   children,
   ...props
 }: React.ComponentProps<typeof View> &
@@ -144,6 +161,20 @@ function AttachmentMedia({
     useCSSVariable(isVertical ? "--density-24" : MEDIA_ICON_TOKEN[size]),
     16
   )
+  // An image is dimmed until it's up, and clears on the move timing. A fade:
+  // Reduce Motion keeps it, and Reanimated would jump it to the end.
+  const targetOpacity =
+    variant !== "image" || state === "idle" || state === "done" ? 1 : DIMMED
+  const motion = useMotion("move")
+  const opacity = useSharedValue(targetOpacity)
+  React.useEffect(() => {
+    opacity.value = withTiming(targetOpacity, {
+      duration: motion.enterMs,
+      easing: motion.moveEasing,
+      reduceMotion: ReduceMotion.Never,
+    })
+  }, [motion, opacity, targetOpacity])
+  const opacityStyle = useAnimatedStyle(() => ({ opacity: opacity.value }))
   // Icons and spinners take their size as a prop, and an image has no size of
   // its own: the website sets both from here with `[&_svg]` and `*:[img]`.
   const content = React.Children.map(children, (child) => {
@@ -162,16 +193,17 @@ function AttachmentMedia({
   return (
     <TextStyle className={attachmentMediaTextVariants({ state })}>
       <IconProvider strokeWidth={1.5}>
-        <View
+        <Animated.View
           data-slot="attachment-media"
           data-variant={variant}
           data-state={state}
           data-layout={isVertical ? "vertical" : size}
           className={cn(attachmentMediaVariants({ variant }), className)}
+          style={[opacityStyle, style]}
           {...props}
         >
           {renderTextChildren(content)}
-        </View>
+        </Animated.View>
       </IconProvider>
     </TextStyle>
   )
@@ -271,18 +303,38 @@ function AttachmentAction({
   )
 }
 
+// The pressed wash follows the tile's corners, which are larger when vertical.
+const attachmentTriggerWashVariants = cva("cn-attachment-trigger-wash", {
+  variants: {
+    orientation: {
+      horizontal: "",
+      vertical: "cn-attachment-trigger-wash-vertical",
+    },
+  },
+})
+
 function AttachmentTrigger({
   className,
   render,
   asChild,
   children,
+  onPress,
+  onPressIn,
+  onPressOut,
   ...props
 }: React.ComponentProps<typeof Pressable> &
   RenderProps & { className?: string; children?: React.ReactNode }) {
+  const { orientation } = React.use(AttachmentContext)
+  const feedback = useFeedback()
+  const press = usePressScale()
   const shared = {
     "data-slot": "attachment-trigger",
     role: "button" as const,
     className: cn("cn-attachment-trigger absolute inset-0 z-10", className),
+    onPress: (event: GestureResponderEvent) => {
+      feedback("tap")
+      onPress?.(event)
+    },
     ...props,
   }
   const slotted = renderSlot(
@@ -291,7 +343,25 @@ function AttachmentTrigger({
     render ? renderTextChildren(children ?? render.props.children) : children
   )
   return (
-    slotted ?? <Pressable {...shared}>{renderTextChildren(children)}</Pressable>
+    slotted ?? (
+      <Pressable
+        {...shared}
+        onPressIn={(event) => {
+          press.onPressIn()
+          onPressIn?.(event)
+        }}
+        onPressOut={(event) => {
+          press.onPressOut()
+          onPressOut?.(event)
+        }}
+      >
+        <PressWash
+          press={press}
+          className={attachmentTriggerWashVariants({ orientation })}
+        />
+        {renderTextChildren(children)}
+      </Pressable>
+    )
   )
 }
 

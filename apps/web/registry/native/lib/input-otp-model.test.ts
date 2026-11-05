@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest"
 
 import {
   getNextOtpValue,
+  getOtpCaretHoldMs,
   getOtpKeyboardType,
   getOtpSlots,
   isOtpComplete,
@@ -85,5 +86,16 @@ describe("getOtpKeyboardType", () => {
     expect(getOtpKeyboardType(REGEXP_ONLY_DIGITS)).toBe("number-pad")
     expect(getOtpKeyboardType(REGEXP_ONLY_CHARS)).toBe("default")
     expect(getOtpKeyboardType(REGEXP_ONLY_DIGITS_AND_CHARS)).toBe("default")
+  })
+})
+
+describe("getOtpCaretHoldMs", () => {
+  it("keeps the website's 1.25s blink, whatever the fade takes", () => {
+    expect(getOtpCaretHoldMs(250)).toBe(375)
+    expect(getOtpCaretHoldMs(150)).toBe(475)
+  })
+
+  it("never goes below nothing", () => {
+    expect(getOtpCaretHoldMs(900)).toBe(0)
   })
 })

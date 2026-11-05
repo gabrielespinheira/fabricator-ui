@@ -8,7 +8,9 @@ import Animated, { useAnimatedStyle } from "react-native-reanimated"
 
 import { useFeedback } from "@/registry/native/lib/feedback"
 import { usePressScale } from "@/registry/native/lib/motion"
+import { PressWash } from "@/registry/native/lib/press-wash"
 import { renderSlot, type RenderProps } from "@/registry/native/lib/render"
+import { ButtonJoinedContext } from "@/registry/native/ui/button"
 import { DensityScope, type Density } from "@/registry/native/ui/density"
 import { renderTextChildren, TextStyle } from "@/registry/native/ui/text"
 
@@ -40,6 +42,10 @@ const SIZE_DENSITY: Partial<Record<string, Density>> = {
   sm: "compact",
   lg: "spacious",
 }
+
+// What takes each size to a 44pt target: sm pins compact's 28pt, default is 36pt
+// at the default density, and lg pins spacious' 44pt.
+const HIT_SLOP: Partial<Record<string, number>> = { sm: 8, default: 4 }
 
 function Toggle({
   className,
@@ -73,8 +79,9 @@ function Toggle({
   })
   const feedback = useFeedback()
   const press = usePressScale()
+  const isJoined = React.use(ButtonJoinedContext)
   const pressStyle = useAnimatedStyle(() => ({
-    transform: [{ scale: press.scale.value }],
+    transform: [{ scale: isJoined ? 1 : press.scale.value }],
   }))
   const resolvedSize = size ?? "default"
   const shared = {
@@ -85,7 +92,7 @@ function Toggle({
     accessibilityRole: "togglebutton" as const,
     "aria-checked": isOn,
     "aria-disabled": Boolean(props.disabled),
-    hitSlop: hitSlop ?? (resolvedSize === "sm" ? 8 : undefined),
+    hitSlop: hitSlop ?? HIT_SLOP[resolvedSize],
     className: cn(toggleVariants({ variant, size, className })),
     onPress: (event: GestureResponderEvent) => {
       feedback(isOn ? "unlatch" : "latch")
@@ -108,6 +115,7 @@ function Toggle({
         onPressOut?.(event)
       }}
     >
+      <PressWash press={press} className="cn-toggle-wash" />
       {renderTextChildren(children)}
     </AnimatedPressable>
   )

@@ -1,0 +1,23 @@
+---
+title: November 2026 - One command
+description: The setup page and the CLI now turn any project into one command, including monorepos with mobile and desktop apps.
+date: 2026-11-04
+---
+
+[Get started](/create) now ends in one command, whatever you choose, and shows it under every step.
+
+```bash
+npx fabricator-ui@latest create my-app --mobile --desktop tauri --agents claude,codex --yes
+```
+
+`create` makes the project, installs your look and components, and wires the App Shell and sounds into your root layout, so there are no files to edit by hand. Sounds are on by default.
+
+**Monorepos.** Start from a new monorepo and add a React Native app with Expo, and an Electron or Tauri window around your web app. Every app gets your look, and the App Shell step offers what your apps can honour. `apps add` adds one later, and `add` works from the root with `--app`.
+
+**AI assistants.** Pick as many as you use, with their logos. `agents add claude codex` writes the skill and the MCP server for each, including Codex's `.codex/config.toml`.
+
+**The App Shell.** It now installs on React Native too, from the same options, and nav links work on the first run, with placeholder pages behind them. Two bugs are gone: "Tab bar on phones" installed an empty bar, and choosing a window in the preview wrote one into web projects.
+
+**Fixed.** Components with lib dependencies, like `dropdown-menu`, `tabs` and `sidebar`, didn't build in a monorepo.
+
+`upgrade` reinstalls your components at their latest versions. `doctor` checks each app in a monorepo, and the toolchains they need.

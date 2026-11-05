@@ -3,6 +3,7 @@ import { useControllableState } from "@rn-primitives/hooks"
 import { cn } from "cn"
 import { Pressable } from "react-native"
 import Animated, {
+  ReduceMotion,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
@@ -75,13 +76,18 @@ function SwitchControl({
       duration: slideMotion.enterMs,
       easing: slideMotion.moveEasing,
     })
+    // A fade: Reduce Motion keeps it, and Reanimated would jump it to the end.
     fill.value = withTiming(isChecked ? 1 : 0, {
       duration: colorMotion.enterMs,
-      easing: colorMotion.enterEasing,
+      easing: colorMotion.feedbackEasing,
+      reduceMotion: ReduceMotion.Never,
     })
   }, [colorMotion, fill, isChecked, slide, slideMotion])
 
   const fillStyle = useAnimatedStyle(() => ({ opacity: fill.value }))
+  // The knob's colour turns as it travels, on the move timing.
+  const knobStyle = useAnimatedStyle(() => ({ opacity: slide.value }))
+  const canStretch = !slideMotion.isReduced && !slideMotion.isOff
   const thumbStyle = useAnimatedStyle(() => ({
     width: knob + press.value * PRESS_STRETCH,
     height: knob - press.value * PRESS_STRETCH,
@@ -103,7 +109,7 @@ function SwitchControl({
       aria-disabled={isDisabled}
       aria-invalid={isFieldInvalid}
       disabled={isDisabled}
-      hitSlop={12}
+      hitSlop={14}
       className={cn(
         "cn-switch relative flex-row items-center disabled:opacity-50",
         className
@@ -113,10 +119,12 @@ function SwitchControl({
         onPress?.(event)
       }}
       onPressIn={(event) => {
-        press.value = withTiming(1, {
-          duration: slideMotion.enterMs,
-          easing: slideMotion.moveEasing,
-        })
+        if (canStretch) {
+          press.value = withTiming(1, {
+            duration: slideMotion.enterMs,
+            easing: slideMotion.moveEasing,
+          })
+        }
         onPressIn?.(event)
       }}
       onPressOut={(event) => {
@@ -139,7 +147,12 @@ function SwitchControl({
         pointerEvents="none"
         className="cn-switch-thumb"
         style={thumbStyle}
-      />
+      >
+        <Animated.View
+          className="cn-switch-thumb-on absolute inset-0"
+          style={knobStyle}
+        />
+      </Animated.View>
     </Pressable>
   )
 }

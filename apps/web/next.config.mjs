@@ -39,6 +39,7 @@ if (process.env.NODE_ENV === "development") {
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  transpilePackages: ["@fabricator-ui/setup"],
   devIndicators: false,
   typescript: {
     ignoreBuildErrors: true,

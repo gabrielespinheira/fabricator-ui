@@ -7,8 +7,16 @@ export const REGEXP_ONLY_DIGITS_AND_CHARS = "^[a-zA-Z0-9]+$"
 
 export type OtpPattern = string | RegExp
 
-/** The website's caret-blink keyframes: a caret isn't a motion role. */
-export const OTP_CARET_BLINK = { fadeMs: 250, holdMs: 375 } as const
+/** The length of the website's caret-blink keyframes. */
+const OTP_CARET_CYCLE_MS = 1250
+
+/**
+ * How long the caret rests between fades. The fades run on the feedback role,
+ * and the rests take what's left, so the blink keeps the website's length.
+ */
+export function getOtpCaretHoldMs(fadeMs: number) {
+  return Math.max(OTP_CARET_CYCLE_MS / 2 - fadeMs, 0)
+}
 
 /** The value after a change: cut to the slots, or unchanged if the pattern refuses it. */
 export function getNextOtpValue(

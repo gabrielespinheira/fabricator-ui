@@ -31,9 +31,15 @@
     @apply h-(--density-36) w-(--density-36) data-[open=true]:w-[360px];
   }
 
-  /* Closed: the whole button, pressed is a step of the interaction tokens. */
+  /* Closed: the whole button. Open: just the icon, which takes no press. */
   .cn-search-trigger {
-    @apply active:bg-hover rounded-full data-[open=true]:bg-transparent;
+    @apply rounded-full;
+  }
+
+  /* Pressed is a step of the interaction tokens, easing in and out under the
+     icon. */
+  .cn-search-trigger-wash {
+    @apply bg-hover rounded-full;
   }
 
   /* The icon is foreground closed, muted open. */
@@ -48,7 +54,7 @@
   /* The field keeps clear of the icon, and of the clear button when there is
      one. */
   .cn-search-input {
-    @apply text-foreground ps-(--density-36) pe-(--density-12) text-(length:--density-text-13) data-[clear=true]:pe-(--density-36);
+    @apply font-sans text-foreground ps-(--density-36) pe-(--density-12) text-(length:--density-text-13) data-[clear=true]:pe-(--density-36);
   }
 
   .cn-search-clear {

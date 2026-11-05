@@ -3,6 +3,13 @@ import path from "node:path"
 import { Command } from "commander"
 
 import {
+  addSetupOptions,
+  hasSetupFlags,
+  setupFromInitFlags,
+  type SetupFlags,
+} from "../setup/flags"
+import { runSetup } from "../setup/run-setup"
+import {
   ensureRegistry,
   getBaseFromStyle,
   readComponentsJson,
@@ -14,6 +21,7 @@ import {
   readPackageJson,
   type ProjectPackageJson,
 } from "../utils/native"
+import { detectPackageManager } from "../utils/package-manager"
 import { exitLike, formatShadcnCommand, runShadcn } from "../utils/shadcn"
 import {
   buildInitUrl,
@@ -23,10 +31,14 @@ import {
   isBase,
   type Base,
 } from "../utils/urls"
+import {
+  alignWorkspaceAliases,
+  syncWorkspaceAfterAdd,
+} from "../utils/workspace"
 import { initNative } from "./init-native"
 import { fail, promptSelect, resolveCwd } from "./shared"
 
-export interface InitOptions {
+export interface InitOptions extends SetupFlags {
   template?: string
   base?: string
   preset?: string
@@ -248,6 +260,14 @@ export async function init(
 ): Promise<void> {
   const cwd = resolveCwd(rawOptions.cwd)
   const baseUrl = getBaseUrl()
+  if (hasSetupFlags(rawOptions) && !rawOptions.template) {
+    return runSetup(setupFromInitFlags(rawOptions), {
+      cwd,
+      packageManager: detectPackageManager(cwd),
+      ...(rawOptions.dryRun ? { dryRun: true } : {}),
+      ...(rawOptions.force ? { force: true } : {}),
+    })
+  }
   const pkg = readPackageJson(cwd)
   if (
     resolvePlatform(rawOptions.platform, pkg) === "native" &&
@@ -334,6 +354,7 @@ export async function init(
   }
 
   ensureRegistry(projectDir, fabricatorRegistryTemplate(baseUrl))
+  alignWorkspaceAliases(projectDir)
   if (!options.silent) {
     logger.break()
     logger.info(
@@ -351,13 +372,13 @@ export async function init(
       `  Retry with ${highlight.info(`fabricator-ui add button --overwrite -c ${projectDir}`)}.`
     )
   }
+  syncWorkspaceAfterAdd(projectDir)
   return exitLike(followUp)
 }
 
 export function createInitCommand(): Command {
-  return new Command("init")
-    .alias("create")
-    .description("set up a new or existing project with Fabricator UI")
+  const command = new Command("init")
+    .description("set up Fabricator UI in an existing project")
     .argument(
       "[components...]",
       "items to install after init (bare names resolve to @fabricator)"
@@ -388,6 +409,7 @@ export function createInitCommand(): Command {
     .option("--no-css-variables", "do not use CSS variables for theming")
     .option("--reinstall", "re-install existing UI components")
     .option("--no-reinstall", "do not re-install existing UI components")
+  return addSetupOptions(command)
     .option("-y, --yes", "skip confirmation prompts")
     .option("-f, --force", "force overwrite of an existing components.json")
     .option(

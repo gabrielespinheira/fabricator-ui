@@ -1,10 +1,11 @@
 "use client"
 
-import { BotIcon, BoxIcon, SparklesIcon } from "@/lib/site-icons"
+import { ModelContextProtocolIcon } from "@fabricator-ui/icons/brands"
+
+import { BookOpenIcon, BoxIcon, SparklesIcon } from "@/lib/site-icons"
 import {
   Field,
   FieldContent,
-  FieldDescription,
   FieldGroup,
   FieldLabel,
 } from "@/styles/base-fabricator/ui/field"
@@ -12,11 +13,18 @@ import { RadioGroup } from "@/styles/base-fabricator/ui/radio-group"
 import { Switch } from "@/styles/base-fabricator/ui/switch"
 import {
   ASSISTANTS,
-  type Assistant,
+  isNativeFramework,
   type SetupChoices,
 } from "@/app/(app)/(create)/lib/setup"
 
-import { ChoiceCard, StepFooter, StepSection } from "./step-parts"
+import { ASSISTANT_ICONS } from "./assistant-icons"
+import {
+  CardHint,
+  CheckCard,
+  ChoiceCard,
+  StepFooter,
+  StepSection,
+} from "./step-parts"
 
 type StepProps = {
   choices: SetupChoices
@@ -25,30 +33,32 @@ type StepProps = {
   onNext: () => void
 }
 
-const ASSISTANT_VALUES: Assistant[] = [
-  ...ASSISTANTS.map(({ value }) => value),
-  "none",
-]
-
 function SwitchRow({
   id,
   title,
   description,
+  icon,
   checked,
   onCheckedChange,
 }: {
   id: string
   title: string
   description: string
+  icon?: React.ReactNode
   checked: boolean
   onCheckedChange: (checked: boolean) => void
 }) {
   return (
     <FieldLabel htmlFor={id}>
       <Field orientation="horizontal">
+        {icon ? (
+          <span className="flex size-8 shrink-0 items-center justify-center rounded-lg bg-muted [&_svg]:size-4.5">
+            {icon}
+          </span>
+        ) : null}
         <FieldContent>
           <span className="text-[13px] font-medium">{title}</span>
-          <FieldDescription>{description}</FieldDescription>
+          <CardHint>{description}</CardHint>
         </FieldContent>
         <Switch id={id} checked={checked} onCheckedChange={onCheckedChange} />
       </Field>
@@ -56,11 +66,18 @@ function SwitchRow({
   )
 }
 
-export function ExtrasStep({ choices, onChange, onBack, onNext }: StepProps) {
-  const assistant = ASSISTANTS.find(({ value }) => value === choices.assistant)
+export function ExtrasControls({
+  choices,
+  onChange,
+  onBack,
+  onNext,
+}: StepProps) {
+  const isNativeOnly =
+    choices.project === "new" && isNativeFramework(choices.framework)
+  const hasAssistants = choices.assistants.length > 0
 
   return (
-    <FieldGroup className="w-full max-w-2xl gap-10">
+    <FieldGroup className="gap-8">
       <StepSection title="Components">
         <RadioGroup
           value={choices.components}
@@ -69,7 +86,7 @@ export function ExtrasStep({ choices, onChange, onBack, onNext }: StepProps) {
               onChange({ components: value })
             }
           }}
-          className="grid gap-3 sm:grid-cols-2"
+          className="grid gap-3"
         >
           <ChoiceCard
             value="starter"
@@ -90,47 +107,57 @@ export function ExtrasStep({ choices, onChange, onBack, onNext }: StepProps) {
         <SwitchRow
           id="sound"
           title="Interface sounds"
-          description="Soft clicks and ticks on buttons, switches and menus, like the ones on this site. Synthesised in the browser, no audio files."
+          description={
+            isNativeOnly
+              ? "Soft clicks and ticks on buttons, switches and menus, each with a light tap on a real device."
+              : `Soft clicks and ticks on buttons, switches and menus, like the ones on this site. Synthesised in the browser, no audio files.${choices.mobile ? " The mobile app plays them too, with a light tap for each." : ""}`
+          }
           checked={choices.sound}
           onCheckedChange={(sound) => onChange({ sound })}
         />
       </StepSection>
 
       <StepSection
-        title="AI assistant"
-        description="Building with an AI assistant? It can learn Fabricator UI and install components for you."
+        title="AI assistants"
+        description="Pick every assistant you use. Each learns Fabricator UI and can install components for you."
       >
-        <RadioGroup
-          value={choices.assistant}
-          onValueChange={(value) => {
-            const next = ASSISTANT_VALUES.find((item) => item === value)
-            if (next) onChange({ assistant: next })
-          }}
-          className="grid gap-3 sm:grid-cols-3"
-        >
-          {ASSISTANTS.map((item) => (
-            <ChoiceCard
-              key={item.value}
-              value={item.value}
-              title={item.label}
-              icon={<BotIcon />}
-            />
-          ))}
-          <ChoiceCard value="none" title="None" />
-        </RadioGroup>
-        {assistant ? (
+        <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+          {ASSISTANTS.map((assistant) => {
+            const Icon = ASSISTANT_ICONS[assistant.value]
+            return (
+              <CheckCard
+                key={assistant.value}
+                title={assistant.label}
+                icon={<Icon />}
+                checked={choices.assistants.includes(assistant.value)}
+                onCheckedChange={(checked) =>
+                  onChange({
+                    assistants: checked
+                      ? [...choices.assistants, assistant.value]
+                      : choices.assistants.filter(
+                          (value) => value !== assistant.value
+                        ),
+                  })
+                }
+              />
+            )
+          })}
+        </div>
+        {hasAssistants ? (
           <div className="flex flex-col gap-3">
             <SwitchRow
               id="skill"
               title="Agent skill"
-              description={`Teaches ${assistant.label} the components, their composition rules and the CLI.`}
+              description="Teaches them the components, their composition rules and the CLI."
+              icon={<BookOpenIcon />}
               checked={choices.skill}
               onCheckedChange={(skill) => onChange({ skill })}
             />
             <SwitchRow
               id="mcp"
               title="MCP server"
-              description={`Lets ${assistant.label} search the registry and install components.`}
+              description="Lets them search the registry and install components."
+              icon={<ModelContextProtocolIcon />}
               checked={choices.mcp}
               onCheckedChange={(mcp) => onChange({ mcp })}
             />
@@ -138,7 +165,11 @@ export function ExtrasStep({ choices, onChange, onBack, onNext }: StepProps) {
         ) : null}
       </StepSection>
 
-      <StepFooter onBack={onBack} onNext={onNext} nextLabel="Get my command" />
+      <StepFooter
+        onBack={onBack}
+        onNext={onNext}
+        nextLabel="Review and install"
+      />
     </FieldGroup>
   )
 }

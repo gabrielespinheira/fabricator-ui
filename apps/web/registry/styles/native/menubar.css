@@ -10,15 +10,17 @@
     @apply items-center gap-0.5 p-(--density-4);
   }
 
-  /* Triggers: 28pt, 13pt, muted at rest. An open trigger keeps a hover fill. */
+  /* Triggers: 28pt, 13pt, muted at rest. One highlight glides between them (Fluid
+     Hover). An open trigger keeps a hover fill. */
   .cn-menubar-trigger {
-    @apply h-(--density-28) rounded-lg px-(--density-10) active:bg-hover data-[state=open]:bg-hover;
+    @apply h-(--density-28) rounded-lg px-(--density-10) data-[state=open]:bg-hover;
   }
 
   .cn-menubar-trigger-text {
     @apply text-muted-foreground text-(length:--density-text-13) font-normal;
   }
 
+  /* Open or under the highlight, a trigger reads foreground. */
   .cn-menubar-trigger-text-open {
     @apply text-foreground;
   }
@@ -34,15 +36,15 @@
     @apply w-auto;
   }
 
-  /* Rows: 36pt, 13pt, muted at rest; the pressed row lights up. */
+  /* Rows: 36pt, 13pt, muted at rest. The menu's highlight paints the lit one. */
   .cn-menubar-item {
-    @apply h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8) active:bg-hover data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))];
+    @apply h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8) data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))];
   }
 
   /* Checkbox and radio rows keep the check on the start side. Checked rows are
      foreground and semibold. */
   .cn-menubar-checkbox-item {
-    @apply h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-(--density-8) pl-[calc(var(--density-8)*2+var(--density-icon-16))] active:bg-hover disabled:opacity-50;
+    @apply h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-(--density-8) pl-[calc(var(--density-8)*2+var(--density-icon-16))] disabled:opacity-50;
   }
 
   .cn-menubar-checkbox-item-indicator {
@@ -50,7 +52,7 @@
   }
 
   .cn-menubar-radio-item {
-    @apply h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-(--density-8) pl-[calc(var(--density-8)*2+var(--density-icon-16))] active:bg-hover disabled:opacity-50;
+    @apply h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-(--density-8) pl-[calc(var(--density-8)*2+var(--density-icon-16))] disabled:opacity-50;
   }
 
   .cn-menubar-radio-item-indicator {
@@ -65,6 +67,11 @@
     @apply text-foreground font-semibold;
   }
 
+  /* Lit, it reads foreground too; only choosing it changes the weight. */
+  .cn-menubar-choice-text-lit {
+    @apply text-foreground;
+  }
+
   .cn-menubar-label {
     @apply text-muted-foreground px-(--density-8) py-(--density-6) text-(length:--density-text-12) font-normal data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))];
   }
@@ -73,13 +80,14 @@
     @apply bg-border/60 -mx-1 my-1 h-px;
   }
 
+  /* Keyboard shortcuts wait for a tablet: a phone has no keyboard to press them on. */
   .cn-menubar-shortcut {
-    @apply text-muted-foreground ml-auto text-(length:--density-text-11) tracking-normal;
+    @apply hidden sm:flex text-muted-foreground ml-auto text-(length:--density-text-11) tracking-normal;
   }
 
   /* An open sub-trigger stays lit while its submenu shows below it. */
   .cn-menubar-sub-trigger {
-    @apply h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8) active:bg-hover data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))];
+    @apply h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8) data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))];
   }
 
   /* A submenu expands inline, indented under a hairline: a phone has no room beside

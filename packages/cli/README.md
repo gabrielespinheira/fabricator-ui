@@ -7,25 +7,48 @@ The command-line tool for [Fabricator UI](https://fabricator-ui.vercel.app), an 
 Run it with the package manager you already use:
 
 ```bash
-npx fabricator-ui@latest init
-pnpm dlx fabricator-ui@latest init
-yarn dlx fabricator-ui@latest init
-bunx --bun fabricator-ui@latest init
+npx fabricator-ui@latest create my-app
+pnpm dlx fabricator-ui@latest create my-app
+yarn dlx fabricator-ui@latest create my-app
+bunx --bun fabricator-ui@latest create my-app
 ```
 
 Requires Node.js 20.18.1 or later (or Bun). Projects need React 19 and Tailwind CSS v4.
 
 ## Commands
 
-### `init`
+### `create`
 
-Set up a new or existing project.
+One command for a project or a monorepo: it creates the app, installs your look and components, wires the App Shell and sounds into your root layout, and sets up your AI assistants.
 
 ```bash
-# New Next.js app with the Fabricator look
-npx fabricator-ui@latest init -t next
+# A Next.js app with the defaults
+npx fabricator-ui@latest create my-app --yes
 
-# Existing app
+# A monorepo: web, mobile and desktop, one look, two assistants
+npx fabricator-ui@latest create my-app -t vite --mobile --desktop tauri --agents claude,codex --yes
+
+# See what it would do
+npx fabricator-ui@latest create my-app --mobile --dry-run
+```
+
+The setup page at https://fabricator-ui.vercel.app/create writes this command for you. If a step fails, run the same command again to pick up where it stopped.
+
+### `apps add`, `agents add`, `upgrade`
+
+```bash
+npx fabricator-ui@latest apps add mobile          # add an app to a monorepo
+npx fabricator-ui@latest apps add desktop tauri
+npx fabricator-ui@latest agents add claude codex  # the skill and MCP server
+npx fabricator-ui@latest upgrade                  # reinstall your components
+```
+
+### `init`
+
+Set up an existing project. It changes only what its flags name.
+
+```bash
+npx fabricator-ui@latest init --shell --sounds --agents claude --yes
 npx fabricator-ui@latest init
 ```
 

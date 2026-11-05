@@ -46,14 +46,15 @@
     "format:check": "prettier --check \"**/*.{ts,md}\" --cache"
   },
   "dependencies": {
+    "@clack/prompts": "1.8.1",
     "commander": "^14.0.3",
     "kleur": "^4.1.5",
-    "prompts": "^2.4.2",
-    "shadcn": "4.22.1"
+    "shadcn": "4.22.1",
+    "zod": "4.6.7"
   },
   "devDependencies": {
+    "@fabricator-ui/setup": "workspace:*",
     "@types/node": "^20.19.0",
-    "@types/prompts": "^2.4.9",
     "typescript": "^6.0.3",
     "vitest": "^5.0.5"
   }

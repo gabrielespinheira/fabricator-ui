@@ -4,6 +4,7 @@ import {
   buildMcpServerConfig,
   CODEX_CONFIG,
   isMcpClient,
+  mergeCodexConfig,
   mergeMcpConfig,
 } from "./mcp"
 
@@ -46,6 +47,27 @@ describe("mcp init", () => {
         fabricator: { command: "npx", args: ["fabricator-ui@latest", "mcp"] },
       },
     })
+  })
+
+  it("points a monorepo's server at the app", () => {
+    expect(buildMcpServerConfig("claude", "apps/web")).toEqual({
+      mcpServers: {
+        fabricator: {
+          command: "npx",
+          args: ["fabricator-ui@latest", "mcp", "-c", "apps/web"],
+        },
+      },
+    })
+  })
+
+  it("adds Codex's block once, and keeps what's there", () => {
+    const merged = mergeCodexConfig('model = "x"\n')
+    expect(merged).toContain('model = "x"')
+    expect(merged).toContain("[mcp_servers.fabricator]")
+    expect(mergeCodexConfig(merged)).toBe(merged)
+    expect(mergeCodexConfig("", "apps/web")).toContain(
+      'args = ["fabricator-ui@latest", "mcp", "-c", "apps/web"]'
+    )
   })
 
   it("validates client names", () => {

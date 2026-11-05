@@ -46,6 +46,11 @@
     @apply text-(length:--density-text-12);
   }
 
+  /* The pressed wash follows the inline button's smaller corners. */
+  .cn-input-group-button-wash {
+    @apply rounded-md;
+  }
+
   .cn-input-group-button-size-xs {
     @apply h-(--density-24) gap-1 rounded-md px-(--density-8);
   }

@@ -31,8 +31,12 @@ describe.skipIf(!existsSync(bin))("built CLI (node dist/index.js)", () => {
     const help = run(["--help"])
     expect(help).toContain("fabricator-ui")
     for (const command of [
+      "create",
       "init",
       "add",
+      "apps",
+      "agents",
+      "upgrade",
       "apply",
       "search",
       "view",

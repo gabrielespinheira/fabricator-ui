@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest"
 
 import {
   getClosestThumb,
+  getNotchPitch,
   getThumbCenter,
   getThumbOffset,
   getValueAtPosition,
@@ -178,5 +179,26 @@ describe("sameValues", () => {
     expect(sameValues([1, 2], [1, 2])).toBe(true)
     expect(sameValues([1, 2], [1, 3])).toBe(false)
     expect(sameValues([1], [1, 2])).toBe(false)
+  })
+})
+
+describe("getNotchPitch", () => {
+  it("rises from 0.8 to 1.4 along the scale, as the website's does", () => {
+    expect(getNotchPitch(0, { min: 0, max: 100 })).toBeCloseTo(0.8)
+    expect(getNotchPitch(50, { min: 0, max: 100 })).toBeCloseTo(1.1)
+    expect(getNotchPitch(100, { min: 0, max: 100 })).toBeCloseTo(1.4)
+  })
+
+  it("measures from min", () => {
+    expect(getNotchPitch(15, { min: 10, max: 20 })).toBeCloseTo(1.1)
+  })
+
+  it("stays in range for a value outside the scale", () => {
+    expect(getNotchPitch(-5, { min: 0, max: 100 })).toBeCloseTo(0.8)
+    expect(getNotchPitch(200, { min: 0, max: 100 })).toBeCloseTo(1.4)
+  })
+
+  it("takes the middle of an empty scale", () => {
+    expect(getNotchPitch(5, { min: 5, max: 5 })).toBeCloseTo(1.1)
   })
 })

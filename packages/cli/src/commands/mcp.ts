@@ -11,11 +11,16 @@ import { fail, promptSelect, resolveCwd } from "./shared"
 export const MCP_SERVER_NAME = "fabricator"
 const MCP_COMMAND = ["npx", "fabricator-ui@latest", "mcp"] as const
 
+/** A monorepo's root has no components.json: the server reads the app's. */
+function mcpCommand(appDir?: string) {
+  return appDir ? [...MCP_COMMAND, "-c", appDir] : [...MCP_COMMAND]
+}
+
 export const MCP_CLIENTS = {
   claude: { label: "Claude Code", configPath: ".mcp.json" },
   cursor: { label: "Cursor", configPath: ".cursor/mcp.json" },
   vscode: { label: "VS Code", configPath: ".vscode/mcp.json" },
-  codex: { label: "Codex", configPath: "~/.codex/config.toml" },
+  codex: { label: "Codex", configPath: ".codex/config.toml" },
   opencode: { label: "OpenCode", configPath: "opencode.json" },
 } as const
 
@@ -28,8 +33,11 @@ export function isMcpClient(value: unknown): value is McpClient {
 type JsonObject = Record<string, unknown>
 
 /** The server entry each client expects, keyed the way its config file nests it. */
-export function buildMcpServerConfig(client: Exclude<McpClient, "codex">) {
-  const [command, ...args] = MCP_COMMAND
+export function buildMcpServerConfig(
+  client: Exclude<McpClient, "codex">,
+  appDir?: string
+) {
+  const [command = "npx", ...args] = mcpCommand(appDir)
   switch (client) {
     case "claude":
     case "cursor":
@@ -42,7 +50,7 @@ export function buildMcpServerConfig(client: Exclude<McpClient, "codex">) {
         mcp: {
           [MCP_SERVER_NAME]: {
             type: "local",
-            command: [...MCP_COMMAND],
+            command: mcpCommand(appDir),
             enabled: true,
           },
         },
@@ -50,10 +58,22 @@ export function buildMcpServerConfig(client: Exclude<McpClient, "codex">) {
   }
 }
 
-export const CODEX_CONFIG = `[mcp_servers.${MCP_SERVER_NAME}]
-command = "npx"
-args = ["fabricator-ui@latest", "mcp"]
+function buildCodexConfig(appDir?: string) {
+  const [command, ...args] = mcpCommand(appDir)
+  return `[mcp_servers.${MCP_SERVER_NAME}]
+command = "${command}"
+args = [${args.map((arg) => `"${arg}"`).join(", ")}]
 `
+}
+
+export const CODEX_CONFIG = buildCodexConfig()
+
+/** Adds the server to Codex's project config, leaving everything else as it is. */
+export function mergeCodexConfig(existing: string, appDir?: string) {
+  if (existing.includes(`[mcp_servers.${MCP_SERVER_NAME}]`)) return existing
+  const block = buildCodexConfig(appDir)
+  return existing.trim() ? `${existing.trimEnd()}\n\n${block}` : block
+}
 
 /** Adds the Fabricator server to an existing config without touching other servers. */
 export function mergeMcpConfig(existing: JsonObject, addition: JsonObject) {
@@ -72,7 +92,21 @@ function isPlainObject(value: unknown): value is JsonObject {
   return typeof value === "object" && value !== null && !Array.isArray(value)
 }
 
-function writeClientConfig(cwd: string, client: Exclude<McpClient, "codex">) {
+function writeCodexConfig(cwd: string, appDir?: string) {
+  const configPath = path.join(cwd, MCP_CLIENTS.codex.configPath)
+  const existing = fs.existsSync(configPath)
+    ? fs.readFileSync(configPath, "utf8")
+    : ""
+  fs.mkdirSync(path.dirname(configPath), { recursive: true })
+  fs.writeFileSync(configPath, mergeCodexConfig(existing, appDir))
+  return MCP_CLIENTS.codex.configPath
+}
+
+function writeClientConfig(
+  cwd: string,
+  client: Exclude<McpClient, "codex">,
+  appDir?: string
+) {
   const configPath = path.join(cwd, MCP_CLIENTS[client].configPath)
   let existing: JsonObject = {}
   if (fs.existsSync(configPath)) {
@@ -88,7 +122,7 @@ function writeClientConfig(cwd: string, client: Exclude<McpClient, "codex">) {
   fs.writeFileSync(
     configPath,
     JSON.stringify(
-      mergeMcpConfig(existing, buildMcpServerConfig(client)),
+      mergeMcpConfig(existing, buildMcpServerConfig(client, appDir)),
       null,
       2
     ) + "\n"
@@ -96,22 +130,40 @@ function writeClientConfig(cwd: string, client: Exclude<McpClient, "codex">) {
   return MCP_CLIENTS[client].configPath
 }
 
-async function resolveClient(client: string | undefined): Promise<McpClient> {
-  if (client !== undefined) {
-    if (!isMcpClient(client)) {
-      throw new Error(
-        `Unknown client "${client}". Use one of: ${Object.keys(MCP_CLIENTS).join(", ")}.`
-      )
-    }
-    return client
-  }
-  return promptSelect<McpClient>(
-    "Which MCP client are you using?",
-    Object.entries(MCP_CLIENTS).map(([value, { label }]) => ({
-      title: label,
-      value: value as McpClient,
-    }))
+/** Writes each client's config. Returns the files, for the summary. */
+export function writeMcpConfigs(
+  cwd: string,
+  clients: McpClient[],
+  appDir?: string
+) {
+  return clients.map((client) =>
+    client === "codex"
+      ? writeCodexConfig(cwd, appDir)
+      : writeClientConfig(cwd, client, appDir)
   )
+}
+
+/** `claude,codex`, or a question when no client is given. */
+async function resolveClients(value: string | undefined): Promise<McpClient[]> {
+  if (value !== undefined) {
+    return value.split(",").map((client) => {
+      if (!isMcpClient(client)) {
+        throw new Error(
+          `Unknown client "${client}". Use one of: ${Object.keys(MCP_CLIENTS).join(", ")}.`
+        )
+      }
+      return client
+    })
+  }
+  return [
+    await promptSelect<McpClient>(
+      "Which MCP client are you using?",
+      Object.entries(MCP_CLIENTS).map(([client, { label }]) => ({
+        title: label,
+        value: client as McpClient,
+      }))
+    ),
+  ]
 }
 
 export function createMcpCommand(): Command {
@@ -141,7 +193,7 @@ export function createMcpCommand(): Command {
     .description("configure the Fabricator MCP server for your editor or agent")
     .option(
       "--client <client>",
-      "MCP client: claude, cursor, vscode, codex, opencode"
+      "MCP clients, comma-separated: claude, cursor, vscode, codex, opencode"
     )
     .option(
       "-c, --cwd <cwd>",
@@ -150,17 +202,15 @@ export function createMcpCommand(): Command {
     .action(async (options: { client?: string; cwd?: string }) => {
       try {
         const cwd = resolveCwd(options.cwd ?? mcp.opts<{ cwd?: string }>().cwd)
-        const client = await resolveClient(options.client)
-
-        if (client === "codex") {
-          logger.info(
-            `Add this to ${highlight.info(MCP_CLIENTS.codex.configPath)}, then restart Codex:`
-          )
-          logger.log(`\n${CODEX_CONFIG}`)
-        } else {
-          const configPath = writeClientConfig(cwd, client)
+        const clients = await resolveClients(options.client)
+        for (const configPath of writeMcpConfigs(cwd, clients)) {
           logger.success(
             `Configured the ${highlight.info(MCP_SERVER_NAME)} MCP server in ${highlight.info(configPath)}.`
+          )
+        }
+        if (clients.includes("codex")) {
+          logger.info(
+            "Codex reads project config once you trust the project: it asks the next time it starts here."
           )
         }
 

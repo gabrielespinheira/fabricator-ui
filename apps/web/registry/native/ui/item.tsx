@@ -4,6 +4,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "cn"
 import { View } from "react-native"
 
+import { useFeedback } from "@/registry/native/lib/feedback"
 import { renderSlot, type RenderProps } from "@/registry/native/lib/render"
 import { Separator } from "@/registry/native/ui/separator"
 import { renderTextChildren, Text, TextStyle } from "@/registry/native/ui/text"
@@ -122,6 +123,7 @@ function Item({
 }: React.ComponentProps<typeof View> &
   VariantProps<typeof itemVariants> &
   RenderProps) {
+  const feedback = useFeedback()
   const content = markAdjacentContent(children ?? render?.props.children)
   const shared = {
     "data-slot": "item",
@@ -130,9 +132,10 @@ function Item({
     className: cn(itemVariants({ variant, size, className })),
     ...props,
   }
+  // Rendered as a pressable it's a link: the lightest sound, as rows are.
   const slotted = renderSlot(
     { render, asChild },
-    shared,
+    { ...shared, onPress: () => feedback("tick") },
     render ? renderTextChildren(content) : children
   )
   return (

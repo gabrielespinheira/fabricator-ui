@@ -19,5 +19,10 @@
 
   /* Floating jump button: a raised round chip on surface 3. */
   .cn-message-scroller-button {
-    @apply shadow-surface-3 bg-background active:bg-muted rounded-full border-0;
+    @apply shadow-surface-3 bg-background rounded-full border-0;
+  }
+
+  /* Pressed is the muted fill, a wash that follows the round chip. */
+  .cn-message-scroller-button-wash {
+    @apply bg-muted rounded-full;
   }

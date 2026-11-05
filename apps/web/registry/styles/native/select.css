@@ -52,10 +52,12 @@
     @apply text-muted-foreground px-(--density-8) py-(--density-6) text-(length:--density-text-12);
   }
 
-  /* Rows: 36pt, 13pt, muted at rest; the pressed row lights up. The selected row
-     is foreground and semibold on a bg-active fill. */
+  /* Rows: 36pt, 13pt, muted at rest. They paint nothing themselves: one highlight
+     glides under the finger, and one bg-active selection slides to the selected
+     row (Fluid Hover). A multiple select has no one row to slide to, so each
+     chosen row fills itself. */
   .cn-select-item {
-    @apply h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) active:bg-hover data-[selected=true]:bg-active;
+    @apply h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) data-[multiple=true]:data-[selected=true]:bg-active;
   }
 
   .cn-select-item-label {
@@ -64,6 +66,12 @@
 
   .cn-select-item-label-selected {
     @apply text-foreground font-semibold;
+  }
+
+  /* Under the highlight a row reads foreground, as a hovered one does on the
+     website; only selecting it changes the weight. */
+  .cn-select-item-label-lit {
+    @apply text-foreground;
   }
 
   .cn-select-item-indicator {

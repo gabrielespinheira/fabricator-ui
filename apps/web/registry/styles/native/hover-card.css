@@ -1,7 +1,7 @@
 /* MARK: Hover Card */
 
   /* Popup recipe: surface 3 with its shadow ring (no border), rounded-xl, p-3,
-     13pt, on the popup motion (useSurfaceAnimation). */
+     13pt. Grows from its trigger on the popup motion (useSurfaceAnimation). */
   .cn-hover-card-content {
     @apply bg-surface-3 shadow-surface-3 rounded-xl p-(--density-12);
   }

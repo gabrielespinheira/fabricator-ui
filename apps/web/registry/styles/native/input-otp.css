@@ -9,17 +9,22 @@
      keyboard and the slots only draw. Not opacity-0: iOS doesn't touch a view
      below 1%. */
   .cn-input-otp-input {
-    @apply text-transparent opacity-[0.02];
+    @apply font-sans text-transparent opacity-[0.02];
   }
 
   .cn-input-otp-group {
     @apply gap-(--density-6) rounded-lg;
   }
 
-  /* 36pt slots framed by a hairline; the active slot lifts to the card surface
-     with a firmer neutral edge. Invalid slots turn the edge red. */
+  /* 36pt slots framed by a hairline. Invalid slots turn the edge red. */
   .cn-input-otp-slot {
-    @apply border-border data-[active=true]:bg-card data-[active=true]:border-foreground/30 data-[invalid=true]:border-destructive/50 data-[active=true]:data-[invalid=true]:border-destructive size-(--density-36) rounded-lg border bg-transparent;
+    @apply border-border data-[invalid=true]:border-destructive/50 size-(--density-36) rounded-lg border bg-transparent;
+  }
+
+  /* The active slot lifts to the card surface with a firmer neutral edge, red when
+     invalid. It covers the border box, and fades on the feedback timing. */
+  .cn-input-otp-slot-focus {
+    @apply bg-card border-foreground/30 data-[invalid=true]:border-destructive -inset-px rounded-lg border;
   }
 
   .cn-input-otp-slot-text {

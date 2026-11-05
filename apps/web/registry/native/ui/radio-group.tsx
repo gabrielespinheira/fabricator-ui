@@ -10,8 +10,13 @@ import Animated, {
 
 import { useFeedback } from "@/registry/native/lib/feedback"
 import { useFieldControl } from "@/registry/native/lib/field-model"
-import { useMotion } from "@/registry/native/lib/motion"
+import { useMotion, usePressScale } from "@/registry/native/lib/motion"
 import { renderTextChildren } from "@/registry/native/ui/text"
+
+const AnimatedPressable = Animated.createAnimatedComponent(Pressable)
+
+// The press gives more than a button's: the website's `active:scale-90`.
+const PRESS_GIVE = 0.1
 
 type RadioGroupContextValue = {
   value: string | undefined
@@ -78,6 +83,9 @@ function RadioGroupItem({
   disabled,
   "aria-invalid": isInvalid,
   onPress,
+  onPressIn,
+  onPressOut,
+  style,
   ...props
 }: Omit<React.ComponentProps<typeof Pressable>, "children"> & {
   value: string
@@ -116,8 +124,14 @@ function RadioGroupItem({
     transform: [{ scale: progress.value }],
   }))
 
+  const press = usePressScale()
+  const isFlat = exit.isReduced || exit.isOff
+  const pressStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: isFlat ? 1 : 1 - PRESS_GIVE * press.progress.value }],
+  }))
+
   return (
-    <Pressable
+    <AnimatedPressable
       data-slot="radio-group-item"
       data-state={state}
       data-invalid={isFieldInvalid}
@@ -126,14 +140,23 @@ function RadioGroupItem({
       aria-disabled={isDisabled}
       aria-invalid={isFieldInvalid}
       disabled={isDisabled}
-      hitSlop={12}
+      hitSlop={14}
       className={cn(
         "cn-radio-group-item shrink-0 items-center justify-center disabled:opacity-50",
         className
       )}
+      style={[pressStyle, style]}
       onPress={(event) => {
         if (!isReadOnly) select()
         onPress?.(event)
+      }}
+      onPressIn={(event) => {
+        press.onPressIn()
+        onPressIn?.(event)
+      }}
+      onPressOut={(event) => {
+        press.onPressOut()
+        onPressOut?.(event)
       }}
       {...props}
     >
@@ -144,7 +167,7 @@ function RadioGroupItem({
       >
         <View className="cn-radio-group-indicator-icon" />
       </Animated.View>
-    </Pressable>
+    </AnimatedPressable>
   )
 }
 

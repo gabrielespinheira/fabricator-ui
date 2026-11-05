@@ -14,8 +14,12 @@
   }
 
   /* The knob only travels on the move timing. White, and the primary foreground
-     when on. A press stretches it into a pill toward the centre of the track and
-     squashes it. */
+     when on, fading over the white as it goes. A press stretches it into a pill
+     toward the centre of the track and squashes it. */
   .cn-switch-thumb {
-    @apply shadow-surface-2 data-[state=checked]:bg-primary-foreground rounded-full bg-white;
+    @apply shadow-surface-2 rounded-full bg-white;
+  }
+
+  .cn-switch-thumb-on {
+    @apply bg-primary-foreground rounded-full;
   }

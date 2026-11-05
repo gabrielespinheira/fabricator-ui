@@ -10,7 +10,11 @@ export const navigationItems: Registry["items"] = [
     title: "Menu Sheet",
     description: "A dropdown menu's rows in a sheet, for phones.",
     dependencies: ["@rn-primitives/dropdown-menu", "cn"],
-    registryDependencies: ["@fabricator/sheet-surface", "@fabricator/text"],
+    registryDependencies: [
+      "@fabricator/fluid-hover",
+      "@fabricator/sheet-surface",
+      "@fabricator/text",
+    ],
     files: [{ path: "lib/menu-sheet.tsx", type: "registry:lib" }],
   },
   {
@@ -36,6 +40,7 @@ export const navigationItems: Registry["items"] = [
       "@fabricator/density",
       "@fabricator/dropdown-menu",
       "@fabricator/feedback",
+      "@fabricator/fluid-hover",
       "@fabricator/input",
       "@fabricator/motion",
       "@fabricator/overlay-model",
@@ -188,6 +193,7 @@ export const navigationItems: Registry["items"] = [
     registryDependencies: [
       "@fabricator/density",
       "@fabricator/feedback",
+      "@fabricator/fluid-hover",
       "@fabricator/motion",
       "@fabricator/overlay-model",
       "@fabricator/render",
@@ -213,6 +219,8 @@ export const navigationItems: Registry["items"] = [
     ],
     registryDependencies: [
       "@fabricator/dropdown-menu",
+      "@fabricator/feedback",
+      "@fabricator/fluid-hover",
       "@fabricator/menu-sheet",
       "@fabricator/text",
       "@fabricator/use-mobile",

@@ -1,12 +1,20 @@
 // A desktop pattern on touch: triggers in a row that scrolls, each opening its panel
 // in a popover, or a sheet on phones. A link pressed inside a panel closes it.
 import * as React from "react"
-import { ChevronDownIcon } from "@fabricator-ui/icons-react-native"
+import {
+  ChevronDownIcon,
+  IconProvider,
+} from "@fabricator-ui/icons-react-native"
 import { useComposedRefs, useControllableState } from "@rn-primitives/hooks"
 import * as NavigationMenuPrimitive from "@rn-primitives/navigation-menu"
 import { cva } from "class-variance-authority"
 import { cn } from "cn"
-import { Pressable, ScrollView, View } from "react-native"
+import {
+  Pressable,
+  ScrollView,
+  View,
+  type GestureResponderEvent,
+} from "react-native"
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -14,7 +22,14 @@ import Animated, {
 } from "react-native-reanimated"
 
 import { useIsMobile } from "@/registry/native/hooks/use-mobile"
-import { useFeedback } from "@/registry/native/lib/feedback"
+import { useFeedback, useMountFeedback } from "@/registry/native/lib/feedback"
+import {
+  FluidHoverHighlight,
+  FluidHoverList,
+  FluidHoverProvider,
+  useFluidHover,
+  useFluidRow,
+} from "@/registry/native/lib/fluid-hover"
 import { useMotion, useSurfaceAnimation } from "@/registry/native/lib/motion"
 import {
   COLLISION_INSETS,
@@ -95,6 +110,9 @@ function NavigationMenuList({
   children,
   ...props
 }: NavigationMenuPrimitive.ListProps) {
+  // The strip scrolls sideways, so a drag there stays a scroll: a press lights a
+  // trigger, and glides from the last one.
+  const fluid = useFluidHover({ axis: "x" })
   return (
     <ScrollView
       horizontal
@@ -102,16 +120,20 @@ function NavigationMenuList({
       keyboardShouldPersistTaps="handled"
       className="grow-0"
     >
-      <NavigationMenuPrimitive.List
-        data-slot="navigation-menu-list"
-        className={cn(
-          "cn-navigation-menu-list flex-row items-center",
-          className
-        )}
-        {...props}
-      >
-        {renderTextChildren(children)}
-      </NavigationMenuPrimitive.List>
+      <FluidHoverProvider fluid={fluid}>
+        <NavigationMenuPrimitive.List
+          ref={fluid.attach}
+          data-slot="navigation-menu-list"
+          className={cn(
+            "cn-navigation-menu-list relative flex-row items-center",
+            className
+          )}
+          {...props}
+        >
+          <FluidHoverHighlight hover={fluid.hover} />
+          {renderTextChildren(children)}
+        </NavigationMenuPrimitive.List>
+      </FluidHoverProvider>
     </ScrollView>
   )
 }
@@ -155,6 +177,7 @@ function NavigationMenuTrigger({
   const isOpen = value === itemValue
   const triggerRef = React.useRef<NavigationMenuPrimitive.TriggerRef>(null)
   const composedRef = useComposedRefs(triggerRef, ref)
+  const { isLit, rowProps } = useFluidRow(props)
 
   // Opened from state, no press has measured it, and a popover needs its anchor.
   React.useEffect(() => {
@@ -174,30 +197,34 @@ function NavigationMenuTrigger({
   const iconStyle = useAnimatedStyle(() => ({
     transform: [{ rotate: `${rotation.value}deg` }],
   }))
-  const trigger = (
-    <NavigationMenuPrimitive.Trigger
-      ref={composedRef}
-      data-slot="navigation-menu-trigger"
-      data-state={isOpen ? "open" : "closed"}
-      hitSlop={4}
-      className={cn(navigationMenuTriggerStyle(), className)}
-      {...props}
+  return (
+    <TextStyle
+      className={
+        isOpen || isLit
+          ? cn(
+              "cn-navigation-menu-trigger-text cn-navigation-menu-trigger-text-open"
+            )
+          : cn("cn-navigation-menu-trigger-text")
+      }
     >
-      {renderTextChildren(children)}
-      <Animated.View
-        className="cn-navigation-menu-trigger-icon items-center justify-center"
-        style={iconStyle}
+      <NavigationMenuPrimitive.Trigger
+        ref={composedRef}
+        data-slot="navigation-menu-trigger"
+        data-state={isOpen ? "open" : "closed"}
+        hitSlop={4}
+        className={cn(navigationMenuTriggerStyle(), className)}
+        {...props}
+        {...rowProps}
       >
-        <ChevronDownIcon size={12} />
-      </Animated.View>
-    </NavigationMenuPrimitive.Trigger>
-  )
-  return isOpen ? (
-    <TextStyle className="cn-navigation-menu-trigger-text cn-navigation-menu-trigger-text-open">
-      {trigger}
+        {renderTextChildren(children)}
+        <Animated.View
+          className="cn-navigation-menu-trigger-icon items-center justify-center"
+          style={iconStyle}
+        >
+          <ChevronDownIcon size={12} />
+        </Animated.View>
+      </NavigationMenuPrimitive.Trigger>
     </TextStyle>
-  ) : (
-    <TextStyle className="cn-navigation-menu-trigger-text">{trigger}</TextStyle>
   )
 }
 
@@ -207,17 +234,27 @@ function NavigationMenuContent({
   children,
   ...props
 }: NavigationMenuPrimitive.ContentProps) {
+  // On a phone the panel scrolls in its sheet, so a flick has to stay a scroll.
+  const isPhone = useIsMobile()
   return (
     <NavigationMenuPositioner>
-      <View
+      <FluidHoverList
+        axis="xy"
+        track={isPhone ? "hold" : "drag"}
         data-slot="navigation-menu-content"
         className={cn("cn-navigation-menu-content flex-col", className)}
         {...props}
       >
         {renderTextChildren(children)}
-      </View>
+      </FluidHoverList>
     </NavigationMenuPositioner>
   )
+}
+
+// The primitive's portal renders this only while the panel is open.
+function NavigationMenuFeedback() {
+  useMountFeedback("popup")
+  return null
 }
 
 /**
@@ -242,7 +279,11 @@ function NavigationMenuPositioner({
   const { value: itemValue } = NavigationMenuPrimitive.useItemContext()
   const isPhone = useIsMobile()
   const density = useDensity()
-  const { entering, exiting } = useSurfaceAnimation("popup")
+  const verticalSide = getVerticalSide(side)
+  const { entering, exiting, origin } = useSurfaceAnimation("popup", {
+    side: verticalSide,
+    align: align ?? menu.align,
+  })
   const close = () => {
     root.setTriggerPosition(null)
     root.setContentLayout(null)
@@ -285,7 +326,7 @@ function NavigationMenuPositioner({
           onPress={close}
         >
           <NavigationMenuPrimitive.Content
-            side={getVerticalSide(side)}
+            side={verticalSide}
             sideOffset={sideOffset}
             align={align ?? menu.align}
             alignOffset={alignOffset}
@@ -297,8 +338,10 @@ function NavigationMenuPositioner({
               data-presentation="popover"
               entering={entering}
               exiting={exiting}
+              style={origin}
               className="cn-navigation-menu-popup"
             >
+              <NavigationMenuFeedback />
               <NavigationMenuContext value={panel}>
                 <TextStyle className="cn-navigation-menu-popup-text">
                   {children}
@@ -320,36 +363,57 @@ function NavigationMenuLink({
   children,
   onPress,
   ...props
-}: Omit<NavigationMenuPrimitive.LinkProps, "children"> &
-  RenderProps & { children?: React.ReactNode }) {
+}: Omit<NavigationMenuPrimitive.LinkProps, "children" | "onPress"> &
+  RenderProps & {
+    /** After a drag, letting go over the link runs this with no press to pass on. */
+    onPress?: (event?: GestureResponderEvent) => void
+    children?: React.ReactNode
+  }) {
   const menu = useNavigationMenu()
   const feedback = useFeedback()
   const resolved = resolveRender({ render, asChild, children })
-  const link = (
-    <NavigationMenuPrimitive.Link
-      data-slot="navigation-menu-link"
-      data-active={active}
-      accessibilityState={{ selected: active }}
-      className={cn("cn-navigation-menu-link flex-row items-center", className)}
-      onPress={(event) => {
-        feedback("tick")
-        onPress?.(event)
-        menu.close()
-      }}
-      {...props}
-      asChild={resolved.asChild}
+  const { isLit, rowProps } = useFluidRow({
+    ...props,
+    onActivate: () => {
+      feedback("tick")
+      onPress?.()
+      menu.close()
+    },
+  })
+  return (
+    <TextStyle
+      className={
+        active || isLit
+          ? cn(
+              "cn-navigation-menu-link-text cn-navigation-menu-link-text-active"
+            )
+          : cn("cn-navigation-menu-link-text")
+      }
     >
-      {resolved.asChild
-        ? resolved.children
-        : renderTextChildren(resolved.children)}
-    </NavigationMenuPrimitive.Link>
-  )
-  return active ? (
-    <TextStyle className="cn-navigation-menu-link-text cn-navigation-menu-link-text-active">
-      {link}
+      <IconProvider strokeWidth={isLit ? 2 : 1.5}>
+        <NavigationMenuPrimitive.Link
+          data-slot="navigation-menu-link"
+          data-active={active}
+          accessibilityState={{ selected: active }}
+          className={cn(
+            "cn-navigation-menu-link flex-row items-center",
+            className
+          )}
+          onPress={(event) => {
+            feedback("tick")
+            onPress?.(event)
+            menu.close()
+          }}
+          {...props}
+          {...rowProps}
+          asChild={resolved.asChild}
+        >
+          {resolved.asChild
+            ? resolved.children
+            : renderTextChildren(resolved.children)}
+        </NavigationMenuPrimitive.Link>
+      </IconProvider>
     </TextStyle>
-  ) : (
-    <TextStyle className="cn-navigation-menu-link-text">{link}</TextStyle>
   )
 }
 

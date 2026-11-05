@@ -5,6 +5,7 @@ import { cn } from "cn"
 import { TextInput, View } from "react-native"
 import Animated, {
   cancelAnimation,
+  ReduceMotion,
   useAnimatedStyle,
   useSharedValue,
   withDelay,
@@ -16,10 +17,10 @@ import Animated, {
 import { useFieldControl } from "@/registry/native/lib/field-model"
 import {
   getNextOtpValue,
+  getOtpCaretHoldMs,
   getOtpKeyboardType,
   getOtpSlots,
   isOtpComplete,
-  OTP_CARET_BLINK,
   REGEXP_ONLY_CHARS,
   REGEXP_ONLY_DIGITS,
   REGEXP_ONLY_DIGITS_AND_CHARS,
@@ -175,13 +176,15 @@ function InputOTPCaret() {
   const motion = useMotion("feedback")
   const opacity = useSharedValue(1)
   const shouldBlink = !motion.isOff && !motion.isReduced
+  const { enterMs, feedbackEasing } = motion
   React.useEffect(() => {
     if (!shouldBlink) return
-    const { fadeMs, holdMs } = OTP_CARET_BLINK
+    const fade = { duration: enterMs, easing: feedbackEasing }
+    const holdMs = getOtpCaretHoldMs(enterMs)
     opacity.value = withRepeat(
       withSequence(
-        withTiming(0, { duration: fadeMs }),
-        withDelay(holdMs, withTiming(1, { duration: fadeMs })),
+        withTiming(0, fade),
+        withDelay(holdMs, withTiming(1, fade)),
         withDelay(holdMs, withTiming(1, { duration: 0 }))
       ),
       -1
@@ -190,7 +193,7 @@ function InputOTPCaret() {
       cancelAnimation(opacity)
       opacity.value = 1
     }
-  }, [opacity, shouldBlink])
+  }, [enterMs, feedbackEasing, opacity, shouldBlink])
   const blinkStyle = useAnimatedStyle(() => ({ opacity: opacity.value }))
   return (
     <View className="cn-input-otp-caret absolute inset-0 items-center justify-center">
@@ -210,11 +213,28 @@ function InputOTPSlot({
 }) {
   const context = React.use(InputOTPContext)
   const slot = context?.slots[index]
+  const isActive = slot?.isActive ?? false
+  const isSlotInvalid = isInvalid ?? context?.isInvalid ?? false
+
+  // The active slot's surface fades in on the feedback timing, a layer because
+  // React Native can't transition a class's colour. Reduce Motion keeps the fade,
+  // and Reanimated would jump it to the end.
+  const motion = useMotion("feedback")
+  const focus = useSharedValue(isActive ? 1 : 0)
+  React.useEffect(() => {
+    focus.value = withTiming(isActive ? 1 : 0, {
+      duration: motion.enterMs,
+      easing: motion.feedbackEasing,
+      reduceMotion: ReduceMotion.Never,
+    })
+  }, [focus, isActive, motion])
+  const focusStyle = useAnimatedStyle(() => ({ opacity: focus.value }))
+
   return (
     <View
       data-slot="input-otp-slot"
-      data-active={slot?.isActive ?? false}
-      data-invalid={isInvalid ?? context?.isInvalid ?? false}
+      data-active={isActive}
+      data-invalid={isSlotInvalid}
       // The input over the slots is what a screen reader and a finger reach.
       accessibilityElementsHidden
       importantForAccessibility="no-hide-descendants"
@@ -225,6 +245,11 @@ function InputOTPSlot({
       )}
       {...props}
     >
+      <Animated.View
+        data-invalid={isSlotInvalid}
+        className="cn-input-otp-slot-focus absolute"
+        style={focusStyle}
+      />
       <Text className="cn-input-otp-slot-text">{slot?.char ?? ""}</Text>
       {slot?.hasFakeCaret ? <InputOTPCaret /> : null}
     </View>

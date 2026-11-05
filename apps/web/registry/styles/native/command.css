@@ -28,7 +28,7 @@
   }
 
   .cn-command-input {
-    @apply text-foreground h-full py-0 text-(length:--density-text-14);
+    @apply font-sans text-foreground h-full py-0 text-(length:--density-text-14);
   }
 
   /* The list is divided from the search row. */
@@ -56,10 +56,12 @@
     @apply bg-border/60 -mx-1 my-1 h-px;
   }
 
-  /* Rows: 36pt, 13pt, muted at rest; a pressed row steps through the interaction
-     tokens. Checked rows are foreground and semibold. */
+  /* Rows: 36pt, 13pt, muted at rest. One highlight glides under the finger (Fluid
+     Hover). The last one pressed keeps a hover fill, and gives way to the highlight
+     while it's lit, so the two never stack. Checked rows are foreground and
+     semibold. */
   .cn-command-item {
-    @apply active:bg-hover data-[selected=true]:bg-hover h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8);
+    @apply data-[selected=true]:data-[lit=false]:bg-hover h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8);
   }
 
   .cn-command-item-text {
@@ -70,10 +72,17 @@
     @apply text-foreground text-(length:--density-text-13) font-semibold;
   }
 
+  /* Under the highlight a row reads foreground, as a hovered one does on the
+     website; only checking it changes the weight. */
+  .cn-command-item-text-lit {
+    @apply text-foreground text-(length:--density-text-13);
+  }
+
   .cn-command-item-indicator {
     @apply opacity-0 data-[checked=true]:opacity-100;
   }
 
+  /* Keyboard shortcuts wait for a tablet: a phone has no keyboard to press them on. */
   .cn-command-shortcut {
-    @apply text-muted-foreground ml-auto text-(length:--density-text-11) tracking-normal;
+    @apply hidden sm:flex text-muted-foreground ml-auto text-(length:--density-text-11) tracking-normal;
   }

@@ -12,16 +12,18 @@
     @apply shrink-0;
   }
 
-  /* Top-level triggers and links: 36pt, 13pt, muted at rest. An open trigger keeps
-     the hover fill while its panel shows. */
+  /* Top-level triggers and links: 36pt, 13pt, muted at rest. One highlight glides
+     between them (Fluid Hover). An open trigger keeps the hover fill while its panel
+     shows. */
   .cn-navigation-menu-trigger {
-    @apply h-(--density-36) gap-1 rounded-lg px-(--density-12) active:bg-hover data-[state=open]:bg-hover disabled:opacity-50;
+    @apply h-(--density-36) gap-1 rounded-lg px-(--density-12) data-[state=open]:bg-hover disabled:opacity-50;
   }
 
   .cn-navigation-menu-trigger-text {
     @apply text-muted-foreground text-(length:--density-text-13) font-normal;
   }
 
+  /* Open or under the highlight, a trigger reads foreground. */
   .cn-navigation-menu-trigger-text-open {
     @apply text-foreground;
   }
@@ -30,16 +32,17 @@
     @apply size-3;
   }
 
-  /* Panel links: rounded-lg rows. The current page's link is foreground on a
-     bg-active fill. */
+  /* Panel links: rounded-lg rows, lit by the panel's own highlight (Fluid Hover).
+     The current page's link is foreground on a bg-active fill. */
   .cn-navigation-menu-link {
-    @apply gap-(--density-8) rounded-lg p-(--density-8) active:bg-hover data-[active=true]:bg-active;
+    @apply gap-(--density-8) rounded-lg p-(--density-8) data-[active=true]:bg-active;
   }
 
   .cn-navigation-menu-link-text {
     @apply text-foreground/80 text-(length:--density-text-13);
   }
 
+  /* The current page, or under the highlight: a link reads foreground. */
   .cn-navigation-menu-link-text-active {
     @apply text-foreground;
   }

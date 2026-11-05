@@ -151,6 +151,7 @@ export const formItems: Registry["items"] = [
       "react-native-reanimated",
     ],
     registryDependencies: [
+      "@fabricator/button",
       "@fabricator/density",
       "@fabricator/feedback",
       "@fabricator/motion",
@@ -206,6 +207,7 @@ export const formItems: Registry["items"] = [
     registryDependencies: [
       "@fabricator/collapsible",
       "@fabricator/feedback",
+      "@fabricator/fluid-hover",
       "@fabricator/motion",
       "@fabricator/text",
     ],

@@ -8,7 +8,7 @@ Built, in `packages/icons-core`, `packages/icons`, `packages/icons-react-native`
 
 - Lucide vendored at **1.66.0**, not 1.67.0: the repo's `minimumReleaseAge` (48 hours, `bunfig.toml`) blocks 1.67.0 and its `@lucide/icons`/`lucide-react` parity packages, which were published the same day. 2,015 icons.
 - Parity: every icon's shapes equal `@lucide/icons` 1.66.0, and every icon renders the same markup as `lucide-react` 1.66.0 apart from class names. Every non-prefixed `lucide-react` export exists. One icon costs 971 B min+gzip against lucide-react's 1,696 B.
-- Brands: **108 ship, 5 are held** at first (140 and 12 after Gabs's marks, below). The held five are Slack, Microsoft, AWS, Visual Studio Code and OpenAI. Their own terms forbid this kind of use: Slack forbids distributing its logo files, and Microsoft and AWS license logos only by agreement. Microsoft forbids modified VS Code icons, and a one-colour mark is one. OpenAI's permission is non-transferable. Each reason, with its source, is in `sources/brands/allowlist.json` and `BRANDS.md`; removing `held` from an entry and running `bun run icons:brands` ships the mark.
+- Brands: **108 ship, 5 are held** at first (140 and 12 after Gabs's marks, below; 143 and 11 after the assistant marks, 2026-11-04: Cursor and OpenCode added, OpenAI released from `held` by Gabs's decision so Codex can show its provider's logo. OpenAI's terms didn't change; `docs/plans/get-started-and-cli.md` §8.1). The held five are Slack, Microsoft, AWS, Visual Studio Code and OpenAI. Their own terms forbid this kind of use: Slack forbids distributing its logo files, and Microsoft and AWS license logos only by agreement. Microsoft forbids modified VS Code icons, and a one-colour mark is one. OpenAI's permission is non-transferable. Each reason, with its source, is in `sources/brands/allowlist.json` and `BRANDS.md`; removing `held` from an entry and running `bun run icons:brands` ships the mark.
 - SharpOS parity: the 78 shared marks keep SharpOS's geometry, art, hex, resolved colours, scales and viewBoxes (`fixtures/sharpos-brands.json`). There are three intentional differences. OpenRouter uses Simple Icons' current path. Cal.com's and LinkedIn's one-colour marks come from their own single-path art; SharpOS had a placeholder for both.
 - LinkedIn ships from CC0 art (gilbarbara/logos), but LinkedIn's brand guidelines allow only blue, black and white, and don't list redistribution as an acceptable use. Simple Icons removed it at LinkedIn's request. Hold it too if that risk is unwanted.
 - Optical scale: the measurement reproduces SharpOS's recorded scales for 74 of 79 marks within 0.02; the other five sit at the 1.08 threshold. SharpOS's values stay pinned; `--measure` sets the others against the frozen median (0.992). The check enforces the bounds (below 1, at least 0.84), not equality with a fresh measurement.
@@ -29,6 +29,8 @@ Built, in `packages/icons-core`, `packages/icons`, `packages/icons-react-native`
   - **Cost:** about 1.5 KB per icon, min+gzip, plus Motion at about 47 KB once. React Native has no animated entry: Motion needs a DOM.
 - Safari (2026-11-04): draws the logos set's real compass in brand colour. Its only filters are drop shadows, which a new `dropShadows` option removes (any other filter stays refused), and nested translated groups are now flattened. The art is 38 KB, about 10 KB gzipped, the largest in the set; a page pays that only if it imports `SafariIcon`. Apple's trademark guidelines allow its icons only under a written licence, so Safari and Apple fail the test the held marks failed; both still ship, pending a decision.
 - Website (added later the same day): the `/icons` page (search, set and category filters, size and stroke preview, a detail panel with JSX and SVG copy, SVG and PNG downloads, install command, provenance), five docs pages under `/docs/icons`, a changelog entry, `llms.txt` entries, nav and footer links, the sitemap, and icon rules in `skills/fabricator`. The catalog gained `outlineCategories`; `/brands` exports `getBrandViewBox`; `@fabricator-ui/icons-static/nodes` exports the shape data typed.
+
+- Custom category (2026-11-04): `custom` joins Lucide's categories in `readCategories`, listed first, and `loadOutlineIcons` adds it to every icon in `sources/outline/`. The first icons are 24 `ui-*` component glyphs and 15 for AI and agents. The candidates for the rest are in `docs/plans/icon-pack-expansion.md`.
 
 Not built yet:
 
@@ -394,7 +396,7 @@ Reason: a static page per icon would add about 2,000 routes to a build that must
 Lucide's specification is the spec for the outline set, adopted whole. Fabricator adds five rules:
 
 1. Review every new icon at 14, 16 and 18px with stroke 1.5 and 2 (the Fabricator resting and hover strokes at each density), in light and dark, beside its nearest Lucide relatives.
-2. Generic icons go to Lucide first. If Lucide accepts one, the next sync brings it in and ours becomes its alias (I2). Fabricator keeps only icons Lucide declines and glyphs specific to Fabricator, such as the sidebar panel toggle in DESIGN.md.
+2. Fabricator's own icons live in the **Custom** category (decided 2026-11-04; this replaces "generic icons go to Lucide first"). Every icon in `sources/outline/` is in it automatically, and no Lucide icon is. Before drawing, check Lucide's names and open pull requests. If Lucide later ships a name we use, I2 applies: ours becomes its alias or takes a new name.
 3. Brand names never enter the outline set. Lucide's `brand-stopwords.json` is part of the check.
 4. Brand marks follow I6.
 5. Duotone layers follow I7.
@@ -513,15 +515,15 @@ Each phase ends when the lines of the AGENTS.md definition of done that apply to
 
 ## 10. Risks
 
-| Risk                                                                                   | Response                                                                   |
-| -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------- |
-| A brand asks for removal                                                               | Separate entry, disclaimer, takedown process; removal in the next patch.   |
-| An official kit's terms forbid redistribution (Slack, Microsoft, AWS, VS Code, OpenAI) | That mark waits and its docs entry links to the kit.                       |
-| A webview lacks `light-dark()`                                                         | The `fill` attribute keeps the light hex; brand colour degrades to light.  |
-| Lucide changes an icon that has a duotone version                                      | The duotone check fails on sync; fix the duotone file in the same PR.      |
-| Lucide adds an icon with a name we use                                                 | `icons:check` fails; resolve per I2.                                       |
-| shadcn makes icon libraries extensible differently than proposed                       | Adopt theirs and retire the `params` route.                                |
-| The originals set grows past what one maintainer can review                            | The check blocks most spec breaks, and "Lucide first" keeps the set small. |
+| Risk                                                                                   | Response                                                                  |
+| -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------- |
+| A brand asks for removal                                                               | Separate entry, disclaimer, takedown process; removal in the next patch.  |
+| An official kit's terms forbid redistribution (Slack, Microsoft, AWS, VS Code, OpenAI) | That mark waits and its docs entry links to the kit.                      |
+| A webview lacks `light-dark()`                                                         | The `fill` attribute keeps the light hex; brand colour degrades to light. |
+| Lucide changes an icon that has a duotone version                                      | The duotone check fails on sync; fix the duotone file in the same PR.     |
+| Lucide adds an icon with a name we use                                                 | `icons:check` fails; resolve per I2.                                      |
+| shadcn makes icon libraries extensible differently than proposed                       | Adopt theirs and retire the `params` route.                               |
+| The Custom set grows past what one maintainer can review                               | The check blocks most spec breaks; batches stay small, one sheet per PR.  |
 
 ---
 

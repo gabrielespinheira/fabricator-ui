@@ -3,6 +3,7 @@ import * as DropdownMenuPrimitive from "@rn-primitives/dropdown-menu"
 import { cn } from "cn"
 import { View } from "react-native"
 
+import { FluidHoverScrollList } from "@/registry/native/lib/fluid-hover"
 import {
   SheetSurface,
   SheetSurfaceScrollView,
@@ -50,9 +51,9 @@ function MenuSheet({
           <View className="cn-menu-sheet-handle items-center">
             <View className="cn-menu-sheet-handle-bar" />
           </View>
-          <SheetSurfaceScrollView>
+          <FluidHoverScrollList ScrollComponent={SheetSurfaceScrollView}>
             {renderTextChildren(children)}
-          </SheetSurfaceScrollView>
+          </FluidHoverScrollList>
         </TextStyle>
       </DropdownMenuPrimitive.Root>
     </SheetSurface>

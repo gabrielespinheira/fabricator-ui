@@ -1,0 +1,24 @@
+{
+  "name": "@fabricator-ui/setup",
+  "version": "0.0.0",
+  "private": true,
+  "description": "One setup, one command: what the setup page shows and the CLI runs. Bundled into the CLI.",
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "format:write": "prettier --write \"src/**/*.ts\" \"*.json\" --cache",
+    "format:check": "prettier --check \"src/**/*.ts\" \"*.json\" --cache"
+  },
+  "dependencies": {
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "typescript": "^6.0.3",
+    "vitest": "^5.0.5"
+  }
+}

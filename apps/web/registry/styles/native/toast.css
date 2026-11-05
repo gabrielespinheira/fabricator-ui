@@ -1,7 +1,8 @@
 /* MARK: Toast */
 
   /* Surface 5 with its shadow ring (no border), rounded-xl, 13pt. Applies to the
-     toast root of both `toast` and `sonner`. */
+     toast root of both `toast` and `sonner`. As on the website, it moves and fades
+     on the toast timing and changes height on the feedback timing (ui/toast). */
   .cn-toast {
     @apply bg-surface-5 shadow-surface-5 rounded-xl;
   }

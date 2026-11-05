@@ -9,17 +9,21 @@ import {
 import { Gesture, GestureDetector } from "react-native-gesture-handler"
 import Animated, {
   runOnJS,
+  useAnimatedReaction,
   useAnimatedStyle,
   useSharedValue,
+  withTiming,
   type SharedValue,
 } from "react-native-reanimated"
 import { useCSSVariable } from "uniwind"
 
 import { useFeedback } from "@/registry/native/lib/feedback"
 import { useFieldControl } from "@/registry/native/lib/field-model"
+import { useMotion } from "@/registry/native/lib/motion"
 import { parseNumber } from "@/registry/native/lib/motion-tokens"
 import {
   getClosestThumb,
+  getNotchPitch,
   getThumbCenter,
   getThumbOffset,
   getValueAtPosition,
@@ -33,7 +37,8 @@ import {
 // A vertical scroll under a horizontal slider, or the reverse, stays a scroll.
 const ACTIVE_OFFSET = 8
 const FAIL_OFFSET = 12
-// The 18pt track keeps a finger-sized target.
+// The 18pt track keeps a finger-sized target. Not with the gesture's hitSlop: on
+// iOS a touch outside the view's bounds never reaches its recognizer.
 const MIN_TARGET = 44
 
 const ACCESSIBILITY_ACTIONS = [{ name: "increment" }, { name: "decrement" }]
@@ -41,7 +46,9 @@ const ACCESSIBILITY_ACTIONS = [{ name: "increment" }, { name: "decrement" }]
 function SliderThumb({
   index,
   count,
-  live,
+  shown,
+  pressedIndex,
+  held,
   length,
   min,
   max,
@@ -54,7 +61,9 @@ function SliderThumb({
 }: {
   index: number
   count: number
-  live: SharedValue<number[]>
+  shown: SharedValue<number[]>
+  pressedIndex: SharedValue<number>
+  held: SharedValue<number>
   length: SharedValue<number>
   min: number
   max: number
@@ -66,7 +75,7 @@ function SliderThumb({
   onAccessibilityAction: (event: AccessibilityActionEvent) => void
 }) {
   const positionStyle = useAnimatedStyle(() => {
-    const offset = getThumbOffset(live.value[index] ?? min, {
+    const offset = getThumbOffset(shown.value[index] ?? min, {
       min,
       max,
       length: length.value,
@@ -80,6 +89,9 @@ function SliderThumb({
       ],
     }
   })
+  const heldStyle = useAnimatedStyle(() => ({
+    opacity: pressedIndex.value === index ? held.value : 0,
+  }))
   return (
     <Animated.View
       data-slot="slider-thumb"
@@ -95,7 +107,13 @@ function SliderThumb({
       onAccessibilityAction={onAccessibilityAction}
       className="cn-slider-thumb absolute shrink-0"
       style={positionStyle}
-    />
+    >
+      <Animated.View
+        pointerEvents="none"
+        className="cn-slider-thumb-held absolute"
+        style={heldStyle}
+      />
+    </Animated.View>
   )
 }
 
@@ -153,6 +171,28 @@ function Slider({
   const initialValues = useSharedValue(values)
   const grabOffset = useSharedValue(0)
   const isDragging = useSharedValue(false)
+  const held = useSharedValue(0)
+
+  // What's drawn: under a drag it's the finger, and anything else (a tap on the
+  // track, a screen reader's step, a new `value`) moves there on the move timing.
+  const shown = useSharedValue(values)
+  const { enterMs: moveMs, moveEasing } = useMotion("move")
+  useAnimatedReaction(
+    () => live.value,
+    (next, previous) => {
+      if (previous === null) return
+      shown.value = isDragging.value
+        ? next
+        : withTiming(next, { duration: moveMs, easing: moveEasing })
+    }
+  )
+
+  // The website's hover shadow, for as long as a finger is on the thumb.
+  const {
+    enterMs: holdMs,
+    exitMs: letGoMs,
+    feedbackEasing,
+  } = useMotion("feedback")
 
   // A drag may end on values the app didn't take: `syncCount` puts the thumbs
   // back on what it holds, once the last change has rendered.
@@ -166,15 +206,19 @@ function Slider({
   const toValue = (next: readonly number[]) =>
     isSingleNumber ? (next[0] ?? min) : next
 
+  const playNotch = (value: number | undefined) => {
+    feedback("notch", { pitch: getNotchPitch(value ?? min, { min, max }) })
+  }
+
   const latest = React.useRef({
-    change: (_next: number[]) => {},
+    change: (_next: number[], _thumbIndex: number) => {},
     commit: () => {},
   })
   React.useEffect(() => {
     latest.current = {
-      change: (next) => {
+      change: (next, thumbIndex) => {
         lastValues.current = next
-        feedback("notch")
+        playNotch(next[thumbIndex])
         setCurrent(toValue(next))
       },
       commit: () => {
@@ -183,8 +227,8 @@ function Slider({
       },
     }
   })
-  const emitChange = React.useCallback((next: number[]) => {
-    latest.current.change(next)
+  const emitChange = React.useCallback((next: number[], thumbIndex: number) => {
+    latest.current.change(next, thumbIndex)
   }, [])
   const emitCommit = React.useCallback(() => {
     latest.current.commit()
@@ -231,13 +275,17 @@ function Slider({
       pressedIndex.value = result.thumbIndex
       if (sameValues(result.values, live.value)) return
       live.value = result.values
-      runOnJS(emitChange)(result.values)
+      runOnJS(emitChange)(result.values, result.thumbIndex)
     }
 
     const pan = Gesture.Pan()
       .enabled(!isDisabled)
       .onBegin((event) => {
         press(getPosition(event.x, event.y))
+        held.value = withTiming(1, {
+          duration: holdMs,
+          easing: feedbackEasing,
+        })
       })
       .onStart(() => {
         isDragging.value = true
@@ -246,6 +294,10 @@ function Slider({
         move(getPosition(event.x, event.y))
       })
       .onFinalize(() => {
+        held.value = withTiming(0, {
+          duration: letGoMs,
+          easing: feedbackEasing,
+        })
         if (!isDragging.value) return
         isDragging.value = false
         runOnJS(emitCommit)()
@@ -268,18 +320,20 @@ function Slider({
         runOnJS(emitCommit)()
       })
 
-    const slop = Math.max((MIN_TARGET - thumbSize - 2) / 2, 0)
-    const hitSlop = isVertical ? { horizontal: slop } : { vertical: slop }
-    return Gesture.Race(pan.hitSlop(hitSlop), tap.hitSlop(hitSlop))
+    return Gesture.Race(pan, tap)
   }, [
     emitChange,
     emitCommit,
+    feedbackEasing,
     grabOffset,
+    held,
+    holdMs,
     initialValues,
     isDisabled,
     isDragging,
     isVertical,
     length,
+    letGoMs,
     live,
     max,
     min,
@@ -292,7 +346,7 @@ function Slider({
 
   const rangeStyle = useAnimatedStyle(() => {
     const geometry = { min, max, length: length.value, thumbSize }
-    const thumbs = live.value
+    const thumbs = shown.value
     const last = getThumbCenter(thumbs[thumbs.length - 1] ?? min, geometry)
     // One thumb fills from the start; a range fills between its ends.
     const first =
@@ -319,9 +373,17 @@ function Slider({
         minStepsBetweenValues,
       })
       if (sameValues(next, values)) return
+      playNotch(next[index])
       setCurrent(toValue(next))
       onValueCommitted?.(toValue(next))
     }
+
+  // Grows the control across its axis to the target, and takes the same back from
+  // the layout, so it still sits as an 18pt track.
+  const slop = Math.max((MIN_TARGET - thumbSize - 2) / 2, 0)
+  const targetStyle = isVertical
+    ? { marginHorizontal: -slop, paddingHorizontal: slop }
+    : { marginVertical: -slop, paddingVertical: slop }
 
   return (
     <View
@@ -338,6 +400,7 @@ function Slider({
           data-orientation={orientation}
           data-disabled={isDisabled}
           className="cn-slider relative w-full flex-row items-center data-[orientation=vertical]:h-full data-[orientation=vertical]:w-auto data-[orientation=vertical]:flex-col"
+          style={targetStyle}
           onLayout={(event: LayoutChangeEvent) => {
             const { width, height } = event.nativeEvent.layout
             length.value = isVertical ? height : width
@@ -360,7 +423,9 @@ function Slider({
               key={index}
               index={index}
               count={values.length}
-              live={live}
+              shown={shown}
+              pressedIndex={pressedIndex}
+              held={held}
               length={length}
               min={min}
               max={max}

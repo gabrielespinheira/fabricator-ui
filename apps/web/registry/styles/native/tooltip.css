@@ -1,7 +1,7 @@
 /* MARK: Tooltip */
 
   /* Inverted chip (the component sets bg-foreground): 12pt medium, px-2 py-1,
-     rounded-lg. Grows from its centre on the tooltip motion
+     rounded-lg. Grows from its trigger on the tooltip motion
      (useSurfaceAnimation). */
   .cn-tooltip-content {
     @apply rounded-lg px-(--density-8) py-1;

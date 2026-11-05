@@ -3,14 +3,28 @@ import {
   CheckIcon,
   ChevronDownIcon,
   ChevronRightIcon,
+  IconProvider,
 } from "@fabricator-ui/icons-react-native"
 import * as ContextMenuPrimitive from "@rn-primitives/context-menu"
 import { useControllableState } from "@rn-primitives/hooks"
 import { cva } from "class-variance-authority"
 import { cn } from "cn"
-import { ScrollView, useWindowDimensions, View } from "react-native"
+import {
+  useWindowDimensions,
+  View,
+  type GestureResponderEvent,
+} from "react-native"
 import Animated from "react-native-reanimated"
 
+import {
+  useFeedback,
+  useMountFeedback,
+  useSurfaceFeedback,
+} from "@/registry/native/lib/feedback"
+import {
+  FluidHoverScrollList,
+  useFluidRow,
+} from "@/registry/native/lib/fluid-hover"
 import { useSurfaceAnimation } from "@/registry/native/lib/motion"
 import {
   COLLISION_INSETS,
@@ -30,9 +44,13 @@ const ContextMenuContext = React.createContext<ContextMenuTriggerRef | null>(
 )
 // A submenu expands inline, so a portal inside the content is already home.
 const ContextMenuInsideContext = React.createContext(false)
-const ContextMenuRadioContext = React.createContext<string | undefined>(
-  undefined
-)
+const ContextMenuRadioContext = React.createContext<{
+  value: string | undefined
+  onValueChange: (value: string) => void
+} | null>(null)
+
+// Letting go over a row after a drag runs this too, with no press to pass on.
+type ContextMenuRowPress = (event?: GestureResponderEvent) => void
 
 const contextMenuItemTextVariants = cva("cn-context-menu-item-text", {
   variants: {
@@ -45,6 +63,23 @@ const contextMenuItemTextVariants = cva("cn-context-menu-item-text", {
     variant: "default",
   },
 })
+
+/** What the primitive does when one of its rows closes the menu. */
+function useCloseMenu() {
+  const { onOpenChange, setPressPosition, setContentLayout } =
+    ContextMenuPrimitive.useRootContext()
+  return () => {
+    setPressPosition(null)
+    setContentLayout(null)
+    onOpenChange(false)
+  }
+}
+
+// The primitive's portal renders this only while the menu is open.
+function ContextMenuFeedback() {
+  useMountFeedback("popup")
+  return null
+}
 
 function ContextMenu({
   open,
@@ -124,7 +159,11 @@ function ContextMenuContent({
   side?: "top" | "right" | "bottom" | "left"
 }) {
   const density = useDensity()
-  const { entering, exiting } = useSurfaceAnimation("popup")
+  const verticalSide = getVerticalSide(side)
+  const { entering, exiting, origin } = useSurfaceAnimation("popup", {
+    side: verticalSide,
+    align,
+  })
   const { height } = useWindowDimensions()
   return (
     <ContextMenuPortal>
@@ -133,7 +172,7 @@ function ContextMenuContent({
           <ContextMenuPrimitive.Content
             align={align}
             alignOffset={alignOffset}
-            side={getVerticalSide(side)}
+            side={verticalSide}
             sideOffset={sideOffset}
             insets={insets}
             {...props}
@@ -142,20 +181,20 @@ function ContextMenuContent({
               data-slot="context-menu-content"
               entering={entering}
               exiting={exiting}
+              style={origin}
               className={cn(
                 "cn-context-menu-content cn-context-menu-content-logical",
                 className
               )}
             >
+              <ContextMenuFeedback />
               <ContextMenuInsideContext value={true}>
                 <TextStyle className="cn-context-menu-text">
-                  <ScrollView
-                    alwaysBounceVertical={false}
-                    keyboardShouldPersistTaps="handled"
+                  <FluidHoverScrollList
                     style={{ maxHeight: getMenuMaxHeight(height) }}
                   >
                     {renderTextChildren(children)}
-                  </ScrollView>
+                  </FluidHoverScrollList>
                 </TextStyle>
               </ContextMenuInsideContext>
             </Animated.View>
@@ -197,33 +236,59 @@ function ContextMenuItem({
   render,
   asChild,
   children,
+  onPress,
   ...props
-}: Omit<ContextMenuPrimitive.ItemProps, "children"> &
+}: Omit<ContextMenuPrimitive.ItemProps, "children" | "onPress"> &
   RenderProps & {
     inset?: boolean
     variant?: "default" | "destructive"
     closeOnClick?: boolean
+    onPress?: ContextMenuRowPress
     children?: React.ReactNode
   }) {
   const resolved = resolveRender({ render, asChild, children })
+  const feedback = useFeedback()
+  const closeMenu = useCloseMenu()
+  const { isLit, rowProps } = useFluidRow({
+    ...props,
+    onActivate: () => {
+      feedback("tick")
+      if (closeOnClick) closeMenu()
+      onPress?.()
+    },
+  })
   return (
-    <TextStyle className={contextMenuItemTextVariants({ variant })}>
-      <ContextMenuPrimitive.Item
-        data-slot="context-menu-item"
-        data-inset={inset}
-        data-variant={variant}
-        closeOnPress={closeOnClick}
-        className={cn(
-          "cn-context-menu-item relative flex-row items-center disabled:opacity-50",
-          className
-        )}
-        {...props}
-        asChild={resolved.asChild}
-      >
-        {resolved.asChild
-          ? resolved.children
-          : renderTextChildren(resolved.children)}
-      </ContextMenuPrimitive.Item>
+    // A destructive row stays destructive under the highlight.
+    <TextStyle
+      className={
+        isLit && variant === "default"
+          ? cn("cn-context-menu-item-text-lit")
+          : contextMenuItemTextVariants({ variant })
+      }
+    >
+      <IconProvider strokeWidth={isLit ? 2 : 1.5}>
+        <ContextMenuPrimitive.Item
+          data-slot="context-menu-item"
+          data-inset={inset}
+          data-variant={variant}
+          closeOnPress={closeOnClick}
+          className={cn(
+            "cn-context-menu-item relative flex-row items-center disabled:opacity-50",
+            className
+          )}
+          onPress={(event) => {
+            feedback("tick")
+            onPress?.(event)
+          }}
+          {...props}
+          {...rowProps}
+          asChild={resolved.asChild}
+        >
+          {resolved.asChild
+            ? resolved.children
+            : renderTextChildren(resolved.children)}
+        </ContextMenuPrimitive.Item>
+      </IconProvider>
     </TextStyle>
   )
 }
@@ -236,29 +301,50 @@ function ContextMenuSubTrigger({
   className,
   inset,
   children,
+  onPress,
   ...props
-}: Omit<ContextMenuPrimitive.SubTriggerProps, "children"> & {
+}: Omit<ContextMenuPrimitive.SubTriggerProps, "children" | "onPress"> & {
   inset?: boolean
+  onPress?: ContextMenuRowPress
   children?: React.ReactNode
 }) {
-  const { open } = ContextMenuPrimitive.useSubContext()
+  const { open, onOpenChange } = ContextMenuPrimitive.useSubContext()
+  // Silent, like every trigger: the submenu sounds as it opens.
+  const { isLit, rowProps } = useFluidRow({
+    ...props,
+    onActivate: () => {
+      onOpenChange(!open)
+      onPress?.()
+    },
+  })
   return (
-    <TextStyle className={contextMenuItemTextVariants()}>
-      <ContextMenuPrimitive.SubTrigger
-        data-slot="context-menu-sub-trigger"
-        data-inset={inset}
-        data-state={open ? "open" : "closed"}
-        className={cn(
-          "cn-context-menu-sub-trigger flex-row items-center disabled:opacity-50",
-          className
-        )}
-        {...props}
-      >
-        {renderTextChildren(children)}
-        <View className="ml-auto">
-          {open ? <ChevronDownIcon /> : <ChevronRightIcon />}
-        </View>
-      </ContextMenuPrimitive.SubTrigger>
+    <TextStyle
+      className={
+        isLit || open
+          ? cn("cn-context-menu-item-text-lit")
+          : contextMenuItemTextVariants()
+      }
+    >
+      <IconProvider strokeWidth={isLit ? 2 : 1.5}>
+        <ContextMenuPrimitive.SubTrigger
+          data-slot="context-menu-sub-trigger"
+          data-inset={inset}
+          data-state={open ? "open" : "closed"}
+          data-lit={isLit}
+          className={cn(
+            "cn-context-menu-sub-trigger flex-row items-center disabled:opacity-50",
+            className
+          )}
+          onPress={onPress}
+          {...props}
+          {...rowProps}
+        >
+          {renderTextChildren(children)}
+          <View className="ml-auto">
+            {open ? <ChevronDownIcon /> : <ChevronRightIcon />}
+          </View>
+        </ContextMenuPrimitive.SubTrigger>
+      </IconProvider>
     </TextStyle>
   )
 }
@@ -276,6 +362,8 @@ function ContextMenuSubContent({
     React.ComponentProps<typeof ContextMenuContent>,
     "align" | "alignOffset" | "side" | "sideOffset"
   > & { children?: React.ReactNode }) {
+  const { open } = ContextMenuPrimitive.useSubContext()
+  useSurfaceFeedback("popup", open)
   return (
     <ContextMenuPrimitive.SubContent
       data-slot="context-menu-sub-content"
@@ -287,22 +375,29 @@ function ContextMenuSubContent({
   )
 }
 
-// A chosen row reads foreground and semibold.
+// A chosen row reads foreground and semibold; a lit one foreground, with a heavier icon.
 function ContextMenuChoiceText({
   isChecked,
+  isLit,
   children,
 }: {
   isChecked: boolean
+  isLit: boolean
   children?: React.ReactNode
 }) {
-  if (!isChecked) {
-    return (
-      <TextStyle className="cn-context-menu-choice-text">{children}</TextStyle>
-    )
-  }
   return (
-    <TextStyle className="cn-context-menu-choice-text cn-context-menu-choice-text-checked">
-      {children}
+    <TextStyle
+      className={
+        isChecked
+          ? cn(
+              "cn-context-menu-choice-text cn-context-menu-choice-text-checked"
+            )
+          : isLit
+            ? cn("cn-context-menu-choice-text cn-context-menu-choice-text-lit")
+            : cn("cn-context-menu-choice-text")
+      }
+    >
+      <IconProvider strokeWidth={isLit ? 2 : 1.5}>{children}</IconProvider>
     </TextStyle>
   )
 }
@@ -315,16 +410,18 @@ function ContextMenuCheckboxItem({
   onCheckedChange,
   inset,
   closeOnClick = false,
+  onPress,
   ...props
 }: Omit<
   ContextMenuPrimitive.CheckboxItemProps,
-  "children" | "checked" | "onCheckedChange"
+  "children" | "checked" | "onCheckedChange" | "onPress"
 > & {
   checked?: boolean
   defaultChecked?: boolean
   onCheckedChange?: (checked: boolean) => void
   inset?: boolean
   closeOnClick?: boolean
+  onPress?: ContextMenuRowPress
   children?: React.ReactNode
 }) {
   const [isChecked = false, setIsChecked] = useControllableState({
@@ -332,8 +429,19 @@ function ContextMenuCheckboxItem({
     defaultProp: defaultChecked,
     onChange: onCheckedChange,
   })
+  const feedback = useFeedback()
+  const closeMenu = useCloseMenu()
+  const { isLit, rowProps } = useFluidRow({
+    ...props,
+    onActivate: () => {
+      feedback(isChecked ? "uncheck" : "check")
+      setIsChecked(!isChecked)
+      if (closeOnClick) closeMenu()
+      onPress?.()
+    },
+  })
   return (
-    <ContextMenuChoiceText isChecked={isChecked}>
+    <ContextMenuChoiceText isChecked={isChecked} isLit={isLit}>
       <ContextMenuPrimitive.CheckboxItem
         data-slot="context-menu-checkbox-item"
         data-inset={inset}
@@ -345,7 +453,12 @@ function ContextMenuCheckboxItem({
           "cn-context-menu-checkbox-item relative flex-row items-center disabled:opacity-50",
           className
         )}
+        onPress={(event) => {
+          feedback(isChecked ? "uncheck" : "check")
+          onPress?.(event)
+        }}
         {...props}
+        {...rowProps}
       >
         <View
           pointerEvents="none"
@@ -379,7 +492,9 @@ function ContextMenuRadioGroup({
     onChange: onValueChange,
   })
   return (
-    <ContextMenuRadioContext value={current}>
+    <ContextMenuRadioContext
+      value={{ value: current, onValueChange: setCurrent }}
+    >
       <ContextMenuPrimitive.RadioGroup
         data-slot="context-menu-radio-group"
         value={current}
@@ -396,15 +511,29 @@ function ContextMenuRadioItem({
   inset,
   value,
   closeOnClick = false,
+  onPress,
   ...props
-}: Omit<ContextMenuPrimitive.RadioItemProps, "children"> & {
+}: Omit<ContextMenuPrimitive.RadioItemProps, "children" | "onPress"> & {
   inset?: boolean
   closeOnClick?: boolean
+  onPress?: ContextMenuRowPress
   children?: React.ReactNode
 }) {
-  const isChecked = React.use(ContextMenuRadioContext) === value
+  const radio = React.use(ContextMenuRadioContext)
+  const isChecked = radio?.value === value
+  const feedback = useFeedback()
+  const closeMenu = useCloseMenu()
+  const { isLit, rowProps } = useFluidRow({
+    ...props,
+    onActivate: () => {
+      feedback("pick")
+      radio?.onValueChange(value)
+      if (closeOnClick) closeMenu()
+      onPress?.()
+    },
+  })
   return (
-    <ContextMenuChoiceText isChecked={isChecked}>
+    <ContextMenuChoiceText isChecked={isChecked} isLit={isLit}>
       <ContextMenuPrimitive.RadioItem
         data-slot="context-menu-radio-item"
         data-inset={inset}
@@ -415,7 +544,12 @@ function ContextMenuRadioItem({
           "cn-context-menu-radio-item relative flex-row items-center disabled:opacity-50",
           className
         )}
+        onPress={(event) => {
+          feedback("pick")
+          onPress?.(event)
+        }}
         {...props}
+        {...rowProps}
       >
         <View
           pointerEvents="none"

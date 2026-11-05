@@ -15,7 +15,15 @@
     @apply bg-primary/10 dark:bg-primary/15;
   }
 
-  /* White 16pt knob with a soft drop shadow and a hairline. */
+  /* White 16pt knob with a soft drop shadow and a hairline. It doesn't scale or
+     ring under a finger: the website's ring is keyboard focus, and its only
+     pointer state is the deeper hover shadow. */
   .cn-slider-thumb {
     @apply shadow-surface-2 size-(--density-icon-16) rounded-full border border-black/5 bg-white;
+  }
+
+  /* That deeper shadow, fading in while the thumb is held. It covers the border
+     box, so it sits exactly on the knob's edge. */
+  .cn-slider-thumb-held {
+    @apply shadow-surface-3 -inset-px rounded-full;
   }

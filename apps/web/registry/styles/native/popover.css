@@ -1,7 +1,7 @@
 /* MARK: Popover */
 
   /* Popup recipe: surface 3 with its shadow ring (no border), rounded-xl, p-3,
-     13pt. Grows from its centre on the popup motion and closes quicker than it
+     13pt. Grows from its trigger on the popup motion and closes quicker than it
      opened (useSurfaceAnimation). */
   .cn-popover-content {
     @apply bg-surface-3 shadow-surface-3 rounded-xl p-(--density-12);

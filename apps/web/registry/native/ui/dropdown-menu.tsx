@@ -3,14 +3,28 @@ import {
   CheckIcon,
   ChevronDownIcon,
   ChevronRightIcon,
+  IconProvider,
 } from "@fabricator-ui/icons-react-native"
 import * as DropdownMenuPrimitive from "@rn-primitives/dropdown-menu"
 import { useControllableState } from "@rn-primitives/hooks"
 import { cva } from "class-variance-authority"
 import { cn } from "cn"
-import { ScrollView, useWindowDimensions, View } from "react-native"
+import {
+  useWindowDimensions,
+  View,
+  type GestureResponderEvent,
+} from "react-native"
 import Animated from "react-native-reanimated"
 
+import {
+  useFeedback,
+  useMountFeedback,
+  useSurfaceFeedback,
+} from "@/registry/native/lib/feedback"
+import {
+  FluidHoverScrollList,
+  useFluidRow,
+} from "@/registry/native/lib/fluid-hover"
 import { useSurfaceAnimation } from "@/registry/native/lib/motion"
 import {
   COLLISION_INSETS,
@@ -30,9 +44,13 @@ const DropdownMenuContext = React.createContext<DropdownMenuTriggerRef | null>(
 )
 // A submenu expands inline, so a portal inside the content is already home.
 const DropdownMenuInsideContext = React.createContext(false)
-const DropdownMenuRadioContext = React.createContext<string | undefined>(
-  undefined
-)
+const DropdownMenuRadioContext = React.createContext<{
+  value: string | undefined
+  onValueChange: (value: string) => void
+} | null>(null)
+
+// Letting go over a row after a drag runs this too, with no press to pass on.
+type DropdownMenuRowPress = (event?: GestureResponderEvent) => void
 
 const dropdownMenuItemTextVariants = cva("cn-dropdown-menu-item-text", {
   variants: {
@@ -45,6 +63,23 @@ const dropdownMenuItemTextVariants = cva("cn-dropdown-menu-item-text", {
     variant: "default",
   },
 })
+
+/** What the primitive does when one of its rows closes the menu. */
+function useCloseMenu() {
+  const { onOpenChange, setTriggerPosition, setContentLayout } =
+    DropdownMenuPrimitive.useRootContext()
+  return () => {
+    setTriggerPosition(null)
+    setContentLayout(null)
+    onOpenChange(false)
+  }
+}
+
+// The primitive's portal renders this only while the menu is open.
+function DropdownMenuFeedback() {
+  useMountFeedback("popup")
+  return null
+}
 
 function DropdownMenu({
   open,
@@ -122,7 +157,11 @@ function DropdownMenuContent({
   children?: React.ReactNode
 }) {
   const density = useDensity()
-  const { entering, exiting } = useSurfaceAnimation("popup")
+  const verticalSide = getVerticalSide(side)
+  const { entering, exiting, origin } = useSurfaceAnimation("popup", {
+    side: verticalSide,
+    align,
+  })
   const { height } = useWindowDimensions()
   const { triggerPosition } = DropdownMenuPrimitive.useRootContext()
   return (
@@ -132,7 +171,7 @@ function DropdownMenuContent({
           <DropdownMenuPrimitive.Content
             align={align}
             alignOffset={alignOffset}
-            side={getVerticalSide(side)}
+            side={verticalSide}
             sideOffset={sideOffset}
             insets={insets}
             {...props}
@@ -141,23 +180,23 @@ function DropdownMenuContent({
               data-slot="dropdown-menu-content"
               entering={entering}
               exiting={exiting}
+              style={origin}
               className={cn(
                 "cn-dropdown-menu-content cn-dropdown-menu-content-logical",
                 className
               )}
             >
+              <DropdownMenuFeedback />
               <DropdownMenuInsideContext value={true}>
                 <TextStyle className="cn-dropdown-menu-text">
-                  <ScrollView
-                    alwaysBounceVertical={false}
-                    keyboardShouldPersistTaps="handled"
+                  <FluidHoverScrollList
                     style={{
                       maxHeight: getMenuMaxHeight(height),
                       minWidth: triggerPosition?.width,
                     }}
                   >
                     {renderTextChildren(children)}
-                  </ScrollView>
+                  </FluidHoverScrollList>
                 </TextStyle>
               </DropdownMenuInsideContext>
             </Animated.View>
@@ -199,33 +238,59 @@ function DropdownMenuItem({
   render,
   asChild,
   children,
+  onPress,
   ...props
-}: Omit<DropdownMenuPrimitive.ItemProps, "children"> &
+}: Omit<DropdownMenuPrimitive.ItemProps, "children" | "onPress"> &
   RenderProps & {
     inset?: boolean
     variant?: "default" | "destructive"
     closeOnClick?: boolean
+    onPress?: DropdownMenuRowPress
     children?: React.ReactNode
   }) {
   const resolved = resolveRender({ render, asChild, children })
+  const feedback = useFeedback()
+  const closeMenu = useCloseMenu()
+  const { isLit, rowProps } = useFluidRow({
+    ...props,
+    onActivate: () => {
+      feedback("tick")
+      if (closeOnClick) closeMenu()
+      onPress?.()
+    },
+  })
   return (
-    <TextStyle className={dropdownMenuItemTextVariants({ variant })}>
-      <DropdownMenuPrimitive.Item
-        data-slot="dropdown-menu-item"
-        data-inset={inset}
-        data-variant={variant}
-        closeOnPress={closeOnClick}
-        className={cn(
-          "cn-dropdown-menu-item relative flex-row items-center disabled:opacity-50",
-          className
-        )}
-        {...props}
-        asChild={resolved.asChild}
-      >
-        {resolved.asChild
-          ? resolved.children
-          : renderTextChildren(resolved.children)}
-      </DropdownMenuPrimitive.Item>
+    // A destructive row stays destructive under the highlight.
+    <TextStyle
+      className={
+        isLit && variant === "default"
+          ? cn("cn-dropdown-menu-item-text-lit")
+          : dropdownMenuItemTextVariants({ variant })
+      }
+    >
+      <IconProvider strokeWidth={isLit ? 2 : 1.5}>
+        <DropdownMenuPrimitive.Item
+          data-slot="dropdown-menu-item"
+          data-inset={inset}
+          data-variant={variant}
+          closeOnPress={closeOnClick}
+          className={cn(
+            "cn-dropdown-menu-item relative flex-row items-center disabled:opacity-50",
+            className
+          )}
+          onPress={(event) => {
+            feedback("tick")
+            onPress?.(event)
+          }}
+          {...props}
+          {...rowProps}
+          asChild={resolved.asChild}
+        >
+          {resolved.asChild
+            ? resolved.children
+            : renderTextChildren(resolved.children)}
+        </DropdownMenuPrimitive.Item>
+      </IconProvider>
     </TextStyle>
   )
 }
@@ -238,29 +303,50 @@ function DropdownMenuSubTrigger({
   className,
   inset,
   children,
+  onPress,
   ...props
-}: Omit<DropdownMenuPrimitive.SubTriggerProps, "children"> & {
+}: Omit<DropdownMenuPrimitive.SubTriggerProps, "children" | "onPress"> & {
   inset?: boolean
+  onPress?: DropdownMenuRowPress
   children?: React.ReactNode
 }) {
-  const { open } = DropdownMenuPrimitive.useSubContext()
+  const { open, onOpenChange } = DropdownMenuPrimitive.useSubContext()
+  // Silent, like every trigger: the submenu sounds as it opens.
+  const { isLit, rowProps } = useFluidRow({
+    ...props,
+    onActivate: () => {
+      onOpenChange(!open)
+      onPress?.()
+    },
+  })
   return (
-    <TextStyle className={dropdownMenuItemTextVariants()}>
-      <DropdownMenuPrimitive.SubTrigger
-        data-slot="dropdown-menu-sub-trigger"
-        data-inset={inset}
-        data-state={open ? "open" : "closed"}
-        className={cn(
-          "cn-dropdown-menu-sub-trigger flex-row items-center disabled:opacity-50",
-          className
-        )}
-        {...props}
-      >
-        {renderTextChildren(children)}
-        <View className="ml-auto">
-          {open ? <ChevronDownIcon /> : <ChevronRightIcon />}
-        </View>
-      </DropdownMenuPrimitive.SubTrigger>
+    <TextStyle
+      className={
+        isLit || open
+          ? cn("cn-dropdown-menu-item-text-lit")
+          : dropdownMenuItemTextVariants()
+      }
+    >
+      <IconProvider strokeWidth={isLit ? 2 : 1.5}>
+        <DropdownMenuPrimitive.SubTrigger
+          data-slot="dropdown-menu-sub-trigger"
+          data-inset={inset}
+          data-state={open ? "open" : "closed"}
+          data-lit={isLit}
+          className={cn(
+            "cn-dropdown-menu-sub-trigger flex-row items-center disabled:opacity-50",
+            className
+          )}
+          onPress={onPress}
+          {...props}
+          {...rowProps}
+        >
+          {renderTextChildren(children)}
+          <View className="ml-auto">
+            {open ? <ChevronDownIcon /> : <ChevronRightIcon />}
+          </View>
+        </DropdownMenuPrimitive.SubTrigger>
+      </IconProvider>
     </TextStyle>
   )
 }
@@ -278,6 +364,8 @@ function DropdownMenuSubContent({
     React.ComponentProps<typeof DropdownMenuContent>,
     "align" | "alignOffset" | "side" | "sideOffset"
   > & { children?: React.ReactNode }) {
+  const { open } = DropdownMenuPrimitive.useSubContext()
+  useSurfaceFeedback("popup", open)
   return (
     <DropdownMenuPrimitive.SubContent
       data-slot="dropdown-menu-sub-content"
@@ -289,22 +377,31 @@ function DropdownMenuSubContent({
   )
 }
 
-// A chosen row reads foreground and semibold.
+// A chosen row reads foreground and semibold; a lit one foreground, with a heavier icon.
 function DropdownMenuChoiceText({
   isChecked,
+  isLit,
   children,
 }: {
   isChecked: boolean
+  isLit: boolean
   children?: React.ReactNode
 }) {
-  if (!isChecked) {
-    return (
-      <TextStyle className="cn-dropdown-menu-choice-text">{children}</TextStyle>
-    )
-  }
   return (
-    <TextStyle className="cn-dropdown-menu-choice-text cn-dropdown-menu-choice-text-checked">
-      {children}
+    <TextStyle
+      className={
+        isChecked
+          ? cn(
+              "cn-dropdown-menu-choice-text cn-dropdown-menu-choice-text-checked"
+            )
+          : isLit
+            ? cn(
+                "cn-dropdown-menu-choice-text cn-dropdown-menu-choice-text-lit"
+              )
+            : cn("cn-dropdown-menu-choice-text")
+      }
+    >
+      <IconProvider strokeWidth={isLit ? 2 : 1.5}>{children}</IconProvider>
     </TextStyle>
   )
 }
@@ -317,16 +414,18 @@ function DropdownMenuCheckboxItem({
   onCheckedChange,
   inset,
   closeOnClick = false,
+  onPress,
   ...props
 }: Omit<
   DropdownMenuPrimitive.CheckboxItemProps,
-  "children" | "checked" | "onCheckedChange"
+  "children" | "checked" | "onCheckedChange" | "onPress"
 > & {
   checked?: boolean
   defaultChecked?: boolean
   onCheckedChange?: (checked: boolean) => void
   inset?: boolean
   closeOnClick?: boolean
+  onPress?: DropdownMenuRowPress
   children?: React.ReactNode
 }) {
   const [isChecked = false, setIsChecked] = useControllableState({
@@ -334,8 +433,19 @@ function DropdownMenuCheckboxItem({
     defaultProp: defaultChecked,
     onChange: onCheckedChange,
   })
+  const feedback = useFeedback()
+  const closeMenu = useCloseMenu()
+  const { isLit, rowProps } = useFluidRow({
+    ...props,
+    onActivate: () => {
+      feedback(isChecked ? "uncheck" : "check")
+      setIsChecked(!isChecked)
+      if (closeOnClick) closeMenu()
+      onPress?.()
+    },
+  })
   return (
-    <DropdownMenuChoiceText isChecked={isChecked}>
+    <DropdownMenuChoiceText isChecked={isChecked} isLit={isLit}>
       <DropdownMenuPrimitive.CheckboxItem
         data-slot="dropdown-menu-checkbox-item"
         data-inset={inset}
@@ -347,7 +457,12 @@ function DropdownMenuCheckboxItem({
           "cn-dropdown-menu-checkbox-item relative flex-row items-center disabled:opacity-50",
           className
         )}
+        onPress={(event) => {
+          feedback(isChecked ? "uncheck" : "check")
+          onPress?.(event)
+        }}
         {...props}
+        {...rowProps}
       >
         <View
           data-slot="dropdown-menu-checkbox-item-indicator"
@@ -382,7 +497,9 @@ function DropdownMenuRadioGroup({
     onChange: onValueChange,
   })
   return (
-    <DropdownMenuRadioContext value={current}>
+    <DropdownMenuRadioContext
+      value={{ value: current, onValueChange: setCurrent }}
+    >
       <DropdownMenuPrimitive.RadioGroup
         data-slot="dropdown-menu-radio-group"
         value={current}
@@ -399,15 +516,29 @@ function DropdownMenuRadioItem({
   inset,
   value,
   closeOnClick = false,
+  onPress,
   ...props
-}: Omit<DropdownMenuPrimitive.RadioItemProps, "children"> & {
+}: Omit<DropdownMenuPrimitive.RadioItemProps, "children" | "onPress"> & {
   inset?: boolean
   closeOnClick?: boolean
+  onPress?: DropdownMenuRowPress
   children?: React.ReactNode
 }) {
-  const isChecked = React.use(DropdownMenuRadioContext) === value
+  const radio = React.use(DropdownMenuRadioContext)
+  const isChecked = radio?.value === value
+  const feedback = useFeedback()
+  const closeMenu = useCloseMenu()
+  const { isLit, rowProps } = useFluidRow({
+    ...props,
+    onActivate: () => {
+      feedback("pick")
+      radio?.onValueChange(value)
+      if (closeOnClick) closeMenu()
+      onPress?.()
+    },
+  })
   return (
-    <DropdownMenuChoiceText isChecked={isChecked}>
+    <DropdownMenuChoiceText isChecked={isChecked} isLit={isLit}>
       <DropdownMenuPrimitive.RadioItem
         data-slot="dropdown-menu-radio-item"
         data-inset={inset}
@@ -418,7 +549,12 @@ function DropdownMenuRadioItem({
           "cn-dropdown-menu-radio-item relative flex-row items-center disabled:opacity-50",
           className
         )}
+        onPress={(event) => {
+          feedback("pick")
+          onPress?.(event)
+        }}
         {...props}
+        {...rowProps}
       >
         <View
           data-slot="dropdown-menu-radio-item-indicator"

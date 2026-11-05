@@ -11,43 +11,71 @@ npx fabricator-ui@latest --help
 
 ---
 
-## init
+## create
 
-Use the `init` command to create a new project, or to set up Fabricator UI in an existing one.
+Use the `create` command to start a project or a monorepo. One command does the whole job: it creates the app, installs your look and components, wires the App Shell and sounds into your root layout, and sets up your AI assistants. The [setup page](/create) writes this command for you.
 
 ```bash
-npx fabricator-ui@latest init
+npx fabricator-ui@latest create my-app
 ```
 
-In a new or empty directory, `init` creates a project from a template with the `@fabricator` registry configured. It installs dependencies, adds the `cn` util and writes the CSS variables for your theme.
+On a terminal it asks for what your flags leave open. With `--yes`, or in CI, it uses the defaults instead: Next.js, Base UI, the App Shell and interface sounds.
 
-In an existing project, `init` asks what you want to do:
+**A monorepo** keeps a web app in `apps/web` and its components in `packages/ui`. `--mobile` adds a React Native app with Expo, and `--desktop` adds an Electron or Tauri window around the web app. They imply `--monorepo`.
 
-- **Add registry only:** adds `@fabricator` to the `registries` in your `components.json`. Your theme and existing components are left untouched.
-- **Apply theme:** adds the registry and applies a Fabricator preset to your theme and fonts.
+```bash
+npx fabricator-ui@latest create my-app --mobile --desktop tauri --agents claude,codex --yes
+```
+
+Every app gets your look. The web app and the desktop window share a codebase, and the mobile app has its own React Native components, written from the same App Shell options.
 
 **Options**
 
 ```bash
-Usage: fabricator-ui init [options]
+Usage: fabricator-ui create [options] [name]
 
 Options:
-  -t, --template <template>  the template to use. (next, vite, start, react-router, astro, laravel)
-  -b, --base <base>          the component library to use. (base, radix, aria)
-  -p, --preset <preset>      use a preset configuration
-  --monorepo                 scaffold a monorepo project.
-  -h, --help                 display help for command
+  -t, --template <framework>  next, vite, start, react-router, astro, laravel, expo
+  -b, --base <base>           component library: base, radix or aria
+  --monorepo                  apps/web and packages/ui, with room for more apps
+  --mobile                    add apps/mobile: React Native with Expo
+  --desktop <runtime>         add apps/desktop: electron or tauri
+  --look <values>             your look, as key=value pairs: primary=260_0.2,shape=pill
+  --shell [options]           the App Shell, with key=value options
+  --no-shell                  skip the App Shell
+  --icons <library>           an icon library other than Fabricator's
+  --no-sounds                 skip the interface sounds
+  --all                       add every component
+  --agents <assistants>       claude, cursor, vscode, codex, opencode
+  --no-skill                  don't install the agent skill for --agents
+  --no-mcp                    don't configure the MCP server for --agents
+  -y, --yes                   use the defaults for anything not given
+  --dry-run                   print the plan and write nothing
+  --json                      machine-readable output, for agents
 ```
 
-For example, to create a Vite project on Radix UI:
-
-```bash
-npx fabricator-ui@latest init -t vite -b radix
-```
+If a step fails, the CLI prints the end of its log. Run the same command again and it picks up where it stopped.
 
 ---
 
-In an Expo or React Native project, `init` sets up the React Native components instead, after you create the app with `npx create-expo-app`. See [React Native](/docs/installation/react-native). `--platform web|native` overrides the detection.
+## init
+
+Use the `init` command to set up Fabricator UI in an existing project. It changes only what its flags name:
+
+```bash
+npx fabricator-ui@latest init --shell --sounds --agents claude,codex --yes
+```
+
+- `--shell` writes the App Shell and adds it to your root layout, when it recognises the file. When it doesn't, it leaves the file alone and tells you what to add.
+- `--look` applies a look, which reinstalls your components. In a project with uncommitted work it stops, unless you pass `--force`.
+- In a monorepo, run it at the root: it sets up each app, with the React Native components in an Expo app.
+
+With no flags, `init` asks what you want to do:
+
+- **Add registry only:** adds `@fabricator` to the `registries` in your `components.json`. Your theme and existing components are left untouched.
+- **Apply theme:** adds the registry and applies a Fabricator preset to your theme and fonts.
+
+---
 
 ## add
 
@@ -57,6 +85,8 @@ Use the `add` command to add components and their dependencies to your project.
 npx fabricator-ui@latest add button
 ```
 
+At a monorepo's root, it finds your apps: one is used, and several ask. `--app web,mobile` or `--app all` chooses without asking, and each app gets its own version of the component.
+
 Bare names resolve to the `@fabricator` registry, so `add button` installs `@fabricator/button`. Namespaced names are passed through as they are:
 
 ```bash
@@ -64,6 +94,38 @@ npx fabricator-ui@latest add button card @acme/auth
 ```
 
 `add` also accepts `--overwrite`, `--all`, `--path`, `--dry-run`, `--diff` and `--view`.
+
+---
+
+## apps
+
+Use the `apps add` command to add an app to a monorepo later, with the same steps `create` uses.
+
+```bash
+npx fabricator-ui@latest apps add mobile
+npx fabricator-ui@latest apps add desktop tauri
+```
+
+---
+
+## agents
+
+Use the `agents add` command to set up AI assistants: the [agent skill](/docs/skills) and the [MCP server](/docs/mcp). Pass as many as you use.
+
+```bash
+npx fabricator-ui@latest agents add claude codex
+```
+
+---
+
+## upgrade
+
+Use the `upgrade` command to reinstall your Fabricator components at their latest versions. Your edits show up as a git diff, so it stops on uncommitted work unless you pass `--force`.
+
+```bash
+npx fabricator-ui@latest upgrade
+npx fabricator-ui@latest upgrade button dialog --dry-run
+```
 
 ---
 
@@ -169,7 +231,7 @@ npx fabricator-ui@latest mcp
 To write the MCP configuration for your editor or agent, use `mcp init`:
 
 ```bash
-npx fabricator-ui@latest mcp init --client claude
+npx fabricator-ui@latest mcp init --client claude,codex
 ```
 
-Supported clients are `claude`, `cursor`, `vscode`, `codex` and `opencode`. See [MCP Server](/docs/mcp).
+Pass one client or several. Supported clients are `claude`, `cursor`, `vscode`, `codex` and `opencode`. See [MCP Server](/docs/mcp).

@@ -18,6 +18,12 @@
     @apply data-[active=true]:text-foreground data-[active=true]:font-semibold;
   }
 
+  /* Pressed is the next interaction step, as on a ghost or outline button, under
+     the label. It fills the border box and follows the button's corners. */
+  .cn-pagination-link-wash {
+    @apply -inset-px rounded-lg bg-active;
+  }
+
   .cn-pagination-ellipsis {
     @apply size-(--density-36);
   }

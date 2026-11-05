@@ -1,11 +1,15 @@
-// Bundles src/index.ts into dist/index.js for Node (dependencies stay external),
-// then makes sure the output starts with a node shebang and is executable.
+// Bundles src/index.ts into dist/index.js for Node. What's in `dependencies` stays
+// external; `@fabricator-ui/setup`, private, is bundled in. Then copies what the
+// CLI writes into projects, and makes the output executable.
 import { execFileSync } from "node:child_process"
-import { chmodSync, readFileSync, rmSync, writeFileSync } from "node:fs"
+import { chmodSync, cpSync, readFileSync, rmSync, writeFileSync } from "node:fs"
 import path from "node:path"
 import { fileURLToPath } from "node:url"
 
+import pkg from "../package.json" with { type: "json" }
+
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..")
+const repo = path.resolve(root, "../..")
 const dist = path.join(root, "dist")
 const entry = path.join(dist, "index.js")
 const SHEBANG = "#!/usr/bin/env node"
@@ -20,7 +24,7 @@ execFileSync(
     "--target=node",
     "--format=esm",
     "--outdir=dist",
-    "--packages=external",
+    ...Object.keys(pkg.dependencies).map((name) => `--external=${name}`),
   ],
   { cwd: root, stdio: "inherit" }
 )
@@ -31,5 +35,17 @@ const body = lines
   .join("\n")
 writeFileSync(entry, `${SHEBANG}\n${body}`)
 chmodSync(entry, 0o755)
+
+cpSync(path.join(root, "templates"), path.join(dist, "templates"), {
+  recursive: true,
+})
+cpSync(
+  path.join(repo, "skills/fabricator"),
+  path.join(dist, "skills/fabricator"),
+  {
+    recursive: true,
+    filter: (file) => path.basename(file) !== "evals",
+  }
+)
 
 console.log(`Built ${path.relative(process.cwd(), entry)}`)

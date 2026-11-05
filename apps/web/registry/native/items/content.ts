@@ -34,6 +34,7 @@ export const contentItems: Registry["items"] = [
       "@rn-primitives/hooks",
       "cn",
       "react-native-reanimated",
+      "uniwind@1.13.1",
     ],
     registryDependencies: [
       "@fabricator/feedback",
@@ -83,6 +84,8 @@ export const contentItems: Registry["items"] = [
     ],
     registryDependencies: [
       "@fabricator/button",
+      "@fabricator/feedback",
+      "@fabricator/motion",
       "@fabricator/render",
       "@fabricator/skeleton",
       "@fabricator/text",
@@ -135,8 +138,13 @@ export const contentItems: Registry["items"] = [
     type: "registry:ui",
     title: "Button Group",
     description: "Joins related buttons and inputs into one control.",
-    dependencies: ["class-variance-authority", "cn"],
+    dependencies: [
+      "@fabricator-ui/icons-react-native",
+      "class-variance-authority",
+      "cn",
+    ],
     registryDependencies: [
+      "@fabricator/button",
       "@fabricator/render",
       "@fabricator/separator",
       "@fabricator/text",
@@ -179,6 +187,7 @@ export const contentItems: Registry["items"] = [
       "cn",
     ],
     registryDependencies: [
+      "@fabricator/feedback",
       "@fabricator/render",
       "@fabricator/separator",
       "@fabricator/text",

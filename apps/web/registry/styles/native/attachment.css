@@ -63,8 +63,10 @@
     @apply opacity-100;
   }
 
+  /* Dimmed until it's up, clearing on the move timing: the opacity is in the
+     source, since a class could only snap. */
   .cn-attachment-media-variant-image {
-    @apply opacity-60 data-[state=idle]:opacity-100 data-[state=done]:opacity-100;
+    @apply opacity-100;
   }
 
   .cn-attachment-content {
@@ -92,7 +94,16 @@
     @apply gap-(--density-8) p-1;
   }
 
-  /* Covers the tile; pressed lights it up. */
+  /* Covers the tile. */
   .cn-attachment-trigger {
-    @apply active:bg-hover rounded-lg;
+    @apply rounded-lg;
+  }
+
+  /* Pressed lights it up, easing in and out. */
+  .cn-attachment-trigger-wash {
+    @apply bg-hover rounded-lg;
+  }
+
+  .cn-attachment-trigger-wash-vertical {
+    @apply rounded-xl;
   }

@@ -65,6 +65,11 @@
     @apply shrink-0;
   }
 
+  /* Pressed is the next interaction step, as on a ghost button. */
+  .cn-sidebar-trigger-wash {
+    @apply -inset-px rounded-lg bg-active;
+  }
+
   /* The page. Inset main area: surface 2 with its shadow ring, rounded-xl. While
      the phone sidebar is revealed it moves aside and shrinks towards the sidebar's
      edge on the sheet's timing, and its corners and shadow leave last. */
@@ -108,9 +113,16 @@
     @apply p-(--density-8);
   }
 
-  /* Rows keep a 2pt gap, so neighbouring fills never touch. */
+  /* The menu is a fluid hover container: one bg-hover highlight glides between its
+     rows, and the active row's raised bg-active background slides between active
+     rows on the move timing. Rows keep a 2pt gap, so neighbouring fills never
+     touch. */
   .cn-sidebar-menu {
     @apply gap-0.5;
+  }
+
+  .cn-sidebar-menu-selection {
+    @apply shadow-surface-2;
   }
 
   .cn-sidebar-group-content {
@@ -152,18 +164,20 @@
   }
 
   /* Rows: 30pt, gap-2, rounded-lg, 13pt: the label at foreground/80 and the icon
-     muted at rest. The active row is foreground on a raised bg-active. Pressed is
-     the hover fill. On the rail a row is a 32pt square with only its icon. */
+     muted at rest. The lit row turns foreground; the active row is foreground on a
+     raised bg-active. The menu's highlight and selection paint those fills, so a
+     row paints them itself only outside a menu, and while a drag has the selection
+     hidden. On the rail a row is a 32pt square with only its icon. */
   .cn-sidebar-menu-button {
-    @apply gap-(--density-8) rounded-lg pr-(--density-8) pl-(--density-8) disabled:opacity-50 data-[active=true]:bg-active data-[active=true]:shadow-surface-2 data-[collapsible=icon]:size-(--density-32) data-[collapsible=icon]:justify-center data-[collapsible=icon]:pr-0 data-[collapsible=icon]:pl-0;
+    @apply gap-(--density-8) rounded-lg pr-(--density-8) pl-(--density-8) disabled:opacity-50 data-[active=true]:data-[fluid=false]:bg-active data-[active=true]:data-[fluid=false]:shadow-surface-2 data-[collapsible=icon]:size-(--density-32) data-[collapsible=icon]:justify-center data-[collapsible=icon]:pr-0 data-[collapsible=icon]:pl-0;
   }
 
   .cn-sidebar-menu-button-variant-default {
-    @apply active:bg-hover;
+    @apply data-[fluid=false]:active:bg-hover;
   }
 
   .cn-sidebar-menu-button-variant-outline {
-    @apply border border-border bg-transparent active:bg-hover;
+    @apply border border-border bg-transparent data-[fluid=false]:active:bg-hover;
   }
 
   .cn-sidebar-menu-button-size-default {
@@ -186,6 +200,7 @@
     @apply text-(length:--density-text-12);
   }
 
+  /* The active row and the lit one. */
   .cn-sidebar-menu-button-text-active {
     @apply text-foreground;
   }
@@ -220,6 +235,11 @@
 
   .cn-sidebar-menu-action-text {
     @apply text-muted-foreground;
+  }
+
+  /* Its row is lit: the action and the badge turn foreground with it. */
+  .cn-sidebar-menu-action-text-lit {
+    @apply text-foreground;
   }
 
   .cn-sidebar-menu-actions {
@@ -257,10 +277,11 @@
   }
 
   /* Nested rows: 30pt (24pt small), 2pt apart, each level 16pt further in, 14pt
-     icons. Muted at rest; the current one sits on a quiet wash (half the hover
-     fill) instead of the raised selection, which marks its top-level row. */
+     icons. Muted at rest; the lit one turns foreground, under the same highlight as
+     the top-level rows. The current one sits on a quiet wash (half the hover fill)
+     instead of the raised selection, which marks its top-level row. */
   .cn-sidebar-menu-sub-button {
-    @apply h-(--density-30) gap-(--density-8) rounded-lg active:bg-hover disabled:opacity-50 data-[active=true]:bg-hover/50 data-[collapsible=icon]:hidden data-[size=sm]:h-(--density-24);
+    @apply h-(--density-30) gap-(--density-8) rounded-lg data-[fluid=false]:active:bg-hover disabled:opacity-50 data-[active=true]:bg-hover/50 data-[collapsible=icon]:hidden data-[size=sm]:h-(--density-24);
   }
 
   .cn-sidebar-menu-sub-button-text {
@@ -271,6 +292,7 @@
     @apply text-(length:--density-text-12);
   }
 
+  /* The current row and the lit one. */
   .cn-sidebar-menu-sub-button-text-active {
     @apply text-foreground;
   }

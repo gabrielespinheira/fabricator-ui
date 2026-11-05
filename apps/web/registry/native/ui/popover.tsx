@@ -4,6 +4,7 @@ import { cn } from "cn"
 import { View } from "react-native"
 import Animated from "react-native-reanimated"
 
+import { useMountFeedback } from "@/registry/native/lib/feedback"
 import { useSurfaceAnimation } from "@/registry/native/lib/motion"
 import {
   COLLISION_INSETS,
@@ -67,6 +68,12 @@ function PopoverTrigger({
   )
 }
 
+// The primitive's portal renders this only while the popover is open.
+function PopoverFeedback() {
+  useMountFeedback("popup")
+  return null
+}
+
 function PopoverContent({
   className,
   align = "center",
@@ -80,15 +87,21 @@ function PopoverContent({
   side?: "top" | "right" | "bottom" | "left"
 }) {
   const density = useDensity()
-  const { entering, exiting } = useSurfaceAnimation("popup")
+  // The primitive clamps to the screen and never flips, so this is what renders.
+  const renderedSide = getVerticalSide(side)
+  const { entering, exiting, origin } = useSurfaceAnimation("popup", {
+    side: renderedSide,
+    align,
+  })
   return (
     <PopoverPrimitive.Portal>
       <DensityScope density={density}>
+        <PopoverFeedback />
         <PopoverPrimitive.Overlay aria-modal className="absolute inset-0">
           <PopoverPrimitive.Content
             align={align}
             alignOffset={alignOffset}
-            side={getVerticalSide(side)}
+            side={renderedSide}
             sideOffset={sideOffset}
             insets={insets}
             {...props}
@@ -97,6 +110,7 @@ function PopoverContent({
               data-slot="popover-content"
               entering={entering}
               exiting={exiting}
+              style={origin}
               className={cn(
                 "cn-popover-content cn-popover-content-logical w-72 flex-col",
                 className

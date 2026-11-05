@@ -1,9 +1,11 @@
 import * as React from "react"
+import { IconProvider } from "@fabricator-ui/icons-react-native"
 import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "cn"
 import { View } from "react-native"
 
 import { renderSlot, type RenderProps } from "@/registry/native/lib/render"
+import { ButtonJoinedContext } from "@/registry/native/ui/button"
 import { Separator } from "@/registry/native/ui/separator"
 import { renderTextChildren, TextStyle } from "@/registry/native/ui/text"
 
@@ -41,28 +43,30 @@ function ButtonGroup({
     (item) => React.isValidElement(item) && item.type === ButtonGroup
   )
   return (
-    <View
-      role="group"
-      data-slot="button-group"
-      data-orientation={orientation}
-      data-nested={isNested}
-      className={cn(buttonGroupVariants({ orientation }), className)}
-      {...props}
-    >
-      {/* No sibling selectors here: each part is told where it sits, and squares
-          the corners and drops the border it shares with its neighbour. */}
-      {items.map((item, index) =>
-        !isNested &&
-        items.length > 1 &&
-        React.isValidElement<ButtonGroupItemProps>(item) &&
-        item.type !== React.Fragment
-          ? React.cloneElement(item, {
-              "data-group-item": `${orientation}-${getItemPosition(index, items.length)}`,
-              className: cn("cn-button-group-item", item.props.className),
-            })
-          : renderTextChildren(item)
-      )}
-    </View>
+    <ButtonJoinedContext value={true}>
+      <View
+        role="group"
+        data-slot="button-group"
+        data-orientation={orientation}
+        data-nested={isNested}
+        className={cn(buttonGroupVariants({ orientation }), className)}
+        {...props}
+      >
+        {/* No sibling selectors here: each part is told where it sits, and squares
+            the corners and drops the border it shares with its neighbour. */}
+        {items.map((item, index) =>
+          !isNested &&
+          items.length > 1 &&
+          React.isValidElement<ButtonGroupItemProps>(item) &&
+          item.type !== React.Fragment
+            ? React.cloneElement(item, {
+                "data-group-item": `${orientation}-${getItemPosition(index, items.length)}`,
+                className: cn("cn-button-group-item", item.props.className),
+              })
+            : renderTextChildren(item)
+        )}
+      </View>
+    </ButtonJoinedContext>
   )
 }
 
@@ -85,7 +89,9 @@ function ButtonGroupText({
   )
   return (
     <TextStyle className="cn-button-group-text-text">
-      {slotted ?? <View {...shared}>{renderTextChildren(children)}</View>}
+      <IconProvider strokeWidth={1.5}>
+        {slotted ?? <View {...shared}>{renderTextChildren(children)}</View>}
+      </IconProvider>
     </TextStyle>
   )
 }
