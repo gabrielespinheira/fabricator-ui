@@ -1,3 +1,20 @@
+export const COMPONENTS_HREF = "/components"
+export const BLOCKS_HREF = "/blocks"
+
+/** The demo a path opens, or null on the list and everywhere else. */
+export function getDemoName(pathname: string) {
+  return pathname.startsWith(`${COMPONENTS_HREF}/`)
+    ? pathname.slice(COMPONENTS_HREF.length + 1)
+    : null
+}
+
+/** The block a path opens, full screen, if it opens one. */
+export function getBlockName(pathname: string) {
+  return pathname.startsWith(`${BLOCKS_HREF}/`)
+    ? pathname.slice(BLOCKS_HREF.length + 1)
+    : null
+}
+
 /** `dropdown-menu` → `Dropdown Menu`. */
 export function getComponentTitle(name: string) {
   return name

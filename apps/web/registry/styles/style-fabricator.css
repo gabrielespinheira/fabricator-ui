@@ -318,7 +318,7 @@
      page's heading scrolls away (a short rise on the move timing; reduced
      motion keeps the fade). */
   .cn-app-shell-breadcrumb {
-    @apply text-(length:--density-text-13);
+    @apply text-(length:--density-text-13) leading-(--density-20);
   }
 
   .cn-app-shell-breadcrumb-trail {
@@ -326,7 +326,7 @@
   }
 
   .cn-app-shell-breadcrumb-list {
-    @apply gap-(--density-6) text-(length:--density-text-13);
+    @apply gap-(--density-6) text-(length:--density-text-13) leading-(--density-20);
   }
 
   .cn-app-shell-breadcrumb-text {
@@ -342,7 +342,7 @@
   }
 
   .cn-app-shell-breadcrumb-title {
-    @apply pointer-events-none translate-y-1 text-(length:--density-text-13) weight-semibold opacity-0 transition-[opacity,translate] duration-move ease-move in-data-title:pointer-events-auto in-data-title:translate-y-0 in-data-title:opacity-100 motion-reduce:translate-y-0;
+    @apply pointer-events-none translate-y-1 text-(length:--density-text-13) leading-(--density-20) weight-semibold opacity-0 transition-[opacity,translate] duration-move ease-move in-data-title:pointer-events-auto in-data-title:translate-y-0 in-data-title:opacity-100 motion-reduce:translate-y-0;
   }
 
   .cn-app-shell-page-title {
@@ -630,9 +630,10 @@
 /* MARK: Breadcrumb */
 
   /* Muted trail; links turn foreground on hover, the current page is
-     foreground. */
+     foreground. A whole-pixel line keeps the text's baseline on a pixel, so its
+     capitals centre on the separators instead of rounding up above them. */
   .cn-breadcrumb-list {
-    @apply text-muted-foreground gap-(--density-6) text-(length:--density-text-13);
+    @apply text-muted-foreground gap-(--density-6) text-(length:--density-text-13) leading-(--density-20);
   }
 
   .cn-breadcrumb-item {

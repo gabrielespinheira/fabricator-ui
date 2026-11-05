@@ -37,6 +37,8 @@ The Sidebar's provider gained `onWidthChange`, called when a rail resize ends, a
 
 Tabs' resting labels are a step darker in light mode, so they meet 4.5:1 on the track.
 
+Breadcrumb's text sits on a whole-pixel line at every density, so it centres on its separators and on the App Shell header, instead of rounding up above them.
+
 ```bash
 npx fabricator-ui@latest add app-shell app-nav tab-strip workspace-switcher user-menu
 ```

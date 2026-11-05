@@ -30,7 +30,7 @@ export const DEFAULT_EXPLORER_OPTIONS: PlaygroundOptions = createLoader(
 /**
  * The options this shell doesn't offer: the real window decides the runtime
  * and fullscreen (and whether there is glass at all), and the explorer's
- * navigation has no tabs for a phone's tab bar.
+ * navigation has no tabs for a phone's tab bar, in any style.
  */
 export function getHiddenExplorerOptions({
   hasGlass,
@@ -41,6 +41,7 @@ export function getHiddenExplorerOptions({
     "window",
     "fullscreen",
     "bottomNav",
+    "bottomNavStyle",
     ...(hasGlass ? [] : (["glass"] as const)),
   ])
 }

@@ -39,7 +39,12 @@ describe("explorer options", () => {
 
   it("hides what the window decides, and the phone tab bar it has no tabs for", () => {
     const hidden = getHiddenExplorerOptions({ hasGlass: true })
-    expect([...hidden].sort()).toEqual(["bottomNav", "fullscreen", "window"])
+    expect([...hidden].sort()).toEqual([
+      "bottomNav",
+      "bottomNavStyle",
+      "fullscreen",
+      "window",
+    ])
   })
 
   it("hides glass where the window has none", () => {

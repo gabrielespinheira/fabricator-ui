@@ -23,7 +23,7 @@ import { Button } from "@/components/ui/button"
 
 The theme comes from the same tokens as the website, so a look draws the same on both: surface tint, colour roles, radius, density and motion, in light and dark. `applyLook` changes it at runtime.
 
-Touch takes over where a web input doesn't exist. Context menus, tooltips and hover cards open on a long press, selects are sheets on phones and popovers on tablets, and sheets and drawers swipe to dismiss. Once `<SoundEffects />` is mounted, controls play the same sounds as on the web, with a haptic for each. Fluid Hover follows the finger: a press lights a row, and dragging across a strip or a menu moves the highlight.
+Touch takes over where a web input doesn't exist. Context menus, tooltips and hover cards open on a long press, selects are sheets on phones and popovers on tablets, and sheets and drawers swipe to dismiss. Once `<SoundEffects />` is mounted, controls play the same sounds as on the web, with a haptic for each. Fluid Hover follows the finger: a press lights a row, and dragging across a strip or a menu moves the highlight. On a phone the App Shell's page scrolls under a fade behind the status bar, and its breadcrumb shows the way up, naming the page only once its heading has scrolled away.
 
 The App Shell's tab bar comes flat, floating or in Apple's Liquid Glass, chosen on its install command with `bottomNavStyle`. On phones a panel's toggle draws a bottom panel, and its sheet has a grab handle, full-width tabs and a close button.
 
