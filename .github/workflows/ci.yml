@@ -31,6 +31,9 @@ jobs:
         run: bun run registry:build
       - name: Lint, typecheck, format
         run: bun run check
+      # Web tests import apps/mobile, and resolving its tsconfig needs Expo.
+      - name: Install the React Native example
+        run: bun install --cwd apps/mobile --frozen-lockfile
       - name: Unit tests
         run: bun run test
       - name: Upstream parity (ui.shadcn.com)
@@ -41,7 +44,6 @@ jobs:
       - name: React Native types
         run: |
           bun run --cwd packages/icons-react-native build
-          bun install --cwd apps/mobile --frozen-lockfile
           bun run --cwd apps/mobile typecheck
 
   e2e:
