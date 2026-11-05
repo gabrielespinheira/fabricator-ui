@@ -92,6 +92,7 @@ export const navigationItems: Registry["items"] = [
       "@fabricator/sheet",
       "@fabricator/sheet-surface",
       "@fabricator/sidebar",
+      "@fabricator/sidebar-model",
       "@fabricator/tabs",
       "@fabricator/text",
       "@fabricator/tooltip",

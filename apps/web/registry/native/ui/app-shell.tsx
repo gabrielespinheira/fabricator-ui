@@ -74,6 +74,7 @@ import {
   type ShortcutEvent,
   type ShortcutPlatform,
 } from "@/registry/fabricator/shared/lib/app-shell-model"
+import { TOGGLE_GLYPH_SCALE } from "@/registry/fabricator/shared/lib/sidebar-model"
 import { noteStep } from "@/registry/fabricator/shared/lib/sound-recipes"
 import {
   applyPanelUpdate,
@@ -889,11 +890,7 @@ function AppShellHeader({
   const { isScrolled, setPhoneHeaderHeight } = useAppShellScroll()
   const insets = useShellInsets()
   const isPhone = size === "phone"
-  const [rowToken, glyphToken] = useCSSVariable([
-    "--density-48",
-    "--density-20",
-  ])
-  const row = parseNumber(rowToken, 48)
+  const row = parseNumber(useCSSVariable("--density-48"), 48)
   const { color } = useResolveClassNames(headerFadeVariants())
   const reach = isPhone ? insets.top + row : 0
   React.useLayoutEffect(() => {
@@ -922,10 +919,8 @@ function AppShellHeader({
       {shouldShowHeaderTrigger({ trigger, isMobile, state }) && (
         <SidebarTrigger
           className="cn-app-shell-header-trigger"
-          // A thumb's target on a phone, with a glyph to match.
-          {...(isPhone
-            ? { size: "icon", glyphSize: parseNumber(glyphToken, 20) }
-            : {})}
+          // A thumb's target on a phone.
+          {...(isPhone ? { size: "icon" } : {})}
         />
       )}
       {renderTextChildren(children)}
@@ -2369,7 +2364,9 @@ function AppShellPanelTrigger({
     "--density-12",
     "--density-6",
   ])
-  const glyphSize = parseNumber(useCSSVariable("--density-20"), 20)
+  // The same size as the sidebar's toggle across the header from it.
+  const glyphSize =
+    parseNumber(useCSSVariable("--density-icon-16"), 16) * TOGGLE_GLYPH_SCALE
   const isPhone = shell.size === "phone"
   const isPressed = view ? panel.open && panel.view === view : panel.open
   const anchor = getPanelTriggerAnchor({

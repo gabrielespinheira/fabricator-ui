@@ -942,13 +942,10 @@ const sidebarToggleIconPanelVariants = cva("cn-sidebar-toggle-icon-panel")
 function SidebarToggleIcon({
   open,
   side,
-  size: sizeProp,
   className,
 }: {
   open: boolean
   side: SidebarSide
-  /** Where the toggle is larger than its density's icon, as in a phone's header. */
-  size?: number
   className?: string
 }) {
   const motion = useMotion("move")
@@ -958,8 +955,8 @@ function SidebarToggleIcon({
   const { color: panelColor } = useResolveClassNames(
     sidebarToggleIconPanelVariants()
   )
-  const iconToken = parseNumber(useCSSVariable("--density-icon-16"), 16)
-  const size = sizeProp ?? iconToken * TOGGLE_GLYPH_SCALE
+  const size =
+    parseNumber(useCSSVariable("--density-icon-16"), 16) * TOGGLE_GLYPH_SCALE
   const progress = useSharedValue(open ? 1 : 0)
   const [drawn, setDrawn] = React.useState(open ? 1 : 0)
   React.useEffect(() => {
@@ -1012,12 +1009,9 @@ function SidebarTrigger({
   children,
   accessibilityLabel,
   style,
-  glyphSize,
   ...props
 }: Omit<React.ComponentProps<typeof Button>, "style"> & {
   style?: React.ComponentProps<typeof View>["style"]
-  /** The toggle's glyph, where it's larger than its density's icon. */
-  glyphSize?: number
 }) {
   const { toggleSidebar, open, openMobile, isMobile, side } = useSidebar()
   const isInHeader = React.use(SidebarHeaderContext)
@@ -1059,9 +1053,7 @@ function SidebarTrigger({
       {...props}
     />
   )
-  const glyph = children ?? (
-    <SidebarToggleIcon open={expanded} side={side} size={glyphSize} />
-  )
+  const glyph = children ?? <SidebarToggleIcon open={expanded} side={side} />
   // No tooltip on a phone: nothing hovers there, and a long press taking over a
   // slow tap would leave the sidebar shut.
   if (isMobile) return React.cloneElement(button, undefined, glyph)
