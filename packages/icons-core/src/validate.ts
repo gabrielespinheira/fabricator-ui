@@ -27,6 +27,8 @@ const SHAPE_ATTRIBUTES: Record<IconTag, string[]> = {
 
 const STROKE_WIDTH = 2
 const SAFE_ZONE = { min: 1, max: 23 }
+/** Lucide's own shapes overshoot by up to 0.03; originals reuse them unchanged. */
+const SAFE_ZONE_TOLERANCE = 0.05
 const DECIMALS = /\d\.\d{4,}/
 
 export type ValidateOptions = {
@@ -95,10 +97,10 @@ export function validateOutlineSvg(
       maxY: bounds.maxY + half,
     }
     if (
-      stroked.minX < SAFE_ZONE.min ||
-      stroked.minY < SAFE_ZONE.min ||
-      stroked.maxX > SAFE_ZONE.max ||
-      stroked.maxY > SAFE_ZONE.max
+      stroked.minX < SAFE_ZONE.min - SAFE_ZONE_TOLERANCE ||
+      stroked.minY < SAFE_ZONE.min - SAFE_ZONE_TOLERANCE ||
+      stroked.maxX > SAFE_ZONE.max + SAFE_ZONE_TOLERANCE ||
+      stroked.maxY > SAFE_ZONE.max + SAFE_ZONE_TOLERANCE
     ) {
       errors.push(
         `the stroke reaches x ${stroked.minX} to ${stroked.maxX}, y ${stroked.minY} to ${stroked.maxY}; keep it inside ${SAFE_ZONE.min} to ${SAFE_ZONE.max}`

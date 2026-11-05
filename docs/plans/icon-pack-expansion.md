@@ -1,21 +1,21 @@
 # Icon pack expansion: candidate list
 
-Status: decided 2026-11-04 (section 5). 39 Custom icons are drawn in `sources/outline/`: 24 `ui-*` and the 15 AI and agents icons. The rest of this list is proposed. Nothing is committed. It extends `docs/plans/icon-pack.md`.
+Status: decided 2026-11-04 (section 5). 112 Custom icons are drawn in `sources/outline/`: 24 `ui-*`, 15 AI and agents, and the accounts, deploys, data grid, commerce, and desktop and mobile groups. The rest of this list is proposed. It extends `docs/plans/icon-pack.md`.
 
 ## Summary
 
-- The set was Lucide 1.66.0 with no icons of its own. It now has a **Custom** category with 39 icons.
-- This list has **351 more Custom icons to draw**: 127 state variants of existing icons and 224 new glyphs. None of them exists in Lucide. 9 more Lucide icons arrive free with a sync, and about 90 brand marks are listed separately.
+- The set was Lucide 1.66.0 with no icons of its own. It now has a **Custom** category with 112 icons.
+- This list has **277 more Custom icons to draw**: 127 state variants of existing icons and 150 new glyphs. None of them exists in Lucide. 9 more Lucide icons arrive free with a sync, and about 90 brand marks are listed separately.
 - State variants are the safest start. They reuse Lucide's geometry, so they sit well beside their relatives. New glyphs need more design work: the proof sheets show which ones failed first time.
 
 ## 1. Where the pack stands
 
-| Set      | Today                         | Source                                |
-| -------- | ----------------------------- | ------------------------------------- |
-| Outline  | 2,015 Lucide icons, 39 Custom | `sources/lucide/`, `sources/outline/` |
-| Brands   | 143 ship, 11 held             | `sources/brands/allowlist.json`       |
-| Animated | 447 of lucide-animated's 468  | `sources/animated/`                   |
-| Duotone  | Pipeline only, 0 icons        | `sources/duotone/` does not exist     |
+| Set      | Today                          | Source                                |
+| -------- | ------------------------------ | ------------------------------------- |
+| Outline  | 2,015 Lucide icons, 112 Custom | `sources/lucide/`, `sources/outline/` |
+| Brands   | 143 ship, 11 held              | `sources/brands/allowlist.json`       |
+| Animated | 447 of lucide-animated's 468   | `sources/animated/`                   |
+| Duotone  | Pipeline only, 0 icons         | `sources/duotone/` does not exist     |
 
 Lucide's main branch has 22 names we don't. 13 are renames from `-alert` or `-warning` to `-exclamation-point` that keep the old name as an alias, and 9 are new (3.1).
 
@@ -41,7 +41,10 @@ Other parts:
 - **Search:** `circle 17,17 r3` and `m21 21-1.9-1.9`.
 - **Lock:** `rect 13,16 8×5` with its shackle `M19 16v-2a2 2 0 0 0-4 0v2`.
 - **Sparkle:** Lucide's `sparkle` scaled to 0.45, in a 9 × 9 slot. At 0.35 the centre fills in and it reads as `-plus` at 14px. Lucide's 4 × 4 cross `M20 2v4` `M22 4h-4` has the same problem beside a plus.
-- **Bot:** one path, `M8 4h4v4H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-4h2`, cuts the top-right corner and keeps both eyes and ears. A modifier fits in x 16 to 22, y 2 to 10.
+- **Bot:** with a badge in the corner, the head moves up and left and keeps both eyes: `M10 6V2H6`, `M21 8a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h6`, `M7 10v2`, `M11 10v2`. A badge fits in x 14 to 22, y 11 to 22. `bot-user`, `bot-shield` and `bot-wrench` use it.
+- **Person badge:** `circle 10,7 r4` and `M10.3 15H7a4 4 0 0 0-4 4v2`, from Lucide's `user-search`, leave x 13 to 22, y 13 to 22 free.
+- **Table:** drop the second row and second column, or a corner badge makes it clot at 14px: `M21 9V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h7`, `M3 9h18`, `M9 3v18`.
+- **Hand:** Lucide's `pointer` at 0.9, anchored bottom right, leaves x 14 to 22, y 2 to 6 for a gesture arrow.
 
 Lucide isn't fully uniform here: plus appears in several positions, so copy the slot of the nearest relative, and use the table when there is no relative. The top-right X and the right-middle check are mine, derived from the other parts in their slot and tested on the proof sheet below. The rest appear in Lucide.
 
@@ -171,14 +174,14 @@ Each name is `<base>-<variant>`. `inbox` is the third most used icon in the regi
 
 ### 3.5 Priority 2: more new glyphs
 
-**AI and agents: drawn.** All 15 are in `sources/outline/`; the review sheet is `docs/plans/icon-pack-custom-ai.png`.
+**AI and agents: drawn.** All 15 are in `sources/outline/`; the review sheet is `docs/plans/icon-pack-custom-ai.png`. `bot-user`, `bot-shield` and `bot-wrench` were redrawn on 2026-11-05 with a larger badge.
 
 | Icon                    | Depicts                     | For                     | Review                                                 |
 | ----------------------- | --------------------------- | ----------------------- | ------------------------------------------------------ |
 | `bot-network`           | Bot joined to two nodes     | Multi-agent runs        | Good                                                   |
 | `bot-shield`            | Bot and shield              | Guardrails              | Good                                                   |
-| `bot-user`              | Bot beside a person         | Human in the loop       | Good, after moving the person out of the corner        |
-| `bot-wrench`            | Bot and wrench              | Agent tools             | Weak at 14px: the wrench reads as a hook               |
+| `bot-user`              | Bot beside a person         | Human in the loop       | Good, after two redraws                                |
+| `bot-wrench`            | Bot and wrench              | Agent tools             | Good at 16px and up, tight at 14px                     |
 | `bot-sync`              | Eyes inside circular arrows | Agent loop              | Reads a little like a smiley; an antenna made it worse |
 | `message-square-stop`   | Bubble and stop square      | Stop generating         | Good                                                   |
 | `message-square-wrench` | Bubble and wrench           | Tool call               | Good                                                   |
@@ -191,30 +194,21 @@ Each name is `<base>-<variant>`. `inbox` is the third most used icon in the regi
 | `vector-nodes`          | Triangle of nodes and a dot | Embeddings              | Good, distinct from `share-2`                          |
 | `context-gauge`         | Partial ring around lines   | Context window          | Good                                                   |
 
-**Accounts and security**
+**Accounts and security: drawn.** `fingerprint-check`, `scan-face-check`, `shield-key`, `badge-key`, `key-rotate`, `monitor-key`, `monitor-lock`, `user-crown`, `user-eye`, `user-wrench`, `users-crown`, `building-user`, `building-lock`
 
-`fingerprint-check`, `scan-face-check`, `shield-key`, `badge-key`, `key-rotate`, `monitor-key`, `monitor-lock`, `user-crown`, `user-eye`, `user-wrench`, `users-crown`, `building-users`, `building-lock`
+**Deploys and infrastructure: drawn.** `rocket-undo`, `rocket-check`, `rocket-x`, `rocket-clock`, `container-check`, `container-x`, `globe-shield`, `globe-arrow-up-right`, `clock-sync`, `git-branch-eye`, `git-branch-lock`, `git-pull-request-check`, `git-commit-check`, `git-commit-x`, `trace-waterfall`, `flame-graph`, `logs-play`
 
-- `user-crown` is an owner, `user-eye` a viewer, `user-wrench` an admin.
-- `key-rotate` is key rotation; `monitor-key` is a signed-in session.
+**Data grids: drawn.** `column-pin`, `row-pin`, `columns-3-off`, `table-row-check`, `table-cell-pen`, `table-sum`, `table-arrow-down`, `table-arrow-up`, `table-bookmark`, `table-pivot`, `funnel-cog`, `database-code`, `table-relation`, `key-arrow-right`
 
-**Deploys and infrastructure**
+**Commerce: drawn.** `receipt-undo`, `hand-banknote`, `ticket-dashed`, `package-clock`, `store-user`, `tag-percent`, `shopping-cart-clock`, `qr-code-dollar`
 
-`rocket-undo`, `rocket-check`, `rocket-x`, `rocket-clock`, `container-check`, `container-x`, `globe-shield`, `globe-arrows`, `clock-sync`, `git-branch-eye`, `git-branch-lock`, `git-pull-request-check`, `git-pull-request-x`, `git-commit-check`, `git-commit-x`, `trace-waterfall`, `flame-graph`, `logs-play`
+The review sheet for these groups and the desktop and mobile group is `docs/plans/icon-pack-custom-groups.png`.
 
-- `rocket-undo` is a rollback, `globe-shield` a firewall, `globe-arrows` a CDN, `clock-sync` a cron job, `git-branch-eye` a preview, `logs-play` live logs.
+Changed from the first list:
 
-**Data grids**
-
-`column-pin`, `row-pin`, `columns-3-off`, `table-row-check`, `table-cell-pen`, `table-sum`, `table-arrow-down`, `table-arrow-up`, `table-bookmark`, `table-pivot`, `funnel-cog`, `database-code`, `tree-schema`, `key-foreign`
-
-- `table-bookmark` is a saved view, and the arrows are import and export.
-
-**Commerce**
-
-`receipt-undo`, `hand-banknote`, `ticket-scissors`, `package-clock`, `store-user`, `tag-percent`, `shopping-cart-clock`, `qr-code-dollar`
-
-- `receipt-undo` is a refund, `hand-banknote` a payout, `shopping-cart-clock` an abandoned cart.
+- `git-pull-request-x` is out: Lucide's `git-pull-request-closed` already draws it.
+- `building-users` is `building-user`, because one person fits. `globe-arrows` is `globe-arrow-up-right`. `tree-schema` is `table-relation` and `key-foreign` is `key-arrow-right`, named for what they depict with the use in their tags.
+- `ticket-scissors` is `ticket-dashed`: scissors don't fit beside a ticket at this size, and Lucide has `scissors-line-dashed`.
 
 **Collaboration**
 
@@ -222,9 +216,9 @@ Each name is `<base>-<variant>`. `inbox` is the third most used icon in the regi
 
 - `at-sign-bell` is a mention, `user-dot` presence, `message-square-branch` a thread, `map-flag` a roadmap, `scroll-plus` a changelog.
 
-**Desktop and mobile.** Electron, Tauri and React Native all ship here, and Lucide is thin on these.
+**Desktop and mobile: drawn.** `window-snap-left`, `window-snap-right`, `window-tile`, `window-float`, `tray-bar`, `dock-bar`, `safe-area`, `status-bar`, `gesture-tap`, `gesture-long-press`, `gesture-pinch`, `gesture-swipe-left`, `gesture-swipe-right`, `gesture-swipe-up`, `gesture-swipe-down`, `gesture-haptic`, `browser-tab`, `browser-tab-plus`, `browser-tab-x`, `browser-tab-pin`, `kbd-shortcut`
 
-`window-snap-left`, `window-snap-right`, `window-tile`, `window-float`, `tray-bar`, `dock-bar`, `safe-area`, `status-bar`, `gesture-tap`, `gesture-long-press`, `gesture-pinch`, `gesture-swipe-left`, `gesture-swipe-right`, `gesture-swipe-up`, `gesture-swipe-down`, `haptic-wave`, `browser-tab`, `browser-tab-plus`, `browser-tab-x`, `browser-tab-pin`, `kbd-shortcut`
+`haptic-wave` became `gesture-haptic`, because Lucide's `vibrate` and `radio` already draw the wave.
 
 **Accessibility and design tokens**
 

@@ -62,4 +62,18 @@ describe("validateOutlineSvg", () => {
       "<circle> cx has more than 3 decimals",
     ])
   })
+
+  it("forgives the rounding in Lucide's own shapes, which originals reuse", () => {
+    const shield =
+      "M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z"
+    const parsed = parseSvg(svg(`<path d="${shield}"/>`))
+    expect(validateOutlineSvg(parsed, { strict: true })).toEqual([])
+  })
+
+  it("still refuses a stroke that clearly leaves the safe zone", () => {
+    const parsed = parseSvg(svg('<path d="M2 12h20.1"/>'))
+    expect(validateOutlineSvg(parsed, { strict: true }).join()).toContain(
+      "keep it inside"
+    )
+  })
 })
