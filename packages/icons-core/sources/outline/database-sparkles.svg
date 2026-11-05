@@ -1,0 +1,17 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M21 11V5" />
+  <path d="M3 12A9 3 0 0 0 10 14.9" />
+  <path d="M3 5V19A9 3 0 0 0 10 21.9" />
+  <ellipse cx="12" cy="5" rx="9" ry="3" />
+  <path d="M17.058 13.366a0.45 0.45 0 0 1 0.884 0l0.473 2.501a0.9 0.9 0 0 0 0.718 0.718l2.501 0.473a0.45 0.45 0 0 1 0 0.884l-2.501 0.473a0.9 0.9 0 0 0-0.718 0.718l-0.473 2.501a0.45 0.45 0 0 1-0.884 0l-0.473-2.501a0.9 0.9 0 0 0-0.718-0.718l-2.501-0.473a0.45 0.45 0 0 1 0-0.884l2.501-0.473a0.9 0.9 0 0 0 0.718-0.718z" />
+</svg>
