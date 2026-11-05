@@ -67,6 +67,11 @@
     @apply text-(length:--density-text-13) font-medium;
   }
 
+  /* Held, or with its popup open, a ghost button's label comes forward. */
+  .cn-button-text-lifted-ghost {
+    @apply text-foreground;
+  }
+
   /* The primary role's fill; pressed is the fill at 80%. */
   .cn-button-variant-default {
     @apply bg-primary;

@@ -91,7 +91,14 @@ export const foundationItems: Registry["items"] = [
     title: "Text",
     description:
       "React Native draws text only inside Text; this one follows the theme and its control.",
-    dependencies: ["@fabricator-ui/icons-react-native", "cn", "uniwind@1.13.1"],
+    dependencies: [
+      "@fabricator-ui/icons-react-native",
+      "class-variance-authority",
+      "cn",
+      "react-native-reanimated",
+      "uniwind@1.13.1",
+    ],
+    registryDependencies: ["@fabricator/motion"],
     files: [
       { path: "ui/text.tsx", type: "registry:ui" },
       { path: "lib/text-children.ts", type: "registry:lib" },

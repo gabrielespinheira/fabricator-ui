@@ -322,7 +322,7 @@ export function Gallery() {
       onValueChange={(value) => {
         if (isCategoryFilter(value)) setCategory(value)
       }}
-      className="flex flex-col gap-5 px-4 pb-20 sm:px-5"
+      className="flex flex-col gap-5 px-4 pb-4 sm:px-5"
     >
       <div className="flex items-center gap-3">
         <div className="-mx-4 scrollbar-hide flex min-w-0 flex-1 overflow-x-auto px-4 sm:mx-0 sm:px-0">

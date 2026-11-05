@@ -4,6 +4,7 @@ import { z } from "zod"
 const eventSchema = z.object({
   name: z.enum([
     "copy_npm_command",
+    "copy_agent_prompt",
     "copy_usage_import_code",
     "copy_usage_code",
     "copy_primitive_code",

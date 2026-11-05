@@ -14,6 +14,7 @@ import { useFeedback } from "@/registry/native/lib/feedback"
 import { useFieldControl } from "@/registry/native/lib/field-model"
 import { useMotion, usePressScale } from "@/registry/native/lib/motion"
 import { parseNumber } from "@/registry/native/lib/motion-tokens"
+import { StateFill } from "@/registry/native/lib/press-wash"
 import { TextStyle } from "@/registry/native/ui/text"
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable)
@@ -54,7 +55,9 @@ function Checkbox({
     setIsChecked(!isChecked)
   }
   const field = useFieldControl({
-    activate: toggle,
+    activate: () => {
+      if (!isDisabled) toggle()
+    },
     isChecked: isChecked || indeterminate,
   })
   const isDisabled = disabled ?? field.isDisabled
@@ -123,6 +126,11 @@ function Checkbox({
       }}
       {...props}
     >
+      <StateFill
+        isOn={isOn}
+        data-invalid={Boolean(isFieldInvalid)}
+        className="cn-checkbox-fill"
+      />
       <TextStyle className="cn-checkbox-indicator-text">
         <Animated.View
           data-slot="checkbox-indicator"

@@ -30,7 +30,7 @@ Built, in `packages/icons-core`, `packages/icons`, `packages/icons-react-native`
 - Safari (2026-11-04): draws the logos set's real compass in brand colour. Its only filters are drop shadows, which a new `dropShadows` option removes (any other filter stays refused), and nested translated groups are now flattened. The art is 38 KB, about 10 KB gzipped, the largest in the set; a page pays that only if it imports `SafariIcon`. Apple's trademark guidelines allow its icons only under a written licence, so Safari and Apple fail the test the held marks failed; both still ship, pending a decision.
 - Website (added later the same day): the `/icons` page (search, set and category filters, size and stroke preview, a detail panel with JSX and SVG copy, SVG and PNG downloads, install command, provenance), five docs pages under `/docs/icons`, a changelog entry, `llms.txt` entries, nav and footer links, the sitemap, and icon rules in `skills/fabricator`. The catalog gained `outlineCategories`; `/brands` exports `getBrandViewBox`; `@fabricator-ui/icons-static/nodes` exports the shape data typed.
 
-- Custom category (2026-11-04): `custom` joins Lucide's categories in `readCategories`, listed first, and `loadOutlineIcons` adds it to every icon in `sources/outline/`. The first icons are 24 `ui-*` component glyphs and 15 for AI and agents. The candidates for the rest are in `docs/plans/icon-pack-expansion.md`.
+- Custom category (2026-11-04): `custom` joins Lucide's categories in `readCategories`, listed first, and `loadOutlineIcons` adds it to every icon in `sources/outline/`. The first 112 icons are 24 `ui-*` component glyphs and groups for AI and agents, accounts, deploys, data grids, commerce, and desktop and mobile. The candidates for the rest are in `docs/plans/icon-pack-expansion.md`.
 
 Not built yet:
 
@@ -403,7 +403,7 @@ Lucide's specification is the spec for the outline set, adopted whole. Fabricato
 
 `bun run icons:check` (part of `bun run check`) automates:
 
-- **Outline.** Lucide's root attributes, elements and attributes. 3-decimal precision; no transforms, ids, `<use>`, filters or inline styles. The stroked bounding box (geometry plus half the stroke) stays inside 1–23.
+- **Outline.** Lucide's root attributes, elements and attributes. 3-decimal precision; no transforms, ids, `<use>`, filters or inline styles. The stroked bounding box (geometry plus half the stroke) stays inside 1–23, within 0.05, since Lucide's own shapes overshoot by up to 0.03 and originals reuse them unchanged.
 - **Brands.**
   - Single-colour geometry is `path` only, inside its viewBox.
   - Art uses shapes with `fill` only, plus linear and radial gradients under local ids: no filters, masks, `<use>` or transforms. A dark fill passes when a legible shape overlaps it; a gradient fill counts as legible when any stop is. Every declared fill clears 1.5:1 on `#171717` (SharpOS's bar: visible, if not high-contrast) or is left unfilled to follow `currentColor`.

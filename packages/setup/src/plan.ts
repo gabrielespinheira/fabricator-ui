@@ -9,6 +9,7 @@ import {
   isWebFramework,
   normalizeProjectSetup,
   projectName,
+  type Framework,
   type PackageManager,
   type ProjectSetup,
 } from "./setup"
@@ -210,6 +211,14 @@ export function planSetup(rawSetup: ProjectSetup): PlanStep[] {
 
 export type NextStep = { label: string; code: string }
 
+/** Unlike dlx, these run a package the project already has. */
+const LOCAL_RUNNERS: Record<PackageManager, string> = {
+  npm: "npx",
+  pnpm: "pnpm exec",
+  yarn: "yarn",
+  bun: "bunx --bun",
+}
+
 export function getNextSteps(
   rawSetup: ProjectSetup,
   packageManager: PackageManager
@@ -236,7 +245,10 @@ export function getNextSteps(
   if (!isWebFramework(setup.framework)) {
     return [
       open,
-      { label: "Build and run the app", code: run("npx expo run:ios") },
+      {
+        label: "Build and run the app",
+        code: `${LOCAL_RUNNERS[packageManager]} expo run:ios`,
+      },
     ]
   }
   return [
@@ -247,6 +259,21 @@ export function getNextSteps(
         setup.framework === "laravel" ? "composer run dev" : run("npm run dev"),
     },
   ]
+}
+
+const DARK_MODE_GUIDES: Partial<Record<Framework, string>> = {
+  next: "/docs/dark-mode/next",
+  vite: "/docs/dark-mode/vite",
+  start: "/docs/dark-mode/tanstack-start",
+  astro: "/docs/dark-mode/astro",
+}
+
+/** The docs page for adding a theme toggle to this setup. */
+export function getDarkModeGuide(rawSetup: ProjectSetup) {
+  const setup = normalizeProjectSetup(rawSetup)
+  const guide =
+    setup.project === "existing" ? undefined : DARK_MODE_GUIDES[setup.framework]
+  return guide ?? "/docs/dark-mode"
 }
 
 export type Prerequisite = {

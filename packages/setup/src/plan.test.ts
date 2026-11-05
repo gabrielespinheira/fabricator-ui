@@ -1,6 +1,12 @@
 import { describe, expect, it } from "vitest"
 
-import { getNextSteps, getPrerequisites, planSetup, type StepId } from "./plan"
+import {
+  getDarkModeGuide,
+  getNextSteps,
+  getPrerequisites,
+  planSetup,
+  type StepId,
+} from "./plan"
 import { DEFAULT_PROJECT_SETUP, type ProjectSetup } from "./setup"
 
 const setup = (changes: Partial<ProjectSetup> = {}): ProjectSetup => ({
@@ -168,5 +174,31 @@ describe("getPrerequisites", () => {
     expect(
       getPrerequisites(setup({ framework: "laravel" })).map((item) => item.id)
     ).toEqual(["laravel"])
+  })
+})
+
+describe("getNextSteps on Expo", () => {
+  it("runs the project's own Expo, whatever the package manager", () => {
+    const code = (packageManager: "npm" | "pnpm" | "yarn" | "bun") =>
+      getNextSteps(setup({ framework: "expo" }), packageManager).at(-1)?.code
+    expect(code("npm")).toBe("npx expo run:ios")
+    expect(code("pnpm")).toBe("pnpm exec expo run:ios")
+    expect(code("yarn")).toBe("yarn expo run:ios")
+    expect(code("bun")).toBe("bunx --bun expo run:ios")
+  })
+})
+
+describe("getDarkModeGuide", () => {
+  it("is the framework's guide, or the general one", () => {
+    expect(getDarkModeGuide(setup())).toBe("/docs/dark-mode/next")
+    expect(getDarkModeGuide(setup({ framework: "start" }))).toBe(
+      "/docs/dark-mode/tanstack-start"
+    )
+    expect(getDarkModeGuide(setup({ framework: "react-router" }))).toBe(
+      "/docs/dark-mode"
+    )
+    expect(getDarkModeGuide(setup({ project: "existing" }))).toBe(
+      "/docs/dark-mode"
+    )
   })
 })

@@ -337,9 +337,16 @@
     @apply bg-app-shell-main data-[layout=card]:bg-app-shell-main data-[layout=card]:shadow-app-shell-card;
   }
 
-  /* The header: 48pt, a hairline once the content scrolls. */
+  /* The header: 48pt, a hairline once the content scrolls. On a phone it holds
+     the status bar too, and sits on a fade the page dissolves under: the clock and
+     the island get a clean edge and nothing stops at a line. */
   .cn-app-shell-header {
-    @apply h-(--density-48) gap-(--density-8) border-b border-transparent px-(--density-12) data-[scrolled=true]:border-border;
+    @apply z-10 h-(--density-48) gap-(--density-8) border-b border-transparent px-(--density-12) data-[phone=true]:border-b-0 data-[scrolled=true]:border-border;
+  }
+
+  /* What the fade paints: the main column's colour. */
+  .cn-app-shell-header-fade {
+    @apply text-app-shell-main;
   }
 
   .cn-app-shell-header-trigger {
@@ -488,16 +495,45 @@
   }
 
   /* The phone tab bar: icon over label, above the home indicator. */
+  /* The flat bar is a row under the page, with the page's hairline. */
   .cn-app-shell-bottom-nav {
     @apply border-border bg-app-shell-main border-t;
   }
 
+  /* The floating bar is a capsule over the page, on the sidebar's colours. */
+  .cn-app-shell-bottom-nav-floating {
+    @apply inset-x-(--density-16) z-20;
+  }
+
+  .cn-app-shell-bottom-nav-capsule {
+    @apply bg-app-shell-frame shadow-surface-3;
+  }
+
+  /* A little room around the tabs, so the highlight has an edge of its own. */
+  .cn-app-shell-bottom-nav-track {
+    @apply data-[variant=flat]:px-(--density-4) data-[variant=flat]:pt-(--density-4);
+  }
+
+  /* The pressed fill is the Fluid Hover highlight, so a tab has none of its own. */
   .cn-app-shell-bottom-nav-item {
-    @apply min-h-(--density-48) gap-(--density-4) active:opacity-70;
+    @apply min-h-(--density-48) gap-(--density-4);
+  }
+
+  /* The current tab's pill slides on the move timing. */
+  .cn-app-shell-bottom-nav-selection {
+    @apply bg-active rounded-full;
+  }
+
+  .cn-app-shell-bottom-nav-highlight {
+    @apply rounded-lg data-[variant=floating]:bg-hover/60 data-[variant=floating]:rounded-full;
   }
 
   .cn-app-shell-bottom-nav-text {
     @apply text-muted-foreground text-(length:--density-text-11);
+  }
+
+  .cn-app-shell-bottom-nav-text-lit {
+    @apply text-foreground;
   }
 
   .cn-app-shell-bottom-nav-text-active {
@@ -1101,6 +1137,11 @@
     @apply text-(length:--density-text-13) font-medium;
   }
 
+  /* Held, or with its popup open, a ghost button's label comes forward. */
+  .cn-button-text-lifted-ghost {
+    @apply text-foreground;
+  }
+
   /* The primary role's fill; pressed is the fill at 80%. */
   .cn-button-variant-default {
     @apply bg-primary;
@@ -1353,12 +1394,17 @@
 
 /* MARK: Checkbox */
 
-  /* 18pt, rounded-[6px], a quiet 1.5pt outline. Checked fills with the primary
-     role, or the destructive one when invalid, and the check pops in in its
-     foreground. The press gives on the feedback timing, in the source: a class
-     could only snap. */
+  /* 18pt, rounded-[6px], a quiet 1.5pt outline, and the check pops in in the
+     role's foreground. The press gives on the feedback timing, in the source: a
+     class could only snap. */
   .cn-checkbox {
-    @apply size-[calc(var(--density-icon-16)+2px)] rounded-[6px] border-[1.5px] border-foreground/25 bg-transparent data-[state=checked]:border-primary data-[state=checked]:bg-primary data-[state=indeterminate]:border-primary data-[state=indeterminate]:bg-primary data-[invalid=true]:border-destructive data-[invalid=true]:data-[state=checked]:border-destructive data-[invalid=true]:data-[state=checked]:bg-destructive;
+    @apply size-[calc(var(--density-icon-16)+2px)] rounded-[6px] border-[1.5px] border-foreground/25 bg-transparent data-[invalid=true]:border-destructive;
+  }
+
+  /* Checked fills with the primary role, or the destructive one when invalid,
+     over the outline, easing on the feedback timing. */
+  .cn-checkbox-fill {
+    @apply -inset-[1.5px] rounded-[6px] bg-primary data-[invalid=true]:bg-destructive;
   }
 
   .cn-checkbox-indicator {
@@ -2835,12 +2881,17 @@
     @apply gap-(--density-12);
   }
 
-  /* 18pt circle with the checkbox's outline. Checked fills with the primary role
-     and a 6pt dot pops in in its foreground. Invalid turns the outline, and the
-     checked fill, destructive. The press gives on the feedback timing, in the
-     source: a class could only snap. */
+  /* 18pt circle with the checkbox's outline, and a 6pt dot pops in in the role's
+     foreground. Invalid turns the outline destructive. The press gives on the
+     feedback timing, in the source: a class could only snap. */
   .cn-radio-group-item {
-    @apply border-foreground/25 data-[state=checked]:border-primary data-[state=checked]:bg-primary data-[invalid=true]:border-destructive data-[invalid=true]:data-[state=checked]:border-destructive data-[invalid=true]:data-[state=checked]:bg-destructive size-[calc(var(--density-icon-16)+2px)] rounded-full border-[1.5px] bg-transparent;
+    @apply border-foreground/25 data-[invalid=true]:border-destructive size-[calc(var(--density-icon-16)+2px)] rounded-full border-[1.5px] bg-transparent;
+  }
+
+  /* Checked fills with the primary role, or the destructive one when invalid,
+     over the outline, easing on the feedback timing. */
+  .cn-radio-group-fill {
+    @apply bg-primary data-[invalid=true]:bg-destructive -inset-[1.5px] rounded-full;
   }
 
   .cn-radio-group-indicator {
@@ -2887,7 +2938,7 @@
      no mask, so it's a gradient in the colour behind the area, set by `fadeColor`
      when that isn't the page's background. */
   .cn-scroll-area-fade {
-    @apply data-[horizontal=false]:inset-x-0 data-[horizontal=false]:h-(--density-24) data-[horizontal=true]:inset-y-0 data-[horizontal=true]:w-(--density-24) data-[horizontal=false]:data-[edge=start]:top-0 data-[horizontal=false]:data-[edge=end]:bottom-0 data-[horizontal=true]:data-[edge=start]:start-0 data-[horizontal=true]:data-[edge=end]:end-0;
+    @apply data-[horizontal=false]:inset-x-0 data-[horizontal=false]:h-(--density-24) data-[horizontal=true]:inset-y-0 data-[horizontal=true]:w-(--density-24) data-[horizontal=false]:data-[edge=start]:top-0 data-[horizontal=false]:data-[edge=end]:bottom-0 data-[horizontal=true]:data-[edge=start]:left-0 data-[horizontal=true]:data-[edge=end]:right-0;
   }
 
   .cn-scroll-area-fade-color {
@@ -3725,6 +3776,11 @@
     @apply text-foreground/65 dark:text-muted-foreground text-(length:--density-text-13) font-normal;
   }
 
+  /* A lit tab previews the next selection: foreground, no weight change. */
+  .cn-tabs-trigger-text-lit {
+    @apply text-foreground dark:text-foreground;
+  }
+
   .cn-tabs-trigger-text-active {
     @apply text-foreground dark:text-foreground font-semibold;
   }
@@ -3825,7 +3881,7 @@
      the sliding selection paints the on fill. Joined items square their corners
      and share their outlines. */
   .cn-toggle-group-item {
-    @apply data-[single=true]:data-[state=on]:bg-transparent h-(--density-36) min-w-(--density-36) px-(--density-12) data-[spacing=0]:rounded-none data-[spacing=0]:data-[variant=outline]:data-[first=false]:data-[orientation=horizontal]:border-s-0 data-[spacing=0]:data-[variant=outline]:data-[first=false]:data-[orientation=vertical]:border-t-0;
+    @apply h-(--density-36) min-w-(--density-36) px-(--density-12) data-[spacing=0]:rounded-none data-[spacing=0]:data-[variant=outline]:data-[first=false]:data-[orientation=horizontal]:border-s-0 data-[spacing=0]:data-[variant=outline]:data-[first=false]:data-[orientation=vertical]:border-t-0;
   }
 
   .cn-toggle-group-selection {
@@ -3838,14 +3894,15 @@
 
 /* MARK: Toggle */
 
-  /* Ghost look: on is the active fill. Pressed is the hover fill as a wash under
-     the content, and the press scale comes from usePressScale. */
+  /* Ghost look. The press scale comes from usePressScale. */
   .cn-toggle {
-    @apply data-[state=on]:bg-active gap-(--density-6) rounded-lg;
+    @apply gap-(--density-6) rounded-lg;
   }
 
-  .cn-toggle-wash {
-    @apply bg-hover rounded-lg;
+  /* On and pressed are one fill, as on the website: a layer under the content,
+     easing on the feedback timing. */
+  .cn-toggle-fill {
+    @apply bg-active rounded-lg;
   }
 
   /* 13pt medium, muted at rest and foreground when on. The icon's stroke follows:

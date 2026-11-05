@@ -1122,12 +1122,15 @@ function SidebarInset({
   children,
   gutter,
   statusBarHeight,
+  isFlushTop,
   ...props
 }: Omit<React.ComponentProps<typeof Animated.View>, "children"> & {
   /** How far a card sits from the frame's edges. Default the density's 8pt step. */
   gutter?: number
   /** What the page ends above, when something sits under it. */
   statusBarHeight?: number
+  /** A header inside holds the status bar, so the page runs up behind it. */
+  isFlushTop?: boolean
   children?: React.ReactNode
 }) {
   const sidebar = React.use(SidebarContext)
@@ -1137,6 +1140,7 @@ function SidebarInset({
         className={className}
         gutter={gutter}
         statusBarHeight={statusBarHeight}
+        isFlushTop={isFlushTop}
         {...props}
       >
         {children}
@@ -1163,10 +1167,12 @@ function SidebarPage({
   style,
   gutter,
   statusBarHeight = 0,
+  isFlushTop,
   ...props
 }: Omit<React.ComponentProps<typeof Animated.View>, "children"> & {
   gutter?: number
   statusBarHeight?: number
+  isFlushTop?: boolean
   children?: React.ReactNode
 }) {
   const { isMobile, mobileSidebar, openMobile, side } = useSidebar()
@@ -1213,6 +1219,7 @@ function SidebarPage({
             insetTop: insets.top,
             insetBottom: insets.bottom,
             gutter: gutter ?? defaultGutter,
+            isFlushTop,
           }),
           { transformOrigin: side === "left" ? "left center" : "right center" },
           revealStyle,
@@ -2159,6 +2166,7 @@ function SidebarMenuButton({
   const text = getTextContent(children)
   const content = (
     <TextStyle
+      eases
       className={sidebarMenuButtonTextVariants({ size: resolvedSize, state })}
     >
       <IconProvider
@@ -2552,6 +2560,7 @@ function SidebarMenuSubButton({
 
   const content = (
     <TextStyle
+      eases
       className={sidebarMenuSubButtonTextVariants({
         size,
         state: isActive || isLit ? "active" : "default",

@@ -310,7 +310,7 @@ export function IconsBrowser() {
         const set = SETS.find((candidate) => candidate === next)
         if (set) void setParams({ set, category: null, icon: null })
       }}
-      className="gap-4 px-4 pb-20 sm:px-5"
+      className="gap-4 px-4 pb-4 sm:px-5"
     >
       <div className="sticky top-0 z-10 -mx-4 flex flex-wrap items-center gap-2 bg-background/90 px-4 py-3 backdrop-blur sm:-mx-5 sm:px-5">
         <Search

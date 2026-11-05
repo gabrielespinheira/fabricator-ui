@@ -1,3 +1,4 @@
+export * from "./agent-prompt"
 export * from "./cli-args"
 export * from "./plan"
 export * from "./setup"

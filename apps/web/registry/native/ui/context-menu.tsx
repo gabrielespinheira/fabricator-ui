@@ -260,6 +260,7 @@ function ContextMenuItem({
   return (
     // A destructive row stays destructive under the highlight.
     <TextStyle
+      eases
       className={
         isLit && variant === "default"
           ? cn("cn-context-menu-item-text-lit")
@@ -319,6 +320,7 @@ function ContextMenuSubTrigger({
   })
   return (
     <TextStyle
+      eases
       className={
         isLit || open
           ? cn("cn-context-menu-item-text-lit")
@@ -387,6 +389,7 @@ function ContextMenuChoiceText({
 }) {
   return (
     <TextStyle
+      eases
       className={
         isChecked
           ? cn(

@@ -199,6 +199,7 @@ function NavigationMenuTrigger({
   }))
   return (
     <TextStyle
+      eases
       className={
         isOpen || isLit
           ? cn(
@@ -382,6 +383,7 @@ function NavigationMenuLink({
   })
   return (
     <TextStyle
+      eases
       className={
         active || isLit
           ? cn(

@@ -548,6 +548,8 @@ const scenarios: Scenario[] = [
         assertRegistry(appDir)
         assertMounted(appDir, framework)
         run("bun", ["run", "build"], appDir)
+        // The agent prompt says a fresh project passes this.
+        cli(["doctor", "-c", appDir], appDir)
       },
     })
   ),
@@ -568,6 +570,7 @@ const scenarios: Scenario[] = [
           `The ${page} screen is missing`
         )
       }
+      cli(["doctor", "-c", appDir], appDir)
       run(
         "npx",
         ["expo", "export", "--platform", "ios", "--output-dir", "dist"],
@@ -586,6 +589,13 @@ const scenarios: Scenario[] = [
       cli(["add", "dropdown-menu", "tabs", "-y", "-o"], root)
       assertMounted(web, "next")
       run("bun", ["run", "build"], web)
+      // The agent prompt's way in, when the setup didn't name the agent.
+      cli(["agents", "add", "claude"], root)
+      assert(
+        fs.existsSync(path.join(root, ".claude/skills/fabricator/SKILL.md")),
+        "`agents add` wrote no skill"
+      )
+      cli(["doctor"], root)
     },
   },
   {
@@ -735,6 +745,7 @@ const scenarios: Scenario[] = [
         appDir
       )
       assertMounted(appDir, "vite")
+      cli(["doctor", "-c", appDir], appDir)
       assert(
         fs.existsSync(path.join(appDir, ".claude/skills/fabricator/SKILL.md")),
         "Claude Code has no skill"

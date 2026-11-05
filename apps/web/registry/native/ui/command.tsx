@@ -405,6 +405,7 @@ function CommandItemRow({
       {...rowProps}
     >
       <TextStyle
+        eases
         className={
           isChecked
             ? cn("cn-command-item-text-checked")

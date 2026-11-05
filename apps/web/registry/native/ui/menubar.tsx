@@ -117,6 +117,7 @@ function MenubarTrigger({
   const { isLit, rowProps } = useFluidRow(props)
   return (
     <TextStyle
+      eases
       className={
         open || isLit
           ? cn("cn-menubar-trigger-text cn-menubar-trigger-text-open")
@@ -202,6 +203,7 @@ function MenubarChoiceText({
 }) {
   return (
     <TextStyle
+      eases
       className={
         isChecked
           ? cn("cn-menubar-choice-text cn-menubar-choice-text-checked")

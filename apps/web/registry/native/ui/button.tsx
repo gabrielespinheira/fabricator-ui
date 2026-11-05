@@ -71,6 +71,23 @@ const buttonTextVariants = cva("cn-button-text", {
   },
 })
 
+// Held, or with its popup open: a ghost button's label turns foreground.
+const buttonLiftedTextVariants = cva("", {
+  variants: {
+    variant: {
+      default: "",
+      outline: "",
+      secondary: "",
+      ghost: "cn-button-text-lifted-ghost",
+      destructive: "",
+      link: "",
+    },
+  },
+  defaultVariants: {
+    variant: "default",
+  },
+})
+
 // The pressed fill, a layer under the label that eases in and out.
 const buttonWashVariants = cva("cn-button-wash", {
   variants: {
@@ -145,6 +162,9 @@ const HIT_SLOP: Partial<Record<ButtonSize, number>> = {
   icon: 4,
 }
 
+// `xs` and `icon-xs` are a fixed 24pt, and so are their 12pt icons.
+const XS_ICON = 12
+
 function getHitSlop(size: ButtonSize, groupItem: string | undefined) {
   const slop = HIT_SLOP[size]
   if (!slop || !groupItem) return slop
@@ -183,7 +203,10 @@ function Button({
     /** The size a part draws itself, when it isn't `size`: it sets the pitch. */
     "data-size"?: string | null
   }) {
-  const press = usePressScale()
+  const isExpanded = props["aria-expanded"] === true
+  const press = usePressScale({ isHeld: isExpanded })
+  const [isPressedIn, setIsPressedIn] = React.useState(false)
+  const isLifted = isExpanded || isPressedIn
   const feedback = useFeedback()
   const isJoined = React.use(ButtonJoinedContext)
   const pressStyle = useAnimatedStyle(() => ({
@@ -198,6 +221,11 @@ function Button({
     hitSlop: hitSlop ?? getHitSlop(resolvedSize, groupItem),
     className: cn(buttonVariants({ variant, size, className })),
     onPress: (event: GestureResponderEvent) => {
+      // Still focusable while disabled, as on the website: it says no instead.
+      if (props["aria-disabled"]) {
+        feedback("deny")
+        return
+      }
       if (sound !== "none") {
         feedback(sound ?? getButtonFeedback(variant), {
           pitch: SIZE_PITCH[props["data-size"] ?? resolvedSize],
@@ -215,18 +243,31 @@ function Button({
   )
   return (
     <DensityScope density={SIZE_DENSITY[resolvedSize]}>
-      <TextStyle className={buttonTextVariants({ variant, size })}>
-        <IconProvider strokeWidth={1.5}>
+      <TextStyle
+        eases={variant === "ghost"}
+        className={cn(
+          buttonTextVariants({ variant, size }),
+          isLifted ? buttonLiftedTextVariants({ variant }) : undefined
+        )}
+      >
+        <IconProvider
+          strokeWidth={isLifted ? 2 : 1.5}
+          {...(resolvedSize === "xs" || resolvedSize === "icon-xs"
+            ? { size: XS_ICON }
+            : {})}
+        >
           {slotted ?? (
             <AnimatedPressable
               {...shared}
               style={[pressStyle, style]}
               onPressIn={(event) => {
                 press.onPressIn()
+                setIsPressedIn(true)
                 onPressIn?.(event)
               }}
               onPressOut={(event) => {
                 press.onPressOut()
+                setIsPressedIn(false)
                 onPressOut?.(event)
               }}
             >

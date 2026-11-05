@@ -1017,6 +1017,7 @@ function AppNavBottomBar({
           key={item.id}
           icon={item.icon}
           label={item.label}
+          disabled={item.disabled}
           isActive={containsNavItem(item, activeId)}
           render={item.href && renderLink ? renderLink(item) : undefined}
           onPress={() => onNavigate?.(item)}

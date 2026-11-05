@@ -45,6 +45,11 @@ const CROSS_SLOP = 12
 const HOLD_TO_TRACK = 400
 // Beyond this far from the rows, nothing is lit and letting go does nothing.
 const RELEASE_SLOP = 32
+// Rows in a list that scrolls wait this long to light, as iOS tables do: a finger
+// that's starting a scroll doesn't flash the row it landed on. A tap still shows.
+const SCROLL_PRESS_DELAY = 90
+// The selection steps back while another row is lit: "current", against "next".
+const DIMMED_SELECTION = 0.85
 
 type OverlayValues = {
   x: SharedValue<number>
@@ -107,6 +112,11 @@ export type FluidHoverOptions = {
    * scrolls still scrolls. `none` leaves a drag to whatever is underneath.
    */
   track?: "none" | "drag" | "hold"
+  /**
+   * The highlight previews the next selection, as tabs' does: the selection dims
+   * while another row is lit, and the highlight hides over the selected row.
+   */
+  previewsSelection?: boolean
 }
 
 type RowOptions = { disabled?: boolean; onActivate?: () => void }
@@ -115,6 +125,7 @@ export function useFluidHover({
   selected,
   axis = "y",
   track = "none",
+  previewsSelection = false,
 }: FluidHoverOptions = {}) {
   const glide = useMotion("glide")
   const move = useMotion("move")
@@ -258,6 +269,14 @@ export function useFluidHover({
     [remeasureRows, syncRows, syncSelection]
   )
 
+  React.useEffect(() => {
+    if (!previewsSelection || !selectionRect.current) return
+    selection.opacity.value = withTiming(
+      lit !== null && lit !== selected ? DIMMED_SELECTION : 1,
+      fadeIn
+    )
+  }, [fadeIn, lit, previewsSelection, selected, selection])
+
   const light = React.useCallback(
     (key: string) => {
       if (rowOptions.current.get(key)?.disabled) return
@@ -267,9 +286,12 @@ export function useFluidHover({
       setLit(key)
       // Still fading from the last press: glide from there. Otherwise appear.
       placeOverlay(hover, rect, hover.opacity.value > 0.01 ? glideTravel : null)
-      hover.opacity.value = withTiming(1, fadeIn)
+      hover.opacity.value = withTiming(
+        previewsSelection && key === selected ? 0 : 1,
+        fadeIn
+      )
     },
-    [fadeIn, glideTravel, hover]
+    [fadeIn, glideTravel, hover, previewsSelection, selected]
   )
 
   const release = React.useCallback(() => {
@@ -334,7 +356,10 @@ export function useFluidHover({
         return
       }
       placeOverlay(hover, rect, hover.opacity.value > 0.01 ? glideTravel : null)
-      hover.opacity.value = withTiming(1, fadeIn)
+      hover.opacity.value = withTiming(
+        previewsSelection && next === selected ? 0 : 1,
+        fadeIn
+      )
     }
     const slop: [number, number] = [-TRACK_SLOP, TRACK_SLOP]
     const crossSlop: [number, number] = [-CROSS_SLOP, CROSS_SLOP]
@@ -382,7 +407,9 @@ export function useFluidHover({
     hover,
     isTracking,
     litKey,
+    previewsSelection,
     rows,
+    selected,
     track,
   ])
 
@@ -397,6 +424,7 @@ export function useFluidHover({
       /** Wraps the container through FluidHoverArea. */
       gesture,
       isTrackable: track !== "none",
+      pressDelay: track === "drag" ? 0 : SCROLL_PRESS_DELAY,
       getItemProps,
       register,
       unregister,
@@ -484,6 +512,7 @@ function useFluidRow<
     /** Measures the rows again, when this one moved without its layout changing. */
     remeasure: fluid?.remeasure,
     rowProps: {
+      unstable_pressDelay: fluid?.pressDelay,
       onLayout: (event: TLayout) => {
         item?.onLayout(event)
         onLayout?.(event)

@@ -155,19 +155,29 @@ function AccordionTrigger({
   )
   if (isExpanded) {
     return (
-      <TextStyle className="cn-accordion-trigger-text cn-accordion-trigger-text-open">
+      <TextStyle
+        eases
+        className="cn-accordion-trigger-text cn-accordion-trigger-text-open"
+      >
         {trigger}
       </TextStyle>
     )
   }
   if (isLit) {
     return (
-      <TextStyle className="cn-accordion-trigger-text cn-accordion-trigger-text-lit">
+      <TextStyle
+        eases
+        className="cn-accordion-trigger-text cn-accordion-trigger-text-lit"
+      >
         {trigger}
       </TextStyle>
     )
   }
-  return <TextStyle className="cn-accordion-trigger-text">{trigger}</TextStyle>
+  return (
+    <TextStyle eases className="cn-accordion-trigger-text">
+      {trigger}
+    </TextStyle>
+  )
 }
 
 function AccordionContent({

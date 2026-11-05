@@ -8,7 +8,7 @@ import Animated, { useAnimatedStyle } from "react-native-reanimated"
 
 import { useFeedback } from "@/registry/native/lib/feedback"
 import { usePressScale } from "@/registry/native/lib/motion"
-import { PressWash } from "@/registry/native/lib/press-wash"
+import { StateFill } from "@/registry/native/lib/press-wash"
 import { renderSlot, type RenderProps } from "@/registry/native/lib/render"
 import { ButtonJoinedContext } from "@/registry/native/ui/button"
 import { DensityScope, type Density } from "@/registry/native/ui/density"
@@ -37,6 +37,18 @@ const toggleVariants = cva(
   }
 )
 
+const toggleTextVariants = cva("cn-toggle-text", {
+  variants: {
+    state: {
+      rest: "",
+      on: "cn-toggle-text-on",
+    },
+  },
+  defaultVariants: {
+    state: "rest",
+  },
+})
+
 // A control's size="sm" pins it to compact and size="lg" to spacious.
 const SIZE_DENSITY: Partial<Record<string, Density>> = {
   sm: "compact",
@@ -62,6 +74,8 @@ function Toggle({
   onPressOut,
   style,
   hitSlop,
+  isLit = false,
+  paintsOwnFill = true,
   ...props
 }: Omit<React.ComponentProps<typeof Pressable>, "children"> &
   VariantProps<typeof toggleVariants> &
@@ -71,6 +85,10 @@ function Toggle({
     onPressedChange?: (pressed: boolean) => void
     className?: string
     children?: React.ReactNode
+    /** A Fluid Hover group's lit item: foreground, stroke 2. */
+    isLit?: boolean
+    /** Off in a group whose overlays already paint what's pressed and on. */
+    paintsOwnFill?: boolean
   }) {
   const [isOn = false, setIsOn] = useControllableState({
     prop: pressed,
@@ -79,6 +97,7 @@ function Toggle({
   })
   const feedback = useFeedback()
   const press = usePressScale()
+  const [isHeld, setIsHeld] = React.useState(false)
   const isJoined = React.use(ButtonJoinedContext)
   const pressStyle = useAnimatedStyle(() => ({
     transform: [{ scale: isJoined ? 1 : press.scale.value }],
@@ -108,28 +127,32 @@ function Toggle({
       style={[pressStyle, style]}
       onPressIn={(event) => {
         press.onPressIn()
+        setIsHeld(true)
         onPressIn?.(event)
       }}
       onPressOut={(event) => {
         press.onPressOut()
+        setIsHeld(false)
         onPressOut?.(event)
       }}
     >
-      <PressWash press={press} className="cn-toggle-wash" />
+      {paintsOwnFill ? (
+        <StateFill isOn={isOn || isHeld} className="cn-toggle-fill" />
+      ) : null}
       {renderTextChildren(children)}
     </AnimatedPressable>
   )
+  const isForeground = isOn || isHeld || isLit
   return (
     <DensityScope density={SIZE_DENSITY[resolvedSize]}>
-      {isOn ? (
-        <TextStyle className="cn-toggle-text cn-toggle-text-on">
-          <IconProvider strokeWidth={2}>{content}</IconProvider>
-        </TextStyle>
-      ) : (
-        <TextStyle className="cn-toggle-text">
-          <IconProvider strokeWidth={1.5}>{content}</IconProvider>
-        </TextStyle>
-      )}
+      <TextStyle
+        eases
+        className={toggleTextVariants({ state: isForeground ? "on" : "rest" })}
+      >
+        <IconProvider strokeWidth={isForeground ? 2 : 1.5}>
+          {content}
+        </IconProvider>
+      </TextStyle>
     </DensityScope>
   )
 }

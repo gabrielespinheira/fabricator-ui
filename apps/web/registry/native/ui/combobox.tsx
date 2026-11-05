@@ -551,6 +551,7 @@ function ComboboxItem({
       {...rowProps}
     >
       <TextStyle
+        eases
         className={
           isSelected
             ? cn("cn-combobox-item-text-selected")

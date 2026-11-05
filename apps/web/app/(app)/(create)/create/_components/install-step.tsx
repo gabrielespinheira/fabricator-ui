@@ -3,13 +3,17 @@
 import * as React from "react"
 import Link from "next/link"
 import {
+  getAgentPrompt,
+  getAssistantLabel,
+  getDarkModeGuide,
   getNextSteps,
   getPrerequisites,
   getProjectTree,
 } from "@fabricator-ui/setup"
 import { LinkIcon } from "lucide-react"
 
-import { CheckIcon, ExternalLinkIcon } from "@/lib/site-icons"
+import type { Event } from "@/lib/events"
+import { CheckIcon, CopyIcon, ExternalLinkIcon } from "@/lib/site-icons"
 import {
   DENSITY_OPTIONS,
   ICON_LIBRARIES,
@@ -30,7 +34,6 @@ import {
   SETUP_BASES,
   setupToParams,
   toProjectSetup,
-  type Framework,
   type Setup,
 } from "@/app/(app)/(create)/lib/setup"
 import {
@@ -43,13 +46,6 @@ import { CommandText, PackageManagerSwitch } from "./command-dock"
 import { PlanList } from "./plan-list"
 import type { StepName } from "./setup-wizard"
 import { StepFooter } from "./step-parts"
-
-const DARK_MODE_GUIDES: Partial<Record<Framework, string>> = {
-  next: "/docs/dark-mode/next",
-  vite: "/docs/dark-mode/vite",
-  start: "/docs/dark-mode/tanstack-start",
-  astro: "/docs/dark-mode/astro",
-}
 
 const LINK_CLASS =
   "rounded-sm text-foreground underline underline-offset-4 outline-none hover:text-foreground/80 focus-visible:ring-1 focus-visible:ring-focus-ring"
@@ -64,9 +60,12 @@ function useCopied() {
     return () => clearTimeout(timer)
   }, [copied])
 
-  const copy = React.useCallback(async (key: string, value: string) => {
-    if (await copyToClipboardWithMeta(value)) setCopied(key)
-  }, [])
+  const copy = React.useCallback(
+    async (key: string, value: string, event?: Event) => {
+      if (await copyToClipboardWithMeta(value, event)) setCopied(key)
+    },
+    []
+  )
 
   return [copied, copy] as const
 }
@@ -76,6 +75,36 @@ function shareLink(setup: Setup) {
   const params = setupToParams(setup)
   params.set("step", "install")
   return `${window.location.origin}/create?${params}`
+}
+
+const AGENT_NAMES = new Intl.ListFormat("en", { type: "disjunction" })
+
+/** The prompt as it's pasted, with the command shown the way the page shows it. */
+function AgentPromptText({
+  prompt,
+  command,
+}: {
+  prompt: string
+  command: string
+}) {
+  const [before = "", after = ""] = prompt.split(command)
+
+  return (
+    <div
+      // It scrolls, with nothing in it to focus, so keys reach it here.
+      tabIndex={0}
+      role="region"
+      aria-label="The prompt for your AI agent"
+      className="no-scrollbar max-h-64 scroll-fade-y overflow-y-auto rounded-xl p-4 font-mono text-[13px] leading-relaxed whitespace-pre-wrap text-foreground/80 outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
+    >
+      {before.trimEnd()}
+      <CommandText
+        command={command}
+        className="my-3 leading-relaxed whitespace-normal"
+      />
+      {after.trimStart()}
+    </div>
+  )
 }
 
 export function InstallStep({
@@ -90,14 +119,15 @@ export function InstallStep({
 
   const projectSetup = toProjectSetup(setup)
   const command = buildSetupCommand(setup, packageManager)
+  const prompt = getAgentPrompt(projectSetup, packageManager)
   const plan = getSetupPlan(setup)
   const prerequisites = getPrerequisites(projectSetup)
   const nextSteps = getNextSteps(projectSetup, packageManager)
   const isExisting = setup.project === "existing"
-  const darkModeGuide =
-    !isExisting && DARK_MODE_GUIDES[setup.framework]
-      ? DARK_MODE_GUIDES[setup.framework]
-      : "/docs/dark-mode"
+  const agentNames =
+    setup.assistants.length > 0
+      ? AGENT_NAMES.format(setup.assistants.map(getAssistantLabel))
+      : "your AI agent"
 
   return (
     <div className="flex w-full max-w-3xl flex-col gap-10">
@@ -125,6 +155,36 @@ export function InstallStep({
             event="copy_npm_command"
             className="top-2.5"
           />
+        </figure>
+      </section>
+
+      <section aria-labelledby="agent-title" className="flex flex-col gap-4">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div className="flex flex-col gap-1">
+            <h2 id="agent-title" className="text-[15px] font-semibold">
+              Or hand it to your AI agent
+            </h2>
+            <p className="text-[13px] text-muted-foreground">
+              Paste this into {agentNames}. It runs the command, fixes what
+              fails and finishes the setup.
+            </p>
+          </div>
+          <Button
+            variant="outline"
+            onClick={() =>
+              copy("prompt", prompt, { name: "copy_agent_prompt" })
+            }
+          >
+            {copied === "prompt" ? (
+              <CheckIcon data-icon="inline-start" />
+            ) : (
+              <CopyIcon data-icon="inline-start" />
+            )}
+            {copied === "prompt" ? "Prompt copied" : "Copy prompt"}
+          </Button>
+        </div>
+        <figure className="overflow-hidden rounded-xl bg-code">
+          <AgentPromptText prompt={prompt} command={command} />
         </figure>
         <div className="flex flex-wrap items-center gap-3">
           <Button
@@ -218,10 +278,7 @@ export function InstallStep({
           </li>
           <li>
             Add a theme toggle with the{" "}
-            <Link
-              href={darkModeGuide ?? "/docs/dark-mode"}
-              className={LINK_CLASS}
-            >
+            <Link href={getDarkModeGuide(projectSetup)} className={LINK_CLASS}>
               dark mode guide
             </Link>
             .

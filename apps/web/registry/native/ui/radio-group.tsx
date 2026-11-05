@@ -11,6 +11,7 @@ import Animated, {
 import { useFeedback } from "@/registry/native/lib/feedback"
 import { useFieldControl } from "@/registry/native/lib/field-model"
 import { useMotion, usePressScale } from "@/registry/native/lib/motion"
+import { StateFill } from "@/registry/native/lib/press-wash"
 import { renderTextChildren } from "@/registry/native/ui/text"
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable)
@@ -96,7 +97,7 @@ function RadioGroupItem({
   const feedback = useFeedback()
   const isReadOnly = group?.isReadOnly ?? false
   const select = () => {
-    if (!isChecked) feedback("pick")
+    feedback("pick")
     group?.select(value)
   }
   const field = useFieldControl({
@@ -160,6 +161,11 @@ function RadioGroupItem({
       }}
       {...props}
     >
+      <StateFill
+        isOn={isChecked}
+        data-invalid={Boolean(isFieldInvalid)}
+        className="cn-radio-group-fill"
+      />
       <Animated.View
         data-slot="radio-group-indicator"
         className="cn-radio-group-indicator items-center justify-center"

@@ -262,6 +262,7 @@ function DropdownMenuItem({
   return (
     // A destructive row stays destructive under the highlight.
     <TextStyle
+      eases
       className={
         isLit && variant === "default"
           ? cn("cn-dropdown-menu-item-text-lit")
@@ -321,6 +322,7 @@ function DropdownMenuSubTrigger({
   })
   return (
     <TextStyle
+      eases
       className={
         isLit || open
           ? cn("cn-dropdown-menu-item-text-lit")
@@ -389,6 +391,7 @@ function DropdownMenuChoiceText({
 }) {
   return (
     <TextStyle
+      eases
       className={
         isChecked
           ? cn(

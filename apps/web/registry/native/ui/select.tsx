@@ -413,6 +413,7 @@ function SelectItemText({
 }) {
   return (
     <TextStyle
+      eases
       className={
         isSelected
           ? cn("cn-select-item-label cn-select-item-label-selected")
