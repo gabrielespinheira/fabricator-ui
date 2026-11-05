@@ -14,7 +14,7 @@ import { useFeedback } from "@/registry/native/lib/feedback"
 import { useFieldControl } from "@/registry/native/lib/field-model"
 import { useMotion } from "@/registry/native/lib/motion"
 import { parseNumber } from "@/registry/native/lib/motion-tokens"
-import { DensityScope } from "@/registry/native/ui/density"
+import { DensityScope, useControlSize } from "@/registry/native/ui/density"
 
 // A press stretches the knob 4pt toward the centre and squashes it by the same.
 const PRESS_STRETCH = 4
@@ -163,10 +163,11 @@ function Switch({
 }: Omit<React.ComponentProps<typeof SwitchControl>, "size"> & {
   size?: "sm" | "default"
 }) {
-  // size="sm" pins the switch to compact, so the knob's numbers must be read
+  // size="sm" takes a step down the scale, so the knob's numbers must be read
   // inside the scope.
+  const { density } = useControlSize(size)
   return (
-    <DensityScope density={size === "sm" ? "compact" : undefined}>
+    <DensityScope density={density}>
       <SwitchControl size={size} {...props} />
     </DensityScope>
   )

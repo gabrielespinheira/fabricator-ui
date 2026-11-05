@@ -38,6 +38,8 @@ function Marker({
     "data-slot": "marker",
     "data-variant": variant,
     className: cn(markerVariants({ variant, className })),
+    // Rendered as a link, a line of text taken to a full touch target.
+    ...(render || asChild ? { hitSlop: 10 } : {}),
     ...props,
   }
   // The separator's rules, the website's ::before and ::after.

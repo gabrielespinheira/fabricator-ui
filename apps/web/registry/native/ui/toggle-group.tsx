@@ -4,6 +4,7 @@ import { type VariantProps } from "class-variance-authority"
 import { cn } from "cn"
 import { View } from "react-native"
 
+import { getTouchSlop } from "@/registry/native/lib/density-scale"
 import { useFeedback } from "@/registry/native/lib/feedback"
 import {
   FluidHoverArea,
@@ -13,6 +14,7 @@ import {
   useFluidHover,
   useFluidRow,
 } from "@/registry/native/lib/fluid-hover"
+import { useControlSize } from "@/registry/native/ui/density"
 import { Toggle, toggleVariants } from "@/registry/native/ui/toggle"
 
 type ToggleGroupContextValue = VariantProps<typeof toggleVariants> & {
@@ -152,6 +154,8 @@ function ToggleGroupItem({
   const isPressed = group?.value.includes(value) ?? false
   const isDisabled = disabled ?? group?.isDisabled
   const feedback = useFeedback()
+  const { height } = useControlSize(resolvedSize)
+  const slop = getTouchSlop(height)
   const { isLit, rowProps } = useFluidRow({
     itemKey: value,
     disabled: isDisabled,
@@ -179,6 +183,12 @@ function ToggleGroupItem({
       pressed={isPressed}
       onPressedChange={(pressed) => group?.toggle(value, pressed)}
       disabled={isDisabled}
+      // Across the group only: along it a slop would take a neighbour's press.
+      hitSlop={
+        group?.orientation === "vertical"
+          ? { left: slop, right: slop }
+          : { top: slop, bottom: slop }
+      }
       isLit={isLit}
       // The highlight paints the press, and in a single-select group the sliding
       // selection paints the on fill. Otherwise the item still paints its own on.

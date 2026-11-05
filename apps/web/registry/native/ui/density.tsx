@@ -1,10 +1,17 @@
 import * as React from "react"
-import { ScopedVariables } from "uniwind"
+import { ScopedVariables, useCSSVariable } from "uniwind"
 
-import { DENSITIES, type DensityName } from "@/registry/fabricator/density"
 import { getDensityVariables } from "@/registry/fabricator/density-variables"
+import {
+  getDensityName,
+  getDensityTokens,
+  getSizeDensity,
+  getXsSize,
+  type SizeDensity,
+} from "@/registry/native/lib/density-scale"
+import { parseNumber } from "@/registry/native/lib/motion-tokens"
 
-type Density = DensityName
+type Density = SizeDensity
 
 const DensityContext = React.createContext<Density | undefined>(undefined)
 
@@ -17,7 +24,8 @@ function DensityScope({
   children?: React.ReactNode
 }) {
   const variables = React.useMemo(
-    () => (density ? getDensityVariables(DENSITIES[density]) : undefined),
+    () =>
+      density ? getDensityVariables(getDensityTokens(density)) : undefined,
     [density]
   )
   if (!variables) return children
@@ -48,4 +56,24 @@ function useDensity() {
   return React.use(DensityContext)
 }
 
-export { DensityProvider, DensityScope, useDensity, type Density }
+/**
+ * What a control's `size` makes of the density around it: the density to pin it to,
+ * if any, and the height of a control there. Call it outside the control's own scope.
+ */
+function useControlSize(size?: string | null) {
+  const around = getDensityName(parseNumber(useCSSVariable("--density-36"), 36))
+  const density = getSizeDensity(size, around)
+  return {
+    density,
+    height: getDensityTokens(density ?? around).space[36],
+    xs: getXsSize(around),
+  }
+}
+
+export {
+  DensityProvider,
+  DensityScope,
+  useControlSize,
+  useDensity,
+  type Density,
+}

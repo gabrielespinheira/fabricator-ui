@@ -6,6 +6,7 @@ import { Text as TextPrimitive } from "react-native"
 import Animated from "react-native-reanimated"
 import { useCSSVariable, useResolveClassNames } from "uniwind"
 
+import { applyDataVariants } from "@/registry/native/lib/data-variants"
 import { useMotion } from "@/registry/native/lib/motion"
 import { parseNumber } from "@/registry/native/lib/motion-tokens"
 import { wrapTextChildren } from "@/registry/native/lib/text-children"
@@ -40,7 +41,11 @@ function EasedText({
   style,
   ...props
 }: React.ComponentProps<typeof TextPrimitive> & { duration: number }) {
-  const { color } = useResolveClassNames(className ?? "")
+  // The colour goes inline for the transition to see, and there it beats the
+  // class, so it has to be the one this element's state picks.
+  const { color } = useResolveClassNames(
+    cn(applyDataVariants(className ?? "", props))
+  )
   return (
     <AnimatedTextPrimitive
       data-slot="text"

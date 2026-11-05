@@ -1,7 +1,7 @@
 /* MARK: Tab Strip */
 
-  /* A 40pt row of document tabs on the surface it sits on. `sm` pins it to the
-     compact density. */
+  /* A row of document tabs on the surface it sits on: 48pt at a phone's density,
+     40pt at `sm`, a step down the scale. A press takes the row's whole height. */
   .cn-tab-strip {
     @apply h-(--density-40) gap-(--density-4) px-(--density-6);
   }

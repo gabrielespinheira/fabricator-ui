@@ -94,11 +94,13 @@
 
   /* The field ladder: transparent at rest, the card fill while focused. */
   .cn-sidebar-input {
-    @apply bg-transparent focus:bg-card h-(--density-32) text-(length:--density-text-13);
+    @apply bg-transparent focus:bg-card h-(--density-36) text-(length:--density-text-13);
   }
 
+  /* As tall as a large row on a tablet, whatever it holds, so its centre stays on
+     the header's across from it. */
   .cn-sidebar-header {
-    @apply gap-(--density-8) p-(--density-8);
+    @apply gap-(--density-8) p-(--density-8) md:min-h-[calc(var(--density-48)+2*var(--density-8))];
   }
 
   .cn-sidebar-content {
@@ -235,7 +237,7 @@
   /* Row actions: 24pt boxes centred on the row, each placed by what else its row
      holds (lib/sidebar-layout-model). In a cluster they flow in its row. */
   .cn-sidebar-menu-action {
-    @apply size-(--density-24) rounded-md active:bg-hover data-[row-size=default]:top-[calc((var(--density-30)-var(--density-24))/2)] data-[row-size=lg]:top-[calc((var(--density-48)-var(--density-24))/2)] data-[row-size=sm]:top-[calc((var(--density-28)-var(--density-24))/2)];
+    @apply data-[shown=false]:opacity-0 size-(--density-24) rounded-md active:bg-hover data-[row-size=default]:top-[calc((var(--density-30)-var(--density-24))/2)] data-[row-size=lg]:top-[calc((var(--density-48)-var(--density-24))/2)] data-[row-size=sm]:top-[calc((var(--density-28)-var(--density-24))/2)];
   }
 
   .cn-sidebar-menu-action-text {
@@ -248,7 +250,7 @@
   }
 
   .cn-sidebar-menu-actions {
-    @apply gap-1 data-[row-size=default]:top-[calc((var(--density-30)-var(--density-24))/2)] data-[row-size=lg]:top-[calc((var(--density-48)-var(--density-24))/2)] data-[row-size=sm]:top-[calc((var(--density-28)-var(--density-24))/2)];
+    @apply data-[shown=false]:opacity-0 gap-1 data-[row-size=default]:top-[calc((var(--density-30)-var(--density-24))/2)] data-[row-size=lg]:top-[calc((var(--density-48)-var(--density-24))/2)] data-[row-size=sm]:top-[calc((var(--density-28)-var(--density-24))/2)];
   }
 
   .cn-sidebar-menu-badge {

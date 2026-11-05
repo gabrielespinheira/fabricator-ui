@@ -29,7 +29,7 @@
   }
 
   .cn-navigation-menu-trigger-icon {
-    @apply size-3;
+    @apply size-(--density-icon-14);
   }
 
   /* Panel links: rounded-lg rows, lit by the panel's own highlight (Fluid Hover).

@@ -112,6 +112,9 @@ const itemVariants = cva("cn-item w-full flex-row flex-wrap items-center", {
   },
 })
 
+// A one-line row at the small sizes, taken to a full touch target.
+const ITEM_SLOP: Record<string, number | undefined> = { sm: 1, xs: 3 }
+
 function Item({
   className,
   variant = "default",
@@ -135,7 +138,11 @@ function Item({
   // Rendered as a pressable it's a link: the lightest sound, as rows are.
   const slotted = renderSlot(
     { render, asChild },
-    { ...shared, onPress: () => feedback("tick") },
+    {
+      ...shared,
+      hitSlop: ITEM_SLOP[size ?? "default"],
+      onPress: () => feedback("tick"),
+    },
     render ? renderTextChildren(content) : children
   )
   return (

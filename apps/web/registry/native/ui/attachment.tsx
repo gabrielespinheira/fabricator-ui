@@ -313,6 +313,14 @@ const attachmentTriggerWashVariants = cva("cn-attachment-trigger-wash", {
   },
 })
 
+// What a row reaches past its own height to make a full touch target. A vertical
+// attachment is taller than one at every size.
+const TRIGGER_SLOP: Record<AttachmentSize, number> = {
+  default: 2,
+  sm: 5,
+  xs: 9,
+}
+
 function AttachmentTrigger({
   className,
   render,
@@ -324,12 +332,14 @@ function AttachmentTrigger({
   ...props
 }: React.ComponentProps<typeof Pressable> &
   RenderProps & { className?: string; children?: React.ReactNode }) {
-  const { orientation } = React.use(AttachmentContext)
+  const { orientation, size } = React.use(AttachmentContext)
   const feedback = useFeedback()
   const press = usePressScale()
+  const slop = orientation === "horizontal" ? TRIGGER_SLOP[size] : 0
   const shared = {
     "data-slot": "attachment-trigger",
     role: "button" as const,
+    hitSlop: { top: slop, bottom: slop },
     className: cn("cn-attachment-trigger absolute inset-0 z-10", className),
     onPress: (event: GestureResponderEvent) => {
       feedback("tap")

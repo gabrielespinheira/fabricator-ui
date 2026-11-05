@@ -20,6 +20,7 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated"
+import { useCSSVariable } from "uniwind"
 
 import { useIsMobile } from "@/registry/native/hooks/use-mobile"
 import { useFeedback, useMountFeedback } from "@/registry/native/lib/feedback"
@@ -31,6 +32,7 @@ import {
   useFluidRow,
 } from "@/registry/native/lib/fluid-hover"
 import { useMotion, useSurfaceAnimation } from "@/registry/native/lib/motion"
+import { parseNumber } from "@/registry/native/lib/motion-tokens"
 import {
   COLLISION_INSETS,
   getVerticalSide,
@@ -178,6 +180,7 @@ function NavigationMenuTrigger({
   const triggerRef = React.useRef<NavigationMenuPrimitive.TriggerRef>(null)
   const composedRef = useComposedRefs(triggerRef, ref)
   const { isLit, rowProps } = useFluidRow(props)
+  const chevronSize = parseNumber(useCSSVariable("--density-icon-14"), 14)
 
   // Opened from state, no press has measured it, and a popover needs its anchor.
   React.useEffect(() => {
@@ -222,7 +225,7 @@ function NavigationMenuTrigger({
           className="cn-navigation-menu-trigger-icon items-center justify-center"
           style={iconStyle}
         >
-          <ChevronDownIcon size={12} />
+          <ChevronDownIcon size={chevronSize} />
         </Animated.View>
       </NavigationMenuPrimitive.Trigger>
     </TextStyle>
@@ -397,6 +400,8 @@ function NavigationMenuLink({
           data-slot="navigation-menu-link"
           data-active={active}
           accessibilityState={{ selected: active }}
+          // A line of text and its padding, a point or two short of a full target.
+          hitSlop={2}
           className={cn(
             "cn-navigation-menu-link flex-row items-center",
             className

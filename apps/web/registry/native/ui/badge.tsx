@@ -87,6 +87,8 @@ function Badge({
     "data-invalid": Boolean(isInvalid),
     "aria-invalid": isInvalid,
     className: cn(badgeVariants({ variant }), className),
+    // Rendered as a link, it's a target too small to reach without help.
+    ...(render || asChild ? { hitSlop: 8 } : {}),
     ...props,
   }
   const slotted = renderSlot(

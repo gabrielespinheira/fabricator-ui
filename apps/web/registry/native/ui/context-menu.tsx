@@ -189,7 +189,7 @@ function ContextMenuContent({
     side: verticalSide,
     align,
   })
-  const { height } = useWindowDimensions()
+  const { width, height } = useWindowDimensions()
   return (
     <ContextMenuPortal>
       <DensityScope density={density}>
@@ -216,7 +216,7 @@ function ContextMenuContent({
               <ContextMenuInsideContext value={true}>
                 <TextStyle className="cn-context-menu-text">
                   <FluidHoverScrollList
-                    style={{ maxHeight: getMenuMaxHeight(height) }}
+                    style={{ maxHeight: getMenuMaxHeight(height, width) }}
                   >
                     {renderTextChildren(children)}
                   </FluidHoverScrollList>

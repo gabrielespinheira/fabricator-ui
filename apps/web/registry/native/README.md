@@ -18,6 +18,7 @@ Read, in order: `registry/fabricator/base/ui/<name>.tsx` (or `registry/fabricato
   - Use `Text` from `ui/text`, never React Native's.
   - A part that holds arbitrary children renders `{renderTextChildren(children)}`, so `<Button>Save</Button>` works.
   - A part that sets text style for its children wraps them in `<TextStyle className="cn-x-text">`. That also colours icons inside it.
+  - Text in a horizontal scroller takes `numberOfLines={1}` unless it's given a width. Yoga measures it at a tiny width first, and the row keeps the height of text wrapped a word at a time: a 216pt row came out over 700pt.
   - A part whose text colour follows its state adds `eases`: `<TextStyle eases className={…}>`. The colour then moves on the feedback timing, as the website's `transition-colors` does. Leave it off text that never changes: each eased `Text` is an animated view.
 - **Parent state:** `group-*`, `has-*`, `in-data-*` and `peer-*` don't exist. Pass state through React context (see `CardContext`) and set a `data-*` prop on each part.
 - **Composition:** `render` and `asChild` both work: `renderSlot` for a plain part (see `Button`), `resolveRender` for a primitive with `asChild` (see `DialogTrigger`).
@@ -34,7 +35,7 @@ Rules go in `registry/styles/native/<name>.css`, under `/* MARK: <Component> */`
 - **What works:** Tailwind utilities, `active:`, `focus:` (inputs), `disabled:`, `dark:`, `ios:`, `android:`, `sm:` and up, `data-[prop=value]:` on the component's own prop, equality only.
 - **What doesn't:** `hover:`, `group-*`, `has-*`, `in-*`, `peer-*`, `before:`, `after:`, `backdrop-*`, `grid`, `[&_svg]:`, `data-open:` (write `data-[state=open]:`), `shadow-*` from Tailwind's defaults (use `shadow-surface-N`), and `truncate` (set `numberOfLines`).
 - Colours are the website's tokens: `bg-primary`, `bg-surface-3`, `bg-hover`, `bg-active`, `text-muted-foreground`, `text-destructive-text`, `bg-info-surface-2`. Hover states become `active:`.
-- Sizes come from the density: `h-(--density-36)`, `px-(--density-16)`, `text-(length:--density-text-13)`, never fixed pixels for controls. `size="sm"` pins compact and `size="lg"` spacious through `DensityScope`, as `Button` does.
+- Sizes come from the density: `h-(--density-36)`, `px-(--density-16)`, `text-(length:--density-text-13)`, never fixed pixels for controls. A phone's base is spacious, 44pt controls and 15pt text, and a demo or a screen doesn't pin a control below it to fit. `size` goes through `useControlSize`, as `Button` does: at that base `sm` is a step down, 36pt and 13pt, and `lg` a step up, 52pt and 17pt; at a smaller density they pin compact and spacious, as on the website. A tablet has its own base, set once by `FabricatorRoot` from the window's width: 40pt controls with the phone's 15pt text and 18pt icons, `sm` 34pt and 14pt, `lg` 48pt and 16pt, `xs` 28pt and 13pt. Where a part's layout should differ on a tablet, write `md:` in its rule (768pt, where the App Shell changes layout too). A control's own `hitSlop` comes from `getTouchSlop(height)`, so it reaches 44pt whatever the density. `DensityScope` drops its wrapper when it has no density, which remounts what's inside: fine on a leaf, never around an app.
 
 ## Motion
 
@@ -62,10 +63,12 @@ Controls call `useFeedback()` with the same names as the website's sounds: `feed
 - Read `useDensity()` before the portal and wrap the content in `DensityScope`: portals leave the React tree.
 - The outermost portalled view takes `aria-modal`, so screen readers skip the page.
 - Android back and outside press come from the primitive; custom surfaces handle both.
+- A root that renders nothing on the website takes no slot here either: `style={NO_LAYOUT}` (`lib/overlay-model`), so a closed dialog adds no gap to its parent.
+- A menu near a screen edge goes through `getFittedSide`: the primitives only clamp, which lays it over its own trigger. On a tablet `getMenuMaxHeight` stops at 480pt and `getMenuMinWidth` at 360pt, so a stretched trigger doesn't make a stretched menu. A sheet on a top or bottom edge stops at `max-w-xl`, centred.
 
 ## Accessibility
 
-`role`, `aria-checked`, `aria-disabled`, `aria-expanded` and friends on every part, from the matching WAI-ARIA pattern. A `Pressable` with no text takes `accessibilityLabel`. Small controls keep a 44pt target through `hitSlop`.
+`role`, `aria-checked`, `aria-disabled`, `aria-expanded` and friends on every part, from the matching WAI-ARIA pattern. A `Pressable` with no text takes `accessibilityLabel`. Small controls keep a 44pt target through `hitSlop`, from `getTouchSlop` (`lib/density-scale.ts`). React Native only hit-tests past a parent's edge if something overflows that parent and it doesn't clip, so a control inside a `ScrollView` or `overflow-hidden` reaches no further than that parent: size such a row itself (the Tab Strip's tabs take the row's height).
 
 ## Declaring the item
 

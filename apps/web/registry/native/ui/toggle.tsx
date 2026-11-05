@@ -6,12 +6,13 @@ import { cn } from "cn"
 import { Pressable, type GestureResponderEvent } from "react-native"
 import Animated, { useAnimatedStyle } from "react-native-reanimated"
 
+import { getTouchSlop } from "@/registry/native/lib/density-scale"
 import { useFeedback } from "@/registry/native/lib/feedback"
 import { usePressScale } from "@/registry/native/lib/motion"
 import { StateFill } from "@/registry/native/lib/press-wash"
 import { renderSlot, type RenderProps } from "@/registry/native/lib/render"
 import { ButtonJoinedContext } from "@/registry/native/ui/button"
-import { DensityScope, type Density } from "@/registry/native/ui/density"
+import { DensityScope, useControlSize } from "@/registry/native/ui/density"
 import { renderTextChildren, TextStyle } from "@/registry/native/ui/text"
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable)
@@ -39,16 +40,6 @@ const toggleVariants = cva(
 
 const toggleTextVariants = cva("cn-toggle-text")
 const toggleOnTextVariants = cva("cn-toggle-text-on")
-
-// A control's size="sm" pins it to compact and size="lg" to spacious.
-const SIZE_DENSITY: Partial<Record<string, Density>> = {
-  sm: "compact",
-  lg: "spacious",
-}
-
-// What takes each size to a 44pt target: sm pins compact's 28pt, default is 36pt
-// at the default density, and lg pins spacious' 44pt.
-const HIT_SLOP: Partial<Record<string, number>> = { sm: 8, default: 4 }
 
 function Toggle({
   className,
@@ -94,6 +85,7 @@ function Toggle({
     transform: [{ scale: isJoined ? 1 : press.scale.value }],
   }))
   const resolvedSize = size ?? "default"
+  const control = useControlSize(resolvedSize)
   const shared = {
     "data-slot": "toggle",
     "data-state": isOn ? "on" : "off",
@@ -102,7 +94,7 @@ function Toggle({
     accessibilityRole: "togglebutton" as const,
     "aria-checked": isOn,
     "aria-disabled": Boolean(props.disabled),
-    hitSlop: hitSlop ?? HIT_SLOP[resolvedSize],
+    hitSlop: hitSlop ?? getTouchSlop(control.height),
     className: cn(toggleVariants({ variant, size, className })),
     onPress: (event: GestureResponderEvent) => {
       feedback(isOn ? "unlatch" : "latch")
@@ -135,7 +127,7 @@ function Toggle({
   )
   const isForeground = isOn || isHeld || isLit
   return (
-    <DensityScope density={SIZE_DENSITY[resolvedSize]}>
+    <DensityScope density={control.density}>
       <TextStyle
         eases
         className={cn(

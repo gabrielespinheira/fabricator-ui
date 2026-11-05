@@ -38,6 +38,8 @@ const INITIAL_DOCS: Record<string, Doc> = {
 
 function TabStripExample() {
   const [docs, setDocs] = React.useState(INITIAL_DOCS)
+  const [smallValue, setSmallValue] = React.useState("one")
+  const [defaultValue, setDefaultValue] = React.useState("one")
   const tabs = useTabStripState({
     defaultState: {
       tabs: ["home", "readme", "shell", "docs", "terminal", "broken"],
@@ -59,7 +61,7 @@ function TabStripExample() {
 
   return (
     <ExampleWrapper>
-      <Example title="Long press a tab for its menu" className="p-0">
+      <Example title="Long press a tab for its menu" className="gap-0 p-0">
         <TabStrip
           {...tabs.stripProps}
           onNew={openNew}
@@ -110,8 +112,8 @@ function TabStripExample() {
       </Example>
       <Example title="Size sm" className="p-0">
         <TabStrip
-          value="one"
-          onValueChange={() => {}}
+          value={smallValue}
+          onValueChange={setSmallValue}
           size="sm"
           className="w-full"
         >
@@ -123,8 +125,8 @@ function TabStripExample() {
       </Example>
       <Example title="Size default, nothing closable" className="p-0">
         <TabStrip
-          value="one"
-          onValueChange={() => {}}
+          value={defaultValue}
+          onValueChange={setDefaultValue}
           size="default"
           className="w-full"
         >

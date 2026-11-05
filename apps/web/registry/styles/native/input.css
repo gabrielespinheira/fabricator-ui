@@ -1,9 +1,10 @@
 /* MARK: Input */
 
   /* A hairline frame, transparent at rest, lifted to the card surface on
-     focus. Invalid turns the frame red. */
+     focus. Invalid turns the frame red. It gives way in a row, as on the website,
+     and never below its height. */
   .cn-input {
-    @apply font-sans text-foreground border-border data-[invalid=true]:border-destructive/50 h-(--density-36) rounded-lg border bg-transparent px-(--density-10) py-1 text-(length:--density-text-13);
+    @apply shrink min-h-(--density-36) font-sans text-foreground border-border data-[invalid=true]:border-destructive/50 h-(--density-36) rounded-lg border bg-transparent px-(--density-10) py-1 text-(length:--density-text-13);
   }
 
   /* The frame's colours at rest and in focus: it eases between them on the feedback

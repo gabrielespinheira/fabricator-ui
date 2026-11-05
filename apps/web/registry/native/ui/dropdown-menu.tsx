@@ -32,7 +32,9 @@ import {
 import { useMotion, useSurfaceAnimation } from "@/registry/native/lib/motion"
 import {
   COLLISION_INSETS,
+  getFittedSide,
   getMenuMaxHeight,
+  getMenuMinWidth,
   getVerticalSide,
   useTriggerOpen,
 } from "@/registry/native/lib/overlay-model"
@@ -176,19 +178,29 @@ function DropdownMenuContent({
   insets = COLLISION_INSETS,
   className,
   children,
+  onLayout,
   ...props
 }: Omit<DropdownMenuPrimitive.ContentProps, "side" | "children"> & {
   side?: "top" | "right" | "bottom" | "left"
   children?: React.ReactNode
 }) {
   const density = useDensity()
-  const verticalSide = getVerticalSide(side)
+  const { width, height } = useWindowDimensions()
+  const { triggerPosition } = DropdownMenuPrimitive.useRootContext()
+  const [contentHeight, setContentHeight] = React.useState<number | null>(null)
+  const verticalSide = getFittedSide({
+    side: getVerticalSide(side),
+    triggerY: triggerPosition?.pageY,
+    triggerHeight: triggerPosition?.height,
+    contentHeight,
+    offset: sideOffset,
+    windowHeight: height,
+    insets,
+  })
   const { entering, exiting, origin } = useSurfaceAnimation("popup", {
     side: verticalSide,
     align,
   })
-  const { height } = useWindowDimensions()
-  const { triggerPosition } = DropdownMenuPrimitive.useRootContext()
   return (
     <DropdownMenuPortal>
       <DensityScope density={density}>
@@ -200,12 +212,19 @@ function DropdownMenuContent({
             sideOffset={sideOffset}
             insets={insets}
             {...props}
+            onLayout={(event) => {
+              setContentHeight(event.nativeEvent.layout.height)
+              onLayout?.(event)
+            }}
           >
             <Animated.View
               data-slot="dropdown-menu-content"
               entering={entering}
               exiting={exiting}
-              style={origin}
+              style={[
+                origin,
+                { minWidth: getMenuMinWidth(triggerPosition?.width, width) },
+              ]}
               className={cn(
                 "cn-dropdown-menu-content cn-dropdown-menu-content-logical",
                 className
@@ -215,10 +234,7 @@ function DropdownMenuContent({
               <DropdownMenuInsideContext value={true}>
                 <TextStyle className="cn-dropdown-menu-text">
                   <FluidHoverScrollList
-                    style={{
-                      maxHeight: getMenuMaxHeight(height),
-                      minWidth: triggerPosition?.width,
-                    }}
+                    style={{ maxHeight: getMenuMaxHeight(height, width) }}
                   >
                     {renderTextChildren(children)}
                   </FluidHoverScrollList>

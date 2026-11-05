@@ -121,6 +121,8 @@ function BubbleContent({
     "data-variant": variant,
     "data-align": align,
     className: cn(bubbleContentVariants({ variant }), className),
+    // A ghost action is only its text, so it reaches for a full touch target.
+    ...(isAction && variant === "ghost" ? { hitSlop: 10 } : {}),
     ...props,
   }
   const slotted = renderSlot(

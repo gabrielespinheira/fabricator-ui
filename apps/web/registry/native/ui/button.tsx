@@ -5,11 +5,12 @@ import { cn } from "cn"
 import { Pressable, type GestureResponderEvent } from "react-native"
 import Animated, { useAnimatedStyle } from "react-native-reanimated"
 
+import { getTouchSlop } from "@/registry/native/lib/density-scale"
 import { useFeedback, type FeedbackName } from "@/registry/native/lib/feedback"
 import { usePressScale } from "@/registry/native/lib/motion"
 import { PressWash } from "@/registry/native/lib/press-wash"
 import { renderSlot, type RenderProps } from "@/registry/native/lib/render"
-import { DensityScope, type Density } from "@/registry/native/ui/density"
+import { DensityScope, useControlSize } from "@/registry/native/ui/density"
 import { renderTextChildren, TextStyle } from "@/registry/native/ui/text"
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable)
@@ -124,12 +125,12 @@ type ButtonVariant = VariantProps<typeof buttonVariants>["variant"]
  */
 const ButtonJoinedContext = React.createContext(false)
 
-// A control's size="sm" pins it to compact and size="lg" to spacious.
-const SIZE_DENSITY: Partial<Record<ButtonSize, Density>> = {
-  sm: "compact",
-  "icon-sm": "compact",
-  lg: "spacious",
-  "icon-lg": "spacious",
+// Which step of the scale each size takes: the icon sizes match their text sizes.
+const SIZE_STEP: Partial<Record<ButtonSize, "sm" | "lg">> = {
+  sm: "sm",
+  "icon-sm": "sm",
+  lg: "lg",
+  "icon-lg": "lg",
 }
 
 // Heavier for the primary action, a damped thud for a destructive one, the
@@ -151,22 +152,7 @@ const SIZE_PITCH: Partial<Record<string, number>> = {
   "icon-lg": 0.92,
 }
 
-// What takes each size to a 44pt target: xs is a fixed 24pt, sm pins compact's
-// 28pt, default is 36pt at the default density, and lg pins spacious' 44pt.
-const HIT_SLOP: Partial<Record<ButtonSize, number>> = {
-  xs: 10,
-  "icon-xs": 10,
-  sm: 8,
-  "icon-sm": 8,
-  default: 4,
-  icon: 4,
-}
-
-// `xs` and `icon-xs` are a fixed 24pt, and so are their 12pt icons.
-const XS_ICON = 12
-
-function getHitSlop(size: ButtonSize, groupItem: string | undefined) {
-  const slop = HIT_SLOP[size]
+function getHitSlop(slop: number, groupItem: string | undefined) {
   if (!slop || !groupItem) return slop
   // Joined buttons touch: reaching along the group would take a neighbour's press.
   return groupItem.startsWith("horizontal")
@@ -214,11 +200,18 @@ function Button({
   }))
   const resolvedSize = size ?? "default"
   const groupItem = props["data-group-item"]
+  const control = useControlSize(SIZE_STEP[resolvedSize])
+  const isXs = resolvedSize === "xs" || resolvedSize === "icon-xs"
   const shared = {
     "data-slot": "button",
     role: "button" as const,
     accessibilityState: { disabled: Boolean(props.disabled) },
-    hitSlop: hitSlop ?? getHitSlop(resolvedSize, groupItem),
+    hitSlop:
+      hitSlop ??
+      getHitSlop(
+        getTouchSlop(isXs ? control.xs.height : control.height),
+        groupItem
+      ),
     className: cn(buttonVariants({ variant, size, className })),
     onPress: (event: GestureResponderEvent) => {
       // Still focusable while disabled, as on the website: it says no instead.
@@ -242,7 +235,7 @@ function Button({
     render && children !== undefined ? renderTextChildren(children) : children
   )
   return (
-    <DensityScope density={SIZE_DENSITY[resolvedSize]}>
+    <DensityScope density={control.density}>
       <TextStyle
         eases={variant === "ghost"}
         className={cn(
@@ -252,9 +245,7 @@ function Button({
       >
         <IconProvider
           strokeWidth={isLifted ? 2 : 1.5}
-          {...(resolvedSize === "xs" || resolvedSize === "icon-xs"
-            ? { size: XS_ICON }
-            : {})}
+          {...(isXs ? { size: control.xs.icon } : {})}
         >
           {slotted ?? (
             <AnimatedPressable
