@@ -17,9 +17,18 @@ export const formItems: Registry["items"] = [
     type: "registry:ui",
     title: "Textarea",
     description: "A text field for several lines.",
-    dependencies: ["@rn-primitives/hooks", "cn"],
-    registryDependencies: ["@fabricator/field-model"],
-    files: [{ path: "ui/textarea.tsx", type: "registry:ui" }],
+    dependencies: [
+      "@rn-primitives/hooks",
+      "class-variance-authority",
+      "cn",
+      "react-native-reanimated",
+      "uniwind@1.13.1",
+    ],
+    registryDependencies: ["@fabricator/field-model", "@fabricator/motion"],
+    files: [
+      { path: "ui/textarea.tsx", type: "registry:ui" },
+      { path: "lib/field-frame.ts", type: "registry:lib" },
+    ],
     meta: docs("textarea"),
   },
   {
@@ -232,7 +241,10 @@ export const formItems: Registry["items"] = [
       "@fabricator/fluid-hover",
       "@fabricator/text",
     ],
-    files: [{ path: "ui/tabs.tsx", type: "registry:ui" }],
+    files: [
+      { path: "ui/tabs.tsx", type: "registry:ui" },
+      { path: "lib/sound-recipes.ts", type: "registry:lib" },
+    ],
     meta: docs("tabs"),
   },
   {
@@ -241,7 +253,12 @@ export const formItems: Registry["items"] = [
     title: "Tab Strip",
     description:
       "Document tabs, as in a browser or an editor: pinned, closable, renamable and movable through a menu.",
-    dependencies: ["@fabricator-ui/icons-react-native", "cn", "uniwind@1.13.1"],
+    dependencies: [
+      "@fabricator-ui/icons-react-native",
+      "class-variance-authority",
+      "cn",
+      "uniwind@1.13.1",
+    ],
     registryDependencies: [
       "@fabricator/app-shell-model",
       "@fabricator/button",
@@ -257,6 +274,7 @@ export const formItems: Registry["items"] = [
     files: [
       { path: "ui/tab-strip.tsx", type: "registry:ui" },
       { path: "lib/tab-strip-model.ts", type: "registry:lib" },
+      { path: "lib/sound-recipes.ts", type: "registry:lib" },
     ],
     meta: docs("tab-strip"),
   },

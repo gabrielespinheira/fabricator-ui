@@ -37,17 +37,8 @@ const toggleVariants = cva(
   }
 )
 
-const toggleTextVariants = cva("cn-toggle-text", {
-  variants: {
-    state: {
-      rest: "",
-      on: "cn-toggle-text-on",
-    },
-  },
-  defaultVariants: {
-    state: "rest",
-  },
-})
+const toggleTextVariants = cva("cn-toggle-text")
+const toggleOnTextVariants = cva("cn-toggle-text-on")
 
 // A control's size="sm" pins it to compact and size="lg" to spacious.
 const SIZE_DENSITY: Partial<Record<string, Density>> = {
@@ -147,7 +138,10 @@ function Toggle({
     <DensityScope density={SIZE_DENSITY[resolvedSize]}>
       <TextStyle
         eases
-        className={toggleTextVariants({ state: isForeground ? "on" : "rest" })}
+        className={cn(
+          toggleTextVariants(),
+          isForeground ? toggleOnTextVariants() : undefined
+        )}
       >
         <IconProvider strokeWidth={isForeground ? 2 : 1.5}>
           {content}

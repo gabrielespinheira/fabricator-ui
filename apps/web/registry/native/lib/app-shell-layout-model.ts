@@ -89,13 +89,38 @@ export function getFabBottom({
   rowHeight,
   gap,
   insetBottom,
+  overlap = 0,
 }: {
   hasBottomNav: boolean
   rowHeight: number
   gap: number
   insetBottom: number
+  /** How far a tab bar that floats over the page reaches up. */
+  overlap?: number
 }) {
+  if (overlap > 0) return overlap + gap
   return (hasBottomNav ? rowHeight : 0) + gap + insetBottom
+}
+
+/**
+ * Where a floating tab bar sits: a capsule over the page, partly in the home
+ * indicator's space, as Apple's. `clearance` is what a page leaves below its
+ * content so it can scroll out from under it.
+ */
+export function getFloatingNavMetrics({
+  row,
+  padding,
+  gap,
+  insetBottom,
+}: {
+  row: number
+  padding: number
+  gap: number
+  insetBottom: number
+}) {
+  const height = row + 2 * padding
+  const bottom = Math.max(insetBottom - gap, gap)
+  return { height, bottom, radius: height / 2, clearance: bottom + height }
 }
 
 /** What the page's end leaves free, so its last row can scroll out from under it. */
@@ -138,6 +163,7 @@ export function getContentColumn({
   gutter,
   bottomInset,
   fabClearance,
+  topInset = 0,
 }: {
   size: AppShellContentSize | undefined
   isPhone: boolean
@@ -145,15 +171,22 @@ export function getContentColumn({
   gutter: number
   bottomInset: number
   fabClearance: number
+  /** How far a header the page scrolls under reaches down. */
+  topInset?: number
 }) {
-  if (!size) return { paddingBottom: bottomInset + fabClearance }
+  if (!size) {
+    return {
+      ...(topInset > 0 ? { paddingTop: topInset } : {}),
+      paddingBottom: bottomInset + fabClearance,
+    }
+  }
   const padding = isPhone ? phoneGutter : gutter
   return {
     width: "100%" as const,
     maxWidth: APP_SHELL_CONTENT_WIDTHS[size] + 2 * padding,
     alignSelf: "center" as const,
     paddingHorizontal: padding,
-    paddingTop: padding,
+    paddingTop: padding + topInset,
     paddingBottom: padding + bottomInset + fabClearance,
   }
 }

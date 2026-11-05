@@ -13,7 +13,7 @@
      no mask, so it's a gradient in the colour behind the area, set by `fadeColor`
      when that isn't the page's background. */
   .cn-scroll-area-fade {
-    @apply data-[horizontal=false]:inset-x-0 data-[horizontal=false]:h-(--density-24) data-[horizontal=true]:inset-y-0 data-[horizontal=true]:w-(--density-24) data-[horizontal=false]:data-[edge=start]:top-0 data-[horizontal=false]:data-[edge=end]:bottom-0 data-[horizontal=true]:data-[edge=start]:start-0 data-[horizontal=true]:data-[edge=end]:end-0;
+    @apply data-[horizontal=false]:inset-x-0 data-[horizontal=false]:h-(--density-24) data-[horizontal=true]:inset-y-0 data-[horizontal=true]:w-(--density-24) data-[horizontal=false]:data-[edge=start]:top-0 data-[horizontal=false]:data-[edge=end]:bottom-0 data-[horizontal=true]:data-[edge=start]:left-0 data-[horizontal=true]:data-[edge=end]:right-0;
   }
 
   .cn-scroll-area-fade-color {

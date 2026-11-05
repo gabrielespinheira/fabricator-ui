@@ -7,6 +7,7 @@ import {
   getContentColumn,
   getFabBottom,
   getFabClearance,
+  getFloatingNavMetrics,
   getOtherPanelsWidth,
   getPanelFrame,
   getPanelHeaderEnd,
@@ -188,6 +189,47 @@ describe("getContentBottomInset", () => {
   })
 })
 
+describe("getFabBottom with a floating nav", () => {
+  it("rises above what floats, not above a row", () => {
+    expect(
+      getFabBottom({
+        hasBottomNav: true,
+        rowHeight: 56,
+        gap: 16,
+        insetBottom: 34,
+        overlap: 94,
+      })
+    ).toBe(110)
+  })
+})
+
+describe("getFloatingNavMetrics", () => {
+  const base = { row: 56, padding: 8, gap: 12 }
+
+  it("sits partly in the home indicator's space", () => {
+    expect(getFloatingNavMetrics({ ...base, insetBottom: 34 }).bottom).toBe(22)
+  })
+
+  it("keeps its gap where there's no home indicator", () => {
+    expect(getFloatingNavMetrics({ ...base, insetBottom: 0 }).bottom).toBe(12)
+  })
+
+  it("is as tall as its row and padding, and fully round", () => {
+    const { height, radius } = getFloatingNavMetrics({
+      ...base,
+      insetBottom: 34,
+    })
+    expect(height).toBe(72)
+    expect(radius).toBe(36)
+  })
+
+  it("asks a page to clear everything up to its top", () => {
+    expect(getFloatingNavMetrics({ ...base, insetBottom: 34 }).clearance).toBe(
+      94
+    )
+  })
+})
+
 describe("getContentColumn", () => {
   const base = {
     isPhone: false,
@@ -201,6 +243,15 @@ describe("getContentColumn", () => {
     expect(
       getContentColumn({ ...base, size: undefined, bottomInset: 34 })
     ).toEqual({ paddingBottom: 34 })
+  })
+
+  it("clears a header the content scrolls under", () => {
+    expect(
+      getContentColumn({ ...base, size: undefined, topInset: 115 })
+    ).toEqual({ paddingTop: 115, paddingBottom: 0 })
+    expect(getContentColumn({ ...base, size: "md", topInset: 115 })).toEqual(
+      expect.objectContaining({ paddingTop: 24 + 115 })
+    )
   })
 
   it("centres the page's column with the page's padding", () => {

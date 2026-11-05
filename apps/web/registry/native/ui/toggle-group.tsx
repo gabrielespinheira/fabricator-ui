@@ -4,10 +4,14 @@ import { type VariantProps } from "class-variance-authority"
 import { cn } from "cn"
 import { View } from "react-native"
 
+import { useFeedback } from "@/registry/native/lib/feedback"
 import {
+  FluidHoverArea,
   FluidHoverHighlight,
+  FluidHoverProvider,
   FluidHoverSelection,
   useFluidHover,
+  useFluidRow,
 } from "@/registry/native/lib/fluid-hover"
 import { Toggle, toggleVariants } from "@/registry/native/ui/toggle"
 
@@ -18,7 +22,6 @@ type ToggleGroupContextValue = VariantProps<typeof toggleVariants> & {
   isDisabled: boolean
   spacing: number
   orientation: "horizontal" | "vertical"
-  getItemProps: ReturnType<typeof useFluidHover>["getItemProps"]
 }
 
 const ToggleGroupContext = React.createContext<ToggleGroupContextValue | null>(
@@ -61,6 +64,8 @@ function ToggleGroup({
   const isSingle = !multiple
   const fluid = useFluidHover({
     selected: isSingle ? current[0] : undefined,
+    axis: orientation === "vertical" ? "y" : "x",
+    track: orientation === "vertical" ? "hold" : "drag",
   })
 
   const context: ToggleGroupContextValue = {
@@ -71,7 +76,6 @@ function ToggleGroup({
     isSingle,
     isDisabled: disabled,
     value: current,
-    getItemProps: fluid.getItemProps,
     toggle: (item, pressed) => {
       if (isSingle) setCurrent(pressed ? [item] : [])
       else if (pressed) setCurrent([...current, item])
@@ -80,45 +84,50 @@ function ToggleGroup({
   }
 
   return (
-    <View
-      data-slot="toggle-group"
-      data-variant={variant}
-      data-size={size}
-      data-spacing={String(spacing)}
-      data-orientation={orientation}
-      data-multiple={multiple}
-      role="group"
-      aria-disabled={disabled}
-      className={cn(
-        "cn-toggle-group flex-row items-center self-start data-[orientation=vertical]:flex-col data-[orientation=vertical]:items-stretch",
-        className
-      )}
-      style={[{ gap: spacing * 4 }, style]}
-      {...props}
-    >
-      {isSingle && (
-        <FluidHoverSelection
+    <FluidHoverProvider fluid={fluid}>
+      <FluidHoverArea fluid={fluid}>
+        <View
+          ref={fluid.attach}
+          data-slot="toggle-group"
+          data-variant={variant}
+          data-size={size}
           data-spacing={String(spacing)}
-          selection={fluid.selection}
-          className="cn-toggle-group-selection"
-        />
-      )}
-      <FluidHoverHighlight
-        data-spacing={String(spacing)}
-        hover={fluid.hover}
-        className="cn-toggle-group-highlight"
-      />
-      <ToggleGroupContext value={context}>
-        {React.Children.toArray(children).map((child, index) => (
-          <ToggleGroupIndexContext
-            key={React.isValidElement(child) ? child.key : index}
-            value={index}
-          >
-            {child}
-          </ToggleGroupIndexContext>
-        ))}
-      </ToggleGroupContext>
-    </View>
+          data-orientation={orientation}
+          data-multiple={multiple}
+          role="group"
+          aria-disabled={disabled}
+          className={cn(
+            "cn-toggle-group flex-row items-center self-start data-[orientation=vertical]:flex-col data-[orientation=vertical]:items-stretch",
+            className
+          )}
+          style={[{ gap: spacing * 4 }, style]}
+          {...props}
+        >
+          {isSingle && (
+            <FluidHoverSelection
+              data-spacing={String(spacing)}
+              selection={fluid.selection}
+              className="cn-toggle-group-selection"
+            />
+          )}
+          <FluidHoverHighlight
+            data-spacing={String(spacing)}
+            hover={fluid.hover}
+            className="cn-toggle-group-highlight"
+          />
+          <ToggleGroupContext value={context}>
+            {React.Children.toArray(children).map((child, index) => (
+              <ToggleGroupIndexContext
+                key={React.isValidElement(child) ? child.key : index}
+                value={index}
+              >
+                {child}
+              </ToggleGroupIndexContext>
+            ))}
+          </ToggleGroupContext>
+        </View>
+      </FluidHoverArea>
+    </FluidHoverProvider>
   )
 }
 
@@ -140,7 +149,22 @@ function ToggleGroupItem({
   const index = React.use(ToggleGroupIndexContext)
   const resolvedVariant = group?.variant || variant
   const resolvedSize = group?.size || size
-  const fluid = group?.getItemProps(value)
+  const isPressed = group?.value.includes(value) ?? false
+  const isDisabled = disabled ?? group?.isDisabled
+  const feedback = useFeedback()
+  const { isLit, rowProps } = useFluidRow({
+    itemKey: value,
+    disabled: isDisabled,
+    onActivate: () => {
+      feedback(isPressed ? "unlatch" : "latch")
+      group?.toggle(value, !isPressed)
+    },
+    onLayout,
+    onPressIn,
+    onPressOut,
+    onHoverIn,
+    onHoverOut,
+  })
   return (
     <Toggle
       data-slot="toggle-group-item"
@@ -152,30 +176,15 @@ function ToggleGroupItem({
       data-first={index === 0}
       variant={resolvedVariant}
       size={resolvedSize}
-      pressed={group?.value.includes(value) ?? false}
+      pressed={isPressed}
       onPressedChange={(pressed) => group?.toggle(value, pressed)}
-      disabled={disabled ?? group?.isDisabled}
+      disabled={isDisabled}
+      isLit={isLit}
+      // The highlight paints the press, and in a single-select group the sliding
+      // selection paints the on fill. Otherwise the item still paints its own on.
+      paintsOwnFill={!group?.isSingle}
       className={cn("cn-toggle-group-item shrink-0", className)}
-      onLayout={(event) => {
-        fluid?.onLayout(event)
-        onLayout?.(event)
-      }}
-      onPressIn={(event) => {
-        fluid?.onPressIn()
-        onPressIn?.(event)
-      }}
-      onPressOut={(event) => {
-        fluid?.onPressOut()
-        onPressOut?.(event)
-      }}
-      onHoverIn={(event) => {
-        fluid?.onHoverIn()
-        onHoverIn?.(event)
-      }}
-      onHoverOut={(event) => {
-        fluid?.onHoverOut()
-        onHoverOut?.(event)
-      }}
+      {...rowProps}
       {...props}
     >
       {children}

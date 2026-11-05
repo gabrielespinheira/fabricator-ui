@@ -1,7 +1,7 @@
-// The example's navigation: the same model the web playground renders
-// (NavGroup from the App Shell model), with lucide's native icons.
-import type { NavGroup } from "@fabricator-ui/app-shell-model"
+// The example's navigation: the same model the website's playground renders, with
+// the library's icons.
 import {
+  ActivityIcon,
   BoxIcon,
   CalendarIcon,
   ChartLineIcon,
@@ -9,6 +9,7 @@ import {
   GlobeIcon,
   HomeIcon,
   InboxIcon,
+  InfoIcon,
   LayoutGridIcon,
   LayoutTemplateIcon,
   LifeBuoyIcon,
@@ -19,20 +20,19 @@ import {
   SmartphoneIcon,
   StickyNoteIcon,
   UsersIcon,
-  type LucideIcon,
-} from "lucide-react-native"
+} from "@fabricator-ui/icons-react-native"
 
-export type NativeNavGroup = NavGroup<LucideIcon>
+import type { AppNavGroup } from "@/registry/native/ui/app-nav"
 
 export const WORKSPACES = [
-  { id: "acme", name: "Acme Inc", plan: "Enterprise" },
-  { id: "studio", name: "Fabricator Studio", plan: "Pro" },
-  { id: "lab", name: "Side Lab", plan: "Free" },
-] as const
+  { id: "acme", name: "Acme Inc", description: "Enterprise" },
+  { id: "studio", name: "Fabricator Studio", description: "Pro" },
+  { id: "lab", name: "Side Lab", description: "Free" },
+]
 
 export const USER = { name: "Gabs Fabricator", email: "gabs@fabricator.dev" }
 
-export const NAV_GROUPS: NativeNavGroup[] = [
+export const NAV_GROUPS: AppNavGroup[] = [
   {
     id: "library",
     label: "Library",
@@ -161,7 +161,7 @@ export const NAV_GROUPS: NativeNavGroup[] = [
 ]
 
 export const PANEL_VIEWS = [
-  { value: "details", label: "Details" },
-  { value: "activity", label: "Activity" },
-  { value: "comments", label: "Comments" },
-] as const
+  { value: "details", label: "Details", icon: InfoIcon },
+  { value: "activity", label: "Activity", icon: ActivityIcon },
+  { value: "comments", label: "Comments", icon: MessageSquareIcon },
+]

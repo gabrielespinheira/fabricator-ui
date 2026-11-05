@@ -12,7 +12,7 @@
      the sliding selection paints the on fill. Joined items square their corners
      and share their outlines. */
   .cn-toggle-group-item {
-    @apply active:bg-transparent data-[single=true]:data-[state=on]:bg-transparent h-(--density-36) min-w-(--density-36) px-(--density-12) data-[spacing=0]:rounded-none data-[spacing=0]:data-[variant=outline]:data-[first=false]:data-[orientation=horizontal]:border-s-0 data-[spacing=0]:data-[variant=outline]:data-[first=false]:data-[orientation=vertical]:border-t-0;
+    @apply h-(--density-36) min-w-(--density-36) px-(--density-12) data-[spacing=0]:rounded-none data-[spacing=0]:data-[variant=outline]:data-[first=false]:data-[orientation=horizontal]:border-s-0 data-[spacing=0]:data-[variant=outline]:data-[first=false]:data-[orientation=vertical]:border-t-0;
   }
 
   .cn-toggle-group-selection {

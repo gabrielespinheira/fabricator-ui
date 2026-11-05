@@ -18,11 +18,11 @@
   }
 
   .cn-user-menu-name {
-    @apply text-foreground text-(length:--density-text-13) font-semibold;
+    @apply text-foreground text-(length:--density-text-13) font-semibold leading-tight;
   }
 
   .cn-user-menu-email {
-    @apply text-muted-foreground text-(length:--density-text-12);
+    @apply text-muted-foreground text-(length:--density-text-12) leading-tight;
   }
 
   /* On the axis of the rows' actions and badges. */

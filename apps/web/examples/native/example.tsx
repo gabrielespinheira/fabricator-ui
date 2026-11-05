@@ -4,8 +4,32 @@ import { ScrollView, View, type ViewProps } from "react-native"
 
 import { Text } from "@/registry/native/ui/text"
 
+/**
+ * What the screen around a demo asks of it: its own scroller, which knows the room
+ * a header and a tab bar take, and a heading that scrolls with the demo.
+ */
+const ExampleScreenContext = React.createContext<{
+  Scroller: React.ComponentType<
+    React.ComponentProps<typeof ScrollView> & { size?: "md" }
+  >
+  heading?: React.ReactNode
+} | null>(null)
+
 /** A demo's screen: its sections stacked on the page. */
 function ExampleWrapper({ className, children, ...props }: ViewProps) {
+  const screen = React.use(ExampleScreenContext)
+  if (screen) {
+    return (
+      <screen.Scroller
+        size="md"
+        contentContainerClassName={cn("gap-6", className)}
+        {...props}
+      >
+        {screen.heading}
+        {children}
+      </screen.Scroller>
+    )
+  }
   return (
     <ScrollView
       contentContainerClassName={cn("gap-6 p-4 pb-12", className)}
@@ -42,4 +66,4 @@ function Example({
   )
 }
 
-export { Example, ExampleWrapper }
+export { Example, ExampleScreenContext, ExampleWrapper }

@@ -21,7 +21,6 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "cn"
 import {
   Pressable,
-  ScrollView,
   useWindowDimensions,
   View,
   type GestureResponderEvent,
@@ -93,6 +92,7 @@ import { wrapTextChildren } from "@/registry/native/lib/text-children"
 import { Button } from "@/registry/native/ui/button"
 import { DropdownMenu } from "@/registry/native/ui/dropdown-menu"
 import { Input } from "@/registry/native/ui/input"
+import { ScrollArea } from "@/registry/native/ui/scroll-area"
 import { Separator } from "@/registry/native/ui/separator"
 import { Skeleton } from "@/registry/native/ui/skeleton"
 import { renderTextChildren, Text, TextStyle } from "@/registry/native/ui/text"
@@ -1185,13 +1185,27 @@ function SidebarPage({
   const canSwipeOpen =
     isMobile && collapsible !== null && collapsible !== "none" && !openMobile
   const openGesture = useRevealOpenGesture(canSwipeOpen, isReveal)
+  const [asideRadiusToken, cardRadiusToken] = useCSSVariable([
+    "--radius-2xl",
+    "--radius-xl",
+  ])
+  const asideRadius = parseNumber(asideRadiusToken, 16)
+  const cardRadius = parseNumber(cardRadiusToken, 11)
+  const restRadius = !isMobile && variant === "inset" ? cardRadius : 0
   const revealStyle = useAnimatedStyle(() => {
+    const amount = isReveal ? progress.value : 0
     const { translateX, scale } = getRevealPageTransform(
-      isReveal ? progress.value : 0,
+      amount,
       revealWidth,
       side
     )
-    return { transform: [{ translateX }, { scale }] }
+    // The corners round as the page moves aside, on the same timing. An animated
+    // value outlives the layout that set it, so a card's corners are written here
+    // too: turning a phone sideways would leave them square.
+    return {
+      transform: [{ translateX }, { scale }],
+      borderRadius: isReveal ? asideRadius * amount : restRadius,
+    }
   })
   const isCard = variant === "inset"
   return (
@@ -1297,21 +1311,25 @@ function SidebarSeparator({
   )
 }
 
+const sidebarFadeVariants = cva("cn-sidebar-fade")
+
 function SidebarContent({
   className,
   children,
   ...props
-}: React.ComponentProps<typeof ScrollView>) {
+}: React.ComponentProps<typeof ScrollArea>) {
+  const { color } = useResolveClassNames(sidebarFadeVariants())
   return (
-    <ScrollView
+    <ScrollArea
       data-slot="sidebar-content"
       data-sidebar="content"
       showsVerticalScrollIndicator={false}
+      fadeColor={typeof color === "string" ? color : undefined}
       className={cn("cn-sidebar-content flex-1", className)}
       {...props}
     >
       {renderTextChildren(children)}
-    </ScrollView>
+    </ScrollArea>
   )
 }
 
@@ -1641,7 +1659,9 @@ function SidebarGroupAction({
   if (collapse === "icon" || group?.open === false) return null
   const content = (
     <TextStyle className="cn-sidebar-group-action-text">
-      {renderTextChildren(children)}
+      <IconProvider strokeWidth={1.5}>
+        {renderTextChildren(children)}
+      </IconProvider>
     </TextStyle>
   )
   const shared = {
@@ -2278,11 +2298,15 @@ function SidebarMenuAction({
   if (collapse === "icon") return null
   const content = row?.isLit ? (
     <TextStyle className="cn-sidebar-menu-action-text cn-sidebar-menu-action-text-lit">
-      {renderTextChildren(children)}
+      <IconProvider strokeWidth={2}>
+        {renderTextChildren(children)}
+      </IconProvider>
     </TextStyle>
   ) : (
     <TextStyle className="cn-sidebar-menu-action-text">
-      {renderTextChildren(children)}
+      <IconProvider strokeWidth={1.5}>
+        {renderTextChildren(children)}
+      </IconProvider>
     </TextStyle>
   )
   const shared = {

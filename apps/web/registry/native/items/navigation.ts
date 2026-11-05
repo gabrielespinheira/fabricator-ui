@@ -36,6 +36,7 @@ export const navigationItems: Registry["items"] = [
       "uniwind@1.13.1",
     ],
     registryDependencies: [
+      "@fabricator/scroll-area",
       "@fabricator/button",
       "@fabricator/density",
       "@fabricator/dropdown-menu",
@@ -99,6 +100,7 @@ export const navigationItems: Registry["items"] = [
       { path: "ui/app-shell.tsx", type: "registry:ui" },
       { path: "lib/app-shell-layout-model.ts", type: "registry:lib" },
       { path: "lib/header-fade.tsx", type: "registry:lib" },
+      { path: "lib/sound-recipes.ts", type: "registry:lib" },
     ],
     meta: docs("app-shell"),
   },

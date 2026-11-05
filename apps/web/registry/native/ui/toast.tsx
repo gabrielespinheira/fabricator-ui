@@ -14,6 +14,7 @@ import { Gesture, GestureDetector } from "react-native-gesture-handler"
 import Animated, {
   cancelAnimation,
   Easing,
+  ReduceMotion,
   runOnJS,
   useAnimatedStyle,
   useSharedValue,
@@ -210,7 +211,7 @@ function ToastViewport({
         accessibilityLabel="Notifications"
         pointerEvents="box-none"
         className={cn(
-          "top-safe-offset-2 absolute inset-x-4 z-50 max-w-sm sm:right-4 sm:left-auto sm:w-full",
+          "top-safe-offset-2 absolute inset-x-4 z-50 sm:right-4 sm:left-auto sm:w-full sm:max-w-sm",
           className
         )}
         {...props}
@@ -227,9 +228,12 @@ const ToastContext = React.createContext<{
 } | null>(null)
 
 // Past either of these a swipe dismisses, in points and points per second.
-const SWIPE_DISTANCE = 56
+const SWIPE_DISTANCE = 40
 const SWIPE_VELOCITY = 600
 const OFF_SCREEN = 600
+// Where a toast comes from: past the top edge, as it has no height yet to measure
+// the website's 150% by. It slides in solid.
+const ENTER_TRAVEL = -120
 
 const DEFAULT_SWIPE: readonly SwipeDirection[] = ["up", "left", "right"]
 
@@ -253,7 +257,8 @@ function Toast({
   const resize = useMotion("feedback")
   const { entering, exiting } = useSurfaceAnimation("toast", {
     scale: 1,
-    translateY: -24,
+    translateY: ENTER_TRAVEL,
+    hasFade: false,
   })
   const feedback = useFeedback()
 
@@ -265,6 +270,7 @@ function Toast({
   const stackOpacity = useSharedValue(entry.opacity)
   const swipeX = useSharedValue(0)
   const swipeY = useSharedValue(0)
+  const swipeAxis = useSharedValue<"x" | "y" | null>(null)
 
   // Once per type: a loading toast plays as it settles, and an update that keeps
   // its type stays quiet.
@@ -275,7 +281,11 @@ function Toast({
 
   // As on the website: position and opacity on the toast's timing.
   React.useEffect(() => {
-    const timing = { duration: motion.enterMs, easing: motion.enterEasing }
+    const timing = {
+      duration: motion.enterMs,
+      easing: motion.enterEasing,
+      reduceMotion: ReduceMotion.Never,
+    }
     stackOpacity.value = withTiming(entry.opacity, timing)
     if (motion.isReduced) {
       stackY.value = entry.translateY
@@ -328,7 +338,11 @@ function Toast({
 
   const { close, pause, resume, setHeight } = manager
   const pan = React.useMemo(() => {
-    const exit = { duration: motion.exitMs, easing: motion.exitEasing }
+    const exit = {
+      duration: motion.exitMs,
+      easing: motion.exitEasing,
+      reduceMotion: ReduceMotion.Never,
+    }
     const { isReduced } = motion
     const allowsX = (delta: number) => {
       "worklet"
@@ -347,21 +361,32 @@ function Toast({
       .activeOffsetX([-10, 10])
       .activeOffsetY([-10, 10])
       .onBegin(() => {
+        swipeAxis.value = null
         runOnJS(pause)()
       })
       .onUpdate((event) => {
+        // The first move picks the axis, so a toast never drifts diagonally.
+        swipeAxis.value ??=
+          Math.abs(event.translationX) > Math.abs(event.translationY)
+            ? "x"
+            : "y"
         // A direction it can't leave by still gives a little under the finger.
-        swipeX.value =
-          event.translationX * (allowsX(event.translationX) ? 1 : 0.2)
-        swipeY.value =
-          event.translationY * (allowsY(event.translationY) ? 1 : 0.2)
+        if (swipeAxis.value === "x") {
+          swipeX.value =
+            event.translationX * (allowsX(event.translationX) ? 1 : 0.2)
+        } else {
+          swipeY.value =
+            event.translationY * (allowsY(event.translationY) ? 1 : 0.2)
+        }
       })
       .onEnd((event) => {
         const leavesX =
+          swipeAxis.value === "x" &&
           allowsX(event.translationX) &&
           (Math.abs(event.translationX) > SWIPE_DISTANCE ||
             Math.abs(event.velocityX) > SWIPE_VELOCITY)
         const leavesY =
+          swipeAxis.value === "y" &&
           allowsY(event.translationY) &&
           (Math.abs(event.translationY) > SWIPE_DISTANCE ||
             Math.abs(event.velocityY) > SWIPE_VELOCITY)

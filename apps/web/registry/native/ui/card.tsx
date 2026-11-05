@@ -66,9 +66,11 @@ function CardDescription({
   className,
   ...props
 }: React.ComponentProps<typeof Text>) {
+  const size = React.use(CardContext)
   return (
     <Text
       data-slot="card-description"
+      data-size={size}
       className={cn("cn-card-description", className)}
       {...props}
     />

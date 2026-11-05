@@ -18,6 +18,7 @@ import {
   XIcon,
   type IconProps,
 } from "@fabricator-ui/icons-react-native"
+import { cva } from "class-variance-authority"
 import { cn } from "cn"
 import {
   AccessibilityInfo,
@@ -47,6 +48,7 @@ import {
   type ShellStorage,
   type TabStripState,
 } from "@/registry/fabricator/shared/lib/app-shell-model"
+import { noteStep } from "@/registry/fabricator/shared/lib/sound-recipes"
 import { useFeedback } from "@/registry/native/lib/feedback"
 import {
   FluidHoverHighlight,
@@ -122,6 +124,11 @@ type TabStripContextValue = {
 }
 
 const TabStripContext = React.createContext<TabStripContextValue | null>(null)
+
+// The lit tab turns foreground too; only the active one turns semibold.
+const tabStripTextVariants = cva("cn-tab-strip-tab-text")
+const tabStripLitTextVariants = cva("cn-tab-strip-tab-text-lit")
+const tabStripActiveTextVariants = cva("cn-tab-strip-tab-text-active")
 
 function useTabStrip() {
   const context = React.use(TabStripContext)
@@ -552,7 +559,7 @@ function TabStripTab({
   const title = titleProp ?? getText(children)
   const closable = (closableProp ?? !pinned) && strip.onClose !== undefined
   const isRenaming = strip.renaming === tabValue
-  const { rowProps } = useFluidRow({
+  const { isLit, rowProps } = useFluidRow({
     itemKey: tabValue,
     onLayout: (event) => {
       const { x, width } = event.nativeEvent.layout
@@ -570,7 +577,7 @@ function TabStripTab({
 
   const hasMenu = hasMenuEntries(strip, true) || actions.length > 0
   const content = (
-    <IconProvider size={iconSize} strokeWidth={isActive ? 2 : 1.5}>
+    <IconProvider size={iconSize} strokeWidth={isActive || isLit ? 2 : 1.5}>
       {isRenaming ? (
         <TabRenameInput value={tabValue} title={title} />
       ) : (
@@ -585,7 +592,7 @@ function TabStripTab({
           disabled={!hasMenu}
           className="cn-tab-strip-trigger min-w-0 flex-1 flex-row items-center data-[pinned=true]:flex-none"
           onPress={() => {
-            if (!isActive) feedback("note")
+            feedback("note", { pitch: noteStep(index) })
             strip.onActivate(tabValue)
           }}
           onPressIn={rowProps.onPressIn}
@@ -659,13 +666,19 @@ function TabStripTab({
       onLayout={rowProps.onLayout}
       {...props}
     >
-      {isActive ? (
-        <TextStyle className="cn-tab-strip-tab-text cn-tab-strip-tab-text-active">
-          {content}
-        </TextStyle>
-      ) : (
-        <TextStyle className="cn-tab-strip-tab-text">{content}</TextStyle>
-      )}
+      <TextStyle
+        eases
+        className={cn(
+          tabStripTextVariants(),
+          isActive
+            ? tabStripActiveTextVariants()
+            : isLit
+              ? tabStripLitTextVariants()
+              : undefined
+        )}
+      >
+        {content}
+      </TextStyle>
       <ContextMenuContent className="cn-tab-strip-menu">
         <TabStripMenuItems strip={strip} tabValue={tabValue} />
       </ContextMenuContent>

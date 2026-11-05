@@ -33,6 +33,11 @@
     @apply text-foreground/65 dark:text-muted-foreground text-(length:--density-text-13) font-normal;
   }
 
+  /* A lit tab previews the next selection: foreground, no weight change. */
+  .cn-tabs-trigger-text-lit {
+    @apply text-foreground dark:text-foreground;
+  }
+
   .cn-tabs-trigger-text-active {
     @apply text-foreground dark:text-foreground font-semibold;
   }

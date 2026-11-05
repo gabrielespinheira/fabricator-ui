@@ -45,6 +45,21 @@ describe("getSurfaceFrom", () => {
     })
   })
 
+  it("can slide in solid, as a toast does", () => {
+    expect(
+      getSurfaceFrom({ translateY: -120, hasFade: false }, false).opacity
+    ).toBe(1)
+  })
+
+  it("fades a surface that would slide in solid, with Reduce Motion", () => {
+    expect(getSurfaceFrom({ translateY: -120, hasFade: false }, true)).toEqual({
+      opacity: 0,
+      scale: 1,
+      translateX: 0,
+      translateY: 0,
+    })
+  })
+
   it("keeps only the fade with Reduce Motion", () => {
     expect(getSurfaceFrom({ scale: 0.94, translateY: 6 }, true)).toEqual({
       opacity: 0,

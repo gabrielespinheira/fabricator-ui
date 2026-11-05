@@ -1,11 +1,9 @@
-import * as React from "react"
 import {
   MonitorIcon,
   MoonIcon,
   SunIcon,
 } from "@fabricator-ui/icons-react-native"
-import { ChevronDownIcon } from "lucide-react-native"
-import { Pressable, StyleSheet, Text, View, type ViewStyle } from "react-native"
+import { View } from "react-native"
 
 import { roleToHex, sameRoleColor } from "@/registry/fabricator/color-roles"
 import type { FabricatorLook } from "@/registry/fabricator/look"
@@ -17,31 +15,31 @@ import {
   SURFACE_PRESETS,
 } from "@/registry/fabricator/look-presets"
 import { sameTint, tintToHex } from "@/registry/fabricator/surface-tint"
-import { DensityScope } from "@/registry/native/ui/density"
-import { Tabs, TabsList, TabsTrigger } from "@/registry/native/ui/tabs"
-
-import { showActionMenu, type MenuButton } from "./shell/action-menu"
-import { OptionCard } from "./shell/option-card"
 import {
-  FONT,
-  useStyles,
-  useTheme,
-  useThemeSettings,
-  type Theme,
-} from "./theme"
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/registry/native/ui/card"
+import { DensityScope } from "@/registry/native/ui/density"
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/registry/native/ui/select"
+import { Tabs, TabsList, TabsTrigger } from "@/registry/native/ui/tabs"
+import { Text } from "@/registry/native/ui/text"
 
-// The website's settings rows keep their size at every density.
-const ROW_HEIGHT = 40
-const ROW_TEXT = 13
-const SWATCH_SIZE = 12
-
-/** Reaches the rest of the row and the room above and below the 28pt button. */
-const SELECT_HIT_SLOP = { top: 6, bottom: 6, left: 48, right: 8 }
+import { useThemeSettings } from "./theme"
 
 const SOUND_OPTIONS = [
-  { value: true, label: "On" },
-  { value: false, label: "Off" },
-] as const
+  { value: "on", label: "On" },
+  { value: "off", label: "Off" },
+]
 
 const THEME_OPTIONS = [
   { value: "light", label: "Light", icon: SunIcon },
@@ -56,10 +54,11 @@ function SettingRow({
   label: string
   children: React.ReactNode
 }) {
-  const styles = useStyles(buildStyles)
   return (
-    <View style={styles.row}>
-      <Text style={styles.rowLabel}>{label}</Text>
+    <View className="min-h-10 flex-row items-center justify-between gap-3">
+      <Text className="text-(length:--density-text-13) text-muted-foreground">
+        {label}
+      </Text>
       {children}
     </View>
   )
@@ -96,8 +95,8 @@ function ThemeSegmented() {
   )
 }
 
-/** A choice of a few names, in the native menu. Shows the current one. */
-function SettingSelect<Option extends { label: string }>({
+/** A choice of a few names: a sheet on a phone, a popover on a tablet. */
+function SettingSelect({
   label,
   options,
   value,
@@ -105,56 +104,53 @@ function SettingSelect<Option extends { label: string }>({
   onChange,
 }: {
   label: string
-  options: readonly Option[]
-  /** The current option's name. */
+  options: readonly { value: string; label: string }[]
   value: string
   /** The current colour, as a dot before the name. */
   swatch?: string
-  onChange: (option: Option) => void
+  onChange: (value: string) => void
 }) {
-  const theme = useTheme()
-  const styles = useStyles(buildStyles)
-  const button = React.useRef<MenuButton>(null)
-  const open = () =>
-    showActionMenu({
-      button,
-      title: label,
-      options: options.map((option) => option.label),
-      mode: theme.mode,
-      onSelect: (index) => {
-        const picked = options[index]
-        if (picked) onChange(picked)
-      },
-    })
   return (
-    <Pressable
-      ref={button}
-      onPress={open}
-      hitSlop={SELECT_HIT_SLOP}
-      accessibilityRole="button"
-      accessibilityLabel={`${label}: ${value}`}
-      style={({ pressed }) => [styles.select, pressed && styles.selectPressed]}
-    >
-      {swatch !== undefined && (
-        <View style={[styles.swatch, { backgroundColor: swatch }]} />
-      )}
-      <Text style={styles.selectValue}>{value}</Text>
-      <ChevronDownIcon
-        size={theme.compact.icon[16]}
-        strokeWidth={1.5}
-        color={theme.colors.muted}
-      />
-    </Pressable>
+    <SettingRow label={label}>
+      <Select
+        items={options}
+        value={value}
+        onValueChange={(next) => {
+          if (typeof next === "string") onChange(next)
+        }}
+      >
+        <SelectTrigger
+          accessibilityLabel={label}
+          className="w-auto gap-2 border-0 bg-transparent px-0"
+        >
+          {swatch === undefined ? null : (
+            <View
+              className="size-3 rounded-full"
+              style={{ backgroundColor: swatch }}
+            />
+          )}
+          <SelectValue className="grow-0 text-foreground" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectGroup>
+            {options.map((option) => (
+              <SelectItem key={option.value} value={option.value}>
+                {option.label}
+              </SelectItem>
+            ))}
+          </SelectGroup>
+        </SelectContent>
+      </Select>
+    </SettingRow>
   )
 }
 
 /**
- * The website's settings menu, for this app: the same choices in the same
- * order, drawn with the same tokens. Icons stay on the web: the app ships one
- * icon library. A link (fabricator-ui://look?surface=220_0.035&shape=pill) sets
- * the look at once.
+ * The website's settings menu, for this app: the same choices in the same order.
+ * Icons stay on the web: the app ships one icon library. A link
+ * (fabricator-ui://look?surface=220_0.035&shape=pill) sets the look at once.
  */
-export function SettingsCard({ style }: { style?: ViewStyle }) {
+export function SettingsCard({ className }: { className?: string }) {
   const { look, setLook, isSoundOn, setIsSoundOn } = useThemeSettings()
   const change = (next: Partial<FabricatorLook>) =>
     setLook({ ...look, ...next })
@@ -166,115 +162,83 @@ export function SettingsCard({ style }: { style?: ViewStyle }) {
   )
 
   return (
-    <OptionCard
-      title="Settings"
-      description="The website's settings; every screen here follows them."
-      style={style}
-    >
-      <SettingRow label="Theme">
-        <ThemeSegmented />
-      </SettingRow>
-      <SettingRow label="Sound">
+    <Card className={className}>
+      <CardHeader>
+        <CardTitle>Settings</CardTitle>
+        <CardDescription>
+          The website's settings; every screen here follows them.
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <SettingRow label="Theme">
+          <ThemeSegmented />
+        </SettingRow>
         <SettingSelect
           label="Sound"
           options={SOUND_OPTIONS}
-          value={isSoundOn ? "On" : "Off"}
-          onChange={(option) => setIsSoundOn(option.value)}
+          value={isSoundOn ? "on" : "off"}
+          onChange={(next) => setIsSoundOn(next === "on")}
         />
-      </SettingRow>
-      <SettingRow label="Radius">
         <SettingSelect
           label="Radius"
           options={RADIUS_OPTIONS}
-          value={
-            RADIUS_OPTIONS.find((option) => option.value === look.radius)
-              ?.label ?? look.radius
-          }
-          onChange={(option) => change({ radius: option.value })}
+          value={look.radius}
+          onChange={(next) => {
+            const picked = RADIUS_OPTIONS.find(
+              (option) => option.value === next
+            )
+            if (picked) change({ radius: picked.value })
+          }}
         />
-      </SettingRow>
-      <SettingRow label="Density">
         <SettingSelect
           label="Density"
           options={DENSITY_OPTIONS}
-          value={
-            DENSITY_OPTIONS.find((option) => option.value === look.density)
-              ?.label ?? look.density
-          }
-          onChange={(option) => change({ density: option.value })}
+          value={look.density}
+          onChange={(next) => {
+            const picked = DENSITY_OPTIONS.find(
+              (option) => option.value === next
+            )
+            if (picked) change({ density: picked.value })
+          }}
         />
-      </SettingRow>
-      <SettingRow label="Motion">
         <SettingSelect
           label="Motion"
           options={MOTION_OPTIONS}
-          value={
-            MOTION_OPTIONS.find((option) => option.value === look.motion)
-              ?.label ?? look.motion
-          }
-          onChange={(option) => change({ motion: option.value })}
+          value={look.motion}
+          onChange={(next) => {
+            const picked = MOTION_OPTIONS.find(
+              (option) => option.value === next
+            )
+            if (picked) change({ motion: picked.value })
+          }}
         />
-      </SettingRow>
-      <SettingRow label="Surface">
         <SettingSelect
           label="Surface"
           options={SURFACE_PRESETS}
-          value={surface?.label ?? "Custom"}
+          value={surface?.value ?? "custom"}
           swatch={tintToHex(look.surface)}
-          onChange={(option) => change({ surface: option.tint })}
+          onChange={(next) => {
+            const picked = SURFACE_PRESETS.find(
+              (preset) => preset.value === next
+            )
+            if (picked) change({ surface: picked.tint })
+          }}
         />
-      </SettingRow>
-      <SettingRow label="Primary">
         <SettingSelect
           label="Primary"
           options={ROLE_PRESETS.primary}
-          value={primary?.label ?? "Custom"}
+          value={primary?.value ?? "custom"}
           swatch={roleToHex(look.colors.primary)}
-          onChange={(option) =>
-            change({ colors: { ...look.colors, primary: option.color } })
-          }
+          onChange={(next) => {
+            const picked = ROLE_PRESETS.primary.find(
+              (preset) => preset.value === next
+            )
+            if (picked) {
+              change({ colors: { ...look.colors, primary: picked.color } })
+            }
+          }}
         />
-      </SettingRow>
-    </OptionCard>
+      </CardContent>
+    </Card>
   )
 }
-
-const buildStyles = (theme: Theme) =>
-  StyleSheet.create({
-    row: {
-      height: ROW_HEIGHT,
-      flexDirection: "row",
-      alignItems: "center",
-      justifyContent: "space-between",
-      gap: 12,
-    },
-    rowLabel: {
-      fontFamily: FONT.regular,
-      fontSize: ROW_TEXT,
-      color: theme.colors.muted,
-    },
-    select: {
-      height: theme.compact.space[36],
-      flexDirection: "row",
-      alignItems: "center",
-      gap: theme.compact.space[8],
-      marginRight: -8,
-      paddingLeft: theme.compact.space[10],
-      paddingRight: theme.compact.space[8],
-      borderRadius: theme.radius.lg,
-    },
-    selectPressed: { backgroundColor: theme.colors.hover },
-    selectValue: {
-      fontFamily: FONT.regular,
-      fontSize: ROW_TEXT,
-      color: theme.colors.foreground,
-    },
-    swatch: {
-      width: SWATCH_SIZE,
-      height: SWATCH_SIZE,
-      borderRadius: SWATCH_SIZE / 2,
-      boxShadow: theme.isDark
-        ? "inset 0 0 0 1px rgba(255, 255, 255, 0.16)"
-        : "inset 0 0 0 1px rgba(0, 0, 0, 0.12)",
-    },
-  })

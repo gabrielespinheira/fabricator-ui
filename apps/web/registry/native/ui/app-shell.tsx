@@ -15,6 +15,7 @@ import {
   ChevronDownIcon,
   EllipsisIcon,
   IconProvider,
+  PanelBottomIcon,
   PlusIcon,
   XIcon,
   type IconProps,
@@ -24,6 +25,7 @@ import {
   useEffectEvent as useLatestCallback,
 } from "@rn-primitives/hooks"
 import { Portal, PortalHost } from "@rn-primitives/portal"
+import { cva } from "class-variance-authority"
 import { cn } from "cn"
 import {
   AccessibilityInfo,
@@ -33,6 +35,8 @@ import {
   ScrollView,
   useWindowDimensions,
   View,
+  type GestureResponderEvent,
+  type LayoutChangeEvent,
   type NativeScrollEvent,
   type NativeSyntheticEvent,
 } from "react-native"
@@ -42,7 +46,7 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated"
 import { SafeAreaInsetsContext } from "react-native-safe-area-context"
-import { ScopedVariables, useCSSVariable } from "uniwind"
+import { ScopedVariables, useCSSVariable, useResolveClassNames } from "uniwind"
 
 import { DENSITIES } from "@/registry/fabricator/density"
 import {
@@ -70,6 +74,7 @@ import {
   type ShortcutEvent,
   type ShortcutPlatform,
 } from "@/registry/fabricator/shared/lib/app-shell-model"
+import { noteStep } from "@/registry/fabricator/shared/lib/sound-recipes"
 import {
   applyPanelUpdate,
   FALLBACK_PANEL,
@@ -77,6 +82,7 @@ import {
   getContentColumn,
   getFabBottom,
   getFabClearance,
+  getFloatingNavMetrics,
   getOtherPanelsWidth,
   getPanelFrame,
   getPanelHeaderEnd,
@@ -86,6 +92,15 @@ import {
   shouldShowHeaderTrigger,
 } from "@/registry/native/lib/app-shell-layout-model"
 import { useFeedback } from "@/registry/native/lib/feedback"
+import {
+  FluidHoverArea,
+  FluidHoverHighlight,
+  FluidHoverProvider,
+  FluidHoverSelection,
+  useFluidHover,
+  useFluidRow,
+} from "@/registry/native/lib/fluid-hover"
+import { HeaderFade } from "@/registry/native/lib/header-fade"
 import { useMotion } from "@/registry/native/lib/motion"
 import { parseNumber } from "@/registry/native/lib/motion-tokens"
 import { getTextContent } from "@/registry/native/lib/overlay-model"
@@ -297,6 +312,12 @@ type AppShellScrollValue = {
   setHasBottomNav: (hasBottomNav: boolean) => void
   hasFab: boolean
   setHasFab: (hasFab: boolean) => void
+  /** How far a phone's header reaches down: the page scrolls under it. */
+  phoneHeaderHeight: number
+  setPhoneHeaderHeight: (height: number) => void
+  /** How far a tab bar that floats over the page reaches up. */
+  bottomNavOverlap: number
+  setBottomNavOverlap: (overlap: number) => void
 }
 
 const AppShellScrollContext = React.createContext<AppShellScrollValue | null>(
@@ -619,16 +640,20 @@ function AppShellScrollProvider({ children }: { children: React.ReactNode }) {
   const [pageTitle, setPageTitle] = React.useState<React.ReactNode | null>(null)
   const [hasBottomNav, setHasBottomNav] = React.useState(false)
   const [hasFab, setHasFab] = React.useState(false)
+  const [phoneHeaderHeight, setPhoneHeaderHeight] = React.useState(0)
+  const [bottomNavOverlap, setBottomNavOverlap] = React.useState(0)
   const scrollRoot = React.useRef<React.ComponentRef<typeof ScrollView>>(null)
   const title = React.useRef<{ bottom: number; node: React.ReactNode } | null>(
     null
   )
   const scrollY = React.useRef(0)
+  const headerReach = React.useRef(0)
+  headerReach.current = phoneHeaderHeight
 
   const syncTitle = React.useCallback(() => {
     const isAway = isTitleScrolledAway({
       titleBottom: title.current?.bottom ?? null,
-      scrollY: scrollY.current,
+      scrollY: scrollY.current + headerReach.current,
     })
     setPageTitle(isAway ? (title.current?.node ?? null) : null)
   }, [])
@@ -661,8 +686,21 @@ function AppShellScrollProvider({ children }: { children: React.ReactNode }) {
       setHasBottomNav,
       hasFab,
       setHasFab,
+      phoneHeaderHeight,
+      setPhoneHeaderHeight,
+      bottomNavOverlap,
+      setBottomNavOverlap,
     }),
-    [hasBottomNav, hasFab, isScrolled, onContentScroll, pageTitle, setTitle]
+    [
+      bottomNavOverlap,
+      hasBottomNav,
+      hasFab,
+      isScrolled,
+      onContentScroll,
+      pageTitle,
+      phoneHeaderHeight,
+      setTitle,
+    ]
   )
   return <AppShellScrollContext value={value}>{children}</AppShellScrollContext>
 }
@@ -800,10 +838,12 @@ function AppShellMain({
   const shell = useAppShell()
   const insets = useShellInsets()
   const fabHost = useFabHost()
+  const { phoneHeaderHeight } = useAppShellScroll()
   const [gutter, statusRow] = useCSSVariable(["--density-6", "--density-36"])
   return (
     <SidebarInset
       data-app-shell-main=""
+      isFlushTop={phoneHeaderHeight > 0}
       gutter={parseNumber(gutter, 6)}
       statusBarHeight={getStatusBarHeight({
         hasStatusBar: shell.hasStatusBar && shell.size !== "phone",
@@ -821,10 +861,13 @@ function AppShellMain({
   )
 }
 
+const headerFadeVariants = cva("cn-app-shell-header-fade")
+
 function AppShellHeader({
   trigger = "auto",
   className,
   children,
+  style,
   ...props
 }: React.ComponentProps<typeof View> & {
   /**
@@ -834,17 +877,36 @@ function AppShellHeader({
   trigger?: "auto" | "always" | "never"
 }) {
   const { state, isMobile } = useSidebar()
-  const { isScrolled } = useAppShellScroll()
+  const { size } = useAppShell()
+  const { isScrolled, setPhoneHeaderHeight } = useAppShellScroll()
+  const insets = useShellInsets()
+  const isPhone = size === "phone"
+  const row = parseNumber(useCSSVariable("--density-48"), 48)
+  const { color } = useResolveClassNames(headerFadeVariants())
+  const reach = isPhone ? insets.top + row : 0
+  React.useLayoutEffect(() => {
+    setPhoneHeaderHeight(reach)
+    return () => setPhoneHeaderHeight(0)
+  }, [reach, setPhoneHeaderHeight])
   return (
     <View
       data-slot="app-shell-header"
-      data-scrolled={isScrolled}
+      // On a phone the page dissolves under the header, so there's no hairline.
+      data-scrolled={!isPhone && isScrolled}
+      data-phone={isPhone}
       className={cn(
         "cn-app-shell-header shrink-0 flex-row items-center",
         className
       )}
+      style={[
+        isPhone ? { height: reach, paddingTop: insets.top } : undefined,
+        style,
+      ]}
       {...props}
     >
+      {isPhone && typeof color === "string" ? (
+        <HeaderFade color={color} insetTop={insets.top} rowHeight={row} />
+      ) : null}
       {shouldShowHeaderTrigger({ trigger, isMobile, state }) && (
         <SidebarTrigger className="cn-app-shell-header-trigger" />
       )}
@@ -1120,7 +1182,7 @@ function ActionShortcut({ action }: { action: AppShellAction }) {
 /** The phone's primary action, floating over the page above the tab bar. */
 function AppShellFab({ action }: { action: AppShellAction }) {
   const fabHost = useFabHost()
-  const { hasBottomNav, setHasFab } = useAppShellScroll()
+  const { bottomNavOverlap, hasBottomNav, setHasFab } = useAppShellScroll()
   const insets = useShellInsets()
   const name = React.useId()
   const [row, gap] = useCSSVariable(["--density-48", "--density-16"])
@@ -1143,6 +1205,7 @@ function AppShellFab({ action }: { action: AppShellAction }) {
             rowHeight: parseNumber(row, 48),
             gap: parseNumber(gap, 16),
             insetBottom: insets.bottom,
+            overlap: bottomNavOverlap,
           }),
         }}
       >
@@ -1260,6 +1323,7 @@ function AppShellContent({
   size,
   className,
   onScroll,
+  style,
   contentContainerStyle,
   children,
   ref,
@@ -1283,17 +1347,20 @@ function AppShellContent({
     isPhone,
     phoneGutter: parseNumber(phoneGutter, 16),
     gutter: parseNumber(gutter, 24),
-    bottomInset: getContentBottomInset({
-      hasBottomNav: isPhone && scroll.hasBottomNav,
-      hasStatusBar: !isPhone && shell.hasStatusBar,
-      isCard: !isPhone && variant === "inset",
-      insetBottom: insets.bottom,
-    }),
+    bottomInset:
+      scroll.bottomNavOverlap +
+      getContentBottomInset({
+        hasBottomNav: isPhone && scroll.hasBottomNav,
+        hasStatusBar: !isPhone && shell.hasStatusBar,
+        isCard: !isPhone && variant === "inset",
+        insetBottom: insets.bottom,
+      }),
     fabClearance: getFabClearance({
       hasFab: isPhone && scroll.hasFab,
       buttonSize: ICON_LG,
       gap: parseNumber(phoneGutter, 16),
     }),
+    topInset: scroll.phoneHeaderHeight,
   })
   return (
     <ScrollView
@@ -1303,6 +1370,11 @@ function AppShellContent({
       data-content-size={size}
       scrollEventThrottle={16}
       className={cn("cn-app-shell-content flex-1", className)}
+      style={[{ marginTop: -scroll.phoneHeaderHeight }, style]}
+      scrollIndicatorInsets={{
+        top: scroll.phoneHeaderHeight,
+        bottom: scroll.bottomNavOverlap,
+      }}
       contentContainerStyle={[column, contentContainerStyle]}
       onScroll={(event: NativeSyntheticEvent<NativeScrollEvent>) => {
         onScroll?.(event)
@@ -1362,35 +1434,152 @@ function AppShellStatusBar({
 
 // MARK: Bottom nav
 
-/** A phone tab bar. It hides itself from tablets up. */
+const BottomNavContext = React.createContext<{
+  setSelected: (key: string) => void
+} | null>(null)
+
+const BottomNavIndexContext = React.createContext(0)
+
+// A lit tab turns foreground too; only the current one turns semibold.
+const bottomNavTextVariants = cva("cn-app-shell-bottom-nav-text")
+const bottomNavLitTextVariants = cva("cn-app-shell-bottom-nav-text-lit")
+const bottomNavActiveTextVariants = cva("cn-app-shell-bottom-nav-text-active")
+
+/**
+ * A phone tab bar. It hides itself from tablets up. `flat` is a row under the page.
+ * `floating` is a capsule over it, so the page scrolls behind: `capsule` gives it
+ * another surface, such as a glass view. A finger slides along the tabs, and
+ * letting go opens the lit one.
+ */
 function AppShellBottomNav({
+  variant = "flat",
+  capsule,
   className,
   children,
   style,
   ...props
-}: React.ComponentProps<typeof View>) {
+}: React.ComponentProps<typeof View> & {
+  variant?: "flat" | "floating"
+  /** The capsule's surface: an element to put the tabs in. */
+  capsule?: React.ReactElement<{
+    style?: React.ComponentProps<typeof View>["style"]
+    children?: React.ReactNode
+  }>
+}) {
   const shell = React.use(AppShellContext)
   const scroll = React.use(AppShellScrollContext)
   const insets = useShellInsets()
   const { width } = useWindowDimensions()
   const isPhone = (shell?.size ?? getShellSize(width)) === "phone"
+  const isFloating = variant === "floating"
+  const [selected, setSelected] = React.useState<string>()
+  const fluid = useFluidHover({
+    selected: isFloating ? selected : undefined,
+    axis: "x",
+    track: "drag",
+    previewsSelection: isFloating,
+  })
+  const [row, padding, gap] = useCSSVariable([
+    "--density-48",
+    "--density-6",
+    "--density-12",
+  ])
+  const metrics = getFloatingNavMetrics({
+    row: parseNumber(row, 48),
+    padding: parseNumber(padding, 6),
+    gap: parseNumber(gap, 12),
+    insetBottom: insets.bottom,
+  })
   const setHasBottomNav = scroll?.setHasBottomNav
+  const setBottomNavOverlap = scroll?.setBottomNavOverlap
+  const overlap = isPhone && isFloating ? metrics.clearance : 0
   React.useLayoutEffect(() => {
     if (!isPhone || !setHasBottomNav) return
     setHasBottomNav(true)
     return () => setHasBottomNav(false)
   }, [isPhone, setHasBottomNav])
+  React.useLayoutEffect(() => {
+    if (!setBottomNavOverlap) return
+    setBottomNavOverlap(overlap)
+    return () => setBottomNavOverlap(0)
+  }, [overlap, setBottomNavOverlap])
+  const context = React.useMemo(() => ({ setSelected }), [])
   if (!isPhone) return null
+  const track = (
+    <FluidHoverProvider fluid={fluid}>
+      <FluidHoverArea fluid={fluid}>
+        <View
+          ref={fluid.attach}
+          data-slot="app-shell-bottom-nav-track"
+          data-variant={variant}
+          className="cn-app-shell-bottom-nav-track relative flex-row"
+        >
+          {isFloating ? (
+            <FluidHoverSelection
+              selection={fluid.selection}
+              className="cn-app-shell-bottom-nav-selection"
+            />
+          ) : null}
+          <FluidHoverHighlight
+            hover={fluid.hover}
+            data-variant={variant}
+            className="cn-app-shell-bottom-nav-highlight"
+          />
+          <BottomNavContext value={context}>
+            {React.Children.toArray(children).map((child, index) => (
+              <BottomNavIndexContext key={index} value={index}>
+                {child}
+              </BottomNavIndexContext>
+            ))}
+          </BottomNavContext>
+        </View>
+      </FluidHoverArea>
+    </FluidHoverProvider>
+  )
+  if (isFloating) {
+    const surface = {
+      height: metrics.height,
+      padding: parseNumber(padding, 6),
+      borderRadius: metrics.radius,
+    }
+    return (
+      <View
+        data-slot="app-shell-bottom-nav"
+        data-variant={variant}
+        accessibilityRole="tabbar"
+        aria-label="Main"
+        className={cn("cn-app-shell-bottom-nav-floating absolute", className)}
+        style={[{ bottom: metrics.bottom }, style]}
+        {...props}
+      >
+        {capsule ? (
+          React.cloneElement(capsule, {
+            style: [surface, capsule.props.style],
+            children: track,
+          })
+        ) : (
+          <View
+            data-slot="app-shell-bottom-nav-capsule"
+            className="cn-app-shell-bottom-nav-capsule"
+            style={surface}
+          >
+            {track}
+          </View>
+        )}
+      </View>
+    )
+  }
   return (
     <View
       data-slot="app-shell-bottom-nav"
+      data-variant={variant}
       accessibilityRole="tabbar"
       aria-label="Main"
-      className={cn("cn-app-shell-bottom-nav shrink-0 flex-row", className)}
+      className={cn("cn-app-shell-bottom-nav shrink-0", className)}
       style={[{ paddingBottom: insets.bottom }, style]}
       {...props}
     >
-      {renderTextChildren(children)}
+      {track}
     </View>
   )
 }
@@ -1403,20 +1592,52 @@ function AppShellBottomNavItem({
   asChild,
   className,
   onPress,
+  onPressIn,
+  onPressOut,
+  onLayout,
   ...props
-}: Omit<React.ComponentProps<typeof Pressable>, "children"> &
+}: Omit<React.ComponentProps<typeof Pressable>, "children" | "onPress"> &
   RenderProps & {
     icon?: IconLike
     label: string
     isActive?: boolean
+    /** Letting go after a slide along the tabs has no press event to pass on. */
+    onPress?: (event?: GestureResponderEvent) => void
   }) {
   const feedback = useFeedback()
+  const nav = React.use(BottomNavContext)
+  const index = React.use(BottomNavIndexContext)
+  const setSelected = nav?.setSelected
+  const iconSize = parseNumber(useCSSVariable("--density-20"), 20)
+  const { isLit, rowProps } = useFluidRow<
+    LayoutChangeEvent,
+    GestureResponderEvent
+  >({
+    itemKey: label,
+    disabled: props.disabled,
+    onActivate: () => {
+      feedback("note", { pitch: noteStep(index) })
+      onPress?.()
+    },
+    onLayout,
+    onPressIn,
+    onPressOut,
+  })
+  React.useLayoutEffect(() => {
+    if (isActive) setSelected?.(label)
+  }, [isActive, label, setSelected])
   const content = (
     <>
-      <IconProvider strokeWidth={isActive ? 2 : 1.5}>
+      <IconProvider size={iconSize} strokeWidth={isActive || isLit ? 2 : 1.5}>
         <IconSlot icon={icon} />
       </IconProvider>
-      <Text numberOfLines={1} className="cn-app-shell-bottom-nav-label">
+      <Text
+        numberOfLines={1}
+        // A long label in a narrow tab shrinks a little instead of truncating.
+        adjustsFontSizeToFit
+        minimumFontScale={0.85}
+        className="cn-app-shell-bottom-nav-label"
+      >
         {label}
       </Text>
     </>
@@ -1430,25 +1651,29 @@ function AppShellBottomNavItem({
       "cn-app-shell-bottom-nav-item flex-1 flex-col items-center justify-center",
       className
     ),
-    onPress: (
-      event: Parameters<
-        NonNullable<React.ComponentProps<typeof Pressable>["onPress"]>
-      >[0]
-    ) => {
-      if (!isActive) feedback("note")
+    onPress: (event: GestureResponderEvent) => {
+      feedback("note", { pitch: noteStep(index) })
       onPress?.(event)
     },
     ...props,
+    ...rowProps,
   }
-  const item = renderSlot({ render, asChild }, shared, content) ?? (
-    <Pressable {...shared}>{content}</Pressable>
-  )
-  return isActive ? (
-    <TextStyle className="cn-app-shell-bottom-nav-text cn-app-shell-bottom-nav-text-active">
-      {item}
+  return (
+    <TextStyle
+      eases
+      className={cn(
+        bottomNavTextVariants(),
+        isActive
+          ? bottomNavActiveTextVariants()
+          : isLit
+            ? bottomNavLitTextVariants()
+            : undefined
+      )}
+    >
+      {renderSlot({ render, asChild }, shared, content) ?? (
+        <Pressable {...shared}>{content}</Pressable>
+      )}
     </TextStyle>
-  ) : (
-    <TextStyle className="cn-app-shell-bottom-nav-text">{item}</TextStyle>
   )
 }
 
@@ -1752,7 +1977,11 @@ function AppShellPanel({
     return (
       <>
         {viewShortcuts}
-        <Drawer open={panel.open} onOpenChange={control.setOpen}>
+        <Drawer
+          open={panel.open}
+          onOpenChange={control.setOpen}
+          showSwipeHandle
+        >
           <DrawerContent
             nativeID={control.domId}
             accessibilityLabel={label}
@@ -1858,6 +2087,7 @@ function AppShellPanelHeader({
   return (
     <View
       data-slot="app-shell-panel-header"
+      data-floating={placement !== "inline"}
       className={cn(
         "cn-app-shell-panel-header shrink-0 flex-row items-center",
         className
@@ -1902,11 +2132,12 @@ function AppShellPanelTabs({
   ...props
 }: React.ComponentProps<typeof TabsList>) {
   const { views, panel, placement } = usePanel()
-  const isCompact =
-    placement === "inline" && panel.width < PANEL_TABS_LABEL_WIDTH
+  const isFloating = placement !== "inline"
+  const isCompact = !isFloating && panel.width < PANEL_TABS_LABEL_WIDTH
   return (
     <TabsList
       data-slot="app-shell-panel-tabs"
+      data-floating={isFloating}
       className={cn("cn-app-shell-panel-tabs", className)}
       {...props}
     >
@@ -1916,9 +2147,11 @@ function AppShellPanelTabs({
           value={view.value}
           accessibilityLabel={view.label}
           data-compact={isCompact && view.icon !== undefined}
+          data-floating={isFloating}
           className="cn-app-shell-panel-tab"
         >
-          <IconSlot icon={view.icon} />
+          {/* A phone's stretched track has room for the names, not both. */}
+          {isFloating ? null : <IconSlot icon={view.icon} />}
           <Text
             data-compact={isCompact && view.icon !== undefined}
             numberOfLines={1}
@@ -1941,22 +2174,20 @@ function AppShellPanelClose({
   const { pinnedTriggers } = useAppShell()
   // Beside a pinned toggle, which closes the panel from the same spot, it steps aside.
   if (placement === "inline" && pinnedTriggers > 0) return null
+  const isFloating = placement !== "inline"
   return (
     <Button
       variant="ghost"
-      size="icon-sm"
+      size={isFloating ? "icon" : "icon-sm"}
       accessibilityLabel={`Close ${label}`}
       data-slot="app-shell-panel-close"
+      data-floating={isFloating}
       onPress={() => setOpen(false)}
       className={cn("cn-app-shell-panel-close", className)}
       {...props}
     >
       {children ??
-        (placement === "drawer" ? (
-          <XIcon />
-        ) : (
-          <SidebarToggleIcon open side={side} />
-        ))}
+        (isFloating ? <XIcon /> : <SidebarToggleIcon open side={side} />)}
     </Button>
   )
 }
@@ -2064,9 +2295,13 @@ function AppShellPanelTrigger({
           />
         }
       >
-        {children ?? (
-          <SidebarToggleIcon open={isPressed} side={panel.side ?? "right"} />
-        )}
+        {children ??
+          // A phone's panel comes up from the bottom, so its toggle says that.
+          (shell.size === "phone" ? (
+            <PanelBottomIcon />
+          ) : (
+            <SidebarToggleIcon open={isPressed} side={panel.side ?? "right"} />
+          ))}
       </TooltipTrigger>
       <TooltipContent>{hint}</TooltipContent>
     </Tooltip>

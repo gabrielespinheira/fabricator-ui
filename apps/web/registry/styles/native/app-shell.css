@@ -38,9 +38,16 @@
     @apply bg-app-shell-main data-[layout=card]:bg-app-shell-main data-[layout=card]:shadow-app-shell-card;
   }
 
-  /* The header: 48pt, a hairline once the content scrolls. */
+  /* The header: 48pt, a hairline once the content scrolls. On a phone it holds
+     the status bar too, and sits on a fade the page dissolves under: the clock and
+     the island get a clean edge and nothing stops at a line. */
   .cn-app-shell-header {
-    @apply h-(--density-48) gap-(--density-8) border-b border-transparent px-(--density-12) data-[scrolled=true]:border-border;
+    @apply z-10 h-(--density-48) gap-(--density-8) border-b border-transparent px-(--density-12) data-[phone=true]:border-b-0 data-[scrolled=true]:border-border;
+  }
+
+  /* What the fade paints: the main column's colour. */
+  .cn-app-shell-header-fade {
+    @apply text-app-shell-main;
   }
 
   .cn-app-shell-header-trigger {
@@ -135,13 +142,13 @@
   /* A height, not only the website's limit: its views take what's left, and a
      flexed child of a view with no height has nothing to take. */
   .cn-app-shell-panel-drawer {
-    @apply h-[85%];
+    @apply h-[70%];
   }
 
   /* A docked panel's header leaves room for the toggle pinned over its end, in a
      style. It has the main header's height and hairline. */
   .cn-app-shell-panel-header {
-    @apply h-(--density-48) gap-(--density-6) border-b border-transparent px-(--density-12);
+    @apply h-(--density-48) gap-(--density-6) border-b border-transparent px-(--density-12) data-[floating=true]:gap-(--density-8) data-[floating=true]:border-b-0 data-[floating=true]:px-(--density-16);
   }
 
   .cn-app-shell-panel-title {
@@ -153,12 +160,12 @@
   }
 
   .cn-app-shell-panel-tabs {
-    @apply min-w-0 shrink justify-start;
+    @apply min-w-0 shrink justify-start data-[floating=true]:flex-1;
   }
 
   /* Below a 360pt panel the view tabs show their icons only. */
   .cn-app-shell-panel-tab {
-    @apply data-[compact=true]:px-(--density-8);
+    @apply data-[compact=true]:px-(--density-8) data-[floating=true]:px-(--density-6);
   }
 
   .cn-app-shell-panel-tab-label {
@@ -174,7 +181,7 @@
   }
 
   .cn-app-shell-panel-close {
-    @apply ml-auto;
+    @apply ml-auto data-[floating=true]:bg-foreground/5 data-[floating=true]:rounded-full;
   }
 
   /* Pinned, it only holds the toggle's room in the header: the toggle itself sits
@@ -189,16 +196,45 @@
   }
 
   /* The phone tab bar: icon over label, above the home indicator. */
+  /* The flat bar is a row under the page, with the page's hairline. */
   .cn-app-shell-bottom-nav {
     @apply border-border bg-app-shell-main border-t;
   }
 
+  /* The floating bar is a capsule over the page, on the sidebar's colours. */
+  .cn-app-shell-bottom-nav-floating {
+    @apply inset-x-(--density-16) z-20;
+  }
+
+  .cn-app-shell-bottom-nav-capsule {
+    @apply bg-app-shell-frame shadow-surface-3;
+  }
+
+  /* A little room around the tabs, so the highlight has an edge of its own. */
+  .cn-app-shell-bottom-nav-track {
+    @apply data-[variant=flat]:px-(--density-4) data-[variant=flat]:pt-(--density-4);
+  }
+
+  /* The pressed fill is the Fluid Hover highlight, so a tab has none of its own. */
   .cn-app-shell-bottom-nav-item {
-    @apply min-h-(--density-48) gap-(--density-4) active:opacity-70;
+    @apply min-h-(--density-48) gap-(--density-4);
+  }
+
+  /* The current tab's pill slides on the move timing. */
+  .cn-app-shell-bottom-nav-selection {
+    @apply bg-active rounded-full;
+  }
+
+  .cn-app-shell-bottom-nav-highlight {
+    @apply rounded-lg data-[variant=floating]:bg-hover/60 data-[variant=floating]:rounded-full;
   }
 
   .cn-app-shell-bottom-nav-text {
     @apply text-muted-foreground text-(length:--density-text-11);
+  }
+
+  .cn-app-shell-bottom-nav-text-lit {
+    @apply text-foreground;
   }
 
   .cn-app-shell-bottom-nav-text-active {

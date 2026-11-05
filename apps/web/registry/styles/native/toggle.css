@@ -1,9 +1,14 @@
 /* MARK: Toggle */
 
-  /* Ghost look: pressed is the hover fill, on is the active fill, and the press
-     scale comes from usePressScale. */
+  /* Ghost look. The press scale comes from usePressScale. */
   .cn-toggle {
-    @apply active:bg-hover data-[state=on]:bg-active gap-(--density-6) rounded-lg;
+    @apply gap-(--density-6) rounded-lg;
+  }
+
+  /* On and pressed are one fill, as on the website: a layer under the content,
+     easing on the feedback timing. */
+  .cn-toggle-fill {
+    @apply bg-active rounded-lg;
   }
 
   /* 13pt medium, muted at rest and foreground when on. The icon's stroke follows:

@@ -26,16 +26,20 @@
     @apply bg-hover rounded-lg;
   }
 
-  /* Tabs: 144pt on a phone (the website shrinks to this before it scrolls; a
+  /* Tabs: 176pt on a phone (the website shrinks to 144 before it scrolls; a
      phone's strip is always there), 192pt from the sm breakpoint. Pinned tabs are
      their icon. */
   .cn-tab-strip-tab {
-    @apply h-full w-36 rounded-lg data-[pinned=true]:w-auto sm:w-48;
+    @apply h-full w-44 rounded-lg data-[pinned=true]:w-auto sm:w-48;
   }
 
   /* 13pt, muted at rest; the active tab is foreground and semibold. */
   .cn-tab-strip-tab-text {
     @apply text-muted-foreground text-(length:--density-text-13);
+  }
+
+  .cn-tab-strip-tab-text-lit {
+    @apply text-foreground;
   }
 
   .cn-tab-strip-tab-text-active {
@@ -79,7 +83,7 @@
   }
 
   .cn-tab-strip-rename {
-    @apply bg-card border-ring text-foreground h-(--density-24) rounded-md border px-(--density-6) text-(length:--density-text-13);
+    @apply font-sans bg-card border-ring text-foreground h-(--density-24) rounded-md border px-(--density-6) text-(length:--density-text-13);
   }
 
   .cn-tab-strip-new {

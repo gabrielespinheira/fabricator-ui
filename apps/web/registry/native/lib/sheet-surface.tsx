@@ -289,8 +289,9 @@ function SheetPanel({
           !success ||
           !shouldDismissSheet({ side, size: size.value, translation, velocity })
         ) {
+          // A swipe that didn't make it settles back on the sheet's own timing.
           offset.value = withTiming(0, {
-            duration: exitMs,
+            duration: enterMs,
             easing: drawerEasing,
           })
           return
@@ -310,6 +311,7 @@ function SheetPanel({
     axis,
     dismissible,
     drawerEasing,
+    enterMs,
     exit,
     exitMs,
     handleSwipeDismiss,
@@ -372,6 +374,12 @@ function SheetPanel({
               onLayout={handleLayout}
               {...props}
             >
+              {/* Pulled past open, the panel's colour keeps covering the edge. */}
+              <View
+                pointerEvents="none"
+                data-side={side}
+                className="cn-sheet-surface-bleed absolute"
+              />
               {children}
             </Animated.View>
           </GestureDetector>

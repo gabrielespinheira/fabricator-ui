@@ -1,7 +1,6 @@
 import * as React from "react"
 import {
   CheckIcon,
-  ChevronDownIcon,
   ChevronRightIcon,
   IconProvider,
 } from "@fabricator-ui/icons-react-native"
@@ -14,7 +13,11 @@ import {
   View,
   type GestureResponderEvent,
 } from "react-native"
-import Animated from "react-native-reanimated"
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from "react-native-reanimated"
 
 import {
   useFeedback,
@@ -23,9 +26,10 @@ import {
 } from "@/registry/native/lib/feedback"
 import {
   FluidHoverScrollList,
+  useFluidRemeasure,
   useFluidRow,
 } from "@/registry/native/lib/fluid-hover"
-import { useSurfaceAnimation } from "@/registry/native/lib/motion"
+import { useMotion, useSurfaceAnimation } from "@/registry/native/lib/motion"
 import {
   COLLISION_INSETS,
   getMenuMaxHeight,
@@ -33,6 +37,7 @@ import {
   useTriggerOpen,
 } from "@/registry/native/lib/overlay-model"
 import { resolveRender, type RenderProps } from "@/registry/native/lib/render"
+import { DisclosurePanel } from "@/registry/native/ui/collapsible"
 import { DensityScope, useDensity } from "@/registry/native/ui/density"
 import { renderTextChildren, Text, TextStyle } from "@/registry/native/ui/text"
 
@@ -63,6 +68,26 @@ const contextMenuItemTextVariants = cva("cn-context-menu-item-text", {
     variant: "default",
   },
 })
+
+/** Turns toward the rows it opens, on the disclosure timing. */
+function SubmenuChevron({ isOpen }: { isOpen: boolean }) {
+  const motion = useMotion("disclosure")
+  const turn = useSharedValue(isOpen ? 1 : 0)
+  React.useEffect(() => {
+    turn.value = withTiming(isOpen ? 1 : 0, {
+      duration: motion.isReduced ? 0 : motion.enterMs,
+      easing: motion.enterEasing,
+    })
+  }, [isOpen, motion, turn])
+  const style = useAnimatedStyle(() => ({
+    transform: [{ rotate: `${turn.value * 90}deg` }],
+  }))
+  return (
+    <Animated.View style={style}>
+      <ChevronRightIcon />
+    </Animated.View>
+  )
+}
 
 /** What the primitive does when one of its rows closes the menu. */
 function useCloseMenu() {
@@ -343,7 +368,7 @@ function ContextMenuSubTrigger({
         >
           {renderTextChildren(children)}
           <View className="ml-auto">
-            {open ? <ChevronDownIcon /> : <ChevronRightIcon />}
+            <SubmenuChevron isOpen={open} />
           </View>
         </ContextMenuPrimitive.SubTrigger>
       </IconProvider>
@@ -365,15 +390,20 @@ function ContextMenuSubContent({
     "align" | "alignOffset" | "side" | "sideOffset"
   > & { children?: React.ReactNode }) {
   const { open } = ContextMenuPrimitive.useSubContext()
+  const remeasure = useFluidRemeasure()
   useSurfaceFeedback("popup", open)
+  // Inline on a phone: the rows open like a disclosure, and those below follow.
   return (
-    <ContextMenuPrimitive.SubContent
-      data-slot="context-menu-sub-content"
-      className={cn("cn-context-menu-subcontent", className)}
-      {...props}
-    >
-      {renderTextChildren(children)}
-    </ContextMenuPrimitive.SubContent>
+    <DisclosurePanel isOpen={open} onLayout={() => remeasure?.()}>
+      <ContextMenuPrimitive.SubContent
+        forceMount
+        data-slot="context-menu-sub-content"
+        className={cn("cn-context-menu-subcontent", className)}
+        {...props}
+      >
+        {renderTextChildren(children)}
+      </ContextMenuPrimitive.SubContent>
+    </DisclosurePanel>
   )
 }
 

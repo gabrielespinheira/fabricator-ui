@@ -172,6 +172,7 @@ export const overlayItems: Registry["items"] = [
       "react-native-reanimated",
     ],
     registryDependencies: [
+      "@fabricator/collapsible",
       ...OVERLAY_REGISTRY_DEPENDENCIES,
       "@fabricator/feedback",
       "@fabricator/fluid-hover",
@@ -195,6 +196,7 @@ export const overlayItems: Registry["items"] = [
       "react-native-reanimated",
     ],
     registryDependencies: [
+      "@fabricator/collapsible",
       ...OVERLAY_REGISTRY_DEPENDENCIES,
       "@fabricator/feedback",
       "@fabricator/fluid-hover",

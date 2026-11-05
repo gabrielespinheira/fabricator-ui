@@ -255,6 +255,13 @@ describe("getInsetFrame", () => {
     })
   })
 
+  it("leaves a phone's page flush when its header holds the status bar", () => {
+    expect(
+      getInsetFrame({ ...base, isMobile: true, isCard: true, isFlushTop: true })
+        .paddingTop
+    ).toBe(0)
+  })
+
   it("pads a flat column under the status bar", () => {
     expect(getInsetFrame({ ...base, isMobile: false, isCard: false })).toEqual({
       paddingTop: 40,

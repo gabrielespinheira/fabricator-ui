@@ -82,6 +82,7 @@ export const foundationItems: Registry["items"] = [
       "react-native-safe-area-context",
       "uniwind@1.13.1",
     ],
+    registryDependencies: ["@fabricator/feedback"],
     files: [{ path: "ui/fabricator-root.tsx", type: "registry:ui" }],
     meta: docs("fabricator-root"),
   },

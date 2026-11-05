@@ -5,6 +5,7 @@ import { cn } from "cn"
 import Animated, {
   cancelAnimation,
   Easing,
+  ReduceMotion,
   useAnimatedStyle,
   useSharedValue,
   withRepeat,
@@ -12,13 +13,11 @@ import Animated, {
 } from "react-native-reanimated"
 import { useResolveClassNames } from "uniwind"
 
-import { useMotion } from "@/registry/native/lib/motion"
-
 const spinnerVariants = cva("cn-spinner items-center justify-center")
 
-// One turn, in sheet timings: 1s at the default speed, the length of the
-// website's animate-spin.
-const TURN_SHEET_TIMINGS = 2.5
+// The website's animate-spin: one turn a second at every speed. It keeps going
+// under Reduce Motion and with motion off, since a still spinner reads as hung.
+const TURN_MS = 1000
 
 function Spinner({
   className,
@@ -34,21 +33,24 @@ function Spinner({
   const iconColor =
     color ?? (typeof resolved.color === "string" ? resolved.color : undefined)
 
-  const motion = useMotion("sheet")
   const rotation = useSharedValue(0)
-  const shouldSpin = !motion.isOff && !motion.isReduced
-  const duration = motion.enterMs * TURN_SHEET_TIMINGS
   React.useEffect(() => {
-    if (!shouldSpin) return
     rotation.value = withRepeat(
-      withTiming(360, { duration, easing: Easing.linear }),
-      -1
+      withTiming(360, {
+        duration: TURN_MS,
+        easing: Easing.linear,
+        reduceMotion: ReduceMotion.Never,
+      }),
+      -1,
+      false,
+      undefined,
+      ReduceMotion.Never
     )
     return () => {
       cancelAnimation(rotation)
       rotation.value = 0
     }
-  }, [duration, rotation, shouldSpin])
+  }, [rotation])
   const spinStyle = useAnimatedStyle(() => ({
     transform: [{ rotate: `${rotation.value}deg` }],
   }))

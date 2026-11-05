@@ -212,6 +212,7 @@ export function getInsetFrame({
   insetTop,
   insetBottom,
   gutter,
+  isFlushTop = false,
 }: {
   isMobile: boolean
   isCard: boolean
@@ -220,10 +221,12 @@ export function getInsetFrame({
   insetTop: number
   insetBottom: number
   gutter: number
+  /** A header inside holds the status bar, so the page runs up behind it. */
+  isFlushTop?: boolean
 }) {
   if (isMobile || !isCard) {
     return {
-      paddingTop: insetTop,
+      paddingTop: isFlushTop ? 0 : insetTop,
       marginTop: 0,
       marginRight: 0,
       marginBottom: statusBarHeight,

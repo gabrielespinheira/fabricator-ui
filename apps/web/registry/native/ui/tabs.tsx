@@ -6,6 +6,7 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "cn"
 import { View } from "react-native"
 
+import { noteStep } from "@/registry/fabricator/shared/lib/sound-recipes"
 import { useFeedback } from "@/registry/native/lib/feedback"
 import {
   FluidHoverArea,
@@ -22,6 +23,14 @@ type TabsOrientation = "horizontal" | "vertical"
 const TabsContext = React.createContext<TabsOrientation>("horizontal")
 
 const TabsListContext = React.createContext<"default" | "line">("default")
+
+// Each tab rings a step higher along the track.
+const TabIndexContext = React.createContext(0)
+
+// The lit tab turns foreground too; only the active one turns semibold.
+const tabsTriggerTextVariants = cva("cn-tabs-trigger-text")
+const tabsTriggerLitTextVariants = cva("cn-tabs-trigger-text-lit")
+const tabsTriggerActiveTextVariants = cva("cn-tabs-trigger-text-active")
 
 function Tabs({
   className,
@@ -93,6 +102,7 @@ function TabsList({
     selected: value,
     axis: orientation === "vertical" ? "y" : "x",
     track: orientation === "vertical" ? "hold" : "drag",
+    previewsSelection: true,
   })
   return (
     <FluidHoverProvider fluid={fluid}>
@@ -122,7 +132,13 @@ function TabsList({
             hover={fluid.hover}
             className="cn-tabs-highlight"
           />
-          <TabsListContext value={resolvedVariant}>{children}</TabsListContext>
+          <TabsListContext value={resolvedVariant}>
+            {React.Children.toArray(children).map((child, index) => (
+              <TabIndexContext key={index} value={index}>
+                {child}
+              </TabIndexContext>
+            ))}
+          </TabsListContext>
         </TabsPrimitive.List>
       </FluidHoverArea>
     </FluidHoverProvider>
@@ -146,13 +162,14 @@ function TabsTrigger({
   const { value: selected, onValueChange } = TabsPrimitive.useRootContext()
   const orientation = React.use(TabsContext)
   const variant = React.use(TabsListContext)
+  const index = React.use(TabIndexContext)
   const feedback = useFeedback()
   const isActive = selected === value
-  const { rowProps } = useFluidRow({
+  const { isLit, rowProps } = useFluidRow({
     itemKey: value,
     disabled: props.disabled,
     onActivate: () => {
-      if (!isActive) feedback("note")
+      feedback("note", { pitch: noteStep(index) })
       onValueChange(value)
     },
     onLayout,
@@ -161,36 +178,42 @@ function TabsTrigger({
     onHoverIn,
     onHoverOut,
   })
-  const trigger = (
-    <TabsPrimitive.Trigger
-      data-slot="tabs-trigger"
-      data-state={isActive ? "active" : "inactive"}
-      data-orientation={orientation}
-      data-variant={variant}
-      value={value}
-      hitSlop={8}
-      // Not flex-1: its zero basis collapses a tab in a list that fits its tabs.
+  return (
+    <TextStyle
+      eases
       className={cn(
-        "cn-tabs-trigger relative grow flex-row items-center justify-center disabled:opacity-50 data-[orientation=vertical]:flex-none data-[orientation=vertical]:justify-start",
-        className
+        tabsTriggerTextVariants(),
+        isActive
+          ? tabsTriggerActiveTextVariants()
+          : isLit
+            ? tabsTriggerLitTextVariants()
+            : undefined
       )}
-      onPress={(event) => {
-        if (!isActive) feedback("note")
-        onPress?.(event)
-      }}
-      {...rowProps}
-      {...props}
     >
-      {renderTextChildren(children)}
-    </TabsPrimitive.Trigger>
-  )
-  return isActive ? (
-    <TextStyle className="cn-tabs-trigger-text cn-tabs-trigger-text-active">
-      <IconProvider strokeWidth={2}>{trigger}</IconProvider>
-    </TextStyle>
-  ) : (
-    <TextStyle className="cn-tabs-trigger-text">
-      <IconProvider strokeWidth={1.5}>{trigger}</IconProvider>
+      <IconProvider strokeWidth={isActive || isLit ? 2 : 1.5}>
+        <TabsPrimitive.Trigger
+          data-slot="tabs-trigger"
+          data-state={isActive ? "active" : "inactive"}
+          data-orientation={orientation}
+          data-variant={variant}
+          value={value}
+          // Up and down only: sideways it would take a neighbour's press.
+          hitSlop={{ top: 8, bottom: 8 }}
+          // Not flex-1: its zero basis collapses a tab in a list that fits its tabs.
+          className={cn(
+            "cn-tabs-trigger relative grow flex-row items-center justify-center disabled:opacity-50 data-[orientation=vertical]:flex-none data-[orientation=vertical]:justify-start",
+            className
+          )}
+          onPress={(event) => {
+            feedback("note", { pitch: noteStep(index) })
+            onPress?.(event)
+          }}
+          {...rowProps}
+          {...props}
+        >
+          {renderTextChildren(children)}
+        </TabsPrimitive.Trigger>
+      </IconProvider>
     </TextStyle>
   )
 }

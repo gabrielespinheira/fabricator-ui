@@ -39,7 +39,7 @@
   }
 
   .cn-navigation-menu-link-text {
-    @apply text-foreground/80 text-(length:--density-text-13);
+    @apply text-foreground text-(length:--density-text-13);
   }
 
   /* The current page, or under the highlight: a link reads foreground. */

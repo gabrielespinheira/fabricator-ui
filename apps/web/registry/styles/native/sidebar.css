@@ -70,6 +70,11 @@
     @apply -inset-px rounded-lg bg-active;
   }
 
+  /* What the content's edges fade to: the sidebar's own colour. */
+  .cn-sidebar-fade {
+    @apply text-sidebar;
+  }
+
   /* The page. Inset main area: surface 2 with its shadow ring, rounded-xl. While
      the phone sidebar is revealed it moves aside and shrinks towards the sidebar's
      edge on the sheet's timing, and its corners and shadow leave last. */

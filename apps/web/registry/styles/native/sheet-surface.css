@@ -11,6 +11,11 @@
   }
 
   /* Spans the edge it attaches to, and clears the safe areas it touches. */
+  /* Past the edge the panel opens from: a sheet pulled past open shows no gap. */
+  .cn-sheet-surface-bleed {
+    @apply bg-surface-3 data-[side=bottom]:inset-x-0 data-[side=bottom]:-bottom-12 data-[side=bottom]:h-12 data-[side=top]:inset-x-0 data-[side=top]:-top-12 data-[side=top]:h-12 data-[side=left]:inset-y-0 data-[side=left]:-left-12 data-[side=left]:w-12 data-[side=right]:inset-y-0 data-[side=right]:-right-12 data-[side=right]:w-12;
+  }
+
   .cn-sheet-surface-panel {
     @apply max-h-full data-[side=bottom]:w-full data-[side=bottom]:pb-safe data-[side=left]:h-full data-[side=left]:pt-safe data-[side=left]:pb-safe data-[side=left]:pl-safe data-[side=right]:h-full data-[side=right]:pt-safe data-[side=right]:pr-safe data-[side=right]:pb-safe data-[side=top]:w-full data-[side=top]:pt-safe;
   }

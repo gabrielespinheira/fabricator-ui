@@ -19,9 +19,18 @@ export const contentItems: Registry["items"] = [
     type: "registry:ui",
     title: "Input",
     description: "A text field.",
-    dependencies: ["@rn-primitives/hooks", "cn"],
-    registryDependencies: ["@fabricator/field-model"],
-    files: [{ path: "ui/input.tsx", type: "registry:ui" }],
+    dependencies: [
+      "@rn-primitives/hooks",
+      "class-variance-authority",
+      "cn",
+      "react-native-reanimated",
+      "uniwind@1.13.1",
+    ],
+    registryDependencies: ["@fabricator/field-model", "@fabricator/motion"],
+    files: [
+      { path: "ui/input.tsx", type: "registry:ui" },
+      { path: "lib/field-frame.ts", type: "registry:lib" },
+    ],
     meta: docs("input"),
   },
   {

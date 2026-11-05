@@ -20,7 +20,7 @@ Interface sounds are the same on React Native, under the same `<SoundEffects />`
 | [Alert](/docs/components/native/alert) | Same |  |
 | [Alert Dialog](/docs/components/native/alert-dialog) | Same |  |
 | [App Nav](/docs/components/native/app-nav) | Touch input | Rows reorder on a long press, so a reorderable row's menu sits on its trailing button, and on the icon rail it has none. Keyboard reordering has no equivalent. |
-| [App Shell](/docs/components/native/app-shell) | Touch input | On phones the sidebar reveals behind the page, panels open as sheets and the nav's mobile items become a tab bar. `window`, `shortcut` and `shortcutScope` are accepted and do nothing, since React Native has no window controls or global key events. Panels don't drag to resize, and the layout is only saved if you pass `storage`. |
+| [App Shell](/docs/components/native/app-shell) | Touch input | On phones the sidebar reveals behind the page, panels open as sheets with a grab handle and full-width tabs, a panel's toggle draws a bottom panel, and the nav's mobile items become a tab bar, flat or floating, on a surface of your own through `capsule` (a `GlassView` for Liquid Glass). The page scrolls under the header, which sits on a fade behind the status bar, instead of showing a hairline. `window`, `shortcut` and `shortcutScope` are accepted and do nothing, since React Native has no window controls or global key events. Panels don't drag to resize, and the layout is only saved if you pass `storage`. |
 | [Aspect Ratio](/docs/components/native/aspect-ratio) | Same |  |
 | [Attachment](/docs/components/native/attachment) | Same |  |
 | [Avatar](/docs/components/native/avatar) | Same |  |
@@ -66,7 +66,7 @@ Interface sounds are the same on React Native, under the same `<SoundEffects />`
 | [Search](/docs/components/native/search) | Same |  |
 | [Select](/docs/components/native/select) | Touch input | Opens as a sheet on phones and a popover on tablets. |
 | [Separator](/docs/components/native/separator) | Same |  |
-| [Sheet](/docs/components/native/sheet) | New engine | Gestures run on the UI thread, with swipe to dismiss and keyboard avoidance. |
+| [Sheet](/docs/components/native/sheet) | New engine | Gestures run on the UI thread, with swipe to dismiss and keyboard avoidance. It travels its full size, so the finger stays on it, where the website's moves 2.5rem and fades. |
 | [Sidebar](/docs/components/native/sidebar) | Touch input | On phones it reveals behind the page, following the finger, or slides over it from an edge swipe. `SidebarRail` toggles on a tap instead of resizing, and row actions always show. `persist`, `shortcut`, `peek` and `onWidthChange` are accepted and do nothing. |
 | [Skeleton](/docs/components/native/skeleton) | Same |  |
 | [Slider](/docs/components/native/slider) | Same |  |

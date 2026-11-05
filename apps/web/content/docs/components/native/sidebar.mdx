@@ -407,11 +407,11 @@ export { SidebarExample }
 | `size` | `default`, `lg`, `md`, `sm` |
 | `state` | `active`, `default` |
 
-Props it adds to what it wraps: `bordered`, `collapsible`, `defaultOpen`, `dot`, `gutter`, `icon`, `isActive`, `isMobile`, `mobileSidebar`, `onGapWidthChange`, `onOpenChange`, `onPress`, `onWidthChange`, `open`, `peek`, `persist`, `shortcut`, `showIcon`, `showOnHover`, `side`, `size`, `status`, `statusBarHeight`, `tooltip`, `variant`, `width`, `widthMobile`.
+Props it adds to what it wraps: `"data-dragging"`, `bordered`, `collapsible`, `defaultOpen`, `dot`, `gutter`, `icon`, `isActive`, `isFlushTop`, `isMobile`, `mobileSidebar`, `onGapWidthChange`, `onLayout`, `onOpenChange`, `onPress`, `onWidthChange`, `open`, `peek`, `persist`, `shortcut`, `showIcon`, `showOnHover`, `side`, `size`, `status`, `statusBarHeight`, `tooltip`, `variant`, `width`, `widthMobile`.
 
 ## Differences from web
 
-**Touch input.** On phones it reveals behind the page, following the finger, or slides over it from an edge swipe. `SidebarRail` toggles on a tap instead of resizing, row actions always show, and rows paint their own pressed fill. `persist`, `shortcut`, `peek` and `onWidthChange` are accepted and do nothing.
+**Touch input.** On phones it reveals behind the page, following the finger, or slides over it from an edge swipe. `SidebarRail` toggles on a tap instead of resizing, and row actions always show. `persist`, `shortcut`, `peek` and `onWidthChange` are accepted and do nothing.
 
 ## Accessibility
 

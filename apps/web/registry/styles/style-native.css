@@ -441,13 +441,13 @@
   /* A height, not only the website's limit: its views take what's left, and a
      flexed child of a view with no height has nothing to take. */
   .cn-app-shell-panel-drawer {
-    @apply h-[85%];
+    @apply h-[70%];
   }
 
   /* A docked panel's header leaves room for the toggle pinned over its end, in a
      style. It has the main header's height and hairline. */
   .cn-app-shell-panel-header {
-    @apply h-(--density-48) gap-(--density-6) border-b border-transparent px-(--density-12);
+    @apply h-(--density-48) gap-(--density-6) border-b border-transparent px-(--density-12) data-[floating=true]:gap-(--density-8) data-[floating=true]:border-b-0 data-[floating=true]:px-(--density-16);
   }
 
   .cn-app-shell-panel-title {
@@ -459,12 +459,12 @@
   }
 
   .cn-app-shell-panel-tabs {
-    @apply min-w-0 shrink justify-start;
+    @apply min-w-0 shrink justify-start data-[floating=true]:flex-1;
   }
 
   /* Below a 360pt panel the view tabs show their icons only. */
   .cn-app-shell-panel-tab {
-    @apply data-[compact=true]:px-(--density-8);
+    @apply data-[compact=true]:px-(--density-8) data-[floating=true]:px-(--density-6);
   }
 
   .cn-app-shell-panel-tab-label {
@@ -480,7 +480,7 @@
   }
 
   .cn-app-shell-panel-close {
-    @apply ml-auto;
+    @apply ml-auto data-[floating=true]:bg-foreground/5 data-[floating=true]:rounded-full;
   }
 
   /* Pinned, it only holds the toggle's room in the header: the toggle itself sits
@@ -1337,10 +1337,10 @@
 
 /* MARK: Card */
 
-  /* Surface 3 with its shadow ring, rounded-xl. py-(--density-16) with
+  /* The card colour with surface 2's shadow ring, rounded-xl. py-(--density-16) with
      px on the parts; sm tightens through the same parts. */
   .cn-card {
-    @apply bg-surface-3 shadow-surface-3 gap-(--density-16) rounded-xl py-(--density-16) data-[size=sm]:gap-(--density-12) data-[size=sm]:py-(--density-12);
+    @apply bg-card shadow-surface-2 gap-(--density-16) rounded-xl py-(--density-16) data-[size=sm]:gap-(--density-12) data-[size=sm]:py-(--density-12);
   }
 
   .cn-card-text {
@@ -1356,7 +1356,7 @@
   }
 
   .cn-card-description {
-    @apply text-muted-foreground text-(length:--density-text-13);
+    @apply text-muted-foreground text-(length:--density-text-13) data-[size=sm]:text-(length:--density-text-12);
   }
 
   /* The header's top-right corner. */
@@ -2222,7 +2222,18 @@
   /* A hairline frame, transparent at rest, lifted to the card surface on
      focus. Invalid turns the frame red. */
   .cn-input {
-    @apply font-sans text-foreground border-border focus:bg-card focus:border-foreground/25 data-[invalid=true]:border-destructive/50 h-(--density-36) rounded-lg border bg-transparent px-(--density-10) py-1 text-(length:--density-text-13);
+    @apply font-sans text-foreground border-border data-[invalid=true]:border-destructive/50 h-(--density-36) rounded-lg border bg-transparent px-(--density-10) py-1 text-(length:--density-text-13);
+  }
+
+  /* The frame's colours at rest and in focus: it eases between them on the feedback
+     timing, in the source. The rest fill is the card's colour at no opacity, so the
+     lift doesn't pass through grey. */
+  .cn-input-rest {
+    @apply border-border bg-card/0;
+  }
+
+  .cn-input-focus {
+    @apply border-foreground/25 bg-card;
   }
 
 /* MARK: Item */
@@ -2603,7 +2614,7 @@
   }
 
   .cn-navigation-menu-link-text {
-    @apply text-foreground/80 text-(length:--density-text-13);
+    @apply text-foreground text-(length:--density-text-13);
   }
 
   /* The current page, or under the highlight: a link reads foreground. */
@@ -3145,6 +3156,11 @@
   }
 
   /* Spans the edge it attaches to, and clears the safe areas it touches. */
+  /* Past the edge the panel opens from: a sheet pulled past open shows no gap. */
+  .cn-sheet-surface-bleed {
+    @apply bg-surface-3 data-[side=bottom]:inset-x-0 data-[side=bottom]:-bottom-12 data-[side=bottom]:h-12 data-[side=top]:inset-x-0 data-[side=top]:-top-12 data-[side=top]:h-12 data-[side=left]:inset-y-0 data-[side=left]:-left-12 data-[side=left]:w-12 data-[side=right]:inset-y-0 data-[side=right]:-right-12 data-[side=right]:w-12;
+  }
+
   .cn-sheet-surface-panel {
     @apply max-h-full data-[side=bottom]:w-full data-[side=bottom]:pb-safe data-[side=left]:h-full data-[side=left]:pt-safe data-[side=left]:pb-safe data-[side=left]:pl-safe data-[side=right]:h-full data-[side=right]:pt-safe data-[side=right]:pr-safe data-[side=right]:pb-safe data-[side=top]:w-full data-[side=top]:pt-safe;
   }
@@ -3260,6 +3276,11 @@
   /* Pressed is the next interaction step, as on a ghost button. */
   .cn-sidebar-trigger-wash {
     @apply -inset-px rounded-lg bg-active;
+  }
+
+  /* What the content's edges fade to: the sidebar's own colour. */
+  .cn-sidebar-fade {
+    @apply text-sidebar;
   }
 
   /* The page. Inset main area: surface 2 with its shadow ring, rounded-xl. While
@@ -3610,6 +3631,10 @@
     @apply text-muted-foreground text-(length:--density-text-13);
   }
 
+  .cn-tab-strip-tab-text-lit {
+    @apply text-foreground;
+  }
+
   .cn-tab-strip-tab-text-active {
     @apply text-foreground;
   }
@@ -3825,7 +3850,16 @@
      card surface on focus. Invalid turns the frame red. It grows with its text,
      from a 64pt floor. */
   .cn-textarea {
-    @apply font-sans text-foreground border-border focus:bg-card focus:border-foreground/25 data-[invalid=true]:border-destructive/50 min-h-16 rounded-lg border bg-transparent px-(--density-10) py-(--density-8) text-(length:--density-text-13);
+    @apply font-sans text-foreground border-border data-[invalid=true]:border-destructive/50 min-h-16 rounded-lg border bg-transparent px-(--density-10) py-(--density-8) text-(length:--density-text-13);
+  }
+
+  /* The frame's colours at rest and in focus, as the input's. */
+  .cn-textarea-rest {
+    @apply border-border bg-card/0;
+  }
+
+  .cn-textarea-focus {
+    @apply border-foreground/25 bg-card;
   }
 
 /* MARK: Toast */
@@ -3977,11 +4011,11 @@
   }
 
   .cn-user-menu-name {
-    @apply text-foreground text-(length:--density-text-13) font-semibold;
+    @apply text-foreground text-(length:--density-text-13) font-semibold leading-tight;
   }
 
   .cn-user-menu-email {
-    @apply text-muted-foreground text-(length:--density-text-12);
+    @apply text-muted-foreground text-(length:--density-text-12) leading-tight;
   }
 
   /* On the axis of the rows' actions and badges. */
@@ -4030,11 +4064,11 @@
   }
 
   .cn-workspace-switcher-name {
-    @apply text-foreground text-(length:--density-text-13) font-semibold;
+    @apply text-foreground text-(length:--density-text-13) font-semibold leading-tight;
   }
 
   .cn-workspace-switcher-description {
-    @apply text-muted-foreground text-(length:--density-text-12);
+    @apply text-muted-foreground text-(length:--density-text-12) leading-tight;
   }
 
   /* On the axis of the rows' actions and badges. */

@@ -14,10 +14,11 @@ Read, in order: `registry/fabricator/base/ui/<name>.tsx` (or `registry/fabricato
 
 - Plain function components, `ref` as a regular prop, one `export { … }` block at the bottom. `className` merges last through `cn()`, imported from `cn`.
 - Imports between registry files use `@/registry/native/ui/<name>` and `@/registry/native/lib/<name>`. Icons come from `@fabricator-ui/icons-react-native`, by value (`<CheckIcon />`), never `IconPlaceholder`.
-- **Text:** React Native draws text only inside `Text` and has no inheritance.
+- **Text:** React Native draws text only inside `Text` and has no inheritance. `Text` sets Inter and the website's 1.5 line height; a text field's rule adds `font-sans` itself.
   - Use `Text` from `ui/text`, never React Native's.
   - A part that holds arbitrary children renders `{renderTextChildren(children)}`, so `<Button>Save</Button>` works.
   - A part that sets text style for its children wraps them in `<TextStyle className="cn-x-text">`. That also colours icons inside it.
+  - A part whose text colour follows its state adds `eases`: `<TextStyle eases className={…}>`. The colour then moves on the feedback timing, as the website's `transition-colors` does. Leave it off text that never changes: each eased `Text` is an animated view.
 - **Parent state:** `group-*`, `has-*`, `in-data-*` and `peer-*` don't exist. Pass state through React context (see `CardContext`) and set a `data-*` prop on each part.
 - **Composition:** `render` and `asChild` both work: `renderSlot` for a plain part (see `Button`), `resolveRender` for a primitive with `asChild` (see `DialogTrigger`).
 - **Primitives:** `@rn-primitives/*` for overlays and anything with real behaviour (dialog, alert-dialog, dropdown-menu, context-menu, popover, hover-card, tooltip, select, menubar, navigation-menu, accordion, collapsible, tabs). Plain views for the rest. Hold state with `useControllableState` from `@rn-primitives/hooks`.
@@ -37,7 +38,23 @@ Rules go in `registry/styles/native/<name>.css`, under `/* MARK: <Component> */`
 
 ## Motion
 
-By role, never milliseconds: `useMotion("move")` for your own `withTiming` calls, `useSurfaceAnimation("popup")` for `entering` and `exiting`, `usePressScale()` for the press. They read the theme, follow Reduce Motion and go to zero when motion is off. Sheets use `drawerEasing`.
+By role, never milliseconds: `useMotion("move")` for your own `withTiming` calls, `useSurfaceAnimation("popup", { side, align })` for `entering`, `exiting` and the `origin` a popup grows from, `usePressScale()` for the press. They read the theme, follow Reduce Motion and go to zero when motion is off. Use the role's curve: `moveEasing` for what travels, `enterEasing` for what appears, `feedbackEasing` for colour and the press, `drawerEasing` for sheets.
+
+An `active:` class snaps, and so does a `data-[state=on]:bg-*` fill. Where a pressed fill should ease, render `<PressWash press={press} className="cn-x-wash" />` as the Pressable's first child. Where a state's fill should ease (on, checked, selected), render `<StateFill isOn={isOn} className="cn-x-fill" />` there instead. `usePressScale({ isHeld })` keeps the wash on while a trigger's popup is open. A text field's frame goes through `useFieldFrame`.
+
+## Fluid Hover
+
+`lib/fluid-hover.tsx`. A finger takes the pointer's place: a press lights the row, another press before it fades glides there, and where `track` is set a drag moves the highlight and letting go activates the lit row.
+
+- A list or a menu: `FluidHoverList`, or `FluidHoverScrollList` when it sits in a scroll view. Rows call `useFluidRow({ disabled, onActivate, ...handlers })` and spread `rowProps` on their Pressable. `onActivate` does what a press does, feedback and closing included.
+- A strip with a selection: `useFluidHover({ selected, axis: "x", track: "drag" })`, with `FluidHoverProvider`, `FluidHoverArea` and `ref={fluid.attach}` on the container. See `ui/tabs.tsx`.
+- `track`: `drag` for strips and lists that fit, `hold` for lists that scroll, `none` for what a long press already means something on. Rows in anything but `drag` wait 90ms to light, as iOS tables do, so starting a scroll doesn't flash the row it landed on.
+- `previewsSelection`, on a strip whose highlight previews the next selection, as tabs': the selection dims while another row is lit, and the highlight hides over the selected row.
+- Rows drop their own `active:bg-*`. A lit row's text turns foreground and its icon stroke 2, from `isLit`, through a `cva` variant on its text placeholder.
+
+## Feedback
+
+Controls call `useFeedback()` with the same names as the website's sounds: `feedback("tick")`, `feedback("note", { pitch: noteStep(index) })`. Content that renders only while open calls `useMountFeedback("popup")`, and a surface that stays mounted `useSurfaceFeedback("panel", open)`. Surfaces only sound within a second of a touch, which `FabricatorRoot` notes, so one that opens by itself stays quiet. They do nothing until the app mounts `<SoundEffects />`, and they work inside portals. Which control plays what is in `registry/fabricator/shared/components/sound-effects.tsx`.
 
 ## Overlays
 

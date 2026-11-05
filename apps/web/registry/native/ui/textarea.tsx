@@ -1,9 +1,17 @@
 import * as React from "react"
 import { useComposedRefs } from "@rn-primitives/hooks"
+import { cva } from "class-variance-authority"
 import { cn } from "cn"
 import { TextInput } from "react-native"
+import Animated from "react-native-reanimated"
 
+import { useFieldFrame } from "@/registry/native/lib/field-frame"
 import { useFieldControl } from "@/registry/native/lib/field-model"
+
+const AnimatedTextInput = Animated.createAnimatedComponent(TextInput)
+
+const textareaRestVariants = cva("cn-textarea-rest")
+const textareaFocusVariants = cva("cn-textarea-focus")
 
 function Textarea({
   className,
@@ -11,6 +19,9 @@ function Textarea({
   disabled,
   editable,
   ref,
+  style,
+  onFocus,
+  onBlur,
   ...props
 }: React.ComponentProps<typeof TextInput> & {
   "aria-invalid"?: boolean
@@ -23,8 +34,15 @@ function Textarea({
   })
   const isFieldInvalid = isInvalid ?? field.isInvalid
   const isEditable = editable ?? !(disabled ?? field.isDisabled)
+  const frame = useFieldFrame({
+    restClassName: textareaRestVariants(),
+    focusClassName: textareaFocusVariants(),
+    isInvalid: Boolean(isFieldInvalid),
+    onFocus,
+    onBlur,
+  })
   return (
-    <TextInput
+    <AnimatedTextInput
       ref={composedRef}
       data-slot="textarea"
       data-invalid={isFieldInvalid}
@@ -36,6 +54,9 @@ function Textarea({
       placeholderTextColorClassName="accent-muted-foreground"
       selectionColorClassName="accent-primary"
       className={cn("cn-textarea w-full disabled:opacity-50", className)}
+      style={[frame.frameStyle, style]}
+      onFocus={frame.onFocus}
+      onBlur={frame.onBlur}
       {...props}
     />
   )

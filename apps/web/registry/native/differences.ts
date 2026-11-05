@@ -26,7 +26,7 @@ export const NATIVE_DIFFERENCES: Record<
   },
   "app-shell": {
     tier: "touch",
-    note: "On phones the sidebar reveals behind the page, panels open as sheets and the nav's mobile items become a tab bar. `window`, `shortcut` and `shortcutScope` are accepted and do nothing, since React Native has no window controls or global key events. Panels don't drag to resize, and the layout is only saved if you pass `storage`.",
+    note: "On phones the sidebar reveals behind the page, panels open as sheets with a grab handle and full-width tabs, a panel's toggle draws a bottom panel, and the nav's mobile items become a tab bar, flat or floating, on a surface of your own through `capsule` (a `GlassView` for Liquid Glass). The page scrolls under the header, which sits on a fade behind the status bar, instead of showing a hairline. `window`, `shortcut` and `shortcutScope` are accepted and do nothing, since React Native has no window controls or global key events. Panels don't drag to resize, and the layout is only saved if you pass `storage`.",
   },
   "aspect-ratio": SAME,
   attachment: SAME,
@@ -144,7 +144,7 @@ export const NATIVE_DIFFERENCES: Record<
   separator: SAME,
   sheet: {
     tier: "engine",
-    note: "Gestures run on the UI thread, with swipe to dismiss and keyboard avoidance.",
+    note: "Gestures run on the UI thread, with swipe to dismiss and keyboard avoidance. It travels its full size, so the finger stays on it, where the website's moves 2.5rem and fades.",
   },
   sidebar: {
     tier: "touch",

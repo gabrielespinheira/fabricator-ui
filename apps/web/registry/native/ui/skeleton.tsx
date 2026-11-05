@@ -2,37 +2,43 @@ import * as React from "react"
 import { cn } from "cn"
 import Animated, {
   cancelAnimation,
+  Easing,
+  ReduceMotion,
   useAnimatedStyle,
   useSharedValue,
   withRepeat,
   withTiming,
 } from "react-native-reanimated"
 
-import { useMotion } from "@/registry/native/lib/motion"
-
-// One way of the pulse, in sheet timings: 2s there and back at the default
-// speed, the length of the website's animate-pulse.
-const PULSE_SHEET_TIMINGS = 2.5
+// The website's animate-pulse: 2s there and back at every speed, on its own curve.
+const PULSE_MS = 1000
+const PULSE_EASING = Easing.bezier(0.4, 0, 0.6, 1)
 
 /**
  * The website's `animate-pulse` and `shimmer` as an animated opacity. React
- * Native can't sweep a gradient through text without a mask, so both pulse.
- * Stays still under Reduce Motion and when motion is off.
+ * Native can't sweep a gradient through text without a mask, so both pulse. It's
+ * a fade, so it keeps going under Reduce Motion, as on the website.
  */
 function usePulse(isActive = true) {
-  const motion = useMotion("sheet")
   const opacity = useSharedValue(1)
-  const shouldPulse = isActive && !motion.isOff && !motion.isReduced
-  const duration = motion.enterMs * PULSE_SHEET_TIMINGS
-  const easing = motion.moveEasing
   React.useEffect(() => {
-    if (!shouldPulse) return
-    opacity.value = withRepeat(withTiming(0.5, { duration, easing }), -1, true)
+    if (!isActive) return
+    opacity.value = withRepeat(
+      withTiming(0.5, {
+        duration: PULSE_MS,
+        easing: PULSE_EASING,
+        reduceMotion: ReduceMotion.Never,
+      }),
+      -1,
+      true,
+      undefined,
+      ReduceMotion.Never
+    )
     return () => {
       cancelAnimation(opacity)
       opacity.value = 1
     }
-  }, [duration, easing, opacity, shouldPulse])
+  }, [isActive, opacity])
   return useAnimatedStyle(() => ({ opacity: opacity.value }))
 }
 

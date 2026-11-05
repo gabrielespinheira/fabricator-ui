@@ -537,6 +537,11 @@ function useFluidRow<
   }
 }
 
+/** Measures the nearest container's rows again, for what moves them all. */
+function useFluidRemeasure() {
+  return React.use(FluidHoverContext)?.remeasure
+}
+
 /** Follows the finger, where the container's `track` asks for it. */
 function FluidHoverArea({
   fluid,
@@ -717,5 +722,6 @@ export {
   FluidHoverProvider,
   FluidHoverScrollList,
   FluidHoverSelection,
+  useFluidRemeasure,
   useFluidRow,
 }

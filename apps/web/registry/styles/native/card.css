@@ -1,9 +1,9 @@
 /* MARK: Card */
 
-  /* Surface 3 with its shadow ring, rounded-xl. py-(--density-16) with
+  /* The card colour with surface 2's shadow ring, rounded-xl. py-(--density-16) with
      px on the parts; sm tightens through the same parts. */
   .cn-card {
-    @apply bg-surface-3 shadow-surface-3 gap-(--density-16) rounded-xl py-(--density-16) data-[size=sm]:gap-(--density-12) data-[size=sm]:py-(--density-12);
+    @apply bg-card shadow-surface-2 gap-(--density-16) rounded-xl py-(--density-16) data-[size=sm]:gap-(--density-12) data-[size=sm]:py-(--density-12);
   }
 
   .cn-card-text {
@@ -19,7 +19,7 @@
   }
 
   .cn-card-description {
-    @apply text-muted-foreground text-(length:--density-text-13);
+    @apply text-muted-foreground text-(length:--density-text-13) data-[size=sm]:text-(length:--density-text-12);
   }
 
   /* The header's top-right corner. */
