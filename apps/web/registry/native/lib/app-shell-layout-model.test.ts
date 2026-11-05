@@ -16,6 +16,7 @@ import {
   getPinnedTriggerPosition,
   getShellRowOffset,
   getStatusBarHeight,
+  getStatusBarPadding,
   isTitleScrolledAway,
   shouldShowHeaderTrigger,
 } from "@/registry/native/lib/app-shell-layout-model"
@@ -366,13 +367,60 @@ describe("getPanelFrame", () => {
 })
 
 describe("getStatusBarHeight", () => {
-  it("is the row plus the home indicator, and nothing without a bar", () => {
+  it("is the row plus half the home indicator's space", () => {
     expect(
       getStatusBarHeight({ hasStatusBar: true, row: 36, insetBottom: 20 })
-    ).toBe(56)
+    ).toBe(46)
+  })
+
+  it("is the row alone on a tablet with a home button", () => {
+    expect(
+      getStatusBarHeight({ hasStatusBar: true, row: 36, insetBottom: 0 })
+    ).toBe(36)
+  })
+
+  it("is nothing without a bar", () => {
     expect(
       getStatusBarHeight({ hasStatusBar: false, row: 36, insetBottom: 20 })
     ).toBe(0)
+  })
+})
+
+describe("getStatusBarPadding", () => {
+  const base = {
+    gutter: 10,
+    pageGutter: 28,
+    panelGutter: 18,
+    hasSidebarBeside: true,
+    hasRightPanel: false,
+  }
+
+  it("puts both ends on the page's edges inside a card", () => {
+    expect(getStatusBarPadding({ ...base, isCard: true })).toEqual({
+      paddingLeft: 28,
+      paddingRight: 38,
+    })
+  })
+
+  it("adds the card's gutter on the left once no sidebar is beside it", () => {
+    expect(
+      getStatusBarPadding({ ...base, isCard: true, hasSidebarBeside: false })
+        .paddingLeft
+    ).toBe(38)
+  })
+
+  it("ends on a docked panel's content when one is open", () => {
+    expect(
+      getStatusBarPadding({ ...base, isCard: true, hasRightPanel: true })
+        .paddingRight
+    ).toBe(28)
+  })
+
+  it("has no card's gutter to clear beside a flat column", () => {
+    expect(getStatusBarPadding({ ...base, isCard: false })).toEqual({
+      paddingLeft: 28,
+      paddingRight: 28,
+    })
   })
 })
 

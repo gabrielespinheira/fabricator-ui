@@ -243,7 +243,12 @@ export function getPanelFrame({
   }
 }
 
-/** The status bar's row, above the home indicator. Nothing without one. */
+/**
+ * The status bar's band: its row, plus half the home indicator's space. The indicator
+ * sits at the window's middle and the bar's text at its ends, so they don't meet, and
+ * a full inset would strand the text at the top of an empty band. The text is centred
+ * in what's left.
+ */
 export function getStatusBarHeight({
   hasStatusBar,
   row,
@@ -253,7 +258,34 @@ export function getStatusBarHeight({
   row: number
   insetBottom: number
 }) {
-  return hasStatusBar ? row + insetBottom : 0
+  return hasStatusBar ? row + insetBottom / 2 : 0
+}
+
+/**
+ * Where the status bar's content starts and ends: on the page's edges. The bar runs
+ * from the sidebar to the window, so a card's gutter has to be cleared on the sides
+ * that have one, and under a docked panel it ends on the panel's content instead.
+ */
+export function getStatusBarPadding({
+  isCard,
+  hasSidebarBeside,
+  hasRightPanel,
+  gutter,
+  pageGutter,
+  panelGutter,
+}: {
+  isCard: boolean
+  hasSidebarBeside: boolean
+  hasRightPanel: boolean
+  gutter: number
+  pageGutter: number
+  panelGutter: number
+}) {
+  const cardInset = isCard ? gutter : 0
+  return {
+    paddingLeft: pageGutter + (hasSidebarBeside ? 0 : cardInset),
+    paddingRight: cardInset + (hasRightPanel ? panelGutter : pageGutter),
+  }
 }
 
 /**

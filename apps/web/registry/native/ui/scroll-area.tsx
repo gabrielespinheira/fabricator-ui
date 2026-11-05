@@ -136,7 +136,11 @@ function ScrollArea({
           updateEdges(offset.value)
           onContentSizeChange?.(width, height)
         }}
-        className="cn-scroll-area-viewport size-full"
+        // A height of 100% of nothing lets a sideways area run away down the page.
+        className={cn(
+          "cn-scroll-area-viewport",
+          isHorizontal ? "w-full" : "size-full"
+        )}
         {...props}
       >
         {renderTextChildren(parts.filter((part) => !isScrollBar(part)))}

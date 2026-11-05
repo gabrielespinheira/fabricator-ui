@@ -58,7 +58,7 @@ function ComboboxExample() {
   const [isOpen, setIsOpen] = React.useState(false)
   const anchor = useComboboxAnchor()
   return (
-    <ExampleWrapper>
+    <ExampleWrapper fit>
       <Example title="Default" className="items-stretch">
         <Combobox items={FRAMEWORKS}>
           <ComboboxInput placeholder="Select a framework" />

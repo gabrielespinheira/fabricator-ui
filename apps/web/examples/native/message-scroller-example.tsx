@@ -122,7 +122,7 @@ function MessageScrollerExample() {
       },
     ])
   return (
-    <ExampleWrapper>
+    <ExampleWrapper fit>
       <Example
         title="Sticks to the bottom as messages arrive"
         className="items-stretch"

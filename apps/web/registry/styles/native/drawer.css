@@ -47,5 +47,5 @@
   }
 
   .cn-drawer-footer-base {
-    @apply gap-(--density-8) p-(--density-16) pt-0;
+    @apply gap-(--density-8) p-(--density-16) pt-(--density-8);
   }

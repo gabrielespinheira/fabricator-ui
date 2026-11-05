@@ -120,15 +120,15 @@
   }
 
   /* The status bar sits on the frame under the main column and the panels, from
-     the sidebar's edge to the window's, a quiet row: 36pt at a tablet's density,
-     13pt muted text. Phones hide it. */
+     the sidebar's edge to the window's: a quiet band, 36pt at a tablet's density plus
+     half the home indicator's space, with 13pt muted text centred in it. Its ends sit
+     on the page's edges, in a style. Phones hide it. */
   .cn-app-shell-status-bar {
     @apply border-border bg-transparent data-[variant=floating]:border-t;
   }
 
-  /* Its start and end line up with the page's on a tablet. */
   .cn-app-shell-status-bar-row {
-    @apply h-(--density-32) gap-(--density-8) px-(--density-12) md:px-(--density-24);
+    @apply h-full gap-(--density-8);
   }
 
   .cn-app-shell-status-bar-text {

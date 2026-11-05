@@ -283,6 +283,7 @@ function WorkspaceSwitcher({
                 <CommandItem
                   key={workspace.id}
                   value={`${workspace.name} ${workspace.id}`}
+                  data-checked={workspace.id === activeId}
                   onSelect={() => select(workspace.id)}
                 >
                   <WorkspaceLogo
@@ -293,7 +294,6 @@ function WorkspaceSwitcher({
                   <Text numberOfLines={1} className="flex-1">
                     {workspace.name}
                   </Text>
-                  {workspace.id === activeId ? <CheckMark /> : null}
                 </CommandItem>
               ))}
             </CommandGroup>

@@ -103,7 +103,7 @@ function Login01({
                       className="active:opacity-70"
                       onPress={onForgotPasswordPress}
                     >
-                      <Text className="text-(length:--density-text-14)">
+                      <Text className="text-(length:--density-text-13)">
                         Forgot your password?
                       </Text>
                     </Pressable>

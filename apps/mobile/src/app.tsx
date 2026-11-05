@@ -8,7 +8,13 @@ import {
   getShellSize,
   type NavPreferences,
 } from "@fabricator-ui/app-shell-model"
-import { GitBranchIcon, PlusIcon } from "@fabricator-ui/icons-react-native"
+import {
+  BellIcon,
+  GitBranchIcon,
+  LogOutIcon,
+  PlusIcon,
+  UserIcon,
+} from "@fabricator-ui/icons-react-native"
 import { StatusBar } from "expo-status-bar"
 import { Linking, useWindowDimensions, View } from "react-native"
 import { SafeAreaProvider } from "react-native-safe-area-context"
@@ -35,6 +41,11 @@ import {
   AppShellPanelTrigger,
   AppShellStatusBar,
 } from "@/registry/native/ui/app-shell"
+import {
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+} from "@/registry/native/ui/dropdown-menu"
 import { FabricatorRoot } from "@/registry/native/ui/fabricator-root"
 import {
   Sidebar,
@@ -87,6 +98,33 @@ function getPageTitle(pathname: string) {
   const activeId = getActiveNavItem(NAV_GROUPS, pathname)
   const path = activeId ? getNavPath(NAV_GROUPS, activeId) : []
   return path.at(-1)?.label ?? "Home"
+}
+
+function AccountMenuItems() {
+  return (
+    <>
+      <DropdownMenuGroup>
+        <DropdownMenuItem onPress={() => toast("Profile")}>
+          <UserIcon />
+          Profile
+        </DropdownMenuItem>
+        <DropdownMenuItem onPress={() => toast("Notifications")}>
+          <BellIcon />
+          Notifications
+        </DropdownMenuItem>
+      </DropdownMenuGroup>
+      <DropdownMenuSeparator />
+      <DropdownMenuGroup>
+        <DropdownMenuItem
+          variant="destructive"
+          onPress={() => toast("Signed out")}
+        >
+          <LogOutIcon />
+          Sign out
+        </DropdownMenuItem>
+      </DropdownMenuGroup>
+    </>
+  )
 }
 
 /** The two setup cards: side by side where they fit, stacked on a phone. */
@@ -248,7 +286,9 @@ function Shell() {
         {hasSwitcher || hasAccountOnTop ? (
           <SidebarHeader className="flex-row items-center">
             {hasAccountOnTop ? (
-              <UserMenu variant="mark" align="start" user={USER} />
+              <UserMenu variant="mark" align="start" user={USER}>
+                <AccountMenuItems />
+              </UserMenu>
             ) : null}
             {hasSwitcher ? (
               <WorkspaceSwitcher
@@ -282,7 +322,11 @@ function Shell() {
                 onPreferencesChange={setPreferences}
               />
             ) : null}
-            {options.account === "footer" ? <UserMenu user={USER} /> : null}
+            {options.account === "footer" ? (
+              <UserMenu user={USER}>
+                <AccountMenuItems />
+              </UserMenu>
+            ) : null}
           </SidebarFooter>
         ) : null}
         <SidebarRail />

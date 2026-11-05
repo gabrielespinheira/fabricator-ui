@@ -15,28 +15,43 @@ const ExampleScreenContext = React.createContext<{
   heading?: React.ReactNode
 } | null>(null)
 
-/** A demo's screen: its sections stacked on the page. */
-function ExampleWrapper({ className, children, ...props }: ViewProps) {
+// Whether a demo's controls keep a form's width on a tablet.
+const ExampleFitContext = React.createContext(false)
+
+/**
+ * A demo's screen: its sections stacked on the page. `fit` is for controls that fill
+ * their box, which on a tablet is far wider than anything would give them.
+ */
+function ExampleWrapper({
+  className,
+  fit = false,
+  children,
+  ...props
+}: ViewProps & { fit?: boolean }) {
   const screen = React.use(ExampleScreenContext)
   if (screen) {
     return (
-      <screen.Scroller
-        size="md"
-        contentContainerClassName={cn("gap-6", className)}
-        {...props}
-      >
-        {screen.heading}
-        {children}
-      </screen.Scroller>
+      <ExampleFitContext value={fit}>
+        <screen.Scroller
+          size="md"
+          contentContainerClassName={cn("gap-6", className)}
+          {...props}
+        >
+          {screen.heading}
+          {children}
+        </screen.Scroller>
+      </ExampleFitContext>
     )
   }
   return (
-    <ScrollView
-      contentContainerClassName={cn("gap-6 p-4 pb-12", className)}
-      {...props}
-    >
-      {children}
-    </ScrollView>
+    <ExampleFitContext value={fit}>
+      <ScrollView
+        contentContainerClassName={cn("gap-6 p-4 pb-12", className)}
+        {...props}
+      >
+        {children}
+      </ScrollView>
+    </ExampleFitContext>
   )
 }
 
@@ -47,6 +62,8 @@ function Example({
   children,
   ...props
 }: ViewProps & { title?: string }) {
+  const fit = React.use(ExampleFitContext)
+  const body = "items-start gap-(--density-16)"
   return (
     <View className="gap-1.5" {...props}>
       {title ? (
@@ -56,11 +73,18 @@ function Example({
       ) : null}
       <View
         className={cn(
-          "items-start gap-(--density-16) rounded-xl bg-card p-(--density-20) shadow-surface-2",
-          className
+          "rounded-xl bg-card p-(--density-20) shadow-surface-2",
+          !fit && body,
+          !fit && className
         )}
       >
-        {children}
+        {fit ? (
+          <View className={cn("w-full md:max-w-[440px]", body, className)}>
+            {children}
+          </View>
+        ) : (
+          children
+        )}
       </View>
     </View>
   )

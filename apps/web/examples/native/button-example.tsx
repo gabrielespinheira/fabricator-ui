@@ -54,7 +54,7 @@ function ButtonExample() {
         </Button>
       </Example>
       <Example title="Disabled">
-        <View className="flex-row gap-2">
+        <View className="flex-row gap-(--density-16)">
           <Button disabled>Disabled</Button>
           <Button disabled variant="outline">
             Disabled

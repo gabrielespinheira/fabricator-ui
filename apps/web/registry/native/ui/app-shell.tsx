@@ -91,6 +91,7 @@ import {
   getPinnedTriggerPosition,
   getShellRowOffset,
   getStatusBarHeight,
+  getStatusBarPadding,
   isTitleScrolledAway,
   shouldShowHeaderTrigger,
 } from "@/registry/native/lib/app-shell-layout-model"
@@ -1526,10 +1527,21 @@ function AppShellStatusBar({
   style,
   ...props
 }: React.ComponentProps<typeof View>) {
-  const { size, setHasStatusBar, sidebarWidth } = useAppShell()
+  const { size, setHasStatusBar, sidebarWidth, panels, floating, configs } =
+    useAppShell()
   const { variant } = useSidebarLayout()
   const insets = useShellInsets()
+  const [row, gutter, pageGutter, panelGutter] = useCSSVariable([
+    "--density-32",
+    "--density-8",
+    "--density-24",
+    "--density-16",
+  ])
   const isPhone = size === "phone"
+  const hasRightPanel = Object.entries(panels).some(
+    ([id, panel]) =>
+      panel.open && !floating[id] && (configs[id]?.side ?? "right") === "right"
+  )
   React.useLayoutEffect(() => {
     setHasStatusBar(true)
     return () => setHasStatusBar(false)
@@ -1547,13 +1559,27 @@ function AppShellStatusBar({
             {
               left: insets.left + sidebarWidth,
               right: insets.right,
-              paddingBottom: insets.bottom,
+              height: getStatusBarHeight({
+                hasStatusBar: true,
+                row: parseNumber(row, 32),
+                insetBottom: insets.bottom,
+              }),
             },
             style,
           ]}
           {...props}
         >
-          <View className="cn-app-shell-status-bar-row flex-row items-center">
+          <View
+            className="cn-app-shell-status-bar-row flex-row items-center"
+            style={getStatusBarPadding({
+              isCard: variant === "inset",
+              hasSidebarBeside: sidebarWidth > 0,
+              hasRightPanel,
+              gutter: parseNumber(gutter, 8),
+              pageGutter: parseNumber(pageGutter, 24),
+              panelGutter: parseNumber(panelGutter, 16),
+            })}
+          >
             {renderTextChildren(children)}
           </View>
         </View>

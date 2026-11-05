@@ -216,7 +216,8 @@ export function BlockScreen({
         size="sm"
         accessibilityLabel="All blocks"
         onPress={onBack}
-        className="absolute left-4 bg-background shadow-surface-3"
+        // Clear of a sidebar's footer on a tablet.
+        className="absolute left-4 bg-background shadow-surface-3 md:right-4 md:left-auto"
         style={{ bottom: insets.bottom + 8 }}
       >
         <ChevronLeftIcon />

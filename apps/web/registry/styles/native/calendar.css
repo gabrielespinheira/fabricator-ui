@@ -4,13 +4,14 @@
      32pt when the calendar is given a wider box: on a phone, `w-full` makes the
      days finger-sized. */
   .cn-calendar {
-    @apply p-(--density-12);
+    @apply p-(--density-12) md:max-w-full;
   }
 
   /* A tablet has room to spare, and a square day would take all of it: a month keeps
-     to seven 40-step days, however wide its box, unless it's given `w-full`. */
+     to seven 40-step days, however wide its box, and fits itself to a narrower one.
+     Given `w-full` it spreads out, and its rows stop at the 48-step. */
   .cn-calendar-month {
-    @apply md:data-[stretched=false]:w-[calc(var(--density-40)*7)] md:data-[stretched=false]:max-w-full;
+    @apply md:data-[stretched=false]:w-[calc(var(--density-40)*7)] md:data-[stretched=false]:max-w-full md:data-[stretched=false]:shrink;
   }
 
   .cn-calendar-text {
@@ -69,7 +70,7 @@
   /* Today, and a range's middle and ends, are the active step: they read in dark
      mode too. The range runs edge to edge between its rounded ends. */
   .cn-calendar-day {
-    @apply md:data-[stretched=true]:aspect-auto md:data-[stretched=true]:h-(--density-48) min-w-(--density-32) rounded-lg data-[today=true]:bg-active data-[range-start=true]:bg-active data-[range-end=true]:bg-active data-[range-middle=true]:bg-active data-[range-middle=true]:rounded-none data-[range-start=true]:rounded-r-none data-[range-end=true]:rounded-l-none;
+    @apply md:data-[stretched=true]:max-h-(--density-48) min-w-(--density-32) rounded-lg data-[today=true]:bg-active data-[range-start=true]:bg-active data-[range-end=true]:bg-active data-[range-middle=true]:bg-active data-[range-middle=true]:rounded-none data-[range-start=true]:rounded-r-none data-[range-end=true]:rounded-l-none;
   }
 
   .cn-calendar-day-button {

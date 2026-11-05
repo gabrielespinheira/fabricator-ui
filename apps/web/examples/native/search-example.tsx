@@ -13,7 +13,7 @@ function SearchExample() {
     name.toLowerCase().includes(value.trim().toLowerCase())
   )
   return (
-    <ExampleWrapper>
+    <ExampleWrapper fit>
       <Example title="Collapsible">
         <Search placeholder="Search components" />
       </Example>

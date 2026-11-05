@@ -30,7 +30,9 @@ import {
 import { useSurfaceAnimation } from "@/registry/native/lib/motion"
 import {
   COLLISION_INSETS,
+  getFittedSide,
   getMenuMaxHeight,
+  getMenuMinWidth,
   getTextContent,
   getVerticalSide,
   useTriggerOpen,
@@ -312,6 +314,7 @@ function SelectContent({
   alignOffset = 0,
   alignItemWithTrigger = true,
   insets = COLLISION_INSETS,
+  onLayout,
   ...props
 }: Omit<PopoverPrimitive.ContentProps, "side"> & {
   side?: "top" | "right" | "bottom" | "left"
@@ -320,12 +323,22 @@ function SelectContent({
 }) {
   const select = useSelect()
   const density = useDensity()
-  const verticalSide = getVerticalSide(side)
+  const { width, height } = useWindowDimensions()
+  const { triggerPosition } = PopoverPrimitive.useRootContext()
+  const [contentHeight, setContentHeight] = React.useState<number | null>(null)
+  const verticalSide = getFittedSide({
+    side: getVerticalSide(side),
+    triggerY: triggerPosition?.pageY,
+    triggerHeight: triggerPosition?.height,
+    contentHeight,
+    offset: sideOffset,
+    windowHeight: height,
+    insets,
+  })
   const { entering, exiting, origin } = useSurfaceAnimation("popup", {
     side: verticalSide,
     align,
   })
-  const { width, height } = useWindowDimensions()
   const presentation = getSelectPresentation(width)
 
   if (presentation === "sheet") {
@@ -363,6 +376,10 @@ function SelectContent({
             alignOffset={alignOffset}
             insets={insets}
             {...props}
+            onLayout={(event) => {
+              setContentHeight(event.nativeEvent.layout.height)
+              onLayout?.(event)
+            }}
           >
             <Animated.View
               data-slot="select-content"
@@ -370,7 +387,10 @@ function SelectContent({
               data-align-trigger={alignItemWithTrigger}
               entering={entering}
               exiting={exiting}
-              style={origin}
+              style={[
+                origin,
+                { minWidth: getMenuMinWidth(triggerPosition?.width, width) },
+              ]}
               className={cn(
                 "cn-select-content cn-select-content-logical",
                 className
@@ -381,7 +401,7 @@ function SelectContent({
                 <TextStyle className="cn-select-text">
                   <SelectList
                     role="list"
-                    style={{ maxHeight: getMenuMaxHeight(height) }}
+                    style={{ maxHeight: getMenuMaxHeight(height, width) }}
                   >
                     {renderTextChildren(children)}
                   </SelectList>

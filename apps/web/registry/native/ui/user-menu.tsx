@@ -81,7 +81,7 @@ function UserMenu({
 }: {
   user: UserMenuUser
   variant?: "row" | "mark"
-  /** Default: to the side on tablets, below for `mark`. A phone opens a sheet. */
+  /** Default: above the row on tablets, below for `mark`. A phone opens a sheet. */
   side?: "top" | "right" | "bottom" | "left"
   align?: "start" | "center" | "end"
   className?: string
@@ -166,7 +166,7 @@ function UserMenu({
         {triggerContent}
       </DropdownMenuTrigger>
       <DropdownMenuContent
-        side={side ?? (isMark ? "bottom" : "right")}
+        side={side ?? (isMark ? "bottom" : "top")}
         align={align}
         sideOffset={4}
         className="cn-user-menu-content"

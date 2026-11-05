@@ -37,7 +37,10 @@ function ScrollAreaExample() {
             {ARTWORKS.map((artwork) => (
               <View key={artwork.artist} className="shrink-0 gap-2">
                 <View className={`h-40 w-32 rounded-md ${artwork.tone}`} />
-                <Text className="text-xs text-muted-foreground">
+                <Text
+                  numberOfLines={1}
+                  className="text-xs text-muted-foreground"
+                >
                   Photo by {artwork.artist}
                 </Text>
               </View>

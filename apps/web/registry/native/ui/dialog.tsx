@@ -7,13 +7,16 @@ import Animated from "react-native-reanimated"
 
 import { useMountFeedback } from "@/registry/native/lib/feedback"
 import { useSurfaceAnimation } from "@/registry/native/lib/motion"
+import { NO_LAYOUT } from "@/registry/native/lib/overlay-model"
 import { resolveRender, type RenderProps } from "@/registry/native/lib/render"
 import { Button } from "@/registry/native/ui/button"
 import { DensityScope, useDensity } from "@/registry/native/ui/density"
 import { renderTextChildren, Text, TextStyle } from "@/registry/native/ui/text"
 
 function Dialog(props: DialogPrimitive.RootProps) {
-  return <DialogPrimitive.Root data-slot="dialog" {...props} />
+  return (
+    <DialogPrimitive.Root data-slot="dialog" style={NO_LAYOUT} {...props} />
+  )
 }
 
 function DialogTrigger({

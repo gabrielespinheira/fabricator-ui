@@ -19,6 +19,7 @@ export const overlayItems: Registry["items"] = [
     registryDependencies: [
       ...OVERLAY_REGISTRY_DEPENDENCIES,
       "@fabricator/feedback",
+      "@fabricator/overlay-model",
     ],
     files: [{ path: "ui/dialog.tsx", type: "registry:ui" }],
     meta: docs("dialog"),
@@ -69,6 +70,7 @@ export const overlayItems: Registry["items"] = [
     registryDependencies: [
       ...OVERLAY_REGISTRY_DEPENDENCIES,
       "@fabricator/feedback",
+      "@fabricator/overlay-model",
     ],
     files: [{ path: "ui/alert-dialog.tsx", type: "registry:ui" }],
     meta: docs("alert-dialog"),
@@ -88,6 +90,7 @@ export const overlayItems: Registry["items"] = [
     registryDependencies: [
       ...OVERLAY_REGISTRY_DEPENDENCIES,
       "@fabricator/sheet-surface",
+      "@fabricator/overlay-model",
     ],
     files: [{ path: "ui/sheet.tsx", type: "registry:ui" }],
     meta: docs("sheet"),
@@ -106,6 +109,7 @@ export const overlayItems: Registry["items"] = [
     registryDependencies: [
       ...OVERLAY_REGISTRY_DEPENDENCIES,
       "@fabricator/sheet-surface",
+      "@fabricator/overlay-model",
     ],
     files: [{ path: "ui/drawer.tsx", type: "registry:ui" }],
     meta: docs("drawer"),

@@ -4,7 +4,7 @@ import { Input } from "@/registry/native/ui/input"
 
 function InputExample() {
   return (
-    <ExampleWrapper>
+    <ExampleWrapper fit>
       <Example title="Default">
         <Input
           placeholder="Email"
