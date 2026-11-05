@@ -387,28 +387,22 @@ describe("getStatusBarHeight", () => {
 })
 
 describe("getStatusBarPadding", () => {
-  const base = { gutter: 10, rowInset: 14, hasSidebarBeside: true }
+  const base = { gutter: 10, rowInset: 14 }
 
   it("sits as far inside a card's left edge as inside its right", () => {
     const { paddingLeft, paddingRight } = getStatusBarPadding({
       ...base,
-      isCard: true,
+      hasSidebarBeside: true,
     })
     // The bar starts at the card's left edge, and ends past its right by the gutter.
     expect(paddingLeft).toBe(14)
     expect(paddingRight - base.gutter).toBe(14)
   })
 
-  it("clears the card's gutter on the left once no sidebar is beside it", () => {
-    expect(
-      getStatusBarPadding({ ...base, isCard: true, hasSidebarBeside: false })
-    ).toEqual({ paddingLeft: 24, paddingRight: 24 })
-  })
-
-  it("has no gutter to clear beside a flat column", () => {
-    expect(getStatusBarPadding({ ...base, isCard: false })).toEqual({
-      paddingLeft: 14,
-      paddingRight: 14,
+  it("clears the gutter on the left once no sidebar is beside it", () => {
+    expect(getStatusBarPadding({ ...base, hasSidebarBeside: false })).toEqual({
+      paddingLeft: 24,
+      paddingRight: 24,
     })
   })
 })

@@ -1566,7 +1566,6 @@ function AppShellStatusBar({
           <View
             className="cn-app-shell-status-bar-row flex-row items-center"
             style={getStatusBarPadding({
-              isCard: variant === "inset",
               hasSidebarBeside: sidebarWidth > 0,
               gutter: parseNumber(gutter, 8),
               rowInset: parseNumber(rowInset, 12),

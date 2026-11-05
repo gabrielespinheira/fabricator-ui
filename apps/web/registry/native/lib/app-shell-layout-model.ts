@@ -262,25 +262,23 @@ export function getStatusBarHeight({
 }
 
 /**
- * Where the status bar's content starts and ends: the same distance inside the card's
- * edges on both sides, whatever is open above it. The bar runs from the sidebar to the
- * window, so a card's gutter has to be cleared on the sides that have one.
+ * Where the status bar's content starts and ends. The bar runs from the sidebar to the
+ * window, and each side keeps the same place in every sidebar style: inside a card's
+ * edge by `rowInset`, or where that edge would be without a card, which also clears
+ * the window's corner and its resize handle.
  */
 export function getStatusBarPadding({
-  isCard,
   hasSidebarBeside,
   gutter,
   rowInset,
 }: {
-  isCard: boolean
   hasSidebarBeside: boolean
   gutter: number
   rowInset: number
 }) {
-  const cardInset = isCard ? gutter : 0
   return {
-    paddingLeft: rowInset + (hasSidebarBeside ? 0 : cardInset),
-    paddingRight: rowInset + cardInset,
+    paddingLeft: hasSidebarBeside ? rowInset : gutter + rowInset,
+    paddingRight: gutter + rowInset,
   }
 }
 
