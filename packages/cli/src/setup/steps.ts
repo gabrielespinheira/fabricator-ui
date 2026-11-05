@@ -67,6 +67,7 @@ import {
   buildRootPackage,
   buildWebPackageForDesktop,
   BUN_HOISTED_CONFIG,
+  getNativePeerPins,
   withPins,
 } from "./workspace-config"
 
@@ -398,29 +399,26 @@ const install: Step = async (context) => {
   )
 }
 
-/**
- * Reanimated's peer range would hoist a newer worklets than Expo's pin, and a
- * native module can't be duplicated. pnpm's isolated installs don't need this.
- */
-function pinWorklets(context: SetupContext) {
+/** pnpm's isolated installs keep a copy per app, so they don't need this. */
+function pinNativePeers(context: SetupContext) {
   const { root, packageManager } = context
   if (packageManager === "pnpm" || context.setup.project !== "monorepo") return
   const bundled = path.join(root, "node_modules/expo/bundledNativeModules.json")
   if (!existsSync(bundled)) return
-  const version = readJsonFile(bundled)["react-native-worklets"]
-  if (typeof version !== "string") return
   const rootPackage = path.join(root, "package.json")
   writeJsonFile(
     rootPackage,
-    withPins(readJsonFile(rootPackage), packageManager, {
-      "react-native-worklets": version,
-    })
+    withPins(
+      readJsonFile(rootPackage),
+      packageManager,
+      getNativePeerPins(readJsonFile(bundled))
+    )
   )
 }
 
 async function setUpNativeApp(context: SetupContext, appDir: string) {
   writeNativeSetup(appDir, context.baseUrl)
-  pinWorklets(context)
+  pinNativePeers(context)
   await shadcn(context, [
     "add",
     buildNativeSetupInitUrl(context.setup, context.baseUrl),

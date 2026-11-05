@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest"
 import {
   buildRootPackage,
   buildWebPackageForDesktop,
+  getNativePeerPins,
   withPins,
 } from "./workspace-config"
 
@@ -77,6 +78,27 @@ describe("withPins", () => {
     expect(
       withPins({ overrides: { a: "1" } }, "npm", { b: "2" }).overrides
     ).toEqual({ a: "1", b: "2" })
+  })
+})
+
+describe("getNativePeerPins", () => {
+  it("takes Expo's version of every native module a peer range would hoist", () => {
+    expect(
+      getNativePeerPins({
+        "react-native-worklets": "0.13.0",
+        "react-native-svg": "15.16.0",
+        "expo-audio": "~1.0.0",
+      })
+    ).toEqual({
+      "react-native-worklets": "0.13.0",
+      "react-native-svg": "15.16.0",
+    })
+  })
+
+  it("leaves out what Expo doesn't pin", () => {
+    expect(getNativePeerPins({ "react-native-svg": "15.16.0" })).toEqual({
+      "react-native-svg": "15.16.0",
+    })
   })
 })
 

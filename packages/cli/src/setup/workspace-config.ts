@@ -30,6 +30,23 @@ export function withPins(
   return { ...pkg, [field]: { ...pkg[field], ...pins } }
 }
 
+/**
+ * Native modules that packages hoisted to the root take as peers: Reanimated
+ * takes worklets, and the icons take the SVG module. Their ranges would hoist a
+ * newer version than Expo's pin, and a native module can't be duplicated.
+ */
+const NATIVE_PEERS = ["react-native-worklets", "react-native-svg"]
+
+/** Expo's pin for each of them, from its `bundledNativeModules.json`. */
+export function getNativePeerPins(bundled: Record<string, unknown>) {
+  return Object.fromEntries(
+    NATIVE_PEERS.flatMap((name) => {
+      const version = bundled[name]
+      return typeof version === "string" ? [[name, version]] : []
+    })
+  )
+}
+
 export function buildRootPackage(
   pkg: RootPackage,
   {
