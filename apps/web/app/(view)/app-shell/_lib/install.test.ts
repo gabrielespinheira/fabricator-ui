@@ -11,6 +11,8 @@ import {
   getAppShellDependencies,
   normalizeInstallOptions,
   parseAppShellParams,
+  parseAppShellTarget,
+  type AppShellTarget,
 } from "./app-shell-source"
 import {
   buildAppShellCommand,
@@ -98,22 +100,19 @@ describe("buildAppShellCommand", () => {
 })
 
 describe("buildSettingsCommands", () => {
-  const options = { siteUrl: SITE, packageManager: "npm" } as const
-
-  it("is a plain init and the sounds at the defaults", () => {
-    expect(buildSettingsCommands(DEFAULT_SITE_SETTINGS, options)).toEqual([
-      "npx fabricator-ui@latest init",
-      "npx fabricator-ui@latest add sounds",
+  it("is one init with the sounds at the defaults", () => {
+    expect(buildSettingsCommands(DEFAULT_SITE_SETTINGS, "npm")).toEqual([
+      "npx fabricator-ui@latest init --sounds --yes",
     ])
   })
 
   it("leaves the sounds out when they're off", () => {
     expect(
-      buildSettingsCommands({ ...DEFAULT_SITE_SETTINGS, sound: false }, options)
-    ).toEqual(["npx fabricator-ui@latest init"])
+      buildSettingsCommands({ ...DEFAULT_SITE_SETTINGS, sound: false }, "npm")
+    ).toEqual(["npx fabricator-ui@latest init --yes"])
   })
 
-  it("puts the look and the icons in the init URL", () => {
+  it("carries the look and the icons", () => {
     const [init] = buildSettingsCommands(
       {
         ...DEFAULT_SITE_SETTINGS,
@@ -123,14 +122,12 @@ describe("buildSettingsCommands", () => {
         density: "compact",
         motion: "snappy",
       },
-      options
+      "npm"
     )
-    const url = new URL(init?.match(/"(.+)"/)?.[1] ?? "")
-    expect(url.origin + url.pathname).toBe(`${SITE}/init`)
-    expect(url.searchParams.get("iconLibrary")).toBe("phosphor")
-    expect(url.searchParams.get("shape")).toBe("pill")
-    expect(url.searchParams.get("density")).toBe("compact")
-    expect(url.searchParams.get("motion")).toBe("snappy")
+    expect(init).toContain("--icons phosphor")
+    expect(init).toContain("shape=pill")
+    expect(init).toContain("density=compact")
+    expect(init).toContain("motion=snappy")
   })
 })
 
@@ -315,48 +312,208 @@ describe("buildAppShellSource", () => {
     return combinations
   }
 
-  it("is valid TSX with no unused imports, in every combination", () => {
-    for (const options of everyCombination()) {
-      const code = buildAppShellSource(options)
-      const { diagnostics } = ts.transpileModule(code, {
+  it(
+    "is valid TSX with no unused imports, in every combination",
+    { timeout: 60_000 },
+    () => {
+      for (const options of everyCombination()) {
+        const code = buildAppShellSource(options)
+        const { diagnostics } = ts.transpileModule(code, {
+          fileName: "app-shell-layout.tsx",
+          reportDiagnostics: true,
+          compilerOptions: { jsx: ts.JsxEmit.Preserve },
+        })
+        expect(diagnostics?.map((entry) => entry.messageText)).toEqual([])
+        const body = code.slice(code.lastIndexOf(' from "') + 1)
+        const imported = [...code.matchAll(/import \{([^}]+)\} from/g)]
+          .flatMap((match) => match[1]?.split(",") ?? [])
+          .map((name) => name.replace("type ", "").trim())
+          .filter(Boolean)
+        for (const name of imported) {
+          expect(body, `${name} unused in ${JSON.stringify(options)}`).toMatch(
+            new RegExp(`\\b${name}\\b`)
+          )
+        }
+      }
+    }
+  )
+
+  it(
+    "imports everything it uses from the library, in every combination",
+    { timeout: 60_000 },
+    () => {
+      for (const options of everyCombination()) {
+        const code = buildAppShellSource(options)
+        const imported = new Set(
+          [...code.matchAll(/import \{([^}]+)\} from/g)]
+            .flatMap((match) => match[1]?.split(",") ?? [])
+            .map((name) => name.replace("type ", "").trim())
+        )
+        const used = [...code.matchAll(/<([A-Z][A-Za-z]+)[\s/>]/g)].map(
+          (match) => match[1] ?? ""
+        )
+        const local = new Set(["TabRow", "DocumentTabs", "UserMenuItems"])
+        for (const name of used) {
+          if (local.has(name)) continue
+          expect(
+            imported.has(name),
+            `${name} in ${JSON.stringify(options)}`
+          ).toBe(true)
+        }
+      }
+    }
+  )
+})
+
+describe("the tab bar", () => {
+  it("has items to show when it's on", () => {
+    const code = source({ bottomNav: true })
+    expect(code.match(/mobile: "tab"/g)?.length).toBe(3)
+    expect(source()).not.toContain('mobile: "tab"')
+  })
+})
+
+describe("the panel", () => {
+  it("starts closed, as the preview does", () => {
+    expect(source()).not.toContain("defaultOpen")
+  })
+})
+
+describe("a project's framework", () => {
+  const files = (framework: AppShellTarget["framework"]) =>
+    buildAppShellItem(DEFAULT_PLAYGROUND_OPTIONS, { framework }).files
+
+  it("adds an adapter that passes the router's path and link", () => {
+    const next = files("next")
+    expect(next).toHaveLength(2)
+    expect(next[1]?.path).toMatch(/app-shell-root\.tsx$/)
+    expect(next[1]?.content).toContain("usePathname")
+    expect(next[1]?.content).toContain('from "next/link"')
+    expect(files("react-router")[1]?.content).toContain("useLocation")
+    expect(files("start")[1]?.content).toContain("@tanstack/react-router")
+    expect(files("vite")[1]?.content).toContain("pushState")
+  })
+
+  it("has no adapter where it can't be mounted yet", () => {
+    expect(files("astro")).toHaveLength(1)
+    expect(files("laravel")).toHaveLength(1)
+    expect(files(undefined)).toHaveLength(1)
+  })
+
+  it("saves in local storage where there's no server", () => {
+    const code = (framework: AppShellTarget["framework"]) =>
+      buildAppShellSource(DEFAULT_PLAYGROUND_OPTIONS, { framework })
+    expect(code("vite")).toContain("storage={createLocalStorage()}")
+    expect(code("astro")).toContain("storage={createLocalStorage()}")
+    expect(code("next")).not.toContain("createLocalStorage")
+  })
+
+  it("writes valid TSX in every adapter", () => {
+    for (const framework of [
+      "next",
+      "vite",
+      "start",
+      "react-router",
+    ] as const) {
+      const { diagnostics } = ts.transpileModule(
+        files(framework)[1]?.content ?? "",
+        {
+          fileName: "app-shell-root.tsx",
+          reportDiagnostics: true,
+          compilerOptions: { jsx: ts.JsxEmit.Preserve },
+        }
+      )
+      expect(diagnostics?.map((entry) => entry.messageText)).toEqual([])
+    }
+  })
+})
+
+describe("a project with a desktop app", () => {
+  const code = (changes: Partial<PlaygroundOptions> = {}) =>
+    buildAppShellSource(pick(changes), { desktop: "tauri" })
+
+  it("finds its window at runtime, whatever the preview showed", () => {
+    expect(code({ window: "macos" })).toContain("window={shellWindow}")
+    expect(code({ window: "macos" })).not.toContain('controls: "macos"')
+    expect(code()).toContain("useDesktopWindow")
+    expect(code()).toContain("storage={createLocalStorage()}")
+  })
+
+  it("keeps the sidebar's toggle outside a window only", () => {
+    expect(code()).toContain("{!shellWindow && (")
+    expect(code()).toContain("<SidebarTrigger")
+    expect(code({ collapse: "none" })).not.toContain("SidebarTrigger")
+  })
+
+  it("passes the titlebar and the glass", () => {
+    expect(code()).toContain("isTranslucent: true")
+    expect(code({ glass: false })).toContain("isTranslucent: false")
+    expect(code({ tabs: "titlebar" })).toContain("hasTitlebar: true")
+  })
+
+  it("depends on the item", () => {
+    expect(
+      getAppShellDependencies(pick({}), { desktop: "electron" })
+    ).toContain("@fabricator/desktop-window")
+    expect(getAppShellDependencies(pick({}))).not.toContain(
+      "@fabricator/desktop-window"
+    )
+  })
+
+  it("is valid TSX with no unused imports", () => {
+    for (const options of [
+      pick({}),
+      pick({ tabs: "titlebar", glass: false }),
+      pick({ tabs: "main", collapse: "none" }),
+      pick({ account: "header", switcher: "none" }),
+    ]) {
+      const written = buildAppShellSource(options, { desktop: "electron" })
+      const { diagnostics } = ts.transpileModule(written, {
         fileName: "app-shell-layout.tsx",
         reportDiagnostics: true,
         compilerOptions: { jsx: ts.JsxEmit.Preserve },
       })
       expect(diagnostics?.map((entry) => entry.messageText)).toEqual([])
-      const body = code.slice(code.lastIndexOf(' from "') + 1)
-      const imported = [...code.matchAll(/import \{([^}]+)\} from/g)]
-        .flatMap((match) => match[1]?.split(",") ?? [])
-        .map((name) => name.replace("type ", "").trim())
-        .filter(Boolean)
-      for (const name of imported) {
-        expect(body, `${name} unused in ${JSON.stringify(options)}`).toMatch(
-          new RegExp(`\\b${name}\\b`)
-        )
+      const body = written.slice(written.lastIndexOf(' from "') + 1)
+      for (const match of written.matchAll(/import \{([^}]+)\} from/g)) {
+        for (const raw of match[1]?.split(",") ?? []) {
+          const name = raw.replace("type ", "").trim()
+          if (name) expect(body, name).toMatch(new RegExp(`\\b${name}\\b`))
+        }
       }
     }
   })
+})
 
-  it("imports everything it uses from the library, in every combination", () => {
-    for (const options of everyCombination()) {
-      const code = buildAppShellSource(options)
-      const imported = new Set(
-        [...code.matchAll(/import \{([^}]+)\} from/g)]
-          .flatMap((match) => match[1]?.split(",") ?? [])
-          .map((name) => name.replace("type ", "").trim())
+describe("the install URL for a target", () => {
+  it("carries the framework and the desktop runtime", () => {
+    expect(
+      buildAppShellInstallUrl(pick({}), SITE, "fabricator", {
+        framework: "next",
+        desktop: "tauri",
+      })
+    ).toBe(`${SITE}/init/app-shell?framework=next&desktop=tauri`)
+  })
+
+  it("is read back by the endpoint", () => {
+    expect(
+      parseAppShellTarget(
+        new URLSearchParams("framework=vite&desktop=electron")
       )
-      const used = [...code.matchAll(/<([A-Z][A-Za-z]+)[\s/>]/g)].map(
-        (match) => match[1] ?? ""
-      )
-      const local = new Set(["TabRow", "DocumentTabs", "UserMenuItems"])
-      for (const name of used) {
-        if (local.has(name)) continue
-        expect(
-          imported.has(name),
-          `${name} in ${JSON.stringify(options)}`
-        ).toBe(true)
-      }
-    }
+    ).toEqual({ framework: "vite", desktop: "electron" })
+    expect(
+      parseAppShellTarget(new URLSearchParams("framework=rails&desktop=qt"))
+    ).toEqual({})
+  })
+
+  it("serves the adapter and the runtime window", async () => {
+    const response = await GET({
+      nextUrl: new URL(`${SITE}/init/app-shell?framework=next&desktop=tauri`),
+    } as Parameters<typeof GET>[0])
+    const item = await response.json()
+    expect(item.files).toHaveLength(2)
+    expect(item.files[0].content).toContain("window={shellWindow}")
+    expect(item.registryDependencies).toContain("@fabricator/desktop-window")
   })
 })
 

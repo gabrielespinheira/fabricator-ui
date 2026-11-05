@@ -15,7 +15,7 @@ export const foundationItems: Registry["items"] = [
     type: "registry:item",
     title: "React Native setup",
     description:
-      "What every native component needs: Uniwind, Reanimated, gestures, safe areas and icons.",
+      "What every native component needs: Uniwind, Reanimated, gestures, safe areas, Inter and icons.",
     dependencies: [
       "uniwind@1.13.1",
       "tailwindcss@4",
@@ -26,6 +26,8 @@ export const foundationItems: Registry["items"] = [
       "react-native-gesture-handler",
       "react-native-safe-area-context",
       "react-native-svg",
+      "expo-font",
+      "@expo-google-fonts/inter",
       "@fabricator-ui/icons-react-native",
       "@rn-primitives/portal",
       "@rn-primitives/slot",
@@ -44,10 +46,11 @@ export const foundationItems: Registry["items"] = [
     type: "registry:lib",
     title: "Motion",
     description: "Motion by role, read from the theme's tokens.",
-    dependencies: ["react-native-reanimated", "uniwind@1.13.1"],
+    dependencies: ["cn", "react-native-reanimated", "uniwind@1.13.1"],
     files: [
       { path: "lib/motion.ts", type: "registry:lib" },
       { path: "lib/motion-tokens.ts", type: "registry:lib" },
+      { path: "lib/press-wash.tsx", type: "registry:lib" },
       tokenFile("css-object"),
       tokenFile("motion"),
     ],
@@ -118,6 +121,7 @@ export const foundationItems: Registry["items"] = [
     title: "Button",
     description: "Displays a button, or a component that looks like a button.",
     dependencies: [
+      "@fabricator-ui/icons-react-native",
       "@rn-primitives/slot",
       "class-variance-authority",
       "cn",
@@ -152,10 +156,17 @@ export const foundationItems: Registry["items"] = [
     type: "registry:component",
     title: "Sounds",
     description:
-      "<SoundEffects /> turns on feedback for every control inside it. On native it's haptic.",
-    dependencies: ["expo-haptics"],
+      "<SoundEffects /> turns on the website's sounds, and a haptic for each, for every control.",
+    dependencies: [
+      "expo-asset",
+      "expo-audio",
+      "expo-file-system",
+      "expo-haptics",
+    ],
     registryDependencies: ["@fabricator/feedback"],
     files: [
+      { path: "lib/sound-recipes.ts", type: "registry:lib" },
+      { path: "lib/sound-synth.ts", type: "registry:lib" },
       { path: "lib/sounds.ts", type: "registry:lib" },
       { path: "lib/sounds-model.ts", type: "registry:lib" },
       { path: "components/sound-effects.tsx", type: "registry:component" },
@@ -168,8 +179,14 @@ export const foundationItems: Registry["items"] = [
     title: "Fluid Hover",
     description:
       "One highlight that glides to the row under the finger, and a selection background that slides between selected rows.",
-    dependencies: ["cn", "react-native-reanimated"],
-    registryDependencies: ["@fabricator/motion"],
+    dependencies: [
+      "@rn-primitives/hooks",
+      "cn",
+      "react-native-gesture-handler",
+      "react-native-reanimated",
+      "react-native-worklets",
+    ],
+    registryDependencies: ["@fabricator/feedback", "@fabricator/motion"],
     files: [
       { path: "lib/fluid-hover.tsx", type: "registry:lib" },
       { path: "lib/fluid-hover-model.ts", type: "registry:lib" },

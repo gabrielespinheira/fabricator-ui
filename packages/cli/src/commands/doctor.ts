@@ -1,5 +1,6 @@
 import { existsSync, readFileSync } from "node:fs"
 import path from "node:path"
+import { EXPO_SDK } from "@fabricator-ui/setup"
 import { Command } from "commander"
 
 import {
@@ -16,10 +17,17 @@ import { NAMESPACE } from "../utils/names"
 import {
   isReactNativeProject,
   nativeRegistryTemplate,
+  readPackageJson,
   usesNativeRegistry,
 } from "../utils/native"
+import { hasCommand } from "../utils/process"
 import { captureShadcn } from "../utils/shadcn"
 import { fabricatorRegistryTemplate, getBaseUrl } from "../utils/urls"
+import {
+  findWorkspaceRoot,
+  isWorkspaceAliasStale,
+  listWorkspaceApps,
+} from "../utils/workspace"
 import { fail, resolveCwd } from "./shared"
 
 export type CheckStatus = "pass" | "warn" | "fail"
@@ -363,14 +371,90 @@ async function gather(cwd: string): Promise<DoctorInput> {
   return input
 }
 
+/**
+ * What a monorepo needs beyond each app's own checks. Everything comes in, so it's
+ * pure: the toolchains are looked up by the caller.
+ */
+export function getWorkspaceChecks(input: {
+  apps: { name: string; isNative: boolean; sdk?: string }[]
+  hasDesktopTauri: boolean
+  hasCargo: boolean
+  unalignedApps: string[]
+}): Check[] {
+  const checks: Check[] = []
+  for (const name of input.unalignedApps) {
+    checks.push({
+      status: "fail",
+      label: `apps/${name} writes libs where packages/ui can't import them`,
+      fix: `Run ${highlight.info(`fabricator-ui add button -c apps/${name}`)}: it points "lib" and "hooks" at the shared package.`,
+    })
+  }
+  for (const app of input.apps) {
+    if (!app.isNative || !app.sdk) continue
+    const major = majorVersion(app.sdk)
+    if (major !== undefined && major < EXPO_SDK) {
+      checks.push({
+        status: "warn",
+        label: `apps/${app.name} is on Expo SDK ${major}; the registry is tested on ${EXPO_SDK}`,
+        fix: `Upgrade with ${highlight.info(`npx expo install expo@^${EXPO_SDK}.0.0 --fix`)}.`,
+      })
+    }
+  }
+  if (input.hasDesktopTauri) {
+    checks.push(
+      input.hasCargo
+        ? { status: "pass", label: "Rust is installed, for Tauri" }
+        : {
+            status: "warn",
+            label: "Rust isn't installed, and Tauri compiles with it",
+            fix: "Install it from https://www.rust-lang.org/tools/install.",
+          }
+    )
+  }
+  return checks
+}
+
 const ICONS: Record<CheckStatus, string> = {
   pass: highlight.success("✔"),
   warn: highlight.warn("⚠"),
   fail: highlight.error("✖"),
 }
 
+async function doctorWorkspace(root: string) {
+  const apps = listWorkspaceApps(root)
+  logger.log(`${highlight.bold("fabricator-ui doctor")} ${highlight.dim(root)}`)
+  logger.break()
+  const checks = getWorkspaceChecks({
+    apps: apps.map((app) => {
+      const sdk = readPackageJson(app.dir)?.dependencies?.expo
+      return { name: app.name, isNative: app.isNative, ...(sdk ? { sdk } : {}) }
+    }),
+    hasDesktopTauri: existsSync(path.join(root, "apps/desktop/src-tauri")),
+    hasCargo: await hasCommand("cargo"),
+    unalignedApps: apps
+      .filter((app) => !app.isNative && isWorkspaceAliasStale(app.dir))
+      .map((app) => app.name),
+  })
+  for (const check of checks) {
+    logger.log(`${ICONS[check.status]} ${check.label}`)
+    if (check.fix) logger.log(`    ${highlight.dim("→")} ${check.fix}`)
+  }
+  if (checks.some((check) => check.status === "fail")) process.exitCode = 1
+  for (const app of apps) {
+    logger.break()
+    await doctor({ cwd: app.dir })
+  }
+}
+
 export async function doctor(options: { cwd?: string }): Promise<void> {
   const cwd = resolveCwd(options.cwd)
+  if (
+    findWorkspaceRoot(cwd) === cwd &&
+    !existsSync(path.join(cwd, "components.json")) &&
+    listWorkspaceApps(cwd).length > 0
+  ) {
+    return doctorWorkspace(cwd)
+  }
   const input = await gather(cwd)
   const checks = collectChecks(input)
   const read = input.componentsJson

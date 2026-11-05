@@ -72,10 +72,13 @@ export function useHydrated() {
 /** A setting's name, then its control. `htmlFor` names the control it labels. */
 export function SettingRow({
   label,
+  note,
   htmlFor,
   children,
 }: {
   label: string
+  /** A short line under the label. */
+  note?: string
   htmlFor?: string
   children: React.ReactNode
 }) {
@@ -84,15 +87,20 @@ export function SettingRow({
 
   return (
     <div className="flex min-h-10 flex-wrap items-center justify-between gap-x-3">
-      {htmlFor ? (
-        <label id={id} htmlFor={htmlFor} className={labelClassName}>
-          {label}
-        </label>
-      ) : (
-        <span id={id} className={labelClassName}>
-          {label}
-        </span>
-      )}
+      <span className="flex flex-col">
+        {htmlFor ? (
+          <label id={id} htmlFor={htmlFor} className={labelClassName}>
+            {label}
+          </label>
+        ) : (
+          <span id={id} className={labelClassName}>
+            {label}
+          </span>
+        )}
+        {note ? (
+          <span className="text-xs text-muted-foreground">{note}</span>
+        ) : null}
+      </span>
       <div aria-labelledby={id} role="group" className="flex items-center">
         {children}
       </div>

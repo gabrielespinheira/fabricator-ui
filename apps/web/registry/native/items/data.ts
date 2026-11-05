@@ -20,6 +20,8 @@ export const dataItems: Registry["items"] = [
     registryDependencies: [
       "@fabricator/button",
       "@fabricator/dialog",
+      "@fabricator/feedback",
+      "@fabricator/fluid-hover",
       "@fabricator/render",
       "@fabricator/text",
     ],
@@ -39,7 +41,12 @@ export const dataItems: Registry["items"] = [
       "@rn-primitives/hooks",
       "cn",
     ],
-    registryDependencies: ["@fabricator/dialog", "@fabricator/text"],
+    registryDependencies: [
+      "@fabricator/dialog",
+      "@fabricator/feedback",
+      "@fabricator/fluid-hover",
+      "@fabricator/text",
+    ],
     files: [
       { path: "ui/command.tsx", type: "registry:ui" },
       { path: "lib/filter-model.ts", type: "registry:lib" },
@@ -60,6 +67,7 @@ export const dataItems: Registry["items"] = [
     ],
     registryDependencies: [
       "@fabricator/density",
+      "@fabricator/feedback",
       "@fabricator/motion",
       "@fabricator/text",
     ],
@@ -85,6 +93,7 @@ export const dataItems: Registry["items"] = [
     registryDependencies: [
       "@fabricator/button",
       "@fabricator/density",
+      "@fabricator/feedback",
       "@fabricator/motion",
       "@fabricator/render",
       "@fabricator/text",
@@ -92,6 +101,7 @@ export const dataItems: Registry["items"] = [
     files: [
       { path: "ui/toast.tsx", type: "registry:ui" },
       { path: "lib/toast-store.ts", type: "registry:lib" },
+      { path: "lib/toast-model.ts", type: "registry:lib" },
     ],
     meta: docs("toast"),
   },
@@ -110,8 +120,17 @@ export const dataItems: Registry["items"] = [
     type: "registry:ui",
     title: "Calendar",
     description: "A month grid to pick a date, several dates or a range.",
-    dependencies: ["@fabricator-ui/icons-react-native", "cn", "date-fns"],
-    registryDependencies: ["@fabricator/button", "@fabricator/text"],
+    dependencies: [
+      "@fabricator-ui/icons-react-native",
+      "class-variance-authority",
+      "cn",
+      "date-fns",
+    ],
+    registryDependencies: [
+      "@fabricator/button",
+      "@fabricator/feedback",
+      "@fabricator/text",
+    ],
     files: [
       { path: "ui/calendar.tsx", type: "registry:ui" },
       { path: "lib/calendar-model.ts", type: "registry:lib" },
@@ -125,12 +144,14 @@ export const dataItems: Registry["items"] = [
     description: "Slides that move with a swipe, the arrows or an API.",
     dependencies: [
       "@fabricator-ui/icons-react-native",
+      "class-variance-authority",
       "cn",
       "react-native-gesture-handler",
       "react-native-reanimated",
     ],
     registryDependencies: [
       "@fabricator/button",
+      "@fabricator/feedback",
       "@fabricator/motion",
       "@fabricator/text",
     ],
@@ -147,7 +168,7 @@ export const dataItems: Registry["items"] = [
     description:
       "Rows and columns that line up, scrolling sideways when they don't fit.",
     dependencies: ["cn"],
-    registryDependencies: ["@fabricator/text"],
+    registryDependencies: ["@fabricator/fluid-hover", "@fabricator/text"],
     files: [
       { path: "ui/table.tsx", type: "registry:ui" },
       { path: "lib/table-model.ts", type: "registry:lib" },
@@ -202,8 +223,16 @@ export const dataItems: Registry["items"] = [
     type: "registry:ui",
     title: "Pagination",
     description: "Page links, with previous and next.",
-    dependencies: ["@fabricator-ui/icons-react-native", "cn"],
-    registryDependencies: ["@fabricator/button", "@fabricator/text"],
+    dependencies: [
+      "@fabricator-ui/icons-react-native",
+      "class-variance-authority",
+      "cn",
+    ],
+    registryDependencies: [
+      "@fabricator/button",
+      "@fabricator/feedback",
+      "@fabricator/text",
+    ],
     files: [{ path: "ui/pagination.tsx", type: "registry:ui" }],
     meta: docs("pagination"),
   },
@@ -213,7 +242,11 @@ export const dataItems: Registry["items"] = [
     title: "Breadcrumb",
     description: "The path to the current page, scrolling when it's too long.",
     dependencies: ["@fabricator-ui/icons-react-native", "cn"],
-    registryDependencies: ["@fabricator/render", "@fabricator/text"],
+    registryDependencies: [
+      "@fabricator/feedback",
+      "@fabricator/render",
+      "@fabricator/text",
+    ],
     files: [{ path: "ui/breadcrumb.tsx", type: "registry:ui" }],
     meta: docs("breadcrumb"),
   },
@@ -224,7 +257,7 @@ export const dataItems: Registry["items"] = [
     description:
       "Panels whose sizes change by dragging the handles between them.",
     dependencies: ["cn", "react-native-gesture-handler"],
-    registryDependencies: ["@fabricator/text"],
+    registryDependencies: ["@fabricator/feedback", "@fabricator/text"],
     files: [
       { path: "ui/resizable.tsx", type: "registry:ui" },
       { path: "lib/resizable-model.ts", type: "registry:lib" },

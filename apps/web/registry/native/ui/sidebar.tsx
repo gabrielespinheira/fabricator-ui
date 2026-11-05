@@ -19,7 +19,14 @@ import {
 import { useEffectEvent as useLatestCallback } from "@rn-primitives/hooks"
 import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "cn"
-import { Pressable, ScrollView, useWindowDimensions, View } from "react-native"
+import {
+  Pressable,
+  ScrollView,
+  useWindowDimensions,
+  View,
+  type GestureResponderEvent,
+  type LayoutChangeEvent,
+} from "react-native"
 import { Gesture, GestureDetector } from "react-native-gesture-handler"
 import Animated, {
   useAnimatedReaction,
@@ -48,6 +55,13 @@ import {
 } from "@/registry/fabricator/shared/lib/sidebar-model"
 import { useIsMobile } from "@/registry/native/hooks/use-mobile"
 import { useFeedback } from "@/registry/native/lib/feedback"
+import {
+  FluidHoverHighlight,
+  FluidHoverProvider,
+  FluidHoverSelection,
+  useFluidHover,
+  useFluidRow,
+} from "@/registry/native/lib/fluid-hover"
 import { useMotion } from "@/registry/native/lib/motion"
 import { parseNumber } from "@/registry/native/lib/motion-tokens"
 import { getTextContent } from "@/registry/native/lib/overlay-model"
@@ -916,6 +930,7 @@ function Sidebar({
   )
 }
 
+const sidebarTriggerWashVariants = cva("cn-sidebar-trigger-wash")
 const sidebarToggleIconVariants = cva("cn-sidebar-toggle-icon")
 const sidebarToggleIconPanelVariants = cva("cn-sidebar-toggle-icon-panel")
 
@@ -1006,11 +1021,15 @@ function SidebarTrigger({
     <Tooltip>
       <TooltipTrigger
         render={
+          // Silent, as on the website: it opens and closes too often to sound.
           <Button
+            data-sound="none"
             data-sidebar="trigger"
             data-slot="sidebar-trigger"
             variant="ghost"
             size="icon-sm"
+            washClassName={sidebarTriggerWashVariants()}
+            hitSlop={8}
             aria-expanded={expanded}
             accessibilityLabel={
               accessibilityLabel ??
@@ -1297,7 +1316,7 @@ function SidebarChevron({ open }: { open: boolean }) {
   React.useEffect(() => {
     rotation.value = withTiming(open ? 90 : 0, {
       duration: motion.isReduced ? 0 : motion.enterMs,
-      easing: motion.enterEasing,
+      easing: motion.feedbackEasing,
     })
   }, [motion, open, rotation])
   const style = useAnimatedStyle(() => ({
@@ -1319,6 +1338,16 @@ type SidebarGroupContextProps = {
 
 const SidebarGroupContext =
   React.createContext<SidebarGroupContextProps | null>(null)
+
+/**
+ * Whether a primitive's trigger renders this control: each one sets `expanded`.
+ * Its popup plays, or it plays itself, so the control stays silent.
+ */
+function isPrimitiveTrigger(
+  state: React.ComponentProps<typeof Pressable>["accessibilityState"]
+) {
+  return state?.expanded !== undefined
+}
 
 /**
  * A DropdownMenu's root is a view, and `absolute` means the direct parent here. An
@@ -1592,6 +1621,8 @@ function SidebarGroupAction({
   render,
   asChild,
   children,
+  accessibilityState,
+  onPress,
   ...props
 }: Omit<React.ComponentProps<typeof Pressable>, "children"> &
   RenderProps & { children?: React.ReactNode }) {
@@ -1599,6 +1630,7 @@ function SidebarGroupAction({
   const inHeader = React.use(SidebarGroupHeaderContext)
   const group = React.use(SidebarGroupContext)
   const collapse = useSidebarCollapse()
+  const feedback = useFeedback()
   if (collapse === "icon" || group?.open === false) return null
   const content = (
     <TextStyle className="cn-sidebar-group-action-text">
@@ -1616,6 +1648,11 @@ function SidebarGroupAction({
       !inCluster && "absolute",
       className
     ),
+    accessibilityState,
+    onPress: (event: GestureResponderEvent) => {
+      if (!isPrimitiveTrigger(accessibilityState)) feedback("tap")
+      onPress?.(event)
+    },
     ...props,
   }
   return (
@@ -1674,21 +1711,61 @@ function SidebarGroupContent({
   )
 }
 
+type SidebarMenuContextProps = {
+  /** Names the top-level row the sliding selection sits on. */
+  setSelected: React.Dispatch<React.SetStateAction<string | undefined>>
+  setIsDragging: (isDragging: boolean) => void
+  /**
+   * A row is being dragged. Rows shift under a drag by a transform, which the
+   * selection can't follow, so until it ends the active row paints its own.
+   */
+  isDragging: boolean
+}
+
+const SidebarMenuContext = React.createContext<SidebarMenuContextProps | null>(
+  null
+)
+
+/**
+ * A fluid hover container, in a sidebar that scrolls, so a drag stays the
+ * scroll's: one highlight glides between its rows, sub-rows included, and the
+ * active row's background slides between active rows.
+ */
 function SidebarMenu({
   className,
   children,
   ...props
 }: React.ComponentProps<typeof View>) {
+  const [selected, setSelected] = React.useState<string>()
+  const [isDragging, setIsDragging] = React.useState(false)
+  const fluid = useFluidHover({ selected: isDragging ? undefined : selected })
+  const menu = React.useMemo(
+    () => ({ setSelected, setIsDragging, isDragging }),
+    [isDragging]
+  )
   return (
-    <View
-      data-slot="sidebar-menu"
-      data-sidebar="menu"
-      role="list"
-      className={cn("cn-sidebar-menu w-full min-w-0 flex-col", className)}
-      {...props}
-    >
-      {renderTextChildren(children)}
-    </View>
+    <FluidHoverProvider fluid={fluid}>
+      <SidebarMenuContext value={menu}>
+        <View
+          ref={fluid.attach}
+          data-slot="sidebar-menu"
+          data-sidebar="menu"
+          role="list"
+          className={cn(
+            "cn-sidebar-menu relative w-full min-w-0 flex-col",
+            className
+          )}
+          {...props}
+        >
+          <FluidHoverSelection
+            selection={fluid.selection}
+            className="cn-sidebar-menu-selection"
+          />
+          <FluidHoverHighlight hover={fluid.hover} />
+          {renderTextChildren(children)}
+        </View>
+      </SidebarMenuContext>
+    </FluidHoverProvider>
   )
 }
 
@@ -1698,30 +1775,42 @@ type SidebarMenuItemContextProps = {
   setActions: (count: number) => void
   setHasBadge: (hasBadge: boolean) => void
   setHasToggle: (hasToggle: boolean) => void
-  setButton: (size: SidebarRowSize, isActive: boolean) => void
+  setButton: (size: SidebarRowSize, isActive: boolean, isLit: boolean) => void
   /** What the row's end holds, from lib/sidebar-layout-model. */
   trailing: ReturnType<typeof getRowTrailing>
   size: SidebarRowSize
   isActive: boolean
+  isLit: boolean
+  /** Set by the selected row, for when the item around it moves. */
+  measureSelected: React.RefObject<(() => void) | null>
 }
 
 const SidebarMenuItemContext =
   React.createContext<SidebarMenuItemContextProps | null>(null)
 
-function useMenuRow() {
+function useMenuRow(isDragging: boolean | undefined) {
   const [row, setRow] = React.useState<{
     actionCount: number
     hasBadge: boolean
     hasToggle: boolean
     size: SidebarRowSize
     isActive: boolean
+    isLit: boolean
   }>({
     actionCount: 0,
     hasBadge: false,
     hasToggle: false,
     size: "default",
     isActive: false,
+    isLit: false,
   })
+  const measureSelected = React.useRef<(() => void) | null>(null)
+  const setMenuDragging = React.use(SidebarMenuContext)?.setIsDragging
+  React.useLayoutEffect(() => {
+    if (!isDragging || !setMenuDragging) return
+    setMenuDragging(true)
+    return () => setMenuDragging(false)
+  }, [isDragging, setMenuDragging])
   const setActions = React.useCallback(
     (actionCount: number) =>
       setRow((current) =>
@@ -1746,11 +1835,13 @@ function useMenuRow() {
     []
   )
   const setButton = React.useCallback(
-    (size: SidebarRowSize, isActive: boolean) =>
+    (size: SidebarRowSize, isActive: boolean, isLit: boolean) =>
       setRow((current) =>
-        current.size === size && current.isActive === isActive
+        current.size === size &&
+        current.isActive === isActive &&
+        current.isLit === isLit
           ? current
-          : { ...current, size, isActive }
+          : { ...current, size, isActive, isLit }
       ),
     []
   )
@@ -1798,9 +1889,12 @@ function useMenuRow() {
       trailing,
       size: row.size,
       isActive: row.isActive,
+      isLit: row.isLit,
+      measureSelected,
     }),
     [
       row.isActive,
+      row.isLit,
       row.size,
       setActions,
       setButton,
@@ -1816,21 +1910,96 @@ function useSidebarMenuRow() {
   return React.use(SidebarMenuItemContext)
 }
 
+type RowPressProps = Pick<
+  React.ComponentProps<typeof Pressable>,
+  | "disabled"
+  | "onLayout"
+  | "onPressIn"
+  | "onPressOut"
+  | "onHoverIn"
+  | "onHoverOut"
+>
+
+/**
+ * A row in its menu's Fluid Hover. With `isSelected` the selection sits on it, and
+ * keeps up as it moves: a row above it opening moves it without its own layout
+ * changing, so the item around it, whose layout does, asks it to measure again.
+ */
+function useMenuFluidRow({
+  isSelected = false,
+  disabled,
+  onLayout,
+  onPressIn,
+  onPressOut,
+  onHoverIn,
+  onHoverOut,
+}: RowPressProps & { isSelected?: boolean }) {
+  const row = React.use(SidebarMenuItemContext)
+  const menu = React.use(SidebarMenuContext)
+  const { key, isLit, remeasure, rowProps } = useFluidRow({
+    disabled,
+    onPressIn,
+    onPressOut,
+    onHoverIn,
+    onHoverOut,
+  })
+  const measure = useLatestCallback(() => {
+    remeasure?.()
+  })
+  const setSelected = menu?.setSelected
+  const measureSelected = row?.measureSelected
+  React.useLayoutEffect(() => {
+    if (!isSelected || !setSelected) return
+    measure()
+    setSelected(key)
+    return () =>
+      setSelected((current) => (current === key ? undefined : current))
+  }, [isSelected, key, measure, setSelected])
+  React.useLayoutEffect(() => {
+    if (!isSelected || !measureSelected) return
+    measureSelected.current = measure
+    return () => {
+      measureSelected.current = null
+    }
+  }, [isSelected, measure, measureSelected])
+  return {
+    isLit,
+    /** Paints its own active fill and pressed fill: no overlay is doing it. */
+    paintsOwnFill: !menu || menu.isDragging,
+    rowProps: {
+      ...rowProps,
+      onLayout: (event: LayoutChangeEvent) => {
+        rowProps.onLayout(event)
+        onLayout?.(event)
+      },
+    },
+  }
+}
+
 function SidebarMenuItem({
   className,
   children,
+  onLayout,
+  "data-dragging": isDragging,
   ...props
-}: Omit<React.ComponentProps<typeof Animated.View>, "children"> & {
+}: Omit<React.ComponentProps<typeof Animated.View>, "children" | "onLayout"> & {
   children?: React.ReactNode
+  onLayout?: (event: LayoutChangeEvent) => void
+  "data-dragging"?: boolean
 }) {
-  const row = useMenuRow()
+  const row = useMenuRow(isDragging)
   return (
     <SidebarMenuItemContext value={row}>
       <Animated.View
         data-slot="sidebar-menu-item"
         data-sidebar="menu-item"
+        data-dragging={isDragging}
         role="listitem"
         className={cn("relative", className)}
+        onLayout={(event) => {
+          row.measureSelected.current?.()
+          onLayout?.(event)
+        }}
         {...props}
       >
         {renderRowChildren(children)}
@@ -1933,7 +2102,13 @@ function SidebarMenuButton({
   disabled,
   accessibilityLabel,
   accessibilityState,
+  "aria-expanded": ariaExpanded,
   onPress,
+  onPressIn,
+  onPressOut,
+  onHoverIn,
+  onHoverOut,
+  onLayout,
   ...props
 }: Omit<React.ComponentProps<typeof Pressable>, "children" | "style"> &
   RenderProps & {
@@ -1960,14 +2135,25 @@ function SidebarMenuButton({
   const resolvedSize = size ?? "default"
   const resolvedDot =
     dot ?? (status ? (status === "idle" ? "ring" : "filled") : undefined)
-  const state = active ? "active" : "default"
+  const fluid = useMenuFluidRow({
+    isSelected: active,
+    disabled,
+    onLayout,
+    onPressIn,
+    onPressOut,
+    onHoverIn,
+    onHoverOut,
+  })
+  const { isLit } = fluid
+  // A lit row turns foreground like the active one.
+  const state = active || isLit ? "active" : "default"
   const { color: iconColor } = useResolveClassNames(
     sidebarMenuButtonIconVariants({ state })
   )
   const setButton = row?.setButton
   React.useLayoutEffect(() => {
-    setButton?.(resolvedSize, active)
-  }, [active, resolvedSize, setButton])
+    setButton?.(resolvedSize, active, isLit)
+  }, [active, isLit, resolvedSize, setButton])
 
   const isRail = collapse === "icon"
   const text = getTextContent(children)
@@ -1976,13 +2162,13 @@ function SidebarMenuButton({
       className={sidebarMenuButtonTextVariants({ size: resolvedSize, state })}
     >
       <IconProvider
-        strokeWidth={active ? 2 : 1.5}
+        strokeWidth={active || isLit ? 2 : 1.5}
         {...(typeof iconColor === "string" ? { color: iconColor } : {})}
       >
         {icon ? (
           renderRowIcon(icon)
         ) : resolvedDot ? (
-          <SidebarMenuDot dot={resolvedDot} isActive={active} />
+          <SidebarMenuDot dot={resolvedDot} isActive={active || isLit} />
         ) : null}
       </IconProvider>
       {wrapTextChildren(children, (label, key) => (
@@ -2004,8 +2190,10 @@ function SidebarMenuButton({
     "data-active": active,
     "data-status": status,
     "data-collapsible": collapse,
+    "data-fluid": !fluid.paintsOwnFill,
     role: "button" as const,
     disabled,
+    "aria-expanded": ariaExpanded,
     accessibilityLabel:
       accessibilityLabel ??
       (status === "unread" ? `Unread: ${text}` : isRail ? text : undefined),
@@ -2019,14 +2207,20 @@ function SidebarMenuButton({
       !isRail && row ? { paddingRight: row.trailing.gutter } : undefined,
       style,
     ],
-    onPress: (
-      event: Parameters<
-        NonNullable<React.ComponentProps<typeof Pressable>["onPress"]>
-      >[0]
-    ) => {
-      feedback("tick")
+    onPress: (event: GestureResponderEvent) => {
+      // A row that only opens its children is a disclosure, as on the website.
+      if (!isPrimitiveTrigger(accessibilityState)) {
+        feedback(
+          ariaExpanded === undefined
+            ? "tick"
+            : ariaExpanded
+              ? "collapse"
+              : "expand"
+        )
+      }
       onPress?.(event)
     },
+    ...fluid.rowProps,
     ...props,
   }
   const button = renderSlot({ render, asChild }, shared, content) ?? (
@@ -2050,6 +2244,8 @@ function SidebarMenuAction({
   showOnHover: _showOnHover = false,
   children,
   style,
+  accessibilityState,
+  onPress,
   ...props
 }: Omit<React.ComponentProps<typeof Pressable>, "children" | "style"> &
   RenderProps & {
@@ -2061,6 +2257,7 @@ function SidebarMenuAction({
   const row = React.use(SidebarMenuItemContext)
   const inCluster = React.use(SidebarActionsClusterContext)
   const collapse = useSidebarCollapse()
+  const feedback = useFeedback()
 
   // A lone action reserves its own slot; a cluster reserves its whole run.
   const setActions = row?.setActions
@@ -2071,7 +2268,11 @@ function SidebarMenuAction({
   }, [inCluster, setActions])
 
   if (collapse === "icon") return null
-  const content = (
+  const content = row?.isLit ? (
+    <TextStyle className="cn-sidebar-menu-action-text cn-sidebar-menu-action-text-lit">
+      {renderTextChildren(children)}
+    </TextStyle>
+  ) : (
     <TextStyle className="cn-sidebar-menu-action-text">
       {renderTextChildren(children)}
     </TextStyle>
@@ -2091,6 +2292,11 @@ function SidebarMenuAction({
       !inCluster && row ? { right: row.trailing.actionsEnd } : undefined,
       style,
     ],
+    accessibilityState,
+    onPress: (event: GestureResponderEvent) => {
+      if (!isPrimitiveTrigger(accessibilityState)) feedback("tap")
+      onPress?.(event)
+    },
     ...props,
   }
   return (
@@ -2171,7 +2377,7 @@ function SidebarMenuBadge({
       {renderTextChildren(children)}
     </View>
   )
-  return row?.isActive ? (
+  return row?.isActive || row?.isLit ? (
     <TextStyle className="cn-sidebar-menu-badge-text cn-sidebar-menu-badge-text-active">
       {badge}
     </TextStyle>
@@ -2247,16 +2453,19 @@ function SidebarMenuSub({
 function SidebarMenuSubItem({
   className,
   children,
+  "data-dragging": isDragging,
   ...props
 }: Omit<React.ComponentProps<typeof Animated.View>, "children"> & {
   children?: React.ReactNode
+  "data-dragging"?: boolean
 }) {
-  const row = useMenuRow()
+  const row = useMenuRow(isDragging)
   return (
     <SidebarMenuItemContext value={row}>
       <Animated.View
         data-slot="sidebar-menu-sub-item"
         data-sidebar="menu-sub-item"
+        data-dragging={isDragging}
         role="listitem"
         className={cn("relative", className)}
         {...props}
@@ -2298,7 +2507,13 @@ function SidebarMenuSubButton({
   style,
   disabled,
   accessibilityState,
+  "aria-expanded": ariaExpanded,
   onPress,
+  onPressIn,
+  onPressOut,
+  onHoverIn,
+  onHoverOut,
+  onLayout,
   ...props
 }: Omit<React.ComponentProps<typeof Pressable>, "children" | "style"> &
   RenderProps & {
@@ -2321,21 +2536,30 @@ function SidebarMenuSubButton({
   const start = parseNumber(space8, 8)
   const step = parseNumber(space16, 16)
   const rowSize = size === "sm" ? "sm" : "default"
+  const fluid = useMenuFluidRow({
+    disabled,
+    onLayout,
+    onPressIn,
+    onPressOut,
+    onHoverIn,
+    onHoverOut,
+  })
+  const { isLit } = fluid
   const setButton = row?.setButton
   React.useLayoutEffect(() => {
-    setButton?.(rowSize, isActive)
-  }, [isActive, rowSize, setButton])
+    setButton?.(rowSize, isActive, isLit)
+  }, [isActive, isLit, rowSize, setButton])
 
   const content = (
     <TextStyle
       className={sidebarMenuSubButtonTextVariants({
         size,
-        state: isActive ? "active" : "default",
+        state: isActive || isLit ? "active" : "default",
       })}
     >
       <IconProvider
         size={parseNumber(icon14, 14)}
-        strokeWidth={isActive ? 2 : 1.5}
+        strokeWidth={isActive || isLit ? 2 : 1.5}
       >
         {icon ? renderRowIcon(icon) : null}
       </IconProvider>
@@ -2356,8 +2580,10 @@ function SidebarMenuSubButton({
     "data-size": size,
     "data-active": isActive,
     "data-collapsible": collapse,
+    "data-fluid": !fluid.paintsOwnFill,
     role: "button" as const,
     disabled,
+    "aria-expanded": ariaExpanded,
     accessibilityState: {
       selected: isActive,
       disabled: Boolean(disabled),
@@ -2375,14 +2601,19 @@ function SidebarMenuSubButton({
       },
       style,
     ],
-    onPress: (
-      event: Parameters<
-        NonNullable<React.ComponentProps<typeof Pressable>["onPress"]>
-      >[0]
-    ) => {
-      feedback("tick")
+    onPress: (event: GestureResponderEvent) => {
+      if (!isPrimitiveTrigger(accessibilityState)) {
+        feedback(
+          ariaExpanded === undefined
+            ? "tick"
+            : ariaExpanded
+              ? "collapse"
+              : "expand"
+        )
+      }
       onPress?.(event)
     },
+    ...fluid.rowProps,
     ...props,
   }
   return (

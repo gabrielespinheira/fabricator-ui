@@ -3,10 +3,16 @@
 // the parts' shared API, so one source fits every base, and the project's
 // components.json resolves the `@fabricator` dependencies to its own.
 
+import {
+  FRAMEWORK_VALUES,
+  type DesktopRuntime,
+  type Framework,
+} from "@fabricator-ui/setup"
 import { createLoader, createSerializer } from "nuqs/server"
 
 import { FABRICATOR_ICONS_PACKAGE } from "@/registry/fabricator"
 
+import { buildAppShellRoot } from "./app-shell-root-source"
 import {
   DEFAULT_PLAYGROUND_OPTIONS,
   getTabsPlacement,
@@ -19,6 +25,15 @@ import {
 const REGISTRY = "@/registry/base-fabricator"
 const ICON_PLACEHOLDER = "@/app/(create)/components/icon-placeholder"
 const PRINT_WIDTH = 80
+
+/** What the file is written for, beyond the shell's own options. */
+export type AppShellTarget = {
+  framework?: Framework
+  desktop?: Exclude<DesktopRuntime, "none">
+}
+
+/** Frameworks with no server to read the layout's cookie. */
+const SERVERLESS_FRAMEWORKS: readonly Framework[] = ["vite", "astro"]
 
 const ICONS = {
   home: ["HomeIcon", "IconHome", "Home01Icon", "HouseIcon", "RiHomeLine"],
@@ -60,7 +75,7 @@ function iconProperty(name: keyof typeof ICONS) {
   return ["icon: (", ...indent(icon(name), 2), "),"]
 }
 
-function navItem(
+export function navItem(
   fields: string[],
   iconName: keyof typeof ICONS,
   children?: string[]
@@ -105,7 +120,8 @@ function importLines(names: string[], from: string) {
  * what takes effect.
  */
 export function normalizeInstallOptions(
-  options: PlaygroundOptions
+  options: PlaygroundOptions,
+  target: AppShellTarget = {}
 ): PlaygroundOptions {
   const { fullscreen, glass, panelMobile, peek } = DEFAULT_PLAYGROUND_OPTIONS
   return {
@@ -113,7 +129,7 @@ export function normalizeInstallOptions(
     fullscreen,
     peek: isPeekAvailable(options) ? options.peek : peek,
     panelMobile: options.panel ? options.panelMobile : panelMobile,
-    glass: options.window === "web" ? glass : options.glass,
+    glass: options.window === "web" && !target.desktop ? glass : options.glass,
   }
 }
 
@@ -123,23 +139,46 @@ const serializeOptions = createSerializer(playgroundParsers)
 export function buildAppShellInstallUrl(
   options: PlaygroundOptions,
   siteUrl: string,
-  iconLibrary = "fabricator"
+  iconLibrary = "fabricator",
+  target: AppShellTarget = {}
 ) {
-  const query = serializeOptions(normalizeInstallOptions(options))
-  const icons =
-    iconLibrary === "fabricator"
-      ? ""
-      : `${query ? "&" : "?"}iconLibrary=${iconLibrary}`
-  return `${siteUrl}/init/app-shell${query}${icons}`
+  const params = new URLSearchParams(
+    serializeOptions(normalizeInstallOptions(options, target))
+  )
+  if (iconLibrary !== "fabricator") params.set("iconLibrary", iconLibrary)
+  if (target.framework) params.set("framework", target.framework)
+  if (target.desktop) params.set("desktop", target.desktop)
+  const query = params.toString()
+  return `${siteUrl}/init/app-shell${query ? `?${query}` : ""}`
 }
 
 /** Reads the endpoint's query; anything unknown keeps its default. */
-export function parseAppShellParams(params: URLSearchParams) {
-  return normalizeInstallOptions(createLoader(playgroundParsers)(params))
+export function parseAppShellParams(
+  params: URLSearchParams,
+  target: AppShellTarget = {}
+) {
+  return normalizeInstallOptions(
+    createLoader(playgroundParsers)(params),
+    target
+  )
+}
+
+/** Reads who the file is for; anything unknown is left out. */
+export function parseAppShellTarget(params: URLSearchParams): AppShellTarget {
+  const framework = FRAMEWORK_VALUES.find(
+    (value) => value === params.get("framework")
+  )
+  const desktop = (["electron", "tauri"] as const).find(
+    (value) => value === params.get("desktop")
+  )
+  return { ...(framework && { framework }), ...(desktop && { desktop }) }
 }
 
 /** What the file needs from the registry, for these choices. */
-export function getAppShellDependencies(options: PlaygroundOptions) {
+export function getAppShellDependencies(
+  options: PlaygroundOptions,
+  target: AppShellTarget = {}
+) {
   return [
     "app-shell",
     "app-shell-model",
@@ -149,13 +188,29 @@ export function getAppShellDependencies(options: PlaygroundOptions) {
     ...(options.account === "none" ? [] : ["user-menu", "dropdown-menu"]),
     ...(options.switcher === "none" ? [] : ["workspace-switcher"]),
     ...(options.tabs === "none" ? [] : ["tab-strip"]),
+    ...(target.desktop ? ["desktop-window"] : []),
   ].map((name) => `@fabricator/${name}`)
 }
 
-function buildImports(options: PlaygroundOptions) {
+/** A window fixed at install: the playground's choice for an app of one's own. */
+function hasFixedWindow(options: PlaygroundOptions, target: AppShellTarget) {
+  return !target.desktop && options.window !== "web"
+}
+
+function usesLocalStorage(options: PlaygroundOptions, target: AppShellTarget) {
+  return (
+    hasFixedWindow(options, target) ||
+    Boolean(target.desktop) ||
+    Boolean(
+      target.framework && SERVERLESS_FRAMEWORKS.includes(target.framework)
+    )
+  )
+}
+
+function buildImports(options: PlaygroundOptions, target: AppShellTarget) {
   const placement = getTabsPlacement(options)
   const hasTitle = placement !== "header"
-  const hasWindow = options.window !== "web"
+  const hasWindow = hasFixedWindow(options, target)
 
   const model = [
     ...(options.customize ? ["EMPTY_NAV_PREFERENCES"] : []),
@@ -186,7 +241,7 @@ function buildImports(options: PlaygroundOptions) {
       : []),
     ...(options.status ? ["AppShellStatusBar"] : []),
     ...(placement === "titlebar" ? ["AppShellTitlebar"] : []),
-    ...(hasWindow ? ["createLocalStorage"] : []),
+    ...(usesLocalStorage(options, target) ? ["createLocalStorage"] : []),
     ...(placement === "row" ? ["useDragRegionProps"] : []),
   ]
   const sidebar = [
@@ -201,6 +256,12 @@ function buildImports(options: PlaygroundOptions) {
   ]
 
   return [
+    ...(target.desktop
+      ? importLines(
+          ["useDesktopWindow"],
+          `${REGISTRY}/hooks/use-desktop-window`
+        )
+      : []),
     ...(model.length > 0
       ? importLines(model, `${REGISTRY}/lib/app-shell-model`)
       : []),
@@ -240,6 +301,8 @@ function buildImports(options: PlaygroundOptions) {
 }
 
 function buildGroups(options: PlaygroundOptions) {
+  // The phone's tab bar shows the items marked for it.
+  const tab = options.bottomNav ? ['mobile: "tab",'] : []
   const projectChildren = [
     "children: [",
     '  { id: "launch", label: "Q4 launch", href: "/projects/launch" },',
@@ -252,12 +315,18 @@ function buildGroups(options: PlaygroundOptions) {
     '    id: "main",',
     "    items: [",
     ...indent(
-      navItem(['id: "home",', 'label: "Home",', 'href: "/",'], "home"),
+      navItem(['id: "home",', 'label: "Home",', 'href: "/",', ...tab], "home"),
       6
     ),
     ...indent(
       navItem(
-        ['id: "inbox",', 'label: "Inbox",', 'href: "/inbox",', "badge: 4,"],
+        [
+          'id: "inbox",',
+          'label: "Inbox",',
+          'href: "/inbox",',
+          "badge: 4,",
+          ...tab,
+        ],
         "inbox"
       ),
       6
@@ -272,7 +341,7 @@ function buildGroups(options: PlaygroundOptions) {
     "    items: [",
     ...indent(
       navItem(
-        ['id: "projects",', 'label: "Projects",', 'href: "/projects",'],
+        ['id: "projects",', 'label: "Projects",', 'href: "/projects",', ...tab],
         "projects",
         projectChildren
       ),
@@ -398,7 +467,11 @@ function buildHelpers(options: PlaygroundOptions) {
   ]
 }
 
-function buildWindowAttribute(options: PlaygroundOptions) {
+function buildWindowAttribute(
+  options: PlaygroundOptions,
+  target: AppShellTarget
+) {
+  if (target.desktop) return [["window={shellWindow}"]]
   if (options.window === "web") return []
   const translucent = options.glass ? ["  isTranslucent: true,"] : []
   return [
@@ -416,8 +489,18 @@ function buildWindowAttribute(options: PlaygroundOptions) {
   ]
 }
 
-function buildSidebar(options: PlaygroundOptions) {
-  const hasWindow = options.window !== "web"
+function buildSidebarToggle(
+  options: PlaygroundOptions,
+  target: AppShellTarget
+) {
+  if (hasFixedWindow(options, target) || options.collapse === "none") return []
+  const toggle =
+    '<SidebarTrigger className="ms-auto group-data-[collapsible=icon]:hidden" />'
+  // A desktop window keeps the toggle in its top band instead.
+  return target.desktop ? ["{!shellWindow && (", `  ${toggle}`, ")}"] : [toggle]
+}
+
+function buildSidebar(options: PlaygroundOptions, target: AppShellTarget) {
   const account = options.account
   const headerChildren = [
     ...(account === "header"
@@ -448,11 +531,7 @@ function buildSidebar(options: PlaygroundOptions) {
           "  />",
           "</div>",
         ]),
-    ...(!hasWindow && options.collapse !== "none"
-      ? [
-          '<SidebarTrigger className="ms-auto group-data-[collapsible=icon]:hidden" />',
-        ]
-      : []),
+    ...buildSidebarToggle(options, target),
   ]
   const hasFooter = account === "footer" || options.customize
 
@@ -592,7 +671,6 @@ function buildPanel(options: PlaygroundOptions) {
   const attributes = [
     'id="details"',
     'label="Details"',
-    "defaultOpen",
     ...(options.panelMobile === panelMobile
       ? []
       : [`mobile="${options.panelMobile}"`]),
@@ -610,17 +688,19 @@ function buildPanel(options: PlaygroundOptions) {
   ]
 }
 
-function buildLayout(options: PlaygroundOptions) {
+function buildLayout(options: PlaygroundOptions, target: AppShellTarget) {
   const placement = getTabsPlacement(options)
   const defaults = DEFAULT_PLAYGROUND_OPTIONS
   const attributes = [
     ['storageKey="app"'],
-    ...(options.window === "web" ? [] : [["storage={createLocalStorage()}"]]),
+    ...(usesLocalStorage(options, target)
+      ? [["storage={createLocalStorage()}"]]
+      : []),
     ...(options.peek === defaults.peek ? [] : [[`peek="${options.peek}"`]]),
     ...(options.mobileSidebar === defaults.mobileSidebar
       ? []
       : [[`mobileSidebar="${options.mobileSidebar}"`]]),
-    ...buildWindowAttribute(options),
+    ...buildWindowAttribute(options, target),
     ...(placement === "titlebar"
       ? [
           [
@@ -647,6 +727,14 @@ function buildLayout(options: PlaygroundOptions) {
     "  renderLink?: (item: { id?: string; href?: string }) => React.ReactElement",
     "  children: React.ReactNode",
     "}) {",
+    ...(target.desktop
+      ? [
+          "  const { shellWindow } = useDesktopWindow({",
+          `    hasTitlebar: ${placement === "titlebar"},`,
+          `    isTranslucent: ${options.glass},`,
+          "  })",
+        ]
+      : []),
     ...(options.switcher === "none"
       ? []
       : ['  const [workspace, setWorkspace] = React.useState("acme")']),
@@ -662,12 +750,15 @@ function buildLayout(options: PlaygroundOptions) {
           '  const pageTitle = path.at(-1)?.label ?? "Home"',
         ]
       : []),
-    ...(options.switcher === "none" && !options.customize && !hasTitle
+    ...(options.switcher === "none" &&
+    !options.customize &&
+    !hasTitle &&
+    !target.desktop
       ? []
       : [""]),
     "  return (",
     ...indent(openTag("AppShell", attributes, 4), 4),
-    ...indent(buildSidebar(options), 6),
+    ...indent(buildSidebar(options, target), 6),
     ...indent(buildMain(options), 6),
     ...indent(buildPanel(options), 6),
     ...(options.status
@@ -684,14 +775,17 @@ function buildLayout(options: PlaygroundOptions) {
 }
 
 /** The file the CLI writes: the shell with these choices, ready to edit. */
-export function buildAppShellSource(rawOptions: PlaygroundOptions) {
-  const options = normalizeInstallOptions(rawOptions)
+export function buildAppShellSource(
+  rawOptions: PlaygroundOptions,
+  target: AppShellTarget = {}
+) {
+  const options = normalizeInstallOptions(rawOptions, target)
   return [
     '"use client"',
     "",
     'import * as React from "react"',
     "",
-    ...buildImports(options),
+    ...buildImports(options, target),
     "",
     "// Written from your App Shell settings, and yours to edit: swap in your own",
     "// navigation, workspaces and account, and fill the panel and the status bar.",
@@ -700,7 +794,7 @@ export function buildAppShellSource(rawOptions: PlaygroundOptions) {
     "",
     ...buildData(options),
     ...buildHelpers(options),
-    ...buildLayout(options),
+    ...buildLayout(options, target),
     "",
   ].join("\n")
 }
@@ -728,10 +822,11 @@ function withFabricatorIcons(source: string) {
  */
 export function buildAppShellItem(
   rawOptions: PlaygroundOptions,
-  { icons = true }: { icons?: boolean } = {}
+  { icons = true, ...target }: { icons?: boolean } & AppShellTarget = {}
 ) {
-  const options = normalizeInstallOptions(rawOptions)
-  const source = buildAppShellSource(options)
+  const options = normalizeInstallOptions(rawOptions, target)
+  const source = buildAppShellSource(options, target)
+  const root = target.framework && buildAppShellRoot(target.framework)
   return {
     $schema: "https://fabricator-ui.vercel.app/schema/registry-item.json",
     name: "app-shell-layout",
@@ -739,13 +834,22 @@ export function buildAppShellItem(
     title: "App Shell layout",
     description: "An App Shell written out from your settings.",
     ...(icons && { dependencies: [FABRICATOR_ICONS_PACKAGE] }),
-    registryDependencies: getAppShellDependencies(options),
+    registryDependencies: getAppShellDependencies(options, target),
     files: [
       {
         path: "registry/base-fabricator/blocks/app-shell-layout/app-shell-layout.tsx",
         type: "registry:component" as const,
         content: icons ? withFabricatorIcons(source) : source,
       },
+      ...(root
+        ? [
+            {
+              path: "registry/base-fabricator/blocks/app-shell-layout/app-shell-root.tsx",
+              type: "registry:component" as const,
+              content: root,
+            },
+          ]
+        : []),
     ],
     docs: [
       "Wrap your routes in the layout and pass your router's pathname:",

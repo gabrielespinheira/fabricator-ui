@@ -14,6 +14,12 @@ import Animated, {
 } from "react-native-reanimated"
 
 import { useFeedback } from "@/registry/native/lib/feedback"
+import {
+  FluidHoverHighlight,
+  FluidHoverProvider,
+  useFluidHover,
+  useFluidRow,
+} from "@/registry/native/lib/fluid-hover"
 import { useMotion } from "@/registry/native/lib/motion"
 import { DisclosurePanel } from "@/registry/native/ui/collapsible"
 import { renderTextChildren, TextStyle } from "@/registry/native/ui/text"
@@ -42,23 +48,29 @@ function Accordion({
     defaultProp: defaultValue,
     onChange: onValueChange,
   })
+  // The accordion sits in a page that scrolls, so a drag stays the page's.
+  const fluid = useFluidHover()
   return (
-    <AccordionPrimitive.Root
-      data-slot="accordion"
-      // Base UI's value is always an array, so the primitive runs in its array
-      // mode and a single accordion keeps only the item just opened.
-      type="multiple"
-      value={current}
-      onValueChange={(next) => {
-        setCurrent(
-          multiple ? next : next.filter((item) => !current.includes(item))
-        )
-      }}
-      className={cn("cn-accordion flex-col", className)}
-      {...props}
-    >
-      {children}
-    </AccordionPrimitive.Root>
+    <FluidHoverProvider fluid={fluid}>
+      <AccordionPrimitive.Root
+        ref={fluid.attach}
+        data-slot="accordion"
+        // Base UI's value is always an array, so the primitive runs in its array
+        // mode and a single accordion keeps only the item just opened.
+        type="multiple"
+        value={current}
+        onValueChange={(next) => {
+          setCurrent(
+            multiple ? next : next.filter((item) => !current.includes(item))
+          )
+        }}
+        className={cn("cn-accordion relative flex-col", className)}
+        {...props}
+      >
+        <FluidHoverHighlight hover={fluid.hover} />
+        {children}
+      </AccordionPrimitive.Root>
+    </FluidHoverProvider>
   )
 }
 
@@ -75,18 +87,34 @@ function AccordionItem({ className, ...props }: AccordionPrimitive.ItemProps) {
 function AccordionTrigger({
   className,
   children,
+  disabled,
   onPress,
+  onPressIn,
+  onPressOut,
+  onHoverIn,
+  onHoverOut,
+  onLayout,
   ...props
 }: Omit<AccordionPrimitive.TriggerProps, "children"> & {
   children?: React.ReactNode
 }) {
-  const { isExpanded } = AccordionPrimitive.useItemContext()
+  const { isExpanded, disabled: isItemDisabled } =
+    AccordionPrimitive.useItemContext()
+  const { disabled: isRootDisabled } = AccordionPrimitive.useRootContext()
   const feedback = useFeedback()
   const motion = useMotion("disclosure")
+  const { isLit, rowProps } = useFluidRow({
+    disabled: disabled || isItemDisabled || isRootDisabled,
+    onLayout,
+    onPressIn,
+    onPressOut,
+    onHoverIn,
+    onHoverOut,
+  })
   const turn = useSharedValue(isExpanded ? 1 : 0)
   React.useEffect(() => {
     turn.value = withTiming(isExpanded ? 1 : 0, {
-      duration: motion.enterMs,
+      duration: motion.isReduced ? 0 : motion.enterMs,
       easing: motion.enterEasing,
     })
   }, [isExpanded, motion, turn])
@@ -100,6 +128,7 @@ function AccordionTrigger({
         data-slot="accordion-trigger"
         data-state={isExpanded ? "open" : "closed"}
         hitSlop={4}
+        disabled={disabled}
         className={cn(
           "cn-accordion-trigger relative flex-1 flex-row items-start justify-between disabled:opacity-50",
           className
@@ -108,10 +137,11 @@ function AccordionTrigger({
           feedback(isExpanded ? "collapse" : "expand")
           onPress?.(event)
         }}
+        {...rowProps}
         {...props}
       >
         <View className="flex-1 shrink">{renderTextChildren(children)}</View>
-        <IconProvider strokeWidth={isExpanded ? 2 : 1.5}>
+        <IconProvider strokeWidth={isExpanded || isLit ? 2 : 1.5}>
           <Animated.View
             data-slot="accordion-trigger-icon"
             className="cn-accordion-trigger-icon shrink-0 items-center justify-center"
@@ -123,13 +153,21 @@ function AccordionTrigger({
       </AccordionPrimitive.Trigger>
     </AccordionPrimitive.Header>
   )
-  return isExpanded ? (
-    <TextStyle className="cn-accordion-trigger-text cn-accordion-trigger-text-open">
-      {trigger}
-    </TextStyle>
-  ) : (
-    <TextStyle className="cn-accordion-trigger-text">{trigger}</TextStyle>
-  )
+  if (isExpanded) {
+    return (
+      <TextStyle className="cn-accordion-trigger-text cn-accordion-trigger-text-open">
+        {trigger}
+      </TextStyle>
+    )
+  }
+  if (isLit) {
+    return (
+      <TextStyle className="cn-accordion-trigger-text cn-accordion-trigger-text-lit">
+        {trigger}
+      </TextStyle>
+    )
+  }
+  return <TextStyle className="cn-accordion-trigger-text">{trigger}</TextStyle>
 }
 
 function AccordionContent({

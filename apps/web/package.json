@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "bun run icons:build && bun run icons:packages && next dev --turbopack --port 4000",
+    "dev": "bun ./scripts/check-dev-port.mts 4000 && bun run icons:build && bun run icons:packages && next dev --turbopack --port 4000",
     "build": "bun run icons:packages && bun run registry:build && next build",
     "start": "next start --port 4000",
     "preview": "bun run registry:build && next build && next start --port 4000",
@@ -40,6 +40,7 @@
     "@dnd-kit/utilities": "^3.2.2",
     "@fabricator-ui/icons": "workspace:*",
     "@fabricator-ui/icons-static": "workspace:*",
+    "@fabricator-ui/setup": "workspace:*",
     "@faker-js/faker": "^10.6.0",
     "@formisch/react": "^1.1.0",
     "@hookform/resolvers": "^6.0.0",

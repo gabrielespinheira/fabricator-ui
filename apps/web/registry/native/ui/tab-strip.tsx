@@ -50,8 +50,10 @@ import {
 import { useFeedback } from "@/registry/native/lib/feedback"
 import {
   FluidHoverHighlight,
+  FluidHoverProvider,
   FluidHoverSelection,
   useFluidHover,
+  useFluidRow,
 } from "@/registry/native/lib/fluid-hover"
 import { useMotion } from "@/registry/native/lib/motion"
 import { parseNumber } from "@/registry/native/lib/motion-tokens"
@@ -130,7 +132,6 @@ function useTabStrip() {
 }
 
 const TabStripListContext = React.createContext<{
-  getItemProps: ReturnType<typeof useFluidHover>["getItemProps"]
   onTabLayout: (value: string, start: number, end: number) => void
 } | null>(null)
 
@@ -275,13 +276,12 @@ function TabStripList({
 
   const context = React.useMemo(
     () => ({
-      getItemProps: fluid.getItemProps,
       onTabLayout: (tabValue: string, start: number, end: number) => {
         frames.current.set(tabValue, { start, end })
         if (tabValue === value) keepInView(tabValue)
       },
     }),
-    [fluid.getItemProps, keepInView, value]
+    [keepInView, value]
   )
 
   // Each tab learns its position for the menu. Keyed by the tab's own key, so
@@ -331,7 +331,9 @@ function TabStripList({
             hover={fluid.hover}
             className="cn-tab-strip-highlight"
           />
-          <TabStripListContext value={context}>{items}</TabStripListContext>
+          <FluidHoverProvider fluid={fluid}>
+            <TabStripListContext value={context}>{items}</TabStripListContext>
+          </FluidHoverProvider>
         </ContextMenuTrigger>
         <ContextMenuContent className="cn-tab-strip-menu">
           <TabStripMenuItems strip={strip} tabValue={null} />
@@ -550,7 +552,14 @@ function TabStripTab({
   const title = titleProp ?? getText(children)
   const closable = (closableProp ?? !pinned) && strip.onClose !== undefined
   const isRenaming = strip.renaming === tabValue
-  const fluid = list?.getItemProps(tabValue)
+  const { rowProps } = useFluidRow({
+    itemKey: tabValue,
+    onLayout: (event) => {
+      const { x, width } = event.nativeEvent.layout
+      list?.onTabLayout(tabValue, x, x + width)
+      onLayout?.(event)
+    },
+  })
   const iconSize = parseNumber(useCSSVariable("--density-icon-14"), 14)
 
   const { registerTab } = strip
@@ -579,8 +588,8 @@ function TabStripTab({
             if (!isActive) feedback("note")
             strip.onActivate(tabValue)
           }}
-          onPressIn={() => fluid?.onPressIn()}
-          onPressOut={() => fluid?.onPressOut()}
+          onPressIn={rowProps.onPressIn}
+          onPressOut={rowProps.onPressOut}
         >
           <TabStatusIcon status={status} icon={icon} size={iconSize} />
           {pinned ? null : (
@@ -647,12 +656,7 @@ function TabStripTab({
         "cn-tab-strip-tab relative flex-row items-center",
         className
       )}
-      onLayout={(event) => {
-        const { x, width } = event.nativeEvent.layout
-        fluid?.onLayout(event)
-        list?.onTabLayout(tabValue, x, x + width)
-        onLayout?.(event)
-      }}
+      onLayout={rowProps.onLayout}
       {...props}
     >
       {isActive ? (

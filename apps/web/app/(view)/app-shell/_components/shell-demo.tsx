@@ -118,6 +118,7 @@ export function PlaceholderPage({
  */
 export function ShellDemo({
   options,
+  desktopRuntime,
   workspaces,
   user,
   groups,
@@ -127,6 +128,8 @@ export function ShellDemo({
   renderPage,
 }: {
   options: PlaygroundOptions
+  /** The desktop runtime a project uses, which changes what its window draws. */
+  desktopRuntime?: "electron" | "tauri"
   workspaces?: OptionShellProps["workspaces"]
   user?: OptionShellProps["user"]
   groups: OptionShellProps["groups"]
@@ -142,7 +145,7 @@ export function ShellDemo({
   const activeId = getActiveNavItem(groups, pathname)
   const path = activeId ? getNavPath(groups, activeId) : []
   const pageTitle = path.at(-1)?.label ?? "Home"
-  const shellWindow = getPlaygroundWindow(options)
+  const shellWindow = getPlaygroundWindow(options, desktopRuntime)
 
   const renderLink = (item: { href?: string }) => (
     <a

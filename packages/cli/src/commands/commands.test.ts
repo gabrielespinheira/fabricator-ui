@@ -3,10 +3,10 @@ import { tmpdir } from "node:os"
 import path from "node:path"
 import { afterEach, beforeEach, describe, expect, it } from "vitest"
 
-import { buildAddFlags } from "./add"
+import { adaptItemForProject, buildAddFlags } from "./add"
 import { buildApplyArgs, buildReinstallArgs } from "./apply"
 import { extractDocLinks, itemNameOf } from "./docs"
-import { collectChecks, majorVersion } from "./doctor"
+import { collectChecks, getWorkspaceChecks, majorVersion } from "./doctor"
 import {
   buildInitArgs,
   buildStarterButtonArgs,
@@ -15,6 +15,93 @@ import {
 } from "./init"
 import { getNativeNextSteps } from "./init-native"
 import { buildSearchArgs } from "./search"
+import { buildUpgradeArgs, parseInstalledItems } from "./upgrade"
+
+describe("getWorkspaceChecks", () => {
+  const input = {
+    apps: [],
+    hasDesktopTauri: false,
+    hasCargo: false,
+    unalignedApps: [],
+  }
+
+  it("has nothing to say about a plain monorepo", () => {
+    expect(getWorkspaceChecks(input)).toEqual([])
+  })
+
+  it("fails an app whose libs can't reach the shared package", () => {
+    const [check] = getWorkspaceChecks({ ...input, unalignedApps: ["web"] })
+    expect(check?.status).toBe("fail")
+    expect(check?.label).toContain("apps/web")
+  })
+
+  it("warns about an Expo SDK older than the registry's", () => {
+    const [check] = getWorkspaceChecks({
+      ...input,
+      apps: [{ name: "mobile", isNative: true, sdk: "~52.0.0" }],
+    })
+    expect(check?.status).toBe("warn")
+    expect(check?.label).toContain("SDK 52")
+    expect(
+      getWorkspaceChecks({
+        ...input,
+        apps: [{ name: "mobile", isNative: true, sdk: "~58.0.0" }],
+      })
+    ).toEqual([])
+  })
+
+  it("needs Rust only for Tauri", () => {
+    expect(
+      getWorkspaceChecks({ ...input, hasDesktopTauri: true })[0]?.status
+    ).toBe("warn")
+    expect(
+      getWorkspaceChecks({ ...input, hasDesktopTauri: true, hasCargo: true })[0]
+        ?.status
+    ).toBe("pass")
+  })
+})
+
+describe("adaptItemForProject", () => {
+  const shell = "https://fabricator-ui.vercel.app/init/app-shell?variant=inset"
+
+  it("asks for the native file in a React Native project", () => {
+    expect(adaptItemForProject(shell, true)).toBe(`${shell}&platform=native`)
+  })
+
+  it("leaves everything else alone", () => {
+    expect(adaptItemForProject(shell, false)).toBe(shell)
+    expect(adaptItemForProject("@fabricator/button", true)).toBe(
+      "@fabricator/button"
+    )
+    expect(adaptItemForProject("https://example.com/item.json", true)).toBe(
+      "https://example.com/item.json"
+    )
+  })
+})
+
+describe("upgrade", () => {
+  it("reads what's installed", () => {
+    expect(parseInstalledItems('{"components":["button","card",1]}')).toEqual([
+      "button",
+      "card",
+    ])
+    expect(parseInstalledItems("{}")).toEqual([])
+  })
+
+  it("overwrites, or only looks", () => {
+    expect(buildUpgradeArgs(["button"], { cwd: "/w" })).toEqual([
+      "add",
+      "@fabricator/button",
+      "--overwrite",
+      "--yes",
+      "--cwd",
+      "/w",
+    ])
+    expect(buildUpgradeArgs(["button"], { cwd: "/w", dryRun: true })).toContain(
+      "--dry-run"
+    )
+  })
+})
 
 const INIT_URL =
   "https://fabricator-ui.vercel.app/init?base=base&preset=fabricator&template=next"

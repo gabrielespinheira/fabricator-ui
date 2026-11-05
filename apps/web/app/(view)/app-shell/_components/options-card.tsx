@@ -40,19 +40,22 @@ type SetOptions = (options: Partial<PlaygroundOptions> | null) => void
 
 function OptionChoice<T extends string>({
   label,
+  note,
   value,
   choices,
   disabled = false,
   onChange,
 }: {
   label: string
+  /** Where the option applies, when it isn't everywhere. */
+  note?: string
   value: T
   choices: ReadonlyArray<{ value: T; label: string }>
   disabled?: boolean
   onChange: (value: T) => void
 }) {
   return (
-    <SettingRow label={label}>
+    <SettingRow label={label} note={note}>
       <Segmented
         label={label}
         value={value}
@@ -66,18 +69,20 @@ function OptionChoice<T extends string>({
 
 export function OptionSwitch({
   label,
+  note,
   checked,
   disabled = false,
   onChange,
 }: {
   label: string
+  note?: string
   checked: boolean
   disabled?: boolean
   onChange: (checked: boolean) => void
 }) {
   const id = React.useId()
   return (
-    <SettingRow label={label} htmlFor={id}>
+    <SettingRow label={label} note={note} htmlFor={id}>
       <Switch
         id={id}
         checked={checked}
@@ -108,11 +113,16 @@ export function AppShellOptionFields({
   options,
   setOptions,
   hidden,
+  notes,
+  tabChoices = TAB_PLACEMENT_CHOICES,
 }: {
   options: PlaygroundOptions
   setOptions: SetOptions
   /** Options this shell can't honour. */
   hidden?: ReadonlySet<keyof PlaygroundOptions>
+  /** Where an option applies, when it isn't everywhere. */
+  notes?: Partial<Record<keyof PlaygroundOptions, string>>
+  tabChoices?: ReadonlyArray<(typeof TAB_PLACEMENT_CHOICES)[number]>
 }) {
   const isShown = (option: keyof PlaygroundOptions) => !hidden?.has(option)
   // Without a choice of runtime, the real window decides what applies.
@@ -133,17 +143,20 @@ export function AppShellOptionFields({
           choices={SIDEBAR_COLLAPSE_CHOICES}
           onChange={(collapse) => setOptions({ collapse })}
         />
-        <OptionChoice
-          label="Peek"
-          value={options.peek}
-          disabled={!isPeekAvailable(options)}
-          choices={[
-            { value: "none", label: "Off" },
-            { value: "hover", label: "Hover" },
-            { value: "click", label: "Click" },
-          ]}
-          onChange={(peek) => setOptions({ peek })}
-        />
+        {isShown("peek") && (
+          <OptionChoice
+            label="Peek"
+            note={notes?.peek}
+            value={options.peek}
+            disabled={!isPeekAvailable(options)}
+            choices={[
+              { value: "none", label: "Off" },
+              { value: "hover", label: "Hover" },
+              { value: "click", label: "Click" },
+            ]}
+            onChange={(peek) => setOptions({ peek })}
+          />
+        )}
         <OptionChoice
           label="On phones"
           value={options.mobileSidebar}
@@ -189,7 +202,7 @@ export function AppShellOptionFields({
           <OptionChoice
             label="Tabs"
             value={options.tabs}
-            choices={TAB_PLACEMENT_CHOICES}
+            choices={tabChoices}
             onChange={(tabs) => setOptions({ tabs })}
           />
           <OptionChoice
@@ -269,6 +282,7 @@ export function AppShellOptionFields({
               {isShown("glass") && (
                 <OptionSwitch
                   label="Glass sidebar"
+                  note={notes?.glass}
                   checked={options.glass}
                   disabled={isWindowOff}
                   onChange={(glass) => setOptions({ glass })}
@@ -389,21 +403,9 @@ function SettingsCard() {
       <CardContent className="@container">
         <SiteSettingsFields className="grid gap-x-10 @xl:grid-cols-2" />
       </CardContent>
-      <CardInstall
-        commands={buildSettingsCommands(settings, {
-          siteUrl: getFabricatorSiteUrl(),
-          packageManager,
-        })}
-      >
-        Run it in your project&apos;s root. In one that&apos;s already set up,
-        choose to apply the Fabricator theme.
-        {settings.sound && (
-          <>
-            {" "}
-            Then render <code>{"<SoundEffects />"}</code> once near the root of
-            your app.
-          </>
-        )}
+      <CardInstall commands={buildSettingsCommands(settings, packageManager)}>
+        Run it in your project&apos;s root: it adds the registry, applies this
+        look and wires in the sounds.
       </CardInstall>
     </Card>
   )

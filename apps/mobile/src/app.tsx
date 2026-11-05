@@ -14,17 +14,16 @@ import {
   type NavPreferences,
   type PanelState,
 } from "@fabricator-ui/app-shell-model"
+import { PlusIcon } from "@fabricator-ui/icons-react-native"
 import { StatusBar } from "expo-status-bar"
 import {
   ChevronRightIcon,
   GitBranchIcon,
-  PlusIcon,
   type LucideIcon,
 } from "lucide-react-native"
 import {
   Alert,
   Linking,
-  Pressable,
   ScrollView,
   StyleSheet,
   Text,
@@ -36,6 +35,8 @@ import {
   useSafeAreaInsets,
 } from "react-native-safe-area-context"
 
+import { SoundEffects } from "@/registry/native/components/sound-effects"
+import { Button } from "@/registry/native/ui/button"
 import { FabricatorRoot } from "@/registry/native/ui/fabricator-root"
 
 import {
@@ -58,7 +59,14 @@ import { Sidebar } from "./shell/sidebar"
 import { SidebarReveal } from "./shell/sidebar-reveal"
 import { SidebarToggleIcon } from "./shell/sidebar-toggle-icon"
 import { getTabBarClearance, TabBar } from "./shell/tab-bar"
-import { FONT, ThemeProvider, useStyles, useTheme, type Theme } from "./theme"
+import {
+  FONT,
+  ThemeProvider,
+  useStyles,
+  useTheme,
+  useThemeSettings,
+  type Theme,
+} from "./theme"
 
 // The Sidebar's and the panel's default widths on the website.
 const SIDEBAR_WIDTH = 256
@@ -198,50 +206,29 @@ function Breadcrumb({ crumbs }: { crumbs: string[] }) {
   )
 }
 
-/** The primary action in an iPad's header: size="sm", so always compact. */
+/** The primary action in an iPad's header. */
 function PrimaryButton() {
-  const theme = useTheme()
-  const styles = useStyles(buildStyles)
   return (
-    <Pressable
-      onPress={showNewTask}
-      accessibilityRole="button"
-      style={({ pressed }) => [
-        styles.primary,
-        pressed && styles.primaryPressed,
-      ]}
-    >
-      <PlusIcon
-        size={theme.compact.icon[16]}
-        color={theme.colors.primaryForeground}
-        strokeWidth={2}
-      />
-      <Text style={styles.primaryLabel}>New task</Text>
-    </Pressable>
+    <Button size="sm" onPress={showNewTask}>
+      <PlusIcon />
+      New task
+    </Button>
   )
 }
 
-/** The primary action on a phone, floating over the page: size="icon-lg". */
+/** The primary action on a phone, floating over the page. */
 function FloatingButton({ bottomInset }: { bottomInset: number }) {
   const theme = useTheme()
   const styles = useStyles(buildStyles)
   return (
-    <Pressable
-      onPress={showNewTask}
-      accessibilityRole="button"
+    <Button
+      size="icon-lg"
       accessibilityLabel="New task"
-      style={({ pressed }) => [
-        styles.fab,
-        { bottom: theme.space[16] + bottomInset },
-        pressed && styles.primaryPressed,
-      ]}
+      onPress={showNewTask}
+      style={[styles.fab, { bottom: theme.space[16] + bottomInset }]}
     >
-      <PlusIcon
-        size={theme.spacious.icon[16]}
-        color={theme.colors.primaryForeground}
-        strokeWidth={2}
-      />
-    </Pressable>
+      <PlusIcon />
+    </Button>
   )
 }
 
@@ -583,6 +570,11 @@ function Shell() {
   )
 }
 
+function SoundEffectsFromSettings() {
+  const { isSoundOn } = useThemeSettings()
+  return <SoundEffects enabled={isSoundOn} />
+}
+
 function ThemedStatusBar() {
   const theme = useTheme()
   return <StatusBar style={theme.isDark ? "light" : "dark"} />
@@ -594,6 +586,7 @@ export function App() {
       <FabricatorRoot>
         <ThemeProvider>
           <ThemedStatusBar />
+          <SoundEffectsFromSettings />
           <Shell />
         </ThemeProvider>
       </FabricatorRoot>
@@ -717,31 +710,10 @@ const buildStyles = (theme: Theme) =>
       fontFamily: FONT.medium,
       color: theme.colors.foreground,
     },
-    primary: {
-      height: theme.compact.space[36],
-      flexDirection: "row",
-      alignItems: "center",
-      gap: theme.compact.space[6],
-      paddingLeft: theme.compact.space[10],
-      paddingRight: theme.compact.space[12],
-      borderRadius: theme.radius.lg,
-      backgroundColor: theme.colors.primary,
-    },
-    primaryPressed: { opacity: 0.9 },
-    primaryLabel: {
-      fontFamily: FONT.medium,
-      fontSize: theme.compact.text[13],
-      color: theme.colors.primaryForeground,
-    },
     fab: {
       position: "absolute",
       right: theme.space[16],
-      width: theme.spacious.space[36],
-      height: theme.spacious.space[36],
       borderRadius: theme.spacious.space[36] / 2,
-      alignItems: "center",
-      justifyContent: "center",
-      backgroundColor: theme.colors.primary,
       boxShadow: theme.shadows.raised,
     },
     statusBar: {

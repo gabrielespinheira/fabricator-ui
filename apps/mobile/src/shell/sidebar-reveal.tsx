@@ -113,8 +113,11 @@ export function SidebarReveal({
   const openDrag = React.useMemo(
     () =>
       PanResponder.create({
-        onMoveShouldSetPanResponder: (_event, gesture) =>
-          gesture.x0 <= OPEN_EDGE &&
+        // `gesture.x0` is 0 until the responder is granted, so it can't say where
+        // the drag began: every rightward drag on the page would open the sidebar,
+        // cancelling sliders, tabs and anything else under the finger.
+        onMoveShouldSetPanResponder: (event, gesture) =>
+          event.nativeEvent.pageX - gesture.dx <= OPEN_EDGE &&
           gesture.dx > DRAG_SLOP &&
           Math.abs(gesture.dx) > Math.abs(gesture.dy),
         onPanResponderGrant: () => setIsAside(true),

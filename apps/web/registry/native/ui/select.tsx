@@ -3,6 +3,7 @@ import {
   CheckIcon,
   ChevronDownIcon,
   ChevronUpIcon,
+  IconProvider,
 } from "@fabricator-ui/icons-react-native"
 import { useControllableState } from "@rn-primitives/hooks"
 import * as PopoverPrimitive from "@rn-primitives/popover"
@@ -16,6 +17,15 @@ import {
 } from "react-native"
 import Animated from "react-native-reanimated"
 
+import { useFeedback, useMountFeedback } from "@/registry/native/lib/feedback"
+import {
+  FluidHoverArea,
+  FluidHoverHighlight,
+  FluidHoverProvider,
+  FluidHoverSelection,
+  useFluidHover,
+  useFluidRow,
+} from "@/registry/native/lib/fluid-hover"
 import { useSurfaceAnimation } from "@/registry/native/lib/motion"
 import {
   COLLISION_INSETS,
@@ -53,6 +63,11 @@ type SelectContextValue = {
 }
 
 const SelectContext = React.createContext<SelectContextValue | null>(null)
+
+// Where the selected row names itself: a value can be anything, a row's key can't.
+const SelectSelectedRowContext = React.createContext<
+  ((key: string | undefined) => void) | null
+>(null)
 
 function useSelect() {
   const context = React.use(SelectContext)
@@ -226,6 +241,61 @@ function SelectTrigger({
   )
 }
 
+// The primitive's portal renders this only while the popover is open.
+function SelectFeedback() {
+  useMountFeedback("popup")
+  return null
+}
+
+/**
+ * The list: FluidHoverScrollList's drag and its scroll view, with the selection
+ * sliding under the rows as on the website, which that list doesn't draw.
+ */
+function SelectList({
+  ScrollComponent = ScrollView,
+  onLayout,
+  onContentSizeChange,
+  children,
+  ...props
+}: React.ComponentProps<typeof ScrollView> & {
+  ScrollComponent?: React.ComponentType<React.ComponentProps<typeof ScrollView>>
+}) {
+  const [selected, setSelected] = React.useState<string>()
+  const [viewport, setViewport] = React.useState(0)
+  const [content, setContent] = React.useState(0)
+  const fluid = useFluidHover({
+    selected,
+    track: content > viewport + 1 ? "hold" : "drag",
+  })
+  return (
+    <ScrollComponent
+      alwaysBounceVertical={false}
+      keyboardShouldPersistTaps="handled"
+      onLayout={(event) => {
+        setViewport(event.nativeEvent.layout.height)
+        onLayout?.(event)
+      }}
+      onContentSizeChange={(width, height) => {
+        setContent(height)
+        onContentSizeChange?.(width, height)
+      }}
+      {...props}
+    >
+      <FluidHoverProvider fluid={fluid}>
+        <FluidHoverArea fluid={fluid}>
+          <View ref={fluid.attach} className="relative">
+            <FluidHoverSelection selection={fluid.selection} />
+            <FluidHoverHighlight hover={fluid.hover} />
+            <SelectSelectedRowContext value={setSelected}>
+              {children}
+            </SelectSelectedRowContext>
+          </View>
+        </FluidHoverArea>
+      </FluidHoverProvider>
+    </ScrollComponent>
+  )
+}
+
 function SelectContent({
   className,
   children,
@@ -243,7 +313,11 @@ function SelectContent({
 }) {
   const select = useSelect()
   const density = useDensity()
-  const { entering, exiting } = useSurfaceAnimation("popup")
+  const verticalSide = getVerticalSide(side)
+  const { entering, exiting, origin } = useSurfaceAnimation("popup", {
+    side: verticalSide,
+    align,
+  })
   const { width, height } = useWindowDimensions()
   const presentation = getSelectPresentation(width)
 
@@ -262,9 +336,9 @@ function SelectContent({
             <View className="cn-select-sheet-handle items-center">
               <View className="cn-select-sheet-handle-bar" />
             </View>
-            <SheetSurfaceScrollView role="list">
+            <SelectList ScrollComponent={SheetSurfaceScrollView} role="list">
               {renderTextChildren(children)}
-            </SheetSurfaceScrollView>
+            </SelectList>
           </TextStyle>
         </SelectContext>
       </SheetSurface>
@@ -276,7 +350,7 @@ function SelectContent({
       <DensityScope density={density}>
         <PopoverPrimitive.Overlay aria-modal className="absolute inset-0">
           <PopoverPrimitive.Content
-            side={getVerticalSide(side)}
+            side={verticalSide}
             sideOffset={sideOffset}
             align={align}
             alignOffset={alignOffset}
@@ -289,21 +363,21 @@ function SelectContent({
               data-align-trigger={alignItemWithTrigger}
               entering={entering}
               exiting={exiting}
+              style={origin}
               className={cn(
                 "cn-select-content cn-select-content-logical",
                 className
               )}
             >
+              <SelectFeedback />
               <SelectContext value={select}>
                 <TextStyle className="cn-select-text">
-                  <ScrollView
+                  <SelectList
                     role="list"
-                    alwaysBounceVertical={false}
-                    keyboardShouldPersistTaps="handled"
                     style={{ maxHeight: getMenuMaxHeight(height) }}
                   >
                     {renderTextChildren(children)}
-                  </ScrollView>
+                  </SelectList>
                 </TextStyle>
               </SelectContext>
             </Animated.View>
@@ -327,20 +401,27 @@ function SelectLabel({
   )
 }
 
-// A selected row reads foreground and semibold.
+// A selected row reads foreground and semibold; a lit one foreground, with a heavier icon.
 function SelectItemText({
   isSelected,
+  isLit,
   children,
 }: {
   isSelected: boolean
+  isLit: boolean
   children?: React.ReactNode
 }) {
-  if (!isSelected) {
-    return <TextStyle className="cn-select-item-label">{children}</TextStyle>
-  }
   return (
-    <TextStyle className="cn-select-item-label cn-select-item-label-selected">
-      {children}
+    <TextStyle
+      className={
+        isSelected
+          ? cn("cn-select-item-label cn-select-item-label-selected")
+          : isLit
+            ? cn("cn-select-item-label cn-select-item-label-lit")
+            : cn("cn-select-item-label")
+      }
+    >
+      <IconProvider strokeWidth={isLit ? 2 : 1.5}>{children}</IconProvider>
     </TextStyle>
   )
 }
@@ -353,23 +434,44 @@ function SelectItem({
   disabled,
   onPress,
   ...props
-}: Omit<React.ComponentProps<typeof Pressable>, "children"> & {
+}: Omit<React.ComponentProps<typeof Pressable>, "children" | "onPress"> & {
   value?: unknown
   /** What the trigger shows when the children aren't plain text. */
   label?: string
+  /** After a drag, letting go over the row runs this with no press to pass on. */
+  onPress?: (event?: GestureResponderEvent) => void
   children?: React.ReactNode
 }) {
   const { choose, multiple, registerLabel, value: current } = useSelect()
   const isSelected = isValueSelected(current, value, multiple)
   const text = label ?? getTextContent(children)
+  const feedback = useFeedback()
+  const setSelectedRow = React.use(SelectSelectedRowContext)
+  const { key, isLit, rowProps } = useFluidRow({
+    ...props,
+    disabled,
+    onActivate: () => {
+      feedback("pick")
+      choose(value)
+      onPress?.()
+    },
+  })
   React.useEffect(() => {
     registerLabel(value, text)
   }, [registerLabel, text, value])
+  // One selection slides between rows. With several chosen, each row fills itself.
+  const isSlidingSelection = isSelected && !multiple
+  React.useLayoutEffect(() => {
+    if (!isSlidingSelection) return
+    setSelectedRow?.(key)
+    return () => setSelectedRow?.(undefined)
+  }, [isSlidingSelection, key, setSelectedRow])
   return (
-    <SelectItemText isSelected={isSelected}>
+    <SelectItemText isSelected={isSelected} isLit={isLit}>
       <Pressable
         data-slot="select-item"
         data-selected={isSelected}
+        data-multiple={multiple}
         role="option"
         aria-selected={isSelected}
         aria-disabled={disabled ?? undefined}
@@ -379,10 +481,12 @@ function SelectItem({
           className
         )}
         onPress={(event: GestureResponderEvent) => {
+          feedback("pick")
           choose(value)
           onPress?.(event)
         }}
         {...props}
+        {...rowProps}
       >
         <View className="cn-select-item-text shrink flex-row items-center">
           {renderTextChildren(children)}

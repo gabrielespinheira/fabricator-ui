@@ -4,7 +4,7 @@
 import type { SiteIconLibrary, SiteSettings } from "@/lib/site-settings"
 import type { AppShellWindow } from "@/styles/base-fabricator/ui/app-shell"
 import {
-  buildSetupCommands,
+  buildSetupCommand,
   CLI,
   DEFAULT_SETUP,
   forPackageManager,
@@ -36,27 +36,27 @@ export function buildAppShellCommand(
 /** Sets a project up with these settings: the look, the icons and the sounds. */
 export function buildSettingsCommands(
   settings: SiteSettings,
-  context: CommandContext
+  packageManager: PackageManager
 ) {
-  return buildSetupCommands(
-    {
-      ...DEFAULT_SETUP,
-      appShell: false,
-      project: "existing",
-      sound: settings.sound,
-      iconLibrary: settings.iconLibrary,
-      look: {
-        surface: settings.surface,
-        colors: settings.colors,
-        radius: settings.radius,
-        motion: settings.motion,
-        density: settings.density,
+  return [
+    buildSetupCommand(
+      {
+        ...DEFAULT_SETUP,
+        appShell: false,
+        project: "existing",
+        sound: settings.sound,
+        iconLibrary: settings.iconLibrary,
+        look: {
+          surface: settings.surface,
+          colors: settings.colors,
+          radius: settings.radius,
+          motion: settings.motion,
+          density: settings.density,
+        },
       },
-    },
-    context
-  )
-    .filter((command) => command.language === "bash")
-    .map((command) => command.code)
+      packageManager
+    ),
+  ]
 }
 
 /** The Window option a real window stands for. */

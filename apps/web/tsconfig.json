@@ -34,6 +34,9 @@
       "@/registry/bases/*/lib/sounds": [
         "./registry/fabricator/shared/lib/sounds"
       ],
+      "@/registry/bases/*/lib/desktop-window": [
+        "./registry/fabricator/shared/lib/desktop-window"
+      ],
       "@/registry/bases/*/components/sound-effects": [
         "./registry/fabricator/shared/components/sound-effects"
       ],

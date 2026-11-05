@@ -5,6 +5,7 @@ import {
   ChevronRightIcon,
   ChevronUpIcon,
 } from "@fabricator-ui/icons-react-native"
+import { cva } from "class-variance-authority"
 import { cn } from "cn"
 import { View, type LayoutChangeEvent } from "react-native"
 import { Gesture, GestureDetector } from "react-native-gesture-handler"
@@ -29,6 +30,7 @@ import {
   getSlidesInView,
   type CarouselSnapOptions,
 } from "@/registry/native/lib/carousel-model"
+import { useFeedback } from "@/registry/native/lib/feedback"
 import { useMotion } from "@/registry/native/lib/motion"
 import { Button } from "@/registry/native/ui/button"
 import { renderTextChildren } from "@/registry/native/ui/text"
@@ -532,13 +534,18 @@ function CarouselItem({
   )
 }
 
+const carouselPreviousWashVariants = cva("cn-carousel-previous-wash")
+const carouselNextWashVariants = cva("cn-carousel-next-wash")
+
 function CarouselPrevious({
   className,
   variant = "outline",
   size = "icon-sm",
+  onPress,
   ...props
 }: React.ComponentProps<typeof Button>) {
   const { orientation, scrollPrev, canScrollPrev } = useCarousel()
+  const feedback = useFeedback()
 
   return (
     <Button
@@ -553,8 +560,14 @@ function CarouselPrevious({
           : "-top-12 left-1/2 ml-[calc(var(--density-36)/-2)]",
         className
       )}
+      washClassName={carouselPreviousWashVariants()}
       disabled={!canScrollPrev}
-      onPress={scrollPrev}
+      onPress={(event) => {
+        // Button's own sound waits a frame, so this one takes its place.
+        feedback("whisk", { pitch: 0.92 })
+        if (onPress) onPress(event)
+        else scrollPrev()
+      }}
       {...props}
     >
       {orientation === "horizontal" ? (
@@ -570,9 +583,11 @@ function CarouselNext({
   className,
   variant = "outline",
   size = "icon-sm",
+  onPress,
   ...props
 }: React.ComponentProps<typeof Button>) {
   const { orientation, scrollNext, canScrollNext } = useCarousel()
+  const feedback = useFeedback()
 
   return (
     <Button
@@ -587,8 +602,14 @@ function CarouselNext({
           : "-bottom-12 left-1/2 ml-[calc(var(--density-36)/-2)]",
         className
       )}
+      washClassName={carouselNextWashVariants()}
       disabled={!canScrollNext}
-      onPress={scrollNext}
+      onPress={(event) => {
+        // Button's own sound waits a frame, so this one takes its place.
+        feedback("whisk", { pitch: 1.08 })
+        if (onPress) onPress(event)
+        else scrollNext()
+      }}
       {...props}
     >
       {orientation === "horizontal" ? (

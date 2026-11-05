@@ -27,6 +27,11 @@ import { Button } from "@/components/ui/button"
 ))}
 ```
 
+## Composition
+
+- `Button`
+- `ButtonJoinedContext`
+
 ## Examples
 
 ```tsx showLineNumbers title="button-example.tsx"
@@ -105,6 +110,8 @@ export { ButtonExample }
 | --- | --- |
 | `variant` | `default`, `destructive`, `ghost`, `link`, `outline`, `secondary` |
 | `size` | `default`, `icon`, `icon-lg`, `icon-sm`, `icon-xs`, `lg`, `sm`, `xs` |
+
+Props it adds to what it wraps: `"data-group-item"`, `"data-size"`, `"data-sound"`, `washClassName`.
 
 ## Differences from web
 

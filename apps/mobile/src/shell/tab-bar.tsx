@@ -18,6 +18,9 @@ import {
   type ViewStyle,
 } from "react-native"
 
+import { noteStep } from "@/registry/fabricator/shared/lib/sound-recipes"
+import { useFeedback } from "@/registry/native/lib/feedback"
+
 import {
   FONT,
   useReducedMotion,
@@ -119,6 +122,7 @@ export function TabBar({
 }) {
   const theme = useTheme()
   const styles = useStyles(buildStyles)
+  const feedback = useFeedback()
   const [trackWidth, setTrackWidth] = React.useState(0)
   const items = getMobileTabItems(groups)
   const isFlat = style === "flat"
@@ -129,13 +133,16 @@ export function TabBar({
         ? theme.colors.mutedOnFrame
         : theme.colors.muted
 
-  const tabs = items.map((item) => {
+  const tabs = items.map((item, index) => {
     const isActive = containsNavItem(item, activeId)
     const Icon = item.icon
     return (
       <Pressable
         key={item.id}
-        onPress={() => onNavigate(item)}
+        onPress={() => {
+          if (!isActive) feedback("note", { pitch: noteStep(index) })
+          onNavigate(item)
+        }}
         accessibilityRole="button"
         accessibilityState={{ selected: isActive }}
         style={({ pressed }) => [

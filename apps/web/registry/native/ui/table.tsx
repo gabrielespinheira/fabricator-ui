@@ -8,6 +8,12 @@ import {
 } from "react-native"
 
 import {
+  FluidHoverHighlight,
+  FluidHoverProvider,
+  useFluidHover,
+  useFluidRow,
+} from "@/registry/native/lib/fluid-hover"
+import {
   getCellColumns,
   getSpanWidth,
   pickTextClasses,
@@ -28,8 +34,16 @@ const TableContext = React.createContext<{
 type TableSection = "header" | "body" | "footer"
 
 const TableSectionContext = React.createContext<TableSection>("body")
-const TableRowPositionContext = React.createContext({ isLast: false })
+const TableRowPositionContext = React.createContext<{
+  isLast: boolean
+  /** The row's key in the table's Fluid Hover. */
+  itemKey?: string
+  /** The row under this one is lit, so this one's divider gives way. */
+  isBeforeLit?: boolean
+}>({ isLast: false })
 const TableColumnContext = React.createContext(0)
+const TableLitContext = React.createContext<string | null>(null)
+const TableRowLitContext = React.createContext(false)
 
 function useCell(
   colSpan: number,
@@ -71,6 +85,8 @@ function Table({
     }),
     [widths]
   )
+  // Tables sit in pages that scroll, so a drag stays the page's.
+  const fluid = useFluidHover()
 
   // A caption sits under the table wherever it's written, as `caption-bottom`
   // puts it on the website, and doesn't scroll with the columns.
@@ -90,12 +106,21 @@ function Table({
         >
           <TextStyle className="cn-table-text">
             <View
+              ref={fluid.attach}
               data-slot="table"
               role="table"
-              className={cn("cn-table grow", className)}
+              className={cn("cn-table relative grow", className)}
               {...props}
             >
-              {parts.filter((part) => !isCaption(part))}
+              <FluidHoverHighlight
+                hover={fluid.hover}
+                className="cn-table-highlight"
+              />
+              <FluidHoverProvider fluid={fluid}>
+                <TableLitContext value={fluid.lit}>
+                  {parts.filter((part) => !isCaption(part))}
+                </TableLitContext>
+              </FluidHoverProvider>
             </View>
           </TextStyle>
         </ScrollView>
@@ -129,6 +154,8 @@ function TableBody({
   ...props
 }: React.ComponentProps<typeof View>) {
   const rows = React.Children.toArray(children)
+  const id = React.useId()
+  const lit = React.use(TableLitContext)
   return (
     <TableSectionContext value="body">
       <View
@@ -140,7 +167,11 @@ function TableBody({
         {rows.map((row, index) => (
           <TableRowPositionContext
             key={React.isValidElement(row) ? row.key : index}
-            value={index === rows.length - 1 ? LAST_ROW : OTHER_ROW}
+            value={{
+              isLast: index === rows.length - 1,
+              itemKey: `${id}-${index}`,
+              isBeforeLit: lit === `${id}-${index + 1}`,
+            }}
           >
             {row}
           </TableRowPositionContext>
@@ -149,9 +180,6 @@ function TableBody({
     </TableSectionContext>
   )
 }
-
-const LAST_ROW = { isLast: true }
-const OTHER_ROW = { isLast: false }
 
 function TableFooter({
   className,
@@ -172,7 +200,13 @@ function TableFooter({
 function TableRow({
   className,
   children,
+  disabled,
   onPress,
+  onPressIn,
+  onPressOut,
+  onHoverIn,
+  onHoverOut,
+  onLayout,
   "aria-expanded": isExpanded,
   ...props
 }: Omit<React.ComponentProps<typeof Pressable>, "children"> & {
@@ -180,7 +214,17 @@ function TableRow({
   "aria-expanded"?: boolean
 }) {
   const section = React.use(TableSectionContext)
-  const { isLast } = React.use(TableRowPositionContext)
+  const { isLast, itemKey, isBeforeLit } = React.use(TableRowPositionContext)
+  // Only body rows light: the header and footer switch it off, as on the website.
+  const { isLit, rowProps } = useFluidRow({
+    itemKey,
+    disabled: section !== "body" || disabled,
+    onLayout,
+    onPressIn,
+    onPressOut,
+    onHoverIn,
+    onHoverOut,
+  })
   const cells = React.Children.toArray(children)
   const columns = getCellColumns(
     cells.map((cell) =>
@@ -195,26 +239,32 @@ function TableRow({
       data-section={section}
       data-last={isLast}
       data-expanded={Boolean(isExpanded)}
+      data-lit={isLit}
+      data-before-lit={Boolean(isBeforeLit)}
       role="row"
       aria-expanded={isExpanded}
       // Only a row that does something reads as one element to a screen reader:
       // otherwise its cells, and anything in them, stay reachable one by one.
       accessible={Boolean(onPress)}
+      disabled={disabled}
       onPress={onPress}
       className={cn(
-        "cn-table-row cn-table-highlight flex-row data-[expanded=true]:bg-muted/50",
+        "cn-table-row flex-row data-[expanded=true]:bg-muted/50",
         className
       )}
+      {...rowProps}
       {...props}
     >
-      {cells.map((cell, index) => (
-        <TableColumnContext
-          key={React.isValidElement(cell) ? cell.key : index}
-          value={columns[index] ?? index}
-        >
-          {cell}
-        </TableColumnContext>
-      ))}
+      <TableRowLitContext value={isLit}>
+        {cells.map((cell, index) => (
+          <TableColumnContext
+            key={React.isValidElement(cell) ? cell.key : index}
+            value={columns[index] ?? index}
+          >
+            {cell}
+          </TableColumnContext>
+        ))}
+      </TableRowLitContext>
     </Pressable>
   )
 }
@@ -255,6 +305,7 @@ function TableCell({
   ...props
 }: React.ComponentProps<typeof View> & { colSpan?: number }) {
   const section = React.use(TableSectionContext)
+  const isLit = React.use(TableRowLitContext)
   const cell = useCell(colSpan, onLayout)
   const textClasses = pickTextClasses(className)
   return (
@@ -270,7 +321,9 @@ function TableCell({
         className={
           section === "footer"
             ? cn("cn-table-cell-text-footer", textClasses)
-            : cn("cn-table-cell-text", textClasses)
+            : isLit
+              ? cn("cn-table-cell-text-lit", textClasses)
+              : cn("cn-table-cell-text", textClasses)
         }
       >
         {renderTextChildren(children)}

@@ -8,9 +8,12 @@ import { View } from "react-native"
 
 import { useFeedback } from "@/registry/native/lib/feedback"
 import {
+  FluidHoverArea,
   FluidHoverHighlight,
+  FluidHoverProvider,
   FluidHoverSelection,
   useFluidHover,
+  useFluidRow,
 } from "@/registry/native/lib/fluid-hover"
 import { renderTextChildren, TextStyle } from "@/registry/native/ui/text"
 
@@ -18,10 +21,7 @@ type TabsOrientation = "horizontal" | "vertical"
 
 const TabsContext = React.createContext<TabsOrientation>("horizontal")
 
-const TabsListContext = React.createContext<{
-  getItemProps?: ReturnType<typeof useFluidHover>["getItemProps"]
-  variant: "default" | "line"
-}>({ variant: "default" })
+const TabsListContext = React.createContext<"default" | "line">("default")
 
 function Tabs({
   className,
@@ -87,38 +87,45 @@ function TabsList({
   const { value } = TabsPrimitive.useRootContext()
   const orientation = React.use(TabsContext)
   const resolvedVariant = variant ?? "default"
-  const fluid = useFluidHover({ selected: value })
-  const context = React.useMemo(
-    () => ({ getItemProps: fluid.getItemProps, variant: resolvedVariant }),
-    [fluid.getItemProps, resolvedVariant]
-  )
+  // Dragging across the tabs moves the highlight; letting go selects, as a
+  // segmented control does.
+  const fluid = useFluidHover({
+    selected: value,
+    axis: orientation === "vertical" ? "y" : "x",
+    track: orientation === "vertical" ? "hold" : "drag",
+  })
   return (
-    <TabsPrimitive.List
-      data-slot="tabs-list"
-      data-variant={resolvedVariant}
-      data-orientation={orientation}
-      className={cn(tabsListVariants({ variant }), className)}
-      {...props}
-    >
-      <FluidHoverSelection
-        data-variant={resolvedVariant}
-        selection={fluid.selection}
-        className="cn-tabs-selection"
-      >
-        {resolvedVariant === "line" ? (
-          <View
-            data-orientation={orientation}
-            className="cn-tabs-selection-line absolute"
+    <FluidHoverProvider fluid={fluid}>
+      <FluidHoverArea fluid={fluid}>
+        <TabsPrimitive.List
+          ref={fluid.attach}
+          data-slot="tabs-list"
+          data-variant={resolvedVariant}
+          data-orientation={orientation}
+          className={cn(tabsListVariants({ variant }), className)}
+          {...props}
+        >
+          <FluidHoverSelection
+            data-variant={resolvedVariant}
+            selection={fluid.selection}
+            className="cn-tabs-selection"
+          >
+            {resolvedVariant === "line" ? (
+              <View
+                data-orientation={orientation}
+                className="cn-tabs-selection-line absolute"
+              />
+            ) : null}
+          </FluidHoverSelection>
+          <FluidHoverHighlight
+            data-variant={resolvedVariant}
+            hover={fluid.hover}
+            className="cn-tabs-highlight"
           />
-        ) : null}
-      </FluidHoverSelection>
-      <FluidHoverHighlight
-        data-variant={resolvedVariant}
-        hover={fluid.hover}
-        className="cn-tabs-highlight"
-      />
-      <TabsListContext value={context}>{children}</TabsListContext>
-    </TabsPrimitive.List>
+          <TabsListContext value={resolvedVariant}>{children}</TabsListContext>
+        </TabsPrimitive.List>
+      </FluidHoverArea>
+    </FluidHoverProvider>
   )
 }
 
@@ -136,12 +143,24 @@ function TabsTrigger({
 }: Omit<TabsPrimitive.TriggerProps, "children"> & {
   children?: React.ReactNode
 }) {
-  const { value: selected } = TabsPrimitive.useRootContext()
+  const { value: selected, onValueChange } = TabsPrimitive.useRootContext()
   const orientation = React.use(TabsContext)
-  const { getItemProps, variant } = React.use(TabsListContext)
+  const variant = React.use(TabsListContext)
   const feedback = useFeedback()
   const isActive = selected === value
-  const fluid = getItemProps?.(value)
+  const { rowProps } = useFluidRow({
+    itemKey: value,
+    disabled: props.disabled,
+    onActivate: () => {
+      if (!isActive) feedback("note")
+      onValueChange(value)
+    },
+    onLayout,
+    onPressIn,
+    onPressOut,
+    onHoverIn,
+    onHoverOut,
+  })
   const trigger = (
     <TabsPrimitive.Trigger
       data-slot="tabs-trigger"
@@ -159,26 +178,7 @@ function TabsTrigger({
         if (!isActive) feedback("note")
         onPress?.(event)
       }}
-      onLayout={(event) => {
-        fluid?.onLayout(event)
-        onLayout?.(event)
-      }}
-      onPressIn={(event) => {
-        fluid?.onPressIn()
-        onPressIn?.(event)
-      }}
-      onPressOut={(event) => {
-        fluid?.onPressOut()
-        onPressOut?.(event)
-      }}
-      onHoverIn={(event) => {
-        fluid?.onHoverIn()
-        onHoverIn?.(event)
-      }}
-      onHoverOut={(event) => {
-        fluid?.onHoverOut()
-        onHoverOut?.(event)
-      }}
+      {...rowProps}
       {...props}
     >
       {renderTextChildren(children)}

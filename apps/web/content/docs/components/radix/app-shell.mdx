@@ -349,6 +349,14 @@ The `window` prop tells the shell where the native window controls are. The shel
 
 The inset sidebar with off-canvas collapse matches a macOS app best: an icon rail is narrower than the traffic lights.
 
+A project created with `--desktop` finds its window at runtime, so one layout serves a browser and a desktop app. `useDesktopWindow` comes with the `desktop-window` item, which reads Electron's preload bridge and Tauri's internals:
+
+```tsx
+const { shellWindow } = useDesktopWindow({ hasTitlebar: false })
+
+<AppShell window={shellWindow} storage={createLocalStorage()}>
+```
+
 **Electron.** Hide the title bar, keep the native controls, and put a material behind the page:
 
 ```js title="main.js"

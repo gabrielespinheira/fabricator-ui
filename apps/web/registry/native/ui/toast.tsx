@@ -21,8 +21,10 @@ import Animated, {
   withTiming,
 } from "react-native-reanimated"
 
+import { useFeedback } from "@/registry/native/lib/feedback"
 import { useMotion, useSurfaceAnimation } from "@/registry/native/lib/motion"
 import { renderSlot, type RenderProps } from "@/registry/native/lib/render"
+import { getToastFeedback } from "@/registry/native/lib/toast-model"
 import {
   createToastStore,
   getToastStack,
@@ -102,9 +104,11 @@ function ToastPortal({
   const manager = useToastStore()
   const density = useDensity()
   const name = React.useId()
+  // The host lists its portals by position: without a key, a dialog closing under
+  // this one would remount every toast, and each would chime again.
   return (
     <Portal name={name}>
-      <ToastManagerContext value={manager}>
+      <ToastManagerContext key={name} value={manager}>
         <DensityScope density={density}>
           <View
             data-slot="toast-portal"
@@ -135,11 +139,14 @@ const ToastStackContext = React.createContext<{
   entries: ReadonlyMap<string, StackEntry>
   canExpand: boolean
   isExpanded: boolean
+  /** Opened by a press, which pauses the timers until it closes again. */
+  isOpened: boolean
   toggleExpanded: () => void
 }>({
   entries: new Map(),
   canExpand: false,
   isExpanded: false,
+  isOpened: false,
   toggleExpanded: () => {},
 })
 
@@ -191,9 +198,10 @@ function ToastViewport({
       ),
       canExpand,
       isExpanded,
+      isOpened,
       toggleExpanded: () => setIsOpened((current) => !current),
     }
-  }, [canExpand, gap, isExpanded, manager, peek, toasts])
+  }, [canExpand, gap, isExpanded, isOpened, manager, peek, toasts])
 
   return (
     <ToastStackContext value={stack}>
@@ -238,38 +246,78 @@ function Toast({
   swipeDirection?: readonly SwipeDirection[]
 }) {
   const manager = useToastStore()
-  const { entries, canExpand, toggleExpanded, isExpanded } =
+  const { entries, canExpand, toggleExpanded, isOpened } =
     React.use(ToastStackContext)
   const entry = entries.get(item.id) ?? FRONT
   const motion = useMotion("toast")
+  const resize = useMotion("feedback")
   const { entering, exiting } = useSurfaceAnimation("toast", {
     scale: 1,
     translateY: -24,
   })
+  const feedback = useFeedback()
 
+  // Behind, it's cut to the height of the one in front; otherwise it has its own.
+  const height = entry.height ?? item.height
+  const stackHeight = useSharedValue(height)
   const stackY = useSharedValue(entry.translateY)
   const stackScale = useSharedValue(entry.scale)
   const stackOpacity = useSharedValue(entry.opacity)
   const swipeX = useSharedValue(0)
   const swipeY = useSharedValue(0)
 
+  // Once per type: a loading toast plays as it settles, and an update that keeps
+  // its type stays quiet.
+  React.useEffect(() => {
+    const sound = getToastFeedback(item.type)
+    if (sound) feedback(sound)
+  }, [feedback, item.type])
+
+  // As on the website: position and opacity on the toast's timing.
   React.useEffect(() => {
     const timing = { duration: motion.enterMs, easing: motion.enterEasing }
+    stackOpacity.value = withTiming(entry.opacity, timing)
+    if (motion.isReduced) {
+      stackY.value = entry.translateY
+      stackScale.value = entry.scale
+      return
+    }
     stackY.value = withTiming(entry.translateY, timing)
     stackScale.value = withTiming(entry.scale, timing)
-    stackOpacity.value = withTiming(entry.opacity, timing)
   }, [
     entry.opacity,
     entry.scale,
     entry.translateY,
     motion.enterEasing,
     motion.enterMs,
+    motion.isReduced,
     stackOpacity,
     stackScale,
     stackY,
   ])
 
+  // And height on the feedback timing. Its first height is the one it already
+  // has on screen, so that takes no animation.
+  React.useEffect(() => {
+    if (height === undefined) return
+    if (stackHeight.value === undefined || resize.isReduced) {
+      stackHeight.value = height
+      return
+    }
+    stackHeight.value = withTiming(height, {
+      duration: resize.enterMs,
+      easing: resize.feedbackEasing,
+    })
+  }, [
+    height,
+    resize.enterMs,
+    resize.feedbackEasing,
+    resize.isReduced,
+    stackHeight,
+  ])
+
   const stackStyle = useAnimatedStyle(() => ({
+    ...(stackHeight.value === undefined ? {} : { height: stackHeight.value }),
     opacity: stackOpacity.value,
     transform: [
       { translateX: swipeX.value },
@@ -278,9 +326,10 @@ function Toast({
     ],
   }))
 
-  const { close, pause, resume } = manager
+  const { close, pause, resume, setHeight } = manager
   const pan = React.useMemo(() => {
     const exit = { duration: motion.exitMs, easing: motion.exitEasing }
+    const { isReduced } = motion
     const allowsX = (delta: number) => {
       "worklet"
       return swipeDirection.includes(delta < 0 ? "left" : "right")
@@ -316,7 +365,10 @@ function Toast({
           allowsY(event.translationY) &&
           (Math.abs(event.translationY) > SWIPE_DISTANCE ||
             Math.abs(event.velocityY) > SWIPE_VELOCITY)
-        if (leavesX) {
+        if (isReduced && (leavesX || leavesY)) {
+          // Reduce Motion keeps the fade and drops the travel.
+          stackOpacity.value = withTiming(0, exit, closeToast)
+        } else if (leavesX) {
           swipeX.value = withTiming(
             Math.sign(event.translationX) * OFF_SCREEN,
             exit,
@@ -334,16 +386,18 @@ function Toast({
         }
       })
       .onFinalize(() => {
-        if (!isExpanded) runOnJS(resume)()
+        if (!isOpened) runOnJS(resume)()
       })
   }, [
     close,
-    isExpanded,
+    isOpened,
     item.id,
     motion.exitEasing,
     motion.exitMs,
+    motion.isReduced,
     pause,
     resume,
+    stackOpacity,
     swipeDirection,
     swipeX,
     swipeY,
@@ -383,11 +437,7 @@ function Toast({
             aria-hidden={entry.isBehind}
             pointerEvents={item.limited ? "none" : "auto"}
             className={cn("cn-toast w-full overflow-hidden", className)}
-            style={[
-              entry.height === undefined ? undefined : { height: entry.height },
-              stackStyle,
-              style,
-            ]}
+            style={[stackStyle, style]}
             {...props}
           >
             <TextStyle className="cn-toast-text">
@@ -395,6 +445,10 @@ function Toast({
                 accessible={false}
                 disabled={!canExpand}
                 onPress={toggleExpanded}
+                // Its content's own height, however far the toast is cut.
+                onLayout={(event) =>
+                  setHeight(item.id, event.nativeEvent.layout.height)
+                }
               >
                 {renderTextChildren(children)}
               </Pressable>
@@ -409,30 +463,33 @@ function Toast({
 function ToastContent({
   className,
   children,
-  onLayout,
+  style,
   ...props
 }: React.ComponentProps<typeof View>) {
-  const manager = useToastStore()
-  const context = React.use(ToastContext)
+  const isBehind = React.use(ToastContext)?.isBehind ?? false
+  // The website fades a toast's content over 250ms, which is the move timing.
+  const motion = useMotion("move")
+  const fade = useSharedValue(isBehind ? 0 : 1)
+  React.useEffect(() => {
+    fade.value = withTiming(isBehind ? 0 : 1, {
+      duration: motion.enterMs,
+      easing: motion.enterEasing,
+    })
+  }, [fade, isBehind, motion.enterEasing, motion.enterMs])
+  const fadeStyle = useAnimatedStyle(() => ({ opacity: fade.value }))
   return (
-    <View
+    <Animated.View
       data-slot="toast-content"
-      data-behind={context?.isBehind ?? false}
-      // Its own height: a toast behind is cut to the height of the one in front.
-      onLayout={(event) => {
-        if (context) {
-          manager.setHeight(context.item.id, event.nativeEvent.layout.height)
-        }
-        onLayout?.(event)
-      }}
+      data-behind={isBehind}
       className={cn(
-        "flex-row items-center gap-3 overflow-hidden p-4 data-[behind=true]:opacity-0",
+        "flex-row items-center gap-3 overflow-hidden p-4",
         className
       )}
+      style={[fadeStyle, style]}
       {...props}
     >
       {renderTextChildren(children)}
-    </View>
+    </Animated.View>
   )
 }
 

@@ -18,6 +18,7 @@ import {
   TextCursorInputIcon,
 } from "@/lib/site-icons"
 import { usePackageManager } from "@/hooks/use-package-manager"
+import { useDesktopWindow } from "@/registry/fabricator/shared/hooks/use-desktop-window"
 import {
   getActiveNavItem,
   getNavPath,
@@ -60,7 +61,6 @@ import {
   explorerParsers,
   getHiddenExplorerOptions,
 } from "../_lib/explorer-options"
-import { useDesktopWindow } from "../_lib/use-desktop-window"
 import { CliCommand } from "../../app-shell/_components/cli-command"
 import { OptionShell } from "../../app-shell/_components/option-shell"
 import { SetupCards } from "../../app-shell/_components/options-card"

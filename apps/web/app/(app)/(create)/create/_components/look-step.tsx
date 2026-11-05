@@ -11,7 +11,13 @@ const LINK_CLASS =
  * The Make it yours settings. They are the site's own, so the whole site,
  * the App Shell preview included, follows them.
  */
-export function LookControls({ onNext }: { onNext: () => void }) {
+export function LookControls({
+  onBack,
+  onNext,
+}: {
+  onBack: () => void
+  onNext: () => void
+}) {
   return (
     <div className="flex flex-col gap-4">
       <p className="text-[13px] leading-relaxed text-muted-foreground">
@@ -28,7 +34,7 @@ export function LookControls({ onNext }: { onNext: () => void }) {
         </Link>
         . They carry over here.
       </p>
-      <StepFooter onNext={onNext} nextLabel="Next: App Shell" />
+      <StepFooter onBack={onBack} onNext={onNext} nextLabel="Next: App Shell" />
     </div>
   )
 }

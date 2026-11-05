@@ -6,12 +6,24 @@ import {
   createShellOptionsMessage,
   getShellPreviewQuery,
   isShellPreviewReady,
-  loadShellPreviewOptions,
+  loadShellPreviewOptions as loadWithRuntime,
   readShellOptionsMessage,
   SHELL_PREVIEW_READY,
 } from "./shell-preview"
 
+/** The options alone; the runtime has its own test. */
+function loadShellPreviewOptions(query: string) {
+  const { desktop: _desktop, ...options } = loadWithRuntime(query)
+  return options
+}
+
 describe("the preview's address", () => {
+  it("carries the desktop runtime", () => {
+    const query = getShellPreviewQuery(DEFAULT_PLAYGROUND_OPTIONS, "tauri")
+    expect(query).toBe("?desktop=tauri")
+    expect(loadWithRuntime(query).desktop).toBe("tauri")
+  })
+
   it("is empty for the default options", () => {
     expect(getShellPreviewQuery(DEFAULT_PLAYGROUND_OPTIONS)).toBe("")
   })

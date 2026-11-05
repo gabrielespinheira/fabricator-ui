@@ -1,11 +1,10 @@
 import * as React from "react"
 import {
-  ChevronDownIcon,
   MonitorIcon,
   MoonIcon,
   SunIcon,
-  type LucideIcon,
-} from "lucide-react-native"
+} from "@fabricator-ui/icons-react-native"
+import { ChevronDownIcon } from "lucide-react-native"
 import { Pressable, StyleSheet, Text, View, type ViewStyle } from "react-native"
 
 import { roleToHex, sameRoleColor } from "@/registry/fabricator/color-roles"
@@ -18,6 +17,8 @@ import {
   SURFACE_PRESETS,
 } from "@/registry/fabricator/look-presets"
 import { sameTint, tintToHex } from "@/registry/fabricator/surface-tint"
+import { DensityScope } from "@/registry/native/ui/density"
+import { Tabs, TabsList, TabsTrigger } from "@/registry/native/ui/tabs"
 
 import { showActionMenu, type MenuButton } from "./shell/action-menu"
 import { OptionCard } from "./shell/option-card"
@@ -27,27 +28,26 @@ import {
   useTheme,
   useThemeSettings,
   type Theme,
-  type ThemeChoice,
 } from "./theme"
 
 // The website's settings rows keep their size at every density.
 const ROW_HEIGHT = 40
 const ROW_TEXT = 13
-const SEGMENT_WIDTH = 34
 const SWATCH_SIZE = 12
 
 /** Reaches the rest of the row and the room above and below the 28pt button. */
 const SELECT_HIT_SLOP = { top: 6, bottom: 6, left: 48, right: 8 }
 
-const THEME_OPTIONS: {
-  value: ThemeChoice
-  label: string
-  icon: LucideIcon
-}[] = [
+const SOUND_OPTIONS = [
+  { value: true, label: "On" },
+  { value: false, label: "Off" },
+] as const
+
+const THEME_OPTIONS = [
   { value: "light", label: "Light", icon: SunIcon },
   { value: "system", label: "System", icon: MonitorIcon },
   { value: "dark", label: "Dark", icon: MoonIcon },
-]
+] as const
 
 function SettingRow({
   label,
@@ -65,34 +65,34 @@ function SettingRow({
   )
 }
 
-/** Icon buttons in a pill: the theme. */
+/** Icon tabs on a track: the theme. */
 function ThemeSegmented() {
-  const theme = useTheme()
-  const styles = useStyles(buildStyles)
   const { themeChoice, setThemeChoice } = useThemeSettings()
   return (
-    <View accessibilityRole="tabbar" style={styles.track}>
-      {THEME_OPTIONS.map((option) => {
-        const isActive = option.value === themeChoice
-        const Icon = option.icon
-        return (
-          <Pressable
-            key={option.value}
-            onPress={() => setThemeChoice(option.value)}
-            accessibilityRole="button"
-            accessibilityLabel={`Theme: ${option.label}`}
-            accessibilityState={{ selected: isActive }}
-            style={[styles.segment, isActive && styles.segmentActive]}
-          >
-            <Icon
-              size={theme.compact.icon[16]}
-              strokeWidth={isActive ? 2 : 1.5}
-              color={isActive ? theme.colors.foreground : theme.colors.muted}
-            />
-          </Pressable>
-        )
-      })}
-    </View>
+    <Tabs
+      value={themeChoice}
+      onValueChange={(next) => {
+        const picked = THEME_OPTIONS.find((option) => option.value === next)
+        if (picked) setThemeChoice(picked.value)
+      }}
+    >
+      <DensityScope density="compact">
+        <TabsList accessibilityLabel="Theme">
+          {THEME_OPTIONS.map((option) => {
+            const Icon = option.icon
+            return (
+              <TabsTrigger
+                key={option.value}
+                value={option.value}
+                accessibilityLabel={`Theme: ${option.label}`}
+              >
+                <Icon />
+              </TabsTrigger>
+            )
+          })}
+        </TabsList>
+      </DensityScope>
+    </Tabs>
   )
 }
 
@@ -150,12 +150,12 @@ function SettingSelect<Option extends { label: string }>({
 
 /**
  * The website's settings menu, for this app: the same choices in the same
- * order, drawn with the same tokens. Sound and Icons stay on the web: the app
- * has no audio engine and ships one icon library. A link
- * (fabricator-ui://look?surface=220_0.035&shape=pill) sets the look at once.
+ * order, drawn with the same tokens. Icons stay on the web: the app ships one
+ * icon library. A link (fabricator-ui://look?surface=220_0.035&shape=pill) sets
+ * the look at once.
  */
 export function SettingsCard({ style }: { style?: ViewStyle }) {
-  const { look, setLook } = useThemeSettings()
+  const { look, setLook, isSoundOn, setIsSoundOn } = useThemeSettings()
   const change = (next: Partial<FabricatorLook>) =>
     setLook({ ...look, ...next })
   const surface = SURFACE_PRESETS.find((preset) =>
@@ -173,6 +173,14 @@ export function SettingsCard({ style }: { style?: ViewStyle }) {
     >
       <SettingRow label="Theme">
         <ThemeSegmented />
+      </SettingRow>
+      <SettingRow label="Sound">
+        <SettingSelect
+          label="Sound"
+          options={SOUND_OPTIONS}
+          value={isSoundOn ? "On" : "Off"}
+          onChange={(option) => setIsSoundOn(option.value)}
+        />
       </SettingRow>
       <SettingRow label="Radius">
         <SettingSelect
@@ -245,21 +253,6 @@ const buildStyles = (theme: Theme) =>
       fontSize: ROW_TEXT,
       color: theme.colors.muted,
     },
-    track: {
-      flexDirection: "row",
-      gap: 2,
-      padding: 2,
-      borderRadius: theme.radius.lg,
-      backgroundColor: theme.colors.segmentedTrack,
-    },
-    segment: {
-      width: SEGMENT_WIDTH,
-      height: theme.compact.space[36],
-      borderRadius: theme.radius.md,
-      alignItems: "center",
-      justifyContent: "center",
-    },
-    segmentActive: { backgroundColor: theme.colors.active },
     select: {
       height: theme.compact.space[36],
       flexDirection: "row",

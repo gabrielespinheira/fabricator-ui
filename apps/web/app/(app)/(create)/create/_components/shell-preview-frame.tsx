@@ -9,7 +9,10 @@ import {
   isShellPreviewReady,
   SHELL_PREVIEW_PATH,
 } from "@/app/(app)/(create)/lib/shell-preview"
-import type { PlaygroundOptions } from "@/app/(view)/app-shell/_lib/options"
+import type {
+  PlaygroundOptions,
+  PreviewSize,
+} from "@/app/(view)/app-shell/_lib/options"
 
 /**
  * The real App Shell, in a frame of its own: its width decides between the
@@ -19,13 +22,18 @@ import type { PlaygroundOptions } from "@/app/(view)/app-shell/_lib/options"
  */
 export function ShellPreviewFrame({
   options,
+  size = "browser",
+  desktop = null,
   className,
 }: {
   options: PlaygroundOptions
+  size?: PreviewSize
+  /** The project's desktop runtime, which changes what its window draws. */
+  desktop?: "electron" | "tauri" | null
   className?: string
 }) {
   const frame = React.useRef<HTMLIFrameElement>(null)
-  const query = getShellPreviewQuery(options)
+  const query = getShellPreviewQuery(options, desktop)
   const [src] = React.useState(`${SHELL_PREVIEW_PATH}${query}`)
   const [isReady, setIsReady] = React.useState(false)
 
@@ -53,7 +61,8 @@ export function ShellPreviewFrame({
   return (
     <div
       className={cn(
-        "h-[80svh] min-h-[32rem] overflow-hidden rounded-2xl bg-background shadow-surface-2 ring-1 ring-border lg:h-[calc(100svh-7.5rem)]",
+        "h-[80svh] min-h-[32rem] overflow-hidden rounded-2xl bg-background shadow-surface-2 ring-1 ring-border lg:h-[calc(100svh-14.5rem)]",
+        size === "phone" && "mx-auto w-full max-w-[390px]",
         className
       )}
     >

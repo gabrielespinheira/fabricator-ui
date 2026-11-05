@@ -4,7 +4,11 @@ import { describe, expect, it } from "vitest"
 import {
   countChangedOptions,
   DEFAULT_PLAYGROUND_OPTIONS,
+  getHiddenShellOptions,
   getPlaygroundWindow,
+  getPreviewChoices,
+  getShellOptionNotes,
+  getTabChoices,
   getTabsPlacement,
   isPeekAvailable,
   playgroundParsers,
@@ -123,5 +127,74 @@ describe("getPlaygroundWindow", () => {
     expect(
       getPlaygroundWindow(load("window=macos&glass=false"))?.isTranslucent
     ).toBe(false)
+  })
+})
+
+describe("what a project's shell offers", () => {
+  const web = { hasWeb: true, hasDesktop: false, hasMobile: false }
+  const desktop = { hasWeb: true, hasDesktop: true, hasMobile: false }
+  const mobile = { hasWeb: true, hasDesktop: false, hasMobile: true }
+  const both = { hasWeb: true, hasDesktop: true, hasMobile: true }
+  const expo = { hasWeb: false, hasDesktop: false, hasMobile: true }
+
+  it("never offers what only the preview uses", () => {
+    for (const project of [web, desktop, mobile, both, expo]) {
+      const hidden = getHiddenShellOptions(project)
+      expect(hidden.has("window")).toBe(true)
+      expect(hidden.has("fullscreen")).toBe(true)
+    }
+  })
+
+  it("offers glass only with a desktop app", () => {
+    expect(getHiddenShellOptions(web).has("glass")).toBe(true)
+    expect(getHiddenShellOptions(mobile).has("glass")).toBe(true)
+    expect(getHiddenShellOptions(desktop).has("glass")).toBe(false)
+  })
+
+  it("offers peek where there's a pointer", () => {
+    expect(getHiddenShellOptions(web).has("peek")).toBe(false)
+    expect(getHiddenShellOptions(both).has("peek")).toBe(false)
+    expect(getHiddenShellOptions(expo).has("peek")).toBe(true)
+  })
+
+  it("says when an option doesn't reach every app", () => {
+    expect(getShellOptionNotes(web)).toEqual({})
+    expect(getShellOptionNotes(mobile).peek).toBe("Web and desktop only.")
+    expect(getShellOptionNotes(desktop).glass).toBe("macOS only.")
+    expect(getShellOptionNotes(expo).peek).toBeUndefined()
+  })
+
+  it("offers titlebar tabs only with a window", () => {
+    const values = (project: typeof web) =>
+      getTabChoices(project).map(({ value }) => value)
+    expect(values(web)).toEqual(["none", "main"])
+    expect(values(desktop)).toEqual(["none", "main", "titlebar"])
+    expect(values(expo)).toEqual(["none", "main"])
+  })
+
+  it("previews the sizes a project has", () => {
+    const values = (project: typeof web) =>
+      getPreviewChoices(project).map(({ value }) => value)
+    expect(values(web)).toEqual(["browser", "phone"])
+    expect(values(both)).toEqual(["browser", "macos", "windows", "phone"])
+    expect(values(expo)).toEqual(["phone"])
+    expect(getPreviewChoices(web).at(-1)?.label).toBe("Phone width")
+    expect(getPreviewChoices(mobile).at(-1)?.label).toBe("Phone")
+  })
+})
+
+describe("the window a runtime draws", () => {
+  const pick = (query: string) => load(query)
+
+  it("keeps Electron's row short and Tauri's tall", () => {
+    const options = pick("window=macos&tabs=titlebar")
+    expect(getPlaygroundWindow(options, "electron")?.trafficLights?.y).toBe(13)
+    expect(getPlaygroundWindow(options, "tauri")?.trafficLights?.y).toBe(23)
+  })
+
+  it("leaves Windows' title bar to Tauri", () => {
+    const options = pick("window=windows")
+    expect(getPlaygroundWindow(options, "electron")?.controls).toBe("overlay")
+    expect(getPlaygroundWindow(options, "tauri")).toBeUndefined()
   })
 })

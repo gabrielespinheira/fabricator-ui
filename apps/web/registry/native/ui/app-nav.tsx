@@ -792,6 +792,7 @@ function CustomizeRow({
     "--density-16",
     "--density-icon-14",
   ])
+  const feedback = useFeedback()
   const isShown = !preferences.hidden.includes(item.id)
   const setShown = (shown: boolean) =>
     updatePreferences(setNavItemHidden(preferences, item.id, !shown))
@@ -843,7 +844,11 @@ function CustomizeRow({
         <Pressable
           role="none"
           accessible={false}
-          onPress={() => setShown(!isShown)}
+          onPress={() => {
+            // It stands in for the switch beside it, as a label does.
+            feedback(isShown ? "toggle-off" : "toggle-on")
+            setShown(!isShown)
+          }}
           className="cn-app-nav-customize-name flex-row items-center"
         >
           <IconProvider strokeWidth={1.5}>

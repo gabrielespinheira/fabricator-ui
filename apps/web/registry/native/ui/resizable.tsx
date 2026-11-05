@@ -3,6 +3,7 @@ import { cn } from "cn"
 import { View, type LayoutChangeEvent } from "react-native"
 import { Gesture, GestureDetector } from "react-native-gesture-handler"
 
+import { useFeedback } from "@/registry/native/lib/feedback"
 import {
   getHandleValue,
   getInitialLayout,
@@ -231,6 +232,7 @@ function ResizableHandle({
   const handleIndex = React.use(PanelIndexContext)
   const isDisabled = disabled || group.isDisabled
   const [isDragging, setIsDragging] = React.useState(false)
+  const feedback = useFeedback()
 
   // The gesture outlives a render: it reads the group as it is now.
   const latest = React.useRef(group)
@@ -245,6 +247,7 @@ function ResizableHandle({
         .onBegin(() => {
           startLayout.current = latest.current.layout
           setIsDragging(true)
+          feedback("grab")
         })
         .onUpdate((event) => {
           const { orientation, panels, groupSize, setLayout } = latest.current
@@ -264,8 +267,11 @@ function ResizableHandle({
           )
         })
         .onEnd(() => latest.current.commit(true))
-        .onFinalize(() => setIsDragging(false)),
-    [handleIndex, isDisabled]
+        .onFinalize(() => {
+          setIsDragging(false)
+          feedback("drop")
+        }),
+    [feedback, handleIndex, isDisabled]
   )
 
   const value = getHandleValue(

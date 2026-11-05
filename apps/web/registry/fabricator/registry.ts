@@ -56,9 +56,22 @@ export const fabricatorItems = [
     description:
       "Interface sounds synthesized with the Web Audio API, and <SoundEffects /> to play them for every component. On by default.",
     files: [
+      { path: "lib/sound-recipes.ts", type: "registry:lib" },
       { path: "lib/sounds.ts", type: "registry:lib" },
       { path: "components/sound-effects.tsx", type: "registry:component" },
     ],
+  },
+  {
+    name: "desktop-window",
+    type: "registry:hook",
+    title: "Desktop Window",
+    description:
+      "Finds the Electron or Tauri window hosting the page and gives the App Shell what to lay out around, so one layout serves a browser and a desktop app.",
+    files: [
+      { path: "hooks/use-desktop-window.ts", type: "registry:hook" },
+      { path: "lib/desktop-window.ts", type: "registry:lib" },
+    ],
+    meta: { fabricator: true },
   },
   {
     name: "search",

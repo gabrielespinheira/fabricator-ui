@@ -4,8 +4,14 @@ import {
   MoreHorizontalIcon,
 } from "@fabricator-ui/icons-react-native"
 import { cn } from "cn"
-import { Pressable, ScrollView, View } from "react-native"
+import {
+  Pressable,
+  ScrollView,
+  View,
+  type GestureResponderEvent,
+} from "react-native"
 
+import { useFeedback } from "@/registry/native/lib/feedback"
 import { renderSlot, type RenderProps } from "@/registry/native/lib/render"
 import { renderTextChildren, Text, TextStyle } from "@/registry/native/ui/text"
 
@@ -81,14 +87,20 @@ function BreadcrumbLink({
   render,
   asChild,
   children,
+  onPress,
   ...props
 }: Omit<React.ComponentProps<typeof Pressable>, "children"> &
   RenderProps & { children?: React.ReactNode }) {
+  const feedback = useFeedback()
   const shared = {
     "data-slot": "breadcrumb-link",
     role: "link" as const,
     hitSlop: 8,
     className: cn("cn-breadcrumb-link", className),
+    onPress: (event: GestureResponderEvent) => {
+      feedback("tick")
+      onPress?.(event)
+    },
     ...props,
   }
   return (

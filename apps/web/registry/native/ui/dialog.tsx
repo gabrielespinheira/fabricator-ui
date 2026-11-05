@@ -5,6 +5,7 @@ import { cn } from "cn"
 import { KeyboardAvoidingView, Platform, View } from "react-native"
 import Animated from "react-native-reanimated"
 
+import { useMountFeedback } from "@/registry/native/lib/feedback"
 import { useSurfaceAnimation } from "@/registry/native/lib/motion"
 import { resolveRender, type RenderProps } from "@/registry/native/lib/render"
 import { Button } from "@/registry/native/ui/button"
@@ -78,6 +79,12 @@ function DialogOverlay({
   )
 }
 
+// The primitive's portal renders this only while the dialog is open.
+function DialogFeedback() {
+  useMountFeedback("dialog")
+  return null
+}
+
 function DialogContent({
   className,
   children,
@@ -91,6 +98,7 @@ function DialogContent({
   return (
     <DialogPortal>
       <DensityScope density={density}>
+        <DialogFeedback />
         <DialogPrimitive.Overlay
           aria-modal
           className="absolute inset-0 items-center justify-center"

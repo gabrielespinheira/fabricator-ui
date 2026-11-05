@@ -5,6 +5,7 @@ import {
   ChevronRightIcon,
   ChevronUpIcon,
 } from "@fabricator-ui/icons-react-native"
+import { cva } from "class-variance-authority"
 import { cn } from "cn"
 import { type Day, type FirstWeekContainsDate, type Locale } from "date-fns"
 import { Pressable, ScrollView, View } from "react-native"
@@ -37,12 +38,24 @@ import {
   type DayModifiers,
   type Matcher,
 } from "@/registry/native/lib/calendar-model"
+import { useFeedback } from "@/registry/native/lib/feedback"
 import { wrapTextChildren } from "@/registry/native/lib/text-children"
 import { Button } from "@/registry/native/ui/button"
 import { Text, TextStyle } from "@/registry/native/ui/text"
 
 // react-day-picker's props on a grid of views. Its logic is in calendar-model;
 // what's here only draws it.
+
+// Taller by half the gap between weeks. Not wider: days touch, and a press would
+// land on the day beside it.
+const DAY_SLOP = { top: 4, bottom: 4 }
+// Clear of everything around them, so they keep 44pt at any density.
+const NAV_SLOP = 8
+const CAPTION_SLOP = { top: 8, bottom: 8 }
+
+const calendarDayWashVariants = cva("cn-calendar-day-wash")
+const calendarFilledDayWashVariants = cva("cn-calendar-filled-day-wash")
+const calendarNavWashVariants = cva("cn-calendar-nav-wash")
 
 type ButtonVariant = React.ComponentProps<typeof Button>["variant"]
 
@@ -229,12 +242,15 @@ function CalendarDayButton({
   modifiers,
   locale,
   children,
+  hitSlop = DAY_SLOP,
+  onPress,
   ...props
 }: Omit<React.ComponentProps<typeof Button>, "variant" | "size"> & {
   day: CalendarDay
   modifiers: DayModifiers
   locale?: Partial<Locale>
 }) {
+  const feedback = useFeedback()
   const state = {
     "data-selected-single":
       modifiers.selected &&
@@ -247,17 +263,30 @@ function CalendarDayButton({
     "data-outside": modifiers.outside,
     "data-disabled": modifiers.disabled,
   }
+  const isFilled =
+    state["data-selected-single"] ||
+    state["data-range-start"] ||
+    state["data-range-end"]
   return (
     <Button
+      data-sound="none"
       variant="ghost"
       size="icon"
+      washClassName={
+        isFilled ? calendarFilledDayWashVariants() : calendarDayWashVariants()
+      }
       data-day={day.date.toLocaleDateString(locale?.code)}
       aria-selected={modifiers.selected}
       {...state}
+      hitSlop={hitSlop}
       className={cn(
         "cn-calendar-day-button relative aspect-square w-full flex-col",
         className
       )}
+      onPress={(event) => {
+        feedback("pick")
+        onPress?.(event)
+      }}
       {...props}
     >
       {wrapTextChildren(children, (text, key) => (
@@ -284,6 +313,7 @@ function CaptionButton({
     <Pressable
       role="button"
       aria-expanded={isOpen}
+      hitSlop={CAPTION_SLOP}
       onPress={onPress}
       className="cn-calendar-dropdown-root"
     >
@@ -367,6 +397,7 @@ function Calendar(props: CalendarProps & { buttonVariant?: ButtonVariant }) {
     ...viewProps
   } = props
   const { selected, press } = useSelection(props)
+  const feedback = useFeedback()
 
   const [startMonth, endMonth] = getNavBounds({
     captionLayout,
@@ -455,12 +486,17 @@ function Calendar(props: CalendarProps & { buttonVariant?: ButtonVariant }) {
               )}
             >
               <Button
+                data-sound="none"
                 variant={buttonVariant}
                 size="icon"
+                washClassName={calendarNavWashVariants()}
                 accessibilityLabel="Go to the previous month"
                 disabled={!previousMonth}
+                hitSlop={NAV_SLOP}
                 onPress={() => {
-                  if (previousMonth) goToMonth(previousMonth)
+                  if (!previousMonth) return
+                  feedback("page", { pitch: 0.92 })
+                  goToMonth(previousMonth)
                 }}
                 className={cn(
                   "cn-calendar-nav-button p-0",
@@ -470,12 +506,17 @@ function Calendar(props: CalendarProps & { buttonVariant?: ButtonVariant }) {
                 <Chevron orientation="left" />
               </Button>
               <Button
+                data-sound="none"
                 variant={buttonVariant}
                 size="icon"
+                washClassName={calendarNavWashVariants()}
                 accessibilityLabel="Go to the next month"
                 disabled={!nextMonth}
+                hitSlop={NAV_SLOP}
                 onPress={() => {
-                  if (nextMonth) goToMonth(nextMonth)
+                  if (!nextMonth) return
+                  feedback("page", { pitch: 1.08 })
+                  goToMonth(nextMonth)
                 }}
                 className={cn(
                   "cn-calendar-nav-button p-0",

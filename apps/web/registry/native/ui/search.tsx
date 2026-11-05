@@ -6,13 +6,20 @@ import { cn } from "cn"
 import { Pressable, TextInput, View } from "react-native"
 import Animated, {
   LinearTransition,
+  ReduceMotion,
   useAnimatedStyle,
   useSharedValue,
   withDelay,
   withTiming,
 } from "react-native-reanimated"
 
-import { useMotion, usePressScale } from "@/registry/native/lib/motion"
+import { useFeedback, useSurfaceFeedback } from "@/registry/native/lib/feedback"
+import {
+  useMotion,
+  usePressScale,
+  useSurfaceAnimation,
+} from "@/registry/native/lib/motion"
+import { PressWash } from "@/registry/native/lib/press-wash"
 import {
   nextSearchAction,
   toDimension,
@@ -23,6 +30,13 @@ import { TextStyle } from "@/registry/native/ui/text"
 // A search button that opens into a search field, as one object: the round
 // button grows its width, the icon stays put at the start, and the field fades
 // in and takes focus. Leaving an empty field closes it.
+
+const AnimatedPressable = Animated.createAnimatedComponent(Pressable)
+
+// The clear button's pop, the website's `zoom-in-75`: inside a field, not a surface.
+const CLEAR_ZOOM = 0.75
+// A closed search is as tall as a button; compact's 28pt takes this to 44pt.
+const HIT_SLOP = 8
 
 const searchVariants = cva(
   "cn-search relative shrink-0 flex-row items-center overflow-hidden",
@@ -144,29 +158,39 @@ function Search({
   }
 
   const move = useMotion("move")
-  const feedback = useMotion("feedback")
+  const quick = useMotion("feedback")
   const press = usePressScale()
   const fieldOpacity = useSharedValue(open ? 1 : 0)
+  const clearAnimation = useSurfaceAnimation("feedback", { scale: CLEAR_ZOOM })
+  const playFeedback = useFeedback()
+  useSurfaceFeedback("dialog", open)
 
-  // The field fades in once the width is on its way, and out at once.
+  // The field fades in once the width is on its way, and out at once. Reduce
+  // Motion keeps the fade with no wait, and Reanimated would jump it to the end.
   React.useEffect(() => {
     fieldOpacity.value = open
       ? withDelay(
-          feedback.enterMs,
-          withTiming(1, { duration: move.enterMs, easing: move.enterEasing })
+          quick.isReduced ? 0 : quick.enterMs,
+          withTiming(1, {
+            duration: move.enterMs,
+            easing: move.enterEasing,
+            reduceMotion: ReduceMotion.Never,
+          })
         )
       : withTiming(0, {
-          duration: feedback.exitMs,
-          easing: feedback.exitEasing,
+          duration: quick.exitMs,
+          easing: quick.exitEasing,
+          reduceMotion: ReduceMotion.Never,
         })
   }, [
-    feedback.enterMs,
-    feedback.exitEasing,
-    feedback.exitMs,
     fieldOpacity,
     move.enterEasing,
     move.enterMs,
     open,
+    quick.enterMs,
+    quick.exitEasing,
+    quick.exitMs,
+    quick.isReduced,
   ])
 
   const rootStyle = useAnimatedStyle(() => ({
@@ -196,6 +220,8 @@ function Search({
         data-size={size}
         data-collapsible={collapsible}
         layout={layout}
+        // It clips: without this, the button's own reach would stop at its edge.
+        hitSlop={open ? undefined : HIT_SLOP}
         {...rootProps}
         className={cn(searchVariants({ variant, size }), className)}
         style={[
@@ -214,7 +240,7 @@ function Search({
           aria-hidden={open ? true : undefined}
           accessible={!open}
           disabled={open}
-          hitSlop={4}
+          hitSlop={HIT_SLOP}
           onPress={() =>
             apply(nextSearchAction("open", { value, collapsible }))
           }
@@ -222,6 +248,7 @@ function Search({
           onPressOut={press.onPressOut}
           className="cn-search-trigger absolute inset-y-0 start-0 z-10 aspect-square items-center justify-center"
         >
+          <PressWash press={press} className="cn-search-trigger-wash" />
           <TextStyle
             className={open ? cn("cn-search-icon-open") : cn("cn-search-icon")}
           >
@@ -264,12 +291,15 @@ function Search({
           />
         </Animated.View>
         {hasClear ? (
-          <Pressable
+          <AnimatedPressable
             data-slot="search-clear"
             role="button"
             aria-label="Clear search"
-            hitSlop={4}
+            hitSlop={HIT_SLOP}
+            entering={clearAnimation.entering}
+            style={clearAnimation.origin}
             onPress={() => {
+              playFeedback("tap")
               setValue("")
               inputRef.current?.focus()
             }}
@@ -278,7 +308,7 @@ function Search({
             <TextStyle className="cn-search-clear-text">
               <XIcon aria-hidden />
             </TextStyle>
-          </Pressable>
+          </AnimatedPressable>
         ) : null}
       </Animated.View>
     </DensityScope>

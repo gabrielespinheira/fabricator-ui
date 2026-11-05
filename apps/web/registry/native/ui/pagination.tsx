@@ -4,12 +4,20 @@ import {
   ChevronRightIcon,
   MoreHorizontalIcon,
 } from "@fabricator-ui/icons-react-native"
+import { cva } from "class-variance-authority"
 import { cn } from "cn"
 import { View } from "react-native"
 
+import { useFeedback } from "@/registry/native/lib/feedback"
 import { wrapTextChildren } from "@/registry/native/lib/text-children"
 import { Button } from "@/registry/native/ui/button"
 import { renderTextChildren, Text, TextStyle } from "@/registry/native/ui/text"
+
+// A finger-sized target: taller, and sideways only up to the half of the gap that
+// is its own, or a press would land on the link beside it.
+const LINK_SLOP = { top: 8, bottom: 8, left: 2, right: 2 }
+
+const paginationLinkWashVariants = cva("cn-pagination-link-wash")
 
 function Pagination({
   className,
@@ -59,24 +67,37 @@ function PaginationItem({
 
 type PaginationLinkProps = {
   isActive?: boolean
+  /** Multiplies the page sound's pitch: lower to go back, higher to go on. */
+  pitch?: number
 } & Omit<React.ComponentProps<typeof Button>, "variant">
 
 function PaginationLink({
   className,
   isActive = false,
   size = "icon",
+  pitch,
+  hitSlop = LINK_SLOP,
   children,
+  onPress,
   ...props
 }: PaginationLinkProps) {
+  const feedback = useFeedback()
   return (
     <Button
+      data-sound="none"
       variant={isActive ? "outline" : "ghost"}
       size={size}
+      washClassName={paginationLinkWashVariants()}
       data-slot="pagination-link"
       data-active={isActive}
       role="link"
       aria-selected={isActive}
+      hitSlop={hitSlop}
       className={cn("cn-pagination-link", className)}
+      onPress={(event) => {
+        feedback("page", { pitch })
+        onPress?.(event)
+      }}
       {...props}
     >
       {wrapTextChildren(children, (text, key) => (
@@ -101,6 +122,7 @@ function PaginationPrevious({
     <PaginationLink
       aria-label="Go to previous page"
       size="default"
+      pitch={0.92}
       className={cn("cn-pagination-previous", className)}
       {...props}
     >
@@ -119,6 +141,7 @@ function PaginationNext({
     <PaginationLink
       aria-label="Go to next page"
       size="default"
+      pitch={1.08}
       className={cn("cn-pagination-next", className)}
       {...props}
     >

@@ -55,16 +55,22 @@ const env = {
   // Installs the icons this checkout builds: see local-npm.ts.
   BUN_CONFIG_REGISTRY: LOCAL_NPM,
   npm_config_registry: LOCAL_NPM,
+  pnpm_config_registry: LOCAL_NPM,
   // Scaffold and install with Bun (the shadcn CLI reads the user agent).
   npm_config_user_agent: "bun/1.4.0",
   CI: "1",
 }
 
-function run(command: string, commandArgs: string[], cwd: string) {
+function run(
+  command: string,
+  commandArgs: string[],
+  cwd: string,
+  extraEnv: NodeJS.ProcessEnv = {}
+) {
   console.log(`  $ ${command} ${commandArgs.join(" ")}`)
   const result = spawnSync(command, commandArgs, {
     cwd,
-    env,
+    env: { ...env, ...extraEnv },
     encoding: "utf8",
     stdio: ["ignore", "pipe", "pipe"],
   })
@@ -78,12 +84,197 @@ function run(command: string, commandArgs: string[], cwd: string) {
   return result.stdout
 }
 
-function cli(cliArgs: string[], cwd: string) {
+function cli(cliArgs: string[], cwd: string, extraEnv: NodeJS.ProcessEnv = {}) {
   return run(
     process.execPath.endsWith("bun") ? "node" : process.execPath,
     [CLI, ...cliArgs],
-    cwd
+    cwd,
+    extraEnv
   )
+}
+
+function hasCommand(command: string) {
+  return spawnSync(command, ["--version"], { stdio: "ignore" }).status === 0
+}
+
+const USER_AGENTS = {
+  bun: "bun/1.4.0",
+  npm: "npm/11.0.0",
+  pnpm: "pnpm/11.25.0",
+} as const
+
+type WebFramework = "next" | "vite" | "start" | "react-router" | "astro"
+
+const FRAMEWORK_ROOTS: Record<WebFramework, string> = {
+  next: "app/layout.tsx",
+  vite: "src/main.tsx",
+  start: "src/routes/__root.tsx",
+  "react-router": "app/root.tsx",
+  astro: "src/layouts/main.astro",
+}
+
+/** The pages behind the App Shell's sample nav, so its links work. */
+const FRAMEWORK_PAGES: Partial<Record<WebFramework, string[]>> = {
+  next: ["app/inbox/page.tsx", "app/projects/launch/page.tsx"],
+  start: ["src/routes/inbox.tsx", "src/routes/projects/index.tsx"],
+  "react-router": ["app/routes/inbox.tsx", "app/routes/projects.launch.tsx"],
+}
+
+function assertMounted(appDir: string, framework: WebFramework) {
+  const root = fs.readFileSync(
+    path.join(appDir, FRAMEWORK_ROOTS[framework]),
+    "utf8"
+  )
+  assert(root.includes("SoundEffects"), `${framework}: sounds aren't mounted`)
+  if (framework === "astro") return
+  assert(root.includes("<AppShellRoot"), `${framework}: shell isn't mounted`)
+  for (const page of FRAMEWORK_PAGES[framework] ?? []) {
+    assert(
+      fs.existsSync(path.join(appDir, page)),
+      `${framework}: ${page} is missing`
+    )
+  }
+}
+
+function monorepoScenario(
+  packageManager: keyof typeof USER_AGENTS,
+  desktop: "electron" | "tauri"
+) {
+  return {
+    name: `monorepo-${packageManager}-${desktop}`,
+    run(dir: string) {
+      if (!hasCommand(packageManager)) {
+        console.log(`  Skipped: ${packageManager} isn't installed.`)
+        return
+      }
+      const userAgent = { npm_config_user_agent: USER_AGENTS[packageManager] }
+      cli(
+        [
+          "create",
+          "app",
+          "--mobile",
+          "--desktop",
+          desktop,
+          "--agents",
+          "claude,codex",
+          "--yes",
+          "-c",
+          dir,
+        ],
+        dir,
+        userAgent
+      )
+      const root = path.join(dir, "app")
+      const web = path.join(root, "apps/web")
+      const mobile = path.join(root, "apps/mobile")
+      const desktopDir = path.join(root, "apps/desktop")
+
+      // Libs live beside the components that import them.
+      assert(
+        fs.existsSync(path.join(root, "packages/ui/src/lib/fluid-hover.tsx")),
+        "fluid-hover isn't in packages/ui"
+      )
+      assert(
+        readJson(path.join(root, "packages/ui/package.json")).exports[
+          "./lib/fluid-hover"
+        ],
+        "packages/ui doesn't export its .tsx lib"
+      )
+      assert(
+        readJson(path.join(web, "package.json")).dependencies[FABRICATOR_ICONS],
+        "apps/web doesn't depend on the icons"
+      )
+      assertMounted(web, "next")
+      const layout = fs.readFileSync(
+        path.join(web, "components/app-shell-layout.tsx"),
+        "utf8"
+      )
+      assert(
+        layout.includes("window={shellWindow}"),
+        "the web layout has no runtime window"
+      )
+
+      // One file per app, written from the same options.
+      assert(
+        fs
+          .readFileSync(
+            path.join(mobile, "src/components/app-shell-layout.tsx"),
+            "utf8"
+          )
+          .includes("icons-react-native"),
+        "the mobile layout isn't the native one"
+      )
+      assert(
+        fs
+          .readFileSync(path.join(mobile, "src/app/_layout.tsx"), "utf8")
+          .includes("<FabricatorRoot>"),
+        "the mobile root isn't mounted"
+      )
+      assert(
+        !fs.existsSync(path.join(mobile, "src/components/app-tabs.tsx")),
+        "Expo's demo is still there"
+      )
+      const { expo } = readJson(path.join(mobile, "app.json"))
+      assert(expo.name === "app", `The mobile app is called ${expo.name}`)
+      assert(
+        expo.ios.bundleIdentifier === "app.app.mobile" &&
+          expo.android.package === "app.app.mobile",
+        "A first native build would have to ask for the app's ids"
+      )
+
+      // Assistants and the first commit.
+      assert(
+        fs.existsSync(path.join(root, ".claude/skills/fabricator/SKILL.md")),
+        "Claude Code has no skill"
+      )
+      assert(
+        fs.existsSync(path.join(root, ".agents/skills/fabricator/SKILL.md")),
+        "Codex has no skill"
+      )
+      assert(
+        fs
+          .readFileSync(path.join(root, ".codex/config.toml"), "utf8")
+          .includes('"-c", "apps/web"'),
+        "Codex's MCP server doesn't point at the app"
+      )
+      assert(
+        readJson(path.join(root, ".mcp.json")).mcpServers.fabricator,
+        "Claude Code has no MCP server"
+      )
+      assert(
+        run("git", ["status", "--porcelain"], root).trim() === "",
+        "The first commit left files out"
+      )
+
+      // Everything builds.
+      run(packageManager, ["run", "build"], web)
+      run(packageManager, ["run", "build:static"], web)
+      assert(
+        fs.existsSync(path.join(web, "out/index.html")),
+        "No static build for the window to load"
+      )
+      run("npx", ["-y", "expo-doctor"], mobile)
+      run(
+        "npx",
+        ["expo", "export", "--platform", "ios", "--output-dir", "dist-ios"],
+        mobile
+      )
+      assertInstalledTypes(mobile)
+      if (desktop === "tauri" && hasCommand("cargo")) {
+        run(
+          "cargo",
+          ["check", "--manifest-path", "src-tauri/Cargo.toml"],
+          desktopDir
+        )
+      }
+      if (desktop === "electron") {
+        assert(
+          fs.existsSync(path.join(desktopDir, "electron/main.mjs")),
+          "Electron's main process is missing"
+        )
+      }
+    },
+  }
 }
 
 function readJson(file: string) {
@@ -348,6 +539,213 @@ function assertInstalledTypes(appDir: string) {
 type Scenario = { name: string; run: (dir: string) => void }
 
 const scenarios: Scenario[] = [
+  ...(["next", "vite", "start", "react-router", "astro"] as const).map(
+    (framework) => ({
+      name: `create-${framework}`,
+      run(dir: string) {
+        cli(["create", "app", "-t", framework, "--yes", "-c", dir], dir)
+        const appDir = path.join(dir, "app")
+        assertRegistry(appDir)
+        assertMounted(appDir, framework)
+        run("bun", ["run", "build"], appDir)
+      },
+    })
+  ),
+  {
+    name: "create-expo",
+    run(dir: string) {
+      cli(["create", "app", "-t", "expo", "--yes", "-c", dir], dir)
+      const appDir = path.join(dir, "app")
+      assert(
+        fs
+          .readFileSync(path.join(appDir, "src/app/_layout.tsx"), "utf8")
+          .includes("<AppShellRoot>"),
+        "The native shell isn't mounted"
+      )
+      for (const page of ["inbox", "projects", "team", "settings"]) {
+        assert(
+          fs.existsSync(path.join(appDir, `src/app/${page}.tsx`)),
+          `The ${page} screen is missing`
+        )
+      }
+      run(
+        "npx",
+        ["expo", "export", "--platform", "ios", "--output-dir", "dist"],
+        appDir
+      )
+      assertInstalledTypes(appDir)
+    },
+  },
+  {
+    name: "monorepo-web",
+    run(dir: string) {
+      cli(["create", "app", "--monorepo", "--yes", "-c", dir], dir)
+      const root = path.join(dir, "app")
+      const web = path.join(root, "apps/web")
+      // From the root, the one app is found.
+      cli(["add", "dropdown-menu", "tabs", "-y", "-o"], root)
+      assertMounted(web, "next")
+      run("bun", ["run", "build"], web)
+    },
+  },
+  {
+    name: "monorepo-grow",
+    run(dir: string) {
+      cli(["create", "app", "--monorepo", "--yes", "-c", dir], dir)
+      const root = path.join(dir, "app")
+      const web = path.join(root, "apps/web")
+      const mobile = path.join(root, "apps/mobile")
+
+      cli(["apps", "add", "desktop", "electron", "-c", root], root)
+      assert(
+        fs.existsSync(path.join(root, "apps/desktop/electron/main.mjs")),
+        "`apps add desktop` wrote no Electron app"
+      )
+      assert(
+        fs
+          .readFileSync(
+            path.join(web, "components/app-shell-layout.tsx"),
+            "utf8"
+          )
+          .includes("window={shellWindow}"),
+        "`apps add desktop` left the web layout without a window"
+      )
+
+      cli(["apps", "add", "mobile", "-c", root], root)
+      assert(
+        fs
+          .readFileSync(path.join(mobile, "src/app/_layout.tsx"), "utf8")
+          .includes("<FabricatorRoot>"),
+        "`apps add mobile` didn't mount the root"
+      )
+      const scripts = readJson(path.join(root, "package.json")).scripts
+      assert(scripts["dev:mobile"], "The root has no dev:mobile script")
+      assert(scripts["dev:desktop"], "The root has no dev:desktop script")
+
+      // With two component apps, the root add has to be told which.
+      let wasRefused = false
+      try {
+        cli(["add", "badge", "-y", "-o"], root)
+      } catch {
+        wasRefused = true
+      }
+      assert(wasRefused, "`add` guessed between several apps")
+      cli(["add", "badge", "--app", "all", "-y", "-o"], root)
+      assert(
+        fs.existsSync(path.join(root, "packages/ui/src/components/badge.tsx")),
+        "`add --app all` skipped the web app"
+      )
+      assert(
+        fs.existsSync(path.join(mobile, "src/components/ui/badge.tsx")),
+        "`add --app all` skipped the mobile app"
+      )
+
+      assert(
+        cli(["doctor", "-c", root], root).includes("mobile"),
+        "`doctor` didn't look at the apps"
+      )
+      cli(["upgrade", "--dry-run", "-c", web], root)
+
+      run("bun", ["run", "build"], web)
+      run("bun", ["run", "build:static"], web)
+      run(
+        "npx",
+        ["expo", "export", "--platform", "ios", "--output-dir", "dist-ios"],
+        mobile
+      )
+      assertInstalledTypes(mobile)
+    },
+  },
+  {
+    name: "create-everything",
+    run(dir: string) {
+      cli(
+        [
+          "create",
+          "app",
+          "--desktop",
+          "tauri",
+          "--shell",
+          "glass=false",
+          "--all",
+          "--yes",
+          "-c",
+          dir,
+        ],
+        dir
+      )
+      const root = path.join(dir, "app")
+      const web = path.join(root, "apps/web")
+      const ui = path.join(root, "packages/ui/src/components")
+      for (const component of ["accordion", "sidebar", "tabs"]) {
+        assert(
+          fs.existsSync(path.join(ui, `${component}.tsx`)),
+          `--all left out ${component}`
+        )
+      }
+      const tauri = path.join(root, "apps/desktop/src-tauri")
+      assert(
+        !fs
+          .readFileSync(path.join(tauri, "Cargo.toml"), "utf8")
+          .includes("macos-private-api"),
+        "A window without glass asks for the private API"
+      )
+      run("bun", ["run", "build"], web)
+      if (hasCommand("cargo")) {
+        run(
+          "cargo",
+          ["check", "--manifest-path", "src-tauri/Cargo.toml"],
+          path.dirname(tauri)
+        )
+      }
+    },
+  },
+  monorepoScenario("bun", "tauri"),
+  monorepoScenario("pnpm", "electron"),
+  monorepoScenario("npm", "tauri"),
+  {
+    name: "init-existing-agents",
+    run(dir: string) {
+      cli(
+        [
+          "create",
+          "app",
+          "-t",
+          "vite",
+          "--no-shell",
+          "--no-sounds",
+          "--yes",
+          "-c",
+          dir,
+        ],
+        dir
+      )
+      const appDir = path.join(dir, "app")
+      cli(
+        [
+          "init",
+          "--shell",
+          "--sounds",
+          "--agents",
+          "claude,codex",
+          "--yes",
+          "-c",
+          appDir,
+        ],
+        appDir
+      )
+      assertMounted(appDir, "vite")
+      assert(
+        fs.existsSync(path.join(appDir, ".claude/skills/fabricator/SKILL.md")),
+        "Claude Code has no skill"
+      )
+      assert(
+        fs.existsSync(path.join(appDir, ".codex/config.toml")),
+        "Codex has no MCP config"
+      )
+      run("bun", ["run", "build"], appDir)
+    },
+  },
   {
     name: "expo",
     run(dir: string) {

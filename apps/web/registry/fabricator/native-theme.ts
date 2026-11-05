@@ -406,6 +406,10 @@ function getThemeMapping() {
     "--color-app-shell-main": "var(--app-shell-main)",
     "--color-app-shell-panel": "var(--app-shell-panel)",
     "--shadow-app-shell-card": "var(--app-shell-card-shadow)",
+    // React Native picks a weight's cut from the family, so one name is enough.
+    "--font-sans": "Inter",
+    "--font-heading": "Inter",
+    "--font-mono": "Menlo",
   }
 }
 

@@ -28,20 +28,22 @@ Or choose the setup that matches your starting point.
 <div id="use-cli" className="scroll-mt-24" />
 ## Use the CLI
 
-Use the CLI to scaffold a new project directly from the terminal:
+Create a project with one command. It sets up your framework, your look, the App Shell and the sounds:
 
 ```bash
-npx fabricator-ui@latest init -t [framework]
+npx fabricator-ui@latest create my-app -t [framework]
 ```
 
-Supported templates: `next`, `vite`, `start`, `react-router`, `astro` and `laravel`. Use `-b` to choose the base (`base`, `radix` or `aria`), and add `--monorepo` as needed.
+Supported frameworks: `next`, `vite`, `start`, `react-router`, `astro`, `laravel` and `expo`. Use `-b` to choose the base (`base`, `radix` or `aria`). Laravel needs its installer on your PATH.
 
-For Laravel, create the app first with `laravel new`, then run `npx fabricator-ui@latest init`.
+For a web app with mobile and desktop apps beside it, use `--mobile` and `--desktop`. See the [CLI](/docs/cli#create) for every option.
 
 <div id="existing-project" className="scroll-mt-24" />
 ## Existing Project
 
 Each framework guide includes an `Existing Project` section with the manual setup steps for that framework.
+
+Or run `npx fabricator-ui@latest init --shell --sounds --yes` in your project's root, and the CLI does them for you.
 
 **Already using shadcn/ui?** See <Link href="/docs/registry">Registry</Link> to add Fabricator UI next to the components you already have.
 

@@ -8,7 +8,7 @@ import { useCSSVariable } from "uniwind"
 
 import { useFieldControl } from "@/registry/native/lib/field-model"
 import { parseNumber } from "@/registry/native/lib/motion-tokens"
-import { Button } from "@/registry/native/ui/button"
+import { Button, ButtonJoinedContext } from "@/registry/native/ui/button"
 import { Input } from "@/registry/native/ui/input"
 import { renderTextChildren, TextStyle } from "@/registry/native/ui/text"
 import { Textarea } from "@/registry/native/ui/textarea"
@@ -128,24 +128,26 @@ function InputGroup({
   )
   return (
     <InputGroupContext value={context}>
-      <View
-        data-slot="input-group"
-        data-focused={isFocused}
-        data-invalid={controlState.isInvalid}
-        data-disabled={controlState.isDisabled}
-        data-stacked={isStacked}
-        data-tall={hasTextarea}
-        role="group"
-        className={cn(
-          "cn-input-group relative w-full min-w-0 flex-row items-center",
-          className
-        )}
-        {...props}
-      >
-        {renderTextChildren(
-          [...childList].sort((a, b) => getChildOrder(a) - getChildOrder(b))
-        )}
-      </View>
+      <ButtonJoinedContext value={true}>
+        <View
+          data-slot="input-group"
+          data-focused={isFocused}
+          data-invalid={controlState.isInvalid}
+          data-disabled={controlState.isDisabled}
+          data-stacked={isStacked}
+          data-tall={hasTextarea}
+          role="group"
+          className={cn(
+            "cn-input-group relative w-full min-w-0 flex-row items-center",
+            className
+          )}
+          {...props}
+        >
+          {renderTextChildren(
+            [...childList].sort((a, b) => getChildOrder(a) - getChildOrder(b))
+          )}
+        </View>
+      </ButtonJoinedContext>
     </InputGroupContext>
   )
 }
@@ -229,6 +231,8 @@ const inputGroupButtonVariants = cva(
   }
 )
 
+const inputGroupButtonWashVariants = cva("cn-input-group-button-wash")
+
 // Buttons in a group have 14pt icons and 12pt labels, except the plain icon-sm.
 function InputGroupButtonContent({
   size,
@@ -267,6 +271,7 @@ function InputGroupButton({
       data-size={resolvedSize}
       variant={variant}
       hitSlop={10}
+      washClassName={inputGroupButtonWashVariants()}
       className={cn(inputGroupButtonVariants({ size }), className)}
       {...props}
     >

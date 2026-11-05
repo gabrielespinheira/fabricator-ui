@@ -12,7 +12,7 @@ Across all of them: `onPress` replaces `onClick`, `hover:` styles become `active
 - **New engine**: the same API, with a DOM-only library replaced underneath.
 - **Kept for imports**: exists so code compiles, and does nothing.
 
-Interface sounds are haptic on React Native, under the same `<SoundEffects />`.
+Interface sounds are the same on React Native, under the same `<SoundEffects />`, with a haptic for each. The ring switch silences them.
 
 | Component | Kind | What's different |
 | --- | --- | --- |
@@ -28,20 +28,20 @@ Interface sounds are haptic on React Native, under the same `<SoundEffects />`.
 | [Breadcrumb](/docs/components/native/breadcrumb) | Same | Links are pressables: use `onPress` or `render`. |
 | [Bubble](/docs/components/native/bubble) | Same |  |
 | [Button](/docs/components/native/button) | Same | `onPress` replaces `onClick`. Small sizes keep a 44pt target through `hitSlop`. |
-| [Button Group](/docs/components/native/button-group) | Same | Grouped buttons keep their press scale. |
+| [Button Group](/docs/components/native/button-group) | Same |  |
 | [Calendar](/docs/components/native/calendar) | New engine | `react-day-picker` is DOM-only, so the grid is its own on `date-fns`, with the same props where they aren't DOM. |
 | [Card](/docs/components/native/card) | Same |  |
 | [Carousel](/docs/components/native/carousel) | New engine | `embla` is DOM-only. Paging is native, with the same parts and `CarouselApi`. `loop` rewinds to the first slide instead of wrapping. |
 | [Checkbox](/docs/components/native/checkbox) | Same |  |
 | [Collapsible](/docs/components/native/collapsible) | Same |  |
 | [Combobox](/docs/components/native/combobox) | New engine | A filtered list in a dialog, in place of Base UI's combobox, with the same parts. Typing happens in the dialog rather than the trigger. |
-| [Command](/docs/components/native/command) | New engine | `cmdk` is DOM-only. A filtered list, with the same parts. Results keep their written order instead of ranking by score, and no keyboard shortcut opens it. |
-| [Context Menu](/docs/components/native/context-menu) | Touch input | A long press opens it, in place of a right click. |
+| [Command](/docs/components/native/command) | New engine | `cmdk` is DOM-only. A filtered list, with the same parts. Results keep their written order instead of ranking by score, and no keyboard shortcut opens it. Shortcuts show from the `sm` breakpoint, since a phone has no keyboard. |
+| [Context Menu](/docs/components/native/context-menu) | Touch input | A long press opens it, in place of a right click. Shortcuts show from the `sm` breakpoint, since a phone has no keyboard. |
 | [Density](/docs/components/native/density) | Same | `DensityProvider` sets scoped variables, with no wrapper view. Phones default to spacious. |
 | [Dialog](/docs/components/native/dialog) | Same |  |
 | [Direction](/docs/components/native/direction) | Kept for imports | Fabricator UI is left-to-right only, so `DirectionProvider` passes its children through. |
 | [Drawer](/docs/components/native/drawer) | New engine | `vaul` is DOM-only. Gestures run on the UI thread, with swipe to dismiss and keyboard avoidance. `snapPoints` is accepted and does nothing. |
-| [Dropdown Menu](/docs/components/native/dropdown-menu) | Same | `side` takes `top` and `bottom`; `left` and `right` fall back to `bottom`. |
+| [Dropdown Menu](/docs/components/native/dropdown-menu) | Same | `side` takes `top` and `bottom`; `left` and `right` fall back to `bottom`. Shortcuts show from the `sm` breakpoint, since a phone has no keyboard. |
 | [Empty](/docs/components/native/empty) | Same |  |
 | [Field](/docs/components/native/field) | Same |  |
 | [Hover Card](/docs/components/native/hover-card) | Touch input | A long press opens it; a tap still goes through to the trigger. |
@@ -52,22 +52,22 @@ Interface sounds are haptic on React Native, under the same `<SoundEffects />`.
 | [Kbd](/docs/components/native/kbd) | Same | Visual only. Useful on tablets with a hardware keyboard. It doesn't invert inside a tooltip. |
 | [Label](/docs/components/native/label) | Same |  |
 | [Marker](/docs/components/native/marker) | Same |  |
-| [Menubar](/docs/components/native/menubar) | Touch input | A desktop pattern: triggers in a row that scrolls, each opening its menu. Rows paint their own pressed fill, with no gliding highlight. |
+| [Menubar](/docs/components/native/menubar) | Touch input | A desktop pattern: triggers in a row that scrolls, each opening its menu. A press lights a trigger; a drag scrolls the row. Shortcuts show from the `sm` breakpoint, since a phone has no keyboard. |
 | [Message](/docs/components/native/message) | Same |  |
 | [Message Scroller](/docs/components/native/message-scroller) | New engine | An inverted list that sticks to the bottom. |
-| [Navigation Menu](/docs/components/native/navigation-menu) | Touch input | A desktop pattern: each trigger opens its content in a popover, or a sheet on phones. Rows paint their own pressed fill, with no gliding highlight. |
+| [Navigation Menu](/docs/components/native/navigation-menu) | Touch input | A desktop pattern: each trigger opens its content in a popover, or a sheet on phones. A press lights a trigger; a drag scrolls the row. |
 | [Pagination](/docs/components/native/pagination) | Same |  |
 | [Popover](/docs/components/native/popover) | Same | `side` takes `top` and `bottom`; `left` and `right` fall back to `bottom`. |
 | [Progress](/docs/components/native/progress) | Same |  |
-| [Questionnaire](/docs/components/native/questionnaire) | Same |  |
+| [Questionnaire](/docs/components/native/questionnaire) | Same | Key hints show from the `sm` breakpoint, since a phone has no keyboard. |
 | [Radio Group](/docs/components/native/radio-group) | Same |  |
 | [Resizable](/docs/components/native/resizable) | New engine | `react-resizable-panels` is DOM-only. A drag handle, with increment and decrement actions for screen readers. Panels don't collapse. |
 | [Scroll Area](/docs/components/native/scroll-area) | Same | Touch keeps native scrolling, so `ScrollBar` renders nothing, as it does on touch devices on the web. |
-| [Search](/docs/components/native/search) | New engine | A filtered list in an overlay, with no keyboard shortcut to open it. |
+| [Search](/docs/components/native/search) | Same |  |
 | [Select](/docs/components/native/select) | Touch input | Opens as a sheet on phones and a popover on tablets. |
 | [Separator](/docs/components/native/separator) | Same |  |
 | [Sheet](/docs/components/native/sheet) | New engine | Gestures run on the UI thread, with swipe to dismiss and keyboard avoidance. |
-| [Sidebar](/docs/components/native/sidebar) | Touch input | On phones it reveals behind the page, following the finger, or slides over it from an edge swipe. `SidebarRail` toggles on a tap instead of resizing, row actions always show, and rows paint their own pressed fill. `persist`, `shortcut`, `peek` and `onWidthChange` are accepted and do nothing. |
+| [Sidebar](/docs/components/native/sidebar) | Touch input | On phones it reveals behind the page, following the finger, or slides over it from an edge swipe. `SidebarRail` toggles on a tap instead of resizing, and row actions always show. `persist`, `shortcut`, `peek` and `onWidthChange` are accepted and do nothing. |
 | [Skeleton](/docs/components/native/skeleton) | Same |  |
 | [Slider](/docs/components/native/slider) | Same |  |
 | [Sonner](/docs/components/native/sonner) | New engine | Sonner is DOM-only. It shares one engine with `toast`, keeping its API. `position` is accepted and unused: toasts stay at the top. A dialog opened later covers them. |

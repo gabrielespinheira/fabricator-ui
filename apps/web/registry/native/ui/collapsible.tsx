@@ -63,7 +63,9 @@ function CollapsibleTrigger({
       hitSlop={12}
       className={cn("cn-collapsible-trigger", className)}
       onPress={(event) => {
-        feedback(isOpen ? "collapse" : "expand")
+        // Composed with a control, that control sounds: Button can't give up its
+        // own, and two at once would be worse than the wrong one.
+        if (!resolved.asChild) feedback(isOpen ? "collapse" : "expand")
         onPress?.(event)
       }}
       {...props}
@@ -78,8 +80,10 @@ function CollapsibleTrigger({
 
 /**
  * A panel that opens and closes on its measured height, on the disclosure
- * timing. Its content unmounts once closed, as Base UI's panel does, unless
- * `keepMounted`. Accordion's panels are this one too.
+ * timing. Settled open, the height is its content's, so something growing inside
+ * needs no measure. Reduced motion drops the height's travel and keeps a fade.
+ * Its content unmounts once closed, as Base UI's panel does, unless `keepMounted`.
+ * Accordion's panels are this one too.
  */
 function DisclosurePanel({
   isOpen,
@@ -98,13 +102,17 @@ function DisclosurePanel({
   children?: React.ReactNode
 }) {
   const motion = useMotion("disclosure")
+  const isReduced = motion.isReduced
   const [isMounted, setIsMounted] = React.useState(isOpen)
   if (isOpen && !isMounted) setIsMounted(true)
 
-  const startsOpen = React.useRef(isOpen).current
-  const measured = useSharedValue(-1)
+  const [hasHeight, setHasHeight] = React.useState(false)
+  const measured = useSharedValue(0)
   const progress = useSharedValue(isOpen ? 1 : 0)
   React.useEffect(() => {
+    // Opening waits for the content's height. The curve moves fastest at its
+    // start, so frames lost to the measure would show as a jump.
+    if (isOpen && !hasHeight) return
     progress.value = withTiming(
       isOpen ? 1 : 0,
       {
@@ -112,15 +120,21 @@ function DisclosurePanel({
         easing: isOpen ? motion.enterEasing : motion.exitEasing,
       },
       (finished) => {
-        if (finished && !isOpen) runOnJS(setIsMounted)(false)
+        if (!finished || isOpen || keepMounted) return
+        runOnJS(setIsMounted)(false)
+        runOnJS(setHasHeight)(false)
       }
     )
-  }, [isOpen, motion, progress])
+  }, [hasHeight, isOpen, keepMounted, motion, progress])
 
-  // Open from the start, it keeps its natural height until measured, so there's
-  // no flash at zero. Opening later, the height waits for the measure.
   const heightStyle = useAnimatedStyle(() => {
-    if (measured.value < 0) return startsOpen ? {} : { height: 0 }
+    if (isReduced) {
+      return {
+        opacity: progress.value,
+        height: progress.value > 0 ? "auto" : 0,
+      }
+    }
+    if (progress.value >= 1) return { height: "auto" }
     return { height: measured.value * progress.value }
   })
 
@@ -141,6 +155,7 @@ function DisclosurePanel({
           className={className}
           onLayout={(event) => {
             measured.value = event.nativeEvent.layout.height
+            setHasHeight(true)
           }}
         >
           {renderTextChildren(children)}

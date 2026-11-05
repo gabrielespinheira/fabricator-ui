@@ -16,7 +16,10 @@ export const overlayItems: Registry["items"] = [
       "cn",
       "react-native-reanimated",
     ],
-    registryDependencies: OVERLAY_REGISTRY_DEPENDENCIES,
+    registryDependencies: [
+      ...OVERLAY_REGISTRY_DEPENDENCIES,
+      "@fabricator/feedback",
+    ],
     files: [{ path: "ui/dialog.tsx", type: "registry:ui" }],
     meta: docs("dialog"),
   },
@@ -34,7 +37,11 @@ export const overlayItems: Registry["items"] = [
       "react-native-reanimated",
       "react-native-worklets",
     ],
-    registryDependencies: ["@fabricator/density", "@fabricator/motion"],
+    registryDependencies: [
+      "@fabricator/density",
+      "@fabricator/feedback",
+      "@fabricator/motion",
+    ],
     files: [
       { path: "lib/sheet-surface.tsx", type: "registry:lib" },
       { path: "lib/sheet-model.ts", type: "registry:lib" },
@@ -59,7 +66,10 @@ export const overlayItems: Registry["items"] = [
       "cn",
       "react-native-reanimated",
     ],
-    registryDependencies: OVERLAY_REGISTRY_DEPENDENCIES,
+    registryDependencies: [
+      ...OVERLAY_REGISTRY_DEPENDENCIES,
+      "@fabricator/feedback",
+    ],
     files: [{ path: "ui/alert-dialog.tsx", type: "registry:ui" }],
     meta: docs("alert-dialog"),
   },
@@ -108,6 +118,7 @@ export const overlayItems: Registry["items"] = [
     dependencies: ["@rn-primitives/popover", "cn", "react-native-reanimated"],
     registryDependencies: [
       ...OVERLAY_REGISTRY_DEPENDENCIES,
+      "@fabricator/feedback",
       "@fabricator/overlay-model",
     ],
     files: [{ path: "ui/popover.tsx", type: "registry:ui" }],
@@ -140,6 +151,7 @@ export const overlayItems: Registry["items"] = [
     ],
     registryDependencies: [
       ...OVERLAY_REGISTRY_DEPENDENCIES,
+      "@fabricator/feedback",
       "@fabricator/overlay-model",
     ],
     files: [{ path: "ui/hover-card.tsx", type: "registry:ui" }],
@@ -161,6 +173,8 @@ export const overlayItems: Registry["items"] = [
     ],
     registryDependencies: [
       ...OVERLAY_REGISTRY_DEPENDENCIES,
+      "@fabricator/feedback",
+      "@fabricator/fluid-hover",
       "@fabricator/overlay-model",
     ],
     files: [{ path: "ui/dropdown-menu.tsx", type: "registry:ui" }],
@@ -182,6 +196,8 @@ export const overlayItems: Registry["items"] = [
     ],
     registryDependencies: [
       ...OVERLAY_REGISTRY_DEPENDENCIES,
+      "@fabricator/feedback",
+      "@fabricator/fluid-hover",
       "@fabricator/overlay-model",
     ],
     files: [{ path: "ui/context-menu.tsx", type: "registry:ui" }],
@@ -202,6 +218,8 @@ export const overlayItems: Registry["items"] = [
     ],
     registryDependencies: [
       ...OVERLAY_REGISTRY_DEPENDENCIES,
+      "@fabricator/feedback",
+      "@fabricator/fluid-hover",
       "@fabricator/overlay-model",
       "@fabricator/sheet-surface",
     ],
@@ -222,9 +240,11 @@ export const overlayItems: Registry["items"] = [
       "@rn-primitives/hooks",
       "cn",
       "react-native-reanimated",
+      "uniwind@1.13.1",
     ],
     registryDependencies: [
       "@fabricator/button",
+      "@fabricator/feedback",
       "@fabricator/motion",
       "@fabricator/render",
       "@fabricator/text",

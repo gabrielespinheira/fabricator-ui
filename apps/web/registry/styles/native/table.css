@@ -25,11 +25,11 @@
     @apply border-border/60 border-t;
   }
 
-  /* Rows: soft dividers; a pressed body row lights up with bg-hover, and selected
-     rows keep bg-active. The last body row has no divider, the footer's and the
-     header's come from their sections. */
+  /* Rows: soft dividers; the lit row hides the ones around it, so the highlight
+     reads as one block, and selected rows keep bg-active. The last body row has no
+     divider, the footer's and the header's come from their sections. */
   .cn-table-row {
-    @apply border-border/60 border-b data-[last=true]:border-b-0 data-[section=header]:border-b-0 data-[section=footer]:border-b-0 data-[section=body]:active:bg-hover data-[state=selected]:bg-active;
+    @apply border-border/60 border-b data-[last=true]:border-b-0 data-[section=header]:border-b-0 data-[section=footer]:border-b-0 data-[lit=true]:border-transparent data-[before-lit=true]:border-transparent data-[state=selected]:bg-active;
   }
 
   /* Head: 36pt, px-3, foreground semibold. */
@@ -41,13 +41,18 @@
     @apply text-foreground text-start font-semibold;
   }
 
-  /* Cells: muted; footer cells stay foreground and medium. */
+  /* Cells: muted; the lit row turns foreground, and footer cells stay foreground
+     and medium. */
   .cn-table-cell {
     @apply px-(--density-12) py-(--density-8);
   }
 
   .cn-table-cell-text {
     @apply text-muted-foreground;
+  }
+
+  .cn-table-cell-text-lit {
+    @apply text-foreground;
   }
 
   .cn-table-cell-text-footer {
@@ -58,7 +63,7 @@
     @apply text-muted-foreground mt-4 text-center text-(length:--density-text-12);
   }
 
-  /* The lit row is square: rows span the table edge to edge. */
+  /* The fluid row highlight is square: rows span the table edge to edge. */
   .cn-table-highlight {
     @apply rounded-none;
   }

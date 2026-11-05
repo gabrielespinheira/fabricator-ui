@@ -2,7 +2,11 @@
 // peek, window and phone layouts behave as they do in a project. The page tells
 // it the options; the look and the theme reach it through the site settings.
 
-import { createLoader, createSerializer } from "nuqs/server"
+import {
+  createLoader,
+  createSerializer,
+  parseAsStringLiteral,
+} from "nuqs/server"
 import { z } from "zod"
 
 import {
@@ -12,12 +16,21 @@ import {
 
 export const SHELL_PREVIEW_PATH = "/create/preview"
 
-const serializeOptions = createSerializer(playgroundParsers)
-const loadOptions = createLoader(playgroundParsers)
+/** The options, and the runtime the preview draws a window for. */
+export const shellPreviewParsers = {
+  ...playgroundParsers,
+  desktop: parseAsStringLiteral(["electron", "tauri"] as const),
+}
+
+const serializeOptions = createSerializer(shellPreviewParsers)
+const loadOptions = createLoader(shellPreviewParsers)
 
 /** The options as a query: only what differs from the defaults. */
-export function getShellPreviewQuery(options: PlaygroundOptions) {
-  return serializeOptions(options)
+export function getShellPreviewQuery(
+  options: PlaygroundOptions,
+  desktop: "electron" | "tauri" | null = null
+) {
+  return serializeOptions({ ...options, desktop })
 }
 
 /** Reads a query; anything unknown keeps its default. */

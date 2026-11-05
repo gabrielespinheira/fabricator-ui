@@ -9,6 +9,8 @@ import {
 import { ChevronRightIcon, type LucideIcon } from "lucide-react-native"
 import { Pressable, StyleSheet, Text, View } from "react-native"
 
+import { useFeedback } from "@/registry/native/lib/feedback"
+
 import { FONT, useStyles, useTheme, type Theme } from "../theme"
 
 type NativeNavItem = NavItem<LucideIcon>
@@ -70,6 +72,7 @@ export function NavRail({
 }) {
   const theme = useTheme()
   const styles = useStyles(buildStyles)
+  const feedback = useFeedback()
   return (
     <View role="navigation" aria-label="Main" style={styles.rail}>
       {applyNavPreferences(groups, preferences).map((group) => (
@@ -80,7 +83,10 @@ export function NavRail({
             return (
               <Pressable
                 key={item.id}
-                onPress={() => onNavigate(item)}
+                onPress={() => {
+                  feedback("tick")
+                  onNavigate(item)
+                }}
                 accessibilityRole="button"
                 accessibilityLabel={item.label}
                 accessibilityState={{ selected: isLit }}
@@ -138,6 +144,7 @@ function NavGroupSection({
 }) {
   const theme = useTheme()
   const styles = useStyles(buildStyles)
+  const feedback = useFeedback()
   const { preferences, setOpen } = context
   const canCollapse = Boolean(group.collapsible && group.label)
   const isOpen = preferences.open[group.id] ?? group.defaultOpen ?? true
@@ -146,7 +153,10 @@ function NavGroupSection({
       {group.label !== undefined && (
         <Pressable
           disabled={!canCollapse}
-          onPress={() => setOpen(group.id, !isOpen)}
+          onPress={() => {
+            feedback(isOpen ? "collapse" : "expand")
+            setOpen(group.id, !isOpen)
+          }}
           accessibilityRole={canCollapse ? "button" : "header"}
           accessibilityState={canCollapse ? { expanded: isOpen } : undefined}
           style={styles.groupHeader}
@@ -183,6 +193,7 @@ function NavRow({
 }) {
   const theme = useTheme()
   const styles = useStyles(buildStyles)
+  const feedback = useFeedback()
   const { activeId, preferences, setOpen, onNavigate } = context
   const children = item.children ?? []
   const hasChildren = children.length > 0
@@ -194,14 +205,24 @@ function NavRow({
     (preferences.open[item.id] ?? ((item.defaultOpen ?? false) || holdsActive))
   const isRaised = depth === 0 && (isCurrent || holdsActive)
   const isLit = isRaised || isCurrent
-  const toggle = () => setOpen(item.id, !isOpen)
+  const toggle = () => {
+    feedback(isOpen ? "collapse" : "expand")
+    setOpen(item.id, !isOpen)
+  }
   const Icon = item.icon
 
   return (
     <View style={styles.rows}>
       <View>
         <Pressable
-          onPress={item.href || !hasChildren ? () => onNavigate(item) : toggle}
+          onPress={
+            item.href || !hasChildren
+              ? () => {
+                  feedback("tick")
+                  onNavigate(item)
+                }
+              : toggle
+          }
           disabled={item.disabled}
           accessibilityRole="button"
           accessibilityState={{

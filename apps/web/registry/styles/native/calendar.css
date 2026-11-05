@@ -67,7 +67,24 @@
   }
 
   .cn-calendar-day-button {
-    @apply h-auto min-w-(--density-32) gap-1 rounded-lg border-0 data-[selected-single=true]:bg-primary data-[selected-single=true]:active:bg-primary/80 data-[range-start=true]:bg-primary data-[range-start=true]:active:bg-primary/80 data-[range-end=true]:bg-primary data-[range-end=true]:active:bg-primary/80 data-[range-middle=true]:bg-transparent data-[range-middle=true]:rounded-none;
+    @apply h-auto min-w-(--density-32) gap-1 rounded-lg border-0 data-[selected-single=true]:bg-primary data-[range-start=true]:bg-primary data-[range-end=true]:bg-primary data-[range-middle=true]:bg-transparent data-[range-middle=true]:rounded-none;
+  }
+
+  /* Pressed, under the numeral and easing in and out: the next interaction step, as
+     on a ghost button. */
+  .cn-calendar-day-wash {
+    @apply rounded-lg bg-active;
+  }
+
+  /* A selected day's fill goes to 80%, as a primary button's does: the interaction
+     step wouldn't show on it. */
+  .cn-calendar-filled-day-wash {
+    @apply rounded-lg bg-background/20;
+  }
+
+  /* The month buttons keep Button's border, so theirs fills the border box. */
+  .cn-calendar-nav-wash {
+    @apply -inset-px rounded-lg bg-active;
   }
 
   /* Numerals: foreground, muted outside the month and when disabled, in the

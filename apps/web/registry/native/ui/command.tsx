@@ -1,14 +1,29 @@
 import * as React from "react"
-import { CheckIcon, SearchIcon } from "@fabricator-ui/icons-react-native"
+import {
+  CheckIcon,
+  IconProvider,
+  SearchIcon,
+} from "@fabricator-ui/icons-react-native"
 import { useControllableState } from "@rn-primitives/hooks"
 import { cn } from "cn"
-import { Pressable, ScrollView, TextInput, View } from "react-native"
+import {
+  Pressable,
+  TextInput,
+  View,
+  type GestureResponderEvent,
+  type ScrollView,
+} from "react-native"
 
+import { useFeedback } from "@/registry/native/lib/feedback"
 import {
   createCommandStore,
   getChildrenText,
   type CommandFilter,
 } from "@/registry/native/lib/filter-model"
+import {
+  FluidHoverScrollList,
+  useFluidRow,
+} from "@/registry/native/lib/fluid-hover"
 import {
   Dialog,
   DialogContent,
@@ -200,17 +215,16 @@ function CommandList({
   label?: string
 }) {
   return (
-    <ScrollView
+    <FluidHoverScrollList
       data-slot="command-list"
       role="list"
       accessibilityLabel={label}
-      keyboardShouldPersistTaps="handled"
       nestedScrollEnabled
       className={cn("cn-command-list grow-0", className)}
       {...props}
     >
       {renderTextChildren(children)}
-    </ScrollView>
+    </FluidHoverScrollList>
   )
 }
 
@@ -290,30 +304,31 @@ function CommandSeparator({
   )
 }
 
-function CommandItem({
-  className,
-  children,
-  value,
-  keywords,
-  disabled,
-  onSelect,
-  onPress,
-  forceMount = false,
-  "data-checked": checked,
-  ...props
-}: Omit<React.ComponentProps<typeof Pressable>, "children"> & {
+type CommandItemProps = Omit<
+  React.ComponentProps<typeof Pressable>,
+  "children" | "onPress"
+> & {
   children?: React.ReactNode
   /** What the search matches; its text when left out. */
   value?: string
   keywords?: readonly string[]
   onSelect?: (value: string) => void
+  /** After a drag, letting go over the row runs this with no press to pass on. */
+  onPress?: (event?: GestureResponderEvent) => void
   forceMount?: boolean
   "data-checked"?: boolean | "true" | "false"
-}) {
-  const { store, selectedValue, setSelectedValue } = useCommand()
+}
+
+function CommandItem({
+  value,
+  keywords,
+  forceMount = false,
+  ...props
+}: CommandItemProps) {
+  const { store } = useCommand()
   const groupId = React.use(CommandGroupContext)
   const id = React.useId()
-  const itemValue = (value ?? getChildrenText(children)).trim()
+  const itemValue = (value ?? getChildrenText(props.children)).trim()
   const keywordKey = keywords?.join("\n")
   const itemKeywords = React.useMemo(
     () => keywordKey?.split("\n"),
@@ -332,7 +347,35 @@ function CommandItem({
   // Reads the search, so a new one re-renders every item.
   useCommandSnapshot(store)
   if (!forceMount && !store.isVisible(itemValue, itemKeywords)) return null
+  return <CommandItemRow itemValue={itemValue} {...props} />
+}
 
+// CommandItem stays mounted while it's filtered out, to count for the next search.
+// This unmounts, so a row that isn't showing leaves the highlight's rows.
+function CommandItemRow({
+  className,
+  children,
+  itemValue,
+  disabled,
+  onSelect,
+  onPress,
+  "data-checked": checked,
+  ...props
+}: Omit<CommandItemProps, "value" | "keywords" | "forceMount"> & {
+  itemValue: string
+}) {
+  const { selectedValue, setSelectedValue } = useCommand()
+  const feedback = useFeedback()
+  const { isLit, rowProps } = useFluidRow({
+    ...props,
+    disabled,
+    onActivate: () => {
+      feedback("pick")
+      setSelectedValue(itemValue)
+      onSelect?.(itemValue)
+      onPress?.()
+    },
+  })
   const isChecked = checked === true || checked === "true"
   const hasShortcut = React.Children.toArray(children).some(
     (child) => React.isValidElement(child) && child.type === CommandShortcut
@@ -343,11 +386,13 @@ function CommandItem({
       data-selected={selectedValue === itemValue}
       data-checked={isChecked}
       data-disabled={Boolean(disabled)}
+      data-lit={isLit}
       role="option"
       aria-selected={isChecked}
       aria-disabled={disabled ?? undefined}
       disabled={disabled}
       onPress={(event) => {
+        feedback("pick")
         setSelectedValue(itemValue)
         onSelect?.(itemValue)
         onPress?.(event)
@@ -357,23 +402,28 @@ function CommandItem({
         className
       )}
       {...props}
+      {...rowProps}
     >
       <TextStyle
         className={
           isChecked
             ? cn("cn-command-item-text-checked")
-            : cn("cn-command-item-text")
+            : isLit
+              ? cn("cn-command-item-text-lit")
+              : cn("cn-command-item-text")
         }
       >
-        {renderTextChildren(children)}
-        {!hasShortcut && (
-          <View
-            data-checked={isChecked}
-            className="cn-command-item-indicator ml-auto"
-          >
-            <CheckIcon aria-hidden />
-          </View>
-        )}
+        <IconProvider strokeWidth={isLit ? 2 : 1.5}>
+          {renderTextChildren(children)}
+          {!hasShortcut && (
+            <View
+              data-checked={isChecked}
+              className="cn-command-item-indicator ml-auto"
+            >
+              <CheckIcon aria-hidden />
+            </View>
+          )}
+        </IconProvider>
       </TextStyle>
     </Pressable>
   )

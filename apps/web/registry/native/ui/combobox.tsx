@@ -2,12 +2,20 @@ import * as React from "react"
 import {
   CheckIcon,
   ChevronDownIcon,
+  IconProvider,
   XIcon,
 } from "@fabricator-ui/icons-react-native"
 import { useControllableState } from "@rn-primitives/hooks"
 import { cn } from "cn"
-import { Pressable, ScrollView, TextInput, View } from "react-native"
+import {
+  Pressable,
+  ScrollView,
+  TextInput,
+  View,
+  type GestureResponderEvent,
+} from "react-native"
 
+import { useFeedback } from "@/registry/native/lib/feedback"
 import {
   filterItems,
   getChildrenText,
@@ -17,6 +25,14 @@ import {
   selectItem,
   type ItemFilter,
 } from "@/registry/native/lib/filter-model"
+import {
+  FluidHoverArea,
+  FluidHoverHighlight,
+  FluidHoverProvider,
+  FluidHoverSelection,
+  useFluidHover,
+  useFluidRow,
+} from "@/registry/native/lib/fluid-hover"
 import { renderSlot, type RenderProps } from "@/registry/native/lib/render"
 import { Button } from "@/registry/native/ui/button"
 import { Dialog, DialogContent } from "@/registry/native/ui/dialog"
@@ -46,6 +62,12 @@ type ComboboxState = {
 }
 
 const ComboboxContext = React.createContext<ComboboxState | null>(null)
+
+// Where the selected row names itself. It stops when the search filters it out,
+// so the selection leaves with it.
+const ComboboxSelectedRowContext = React.createContext<
+  ((key: string | undefined) => void) | null
+>(null)
 
 function useCombobox() {
   const context = React.use(ComboboxContext)
@@ -426,9 +448,19 @@ function ComboboxList<TItem = string>(
 function ComboboxList({
   className,
   children,
+  onLayout,
+  onContentSizeChange,
   ...props
 }: ComboboxListProps<unknown>) {
   const { items, isEmpty } = useCombobox()
+  const [selected, setSelected] = React.useState<string>()
+  const [viewport, setViewport] = React.useState(0)
+  const [content, setContent] = React.useState(0)
+  // FluidHoverScrollList's drag, with the selection it doesn't draw.
+  const fluid = useFluidHover({
+    selected,
+    track: content > viewport + 1 ? "hold" : "drag",
+  })
   return (
     <ScrollView
       data-slot="combobox-list"
@@ -436,11 +468,29 @@ function ComboboxList({
       role="list"
       keyboardShouldPersistTaps="handled"
       className={cn("cn-combobox-list grow-0", className)}
+      onLayout={(event) => {
+        setViewport(event.nativeEvent.layout.height)
+        onLayout?.(event)
+      }}
+      onContentSizeChange={(width, height) => {
+        setContent(height)
+        onContentSizeChange?.(width, height)
+      }}
       {...props}
     >
-      {typeof children === "function"
-        ? items.map(children)
-        : renderTextChildren(children)}
+      <FluidHoverProvider fluid={fluid}>
+        <FluidHoverArea fluid={fluid}>
+          <View ref={fluid.attach} className="relative">
+            <FluidHoverSelection selection={fluid.selection} />
+            <FluidHoverHighlight hover={fluid.hover} />
+            <ComboboxSelectedRowContext value={setSelected}>
+              {typeof children === "function"
+                ? items.map(children)
+                : renderTextChildren(children)}
+            </ComboboxSelectedRowContext>
+          </View>
+        </FluidHoverArea>
+      </FluidHoverProvider>
     </ScrollView>
   )
 }
@@ -452,22 +502,44 @@ function ComboboxItem({
   disabled,
   onPress,
   ...props
-}: Omit<React.ComponentProps<typeof Pressable>, "children"> & {
+}: Omit<React.ComponentProps<typeof Pressable>, "children" | "onPress"> & {
   children?: React.ReactNode
   value?: unknown
+  /** After a drag, letting go over the row runs this with no press to pass on. */
+  onPress?: (event?: GestureResponderEvent) => void
 }) {
   const combobox = useCombobox()
   const isSelected = combobox.isSelected(value)
+  const feedback = useFeedback()
+  const setSelectedRow = React.use(ComboboxSelectedRowContext)
+  const { key, isLit, rowProps } = useFluidRow({
+    ...props,
+    disabled,
+    onActivate: () => {
+      feedback("pick")
+      combobox.select(value)
+      onPress?.()
+    },
+  })
+  // One selection slides between rows. With several chosen, each row fills itself.
+  const isSlidingSelection = isSelected && !combobox.multiple
+  React.useLayoutEffect(() => {
+    if (!isSlidingSelection) return
+    setSelectedRow?.(key)
+    return () => setSelectedRow?.(undefined)
+  }, [isSlidingSelection, key, setSelectedRow])
   return (
     <Pressable
       data-slot="combobox-item"
       data-selected={isSelected}
+      data-multiple={combobox.multiple}
       data-disabled={Boolean(disabled)}
       role="option"
       aria-selected={isSelected}
       aria-disabled={disabled ?? undefined}
       disabled={disabled}
       onPress={(event) => {
+        feedback("pick")
         combobox.select(value)
         onPress?.(event)
       }}
@@ -476,15 +548,20 @@ function ComboboxItem({
         className
       )}
       {...props}
+      {...rowProps}
     >
       <TextStyle
         className={
           isSelected
             ? cn("cn-combobox-item-text-selected")
-            : cn("cn-combobox-item-text")
+            : isLit
+              ? cn("cn-combobox-item-text-lit")
+              : cn("cn-combobox-item-text")
         }
       >
-        {renderTextChildren(children)}
+        <IconProvider strokeWidth={isLit ? 2 : 1.5}>
+          {renderTextChildren(children)}
+        </IconProvider>
       </TextStyle>
       {isSelected && (
         <TextStyle className="cn-combobox-item-indicator-icon">

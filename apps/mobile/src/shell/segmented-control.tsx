@@ -1,8 +1,11 @@
-import { Pressable, StyleSheet, Text, View, type ViewStyle } from "react-native"
+import { type ViewStyle } from "react-native"
 
-import { FONT, useStyles, type Theme } from "../theme"
+import { Tabs, TabsList, TabsTrigger } from "@/registry/native/ui/tabs"
 
-/** One choice of a few: Fabricator's tab track, as the panel's tabs use it. */
+/**
+ * One choice of a few: Fabricator's tab track, as the panel's tabs use it. It's the
+ * library's Tabs, so its selection slides and a finger can drag along it.
+ */
 export function SegmentedControl<Value extends string>({
   label,
   options,
@@ -16,61 +19,29 @@ export function SegmentedControl<Value extends string>({
   onChange: (value: Value) => void
   style?: ViewStyle
 }) {
-  const styles = useStyles(buildStyles)
   return (
-    <View accessibilityRole="tabbar" style={[styles.track, style]}>
-      {options.map((option) => {
-        const isActive = option.value === value
-        return (
-          <Pressable
+    <Tabs
+      value={value ?? ""}
+      onValueChange={(next) => {
+        const picked = options.find((option) => option.value === next)
+        if (picked) onChange(picked.value)
+      }}
+    >
+      <TabsList
+        accessibilityLabel={label}
+        className="self-stretch"
+        style={style}
+      >
+        {options.map((option) => (
+          <TabsTrigger
             key={option.value}
-            accessibilityRole="button"
+            value={option.value}
             accessibilityLabel={`${label}: ${option.label}`}
-            accessibilityState={{ selected: isActive }}
-            onPress={() => onChange(option.value)}
-            style={[styles.item, isActive && styles.itemActive]}
           >
-            <Text
-              numberOfLines={1}
-              style={[styles.label, isActive && styles.labelActive]}
-            >
-              {option.label}
-            </Text>
-          </Pressable>
-        )
-      })}
-    </View>
+            {option.label}
+          </TabsTrigger>
+        ))}
+      </TabsList>
+    </Tabs>
   )
 }
-
-const buildStyles = (theme: Theme) =>
-  StyleSheet.create({
-    track: {
-      flexDirection: "row",
-      height: theme.space[36],
-      padding: theme.space[4],
-      borderRadius: theme.radius.xl,
-      backgroundColor: theme.colors.tabTrack,
-    },
-    item: {
-      flexGrow: 1,
-      height: theme.space[28],
-      paddingHorizontal: theme.space[8],
-      borderRadius: theme.radius.lg,
-      alignItems: "center",
-      justifyContent: "center",
-    },
-    itemActive: {
-      backgroundColor: theme.colors.tabActive,
-      boxShadow: theme.shadows.raised,
-    },
-    label: {
-      fontFamily: FONT.regular,
-      fontSize: theme.text[13],
-      color: theme.colors.muted,
-    },
-    labelActive: {
-      fontFamily: FONT.semibold,
-      color: theme.colors.foreground,
-    },
-  })

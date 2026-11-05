@@ -17,12 +17,14 @@ import {
 } from "react-native"
 import { Gesture, GestureDetector } from "react-native-gesture-handler"
 import Animated, {
+  ReduceMotion,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
 } from "react-native-reanimated"
 import { scheduleOnRN } from "react-native-worklets"
 
+import { useSurfaceFeedback } from "@/registry/native/lib/feedback"
 import { useMotion } from "@/registry/native/lib/motion"
 import {
   getClosedOffset,
@@ -167,7 +169,11 @@ function SheetPanel({
 
   const enter = React.useCallback(() => {
     hasExited.current = false
-    const config = { duration: enterMs, easing: drawerEasing }
+    const config = {
+      duration: enterMs,
+      easing: drawerEasing,
+      reduceMotion: ReduceMotion.Never,
+    }
     if (isReduced) {
       offset.value = 0
       fade.value = withTiming(1, config)
@@ -180,7 +186,11 @@ function SheetPanel({
   const exit = React.useCallback(
     (duration: number) => {
       "worklet"
-      const config = { duration, easing: drawerEasing }
+      const config = {
+        duration,
+        easing: drawerEasing,
+        reduceMotion: ReduceMotion.Never,
+      }
       const onDone = (finished?: boolean) => {
         "worklet"
         if (finished) scheduleOnRN(handleExitEnd)
@@ -387,6 +397,7 @@ function SheetSurface({
 }: SheetSurfaceProps) {
   const density = useDensity()
   const name = React.useId()
+  useSurfaceFeedback("panel", open)
   const [isMounted, setIsMounted] = React.useState(open)
   if (open && !isMounted) setIsMounted(true)
   const handleExited = React.useCallback(() => setIsMounted(false), [])

@@ -21,7 +21,9 @@ import {
 } from "@/registry/native/lib/sortable-model"
 
 const DEFAULT_GROUP = "default"
-const LONG_PRESS_MS = 250
+// Long enough that a slow tap on a row that also navigates stays a tap: a drag
+// taking over cancels the press.
+const LONG_PRESS_MS = 400
 
 type RowsByGroup = Record<string, Record<string, SortableRow>>
 

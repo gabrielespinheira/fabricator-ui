@@ -11,16 +11,20 @@
     @apply border-0;
   }
 
-  /* Triggers: rounded-lg rows. The website's one glides a highlight under the
-     pointer; a finger only presses one row at a time, so pressed is a fill. */
+  /* Triggers: rounded-lg rows. The root's Fluid Hover paints the pressed row: a
+     press fades its highlight in, and another before it has faded glides there. */
   .cn-accordion-trigger {
-    @apply active:bg-hover gap-(--density-8) rounded-lg px-(--density-12) py-(--density-8);
+    @apply gap-(--density-8) rounded-lg px-(--density-12) py-(--density-8);
   }
 
-  /* 13pt and muted at rest. An open item's trigger turns foreground and
-     semibold. */
+  /* 13pt and muted at rest. The lit trigger turns foreground, and an open item's
+     trigger foreground and semibold. */
   .cn-accordion-trigger-text {
     @apply text-muted-foreground text-start text-(length:--density-text-13) leading-5 font-normal;
+  }
+
+  .cn-accordion-trigger-text-lit {
+    @apply text-foreground;
   }
 
   .cn-accordion-trigger-text-open {
@@ -28,7 +32,8 @@
   }
 
   /* One chevron that points to the end and turns 90 degrees to point down when
-     open, on the disclosure timing. Its stroke thickens when open. */
+     open, on the disclosure timing both ways, as the website's transition does.
+     Reduce Motion drops the turn. Its stroke thickens when lit and when open. */
   .cn-accordion-trigger-icon {
     @apply mt-0.5 ms-auto size-(--density-icon-16);
   }
@@ -568,8 +573,10 @@
     @apply opacity-100;
   }
 
+  /* Dimmed until it's up, clearing on the move timing: the opacity is in the
+     source, since a class could only snap. */
   .cn-attachment-media-variant-image {
-    @apply opacity-60 data-[state=idle]:opacity-100 data-[state=done]:opacity-100;
+    @apply opacity-100;
   }
 
   .cn-attachment-content {
@@ -597,9 +604,18 @@
     @apply gap-(--density-8) p-1;
   }
 
-  /* Covers the tile; pressed lights it up. */
+  /* Covers the tile. */
   .cn-attachment-trigger {
-    @apply active:bg-hover rounded-lg;
+    @apply rounded-lg;
+  }
+
+  /* Pressed lights it up, easing in and out. */
+  .cn-attachment-trigger-wash {
+    @apply bg-hover rounded-lg;
+  }
+
+  .cn-attachment-trigger-wash-vertical {
+    @apply rounded-xl;
   }
 
 /* MARK: Avatar */
@@ -1019,9 +1035,66 @@
 /* MARK: Button */
 
   /* 36pt controls at the default density, 13pt medium text, rounded-lg.
-     Pressed is a background step plus the press scale (usePressScale). */
+     Pressed is a wash under the label plus the press scale (usePressScale),
+     both easing on the feedback timing. Icons draw at stroke 1.5, set in the
+     source: a class can't reach them. */
   .cn-button {
     @apply rounded-lg border border-transparent;
+  }
+
+  /* The wash fills the border box and follows the button's corners. Each step
+     matches the website's: the fill at 80%, or the next interaction token. */
+  .cn-button-wash {
+    @apply -inset-px rounded-lg;
+  }
+
+  /* In a button group the wash squares the corners its button squares. */
+  .cn-button-wash-horizontal-first {
+    @apply rounded-r-none;
+  }
+
+  .cn-button-wash-horizontal-middle {
+    @apply rounded-none;
+  }
+
+  .cn-button-wash-horizontal-last {
+    @apply rounded-l-none;
+  }
+
+  .cn-button-wash-vertical-first {
+    @apply rounded-b-none;
+  }
+
+  .cn-button-wash-vertical-middle {
+    @apply rounded-none;
+  }
+
+  .cn-button-wash-vertical-last {
+    @apply rounded-t-none;
+  }
+
+  .cn-button-wash-variant-default {
+    @apply bg-background/20;
+  }
+
+  .cn-button-wash-variant-outline {
+    @apply bg-active;
+  }
+
+  .cn-button-wash-variant-secondary {
+    @apply bg-background/30;
+  }
+
+  .cn-button-wash-variant-ghost {
+    @apply bg-active;
+  }
+
+  .cn-button-wash-variant-destructive {
+    @apply bg-destructive/8;
+  }
+
+  .cn-button-wash-variant-link {
+    @apply bg-transparent;
   }
 
   .cn-button-text {
@@ -1030,7 +1103,7 @@
 
   /* The primary role's fill; pressed is the fill at 80%. */
   .cn-button-variant-default {
-    @apply bg-primary active:bg-primary/80;
+    @apply bg-primary;
   }
 
   .cn-button-text-variant-default {
@@ -1040,7 +1113,7 @@
   /* Transparent with a hairline edge; pressed steps through the interaction
      tokens. */
   .cn-button-variant-outline {
-    @apply border-border bg-transparent active:bg-active;
+    @apply border-border bg-transparent;
   }
 
   .cn-button-text-variant-outline {
@@ -1049,7 +1122,7 @@
 
   /* The secondary role: a translucent tint. */
   .cn-button-variant-secondary {
-    @apply bg-secondary active:bg-secondary/80;
+    @apply bg-secondary;
   }
 
   .cn-button-text-variant-secondary {
@@ -1058,7 +1131,7 @@
 
   /* Muted at rest, foreground when lit. */
   .cn-button-variant-ghost {
-    @apply bg-transparent active:bg-active;
+    @apply bg-transparent;
   }
 
   .cn-button-text-variant-ghost {
@@ -1068,7 +1141,7 @@
   /* The soft form of the destructive role: a wash of its fill with its text
      colour. */
   .cn-button-variant-destructive {
-    @apply bg-destructive/12 active:bg-destructive/20;
+    @apply bg-destructive/12;
   }
 
   .cn-button-text-variant-destructive {
@@ -1191,7 +1264,24 @@
   }
 
   .cn-calendar-day-button {
-    @apply h-auto min-w-(--density-32) gap-1 rounded-lg border-0 data-[selected-single=true]:bg-primary data-[selected-single=true]:active:bg-primary/80 data-[range-start=true]:bg-primary data-[range-start=true]:active:bg-primary/80 data-[range-end=true]:bg-primary data-[range-end=true]:active:bg-primary/80 data-[range-middle=true]:bg-transparent data-[range-middle=true]:rounded-none;
+    @apply h-auto min-w-(--density-32) gap-1 rounded-lg border-0 data-[selected-single=true]:bg-primary data-[range-start=true]:bg-primary data-[range-end=true]:bg-primary data-[range-middle=true]:bg-transparent data-[range-middle=true]:rounded-none;
+  }
+
+  /* Pressed, under the numeral and easing in and out: the next interaction step, as
+     on a ghost button. */
+  .cn-calendar-day-wash {
+    @apply rounded-lg bg-active;
+  }
+
+  /* A selected day's fill goes to 80%, as a primary button's does: the interaction
+     step wouldn't show on it. */
+  .cn-calendar-filled-day-wash {
+    @apply rounded-lg bg-background/20;
+  }
+
+  /* The month buttons keep Button's border, so theirs fills the border box. */
+  .cn-calendar-nav-wash {
+    @apply -inset-px rounded-lg bg-active;
   }
 
   /* Numerals: foreground, muted outside the month and when disabled, in the
@@ -1252,12 +1342,23 @@
     @apply rounded-full;
   }
 
+  /* The pressed wash follows the round arrow. */
+  .cn-carousel-previous-wash {
+    @apply rounded-full;
+  }
+
+  .cn-carousel-next-wash {
+    @apply rounded-full;
+  }
+
 /* MARK: Checkbox */
 
   /* 18pt, rounded-[6px], a quiet 1.5pt outline. Checked fills with the primary
-     role and the check pops in in its foreground. */
+     role, or the destructive one when invalid, and the check pops in in its
+     foreground. The press gives on the feedback timing, in the source: a class
+     could only snap. */
   .cn-checkbox {
-    @apply size-[calc(var(--density-icon-16)+2px)] rounded-[6px] border-[1.5px] border-foreground/25 bg-transparent active:scale-90 data-[state=checked]:border-primary data-[state=checked]:bg-primary data-[state=indeterminate]:border-primary data-[state=indeterminate]:bg-primary data-[invalid=true]:border-destructive;
+    @apply size-[calc(var(--density-icon-16)+2px)] rounded-[6px] border-[1.5px] border-foreground/25 bg-transparent data-[state=checked]:border-primary data-[state=checked]:bg-primary data-[state=indeterminate]:border-primary data-[state=indeterminate]:bg-primary data-[invalid=true]:border-destructive data-[invalid=true]:data-[state=checked]:border-destructive data-[invalid=true]:data-[state=checked]:bg-destructive;
   }
 
   .cn-checkbox-indicator {
@@ -1276,8 +1377,8 @@
   }
 
   /* Opens and closes like Accordion content: DisclosurePanel animates the
-     measured height on the disclosure timing, and Reduce Motion opens and closes
-     at once. */
+     measured height on the disclosure timing, with the quicker exit to close.
+     Reduce Motion drops the height's travel and keeps a fade. */
   .cn-collapsible-content {
     @apply w-full;
   }
@@ -1299,11 +1400,13 @@
     @apply text-muted-foreground px-(--density-8) py-(--density-6) text-(length:--density-text-12);
   }
 
-  /* Rows: 36pt, 13pt, muted at rest; a pressed row steps through the interaction
-     tokens. Selected rows are foreground and semibold on the active fill, with a
-     check at the end. */
+  /* Rows: 36pt, 13pt, muted at rest. They paint nothing themselves: one highlight
+     glides under the finger, and one bg-active selection slides to the selected
+     row (Fluid Hover). Selected rows are foreground and semibold, with a check at
+     the end. With several chosen there's no one row to slide to, so each fills
+     itself. */
   .cn-combobox-item {
-    @apply active:bg-hover data-[selected=true]:bg-active h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8);
+    @apply data-[multiple=true]:data-[selected=true]:bg-active h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8);
   }
 
   .cn-combobox-item-text {
@@ -1312,6 +1415,12 @@
 
   .cn-combobox-item-text-selected {
     @apply text-foreground text-(length:--density-text-13) font-semibold;
+  }
+
+  /* Under the highlight a row reads foreground, as a hovered one does on the
+     website; only selecting it changes the weight. */
+  .cn-combobox-item-text-lit {
+    @apply text-foreground text-(length:--density-text-13);
   }
 
   .cn-combobox-item-indicator {
@@ -1367,7 +1476,7 @@
   }
 
   .cn-combobox-input-field {
-    @apply text-foreground h-full py-0 text-(length:--density-text-13);
+    @apply font-sans text-foreground h-full py-0 text-(length:--density-text-13);
   }
 
   /* Chips field: the input recipe, growing with its chips. */
@@ -1392,7 +1501,7 @@
   }
 
   .cn-combobox-chip-input {
-    @apply text-muted-foreground py-0 text-(length:--density-text-13);
+    @apply font-sans text-muted-foreground py-0 text-(length:--density-text-13);
   }
 
 /* MARK: Command */
@@ -1425,7 +1534,7 @@
   }
 
   .cn-command-input {
-    @apply text-foreground h-full py-0 text-(length:--density-text-14);
+    @apply font-sans text-foreground h-full py-0 text-(length:--density-text-14);
   }
 
   /* The list is divided from the search row. */
@@ -1453,10 +1562,12 @@
     @apply bg-border/60 -mx-1 my-1 h-px;
   }
 
-  /* Rows: 36pt, 13pt, muted at rest; a pressed row steps through the interaction
-     tokens. Checked rows are foreground and semibold. */
+  /* Rows: 36pt, 13pt, muted at rest. One highlight glides under the finger (Fluid
+     Hover). The last one pressed keeps a hover fill, and gives way to the highlight
+     while it's lit, so the two never stack. Checked rows are foreground and
+     semibold. */
   .cn-command-item {
-    @apply active:bg-hover data-[selected=true]:bg-hover h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8);
+    @apply data-[selected=true]:data-[lit=false]:bg-hover h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8);
   }
 
   .cn-command-item-text {
@@ -1467,12 +1578,19 @@
     @apply text-foreground text-(length:--density-text-13) font-semibold;
   }
 
+  /* Under the highlight a row reads foreground, as a hovered one does on the
+     website; only checking it changes the weight. */
+  .cn-command-item-text-lit {
+    @apply text-foreground text-(length:--density-text-13);
+  }
+
   .cn-command-item-indicator {
     @apply opacity-0 data-[checked=true]:opacity-100;
   }
 
+  /* Keyboard shortcuts wait for a tablet: a phone has no keyboard to press them on. */
   .cn-command-shortcut {
-    @apply text-muted-foreground ml-auto text-(length:--density-text-11) tracking-normal;
+    @apply hidden sm:flex text-muted-foreground ml-auto text-(length:--density-text-11) tracking-normal;
   }
 
 /* MARK: Context Menu */
@@ -1499,14 +1617,21 @@
     @apply text-popover-foreground text-(length:--density-text-13);
   }
 
-  /* Rows: 36pt, 13pt, muted at rest; the pressed row lights up. Touch has no
-     resting highlight, so one row at a time is lit only under the finger. */
+  /* Rows: 36pt, 13pt, muted at rest. They paint nothing themselves: one highlight
+     glides under the finger (Fluid Hover). Touch has no resting highlight, so a
+     row is lit only while the finger is on it. */
   .cn-context-menu-item {
-    @apply h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8) active:bg-hover data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))];
+    @apply h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8) data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))];
   }
 
   .cn-context-menu-item-text {
     @apply text-muted-foreground text-(length:--density-text-13);
+  }
+
+  /* Under the highlight a row reads foreground, as a hovered one does on the
+     website. */
+  .cn-context-menu-item-text-lit {
+    @apply text-foreground text-(length:--density-text-13);
   }
 
   /* Destructive rows stay destructive when lit. */
@@ -1524,12 +1649,17 @@
     @apply text-foreground font-semibold;
   }
 
+  /* Lit, it reads foreground too; only choosing it changes the weight. */
+  .cn-context-menu-choice-text-lit {
+    @apply text-foreground;
+  }
+
   .cn-context-menu-checkbox-item {
-    @apply h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) active:bg-hover data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))];
+    @apply h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))];
   }
 
   .cn-context-menu-radio-item {
-    @apply h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) active:bg-hover data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))];
+    @apply h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))];
   }
 
   .cn-context-menu-item-indicator {
@@ -1548,13 +1678,15 @@
     @apply bg-border/60 -mx-1 my-1 h-px;
   }
 
+  /* Keyboard shortcuts wait for a tablet: a phone has no keyboard to press them on. */
   .cn-context-menu-shortcut {
-    @apply text-muted-foreground ml-auto text-(length:--density-text-11) tracking-normal;
+    @apply hidden sm:flex text-muted-foreground ml-auto text-(length:--density-text-11) tracking-normal;
   }
 
-  /* An open sub-trigger stays lit while its submenu shows below it. */
+  /* An open sub-trigger keeps a fill while its submenu shows below it, and gives
+     way to the highlight while it's lit, so the two never stack. */
   .cn-context-menu-sub-trigger {
-    @apply h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8) active:bg-hover data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))] data-[state=open]:bg-hover;
+    @apply h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8) data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))] data-[state=open]:data-[lit=false]:bg-hover;
   }
 
   /* A submenu expands inline, indented under a hairline: a phone has no room
@@ -1671,14 +1803,21 @@
     @apply text-popover-foreground text-(length:--density-text-13);
   }
 
-  /* Rows: 36pt, 13pt, muted at rest; the pressed row lights up. Touch has no
-     resting highlight, so one row at a time is lit only under the finger. */
+  /* Rows: 36pt, 13pt, muted at rest. They paint nothing themselves: one highlight
+     glides under the finger (Fluid Hover). Touch has no resting highlight, so a
+     row is lit only while the finger is on it. */
   .cn-dropdown-menu-item {
-    @apply h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8) active:bg-hover data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))];
+    @apply h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8) data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))];
   }
 
   .cn-dropdown-menu-item-text {
     @apply text-muted-foreground text-(length:--density-text-13);
+  }
+
+  /* Under the highlight a row reads foreground, as a hovered one does on the
+     website. */
+  .cn-dropdown-menu-item-text-lit {
+    @apply text-foreground text-(length:--density-text-13);
   }
 
   /* Destructive rows stay destructive when lit. */
@@ -1696,12 +1835,17 @@
     @apply text-foreground font-semibold;
   }
 
+  /* Lit, it reads foreground too; only choosing it changes the weight. */
+  .cn-dropdown-menu-choice-text-lit {
+    @apply text-foreground;
+  }
+
   .cn-dropdown-menu-checkbox-item {
-    @apply h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) active:bg-hover data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))];
+    @apply h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))];
   }
 
   .cn-dropdown-menu-radio-item {
-    @apply h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) active:bg-hover data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))];
+    @apply h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))];
   }
 
   .cn-dropdown-menu-item-indicator {
@@ -1720,13 +1864,15 @@
     @apply bg-border/60 -mx-1 my-1 h-px;
   }
 
+  /* Keyboard shortcuts wait for a tablet: a phone has no keyboard to press them on. */
   .cn-dropdown-menu-shortcut {
-    @apply text-muted-foreground ml-auto text-(length:--density-text-11) tracking-normal;
+    @apply hidden sm:flex text-muted-foreground ml-auto text-(length:--density-text-11) tracking-normal;
   }
 
-  /* An open sub-trigger stays lit while its submenu shows below it. */
+  /* An open sub-trigger keeps a fill while its submenu shows below it, and gives
+     way to the highlight while it's lit, so the two never stack. */
   .cn-dropdown-menu-sub-trigger {
-    @apply h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8) active:bg-hover data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))] data-[state=open]:bg-hover;
+    @apply h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8) data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))] data-[state=open]:data-[lit=false]:bg-hover;
   }
 
   /* A submenu expands inline, indented under a hairline: a phone has no room
@@ -1875,7 +2021,7 @@
 /* MARK: Hover Card */
 
   /* Popup recipe: surface 3 with its shadow ring (no border), rounded-xl, p-3,
-     13pt, on the popup motion (useSurfaceAnimation). */
+     13pt. Grows from its trigger on the popup motion (useSurfaceAnimation). */
   .cn-hover-card-content {
     @apply bg-surface-3 shadow-surface-3 rounded-xl p-(--density-12);
   }
@@ -1938,6 +2084,11 @@
     @apply text-(length:--density-text-12);
   }
 
+  /* The pressed wash follows the inline button's smaller corners. */
+  .cn-input-group-button-wash {
+    @apply rounded-md;
+  }
+
   .cn-input-group-button-size-xs {
     @apply h-(--density-24) gap-1 rounded-md px-(--density-8);
   }
@@ -1982,17 +2133,22 @@
      keyboard and the slots only draw. Not opacity-0: iOS doesn't touch a view
      below 1%. */
   .cn-input-otp-input {
-    @apply text-transparent opacity-[0.02];
+    @apply font-sans text-transparent opacity-[0.02];
   }
 
   .cn-input-otp-group {
     @apply gap-(--density-6) rounded-lg;
   }
 
-  /* 36pt slots framed by a hairline; the active slot lifts to the card surface
-     with a firmer neutral edge. Invalid slots turn the edge red. */
+  /* 36pt slots framed by a hairline. Invalid slots turn the edge red. */
   .cn-input-otp-slot {
-    @apply border-border data-[active=true]:bg-card data-[active=true]:border-foreground/30 data-[invalid=true]:border-destructive/50 data-[active=true]:data-[invalid=true]:border-destructive size-(--density-36) rounded-lg border bg-transparent;
+    @apply border-border data-[invalid=true]:border-destructive/50 size-(--density-36) rounded-lg border bg-transparent;
+  }
+
+  /* The active slot lifts to the card surface with a firmer neutral edge, red when
+     invalid. It covers the border box, and fades on the feedback timing. */
+  .cn-input-otp-slot-focus {
+    @apply bg-card border-foreground/30 data-[invalid=true]:border-destructive -inset-px rounded-lg border;
   }
 
   .cn-input-otp-slot-text {
@@ -2020,7 +2176,7 @@
   /* A hairline frame, transparent at rest, lifted to the card surface on
      focus. Invalid turns the frame red. */
   .cn-input {
-    @apply text-foreground border-border focus:bg-card focus:border-foreground/25 data-[invalid=true]:border-destructive/50 h-(--density-36) rounded-lg border bg-transparent px-(--density-10) py-1 text-(length:--density-text-13);
+    @apply font-sans text-foreground border-border focus:bg-card focus:border-foreground/25 data-[invalid=true]:border-destructive/50 h-(--density-36) rounded-lg border bg-transparent px-(--density-10) py-1 text-(length:--density-text-13);
   }
 
 /* MARK: Item */
@@ -2202,15 +2358,17 @@
     @apply items-center gap-0.5 p-(--density-4);
   }
 
-  /* Triggers: 28pt, 13pt, muted at rest. An open trigger keeps a hover fill. */
+  /* Triggers: 28pt, 13pt, muted at rest. One highlight glides between them (Fluid
+     Hover). An open trigger keeps a hover fill. */
   .cn-menubar-trigger {
-    @apply h-(--density-28) rounded-lg px-(--density-10) active:bg-hover data-[state=open]:bg-hover;
+    @apply h-(--density-28) rounded-lg px-(--density-10) data-[state=open]:bg-hover;
   }
 
   .cn-menubar-trigger-text {
     @apply text-muted-foreground text-(length:--density-text-13) font-normal;
   }
 
+  /* Open or under the highlight, a trigger reads foreground. */
   .cn-menubar-trigger-text-open {
     @apply text-foreground;
   }
@@ -2226,15 +2384,15 @@
     @apply w-auto;
   }
 
-  /* Rows: 36pt, 13pt, muted at rest; the pressed row lights up. */
+  /* Rows: 36pt, 13pt, muted at rest. The menu's highlight paints the lit one. */
   .cn-menubar-item {
-    @apply h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8) active:bg-hover data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))];
+    @apply h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8) data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))];
   }
 
   /* Checkbox and radio rows keep the check on the start side. Checked rows are
      foreground and semibold. */
   .cn-menubar-checkbox-item {
-    @apply h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-(--density-8) pl-[calc(var(--density-8)*2+var(--density-icon-16))] active:bg-hover disabled:opacity-50;
+    @apply h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-(--density-8) pl-[calc(var(--density-8)*2+var(--density-icon-16))] disabled:opacity-50;
   }
 
   .cn-menubar-checkbox-item-indicator {
@@ -2242,7 +2400,7 @@
   }
 
   .cn-menubar-radio-item {
-    @apply h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-(--density-8) pl-[calc(var(--density-8)*2+var(--density-icon-16))] active:bg-hover disabled:opacity-50;
+    @apply h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-(--density-8) pl-[calc(var(--density-8)*2+var(--density-icon-16))] disabled:opacity-50;
   }
 
   .cn-menubar-radio-item-indicator {
@@ -2257,6 +2415,11 @@
     @apply text-foreground font-semibold;
   }
 
+  /* Lit, it reads foreground too; only choosing it changes the weight. */
+  .cn-menubar-choice-text-lit {
+    @apply text-foreground;
+  }
+
   .cn-menubar-label {
     @apply text-muted-foreground px-(--density-8) py-(--density-6) text-(length:--density-text-12) font-normal data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))];
   }
@@ -2265,13 +2428,14 @@
     @apply bg-border/60 -mx-1 my-1 h-px;
   }
 
+  /* Keyboard shortcuts wait for a tablet: a phone has no keyboard to press them on. */
   .cn-menubar-shortcut {
-    @apply text-muted-foreground ml-auto text-(length:--density-text-11) tracking-normal;
+    @apply hidden sm:flex text-muted-foreground ml-auto text-(length:--density-text-11) tracking-normal;
   }
 
   /* An open sub-trigger stays lit while its submenu shows below it. */
   .cn-menubar-sub-trigger {
-    @apply h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8) active:bg-hover data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))];
+    @apply h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8) data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))];
   }
 
   /* A submenu expands inline, indented under a hairline: a phone has no room beside
@@ -2301,7 +2465,12 @@
 
   /* Floating jump button: a raised round chip on surface 3. */
   .cn-message-scroller-button {
-    @apply shadow-surface-3 bg-background active:bg-muted rounded-full border-0;
+    @apply shadow-surface-3 bg-background rounded-full border-0;
+  }
+
+  /* Pressed is the muted fill, a wash that follows the round chip. */
+  .cn-message-scroller-button-wash {
+    @apply bg-muted rounded-full;
   }
 
 /* MARK: Message */
@@ -2361,16 +2530,18 @@
     @apply shrink-0;
   }
 
-  /* Top-level triggers and links: 36pt, 13pt, muted at rest. An open trigger keeps
-     the hover fill while its panel shows. */
+  /* Top-level triggers and links: 36pt, 13pt, muted at rest. One highlight glides
+     between them (Fluid Hover). An open trigger keeps the hover fill while its panel
+     shows. */
   .cn-navigation-menu-trigger {
-    @apply h-(--density-36) gap-1 rounded-lg px-(--density-12) active:bg-hover data-[state=open]:bg-hover disabled:opacity-50;
+    @apply h-(--density-36) gap-1 rounded-lg px-(--density-12) data-[state=open]:bg-hover disabled:opacity-50;
   }
 
   .cn-navigation-menu-trigger-text {
     @apply text-muted-foreground text-(length:--density-text-13) font-normal;
   }
 
+  /* Open or under the highlight, a trigger reads foreground. */
   .cn-navigation-menu-trigger-text-open {
     @apply text-foreground;
   }
@@ -2379,16 +2550,17 @@
     @apply size-3;
   }
 
-  /* Panel links: rounded-lg rows. The current page's link is foreground on a
-     bg-active fill. */
+  /* Panel links: rounded-lg rows, lit by the panel's own highlight (Fluid Hover).
+     The current page's link is foreground on a bg-active fill. */
   .cn-navigation-menu-link {
-    @apply gap-(--density-8) rounded-lg p-(--density-8) active:bg-hover data-[active=true]:bg-active;
+    @apply gap-(--density-8) rounded-lg p-(--density-8) data-[active=true]:bg-active;
   }
 
   .cn-navigation-menu-link-text {
     @apply text-foreground/80 text-(length:--density-text-13);
   }
 
+  /* The current page, or under the highlight: a link reads foreground. */
   .cn-navigation-menu-link-text-active {
     @apply text-foreground;
   }
@@ -2448,6 +2620,12 @@
     @apply data-[active=true]:text-foreground data-[active=true]:font-semibold;
   }
 
+  /* Pressed is the next interaction step, as on a ghost or outline button, under
+     the label. It fills the border box and follows the button's corners. */
+  .cn-pagination-link-wash {
+    @apply -inset-px rounded-lg bg-active;
+  }
+
   .cn-pagination-ellipsis {
     @apply size-(--density-36);
   }
@@ -2477,7 +2655,7 @@
 /* MARK: Popover */
 
   /* Popup recipe: surface 3 with its shadow ring (no border), rounded-xl, p-3,
-     13pt. Grows from its centre on the popup motion and closes quicker than it
+     13pt. Grows from its trigger on the popup motion and closes quicker than it
      opened (useSurfaceAnimation). */
   .cn-popover-content {
     @apply bg-surface-3 shadow-surface-3 rounded-xl p-(--density-12);
@@ -2564,16 +2742,20 @@
     @apply -mx-2 gap-0.5;
   }
 
-  /* A row is a Field choice card without the frame: 13pt foreground label, a tint
-     when pressed, the active step once chosen. Rows keep the 44pt touch target on
-     small screens (padded so one line sits centred) and tighten to 36pt from sm
-     up. */
+  /* A row is a Field choice card without the frame: 13pt foreground label, the
+     active step once chosen. Rows keep the 44pt touch target on small screens
+     (padded so one line sits centred) and tighten to 36pt from sm up. */
   .cn-questionnaire-choice {
-    @apply gap-(--density-10) rounded-lg bg-transparent px-(--density-8) py-(--density-12) active:bg-hover data-[checked=true]:bg-active sm:min-h-(--density-36) sm:py-(--density-8);
+    @apply gap-(--density-10) rounded-lg bg-transparent px-(--density-8) py-(--density-12) data-[checked=true]:bg-active sm:min-h-(--density-36) sm:py-(--density-8);
   }
 
-  /* The Checkbox or Radio mark, lit by the whole row: the look is theirs, and its
-     press is the row's, through usePressScale. It keeps to the first line. */
+  /* Pressed is a tint, easing in and out under the row's content. */
+  .cn-questionnaire-choice-wash {
+    @apply bg-hover rounded-lg;
+  }
+
+  /* The Checkbox or Radio mark, lit by the whole row: the look is theirs, and the
+     row's press gives it the control's scale. It keeps to the first line. */
   .cn-questionnaire-choice-indicator {
     @apply self-start;
   }
@@ -2598,12 +2780,13 @@
   }
 
   /* The Kbd keycap, which holds the look, at the end of the row. */
+  /* Keyboard shortcuts wait for a tablet: a phone has no keyboard to press them on. */
   .cn-questionnaire-choice-shortcut {
-    @apply ms-auto shrink-0;
+    @apply hidden sm:flex ms-auto shrink-0;
   }
 
   .cn-questionnaire-shortcut {
-    @apply self-start;
+    @apply hidden sm:flex self-start;
   }
 
   /* It takes the foreground once its row is chosen. */
@@ -2654,9 +2837,10 @@
 
   /* 18pt circle with the checkbox's outline. Checked fills with the primary role
      and a 6pt dot pops in in its foreground. Invalid turns the outline, and the
-     checked fill, destructive. */
+     checked fill, destructive. The press gives on the feedback timing, in the
+     source: a class could only snap. */
   .cn-radio-group-item {
-    @apply border-foreground/25 data-[state=checked]:border-primary data-[state=checked]:bg-primary data-[invalid=true]:border-destructive data-[invalid=true]:data-[state=checked]:border-destructive data-[invalid=true]:data-[state=checked]:bg-destructive size-[calc(var(--density-icon-16)+2px)] rounded-full border-[1.5px] bg-transparent active:scale-90;
+    @apply border-foreground/25 data-[state=checked]:border-primary data-[state=checked]:bg-primary data-[invalid=true]:border-destructive data-[invalid=true]:data-[state=checked]:border-destructive data-[invalid=true]:data-[state=checked]:bg-destructive size-[calc(var(--density-icon-16)+2px)] rounded-full border-[1.5px] bg-transparent;
   }
 
   .cn-radio-group-indicator {
@@ -2743,9 +2927,15 @@
     @apply h-(--density-36) w-(--density-36) data-[open=true]:w-[360px];
   }
 
-  /* Closed: the whole button, pressed is a step of the interaction tokens. */
+  /* Closed: the whole button. Open: just the icon, which takes no press. */
   .cn-search-trigger {
-    @apply active:bg-hover rounded-full data-[open=true]:bg-transparent;
+    @apply rounded-full;
+  }
+
+  /* Pressed is a step of the interaction tokens, easing in and out under the
+     icon. */
+  .cn-search-trigger-wash {
+    @apply bg-hover rounded-full;
   }
 
   /* The icon is foreground closed, muted open. */
@@ -2760,7 +2950,7 @@
   /* The field keeps clear of the icon, and of the clear button when there is
      one. */
   .cn-search-input {
-    @apply text-foreground ps-(--density-36) pe-(--density-12) text-(length:--density-text-13) data-[clear=true]:pe-(--density-36);
+    @apply font-sans text-foreground ps-(--density-36) pe-(--density-12) text-(length:--density-text-13) data-[clear=true]:pe-(--density-36);
   }
 
   .cn-search-clear {
@@ -2825,10 +3015,12 @@
     @apply text-muted-foreground px-(--density-8) py-(--density-6) text-(length:--density-text-12);
   }
 
-  /* Rows: 36pt, 13pt, muted at rest; the pressed row lights up. The selected row
-     is foreground and semibold on a bg-active fill. */
+  /* Rows: 36pt, 13pt, muted at rest. They paint nothing themselves: one highlight
+     glides under the finger, and one bg-active selection slides to the selected
+     row (Fluid Hover). A multiple select has no one row to slide to, so each
+     chosen row fills itself. */
   .cn-select-item {
-    @apply h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) active:bg-hover data-[selected=true]:bg-active;
+    @apply h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) data-[multiple=true]:data-[selected=true]:bg-active;
   }
 
   .cn-select-item-label {
@@ -2837,6 +3029,12 @@
 
   .cn-select-item-label-selected {
     @apply text-foreground font-semibold;
+  }
+
+  /* Under the highlight a row reads foreground, as a hovered one does on the
+     website; only selecting it changes the weight. */
+  .cn-select-item-label-lit {
+    @apply text-foreground;
   }
 
   .cn-select-item-indicator {
@@ -3008,6 +3206,11 @@
     @apply shrink-0;
   }
 
+  /* Pressed is the next interaction step, as on a ghost button. */
+  .cn-sidebar-trigger-wash {
+    @apply -inset-px rounded-lg bg-active;
+  }
+
   /* The page. Inset main area: surface 2 with its shadow ring, rounded-xl. While
      the phone sidebar is revealed it moves aside and shrinks towards the sidebar's
      edge on the sheet's timing, and its corners and shadow leave last. */
@@ -3051,9 +3254,16 @@
     @apply p-(--density-8);
   }
 
-  /* Rows keep a 2pt gap, so neighbouring fills never touch. */
+  /* The menu is a fluid hover container: one bg-hover highlight glides between its
+     rows, and the active row's raised bg-active background slides between active
+     rows on the move timing. Rows keep a 2pt gap, so neighbouring fills never
+     touch. */
   .cn-sidebar-menu {
     @apply gap-0.5;
+  }
+
+  .cn-sidebar-menu-selection {
+    @apply shadow-surface-2;
   }
 
   .cn-sidebar-group-content {
@@ -3095,18 +3305,20 @@
   }
 
   /* Rows: 30pt, gap-2, rounded-lg, 13pt: the label at foreground/80 and the icon
-     muted at rest. The active row is foreground on a raised bg-active. Pressed is
-     the hover fill. On the rail a row is a 32pt square with only its icon. */
+     muted at rest. The lit row turns foreground; the active row is foreground on a
+     raised bg-active. The menu's highlight and selection paint those fills, so a
+     row paints them itself only outside a menu, and while a drag has the selection
+     hidden. On the rail a row is a 32pt square with only its icon. */
   .cn-sidebar-menu-button {
-    @apply gap-(--density-8) rounded-lg pr-(--density-8) pl-(--density-8) disabled:opacity-50 data-[active=true]:bg-active data-[active=true]:shadow-surface-2 data-[collapsible=icon]:size-(--density-32) data-[collapsible=icon]:justify-center data-[collapsible=icon]:pr-0 data-[collapsible=icon]:pl-0;
+    @apply gap-(--density-8) rounded-lg pr-(--density-8) pl-(--density-8) disabled:opacity-50 data-[active=true]:data-[fluid=false]:bg-active data-[active=true]:data-[fluid=false]:shadow-surface-2 data-[collapsible=icon]:size-(--density-32) data-[collapsible=icon]:justify-center data-[collapsible=icon]:pr-0 data-[collapsible=icon]:pl-0;
   }
 
   .cn-sidebar-menu-button-variant-default {
-    @apply active:bg-hover;
+    @apply data-[fluid=false]:active:bg-hover;
   }
 
   .cn-sidebar-menu-button-variant-outline {
-    @apply border border-border bg-transparent active:bg-hover;
+    @apply border border-border bg-transparent data-[fluid=false]:active:bg-hover;
   }
 
   .cn-sidebar-menu-button-size-default {
@@ -3129,6 +3341,7 @@
     @apply text-(length:--density-text-12);
   }
 
+  /* The active row and the lit one. */
   .cn-sidebar-menu-button-text-active {
     @apply text-foreground;
   }
@@ -3163,6 +3376,11 @@
 
   .cn-sidebar-menu-action-text {
     @apply text-muted-foreground;
+  }
+
+  /* Its row is lit: the action and the badge turn foreground with it. */
+  .cn-sidebar-menu-action-text-lit {
+    @apply text-foreground;
   }
 
   .cn-sidebar-menu-actions {
@@ -3200,10 +3418,11 @@
   }
 
   /* Nested rows: 30pt (24pt small), 2pt apart, each level 16pt further in, 14pt
-     icons. Muted at rest; the current one sits on a quiet wash (half the hover
-     fill) instead of the raised selection, which marks its top-level row. */
+     icons. Muted at rest; the lit one turns foreground, under the same highlight as
+     the top-level rows. The current one sits on a quiet wash (half the hover fill)
+     instead of the raised selection, which marks its top-level row. */
   .cn-sidebar-menu-sub-button {
-    @apply h-(--density-30) gap-(--density-8) rounded-lg active:bg-hover disabled:opacity-50 data-[active=true]:bg-hover/50 data-[collapsible=icon]:hidden data-[size=sm]:h-(--density-24);
+    @apply h-(--density-30) gap-(--density-8) rounded-lg data-[fluid=false]:active:bg-hover disabled:opacity-50 data-[active=true]:bg-hover/50 data-[collapsible=icon]:hidden data-[size=sm]:h-(--density-24);
   }
 
   .cn-sidebar-menu-sub-button-text {
@@ -3214,6 +3433,7 @@
     @apply text-(length:--density-text-12);
   }
 
+  /* The current row and the lit one. */
   .cn-sidebar-menu-sub-button-text-active {
     @apply text-foreground;
   }
@@ -3246,9 +3466,17 @@
     @apply bg-primary/10 dark:bg-primary/15;
   }
 
-  /* White 16pt knob with a soft drop shadow and a hairline. */
+  /* White 16pt knob with a soft drop shadow and a hairline. It doesn't scale or
+     ring under a finger: the website's ring is keyboard focus, and its only
+     pointer state is the deeper hover shadow. */
   .cn-slider-thumb {
     @apply shadow-surface-2 size-(--density-icon-16) rounded-full border border-black/5 bg-white;
+  }
+
+  /* That deeper shadow, fading in while the thumb is held. It covers the border
+     box, so it sits exactly on the knob's edge. */
+  .cn-slider-thumb-held {
+    @apply shadow-surface-3 -inset-px rounded-full;
   }
 
 /* MARK: Sonner */
@@ -3281,10 +3509,14 @@
   }
 
   /* The knob only travels on the move timing. White, and the primary foreground
-     when on. A press stretches it into a pill toward the centre of the track and
-     squashes it. */
+     when on, fading over the white as it goes. A press stretches it into a pill
+     toward the centre of the track and squashes it. */
   .cn-switch-thumb {
-    @apply shadow-surface-2 data-[state=checked]:bg-primary-foreground rounded-full bg-white;
+    @apply shadow-surface-2 rounded-full bg-white;
+  }
+
+  .cn-switch-thumb-on {
+    @apply bg-primary-foreground rounded-full;
   }
 
 /* MARK: Tab Strip */
@@ -3315,11 +3547,11 @@
     @apply bg-hover rounded-lg;
   }
 
-  /* Tabs: 144pt on a phone (the website shrinks to this before it scrolls; a
+  /* Tabs: 176pt on a phone (the website shrinks to 144 before it scrolls; a
      phone's strip is always there), 192pt from the sm breakpoint. Pinned tabs are
      their icon. */
   .cn-tab-strip-tab {
-    @apply h-full w-36 rounded-lg data-[pinned=true]:w-auto sm:w-48;
+    @apply h-full w-44 rounded-lg data-[pinned=true]:w-auto sm:w-48;
   }
 
   /* 13pt, muted at rest; the active tab is foreground and semibold. */
@@ -3368,7 +3600,7 @@
   }
 
   .cn-tab-strip-rename {
-    @apply bg-card border-ring text-foreground h-(--density-24) rounded-md border px-(--density-6) text-(length:--density-text-13);
+    @apply font-sans bg-card border-ring text-foreground h-(--density-24) rounded-md border px-(--density-6) text-(length:--density-text-13);
   }
 
   .cn-tab-strip-new {
@@ -3415,11 +3647,11 @@
     @apply border-border/60 border-t;
   }
 
-  /* Rows: soft dividers; a pressed body row lights up with bg-hover, and selected
-     rows keep bg-active. The last body row has no divider, the footer's and the
-     header's come from their sections. */
+  /* Rows: soft dividers; the lit row hides the ones around it, so the highlight
+     reads as one block, and selected rows keep bg-active. The last body row has no
+     divider, the footer's and the header's come from their sections. */
   .cn-table-row {
-    @apply border-border/60 border-b data-[last=true]:border-b-0 data-[section=header]:border-b-0 data-[section=footer]:border-b-0 data-[section=body]:active:bg-hover data-[state=selected]:bg-active;
+    @apply border-border/60 border-b data-[last=true]:border-b-0 data-[section=header]:border-b-0 data-[section=footer]:border-b-0 data-[lit=true]:border-transparent data-[before-lit=true]:border-transparent data-[state=selected]:bg-active;
   }
 
   /* Head: 36pt, px-3, foreground semibold. */
@@ -3431,13 +3663,18 @@
     @apply text-foreground text-start font-semibold;
   }
 
-  /* Cells: muted; footer cells stay foreground and medium. */
+  /* Cells: muted; the lit row turns foreground, and footer cells stay foreground
+     and medium. */
   .cn-table-cell {
     @apply px-(--density-12) py-(--density-8);
   }
 
   .cn-table-cell-text {
     @apply text-muted-foreground;
+  }
+
+  .cn-table-cell-text-lit {
+    @apply text-foreground;
   }
 
   .cn-table-cell-text-footer {
@@ -3448,7 +3685,7 @@
     @apply text-muted-foreground mt-4 text-center text-(length:--density-text-12);
   }
 
-  /* The lit row is square: rows span the table edge to edge. */
+  /* The fluid row highlight is square: rows span the table edge to edge. */
   .cn-table-highlight {
     @apply rounded-none;
   }
@@ -3518,10 +3755,12 @@
 
 /* MARK: Text */
 
-  /* The body text: foreground at the default text size. React Native doesn't
-     inherit, so every Text carries it and controls override through TextStyle. */
+  /* The body text: Inter in foreground at the default text size. React Native
+     doesn't inherit, so every Text carries it and controls override through
+     TextStyle. font-medium and font-semibold pick Inter's 500 and 600 cuts, the
+     closest to the website's 450 and 550. */
   .cn-text {
-    @apply text-foreground text-(length:--density-text-13);
+    @apply text-foreground font-sans text-(length:--density-text-13);
   }
 
 /* MARK: Textarea */
@@ -3530,13 +3769,14 @@
      card surface on focus. Invalid turns the frame red. It grows with its text,
      from a 64pt floor. */
   .cn-textarea {
-    @apply text-foreground border-border focus:bg-card focus:border-foreground/25 data-[invalid=true]:border-destructive/50 min-h-16 rounded-lg border bg-transparent px-(--density-10) py-(--density-8) text-(length:--density-text-13);
+    @apply font-sans text-foreground border-border focus:bg-card focus:border-foreground/25 data-[invalid=true]:border-destructive/50 min-h-16 rounded-lg border bg-transparent px-(--density-10) py-(--density-8) text-(length:--density-text-13);
   }
 
 /* MARK: Toast */
 
   /* Surface 5 with its shadow ring (no border), rounded-xl, 13pt. Applies to the
-     toast root of both `toast` and `sonner`. */
+     toast root of both `toast` and `sonner`. As on the website, it moves and fades
+     on the toast timing and changes height on the feedback timing (ui/toast). */
   .cn-toast {
     @apply bg-surface-5 shadow-surface-5 rounded-xl;
   }
@@ -3585,7 +3825,7 @@
      the sliding selection paints the on fill. Joined items square their corners
      and share their outlines. */
   .cn-toggle-group-item {
-    @apply active:bg-transparent data-[single=true]:data-[state=on]:bg-transparent h-(--density-36) min-w-(--density-36) px-(--density-12) data-[spacing=0]:rounded-none data-[spacing=0]:data-[variant=outline]:data-[first=false]:data-[orientation=horizontal]:border-s-0 data-[spacing=0]:data-[variant=outline]:data-[first=false]:data-[orientation=vertical]:border-t-0;
+    @apply data-[single=true]:data-[state=on]:bg-transparent h-(--density-36) min-w-(--density-36) px-(--density-12) data-[spacing=0]:rounded-none data-[spacing=0]:data-[variant=outline]:data-[first=false]:data-[orientation=horizontal]:border-s-0 data-[spacing=0]:data-[variant=outline]:data-[first=false]:data-[orientation=vertical]:border-t-0;
   }
 
   .cn-toggle-group-selection {
@@ -3598,10 +3838,14 @@
 
 /* MARK: Toggle */
 
-  /* Ghost look: pressed is the hover fill, on is the active fill, and the press
-     scale comes from usePressScale. */
+  /* Ghost look: on is the active fill. Pressed is the hover fill as a wash under
+     the content, and the press scale comes from usePressScale. */
   .cn-toggle {
-    @apply active:bg-hover data-[state=on]:bg-active gap-(--density-6) rounded-lg;
+    @apply data-[state=on]:bg-active gap-(--density-6) rounded-lg;
+  }
+
+  .cn-toggle-wash {
+    @apply bg-hover rounded-lg;
   }
 
   /* 13pt medium, muted at rest and foreground when on. The icon's stroke follows:
@@ -3640,7 +3884,7 @@
 /* MARK: Tooltip */
 
   /* Inverted chip (the component sets bg-foreground): 12pt medium, px-2 py-1,
-     rounded-lg. Grows from its centre on the tooltip motion
+     rounded-lg. Grows from its trigger on the tooltip motion
      (useSurfaceAnimation). */
   .cn-tooltip-content {
     @apply rounded-lg px-(--density-8) py-1;

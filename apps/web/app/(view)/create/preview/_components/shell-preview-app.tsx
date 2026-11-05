@@ -7,12 +7,12 @@ import {
   loadShellPreviewOptions,
   readShellOptionsMessage,
   SHELL_PREVIEW_READY,
+  shellPreviewParsers,
 } from "@/app/(app)/(create)/lib/shell-preview"
 import {
   PlaceholderPage,
   ShellDemo,
 } from "@/app/(view)/app-shell/_components/shell-demo"
-import { playgroundParsers } from "@/app/(view)/app-shell/_lib/options"
 
 import { DashboardOverview } from "./dashboard-panels"
 import {
@@ -28,7 +28,8 @@ import {
  * and follows the options the page sends, so a change never reloads it.
  */
 export function ShellPreviewApp() {
-  const [options, setOptions] = useQueryStates(playgroundParsers)
+  const [{ desktop, ...options }, setOptions] =
+    useQueryStates(shellPreviewParsers)
   const groups = React.useMemo(
     () => getPreviewNavGroups({ reorderable: options.reorder }),
     [options.reorder]
@@ -53,6 +54,7 @@ export function ShellPreviewApp() {
   return (
     <ShellDemo
       options={options}
+      desktopRuntime={desktop ?? undefined}
       workspaces={PREVIEW_WORKSPACES}
       user={PREVIEW_USER}
       groups={groups}

@@ -35,7 +35,6 @@ function TableExample() {
             <TableRow>
               <TableHead className="w-[100px]">Invoice</TableHead>
               <TableHead>Status</TableHead>
-              <TableHead>Method</TableHead>
               <TableHead className="text-right">Amount</TableHead>
             </TableRow>
           </TableHeader>
@@ -44,14 +43,13 @@ function TableExample() {
               <TableRow key={invoice.id}>
                 <TableCell className="font-medium">{invoice.id}</TableCell>
                 <TableCell>{invoice.status}</TableCell>
-                <TableCell>{invoice.method}</TableCell>
                 <TableCell className="text-right">{invoice.total}</TableCell>
               </TableRow>
             ))}
           </TableBody>
           <TableFooter>
             <TableRow>
-              <TableCell colSpan={3}>Total</TableCell>
+              <TableCell colSpan={2}>Total</TableCell>
               <TableCell className="text-right">$1,200.00</TableCell>
             </TableRow>
           </TableFooter>

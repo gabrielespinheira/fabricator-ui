@@ -8,7 +8,10 @@ import {
   type inferParserType,
 } from "nuqs/server"
 
+import { getTrafficLights } from "@/registry/fabricator/shared/lib/desktop-window"
 import type { AppShellWindow } from "@/styles/base-fabricator/ui/app-shell"
+
+export { getTrafficLights }
 
 export const SIDEBAR_VARIANTS = ["inset", "sidebar", "floating"] as const
 export const SIDEBAR_COLLAPSE = ["icon", "offcanvas", "none"] as const
@@ -93,27 +96,93 @@ export function isPeekAvailable(options: PlaygroundOptions) {
   return options.collapse === "offcanvas"
 }
 
-/**
- * Where the example's traffic lights sit: beside the main card's top row, or
- * centred in a titlebar row, which is as tall as the lights need (40px here).
- */
-export function getTrafficLights(hasTitlebar: boolean) {
-  return { x: 16, y: hasTitlebar ? 13 : 23 }
+/** Which apps a project's shell is for. */
+export type ShellProject = {
+  hasWeb: boolean
+  hasDesktop: boolean
+  hasMobile: boolean
 }
 
-/** The native window the shell lays out around (none on the web). */
+/**
+ * The options a project's shell can't honour. `window` and `fullscreen` only
+ * choose what the preview draws, so the page's size switch has them instead.
+ */
+export function getHiddenShellOptions({
+  hasWeb,
+  hasDesktop,
+}: ShellProject): ReadonlySet<keyof PlaygroundOptions> {
+  const hasPointer = hasWeb || hasDesktop
+  return new Set<keyof PlaygroundOptions>([
+    "window",
+    "fullscreen",
+    ...(hasDesktop ? [] : (["glass"] as const)),
+    ...(hasPointer ? [] : (["peek"] as const)),
+  ])
+}
+
+/** Says where an option applies, when some of a project's apps don't honour it. */
+export function getShellOptionNotes({
+  hasWeb,
+  hasDesktop,
+  hasMobile,
+}: ShellProject): Partial<Record<keyof PlaygroundOptions, string>> {
+  const isMixed = hasMobile && (hasWeb || hasDesktop)
+  return {
+    ...(isMixed ? { peek: "Web and desktop only." } : {}),
+    ...(hasDesktop ? { glass: "macOS only." } : {}),
+  }
+}
+
+/** Tabs in the titlebar need a window around them. */
+export function getTabChoices({ hasDesktop }: ShellProject) {
+  return TAB_PLACEMENT_CHOICES.filter(
+    ({ value }) => hasDesktop || value !== "titlebar"
+  )
+}
+
+export type PreviewSize = "browser" | "macos" | "windows" | "phone"
+
+/** What the preview can show, for the apps a project has. */
+export function getPreviewChoices({
+  hasWeb,
+  hasDesktop,
+  hasMobile,
+}: ShellProject): ReadonlyArray<{ value: PreviewSize; label: string }> {
+  return [
+    ...(hasWeb ? [{ value: "browser" as const, label: "Browser" }] : []),
+    ...(hasDesktop
+      ? [
+          { value: "macos" as const, label: "macOS" },
+          { value: "windows" as const, label: "Windows" },
+        ]
+      : []),
+    {
+      value: "phone" as const,
+      label: hasMobile ? "Phone" : "Phone width",
+    },
+  ]
+}
+
+/**
+ * The native window the shell lays out around (none on the web). Tauri keeps its
+ * own title bar on Windows, and can't move the macOS lights after launch, so its
+ * titlebar row stays tall.
+ */
 export function getPlaygroundWindow(
-  options: PlaygroundOptions
+  options: PlaygroundOptions,
+  runtime?: "electron" | "tauri"
 ): AppShellWindow | undefined {
   if (options.window === "macos") {
     return {
       controls: "macos",
       isFullscreen: options.fullscreen,
-      trafficLights: getTrafficLights(options.tabs === "titlebar"),
+      trafficLights: getTrafficLights(
+        options.tabs === "titlebar" && runtime !== "tauri"
+      ),
       isTranslucent: options.glass,
     }
   }
-  if (options.window === "windows") {
+  if (options.window === "windows" && runtime !== "tauri") {
     // A browser has no Window Controls Overlay to report the buttons'
     // width: three 46px buttons.
     return {

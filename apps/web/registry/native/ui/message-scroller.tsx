@@ -4,6 +4,7 @@ import { cva } from "class-variance-authority"
 import { cn } from "cn"
 import { FlatList, View, type FlatListProps } from "react-native"
 import Animated, {
+  ReduceMotion,
   useAnimatedStyle,
   useSharedValue,
   withTiming,
@@ -439,6 +440,8 @@ function MessageScrollerItem({
   )
 }
 
+const messageScrollerButtonWashVariants = cva("cn-message-scroller-button-wash")
+
 function MessageScrollerButton({
   direction = "end",
   behavior = "smooth",
@@ -466,6 +469,8 @@ function MessageScrollerButton({
     progress.value = withTiming(isActive ? 1 : 0, {
       duration: isActive ? motion.enterMs : motion.exitMs,
       easing: isActive ? motion.enterEasing : motion.exitEasing,
+      // Reduce Motion keeps the fade below, and Reanimated would jump it to the end.
+      reduceMotion: ReduceMotion.Never,
     })
   }, [isActive, motion, progress])
   const reducedMotion = motion.isReduced
@@ -489,6 +494,7 @@ function MessageScrollerButton({
     accessibilityLabel:
       direction === "end" ? "Scroll to end" : "Scroll to start",
     className: cn("cn-message-scroller-button", className),
+    washClassName: messageScrollerButtonWashVariants(),
     disabled: !isActive,
     onPress: (event: Parameters<NonNullable<typeof onPress>>[0]) => {
       onPress?.(event)

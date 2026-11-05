@@ -6,6 +6,8 @@ import {
   useColorScheme,
 } from "react-native"
 
+import { Uniwind } from "uniwind"
+
 import type { FabricatorLook } from "@/registry/fabricator/look"
 import {
   DEFAULT_NATIVE_LOOK,
@@ -29,12 +31,17 @@ export const FONT = {
   semibold: "Inter-SemiBold",
 }
 
+// Slows every animation down, to review it: fabricator-ui://motion?scale=8
+const MOTION_SCALE_LINK = /^fabricator-ui:\/\/motion\?scale=(\d+(?:\.\d+)?)$/
+
 type ThemeContextValue = {
   theme: Theme
   look: FabricatorLook
   setLook: (look: FabricatorLook) => void
   themeChoice: ThemeChoice
   setThemeChoice: (choice: ThemeChoice) => void
+  isSoundOn: boolean
+  setIsSoundOn: (isOn: boolean) => void
 }
 
 const ThemeContext = React.createContext<ThemeContextValue | null>(null)
@@ -42,6 +49,8 @@ const ThemeContext = React.createContext<ThemeContextValue | null>(null)
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
   const [look, setLook] = React.useState(DEFAULT_NATIVE_LOOK)
   const [themeChoice, setThemeChoice] = React.useState<ThemeChoice>("system")
+  const [isSoundOn, setIsSoundOn] = React.useState(true)
+  const [motionScale, setMotionScale] = React.useState(1)
   const scheme = useColorScheme()
   const mode = scheme === "dark" ? "dark" : "light"
 
@@ -56,13 +65,19 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   // The registry's components read the theme through Uniwind.
   React.useEffect(() => {
     applyLook(look)
-  }, [look])
+    if (motionScale === 1) return
+    const scale = { "--motion-scale": motionScale }
+    Uniwind.updateCSSVariables("light", scale)
+    Uniwind.updateCSSVariables("dark", scale)
+  }, [look, motionScale])
 
   // A browser's settings can't reach the app; a link carries them.
   React.useEffect(() => {
     const applyLink = (url: string | null | undefined) => {
       const linked = url ? getLookFromUrl(url) : null
       if (linked) setLook(linked)
+      const scale = url ? MOTION_SCALE_LINK.exec(url) : null
+      if (scale) setMotionScale(Number(scale[1]))
     }
     void Linking.getInitialURL().then(applyLink)
     const subscription = Linking.addEventListener("url", ({ url }) =>
@@ -78,8 +93,10 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       setLook,
       themeChoice,
       setThemeChoice,
+      isSoundOn,
+      setIsSoundOn,
     }),
-    [mode, look, themeChoice]
+    [mode, look, themeChoice, isSoundOn]
   )
   return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
 }

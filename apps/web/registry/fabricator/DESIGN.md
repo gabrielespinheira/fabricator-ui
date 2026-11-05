@@ -193,6 +193,7 @@ Sheets take 500, 400, 300 and 200ms across the four.
 - Old names stay as aliases for consumers: `duration-fast|moderate|slow` (feedback, move, dialog) and `ease-spring`, `ease-spring-bounce` (the entrance curve). Fabricator code doesn't use them.
 - Animate transform and opacity. Panel and Search widths are the deliberate exceptions, on the move timing.
 - Reduced motion keeps fades and drops slides, zooms, blur and the press (foundations, at every speed).
+- React Native reads the same tokens through `useMotion`, `useSurfaceAnimation` and `usePressScale` (`registry/native/lib/motion.ts`). Surfaces grow from the edge beside their trigger through `transformOrigin`. An `active:` class can only snap, so buttons and toggles draw their pressed step with `PressWash`, on the feedback timing. Popup blur isn't drawn: React Native has no blur filter on iOS.
 
 ### Typography and weight
 
@@ -208,6 +209,8 @@ Inter with its optical-size axis (`opsz`). `font-medium` is 450 and `font-semibo
 | Caption    | 12, muted                                               | Group labels and headings, badges, tooltips, field descriptions and errors, metadata |
 | Shortcut   | 11                                                      | Kbd, menu shortcuts, phone tab bar labels                                            |
 | Chat       | 14 (fixed)                                              | Message and bubble text                                                              |
+
+On React Native, text is Inter through `--font-sans`: `font-medium` and `font-semibold` pick the static 500 and 600 cuts, the closest to 450 and 550, and there is no optical-size axis. `Text` sets the website's inherited 1.5 line height itself, unless a `leading-*` or a named size chose one. A project embeds the fonts through `expo-font` (the React Native installation page has the config); without them it falls back to the system font.
 
 Inputs and textareas are `text-base` (16px) below `md` so iOS doesn't zoom into them, and 13 from `md`. Descriptions are `text-muted-foreground`.
 
@@ -231,7 +234,9 @@ A project with `menuColor: "default-translucent"` gets the install-time marker `
 
 ### Sounds
 
-`<SoundEffects />` plays Web Audio sounds for every component, chosen from `data-slot`, the ARIA role or `data-sound` (`data-sound="none"` silences a subtree), so components need no changes. Each family has its own material: buttons are wood, selection controls a mechanism, switches liquid, rows and links glass, tabs bells; popups, dialogs, sheets and toasts each have their own. Triggers that open a popup, tooltips and the sidebar toggle stay silent; surfaces sound only right after a click or key press. There are no audio files: a new sound is a synthesis recipe in `sounds.ts`, and third-party audio needs a licence that allows MIT redistribution.
+`<SoundEffects />` plays Web Audio sounds for every component, chosen from `data-slot`, the ARIA role or `data-sound` (`data-sound="none"` silences a subtree), so components need no changes. Each family has its own material: buttons are wood, selection controls a mechanism, switches liquid, rows and links glass, tabs bells; popups, dialogs, sheets and toasts each have their own. Triggers that open a popup, tooltips and the sidebar toggle stay silent; surfaces sound only right after a click or key press. There are no audio files: a new sound is a synthesis recipe in `sound-recipes.ts`, and third-party audio needs a licence that allows MIT redistribution.
+
+On React Native the recipes are the same. React Native has no Web Audio, so `lib/sound-synth.ts` renders each recipe to a WAV in the cache the first time it's needed, sample for sample with the website's graph, and `expo-audio` plays it. Each name also has a haptic (`sounds-model.ts`). Sounds mix with other apps' audio and follow the ring switch. Controls call `useFeedback()`; surfaces use `useMountFeedback` or `useSurfaceFeedback`. A press's sound waits a frame, so a surface it opened replaces it, as on the website.
 
 ## Fluid hover
 
@@ -265,6 +270,10 @@ const mergedRef = useMergedRef(fluid.attach, ref)
 - Override the highlight or selection look per component with `className` (tabs: `className="cn-tabs-selection"`), and add that placeholder to the component's style file. The defaults live in `fluid-hover.css`: the highlight is `bg-hover rounded-lg` on `duration-glide`, the selection `bg-active` on `duration-move ease-move`.
 - Each container has its own highlight; split a list at its separators so the highlight never crosses groups. A nested container (a submenu) keeps its own.
 - Used by: menus (dropdown, context, menubar), select, combobox, command, navigation menu, tabs, tab strip, toggle group (the selection only in single-select groups), sidebar menu, accordion triggers, table rows. Skip it where a wrong click would hurt or items are far apart.
+
+### On touch
+
+A finger has no hover, so it takes the pointer's place (`registry/native/lib/fluid-hover.tsx`). A press fades the highlight in where it lands, holding long enough to be seen on a quick tap, and it fades out in place on release. Another press before it has faded glides from there. Where `track` is set, dragging moves the highlight from row to row with a tick on each, and letting go activates the lit row; a release far from the rows does nothing. Strips use `drag`. Lists that fit use `drag`, and lists that scroll use `hold` so a flick still scrolls (`FluidHoverScrollList` chooses). Rows in a page that scrolls use `none`. Everything else follows the rules above: the same tokens, timings and lit styles, with the highlight's position driven on the UI thread.
 
 ## Cursors
 

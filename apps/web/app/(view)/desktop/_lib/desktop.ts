@@ -6,128 +6,17 @@ import { COMPONENT_GROUPS, type ComponentGroup } from "@/lib/component-groups"
 import type { NavGroup } from "@/styles/base-fabricator/lib/app-shell-model"
 import type { AppShellWindow } from "@/styles/base-fabricator/ui/app-shell"
 
-import { getTrafficLights } from "../../app-shell/_lib/options"
-
-export type DesktopRuntime = "electron" | "tauri" | "browser"
-export type DesktopPlatform = "mac" | "windows" | "linux"
-
-export type DesktopHost = {
-  runtime: DesktopRuntime
-  platform: DesktopPlatform
-}
-
-const ELECTRON_PLATFORMS: Record<string, DesktopPlatform> = {
-  darwin: "mac",
-  win32: "windows",
-  linux: "linux",
-}
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === "object" && value !== null
-}
-
-export function getPlatform(userAgent: string): DesktopPlatform {
-  if (userAgent.includes("Mac")) return "mac"
-  if (userAgent.includes("Windows")) return "windows"
-  return "linux"
-}
-
-/**
- * Which shell hosts the page: Electron's preload bridge
- * (`window.fabricatorDesktop`), Tauri's injected internals, or neither.
- */
-export function readDesktopRuntime(
-  host: object,
-  userAgent: string
-): DesktopHost {
-  const bridge = Reflect.get(host, "fabricatorDesktop")
-  if (
-    isRecord(bridge) &&
-    bridge.runtime === "electron" &&
-    typeof bridge.platform === "string"
-  ) {
-    return {
-      runtime: "electron",
-      platform: ELECTRON_PLATFORMS[bridge.platform] ?? getPlatform(userAgent),
-    }
-  }
-  if ("__TAURI_INTERNALS__" in host) {
-    return { runtime: "tauri", platform: getPlatform(userAgent) }
-  }
-  return { runtime: "browser", platform: getPlatform(userAgent) }
-}
-
-/** The Electron bridge's appearance setter, so the native glass follows the page's theme. */
-export function getAppearanceSetter(
-  host: object
-): ((appearance: "light" | "dark") => void) | null {
-  const bridge = Reflect.get(host, "fabricatorDesktop")
-  if (!isRecord(bridge) || typeof bridge.setAppearance !== "function") {
-    return null
-  }
-  const { setAppearance } = bridge
-  return (appearance) => {
-    Reflect.apply(setAppearance, bridge, [appearance])
-  }
-}
-
-/** The Electron bridge's traffic lights setter, for a layout that moves them. */
-export function getTrafficLightsSetter(
-  host: object
-): ((position: { x: number; y: number }) => void) | null {
-  const bridge = Reflect.get(host, "fabricatorDesktop")
-  if (!isRecord(bridge) || typeof bridge.setTrafficLights !== "function") {
-    return null
-  }
-  const { setTrafficLights } = bridge
-  return (position) => {
-    Reflect.apply(setTrafficLights, bridge, [position])
-  }
-}
-
-/**
- * The window the App Shell lays out around in each shell. The lights start
- * where apps/desktop's Electron main and Tauri config put them. Only Electron
- * can move them afterwards, so only its titlebar row gets to be short.
- */
-export function getDesktopWindow({
-  runtime,
-  platform,
-  isFullscreen,
-  hasTitlebar,
-}: DesktopHost & {
-  isFullscreen: boolean
-  hasTitlebar: boolean
-}): AppShellWindow | undefined {
-  if (runtime === "browser") return undefined
-  if (platform === "mac") {
-    return {
-      controls: "macos",
-      isFullscreen,
-      trafficLights: getTrafficLights(runtime === "electron" && hasTitlebar),
-      isTranslucent: true,
-    }
-  }
-  // Electron draws its window buttons over the page (titleBarOverlay); Tauri
-  // keeps its own title bar there.
-  if (runtime === "electron") return { controls: "overlay", isFullscreen }
-  return undefined
-}
-
-/** A page filling the whole screen is a fullscreen window. */
-export function isFullscreenWindow({
-  innerWidth,
-  innerHeight,
-  screenWidth,
-  screenHeight,
-}: {
-  innerWidth: number
-  innerHeight: number
-  screenWidth: number
-  screenHeight: number
-}) {
-  return innerWidth === screenWidth && innerHeight === screenHeight
-}
+export {
+  getAppearanceSetter,
+  getDesktopWindow,
+  getPlatform,
+  getTrafficLightsSetter,
+  isFullscreenWindow,
+  readDesktopRuntime,
+  type DesktopHost,
+  type DesktopPlatform,
+  type DesktopRuntime,
+} from "@/registry/fabricator/shared/lib/desktop-window"
 
 export type ExplorerComponent = {
   slug: string
