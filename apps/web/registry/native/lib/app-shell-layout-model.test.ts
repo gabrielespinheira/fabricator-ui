@@ -17,6 +17,7 @@ import {
   getShellRowOffset,
   getStatusBarHeight,
   getStatusBarPadding,
+  hasPanelClose,
   isTitleScrolledAway,
   shouldShowHeaderTrigger,
 } from "@/registry/native/lib/app-shell-layout-model"
@@ -469,6 +470,31 @@ describe("getPinnedTriggerPosition", () => {
         rowPadding: 12,
       }).right
     ).toBe(56)
+  })
+})
+
+describe("hasPanelClose", () => {
+  it("leaves a phone's drawer to its handle and scrim", () => {
+    expect(hasPanelClose({ placement: "drawer", pinnedTriggers: 0 })).toBe(
+      false
+    )
+  })
+
+  it("keeps it where the panel has no other way to close", () => {
+    expect(hasPanelClose({ placement: "swap", pinnedTriggers: 0 })).toBe(true)
+    expect(hasPanelClose({ placement: "overlay", pinnedTriggers: 0 })).toBe(
+      true
+    )
+    expect(hasPanelClose({ placement: "inline", pinnedTriggers: 0 })).toBe(true)
+  })
+
+  it("steps aside beside a pinned toggle, which closes a docked panel", () => {
+    expect(hasPanelClose({ placement: "inline", pinnedTriggers: 1 })).toBe(
+      false
+    )
+    expect(hasPanelClose({ placement: "overlay", pinnedTriggers: 1 })).toBe(
+      true
+    )
   })
 })
 

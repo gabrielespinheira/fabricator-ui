@@ -7,10 +7,11 @@
   }
 
   /* Panel: surface 3 whose shadow ring is the edge (no border); the edge that
-     meets the screen is square, the free edge rounded-xl. A drawer along the
-     sides takes 3/4 of the width, at most 384pt from sm up. */
+     meets the screen is square, the free edge rounded-xl. From the bottom on iOS it
+     has the system sheet's corner: 38pt and continuous, measured on iOS 27. A drawer
+     along the sides takes 3/4 of the width, at most 384pt from sm up. */
   .cn-drawer-popup {
-    @apply bg-surface-3 shadow-surface-3 data-[swipe-axis=x]:w-3/4 data-[swipe-axis=x]:flex-row data-[swipe-axis=x]:sm:w-96 data-[swipe-axis=y]:max-h-[90%] data-[swipe-direction=down]:rounded-t-xl data-[swipe-direction=left]:rounded-r-xl data-[swipe-direction=right]:rounded-l-xl data-[swipe-direction=up]:rounded-b-xl;
+    @apply bg-surface-3 shadow-surface-3 data-[swipe-axis=x]:w-3/4 data-[swipe-axis=x]:flex-row data-[swipe-axis=x]:sm:w-96 data-[swipe-axis=y]:max-h-[90%] data-[swipe-direction=down]:rounded-t-xl ios:data-[swipe-direction=down]:rounded-t-[38px] ios:border-continuous data-[swipe-direction=left]:rounded-r-xl data-[swipe-direction=right]:rounded-l-xl data-[swipe-direction=up]:rounded-b-xl;
   }
 
   .cn-drawer-text {

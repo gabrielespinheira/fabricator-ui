@@ -92,6 +92,7 @@ import {
   getShellRowOffset,
   getStatusBarHeight,
   getStatusBarPadding,
+  hasPanelClose,
   isTitleScrolledAway,
   shouldShowHeaderTrigger,
 } from "@/registry/native/lib/app-shell-layout-model"
@@ -2243,6 +2244,7 @@ function AppShellPanelHeader({
     <View
       data-slot="app-shell-panel-header"
       data-floating={placement !== "inline"}
+      data-placement={placement}
       className={cn(
         "cn-app-shell-panel-header shrink-0 flex-row items-center",
         className
@@ -2289,10 +2291,12 @@ function AppShellPanelTabs({
   const { views, panel, placement } = usePanel()
   const isFloating = placement !== "inline"
   const isCompact = !isFloating && panel.width < PANEL_TABS_LABEL_WIDTH
+  // Beside a close button they take the row; a drawer has none, and centres them.
+  const isStretched = isFloating && placement !== "drawer"
   return (
     <TabsList
       data-slot="app-shell-panel-tabs"
-      data-floating={isFloating}
+      data-stretched={isStretched}
       className={cn("cn-app-shell-panel-tabs", className)}
       {...props}
     >
@@ -2302,10 +2306,10 @@ function AppShellPanelTabs({
           value={view.value}
           accessibilityLabel={view.label}
           data-compact={isCompact && view.icon !== undefined}
-          data-floating={isFloating}
+          data-stretched={isStretched}
           className="cn-app-shell-panel-tab"
         >
-          {/* A phone's stretched track has room for the names, not both. */}
+          {/* A phone's track has room for the names, not both. */}
           {isFloating ? null : <IconSlot icon={view.icon} />}
           <Text
             data-compact={isCompact && view.icon !== undefined}
@@ -2327,8 +2331,7 @@ function AppShellPanelClose({
 }: React.ComponentProps<typeof Button>) {
   const { label, placement, side, setOpen } = usePanel()
   const { pinnedTriggers } = useAppShell()
-  // Beside a pinned toggle, which closes the panel from the same spot, it steps aside.
-  if (placement === "inline" && pinnedTriggers > 0) return null
+  if (!hasPanelClose({ placement, pinnedTriggers })) return null
   const isFloating = placement !== "inline"
   return (
     <Button

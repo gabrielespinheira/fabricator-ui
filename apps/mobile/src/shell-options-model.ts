@@ -5,7 +5,7 @@
 import {
   getHiddenShellOptions,
   TAB_BAR_STYLE_CHOICES,
-  type ShellOptionSection,
+  type ShellOptionKey,
   type ShellOptionValues,
   type ShellProject,
 } from "@/registry/fabricator/app-shell-options"
@@ -21,6 +21,20 @@ export const NATIVE_PROJECT: ShellProject = {
 
 /** Left out: Peek (nothing hovers) and Window (the system owns it). */
 export const NATIVE_HIDDEN_OPTIONS = getHiddenShellOptions(NATIVE_PROJECT)
+
+/**
+ * What this card leaves out on this device. On a phone the library floats the primary
+ * action over the page, and this example shows no floating button.
+ */
+export function getNativeHiddenOptions({
+  isPhone,
+}: {
+  isPhone: boolean
+}): ReadonlySet<ShellOptionKey> {
+  return isPhone
+    ? new Set<ShellOptionKey>([...NATIVE_HIDDEN_OPTIONS, "actions"])
+    : NATIVE_HIDDEN_OPTIONS
+}
 
 const SITE_URL = "https://fabricator-ui.vercel.app"
 
@@ -83,42 +97,18 @@ export function countChangedOptions(
     .length
 }
 
-/** The section whose rows this device can only write into the install command. */
-export function getUnseenSection({
-  isPhone,
-}: {
-  isPhone: boolean
-}): ShellOptionSection["id"] {
-  return isPhone ? "desktop" : "mobile"
-}
-
-/** What this device or build can't draw, beside the row that asks for it. */
+/** What this build can't draw, beside the row that asks for it. */
 export function getOptionNotes({
-  isPhone,
   hasGlass,
 }: {
-  isPhone: boolean
   hasGlass: boolean
 }): Partial<Record<keyof ShellOptions, string>> {
-  return {
-    ...(isPhone
-      ? {
-          // A phone's sidebar opens over or beside the page, and any column is
-          // wider than its screen.
-          variant: "Shows on tablets.",
-          contentSize: "Shows on tablets.",
-          // The library floats the primary action over the page there, and this
-          // example shows no floating button.
-          actions: "This example shows them on tablets.",
-        }
-      : {}),
-    ...(hasGlass
-      ? {}
-      : {
-          bottomNavStyle:
-            "Glass needs iOS 26 and a build with its module: bun run mobile.",
-        }),
-  }
+  return hasGlass
+    ? {}
+    : {
+        bottomNavStyle:
+          "Glass needs iOS 26 and a build with its module: bun run mobile.",
+      }
 }
 
 /**

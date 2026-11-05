@@ -469,7 +469,7 @@
   /* A docked panel's header leaves room for the toggle pinned over its end, in a
      style. It has the main header's height and hairline. */
   .cn-app-shell-panel-header {
-    @apply h-(--density-48) gap-(--density-6) border-b border-transparent px-(--density-12) data-[floating=true]:gap-(--density-8) data-[floating=true]:border-b-0 data-[floating=true]:px-(--density-16);
+    @apply h-(--density-48) gap-(--density-6) border-b border-transparent px-(--density-12) data-[floating=true]:gap-(--density-8) data-[floating=true]:border-b-0 data-[floating=true]:px-(--density-16) data-[placement=drawer]:justify-center;
   }
 
   .cn-app-shell-panel-title {
@@ -481,12 +481,12 @@
   }
 
   .cn-app-shell-panel-tabs {
-    @apply min-w-0 shrink justify-start self-center data-[floating=true]:flex-1;
+    @apply min-w-0 shrink justify-start self-center data-[stretched=true]:flex-1;
   }
 
   /* Below a 360pt panel the view tabs show their icons only. */
   .cn-app-shell-panel-tab {
-    @apply data-[compact=true]:px-(--density-8) data-[floating=true]:px-(--density-6);
+    @apply data-[compact=true]:px-(--density-8) data-[stretched=true]:px-(--density-6);
   }
 
   .cn-app-shell-panel-tab-label {
@@ -1817,10 +1817,11 @@
   }
 
   /* Panel: surface 3 whose shadow ring is the edge (no border); the edge that
-     meets the screen is square, the free edge rounded-xl. A drawer along the
-     sides takes 3/4 of the width, at most 384pt from sm up. */
+     meets the screen is square, the free edge rounded-xl. From the bottom on iOS it
+     has the system sheet's corner: 38pt and continuous, measured on iOS 27. A drawer
+     along the sides takes 3/4 of the width, at most 384pt from sm up. */
   .cn-drawer-popup {
-    @apply bg-surface-3 shadow-surface-3 data-[swipe-axis=x]:w-3/4 data-[swipe-axis=x]:flex-row data-[swipe-axis=x]:sm:w-96 data-[swipe-axis=y]:max-h-[90%] data-[swipe-direction=down]:rounded-t-xl data-[swipe-direction=left]:rounded-r-xl data-[swipe-direction=right]:rounded-l-xl data-[swipe-direction=up]:rounded-b-xl;
+    @apply bg-surface-3 shadow-surface-3 data-[swipe-axis=x]:w-3/4 data-[swipe-axis=x]:flex-row data-[swipe-axis=x]:sm:w-96 data-[swipe-axis=y]:max-h-[90%] data-[swipe-direction=down]:rounded-t-xl ios:data-[swipe-direction=down]:rounded-t-[38px] ios:border-continuous data-[swipe-direction=left]:rounded-r-xl data-[swipe-direction=right]:rounded-l-xl data-[swipe-direction=up]:rounded-b-xl;
   }
 
   .cn-drawer-text {

@@ -19,13 +19,16 @@ import {
 import { getFabricatorSiteUrl } from "@/registry/fabricator"
 import {
   getShellOptionSections,
+  getShellPlatform,
   splitShellOptionGroups,
   type ShellOptionGroup,
   type ShellOptionKey,
   type ShellOptionRow,
   type ShellOptionSection,
+  type ShellPlatform,
   type ShellProject,
 } from "@/registry/fabricator/app-shell-options"
+import { useAppShell } from "@/styles/base-fabricator/ui/app-shell"
 import { Badge } from "@/styles/base-fabricator/ui/badge"
 import { Button } from "@/styles/base-fabricator/ui/button"
 import {
@@ -218,12 +221,13 @@ function OptionSection({
   )
 }
 
-/** Every option: what applies everywhere, then each kind of screen. */
+/** The options: what applies everywhere, then each kind of screen, or `platform`'s. */
 export function AppShellOptionFields({
   options,
   setOptions,
   project,
   hidden,
+  platform,
   notes,
 }: {
   options: PlaygroundOptions
@@ -231,10 +235,18 @@ export function AppShellOptionFields({
   project: ShellProject
   /** Options this shell can't honour. */
   hidden: ReadonlySet<ShellOptionKey>
+  /** Shows only what this platform can preview. Left out, every section. */
+  platform?: ShellPlatform
   /** Where an option applies, when it isn't everywhere. */
   notes?: Partial<Record<ShellOptionKey, string>>
 }) {
-  const sections = getShellOptionSections({ options, project, hidden, notes })
+  const sections = getShellOptionSections({
+    options,
+    project,
+    hidden,
+    platform,
+    notes,
+  })
   return (
     <div className="flex flex-col">
       {sections.map((section) => (
@@ -294,6 +306,7 @@ function OptionsCard({
 }) {
   const { packageManager } = usePackageManager()
   const [iconLibrary] = useSiteSetting("iconLibrary")
+  const { size } = useAppShell()
   const changed = countChangedOptions(options, defaults)
 
   return (
@@ -324,6 +337,7 @@ function OptionsCard({
           setOptions={setOptions}
           project={PLAYGROUND_PROJECT}
           hidden={hidden}
+          platform={getShellPlatform({ isPhone: size === "phone" })}
         />
       </CardContent>
       <CardInstall

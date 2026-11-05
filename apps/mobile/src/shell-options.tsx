@@ -11,6 +11,7 @@ import { useCSSVariable } from "uniwind"
 
 import {
   getShellOptionSections,
+  getShellPlatform,
   type ShellOptionGroup,
   type ShellOptionRow,
   type ShellOptionSection,
@@ -34,10 +35,9 @@ import {
   buildInstallCommand,
   countChangedOptions,
   getDefaultShellOptions,
+  getNativeHiddenOptions,
   getOptionNotes,
   getTabBarStyleChoices,
-  getUnseenSection,
-  NATIVE_HIDDEN_OPTIONS,
   NATIVE_PROJECT,
   type ShellOptions,
 } from "./shell-options-model"
@@ -155,13 +155,10 @@ function OptionGroup({
 /** One kind of screen's options: its name and reach, then its groups. */
 function OptionSection({
   section,
-  isUnseen,
   options,
   change,
 }: {
   section: ShellOptionSection
-  /** This device can't show them, but the install command has them. */
-  isUnseen: boolean
   options: ShellOptions
   change: ChangeOptions
 }) {
@@ -187,9 +184,6 @@ function OptionSection({
           </Text>
           <Text className="text-(length:--density-text-12) text-muted-foreground">
             {section.description}
-            {isUnseen
-              ? " This device can't show them, but the install command has them."
-              : ""}
           </Text>
         </View>
       </View>
@@ -239,7 +233,7 @@ function InstallCommand({ options }: { options: ShellOptions }) {
   )
 }
 
-/** The website's App Shell card: what applies everywhere, then each kind of screen. */
+/** The website's App Shell card: what applies everywhere, then this device's section. */
 export function ShellOptionsCard({
   options,
   onChange,
@@ -253,12 +247,12 @@ export function ShellOptionsCard({
 }) {
   const change: ChangeOptions = (next) => onChange({ ...options, ...next })
   const changed = countChangedOptions(options, DEFAULT_SHELL_OPTIONS)
-  const unseenSection = getUnseenSection({ isPhone })
   const sections = getShellOptionSections({
     options,
     project: NATIVE_PROJECT,
-    hidden: NATIVE_HIDDEN_OPTIONS,
-    notes: getOptionNotes({ isPhone, hasGlass: hasLiquidGlass() }),
+    hidden: getNativeHiddenOptions({ isPhone }),
+    platform: getShellPlatform({ isPhone }),
+    notes: getOptionNotes({ hasGlass: hasLiquidGlass() }),
   })
 
   return (
@@ -294,7 +288,6 @@ export function ShellOptionsCard({
             {index > 0 ? <Separator /> : null}
             <OptionSection
               section={section}
-              isUnseen={section.id === unseenSection}
               options={options}
               change={change}
             />

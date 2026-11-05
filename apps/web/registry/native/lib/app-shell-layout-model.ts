@@ -6,6 +6,7 @@
 import {
   APP_SHELL_CONTENT_WIDTHS,
   type AppShellContentSize,
+  type PanelPlacement,
   type PanelState,
   type ShellLayoutState,
 } from "@/registry/fabricator/shared/lib/app-shell-model"
@@ -329,6 +330,22 @@ export function getPinnedAnchorWidth({
 }) {
   if (!isOpen) return buttonSize
   return Math.max(0, pageGutter - rowPadding - gap)
+}
+
+/**
+ * Whether a panel draws its close button. A phone's drawer closes from its handle
+ * and scrim. Beside a pinned toggle, which closes a docked panel from the same
+ * spot, it steps aside.
+ */
+export function hasPanelClose({
+  placement,
+  pinnedTriggers,
+}: {
+  placement: PanelPlacement
+  pinnedTriggers: number
+}) {
+  if (placement === "drawer") return false
+  return placement !== "inline" || pinnedTriggers === 0
 }
 
 /** What a docked panel's header leaves for the toggle pinned over its end. */

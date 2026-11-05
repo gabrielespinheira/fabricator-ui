@@ -1,6 +1,8 @@
 // The App Shell's options as every card lays them out: what applies everywhere
 // first, then what only wide screens or only phones can show. The website's cards
-// and the React Native example's both render this, so they can't drift apart.
+// and the React Native example's both render this, so they can't drift apart. A card
+// inside a running shell passes its platform, and shows only what that shell can
+// preview; a setup page, which writes the command for every app, shows it all.
 
 export type ShellOptionValues = {
   variant: "inset" | "sidebar" | "floating"
@@ -191,11 +193,34 @@ export type ShellOptionSection = {
   groups: readonly ShellOptionGroup[]
 }
 
+/** The platform section a running shell can preview. */
+export type ShellPlatform = Exclude<ShellOptionSection["id"], "all">
+
+/** Below the tablet size, a shell previews the mobile section. */
+export function getShellPlatform({
+  isPhone,
+}: {
+  isPhone: boolean
+}): ShellPlatform {
+  return isPhone ? "mobile" : "desktop"
+}
+
+/**
+ * What a phone's layout never draws, though it applies everywhere else: its sidebar
+ * opens over or beside the page, and any column is wider than its screen.
+ */
+const WIDE_SCREEN_OPTIONS: ReadonlySet<ShellOptionKey> = new Set([
+  "variant",
+  "contentSize",
+])
+
 type ShellOptionContext = {
   options: ShellOptionValues
   project: ShellProject
   /** Options this shell can't honour. */
   hidden?: ReadonlySet<ShellOptionKey>
+  /** Shows only what this platform can preview. Left out, every section. */
+  platform?: ShellPlatform
   /** Where an option applies, when it isn't everywhere. */
   notes?: Partial<Record<ShellOptionKey, string>>
 }
@@ -314,22 +339,24 @@ function getSectionText({
 export function getShellOptionSections(
   context: ShellOptionContext
 ): readonly ShellOptionSection[] {
-  const { project, hidden } = context
+  const { project, hidden, platform } = context
   const isNativeOnly = !project.hasWeb && !project.hasDesktop
   const order = isNativeOnly
     ? (["all", "mobile", "desktop"] as const)
     : (["all", "desktop", "mobile"] as const)
+  const isOffered = (key: ShellOptionKey) =>
+    !hidden?.has(key) &&
+    !(platform === "mobile" && WIDE_SCREEN_OPTIONS.has(key))
 
   return order
+    .filter((id) => !platform || id === "all" || id === platform)
     .map((id) => ({
       id,
       ...getSectionText({ id, project }),
       groups: SECTION_LAYOUT[id]
         .map(({ title, keys }) => ({
           title,
-          rows: keys
-            .filter((key) => !hidden?.has(key))
-            .map((key) => getRow(key, context)),
+          rows: keys.filter(isOffered).map((key) => getRow(key, context)),
         }))
         .filter(({ rows }) => rows.length > 0),
     }))

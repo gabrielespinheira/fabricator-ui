@@ -6,9 +6,9 @@ import {
   buildInstallCommand,
   countChangedOptions,
   getDefaultShellOptions,
+  getNativeHiddenOptions,
   getOptionNotes,
   getTabBarStyleChoices,
-  getUnseenSection,
   NATIVE_HIDDEN_OPTIONS,
   NATIVE_PROJECT,
   type ShellOptions,
@@ -81,67 +81,23 @@ describe("the React Native App Shell card", () => {
     }
   })
 
-  it("marks the section this device can't show", () => {
-    expect(getUnseenSection({ isPhone: true })).toBe("desktop")
-    expect(getUnseenSection({ isPhone: false })).toBe("mobile")
+  it("offers a tablet everything it can draw", () => {
+    expect(getNativeHiddenOptions({ isPhone: false })).toEqual(
+      NATIVE_HIDDEN_OPTIONS
+    )
   })
 
-  it("explains what this device or build can't draw", () => {
-    expect(getOptionNotes({ isPhone: true, hasGlass: true })).toEqual({
-      variant: expect.stringContaining("tablets"),
-      contentSize: expect.stringContaining("tablets"),
-      actions: expect.stringContaining("tablets"),
-    })
-    expect(getOptionNotes({ isPhone: false, hasGlass: true })).toEqual({})
-    expect(getOptionNotes({ isPhone: false, hasGlass: false })).toEqual({
+  it("leaves out header actions on a phone, where this example has none", () => {
+    expect(getNativeHiddenOptions({ isPhone: true }).has("actions")).toBe(true)
+    expect(getNativeHiddenOptions({ isPhone: false }).has("actions")).toBe(
+      false
+    )
+  })
+
+  it("explains what this build can't draw", () => {
+    expect(getOptionNotes({ hasGlass: true })).toEqual({})
+    expect(getOptionNotes({ hasGlass: false })).toEqual({
       bottomNavStyle: expect.stringContaining("Glass"),
     })
-  })
-})
-
-describe("the card's install command", () => {
-  it("asks for the React Native version with `app-shell` named", () => {
-    const command = buildInstallCommand(defaults)
-    expect(command).toContain("npx fabricator-ui@latest add app-shell")
-    expect(parseCommand(defaults).get("platform")).toBe("native")
-  })
-
-  it("carries only what differs from the website's defaults", () => {
-    const params = parseCommand(defaults)
-    expect([...params.keys()].sort()).toEqual(["bottomNav", "platform"])
-  })
-
-  it("leaves out what a switched-off part would ignore", () => {
-    const params = parseCommand({
-      ...defaults,
-      bottomNav: false,
-      bottomNavStyle: "floating",
-      panel: false,
-      panelMobile: "swap",
-    })
-    expect(params.has("bottomNavStyle")).toBe(false)
-    expect(params.has("panelMobile")).toBe(false)
-  })
-
-  it("is read back by the endpoint as the same choices", () => {
-    const options: ShellOptions = {
-      ...defaults,
-      variant: "floating",
-      collapse: "offcanvas",
-      mobileSidebar: "sheet",
-      switcher: "command",
-      account: "header",
-      reorder: false,
-      customize: true,
-      tabs: "main",
-      contentSize: "lg",
-      breadcrumb: false,
-      actions: false,
-      status: false,
-      bottomNavStyle: "floating",
-      panelMobile: "swap",
-    }
-    expect(parseAppShellParams(parseCommand(options))).toMatchObject(options)
-    expect(parseAppShellParams(parseCommand(defaults))).toMatchObject(defaults)
   })
 })

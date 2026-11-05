@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest"
 import {
   getHiddenShellOptions,
   getShellOptionSections,
+  getShellPlatform,
   getTabChoices,
   isPeekAvailable,
   splitShellOptionGroups,
@@ -272,6 +273,62 @@ describe("getShellOptionSections", () => {
       notes,
     })
     expect(getRow(waiting, "glass")?.note).toMatch(/^Needs /)
+  })
+})
+
+describe("a card that previews one platform", () => {
+  const sections = (project: ShellProject, platform: "desktop" | "mobile") =>
+    getShellOptionSections({ options: OPTIONS, project, platform })
+  const titles = (project: ShellProject, platform: "desktop" | "mobile") =>
+    sections(project, platform).map(({ title }) => title)
+  const keys = (project: ShellProject, platform: "desktop" | "mobile") =>
+    sections(project, platform).flatMap(({ groups }) =>
+      groups.flatMap(({ rows }) => rows.map(({ key }) => key))
+    )
+
+  it("shows a tablet what applies everywhere and its own section", () => {
+    expect(titles(expo, "desktop")).toEqual(["All platforms", "Tablets"])
+  })
+
+  it("shows a phone what applies everywhere and its own section", () => {
+    expect(titles(expo, "mobile")).toEqual(["All platforms", "Phones"])
+  })
+
+  it("shows a desktop app or a wide browser the desktop section", () => {
+    expect(titles(everything, "desktop")).toEqual(["All platforms", "Desktop"])
+    expect(titles(desktop, "desktop")).toEqual(["All platforms", "Desktop"])
+  })
+
+  it("shows a narrow browser window the mobile section", () => {
+    expect(titles(everything, "mobile")).toEqual(["All platforms", "Mobile"])
+  })
+
+  it("leaves out what a phone's layout can't show", () => {
+    expect(keys(expo, "mobile")).not.toContain("variant")
+    expect(keys(expo, "mobile")).not.toContain("contentSize")
+  })
+
+  it("keeps those for a tablet", () => {
+    expect(keys(expo, "desktop")).toContain("variant")
+    expect(keys(expo, "desktop")).toContain("contentSize")
+  })
+
+  it("keeps every section for a page with no platform of its own", () => {
+    expect(
+      getShellOptionSections({ options: OPTIONS, project: expo }).map(
+        ({ title }) => title
+      )
+    ).toEqual(["All platforms", "Phones", "Tablets"])
+    expect(
+      getShellOptionSections({ options: OPTIONS, project: expo }).flatMap(
+        ({ groups }) => groups.flatMap(({ rows }) => rows.map(({ key }) => key))
+      )
+    ).toContain("variant")
+  })
+
+  it("reads the platform from the window's size class", () => {
+    expect(getShellPlatform({ isPhone: true })).toBe("mobile")
+    expect(getShellPlatform({ isPhone: false })).toBe("desktop")
   })
 })
 

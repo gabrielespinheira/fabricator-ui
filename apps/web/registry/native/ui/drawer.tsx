@@ -186,13 +186,18 @@ function DrawerOverlay({
 function DrawerSwipeHandle({
   className,
   ...props
-}: React.ComponentProps<typeof View>) {
-  const { swipeAxis } = useDrawer()
+}: React.ComponentProps<typeof Pressable>) {
+  const { swipeAxis, setIsOpen, disablePointerDismissal } = useDrawer()
   return (
-    <View
+    // A button too: a drawer may have no other control that closes it.
+    <Pressable
       data-slot="drawer-swipe-handle"
       data-swipe-axis={swipeAxis}
-      aria-hidden
+      role="button"
+      accessibilityLabel="Close"
+      aria-hidden={disablePointerDismissal}
+      disabled={disablePointerDismissal}
+      onPress={() => setIsOpen(false)}
       className={cn(
         "cn-drawer-swipe-handle shrink-0 items-center justify-center",
         className
@@ -203,7 +208,7 @@ function DrawerSwipeHandle({
         data-swipe-axis={swipeAxis}
         className="cn-drawer-swipe-handle-bar shrink-0"
       />
-    </View>
+    </Pressable>
   )
 }
 
