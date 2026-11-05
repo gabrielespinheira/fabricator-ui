@@ -14,6 +14,7 @@ export type SetupFlags = {
   template?: string
   base?: string
   monorepo?: boolean
+  web?: boolean
   mobile?: boolean
   desktop?: string
   look?: string
@@ -67,18 +68,24 @@ function commonFields(flags: SetupFlags) {
   }
 }
 
+/** A monorepo, unless told otherwise or the template can't be one. */
+function getCreateProject({ monorepo, template, mobile, desktop }: SetupFlags) {
+  if (monorepo !== undefined) return monorepo ? "monorepo" : "new"
+  return template === "laravel" && !mobile && !desktop ? "new" : "monorepo"
+}
+
 /** Everything is on unless a flag says otherwise. */
 export function setupFromCreateFlags(
   name: string | undefined,
   flags: SetupFlags
 ): ProjectSetup {
-  const hasApps = Boolean(flags.mobile || flags.desktop)
   return projectSetupSchema.parse({
     ...DEFAULT_PROJECT_SETUP,
     ...commonFields(flags),
-    project: flags.monorepo || hasApps ? "monorepo" : "new",
+    project: getCreateProject(flags),
     name: name ?? "",
     framework: flags.template ?? DEFAULT_PROJECT_SETUP.framework,
+    web: flags.web ?? true,
     mobile: flags.mobile ?? false,
     desktop: flags.desktop ?? "none",
     appShell: flags.shell !== false,

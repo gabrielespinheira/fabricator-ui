@@ -13,7 +13,7 @@ import { RadioGroup } from "@/styles/base-fabricator/ui/radio-group"
 import { Switch } from "@/styles/base-fabricator/ui/switch"
 import {
   ASSISTANTS,
-  isNativeFramework,
+  getShellProject,
   type SetupChoices,
 } from "@/app/(app)/(create)/lib/setup"
 
@@ -72,8 +72,8 @@ export function ExtrasControls({
   onBack,
   onNext,
 }: StepProps) {
-  const isNativeOnly =
-    choices.project === "new" && isNativeFramework(choices.framework)
+  const { hasWeb, hasMobile, hasDesktop } = getShellProject(choices)
+  const isNativeOnly = hasMobile && !hasWeb && !hasDesktop
   const hasAssistants = choices.assistants.length > 0
 
   return (
@@ -110,7 +110,7 @@ export function ExtrasControls({
           description={
             isNativeOnly
               ? "Soft clicks and ticks on buttons, switches and menus, each with a light tap on a real device."
-              : `Soft clicks and ticks on buttons, switches and menus, like the ones on this site. Synthesised in the browser, no audio files.${choices.mobile ? " The mobile app plays them too, with a light tap for each." : ""}`
+              : `Soft clicks and ticks on buttons, switches and menus, like the ones on this site. Synthesised in the browser, no audio files.${hasMobile ? " The mobile app plays them too, with a light tap for each." : ""}`
           }
           checked={choices.sound}
           onCheckedChange={(sound) => onChange({ sound })}

@@ -22,11 +22,7 @@ describe("normalizeProjectSetup", () => {
     )
   })
 
-  it("moves Expo and Laravel out of a monorepo's web app", () => {
-    expect(
-      normalizeProjectSetup(setup({ project: "monorepo", framework: "expo" }))
-        .framework
-    ).toBe("next")
+  it("moves Laravel out of a monorepo's web app", () => {
     expect(
       normalizeProjectSetup(
         setup({ project: "monorepo", framework: "laravel" })
@@ -36,7 +32,7 @@ describe("normalizeProjectSetup", () => {
 
   it("clears the extra apps when the project isn't a monorepo", () => {
     expect(
-      normalizeProjectSetup(setup({ mobile: true, desktop: "tauri" }))
+      normalizeProjectSetup(setup({ project: "new", desktop: "tauri" }))
     ).toMatchObject({ mobile: false, desktop: "none" })
     expect(
       normalizeProjectSetup(
@@ -124,5 +120,91 @@ describe("isWebFramework", () => {
   it("is false only for Expo", () => {
     expect(isWebFramework("next")).toBe(true)
     expect(isWebFramework("expo")).toBe(false)
+  })
+})
+
+describe("the apps a setup chooses", () => {
+  const apps = (changes: Partial<ProjectSetup>) => {
+    const { project, framework, web, mobile, desktop } = normalizeProjectSetup({
+      ...DEFAULT_PROJECT_SETUP,
+      ...changes,
+    })
+    return { project, framework, web, mobile, desktop }
+  }
+  const EXPO_ONLY = {
+    project: "new",
+    framework: "expo",
+    web: false,
+    mobile: false,
+    desktop: "none",
+  }
+
+  it("starts as a monorepo with a web app", () => {
+    expect(apps({})).toEqual({
+      project: "monorepo",
+      framework: "next",
+      web: true,
+      mobile: false,
+      desktop: "none",
+    })
+  })
+
+  it("makes a lone mobile app a plain Expo project", () => {
+    expect(apps({ web: false, mobile: true })).toEqual(EXPO_ONLY)
+  })
+
+  it("reads the Expo template as a lone mobile app, however it was asked for", () => {
+    expect(apps({ framework: "expo" })).toEqual(EXPO_ONLY)
+    expect(apps({ project: "new", framework: "expo" })).toEqual(EXPO_ONLY)
+    expect(apps(EXPO_ONLY as Partial<ProjectSetup>)).toEqual(EXPO_ONLY)
+  })
+
+  it("keeps a lone desktop app in a monorepo: its window renders a web app", () => {
+    expect(apps({ web: false, desktop: "tauri" })).toEqual({
+      project: "monorepo",
+      framework: "next",
+      web: false,
+      mobile: false,
+      desktop: "tauri",
+    })
+  })
+
+  it("allows mobile and desktop without a website", () => {
+    expect(apps({ web: false, mobile: true, desktop: "electron" })).toEqual({
+      project: "monorepo",
+      framework: "next",
+      web: false,
+      mobile: true,
+      desktop: "electron",
+    })
+  })
+
+  it("never ends up with no apps", () => {
+    expect(apps({ web: false }).web).toBe(true)
+    expect(apps({ project: "new", web: false }).web).toBe(true)
+  })
+
+  it("makes a single project one app", () => {
+    expect(apps({ project: "new", mobile: true })).toEqual(EXPO_ONLY)
+    expect(apps({ project: "new", desktop: "tauri" })).toEqual({
+      project: "new",
+      framework: "next",
+      web: true,
+      mobile: false,
+      desktop: "none",
+    })
+  })
+
+  it("keeps a single project's framework, Laravel included", () => {
+    expect(apps({ project: "new", framework: "laravel" }).framework).toBe(
+      "laravel"
+    )
+    expect(apps({ framework: "laravel" }).framework).toBe("next")
+  })
+
+  it("leaves apps out of an existing project", () => {
+    expect(
+      apps({ project: "existing", web: false, mobile: true, desktop: "tauri" })
+    ).toMatchObject({ web: true, mobile: false, desktop: "none" })
   })
 })

@@ -206,7 +206,7 @@ export function SetupWizard() {
             <ProjectControls
               choices={choices}
               onChange={setChoices}
-              onMobileAdded={() => void setShell({ bottomNav: true })}
+              onMobileChange={(bottomNav) => void setShell({ bottomNav })}
               onDesktopRemoved={onDesktopRemoved}
               onNext={() => setStep("look")}
             />

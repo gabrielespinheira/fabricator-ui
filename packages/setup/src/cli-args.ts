@@ -2,6 +2,7 @@
 
 import {
   DEFAULT_PROJECT_SETUP,
+  MONOREPO_FRAMEWORKS,
   normalizeProjectSetup,
   projectName,
   writeKeyValues,
@@ -54,8 +55,21 @@ function initArgs(setup: ProjectSetup) {
   ]
 }
 
+/** A monorepo with a website is the default, and some templates are never one. */
+function appFlags(setup: ProjectSetup) {
+  if (setup.project === "new") {
+    return MONOREPO_FRAMEWORKS.includes(setup.framework)
+      ? ["--no-monorepo"]
+      : []
+  }
+  return [
+    ...(setup.web ? [] : ["--no-web"]),
+    ...(setup.mobile ? ["--mobile"] : []),
+    ...(setup.desktop === "none" ? [] : ["--desktop", setup.desktop]),
+  ]
+}
+
 function createArgs(setup: ProjectSetup) {
-  const hasApps = setup.mobile || setup.desktop !== "none"
   return [
     "create",
     projectName(setup),
@@ -63,9 +77,7 @@ function createArgs(setup: ProjectSetup) {
       ? []
       : ["-t", setup.framework]),
     ...baseFlag(setup),
-    ...(setup.project === "monorepo" && !hasApps ? ["--monorepo"] : []),
-    ...(setup.mobile ? ["--mobile"] : []),
-    ...(setup.desktop === "none" ? [] : ["--desktop", setup.desktop]),
+    ...appFlags(setup),
     ...sharedFlags(setup),
     ...(setup.appShell
       ? Object.keys(setup.shell).length > 0

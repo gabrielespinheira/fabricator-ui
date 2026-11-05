@@ -13,7 +13,6 @@ import {
   DEFAULT_PLAYGROUND_OPTIONS,
   getHiddenShellOptions,
   getShellOptionNotes,
-  getTabChoices,
   type PlaygroundOptions,
   type ShellProject,
 } from "@/app/(view)/app-shell/_lib/options"
@@ -94,9 +93,9 @@ export function ShellControls({
         <AppShellOptionFields
           options={options}
           setOptions={onOptionsChange}
+          project={project}
           hidden={hidden}
           notes={getShellOptionNotes(project)}
-          tabChoices={getTabChoices(project)}
         />
       </fieldset>
       <div className="flex items-center justify-between gap-3">

@@ -26,22 +26,23 @@ npx fabricator-ui@latest create [name] [options]
 
 Creates the app, installs the look and components, adds the App Shell and sounds to the root layout, and sets up AI assistants. Prefer it for a new project: it needs no follow-up commands or file edits. Pass `--yes` when running without a person, and use `--dry-run --json` to read the plan first.
 
-| Flag                            | Short | Description                                                               |
-| ------------------------------- | ----- | ------------------------------------------------------------------------- |
-| `--template <framework>`        | `-t`  | `next` (default), `vite`, `start`, `react-router`, `astro`, `laravel`, `expo` |
-| `--base <base>`                 | `-b`  | `base` (default), `radix` or `aria`                                       |
-| `--monorepo`                    |       | `apps/web` and `packages/ui`                                              |
-| `--mobile`                      |       | Add `apps/mobile`: React Native with Expo. Implies `--monorepo`           |
-| `--desktop <runtime>`           |       | Add `apps/desktop`: `electron` or `tauri`. Implies `--monorepo`           |
-| `--look <values>`               |       | `key=value` pairs: `primary=260_0.2,shape=pill`                           |
-| `--shell [options]` / `--no-shell` |    | The App Shell, with `key=value` options: `variant=floating,tabs=main`     |
-| `--icons <library>`             |       | An icon library other than Fabricator's                                   |
-| `--no-sounds`                   |       | Skip the interface sounds                                                 |
-| `--all`                         |       | Add every component                                                       |
-| `--agents <assistants>`         |       | `claude`, `cursor`, `vscode`, `codex`, `opencode`, comma-separated        |
-| `--no-skill` / `--no-mcp`       |       | Narrow what `--agents` sets up                                            |
-| `--yes`                         | `-y`  | Use the defaults for anything not given                                   |
-| `--dry-run` / `--json`          |       | Print the plan; machine-readable output                                   |
+| Flag                               | Short | Description                                                                                                 |
+| ---------------------------------- | ----- | ----------------------------------------------------------------------------------------------------------- |
+| `--template <framework>`           | `-t`  | `next` (default), `vite`, `start`, `react-router`, `astro`, `laravel`, `expo`                               |
+| `--base <base>`                    | `-b`  | `base` (default), `radix` or `aria`                                                                         |
+| `--no-monorepo`                    |       | One app in one folder. The default is a monorepo: `apps/web` and `packages/ui`                              |
+| `--no-web`                         |       | No website. `--mobile` alone is a plain Expo project; `--desktop` alone keeps `apps/web` as the window's UI |
+| `--mobile`                         |       | Add `apps/mobile`: React Native with Expo                                                                   |
+| `--desktop <runtime>`              |       | Add `apps/desktop`: `electron` or `tauri`                                                                   |
+| `--look <values>`                  |       | `key=value` pairs: `primary=260_0.2,shape=pill`                                                             |
+| `--shell [options]` / `--no-shell` |       | The App Shell, with `key=value` options: `variant=floating,tabs=main`                                       |
+| `--icons <library>`                |       | An icon library other than Fabricator's                                                                     |
+| `--no-sounds`                      |       | Skip the interface sounds                                                                                   |
+| `--all`                            |       | Add every component                                                                                         |
+| `--agents <assistants>`            |       | `claude`, `cursor`, `vscode`, `codex`, `opencode`, comma-separated                                          |
+| `--no-skill` / `--no-mcp`          |       | Narrow what `--agents` sets up                                                                              |
+| `--yes`                            | `-y`  | Use the defaults for anything not given                                                                     |
+| `--dry-run` / `--json`             |       | Print the plan; machine-readable output                                                                     |
 
 ### `apps add` — Add an app to a monorepo
 
@@ -74,22 +75,22 @@ npx fabricator-ui@latest init [components...] [options]
 
 Sets up Fabricator UI in an existing project, or creates a new project when `--template` is passed. In an existing project, `--shell`, `--sounds`, `--look`, `--all` and `--agents` do what `create` does, changing only what they name. Optionally installs components in the same step (bare names resolve to `@fabricator`). `create` is an alias for `init`.
 
-| Flag                                    | Short | Description                                                                     | Default                    |
-| --------------------------------------- | ----- | ------------------------------------------------------------------------------- | -------------------------- |
-| `--template <template>`                 | `-t`  | Create a new project: `next`, `start`, `vite`, `react-router`, `laravel`, `astro` | —                          |
-| `--base <base>`                         | `-b`  | Component library: `base`, `radix`, or `aria`                                  | `base`, or the project's   |
-| `--preset <preset>`                     | `-p`  | Preset name, preset code, or init URL                                           | `fabricator`               |
-| `--monorepo` / `--no-monorepo`          |       | Scaffold a monorepo project / skip the monorepo prompt                          | prompt                     |
-| `--rtl` / `--no-rtl`                    |       | Enable / disable RTL support                                                    | —                          |
-| `--pointer`                             |       | Use a pointer cursor for buttons                                                | `false`                    |
-| `--css-variables` / `--no-css-variables`|       | Theme with CSS variables / inline utility colors                                | CSS variables              |
-| `--reinstall` / `--no-reinstall`        |       | Re-install / keep existing UI components                                        | —                          |
-| `--yes`                                 | `-y`  | Skip confirmation prompts                                                       | `false`                    |
-| `--force`                               | `-f`  | Force overwrite of an existing `components.json`                                | `false`                    |
-| `--cwd <cwd>`                           | `-c`  | Working directory                                                               | current                    |
-| `--name <name>`                         | `-n`  | Name for the new project                                                        | `<template>-app`           |
-| `--silent`                              | `-s`  | Mute output                                                                     | `false`                    |
-| `--dry-run`                             |       | Print the underlying commands instead of running them                           | `false`                    |
+| Flag                                     | Short | Description                                                                       | Default                  |
+| ---------------------------------------- | ----- | --------------------------------------------------------------------------------- | ------------------------ |
+| `--template <template>`                  | `-t`  | Create a new project: `next`, `start`, `vite`, `react-router`, `laravel`, `astro` | —                        |
+| `--base <base>`                          | `-b`  | Component library: `base`, `radix`, or `aria`                                     | `base`, or the project's |
+| `--preset <preset>`                      | `-p`  | Preset name, preset code, or init URL                                             | `fabricator`             |
+| `--monorepo` / `--no-monorepo`           |       | Scaffold a monorepo project / skip the monorepo prompt                            | prompt                   |
+| `--rtl` / `--no-rtl`                     |       | Enable / disable RTL support                                                      | —                        |
+| `--pointer`                              |       | Use a pointer cursor for buttons                                                  | `false`                  |
+| `--css-variables` / `--no-css-variables` |       | Theme with CSS variables / inline utility colors                                  | CSS variables            |
+| `--reinstall` / `--no-reinstall`         |       | Re-install / keep existing UI components                                          | —                        |
+| `--yes`                                  | `-y`  | Skip confirmation prompts                                                         | `false`                  |
+| `--force`                                | `-f`  | Force overwrite of an existing `components.json`                                  | `false`                  |
+| `--cwd <cwd>`                            | `-c`  | Working directory                                                                 | current                  |
+| `--name <name>`                          | `-n`  | Name for the new project                                                          | `<template>-app`         |
+| `--silent`                               | `-s`  | Mute output                                                                       | `false`                  |
+| `--dry-run`                              |       | Print the underlying commands instead of running them                             | `false`                  |
 
 **Existing projects.** When `components.json` already exists (and neither `--force` nor `--template` is passed), `init` asks:
 
@@ -106,13 +107,13 @@ npx fabricator-ui@latest apply [preset] [options]
 
 Applies a preset (default `fabricator`) to an existing project: theme, fonts, and then reinstalls the installed components from `@fabricator`. Requires `components.json`.
 
-| Flag              | Short | Description                                                  | Default          |
-| ----------------- | ----- | ------------------------------------------------------------ | ---------------- |
-| `--only <parts>`  |       | Apply only parts of the preset: `theme`, `font` (comma-separated); no component reinstall | —                |
-| `--base <base>`   | `-b`  | Component library: `base`, `radix`, or `aria`               | the project's    |
-| `--yes`           | `-y`  | Skip confirmation prompt                                     | `false`          |
-| `--cwd <cwd>`     | `-c`  | Working directory                                            | current          |
-| `--silent`        | `-s`  | Mute output                                                  | `false`          |
+| Flag             | Short | Description                                                                               | Default       |
+| ---------------- | ----- | ----------------------------------------------------------------------------------------- | ------------- |
+| `--only <parts>` |       | Apply only parts of the preset: `theme`, `font` (comma-separated); no component reinstall | —             |
+| `--base <base>`  | `-b`  | Component library: `base`, `radix`, or `aria`                                             | the project's |
+| `--yes`          | `-y`  | Skip confirmation prompt                                                                  | `false`       |
+| `--cwd <cwd>`    | `-c`  | Working directory                                                                         | current       |
+| `--silent`       | `-s`  | Mute output                                                                               | `false`       |
 
 `[preset]` is positional; there is no `--preset` flag on `apply`.
 
@@ -137,7 +138,7 @@ Bare names resolve to the `@fabricator` registry (`button` → `@fabricator/butt
 | `--dry-run`     |       | Preview all changes without writing files                                                                            | `false` |
 | `--diff [path]` |       | Show diffs. Without a path, shows the first 5 files. With a path, shows that file only (implies `--dry-run`)         | —       |
 | `--view [path]` |       | Show file contents. Without a path, shows the first 5 files. With a path, shows that file only (implies `--dry-run`) | —       |
-| `--upstream`    |       | Keep bare names as-is and install the upstream registry item instead of `@fabricator`                               | `false` |
+| `--upstream`    |       | Keep bare names as-is and install the upstream registry item instead of `@fabricator`                                | `false` |
 
 #### Dry-Run Mode
 
@@ -211,10 +212,10 @@ Displays item info including file contents. Bare names resolve to `@fabricator`.
 `npx fabricator-ui@latest view @acme/login-form`,
 `npx fabricator-ui@latest view owner/repo/item`.
 
-| Flag          | Short | Description                                 | Default |
-| ------------- | ----- | ------------------------------------------- | ------- |
-| `--cwd <cwd>` | `-c`  | Working directory                           | current |
-| `--upstream`  |       | View bare names from the upstream registry  | `false` |
+| Flag          | Short | Description                                | Default |
+| ------------- | ----- | ------------------------------------------ | ------- |
+| `--cwd <cwd>` | `-c`  | Working directory                          | current |
+| `--upstream`  |       | View bare names from the upstream registry | `false` |
 
 ### `docs` — Get component documentation URLs
 
@@ -224,12 +225,12 @@ npx fabricator-ui@latest docs <components...> [options]
 
 Outputs the documentation, example, and API reference URLs for one or more components, for the project's base. Fetch the URLs to get the actual content. Docs pages are also available as markdown by appending `.md`, e.g. `https://fabricator-ui.vercel.app/docs/components/base/button.md`. The full docs are at `https://fabricator-ui.vercel.app/llms-full.txt`.
 
-| Flag            | Short | Description                                   | Default       |
-| --------------- | ----- | --------------------------------------------- | ------------- |
-| `--base <base>` | `-b`  | The base to use: `base`, `radix`, or `aria`   | the project's |
-| `--json`        |       | Output as JSON (`{ base, results: [{ component, base, links }] }`) | `false` |
-| `--cwd <cwd>`   | `-c`  | Working directory                             | current       |
-| `--upstream`    |       | Show the upstream docs instead                | `false`       |
+| Flag            | Short | Description                                                        | Default       |
+| --------------- | ----- | ------------------------------------------------------------------ | ------------- |
+| `--base <base>` | `-b`  | The base to use: `base`, `radix`, or `aria`                        | the project's |
+| `--json`        |       | Output as JSON (`{ base, results: [{ component, base, links }] }`) | `false`       |
+| `--cwd <cwd>`   | `-c`  | Working directory                                                  | current       |
+| `--upstream`    |       | Show the upstream docs instead                                     | `false`       |
 
 Some components include an `api` link to the underlying library (e.g. `cmdk` for the command component).
 
@@ -260,34 +261,34 @@ Displays project info, `components.json` configuration, and installed components
 
 **`project` fields:**
 
-| Field              | Type      | Meaning                                                    |
-| ------------------ | --------- | ---------------------------------------------------------- |
-| `framework`        | `string`  | Detected framework (e.g. `Next.js`, `Vite`)                |
-| `frameworkVersion` | `string`  | Framework version (e.g. `16.3.3`)                          |
-| `srcDirectory`     | `boolean` | Whether the project uses a `src/` directory                |
-| `rsc`              | `boolean` | Whether React Server Components are enabled                |
-| `typescript`       | `boolean` | Whether the project uses TypeScript                        |
-| `tailwindVersion`  | `string`  | `"v3"` or `"v4"` (Fabricator UI requires v4)               |
-| `tailwindCss`      | `string`  | Path to the global CSS file                                |
-| `importAlias`      | `string`  | Import alias prefix (e.g. `@`, `~`)                        |
+| Field              | Type      | Meaning                                      |
+| ------------------ | --------- | -------------------------------------------- |
+| `framework`        | `string`  | Detected framework (e.g. `Next.js`, `Vite`)  |
+| `frameworkVersion` | `string`  | Framework version (e.g. `16.3.3`)            |
+| `srcDirectory`     | `boolean` | Whether the project uses a `src/` directory  |
+| `rsc`              | `boolean` | Whether React Server Components are enabled  |
+| `typescript`       | `boolean` | Whether the project uses TypeScript          |
+| `tailwindVersion`  | `string`  | `"v3"` or `"v4"` (Fabricator UI requires v4) |
+| `tailwindCss`      | `string`  | Path to the global CSS file                  |
+| `importAlias`      | `string`  | Import alias prefix (e.g. `@`, `~`)          |
 
 **`config` fields (from `components.json`):**
 
-| Field                | Type      | Meaning                                                                                    |
-| -------------------- | --------- | ------------------------------------------------------------------------------------------ |
-| `style`              | `string`  | `<base>-<style>`, e.g. `base-nova`                                                         |
-| `base`               | `string`  | Primitive library (`base`, `radix`, or `aria`) — determines component APIs and props       |
-| `rsc`                | `boolean` | RSC flag from config                                                                       |
-| `typescript`         | `boolean` | TypeScript flag                                                                            |
+| Field                | Type      | Meaning                                                                                                                                                                                                  |
+| -------------------- | --------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `style`              | `string`  | `<base>-<style>`, e.g. `base-nova`                                                                                                                                                                       |
+| `base`               | `string`  | Primitive library (`base`, `radix`, or `aria`) — determines component APIs and props                                                                                                                     |
+| `rsc`                | `boolean` | RSC flag from config                                                                                                                                                                                     |
+| `typescript`         | `boolean` | TypeScript flag                                                                                                                                                                                          |
 | `iconLibrary`        | `string`  | Icon library — determines icon import package (e.g. `lucide-react`, `@tabler/icons-react`), unless the `@fabricator` registry entry has `params.icons: "fabricator"`, which means `@fabricator-ui/icons` |
-| `rtl`                | `boolean` | Whether RTL support is enabled                                                             |
-| `aliases.components` | `string`  | Component import alias (e.g. `@/components`)                                               |
-| `aliases.utils`      | `string`  | Utils import alias (e.g. `@/lib/utils`)                                                    |
-| `aliases.ui`         | `string`  | UI component alias (e.g. `@/components/ui`)                                                |
-| `aliases.lib`        | `string`  | Lib alias (e.g. `@/lib`)                                                                   |
-| `aliases.hooks`      | `string`  | Hooks alias (e.g. `@/hooks`)                                                               |
-| `resolvedPaths`      | `object`  | Absolute file-system paths for each alias, plus `tailwindCss`                              |
-| `registries`         | `object`  | Configured registries, including `@fabricator`                                             |
+| `rtl`                | `boolean` | Whether RTL support is enabled                                                                                                                                                                           |
+| `aliases.components` | `string`  | Component import alias (e.g. `@/components`)                                                                                                                                                             |
+| `aliases.utils`      | `string`  | Utils import alias (e.g. `@/lib/utils`)                                                                                                                                                                  |
+| `aliases.ui`         | `string`  | UI component alias (e.g. `@/components/ui`)                                                                                                                                                              |
+| `aliases.lib`        | `string`  | Lib alias (e.g. `@/lib`)                                                                                                                                                                                 |
+| `aliases.hooks`      | `string`  | Hooks alias (e.g. `@/hooks`)                                                                                                                                                                             |
+| `resolvedPaths`      | `object`  | Absolute file-system paths for each alias, plus `tailwindCss`                                                                                                                                            |
+| `registries`         | `object`  | Configured registries, including `@fabricator`                                                                                                                                                           |
 
 **`components`:** array of installed component names.
 
@@ -316,11 +317,11 @@ npx fabricator-ui@latest mcp init --client claude  # write editor config
 
 ## Global Options and Environment
 
-| Option / variable         | Description                                                                                        |
-| ------------------------- | -------------------------------------------------------------------------------------------------- |
-| `--verbose`               | Print the underlying commands as they run                                                          |
-| `--version`, `-v`         | Print the CLI version                                                                              |
-| `FABRICATOR_REGISTRY_URL` | Registry host to use instead of `https://fabricator-ui.vercel.app` (e.g. `http://localhost:4000`)         |
+| Option / variable         | Description                                                                                       |
+| ------------------------- | ------------------------------------------------------------------------------------------------- |
+| `--verbose`               | Print the underlying commands as they run                                                         |
+| `--version`, `-v`         | Print the CLI version                                                                             |
+| `FABRICATOR_REGISTRY_URL` | Registry host to use instead of `https://fabricator-ui.vercel.app` (e.g. `http://localhost:4000`) |
 
 ---
 

@@ -116,6 +116,86 @@ export function CheckCard({
   )
 }
 
+function AppTile({
+  id,
+  title,
+  description,
+  icon,
+  control,
+}: {
+  id: string
+  title: string
+  description: string
+  icon: React.ReactNode
+  control: React.ReactNode
+}) {
+  return (
+    <FieldLabel htmlFor={id}>
+      <Field className="gap-3">
+        <div className="flex items-start justify-between gap-2">
+          <CardIcon>{icon}</CardIcon>
+          {control}
+        </div>
+        <FieldContent>
+          <FieldTitle>{title}</FieldTitle>
+          <CardHint>{description}</CardHint>
+        </FieldContent>
+      </Field>
+    </FieldLabel>
+  )
+}
+
+type AppTileContent = {
+  title: string
+  description: string
+  icon: React.ReactNode
+}
+
+/** An app a project can have, as one of a row of tiles. */
+export function AppCheckTile({
+  checked,
+  disabled,
+  onCheckedChange,
+  ...content
+}: AppTileContent & {
+  checked: boolean
+  disabled?: boolean
+  onCheckedChange: (checked: boolean) => void
+}) {
+  const id = React.useId()
+
+  return (
+    <AppTile
+      id={id}
+      {...content}
+      control={
+        <Checkbox
+          id={id}
+          checked={checked}
+          disabled={disabled}
+          onCheckedChange={onCheckedChange}
+        />
+      }
+    />
+  )
+}
+
+/** The one app of a single project, as one of a row of tiles. */
+export function AppChoiceTile({
+  value,
+  ...content
+}: AppTileContent & { value: string }) {
+  const id = React.useId()
+
+  return (
+    <AppTile
+      id={id}
+      {...content}
+      control={<RadioGroupItem value={value} id={id} />}
+    />
+  )
+}
+
 /** Back and next, at the end of a step. */
 export function StepFooter({
   onBack,

@@ -22,11 +22,17 @@ Requires Node.js 20.18.1 or later (or Bun). Projects need React 19 and Tailwind 
 One command for a project or a monorepo: it creates the app, installs your look and components, wires the App Shell and sounds into your root layout, and sets up your AI assistants.
 
 ```bash
-# A Next.js app with the defaults
+# A monorepo with a Next.js app, and every default
 npx fabricator-ui@latest create my-app --yes
 
-# A monorepo: web, mobile and desktop, one look, two assistants
+# Web, mobile and desktop, one look, two assistants
 npx fabricator-ui@latest create my-app -t vite --mobile --desktop tauri --agents claude,codex --yes
+
+# One app in one folder
+npx fabricator-ui@latest create my-app --no-monorepo --yes
+
+# Only a React Native app: a plain Expo project
+npx fabricator-ui@latest create my-app --mobile --no-web --yes
 
 # See what it would do
 npx fabricator-ui@latest create my-app --mobile --dry-run

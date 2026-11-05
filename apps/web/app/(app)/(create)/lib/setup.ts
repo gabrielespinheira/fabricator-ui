@@ -14,7 +14,9 @@ import {
   ICON_LIBRARY_VALUES,
   planSetup,
   PROJECT_KINDS,
+  resolveApps,
   toCliArgs,
+  type AppChoices,
   type Framework,
   type IconLibrary,
   type PackageManager,
@@ -51,6 +53,7 @@ export {
   FRAMEWORKS,
   MONOREPO_FRAMEWORKS,
   PACKAGE_MANAGERS,
+  resolveApps,
   type Assistant,
   type DesktopRuntime,
   type Framework,
@@ -74,11 +77,12 @@ export const CLI = "npx fabricator-ui@latest"
  * link adds them (setupToParams).
  */
 export const setupParsers = {
-  project: parseAsStringLiteral(PROJECT_KINDS).withDefault("new"),
+  project: parseAsStringLiteral(PROJECT_KINDS).withDefault("monorepo"),
   framework: parseAsStringLiteral(FRAMEWORK_VALUES).withDefault("next"),
   /** The new project's folder; blank means the default. */
   name: parseAsString.withDefault(""),
-  /** A monorepo's extra apps. */
+  /** The apps to make. A single project is one of web or mobile. */
+  web: parseAsBoolean.withDefault(true),
   mobile: parseAsBoolean.withDefault(false),
   desktop: parseAsStringLiteral(DESKTOP_RUNTIME_VALUES).withDefault("none"),
   base: parseAsStringLiteral(BASE_VALUES).withDefault("base"),
@@ -123,21 +127,13 @@ export function isNativeFramework(framework: Framework) {
   return framework === "expo"
 }
 
-/** Which apps the App Shell step's options are for. */
-export function getShellProject(
-  setup: Pick<Setup, "project" | "framework" | "mobile" | "desktop">
-): ShellProject {
-  if (setup.project === "existing") {
-    return { hasWeb: true, hasDesktop: false, hasMobile: false }
-  }
-  if (setup.project === "new") {
-    const isNative = isNativeFramework(setup.framework)
-    return { hasWeb: !isNative, hasDesktop: false, hasMobile: isNative }
-  }
+/** The apps a setup makes, which the App Shell step's options are for. */
+export function getShellProject(setup: AppChoices): ShellProject {
+  const { project, framework, web, mobile, desktop } = resolveApps(setup)
   return {
-    hasWeb: true,
-    hasDesktop: setup.desktop !== "none",
-    hasMobile: setup.mobile,
+    hasWeb: web,
+    hasMobile: mobile || (project === "new" && isNativeFramework(framework)),
+    hasDesktop: desktop !== "none",
   }
 }
 
@@ -157,6 +153,7 @@ export function toProjectSetup(setup: Setup): ProjectSetup {
     name: setup.name,
     framework: setup.framework,
     base: setup.base,
+    web: setup.web,
     mobile: setup.mobile,
     desktop: setup.desktop,
     appShell: setup.appShell,

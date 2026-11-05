@@ -122,6 +122,12 @@ describe("getAgentPrompt", () => {
     expect(prompt({ project: "existing" })).toContain("/docs/dark-mode.md")
   })
 
+  it("has no website to add a toggle to in a desktop-only project", () => {
+    const desktopOnly = prompt({ web: false, desktop: "electron" })
+    expect(desktopOnly).toContain("Add a theme toggle to the app")
+    expect(desktopOnly).not.toContain("Start the web app")
+  })
+
   it("covers Expo with its own checks, and no web theme guide", () => {
     const expo = prompt({ framework: "expo" })
     expect(expo).toContain("`bunx --bun expo-doctor`")
@@ -135,7 +141,9 @@ describe("getAgentPrompt", () => {
   })
 
   it("starts Laravel its own way", () => {
-    expect(prompt({ framework: "laravel" })).toContain("`composer run dev`")
+    expect(prompt({ project: "new", framework: "laravel" })).toContain(
+      "`composer run dev`"
+    )
   })
 
   it("replaces the sample nav only when there is an App Shell", () => {

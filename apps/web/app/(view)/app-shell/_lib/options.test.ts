@@ -1,16 +1,15 @@
 import { createLoader } from "nuqs"
 import { describe, expect, it } from "vitest"
 
+import { getShellOptionSections } from "@/registry/fabricator/app-shell-options"
+
 import {
   countChangedOptions,
   DEFAULT_PLAYGROUND_OPTIONS,
-  getHiddenShellOptions,
   getPlaygroundWindow,
   getPreviewChoices,
   getShellOptionNotes,
-  getTabChoices,
   getTabsPlacement,
-  isPeekAvailable,
   playgroundParsers,
 } from "./options"
 
@@ -74,11 +73,6 @@ describe("playground options", () => {
       getTabsPlacement(load("tabs=main&breadcrumb=false&actions=false"))
     ).toBe("header")
   })
-
-  it("offers peek only for an off-canvas sidebar", () => {
-    expect(isPeekAvailable(load("collapse=offcanvas"))).toBe(true)
-    expect(isPeekAvailable(load("collapse=icon"))).toBe(false)
-  })
 })
 
 describe("getPlaygroundWindow", () => {
@@ -137,24 +131,14 @@ describe("what a project's shell offers", () => {
   const both = { hasWeb: true, hasDesktop: true, hasMobile: true }
   const expo = { hasWeb: false, hasDesktop: false, hasMobile: true }
 
-  it("never offers what only the preview uses", () => {
-    for (const project of [web, desktop, mobile, both, expo]) {
-      const hidden = getHiddenShellOptions(project)
-      expect(hidden.has("window")).toBe(true)
-      expect(hidden.has("fullscreen")).toBe(true)
-    }
-  })
-
-  it("offers glass only with a desktop app", () => {
-    expect(getHiddenShellOptions(web).has("glass")).toBe(true)
-    expect(getHiddenShellOptions(mobile).has("glass")).toBe(true)
-    expect(getHiddenShellOptions(desktop).has("glass")).toBe(false)
-  })
-
-  it("offers peek where there's a pointer", () => {
-    expect(getHiddenShellOptions(web).has("peek")).toBe(false)
-    expect(getHiddenShellOptions(both).has("peek")).toBe(false)
-    expect(getHiddenShellOptions(expo).has("peek")).toBe(true)
+  it("gives every option a place in the cards", () => {
+    const keys = getShellOptionSections({
+      options: DEFAULT_PLAYGROUND_OPTIONS,
+      project: both,
+    }).flatMap(({ groups }) =>
+      groups.flatMap(({ rows }) => rows.map(({ key }) => key))
+    )
+    expect(keys.sort()).toEqual(Object.keys(DEFAULT_PLAYGROUND_OPTIONS).sort())
   })
 
   it("says when an option doesn't reach every app", () => {
@@ -162,14 +146,9 @@ describe("what a project's shell offers", () => {
     expect(getShellOptionNotes(mobile).peek).toBe("Web and desktop only.")
     expect(getShellOptionNotes(desktop).glass).toBe("macOS only.")
     expect(getShellOptionNotes(expo).peek).toBeUndefined()
-  })
-
-  it("offers titlebar tabs only with a window", () => {
-    const values = (project: typeof web) =>
-      getTabChoices(project).map(({ value }) => value)
-    expect(values(web)).toEqual(["none", "main"])
-    expect(values(desktop)).toEqual(["none", "main", "titlebar"])
-    expect(values(expo)).toEqual(["none", "main"])
+    expect(getShellOptionNotes(desktop).bottomNavStyle).toBeUndefined()
+    expect(getShellOptionNotes(mobile).bottomNavStyle).toMatch(/React Native/)
+    expect(getShellOptionNotes(expo).bottomNavStyle).toMatch(/React Native/)
   })
 
   it("previews the sizes a project has", () => {

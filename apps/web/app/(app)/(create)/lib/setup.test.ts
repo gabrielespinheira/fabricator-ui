@@ -27,7 +27,8 @@ describe("the defaults", () => {
   })
 
   it("start a new project, with no assistants", () => {
-    expect(DEFAULT_SETUP.project).toBe("new")
+    expect(DEFAULT_SETUP.project).toBe("monorepo")
+    expect(DEFAULT_SETUP.web).toBe(true)
     expect(DEFAULT_SETUP.assistants).toEqual([])
   })
 })
@@ -98,6 +99,34 @@ describe("buildSetupCommand", () => {
   })
 })
 
+describe("the apps in the command", () => {
+  it("is a monorepo with no flags by default", () => {
+    expect(buildSetupCommand(DEFAULT_SETUP, "npm")).toBe(
+      "npx fabricator-ui@latest create my-app --yes"
+    )
+  })
+
+  it("writes a lone mobile app as the Expo template", () => {
+    expect(buildSetupCommand(setup({ web: false, mobile: true }), "npm")).toBe(
+      "npx fabricator-ui@latest create my-app -t expo --yes"
+    )
+  })
+
+  it("writes a lone desktop app without a website", () => {
+    expect(
+      buildSetupCommand(setup({ web: false, desktop: "tauri" }), "npm")
+    ).toBe(
+      "npx fabricator-ui@latest create my-app --no-web --desktop tauri --yes"
+    )
+  })
+
+  it("names a single project", () => {
+    expect(buildSetupCommand(setup({ project: "new" }), "npm")).toBe(
+      "npx fabricator-ui@latest create my-app --no-monorepo --yes"
+    )
+  })
+})
+
 describe("getCommandParts", () => {
   const command =
     'bunx --bun fabricator-ui@latest create my-app -t vite --mobile --desktop tauri --look "surface=260_0.02,primary=260_0.2" --yes'
@@ -126,11 +155,9 @@ describe("getCommandParts", () => {
 
 describe("getSetupPlan", () => {
   it("says what the command does", () => {
-    expect(getSetupPlan(DEFAULT_SETUP).map((step) => step.id)).toEqual([
-      "scaffold-web",
-      "mount",
-      "first-commit",
-    ])
+    expect(
+      getSetupPlan(setup({ project: "new" })).map((step) => step.id)
+    ).toEqual(["scaffold-web", "mount", "first-commit"])
   })
 })
 
@@ -144,10 +171,26 @@ describe("toProjectSetup", () => {
 })
 
 describe("getShellProject", () => {
-  it("is web for a single project", () => {
+  it("is web by default", () => {
     expect(getShellProject(DEFAULT_SETUP)).toEqual({
       hasWeb: true,
       hasDesktop: false,
+      hasMobile: false,
+    })
+  })
+
+  it("is mobile only for a lone mobile app", () => {
+    expect(getShellProject(setup({ web: false, mobile: true }))).toEqual({
+      hasWeb: false,
+      hasDesktop: false,
+      hasMobile: true,
+    })
+  })
+
+  it("has no website for a lone desktop app", () => {
+    expect(getShellProject(setup({ web: false, desktop: "tauri" }))).toEqual({
+      hasWeb: false,
+      hasDesktop: true,
       hasMobile: false,
     })
   })
@@ -185,6 +228,7 @@ describe("setup params", () => {
       project: "monorepo",
       framework: "astro",
       name: "studio-site",
+      web: false,
       mobile: true,
       desktop: "tauri",
       base: "radix",

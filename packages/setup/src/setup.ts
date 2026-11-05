@@ -129,6 +129,8 @@ export const projectSetupSchema = z.object({
   name: z.string(),
   framework: z.enum(FRAMEWORK_VALUES),
   base: z.enum(BASE_VALUES),
+  /** A website. Without one, a desktop app's web app is only its window's UI. */
+  web: z.boolean(),
   mobile: z.boolean(),
   desktop: z.enum(DESKTOP_RUNTIME_VALUES),
   appShell: z.boolean(),
@@ -147,10 +149,11 @@ export const projectSetupSchema = z.object({
 export type ProjectSetup = z.infer<typeof projectSetupSchema>
 
 export const DEFAULT_PROJECT_SETUP: ProjectSetup = {
-  project: "new",
+  project: "monorepo",
   name: "",
   framework: "next",
   base: "base",
+  web: true,
   mobile: false,
   desktop: "none",
   appShell: true,
@@ -197,21 +200,59 @@ function normalizeShell(
     : withoutGlass
 }
 
+export type AppChoices = Pick<
+  ProjectSetup,
+  "project" | "framework" | "web" | "mobile" | "desktop"
+>
+
+const EXPO_ONLY: AppChoices = {
+  project: "new",
+  framework: "expo",
+  web: false,
+  mobile: false,
+  desktop: "none",
+}
+
+/**
+ * What a project's choices of apps come to. A mobile app alone is a plain Expo
+ * project: nothing else would use a monorepo around it. A desktop app alone
+ * keeps its monorepo, because its window renders the web app in it.
+ */
+export function resolveApps(choices: AppChoices): AppChoices {
+  if (choices.project === "existing") {
+    return { ...choices, web: true, mobile: false, desktop: "none" }
+  }
+  const isExpo = choices.framework === "expo"
+  const web = choices.web && !isExpo
+  const mobile = choices.mobile || isExpo
+  const framework = isExpo ? DEFAULT_PROJECT_SETUP.framework : choices.framework
+  if (choices.project === "new") {
+    if (mobile) return EXPO_ONLY
+    return { project: "new", framework, web: true, mobile, desktop: "none" }
+  }
+  const { desktop } = choices
+  if (mobile && !web && desktop === "none") return EXPO_ONLY
+  return {
+    project: "monorepo",
+    framework: MONOREPO_FRAMEWORKS.includes(framework)
+      ? framework
+      : DEFAULT_PROJECT_SETUP.framework,
+    web: web || (!mobile && desktop === "none"),
+    mobile,
+    desktop,
+  }
+}
+
 /** Removes the states no project can be in, so the page and the command agree. */
 export function normalizeProjectSetup(setup: ProjectSetup): ProjectSetup {
-  const isMonorepo = setup.project === "monorepo"
-  const framework =
-    isMonorepo && !MONOREPO_FRAMEWORKS.includes(setup.framework)
-      ? DEFAULT_PROJECT_SETUP.framework
-      : setup.framework
-  const desktop = isMonorepo ? setup.desktop : "none"
+  const apps = resolveApps(setup)
   return {
     ...setup,
-    framework,
-    mobile: isMonorepo && setup.mobile,
-    desktop,
-    base: isWebFramework(framework) ? setup.base : DEFAULT_PROJECT_SETUP.base,
-    shell: normalizeShell(setup.shell, desktop !== "none"),
+    ...apps,
+    base: isWebFramework(apps.framework)
+      ? setup.base
+      : DEFAULT_PROJECT_SETUP.base,
+    shell: normalizeShell(setup.shell, apps.desktop !== "none"),
     assistants: ASSISTANT_VALUES.filter((assistant) =>
       setup.assistants.includes(assistant)
     ),

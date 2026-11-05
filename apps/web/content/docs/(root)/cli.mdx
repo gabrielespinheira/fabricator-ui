@@ -21,13 +21,20 @@ npx fabricator-ui@latest create my-app
 
 On a terminal it asks for what your flags leave open. With `--yes`, or in CI, it uses the defaults instead: Next.js, Base UI, the App Shell and interface sounds.
 
-**A monorepo** keeps a web app in `apps/web` and its components in `packages/ui`. `--mobile` adds a React Native app with Expo, and `--desktop` adds an Electron or Tauri window around the web app. They imply `--monorepo`.
+It starts a **monorepo** unless you say otherwise: a web app in `apps/web` and its components in `packages/ui`. `--mobile` adds a React Native app with Expo, and `--desktop` adds an Electron or Tauri window around the web app. `--no-monorepo` makes one app in one folder instead.
 
 ```bash
 npx fabricator-ui@latest create my-app --mobile --desktop tauri --agents claude,codex --yes
 ```
 
 Every app gets your look. The web app and the desktop window share a codebase, and the mobile app has its own React Native components, written from the same App Shell options.
+
+**No website?** `--no-web` leaves it out. A mobile app on its own is a plain Expo project, with no monorepo around it, the same as `-t expo`. A desktop app on its own keeps `apps/web`, because its window renders that app.
+
+```bash
+npx fabricator-ui@latest create my-app --mobile --no-web --yes
+npx fabricator-ui@latest create my-app --desktop electron --no-web --yes
+```
 
 **Options**
 
@@ -37,7 +44,9 @@ Usage: fabricator-ui create [options] [name]
 Options:
   -t, --template <framework>  next, vite, start, react-router, astro, laravel, expo
   -b, --base <base>           component library: base, radix or aria
-  --monorepo                  apps/web and packages/ui, with room for more apps
+  --monorepo                  a monorepo, with room for more apps (the default)
+  --no-monorepo               a single project: one app in one folder
+  --no-web                    no website: mobile alone is a plain Expo project
   --mobile                    add apps/mobile: React Native with Expo
   --desktop <runtime>         add apps/desktop: electron or tauri
   --look <values>             your look, as key=value pairs: primary=260_0.2,shape=pill

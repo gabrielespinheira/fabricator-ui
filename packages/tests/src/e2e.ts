@@ -543,7 +543,19 @@ const scenarios: Scenario[] = [
     (framework) => ({
       name: `create-${framework}`,
       run(dir: string) {
-        cli(["create", "app", "-t", framework, "--yes", "-c", dir], dir)
+        cli(
+          [
+            "create",
+            "app",
+            "-t",
+            framework,
+            "--no-monorepo",
+            "--yes",
+            "-c",
+            dir,
+          ],
+          dir
+        )
         const appDir = path.join(dir, "app")
         assertRegistry(appDir)
         assertMounted(appDir, framework)
@@ -582,7 +594,8 @@ const scenarios: Scenario[] = [
   {
     name: "monorepo-web",
     run(dir: string) {
-      cli(["create", "app", "--monorepo", "--yes", "-c", dir], dir)
+      // A monorepo is what `create` makes when nothing says otherwise.
+      cli(["create", "app", "--yes", "-c", dir], dir)
       const root = path.join(dir, "app")
       const web = path.join(root, "apps/web")
       // From the root, the one app is found.
@@ -596,6 +609,56 @@ const scenarios: Scenario[] = [
         "`agents add` wrote no skill"
       )
       cli(["doctor"], root)
+    },
+  },
+  {
+    name: "desktop-only",
+    run(dir: string) {
+      cli(
+        [
+          "create",
+          "app",
+          "--desktop",
+          "electron",
+          "--no-web",
+          "--yes",
+          "-c",
+          dir,
+        ],
+        dir
+      )
+      const root = path.join(dir, "app")
+      const web = path.join(root, "apps/web")
+      assert(
+        fs.existsSync(path.join(root, "apps/desktop/electron/main.mjs")),
+        "No Electron app"
+      )
+      // The window renders it, so it's there without a website.
+      assertMounted(web, "next")
+      run("bun", ["run", "build"], web)
+      run("bun", ["run", "build:static"], web)
+    },
+  },
+  {
+    name: "mobile-only",
+    run(dir: string) {
+      cli(["create", "app", "--mobile", "--no-web", "--yes", "-c", dir], dir)
+      const root = path.join(dir, "app")
+      assert(
+        fs
+          .readFileSync(path.join(root, "src/app/_layout.tsx"), "utf8")
+          .includes("<AppShellRoot>"),
+        "The native shell isn't mounted"
+      )
+      assert(
+        !fs.existsSync(path.join(root, "apps")),
+        "A lone mobile app got a monorepo"
+      )
+      run(
+        "npx",
+        ["expo", "export", "--platform", "ios", "--output-dir", "dist"],
+        root
+      )
     },
   },
   {
@@ -722,6 +785,7 @@ const scenarios: Scenario[] = [
           "app",
           "-t",
           "vite",
+          "--no-monorepo",
           "--no-shell",
           "--no-sounds",
           "--yes",

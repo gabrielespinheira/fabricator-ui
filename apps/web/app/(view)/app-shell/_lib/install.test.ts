@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest"
 
 import { DEFAULT_SITE_SETTINGS } from "@/lib/site-settings"
 import { GET } from "@/app/(app)/(create)/init/app-shell/route"
+import { DEFAULT_SETUP, toProjectSetup } from "@/app/(app)/(create)/lib/setup"
 
 import {
   buildAppShellInstallUrl,
@@ -149,6 +150,34 @@ describe("normalizeInstallOptions", () => {
       normalizeInstallOptions(pick({ collapse: "offcanvas", peek: "hover" }))
         .peek
     ).toBe("hover")
+  })
+
+  it("drops the tab bar's style without a tab bar", () => {
+    expect(
+      normalizeInstallOptions(
+        pick({ bottomNav: false, bottomNavStyle: "glass" })
+      ).bottomNavStyle
+    ).toBe("flat")
+    expect(
+      normalizeInstallOptions(
+        pick({ bottomNav: true, bottomNavStyle: "glass" })
+      ).bottomNavStyle
+    ).toBe("glass")
+  })
+})
+
+describe("toProjectSetup", () => {
+  it("carries the tab bar's style into the setup command", () => {
+    const { shell } = toProjectSetup({
+      ...DEFAULT_SETUP,
+      mobile: true,
+      shell: {
+        ...DEFAULT_SETUP.shell,
+        bottomNav: true,
+        bottomNavStyle: "glass",
+      },
+    })
+    expect(shell).toMatchObject({ bottomNav: "true", bottomNavStyle: "glass" })
   })
 })
 

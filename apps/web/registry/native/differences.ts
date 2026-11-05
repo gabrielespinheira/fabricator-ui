@@ -26,7 +26,7 @@ export const NATIVE_DIFFERENCES: Record<
   },
   "app-shell": {
     tier: "touch",
-    note: "On phones the sidebar reveals behind the page, panels open as sheets with a grab handle and full-width tabs, a panel's toggle draws a bottom panel, and the nav's mobile items become a tab bar, flat or floating, on a surface of your own through `capsule` (a `GlassView` for Liquid Glass). The page scrolls under the header, which sits on a fade behind the status bar, instead of showing a hairline. `window`, `shortcut` and `shortcutScope` are accepted and do nothing, since React Native has no window controls or global key events. Panels don't drag to resize, and the layout is only saved if you pass `storage`.",
+    note: "On phones the sidebar reveals behind the page, panels open as sheets with a grab handle and full-width tabs, a panel's toggle draws a bottom panel, and the nav's mobile items become a tab bar, flat or floating, on a surface of your own through `capsule` (a `GlassView` for Liquid Glass). The page scrolls under the header, which sits on a fade behind the status bar, instead of showing a hairline. The breadcrumb shows the way up, and the page's name only once its heading has scrolled away. `window`, `shortcut` and `shortcutScope` are accepted and do nothing, since React Native has no window controls or global key events. Panels don't drag to resize, and the layout is only saved if you pass `storage`.",
   },
   "aspect-ratio": SAME,
   attachment: SAME,
@@ -169,7 +169,10 @@ export const NATIVE_DIFFERENCES: Record<
     tier: "same",
     note: "Views in a horizontal scroll: React Native has no table layout, so `rowSpan` isn't supported.",
   },
-  tabs: SAME,
+  tabs: {
+    tier: "same",
+    note: "In dark the selected tab's pill is a translucent step over the track, so it stands out on every surface.",
+  },
   textarea: SAME,
   toast: {
     tier: "engine",

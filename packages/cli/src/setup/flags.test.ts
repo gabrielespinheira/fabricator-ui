@@ -13,6 +13,7 @@ import {
   hasSetupFlags,
   setupFromCreateFlags,
   setupFromInitFlags,
+  type SetupFlags,
 } from "./flags"
 
 const setup = (changes: Partial<ProjectSetup> = {}): ProjectSetup => ({
@@ -41,17 +42,16 @@ const CREATE_SETUPS: Partial<ProjectSetup>[] = [
   { name: "acme" },
   { framework: "vite" },
   { framework: "expo" },
-  { framework: "laravel" },
+  { project: "new" },
+  { project: "new", framework: "vite" },
+  { project: "new", framework: "laravel" },
   { base: "radix" },
-  { project: "monorepo" },
-  { project: "monorepo", mobile: true },
-  { project: "monorepo", desktop: "tauri" },
-  {
-    project: "monorepo",
-    framework: "astro",
-    mobile: true,
-    desktop: "electron",
-  },
+  { mobile: true },
+  { desktop: "tauri" },
+  { framework: "astro", mobile: true, desktop: "electron" },
+  { web: false, mobile: true },
+  { web: false, desktop: "tauri" },
+  { web: false, mobile: true, desktop: "electron" },
   { iconLibrary: "lucide" },
   { look: { primary: "260_0.2", shape: "pill" } },
   { shell: { variant: "floating", tabs: "main" } },
@@ -70,7 +70,9 @@ describe("the command the site writes", () => {
     )
     const [, ...args] = toCliArgs(expected)
     const { name, flags } = parse(createCreateCommand(), args)
-    expect(setupFromCreateFlags(name, flags)).toEqual(expected)
+    expect(normalizeProjectSetup(setupFromCreateFlags(name, flags))).toEqual(
+      expected
+    )
   })
 
   const INIT_SETUPS: Partial<ProjectSetup>[] = [
@@ -100,15 +102,6 @@ describe("setupFromCreateFlags", () => {
     expect(setupFromCreateFlags("acme", {})).toEqual(setup({ name: "acme" }))
   })
 
-  it("makes a project a monorepo when it names an app", () => {
-    expect(setupFromCreateFlags(undefined, { mobile: true }).project).toBe(
-      "monorepo"
-    )
-    expect(setupFromCreateFlags(undefined, { desktop: "tauri" }).project).toBe(
-      "monorepo"
-    )
-  })
-
   it("refuses values it doesn't know", () => {
     expect(() =>
       setupFromCreateFlags(undefined, { template: "rails" })
@@ -131,5 +124,54 @@ describe("hasSetupFlags", () => {
     expect(hasSetupFlags({ sounds: true })).toBe(true)
     expect(hasSetupFlags({ agents: "codex" })).toBe(true)
     expect(hasSetupFlags({ look: "shape=pill" })).toBe(true)
+  })
+})
+
+describe("create's starting point", () => {
+  const apps = (flags: SetupFlags) => {
+    const { project, framework, web, mobile, desktop } = normalizeProjectSetup(
+      setupFromCreateFlags("shop", flags)
+    )
+    return { project, framework, web, mobile, desktop }
+  }
+
+  it("is a monorepo with a web app by default", () => {
+    expect(apps({})).toEqual({
+      project: "monorepo",
+      framework: "next",
+      web: true,
+      mobile: false,
+      desktop: "none",
+    })
+  })
+
+  it("is a single project with --no-monorepo", () => {
+    expect(apps({ monorepo: false }).project).toBe("new")
+  })
+
+  it("keeps a single project for the templates that can only be one", () => {
+    expect(apps({ template: "laravel" })).toMatchObject({
+      project: "new",
+      framework: "laravel",
+    })
+    expect(apps({ template: "expo" })).toMatchObject({
+      project: "new",
+      framework: "expo",
+    })
+  })
+
+  it("makes --mobile --no-web a plain Expo project", () => {
+    expect(apps({ mobile: true, web: false })).toMatchObject({
+      project: "new",
+      framework: "expo",
+    })
+  })
+
+  it("keeps --desktop --no-web a monorepo: the window renders a web app", () => {
+    expect(apps({ desktop: "tauri", web: false })).toMatchObject({
+      project: "monorepo",
+      web: false,
+      desktop: "tauri",
+    })
   })
 })

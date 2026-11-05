@@ -30,7 +30,9 @@ import {
   buildSetupCommand,
   FRAMEWORKS,
   getSetupPlan,
+  getShellProject,
   isNativeFramework,
+  resolveApps,
   SETUP_BASES,
   setupToParams,
   toProjectSetup,
@@ -316,13 +318,13 @@ const STARTING_POINTS: Record<Setup["project"], string> = {
 }
 
 function getProjectApps(setup: Setup) {
-  if (setup.project !== "monorepo") return []
+  const { hasWeb, hasMobile, hasDesktop } = getShellProject(setup)
   return [
-    "Web",
-    ...(setup.mobile ? ["Mobile"] : []),
-    ...(setup.desktop === "none"
-      ? []
-      : [`Desktop (${setup.desktop === "tauri" ? "Tauri" : "Electron"})`]),
+    ...(hasWeb ? ["Web"] : []),
+    ...(hasMobile ? ["Mobile"] : []),
+    ...(hasDesktop
+      ? [`Desktop (${setup.desktop === "tauri" ? "Tauri" : "Electron"})`]
+      : []),
   ]
 }
 
@@ -363,6 +365,7 @@ export function SetupSummary({
     ...assistants,
   ].filter(Boolean)
   const appNames = getProjectApps(setup)
+  const apps = resolveApps(setup)
 
   return (
     <section aria-labelledby="summary-title" className="flex flex-col gap-3">
@@ -372,7 +375,7 @@ export function SetupSummary({
       <div className="grid gap-3">
         <SummaryCard title="Project" onEdit={() => onEdit("project")}>
           <SummaryRow label="Starting from">
-            {STARTING_POINTS[setup.project]}
+            {STARTING_POINTS[apps.project]}
           </SummaryRow>
           {setup.project === "existing" ? null : (
             <SummaryRow label="Name">
@@ -381,16 +384,16 @@ export function SetupSummary({
               </code>
             </SummaryRow>
           )}
-          {setup.project === "existing" ? null : (
+          {apps.project === "existing" ? null : (
+            <SummaryRow label="Apps">{appNames.join(", ")}</SummaryRow>
+          )}
+          {apps.project === "existing" ? null : (
             <SummaryRow label="Framework">
-              {FRAMEWORKS.find(({ value }) => value === setup.framework)?.label}
+              {FRAMEWORKS.find(({ value }) => value === apps.framework)?.label}
             </SummaryRow>
           )}
-          {appNames.length > 1 ? (
-            <SummaryRow label="Apps">{appNames.join(", ")}</SummaryRow>
-          ) : null}
-          {isNativeFramework(setup.framework) &&
-          setup.project === "new" ? null : (
+          {isNativeFramework(apps.framework) &&
+          apps.project === "new" ? null : (
             <SummaryRow label="Primitives">
               {SETUP_BASES.find(({ value }) => value === setup.base)?.label}
             </SummaryRow>

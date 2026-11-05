@@ -72,7 +72,7 @@ function themeStep(setup: ProjectSetup) {
   return [
     setup.project === "existing"
       ? `If the project has no theme toggle, add one by following ${guide}`
-      : `Add a theme toggle to the web app by following ${guide}`,
+      : `Add a theme toggle to ${setup.web ? "the web app" : "the app"} by following ${guide}`,
   ]
 }
 

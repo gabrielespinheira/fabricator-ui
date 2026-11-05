@@ -7,7 +7,9 @@ import {
   DEFAULT_PROJECT_NAME,
   DESKTOP_RUNTIMES,
   FRAMEWORKS,
+  isWebFramework,
   MONOREPO_FRAMEWORKS,
+  resolveApps,
   type ProjectSetup,
 } from "@fabricator-ui/setup"
 
@@ -29,6 +31,53 @@ function toChoices<T extends string>(
   }))
 }
 
+/** Whether the flags already say what kind of project this is. */
+function namesTheProject(flags: SetupFlags) {
+  return (
+    flags.monorepo !== undefined ||
+    flags.web === false ||
+    flags.mobile ||
+    flags.desktop ||
+    flags.template === "expo" ||
+    flags.template === "laravel"
+  )
+}
+
+function namesTheApps(flags: SetupFlags) {
+  return (
+    flags.web === false ||
+    flags.mobile ||
+    flags.desktop ||
+    flags.template === "expo"
+  )
+}
+
+async function askForApps(next: ProjectSetup) {
+  if (next.project === "new") {
+    const app = await promptSelect("Which app?", [
+      { title: "Web", value: "web", description: "in the browser" },
+      { title: "Mobile", value: "mobile", description: "React Native, Expo" },
+    ])
+    next.web = app === "web"
+    next.mobile = app === "mobile"
+    return
+  }
+  const apps = await promptCheckboxes(
+    "Which apps? (space selects, enter confirms)",
+    [
+      { title: "Web", value: "web", description: "in the browser" },
+      { title: "Mobile", value: "mobile", description: "React Native, Expo" },
+      { title: "Desktop", value: "desktop", description: "a native window" },
+    ],
+    { required: true, initial: ["web"] }
+  )
+  next.web = apps.includes("web")
+  next.mobile = apps.includes("mobile")
+  next.desktop = apps.includes("desktop")
+    ? await promptSelect("Desktop runtime", toChoices(DESKTOP_RUNTIMES))
+    : "none"
+}
+
 /** Fills in what the flags didn't say. */
 export async function askForSetup(
   setup: ProjectSetup,
@@ -37,14 +86,17 @@ export async function askForSetup(
 ): Promise<ProjectSetup> {
   const next = { ...setup }
 
-  const startsFromFlags = flags.monorepo || flags.mobile || flags.desktop
-  if (!startsFromFlags) {
+  if (!namesTheProject(flags)) {
     next.project = await promptSelect("What are you starting?", [
-      { title: "A new project", value: "new" },
       {
         title: "A new monorepo",
         value: "monorepo",
-        description: "web, and optionally mobile and desktop",
+        description: "web, mobile and desktop, in one place",
+      },
+      {
+        title: "A new project",
+        value: "new",
+        description: "one app in one folder",
       },
     ])
   }
@@ -59,36 +111,24 @@ export async function askForSetup(
     )
   }
 
-  if (!flags.template) {
-    next.framework = await promptSelect(
-      "Framework",
-      toChoices(
-        FRAMEWORKS.filter(
-          ({ value }) =>
-            next.project !== "monorepo" || MONOREPO_FRAMEWORKS.includes(value)
+  if (!namesTheApps(flags)) await askForApps(next)
+
+  const { framework, project } = resolveApps(next)
+  if (isWebFramework(framework)) {
+    if (!flags.template) {
+      next.framework = await promptSelect(
+        "Framework",
+        toChoices(
+          FRAMEWORKS.filter(
+            ({ value }) =>
+              isWebFramework(value) &&
+              (project !== "monorepo" || MONOREPO_FRAMEWORKS.includes(value))
+          )
         )
       )
-    )
-  }
-
-  if (!flags.base && next.framework !== "expo") {
-    next.base = await promptSelect("Component primitives", toChoices(BASES))
-  }
-
-  if (next.project === "monorepo") {
-    if (!flags.mobile) {
-      next.mobile = exitIfCancelled(
-        await confirm({
-          message: "Add a mobile app (React Native and Expo)?",
-          initialValue: false,
-        })
-      )
     }
-    if (!flags.desktop) {
-      next.desktop = await promptSelect("Add a desktop app?", [
-        { title: "No", value: "none" },
-        ...toChoices(DESKTOP_RUNTIMES),
-      ])
+    if (!flags.base) {
+      next.base = await promptSelect("Component primitives", toChoices(BASES))
     }
   }
 

@@ -100,7 +100,9 @@ function monorepoSteps(setup: ProjectSetup): PlanStep[] {
     {
       id: "scaffold-web",
       title: "Create the monorepo",
-      detail: `${framework} in apps/web, and the components in packages/ui.`,
+      detail: setup.web
+        ? `${framework} in apps/web, and the components in packages/ui.`
+        : `${framework} in apps/web as the window's UI, and the components in packages/ui.`,
     },
     {
       id: "configure-monorepo",
@@ -109,7 +111,7 @@ function monorepoSteps(setup: ProjectSetup): PlanStep[] {
     },
     {
       id: "add-web-items",
-      title: "Add the web app's components",
+      title: setup.web ? "Add the web app's components" : "Add the components",
       detail: `Installs ${describeWebItems(setup)}.`,
     },
     ...(setup.mobile
@@ -231,7 +233,9 @@ export function getNextSteps(
   if (setup.project === "monorepo") {
     return [
       open,
-      { label: "Start the web app", code: run("npm run dev") },
+      ...(setup.web
+        ? [{ label: "Start the web app", code: run("npm run dev") }]
+        : []),
       ...(setup.mobile
         ? [{ label: "Start the mobile app", code: run("npm run dev:mobile") }]
         : []),

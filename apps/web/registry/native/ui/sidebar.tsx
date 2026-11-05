@@ -942,10 +942,13 @@ const sidebarToggleIconPanelVariants = cva("cn-sidebar-toggle-icon-panel")
 function SidebarToggleIcon({
   open,
   side,
+  size: sizeProp,
   className,
 }: {
   open: boolean
   side: SidebarSide
+  /** Where the toggle is larger than its density's icon, as in a phone's header. */
+  size?: number
   className?: string
 }) {
   const motion = useMotion("move")
@@ -955,8 +958,8 @@ function SidebarToggleIcon({
   const { color: panelColor } = useResolveClassNames(
     sidebarToggleIconPanelVariants()
   )
-  const size =
-    parseNumber(useCSSVariable("--density-icon-16"), 16) * TOGGLE_GLYPH_SCALE
+  const iconToken = parseNumber(useCSSVariable("--density-icon-16"), 16)
+  const size = sizeProp ?? iconToken * TOGGLE_GLYPH_SCALE
   const progress = useSharedValue(open ? 1 : 0)
   const [drawn, setDrawn] = React.useState(open ? 1 : 0)
   React.useEffect(() => {
@@ -1009,56 +1012,62 @@ function SidebarTrigger({
   children,
   accessibilityLabel,
   style,
+  glyphSize,
   ...props
 }: Omit<React.ComponentProps<typeof Button>, "style"> & {
   style?: React.ComponentProps<typeof View>["style"]
+  /** The toggle's glyph, where it's larger than its density's icon. */
+  glyphSize?: number
 }) {
   const { toggleSidebar, open, openMobile, isMobile, side } = useSidebar()
   const isInHeader = React.use(SidebarHeaderContext)
   const [rowEnd, badge] = useCSSVariable(["--density-8", "--density-20"])
   const expanded = isMobile ? openMobile : open
+  // Silent, as on the website: it opens and closes too often to sound.
+  const button = (
+    <Button
+      data-sound="none"
+      data-sidebar="trigger"
+      data-slot="sidebar-trigger"
+      variant="ghost"
+      size="icon-sm"
+      washClassName={sidebarTriggerWashVariants()}
+      hitSlop={8}
+      aria-expanded={expanded}
+      accessibilityLabel={
+        accessibilityLabel ??
+        (expanded ? "Hide the sidebar" : "Show the sidebar")
+      }
+      className={cn("cn-sidebar-trigger", className)}
+      style={[
+        isInHeader
+          ? {
+              marginRight: getHeaderTriggerEnd({
+                rowEnd: parseNumber(rowEnd, 8),
+                badge: parseNumber(badge, 20),
+                // size="icon-sm" pins the compact density.
+                button: DENSITIES.compact.space[36],
+              }),
+            }
+          : undefined,
+        style,
+      ]}
+      onPress={(event) => {
+        onPress?.(event)
+        toggleSidebar()
+      }}
+      {...props}
+    />
+  )
+  const glyph = children ?? (
+    <SidebarToggleIcon open={expanded} side={side} size={glyphSize} />
+  )
+  // No tooltip on a phone: nothing hovers there, and a long press taking over a
+  // slow tap would leave the sidebar shut.
+  if (isMobile) return React.cloneElement(button, undefined, glyph)
   return (
     <Tooltip>
-      <TooltipTrigger
-        render={
-          // Silent, as on the website: it opens and closes too often to sound.
-          <Button
-            data-sound="none"
-            data-sidebar="trigger"
-            data-slot="sidebar-trigger"
-            variant="ghost"
-            size="icon-sm"
-            washClassName={sidebarTriggerWashVariants()}
-            hitSlop={8}
-            aria-expanded={expanded}
-            accessibilityLabel={
-              accessibilityLabel ??
-              (expanded ? "Hide the sidebar" : "Show the sidebar")
-            }
-            className={cn("cn-sidebar-trigger", className)}
-            style={[
-              isInHeader
-                ? {
-                    marginRight: getHeaderTriggerEnd({
-                      rowEnd: parseNumber(rowEnd, 8),
-                      badge: parseNumber(badge, 20),
-                      // size="icon-sm" pins the compact density.
-                      button: DENSITIES.compact.space[36],
-                    }),
-                  }
-                : undefined,
-              style,
-            ]}
-            onPress={(event) => {
-              onPress?.(event)
-              toggleSidebar()
-            }}
-            {...props}
-          />
-        }
-      >
-        {children ?? <SidebarToggleIcon open={expanded} side={side} />}
-      </TooltipTrigger>
+      <TooltipTrigger render={button}>{glyph}</TooltipTrigger>
       <TooltipContent side="bottom">
         {expanded ? "Collapse sidebar" : "Expand sidebar"}
       </TooltipContent>

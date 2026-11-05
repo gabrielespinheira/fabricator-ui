@@ -17,7 +17,9 @@ const setup = (changes: Partial<ProjectSetup> = {}): ProjectSetup => ({
 
 describe("buildSetupInitUrl", () => {
   it("names the template and the base", () => {
-    const url = new URL(buildSetupInitUrl(setup({ framework: "vite" }), SITE))
+    const url = new URL(
+      buildSetupInitUrl(setup({ project: "new", framework: "vite" }), SITE)
+    )
     expect(url.pathname).toBe("/init")
     expect(url.searchParams.get("template")).toBe("vite")
     expect(url.searchParams.get("base")).toBe("base")

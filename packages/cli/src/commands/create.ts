@@ -56,7 +56,9 @@ export function createCreateCommand(): Command {
       "next, vite, start, react-router, astro, laravel, expo (default: next)"
     )
     .option("-b, --base <base>", "component library: base, radix or aria")
-    .option("--monorepo", "apps/web and packages/ui, with room for more apps")
+    .option("--monorepo", "a monorepo, with room for more apps (the default)")
+    .option("--no-monorepo", "a single project: one app in one folder")
+    .option("--no-web", "no website: mobile alone is a plain Expo project")
     .option("--mobile", "add apps/mobile: React Native with Expo")
     .option("--desktop <runtime>", "add apps/desktop: electron or tauri")
   return addSetupOptions(command)

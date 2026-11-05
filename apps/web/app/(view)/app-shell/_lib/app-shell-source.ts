@@ -123,12 +123,14 @@ export function normalizeInstallOptions(
   options: PlaygroundOptions,
   target: AppShellTarget = {}
 ): PlaygroundOptions {
-  const { fullscreen, glass, panelMobile, peek } = DEFAULT_PLAYGROUND_OPTIONS
+  const { bottomNavStyle, fullscreen, glass, panelMobile, peek } =
+    DEFAULT_PLAYGROUND_OPTIONS
   return {
     ...options,
     fullscreen,
     peek: isPeekAvailable(options) ? options.peek : peek,
     panelMobile: options.panel ? options.panelMobile : panelMobile,
+    bottomNavStyle: options.bottomNav ? options.bottomNavStyle : bottomNavStyle,
     glass: options.window === "web" && !target.desktop ? glass : options.glass,
   }
 }

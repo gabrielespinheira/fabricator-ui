@@ -10,7 +10,9 @@ const setup = (changes: Partial<ProjectSetup> = {}): ProjectSetup => ({
 
 describe("getProjectTree", () => {
   it("is one folder for a single project", () => {
-    const tree = getProjectTree(setup({ name: "acme", framework: "vite" }))
+    const tree = getProjectTree(
+      setup({ project: "new", name: "acme", framework: "vite" })
+    )
     expect(tree.name).toBe("acme")
     expect(tree.mark).toBe("vite")
     expect(tree.children).toEqual([])
@@ -49,5 +51,28 @@ describe("getProjectTree", () => {
     expect(getProjectTree(setup({ project: "existing" })).name).toBe(
       "your project"
     )
+  })
+})
+
+describe("the tree without a website", () => {
+  it("says the web app is only the window's UI", () => {
+    const tree = getProjectTree({
+      ...DEFAULT_PROJECT_SETUP,
+      web: false,
+      desktop: "electron",
+    })
+    const web = tree.children[0]?.children[0]
+    expect(web?.name).toBe("web")
+    expect(web?.note).toContain("the window's UI")
+  })
+
+  it("shows a lone mobile app as one Expo project", () => {
+    const tree = getProjectTree({
+      ...DEFAULT_PROJECT_SETUP,
+      web: false,
+      mobile: true,
+    })
+    expect(tree.mark).toBe("expo")
+    expect(tree.children).toEqual([])
   })
 })

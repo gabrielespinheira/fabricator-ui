@@ -18,11 +18,19 @@ const ids = (changes: Partial<ProjectSetup> = {}): StepId[] =>
 
 describe("planSetup", () => {
   it("scaffolds a web project and everything in one run", () => {
-    expect(ids()).toEqual(["scaffold-web", "mount", "first-commit"])
+    expect(ids({ project: "new" })).toEqual([
+      "scaffold-web",
+      "mount",
+      "first-commit",
+    ])
+  })
+
+  it("starts from a monorepo by default", () => {
+    expect(ids().slice(0, 2)).toEqual(["scaffold-web", "configure-monorepo"])
   })
 
   it("has nothing to mount without the shell and sounds", () => {
-    expect(ids({ appShell: false, sound: false })).toEqual([
+    expect(ids({ project: "new", appShell: false, sound: false })).toEqual([
       "scaffold-web",
       "first-commit",
     ])
@@ -74,7 +82,9 @@ describe("planSetup", () => {
   })
 
   it("creates a Laravel app with its installer", () => {
-    expect(ids({ framework: "laravel" })[0]).toBe("scaffold-laravel")
+    expect(ids({ project: "new", framework: "laravel" })[0]).toBe(
+      "scaffold-laravel"
+    )
   })
 
   it("changes an existing project in place", () => {
@@ -123,7 +133,7 @@ describe("planSetup", () => {
 
 describe("getNextSteps", () => {
   it("starts a web project", () => {
-    expect(getNextSteps(setup(), "npm")).toEqual([
+    expect(getNextSteps(setup({ project: "new" }), "npm")).toEqual([
       { label: "Open the project", code: "cd my-app" },
       { label: "Start the app", code: "npm run dev" },
     ])
@@ -146,7 +156,9 @@ describe("getNextSteps", () => {
 
   it("starts Laravel with Composer", () => {
     expect(
-      getNextSteps(setup({ framework: "laravel" }), "npm").at(-1)?.code
+      getNextSteps(setup({ project: "new", framework: "laravel" }), "npm").at(
+        -1
+      )?.code
     ).toBe("composer run dev")
   })
 
@@ -172,7 +184,9 @@ describe("getPrerequisites", () => {
       )
     ).toEqual(["native-build"])
     expect(
-      getPrerequisites(setup({ framework: "laravel" })).map((item) => item.id)
+      getPrerequisites(setup({ project: "new", framework: "laravel" })).map(
+        (item) => item.id
+      )
     ).toEqual(["laravel"])
   })
 })
@@ -200,5 +214,29 @@ describe("getDarkModeGuide", () => {
     expect(getDarkModeGuide(setup({ project: "existing" }))).toBe(
       "/docs/dark-mode"
     )
+  })
+})
+
+describe("a setup without a website", () => {
+  const desktopOnly = setup({ web: false, desktop: "tauri" })
+
+  it("has no web app to start", () => {
+    const labels = getNextSteps(desktopOnly, "bun").map(({ label }) => label)
+    expect(labels).toEqual(["Open the project", "Open the desktop app"])
+  })
+
+  it("says what the web app is for", () => {
+    const steps = planSetup(desktopOnly)
+    expect(steps[0]?.detail).toContain("the window's UI")
+    expect(steps.map(({ title }) => title)).not.toContain(
+      "Add the web app's components"
+    )
+  })
+
+  it("plans a lone mobile app as the Expo project", () => {
+    expect(ids({ web: false, mobile: true })).toEqual(
+      ids({ framework: "expo" })
+    )
+    expect(ids({ framework: "expo" })[0]).toBe("scaffold-mobile")
   })
 })

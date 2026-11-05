@@ -53,14 +53,13 @@ describe("toCliArgs", () => {
     ])
   })
 
-  it("names a monorepo's apps, which imply it", () => {
-    expect(
-      toCliArgs(setup({ project: "monorepo", mobile: true, desktop: "tauri" }))
-    ).toEqual(["create", "my-app", "--mobile", "--desktop", "tauri", "--yes"])
-    expect(toCliArgs(setup({ project: "monorepo" }))).toEqual([
+  it("names a monorepo's apps", () => {
+    expect(toCliArgs(setup({ mobile: true, desktop: "tauri" }))).toEqual([
       "create",
       "my-app",
-      "--monorepo",
+      "--mobile",
+      "--desktop",
+      "tauri",
       "--yes",
     ])
   })
@@ -103,9 +102,7 @@ describe("toCliArgs", () => {
 
   it("normalizes first, so the preview's choices never reach the command", () => {
     expect(
-      toCliArgs(
-        setup({ shell: { window: "macos", fullscreen: "true" }, mobile: true })
-      )
+      toCliArgs(setup({ shell: { window: "macos", fullscreen: "true" } }))
     ).toEqual(["create", "my-app", "--yes"])
   })
 
@@ -136,5 +133,66 @@ describe("formatCommand", () => {
     expect(formatCommand(args, "bun")).toContain(
       "bunx --bun fabricator-ui@latest"
     )
+  })
+})
+
+describe("the apps in the command", () => {
+  const args = (changes: Partial<ProjectSetup>) =>
+    toCliArgs({ ...DEFAULT_PROJECT_SETUP, ...changes })
+
+  it("needs no flag for the default monorepo", () => {
+    expect(args({})).toEqual(["create", "my-app", "--yes"])
+  })
+
+  it("names a single project", () => {
+    expect(args({ project: "new" })).toEqual([
+      "create",
+      "my-app",
+      "--no-monorepo",
+      "--yes",
+    ])
+  })
+
+  it("needs no flag where the template can only be a single project", () => {
+    expect(args({ framework: "expo" })).toEqual([
+      "create",
+      "my-app",
+      "-t",
+      "expo",
+      "--yes",
+    ])
+    expect(args({ project: "new", framework: "laravel" })).toEqual([
+      "create",
+      "my-app",
+      "-t",
+      "laravel",
+      "--yes",
+    ])
+  })
+
+  it("writes a lone mobile app as the Expo template", () => {
+    expect(args({ web: false, mobile: true })).toEqual(
+      args({ framework: "expo" })
+    )
+  })
+
+  it("says when there's no website", () => {
+    expect(args({ web: false, desktop: "electron" })).toEqual([
+      "create",
+      "my-app",
+      "--no-web",
+      "--desktop",
+      "electron",
+      "--yes",
+    ])
+    expect(args({ web: false, mobile: true, desktop: "tauri" })).toEqual([
+      "create",
+      "my-app",
+      "--no-web",
+      "--mobile",
+      "--desktop",
+      "tauri",
+      "--yes",
+    ])
   })
 })

@@ -15,6 +15,6 @@ Set `FABRICATOR_REGISTRY_URL` to test another deployment. Apps are created under
 
 `create-*` run `create` for each framework, mount included, and build the result. `monorepo-web` is the regression test for components with lib dependencies in a monorepo. `monorepo-<package manager>-<runtime>` run the whole recipe: Next, Expo with the native shell and a desktop app, with `expo-doctor`, the iOS bundle, the static build and `cargo check` where Rust exists. A package manager that isn't installed is skipped.
 
-`monorepo-grow` starts from a web-only monorepo and runs what comes after `create`: `apps add`, `add --app`, `doctor` and `upgrade`. `create-everything` covers `--all` and a Tauri window without glass.
+`desktop-only` and `mobile-only` cover `--no-web`: the window keeps its web app, and a lone mobile app gets no monorepo. `monorepo-grow` starts from a web-only monorepo and runs what comes after `create`: `apps add`, `add --app`, `doctor` and `upgrade`. `create-everything` covers `--all` and a Tauri window without glass.
 
 The `expo` scenario is the test of the React Native library: it creates an app with `create-expo-app`, runs `init` and `add --all`, bundles for iOS and Android, and typechecks the installed files. It has no access to `apps/mobile`.

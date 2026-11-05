@@ -74,20 +74,27 @@ export function SettingRow({
   label,
   note,
   htmlFor,
+  isDisabled = false,
   children,
 }: {
   label: string
   /** A short line under the label. */
   note?: string
   htmlFor?: string
+  /** Dims the name; the note stays readable, since it says why. */
+  isDisabled?: boolean
   children: React.ReactNode
 }) {
   const id = React.useId()
-  const labelClassName = "text-[13px] text-muted-foreground"
+  const labelClassName = cn(
+    "text-[13px] text-muted-foreground",
+    isDisabled && "opacity-60"
+  )
 
   return (
     <div className="flex min-h-10 flex-wrap items-center justify-between gap-x-3">
-      <span className="flex flex-col">
+      {/* Takes what the control leaves, so a long note wraps instead of the row. */}
+      <span className="flex min-w-min flex-1 flex-col">
         {htmlFor ? (
           <label id={id} htmlFor={htmlFor} className={labelClassName}>
             {label}

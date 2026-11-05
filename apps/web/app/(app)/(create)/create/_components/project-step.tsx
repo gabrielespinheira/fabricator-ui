@@ -1,14 +1,17 @@
 "use client"
 
 import * as React from "react"
-import { ElectronIcon, ExpoIcon, TauriIcon } from "@fabricator-ui/icons/brands"
+import { ElectronIcon, TauriIcon } from "@fabricator-ui/icons/brands"
 
 import {
   FolderOpenIcon,
   FolderPlusIcon,
   GlobeIcon,
   LayersIcon,
+  MonitorIcon,
+  SmartphoneIcon,
 } from "@/lib/site-icons"
+import { Segmented } from "@/components/fabricator/site-settings"
 import {
   Field,
   FieldDescription,
@@ -20,22 +23,28 @@ import { RadioGroup } from "@/styles/base-fabricator/ui/radio-group"
 import {
   DEFAULT_PROJECT_NAME,
   FRAMEWORKS,
+  getShellProject,
   isNativeFramework,
   MONOREPO_FRAMEWORKS,
   SETUP_BASES,
-  type DesktopRuntime,
   type ProjectKind,
   type SetupChoices,
 } from "@/app/(app)/(create)/lib/setup"
 
 import { FRAMEWORK_ICONS } from "./framework-icons"
-import { CheckCard, ChoiceCard, StepFooter, StepSection } from "./step-parts"
+import {
+  AppCheckTile,
+  AppChoiceTile,
+  ChoiceCard,
+  StepFooter,
+  StepSection,
+} from "./step-parts"
 
 type StepProps = {
   choices: SetupChoices
   onChange: (patch: Partial<SetupChoices>) => void
-  /** Turning Mobile on (or picking Expo) starts the phone tab bar on. */
-  onMobileAdded: () => void
+  /** The phone tab bar follows Mobile: on with it, off without it. */
+  onMobileChange: (hasMobile: boolean) => void
   /** Leaving Desktop clears what only a window can use. */
   onDesktopRemoved: () => void
   onNext: () => void
@@ -45,40 +54,211 @@ function pick<T extends string>(values: readonly T[], value: unknown) {
   return values.find((candidate) => candidate === value)
 }
 
-const PROJECTS: readonly ProjectKind[] = ["new", "monorepo", "existing"]
+const PROJECTS: readonly ProjectKind[] = ["monorepo", "new", "existing"]
 const FRAMEWORK_VALUES = FRAMEWORKS.map(({ value }) => value)
 const BASE_VALUES = SETUP_BASES.map(({ value }) => value)
-const DESKTOPS: readonly DesktopRuntime[] = ["none", "electron", "tauri"]
+const SINGLE_APPS = ["web", "mobile"] as const
+
+const WEB_TILE = {
+  title: "Web",
+  description: "In the browser",
+  icon: <GlobeIcon />,
+}
+const MOBILE_TILE = {
+  title: "Mobile",
+  description: "iOS and Android",
+  icon: <SmartphoneIcon />,
+}
+const DESKTOP_TILE = {
+  title: "Desktop",
+  description: "A native window",
+  icon: <MonitorIcon />,
+}
+
+function RuntimeOption({
+  icon,
+  label,
+}: {
+  icon: React.ReactNode
+  label: string
+}) {
+  return (
+    <span className="flex items-center gap-1.5 px-1 text-[12px] text-foreground/70 in-aria-pressed:text-foreground">
+      {icon}
+      {label}
+    </span>
+  )
+}
+
+const DESKTOP_RUNTIMES = [
+  {
+    value: "electron",
+    label: "Electron",
+    icon: <RuntimeOption icon={<ElectronIcon />} label="Electron" />,
+  },
+  {
+    value: "tauri",
+    label: "Tauri",
+    icon: <RuntimeOption icon={<TauriIcon />} label="Tauri" />,
+  },
+] as const
+
+const DESKTOP_RUNTIME_HINTS = {
+  electron: "A window around your web app. It ships its own browser.",
+  tauri: "A smaller window around your web app. It needs Rust.",
+}
+
+type AppsProps = Pick<
+  StepProps,
+  "choices" | "onChange" | "onMobileChange" | "onDesktopRemoved"
+>
+
+/** A monorepo's apps: any mix of the three, as long as there's one. */
+function MonorepoApps({
+  choices,
+  onChange,
+  onMobileChange,
+  onDesktopRemoved,
+}: AppsProps) {
+  const { hasWeb, hasMobile, hasDesktop } = getShellProject(choices)
+  const isOnlyApp = [hasWeb, hasMobile, hasDesktop].filter(Boolean).length === 1
+  // The Expo template stands for a lone mobile app, so a change of apps ends it.
+  const framework = isNativeFramework(choices.framework)
+    ? "next"
+    : choices.framework
+  const setApps = (patch: Partial<SetupChoices>) =>
+    onChange({ web: hasWeb, mobile: hasMobile, framework, ...patch })
+
+  return (
+    <>
+      <div className="grid grid-cols-3 gap-3">
+        <AppCheckTile
+          {...WEB_TILE}
+          checked={hasWeb}
+          disabled={hasWeb && isOnlyApp}
+          onCheckedChange={(web) => setApps({ web })}
+        />
+        <AppCheckTile
+          {...MOBILE_TILE}
+          checked={hasMobile}
+          disabled={hasMobile && isOnlyApp}
+          onCheckedChange={(mobile) => {
+            onMobileChange(mobile)
+            setApps({ mobile })
+          }}
+        />
+        <AppCheckTile
+          {...DESKTOP_TILE}
+          checked={hasDesktop}
+          disabled={hasDesktop && isOnlyApp}
+          onCheckedChange={(isOn) => {
+            if (!isOn) onDesktopRemoved()
+            setApps({ desktop: isOn ? "electron" : "none" })
+          }}
+        />
+      </div>
+      {choices.desktop === "none" ? null : (
+        <div className="flex flex-col gap-2 pt-1">
+          <div className="flex items-center justify-between gap-3">
+            <span className="text-[13px] font-medium">Desktop runtime</span>
+            <Segmented
+              label="Desktop runtime"
+              value={choices.desktop}
+              options={DESKTOP_RUNTIMES}
+              onValueChange={(desktop) => onChange({ desktop })}
+            />
+          </div>
+          <FieldDescription>
+            {DESKTOP_RUNTIME_HINTS[choices.desktop]}
+          </FieldDescription>
+        </div>
+      )}
+      {!hasWeb && !hasDesktop ? (
+        <FieldDescription>
+          On its own, a mobile app is a plain Expo project, with no monorepo
+          around it.
+        </FieldDescription>
+      ) : null}
+      {!hasWeb && hasDesktop ? (
+        <FieldDescription>
+          The window renders a web app, so apps/web is still there as its UI.
+        </FieldDescription>
+      ) : null}
+    </>
+  )
+}
+
+/** A single project's app: one or the other. */
+function SingleApp({ choices, onChange, onMobileChange }: AppsProps) {
+  const { hasMobile } = getShellProject(choices)
+
+  return (
+    <RadioGroup
+      aria-label="App"
+      value={hasMobile ? "mobile" : "web"}
+      onValueChange={(value) => {
+        const app = pick(SINGLE_APPS, value)
+        if (!app) return
+        onMobileChange(app === "mobile")
+        onChange({
+          web: app === "web",
+          mobile: app === "mobile",
+          ...(isNativeFramework(choices.framework)
+            ? { framework: "next" }
+            : {}),
+        })
+      }}
+      className="grid grid-cols-2 gap-3"
+    >
+      <AppChoiceTile {...WEB_TILE} value="web" />
+      <AppChoiceTile {...MOBILE_TILE} value="mobile" />
+    </RadioGroup>
+  )
+}
 
 export function ProjectControls({
   choices,
   onChange,
-  onMobileAdded,
+  onMobileChange,
   onDesktopRemoved,
   onNext,
 }: StepProps) {
   const isExisting = choices.project === "existing"
   const isMonorepo = choices.project === "monorepo"
-  const isNative = isNativeFramework(choices.framework)
+  const { hasWeb, hasMobile, hasDesktop } = getShellProject(choices)
+  const needsWebApp = isExisting || hasWeb || hasDesktop
   const frameworks = React.useMemo(
     () =>
       FRAMEWORKS.filter(
-        ({ value }) => !isMonorepo || MONOREPO_FRAMEWORKS.includes(value)
+        ({ value }) =>
+          !isNativeFramework(value) &&
+          (!isMonorepo || MONOREPO_FRAMEWORKS.includes(value))
       ),
     [isMonorepo]
   )
   const framework = FRAMEWORKS.find(({ value }) => value === choices.framework)
 
   const changeProject = (project: ProjectKind) => {
-    const keepsApps = project === "monorepo"
-    if (!keepsApps && choices.desktop !== "none") onDesktopRemoved()
+    if (project !== "monorepo" && hasDesktop) onDesktopRemoved()
+    if (project === "monorepo") {
+      onChange({
+        project,
+        ...(MONOREPO_FRAMEWORKS.includes(choices.framework) ||
+        isNativeFramework(choices.framework)
+          ? {}
+          : { framework: "next" }),
+      })
+      return
+    }
+    // A single project is one app: the website, if it was going to have one.
+    const isMobile = project === "new" && !hasWeb && !hasDesktop
+    if (hasMobile && !isMobile) onMobileChange(false)
     onChange({
       project,
-      ...(keepsApps ? {} : { mobile: false, desktop: "none" }),
-      ...(project === "monorepo" &&
-      !MONOREPO_FRAMEWORKS.includes(choices.framework)
-        ? { framework: "next" }
-        : {}),
+      web: !isMobile,
+      mobile: isMobile,
+      desktop: "none",
+      ...(isNativeFramework(choices.framework) ? { framework: "next" } : {}),
     })
   }
 
@@ -94,16 +274,16 @@ export function ProjectControls({
           className="grid gap-3"
         >
           <ChoiceCard
-            value="new"
-            title="A new project"
-            description="One app, with Fabricator UI already set up."
-            icon={<FolderPlusIcon />}
-          />
-          <ChoiceCard
             value="monorepo"
             title="A new monorepo"
-            description="A web app and shared components, with room for mobile and desktop."
+            description="Web, mobile and desktop in one place, with room to add more."
             icon={<LayersIcon />}
+          />
+          <ChoiceCard
+            value="new"
+            title="A new project"
+            description="One app in one folder."
+            icon={<FolderPlusIcon />}
           />
           <ChoiceCard
             value="existing"
@@ -141,36 +321,65 @@ export function ProjectControls({
           </Field>
 
           <StepSection
-            title={isMonorepo ? "Web framework" : "Framework"}
-            description={framework?.description}
+            title="Apps"
+            description={
+              isMonorepo
+                ? "Pick any mix. Web and desktop share one codebase; mobile has its own React Native components."
+                : "A single project is one app. For both, start a monorepo."
+            }
           >
-            <RadioGroup
-              value={choices.framework}
-              onValueChange={(value) => {
-                const next = pick(FRAMEWORK_VALUES, value)
-                if (!next) return
-                if (isNativeFramework(next)) onMobileAdded()
-                onChange({ framework: next })
-              }}
-              className="grid gap-3 sm:grid-cols-2"
-            >
-              {frameworks.map((item) => {
-                const Icon = FRAMEWORK_ICONS[item.value]
-                return (
-                  <ChoiceCard
-                    key={item.value}
-                    value={item.value}
-                    title={item.label}
-                    icon={<Icon />}
-                  />
-                )
-              })}
-            </RadioGroup>
+            {isMonorepo ? (
+              <MonorepoApps
+                choices={choices}
+                onChange={onChange}
+                onMobileChange={onMobileChange}
+                onDesktopRemoved={onDesktopRemoved}
+              />
+            ) : (
+              <SingleApp
+                choices={choices}
+                onChange={onChange}
+                onMobileChange={onMobileChange}
+                onDesktopRemoved={onDesktopRemoved}
+              />
+            )}
           </StepSection>
+
+          {needsWebApp ? (
+            <StepSection
+              title={hasWeb ? "Web framework" : "Framework"}
+              description={
+                hasWeb
+                  ? framework?.description
+                  : "What the desktop window renders."
+              }
+            >
+              <RadioGroup
+                value={choices.framework}
+                onValueChange={(value) => {
+                  const next = pick(FRAMEWORK_VALUES, value)
+                  if (next) onChange({ framework: next })
+                }}
+                className="grid gap-3 sm:grid-cols-2"
+              >
+                {frameworks.map((item) => {
+                  const Icon = FRAMEWORK_ICONS[item.value]
+                  return (
+                    <ChoiceCard
+                      key={item.value}
+                      value={item.value}
+                      title={item.label}
+                      icon={<Icon />}
+                    />
+                  )
+                })}
+              </RadioGroup>
+            </StepSection>
+          ) : null}
         </>
       )}
 
-      {isNative && !isExisting ? null : (
+      {needsWebApp ? (
         <StepSection
           title="Component primitives"
           description="The library that handles keyboard, focus and screen readers under each component. Every one looks the same."
@@ -191,59 +400,6 @@ export function ProjectControls({
                 description={base.description}
               />
             ))}
-          </RadioGroup>
-        </StepSection>
-      )}
-
-      {isMonorepo ? (
-        <StepSection
-          title="Apps"
-          description="Every app gets your look. Web and desktop share one codebase; mobile has its own React Native components."
-        >
-          <div className="flex flex-col gap-3">
-            <CheckCard
-              title="Web"
-              description="Always there: mobile and desktop build beside it."
-              icon={<GlobeIcon />}
-              checked
-              disabled
-              onCheckedChange={() => {}}
-            />
-            <CheckCard
-              title="Mobile"
-              description="React Native and Expo, in apps/mobile."
-              icon={<ExpoIcon />}
-              checked={choices.mobile}
-              onCheckedChange={(mobile) => {
-                if (mobile) onMobileAdded()
-                onChange({ mobile })
-              }}
-            />
-          </div>
-          <RadioGroup
-            aria-label="Desktop"
-            value={choices.desktop}
-            onValueChange={(value) => {
-              const desktop = pick(DESKTOPS, value)
-              if (!desktop) return
-              if (desktop === "none") onDesktopRemoved()
-              onChange({ desktop })
-            }}
-            className="grid gap-3"
-          >
-            <ChoiceCard value="none" title="No desktop app" />
-            <ChoiceCard
-              value="electron"
-              title="Electron"
-              description="A window around apps/web. Ships its own browser."
-              icon={<ElectronIcon />}
-            />
-            <ChoiceCard
-              value="tauri"
-              title="Tauri"
-              description="A smaller window around apps/web. Needs Rust."
-              icon={<TauriIcon />}
-            />
           </RadioGroup>
         </StepSection>
       ) : null}

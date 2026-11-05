@@ -50,13 +50,17 @@ import { WorkspaceSwitcher } from "@/registry/native/ui/workspace-switcher"
 
 import {
   BlockLibrary,
-  BLOCKS_HREF,
   BlockScreen,
   ComponentLibrary,
+} from "./library/component-library"
+import {
+  BLOCKS_HREF,
   COMPONENTS_HREF,
   getBlockName,
-} from "./library/component-library"
-import { getPathFromUrl } from "./library/library-model"
+  getComponentTitle,
+  getDemoName,
+  getPathFromUrl,
+} from "./library/library-model"
 import { NAV_GROUPS, PANEL_VIEWS, USER, WORKSPACES } from "./nav"
 import { PageTabs, usePageTabs } from "./page-tabs"
 import { PanelViews } from "./panel-views"
@@ -78,6 +82,8 @@ const isLibraryPath = (pathname: string) =>
   pathname.startsWith(COMPONENTS_HREF) || pathname.startsWith(BLOCKS_HREF)
 
 function getPageTitle(pathname: string) {
+  const demo = getDemoName(pathname)
+  if (demo) return getComponentTitle(demo)
   const activeId = getActiveNavItem(NAV_GROUPS, pathname)
   const path = activeId ? getNavPath(NAV_GROUPS, activeId) : []
   return path.at(-1)?.label ?? "Home"
@@ -128,7 +134,12 @@ function Page({
   }
   const isSetup = pathname === HOME_HREF || pathname === SETTINGS_HREF
   return (
-    <AppShellContent size={contentSize} contentContainerClassName="gap-6">
+    <AppShellContent
+      // Each page opens at its top.
+      key={pathname}
+      size={contentSize}
+      contentContainerClassName="gap-6"
+    >
       <AppShellPageTitle>{title}</AppShellPageTitle>
       {isSetup ? (
         <>
@@ -197,10 +208,14 @@ function Shell() {
   const navigate = (item: AppNavItem) => {
     if (item.href) setPathname(item.href)
   }
-  const crumbs = path.map((item) => ({
-    label: item.label,
-    onSelect: item.href ? () => navigate(item) : undefined,
-  }))
+  const crumbs = [
+    ...path.map((item) => ({
+      label: item.label,
+      onSelect: item.href ? () => navigate(item) : undefined,
+    })),
+    // A demo is a level below its list, which isn't in the navigation.
+    ...(getDemoName(pathname) ? [{ label: title }] : []),
+  ]
   const hasAccountOnTop = options.account === "header"
   const hasSwitcher = options.switcher !== "none"
   const groups = NAV_GROUPS.map((group) => ({
@@ -215,8 +230,12 @@ function Shell() {
   // and this example shows no floating button.
   const hasHeaderActions = options.actions && !isPhone
   // Tabs in the page take their own row, unless the header would hold nothing else.
+  // On a phone the page scrolls under the header, so the strip is the header.
   const hasRowOfTabs =
-    options.tabs === "main" && (options.breadcrumb || hasHeaderActions)
+    !isPhone &&
+    options.tabs === "main" &&
+    (options.breadcrumb || hasHeaderActions)
+  const hasTabsInHeader = options.tabs === "main" && !hasRowOfTabs
 
   return (
     <AppShell
@@ -270,8 +289,9 @@ function Shell() {
       </Sidebar>
       <AppShellMain>
         <AppShellHeader>
-          {options.tabs === "main" && !hasRowOfTabs ? pageTabStrip : null}
-          {options.breadcrumb ? (
+          {hasTabsInHeader ? (
+            pageTabStrip
+          ) : options.breadcrumb ? (
             <AppShellBreadcrumb
               items={
                 isPhone
@@ -281,14 +301,17 @@ function Shell() {
                   : [{ label: workspace.name }, ...crumbs]
               }
             />
-          ) : hasRowOfTabs || options.tabs === "none" ? (
+          ) : isPhone ? (
+            // The page's own heading names it, so the header only holds the row.
+            <View className="flex-1" />
+          ) : (
             <Text
               numberOfLines={1}
               className="flex-1 text-(length:--density-text-13) font-medium text-foreground"
             >
               {title}
             </Text>
-          ) : null}
+          )}
           {hasHeaderActions && !isLibraryPath(pathname) ? (
             <AppShellHeaderActions
               primaryAction={{

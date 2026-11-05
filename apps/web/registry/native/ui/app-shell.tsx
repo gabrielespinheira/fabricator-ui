@@ -12,7 +12,7 @@
 // its width: dragging its edge needs a pointer.
 import * as React from "react"
 import {
-  ChevronDownIcon,
+  ChevronRightIcon,
   EllipsisIcon,
   IconProvider,
   PanelBottomIcon,
@@ -86,6 +86,7 @@ import {
   getOtherPanelsWidth,
   getPanelFrame,
   getPanelHeaderEnd,
+  getPhoneTrail,
   getPinnedTriggerPosition,
   getStatusBarHeight,
   isTitleScrolledAway,
@@ -101,7 +102,7 @@ import {
   useFluidRow,
 } from "@/registry/native/lib/fluid-hover"
 import { HeaderFade } from "@/registry/native/lib/header-fade"
-import { useMotion } from "@/registry/native/lib/motion"
+import { useMotion, useSurfaceAnimation } from "@/registry/native/lib/motion"
 import { parseNumber } from "@/registry/native/lib/motion-tokens"
 import { getTextContent } from "@/registry/native/lib/overlay-model"
 import { renderSlot, type RenderProps } from "@/registry/native/lib/render"
@@ -312,6 +313,9 @@ type AppShellScrollValue = {
   setHasBottomNav: (hasBottomNav: boolean) => void
   hasFab: boolean
   setHasFab: (hasFab: boolean) => void
+  /** The page has a heading of its own, so a phone's header needn't name it. */
+  hasPageTitle: boolean
+  setHasPageTitle: (hasPageTitle: boolean) => void
   /** How far a phone's header reaches down: the page scrolls under it. */
   phoneHeaderHeight: number
   setPhoneHeaderHeight: (height: number) => void
@@ -640,6 +644,7 @@ function AppShellScrollProvider({ children }: { children: React.ReactNode }) {
   const [pageTitle, setPageTitle] = React.useState<React.ReactNode | null>(null)
   const [hasBottomNav, setHasBottomNav] = React.useState(false)
   const [hasFab, setHasFab] = React.useState(false)
+  const [hasPageTitle, setHasPageTitle] = React.useState(false)
   const [phoneHeaderHeight, setPhoneHeaderHeight] = React.useState(0)
   const [bottomNavOverlap, setBottomNavOverlap] = React.useState(0)
   const scrollRoot = React.useRef<React.ComponentRef<typeof ScrollView>>(null)
@@ -686,6 +691,8 @@ function AppShellScrollProvider({ children }: { children: React.ReactNode }) {
       setHasBottomNav,
       hasFab,
       setHasFab,
+      hasPageTitle,
+      setHasPageTitle,
       phoneHeaderHeight,
       setPhoneHeaderHeight,
       bottomNavOverlap,
@@ -695,6 +702,7 @@ function AppShellScrollProvider({ children }: { children: React.ReactNode }) {
       bottomNavOverlap,
       hasBottomNav,
       hasFab,
+      hasPageTitle,
       isScrolled,
       onContentScroll,
       pageTitle,
@@ -881,7 +889,11 @@ function AppShellHeader({
   const { isScrolled, setPhoneHeaderHeight } = useAppShellScroll()
   const insets = useShellInsets()
   const isPhone = size === "phone"
-  const row = parseNumber(useCSSVariable("--density-48"), 48)
+  const [rowToken, glyphToken] = useCSSVariable([
+    "--density-48",
+    "--density-20",
+  ])
+  const row = parseNumber(rowToken, 48)
   const { color } = useResolveClassNames(headerFadeVariants())
   const reach = isPhone ? insets.top + row : 0
   React.useLayoutEffect(() => {
@@ -908,7 +920,13 @@ function AppShellHeader({
         <HeaderFade color={color} insetTop={insets.top} rowHeight={row} />
       ) : null}
       {shouldShowHeaderTrigger({ trigger, isMobile, state }) && (
-        <SidebarTrigger className="cn-app-shell-header-trigger" />
+        <SidebarTrigger
+          className="cn-app-shell-header-trigger"
+          // A thumb's target on a phone, with a glyph to match.
+          {...(isPhone
+            ? { size: "icon", glyphSize: parseNumber(glyphToken, 20) }
+            : {})}
+        />
       )}
       {renderTextChildren(children)}
     </View>
@@ -928,9 +946,11 @@ type RenderLink = (item: { href?: string }) => React.ReactElement<{
 function BreadcrumbCrumb({
   item,
   renderLink,
+  isPhone = false,
 }: {
   item: AppShellBreadcrumbItem
   renderLink?: RenderLink
+  isPhone?: boolean
 }) {
   if (item.onSelect) {
     return <BreadcrumbLink onPress={item.onSelect}>{item.label}</BreadcrumbLink>
@@ -940,7 +960,11 @@ function BreadcrumbCrumb({
       <BreadcrumbLink render={renderLink(item)}>{item.label}</BreadcrumbLink>
     )
   }
-  return <Text className="cn-app-shell-breadcrumb-text">{item.label}</Text>
+  return (
+    <Text data-phone={isPhone} className="cn-app-shell-breadcrumb-text">
+      {item.label}
+    </Text>
+  )
 }
 
 function BreadcrumbMenuItems({
@@ -965,11 +989,103 @@ function BreadcrumbMenuItems({
   )
 }
 
-function AppShellBreadcrumb({
+/**
+ * A phone's trail, at a size a thumb and an eye can use: the way up, then the page.
+ * The page's name only shows once its heading has scrolled away, so nothing on
+ * screen says it twice. Its entrance and exit are the handover on the move timing.
+ */
+function PhoneBreadcrumb({
   items,
-  maxItems = 4,
   renderLink,
   className,
+  ...props
+}: Omit<React.ComponentProps<typeof AppShellBreadcrumb>, "maxItems">) {
+  const { hasPageTitle, pageTitle } = useAppShellScroll()
+  const separatorSize = parseNumber(useCSSVariable("--density-icon-16"), 16)
+  const { entering, exiting } = useSurfaceAnimation("move", { translateY: 4 })
+  const { folded, parent, current, showsCurrent } = getPhoneTrail({
+    items,
+    hasPageTitle,
+    isTitleAway: pageTitle !== null,
+  })
+  const hasWayUp = parent !== null
+  const separator = (
+    <BreadcrumbSeparator>
+      <ChevronRightIcon size={separatorSize} strokeWidth={1.5} />
+    </BreadcrumbSeparator>
+  )
+  return (
+    <View
+      data-slot="app-shell-breadcrumb"
+      data-title={showsCurrent}
+      data-phone="true"
+      className={cn(
+        "cn-app-shell-breadcrumb relative flex-1 justify-center",
+        className
+      )}
+      {...props}
+    >
+      <Breadcrumb>
+        <BreadcrumbList className="cn-app-shell-breadcrumb-list">
+          {folded.length > 0 ? (
+            <>
+              <BreadcrumbItem>
+                <DropdownMenu>
+                  <DropdownMenuTrigger
+                    className="cn-app-shell-breadcrumb-fold items-center"
+                    accessibilityLabel="Show more"
+                  >
+                    <BreadcrumbEllipsis />
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="start">
+                    <BreadcrumbMenuItems
+                      items={folded}
+                      renderLink={renderLink}
+                    />
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </BreadcrumbItem>
+              {separator}
+            </>
+          ) : null}
+          {parent ? (
+            <BreadcrumbItem>
+              <TextStyle className="cn-app-shell-breadcrumb-phone-parent">
+                <BreadcrumbCrumb
+                  item={parent}
+                  renderLink={renderLink}
+                  isPhone
+                />
+              </TextStyle>
+            </BreadcrumbItem>
+          ) : null}
+          {showsCurrent && current ? (
+            <Animated.View
+              entering={entering}
+              exiting={exiting}
+              className="cn-app-shell-breadcrumb-current min-w-0 flex-row items-center"
+            >
+              {hasWayUp ? separator : null}
+              <BreadcrumbItem className="min-w-0">
+                <BreadcrumbPage
+                  numberOfLines={1}
+                  className="cn-app-shell-breadcrumb-phone-page"
+                >
+                  {current.label}
+                </BreadcrumbPage>
+              </BreadcrumbItem>
+            </Animated.View>
+          ) : null}
+        </BreadcrumbList>
+      </Breadcrumb>
+    </View>
+  )
+}
+
+function AppShellBreadcrumb({
+  items,
+  maxItems,
+  renderLink,
   ...props
 }: React.ComponentProps<typeof View> & {
   /** Root first; the last item is the current page. */
@@ -979,10 +1095,28 @@ function AppShellBreadcrumb({
   /** Returns the link element for an item, without children (a router Link). */
   renderLink?: RenderLink
 }) {
-  const { pageTitle } = useAppShellScroll()
   const { size } = useAppShell()
+  return size === "phone" ? (
+    <PhoneBreadcrumb items={items} renderLink={renderLink} {...props} />
+  ) : (
+    <TrailBreadcrumb
+      items={items}
+      maxItems={maxItems}
+      renderLink={renderLink}
+      {...props}
+    />
+  )
+}
+
+function TrailBreadcrumb({
+  items,
+  maxItems = 4,
+  renderLink,
+  className,
+  ...props
+}: React.ComponentProps<typeof AppShellBreadcrumb>) {
+  const { pageTitle } = useAppShellScroll()
   const motion = useMotion("move")
-  const iconSize = parseNumber(useCSSVariable("--density-icon-14"), 14)
   const current = items.at(-1)
   const parents = items.slice(0, -1)
   const { leading, folded, trailing } = foldBreadcrumbs(parents, maxItems - 1)
@@ -1025,75 +1159,42 @@ function AppShellBreadcrumb({
         style={trailStyle}
       >
         <Breadcrumb>
-          {size === "phone" ? (
-            // Phones: only the current page; it opens a menu of its parents.
-            <BreadcrumbList className="cn-app-shell-breadcrumb-list">
-              {current && (
-                <BreadcrumbItem className="min-w-0">
-                  {parents.length > 0 ? (
-                    <DropdownMenu>
-                      <DropdownMenuTrigger className="cn-app-shell-breadcrumb-current flex-row items-center">
-                        <BreadcrumbPage numberOfLines={1}>
-                          {current.label}
-                        </BreadcrumbPage>
-                        <IconProvider size={iconSize}>
-                          <ChevronDownIcon />
-                        </IconProvider>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="start">
-                        <BreadcrumbMenuItems
-                          items={[...parents].reverse()}
-                          renderLink={renderLink}
-                        />
-                      </DropdownMenuContent>
-                    </DropdownMenu>
-                  ) : (
-                    <BreadcrumbPage numberOfLines={1}>
-                      {current.label}
-                    </BreadcrumbPage>
-                  )}
-                </BreadcrumbItem>
-              )}
-            </BreadcrumbList>
-          ) : (
-            // Tablets and up: the trail, with the middle folded.
-            <BreadcrumbList className="cn-app-shell-breadcrumb-list">
-              {[...leading, ...(folded.length ? [null] : []), ...trailing].map(
-                (item, index) => (
-                  <React.Fragment key={index}>
-                    <BreadcrumbItem>
-                      {item ? (
-                        <BreadcrumbCrumb item={item} renderLink={renderLink} />
-                      ) : (
-                        <DropdownMenu>
-                          <DropdownMenuTrigger
-                            className="cn-app-shell-breadcrumb-fold items-center"
-                            accessibilityLabel="Show more"
-                          >
-                            <BreadcrumbEllipsis />
-                          </DropdownMenuTrigger>
-                          <DropdownMenuContent align="start">
-                            <BreadcrumbMenuItems
-                              items={folded}
-                              renderLink={renderLink}
-                            />
-                          </DropdownMenuContent>
-                        </DropdownMenu>
-                      )}
-                    </BreadcrumbItem>
-                    <BreadcrumbSeparator />
-                  </React.Fragment>
-                )
-              )}
-              {current && (
-                <BreadcrumbItem className="min-w-0">
-                  <BreadcrumbPage numberOfLines={1}>
-                    {current.label}
-                  </BreadcrumbPage>
-                </BreadcrumbItem>
-              )}
-            </BreadcrumbList>
-          )}
+          <BreadcrumbList className="cn-app-shell-breadcrumb-list">
+            {[...leading, ...(folded.length ? [null] : []), ...trailing].map(
+              (item, index) => (
+                <React.Fragment key={index}>
+                  <BreadcrumbItem>
+                    {item ? (
+                      <BreadcrumbCrumb item={item} renderLink={renderLink} />
+                    ) : (
+                      <DropdownMenu>
+                        <DropdownMenuTrigger
+                          className="cn-app-shell-breadcrumb-fold items-center"
+                          accessibilityLabel="Show more"
+                        >
+                          <BreadcrumbEllipsis />
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="start">
+                          <BreadcrumbMenuItems
+                            items={folded}
+                            renderLink={renderLink}
+                          />
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    )}
+                  </BreadcrumbItem>
+                  <BreadcrumbSeparator />
+                </React.Fragment>
+              )
+            )}
+            {current && (
+              <BreadcrumbItem className="min-w-0">
+                <BreadcrumbPage numberOfLines={1}>
+                  {current.label}
+                </BreadcrumbPage>
+              </BreadcrumbItem>
+            )}
+          </BreadcrumbList>
         </Breadcrumb>
       </Animated.View>
       <Animated.View
@@ -1125,9 +1226,15 @@ function AppShellPageTitle({
   onLayout,
   ...props
 }: React.ComponentProps<typeof Text>) {
-  const { scrollRoot, setTitle } = useAppShellScroll()
+  const { scrollRoot, setHasPageTitle, setTitle } = useAppShellScroll()
   const ref = React.useRef<React.ComponentRef<typeof Text>>(null)
   const text = getTextContent(children)
+  // Before paint, and the same commit as the page it replaces: a phone's header
+  // must not flash the page's name while the next heading mounts.
+  React.useLayoutEffect(() => {
+    setHasPageTitle(true)
+    return () => setHasPageTitle(false)
+  }, [setHasPageTitle])
   const report = useLatestCallback(() => {
     const scroller = scrollRoot.current?.getInnerViewRef()
     if (!scroller) return
@@ -1289,7 +1396,7 @@ function AppShellHeaderActions({
             render={
               <Button
                 variant="ghost"
-                size="icon-sm"
+                size="icon"
                 accessibilityLabel="More actions"
               />
             }
@@ -1340,6 +1447,12 @@ function AppShellContent({
   const insets = useShellInsets()
   const { variant } = useSidebarLayout()
   const composedRef = useComposedRefs(scroll.scrollRoot, ref)
+  // A new page starts at its top: what the last one scrolled to doesn't carry over
+  // into the header, which would hand over to a title that's still on screen.
+  const { onContentScroll } = scroll
+  React.useLayoutEffect(() => {
+    onContentScroll(0)
+  }, [onContentScroll])
   const [phoneGutter, gutter] = useCSSVariable(["--density-16", "--density-24"])
   const isPhone = shell.size === "phone"
   const column = getContentColumn({
@@ -1435,7 +1548,7 @@ function AppShellStatusBar({
 // MARK: Bottom nav
 
 const BottomNavContext = React.createContext<{
-  setSelected: (key: string) => void
+  setSelected: React.Dispatch<React.SetStateAction<string | undefined>>
 } | null>(null)
 
 const BottomNavIndexContext = React.createContext(0)
@@ -1623,8 +1736,13 @@ function AppShellBottomNavItem({
     onPressIn,
     onPressOut,
   })
+  // A page that isn't one of the tabs leaves none of them holding the pill. In the
+  // same commit as the next tab taking it, so the pill still slides between them.
   React.useLayoutEffect(() => {
-    if (isActive) setSelected?.(label)
+    if (!isActive || !setSelected) return
+    setSelected(label)
+    return () =>
+      setSelected((current) => (current === label ? undefined : current))
   }, [isActive, label, setSelected])
   const content = (
     <>
@@ -2251,6 +2369,8 @@ function AppShellPanelTrigger({
     "--density-12",
     "--density-6",
   ])
+  const glyphSize = parseNumber(useCSSVariable("--density-20"), 20)
+  const isPhone = shell.size === "phone"
   const isPressed = view ? panel.open && panel.view === view : panel.open
   const anchor = getPanelTriggerAnchor({
     hasView: view !== undefined,
@@ -2272,37 +2392,42 @@ function AppShellPanelTrigger({
   if (isAbsent) return null
 
   const hint = `${panel.open ? "Hide" : "Show"} ${panel.label.toLowerCase()}`
-  const button = (
+  const panelButton = (
+    <Button
+      variant="ghost"
+      // A thumb's target on a phone, as the sidebar's toggle across from it.
+      size={isPhone ? "icon" : "icon-sm"}
+      accessibilityLabel={hint}
+      aria-expanded={isPressed}
+      data-slot="app-shell-panel-trigger"
+      data-state={isPressed ? "open" : "closed"}
+      data-phone={isPhone}
+      data-view={view}
+      data-selected={view !== undefined && isPressed}
+      onPress={(event) => {
+        onPress?.(event)
+        if (view) panel.select(view)
+        else panel.toggle()
+      }}
+      className={cn("cn-app-shell-panel-trigger", className)}
+      {...props}
+    />
+  )
+  // A phone's panel comes up from the bottom, so its toggle says that.
+  const glyph =
+    children ??
+    (isPhone ? (
+      <PanelBottomIcon size={glyphSize} />
+    ) : (
+      <SidebarToggleIcon open={isPressed} side={panel.side ?? "right"} />
+    ))
+  // No tooltip on a phone: nothing hovers there, and a long press taking over a
+  // slow tap would leave the panel shut.
+  const button = isPhone ? (
+    React.cloneElement(panelButton, undefined, glyph)
+  ) : (
     <Tooltip>
-      <TooltipTrigger
-        render={
-          <Button
-            variant="ghost"
-            size="icon-sm"
-            accessibilityLabel={hint}
-            aria-expanded={isPressed}
-            data-slot="app-shell-panel-trigger"
-            data-state={isPressed ? "open" : "closed"}
-            data-view={view}
-            data-selected={view !== undefined && isPressed}
-            onPress={(event) => {
-              onPress?.(event)
-              if (view) panel.select(view)
-              else panel.toggle()
-            }}
-            className={cn("cn-app-shell-panel-trigger", className)}
-            {...props}
-          />
-        }
-      >
-        {children ??
-          // A phone's panel comes up from the bottom, so its toggle says that.
-          (shell.size === "phone" ? (
-            <PanelBottomIcon />
-          ) : (
-            <SidebarToggleIcon open={isPressed} side={panel.side ?? "right"} />
-          ))}
-      </TooltipTrigger>
+      <TooltipTrigger render={panelButton}>{glyph}</TooltipTrigger>
       <TooltipContent>{hint}</TooltipContent>
     </Tooltip>
   )

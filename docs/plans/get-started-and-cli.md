@@ -5,7 +5,7 @@ Status: built (2026-11-04), for v0.5.0 on `release/v0.5.0`. Not committed. §11 
 Every setup on `/create` becomes one command, whatever the framework, apps and assistants. The page is rebuilt around that command, and the CLI gains the orchestration that makes it possible: scaffolding Expo and desktop apps, mounting what it installs, and configuring several AI assistants at once.
 
 ```bash
-# A new project, every default
+# A new monorepo, every default
 npx fabricator-ui@latest create my-app --yes
 
 # A new monorepo: web, mobile and desktop, one look, two assistants
@@ -536,3 +536,4 @@ To move to Blossom, whoever accepts OpenAI's terms downloads the file into `sour
 - **Generated Expo apps are named after the project.** The template calls the app after its folder and leaves the store ids to a prompt on the first native build, so `scaffold-mobile` sets `name`, `ios.bundleIdentifier` and `android.package`. Found by running one.
 - **The Install step has a prompt for AI agents.** Added after the plan. `getAgentPrompt` in `packages/setup` writes the same command, then what a person would do next: fix failures, check with `doctor` and a build, add a theme toggle, and replace the sample navigation. It won't install prerequisites without asking.
 - **There's no command dock.** It was built as planned, then removed at Gabs's request on 2026-11-05. The command is on the Install step, and every other step has its defaults, so the tabs can skip straight there.
+- **New projects are monorepos by default, and Web is optional.** Changed on 2026-11-05, after §2 had Web always on. Apps come before the framework and primitives, which only show if there's a web app or a window to render one. `--no-monorepo` makes a single project and `--no-web` drops the website. A lone mobile app is still a plain Expo project, since nothing could use a monorepo around it: `apps add web` doesn't exist. A lone desktop app keeps `apps/web`, because its window renders it.

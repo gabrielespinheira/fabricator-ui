@@ -119,15 +119,17 @@ export async function promptSelect<T extends string>(
   return chosen.value
 }
 
-/** Any number of answers, none included; a long list wants promptMultiselect. */
+/** Any number of answers; a long list wants promptMultiselect. */
 export async function promptCheckboxes<T extends string>(
   message: string,
-  choices: readonly PromptChoice<T>[]
+  choices: readonly PromptChoice<T>[],
+  { required = false, initial = [] }: { required?: boolean; initial?: T[] } = {}
 ): Promise<T[]> {
   const answers = exitIfCancelled(
     await multiselect<string>({
       message,
-      required: false,
+      required,
+      initialValues: initial,
       options: toPromptOptions(choices),
     })
   )

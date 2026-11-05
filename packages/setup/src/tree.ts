@@ -39,7 +39,12 @@ export function getProjectTree(rawSetup: ProjectSetup): ProjectTreeNode {
       {
         name: "apps",
         children: [
-          { name: "web", note: webNote, mark: setup.framework, children: [] },
+          {
+            name: "web",
+            note: setup.web ? webNote : `${webNote}, the window's UI`,
+            mark: setup.framework,
+            children: [],
+          },
           ...(setup.mobile
             ? [
                 {

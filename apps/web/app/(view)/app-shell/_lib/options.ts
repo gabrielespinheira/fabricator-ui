@@ -8,9 +8,22 @@ import {
   type inferParserType,
 } from "nuqs/server"
 
+import type {
+  ShellOptionKey,
+  ShellProject,
+} from "@/registry/fabricator/app-shell-options"
 import { getTrafficLights } from "@/registry/fabricator/shared/lib/desktop-window"
 import type { AppShellWindow } from "@/styles/base-fabricator/ui/app-shell"
 
+export {
+  getHiddenShellOptions,
+  getTabChoices,
+  isPeekAvailable,
+  SIDEBAR_COLLAPSE_CHOICES,
+  SIDEBAR_VARIANT_CHOICES,
+  TAB_PLACEMENT_CHOICES,
+  type ShellProject,
+} from "@/registry/fabricator/app-shell-options"
 export { getTrafficLights }
 
 export const SIDEBAR_VARIANTS = ["inset", "sidebar", "floating"] as const
@@ -24,24 +37,6 @@ export const CONTENT_SIZES = ["sm", "md", "lg"] as const
 export const PANEL_MOBILE = ["drawer", "swap", "none"] as const
 export const BOTTOM_NAV_STYLES = ["flat", "floating", "glass"] as const
 export const WINDOWS = ["web", "macos", "windows"] as const
-
-export const SIDEBAR_VARIANT_CHOICES = [
-  { value: "inset", label: "Inset" },
-  { value: "sidebar", label: "Flush" },
-  { value: "floating", label: "Floating" },
-] as const
-
-export const SIDEBAR_COLLAPSE_CHOICES = [
-  { value: "icon", label: "Icons" },
-  { value: "offcanvas", label: "Hide" },
-  { value: "none", label: "Never" },
-] as const
-
-export const TAB_PLACEMENT_CHOICES = [
-  { value: "none", label: "None" },
-  { value: "main", label: "Page" },
-  { value: "titlebar", label: "Titlebar" },
-] as const
 
 export const playgroundParsers = {
   variant: parseAsStringLiteral(SIDEBAR_VARIANTS).withDefault("inset"),
@@ -60,7 +55,7 @@ export const playgroundParsers = {
   panelMobile: parseAsStringLiteral(PANEL_MOBILE).withDefault("drawer"),
   status: parseAsBoolean.withDefault(true),
   bottomNav: parseAsBoolean.withDefault(false),
-  // React Native only: its example app's card sets it, and no website card does.
+  // React Native only: its example's card sets it, and so does /create for a project with a React Native app.
   bottomNavStyle: parseAsStringLiteral(BOTTOM_NAV_STYLES).withDefault("flat"),
   window: parseAsStringLiteral(WINDOWS).withDefault("web"),
   fullscreen: parseAsBoolean.withDefault(false),
@@ -94,53 +89,33 @@ export function getTabsPlacement(options: PlaygroundOptions) {
   return options.breadcrumb || options.actions ? "row" : "header"
 }
 
-/** Peek floats a hidden sidebar out, so it needs the off-canvas collapse. */
-export function isPeekAvailable(options: PlaygroundOptions) {
-  return options.collapse === "offcanvas"
+/** The App Shell's own page shows every app but React Native, which has its own example. */
+export const PLAYGROUND_PROJECT: ShellProject = {
+  hasWeb: true,
+  hasDesktop: true,
+  hasMobile: false,
 }
 
-/** Which apps a project's shell is for. */
-export type ShellProject = {
-  hasWeb: boolean
-  hasDesktop: boolean
-  hasMobile: boolean
-}
-
-/**
- * The options a project's shell can't honour. `window` and `fullscreen` only
- * choose what the preview draws, so the page's size switch has them instead.
- */
-export function getHiddenShellOptions({
-  hasWeb,
-  hasDesktop,
-}: ShellProject): ReadonlySet<keyof PlaygroundOptions> {
-  const hasPointer = hasWeb || hasDesktop
-  return new Set<keyof PlaygroundOptions>([
-    "window",
-    "fullscreen",
-    ...(hasDesktop ? [] : (["glass"] as const)),
-    ...(hasPointer ? [] : (["peek"] as const)),
-  ])
-}
+/** The tab bar's style only reaches a React Native app. */
+export const PLAYGROUND_HIDDEN_OPTIONS: ReadonlySet<ShellOptionKey> = new Set([
+  "bottomNavStyle",
+])
 
 /** Says where an option applies, when some of a project's apps don't honour it. */
 export function getShellOptionNotes({
   hasWeb,
   hasDesktop,
   hasMobile,
-}: ShellProject): Partial<Record<keyof PlaygroundOptions, string>> {
+}: ShellProject): Partial<Record<ShellOptionKey, string>> {
   const isMixed = hasMobile && (hasWeb || hasDesktop)
   return {
     ...(isMixed ? { peek: "Web and desktop only." } : {}),
     ...(hasDesktop ? { glass: "macOS only." } : {}),
+    // The preview is the website's shell, whose tab bar has one look.
+    ...(hasMobile
+      ? { bottomNavStyle: "In the React Native app; the preview stays flat." }
+      : {}),
   }
-}
-
-/** Tabs in the titlebar need a window around them. */
-export function getTabChoices({ hasDesktop }: ShellProject) {
-  return TAB_PLACEMENT_CHOICES.filter(
-    ({ value }) => hasDesktop || value !== "titlebar"
-  )
 }
 
 export type PreviewSize = "browser" | "macos" | "windows" | "phone"
