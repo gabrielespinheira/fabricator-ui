@@ -166,6 +166,12 @@ const DARK_ROLES = rolePalette("dark")
 
 export const FABRICATOR_PALETTE: CssVars = {
   theme: {
+    // Tinted looks link these tokens to surfaces with var(). The installer
+    // cannot infer colour utilities from those values, so map them explicitly.
+    "color-background": "var(--background)",
+    "color-card": "var(--card)",
+    "color-popover": "var(--popover)",
+    "color-sidebar": "var(--sidebar)",
     // Inter's variable weights read heavier than their numbers; FF pairs a
     // lighter medium/semibold with optical size.
     "font-weight-medium": "450",

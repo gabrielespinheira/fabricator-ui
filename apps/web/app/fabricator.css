@@ -458,6 +458,10 @@ html.dark {
   --ease-drawer: var(--motion-ease-drawer);
   --ease-spring: var(--motion-ease-enter);
   --ease-spring-bounce: var(--motion-ease-enter);
+  --color-background: var(--background);
+  --color-card: var(--card);
+  --color-popover: var(--popover);
+  --color-sidebar: var(--sidebar);
   --font-weight-medium: 450;
   --font-weight-semibold: 550;
 }

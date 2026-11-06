@@ -592,6 +592,30 @@ const scenarios: Scenario[] = [
     },
   },
   {
+    name: "monorepo-web-tinted",
+    run(dir: string) {
+      cli(
+        [
+          "create",
+          "app",
+          "--look",
+          "surface=260_0.02,primary=260_0.15,shape=pill",
+          "--yes",
+          "-c",
+          dir,
+        ],
+        dir
+      )
+      const root = path.join(dir, "app")
+      const web = path.join(root, "apps/web")
+      assertRegistry(web)
+      assertMounted(web, "next")
+      cli(["add", "dropdown-menu", "tabs", "-y", "-o"], root)
+      run("bun", ["run", "build"], web)
+      cli(["doctor"], root)
+    },
+  },
+  {
     name: "monorepo-web",
     run(dir: string) {
       // A monorepo is what `create` makes when nothing says otherwise.
