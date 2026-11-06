@@ -1,6 +1,6 @@
 {
   "name": "@fabricator-ui/desktop",
-  "version": "0.0.0",
+  "version": "0.5.1",
   "private": true,
   "description": "The desktop example: the website's /desktop route in an Electron or a Tauri window.",
   "license": "MIT",

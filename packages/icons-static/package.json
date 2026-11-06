@@ -1,6 +1,6 @@
 {
   "name": "@fabricator-ui/icons-static",
-  "version": "0.1.0",
+  "version": "0.5.1",
   "description": "Fabricator Icons as SVG files, a sprite, JSON data and SVG strings, plus a PNG exporter for desktop apps.",
   "license": "MIT",
   "type": "module",
