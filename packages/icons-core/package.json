@@ -1,0 +1,35 @@
+{
+  "name": "@fabricator-ui/icons-core",
+  "version": "0.0.0",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./runtime/*": "./src/runtime/*.ts"
+  },
+  "scripts": {
+    "lint": "bun ./scripts/check.ts",
+    "sync": "bun ./scripts/sync-lucide.ts",
+    "brands": "bun ./scripts/import-brands.ts",
+    "check:icons": "bun ./scripts/check.ts",
+    "sheet": "bun ./scripts/sheet.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "format:write": "prettier --write \"{src,scripts}/**/*.ts\" \"*.{json,md}\" --cache",
+    "format:check": "prettier --check \"{src,scripts}/**/*.ts\" \"*.{json,md}\" --cache"
+  },
+  "dependencies": {
+    "svgpath": "2.6.0",
+    "svgson": "5.3.1",
+    "zod": "4.6.7"
+  },
+  "devDependencies": {
+    "@iconify-json/logos": "1.2.18",
+    "@resvg/resvg-js": "2.6.2",
+    "@types/node": "^20.19.0",
+    "simple-icons": "16.36.0",
+    "typescript": "^6.0.3",
+    "vitest": "^5.0.5"
+  }
+}

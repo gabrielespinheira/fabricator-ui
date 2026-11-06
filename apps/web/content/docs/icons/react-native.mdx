@@ -1,0 +1,56 @@
+---
+title: React Native
+description: The same icons and brand marks for React Native and Expo, drawn with react-native-svg, following light and dark mode.
+---
+
+## Installation
+
+```bash
+npx expo install @fabricator-ui/icons-react-native react-native-svg
+```
+
+Outside Expo, install both packages with your package manager.
+
+## Usage
+
+```tsx
+import { HouseIcon, IconProvider } from "@fabricator-ui/icons-react-native"
+import { GithubIcon } from "@fabricator-ui/icons-react-native/brands"
+
+export function TabBar() {
+  return (
+    <IconProvider size={22} strokeWidth={1.75}>
+      <HouseIcon />
+      <GithubIcon color="brand" />
+    </IconProvider>
+  )
+}
+```
+
+Names and props match [`@fabricator-ui/icons`](/docs/icons/react).
+
+## Colour
+
+React Native has no colour inheritance, so an icon's colour comes from, in order:
+
+1. its `color` prop,
+2. the nearest `IconProvider`'s `color`,
+3. Fabricator's foreground for the colour scheme: `#171717` in light, `#f5f5f5` in dark.
+
+Icons follow light and dark mode with no setup. Brand marks with `color="brand"` pick their light or dark colour from the same scheme.
+
+## IconProvider
+
+| Prop                  | Type                | Description                                                      |
+| --------------------- | ------------------- | ---------------------------------------------------------------- |
+| `color`               | `string`            | Default colour for every icon below it.                          |
+| `size`                | `number`            | Default size. Icons fall back to 24.                             |
+| `strokeWidth`         | `number`            | Default stroke width. Icons fall back to 2.                      |
+| `absoluteStrokeWidth` | `boolean`           | Keeps the stroke's pixel width at any size.                      |
+| `colorScheme`         | `"light" \| "dark"` | Overrides the device scheme, for apps that pick their own theme. |
+
+Providers nest: an inner provider overrides only the props it sets.
+
+## Accessibility
+
+Icons are `aria-hidden` unless you label them. On a pressable icon, put `accessibilityLabel` on the `Pressable`, not the icon.

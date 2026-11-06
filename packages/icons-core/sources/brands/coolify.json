@@ -1,0 +1,14 @@
+{
+  "title": "Coolify",
+  "group": "Product & dev",
+  "tags": [
+    "self-hosting",
+    "deploy",
+    "paas"
+  ],
+  "aliases": [],
+  "hex": "#6B16ED",
+  "scale": 0.855,
+  "source": "Simple Icons 16.36.0 (https://github.com/coollabsio/coolify/blob/ac1d98f6035caff10f36fa10508326b4791dec07/public/coolify-logo-monochrome.svg)",
+  "license": "CC0-1.0"
+}

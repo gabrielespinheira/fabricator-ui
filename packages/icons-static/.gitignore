@@ -1,0 +1,8 @@
+src/generated/
+/icons/
+/brands/
+sprite.svg
+brands-sprite.svg
+icon-nodes.json
+brand-nodes.json
+tags.json

@@ -1,0 +1,20 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "karsa-mistmere",
+    "ericfennis",
+    "jamiemlaw"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:egg",
+    "$group:off",
+    "egg free",
+    "vegan",
+    "hatched",
+    "bad egg"
+  ],
+  "categories": [
+    "food-beverage"
+  ]
+}

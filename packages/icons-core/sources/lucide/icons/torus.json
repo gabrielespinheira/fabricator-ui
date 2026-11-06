@@ -1,0 +1,31 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "danielbayley",
+    "jguddas"
+  ],
+  "use-cases": [
+    "Representing a torus shape in 3D or design tools",
+    "Representing a donut in a food or dessert context"
+  ],
+  "tags": [
+    "donut",
+    "doughnut",
+    "ring",
+    "hollow",
+    "3d",
+    "fast food",
+    "junk food",
+    "snack",
+    "treat",
+    "sweet",
+    "sugar",
+    "dessert"
+  ],
+  "categories": [
+    "shapes",
+    "design",
+    "math",
+    "food-beverage"
+  ]
+}

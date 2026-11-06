@@ -1,0 +1,25 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "danielbayley",
+    "karsa-mistmere"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:chart-gantt",
+    "intentions",
+    "code",
+    "coding"
+  ],
+  "categories": [
+    "$extends:chart-gantt",
+    "development"
+  ],
+  "aliases": [
+    {
+      "name": "gantt-chart",
+      "deprecated": true,
+      "deprecationReason": "alias.name"
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "karsa-mistmere",
+    "danielbayley"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$group:chart",
+    "categorical",
+    "comparison"
+  ],
+  "categories": [
+    "charts"
+  ],
+  "aliases": [
+    {
+      "name": "bar-chart-horizontal",
+      "deprecated": true,
+      "deprecationReason": "alias.name"
+    }
+  ]
+}

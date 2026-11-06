@@ -69,19 +69,44 @@ export function useHydrated() {
   )
 }
 
-function SettingRow({
+/** A setting's name, then its control. `htmlFor` names the control it labels. */
+export function SettingRow({
   label,
+  note,
+  htmlFor,
+  isDisabled = false,
   children,
 }: {
   label: string
+  /** A short line under the label. */
+  note?: string
+  htmlFor?: string
+  /** Dims the name; the note stays readable, since it says why. */
+  isDisabled?: boolean
   children: React.ReactNode
 }) {
   const id = React.useId()
+  const labelClassName = cn(
+    "text-[13px] text-muted-foreground",
+    isDisabled && "opacity-60"
+  )
 
   return (
-    <div className="flex h-10 items-center justify-between gap-3">
-      <span id={id} className="text-[13px] text-muted-foreground">
-        {label}
+    <div className="flex min-h-10 flex-wrap items-center justify-between gap-x-3">
+      {/* Takes what the control leaves, so a long note wraps instead of the row. */}
+      <span className="flex min-w-min flex-1 flex-col">
+        {htmlFor ? (
+          <label id={id} htmlFor={htmlFor} className={labelClassName}>
+            {label}
+          </label>
+        ) : (
+          <span id={id} className={labelClassName}>
+            {label}
+          </span>
+        )}
+        {note ? (
+          <span className="text-xs text-muted-foreground">{note}</span>
+        ) : null}
       </span>
       <div aria-labelledby={id} role="group" className="flex items-center">
         {children}
@@ -90,22 +115,25 @@ function SettingRow({
   )
 }
 
-/** Icon buttons in a pill, like a segmented control (theme, sound). */
+/** Buttons in a pill, a segmented control: icons, or their labels without one. */
 export function Segmented<T extends string>({
   value,
   onValueChange,
   options,
   label,
+  disabled = false,
 }: {
   value: T
   onValueChange: (value: T) => void
-  options: { value: T; label: string; icon: React.ReactNode }[]
+  options: ReadonlyArray<{ value: T; label: string; icon?: React.ReactNode }>
   label: string
+  disabled?: boolean
 }) {
   return (
     <ToggleGroup
       aria-label={label}
       value={[value]}
+      disabled={disabled}
       onValueChange={(next) => {
         // A segmented control always has one value: ignore deselection.
         const selected = next[0] as T | undefined
@@ -119,10 +147,14 @@ export function Segmented<T extends string>({
         <ToggleGroupItem
           key={option.value}
           value={option.value}
-          aria-label={option.label}
-          className="h-7 min-w-8 rounded-md! px-2 text-muted-foreground aria-pressed:text-foreground [&_svg]:size-4"
+          aria-label={option.icon ? option.label : undefined}
+          className={cn(
+            "h-7 min-w-8 rounded-md! px-2 aria-pressed:text-foreground [&_svg]:size-4",
+            // Text needs more contrast on the track than an icon does.
+            option.icon ? "text-muted-foreground" : "text-foreground/70"
+          )}
         >
-          {option.icon}
+          {option.icon ?? option.label}
         </ToggleGroupItem>
       ))}
     </ToggleGroup>

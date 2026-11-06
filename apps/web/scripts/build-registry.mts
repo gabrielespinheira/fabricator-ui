@@ -28,6 +28,7 @@ import {
   getFabricatorSiteUrl,
   isFabricatorStyleName,
 } from "@/registry/fabricator"
+import { toFabricatorIconsDocument } from "@/registry/fabricator/fabricator-icons"
 import { toFabricatorStylesheet } from "@/registry/fabricator/foundations"
 import {
   FABRICATOR_EXCLUDED_ITEMS,
@@ -37,6 +38,8 @@ import {
 } from "@/registry/fabricator/registry"
 import { fonts } from "@/registry/fonts"
 import { STYLES } from "@/registry/styles"
+
+import { buildNativeRegistry } from "./build-native-registry.mjs"
 
 /*
  * build-registry.mts is the single v4 registry pipeline.
@@ -790,6 +793,7 @@ async function runFullBuild() {
     async (style) => {
       await buildRegistryJsonFile(style.name)
       await buildRegistry(style.name)
+      await buildFabricatorIconsCopy(style.name)
 
       console.log(`   ✅ ${style.name}`)
     }
@@ -816,6 +820,9 @@ async function runFullBuild() {
   console.log("\n🧹 Cleaning up...")
   await cleanUpTemporaryFiles(stylesToBuild.map((style) => style.name))
   await saveTransformCache()
+
+  console.log("\n📱 Building the React Native registry...")
+  await buildNativeRegistry()
 }
 
 async function runTargetedBuild(options: BuildOptions) {
@@ -920,6 +927,7 @@ async function runTargetedRegistryBuild(target: "all" | string) {
     async (style) => {
       await buildRegistryJsonFile(style.name)
       await buildRegistry(style.name)
+      await buildFabricatorIconsCopy(style.name)
       console.log(`   ✅ ${style.name}`)
     }
   )
@@ -1702,6 +1710,36 @@ async function buildRegistryJsonFile(styleName: string) {
   await fs.writeFile(tempRegistryPath, fixedRegistryJson)
 }
 
+// A second copy of a Fabricator style's registry, for projects on Fabricator's
+// icons (registry/fabricator/fabricator-icons.ts). Every item is copied, icons or
+// not, so serving it never depends on a rewrite falling through to the first.
+async function buildFabricatorIconsCopy(styleName: string) {
+  if (!isFabricatorStyleName(styleName)) return
+  const from = path.join(process.cwd(), getRegistryOutputPath(styleName))
+  const to = path.join(
+    process.cwd(),
+    "public/r/styles/icons-fabricator",
+    styleName.replace(/-fabricator$/, "")
+  )
+  await rimraf(to)
+  await fs.mkdir(to, { recursive: true })
+  const files = (await fs.readdir(from)).filter((file) =>
+    file.endsWith(".json")
+  )
+  await runWithConcurrency(files, FILE_BUILD_CONCURRENCY, async (file) => {
+    const document = JSON.parse(
+      await fs.readFile(path.join(from, file), "utf8")
+    )
+    const copy = await toFabricatorIconsDocument(document, (code, source) =>
+      applyIconTransform(code, `${styleName}/${file}/${source}`)
+    )
+    await fs.writeFile(
+      path.join(to, file),
+      `${JSON.stringify(copy, null, 2)}\n`
+    )
+  })
+}
+
 // Point docs/examples links at the site being built (production links are
 // authored in source) and, for Fabricator styles, namespace
 // registryDependencies so they resolve against @fabricator instead of the
@@ -1885,10 +1923,10 @@ async function buildConfig() {
   )
 }
 
-// The site's Fabricator previews (compiled UI and demo copies) import Lucide
-// icons from "@/lib/site-icons", which follows the icon pack picked in the site
-// settings (see scripts/build-icons.ts). Registry JSON keeps "lucide-react", and
-// lib/format-code.ts maps the import back when the docs show the code.
+// The site's Fabricator previews (compiled UI and demo copies) import icons from
+// "@/lib/site-icons", which follows the icon pack picked in the site settings
+// (see scripts/build-icons.ts). Registry JSON keeps "lucide-react" in its first
+// copy, and lib/format-code.ts maps the import when the docs show the code.
 function rewriteLucideToSiteIcons(content: string) {
   return content.replace(
     /(\bfrom\s*)(["'])lucide-react\2/g,

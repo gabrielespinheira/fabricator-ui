@@ -1,0 +1,22 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "danielbayley",
+    "jguddas"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:copy",
+    "$group:off",
+    "no",
+    "stop",
+    "error",
+    "divide",
+    "division",
+    "split",
+    "or"
+  ],
+  "categories": [
+    "$extends:copy"
+  ]
+}

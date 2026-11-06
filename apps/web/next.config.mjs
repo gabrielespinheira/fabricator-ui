@@ -39,6 +39,7 @@ if (process.env.NODE_ENV === "development") {
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  transpilePackages: ["@fabricator-ui/setup"],
   devIndicators: false,
   typescript: {
     ignoreBuildErrors: true,
@@ -63,6 +64,7 @@ const nextConfig = {
     // @tabler/icons-react, date-fns and lodash-es by default; these are the
     // heavy icon packages this app uses that are NOT on that default list.
     optimizePackageImports: [
+      "@fabricator-ui/icons",
       "@hugeicons/react",
       "@hugeicons/core-free-icons",
       "@phosphor-icons/react",
@@ -358,8 +360,25 @@ const nextConfig = {
         source: "/init.md",
         destination: "/init/md",
       },
+      // The React Native registry: one source, whatever the project's style id.
+      {
+        source: "/r/fabricator/native/:name",
+        destination: "/r/native/:name",
+      },
       // Registry. Serves the Fabricator style compiled for
       // the base in the project's style id (e.g. base-nova -> base-fabricator).
+      // Fabricator's icons, the default: `/init` writes this param into the
+      // project's registry entry. See registry/fabricator/fabricator-icons.ts.
+      {
+        source: "/r/fabricator/:base(base|radix|aria)-:style/:name",
+        has: [{ type: "query", key: "icons", value: "fabricator" }],
+        destination: "/r/styles/icons-fabricator/:base/:name",
+      },
+      {
+        source: "/r/fabricator/:style(new-york|new-york-v4|default)/:name",
+        has: [{ type: "query", key: "icons", value: "fabricator" }],
+        destination: "/r/styles/icons-fabricator/radix/:name",
+      },
       {
         source: "/r/fabricator/:base(base|radix|aria)-:style/:name",
         destination: "/r/styles/:base-fabricator/:name",

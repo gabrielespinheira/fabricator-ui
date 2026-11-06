@@ -1,0 +1,24 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "mittalyashu",
+    "ericfennis",
+    "karsa-mistmere",
+    "jguddas"
+  ],
+  "use-cases": [
+    "Indicating that scheduled alarms are disabled",
+    "Toggling alarm notifications off in clock settings"
+  ],
+  "tags": [
+    "$extends:alarm-clock",
+    "$group:off",
+    "silent",
+    "silence",
+    "disarmed",
+    "muted"
+  ],
+  "categories": [
+    "$extends:alarm-clock"
+  ]
+}

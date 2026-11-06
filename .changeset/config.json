@@ -2,10 +2,10 @@
   "$schema": "https://unpkg.com/@changesets/config@3.1.1/schema.json",
   "changelog": ["@changesets/changelog-github", { "repo": "gabrielespinheira/fabricator-ui" }],
   "commit": false,
-  "fixed": [],
+  "fixed": [["@fabricator-ui/icons", "@fabricator-ui/icons-react-native", "@fabricator-ui/icons-static"]],
   "linked": [],
   "access": "public",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
-  "ignore": ["web", "@fabricator-ui/tests"]
+  "ignore": ["web", "@fabricator-ui/tests", "@fabricator-ui/icons-core"]
 }

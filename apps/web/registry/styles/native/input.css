@@ -1,0 +1,19 @@
+/* MARK: Input */
+
+  /* A hairline frame, transparent at rest, lifted to the card surface on
+     focus. Invalid turns the frame red. It gives way in a row, as on the website,
+     and never below its height. */
+  .cn-input {
+    @apply shrink min-h-(--density-36) font-sans text-foreground border-border data-[invalid=true]:border-destructive/50 h-(--density-36) rounded-lg border bg-transparent px-(--density-10) py-1 text-(length:--density-text-13);
+  }
+
+  /* The frame's colours at rest and in focus: it eases between them on the feedback
+     timing, in the source. The rest fill is the card's colour at no opacity, so the
+     lift doesn't pass through grey. */
+  .cn-input-rest {
+    @apply border-border bg-card/0;
+  }
+
+  .cn-input-focus {
+    @apply border-foreground/25 bg-card;
+  }

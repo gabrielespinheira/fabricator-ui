@@ -1,0 +1,25 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "colebemis",
+    "ericfennis"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$group:x",
+    "math",
+    "multiply",
+    "multiplication"
+  ],
+  "categories": [
+    "math",
+    "notifications"
+  ],
+  "aliases": [
+    {
+      "name": "x-square",
+      "deprecationReason": "alias.name",
+      "deprecated": true
+    }
+  ]
+}

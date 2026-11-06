@@ -1,0 +1,120 @@
+---
+title: Progress
+description: Displays an indicator showing the completion progress of a task, typically displayed as a progress bar.
+base: native
+component: true
+---
+
+<NativePreview src="/images/native/progress.jpg" alt="Progress on iOS" />
+
+## Installation
+
+```bash
+npx fabricator-ui@latest add progress
+```
+
+## Usage
+
+```tsx
+import { Button } from "@/components/ui/button"
+import {
+  Progress,
+  ProgressLabel,
+  ProgressValue,
+} from "@/components/ui/progress"
+```
+
+```tsx
+<Progress value={0} accessibilityLabel="Not started" />
+<Progress value={56} accessibilityLabel="Uploading" />
+<Progress value={100} accessibilityLabel="Done" />
+```
+
+## Composition
+
+- `Progress`
+- `ProgressIndicator`
+- `ProgressLabel`
+- `ProgressTrack`
+- `ProgressValue`
+
+## Examples
+
+```tsx showLineNumbers title="progress-example.tsx"
+import * as React from "react"
+
+import { Button } from "@/components/ui/button"
+import {
+  Progress,
+  ProgressLabel,
+  ProgressValue,
+} from "@/components/ui/progress"
+
+function ProgressExample() {
+  const [value, setValue] = React.useState(40)
+  return (
+    <ExampleWrapper fit>
+      <Example title="Values" className="items-stretch">
+        <Progress value={0} accessibilityLabel="Not started" />
+        <Progress value={56} accessibilityLabel="Uploading" />
+        <Progress value={100} accessibilityLabel="Done" />
+      </Example>
+      <Example title="Label and value" className="items-stretch">
+        <Progress value={56}>
+          <ProgressLabel>Upload progress</ProgressLabel>
+          <ProgressValue />
+        </Progress>
+      </Example>
+      <Example title="Custom range and format" className="items-stretch">
+        <Progress
+          value={3}
+          min={0}
+          max={5}
+          format={{ style: "decimal" }}
+          getAriaValueText={(formatted) => `Step ${formatted} of 5`}
+        >
+          <ProgressLabel>Step</ProgressLabel>
+          <ProgressValue>{(formatted) => `${formatted} of 5`}</ProgressValue>
+        </Progress>
+      </Example>
+      <Example title="Indeterminate" className="items-stretch">
+        <Progress value={null}>
+          <ProgressLabel>Waiting for the server</ProgressLabel>
+          <ProgressValue />
+        </Progress>
+      </Example>
+      <Example
+        title="Controlled, moving on the move timing"
+        className="items-stretch"
+      >
+        <Progress value={value} accessibilityLabel="Controlled">
+          <ProgressValue />
+        </Progress>
+        <Button
+          size="sm"
+          variant="outline"
+          onPress={() => setValue(value >= 100 ? 0 : value + 20)}
+        >
+          Add 20
+        </Button>
+      </Example>
+    </ExampleWrapper>
+  )
+}
+
+export { ProgressExample }
+```
+
+## API reference
+
+
+
+Props it adds to what it wraps: `format`, `getAriaValueText`, `locale`, `max`, `min`, `value`.
+
+## Differences from web
+
+**Same.** It works as it does on the web, with `onPress` for `onClick`.
+
+## Accessibility
+
+Parts set `role="progressbar"`, read by VoiceOver and TalkBack. Give a control with no text an `accessibilityLabel`.

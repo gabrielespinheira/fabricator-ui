@@ -1,0 +1,14 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "DefaultLP"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:captions",
+    "$group:off"
+  ],
+  "categories": [
+    "$extends:captions"
+  ]
+}

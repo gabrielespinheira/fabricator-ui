@@ -1,0 +1,15 @@
+{
+  "title": "Resend",
+  "group": "Product & dev",
+  "tags": [
+    "email",
+    "transactional",
+    "smtp"
+  ],
+  "aliases": [],
+  "hex": "#000000",
+  "scale": 0.851,
+  "source": "Simple Icons 16.36.0 (https://resend.com/brand)",
+  "license": "CC0-1.0",
+  "guidelines": "https://resend.com/brand"
+}

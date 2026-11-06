@@ -1,0 +1,17 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "csandman",
+    "ericfennis",
+    "johnletey"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:screen-share",
+    "$group:off",
+    "disconnect"
+  ],
+  "categories": [
+    "$extends:screen-share"
+  ]
+}

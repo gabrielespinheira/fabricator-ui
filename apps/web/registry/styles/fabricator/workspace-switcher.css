@@ -1,0 +1,64 @@
+/* MARK: Workspace Switcher */
+
+  /* The mark (data-workspace-switcher="mark") is the logo alone as a 36px
+     button. */
+  .cn-workspace-switcher-trigger {
+    @apply data-popup-open:bg-hover data-popup-open:text-foreground data-open:bg-hover data-open:text-foreground data-[workspace-switcher=mark]:flex data-[workspace-switcher=mark]:size-(--density-36) data-[workspace-switcher=mark]:shrink-0 data-[workspace-switcher=mark]:cursor-pointer data-[workspace-switcher=mark]:items-center data-[workspace-switcher=mark]:justify-center data-[workspace-switcher=mark]:rounded-lg data-[workspace-switcher=mark]:ring-ring data-[workspace-switcher=mark]:outline-none data-[workspace-switcher=mark]:transition-colors data-[workspace-switcher=mark]:duration-feedback data-[workspace-switcher=mark]:ease-feedback data-[workspace-switcher=mark]:hover:bg-hover data-[workspace-switcher=mark]:focus-visible:ring-1;
+  }
+
+  /* The logo: a 32px rounded square in the primary colour, or the image. */
+  .cn-workspace-switcher-logo {
+    @apply size-(--density-32) rounded-lg bg-primary text-(length:--density-text-13) weight-semibold text-primary-foreground [&_img]:size-full [&_img]:object-cover [&_svg]:size-(--density-icon-16);
+  }
+
+  .cn-workspace-switcher-logo-sm {
+    @apply size-(--density-24) rounded-md text-(length:--density-text-11) [&_svg]:size-(--density-icon-14);
+  }
+
+  .cn-workspace-switcher-text {
+    @apply leading-tight;
+  }
+
+  .cn-workspace-switcher-name {
+    @apply text-(length:--density-text-13) weight-semibold text-foreground;
+  }
+
+  .cn-workspace-switcher-description {
+    @apply text-(length:--density-text-12) text-muted-foreground;
+  }
+
+  /* On the axis of the rows' actions and badges. */
+  .cn-workspace-switcher-chevron {
+    @apply me-[calc((var(--density-20)-var(--density-icon-16))/2)] size-(--density-icon-16) text-muted-foreground;
+  }
+
+  .cn-workspace-switcher-check {
+    @apply size-(--density-icon-16) text-foreground;
+  }
+
+  .cn-workspace-switcher-menu {
+    @apply min-w-56;
+  }
+
+  /* Two-line rows: the name over its description. */
+  .cn-workspace-switcher-item {
+    @apply h-auto gap-(--density-8) py-(--density-6);
+  }
+
+  /* A shortcut inside an inverted tooltip. */
+  .cn-workspace-switcher-shortcut {
+    @apply ms-(--density-6) text-background/70;
+  }
+
+  /* While the app opens the workspace: the page dims behind its logo. */
+  .cn-workspace-switcher-overlay {
+    @apply gap-(--density-16) bg-background/80 backdrop-blur-sm animate-in fade-in duration-move ease-enter;
+  }
+
+  .cn-workspace-switcher-overlay-logo {
+    @apply size-(--density-48) rounded-xl text-(length:--density-text-16);
+  }
+
+  .cn-workspace-switcher-overlay-text {
+    @apply flex items-center gap-(--density-8) text-(length:--density-text-13) text-muted-foreground;
+  }

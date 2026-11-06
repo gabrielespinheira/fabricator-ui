@@ -6,11 +6,17 @@
   "type": "module",
   "packageManager": "bun@1.4.0",
   "workspaces": [
-    "apps/*",
+    "apps/desktop",
+    "apps/web",
     "packages/*"
   ],
   "scripts": {
     "dev": "turbo run dev --filter=web",
+    "desktop": "bun run --cwd apps/desktop electron",
+    "desktop:tauri": "bun run --cwd apps/desktop tauri",
+    "mobile": "bun install --cwd apps/mobile && bun run --cwd apps/mobile ios",
+    "mobile:ipad": "bun install --cwd apps/mobile && bun run --cwd apps/mobile ipad",
+    "mobile:android": "bun install --cwd apps/mobile && bun run --cwd apps/mobile android",
     "build": "turbo run build",
     "registry:build": "bun run --filter web registry:build",
     "cli": "bun ./packages/cli/src/index.ts",
@@ -28,7 +34,14 @@
     "release": "changeset version",
     "release:publish": "./scripts/publish.sh",
     "deploy": "./scripts/deploy.sh",
-    "rebrand": "bun ./scripts/rebrand.ts"
+    "rebrand": "bun ./scripts/rebrand.ts",
+    "icons:sync": "bun ./packages/icons-core/scripts/sync-lucide.ts",
+    "icons:animated": "bun ./packages/icons-core/scripts/sync-animated.ts",
+    "icons:audit": "bun run --cwd packages/icons audit:animated",
+    "release:icons": "./scripts/publish-icons.sh",
+    "icons:brands": "bun ./packages/icons-core/scripts/import-brands.ts",
+    "icons:check": "bun ./packages/icons-core/scripts/check.ts",
+    "icons:sheet": "bun ./packages/icons-core/scripts/sheet.ts"
   },
   "devDependencies": {
     "@changesets/changelog-github": "^1.0.1",

@@ -1,0 +1,15 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "xnousnow",
+    "ericfennis",
+    "jguddas"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:clipboard"
+  ],
+  "categories": [
+    "$extends:clipboard"
+  ]
+}

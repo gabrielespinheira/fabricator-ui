@@ -1,0 +1,33 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "danielbayley"
+  ],
+  "use-cases": [],
+  "tags": [
+    "signal",
+    "connection",
+    "connectivity",
+    "tv",
+    "television",
+    "broadcast",
+    "live",
+    "frequency",
+    "tune",
+    "scan",
+    "channels",
+    "aerial",
+    "receiver",
+    "transmission",
+    "transducer",
+    "terrestrial",
+    "satellite",
+    "cable"
+  ],
+  "categories": [
+    "devices",
+    "multimedia",
+    "communication",
+    "connectivity"
+  ]
+}

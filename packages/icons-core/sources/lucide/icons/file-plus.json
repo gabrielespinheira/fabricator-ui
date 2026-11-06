@@ -1,0 +1,20 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "colebemis",
+    "ericfennis",
+    "danielbayley"
+  ],
+  "use-cases": [
+    "Creating a new document in a text editor",
+    "Adding a file to a project or workspace",
+    "Starting file creation in a file manager"
+  ],
+  "tags": [
+    "$extends:file",
+    "$group:plus"
+  ],
+  "categories": [
+    "$extends:file"
+  ]
+}

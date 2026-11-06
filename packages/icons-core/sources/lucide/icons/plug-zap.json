@@ -1,0 +1,29 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "mittalyashu",
+    "ericfennis",
+    "jguddas",
+    "danielbayley",
+    "karsa-mistmere"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:plug",
+    "$extends:zap",
+    "charge",
+    "charging",
+    "battery",
+    "connect"
+  ],
+  "categories": [
+    "devices"
+  ],
+  "aliases": [
+    {
+      "name": "plug-zap-2",
+      "deprecationReason": "alias.name",
+      "deprecated": true
+    }
+  ]
+}

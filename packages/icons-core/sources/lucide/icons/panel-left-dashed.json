@@ -1,0 +1,30 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "danielbayley",
+    "ericfennis",
+    "irvineacosta"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:panel-left",
+    "sidebar",
+    "show",
+    "reveal",
+    "padding",
+    "margin",
+    "guide",
+    "layout",
+    "bleed"
+  ],
+  "categories": [
+    "$extends:panel-left"
+  ],
+  "aliases": [
+    {
+      "name": "panel-left-inactive",
+      "deprecationReason": "alias.name",
+      "deprecated": true
+    }
+  ]
+}

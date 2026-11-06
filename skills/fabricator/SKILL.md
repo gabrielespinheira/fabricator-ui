@@ -11,6 +11,8 @@ Fabricator UI is a React component library added to a project as source code. Th
 
 **Runner:** run the CLI with the runner that matches the project's lockfile: `npx fabricator-ui@latest`, `pnpm dlx fabricator-ui@latest`, `yarn dlx fabricator-ui@latest` or `bunx --bun fabricator-ui@latest`. Examples here use `npx`.
 
+**React Native:** in an Expo or React Native project the same commands install native versions under the same names. Read [rules/react-native.md](rules/react-native.md) first: web patterns like `onClick`, `<div>` and `hover:` don't apply there.
+
 ## Workflow
 
 1. **Read the project context.** Run `npx fabricator-ui@latest info --json` in the project root before any other step, and keep its output as the project context for the whole task. Done when you know `config.base`, `config.iconLibrary`, `config.aliases`, `project.rsc`, `project.tailwindCss` and the installed `components` (see [Project context](#project-context)). If the command reports no `components.json`, the project is not set up: offer `npx fabricator-ui@latest init`.
@@ -18,7 +20,7 @@ Fabricator UI is a React component library added to a project as source code. Th
 3. **Find the item.** `npx fabricator-ui@latest search <query>` searches `@fabricator`. Bare names mean `@fabricator`. When `search` finds nothing, ask the user which registry to use (`@acme`, `owner/repo`, a URL); the user picks third-party registries.
 4. **Read the docs.** Run `npx fabricator-ui@latest docs <component...>` and fetch the URLs it prints (append `.md` to any docs page for markdown). Done when you have read the API and examples for every component you will write or change, for the project's base. This matters most for `aria` projects, whose APIs follow React Aria Components.
 5. **Install.** `npx fabricator-ui@latest add <name...>`. For components already installed, follow [Updating components](#updating-components).
-6. **Review what was added.** Read every file the CLI wrote. Done when each one passes the [Critical rules](#critical-rules), imports use `config.aliases`, and icon imports match `config.iconLibrary`. Files from third-party registries may hardcode `@/components/ui/...` or another icon library; rewrite them to the project's aliases and icons.
+6. **Review what was added.** Read every file the CLI wrote. Done when each one passes the [Critical rules](#critical-rules), imports use `config.aliases`, and icon imports match the project's icon package. Files from third-party registries may hardcode `@/components/ui/...` or another icon library; rewrite them to the project's aliases and icons.
 7. **Write the UI** by composing installed components under the [Critical rules](#critical-rules). Done when every rule file linked from a rule you touched has been applied to the code you wrote.
 
 When something is off (imports fail, styles missing, wrong look), run `npx fabricator-ui@latest doctor`. It checks `components.json`, the style id, the `@fabricator` registry, Tailwind v4, React 19, the `shadcn/tailwind.css` import and `cn`, and prints a fix for each failure.
@@ -28,7 +30,7 @@ When something is off (imports fail, styles missing, wrong look), run `npx fabri
 Fields of `info --json` that decide how you write code:
 
 - **`config.base`**: `base` (Base UI), `radix` or `aria` (React Aria Components). Sets component APIs and trigger composition ([base-vs-radix.md](./rules/base-vs-radix.md)).
-- **`config.iconLibrary`**: the icon package to import from: `lucide` → `lucide-react`, `tabler` → `@tabler/icons-react`, and so on ([icons.md](./rules/icons.md)).
+- **`config.iconLibrary`** and **`config.registries["@fabricator"].params.icons`**: the icon package to import from. With `params.icons: "fabricator"` (new projects) it's `@fabricator-ui/icons`, whatever `iconLibrary` says. Otherwise `lucide` → `lucide-react`, `tabler` → `@tabler/icons-react`, and so on ([icons.md](./rules/icons.md)).
 - **`config.aliases`**: the import prefixes (`@/`, `~/`, `@workspace/ui/components`). Write imports with these.
 - **`config.resolvedPaths`**: the file-system destinations for components, utils and hooks.
 - **`config.style`**: `<base>-<style>`, for example `base-nova`. Leave it as it is (see [CLI and config](#cli-and-config)).
@@ -77,6 +79,8 @@ Each group links to a file with Incorrect/Correct pairs. Read the file before wr
 
 - **Icons in buttons take `data-icon="inline-start"` or `"inline-end"`.** Components size their icons, so icons carry no `size-*`/`w-*`/`h-*` classes.
 - **Pass icons as components** (`icon={CheckIcon}`), not string keys.
+- **Brand logos come from `@fabricator-ui/icons/brands`** (`<GithubIcon />`, `color="brand"` for brand colours). Never hand-draw a logo.
+- **Icon names stored in data render with `DynamicIcon`** from `@fabricator-ui/icons/dynamic`.
 
 ### Chat → [chat.md](./rules/chat.md)
 

@@ -1,0 +1,489 @@
+---
+title: App Shell
+description: The frame an app lives in. A sidebar, a main column with a header, panels that dock or float, one shortcut registry, and the native window of desktop apps.
+base: aria
+component: true
+---
+
+<ComponentPreview styleName="aria-nova" name="app-shell-demo" type="frame" />
+
+App Shell puts the parts of an app's frame together: the [Sidebar](/docs/components/aria/sidebar) on one side, a main column with a header, breadcrumb, content and status bar, and side panels. It adapts to the room it has, so the same shell works in a browser, on a phone, and inside an Electron or Tauri window.
+
+Its layout follows its own width, not the viewport's. A shell in a split desktop window or a docs preview behaves like one in a full browser window of the same size.
+
+The behaviour (navigation matching, tab state, panel placement, shortcuts, resizing, breadcrumbs) lives in `lib/app-shell-model.ts`. That file has no DOM or React imports, so a React Native app can share it.
+
+Try every option on one screen in the [App Shell playground](/app-shell).
+
+App Shell is part of the Fabricator style. [App Nav](/docs/components/aria/app-nav), [Tab Strip](/docs/components/aria/tab-strip), [Workspace Switcher](/docs/components/aria/workspace-switcher) and [User Menu](/docs/components/aria/user-menu) fill it.
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">Command</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx fabricator-ui@latest add app-shell
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps className="mb-0 pt-2">
+
+<Step>
+  Install the [Sidebar](/docs/components/aria/sidebar) and the components App
+  Shell uses: Breadcrumb, Button, Drawer, Dropdown Menu, Kbd, Sheet, Tabs and
+  Tooltip.
+</Step>
+
+<Step>Copy the model into your project.</Step>
+
+<ComponentSource
+  src="styles/aria-fabricator/lib/app-shell-model.ts"
+  title="lib/app-shell-model.ts"
+  styleName="aria-nova"
+/>
+
+<Step>Copy App Shell into your project.</Step>
+
+<ComponentSource
+  src="styles/aria-fabricator/ui/app-shell.tsx"
+  title="components/ui/app-shell.tsx"
+  styleName="aria-nova"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+To start from a shell with your options already set, pick them on [the App Shell page](/app-shell) and copy its command. It installs the parts and writes `components/app-shell-layout.tsx`, which is yours to edit:
+
+```bash
+npx fabricator-ui@latest add app-shell "https://fabricator-ui.vercel.app/init/app-shell?variant=floating&tabs=main"
+```
+
+## Usage
+
+```tsx
+import {
+  AppShell,
+  AppShellBreadcrumb,
+  AppShellContent,
+  AppShellHeader,
+  AppShellMain,
+  AppShellPanel,
+  AppShellPanelHeader,
+  AppShellPanelTabs,
+  AppShellPanelTrigger,
+  AppShellPanelView,
+} from "@/components/ui/app-shell"
+import { Sidebar, SidebarContent } from "@/components/ui/sidebar"
+```
+
+```tsx
+<AppShell storageKey="acme">
+  <Sidebar variant="inset">
+    <SidebarContent>{/* App Nav */}</SidebarContent>
+  </Sidebar>
+  <AppShellMain>
+    <AppShellHeader>
+      <AppShellBreadcrumb
+        items={[
+          { label: "Projects", href: "/projects" },
+          { label: "Q4 launch" },
+        ]}
+      />
+      <AppShellPanelTrigger panel="inspector" />
+    </AppShellHeader>
+    <AppShellContent>{children}</AppShellContent>
+  </AppShellMain>
+  <AppShellPanel
+    id="inspector"
+    label="Inspector"
+    views={[{ value: "details", label: "Details" }]}
+  >
+    <AppShellPanelHeader>
+      <AppShellPanelTabs />
+    </AppShellPanelHeader>
+    <AppShellPanelView value="details">…</AppShellPanelView>
+  </AppShellPanel>
+</AppShell>
+```
+
+## Composition
+
+```text
+AppShell                      SidebarProvider + the shell: layout, panels, shortcuts, window
+├── Sidebar                   WorkspaceSwitcher, AppNav, UserMenu go inside
+├── AppShellMain              the main column (SidebarInset)
+│   ├── TabStrip              optional: document tabs above the header
+│   ├── AppShellHeader        sidebar trigger, breadcrumb, actions
+│   │   ├── AppShellBreadcrumb
+│   │   ├── AppShellHeaderActions
+│   │   └── AppShellPanelTrigger
+│   ├── AppShellContent       the only scroller; holds AppShellPageTitle
+│   └── AppShellBottomNav     optional: a tab bar on phones
+├── AppShellPanel             a side column; several are allowed
+│   ├── AppShellPanelHeader   AppShellPanelTabs, AppShellPanelTitle, AppShellPanelClose
+│   └── AppShellPanelView     one per view (or AppShellPanelContent without views)
+└── AppShellStatusBar         optional: a row on the frame under the main column and the panels
+```
+
+`AppShell` takes the Sidebar's provider props (`defaultOpen`, `open`, `onOpenChange`, `persist`, `shortcut`, `peek`, `widthMobile`, `mobileSidebar`) and passes them on. The Sidebar keeps its own API and still works without a shell.
+
+## Examples
+
+### Workbench
+
+A tab strip above the content, a panel whose views are picked from triggers in the tab row (as an editor's activity bar does), and a status bar. The sidebar starts collapsed and peeks on hover. Press <Kbd>⌘\\</Kbd> to toggle the panel, or <Kbd>⇧⌘E</Kbd>, <Kbd>⇧⌘F</Kbd> and <Kbd>⇧⌘G</Kbd> to show its views.
+
+<ComponentPreview
+  styleName="aria-nova"
+  name="app-shell-workbench"
+  type="frame"
+/>
+
+### Desktop app
+
+An Electron or Tauri window laid out like a native macOS app: the sidebar toggle beside the traffic lights, tabs in the main card's top row, and the window's material showing through the sidebar. On Windows and Linux the window buttons get a titlebar row of their own, and in fullscreen both the insets and that row go away. The preview draws the native controls and the material; in a real window they are the system's.
+
+<ComponentPreview styleName="aria-nova" name="app-shell-desktop" type="frame" />
+
+## Layout
+
+The shell measures itself and places each part by the room it has. Before JavaScript runs, the same thresholds apply through container queries, so the first paint is already right.
+
+| Shell width  | Sidebar                                         | Panels                                                              | Header                                                              |
+| ------------ | ----------------------------------------------- | ------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| under 768px  | behind the page (below a 768px viewport)        | a bottom drawer, the whole screen, or hidden                        | the current page only, actions in a menu, a floating primary action |
+| 768px and up | expanded, an icon rail, or off-canvas with peek | docked while the main column keeps 520px, otherwise a sheet over it | full breadcrumb and actions                                         |
+
+On phones the sidebar sits behind the page: opening it moves the page aside and shrinks it, with the rest of the page still in view beside the sidebar. Press the page or drag it back to close. `mobileSidebar="sheet"` slides the sidebar over the page instead.
+
+Change where panels dock or float with `breakpoints` and the main column's minimum with `minMainWidth`; both also set `data-size` on the shell. The header's phone layout (the current page only, actions in a menu) follows a 48rem container query.
+
+## Surfaces
+
+The app's content sits on the page's own surface: the main column and the side panels are `surface-1`, the lowest step, on web, phones and desktop alike. The frame and the sidebar sit just below them, so the cards read apart from it; in a translucent desktop window the frame is the native material instead. With the floating sidebar, the sidebar is the one card: the space around it, the status bar and a titlebar take the main column's colour, and in a translucent window the card itself shows the material. With the inset sidebar, the main column and the panels are cards 8px from the window's edges with one edge: a light hairline in dark mode.
+
+| Region                    | Token                     | Default                                                |
+| ------------------------- | ------------------------- | ------------------------------------------------------ |
+| The frame and the sidebar | `--app-shell-frame`       | `surface-1` darkened (4% light, 22% dark)              |
+| The main column           | `--app-shell-main`        | `surface-1`                                            |
+| Side panels               | `--app-shell-panel`       | the main column's                                      |
+| The cards' edge           | `--app-shell-card-shadow` | `shadow-surface-2` (light), a 6% white hairline (dark) |
+
+Inside the main column and the panels, `--background` is their surface, so anything that paints `bg-background` matches the plane it sits on. In light mode, muted text on the frame darkens a step to keep 4.5:1. Set the tokens on the shell to change any of it, with a colour, a surface or a shadow (never `--background`, which points back at them):
+
+```tsx
+<AppShell
+  style={
+    {
+      "--app-shell-frame": "var(--surface-1)",
+      "--app-shell-main": "var(--surface-3)",
+    } as React.CSSProperties
+  }
+>
+```
+
+## Content width
+
+`size` on `AppShellContent` centres the page in a column and gives it the page's padding, and the scrollbar stays at the edge of the main column. Set it per page, or from a setting your app offers.
+
+```tsx
+<AppShellContent size="md">
+  <AppShellPageTitle>Q4 launch</AppShellPageTitle>
+</AppShellContent>
+```
+
+| `size`       | Width  | For                                  |
+| ------------ | ------ | ------------------------------------ |
+| `sm`         | 672px  | Forms, settings, single-column flows |
+| `md`         | 896px  | Most pages                           |
+| `lg`         | 1152px | Dense pages and dashboards           |
+| _(left out)_ | Full   | Tables, boards, editors, chat        |
+
+For another width, set `--app-shell-content-width` on it along with a `size`. On a width narrower than the column, the page fills it.
+
+## Panels
+
+`AppShellPanel` is a side column with its own state. Give it an `id`, a `label` and, optionally, `views`.
+
+- **Placement.** It docks beside the main column while there is room, and floats as a sheet when there isn't. On phones, `mobile` picks a bottom `drawer` (the default), `swap` (the panel becomes the screen, for list and detail layouts) or `none`.
+- **Views.** `AppShellPanelTabs` renders the `views` as tabs; each `AppShellPanelView` shows one. Below a 360px panel the tabs show their icons only.
+- **Triggers.** `AppShellPanelTrigger panel="inspector"` toggles it. Put it last in the main column's top row, the header or a tab row above it, so it lines up with the panel's header: it stays in the same spot on screen to open and close a docked right panel, sitting over the end of the panel's header while it's open, and `AppShellPanelClose` steps aside in its favour. Sheets and the whole-screen panel keep their close button, in that same spot. With `view`, the trigger shows that view, and pressing it again while that view shows closes the panel, as an editor's activity bar does.
+- **Resize.** Drag the panel's inner edge, or focus it and use the arrow keys (<Kbd>Shift</Kbd> for bigger steps), <Kbd>Home</Kbd> and <Kbd>End</Kbd>. Double-click resets the width. Dragging well past the minimum closes the panel.
+- **Shortcuts.** A right panel toggles with <Kbd>⌘\\</Kbd> (<Kbd>Ctrl+\\</Kbd> outside Apple platforms), also while typing in a field. `shortcut` changes it, and `shortcut={null}` turns it off; give each panel its own if two sit on the right. Each view's `shortcut` shows it.
+- **State.** Open, view and width are saved. A floating panel starts closed and its open state isn't saved, so opening it on a phone never changes the docked preference.
+
+Control a panel from anywhere in the shell with `useShellPanel(id)`:
+
+```tsx
+const inspector = useShellPanel("inspector")
+
+inspector.toggle()
+inspector.select("activity") // shows it, or closes the panel if it is already showing
+inspector.reveal("activity") // shows it, never closes
+```
+
+## Status bar
+
+`AppShellStatusBar` goes in `AppShell`, after the main column and the panels. It is a 36px row on the frame, below the main column and the panels and beside the sidebar, so it sits on the glass in a translucent desktop window. The main column and the panels end above it, and its start follows the sidebar as it collapses. Fill it with ghost `size="sm"` buttons for things people act on (a branch, a sync) and plain text for the rest; push a group to the end with `ms-auto`. Phones hide it.
+
+```tsx
+<AppShellStatusBar>
+  <Button variant="ghost" size="sm" aria-label="Branch: main">
+    <GitBranchIcon data-icon="inline-start" />
+    main
+  </Button>
+  <span className="ms-auto">4 open</span>
+</AppShellStatusBar>
+```
+
+## Header and breadcrumb
+
+- `AppShellHeader` shows the sidebar trigger while the sidebar is collapsed or on a phone (`trigger="always"` or `"never"` to choose), and draws a hairline once the content scrolls.
+- `AppShellBreadcrumb` takes `items`, the current page last. Past `maxItems` (4) the middle folds into a menu. On phones only the current page shows, and it opens a menu of its parents.
+- Put the page's heading in `AppShellPageTitle`. When it scrolls out of view, the header shows it in the breadcrumb's place.
+- `AppShellHeaderActions` describes actions once: buttons from tablets up, one menu on phones, where `primaryAction` becomes a floating button.
+- Pass `renderLink` to use your router's link: it returns the link element, without children.
+
+```tsx
+<AppShellBreadcrumb
+  items={crumbs}
+  renderLink={(item) => <Link href={item.href ?? "/"} />}
+/>
+```
+
+`getBreadcrumbsFromPath(pathname, { labels, rootLabel, skip })` in the model derives crumbs from the path for pages that pass none.
+
+## Shortcuts
+
+The shell has one keyboard listener. Parts register their shortcuts with it, and so can you:
+
+```tsx
+useShellShortcut({ id: "issues.new", keys: "c", label: "New issue" }, () =>
+  createIssue()
+)
+```
+
+- `mod` is <Kbd>⌘</Kbd> on Apple platforms and <Kbd>Ctrl</Kbd> elsewhere. Letters and named keys are matched by their physical position, so they survive keyboard layouts; symbols like <Kbd>\\</Kbd> by what they type, because layouts move them.
+- Shortcuts don't fire while typing in a field unless `allowInInputs` is set.
+- `webKeys` replaces `keys` in a browser, for keys the browser keeps (<Kbd>⌘T</Kbd>, <Kbd>⌘W</Kbd>, <Kbd>⌘1</Kbd>…<Kbd>⌘9</Kbd>). `webKeys: null` turns a shortcut off in a browser. On desktop (with the `window` prop) `keys` apply.
+- `useShellShortcuts()` lists every registered shortcut with its label, for a command palette, and `useShortcutLabel()` formats one for a tooltip.
+- `shortcutScope="focus"` answers keys only while focus is inside the shell, for a shell embedded in a page.
+- <Kbd>F6</Kbd> and <Kbd>⇧F6</Kbd> move focus between the sidebar, the tab
+  strip, the content and open panels.
+
+## Saving the layout
+
+The shell saves panel state and the sidebar's width under `app-shell.<storageKey>.layout`. By default it uses a cookie, so a server can render the saved layout on the first paint:
+
+```tsx title="app/(app)/layout.tsx"
+import { cookies } from "next/headers"
+
+import { readShellLayoutCookie } from "@/lib/app-shell-model"
+
+export default async function Layout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  const cookieStore = await cookies()
+  const layout = readShellLayoutCookie(
+    cookieStore.get("app-shell.acme.layout")?.value
+  )
+  const sidebarOpen = cookieStore.get("sidebar_state")?.value !== "false"
+
+  return (
+    <AppShell
+      storageKey="acme"
+      defaultLayout={layout}
+      defaultOpen={sidebarOpen}
+    >
+      {children}
+    </AppShell>
+  )
+}
+```
+
+Pass `storage={createLocalStorage()}` for apps without a server (Electron, Tauri, a Vite single-page app), your own `{ get, set }` adapter for anything else, or `null` to save nothing. Saved values are read leniently: anything malformed is dropped.
+
+## Desktop apps
+
+The `window` prop tells the shell where the native window controls are. The shell never imports Electron or Tauri: pass what your app's window was created with.
+
+```tsx
+<AppShell
+  window={{
+    controls: isMac ? "macos" : "overlay",
+    isFullscreen,
+    trafficLights: { x: 16, y: 23 },
+    isTranslucent: true,
+  }}
+  storage={createLocalStorage()}
+>
+```
+
+- **The sidebar toggle.** The shell puts it in the window's top band, after the traffic lights on macOS, and keeps it there while the sidebar collapses. The header's own toggle only shows on phones. With an `AppShellTitlebar` row, the toggle sits in that row, which is as tall as the lights need: 40px at `{ x: 16, y: 13 }`, 60px at `{ x: 16, y: 23 }`. Electron can move them while running (`setWindowButtonPosition`); Tauri sets them when it creates the window.
+- **Insets.** The sidebar's top band holds the lights and the toggle; its header starts below them. While the sidebar is collapsed, the first row of the main column starts after the toggle. On macOS the first rows of the main column and the panels centre on the lights: at `{ x: 16, y: 23 }` they are 44px tall in the inset cards. With the overlay, the shell adds an empty titlebar row unless you pass your own, as tall as the window buttons and clear of them, using the Window Controls Overlay's `env(titlebar-area-*)`. In fullscreen both insets and that row go away.
+- **Glass.** `isTranslucent` turns the frame and the sidebar transparent, so the window's material (macOS vibrancy, Windows Mica) shows through them; the main column and the panels stay opaque cards. Make the page transparent too (`html, body { background: transparent }`). On phone widths the frame keeps its surface.
+- **Drag regions.** The titlebar, the headers, the tab strip and the sidebar header move the window. Their buttons, links, fields and tabs stay clickable; mark anything else with `data-no-drag`. A collapsed off-canvas sidebar gives up its region, because Electron ignores opacity and clipping. Electron also lets a drag region later in the document cancel an earlier `no-drag`, so a control you float over a later region needs that spot given back after it; the pinned panel toggle has this built in, and so does anything portalled outside the shell, such as dialogs and menus.
+
+The inset sidebar with off-canvas collapse matches a macOS app best. With `collapsible="icon"`, the rail widens to keep the traffic lights on it.
+
+A project created with `--desktop` finds its window at runtime, so one layout serves a browser and a desktop app. `useDesktopWindow` comes with the `desktop-window` item, which reads Electron's preload bridge and Tauri's internals:
+
+```tsx
+const { shellWindow } = useDesktopWindow({ hasTitlebar: false })
+
+<AppShell window={shellWindow} storage={createLocalStorage()}>
+```
+
+**Electron.** Hide the title bar, keep the native controls, and put a material behind the page:
+
+```js title="main.js"
+new BrowserWindow({
+  titleBarStyle: "hiddenInset",
+  trafficLightPosition: { x: 16, y: 23 },
+  vibrancy: "sidebar",
+  visualEffectState: "followWindow",
+  backgroundColor: "#00000000",
+  ...(process.platform !== "darwin"
+    ? { titleBarOverlay: true, backgroundMaterial: "mica" }
+    : {}),
+})
+```
+
+The material follows the system's appearance; set `nativeTheme.themeSource` to your app's theme so a dark app gets the dark material.
+
+**Tauri.** Use the `Overlay` title bar style on macOS (`trafficLightPosition` needs it), and allow dragging in your capabilities with `core:window:allow-start-dragging`. For the glass, set `"transparent": true` and `"windowEffects": { "effects": ["sidebar"] }` (`["mica"]` on Windows) in the window config. Drag regions carry `data-tauri-drag-region`. Tauri applies it to the element itself and not to its children, so only the empty parts of a bar move the window.
+
+## React Native
+
+Native apps share the model, not the components. `lib/app-shell-model.ts` installs into an Expo project as it is, and holds:
+
+- navigation: `NavItem`, `NavGroup`, `getActiveNavItem`, `getNavPath` (breadcrumbs), `getMobileTabItems` (the phone's bottom tabs), and the preferences people change (`applyNavPreferences`, `setNavOpen`, `moveNavItem`, `setNavItemHidden`, `setNavItemPinned`)
+- tabs: `TabStripState` and its operations (`openTab`, `closeTabs`, `moveTab`, `togglePinnedTab`, `reopenClosedTab`…)
+- layout: `getShellSize` and `getPanelPlacement`
+- shortcuts: `parseShortcut`, `matchesShortcut`, `formatShortcut`, for hardware keyboards on iPad
+- breadcrumbs, resize math, and the `ShellStorage` port (pass MMKV or SecureStore)
+
+Use the same navigation config on web and native, so routes, icons and active-page matching are defined once. `NavItem` takes the icon type as a parameter, so native items carry `@fabricator-ui/icons-react-native` icons where the web's carry `@fabricator-ui/icons`.
+
+The repository's [`apps/mobile`](https://github.com/gabrielespinheira/fabricator-ui/tree/main/apps/mobile) is an Expo example built this way. On a phone it has a header, bottom tabs, the sidebar behind the page and the panel as a native sheet. On an iPad it docks the sidebar and the panel beside the page as cards on the frame, with a status bar. It draws the website's theme from the same sources (surfaces, colour roles, density, radius, motion), resolved for React Native by `getNativeTheme(mode, look)` in `registry/fabricator/native-theme.ts`. That file stays in the repository and isn't a registry item. Its Home and Settings pages offer the website's look settings and the App Shell options native views can honour, and a link such as `fabricator-ui://look?surface=220_0.035&shape=pill` applies a look, with the same params as the [setup page](/create).
+
+## API Reference
+
+### AppShell
+
+Also takes the Sidebar provider's props and the props of a `<div>`.
+
+| Prop            | Type                                  | Default                          |
+| --------------- | ------------------------------------- | -------------------------------- |
+| `storageKey`    | `string`                              | `"default"`                      |
+| `storage`       | `ShellStorage \| null`                | a cookie                         |
+| `defaultLayout` | `ShellLayoutState`                    | -                                |
+| `sidebarWidth`  | `string`                              | the Sidebar's (16rem)            |
+| `window`        | `AppShellWindow`                      | -                                |
+| `titlebar`      | `React.ReactNode`                     | -                                |
+| `breakpoints`   | `{ tablet: number; desktop: number }` | `{ tablet: 768, desktop: 1024 }` |
+| `minMainWidth`  | `number`                              | `520`                            |
+| `shortcutScope` | `"window" \| "focus"`                 | `"window"`                       |
+| `mobileSidebar` | `"reveal" \| "sheet"`                 | `"reveal"`                       |
+
+`AppShellWindow` is `{ controls: "none" | "macos" | "overlay"; isFullscreen?: boolean; trafficLights?: { x: number; y: number }; overlayWidth?: number; isTranslucent?: boolean }`.
+
+### AppShellPanel
+
+| Prop           | Type                                   | Default                              |
+| -------------- | -------------------------------------- | ------------------------------------ |
+| `id`           | `string`                               | -                                    |
+| `label`        | `string`                               | -                                    |
+| `side`         | `"left" \| "right"`                    | `"right"`                            |
+| `views`        | `{ value, label, icon?, shortcut? }[]` | `[]`                                 |
+| `defaultOpen`  | `boolean`                              | `false`                              |
+| `defaultView`  | `string`                               | first view                           |
+| `defaultWidth` | `number`                               | `320`                                |
+| `minWidth`     | `number`                               | `240`                                |
+| `maxWidth`     | `number`                               | `640`                                |
+| `mobile`       | `"drawer" \| "swap" \| "none"`         | `"drawer"`                           |
+| `shortcut`     | `string \| null`                       | `"mod+\\"` on the right, else `null` |
+
+### AppShellHeader
+
+| Prop      | Type                            | Default  |
+| --------- | ------------------------------- | -------- |
+| `trigger` | `"auto" \| "always" \| "never"` | `"auto"` |
+
+### AppShellBreadcrumb
+
+| Prop         | Type                            | Default  |
+| ------------ | ------------------------------- | -------- |
+| `items`      | `{ label, href?, onSelect? }[]` | -        |
+| `maxItems`   | `number`                        | `4`      |
+| `renderLink` | `(item) => React.ReactElement`  | an `<a>` |
+
+### AppShellHeaderActions
+
+| Prop            | Type                                                     | Default |
+| --------------- | -------------------------------------------------------- | ------- |
+| `actions`       | `{ id, label, icon?, onSelect, shortcut?, disabled? }[]` | `[]`    |
+| `primaryAction` | the same shape                                           | -       |
+
+### AppShellContent
+
+| Prop   | Type                   | Default        |
+| ------ | ---------------------- | -------------- |
+| `size` | `"sm" \| "md" \| "lg"` | - (full width) |
+
+### AppShellPanelTrigger
+
+| Prop    | Type     | Default |
+| ------- | -------- | ------- |
+| `panel` | `string` | -       |
+| `view`  | `string` | -       |
+
+### Hooks
+
+| Hook                             | Returns                                                                                |
+| -------------------------------- | -------------------------------------------------------------------------------------- |
+| `useAppShell()`                  | `size` (`"phone" \| "tablet" \| "desktop" \| null`), `width`, `isDesktop`, `platform`… |
+| `useShellPanel(id)`              | `open`, `view`, `width`, `setOpen`, `toggle`, `select`, `reveal`                       |
+| `useShellShortcut(shortcut, fn)` | registers a shortcut while mounted                                                     |
+| `useShellShortcuts()`            | `{ id, label, keys }[]`                                                                |
+| `useShortcutLabel({ keys })`     | `"⇧⌘T"` or `"Ctrl+Shift+T"`                                                            |
+
+### Data attributes
+
+| Attribute                          | Element      | Present when                                |
+| ---------------------------------- | ------------ | ------------------------------------------- |
+| `data-slot="app-shell"`            | root         | always                                      |
+| `data-size`                        | root         | measured: `phone`, `tablet`, `desktop`      |
+| `data-window-controls`             | root         | `window` is set: `macos`, `overlay`         |
+| `data-fullscreen`, `data-titlebar` | root         | in fullscreen; with a titlebar row          |
+| `data-slot="app-shell-header"`     | header       | always; `data-scrolled` once scrolled       |
+| `data-slot="app-shell-panel"`      | docked panel | `data-state`, `data-side`, `data-placement` |
+| `data-drag-region`                 | drag regions | always                                      |
+
+## Accessibility
+
+- A "Skip to content" link leads the shell. The content is focusable, and <Kbd>F6</Kbd> / <Kbd>⇧F6</Kbd> move between the sidebar, the tab strip, the content and open panels.
+- The main column is the `main` landmark, App Nav is a `nav` labelled "Main", a docked panel is an `aside` named by its `label`, and the status bar is the page's `footer`. Floating panels are modal sheets and drawers with a title.
+- A panel trigger has `aria-expanded` and `aria-controls`; its tooltip names the shortcut.
+- While a revealed sidebar is open the page is inert and the sidebar is a labelled modal `dialog`. Focus moves into it and returns to the trigger; Escape, a press on the page beside it, or dragging the page back closes it.
+- A panel's edge is a `separator` with its value, minimum and maximum, resizable from the keyboard.
+- While the page title stands in for the breadcrumb, the hidden trail is `aria-hidden`.
+- Shortcuts never fire while typing unless a shortcut allows it, and keys the browser keeps get browser-safe alternatives.
+- Motion follows the [motion tokens](/docs/foundations/motion): panels and the sidebar open on the move timing, and reduced motion drops slides.

@@ -1,0 +1,17 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "colebemis",
+    "jguddas"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$group:star"
+  ],
+  "categories": [
+    "social",
+    "shapes",
+    "emoji",
+    "gaming"
+  ]
+}

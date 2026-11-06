@@ -1,0 +1,15 @@
+{
+  "title": "Datadog",
+  "group": "Product & dev",
+  "tags": [
+    "monitoring",
+    "observability",
+    "apm"
+  ],
+  "aliases": [],
+  "hex": "#632CA6",
+  "scale": 0.925,
+  "source": "Simple Icons 16.36.0 (https://www.datadoghq.com/about/resources)",
+  "license": "CC0-1.0",
+  "guidelines": "https://www.datadoghq.com/about/resources/"
+}

@@ -1,0 +1,14 @@
+{
+  "title": "Sentry",
+  "group": "Product & dev",
+  "tags": [
+    "errors",
+    "monitoring",
+    "observability"
+  ],
+  "aliases": [],
+  "hex": "#362D59",
+  "scale": 0.866,
+  "source": "Simple Icons 16.36.0 (https://sentry.io/branding/)",
+  "license": "CC0-1.0"
+}

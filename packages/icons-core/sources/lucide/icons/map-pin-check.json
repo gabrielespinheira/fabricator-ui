@@ -1,0 +1,18 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "karsa-mistmere",
+    "colebemis",
+    "csandman",
+    "ericfennis"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:map-pin",
+    "$group:check",
+    "added"
+  ],
+  "categories": [
+    "$extends:map-pin"
+  ]
+}

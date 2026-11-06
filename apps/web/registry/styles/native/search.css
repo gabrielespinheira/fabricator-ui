@@ -1,0 +1,66 @@
+/* MARK: Search */
+
+  /* One object: closed it is a round button (width = height), open it grows to
+     its size's width, never wider than its parent. Corners stay a full pill.
+     Fill is the translucent `active` overlay, so it sits on any surface in both
+     themes. */
+  .cn-search {
+    @apply max-w-full rounded-full;
+  }
+
+  .cn-search-variant-default {
+    @apply bg-active;
+  }
+
+  /* A hairline edge instead of the fill. */
+  .cn-search-variant-outline {
+    @apply border-border border bg-transparent;
+  }
+
+  /* Sizes follow the density: default takes the nearest one, sm pins the search
+     to compact and lg to spacious. Each size opens to its own width. */
+  .cn-search-size-default {
+    @apply h-(--density-36) w-(--density-36) data-[open=true]:w-[320px];
+  }
+
+  .cn-search-size-sm {
+    @apply h-(--density-36) w-(--density-36) data-[open=true]:w-[240px];
+  }
+
+  .cn-search-size-lg {
+    @apply h-(--density-36) w-(--density-36) data-[open=true]:w-[360px];
+  }
+
+  /* Closed: the whole button. Open: just the icon, which takes no press. */
+  .cn-search-trigger {
+    @apply rounded-full;
+  }
+
+  /* Pressed is a step of the interaction tokens, easing in and out under the
+     icon. */
+  .cn-search-trigger-wash {
+    @apply bg-hover rounded-full;
+  }
+
+  /* The icon is foreground closed, muted open. */
+  .cn-search-icon {
+    @apply text-foreground;
+  }
+
+  .cn-search-icon-open {
+    @apply text-muted-foreground;
+  }
+
+  /* The field keeps clear of the icon, and of the clear button when there is
+     one. */
+  .cn-search-input {
+    @apply font-sans text-foreground ps-(--density-36) pe-(--density-12) text-(length:--density-text-13) data-[clear=true]:pe-(--density-36);
+  }
+
+  .cn-search-clear {
+    @apply active:opacity-70 rounded-full;
+  }
+
+  .cn-search-clear-text {
+    @apply text-muted-foreground;
+  }

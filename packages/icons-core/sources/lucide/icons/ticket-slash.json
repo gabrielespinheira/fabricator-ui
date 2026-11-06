@@ -1,0 +1,30 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "danielbayley"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:ticket",
+    "$group:minus",
+    "$group:off",
+    "redeemed",
+    "used",
+    "marked",
+    "checked",
+    "verified",
+    "spoiled",
+    "invalidated",
+    "void",
+    "denied",
+    "refused",
+    "banned",
+    "barred",
+    "cancellation",
+    "refunded",
+    "error"
+  ],
+  "categories": [
+    "transportation"
+  ]
+}

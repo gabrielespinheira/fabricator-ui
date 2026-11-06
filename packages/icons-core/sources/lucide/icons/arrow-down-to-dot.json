@@ -1,0 +1,18 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "danielbayley"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:arrow-down",
+    "$group:direction-down",
+    "waypoint",
+    "location",
+    "step",
+    "into"
+  ],
+  "categories": [
+    "$extends:arrow-down"
+  ]
+}

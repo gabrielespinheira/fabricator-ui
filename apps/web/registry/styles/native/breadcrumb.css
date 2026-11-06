@@ -1,0 +1,38 @@
+/* MARK: Breadcrumb */
+
+  .cn-breadcrumb {
+    @apply w-full;
+  }
+
+  /* Muted trail; a pressed link dims, the current page is foreground. */
+  .cn-breadcrumb-list {
+    @apply gap-(--density-6);
+  }
+
+  .cn-breadcrumb-list-text {
+    @apply text-muted-foreground text-(length:--density-text-13);
+  }
+
+  .cn-breadcrumb-item {
+    @apply gap-1;
+  }
+
+  .cn-breadcrumb-link {
+    @apply active:opacity-70 rounded-[4px];
+  }
+
+  .cn-breadcrumb-page {
+    @apply text-foreground font-normal;
+  }
+
+  .cn-breadcrumb-separator {
+    @apply items-center justify-center;
+  }
+
+  .cn-breadcrumb-separator-text {
+    @apply text-muted-foreground/60;
+  }
+
+  .cn-breadcrumb-ellipsis {
+    @apply size-(--density-20);
+  }

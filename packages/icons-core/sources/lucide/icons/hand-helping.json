@@ -1,0 +1,28 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "karsa-mistmere",
+    "jguddas",
+    "danielbayley"
+  ],
+  "use-cases": [],
+  "tags": [
+    "agreement",
+    "help",
+    "proposal",
+    "charity",
+    "begging",
+    "terms"
+  ],
+  "categories": [
+    "emoji",
+    "social"
+  ],
+  "aliases": [
+    {
+      "name": "helping-hand",
+      "deprecationReason": "alias.name",
+      "deprecated": true
+    }
+  ]
+}

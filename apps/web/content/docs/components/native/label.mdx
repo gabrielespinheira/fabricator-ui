@@ -1,0 +1,95 @@
+---
+title: Label
+description: Renders an accessible label associated with controls.
+base: native
+component: true
+---
+
+<NativePreview src="/images/native/label.jpg" alt="Label on iOS" />
+
+## Installation
+
+```bash
+npx fabricator-ui@latest add label
+```
+
+## Usage
+
+```tsx
+import { Checkbox } from "@/components/ui/checkbox"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+```
+
+```tsx
+<Pressable
+  className="flex-row items-center gap-2"
+  onPress={() => setIsChecked(!isChecked)}
+>
+  <Checkbox
+    accessibilityLabel="Accept terms and conditions"
+    checked={isChecked}
+    onCheckedChange={setIsChecked}
+  />
+  <Label>Accept terms and conditions</Label>
+</Pressable>
+```
+
+## Examples
+
+```tsx showLineNumbers title="label-example.tsx"
+import * as React from "react"
+import { Pressable } from "react-native"
+
+import { Checkbox } from "@/components/ui/checkbox"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+
+function LabelExample() {
+  const [isChecked, setIsChecked] = React.useState(false)
+  return (
+    <ExampleWrapper fit>
+      <Example title="With a checkbox">
+        <Pressable
+          className="flex-row items-center gap-2"
+          onPress={() => setIsChecked(!isChecked)}
+        >
+          <Checkbox
+            accessibilityLabel="Accept terms and conditions"
+            checked={isChecked}
+            onCheckedChange={setIsChecked}
+          />
+          <Label>Accept terms and conditions</Label>
+        </Pressable>
+      </Example>
+      <Example title="With an input" className="items-stretch gap-2">
+        <Label nativeID="email-label">Email</Label>
+        <Input
+          aria-labelledby="email-label"
+          placeholder="gabs@fabricator.dev"
+        />
+      </Example>
+      <Example title="Disabled" className="items-stretch gap-2">
+        <Label disabled nativeID="company-label">
+          Company
+        </Label>
+        <Input
+          aria-labelledby="company-label"
+          editable={false}
+          placeholder="Acme Inc"
+        />
+      </Example>
+    </ExampleWrapper>
+  )
+}
+
+export { LabelExample }
+```
+
+## Differences from web
+
+**Same.** It works as it does on the web, with `onPress` for `onClick`.
+
+## Accessibility
+
+Text is read as it appears. Give a control with no text an `accessibilityLabel`.

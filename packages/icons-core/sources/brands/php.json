@@ -1,0 +1,14 @@
+{
+  "title": "PHP",
+  "group": "Product & dev",
+  "tags": [
+    "language",
+    "backend",
+    "web"
+  ],
+  "aliases": [],
+  "hex": "#777BB4",
+  "source": "Simple Icons 16.36.0 (https://php.net/download-logos.php)",
+  "license": "CC-BY-SA-4.0",
+  "credit": "PHP logo by Colin Viebrock, CC BY-SA 4.0 (https://www.php.net/download-logos.php), reduced to one colour by Simple Icons."
+}

@@ -1,0 +1,15 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "danielbayley"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:undo",
+    "step",
+    "back"
+  ],
+  "categories": [
+    "$extends:undo"
+  ]
+}

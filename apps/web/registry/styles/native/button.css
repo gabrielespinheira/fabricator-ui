@@ -1,0 +1,167 @@
+/* MARK: Button */
+
+  /* 36pt controls at the default density, 13pt medium text, rounded-lg.
+     Pressed is a wash under the label plus the press scale (usePressScale),
+     both easing on the feedback timing. Icons draw at stroke 1.5, set in the
+     source: a class can't reach them. */
+  .cn-button {
+    @apply rounded-lg border border-transparent;
+  }
+
+  /* The wash fills the border box and follows the button's corners. Each step
+     matches the website's: the fill at 80%, or the next interaction token. */
+  .cn-button-wash {
+    @apply -inset-px rounded-lg;
+  }
+
+  /* In a button group the wash squares the corners its button squares. */
+  .cn-button-wash-horizontal-first {
+    @apply rounded-r-none;
+  }
+
+  .cn-button-wash-horizontal-middle {
+    @apply rounded-none;
+  }
+
+  .cn-button-wash-horizontal-last {
+    @apply rounded-l-none;
+  }
+
+  .cn-button-wash-vertical-first {
+    @apply rounded-b-none;
+  }
+
+  .cn-button-wash-vertical-middle {
+    @apply rounded-none;
+  }
+
+  .cn-button-wash-vertical-last {
+    @apply rounded-t-none;
+  }
+
+  .cn-button-wash-variant-default {
+    @apply bg-background/20;
+  }
+
+  .cn-button-wash-variant-outline {
+    @apply bg-active;
+  }
+
+  .cn-button-wash-variant-secondary {
+    @apply bg-background/30;
+  }
+
+  .cn-button-wash-variant-ghost {
+    @apply bg-active;
+  }
+
+  .cn-button-wash-variant-destructive {
+    @apply bg-destructive/8;
+  }
+
+  .cn-button-wash-variant-link {
+    @apply bg-transparent;
+  }
+
+  .cn-button-text {
+    @apply text-(length:--density-text-13) font-medium;
+  }
+
+  /* Held, or with its popup open, a ghost button's label comes forward. */
+  .cn-button-text-lifted-ghost {
+    @apply text-foreground;
+  }
+
+  /* The primary role's fill; pressed is the fill at 80%. */
+  .cn-button-variant-default {
+    @apply bg-primary;
+  }
+
+  .cn-button-text-variant-default {
+    @apply text-primary-foreground;
+  }
+
+  /* Transparent with a hairline edge; pressed steps through the interaction
+     tokens. */
+  .cn-button-variant-outline {
+    @apply border-border bg-transparent;
+  }
+
+  .cn-button-text-variant-outline {
+    @apply text-foreground;
+  }
+
+  /* The secondary role: a translucent tint. */
+  .cn-button-variant-secondary {
+    @apply bg-secondary;
+  }
+
+  .cn-button-text-variant-secondary {
+    @apply text-secondary-foreground;
+  }
+
+  /* Muted at rest, foreground when lit. */
+  .cn-button-variant-ghost {
+    @apply bg-transparent;
+  }
+
+  .cn-button-text-variant-ghost {
+    @apply text-muted-foreground;
+  }
+
+  /* The soft form of the destructive role: a wash of its fill with its text
+     colour. */
+  .cn-button-variant-destructive {
+    @apply bg-destructive/12;
+  }
+
+  .cn-button-text-variant-destructive {
+    @apply text-destructive-text;
+  }
+
+  /* The primary role's text colour. */
+  .cn-button-variant-link {
+    @apply bg-transparent active:opacity-70;
+  }
+
+  .cn-button-text-variant-link {
+    @apply text-primary-text underline;
+  }
+
+  /* Sizes follow the density: default takes the nearest one, sm a step down and lg
+     a step up (lib/density-scale). xs is the fixed floor: 24pt, 28pt on a tablet. */
+  .cn-button-size-xs {
+    @apply h-6 gap-1 px-2 md:h-7 md:gap-1.5 md:px-2.5;
+  }
+
+  .cn-button-text-size-xs {
+    @apply text-[12px] md:text-[13px];
+  }
+
+  .cn-button-size-sm {
+    @apply h-(--density-36) gap-(--density-6) px-(--density-16);
+  }
+
+  .cn-button-size-default {
+    @apply h-(--density-36) gap-(--density-6) px-(--density-16);
+  }
+
+  .cn-button-size-lg {
+    @apply h-(--density-36) gap-(--density-6) px-(--density-16);
+  }
+
+  .cn-button-size-icon-xs {
+    @apply size-6 md:size-7;
+  }
+
+  .cn-button-size-icon-sm {
+    @apply size-(--density-36);
+  }
+
+  .cn-button-size-icon {
+    @apply size-(--density-36);
+  }
+
+  .cn-button-size-icon-lg {
+    @apply size-(--density-36);
+  }

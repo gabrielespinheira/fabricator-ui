@@ -1,0 +1,24 @@
+/* MARK: Toggle Group */
+
+  /* A press lights one bg-hover highlight, and in a single-select group the
+     pressed item's bg-active background slides between items on the move timing.
+     A joined group (spacing 0) clips the overlays and items to its corners. */
+  .cn-toggle-group {
+    @apply rounded-lg data-[spacing=0]:overflow-hidden;
+  }
+
+  /* Items: 36pt, px-3, rounded-lg at the default density; size sm pins them to
+     compact. The highlight paints the pressed fill, and in a single-select group
+     the sliding selection paints the on fill. Joined items square their corners
+     and share their outlines. */
+  .cn-toggle-group-item {
+    @apply h-(--density-36) min-w-(--density-36) px-(--density-12) data-[spacing=0]:rounded-none data-[spacing=0]:data-[variant=outline]:data-[first=false]:data-[orientation=horizontal]:border-s-0 data-[spacing=0]:data-[variant=outline]:data-[first=false]:data-[orientation=vertical]:border-t-0;
+  }
+
+  .cn-toggle-group-selection {
+    @apply bg-active rounded-lg data-[spacing=0]:rounded-none;
+  }
+
+  .cn-toggle-group-highlight {
+    @apply bg-hover rounded-lg data-[spacing=0]:rounded-none;
+  }

@@ -1,0 +1,16 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "zaaakher",
+    "danielbayley",
+    "jonas-hoebenreich"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:pilcrow",
+    "$group:direction-right"
+  ],
+  "categories": [
+    "$extends:pilcrow"
+  ]
+}

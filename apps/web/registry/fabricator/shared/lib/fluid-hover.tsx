@@ -1,9 +1,7 @@
 "use client"
 
 // Fluid hover: one highlight that glides to the item nearest the pointer, and
-// a selection background that slides between selected items. Adapted from
-// Fluid Functionalism by Micka Touillaud (MIT),
-// https://github.com/mickadesign/fluid-functionalism.
+// a selection background that slides between selected items.
 //
 // Items are found by selector inside a positioned container, so a component
 // only wires its container. Motion is CSS (transform, width, height, opacity)

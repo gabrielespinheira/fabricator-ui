@@ -4,6 +4,13 @@ import { cn } from "cn"
 import { source } from "@/lib/source"
 import { BASES } from "@/registry/bases"
 
+// React Native sits beside the bases on a component's page. It isn't one: the
+// bases are the web's primitive libraries, and the registry builds them apart.
+const DOC_PLATFORMS = [
+  ...BASES,
+  { name: "native", title: "React Native", meta: undefined },
+]
+
 export function DocsBaseSwitcher({
   base,
   component,
@@ -24,7 +31,7 @@ export function DocsBaseSwitcher({
         className
       )}
     >
-      {BASES.filter((baseItem) =>
+      {DOC_PLATFORMS.filter((baseItem) =>
         source.getPage([`components/${baseItem.name}/${component}`])
       ).map((baseItem) => (
         <Link

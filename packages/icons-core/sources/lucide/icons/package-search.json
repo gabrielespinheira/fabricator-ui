@@ -1,0 +1,17 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "Reund0",
+    "ericfennis",
+    "karsa-mistmere"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:package",
+    "$group:search",
+    "product process"
+  ],
+  "categories": [
+    "$extends:package"
+  ]
+}

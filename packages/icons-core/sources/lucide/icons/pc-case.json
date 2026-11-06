@@ -1,0 +1,22 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "karsa-mistmere",
+    "ericfennis"
+  ],
+  "use-cases": [],
+  "tags": [
+    "personal computer",
+    "computer",
+    "chassis",
+    "workstation",
+    "tower",
+    "hardware",
+    "setup",
+    "gaming"
+  ],
+  "categories": [
+    "devices",
+    "gaming"
+  ]
+}

@@ -15,6 +15,11 @@ export type ComponentGroup = (typeof COMPONENT_GROUPS)[number]
 
 const GROUP_BY_SLUG: Record<string, ComponentGroup> = {
   // Basics
+  // Text and FabricatorRoot exist on React Native only; web has the DOM's.
+  text: "Basics",
+  density: "Basics",
+  "fabricator-root": "Navigation & Layout",
+  direction: "Navigation & Layout",
   button: "Basics",
   input: "Basics",
   textarea: "Basics",
@@ -58,6 +63,11 @@ const GROUP_BY_SLUG: Record<string, ComponentGroup> = {
   command: "Overlays & Menus",
   // Navigation & Layout
   sidebar: "Navigation & Layout",
+  "app-shell": "Navigation & Layout",
+  "app-nav": "Navigation & Layout",
+  "tab-strip": "Navigation & Layout",
+  "workspace-switcher": "Navigation & Layout",
+  "user-menu": "Navigation & Layout",
   "navigation-menu": "Navigation & Layout",
   tabs: "Navigation & Layout",
   breadcrumb: "Navigation & Layout",

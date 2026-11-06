@@ -1,0 +1,70 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "mittalyashu",
+    "ericfennis",
+    "karsa-mistmere"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:shield",
+    "$group:x",
+    "unshielded",
+    "insecure",
+    "unsecured",
+    "unsafe",
+    "unprotected",
+    "unguarded",
+    "unarmored",
+    "unarmoured",
+    "defenseless",
+    "defenceless",
+    "undefended",
+    "blocked",
+    "stopped",
+    "intercepted",
+    "interception",
+    "saved",
+    "thwarted",
+    "prevented",
+    "detected",
+    "scanned",
+    "found",
+    "exploit",
+    "vulnerability",
+    "vulnerable",
+    "weakness",
+    "infection",
+    "infected",
+    "compromised",
+    "data leak",
+    "audited",
+    "unverified",
+    "inactive",
+    "error",
+    "wrong",
+    "false",
+    "attacked",
+    "damaged",
+    "injured",
+    "hit",
+    "dead",
+    "deceased",
+    "expired",
+    "eliminated",
+    "exterminated"
+  ],
+  "categories": [
+    "account",
+    "security",
+    "development",
+    "gaming"
+  ],
+  "aliases": [
+    {
+      "name": "shield-close",
+      "deprecationReason": "alias.name",
+      "deprecated": true
+    }
+  ]
+}

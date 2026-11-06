@@ -1,5 +1,6 @@
 import { existsSync, readFileSync } from "node:fs"
 import path from "node:path"
+import { EXPO_SDK } from "@fabricator-ui/setup"
 import { Command } from "commander"
 
 import {
@@ -13,8 +14,20 @@ import {
 } from "../utils/config"
 import { highlight, logger } from "../utils/logger"
 import { NAMESPACE } from "../utils/names"
+import {
+  isReactNativeProject,
+  nativeRegistryTemplate,
+  readPackageJson,
+  usesNativeRegistry,
+} from "../utils/native"
+import { hasCommand } from "../utils/process"
 import { captureShadcn } from "../utils/shadcn"
 import { fabricatorRegistryTemplate, getBaseUrl } from "../utils/urls"
+import {
+  findWorkspaceRoot,
+  isWorkspaceAliasStale,
+  listWorkspaceApps,
+} from "../utils/workspace"
 import { fail, resolveCwd } from "./shared"
 
 export type CheckStatus = "pass" | "warn" | "fail"
@@ -44,6 +57,7 @@ export interface DoctorInput {
   /** `undefined` when components.json has no `tailwind.css`; `null` when the file does not exist. */
   css?: string | null
   cssPath?: string
+  metroConfig?: string | null
   baseUrl: string
 }
 
@@ -66,9 +80,76 @@ export function majorVersion(range: string): number | undefined {
   return match ? Number(match[1]) : undefined
 }
 
+function getNativeChecks(
+  input: DoctorInput,
+  config: ComponentsJson | undefined
+) {
+  const checks: Check[] = []
+  const reactNative = dependencyVersion(input.packageJson, "react-native")
+  const minor = reactNative
+    ? Number(/\d+\.(\d+)/.exec(reactNative)?.[1])
+    : Number.NaN
+  if (reactNative && !Number.isNaN(minor) && minor < 86) {
+    checks.push({
+      status: "fail",
+      label: `React Native ${reactNative} is too old`,
+      fix: "Fabricator UI needs React Native 0.86 or newer: Reanimated 4 peers on it.",
+    })
+  }
+
+  if (!usesNativeRegistry(config)) {
+    checks.push({
+      status: "fail",
+      label: `${NAMESPACE} registry serves web components to a React Native project`,
+      fix: `Set "${NAMESPACE}" in "registries" to "${nativeRegistryTemplate(input.baseUrl)}".`,
+    })
+  } else {
+    checks.push({ status: "pass", label: "React Native registry configured" })
+  }
+
+  if (dependencyVersion(input.packageJson, "uniwind")) {
+    checks.push({ status: "pass", label: "Uniwind installed" })
+  } else {
+    checks.push({
+      status: "fail",
+      label: "uniwind is not a dependency",
+      fix: `Run ${highlight.info("fabricator-ui init")}: components style themselves through Uniwind.`,
+    })
+  }
+
+  if (input.metroConfig?.includes("withUniwindConfig")) {
+    checks.push({ status: "pass", label: "Metro runs Uniwind" })
+  } else {
+    checks.push({
+      status: "fail",
+      label: "metro.config.js doesn't use withUniwindConfig",
+      fix: 'Wrap the export in withUniwindConfig from "uniwind/metro": classes do nothing without it.',
+    })
+  }
+
+  if (input.css && /@import\s+["']uniwind["']/.test(input.css)) {
+    checks.push({ status: "pass", label: "Stylesheet imports Uniwind" })
+  } else if (input.css) {
+    checks.push({
+      status: "fail",
+      label: "The stylesheet doesn't import Uniwind",
+      fix: 'Add @import "uniwind"; after @import "tailwindcss"; in it.',
+    })
+  }
+  return checks
+}
+
 export function collectChecks(input: DoctorInput): Check[] {
   const checks: Check[] = []
   const read = input.componentsJson
+  if (isReactNativeProject(input.packageJson)) {
+    checks.push(
+      ...getNativeChecks(
+        input,
+        read.exists && "config" in read ? read.config : undefined
+      )
+    )
+  }
 
   if (!read.exists) {
     checks.push({
@@ -199,6 +280,8 @@ export function collectChecks(input: DoctorInput): Check[] {
         label: `CSS file not found (${input.cssPath})`,
         fix: 'Fix "tailwind.css" in components.json.',
       })
+    } else if (isReactNativeProject(input.packageJson)) {
+      // Uniwind's import is checked with the native checks.
     } else if (
       /@import\s+(url\()?\s*["']shadcn\/tailwind\.css["']/.test(input.css)
     ) {
@@ -248,6 +331,10 @@ function readJson<T>(file: string): T | undefined {
 async function gather(cwd: string): Promise<DoctorInput> {
   const componentsJson = readComponentsJson(cwd)
   const input: DoctorInput = { componentsJson, baseUrl: getBaseUrl() }
+  const metroPath = path.join(cwd, "metro.config.js")
+  input.metroConfig = existsSync(metroPath)
+    ? readFileSync(metroPath, "utf8")
+    : null
 
   if (componentsJson.exists) {
     const result = await captureShadcn(["info", "--json", "--cwd", cwd])
@@ -284,14 +371,90 @@ async function gather(cwd: string): Promise<DoctorInput> {
   return input
 }
 
+/**
+ * What a monorepo needs beyond each app's own checks. Everything comes in, so it's
+ * pure: the toolchains are looked up by the caller.
+ */
+export function getWorkspaceChecks(input: {
+  apps: { name: string; isNative: boolean; sdk?: string }[]
+  hasDesktopTauri: boolean
+  hasCargo: boolean
+  unalignedApps: string[]
+}): Check[] {
+  const checks: Check[] = []
+  for (const name of input.unalignedApps) {
+    checks.push({
+      status: "fail",
+      label: `apps/${name} writes libs where packages/ui can't import them`,
+      fix: `Run ${highlight.info(`fabricator-ui add button -c apps/${name}`)}: it points "lib" and "hooks" at the shared package.`,
+    })
+  }
+  for (const app of input.apps) {
+    if (!app.isNative || !app.sdk) continue
+    const major = majorVersion(app.sdk)
+    if (major !== undefined && major < EXPO_SDK) {
+      checks.push({
+        status: "warn",
+        label: `apps/${app.name} is on Expo SDK ${major}; the registry is tested on ${EXPO_SDK}`,
+        fix: `Upgrade with ${highlight.info(`npx expo install expo@^${EXPO_SDK}.0.0 --fix`)}.`,
+      })
+    }
+  }
+  if (input.hasDesktopTauri) {
+    checks.push(
+      input.hasCargo
+        ? { status: "pass", label: "Rust is installed, for Tauri" }
+        : {
+            status: "warn",
+            label: "Rust isn't installed, and Tauri compiles with it",
+            fix: "Install it from https://www.rust-lang.org/tools/install.",
+          }
+    )
+  }
+  return checks
+}
+
 const ICONS: Record<CheckStatus, string> = {
   pass: highlight.success("✔"),
   warn: highlight.warn("⚠"),
   fail: highlight.error("✖"),
 }
 
+async function doctorWorkspace(root: string) {
+  const apps = listWorkspaceApps(root)
+  logger.log(`${highlight.bold("fabricator-ui doctor")} ${highlight.dim(root)}`)
+  logger.break()
+  const checks = getWorkspaceChecks({
+    apps: apps.map((app) => {
+      const sdk = readPackageJson(app.dir)?.dependencies?.expo
+      return { name: app.name, isNative: app.isNative, ...(sdk ? { sdk } : {}) }
+    }),
+    hasDesktopTauri: existsSync(path.join(root, "apps/desktop/src-tauri")),
+    hasCargo: await hasCommand("cargo"),
+    unalignedApps: apps
+      .filter((app) => !app.isNative && isWorkspaceAliasStale(app.dir))
+      .map((app) => app.name),
+  })
+  for (const check of checks) {
+    logger.log(`${ICONS[check.status]} ${check.label}`)
+    if (check.fix) logger.log(`    ${highlight.dim("→")} ${check.fix}`)
+  }
+  if (checks.some((check) => check.status === "fail")) process.exitCode = 1
+  for (const app of apps) {
+    logger.break()
+    await doctor({ cwd: app.dir })
+  }
+}
+
 export async function doctor(options: { cwd?: string }): Promise<void> {
   const cwd = resolveCwd(options.cwd)
+  if (
+    findWorkspaceRoot(cwd) === cwd &&
+    !existsSync(path.join(cwd, "components.json")) &&
+    listWorkspaceApps(cwd).length > 0
+  ) {
+    return doctorWorkspace(cwd)
+  }
   const input = await gather(cwd)
   const checks = collectChecks(input)
   const read = input.componentsJson

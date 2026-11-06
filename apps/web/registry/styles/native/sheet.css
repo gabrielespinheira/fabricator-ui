@@ -1,0 +1,40 @@
+/* MARK: Sheet */
+
+  /* Scrim: 40% black (80% in dark), no blur. It fades with the panel on the sheet
+     timing (lib/sheet-surface). */
+  .cn-sheet-overlay {
+    @apply bg-black/40 dark:bg-black/80;
+  }
+
+  /* Panel: surface 3 whose shadow ring is the edge (no border). Slides on the
+     sheet motion (the drawer curve); closes quicker. Side panels take 3/4 of the
+     width, at most 384pt from sm up. */
+  .cn-sheet-content {
+    @apply md:data-[side=bottom]:rounded-t-xl md:data-[side=top]:rounded-b-xl bg-surface-3 shadow-surface-3 gap-(--density-16) data-[side=left]:w-3/4 data-[side=left]:sm:max-w-sm data-[side=right]:w-3/4 data-[side=right]:sm:max-w-sm;
+  }
+
+  .cn-sheet-text {
+    @apply text-popover-foreground text-(length:--density-text-13);
+  }
+
+  /* A small ghost icon button in the corner, below the status bar where the panel
+     reaches it. */
+  .cn-sheet-close {
+    @apply end-3 top-safe-offset-3 data-[side=bottom]:top-3;
+  }
+
+  .cn-sheet-header {
+    @apply gap-(--density-6) p-(--density-16);
+  }
+
+  .cn-sheet-footer {
+    @apply gap-(--density-8) p-(--density-16);
+  }
+
+  .cn-sheet-title {
+    @apply text-foreground text-(length:--density-text-16) leading-tight font-bold;
+  }
+
+  .cn-sheet-description {
+    @apply text-muted-foreground text-(length:--density-text-13);
+  }

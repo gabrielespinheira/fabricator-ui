@@ -93,6 +93,22 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "alert-status",
       filePath: "examples/base/alert-status.tsx",
     },
+    "app-nav-demo": {
+      name: "app-nav-demo",
+      filePath: "examples/base/app-nav-demo.tsx",
+    },
+    "app-shell-demo": {
+      name: "app-shell-demo",
+      filePath: "examples/base/app-shell-demo.tsx",
+    },
+    "app-shell-desktop": {
+      name: "app-shell-desktop",
+      filePath: "examples/base/app-shell-desktop.tsx",
+    },
+    "app-shell-workbench": {
+      name: "app-shell-workbench",
+      filePath: "examples/base/app-shell-workbench.tsx",
+    },
     "aspect-ratio-demo": {
       name: "aspect-ratio-demo",
       filePath: "examples/base/aspect-ratio-demo.tsx",
@@ -1901,6 +1917,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "switch-sizes",
       filePath: "examples/base/switch-sizes.tsx",
     },
+    "tab-strip-demo": {
+      name: "tab-strip-demo",
+      filePath: "examples/base/tab-strip-demo.tsx",
+    },
     "table-actions": {
       name: "table-actions",
       filePath: "examples/base/table-actions.tsx",
@@ -2117,6 +2137,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "typography-table",
       filePath: "examples/base/typography-table.tsx",
     },
+    "user-menu-demo": {
+      name: "user-menu-demo",
+      filePath: "examples/base/user-menu-demo.tsx",
+    },
+    "workspace-switcher-demo": {
+      name: "workspace-switcher-demo",
+      filePath: "examples/base/workspace-switcher-demo.tsx",
+    },
   },
   aria: {
     "accordion-basic": {
@@ -2202,6 +2230,22 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "alert-status": {
       name: "alert-status",
       filePath: "examples/aria/alert-status.tsx",
+    },
+    "app-nav-demo": {
+      name: "app-nav-demo",
+      filePath: "examples/aria/app-nav-demo.tsx",
+    },
+    "app-shell-demo": {
+      name: "app-shell-demo",
+      filePath: "examples/aria/app-shell-demo.tsx",
+    },
+    "app-shell-desktop": {
+      name: "app-shell-desktop",
+      filePath: "examples/aria/app-shell-desktop.tsx",
+    },
+    "app-shell-workbench": {
+      name: "app-shell-workbench",
+      filePath: "examples/aria/app-shell-workbench.tsx",
     },
     "aspect-ratio-demo": {
       name: "aspect-ratio-demo",
@@ -3983,6 +4027,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "switch-sizes",
       filePath: "examples/aria/switch-sizes.tsx",
     },
+    "tab-strip-demo": {
+      name: "tab-strip-demo",
+      filePath: "examples/aria/tab-strip-demo.tsx",
+    },
     "table-actions": {
       name: "table-actions",
       filePath: "examples/aria/table-actions.tsx",
@@ -4183,6 +4231,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "typography-table",
       filePath: "examples/aria/typography-table.tsx",
     },
+    "user-menu-demo": {
+      name: "user-menu-demo",
+      filePath: "examples/aria/user-menu-demo.tsx",
+    },
+    "workspace-switcher-demo": {
+      name: "workspace-switcher-demo",
+      filePath: "examples/aria/workspace-switcher-demo.tsx",
+    },
   },
   radix: {
     "accordion-basic": {
@@ -4268,6 +4324,22 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "alert-status": {
       name: "alert-status",
       filePath: "examples/radix/alert-status.tsx",
+    },
+    "app-nav-demo": {
+      name: "app-nav-demo",
+      filePath: "examples/radix/app-nav-demo.tsx",
+    },
+    "app-shell-demo": {
+      name: "app-shell-demo",
+      filePath: "examples/radix/app-shell-demo.tsx",
+    },
+    "app-shell-desktop": {
+      name: "app-shell-desktop",
+      filePath: "examples/radix/app-shell-desktop.tsx",
+    },
+    "app-shell-workbench": {
+      name: "app-shell-workbench",
+      filePath: "examples/radix/app-shell-workbench.tsx",
     },
     "aspect-ratio-demo": {
       name: "aspect-ratio-demo",
@@ -6077,6 +6149,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "switch-sizes",
       filePath: "examples/radix/switch-sizes.tsx",
     },
+    "tab-strip-demo": {
+      name: "tab-strip-demo",
+      filePath: "examples/radix/tab-strip-demo.tsx",
+    },
     "table-actions": {
       name: "table-actions",
       filePath: "examples/radix/table-actions.tsx",
@@ -6277,6 +6353,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "typography-table",
       filePath: "examples/radix/typography-table.tsx",
     },
+    "user-menu-demo": {
+      name: "user-menu-demo",
+      filePath: "examples/radix/user-menu-demo.tsx",
+    },
+    "workspace-switcher-demo": {
+      name: "workspace-switcher-demo",
+      filePath: "examples/radix/workspace-switcher-demo.tsx",
+    },
   },
   "base-fabricator": {
     "accordion-basic": {
@@ -6356,6 +6440,22 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "alert-status": {
       name: "alert-status",
       filePath: "examples/__styles__/base-fabricator/alert-status.tsx",
+    },
+    "app-nav-demo": {
+      name: "app-nav-demo",
+      filePath: "examples/__styles__/base-fabricator/app-nav-demo.tsx",
+    },
+    "app-shell-demo": {
+      name: "app-shell-demo",
+      filePath: "examples/__styles__/base-fabricator/app-shell-demo.tsx",
+    },
+    "app-shell-desktop": {
+      name: "app-shell-desktop",
+      filePath: "examples/__styles__/base-fabricator/app-shell-desktop.tsx",
+    },
+    "app-shell-workbench": {
+      name: "app-shell-workbench",
+      filePath: "examples/__styles__/base-fabricator/app-shell-workbench.tsx",
     },
     "aspect-ratio-demo": {
       name: "aspect-ratio-demo",
@@ -7978,6 +8078,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "switch-sizes",
       filePath: "examples/__styles__/base-fabricator/switch-sizes.tsx",
     },
+    "tab-strip-demo": {
+      name: "tab-strip-demo",
+      filePath: "examples/__styles__/base-fabricator/tab-strip-demo.tsx",
+    },
     "table-actions": {
       name: "table-actions",
       filePath: "examples/__styles__/base-fabricator/table-actions.tsx",
@@ -8169,6 +8273,15 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "typography-table",
       filePath: "examples/__styles__/base-fabricator/typography-table.tsx",
     },
+    "user-menu-demo": {
+      name: "user-menu-demo",
+      filePath: "examples/__styles__/base-fabricator/user-menu-demo.tsx",
+    },
+    "workspace-switcher-demo": {
+      name: "workspace-switcher-demo",
+      filePath:
+        "examples/__styles__/base-fabricator/workspace-switcher-demo.tsx",
+    },
   },
   "aria-fabricator": {
     "accordion-basic": {
@@ -8244,6 +8357,22 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "alert-status": {
       name: "alert-status",
       filePath: "examples/__styles__/aria-fabricator/alert-status.tsx",
+    },
+    "app-nav-demo": {
+      name: "app-nav-demo",
+      filePath: "examples/__styles__/aria-fabricator/app-nav-demo.tsx",
+    },
+    "app-shell-demo": {
+      name: "app-shell-demo",
+      filePath: "examples/__styles__/aria-fabricator/app-shell-demo.tsx",
+    },
+    "app-shell-desktop": {
+      name: "app-shell-desktop",
+      filePath: "examples/__styles__/aria-fabricator/app-shell-desktop.tsx",
+    },
+    "app-shell-workbench": {
+      name: "app-shell-workbench",
+      filePath: "examples/__styles__/aria-fabricator/app-shell-workbench.tsx",
     },
     "aspect-ratio-demo": {
       name: "aspect-ratio-demo",
@@ -9845,6 +9974,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "switch-sizes",
       filePath: "examples/__styles__/aria-fabricator/switch-sizes.tsx",
     },
+    "tab-strip-demo": {
+      name: "tab-strip-demo",
+      filePath: "examples/__styles__/aria-fabricator/tab-strip-demo.tsx",
+    },
     "table-actions": {
       name: "table-actions",
       filePath: "examples/__styles__/aria-fabricator/table-actions.tsx",
@@ -10019,6 +10152,15 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "typography-table",
       filePath: "examples/__styles__/aria-fabricator/typography-table.tsx",
     },
+    "user-menu-demo": {
+      name: "user-menu-demo",
+      filePath: "examples/__styles__/aria-fabricator/user-menu-demo.tsx",
+    },
+    "workspace-switcher-demo": {
+      name: "workspace-switcher-demo",
+      filePath:
+        "examples/__styles__/aria-fabricator/workspace-switcher-demo.tsx",
+    },
   },
   "radix-fabricator": {
     "accordion-basic": {
@@ -10094,6 +10236,22 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "alert-status": {
       name: "alert-status",
       filePath: "examples/__styles__/radix-fabricator/alert-status.tsx",
+    },
+    "app-nav-demo": {
+      name: "app-nav-demo",
+      filePath: "examples/__styles__/radix-fabricator/app-nav-demo.tsx",
+    },
+    "app-shell-demo": {
+      name: "app-shell-demo",
+      filePath: "examples/__styles__/radix-fabricator/app-shell-demo.tsx",
+    },
+    "app-shell-desktop": {
+      name: "app-shell-desktop",
+      filePath: "examples/__styles__/radix-fabricator/app-shell-desktop.tsx",
+    },
+    "app-shell-workbench": {
+      name: "app-shell-workbench",
+      filePath: "examples/__styles__/radix-fabricator/app-shell-workbench.tsx",
     },
     "aspect-ratio-demo": {
       name: "aspect-ratio-demo",
@@ -11729,6 +11887,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "switch-sizes",
       filePath: "examples/__styles__/radix-fabricator/switch-sizes.tsx",
     },
+    "tab-strip-demo": {
+      name: "tab-strip-demo",
+      filePath: "examples/__styles__/radix-fabricator/tab-strip-demo.tsx",
+    },
     "table-actions": {
       name: "table-actions",
       filePath: "examples/__styles__/radix-fabricator/table-actions.tsx",
@@ -11905,6 +12067,15 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "typography-table": {
       name: "typography-table",
       filePath: "examples/__styles__/radix-fabricator/typography-table.tsx",
+    },
+    "user-menu-demo": {
+      name: "user-menu-demo",
+      filePath: "examples/__styles__/radix-fabricator/user-menu-demo.tsx",
+    },
+    "workspace-switcher-demo": {
+      name: "workspace-switcher-demo",
+      filePath:
+        "examples/__styles__/radix-fabricator/workspace-switcher-demo.tsx",
     },
   },
 }

@@ -1,0 +1,15 @@
+{
+  "title": "OpenCode",
+  "group": "Product & dev",
+  "tags": [
+    "ai",
+    "agent",
+    "assistant",
+    "terminal"
+  ],
+  "aliases": [],
+  "hex": "#000000",
+  "scale": 0.872,
+  "source": "Simple Icons 16.36.0 (https://github.com/anomalyco/opencode/blob/1251a870cb384543c150c4a72fb101b55eec971b/packages/identity/mark.svg)",
+  "license": "CC0-1.0"
+}

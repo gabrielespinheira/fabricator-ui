@@ -1,0 +1,18 @@
+{
+  "title": "Google Maps",
+  "group": "Marketing & commerce",
+  "tags": [
+    "maps",
+    "places",
+    "google",
+    "location",
+    "geo"
+  ],
+  "aliases": [
+    "googlemaps"
+  ],
+  "hex": "#4285F4",
+  "source": "Simple Icons 16.36.0 (https://commons.wikimedia.org/wiki/File:Google_Maps_icon.svg)",
+  "license": "CC0-1.0",
+  "artSource": "gilbarbara/logos via @iconify-json/logos 1.2.18 (CC0-1.0)"
+}

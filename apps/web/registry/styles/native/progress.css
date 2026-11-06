@@ -1,0 +1,23 @@
+/* MARK: Progress */
+
+  .cn-progress-root {
+    @apply gap-3;
+  }
+
+  /* 6pt hover-tinted track; the indicator, in the primary role's fill, moves on
+     the move timing. */
+  .cn-progress-track {
+    @apply bg-hover h-1.5 rounded-full;
+  }
+
+  .cn-progress-indicator {
+    @apply bg-primary rounded-full;
+  }
+
+  .cn-progress-label {
+    @apply text-(length:--density-text-13) font-medium;
+  }
+
+  .cn-progress-value {
+    @apply text-muted-foreground ml-auto text-(length:--density-text-13) tabular-nums;
+  }

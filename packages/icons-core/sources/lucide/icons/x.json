@@ -1,0 +1,20 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "colebemis",
+    "ericfennis"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$group:letter",
+    "$group:x",
+    "math",
+    "multiply",
+    "multiplication"
+  ],
+  "categories": [
+    "notifications",
+    "math",
+    "letters-digits"
+  ]
+}

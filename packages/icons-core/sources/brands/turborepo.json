@@ -1,0 +1,14 @@
+{
+  "title": "Turborepo",
+  "group": "Product & dev",
+  "tags": [
+    "monorepo",
+    "build",
+    "vercel"
+  ],
+  "aliases": [],
+  "hex": "#FF1E56",
+  "source": "Simple Icons 16.36.0 (https://vercel.com/geist/brands)",
+  "license": "CC0-1.0",
+  "guidelines": "https://vercel.com/geist/brands"
+}

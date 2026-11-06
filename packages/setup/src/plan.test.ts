@@ -1,0 +1,242 @@
+import { describe, expect, it } from "vitest"
+
+import {
+  getDarkModeGuide,
+  getNextSteps,
+  getPrerequisites,
+  planSetup,
+  type StepId,
+} from "./plan"
+import { DEFAULT_PROJECT_SETUP, type ProjectSetup } from "./setup"
+
+const setup = (changes: Partial<ProjectSetup> = {}): ProjectSetup => ({
+  ...DEFAULT_PROJECT_SETUP,
+  ...changes,
+})
+const ids = (changes: Partial<ProjectSetup> = {}): StepId[] =>
+  planSetup(setup(changes)).map((step) => step.id)
+
+describe("planSetup", () => {
+  it("scaffolds a web project and everything in one run", () => {
+    expect(ids({ project: "new" })).toEqual([
+      "scaffold-web",
+      "mount",
+      "first-commit",
+    ])
+  })
+
+  it("starts from a monorepo by default", () => {
+    expect(ids().slice(0, 2)).toEqual(["scaffold-web", "configure-monorepo"])
+  })
+
+  it("has nothing to mount without the shell and sounds", () => {
+    expect(ids({ project: "new", appShell: false, sound: false })).toEqual([
+      "scaffold-web",
+      "first-commit",
+    ])
+  })
+
+  it("sets up assistants only when there are any", () => {
+    expect(ids({ assistants: ["claude"] })).toContain("agents")
+    expect(
+      ids({ assistants: ["claude"], skill: false, mcp: false })
+    ).not.toContain("agents")
+  })
+
+  it("configures a monorepo before its first add, and installs once", () => {
+    expect(
+      ids({ project: "monorepo", mobile: true, desktop: "tauri" })
+    ).toEqual([
+      "scaffold-web",
+      "configure-monorepo",
+      "add-web-items",
+      "scaffold-mobile",
+      "scaffold-desktop",
+      "configure-workspace",
+      "install",
+      "setup-mobile",
+      "mount",
+      "first-commit",
+    ])
+  })
+
+  it("skips the apps a monorepo doesn't have", () => {
+    expect(ids({ project: "monorepo" })).toEqual([
+      "scaffold-web",
+      "configure-monorepo",
+      "add-web-items",
+      "configure-workspace",
+      "install",
+      "mount",
+      "first-commit",
+    ])
+  })
+
+  it("creates an Expo app with its own tool", () => {
+    expect(ids({ framework: "expo" })).toEqual([
+      "scaffold-mobile",
+      "setup-mobile",
+      "mount",
+      "first-commit",
+    ])
+  })
+
+  it("creates a Laravel app with its installer", () => {
+    expect(ids({ project: "new", framework: "laravel" })[0]).toBe(
+      "scaffold-laravel"
+    )
+  })
+
+  it("changes an existing project in place", () => {
+    expect(ids({ project: "existing" })).toEqual(["setup-existing", "mount"])
+    expect(ids({ project: "existing", appShell: false, sound: false })).toEqual(
+      ["setup-existing"]
+    )
+  })
+
+  it("names every assistant it sets up", () => {
+    const step = planSetup(setup({ assistants: ["claude", "codex"] })).find(
+      (item) => item.id === "agents"
+    )
+    expect(step?.title).toContain("Claude Code")
+    expect(step?.title).toContain("Codex")
+  })
+
+  it("names the desktop runtime", () => {
+    const step = planSetup(
+      setup({ project: "monorepo", desktop: "electron" })
+    ).find((item) => item.id === "scaffold-desktop")
+    expect(step?.title).toContain("Electron")
+  })
+
+  it("gives every step a title and a detail", () => {
+    for (const step of planSetup(
+      setup({
+        project: "monorepo",
+        mobile: true,
+        desktop: "tauri",
+        assistants: ["claude"],
+      })
+    )) {
+      expect(step.title, step.id).toBeTruthy()
+      expect(step.detail, step.id).toBeTruthy()
+    }
+  })
+
+  it("doesn't name the upstream project", () => {
+    const text = JSON.stringify(
+      planSetup(setup({ project: "monorepo", mobile: true, desktop: "tauri" }))
+    )
+    expect(text.toLowerCase()).not.toContain("shadcn")
+  })
+})
+
+describe("getNextSteps", () => {
+  it("starts a web project", () => {
+    expect(getNextSteps(setup({ project: "new" }), "npm")).toEqual([
+      { label: "Open the project", code: "cd my-app" },
+      { label: "Start the app", code: "npm run dev" },
+    ])
+  })
+
+  it("starts each app in a monorepo", () => {
+    expect(
+      getNextSteps(
+        setup({ project: "monorepo", mobile: true, desktop: "tauri" }),
+        "bun"
+      ).map((step) => step.code)
+    ).toEqual(["cd my-app", "bun dev", "bun dev:mobile", "bun dev:desktop"])
+  })
+
+  it("builds an Expo app", () => {
+    expect(getNextSteps(setup({ framework: "expo" }), "npm").at(-1)?.code).toBe(
+      "npx expo run:ios"
+    )
+  })
+
+  it("starts Laravel with Composer", () => {
+    expect(
+      getNextSteps(setup({ project: "new", framework: "laravel" }), "npm").at(
+        -1
+      )?.code
+    ).toBe("composer run dev")
+  })
+
+  it("has nothing to do in an existing project", () => {
+    expect(getNextSteps(setup({ project: "existing" }), "npm")).toEqual([])
+  })
+})
+
+describe("getPrerequisites", () => {
+  it("is empty for a web project", () => {
+    expect(getPrerequisites(setup())).toEqual([])
+  })
+
+  it("names only what the choices need", () => {
+    expect(
+      getPrerequisites(setup({ project: "monorepo", desktop: "tauri" })).map(
+        (item) => item.id
+      )
+    ).toEqual(["rust"])
+    expect(
+      getPrerequisites(setup({ project: "monorepo", mobile: true })).map(
+        (item) => item.id
+      )
+    ).toEqual(["native-build"])
+    expect(
+      getPrerequisites(setup({ project: "new", framework: "laravel" })).map(
+        (item) => item.id
+      )
+    ).toEqual(["laravel"])
+  })
+})
+
+describe("getNextSteps on Expo", () => {
+  it("runs the project's own Expo, whatever the package manager", () => {
+    const code = (packageManager: "npm" | "pnpm" | "yarn" | "bun") =>
+      getNextSteps(setup({ framework: "expo" }), packageManager).at(-1)?.code
+    expect(code("npm")).toBe("npx expo run:ios")
+    expect(code("pnpm")).toBe("pnpm exec expo run:ios")
+    expect(code("yarn")).toBe("yarn expo run:ios")
+    expect(code("bun")).toBe("bunx --bun expo run:ios")
+  })
+})
+
+describe("getDarkModeGuide", () => {
+  it("is the framework's guide, or the general one", () => {
+    expect(getDarkModeGuide(setup())).toBe("/docs/dark-mode/next")
+    expect(getDarkModeGuide(setup({ framework: "start" }))).toBe(
+      "/docs/dark-mode/tanstack-start"
+    )
+    expect(getDarkModeGuide(setup({ framework: "react-router" }))).toBe(
+      "/docs/dark-mode"
+    )
+    expect(getDarkModeGuide(setup({ project: "existing" }))).toBe(
+      "/docs/dark-mode"
+    )
+  })
+})
+
+describe("a setup without a website", () => {
+  const desktopOnly = setup({ web: false, desktop: "tauri" })
+
+  it("has no web app to start", () => {
+    const labels = getNextSteps(desktopOnly, "bun").map(({ label }) => label)
+    expect(labels).toEqual(["Open the project", "Open the desktop app"])
+  })
+
+  it("says what the web app is for", () => {
+    const steps = planSetup(desktopOnly)
+    expect(steps[0]?.detail).toContain("the window's UI")
+    expect(steps.map(({ title }) => title)).not.toContain(
+      "Add the web app's components"
+    )
+  })
+
+  it("plans a lone mobile app as the Expo project", () => {
+    expect(ids({ web: false, mobile: true })).toEqual(
+      ids({ framework: "expo" })
+    )
+    expect(ids({ framework: "expo" })[0]).toBe("scaffold-mobile")
+  })
+})

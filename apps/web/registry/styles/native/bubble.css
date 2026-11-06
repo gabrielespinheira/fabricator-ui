@@ -1,0 +1,139 @@
+/* MARK: Bubble */
+
+  .cn-bubble {
+    @apply gap-1 data-[align=end]:self-end;
+  }
+
+  /* Soft chat bubble: 8pt corners, 14pt text. */
+  .cn-bubble-content {
+    @apply rounded-lg border border-transparent px-(--density-14) py-(--density-8) data-[align=end]:self-end;
+  }
+
+  .cn-bubble-text {
+    @apply text-(length:--density-text-14) leading-normal;
+  }
+
+  /* Bubbles leave a fifth of the row free; the ghost reply runs the full width. */
+  .cn-bubble-variant-default {
+    @apply max-w-[80%];
+  }
+
+  .cn-bubble-variant-secondary {
+    @apply max-w-[80%];
+  }
+
+  .cn-bubble-variant-muted {
+    @apply max-w-[80%];
+  }
+
+  .cn-bubble-variant-tinted {
+    @apply max-w-[80%];
+  }
+
+  .cn-bubble-variant-outline {
+    @apply max-w-[80%];
+  }
+
+  .cn-bubble-variant-ghost {
+    @apply max-w-full;
+  }
+
+  .cn-bubble-variant-destructive {
+    @apply max-w-[80%];
+  }
+
+  /* Neutral ladder: secondary is the accent fill, default (the user bubble) is
+     that accent mixed 45% into the page, muted is the translucent hover fill.
+     Opaque mixes keep the user bubble identical on any surface, in both themes.
+     Pressed stands in for the website's hover. */
+  .cn-bubble-content-variant-default {
+    @apply bg-[color-mix(in_oklab,var(--foreground)_6%,var(--background))] dark:bg-[color-mix(in_oklab,var(--foreground)_20%,var(--background))] active:bg-[color-mix(in_oklab,var(--foreground)_9%,var(--background))] dark:active:bg-[color-mix(in_oklab,var(--foreground)_24%,var(--background))];
+  }
+
+  .cn-bubble-text-variant-default {
+    @apply text-foreground;
+  }
+
+  .cn-bubble-content-variant-secondary {
+    @apply bg-[color-mix(in_oklab,var(--foreground)_10%,var(--background))] dark:bg-[color-mix(in_oklab,var(--foreground)_28%,var(--background))] active:bg-[color-mix(in_oklab,var(--foreground)_13%,var(--background))] dark:active:bg-[color-mix(in_oklab,var(--foreground)_32%,var(--background))];
+  }
+
+  .cn-bubble-text-variant-secondary {
+    @apply text-foreground;
+  }
+
+  .cn-bubble-content-variant-muted {
+    @apply bg-hover active:bg-active;
+  }
+
+  .cn-bubble-text-variant-muted {
+    @apply text-foreground;
+  }
+
+  /* Tinted: a soft wash of the focus blue, the palette's only hue. */
+  .cn-bubble-content-variant-tinted {
+    @apply bg-[color-mix(in_oklab,var(--focus-ring)_12%,var(--background))] dark:bg-[color-mix(in_oklab,var(--focus-ring)_22%,var(--background))] active:bg-[color-mix(in_oklab,var(--focus-ring)_18%,var(--background))] dark:active:bg-[color-mix(in_oklab,var(--focus-ring)_28%,var(--background))];
+  }
+
+  .cn-bubble-text-variant-tinted {
+    @apply text-foreground;
+  }
+
+  .cn-bubble-content-variant-outline {
+    @apply border-border active:bg-active bg-transparent;
+  }
+
+  .cn-bubble-text-variant-outline {
+    @apply text-foreground;
+  }
+
+  /* An outline bubble that is a button reads quieter. */
+  .cn-bubble-text-outline-action {
+    @apply text-muted-foreground;
+  }
+
+  /* Ghost: the assistant reply, plain foreground text without a frame. */
+  .cn-bubble-content-variant-ghost {
+    @apply active:bg-hover rounded-none border-0 bg-transparent p-0;
+  }
+
+  .cn-bubble-text-variant-ghost {
+    @apply text-foreground;
+  }
+
+  .cn-bubble-content-variant-destructive {
+    @apply bg-destructive/12 active:bg-destructive/16;
+  }
+
+  .cn-bubble-text-variant-destructive {
+    @apply text-destructive-text;
+  }
+
+  /* Reactions: a small raised pill on surface 3 (the shadow ring is its edge). */
+  .cn-bubble-reactions {
+    @apply bg-surface-3 shadow-surface-3 h-(--density-24) shrink-0 gap-0.5 rounded-full px-(--density-6);
+  }
+
+  .cn-bubble-reactions-text {
+    @apply text-(length:--density-text-12);
+  }
+
+  .cn-bubble-reactions-side-top {
+    @apply top-[calc(var(--density-24)*-0.75)];
+  }
+
+  .cn-bubble-reactions-side-bottom {
+    @apply bottom-[calc(var(--density-24)*-0.75)];
+  }
+
+  .cn-bubble-reactions-align-start {
+    @apply start-3;
+  }
+
+  .cn-bubble-reactions-align-end {
+    @apply end-3;
+  }
+
+  .cn-bubble-group {
+    @apply gap-1;
+  }

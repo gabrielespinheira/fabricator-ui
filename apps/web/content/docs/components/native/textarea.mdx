@@ -1,0 +1,71 @@
+---
+title: Textarea
+description: Displays a form textarea or a component that looks like a textarea.
+base: native
+component: true
+---
+
+<NativePreview src="/images/native/textarea.jpg" alt="Textarea on iOS" />
+
+## Installation
+
+```bash
+npx fabricator-ui@latest add textarea
+```
+
+## Usage
+
+```tsx
+import { Text } from "@/components/ui/text"
+import { Textarea } from "@/components/ui/textarea"
+```
+
+```tsx
+<Textarea placeholder="Type your message here." />
+```
+
+## Examples
+
+```tsx showLineNumbers title="textarea-example.tsx"
+import * as React from "react"
+
+import { Text } from "@/components/ui/text"
+import { Textarea } from "@/components/ui/textarea"
+
+function TextareaExample() {
+  const [value, setValue] = React.useState("Thanks for the quick reply.")
+  return (
+    <ExampleWrapper fit>
+      <Example title="Default">
+        <Textarea placeholder="Type your message here." />
+      </Example>
+      <Example title="Controlled">
+        <Textarea value={value} onChangeText={setValue} />
+        <Text className="text-muted-foreground">{value.length} characters</Text>
+      </Example>
+      <Example title="Invalid">
+        <Textarea aria-invalid defaultValue="Too short" />
+      </Example>
+      <Example title="Disabled">
+        <Textarea disabled defaultValue="Replies are closed." />
+      </Example>
+    </ExampleWrapper>
+  )
+}
+
+export { TextareaExample }
+```
+
+## API reference
+
+
+
+Props it adds to what it wraps: `"aria-invalid"`, `disabled`.
+
+## Differences from web
+
+**Same.** It works as it does on the web, with `onPress` for `onClick`.
+
+## Accessibility
+
+Text is read as it appears. Give a control with no text an `accessibilityLabel`.

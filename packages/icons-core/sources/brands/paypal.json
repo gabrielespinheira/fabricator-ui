@@ -1,0 +1,14 @@
+{
+  "title": "PayPal",
+  "group": "Marketing & commerce",
+  "tags": [
+    "payments",
+    "checkout",
+    "billing"
+  ],
+  "aliases": [],
+  "hex": "#002991",
+  "source": "Simple Icons 16.36.0 (https://www.paypal.com/us)",
+  "license": "CC0-1.0",
+  "guidelines": "https://newsroom.paypal-corp.com/media-resources"
+}

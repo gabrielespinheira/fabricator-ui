@@ -31,7 +31,7 @@
   }
 
   /* Media well: the hover fill with an inset hairline painted over the
-     preview (Fluid Functionalism's file thumbnail). */
+     preview. */
   .cn-attachment-media {
     @apply bg-hover text-muted-foreground w-9 rounded-md outline-1 -outline-offset-1 outline-black/10 dark:outline-white/10 group-data-[size=sm]/attachment:w-7 group-data-[size=xs]/attachment:w-6 group-data-[size=xs]/attachment:rounded-[5px] [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5] group-data-[size=xs]/attachment:[&_svg:not([class*='size-'])]:size-(--density-icon-14) group-data-[orientation=vertical]/attachment:w-full group-data-[orientation=vertical]/attachment:rounded-lg group-data-[orientation=vertical]/attachment:[&_svg:not([class*='size-'])]:size-(--density-24) group-data-[orientation=vertical]/attachment:*:data-[slot=spinner]:size-(--density-24)!;
   }

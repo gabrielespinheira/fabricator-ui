@@ -4,12 +4,30 @@ import {
   ensureRegistry,
   getCatalogStyle,
   hasRegistry,
+  readComponentsJson,
   withTemporaryRegistry,
 } from "../utils/config"
 import { highlight, logger } from "../utils/logger"
 import { NAMESPACE, rewriteNames, usesFabricator } from "../utils/names"
+import {
+  isReactNativeProject,
+  readPackageJson,
+  registryTemplateFor,
+} from "../utils/native"
+import {
+  buildInstallArgs,
+  detectPackageManager,
+} from "../utils/package-manager"
+import { runLogged } from "../utils/process"
 import { exitLike, runShadcn, type ShadcnResult } from "../utils/shadcn"
-import { fabricatorRegistryTemplate, getBaseUrl } from "../utils/urls"
+import { getBaseUrl, isUrl } from "../utils/urls"
+import {
+  alignWorkspaceAliases,
+  findWorkspaceRoot,
+  listWorkspaceApps,
+  syncWorkspaceAfterAdd,
+} from "../utils/workspace"
+import { alignExpoDependencies } from "./init-native"
 import {
   fail,
   fetchCatalog,
@@ -29,6 +47,17 @@ export interface AddOptions {
   diff?: string | boolean
   view?: string | boolean
   upstream?: boolean
+  /** Which monorepo apps: names, comma-separated, or `all`. */
+  app?: string
+}
+
+/** A React Native project asks `/init/app-shell` for the native file. */
+export function adaptItemForProject(item: string, isNative: boolean) {
+  if (!isNative || !isUrl(item)) return item
+  const url = new URL(item)
+  if (!url.pathname.endsWith("/init/app-shell")) return item
+  url.searchParams.set("platform", "native")
+  return url.toString()
 }
 
 /** Flags passed through to `shadcn add` (everything except the item list and `--all`). */
@@ -68,7 +97,7 @@ export async function runWithFabricatorRegistry(
   const config = requireComponentsJson(cwd)
   if (hasRegistry(config, NAMESPACE)) return runShadcn(args)
 
-  const url = fabricatorRegistryTemplate(getBaseUrl())
+  const url = registryTemplateFor(cwd, getBaseUrl())
   if (options.readOnly) {
     if (!options.silent) {
       logger.note(
@@ -87,11 +116,69 @@ export async function runWithFabricatorRegistry(
   return runShadcn(args)
 }
 
+/** The apps a run at a monorepo's root applies to. */
+async function resolveApps(cwd: string, app: string | undefined) {
+  const apps = listWorkspaceApps(cwd)
+  if (apps.length === 0) return undefined
+  if (apps.length === 1 && !app) return apps
+  if (app === "all") return apps
+  if (app) {
+    const names = app.split(",")
+    const unknown = names.filter(
+      (name) => !apps.some((candidate) => candidate.name === name)
+    )
+    if (unknown.length > 0) {
+      fail(
+        `No app named ${unknown.join(", ")}. This monorepo has: ${apps.map(({ name }) => name).join(", ")}.`
+      )
+    }
+    return apps.filter(({ name }) => names.includes(name))
+  }
+  if (!process.stdin.isTTY) {
+    fail(
+      `This monorepo has several apps. Pass --app ${apps.map(({ name }) => name).join(",")} or --app all.`
+    )
+  }
+  const picked = await promptMultiselect(
+    "Which apps should get this?",
+    apps.map(({ name }) => ({ title: name, value: name }))
+  )
+  return apps.filter(({ name }) => picked.includes(name))
+}
+
+/** After an `add` in a monorepo app: exports, and the app's own dependencies. */
+async function finishWorkspaceAdd(cwd: string, silent?: boolean) {
+  if (!syncWorkspaceAfterAdd(cwd)) return
+  const root = findWorkspaceRoot(cwd)
+  if (!root) return
+  const packageManager = detectPackageManager(root)
+  if (!silent) logger.info("Updating the workspace's dependencies.")
+  await runLogged(packageManager, buildInstallArgs(packageManager), {
+    cwd: root,
+    logFile: "/dev/null",
+  })
+}
+
 export async function add(
   components: string[],
   rawOptions: AddOptions
 ): Promise<void> {
   const cwd = resolveCwd(rawOptions.cwd)
+  if (
+    !rawOptions.upstream &&
+    !readComponentsJson(cwd).exists &&
+    findWorkspaceRoot(cwd) === cwd
+  ) {
+    const apps = await resolveApps(cwd, rawOptions.app)
+    if (apps) {
+      for (const app of apps) {
+        if (!rawOptions.silent)
+          logger.info(`Adding to ${highlight.info(app.name)}.`)
+        await add(components, { ...rawOptions, app: undefined, cwd: app.dir })
+      }
+      return
+    }
+  }
   const options = { ...rawOptions, cwd }
   const flags = buildAddFlags(options)
 
@@ -107,7 +194,10 @@ export async function add(
   }
 
   const config = requireComponentsJson(cwd)
-  let items = rewriteNames(components)
+  const isNative = isReactNativeProject(readPackageJson(cwd))
+  let items = rewriteNames(components).map((item) =>
+    adaptItemForProject(item, isNative)
+  )
 
   if (options.all || items.length === 0) {
     const style = getCatalogStyle(config)
@@ -144,12 +234,16 @@ export async function add(
   const args = ["add", ...items, ...flags]
   if (!usesFabricator(items)) return exitLike(await runShadcn(args))
   const readOnly = Boolean(options.dryRun || options.diff || options.view)
-  exitLike(
-    await runWithFabricatorRegistry(cwd, args, {
-      readOnly,
-      silent: options.silent,
-    })
-  )
+  if (!readOnly) alignWorkspaceAliases(cwd)
+  const result = await runWithFabricatorRegistry(cwd, args, {
+    readOnly,
+    silent: options.silent,
+  })
+  if (result.code === 0 && !result.signal && !readOnly) {
+    await alignExpoDependencies(cwd, { silent: options.silent })
+    await finishWorkspaceAdd(cwd, options.silent)
+  }
+  exitLike(result)
 }
 
 export function createAddCommand(): Command {
@@ -174,6 +268,10 @@ export function createAddCommand(): Command {
     .option("--diff [path]", "show diff for a file")
     .option("--view [path]", "show file contents")
     .option("--upstream", "install from the upstream shadcn/ui registry")
+    .option(
+      "--app <apps>",
+      "at a monorepo's root: app names, comma-separated, or all"
+    )
     .action(async (components: string[], options: AddOptions) => {
       try {
         await add(components, options)

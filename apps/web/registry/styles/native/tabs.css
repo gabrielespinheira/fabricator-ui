@@ -1,0 +1,70 @@
+/* MARK: Tabs */
+
+  .cn-tabs {
+    @apply gap-(--density-8);
+  }
+
+  /* Track: rounded-xl, p-1, 36pt tall. The selected pill and the pressed pill are
+     overlays under the triggers. The line variant drops the track. */
+  .cn-tabs-list {
+    @apply rounded-xl p-(--density-4) data-[orientation=horizontal]:h-(--density-36) data-[variant=line]:rounded-none;
+  }
+
+  /* The default track is a translucent foreground step instead of bg-muted: in
+     dark mode muted equals surface-2, so a muted track vanished on surface-2
+     cards. A step over whatever is underneath shows on every surface. */
+  .cn-tabs-list-variant-default {
+    @apply bg-foreground/5;
+  }
+
+  .cn-tabs-list-variant-line {
+    @apply gap-1 bg-transparent;
+  }
+
+  /* Triggers: 28pt. The overlays paint the pills, so the tab stays transparent. */
+  .cn-tabs-trigger {
+    @apply h-(--density-28) gap-(--density-6) rounded-lg px-(--density-12);
+  }
+
+  /* 13pt. The resting colour is foreground/65 (dark: muted-foreground), one step
+     above the source's /60: on the translucent track, /60 and muted-foreground
+     both miss 4.5:1 in light. Only the active tab turns semibold. */
+  .cn-tabs-trigger-text {
+    @apply text-foreground/65 dark:text-muted-foreground text-(length:--density-text-13) font-normal;
+  }
+
+  /* A lit tab previews the next selection: foreground, no weight change. */
+  .cn-tabs-trigger-text-lit {
+    @apply text-foreground dark:text-foreground;
+  }
+
+  .cn-tabs-trigger-text-active {
+    @apply text-foreground dark:text-foreground font-semibold;
+  }
+
+  /* The selected tab's pill: a raised surface that slides on the move timing. The
+     line variant draws a foreground underline instead. In dark a fixed surface
+     can't sit above the track, which is a step over whatever is underneath: on a
+     card, surface 4 is darker than it. So the pill is a step over the track too,
+     about 1.5:1 against it on every surface. */
+  .cn-tabs-selection {
+    @apply bg-surface-4 dark:bg-foreground/14 shadow-surface-4 rounded-lg data-[variant=line]:bg-transparent dark:data-[variant=line]:bg-transparent data-[variant=line]:shadow-none;
+  }
+
+  .cn-tabs-selection-line {
+    @apply bg-foreground data-[orientation=horizontal]:inset-x-0 data-[orientation=horizontal]:-bottom-1 data-[orientation=horizontal]:h-0.5 data-[orientation=vertical]:-end-1 data-[orientation=vertical]:inset-y-0 data-[orientation=vertical]:w-0.5;
+  }
+
+  /* The website's hover pill previews the next click. A finger shows it while
+     pressed. */
+  .cn-tabs-highlight {
+    @apply bg-hover/60 data-[variant=line]:bg-hover rounded-lg;
+  }
+
+  .cn-tabs-content {
+    @apply gap-(--density-8);
+  }
+
+  .cn-tabs-content-text {
+    @apply text-(length:--density-text-13);
+  }

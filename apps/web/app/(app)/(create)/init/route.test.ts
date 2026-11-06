@@ -25,6 +25,41 @@ function createRequest(search = "") {
   } as Parameters<typeof GET>[0]
 }
 
+// What the CLI sends: no library unless the person picked one.
+function createCliRequest(search = "") {
+  return {
+    nextUrl: new URL(
+      `http://localhost:4000/init?base=base&preset=fabricator${search}`
+    ),
+  } as Parameters<typeof GET>[0]
+}
+
+describe("GET /init?platform=native", () => {
+  const nativeRequest = (search = "") =>
+    ({
+      nextUrl: new URL(`http://localhost:4000/init?platform=native${search}`),
+    }) as Parameters<typeof GET>[0]
+
+  it("returns the React Native setup with its theme", async () => {
+    const response = await GET(nativeRequest())
+    const json = await response.json()
+    expect(response.status).toBe(200)
+    expect(json.registryDependencies).toEqual(["@fabricator/index"])
+    expect(json.files[0].content).toContain("--density-36: 44px;")
+  })
+
+  it("takes a look", async () => {
+    const response = await GET(nativeRequest("&shape=pill"))
+    const json = await response.json()
+    expect(json.files[0].content).toContain("--radius: 20px;")
+  })
+
+  it("rejects a bad look", async () => {
+    const response = await GET(nativeRequest("&motion=warp"))
+    expect(response.status).toBe(400)
+  })
+})
+
 describe("GET /init", () => {
   it("returns the full registry base when only is omitted", async () => {
     const response = await GET(createRequest())
@@ -63,17 +98,44 @@ describe("GET /init", () => {
       tailwind: {
         baseColor: "neutral",
       },
-      registries: {
-        "@fabricator": expect.stringMatching(
-          /\/r\/fabricator\/\{style\}\/\{name\}\.json$/
-        ),
-      },
     })
     expect(json.cssVars.light).toBeDefined()
     // The default (fabricator) preset applies the Fabricator palette.
     expect(json.cssVars.light.radius).toBe(FABRICATOR_PALETTE.light.radius)
     expect(json.dependencies).toBeUndefined()
     expect(json.registryDependencies).toBeUndefined()
+  })
+
+  it("installs Fabricator's icons by default", async () => {
+    const response = await GET(createCliRequest())
+    const json = await response.json()
+
+    // shadcn's schema has no Fabricator library, so the field stays valid.
+    expect(json.config.iconLibrary).toBe("lucide")
+    expect(json.config.registries["@fabricator"].params).toEqual({
+      icons: "fabricator",
+    })
+    expect(json.dependencies).toContain("@fabricator-ui/icons")
+    expect(json.dependencies).not.toContain("lucide-react")
+    expect(json.registryDependencies.join()).toContain("?icons=fabricator")
+  })
+
+  it("accepts Fabricator by name, as the setup page's share link can", async () => {
+    const response = await GET(createCliRequest("&iconLibrary=fabricator"))
+    expect(response.status).toBe(200)
+    const json = await response.json()
+    expect(json.config.registries["@fabricator"].params).toBeDefined()
+  })
+
+  it("keeps Lucide when asked, with a plain registry entry", async () => {
+    const response = await GET(createCliRequest("&iconLibrary=lucide"))
+    const json = await response.json()
+
+    expect(json.config.registries["@fabricator"]).toMatch(
+      /\/r\/fabricator\/\{style\}\/\{name\}\.json$/
+    )
+    expect(json.dependencies).toContain("lucide-react")
+    expect(json.dependencies).not.toContain("@fabricator-ui/icons")
   })
 
   it("configures the @fabricator registry", async () => {

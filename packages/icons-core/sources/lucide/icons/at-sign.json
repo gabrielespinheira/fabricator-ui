@@ -1,0 +1,23 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "colebemis",
+    "csandman",
+    "ericfennis",
+    "danielbayley"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$group:letter",
+    "mention",
+    "at",
+    "email",
+    "message",
+    "@"
+  ],
+  "categories": [
+    "text",
+    "account",
+    "mail"
+  ]
+}

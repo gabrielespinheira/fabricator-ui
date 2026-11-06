@@ -52,7 +52,9 @@ function inSrgb(color: string) {
   return oklchToLinearRgb(l, c, h).every((v) => v >= -0.001 && v <= 1.001)
 }
 
-describe("colour roles", () => {
+// The sweeps below take 2s alone and over 12s on CI, where every package's
+// tests run in parallel.
+describe("colour roles", { timeout: 60_000 }, () => {
   it("gives every role the same tokens", () => {
     const names = (role: string) =>
       Object.keys(roleCss("info", "light")).map((name) =>

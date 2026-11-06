@@ -1,0 +1,418 @@
+---
+title: Sidebar
+description: An app sidebar that drags to resize, peeks out when collapsed and becomes a drawer on mobile.
+base: native
+component: true
+---
+
+<NativePreview src="/images/native/sidebar.jpg" alt="Sidebar on iOS" />
+
+## Installation
+
+```bash
+npx fabricator-ui@latest add sidebar
+```
+
+## Usage
+
+```tsx
+import { Button } from "@/components/ui/button"
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarGroupAction,
+  SidebarGroupActions,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarInput,
+  SidebarInset,
+  SidebarMenu,
+  SidebarMenuAction,
+  SidebarMenuActions,
+  SidebarMenuBadge,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarMenuSkeleton,
+  SidebarMenuSub,
+  SidebarMenuSubButton,
+  SidebarMenuSubItem,
+  SidebarProvider,
+  SidebarRail,
+  SidebarSeparator,
+  SidebarTrigger,
+  useSidebar,
+} from "@/components/ui/sidebar"
+import { Text } from "@/components/ui/text"
+```
+
+```tsx
+<Frame isMobile mobileSidebar="reveal">
+  <Sidebar>
+    <Rows />
+  </Sidebar>
+  <Page />
+</Frame>
+```
+
+## Composition
+
+- `Sidebar`
+- `SidebarChevron`
+- `SidebarContent`
+- `SidebarFooter`
+- `SidebarFrameContext`
+- `SidebarGroup`
+- `SidebarGroupAction`
+- `SidebarGroupActions`
+- `SidebarGroupContent`
+- `SidebarGroupLabel`
+- `SidebarHeader`
+- `SidebarIcon`
+- `SidebarInput`
+- `SidebarInset`
+- `SidebarMenu`
+- `SidebarMenuAction`
+- `SidebarMenuActions`
+- `SidebarMenuBadge`
+- `SidebarMenuButton`
+- `SidebarMenuItem`
+- `SidebarMenuSkeleton`
+- `SidebarMenuSub`
+- `SidebarMenuSubButton`
+- `SidebarMenuSubItem`
+- `SidebarProvider`
+- `SidebarRail`
+- `SidebarSeparator`
+- `SidebarToggleIcon`
+- `SidebarTrigger`
+
+## Examples
+
+```tsx showLineNumbers title="sidebar-example.tsx"
+import * as React from "react"
+import {
+  BoxIcon,
+  CalendarIcon,
+  EllipsisIcon,
+  FileTextIcon,
+  HomeIcon,
+  InboxIcon,
+  PlusIcon,
+  RocketIcon,
+  SettingsIcon,
+} from "@fabricator-ui/icons-react-native"
+import { View } from "react-native"
+import { SafeAreaInsetsContext } from "react-native-safe-area-context"
+
+import { Button } from "@/components/ui/button"
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarGroup,
+  SidebarGroupAction,
+  SidebarGroupActions,
+  SidebarGroupContent,
+  SidebarGroupLabel,
+  SidebarHeader,
+  SidebarInput,
+  SidebarInset,
+  SidebarMenu,
+  SidebarMenuAction,
+  SidebarMenuActions,
+  SidebarMenuBadge,
+  SidebarMenuButton,
+  SidebarMenuItem,
+  SidebarMenuSkeleton,
+  SidebarMenuSub,
+  SidebarMenuSubButton,
+  SidebarMenuSubItem,
+  SidebarProvider,
+  SidebarRail,
+  SidebarSeparator,
+  SidebarTrigger,
+  useSidebar,
+} from "@/components/ui/sidebar"
+import { Text } from "@/components/ui/text"
+
+// A demo's frame isn't the window, so it has no safe areas of its own.
+const NO_INSETS = { top: 0, right: 0, bottom: 0, left: 0 }
+
+function Rows() {
+  const [isSubOpen, setIsSubOpen] = React.useState(true)
+  return (
+    <>
+      <SidebarHeader>
+        <SidebarInput placeholder="Search" />
+      </SidebarHeader>
+      <SidebarContent>
+        <SidebarGroup>
+          <SidebarGroupLabel>Main</SidebarGroupLabel>
+          <SidebarGroupAction accessibilityLabel="Add">
+            <PlusIcon />
+          </SidebarGroupAction>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton isActive icon={HomeIcon} tooltip="Home">
+                  Home
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton icon={InboxIcon} tooltip="Inbox">
+                  Inbox
+                </SidebarMenuButton>
+                <SidebarMenuBadge>4</SidebarMenuBadge>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton icon={CalendarIcon} tooltip="Calendar">
+                  Calendar
+                </SidebarMenuButton>
+                <SidebarMenuAction accessibilityLabel="Calendar actions">
+                  <EllipsisIcon />
+                </SidebarMenuAction>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton
+                  icon={BoxIcon}
+                  tooltip="Projects"
+                  aria-expanded={isSubOpen}
+                  onPress={() => setIsSubOpen(!isSubOpen)}
+                >
+                  Projects
+                </SidebarMenuButton>
+                <SidebarMenuActions showOnHover>
+                  <SidebarMenuAction accessibilityLabel="New project">
+                    <PlusIcon />
+                  </SidebarMenuAction>
+                  <SidebarMenuAction accessibilityLabel="Project actions">
+                    <EllipsisIcon />
+                  </SidebarMenuAction>
+                </SidebarMenuActions>
+                <SidebarMenuSub open={isSubOpen}>
+                  <SidebarMenuSubItem>
+                    <SidebarMenuSubButton isActive icon={RocketIcon}>
+                      Q4 launch
+                    </SidebarMenuSubButton>
+                  </SidebarMenuSubItem>
+                  <SidebarMenuSubItem>
+                    <SidebarMenuSubButton size="md">
+                      Website
+                    </SidebarMenuSubButton>
+                  </SidebarMenuSubItem>
+                  <SidebarMenuSubItem>
+                    <SidebarMenuSubButton size="sm">
+                      Mobile app
+                    </SidebarMenuSubButton>
+                  </SidebarMenuSubItem>
+                </SidebarMenuSub>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+        <SidebarSeparator />
+        <SidebarGroup collapsible>
+          <SidebarGroupLabel>A group that collapses</SidebarGroupLabel>
+          <SidebarGroupActions showOnHover>
+            <SidebarGroupAction accessibilityLabel="Add">
+              <PlusIcon />
+            </SidebarGroupAction>
+          </SidebarGroupActions>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton status="active">
+                  Active dot
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton status="unread">
+                  Unread dot
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton status="idle">Idle ring</SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton dot="ring">A dot alone</SidebarMenuButton>
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+        <SidebarGroup>
+          <SidebarGroupLabel>Sizes and variants</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              <SidebarMenuItem>
+                <SidebarMenuButton size="sm" icon={FileTextIcon}>
+                  Small
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton size="lg" icon={FileTextIcon}>
+                  Large
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton variant="outline" icon={FileTextIcon}>
+                  Outline
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuButton disabled icon={FileTextIcon}>
+                  Disabled
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuSkeleton showIcon />
+              </SidebarMenuItem>
+              <SidebarMenuItem>
+                <SidebarMenuSkeleton />
+              </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      </SidebarContent>
+      <SidebarFooter>
+        <SidebarMenu>
+          <SidebarMenuItem>
+            <SidebarMenuButton icon={SettingsIcon} tooltip="Settings">
+              Settings
+            </SidebarMenuButton>
+          </SidebarMenuItem>
+        </SidebarMenu>
+      </SidebarFooter>
+      <SidebarRail />
+    </>
+  )
+}
+
+function PageState() {
+  const { state, isMobile, openMobile } = useSidebar()
+  return (
+    <Text className="text-muted-foreground">
+      {isMobile ? `Phone: ${openMobile ? "open" : "closed"}` : state}
+    </Text>
+  )
+}
+
+function Frame({
+  children,
+  ...props
+}: React.ComponentProps<typeof SidebarProvider>) {
+  return (
+    <SafeAreaInsetsContext value={NO_INSETS}>
+      <View className="h-[520px] w-full overflow-hidden rounded-xl">
+        <SidebarProvider {...props}>{children}</SidebarProvider>
+      </View>
+    </SafeAreaInsetsContext>
+  )
+}
+
+function Page() {
+  return (
+    <SidebarInset>
+      <View className="flex-row items-center gap-2 p-2">
+        <SidebarTrigger />
+        <PageState />
+      </View>
+    </SidebarInset>
+  )
+}
+
+function SidebarExample() {
+  const [isOpen, setIsOpen] = React.useState(true)
+  return (
+    <ExampleWrapper>
+      <Example title="Phone: reveal behind the page" className="p-0">
+        <Frame isMobile mobileSidebar="reveal">
+          <Sidebar>
+            <Rows />
+          </Sidebar>
+          <Page />
+        </Frame>
+      </Example>
+      <Example title="Phone: a sheet over the page" className="p-0">
+        <Frame isMobile mobileSidebar="sheet">
+          <Sidebar>
+            <Rows />
+          </Sidebar>
+          <Page />
+        </Frame>
+      </Example>
+      <Example title="Tablet: collapses to icons" className="p-0">
+        <Frame isMobile={false}>
+          <Sidebar collapsible="icon">
+            <Rows />
+          </Sidebar>
+          <Page />
+        </Frame>
+      </Example>
+      <Example title="Tablet: off-canvas, on the right" className="p-0">
+        <Frame isMobile={false}>
+          <Page />
+          <Sidebar side="right" collapsible="offcanvas" bordered={false}>
+            <Rows />
+          </Sidebar>
+        </Frame>
+      </Example>
+      <Example title="Tablet: floating" className="p-0">
+        <Frame isMobile={false}>
+          <Sidebar variant="floating" collapsible="icon">
+            <Rows />
+          </Sidebar>
+          <Page />
+        </Frame>
+      </Example>
+      <Example title="Tablet: inset" className="p-0">
+        <Frame isMobile={false}>
+          <Sidebar variant="inset" collapsible="icon">
+            <Rows />
+          </Sidebar>
+          <Page />
+        </Frame>
+      </Example>
+      <Example title="Tablet: controlled, never collapses" className="p-0">
+        <Button variant="outline" onPress={() => setIsOpen(!isOpen)}>
+          {isOpen ? "Collapse" : "Expand"}
+        </Button>
+        <Frame isMobile={false} open={isOpen} onOpenChange={setIsOpen}>
+          <Sidebar>
+            <Rows />
+          </Sidebar>
+          <Page />
+        </Frame>
+        <Frame isMobile={false}>
+          <Sidebar collapsible="none">
+            <Rows />
+          </Sidebar>
+          <Page />
+        </Frame>
+      </Example>
+    </ExampleWrapper>
+  )
+}
+
+export { SidebarExample }
+```
+
+## API reference
+
+| Prop | Values |
+| --- | --- |
+| `variant` | `default`, `outline` |
+| `size` | `default`, `lg`, `md`, `sm` |
+| `state` | `active`, `default` |
+
+Props it adds to what it wraps: `"data-dragging"`, `bordered`, `collapsible`, `defaultOpen`, `dot`, `gutter`, `icon`, `isActive`, `isFlushTop`, `isMobile`, `mobileSidebar`, `onGapWidthChange`, `onLayout`, `onOpenChange`, `onPress`, `onWidthChange`, `open`, `peek`, `persist`, `shortcut`, `showIcon`, `showOnHover`, `side`, `size`, `status`, `statusBarHeight`, `tooltip`, `variant`, `width`, `widthMobile`.
+
+## Differences from web
+
+**Touch input.** On phones it reveals behind the page, following the finger, or slides over it from an edge swipe. `SidebarRail` toggles on a tap instead of resizing. Row actions always show on phones; on tablets they wait for the current row or a trackpad's hover, and a long press reaches the rest. `persist`, `shortcut`, `peek` and `onWidthChange` are accepted and do nothing.
+
+## Accessibility
+
+Parts set `role="button"`, `role="dialog"`, `role="heading"`, `role="list"`, `role="listitem"`, read by VoiceOver and TalkBack. Give a control with no text an `accessibilityLabel`.

@@ -1,0 +1,97 @@
+/* MARK: Menubar */
+
+  /* The bar is a raised strip (surface 2 ring, no border). It scrolls sideways when
+     its triggers don't fit a phone. */
+  .cn-menubar {
+    @apply bg-card shadow-surface-2 h-(--density-36) rounded-xl;
+  }
+
+  .cn-menubar-list {
+    @apply items-center gap-0.5 p-(--density-4);
+  }
+
+  /* Triggers: 28pt, 13pt, muted at rest. One highlight glides between them (Fluid
+     Hover). An open trigger keeps a hover fill. */
+  .cn-menubar-trigger {
+    @apply h-(--density-28) rounded-lg px-(--density-10) data-[state=open]:bg-hover;
+  }
+
+  .cn-menubar-trigger-text {
+    @apply text-muted-foreground text-(length:--density-text-13) font-normal;
+  }
+
+  /* Open or under the highlight, a trigger reads foreground. */
+  .cn-menubar-trigger-text-open {
+    @apply text-foreground;
+  }
+
+  /* Menus: the popup recipe, sized to their rows rather than to the trigger. */
+  .cn-menubar-content {
+    @apply bg-surface-3 shadow-surface-3 min-w-36 rounded-xl p-1;
+  }
+
+  /* On the website this holds the motion, which is useSurfaceAnimation here. It
+     keeps the rows' spacing instead. */
+  .cn-menubar-content-logical {
+    @apply w-auto;
+  }
+
+  /* Rows: 36pt, 13pt, muted at rest. The menu's highlight paints the lit one. */
+  .cn-menubar-item {
+    @apply h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8) data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))];
+  }
+
+  /* Checkbox and radio rows keep the check on the start side. Checked rows are
+     foreground and semibold. */
+  .cn-menubar-checkbox-item {
+    @apply h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-(--density-8) pl-[calc(var(--density-8)*2+var(--density-icon-16))] disabled:opacity-50;
+  }
+
+  .cn-menubar-checkbox-item-indicator {
+    @apply left-(--density-8) size-(--density-icon-16);
+  }
+
+  .cn-menubar-radio-item {
+    @apply h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-(--density-8) pl-[calc(var(--density-8)*2+var(--density-icon-16))] disabled:opacity-50;
+  }
+
+  .cn-menubar-radio-item-indicator {
+    @apply left-(--density-8) size-(--density-icon-16);
+  }
+
+  .cn-menubar-choice-text {
+    @apply text-muted-foreground text-(length:--density-text-13);
+  }
+
+  .cn-menubar-choice-text-checked {
+    @apply text-foreground font-semibold;
+  }
+
+  /* Lit, it reads foreground too; only choosing it changes the weight. */
+  .cn-menubar-choice-text-lit {
+    @apply text-foreground;
+  }
+
+  .cn-menubar-label {
+    @apply text-muted-foreground px-(--density-8) py-(--density-6) text-(length:--density-text-12) font-normal data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))];
+  }
+
+  .cn-menubar-separator {
+    @apply bg-border/60 -mx-1 my-1 h-px;
+  }
+
+  /* Keyboard shortcuts wait for a tablet: a phone has no keyboard to press them on. */
+  .cn-menubar-shortcut {
+    @apply hidden sm:flex text-muted-foreground ml-auto text-(length:--density-text-11) tracking-normal;
+  }
+
+  /* An open sub-trigger stays lit while its submenu shows below it. */
+  .cn-menubar-sub-trigger {
+    @apply h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8) data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))];
+  }
+
+  /* A submenu expands inline, indented under a hairline: a phone has no room beside
+     the menu. */
+  .cn-menubar-sub-content {
+    @apply border-border/60 my-1 ml-(--density-8) border-l pl-1;
+  }

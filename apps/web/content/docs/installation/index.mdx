@@ -3,7 +3,7 @@ title: Installation
 description: How to install dependencies and structure your app.
 ---
 
-The quickest way in is the [setup page](/create): pick your colours, surface, radius, motion and icons while every component previews them, choose your framework and extras, and copy the command it writes for you.
+The quickest way in is the [setup page](/create): pick your colours, surface, radius, motion and icons, shape the App Shell in a live preview, choose your framework and extras, and copy the command it writes for you.
 
 Or choose the setup that matches your starting point.
 
@@ -28,20 +28,22 @@ Or choose the setup that matches your starting point.
 <div id="use-cli" className="scroll-mt-24" />
 ## Use the CLI
 
-Use the CLI to scaffold a new project directly from the terminal:
+Create a project with one command. It starts a monorepo with your framework in `apps/web`, your look, the App Shell and the sounds:
 
 ```bash
-npx fabricator-ui@latest init -t [framework]
+npx fabricator-ui@latest create my-app -t [framework]
 ```
 
-Supported templates: `next`, `vite`, `start`, `react-router`, `astro` and `laravel`. Use `-b` to choose the base (`base`, `radix` or `aria`), and add `--monorepo` as needed.
+Supported frameworks: `next`, `vite`, `start`, `react-router`, `astro`, `laravel` and `expo`. Use `-b` to choose the base (`base`, `radix` or `aria`). Laravel needs its installer on your PATH.
 
-For Laravel, create the app first with `laravel new`, then run `npx fabricator-ui@latest init`.
+For mobile and desktop apps beside it, use `--mobile` and `--desktop`. For one app in one folder, use `--no-monorepo`. See the [CLI](/docs/cli#create) for every option.
 
 <div id="existing-project" className="scroll-mt-24" />
 ## Existing Project
 
 Each framework guide includes an `Existing Project` section with the manual setup steps for that framework.
+
+Or run `npx fabricator-ui@latest init --shell --sounds --yes` in your project's root, and the CLI does them for you.
 
 **Already using shadcn/ui?** See <Link href="/docs/registry">Registry</Link> to add Fabricator UI next to the components you already have.
 

@@ -1,0 +1,22 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "danielbayley"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:book",
+    "$group:letter",
+    "thesaurus",
+    "synonym",
+    "language",
+    "translate",
+    "fonts",
+    "collection"
+  ],
+  "categories": [
+    "text",
+    "design",
+    "gaming"
+  ]
+}

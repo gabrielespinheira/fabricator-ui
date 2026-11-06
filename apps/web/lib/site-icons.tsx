@@ -2,1245 +2,1512 @@
 "use client"
 
 import {
-  AlertCircleIcon as LucideAlertCircleIcon,
-  AlertTriangleIcon as LucideAlertTriangleIcon,
-  AlignCenterIcon as LucideAlignCenterIcon,
-  AlignLeftIcon as LucideAlignLeftIcon,
-  AlignRightIcon as LucideAlignRightIcon,
-  AppWindowIcon as LucideAppWindowIcon,
-  ArchiveIcon as LucideArchiveIcon,
-  ArrowDownIcon as LucideArrowDownIcon,
-  ArrowLeftIcon as LucideArrowLeftIcon,
-  ArrowRightIcon as LucideArrowRightIcon,
-  ArrowUpDown as LucideArrowUpDown,
-  ArrowUpDownIcon as LucideArrowUpDownIcon,
-  ArrowUpIcon as LucideArrowUpIcon,
-  ArrowUpRightIcon as LucideArrowUpRightIcon,
-  AudioLinesIcon as LucideAudioLinesIcon,
-  AudioWaveform as LucideAudioWaveform,
-  BadgeCheck as LucideBadgeCheck,
-  BadgeCheckIcon as LucideBadgeCheckIcon,
-  Bell as LucideBell,
-  BellIcon as LucideBellIcon,
-  BluetoothIcon as LucideBluetoothIcon,
-  Bold as LucideBold,
-  BoldIcon as LucideBoldIcon,
-  BookmarkIcon as LucideBookmarkIcon,
-  BookOpen as LucideBookOpen,
-  BookOpenCheck as LucideBookOpenCheck,
-  BookOpenIcon as LucideBookOpenIcon,
-  Bot as LucideBot,
-  BotIcon as LucideBotIcon,
-  BoxIcon as LucideBoxIcon,
-  Building2Icon as LucideBuilding2Icon,
-  Calculator as LucideCalculator,
-  CalculatorIcon as LucideCalculatorIcon,
-  Calendar as LucideCalendar,
-  CalendarIcon as LucideCalendarIcon,
-  CalendarPlusIcon as LucideCalendarPlusIcon,
-  ChartBarIcon as LucideChartBarIcon,
-  ChartLineIcon as LucideChartLineIcon,
-  ChartPieIcon as LucideChartPieIcon,
-  CheckCircle2Icon as LucideCheckCircle2Icon,
-  CheckIcon as LucideCheckIcon,
-  ChevronDown as LucideChevronDown,
-  ChevronDownIcon as LucideChevronDownIcon,
-  ChevronLeftIcon as LucideChevronLeftIcon,
-  ChevronRight as LucideChevronRight,
-  ChevronRightIcon as LucideChevronRightIcon,
-  ChevronsUpDown as LucideChevronsUpDown,
-  ChevronsUpDownIcon as LucideChevronsUpDownIcon,
-  ChevronUpIcon as LucideChevronUpIcon,
-  CircleAlertIcon as LucideCircleAlertIcon,
-  CircleCheckIcon as LucideCircleCheckIcon,
-  CircleDashedIcon as LucideCircleDashedIcon,
-  CircleFadingArrowUpIcon as LucideCircleFadingArrowUpIcon,
-  CircleFadingPlusIcon as LucideCircleFadingPlusIcon,
-  ClipboardPasteIcon as LucideClipboardPasteIcon,
-  Clock2Icon as LucideClock2Icon,
-  ClockIcon as LucideClockIcon,
-  CodeIcon as LucideCodeIcon,
-  Command as LucideCommand,
-  CopyIcon as LucideCopyIcon,
-  CreditCard as LucideCreditCard,
-  CreditCardIcon as LucideCreditCardIcon,
-  DotIcon as LucideDotIcon,
-  DownloadIcon as LucideDownloadIcon,
-  ExternalLinkIcon as LucideExternalLinkIcon,
-  EyeIcon as LucideEyeIcon,
-  EyeOffIcon as LucideEyeOffIcon,
-  FileCodeIcon as LucideFileCodeIcon,
-  FileIcon as LucideFileIcon,
-  FileSearchIcon as LucideFileSearchIcon,
-  FileTextIcon as LucideFileTextIcon,
-  FileWarningIcon as LucideFileWarningIcon,
-  Folder as LucideFolder,
-  FolderIcon as LucideFolderIcon,
-  FolderOpenIcon as LucideFolderOpenIcon,
-  FolderPlusIcon as LucideFolderPlusIcon,
-  FolderSearchIcon as LucideFolderSearchIcon,
-  Forward as LucideForward,
-  Frame as LucideFrame,
-  FrameIcon as LucideFrameIcon,
-  GalleryVerticalEnd as LucideGalleryVerticalEnd,
-  GitBranchIcon as LucideGitBranchIcon,
-  GlobeIcon as LucideGlobeIcon,
-  HelpCircle as LucideHelpCircle,
-  HelpCircleIcon as LucideHelpCircleIcon,
-  HistoryIcon as LucideHistoryIcon,
-  HomeIcon as LucideHomeIcon,
-  ImageIcon as LucideImageIcon,
-  InboxIcon as LucideInboxIcon,
-  InfoIcon as LucideInfoIcon,
-  Italic as LucideItalic,
-  ItalicIcon as LucideItalicIcon,
-  KeyboardIcon as LucideKeyboardIcon,
-  LanguagesIcon as LucideLanguagesIcon,
-  LayersIcon as LucideLayersIcon,
-  LayoutGridIcon as LucideLayoutGridIcon,
-  LayoutIcon as LucideLayoutIcon,
-  LifeBuoyIcon as LucideLifeBuoyIcon,
-  Link2Icon as LucideLink2Icon,
-  ListFilterIcon as LucideListFilterIcon,
-  ListIcon as LucideListIcon,
-  Loader2Icon as LucideLoader2Icon,
-  LoaderIcon as LucideLoaderIcon,
-  LogOut as LucideLogOut,
-  LogOutIcon as LucideLogOutIcon,
-  MailCheckIcon as LucideMailCheckIcon,
-  MailIcon as LucideMailIcon,
-  Map as LucideMap,
-  MapIcon as LucideMapIcon,
-  MaximizeIcon as LucideMaximizeIcon,
-  MessageCircleDashedIcon as LucideMessageCircleDashedIcon,
-  MessageSquareIcon as LucideMessageSquareIcon,
-  MicIcon as LucideMicIcon,
-  MinimizeIcon as LucideMinimizeIcon,
-  Minus as LucideMinus,
-  MinusIcon as LucideMinusIcon,
-  MonitorIcon as LucideMonitorIcon,
-  MoonIcon as LucideMoonIcon,
-  MoreHorizontal as LucideMoreHorizontal,
-  MoreHorizontalIcon as LucideMoreHorizontalIcon,
-  OctagonXIcon as LucideOctagonXIcon,
-  PaletteIcon as LucidePaletteIcon,
-  PanelLeftCloseIcon as LucidePanelLeftCloseIcon,
-  PanelLeftIcon as LucidePanelLeftIcon,
-  PanelLeftOpenIcon as LucidePanelLeftOpenIcon,
-  PaperclipIcon as LucidePaperclipIcon,
-  PencilIcon as LucidePencilIcon,
-  PieChart as LucidePieChart,
-  PieChartIcon as LucidePieChartIcon,
-  Plus as LucidePlus,
-  PlusIcon as LucidePlusIcon,
-  RadioIcon as LucideRadioIcon,
-  RectangleHorizontalIcon as LucideRectangleHorizontalIcon,
-  RectangleVerticalIcon as LucideRectangleVerticalIcon,
-  RefreshCcwIcon as LucideRefreshCcwIcon,
-  RefreshCwIcon as LucideRefreshCwIcon,
-  RotateCcwIcon as LucideRotateCcwIcon,
-  RotateCwIcon as LucideRotateCwIcon,
-  SaveIcon as LucideSaveIcon,
-  ScissorsIcon as LucideScissorsIcon,
-  Search as LucideSearch,
-  SearchIcon as LucideSearchIcon,
-  SendIcon as LucideSendIcon,
-  Settings as LucideSettings,
-  Settings2 as LucideSettings2,
-  SettingsIcon as LucideSettingsIcon,
-  ShareIcon as LucideShareIcon,
-  ShieldAlertIcon as LucideShieldAlertIcon,
-  ShieldIcon as LucideShieldIcon,
-  Smile as LucideSmile,
-  SmileIcon as LucideSmileIcon,
-  Sparkles as LucideSparkles,
-  SparklesIcon as LucideSparklesIcon,
-  SquareIcon as LucideSquareIcon,
-  SquarePenIcon as LucideSquarePenIcon,
-  SquareTerminal as LucideSquareTerminal,
-  SquareTerminalIcon as LucideSquareTerminalIcon,
-  StarIcon as LucideStarIcon,
-  SunIcon as LucideSunIcon,
-  TableIcon as LucideTableIcon,
-  TagIcon as LucideTagIcon,
-  TelescopeIcon as LucideTelescopeIcon,
-  ThumbsDownIcon as LucideThumbsDownIcon,
-  ThumbsUpIcon as LucideThumbsUpIcon,
-  Trash2 as LucideTrash2,
-  Trash2Icon as LucideTrash2Icon,
-  TrashIcon as LucideTrashIcon,
-  TriangleAlertIcon as LucideTriangleAlertIcon,
-  Underline as LucideUnderline,
-  UnderlineIcon as LucideUnderlineIcon,
-  User as LucideUser,
-  UserIcon as LucideUserIcon,
-  UserRoundXIcon as LucideUserRoundXIcon,
-  UsersIcon as LucideUsersIcon,
-  VolumeOffIcon as LucideVolumeOffIcon,
-  WalletIcon as LucideWalletIcon,
-  XIcon as LucideXIcon,
-  ZoomInIcon as LucideZoomInIcon,
-  ZoomOutIcon as LucideZoomOutIcon,
-} from "lucide-react"
+  ActivityIcon as FabricatorActivityIcon,
+  AlertCircleIcon as FabricatorAlertCircleIcon,
+  AlertTriangleIcon as FabricatorAlertTriangleIcon,
+  AlignCenterIcon as FabricatorAlignCenterIcon,
+  AlignLeftIcon as FabricatorAlignLeftIcon,
+  AlignRightIcon as FabricatorAlignRightIcon,
+  AppWindowIcon as FabricatorAppWindowIcon,
+  ArchiveIcon as FabricatorArchiveIcon,
+  ArrowDownIcon as FabricatorArrowDownIcon,
+  ArrowLeftIcon as FabricatorArrowLeftIcon,
+  ArrowRightIcon as FabricatorArrowRightIcon,
+  ArrowUpDown as FabricatorArrowUpDown,
+  ArrowUpDownIcon as FabricatorArrowUpDownIcon,
+  ArrowUpIcon as FabricatorArrowUpIcon,
+  ArrowUpRightIcon as FabricatorArrowUpRightIcon,
+  AudioLinesIcon as FabricatorAudioLinesIcon,
+  AudioWaveform as FabricatorAudioWaveform,
+  BadgeCheck as FabricatorBadgeCheck,
+  BadgeCheckIcon as FabricatorBadgeCheckIcon,
+  Bell as FabricatorBell,
+  BellIcon as FabricatorBellIcon,
+  BluetoothIcon as FabricatorBluetoothIcon,
+  Bold as FabricatorBold,
+  BoldIcon as FabricatorBoldIcon,
+  BookmarkIcon as FabricatorBookmarkIcon,
+  BookOpen as FabricatorBookOpen,
+  BookOpenCheck as FabricatorBookOpenCheck,
+  BookOpenIcon as FabricatorBookOpenIcon,
+  Bot as FabricatorBot,
+  BotIcon as FabricatorBotIcon,
+  BoxIcon as FabricatorBoxIcon,
+  Building2Icon as FabricatorBuilding2Icon,
+  BuildingIcon as FabricatorBuildingIcon,
+  Calculator as FabricatorCalculator,
+  CalculatorIcon as FabricatorCalculatorIcon,
+  Calendar as FabricatorCalendar,
+  CalendarIcon as FabricatorCalendarIcon,
+  CalendarPlusIcon as FabricatorCalendarPlusIcon,
+  ChartBarIcon as FabricatorChartBarIcon,
+  ChartColumnIcon as FabricatorChartColumnIcon,
+  ChartLineIcon as FabricatorChartLineIcon,
+  ChartPieIcon as FabricatorChartPieIcon,
+  CheckCircle2Icon as FabricatorCheckCircle2Icon,
+  CheckIcon as FabricatorCheckIcon,
+  ChevronDown as FabricatorChevronDown,
+  ChevronDownIcon as FabricatorChevronDownIcon,
+  ChevronLeftIcon as FabricatorChevronLeftIcon,
+  ChevronRight as FabricatorChevronRight,
+  ChevronRightIcon as FabricatorChevronRightIcon,
+  ChevronsUpDown as FabricatorChevronsUpDown,
+  ChevronsUpDownIcon as FabricatorChevronsUpDownIcon,
+  ChevronUpIcon as FabricatorChevronUpIcon,
+  CircleAlertIcon as FabricatorCircleAlertIcon,
+  CircleCheckIcon as FabricatorCircleCheckIcon,
+  CircleDashedIcon as FabricatorCircleDashedIcon,
+  CircleFadingArrowUpIcon as FabricatorCircleFadingArrowUpIcon,
+  CircleFadingPlusIcon as FabricatorCircleFadingPlusIcon,
+  ClipboardPasteIcon as FabricatorClipboardPasteIcon,
+  Clock2Icon as FabricatorClock2Icon,
+  ClockIcon as FabricatorClockIcon,
+  CodeIcon as FabricatorCodeIcon,
+  CogIcon as FabricatorCogIcon,
+  Command as FabricatorCommand,
+  CopyIcon as FabricatorCopyIcon,
+  CreditCard as FabricatorCreditCard,
+  CreditCardIcon as FabricatorCreditCardIcon,
+  DotIcon as FabricatorDotIcon,
+  DownloadIcon as FabricatorDownloadIcon,
+  EllipsisIcon as FabricatorEllipsisIcon,
+  ExternalLinkIcon as FabricatorExternalLinkIcon,
+  EyeIcon as FabricatorEyeIcon,
+  EyeOffIcon as FabricatorEyeOffIcon,
+  FileCodeIcon as FabricatorFileCodeIcon,
+  FileIcon as FabricatorFileIcon,
+  FileSearchIcon as FabricatorFileSearchIcon,
+  FilesIcon as FabricatorFilesIcon,
+  FileTextIcon as FabricatorFileTextIcon,
+  FileWarningIcon as FabricatorFileWarningIcon,
+  Folder as FabricatorFolder,
+  FolderIcon as FabricatorFolderIcon,
+  FolderOpenIcon as FabricatorFolderOpenIcon,
+  FolderPlusIcon as FabricatorFolderPlusIcon,
+  FolderSearchIcon as FabricatorFolderSearchIcon,
+  Forward as FabricatorForward,
+  Frame as FabricatorFrame,
+  FrameIcon as FabricatorFrameIcon,
+  GalleryVerticalEnd as FabricatorGalleryVerticalEnd,
+  GitBranchIcon as FabricatorGitBranchIcon,
+  GlobeIcon as FabricatorGlobeIcon,
+  GripVerticalIcon as FabricatorGripVerticalIcon,
+  HelpCircle as FabricatorHelpCircle,
+  HelpCircleIcon as FabricatorHelpCircleIcon,
+  HistoryIcon as FabricatorHistoryIcon,
+  HomeIcon as FabricatorHomeIcon,
+  ImageIcon as FabricatorImageIcon,
+  InboxIcon as FabricatorInboxIcon,
+  InfoIcon as FabricatorInfoIcon,
+  Italic as FabricatorItalic,
+  ItalicIcon as FabricatorItalicIcon,
+  KeyboardIcon as FabricatorKeyboardIcon,
+  LanguagesIcon as FabricatorLanguagesIcon,
+  LayersIcon as FabricatorLayersIcon,
+  LayoutDashboardIcon as FabricatorLayoutDashboardIcon,
+  LayoutGridIcon as FabricatorLayoutGridIcon,
+  LayoutIcon as FabricatorLayoutIcon,
+  LifeBuoyIcon as FabricatorLifeBuoyIcon,
+  Link2Icon as FabricatorLink2Icon,
+  ListFilterIcon as FabricatorListFilterIcon,
+  ListIcon as FabricatorListIcon,
+  ListTodoIcon as FabricatorListTodoIcon,
+  Loader2Icon as FabricatorLoader2Icon,
+  LoaderIcon as FabricatorLoaderIcon,
+  LogOut as FabricatorLogOut,
+  LogOutIcon as FabricatorLogOutIcon,
+  MailCheckIcon as FabricatorMailCheckIcon,
+  MailIcon as FabricatorMailIcon,
+  Map as FabricatorMap,
+  MapIcon as FabricatorMapIcon,
+  MaximizeIcon as FabricatorMaximizeIcon,
+  MessageCircleDashedIcon as FabricatorMessageCircleDashedIcon,
+  MessageSquareIcon as FabricatorMessageSquareIcon,
+  MicIcon as FabricatorMicIcon,
+  MinimizeIcon as FabricatorMinimizeIcon,
+  Minus as FabricatorMinus,
+  MinusIcon as FabricatorMinusIcon,
+  MonitorIcon as FabricatorMonitorIcon,
+  MoonIcon as FabricatorMoonIcon,
+  MoreHorizontal as FabricatorMoreHorizontal,
+  MoreHorizontalIcon as FabricatorMoreHorizontalIcon,
+  NewspaperIcon as FabricatorNewspaperIcon,
+  OctagonXIcon as FabricatorOctagonXIcon,
+  PaletteIcon as FabricatorPaletteIcon,
+  PanelLeftCloseIcon as FabricatorPanelLeftCloseIcon,
+  PanelLeftIcon as FabricatorPanelLeftIcon,
+  PanelLeftOpenIcon as FabricatorPanelLeftOpenIcon,
+  PaperclipIcon as FabricatorPaperclipIcon,
+  PencilIcon as FabricatorPencilIcon,
+  PieChart as FabricatorPieChart,
+  PieChartIcon as FabricatorPieChartIcon,
+  Plus as FabricatorPlus,
+  PlusIcon as FabricatorPlusIcon,
+  RadioIcon as FabricatorRadioIcon,
+  RectangleHorizontalIcon as FabricatorRectangleHorizontalIcon,
+  RectangleVerticalIcon as FabricatorRectangleVerticalIcon,
+  RefreshCcwIcon as FabricatorRefreshCcwIcon,
+  RefreshCwIcon as FabricatorRefreshCwIcon,
+  RocketIcon as FabricatorRocketIcon,
+  RotateCcwIcon as FabricatorRotateCcwIcon,
+  RotateCwIcon as FabricatorRotateCwIcon,
+  SaveIcon as FabricatorSaveIcon,
+  ScissorsIcon as FabricatorScissorsIcon,
+  Search as FabricatorSearch,
+  SearchIcon as FabricatorSearchIcon,
+  SendIcon as FabricatorSendIcon,
+  Settings as FabricatorSettings,
+  Settings2 as FabricatorSettings2,
+  Settings2Icon as FabricatorSettings2Icon,
+  SettingsIcon as FabricatorSettingsIcon,
+  ShareIcon as FabricatorShareIcon,
+  ShieldAlertIcon as FabricatorShieldAlertIcon,
+  ShieldIcon as FabricatorShieldIcon,
+  SmartphoneIcon as FabricatorSmartphoneIcon,
+  Smile as FabricatorSmile,
+  SmileIcon as FabricatorSmileIcon,
+  Sparkles as FabricatorSparkles,
+  SparklesIcon as FabricatorSparklesIcon,
+  SquareIcon as FabricatorSquareIcon,
+  SquarePenIcon as FabricatorSquarePenIcon,
+  SquareTerminal as FabricatorSquareTerminal,
+  SquareTerminalIcon as FabricatorSquareTerminalIcon,
+  StarIcon as FabricatorStarIcon,
+  StickyNoteIcon as FabricatorStickyNoteIcon,
+  SunIcon as FabricatorSunIcon,
+  TableIcon as FabricatorTableIcon,
+  TagIcon as FabricatorTagIcon,
+  TelescopeIcon as FabricatorTelescopeIcon,
+  TerminalIcon as FabricatorTerminalIcon,
+  TextCursorInputIcon as FabricatorTextCursorInputIcon,
+  ThumbsDownIcon as FabricatorThumbsDownIcon,
+  ThumbsUpIcon as FabricatorThumbsUpIcon,
+  Trash2 as FabricatorTrash2,
+  Trash2Icon as FabricatorTrash2Icon,
+  TrashIcon as FabricatorTrashIcon,
+  TriangleAlertIcon as FabricatorTriangleAlertIcon,
+  Underline as FabricatorUnderline,
+  UnderlineIcon as FabricatorUnderlineIcon,
+  User as FabricatorUser,
+  UserIcon as FabricatorUserIcon,
+  UserRoundXIcon as FabricatorUserRoundXIcon,
+  UsersIcon as FabricatorUsersIcon,
+  VolumeOffIcon as FabricatorVolumeOffIcon,
+  WalletIcon as FabricatorWalletIcon,
+  XIcon as FabricatorXIcon,
+  ZoomInIcon as FabricatorZoomInIcon,
+  ZoomOutIcon as FabricatorZoomOutIcon,
+} from "@fabricator-ui/icons"
 
 import { createSiteIcon } from "@/lib/site-icons-runtime"
 
 export type { LucideIcon, LucideProps } from "lucide-react"
 
-export const AlertCircleIcon = createSiteIcon(LucideAlertCircleIcon, {
+export const ActivityIcon = createSiteIcon(FabricatorActivityIcon, {
+  lucide: "ActivityIcon",
+  tabler: "IconActivity",
+  hugeicons: "ActivityIcon",
+  phosphor: "ActivityIcon",
+  remixicon: "RiPulseLine",
+})
+export const AlertCircleIcon = createSiteIcon(FabricatorAlertCircleIcon, {
+  lucide: "AlertCircleIcon",
   tabler: "IconAlertCircle",
   hugeicons: "AlertCircleIcon",
   phosphor: "WarningCircleIcon",
   remixicon: "RiErrorWarningLine",
 })
-export const AlertTriangleIcon = createSiteIcon(LucideAlertTriangleIcon, {
+export const AlertTriangleIcon = createSiteIcon(FabricatorAlertTriangleIcon, {
+  lucide: "AlertTriangleIcon",
   tabler: "IconAlertTriangle",
   hugeicons: "AlertCircleIcon",
   phosphor: "WarningIcon",
   remixicon: "RiErrorWarningLine",
 })
-export const AlignCenterIcon = createSiteIcon(LucideAlignCenterIcon, {
+export const AlignCenterIcon = createSiteIcon(FabricatorAlignCenterIcon, {
+  lucide: "AlignCenterIcon",
   tabler: "IconAlignCenter",
   hugeicons: "TextAlignCenterIcon",
   phosphor: "TextAlignCenterIcon",
   remixicon: "RiAlignCenter",
 })
-export const AlignLeftIcon = createSiteIcon(LucideAlignLeftIcon, {
+export const AlignLeftIcon = createSiteIcon(FabricatorAlignLeftIcon, {
+  lucide: "AlignLeftIcon",
   tabler: "IconAlignLeft",
   hugeicons: "TextAlignLeftIcon",
   phosphor: "TextAlignLeftIcon",
   remixicon: "RiAlignLeft",
 })
-export const AlignRightIcon = createSiteIcon(LucideAlignRightIcon, {
+export const AlignRightIcon = createSiteIcon(FabricatorAlignRightIcon, {
+  lucide: "AlignRightIcon",
   tabler: "IconAlignRight",
   hugeicons: "TextAlignRightIcon",
   phosphor: "TextAlignRightIcon",
   remixicon: "RiAlignRight",
 })
-export const AppWindowIcon = createSiteIcon(LucideAppWindowIcon, {
+export const AppWindowIcon = createSiteIcon(FabricatorAppWindowIcon, {
+  lucide: "AppWindowIcon",
   tabler: "IconAppWindow",
   hugeicons: "CursorInWindowIcon",
   phosphor: "AppWindowIcon",
   remixicon: "RiWindowLine",
 })
-export const ArchiveIcon = createSiteIcon(LucideArchiveIcon, {
+export const ArchiveIcon = createSiteIcon(FabricatorArchiveIcon, {
+  lucide: "ArchiveIcon",
   tabler: "IconArchive",
   hugeicons: "Archive02Icon",
   phosphor: "ArchiveIcon",
   remixicon: "RiArchiveLine",
 })
-export const ArrowDownIcon = createSiteIcon(LucideArrowDownIcon, {
+export const ArrowDownIcon = createSiteIcon(FabricatorArrowDownIcon, {
+  lucide: "ArrowDownIcon",
   tabler: "IconArrowDown",
   hugeicons: "ArrowDownIcon",
   phosphor: "ArrowDownIcon",
   remixicon: "RiArrowDownLine",
 })
-export const ArrowLeftIcon = createSiteIcon(LucideArrowLeftIcon, {
+export const ArrowLeftIcon = createSiteIcon(FabricatorArrowLeftIcon, {
+  lucide: "ArrowLeftIcon",
   tabler: "IconArrowLeft",
   hugeicons: "ArrowLeft02Icon",
   phosphor: "ArrowLeftIcon",
   remixicon: "RiArrowLeftLine",
 })
-export const ArrowRightIcon = createSiteIcon(LucideArrowRightIcon, {
+export const ArrowRightIcon = createSiteIcon(FabricatorArrowRightIcon, {
+  lucide: "ArrowRightIcon",
   tabler: "IconArrowRight",
   hugeicons: "ArrowRight01Icon",
   phosphor: "ArrowRightIcon",
   remixicon: "RiArrowRightLine",
 })
-export const ArrowUpDown = createSiteIcon(LucideArrowUpDown, {
+export const ArrowUpDown = createSiteIcon(FabricatorArrowUpDown, {
+  lucide: "ArrowUpDown",
   tabler: "IconArrowsUpDown",
   hugeicons: "ArrowUpDownIcon",
   phosphor: "ArrowsDownUpIcon",
   remixicon: "RiArrowUpDownLine",
 })
-export const ArrowUpDownIcon = createSiteIcon(LucideArrowUpDownIcon, {
+export const ArrowUpDownIcon = createSiteIcon(FabricatorArrowUpDownIcon, {
+  lucide: "ArrowUpDownIcon",
   tabler: "IconArrowsUpDown",
   hugeicons: "ArrowUpDownIcon",
   phosphor: "ArrowsDownUpIcon",
   remixicon: "RiArrowUpDownLine",
 })
-export const ArrowUpIcon = createSiteIcon(LucideArrowUpIcon, {
+export const ArrowUpIcon = createSiteIcon(FabricatorArrowUpIcon, {
+  lucide: "ArrowUpIcon",
   tabler: "IconArrowUp",
   hugeicons: "ArrowUpIcon",
   phosphor: "ArrowUpIcon",
   remixicon: "RiArrowUpLine",
 })
-export const ArrowUpRightIcon = createSiteIcon(LucideArrowUpRightIcon, {
+export const ArrowUpRightIcon = createSiteIcon(FabricatorArrowUpRightIcon, {
+  lucide: "ArrowUpRightIcon",
   tabler: "IconArrowUpRight",
   hugeicons: "ArrowUpRightIcon",
   phosphor: "ArrowUpRightIcon",
   remixicon: "RiArrowRightUpLine",
 })
-export const AudioLinesIcon = createSiteIcon(LucideAudioLinesIcon, {
+export const AudioLinesIcon = createSiteIcon(FabricatorAudioLinesIcon, {
+  lucide: "AudioLinesIcon",
   tabler: "IconPlayerRecordFilled",
   hugeicons: "AudioWave01Icon",
   phosphor: "RecordIcon",
   remixicon: "RiRecordCircleLine",
 })
-export const AudioWaveform = createSiteIcon(LucideAudioWaveform, {
+export const AudioWaveform = createSiteIcon(FabricatorAudioWaveform, {
+  lucide: "AudioWaveform",
   tabler: "IconWaveSine",
   hugeicons: "AudioWave01Icon",
   phosphor: "WaveformIcon",
   remixicon: "RiVoiceprintLine",
 })
-export const BadgeCheck = createSiteIcon(LucideBadgeCheck, {
+export const BadgeCheck = createSiteIcon(FabricatorBadgeCheck, {
+  lucide: "BadgeCheck",
   tabler: "IconRosetteDiscountCheck",
   hugeicons: "CheckmarkBadge02Icon",
   phosphor: "CheckCircleIcon",
   remixicon: "RiCheckboxCircleLine",
 })
-export const BadgeCheckIcon = createSiteIcon(LucideBadgeCheckIcon, {
+export const BadgeCheckIcon = createSiteIcon(FabricatorBadgeCheckIcon, {
+  lucide: "BadgeCheckIcon",
   tabler: "IconRosetteDiscountCheck",
   hugeicons: "CheckmarkBadgeIcon",
   phosphor: "CheckCircleIcon",
   remixicon: "RiCheckboxCircleLine",
 })
-export const Bell = createSiteIcon(LucideBell, {
+export const Bell = createSiteIcon(FabricatorBell, {
+  lucide: "Bell",
   tabler: "IconNotification",
   hugeicons: "Notification03Icon",
   phosphor: "BellIcon",
   remixicon: "RiNotification3Line",
 })
-export const BellIcon = createSiteIcon(LucideBellIcon, {
+export const BellIcon = createSiteIcon(FabricatorBellIcon, {
+  lucide: "BellIcon",
   tabler: "IconNotification",
   hugeicons: "Notification03Icon",
   phosphor: "BellIcon",
   remixicon: "RiNotification3Line",
 })
-export const BluetoothIcon = createSiteIcon(LucideBluetoothIcon, {
+export const BluetoothIcon = createSiteIcon(FabricatorBluetoothIcon, {
+  lucide: "BluetoothIcon",
   tabler: "IconBluetooth",
   hugeicons: "BluetoothIcon",
   phosphor: "BluetoothIcon",
   remixicon: "RiBluetoothLine",
 })
-export const Bold = createSiteIcon(LucideBold, {
+export const Bold = createSiteIcon(FabricatorBold, {
+  lucide: "Bold",
   tabler: "IconBold",
   hugeicons: "TextBoldIcon",
   phosphor: "TextBIcon",
   remixicon: "RiBold",
 })
-export const BoldIcon = createSiteIcon(LucideBoldIcon, {
+export const BoldIcon = createSiteIcon(FabricatorBoldIcon, {
+  lucide: "BoldIcon",
   tabler: "IconBold",
   hugeicons: "TextBoldIcon",
   phosphor: "TextBIcon",
   remixicon: "RiBold",
 })
-export const BookOpen = createSiteIcon(LucideBookOpen, {
+export const BookOpen = createSiteIcon(FabricatorBookOpen, {
+  lucide: "BookOpen",
   tabler: "IconBook",
   hugeicons: "BookOpen02Icon",
   phosphor: "BookOpenIcon",
   remixicon: "RiBookOpenLine",
 })
-export const BookOpenCheck = createSiteIcon(LucideBookOpenCheck, {
+export const BookOpenCheck = createSiteIcon(FabricatorBookOpenCheck, {
+  lucide: "BookOpenCheck",
   tabler: "IconBook",
   hugeicons: "BookOpen01Icon",
   phosphor: "BookOpenIcon",
   remixicon: "RiBookOpenLine",
 })
-export const BookOpenIcon = createSiteIcon(LucideBookOpenIcon, {
+export const BookOpenIcon = createSiteIcon(FabricatorBookOpenIcon, {
+  lucide: "BookOpenIcon",
   tabler: "IconBook",
   hugeicons: "BookOpen02Icon",
   phosphor: "BookOpenIcon",
   remixicon: "RiBookOpenLine",
 })
-export const BookmarkIcon = createSiteIcon(LucideBookmarkIcon, {
+export const BookmarkIcon = createSiteIcon(FabricatorBookmarkIcon, {
+  lucide: "BookmarkIcon",
   tabler: "IconBookmark",
   hugeicons: "BookmarkIcon",
   phosphor: "BookmarkIcon",
   remixicon: "RiBookmarkLine",
 })
-export const Bot = createSiteIcon(LucideBot, {
+export const Bot = createSiteIcon(FabricatorBot, {
+  lucide: "Bot",
   tabler: "IconRobot",
   hugeicons: "RoboticIcon",
   phosphor: "RobotIcon",
   remixicon: "RiRobotLine",
 })
-export const BotIcon = createSiteIcon(LucideBotIcon, {
+export const BotIcon = createSiteIcon(FabricatorBotIcon, {
+  lucide: "BotIcon",
   tabler: "IconRobot",
   hugeicons: "RoboticIcon",
   phosphor: "RobotIcon",
   remixicon: "RiRobotLine",
 })
-export const BoxIcon = createSiteIcon(LucideBoxIcon, {})
-export const Building2Icon = createSiteIcon(LucideBuilding2Icon, {
+export const BoxIcon = createSiteIcon(FabricatorBoxIcon, { lucide: "BoxIcon" })
+export const Building2Icon = createSiteIcon(FabricatorBuilding2Icon, {
+  lucide: "Building2Icon",
   tabler: "IconBuildingBank",
   hugeicons: "BankIcon",
   phosphor: "BankIcon",
   remixicon: "RiBankLine",
 })
-export const Calculator = createSiteIcon(LucideCalculator, {
+export const BuildingIcon = createSiteIcon(FabricatorBuildingIcon, {
+  lucide: "BuildingIcon",
+})
+export const Calculator = createSiteIcon(FabricatorCalculator, {
+  lucide: "Calculator",
   tabler: "IconCalculator",
   hugeicons: "CalculatorIcon",
   phosphor: "CalculatorIcon",
   remixicon: "RiCalculatorLine",
 })
-export const CalculatorIcon = createSiteIcon(LucideCalculatorIcon, {
+export const CalculatorIcon = createSiteIcon(FabricatorCalculatorIcon, {
+  lucide: "CalculatorIcon",
   tabler: "IconCalculator",
   hugeicons: "CalculatorIcon",
   phosphor: "CalculatorIcon",
   remixicon: "RiCalculatorLine",
 })
-export const Calendar = createSiteIcon(LucideCalendar, {
+export const Calendar = createSiteIcon(FabricatorCalendar, {
+  lucide: "Calendar",
   tabler: "IconCalendar",
   hugeicons: "Calendar03Icon",
   phosphor: "CalendarIcon",
   remixicon: "RiCalendarLine",
 })
-export const CalendarIcon = createSiteIcon(LucideCalendarIcon, {
+export const CalendarIcon = createSiteIcon(FabricatorCalendarIcon, {
+  lucide: "CalendarIcon",
   tabler: "IconCalendar",
   hugeicons: "Calendar03Icon",
   phosphor: "CalendarIcon",
   remixicon: "RiCalendarLine",
 })
-export const CalendarPlusIcon = createSiteIcon(LucideCalendarPlusIcon, {
+export const CalendarPlusIcon = createSiteIcon(FabricatorCalendarPlusIcon, {
+  lucide: "CalendarPlusIcon",
   tabler: "IconCalendarPlus",
   hugeicons: "CalendarAdd01Icon",
   phosphor: "CalendarPlusIcon",
   remixicon: "RiCalendarScheduleLine",
 })
-export const ChartBarIcon = createSiteIcon(LucideChartBarIcon, {
+export const ChartBarIcon = createSiteIcon(FabricatorChartBarIcon, {
+  lucide: "ChartBarIcon",
   tabler: "IconChartBar",
   hugeicons: "ChartHistogramIcon",
   phosphor: "ChartBarIcon",
   remixicon: "RiBarChartLine",
 })
-export const ChartLineIcon = createSiteIcon(LucideChartLineIcon, {
+export const ChartColumnIcon = createSiteIcon(FabricatorChartColumnIcon, {
+  lucide: "ChartColumnIcon",
+})
+export const ChartLineIcon = createSiteIcon(FabricatorChartLineIcon, {
+  lucide: "ChartLineIcon",
   tabler: "IconChartLine",
   hugeicons: "ChartIcon",
   phosphor: "ChartLineIcon",
   remixicon: "RiLineChartLine",
 })
-export const ChartPieIcon = createSiteIcon(LucideChartPieIcon, {
+export const ChartPieIcon = createSiteIcon(FabricatorChartPieIcon, {
+  lucide: "ChartPieIcon",
   tabler: "IconChartPie",
   hugeicons: "Chart03Icon",
   phosphor: "ChartPieIcon",
   remixicon: "RiPieChartLine",
 })
-export const CheckCircle2Icon = createSiteIcon(LucideCheckCircle2Icon, {
+export const CheckCircle2Icon = createSiteIcon(FabricatorCheckCircle2Icon, {
+  lucide: "CheckCircle2Icon",
   tabler: "IconCircleCheckFilled",
   hugeicons: "CheckmarkCircle02Icon",
   phosphor: "CheckCircleIcon",
   remixicon: "RiCheckboxCircleLine",
 })
-export const CheckIcon = createSiteIcon(LucideCheckIcon, {
+export const CheckIcon = createSiteIcon(FabricatorCheckIcon, {
+  lucide: "CheckIcon",
   tabler: "IconCheck",
   hugeicons: "Tick02Icon",
   phosphor: "CheckIcon",
   remixicon: "RiCheckLine",
 })
-export const ChevronDown = createSiteIcon(LucideChevronDown, {
+export const ChevronDown = createSiteIcon(FabricatorChevronDown, {
+  lucide: "ChevronDown",
   tabler: "IconChevronDown",
   hugeicons: "ArrowDown01Icon",
   phosphor: "CaretDownIcon",
   remixicon: "RiArrowDownSLine",
 })
-export const ChevronDownIcon = createSiteIcon(LucideChevronDownIcon, {
+export const ChevronDownIcon = createSiteIcon(FabricatorChevronDownIcon, {
+  lucide: "ChevronDownIcon",
   tabler: "IconChevronDown",
   hugeicons: "ArrowDown01Icon",
   phosphor: "CaretDownIcon",
   remixicon: "RiArrowDownSLine",
 })
-export const ChevronLeftIcon = createSiteIcon(LucideChevronLeftIcon, {
+export const ChevronLeftIcon = createSiteIcon(FabricatorChevronLeftIcon, {
+  lucide: "ChevronLeftIcon",
   tabler: "IconChevronLeft",
   hugeicons: "ArrowLeft01Icon",
   phosphor: "CaretLeftIcon",
   remixicon: "RiArrowLeftSLine",
 })
-export const ChevronRight = createSiteIcon(LucideChevronRight, {
+export const ChevronRight = createSiteIcon(FabricatorChevronRight, {
+  lucide: "ChevronRight",
   tabler: "IconChevronRight",
   hugeicons: "ArrowRight01Icon",
   phosphor: "CaretRightIcon",
   remixicon: "RiArrowRightSLine",
 })
-export const ChevronRightIcon = createSiteIcon(LucideChevronRightIcon, {
+export const ChevronRightIcon = createSiteIcon(FabricatorChevronRightIcon, {
+  lucide: "ChevronRightIcon",
   tabler: "IconChevronRight",
   hugeicons: "ArrowRight01Icon",
   phosphor: "CaretRightIcon",
   remixicon: "RiArrowRightSLine",
 })
-export const ChevronUpIcon = createSiteIcon(LucideChevronUpIcon, {
+export const ChevronUpIcon = createSiteIcon(FabricatorChevronUpIcon, {
+  lucide: "ChevronUpIcon",
   tabler: "IconChevronUp",
   hugeicons: "ArrowUp01Icon",
   phosphor: "CaretUpIcon",
   remixicon: "RiArrowUpSLine",
 })
-export const ChevronsUpDown = createSiteIcon(LucideChevronsUpDown, {
+export const ChevronsUpDown = createSiteIcon(FabricatorChevronsUpDown, {
+  lucide: "ChevronsUpDown",
   tabler: "IconSelector",
   hugeicons: "UnfoldMoreIcon",
   phosphor: "CaretUpDownIcon",
   remixicon: "RiArrowUpDownLine",
 })
-export const ChevronsUpDownIcon = createSiteIcon(LucideChevronsUpDownIcon, {
+export const ChevronsUpDownIcon = createSiteIcon(FabricatorChevronsUpDownIcon, {
+  lucide: "ChevronsUpDownIcon",
   tabler: "IconSelector",
   hugeicons: "UnfoldMoreIcon",
   phosphor: "CaretUpDownIcon",
   remixicon: "RiArrowUpDownLine",
 })
-export const CircleAlertIcon = createSiteIcon(LucideCircleAlertIcon, {
+export const CircleAlertIcon = createSiteIcon(FabricatorCircleAlertIcon, {
+  lucide: "CircleAlertIcon",
   tabler: "IconExclamationCircle",
   hugeicons: "AlertCircleIcon",
   phosphor: "WarningCircleIcon",
   remixicon: "RiErrorWarningLine",
 })
-export const CircleCheckIcon = createSiteIcon(LucideCircleCheckIcon, {
+export const CircleCheckIcon = createSiteIcon(FabricatorCircleCheckIcon, {
+  lucide: "CircleCheckIcon",
   tabler: "IconCircleCheckFilled",
   hugeicons: "CheckmarkCircle01Icon",
   phosphor: "CheckCircleIcon",
   remixicon: "RiCheckboxCircleFill",
 })
-export const CircleDashedIcon = createSiteIcon(LucideCircleDashedIcon, {
+export const CircleDashedIcon = createSiteIcon(FabricatorCircleDashedIcon, {
+  lucide: "CircleDashedIcon",
   tabler: "IconCircleDashed",
   hugeicons: "DashedLineCircleIcon",
   phosphor: "CircleDashedIcon",
   remixicon: "RiLoaderLine",
 })
 export const CircleFadingArrowUpIcon = createSiteIcon(
-  LucideCircleFadingArrowUpIcon,
+  FabricatorCircleFadingArrowUpIcon,
   {
+    lucide: "CircleFadingArrowUpIcon",
     tabler: "IconCircleArrowUp",
     hugeicons: "CircleArrowUp01Icon",
     phosphor: "ArrowCircleUpIcon",
     remixicon: "RiArrowUpCircleLine",
   }
 )
-export const CircleFadingPlusIcon = createSiteIcon(LucideCircleFadingPlusIcon, {
-  tabler: "IconCircleDashedPlus",
-  hugeicons: "AddCircleHalfDotIcon",
-  phosphor: "PlusCircleIcon",
-  remixicon: "RiAddCircleLine",
-})
-export const ClipboardPasteIcon = createSiteIcon(LucideClipboardPasteIcon, {
+export const CircleFadingPlusIcon = createSiteIcon(
+  FabricatorCircleFadingPlusIcon,
+  {
+    lucide: "CircleFadingPlusIcon",
+    tabler: "IconCircleDashedPlus",
+    hugeicons: "AddCircleHalfDotIcon",
+    phosphor: "PlusCircleIcon",
+    remixicon: "RiAddCircleLine",
+  }
+)
+export const ClipboardPasteIcon = createSiteIcon(FabricatorClipboardPasteIcon, {
+  lucide: "ClipboardPasteIcon",
   tabler: "IconClipboard",
   hugeicons: "ClipboardIcon",
   phosphor: "ClipboardIcon",
   remixicon: "RiClipboardLine",
 })
-export const Clock2Icon = createSiteIcon(LucideClock2Icon, {
+export const Clock2Icon = createSiteIcon(FabricatorClock2Icon, {
+  lucide: "Clock2Icon",
   tabler: "IconClockHour2",
   hugeicons: "Clock03Icon",
   phosphor: "ClockIcon",
   remixicon: "RiTimeLine",
 })
-export const ClockIcon = createSiteIcon(LucideClockIcon, {
+export const ClockIcon = createSiteIcon(FabricatorClockIcon, {
+  lucide: "ClockIcon",
   tabler: "IconClock",
   hugeicons: "Clock01Icon",
   phosphor: "ClockIcon",
   remixicon: "RiTimeLine",
 })
-export const CodeIcon = createSiteIcon(LucideCodeIcon, {
+export const CodeIcon = createSiteIcon(FabricatorCodeIcon, {
+  lucide: "CodeIcon",
   tabler: "IconCode",
   hugeicons: "CodeIcon",
   phosphor: "CodeIcon",
   remixicon: "RiCodeLine",
 })
-export const Command = createSiteIcon(LucideCommand, {
+export const CogIcon = createSiteIcon(FabricatorCogIcon, { lucide: "CogIcon" })
+export const Command = createSiteIcon(FabricatorCommand, {
+  lucide: "Command",
   tabler: "IconInnerShadowTop",
   hugeicons: "CommandIcon",
   phosphor: "CommandIcon",
   remixicon: "RiCommandLine",
 })
-export const CopyIcon = createSiteIcon(LucideCopyIcon, {
+export const CopyIcon = createSiteIcon(FabricatorCopyIcon, {
+  lucide: "CopyIcon",
   tabler: "IconCopy",
   hugeicons: "Copy01Icon",
   phosphor: "CopyIcon",
   remixicon: "RiFileCopyLine",
 })
-export const CreditCard = createSiteIcon(LucideCreditCard, {
+export const CreditCard = createSiteIcon(FabricatorCreditCard, {
+  lucide: "CreditCard",
   tabler: "IconCreditCard",
   hugeicons: "CreditCardIcon",
   phosphor: "CreditCardIcon",
   remixicon: "RiBankCardLine",
 })
-export const CreditCardIcon = createSiteIcon(LucideCreditCardIcon, {
+export const CreditCardIcon = createSiteIcon(FabricatorCreditCardIcon, {
+  lucide: "CreditCardIcon",
   tabler: "IconCreditCard",
   hugeicons: "CreditCardIcon",
   phosphor: "CreditCardIcon",
   remixicon: "RiBankCardLine",
 })
-export const DotIcon = createSiteIcon(LucideDotIcon, {
+export const DotIcon = createSiteIcon(FabricatorDotIcon, {
+  lucide: "DotIcon",
   tabler: "IconPoint",
   phosphor: "DotIcon",
 })
-export const DownloadIcon = createSiteIcon(LucideDownloadIcon, {
+export const DownloadIcon = createSiteIcon(FabricatorDownloadIcon, {
+  lucide: "DownloadIcon",
   tabler: "IconDownload",
   hugeicons: "DownloadIcon",
   phosphor: "DownloadIcon",
   remixicon: "RiDownloadLine",
 })
-export const ExternalLinkIcon = createSiteIcon(LucideExternalLinkIcon, {
+export const EllipsisIcon = createSiteIcon(FabricatorEllipsisIcon, {
+  lucide: "EllipsisIcon",
+})
+export const ExternalLinkIcon = createSiteIcon(FabricatorExternalLinkIcon, {
+  lucide: "ExternalLinkIcon",
   tabler: "IconExternalLink",
   hugeicons: "LinkSquare02Icon",
   phosphor: "ArrowSquareOutIcon",
   remixicon: "RiExternalLinkLine",
 })
-export const EyeIcon = createSiteIcon(LucideEyeIcon, {
+export const EyeIcon = createSiteIcon(FabricatorEyeIcon, {
+  lucide: "EyeIcon",
   tabler: "IconEye",
   hugeicons: "EyeIcon",
   phosphor: "EyeIcon",
   remixicon: "RiEyeLine",
 })
-export const EyeOffIcon = createSiteIcon(LucideEyeOffIcon, {
+export const EyeOffIcon = createSiteIcon(FabricatorEyeOffIcon, {
+  lucide: "EyeOffIcon",
   tabler: "IconEyeClosed",
   hugeicons: "ViewOffIcon",
   phosphor: "EyeSlashIcon",
   remixicon: "RiEyeOffLine",
 })
-export const FileCodeIcon = createSiteIcon(LucideFileCodeIcon, {
+export const FileCodeIcon = createSiteIcon(FabricatorFileCodeIcon, {
+  lucide: "FileCodeIcon",
   tabler: "IconFileCode",
   hugeicons: "File01Icon",
   phosphor: "FileCodeIcon",
   remixicon: "RiFileCodeLine",
 })
-export const FileIcon = createSiteIcon(LucideFileIcon, {
+export const FileIcon = createSiteIcon(FabricatorFileIcon, {
+  lucide: "FileIcon",
   tabler: "IconFileWord",
   hugeicons: "File01Icon",
   phosphor: "FileIcon",
   remixicon: "RiFileLine",
 })
-export const FileSearchIcon = createSiteIcon(LucideFileSearchIcon, {
+export const FileSearchIcon = createSiteIcon(FabricatorFileSearchIcon, {
+  lucide: "FileSearchIcon",
   tabler: "IconFileSearch",
   hugeicons: "FileSearchIcon",
   phosphor: "FileSearchIcon",
   remixicon: "RiFileSearchLine",
 })
-export const FileTextIcon = createSiteIcon(LucideFileTextIcon, {
+export const FileTextIcon = createSiteIcon(FabricatorFileTextIcon, {
+  lucide: "FileTextIcon",
   tabler: "IconFileDescription",
   hugeicons: "File01Icon",
   phosphor: "FileTextIcon",
   remixicon: "RiFileTextLine",
 })
-export const FileWarningIcon = createSiteIcon(LucideFileWarningIcon, {
+export const FileWarningIcon = createSiteIcon(FabricatorFileWarningIcon, {
+  lucide: "FileWarningIcon",
   tabler: "IconFileAlert",
   hugeicons: "FileCorruptIcon",
   phosphor: "FileXIcon",
   remixicon: "RiFileWarningLine",
 })
-export const Folder = createSiteIcon(LucideFolder, {
+export const FilesIcon = createSiteIcon(FabricatorFilesIcon, {
+  lucide: "FilesIcon",
+})
+export const Folder = createSiteIcon(FabricatorFolder, {
+  lucide: "Folder",
   tabler: "IconFolder",
   hugeicons: "Folder01Icon",
   phosphor: "FolderIcon",
   remixicon: "RiFolderLine",
 })
-export const FolderIcon = createSiteIcon(LucideFolderIcon, {
+export const FolderIcon = createSiteIcon(FabricatorFolderIcon, {
+  lucide: "FolderIcon",
   tabler: "IconFolder",
   hugeicons: "Folder01Icon",
   phosphor: "FolderIcon",
   remixicon: "RiFolderLine",
 })
-export const FolderOpenIcon = createSiteIcon(LucideFolderOpenIcon, {
+export const FolderOpenIcon = createSiteIcon(FabricatorFolderOpenIcon, {
+  lucide: "FolderOpenIcon",
   tabler: "IconFolderOpen",
   hugeicons: "FolderOpenIcon",
   phosphor: "FolderOpenIcon",
   remixicon: "RiFolderOpenLine",
 })
-export const FolderPlusIcon = createSiteIcon(LucideFolderPlusIcon, {
+export const FolderPlusIcon = createSiteIcon(FabricatorFolderPlusIcon, {
+  lucide: "FolderPlusIcon",
   tabler: "IconFolderPlus",
   hugeicons: "FolderAddIcon",
   phosphor: "FolderPlusIcon",
   remixicon: "RiFolderAddLine",
 })
-export const FolderSearchIcon = createSiteIcon(LucideFolderSearchIcon, {
+export const FolderSearchIcon = createSiteIcon(FabricatorFolderSearchIcon, {
+  lucide: "FolderSearchIcon",
   tabler: "IconFolderSearch",
   hugeicons: "SearchIcon",
   phosphor: "MagnifyingGlassIcon",
   remixicon: "RiSearchLine",
 })
-export const Forward = createSiteIcon(LucideForward, {
+export const Forward = createSiteIcon(FabricatorForward, {
+  lucide: "Forward",
   tabler: "IconArrowForwardUp",
   hugeicons: "ArrowTurnForwardIcon",
   phosphor: "ArrowBendUpRightIcon",
   remixicon: "RiShareForwardLine",
 })
-export const Frame = createSiteIcon(LucideFrame, {
+export const Frame = createSiteIcon(FabricatorFrame, {
+  lucide: "Frame",
   tabler: "IconFrame",
   hugeicons: "CropIcon",
   phosphor: "CropIcon",
   remixicon: "RiCropLine",
 })
-export const FrameIcon = createSiteIcon(LucideFrameIcon, {
+export const FrameIcon = createSiteIcon(FabricatorFrameIcon, {
+  lucide: "FrameIcon",
   tabler: "IconFrame",
   hugeicons: "CropIcon",
   phosphor: "CropIcon",
   remixicon: "RiCropLine",
 })
-export const GalleryVerticalEnd = createSiteIcon(LucideGalleryVerticalEnd, {
+export const GalleryVerticalEnd = createSiteIcon(FabricatorGalleryVerticalEnd, {
+  lucide: "GalleryVerticalEnd",
   tabler: "IconLayoutRows",
   hugeicons: "LayoutBottomIcon",
   phosphor: "RowsIcon",
   remixicon: "RiGalleryLine",
 })
-export const GitBranchIcon = createSiteIcon(LucideGitBranchIcon, {
+export const GitBranchIcon = createSiteIcon(FabricatorGitBranchIcon, {
+  lucide: "GitBranchIcon",
   tabler: "IconGitBranch",
   hugeicons: "GitBranchIcon",
   phosphor: "GitBranchIcon",
   remixicon: "RiGitBranchLine",
 })
-export const GlobeIcon = createSiteIcon(LucideGlobeIcon, {
+export const GlobeIcon = createSiteIcon(FabricatorGlobeIcon, {
+  lucide: "GlobeIcon",
   tabler: "IconWorld",
   hugeicons: "Globe02Icon",
   phosphor: "GlobeIcon",
   remixicon: "RiGlobalLine",
 })
-export const HelpCircle = createSiteIcon(LucideHelpCircle, {
+export const GripVerticalIcon = createSiteIcon(FabricatorGripVerticalIcon, {
+  lucide: "GripVerticalIcon",
+  tabler: "IconGripVertical",
+  hugeicons: "DragDropVerticalIcon",
+  phosphor: "DotsSixVerticalIcon",
+  remixicon: "RiDraggable",
+})
+export const HelpCircle = createSiteIcon(FabricatorHelpCircle, {
+  lucide: "HelpCircle",
   tabler: "IconHelpCircle",
   hugeicons: "HelpCircleIcon",
   phosphor: "QuestionIcon",
   remixicon: "RiQuestionLine",
 })
-export const HelpCircleIcon = createSiteIcon(LucideHelpCircleIcon, {
+export const HelpCircleIcon = createSiteIcon(FabricatorHelpCircleIcon, {
+  lucide: "HelpCircleIcon",
   tabler: "IconHelpCircle",
   hugeicons: "HelpCircleIcon",
   phosphor: "QuestionIcon",
   remixicon: "RiQuestionLine",
 })
-export const HistoryIcon = createSiteIcon(LucideHistoryIcon, {})
-export const HomeIcon = createSiteIcon(LucideHomeIcon, {
+export const HistoryIcon = createSiteIcon(FabricatorHistoryIcon, {
+  lucide: "HistoryIcon",
+})
+export const HomeIcon = createSiteIcon(FabricatorHomeIcon, {
+  lucide: "HomeIcon",
   tabler: "IconHome",
   hugeicons: "HomeIcon",
   phosphor: "HouseIcon",
   remixicon: "RiHomeLine",
 })
-export const ImageIcon = createSiteIcon(LucideImageIcon, {
+export const ImageIcon = createSiteIcon(FabricatorImageIcon, {
+  lucide: "ImageIcon",
   tabler: "IconPhoto",
   hugeicons: "Image01Icon",
   phosphor: "ImageIcon",
   remixicon: "RiImageLine",
 })
-export const InboxIcon = createSiteIcon(LucideInboxIcon, {
+export const InboxIcon = createSiteIcon(FabricatorInboxIcon, {
+  lucide: "InboxIcon",
   tabler: "IconInbox",
   hugeicons: "InboxIcon",
   phosphor: "TrayIcon",
   remixicon: "RiInboxLine",
 })
-export const InfoIcon = createSiteIcon(LucideInfoIcon, {
+export const InfoIcon = createSiteIcon(FabricatorInfoIcon, {
+  lucide: "InfoIcon",
   tabler: "IconInfoCircle",
   hugeicons: "AlertCircleIcon",
   phosphor: "InfoIcon",
   remixicon: "RiInformationLine",
 })
-export const Italic = createSiteIcon(LucideItalic, {
+export const Italic = createSiteIcon(FabricatorItalic, {
+  lucide: "Italic",
   tabler: "IconItalic",
   hugeicons: "TextItalicIcon",
   phosphor: "TextItalicIcon",
   remixicon: "RiItalic",
 })
-export const ItalicIcon = createSiteIcon(LucideItalicIcon, {
+export const ItalicIcon = createSiteIcon(FabricatorItalicIcon, {
+  lucide: "ItalicIcon",
   tabler: "IconItalic",
   hugeicons: "TextItalicIcon",
   phosphor: "TextItalicIcon",
   remixicon: "RiItalic",
 })
-export const KeyboardIcon = createSiteIcon(LucideKeyboardIcon, {
+export const KeyboardIcon = createSiteIcon(FabricatorKeyboardIcon, {
+  lucide: "KeyboardIcon",
   tabler: "IconKeyboard",
   hugeicons: "KeyboardIcon",
   phosphor: "KeyboardIcon",
   remixicon: "RiKeyboardLine",
 })
-export const LanguagesIcon = createSiteIcon(LucideLanguagesIcon, {
+export const LanguagesIcon = createSiteIcon(FabricatorLanguagesIcon, {
+  lucide: "LanguagesIcon",
   tabler: "IconLanguage",
   hugeicons: "LanguageCircleIcon",
   phosphor: "TranslateIcon",
   remixicon: "RiTranslate",
 })
-export const LayersIcon = createSiteIcon(LucideLayersIcon, {
+export const LayersIcon = createSiteIcon(FabricatorLayersIcon, {
+  lucide: "LayersIcon",
   tabler: "IconStack2",
   hugeicons: "Layers01Icon",
   phosphor: "StackIcon",
   remixicon: "RiStackLine",
 })
-export const LayoutGridIcon = createSiteIcon(LucideLayoutGridIcon, {
+export const LayoutDashboardIcon = createSiteIcon(
+  FabricatorLayoutDashboardIcon,
+  {
+    lucide: "LayoutDashboardIcon",
+    tabler: "IconDashboard",
+    hugeicons: "DashboardSquare01Icon",
+    phosphor: "SquaresFourIcon",
+    remixicon: "RiDashboardLine",
+  }
+)
+export const LayoutGridIcon = createSiteIcon(FabricatorLayoutGridIcon, {
+  lucide: "LayoutGridIcon",
   tabler: "IconLayoutGrid",
   hugeicons: "GridIcon",
   phosphor: "GridFourIcon",
   remixicon: "RiGridLine",
 })
-export const LayoutIcon = createSiteIcon(LucideLayoutIcon, {
+export const LayoutIcon = createSiteIcon(FabricatorLayoutIcon, {
+  lucide: "LayoutIcon",
   tabler: "IconLayout",
   hugeicons: "LayoutIcon",
   phosphor: "LayoutIcon",
   remixicon: "RiLayoutLine",
 })
-export const LifeBuoyIcon = createSiteIcon(LucideLifeBuoyIcon, {
+export const LifeBuoyIcon = createSiteIcon(FabricatorLifeBuoyIcon, {
+  lucide: "LifeBuoyIcon",
   tabler: "IconLifebuoy",
   hugeicons: "ChartRingIcon",
   phosphor: "LifebuoyIcon",
   remixicon: "RiLifebuoyLine",
 })
-export const Link2Icon = createSiteIcon(LucideLink2Icon, {
+export const Link2Icon = createSiteIcon(FabricatorLink2Icon, {
+  lucide: "Link2Icon",
   tabler: "IconLink",
   hugeicons: "Link02Icon",
   phosphor: "LinkSimpleIcon",
   remixicon: "RiLinksLine",
 })
-export const ListFilterIcon = createSiteIcon(LucideListFilterIcon, {
+export const ListFilterIcon = createSiteIcon(FabricatorListFilterIcon, {
+  lucide: "ListFilterIcon",
   tabler: "IconFilter",
   hugeicons: "FilterHorizontalIcon",
   phosphor: "FunnelSimpleIcon",
   remixicon: "RiFilter3Line",
 })
-export const ListIcon = createSiteIcon(LucideListIcon, {
+export const ListIcon = createSiteIcon(FabricatorListIcon, {
+  lucide: "ListIcon",
   tabler: "IconListDetails",
   hugeicons: "Menu01Icon",
   phosphor: "ListIcon",
   remixicon: "RiListUnordered",
 })
-export const Loader2Icon = createSiteIcon(LucideLoader2Icon, {
+export const ListTodoIcon = createSiteIcon(FabricatorListTodoIcon, {
+  lucide: "ListTodoIcon",
+})
+export const Loader2Icon = createSiteIcon(FabricatorLoader2Icon, {
+  lucide: "Loader2Icon",
   tabler: "IconLoader",
   hugeicons: "Loading03Icon",
   phosphor: "SpinnerIcon",
   remixicon: "RiLoaderLine",
 })
-export const LoaderIcon = createSiteIcon(LucideLoaderIcon, {
+export const LoaderIcon = createSiteIcon(FabricatorLoaderIcon, {
+  lucide: "LoaderIcon",
   tabler: "IconLoader",
   hugeicons: "Loading03Icon",
   phosphor: "SpinnerIcon",
   remixicon: "RiLoader4Line",
 })
-export const LogOut = createSiteIcon(LucideLogOut, {
+export const LogOut = createSiteIcon(FabricatorLogOut, {
+  lucide: "LogOut",
   tabler: "IconLogout",
   hugeicons: "Logout01Icon",
   phosphor: "SignOutIcon",
   remixicon: "RiLogoutBoxLine",
 })
-export const LogOutIcon = createSiteIcon(LucideLogOutIcon, {
+export const LogOutIcon = createSiteIcon(FabricatorLogOutIcon, {
+  lucide: "LogOutIcon",
   tabler: "IconLogout",
   hugeicons: "Logout01Icon",
   phosphor: "SignOutIcon",
   remixicon: "RiLogoutBoxLine",
 })
-export const MailCheckIcon = createSiteIcon(LucideMailCheckIcon, {
+export const MailCheckIcon = createSiteIcon(FabricatorMailCheckIcon, {
+  lucide: "MailCheckIcon",
   tabler: "IconMailCheck",
   hugeicons: "MailValidation01Icon",
   phosphor: "EnvelopeOpenIcon",
   remixicon: "RiMailCheckLine",
 })
-export const MailIcon = createSiteIcon(LucideMailIcon, {
+export const MailIcon = createSiteIcon(FabricatorMailIcon, {
+  lucide: "MailIcon",
   tabler: "IconMail",
   hugeicons: "Mail01Icon",
   phosphor: "EnvelopeIcon",
   remixicon: "RiMailLine",
 })
-export const Map = createSiteIcon(LucideMap, {
+export const Map = createSiteIcon(FabricatorMap, {
+  lucide: "Map",
   tabler: "IconMap",
   hugeicons: "MapsIcon",
   phosphor: "MapTrifoldIcon",
   remixicon: "RiMapLine",
 })
-export const MapIcon = createSiteIcon(LucideMapIcon, {
+export const MapIcon = createSiteIcon(FabricatorMapIcon, {
+  lucide: "MapIcon",
   tabler: "IconMap",
   hugeicons: "MapsIcon",
   phosphor: "MapTrifoldIcon",
   remixicon: "RiMapLine",
 })
-export const MaximizeIcon = createSiteIcon(LucideMaximizeIcon, {
+export const MaximizeIcon = createSiteIcon(FabricatorMaximizeIcon, {
+  lucide: "MaximizeIcon",
   tabler: "IconMaximize",
   hugeicons: "PlusSignIcon",
   phosphor: "PlusIcon",
   remixicon: "RiAddLine",
 })
 export const MessageCircleDashedIcon = createSiteIcon(
-  LucideMessageCircleDashedIcon,
+  FabricatorMessageCircleDashedIcon,
   {
+    lucide: "MessageCircleDashedIcon",
     tabler: "IconMessageCircle",
     hugeicons: "BubbleChatIcon",
     phosphor: "ChatCircleDotsIcon",
     remixicon: "RiChat3Line",
   }
 )
-export const MessageSquareIcon = createSiteIcon(LucideMessageSquareIcon, {
+export const MessageSquareIcon = createSiteIcon(FabricatorMessageSquareIcon, {
+  lucide: "MessageSquareIcon",
   tabler: "IconMessage",
   hugeicons: "Message01Icon",
   phosphor: "ChatIcon",
   remixicon: "RiChat1Line",
 })
-export const MicIcon = createSiteIcon(LucideMicIcon, {
+export const MicIcon = createSiteIcon(FabricatorMicIcon, {
+  lucide: "MicIcon",
   tabler: "IconMicrophone",
   hugeicons: "VoiceIcon",
   phosphor: "MicrophoneIcon",
   remixicon: "RiMicLine",
 })
-export const MinimizeIcon = createSiteIcon(LucideMinimizeIcon, {
+export const MinimizeIcon = createSiteIcon(FabricatorMinimizeIcon, {
+  lucide: "MinimizeIcon",
   tabler: "IconMinimize",
   hugeicons: "MinusSignIcon",
   phosphor: "MinusIcon",
   remixicon: "RiSubtractLine",
 })
-export const Minus = createSiteIcon(LucideMinus, {
+export const Minus = createSiteIcon(FabricatorMinus, {
+  lucide: "Minus",
   tabler: "IconMinus",
   hugeicons: "MinusSignIcon",
   phosphor: "MinusIcon",
   remixicon: "RiSubtractLine",
 })
-export const MinusIcon = createSiteIcon(LucideMinusIcon, {
+export const MinusIcon = createSiteIcon(FabricatorMinusIcon, {
+  lucide: "MinusIcon",
   tabler: "IconMinus",
   hugeicons: "MinusSignIcon",
   phosphor: "MinusIcon",
   remixicon: "RiSubtractLine",
 })
-export const MonitorIcon = createSiteIcon(LucideMonitorIcon, {
+export const MonitorIcon = createSiteIcon(FabricatorMonitorIcon, {
+  lucide: "MonitorIcon",
   tabler: "IconDeviceDesktop",
   hugeicons: "ComputerIcon",
   phosphor: "MonitorIcon",
   remixicon: "RiComputerLine",
 })
-export const MoonIcon = createSiteIcon(LucideMoonIcon, {
+export const MoonIcon = createSiteIcon(FabricatorMoonIcon, {
+  lucide: "MoonIcon",
   tabler: "IconMoon",
   hugeicons: "MoonIcon",
   phosphor: "MoonIcon",
   remixicon: "RiMoonLine",
 })
-export const MoreHorizontal = createSiteIcon(LucideMoreHorizontal, {
+export const MoreHorizontal = createSiteIcon(FabricatorMoreHorizontal, {
+  lucide: "MoreHorizontal",
   tabler: "IconDots",
   hugeicons: "MoreHorizontalCircle01Icon",
   phosphor: "DotsThreeOutlineIcon",
   remixicon: "RiMoreLine",
 })
-export const MoreHorizontalIcon = createSiteIcon(LucideMoreHorizontalIcon, {
+export const MoreHorizontalIcon = createSiteIcon(FabricatorMoreHorizontalIcon, {
+  lucide: "MoreHorizontalIcon",
   tabler: "IconDots",
   hugeicons: "MoreHorizontalCircle01Icon",
   phosphor: "DotsThreeOutlineIcon",
   remixicon: "RiMoreLine",
 })
-export const OctagonXIcon = createSiteIcon(LucideOctagonXIcon, {
+export const NewspaperIcon = createSiteIcon(FabricatorNewspaperIcon, {
+  lucide: "NewspaperIcon",
+})
+export const OctagonXIcon = createSiteIcon(FabricatorOctagonXIcon, {
+  lucide: "OctagonXIcon",
   tabler: "IconAlertOctagon",
   hugeicons: "MultiplicationSignCircleIcon",
   phosphor: "XCircleIcon",
   remixicon: "RiCloseCircleLine",
 })
-export const PaletteIcon = createSiteIcon(LucidePaletteIcon, {
+export const PaletteIcon = createSiteIcon(FabricatorPaletteIcon, {
+  lucide: "PaletteIcon",
   tabler: "IconPalette",
   hugeicons: "PaintBoardIcon",
   phosphor: "PaletteIcon",
   remixicon: "RiPaletteLine",
 })
-export const PanelLeftCloseIcon = createSiteIcon(LucidePanelLeftCloseIcon, {
+export const PanelLeftCloseIcon = createSiteIcon(FabricatorPanelLeftCloseIcon, {
+  lucide: "PanelLeftCloseIcon",
   tabler: "IconLayoutSidebarLeftCollapse",
   hugeicons: "SidebarLeft01Icon",
   phosphor: "SidebarSimpleIcon",
   remixicon: "RiSidebarFoldLine",
 })
-export const PanelLeftIcon = createSiteIcon(LucidePanelLeftIcon, {
+export const PanelLeftIcon = createSiteIcon(FabricatorPanelLeftIcon, {
+  lucide: "PanelLeftIcon",
   tabler: "IconLayoutSidebar",
   hugeicons: "SidebarLeftIcon",
   phosphor: "SidebarIcon",
   remixicon: "RiLayoutLeftLine",
 })
-export const PanelLeftOpenIcon = createSiteIcon(LucidePanelLeftOpenIcon, {
+export const PanelLeftOpenIcon = createSiteIcon(FabricatorPanelLeftOpenIcon, {
+  lucide: "PanelLeftOpenIcon",
   tabler: "IconLayoutSidebarLeftExpand",
   hugeicons: "SidebarLeftIcon",
   phosphor: "SidebarIcon",
   remixicon: "RiSidebarUnfoldLine",
 })
-export const PaperclipIcon = createSiteIcon(LucidePaperclipIcon, {
+export const PaperclipIcon = createSiteIcon(FabricatorPaperclipIcon, {
+  lucide: "PaperclipIcon",
   tabler: "IconPaperclip",
   hugeicons: "AttachmentIcon",
   phosphor: "PaperclipIcon",
   remixicon: "RiAttachmentLine",
 })
-export const PencilIcon = createSiteIcon(LucidePencilIcon, {
+export const PencilIcon = createSiteIcon(FabricatorPencilIcon, {
+  lucide: "PencilIcon",
   tabler: "IconPencil",
   hugeicons: "EditIcon",
   phosphor: "PencilIcon",
   remixicon: "RiPencilLine",
 })
-export const PieChart = createSiteIcon(LucidePieChart, {
+export const PieChart = createSiteIcon(FabricatorPieChart, {
+  lucide: "PieChart",
   tabler: "IconChartPie",
   hugeicons: "PieChartIcon",
   phosphor: "ChartPieIcon",
   remixicon: "RiPieChartLine",
 })
-export const PieChartIcon = createSiteIcon(LucidePieChartIcon, {
+export const PieChartIcon = createSiteIcon(FabricatorPieChartIcon, {
+  lucide: "PieChartIcon",
   tabler: "IconChartPie",
   hugeicons: "PieChartIcon",
   phosphor: "ChartPieIcon",
   remixicon: "RiPieChartLine",
 })
-export const Plus = createSiteIcon(LucidePlus, {
+export const Plus = createSiteIcon(FabricatorPlus, {
+  lucide: "Plus",
   tabler: "IconPlus",
   hugeicons: "Add01Icon",
   phosphor: "PlusIcon",
   remixicon: "RiAddLine",
 })
-export const PlusIcon = createSiteIcon(LucidePlusIcon, {
+export const PlusIcon = createSiteIcon(FabricatorPlusIcon, {
+  lucide: "PlusIcon",
   tabler: "IconPlus",
   hugeicons: "Add01Icon",
   phosphor: "PlusIcon",
   remixicon: "RiAddLine",
 })
-export const RadioIcon = createSiteIcon(LucideRadioIcon, {
+export const RadioIcon = createSiteIcon(FabricatorRadioIcon, {
+  lucide: "RadioIcon",
   tabler: "IconPlayerRecordFilled",
   hugeicons: "RecordIcon",
   phosphor: "RecordIcon",
   remixicon: "RiRecordCircleLine",
 })
 export const RectangleHorizontalIcon = createSiteIcon(
-  LucideRectangleHorizontalIcon,
-  {}
+  FabricatorRectangleHorizontalIcon,
+  { lucide: "RectangleHorizontalIcon" }
 )
 export const RectangleVerticalIcon = createSiteIcon(
-  LucideRectangleVerticalIcon,
-  {}
+  FabricatorRectangleVerticalIcon,
+  { lucide: "RectangleVerticalIcon" }
 )
-export const RefreshCcwIcon = createSiteIcon(LucideRefreshCcwIcon, {
+export const RefreshCcwIcon = createSiteIcon(FabricatorRefreshCcwIcon, {
+  lucide: "RefreshCcwIcon",
   tabler: "IconRefresh",
   hugeicons: "ReloadIcon",
   phosphor: "ArrowClockwiseIcon",
   remixicon: "RiRefreshLine",
 })
-export const RefreshCwIcon = createSiteIcon(LucideRefreshCwIcon, {
+export const RefreshCwIcon = createSiteIcon(FabricatorRefreshCwIcon, {
+  lucide: "RefreshCwIcon",
   tabler: "IconRefresh",
   hugeicons: "RepeatIcon",
   phosphor: "ArrowsClockwiseIcon",
   remixicon: "RiRefreshLine",
 })
-export const RotateCcwIcon = createSiteIcon(LucideRotateCcwIcon, {
+export const RocketIcon = createSiteIcon(FabricatorRocketIcon, {
+  lucide: "RocketIcon",
+})
+export const RotateCcwIcon = createSiteIcon(FabricatorRotateCcwIcon, {
+  lucide: "RotateCcwIcon",
   tabler: "IconRotate",
   hugeicons: "RotateLeft01Icon",
   phosphor: "ArrowCounterClockwiseIcon",
   remixicon: "RiResetLeftLine",
 })
-export const RotateCwIcon = createSiteIcon(LucideRotateCwIcon, {
+export const RotateCwIcon = createSiteIcon(FabricatorRotateCwIcon, {
+  lucide: "RotateCwIcon",
   tabler: "IconRotateClockwise2",
   hugeicons: "Rotate01Icon",
   phosphor: "ArrowClockwiseIcon",
   remixicon: "RiRefreshLine",
 })
-export const SaveIcon = createSiteIcon(LucideSaveIcon, {
+export const SaveIcon = createSiteIcon(FabricatorSaveIcon, {
+  lucide: "SaveIcon",
   tabler: "IconDeviceFloppy",
   hugeicons: "FloppyDiskIcon",
   phosphor: "FloppyDiskIcon",
   remixicon: "RiSaveLine",
 })
-export const ScissorsIcon = createSiteIcon(LucideScissorsIcon, {
+export const ScissorsIcon = createSiteIcon(FabricatorScissorsIcon, {
+  lucide: "ScissorsIcon",
   tabler: "IconCut",
   hugeicons: "ScissorIcon",
   phosphor: "ScissorsIcon",
   remixicon: "RiScissorsLine",
 })
-export const Search = createSiteIcon(LucideSearch, {
+export const Search = createSiteIcon(FabricatorSearch, {
+  lucide: "Search",
   tabler: "IconSearch",
   hugeicons: "SearchIcon",
   phosphor: "MagnifyingGlassIcon",
   remixicon: "RiSearchLine",
 })
-export const SearchIcon = createSiteIcon(LucideSearchIcon, {
+export const SearchIcon = createSiteIcon(FabricatorSearchIcon, {
+  lucide: "SearchIcon",
   tabler: "IconSearch",
   hugeicons: "SearchIcon",
   phosphor: "MagnifyingGlassIcon",
   remixicon: "RiSearchLine",
 })
-export const SendIcon = createSiteIcon(LucideSendIcon, {
+export const SendIcon = createSiteIcon(FabricatorSendIcon, {
+  lucide: "SendIcon",
   tabler: "IconSend",
   hugeicons: "SentIcon",
   phosphor: "PaperPlaneTiltIcon",
   remixicon: "RiSendPlaneLine",
 })
-export const Settings = createSiteIcon(LucideSettings, {
+export const Settings = createSiteIcon(FabricatorSettings, {
+  lucide: "Settings",
   tabler: "IconSettings",
   hugeicons: "SettingsIcon",
   phosphor: "GearIcon",
   remixicon: "RiSettingsLine",
 })
-export const Settings2 = createSiteIcon(LucideSettings2, {
+export const Settings2 = createSiteIcon(FabricatorSettings2, {
+  lucide: "Settings2",
   tabler: "IconSettings",
   hugeicons: "Settings05Icon",
   phosphor: "GearIcon",
   remixicon: "RiSettingsLine",
 })
-export const SettingsIcon = createSiteIcon(LucideSettingsIcon, {
+export const Settings2Icon = createSiteIcon(FabricatorSettings2Icon, {
+  lucide: "Settings2Icon",
+  tabler: "IconSettings",
+  hugeicons: "Settings05Icon",
+  phosphor: "GearIcon",
+  remixicon: "RiSettingsLine",
+})
+export const SettingsIcon = createSiteIcon(FabricatorSettingsIcon, {
+  lucide: "SettingsIcon",
   tabler: "IconSettings",
   hugeicons: "SettingsIcon",
   phosphor: "GearIcon",
   remixicon: "RiSettingsLine",
 })
-export const ShareIcon = createSiteIcon(LucideShareIcon, {
+export const ShareIcon = createSiteIcon(FabricatorShareIcon, {
+  lucide: "ShareIcon",
   tabler: "IconShare3",
   hugeicons: "Share01Icon",
   phosphor: "ShareIcon",
   remixicon: "RiShareLine",
 })
-export const ShieldAlertIcon = createSiteIcon(LucideShieldAlertIcon, {
+export const ShieldAlertIcon = createSiteIcon(FabricatorShieldAlertIcon, {
+  lucide: "ShieldAlertIcon",
   tabler: "IconShieldExclamation",
   hugeicons: "Shield01Icon",
   phosphor: "ShieldWarningIcon",
   remixicon: "RiShieldFlashLine",
 })
-export const ShieldIcon = createSiteIcon(LucideShieldIcon, {
+export const ShieldIcon = createSiteIcon(FabricatorShieldIcon, {
+  lucide: "ShieldIcon",
   tabler: "IconShield",
   hugeicons: "ShieldIcon",
   phosphor: "ShieldIcon",
   remixicon: "RiShieldLine",
 })
-export const Smile = createSiteIcon(LucideSmile, {
+export const SmartphoneIcon = createSiteIcon(FabricatorSmartphoneIcon, {
+  lucide: "SmartphoneIcon",
+})
+export const Smile = createSiteIcon(FabricatorSmile, {
+  lucide: "Smile",
   tabler: "IconMoodSmile",
   hugeicons: "SmileIcon",
   phosphor: "SmileyIcon",
   remixicon: "RiEmotionLine",
 })
-export const SmileIcon = createSiteIcon(LucideSmileIcon, {
+export const SmileIcon = createSiteIcon(FabricatorSmileIcon, {
+  lucide: "SmileIcon",
   tabler: "IconMoodSmile",
   hugeicons: "SmileIcon",
   phosphor: "SmileyIcon",
   remixicon: "RiEmotionLine",
 })
-export const Sparkles = createSiteIcon(LucideSparkles, {
+export const Sparkles = createSiteIcon(FabricatorSparkles, {
+  lucide: "Sparkles",
   tabler: "IconSparkles",
   hugeicons: "SparklesIcon",
   phosphor: "SparkleIcon",
   remixicon: "RiSparklingLine",
 })
-export const SparklesIcon = createSiteIcon(LucideSparklesIcon, {
+export const SparklesIcon = createSiteIcon(FabricatorSparklesIcon, {
+  lucide: "SparklesIcon",
   tabler: "IconSparkles",
   hugeicons: "SparklesIcon",
   phosphor: "SparkleIcon",
   remixicon: "RiSparklingLine",
 })
-export const SquareIcon = createSiteIcon(LucideSquareIcon, {
+export const SquareIcon = createSiteIcon(FabricatorSquareIcon, {
+  lucide: "SquareIcon",
   tabler: "IconPlayerStop",
   hugeicons: "StopCircleIcon",
   phosphor: "StopCircleIcon",
   remixicon: "RiStopCircleLine",
 })
-export const SquarePenIcon = createSiteIcon(LucideSquarePenIcon, {})
-export const SquareTerminal = createSiteIcon(LucideSquareTerminal, {
+export const SquarePenIcon = createSiteIcon(FabricatorSquarePenIcon, {
+  lucide: "SquarePenIcon",
+})
+export const SquareTerminal = createSiteIcon(FabricatorSquareTerminal, {
+  lucide: "SquareTerminal",
   tabler: "IconTerminal2",
   hugeicons: "ComputerTerminal01Icon",
   phosphor: "TerminalWindowIcon",
   remixicon: "RiTerminalBoxLine",
 })
-export const SquareTerminalIcon = createSiteIcon(LucideSquareTerminalIcon, {
+export const SquareTerminalIcon = createSiteIcon(FabricatorSquareTerminalIcon, {
+  lucide: "SquareTerminalIcon",
   tabler: "IconTerminal2",
   hugeicons: "ComputerTerminal01Icon",
   phosphor: "TerminalWindowIcon",
   remixicon: "RiTerminalBoxLine",
 })
-export const StarIcon = createSiteIcon(LucideStarIcon, {
+export const StarIcon = createSiteIcon(FabricatorStarIcon, {
+  lucide: "StarIcon",
   tabler: "IconStar",
   hugeicons: "StarIcon",
   phosphor: "StarIcon",
   remixicon: "RiStarLine",
 })
-export const SunIcon = createSiteIcon(LucideSunIcon, {
+export const StickyNoteIcon = createSiteIcon(FabricatorStickyNoteIcon, {
+  lucide: "StickyNoteIcon",
+})
+export const SunIcon = createSiteIcon(FabricatorSunIcon, {
+  lucide: "SunIcon",
   tabler: "IconSun",
   hugeicons: "Sun03Icon",
   phosphor: "SunIcon",
   remixicon: "RiSunLine",
 })
-export const TableIcon = createSiteIcon(LucideTableIcon, {
+export const TableIcon = createSiteIcon(FabricatorTableIcon, {
+  lucide: "TableIcon",
   tabler: "IconTable",
   hugeicons: "TableIcon",
   phosphor: "TableIcon",
   remixicon: "RiTableLine",
 })
-export const TagIcon = createSiteIcon(LucideTagIcon, {
+export const TagIcon = createSiteIcon(FabricatorTagIcon, {
+  lucide: "TagIcon",
   tabler: "IconTag",
   hugeicons: "Tag01Icon",
   phosphor: "TagIcon",
   remixicon: "RiPriceTag3Line",
 })
-export const TelescopeIcon = createSiteIcon(LucideTelescopeIcon, {
+export const TelescopeIcon = createSiteIcon(FabricatorTelescopeIcon, {
+  lucide: "TelescopeIcon",
   tabler: "IconTelescope",
   hugeicons: "Telescope01Icon",
   phosphor: "BinocularsIcon",
   remixicon: "RiSearchEyeLine",
 })
-export const ThumbsDownIcon = createSiteIcon(LucideThumbsDownIcon, {
+export const TerminalIcon = createSiteIcon(FabricatorTerminalIcon, {
+  lucide: "TerminalIcon",
+  tabler: "IconTerminal",
+  hugeicons: "ComputerTerminal01Icon",
+  phosphor: "TerminalIcon",
+  remixicon: "RiTerminalBoxLine",
+})
+export const TextCursorInputIcon = createSiteIcon(
+  FabricatorTextCursorInputIcon,
+  { lucide: "TextCursorInputIcon" }
+)
+export const ThumbsDownIcon = createSiteIcon(FabricatorThumbsDownIcon, {
+  lucide: "ThumbsDownIcon",
   tabler: "IconThumbDown",
   hugeicons: "ThumbsDownIcon",
   phosphor: "ThumbsDownIcon",
   remixicon: "RiThumbDownLine",
 })
-export const ThumbsUpIcon = createSiteIcon(LucideThumbsUpIcon, {
+export const ThumbsUpIcon = createSiteIcon(FabricatorThumbsUpIcon, {
+  lucide: "ThumbsUpIcon",
   tabler: "IconThumbUp",
   hugeicons: "ThumbsUpIcon",
   phosphor: "ThumbsUpIcon",
   remixicon: "RiThumbUpLine",
 })
-export const Trash2 = createSiteIcon(LucideTrash2, {
+export const Trash2 = createSiteIcon(FabricatorTrash2, {
+  lucide: "Trash2",
   tabler: "IconTrash",
   hugeicons: "Delete02Icon",
   phosphor: "TrashIcon",
   remixicon: "RiDeleteBinLine",
 })
-export const Trash2Icon = createSiteIcon(LucideTrash2Icon, {
+export const Trash2Icon = createSiteIcon(FabricatorTrash2Icon, {
+  lucide: "Trash2Icon",
   tabler: "IconTrash",
   hugeicons: "Delete02Icon",
   phosphor: "TrashIcon",
   remixicon: "RiDeleteBinLine",
 })
-export const TrashIcon = createSiteIcon(LucideTrashIcon, {
+export const TrashIcon = createSiteIcon(FabricatorTrashIcon, {
+  lucide: "TrashIcon",
   tabler: "IconTrash",
   hugeicons: "DeleteIcon",
   phosphor: "TrashIcon",
   remixicon: "RiDeleteBinLine",
 })
-export const TriangleAlertIcon = createSiteIcon(LucideTriangleAlertIcon, {
+export const TriangleAlertIcon = createSiteIcon(FabricatorTriangleAlertIcon, {
+  lucide: "TriangleAlertIcon",
   tabler: "IconAlertTriangle",
   hugeicons: "Alert02Icon",
   phosphor: "WarningIcon",
   remixicon: "RiErrorWarningLine",
 })
-export const Underline = createSiteIcon(LucideUnderline, {
+export const Underline = createSiteIcon(FabricatorUnderline, {
+  lucide: "Underline",
   tabler: "IconUnderline",
   hugeicons: "TextUnderlineIcon",
   phosphor: "TextUnderlineIcon",
   remixicon: "RiUnderline",
 })
-export const UnderlineIcon = createSiteIcon(LucideUnderlineIcon, {
+export const UnderlineIcon = createSiteIcon(FabricatorUnderlineIcon, {
+  lucide: "UnderlineIcon",
   tabler: "IconUnderline",
   hugeicons: "TextUnderlineIcon",
   phosphor: "TextUnderlineIcon",
   remixicon: "RiUnderline",
 })
-export const User = createSiteIcon(LucideUser, {
+export const User = createSiteIcon(FabricatorUser, {
+  lucide: "User",
   tabler: "IconUser",
   hugeicons: "UserIcon",
   phosphor: "UserIcon",
   remixicon: "RiUserLine",
 })
-export const UserIcon = createSiteIcon(LucideUserIcon, {
+export const UserIcon = createSiteIcon(FabricatorUserIcon, {
+  lucide: "UserIcon",
   tabler: "IconUser",
   hugeicons: "UserIcon",
   phosphor: "UserIcon",
   remixicon: "RiUserLine",
 })
-export const UserRoundXIcon = createSiteIcon(LucideUserRoundXIcon, {
+export const UserRoundXIcon = createSiteIcon(FabricatorUserRoundXIcon, {
+  lucide: "UserRoundXIcon",
   tabler: "IconUserX",
   hugeicons: "UserRemove01Icon",
   phosphor: "UserMinusIcon",
   remixicon: "RiUserUnfollowLine",
 })
-export const UsersIcon = createSiteIcon(LucideUsersIcon, {
+export const UsersIcon = createSiteIcon(FabricatorUsersIcon, {
+  lucide: "UsersIcon",
   tabler: "IconUsers",
   hugeicons: "UserGroupIcon",
   phosphor: "UsersIcon",
   remixicon: "RiGroupLine",
 })
-export const VolumeOffIcon = createSiteIcon(LucideVolumeOffIcon, {
+export const VolumeOffIcon = createSiteIcon(FabricatorVolumeOffIcon, {
+  lucide: "VolumeOffIcon",
   tabler: "IconVolume",
   hugeicons: "VolumeOffIcon",
   phosphor: "SpeakerSlashIcon",
   remixicon: "RiVolumeMuteLine",
 })
-export const WalletIcon = createSiteIcon(LucideWalletIcon, {
+export const WalletIcon = createSiteIcon(FabricatorWalletIcon, {
+  lucide: "WalletIcon",
   tabler: "IconWallet",
   hugeicons: "Wallet01Icon",
   phosphor: "WalletIcon",
   remixicon: "RiWalletLine",
 })
-export const XIcon = createSiteIcon(LucideXIcon, {
+export const XIcon = createSiteIcon(FabricatorXIcon, {
+  lucide: "XIcon",
   tabler: "IconX",
   hugeicons: "Cancel01Icon",
   phosphor: "XIcon",
   remixicon: "RiCloseLine",
 })
-export const ZoomInIcon = createSiteIcon(LucideZoomInIcon, {
+export const ZoomInIcon = createSiteIcon(FabricatorZoomInIcon, {
+  lucide: "ZoomInIcon",
   tabler: "IconZoomIn",
   hugeicons: "ZoomInAreaIcon",
   phosphor: "MagnifyingGlassPlusIcon",
   remixicon: "RiZoomInLine",
 })
-export const ZoomOutIcon = createSiteIcon(LucideZoomOutIcon, {
+export const ZoomOutIcon = createSiteIcon(FabricatorZoomOutIcon, {
+  lucide: "ZoomOutIcon",
   tabler: "IconZoomOut",
   hugeicons: "ZoomOutAreaIcon",
   phosphor: "MagnifyingGlassMinusIcon",

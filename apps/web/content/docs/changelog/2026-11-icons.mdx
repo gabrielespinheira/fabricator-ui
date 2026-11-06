@@ -1,0 +1,38 @@
+---
+title: November 2026 - Icons
+description: Fabricator Icons. Every Lucide icon under its Lucide name, 143 brand marks in one colour or their own, for React, React Native, plain SVG and desktop trays.
+date: 2026-11-03
+---
+
+## Custom icons
+
+The icon set now has icons of its own, in a new Custom category on the [Icons](/icons) page. They follow Lucide's drawing rules, so they sit beside Lucide's icons. The first 24 depict Fabricator's components, such as `UiDialogIcon`, `UiToastIcon` and `UiCommandIcon`. Another 15 are for AI and agent products, such as `BotShieldIcon` for guardrails, `MessageSquareStopIcon` for stopping a reply and `QuoteLinkIcon` for citations. The other 73 cover accounts and security, deploys and infrastructure, data grids, commerce, and desktop and mobile, such as `UserCrownIcon` for an owner, `RocketUndoIcon` for a rollback, `ColumnPinIcon`, `ReceiptUndoIcon` for a refund and `GestureSwipeLeftIcon`.
+
+## Fabricator Icons
+
+Fabricator UI now has its own icon packages. The outline set is all 2,015 Lucide icons, with Lucide's names, aliases and shapes, so code written for `lucide-react` moves over by changing the import:
+
+```tsx
+import { HouseIcon } from "@fabricator-ui/icons"
+import { GithubIcon } from "@fabricator-ui/icons/brands"
+```
+
+```bash
+npm install @fabricator-ui/icons
+```
+
+The icons render in Server Components, and one icon costs about 1 KB, minified and gzipped.
+
+143 brand marks come with them, from Instagram and LinkedIn to Node.js, PostgreSQL and Tauri. They draw in one colour by default; `color="brand"` uses each brand's own colours, multi-colour art included, and lifts colours that would vanish in dark mode. The marks are never redrawn. Twelve brands whose terms forbid redistribution are left out; [Brands](/docs/icons/brands) lists them and why.
+
+447 of the icons also animate. Import them from `@fabricator-ui/icons/animated` with [Motion](https://motion.dev) installed, under the same names and props, and they play on hover or from a `ref`, and stay still with reduced motion. The animations come from [lucide-animated](https://lucide-animated.com); see [Animated](/docs/icons/animated).
+
+New projects use these icons: `init` and the [Get started](/create) page install `@fabricator-ui/icons`, and components import from it. Existing projects keep the icons they have, and `iconLibrary=lucide` on the init URL keeps Lucide. They draw the same shapes.
+
+The same icons ship for React Native and Expo in `@fabricator-ui/icons-react-native`, where they follow the device's light and dark mode with no setup, and as SVG files, sprites, JSON and strings in `@fabricator-ui/icons-static`. That package also renders PNG tray and menu icons for Electron and Tauri, macOS template images included:
+
+```bash
+npx fabricator-icons png bell --size 16 --scale 1,2 --template
+```
+
+Search and copy every icon, as JSX, SVG or PNG, on the new [Icons](/icons) page, and read the [docs](/docs/icons).

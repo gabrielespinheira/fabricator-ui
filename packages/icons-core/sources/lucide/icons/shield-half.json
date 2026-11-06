@@ -1,0 +1,30 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "danielbayley",
+    "karsa-mistmere"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:shield",
+    "logo",
+    "sigil",
+    "flag",
+    "team",
+    "faction",
+    "fraternity",
+    "university",
+    "college",
+    "academy",
+    "school",
+    "education",
+    "uniform",
+    "ranking"
+  ],
+  "categories": [
+    "account",
+    "security",
+    "development",
+    "gaming"
+  ]
+}

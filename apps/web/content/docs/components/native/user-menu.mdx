@@ -1,0 +1,153 @@
+---
+title: User Menu
+description: The signed-in person's menu, as a sidebar row or an avatar.
+base: native
+component: true
+---
+
+<NativePreview src="/images/native/user-menu.jpg" alt="User Menu on iOS" />
+
+## Installation
+
+```bash
+npx fabricator-ui@latest add user-menu
+```
+
+## Usage
+
+```tsx
+import {
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+} from "@/components/ui/dropdown-menu"
+import { SidebarProvider } from "@/components/ui/sidebar"
+import { UserMenu } from "@/components/ui/user-menu"
+```
+
+```tsx
+<SidebarProvider className="w-full flex-none flex-col">
+  <View className="w-full">
+    <UserMenu user={USER}>
+      <Items />
+    </UserMenu>
+  </View>
+</SidebarProvider>
+```
+
+## Composition
+
+- `UserMenu`
+- `UserMenuUser`
+
+## Examples
+
+```tsx showLineNumbers title="user-menu-example.tsx"
+import * as React from "react"
+import {
+  BellIcon,
+  CreditCardIcon,
+  LogOutIcon,
+  UserIcon,
+} from "@fabricator-ui/icons-react-native"
+import { View } from "react-native"
+
+import {
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuShortcut,
+} from "@/components/ui/dropdown-menu"
+import { SidebarProvider } from "@/components/ui/sidebar"
+import { UserMenu } from "@/components/ui/user-menu"
+
+const USER = { name: "Gabs Fabricator", email: "gabs@fabricator.dev" }
+
+function Items() {
+  return (
+    <>
+      <DropdownMenuGroup>
+        <DropdownMenuItem>
+          <UserIcon />
+          Profile
+          <DropdownMenuShortcut>⇧⌘P</DropdownMenuShortcut>
+        </DropdownMenuItem>
+        <DropdownMenuItem>
+          <CreditCardIcon />
+          Billing
+        </DropdownMenuItem>
+        <DropdownMenuItem>
+          <BellIcon />
+          Notifications
+        </DropdownMenuItem>
+      </DropdownMenuGroup>
+      <DropdownMenuSeparator />
+      <DropdownMenuGroup>
+        <DropdownMenuItem variant="destructive">
+          <LogOutIcon />
+          Sign out
+        </DropdownMenuItem>
+      </DropdownMenuGroup>
+    </>
+  )
+}
+
+function UserMenuExample() {
+  return (
+    <ExampleWrapper>
+      <Example title="A sidebar row: a sheet on phones, a menu on tablets">
+        <SidebarProvider className="w-full flex-none flex-col">
+          <View className="w-full">
+            <UserMenu user={USER}>
+              <Items />
+            </UserMenu>
+          </View>
+        </SidebarProvider>
+      </Example>
+      <Example title="The mark: the avatar alone">
+        <SidebarProvider className="flex-none flex-col">
+          <UserMenu user={USER} variant="mark" side="bottom" align="start">
+            <Items />
+          </UserMenu>
+        </SidebarProvider>
+      </Example>
+      <Example title="With a photo, and no items">
+        <SidebarProvider className="w-full flex-none flex-col">
+          <View className="w-full">
+            <UserMenu
+              user={{
+                ...USER,
+                avatarUrl: "https://fabricator-ui.vercel.app/avatars/01.png",
+              }}
+            />
+          </View>
+        </SidebarProvider>
+      </Example>
+      <Example title="Without an email">
+        <SidebarProvider className="w-full flex-none flex-col">
+          <View className="w-full">
+            <UserMenu user={{ name: "Gabs" }} />
+          </View>
+        </SidebarProvider>
+      </Example>
+    </ExampleWrapper>
+  )
+}
+
+export { UserMenuExample }
+```
+
+## API reference
+
+
+
+Props it adds to what it wraps: `align`, `side`, `user`, `variant`.
+
+## Differences from web
+
+**Same.** Opens as a sheet on phones.
+
+## Accessibility
+
+Parts set `role="button"`, read by VoiceOver and TalkBack. Give a control with no text an `accessibilityLabel`.

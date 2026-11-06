@@ -9,10 +9,12 @@
 #   bun run deploy              production deploy; only from a clean, pushed `main`
 #   bun run deploy -- --preview preview deploy of the current checkout
 #
-# A production deploy then releases the CLI (scripts/publish.sh): it publishes
-# the version in packages/cli/package.json to npm if it is new, and tags it
-# with a GitHub release. The site ships first, so a new CLI never points at
-# registry items the site does not serve yet.
+# A production deploy first publishes the icon packages (scripts/publish-icons.sh),
+# since `/init` installs @fabricator-ui/icons by default and the site must not go
+# live ahead of it. After the site it releases the CLI (scripts/publish.sh): it
+# publishes the version in packages/cli/package.json to npm if it is new, and
+# tags it with a GitHub release. The site ships first there, so a new CLI never
+# points at registry items the site does not serve yet.
 #
 # Needs the Vercel CLI, logged in to the `sharphaw` team (`vercel login`), and
 # for production also `npm login` and `gh auth login`.
@@ -54,6 +56,13 @@ prod_flag=()
 [ "$mode" = production ] && prod_flag=(--prod)
 
 bun install --frozen-lockfile
+
+if [ "$mode" = production ]; then
+  ./scripts/publish-icons.sh
+elif ! npm view @fabricator-ui/icons version > /dev/null 2>&1; then
+  echo "Warning: @fabricator-ui/icons isn't on npm, so \`init\` against this preview can't install it." >&2
+fi
+
 vercel pull --yes --environment="$mode"
 vercel build ${prod_flag[@]+"${prod_flag[@]}"}
 # The output has ~48k files; Vercel accepts 15k per upload, so send one archive.

@@ -1,0 +1,158 @@
+---
+title: React Native
+description: Install and configure Fabricator UI for React Native with Expo.
+---
+
+Every component has a React Native version under the same name, with the same variants, sizes and tokens. See [what's different from web](/docs/installation/react-native-differences).
+
+## Create an app
+
+```bash
+npx create-expo-app@latest my-app
+cd my-app
+```
+
+Fabricator UI needs React Native 0.86 or newer, with the New Architecture. It's tested on Expo SDK 58.
+
+## Run the CLI
+
+```bash
+npx fabricator-ui@latest init
+```
+
+The CLI sees that this is an Expo project and does the following:
+
+- Writes `components.json`, pointing the `@fabricator` registry at the React Native components.
+- Adds Tailwind and Uniwind to your stylesheet, and writes `metro.config.js`. If you already have a Metro config, it tells you what to add instead of changing it.
+- Installs the theme as `fabricator.css`, and everything the components build on.
+- Matches the native packages to your Expo SDK with `expo install --fix`.
+
+To carry a look over from the [setup page](/create), pass its colours, surface, radius, motion and density in the init URL:
+
+```bash
+npx fabricator-ui@latest init --preset "https://fabricator-ui.vercel.app/init?platform=native&primary=262_0.18&shape=pill"
+```
+
+## Wrap your app
+
+Import the stylesheet once and wrap the root layout in `FabricatorRoot`. It sets up gestures, safe-area classes and the place overlays render.
+
+```tsx showLineNumbers title="src/app/_layout.tsx"
+import "../global.css"
+
+import { Stack } from "expo-router"
+
+import { FabricatorRoot } from "@/components/ui/fabricator-root"
+
+export default function RootLayout() {
+  return (
+    <FabricatorRoot>
+      <Stack />
+    </FabricatorRoot>
+  )
+}
+```
+
+## Use Inter
+
+The theme sets its text in Inter. Without the font, text falls back to the system's. Embed it through `expo-font` in `app.json`:
+
+```json title="app.json"
+{
+  "expo": {
+    "plugins": [
+      [
+        "expo-font",
+        {
+          "ios": {
+            "fonts": [
+              "node_modules/@expo-google-fonts/inter/400Regular/Inter_400Regular.ttf",
+              "node_modules/@expo-google-fonts/inter/500Medium/Inter_500Medium.ttf",
+              "node_modules/@expo-google-fonts/inter/600SemiBold/Inter_600SemiBold.ttf"
+            ]
+          },
+          "android": {
+            "fonts": [
+              {
+                "fontFamily": "Inter",
+                "fontDefinitions": [
+                  {
+                    "path": "node_modules/@expo-google-fonts/inter/400Regular/Inter_400Regular.ttf",
+                    "weight": 400
+                  },
+                  {
+                    "path": "node_modules/@expo-google-fonts/inter/500Medium/Inter_500Medium.ttf",
+                    "weight": 500
+                  },
+                  {
+                    "path": "node_modules/@expo-google-fonts/inter/600SemiBold/Inter_600SemiBold.ttf",
+                    "weight": 600
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    ]
+  }
+}
+```
+
+Then build a development client, since native modules were added, and start Metro with a clean cache:
+
+```bash
+npx expo run:ios
+npx expo start --clear
+```
+
+## Turn on sounds
+
+Mount `<SoundEffects />` once, as on the web. Controls then play the same sounds, with a haptic for each. The ring switch silences the sounds, and other apps' audio keeps playing under them.
+
+```bash
+npx fabricator-ui@latest add sounds
+```
+
+## Add components
+
+```bash
+npx fabricator-ui@latest add button
+```
+
+Expo's default template has its own `components/ui/collapsible.tsx`. Adding `accordion`, `collapsible` or `--all` asks whether to overwrite it. Say yes, and update the template's `explore` screen if you kept it, since its `Collapsible` took a `title` prop.
+
+```tsx
+import { Button } from "@/components/ui/button"
+
+export function Save({ onSave }: { onSave: () => void }) {
+  return (
+    <Button variant="outline" size="sm" onPress={onSave}>
+      Save
+    </Button>
+  )
+}
+```
+
+## Change the look at runtime
+
+```bash
+npx fabricator-ui@latest add native-theme
+```
+
+```tsx
+import { applyLook } from "@/lib/apply-look"
+import { DEFAULT_NATIVE_LOOK } from "@/lib/fabricator/native-theme"
+
+applyLook({ ...DEFAULT_NATIVE_LOOK, radius: "pill", density: "compact" })
+```
+
+Light and dark follow the device, or set them with `Uniwind.setTheme` from `uniwind`.
+
+## Check your setup
+
+```bash
+npx fabricator-ui@latest doctor
+```
+
+It checks the registry URL, Uniwind in Metro and the stylesheet, and your React Native version, and prints a fix for each problem.

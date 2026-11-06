@@ -1,0 +1,192 @@
+---
+title: Input Group
+description: Add addons, buttons, and helper content to inputs.
+base: native
+component: true
+---
+
+<NativePreview src="/images/native/input-group.jpg" alt="Input Group on iOS" />
+
+## Installation
+
+```bash
+npx fabricator-ui@latest add input-group
+```
+
+## Usage
+
+```tsx
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupInput,
+  InputGroupText,
+  InputGroupTextarea,
+} from "@/components/ui/input-group"
+import { Text } from "@/components/ui/text"
+```
+
+```tsx
+<InputGroup>
+  <InputGroupInput placeholder="Search" />
+  <InputGroupAddon align="inline-start">
+    <SearchIcon />
+  </InputGroupAddon>
+  <InputGroupAddon align="inline-end">12 results</InputGroupAddon>
+</InputGroup>
+```
+
+## Composition
+
+- `InputGroup`
+- `InputGroupAddon`
+- `InputGroupButton`
+- `InputGroupInput`
+- `InputGroupText`
+- `InputGroupTextarea`
+
+## Examples
+
+```tsx showLineNumbers title="input-group-example.tsx"
+import * as React from "react"
+import {
+  ArrowUpIcon,
+  CopyIcon,
+  MailIcon,
+  SearchIcon,
+} from "@fabricator-ui/icons-react-native"
+
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupButton,
+  InputGroupInput,
+  InputGroupText,
+  InputGroupTextarea,
+} from "@/components/ui/input-group"
+import { Text } from "@/components/ui/text"
+
+function InputGroupExample() {
+  const [query, setQuery] = React.useState("")
+  return (
+    <ExampleWrapper fit>
+      <Example title="Addons on each side">
+        <InputGroup>
+          <InputGroupInput placeholder="Search" />
+          <InputGroupAddon align="inline-start">
+            <SearchIcon />
+          </InputGroupAddon>
+          <InputGroupAddon align="inline-end">12 results</InputGroupAddon>
+        </InputGroup>
+      </Example>
+      <Example title="Text">
+        <InputGroup>
+          <InputGroupAddon>
+            <InputGroupText>https://</InputGroupText>
+          </InputGroupAddon>
+          <InputGroupInput placeholder="fabricator.dev" autoCapitalize="none" />
+          <InputGroupAddon align="inline-end">
+            <InputGroupText>.com</InputGroupText>
+          </InputGroupAddon>
+        </InputGroup>
+      </Example>
+      <Example title="Button sizes">
+        <InputGroup>
+          <InputGroupInput defaultValue="gabs@fabricator.dev" />
+          <InputGroupAddon align="inline-end">
+            <InputGroupButton size="xs">Copy</InputGroupButton>
+          </InputGroupAddon>
+        </InputGroup>
+        <InputGroup>
+          <InputGroupInput defaultValue="Acme Inc" />
+          <InputGroupAddon align="inline-end">
+            <InputGroupButton size="sm" variant="secondary">
+              Rename
+            </InputGroupButton>
+          </InputGroupAddon>
+        </InputGroup>
+        <InputGroup>
+          <InputGroupInput defaultValue="fab_live_key" />
+          <InputGroupAddon align="inline-end">
+            <InputGroupButton size="icon-xs" accessibilityLabel="Copy">
+              <CopyIcon />
+            </InputGroupButton>
+            <InputGroupButton size="icon-sm" accessibilityLabel="Send">
+              <MailIcon />
+            </InputGroupButton>
+          </InputGroupAddon>
+        </InputGroup>
+      </Example>
+      <Example title="Block-aligned addons, with a textarea">
+        <InputGroup>
+          <InputGroupAddon align="block-start">
+            <InputGroupText>Message</InputGroupText>
+          </InputGroupAddon>
+          <InputGroupTextarea placeholder="Ask anything" />
+          <InputGroupAddon align="block-end">
+            <InputGroupText>0 of 280</InputGroupText>
+            <InputGroupButton
+              size="icon-xs"
+              variant="default"
+              accessibilityLabel="Send"
+              className="ms-auto"
+            >
+              <ArrowUpIcon />
+            </InputGroupButton>
+          </InputGroupAddon>
+        </InputGroup>
+      </Example>
+      <Example title="Controlled">
+        <InputGroup>
+          <InputGroupAddon>
+            <SearchIcon />
+          </InputGroupAddon>
+          <InputGroupInput value={query} onChangeText={setQuery} />
+        </InputGroup>
+        <Text className="text-muted-foreground">
+          {query || "Nothing typed yet"}
+        </Text>
+      </Example>
+      <Example title="Invalid">
+        <InputGroup>
+          <InputGroupAddon>
+            <MailIcon />
+          </InputGroupAddon>
+          <InputGroupInput aria-invalid defaultValue="not an email" />
+        </InputGroup>
+      </Example>
+      <Example title="Disabled">
+        <InputGroup>
+          <InputGroupAddon>
+            <MailIcon />
+          </InputGroupAddon>
+          <InputGroupInput
+            editable={false}
+            defaultValue="gabs@fabricator.dev"
+          />
+        </InputGroup>
+      </Example>
+    </ExampleWrapper>
+  )
+}
+
+export { InputGroupExample }
+```
+
+## API reference
+
+| Prop | Values |
+| --- | --- |
+| `align` | `block-end`, `block-start`, `inline-end`, `inline-start` |
+| `size` | `icon-sm`, `icon-xs`, `sm`, `xs` |
+
+Props it adds to what it wraps: `type`.
+
+## Differences from web
+
+**Same.** It works as it does on the web, with `onPress` for `onClick`.
+
+## Accessibility
+
+Parts set `role="group"`, read by VoiceOver and TalkBack. Give a control with no text an `accessibilityLabel`.

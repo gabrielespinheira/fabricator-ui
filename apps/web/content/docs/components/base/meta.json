@@ -4,6 +4,8 @@
     "accordion",
     "alert",
     "alert-dialog",
+    "app-nav",
+    "app-shell",
     "aspect-ratio",
     "attachment",
     "avatar",
@@ -56,6 +58,7 @@
     "slider",
     "spinner",
     "switch",
+    "tab-strip",
     "table",
     "tabs",
     "textarea",
@@ -63,6 +66,8 @@
     "toggle",
     "toggle-group",
     "tooltip",
-    "typography"
+    "typography",
+    "user-menu",
+    "workspace-switcher"
   ]
 }

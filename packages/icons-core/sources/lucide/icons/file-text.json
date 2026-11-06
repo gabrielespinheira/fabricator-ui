@@ -1,0 +1,19 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "colebemis",
+    "ericfennis",
+    "danielbayley"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:file",
+    "data",
+    "txt",
+    "pdf"
+  ],
+  "categories": [
+    "$extends:file",
+    "text"
+  ]
+}

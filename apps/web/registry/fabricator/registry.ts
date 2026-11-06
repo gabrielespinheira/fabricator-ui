@@ -56,9 +56,22 @@ export const fabricatorItems = [
     description:
       "Interface sounds synthesized with the Web Audio API, and <SoundEffects /> to play them for every component. On by default.",
     files: [
+      { path: "lib/sound-recipes.ts", type: "registry:lib" },
       { path: "lib/sounds.ts", type: "registry:lib" },
       { path: "components/sound-effects.tsx", type: "registry:component" },
     ],
+  },
+  {
+    name: "desktop-window",
+    type: "registry:hook",
+    title: "Desktop Window",
+    description:
+      "Finds the Electron or Tauri window hosting the page and gives the App Shell what to lay out around, so one layout serves a browser and a desktop app.",
+    files: [
+      { path: "hooks/use-desktop-window.ts", type: "registry:hook" },
+      { path: "lib/desktop-window.ts", type: "registry:lib" },
+    ],
+    meta: { fabricator: true },
   },
   {
     name: "search",
@@ -77,6 +90,224 @@ export const fabricatorItems = [
       },
     },
   },
+  {
+    name: "app-shell-model",
+    type: "registry:lib",
+    title: "App Shell model",
+    description:
+      "The App Shell's behaviour as plain data and pure functions: navigation, tabs, panels, layout, shortcuts, resize and breadcrumbs. No DOM, so a React Native shell can share it.",
+    files: [{ path: "lib/app-shell-model.ts", type: "registry:lib" }],
+  },
+  {
+    name: "sidebar-model",
+    type: "registry:lib",
+    title: "Sidebar model",
+    description:
+      "The Sidebar's plain data and rules: its toggle's glyph, and how the phone sidebar's reveal moves and settles. No DOM, so a React Native shell can share it.",
+    files: [{ path: "lib/sidebar-model.ts", type: "registry:lib" }],
+  },
+  {
+    name: "sortable",
+    type: "registry:lib",
+    title: "Sortable",
+    description:
+      "The one drag-and-drop adapter: pointer sorting in lists and between groups, used by Tab Strip and App Nav.",
+    // Pinned exactly: @dnd-kit/react is pre-1.0 and changes its API between
+    // minors. This file is the only one that imports it.
+    dependencies: [
+      "@dnd-kit/react@0.5.3",
+      "@dnd-kit/dom@0.5.3",
+      "@dnd-kit/abstract@0.5.3",
+    ],
+    files: [{ path: "lib/sortable.tsx", type: "registry:lib" }],
+  },
+  {
+    name: "app-shell",
+    type: "registry:ui",
+    title: "App Shell",
+    description:
+      "The frame an app lives in: sidebar, main column with header and breadcrumb, panels that dock or float by the room left, one shortcut registry, and native-window chrome for Electron and Tauri.",
+    registryDependencies: [
+      "app-shell-model",
+      "sidebar",
+      "breadcrumb",
+      "button",
+      "drawer",
+      "dropdown-menu",
+      "kbd",
+      "sheet",
+      "tabs",
+      "tooltip",
+    ],
+    files: [{ path: "ui/app-shell.tsx", type: "registry:ui" }],
+    categories: ["layout"],
+    meta: {
+      fabricator: true,
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/app-shell",
+        examples:
+          "https://fabricator-ui.vercel.app/docs/components/base/app-shell#examples",
+      },
+    },
+  },
+  {
+    name: "tab-strip",
+    type: "registry:ui",
+    title: "Tab Strip",
+    description:
+      "Document tabs as in a browser or an editor: pinned and preview tabs, drag to reorder, close variants, reopen, rename and the usual shortcuts.",
+    registryDependencies: [
+      "app-shell-model",
+      "app-shell",
+      "sortable",
+      "fluid-hover",
+      "button",
+      "context-menu",
+      "dropdown-menu",
+      "spinner",
+      "tooltip",
+    ],
+    files: [{ path: "ui/tab-strip.tsx", type: "registry:ui" }],
+    categories: ["navigation"],
+    meta: {
+      fabricator: true,
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/tab-strip",
+        examples:
+          "https://fabricator-ui.vercel.app/docs/components/base/tab-strip#examples",
+      },
+    },
+  },
+  {
+    name: "app-nav",
+    type: "registry:component",
+    title: "App Nav",
+    description:
+      "Renders a navigation model into the Sidebar: groups, badges, statuses, children, row actions, reordering, pinning and hiding.",
+    registryDependencies: [
+      "app-shell-model",
+      "app-shell",
+      "sortable",
+      "sidebar",
+      "button",
+      "context-menu",
+      "dialog",
+      "dropdown-menu",
+      "switch",
+    ],
+    files: [{ path: "ui/app-nav.tsx", type: "registry:ui" }],
+    categories: ["navigation"],
+    meta: {
+      fabricator: true,
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/app-nav",
+        examples:
+          "https://fabricator-ui.vercel.app/docs/components/base/app-nav#examples",
+      },
+    },
+  },
+  {
+    name: "workspace-switcher",
+    type: "registry:component",
+    title: "Workspace Switcher",
+    description:
+      "Switches the organization or workspace: a menu for a few, a searchable dialog for many, and an overlay while the next one loads.",
+    registryDependencies: [
+      "app-shell",
+      "sidebar",
+      "command",
+      "dropdown-menu",
+      "spinner",
+      "tooltip",
+    ],
+    files: [{ path: "ui/workspace-switcher.tsx", type: "registry:ui" }],
+    categories: ["navigation"],
+    meta: {
+      fabricator: true,
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/workspace-switcher",
+        examples:
+          "https://fabricator-ui.vercel.app/docs/components/base/workspace-switcher#examples",
+      },
+    },
+  },
+  {
+    name: "user-menu",
+    type: "registry:component",
+    title: "User Menu",
+    description:
+      "The signed-in person's menu, as a sidebar row or an avatar mark.",
+    registryDependencies: ["sidebar", "avatar", "dropdown-menu"],
+    files: [{ path: "ui/user-menu.tsx", type: "registry:ui" }],
+    categories: ["navigation"],
+    meta: {
+      fabricator: true,
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/user-menu",
+        examples:
+          "https://fabricator-ui.vercel.app/docs/components/base/user-menu#examples",
+      },
+    },
+  },
+  ...[
+    {
+      name: "app-shell-01",
+      title: "App Shell 01",
+      description:
+        "A workspace app: account and organization in the sidebar's first row, customizable grouped navigation, a breadcrumb that hands over to the page title, and a details panel.",
+      registryDependencies: [
+        "app-shell",
+        "app-nav",
+        "workspace-switcher",
+        "user-menu",
+      ],
+    },
+    {
+      name: "app-shell-02",
+      title: "App Shell 02",
+      description:
+        "A workbench: document tabs above the content, a resources panel switched from the tab row, a status bar, and a sidebar that peeks.",
+      registryDependencies: ["app-shell", "app-nav", "tab-strip"],
+    },
+    {
+      name: "app-shell-03",
+      title: "App Shell 03",
+      description:
+        "A classic SaaS layout: team switcher on top, the person's menu at the bottom, and a sidebar that collapses to icons.",
+      registryDependencies: [
+        "app-shell",
+        "app-nav",
+        "workspace-switcher",
+        "user-menu",
+      ],
+    },
+    {
+      name: "app-shell-04",
+      title: "App Shell 04",
+      description:
+        "A desktop app for Electron or Tauri: tabs in a titlebar row that clears the native window controls, with drag regions.",
+      registryDependencies: ["app-shell", "app-nav", "tab-strip"],
+    },
+    {
+      name: "app-shell-05",
+      title: "App Shell 05",
+      description:
+        "Mobile first: a tab bar and a floating primary action on phones, and a message that swaps in over the list.",
+      registryDependencies: ["app-shell", "app-nav"],
+    },
+  ].map((block) => ({
+    ...block,
+    type: "registry:block" as const,
+    files: [
+      {
+        path: `blocks/${block.name}/page.tsx`,
+        type: "registry:page" as const,
+        target: "app/dashboard/page.tsx",
+      },
+    ],
+    categories: ["app-shell", "dashboard"],
+    meta: { fabricator: true },
+  })),
   {
     name: "radius-pill",
     type: "registry:theme",
@@ -113,7 +344,7 @@ export const fabricatorOverrides: Record<
   "navigation-menu": { registryDependencies: ["fluid-hover", "density"] },
   tabs: { registryDependencies: ["fluid-hover"] },
   "toggle-group": { registryDependencies: ["fluid-hover"] },
-  sidebar: { registryDependencies: ["fluid-hover", "kbd"] },
+  sidebar: { registryDependencies: ["fluid-hover", "kbd", "sidebar-model"] },
   accordion: { registryDependencies: ["fluid-hover"] },
   table: { registryDependencies: ["fluid-hover"] },
 }

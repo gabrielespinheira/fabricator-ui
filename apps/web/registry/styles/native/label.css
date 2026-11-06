@@ -1,0 +1,6 @@
+/* MARK: Label */
+
+  /* Tight where the website has leading-none, so descenders keep their room. */
+  .cn-label {
+    @apply text-foreground text-(length:--density-text-13) leading-tight font-medium data-[disabled=true]:opacity-50;
+  }

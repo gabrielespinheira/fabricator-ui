@@ -1,0 +1,15 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "ericfennis",
+    "azdle"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:signal",
+    "lost"
+  ],
+  "categories": [
+    "$extends:signal"
+  ]
+}

@@ -1,0 +1,95 @@
+/* MARK: Dropdown Menu */
+
+  /* Popup: surface 3 with its shadow ring (no border), rounded-xl, p-1. Enters on
+     the popup motion (useSurfaceAnimation). */
+  .cn-dropdown-menu-content {
+    @apply bg-surface-3 shadow-surface-3 rounded-xl p-1;
+  }
+
+  /* On the website this holds the motion, which is useSurfaceAnimation here. It
+     keeps the least width instead. */
+  .cn-dropdown-menu-content-logical {
+    @apply min-w-32;
+  }
+
+  .cn-dropdown-menu-text {
+    @apply text-popover-foreground text-(length:--density-text-13);
+  }
+
+  /* Rows: 36pt, 13pt, muted at rest. They paint nothing themselves: one highlight
+     glides under the finger (Fluid Hover). Touch has no resting highlight, so a
+     row is lit only while the finger is on it. */
+  .cn-dropdown-menu-item {
+    @apply h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8) data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))];
+  }
+
+  .cn-dropdown-menu-item-text {
+    @apply text-muted-foreground text-(length:--density-text-13);
+  }
+
+  /* Under the highlight a row reads foreground, as a hovered one does on the
+     website. */
+  .cn-dropdown-menu-item-text-lit {
+    @apply text-foreground text-(length:--density-text-13);
+  }
+
+  /* Destructive rows stay destructive when lit. */
+  .cn-dropdown-menu-item-text-variant-destructive {
+    @apply text-destructive-text;
+  }
+
+  /* A checkbox or radio row: muted like the others until it's chosen, then
+     foreground and semibold, with a foreground check. */
+  .cn-dropdown-menu-choice-text {
+    @apply text-muted-foreground text-(length:--density-text-13);
+  }
+
+  .cn-dropdown-menu-choice-text-checked {
+    @apply text-foreground font-semibold;
+  }
+
+  /* Lit, it reads foreground too; only choosing it changes the weight. */
+  .cn-dropdown-menu-choice-text-lit {
+    @apply text-foreground;
+  }
+
+  .cn-dropdown-menu-checkbox-item {
+    @apply h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))];
+  }
+
+  .cn-dropdown-menu-radio-item {
+    @apply h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))];
+  }
+
+  .cn-dropdown-menu-item-indicator {
+    @apply right-(--density-8);
+  }
+
+  .cn-dropdown-menu-item-indicator-text {
+    @apply text-foreground;
+  }
+
+  .cn-dropdown-menu-label {
+    @apply text-muted-foreground px-(--density-8) py-(--density-6) text-(length:--density-text-12) font-normal data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))];
+  }
+
+  .cn-dropdown-menu-separator {
+    @apply bg-border/60 -mx-1 my-1 h-px;
+  }
+
+  /* Keyboard shortcuts wait for a tablet: a phone has no keyboard to press them on. */
+  .cn-dropdown-menu-shortcut {
+    @apply hidden sm:flex text-muted-foreground ml-auto text-(length:--density-text-11) tracking-normal;
+  }
+
+  /* An open sub-trigger keeps a fill while its submenu shows below it, and gives
+     way to the highlight while it's lit, so the two never stack. */
+  .cn-dropdown-menu-sub-trigger {
+    @apply h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8) data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))] data-[state=open]:data-[lit=false]:bg-hover;
+  }
+
+  /* A submenu expands inline, indented under a hairline: a phone has no room
+     beside the menu. */
+  .cn-dropdown-menu-sub-content {
+    @apply border-border/60 my-1 ml-(--density-8) border-l pl-1;
+  }

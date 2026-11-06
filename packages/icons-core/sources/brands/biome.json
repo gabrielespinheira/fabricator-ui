@@ -1,0 +1,14 @@
+{
+  "title": "Biome",
+  "group": "Product & dev",
+  "tags": [
+    "linter",
+    "formatter",
+    "toolchain"
+  ],
+  "aliases": [],
+  "hex": "#60A5FA",
+  "scale": 0.899,
+  "source": "Simple Icons 16.36.0 (https://github.com/biomejs/resources/blob/551f36498dfe34b24bc7755fcdd0fa501b757cf4/svg/icon-light-mono.svg)",
+  "license": "CC0-1.0"
+}

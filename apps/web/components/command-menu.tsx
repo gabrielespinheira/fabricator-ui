@@ -84,7 +84,9 @@ export function CommandMenu({
   const runner = getRunner(config.packageManager || "bun")
 
   // Track search queries with debouncing to avoid excessive tracking.
-  const searchTimeoutRef = React.useRef<NodeJS.Timeout | undefined>(undefined)
+  const searchTimeoutRef = React.useRef<
+    ReturnType<typeof setTimeout> | undefined
+  >(undefined)
   const lastTrackedQueryRef = React.useRef<string>("")
 
   const trackSearchQuery = React.useCallback((query: string) => {

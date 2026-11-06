@@ -1,0 +1,17 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "danielbayley",
+    "karsa-mistmere",
+    "jguddas"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:candy",
+    "christmas",
+    "xmas"
+  ],
+  "categories": [
+    "$extends:candy"
+  ]
+}

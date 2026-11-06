@@ -1,0 +1,23 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "ericfennis",
+    "wojtekmaj",
+    "mittalyashu",
+    "danielbayley",
+    "karsa-mistmere"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$group:pen",
+    "rubber",
+    "stationery",
+    "artist"
+  ],
+  "categories": [
+    "design",
+    "cursors",
+    "tools",
+    "text"
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "title": "Motion",
+  "group": "Product & dev",
+  "tags": [
+    "framer motion",
+    "animation",
+    "react"
+  ],
+  "aliases": [],
+  "hex": "#FBD509",
+  "scale": 0.84,
+  "source": "https://motion.dev/",
+  "license": "The brand's terms",
+  "guidelines": "https://github.com/motiondivision/motion",
+  "artSource": "https://motion.dev/ (The brand's terms)"
+}

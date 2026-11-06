@@ -1,0 +1,83 @@
+/* MARK: Navigation Menu */
+
+  .cn-navigation-menu {
+    @apply max-w-full;
+  }
+
+  .cn-navigation-menu-list {
+    @apply gap-0.5;
+  }
+
+  .cn-navigation-menu-item {
+    @apply shrink-0;
+  }
+
+  /* Top-level triggers and links: 36pt, 13pt, muted at rest. One highlight glides
+     between them (Fluid Hover). An open trigger keeps the hover fill while its panel
+     shows. */
+  .cn-navigation-menu-trigger {
+    @apply h-(--density-36) gap-1 rounded-lg px-(--density-12) data-[state=open]:bg-hover disabled:opacity-50;
+  }
+
+  .cn-navigation-menu-trigger-text {
+    @apply text-muted-foreground text-(length:--density-text-13) font-normal;
+  }
+
+  /* Open or under the highlight, a trigger reads foreground. */
+  .cn-navigation-menu-trigger-text-open {
+    @apply text-foreground;
+  }
+
+  .cn-navigation-menu-trigger-icon {
+    @apply size-(--density-icon-14);
+  }
+
+  /* Panel links: rounded-lg rows, lit by the panel's own highlight (Fluid Hover).
+     The current page's link is foreground on a bg-active fill. */
+  .cn-navigation-menu-link {
+    @apply gap-(--density-8) rounded-lg p-(--density-8) data-[active=true]:bg-active;
+  }
+
+  .cn-navigation-menu-link-text {
+    @apply text-foreground text-(length:--density-text-13);
+  }
+
+  /* The current page, or under the highlight: a link reads foreground. */
+  .cn-navigation-menu-link-text-active {
+    @apply text-foreground;
+  }
+
+  .cn-navigation-menu-content {
+    @apply gap-1 p-1;
+  }
+
+  /* The popover a panel opens in: surface 3 on the popup motion. On a phone the
+     panel is a sheet from the bottom instead. */
+  .cn-navigation-menu-popup {
+    @apply bg-surface-3 shadow-surface-3 rounded-xl data-[presentation=sheet]:max-h-[80%] data-[presentation=sheet]:rounded-b-none data-[presentation=sheet]:px-(--density-8);
+  }
+
+  .cn-navigation-menu-popup-text {
+    @apply text-popover-foreground text-(length:--density-text-13);
+  }
+
+  .cn-navigation-menu-sheet-handle {
+    @apply py-(--density-8);
+  }
+
+  .cn-navigation-menu-sheet-handle-bar {
+    @apply bg-active h-1 w-12 rounded-full;
+  }
+
+  .cn-navigation-menu-positioner {
+    @apply min-w-48;
+  }
+
+  /* The small arrow under the open trigger, on the website too. */
+  .cn-navigation-menu-indicator {
+    @apply h-1.5 items-end justify-center overflow-hidden;
+  }
+
+  .cn-navigation-menu-indicator-arrow {
+    @apply bg-border top-[60%] size-2 rotate-45 rounded-tl-sm;
+  }

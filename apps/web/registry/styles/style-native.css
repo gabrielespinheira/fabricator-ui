@@ -1,0 +1,4158 @@
+/* Generated from registry/styles/native/*.css by scripts/build-native-registry.mts. Do not edit. */
+.style-native {
+/* MARK: Accordion */
+
+  .cn-accordion {
+    @apply w-full;
+  }
+
+  /* No dividers between items. */
+  .cn-accordion-item {
+    @apply border-0;
+  }
+
+  /* Triggers: rounded-lg rows. The root's Fluid Hover paints the pressed row: a
+     press fades its highlight in, and another before it has faded glides there. */
+  .cn-accordion-trigger {
+    @apply gap-(--density-8) rounded-lg px-(--density-12) py-(--density-8);
+  }
+
+  /* 13pt and muted at rest. The lit trigger turns foreground, and an open item's
+     trigger foreground and semibold. */
+  .cn-accordion-trigger-text {
+    @apply text-muted-foreground text-start text-(length:--density-text-13) leading-5 font-normal;
+  }
+
+  .cn-accordion-trigger-text-lit {
+    @apply text-foreground;
+  }
+
+  .cn-accordion-trigger-text-open {
+    @apply text-foreground font-semibold;
+  }
+
+  /* One chevron that points to the end and turns 90 degrees to point down when
+     open, on the disclosure timing both ways, as the website's transition does.
+     Reduce Motion drops the turn. Its stroke thickens when lit and when open. */
+  .cn-accordion-trigger-icon {
+    @apply mt-0.5 ms-auto size-(--density-icon-16);
+  }
+
+  .cn-accordion-content-text {
+    @apply text-muted-foreground text-(length:--density-text-13);
+  }
+
+  .cn-accordion-content {
+    @apply w-full;
+  }
+
+  .cn-accordion-content-inner {
+    @apply px-(--density-12) pt-1 pb-(--density-12);
+  }
+
+/* MARK: Alert Dialog */
+
+  /* Same scrim and panel recipe as Dialog: surface 5, rounded-xl, p-6, on the
+     dialog motion. */
+  .cn-alert-dialog-overlay {
+    @apply bg-black/40 dark:bg-black/80;
+  }
+
+  .cn-alert-dialog-content {
+    @apply bg-surface-5 shadow-surface-5 gap-(--density-16) rounded-xl p-(--density-24) data-[size=default]:max-w-[92%] data-[size=sm]:max-w-xs data-[size=default]:sm:max-w-[400px];
+  }
+
+  .cn-alert-dialog-text {
+    @apply text-popover-foreground text-(length:--density-text-13);
+  }
+
+  /* Centred, except a default dialog from sm up, which reads from the start. */
+  .cn-alert-dialog-header {
+    @apply items-center gap-(--density-6) data-[size=default]:sm:items-start;
+  }
+
+  /* The icon tile above the title. */
+  .cn-alert-dialog-media {
+    @apply bg-hover mb-2 size-(--density-40) items-center justify-center rounded-lg;
+  }
+
+  .cn-alert-dialog-media-text {
+    @apply text-foreground;
+  }
+
+  .cn-alert-dialog-title {
+    @apply text-foreground text-center text-(length:--density-text-16) leading-tight font-bold data-[size=default]:sm:text-start;
+  }
+
+  .cn-alert-dialog-description {
+    @apply text-muted-foreground text-center text-(length:--density-text-13) data-[size=default]:sm:text-start;
+  }
+
+  /* Stacked actions on phones; side by side from sm up. A small dialog always
+     has its two actions side by side, at equal widths. */
+  .cn-alert-dialog-footer {
+    @apply mt-2 gap-(--density-8) data-[size=sm]:flex-row sm:flex-row sm:justify-end;
+  }
+
+  .cn-alert-dialog-action {
+    @apply data-[size=sm]:flex-1;
+  }
+
+  .cn-alert-dialog-cancel {
+    @apply data-[size=sm]:flex-1;
+  }
+
+/* MARK: Alert */
+
+  /* Borderless: a hover-tinted panel, rounded-xl, 13pt body. High contrast draws
+     a hairline: a border here, because a Tailwind ring doesn't reach React Native. */
+  .cn-alert {
+    @apply gap-(--density-10) rounded-xl border p-(--density-16) data-[action=true]:pe-18;
+  }
+
+  .cn-alert-text {
+    @apply text-foreground text-(length:--density-text-13);
+  }
+
+  /* The website's `*:[svg]:translate-y-0.5`, lining the icon up with the title. */
+  .cn-alert-media {
+    @apply mt-0.5;
+  }
+
+  .cn-alert-body {
+    @apply gap-0.5;
+  }
+
+  .cn-alert-variant-default {
+    @apply bg-hover data-[contrast=high]:bg-active data-[contrast=high]:border-border;
+  }
+
+  .cn-alert-icon-variant-default {
+    @apply text-foreground;
+  }
+
+  /* The destructive role in the status recipe below; error is another name
+     for it. */
+  .cn-alert-variant-destructive {
+    @apply bg-hover data-[contrast=high]:bg-destructive-surface-1 dark:data-[contrast=high]:bg-destructive-surface-3 data-[contrast=high]:border-destructive-border;
+  }
+
+  .cn-alert-icon-variant-destructive {
+    @apply text-destructive;
+  }
+
+  .cn-alert-description-variant-destructive {
+    @apply data-[contrast=high]:text-destructive-text;
+  }
+
+  /* Statuses: low contrast keeps the neutral panel and colours only the icon;
+     high contrast washes the panel in the status surface (the most tinted level
+     in light, level 3 in dark), adds a status hairline and moves the description
+     to the status text colour. The title stays foreground. */
+  .cn-alert-variant-info {
+    @apply bg-hover data-[contrast=high]:bg-info-surface-1 dark:data-[contrast=high]:bg-info-surface-3 data-[contrast=high]:border-info-border;
+  }
+
+  .cn-alert-icon-variant-info {
+    @apply text-info;
+  }
+
+  .cn-alert-description-variant-info {
+    @apply data-[contrast=high]:text-info-text;
+  }
+
+  .cn-alert-variant-success {
+    @apply bg-hover data-[contrast=high]:bg-success-surface-1 dark:data-[contrast=high]:bg-success-surface-3 data-[contrast=high]:border-success-border;
+  }
+
+  .cn-alert-icon-variant-success {
+    @apply text-success;
+  }
+
+  .cn-alert-description-variant-success {
+    @apply data-[contrast=high]:text-success-text;
+  }
+
+  .cn-alert-variant-warning {
+    @apply bg-hover data-[contrast=high]:bg-warning-surface-1 dark:data-[contrast=high]:bg-warning-surface-3 data-[contrast=high]:border-warning-border;
+  }
+
+  .cn-alert-icon-variant-warning {
+    @apply text-warning;
+  }
+
+  .cn-alert-description-variant-warning {
+    @apply data-[contrast=high]:text-warning-text;
+  }
+
+  .cn-alert-variant-error {
+    @apply bg-hover data-[contrast=high]:bg-destructive-surface-1 dark:data-[contrast=high]:bg-destructive-surface-3 data-[contrast=high]:border-destructive-border;
+  }
+
+  .cn-alert-icon-variant-error {
+    @apply text-destructive;
+  }
+
+  .cn-alert-description-variant-error {
+    @apply data-[contrast=high]:text-destructive-text;
+  }
+
+  /* Contrast: high draws the hairline (each variant colours it); low has none. */
+  .cn-alert-contrast-low {
+    @apply border-transparent;
+  }
+
+  .cn-alert-contrast-high {
+    @apply border-border;
+  }
+
+  .cn-alert-title {
+    @apply text-foreground text-(length:--density-text-14) leading-5 font-medium;
+  }
+
+  .cn-alert-description {
+    @apply text-foreground/70 text-(length:--density-text-13);
+  }
+
+  .cn-alert-action {
+    @apply end-3 top-3;
+  }
+
+/* MARK: App Nav */
+
+  .cn-app-nav {
+    @apply gap-0;
+  }
+
+  /* A dragged row lifts onto a floating surface, without its controls. */
+  .cn-app-nav-item {
+    @apply data-[dragging=true]:bg-surface-5 data-[dragging=true]:shadow-surface-5 data-[dragging=true]:z-10 data-[dragging=true]:rounded-lg;
+  }
+
+  /* The chevron at a row's end, always shown because touch has no hover: a 28pt
+     target on the axis of the row's badges, turned down while open. */
+  .cn-app-nav-toggle {
+    @apply top-[calc((var(--density-30)-var(--density-28))/2)] size-(--density-28) rounded-md active:bg-hover data-[collapsible=icon]:hidden data-[row-size=lg]:top-[calc((var(--density-48)-var(--density-28))/2)] data-[row-size=sm]:top-0;
+  }
+
+  .cn-app-nav-toggle-text {
+    @apply text-muted-foreground;
+  }
+
+  /* The icon column of a row without an icon. */
+  .cn-app-nav-icon-space {
+    @apply size-(--density-icon-16) data-[nested=true]:size-(--density-icon-14);
+  }
+
+  /* Where a badge has no room, a dot on the icon. */
+  .cn-app-nav-rail-badge {
+    @apply size-1.5 rounded-full bg-primary top-1.5 right-1.5;
+  }
+
+  .cn-app-nav-menu {
+    @apply min-w-48;
+  }
+
+  .cn-app-nav-customize {
+    @apply sm:max-w-md;
+  }
+
+  .cn-app-nav-customize-list {
+    @apply gap-(--density-16);
+  }
+
+  .cn-app-nav-customize-group {
+    @apply gap-0.5;
+  }
+
+  .cn-app-nav-customize-rows {
+    @apply gap-0.5;
+  }
+
+  /* As in the sidebar: lifted while dragged. */
+  .cn-app-nav-customize-item {
+    @apply gap-0.5 rounded-lg data-[dragging=true]:bg-surface-6 data-[dragging=true]:shadow-surface-6 data-[dragging=true]:z-10;
+  }
+
+  .cn-app-nav-customize-label {
+    @apply text-muted-foreground px-(--density-8) pb-(--density-4) text-(length:--density-text-12);
+  }
+
+  /* Children indent 16pt a level under their parent, in a style. */
+  .cn-app-nav-customize-row {
+    @apply min-h-(--density-36) gap-(--density-4) rounded-lg pr-(--density-8);
+  }
+
+  /* The grip drags on a long press, and a screen reader moves the row through its
+     actions. A row alone in its list has nowhere to go, so it keeps the space and
+     hides the grip. */
+  .cn-app-nav-customize-handle {
+    @apply size-(--density-24) rounded-md active:bg-hover disabled:opacity-0;
+  }
+
+  .cn-app-nav-customize-handle-text {
+    @apply text-muted-foreground;
+  }
+
+  .cn-app-nav-customize-name {
+    @apply min-h-(--density-36) min-w-0 flex-1 gap-(--density-8);
+  }
+
+  .cn-app-nav-customize-name-text {
+    @apply text-foreground flex-1 text-(length:--density-text-13);
+  }
+
+/* MARK: App Shell */
+
+  /* The frame. The app's own content sits on the page's surface: the main column
+     and the side panels are surface 1, with one edge (--app-shell-card-shadow: a
+     light hairline in dark mode). The frame and the sidebar sit just below them,
+     surface 1 darkened, so the cards read apart from it. React Native has no
+     color-mix(), so registry/fabricator/native-theme.ts resolves these tokens.
+
+     The sidebar, the status bar and the titlebar read the frame's muted text,
+     which darkens a step in light mode to keep 4.5:1 on it: the shell sets it for
+     them through scoped variables. */
+  .cn-app-shell {
+    @apply bg-app-shell-frame;
+  }
+
+  /* Visually hidden, read first: it moves a screen reader to the content. */
+  .cn-app-shell-skip-link {
+    @apply size-px opacity-[0.01];
+  }
+
+  /* The frame shows through the sidebar wrapper. A floating sidebar is the one card
+     on the main colour, so what's around it and the status bar take that colour. */
+  .cn-app-shell-body {
+    @apply data-[reveal=closed]:bg-transparent data-[reveal=open]:bg-transparent md:data-[variant=floating]:bg-app-shell-main;
+  }
+
+  /* The full-width row above everything, under the status bar. */
+  .cn-app-shell-titlebar {
+    @apply bg-app-shell-frame;
+  }
+
+  .cn-app-shell-titlebar-row {
+    @apply h-(--density-40) gap-(--density-8) px-(--density-8);
+  }
+
+  /* The main column: the page's surface everywhere, phones included; with the
+     inset sidebar, a card on the 8-step from the window's edges, as the sidebar's rows
+     are from its own, so their top rows share a centre. */
+  .cn-app-shell-main {
+    @apply bg-app-shell-main data-[layout=card]:bg-app-shell-main data-[layout=card]:shadow-app-shell-card;
+  }
+
+  /* The header: 48pt, a hairline once the content scrolls. On a phone it holds
+     the status bar too, and sits on a fade the page dissolves under: the clock and
+     the island get a clean edge and nothing stops at a line. On a tablet its start
+     lines up with the page's, so the trail sits over the title. */
+  .cn-app-shell-header {
+    @apply z-10 h-(--density-48) gap-(--density-8) border-b border-transparent px-(--density-12) md:pl-(--density-24) data-[phone=true]:border-b-0 data-[scrolled=true]:border-border;
+  }
+
+  /* What the fade paints: the main column's colour. */
+  .cn-app-shell-header-fade {
+    @apply text-app-shell-main;
+  }
+
+  /* Its glyph, not its box, lines up with the page on a tablet. */
+  .cn-app-shell-header-trigger {
+    @apply -ml-(--density-4) md:-ml-(--density-8);
+  }
+
+  /* Breadcrumb: the trail, then the page title in its place once the page's
+     heading scrolls away (a short rise on the move timing, in a style; reduced
+     motion keeps the fade). */
+  .cn-app-shell-breadcrumb {
+    @apply min-w-0;
+  }
+
+  .cn-app-shell-breadcrumb-trail {
+    @apply min-w-0;
+  }
+
+  .cn-app-shell-breadcrumb-list {
+    @apply gap-(--density-6);
+  }
+
+  .cn-app-shell-breadcrumb-text {
+    @apply text-muted-foreground text-(length:--density-text-13) data-[phone=true]:text-(length:--density-text-16);
+  }
+
+  .cn-app-shell-breadcrumb-fold {
+    @apply rounded-md active:opacity-70;
+  }
+
+  /* A phone's trail: the page's name beside the way up, once its heading is gone. */
+  .cn-app-shell-breadcrumb-current {
+    @apply gap-(--density-6);
+  }
+
+  /* A phone's trail reads as its title bar: a size up from a tablet's, the way up
+     muted and the page semibold. */
+  .cn-app-shell-breadcrumb-phone-parent {
+    @apply text-(length:--density-text-16);
+  }
+
+  .cn-app-shell-breadcrumb-phone-page {
+    @apply text-(length:--density-text-16) font-semibold;
+  }
+
+  .cn-app-shell-breadcrumb-title {
+    @apply text-(length:--density-text-13) font-semibold;
+  }
+
+  /* A tablet's large title: the page's anchor on a screen this size. */
+  .cn-app-shell-page-title {
+    @apply text-2xl font-semibold tracking-tight md:text-[32px] md:leading-[40px];
+  }
+
+  .cn-app-shell-header-actions {
+    @apply gap-(--density-4);
+  }
+
+  /* The phone's primary action: a round button above the content. Its distance
+     from the bottom clears the tab bar when the column has one, in a style. */
+  .cn-app-shell-fab {
+    @apply shadow-surface-4 right-(--density-16) rounded-full;
+  }
+
+  .cn-app-shell-content {
+    @apply min-h-0;
+  }
+
+  /* The status bar sits on the frame under the main column and the panels, from
+     the sidebar's edge to the window's: a quiet band, 36pt at a tablet's density plus
+     half the home indicator's space, with 13pt muted text centred in it. Its ends keep
+     their place in every sidebar style, the 12-step inside a card's edges, in a style.
+     Phones hide it. */
+  .cn-app-shell-status-bar {
+    @apply border-border bg-transparent data-[variant=floating]:border-t;
+  }
+
+  .cn-app-shell-status-bar-row {
+    @apply h-full gap-(--density-8);
+  }
+
+  .cn-app-shell-status-bar-text {
+    @apply text-muted-foreground text-(length:--density-text-12);
+  }
+
+  /* Panels. Inline, a column on the main column's surface that opens and closes
+     its width on the move timing. With the inset sidebar it is a card with the main
+     column's edge; otherwise a hairline parts them. On phones, `swap` makes the
+     panel the screen. */
+  .cn-app-shell-panel {
+    @apply bg-app-shell-panel border-border data-[edge=left]:border-l data-[edge=right]:border-r data-[layout=card]:shadow-app-shell-card data-[layout=card]:overflow-hidden data-[layout=card]:rounded-xl data-[placement=swap]:bg-app-shell-frame data-[placement=swap]:h-full data-[placement=swap]:pt-safe;
+  }
+
+  .cn-app-shell-panel-text {
+    @apply text-foreground text-(length:--density-text-13);
+  }
+
+  .cn-app-shell-panel-inner {
+    @apply h-full min-w-0;
+  }
+
+  .cn-app-shell-panel-sheet {
+    @apply gap-0 p-0;
+  }
+
+  /* A height, not only the website's limit: its views take what's left, and a
+     flexed child of a view with no height has nothing to take. */
+  .cn-app-shell-panel-drawer {
+    @apply h-[70%];
+  }
+
+  /* A docked panel's header leaves room for the toggle pinned over its end, in a
+     style. It has the main header's height and hairline. */
+  .cn-app-shell-panel-header {
+    @apply h-(--density-48) gap-(--density-6) border-b border-transparent px-(--density-12) data-[floating=true]:gap-(--density-8) data-[floating=true]:border-b-0 data-[floating=true]:px-(--density-16) data-[placement=drawer]:justify-center;
+  }
+
+  .cn-app-shell-panel-title {
+    @apply text-(length:--density-text-13) font-semibold;
+  }
+
+  .cn-app-shell-panel-tabs-root {
+    @apply gap-0;
+  }
+
+  .cn-app-shell-panel-tabs {
+    @apply min-w-0 shrink justify-start self-center data-[stretched=true]:flex-1;
+  }
+
+  /* Below a 360pt panel the view tabs show their icons only. */
+  .cn-app-shell-panel-tab {
+    @apply data-[compact=true]:px-(--density-8) data-[stretched=true]:px-(--density-6);
+  }
+
+  .cn-app-shell-panel-tab-label {
+    @apply data-[compact=true]:hidden;
+  }
+
+  .cn-app-shell-panel-view {
+    @apply min-h-0;
+  }
+
+  .cn-app-shell-panel-content {
+    @apply min-h-0;
+  }
+
+  .cn-app-shell-panel-close {
+    @apply ml-auto data-[floating=true]:bg-foreground/5 data-[floating=true]:rounded-full;
+  }
+
+  /* Pinned, it only holds the toggle's room in the header: the toggle itself sits
+     over the frame's corner, so it keeps its spot as a docked panel opens. */
+  .cn-app-shell-panel-trigger-anchor {
+    @apply shrink-0;
+  }
+
+  /* The glyph shows the state; a fill only marks which view a trigger selects. */
+  .cn-app-shell-panel-trigger {
+    @apply data-[phone=true]:-mr-(--density-4) data-[selected=true]:bg-active;
+  }
+
+  /* The phone tab bar: icon over label, above the home indicator. */
+  /* The flat bar is a row under the page, with the page's hairline. */
+  .cn-app-shell-bottom-nav {
+    @apply border-border bg-app-shell-main border-t;
+  }
+
+  /* The floating bar is a capsule over the page, on the sidebar's colours. */
+  .cn-app-shell-bottom-nav-floating {
+    @apply inset-x-(--density-16) z-20;
+  }
+
+  .cn-app-shell-bottom-nav-capsule {
+    @apply bg-app-shell-frame shadow-surface-3;
+  }
+
+  /* A little room around the tabs, so the highlight has an edge of its own. */
+  .cn-app-shell-bottom-nav-track {
+    @apply data-[variant=flat]:px-(--density-4) data-[variant=flat]:pt-(--density-4);
+  }
+
+  /* The pressed fill is the Fluid Hover highlight, so a tab has none of its own. */
+  .cn-app-shell-bottom-nav-item {
+    @apply min-h-(--density-48) gap-(--density-4);
+  }
+
+  /* The current tab's pill slides on the move timing. */
+  .cn-app-shell-bottom-nav-selection {
+    @apply bg-active rounded-full;
+  }
+
+  .cn-app-shell-bottom-nav-highlight {
+    @apply rounded-lg data-[variant=floating]:bg-hover/60 data-[variant=floating]:rounded-full;
+  }
+
+  .cn-app-shell-bottom-nav-text {
+    @apply text-muted-foreground text-(length:--density-text-11);
+  }
+
+  .cn-app-shell-bottom-nav-text-lit {
+    @apply text-foreground;
+  }
+
+  .cn-app-shell-bottom-nav-text-active {
+    @apply text-foreground font-semibold;
+  }
+
+  .cn-app-shell-bottom-nav-label {
+    @apply max-w-full px-(--density-4);
+  }
+
+/* MARK: Attachment */
+
+  /* A soft tile: the surface shadow ring is the edge (the border is made
+     transparent). Idle drafts keep a dashed hairline instead; errors a destructive
+     one. */
+  .cn-attachment {
+    @apply bg-surface-2 shadow-surface-2 dark:shadow-surface-3 rounded-lg border-transparent data-[state=idle]:border-border data-[state=idle]:border-dashed data-[state=idle]:shadow-none data-[state=error]:border-destructive/30 data-[state=error]:shadow-none;
+  }
+
+  .cn-attachment-text {
+    @apply text-card-foreground;
+  }
+
+  .cn-attachment-text-size-default {
+    @apply text-(length:--density-text-13);
+  }
+
+  .cn-attachment-text-size-sm {
+    @apply text-(length:--density-text-12);
+  }
+
+  .cn-attachment-text-size-xs {
+    @apply text-(length:--density-text-12);
+  }
+
+  .cn-attachment-orientation-horizontal {
+    @apply min-w-40;
+  }
+
+  .cn-attachment-orientation-vertical {
+    @apply w-24 rounded-xl data-[content=true]:w-30;
+  }
+
+  /* Padding: a media tile is inset evenly (concentric with its well); a
+     horizontal tile with text gets a wider end, a text-only chip a wider inline
+     inset. */
+  .cn-attachment-size-default {
+    @apply gap-(--density-10) p-(--density-6) data-[end-inset=true]:pe-(--density-10) data-[media=false]:px-(--density-10) data-[media=false]:py-(--density-8);
+  }
+
+  .cn-attachment-size-sm {
+    @apply gap-(--density-8) p-1 data-[end-inset=true]:pe-(--density-8) data-[media=false]:px-(--density-8) data-[media=false]:py-(--density-6);
+  }
+
+  .cn-attachment-size-xs {
+    @apply gap-(--density-6) rounded-lg p-1 data-[end-inset=true]:pe-(--density-6) data-[media=false]:px-(--density-6);
+  }
+
+  /* Media well: the hover fill with an inset hairline painted over the preview. */
+  .cn-attachment-media {
+    @apply bg-hover w-9 rounded-md outline-1 -outline-offset-1 outline-black/10 dark:outline-white/10 data-[layout=sm]:w-7 data-[layout=xs]:w-6 data-[layout=xs]:rounded-[5px] data-[layout=vertical]:w-full data-[layout=vertical]:rounded-lg data-[state=error]:bg-destructive/10;
+  }
+
+  .cn-attachment-media-text {
+    @apply text-muted-foreground;
+  }
+
+  .cn-attachment-media-text-state-error {
+    @apply text-destructive;
+  }
+
+  .cn-attachment-media-variant-icon {
+    @apply opacity-100;
+  }
+
+  /* Dimmed until it's up, clearing on the move timing: the opacity is in the
+     source, since a class could only snap. */
+  .cn-attachment-media-variant-image {
+    @apply opacity-100;
+  }
+
+  .cn-attachment-content {
+    @apply data-[orientation=vertical]:px-1 data-[orientation=vertical]:pb-0.5;
+  }
+
+  .cn-attachment-title {
+    @apply text-foreground leading-tight font-medium;
+  }
+
+  .cn-attachment-description {
+    @apply text-muted-foreground data-[state=error]:text-destructive/80 mt-0.5 text-(length:--density-text-12) leading-tight tabular-nums;
+  }
+
+  .cn-attachment-actions {
+    @apply relative z-20 gap-0.5 data-[orientation=vertical]:absolute data-[orientation=vertical]:end-2.5 data-[orientation=vertical]:top-2.5 data-[orientation=vertical]:gap-1;
+  }
+
+  .cn-attachment-action {
+    @apply shrink-0;
+  }
+
+  /* The padding leaves room for the tiles' shadows, which the scroller clips. */
+  .cn-attachment-group {
+    @apply gap-(--density-8) p-1;
+  }
+
+  /* Covers the tile. */
+  .cn-attachment-trigger {
+    @apply rounded-lg;
+  }
+
+  /* Pressed lights it up, easing in and out. */
+  .cn-attachment-trigger-wash {
+    @apply bg-hover rounded-lg;
+  }
+
+  .cn-attachment-trigger-wash-vertical {
+    @apply rounded-xl;
+  }
+
+/* MARK: Avatar */
+
+  .cn-avatar {
+    @apply size-(--density-32) rounded-full data-[size=lg]:size-(--density-40) data-[size=sm]:size-(--density-24);
+  }
+
+  /* A hairline over the image, the website's ::after. */
+  .cn-avatar-edge {
+    @apply border-border rounded-full border;
+  }
+
+  /* Initials on the active fill, muted. */
+  .cn-avatar-fallback {
+    @apply bg-active rounded-full;
+  }
+
+  .cn-avatar-fallback-text {
+    @apply text-muted-foreground font-medium;
+  }
+
+  .cn-avatar-fallback-text-size-default {
+    @apply text-(length:--density-text-14);
+  }
+
+  .cn-avatar-fallback-text-size-sm {
+    @apply text-(length:--density-text-12);
+  }
+
+  .cn-avatar-fallback-text-size-lg {
+    @apply text-(length:--density-text-14);
+  }
+
+  .cn-avatar-image {
+    @apply rounded-full;
+  }
+
+  /* A border takes room where the website's ring doesn't: 4pt larger than the
+     website's dot, and pushed out by the ring's width. */
+  .cn-avatar-badge {
+    @apply bg-primary border-background -end-0.5 -bottom-0.5 rounded-full border-2 data-[size=default]:size-3.5 data-[size=lg]:size-4 data-[size=sm]:size-3;
+  }
+
+  .cn-avatar-badge-text {
+    @apply text-primary-foreground;
+  }
+
+  .cn-avatar-group {
+    @apply gap-0;
+  }
+
+  /* -space-x-2 and ring-2 together: the wrapper's border adds 4pt, so overlapping
+     by 12pt leaves avatars 8pt over each other, as on the website. */
+  .cn-avatar-group-item {
+    @apply border-background -ms-3 rounded-full border-2 data-[first=true]:ms-0;
+  }
+
+  .cn-avatar-group-count {
+    @apply bg-active size-(--density-32) rounded-full data-[size=lg]:size-(--density-40) data-[size=sm]:size-(--density-24);
+  }
+
+  .cn-avatar-group-count-text {
+    @apply text-muted-foreground text-(length:--density-text-12) font-medium;
+  }
+
+/* MARK: Badge */
+
+  /* 24pt, 12pt medium text, rounded-lg like the other items. */
+  .cn-badge {
+    @apply h-(--density-24) gap-(--density-6) rounded-lg border border-transparent px-(--density-10) data-[invalid=true]:border-destructive/50;
+  }
+
+  .cn-badge-text {
+    @apply text-(length:--density-text-12) font-medium;
+  }
+
+  .cn-badge-variant-default {
+    @apply bg-active active:bg-foreground/10;
+  }
+
+  .cn-badge-text-variant-default {
+    @apply text-foreground;
+  }
+
+  .cn-badge-icon-variant-default {
+    @apply text-foreground;
+  }
+
+  .cn-badge-variant-secondary {
+    @apply bg-hover active:bg-active;
+  }
+
+  .cn-badge-text-variant-secondary {
+    @apply text-foreground;
+  }
+
+  .cn-badge-icon-variant-secondary {
+    @apply text-foreground;
+  }
+
+  .cn-badge-variant-outline {
+    @apply border-border active:bg-hover;
+  }
+
+  .cn-badge-text-variant-outline {
+    @apply text-foreground;
+  }
+
+  .cn-badge-icon-variant-outline {
+    @apply text-foreground;
+  }
+
+  /* The destructive role in the status recipe below; error is another name
+     for it. */
+  .cn-badge-variant-destructive {
+    @apply bg-destructive-surface-1 dark:bg-destructive-surface-3 border-destructive-border active:bg-destructive-surface-2 dark:active:bg-destructive-surface-4;
+  }
+
+  .cn-badge-text-variant-destructive {
+    @apply text-destructive-text;
+  }
+
+  .cn-badge-icon-variant-destructive {
+    @apply text-destructive;
+  }
+
+  .cn-badge-variant-ghost {
+    @apply active:bg-hover;
+  }
+
+  .cn-badge-text-variant-ghost {
+    @apply text-muted-foreground;
+  }
+
+  .cn-badge-icon-variant-ghost {
+    @apply text-muted-foreground;
+  }
+
+  .cn-badge-variant-link {
+    @apply active:opacity-70;
+  }
+
+  .cn-badge-text-variant-link {
+    @apply text-primary-text underline;
+  }
+
+  .cn-badge-icon-variant-link {
+    @apply text-primary-text;
+  }
+
+  /* Statuses: a tinted pill (the most tinted surface in light, level 3 in dark)
+     with a status hairline and the status text colour; icons take the role's
+     fill. */
+  .cn-badge-variant-info {
+    @apply bg-info-surface-1 dark:bg-info-surface-3 border-info-border active:bg-info-surface-2 dark:active:bg-info-surface-4;
+  }
+
+  .cn-badge-text-variant-info {
+    @apply text-info-text;
+  }
+
+  .cn-badge-icon-variant-info {
+    @apply text-info;
+  }
+
+  .cn-badge-variant-success {
+    @apply bg-success-surface-1 dark:bg-success-surface-3 border-success-border active:bg-success-surface-2 dark:active:bg-success-surface-4;
+  }
+
+  .cn-badge-text-variant-success {
+    @apply text-success-text;
+  }
+
+  .cn-badge-icon-variant-success {
+    @apply text-success;
+  }
+
+  .cn-badge-variant-warning {
+    @apply bg-warning-surface-1 dark:bg-warning-surface-3 border-warning-border active:bg-warning-surface-2 dark:active:bg-warning-surface-4;
+  }
+
+  .cn-badge-text-variant-warning {
+    @apply text-warning-text;
+  }
+
+  .cn-badge-icon-variant-warning {
+    @apply text-warning;
+  }
+
+  .cn-badge-variant-error {
+    @apply bg-destructive-surface-1 dark:bg-destructive-surface-3 border-destructive-border active:bg-destructive-surface-2 dark:active:bg-destructive-surface-4;
+  }
+
+  .cn-badge-text-variant-error {
+    @apply text-destructive-text;
+  }
+
+  .cn-badge-icon-variant-error {
+    @apply text-destructive;
+  }
+
+/* MARK: Breadcrumb */
+
+  .cn-breadcrumb {
+    @apply w-full;
+  }
+
+  /* Muted trail; a pressed link dims, the current page is foreground. */
+  .cn-breadcrumb-list {
+    @apply gap-(--density-6);
+  }
+
+  .cn-breadcrumb-list-text {
+    @apply text-muted-foreground text-(length:--density-text-13);
+  }
+
+  .cn-breadcrumb-item {
+    @apply gap-1;
+  }
+
+  .cn-breadcrumb-link {
+    @apply active:opacity-70 rounded-[4px];
+  }
+
+  .cn-breadcrumb-page {
+    @apply text-foreground font-normal;
+  }
+
+  .cn-breadcrumb-separator {
+    @apply items-center justify-center;
+  }
+
+  .cn-breadcrumb-separator-text {
+    @apply text-muted-foreground/60;
+  }
+
+  .cn-breadcrumb-ellipsis {
+    @apply size-(--density-20);
+  }
+
+/* MARK: Bubble */
+
+  .cn-bubble {
+    @apply gap-1 data-[align=end]:self-end;
+  }
+
+  /* Soft chat bubble: 8pt corners, 14pt text. */
+  .cn-bubble-content {
+    @apply rounded-lg border border-transparent px-(--density-14) py-(--density-8) data-[align=end]:self-end;
+  }
+
+  .cn-bubble-text {
+    @apply text-(length:--density-text-14) leading-normal;
+  }
+
+  /* Bubbles leave a fifth of the row free; the ghost reply runs the full width. */
+  .cn-bubble-variant-default {
+    @apply max-w-[80%];
+  }
+
+  .cn-bubble-variant-secondary {
+    @apply max-w-[80%];
+  }
+
+  .cn-bubble-variant-muted {
+    @apply max-w-[80%];
+  }
+
+  .cn-bubble-variant-tinted {
+    @apply max-w-[80%];
+  }
+
+  .cn-bubble-variant-outline {
+    @apply max-w-[80%];
+  }
+
+  .cn-bubble-variant-ghost {
+    @apply max-w-full;
+  }
+
+  .cn-bubble-variant-destructive {
+    @apply max-w-[80%];
+  }
+
+  /* Neutral ladder: secondary is the accent fill, default (the user bubble) is
+     that accent mixed 45% into the page, muted is the translucent hover fill.
+     Opaque mixes keep the user bubble identical on any surface, in both themes.
+     Pressed stands in for the website's hover. */
+  .cn-bubble-content-variant-default {
+    @apply bg-[color-mix(in_oklab,var(--foreground)_6%,var(--background))] dark:bg-[color-mix(in_oklab,var(--foreground)_20%,var(--background))] active:bg-[color-mix(in_oklab,var(--foreground)_9%,var(--background))] dark:active:bg-[color-mix(in_oklab,var(--foreground)_24%,var(--background))];
+  }
+
+  .cn-bubble-text-variant-default {
+    @apply text-foreground;
+  }
+
+  .cn-bubble-content-variant-secondary {
+    @apply bg-[color-mix(in_oklab,var(--foreground)_10%,var(--background))] dark:bg-[color-mix(in_oklab,var(--foreground)_28%,var(--background))] active:bg-[color-mix(in_oklab,var(--foreground)_13%,var(--background))] dark:active:bg-[color-mix(in_oklab,var(--foreground)_32%,var(--background))];
+  }
+
+  .cn-bubble-text-variant-secondary {
+    @apply text-foreground;
+  }
+
+  .cn-bubble-content-variant-muted {
+    @apply bg-hover active:bg-active;
+  }
+
+  .cn-bubble-text-variant-muted {
+    @apply text-foreground;
+  }
+
+  /* Tinted: a soft wash of the focus blue, the palette's only hue. */
+  .cn-bubble-content-variant-tinted {
+    @apply bg-[color-mix(in_oklab,var(--focus-ring)_12%,var(--background))] dark:bg-[color-mix(in_oklab,var(--focus-ring)_22%,var(--background))] active:bg-[color-mix(in_oklab,var(--focus-ring)_18%,var(--background))] dark:active:bg-[color-mix(in_oklab,var(--focus-ring)_28%,var(--background))];
+  }
+
+  .cn-bubble-text-variant-tinted {
+    @apply text-foreground;
+  }
+
+  .cn-bubble-content-variant-outline {
+    @apply border-border active:bg-active bg-transparent;
+  }
+
+  .cn-bubble-text-variant-outline {
+    @apply text-foreground;
+  }
+
+  /* An outline bubble that is a button reads quieter. */
+  .cn-bubble-text-outline-action {
+    @apply text-muted-foreground;
+  }
+
+  /* Ghost: the assistant reply, plain foreground text without a frame. */
+  .cn-bubble-content-variant-ghost {
+    @apply active:bg-hover rounded-none border-0 bg-transparent p-0;
+  }
+
+  .cn-bubble-text-variant-ghost {
+    @apply text-foreground;
+  }
+
+  .cn-bubble-content-variant-destructive {
+    @apply bg-destructive/12 active:bg-destructive/16;
+  }
+
+  .cn-bubble-text-variant-destructive {
+    @apply text-destructive-text;
+  }
+
+  /* Reactions: a small raised pill on surface 3 (the shadow ring is its edge). */
+  .cn-bubble-reactions {
+    @apply bg-surface-3 shadow-surface-3 h-(--density-24) shrink-0 gap-0.5 rounded-full px-(--density-6);
+  }
+
+  .cn-bubble-reactions-text {
+    @apply text-(length:--density-text-12);
+  }
+
+  .cn-bubble-reactions-side-top {
+    @apply top-[calc(var(--density-24)*-0.75)];
+  }
+
+  .cn-bubble-reactions-side-bottom {
+    @apply bottom-[calc(var(--density-24)*-0.75)];
+  }
+
+  .cn-bubble-reactions-align-start {
+    @apply start-3;
+  }
+
+  .cn-bubble-reactions-align-end {
+    @apply end-3;
+  }
+
+  .cn-bubble-group {
+    @apply gap-1;
+  }
+
+/* MARK: Button Group */
+
+  /* A group of groups spreads them apart; a group of parts joins them. */
+  .cn-button-group {
+    @apply data-[nested=true]:gap-(--density-8);
+  }
+
+  .cn-button-group-orientation-horizontal {
+    @apply min-w-0;
+  }
+
+  .cn-button-group-orientation-vertical {
+    @apply min-h-0;
+  }
+
+  /* Each part squares the corners it shares and drops the border between them.
+     The group's last part keeps its own corners. */
+  .cn-button-group-item {
+    @apply data-[group-item=horizontal-first]:rounded-r-none data-[group-item=horizontal-middle]:rounded-none data-[group-item=horizontal-middle]:border-l-0 data-[group-item=horizontal-last]:rounded-l-none data-[group-item=horizontal-last]:border-l-0 data-[group-item=vertical-first]:rounded-b-none data-[group-item=vertical-middle]:rounded-none data-[group-item=vertical-middle]:border-t-0 data-[group-item=vertical-last]:rounded-t-none data-[group-item=vertical-last]:border-t-0;
+  }
+
+  /* An addon cell: hover fill with a hairline edge, muted 13pt text, sized like
+     the 36pt controls beside it. */
+  .cn-button-group-text {
+    @apply bg-hover border-border gap-(--density-8) rounded-lg border px-(--density-12);
+  }
+
+  .cn-button-group-text-text {
+    @apply text-muted-foreground text-(length:--density-text-13) font-medium;
+  }
+
+  .cn-button-group-separator {
+    @apply bg-border self-stretch data-[orientation=horizontal]:mx-px data-[orientation=horizontal]:w-auto data-[orientation=vertical]:my-px data-[orientation=vertical]:h-auto;
+  }
+
+/* MARK: Button */
+
+  /* 36pt controls at the default density, 13pt medium text, rounded-lg.
+     Pressed is a wash under the label plus the press scale (usePressScale),
+     both easing on the feedback timing. Icons draw at stroke 1.5, set in the
+     source: a class can't reach them. */
+  .cn-button {
+    @apply rounded-lg border border-transparent;
+  }
+
+  /* The wash fills the border box and follows the button's corners. Each step
+     matches the website's: the fill at 80%, or the next interaction token. */
+  .cn-button-wash {
+    @apply -inset-px rounded-lg;
+  }
+
+  /* In a button group the wash squares the corners its button squares. */
+  .cn-button-wash-horizontal-first {
+    @apply rounded-r-none;
+  }
+
+  .cn-button-wash-horizontal-middle {
+    @apply rounded-none;
+  }
+
+  .cn-button-wash-horizontal-last {
+    @apply rounded-l-none;
+  }
+
+  .cn-button-wash-vertical-first {
+    @apply rounded-b-none;
+  }
+
+  .cn-button-wash-vertical-middle {
+    @apply rounded-none;
+  }
+
+  .cn-button-wash-vertical-last {
+    @apply rounded-t-none;
+  }
+
+  .cn-button-wash-variant-default {
+    @apply bg-background/20;
+  }
+
+  .cn-button-wash-variant-outline {
+    @apply bg-active;
+  }
+
+  .cn-button-wash-variant-secondary {
+    @apply bg-background/30;
+  }
+
+  .cn-button-wash-variant-ghost {
+    @apply bg-active;
+  }
+
+  .cn-button-wash-variant-destructive {
+    @apply bg-destructive/8;
+  }
+
+  .cn-button-wash-variant-link {
+    @apply bg-transparent;
+  }
+
+  .cn-button-text {
+    @apply text-(length:--density-text-13) font-medium;
+  }
+
+  /* Held, or with its popup open, a ghost button's label comes forward. */
+  .cn-button-text-lifted-ghost {
+    @apply text-foreground;
+  }
+
+  /* The primary role's fill; pressed is the fill at 80%. */
+  .cn-button-variant-default {
+    @apply bg-primary;
+  }
+
+  .cn-button-text-variant-default {
+    @apply text-primary-foreground;
+  }
+
+  /* Transparent with a hairline edge; pressed steps through the interaction
+     tokens. */
+  .cn-button-variant-outline {
+    @apply border-border bg-transparent;
+  }
+
+  .cn-button-text-variant-outline {
+    @apply text-foreground;
+  }
+
+  /* The secondary role: a translucent tint. */
+  .cn-button-variant-secondary {
+    @apply bg-secondary;
+  }
+
+  .cn-button-text-variant-secondary {
+    @apply text-secondary-foreground;
+  }
+
+  /* Muted at rest, foreground when lit. */
+  .cn-button-variant-ghost {
+    @apply bg-transparent;
+  }
+
+  .cn-button-text-variant-ghost {
+    @apply text-muted-foreground;
+  }
+
+  /* The soft form of the destructive role: a wash of its fill with its text
+     colour. */
+  .cn-button-variant-destructive {
+    @apply bg-destructive/12;
+  }
+
+  .cn-button-text-variant-destructive {
+    @apply text-destructive-text;
+  }
+
+  /* The primary role's text colour. */
+  .cn-button-variant-link {
+    @apply bg-transparent active:opacity-70;
+  }
+
+  .cn-button-text-variant-link {
+    @apply text-primary-text underline;
+  }
+
+  /* Sizes follow the density: default takes the nearest one, sm a step down and lg
+     a step up (lib/density-scale). xs is the fixed floor: 24pt, 28pt on a tablet. */
+  .cn-button-size-xs {
+    @apply h-6 gap-1 px-2 md:h-7 md:gap-1.5 md:px-2.5;
+  }
+
+  .cn-button-text-size-xs {
+    @apply text-[12px] md:text-[13px];
+  }
+
+  .cn-button-size-sm {
+    @apply h-(--density-36) gap-(--density-6) px-(--density-16);
+  }
+
+  .cn-button-size-default {
+    @apply h-(--density-36) gap-(--density-6) px-(--density-16);
+  }
+
+  .cn-button-size-lg {
+    @apply h-(--density-36) gap-(--density-6) px-(--density-16);
+  }
+
+  .cn-button-size-icon-xs {
+    @apply size-6 md:size-7;
+  }
+
+  .cn-button-size-icon-sm {
+    @apply size-(--density-36);
+  }
+
+  .cn-button-size-icon {
+    @apply size-(--density-36);
+  }
+
+  .cn-button-size-icon-lg {
+    @apply size-(--density-36);
+  }
+
+/* MARK: Calendar */
+
+  /* 32pt day cells with rounded-lg highlights, 13pt numerals. A cell grows past
+     32pt when the calendar is given a wider box: on a phone, `w-full` makes the
+     days finger-sized. */
+  .cn-calendar {
+    @apply p-(--density-12) md:max-w-full;
+  }
+
+  /* A tablet has room to spare, and a square day would take all of it: a month keeps
+     to seven 40-step days, however wide its box, and fits itself to a narrower one.
+     Given `w-full` it spreads out, and its rows stop at the 48-step. */
+  .cn-calendar-month {
+    @apply md:data-[stretched=false]:w-[calc(var(--density-40)*7)] md:data-[stretched=false]:max-w-full md:data-[stretched=false]:shrink;
+  }
+
+  .cn-calendar-text {
+    @apply text-foreground text-(length:--density-text-13);
+  }
+
+  .cn-calendar-nav-button {
+    @apply size-(--density-32) rounded-lg;
+  }
+
+  .cn-calendar-month-caption {
+    @apply h-(--density-32) px-(--density-32);
+  }
+
+  /* Month and year pickers: framed like an input. */
+  .cn-calendar-dropdowns {
+    @apply h-(--density-32) gap-1.5;
+  }
+
+  .cn-calendar-dropdown-root {
+    @apply border-border active:bg-active rounded-lg border;
+  }
+
+  .cn-calendar-caption-label {
+    @apply h-(--density-28) pr-(--density-6) pl-(--density-8);
+  }
+
+  .cn-calendar-caption-text {
+    @apply text-foreground text-(length:--density-text-13) font-medium;
+  }
+
+  .cn-calendar-caption-icon {
+    @apply text-muted-foreground;
+  }
+
+  .cn-calendar-caption {
+    @apply text-foreground text-(length:--density-text-13) font-medium;
+  }
+
+  .cn-calendar-options {
+    @apply max-h-56;
+  }
+
+  .cn-calendar-weekday {
+    @apply min-w-(--density-32) flex-1;
+  }
+
+  .cn-calendar-weekday-text {
+    @apply text-muted-foreground text-(length:--density-text-12) font-normal;
+  }
+
+  .cn-calendar-week-number {
+    @apply w-(--density-32);
+  }
+
+  /* Today, and a range's middle and ends, are the active step: they read in dark
+     mode too. The range runs edge to edge between its rounded ends. */
+  .cn-calendar-day {
+    @apply md:data-[stretched=true]:max-h-(--density-48) min-w-(--density-32) rounded-lg data-[today=true]:bg-active data-[range-start=true]:bg-active data-[range-end=true]:bg-active data-[range-middle=true]:bg-active data-[range-middle=true]:rounded-none data-[range-start=true]:rounded-r-none data-[range-end=true]:rounded-l-none;
+  }
+
+  .cn-calendar-day-button {
+    @apply md:aspect-auto md:h-full h-auto min-w-(--density-32) gap-1 rounded-lg border-0 data-[selected-single=true]:bg-primary data-[range-start=true]:bg-primary data-[range-end=true]:bg-primary data-[range-middle=true]:bg-transparent data-[range-middle=true]:rounded-none;
+  }
+
+  /* Pressed, under the numeral and easing in and out: the next interaction step, as
+     on a ghost button. */
+  .cn-calendar-day-wash {
+    @apply rounded-lg bg-active;
+  }
+
+  /* A selected day's fill goes to 80%, as a primary button's does: the interaction
+     step wouldn't show on it. */
+  .cn-calendar-filled-day-wash {
+    @apply rounded-lg bg-background/20;
+  }
+
+  /* The month buttons keep Button's border, so theirs fills the border box. */
+  .cn-calendar-nav-wash {
+    @apply -inset-px rounded-lg bg-active;
+  }
+
+  /* Numerals: foreground, muted outside the month and when disabled, in the
+     primary's foreground on its fill. */
+  .cn-calendar-day-button-text {
+    @apply text-foreground text-(length:--density-text-13) leading-none font-normal data-[outside=true]:text-muted-foreground data-[disabled=true]:text-muted-foreground data-[selected-single=true]:text-primary-foreground data-[range-start=true]:text-primary-foreground data-[range-end=true]:text-primary-foreground;
+  }
+
+  .cn-calendar-footer {
+    @apply mt-(--density-12);
+  }
+
+/* MARK: Card */
+
+  /* The card colour with surface 2's shadow ring, rounded-xl. py-(--density-16) with
+     px on the parts; sm tightens through the same parts. */
+  .cn-card {
+    @apply bg-card shadow-surface-2 gap-(--density-16) rounded-xl py-(--density-16) data-[size=sm]:gap-(--density-12) data-[size=sm]:py-(--density-12);
+  }
+
+  .cn-card-text {
+    @apply text-card-foreground text-(length:--density-text-13);
+  }
+
+  .cn-card-header {
+    @apply gap-(--density-4) px-(--density-16) data-[size=sm]:px-(--density-12);
+  }
+
+  .cn-card-title {
+    @apply text-foreground text-(length:--density-text-14) font-medium leading-snug data-[size=sm]:text-(length:--density-text-13);
+  }
+
+  .cn-card-description {
+    @apply text-muted-foreground text-(length:--density-text-13) data-[size=sm]:text-(length:--density-text-12);
+  }
+
+  /* The header's top-right corner. */
+  .cn-card-action {
+    @apply absolute end-(--density-16) top-0;
+  }
+
+  .cn-card-content {
+    @apply gap-(--density-8) px-(--density-16) data-[size=sm]:px-(--density-12);
+  }
+
+  .cn-card-footer {
+    @apply gap-(--density-8) px-(--density-16) data-[size=sm]:px-(--density-12);
+  }
+
+/* MARK: Carousel */
+
+  /* Round arrow buttons (outline icon-sm buttons in the component). */
+  .cn-carousel-previous {
+    @apply rounded-full;
+  }
+
+  .cn-carousel-next {
+    @apply rounded-full;
+  }
+
+  /* The pressed wash follows the round arrow. */
+  .cn-carousel-previous-wash {
+    @apply rounded-full;
+  }
+
+  .cn-carousel-next-wash {
+    @apply rounded-full;
+  }
+
+/* MARK: Checkbox */
+
+  /* 18pt, rounded-[6px], a quiet 1.5pt outline, and the check pops in in the
+     role's foreground. The press gives on the feedback timing, in the source: a
+     class could only snap. */
+  .cn-checkbox {
+    @apply size-[calc(var(--density-icon-16)+2px)] rounded-[6px] border-[1.5px] border-foreground/25 bg-transparent data-[invalid=true]:border-destructive;
+  }
+
+  /* Checked fills with the primary role, or the destructive one when invalid,
+     over the outline, easing on the feedback timing. */
+  .cn-checkbox-fill {
+    @apply -inset-[1.5px] rounded-[6px] bg-primary data-[invalid=true]:bg-destructive;
+  }
+
+  .cn-checkbox-indicator {
+    @apply size-[calc(var(--density-icon-16)-4px)];
+  }
+
+  .cn-checkbox-indicator-text {
+    @apply text-primary-foreground;
+  }
+
+/* MARK: Collapsible */
+
+  /* Pressed dims the bare trigger: there is no hover to answer with. */
+  .cn-collapsible-trigger {
+    @apply active:opacity-70 disabled:opacity-50;
+  }
+
+  /* Opens and closes like Accordion content: DisclosurePanel animates the
+     measured height on the disclosure timing, with the quicker exit to close.
+     Reduce Motion drops the height's travel and keeps a fade. */
+  .cn-collapsible-content {
+    @apply w-full;
+  }
+
+/* MARK: Combobox */
+
+  /* The popup is a dialog on the popup's surface. Its field sits in its own row
+     above the list. */
+  .cn-combobox-content {
+    @apply bg-surface-3 shadow-surface-3 gap-0 overflow-hidden rounded-xl p-0 sm:max-w-[400px];
+  }
+
+  /* A percentage here resolves against the dialog's own content height. */
+  .cn-combobox-content-logical {
+    @apply max-h-96;
+  }
+
+  .cn-combobox-label {
+    @apply text-muted-foreground px-(--density-8) py-(--density-6) text-(length:--density-text-12);
+  }
+
+  /* Rows: 36pt, 13pt, muted at rest. They paint nothing themselves: one highlight
+     glides under the finger, and one bg-active selection slides to the selected
+     row (Fluid Hover). Selected rows are foreground and semibold, with a check at
+     the end. With several chosen there's no one row to slide to, so each fills
+     itself. */
+  .cn-combobox-item {
+    @apply data-[multiple=true]:data-[selected=true]:bg-active h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8);
+  }
+
+  .cn-combobox-item-text {
+    @apply text-muted-foreground text-(length:--density-text-13);
+  }
+
+  .cn-combobox-item-text-selected {
+    @apply text-foreground text-(length:--density-text-13) font-semibold;
+  }
+
+  /* Under the highlight a row reads foreground, as a hovered one does on the
+     website; only selecting it changes the weight. */
+  .cn-combobox-item-text-lit {
+    @apply text-foreground text-(length:--density-text-13);
+  }
+
+  .cn-combobox-item-indicator {
+    @apply right-(--density-8) size-(--density-icon-16);
+  }
+
+  .cn-combobox-item-indicator-icon {
+    @apply text-foreground;
+  }
+
+  .cn-combobox-empty {
+    @apply text-muted-foreground py-(--density-16) text-center text-(length:--density-text-13);
+  }
+
+  /* The list scrolls under the field. */
+  .cn-combobox-list {
+    @apply max-h-72 p-1 data-[empty=true]:p-0;
+  }
+
+  .cn-combobox-group {
+    @apply flex-col;
+  }
+
+  .cn-combobox-separator {
+    @apply bg-border/60 -mx-1 my-1 h-px;
+  }
+
+  .cn-combobox-trigger {
+    @apply active:opacity-70 gap-(--density-6);
+  }
+
+  .cn-combobox-trigger-icon {
+    @apply text-muted-foreground;
+  }
+
+  .cn-combobox-clear {
+    @apply rounded-full;
+  }
+
+  .cn-combobox-clear-icon {
+    @apply text-muted-foreground;
+  }
+
+  /* The field: a hairline frame, transparent at rest, lifted to the card surface
+     while its list is open. Invalid turns the frame red. Inside the popup it sits
+     in a margin with no frame of its own. */
+  .cn-combobox-input {
+    @apply border-border data-[open=true]:bg-card data-[open=true]:border-foreground/25 data-[invalid=true]:border-destructive/50 h-(--density-36) gap-(--density-6) rounded-lg border bg-transparent px-(--density-10) data-[popup=true]:m-1 data-[popup=true]:mb-0;
+  }
+
+  .cn-combobox-input-text {
+    @apply text-foreground text-(length:--density-text-13) data-[empty=true]:text-muted-foreground;
+  }
+
+  .cn-combobox-input-field {
+    @apply font-sans text-foreground h-full py-0 text-(length:--density-text-13);
+  }
+
+  /* Chips field: the input recipe, growing with its chips. */
+  .cn-combobox-chips {
+    @apply border-border data-[open=true]:bg-card data-[open=true]:border-foreground/25 data-[invalid=true]:border-destructive/50 min-h-(--density-36) gap-1 rounded-lg border bg-transparent px-(--density-10) py-1 data-[has-chips=true]:px-1;
+  }
+
+  .cn-combobox-chip {
+    @apply bg-active h-(--density-24) gap-1 self-start rounded-md px-(--density-8) data-[removable=true]:pr-0;
+  }
+
+  .cn-combobox-chip-text {
+    @apply text-foreground text-(length:--density-text-12) font-medium;
+  }
+
+  .cn-combobox-chip-remove {
+    @apply -ml-1 opacity-50;
+  }
+
+  .cn-combobox-chip-indicator-icon {
+    @apply text-foreground;
+  }
+
+  .cn-combobox-chip-input {
+    @apply font-sans text-muted-foreground py-0 text-(length:--density-text-13);
+  }
+
+/* MARK: Command */
+
+  /* A raised surface on its own; inside a dialog or popover pass `bg-transparent`
+     and it takes the host's: React Native has no `in-data-*`. */
+  .cn-command {
+    @apply bg-surface-3 rounded-xl;
+  }
+
+  .cn-command-text {
+    @apply text-popover-foreground;
+  }
+
+  .cn-command-dialog {
+    @apply gap-0 rounded-xl sm:max-w-[400px];
+  }
+
+  .cn-command-input-wrapper {
+    @apply p-0;
+  }
+
+  /* The search row: 48pt, 14pt (one step above the rows), no frame. */
+  .cn-command-input-group {
+    @apply h-(--density-48) gap-(--density-10) px-(--density-12);
+  }
+
+  .cn-command-input-icon {
+    @apply text-muted-foreground;
+  }
+
+  .cn-command-input {
+    @apply font-sans text-foreground h-full py-0 text-(length:--density-text-14);
+  }
+
+  /* The list is divided from the search row. */
+  .cn-command-list {
+    @apply border-border/60 max-h-72 border-t p-1;
+  }
+
+  .cn-command-empty {
+    @apply text-muted-foreground py-(--density-24) text-center text-(length:--density-text-13);
+  }
+
+  .cn-command-group {
+    @apply flex-col;
+  }
+
+  .cn-command-group-heading {
+    @apply h-(--density-28) px-(--density-8);
+  }
+
+  .cn-command-group-heading-text {
+    @apply text-muted-foreground text-(length:--density-text-12) font-normal;
+  }
+
+  .cn-command-separator {
+    @apply bg-border/60 -mx-1 my-1 h-px;
+  }
+
+  /* Rows: 36pt, 13pt, muted at rest. One highlight glides under the finger (Fluid
+     Hover). The last one pressed keeps a hover fill, and gives way to the highlight
+     while it's lit, so the two never stack. Checked rows are foreground and
+     semibold. */
+  .cn-command-item {
+    @apply data-[selected=true]:data-[lit=false]:bg-hover h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8);
+  }
+
+  .cn-command-item-text {
+    @apply text-muted-foreground text-(length:--density-text-13);
+  }
+
+  .cn-command-item-text-checked {
+    @apply text-foreground text-(length:--density-text-13) font-semibold;
+  }
+
+  /* Under the highlight a row reads foreground, as a hovered one does on the
+     website; only checking it changes the weight. */
+  .cn-command-item-text-lit {
+    @apply text-foreground text-(length:--density-text-13);
+  }
+
+  .cn-command-item-indicator {
+    @apply opacity-0 data-[checked=true]:opacity-100;
+  }
+
+  /* Keyboard shortcuts wait for a tablet: a phone has no keyboard to press them on. */
+  .cn-command-shortcut {
+    @apply hidden sm:flex text-muted-foreground ml-auto text-(length:--density-text-11) tracking-normal;
+  }
+
+/* MARK: Context Menu */
+
+  /* What a long press lands on. It dims while held, so the press reads before the
+     menu opens. */
+  .cn-context-menu-trigger {
+    @apply active:opacity-70;
+  }
+
+  /* Popup: surface 3 with its shadow ring (no border), rounded-xl, p-1. Enters on
+     the popup motion (useSurfaceAnimation), at the finger. */
+  .cn-context-menu-content {
+    @apply bg-surface-3 shadow-surface-3 rounded-xl p-1;
+  }
+
+  /* On the website this holds the motion, which is useSurfaceAnimation here. It
+     keeps the least width instead. */
+  .cn-context-menu-content-logical {
+    @apply min-w-36;
+  }
+
+  .cn-context-menu-text {
+    @apply text-popover-foreground text-(length:--density-text-13);
+  }
+
+  /* Rows: 36pt, 13pt, muted at rest. They paint nothing themselves: one highlight
+     glides under the finger (Fluid Hover). Touch has no resting highlight, so a
+     row is lit only while the finger is on it. */
+  .cn-context-menu-item {
+    @apply h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8) data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))];
+  }
+
+  .cn-context-menu-item-text {
+    @apply text-muted-foreground text-(length:--density-text-13);
+  }
+
+  /* Under the highlight a row reads foreground, as a hovered one does on the
+     website. */
+  .cn-context-menu-item-text-lit {
+    @apply text-foreground text-(length:--density-text-13);
+  }
+
+  /* Destructive rows stay destructive when lit. */
+  .cn-context-menu-item-text-variant-destructive {
+    @apply text-destructive-text;
+  }
+
+  /* A checkbox or radio row: muted like the others until it's chosen, then
+     foreground and semibold, with a foreground check. */
+  .cn-context-menu-choice-text {
+    @apply text-muted-foreground text-(length:--density-text-13);
+  }
+
+  .cn-context-menu-choice-text-checked {
+    @apply text-foreground font-semibold;
+  }
+
+  /* Lit, it reads foreground too; only choosing it changes the weight. */
+  .cn-context-menu-choice-text-lit {
+    @apply text-foreground;
+  }
+
+  .cn-context-menu-checkbox-item {
+    @apply h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))];
+  }
+
+  .cn-context-menu-radio-item {
+    @apply h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))];
+  }
+
+  .cn-context-menu-item-indicator {
+    @apply right-(--density-8);
+  }
+
+  .cn-context-menu-item-indicator-text {
+    @apply text-foreground;
+  }
+
+  .cn-context-menu-label {
+    @apply text-muted-foreground px-(--density-8) py-(--density-6) text-(length:--density-text-12) font-normal data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))];
+  }
+
+  .cn-context-menu-separator {
+    @apply bg-border/60 -mx-1 my-1 h-px;
+  }
+
+  /* Keyboard shortcuts wait for a tablet: a phone has no keyboard to press them on. */
+  .cn-context-menu-shortcut {
+    @apply hidden sm:flex text-muted-foreground ml-auto text-(length:--density-text-11) tracking-normal;
+  }
+
+  /* An open sub-trigger keeps a fill while its submenu shows below it, and gives
+     way to the highlight while it's lit, so the two never stack. */
+  .cn-context-menu-sub-trigger {
+    @apply h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8) data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))] data-[state=open]:data-[lit=false]:bg-hover;
+  }
+
+  /* A submenu expands inline, indented under a hairline: a phone has no room
+     beside the menu. */
+  .cn-context-menu-subcontent {
+    @apply border-border/60 my-1 ml-(--density-8) border-l pl-1;
+  }
+
+/* MARK: Dialog */
+
+  /* Scrim: 40% black (80% in dark). */
+  .cn-dialog-overlay {
+    @apply bg-black/40 dark:bg-black/80;
+  }
+
+  /* Panel: surface 5 with its shadow ring, rounded-xl, p-6. */
+  .cn-dialog-content {
+    @apply bg-surface-5 shadow-surface-5 max-w-[92%] gap-(--density-16) rounded-xl p-(--density-24) sm:max-w-[400px];
+  }
+
+  .cn-dialog-text {
+    @apply text-popover-foreground text-(length:--density-text-13);
+  }
+
+  /* The close button is a small ghost icon button in the corner. */
+  .cn-dialog-close {
+    @apply end-3 top-3;
+  }
+
+  .cn-dialog-header {
+    @apply gap-(--density-6);
+  }
+
+  /* Stacked actions on phones; the margin gives 24pt above them. */
+  .cn-dialog-footer {
+    @apply mt-2 gap-(--density-8) sm:flex-row sm:justify-end;
+  }
+
+  .cn-dialog-title {
+    @apply text-foreground text-(length:--density-text-16) leading-tight font-bold;
+  }
+
+  .cn-dialog-description {
+    @apply text-muted-foreground text-(length:--density-text-13);
+  }
+
+/* MARK: Drawer */
+
+  /* Scrim: 40% black (80% in dark), no blur. Dragging tracks the finger; a
+     release keeps the swipe's speed (lib/sheet-surface). */
+  .cn-drawer-overlay {
+    @apply bg-black/40 dark:bg-black/80;
+  }
+
+  /* Panel: surface 3 whose shadow ring is the edge (no border); the edge that
+     meets the screen is square, the free edge rounded-xl. From the bottom on iOS it
+     has the system sheet's corner: 38pt and continuous, measured on iOS 27. A drawer
+     along the sides takes 3/4 of the width, at most 384pt from sm up. */
+  .cn-drawer-popup {
+    @apply bg-surface-3 shadow-surface-3 data-[swipe-axis=x]:w-3/4 data-[swipe-axis=x]:flex-row data-[swipe-axis=x]:sm:w-96 data-[swipe-axis=y]:max-h-[90%] data-[swipe-direction=down]:rounded-t-xl ios:data-[swipe-direction=down]:rounded-t-[38px] ios:border-continuous data-[swipe-direction=left]:rounded-r-xl data-[swipe-direction=right]:rounded-l-xl data-[swipe-direction=up]:rounded-b-xl;
+  }
+
+  .cn-drawer-text {
+    @apply text-popover-foreground text-(length:--density-text-13);
+  }
+
+  /* Beside the handle of a side drawer, it takes the rest of the width. */
+  .cn-drawer-content-base {
+    @apply data-[swipe-axis=x]:flex-1;
+  }
+
+  /* The bar a finger reaches for, along the edge away from the one it swipes
+     toward. */
+  .cn-drawer-swipe-handle {
+    @apply data-[swipe-axis=x]:h-full data-[swipe-axis=x]:w-5 data-[swipe-axis=y]:h-5 data-[swipe-axis=y]:w-full;
+  }
+
+  .cn-drawer-swipe-handle-bar {
+    @apply bg-active rounded-full data-[swipe-axis=x]:h-12 data-[swipe-axis=x]:w-1 data-[swipe-axis=y]:h-1 data-[swipe-axis=y]:w-12;
+  }
+
+  .cn-drawer-header-base {
+    @apply gap-(--density-6) p-(--density-16) pb-0;
+  }
+
+  /* Centred on a drawer that comes from the bottom or top, from the start from md
+     up. */
+  .cn-drawer-title {
+    @apply text-foreground text-(length:--density-text-16) leading-tight font-bold data-[swipe-axis=y]:text-center data-[swipe-axis=y]:md:text-start;
+  }
+
+  .cn-drawer-description {
+    @apply text-muted-foreground text-(length:--density-text-13) data-[swipe-axis=y]:text-center data-[swipe-axis=y]:md:text-start;
+  }
+
+  .cn-drawer-footer-base {
+    @apply gap-(--density-8) p-(--density-16) pt-(--density-8);
+  }
+
+/* MARK: Dropdown Menu */
+
+  /* Popup: surface 3 with its shadow ring (no border), rounded-xl, p-1. Enters on
+     the popup motion (useSurfaceAnimation). */
+  .cn-dropdown-menu-content {
+    @apply bg-surface-3 shadow-surface-3 rounded-xl p-1;
+  }
+
+  /* On the website this holds the motion, which is useSurfaceAnimation here. It
+     keeps the least width instead. */
+  .cn-dropdown-menu-content-logical {
+    @apply min-w-32;
+  }
+
+  .cn-dropdown-menu-text {
+    @apply text-popover-foreground text-(length:--density-text-13);
+  }
+
+  /* Rows: 36pt, 13pt, muted at rest. They paint nothing themselves: one highlight
+     glides under the finger (Fluid Hover). Touch has no resting highlight, so a
+     row is lit only while the finger is on it. */
+  .cn-dropdown-menu-item {
+    @apply h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8) data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))];
+  }
+
+  .cn-dropdown-menu-item-text {
+    @apply text-muted-foreground text-(length:--density-text-13);
+  }
+
+  /* Under the highlight a row reads foreground, as a hovered one does on the
+     website. */
+  .cn-dropdown-menu-item-text-lit {
+    @apply text-foreground text-(length:--density-text-13);
+  }
+
+  /* Destructive rows stay destructive when lit. */
+  .cn-dropdown-menu-item-text-variant-destructive {
+    @apply text-destructive-text;
+  }
+
+  /* A checkbox or radio row: muted like the others until it's chosen, then
+     foreground and semibold, with a foreground check. */
+  .cn-dropdown-menu-choice-text {
+    @apply text-muted-foreground text-(length:--density-text-13);
+  }
+
+  .cn-dropdown-menu-choice-text-checked {
+    @apply text-foreground font-semibold;
+  }
+
+  /* Lit, it reads foreground too; only choosing it changes the weight. */
+  .cn-dropdown-menu-choice-text-lit {
+    @apply text-foreground;
+  }
+
+  .cn-dropdown-menu-checkbox-item {
+    @apply h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))];
+  }
+
+  .cn-dropdown-menu-radio-item {
+    @apply h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))];
+  }
+
+  .cn-dropdown-menu-item-indicator {
+    @apply right-(--density-8);
+  }
+
+  .cn-dropdown-menu-item-indicator-text {
+    @apply text-foreground;
+  }
+
+  .cn-dropdown-menu-label {
+    @apply text-muted-foreground px-(--density-8) py-(--density-6) text-(length:--density-text-12) font-normal data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))];
+  }
+
+  .cn-dropdown-menu-separator {
+    @apply bg-border/60 -mx-1 my-1 h-px;
+  }
+
+  /* Keyboard shortcuts wait for a tablet: a phone has no keyboard to press them on. */
+  .cn-dropdown-menu-shortcut {
+    @apply hidden sm:flex text-muted-foreground ml-auto text-(length:--density-text-11) tracking-normal;
+  }
+
+  /* An open sub-trigger keeps a fill while its submenu shows below it, and gives
+     way to the highlight while it's lit, so the two never stack. */
+  .cn-dropdown-menu-sub-trigger {
+    @apply h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8) data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))] data-[state=open]:data-[lit=false]:bg-hover;
+  }
+
+  /* A submenu expands inline, indented under a hairline: a phone has no room
+     beside the menu. */
+  .cn-dropdown-menu-sub-content {
+    @apply border-border/60 my-1 ml-(--density-8) border-l pl-1;
+  }
+
+/* MARK: Empty */
+
+  .cn-empty {
+    @apply border-border gap-(--density-16) rounded-xl border-dashed p-(--density-24);
+  }
+
+  .cn-empty-text {
+    @apply text-center text-(length:--density-text-13);
+  }
+
+  .cn-empty-header {
+    @apply gap-(--density-6);
+  }
+
+  .cn-empty-media {
+    @apply mb-2;
+  }
+
+  .cn-empty-media-text {
+    @apply text-foreground;
+  }
+
+  .cn-empty-media-default {
+    @apply bg-transparent;
+  }
+
+  /* A raised tile: surface 4 with its shadow ring (one step above the card it
+     usually sits on), no border. */
+  .cn-empty-media-icon {
+    @apply bg-surface-4 shadow-surface-4 size-(--density-40) rounded-xl;
+  }
+
+  .cn-empty-title {
+    @apply text-foreground text-(length:--density-text-14) font-semibold tracking-normal;
+  }
+
+  .cn-empty-description {
+    @apply text-muted-foreground text-(length:--density-text-13) leading-relaxed;
+  }
+
+  .cn-empty-content {
+    @apply gap-(--density-10);
+  }
+
+/* MARK: Field */
+
+  .cn-field-set {
+    @apply gap-(--density-16);
+  }
+
+  .cn-field-legend {
+    @apply text-foreground mb-1.5 font-medium data-[variant=label]:text-(length:--density-text-13) data-[variant=legend]:text-(length:--density-text-14);
+  }
+
+  .cn-field-group {
+    @apply gap-(--density-20);
+  }
+
+  /* Label, control and caption sit close. Inside a choice card the Field holds
+     the card's padding. */
+  .cn-field {
+    @apply gap-(--density-6) data-[card=true]:p-(--density-12);
+  }
+
+  .cn-field-orientation-vertical {
+    @apply flex-col;
+  }
+
+  .cn-field-orientation-horizontal {
+    @apply flex-row items-center;
+  }
+
+  /* Stacked on a phone, side by side from the sm breakpoint. */
+  .cn-field-orientation-responsive {
+    @apply flex-col sm:flex-row sm:items-center;
+  }
+
+  .cn-field-content {
+    @apply gap-0.5;
+  }
+
+  /* A label beside a control takes the rest of a horizontal row. A label wrapping
+     a whole Field is a choice card: framed by a hairline, pressed tint, the active
+     step when its control is on. */
+  .cn-field-label {
+    @apply data-[card=true]:border-border data-[card=true]:active:bg-hover data-[checked=true]:bg-active data-[checked=true]:border-foreground/20 gap-(--density-8) data-[card=true]:w-full data-[card=true]:flex-col data-[card=true]:items-stretch data-[card=true]:rounded-lg data-[card=true]:border data-[disabled=true]:opacity-50 data-[orientation=horizontal]:flex-1 sm:data-[orientation=responsive]:self-center;
+  }
+
+  /* 13pt labels, red inside an invalid field. */
+  .cn-field-label-text {
+    @apply text-foreground text-(length:--density-text-13) leading-snug font-medium;
+  }
+
+  .cn-field-label-text-invalid {
+    @apply text-destructive-text;
+  }
+
+  .cn-field-title {
+    @apply text-foreground data-[invalid=true]:text-destructive-text text-(length:--density-text-13) leading-snug font-medium data-[disabled=true]:opacity-50;
+  }
+
+  /* Captions: 12pt muted. */
+  .cn-field-description {
+    @apply text-muted-foreground text-left text-(length:--density-text-12) leading-normal font-normal;
+  }
+
+  .cn-field-separator {
+    @apply -my-2 h-(--density-20);
+  }
+
+  .cn-field-separator-line {
+    @apply bg-border h-px;
+  }
+
+  .cn-field-separator-content {
+    @apply text-muted-foreground bg-background px-(--density-8) text-(length:--density-text-12);
+  }
+
+  .cn-field-error {
+    @apply gap-1;
+  }
+
+  .cn-field-error-text {
+    @apply text-destructive-text text-(length:--density-text-12) font-normal;
+  }
+
+/* MARK: Fluid Hover */
+
+  /* The highlight and the selection, under the rows. */
+  .cn-fluid-hover-highlight {
+    @apply bg-hover rounded-lg;
+  }
+
+  .cn-fluid-hover-selection {
+    @apply bg-active rounded-lg;
+  }
+
+/* MARK: Hover Card */
+
+  /* Popup recipe: surface 3 with its shadow ring (no border), rounded-xl, p-3,
+     13pt. Grows from its trigger on the popup motion (useSurfaceAnimation). */
+  .cn-hover-card-content {
+    @apply bg-surface-3 shadow-surface-3 rounded-xl p-(--density-12);
+  }
+
+  /* On the website this holds the motion, which is useSurfaceAnimation here. It
+     keeps the width instead. */
+  .cn-hover-card-content-logical {
+    @apply w-64;
+  }
+
+  .cn-hover-card-text {
+    @apply text-popover-foreground text-(length:--density-text-13);
+  }
+
+/* MARK: Input Group */
+
+  /* The group is the frame (same recipe as the input): a hairline, transparent at
+     rest, lifted to the card surface while anything inside has focus. Invalid
+     controls turn the frame red. It stacks when an addon is block-aligned, and
+     grows when it holds a textarea. */
+  .cn-input-group {
+    @apply border-border data-[focused=true]:bg-card data-[focused=true]:border-foreground/25 data-[invalid=true]:border-destructive/50 h-(--density-36) rounded-lg border bg-transparent data-[disabled=true]:opacity-50 data-[stacked=true]:h-auto data-[stacked=true]:flex-col data-[stacked=true]:items-stretch data-[tall=true]:h-auto;
+  }
+
+  .cn-input-group-addon {
+    @apply h-auto gap-(--density-8) py-(--density-6);
+  }
+
+  /* Addons: muted 13pt text and icons at stroke 1.5; they wake to foreground
+     (stroke 2) while the group has focus. */
+  .cn-input-group-addon-text {
+    @apply text-muted-foreground text-(length:--density-text-13) font-normal;
+  }
+
+  .cn-input-group-addon-text-focused {
+    @apply text-foreground;
+  }
+
+  .cn-input-group-addon-align-inline-start {
+    @apply pl-(--density-10);
+  }
+
+  .cn-input-group-addon-align-inline-end {
+    @apply pr-(--density-10);
+  }
+
+  .cn-input-group-addon-align-block-start {
+    @apply px-(--density-10) pt-(--density-8);
+  }
+
+  .cn-input-group-addon-align-block-end {
+    @apply px-(--density-10) pb-(--density-8);
+  }
+
+  .cn-input-group-button {
+    @apply gap-(--density-6);
+  }
+
+  .cn-input-group-button-text {
+    @apply text-(length:--density-text-12);
+  }
+
+  /* The pressed wash follows the inline button's smaller corners. */
+  .cn-input-group-button-wash {
+    @apply rounded-md;
+  }
+
+  .cn-input-group-button-size-xs {
+    @apply h-(--density-24) gap-1 rounded-md px-(--density-8);
+  }
+
+  .cn-input-group-button-size-sm {
+    @apply h-(--density-28) gap-1 rounded-md px-(--density-10);
+  }
+
+  .cn-input-group-button-size-icon-xs {
+    @apply size-(--density-24) rounded-md p-0;
+  }
+
+  .cn-input-group-button-size-icon-sm {
+    @apply size-(--density-28) rounded-md p-0;
+  }
+
+  .cn-input-group-text {
+    @apply gap-(--density-8);
+  }
+
+  .cn-input-group-text-text {
+    @apply text-muted-foreground text-(length:--density-text-13);
+  }
+
+  /* The control drops its own frame and fills; the group draws both. */
+  .cn-input-group-input {
+    @apply focus:border-0 focus:bg-transparent h-full rounded-none border-0 bg-transparent data-[stacked=true]:h-(--density-36) data-[stacked=true]:flex-none;
+  }
+
+  .cn-input-group-textarea {
+    @apply focus:border-0 focus:bg-transparent rounded-none border-0 bg-transparent py-(--density-8) data-[stacked=true]:flex-none;
+  }
+
+/* MARK: Input OTP */
+
+  /* Slots stand apart: each is framed like an input. */
+  .cn-input-otp {
+    @apply gap-(--density-8) data-[disabled=true]:opacity-50;
+  }
+
+  /* The real input lies over the slots, unseen: pressing anywhere opens the
+     keyboard and the slots only draw. Not opacity-0: iOS doesn't touch a view
+     below 1%. */
+  .cn-input-otp-input {
+    @apply font-sans text-transparent opacity-[0.02];
+  }
+
+  .cn-input-otp-group {
+    @apply gap-(--density-6) rounded-lg;
+  }
+
+  /* 36pt slots framed by a hairline. Invalid slots turn the edge red. */
+  .cn-input-otp-slot {
+    @apply border-border data-[invalid=true]:border-destructive/50 size-(--density-36) rounded-lg border bg-transparent;
+  }
+
+  /* The active slot lifts to the card surface with a firmer neutral edge, red when
+     invalid. It covers the border box, and fades on the feedback timing. */
+  .cn-input-otp-slot-focus {
+    @apply bg-card border-foreground/30 data-[invalid=true]:border-destructive -inset-px rounded-lg border;
+  }
+
+  .cn-input-otp-slot-text {
+    @apply text-foreground text-(length:--density-text-14) tabular-nums;
+  }
+
+  .cn-input-otp-caret {
+    @apply items-center;
+  }
+
+  .cn-input-otp-caret-line {
+    @apply bg-foreground h-4 w-px;
+  }
+
+  .cn-input-otp-separator {
+    @apply shrink-0;
+  }
+
+  .cn-input-otp-separator-text {
+    @apply text-muted-foreground;
+  }
+
+/* MARK: Input */
+
+  /* A hairline frame, transparent at rest, lifted to the card surface on
+     focus. Invalid turns the frame red. It gives way in a row, as on the website,
+     and never below its height. */
+  .cn-input {
+    @apply shrink min-h-(--density-36) font-sans text-foreground border-border data-[invalid=true]:border-destructive/50 h-(--density-36) rounded-lg border bg-transparent px-(--density-10) py-1 text-(length:--density-text-13);
+  }
+
+  /* The frame's colours at rest and in focus: it eases between them on the feedback
+     timing, in the source. The rest fill is the card's colour at no opacity, so the
+     lift doesn't pass through grey. */
+  .cn-input-rest {
+    @apply border-border bg-card/0;
+  }
+
+  .cn-input-focus {
+    @apply border-foreground/25 bg-card;
+  }
+
+/* MARK: Item */
+
+  /* 13pt rows, rounded-lg. An item rendered as a Pressable gets the hover fill
+     when pressed. */
+  .cn-item {
+    @apply active:bg-hover rounded-lg border;
+  }
+
+  .cn-item-text {
+    @apply text-(length:--density-text-13);
+  }
+
+  .cn-item-variant-default {
+    @apply border-transparent;
+  }
+
+  .cn-item-variant-outline {
+    @apply border-border;
+  }
+
+  .cn-item-variant-muted {
+    @apply bg-hover active:bg-active border-transparent;
+  }
+
+  .cn-item-size-default {
+    @apply gap-(--density-12) p-(--density-12);
+  }
+
+  .cn-item-size-sm {
+    @apply gap-(--density-10) px-(--density-12) py-(--density-8);
+  }
+
+  .cn-item-size-xs {
+    @apply gap-(--density-8) px-(--density-8) py-(--density-6);
+  }
+
+  .cn-item-media {
+    @apply gap-(--density-8) data-[description=true]:translate-y-0.5 data-[description=true]:self-start;
+  }
+
+  .cn-item-media-variant-default {
+    @apply bg-transparent;
+  }
+
+  .cn-item-media-variant-icon {
+    @apply size-(--density-icon-16);
+  }
+
+  .cn-item-media-variant-image {
+    @apply size-(--density-40) overflow-hidden rounded-lg data-[size=sm]:size-(--density-32) data-[size=xs]:size-(--density-24) data-[size=xs]:rounded-md;
+  }
+
+  .cn-item-content {
+    @apply gap-0.5 data-[size=xs]:gap-0;
+  }
+
+  .cn-item-title {
+    @apply text-foreground text-(length:--density-text-13) leading-snug font-medium;
+  }
+
+  .cn-item-description {
+    @apply text-muted-foreground text-left text-(length:--density-text-13) leading-normal data-[size=xs]:text-(length:--density-text-12);
+  }
+
+  .cn-item-actions {
+    @apply gap-(--density-8);
+  }
+
+  .cn-item-header {
+    @apply gap-(--density-8);
+  }
+
+  .cn-item-footer {
+    @apply gap-(--density-8);
+  }
+
+  .cn-item-group {
+    @apply gap-(--density-12) data-[size=sm]:gap-(--density-8) data-[size=xs]:gap-1;
+  }
+
+  .cn-item-separator {
+    @apply my-2;
+  }
+
+/* MARK: Kbd */
+
+  /* A quiet 20pt keycap: hover fill, 11pt muted text. */
+  .cn-kbd {
+    @apply bg-hover h-(--density-20) min-w-(--density-20) gap-1 rounded-[5px] px-1;
+  }
+
+  .cn-kbd-text {
+    @apply text-muted-foreground text-(length:--density-text-11) font-medium;
+  }
+
+  .cn-kbd-group {
+    @apply gap-1;
+  }
+
+/* MARK: Label */
+
+  /* Tight where the website has leading-none, so descenders keep their room. */
+  .cn-label {
+    @apply text-foreground text-(length:--density-text-13) leading-tight font-medium data-[disabled=true]:opacity-50;
+  }
+
+/* MARK: Marker */
+
+  /* Status and thinking lines: 13pt muted text with 1.5-stroke icons. A marker
+     rendered as a Pressable dims when pressed. */
+  .cn-marker {
+    @apply active:opacity-70 min-h-(--density-20) gap-(--density-8);
+  }
+
+  .cn-marker-text {
+    @apply text-muted-foreground text-start text-(length:--density-text-13) leading-snug;
+  }
+
+  .cn-marker-variant-default {
+    @apply justify-start;
+  }
+
+  .cn-marker-variant-separator {
+    @apply justify-center;
+  }
+
+  /* The separator's two rules, the website's ::before and ::after. */
+  .cn-marker-line-start {
+    @apply bg-border/60 me-1 h-px min-w-0 flex-1;
+  }
+
+  .cn-marker-line-end {
+    @apply bg-border/60 ms-1 h-px min-w-0 flex-1;
+  }
+
+  .cn-marker-variant-border {
+    @apply border-border/60 border-b pb-(--density-8);
+  }
+
+  .cn-marker-icon {
+    @apply size-(--density-icon-16);
+  }
+
+  .cn-marker-content {
+    @apply data-[variant=separator]:shrink-0 data-[variant=separator]:text-center;
+  }
+
+/* MARK: Menu Sheet */
+
+  /* A menu on a phone: surface 3 from the bottom, on the sheet motion, with its
+     square bottom on the screen's edge. */
+  .cn-menu-sheet {
+    @apply bg-surface-3 shadow-surface-3 max-h-[80%] rounded-t-xl px-(--density-8);
+  }
+
+  .cn-menu-sheet-text {
+    @apply text-popover-foreground text-(length:--density-text-13);
+  }
+
+  .cn-menu-sheet-handle {
+    @apply py-(--density-8);
+  }
+
+  .cn-menu-sheet-handle-bar {
+    @apply bg-active h-1 w-12 rounded-full;
+  }
+
+/* MARK: Menubar */
+
+  /* The bar is a raised strip (surface 2 ring, no border). It scrolls sideways when
+     its triggers don't fit a phone. */
+  .cn-menubar {
+    @apply bg-card shadow-surface-2 h-(--density-36) rounded-xl;
+  }
+
+  .cn-menubar-list {
+    @apply items-center gap-0.5 p-(--density-4);
+  }
+
+  /* Triggers: 28pt, 13pt, muted at rest. One highlight glides between them (Fluid
+     Hover). An open trigger keeps a hover fill. */
+  .cn-menubar-trigger {
+    @apply h-(--density-28) rounded-lg px-(--density-10) data-[state=open]:bg-hover;
+  }
+
+  .cn-menubar-trigger-text {
+    @apply text-muted-foreground text-(length:--density-text-13) font-normal;
+  }
+
+  /* Open or under the highlight, a trigger reads foreground. */
+  .cn-menubar-trigger-text-open {
+    @apply text-foreground;
+  }
+
+  /* Menus: the popup recipe, sized to their rows rather than to the trigger. */
+  .cn-menubar-content {
+    @apply bg-surface-3 shadow-surface-3 min-w-36 rounded-xl p-1;
+  }
+
+  /* On the website this holds the motion, which is useSurfaceAnimation here. It
+     keeps the rows' spacing instead. */
+  .cn-menubar-content-logical {
+    @apply w-auto;
+  }
+
+  /* Rows: 36pt, 13pt, muted at rest. The menu's highlight paints the lit one. */
+  .cn-menubar-item {
+    @apply h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8) data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))];
+  }
+
+  /* Checkbox and radio rows keep the check on the start side. Checked rows are
+     foreground and semibold. */
+  .cn-menubar-checkbox-item {
+    @apply h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-(--density-8) pl-[calc(var(--density-8)*2+var(--density-icon-16))] disabled:opacity-50;
+  }
+
+  .cn-menubar-checkbox-item-indicator {
+    @apply left-(--density-8) size-(--density-icon-16);
+  }
+
+  .cn-menubar-radio-item {
+    @apply h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-(--density-8) pl-[calc(var(--density-8)*2+var(--density-icon-16))] disabled:opacity-50;
+  }
+
+  .cn-menubar-radio-item-indicator {
+    @apply left-(--density-8) size-(--density-icon-16);
+  }
+
+  .cn-menubar-choice-text {
+    @apply text-muted-foreground text-(length:--density-text-13);
+  }
+
+  .cn-menubar-choice-text-checked {
+    @apply text-foreground font-semibold;
+  }
+
+  /* Lit, it reads foreground too; only choosing it changes the weight. */
+  .cn-menubar-choice-text-lit {
+    @apply text-foreground;
+  }
+
+  .cn-menubar-label {
+    @apply text-muted-foreground px-(--density-8) py-(--density-6) text-(length:--density-text-12) font-normal data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))];
+  }
+
+  .cn-menubar-separator {
+    @apply bg-border/60 -mx-1 my-1 h-px;
+  }
+
+  /* Keyboard shortcuts wait for a tablet: a phone has no keyboard to press them on. */
+  .cn-menubar-shortcut {
+    @apply hidden sm:flex text-muted-foreground ml-auto text-(length:--density-text-11) tracking-normal;
+  }
+
+  /* An open sub-trigger stays lit while its submenu shows below it. */
+  .cn-menubar-sub-trigger {
+    @apply h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8) data-[inset=true]:pl-[calc(var(--density-8)*2+var(--density-icon-16))];
+  }
+
+  /* A submenu expands inline, indented under a hairline: a phone has no room beside
+     the menu. */
+  .cn-menubar-sub-content {
+    @apply border-border/60 my-1 ml-(--density-8) border-l pl-1;
+  }
+
+/* MARK: Message Scroller */
+
+  .cn-message-scroller {
+    @apply flex-1;
+  }
+
+  /* Hidden until it has jumped to its opening position. */
+  .cn-message-scroller-viewport {
+    @apply data-[pending-scroll=true]:opacity-0;
+  }
+
+  .cn-message-scroller-content {
+    @apply gap-5;
+  }
+
+  .cn-message-scroller-item {
+    @apply w-full;
+  }
+
+  /* Floating jump button: a raised round chip on surface 3. */
+  .cn-message-scroller-button {
+    @apply shadow-surface-3 bg-background rounded-full border-0;
+  }
+
+  /* Pressed is the muted fill, a wash that follows the round chip. */
+  .cn-message-scroller-button-wash {
+    @apply bg-muted rounded-full;
+  }
+
+/* MARK: Message */
+
+  /* A turn: 14pt chat body, avatar and content 8pt apart. */
+  .cn-message {
+    @apply gap-(--density-8);
+  }
+
+  .cn-message-text {
+    @apply text-(length:--density-text-14);
+  }
+
+  /* Lifts the avatar to the bubble when a footer row sits under it
+     (footer line 18pt + content gap 6pt). */
+  .cn-message-avatar {
+    @apply bg-muted min-w-(--density-32) rounded-full data-[footer=true]:-translate-y-6;
+  }
+
+  .cn-message-content {
+    @apply gap-(--density-6);
+  }
+
+  /* Meta rows: 12pt muted captions, inset 4pt from the bubble edge (flush for
+     ghost/plain assistant text). */
+  .cn-message-header {
+    @apply gap-(--density-8) px-1 data-[ghost=true]:px-0;
+  }
+
+  .cn-message-header-text {
+    @apply text-muted-foreground text-(length:--density-text-12) leading-normal font-normal;
+  }
+
+  .cn-message-footer {
+    @apply gap-(--density-8) px-1 data-[align=end]:justify-end data-[ghost=true]:px-0;
+  }
+
+  .cn-message-footer-text {
+    @apply text-muted-foreground text-(length:--density-text-12) leading-normal font-normal tabular-nums;
+  }
+
+  .cn-message-group {
+    @apply gap-(--density-8);
+  }
+
+/* MARK: Navigation Menu */
+
+  .cn-navigation-menu {
+    @apply max-w-full;
+  }
+
+  .cn-navigation-menu-list {
+    @apply gap-0.5;
+  }
+
+  .cn-navigation-menu-item {
+    @apply shrink-0;
+  }
+
+  /* Top-level triggers and links: 36pt, 13pt, muted at rest. One highlight glides
+     between them (Fluid Hover). An open trigger keeps the hover fill while its panel
+     shows. */
+  .cn-navigation-menu-trigger {
+    @apply h-(--density-36) gap-1 rounded-lg px-(--density-12) data-[state=open]:bg-hover disabled:opacity-50;
+  }
+
+  .cn-navigation-menu-trigger-text {
+    @apply text-muted-foreground text-(length:--density-text-13) font-normal;
+  }
+
+  /* Open or under the highlight, a trigger reads foreground. */
+  .cn-navigation-menu-trigger-text-open {
+    @apply text-foreground;
+  }
+
+  .cn-navigation-menu-trigger-icon {
+    @apply size-(--density-icon-14);
+  }
+
+  /* Panel links: rounded-lg rows, lit by the panel's own highlight (Fluid Hover).
+     The current page's link is foreground on a bg-active fill. */
+  .cn-navigation-menu-link {
+    @apply gap-(--density-8) rounded-lg p-(--density-8) data-[active=true]:bg-active;
+  }
+
+  .cn-navigation-menu-link-text {
+    @apply text-foreground text-(length:--density-text-13);
+  }
+
+  /* The current page, or under the highlight: a link reads foreground. */
+  .cn-navigation-menu-link-text-active {
+    @apply text-foreground;
+  }
+
+  .cn-navigation-menu-content {
+    @apply gap-1 p-1;
+  }
+
+  /* The popover a panel opens in: surface 3 on the popup motion. On a phone the
+     panel is a sheet from the bottom instead. */
+  .cn-navigation-menu-popup {
+    @apply bg-surface-3 shadow-surface-3 rounded-xl data-[presentation=sheet]:max-h-[80%] data-[presentation=sheet]:rounded-b-none data-[presentation=sheet]:px-(--density-8);
+  }
+
+  .cn-navigation-menu-popup-text {
+    @apply text-popover-foreground text-(length:--density-text-13);
+  }
+
+  .cn-navigation-menu-sheet-handle {
+    @apply py-(--density-8);
+  }
+
+  .cn-navigation-menu-sheet-handle-bar {
+    @apply bg-active h-1 w-12 rounded-full;
+  }
+
+  .cn-navigation-menu-positioner {
+    @apply min-w-48;
+  }
+
+  /* The small arrow under the open trigger, on the website too. */
+  .cn-navigation-menu-indicator {
+    @apply h-1.5 items-end justify-center overflow-hidden;
+  }
+
+  .cn-navigation-menu-indicator-arrow {
+    @apply bg-border top-[60%] size-2 rotate-45 rounded-tl-sm;
+  }
+
+/* MARK: Pagination */
+
+  .cn-pagination {
+    @apply mx-auto;
+  }
+
+  .cn-pagination-content {
+    @apply gap-1;
+  }
+
+  /* Links are ghost (outline when current) buttons. The current page reads as a
+     selected item instead: active fill, foreground, semibold, no edge. */
+  .cn-pagination-link {
+    @apply data-[active=true]:bg-active data-[active=true]:border-transparent;
+  }
+
+  .cn-pagination-link-text {
+    @apply data-[active=true]:text-foreground data-[active=true]:font-semibold;
+  }
+
+  /* Pressed is the next interaction step, as on a ghost or outline button, under
+     the label. It fills the border box and follows the button's corners. */
+  .cn-pagination-link-wash {
+    @apply -inset-px rounded-lg bg-active;
+  }
+
+  .cn-pagination-ellipsis {
+    @apply size-(--density-36);
+  }
+
+  .cn-pagination-ellipsis-text {
+    @apply text-muted-foreground;
+  }
+
+  .cn-pagination-previous {
+    @apply pl-(--density-10);
+  }
+
+  .cn-pagination-next {
+    @apply pr-(--density-10);
+  }
+
+  /* The labels fold away on phones: the chevrons and their labels for a screen
+     reader remain. */
+  .cn-pagination-previous-text {
+    @apply text-(length:--density-text-13);
+  }
+
+  .cn-pagination-next-text {
+    @apply text-(length:--density-text-13);
+  }
+
+/* MARK: Popover */
+
+  /* Popup recipe: surface 3 with its shadow ring (no border), rounded-xl, p-3,
+     13pt. Grows from its trigger on the popup motion and closes quicker than it
+     opened (useSurfaceAnimation). */
+  .cn-popover-content {
+    @apply bg-surface-3 shadow-surface-3 rounded-xl p-(--density-12);
+  }
+
+  /* On the website this holds the motion, which is useSurfaceAnimation here. It
+     keeps the spacing instead. */
+  .cn-popover-content-logical {
+    @apply gap-(--density-12);
+  }
+
+  .cn-popover-text {
+    @apply text-popover-foreground text-(length:--density-text-13);
+  }
+
+  .cn-popover-header {
+    @apply gap-1;
+  }
+
+  .cn-popover-title {
+    @apply text-foreground text-(length:--density-text-14) leading-snug font-medium;
+  }
+
+  .cn-popover-description {
+    @apply text-muted-foreground text-(length:--density-text-13);
+  }
+
+/* MARK: Progress */
+
+  .cn-progress-root {
+    @apply gap-3;
+  }
+
+  /* 6pt hover-tinted track; the indicator, in the primary role's fill, moves on
+     the move timing. */
+  .cn-progress-track {
+    @apply bg-hover h-1.5 rounded-full;
+  }
+
+  .cn-progress-indicator {
+    @apply bg-primary rounded-full;
+  }
+
+  .cn-progress-label {
+    @apply text-(length:--density-text-13) font-medium;
+  }
+
+  .cn-progress-value {
+    @apply text-muted-foreground ml-auto text-(length:--density-text-13) tabular-nums;
+  }
+
+/* MARK: Questionnaire */
+
+  /* registry/native/ui/questionnaire.tsx reuses the library's controls: each mark
+     stacks the Checkbox or Radio Group item placeholders, the free-text answer the
+     Input's, the shortcut the Kbd's. The rules below only add what the
+     questionnaire context needs. */
+
+  .cn-questionnaire {
+    @apply gap-(--density-12);
+  }
+
+  /* "Question 1 of 3": a quiet 12pt caption. */
+  .cn-questionnaire-progress {
+    @apply text-(length:--density-text-12) font-normal;
+  }
+
+  /* Only the active item shows. The rest stay mounted, so they keep their
+     answers. */
+  .cn-questionnaire-item {
+    @apply gap-(--density-12) data-[active=false]:hidden;
+  }
+
+  .cn-questionnaire-title {
+    @apply text-foreground mb-0.5 text-(length:--density-text-16) leading-snug font-semibold;
+  }
+
+  .cn-questionnaire-description {
+    @apply text-(length:--density-text-13);
+  }
+
+  /* Choices bleed 8pt each side so the mark lines up with the title. */
+  .cn-questionnaire-choices {
+    @apply -mx-2 gap-0.5;
+  }
+
+  /* A row is a Field choice card without the frame: 13pt foreground label, the
+     active step once chosen. Rows keep the 44pt touch target on small screens
+     (padded so one line sits centred) and tighten to 36pt from sm up. */
+  .cn-questionnaire-choice {
+    @apply gap-(--density-10) rounded-lg bg-transparent px-(--density-8) py-(--density-12) data-[checked=true]:bg-active sm:min-h-(--density-36) sm:py-(--density-8);
+  }
+
+  /* Pressed is a tint, easing in and out under the row's content. */
+  .cn-questionnaire-choice-wash {
+    @apply bg-hover rounded-lg;
+  }
+
+  /* The Checkbox or Radio mark, lit by the whole row: the look is theirs, and the
+     row's press gives it the control's scale. It keeps to the first line. */
+  .cn-questionnaire-choice-indicator {
+    @apply self-start;
+  }
+
+  /* The mark sits in its row as an input does on the website. */
+  .cn-questionnaire-choice-input {
+    @apply shrink-0;
+  }
+
+  /* The label takes what the mark and the keycap leave. */
+  .cn-questionnaire-choice-label {
+    @apply flex-1;
+  }
+
+  .cn-questionnaire-choice-content {
+    @apply gap-0.5;
+  }
+
+  /* Captions: 12pt muted, as in Field. */
+  .cn-questionnaire-choice-description {
+    @apply text-muted-foreground text-(length:--density-text-12) font-normal;
+  }
+
+  /* The Kbd keycap, which holds the look, at the end of the row. */
+  /* Keyboard shortcuts wait for a tablet: a phone has no keyboard to press them on. */
+  .cn-questionnaire-choice-shortcut {
+    @apply hidden sm:flex ms-auto shrink-0;
+  }
+
+  .cn-questionnaire-shortcut {
+    @apply hidden sm:flex self-start;
+  }
+
+  /* It takes the foreground once its row is chosen. */
+  .cn-questionnaire-shortcut-text {
+    @apply data-[checked=true]:text-foreground;
+  }
+
+  /* Inside the choices, back out of their bleed so the field lines up with the
+     text. */
+  .cn-questionnaire-input-wrapper {
+    @apply data-[nested=true]:mx-2 data-[nested=true]:mt-1;
+  }
+
+  .cn-questionnaire-input {
+    @apply w-full;
+  }
+
+  .cn-questionnaire-error {
+    @apply text-(length:--density-text-12);
+  }
+
+  .cn-questionnaire-actions {
+    @apply mt-1 gap-(--density-8) sm:min-h-(--density-36);
+  }
+
+  /* Previous sits at the start; the rest hold the end. */
+  .cn-questionnaire-previous {
+    @apply me-auto;
+  }
+
+  .cn-questionnaire-skip {
+    @apply ms-auto;
+  }
+
+  .cn-questionnaire-next {
+    @apply ms-auto;
+  }
+
+  .cn-questionnaire-submit {
+    @apply ms-auto;
+  }
+
+/* MARK: Radio Group */
+
+  .cn-radio-group {
+    @apply gap-(--density-12);
+  }
+
+  /* 18pt circle with the checkbox's outline, and a 6pt dot pops in in the role's
+     foreground. Invalid turns the outline destructive. The press gives on the
+     feedback timing, in the source: a class could only snap. */
+  .cn-radio-group-item {
+    @apply border-foreground/25 data-[invalid=true]:border-destructive size-[calc(var(--density-icon-16)+2px)] rounded-full border-[1.5px] bg-transparent;
+  }
+
+  /* Checked fills with the primary role, or the destructive one when invalid,
+     over the outline, easing on the feedback timing. */
+  .cn-radio-group-fill {
+    @apply bg-primary data-[invalid=true]:bg-destructive -inset-[1.5px] rounded-full;
+  }
+
+  .cn-radio-group-indicator {
+    @apply size-full;
+  }
+
+  .cn-radio-group-indicator-icon {
+    @apply bg-primary-foreground size-1.5 rounded-full;
+  }
+
+/* MARK: Resizable */
+
+  .cn-resizable-panel-group {
+    @apply overflow-hidden;
+  }
+
+  /* The target is a finger wide and overlaps the panels: its margins leave only
+     the 1pt line in the layout. */
+  .cn-resizable-handle {
+    @apply z-10 data-[orientation=horizontal]:-mx-[21.5px] data-[orientation=horizontal]:w-11 data-[orientation=vertical]:-my-[21.5px] data-[orientation=vertical]:h-11;
+  }
+
+  /* `orientation` is the group's: panels side by side part with an upright line. */
+  .cn-resizable-handle-line {
+    @apply bg-border data-[dragging=true]:bg-foreground/25 data-[orientation=horizontal]:h-full data-[orientation=horizontal]:w-px data-[orientation=vertical]:h-px data-[orientation=vertical]:w-full;
+  }
+
+  .cn-resizable-handle-icon {
+    @apply bg-border data-[dragging=true]:bg-foreground/25 rounded-full data-[orientation=horizontal]:h-6 data-[orientation=horizontal]:w-1 data-[orientation=vertical]:h-1 data-[orientation=vertical]:w-6;
+  }
+
+/* MARK: Scroll Area */
+
+  .cn-scroll-area {
+    @apply min-h-0;
+  }
+
+  .cn-scroll-area-viewport {
+    @apply grow-0;
+  }
+
+  /* Edges fade out where there is more to scroll: the fade appears once you
+     scroll away from an edge and disappears when you reach it. React Native has
+     no mask, so it's a gradient in the colour behind the area, set by `fadeColor`
+     when that isn't the page's background. */
+  .cn-scroll-area-fade {
+    @apply data-[horizontal=false]:inset-x-0 data-[horizontal=false]:h-(--density-24) data-[horizontal=true]:inset-y-0 data-[horizontal=true]:w-(--density-24) data-[horizontal=false]:data-[edge=start]:top-0 data-[horizontal=false]:data-[edge=end]:bottom-0 data-[horizontal=true]:data-[edge=start]:left-0 data-[horizontal=true]:data-[edge=end]:right-0;
+  }
+
+  .cn-scroll-area-fade-color {
+    @apply text-background;
+  }
+
+/* MARK: Search */
+
+  /* One object: closed it is a round button (width = height), open it grows to
+     its size's width, never wider than its parent. Corners stay a full pill.
+     Fill is the translucent `active` overlay, so it sits on any surface in both
+     themes. */
+  .cn-search {
+    @apply max-w-full rounded-full;
+  }
+
+  .cn-search-variant-default {
+    @apply bg-active;
+  }
+
+  /* A hairline edge instead of the fill. */
+  .cn-search-variant-outline {
+    @apply border-border border bg-transparent;
+  }
+
+  /* Sizes follow the density: default takes the nearest one, sm pins the search
+     to compact and lg to spacious. Each size opens to its own width. */
+  .cn-search-size-default {
+    @apply h-(--density-36) w-(--density-36) data-[open=true]:w-[320px];
+  }
+
+  .cn-search-size-sm {
+    @apply h-(--density-36) w-(--density-36) data-[open=true]:w-[240px];
+  }
+
+  .cn-search-size-lg {
+    @apply h-(--density-36) w-(--density-36) data-[open=true]:w-[360px];
+  }
+
+  /* Closed: the whole button. Open: just the icon, which takes no press. */
+  .cn-search-trigger {
+    @apply rounded-full;
+  }
+
+  /* Pressed is a step of the interaction tokens, easing in and out under the
+     icon. */
+  .cn-search-trigger-wash {
+    @apply bg-hover rounded-full;
+  }
+
+  /* The icon is foreground closed, muted open. */
+  .cn-search-icon {
+    @apply text-foreground;
+  }
+
+  .cn-search-icon-open {
+    @apply text-muted-foreground;
+  }
+
+  /* The field keeps clear of the icon, and of the clear button when there is
+     one. */
+  .cn-search-input {
+    @apply font-sans text-foreground ps-(--density-36) pe-(--density-12) text-(length:--density-text-13) data-[clear=true]:pe-(--density-36);
+  }
+
+  .cn-search-clear {
+    @apply active:opacity-70 rounded-full;
+  }
+
+  .cn-search-clear-text {
+    @apply text-muted-foreground;
+  }
+
+/* MARK: Select */
+
+  /* Trigger: the input recipe. A hairline frame, a light fill when pressed, 36pt
+     and 13pt at the default density; size sm pins it to compact. Invalid turns the
+     frame destructive. */
+  .cn-select-trigger {
+    @apply border-border active:bg-muted/50 data-[invalid=true]:border-destructive/50 data-[invalid=true]:active:bg-destructive/5 h-(--density-36) gap-(--density-8) rounded-lg border bg-transparent py-0 pr-(--density-8) pl-(--density-10);
+  }
+
+  .cn-select-trigger-text {
+    @apply text-foreground text-(length:--density-text-13);
+  }
+
+  .cn-select-value {
+    @apply text-start data-[placeholder=true]:text-muted-foreground;
+  }
+
+  .cn-select-trigger-icon {
+    @apply size-(--density-icon-16);
+  }
+
+  .cn-select-trigger-icon-text {
+    @apply text-muted-foreground;
+  }
+
+  /* Popup: surface 3 with its shadow ring (no border), rounded-xl, p-1, on the
+     popup motion. On a phone it opens as a sheet on the sheet motion, its square
+     edge on the screen's, with the rows in reach of a thumb. */
+  .cn-select-content {
+    @apply bg-surface-3 shadow-surface-3 rounded-xl p-1 data-[presentation=sheet]:max-h-[80%] data-[presentation=sheet]:rounded-b-none data-[presentation=sheet]:px-(--density-8);
+  }
+
+  /* On the website this holds the motion, which is useSurfaceAnimation here. It
+     keeps the least width instead. */
+  .cn-select-content-logical {
+    @apply min-w-36;
+  }
+
+  .cn-select-text {
+    @apply text-popover-foreground text-(length:--density-text-13);
+  }
+
+  .cn-select-sheet-handle {
+    @apply py-(--density-8);
+  }
+
+  .cn-select-sheet-handle-bar {
+    @apply bg-active h-1 w-12 rounded-full;
+  }
+
+  .cn-select-label {
+    @apply text-muted-foreground px-(--density-8) py-(--density-6) text-(length:--density-text-12);
+  }
+
+  /* Rows: 36pt, 13pt, muted at rest. They paint nothing themselves: one highlight
+     glides under the finger, and one bg-active selection slides to the selected
+     row (Fluid Hover). A multiple select has no one row to slide to, so each
+     chosen row fills itself. */
+  .cn-select-item {
+    @apply h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8) data-[multiple=true]:data-[selected=true]:bg-active;
+  }
+
+  .cn-select-item-label {
+    @apply text-muted-foreground text-(length:--density-text-13);
+  }
+
+  .cn-select-item-label-selected {
+    @apply text-foreground font-semibold;
+  }
+
+  /* Under the highlight a row reads foreground, as a hovered one does on the
+     website; only selecting it changes the weight. */
+  .cn-select-item-label-lit {
+    @apply text-foreground;
+  }
+
+  .cn-select-item-indicator {
+    @apply right-(--density-8);
+  }
+
+  .cn-select-item-indicator-text {
+    @apply text-foreground;
+  }
+
+  .cn-select-item-indicator-icon {
+    @apply size-(--density-icon-16);
+  }
+
+  /* On the website this keeps a scrolled-to group off the edge. A touch list has
+     no need, so it only spans the list. */
+  .cn-select-group {
+    @apply w-full;
+  }
+
+  .cn-select-item-text {
+    @apply gap-(--density-8);
+  }
+
+  .cn-select-separator {
+    @apply bg-border/60 -mx-1 my-1 h-px;
+  }
+
+  .cn-select-scroll-up-button {
+    @apply py-1;
+  }
+
+  .cn-select-scroll-down-button {
+    @apply py-1;
+  }
+
+  .cn-select-scroll-button-text {
+    @apply text-muted-foreground;
+  }
+
+/* MARK: Separator */
+
+  .cn-separator {
+    @apply bg-border shrink-0 data-[orientation=horizontal]:h-px data-[orientation=horizontal]:w-full data-[orientation=vertical]:w-px data-[orientation=vertical]:self-stretch;
+  }
+
+/* MARK: Sheet Surface */
+
+  /* The default scrim, the same as Dialog's: 40% black (80% in dark). */
+  .cn-sheet-surface-overlay {
+    @apply bg-black/40 dark:bg-black/80;
+  }
+
+  /* Where the panel sits in the window, per the edge it attaches to. */
+  .cn-sheet-surface-viewport {
+    @apply data-[side=bottom]:justify-end data-[side=left]:items-start data-[side=right]:items-end data-[side=top]:justify-start;
+  }
+
+  /* Spans the edge it attaches to, and clears the safe areas it touches. */
+  /* Past the edge the panel opens from: a sheet pulled past open shows no gap. */
+  .cn-sheet-surface-bleed {
+    @apply bg-surface-3 data-[side=bottom]:inset-x-0 data-[side=bottom]:-bottom-12 data-[side=bottom]:h-12 data-[side=top]:inset-x-0 data-[side=top]:-top-12 data-[side=top]:h-12 data-[side=left]:inset-y-0 data-[side=left]:-left-12 data-[side=left]:w-12 data-[side=right]:inset-y-0 data-[side=right]:-right-12 data-[side=right]:w-12;
+  }
+
+  /* On a tablet a top or bottom sheet stays a sheet's width, centred on its edge: its
+     buttons and rows have no use for a screen's. */
+  .cn-sheet-surface-panel {
+    @apply md:data-[side=bottom]:max-w-xl md:data-[side=bottom]:self-center md:data-[side=top]:max-w-xl md:data-[side=top]:self-center max-h-full data-[side=bottom]:w-full data-[side=bottom]:pb-safe data-[side=left]:h-full data-[side=left]:pt-safe data-[side=left]:pb-safe data-[side=left]:pl-safe data-[side=right]:h-full data-[side=right]:pt-safe data-[side=right]:pr-safe data-[side=right]:pb-safe data-[side=top]:w-full data-[side=top]:pt-safe;
+  }
+
+/* MARK: Sheet */
+
+  /* Scrim: 40% black (80% in dark), no blur. It fades with the panel on the sheet
+     timing (lib/sheet-surface). */
+  .cn-sheet-overlay {
+    @apply bg-black/40 dark:bg-black/80;
+  }
+
+  /* Panel: surface 3 whose shadow ring is the edge (no border). Slides on the
+     sheet motion (the drawer curve); closes quicker. Side panels take 3/4 of the
+     width, at most 384pt from sm up. */
+  .cn-sheet-content {
+    @apply md:data-[side=bottom]:rounded-t-xl md:data-[side=top]:rounded-b-xl bg-surface-3 shadow-surface-3 gap-(--density-16) data-[side=left]:w-3/4 data-[side=left]:sm:max-w-sm data-[side=right]:w-3/4 data-[side=right]:sm:max-w-sm;
+  }
+
+  .cn-sheet-text {
+    @apply text-popover-foreground text-(length:--density-text-13);
+  }
+
+  /* A small ghost icon button in the corner, below the status bar where the panel
+     reaches it. */
+  .cn-sheet-close {
+    @apply end-3 top-safe-offset-3 data-[side=bottom]:top-3;
+  }
+
+  .cn-sheet-header {
+    @apply gap-(--density-6) p-(--density-16);
+  }
+
+  .cn-sheet-footer {
+    @apply gap-(--density-8) p-(--density-16);
+  }
+
+  .cn-sheet-title {
+    @apply text-foreground text-(length:--density-text-16) leading-tight font-bold;
+  }
+
+  .cn-sheet-description {
+    @apply text-muted-foreground text-(length:--density-text-13);
+  }
+
+/* MARK: Sidebar */
+
+  /* The frame behind a phone's page. Inside an App Shell the shell's frame shows
+     through instead. */
+  .cn-sidebar-wrapper {
+    @apply data-[reveal=closed]:bg-sidebar data-[reveal=open]:bg-sidebar data-[reveal=closed]:overflow-hidden data-[reveal=open]:overflow-hidden;
+  }
+
+  /* The room the docked sidebar takes in the row: its width moves on the move
+     timing, with the quicker exit to close (useMotion). */
+  .cn-sidebar-gap {
+    @apply bg-transparent;
+  }
+
+  /* The panel floats over its gap. Floating: room all round, with the insets in a
+     style. Otherwise a hairline on its inner edge (`bordered`). */
+  .cn-sidebar-container {
+    @apply border-border z-10 data-[edge=left]:border-r data-[edge=right]:border-l data-[side=left]:left-0 data-[side=right]:right-0 data-[variant=floating]:px-(--density-8);
+  }
+
+  /* The panel is surface 2 (bg-sidebar). Floating: a rounded-xl surface whose
+     shadow ring is its edge. */
+  .cn-sidebar-inner {
+    @apply bg-sidebar data-[variant=floating]:shadow-surface-2 data-[variant=floating]:overflow-hidden data-[variant=floating]:rounded-xl;
+  }
+
+  .cn-sidebar-text {
+    @apply text-sidebar-foreground text-(length:--density-text-13);
+  }
+
+  /* The phone's sidebar as a sheet: the panel's fill runs under the status bar. */
+  .cn-sidebar-sheet {
+    @apply bg-sidebar shadow-surface-3;
+  }
+
+  /* The edge handle: a tap collapses or expands. The website's drag needs a
+     pointer, so it stays the tap. */
+  .cn-sidebar-rail {
+    @apply w-4 data-[side=left]:-right-2 data-[side=right]:-left-2;
+  }
+
+  .cn-sidebar-rail-target {
+    @apply active:bg-foreground/10;
+  }
+
+  .cn-sidebar-rail-tooltip {
+    @apply py-(--density-6);
+  }
+
+  .cn-sidebar-rail-tooltip-verb {
+    @apply font-semibold;
+  }
+
+  /* The panel glyph takes muted text, and the sidebar inside it is drawn in the
+     page colour. The icon reads these as colours: its path can't take a class. */
+  .cn-sidebar-toggle-icon {
+    @apply text-muted-foreground;
+  }
+
+  .cn-sidebar-toggle-icon-panel {
+    @apply text-background;
+  }
+
+  .cn-sidebar-trigger {
+    @apply shrink-0;
+  }
+
+  /* Pressed is the next interaction step, as on a ghost button. */
+  .cn-sidebar-trigger-wash {
+    @apply -inset-px rounded-lg bg-active;
+  }
+
+  /* What the content's edges fade to: the sidebar's own colour. */
+  .cn-sidebar-fade {
+    @apply text-sidebar;
+  }
+
+  /* The page. Inset main area: surface 2 with its shadow ring, rounded-xl. While
+     the phone sidebar is revealed it moves aside and shrinks towards the sidebar's
+     edge on the sheet's timing, and its corners and shadow leave last. */
+  .cn-sidebar-inset {
+    @apply bg-background data-[aside=true]:shadow-surface-6 data-[layout=card]:bg-surface-2 data-[layout=card]:shadow-surface-2 data-[aside=true]:overflow-hidden data-[layout=card]:overflow-hidden data-[aside=true]:rounded-2xl data-[layout=card]:rounded-xl data-[reveal=true]:z-10;
+  }
+
+  /* The revealed sidebar: behind the page, drifting a little as it uncovers. */
+  .cn-sidebar-reveal {
+    @apply z-0 data-[aside=false]:hidden data-[side=left]:left-0 data-[side=right]:right-0;
+  }
+
+  /* The page in view beside the revealed sidebar: a tap closes, a drag follows. */
+  .cn-sidebar-reveal-close {
+    @apply z-30;
+  }
+
+  /* The field ladder: transparent at rest, the card fill while focused. */
+  .cn-sidebar-input {
+    @apply bg-transparent focus:bg-card h-(--density-36) text-(length:--density-text-13);
+  }
+
+  /* As tall as a large row on a tablet, whatever it holds, so its centre stays on
+     the header's across from it. */
+  .cn-sidebar-header {
+    @apply gap-(--density-8) p-(--density-8) md:min-h-[calc(var(--density-48)+2*var(--density-8))];
+  }
+
+  .cn-sidebar-content {
+    @apply min-h-0;
+  }
+
+  .cn-sidebar-footer {
+    @apply gap-(--density-8) p-(--density-8);
+  }
+
+  .cn-sidebar-separator {
+    @apply bg-border/60 mx-2;
+  }
+
+  /* Groups sit 16pt apart, and rows 8pt from the sidebar's edges. */
+  .cn-sidebar-group {
+    @apply p-(--density-8);
+  }
+
+  /* The menu is a fluid hover container: one bg-hover highlight glides between its
+     rows, and the active row's raised bg-active background slides between active
+     rows on the move timing. Rows keep a 2pt gap, so neighbouring fills never
+     touch. */
+  .cn-sidebar-menu {
+    @apply gap-0.5;
+  }
+
+  .cn-sidebar-menu-selection {
+    @apply shadow-surface-2;
+  }
+
+  .cn-sidebar-group-content {
+    @apply w-full;
+  }
+
+  /* Group labels: a 24pt header 4pt above the rows, 12pt medium, muted (full
+     muted-foreground, not /70, to keep 4.5:1 on surface 2). Gone on the rail. */
+  .cn-sidebar-group-label {
+    @apply mb-(--density-4) h-(--density-24) gap-0.5 rounded-md px-(--density-8) data-[collapsible=icon]:hidden;
+  }
+
+  .cn-sidebar-group-label-text {
+    @apply text-muted-foreground text-(length:--density-text-12) font-medium;
+  }
+
+  /* The 14pt chevron right after the label. Touch has no hover, so it stays. It
+     points down while open. */
+  .cn-sidebar-group-label-chevron {
+    @apply size-(--density-icon-14);
+  }
+
+  /* Header actions: 24pt boxes on the axis of the rows' actions and badges, over
+     the group's padding or at the end of a collapsible group's header. */
+  .cn-sidebar-group-action {
+    @apply size-(--density-24) rounded-md active:bg-hover data-[place=group]:top-(--density-8) data-[place=group]:right-[calc(var(--density-8)+var(--density-6))] data-[place=header]:top-0 data-[place=header]:right-(--density-6);
+  }
+
+  .cn-sidebar-group-action-text {
+    @apply text-muted-foreground;
+  }
+
+  .cn-sidebar-group-actions {
+    @apply gap-1 data-[place=group]:top-(--density-8) data-[place=group]:right-[calc(var(--density-8)+var(--density-6))] data-[place=header]:top-0 data-[place=header]:right-(--density-6);
+  }
+
+  .cn-sidebar-collapse {
+    @apply min-w-0;
+  }
+
+  /* Rows: 30pt, gap-2, rounded-lg, 13pt: the label at foreground/80 and the icon
+     muted at rest. The lit row turns foreground; the active row is foreground on a
+     raised bg-active. The menu's highlight and selection paint those fills, so a
+     row paints them itself only outside a menu, and while a drag has the selection
+     hidden. On the rail a row is a 32pt square with only its icon. */
+  .cn-sidebar-menu-button {
+    @apply gap-(--density-8) rounded-lg pr-(--density-8) pl-(--density-8) disabled:opacity-50 data-[active=true]:data-[fluid=false]:bg-active data-[active=true]:data-[fluid=false]:shadow-surface-2 data-[collapsible=icon]:size-(--density-32) data-[collapsible=icon]:justify-center data-[collapsible=icon]:pr-0 data-[collapsible=icon]:pl-0;
+  }
+
+  .cn-sidebar-menu-button-variant-default {
+    @apply data-[fluid=false]:active:bg-hover;
+  }
+
+  .cn-sidebar-menu-button-variant-outline {
+    @apply border border-border bg-transparent data-[fluid=false]:active:bg-hover;
+  }
+
+  .cn-sidebar-menu-button-size-default {
+    @apply h-(--density-30);
+  }
+
+  .cn-sidebar-menu-button-size-sm {
+    @apply h-(--density-28);
+  }
+
+  .cn-sidebar-menu-button-size-lg {
+    @apply h-(--density-48);
+  }
+
+  .cn-sidebar-menu-button-text {
+    @apply text-foreground/80 text-(length:--density-text-13) font-normal;
+  }
+
+  .cn-sidebar-menu-button-text-size-sm {
+    @apply text-(length:--density-text-12);
+  }
+
+  /* The active row and the lit one. */
+  .cn-sidebar-menu-button-text-active {
+    @apply text-foreground;
+  }
+
+  .cn-sidebar-menu-button-label {
+    @apply flex-1 data-[collapsible=icon]:hidden;
+  }
+
+  .cn-sidebar-menu-button-icon {
+    @apply text-muted-foreground;
+  }
+
+  .cn-sidebar-menu-button-icon-active {
+    @apply text-foreground;
+  }
+
+  /* Status dots sit in the icon column: filled or ring, muted at rest and
+     foreground/60 when the row is active. */
+  .cn-sidebar-menu-dot-slot {
+    @apply size-(--density-icon-16);
+  }
+
+  .cn-sidebar-menu-dot {
+    @apply size-2 rounded-full data-[dot=filled]:bg-muted-foreground/50 data-[dot=ring]:border data-[dot=ring]:border-muted-foreground/50 data-[active=true]:data-[dot=filled]:bg-foreground/60 data-[active=true]:data-[dot=ring]:border-foreground/60;
+  }
+
+  /* Row actions: 24pt boxes centred on the row, each placed by what else its row
+     holds (lib/sidebar-layout-model). In a cluster they flow in its row. */
+  .cn-sidebar-menu-action {
+    @apply data-[shown=false]:opacity-0 size-(--density-24) rounded-md active:bg-hover data-[row-size=default]:top-[calc((var(--density-30)-var(--density-24))/2)] data-[row-size=lg]:top-[calc((var(--density-48)-var(--density-24))/2)] data-[row-size=sm]:top-[calc((var(--density-28)-var(--density-24))/2)];
+  }
+
+  .cn-sidebar-menu-action-text {
+    @apply text-muted-foreground;
+  }
+
+  /* Its row is lit: the action and the badge turn foreground with it. */
+  .cn-sidebar-menu-action-text-lit {
+    @apply text-foreground;
+  }
+
+  .cn-sidebar-menu-actions {
+    @apply data-[shown=false]:opacity-0 gap-1 data-[row-size=default]:top-[calc((var(--density-30)-var(--density-24))/2)] data-[row-size=lg]:top-[calc((var(--density-48)-var(--density-24))/2)] data-[row-size=sm]:top-[calc((var(--density-28)-var(--density-24))/2)];
+  }
+
+  .cn-sidebar-menu-badge {
+    @apply h-(--density-20) min-w-(--density-20) rounded-md px-1 data-[row-size=default]:top-[calc((var(--density-30)-var(--density-20))/2)] data-[row-size=lg]:top-[calc((var(--density-48)-var(--density-20))/2)] data-[row-size=sm]:top-[calc((var(--density-28)-var(--density-20))/2)];
+  }
+
+  .cn-sidebar-menu-badge-text {
+    @apply text-muted-foreground text-(length:--density-text-12) font-normal tabular-nums;
+  }
+
+  .cn-sidebar-menu-badge-text-active {
+    @apply text-foreground;
+  }
+
+  .cn-sidebar-menu-skeleton {
+    @apply h-(--density-30) gap-(--density-8) rounded-lg px-(--density-8);
+  }
+
+  .cn-sidebar-menu-skeleton-icon {
+    @apply size-(--density-icon-16) rounded-md;
+  }
+
+  .cn-sidebar-menu-skeleton-text {
+    @apply h-4;
+  }
+
+  /* Sub-menus nest to any depth and stay full width, so the current row's fill
+     spans the column. Gone on the rail. */
+  .cn-sidebar-menu-sub {
+    @apply gap-0.5 pt-0.5 data-[collapsible=icon]:hidden;
+  }
+
+  /* Nested rows: 30pt (24pt small), 2pt apart, each level 16pt further in, 14pt
+     icons. Muted at rest; the lit one turns foreground, under the same highlight as
+     the top-level rows. The current one sits on a quiet wash (half the hover fill)
+     instead of the raised selection, which marks its top-level row. */
+  .cn-sidebar-menu-sub-button {
+    @apply h-(--density-30) gap-(--density-8) rounded-lg data-[fluid=false]:active:bg-hover disabled:opacity-50 data-[active=true]:bg-hover/50 data-[collapsible=icon]:hidden data-[size=sm]:h-(--density-24);
+  }
+
+  .cn-sidebar-menu-sub-button-text {
+    @apply text-muted-foreground text-(length:--density-text-13) font-normal;
+  }
+
+  .cn-sidebar-menu-sub-button-text-size-sm {
+    @apply text-(length:--density-text-12);
+  }
+
+  /* The current row and the lit one. */
+  .cn-sidebar-menu-sub-button-text-active {
+    @apply text-foreground;
+  }
+
+  .cn-sidebar-menu-sub-button-label {
+    @apply flex-1;
+  }
+
+/* MARK: Skeleton */
+
+  /* The hover fill, so it reads on any surface in both themes. */
+  .cn-skeleton {
+    @apply bg-hover rounded-md;
+  }
+
+/* MARK: Slider */
+
+  .cn-slider {
+    @apply data-[disabled=true]:opacity-50 data-[orientation=vertical]:min-h-40;
+  }
+
+  /* An 18pt pill framed by the border colour, transparent inside. */
+  .cn-slider-track {
+    @apply border-border rounded-full border bg-transparent data-[orientation=horizontal]:h-[calc(var(--density-icon-16)+2px)] data-[orientation=vertical]:w-[calc(var(--density-icon-16)+2px)];
+  }
+
+  /* The filled range is a soft wash of the primary role: a neutral grey while
+     primary is neutral. */
+  .cn-slider-range {
+    @apply bg-primary/10 dark:bg-primary/15;
+  }
+
+  /* White 16pt knob with a soft drop shadow and a hairline. It doesn't scale or
+     ring under a finger: the website's ring is keyboard focus, and its only
+     pointer state is the deeper hover shadow. */
+  .cn-slider-thumb {
+    @apply shadow-surface-2 size-(--density-icon-16) rounded-full border border-black/5 bg-white;
+  }
+
+  /* That deeper shadow, fading in while the thumb is held. It covers the border
+     box, so it sits exactly on the knob's edge. */
+  .cn-slider-thumb-held {
+    @apply shadow-surface-3 -inset-px rounded-full;
+  }
+
+/* MARK: Sonner */
+
+  /* Each toast takes `cn-toast` from toast.css. Sonner adds a row for its cancel,
+     action and close buttons. */
+  .cn-sonner-actions {
+    @apply gap-(--density-8);
+  }
+
+/* MARK: Spinner */
+
+  .cn-spinner {
+    @apply size-(--density-icon-16);
+  }
+
+/* MARK: Switch */
+
+  /* Track 34x20 at the default density (size sm pins it to compact: 28x16), 2pt
+     around the knob. Off is the accent tint. Invalid draws a ring outside the
+     track, so the knob stays put. */
+  .cn-switch {
+    @apply bg-accent data-[invalid=true]:outline-destructive/50 h-(--density-20) w-[calc(var(--density-20)+var(--density-14))] shrink-0 rounded-full px-0.5 data-[invalid=true]:outline-1 data-[invalid=true]:outline-offset-2;
+  }
+
+  /* On is the primary role's fill, fading over the tint on the feedback timing:
+     React Native can't transition a class's colour. */
+  .cn-switch-fill {
+    @apply bg-primary rounded-full;
+  }
+
+  /* The knob only travels on the move timing. White, and the primary foreground
+     when on, fading over the white as it goes. A press stretches it into a pill
+     toward the centre of the track and squashes it. */
+  .cn-switch-thumb {
+    @apply shadow-surface-2 rounded-full bg-white;
+  }
+
+  .cn-switch-thumb-on {
+    @apply bg-primary-foreground rounded-full;
+  }
+
+/* MARK: Tab Strip */
+
+  /* A row of document tabs on the surface it sits on: 48pt at a phone's density,
+     40pt at `sm`, a step down the scale. A press takes the row's whole height. */
+  .cn-tab-strip {
+    @apply h-(--density-40) gap-(--density-4) px-(--density-6);
+  }
+
+  /* The list is as wide as its tabs, so the new tab button follows the last one,
+     and shrinks and then scrolls sideways, with no scrollbar. */
+  .cn-tab-strip-list {
+    @apply h-full;
+  }
+
+  /* The active tab's raised pill slides between tabs over this row. It keeps a
+     little width with no tabs, so a long press can still reach the menu. */
+  .cn-tab-strip-list-content {
+    @apply h-full min-w-(--density-48) gap-(--density-4) py-(--density-4);
+  }
+
+  .cn-tab-strip-selection {
+    @apply bg-surface-4 shadow-surface-4 rounded-lg;
+  }
+
+  .cn-tab-strip-highlight {
+    @apply bg-hover rounded-lg;
+  }
+
+  /* Tabs: 176pt on a phone (the website shrinks to 144 before it scrolls; a
+     phone's strip is always there), 192pt from the sm breakpoint. Pinned tabs are
+     their icon. */
+  .cn-tab-strip-tab {
+    @apply h-full w-44 rounded-lg data-[pinned=true]:w-auto sm:w-48;
+  }
+
+  /* 13pt, muted at rest; the active tab is foreground and semibold. */
+  .cn-tab-strip-tab-text {
+    @apply text-muted-foreground text-(length:--density-text-13);
+  }
+
+  .cn-tab-strip-tab-text-lit {
+    @apply text-foreground;
+  }
+
+  .cn-tab-strip-tab-text-active {
+    @apply text-foreground;
+  }
+
+  .cn-tab-strip-trigger {
+    @apply h-full gap-(--density-6) rounded-lg ps-(--density-10) pe-(--density-4) data-[pinned=true]:justify-center data-[pinned=true]:px-(--density-10);
+  }
+
+  /* A preview tab is italic. */
+  .cn-tab-strip-title {
+    @apply font-normal data-[active=true]:font-semibold data-[preview=true]:italic;
+  }
+
+  /* The close button's slot is always there, so titles never reflow. A touch
+     screen has no hover to hide the button behind, so it always shows, except that
+     a dirty tab shows its dot there instead. */
+  .cn-tab-strip-close-slot {
+    @apply me-(--density-4) size-(--density-20);
+  }
+
+  .cn-tab-strip-close {
+    @apply active:bg-hover size-(--density-20) rounded-md;
+  }
+
+  .cn-tab-strip-dirty {
+    @apply bg-foreground/60 size-2 rounded-full;
+  }
+
+  .cn-tab-strip-waiting {
+    @apply bg-primary size-1.5 shrink-0 rounded-full;
+  }
+
+  .cn-tab-strip-error {
+    @apply flex-row;
+  }
+
+  .cn-tab-strip-error-text {
+    @apply text-destructive;
+  }
+
+  .cn-tab-strip-rename {
+    @apply font-sans bg-card border-ring text-foreground h-(--density-24) rounded-md border px-(--density-6) text-(length:--density-text-13);
+  }
+
+  .cn-tab-strip-new {
+    @apply shrink-0;
+  }
+
+  /* The menu of every tab ends the row. */
+  .cn-tab-strip-overflow {
+    @apply ms-auto shrink-0;
+  }
+
+  .cn-tab-strip-overflow-menu {
+    @apply min-w-56;
+  }
+
+  .cn-tab-strip-menu {
+    @apply min-w-48;
+  }
+
+/* MARK: Table */
+
+  /* The container scrolls sideways when the columns don't fit. */
+  .cn-table-container {
+    @apply w-full;
+  }
+
+  .cn-table {
+    @apply flex-col;
+  }
+
+  .cn-table-text {
+    @apply text-(length:--density-text-13);
+  }
+
+  .cn-table-header {
+    @apply border-border/60 border-b;
+  }
+
+  .cn-table-body {
+    @apply flex-col;
+  }
+
+  .cn-table-footer {
+    @apply border-border/60 border-t;
+  }
+
+  /* Rows: soft dividers; the lit row hides the ones around it, so the highlight
+     reads as one block, and selected rows keep bg-active. The last body row has no
+     divider, the footer's and the header's come from their sections. */
+  .cn-table-row {
+    @apply border-border/60 border-b data-[last=true]:border-b-0 data-[section=header]:border-b-0 data-[section=footer]:border-b-0 data-[lit=true]:border-transparent data-[before-lit=true]:border-transparent data-[state=selected]:bg-active;
+  }
+
+  /* Head: 36pt, px-3, foreground semibold. */
+  .cn-table-head {
+    @apply h-(--density-36) px-(--density-12);
+  }
+
+  .cn-table-head-text {
+    @apply text-foreground text-start font-semibold;
+  }
+
+  /* Cells: muted; the lit row turns foreground, and footer cells stay foreground
+     and medium. */
+  .cn-table-cell {
+    @apply px-(--density-12) py-(--density-8);
+  }
+
+  .cn-table-cell-text {
+    @apply text-muted-foreground;
+  }
+
+  .cn-table-cell-text-lit {
+    @apply text-foreground;
+  }
+
+  .cn-table-cell-text-footer {
+    @apply text-foreground font-medium;
+  }
+
+  .cn-table-caption {
+    @apply text-muted-foreground mt-4 text-center text-(length:--density-text-12);
+  }
+
+  /* The fluid row highlight is square: rows span the table edge to edge. */
+  .cn-table-highlight {
+    @apply rounded-none;
+  }
+
+/* MARK: Tabs */
+
+  .cn-tabs {
+    @apply gap-(--density-8);
+  }
+
+  /* Track: rounded-xl, p-1, 36pt tall. The selected pill and the pressed pill are
+     overlays under the triggers. The line variant drops the track. */
+  .cn-tabs-list {
+    @apply rounded-xl p-(--density-4) data-[orientation=horizontal]:h-(--density-36) data-[variant=line]:rounded-none;
+  }
+
+  /* The default track is a translucent foreground step instead of bg-muted: in
+     dark mode muted equals surface-2, so a muted track vanished on surface-2
+     cards. A step over whatever is underneath shows on every surface. */
+  .cn-tabs-list-variant-default {
+    @apply bg-foreground/5;
+  }
+
+  .cn-tabs-list-variant-line {
+    @apply gap-1 bg-transparent;
+  }
+
+  /* Triggers: 28pt. The overlays paint the pills, so the tab stays transparent. */
+  .cn-tabs-trigger {
+    @apply h-(--density-28) gap-(--density-6) rounded-lg px-(--density-12);
+  }
+
+  /* 13pt. The resting colour is foreground/65 (dark: muted-foreground), one step
+     above the source's /60: on the translucent track, /60 and muted-foreground
+     both miss 4.5:1 in light. Only the active tab turns semibold. */
+  .cn-tabs-trigger-text {
+    @apply text-foreground/65 dark:text-muted-foreground text-(length:--density-text-13) font-normal;
+  }
+
+  /* A lit tab previews the next selection: foreground, no weight change. */
+  .cn-tabs-trigger-text-lit {
+    @apply text-foreground dark:text-foreground;
+  }
+
+  .cn-tabs-trigger-text-active {
+    @apply text-foreground dark:text-foreground font-semibold;
+  }
+
+  /* The selected tab's pill: a raised surface that slides on the move timing. The
+     line variant draws a foreground underline instead. In dark a fixed surface
+     can't sit above the track, which is a step over whatever is underneath: on a
+     card, surface 4 is darker than it. So the pill is a step over the track too,
+     about 1.5:1 against it on every surface. */
+  .cn-tabs-selection {
+    @apply bg-surface-4 dark:bg-foreground/14 shadow-surface-4 rounded-lg data-[variant=line]:bg-transparent dark:data-[variant=line]:bg-transparent data-[variant=line]:shadow-none;
+  }
+
+  .cn-tabs-selection-line {
+    @apply bg-foreground data-[orientation=horizontal]:inset-x-0 data-[orientation=horizontal]:-bottom-1 data-[orientation=horizontal]:h-0.5 data-[orientation=vertical]:-end-1 data-[orientation=vertical]:inset-y-0 data-[orientation=vertical]:w-0.5;
+  }
+
+  /* The website's hover pill previews the next click. A finger shows it while
+     pressed. */
+  .cn-tabs-highlight {
+    @apply bg-hover/60 data-[variant=line]:bg-hover rounded-lg;
+  }
+
+  .cn-tabs-content {
+    @apply gap-(--density-8);
+  }
+
+  .cn-tabs-content-text {
+    @apply text-(length:--density-text-13);
+  }
+
+/* MARK: Text */
+
+  /* The body text: Inter in foreground at the default text size. React Native
+     doesn't inherit, so every Text carries it and controls override through
+     TextStyle. font-medium and font-semibold pick Inter's 500 and 600 cuts, the
+     closest to the website's 450 and 550. */
+  .cn-text {
+    @apply text-foreground font-sans text-(length:--density-text-13);
+  }
+
+/* MARK: Textarea */
+
+  /* Same frame as the input: a hairline, transparent at rest, lifted to the
+     card surface on focus. Invalid turns the frame red. It grows with its text,
+     from a 64pt floor. */
+  .cn-textarea {
+    @apply font-sans text-foreground border-border data-[invalid=true]:border-destructive/50 min-h-16 rounded-lg border bg-transparent px-(--density-10) py-(--density-8) text-(length:--density-text-13);
+  }
+
+  /* The frame's colours at rest and in focus, as the input's. */
+  .cn-textarea-rest {
+    @apply border-border bg-card/0;
+  }
+
+  .cn-textarea-focus {
+    @apply border-foreground/25 bg-card;
+  }
+
+/* MARK: Toast */
+
+  /* Surface 5 with its shadow ring (no border), rounded-xl, 13pt. Applies to the
+     toast root of both `toast` and `sonner`. As on the website, it moves and fades
+     on the toast timing and changes height on the feedback timing (ui/toast). */
+  .cn-toast {
+    @apply bg-surface-5 shadow-surface-5 rounded-xl;
+  }
+
+  .cn-toast-text {
+    @apply text-popover-foreground text-(length:--density-text-13);
+  }
+
+  .cn-toast-title {
+    @apply text-(length:--density-text-13) font-medium;
+  }
+
+  .cn-toast-description {
+    @apply text-muted-foreground text-(length:--density-text-13);
+  }
+
+  /* Status toasts colour only their icon, with the role's fill (error is the
+     destructive role), on the neutral surface. */
+  .cn-toast-icon-info {
+    @apply text-info;
+  }
+
+  .cn-toast-icon-success {
+    @apply text-success;
+  }
+
+  .cn-toast-icon-warning {
+    @apply text-warning;
+  }
+
+  .cn-toast-icon-error {
+    @apply text-destructive;
+  }
+
+/* MARK: Toggle Group */
+
+  /* A press lights one bg-hover highlight, and in a single-select group the
+     pressed item's bg-active background slides between items on the move timing.
+     A joined group (spacing 0) clips the overlays and items to its corners. */
+  .cn-toggle-group {
+    @apply rounded-lg data-[spacing=0]:overflow-hidden;
+  }
+
+  /* Items: 36pt, px-3, rounded-lg at the default density; size sm pins them to
+     compact. The highlight paints the pressed fill, and in a single-select group
+     the sliding selection paints the on fill. Joined items square their corners
+     and share their outlines. */
+  .cn-toggle-group-item {
+    @apply h-(--density-36) min-w-(--density-36) px-(--density-12) data-[spacing=0]:rounded-none data-[spacing=0]:data-[variant=outline]:data-[first=false]:data-[orientation=horizontal]:border-s-0 data-[spacing=0]:data-[variant=outline]:data-[first=false]:data-[orientation=vertical]:border-t-0;
+  }
+
+  .cn-toggle-group-selection {
+    @apply bg-active rounded-lg data-[spacing=0]:rounded-none;
+  }
+
+  .cn-toggle-group-highlight {
+    @apply bg-hover rounded-lg data-[spacing=0]:rounded-none;
+  }
+
+/* MARK: Toggle */
+
+  /* Ghost look. The press scale comes from usePressScale. */
+  .cn-toggle {
+    @apply gap-(--density-6) rounded-lg;
+  }
+
+  /* On and pressed are one fill, as on the website: a layer under the content,
+     easing on the feedback timing. */
+  .cn-toggle-fill {
+    @apply bg-active rounded-lg;
+  }
+
+  /* 13pt medium, muted at rest and foreground when on. The icon's stroke follows:
+     1.5, then 2. */
+  .cn-toggle-text {
+    @apply text-muted-foreground text-(length:--density-text-13) font-medium;
+  }
+
+  .cn-toggle-text-on {
+    @apply text-foreground;
+  }
+
+  .cn-toggle-variant-default {
+    @apply bg-transparent;
+  }
+
+  .cn-toggle-variant-outline {
+    @apply border-border border bg-transparent;
+  }
+
+  /* Icon-only toggles come out square: 16pt icon + 2 x 10pt = 36pt. Like buttons,
+     sm pins the toggle to the compact density and lg to spacious; default follows
+     the nearest one. */
+  .cn-toggle-size-default {
+    @apply h-(--density-36) min-w-(--density-36) px-(--density-10);
+  }
+
+  .cn-toggle-size-sm {
+    @apply h-(--density-36) min-w-(--density-36) px-(--density-10);
+  }
+
+  .cn-toggle-size-lg {
+    @apply h-(--density-36) min-w-(--density-36) px-(--density-10);
+  }
+
+/* MARK: Tooltip */
+
+  /* Inverted chip (the component sets bg-foreground): 12pt medium, px-2 py-1,
+     rounded-lg. Grows from its trigger on the tooltip motion
+     (useSurfaceAnimation). */
+  .cn-tooltip-content {
+    @apply rounded-lg px-(--density-8) py-1;
+  }
+
+  /* On the website this holds the motion, which is useSurfaceAnimation here. It
+     keeps the spacing instead. */
+  .cn-tooltip-content-logical {
+    @apply gap-(--density-6);
+  }
+
+  .cn-tooltip-text {
+    @apply text-background text-(length:--density-text-12) leading-4 font-medium;
+  }
+
+/* MARK: User Menu */
+
+  /* The mark (data-user-menu="mark") is the avatar alone, as a round button. */
+  .cn-user-menu-trigger {
+    @apply data-[user-menu=mark]:rounded-full data-[state=open]:bg-hover;
+  }
+
+  .cn-user-menu-avatar {
+    @apply size-(--density-32);
+  }
+
+  .cn-user-menu-avatar-text {
+    @apply text-foreground;
+  }
+
+  .cn-user-menu-details {
+    @apply min-w-0;
+  }
+
+  .cn-user-menu-name {
+    @apply text-foreground text-(length:--density-text-13) font-semibold leading-tight;
+  }
+
+  .cn-user-menu-email {
+    @apply text-muted-foreground text-(length:--density-text-12) leading-tight;
+  }
+
+  /* On the axis of the rows' actions and badges. */
+  .cn-user-menu-chevron {
+    @apply mr-[calc((var(--density-20)-var(--density-icon-16))/2)] size-(--density-icon-16);
+  }
+
+  .cn-user-menu-chevron-text {
+    @apply text-muted-foreground;
+  }
+
+  .cn-user-menu-content {
+    @apply min-w-56;
+  }
+
+  .cn-user-menu-label {
+    @apply gap-(--density-8) px-(--density-8) py-(--density-6);
+  }
+
+/* MARK: Workspace Switcher */
+
+  /* The mark (data-workspace-switcher="mark") is the logo alone as a 36pt button. */
+  .cn-workspace-switcher-trigger {
+    @apply data-[state=open]:bg-hover data-[workspace-switcher=mark]:size-(--density-36) data-[workspace-switcher=mark]:rounded-lg data-[workspace-switcher=mark]:active:bg-hover;
+  }
+
+  /* The logo: a 32pt rounded square in the primary colour, or the image. */
+  .cn-workspace-switcher-logo {
+    @apply bg-primary size-(--density-32) rounded-lg;
+  }
+
+  .cn-workspace-switcher-logo-text {
+    @apply text-primary-foreground text-(length:--density-text-13) font-semibold;
+  }
+
+  .cn-workspace-switcher-logo-sm {
+    @apply size-(--density-24) rounded-md;
+  }
+
+  .cn-workspace-switcher-logo-sm-text {
+    @apply text-primary-foreground text-(length:--density-text-11) font-semibold;
+  }
+
+  .cn-workspace-switcher-text {
+    @apply min-w-0;
+  }
+
+  .cn-workspace-switcher-name {
+    @apply text-foreground text-(length:--density-text-13) font-semibold leading-tight;
+  }
+
+  .cn-workspace-switcher-description {
+    @apply text-muted-foreground text-(length:--density-text-12) leading-tight;
+  }
+
+  /* On the axis of the rows' actions and badges. */
+  .cn-workspace-switcher-chevron {
+    @apply mr-[calc((var(--density-20)-var(--density-icon-16))/2)] size-(--density-icon-16);
+  }
+
+  .cn-workspace-switcher-chevron-text {
+    @apply text-muted-foreground;
+  }
+
+  .cn-workspace-switcher-check {
+    @apply ml-auto size-(--density-icon-16);
+  }
+
+  .cn-workspace-switcher-check-text {
+    @apply text-foreground;
+  }
+
+  .cn-workspace-switcher-menu {
+    @apply min-w-56;
+  }
+
+  /* Two-line rows: the name over its description. */
+  .cn-workspace-switcher-item {
+    @apply h-auto gap-(--density-8) py-(--density-6);
+  }
+
+  /* While the app opens the workspace: the page dims behind its logo. */
+  .cn-workspace-switcher-overlay {
+    @apply bg-background/80 gap-(--density-16);
+  }
+
+  .cn-workspace-switcher-overlay-logo {
+    @apply size-(--density-48) rounded-xl;
+  }
+
+  .cn-workspace-switcher-overlay-logo-text {
+    @apply text-primary-foreground text-(length:--density-text-16) font-semibold;
+  }
+
+  .cn-workspace-switcher-overlay-text {
+    @apply gap-(--density-8);
+  }
+
+  .cn-workspace-switcher-overlay-label {
+    @apply text-muted-foreground text-(length:--density-text-13);
+  }
+}

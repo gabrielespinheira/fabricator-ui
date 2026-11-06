@@ -1,0 +1,83 @@
+/* MARK: Item */
+
+  /* 13pt rows, rounded-lg. An item rendered as a Pressable gets the hover fill
+     when pressed. */
+  .cn-item {
+    @apply active:bg-hover rounded-lg border;
+  }
+
+  .cn-item-text {
+    @apply text-(length:--density-text-13);
+  }
+
+  .cn-item-variant-default {
+    @apply border-transparent;
+  }
+
+  .cn-item-variant-outline {
+    @apply border-border;
+  }
+
+  .cn-item-variant-muted {
+    @apply bg-hover active:bg-active border-transparent;
+  }
+
+  .cn-item-size-default {
+    @apply gap-(--density-12) p-(--density-12);
+  }
+
+  .cn-item-size-sm {
+    @apply gap-(--density-10) px-(--density-12) py-(--density-8);
+  }
+
+  .cn-item-size-xs {
+    @apply gap-(--density-8) px-(--density-8) py-(--density-6);
+  }
+
+  .cn-item-media {
+    @apply gap-(--density-8) data-[description=true]:translate-y-0.5 data-[description=true]:self-start;
+  }
+
+  .cn-item-media-variant-default {
+    @apply bg-transparent;
+  }
+
+  .cn-item-media-variant-icon {
+    @apply size-(--density-icon-16);
+  }
+
+  .cn-item-media-variant-image {
+    @apply size-(--density-40) overflow-hidden rounded-lg data-[size=sm]:size-(--density-32) data-[size=xs]:size-(--density-24) data-[size=xs]:rounded-md;
+  }
+
+  .cn-item-content {
+    @apply gap-0.5 data-[size=xs]:gap-0;
+  }
+
+  .cn-item-title {
+    @apply text-foreground text-(length:--density-text-13) leading-snug font-medium;
+  }
+
+  .cn-item-description {
+    @apply text-muted-foreground text-left text-(length:--density-text-13) leading-normal data-[size=xs]:text-(length:--density-text-12);
+  }
+
+  .cn-item-actions {
+    @apply gap-(--density-8);
+  }
+
+  .cn-item-header {
+    @apply gap-(--density-8);
+  }
+
+  .cn-item-footer {
+    @apply gap-(--density-8);
+  }
+
+  .cn-item-group {
+    @apply gap-(--density-12) data-[size=sm]:gap-(--density-8) data-[size=xs]:gap-1;
+  }
+
+  .cn-item-separator {
+    @apply my-2;
+  }

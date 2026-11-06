@@ -1,0 +1,14 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "danielbayley"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:hard-drive",
+    "$extends:download"
+  ],
+  "categories": [
+    "$extends:hard-drive"
+  ]
+}

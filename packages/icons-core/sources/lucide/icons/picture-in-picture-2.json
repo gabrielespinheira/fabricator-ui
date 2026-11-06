@@ -1,0 +1,14 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "cd16b",
+    "ericfennis"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:picture-in-picture"
+  ],
+  "categories": [
+    "$extends:picture-in-picture"
+  ]
+}

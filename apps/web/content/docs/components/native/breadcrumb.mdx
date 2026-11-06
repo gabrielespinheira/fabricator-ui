@@ -1,0 +1,188 @@
+---
+title: Breadcrumb
+description: Displays the path to the current resource using a hierarchy of links.
+base: native
+component: true
+---
+
+<NativePreview src="/images/native/breadcrumb.jpg" alt="Breadcrumb on iOS" />
+
+## Installation
+
+```bash
+npx fabricator-ui@latest add breadcrumb
+```
+
+## Usage
+
+```tsx
+import {
+  Breadcrumb,
+  BreadcrumbEllipsis,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb"
+import { Button } from "@/components/ui/button"
+import { Text } from "@/components/ui/text"
+```
+
+```tsx
+<Breadcrumb>
+  <BreadcrumbList>
+    <BreadcrumbItem>
+      <BreadcrumbLink onPress={() => setLastPressed("Home")}>
+        Home
+      </BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbSeparator />
+    <BreadcrumbItem>
+      <BreadcrumbLink onPress={() => setLastPressed("Components")}>
+        Components
+      </BreadcrumbLink>
+    </BreadcrumbItem>
+    <BreadcrumbSeparator />
+    <BreadcrumbItem>
+      <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
+    </BreadcrumbItem>
+  </BreadcrumbList>
+</Breadcrumb>
+<Text className="text-muted-foreground">{lastPressed}</Text>
+```
+
+## Composition
+
+- `Breadcrumb`
+- `BreadcrumbEllipsis`
+- `BreadcrumbItem`
+- `BreadcrumbLink`
+- `BreadcrumbList`
+- `BreadcrumbPage`
+- `BreadcrumbSeparator`
+
+## Examples
+
+```tsx showLineNumbers title="breadcrumb-example.tsx"
+import * as React from "react"
+import { SlashIcon } from "@fabricator-ui/icons-react-native"
+
+import {
+  Breadcrumb,
+  BreadcrumbEllipsis,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  BreadcrumbList,
+  BreadcrumbPage,
+  BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb"
+import { Button } from "@/components/ui/button"
+import { Text } from "@/components/ui/text"
+
+function BreadcrumbExample() {
+  const [lastPressed, setLastPressed] = React.useState("Press a link")
+  return (
+    <ExampleWrapper>
+      <Example title="Default">
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink onPress={() => setLastPressed("Home")}>
+                Home
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbLink onPress={() => setLastPressed("Components")}>
+                Components
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+        <Text className="text-muted-foreground">{lastPressed}</Text>
+      </Example>
+      <Example title="Folded with an ellipsis">
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink>Home</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbEllipsis />
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>Breadcrumb</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+      </Example>
+      <Example title="A custom separator">
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink>Home</BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator>
+              <SlashIcon size={14} />
+            </BreadcrumbSeparator>
+            <BreadcrumbItem>
+              <BreadcrumbPage>Components</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+      </Example>
+      <Example title="A link that renders something else">
+        <Breadcrumb>
+          <BreadcrumbList>
+            <BreadcrumbItem>
+              <BreadcrumbLink render={<Button variant="ghost" size="xs" />}>
+                Home
+              </BreadcrumbLink>
+            </BreadcrumbItem>
+            <BreadcrumbSeparator />
+            <BreadcrumbItem>
+              <BreadcrumbPage>Components</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+      </Example>
+      <Example title="Too long for the screen, it scrolls to the end">
+        <Breadcrumb>
+          <BreadcrumbList>
+            {["Home", "Projects", "Fabricator", "Registry", "Native"].map(
+              (name) => (
+                <React.Fragment key={name}>
+                  <BreadcrumbItem>
+                    <BreadcrumbLink>{name}</BreadcrumbLink>
+                  </BreadcrumbItem>
+                  <BreadcrumbSeparator />
+                </React.Fragment>
+              )
+            )}
+            <BreadcrumbItem>
+              <BreadcrumbPage>Components and their examples</BreadcrumbPage>
+            </BreadcrumbItem>
+          </BreadcrumbList>
+        </Breadcrumb>
+      </Example>
+    </ExampleWrapper>
+  )
+}
+
+export { BreadcrumbExample }
+```
+
+## Differences from web
+
+**Same.** Links are pressables: use `onPress` or `render`.
+
+## Accessibility
+
+Parts set `role="link"`, `role="list"`, `role="listitem"`, `role="navigation"`, `role="presentation"`, read by VoiceOver and TalkBack. Give a control with no text an `accessibilityLabel`.

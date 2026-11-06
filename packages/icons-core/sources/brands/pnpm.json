@@ -1,0 +1,13 @@
+{
+  "title": "pnpm",
+  "group": "Product & dev",
+  "tags": [
+    "package manager",
+    "javascript"
+  ],
+  "aliases": [],
+  "hex": "#F69220",
+  "scale": 0.84,
+  "source": "Simple Icons 16.36.0 (https://pnpm.io/logos)",
+  "license": "CC0-1.0"
+}

@@ -1,0 +1,17 @@
+{
+  "title": "Dev.to",
+  "group": "Social",
+  "tags": [
+    "dev",
+    "devto",
+    "blog",
+    "publishing",
+    "developer"
+  ],
+  "aliases": [
+    "devto"
+  ],
+  "hex": "#0A0A0A",
+  "source": "Simple Icons 16.36.0 (https://dev.to)",
+  "license": "CC0-1.0"
+}

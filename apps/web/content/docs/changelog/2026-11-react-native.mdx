@@ -1,0 +1,32 @@
+---
+title: November 2026 - React Native
+description: Every component now has a React Native version, under the same name, with the same variants, sizes and tokens.
+date: 2026-11-04
+---
+
+## React Native
+
+Fabricator UI now runs on iOS and Android. In an Expo project, the same commands install the native version of each component, and the code looks the same:
+
+```bash
+npx fabricator-ui@latest init
+npx fabricator-ui@latest add button dialog select
+```
+
+```tsx
+import { Button } from "@/components/ui/button"
+
+;<Button variant="outline" size="sm" onPress={save}>
+  Save
+</Button>
+```
+
+The theme comes from the same tokens as the website, so a look draws the same on both: surface tint, colour roles, radius, density and motion, in light and dark. `applyLook` changes it at runtime.
+
+Touch takes over where a web input doesn't exist. Context menus, tooltips and hover cards open on a long press, selects are sheets on phones and popovers on tablets, and sheets and drawers swipe to dismiss. Once `<SoundEffects />` is mounted, controls play the same sounds as on the web, with a haptic for each. Fluid Hover follows the finger: a press lights a row, and dragging across a strip or a menu moves the highlight. On a phone the App Shell's page scrolls under a fade behind the status bar, and its breadcrumb shows the way up, naming the page only once its heading has scrolled away.
+
+The App Shell's tab bar comes flat, floating or in Apple's Liquid Glass, chosen on its install command with `bottomNavStyle`. On phones a panel's toggle draws a bottom panel, and its sheet has a grab handle, full-width tabs and a close button.
+
+Tablets have their own sizes: 40pt controls with the phone's 15pt text, a 288pt sidebar and 32pt page titles, between the website's 36pt and the phone's 44pt, with touch targets staying at 44pt. Split View narrower than 768pt uses the phone's sizes.
+
+Read the [installation guide](/docs/installation/react-native) and [what's different from web](/docs/installation/react-native-differences). Every component page has a React Native tab.

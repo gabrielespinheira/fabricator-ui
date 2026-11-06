@@ -1,0 +1,10 @@
+/* MARK: Fluid Hover */
+
+  /* The highlight and the selection, under the rows. */
+  .cn-fluid-hover-highlight {
+    @apply bg-hover rounded-lg;
+  }
+
+  .cn-fluid-hover-selection {
+    @apply bg-active rounded-lg;
+  }

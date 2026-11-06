@@ -1,0 +1,40 @@
+/* MARK: Marker */
+
+  /* Status and thinking lines: 13pt muted text with 1.5-stroke icons. A marker
+     rendered as a Pressable dims when pressed. */
+  .cn-marker {
+    @apply active:opacity-70 min-h-(--density-20) gap-(--density-8);
+  }
+
+  .cn-marker-text {
+    @apply text-muted-foreground text-start text-(length:--density-text-13) leading-snug;
+  }
+
+  .cn-marker-variant-default {
+    @apply justify-start;
+  }
+
+  .cn-marker-variant-separator {
+    @apply justify-center;
+  }
+
+  /* The separator's two rules, the website's ::before and ::after. */
+  .cn-marker-line-start {
+    @apply bg-border/60 me-1 h-px min-w-0 flex-1;
+  }
+
+  .cn-marker-line-end {
+    @apply bg-border/60 ms-1 h-px min-w-0 flex-1;
+  }
+
+  .cn-marker-variant-border {
+    @apply border-border/60 border-b pb-(--density-8);
+  }
+
+  .cn-marker-icon {
+    @apply size-(--density-icon-16);
+  }
+
+  .cn-marker-content {
+    @apply data-[variant=separator]:shrink-0 data-[variant=separator]:text-center;
+  }

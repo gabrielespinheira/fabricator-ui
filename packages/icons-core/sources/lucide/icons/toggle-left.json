@@ -1,0 +1,21 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "colebemis",
+    "karsa-mistmere",
+    "ericfennis",
+    "jamiemlaw"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$group:position-left",
+    "on",
+    "off",
+    "switch",
+    "boolean"
+  ],
+  "categories": [
+    "layout",
+    "development"
+  ]
+}

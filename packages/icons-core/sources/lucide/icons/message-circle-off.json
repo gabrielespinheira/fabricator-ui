@@ -1,0 +1,20 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "danielbayley",
+    "jguddas",
+    "karsa-mistmere"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:message-circle",
+    "$group:x",
+    "$group:off",
+    "silence",
+    "mute",
+    "moderate"
+  ],
+  "categories": [
+    "$extends:message-circle"
+  ]
+}

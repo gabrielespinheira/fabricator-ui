@@ -1,0 +1,2713 @@
+{
+  "$comment": "Brand marks Fabricator ships. Edit this file, then run bun run icons:brands. A held mark stays out of every package; the reason says why.",
+  "brands": [
+    {
+      "name": "airbnb",
+      "title": "Airbnb",
+      "group": "Marketing & commerce",
+      "tags": [
+        "travel",
+        "stays",
+        "rentals"
+      ],
+      "aliases": [],
+      "scale": 0.883,
+      "mono": {
+        "from": "simple-icons",
+        "slug": "airbnb"
+      },
+      "held": "Airbnb forbids using its logos or icons without formal written permission (https://www.airbnb.com/help/article/3233)."
+    },
+    {
+      "name": "airtable",
+      "title": "Airtable",
+      "group": "Product & dev",
+      "tags": [
+        "database",
+        "spreadsheet",
+        "base"
+      ],
+      "aliases": [],
+      "hex": "#18BFFF",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "airtable"
+      },
+      "art": {
+        "from": "logos",
+        "icon": "airtable"
+      }
+    },
+    {
+      "name": "android",
+      "title": "Android",
+      "group": "Product & dev",
+      "tags": [
+        "google",
+        "mobile",
+        "os"
+      ],
+      "aliases": [],
+      "hex": "#3DDC84",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "android"
+      }
+    },
+    {
+      "name": "anthropic",
+      "title": "Anthropic",
+      "group": "Product & dev",
+      "tags": [
+        "ai",
+        "claude",
+        "llm",
+        "model"
+      ],
+      "aliases": [],
+      "hex": "#191919",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "anthropic"
+      }
+    },
+    {
+      "name": "apple",
+      "title": "Apple",
+      "group": "Product & dev",
+      "tags": [
+        "ios",
+        "mac",
+        "iphone"
+      ],
+      "aliases": [],
+      "hex": "#000000",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "apple"
+      }
+    },
+    {
+      "name": "asana",
+      "title": "Asana",
+      "group": "Product & dev",
+      "tags": [
+        "tasks",
+        "project",
+        "work"
+      ],
+      "aliases": [],
+      "hex": "#F06A6A",
+      "scale": 0.91,
+      "mono": {
+        "from": "simple-icons",
+        "slug": "asana"
+      }
+    },
+    {
+      "name": "astro",
+      "title": "Astro",
+      "group": "Product & dev",
+      "tags": [
+        "framework",
+        "static site"
+      ],
+      "aliases": [],
+      "hex": "#BC52EE",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "astro"
+      },
+      "art": {
+        "from": "logos",
+        "icon": "astro-icon",
+        "recolor": {
+          "#17191e": "currentColor"
+        }
+      }
+    },
+    {
+      "name": "aws",
+      "title": "Amazon Web Services",
+      "group": "Product & dev",
+      "tags": [
+        "amazon",
+        "cloud"
+      ],
+      "aliases": [],
+      "held": "AWS licenses its logos only to customers and partners for specific uses, and fair use is plain text only (https://aws.amazon.com/trademark-guidelines/)."
+    },
+    {
+      "name": "base-ui",
+      "title": "Base UI",
+      "group": "Product & dev",
+      "tags": [
+        "components",
+        "react",
+        "headless"
+      ],
+      "aliases": [],
+      "mono": {
+        "from": "simple-icons",
+        "slug": "baseui"
+      }
+    },
+    {
+      "name": "behance",
+      "title": "Behance",
+      "group": "Social",
+      "tags": [
+        "portfolio",
+        "design",
+        "adobe"
+      ],
+      "aliases": [],
+      "hex": "#1769FF",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "behance"
+      }
+    },
+    {
+      "name": "better-auth",
+      "title": "Better Auth",
+      "group": "Product & dev",
+      "tags": [
+        "auth",
+        "authentication",
+        "typescript"
+      ],
+      "aliases": [],
+      "scale": 0.92,
+      "mono": {
+        "from": "simple-icons",
+        "slug": "betterauth"
+      }
+    },
+    {
+      "name": "biome",
+      "title": "Biome",
+      "group": "Product & dev",
+      "tags": [
+        "linter",
+        "formatter",
+        "toolchain"
+      ],
+      "aliases": [],
+      "scale": 0.899,
+      "mono": {
+        "from": "simple-icons",
+        "slug": "biome"
+      }
+    },
+    {
+      "name": "bitbucket",
+      "title": "Bitbucket",
+      "group": "Product & dev",
+      "tags": [
+        "git",
+        "atlassian",
+        "code",
+        "repository"
+      ],
+      "aliases": [],
+      "hex": "#0052CC",
+      "scale": 0.916,
+      "mono": {
+        "from": "simple-icons",
+        "slug": "bitbucket"
+      }
+    },
+    {
+      "name": "bluesky",
+      "title": "Bluesky",
+      "group": "Social",
+      "tags": [
+        "bsky",
+        "social",
+        "atproto"
+      ],
+      "aliases": [],
+      "hex": "#1185FE",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "bluesky"
+      }
+    },
+    {
+      "name": "booking-com",
+      "title": "Booking.com",
+      "group": "Marketing & commerce",
+      "tags": [
+        "travel",
+        "hotels",
+        "bookings"
+      ],
+      "aliases": [],
+      "scale": 0.84,
+      "mono": {
+        "from": "simple-icons",
+        "slug": "bookingdotcom"
+      },
+      "art": {
+        "from": "underlay",
+        "shape": "square"
+      }
+    },
+    {
+      "name": "buffer",
+      "title": "Buffer",
+      "group": "Marketing & commerce",
+      "tags": [
+        "social",
+        "scheduling",
+        "publishing"
+      ],
+      "aliases": [],
+      "hex": "#231F20",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "buffer"
+      }
+    },
+    {
+      "name": "bun",
+      "title": "Bun",
+      "group": "Product & dev",
+      "tags": [
+        "javascript",
+        "runtime",
+        "package manager"
+      ],
+      "aliases": [],
+      "hex": "#000000",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "bun"
+      },
+      "art": {
+        "from": "logos",
+        "icon": "bun",
+        "unfilled": "#000000"
+      }
+    },
+    {
+      "name": "cal-com",
+      "title": "Cal.com",
+      "group": "Product & dev",
+      "tags": [
+        "cal",
+        "calcom",
+        "booking",
+        "scheduling",
+        "meetings"
+      ],
+      "aliases": [
+        "cal"
+      ],
+      "hex": "#000000",
+      "mono": {
+        "from": "art"
+      },
+      "art": {
+        "from": "sharpos",
+        "slug": "cal"
+      }
+    },
+    {
+      "name": "calendly",
+      "title": "Calendly",
+      "group": "Marketing & commerce",
+      "tags": [
+        "booking",
+        "scheduling",
+        "meetings"
+      ],
+      "aliases": [],
+      "hex": "#006BFF",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "calendly"
+      }
+    },
+    {
+      "name": "claude",
+      "title": "Claude",
+      "group": "Product & dev",
+      "tags": [
+        "anthropic",
+        "ai",
+        "assistant",
+        "llm"
+      ],
+      "aliases": [],
+      "hex": "#D97757",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "claude"
+      }
+    },
+    {
+      "name": "cloudflare",
+      "title": "Cloudflare",
+      "group": "Product & dev",
+      "tags": [
+        "dns",
+        "cdn",
+        "proxy",
+        "domain"
+      ],
+      "aliases": [],
+      "hex": "#F38020",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "cloudflare"
+      },
+      "art": {
+        "from": "logos",
+        "icon": "cloudflare-icon"
+      }
+    },
+    {
+      "name": "convex",
+      "title": "Convex",
+      "group": "Product & dev",
+      "tags": [
+        "backend",
+        "database",
+        "realtime"
+      ],
+      "aliases": [],
+      "hex": "#EE342F",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "convex"
+      }
+    },
+    {
+      "name": "coolify",
+      "title": "Coolify",
+      "group": "Product & dev",
+      "tags": [
+        "self-hosting",
+        "deploy",
+        "paas"
+      ],
+      "aliases": [],
+      "scale": 0.855,
+      "mono": {
+        "from": "simple-icons",
+        "slug": "coolify"
+      }
+    },
+    {
+      "name": "css",
+      "title": "CSS",
+      "group": "Product & dev",
+      "tags": [
+        "css3",
+        "stylesheets",
+        "web"
+      ],
+      "aliases": [],
+      "scale": 0.849,
+      "mono": {
+        "from": "simple-icons",
+        "slug": "css"
+      },
+      "art": {
+        "from": "logos",
+        "icon": "css"
+      }
+    },
+    {
+      "name": "cursor",
+      "title": "Cursor",
+      "group": "Product & dev",
+      "tags": [
+        "ai",
+        "editor",
+        "assistant",
+        "ide"
+      ],
+      "aliases": [],
+      "mono": {
+        "from": "simple-icons",
+        "slug": "cursor"
+      }
+    },
+    {
+      "name": "datadog",
+      "title": "Datadog",
+      "group": "Product & dev",
+      "tags": [
+        "monitoring",
+        "observability",
+        "apm"
+      ],
+      "aliases": [],
+      "scale": 0.925,
+      "mono": {
+        "from": "simple-icons",
+        "slug": "datadog"
+      }
+    },
+    {
+      "name": "deno",
+      "title": "Deno",
+      "group": "Product & dev",
+      "tags": [
+        "javascript",
+        "typescript",
+        "runtime"
+      ],
+      "aliases": [],
+      "hex": "#000000",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "deno"
+      }
+    },
+    {
+      "name": "dev-to",
+      "title": "Dev.to",
+      "group": "Social",
+      "tags": [
+        "dev",
+        "devto",
+        "blog",
+        "publishing",
+        "developer"
+      ],
+      "aliases": [
+        "devto"
+      ],
+      "hex": "#0A0A0A",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "devdotto"
+      }
+    },
+    {
+      "name": "discord",
+      "title": "Discord",
+      "group": "Social",
+      "tags": [
+        "chat",
+        "community",
+        "messaging"
+      ],
+      "aliases": [],
+      "hex": "#5865F2",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "discord"
+      }
+    },
+    {
+      "name": "docker",
+      "title": "Docker",
+      "group": "Product & dev",
+      "tags": [
+        "container",
+        "devops"
+      ],
+      "aliases": [],
+      "hex": "#2496ED",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "docker"
+      }
+    },
+    {
+      "name": "dribbble",
+      "title": "Dribbble",
+      "group": "Social",
+      "tags": [
+        "portfolio",
+        "design"
+      ],
+      "aliases": [],
+      "hex": "#EA4C89",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "dribbble"
+      },
+      "art": {
+        "from": "logos",
+        "icon": "dribbble-icon"
+      }
+    },
+    {
+      "name": "dropbox",
+      "title": "Dropbox",
+      "group": "Product & dev",
+      "tags": [
+        "files",
+        "storage",
+        "cloud"
+      ],
+      "aliases": [],
+      "hex": "#0061FF",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "dropbox"
+      }
+    },
+    {
+      "name": "electron",
+      "title": "Electron",
+      "group": "Product & dev",
+      "tags": [
+        "desktop",
+        "javascript"
+      ],
+      "aliases": [],
+      "hex": "#47848F",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "electron"
+      }
+    },
+    {
+      "name": "elevenlabs",
+      "title": "ElevenLabs",
+      "group": "Product & dev",
+      "tags": [
+        "ai",
+        "voice",
+        "tts",
+        "audio",
+        "speech"
+      ],
+      "aliases": [],
+      "hex": "#000000",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "elevenlabs"
+      }
+    },
+    {
+      "name": "expo",
+      "title": "Expo",
+      "group": "Product & dev",
+      "tags": [
+        "react native",
+        "mobile"
+      ],
+      "aliases": [],
+      "hex": "#1C2024",
+      "scale": 0.876,
+      "mono": {
+        "from": "simple-icons",
+        "slug": "expo"
+      }
+    },
+    {
+      "name": "express",
+      "title": "Express",
+      "group": "Product & dev",
+      "tags": [
+        "express.js",
+        "node",
+        "server"
+      ],
+      "aliases": [],
+      "scale": 0.883,
+      "mono": {
+        "from": "simple-icons",
+        "slug": "express"
+      }
+    },
+    {
+      "name": "facebook",
+      "title": "Facebook",
+      "group": "Social",
+      "tags": [
+        "fb",
+        "meta",
+        "social"
+      ],
+      "aliases": [],
+      "hex": "#0866FF",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "facebook"
+      },
+      "art": {
+        "from": "underlay",
+        "shape": "circle"
+      }
+    },
+    {
+      "name": "figma",
+      "title": "Figma",
+      "group": "Product & dev",
+      "tags": [
+        "design",
+        "ui",
+        "prototype"
+      ],
+      "aliases": [],
+      "hex": "#F24E1E",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "figma"
+      },
+      "art": {
+        "from": "logos",
+        "icon": "figma"
+      }
+    },
+    {
+      "name": "firebase",
+      "title": "Firebase",
+      "group": "Product & dev",
+      "tags": [
+        "google",
+        "backend",
+        "database"
+      ],
+      "aliases": [],
+      "hex": "#DD2C00",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "firebase"
+      }
+    },
+    {
+      "name": "firefox",
+      "title": "Firefox",
+      "group": "Product & dev",
+      "tags": [
+        "browser",
+        "mozilla"
+      ],
+      "aliases": [],
+      "hex": "#FF7139",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "firefoxbrowser"
+      },
+      "art": {
+        "from": "logos",
+        "icon": "firefox"
+      }
+    },
+    {
+      "name": "framer",
+      "title": "Framer",
+      "group": "Product & dev",
+      "tags": [
+        "website",
+        "builder",
+        "design"
+      ],
+      "aliases": [],
+      "hex": "#0055FF",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "framer"
+      }
+    },
+    {
+      "name": "github",
+      "title": "GitHub",
+      "group": "Product & dev",
+      "tags": [
+        "git",
+        "repo",
+        "code"
+      ],
+      "aliases": [],
+      "hex": "#181717",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "github"
+      }
+    },
+    {
+      "name": "gitlab",
+      "title": "GitLab",
+      "group": "Product & dev",
+      "tags": [
+        "git",
+        "devops",
+        "code",
+        "repository"
+      ],
+      "aliases": [],
+      "hex": "#FC6D26",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "gitlab"
+      },
+      "art": {
+        "from": "logos",
+        "icon": "gitlab-icon"
+      }
+    },
+    {
+      "name": "gmail",
+      "title": "Gmail",
+      "group": "Marketing & commerce",
+      "tags": [
+        "email",
+        "mail",
+        "google"
+      ],
+      "aliases": [],
+      "hex": "#EA4335",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "gmail"
+      },
+      "art": {
+        "from": "logos",
+        "icon": "google-gmail-2020"
+      }
+    },
+    {
+      "name": "google",
+      "title": "Google",
+      "group": "Marketing & commerce",
+      "tags": [
+        "search",
+        "seo"
+      ],
+      "aliases": [],
+      "hex": "#4285F4",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "google"
+      },
+      "art": {
+        "from": "logos",
+        "icon": "google-icon"
+      }
+    },
+    {
+      "name": "google-ads",
+      "title": "Google Ads",
+      "group": "Marketing & commerce",
+      "tags": [
+        "adwords",
+        "ppc",
+        "sem",
+        "google",
+        "ads"
+      ],
+      "aliases": [
+        "googleads"
+      ],
+      "hex": "#4285F4",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "googleads"
+      },
+      "art": {
+        "from": "logos",
+        "icon": "google-ads"
+      }
+    },
+    {
+      "name": "google-analytics",
+      "title": "Google Analytics",
+      "group": "Marketing & commerce",
+      "tags": [
+        "ga4",
+        "analytics",
+        "google",
+        "tracking"
+      ],
+      "aliases": [
+        "googleanalytics"
+      ],
+      "hex": "#E37400",
+      "scale": 0.88,
+      "mono": {
+        "from": "simple-icons",
+        "slug": "googleanalytics"
+      },
+      "art": {
+        "from": "logos",
+        "icon": "google-analytics"
+      }
+    },
+    {
+      "name": "google-calendar",
+      "title": "Google Calendar",
+      "group": "Marketing & commerce",
+      "tags": [
+        "gcal",
+        "calendar",
+        "google",
+        "schedule"
+      ],
+      "aliases": [
+        "googlecalendar"
+      ],
+      "hex": "#4285F4",
+      "scale": 0.868,
+      "mono": {
+        "from": "simple-icons",
+        "slug": "googlecalendar"
+      },
+      "art": {
+        "from": "logos",
+        "icon": "google-calendar-2020"
+      }
+    },
+    {
+      "name": "google-chrome",
+      "title": "Google Chrome",
+      "group": "Product & dev",
+      "tags": [
+        "chrome",
+        "browser",
+        "google"
+      ],
+      "aliases": [],
+      "hex": "#4285F4",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "googlechrome"
+      },
+      "art": {
+        "from": "logos",
+        "icon": "chrome"
+      }
+    },
+    {
+      "name": "google-cloud",
+      "title": "Google Cloud",
+      "group": "Product & dev",
+      "tags": [
+        "gcp",
+        "cloud",
+        "hosting"
+      ],
+      "aliases": [],
+      "mono": {
+        "from": "simple-icons",
+        "slug": "googlecloud"
+      },
+      "art": {
+        "from": "logos",
+        "icon": "google-cloud"
+      },
+      "held": "Google Cloud allows a plain-text mention only; its logo and icon need approval from Google's Cloud brand team (https://services.google.com/fh/files/misc/external_customer_co_branding_eligibility.pdf)."
+    },
+    {
+      "name": "google-maps",
+      "title": "Google Maps",
+      "group": "Marketing & commerce",
+      "tags": [
+        "maps",
+        "places",
+        "google",
+        "location",
+        "geo"
+      ],
+      "aliases": [
+        "googlemaps"
+      ],
+      "hex": "#4285F4",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "googlemaps"
+      },
+      "art": {
+        "from": "logos",
+        "icon": "google-maps"
+      }
+    },
+    {
+      "name": "google-search-console",
+      "title": "Google Search Console",
+      "group": "Marketing & commerce",
+      "tags": [
+        "gsc",
+        "search console",
+        "seo",
+        "google",
+        "webmaster"
+      ],
+      "aliases": [
+        "googlesearchconsole"
+      ],
+      "hex": "#458CF5",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "googlesearchconsole"
+      },
+      "art": {
+        "from": "sharpos",
+        "slug": "googlesearchconsole"
+      }
+    },
+    {
+      "name": "google-sheets",
+      "title": "Google Sheets",
+      "group": "Marketing & commerce",
+      "tags": [
+        "sheets",
+        "spreadsheet",
+        "google",
+        "gsheet",
+        "excel"
+      ],
+      "aliases": [
+        "googlesheets"
+      ],
+      "hex": "#34A853",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "googlesheets"
+      },
+      "art": {
+        "from": "sharpos",
+        "slug": "googlesheets"
+      }
+    },
+    {
+      "name": "google-tag-manager",
+      "title": "Google Tag Manager",
+      "group": "Marketing & commerce",
+      "tags": [
+        "gtm",
+        "tags",
+        "tracking",
+        "pixel"
+      ],
+      "aliases": [
+        "googletagmanager"
+      ],
+      "hex": "#246FDB",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "googletagmanager"
+      },
+      "art": {
+        "from": "logos",
+        "icon": "google-tag-manager"
+      }
+    },
+    {
+      "name": "graphql",
+      "title": "GraphQL",
+      "group": "Product & dev",
+      "tags": [
+        "api",
+        "query",
+        "schema"
+      ],
+      "aliases": [],
+      "mono": {
+        "from": "simple-icons",
+        "slug": "graphql"
+      }
+    },
+    {
+      "name": "gsap",
+      "title": "GSAP",
+      "group": "Product & dev",
+      "tags": [
+        "greensock",
+        "animation",
+        "scroll"
+      ],
+      "aliases": [],
+      "mono": {
+        "from": "simple-icons",
+        "slug": "gsap"
+      },
+      "held": "GSAP is a Webflow trademark, and Webflow's policy allows text references only and forbids changing its logos' colour (https://webflow.com/legal/trademark-usage-policy)."
+    },
+    {
+      "name": "hashnode",
+      "title": "Hashnode",
+      "group": "Social",
+      "tags": [
+        "blog",
+        "publishing",
+        "article",
+        "developer"
+      ],
+      "aliases": [],
+      "hex": "#2962FF",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "hashnode"
+      }
+    },
+    {
+      "name": "hono",
+      "title": "Hono",
+      "group": "Product & dev",
+      "tags": [
+        "web framework",
+        "edge",
+        "server"
+      ],
+      "aliases": [],
+      "mono": {
+        "from": "simple-icons",
+        "slug": "hono"
+      },
+      "art": {
+        "from": "logos",
+        "icon": "hono"
+      }
+    },
+    {
+      "name": "hotjar",
+      "title": "Hotjar",
+      "group": "Marketing & commerce",
+      "tags": [
+        "heatmap",
+        "recordings",
+        "ux"
+      ],
+      "aliases": [],
+      "hex": "#FF3C00",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "hotjar"
+      }
+    },
+    {
+      "name": "html5",
+      "title": "HTML5",
+      "group": "Product & dev",
+      "tags": [
+        "html",
+        "markup",
+        "web"
+      ],
+      "aliases": [],
+      "scale": 0.904,
+      "mono": {
+        "from": "simple-icons",
+        "slug": "html5"
+      }
+    },
+    {
+      "name": "hubspot",
+      "title": "HubSpot",
+      "group": "Marketing & commerce",
+      "tags": [
+        "crm",
+        "marketing",
+        "sales"
+      ],
+      "aliases": [],
+      "hex": "#FF7A59",
+      "scale": 0.898,
+      "mono": {
+        "from": "simple-icons",
+        "slug": "hubspot"
+      }
+    },
+    {
+      "name": "instagram",
+      "title": "Instagram",
+      "group": "Social",
+      "tags": [
+        "ig",
+        "reels",
+        "meta",
+        "social",
+        "stories"
+      ],
+      "aliases": [],
+      "hex": "#FF0069",
+      "scale": 0.896,
+      "mono": {
+        "from": "simple-icons",
+        "slug": "instagram"
+      }
+    },
+    {
+      "name": "ios",
+      "title": "iOS",
+      "group": "Product & dev",
+      "tags": [
+        "apple",
+        "iphone",
+        "mobile",
+        "os"
+      ],
+      "aliases": [],
+      "hex": "#000000",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "ios"
+      }
+    },
+    {
+      "name": "javascript",
+      "title": "JavaScript",
+      "group": "Product & dev",
+      "tags": [
+        "js",
+        "ecmascript",
+        "language"
+      ],
+      "aliases": [],
+      "hex": "#F7DF1E",
+      "scale": 0.84,
+      "mono": {
+        "from": "simple-icons",
+        "slug": "javascript"
+      },
+      "art": {
+        "from": "logos",
+        "icon": "javascript",
+        "unfilled": "#000000"
+      }
+    },
+    {
+      "name": "jest",
+      "title": "Jest",
+      "group": "Product & dev",
+      "tags": [
+        "testing",
+        "unit tests",
+        "javascript"
+      ],
+      "aliases": [],
+      "scale": 0.88,
+      "mono": {
+        "from": "simple-icons",
+        "slug": "jest"
+      }
+    },
+    {
+      "name": "konva",
+      "title": "Konva",
+      "group": "Product & dev",
+      "tags": [
+        "canvas",
+        "2d",
+        "graphics"
+      ],
+      "aliases": [],
+      "mono": {
+        "from": "simple-icons",
+        "slug": "konva"
+      },
+      "art": {
+        "from": "underlay",
+        "shape": "circle"
+      }
+    },
+    {
+      "name": "laravel",
+      "title": "Laravel",
+      "group": "Product & dev",
+      "tags": [
+        "php",
+        "framework",
+        "backend"
+      ],
+      "aliases": [],
+      "scale": 0.895,
+      "mono": {
+        "from": "simple-icons",
+        "slug": "laravel"
+      }
+    },
+    {
+      "name": "linear",
+      "title": "Linear",
+      "group": "Product & dev",
+      "tags": [
+        "issues",
+        "tickets",
+        "roadmap",
+        "project"
+      ],
+      "aliases": [],
+      "hex": "#5E6AD2",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "linear"
+      }
+    },
+    {
+      "name": "linkedin",
+      "title": "LinkedIn",
+      "group": "Social",
+      "tags": [
+        "social",
+        "professional",
+        "network"
+      ],
+      "aliases": [],
+      "hex": "#0A66C2",
+      "scale": 0.84,
+      "mono": {
+        "from": "art"
+      },
+      "art": {
+        "from": "logos",
+        "icon": "linkedin-icon"
+      }
+    },
+    {
+      "name": "linktree",
+      "title": "Linktree",
+      "group": "Social",
+      "tags": [
+        "bio",
+        "link in bio",
+        "links"
+      ],
+      "aliases": [],
+      "hex": "#43E55E",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "linktree"
+      }
+    },
+    {
+      "name": "linux",
+      "title": "Linux",
+      "group": "Product & dev",
+      "tags": [
+        "tux",
+        "os",
+        "server"
+      ],
+      "aliases": [],
+      "mono": {
+        "from": "simple-icons",
+        "slug": "linux"
+      },
+      "credit": "Tux by Larry Ewing (lewing@isc.tamu.edu) and The GIMP. Linux® is the registered trademark of Linus Torvalds."
+    },
+    {
+      "name": "loom",
+      "title": "Loom",
+      "group": "Product & dev",
+      "tags": [
+        "screen recording",
+        "video",
+        "walkthrough"
+      ],
+      "aliases": [],
+      "hex": "#625DF5",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "loom"
+      }
+    },
+    {
+      "name": "mailchimp",
+      "title": "MailChimp",
+      "group": "Marketing & commerce",
+      "tags": [
+        "email",
+        "newsletter",
+        "marketing"
+      ],
+      "aliases": [],
+      "hex": "#FFE01B",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "mailchimp"
+      }
+    },
+    {
+      "name": "mastodon",
+      "title": "Mastodon",
+      "group": "Social",
+      "tags": [
+        "fediverse",
+        "social"
+      ],
+      "aliases": [],
+      "hex": "#6364FF",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "mastodon"
+      }
+    },
+    {
+      "name": "medium",
+      "title": "Medium",
+      "group": "Social",
+      "tags": [
+        "blog",
+        "publishing",
+        "article"
+      ],
+      "aliases": [],
+      "hex": "#000000",
+      "scale": 0.862,
+      "mono": {
+        "from": "simple-icons",
+        "slug": "medium"
+      }
+    },
+    {
+      "name": "messenger",
+      "title": "Messenger",
+      "group": "Social",
+      "tags": [
+        "chat",
+        "facebook",
+        "meta",
+        "dm",
+        "messages"
+      ],
+      "aliases": [],
+      "hex": "#0866FF",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "messenger"
+      },
+      "art": {
+        "from": "logos",
+        "icon": "messenger"
+      }
+    },
+    {
+      "name": "meta",
+      "title": "Meta",
+      "group": "Social",
+      "tags": [
+        "facebook",
+        "instagram",
+        "threads",
+        "whatsapp"
+      ],
+      "aliases": [],
+      "hex": "#0467DF",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "meta"
+      },
+      "art": {
+        "from": "logos",
+        "icon": "meta-icon"
+      }
+    },
+    {
+      "name": "microsoft",
+      "title": "Microsoft",
+      "group": "Product & dev",
+      "tags": [
+        "windows",
+        "office"
+      ],
+      "aliases": [],
+      "held": "Microsoft licenses its logos to third parties only by formal agreement (https://learn.microsoft.com/en-us/windows/apps/publish/partner-center/trademark-and-copyright-protection)."
+    },
+    {
+      "name": "miro",
+      "title": "Miro",
+      "group": "Product & dev",
+      "tags": [
+        "whiteboard",
+        "canvas",
+        "workshop"
+      ],
+      "aliases": [],
+      "hex": "#FFDD33",
+      "scale": 0.87,
+      "mono": {
+        "from": "simple-icons",
+        "slug": "miro"
+      },
+      "art": {
+        "from": "logos",
+        "icon": "miro-icon",
+        "unfilled": "#1C1C1E"
+      }
+    },
+    {
+      "name": "mixpanel",
+      "title": "Mixpanel",
+      "group": "Marketing & commerce",
+      "tags": [
+        "analytics",
+        "events",
+        "product"
+      ],
+      "aliases": [],
+      "hex": "#7856FF",
+      "scale": 0.84,
+      "mono": {
+        "from": "simple-icons",
+        "slug": "mixpanel"
+      }
+    },
+    {
+      "name": "model-context-protocol",
+      "title": "Model Context Protocol",
+      "group": "Product & dev",
+      "tags": [
+        "mcp",
+        "ai",
+        "agents"
+      ],
+      "aliases": [],
+      "mono": {
+        "from": "simple-icons",
+        "slug": "modelcontextprotocol"
+      }
+    },
+    {
+      "name": "mongodb",
+      "title": "MongoDB",
+      "group": "Product & dev",
+      "tags": [
+        "database",
+        "nosql",
+        "mongo"
+      ],
+      "aliases": [],
+      "mono": {
+        "from": "simple-icons",
+        "slug": "mongodb"
+      }
+    },
+    {
+      "name": "motion",
+      "title": "Motion",
+      "group": "Product & dev",
+      "tags": [
+        "framer motion",
+        "animation",
+        "react"
+      ],
+      "aliases": [],
+      "hex": "#FBD509",
+      "scale": 0.84,
+      "mono": {
+        "from": "kit",
+        "file": "motion.svg",
+        "url": "https://motion.dev/",
+        "terms": "https://github.com/motiondivision/motion"
+      },
+      "art": {
+        "from": "kit",
+        "file": "motion.art.svg",
+        "url": "https://motion.dev/",
+        "terms": "https://github.com/motiondivision/motion"
+      }
+    },
+    {
+      "name": "mysql",
+      "title": "MySQL",
+      "group": "Product & dev",
+      "tags": [
+        "database",
+        "sql",
+        "oracle"
+      ],
+      "aliases": [],
+      "mono": {
+        "from": "simple-icons",
+        "slug": "mysql"
+      },
+      "held": "Oracle limits the MySQL logo to MySQL representatives and companies with a written agreement (https://www.mysql.com/about/legal/logos.html)."
+    },
+    {
+      "name": "nestjs",
+      "title": "NestJS",
+      "group": "Product & dev",
+      "tags": [
+        "node",
+        "framework",
+        "backend"
+      ],
+      "aliases": [],
+      "mono": {
+        "from": "simple-icons",
+        "slug": "nestjs"
+      }
+    },
+    {
+      "name": "netflix",
+      "title": "Netflix",
+      "group": "Marketing & commerce",
+      "tags": [
+        "streaming",
+        "video"
+      ],
+      "aliases": [],
+      "hex": "#E50914",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "netflix"
+      }
+    },
+    {
+      "name": "netlify",
+      "title": "Netlify",
+      "group": "Product & dev",
+      "tags": [
+        "hosting",
+        "deploy"
+      ],
+      "aliases": [],
+      "hex": "#00C7B7",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "netlify"
+      }
+    },
+    {
+      "name": "next-js",
+      "title": "Next.js",
+      "group": "Product & dev",
+      "tags": [
+        "nextjs",
+        "react",
+        "framework",
+        "vercel"
+      ],
+      "aliases": [],
+      "hex": "#000000",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "nextdotjs"
+      }
+    },
+    {
+      "name": "node-js",
+      "title": "Node.js",
+      "group": "Product & dev",
+      "tags": [
+        "nodejs",
+        "javascript",
+        "runtime",
+        "server"
+      ],
+      "aliases": [],
+      "hex": "#5FA04E",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "nodedotjs"
+      }
+    },
+    {
+      "name": "notion",
+      "title": "Notion",
+      "group": "Product & dev",
+      "tags": [
+        "docs",
+        "wiki",
+        "notes"
+      ],
+      "aliases": [],
+      "hex": "#000000",
+      "scale": 0.904,
+      "mono": {
+        "from": "simple-icons",
+        "slug": "notion"
+      }
+    },
+    {
+      "name": "npm",
+      "title": "npm",
+      "group": "Product & dev",
+      "tags": [
+        "package manager",
+        "javascript",
+        "registry"
+      ],
+      "aliases": [],
+      "hex": "#CB3837",
+      "scale": 0.84,
+      "mono": {
+        "from": "simple-icons",
+        "slug": "npm"
+      },
+      "art": {
+        "from": "logos",
+        "icon": "npm-icon",
+        "recolor": {
+          "#c12127": "#CB3837"
+        }
+      }
+    },
+    {
+      "name": "openai",
+      "title": "OpenAI",
+      "group": "Product & dev",
+      "tags": [
+        "ai",
+        "gpt",
+        "chatgpt",
+        "llm",
+        "model"
+      ],
+      "aliases": [],
+      "hex": "#000000",
+      "mono": {
+        "from": "sharpos",
+        "slug": "openai"
+      },
+      "credit": "OpenAI and its logo are trademarks of OpenAI and belong to it. Terms: https://openai.com/brand/"
+    },
+    {
+      "name": "opencode",
+      "title": "OpenCode",
+      "group": "Product & dev",
+      "tags": [
+        "ai",
+        "agent",
+        "assistant",
+        "terminal"
+      ],
+      "aliases": [],
+      "mono": {
+        "from": "simple-icons",
+        "slug": "opencode"
+      },
+      "scale": 0.872
+    },
+    {
+      "name": "openrouter",
+      "title": "OpenRouter",
+      "group": "Product & dev",
+      "tags": [
+        "ai",
+        "llm",
+        "router",
+        "model"
+      ],
+      "aliases": [],
+      "hex": "#7624F4",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "openrouter"
+      }
+    },
+    {
+      "name": "patreon",
+      "title": "Patreon",
+      "group": "Social",
+      "tags": [
+        "membership",
+        "creators",
+        "subscription"
+      ],
+      "aliases": [],
+      "hex": "#000000",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "patreon"
+      }
+    },
+    {
+      "name": "paypal",
+      "title": "PayPal",
+      "group": "Marketing & commerce",
+      "tags": [
+        "payments",
+        "checkout",
+        "billing"
+      ],
+      "aliases": [],
+      "hex": "#002991",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "paypal"
+      }
+    },
+    {
+      "name": "php",
+      "title": "PHP",
+      "group": "Product & dev",
+      "tags": [
+        "language",
+        "backend",
+        "web"
+      ],
+      "aliases": [],
+      "mono": {
+        "from": "simple-icons",
+        "slug": "php"
+      },
+      "credit": "PHP logo by Colin Viebrock, CC BY-SA 4.0 (https://www.php.net/download-logos.php), reduced to one colour by Simple Icons."
+    },
+    {
+      "name": "pinterest",
+      "title": "Pinterest",
+      "group": "Social",
+      "tags": [
+        "pin",
+        "social",
+        "boards"
+      ],
+      "aliases": [],
+      "hex": "#BD081C",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "pinterest"
+      }
+    },
+    {
+      "name": "playwright",
+      "title": "Playwright",
+      "group": "Product & dev",
+      "tags": [
+        "testing",
+        "e2e",
+        "browser"
+      ],
+      "aliases": [],
+      "hex": "#2EAD33",
+      "mono": {
+        "from": "art"
+      },
+      "art": {
+        "from": "logos",
+        "icon": "playwright"
+      },
+      "held": "Playwright is a Microsoft product: its Apache-2.0 licence grants no trademark rights, and Microsoft licenses its logos only by agreement (https://github.com/microsoft/playwright/blob/main/LICENSE)."
+    },
+    {
+      "name": "pnpm",
+      "title": "pnpm",
+      "group": "Product & dev",
+      "tags": [
+        "package manager",
+        "javascript"
+      ],
+      "aliases": [],
+      "hex": "#F69220",
+      "scale": 0.84,
+      "mono": {
+        "from": "simple-icons",
+        "slug": "pnpm"
+      }
+    },
+    {
+      "name": "postgresql",
+      "title": "PostgreSQL",
+      "group": "Product & dev",
+      "tags": [
+        "postgres",
+        "database",
+        "sql"
+      ],
+      "aliases": [],
+      "mono": {
+        "from": "simple-icons",
+        "slug": "postgresql"
+      },
+      "art": {
+        "from": "logos",
+        "icon": "postgresql",
+        "unfilled": "#000000"
+      }
+    },
+    {
+      "name": "posthog",
+      "title": "PostHog",
+      "group": "Product & dev",
+      "tags": [
+        "analytics",
+        "events",
+        "product",
+        "session"
+      ],
+      "aliases": [],
+      "hex": "#000000",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "posthog"
+      },
+      "art": {
+        "from": "logos",
+        "icon": "posthog-icon"
+      }
+    },
+    {
+      "name": "prisma",
+      "title": "Prisma",
+      "group": "Product & dev",
+      "tags": [
+        "orm",
+        "database",
+        "typescript"
+      ],
+      "aliases": [],
+      "mono": {
+        "from": "simple-icons",
+        "slug": "prisma"
+      }
+    },
+    {
+      "name": "python",
+      "title": "Python",
+      "group": "Product & dev",
+      "tags": [
+        "language",
+        "scripting",
+        "data"
+      ],
+      "aliases": [],
+      "mono": {
+        "from": "simple-icons",
+        "slug": "python"
+      },
+      "art": {
+        "from": "logos",
+        "icon": "python"
+      },
+      "held": "The PSF requires permission for logos in other colours and publishes no one-colour logo (https://www.python.org/psf/trademarks/). Its policy says such requests are likely to be approved."
+    },
+    {
+      "name": "radix-ui",
+      "title": "Radix UI",
+      "group": "Product & dev",
+      "tags": [
+        "components",
+        "react",
+        "primitives"
+      ],
+      "aliases": [],
+      "mono": {
+        "from": "simple-icons",
+        "slug": "radixui"
+      }
+    },
+    {
+      "name": "react",
+      "title": "React",
+      "group": "Product & dev",
+      "tags": [
+        "javascript",
+        "framework",
+        "ui"
+      ],
+      "aliases": [],
+      "hex": "#61DAFB",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "react"
+      }
+    },
+    {
+      "name": "react-hook-form",
+      "title": "React Hook Form",
+      "group": "Product & dev",
+      "tags": [
+        "forms",
+        "react",
+        "validation"
+      ],
+      "aliases": [],
+      "scale": 0.872,
+      "mono": {
+        "from": "simple-icons",
+        "slug": "reacthookform"
+      }
+    },
+    {
+      "name": "react-query",
+      "title": "React Query",
+      "group": "Product & dev",
+      "tags": [
+        "tanstack query",
+        "tanstack",
+        "data fetching"
+      ],
+      "aliases": [],
+      "mono": {
+        "from": "simple-icons",
+        "slug": "reactquery"
+      }
+    },
+    {
+      "name": "reddit",
+      "title": "Reddit",
+      "group": "Social",
+      "tags": [
+        "social",
+        "forum",
+        "subreddit"
+      ],
+      "aliases": [],
+      "hex": "#FF4500",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "reddit"
+      },
+      "art": {
+        "from": "underlay",
+        "shape": "circle"
+      }
+    },
+    {
+      "name": "resend",
+      "title": "Resend",
+      "group": "Product & dev",
+      "tags": [
+        "email",
+        "transactional",
+        "smtp"
+      ],
+      "aliases": [],
+      "hex": "#000000",
+      "scale": 0.851,
+      "mono": {
+        "from": "simple-icons",
+        "slug": "resend"
+      }
+    },
+    {
+      "name": "safari",
+      "title": "Safari",
+      "group": "Product & dev",
+      "tags": [
+        "browser",
+        "apple",
+        "webkit"
+      ],
+      "aliases": [],
+      "hex": "#006CFF",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "safari"
+      },
+      "art": {
+        "from": "logos",
+        "icon": "safari",
+        "unfilled": "#000000",
+        "dropShadows": true
+      }
+    },
+    {
+      "name": "semrush",
+      "title": "Semrush",
+      "group": "Marketing & commerce",
+      "tags": [
+        "seo",
+        "keywords",
+        "rankings"
+      ],
+      "aliases": [],
+      "hex": "#FF642D",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "semrush"
+      }
+    },
+    {
+      "name": "sentry",
+      "title": "Sentry",
+      "group": "Product & dev",
+      "tags": [
+        "errors",
+        "monitoring",
+        "observability"
+      ],
+      "aliases": [],
+      "scale": 0.866,
+      "mono": {
+        "from": "simple-icons",
+        "slug": "sentry"
+      }
+    },
+    {
+      "name": "shadcn-ui",
+      "title": "shadcn/ui",
+      "group": "Product & dev",
+      "tags": [
+        "shadcn",
+        "components",
+        "ui"
+      ],
+      "aliases": [],
+      "hex": "#000000",
+      "scale": 0.863,
+      "mono": {
+        "from": "simple-icons",
+        "slug": "shadcnui"
+      }
+    },
+    {
+      "name": "shopify",
+      "title": "Shopify",
+      "group": "Marketing & commerce",
+      "tags": [
+        "ecommerce",
+        "store",
+        "commerce"
+      ],
+      "aliases": [],
+      "hex": "#7AB55C",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "shopify"
+      },
+      "art": {
+        "from": "logos",
+        "icon": "shopify"
+      }
+    },
+    {
+      "name": "slack",
+      "title": "Slack",
+      "group": "Product & dev",
+      "tags": [
+        "chat",
+        "messaging",
+        "workspace"
+      ],
+      "aliases": [],
+      "held": "Slack's brand terms forbid distributing its logo files (https://slack.com/terms-of-service/slack-brand)."
+    },
+    {
+      "name": "snapchat",
+      "title": "Snapchat",
+      "group": "Social",
+      "tags": [
+        "snap",
+        "social"
+      ],
+      "aliases": [],
+      "hex": "#FFFC00",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "snapchat"
+      }
+    },
+    {
+      "name": "spotify",
+      "title": "Spotify",
+      "group": "Marketing & commerce",
+      "tags": [
+        "music",
+        "podcast",
+        "audio"
+      ],
+      "aliases": [],
+      "hex": "#1ED760",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "spotify"
+      }
+    },
+    {
+      "name": "sqlite",
+      "title": "SQLite",
+      "group": "Product & dev",
+      "tags": [
+        "database",
+        "sql",
+        "embedded"
+      ],
+      "aliases": [],
+      "mono": {
+        "from": "simple-icons",
+        "slug": "sqlite"
+      }
+    },
+    {
+      "name": "squarespace",
+      "title": "Squarespace",
+      "group": "Marketing & commerce",
+      "tags": [
+        "website",
+        "cms",
+        "builder"
+      ],
+      "aliases": [],
+      "hex": "#000000",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "squarespace"
+      }
+    },
+    {
+      "name": "stripe",
+      "title": "Stripe",
+      "group": "Marketing & commerce",
+      "tags": [
+        "payments",
+        "billing",
+        "checkout"
+      ],
+      "aliases": [],
+      "hex": "#635BFF",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "stripe"
+      }
+    },
+    {
+      "name": "substack",
+      "title": "Substack",
+      "group": "Social",
+      "tags": [
+        "newsletter",
+        "blog",
+        "publishing",
+        "email"
+      ],
+      "aliases": [],
+      "hex": "#FF6719",
+      "scale": 0.88,
+      "mono": {
+        "from": "simple-icons",
+        "slug": "substack"
+      }
+    },
+    {
+      "name": "supabase",
+      "title": "Supabase",
+      "group": "Product & dev",
+      "tags": [
+        "database",
+        "postgres",
+        "backend"
+      ],
+      "aliases": [],
+      "hex": "#3FCF8E",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "supabase"
+      },
+      "art": {
+        "from": "logos",
+        "icon": "supabase-icon"
+      }
+    },
+    {
+      "name": "svelte",
+      "title": "Svelte",
+      "group": "Product & dev",
+      "tags": [
+        "sveltekit",
+        "javascript",
+        "framework"
+      ],
+      "aliases": [],
+      "hex": "#FF3E00",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "svelte"
+      }
+    },
+    {
+      "name": "tailwind-css",
+      "title": "Tailwind CSS",
+      "group": "Product & dev",
+      "tags": [
+        "tailwind",
+        "css",
+        "styling"
+      ],
+      "aliases": [],
+      "hex": "#06B6D4",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "tailwindcss"
+      }
+    },
+    {
+      "name": "tauri",
+      "title": "Tauri",
+      "group": "Product & dev",
+      "tags": [
+        "desktop",
+        "rust"
+      ],
+      "aliases": [],
+      "hex": "#24C8D8",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "tauri"
+      },
+      "art": {
+        "from": "logos",
+        "icon": "tauri"
+      }
+    },
+    {
+      "name": "telegram",
+      "title": "Telegram",
+      "group": "Social",
+      "tags": [
+        "chat",
+        "messaging"
+      ],
+      "aliases": [],
+      "hex": "#26A5E4",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "telegram"
+      },
+      "art": {
+        "from": "logos",
+        "icon": "telegram"
+      }
+    },
+    {
+      "name": "terraform",
+      "title": "Terraform",
+      "group": "Product & dev",
+      "tags": [
+        "infrastructure",
+        "iac",
+        "hashicorp"
+      ],
+      "aliases": [],
+      "mono": {
+        "from": "simple-icons",
+        "slug": "terraform"
+      },
+      "held": "HashiCorp doesn't license its product logos to the public; apart from linking to the project from your own website, every use needs its written approval (https://www.hashicorp.com/en/trademark-policy)."
+    },
+    {
+      "name": "testing-library",
+      "title": "Testing Library",
+      "group": "Product & dev",
+      "tags": [
+        "testing",
+        "react",
+        "dom"
+      ],
+      "aliases": [],
+      "mono": {
+        "from": "simple-icons",
+        "slug": "testinglibrary"
+      },
+      "art": {
+        "from": "logos",
+        "icon": "testing-library"
+      }
+    },
+    {
+      "name": "threads",
+      "title": "Threads",
+      "group": "Social",
+      "tags": [
+        "meta",
+        "instagram",
+        "social"
+      ],
+      "aliases": [],
+      "hex": "#000000",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "threads"
+      }
+    },
+    {
+      "name": "three-js",
+      "title": "Three.js",
+      "group": "Product & dev",
+      "tags": [
+        "3d",
+        "webgl",
+        "graphics"
+      ],
+      "aliases": [],
+      "scale": 0.91,
+      "mono": {
+        "from": "simple-icons",
+        "slug": "threedotjs"
+      }
+    },
+    {
+      "name": "tiktok",
+      "title": "TikTok",
+      "group": "Social",
+      "tags": [
+        "social",
+        "video",
+        "shorts"
+      ],
+      "aliases": [],
+      "hex": "#000000",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "tiktok"
+      },
+      "art": {
+        "from": "logos",
+        "icon": "tiktok-icon"
+      }
+    },
+    {
+      "name": "trello",
+      "title": "Trello",
+      "group": "Product & dev",
+      "tags": [
+        "board",
+        "kanban",
+        "tasks"
+      ],
+      "aliases": [],
+      "hex": "#0052CC",
+      "scale": 0.84,
+      "mono": {
+        "from": "simple-icons",
+        "slug": "trello"
+      }
+    },
+    {
+      "name": "turborepo",
+      "title": "Turborepo",
+      "group": "Product & dev",
+      "tags": [
+        "monorepo",
+        "build",
+        "vercel"
+      ],
+      "aliases": [],
+      "mono": {
+        "from": "simple-icons",
+        "slug": "turborepo"
+      }
+    },
+    {
+      "name": "twitch",
+      "title": "Twitch",
+      "group": "Social",
+      "tags": [
+        "streaming",
+        "live",
+        "video"
+      ],
+      "aliases": [],
+      "hex": "#9146FF",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "twitch"
+      }
+    },
+    {
+      "name": "typeform",
+      "title": "Typeform",
+      "group": "Marketing & commerce",
+      "tags": [
+        "forms",
+        "survey",
+        "quiz"
+      ],
+      "aliases": [],
+      "hex": "#262627",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "typeform"
+      }
+    },
+    {
+      "name": "typescript",
+      "title": "TypeScript",
+      "group": "Product & dev",
+      "tags": [
+        "ts",
+        "javascript",
+        "language"
+      ],
+      "aliases": [],
+      "hex": "#3178C6",
+      "scale": 0.84,
+      "mono": {
+        "from": "simple-icons",
+        "slug": "typescript"
+      },
+      "art": {
+        "from": "logos",
+        "icon": "typescript-icon"
+      }
+    },
+    {
+      "name": "uptime-kuma",
+      "title": "Uptime Kuma",
+      "group": "Product & dev",
+      "tags": [
+        "uptime",
+        "status",
+        "monitor",
+        "incidents"
+      ],
+      "aliases": [
+        "uptimekuma"
+      ],
+      "hex": "#5CDD8B",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "uptimekuma"
+      }
+    },
+    {
+      "name": "vercel",
+      "title": "Vercel",
+      "group": "Product & dev",
+      "tags": [
+        "hosting",
+        "deploy",
+        "next.js"
+      ],
+      "aliases": [],
+      "hex": "#000000",
+      "scale": 0.93,
+      "mono": {
+        "from": "simple-icons",
+        "slug": "vercel"
+      }
+    },
+    {
+      "name": "vimeo",
+      "title": "Vimeo",
+      "group": "Social",
+      "tags": [
+        "video"
+      ],
+      "aliases": [],
+      "hex": "#1AB7EA",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "vimeo"
+      }
+    },
+    {
+      "name": "visual-studio-code",
+      "title": "Visual Studio Code",
+      "group": "Product & dev",
+      "tags": [
+        "vscode",
+        "editor",
+        "microsoft"
+      ],
+      "aliases": [
+        "vscode"
+      ],
+      "held": "Microsoft forbids modified versions of the VS Code icon, which a one-colour mark is (https://code.visualstudio.com/brand)."
+    },
+    {
+      "name": "vite",
+      "title": "Vite",
+      "group": "Product & dev",
+      "tags": [
+        "build tool",
+        "bundler",
+        "javascript"
+      ],
+      "aliases": [],
+      "hex": "#9135FF",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "vite"
+      }
+    },
+    {
+      "name": "vitest",
+      "title": "Vitest",
+      "group": "Product & dev",
+      "tags": [
+        "testing",
+        "vite",
+        "unit tests"
+      ],
+      "aliases": [],
+      "mono": {
+        "from": "simple-icons",
+        "slug": "vitest"
+      }
+    },
+    {
+      "name": "vue-js",
+      "title": "Vue.js",
+      "group": "Product & dev",
+      "tags": [
+        "vue",
+        "javascript",
+        "framework"
+      ],
+      "aliases": [],
+      "hex": "#4FC08D",
+      "scale": 0.925,
+      "mono": {
+        "from": "simple-icons",
+        "slug": "vuedotjs"
+      },
+      "art": {
+        "from": "logos",
+        "icon": "vue"
+      }
+    },
+    {
+      "name": "webflow",
+      "title": "Webflow",
+      "group": "Product & dev",
+      "tags": [
+        "cms",
+        "website",
+        "builder"
+      ],
+      "aliases": [],
+      "hex": "#146EF5",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "webflow"
+      }
+    },
+    {
+      "name": "whatsapp",
+      "title": "WhatsApp",
+      "group": "Social",
+      "tags": [
+        "wa",
+        "meta",
+        "chat",
+        "messaging"
+      ],
+      "aliases": [],
+      "hex": "#25D366",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "whatsapp"
+      }
+    },
+    {
+      "name": "wix",
+      "title": "Wix",
+      "group": "Marketing & commerce",
+      "tags": [
+        "website",
+        "cms",
+        "builder"
+      ],
+      "aliases": [],
+      "hex": "#0C6EFC",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "wix"
+      }
+    },
+    {
+      "name": "woocommerce",
+      "title": "WooCommerce",
+      "group": "Marketing & commerce",
+      "tags": [
+        "ecommerce",
+        "store",
+        "wordpress",
+        "shop"
+      ],
+      "aliases": [],
+      "hex": "#96588A",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "woocommerce"
+      }
+    },
+    {
+      "name": "wordpress",
+      "title": "WordPress",
+      "group": "Product & dev",
+      "tags": [
+        "wp",
+        "cms",
+        "blog"
+      ],
+      "aliases": [],
+      "hex": "#21759B",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "wordpress"
+      }
+    },
+    {
+      "name": "x",
+      "title": "X",
+      "group": "Social",
+      "tags": [
+        "twitter",
+        "tweet",
+        "social"
+      ],
+      "aliases": [],
+      "hex": "#000000",
+      "scale": 0.84,
+      "mono": {
+        "from": "simple-icons",
+        "slug": "x"
+      }
+    },
+    {
+      "name": "youtube",
+      "title": "YouTube",
+      "group": "Social",
+      "tags": [
+        "yt",
+        "video",
+        "shorts",
+        "google"
+      ],
+      "aliases": [],
+      "hex": "#FF0000",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "youtube"
+      },
+      "art": {
+        "from": "logos",
+        "icon": "youtube-icon"
+      }
+    },
+    {
+      "name": "zapier",
+      "title": "Zapier",
+      "group": "Product & dev",
+      "tags": [
+        "automation",
+        "workflow",
+        "integration"
+      ],
+      "aliases": [],
+      "hex": "#FF4F00",
+      "scale": 0.869,
+      "mono": {
+        "from": "simple-icons",
+        "slug": "zapier"
+      }
+    },
+    {
+      "name": "zod",
+      "title": "Zod",
+      "group": "Product & dev",
+      "tags": [
+        "validation",
+        "schema",
+        "typescript"
+      ],
+      "aliases": [],
+      "mono": {
+        "from": "simple-icons",
+        "slug": "zod"
+      }
+    },
+    {
+      "name": "zoom",
+      "title": "Zoom",
+      "group": "Product & dev",
+      "tags": [
+        "video",
+        "call",
+        "meeting",
+        "webinar"
+      ],
+      "aliases": [],
+      "hex": "#0B5CFF",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "zoom"
+      }
+    }
+  ]
+}

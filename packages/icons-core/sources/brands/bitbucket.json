@@ -1,0 +1,16 @@
+{
+  "title": "Bitbucket",
+  "group": "Product & dev",
+  "tags": [
+    "git",
+    "atlassian",
+    "code",
+    "repository"
+  ],
+  "aliases": [],
+  "hex": "#0052CC",
+  "scale": 0.916,
+  "source": "Simple Icons 16.36.0 (https://atlassian.design/resources/logo-library)",
+  "license": "CC0-1.0",
+  "guidelines": "https://atlassian.design/foundations/logos"
+}

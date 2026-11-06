@@ -1,0 +1,17 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "karsa-mistmere",
+    "jguddas",
+    "it-is-not",
+    "ericfennis"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:brain"
+  ],
+  "categories": [
+    "science",
+    "development"
+  ]
+}

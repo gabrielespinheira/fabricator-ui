@@ -1,0 +1,36 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "colebemis",
+    "ericfennis"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$group:plus",
+    "positive",
+    "calculate",
+    "calculator",
+    "button",
+    "keyboard",
+    "toolbar",
+    "maximum",
+    "upgrade",
+    "operator",
+    "join",
+    "concatenate",
+    "code",
+    "coding"
+  ],
+  "categories": [
+    "math",
+    "development",
+    "text"
+  ],
+  "aliases": [
+    {
+      "name": "plus-square",
+      "deprecationReason": "alias.name",
+      "deprecated": true
+    }
+  ]
+}

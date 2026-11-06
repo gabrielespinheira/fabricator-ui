@@ -1,0 +1,13 @@
+{
+  "title": "MongoDB",
+  "group": "Product & dev",
+  "tags": [
+    "database",
+    "nosql",
+    "mongo"
+  ],
+  "aliases": [],
+  "hex": "#47A248",
+  "source": "Simple Icons 16.36.0 (https://www.mongodb.com/pressroom)",
+  "license": "CC0-1.0"
+}

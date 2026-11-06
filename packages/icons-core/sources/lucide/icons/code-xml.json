@@ -1,0 +1,21 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "ericfennis",
+    "mittalyashu"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:code"
+  ],
+  "categories": [
+    "$extends:code"
+  ],
+  "aliases": [
+    {
+      "name": "code-2",
+      "deprecated": true,
+      "deprecationReason": "alias.name"
+    }
+  ]
+}

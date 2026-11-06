@@ -1,0 +1,16 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "ericfennis",
+    "jguddas"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:letter-h",
+    "$group:digit",
+    "h5"
+  ],
+  "categories": [
+    "$extends:letter-h"
+  ]
+}

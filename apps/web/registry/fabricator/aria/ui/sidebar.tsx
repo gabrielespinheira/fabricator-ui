@@ -1,8 +1,7 @@
 "use client"
 
 // Fabricator Sidebar. Keeps the upstream API (every export, prop, variant and
-// data-slot) and adds the Fluid Functionalism sidebar behaviour by Micka
-// Touillaud (MIT), https://github.com/mickadesign/fluid-functionalism:
+// data-slot) and adds:
 //
 // - SidebarRail drags to resize (clamped, past the minimum it collapses) and
 //   clicks to collapse; its tooltip explains both with the shortcut.
@@ -14,6 +13,8 @@
 // - SidebarMenuButton `icon`, `status` and `dot`; SidebarGroupActions and
 //   SidebarMenuActions clusters; arrow keys move between rows.
 // - Each menu is a fluid hover container.
+// - SidebarProvider `mobileSidebar="reveal"` shows the phone sidebar behind the
+//   page instead of in a sheet over it.
 //
 // Motion is CSS on the motion tokens, so --motion-scale reaches all of it.
 import * as React from "react"
@@ -33,6 +34,11 @@ import {
   useFluidHover,
   useMergedRef,
 } from "@/registry/bases/aria/lib/fluid-hover"
+import {
+  getRevealDragProgress,
+  shouldRevealStayOpen,
+  TOGGLE_GLYPH,
+} from "@/registry/bases/aria/lib/sidebar-model"
 import { Button } from "@/registry/bases/aria/ui/button"
 import { Input } from "@/registry/bases/aria/ui/input"
 import { Kbd } from "@/registry/bases/aria/ui/kbd"
@@ -63,11 +69,16 @@ const SIDEBAR_COLLAPSE_SLOP = 56
 const SIDEBAR_PEEK_DELAY = 150
 const SIDEBAR_PEEK_DISMISS_DELAY = 250
 
+// Fabricator: rows take a ref (App Nav's drag handle).
 type SidebarButtonProps =
-  | (LinkProps & { href: string })
-  | (ButtonProps & { href?: never })
+  | (LinkProps & { href: string } & React.RefAttributes<HTMLAnchorElement>)
+  | (ButtonProps & { href?: never } & React.RefAttributes<HTMLButtonElement>)
+
+/** A press on the page moves this far before it counts as a drag (px). */
+const REVEAL_DRAG_SLOP = 4
 
 type SidebarSide = "left" | "right"
+type SidebarMobile = "sheet" | "reveal"
 type SidebarPeek = "none" | "hover" | "click"
 
 type SidebarContextProps = {
@@ -77,6 +88,8 @@ type SidebarContextProps = {
   openMobile: boolean
   setOpenMobile: React.Dispatch<React.SetStateAction<boolean>>
   isMobile: boolean
+  /** How the sidebar shows on phones. */
+  mobileSidebar: SidebarMobile
   toggleSidebar: () => void
   /** Live width; SidebarRail's drag updates it. */
   width: string
@@ -95,6 +108,7 @@ type SidebarContextProps = {
 
 type SidebarInternalContextProps = {
   registerSide: (side: SidebarSide) => void
+  collapsible: "offcanvas" | "icon" | "none" | null
   registerCollapsible: (collapsible: "offcanvas" | "icon" | "none") => void
   setIsResizing: React.Dispatch<React.SetStateAction<boolean>>
   // One hover-intent timer serves every surface that can float the sidebar
@@ -196,6 +210,8 @@ function SidebarProvider({
   peek = "none",
   width: widthProp,
   widthMobile = SIDEBAR_WIDTH_MOBILE,
+  mobileSidebar: mobileSidebarProp = "sheet",
+  onWidthChange,
   className,
   style,
   children,
@@ -221,6 +237,13 @@ function SidebarProvider({
   width?: string
   /** Width of the mobile drawer. Default 18rem. */
   widthMobile?: string
+  /**
+   * On phones: a sheet over the page, or `reveal`, where the page moves aside
+   * and shrinks to show the sidebar behind it. Default "sheet".
+   */
+  mobileSidebar?: SidebarMobile
+  /** Called once when a SidebarRail resize ends, with the new width. */
+  onWidthChange?: (width: string) => void
 }) {
   const isMobile = useIsMobile()
   const [openMobile, setOpenMobile] = React.useState(false)
@@ -228,6 +251,8 @@ function SidebarProvider({
   const [collapsible, setCollapsible] = React.useState<
     "offcanvas" | "icon" | "none"
   >("offcanvas")
+  // A sidebar that never collapses stays in the layout, so nothing to reveal.
+  const mobileSidebar = collapsible === "none" ? "sheet" : mobileSidebarProp
   const wrapperRef = React.useRef<HTMLDivElement | null>(null)
   const mergedRef = useMergedRef(wrapperRef, ref)
 
@@ -255,6 +280,17 @@ function SidebarProvider({
     setWidth(startWidth)
   }
   const [isResizing, setIsResizing] = React.useState(false)
+
+  // Report the width once a rail drag ends, not on every frame of it.
+  const onWidthChangeRef = React.useRef(onWidthChange)
+  const wasResizing = React.useRef(false)
+  React.useLayoutEffect(() => {
+    onWidthChangeRef.current = onWidthChange
+  })
+  React.useEffect(() => {
+    if (wasResizing.current && !isResizing) onWidthChangeRef.current?.(width)
+    wasResizing.current = isResizing
+  }, [isResizing, width])
 
   // This is the internal state of the sidebar.
   // We use openProp and setOpenProp for control from outside the component.
@@ -347,6 +383,7 @@ function SidebarProvider({
       open,
       setOpen,
       isMobile,
+      mobileSidebar,
       openMobile,
       setOpenMobile,
       toggleSidebar,
@@ -364,6 +401,7 @@ function SidebarProvider({
       open,
       setOpen,
       isMobile,
+      mobileSidebar,
       openMobile,
       setOpenMobile,
       toggleSidebar,
@@ -380,13 +418,14 @@ function SidebarProvider({
   const internalValue = React.useMemo<SidebarInternalContextProps>(
     () => ({
       registerSide: setSide,
+      collapsible,
       registerCollapsible: setCollapsible,
       setIsResizing,
       schedulePeek,
       scheduleDismissPeek,
       cancelPeekTimer,
     }),
-    [schedulePeek, scheduleDismissPeek, cancelPeekTimer]
+    [collapsible, schedulePeek, scheduleDismissPeek, cancelPeekTimer]
   )
 
   return (
@@ -395,6 +434,16 @@ function SidebarProvider({
         <div
           ref={mergedRef}
           data-slot="sidebar-wrapper"
+          data-reveal={
+            isMobile && mobileSidebar === "reveal"
+              ? openMobile
+                ? "open"
+                : "closed"
+              : undefined
+          }
+          data-reveal-side={
+            isMobile && mobileSidebar === "reveal" ? side : undefined
+          }
           style={
             {
               "--sidebar-width-icon": SIDEBAR_WIDTH_ICON,
@@ -404,7 +453,7 @@ function SidebarProvider({
             } as React.CSSProperties
           }
           className={cn(
-            "group/sidebar-wrapper flex min-h-svh w-full has-data-[variant=inset]:bg-sidebar",
+            "cn-sidebar-wrapper group/sidebar-wrapper flex min-h-svh w-full has-data-[variant=inset]:bg-sidebar",
             className
           )}
           {...props}
@@ -413,6 +462,156 @@ function SidebarProvider({
         </div>
       </SidebarInternalContext.Provider>
     </SidebarContext.Provider>
+  )
+}
+
+/**
+ * The phone sidebar as a surface behind the page: SidebarInset moves aside and
+ * shrinks to uncover it, with the rest of the page still in view. The page is
+ * inert while it is open. Focus moves in and returns; Escape, a tap on the page
+ * or dragging the page back closes it.
+ */
+function SidebarReveal({
+  side,
+  className,
+  children,
+  ...props
+}: React.ComponentProps<"div"> & { side: SidebarSide }) {
+  const { openMobile, setOpenMobile } = useSidebar()
+  const surfaceRef = React.useRef<HTMLDivElement>(null)
+  const previousFocus = React.useRef<Element | null>(null)
+  const wasDragged = React.useRef(false)
+  const drag = React.useRef<{
+    startX: number
+    lastX: number
+    lastTime: number
+    velocity: number
+  } | null>(null)
+
+  // Read before the page turns inert, which drops focus from the trigger.
+  React.useLayoutEffect(() => {
+    if (openMobile) previousFocus.current = document.activeElement
+  }, [openMobile])
+
+  React.useEffect(() => {
+    if (!openMobile) return
+    surfaceRef.current?.focus({ preventScroll: true })
+    return () => {
+      const previous = previousFocus.current
+      if (previous instanceof HTMLElement) {
+        previous.focus({ preventScroll: true })
+      }
+    }
+  }, [openMobile])
+
+  const toDelta = (clientX: number, startX: number) =>
+    side === "left" ? clientX - startX : startX - clientX
+
+  const getProgress = (clientX: number, startX: number) =>
+    getRevealDragProgress({
+      deltaX: toDelta(clientX, startX),
+      width: surfaceRef.current?.offsetWidth ?? 1,
+    })
+
+  const endDrag = (button: HTMLElement) => {
+    const wrapper = button.closest<HTMLElement>('[data-slot="sidebar-wrapper"]')
+    wrapper?.removeAttribute("data-reveal-dragging")
+    wrapper?.style.removeProperty("--sidebar-reveal-progress")
+    drag.current = null
+  }
+
+  return (
+    <>
+      <div
+        ref={surfaceRef}
+        role="dialog"
+        aria-modal="true"
+        aria-label="Sidebar"
+        tabIndex={-1}
+        inert={!openMobile}
+        data-sidebar="sidebar"
+        data-slot="sidebar"
+        data-mobile="true"
+        data-side={side}
+        data-state={openMobile ? "open" : "closed"}
+        className={cn(
+          "cn-sidebar-reveal absolute inset-y-0 flex flex-col text-sidebar-foreground outline-none",
+          className
+        )}
+        onKeyDown={(event) => {
+          // A menu in a portal bubbles here too; it closes itself.
+          const isInside =
+            event.target instanceof Node &&
+            event.currentTarget.contains(event.target)
+          if (event.key === "Escape" && isInside) setOpenMobile(false)
+        }}
+        {...props}
+      >
+        <div
+          data-slot="sidebar-inner"
+          className="cn-sidebar-inner flex h-full w-full flex-col"
+        >
+          {children}
+        </div>
+      </div>
+      {openMobile && (
+        <button
+          type="button"
+          aria-label="Close sidebar"
+          data-slot="sidebar-reveal-close"
+          data-side={side}
+          className="cn-sidebar-reveal-close absolute inset-y-0 z-20 touch-none outline-none"
+          onClick={() => {
+            if (!wasDragged.current) setOpenMobile(false)
+            wasDragged.current = false
+          }}
+          onPointerDown={(event) => {
+            event.currentTarget.setPointerCapture(event.pointerId)
+            wasDragged.current = false
+            drag.current = {
+              startX: event.clientX,
+              lastX: event.clientX,
+              lastTime: event.timeStamp,
+              velocity: 0,
+            }
+          }}
+          onPointerMove={(event) => {
+            const current = drag.current
+            if (!current) return
+            if (Math.abs(event.clientX - current.startX) < REVEAL_DRAG_SLOP) {
+              return
+            }
+            wasDragged.current = true
+            const elapsed = event.timeStamp - current.lastTime
+            if (elapsed > 0) {
+              current.velocity = toDelta(event.clientX, current.lastX) / elapsed
+              current.lastX = event.clientX
+              current.lastTime = event.timeStamp
+            }
+            const wrapper = event.currentTarget.closest<HTMLElement>(
+              '[data-slot="sidebar-wrapper"]'
+            )
+            wrapper?.setAttribute("data-reveal-dragging", "")
+            wrapper?.style.setProperty(
+              "--sidebar-reveal-progress",
+              String(getProgress(event.clientX, current.startX))
+            )
+          }}
+          onPointerUp={(event) => {
+            const current = drag.current
+            endDrag(event.currentTarget)
+            if (!current || !wasDragged.current) return
+            const stayOpen = shouldRevealStayOpen({
+              progress: getProgress(current.lastX, current.startX),
+              velocity: current.velocity,
+              restedFor: event.timeStamp - current.lastTime,
+            })
+            if (!stayOpen) setOpenMobile(false)
+          }}
+          onPointerCancel={(event) => endDrag(event.currentTarget)}
+        />
+      )}
+    </>
   )
 }
 
@@ -432,8 +631,15 @@ function Sidebar({
   /** The `sidebar` variant's inner-edge border. Default true. */
   bordered?: boolean
 }) {
-  const { isMobile, state, openMobile, setOpenMobile, peek, isPeeking } =
-    useSidebar()
+  const {
+    isMobile,
+    mobileSidebar,
+    state,
+    openMobile,
+    setOpenMobile,
+    peek,
+    isPeeking,
+  } = useSidebar()
   const { registerSide, registerCollapsible } = useSidebarInternal()
 
   // The provider mirrors these into peek and the shortcut tooltips.
@@ -455,6 +661,14 @@ function Sidebar({
       >
         {children}
       </div>
+    )
+  }
+
+  if (isMobile && mobileSidebar === "reveal") {
+    return (
+      <SidebarReveal side={side} className={className} {...props}>
+        {children}
+      </SidebarReveal>
     )
   }
 
@@ -601,7 +815,7 @@ function SidebarDesktop({
           "group-data-peeking:w-0 group-data-[collapsible=offcanvas]:w-0",
           "group-data-[side=right]:rotate-180",
           "group-data-resizing:transition-none",
-          variant === "floating" || variant === "inset"
+          variant === "floating"
             ? "group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+(--spacing(4)))]"
             : "group-data-[collapsible=icon]:w-(--sidebar-width-icon)"
         )}
@@ -612,15 +826,20 @@ function SidebarDesktop({
         data-side={side}
         className={cn(
           "cn-sidebar-container fixed inset-y-0 z-10 hidden h-svh w-(--sidebar-width) group-data-peeking:z-50 group-data-resizing:transition-none data-[side=left]:left-0 data-[side=left]:group-data-[collapsible=offcanvas]:left-[calc(var(--sidebar-width)*-1)] data-[side=right]:right-0 data-[side=right]:group-data-[collapsible=offcanvas]:right-[calc(var(--sidebar-width)*-1)] md:flex",
-          // Adjust the padding for floating and inset variants.
-          variant === "floating" || variant === "inset"
-            ? "p-2 group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+(--spacing(4))+2px)]"
-            : cn(
-                "group-data-peeking:py-2 group-data-[collapsible=icon]:w-(--sidebar-width-icon)",
-                bordered &&
-                  !peeking &&
-                  "group-data-[side=left]:border-r group-data-[side=right]:border-l"
-              ),
+          // A floating card has room all round. Inset runs the full height:
+          // its rows keep 8px from every edge, the main card's own margin, and
+          // a peek floats as a card.
+          variant === "floating" &&
+            "p-2 group-data-[collapsible=icon]:w-[calc(var(--sidebar-width-icon)+(--spacing(4))+2px)]",
+          variant === "inset" &&
+            "group-data-peeking:p-2 group-data-[collapsible=icon]:w-(--sidebar-width-icon)",
+          variant === "sidebar" &&
+            cn(
+              "group-data-peeking:py-2 group-data-[collapsible=icon]:w-(--sidebar-width-icon)",
+              bordered &&
+                !peeking &&
+                "group-data-[side=left]:border-r group-data-[side=right]:border-l"
+            ),
           className
         )}
         onPointerEnter={
@@ -671,15 +890,8 @@ function SidebarDesktop({
   )
 }
 
-// The panel glyph from SharpOS: a rounded frame with the sidebar cut out of
-// it. The cut-out widens when the sidebar is open; the path morphs on the
-// moderate tier where CSS `d` transitions are supported, and swaps elsewhere.
-const TOGGLE_FRAME =
-  "M11 3H13C16.7712 3 18.6569 3 19.8284 4.17157C21 5.34315 21 7.22876 21 11V13C21 16.7712 21 18.6569 19.8284 19.8284C18.6569 21 16.7712 21 13 21H11C7.2288 21 5.3431 21 4.1716 19.8284C3 18.6569 3 16.7712 3 13V11C3 7.22876 3 5.34315 4.1716 4.17157C5.3431 3 7.2288 3 11 3Z"
-const TOGGLE_PANEL_CLOSED =
-  "M10 5.5 C10 4.793 10 4.439 9.780 4.220 C9.560 4 9.207 4 8.5 4 H8.5 C6.379 4 5.318 4 4.659 4.659 C4 5.318 4 6.379 4 8.5 V15.5 C4 17.621 4 18.682 4.659 19.341 C5.318 20 6.379 20 8.5 20 H8.5 C9.207 20 9.561 20 9.780 19.780 C10 19.561 10 19.207 10 18.5 V5.5 Z"
-const TOGGLE_PANEL_OPEN =
-  "M14 6 C14 5.057 14 4.586 13.707 4.293 C13.414 4 12.943 4 12 4 H10 C7.172 4 5.757 4 4.879 4.879 C4 5.757 4 7.172 4 10 V14 C4 16.828 4 18.243 4.879 19.121 C5.757 20 7.172 20 10 20 H12 C12.943 20 13.414 20 13.707 19.707 C14 19.414 14 18.943 14 18 V6 Z"
+// The panel glyph (lib/sidebar-model). The path morphs on the move timing where
+// CSS `d` transitions are supported, and swaps elsewhere.
 
 function SidebarToggleIcon({
   open,
@@ -690,8 +902,7 @@ function SidebarToggleIcon({
   side: SidebarSide
   className?: string
 }) {
-  const maskId = `sidebar-toggle-${React.useId().replace(/[^a-zA-Z0-9-]/g, "")}`
-  const panel = open ? TOGGLE_PANEL_OPEN : TOGGLE_PANEL_CLOSED
+  const panel = open ? TOGGLE_GLYPH.panelOpen : TOGGLE_GLYPH.panelClosed
 
   return (
     <svg
@@ -706,26 +917,18 @@ function SidebarToggleIcon({
         className
       )}
     >
-      <mask id={maskId}>
-        <path
-          d={TOGGLE_FRAME}
-          fill="white"
-          stroke="white"
-          strokeWidth={1.5}
-          strokeLinejoin="round"
-        />
-        <path
-          d={panel}
-          fill="black"
-          className="cn-sidebar-toggle-icon-panel"
-          style={{ d: `path("${panel}")` } as React.CSSProperties}
-        />
-      </mask>
-      <rect
-        width="24"
-        height="24"
+      <path
+        d={TOGGLE_GLYPH.frame}
         fill="currentColor"
-        mask={`url(#${maskId})`}
+        stroke="currentColor"
+        strokeWidth={1.5}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        d={panel}
+        className="cn-sidebar-toggle-icon-panel"
+        style={{ d: `path("${panel}")` } as React.CSSProperties}
       />
     </svg>
   )
@@ -963,8 +1166,15 @@ function SidebarRail({
 }
 
 function SidebarInset({ className, ...props }: React.ComponentProps<"main">) {
+  const sidebar = React.useContext(SidebarContext)
+  const isRevealOpen =
+    sidebar !== null &&
+    sidebar.isMobile &&
+    sidebar.mobileSidebar === "reveal" &&
+    sidebar.openMobile
   return (
     <main
+      inert={isRevealOpen || undefined}
       data-slot="sidebar-inset"
       className={cn(
         "cn-sidebar-inset relative flex w-full flex-1 flex-col",
@@ -1074,6 +1284,7 @@ function SidebarGroup({
 }) {
   const [uncontrolledOpen, setUncontrolledOpen] = React.useState(defaultOpen)
   const open = openProp ?? uncontrolledOpen
+  const collapse = useSidebarCollapse()
   const contentId = React.useId()
   const toggle = React.useCallback(() => {
     const next = !open
@@ -1101,7 +1312,7 @@ function SidebarGroup({
           count +
           (React.isValidElement<{ children?: React.ReactNode }>(kid) &&
           kid.type === SidebarGroupActions
-            ? React.Children.count(kid.props.children)
+            ? React.Children.toArray(kid.props.children).length
             : 1),
         0
       )
@@ -1117,7 +1328,8 @@ function SidebarGroup({
             {kids[labelIndex]}
             {headerActions}
           </div>
-          <SidebarCollapse id={contentId} open={open}>
+          {/* A rail has no label to reopen a group with, so its rows always show. */}
+          <SidebarCollapse id={contentId} open={open || collapse === "icon"}>
             {tail.filter((kid) => !isHeaderAction(kid))}
           </SidebarCollapse>
         </>
@@ -1225,7 +1437,7 @@ function SidebarGroupLabel({
       {children}
       <span
         data-slot="sidebar-group-label-chevron"
-        className="cn-sidebar-group-label-chevron ms-auto flex shrink-0 items-center justify-center overflow-hidden"
+        className="cn-sidebar-group-label-chevron flex shrink-0 items-center justify-center overflow-hidden"
       >
         <IconPlaceholder
           lucide="ChevronRightIcon"
@@ -1262,13 +1474,18 @@ function SidebarGroupAction({
 /** Up to three SidebarGroupActions in a row over the group label's end edge. */
 function SidebarGroupActions({
   className,
+  showOnHover = false,
   children,
   ...props
-}: React.ComponentProps<"div">) {
+}: React.ComponentProps<"div"> & {
+  /** Hide the actions until the label row is hovered or holds focus. */
+  showOnHover?: boolean
+}) {
   return (
     <div
       data-slot="sidebar-group-actions"
       data-sidebar="group-actions"
+      data-show-on-hover={showOnHover ? "" : undefined}
       className={cn(
         "cn-sidebar-group-actions absolute z-10 flex items-center group-data-[collapsible=icon]:hidden",
         className
@@ -1311,7 +1528,12 @@ const MENU_BUTTON = [
 ]
   .map((selector) => `${selector}:not([hidden] *)`)
   .join(", ")
-const ACTIVE_MENU_BUTTON = MENU_BUTTON.split(", ")
+// The sliding selection marks an active top-level row. A nested row that is
+// current paints its own quieter background instead.
+const ACTIVE_MENU_BUTTON = [
+  '[data-slot="sidebar-menu-button"]',
+  '[data-sidebar="menu-button"]',
+]
   .map((selector) =>
     selector.replace(/(\])/, '$1[data-active]:not([data-active="false"])')
   )
@@ -1489,6 +1711,18 @@ function SidebarMenuDot({ dot }: { dot: "filled" | "ring" }) {
   )
 }
 
+/** "icon" while the docked sidebar is its rail of icons: parts hide what won't fit. */
+function useSidebarCollapse() {
+  const sidebar = React.useContext(SidebarContext)
+  const internal = React.useContext(SidebarInternalContext)
+  if (!sidebar || sidebar.isMobile || sidebar.state === "expanded") {
+    return undefined
+  }
+  return internal?.collapsible === "icon" && !sidebar.isPeeking
+    ? ("icon" as const)
+    : undefined
+}
+
 function SidebarMenuButton({
   isActive = false,
   variant = "default",
@@ -1514,7 +1748,7 @@ function SidebarMenuButton({
   /** A visual-only dot when `status` doesn't fit. Ignored with `icon`. */
   dot?: "filled" | "ring"
 } & VariantProps<typeof sidebarMenuButtonVariants>) {
-  const { isMobile, state } = useSidebar()
+  const collapse = useSidebarCollapse()
   const active = isActive || status === "active"
   const resolvedDot =
     dot ?? (status ? (status === "idle" ? "ring" : "filled") : undefined)
@@ -1579,7 +1813,7 @@ function SidebarMenuButton({
   }
 
   return (
-    <TooltipTrigger isDisabled={state !== "collapsed" || isMobile}>
+    <TooltipTrigger isDisabled={collapse !== "icon"}>
       {comp}
       <Tooltip placement="right" {...tooltip} />
     </TooltipTrigger>
@@ -1612,7 +1846,7 @@ function SidebarMenuAction({
         "cn-sidebar-menu-action flex items-center justify-center outline-hidden transition-transform group-data-[collapsible=icon]:hidden after:absolute after:-inset-2 md:after:hidden [&>svg]:shrink-0",
         showOnHover &&
           !inCluster &&
-          "group-focus-within/menu-item:opacity-100 group-hover/menu-item:opacity-100 peer-data-active/menu-button:text-sidebar-accent-foreground aria-expanded:opacity-100 md:opacity-0 md:peer-data-fluid-hover-active/menu-button:opacity-100",
+          "peer-hover/menu-button:opacity-100 peer-focus-visible/menu-button:opacity-100 peer-data-active/menu-button:text-sidebar-accent-foreground hover:opacity-100 focus-visible:opacity-100 aria-expanded:opacity-100 md:opacity-0 md:peer-data-fluid-hover-active/menu-button:opacity-100",
         inCluster && "relative inset-auto",
         className
       )}
@@ -1647,7 +1881,7 @@ function SidebarMenuActions({
       className={cn(
         "cn-sidebar-menu-actions absolute z-10 flex items-center group-data-[collapsible=icon]:hidden",
         showOnHover &&
-          "group-focus-within/menu-item:opacity-100 group-hover/menu-item:opacity-100 has-aria-expanded:opacity-100 has-data-popup-open:opacity-100 md:opacity-0",
+          "peer-hover/menu-button:opacity-100 peer-focus-visible/menu-button:opacity-100 focus-within:opacity-100 hover:opacity-100 has-aria-expanded:opacity-100 has-data-popup-open:opacity-100 md:opacity-0 md:peer-data-fluid-hover-active/menu-button:opacity-100",
         className
       )}
       {...props}
@@ -1725,9 +1959,20 @@ function SidebarMenuSkeleton({
   )
 }
 
+// Fabricator: how deep a sub-menu sits, 1 under a top-level row. Its rows
+// read it as --sidebar-menu-depth and indent one step a level, so sub-menus
+// nest to any depth.
+const SidebarMenuDepthContext = React.createContext(0)
+
+type SidebarMenuDepthStyle = React.CSSProperties & {
+  "--sidebar-menu-depth": number
+}
+
 function SidebarMenuSub({
   className,
   open,
+  style,
+  children,
   ...props
 }: React.ComponentProps<"div"> & {
   /**
@@ -1736,14 +1981,24 @@ function SidebarMenuSub({
    */
   open?: boolean
 }) {
+  const depth = React.useContext(SidebarMenuDepthContext) + 1
+  const depthStyle: SidebarMenuDepthStyle = {
+    ...style,
+    "--sidebar-menu-depth": depth,
+  }
   const list = (
     <div
       data-slot="sidebar-menu-sub"
       data-sidebar="menu-sub"
       data-state={open === undefined ? undefined : open ? "open" : "closed"}
       className={cn("cn-sidebar-menu-sub flex min-w-0 flex-col", className)}
+      style={depthStyle}
       {...props}
-    />
+    >
+      <SidebarMenuDepthContext.Provider value={depth}>
+        {children}
+      </SidebarMenuDepthContext.Provider>
+    </div>
   )
 
   if (open === undefined) {
@@ -1808,7 +2063,7 @@ function SidebarMenuSubButton({
     "data-size": size,
     "data-active": isActive,
     className: cn(
-      "cn-sidebar-menu-sub-button flex min-w-0 -translate-x-px items-center overflow-hidden outline-hidden group-data-[collapsible=icon]:hidden disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 [&>span:last-child]:truncate [&>svg]:shrink-0",
+      "cn-sidebar-menu-sub-button peer/menu-button flex min-w-0 -translate-x-px items-center overflow-hidden outline-hidden group-data-[collapsible=icon]:hidden disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 [&>span:last-child]:truncate [&>svg]:shrink-0",
       className
     ),
   }
@@ -1853,6 +2108,8 @@ export {
   SidebarProvider,
   SidebarRail,
   SidebarSeparator,
+  SidebarToggleIcon,
   SidebarTrigger,
   useSidebar,
+  useSidebarCollapse,
 }

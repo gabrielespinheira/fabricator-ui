@@ -1,0 +1,16 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "danielbayley",
+    "kayleyhill",
+    "karsa-mistmere"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$group:heart",
+    "emotion"
+  ],
+  "categories": [
+    "social"
+  ]
+}

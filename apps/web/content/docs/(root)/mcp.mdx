@@ -79,17 +79,12 @@ Select your MCP client and run `mcp init` to write the configuration for it. If 
   </TabsContent>
 
   <TabsContent value="codex" className="mt-4">
-    <Callout className="mt-0">
-      **Note:** The CLI cannot write `~/.codex/config.toml` automatically.
-      You'll need to add the configuration manually for Codex.
-    </Callout>
-
-    **Add the following configuration** to `~/.codex/config.toml`:
-       ```toml
-       [mcp_servers.fabricator]
-       command = "npx"
-       args = ["fabricator-ui@latest", "mcp"]
+    **Run the following command** in your project:
+       ```bash
+       npx fabricator-ui@latest mcp init --client codex
        ```
+
+    It writes `.codex/config.toml`, which Codex reads once you trust the project.
 
     **Restart Codex** and try the following prompts:
        - Show me all available components in the fabricator registry

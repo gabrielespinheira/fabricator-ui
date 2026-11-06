@@ -9,13 +9,19 @@ const LINK_CLASS =
 
 /**
  * The Make it yours settings. They are the site's own, so the whole site,
- * the dashboard preview included, follows them.
+ * the App Shell preview included, follows them.
  */
-export function LookControls({ onNext }: { onNext: () => void }) {
+export function LookControls({
+  onBack,
+  onNext,
+}: {
+  onBack: () => void
+  onNext: () => void
+}) {
   return (
     <div className="flex flex-col gap-4">
       <p className="text-[13px] leading-relaxed text-muted-foreground">
-        Change anything and the dashboard follows. Your colours, surface,
+        Change anything and the app beside it follows. Your colours, surface,
         radius, density, motion and icons go into the install command.
       </p>
       <div className="rounded-2xl bg-surface-3 px-3 py-1 shadow-surface-1 dark:bg-surface-2 dark:shadow-surface-2">
@@ -28,7 +34,7 @@ export function LookControls({ onNext }: { onNext: () => void }) {
         </Link>
         . They carry over here.
       </p>
-      <StepFooter onNext={onNext} nextLabel="Next: your project" />
+      <StepFooter onBack={onBack} onNext={onNext} nextLabel="Next: App Shell" />
     </div>
   )
 }

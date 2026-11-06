@@ -1,0 +1,13 @@
+{
+  "title": "Prisma",
+  "group": "Product & dev",
+  "tags": [
+    "orm",
+    "database",
+    "typescript"
+  ],
+  "aliases": [],
+  "hex": "#2D3748",
+  "source": "Simple Icons 16.36.0 (https://github.com/prisma/presskit/tree/4bcb64181f266723439d955d60afa1c55fefa715)",
+  "license": "CC0-1.0"
+}

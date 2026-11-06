@@ -1,0 +1,73 @@
+---
+title: Separator
+description: Visually or semantically separates content.
+base: native
+component: true
+---
+
+<NativePreview src="/images/native/separator.jpg" alt="Separator on iOS" />
+
+## Installation
+
+```bash
+npx fabricator-ui@latest add separator
+```
+
+## Usage
+
+```tsx
+import { Separator } from "@/components/ui/separator"
+import { Text } from "@/components/ui/text"
+```
+
+```tsx
+<Text>Acme Inc</Text>
+<Separator orientation="horizontal" />
+<Text className="text-muted-foreground">gabs@fabricator.dev</Text>
+```
+
+## Examples
+
+```tsx showLineNumbers title="separator-example.tsx"
+import { View } from "react-native"
+
+import { Separator } from "@/components/ui/separator"
+import { Text } from "@/components/ui/text"
+
+function SeparatorExample() {
+  return (
+    <ExampleWrapper>
+      <Example title="Horizontal" className="items-stretch">
+        <Text>Acme Inc</Text>
+        <Separator orientation="horizontal" />
+        <Text className="text-muted-foreground">gabs@fabricator.dev</Text>
+      </Example>
+      <Example title="Vertical">
+        <View className="h-5 flex-row items-center gap-3">
+          <Text>Blog</Text>
+          <Separator orientation="vertical" />
+          <Text>Docs</Text>
+          <Separator orientation="vertical" />
+          <Text>Source</Text>
+        </View>
+      </Example>
+    </ExampleWrapper>
+  )
+}
+
+export { SeparatorExample }
+```
+
+## API reference
+
+
+
+Props it adds to what it wraps: `orientation`.
+
+## Differences from web
+
+**Same.** It works as it does on the web, with `onPress` for `onClick`.
+
+## Accessibility
+
+Parts set `role="separator"`, read by VoiceOver and TalkBack. Give a control with no text an `accessibilityLabel`.

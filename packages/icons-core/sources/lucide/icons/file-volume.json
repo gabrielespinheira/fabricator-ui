@@ -1,0 +1,19 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "karsa-mistmere",
+    "danielbayley",
+    "jguddas"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:file",
+    "$extends:volume",
+    "audio",
+    "volume"
+  ],
+  "categories": [
+    "$extends:file",
+    "multimedia"
+  ]
+}

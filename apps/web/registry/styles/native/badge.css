@@ -1,0 +1,135 @@
+/* MARK: Badge */
+
+  /* 24pt, 12pt medium text, rounded-lg like the other items. */
+  .cn-badge {
+    @apply h-(--density-24) gap-(--density-6) rounded-lg border border-transparent px-(--density-10) data-[invalid=true]:border-destructive/50;
+  }
+
+  .cn-badge-text {
+    @apply text-(length:--density-text-12) font-medium;
+  }
+
+  .cn-badge-variant-default {
+    @apply bg-active active:bg-foreground/10;
+  }
+
+  .cn-badge-text-variant-default {
+    @apply text-foreground;
+  }
+
+  .cn-badge-icon-variant-default {
+    @apply text-foreground;
+  }
+
+  .cn-badge-variant-secondary {
+    @apply bg-hover active:bg-active;
+  }
+
+  .cn-badge-text-variant-secondary {
+    @apply text-foreground;
+  }
+
+  .cn-badge-icon-variant-secondary {
+    @apply text-foreground;
+  }
+
+  .cn-badge-variant-outline {
+    @apply border-border active:bg-hover;
+  }
+
+  .cn-badge-text-variant-outline {
+    @apply text-foreground;
+  }
+
+  .cn-badge-icon-variant-outline {
+    @apply text-foreground;
+  }
+
+  /* The destructive role in the status recipe below; error is another name
+     for it. */
+  .cn-badge-variant-destructive {
+    @apply bg-destructive-surface-1 dark:bg-destructive-surface-3 border-destructive-border active:bg-destructive-surface-2 dark:active:bg-destructive-surface-4;
+  }
+
+  .cn-badge-text-variant-destructive {
+    @apply text-destructive-text;
+  }
+
+  .cn-badge-icon-variant-destructive {
+    @apply text-destructive;
+  }
+
+  .cn-badge-variant-ghost {
+    @apply active:bg-hover;
+  }
+
+  .cn-badge-text-variant-ghost {
+    @apply text-muted-foreground;
+  }
+
+  .cn-badge-icon-variant-ghost {
+    @apply text-muted-foreground;
+  }
+
+  .cn-badge-variant-link {
+    @apply active:opacity-70;
+  }
+
+  .cn-badge-text-variant-link {
+    @apply text-primary-text underline;
+  }
+
+  .cn-badge-icon-variant-link {
+    @apply text-primary-text;
+  }
+
+  /* Statuses: a tinted pill (the most tinted surface in light, level 3 in dark)
+     with a status hairline and the status text colour; icons take the role's
+     fill. */
+  .cn-badge-variant-info {
+    @apply bg-info-surface-1 dark:bg-info-surface-3 border-info-border active:bg-info-surface-2 dark:active:bg-info-surface-4;
+  }
+
+  .cn-badge-text-variant-info {
+    @apply text-info-text;
+  }
+
+  .cn-badge-icon-variant-info {
+    @apply text-info;
+  }
+
+  .cn-badge-variant-success {
+    @apply bg-success-surface-1 dark:bg-success-surface-3 border-success-border active:bg-success-surface-2 dark:active:bg-success-surface-4;
+  }
+
+  .cn-badge-text-variant-success {
+    @apply text-success-text;
+  }
+
+  .cn-badge-icon-variant-success {
+    @apply text-success;
+  }
+
+  .cn-badge-variant-warning {
+    @apply bg-warning-surface-1 dark:bg-warning-surface-3 border-warning-border active:bg-warning-surface-2 dark:active:bg-warning-surface-4;
+  }
+
+  .cn-badge-text-variant-warning {
+    @apply text-warning-text;
+  }
+
+  .cn-badge-icon-variant-warning {
+    @apply text-warning;
+  }
+
+  .cn-badge-variant-error {
+    @apply bg-destructive-surface-1 dark:bg-destructive-surface-3 border-destructive-border active:bg-destructive-surface-2 dark:active:bg-destructive-surface-4;
+  }
+
+  .cn-badge-text-variant-error {
+    @apply text-destructive-text;
+  }
+
+  .cn-badge-icon-variant-error {
+    @apply text-destructive;
+  }

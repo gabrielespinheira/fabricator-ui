@@ -1,0 +1,196 @@
+---
+title: Alert Dialog
+description: A modal dialog that interrupts the user with important content and expects a response.
+base: native
+component: true
+---
+
+<NativePreview src="/images/native/alert-dialog.jpg" alt="Alert Dialog on iOS" />
+
+## Installation
+
+```bash
+npx fabricator-ui@latest add alert-dialog
+```
+
+## Usage
+
+```tsx
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogMedia,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+import { Button } from "@/components/ui/button"
+```
+
+```tsx
+<AlertDialog>
+  <AlertDialogTrigger render={<Button variant="outline" />}>
+    Show dialog
+  </AlertDialogTrigger>
+  <AlertDialogContent>
+    <AlertDialogHeader>
+      <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+      <AlertDialogDescription>
+        This can't be undone. It removes the project from Acme Inc.
+      </AlertDialogDescription>
+    </AlertDialogHeader>
+    <AlertDialogFooter>
+      <AlertDialogCancel>Cancel</AlertDialogCancel>
+      <AlertDialogAction>Continue</AlertDialogAction>
+    </AlertDialogFooter>
+  </AlertDialogContent>
+</AlertDialog>
+```
+
+## Composition
+
+- `AlertDialog`
+- `AlertDialogAction`
+- `AlertDialogCancel`
+- `AlertDialogContent`
+- `AlertDialogDescription`
+- `AlertDialogFooter`
+- `AlertDialogHeader`
+- `AlertDialogMedia`
+- `AlertDialogOverlay`
+- `AlertDialogPortal`
+- `AlertDialogTitle`
+- `AlertDialogTrigger`
+
+## Examples
+
+```tsx showLineNumbers title="alert-dialog-example.tsx"
+import * as React from "react"
+import { BluetoothIcon, Trash2Icon } from "@fabricator-ui/icons-react-native"
+
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogMedia,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+import { Button } from "@/components/ui/button"
+
+function AlertDialogExample() {
+  const [isOpen, setIsOpen] = React.useState(false)
+  return (
+    <ExampleWrapper>
+      <Example title="Default">
+        <AlertDialog>
+          <AlertDialogTrigger render={<Button variant="outline" />}>
+            Show dialog
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+              <AlertDialogDescription>
+                This can't be undone. It removes the project from Acme Inc.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction>Continue</AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+      </Example>
+      <Example title="Destructive, with media">
+        <AlertDialog>
+          <AlertDialogTrigger render={<Button variant="destructive" />}>
+            Delete chat
+          </AlertDialogTrigger>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogMedia>
+                <Trash2Icon />
+              </AlertDialogMedia>
+              <AlertDialogTitle>Delete chat?</AlertDialogTitle>
+              <AlertDialogDescription>
+                This removes the chat for gabs@fabricator.dev.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction variant="destructive">
+                Delete
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+      </Example>
+      <Example title="Small">
+        <AlertDialog>
+          <AlertDialogTrigger render={<Button variant="outline" />}>
+            Small dialog
+          </AlertDialogTrigger>
+          <AlertDialogContent size="sm">
+            <AlertDialogHeader>
+              <AlertDialogMedia>
+                <BluetoothIcon />
+              </AlertDialogMedia>
+              <AlertDialogTitle>Allow accessory to connect?</AlertDialogTitle>
+              <AlertDialogDescription>
+                Do you want to allow the accessory to connect?
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Don't allow</AlertDialogCancel>
+              <AlertDialogAction>Allow</AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+      </Example>
+      <Example title="Controlled">
+        <Button variant="outline" onPress={() => setIsOpen(true)}>
+          Open from state
+        </Button>
+        <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Sign out?</AlertDialogTitle>
+              <AlertDialogDescription>
+                Press outside does nothing: an alert needs an answer.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel size="sm">Stay</AlertDialogCancel>
+              <AlertDialogAction size="sm">Sign out</AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+      </Example>
+    </ExampleWrapper>
+  )
+}
+
+export { AlertDialogExample }
+```
+
+## API reference
+
+
+
+Props it adds to what it wraps: `size`.
+
+## Differences from web
+
+**Same.** It works as it does on the web, with `onPress` for `onClick`.
+
+## Accessibility
+
+Parts set `role="heading"`, read by VoiceOver and TalkBack. Give a control with no text an `accessibilityLabel`.

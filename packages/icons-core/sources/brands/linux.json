@@ -1,0 +1,14 @@
+{
+  "title": "Linux",
+  "group": "Product & dev",
+  "tags": [
+    "tux",
+    "os",
+    "server"
+  ],
+  "aliases": [],
+  "hex": "#FCC624",
+  "source": "Simple Icons 16.36.0 (https://www.linuxfoundation.org/the-linux-mark/)",
+  "license": "CC0-1.0",
+  "credit": "Tux by Larry Ewing (lewing@isc.tamu.edu) and The GIMP. Linux® is the registered trademark of Linus Torvalds."
+}

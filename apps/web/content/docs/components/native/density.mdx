@@ -1,0 +1,77 @@
+---
+title: Density
+description: "DensityProvider sets compact, default or spacious for everything inside it, including the overlays it opens."
+base: native
+component: true
+---
+
+<NativePreview src="/images/native/density.jpg" alt="Density on iOS" />
+
+## Installation
+
+```bash
+npx fabricator-ui@latest add density
+```
+
+## Usage
+
+```tsx
+import { Button } from "@/components/ui/button"
+import { DensityProvider } from "@/components/ui/density"
+import { Input } from "@/components/ui/input"
+```
+
+```tsx
+<DensityProvider density={density}>
+  <Button>Control</Button>
+  <Input placeholder="Text field" />
+</DensityProvider>
+```
+
+## Composition
+
+- `Density`
+- `DensityProvider`
+- `DensityScope`
+
+## Examples
+
+```tsx showLineNumbers title="density-example.tsx"
+
+import { Button } from "@/components/ui/button"
+import { DensityProvider } from "@/components/ui/density"
+import { Input } from "@/components/ui/input"
+
+const DENSITIES = ["compact", "default", "spacious"] as const
+
+function DensityExample() {
+  return (
+    <ExampleWrapper>
+      {DENSITIES.map((density) => (
+        <Example key={density} title={density}>
+          <DensityProvider density={density}>
+            <Button>Control</Button>
+            <Input placeholder="Text field" />
+          </DensityProvider>
+        </Example>
+      ))}
+    </ExampleWrapper>
+  )
+}
+
+export { DensityExample }
+```
+
+## API reference
+
+
+
+Props it adds to what it wraps: `density`.
+
+## Differences from web
+
+**Same.** `DensityProvider` sets scoped variables, with no wrapper view. Phones default to spacious, and there a control's `size="sm"` is a step down, 36pt, and `size="lg"` a step up, 52pt, rather than compact and spacious. Tablets take their own step in place of spacious: 40pt controls with the same 15pt text, `sm` 34pt, `lg` 48pt. `FabricatorRoot` sets it from the window's width; a density picked on purpose stays.
+
+## Accessibility
+
+Text is read as it appears. Give a control with no text an `accessibilityLabel`.

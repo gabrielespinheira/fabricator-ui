@@ -1,0 +1,25 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "karsa-mistmere",
+    "danielbayley"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:file",
+    "$extends:axis-3d",
+    "3d",
+    "axis"
+  ],
+  "categories": [
+    "$extends:file",
+    "design"
+  ],
+  "aliases": [
+    {
+      "name": "file-axis-3-d",
+      "deprecationReason": "alias.name",
+      "deprecated": true
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "title": "Svelte",
+  "group": "Product & dev",
+  "tags": [
+    "sveltekit",
+    "javascript",
+    "framework"
+  ],
+  "aliases": [],
+  "hex": "#FF3E00",
+  "source": "Simple Icons 16.36.0 (https://github.com/sveltejs/branding/blob/c4dfca6743572087a6aef0e109ffe3d95596e86a/svelte-logo.svg)",
+  "license": "CC0-1.0"
+}

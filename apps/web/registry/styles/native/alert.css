@@ -1,0 +1,115 @@
+/* MARK: Alert */
+
+  /* Borderless: a hover-tinted panel, rounded-xl, 13pt body. High contrast draws
+     a hairline: a border here, because a Tailwind ring doesn't reach React Native. */
+  .cn-alert {
+    @apply gap-(--density-10) rounded-xl border p-(--density-16) data-[action=true]:pe-18;
+  }
+
+  .cn-alert-text {
+    @apply text-foreground text-(length:--density-text-13);
+  }
+
+  /* The website's `*:[svg]:translate-y-0.5`, lining the icon up with the title. */
+  .cn-alert-media {
+    @apply mt-0.5;
+  }
+
+  .cn-alert-body {
+    @apply gap-0.5;
+  }
+
+  .cn-alert-variant-default {
+    @apply bg-hover data-[contrast=high]:bg-active data-[contrast=high]:border-border;
+  }
+
+  .cn-alert-icon-variant-default {
+    @apply text-foreground;
+  }
+
+  /* The destructive role in the status recipe below; error is another name
+     for it. */
+  .cn-alert-variant-destructive {
+    @apply bg-hover data-[contrast=high]:bg-destructive-surface-1 dark:data-[contrast=high]:bg-destructive-surface-3 data-[contrast=high]:border-destructive-border;
+  }
+
+  .cn-alert-icon-variant-destructive {
+    @apply text-destructive;
+  }
+
+  .cn-alert-description-variant-destructive {
+    @apply data-[contrast=high]:text-destructive-text;
+  }
+
+  /* Statuses: low contrast keeps the neutral panel and colours only the icon;
+     high contrast washes the panel in the status surface (the most tinted level
+     in light, level 3 in dark), adds a status hairline and moves the description
+     to the status text colour. The title stays foreground. */
+  .cn-alert-variant-info {
+    @apply bg-hover data-[contrast=high]:bg-info-surface-1 dark:data-[contrast=high]:bg-info-surface-3 data-[contrast=high]:border-info-border;
+  }
+
+  .cn-alert-icon-variant-info {
+    @apply text-info;
+  }
+
+  .cn-alert-description-variant-info {
+    @apply data-[contrast=high]:text-info-text;
+  }
+
+  .cn-alert-variant-success {
+    @apply bg-hover data-[contrast=high]:bg-success-surface-1 dark:data-[contrast=high]:bg-success-surface-3 data-[contrast=high]:border-success-border;
+  }
+
+  .cn-alert-icon-variant-success {
+    @apply text-success;
+  }
+
+  .cn-alert-description-variant-success {
+    @apply data-[contrast=high]:text-success-text;
+  }
+
+  .cn-alert-variant-warning {
+    @apply bg-hover data-[contrast=high]:bg-warning-surface-1 dark:data-[contrast=high]:bg-warning-surface-3 data-[contrast=high]:border-warning-border;
+  }
+
+  .cn-alert-icon-variant-warning {
+    @apply text-warning;
+  }
+
+  .cn-alert-description-variant-warning {
+    @apply data-[contrast=high]:text-warning-text;
+  }
+
+  .cn-alert-variant-error {
+    @apply bg-hover data-[contrast=high]:bg-destructive-surface-1 dark:data-[contrast=high]:bg-destructive-surface-3 data-[contrast=high]:border-destructive-border;
+  }
+
+  .cn-alert-icon-variant-error {
+    @apply text-destructive;
+  }
+
+  .cn-alert-description-variant-error {
+    @apply data-[contrast=high]:text-destructive-text;
+  }
+
+  /* Contrast: high draws the hairline (each variant colours it); low has none. */
+  .cn-alert-contrast-low {
+    @apply border-transparent;
+  }
+
+  .cn-alert-contrast-high {
+    @apply border-border;
+  }
+
+  .cn-alert-title {
+    @apply text-foreground text-(length:--density-text-14) leading-5 font-medium;
+  }
+
+  .cn-alert-description {
+    @apply text-foreground/70 text-(length:--density-text-13);
+  }
+
+  .cn-alert-action {
+    @apply end-3 top-3;
+  }

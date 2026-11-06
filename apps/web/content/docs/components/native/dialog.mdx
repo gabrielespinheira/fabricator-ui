@@ -1,0 +1,149 @@
+---
+title: Dialog
+description: A window overlaid on either the primary window or another dialog window, rendering the content underneath inert.
+base: native
+component: true
+---
+
+<NativePreview src="/images/native/dialog.jpg" alt="Dialog on iOS" />
+
+## Installation
+
+```bash
+npx fabricator-ui@latest add dialog
+```
+
+## Usage
+
+```tsx
+import { Button } from "@/components/ui/button"
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
+```
+
+```tsx
+<Dialog>
+  <DialogTrigger render={<Button variant="outline" />}>
+    Edit profile
+  </DialogTrigger>
+  <DialogContent>
+    <DialogHeader>
+      <DialogTitle>Edit profile</DialogTitle>
+      <DialogDescription>
+        Make changes here, then save when you are done.
+      </DialogDescription>
+    </DialogHeader>
+    <View className="gap-3">
+      <Input placeholder="Name" defaultValue="Gabs" />
+      <Input placeholder="Handle" defaultValue="@gabs" />
+    </View>
+    <DialogFooter showCloseButton>
+      <DialogClose render={<Button />}>Save changes</DialogClose>
+    </DialogFooter>
+  </DialogContent>
+</Dialog>
+```
+
+## Composition
+
+- `Dialog`
+- `DialogClose`
+- `DialogContent`
+- `DialogDescription`
+- `DialogFooter`
+- `DialogHeader`
+- `DialogOverlay`
+- `DialogPortal`
+- `DialogTitle`
+- `DialogTrigger`
+
+## Examples
+
+```tsx showLineNumbers title="dialog-example.tsx"
+import * as React from "react"
+import { View } from "react-native"
+
+import { Button } from "@/components/ui/button"
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
+
+function DialogExample() {
+  const [isOpen, setIsOpen] = React.useState(false)
+  return (
+    <ExampleWrapper>
+      <Example title="Default">
+        <Dialog>
+          <DialogTrigger render={<Button variant="outline" />}>
+            Edit profile
+          </DialogTrigger>
+          <DialogContent>
+            <DialogHeader>
+              <DialogTitle>Edit profile</DialogTitle>
+              <DialogDescription>
+                Make changes here, then save when you are done.
+              </DialogDescription>
+            </DialogHeader>
+            <View className="gap-3">
+              <Input placeholder="Name" defaultValue="Gabs" />
+              <Input placeholder="Handle" defaultValue="@gabs" />
+            </View>
+            <DialogFooter showCloseButton>
+              <DialogClose render={<Button />}>Save changes</DialogClose>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      </Example>
+      <Example title="Controlled, no close button">
+        <Button variant="outline" onPress={() => setIsOpen(true)}>
+          Open from state
+        </Button>
+        <Dialog open={isOpen} onOpenChange={setIsOpen}>
+          <DialogContent showCloseButton={false}>
+            <DialogHeader>
+              <DialogTitle>Are you sure?</DialogTitle>
+              <DialogDescription>Press outside to dismiss.</DialogDescription>
+            </DialogHeader>
+            <DialogFooter>
+              <Button onPress={() => setIsOpen(false)}>Close from state</Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      </Example>
+    </ExampleWrapper>
+  )
+}
+
+export { DialogExample }
+```
+
+## API reference
+
+
+
+Props it adds to what it wraps: `showCloseButton`.
+
+## Differences from web
+
+**Same.** It works as it does on the web, with `onPress` for `onClick`.
+
+## Accessibility
+
+Parts set `role="heading"`, read by VoiceOver and TalkBack. Give a control with no text an `accessibilityLabel`.

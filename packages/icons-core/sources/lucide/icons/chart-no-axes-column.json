@@ -1,0 +1,22 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "colebemis",
+    "ericfennis",
+    "karsa-mistmere"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:chart-column"
+  ],
+  "categories": [
+    "$extends:chart-column"
+  ],
+  "aliases": [
+    {
+      "name": "bar-chart-2",
+      "deprecated": true,
+      "deprecationReason": "alias.name"
+    }
+  ]
+}

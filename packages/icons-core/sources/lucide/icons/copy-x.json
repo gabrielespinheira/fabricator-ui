@@ -1,0 +1,18 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "danielbayley",
+    "jguddas"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:copy",
+    "$group:x",
+    "multiply",
+    "multiplication"
+  ],
+  "categories": [
+    "notifications",
+    "$extends:copy"
+  ]
+}

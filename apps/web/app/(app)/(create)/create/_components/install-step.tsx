@@ -2,61 +2,55 @@
 
 import * as React from "react"
 import Link from "next/link"
+import {
+  getAgentPrompt,
+  getAssistantLabel,
+  getDarkModeGuide,
+  getNextSteps,
+  getPrerequisites,
+  getProjectTree,
+} from "@fabricator-ui/setup"
 import { LinkIcon } from "lucide-react"
 
-import { CheckIcon, CopyIcon } from "@/lib/site-icons"
+import type { Event } from "@/lib/events"
+import { CheckIcon, CopyIcon, ExternalLinkIcon } from "@/lib/site-icons"
 import {
   DENSITY_OPTIONS,
   ICON_LIBRARIES,
   MOTION_SPEEDS,
   SURFACE_PRESETS,
 } from "@/lib/site-settings"
-import { useConfig } from "@/hooks/use-config"
+import { usePackageManager } from "@/hooks/use-package-manager"
 import { CopyButton, copyToClipboardWithMeta } from "@/components/copy-button"
-import { getFabricatorSiteUrl } from "@/registry/fabricator"
 import { roleToHex } from "@/registry/fabricator/color-roles"
 import { sameTint, tintToHex } from "@/registry/fabricator/surface-tint"
 import { Button } from "@/styles/base-fabricator/ui/button"
 import {
-  ToggleGroup,
-  ToggleGroupItem,
-} from "@/styles/base-fabricator/ui/toggle-group"
-import {
   ASSISTANTS,
-  buildSetupCommands,
+  buildSetupCommand,
   FRAMEWORKS,
-  PACKAGE_MANAGERS,
+  getSetupPlan,
+  getShellProject,
+  isNativeFramework,
+  resolveApps,
   SETUP_BASES,
   setupToParams,
-  type Framework,
+  toProjectSetup,
   type Setup,
 } from "@/app/(app)/(create)/lib/setup"
+import {
+  SIDEBAR_COLLAPSE_CHOICES,
+  SIDEBAR_VARIANT_CHOICES,
+  TAB_PLACEMENT_CHOICES,
+} from "@/app/(view)/app-shell/_lib/options"
 
+import { PlanList } from "./plan-list"
+import { CommandText, PackageManagerSwitch } from "./setup-command"
 import type { StepName } from "./setup-wizard"
 import { StepFooter } from "./step-parts"
 
-const DARK_MODE_GUIDES: Partial<Record<Framework, string>> = {
-  next: "/docs/dark-mode/next",
-  vite: "/docs/dark-mode/vite",
-  start: "/docs/dark-mode/tanstack-start",
-  astro: "/docs/dark-mode/astro",
-}
-
 const LINK_CLASS =
   "rounded-sm text-foreground underline underline-offset-4 outline-none hover:text-foreground/80 focus-visible:ring-1 focus-visible:ring-focus-ring"
-
-function subscribeNothing() {
-  return () => {}
-}
-
-/** False during server rendering and hydration, true after. */
-function useIsHydrated() {
-  return React.useSyncExternalStore(
-    subscribeNothing,
-    () => true,
-    () => false
-  )
-}
 
 /** Copies text, and says so for two seconds. */
 function useCopied() {
@@ -68,9 +62,12 @@ function useCopied() {
     return () => clearTimeout(timer)
   }, [copied])
 
-  const copy = React.useCallback(async (key: string, value: string) => {
-    if (await copyToClipboardWithMeta(value)) setCopied(key)
-  }, [])
+  const copy = React.useCallback(
+    async (key: string, value: string, event?: Event) => {
+      if (await copyToClipboardWithMeta(value, event)) setCopied(key)
+    },
+    []
+  )
 
   return [copied, copy] as const
 }
@@ -82,114 +79,116 @@ function shareLink(setup: Setup) {
   return `${window.location.origin}/create?${params}`
 }
 
+const AGENT_NAMES = new Intl.ListFormat("en", { type: "disjunction" })
+
+/** The prompt as it's pasted, with the command shown the way the page shows it. */
+function AgentPromptText({
+  prompt,
+  command,
+}: {
+  prompt: string
+  command: string
+}) {
+  const [before = "", after = ""] = prompt.split(command)
+
+  return (
+    <div
+      // It scrolls, with nothing in it to focus, so keys reach it here.
+      tabIndex={0}
+      role="region"
+      aria-label="The prompt for your AI agent"
+      className="no-scrollbar max-h-64 scroll-fade-y overflow-y-auto rounded-xl p-4 font-mono text-[13px] leading-relaxed whitespace-pre-wrap text-foreground/80 outline-none focus-visible:ring-2 focus-visible:ring-ring/50"
+    >
+      {before.trimEnd()}
+      <CommandText
+        command={command}
+        className="my-3 leading-relaxed whitespace-normal"
+      />
+      {after.trimStart()}
+    </div>
+  )
+}
+
 export function InstallStep({
   setup,
   onBack,
-  onEdit,
 }: {
   setup: Setup
   onBack: () => void
-  onEdit: (step: StepName) => void
 }) {
-  const [config, setConfig] = useConfig()
-  // The stored choice is read on the client; the server renders bun.
-  const isHydrated = useIsHydrated()
-  const packageManager = isHydrated ? config.packageManager : "bun"
+  const { packageManager } = usePackageManager()
   const [copied, copy] = useCopied()
 
-  const commands = buildSetupCommands(setup, {
-    siteUrl: getFabricatorSiteUrl(),
-    packageManager,
-  })
-  const script = commands
-    .filter((command) => command.language === "bash")
-    .map((command) => command.code)
-    .join("\n")
-  const darkModeGuide =
-    setup.project === "new"
-      ? (DARK_MODE_GUIDES[setup.framework] ?? "/docs/dark-mode")
-      : "/docs/dark-mode"
+  const projectSetup = toProjectSetup(setup)
+  const command = buildSetupCommand(setup, packageManager)
+  const prompt = getAgentPrompt(projectSetup, packageManager)
+  const plan = getSetupPlan(setup)
+  const prerequisites = getPrerequisites(projectSetup)
+  const nextSteps = getNextSteps(projectSetup, packageManager)
+  const isExisting = setup.project === "existing"
+  const agentNames =
+    setup.assistants.length > 0
+      ? AGENT_NAMES.format(setup.assistants.map(getAssistantLabel))
+      : "your AI agent"
 
   return (
-    <div className="flex w-full max-w-2xl flex-col gap-10">
-      <section aria-labelledby="commands-title" className="flex flex-col gap-5">
+    <div className="flex w-full max-w-3xl flex-col gap-10">
+      <section aria-labelledby="command-title" className="flex flex-col gap-4">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex flex-col gap-1">
-            <h2 id="commands-title" className="text-[15px] font-semibold">
-              Run these in your terminal
+            <h2 id="command-title" className="text-[15px] font-semibold">
+              Run this in your terminal
             </h2>
             <p className="text-[13px] text-muted-foreground">
-              {setup.project === "new"
-                ? "In order, from the folder you keep your projects in."
-                : "In order, from your project's root folder."}
+              {isExisting
+                ? "From your project's root folder."
+                : "From the folder you keep your projects in."}
             </p>
           </div>
-          <ToggleGroup
-            // Its sliding selection doesn't follow a value set from outside,
-            // so remount it once the stored choice is read.
-            key={isHydrated ? "stored" : "default"}
-            aria-label="Package manager"
-            value={[packageManager]}
-            onValueChange={(next) => {
-              const selected = PACKAGE_MANAGERS.find((name) => name === next[0])
-              if (selected) setConfig({ ...config, packageManager: selected })
-            }}
-            spacing={0.5}
-            size="sm"
-            className="rounded-lg bg-foreground/[0.06] p-0.5 [&_[data-slot^=fluid-hover]]:rounded-md"
-          >
-            {PACKAGE_MANAGERS.map((name) => (
-              <ToggleGroupItem
-                key={name}
-                value={name}
-                className="h-7 rounded-md! px-2.5 font-mono text-[12px] text-muted-foreground aria-pressed:text-foreground"
-              >
-                {name}
-              </ToggleGroupItem>
-            ))}
-          </ToggleGroup>
+          <PackageManagerSwitch />
         </div>
+        <figure className="relative overflow-hidden rounded-xl bg-code">
+          <CommandText
+            command={command}
+            className="my-4 ms-4 me-12 text-sm leading-relaxed"
+          />
+          <CopyButton
+            value={command}
+            event="copy_npm_command"
+            className="top-2.5"
+          />
+        </figure>
+      </section>
 
-        <ol className="flex flex-col gap-6">
-          {commands.map((command, index) => (
-            <li key={command.id} className="flex gap-3">
-              <span
-                aria-hidden
-                className="mt-px flex size-6 shrink-0 items-center justify-center rounded-full bg-muted text-[12px] font-medium tabular-nums"
-              >
-                {index + 1}
-              </span>
-              <div className="flex min-w-0 flex-1 flex-col gap-2">
-                <div className="flex flex-col gap-0.5">
-                  <h3 className="text-sm font-medium">{command.title}</h3>
-                  <p className="text-[13px] leading-relaxed text-muted-foreground">
-                    {command.description}
-                  </p>
-                </div>
-                <figure className="relative overflow-hidden rounded-xl bg-code">
-                  <pre className="overflow-x-auto py-3.5 ps-4 pe-12 font-mono text-[13px] leading-relaxed [overflow-wrap:anywhere] whitespace-pre-wrap text-code-foreground">
-                    <code>{command.code}</code>
-                  </pre>
-                  <CopyButton
-                    value={command.code}
-                    event="copy_npm_command"
-                    className="top-2"
-                  />
-                </figure>
-              </div>
-            </li>
-          ))}
-        </ol>
-
-        <div className="flex flex-wrap gap-2">
-          <Button onClick={() => copy("script", script)}>
-            {copied === "script" ? (
+      <section aria-labelledby="agent-title" className="flex flex-col gap-4">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div className="flex flex-col gap-1">
+            <h2 id="agent-title" className="text-[15px] font-semibold">
+              Or hand it to your AI agent
+            </h2>
+            <p className="text-[13px] text-muted-foreground">
+              Paste this into {agentNames}. It runs the command, fixes what
+              fails and finishes the setup.
+            </p>
+          </div>
+          <Button
+            variant="outline"
+            onClick={() =>
+              copy("prompt", prompt, { name: "copy_agent_prompt" })
+            }
+          >
+            {copied === "prompt" ? (
               <CheckIcon data-icon="inline-start" />
             ) : (
               <CopyIcon data-icon="inline-start" />
             )}
-            {copied === "script" ? "Copied" : "Copy all commands"}
+            {copied === "prompt" ? "Prompt copied" : "Copy prompt"}
           </Button>
+        </div>
+        <figure className="overflow-hidden rounded-xl bg-code">
+          <AgentPromptText prompt={prompt} command={command} />
+        </figure>
+        <div className="flex flex-wrap items-center gap-3">
           <Button
             variant="outline"
             onClick={() => copy("link", shareLink(setup))}
@@ -201,19 +200,72 @@ export function InstallStep({
             )}
             {copied === "link" ? "Link copied" : "Share this setup"}
           </Button>
+          <p className="text-[13px] leading-relaxed text-muted-foreground">
+            Not the one running it? The link opens this page with your look and
+            choices.
+          </p>
         </div>
-        <p className="text-[13px] leading-relaxed text-muted-foreground">
-          Not the one running the commands? Share this setup with your
-          developer: the link opens this page with your look and choices.
-        </p>
       </section>
 
-      <SetupSummary setup={setup} onEdit={onEdit} />
+      <section aria-labelledby="plan-title" className="flex flex-col gap-4">
+        <h2 id="plan-title" className="text-[15px] font-semibold">
+          What this does
+        </h2>
+        <PlanList steps={plan} />
+      </section>
+
+      {prerequisites.length > 0 ? (
+        <section
+          aria-labelledby="prerequisites-title"
+          className="flex flex-col gap-3"
+        >
+          <h2 id="prerequisites-title" className="text-[15px] font-semibold">
+            Before you run it
+          </h2>
+          <ul className="flex flex-col gap-3">
+            {prerequisites.map((item) => (
+              <li key={item.id} className="flex flex-col gap-0.5">
+                <a
+                  href={item.href}
+                  target="_blank"
+                  rel="noreferrer"
+                  className={`${LINK_CLASS} flex w-fit items-center gap-1.5 text-sm font-medium [&_svg]:size-3.5`}
+                >
+                  {item.title}
+                  <ExternalLinkIcon />
+                </a>
+                <p className="text-[13px] leading-relaxed text-muted-foreground">
+                  {item.detail}
+                </p>
+              </li>
+            ))}
+          </ul>
+        </section>
+      ) : null}
 
       <section aria-labelledby="next-title" className="flex flex-col gap-3">
         <h2 id="next-title" className="text-[15px] font-semibold">
           Then
         </h2>
+        {nextSteps.length > 0 ? (
+          <dl className="flex flex-col gap-2">
+            {nextSteps.map((item) => (
+              <div
+                key={item.code}
+                className="flex flex-wrap items-center justify-between gap-x-4 gap-y-1"
+              >
+                <dt className="text-[13px] text-muted-foreground">
+                  {item.label}
+                </dt>
+                <dd>
+                  <code className="rounded-md bg-muted px-2 py-1 font-mono text-[13px]">
+                    {item.code}
+                  </code>
+                </dd>
+              </div>
+            ))}
+          </dl>
+        ) : null}
         <ul className="flex list-disc flex-col gap-1.5 ps-5 text-[13px] leading-relaxed text-muted-foreground marker:text-muted-foreground/60">
           <li>
             Browse the{" "}
@@ -228,7 +280,7 @@ export function InstallStep({
           </li>
           <li>
             Add a theme toggle with the{" "}
-            <Link href={darkModeGuide} className={LINK_CLASS}>
+            <Link href={getDarkModeGuide(projectSetup)} className={LINK_CLASS}>
               dark mode guide
             </Link>
             .
@@ -259,6 +311,23 @@ function Swatch({ hex }: { hex: string }) {
   )
 }
 
+const STARTING_POINTS: Record<Setup["project"], string> = {
+  new: "A new project",
+  monorepo: "A new monorepo",
+  existing: "An existing project",
+}
+
+function getProjectApps(setup: Setup) {
+  const { hasWeb, hasMobile, hasDesktop } = getShellProject(setup)
+  return [
+    ...(hasWeb ? ["Web"] : []),
+    ...(hasMobile ? ["Mobile"] : []),
+    ...(hasDesktop
+      ? [`Desktop (${setup.desktop === "tauri" ? "Tauri" : "Electron"})`]
+      : []),
+  ]
+}
+
 function SummaryRow({
   label,
   children,
@@ -276,7 +345,7 @@ function SummaryRow({
   )
 }
 
-function SetupSummary({
+export function SetupSummary({
   setup,
   onEdit,
 }: {
@@ -287,20 +356,49 @@ function SetupSummary({
   const surface =
     SURFACE_PRESETS.find(({ tint }) => sameTint(tint, look.surface))?.label ??
     "Custom"
-  const assistant = ASSISTANTS.find(({ value }) => value === setup.assistant)
+  const assistants = ASSISTANTS.filter(({ value }) =>
+    setup.assistants.includes(value)
+  ).map(({ label }) => label)
   const extras = [
     setup.components === "all" ? "Every component" : null,
     setup.sound ? "Sounds" : null,
-    assistant && setup.skill ? `${assistant.label} skill` : null,
-    assistant && setup.mcp ? `${assistant.label} MCP` : null,
+    ...assistants,
   ].filter(Boolean)
+  const appNames = getProjectApps(setup)
+  const apps = resolveApps(setup)
 
   return (
     <section aria-labelledby="summary-title" className="flex flex-col gap-3">
       <h2 id="summary-title" className="text-[15px] font-semibold">
         Your setup
       </h2>
-      <div className="grid gap-3 sm:grid-cols-2">
+      <div className="grid gap-3">
+        <SummaryCard title="Project" onEdit={() => onEdit("project")}>
+          <SummaryRow label="Starting from">
+            {STARTING_POINTS[apps.project]}
+          </SummaryRow>
+          {setup.project === "existing" ? null : (
+            <SummaryRow label="Name">
+              <code className="font-mono">
+                {getProjectTree(toProjectSetup(setup)).name}
+              </code>
+            </SummaryRow>
+          )}
+          {apps.project === "existing" ? null : (
+            <SummaryRow label="Apps">{appNames.join(", ")}</SummaryRow>
+          )}
+          {apps.project === "existing" ? null : (
+            <SummaryRow label="Framework">
+              {FRAMEWORKS.find(({ value }) => value === apps.framework)?.label}
+            </SummaryRow>
+          )}
+          {isNativeFramework(apps.framework) &&
+          apps.project === "new" ? null : (
+            <SummaryRow label="Primitives">
+              {SETUP_BASES.find(({ value }) => value === setup.base)?.label}
+            </SummaryRow>
+          )}
+        </SummaryCard>
         <SummaryCard title="Look" onEdit={() => onEdit("look")}>
           <SummaryRow label="Primary">
             <Swatch hex={roleToHex(look.colors.primary)} />
@@ -325,26 +423,44 @@ function SetupSummary({
             }
           </SummaryRow>
         </SummaryCard>
-        <SummaryCard title="Project" onEdit={() => onEdit("project")}>
-          <SummaryRow label="Starting from">
-            {setup.project === "new" ? "A new project" : "An existing project"}
-          </SummaryRow>
-          {setup.project === "new" ? (
-            <SummaryRow label="Framework">
-              {FRAMEWORKS.find(({ value }) => value === setup.framework)?.label}
-            </SummaryRow>
-          ) : null}
-          <SummaryRow label="Primitives">
-            {SETUP_BASES.find(({ value }) => value === setup.base)?.label}
-          </SummaryRow>
-          <SummaryRow label="Extras">
-            <button
-              type="button"
-              onClick={() => onEdit("extras")}
-              className="rounded-sm text-end outline-none hover:underline focus-visible:ring-1 focus-visible:ring-focus-ring"
-            >
-              {extras.length > 0 ? extras.join(", ") : "None"}
-            </button>
+        <SummaryCard title="App Shell" onEdit={() => onEdit("shell")}>
+          {setup.appShell ? (
+            <>
+              <SummaryRow label="Sidebar">
+                {
+                  SIDEBAR_VARIANT_CHOICES.find(
+                    ({ value }) => value === setup.shell.variant
+                  )?.label
+                }
+              </SummaryRow>
+              <SummaryRow label="Collapse">
+                {
+                  SIDEBAR_COLLAPSE_CHOICES.find(
+                    ({ value }) => value === setup.shell.collapse
+                  )?.label
+                }
+              </SummaryRow>
+              <SummaryRow label="Tabs">
+                {
+                  TAB_PLACEMENT_CHOICES.find(
+                    ({ value }) => value === setup.shell.tabs
+                  )?.label
+                }
+              </SummaryRow>
+              <SummaryRow label="Right panel">
+                {setup.shell.panel ? "On" : "Off"}
+              </SummaryRow>
+              <SummaryRow label="Status bar">
+                {setup.shell.status ? "On" : "Off"}
+              </SummaryRow>
+            </>
+          ) : (
+            <SummaryRow label="In your project">No</SummaryRow>
+          )}
+        </SummaryCard>
+        <SummaryCard title="Extras" onEdit={() => onEdit("extras")}>
+          <SummaryRow label="Included">
+            {extras.length > 0 ? extras.join(", ") : "None"}
           </SummaryRow>
         </SummaryCard>
       </div>

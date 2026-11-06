@@ -1,0 +1,23 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "ericfennis",
+    "wojtekmaj",
+    "mittalyashu",
+    "danielbayley",
+    "karsa-mistmere"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:pencil",
+    "$group:off",
+    "non-editable",
+    "locked",
+    "read-only",
+    "unmodifiable",
+    "frozen"
+  ],
+  "categories": [
+    "$extends:pencil"
+  ]
+}

@@ -1,0 +1,90 @@
+---
+title: Animated
+description: 447 Lucide icons that animate on hover, with the same names and props as the outline icons, built on Motion.
+---
+
+<IconsAnimated />
+
+## Installation
+
+```bash
+npm install @fabricator-ui/icons motion
+```
+
+[Motion](https://motion.dev) is an optional peer dependency: nothing else in the package needs it, so the outline icons and brand marks don't load it. Motion 13 or later, React 19 or later.
+
+The animations render to the DOM, so they work in web apps and in the renderers of Electron and Tauri apps, but not in React Native.
+
+## Usage
+
+Import from `/animated` and the icon plays while the pointer is over it:
+
+```tsx
+import { BellIcon } from "@fabricator-ui/icons/animated"
+
+export function Notifications() {
+  return <BellIcon />
+}
+```
+
+Names, aliases and props match the [outline icons](/docs/icons/react), and the root element is the same `<svg>`, so sizing with `size` or `className`, `data-icon` inside a button and `strokeWidth` all behave the same way. Moving an icon between the two sets is an import change.
+
+These are client components. Each one carries its own `"use client"`, so you can import them from a Server Component.
+
+## Play it from a parent
+
+An icon inside a button should usually play when the button is hovered. Pass a `ref`, which takes the icon off its own hover, and start and stop it yourself:
+
+```tsx
+"use client"
+
+import { useRef } from "react"
+import {
+  UploadIcon,
+  type AnimatedIconHandle,
+} from "@fabricator-ui/icons/animated"
+
+import { Button } from "@/components/ui/button"
+
+export function UploadButton() {
+  const icon = useRef<AnimatedIconHandle>(null)
+  return (
+    <Button
+      onMouseEnter={() => icon.current?.startAnimation()}
+      onMouseLeave={() => icon.current?.stopAnimation()}
+    >
+      <UploadIcon ref={icon} data-icon="inline-start" />
+      Upload
+    </Button>
+  )
+}
+```
+
+Some animations loop until `stopAnimation()`, and some hold their last frame until then, so always pair the two.
+
+## Reduced motion
+
+With `prefers-reduced-motion: reduce`, or `data-motion="off"` on `<html>`, icons stay at rest. The check runs each time an animation starts, so changing the setting needs no re-render.
+
+## Size
+
+One animated icon costs about 1.5 KB, minified and gzipped. Motion adds about 47 KB once per page, or nothing more if your app already uses it.
+
+## The icons
+
+The animations come from [lucide-animated](https://lucide-animated.com), MIT licensed, vendored at a pinned commit. They differ from the originals in a few ways:
+
+- The root is an `<svg>`, not an `<svg>` inside a `<div>`, and the default size is 24, not 28.
+- Icons take Lucide's current names, so upstream's `home` is `HouseIcon`, with `HomeIcon` as its alias.
+- Your `onMouseEnter` and `onMouseLeave` always run, with or without a `ref`.
+- Reduced motion is honoured.
+
+When an icon has the same parts as the Lucide icon we ship, it takes our current geometry, so at rest it draws what the outline icon draws. 35 icons animate parts that don't line up with the current drawing and keep an older one, so they differ slightly at rest. Their panels on the [Icons](/icons?set=animated) page say so.
+
+A few upstream icons rest as a different Lucide icon than their name says, and take the name of what they draw. Upstream's `delete` is a bin, so it's `TrashIcon`. Its `volume` rests muted, so it's `VolumeXIcon`. Its `clipboard-check` rests empty and draws the check on hover, so it's `ClipboardIcon`.
+
+## Left out
+
+- **Brand logos.** GitHub, Instagram, YouTube and nine others are stroked redraws. [Brands](/docs/icons/brands) draws those marks as their owners publish them.
+- **Not Lucide icons.** `connect` and `clap` have no Lucide icon, and `flask` and `syringe` are filled drawings on another grid.
+- **Icons that don't work.** `concierge-bell` ignores hover, `hard-drive-download` shows no movement and doesn't return to rest, `log-in` and `log-out` stay shifted after hover, and `folder-root` rests faded with a pulse that's hard to see.

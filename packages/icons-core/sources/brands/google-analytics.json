@@ -1,0 +1,18 @@
+{
+  "title": "Google Analytics",
+  "group": "Marketing & commerce",
+  "tags": [
+    "ga4",
+    "analytics",
+    "google",
+    "tracking"
+  ],
+  "aliases": [
+    "googleanalytics"
+  ],
+  "hex": "#E37400",
+  "scale": 0.88,
+  "source": "Simple Icons 16.36.0 (https://marketingplatform.google.com/intl/en_uk/about/analytics/)",
+  "license": "CC0-1.0",
+  "artSource": "gilbarbara/logos via @iconify-json/logos 1.2.18 (CC0-1.0)"
+}

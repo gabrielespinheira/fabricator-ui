@@ -3,7 +3,10 @@ import { Command } from "commander"
 
 import pkg from "../package.json" with { type: "json" }
 import { createAddCommand } from "./commands/add"
+import { createAgentsCommand } from "./commands/agents"
 import { createApplyCommand } from "./commands/apply"
+import { createAppsCommand } from "./commands/apps"
+import { createCreateCommand } from "./commands/create"
 import { createDiffCommand } from "./commands/diff"
 import { createDocsCommand } from "./commands/docs"
 import { createDoctorCommand } from "./commands/doctor"
@@ -11,6 +14,7 @@ import { createInfoCommand } from "./commands/info"
 import { createInitCommand } from "./commands/init"
 import { createMcpCommand } from "./commands/mcp"
 import { createSearchCommand } from "./commands/search"
+import { createUpgradeCommand } from "./commands/upgrade"
 import { createViewCommand } from "./commands/view"
 import { highlight } from "./utils/logger"
 
@@ -36,8 +40,12 @@ export function createProgram(): Command {
     )
 
   program
+    .addCommand(createCreateCommand())
     .addCommand(createInitCommand())
     .addCommand(createAddCommand())
+    .addCommand(createAppsCommand())
+    .addCommand(createAgentsCommand())
+    .addCommand(createUpgradeCommand())
     .addCommand(createApplyCommand())
     .addCommand(createSearchCommand())
     .addCommand(createViewCommand())

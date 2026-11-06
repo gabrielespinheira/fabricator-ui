@@ -1,0 +1,18 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "danielbayley"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:folder-open",
+    "$group:dot",
+    "root",
+    "project",
+    "pinned"
+  ],
+  "categories": [
+    "$extends:folder-open",
+    "development"
+  ]
+}

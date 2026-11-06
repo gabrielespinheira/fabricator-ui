@@ -1,0 +1,58 @@
+---
+title: Brands
+description: 143 brand marks in one colour or their own, never redrawn, with their sources, licences and guidelines.
+---
+
+<IconsBrandColors />
+
+## What's in the set
+
+The set covers social networks, marketing and commerce tools, and product and developer brands, from Node.js, React, Next.js and Bun to Docker, PostgreSQL, Prisma and Vitest. Browse all 143 on the [Icons](/icons?set=brands) page.
+
+Every mark is reproduced as its source publishes it. Almost all of the geometry comes from [Simple Icons](https://simpleicons.org) and, for multi-colour art, from [gilbarbara/logos](https://github.com/gilbarbara/logos), both CC0. The art of Google Sheets, Google Search Console and Cal.com has no recorded source yet, and their panels say so. Motion's mark is copied from motion.dev. PHP's and Tux's licences ask for credit, which their panels and `BRANDS.md` give. OpenAI's mark comes from SharpOS's set and is an older drawing. OpenAI's [terms](https://openai.com/brand/) say its permission can't be passed on, so if you use the mark, those terms apply to you directly. Each mark's source, licence and brand guidelines are on its detail panel and in the package's `BRANDS.md`.
+
+## One colour or brand colour
+
+By default a mark is one colour that follows the text colour, which suits buttons, footers and "Continue with Google". `color="brand"` paints the brand's own colours:
+
+- the brand's own artwork for logos with more than one colour, or with white details: the Google family, Google Chrome, Figma, TikTok, YouTube, Dribbble, LinkedIn, Cal.com, GitLab, Airtable, Bun, Cloudflare, PostHog, Shopify, Tauri, Vue.js, Miro, JavaScript, TypeScript, npm, Facebook, Reddit, Firefox, Astro, Messenger, Meta, Telegram, Supabase, CSS, PostgreSQL, Testing Library, Hono, Motion, Safari, Booking.com and Konva;
+- black and near-black marks, such as X, GitHub and Apple, follow the text colour, so they stay visible in dark mode;
+- every other mark keeps its official colour in light mode, and in dark mode is lifted until it reaches 4.5:1 against the dark surface, if it falls below 3:1.
+
+Artwork with gradients, like Firefox's, carries its gradient definitions. React and React Native give each copy its own ids, and the static files name them after the brand (`fab-firefox-g0`), so any number of marks can share a page.
+
+## Size
+
+A mark that fills the corners of its box, like X or LinkedIn, looks bigger than a round one. Each mark's reach is measured and those above 1.08 times the median are scaled down, by up to 16%, through the viewBox. The shapes themselves never change.
+
+## Using a mark
+
+The marks are trademarks of their owners, and including them doesn't imply any affiliation or endorsement. The MIT licence covers Fabricator's code, not the marks. Before you use one:
+
+- read the owner's guidelines, linked from the mark;
+- use it to refer to that brand or its product, not as your own logo;
+- don't redraw, recolour beyond what the guidelines allow, or combine it with other marks.
+
+## Held marks
+
+These marks are left out because their owners' terms don't allow redistributing them in a library:
+
+| Brand               | Why                                                                         |
+| ------------------- | --------------------------------------------------------------------------- |
+| Slack               | Slack's brand terms forbid distributing its logo files.                     |
+| Microsoft           | Microsoft licenses its logos to third parties only by agreement.            |
+| Amazon Web Services | AWS licenses its logos only to customers and partners, for specific uses.   |
+| Visual Studio Code  | Microsoft forbids modified versions of the VS Code icon; one colour is one. |
+| Terraform           | HashiCorp doesn't license its product logos to the public.                  |
+| Google Cloud        | Google Cloud allows a plain-text mention only, without approval.            |
+| Python              | The PSF requires permission for its logo in other colours.                  |
+| MySQL               | Oracle limits the MySQL logo to companies with a written agreement.         |
+| Airbnb              | Airbnb forbids using its logos without written permission.                  |
+| GSAP                | Webflow allows text references to GSAP only.                                |
+| Playwright          | A Microsoft product; Microsoft licenses its logos only by agreement.        |
+
+Use these from the brands' own kits, under their terms.
+
+## Removals
+
+To ask for a mark to be removed or updated, open an issue on [GitHub](https://github.com/gabrielespinheira/fabricator-ui/issues). Removals ship in the next patch release.

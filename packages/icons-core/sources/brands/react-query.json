@@ -1,0 +1,13 @@
+{
+  "title": "React Query",
+  "group": "Product & dev",
+  "tags": [
+    "tanstack query",
+    "tanstack",
+    "data fetching"
+  ],
+  "aliases": [],
+  "hex": "#FF4154",
+  "source": "Simple Icons 16.36.0 (https://github.com/tannerlinsley/react-query/blob/9b5d18cd47a4c1454d6c8dd0f38280641c1dd5dd/docs/src/images/emblem-light.svg)",
+  "license": "CC0-1.0"
+}

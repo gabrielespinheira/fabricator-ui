@@ -1,0 +1,18 @@
+/* MARK: Tooltip */
+
+  /* Inverted chip (the component sets bg-foreground): 12pt medium, px-2 py-1,
+     rounded-lg. Grows from its trigger on the tooltip motion
+     (useSurfaceAnimation). */
+  .cn-tooltip-content {
+    @apply rounded-lg px-(--density-8) py-1;
+  }
+
+  /* On the website this holds the motion, which is useSurfaceAnimation here. It
+     keeps the spacing instead. */
+  .cn-tooltip-content-logical {
+    @apply gap-(--density-6);
+  }
+
+  .cn-tooltip-text {
+    @apply text-background text-(length:--density-text-12) leading-4 font-medium;
+  }

@@ -1,0 +1,73 @@
+import * as React from "react"
+import { Example, ExampleWrapper } from "@/examples/native/example"
+import { View } from "react-native"
+
+import { Button } from "@/registry/native/ui/button"
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/registry/native/ui/hover-card"
+import { Text } from "@/registry/native/ui/text"
+
+const SIDES = ["top", "bottom"] as const
+
+function HoverCardExample() {
+  const [isOpen, setIsOpen] = React.useState(false)
+  const [taps, setTaps] = React.useState(0)
+  return (
+    <ExampleWrapper>
+      <Example title="Long press to open. A tap goes through">
+        <HoverCard>
+          <HoverCardTrigger
+            render={<Button variant="link" />}
+            onPress={() => setTaps(taps + 1)}
+          >
+            @gabs ({taps})
+          </HoverCardTrigger>
+          <HoverCardContent>
+            <View className="gap-1">
+              <Text className="font-medium">Gabs</Text>
+              <Text className="text-muted-foreground">
+                Building Fabricator UI at Acme Inc.
+              </Text>
+            </View>
+          </HoverCardContent>
+        </HoverCard>
+      </Example>
+      <Example title="Sides" className="flex-row flex-wrap">
+        {SIDES.map((side) => (
+          <HoverCard key={side}>
+            <HoverCardTrigger render={<Button variant="outline" />}>
+              {side}
+            </HoverCardTrigger>
+            <HoverCardContent side={side}>
+              This card opens on the {side} of its trigger.
+            </HoverCardContent>
+          </HoverCard>
+        ))}
+      </Example>
+      <Example title="A shorter press">
+        <HoverCard>
+          <HoverCardTrigger delay={200} render={<Button variant="outline" />}>
+            Quick
+          </HoverCardTrigger>
+          <HoverCardContent>Opens after 200ms.</HoverCardContent>
+        </HoverCard>
+      </Example>
+      <Example title="Controlled">
+        <Button variant="outline" onPress={() => setIsOpen(true)}>
+          Open from state
+        </Button>
+        <HoverCard open={isOpen} onOpenChange={setIsOpen}>
+          <HoverCardTrigger render={<Button variant="secondary" />}>
+            Anchor
+          </HoverCardTrigger>
+          <HoverCardContent>Press outside to close.</HoverCardContent>
+        </HoverCard>
+      </Example>
+    </ExampleWrapper>
+  )
+}
+
+export { HoverCardExample }

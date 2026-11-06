@@ -1,0 +1,71 @@
+/* MARK: App Nav */
+
+  .cn-app-nav {
+    @apply gap-0;
+  }
+
+  /* A dragged row lifts onto a floating surface, lit and without its controls,
+     and a slot (dnd-kit's placeholder, a copy of the row) marks where it lands.
+     A row with children gives its icon's place to the chevron while it is
+     hovered, lit or focused (on touch, always). On the rail, where a badge has
+     no room, a dot on the icon stands for it; the tooltip has its value. */
+  .cn-app-nav-item {
+    @apply group-data-[collapsible=icon]:data-badge:after:pointer-events-none group-data-[collapsible=icon]:data-badge:after:absolute group-data-[collapsible=icon]:data-badge:after:end-[calc(50%-var(--density-icon-16)/2-1px)] group-data-[collapsible=icon]:data-badge:after:top-[calc(50%-var(--density-icon-16)/2-1px)] group-data-[collapsible=icon]:data-badge:after:size-1.5 group-data-[collapsible=icon]:data-badge:after:rounded-full group-data-[collapsible=icon]:data-badge:after:bg-primary data-dragging:z-10 data-dragging:rounded-lg data-dragging:bg-surface-5 data-dragging:shadow-surface-5 data-dragging:[&>:is([data-sidebar=menu-button],[data-sidebar=menu-sub-button])]:text-foreground data-dragging:[&>:is([data-slot=sidebar-menu-actions],[data-slot=app-nav-toggle])]:hidden data-dnd-placeholder:visible! data-dnd-placeholder:bg-hover! data-dnd-placeholder:shadow-none! [&[data-dnd-placeholder]>*]:invisible [&>:is([data-sidebar=menu-button],[data-sidebar=menu-sub-button])>:first-child]:transition-opacity [&>:is([data-sidebar=menu-button],[data-sidebar=menu-sub-button])>:first-child]:duration-feedback [&:has(>[data-slot=app-nav-toggle])>:is([data-sidebar=menu-button],[data-sidebar=menu-sub-button]):is(:hover,[data-fluid-hover-active],:focus-visible)>:first-child]:opacity-0 [&:has(>[data-slot=app-nav-toggle]:is(:hover,:focus-visible))>:is([data-sidebar=menu-button],[data-sidebar=menu-sub-button])>:first-child]:opacity-0 pointer-coarse:[&:has(>[data-slot=app-nav-toggle])>:is([data-sidebar=menu-button],[data-sidebar=menu-sub-button])>:first-child]:opacity-0;
+  }
+
+  /* The chevron in the icon column: 14px (a 24px target on touch), turned down while open, shown
+     with the row's hover, light or focus (always without an icon or on
+     touch). */
+  .cn-app-nav-toggle {
+    @apply z-10 cursor-pointer rounded-sm text-muted-foreground ring-ring outline-none top-[calc((var(--density-30)-var(--density-icon-16))/2)] start-[calc(var(--density-8)+(var(--density-icon-16)+var(--density-8))*var(--sidebar-menu-depth,0))] size-(--density-icon-16) opacity-0 transition-opacity duration-feedback hover:text-foreground hover:opacity-100 focus-visible:opacity-100 focus-visible:ring-1 peer-hover/menu-button:opacity-100 peer-data-fluid-hover-active/menu-button:opacity-100 peer-focus-visible/menu-button:opacity-100 data-bare:opacity-100 pointer-coarse:opacity-100 [--app-nav-toggle-target:max(var(--density-24),1.5rem)] pointer-coarse:size-(--app-nav-toggle-target) pointer-coarse:m-[calc((var(--density-icon-16)-var(--app-nav-toggle-target))/2)] after:absolute after:-inset-1 [&_svg]:size-(--density-icon-14) [&_svg]:stroke-[1.5] [&_svg]:transition-transform [&_svg]:duration-feedback [&_svg]:ease-feedback aria-expanded:[&_svg]:rotate-90 motion-reduce:[&_svg]:transition-none group-data-[collapsible=icon]:hidden;
+  }
+
+  /* The icon column of a row without an icon. */
+  .cn-app-nav-icon-space {
+    @apply size-(--density-icon-16);
+  }
+
+  /* The rail's menu marks the page it holds. */
+  .cn-app-nav-menu {
+    @apply min-w-48 [&_[data-current]]:bg-active [&_[data-current]]:text-foreground;
+  }
+
+  .cn-app-nav-customize {
+    @apply sm:max-w-md;
+  }
+
+  .cn-app-nav-customize-list {
+    @apply max-h-[60svh] gap-(--density-16) overflow-y-auto;
+  }
+
+  .cn-app-nav-customize-group {
+    @apply gap-0.5;
+  }
+
+  .cn-app-nav-customize-rows {
+    @apply gap-0.5;
+  }
+
+  /* As in the sidebar: lifted while dragged, with a slot where it lands. */
+  .cn-app-nav-customize-item {
+    @apply gap-0.5 rounded-lg data-dragging:z-10 data-dragging:bg-surface-6 data-dragging:shadow-surface-6 data-dnd-placeholder:visible! data-dnd-placeholder:bg-hover! data-dnd-placeholder:shadow-none! [&[data-dnd-placeholder]>*]:invisible;
+  }
+
+  .cn-app-nav-customize-label {
+    @apply px-(--density-8) pb-(--density-4) text-(length:--density-text-12) text-muted-foreground;
+  }
+
+  /* As in the sidebar, a child's icon starts under its parent's label. */
+  .cn-app-nav-customize-row {
+    @apply min-h-(--density-36) gap-(--density-4) rounded-lg pe-(--density-8) ps-[calc(var(--density-4)+(var(--density-icon-16)+var(--density-8))*var(--app-nav-depth,0))] text-(length:--density-text-13) hover:bg-hover;
+  }
+
+  /* The grip drags, and arrow keys move the row. A row alone in its list has
+     nowhere to go, so it keeps the space and hides the grip. */
+  .cn-app-nav-customize-handle {
+    @apply size-(--density-24) shrink-0 cursor-grab touch-none rounded-md text-muted-foreground ring-ring outline-none transition-colors duration-feedback hover:bg-hover hover:text-foreground focus-visible:ring-1 active:cursor-grabbing disabled:invisible [&>svg]:size-(--density-icon-14) [&>svg]:stroke-[1.5];
+  }
+
+  .cn-app-nav-customize-name {
+    @apply min-h-(--density-36) min-w-0 flex-1 cursor-pointer items-center gap-(--density-8) [&>svg]:size-(--density-icon-16) [&>svg]:shrink-0 [&>svg]:stroke-[1.5] [&>svg]:text-muted-foreground;
+  }

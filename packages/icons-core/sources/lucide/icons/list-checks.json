@@ -1,0 +1,16 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "ericfennis",
+    "karsa-mistmere"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$group:check",
+    "items",
+    "pending"
+  ],
+  "categories": [
+    "$extends:list"
+  ]
+}

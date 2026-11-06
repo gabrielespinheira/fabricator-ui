@@ -1,0 +1,16 @@
+{
+  "title": "OpenAI",
+  "group": "Product & dev",
+  "tags": [
+    "ai",
+    "gpt",
+    "chatgpt",
+    "llm",
+    "model"
+  ],
+  "aliases": [],
+  "hex": "#000000",
+  "source": "SharpOS @sharp/core-brand-icons 3.0.1",
+  "license": "unknown",
+  "credit": "OpenAI and its logo are trademarks of OpenAI and belong to it. Terms: https://openai.com/brand/"
+}

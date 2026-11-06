@@ -6,6 +6,7 @@ import { Icons } from "@/components/icons"
 
 const LINKS = [
   { href: "/docs", label: "Docs" },
+  { href: "/icons", label: "Icons" },
   { href: "/docs/changelog", label: "Changelog" },
   { href: "/llms.txt", label: "llms.txt" },
 ]
@@ -14,12 +15,7 @@ const LINKS = [
 export function SiteFooter() {
   return (
     <footer className="group-has-data-[slot=docs-shell]/layout:hidden">
-      <div className="flex justify-center py-16">
-        <span className="flex size-10 items-center justify-center rounded-xl bg-muted text-muted-foreground">
-          <Icons.logo className="size-5" />
-        </span>
-      </div>
-      <div className="grid grid-cols-1 items-center gap-3 px-4 pb-8 text-[13px] text-muted-foreground sm:grid-cols-3 sm:px-5">
+      <div className="grid grid-cols-1 items-center gap-3 px-4 py-6 text-[13px] text-muted-foreground sm:grid-cols-3 sm:px-5">
         <p className="text-center sm:text-start">
           <span className="text-foreground">Open source</span> under the MIT
           License

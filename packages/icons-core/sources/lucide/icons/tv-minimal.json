@@ -1,0 +1,24 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "ericfennis"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:tv",
+    "flat screen",
+    "home cinema",
+    "catchup"
+  ],
+  "categories": [
+    "devices",
+    "multimedia"
+  ],
+  "aliases": [
+    {
+      "name": "tv-2",
+      "deprecated": true,
+      "deprecationReason": "alias.name"
+    }
+  ]
+}

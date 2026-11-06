@@ -1,0 +1,46 @@
+---
+title: November 2026 - App Shell
+description: App Shell, App Nav, Tab Strip, Workspace Switcher and User Menu, for the frame of an app on the web, on phones and in desktop windows.
+date: 2026-11-03
+---
+
+Five new components put an app's frame together:
+
+- [App Shell](/docs/components/base/app-shell): the Sidebar, a main column with a header, breadcrumb and status bar, side panels that dock beside the page or float over it, one shortcut registry, and the native window controls of Electron and Tauri apps. Its layout follows its own width.
+- [App Nav](/docs/components/base/app-nav): a navigation model rendered into the Sidebar, nested to any depth, with row actions, reordering at every level, pinning and hiding.
+- [Tab Strip](/docs/components/base/tab-strip): document tabs with pinned and preview tabs, drag to reorder, close variants, reopen and rename.
+- [Workspace Switcher](/docs/components/base/workspace-switcher) and [User Menu](/docs/components/base/user-menu).
+
+Five blocks, `app-shell-01` to `app-shell-05`, start you from a workspace app, a workbench, a classic SaaS layout, a desktop app and a mobile-first app.
+
+The behaviour lives in `lib/app-shell-model.ts`, which has no DOM, so a React Native app can share the navigation config, the tab state and the shortcuts.
+
+In a desktop window the sidebar toggle sits in the window's top band, beside the traffic lights on macOS, and `isTranslucent` lets the window's material (macOS vibrancy, Windows Mica) show through the sidebar and the status bar, which sits on the frame under the main column and the panels. Try every option on the [playground](/app-shell).
+
+On phones the shell shows the sidebar behind the page, which moves aside and shrinks beside it; `mobileSidebar="sheet"` keeps a sheet. The panel's toggle holds one spot on screen to open and close.
+
+[The App Shell page](/app-shell) gives you a command for the options you pick: `add app-shell` with its URL writes `components/app-shell-layout.tsx`, already set up with them.
+
+`AppShellContent` takes a `size` (`sm`, `md` or `lg`) that centres the page in a column and gives it the page's padding; left out, the page has the main column's full width.
+
+The [Get started](/create) page previews the real App Shell. A new Shell step sets its options, and the install commands add it with those choices.
+
+With the floating sidebar, only the card has a background: the space around it, the status bar and a titlebar take the main column's colour, and in a translucent window the card shows the glass. The App Shell sits on one 8px grid: the main card and the panel keep 8px from the window and each other, the Sidebar's rows keep 8px from all four of its edges, and the top rows of the Sidebar and the main column line up in every sidebar style. The controls at the ends of the top row sit as far from the card's side as from its top, in every layout and density.
+
+The Sidebar's rows sit 8px from its edges in the `inset` variant, as in `sidebar`, and groups sit 16px apart. Group actions, badges, row actions, the header's trigger and the large rows' chevrons share one axis. Nested rows use the same 16px icons, and each one's icon starts under its parent's label. `SidebarGroupActions` gained `showOnHover`, App Nav uses it, and a closed group hides its actions. `AppNavCustomize`'s default trigger is a sidebar row with an icon, so it fits the icon rail.
+
+App Nav's Customize dialog reorders rows too, by dragging their grips or with the arrow keys, in any group. A dragged row lifts off the list, and a slot marks where it lands.
+
+Toggle Group's joined groups (`spacing={0}`) keep the first button's border and rounded corners, and clip the sliding selection to their own.
+
+The Sidebar's provider gained `onWidthChange`, called when a rail resize ends, and `mobileSidebar`. Its rows are 30px and calmer at rest, with labels at 80% foreground and muted icons, and the active row sits raised on its background instead of turning semibold. Sub-menus nest to any depth, 16px a level, with a guide line that shows on hover and a quiet wash on the current nested row. Group headers are 24px with the chevron after the label, and the toggle draws a filled panel glyph at 18px. Density gained a 30px step (`--density-30`).
+
+Tabs' resting labels are a step darker in light mode, so they meet 4.5:1 on the track.
+
+A sidebar collapsed to icons works much better. Every row, the workspace and the account have a tooltip, with the row's badge in it and a dot on its icon. A row with children opens a menu of them instead of doing nothing, its icon no longer vanishes on hover, and a collapsed group's rows stay on the rail. On macOS the rail is wide enough to keep the traffic lights on it. On React Native, an off-canvas sidebar no longer leaves part of itself in the safe area.
+
+Breadcrumb's text sits on a whole-pixel line at every density, so it centres on its separators and on the App Shell header, instead of rounding up above them.
+
+```bash
+npx fabricator-ui@latest add app-shell app-nav tab-strip workspace-switcher user-menu
+```

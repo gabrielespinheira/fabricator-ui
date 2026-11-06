@@ -1,0 +1,22 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "colebemis",
+    "ericfennis",
+    "jguddas",
+    "johnletey",
+    "Footagesus"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:battery",
+    "$group:plus",
+    "economy",
+    "health",
+    "maximum",
+    "upgrade"
+  ],
+  "categories": [
+    "devices"
+  ]
+}

@@ -1,0 +1,25 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "ericfennis",
+    "csandman",
+    "karsa-mistmere"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$group:direction-down",
+    "$group:sort"
+  ],
+  "categories": [
+    "$extends:arrow-down",
+    "text",
+    "layout"
+  ],
+  "aliases": [
+    {
+      "name": "sort-desc",
+      "deprecationReason": "alias.name",
+      "deprecated": true
+    }
+  ]
+}

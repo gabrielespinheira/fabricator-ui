@@ -1,0 +1,322 @@
+---
+title: Menubar
+description: A visually persistent menu common in desktop applications that provides quick access to a consistent set of commands.
+base: native
+component: true
+---
+
+<NativePreview src="/images/native/menubar.jpg" alt="Menubar on iOS" />
+
+## Installation
+
+```bash
+npx fabricator-ui@latest add menubar
+```
+
+## Usage
+
+```tsx
+import { Button } from "@/components/ui/button"
+import {
+  Menubar,
+  MenubarCheckboxItem,
+  MenubarContent,
+  MenubarGroup,
+  MenubarItem,
+  MenubarLabel,
+  MenubarMenu,
+  MenubarPortal,
+  MenubarRadioGroup,
+  MenubarRadioItem,
+  MenubarSeparator,
+  MenubarShortcut,
+  MenubarSub,
+  MenubarSubContent,
+  MenubarSubTrigger,
+  MenubarTrigger,
+} from "@/components/ui/menubar"
+```
+
+```tsx
+<Menubar>
+  <MenubarMenu>
+    <MenubarTrigger>File</MenubarTrigger>
+    <MenubarContent>
+      <MenubarGroup>
+        <MenubarItem>
+          New tab
+          <MenubarShortcut>⌘T</MenubarShortcut>
+        </MenubarItem>
+        <MenubarItem disabled>New window</MenubarItem>
+        <MenubarItem inset>Share</MenubarItem>
+      </MenubarGroup>
+      <MenubarSeparator />
+      <MenubarSub>
+        <MenubarSubTrigger>Export</MenubarSubTrigger>
+        <MenubarPortal>
+          <MenubarSubContent>
+            <MenubarItem>PDF</MenubarItem>
+            <MenubarItem>Markdown</MenubarItem>
+          </MenubarSubContent>
+        </MenubarPortal>
+      </MenubarSub>
+      <MenubarSub>
+        <MenubarSubTrigger inset>Share with</MenubarSubTrigger>
+        <MenubarSubContent>
+          <MenubarItem>Team</MenubarItem>
+        </MenubarSubContent>
+      </MenubarSub>
+      <MenubarSeparator />
+      <MenubarItem variant="destructive">
+        <TrashIcon />
+        Delete
+      </MenubarItem>
+    </MenubarContent>
+  </MenubarMenu>
+  <MenubarMenu>
+    <MenubarTrigger>Edit</MenubarTrigger>
+    <MenubarContent>
+      <MenubarLabel>Clipboard</MenubarLabel>
+      <MenubarGroup>
+        <MenubarItem>
+          <ScissorsIcon />
+          Cut
+        </MenubarItem>
+        <MenubarItem>
+          <CopyIcon />
+          Copy
+        </MenubarItem>
+        <MenubarItem>
+          <ClipboardIcon />
+          Paste
+        </MenubarItem>
+      </MenubarGroup>
+    </MenubarContent>
+  </MenubarMenu>
+  <MenubarMenu>
+    <MenubarTrigger>View</MenubarTrigger>
+    <MenubarContent>
+      <MenubarCheckboxItem
+        checked={showStatus}
+        onCheckedChange={setShowStatus}
+      >
+        Status bar
+      </MenubarCheckboxItem>
+      <MenubarCheckboxItem defaultChecked>Toolbar</MenubarCheckboxItem>
+      <MenubarCheckboxItem disabled>Minimap</MenubarCheckboxItem>
+    </MenubarContent>
+  </MenubarMenu>
+  <MenubarMenu>
+    <MenubarTrigger>Theme</MenubarTrigger>
+    <MenubarContent>
+      <MenubarLabel inset>Appearance</MenubarLabel>
+      <MenubarRadioGroup value={theme} onValueChange={setTheme}>
+        <MenubarRadioItem value="light">Light</MenubarRadioItem>
+        <MenubarRadioItem value="dark">Dark</MenubarRadioItem>
+        <MenubarRadioItem value="system">System</MenubarRadioItem>
+      </MenubarRadioGroup>
+    </MenubarContent>
+  </MenubarMenu>
+  <MenubarMenu>
+    <MenubarTrigger>Window</MenubarTrigger>
+    <MenubarContent>
+      <MenubarItem>Minimize</MenubarItem>
+    </MenubarContent>
+  </MenubarMenu>
+  <MenubarMenu>
+    <MenubarTrigger>Help</MenubarTrigger>
+    <MenubarContent>
+      <MenubarItem>Docs</MenubarItem>
+    </MenubarContent>
+  </MenubarMenu>
+</Menubar>
+```
+
+## Composition
+
+- `Menubar`
+- `MenubarCheckboxItem`
+- `MenubarContent`
+- `MenubarGroup`
+- `MenubarItem`
+- `MenubarLabel`
+- `MenubarMenu`
+- `MenubarPortal`
+- `MenubarRadioGroup`
+- `MenubarRadioItem`
+- `MenubarSeparator`
+- `MenubarShortcut`
+- `MenubarSub`
+- `MenubarSubContent`
+- `MenubarSubTrigger`
+- `MenubarTrigger`
+
+## Examples
+
+```tsx showLineNumbers title="menubar-example.tsx"
+import * as React from "react"
+import {
+  ClipboardIcon,
+  CopyIcon,
+  ScissorsIcon,
+  TrashIcon,
+} from "@fabricator-ui/icons-react-native"
+
+import { Button } from "@/components/ui/button"
+import {
+  Menubar,
+  MenubarCheckboxItem,
+  MenubarContent,
+  MenubarGroup,
+  MenubarItem,
+  MenubarLabel,
+  MenubarMenu,
+  MenubarPortal,
+  MenubarRadioGroup,
+  MenubarRadioItem,
+  MenubarSeparator,
+  MenubarShortcut,
+  MenubarSub,
+  MenubarSubContent,
+  MenubarSubTrigger,
+  MenubarTrigger,
+} from "@/components/ui/menubar"
+
+function MenubarExample() {
+  const [isOpen, setIsOpen] = React.useState(false)
+  const [showStatus, setShowStatus] = React.useState(true)
+  const [theme, setTheme] = React.useState("system")
+  return (
+    <ExampleWrapper>
+      <Example title="Popovers on tablets, sheets on phones">
+        <Menubar>
+          <MenubarMenu>
+            <MenubarTrigger>File</MenubarTrigger>
+            <MenubarContent>
+              <MenubarGroup>
+                <MenubarItem>
+                  New tab
+                  <MenubarShortcut>⌘T</MenubarShortcut>
+                </MenubarItem>
+                <MenubarItem disabled>New window</MenubarItem>
+                <MenubarItem inset>Share</MenubarItem>
+              </MenubarGroup>
+              <MenubarSeparator />
+              <MenubarSub>
+                <MenubarSubTrigger>Export</MenubarSubTrigger>
+                <MenubarPortal>
+                  <MenubarSubContent>
+                    <MenubarItem>PDF</MenubarItem>
+                    <MenubarItem>Markdown</MenubarItem>
+                  </MenubarSubContent>
+                </MenubarPortal>
+              </MenubarSub>
+              <MenubarSub>
+                <MenubarSubTrigger inset>Share with</MenubarSubTrigger>
+                <MenubarSubContent>
+                  <MenubarItem>Team</MenubarItem>
+                </MenubarSubContent>
+              </MenubarSub>
+              <MenubarSeparator />
+              <MenubarItem variant="destructive">
+                <TrashIcon />
+                Delete
+              </MenubarItem>
+            </MenubarContent>
+          </MenubarMenu>
+          <MenubarMenu>
+            <MenubarTrigger>Edit</MenubarTrigger>
+            <MenubarContent>
+              <MenubarLabel>Clipboard</MenubarLabel>
+              <MenubarGroup>
+                <MenubarItem>
+                  <ScissorsIcon />
+                  Cut
+                </MenubarItem>
+                <MenubarItem>
+                  <CopyIcon />
+                  Copy
+                </MenubarItem>
+                <MenubarItem>
+                  <ClipboardIcon />
+                  Paste
+                </MenubarItem>
+              </MenubarGroup>
+            </MenubarContent>
+          </MenubarMenu>
+          <MenubarMenu>
+            <MenubarTrigger>View</MenubarTrigger>
+            <MenubarContent>
+              <MenubarCheckboxItem
+                checked={showStatus}
+                onCheckedChange={setShowStatus}
+              >
+                Status bar
+              </MenubarCheckboxItem>
+              <MenubarCheckboxItem defaultChecked>Toolbar</MenubarCheckboxItem>
+              <MenubarCheckboxItem disabled>Minimap</MenubarCheckboxItem>
+            </MenubarContent>
+          </MenubarMenu>
+          <MenubarMenu>
+            <MenubarTrigger>Theme</MenubarTrigger>
+            <MenubarContent>
+              <MenubarLabel inset>Appearance</MenubarLabel>
+              <MenubarRadioGroup value={theme} onValueChange={setTheme}>
+                <MenubarRadioItem value="light">Light</MenubarRadioItem>
+                <MenubarRadioItem value="dark">Dark</MenubarRadioItem>
+                <MenubarRadioItem value="system">System</MenubarRadioItem>
+              </MenubarRadioGroup>
+            </MenubarContent>
+          </MenubarMenu>
+          <MenubarMenu>
+            <MenubarTrigger>Window</MenubarTrigger>
+            <MenubarContent>
+              <MenubarItem>Minimize</MenubarItem>
+            </MenubarContent>
+          </MenubarMenu>
+          <MenubarMenu>
+            <MenubarTrigger>Help</MenubarTrigger>
+            <MenubarContent>
+              <MenubarItem>Docs</MenubarItem>
+            </MenubarContent>
+          </MenubarMenu>
+        </Menubar>
+      </Example>
+      <Example title="Open from state">
+        <Button variant="outline" onPress={() => setIsOpen(true)}>
+          Open File
+        </Button>
+        <Menubar>
+          <MenubarMenu open={isOpen} onOpenChange={setIsOpen}>
+            <MenubarTrigger>File</MenubarTrigger>
+            <MenubarContent>
+              <MenubarRadioGroup defaultValue="draft">
+                <MenubarRadioItem value="draft">Draft</MenubarRadioItem>
+                <MenubarRadioItem value="final" closeOnClick>
+                  Final
+                </MenubarRadioItem>
+              </MenubarRadioGroup>
+            </MenubarContent>
+          </MenubarMenu>
+        </Menubar>
+      </Example>
+    </ExampleWrapper>
+  )
+}
+
+export { MenubarExample }
+```
+
+## API reference
+
+
+
+Props it adds to what it wraps: `checked`, `closeOnClick`, `defaultChecked`, `defaultValue`, `inset`, `onCheckedChange`, `onPress`, `onValueChange`, `value`.
+
+## Differences from web
+
+**Touch input.** A desktop pattern: triggers in a row that scrolls, each opening its menu. A press lights a trigger; a drag scrolls the row. Shortcuts show from the `sm` breakpoint, since a phone has no keyboard.
+
+## Accessibility
+
+Parts set `role="menubar"`, read by VoiceOver and TalkBack. Give a control with no text an `accessibilityLabel`.

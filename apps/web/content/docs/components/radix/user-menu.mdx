@@ -1,0 +1,99 @@
+---
+title: User Menu
+description: The signed-in person's menu, as a sidebar row or an avatar.
+base: radix
+component: true
+---
+
+<ComponentPreview styleName="radix-nova" name="user-menu-demo" type="frame" />
+
+User Menu shows who is signed in and opens their menu. The items are yours: pass Dropdown Menu groups as children.
+
+- `variant="row"` fills a sidebar row with the avatar, the name and the email. Put it in the sidebar footer, or in the header.
+- `variant="mark"` is the avatar alone, for a header or a sidebar header row.
+
+User Menu is part of the Fabricator style.
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">Command</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx fabricator-ui@latest add user-menu
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps className="mb-0 pt-2">
+
+<Step>Install Sidebar, Avatar and Dropdown Menu.</Step>
+
+<Step>Copy User Menu into your project.</Step>
+
+<ComponentSource
+  src="styles/radix-fabricator/ui/user-menu.tsx"
+  title="components/ui/user-menu.tsx"
+  styleName="radix-nova"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { UserMenu } from "@/components/ui/user-menu"
+```
+
+```tsx
+<SidebarFooter>
+  <UserMenu
+    user={{ name: user.name, email: user.email, avatarUrl: user.image }}
+  >
+    <DropdownMenuGroup>
+      <DropdownMenuItem>Profile</DropdownMenuItem>
+      <DropdownMenuItem>Settings</DropdownMenuItem>
+    </DropdownMenuGroup>
+    <DropdownMenuSeparator />
+    <DropdownMenuGroup>
+      <DropdownMenuItem onClick={signOut}>Sign out</DropdownMenuItem>
+    </DropdownMenuGroup>
+  </UserMenu>
+</SidebarFooter>
+```
+
+Without an `avatarUrl`, the avatar shows the name's initials.
+
+## Placement
+
+The menu opens to the right of a sidebar row, and below a mark or on phones. Set `side` and `align` to place it yourself.
+
+## API Reference
+
+### UserMenu
+
+| Prop       | Type                                     | Default                                   |
+| ---------- | ---------------------------------------- | ----------------------------------------- |
+| `user`     | `{ name, email?, avatarUrl? }`           | -                                         |
+| `variant`  | `"row" \| "mark"`                        | `"row"`                                   |
+| `side`     | `"top" \| "right" \| "bottom" \| "left"` | right, or bottom for a mark and on phones |
+| `align`    | `"start" \| "center" \| "end"`           | `"end"`                                   |
+| `children` | Dropdown Menu groups                     | -                                         |
+
+## Accessibility
+
+- The trigger is a button; the mark is named "Account:" followed by the person's name.
+- The menu starts with a label holding the avatar, the name and the email, then your items. Keyboard and focus behaviour come from Dropdown Menu.

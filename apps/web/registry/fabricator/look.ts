@@ -22,7 +22,7 @@ import {
   toDensityVars,
   type DensityName,
 } from "@/registry/fabricator/density"
-import { SURFACE_PALETTE_LINKS } from "@/registry/fabricator/foundations"
+import { SURFACE_PALETTE_LINKS } from "@/registry/fabricator/foundation-tokens"
 import {
   DEFAULT_MOTION_SPEED,
   MOTION_SPEED_NAMES,
@@ -69,7 +69,7 @@ export const LOOK_PARAM_NAMES = [
 ] as const
 
 /** The radius Pill sets (the website's Pill setting uses the same value). */
-const PILL_RADIUS = "1.25rem"
+export const PILL_RADIUS = "1.25rem"
 
 // The roles whose shadcn tokens (primary, secondary, destructive) the
 // Fabricator palette writes as literals; changing one relinks them.

@@ -1,0 +1,105 @@
+/* MARK: Calendar */
+
+  /* 32pt day cells with rounded-lg highlights, 13pt numerals. A cell grows past
+     32pt when the calendar is given a wider box: on a phone, `w-full` makes the
+     days finger-sized. */
+  .cn-calendar {
+    @apply p-(--density-12) md:max-w-full;
+  }
+
+  /* A tablet has room to spare, and a square day would take all of it: a month keeps
+     to seven 40-step days, however wide its box, and fits itself to a narrower one.
+     Given `w-full` it spreads out, and its rows stop at the 48-step. */
+  .cn-calendar-month {
+    @apply md:data-[stretched=false]:w-[calc(var(--density-40)*7)] md:data-[stretched=false]:max-w-full md:data-[stretched=false]:shrink;
+  }
+
+  .cn-calendar-text {
+    @apply text-foreground text-(length:--density-text-13);
+  }
+
+  .cn-calendar-nav-button {
+    @apply size-(--density-32) rounded-lg;
+  }
+
+  .cn-calendar-month-caption {
+    @apply h-(--density-32) px-(--density-32);
+  }
+
+  /* Month and year pickers: framed like an input. */
+  .cn-calendar-dropdowns {
+    @apply h-(--density-32) gap-1.5;
+  }
+
+  .cn-calendar-dropdown-root {
+    @apply border-border active:bg-active rounded-lg border;
+  }
+
+  .cn-calendar-caption-label {
+    @apply h-(--density-28) pr-(--density-6) pl-(--density-8);
+  }
+
+  .cn-calendar-caption-text {
+    @apply text-foreground text-(length:--density-text-13) font-medium;
+  }
+
+  .cn-calendar-caption-icon {
+    @apply text-muted-foreground;
+  }
+
+  .cn-calendar-caption {
+    @apply text-foreground text-(length:--density-text-13) font-medium;
+  }
+
+  .cn-calendar-options {
+    @apply max-h-56;
+  }
+
+  .cn-calendar-weekday {
+    @apply min-w-(--density-32) flex-1;
+  }
+
+  .cn-calendar-weekday-text {
+    @apply text-muted-foreground text-(length:--density-text-12) font-normal;
+  }
+
+  .cn-calendar-week-number {
+    @apply w-(--density-32);
+  }
+
+  /* Today, and a range's middle and ends, are the active step: they read in dark
+     mode too. The range runs edge to edge between its rounded ends. */
+  .cn-calendar-day {
+    @apply md:data-[stretched=true]:max-h-(--density-48) min-w-(--density-32) rounded-lg data-[today=true]:bg-active data-[range-start=true]:bg-active data-[range-end=true]:bg-active data-[range-middle=true]:bg-active data-[range-middle=true]:rounded-none data-[range-start=true]:rounded-r-none data-[range-end=true]:rounded-l-none;
+  }
+
+  .cn-calendar-day-button {
+    @apply md:aspect-auto md:h-full h-auto min-w-(--density-32) gap-1 rounded-lg border-0 data-[selected-single=true]:bg-primary data-[range-start=true]:bg-primary data-[range-end=true]:bg-primary data-[range-middle=true]:bg-transparent data-[range-middle=true]:rounded-none;
+  }
+
+  /* Pressed, under the numeral and easing in and out: the next interaction step, as
+     on a ghost button. */
+  .cn-calendar-day-wash {
+    @apply rounded-lg bg-active;
+  }
+
+  /* A selected day's fill goes to 80%, as a primary button's does: the interaction
+     step wouldn't show on it. */
+  .cn-calendar-filled-day-wash {
+    @apply rounded-lg bg-background/20;
+  }
+
+  /* The month buttons keep Button's border, so theirs fills the border box. */
+  .cn-calendar-nav-wash {
+    @apply -inset-px rounded-lg bg-active;
+  }
+
+  /* Numerals: foreground, muted outside the month and when disabled, in the
+     primary's foreground on its fill. */
+  .cn-calendar-day-button-text {
+    @apply text-foreground text-(length:--density-text-13) leading-none font-normal data-[outside=true]:text-muted-foreground data-[disabled=true]:text-muted-foreground data-[selected-single=true]:text-primary-foreground data-[range-start=true]:text-primary-foreground data-[range-end=true]:text-primary-foreground;
+  }
+
+  .cn-calendar-footer {
+    @apply mt-(--density-12);
+  }

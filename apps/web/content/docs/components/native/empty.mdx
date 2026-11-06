@@ -1,0 +1,151 @@
+---
+title: Empty
+description: Use the Empty component to display an empty state.
+base: native
+component: true
+---
+
+<NativePreview src="/images/native/empty.jpg" alt="Empty on iOS" />
+
+## Installation
+
+```bash
+npx fabricator-ui@latest add empty
+```
+
+## Usage
+
+```tsx
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { Button } from "@/components/ui/button"
+import {
+  Empty,
+  EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "@/components/ui/empty"
+```
+
+```tsx
+<Empty>
+  <EmptyHeader>
+    <EmptyMedia variant="icon">
+      <FolderIcon />
+    </EmptyMedia>
+    <EmptyTitle>No projects yet</EmptyTitle>
+    <EmptyDescription>
+      You haven't created any projects yet. Get started by creating your
+      first one.
+    </EmptyDescription>
+  </EmptyHeader>
+  <EmptyContent className="flex-row justify-center">
+    <Button>Create project</Button>
+    <Button variant="outline">Import</Button>
+  </EmptyContent>
+</Empty>
+```
+
+## Composition
+
+- `Empty`
+- `EmptyContent`
+- `EmptyDescription`
+- `EmptyHeader`
+- `EmptyMedia`
+- `EmptyTitle`
+
+## Examples
+
+```tsx showLineNumbers title="empty-example.tsx"
+import {
+  FolderIcon,
+  InboxIcon,
+  PlusIcon,
+} from "@fabricator-ui/icons-react-native"
+
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { Button } from "@/components/ui/button"
+import {
+  Empty,
+  EmptyContent,
+  EmptyDescription,
+  EmptyHeader,
+  EmptyMedia,
+  EmptyTitle,
+} from "@/components/ui/empty"
+
+function EmptyExample() {
+  return (
+    <ExampleWrapper>
+      <Example title="Media: icon" className="p-0">
+        <Empty>
+          <EmptyHeader>
+            <EmptyMedia variant="icon">
+              <FolderIcon />
+            </EmptyMedia>
+            <EmptyTitle>No projects yet</EmptyTitle>
+            <EmptyDescription>
+              You haven't created any projects yet. Get started by creating your
+              first one.
+            </EmptyDescription>
+          </EmptyHeader>
+          <EmptyContent className="flex-row justify-center">
+            <Button>Create project</Button>
+            <Button variant="outline">Import</Button>
+          </EmptyContent>
+        </Empty>
+      </Example>
+      <Example title="Media: default" className="p-0">
+        <Empty>
+          <EmptyHeader>
+            <EmptyMedia variant="default">
+              <Avatar size="lg">
+                <AvatarFallback>GE</AvatarFallback>
+              </Avatar>
+            </EmptyMedia>
+            <EmptyTitle>No team members</EmptyTitle>
+            <EmptyDescription>
+              Invite your team to collaborate on this project.
+            </EmptyDescription>
+          </EmptyHeader>
+          <EmptyContent>
+            <Button size="sm">
+              <PlusIcon />
+              Invite members
+            </Button>
+          </EmptyContent>
+        </Empty>
+      </Example>
+      <Example title="Outlined" className="bg-transparent p-0 shadow-none">
+        <Empty className="border">
+          <EmptyHeader>
+            <EmptyMedia variant="icon">
+              <InboxIcon />
+            </EmptyMedia>
+            <EmptyTitle>Nothing in your inbox</EmptyTitle>
+            <EmptyDescription>New messages land here.</EmptyDescription>
+          </EmptyHeader>
+        </Empty>
+      </Example>
+    </ExampleWrapper>
+  )
+}
+
+export { EmptyExample }
+```
+
+## API reference
+
+| Prop | Values |
+| --- | --- |
+| `variant` | `default`, `icon` |
+
+## Differences from web
+
+**Same.** It works as it does on the web, with `onPress` for `onClick`.
+
+## Accessibility
+
+Parts set `role="heading"`, read by VoiceOver and TalkBack. Give a control with no text an `accessibilityLabel`.

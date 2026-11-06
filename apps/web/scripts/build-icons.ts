@@ -227,14 +227,21 @@ async function main() {
 }
 
 // --- Site icons ---------------------------------------------------------------
-// The website's Fabricator previews import Lucide icons from "@/lib/site-icons"
-// (the registry build rewrites "lucide-react" in those copies), so they follow
-// the icon pack picked in the site settings. This generates that module: one
-// component per Lucide icon the previews use, with the matching names in the
-// other packs, plus one module per pack with just those icons (loaded on
-// demand by lib/site-icons-runtime.tsx). The docs still show "lucide-react".
+// The website's Fabricator previews import icons from "@/lib/site-icons" (the
+// registry build rewrites "lucide-react" in those copies), so they follow the
+// icon pack picked in the site settings. This generates that module: one
+// component per icon the previews use, rendering @fabricator-ui/icons by
+// default, with the matching names in the other packs, plus one module per pack
+// with just those icons (loaded on demand by lib/site-icons-runtime.tsx). The
+// docs show "@fabricator-ui/icons".
 
-const SITE_ICON_LIBRARIES = ["tabler", "hugeicons", "phosphor", "remixicon"]
+const SITE_ICON_LIBRARIES = [
+  "lucide",
+  "tabler",
+  "hugeicons",
+  "phosphor",
+  "remixicon",
+]
 
 // Sources whose Lucide icons end up in the site's Fabricator previews.
 const SITE_ICON_SOURCES = [
@@ -246,6 +253,8 @@ const SITE_ICON_SOURCES = [
   "registry/bases/aria/ui",
   "registry/fabricator",
   "app/(app)/(root)/_components",
+  "app/(view)/app-shell",
+  "app/(view)/desktop",
   "components/foundations",
 ]
 
@@ -306,7 +315,8 @@ async function generateSiteIcons(mapping: IconMapping) {
       name.replace(/Icon$/, ""),
       name.endsWith("Icon") ? name : `${name}Icon`,
     ]
-    const entry: Record<string, string> = {}
+    // Fabricator's names are Lucide's, so these are the same on both.
+    const entry: Record<string, string> = { lucide: name }
     for (const source of [siteMapping, mapping]) {
       for (const candidate of candidates) {
         for (const library of SITE_ICON_LIBRARIES) {
@@ -350,8 +360,8 @@ async function generateSiteIcons(mapping: IconMapping) {
   files["site-icons.tsx"] = `${header}"use client"
 
 import {
-${names.map((name) => `  ${name} as Lucide${name},`).join("\n")}
-} from "lucide-react"
+${names.map((name) => `  ${name} as Fabricator${name},`).join("\n")}
+} from "@fabricator-ui/icons"
 
 import { createSiteIcon } from "@/lib/site-icons-runtime"
 
@@ -360,7 +370,7 @@ export type { LucideIcon, LucideProps } from "lucide-react"
 ${entries
   .map(
     ({ name, mapping }) =>
-      `export const ${name} = createSiteIcon(Lucide${name}, ${JSON.stringify(
+      `export const ${name} = createSiteIcon(Fabricator${name}, ${JSON.stringify(
         mapping
       )})`
   )

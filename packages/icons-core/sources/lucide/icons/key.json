@@ -1,0 +1,19 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "ashygee",
+    "csandman",
+    "mittalyashu",
+    "ericfennis"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$group:key",
+    "login",
+    "fob"
+  ],
+  "categories": [
+    "security",
+    "account"
+  ]
+}

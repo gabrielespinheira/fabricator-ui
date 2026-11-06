@@ -1,0 +1,16 @@
+{
+  "title": "YouTube",
+  "group": "Social",
+  "tags": [
+    "yt",
+    "video",
+    "shorts",
+    "google"
+  ],
+  "aliases": [],
+  "hex": "#FF0000",
+  "source": "Simple Icons 16.36.0 (https://www.youtube.com/howyoutubeworks/resources/brand-resources/#logos-icons-and-colors)",
+  "license": "CC0-1.0",
+  "guidelines": "https://www.youtube.com/howyoutubeworks/resources/brand-resources/#logos-icons-and-colors",
+  "artSource": "gilbarbara/logos via @iconify-json/logos 1.2.18 (CC0-1.0)"
+}

@@ -1,0 +1,14 @@
+/* MARK: Kbd */
+
+  /* A quiet 20pt keycap: hover fill, 11pt muted text. */
+  .cn-kbd {
+    @apply bg-hover h-(--density-20) min-w-(--density-20) gap-1 rounded-[5px] px-1;
+  }
+
+  .cn-kbd-text {
+    @apply text-muted-foreground text-(length:--density-text-11) font-medium;
+  }
+
+  .cn-kbd-group {
+    @apply gap-1;
+  }

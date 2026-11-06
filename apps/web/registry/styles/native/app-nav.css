@@ -1,0 +1,83 @@
+/* MARK: App Nav */
+
+  .cn-app-nav {
+    @apply gap-0;
+  }
+
+  /* A dragged row lifts onto a floating surface, without its controls. */
+  .cn-app-nav-item {
+    @apply data-[dragging=true]:bg-surface-5 data-[dragging=true]:shadow-surface-5 data-[dragging=true]:z-10 data-[dragging=true]:rounded-lg;
+  }
+
+  /* The chevron at a row's end, always shown because touch has no hover: a 28pt
+     target on the axis of the row's badges, turned down while open. */
+  .cn-app-nav-toggle {
+    @apply top-[calc((var(--density-30)-var(--density-28))/2)] size-(--density-28) rounded-md active:bg-hover data-[collapsible=icon]:hidden data-[row-size=lg]:top-[calc((var(--density-48)-var(--density-28))/2)] data-[row-size=sm]:top-0;
+  }
+
+  .cn-app-nav-toggle-text {
+    @apply text-muted-foreground;
+  }
+
+  /* The icon column of a row without an icon. */
+  .cn-app-nav-icon-space {
+    @apply size-(--density-icon-16) data-[nested=true]:size-(--density-icon-14);
+  }
+
+  /* Where a badge has no room, a dot on the icon. */
+  .cn-app-nav-rail-badge {
+    @apply size-1.5 rounded-full bg-primary top-1.5 right-1.5;
+  }
+
+  .cn-app-nav-menu {
+    @apply min-w-48;
+  }
+
+  .cn-app-nav-customize {
+    @apply sm:max-w-md;
+  }
+
+  .cn-app-nav-customize-list {
+    @apply gap-(--density-16);
+  }
+
+  .cn-app-nav-customize-group {
+    @apply gap-0.5;
+  }
+
+  .cn-app-nav-customize-rows {
+    @apply gap-0.5;
+  }
+
+  /* As in the sidebar: lifted while dragged. */
+  .cn-app-nav-customize-item {
+    @apply gap-0.5 rounded-lg data-[dragging=true]:bg-surface-6 data-[dragging=true]:shadow-surface-6 data-[dragging=true]:z-10;
+  }
+
+  .cn-app-nav-customize-label {
+    @apply text-muted-foreground px-(--density-8) pb-(--density-4) text-(length:--density-text-12);
+  }
+
+  /* Children indent 16pt a level under their parent, in a style. */
+  .cn-app-nav-customize-row {
+    @apply min-h-(--density-36) gap-(--density-4) rounded-lg pr-(--density-8);
+  }
+
+  /* The grip drags on a long press, and a screen reader moves the row through its
+     actions. A row alone in its list has nowhere to go, so it keeps the space and
+     hides the grip. */
+  .cn-app-nav-customize-handle {
+    @apply size-(--density-24) rounded-md active:bg-hover disabled:opacity-0;
+  }
+
+  .cn-app-nav-customize-handle-text {
+    @apply text-muted-foreground;
+  }
+
+  .cn-app-nav-customize-name {
+    @apply min-h-(--density-36) min-w-0 flex-1 gap-(--density-8);
+  }
+
+  .cn-app-nav-customize-name-text {
+    @apply text-foreground flex-1 text-(length:--density-text-13);
+  }

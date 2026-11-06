@@ -1,0 +1,21 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "mittalyashu",
+    "ericfennis"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:monitor",
+    "connect",
+    "cast",
+    "audio",
+    "sound",
+    "volume",
+    "presentation"
+  ],
+  "categories": [
+    "$extends:monitor",
+    "connectivity"
+  ]
+}

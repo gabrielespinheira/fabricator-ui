@@ -1,0 +1,15 @@
+{
+  "title": "PostgreSQL",
+  "group": "Product & dev",
+  "tags": [
+    "postgres",
+    "database",
+    "sql"
+  ],
+  "aliases": [],
+  "hex": "#4169E1",
+  "source": "Simple Icons 16.36.0 (https://wiki.postgresql.org/wiki/Logo)",
+  "license": "CC0-1.0",
+  "guidelines": "https://www.postgresql.org/about/policies/trademarks/",
+  "artSource": "gilbarbara/logos via @iconify-json/logos 1.2.18 (CC0-1.0)"
+}

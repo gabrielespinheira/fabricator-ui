@@ -1,0 +1,17 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "danielbayley"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:route",
+    "$group:off",
+    "reset",
+    "clear",
+    "closed"
+  ],
+  "categories": [
+    "$extends:route"
+  ]
+}

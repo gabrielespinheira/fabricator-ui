@@ -3,7 +3,7 @@ import type { MetadataRoute } from "next"
 import { siteConfig } from "@/lib/config"
 import { source } from "@/lib/source"
 
-const staticRoutes = ["/"]
+const staticRoutes = ["/", "/app-shell", "/icons"]
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const urls = [...staticRoutes, ...source.getPages().map((page) => page.url)]

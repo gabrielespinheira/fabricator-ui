@@ -1,0 +1,25 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "danielbayley",
+    "chessurisme",
+    "jguddas"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:grid-2x2",
+    "$group:plus",
+    "data"
+  ],
+  "categories": [
+    "text",
+    "layout"
+  ],
+  "aliases": [
+    {
+      "name": "grid-2-x-2-plus",
+      "deprecationReason": "alias.name",
+      "deprecated": true
+    }
+  ]
+}

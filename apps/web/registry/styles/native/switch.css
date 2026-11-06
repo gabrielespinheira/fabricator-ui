@@ -1,0 +1,25 @@
+/* MARK: Switch */
+
+  /* Track 34x20 at the default density (size sm pins it to compact: 28x16), 2pt
+     around the knob. Off is the accent tint. Invalid draws a ring outside the
+     track, so the knob stays put. */
+  .cn-switch {
+    @apply bg-accent data-[invalid=true]:outline-destructive/50 h-(--density-20) w-[calc(var(--density-20)+var(--density-14))] shrink-0 rounded-full px-0.5 data-[invalid=true]:outline-1 data-[invalid=true]:outline-offset-2;
+  }
+
+  /* On is the primary role's fill, fading over the tint on the feedback timing:
+     React Native can't transition a class's colour. */
+  .cn-switch-fill {
+    @apply bg-primary rounded-full;
+  }
+
+  /* The knob only travels on the move timing. White, and the primary foreground
+     when on, fading over the white as it goes. A press stretches it into a pill
+     toward the centre of the track and squashes it. */
+  .cn-switch-thumb {
+    @apply shadow-surface-2 rounded-full bg-white;
+  }
+
+  .cn-switch-thumb-on {
+    @apply bg-primary-foreground rounded-full;
+  }

@@ -1,0 +1,19 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "karsa-mistmere",
+    "ericfennis",
+    "AlexandrePhilibert",
+    "UsamaKhan",
+    "jguddas"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:calendar",
+    "$group:cog",
+    "events"
+  ],
+  "categories": [
+    "$extends:calendar"
+  ]
+}

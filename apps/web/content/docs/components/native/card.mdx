@@ -1,0 +1,142 @@
+---
+title: Card
+description: Displays a card with header, content, and footer.
+base: native
+component: true
+---
+
+<NativePreview src="/images/native/card.jpg" alt="Card on iOS" />
+
+## Installation
+
+```bash
+npx fabricator-ui@latest add card
+```
+
+## Usage
+
+```tsx
+import { Button } from "@/components/ui/button"
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import { Text } from "@/components/ui/text"
+```
+
+```tsx
+<Card className="w-full">
+  <CardHeader>
+    <CardTitle>Project status</CardTitle>
+    <CardDescription>Everything in this release.</CardDescription>
+  </CardHeader>
+  <CardContent>
+    <Text>Twelve tasks are done and three are in review.</Text>
+  </CardContent>
+  <CardFooter>
+    <Button size="sm">Open</Button>
+    <Button size="sm" variant="ghost">
+      Dismiss
+    </Button>
+  </CardFooter>
+</Card>
+```
+
+## Composition
+
+- `Card`
+- `CardAction`
+- `CardContent`
+- `CardDescription`
+- `CardFooter`
+- `CardHeader`
+- `CardTitle`
+
+## Examples
+
+```tsx showLineNumbers title="card-example.tsx"
+
+import { Button } from "@/components/ui/button"
+import {
+  Card,
+  CardAction,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card"
+import { Text } from "@/components/ui/text"
+
+function CardExample() {
+  return (
+    <ExampleWrapper>
+      <Example title="Default" className="bg-transparent p-0 shadow-none">
+        <Card className="w-full">
+          <CardHeader>
+            <CardTitle>Project status</CardTitle>
+            <CardDescription>Everything in this release.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Text>Twelve tasks are done and three are in review.</Text>
+          </CardContent>
+          <CardFooter>
+            <Button size="sm">Open</Button>
+            <Button size="sm" variant="ghost">
+              Dismiss
+            </Button>
+          </CardFooter>
+        </Card>
+      </Example>
+      <Example title="Small" className="bg-transparent p-0 shadow-none">
+        <Card size="sm" className="w-full">
+          <CardHeader>
+            <CardTitle>Small card</CardTitle>
+            <CardDescription>Tighter spacing.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <Text>The parts read the size from the card.</Text>
+          </CardContent>
+        </Card>
+      </Example>
+      <Example
+        title="With an action"
+        className="bg-transparent p-0 shadow-none"
+      >
+        <Card className="w-full">
+          <CardHeader>
+            <CardTitle>Billing</CardTitle>
+            <CardDescription>Renews on the first.</CardDescription>
+            <CardAction>
+              <Button size="xs" variant="outline">
+                Manage
+              </Button>
+            </CardAction>
+          </CardHeader>
+        </Card>
+      </Example>
+    </ExampleWrapper>
+  )
+}
+
+export { CardExample }
+```
+
+## API reference
+
+
+
+Props it adds to what it wraps: `size`.
+
+## Differences from web
+
+**Same.** It works as it does on the web, with `onPress` for `onClick`.
+
+## Accessibility
+
+Parts set `role="heading"`, read by VoiceOver and TalkBack. Give a control with no text an `accessibilityLabel`.

@@ -1,0 +1,104 @@
+/* MARK: Tab Strip */
+
+  /* A row of document tabs on the surface it sits on: 48pt at a phone's density,
+     40pt at `sm`, a step down the scale. A press takes the row's whole height. */
+  .cn-tab-strip {
+    @apply h-(--density-40) gap-(--density-4) px-(--density-6);
+  }
+
+  /* The list is as wide as its tabs, so the new tab button follows the last one,
+     and shrinks and then scrolls sideways, with no scrollbar. */
+  .cn-tab-strip-list {
+    @apply h-full;
+  }
+
+  /* The active tab's raised pill slides between tabs over this row. It keeps a
+     little width with no tabs, so a long press can still reach the menu. */
+  .cn-tab-strip-list-content {
+    @apply h-full min-w-(--density-48) gap-(--density-4) py-(--density-4);
+  }
+
+  .cn-tab-strip-selection {
+    @apply bg-surface-4 shadow-surface-4 rounded-lg;
+  }
+
+  .cn-tab-strip-highlight {
+    @apply bg-hover rounded-lg;
+  }
+
+  /* Tabs: 176pt on a phone (the website shrinks to 144 before it scrolls; a
+     phone's strip is always there), 192pt from the sm breakpoint. Pinned tabs are
+     their icon. */
+  .cn-tab-strip-tab {
+    @apply h-full w-44 rounded-lg data-[pinned=true]:w-auto sm:w-48;
+  }
+
+  /* 13pt, muted at rest; the active tab is foreground and semibold. */
+  .cn-tab-strip-tab-text {
+    @apply text-muted-foreground text-(length:--density-text-13);
+  }
+
+  .cn-tab-strip-tab-text-lit {
+    @apply text-foreground;
+  }
+
+  .cn-tab-strip-tab-text-active {
+    @apply text-foreground;
+  }
+
+  .cn-tab-strip-trigger {
+    @apply h-full gap-(--density-6) rounded-lg ps-(--density-10) pe-(--density-4) data-[pinned=true]:justify-center data-[pinned=true]:px-(--density-10);
+  }
+
+  /* A preview tab is italic. */
+  .cn-tab-strip-title {
+    @apply font-normal data-[active=true]:font-semibold data-[preview=true]:italic;
+  }
+
+  /* The close button's slot is always there, so titles never reflow. A touch
+     screen has no hover to hide the button behind, so it always shows, except that
+     a dirty tab shows its dot there instead. */
+  .cn-tab-strip-close-slot {
+    @apply me-(--density-4) size-(--density-20);
+  }
+
+  .cn-tab-strip-close {
+    @apply active:bg-hover size-(--density-20) rounded-md;
+  }
+
+  .cn-tab-strip-dirty {
+    @apply bg-foreground/60 size-2 rounded-full;
+  }
+
+  .cn-tab-strip-waiting {
+    @apply bg-primary size-1.5 shrink-0 rounded-full;
+  }
+
+  .cn-tab-strip-error {
+    @apply flex-row;
+  }
+
+  .cn-tab-strip-error-text {
+    @apply text-destructive;
+  }
+
+  .cn-tab-strip-rename {
+    @apply font-sans bg-card border-ring text-foreground h-(--density-24) rounded-md border px-(--density-6) text-(length:--density-text-13);
+  }
+
+  .cn-tab-strip-new {
+    @apply shrink-0;
+  }
+
+  /* The menu of every tab ends the row. */
+  .cn-tab-strip-overflow {
+    @apply ms-auto shrink-0;
+  }
+
+  .cn-tab-strip-overflow-menu {
+    @apply min-w-56;
+  }
+
+  .cn-tab-strip-menu {
+    @apply min-w-48;
+  }

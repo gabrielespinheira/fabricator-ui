@@ -1,0 +1,19 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "danielbayley"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:table",
+    "property list",
+    "plist",
+    "dictionary",
+    "object",
+    "hash"
+  ],
+  "categories": [
+    "$extends:table",
+    "development"
+  ]
+}

@@ -1,0 +1,104 @@
+import { Example, ExampleWrapper } from "@/examples/native/example"
+import {
+  CircleAlertIcon,
+  CircleCheckIcon,
+  InfoIcon,
+  TriangleAlertIcon,
+} from "@fabricator-ui/icons-react-native"
+
+import {
+  Alert,
+  AlertAction,
+  AlertDescription,
+  AlertTitle,
+} from "@/registry/native/ui/alert"
+import { Button } from "@/registry/native/ui/button"
+
+const STATUSES = [
+  { variant: "info", title: "A new version is ready", icon: InfoIcon },
+  {
+    variant: "success",
+    title: "Your changes are saved",
+    icon: CircleCheckIcon,
+  },
+  {
+    variant: "warning",
+    title: "Your trial ends soon",
+    icon: TriangleAlertIcon,
+  },
+  { variant: "error", title: "The upload failed", icon: CircleAlertIcon },
+  {
+    variant: "destructive",
+    title: "This can't be undone",
+    icon: CircleAlertIcon,
+  },
+] as const
+
+function AlertExample() {
+  return (
+    <ExampleWrapper>
+      <Example title="Default" className="bg-transparent p-0 shadow-none">
+        <Alert>
+          <InfoIcon />
+          <AlertTitle>Heads up</AlertTitle>
+          <AlertDescription>
+            Acme Inc changed its billing address.
+          </AlertDescription>
+        </Alert>
+      </Example>
+      <Example
+        title="Without an icon"
+        className="bg-transparent p-0 shadow-none"
+      >
+        <Alert>
+          <AlertTitle>Scheduled maintenance</AlertTitle>
+          <AlertDescription>Saturday, from 02:00 to 04:00.</AlertDescription>
+        </Alert>
+      </Example>
+      <Example title="Low contrast" className="bg-transparent p-0 shadow-none">
+        {STATUSES.map(({ variant, title, icon: Icon }) => (
+          <Alert key={variant} variant={variant} contrast="low">
+            <Icon />
+            <AlertTitle>{title}</AlertTitle>
+            <AlertDescription>
+              Only the icon takes the status colour.
+            </AlertDescription>
+          </Alert>
+        ))}
+      </Example>
+      <Example title="High contrast" className="bg-transparent p-0 shadow-none">
+        <Alert contrast="high">
+          <InfoIcon />
+          <AlertTitle>Neutral</AlertTitle>
+          <AlertDescription>A step up from the default fill.</AlertDescription>
+        </Alert>
+        {STATUSES.map(({ variant, title, icon: Icon }) => (
+          <Alert key={variant} variant={variant} contrast="high">
+            <Icon />
+            <AlertTitle>{title}</AlertTitle>
+            <AlertDescription>
+              The panel washes in the status surface.
+            </AlertDescription>
+          </Alert>
+        ))}
+      </Example>
+      <Example
+        title="With an action"
+        className="bg-transparent p-0 shadow-none"
+      >
+        <Alert variant="warning">
+          <TriangleAlertIcon />
+          <AlertTitle>Your trial ends soon</AlertTitle>
+          <AlertDescription>Add a card to keep your projects.</AlertDescription>
+          <AlertAction>
+            <Button size="xs" variant="outline">
+              Upgrade
+            </Button>
+          </AlertAction>
+        </Alert>
+      </Example>
+    </ExampleWrapper>
+  )
+}
+
+export { AlertExample }

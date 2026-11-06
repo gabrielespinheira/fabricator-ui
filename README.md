@@ -153,7 +153,7 @@ Found a bug or have an idea? [Open an issue](https://github.com/gabrielespinheir
 
 ## Acknowledgements
 
-Fabricator UI is built on [shadcn/ui](https://github.com/shadcn-ui/ui) by shadcn, and its design language adapts [Fluid Functionalism](https://github.com/mickadesign/fluid-functionalism). Both are MIT licensed. See [`NOTICE.md`](NOTICE.md).
+Fabricator UI is built on [shadcn/ui](https://github.com/shadcn-ui/ui) by shadcn, which is MIT licensed. See [`NOTICE.md`](NOTICE.md).
 
 ## License
 

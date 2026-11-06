@@ -1,0 +1,15 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "mishkaio",
+    "ericfennis",
+    "csandman"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:lasso"
+  ],
+  "categories": [
+    "$extends:lasso"
+  ]
+}

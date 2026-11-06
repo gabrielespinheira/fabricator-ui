@@ -29,6 +29,10 @@ export const siteConfig = {
       label: "Components",
     },
     {
+      href: "/icons",
+      label: "Icons",
+    },
+    {
       href: "/create",
       label: "Create",
     },

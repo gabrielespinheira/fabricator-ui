@@ -1,0 +1,19 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "FrancoMaxime",
+    "ericfennis",
+    "karsa-mistmere"
+  ],
+  "use-cases": [],
+  "tags": [
+    "computer",
+    "server",
+    "cloud"
+  ],
+  "categories": [
+    "devices",
+    "connectivity",
+    "home"
+  ]
+}

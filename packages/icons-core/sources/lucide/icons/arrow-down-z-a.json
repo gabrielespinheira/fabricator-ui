@@ -1,0 +1,27 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "karsa-mistmere",
+    "danielbayley"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$group:letter",
+    "$group:direction-down",
+    "$group:sort",
+    "alphabetical",
+    "reverse"
+  ],
+  "categories": [
+    "$extends:arrow-down",
+    "text",
+    "layout"
+  ],
+  "aliases": [
+    {
+      "name": "arrow-down-za",
+      "deprecationReason": "alias.name",
+      "deprecated": true
+    }
+  ]
+}

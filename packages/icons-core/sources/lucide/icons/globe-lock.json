@@ -1,0 +1,22 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "colebemis",
+    "csandman",
+    "ericfennis",
+    "karsa-mistmere"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:globe",
+    "$group:lock",
+    "vpn",
+    "network",
+    "encryption",
+    "connection"
+  ],
+  "categories": [
+    "security",
+    "connectivity"
+  ]
+}

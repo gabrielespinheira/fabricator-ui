@@ -1,0 +1,17 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "colebemis"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$group:code",
+    "source",
+    "html",
+    "xml"
+  ],
+  "categories": [
+    "text",
+    "development"
+  ]
+}

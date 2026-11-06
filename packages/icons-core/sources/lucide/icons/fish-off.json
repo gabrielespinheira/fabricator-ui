@@ -1,0 +1,21 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "jguddas",
+    "kemie",
+    "ericfennis"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:fish",
+    "$group:off",
+    "food",
+    "animal",
+    "allergy",
+    "intolerance",
+    "diet"
+  ],
+  "categories": [
+    "$extends:fish"
+  ]
+}

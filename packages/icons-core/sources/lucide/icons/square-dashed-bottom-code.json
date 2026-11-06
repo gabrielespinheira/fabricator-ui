@@ -1,0 +1,14 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "danielbayley"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:square-dashed-bottom",
+    "$group:code"
+  ],
+  "categories": [
+    "$extends:square-dashed-bottom"
+  ]
+}

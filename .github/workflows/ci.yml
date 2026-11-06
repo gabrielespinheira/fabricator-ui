@@ -31,10 +31,20 @@ jobs:
         run: bun run registry:build
       - name: Lint, typecheck, format
         run: bun run check
+      # Web tests import apps/mobile, and resolving its tsconfig needs Expo.
+      - name: Install the React Native example
+        run: bun install --cwd apps/mobile --frozen-lockfile
       - name: Unit tests
         run: bun run test
       - name: Upstream parity (ui.shadcn.com)
         run: bun run test:parity --styles all
+      - name: React Native parity with the web components
+        working-directory: apps/web
+        run: bun run native:parity --strict
+      - name: React Native types
+        run: |
+          bun run --cwd packages/icons-react-native build
+          bun run --cwd apps/mobile typecheck
 
   e2e:
     name: CLI end-to-end
@@ -62,5 +72,18 @@ jobs:
             sleep 2
           done
           echo "website did not start" && exit 1
+      # `cargo check` on the Tauri scenarios needs Tauri's Linux prerequisites.
+      - name: Install Tauri's system libraries
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.1-dev libxdo-dev libssl-dev libayatana-appindicator3-dev librsvg2-dev
       - name: End-to-end install tests
         run: bun run test:e2e
+        env:
+          # `create` makes the first commit, which a runner has no identity for.
+          GIT_AUTHOR_NAME: CI
+          GIT_AUTHOR_EMAIL: ci@fabricator-ui.invalid
+          GIT_COMMITTER_NAME: CI
+          GIT_COMMITTER_EMAIL: ci@fabricator-ui.invalid
+          # The Tauri scenarios build the same crates; compile them once.
+          CARGO_TARGET_DIR: /tmp/fabricator-e2e-cargo-target

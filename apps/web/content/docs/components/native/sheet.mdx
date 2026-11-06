@@ -1,0 +1,211 @@
+---
+title: Sheet
+description: Extends the Dialog component to display content that complements the main content of the screen.
+base: native
+component: true
+---
+
+<NativePreview src="/images/native/sheet.jpg" alt="Sheet on iOS" />
+
+## Installation
+
+```bash
+npx fabricator-ui@latest add sheet
+```
+
+## Usage
+
+```tsx
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet"
+import { Text } from "@/components/ui/text"
+```
+
+```tsx
+{SIDES.map((side) => (
+  <Sheet key={side}>
+    <SheetTrigger render={<Button variant="outline" />}>
+      {side}
+    </SheetTrigger>
+    <SheetContent side={side}>
+      <SheetHeader>
+        <SheetTitle>Edit profile</SheetTitle>
+        <SheetDescription>
+          Swipe toward the {side} edge, or press outside, to close.
+        </SheetDescription>
+      </SheetHeader>
+      <SheetFooter>
+        <SheetClose render={<Button />}>Save changes</SheetClose>
+        <SheetClose render={<Button variant="outline" />}>
+          Cancel
+        </SheetClose>
+      </SheetFooter>
+    </SheetContent>
+  </Sheet>
+))}
+```
+
+## Composition
+
+- `Sheet`
+- `SheetClose`
+- `SheetContent`
+- `SheetDescription`
+- `SheetFooter`
+- `SheetHeader`
+- `SheetOverlay`
+- `SheetTitle`
+- `SheetTrigger`
+
+## Examples
+
+```tsx showLineNumbers title="sheet-example.tsx"
+import * as React from "react"
+import { View } from "react-native"
+
+import { SheetSurfaceScrollView } from "@/lib/sheet-surface"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import {
+  Sheet,
+  SheetClose,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from "@/components/ui/sheet"
+import { Text } from "@/components/ui/text"
+
+const SIDES = ["top", "right", "bottom", "left"] as const
+
+function SheetExample() {
+  const [isOpen, setIsOpen] = React.useState(false)
+  return (
+    <ExampleWrapper>
+      <Example title="Sides" className="flex-row flex-wrap">
+        {SIDES.map((side) => (
+          <Sheet key={side}>
+            <SheetTrigger render={<Button variant="outline" />}>
+              {side}
+            </SheetTrigger>
+            <SheetContent side={side}>
+              <SheetHeader>
+                <SheetTitle>Edit profile</SheetTitle>
+                <SheetDescription>
+                  Swipe toward the {side} edge, or press outside, to close.
+                </SheetDescription>
+              </SheetHeader>
+              <SheetFooter>
+                <SheetClose render={<Button />}>Save changes</SheetClose>
+                <SheetClose render={<Button variant="outline" />}>
+                  Cancel
+                </SheetClose>
+              </SheetFooter>
+            </SheetContent>
+          </Sheet>
+        ))}
+      </Example>
+      <Example title="An input stays above the keyboard">
+        <Sheet>
+          <SheetTrigger render={<Button variant="outline" />}>
+            Edit name
+          </SheetTrigger>
+          <SheetContent side="bottom">
+            <SheetHeader>
+              <SheetTitle>Edit name</SheetTitle>
+              <SheetDescription>
+                Shown to everyone at Acme Inc.
+              </SheetDescription>
+            </SheetHeader>
+            <View className="px-4">
+              <Input placeholder="Name" defaultValue="Gabs" />
+            </View>
+            <SheetFooter>
+              <SheetClose render={<Button />}>Save</SheetClose>
+            </SheetFooter>
+          </SheetContent>
+        </Sheet>
+      </Example>
+      <Example title="Scrolling content">
+        <Sheet>
+          <SheetTrigger render={<Button variant="outline" />}>
+            Long sheet
+          </SheetTrigger>
+          <SheetContent side="bottom" className="h-3/4">
+            <SheetHeader>
+              <SheetTitle>Release notes</SheetTitle>
+              <SheetDescription>
+                Drag the list to scroll, the header to dismiss.
+              </SheetDescription>
+            </SheetHeader>
+            <SheetSurfaceScrollView contentContainerClassName="gap-2 px-4">
+              {Array.from({ length: 30 }, (_, index) => (
+                <Text key={index}>Change {index + 1}</Text>
+              ))}
+            </SheetSurfaceScrollView>
+          </SheetContent>
+        </Sheet>
+      </Example>
+      <Example title="No close button">
+        <Sheet>
+          <SheetTrigger render={<Button variant="outline" />}>
+            Open
+          </SheetTrigger>
+          <SheetContent side="left" showCloseButton={false}>
+            <SheetHeader>
+              <SheetTitle>No close button</SheetTitle>
+              <SheetDescription>Press outside to close.</SheetDescription>
+            </SheetHeader>
+          </SheetContent>
+        </Sheet>
+      </Example>
+      <Example title="Controlled, only closes from its button">
+        <Button variant="outline" onPress={() => setIsOpen(true)}>
+          Open from state
+        </Button>
+        <Sheet open={isOpen} onOpenChange={setIsOpen} disablePointerDismissal>
+          <SheetContent side="bottom" showCloseButton={false}>
+            <SheetHeader>
+              <SheetTitle>Finish this first</SheetTitle>
+              <SheetDescription>
+                Swiping and pressing outside do nothing.
+              </SheetDescription>
+            </SheetHeader>
+            <SheetFooter>
+              <Button onPress={() => setIsOpen(false)}>Close from state</Button>
+            </SheetFooter>
+          </SheetContent>
+        </Sheet>
+      </Example>
+    </ExampleWrapper>
+  )
+}
+
+export { SheetExample }
+```
+
+## API reference
+
+
+
+Props it adds to what it wraps: `defaultOpen`, `disablePointerDismissal`, `modal`, `onOpenChange`, `open`, `showCloseButton`, `side`.
+
+## Differences from web
+
+**New engine.** Gestures run on the UI thread, with swipe to dismiss and keyboard avoidance. It travels its full size, so the finger stays on it, where the website's moves 2.5rem and fades.
+
+## Accessibility
+
+Parts set `role="heading"`, read by VoiceOver and TalkBack. Give a control with no text an `accessibilityLabel`.

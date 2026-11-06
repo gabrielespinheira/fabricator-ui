@@ -27,6 +27,7 @@ export function SiteHeader() {
           />
           <Link
             href="/"
+            aria-label={siteConfig.name}
             className="flex items-center gap-2.5 rounded-lg text-[15px] font-semibold tracking-tight outline-none focus-visible:ring-1 focus-visible:ring-focus-ring"
           >
             <span className="flex size-8 items-center justify-center rounded-[10px] bg-foreground text-background">
@@ -36,7 +37,11 @@ export function SiteHeader() {
               {siteConfig.name}
             </span>
           </Link>
-          <FluidNav axis="x" className="ms-4 hidden gap-1 lg:flex">
+          <FluidNav
+            axis="x"
+            aria-label="Main"
+            className="ms-4 hidden gap-1 lg:flex"
+          >
             {navItems.map((item) => (
               <FluidNavLink
                 key={item.href}

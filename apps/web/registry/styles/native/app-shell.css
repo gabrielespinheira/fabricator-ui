@@ -1,0 +1,263 @@
+/* MARK: App Shell */
+
+  /* The frame. The app's own content sits on the page's surface: the main column
+     and the side panels are surface 1, with one edge (--app-shell-card-shadow: a
+     light hairline in dark mode). The frame and the sidebar sit just below them,
+     surface 1 darkened, so the cards read apart from it. React Native has no
+     color-mix(), so registry/fabricator/native-theme.ts resolves these tokens.
+
+     The sidebar, the status bar and the titlebar read the frame's muted text,
+     which darkens a step in light mode to keep 4.5:1 on it: the shell sets it for
+     them through scoped variables. */
+  .cn-app-shell {
+    @apply bg-app-shell-frame;
+  }
+
+  /* Visually hidden, read first: it moves a screen reader to the content. */
+  .cn-app-shell-skip-link {
+    @apply size-px opacity-[0.01];
+  }
+
+  /* The frame shows through the sidebar wrapper. A floating sidebar is the one card
+     on the main colour, so what's around it and the status bar take that colour. */
+  .cn-app-shell-body {
+    @apply data-[reveal=closed]:bg-transparent data-[reveal=open]:bg-transparent md:data-[variant=floating]:bg-app-shell-main;
+  }
+
+  /* The full-width row above everything, under the status bar. */
+  .cn-app-shell-titlebar {
+    @apply bg-app-shell-frame;
+  }
+
+  .cn-app-shell-titlebar-row {
+    @apply h-(--density-40) gap-(--density-8) px-(--density-8);
+  }
+
+  /* The main column: the page's surface everywhere, phones included; with the
+     inset sidebar, a card on the 8-step from the window's edges, as the sidebar's rows
+     are from its own, so their top rows share a centre. */
+  .cn-app-shell-main {
+    @apply bg-app-shell-main data-[layout=card]:bg-app-shell-main data-[layout=card]:shadow-app-shell-card;
+  }
+
+  /* The header: 48pt, a hairline once the content scrolls. On a phone it holds
+     the status bar too, and sits on a fade the page dissolves under: the clock and
+     the island get a clean edge and nothing stops at a line. On a tablet its start
+     lines up with the page's, so the trail sits over the title. */
+  .cn-app-shell-header {
+    @apply z-10 h-(--density-48) gap-(--density-8) border-b border-transparent px-(--density-12) md:pl-(--density-24) data-[phone=true]:border-b-0 data-[scrolled=true]:border-border;
+  }
+
+  /* What the fade paints: the main column's colour. */
+  .cn-app-shell-header-fade {
+    @apply text-app-shell-main;
+  }
+
+  /* Its glyph, not its box, lines up with the page on a tablet. */
+  .cn-app-shell-header-trigger {
+    @apply -ml-(--density-4) md:-ml-(--density-8);
+  }
+
+  /* Breadcrumb: the trail, then the page title in its place once the page's
+     heading scrolls away (a short rise on the move timing, in a style; reduced
+     motion keeps the fade). */
+  .cn-app-shell-breadcrumb {
+    @apply min-w-0;
+  }
+
+  .cn-app-shell-breadcrumb-trail {
+    @apply min-w-0;
+  }
+
+  .cn-app-shell-breadcrumb-list {
+    @apply gap-(--density-6);
+  }
+
+  .cn-app-shell-breadcrumb-text {
+    @apply text-muted-foreground text-(length:--density-text-13) data-[phone=true]:text-(length:--density-text-16);
+  }
+
+  .cn-app-shell-breadcrumb-fold {
+    @apply rounded-md active:opacity-70;
+  }
+
+  /* A phone's trail: the page's name beside the way up, once its heading is gone. */
+  .cn-app-shell-breadcrumb-current {
+    @apply gap-(--density-6);
+  }
+
+  /* A phone's trail reads as its title bar: a size up from a tablet's, the way up
+     muted and the page semibold. */
+  .cn-app-shell-breadcrumb-phone-parent {
+    @apply text-(length:--density-text-16);
+  }
+
+  .cn-app-shell-breadcrumb-phone-page {
+    @apply text-(length:--density-text-16) font-semibold;
+  }
+
+  .cn-app-shell-breadcrumb-title {
+    @apply text-(length:--density-text-13) font-semibold;
+  }
+
+  /* A tablet's large title: the page's anchor on a screen this size. */
+  .cn-app-shell-page-title {
+    @apply text-2xl font-semibold tracking-tight md:text-[32px] md:leading-[40px];
+  }
+
+  .cn-app-shell-header-actions {
+    @apply gap-(--density-4);
+  }
+
+  /* The phone's primary action: a round button above the content. Its distance
+     from the bottom clears the tab bar when the column has one, in a style. */
+  .cn-app-shell-fab {
+    @apply shadow-surface-4 right-(--density-16) rounded-full;
+  }
+
+  .cn-app-shell-content {
+    @apply min-h-0;
+  }
+
+  /* The status bar sits on the frame under the main column and the panels, from
+     the sidebar's edge to the window's: a quiet band, 36pt at a tablet's density plus
+     half the home indicator's space, with 13pt muted text centred in it. Its ends keep
+     their place in every sidebar style, the 12-step inside a card's edges, in a style.
+     Phones hide it. */
+  .cn-app-shell-status-bar {
+    @apply border-border bg-transparent data-[variant=floating]:border-t;
+  }
+
+  .cn-app-shell-status-bar-row {
+    @apply h-full gap-(--density-8);
+  }
+
+  .cn-app-shell-status-bar-text {
+    @apply text-muted-foreground text-(length:--density-text-12);
+  }
+
+  /* Panels. Inline, a column on the main column's surface that opens and closes
+     its width on the move timing. With the inset sidebar it is a card with the main
+     column's edge; otherwise a hairline parts them. On phones, `swap` makes the
+     panel the screen. */
+  .cn-app-shell-panel {
+    @apply bg-app-shell-panel border-border data-[edge=left]:border-l data-[edge=right]:border-r data-[layout=card]:shadow-app-shell-card data-[layout=card]:overflow-hidden data-[layout=card]:rounded-xl data-[placement=swap]:bg-app-shell-frame data-[placement=swap]:h-full data-[placement=swap]:pt-safe;
+  }
+
+  .cn-app-shell-panel-text {
+    @apply text-foreground text-(length:--density-text-13);
+  }
+
+  .cn-app-shell-panel-inner {
+    @apply h-full min-w-0;
+  }
+
+  .cn-app-shell-panel-sheet {
+    @apply gap-0 p-0;
+  }
+
+  /* A height, not only the website's limit: its views take what's left, and a
+     flexed child of a view with no height has nothing to take. */
+  .cn-app-shell-panel-drawer {
+    @apply h-[70%];
+  }
+
+  /* A docked panel's header leaves room for the toggle pinned over its end, in a
+     style. It has the main header's height and hairline. */
+  .cn-app-shell-panel-header {
+    @apply h-(--density-48) gap-(--density-6) border-b border-transparent px-(--density-12) data-[floating=true]:gap-(--density-8) data-[floating=true]:border-b-0 data-[floating=true]:px-(--density-16) data-[placement=drawer]:justify-center;
+  }
+
+  .cn-app-shell-panel-title {
+    @apply text-(length:--density-text-13) font-semibold;
+  }
+
+  .cn-app-shell-panel-tabs-root {
+    @apply gap-0;
+  }
+
+  .cn-app-shell-panel-tabs {
+    @apply min-w-0 shrink justify-start self-center data-[stretched=true]:flex-1;
+  }
+
+  /* Below a 360pt panel the view tabs show their icons only. */
+  .cn-app-shell-panel-tab {
+    @apply data-[compact=true]:px-(--density-8) data-[stretched=true]:px-(--density-6);
+  }
+
+  .cn-app-shell-panel-tab-label {
+    @apply data-[compact=true]:hidden;
+  }
+
+  .cn-app-shell-panel-view {
+    @apply min-h-0;
+  }
+
+  .cn-app-shell-panel-content {
+    @apply min-h-0;
+  }
+
+  .cn-app-shell-panel-close {
+    @apply ml-auto data-[floating=true]:bg-foreground/5 data-[floating=true]:rounded-full;
+  }
+
+  /* Pinned, it only holds the toggle's room in the header: the toggle itself sits
+     over the frame's corner, so it keeps its spot as a docked panel opens. */
+  .cn-app-shell-panel-trigger-anchor {
+    @apply shrink-0;
+  }
+
+  /* The glyph shows the state; a fill only marks which view a trigger selects. */
+  .cn-app-shell-panel-trigger {
+    @apply data-[phone=true]:-mr-(--density-4) data-[selected=true]:bg-active;
+  }
+
+  /* The phone tab bar: icon over label, above the home indicator. */
+  /* The flat bar is a row under the page, with the page's hairline. */
+  .cn-app-shell-bottom-nav {
+    @apply border-border bg-app-shell-main border-t;
+  }
+
+  /* The floating bar is a capsule over the page, on the sidebar's colours. */
+  .cn-app-shell-bottom-nav-floating {
+    @apply inset-x-(--density-16) z-20;
+  }
+
+  .cn-app-shell-bottom-nav-capsule {
+    @apply bg-app-shell-frame shadow-surface-3;
+  }
+
+  /* A little room around the tabs, so the highlight has an edge of its own. */
+  .cn-app-shell-bottom-nav-track {
+    @apply data-[variant=flat]:px-(--density-4) data-[variant=flat]:pt-(--density-4);
+  }
+
+  /* The pressed fill is the Fluid Hover highlight, so a tab has none of its own. */
+  .cn-app-shell-bottom-nav-item {
+    @apply min-h-(--density-48) gap-(--density-4);
+  }
+
+  /* The current tab's pill slides on the move timing. */
+  .cn-app-shell-bottom-nav-selection {
+    @apply bg-active rounded-full;
+  }
+
+  .cn-app-shell-bottom-nav-highlight {
+    @apply rounded-lg data-[variant=floating]:bg-hover/60 data-[variant=floating]:rounded-full;
+  }
+
+  .cn-app-shell-bottom-nav-text {
+    @apply text-muted-foreground text-(length:--density-text-11);
+  }
+
+  .cn-app-shell-bottom-nav-text-lit {
+    @apply text-foreground;
+  }
+
+  .cn-app-shell-bottom-nav-text-active {
+    @apply text-foreground font-semibold;
+  }
+
+  .cn-app-shell-bottom-nav-label {
+    @apply max-w-full px-(--density-4);
+  }

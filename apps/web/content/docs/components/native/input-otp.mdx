@@ -1,0 +1,133 @@
+---
+title: Input OTP
+description: Accessible one-time password component with copy-paste functionality.
+base: native
+component: true
+---
+
+<NativePreview src="/images/native/input-otp.jpg" alt="Input OTP on iOS" />
+
+## Installation
+
+```bash
+npx fabricator-ui@latest add input-otp
+```
+
+## Usage
+
+```tsx
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSeparator,
+  InputOTPSlot,
+  REGEXP_ONLY_DIGITS_AND_CHARS,
+} from "@/components/ui/input-otp"
+import { Text } from "@/components/ui/text"
+```
+
+```tsx
+<InputOTP maxLength={6}>
+  <Slots start={0} count={6} />
+</InputOTP>
+```
+
+## Composition
+
+- `InputOTP`
+- `InputOTPGroup`
+- `InputOTPSeparator`
+- `InputOTPSlot`
+- `REGEXP_ONLY_CHARS`
+- `REGEXP_ONLY_DIGITS`
+- `REGEXP_ONLY_DIGITS_AND_CHARS`
+
+## Examples
+
+```tsx showLineNumbers title="input-otp-example.tsx"
+import * as React from "react"
+
+import {
+  InputOTP,
+  InputOTPGroup,
+  InputOTPSeparator,
+  InputOTPSlot,
+  REGEXP_ONLY_DIGITS_AND_CHARS,
+} from "@/components/ui/input-otp"
+import { Text } from "@/components/ui/text"
+
+function Slots({ start, count }: { start: number; count: number }) {
+  return (
+    <InputOTPGroup>
+      {Array.from({ length: count }, (_, index) => (
+        <InputOTPSlot key={index} index={start + index} />
+      ))}
+    </InputOTPGroup>
+  )
+}
+
+function InputOtpExample() {
+  const [code, setCode] = React.useState("12")
+  const [completed, setCompleted] = React.useState("")
+  return (
+    <ExampleWrapper>
+      <Example title="Default">
+        <InputOTP maxLength={6}>
+          <Slots start={0} count={6} />
+        </InputOTP>
+      </Example>
+      <Example title="With a separator">
+        <InputOTP maxLength={6}>
+          <Slots start={0} count={3} />
+          <InputOTPSeparator />
+          <Slots start={3} count={3} />
+        </InputOTP>
+      </Example>
+      <Example title="Letters and digits">
+        <InputOTP maxLength={4} pattern={REGEXP_ONLY_DIGITS_AND_CHARS}>
+          <Slots start={0} count={4} />
+        </InputOTP>
+      </Example>
+      <Example title="Controlled">
+        <InputOTP
+          maxLength={4}
+          value={code}
+          onChange={setCode}
+          onComplete={setCompleted}
+        >
+          <Slots start={0} count={4} />
+        </InputOTP>
+        <Text className="text-muted-foreground">
+          {completed ? `Completed: ${completed}` : `Typed: ${code}`}
+        </Text>
+      </Example>
+      <Example title="Invalid">
+        <InputOTP maxLength={4} defaultValue="1234" aria-invalid>
+          <Slots start={0} count={4} />
+        </InputOTP>
+      </Example>
+      <Example title="Disabled">
+        <InputOTP maxLength={4} defaultValue="12" disabled>
+          <Slots start={0} count={4} />
+        </InputOTP>
+      </Example>
+    </ExampleWrapper>
+  )
+}
+
+export { InputOtpExample }
+```
+
+## API reference
+
+
+
+Props it adds to what it wraps: `"aria-invalid"`, `containerClassName`, `defaultValue`, `disabled`, `index`, `maxLength`, `onChange`, `onComplete`, `pasteTransformer`, `pattern`, `value`.
+
+## Differences from web
+
+**New engine.** `input-otp` is DOM-only. A hidden `TextInput` takes the code, with one-time-code autofill.
+
+## Accessibility
+
+Parts set `role="separator"`, read by VoiceOver and TalkBack. Give a control with no text an `accessibilityLabel`.

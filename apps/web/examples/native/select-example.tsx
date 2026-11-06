@@ -1,0 +1,177 @@
+import * as React from "react"
+import { Example, ExampleWrapper } from "@/examples/native/example"
+
+import { Button } from "@/registry/native/ui/button"
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectSeparator,
+  SelectTrigger,
+  SelectValue,
+} from "@/registry/native/ui/select"
+import { Text } from "@/registry/native/ui/text"
+
+const FRUITS = [
+  { label: "Select a fruit", value: null },
+  { label: "Apple", value: "apple" },
+  { label: "Banana", value: "banana" },
+  { label: "Blueberry", value: "blueberry" },
+  { label: "Grapes", value: "grapes", disabled: true },
+  { label: "Pineapple", value: "pineapple" },
+]
+const VEGETABLES = [
+  { label: "Carrot", value: "carrot" },
+  { label: "Broccoli", value: "broccoli" },
+]
+const NUMBERS = Array.from({ length: 40 }, (_, index) => ({
+  label: `Number ${index + 1}`,
+  value: String(index + 1),
+}))
+
+function FruitItems() {
+  return (
+    <SelectGroup>
+      {FRUITS.map((fruit) => (
+        <SelectItem
+          key={fruit.label}
+          value={fruit.value}
+          disabled={fruit.disabled}
+        >
+          {fruit.label}
+        </SelectItem>
+      ))}
+    </SelectGroup>
+  )
+}
+
+function SelectExample() {
+  const [value, setValue] = React.useState<string | null>("banana")
+  const [isOpen, setIsOpen] = React.useState(false)
+  const [many, setMany] = React.useState<string[]>(["apple"])
+  return (
+    <ExampleWrapper>
+      <Example title="A sheet on phones, a popover from sm up">
+        <Select items={FRUITS}>
+          <SelectTrigger className="w-48">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <FruitItems />
+          </SelectContent>
+        </Select>
+      </Example>
+      <Example title="Groups and a placeholder">
+        <Select>
+          <SelectTrigger className="w-48">
+            <SelectValue placeholder="Pick something" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel>Fruits</SelectLabel>
+              <SelectItem value="apple">Apple</SelectItem>
+              <SelectItem value="banana">Banana</SelectItem>
+            </SelectGroup>
+            <SelectSeparator />
+            <SelectGroup>
+              <SelectLabel>Vegetables</SelectLabel>
+              {VEGETABLES.map((vegetable) => (
+                <SelectItem key={vegetable.value} value={vegetable.value}>
+                  {vegetable.label}
+                </SelectItem>
+              ))}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+      </Example>
+      <Example title="Sizes">
+        <Select items={FRUITS}>
+          <SelectTrigger size="sm" className="w-48">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <FruitItems />
+          </SelectContent>
+        </Select>
+        <Select items={FRUITS}>
+          <SelectTrigger size="default" className="w-48">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <FruitItems />
+          </SelectContent>
+        </Select>
+      </Example>
+      <Example title="Controlled value">
+        <Select items={FRUITS} value={value} onValueChange={setValue}>
+          <SelectTrigger className="w-48">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <FruitItems />
+          </SelectContent>
+        </Select>
+        <Text className="text-muted-foreground">Value: {value ?? "none"}</Text>
+      </Example>
+      <Example title="Open from state">
+        <Button variant="outline" onPress={() => setIsOpen(true)}>
+          Open from state
+        </Button>
+        <Select items={FRUITS} open={isOpen} onOpenChange={setIsOpen}>
+          <SelectTrigger className="w-48">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <FruitItems />
+          </SelectContent>
+        </Select>
+      </Example>
+      <Example title="Multiple">
+        <Select multiple items={FRUITS} value={many} onValueChange={setMany}>
+          <SelectTrigger className="w-48">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <FruitItems />
+          </SelectContent>
+        </Select>
+      </Example>
+      <Example title="A long list">
+        <Select items={NUMBERS}>
+          <SelectTrigger className="w-48">
+            <SelectValue placeholder="Pick a number" />
+          </SelectTrigger>
+          <SelectContent>
+            {NUMBERS.map((number) => (
+              <SelectItem key={number.value} value={number.value}>
+                {number.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </Example>
+      <Example title="Invalid and disabled">
+        <Select items={FRUITS}>
+          <SelectTrigger aria-invalid className="w-48">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <FruitItems />
+          </SelectContent>
+        </Select>
+        <Select items={FRUITS} disabled>
+          <SelectTrigger className="w-48">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <FruitItems />
+          </SelectContent>
+        </Select>
+      </Example>
+    </ExampleWrapper>
+  )
+}
+
+export { SelectExample }

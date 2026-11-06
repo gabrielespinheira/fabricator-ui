@@ -1,0 +1,20 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "colebemis",
+    "ericfennis",
+    "danielbayley"
+  ],
+  "use-cases": [
+    "Removing a document from a file manager",
+    "Removing an attachment from a form"
+  ],
+  "tags": [
+    "$extends:file",
+    "$group:minus",
+    "discard"
+  ],
+  "categories": [
+    "$extends:file"
+  ]
+}

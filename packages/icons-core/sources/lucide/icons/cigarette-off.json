@@ -1,0 +1,17 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "karsa-mistmere",
+    "ericfennis",
+    "jguddas"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:cigarette",
+    "$group:off",
+    "no-smoking"
+  ],
+  "categories": [
+    "$extends:cigarette"
+  ]
+}

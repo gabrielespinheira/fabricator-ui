@@ -1,0 +1,22 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "danielbayley",
+    "karsa-mistmere",
+    "jamiemlaw",
+    "jguddas"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:arrow-big-up",
+    "$group:direction-up",
+    "caps lock",
+    "capitals",
+    "faster",
+    "speed",
+    "boost"
+  ],
+  "categories": [
+    "$extends:arrow-big-up"
+  ]
+}

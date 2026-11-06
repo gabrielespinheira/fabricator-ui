@@ -1,0 +1,138 @@
+---
+title: Badge
+description: Displays a badge or a component that looks like a badge.
+base: native
+component: true
+---
+
+<NativePreview src="/images/native/badge.jpg" alt="Badge on iOS" />
+
+## Installation
+
+```bash
+npx fabricator-ui@latest add badge
+```
+
+## Usage
+
+```tsx
+import { Badge } from "@/components/ui/badge"
+import { Spinner } from "@/components/ui/spinner"
+import { Text } from "@/components/ui/text"
+```
+
+```tsx
+{VARIANTS.map((variant) => (
+  <Badge key={variant} variant={variant}>
+    {variant}
+  </Badge>
+))}
+```
+
+## Examples
+
+```tsx showLineNumbers title="badge-example.tsx"
+import {
+  CheckIcon,
+  CircleAlertIcon,
+  InfoIcon,
+  TriangleAlertIcon,
+} from "@fabricator-ui/icons-react-native"
+import { Pressable, View } from "react-native"
+
+import { Badge } from "@/components/ui/badge"
+import { Spinner } from "@/components/ui/spinner"
+import { Text } from "@/components/ui/text"
+
+const VARIANTS = [
+  "default",
+  "secondary",
+  "destructive",
+  "outline",
+  "ghost",
+  "link",
+  "info",
+  "success",
+  "warning",
+  "error",
+] as const
+
+function BadgeExample() {
+  return (
+    <ExampleWrapper>
+      <Example title="Variants" className="flex-row flex-wrap">
+        {VARIANTS.map((variant) => (
+          <Badge key={variant} variant={variant}>
+            {variant}
+          </Badge>
+        ))}
+      </Example>
+      <Example title="With an icon" className="flex-row flex-wrap">
+        <Badge>
+          <CheckIcon />
+          Verified
+        </Badge>
+        <Badge variant="info">
+          <InfoIcon />
+          New
+        </Badge>
+        <Badge variant="success">
+          <CheckIcon />
+          Paid
+        </Badge>
+        <Badge variant="warning">
+          <TriangleAlertIcon />
+          Overdue
+        </Badge>
+        <Badge variant="error">
+          <CircleAlertIcon />
+          Failed
+        </Badge>
+      </Example>
+      <Example title="With a spinner">
+        <Badge variant="secondary">
+          <Spinner className="size-3" />
+          Syncing
+        </Badge>
+      </Example>
+      <Example title="Invalid">
+        <Badge variant="outline" aria-invalid>
+          Missing a date
+        </Badge>
+      </Example>
+      <Example title="Pressable" className="flex-row flex-wrap">
+        <Badge render={<Pressable onPress={() => {}} />}>Open</Badge>
+        <Badge variant="info" asChild>
+          <Pressable onPress={() => {}}>
+            <Text>Details</Text>
+          </Pressable>
+        </Badge>
+      </Example>
+      <Example title="Beside text">
+        <View className="flex-row items-center gap-2">
+          <Text>Acme Inc</Text>
+          <Badge variant="success">Active</Badge>
+        </View>
+      </Example>
+    </ExampleWrapper>
+  )
+}
+
+export { BadgeExample }
+```
+
+## API reference
+
+| Prop | Values |
+| --- | --- |
+| `variant` | `default`, `destructive`, `error`, `ghost`, `info`, `link`, `outline`, `secondary`, `success`, `warning` |
+
+Props it adds to what it wraps: `"aria-invalid"`.
+
+## Differences from web
+
+**Same.** It works as it does on the web, with `onPress` for `onClick`.
+
+## Accessibility
+
+Text is read as it appears. Give a control with no text an `accessibilityLabel`.

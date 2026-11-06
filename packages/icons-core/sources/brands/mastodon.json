@@ -1,0 +1,13 @@
+{
+  "title": "Mastodon",
+  "group": "Social",
+  "tags": [
+    "fediverse",
+    "social"
+  ],
+  "aliases": [],
+  "hex": "#6364FF",
+  "source": "Simple Icons 16.36.0 (https://github.com/mastodon/mastodon/blob/7ccf7a73f1c47a8c03712c39f7c591e837cf6d08/app/javascript/images/logo-symbol-icon.svg)",
+  "license": "CC0-1.0",
+  "guidelines": "https://joinmastodon.org/branding"
+}

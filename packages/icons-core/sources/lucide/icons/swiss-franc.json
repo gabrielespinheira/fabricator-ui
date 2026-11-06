@@ -1,0 +1,16 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "ericfennis",
+    "mittalyashu"
+  ],
+  "deprecated": true,
+  "deprecationReason": "icon.use-case",
+  "use-cases": [],
+  "tags": [
+    "$group:currency"
+  ],
+  "categories": [
+    "finance"
+  ]
+}

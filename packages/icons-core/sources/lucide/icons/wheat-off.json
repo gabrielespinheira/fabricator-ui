@@ -1,0 +1,19 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "karsa-mistmere",
+    "ericfennis"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:wheat",
+    "$group:off",
+    "gluten free",
+    "allergy",
+    "intolerance",
+    "diet"
+  ],
+  "categories": [
+    "$extends:wheat"
+  ]
+}

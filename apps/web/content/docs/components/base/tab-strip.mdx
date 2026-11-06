@@ -1,0 +1,217 @@
+---
+title: Tab Strip
+description: Document tabs, as in a browser or an editor. Pin, preview, drag to reorder, close, reopen and rename.
+base: base
+component: true
+---
+
+<ComponentPreview styleName="base-nova" name="tab-strip-demo" />
+
+Tab Strip shows the documents a person has open: pages, files, sessions, anything your app opens side by side. The tabs are your data: pass the active one as `value` and update it in `onValueChange`. `useTabStripState` keeps that data for you, with pinned and preview tabs, the most recent tab, and a reopen stack.
+
+The active tab's pill slides from tab to tab, and a hover highlight glides along the strip. The close button's slot is always there, so titles never reflow when it appears.
+
+Tab Strip is part of the Fabricator style. Inside an [App Shell](/docs/components/base/app-shell) it also registers the usual tab shortcuts.
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">Command</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx fabricator-ui@latest add tab-strip
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps className="mb-0 pt-2">
+
+<Step>
+  Install [App Shell](/docs/components/base/app-shell), Button, Context Menu,
+  Dropdown Menu, Spinner and Tooltip, and `@dnd-kit/react@0.5.3`,
+  `@dnd-kit/dom@0.5.3` and `@dnd-kit/abstract@0.5.3`.
+</Step>
+
+<Step>Copy the drag-and-drop adapter into your project.</Step>
+
+<ComponentSource
+  src="styles/base-fabricator/lib/sortable.tsx"
+  title="lib/sortable.tsx"
+  styleName="base-nova"
+/>
+
+<Step>Copy Tab Strip into your project.</Step>
+
+<ComponentSource
+  src="styles/base-fabricator/ui/tab-strip.tsx"
+  title="components/ui/tab-strip.tsx"
+  styleName="base-nova"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import {
+  TabStrip,
+  TabStripList,
+  TabStripNew,
+  TabStripTab,
+  useTabStripState,
+} from "@/components/ui/tab-strip"
+```
+
+```tsx
+const tabs = useTabStripState({ defaultState })
+
+<TabStrip {...tabs.stripProps} onNew={openNew}>
+  <TabStripList>
+    {tabs.state.tabs.map((id) => (
+      <TabStripTab
+        key={id}
+        value={id}
+        icon={docs[id].icon}
+        pinned={tabs.state.pinned.includes(id)}
+        preview={tabs.state.preview === id}
+      >
+        {docs[id].title}
+      </TabStripTab>
+    ))}
+  </TabStripList>
+  <TabStripNew />
+</TabStrip>
+```
+
+`stripProps` wires `value`, `onValueChange`, `onClose`, `onReorder`, `onPin` and `onReopen`. Keep your own store instead by passing those yourself: each operation is a pure function in `lib/app-shell-model.ts` (`openTab`, `closeTabs`, `closeOtherTabs`, `moveTab`, `togglePinnedTab`, `reopenClosedTab`…).
+
+## Examples
+
+### In a workbench
+
+The strip above the content of an App Shell, with the shortcuts on.
+
+<ComponentPreview
+  styleName="base-nova"
+  name="app-shell-workbench"
+  type="frame"
+/>
+
+### In a titlebar
+
+The strip in an `AppShellTitlebar` row of a desktop window.
+
+<ComponentPreview styleName="base-nova" name="app-shell-desktop" type="frame" />
+
+## Tabs
+
+- **Pinned** tabs lead the strip and show only their icon; the title is in a tooltip. Pinned tabs can't be closed from the strip, and Close others and Close all spare them.
+- A **preview** tab is italic, and the next preview replaces it in place. `openTab(state, id, { preview: true })` opens one; opening it again for real keeps it.
+- A **new tab page** gives way to what opens from it: `openTab(state, id, { replace: blankTabId })` opens in that tab's place, as in a browser, without keeping it for reopening. A tab that's already open is shown where it is, and the blank one stays.
+- **Status** shows `loading` (a spinner), `error` (an alert icon), `dirty` (a dot that turns into the close button on hover) and `waiting` (a pulsing dot).
+- **Closing** activates the most recently used tab, as editors do, or the neighbour when there is none. Closed tabs go on a reopen stack of 20.
+- **Renaming:** with `onRename`, double-click a tab or press <Kbd>F2</Kbd>; Enter saves and Escape cancels.
+- **Moving:** drag a tab, press <Kbd>⌥⇧←</Kbd> / <Kbd>⌥⇧→</Kbd>, or use Move left and Move right in its menu. Landing inside the pinned run pins a tab; landing past it unpins it.
+- **Menus:** right-click a tab for Pin, Rename, Move, Close, Close others, Close to the right, Close all and Reopen, followed by the tab's own `actions`. Right-click the empty strip for New tab and Reopen.
+- **Overflow:** tabs shrink from 192px to 144px, then the strip scrolls sideways under faded edges and keeps the active tab in view. `TabStripNew` follows the last tab, and `TabStripOverflow` adds a menu of every tab at the end of the row. Give the strip `min-w-0 flex-1` so it runs the full width of its row.
+
+## Shortcuts
+
+Inside an App Shell (`shortcuts={false}` turns them off). In a browser, the keys the browser keeps get the second column; in a desktop app the first applies.
+
+| Action            | Desktop                                                            | Browser                                    |
+| ----------------- | ------------------------------------------------------------------ | ------------------------------------------ |
+| New tab           | <Kbd>⌘T</Kbd>                                                      | <Kbd>⌥⌘T</Kbd>                             |
+| Close tab         | <Kbd>⌘W</Kbd>                                                      | <Kbd>⌥⌘W</Kbd>                             |
+| Reopen closed tab | <Kbd>⇧⌘T</Kbd>                                                     | <Kbd>⌥⇧⌘T</Kbd>                            |
+| Next / previous   | <Kbd>⌃Tab</Kbd>, <Kbd>⇧⌘]</Kbd> / <Kbd>⌃⇧Tab</Kbd>, <Kbd>⇧⌘[</Kbd> | <Kbd>⌥⇧]</Kbd> / <Kbd>⌥⇧[</Kbd>            |
+| Tab 1 to 8, last  | <Kbd>⌘1</Kbd>…<Kbd>⌘8</Kbd>, <Kbd>⌘9</Kbd>                         | <Kbd>⌥1</Kbd>…<Kbd>⌥8</Kbd>, <Kbd>⌥9</Kbd> |
+
+On Windows and Linux, <Kbd>⌘</Kbd> is <Kbd>Ctrl</Kbd>.
+
+## Tabs and routes
+
+Tabs are resources, not routes. Keep the URL on the active tab with `replace`, so the browser's Back walks pages rather than tabs:
+
+```tsx
+React.useEffect(() => {
+  if (tabs.activeId) router.replace(hrefFor(tabs.activeId))
+}, [tabs.activeId])
+```
+
+## API Reference
+
+### TabStrip
+
+Also takes the props of a `<div>`.
+
+| Prop            | Type                                       | Default     |
+| --------------- | ------------------------------------------ | ----------- |
+| `value`         | `string \| null`                           | -           |
+| `onValueChange` | `(value: string) => void`                  | -           |
+| `onClose`       | `(values: string[]) => void`               | -           |
+| `onReorder`     | `(value: string, index: number) => void`   | -           |
+| `onPin`         | `(value: string, pinned: boolean) => void` | -           |
+| `onRename`      | `(value: string, title: string) => void`   | -           |
+| `onReopen`      | `() => void`                               | -           |
+| `onNew`         | `() => void`                               | -           |
+| `panelId`       | `string`                                   | -           |
+| `size`          | `"default" \| "sm"`                        | `"default"` |
+| `shortcuts`     | `boolean`                                  | `true`      |
+
+Without `onClose`, tabs have no close button; without `onReorder`, they don't drag.
+
+### TabStripTab
+
+| Prop       | Type                                                               | Default              |
+| ---------- | ------------------------------------------------------------------ | -------------------- |
+| `value`    | `string`                                                           | -                    |
+| `title`    | `string`                                                           | its text             |
+| `icon`     | `React.ComponentType`                                              | -                    |
+| `pinned`   | `boolean`                                                          | `false`              |
+| `preview`  | `boolean`                                                          | `false`              |
+| `status`   | `"loading" \| "error" \| "dirty" \| "waiting"`                     | -                    |
+| `closable` | `boolean`                                                          | `true` unless pinned |
+| `actions`  | `{ id, label, icon?, destructive?, separatorBefore?, onSelect }[]` | `[]`                 |
+
+### useTabStripState
+
+| Option         | Type            | Default |
+| -------------- | --------------- | ------- |
+| `defaultState` | `TabStripState` | no tabs |
+| `storage`      | `ShellStorage`  | -       |
+| `storageKey`   | `string`        | -       |
+
+Returns `state`, `activeId`, `open`, `activate`, `close`, `closeOthers`, `closeToRight`, `move`, `setPinned`, `reopen` and `stripProps`. With `storage` and `storageKey` it saves the strip as `app-shell.<storageKey>.tabs`.
+
+### Data attributes
+
+| Attribute                    | Element      | Present when                                                                               |
+| ---------------------------- | ------------ | ------------------------------------------------------------------------------------------ |
+| `data-slot="tab-strip"`      | root         | always; `data-size`                                                                        |
+| `data-slot="tab-strip-list"` | the tab list | always; `data-dragging` during a drag                                                      |
+| `data-slot="tab-strip-tab"`  | each tab     | `data-value`, `data-active`, `data-pinned`, `data-preview`, `data-status`, `data-dragging` |
+
+## Accessibility
+
+- The list is a `tablist` and each tab a `tab` with `aria-selected`. Pass `panelId` to point the tabs at the content with `aria-controls`.
+- Only the active tab is in the tab order. <Kbd>←</Kbd> / <Kbd>→</Kbd> move focus (wrapping), <Kbd>Home</Kbd> and <Kbd>End</Kbd> jump, <Kbd>Enter</Kbd> or <Kbd>Space</Kbd> activates.
+- <Kbd>Delete</Kbd> closes the focused tab (`aria-keyshortcuts`), <Kbd>F2</Kbd>
+  renames it, and <Kbd>⌥⇧←</Kbd> / <Kbd>⌥⇧→</Kbd> move it; moves are announced
+  in a live region.
+- The close button is for pointers only and is hidden from assistive tech, so it never sits inside a tab as a second control.
+- Every drag has a menu alternative (Move left, Move right), as WCAG 2.5.7 asks.
+- Middle-click closes a tab without starting the browser's autoscroll.

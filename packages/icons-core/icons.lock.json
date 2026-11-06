@@ -1,0 +1,18 @@
+{
+  "lucide": {
+    "tag": "1.66.0",
+    "sha": "a630cec77eac6568b989e87e4947a8bfe45caacd",
+    "syncedAt": "2026-11-03"
+  },
+  "simpleIcons": {
+    "version": "16.36.0"
+  },
+  "logos": {
+    "version": "1.2.18"
+  },
+  "animated": {
+    "repository": "https://github.com/pqoqubbw/icons.git",
+    "sha": "4662fff2b60fdcf4751b32013606756caf7c4c26",
+    "syncedAt": "2026-11-04"
+  }
+}

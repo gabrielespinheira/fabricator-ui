@@ -1,0 +1,51 @@
+/* MARK: Pagination */
+
+  .cn-pagination {
+    @apply mx-auto;
+  }
+
+  .cn-pagination-content {
+    @apply gap-1;
+  }
+
+  /* Links are ghost (outline when current) buttons. The current page reads as a
+     selected item instead: active fill, foreground, semibold, no edge. */
+  .cn-pagination-link {
+    @apply data-[active=true]:bg-active data-[active=true]:border-transparent;
+  }
+
+  .cn-pagination-link-text {
+    @apply data-[active=true]:text-foreground data-[active=true]:font-semibold;
+  }
+
+  /* Pressed is the next interaction step, as on a ghost or outline button, under
+     the label. It fills the border box and follows the button's corners. */
+  .cn-pagination-link-wash {
+    @apply -inset-px rounded-lg bg-active;
+  }
+
+  .cn-pagination-ellipsis {
+    @apply size-(--density-36);
+  }
+
+  .cn-pagination-ellipsis-text {
+    @apply text-muted-foreground;
+  }
+
+  .cn-pagination-previous {
+    @apply pl-(--density-10);
+  }
+
+  .cn-pagination-next {
+    @apply pr-(--density-10);
+  }
+
+  /* The labels fold away on phones: the chevrons and their labels for a screen
+     reader remain. */
+  .cn-pagination-previous-text {
+    @apply text-(length:--density-text-13);
+  }
+
+  .cn-pagination-next-text {
+    @apply text-(length:--density-text-13);
+  }

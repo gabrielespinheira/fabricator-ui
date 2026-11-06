@@ -1,0 +1,17 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "karsa-mistmere",
+    "ericfennis"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:nut",
+    "$group:off",
+    "allergy",
+    "intolerance"
+  ],
+  "categories": [
+    "$extends:nut"
+  ]
+}

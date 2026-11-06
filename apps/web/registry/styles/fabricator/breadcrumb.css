@@ -1,9 +1,10 @@
 /* MARK: Breadcrumb */
 
   /* Muted trail; links turn foreground on hover, the current page is
-     foreground. */
+     foreground. A whole-pixel line keeps the text's baseline on a pixel, so its
+     capitals centre on the separators instead of rounding up above them. */
   .cn-breadcrumb-list {
-    @apply text-muted-foreground gap-(--density-6) text-(length:--density-text-13);
+    @apply text-muted-foreground gap-(--density-6) text-(length:--density-text-13) leading-(--density-20);
   }
 
   .cn-breadcrumb-item {

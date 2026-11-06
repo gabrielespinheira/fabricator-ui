@@ -1,0 +1,19 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "karsa-mistmere",
+    "jguddas",
+    "ericfennis"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:tv-minimal",
+    "$group:play",
+    "movie",
+    "ott",
+    "film"
+  ],
+  "categories": [
+    "$extends:tv-minimal"
+  ]
+}

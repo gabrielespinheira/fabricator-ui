@@ -1,0 +1,14 @@
+{
+  "title": "Express",
+  "group": "Product & dev",
+  "tags": [
+    "express.js",
+    "node",
+    "server"
+  ],
+  "aliases": [],
+  "hex": "#0A0A0A",
+  "scale": 0.883,
+  "source": "Simple Icons 16.36.0 (https://github.com/openjs-foundation/artwork/blob/3816245ebbf4707bdafde748350ac8476b6b5b62/projects/express/express-icon-black.svg)",
+  "license": "CC0-1.0"
+}

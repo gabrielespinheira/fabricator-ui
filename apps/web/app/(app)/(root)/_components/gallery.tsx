@@ -25,6 +25,13 @@ import {
 
 import { CATALOG, type CatalogEntry } from "./catalog"
 import {
+  AppNavCardDemo,
+  AppShellCardDemo,
+  TabStripCardDemo,
+  UserMenuCardDemo,
+  WorkspaceSwitcherCardDemo,
+} from "./demos-app-shell"
+import {
   CheckboxDemo,
   InputOTPDemo,
   RadioGroupDemo,
@@ -61,7 +68,7 @@ function isCategoryFilter(
   return CATEGORIES.some((name) => name === value)
 }
 
-type GalleryItem = {
+export type GalleryItem = {
   /** Component docs slug. */
   slug: string
   title: string
@@ -121,6 +128,41 @@ const ITEMS: GalleryItem[] = [
     height: "lg",
     isNew: true,
     Demo: SidebarDemo,
+  },
+  {
+    slug: "app-shell",
+    title: "App Shell",
+    height: "lg",
+    isNew: true,
+    Demo: AppShellCardDemo,
+  },
+  {
+    slug: "app-nav",
+    title: "App Nav",
+    height: "lg",
+    isNew: true,
+    Demo: AppNavCardDemo,
+  },
+  {
+    slug: "tab-strip",
+    title: "Tab Strip",
+    height: "sm",
+    isNew: true,
+    Demo: TabStripCardDemo,
+  },
+  {
+    slug: "workspace-switcher",
+    title: "Workspace Switcher",
+    height: "md",
+    isNew: true,
+    Demo: WorkspaceSwitcherCardDemo,
+  },
+  {
+    slug: "user-menu",
+    title: "User Menu",
+    height: "md",
+    isNew: true,
+    Demo: UserMenuCardDemo,
   },
   {
     slug: "radio-group",
@@ -221,7 +263,8 @@ const ITEMS: GalleryItem[] = [
 ]
 
 // Curated demos first, then every other component with its docs demo.
-const ALL_ITEMS: GalleryItem[] = [
+// Every component with its demo; the desktop example (/desktop) lists them too.
+export const GALLERY_ITEMS: GalleryItem[] = [
   ...ITEMS,
   ...CATALOG.map((entry) => ({
     slug: entry.slug,
@@ -262,7 +305,7 @@ export function Gallery() {
   const [sort, setSort] = React.useState("featured")
 
   const items = React.useMemo(() => {
-    const filtered = ALL_ITEMS.filter(
+    const filtered = GALLERY_ITEMS.filter(
       (item) => category === "All" || getComponentGroup(item.slug) === category
     )
     return sort === "name"
@@ -279,7 +322,7 @@ export function Gallery() {
       onValueChange={(value) => {
         if (isCategoryFilter(value)) setCategory(value)
       }}
-      className="flex flex-col gap-5 px-4 pb-20 sm:px-5"
+      className="flex flex-col gap-5 px-4 pb-4 sm:px-5"
     >
       <div className="flex items-center gap-3">
         <div className="-mx-4 scrollbar-hide flex min-w-0 flex-1 overflow-x-auto px-4 sm:mx-0 sm:px-0">

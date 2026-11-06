@@ -1,0 +1,16 @@
+{
+  "title": "Cloudflare",
+  "group": "Product & dev",
+  "tags": [
+    "dns",
+    "cdn",
+    "proxy",
+    "domain"
+  ],
+  "aliases": [],
+  "hex": "#F38020",
+  "source": "Simple Icons 16.36.0 (https://www.cloudflare.com/logo/)",
+  "license": "CC0-1.0",
+  "guidelines": "https://www.cloudflare.com/trademark/",
+  "artSource": "gilbarbara/logos via @iconify-json/logos 1.2.18 (CC0-1.0)"
+}

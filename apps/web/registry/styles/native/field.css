@@ -1,0 +1,81 @@
+/* MARK: Field */
+
+  .cn-field-set {
+    @apply gap-(--density-16);
+  }
+
+  .cn-field-legend {
+    @apply text-foreground mb-1.5 font-medium data-[variant=label]:text-(length:--density-text-13) data-[variant=legend]:text-(length:--density-text-14);
+  }
+
+  .cn-field-group {
+    @apply gap-(--density-20);
+  }
+
+  /* Label, control and caption sit close. Inside a choice card the Field holds
+     the card's padding. */
+  .cn-field {
+    @apply gap-(--density-6) data-[card=true]:p-(--density-12);
+  }
+
+  .cn-field-orientation-vertical {
+    @apply flex-col;
+  }
+
+  .cn-field-orientation-horizontal {
+    @apply flex-row items-center;
+  }
+
+  /* Stacked on a phone, side by side from the sm breakpoint. */
+  .cn-field-orientation-responsive {
+    @apply flex-col sm:flex-row sm:items-center;
+  }
+
+  .cn-field-content {
+    @apply gap-0.5;
+  }
+
+  /* A label beside a control takes the rest of a horizontal row. A label wrapping
+     a whole Field is a choice card: framed by a hairline, pressed tint, the active
+     step when its control is on. */
+  .cn-field-label {
+    @apply data-[card=true]:border-border data-[card=true]:active:bg-hover data-[checked=true]:bg-active data-[checked=true]:border-foreground/20 gap-(--density-8) data-[card=true]:w-full data-[card=true]:flex-col data-[card=true]:items-stretch data-[card=true]:rounded-lg data-[card=true]:border data-[disabled=true]:opacity-50 data-[orientation=horizontal]:flex-1 sm:data-[orientation=responsive]:self-center;
+  }
+
+  /* 13pt labels, red inside an invalid field. */
+  .cn-field-label-text {
+    @apply text-foreground text-(length:--density-text-13) leading-snug font-medium;
+  }
+
+  .cn-field-label-text-invalid {
+    @apply text-destructive-text;
+  }
+
+  .cn-field-title {
+    @apply text-foreground data-[invalid=true]:text-destructive-text text-(length:--density-text-13) leading-snug font-medium data-[disabled=true]:opacity-50;
+  }
+
+  /* Captions: 12pt muted. */
+  .cn-field-description {
+    @apply text-muted-foreground text-left text-(length:--density-text-12) leading-normal font-normal;
+  }
+
+  .cn-field-separator {
+    @apply -my-2 h-(--density-20);
+  }
+
+  .cn-field-separator-line {
+    @apply bg-border h-px;
+  }
+
+  .cn-field-separator-content {
+    @apply text-muted-foreground bg-background px-(--density-8) text-(length:--density-text-12);
+  }
+
+  .cn-field-error {
+    @apply gap-1;
+  }
+
+  .cn-field-error-text {
+    @apply text-destructive-text text-(length:--density-text-12) font-normal;
+  }

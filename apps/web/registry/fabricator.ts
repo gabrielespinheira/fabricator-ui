@@ -17,6 +17,15 @@ export type FabricatorStyle = (typeof FABRICATOR_STYLES)[number]
 
 export const FABRICATOR_NAMESPACE = "@fabricator"
 
+// Fabricator Icons is the default icon pack, and shadcn only knows five icon
+// libraries. So `iconLibrary` stays "lucide", which keeps bare upstream items
+// installable, and this registry param asks for the items that import the
+// Fabricator package instead (next.config.mjs serves them).
+export const FABRICATOR_ICON_LIBRARY = "fabricator"
+export const FABRICATOR_ICONS_PACKAGE = "@fabricator-ui/icons"
+export const LUCIDE_ICONS_PACKAGE = "lucide-react"
+export const FABRICATOR_ICONS_PARAMS = { icons: FABRICATOR_ICON_LIBRARY }
+
 export const FABRICATOR_REGISTRY = {
   name: "fabricator",
   homepage: "https://fabricator-ui.vercel.app",

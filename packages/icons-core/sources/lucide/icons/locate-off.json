@@ -1,0 +1,15 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "fdev",
+    "jamiemlaw"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:locate",
+    "$group:off"
+  ],
+  "categories": [
+    "$extends:locate"
+  ]
+}

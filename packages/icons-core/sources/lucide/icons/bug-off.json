@@ -1,0 +1,21 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "danielbayley",
+    "jamiemlaw",
+    "jguddas"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:bug",
+    "$group:off",
+    "fixed",
+    "resolved",
+    "kill",
+    "exterminate",
+    "pest control"
+  ],
+  "categories": [
+    "$extends:bug"
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "badraxas",
+    "karsa-mistmere",
+    "jguddas",
+    "ericfennis"
+  ],
+  "use-cases": [
+    "Showing synchronization between desktop and mobile devices",
+    "Representing responsive previews across screen sizes",
+    "Indicating casting or screen sharing to a display"
+  ],
+  "tags": [
+    "$extends:monitor",
+    "$extends:smartphone",
+    "screens",
+    "sync",
+    "cast"
+  ],
+  "categories": [
+    "$extends:monitor"
+  ]
+}

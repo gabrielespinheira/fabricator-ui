@@ -1,0 +1,19 @@
+{
+  "$schema": "../icon.schema.json",
+  "contributors": [
+    "karsa-mistmere",
+    "ericfennis"
+  ],
+  "use-cases": [],
+  "tags": [
+    "$extends:ear",
+    "$group:off",
+    "hard of hearing",
+    "hearing loss",
+    "deafness",
+    "silence"
+  ],
+  "categories": [
+    "$extends:ear"
+  ]
+}

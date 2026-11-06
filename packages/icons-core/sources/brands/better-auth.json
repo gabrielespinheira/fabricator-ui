@@ -1,0 +1,14 @@
+{
+  "title": "Better Auth",
+  "group": "Product & dev",
+  "tags": [
+    "auth",
+    "authentication",
+    "typescript"
+  ],
+  "aliases": [],
+  "hex": "#FFFFFF",
+  "scale": 0.92,
+  "source": "Simple Icons 16.36.0 (https://github.com/better-auth/better-auth/blob/fd62eba1d0ec71b3abb17ece92a4aae0c3c85270/docs/public/branding/better-auth-logo-light.svg)",
+  "license": "CC0-1.0"
+}

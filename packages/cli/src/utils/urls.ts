@@ -56,6 +56,20 @@ export function fabricatorCatalogUrl(baseUrl: string, style: string): string {
   return fabricatorItemUrl(baseUrl, style, "registry")
 }
 
+/**
+ * The init URL for React Native. A preset that is already a URL is the
+ * person's, carrying a look from the setup page, so it passes through.
+ */
+export function buildNativeInitUrl(
+  preset: string | undefined,
+  baseUrl: string = getBaseUrl(),
+  look: Record<string, string> = {}
+): string {
+  if (preset && isUrl(preset)) return preset
+  const params = new URLSearchParams({ platform: "native", ...look })
+  return `${baseUrl}/init?${params.toString()}`
+}
+
 export interface InitUrlOptions {
   base?: string
   /** A Fabricator preset name (`fabricator`), a shadcn preset code (`b0`), or a full URL. */
@@ -75,6 +89,8 @@ export interface InitUrlOptions {
   template?: string
   monorepo?: boolean
   only?: string
+  /** The look's values, as `/init` reads them. */
+  look?: Record<string, string>
 }
 
 const STRING_PARAMS = [
@@ -122,6 +138,9 @@ export function buildInitUrl(
     )
   }
   if (options.only) params.set("only", options.only)
+  for (const [key, value] of Object.entries(options.look ?? {})) {
+    params.set(key, value)
+  }
 
   return `${baseUrl}/init?${params.toString()}`
 }
