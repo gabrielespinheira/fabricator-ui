@@ -1,5 +1,15 @@
 # fabricator-ui
 
+## 0.5.0
+
+### Minor Changes
+
+- [#12](https://github.com/gabrielespinheira/fabricator-ui/pull/12) [`49b22a4`](https://github.com/gabrielespinheira/fabricator-ui/commit/49b22a4d9755a7cdbe82ca09b7df8407e4f4edf8) Thanks [@gabrielespinheira](https://github.com/gabrielespinheira)! - Add `create`, one command for a project or a monorepo with mobile and desktop apps. It installs your look and components, wires the App Shell and sounds into your root layout and sets up your AI assistants. `init` takes the same flags for an existing project. Add `apps add`, `agents add` and `upgrade`, make `add` work at a monorepo's root with `--app`, let `mcp init --client` take a list and write Codex's project config, and have `doctor` check each app in a monorepo. Fix components with lib dependencies not building in a monorepo.
+
+- [#12](https://github.com/gabrielespinheira/fabricator-ui/pull/12) [`8560c8f`](https://github.com/gabrielespinheira/fabricator-ui/commit/8560c8fcdb769531d4f609f6351dc60526505300) Thanks [@gabrielespinheira](https://github.com/gabrielespinheira)! - Add React Native. In an Expo project, `init` sets up Uniwind, the theme and the `@fabricator` registry for React Native, and `add` installs the native version of each component under the same name, then matches its packages to your Expo SDK. `init --platform` overrides the detection, and `doctor` checks a React Native project's setup.
+
+- [#12](https://github.com/gabrielespinheira/fabricator-ui/pull/12) [`7a9a955`](https://github.com/gabrielespinheira/fabricator-ui/commit/7a9a955aa34f9697648974a425262651662bf385) Thanks [@gabrielespinheira](https://github.com/gabrielespinheira)! - Give React Native tablets their own sizes. `FabricatorRoot` picks them from the window's width: 40pt controls with the phone's 15pt text and 18pt icons, `sm` at 34pt, `lg` at 48pt and `xs` at 28pt, with touch targets staying at 44pt. Split View narrower than 768pt uses the phone's sizes, and a density picked on purpose stays. On tablets the App Shell gets a 288pt sidebar, a 32pt page title and a sidebar toggle that stays in the header, and row actions wait for the current row or a trackpad's hover. A calendar keeps its size unless it's given `w-full`, and inputs give way in a row instead of overflowing it.
+
 ## 0.4.0
 
 ### Minor Changes
