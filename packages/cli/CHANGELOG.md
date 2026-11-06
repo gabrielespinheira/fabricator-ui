@@ -1,5 +1,11 @@
 # fabricator-ui
 
+## 0.5.1
+
+### Patch Changes
+
+- Fix tinted-surface installations failing with `Cannot apply unknown utility class bg-background`. The registry explicitly maps background, card, popover and sidebar colors to Tailwind utilities. Existing projects with the error need their CSS repaired or their theme reapplied after the updated registry is deployed.
+
 ## 0.5.0
 
 ### Minor Changes
