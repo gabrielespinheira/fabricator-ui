@@ -1,5 +1,6 @@
 "use client"
 
+import * as React from "react"
 import { Tabs as TabsPrimitive } from "@base-ui/react/tabs"
 import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "cn"
@@ -43,7 +44,10 @@ const tabsListVariants = cva(
     variants: {
       variant: {
         default: "cn-tabs-list-variant-default",
-        line: "cn-tabs-list-variant-line gap-1 bg-transparent",
+        // Only the active tab shows its label; the others show their icon.
+        subtle: "cn-tabs-list-variant-subtle",
+        /** @deprecated Kept for compatibility; renders as `default`. */
+        line: "cn-tabs-list-variant-default",
       },
     },
     defaultVariants: {
@@ -70,7 +74,7 @@ function TabsList({
   return (
     <TabsPrimitive.List
       data-slot="tabs-list"
-      data-variant={variant}
+      data-variant={variant === "line" ? "default" : variant}
       className={cn(tabsListVariants({ variant }), className)}
       ref={mergedRef}
       {...fluid.props}
@@ -86,19 +90,53 @@ function TabsList({
   )
 }
 
-function TabsTrigger({ className, ...props }: TabsPrimitive.Tab.Props) {
+// Each run of text becomes a label, so the subtle list can hide every label
+// but the active tab's and keep the icons. `Files {count}` stays one label.
+function wrapLabels(children: React.ReactNode) {
+  const output: React.ReactNode[] = []
+  let text = ""
+  const flush = () => {
+    if (text === "") return
+    output.push(
+      <span
+        key={`label-${output.length}`}
+        data-slot="tabs-trigger-label"
+        className="cn-tabs-trigger-label"
+      >
+        {text}
+      </span>
+    )
+    text = ""
+  }
+  for (const child of React.Children.toArray(children)) {
+    if (typeof child === "string" || typeof child === "number") {
+      text += String(child)
+      continue
+    }
+    flush()
+    output.push(child)
+  }
+  flush()
+  return output
+}
+
+function TabsTrigger({
+  className,
+  children,
+  ...props
+}: TabsPrimitive.Tab.Props) {
   return (
     <TabsPrimitive.Tab
       data-slot="tabs-trigger"
       className={cn(
         "cn-tabs-trigger relative inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center whitespace-nowrap text-foreground/65 transition-all group-data-vertical/tabs:w-full group-data-vertical/tabs:justify-start hover:text-foreground focus-visible:border-ring focus-visible:ring-[3px] focus-visible:ring-ring/50 focus-visible:outline-1 focus-visible:outline-ring disabled:pointer-events-none disabled:opacity-50 aria-disabled:pointer-events-none aria-disabled:opacity-50 dark:text-muted-foreground dark:hover:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0",
-        "group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:data-active:bg-transparent dark:group-data-[variant=line]/tabs-list:data-active:border-transparent dark:group-data-[variant=line]/tabs-list:data-active:bg-transparent",
         "data-active:bg-background data-active:text-foreground dark:data-active:border-input dark:data-active:bg-input/30 dark:data-active:text-foreground",
-        "after:absolute after:bg-foreground after:opacity-0 after:transition-opacity group-data-horizontal/tabs:after:inset-x-0 group-data-horizontal/tabs:after:bottom-[-5px] group-data-horizontal/tabs:after:h-0.5 group-data-vertical/tabs:after:inset-y-0 group-data-vertical/tabs:after:-right-1 group-data-vertical/tabs:after:w-0.5 group-data-[variant=line]/tabs-list:data-active:after:opacity-100",
         className
       )}
       {...props}
-    />
+    >
+      {wrapLabels(children)}
+    </TabsPrimitive.Tab>
   )
 }
 

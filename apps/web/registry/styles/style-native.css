@@ -3856,7 +3856,7 @@
   /* Track: rounded-xl, p-1, 36pt tall. The selected pill and the pressed pill are
      overlays under the triggers. */
   .cn-tabs-list {
-    @apply rounded-xl p-(--density-4) data-[orientation=horizontal]:h-(--density-36);
+    @apply rounded-xl p-(--density-4) data-[orientation=horizontal]:h-(--density-36) data-[orientation=vertical]:gap-(--density-4);
   }
 
   /* The default track is a translucent foreground step instead of bg-muted: in
@@ -3871,10 +3871,12 @@
     @apply bg-transparent;
   }
 
-  /* Triggers: 28pt. The overlays paint the pills, so the tab stays transparent.
-     Subtle tabs are as wide as their content, with an icon-only tab square. */
+  /* Triggers: 28pt, or 32pt rows 4pt apart in a vertical list. The overlays
+     paint the pills, so the tab stays transparent.
+     Subtle tabs are as wide as their content: an icon-only tab is 32
+     wide, and the active one pads its icon and label 10 and 12. */
   .cn-tabs-trigger {
-    @apply h-(--density-28) gap-(--density-6) rounded-lg px-(--density-12) data-[variant=subtle]:grow-0 data-[variant=subtle]:px-(--density-6) data-[variant=subtle]:data-[state=active]:pe-(--density-10);
+    @apply h-(--density-28) gap-(--density-6) rounded-lg px-(--density-12) data-[orientation=vertical]:h-(--density-32) data-[variant=subtle]:grow-0 data-[variant=subtle]:px-(--density-8) data-[variant=subtle]:data-[state=active]:ps-(--density-10) data-[variant=subtle]:data-[state=active]:pe-(--density-12);
   }
 
   /* 13pt. The resting colour is foreground/65 (dark: muted-foreground), one step

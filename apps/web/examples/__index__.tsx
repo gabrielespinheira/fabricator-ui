@@ -1225,6 +1225,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "input-otp-separator",
       filePath: "examples/base/input-otp-separator.tsx",
     },
+    "input-password": {
+      name: "input-password",
+      filePath: "examples/base/input-password.tsx",
+    },
     "input-required": {
       name: "input-required",
       filePath: "examples/base/input-required.tsx",
@@ -1232,6 +1236,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "input-rtl": {
       name: "input-rtl",
       filePath: "examples/base/input-rtl.tsx",
+    },
+    "input-search": {
+      name: "input-search",
+      filePath: "examples/base/input-search.tsx",
     },
     "input-sizes": {
       name: "input-sizes",
@@ -1452,6 +1460,26 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "message-scroller-visibility": {
       name: "message-scroller-visibility",
       filePath: "examples/base/message-scroller-visibility.tsx",
+    },
+    "month-input-controlled": {
+      name: "month-input-controlled",
+      filePath: "examples/base/month-input-controlled.tsx",
+    },
+    "month-input-demo": {
+      name: "month-input-demo",
+      filePath: "examples/base/month-input-demo.tsx",
+    },
+    "month-input-field": {
+      name: "month-input-field",
+      filePath: "examples/base/month-input-field.tsx",
+    },
+    "month-input-format": {
+      name: "month-input-format",
+      filePath: "examples/base/month-input-format.tsx",
+    },
+    "month-input-range": {
+      name: "month-input-range",
+      filePath: "examples/base/month-input-range.tsx",
     },
     "muted-item-group": {
       name: "muted-item-group",
@@ -2124,6 +2152,34 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "textarea-rtl": {
       name: "textarea-rtl",
       filePath: "examples/base/textarea-rtl.tsx",
+    },
+    "time-input-24-hour": {
+      name: "time-input-24-hour",
+      filePath: "examples/base/time-input-24-hour.tsx",
+    },
+    "time-input-controlled": {
+      name: "time-input-controlled",
+      filePath: "examples/base/time-input-controlled.tsx",
+    },
+    "time-input-date-time": {
+      name: "time-input-date-time",
+      filePath: "examples/base/time-input-date-time.tsx",
+    },
+    "time-input-demo": {
+      name: "time-input-demo",
+      filePath: "examples/base/time-input-demo.tsx",
+    },
+    "time-input-duration": {
+      name: "time-input-duration",
+      filePath: "examples/base/time-input-duration.tsx",
+    },
+    "time-input-field": {
+      name: "time-input-field",
+      filePath: "examples/base/time-input-field.tsx",
+    },
+    "time-input-range": {
+      name: "time-input-range",
+      filePath: "examples/base/time-input-range.tsx",
     },
     "toast-demo": {
       name: "toast-demo",
@@ -3487,6 +3543,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "input-otp-separator",
       filePath: "examples/aria/input-otp-separator.tsx",
     },
+    "input-password": {
+      name: "input-password",
+      filePath: "examples/aria/input-password.tsx",
+    },
     "input-required": {
       name: "input-required",
       filePath: "examples/aria/input-required.tsx",
@@ -3494,6 +3554,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "input-rtl": {
       name: "input-rtl",
       filePath: "examples/aria/input-rtl.tsx",
+    },
+    "input-search": {
+      name: "input-search",
+      filePath: "examples/aria/input-search.tsx",
     },
     "input-sizes": {
       name: "input-sizes",
@@ -3690,6 +3754,26 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "message-scroller-visibility": {
       name: "message-scroller-visibility",
       filePath: "examples/aria/message-scroller-visibility.tsx",
+    },
+    "month-input-controlled": {
+      name: "month-input-controlled",
+      filePath: "examples/aria/month-input-controlled.tsx",
+    },
+    "month-input-demo": {
+      name: "month-input-demo",
+      filePath: "examples/aria/month-input-demo.tsx",
+    },
+    "month-input-field": {
+      name: "month-input-field",
+      filePath: "examples/aria/month-input-field.tsx",
+    },
+    "month-input-format": {
+      name: "month-input-format",
+      filePath: "examples/aria/month-input-format.tsx",
+    },
+    "month-input-range": {
+      name: "month-input-range",
+      filePath: "examples/aria/month-input-range.tsx",
     },
     "muted-item-group": {
       name: "muted-item-group",
@@ -4366,6 +4450,34 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "textarea-rtl": {
       name: "textarea-rtl",
       filePath: "examples/aria/textarea-rtl.tsx",
+    },
+    "time-input-24-hour": {
+      name: "time-input-24-hour",
+      filePath: "examples/aria/time-input-24-hour.tsx",
+    },
+    "time-input-controlled": {
+      name: "time-input-controlled",
+      filePath: "examples/aria/time-input-controlled.tsx",
+    },
+    "time-input-date-time": {
+      name: "time-input-date-time",
+      filePath: "examples/aria/time-input-date-time.tsx",
+    },
+    "time-input-demo": {
+      name: "time-input-demo",
+      filePath: "examples/aria/time-input-demo.tsx",
+    },
+    "time-input-duration": {
+      name: "time-input-duration",
+      filePath: "examples/aria/time-input-duration.tsx",
+    },
+    "time-input-field": {
+      name: "time-input-field",
+      filePath: "examples/aria/time-input-field.tsx",
+    },
+    "time-input-range": {
+      name: "time-input-range",
+      filePath: "examples/aria/time-input-range.tsx",
     },
     "toggle-demo": {
       name: "toggle-demo",
@@ -5717,6 +5829,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "input-otp-separator",
       filePath: "examples/radix/input-otp-separator.tsx",
     },
+    "input-password": {
+      name: "input-password",
+      filePath: "examples/radix/input-password.tsx",
+    },
     "input-required": {
       name: "input-required",
       filePath: "examples/radix/input-required.tsx",
@@ -5724,6 +5840,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "input-rtl": {
       name: "input-rtl",
       filePath: "examples/radix/input-rtl.tsx",
+    },
+    "input-search": {
+      name: "input-search",
+      filePath: "examples/radix/input-search.tsx",
     },
     "input-sizes": {
       name: "input-sizes",
@@ -5940,6 +6060,26 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "message-scroller-visibility": {
       name: "message-scroller-visibility",
       filePath: "examples/radix/message-scroller-visibility.tsx",
+    },
+    "month-input-controlled": {
+      name: "month-input-controlled",
+      filePath: "examples/radix/month-input-controlled.tsx",
+    },
+    "month-input-demo": {
+      name: "month-input-demo",
+      filePath: "examples/radix/month-input-demo.tsx",
+    },
+    "month-input-field": {
+      name: "month-input-field",
+      filePath: "examples/radix/month-input-field.tsx",
+    },
+    "month-input-format": {
+      name: "month-input-format",
+      filePath: "examples/radix/month-input-format.tsx",
+    },
+    "month-input-range": {
+      name: "month-input-range",
+      filePath: "examples/radix/month-input-range.tsx",
     },
     "muted-item-group": {
       name: "muted-item-group",
@@ -6624,6 +6764,34 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "textarea-rtl": {
       name: "textarea-rtl",
       filePath: "examples/radix/textarea-rtl.tsx",
+    },
+    "time-input-24-hour": {
+      name: "time-input-24-hour",
+      filePath: "examples/radix/time-input-24-hour.tsx",
+    },
+    "time-input-controlled": {
+      name: "time-input-controlled",
+      filePath: "examples/radix/time-input-controlled.tsx",
+    },
+    "time-input-date-time": {
+      name: "time-input-date-time",
+      filePath: "examples/radix/time-input-date-time.tsx",
+    },
+    "time-input-demo": {
+      name: "time-input-demo",
+      filePath: "examples/radix/time-input-demo.tsx",
+    },
+    "time-input-duration": {
+      name: "time-input-duration",
+      filePath: "examples/radix/time-input-duration.tsx",
+    },
+    "time-input-field": {
+      name: "time-input-field",
+      filePath: "examples/radix/time-input-field.tsx",
+    },
+    "time-input-range": {
+      name: "time-input-range",
+      filePath: "examples/radix/time-input-range.tsx",
     },
     "toggle-demo": {
       name: "toggle-demo",
@@ -7847,9 +8015,17 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "input-otp-separator",
       filePath: "examples/__styles__/base-fabricator/input-otp-separator.tsx",
     },
+    "input-password": {
+      name: "input-password",
+      filePath: "examples/__styles__/base-fabricator/input-password.tsx",
+    },
     "input-required": {
       name: "input-required",
       filePath: "examples/__styles__/base-fabricator/input-required.tsx",
+    },
+    "input-search": {
+      name: "input-search",
+      filePath: "examples/__styles__/base-fabricator/input-search.tsx",
     },
     "input-sizes": {
       name: "input-sizes",
@@ -8054,6 +8230,26 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "message-scroller-visibility": {
       name: "message-scroller-visibility",
       filePath: "examples/__styles__/base-fabricator/message-scroller-visibility.tsx",
+    },
+    "month-input-controlled": {
+      name: "month-input-controlled",
+      filePath: "examples/__styles__/base-fabricator/month-input-controlled.tsx",
+    },
+    "month-input-demo": {
+      name: "month-input-demo",
+      filePath: "examples/__styles__/base-fabricator/month-input-demo.tsx",
+    },
+    "month-input-field": {
+      name: "month-input-field",
+      filePath: "examples/__styles__/base-fabricator/month-input-field.tsx",
+    },
+    "month-input-format": {
+      name: "month-input-format",
+      filePath: "examples/__styles__/base-fabricator/month-input-format.tsx",
+    },
+    "month-input-range": {
+      name: "month-input-range",
+      filePath: "examples/__styles__/base-fabricator/month-input-range.tsx",
     },
     "muted-item-group": {
       name: "muted-item-group",
@@ -8626,6 +8822,34 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "textarea-invalid": {
       name: "textarea-invalid",
       filePath: "examples/__styles__/base-fabricator/textarea-invalid.tsx",
+    },
+    "time-input-24-hour": {
+      name: "time-input-24-hour",
+      filePath: "examples/__styles__/base-fabricator/time-input-24-hour.tsx",
+    },
+    "time-input-controlled": {
+      name: "time-input-controlled",
+      filePath: "examples/__styles__/base-fabricator/time-input-controlled.tsx",
+    },
+    "time-input-date-time": {
+      name: "time-input-date-time",
+      filePath: "examples/__styles__/base-fabricator/time-input-date-time.tsx",
+    },
+    "time-input-demo": {
+      name: "time-input-demo",
+      filePath: "examples/__styles__/base-fabricator/time-input-demo.tsx",
+    },
+    "time-input-duration": {
+      name: "time-input-duration",
+      filePath: "examples/__styles__/base-fabricator/time-input-duration.tsx",
+    },
+    "time-input-field": {
+      name: "time-input-field",
+      filePath: "examples/__styles__/base-fabricator/time-input-field.tsx",
+    },
+    "time-input-range": {
+      name: "time-input-range",
+      filePath: "examples/__styles__/base-fabricator/time-input-range.tsx",
     },
     "toast-demo": {
       name: "toast-demo",
@@ -9829,9 +10053,17 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "input-otp-separator",
       filePath: "examples/__styles__/aria-fabricator/input-otp-separator.tsx",
     },
+    "input-password": {
+      name: "input-password",
+      filePath: "examples/__styles__/aria-fabricator/input-password.tsx",
+    },
     "input-required": {
       name: "input-required",
       filePath: "examples/__styles__/aria-fabricator/input-required.tsx",
+    },
+    "input-search": {
+      name: "input-search",
+      filePath: "examples/__styles__/aria-fabricator/input-search.tsx",
     },
     "input-sizes": {
       name: "input-sizes",
@@ -10016,6 +10248,26 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "message-scroller-visibility": {
       name: "message-scroller-visibility",
       filePath: "examples/__styles__/aria-fabricator/message-scroller-visibility.tsx",
+    },
+    "month-input-controlled": {
+      name: "month-input-controlled",
+      filePath: "examples/__styles__/aria-fabricator/month-input-controlled.tsx",
+    },
+    "month-input-demo": {
+      name: "month-input-demo",
+      filePath: "examples/__styles__/aria-fabricator/month-input-demo.tsx",
+    },
+    "month-input-field": {
+      name: "month-input-field",
+      filePath: "examples/__styles__/aria-fabricator/month-input-field.tsx",
+    },
+    "month-input-format": {
+      name: "month-input-format",
+      filePath: "examples/__styles__/aria-fabricator/month-input-format.tsx",
+    },
+    "month-input-range": {
+      name: "month-input-range",
+      filePath: "examples/__styles__/aria-fabricator/month-input-range.tsx",
     },
     "muted-item-group": {
       name: "muted-item-group",
@@ -10596,6 +10848,34 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "textarea-invalid": {
       name: "textarea-invalid",
       filePath: "examples/__styles__/aria-fabricator/textarea-invalid.tsx",
+    },
+    "time-input-24-hour": {
+      name: "time-input-24-hour",
+      filePath: "examples/__styles__/aria-fabricator/time-input-24-hour.tsx",
+    },
+    "time-input-controlled": {
+      name: "time-input-controlled",
+      filePath: "examples/__styles__/aria-fabricator/time-input-controlled.tsx",
+    },
+    "time-input-date-time": {
+      name: "time-input-date-time",
+      filePath: "examples/__styles__/aria-fabricator/time-input-date-time.tsx",
+    },
+    "time-input-demo": {
+      name: "time-input-demo",
+      filePath: "examples/__styles__/aria-fabricator/time-input-demo.tsx",
+    },
+    "time-input-duration": {
+      name: "time-input-duration",
+      filePath: "examples/__styles__/aria-fabricator/time-input-duration.tsx",
+    },
+    "time-input-field": {
+      name: "time-input-field",
+      filePath: "examples/__styles__/aria-fabricator/time-input-field.tsx",
+    },
+    "time-input-range": {
+      name: "time-input-range",
+      filePath: "examples/__styles__/aria-fabricator/time-input-range.tsx",
     },
     "toggle-demo": {
       name: "toggle-demo",
@@ -11787,9 +12067,17 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "input-otp-separator",
       filePath: "examples/__styles__/radix-fabricator/input-otp-separator.tsx",
     },
+    "input-password": {
+      name: "input-password",
+      filePath: "examples/__styles__/radix-fabricator/input-password.tsx",
+    },
     "input-required": {
       name: "input-required",
       filePath: "examples/__styles__/radix-fabricator/input-required.tsx",
+    },
+    "input-search": {
+      name: "input-search",
+      filePath: "examples/__styles__/radix-fabricator/input-search.tsx",
     },
     "input-sizes": {
       name: "input-sizes",
@@ -11990,6 +12278,26 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "message-scroller-visibility": {
       name: "message-scroller-visibility",
       filePath: "examples/__styles__/radix-fabricator/message-scroller-visibility.tsx",
+    },
+    "month-input-controlled": {
+      name: "month-input-controlled",
+      filePath: "examples/__styles__/radix-fabricator/month-input-controlled.tsx",
+    },
+    "month-input-demo": {
+      name: "month-input-demo",
+      filePath: "examples/__styles__/radix-fabricator/month-input-demo.tsx",
+    },
+    "month-input-field": {
+      name: "month-input-field",
+      filePath: "examples/__styles__/radix-fabricator/month-input-field.tsx",
+    },
+    "month-input-format": {
+      name: "month-input-format",
+      filePath: "examples/__styles__/radix-fabricator/month-input-format.tsx",
+    },
+    "month-input-range": {
+      name: "month-input-range",
+      filePath: "examples/__styles__/radix-fabricator/month-input-range.tsx",
     },
     "muted-item-group": {
       name: "muted-item-group",
@@ -12574,6 +12882,34 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "textarea-invalid": {
       name: "textarea-invalid",
       filePath: "examples/__styles__/radix-fabricator/textarea-invalid.tsx",
+    },
+    "time-input-24-hour": {
+      name: "time-input-24-hour",
+      filePath: "examples/__styles__/radix-fabricator/time-input-24-hour.tsx",
+    },
+    "time-input-controlled": {
+      name: "time-input-controlled",
+      filePath: "examples/__styles__/radix-fabricator/time-input-controlled.tsx",
+    },
+    "time-input-date-time": {
+      name: "time-input-date-time",
+      filePath: "examples/__styles__/radix-fabricator/time-input-date-time.tsx",
+    },
+    "time-input-demo": {
+      name: "time-input-demo",
+      filePath: "examples/__styles__/radix-fabricator/time-input-demo.tsx",
+    },
+    "time-input-duration": {
+      name: "time-input-duration",
+      filePath: "examples/__styles__/radix-fabricator/time-input-duration.tsx",
+    },
+    "time-input-field": {
+      name: "time-input-field",
+      filePath: "examples/__styles__/radix-fabricator/time-input-field.tsx",
+    },
+    "time-input-range": {
+      name: "time-input-range",
+      filePath: "examples/__styles__/radix-fabricator/time-input-range.tsx",
     },
     "toggle-demo": {
       name: "toggle-demo",

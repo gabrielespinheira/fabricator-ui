@@ -171,7 +171,7 @@ export const NATIVE_DIFFERENCES: Record<
   },
   tabs: {
     tier: "same",
-    note: "In dark the selected tab's pill is a translucent step over the track, so it stands out on every surface.",
+    note: "In a subtle list the active tab's label appears without fading in.",
   },
   textarea: SAME,
   toast: {

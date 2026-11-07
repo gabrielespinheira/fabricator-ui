@@ -1,0 +1,11 @@
+---
+title: November 2026 - Subtle tabs
+description: A subtle Tabs variant with icon-only inactive tabs, steady labels on the active tab, and fixed vertical tabs.
+date: 2026-11-07
+---
+
+- **Subtle tabs.** `TabsList variant="subtle"` drops the track, and only the active tab shows its label; the others show their icon and keep the label as their accessible name. Give every trigger an icon. On the web and on React Native.
+- **A clearer active tab in dark mode.** The selected pill is a step over the track, `foreground/14`, so it stands out on the page and on cards alike.
+- **The active tab keeps its weight.** Tabs and Tab Strip no longer turn the active label semibold, so the row never shifts or grows when the selection moves.
+- **Vertical tabs.** Triggers in `orientation="vertical"` are 32px rows, 4px apart, instead of shrinking to their text.
+- **Line tabs are retired.** `variant="line"` is still accepted, so existing code compiles, and renders as the default track.

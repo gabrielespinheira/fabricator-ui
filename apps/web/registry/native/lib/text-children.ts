@@ -28,3 +28,14 @@ export function wrapTextChildren<Wrapped>(
   flush()
   return output
 }
+
+/**
+ * The text of `children`, for an accessible name when the text itself isn't
+ * drawn (an icon-only tab). Runs of text on either side of an element are
+ * joined with a space.
+ */
+export function getTextContent(children: React.ReactNode) {
+  return wrapTextChildren(children, (text) => text.trim())
+    .filter((child): child is string => typeof child === "string" && child !== "")
+    .join(" ")
+}

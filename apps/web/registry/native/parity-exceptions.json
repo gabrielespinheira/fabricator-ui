@@ -159,5 +159,19 @@
     "name": "tab-strip",
     "reason": "Not a part: a selector, for F6's regions and for the header's inset when a tab strip starts it. Neither exists here: no key to press, no `has-*`.",
     "date": "2026-11-04"
+  },
+  {
+    "item": "tabs",
+    "kind": "demo",
+    "name": "variant.line",
+    "reason": "`line` is a retired alias of `default`, kept so existing code compiles. Demos don't show it, on the website either.",
+    "date": "2026-11-07"
+  },
+  {
+    "item": "date-input",
+    "kind": "slot",
+    "name": "date-input-value",
+    "reason": "The website's hidden input carries the day to a form submit. React Native has no forms, so there is no element to carry the slot; `name` is accepted so code moves across.",
+    "date": "2026-11-07"
   }
 ]

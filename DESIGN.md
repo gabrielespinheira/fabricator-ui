@@ -478,15 +478,15 @@ Use a plain `SidebarProvider`, `Sidebar` and `SidebarInset` only for a screen th
 
 Depth is an eight-level ladder of surfaces. Each level pairs a background with a shadow, and the shadow starts with a 1px ring that draws the edge, so surfaces have no borders.
 
-| Level      | Classes                         | Holds                                                                                                                                         |
-| ---------- | ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1          | `bg-background`                 | The page and the app frame                                                                                                                    |
-| 2          | `bg-surface-2 shadow-surface-2` | Sidebar (`bg-sidebar`; in an App Shell it sits on the frame), side panels, inset regions, the default Card                                    |
-| 3          | `bg-surface-3 shadow-surface-3` | Raised cards, the App Shell main column (with the inset sidebar), menus, selects, popovers, hover cards, sheets, drawers                      |
-| 4          | `bg-surface-4 shadow-surface-4` | The active tab and segmented selection (on React Native in dark, a translucent step over the track); anything raised inside a level-3 surface |
-| 5          | `bg-surface-5 shadow-surface-5` | Dialogs, alert dialogs, toasts                                                                                                                |
-| 6–8        | `bg-surface-N shadow-surface-N` | Rare: surfaces stacked above a dialog                                                                                                         |
-| (inverted) | `bg-foreground text-background` | Tooltips                                                                                                                                      |
+| Level      | Classes                         | Holds                                                                                                                                                   |
+| ---------- | ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1          | `bg-background`                 | The page and the app frame                                                                                                                              |
+| 2          | `bg-surface-2 shadow-surface-2` | Sidebar (`bg-sidebar`; in an App Shell it sits on the frame), side panels, inset regions, the default Card                                              |
+| 3          | `bg-surface-3 shadow-surface-3` | Raised cards, the App Shell main column (with the inset sidebar), menus, selects, popovers, hover cards, sheets, drawers                                |
+| 4          | `bg-surface-4 shadow-surface-4` | The active tab and segmented selection (in dark, the active tab is a translucent step over the track instead); anything raised inside a level-3 surface |
+| 5          | `bg-surface-5 shadow-surface-5` | Dialogs, alert dialogs, toasts                                                                                                                          |
+| 6–8        | `bg-surface-N shadow-surface-N` | Rare: surfaces stacked above a dialog                                                                                                                   |
+| (inverted) | `bg-foreground text-background` | Tooltips                                                                                                                                                |
 
 In light mode levels 3 and up are all white and only the shadow shows the height; in dark mode each level is a step lighter. Scrims behind dialogs and sheets belong to those components.
 

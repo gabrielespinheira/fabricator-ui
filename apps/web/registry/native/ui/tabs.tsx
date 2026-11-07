@@ -4,7 +4,6 @@ import { useControllableState } from "@rn-primitives/hooks"
 import * as TabsPrimitive from "@rn-primitives/tabs"
 import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "cn"
-import { View } from "react-native"
 
 import { noteStep } from "@/registry/fabricator/shared/lib/sound-recipes"
 import { useFeedback } from "@/registry/native/lib/feedback"
@@ -16,21 +15,38 @@ import {
   useFluidHover,
   useFluidRow,
 } from "@/registry/native/lib/fluid-hover"
-import { renderTextChildren, TextStyle } from "@/registry/native/ui/text"
+import {
+  getTextContent,
+  wrapTextChildren,
+} from "@/registry/native/lib/text-children"
+import { renderTextChildren, Text, TextStyle } from "@/registry/native/ui/text"
 
 type TabsOrientation = "horizontal" | "vertical"
 
 const TabsContext = React.createContext<TabsOrientation>("horizontal")
 
-const TabsListContext = React.createContext<"default" | "line">("default")
+const TabsListContext = React.createContext<"default" | "subtle">("default")
 
 // Each tab rings a step higher along the track.
 const TabIndexContext = React.createContext(0)
 
-// The lit tab turns foreground too; only the active one turns semibold.
+// The lit tab and the active one turn foreground; the weight never changes.
 const tabsTriggerTextVariants = cva("cn-tabs-trigger-text")
 const tabsTriggerLitTextVariants = cva("cn-tabs-trigger-text-lit")
 const tabsTriggerActiveTextVariants = cva("cn-tabs-trigger-text-active")
+
+// Each run of text becomes a label, as on the website.
+function renderLabels(children: React.ReactNode) {
+  return wrapTextChildren(children, (text, key) => (
+    <Text
+      key={key}
+      data-slot="tabs-trigger-label"
+      className="cn-tabs-trigger-label"
+    >
+      {text}
+    </Text>
+  ))
+}
 
 function Tabs({
   className,
@@ -78,7 +94,10 @@ const tabsListVariants = cva(
     variants: {
       variant: {
         default: "cn-tabs-list-variant-default",
-        line: "cn-tabs-list-variant-line",
+        // Only the active tab shows its label; the others show their icon.
+        subtle: "cn-tabs-list-variant-subtle",
+        /** @deprecated Kept for compatibility; renders as `default`. */
+        line: "cn-tabs-list-variant-default",
       },
     },
     defaultVariants: {
@@ -95,7 +114,7 @@ function TabsList({
 }: TabsPrimitive.ListProps & VariantProps<typeof tabsListVariants>) {
   const { value } = TabsPrimitive.useRootContext()
   const orientation = React.use(TabsContext)
-  const resolvedVariant = variant ?? "default"
+  const resolvedVariant = variant === "subtle" ? "subtle" : "default"
   // Dragging across the tabs moves the highlight; letting go selects, as a
   // segmented control does.
   const fluid = useFluidHover({
@@ -119,14 +138,7 @@ function TabsList({
             data-variant={resolvedVariant}
             selection={fluid.selection}
             className="cn-tabs-selection"
-          >
-            {resolvedVariant === "line" ? (
-              <View
-                data-orientation={orientation}
-                className="cn-tabs-selection-line absolute"
-              />
-            ) : null}
-          </FluidHoverSelection>
+          />
           <FluidHoverHighlight
             data-variant={resolvedVariant}
             hover={fluid.hover}
@@ -165,6 +177,9 @@ function TabsTrigger({
   const index = React.use(TabIndexContext)
   const feedback = useFeedback()
   const isActive = selected === value
+  // A subtle list draws only the active tab's label; the others keep it as
+  // their accessible name.
+  const isIconOnly = variant === "subtle" && !isActive
   const { isLit, rowProps } = useFluidRow({
     itemKey: value,
     disabled: props.disabled,
@@ -208,10 +223,15 @@ function TabsTrigger({
             feedback("note", { pitch: noteStep(index) })
             onPress?.(event)
           }}
+          accessibilityLabel={
+            isIconOnly ? getTextContent(children) : undefined
+          }
           {...rowProps}
           {...props}
         >
-          {renderTextChildren(children)}
+          {isIconOnly
+            ? React.Children.toArray(children).filter(React.isValidElement)
+            : renderLabels(children)}
         </TabsPrimitive.Trigger>
       </IconProvider>
     </TextStyle>

@@ -1331,9 +1331,19 @@ export const Components: Record<string, any> = {
         const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "input-otp-separator"
         return { default: mod.default || mod[exportName] }
       }),
+  "input-password": React.lazy(async () => {
+        const mod = await import("@/examples/__styles__/aria-fabricator/input-password")
+        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "input-password"
+        return { default: mod.default || mod[exportName] }
+      }),
   "input-required": React.lazy(async () => {
         const mod = await import("@/examples/__styles__/aria-fabricator/input-required")
         const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "input-required"
+        return { default: mod.default || mod[exportName] }
+      }),
+  "input-search": React.lazy(async () => {
+        const mod = await import("@/examples/__styles__/aria-fabricator/input-search")
+        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "input-search"
         return { default: mod.default || mod[exportName] }
       }),
   "input-sizes": React.lazy(async () => {
@@ -1564,6 +1574,31 @@ export const Components: Record<string, any> = {
   "message-scroller-visibility": React.lazy(async () => {
         const mod = await import("@/examples/__styles__/aria-fabricator/message-scroller-visibility")
         const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "message-scroller-visibility"
+        return { default: mod.default || mod[exportName] }
+      }),
+  "month-input-controlled": React.lazy(async () => {
+        const mod = await import("@/examples/__styles__/aria-fabricator/month-input-controlled")
+        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "month-input-controlled"
+        return { default: mod.default || mod[exportName] }
+      }),
+  "month-input-demo": React.lazy(async () => {
+        const mod = await import("@/examples/__styles__/aria-fabricator/month-input-demo")
+        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "month-input-demo"
+        return { default: mod.default || mod[exportName] }
+      }),
+  "month-input-field": React.lazy(async () => {
+        const mod = await import("@/examples/__styles__/aria-fabricator/month-input-field")
+        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "month-input-field"
+        return { default: mod.default || mod[exportName] }
+      }),
+  "month-input-format": React.lazy(async () => {
+        const mod = await import("@/examples/__styles__/aria-fabricator/month-input-format")
+        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "month-input-format"
+        return { default: mod.default || mod[exportName] }
+      }),
+  "month-input-range": React.lazy(async () => {
+        const mod = await import("@/examples/__styles__/aria-fabricator/month-input-range")
+        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "month-input-range"
         return { default: mod.default || mod[exportName] }
       }),
   "muted-item-group": React.lazy(async () => {
@@ -2289,6 +2324,41 @@ export const Components: Record<string, any> = {
   "textarea-invalid": React.lazy(async () => {
         const mod = await import("@/examples/__styles__/aria-fabricator/textarea-invalid")
         const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "textarea-invalid"
+        return { default: mod.default || mod[exportName] }
+      }),
+  "time-input-24-hour": React.lazy(async () => {
+        const mod = await import("@/examples/__styles__/aria-fabricator/time-input-24-hour")
+        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "time-input-24-hour"
+        return { default: mod.default || mod[exportName] }
+      }),
+  "time-input-controlled": React.lazy(async () => {
+        const mod = await import("@/examples/__styles__/aria-fabricator/time-input-controlled")
+        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "time-input-controlled"
+        return { default: mod.default || mod[exportName] }
+      }),
+  "time-input-date-time": React.lazy(async () => {
+        const mod = await import("@/examples/__styles__/aria-fabricator/time-input-date-time")
+        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "time-input-date-time"
+        return { default: mod.default || mod[exportName] }
+      }),
+  "time-input-demo": React.lazy(async () => {
+        const mod = await import("@/examples/__styles__/aria-fabricator/time-input-demo")
+        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "time-input-demo"
+        return { default: mod.default || mod[exportName] }
+      }),
+  "time-input-duration": React.lazy(async () => {
+        const mod = await import("@/examples/__styles__/aria-fabricator/time-input-duration")
+        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "time-input-duration"
+        return { default: mod.default || mod[exportName] }
+      }),
+  "time-input-field": React.lazy(async () => {
+        const mod = await import("@/examples/__styles__/aria-fabricator/time-input-field")
+        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "time-input-field"
+        return { default: mod.default || mod[exportName] }
+      }),
+  "time-input-range": React.lazy(async () => {
+        const mod = await import("@/examples/__styles__/aria-fabricator/time-input-range")
+        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "time-input-range"
         return { default: mod.default || mod[exportName] }
       }),
   "toggle-demo": React.lazy(async () => {

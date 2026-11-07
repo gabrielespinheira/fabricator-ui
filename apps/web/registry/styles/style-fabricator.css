@@ -968,6 +968,129 @@
     @apply duration-disclosure-exit ease-exit in-data-expanded:duration-disclosure in-data-expanded:ease-enter motion-reduce:transition-none;
   }
 
+/* MARK: Color Picker */
+
+  /* A 280px card: surface 2 with its shadow ring, rounded-xl, 12px inset.
+     Inside a popover the popup is the card, so the panel drops its own.
+     --color-picker-checker paints the squares behind translucent colors:
+     the foreground at 14% over the surface, so it follows the theme. */
+  .cn-color-picker {
+    @apply bg-card text-card-foreground shadow-surface-2 w-70 gap-(--density-8) rounded-xl p-(--density-12) text-(length:--density-text-13) [--color-picker-checker:color-mix(in_oklab,var(--foreground)_14%,transparent)] data-[size=lg]:density-spacious data-[size=sm]:density-compact in-data-[slot=popover-content]:bg-transparent in-data-[slot=popover-content]:p-0 in-data-[slot=popover-content]:shadow-none;
+  }
+
+  /* The HSV plane at the current hue: black rising over white to the pure
+     hue. Its corners nest inside the card's (radius less the inset). The
+     pointer hides; a hollow ring previews where a press lands. */
+  .cn-color-picker-area {
+    @apply aspect-[8/5] cursor-none rounded-[max(0px,calc(var(--radius-xl)-var(--density-12)))] bg-[linear-gradient(to_top,#000,transparent),linear-gradient(to_right,#fff,var(--color-picker-hue))] focus-visible:ring-2 focus-visible:ring-focus-ring;
+  }
+
+  /* The thumb is the color itself, ringed white then black, so it reads on
+     light and dark alike. It moves with the pointer, never behind it. */
+  .cn-color-picker-area-thumb {
+    @apply size-[calc(var(--density-icon-16)+2px)] -translate-1/2 rounded-full border-2 border-white bg-(--color-picker-color) shadow-[0_0_0_1px_rgb(0_0_0/0.4),0_1px_3px_rgb(0_0_0/0.3)];
+  }
+
+  .cn-color-picker-area-cursor {
+    @apply size-[calc(var(--density-icon-16)+2px)] -translate-1/2 rounded-full border-2 border-white/60 shadow-[0_0_0_1px_rgb(0_0_0/0.2)];
+  }
+
+  .cn-color-picker-sliders {
+    @apply gap-(--density-6);
+  }
+
+  /* Hue and alpha are Sliders: the gradient is the track, so the range
+     fill hides, and the knob takes the color under it with a white edge. */
+  .cn-color-picker-hue {
+    @apply [&_[data-slot=slider-range]]:hidden [&_[data-slot=slider-thumb]]:border-2 [&_[data-slot=slider-thumb]]:border-white [&_[data-slot=slider-thumb]]:bg-(--color-picker-thumb) [&_[data-slot=slider-thumb]]:shadow-[0_0_0_1px_rgb(0_0_0/0.25),0_1px_2px_rgb(0_0_0/0.2)] [&_[data-slot=slider-track]]:border-0 [&_[data-slot=slider-track]]:bg-[linear-gradient(to_right,#f00,#ff0,#0f0,#0ff,#00f,#f0f,#f00)];
+  }
+
+  /* Transparent to the opaque color, over an 8px checker. */
+  .cn-color-picker-alpha {
+    @apply [&_[data-slot=slider-range]]:hidden [&_[data-slot=slider-thumb]]:border-2 [&_[data-slot=slider-thumb]]:border-white [&_[data-slot=slider-thumb]]:bg-(--color-picker-thumb) [&_[data-slot=slider-thumb]]:shadow-[0_0_0_1px_rgb(0_0_0/0.25),0_1px_2px_rgb(0_0_0/0.2)] [&_[data-slot=slider-track]]:border-0 [&_[data-slot=slider-track]]:bg-[linear-gradient(to_right,transparent,var(--color-picker-opaque)),conic-gradient(var(--color-picker-checker)_0_25%,transparent_0_50%,var(--color-picker-checker)_0_75%,transparent_0)] [&_[data-slot=slider-track]]:bg-size-[100%_100%,8px_8px];
+  }
+
+  .cn-color-picker-controls {
+    @apply gap-(--density-8);
+  }
+
+  .cn-color-picker-format {
+    @apply flex-1;
+  }
+
+  .cn-color-picker-eyedropper {
+    @apply text-muted-foreground hover:text-foreground;
+  }
+
+  /* Four fields to a row: three channels and alpha, or hex across three. */
+  .cn-color-picker-fields {
+    @apply gap-(--density-4);
+  }
+
+  /* An Input Group, so it frames, hovers and focuses like every field. While
+     its letter is dragged, it holds the hover tint. */
+  .cn-color-picker-field {
+    @apply min-w-0 data-scrubbing:bg-muted/50;
+  }
+
+  /* The letter names the channel and scrubs it sideways. */
+  .cn-color-picker-field-label {
+    @apply font-medium data-scrubbable:cursor-ew-resize;
+  }
+
+  /* Digits keep one width, so a value doesn't shift as it changes. */
+  .cn-color-picker-field-input {
+    @apply min-w-0 pr-(--density-6) tabular-nums;
+  }
+
+  /* The cells tile with no gap and overhang the strip by their 4px inset,
+     so the swatches line up with the fields above. One hover glides
+     between them. */
+  .cn-color-picker-swatches {
+    @apply -m-(--density-4);
+  }
+
+  /* A cell 4px around its swatch. Selected, a foreground band 2px in frames
+     the swatch, so no swatch color can hide the selection. */
+  .cn-color-picker-swatch {
+    @apply size-(--density-32) cursor-pointer rounded-lg p-(--density-4) before:absolute before:inset-0.5 before:rounded-[calc(var(--radius-lg)-2px)] before:bg-foreground before:opacity-0 before:transition-opacity before:duration-feedback before:ease-feedback focus-visible:ring-1 focus-visible:ring-focus-ring aria-pressed:before:opacity-100 [--color-picker-checker:color-mix(in_oklab,var(--foreground)_14%,transparent)];
+  }
+
+  /* The color over the checker, with a hairline so white and near-clear
+     swatches keep an edge. */
+  .cn-color-picker-swatch-color {
+    @apply size-full rounded-[calc(var(--radius-lg)-4px)] bg-[linear-gradient(var(--color-tile),var(--color-tile)),conic-gradient(var(--color-picker-checker)_0_25%,transparent_0_50%,var(--color-picker-checker)_0_75%,transparent_0)] bg-size-[100%_100%,8px_8px] shadow-[inset_0_0_0_1px_color-mix(in_oklab,var(--foreground)_15%,transparent)];
+  }
+
+  /* A small color square, alpha shown over the checker. */
+  .cn-color-tile {
+    @apply size-(--density-icon-16) rounded-[calc(var(--radius-sm)+1px)] bg-[linear-gradient(var(--color-tile),var(--color-tile)),conic-gradient(var(--color-picker-checker)_0_25%,transparent_0_50%,var(--color-picker-checker)_0_75%,transparent_0)] bg-size-[100%_100%,8px_8px] shadow-[inset_0_0_0_1px_color-mix(in_oklab,var(--foreground)_15%,transparent)] [--color-picker-checker:color-mix(in_oklab,var(--foreground)_14%,transparent)];
+  }
+
+  /* The popover's trigger: an outline button with the tile, the hex value
+     and an optional label. */
+  .cn-color-picker-trigger {
+    @apply font-normal;
+  }
+
+  .cn-color-picker-trigger-value {
+    @apply tabular-nums;
+  }
+
+  .cn-color-picker-trigger-label {
+    @apply text-muted-foreground;
+  }
+
+  .cn-color-picker-remove {
+    @apply text-muted-foreground hover:text-foreground;
+  }
+
+  /* The popup is the panel's card: it keeps its own inset and drops the gap
+     it puts between header parts. */
+  .cn-color-picker-content {
+    @apply gap-0;
+  }
+
 /* MARK: Combobox */
 
   /* Popup: surface 3 with its shadow ring (no border), rounded-xl, on the
@@ -1679,13 +1802,16 @@
      so iOS doesn't zoom). Inside an input group the group draws the frame, so
      the control drops its own (data-slot=input-group-control).
 
-     Every input type is covered: the file button is a quiet chip inset as far
-     from the side as from the top; date and time pickers follow the theme and
-     their indicator wakes on hover; number drops the browser's spinners (Number
-     Field has steppers) and uses tabular figures; colour shows a rounded
-     swatch; autofill keeps the card surface and the foreground text. */
+     Input is for text: text, email, password, tel, url and search. The
+     browser's own controls never show: search drops its clear button, password
+     the reveal button, number its spinners (it uses tabular figures). Types with
+     a picker have a component of their own (Number Field, Date Input, Time
+     Input, Month Input, Color Picker, File Upload, Slider); if one is passed to
+     Input anyway, the file button is a quiet chip, date and time follow the
+     theme with a muted indicator, and colour shows a rounded swatch. Autofill
+     keeps the card surface and the foreground text. */
   .cn-input {
-    @apply text-foreground ring-border hover:bg-muted/50 focus-visible:bg-card focus-visible:ring-foreground/25 aria-invalid:ring-destructive/50 aria-invalid:hover:bg-destructive/5 aria-invalid:focus-visible:bg-card h-(--density-36) rounded-lg border-0 bg-transparent px-(--density-10) py-1 text-base ring-1 ring-inset transition-[color,background-color,box-shadow] duration-feedback ease-feedback md:text-(length:--density-text-13) scheme-light dark:scheme-dark autofill:shadow-[inset_0_0_0_100vmax_var(--card)] autofill:[-webkit-text-fill-color:var(--foreground)] file:me-(--density-8) file:h-(--density-24) file:cursor-pointer file:rounded-md file:bg-hover! file:px-(--density-8) file:text-(length:--density-text-12) file:font-medium file:transition-colors file:duration-feedback hover:file:bg-active! [&[type=file]]:cursor-pointer [&[type=file]]:py-(--density-6) [&[type=file]]:ps-(--density-6) [&[type=file]]:text-muted-foreground [&[type=number]]:tabular-nums [&[type=number]]:[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-search-decoration]:appearance-none [&::-webkit-datetime-edit]:p-0 [&::-webkit-datetime-edit-fields-wrapper]:p-0 [&::-webkit-date-and-time-value]:min-h-[1lh] [&::-webkit-date-and-time-value]:text-start [&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-calendar-picker-indicator]:opacity-50 [&::-webkit-calendar-picker-indicator]:transition-opacity [&::-webkit-calendar-picker-indicator]:duration-feedback hover:[&::-webkit-calendar-picker-indicator]:opacity-100 [&[type=color]]:cursor-pointer [&[type=color]]:p-(--density-6) [&::-webkit-color-swatch-wrapper]:p-0 [&::-webkit-color-swatch]:rounded-md [&::-webkit-color-swatch]:border-0 [&::-moz-color-swatch]:rounded-md [&::-moz-color-swatch]:border-0 data-[slot=input-group-control]:bg-transparent data-[slot=input-group-control]:ring-0 data-[slot=input-group-control]:hover:bg-transparent data-[slot=input-group-control]:focus-visible:bg-transparent data-[slot=input-group-control]:aria-invalid:hover:bg-transparent;
+    @apply text-foreground ring-border hover:bg-muted/50 focus-visible:bg-card focus-visible:ring-foreground/25 aria-invalid:ring-destructive/50 aria-invalid:hover:bg-destructive/5 aria-invalid:focus-visible:bg-card h-(--density-36) rounded-lg border-0 bg-transparent px-(--density-10) py-1 text-base ring-1 ring-inset transition-[color,background-color,box-shadow] duration-feedback ease-feedback md:text-(length:--density-text-13) scheme-light dark:scheme-dark autofill:shadow-[inset_0_0_0_100vmax_var(--card)] autofill:[-webkit-text-fill-color:var(--foreground)] file:me-(--density-8) file:h-(--density-24) file:cursor-pointer file:rounded-md file:bg-hover! file:px-(--density-8) file:text-(length:--density-text-12) file:font-medium file:transition-colors file:duration-feedback hover:file:bg-active! [&[type=file]]:cursor-pointer [&[type=file]]:py-(--density-6) [&[type=file]]:ps-(--density-6) [&[type=file]]:text-muted-foreground [&[type=number]]:tabular-nums [&[type=number]]:[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-search-decoration]:appearance-none [&::-webkit-search-cancel-button]:appearance-none [&::-ms-reveal]:hidden [&::-ms-clear]:hidden [&::-webkit-datetime-edit]:p-0 [&::-webkit-datetime-edit-fields-wrapper]:p-0 [&::-webkit-date-and-time-value]:min-h-[1lh] [&::-webkit-date-and-time-value]:text-start [&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-calendar-picker-indicator]:opacity-50 [&::-webkit-calendar-picker-indicator]:transition-opacity [&::-webkit-calendar-picker-indicator]:duration-feedback hover:[&::-webkit-calendar-picker-indicator]:opacity-100 [&[type=color]]:cursor-pointer [&[type=color]]:p-(--density-6) [&::-webkit-color-swatch-wrapper]:p-0 [&::-webkit-color-swatch]:rounded-md [&::-webkit-color-swatch]:border-0 [&::-moz-color-swatch]:rounded-md [&::-moz-color-swatch]:border-0 data-[slot=input-group-control]:bg-transparent data-[slot=input-group-control]:ring-0 data-[slot=input-group-control]:hover:bg-transparent data-[slot=input-group-control]:focus-visible:bg-transparent data-[slot=input-group-control]:aria-invalid:hover:bg-transparent;
   }
 
 /* MARK: Item */
@@ -1949,6 +2075,44 @@
 
   .cn-message-group {
     @apply gap-(--density-8);
+  }
+
+/* MARK: Month Input */
+
+  /* An Input Group: the frame, focus, invalid and disabled states are the
+     group's. */
+  .cn-month-input {
+    @apply [&_[data-slot=input-group-control]]:tabular-nums;
+  }
+
+  /* The calendar button stays lit while its grid is open. */
+  .cn-month-input-trigger {
+    @apply aria-expanded:bg-active aria-expanded:text-foreground;
+  }
+
+  .cn-month-input-content {
+    @apply w-auto gap-(--density-8) p-(--density-8);
+  }
+
+  /* The year between its arrows, on one row with them. */
+  .cn-month-input-header {
+    @apply gap-(--density-8);
+  }
+
+  .cn-month-input-year {
+    @apply text-(length:--density-text-13) font-medium tabular-nums;
+  }
+
+  /* Twelve months in four rows. A new year slides in from the side it came
+     from, on the move timing. */
+  .cn-month-input-grid {
+    @apply gap-1 animate-in fade-in-0 duration-move ease-move motion-reduce:animate-none data-[direction=next]:slide-in-from-right-2 data-[direction=previous]:slide-in-from-left-2;
+  }
+
+  /* Menu cells: muted at rest, lit by the gliding highlight; the chosen month
+     on the sliding selection in semibold, this month in the foreground. */
+  .cn-month-input-month {
+    @apply cursor-pointer text-muted-foreground h-(--density-36) min-w-16 rounded-lg px-(--density-12) text-(length:--density-text-13) transition-colors duration-feedback data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-fluid-hover-active:text-foreground data-current:text-foreground data-current:font-medium aria-selected:bg-active aria-selected:text-foreground aria-selected:font-semibold in-data-[fluid-hover]:aria-selected:bg-transparent focus-visible:text-foreground disabled:pointer-events-none disabled:opacity-50;
   }
 
 /* MARK: Native Select */
@@ -2931,9 +3095,9 @@
 
   /* Track: muted, rounded-xl, p-1, 36px tall. The list is a fluid hover
      container (relative isolate): the selected pill and the hover pill are
-     overlays under the triggers. */
+     overlays under the triggers. A vertical list spaces its rows 4px apart. */
   .cn-tabs-list {
-    @apply relative isolate rounded-xl p-(--density-4) group-data-horizontal/tabs:h-(--density-36);
+    @apply relative isolate rounded-xl p-(--density-4) group-data-horizontal/tabs:h-(--density-36) group-data-vertical/tabs:gap-(--density-4);
   }
 
   /* The default track is a translucent foreground step instead of bg-muted:
@@ -2957,24 +3121,29 @@
      muted-foreground both miss 4.5:1 in light.
      Without a fluid list (React Aria) the active tab paints its own raised
      pill; inside one the sliding overlay does, so the tab stays transparent.
-     Vertical tabs don't flex: a zero basis in a column shrinks them to their
-     text. Subtle tabs are as wide as their content, with an icon-only tab
-     square. */
+     Vertical tabs don't flex (a zero basis in a column shrinks them to their
+     text) and are 32px rows 4px apart, like a list rather than a segmented
+     control. Subtle tabs are as wide as their content: an icon-only tab is 32
+     wide, and the active one takes the default tabs' 10 and 12 of padding
+     around its icon and label. */
   .cn-tabs-trigger {
-    @apply cursor-pointer gap-(--density-6) rounded-lg px-(--density-12) text-(length:--density-text-13) font-normal transition-[color,background-color,box-shadow] duration-feedback ease-feedback in-data-[slot=tabs-list]:h-(--density-28) in-data-[slot=tabs-list]:focus-visible:ring-0 [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] hover:[&_svg]:stroke-2 data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-active:[&_svg]:stroke-2 group-data-[variant=default]/tabs-list:data-active:bg-surface-4 group-data-[variant=default]/tabs-list:data-active:shadow-surface-4 dark:group-data-[variant=default]/tabs-list:data-active:bg-surface-4 in-data-[fluid-hover]:group-data-[variant=default]/tabs-list:data-active:bg-transparent in-data-[fluid-hover]:group-data-[variant=default]/tabs-list:data-active:shadow-none dark:in-data-[fluid-hover]:group-data-[variant=default]/tabs-list:data-active:bg-transparent group-data-vertical/tabs:flex-none group-data-[variant=subtle]/tabs-list:flex-none group-data-[variant=subtle]/tabs-list:px-(--density-6) [&_svg:not([class*='size-'])]:size-(--density-icon-16) has-data-[icon=inline-end]:pe-(--density-10) has-data-[icon=inline-start]:ps-(--density-10);
+    @apply cursor-pointer gap-(--density-6) rounded-lg px-(--density-12) text-(length:--density-text-13) font-normal transition-[color,background-color,box-shadow] duration-feedback ease-feedback in-data-[slot=tabs-list]:h-(--density-28) group-data-vertical/tabs:in-data-[slot=tabs-list]:h-(--density-32) in-data-[slot=tabs-list]:focus-visible:ring-0 [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] hover:[&_svg]:stroke-2 data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-active:[&_svg]:stroke-2 group-data-[variant=default]/tabs-list:data-active:bg-surface-4 group-data-[variant=default]/tabs-list:data-active:shadow-surface-4 dark:group-data-[variant=default]/tabs-list:data-active:bg-foreground/14 in-data-[fluid-hover]:group-data-[variant=default]/tabs-list:data-active:bg-transparent in-data-[fluid-hover]:group-data-[variant=default]/tabs-list:data-active:shadow-none dark:in-data-[fluid-hover]:group-data-[variant=default]/tabs-list:data-active:bg-transparent group-data-vertical/tabs:flex-none group-data-[variant=subtle]/tabs-list:flex-none group-data-[variant=subtle]/tabs-list:px-(--density-8) group-data-[variant=subtle]/tabs-list:aria-selected:ps-(--density-10) [&_svg:not([class*='size-'])]:size-(--density-icon-16) has-data-[icon=inline-end]:pe-(--density-10) has-data-[icon=inline-start]:ps-(--density-10);
   }
 
   /* React Aria marks the selected tab with data-selected. Inside a fluid list
      the sliding overlay paints the pill. */
   .cn-tabs-trigger-aria {
-    @apply cursor-pointer data-selected:[&_svg]:stroke-2 group-data-[variant=default]/tabs-list:data-selected:bg-surface-4 group-data-[variant=default]/tabs-list:data-selected:shadow-surface-4 dark:group-data-[variant=default]/tabs-list:data-selected:bg-surface-4 in-data-[fluid-hover]:group-data-[variant=default]/tabs-list:data-selected:bg-transparent in-data-[fluid-hover]:group-data-[variant=default]/tabs-list:data-selected:shadow-none dark:in-data-[fluid-hover]:group-data-[variant=default]/tabs-list:data-selected:bg-transparent;
+    @apply cursor-pointer data-selected:[&_svg]:stroke-2 group-data-[variant=default]/tabs-list:data-selected:bg-surface-4 group-data-[variant=default]/tabs-list:data-selected:shadow-surface-4 dark:group-data-[variant=default]/tabs-list:data-selected:bg-foreground/14 in-data-[fluid-hover]:group-data-[variant=default]/tabs-list:data-selected:bg-transparent in-data-[fluid-hover]:group-data-[variant=default]/tabs-list:data-selected:shadow-none dark:in-data-[fluid-hover]:group-data-[variant=default]/tabs-list:data-selected:bg-transparent;
   }
 
   /* The selected tab's pill: a raised surface (surface 4 + its shadow) that
      slides on the move timing. It dims while another tab is lit, so the
-     selection reads as "current" and the hover pill as "next". */
+     selection reads as "current" and the hover pill as "next". In dark a fixed
+     surface can't sit above the track, which is a step over whatever is
+     underneath: on a card, surface 4 is barely lighter than it. So the pill is
+     a step over the track too, foreground/14, as on React Native. */
   .cn-tabs-selection {
-    @apply bg-surface-4 shadow-surface-4 rounded-lg [:has(>[role=tab][data-fluid-hover-active]:not([aria-selected=true]))>&]:opacity-85;
+    @apply bg-surface-4 dark:bg-foreground/14 shadow-surface-4 rounded-lg [:has(>[role=tab][data-fluid-hover-active]:not([aria-selected=true]))>&]:opacity-85;
   }
 
   /* The hover pill: a faint bg-hover that previews the next click. It hides
@@ -2999,6 +3168,58 @@
      focus, no blue halo; invalid ring red with a red-tinted hover. */
   .cn-textarea {
     @apply text-foreground ring-border hover:bg-muted/50 focus-visible:bg-card focus-visible:ring-foreground/25 aria-invalid:ring-destructive/50 aria-invalid:hover:bg-destructive/5 aria-invalid:focus-visible:bg-card min-h-16 rounded-lg border-0 bg-transparent px-(--density-10) py-(--density-8) text-base ring-1 ring-inset transition-[color,background-color,box-shadow] duration-feedback ease-feedback md:text-(length:--density-text-13) data-[slot=input-group-control]:bg-transparent data-[slot=input-group-control]:ring-0 data-[slot=input-group-control]:hover:bg-transparent data-[slot=input-group-control]:focus-visible:bg-transparent data-[slot=input-group-control]:aria-invalid:hover:bg-transparent;
+  }
+
+/* MARK: Time Input */
+
+  /* An Input Group: the frame, focus, invalid and disabled states are the
+     group's. Times line up in tabular figures; the clock opens the list. */
+  .cn-time-input {
+    @apply [&_[data-slot=input-group-control]]:tabular-nums [&_[data-slot=input-group-addon]]:cursor-pointer;
+  }
+
+  /* The popover holds only the list, padded like a menu. */
+  .cn-time-input-content {
+    @apply w-auto min-w-[var(--anchor-width,var(--radix-popover-trigger-width,var(--trigger-width)))] gap-0 p-1;
+  }
+
+  /* Seven and a half rows tall, so the cut row says it scrolls, fading at the
+     edges it can scroll past. Two columns: the time, then its duration. */
+  .cn-time-input-list {
+    @apply scroll-fade no-scrollbar max-h-[calc(var(--density-32)*7.5)] gap-x-(--density-8);
+  }
+
+  /* Menu rows: muted at rest, lit by the gliding highlight (keyboard and
+     pointer share it), the chosen time on the sliding selection in semibold. */
+  .cn-time-input-option {
+    @apply text-muted-foreground h-(--density-32) rounded-lg px-(--density-8) text-(length:--density-text-13) tabular-nums transition-colors duration-feedback data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent aria-selected:bg-active aria-selected:text-foreground in-data-[fluid-hover]:aria-selected:bg-transparent;
+  }
+
+  /* The chosen time is semibold. The time column takes the widest row, so
+     the durations beside it line up. */
+  .cn-time-input-option-time {
+    @apply in-aria-selected:font-semibold;
+  }
+
+  /* A step quieter than the time it follows. */
+  .cn-time-input-option-duration {
+    @apply text-muted-foreground/70;
+  }
+
+  /* MARK: Time Range Input */
+
+  /* Start, an arrow, end and the duration on one line; the fields fit a
+     time, not the row. */
+  .cn-time-range-input {
+    @apply gap-(--density-8) *:data-[slot=time-input]:w-36;
+  }
+
+  .cn-time-range-input-separator {
+    @apply text-muted-foreground size-(--density-icon-16);
+  }
+
+  .cn-time-range-input-duration {
+    @apply text-muted-foreground text-(length:--density-text-13) tabular-nums;
   }
 
 /* MARK: Toast */
