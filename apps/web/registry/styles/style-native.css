@@ -2634,8 +2634,10 @@
     @apply text-foreground;
   }
 
+  /* The chevron pulls into the right padding by its own side bearing, so the
+     trigger reads 12pt of space on both sides like a plain link. */
   .cn-navigation-menu-trigger-icon {
-    @apply size-(--density-icon-14);
+    @apply -mr-(--density-4) size-(--density-icon-14);
   }
 
   /* Panel links: rounded-lg rows, lit by the panel's own highlight (Fluid Hover).
