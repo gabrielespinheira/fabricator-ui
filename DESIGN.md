@@ -378,7 +378,7 @@ Inter, the variable font with its optical size axis (`next/font`: `axes: ["opsz"
 
 Components set their own type; this table is for headings and copy you write around them. Body, caption, subtitle and title follow the density (12/13/15px body from compact to spacious) when written with the `--density-text-*` tokens.
 
-- **Weight is state.** Hover changes colour (muted to foreground) and icon stroke; weight changes only for persistent state: checked, selected, an active tab, an open accordion. To change weight without shifting layout, use `weight-normal`, `weight-medium`, `weight-semibold` or `weight-bold` (weight paired with optical size) with `transition-[font-variation-settings]`: `weight-normal aria-pressed:weight-semibold`.
+- **Weight is state.** Hover changes colour (muted to foreground) and icon stroke; weight changes only for persistent state: checked, selected, an open accordion. Tabs never change weight: the active tab is its colour and pill. To change weight without shifting layout, use `weight-normal`, `weight-medium`, `weight-semibold` or `weight-bold` (weight paired with optical size) with `transition-[font-variation-settings]`: `weight-normal aria-pressed:weight-semibold`.
 - **Two weights per view** is the norm: regular for text, medium or semibold for titles and values. Bold is for dialog titles.
 - **Figures:** `tabular-nums` on numbers that update or line up (tables, counters, prices, timers, durations).
 - **Long text:** paragraphs `max-w-prose text-pretty`, headings `text-balance`.
@@ -628,7 +628,7 @@ React Native projects install the same names with the same variants, sizes and t
 | Alert                   | `default`, `info`, `success`, `warning`, `destructive`/`error`                                          | `contrast`: `low` (default), `high`                                                                                                                                |
 | Toggle                  | `default`, `outline`                                                                                    | `default`, `sm`, `lg`                                                                                                                                              |
 | Toggle Group            | `default`, `outline`                                                                                    | `default`, `sm`, `lg`; `spacing`, `orientation`                                                                                                                    |
-| Tabs                    | `default` (track with a sliding pill), `line`                                                           | `orientation`                                                                                                                                                      |
+| Tabs                    | `default` (track with a sliding pill), `subtle` (no track; only the active tab shows its label)         | `orientation`                                                                                                                                                      |
 | Search                  | `default`, `outline`                                                                                    | `default`, `sm`, `lg`                                                                                                                                              |
 | Select trigger, Switch  |                                                                                                         | `default`, `sm`                                                                                                                                                    |
 | Card                    |                                                                                                         | `default`, `sm`                                                                                                                                                    |
@@ -672,6 +672,7 @@ React Native projects install the same names with the same variants, sizes and t
 
 - **Anatomy:** `FieldGroup` > `Field` > `FieldLabel`, the control, `FieldDescription`, `FieldError`. Related checkboxes, radios and switches group in `FieldSet` + `FieldLegend`. Hidden labels stay in the tree with `className="sr-only"`.
 - **Orientation:** `vertical` (labels above, the default for forms), `horizontal` (a control and its label in one row: switches, checkboxes, settings rows), `responsive` (stacked on narrow containers, label beside the control from `@md`).
+- **Checkbox and radio rows:** the label comes right after the control (`<Checkbox /><FieldLabel />`), as its sibling. The style pads that label's hit area up to the next row, so the whole row toggles; don't add gaps or margins between the rows.
 - **Validation:** `data-invalid` on `Field` and `aria-invalid` on the control, with the message in `FieldError`. Validate on blur and on submit; the message says how to fix the value ("Use at least 8 characters").
 - **Disabled:** `data-disabled` on `Field` and `disabled` on the control.
 - **Adornments:** icons, prefixes, units and inline buttons go in `InputGroupAddon`, around `InputGroupInput` or `InputGroupTextarea`.
@@ -706,7 +707,7 @@ React Native projects install the same names with the same variants, sizes and t
 - **WorkspaceSwitcher:** `variant="menu"` for a few workspaces, `variant="command"` for many. Set `switchingTo` while the next one loads (a full-screen status overlay) and clear it when done. `mod+O` opens it inside an App Shell.
 - **UserMenu:** `variant="row"` in the sidebar footer, `variant="mark"` (the avatar) in a header row. Its children are `DropdownMenuGroup`s: account items first, Sign out last in its own group.
 - **TabStrip** holds documents the person opens and closes (files, records, chats), with pinned and preview tabs, drag to reorder, a reopen stack and editor shortcuts. Drive it with `useTabStripState` and link the content with `panelId`. Give it `min-w-0 flex-1` so it runs the full width of its row: `TabStripNew` follows the last tab, and `TabStripOverflow` ends the row. Keep the URL on the active tab with `router.replace`, so Back walks pages.
-- **Tabs** switch between a fixed set of views of one thing, two to six short labels: `variant="line"` under a page header for page sections, the default track for switching inside a card or panel.
+- **Tabs** switch between a fixed set of views of one thing, two to six short labels, on the default track. Where space is tight (a panel header, a toolbar), use `variant="subtle"` with an icon on every tab: only the active tab shows its label. Vertical tabs (`orientation="vertical"`) suit settings pages with more sections than fit across.
 - **Breadcrumb:** in an App Shell, `AppShellBreadcrumb`; elsewhere the `Breadcrumb` parts with `BreadcrumbPage` last.
 - **Search** in headers and toolbars: `<form role="search" action="/search"><Search name="q" /></form>`. It opens from a round button into a field; Escape clears, then closes. `collapsible={false}` keeps it open. `className` goes on its root and every other prop on the input.
 - **Websites** use `NavigationMenu` in a site header; **long lists** use `Pagination` under the table.
@@ -847,14 +848,14 @@ The index of a collection: issues, customers, invoices.
 One record: an issue, a customer, an order.
 
 - **Header:** the title (`AppShellPageTitle`), its status `Badge`, and the actions: one primary, the rest in a ghost icon "More" `DropdownMenu` with the destructive item last.
-- **Body:** the main content; sections as `Tabs variant="line"` when they are views of the same record (Overview, Activity, Files).
+- **Body:** the main content; sections as `Tabs` when they are views of the same record (Overview, Activity, Files).
 - **Side:** metadata and activity in an `AppShellPanel` the person can close, so the content can take the room.
 
 ### Settings
 
 - One column at `max-w-2xl`. Each section is a `FieldSet` with a `FieldLegend` and a `FieldDescription`, separated by space (and a `FieldSeparator`).
 - Rows are `Field orientation="horizontal"`: label and description start, control end. A `Switch` applies on change; text settings save with one button per section.
-- Many sections get their own pages in a sidebar group, or `Tabs variant="line"` across the top.
+- Many sections get their own pages in a sidebar group, or `Tabs` across the top.
 - The danger zone is last: a `destructive` button that opens an `AlertDialog` naming what is lost.
 
 ### Create and edit

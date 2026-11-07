@@ -1,7 +1,9 @@
 /* MARK: Radio Group */
 
+  /* Rows sit 16 apart; the labels' padded hit areas (10 above and below)
+     cover the gap between options. */
   .cn-radio-group {
-    @apply grid gap-(--density-12);
+    @apply grid gap-(--density-16);
   }
 
   /* 18px circle with the checkbox's outline. Checked fills with the primary role

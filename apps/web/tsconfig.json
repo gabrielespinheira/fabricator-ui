@@ -49,6 +49,9 @@
       "@/registry/bases/*/lib/sidebar-model": [
         "./registry/fabricator/shared/lib/sidebar-model"
       ],
+      "@/registry/bases/*/lib/date-input-model": [
+        "./registry/fabricator/shared/lib/date-input-model"
+      ],
       "@/registry/bases/*/lib/sortable": [
         "./registry/fabricator/shared/lib/sortable"
       ],
@@ -70,6 +73,12 @@
       ],
       "@/registry/bases/*/ui/user-menu": [
         "./registry/fabricator/*/ui/user-menu"
+      ],
+      "@/registry/bases/*/ui/date-input": [
+        "./registry/fabricator/*/ui/date-input"
+      ],
+      "@/registry/bases/*/ui/number-field": [
+        "./registry/fabricator/*/ui/number-field"
       ],
       // Shared blocks compose the overlay's Base UI components.
       "@/registry/bases/__base__/ui/sidebar": [

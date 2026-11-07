@@ -1,7 +1,7 @@
 /* MARK: Radio Group */
 
   .cn-radio-group {
-    @apply gap-(--density-12);
+    @apply gap-(--density-16);
   }
 
   /* 18pt circle with the checkbox's outline, and a 6pt dot pops in in the role's

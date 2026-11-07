@@ -9,24 +9,30 @@
   }
 
   .cn-field-group {
-    @apply gap-(--density-20) data-[slot=checkbox-group]:gap-(--density-12) *:data-[slot=field-group]:gap-(--density-16);
+    @apply gap-(--density-20) data-[slot=checkbox-group]:gap-(--density-16) *:data-[slot=field-group]:gap-(--density-16);
   }
 
   /* Label, control and caption sit close; an invalid field turns its label
-     red. */
+     red. A checkbox, radio or switch leaves its label 10 of room. */
   .cn-field {
-    @apply data-[invalid=true]:text-destructive-text gap-(--density-6);
+    @apply data-[invalid=true]:text-destructive-text gap-(--density-6) has-[>:is([data-slot=checkbox],[data-slot=radio-group-item],[data-slot=switch])]:gap-(--density-10);
   }
 
+  /* Beside a checkbox, radio or switch it anchors the label's hit area. */
   .cn-field-content {
-    @apply gap-0.5;
+    @apply gap-0.5 [[data-slot=field]:has(>:is([data-slot=checkbox],[data-slot=radio-group-item],[data-slot=switch]))>&]:relative;
   }
 
   /* 13px labels (red inside an invalid field). A label that wraps a whole field is a choice card: framed
      by a ring (no border), hover tint, the active step when checked, and the
-     1px blue focus ring while its control has keyboard focus. */
+     1px blue focus ring while its control has keyboard focus. A label in the
+     same Field as a checkbox, radio or switch, on either side, grows its hit
+     area 10 above and below (negative margin, so the row keeps its height),
+     filling the gap between rows. With a description (inside FieldContent),
+     an ::after covers the title, the description and the same 10 above and
+     below. */
   .cn-field-label {
-    @apply has-[[data-slot=checkbox],[data-slot=switch],[data-slot=radio-group-item]]:cursor-pointer [[data-slot=checkbox]~&]:cursor-pointer [[data-slot=switch]~&]:cursor-pointer [[data-slot=radio-group-item]~&]:cursor-pointer in-[[data-slot=field]:has([data-slot=checkbox],[data-slot=switch],[data-slot=radio-group-item])]:cursor-pointer has-[>[data-slot=field]]:ring-border has-data-checked:bg-active dark:has-data-checked:bg-active has-[>[data-slot=field]]:has-data-checked:ring-foreground/20 group-data-[invalid=true]/field:text-destructive-text gap-(--density-8) text-(length:--density-text-13) leading-snug group-data-[disabled=true]/field:opacity-50 has-[>[data-slot=field]]:rounded-lg has-[>[data-slot=field]]:ring-1 has-[>[data-slot=field]]:transition-[background-color,box-shadow] has-[>[data-slot=field]]:duration-feedback has-[>[data-slot=field]]:ease-feedback has-[>[data-slot=field]]:not-has-[:disabled,[data-disabled]]:hover:bg-hover has-[>[data-slot=field]]:has-data-checked:hover:bg-active has-[>[data-slot=field]]:has-[:focus-visible]:ring-ring *:data-[slot=field]:p-(--density-12);
+    @apply [[data-slot=field]:has(>:is([data-slot=checkbox],[data-slot=radio-group-item],[data-slot=switch]))>&]:-my-(--density-10) [[data-slot=field]:has(>:is([data-slot=checkbox],[data-slot=radio-group-item],[data-slot=switch]))>&]:py-(--density-10) in-[[data-slot=field]:has(>:is([data-slot=checkbox],[data-slot=radio-group-item],[data-slot=switch]))>[data-slot=field-content]]:after:absolute in-[[data-slot=field]:has(>:is([data-slot=checkbox],[data-slot=radio-group-item],[data-slot=switch]))>[data-slot=field-content]]:after:inset-x-0 in-[[data-slot=field]:has(>:is([data-slot=checkbox],[data-slot=radio-group-item],[data-slot=switch]))>[data-slot=field-content]]:after:-inset-y-(--density-10) has-[[data-slot=checkbox],[data-slot=switch],[data-slot=radio-group-item]]:cursor-pointer [[data-slot=checkbox]~&]:cursor-pointer [[data-slot=switch]~&]:cursor-pointer [[data-slot=radio-group-item]~&]:cursor-pointer in-[[data-slot=field]:has([data-slot=checkbox],[data-slot=switch],[data-slot=radio-group-item])]:cursor-pointer has-[>[data-slot=field]]:ring-border has-data-checked:bg-active dark:has-data-checked:bg-active has-[>[data-slot=field]]:has-data-checked:ring-foreground/20 group-data-[invalid=true]/field:text-destructive-text gap-(--density-8) text-(length:--density-text-13) leading-snug group-data-[disabled=true]/field:opacity-50 has-[>[data-slot=field]]:rounded-lg has-[>[data-slot=field]]:ring-1 has-[>[data-slot=field]]:transition-[background-color,box-shadow] has-[>[data-slot=field]]:duration-feedback has-[>[data-slot=field]]:ease-feedback has-[>[data-slot=field]]:not-has-[:disabled,[data-disabled]]:hover:bg-hover has-[>[data-slot=field]]:has-data-checked:hover:bg-active has-[>[data-slot=field]]:has-[:focus-visible]:ring-ring *:data-[slot=field]:p-(--density-12);
   }
 
   .cn-field-label-aria {
@@ -37,9 +43,9 @@
     @apply text-foreground group-data-[invalid=true]/field:text-destructive-text gap-(--density-8) text-(length:--density-text-13) leading-snug font-medium group-data-[disabled=true]/field:opacity-50;
   }
 
-  /* Captions: 12px muted. */
+  /* Captions: 12px muted. Links stay above a label's hit area. */
   .cn-field-description {
-    @apply text-muted-foreground text-left text-(length:--density-text-12) [[data-variant=legend]+&]:-mt-1.5;
+    @apply [&_a]:relative text-muted-foreground text-left text-(length:--density-text-12) [[data-variant=legend]+&]:-mt-1.5;
   }
 
   .cn-field-separator {
