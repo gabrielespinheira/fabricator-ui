@@ -2,270 +2,213 @@
 
 import * as React from "react"
 import {
+  BellIcon,
   BoxIcon,
-  ChevronsUpDownIcon,
-  FolderPlusIcon,
+  CalendarIcon,
+  ChartLineIcon,
+  CogIcon,
+  FileTextIcon,
+  HomeIcon,
   InboxIcon,
-  LayersIcon,
+  LifeBuoyIcon,
   LogOutIcon,
-  PlusIcon,
-  SearchIcon,
-  SettingsIcon,
-  SquarePenIcon,
   UserIcon,
+  UsersIcon,
 } from "lucide-react"
 
+import { AppNav, type AppNavGroup } from "@/styles/base-fabricator/ui/app-nav"
 import {
-  Avatar,
-  AvatarFallback,
-  AvatarImage,
-} from "@/styles/base-fabricator/ui/avatar"
+  AppShell,
+  AppShellBreadcrumb,
+  AppShellContent,
+  AppShellHeader,
+  AppShellMain,
+  AppShellPageTitle,
+} from "@/styles/base-fabricator/ui/app-shell"
 import {
-  DropdownMenu,
-  DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
-  DropdownMenuTrigger,
 } from "@/styles/base-fabricator/ui/dropdown-menu"
-import { Separator } from "@/styles/base-fabricator/ui/separator"
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
-  SidebarGroup,
-  SidebarGroupAction,
-  SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarHeader,
-  SidebarInset,
-  SidebarMenu,
-  SidebarMenuBadge,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  SidebarProvider,
   SidebarRail,
   SidebarTrigger,
-  useSidebar,
 } from "@/styles/base-fabricator/ui/sidebar"
+import { UserMenu } from "@/styles/base-fabricator/ui/user-menu"
+import { WorkspaceSwitcher } from "@/styles/base-fabricator/ui/workspace-switcher"
 
-type Thread = {
-  id: string
-  title: string
-  /** running: work in progress (a filled dot); unread; idle. */
-  status: "running" | "unread" | "idle"
-}
+const workspaces = [
+  { id: "acme", name: "Acme Inc", description: "Enterprise" },
+  { id: "studio", name: "Fabricator Studio", description: "Pro" },
+  { id: "lab", name: "Side Lab", description: "Free" },
+]
 
-const projects: { name: string; threads: Thread[] }[] = [
+const groups: AppNavGroup[] = [
   {
-    name: "fabricator-ui",
-    threads: [
-      { id: "rail", title: "Resizable sidebar rail", status: "running" },
-      { id: "peek", title: "Peek on hover", status: "unread" },
-      { id: "toggle", title: "Animated toggle icon", status: "idle" },
+    id: "main",
+    items: [
+      { id: "home", label: "Home", href: "/", icon: HomeIcon },
+      {
+        id: "inbox",
+        label: "Inbox",
+        href: "/inbox",
+        icon: InboxIcon,
+        badge: 4,
+      },
+      {
+        id: "calendar",
+        label: "Calendar",
+        href: "/calendar",
+        icon: CalendarIcon,
+      },
     ],
   },
   {
-    name: "marketing-site",
-    threads: [
-      { id: "hero", title: "Hero section copy", status: "unread" },
-      { id: "pricing", title: "Pricing page layout", status: "idle" },
+    id: "workspace",
+    label: "Workspace",
+    collapsible: true,
+    items: [
+      {
+        id: "projects",
+        label: "Projects",
+        href: "/projects",
+        icon: BoxIcon,
+        children: [
+          { id: "launch", label: "Q4 launch", href: "/projects/launch" },
+          { id: "website", label: "Website", href: "/projects/website" },
+          { id: "mobile", label: "Mobile app", href: "/projects/mobile" },
+        ],
+      },
+      { id: "docs", label: "Documents", href: "/docs", icon: FileTextIcon },
+      { id: "team", label: "Team", href: "/team", icon: UsersIcon },
+      {
+        id: "reports",
+        label: "Reports",
+        href: "/reports",
+        icon: ChartLineIcon,
+        status: "unread",
+      },
+    ],
+  },
+  {
+    id: "support",
+    label: "Support",
+    collapsible: true,
+    items: [
+      { id: "help", label: "Help center", href: "/help", icon: LifeBuoyIcon },
+      { id: "settings", label: "Settings", href: "/settings", icon: CogIcon },
     ],
   },
 ]
 
+type Crumb = { label: string; href?: string }
+
+/** The trail to the current page: its parent row, then the page. */
+function getCrumbs(path: string): Crumb[] {
+  for (const group of groups) {
+    for (const item of group.items) {
+      if (item.href === path) return [{ label: item.label }]
+      const child = item.children?.find((entry) => entry.href === path)
+      if (child) {
+        return [{ label: item.label, href: item.href }, { label: child.label }]
+      }
+    }
+  }
+  return [{ label: "Home" }]
+}
+
 export default function SidebarDemo() {
-  const [current, setCurrent] = React.useState("rail")
-  const project = projects.find((item) =>
-    item.threads.some((thread) => thread.id === current)
-  )
-  const thread = project?.threads.find((item) => item.id === current)
+  const [path, setPath] = React.useState("/projects/launch")
+  const [workspace, setWorkspace] = React.useState("acme")
+  const workspaceName = workspaces.find((entry) => entry.id === workspace)?.name
+  const crumbs = getCrumbs(path)
+  const page = crumbs[crumbs.length - 1]?.label
 
   return (
-    <SidebarProvider>
+    <AppShell storageKey="sidebar-demo" storage={null}>
       <Sidebar variant="inset">
-        <SidebarHeader>
-          <WorkspaceSwitcher />
-          <SidebarMenu>
-            <SidebarMenuItem>
-              <SidebarMenuButton icon={SearchIcon}>
-                <span>Search</span>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-            <SidebarMenuItem>
-              <SidebarMenuButton icon={InboxIcon}>
-                <span>Inbox</span>
-              </SidebarMenuButton>
-              <SidebarMenuBadge>4</SidebarMenuBadge>
-            </SidebarMenuItem>
-            <SidebarMenuItem>
-              <SidebarMenuButton icon={SquarePenIcon}>
-                <span>New thread</span>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          </SidebarMenu>
+        <SidebarHeader className="flex-row items-center">
+          <div className="min-w-0 flex-1">
+            <WorkspaceSwitcher
+              workspaces={workspaces}
+              activeId={workspace}
+              onSelect={setWorkspace}
+              onCreate={() => {}}
+              onManage={() => {}}
+            />
+          </div>
+          <SidebarTrigger className="ms-auto" />
         </SidebarHeader>
         <SidebarContent>
-          {projects.map((project) => (
-            <SidebarGroup key={project.name} collapsible>
-              <SidebarGroupLabel>{project.name}</SidebarGroupLabel>
-              <SidebarGroupAction aria-label={`New thread in ${project.name}`}>
-                <PlusIcon />
-              </SidebarGroupAction>
-              <SidebarGroupContent>
-                <SidebarMenu>
-                  {project.threads.map((item) => (
-                    <SidebarMenuItem key={item.id}>
-                      <SidebarMenuButton
-                        status={
-                          item.status === "running" ? undefined : item.status
-                        }
-                        dot={item.status === "running" ? "filled" : undefined}
-                        isActive={item.id === current}
-                        onClick={() => setCurrent(item.id)}
-                      >
-                        <span>{item.title}</span>
-                      </SidebarMenuButton>
-                    </SidebarMenuItem>
-                  ))}
-                </SidebarMenu>
-              </SidebarGroupContent>
-            </SidebarGroup>
-          ))}
+          <AppNav
+            groups={groups}
+            pathname={path}
+            renderLink={(item) => (
+              <a
+                href={item.href}
+                onClick={(event) => {
+                  event.preventDefault()
+                  setPath(item.href ?? "/")
+                }}
+              />
+            )}
+          />
         </SidebarContent>
         <SidebarFooter>
-          <UserMenu />
-        </SidebarFooter>
-        <SidebarRail />
-      </Sidebar>
-      <SidebarInset>
-        <header className="flex h-12 shrink-0 items-center gap-2 px-3">
-          <SidebarTrigger />
-          <Separator
-            orientation="vertical"
-            className="data-vertical:h-4 data-vertical:self-auto"
-          />
-          <span className="truncate text-[13px] text-muted-foreground">
-            {project?.name}
-            <span className="px-1.5">/</span>
-            <span className="text-foreground">{thread?.title}</span>
-          </span>
-        </header>
-        <div className="flex flex-1 flex-col gap-2 px-6 py-8">
-          <h1 className="text-xl font-semibold tracking-tight">
-            {thread?.title}
-          </h1>
-          <p className="max-w-md text-sm text-muted-foreground">
-            Drag the sidebar&apos;s edge to resize it, click the edge or press
-            ⌘B to collapse it, and click a project&apos;s name to fold its
-            threads away.
-          </p>
-        </div>
-      </SidebarInset>
-    </SidebarProvider>
-  )
-}
-
-function WorkspaceSwitcher() {
-  const { isMobile } = useSidebar()
-
-  return (
-    <SidebarMenu>
-      <SidebarMenuItem>
-        <DropdownMenu>
-          <DropdownMenuTrigger render={<SidebarMenuButton size="lg" />}>
-            <div className="flex size-8 items-center justify-center rounded-lg bg-primary text-primary-foreground">
-              <BoxIcon className="size-4" />
-            </div>
-            <div className="grid flex-1 text-start leading-tight">
-              <span className="truncate font-medium text-foreground">
-                Acme Inc
-              </span>
-              <span className="truncate text-xs">Enterprise</span>
-            </div>
-            <ChevronsUpDownIcon className="ms-auto" />
-          </DropdownMenuTrigger>
-          <DropdownMenuContent
-            className="min-w-56"
-            align="start"
-            side={isMobile ? "bottom" : "right"}
-            sideOffset={4}
-          >
-            <DropdownMenuGroup>
-              <DropdownMenuLabel>Workspaces</DropdownMenuLabel>
-              <DropdownMenuItem>
-                <BoxIcon />
-                Acme Inc
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <LayersIcon />
-                Acme Labs
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <FolderPlusIcon />
-                New workspace
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </SidebarMenuItem>
-    </SidebarMenu>
-  )
-}
-
-function UserMenu() {
-  const { isMobile } = useSidebar()
-
-  return (
-    <SidebarMenu>
-      <SidebarMenuItem>
-        <DropdownMenu>
-          <DropdownMenuTrigger render={<SidebarMenuButton size="lg" />}>
-            <Avatar className="size-8 rounded-lg">
-              <AvatarImage
-                src="https://github.com/gabrielespinheira.png"
-                alt="@gabrielespinheira"
-              />
-              <AvatarFallback className="rounded-lg">GE</AvatarFallback>
-            </Avatar>
-            <div className="grid flex-1 text-start leading-tight">
-              <span className="truncate font-medium text-foreground">
-                Gabriel
-              </span>
-              <span className="truncate text-xs">gabriel@example.com</span>
-            </div>
-            <ChevronsUpDownIcon className="ms-auto" />
-          </DropdownMenuTrigger>
-          <DropdownMenuContent
-            className="min-w-56"
-            align="end"
-            side={isMobile ? "bottom" : "right"}
-            sideOffset={4}
+          <UserMenu
+            user={{ name: "Gabs Fabricator", email: "gabs@fabricator.dev" }}
           >
             <DropdownMenuGroup>
               <DropdownMenuItem>
                 <UserIcon />
-                Account
+                Profile
               </DropdownMenuItem>
               <DropdownMenuItem>
-                <SettingsIcon />
-                Settings
+                <BellIcon />
+                Notifications
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
               <DropdownMenuItem>
                 <LogOutIcon />
-                Log out
+                Sign out
               </DropdownMenuItem>
             </DropdownMenuGroup>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </SidebarMenuItem>
-    </SidebarMenu>
+          </UserMenu>
+        </SidebarFooter>
+        <SidebarRail />
+      </Sidebar>
+      <AppShellMain>
+        <AppShellHeader>
+          <AppShellBreadcrumb
+            renderLink={(item) => (
+              <a
+                href={item.href}
+                onClick={(event) => {
+                  event.preventDefault()
+                  setPath(item.href ?? "/")
+                }}
+              />
+            )}
+            items={[{ label: workspaceName, href: "/" }, ...crumbs]}
+          />
+        </AppShellHeader>
+        <AppShellContent size="md">
+          <div className="flex flex-col gap-3">
+            <AppShellPageTitle>{page}</AppShellPageTitle>
+            <p className="text-muted-foreground">
+              Drag the sidebar&apos;s edge to resize it, click the edge or press
+              ⌘B to collapse it, and click a section&apos;s name to fold it
+              away.
+            </p>
+          </div>
+        </AppShellContent>
+      </AppShellMain>
+    </AppShell>
   )
 }
