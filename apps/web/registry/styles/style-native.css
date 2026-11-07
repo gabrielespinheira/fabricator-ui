@@ -1779,6 +1779,30 @@
     @apply border-border/60 my-1 ml-(--density-8) border-l pl-1;
   }
 
+/* MARK: Date Input */
+
+  /* An Input Group: the frame, focus, invalid and disabled states are the
+     group's. */
+  .cn-date-input {
+    @apply w-full;
+  }
+
+  /* Dates line up in tabular figures. */
+  .cn-date-input-text {
+    @apply tabular-nums;
+  }
+
+  /* The calendar button stays lit while its calendar is open (the website's
+     aria-expanded). */
+  .cn-date-input-trigger {
+    @apply data-[open=true]:bg-active;
+  }
+
+  /* The calendar brings its own padding, and sets the popup's width. */
+  .cn-date-input-content {
+    @apply w-auto p-0;
+  }
+
 /* MARK: Dialog */
 
   /* Scrim: 40% black (80% in dark). */
@@ -2226,9 +2250,10 @@
     @apply gap-(--density-6) rounded-lg;
   }
 
-  /* 36pt slots framed by a hairline. Invalid slots turn the edge red. */
+  /* 36pt slots framed by a hairline; filled slots keep a slightly firmer edge,
+     so progress reads at a glance. Invalid slots turn the edge red. */
   .cn-input-otp-slot {
-    @apply border-border data-[invalid=true]:border-destructive/50 size-(--density-36) rounded-lg border bg-transparent;
+    @apply border-border data-[filled=true]:border-foreground/15 data-[invalid=true]:border-destructive/50 size-(--density-36) rounded-lg border bg-transparent;
   }
 
   /* The active slot lifts to the card surface with a firmer neutral edge, red when
@@ -2239,6 +2264,15 @@
 
   .cn-input-otp-slot-text {
     @apply text-foreground text-(length:--density-text-14) tabular-nums;
+  }
+
+  /* The character's rise is drawn in the source (InputOTPChar). */
+  .cn-input-otp-char {
+    @apply text-foreground;
+  }
+
+  .cn-input-otp-placeholder {
+    @apply text-muted-foreground;
   }
 
   .cn-input-otp-caret {
