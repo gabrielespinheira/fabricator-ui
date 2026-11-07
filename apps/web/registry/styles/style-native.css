@@ -566,6 +566,15 @@
     @apply max-w-full px-(--density-4);
   }
 
+/* MARK: Aspect Ratio */
+
+  /* The website's rule is the move-timed glide to a new ratio. Here the
+     component animates the ratio itself, since it is a style prop, so the
+     rule only states the default and keeps the placeholder's name. */
+  .cn-aspect-ratio {
+    @apply overflow-visible;
+  }
+
 /* MARK: Attachment */
 
   /* A soft tile: the surface shadow ring is the edge (the border is made
@@ -2025,8 +2034,9 @@
     @apply flex-col;
   }
 
+  /* A checkbox, radio or switch leaves its label 10 of room. */
   .cn-field-orientation-horizontal {
-    @apply flex-row items-center;
+    @apply flex-row items-center gap-(--density-10);
   }
 
   /* Stacked on a phone, side by side from the sm breakpoint. */
@@ -2922,7 +2932,7 @@
 /* MARK: Radio Group */
 
   .cn-radio-group {
-    @apply gap-(--density-12);
+    @apply gap-(--density-16);
   }
 
   /* 18pt circle with the checkbox's outline, and a 6pt dot pops in in the role's
@@ -3682,7 +3692,7 @@
 
   /* A preview tab is italic. */
   .cn-tab-strip-title {
-    @apply font-normal data-[active=true]:font-semibold data-[preview=true]:italic;
+    @apply font-normal data-[preview=true]:italic;
   }
 
   /* The close button's slot is always there, so titles never reflow. A touch
@@ -3810,9 +3820,9 @@
   }
 
   /* Track: rounded-xl, p-1, 36pt tall. The selected pill and the pressed pill are
-     overlays under the triggers. The line variant drops the track. */
+     overlays under the triggers. */
   .cn-tabs-list {
-    @apply rounded-xl p-(--density-4) data-[orientation=horizontal]:h-(--density-36) data-[variant=line]:rounded-none;
+    @apply rounded-xl p-(--density-4) data-[orientation=horizontal]:h-(--density-36);
   }
 
   /* The default track is a translucent foreground step instead of bg-muted: in
@@ -3822,48 +3832,50 @@
     @apply bg-foreground/5;
   }
 
-  .cn-tabs-list-variant-line {
-    @apply gap-1 bg-transparent;
+  /* Subtle: no track, and only the active tab shows its label. */
+  .cn-tabs-list-variant-subtle {
+    @apply bg-transparent;
   }
 
-  /* Triggers: 28pt. The overlays paint the pills, so the tab stays transparent. */
+  /* Triggers: 28pt. The overlays paint the pills, so the tab stays transparent.
+     Subtle tabs are as wide as their content, with an icon-only tab square. */
   .cn-tabs-trigger {
-    @apply h-(--density-28) gap-(--density-6) rounded-lg px-(--density-12);
+    @apply h-(--density-28) gap-(--density-6) rounded-lg px-(--density-12) data-[variant=subtle]:grow-0 data-[variant=subtle]:px-(--density-6) data-[variant=subtle]:data-[state=active]:pe-(--density-10);
   }
 
   /* 13pt. The resting colour is foreground/65 (dark: muted-foreground), one step
      above the source's /60: on the translucent track, /60 and muted-foreground
-     both miss 4.5:1 in light. Only the active tab turns semibold. */
+     both miss 4.5:1 in light. The weight never changes. */
   .cn-tabs-trigger-text {
     @apply text-foreground/65 dark:text-muted-foreground text-(length:--density-text-13) font-normal;
   }
 
-  /* A lit tab previews the next selection: foreground, no weight change. */
+  /* A lit tab previews the next selection: foreground. */
   .cn-tabs-trigger-text-lit {
     @apply text-foreground dark:text-foreground;
   }
 
   .cn-tabs-trigger-text-active {
-    @apply text-foreground dark:text-foreground font-semibold;
+    @apply text-foreground dark:text-foreground;
   }
 
-  /* The selected tab's pill: a raised surface that slides on the move timing. The
-     line variant draws a foreground underline instead. In dark a fixed surface
-     can't sit above the track, which is a step over whatever is underneath: on a
-     card, surface 4 is darker than it. So the pill is a step over the track too,
-     about 1.5:1 against it on every surface. */
+  /* The selected tab's pill: a raised surface that slides on the move timing. In
+     dark a fixed surface can't sit above the track, which is a step over
+     whatever is underneath: on a card, surface 4 is darker than it. So the pill
+     is a step over the track too, about 1.5:1 against it on every surface. */
   .cn-tabs-selection {
-    @apply bg-surface-4 dark:bg-foreground/14 shadow-surface-4 rounded-lg data-[variant=line]:bg-transparent dark:data-[variant=line]:bg-transparent data-[variant=line]:shadow-none;
-  }
-
-  .cn-tabs-selection-line {
-    @apply bg-foreground data-[orientation=horizontal]:inset-x-0 data-[orientation=horizontal]:-bottom-1 data-[orientation=horizontal]:h-0.5 data-[orientation=vertical]:-end-1 data-[orientation=vertical]:inset-y-0 data-[orientation=vertical]:w-0.5;
+    @apply bg-surface-4 dark:bg-foreground/14 shadow-surface-4 rounded-lg;
   }
 
   /* The website's hover pill previews the next click. A finger shows it while
      pressed. */
   .cn-tabs-highlight {
-    @apply bg-hover/60 data-[variant=line]:bg-hover rounded-lg;
+    @apply bg-hover/60 rounded-lg;
+  }
+
+  /* A long label gives way before the icon does. */
+  .cn-tabs-trigger-label {
+    @apply shrink;
   }
 
   .cn-tabs-content {

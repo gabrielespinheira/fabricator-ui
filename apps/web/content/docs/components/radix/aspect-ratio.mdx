@@ -1,6 +1,6 @@
 ---
 title: Aspect Ratio
-description: Displays content within a desired ratio.
+description: Displays content within a desired ratio, and glides to a new one when it changes.
 base: radix
 component: true
 links:
@@ -8,7 +8,11 @@ links:
   api: https://www.radix-ui.com/primitives/docs/components/aspect-ratio#api-reference
 ---
 
-<ComponentPreview name="aspect-ratio-demo" styleName="radix-nova" />
+<ComponentPreview
+  name="aspect-ratio-demo"
+  styleName="radix-nova"
+  previewClassName="h-auto"
+/>
 
 ## Installation
 
@@ -59,20 +63,28 @@ import { AspectRatio } from "@/components/ui/aspect-ratio"
 ```
 
 ```tsx showLineNumbers
-<AspectRatio ratio={16 / 9}>
-  <Image src="..." alt="Image" className="rounded-md object-cover" />
+<AspectRatio ratio={16 / 9} className="overflow-hidden rounded-xl bg-muted">
+  <Image src="..." alt="..." fill className="object-cover" />
 </AspectRatio>
 ```
 
-## Square
+The frame takes its width from its parent or `className`, and its height from `ratio`. Give it `overflow-hidden` and a radius to clip what's inside, and `bg-muted` so it holds its shape while an image loads.
 
-A square aspect ratio component using the `ratio={1 / 1}` prop. This is useful for displaying images in a square format.
+## Changing the ratio
+
+When `ratio` changes, the frame glides to the new shape on the move timing (`duration-move ease-move`, 250ms at the default [speed](/docs/foundations/motion)). Under reduced motion it snaps. The demo at the top switches between five ratios; its frame keeps the same area, so the photo reshapes around its centre.
+
+## Examples
+
+### Square
+
+`ratio={1 / 1}`, for avatars, album art and product tiles.
 
 <ComponentPreview name="aspect-ratio-square" styleName="radix-nova" />
 
-## Portrait
+### Portrait
 
-A portrait aspect ratio component using the `ratio={9 / 16}` prop. This is useful for displaying images in a portrait format.
+`ratio={9 / 16}`, for stories, reels and phone screenshots.
 
 <ComponentPreview
   name="aspect-ratio-portrait"
@@ -86,9 +98,16 @@ A portrait aspect ratio component using the `ratio={9 / 16}` prop. This is usefu
 
 The `AspectRatio` component displays content within a desired ratio.
 
-| Prop        | Type     | Default | Required |
-| ----------- | -------- | ------- | -------- |
-| `ratio`     | `number` | -       | Yes      |
-| `className` | `string` | -       | No       |
+| Prop        | Type      | Default | Required |
+| ----------- | --------- | ------- | -------- |
+| `ratio`     | `number`  | `1`     | No       |
+| `asChild`   | `boolean` | `false` | No       |
+| `className` | `string`  | -       | No       |
 
-For more information, see the [Radix UI documentation](https://www.radix-ui.com/primitives/docs/components/aspect-ratio#api-reference).
+It also takes every `div` prop. The frame is one element sized with CSS `aspect-ratio`, as in the other primitives, rather than Radix's padding-bottom wrapper, so `className` sets its width. For the props Radix declares, see the [Radix UI documentation](https://www.radix-ui.com/primitives/docs/components/aspect-ratio#api-reference).
+
+## Accessibility
+
+- The frame is a plain `div` with no role, so screen readers read only what's inside it.
+- Give every image inside it an `alt` that says what it shows, or `alt=""` when it's decoration. An `iframe` takes a `title`.
+- A ratio switcher, as in the demo, is a `ToggleGroup` with an `aria-label`; each item's text names its ratio.

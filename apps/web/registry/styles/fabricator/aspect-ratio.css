@@ -1,0 +1,7 @@
+/* MARK: Aspect Ratio */
+
+  /* A new ratio reshapes the frame on the move timing; under reduced motion
+     it snaps. */
+  .cn-aspect-ratio {
+    @apply transition-[aspect-ratio] duration-move ease-move motion-reduce:transition-none;
+  }

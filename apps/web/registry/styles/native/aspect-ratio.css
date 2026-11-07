@@ -1,0 +1,8 @@
+/* MARK: Aspect Ratio */
+
+  /* The website's rule is the move-timed glide to a new ratio. Here the
+     component animates the ratio itself, since it is a style prop, so the
+     rule only states the default and keeps the placeholder's name. */
+  .cn-aspect-ratio {
+    @apply overflow-visible;
+  }

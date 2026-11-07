@@ -1,0 +1,34 @@
+/* MARK: Number Field */
+
+  /* The root stacks the group with anything placed beside it. */
+  .cn-number-field {
+    @apply gap-(--density-8);
+  }
+
+  /* The group is an Input Group, which draws the frame and its states. A
+     read-only field doesn't tint on hover, and with a stepper at each end
+     (− 1 +) the value is centred between them. */
+  .cn-number-field-group {
+    @apply has-[input[readonly]]:hover:not-focus-within:bg-transparent has-[>[data-stepper=decrement][data-align=inline-start]]:[&_input]:text-center;
+  }
+
+  /* Digits keep one width, so the value doesn't shift as it steps. */
+  .cn-number-field-input {
+    @apply tabular-nums;
+  }
+
+  /* Each stepper sits in an Input Group addon. With both steppers at the end,
+     the decrement's addon drops its end inset so − and + sit as a pair. */
+  .cn-number-field-addon {
+    @apply data-[stepper=decrement]:data-[align=inline-end]:mr-0 data-[stepper=decrement]:data-[align=inline-end]:pr-(--density-2);
+  }
+
+  /* Ghost icon buttons: muted at rest, foreground on hover. At min or max the
+     primitive disables the stepper, and it dims. */
+  .cn-number-field-decrement {
+    @apply text-muted-foreground hover:text-foreground;
+  }
+
+  .cn-number-field-increment {
+    @apply text-muted-foreground hover:text-foreground;
+  }

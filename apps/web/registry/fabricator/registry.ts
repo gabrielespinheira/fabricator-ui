@@ -91,6 +91,69 @@ export const fabricatorItems = [
     },
   },
   {
+    name: "file-upload",
+    type: "registry:ui",
+    title: "File Upload",
+    description:
+      "A file picker with a drop zone: type, size and count checks with reasons, and the picked files as Attachment rows.",
+    registryDependencies: ["attachment", "button"],
+    files: [{ path: "ui/file-upload.tsx", type: "registry:ui" }],
+    categories: ["forms"],
+    meta: {
+      fabricator: true,
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/file-upload",
+        examples:
+          "https://fabricator-ui.vercel.app/docs/components/base/file-upload#examples",
+      },
+    },
+  },
+  {
+    name: "number-field",
+    type: "registry:ui",
+    title: "Number Field",
+    description:
+      "A number input with decrement and increment steppers, min, max and step, keyboard stepping, and locale formatting for currency, percent and units.",
+    registryDependencies: ["input-group"],
+    files: [{ path: "ui/number-field.tsx", type: "registry:ui" }],
+    categories: ["forms"],
+    meta: {
+      fabricator: true,
+      // Radix has no number field: the radix item is the Base UI
+      // implementation, and the build adds Base UI's packages to it.
+      implementation: { radix: "base" },
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/number-field",
+        examples:
+          "https://fabricator-ui.vercel.app/docs/components/base/number-field#examples",
+      },
+    },
+  },
+  {
+    name: "date-input",
+    type: "registry:ui",
+    title: "Date Input",
+    description:
+      "A text field that takes a typed date or one picked from a calendar, with a display format, a range and a form value.",
+    // @internationalized/date is for the React Aria calendar; date-fns reads
+    // and writes the text in every base.
+    dependencies: ["date-fns", "@internationalized/date"],
+    registryDependencies: ["calendar", "input-group", "popover"],
+    files: [
+      { path: "ui/date-input.tsx", type: "registry:ui" },
+      { path: "lib/date-input-model.ts", type: "registry:lib" },
+    ],
+    categories: ["forms"],
+    meta: {
+      fabricator: true,
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/date-input",
+        examples:
+          "https://fabricator-ui.vercel.app/docs/components/base/date-input#examples",
+      },
+    },
+  },
+  {
     name: "app-shell-model",
     type: "registry:lib",
     title: "App Shell model",

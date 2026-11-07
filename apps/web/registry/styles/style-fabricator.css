@@ -485,6 +485,14 @@
     @apply max-w-full px-(--density-4);
   }
 
+/* MARK: Aspect Ratio */
+
+  /* A new ratio reshapes the frame on the move timing; under reduced motion
+     it snaps. */
+  .cn-aspect-ratio {
+    @apply transition-[aspect-ratio] duration-move ease-move motion-reduce:transition-none;
+  }
+
 /* MARK: Attachment */
 
   /* A soft tile: the surface shadow ring is the edge (the inline border is
@@ -735,12 +743,16 @@
     @apply has-[>[data-slot=button-group]]:gap-(--density-8) has-[select[aria-hidden=true]:last-child]:[&>[data-slot=select-trigger]:last-of-type]:rounded-r-lg;
   }
 
+  /* Joined cells share one hairline. Buttons drop the border they share;
+     ring-framed controls (input, input group, select trigger) can't drop one
+     side of a ring, so after another cell they overlap it by 1px instead. An
+     input group with focus inside comes to the front, like a focused button. */
   .cn-button-group-orientation-horizontal {
-    @apply [&>[data-slot]:not(:has(~[data-slot]))]:rounded-r-lg!;
+    @apply [&>[data-slot]:not(:has(~[data-slot]))]:rounded-r-lg! [&>[data-slot]~:is([data-slot=input],[data-slot=input-group],[data-slot=select-trigger])]:-ml-px [&>[data-slot=input-group]:focus-within]:relative [&>[data-slot=input-group]:focus-within]:z-10;
   }
 
   .cn-button-group-orientation-vertical {
-    @apply [&>[data-slot]:not(:has(~[data-slot]))]:rounded-b-lg!;
+    @apply [&>[data-slot]:not(:has(~[data-slot]))]:rounded-b-lg! [&>[data-slot]~:is([data-slot=input],[data-slot=input-group],[data-slot=select-trigger])]:-mt-px [&>[data-slot=input-group]:focus-within]:relative [&>[data-slot=input-group]:focus-within]:z-10;
   }
 
   /* An addon cell: hover fill with a hairline edge, muted 13px text, sized
@@ -1016,7 +1028,7 @@
   /* Chips field: the input recipe (1px ring-border frame, light fill on
      hover, card fill while focused). */
   .cn-combobox-chips {
-    @apply cursor-text ring-border hover:bg-muted/50 focus-within:bg-card has-aria-invalid:ring-destructive/50 has-aria-invalid:hover:bg-destructive/5 flex min-h-(--density-36) flex-wrap items-center gap-1 rounded-lg bg-transparent px-(--density-10) py-1 text-(length:--density-text-13) ring-1 transition-[color,background-color,box-shadow] duration-feedback has-data-[slot=combobox-chip]:px-1;
+    @apply cursor-text ring-border hover:bg-muted/50 focus-within:bg-card has-aria-invalid:ring-destructive/50 has-aria-invalid:hover:bg-destructive/5 flex min-h-(--density-36) flex-wrap items-center gap-1 rounded-lg bg-transparent px-(--density-10) py-1 text-(length:--density-text-13) ring-1 ring-inset transition-[color,background-color,box-shadow] duration-feedback has-data-[slot=combobox-chip]:px-1;
   }
 
   .cn-combobox-chip {
@@ -1164,6 +1176,24 @@
 
   .cn-context-menu-sub-content-aria {
     @apply motion-popup bg-surface-3 shadow-surface-3 text-popover-foreground relative isolate min-w-32 rounded-xl p-1;
+  }
+
+/* MARK: Date Input */
+
+  /* An Input Group: the frame, focus, invalid and disabled states are the
+     group's. Dates line up in tabular figures. */
+  .cn-date-input {
+    @apply [&_[data-slot=input-group-control]]:tabular-nums;
+  }
+
+  /* The calendar button stays lit while its calendar is open. */
+  .cn-date-input-trigger {
+    @apply aria-expanded:bg-active aria-expanded:text-foreground;
+  }
+
+  /* The calendar brings its own padding. */
+  .cn-date-input-content {
+    @apply p-0;
   }
 
 /* MARK: Dialog */
@@ -1391,24 +1421,30 @@
   }
 
   .cn-field-group {
-    @apply gap-(--density-20) data-[slot=checkbox-group]:gap-(--density-12) *:data-[slot=field-group]:gap-(--density-16);
+    @apply gap-(--density-20) data-[slot=checkbox-group]:gap-(--density-16) *:data-[slot=field-group]:gap-(--density-16);
   }
 
   /* Label, control and caption sit close; an invalid field turns its label
-     red. */
+     red. A checkbox, radio or switch leaves its label 10 of room. */
   .cn-field {
-    @apply data-[invalid=true]:text-destructive-text gap-(--density-6);
+    @apply data-[invalid=true]:text-destructive-text gap-(--density-6) has-[>:is([data-slot=checkbox],[data-slot=radio-group-item],[data-slot=switch])]:gap-(--density-10);
   }
 
+  /* Beside a checkbox, radio or switch it anchors the label's hit area. */
   .cn-field-content {
-    @apply gap-0.5;
+    @apply gap-0.5 [[data-slot=field]:has(>:is([data-slot=checkbox],[data-slot=radio-group-item],[data-slot=switch]))>&]:relative;
   }
 
   /* 13px labels (red inside an invalid field). A label that wraps a whole field is a choice card: framed
      by a ring (no border), hover tint, the active step when checked, and the
-     1px blue focus ring while its control has keyboard focus. */
+     1px blue focus ring while its control has keyboard focus. A label in the
+     same Field as a checkbox, radio or switch, on either side, grows its hit
+     area 10 above and below (negative margin, so the row keeps its height),
+     filling the gap between rows. With a description (inside FieldContent),
+     an ::after covers the title, the description and the same 10 above and
+     below. */
   .cn-field-label {
-    @apply has-[[data-slot=checkbox],[data-slot=switch],[data-slot=radio-group-item]]:cursor-pointer [[data-slot=checkbox]~&]:cursor-pointer [[data-slot=switch]~&]:cursor-pointer [[data-slot=radio-group-item]~&]:cursor-pointer in-[[data-slot=field]:has([data-slot=checkbox],[data-slot=switch],[data-slot=radio-group-item])]:cursor-pointer has-[>[data-slot=field]]:ring-border has-data-checked:bg-active dark:has-data-checked:bg-active has-[>[data-slot=field]]:has-data-checked:ring-foreground/20 group-data-[invalid=true]/field:text-destructive-text gap-(--density-8) text-(length:--density-text-13) leading-snug group-data-[disabled=true]/field:opacity-50 has-[>[data-slot=field]]:rounded-lg has-[>[data-slot=field]]:ring-1 has-[>[data-slot=field]]:transition-[background-color,box-shadow] has-[>[data-slot=field]]:duration-feedback has-[>[data-slot=field]]:ease-feedback has-[>[data-slot=field]]:not-has-[:disabled,[data-disabled]]:hover:bg-hover has-[>[data-slot=field]]:has-data-checked:hover:bg-active has-[>[data-slot=field]]:has-[:focus-visible]:ring-ring *:data-[slot=field]:p-(--density-12);
+    @apply [[data-slot=field]:has(>:is([data-slot=checkbox],[data-slot=radio-group-item],[data-slot=switch]))>&]:-my-(--density-10) [[data-slot=field]:has(>:is([data-slot=checkbox],[data-slot=radio-group-item],[data-slot=switch]))>&]:py-(--density-10) in-[[data-slot=field]:has(>:is([data-slot=checkbox],[data-slot=radio-group-item],[data-slot=switch]))>[data-slot=field-content]]:after:absolute in-[[data-slot=field]:has(>:is([data-slot=checkbox],[data-slot=radio-group-item],[data-slot=switch]))>[data-slot=field-content]]:after:inset-x-0 in-[[data-slot=field]:has(>:is([data-slot=checkbox],[data-slot=radio-group-item],[data-slot=switch]))>[data-slot=field-content]]:after:-inset-y-(--density-10) has-[[data-slot=checkbox],[data-slot=switch],[data-slot=radio-group-item]]:cursor-pointer [[data-slot=checkbox]~&]:cursor-pointer [[data-slot=switch]~&]:cursor-pointer [[data-slot=radio-group-item]~&]:cursor-pointer in-[[data-slot=field]:has([data-slot=checkbox],[data-slot=switch],[data-slot=radio-group-item])]:cursor-pointer has-[>[data-slot=field]]:ring-border has-data-checked:bg-active dark:has-data-checked:bg-active has-[>[data-slot=field]]:has-data-checked:ring-foreground/20 group-data-[invalid=true]/field:text-destructive-text gap-(--density-8) text-(length:--density-text-13) leading-snug group-data-[disabled=true]/field:opacity-50 has-[>[data-slot=field]]:rounded-lg has-[>[data-slot=field]]:ring-1 has-[>[data-slot=field]]:transition-[background-color,box-shadow] has-[>[data-slot=field]]:duration-feedback has-[>[data-slot=field]]:ease-feedback has-[>[data-slot=field]]:not-has-[:disabled,[data-disabled]]:hover:bg-hover has-[>[data-slot=field]]:has-data-checked:hover:bg-active has-[>[data-slot=field]]:has-[:focus-visible]:ring-ring *:data-[slot=field]:p-(--density-12);
   }
 
   .cn-field-label-aria {
@@ -1419,9 +1455,9 @@
     @apply text-foreground group-data-[invalid=true]/field:text-destructive-text gap-(--density-8) text-(length:--density-text-13) leading-snug font-medium group-data-[disabled=true]/field:opacity-50;
   }
 
-  /* Captions: 12px muted. */
+  /* Captions: 12px muted. Links stay above a label's hit area. */
   .cn-field-description {
-    @apply text-muted-foreground text-left text-(length:--density-text-12) [[data-variant=legend]+&]:-mt-1.5;
+    @apply [&_a]:relative text-muted-foreground text-left text-(length:--density-text-12) [[data-variant=legend]+&]:-mt-1.5;
   }
 
   .cn-field-separator {
@@ -1434,6 +1470,56 @@
 
   .cn-field-error {
     @apply text-destructive-text text-(length:--density-text-12);
+  }
+
+/* MARK: File Upload */
+
+  .cn-file-upload {
+    @apply gap-(--density-12) text-(length:--density-text-13);
+  }
+
+  /* A dashed hairline over whatever surface it sits on, rounded-xl like
+     Empty. Hover lifts it to the hover fill; a drag over it takes the active
+     fill and a firmer, solid edge, and the media tile rises to meet the
+     file. Keyboard focus is the 1px blue ring; invalid turns the edge
+     destructive. */
+  .cn-file-upload-dropzone {
+    @apply text-foreground border-border cursor-pointer gap-(--density-6) rounded-xl border border-dashed p-(--density-24) transition-[background-color,border-color] duration-feedback ease-feedback hover:bg-hover focus-visible:ring-1 focus-visible:ring-ring data-dragging:border-solid data-dragging:border-foreground/30 data-dragging:bg-active aria-invalid:border-destructive/50 data-dragging:aria-invalid:border-destructive/70 data-disabled:cursor-not-allowed data-disabled:opacity-50 data-disabled:hover:bg-transparent;
+  }
+
+  /* Empty's raised tile: surface 4 with its shadow ring. */
+  .cn-file-upload-media {
+    @apply bg-surface-4 shadow-surface-4 text-foreground mb-(--density-6) size-(--density-40) rounded-xl transition-transform duration-move ease-move group-data-dragging/file-upload-dropzone:-translate-y-1 motion-reduce:transition-none motion-reduce:group-data-dragging/file-upload-dropzone:translate-y-0 [&_svg]:stroke-[1.5] [&_svg:not([class*='size-'])]:size-(--density-20);
+  }
+
+  .cn-file-upload-title {
+    @apply text-(length:--density-text-14) font-medium leading-snug;
+  }
+
+  .cn-file-upload-description {
+    @apply text-muted-foreground text-(length:--density-text-12) leading-snug;
+  }
+
+  /* The trigger is a Button (outline by default); this adds nothing. */
+  .cn-file-upload-trigger {
+    @apply self-start;
+  }
+
+  .cn-file-upload-list {
+    @apply gap-(--density-8);
+  }
+
+  /* Rows are Attachments, full width in a list. */
+  .cn-file-upload-item {
+    @apply w-full;
+  }
+
+  .cn-file-upload-item-preview {
+    @apply select-none;
+  }
+
+  .cn-file-upload-item-delete {
+    @apply shrink-0;
   }
 
 /* MARK: Fluid Hover */
@@ -1471,25 +1557,33 @@
 
 /* MARK: Input Group */
 
-  /* The group is the frame (same recipe as the input): ring-border,
-     transparent → hover tint (unless focused) → card while anything inside has focus, no blue
-     halo. Invalid controls turn the ring red and tint the hover. */
+  /* The group is the frame (same recipe as the input): an inset ring-border,
+     transparent → hover tint (unless focused) → card while anything inside
+     has focus, no blue halo. Invalid controls turn the ring red and tint the
+     hover. Inset, so the group is exactly its height and joins a button group
+     on one hairline. */
   .cn-input-group {
-    @apply ring-border hover:not-focus-within:bg-muted/50 focus-within:bg-card focus-within:ring-foreground/25 has-[[data-slot][aria-invalid=true]]:ring-destructive/50 has-[[data-slot][aria-invalid=true]]:hover:not-focus-within:bg-destructive/5 has-disabled:bg-transparent h-(--density-36) rounded-lg border-0 bg-transparent ring-1 transition-[color,background-color,box-shadow] duration-feedback ease-feedback in-data-[slot=combobox-content]:focus-within:ring-border has-disabled:opacity-50 has-[>[data-align=block-end]]:h-auto has-[>[data-align=block-end]]:flex-col has-[>[data-align=block-start]]:h-auto has-[>[data-align=block-start]]:flex-col has-[>[data-align=block-end]]:[&>input]:pt-(--density-12) has-[>[data-align=block-start]]:[&>input]:pb-(--density-12) has-[>[data-align=inline-end]]:[&>input]:pr-(--density-6) has-[>[data-align=inline-start]]:[&>input]:pl-(--density-6);
+    @apply ring-border hover:not-focus-within:bg-muted/50 focus-within:bg-card focus-within:ring-foreground/25 has-[[data-slot][aria-invalid=true]]:ring-destructive/50 has-[[data-slot][aria-invalid=true]]:hover:not-focus-within:bg-destructive/5 has-disabled:bg-transparent h-(--density-36) rounded-lg border-0 bg-transparent ring-1 ring-inset transition-[color,background-color,box-shadow] duration-feedback ease-feedback in-data-[slot=combobox-content]:focus-within:ring-border has-disabled:opacity-50 has-[>[data-align=block-end]]:h-auto has-[>[data-align=block-end]]:flex-col has-[>[data-align=block-start]]:h-auto has-[>[data-align=block-start]]:flex-col has-[>[data-align=block-end]]:[&>input]:pt-(--density-12) has-[>[data-align=block-start]]:[&>input]:pb-(--density-12) has-[>[data-align=inline-end]]:[&>input]:pr-(--density-6) has-[>[data-align=inline-start]]:[&>input]:pl-(--density-6);
   }
 
   /* Addons: muted 13px text and 16px icons at stroke 1.5; they wake to
-     foreground (stroke 2) while the group has focus. */
+     foreground (stroke 2) while the group has focus. The text takes the
+     input's line height (1.5), so a prefix such as https:// and the value
+     share one baseline instead of rounding a pixel apart. */
   .cn-input-group-addon {
-    @apply text-muted-foreground group-focus-within/input-group:text-foreground h-auto gap-(--density-8) py-(--density-6) text-(length:--density-text-13) font-normal transition-colors duration-feedback group-data-[disabled=true]/input-group:opacity-50 [&>kbd]:rounded-[5px] [&>svg]:stroke-[1.5] [&>svg]:transition-[stroke-width] group-focus-within/input-group:[&>svg]:stroke-2 [&>svg:not([class*='size-'])]:size-(--density-icon-16);
+    @apply text-muted-foreground group-focus-within/input-group:text-foreground h-auto gap-(--density-8) py-(--density-6) text-(length:--density-text-13) leading-normal font-normal transition-colors duration-feedback group-data-[disabled=true]/input-group:opacity-50 [&>kbd]:rounded-[5px] [&>svg]:stroke-[1.5] [&>svg]:transition-[stroke-width] group-focus-within/input-group:[&>svg]:stroke-2 [&>svg:not([class*='size-'])]:size-(--density-icon-16);
   }
 
+  /* Inline addons sit as far from the side as their content sits from the
+     top: icons and text 10px in, a 24px button 6px, a 28px button 4px, a
+     20px keycap 8px. Each inset is (group height - content height) / 2, so it
+     holds at every density. */
   .cn-input-group-addon-align-inline-start {
-    @apply pl-(--density-10) has-[>button]:ml-[-0.3rem] has-[>kbd]:ml-[-0.15rem];
+    @apply pl-(--density-10) has-[>[data-slot=kbd],>[data-slot=kbd-group]]:pl-[calc((var(--density-36)-var(--density-20))/2)] has-[>button]:pl-[calc((var(--density-36)-var(--density-24))/2)] has-[>[data-size=sm],>[data-size=icon-sm]]:pl-[calc((var(--density-36)-var(--density-28))/2)];
   }
 
   .cn-input-group-addon-align-inline-end {
-    @apply pr-(--density-10) has-[>button]:mr-[-0.3rem] has-[>kbd]:mr-[-0.15rem];
+    @apply pr-(--density-10) has-[>[data-slot=kbd],>[data-slot=kbd-group]]:pr-[calc((var(--density-36)-var(--density-20))/2)] has-[>button]:pr-[calc((var(--density-36)-var(--density-24))/2)] has-[>[data-size=sm],>[data-size=icon-sm]]:pr-[calc((var(--density-36)-var(--density-28))/2)];
   }
 
   .cn-input-group-addon-align-block-start {
@@ -1540,16 +1634,30 @@
   }
 
   /* Slots stand apart (each is framed like an input), so the group only
-     spaces them. */
+     spaces them. The root's placeholder sits in input-otp's
+     `containerClassName`, which the style build never replaces, so groups and
+     separators space themselves from whatever comes before them. */
   .cn-input-otp-group {
-    @apply gap-(--density-6) rounded-lg;
+    @apply gap-(--density-6) rounded-lg [[data-slot]+&]:ms-(--density-8);
   }
 
-  /* 36px slots framed by ring-border; the active slot lifts to the card
-     surface with a firmer neutral ring (no blue halo). Invalid slots turn the
-     ring red. */
+  /* 36px slots framed by an inset ring-border; the active slot lifts to the
+     card surface with a firmer neutral ring (no blue halo), and filled slots
+     keep a slightly firmer ring than empty ones, so progress reads at a
+     glance. Invalid slots turn the ring red. Ring and fill ease on the
+     feedback timing as the caret moves. */
   .cn-input-otp-slot {
-    @apply cursor-text text-foreground ring-border data-[active=true]:bg-card data-[active=true]:ring-foreground/30 aria-invalid:ring-destructive/50 data-[active=true]:aria-invalid:ring-destructive size-(--density-36) rounded-lg bg-transparent text-(length:--density-text-14) tabular-nums ring-1 transition-[background-color,box-shadow] duration-feedback ease-feedback outline-none;
+    @apply cursor-text text-foreground ring-border data-[active=true]:bg-card data-[active=true]:ring-foreground/30 aria-invalid:ring-destructive/50 data-[active=true]:aria-invalid:ring-destructive data-[filled=true]:not-data-[active=true]:not-aria-invalid:ring-foreground/15 size-(--density-36) rounded-lg bg-transparent text-(length:--density-text-14) tabular-nums ring-1 ring-inset transition-[background-color,box-shadow] duration-feedback ease-feedback outline-none;
+  }
+
+  /* A typed character rises into its slot and fades in; a replaced one does
+     it again. Placeholder characters stay muted. */
+  .cn-input-otp-char {
+    @apply animate-in fade-in-0 slide-in-from-bottom-1 duration-feedback ease-enter motion-reduce:animate-none;
+  }
+
+  .cn-input-otp-placeholder {
+    @apply text-muted-foreground;
   }
 
   .cn-input-otp-caret-line {
@@ -1557,19 +1665,27 @@
   }
 
   .cn-input-otp-separator {
-    @apply text-muted-foreground [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5];
+    @apply [[data-slot]+&]:ms-(--density-8) text-muted-foreground [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5];
   }
 
 /* MARK: Input */
 
-  /* Frame-by-ring: a 1px ring-border instead of a border, transparent at
-     rest, tinted on hover, lifted to the card surface on focus. Focus keeps
-     the neutral ring (no blue halo). Invalid turns the ring red and tints
-     the hover. 13px text from md up (16px below, so iOS doesn't zoom).
-     Inside an input group the group draws the frame, so the control drops
-     its own (data-slot=input-group-control). */
+  /* Frame-by-ring: a 1px inset ring-border instead of a border, transparent at
+     rest, tinted on hover, lifted to the card surface on focus. The ring is
+     inset so the frame sits inside the box like a button's border: a 36px
+     input is 36px, lines up with the field's label and joins a button group
+     on one hairline. Focus keeps the neutral ring (no blue halo). Invalid
+     turns the ring red and tints the hover. 13px text from md up (16px below,
+     so iOS doesn't zoom). Inside an input group the group draws the frame, so
+     the control drops its own (data-slot=input-group-control).
+
+     Every input type is covered: the file button is a quiet chip inset as far
+     from the side as from the top; date and time pickers follow the theme and
+     their indicator wakes on hover; number drops the browser's spinners (Number
+     Field has steppers) and uses tabular figures; colour shows a rounded
+     swatch; autofill keeps the card surface and the foreground text. */
   .cn-input {
-    @apply text-foreground ring-border hover:bg-muted/50 focus-visible:bg-card focus-visible:ring-foreground/25 aria-invalid:ring-destructive/50 aria-invalid:hover:bg-destructive/5 aria-invalid:focus-visible:bg-card h-(--density-36) rounded-lg border-0 bg-transparent px-(--density-10) py-1 text-base ring-1 transition-[color,background-color,box-shadow] duration-feedback ease-feedback file:h-(--density-28) file:text-(length:--density-text-13) file:font-medium md:text-(length:--density-text-13) data-[slot=input-group-control]:bg-transparent data-[slot=input-group-control]:ring-0 data-[slot=input-group-control]:hover:bg-transparent data-[slot=input-group-control]:focus-visible:bg-transparent data-[slot=input-group-control]:aria-invalid:hover:bg-transparent;
+    @apply text-foreground ring-border hover:bg-muted/50 focus-visible:bg-card focus-visible:ring-foreground/25 aria-invalid:ring-destructive/50 aria-invalid:hover:bg-destructive/5 aria-invalid:focus-visible:bg-card h-(--density-36) rounded-lg border-0 bg-transparent px-(--density-10) py-1 text-base ring-1 ring-inset transition-[color,background-color,box-shadow] duration-feedback ease-feedback md:text-(length:--density-text-13) scheme-light dark:scheme-dark autofill:shadow-[inset_0_0_0_100vmax_var(--card)] autofill:[-webkit-text-fill-color:var(--foreground)] file:me-(--density-8) file:h-(--density-24) file:cursor-pointer file:rounded-md file:bg-hover! file:px-(--density-8) file:text-(length:--density-text-12) file:font-medium file:transition-colors file:duration-feedback hover:file:bg-active! [&[type=file]]:cursor-pointer [&[type=file]]:py-(--density-6) [&[type=file]]:ps-(--density-6) [&[type=file]]:text-muted-foreground [&[type=number]]:tabular-nums [&[type=number]]:[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-search-decoration]:appearance-none [&::-webkit-datetime-edit]:p-0 [&::-webkit-datetime-edit-fields-wrapper]:p-0 [&::-webkit-date-and-time-value]:min-h-[1lh] [&::-webkit-date-and-time-value]:text-start [&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-calendar-picker-indicator]:opacity-50 [&::-webkit-calendar-picker-indicator]:transition-opacity [&::-webkit-calendar-picker-indicator]:duration-feedback hover:[&::-webkit-calendar-picker-indicator]:opacity-100 [&[type=color]]:cursor-pointer [&[type=color]]:p-(--density-6) [&::-webkit-color-swatch-wrapper]:p-0 [&::-webkit-color-swatch]:rounded-md [&::-webkit-color-swatch]:border-0 [&::-moz-color-swatch]:rounded-md [&::-moz-color-swatch]:border-0 data-[slot=input-group-control]:bg-transparent data-[slot=input-group-control]:ring-0 data-[slot=input-group-control]:hover:bg-transparent data-[slot=input-group-control]:focus-visible:bg-transparent data-[slot=input-group-control]:aria-invalid:hover:bg-transparent;
   }
 
 /* MARK: Item */
@@ -1667,8 +1783,11 @@
 
 /* MARK: Label */
 
+  /* Beside a checkbox, radio or switch (either side) the label grows its hit
+     area 10 above and below (negative margin, so the row keeps its height):
+     leading-none leaves it only 13px tall otherwise. */
   .cn-label {
-    @apply has-[[data-slot=checkbox],[data-slot=switch],[data-slot=radio-group-item]]:cursor-pointer [[data-slot=checkbox]~&]:cursor-pointer [[data-slot=switch]~&]:cursor-pointer [[data-slot=radio-group-item]~&]:cursor-pointer in-[[data-slot=field]:has([data-slot=checkbox],[data-slot=switch],[data-slot=radio-group-item])]:cursor-pointer text-foreground gap-(--density-8) text-(length:--density-text-13) leading-none font-medium group-data-[disabled=true]:opacity-50 peer-disabled:opacity-50;
+    @apply [:is([data-slot=checkbox],[data-slot=radio-group-item],[data-slot=switch])~&]:-my-(--density-10) [:is([data-slot=checkbox],[data-slot=radio-group-item],[data-slot=switch])~&]:py-(--density-10) has-[~:is([data-slot=checkbox],[data-slot=radio-group-item],[data-slot=switch])]:-my-(--density-10) has-[~:is([data-slot=checkbox],[data-slot=radio-group-item],[data-slot=switch])]:py-(--density-10) has-[[data-slot=checkbox],[data-slot=switch],[data-slot=radio-group-item]]:cursor-pointer [[data-slot=checkbox]~&]:cursor-pointer [[data-slot=switch]~&]:cursor-pointer [[data-slot=radio-group-item]~&]:cursor-pointer in-[[data-slot=field]:has([data-slot=checkbox],[data-slot=switch],[data-slot=radio-group-item])]:cursor-pointer text-foreground gap-(--density-8) text-(length:--density-text-13) leading-none font-medium group-data-[disabled=true]:opacity-50 peer-disabled:opacity-50;
   }
 
   .cn-label-aria {
@@ -1837,7 +1956,7 @@
   /* Same frame as the input (ring-border, hover tint, card on focus, no blue
      halo, red ring when invalid). sm is the compact step: h-7, 12px. */
   .cn-native-select {
-    @apply cursor-pointer text-foreground ring-border placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground hover:bg-muted/50 focus-visible:bg-card focus-visible:ring-foreground/25 aria-invalid:ring-destructive/50 aria-invalid:hover:bg-destructive/5 aria-invalid:focus-visible:bg-card h-9 w-full min-w-0 appearance-none rounded-lg border-0 bg-transparent py-1 pr-8 pl-2.5 text-[13px] ring-1 transition-[color,background-color,box-shadow] duration-feedback ease-feedback select-none data-[size=sm]:h-7 data-[size=sm]:rounded-lg data-[size=sm]:py-0.5 data-[size=sm]:pr-7 data-[size=sm]:pl-2 data-[size=sm]:text-[12px];
+    @apply cursor-pointer text-foreground ring-border placeholder:text-muted-foreground selection:bg-primary selection:text-primary-foreground hover:bg-muted/50 focus-visible:bg-card focus-visible:ring-foreground/25 aria-invalid:ring-destructive/50 aria-invalid:hover:bg-destructive/5 aria-invalid:focus-visible:bg-card h-9 w-full min-w-0 appearance-none rounded-lg border-0 bg-transparent py-1 pr-8 pl-2.5 text-[13px] ring-1 ring-inset transition-[color,background-color,box-shadow] duration-feedback ease-feedback select-none data-[size=sm]:h-7 data-[size=sm]:rounded-lg data-[size=sm]:py-0.5 data-[size=sm]:pr-7 data-[size=sm]:pl-2 data-[size=sm]:text-[12px];
   }
 
   /* Muted chevron that wakes to foreground on hover; no rotation. */
@@ -1903,6 +2022,41 @@
 
   .cn-navigation-menu-popup {
     @apply bg-surface-3 shadow-surface-3 text-popover-foreground rounded-xl transition-all motion-popup outline-none data-ending-style:scale-(--motion-popup-scale) data-ending-style:opacity-0 data-starting-style:scale-(--motion-popup-scale) data-starting-style:opacity-0;
+  }
+
+/* MARK: Number Field */
+
+  /* The root stacks the group with anything placed beside it. */
+  .cn-number-field {
+    @apply gap-(--density-8);
+  }
+
+  /* The group is an Input Group, which draws the frame and its states. A
+     read-only field doesn't tint on hover, and with a stepper at each end
+     (− 1 +) the value is centred between them. */
+  .cn-number-field-group {
+    @apply has-[input[readonly]]:hover:not-focus-within:bg-transparent has-[>[data-stepper=decrement][data-align=inline-start]]:[&_input]:text-center;
+  }
+
+  /* Digits keep one width, so the value doesn't shift as it steps. */
+  .cn-number-field-input {
+    @apply tabular-nums;
+  }
+
+  /* Each stepper sits in an Input Group addon. With both steppers at the end,
+     the decrement's addon drops its end inset so − and + sit as a pair. */
+  .cn-number-field-addon {
+    @apply data-[stepper=decrement]:data-[align=inline-end]:mr-0 data-[stepper=decrement]:data-[align=inline-end]:pr-(--density-2);
+  }
+
+  /* Ghost icon buttons: muted at rest, foreground on hover. At min or max the
+     primitive disables the stepper, and it dims. */
+  .cn-number-field-decrement {
+    @apply text-muted-foreground hover:text-foreground;
+  }
+
+  .cn-number-field-increment {
+    @apply text-muted-foreground hover:text-foreground;
   }
 
 /* MARK: Pagination */
@@ -2075,8 +2229,10 @@
 
 /* MARK: Radio Group */
 
+  /* Rows sit 16 apart; the labels' padded hit areas (10 above and below)
+     cover the gap between options. */
   .cn-radio-group {
-    @apply grid gap-(--density-12);
+    @apply grid gap-(--density-16);
   }
 
   /* 18px circle with the checkbox's outline. Checked fills with the primary role
@@ -2192,7 +2348,7 @@
      compact (28px, 12px). Keyboard focus turns the ring
      blue; invalid turns it destructive. The chevron brightens on hover. */
   .cn-select-trigger {
-    @apply cursor-pointer ring-border data-placeholder:text-muted-foreground hover:bg-muted/50 focus-visible:ring-ring aria-invalid:ring-destructive/50 aria-invalid:hover:bg-destructive/5 h-(--density-36) gap-(--density-8) rounded-lg bg-transparent py-0 pr-(--density-8) pl-(--density-10) text-(length:--density-text-13) ring-1 transition-[color,background-color,box-shadow] duration-feedback select-none data-[size=sm]:density-compact *:data-[slot=select-value]:flex *:data-[slot=select-value]:gap-(--density-8) [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5] hover:[&>svg]:text-foreground;
+    @apply cursor-pointer ring-border data-placeholder:text-muted-foreground hover:bg-muted/50 focus-visible:ring-ring aria-invalid:ring-destructive/50 aria-invalid:hover:bg-destructive/5 h-(--density-36) gap-(--density-8) rounded-lg bg-transparent py-0 pr-(--density-8) pl-(--density-10) text-(length:--density-text-13) ring-1 ring-inset transition-[color,background-color,box-shadow] duration-feedback select-none data-[size=sm]:density-compact *:data-[slot=select-value]:flex *:data-[slot=select-value]:gap-(--density-8) [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5] hover:[&>svg]:text-foreground;
   }
 
   .cn-select-value {
@@ -2641,8 +2797,8 @@
   }
 
   /* Tabs: up to 192px, down to 144px before the strip scrolls; pinned tabs
-     are their icon. 13px, muted at rest; the active tab is foreground and
-     semibold without shifting. A preview tab is italic. */
+     are their icon. 13px, muted at rest; the active tab is foreground, with
+     the same weight and size as the others. A preview tab is italic. */
   .cn-tab-strip-tab {
     @apply h-full w-48 min-w-36 rounded-lg text-(length:--density-text-13) text-muted-foreground transition-[color,opacity] duration-feedback ease-feedback data-active:text-foreground data-fluid-hover-active:text-foreground data-pinned:w-auto data-pinned:min-w-0 data-preview:italic data-dragging:z-10 in-data-dragging:data-active:bg-surface-4 in-data-dragging:data-active:shadow-surface-4;
   }
@@ -2652,7 +2808,7 @@
   }
 
   .cn-tab-strip-title {
-    @apply weight-normal in-data-active:weight-semibold;
+    @apply font-normal;
   }
 
   /* The close button's slot is always there, so titles never reflow. The
@@ -2775,9 +2931,9 @@
 
   /* Track: muted, rounded-xl, p-1, 36px tall. The list is a fluid hover
      container (relative isolate): the selected pill and the hover pill are
-     overlays under the triggers. The line variant drops the track. */
+     overlays under the triggers. */
   .cn-tabs-list {
-    @apply relative isolate rounded-xl p-(--density-4) group-data-horizontal/tabs:h-(--density-36) data-[variant=line]:rounded-none data-[variant=line]:bg-transparent;
+    @apply relative isolate rounded-xl p-(--density-4) group-data-horizontal/tabs:h-(--density-36);
   }
 
   /* The default track is a translucent foreground step instead of bg-muted:
@@ -2788,35 +2944,49 @@
     @apply bg-foreground/[0.05];
   }
 
+  /* Subtle: no track, and only the active tab shows its label. */
+  .cn-tabs-list-variant-subtle {
+    @apply bg-transparent;
+  }
+
   /* Triggers: 28px, 13px, muted at rest; hover, the lit tab and the active
-     tab turn foreground, and only the active tab turns semibold. Focus is a
-     1px blue outline (the 3px halo is dropped). The resting colour is
-     foreground/65 (dark: muted-foreground), one step above the source's /60:
-     on the translucent track, /60 and muted-foreground both miss 4.5:1 in light.
+     tab turn foreground. The weight never changes, so labels hold their size
+     and width in every state. Focus is a 1px blue outline (the 3px halo is
+     dropped). The resting colour is foreground/65 (dark: muted-foreground),
+     one step above the source's /60: on the translucent track, /60 and
+     muted-foreground both miss 4.5:1 in light.
      Without a fluid list (React Aria) the active tab paints its own raised
-     pill; inside one the sliding overlay does, so the tab stays transparent. */
+     pill; inside one the sliding overlay does, so the tab stays transparent.
+     Vertical tabs don't flex: a zero basis in a column shrinks them to their
+     text. Subtle tabs are as wide as their content, with an icon-only tab
+     square. */
   .cn-tabs-trigger {
-    @apply cursor-pointer gap-(--density-6) rounded-lg px-(--density-12) text-(length:--density-text-13) font-normal transition-[color,background-color,box-shadow] duration-feedback ease-feedback in-data-[slot=tabs-list]:h-(--density-28) in-data-[slot=tabs-list]:focus-visible:ring-0 [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] hover:[&_svg]:stroke-2 data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-active:font-semibold data-active:[&_svg]:stroke-2 group-data-[variant=default]/tabs-list:data-active:bg-surface-4 group-data-[variant=default]/tabs-list:data-active:shadow-surface-4 dark:group-data-[variant=default]/tabs-list:data-active:bg-surface-4 in-data-[fluid-hover]:group-data-[variant=default]/tabs-list:data-active:bg-transparent in-data-[fluid-hover]:group-data-[variant=default]/tabs-list:data-active:shadow-none dark:in-data-[fluid-hover]:group-data-[variant=default]/tabs-list:data-active:bg-transparent in-data-[fluid-hover]:group-data-[variant=line]/tabs-list:data-active:after:opacity-0 [&_svg:not([class*='size-'])]:size-(--density-icon-16) has-data-[icon=inline-end]:pe-(--density-10) has-data-[icon=inline-start]:ps-(--density-10);
+    @apply cursor-pointer gap-(--density-6) rounded-lg px-(--density-12) text-(length:--density-text-13) font-normal transition-[color,background-color,box-shadow] duration-feedback ease-feedback in-data-[slot=tabs-list]:h-(--density-28) in-data-[slot=tabs-list]:focus-visible:ring-0 [&_svg]:stroke-[1.5] [&_svg]:transition-[stroke-width] hover:[&_svg]:stroke-2 data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-active:[&_svg]:stroke-2 group-data-[variant=default]/tabs-list:data-active:bg-surface-4 group-data-[variant=default]/tabs-list:data-active:shadow-surface-4 dark:group-data-[variant=default]/tabs-list:data-active:bg-surface-4 in-data-[fluid-hover]:group-data-[variant=default]/tabs-list:data-active:bg-transparent in-data-[fluid-hover]:group-data-[variant=default]/tabs-list:data-active:shadow-none dark:in-data-[fluid-hover]:group-data-[variant=default]/tabs-list:data-active:bg-transparent group-data-vertical/tabs:flex-none group-data-[variant=subtle]/tabs-list:flex-none group-data-[variant=subtle]/tabs-list:px-(--density-6) [&_svg:not([class*='size-'])]:size-(--density-icon-16) has-data-[icon=inline-end]:pe-(--density-10) has-data-[icon=inline-start]:ps-(--density-10);
   }
 
   /* React Aria marks the selected tab with data-selected. Inside a fluid list
-     the sliding overlay paints the pill and the underline. */
+     the sliding overlay paints the pill. */
   .cn-tabs-trigger-aria {
-    @apply cursor-pointer data-selected:font-semibold data-selected:[&_svg]:stroke-2 group-data-[variant=default]/tabs-list:data-selected:bg-surface-4 group-data-[variant=default]/tabs-list:data-selected:shadow-surface-4 dark:group-data-[variant=default]/tabs-list:data-selected:bg-surface-4 in-data-[fluid-hover]:group-data-[variant=default]/tabs-list:data-selected:bg-transparent in-data-[fluid-hover]:group-data-[variant=default]/tabs-list:data-selected:shadow-none dark:in-data-[fluid-hover]:group-data-[variant=default]/tabs-list:data-selected:bg-transparent in-data-[fluid-hover]:group-data-[variant=line]/tabs-list:data-selected:after:opacity-0;
+    @apply cursor-pointer data-selected:[&_svg]:stroke-2 group-data-[variant=default]/tabs-list:data-selected:bg-surface-4 group-data-[variant=default]/tabs-list:data-selected:shadow-surface-4 dark:group-data-[variant=default]/tabs-list:data-selected:bg-surface-4 in-data-[fluid-hover]:group-data-[variant=default]/tabs-list:data-selected:bg-transparent in-data-[fluid-hover]:group-data-[variant=default]/tabs-list:data-selected:shadow-none dark:in-data-[fluid-hover]:group-data-[variant=default]/tabs-list:data-selected:bg-transparent;
   }
 
   /* The selected tab's pill: a raised surface (surface 4 + its shadow) that
      slides on the move timing. It dims while another tab is lit, so the
-     selection reads as "current" and the hover pill as "next". The line
-     variant draws a foreground underline instead. */
+     selection reads as "current" and the hover pill as "next". */
   .cn-tabs-selection {
-    @apply bg-surface-4 shadow-surface-4 rounded-lg [:has(>[role=tab][data-fluid-hover-active]:not([aria-selected=true]))>&]:opacity-85 group-data-[variant=line]/tabs-list:bg-transparent group-data-[variant=line]/tabs-list:shadow-none group-data-[variant=line]/tabs-list:after:bg-foreground group-data-[variant=line]/tabs-list:after:absolute group-data-horizontal/tabs:group-data-[variant=line]/tabs-list:after:inset-x-0 group-data-horizontal/tabs:group-data-[variant=line]/tabs-list:after:-bottom-1 group-data-horizontal/tabs:group-data-[variant=line]/tabs-list:after:h-0.5 group-data-vertical/tabs:group-data-[variant=line]/tabs-list:after:inset-y-0 group-data-vertical/tabs:group-data-[variant=line]/tabs-list:after:-end-1 group-data-vertical/tabs:group-data-[variant=line]/tabs-list:after:w-0.5;
+    @apply bg-surface-4 shadow-surface-4 rounded-lg [:has(>[role=tab][data-fluid-hover-active]:not([aria-selected=true]))>&]:opacity-85;
   }
 
   /* The hover pill: a faint bg-hover that previews the next click. It hides
      over the selected tab, which already has its pill. */
   .cn-tabs-highlight {
-    @apply bg-hover/60 rounded-lg [:has(>[role=tab][data-fluid-hover-active][aria-selected=true])>&]:opacity-0 group-data-[variant=line]/tabs-list:bg-hover;
+    @apply bg-hover/60 rounded-lg [:has(>[role=tab][data-fluid-hover-active][aria-selected=true])>&]:opacity-0;
+  }
+
+  /* A trigger's text. In a subtle list only the active tab shows it, fading
+     in as the pill arrives; the others keep it for screen readers. */
+  .cn-tabs-trigger-label {
+    @apply group-data-[variant=subtle]/tabs-list:pe-(--density-4) group-data-[variant=subtle]/tabs-list:not-in-aria-selected:sr-only motion-safe:group-data-[variant=subtle]/tabs-list:in-aria-selected:animate-in motion-safe:group-data-[variant=subtle]/tabs-list:in-aria-selected:fade-in-0 duration-move ease-move;
   }
 
   .cn-tabs-content {
@@ -2828,7 +2998,7 @@
   /* Same frame as the input: ring-border, transparent → hover tint → card on
      focus, no blue halo; invalid ring red with a red-tinted hover. */
   .cn-textarea {
-    @apply text-foreground ring-border hover:bg-muted/50 focus-visible:bg-card focus-visible:ring-foreground/25 aria-invalid:ring-destructive/50 aria-invalid:hover:bg-destructive/5 aria-invalid:focus-visible:bg-card min-h-16 rounded-lg border-0 bg-transparent px-(--density-10) py-(--density-8) text-base ring-1 transition-[color,background-color,box-shadow] duration-feedback ease-feedback md:text-(length:--density-text-13) data-[slot=input-group-control]:bg-transparent data-[slot=input-group-control]:ring-0 data-[slot=input-group-control]:hover:bg-transparent data-[slot=input-group-control]:focus-visible:bg-transparent data-[slot=input-group-control]:aria-invalid:hover:bg-transparent;
+    @apply text-foreground ring-border hover:bg-muted/50 focus-visible:bg-card focus-visible:ring-foreground/25 aria-invalid:ring-destructive/50 aria-invalid:hover:bg-destructive/5 aria-invalid:focus-visible:bg-card min-h-16 rounded-lg border-0 bg-transparent px-(--density-10) py-(--density-8) text-base ring-1 ring-inset transition-[color,background-color,box-shadow] duration-feedback ease-feedback md:text-(length:--density-text-13) data-[slot=input-group-control]:bg-transparent data-[slot=input-group-control]:ring-0 data-[slot=input-group-control]:hover:bg-transparent data-[slot=input-group-control]:focus-visible:bg-transparent data-[slot=input-group-control]:aria-invalid:hover:bg-transparent;
   }
 
 /* MARK: Toast */
