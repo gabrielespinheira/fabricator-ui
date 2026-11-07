@@ -104,19 +104,23 @@ html.dark:root {
   --code-highlight: var(--surface-3);
 }
 
-/* Upstream's chat demos (Bubble, Message, Attachment, Message Scroller…)
-   wrap their previews in the legacy `.theme-blue`, which hard-codes neutral
-   page, card, border, muted and radius values. Keep its blue primary and
-   charts, and take everything else from the page, so those previews follow
-   the Fabricator palette, the surface tint and the radius setting. `inherit`
-   takes the computed value from <html>, in light and dark alike. */
-html:root .theme-blue {
+/* Upstream's chat demos (Bubble, Message, Attachment, Marker, Message
+   Scroller) wrap their previews in the legacy `.theme-blue`, which hard-codes
+   a neutral palette with a blue primary. Take every token from the page
+   instead, so those previews follow the Fabricator palette, the surface tint,
+   the colour roles and the radius setting. `inherit` takes the computed value
+   from <html>, in light and dark alike. The `.dark` selector outranks the
+   legacy dark variant, `.theme-blue:is(.dark *):not(…)`. */
+html:root .theme-blue,
+html.dark:root .theme-blue {
   --background: inherit;
   --foreground: inherit;
   --card: inherit;
   --card-foreground: inherit;
   --popover: inherit;
   --popover-foreground: inherit;
+  --primary: inherit;
+  --primary-foreground: inherit;
   --secondary: inherit;
   --secondary-foreground: inherit;
   --muted: inherit;
@@ -127,9 +131,18 @@ html:root .theme-blue {
   --border: inherit;
   --input: inherit;
   --ring: inherit;
+  --chart-1: inherit;
+  --chart-2: inherit;
+  --chart-3: inherit;
+  --chart-4: inherit;
+  --chart-5: inherit;
   --radius: inherit;
+  --selection: inherit;
+  --selection-foreground: inherit;
   --sidebar: inherit;
   --sidebar-foreground: inherit;
+  --sidebar-primary: inherit;
+  --sidebar-primary-foreground: inherit;
   --sidebar-accent: inherit;
   --sidebar-accent-foreground: inherit;
   --sidebar-border: inherit;
