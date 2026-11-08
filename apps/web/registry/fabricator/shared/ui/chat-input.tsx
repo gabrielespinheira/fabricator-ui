@@ -17,9 +17,9 @@ import { useDensity } from "@/registry/bases/__base__/ui/density"
 import { Spinner } from "@/registry/bases/__base__/ui/spinner"
 import { IconPlaceholder } from "@/app/(create)/components/icon-placeholder"
 
-// The message box of a chat: a raised card whose field grows with the draft
-// and whose height eases to what it holds, controls under the field (or beside
-// it in the compact pill), and one send slot that offers voice chat while the
+// The message box of a chat: a raised pill whose field stacks above its
+// controls once the draft wraps (or a large card with the controls under the
+// field), whose height eases to what it holds, and one send slot that offers voice chat while the
 // draft is empty, sends once there is something to send, and stops a reply
 // while one streams. Enter sends, Shift+Enter adds a line, Escape stops.
 
@@ -28,7 +28,7 @@ type ChatInputStatus = "ready" | "submitted" | "streaming" | "error"
 
 type ChatInputSubmitKey = "enter" | "mod-enter"
 
-type ChatInputLayout = "default" | "compact"
+type ChatInputLayout = "default" | "large"
 
 /** What the microphone is doing while voice chat is on. */
 type ChatInputMicActivity =
@@ -167,13 +167,13 @@ function getChatInputMicLabel(activity: ChatInputMicActivity) {
   return MIC_LABELS[activity]
 }
 
-/** The most images that ride beside send in the compact pill. */
+/** The most images that ride beside send in the pill. */
 const INLINE_ATTACHMENTS = 3
 
 /**
- * Where attachments sit: across the card in the default layout; in the
- * compact pill, beside send while they are a few images and the draft is on
- * one line, else across the card above it.
+ * Where attachments sit: across the large card; in the pill, beside send
+ * while they are a few images and the draft is on one line, else across the
+ * pill above it.
  */
 function getChatInputAttachmentsLayout({
   layout,
@@ -183,13 +183,13 @@ function getChatInputAttachmentsLayout({
   layout: ChatInputLayout
   isStacked: boolean
   items: readonly { isImage: boolean }[]
-}): "default" | "compact" | "inline" {
-  if (layout === "default") return "default"
+}): "large" | "default" | "inline" {
+  if (layout === "large") return "large"
   const isInline =
     !isStacked &&
     items.length <= INLINE_ATTACHMENTS &&
     items.every((item) => item.isImage)
-  return isInline ? "inline" : "compact"
+  return isInline ? "inline" : "default"
 }
 
 type ChatInputAttached = {
@@ -368,7 +368,7 @@ function formatChatInputDuration(milliseconds: number) {
 const CARET_ROOM = 2
 
 /**
- * Whether the compact field stacks above its controls: once the draft wraps
+ * Whether the pill's field stacks above its controls: once the draft wraps
  * beside them, and until it fits on one line there again. Measuring against
  * the room beside the controls, not the wider stacked field, keeps a draft
  * from flipping back and forth mid-sentence.
@@ -703,7 +703,7 @@ type ChatInputProps = Omit<
   onStop?: () => void
   /** The reply's progress. Pass `useChat`'s `status` as it is. */
   status?: ChatInputStatus
-  /** `compact` is a one-line pill that stacks above its controls once the draft wraps. */
+  /** The default is a one-line pill that stacks above its controls once the draft wraps; `large` is a card with the controls under the field. */
   layout?: ChatInputLayout
   /** `mod-enter` sends with Cmd or Ctrl+Enter only, for long-form drafts. */
   submitOn?: ChatInputSubmitKey
@@ -876,7 +876,7 @@ function ChatInput({
       isReady,
       canStop,
       sendAction,
-      isStacked: layout === "compact" && isStacked,
+      isStacked: layout === "default" && isStacked,
       setStacked,
       isVoiceActive,
       setVoiceActive,
@@ -937,7 +937,7 @@ function ChatInput({
         data-slot="chat-input"
         data-layout={layout}
         data-status={status}
-        data-stacked={layout === "compact" && isStacked ? "" : undefined}
+        data-stacked={layout === "default" && isStacked ? "" : undefined}
         data-voice={isVoiceActive ? "" : undefined}
         data-dropping={isDropping ? "" : undefined}
         data-disabled={disabled ? "" : undefined}
@@ -1022,7 +1022,7 @@ function ChatInput({
         <div
           ref={contentRef}
           data-slot="chat-input-content"
-          className="cn-chat-input-content relative z-10 flex shrink-0 flex-col group-data-[layout=compact]/chat-input:grid group-data-[layout=compact]/chat-input:grid-cols-[auto_minmax(0,1fr)_auto_auto] group-data-[layout=compact]/chat-input:items-center group-data-[layout=compact]/chat-input:group-data-stacked/chat-input:items-end"
+          className="cn-chat-input-content relative z-10 flex shrink-0 flex-col group-data-[layout=default]/chat-input:grid group-data-[layout=default]/chat-input:grid-cols-[auto_minmax(0,1fr)_auto_auto] group-data-[layout=default]/chat-input:items-center group-data-[layout=default]/chat-input:group-data-stacked/chat-input:items-end"
         >
           {children}
         </div>
@@ -1037,7 +1037,7 @@ function ChatInputHeader({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="chat-input-header"
       className={cn(
-        "cn-chat-input-header flex min-w-0 flex-wrap items-center group-data-[layout=compact]/chat-input:col-span-full group-data-[layout=compact]/chat-input:row-start-1",
+        "cn-chat-input-header flex min-w-0 flex-wrap items-center group-data-[layout=default]/chat-input:col-span-full group-data-[layout=default]/chat-input:row-start-1",
         className
       )}
       {...props}
@@ -1049,8 +1049,8 @@ type ChatInputAttachmentElement = React.ReactElement<{ src?: string }>
 
 /**
  * The files riding along with the next message, as `ChatInputAttachment`
- * tiles. Place it in the card before the field: across the card in the
- * default layout; in the compact pill a few images ride beside send.
+ * tiles. Place it before the field: across the large card; in the pill a
+ * few images ride beside send.
  */
 function ChatInputAttachments({
   className,
@@ -1076,7 +1076,7 @@ function ChatInputAttachments({
       data-layout={placement}
       aria-label={ariaLabel}
       className={cn(
-        "cn-chat-input-attachments group/chat-input-attachments flex min-w-0 data-[layout=compact]:col-span-full data-[layout=compact]:row-start-1 data-[layout=compact]:flex-wrap data-[layout=default]:flex-wrap data-[layout=inline]:col-start-3 data-[layout=inline]:row-start-2",
+        "cn-chat-input-attachments group/chat-input-attachments flex min-w-0 data-[layout=default]:col-span-full data-[layout=default]:row-start-1 data-[layout=default]:flex-wrap data-[layout=inline]:col-start-3 data-[layout=inline]:row-start-2 data-[layout=large]:flex-wrap",
         className
       )}
       {...props}
@@ -1345,6 +1345,15 @@ function ChatInputTextarea({
     return () => observer.disconnect()
   }, [])
 
+  // A draft your app sets (a + menu inserting a /) moves the caret without
+  // a select event; the menus read it here once the text is in, whichever
+  // comes first, the focus or the draft.
+  React.useLayoutEffect(() => {
+    const field = fieldRef.current
+    if (!field || field.ownerDocument.activeElement !== field) return
+    setCaret(field.selectionStart)
+  }, [value, setCaret])
+
   // A pick from a suggestion menu places the caret once its text is in.
   React.useLayoutEffect(() => {
     const field = fieldRef.current
@@ -1355,13 +1364,13 @@ function ChatInputTextarea({
   }, [pendingCaret, value, clearPendingCaret])
 
   // The field grows with the draft up to its max height, then scrolls; the
-  // compact field stacks once the draft wraps beside its controls.
+  // pill's field stacks once the draft wraps beside its controls.
   React.useLayoutEffect(() => {
     const field = fieldRef.current
     if (!field) return
     field.style.height = "auto"
     field.style.height = `${field.scrollHeight}px`
-    if (layout !== "compact") return
+    if (layout !== "default") return
     if (!isStacked) inlineWidth.current = measureTextRoom(field)
     const next = nextChatInputStacked({
       stacked: isStacked,
@@ -1382,7 +1391,7 @@ function ChatInputTextarea({
   return (
     <div
       data-slot="chat-input-field"
-      className="cn-chat-input-field grid min-w-0 group-data-[layout=compact]/chat-input:col-start-2 group-data-[layout=compact]/chat-input:row-start-2 group-data-[layout=compact]/chat-input:group-data-stacked/chat-input:col-span-full group-data-[layout=compact]/chat-input:group-data-stacked/chat-input:col-start-1"
+      className="cn-chat-input-field grid min-w-0 group-data-[layout=default]/chat-input:col-start-2 group-data-[layout=default]/chat-input:row-start-2 group-data-[layout=default]/chat-input:group-data-stacked/chat-input:col-span-full group-data-[layout=default]/chat-input:group-data-stacked/chat-input:col-start-1"
     >
       {segments && (
         <div
@@ -1434,6 +1443,9 @@ function ChatInputTextarea({
         onFocus={(event) => {
           onFocus?.(event)
           setFocused(true)
+          // A draft your app changed (+ inserting a /) moved the caret
+          // without a select event, so the menus read it here.
+          setCaret(event.currentTarget.selectionStart)
         }}
         onBlur={(event) => {
           onBlur?.(event)
@@ -1489,13 +1501,13 @@ function ChatInputTextarea({
   )
 }
 
-/** The row under the field. In the compact layout its two groups sit beside the field. */
+/** The row under the field in the large card. In the pill its two groups sit beside the field. */
 function ChatInputFooter({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="chat-input-footer"
       className={cn(
-        "cn-chat-input-footer flex min-w-0 items-center group-data-[layout=compact]/chat-input:contents",
+        "cn-chat-input-footer flex min-w-0 items-center group-data-[layout=default]/chat-input:contents",
         className
       )}
       {...props}
@@ -1509,7 +1521,7 @@ function ChatInputTools({ className, ...props }: React.ComponentProps<"div">) {
     <div
       data-slot="chat-input-tools"
       className={cn(
-        "cn-chat-input-tools me-auto flex min-w-0 items-center group-data-[layout=compact]/chat-input:col-start-1 group-data-[layout=compact]/chat-input:row-start-2 group-data-[layout=compact]/chat-input:me-0 group-data-[layout=compact]/chat-input:group-data-stacked/chat-input:row-start-3",
+        "cn-chat-input-tools me-auto flex min-w-0 items-center group-data-[layout=default]/chat-input:col-start-1 group-data-[layout=default]/chat-input:row-start-2 group-data-[layout=default]/chat-input:me-0 group-data-[layout=default]/chat-input:group-data-stacked/chat-input:row-start-3",
         className
       )}
       {...props}
@@ -1526,7 +1538,7 @@ function ChatInputActions({
     <div
       data-slot="chat-input-actions"
       className={cn(
-        "cn-chat-input-actions ms-auto flex min-w-0 items-center group-data-[layout=compact]/chat-input:col-start-4 group-data-[layout=compact]/chat-input:row-start-2 group-data-[layout=compact]/chat-input:group-data-stacked/chat-input:row-start-3",
+        "cn-chat-input-actions ms-auto flex min-w-0 items-center group-data-[layout=default]/chat-input:col-start-4 group-data-[layout=default]/chat-input:row-start-2 group-data-[layout=default]/chat-input:group-data-stacked/chat-input:row-start-3",
         className
       )}
       {...props}

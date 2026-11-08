@@ -13,16 +13,11 @@ import {
   ChatInputSubmit,
   ChatInputTextarea,
   ChatInputTools,
+  useChatInputAttachments,
+  type ChatInputAttached,
 } from "@/styles/aria-fabricator/ui/chat-input"
 
-type Attached = {
-  id: string
-  name: string
-  src?: string
-  isUploading: boolean
-}
-
-const SAMPLES: Attached[] = [
+const SAMPLES: ChatInputAttached[] = [
   {
     id: "desk",
     name: "workspace.png",
@@ -36,7 +31,7 @@ const SAMPLES: Attached[] = [
   },
 ]
 
-const IMAGES: Attached[] = [
+const IMAGES: ChatInputAttached[] = [
   {
     id: "desk",
     name: "workspace.png",
@@ -51,74 +46,37 @@ const IMAGES: Attached[] = [
   },
 ]
 
-function useAttachments(initial: Attached[]) {
-  const [attached, setAttached] = React.useState(initial)
-  const timers = React.useRef<number[]>([])
-
-  React.useEffect(() => {
-    const pending = timers.current
-    return () => {
-      for (const timer of pending) window.clearTimeout(timer)
-    }
-  }, [])
-
-  const attach = (files: File[]) => {
-    const added = files.map((file) => ({
-      id: crypto.randomUUID(),
-      name: file.name,
-      src: file.type.startsWith("image/")
-        ? URL.createObjectURL(file)
-        : undefined,
-      isUploading: true,
-    }))
-    setAttached((entries) => [...entries, ...added])
-    // A stand-in for the upload: each file lands a moment later.
-    for (const entry of added)
-      timers.current.push(
-        window.setTimeout(
-          () =>
-            setAttached((entries) =>
-              entries.map((item) =>
-                item.id === entry.id ? { ...item, isUploading: false } : item
-              )
-            ),
-          1200
-        )
-      )
-  }
-
-  const remove = (id: string) =>
-    setAttached((entries) => entries.filter((entry) => entry.id !== id))
-
-  return { attached, attach, remove, clear: () => setAttached([]) }
+// A stand-in for an upload: each file lands a moment later.
+function upload() {
+  return new Promise<void>((resolve) => window.setTimeout(resolve, 1200))
 }
 
 function AttachmentInput({
   layout,
   initial,
 }: {
-  layout: "default" | "compact"
-  initial: Attached[]
+  layout: "default" | "large"
+  initial: ChatInputAttached[]
 }) {
-  const { attached, attach, remove, clear } = useAttachments(initial)
+  const files = useChatInputAttachments({ initial, upload })
   const pickerRef = React.useRef<HTMLInputElement>(null)
 
   return (
     <ChatInput
       layout={layout}
-      hasContent={attached.length > 0}
-      isUploading={attached.some((entry) => entry.isUploading)}
-      onAttach={attach}
-      onSubmit={clear}
+      hasContent={files.hasContent}
+      isUploading={files.isUploading}
+      onAttach={files.attach}
+      onSubmit={files.clear}
     >
       <ChatInputAttachments>
-        {attached.map((entry) => (
+        {files.attachments.map((entry) => (
           <ChatInputAttachment
             key={entry.id}
             name={entry.name}
             src={entry.src}
             isUploading={entry.isUploading}
-            onRemove={() => remove(entry.id)}
+            onRemove={() => files.remove(entry.id)}
           />
         ))}
       </ChatInputAttachments>
@@ -137,7 +95,7 @@ function AttachmentInput({
             multiple
             hidden
             onChange={(event) => {
-              attach(Array.from(event.target.files ?? []))
+              files.attach(Array.from(event.target.files ?? []))
               event.target.value = ""
             }}
           />
@@ -153,8 +111,8 @@ function AttachmentInput({
 export function ChatInputAttachmentsDemo() {
   return (
     <div className="mx-auto flex w-full max-w-xl flex-col gap-6">
-      <AttachmentInput layout="default" initial={SAMPLES} />
-      <AttachmentInput layout="compact" initial={IMAGES} />
+      <AttachmentInput layout="default" initial={IMAGES} />
+      <AttachmentInput layout="large" initial={SAMPLES} />
     </div>
   )
 }

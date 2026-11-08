@@ -1,6 +1,6 @@
 # @fabricator-ui/icons-react-native
 
-Fabricator Icons for React Native and Expo: every [Lucide](https://lucide.dev) icon under its Lucide name, Fabricator's own Custom icons, and 143 brand marks, drawn with `react-native-svg`. Part of [Fabricator UI](https://fabricator-ui.vercel.app).
+Fabricator Icons for React Native and Expo: every [Lucide](https://lucide.dev) icon under its Lucide name, Fabricator's own Custom icons, and 145 brand marks, drawn with `react-native-svg`. Part of [Fabricator UI](https://fabricator-ui.vercel.app).
 
 ```sh
 npx expo install @fabricator-ui/icons-react-native react-native-svg

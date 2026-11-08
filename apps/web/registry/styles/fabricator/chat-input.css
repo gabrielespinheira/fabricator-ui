@@ -3,10 +3,10 @@
   /* A raised card on surface 3 that lifts to surface 4's shadow while the
      field has focus, with a faint foreground ring for the keyboard. Its height
      eases to what it holds on the move timing, so a growing draft or a row of
-     attachments slides the card open rather than jumping. 16px corners; the
-     compact pill rounds to 24px around its round send. */
+     attachments slides the card open rather than jumping. The pill rounds to
+     26px around its round send; the large card has 16px corners. */
   .cn-chat-input {
-    @apply bg-surface-3 shadow-surface-3 rounded-2xl text-foreground transition-[height,box-shadow] duration-move ease-move focus-within:shadow-surface-4 has-[[data-slot=chat-input-textarea]:focus-visible]:ring-1 has-[[data-slot=chat-input-textarea]:focus-visible]:ring-foreground/10 has-[[data-slot=chat-input-textarea][aria-invalid=true]]:ring-1 has-[[data-slot=chat-input-textarea][aria-invalid=true]]:ring-destructive/50 data-[layout=compact]:rounded-[calc(var(--density-36)/2+var(--density-8))] data-disabled:cursor-not-allowed data-disabled:opacity-60 motion-reduce:transition-[box-shadow];
+    @apply bg-surface-3 shadow-surface-3 rounded-2xl text-foreground transition-[height,box-shadow] duration-move ease-move focus-within:shadow-surface-4 has-[[data-slot=chat-input-textarea]:focus-visible]:ring-1 has-[[data-slot=chat-input-textarea]:focus-visible]:ring-foreground/10 has-[[data-slot=chat-input-textarea][aria-invalid=true]]:ring-1 has-[[data-slot=chat-input-textarea][aria-invalid=true]]:ring-destructive/50 data-[layout=default]:rounded-[calc(var(--density-36)/2+var(--density-8))] data-disabled:cursor-not-allowed data-disabled:opacity-60 motion-reduce:transition-[box-shadow];
   }
 
   .cn-chat-input-content {
@@ -31,11 +31,11 @@
     @apply z-0;
   }
 
-  /* Files riding along: 56px tiles across the top in the default layout,
-     44px ones nested in the pill's corner above a compact draft, and 36px
-     thumbnails beside send while a compact draft is on one line. */
+  /* Files riding along: 56px tiles across the top of the large card, 40px
+     ones nested in the pill's corner above a stacked draft, and 36px
+     thumbnails beside send while the pill's draft is on one line. */
   .cn-chat-input-attachments {
-    @apply data-[layout=default]:gap-(--density-8) data-[layout=default]:px-(--density-16) data-[layout=default]:pt-(--density-16) data-[layout=compact]:gap-(--density-8) data-[layout=compact]:px-(--density-8) data-[layout=compact]:pt-(--density-8) data-[layout=inline]:me-(--density-4) data-[layout=inline]:gap-(--density-6) data-[layout=inline]:self-center;
+    @apply data-[layout=large]:gap-(--density-8) data-[layout=large]:px-(--density-16) data-[layout=large]:pt-(--density-16) data-[layout=default]:gap-(--density-8) data-[layout=default]:px-(--density-8) data-[layout=default]:pt-(--density-8) data-[layout=inline]:me-(--density-4) data-[layout=inline]:gap-(--density-6) data-[layout=inline]:self-center;
   }
 
   .cn-chat-input-attachment {
@@ -45,7 +45,7 @@
   /* Surface 2 with a hairline. An image fills a square; a file is a chip
      with its icon and name. Uploading dims the image under a spinner. */
   .cn-chat-input-attachment-tile {
-    @apply bg-surface-2 ring-border h-14 rounded-lg ring-1 group-data-[layout=compact]/chat-input-attachments:h-(--density-40) group-data-[layout=compact]/chat-input-attachments:rounded-2xl group-data-[layout=inline]/chat-input-attachments:h-(--density-36) group-data-[layout=inline]/chat-input-attachments:rounded-xl group-data-[kind=image]/chat-input-attachment:aspect-square group-data-[kind=file]/chat-input-attachment:max-w-48 group-data-[kind=file]/chat-input-attachment:gap-(--density-8) group-data-[kind=file]/chat-input-attachment:px-(--density-12) [&>svg]:text-muted-foreground [&>svg]:shrink-0 [&>svg]:size-(--density-icon-16) [&>svg]:stroke-[1.5] group-data-uploading/chat-input-attachment:[&_img]:opacity-50;
+    @apply bg-surface-2 ring-border h-14 rounded-lg ring-1 group-data-[layout=default]/chat-input-attachments:h-(--density-40) group-data-[layout=default]/chat-input-attachments:rounded-2xl group-data-[layout=inline]/chat-input-attachments:h-(--density-36) group-data-[layout=inline]/chat-input-attachments:rounded-xl group-data-[kind=image]/chat-input-attachment:aspect-square group-data-[kind=file]/chat-input-attachment:max-w-48 group-data-[kind=file]/chat-input-attachment:gap-(--density-8) group-data-[kind=file]/chat-input-attachment:px-(--density-12) [&>svg]:text-muted-foreground [&>svg]:shrink-0 [&>svg]:size-(--density-icon-16) [&>svg]:stroke-[1.5] group-data-uploading/chat-input-attachment:[&_img]:opacity-50;
   }
 
   .cn-chat-input-attachment-image {
@@ -61,12 +61,12 @@
     @apply bg-surface-4 shadow-surface-3 text-muted-foreground hover:text-foreground focus-visible:ring-ring -top-1.5 -end-1.5 size-(--density-20) cursor-pointer rounded-full opacity-0 outline-none transition-[opacity,color] duration-feedback ease-feedback group-hover/chat-input-attachment:opacity-100 group-focus-within/chat-input-attachment:opacity-100 focus-visible:ring-1 [&_svg]:size-(--density-icon-14);
   }
 
-  /* 14px reading text on a 24px line, as the transcript. Default: 56px for
-     the first line, 288px at most, then it scrolls. Compact: one line beside
-     its controls, 192px at most; stacked, it takes the card's width. The
+  /* 14px reading text on a 24px line, as the transcript. Large: 56px for
+     the first line, 288px at most, then it scrolls. Pill: one line beside
+     its controls (16px in from the edge when no tools come first), 192px at most; stacked, it takes the card's width. The
      rotating hint fades out quicker than the next one fades in. */
   .cn-chat-input-textarea {
-    @apply text-foreground placeholder:text-muted-foreground max-h-72 min-h-14 px-(--density-20) pt-(--density-16) pb-(--density-4) text-(length:--density-text-14) leading-6 placeholder:transition-colors placeholder:duration-move data-placeholder-fading:placeholder:text-transparent data-placeholder-fading:placeholder:duration-feedback-exit data-mentions:text-transparent data-mentions:caret-foreground data-mentions:selection:bg-foreground/25 group-data-[layout=compact]/chat-input:max-h-48 group-data-[layout=compact]/chat-input:min-h-0 group-data-[layout=compact]/chat-input:ps-(--density-6) group-data-[layout=compact]/chat-input:pe-(--density-6) group-data-[layout=compact]/chat-input:py-(--density-14) group-data-[layout=compact]/chat-input:group-data-stacked/chat-input:px-(--density-16) group-data-[layout=compact]/chat-input:group-data-stacked/chat-input:pb-(--density-4);
+    @apply text-foreground placeholder:text-muted-foreground max-h-72 min-h-14 px-(--density-20) pt-(--density-16) pb-(--density-4) text-(length:--density-text-14) leading-6 placeholder:transition-colors placeholder:duration-move data-placeholder-fading:placeholder:text-transparent data-placeholder-fading:placeholder:duration-feedback-exit data-mentions:text-transparent data-mentions:caret-foreground data-mentions:selection:bg-foreground/25 group-data-[layout=default]/chat-input:max-h-48 group-data-[layout=default]/chat-input:min-h-0 group-data-[layout=default]/chat-input:ps-(--density-6) group-data-[layout=default]/chat-input:pe-(--density-6) [[data-slot=chat-input][data-layout=default]:not(:has([data-slot=chat-input-tools]))_&]:ps-(--density-16) group-data-[layout=default]/chat-input:py-(--density-14) group-data-[layout=default]/chat-input:group-data-stacked/chat-input:px-(--density-16) group-data-[layout=default]/chat-input:group-data-stacked/chat-input:pb-(--density-4);
   }
 
   /* A mention keeps the field's metrics (it sits in the overlay drawn under
@@ -81,25 +81,25 @@
     @apply gap-(--density-4) px-(--density-10) pt-(--density-4) pb-(--density-10);
   }
 
-  /* Compact: the groups sit beside the field, 8px from the pill's edge; the
+  /* Pill: the groups sit beside the field, 8px from the pill's edge; the
      row under a stacked draft slides in. */
   .cn-chat-input-tools {
-    @apply gap-(--density-4) group-data-[layout=compact]/chat-input:py-(--density-8) group-data-[layout=compact]/chat-input:ps-(--density-8) group-data-[layout=compact]/chat-input:group-data-stacked/chat-input:animate-in group-data-[layout=compact]/chat-input:group-data-stacked/chat-input:fade-in-0 group-data-[layout=compact]/chat-input:group-data-stacked/chat-input:slide-in-from-top-1 group-data-[layout=compact]/chat-input:group-data-stacked/chat-input:duration-move group-data-[layout=compact]/chat-input:group-data-stacked/chat-input:ease-enter motion-reduce:animate-none;
+    @apply gap-(--density-4) group-data-[layout=default]/chat-input:py-(--density-8) group-data-[layout=default]/chat-input:ps-(--density-8) group-data-[layout=default]/chat-input:group-data-stacked/chat-input:animate-in group-data-[layout=default]/chat-input:group-data-stacked/chat-input:fade-in-0 group-data-[layout=default]/chat-input:group-data-stacked/chat-input:slide-in-from-top-1 group-data-[layout=default]/chat-input:group-data-stacked/chat-input:duration-move group-data-[layout=default]/chat-input:group-data-stacked/chat-input:ease-enter motion-reduce:animate-none;
   }
 
   .cn-chat-input-actions {
-    @apply gap-(--density-4) group-data-[layout=compact]/chat-input:p-(--density-8) group-data-[layout=compact]/chat-input:group-data-stacked/chat-input:animate-in group-data-[layout=compact]/chat-input:group-data-stacked/chat-input:fade-in-0 group-data-[layout=compact]/chat-input:group-data-stacked/chat-input:slide-in-from-top-1 group-data-[layout=compact]/chat-input:group-data-stacked/chat-input:duration-move group-data-[layout=compact]/chat-input:group-data-stacked/chat-input:ease-enter motion-reduce:animate-none;
+    @apply gap-(--density-4) group-data-[layout=default]/chat-input:p-(--density-8) group-data-[layout=default]/chat-input:group-data-stacked/chat-input:animate-in group-data-[layout=default]/chat-input:group-data-stacked/chat-input:fade-in-0 group-data-[layout=default]/chat-input:group-data-stacked/chat-input:slide-in-from-top-1 group-data-[layout=default]/chat-input:group-data-stacked/chat-input:duration-move group-data-[layout=default]/chat-input:group-data-stacked/chat-input:ease-enter motion-reduce:animate-none;
   }
 
   /* The build puts these rules before Button's own classes, so the ones
      that replace a Button class are marked important. They size only the
      default (`size="icon"`); a size you pass keeps the Button's own.
-     Footer controls: 32px ghost squares (36px and round in the compact
-     pill); with a label they are pills, 8px in. In a tray they are compact:
+     Controls: 36px and round in the pill (32px ghost squares in the large
+     card); with a label they are pills, 8px in. In a tray they are compact:
      24px squares and pills with 12px text and 14px icons, so the row's text
      leads. A toggle (aria-pressed) holds the active fill while on. */
   .cn-chat-input-button {
-    @apply aria-pressed:bg-active! aria-pressed:text-foreground! data-[size=icon]:not-has-[>span]:size-(--density-32)! data-[size=icon]:has-[>span]:h-(--density-32)! data-[size=icon]:has-[>span]:w-auto! data-[size=icon]:has-[>span]:gap-(--density-6)! data-[size=icon]:has-[>span]:px-(--density-8)! group-data-[layout=compact]/chat-input:rounded-full! group-data-[layout=compact]/chat-input:data-[size=icon]:not-has-[>span]:size-(--density-36)! group-data-[layout=compact]/chat-input:data-[size=icon]:has-[>span]:h-(--density-36)! group-data-[layout=compact]/chat-input:data-[size=icon]:has-[>span]:px-(--density-10)! [[data-slot=chat-input-tray]_&]:rounded-md! [[data-slot=chat-input-tray]_&]:data-[size=icon]:not-has-[>span]:size-(--density-24)! [[data-slot=chat-input-tray]_&]:data-[size=icon]:has-[>span]:h-(--density-24)! [[data-slot=chat-input-tray]_&]:data-[size=icon]:has-[>span]:gap-(--density-4)! [[data-slot=chat-input-tray]_&]:data-[size=icon]:has-[>span]:px-(--density-6)! [[data-slot=chat-input-tray]_&]:text-(length:--density-text-12)! [[data-slot=chat-input-tray]_&]:[&_svg:not([class*='size-'])]:size-(--density-icon-14)!;
+    @apply aria-pressed:bg-active! aria-pressed:text-foreground! data-[size=icon]:not-has-[>span]:size-(--density-32)! data-[size=icon]:has-[>span]:h-(--density-32)! data-[size=icon]:has-[>span]:w-auto! data-[size=icon]:has-[>span]:gap-(--density-6)! data-[size=icon]:has-[>span]:px-(--density-8)! group-data-[layout=default]/chat-input:rounded-full! group-data-[layout=default]/chat-input:data-[size=icon]:not-has-[>span]:size-(--density-36)! group-data-[layout=default]/chat-input:data-[size=icon]:has-[>span]:h-(--density-36)! group-data-[layout=default]/chat-input:data-[size=icon]:has-[>span]:px-(--density-10)! [[data-slot=chat-input-tray]_&]:rounded-md! [[data-slot=chat-input-tray]_&]:data-[size=icon]:not-has-[>span]:size-(--density-24)! [[data-slot=chat-input-tray]_&]:data-[size=icon]:has-[>span]:h-(--density-24)! [[data-slot=chat-input-tray]_&]:data-[size=icon]:has-[>span]:gap-(--density-4)! [[data-slot=chat-input-tray]_&]:data-[size=icon]:has-[>span]:px-(--density-6)! [[data-slot=chat-input-tray]_&]:text-(length:--density-text-12)! [[data-slot=chat-input-tray]_&]:[&_svg:not([class*='size-'])]:size-(--density-icon-14)!;
   }
 
 
@@ -131,14 +131,14 @@
     @apply stroke-foreground/15;
   }
 
-  /* Send: 32px (36px and round in the compact pill), the primary fill
+  /* Send: 36px and round in the pill (32px in the large card), the primary fill
      whenever it does something, secondary while there is nothing to send.
      Its glyphs share one cell and trade places with a fade and a scale on
      the feedback timing: the arrow to send or queue; the audio lines to start
      voice chat, an X to end it; the spinner while a reply runs, which turns
      into the stop square on hover or focus. */
   .cn-chat-input-submit {
-    @apply size-(--density-32)! group-data-[layout=compact]/chat-input:size-(--density-36)! group-data-[layout=compact]/chat-input:rounded-full! disabled:opacity-100! disabled:data-[state=idle]:text-muted-foreground disabled:data-[state=uploading]:text-muted-foreground;
+    @apply size-(--density-32)! group-data-[layout=default]/chat-input:size-(--density-36)! group-data-[layout=default]/chat-input:rounded-full! disabled:opacity-100! disabled:data-[state=idle]:text-muted-foreground disabled:data-[state=uploading]:text-muted-foreground;
   }
 
   .cn-chat-input-submit-send {
@@ -241,10 +241,10 @@
   /* Trays step back from the card: level 1 (queued messages) on surface 2,
      inset 20px; level 2 (background work) and 3 (a goal) on surface 1,
      inset 28 and 36px. Each is tucked 16px under what's in front of it, so
-     the card overlaps the stack; the compact pill insets them 4px more.
+     the card overlaps the stack; the pill insets them 4px more.
      They rise into place on the move timing. */
   .cn-chat-input-tray {
-    @apply ring-border/60 -mb-(--density-16) rounded-t-2xl px-(--density-6) pt-(--density-6) pb-(--density-20) ring-1 animate-in fade-in-0 slide-in-from-bottom-2 duration-move ease-enter motion-reduce:animate-none data-[level=1]:bg-surface-2 data-[level=1]:mx-(--density-20) data-[level=2]:bg-surface-1 data-[level=2]:mx-(--density-28) data-[level=3]:bg-surface-1 data-[level=3]:mx-(--density-36) data-[level=1]:[&:has(~[data-slot=chat-input][data-layout=compact])]:mx-(--density-24) data-[level=2]:[&:has(~[data-slot=chat-input][data-layout=compact])]:mx-(--density-32) data-[level=3]:[&:has(~[data-slot=chat-input][data-layout=compact])]:mx-(--density-40);
+    @apply ring-border/60 -mb-(--density-16) rounded-t-2xl px-(--density-6) pt-(--density-6) pb-(--density-20) ring-1 animate-in fade-in-0 slide-in-from-bottom-2 duration-move ease-enter motion-reduce:animate-none data-[level=1]:bg-surface-2 data-[level=1]:mx-(--density-20) data-[level=2]:bg-surface-1 data-[level=2]:mx-(--density-28) data-[level=3]:bg-surface-1 data-[level=3]:mx-(--density-36) data-[level=1]:[&:has(~[data-slot=chat-input][data-layout=default])]:mx-(--density-24) data-[level=2]:[&:has(~[data-slot=chat-input][data-layout=default])]:mx-(--density-32) data-[level=3]:[&:has(~[data-slot=chat-input][data-layout=default])]:mx-(--density-40);
   }
 
   /* 36px rows of 13px text with a muted 16px icon and ghost actions at

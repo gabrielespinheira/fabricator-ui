@@ -20,6 +20,8 @@ import {
 import {
   ChatInput,
   ChatInputActions,
+  ChatInputAttachment,
+  ChatInputAttachments,
   ChatInputButton,
   ChatInputCommands,
   ChatInputFooter,
@@ -32,6 +34,7 @@ import {
   ChatInputTrayMeta,
   ChatInputTrayTrigger,
   formatChatInputDuration,
+  useChatInputAttachments,
   type ChatInputCommand,
   type ChatInputStatus,
 } from "@/styles/base-fabricator/ui/chat-input"
@@ -96,6 +99,7 @@ const COMMAND_NAMES = new Set(COMMANDS.map((command) => `/${command.value}`))
 const REPLY_MS = 6000
 
 export function ChatInputAgent() {
+  const files = useChatInputAttachments()
   const [value, setValue] = React.useState("")
   const [status, setStatus] = React.useState<ChatInputStatus>("ready")
   const [queued, setQueued] = React.useState<Queued[]>([
@@ -275,6 +279,9 @@ export function ChatInputAgent() {
         onValueChange={setValue}
         status={status}
         queue
+        // Files dropped on the card or pasted into the field ride along.
+        onAttach={files.attach}
+        hasContent={files.hasContent}
         onStop={() => {
           window.clearTimeout(replyTimer.current)
           setStatus("ready")
@@ -286,6 +293,7 @@ export function ChatInputAgent() {
           setValue(last.text)
         }}
         onSubmit={(text) => {
+          files.clear()
           const objective = text.match(/^\/goal\s+([\s\S]+)/)?.[1]?.trim()
           if (objective)
             setGoal({
@@ -303,6 +311,16 @@ export function ChatInputAgent() {
           startReply(text)
         }}
       >
+        <ChatInputAttachments>
+          {files.attachments.map((entry) => (
+            <ChatInputAttachment
+              key={entry.id}
+              name={entry.name}
+              src={entry.src}
+              onRemove={() => files.remove(entry.id)}
+            />
+          ))}
+        </ChatInputAttachments>
         <ChatInputTextarea
           placeholder={[
             "Ask, or / for commands",

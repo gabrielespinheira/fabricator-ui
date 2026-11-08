@@ -77,7 +77,6 @@ import {
   ExternalLinkIcon as FabricatorExternalLinkIcon,
   EyeIcon as FabricatorEyeIcon,
   EyeOffIcon as FabricatorEyeOffIcon,
-  FeatherIcon as FabricatorFeatherIcon,
   FileCodeIcon as FabricatorFileCodeIcon,
   FileIcon as FabricatorFileIcon,
   FileSearchIcon as FabricatorFileSearchIcon,
@@ -715,9 +714,6 @@ export const EyeOffIcon = createSiteIcon(FabricatorEyeOffIcon, {
   hugeicons: "ViewOffIcon",
   phosphor: "EyeSlashIcon",
   remixicon: "RiEyeOffLine",
-})
-export const FeatherIcon = createSiteIcon(FabricatorFeatherIcon, {
-  lucide: "FeatherIcon",
 })
 export const FileCodeIcon = createSiteIcon(FabricatorFileCodeIcon, {
   lucide: "FileCodeIcon",

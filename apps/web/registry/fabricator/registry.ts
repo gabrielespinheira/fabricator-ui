@@ -113,7 +113,7 @@ export const fabricatorItems = [
     type: "registry:ui",
     title: "Chat Input",
     description:
-      "The message box of a chat: a card that grows with the draft or a compact pill, attachments with drop and paste, voice chat with a glow and a level-following mic, a context meter, and one send slot that starts voice, sends, queues and stops.",
+      "The message box of a chat: a pill that stacks once the draft wraps, or a large card, attachments with drop and paste, voice chat with a glow and a level-following mic, a context meter, and one send slot that starts voice, sends, queues and stops.",
     // voice-glow (MIT, no runtime dependencies, React 18+) draws the voice
     // chat glow; pinned like Relay, which uses the same version.
     dependencies: ["voice-glow@0.3.0"],

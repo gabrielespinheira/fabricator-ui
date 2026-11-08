@@ -1,6 +1,6 @@
 # @fabricator-ui/icons
 
-Fabricator Icons for React: every [Lucide](https://lucide.dev) icon under its Lucide name, with identical geometry, Fabricator's own Custom icons, and 143 brand marks. Part of [Fabricator UI](https://fabricator-ui.vercel.app).
+Fabricator Icons for React: every [Lucide](https://lucide.dev) icon under its Lucide name, with identical geometry, Fabricator's own Custom icons, and 145 brand marks. Part of [Fabricator UI](https://fabricator-ui.vercel.app).
 
 ```sh
 npm install @fabricator-ui/icons

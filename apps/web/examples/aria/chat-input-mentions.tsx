@@ -6,11 +6,14 @@ import { AtSignIcon, DollarSignIcon, HashIcon, SlashIcon } from "lucide-react"
 import {
   ChatInput,
   ChatInputActions,
+  ChatInputAttachment,
+  ChatInputAttachments,
   ChatInputButton,
   ChatInputFooter,
   ChatInputSubmit,
   ChatInputTextarea,
   ChatInputTools,
+  useChatInputAttachments,
 } from "@/styles/aria-fabricator/ui/chat-input"
 
 const SIGILS = [
@@ -21,13 +24,31 @@ const SIGILS = [
 ]
 
 export function ChatInputMentions() {
+  const files = useChatInputAttachments()
   const [value, setValue] = React.useState(
     "Review @src/app.tsx with /code-review, then update #612 and $launch-brief"
   )
 
   return (
     <div className="mx-auto w-full max-w-xl">
-      <ChatInput value={value} onValueChange={setValue}>
+      <ChatInput
+        value={value}
+        onValueChange={setValue}
+        // Files dropped on the card or pasted into the field ride along.
+        onAttach={files.attach}
+        hasContent={files.hasContent}
+        onSubmit={files.clear}
+      >
+        <ChatInputAttachments>
+          {files.attachments.map((entry) => (
+            <ChatInputAttachment
+              key={entry.id}
+              name={entry.name}
+              src={entry.src}
+              onRemove={() => files.remove(entry.id)}
+            />
+          ))}
+        </ChatInputAttachments>
         <ChatInputTextarea mentions={["@", "/", "$", "#"]} />
         <ChatInputFooter>
           <ChatInputTools>

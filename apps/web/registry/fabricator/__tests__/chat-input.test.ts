@@ -256,20 +256,20 @@ describe("getChatInputAttachmentsLayout", () => {
   const image = { isImage: true }
   const file = { isImage: false }
 
-  it("lays tiles out across the card in the default layout", () => {
+  it("lays tiles out across the large card", () => {
     expect(
       getChatInputAttachmentsLayout({
-        layout: "default",
+        layout: "large",
         isStacked: false,
         items: [image],
       })
-    ).toBe("default")
+    ).toBe("large")
   })
 
-  it("puts up to three images beside send in the compact pill", () => {
+  it("puts up to three images beside send in the pill", () => {
     expect(
       getChatInputAttachmentsLayout({
-        layout: "compact",
+        layout: "default",
         isStacked: false,
         items: [image, image, image],
       })
@@ -277,23 +277,23 @@ describe("getChatInputAttachmentsLayout", () => {
   })
 
   it("moves them above once there are more, a file, or the draft has stacked", () => {
-    const compact = { layout: "compact" as const, isStacked: false }
+    const pill = { layout: "default" as const, isStacked: false }
     expect(
       getChatInputAttachmentsLayout({
-        ...compact,
+        ...pill,
         items: [image, image, image, image],
       })
-    ).toBe("compact")
+    ).toBe("default")
     expect(
-      getChatInputAttachmentsLayout({ ...compact, items: [image, file] })
-    ).toBe("compact")
+      getChatInputAttachmentsLayout({ ...pill, items: [image, file] })
+    ).toBe("default")
     expect(
       getChatInputAttachmentsLayout({
-        layout: "compact",
+        layout: "default",
         isStacked: true,
         items: [image],
       })
-    ).toBe("compact")
+    ).toBe("default")
   })
 })
 

@@ -6,17 +6,20 @@ import { useMicrophone } from "voice-glow"
 import {
   ChatInput,
   ChatInputActions,
+  ChatInputAttachment,
+  ChatInputAttachments,
   ChatInputFooter,
   ChatInputMic,
   ChatInputSubmit,
   ChatInputTextarea,
+  useChatInputAttachments,
   type ChatInputMicActivity,
 } from "@/styles/aria-fabricator/ui/chat-input"
 
-// Voice chat listens to your microphone: the glow reacts to your voice.
-// Without one (denied, or no device) a stand-in level drives it. The
-// session itself is a stand-in too: it hears you, transcribes, speaks the
-// reply, and listens again.
+// Voice chat listens to your microphone: the glow and the mic icon react to
+// your voice. Without one (denied, or no device), and while the reply
+// speaks, a stand-in level drives them. The session itself is a stand-in
+// too: it hears you, transcribes, speaks the reply, and listens again.
 const CYCLE: { activity: ChatInputMicActivity; ms: number }[] = [
   { activity: "listening", ms: 1600 },
   { activity: "hearing", ms: 2200 },
@@ -25,6 +28,7 @@ const CYCLE: { activity: ChatInputMicActivity; ms: number }[] = [
 ]
 
 export function ChatInputVoice() {
+  const files = useChatInputAttachments()
   const mic = useMicrophone()
   const [isVoiceActive, setVoiceActive] = React.useState(false)
   const [step, setStep] = React.useState(0)
@@ -47,6 +51,10 @@ export function ChatInputVoice() {
   return (
     <div className="mx-auto w-full max-w-xl">
       <ChatInput
+        // Files dropped on the card or pasted into the field ride along.
+        onAttach={files.attach}
+        hasContent={files.hasContent}
+        onSubmit={files.clear}
         isVoiceActive={isVoiceActive}
         onVoiceActiveChange={(active) => {
           setVoiceActive(active)
@@ -56,9 +64,21 @@ export function ChatInputVoice() {
           if (active) void mic.start()
           else mic.stop()
         }}
-        voiceStream={isMuted ? null : mic.stream}
+        // The glow hears you while you speak, and the reply while it does:
+        // a real app passes its playback level here.
+        voiceStream={isMuted || activity === "speaking" ? null : mic.stream}
         voiceLevel={isMuted ? () => 0 : voiceLevel}
       >
+        <ChatInputAttachments>
+          {files.attachments.map((entry) => (
+            <ChatInputAttachment
+              key={entry.id}
+              name={entry.name}
+              src={entry.src}
+              onRemove={() => files.remove(entry.id)}
+            />
+          ))}
+        </ChatInputAttachments>
         <ChatInputTextarea
           placeholder={
             isVoiceActive ? "Speak, or type a message…" : "Ask for anything…"

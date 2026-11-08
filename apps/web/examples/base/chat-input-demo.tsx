@@ -2,25 +2,29 @@
 
 import * as React from "react"
 import {
+  ClaudeIcon,
+  GoogleGeminiIcon,
+  GrokIcon,
+  OpenaiIcon,
+} from "@fabricator-ui/icons/brands"
+import {
   AtSignIcon,
-  ChevronDownIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
   DollarSignIcon,
-  FeatherIcon,
   PaperclipIcon,
   PlusIcon,
   ShieldCheckIcon,
   ShieldIcon,
   ShieldOffIcon,
   SlashIcon,
-  SparklesIcon,
   TargetIcon,
   WandSparklesIcon,
   WaypointsIcon,
   ZapIcon,
   type LucideIcon,
 } from "lucide-react"
+import { useMicrophone } from "voice-glow"
 
 import {
   ChatInput,
@@ -32,10 +36,13 @@ import {
   ChatInputContextMeter,
   ChatInputFooter,
   ChatInputMic,
+  ChatInputOption,
+  ChatInputOptions,
   ChatInputSubmit,
   ChatInputTextarea,
   ChatInputTools,
   formatTokenCount,
+  useChatInputAttachments,
   type ChatInputCommand,
   type ChatInputMicActivity,
   type ChatInputStatus,
@@ -59,6 +66,7 @@ import {
   ModelPickerItemName,
   ModelPickerRoute,
   ModelPickerRoutes,
+  ModelPickerSetting,
 } from "@/styles/base-fabricator/ui/model-picker"
 import {
   Popover,
@@ -66,31 +74,113 @@ import {
   PopoverTrigger,
 } from "@/styles/base-fabricator/ui/popover"
 
-type Model = { id: string; label: string; context: number; fast?: boolean }
-type Provider = { id: string; label: string; icon: LucideIcon; models: Model[] }
+type Model = {
+  id: string
+  label: string
+  /** The name in the trigger, where the provider's logo already says whose it is. */
+  short: string
+  context: string
+  fast?: boolean
+}
+type Provider = {
+  id: string
+  label: string
+  icon: typeof ClaudeIcon
+  models: Model[]
+}
 
+// Each provider's current models, as their docs list them (November 2026).
 const PROVIDERS: Provider[] = [
   {
-    id: "lumen",
-    label: "Lumen",
-    icon: SparklesIcon,
+    id: "anthropic",
+    label: "Claude",
+    icon: ClaudeIcon,
     models: [
-      { id: "lumen-3", label: "Lumen 3", context: 1_000_000 },
       {
-        id: "lumen-3-mini",
-        label: "Lumen 3 Mini",
-        context: 200_000,
+        id: "claude-fable-5-1",
+        label: "Claude Fable 5.1",
+        short: "Fable 5.1",
+        context: "1M",
+      },
+      {
+        id: "claude-opus-5-5",
+        label: "Claude Opus 5.5",
+        short: "Opus 5.5",
+        context: "1M",
+      },
+      {
+        id: "claude-sonnet-5-5",
+        label: "Claude Sonnet 5.5",
+        short: "Sonnet 5.5",
+        context: "1M",
+      },
+      {
+        id: "claude-haiku-5-5",
+        label: "Claude Haiku 5.5",
+        short: "Haiku 5.5",
+        context: "1M",
         fast: true,
       },
     ],
   },
   {
-    id: "quill",
-    label: "Quill",
-    icon: FeatherIcon,
+    id: "openai",
+    label: "OpenAI",
+    icon: OpenaiIcon,
     models: [
-      { id: "quill-pro", label: "Quill Pro", context: 400_000 },
-      { id: "quill-flash", label: "Quill Flash", context: 128_000, fast: true },
+      {
+        id: "gpt-6-astra",
+        label: "GPT-6 Astra",
+        short: "GPT-6 Astra",
+        context: "1.05M",
+      },
+      {
+        id: "gpt-6.1-sol",
+        label: "GPT-6.1 Sol",
+        short: "GPT-6.1 Sol",
+        context: "1.05M",
+      },
+      {
+        id: "gpt-6.1-terra",
+        label: "GPT-6.1 Terra",
+        short: "GPT-6.1 Terra",
+        context: "1.05M",
+      },
+      {
+        id: "gpt-6-luna",
+        label: "GPT-6 Luna",
+        short: "GPT-6 Luna",
+        context: "1.05M",
+        fast: true,
+      },
+    ],
+  },
+  {
+    id: "google",
+    label: "Gemini",
+    icon: GoogleGeminiIcon,
+    models: [
+      {
+        id: "gemini-4-argon",
+        label: "Gemini 4 Argon",
+        short: "Gemini 4 Argon",
+        context: "1M",
+      },
+      {
+        id: "gemini-3.8-flash",
+        label: "Gemini 3.8 Flash",
+        short: "Gemini 3.8 Flash",
+        context: "1M",
+        fast: true,
+      },
+    ],
+  },
+  {
+    id: "xai",
+    label: "Grok",
+    icon: GrokIcon,
+    models: [
+      { id: "grok-4.7", label: "Grok 4.7", short: "Grok 4.7", context: "500K" },
     ],
   },
 ]
@@ -163,20 +253,17 @@ function isKnownMention(mention: string) {
   return !mention.startsWith("/") || COMMAND_NAMES.has(mention)
 }
 
-const PLACEHOLDERS = [
-  "Ask for anything…",
-  "@ for files",
-  "Draft a script…",
-  "/ for skills",
-  "Plan a launch…",
-  "$ for artifacts",
+// What fills the context window, for the details view.
+const CONTEXT = { used: 84_200, window: 200_000 }
+const CONTEXT_PARTS = [
+  { label: "Messages", tokens: 61_400 },
+  { label: "Tools", tokens: 14_600 },
+  { label: "System", tokens: 8_200 },
 ]
 
-type Attached = {
-  id: string
-  file: File
-  url: string | null
-  isUploading: boolean
+// A stand-in for an upload: each file lands a moment later.
+function upload() {
+  return new Promise<void>((resolve) => window.setTimeout(resolve, 1200))
 }
 
 function findModel(id: string) {
@@ -187,23 +274,26 @@ function findModel(id: string) {
   return null
 }
 
+type SettingsView = "settings" | "models" | "permissions" | "context"
+
 export function ChatInputDemo() {
+  const mic = useMicrophone()
   const [value, setValue] = React.useState("")
   const [status, setStatus] = React.useState<ChatInputStatus>("ready")
-  const [attached, setAttached] = React.useState<Attached[]>([])
-  const [modelId, setModelId] = React.useState("lumen-3")
-  const [isAuto, setAuto] = React.useState(false)
-  const [effort, setEffort] = React.useState<string | null>("high")
-  const [permission, setPermission] = React.useState("edit")
   const [isVoiceActive, setVoiceActive] = React.useState(false)
   const [activity, setActivity] =
     React.useState<ChatInputMicActivity>("listening")
-  const [view, setView] = React.useState<"effort" | "models">("effort")
-  const [isModelOpen, setModelOpen] = React.useState(false)
+  const [modelId, setModelId] = React.useState("claude-opus-5-5")
+  const [isAuto, setAuto] = React.useState(false)
+  const [effort, setEffort] = React.useState<string | null>("high")
+  const [permission, setPermission] = React.useState("edit")
+  const [view, setView] = React.useState<SettingsView>("settings")
+  const [isSettingsOpen, setSettingsOpen] = React.useState(false)
   const pickerRef = React.useRef<HTMLInputElement>(null)
+  const fieldRef = React.useRef<HTMLTextAreaElement>(null)
+  const isInserting = React.useRef(false)
+  const files = useChatInputAttachments({ upload })
   const timers = React.useRef<number[]>([])
-  const current = findModel(modelId)
-  const Permission = PERMISSIONS[permission] ?? PERMISSIONS.ask
 
   React.useEffect(() => {
     const pending = timers.current
@@ -211,42 +301,32 @@ export function ChatInputDemo() {
       for (const timer of pending) window.clearTimeout(timer)
     }
   }, [])
+  const current = findModel(modelId)
+  const Permission = PERMISSIONS[permission] ?? PERMISSIONS.ask
+  const ModelIcon = isAuto
+    ? WaypointsIcon
+    : (current?.provider.icon ?? ClaudeIcon)
 
-  const attach = (files: File[]) => {
-    const added = files.map((file) => ({
-      id: crypto.randomUUID(),
-      file,
-      url: file.type.startsWith("image/") ? URL.createObjectURL(file) : null,
-      isUploading: true,
-    }))
-    setAttached((entries) => [...entries, ...added])
-    // A stand-in for the upload: each file lands a moment later.
-    for (const entry of added)
-      timers.current.push(
-        window.setTimeout(
-          () =>
-            setAttached((entries) =>
-              entries.map((item) =>
-                item.id === entry.id ? { ...item, isUploading: false } : item
-              )
-            ),
-          1200
-        )
-      )
+  // + starts a mention: the sigil goes at the end of the draft and focus
+  // returns to the field, so a / opens the commands and skills right away.
+  const insert = (sigil: string) => {
+    isInserting.current = true
+    setValue(
+      value === "" || /\s$/.test(value)
+        ? `${value}${sigil}`
+        : `${value} ${sigil}`
+    )
   }
 
-  const remove = (id: string) =>
-    setAttached((entries) => {
-      const removed = entries.find((entry) => entry.id === id)
-      if (removed?.url) URL.revokeObjectURL(removed.url)
-      return entries.filter((entry) => entry.id !== id)
-    })
-
-  // A stand-in for the microphone's level while voice chat is on.
-  const voiceLevel = React.useCallback(() => {
-    const time = performance.now() / 1000
-    return 0.35 + Math.sin(time * 5) * 0.25 + Math.sin(time * 13) * 0.15
-  }, [])
+  const back = (
+    <ChatInputButton
+      size="icon-sm"
+      aria-label="Back to settings"
+      onClick={() => setView("settings")}
+    >
+      <ChevronLeftIcon />
+    </ChatInputButton>
+  )
 
   return (
     <div className="mx-auto w-full max-w-xl">
@@ -255,19 +335,13 @@ export function ChatInputDemo() {
         onValueChange={setValue}
         status={status}
         queue
-        hasContent={attached.length > 0}
-        isUploading={attached.some((entry) => entry.isUploading)}
-        onAttach={attach}
-        isVoiceActive={isVoiceActive}
-        onVoiceActiveChange={(active) => {
-          setVoiceActive(active)
-          setActivity("listening")
-        }}
-        voiceLevel={voiceLevel}
+        // Files dropped on the pill or pasted into the field attach too.
+        onAttach={files.attach}
+        hasContent={files.hasContent}
+        isUploading={files.isUploading}
         onSubmit={() => {
-          for (const entry of attached)
-            if (entry.url) URL.revokeObjectURL(entry.url)
-          setAttached([])
+          files.clear()
+          // A stand-in reply: send turns into stop while it streams.
           setStatus("submitted")
           timers.current.push(
             window.setTimeout(() => setStatus("streaming"), 600),
@@ -275,20 +349,40 @@ export function ChatInputDemo() {
           )
         }}
         onStop={() => setStatus("ready")}
+        isVoiceActive={isVoiceActive}
+        onVoiceActiveChange={(active) => {
+          setVoiceActive(active)
+          // Asked from the press, so the browser lets audio start.
+          if (active) void mic.start()
+          else mic.stop()
+        }}
+        voiceStream={activity === "muted" ? null : mic.stream}
+        // Without a microphone, a stand-in level drives the glow.
+        voiceLevel={
+          activity === "muted"
+            ? () => 0
+            : () => 0.4 + Math.sin(performance.now() / 180) * 0.3
+        }
       >
         <ChatInputAttachments>
-          {attached.map((entry) => (
+          {files.attachments.map((entry) => (
             <ChatInputAttachment
               key={entry.id}
-              name={entry.file.name}
-              src={entry.url ?? undefined}
+              name={entry.name}
+              src={entry.src}
               isUploading={entry.isUploading}
-              onRemove={() => remove(entry.id)}
+              onRemove={() => files.remove(entry.id)}
             />
           ))}
         </ChatInputAttachments>
         <ChatInputTextarea
-          placeholder={PLACEHOLDERS}
+          ref={fieldRef}
+          placeholder={[
+            "Message",
+            "/ for skills",
+            "Drop or paste files…",
+            "@ for files",
+          ]}
           mentions={["@", "/", "$"]}
           isKnownMention={isKnownMention}
         />
@@ -301,23 +395,32 @@ export function ChatInputDemo() {
               >
                 <PlusIcon />
               </DropdownMenuTrigger>
-              <DropdownMenuContent side="top" align="start" className="w-56">
+              <DropdownMenuContent
+                side="top"
+                align="start"
+                className="w-56 bg-surface-5 shadow-surface-5"
+                finalFocus={() => {
+                  if (!isInserting.current) return true
+                  isInserting.current = false
+                  return fieldRef.current
+                }}
+              >
                 <DropdownMenuGroup>
                   <DropdownMenuItem onClick={() => pickerRef.current?.click()}>
                     <PaperclipIcon />
                     Attach files
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => setValue(`${value}@`)}>
+                  <DropdownMenuItem onClick={() => insert("@")}>
                     <AtSignIcon />
                     Mention a file
                     <DropdownMenuShortcut>@</DropdownMenuShortcut>
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => setValue(`${value}$`)}>
+                  <DropdownMenuItem onClick={() => insert("$")}>
                     <DollarSignIcon />
                     Use an artifact
                     <DropdownMenuShortcut>$</DropdownMenuShortcut>
                   </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => setValue(`${value}/`)}>
+                  <DropdownMenuItem onClick={() => insert("/")}>
                     <SlashIcon />
                     Run a skill
                     <DropdownMenuShortcut>/</DropdownMenuShortcut>
@@ -331,123 +434,50 @@ export function ChatInputDemo() {
               multiple
               hidden
               onChange={(event) => {
-                attach(Array.from(event.target.files ?? []))
+                files.attach(Array.from(event.target.files ?? []))
                 event.target.value = ""
               }}
             />
-            <DropdownMenu>
-              <DropdownMenuTrigger
-                render={
-                  <ChatInputButton
-                    aria-label={`Permissions: ${Permission.label}`}
-                  />
-                }
-              >
-                <Permission.icon />
-                <span>{Permission.label}</span>
-                <ChevronDownIcon />
-              </DropdownMenuTrigger>
-              <DropdownMenuContent side="top" align="start" className="w-64">
-                <DropdownMenuGroup>
-                  {Object.entries(PERMISSIONS).map(([key, option]) => (
-                    <DropdownMenuItem
-                      key={key}
-                      onClick={() => setPermission(key)}
-                      className="items-start py-2"
-                    >
-                      <option.icon className="mt-0.5" />
-                      <span className="grid gap-0.5">
-                        <span>{option.label}</span>
-                        <span className="text-xs text-muted-foreground">
-                          {option.hint}
-                        </span>
-                      </span>
-                    </DropdownMenuItem>
-                  ))}
-                </DropdownMenuGroup>
-              </DropdownMenuContent>
-            </DropdownMenu>
           </ChatInputTools>
           <ChatInputActions>
-            <Popover>
-              <PopoverTrigger
-                render={
-                  <ChatInputContextMeter
-                    value={0.42}
-                    label={formatTokenCount(84_200)}
-                  />
-                }
-              />
-              <PopoverContent side="top" align="end" className="w-60">
-                <div className="grid gap-1 text-sm">
-                  <span className="font-medium">Context</span>
-                  <span className="text-muted-foreground">
-                    84K of 200K tokens: 42% used. Older turns are summarised
-                    once it fills.
-                  </span>
-                </div>
-              </PopoverContent>
-            </Popover>
+            {/* The model beside send opens the session's settings: the
+                model and its effort, permissions and the context. */}
             <Popover
-              open={isModelOpen}
+              open={isSettingsOpen}
               onOpenChange={(open) => {
-                setModelOpen(open)
-                if (open) setView(isAuto ? "models" : "effort")
+                setSettingsOpen(open)
+                if (open) setView("settings")
               }}
             >
               <PopoverTrigger
-                render={<ChatInputButton aria-label="Model and effort" />}
+                render={
+                  <ChatInputButton
+                    aria-label={`Session settings: ${isAuto ? "Auto" : `${current?.model.label}, ${effort} effort`}, ${Permission.label}`}
+                  />
+                }
               >
-                {isAuto ? (
-                  <WaypointsIcon />
-                ) : (
-                  current && <current.provider.icon />
-                )}
-                <span>{isAuto ? "Auto" : current?.model.label}</span>
+                <ModelIcon color="brand" />
+                <span className="text-foreground @max-sm/chat-input:hidden">
+                  {isAuto ? "Auto" : current?.model.short}
+                </span>
                 {!isAuto && effort && (
-                  <span className="text-muted-foreground @max-lg/chat-input:hidden">
+                  <span className="text-(length:--density-text-12) text-muted-foreground @max-sm/chat-input:hidden">
                     {effort}
                   </span>
                 )}
-                <ChevronDownIcon />
               </PopoverTrigger>
               <PopoverContent
                 side="top"
                 align="end"
                 sideOffset={10}
-                className="w-80 gap-0 p-1"
+                className="w-80 gap-0 bg-surface-5 p-1 shadow-surface-5"
               >
-                {view === "effort" && current && !isAuto ? (
-                  <ModelPickerEffort
-                    levels={EFFORTS}
-                    value={effort}
-                    onValueChange={setEffort}
-                  >
-                    <ChatInputButton
-                      size="sm"
-                      className="-ms-1.5 text-foreground"
-                      onClick={() => setView("models")}
-                    >
-                      <current.provider.icon />
-                      <span>{current.model.label}</span>
-                      <ChevronRightIcon />
-                    </ChatInputButton>
-                  </ModelPickerEffort>
-                ) : (
-                  <ModelPicker>
+                {view === "models" ? (
+                  // Short enough to open above the pill in a low window.
+                  <ModelPicker className="max-h-80">
                     <ModelPickerHeader>
-                      {!isAuto && (
-                        <ChatInputButton
-                          size="icon-sm"
-                          aria-label="Back to effort"
-                          onClick={() => setView("effort")}
-                        >
-                          <ChevronLeftIcon />
-                        </ChatInputButton>
-                      )}
-                      <span className={isAuto ? "ps-1.5" : undefined}>
-                        Select model
-                      </span>
+                      {back}
+                      Select model
                     </ModelPickerHeader>
                     <ModelPickerRoutes>
                       <ModelPickerRoute
@@ -455,7 +485,7 @@ export function ChatInputDemo() {
                         caption="Picks the model and effort for each message"
                         onClick={() => {
                           setAuto(true)
-                          setModelOpen(false)
+                          setView("settings")
                         }}
                       >
                         <WaypointsIcon />
@@ -465,7 +495,7 @@ export function ChatInputDemo() {
                     {PROVIDERS.map((provider) => (
                       <ModelPickerGroup key={provider.id}>
                         <ModelPickerGroupLabel>
-                          <provider.icon />
+                          <provider.icon color="brand" />
                           {provider.label}
                         </ModelPickerGroupLabel>
                         {provider.models.map((model) => (
@@ -475,7 +505,7 @@ export function ChatInputDemo() {
                             onClick={() => {
                               setModelId(model.id)
                               setAuto(false)
-                              setView("effort")
+                              setView("settings")
                             }}
                           >
                             <ModelPickerItemName>
@@ -483,7 +513,7 @@ export function ChatInputDemo() {
                             </ModelPickerItemName>
                             <ModelPickerItemMeta>
                               <span title="Context window">
-                                {formatTokenCount(model.context)}
+                                {model.context}
                               </span>
                               {model.fast && (
                                 <ZapIcon role="img" aria-label="Fast" />
@@ -494,6 +524,116 @@ export function ChatInputDemo() {
                       </ModelPickerGroup>
                     ))}
                   </ModelPicker>
+                ) : view === "permissions" ? (
+                  <>
+                    <ModelPickerHeader>
+                      {back}
+                      Permissions
+                    </ModelPickerHeader>
+                    <ChatInputOptions
+                      aria-label="Permissions"
+                      value={permission}
+                      onValueChange={setPermission}
+                    >
+                      {Object.entries(PERMISSIONS).map(([key, option]) => (
+                        <ChatInputOption
+                          key={key}
+                          value={key}
+                          icon={<option.icon />}
+                          label={option.label}
+                          description={option.hint}
+                          onClick={() => setView("settings")}
+                        />
+                      ))}
+                    </ChatInputOptions>
+                  </>
+                ) : view === "context" ? (
+                  <>
+                    <ModelPickerHeader>
+                      {back}
+                      Context
+                    </ModelPickerHeader>
+                    <div className="grid gap-3 px-2 pb-2 text-sm">
+                      <p className="text-muted-foreground">
+                        {formatTokenCount(CONTEXT.used)} of{" "}
+                        {formatTokenCount(CONTEXT.window)} tokens used. Older
+                        turns are summarised once it fills.
+                      </p>
+                      <div className="flex h-2 overflow-hidden rounded-full bg-hover">
+                        {CONTEXT_PARTS.map((part, index) => (
+                          <span
+                            key={part.label}
+                            style={{
+                              width: `${(part.tokens / CONTEXT.window) * 100}%`,
+                              opacity: 1 - index * 0.25,
+                            }}
+                            className="h-full bg-info"
+                          />
+                        ))}
+                      </div>
+                      <dl className="grid grid-cols-[1fr_auto] gap-x-4 gap-y-1 tabular-nums">
+                        {CONTEXT_PARTS.map((part) => (
+                          <React.Fragment key={part.label}>
+                            <dt className="text-muted-foreground">
+                              {part.label}
+                            </dt>
+                            <dd>{formatTokenCount(part.tokens)}</dd>
+                          </React.Fragment>
+                        ))}
+                      </dl>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    {isAuto ? (
+                      <ModelPickerHeader>
+                        <ChatInputButton
+                          size="sm"
+                          className="text-foreground"
+                          onClick={() => setView("models")}
+                        >
+                          <WaypointsIcon />
+                          <span>Auto</span>
+                          <ChevronRightIcon />
+                        </ChatInputButton>
+                      </ModelPickerHeader>
+                    ) : (
+                      current && (
+                        <ModelPickerEffort
+                          levels={EFFORTS}
+                          value={effort}
+                          onValueChange={setEffort}
+                        >
+                          <ChatInputButton
+                            size="sm"
+                            className="-ms-1.5 text-foreground"
+                            onClick={() => setView("models")}
+                          >
+                            <current.provider.icon color="brand" />
+                            <span>{current.model.label}</span>
+                            <ChevronRightIcon />
+                          </ChatInputButton>
+                        </ModelPickerEffort>
+                      )
+                    )}
+                    <ModelPickerSetting label="Permissions">
+                      <ChatInputButton
+                        aria-label={`Permissions: ${Permission.label}`}
+                        onClick={() => setView("permissions")}
+                      >
+                        <Permission.icon />
+                        <span>{Permission.label}</span>
+                        <ChevronRightIcon />
+                      </ChatInputButton>
+                    </ModelPickerSetting>
+                    <ModelPickerSetting label="Context">
+                      <ChatInputContextMeter
+                        value={CONTEXT.used / CONTEXT.window}
+                        label={formatTokenCount(CONTEXT.used)}
+                        onClick={() => setView("context")}
+                      />
+                    </ModelPickerSetting>
+                  </>
                 )}
               </PopoverContent>
             </Popover>

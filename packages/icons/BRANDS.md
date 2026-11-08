@@ -65,12 +65,14 @@ next patch release.
 | Google Analytics | `google-analytics` | Simple Icons 16.36.0 (https://marketingplatform.google.com/intl/en_uk/about/analytics/); art: gilbarbara/logos via @iconify-json/logos 1.2.18 (CC0-1.0) | CC0-1.0 |  |
 | Google Calendar | `google-calendar` | Simple Icons 16.36.0 (https://fonts.gstatic.com/s/i/productlogos/calendar_2020q4/v8/192px.svg); art: gilbarbara/logos via @iconify-json/logos 1.2.18 (CC0-1.0) | CC0-1.0 |  |
 | Google Chrome | `google-chrome` | Simple Icons 16.36.0 (https://www.google.com/chrome); art: gilbarbara/logos via @iconify-json/logos 1.2.18 (CC0-1.0) | CC0-1.0 | [guidelines](https://partnermarketinghub.withgoogle.com/brands/chrome) |
+| Google Gemini | `google-gemini` | Simple Icons 16.36.0 (https://gemini.google.com) | CC0-1.0 |  |
 | Google Maps | `google-maps` | Simple Icons 16.36.0 (https://commons.wikimedia.org/wiki/File:Google_Maps_icon.svg); art: gilbarbara/logos via @iconify-json/logos 1.2.18 (CC0-1.0) | CC0-1.0 |  |
 | Google Search Console | `google-search-console` | Simple Icons 16.36.0 (https://search.google.com/search-console); art: Google's logo_search_console.svg, via SharpOS @sharp/core-brand-icons 3.0.1 (unknown) | CC0-1.0 |  |
 | Google Sheets | `google-sheets` | Simple Icons 16.36.0 (https://sheets.google.com); art: SharpOS @sharp/core-brand-icons 3.0.1 (origin not recorded) (unknown) | CC0-1.0 |  |
 | Google Tag Manager | `google-tag-manager` | Simple Icons 16.36.0 (https://tagmanager.google.com/#/home); art: gilbarbara/logos via @iconify-json/logos 1.2.18 (CC0-1.0) | CC0-1.0 |  |
 | Google | `google` | Simple Icons 16.36.0 (https://partnermarketinghub.withgoogle.com); art: gilbarbara/logos via @iconify-json/logos 1.2.18 (CC0-1.0) | CC0-1.0 | [guidelines](https://about.google/brand-resource-center/brand-elements/) |
 | GraphQL | `graphql` | Simple Icons 16.36.0 (https://graphql.org/brand) | CC0-1.0 | [guidelines](https://graphql.org/brand) |
+| Grok | `grok` | gilbarbara/logos via @iconify-json/logos 1.2.18; art: gilbarbara/logos via @iconify-json/logos 1.2.18 (CC0-1.0) | CC0-1.0 |  |
 | Hashnode | `hashnode` | Simple Icons 16.36.0 (https://hashnode.com/media) | CC0-1.0 |  |
 | Hono | `hono` | Simple Icons 16.36.0 (https://github.com/honojs/hono/blob/76dbc74407329c46870af6aa4fab0c04036d8ae2/docs/images/hono-logo.svg); art: gilbarbara/logos via @iconify-json/logos 1.2.18 (CC0-1.0) | CC0-1.0 |  |
 | Hotjar | `hotjar` | Simple Icons 16.36.0 (https://www.hotjar.com) | CC0-1.0 |  |
@@ -167,6 +169,8 @@ next patch release.
 
 Some marks' licences ask for credit:
 
+- Google Gemini: Gemini and its logo are trademarks of Google LLC and belong to it. Terms: https://partnermarketinghub.withgoogle.com/brands/google/trademarks-and-terms/terms-and-conditions/
+- Grok: Grok and its logo are trademarks of SpaceXSI (formerly xAI) and belong to it. Terms: https://x.ai/legal/brand-guidelines
 - Linux: Tux by Larry Ewing (lewing@isc.tamu.edu) and The GIMP. Linux® is the registered trademark of Linus Torvalds.
 - OpenAI: OpenAI and its logo are trademarks of OpenAI and belong to it. Terms: https://openai.com/brand/
 - PHP: PHP logo by Colin Viebrock, CC BY-SA 4.0 (https://www.php.net/download-logos.php), reduced to one colour by Simple Icons.
