@@ -305,26 +305,51 @@ function ColorPickerSliders({
       data-slot="color-picker-sliders"
       className="cn-color-picker-sliders flex flex-col"
     >
-      <Slider
-        aria-label="Hue"
-        className="cn-color-picker-hue"
-        style={hueStyle}
-        value={Math.round(hsva.h)}
-        minValue={0}
-        maxValue={360}
-        step={1}
-        onChange={(value: number) => onChange({ h: value })}
-      />
-      <Slider
-        aria-label="Alpha"
-        className="cn-color-picker-alpha"
-        style={alphaStyle}
-        value={Math.round(hsva.a * 100)}
-        minValue={0}
-        maxValue={100}
-        step={1}
-        onChange={(value: number) => onChange({ a: value / 100 })}
-      />
+      {/* Each slider shows its value beside it; the slider announces it. */}
+      <div
+        data-slot="color-picker-hue"
+        className="cn-color-picker-slider-row flex items-center"
+      >
+        <Slider
+          aria-label="Hue"
+          className="cn-color-picker-hue min-w-0 flex-1"
+          style={hueStyle}
+          value={Math.round(hsva.h)}
+          minValue={0}
+          maxValue={360}
+          step={1}
+          onChange={(value: number) => onChange({ h: value })}
+        />
+        <span
+          aria-hidden
+          data-slot="color-picker-hue-value"
+          className="cn-color-picker-slider-value shrink-0"
+        >
+          {Math.round(hsva.h)}°
+        </span>
+      </div>
+      <div
+        data-slot="color-picker-alpha"
+        className="cn-color-picker-slider-row flex items-center"
+      >
+        <Slider
+          aria-label="Alpha"
+          className="cn-color-picker-alpha min-w-0 flex-1"
+          style={alphaStyle}
+          value={Math.round(hsva.a * 100)}
+          minValue={0}
+          maxValue={100}
+          step={1}
+          onChange={(value: number) => onChange({ a: value / 100 })}
+        />
+        <span
+          aria-hidden
+          data-slot="color-picker-alpha-value"
+          className="cn-color-picker-slider-value shrink-0"
+        >
+          {Math.round(hsva.a * 100)}%
+        </span>
+      </div>
     </div>
   )
 }
@@ -410,7 +435,6 @@ type ColorPickerFieldProps = {
   /** Dragging the letter sideways scrubs the value. */
   scrub?: { field: ChannelField; onScrub: (value: number) => void }
   inputMode?: "numeric" | "decimal" | "text"
-  className?: string
 }
 
 // A channel field: the letter names it and scrubs it, the input takes typed
@@ -423,7 +447,6 @@ function ColorPickerField({
   onStep,
   scrub,
   inputMode = "numeric",
-  className,
 }: ColorPickerFieldProps) {
   const [draft, setDraft] = React.useState<string | null>(null)
   const [isScrubbing, setIsScrubbing] = React.useState(false)
@@ -440,7 +463,7 @@ function ColorPickerField({
     <InputGroup
       data-slot="color-picker-field"
       data-scrubbing={isScrubbing ? "" : undefined}
-      className={cn("cn-color-picker-field", className)}
+      className="cn-color-picker-field"
     >
       <InputGroupAddon
         aria-hidden
@@ -548,7 +571,7 @@ function ColorPickerFields({
     <div
       data-slot="color-picker-fields"
       data-format={format}
-      className="cn-color-picker-fields grid grid-cols-4"
+      className="cn-color-picker-fields grid auto-cols-fr grid-flow-col"
     >
       {format === "hex" && (
         <ColorPickerField
@@ -556,7 +579,6 @@ function ColorPickerFields({
           shortLabel="#"
           text={getHexText(parsed)}
           inputMode="text"
-          className="col-span-3"
           onCommitText={(text) => {
             const trimmed = text.trim()
             onColorText(/^[0-9a-f]+$/i.test(trimmed) ? `#${trimmed}` : trimmed)
@@ -712,6 +734,7 @@ function ColorPicker({
         hsva={state.hsva}
         onChange={(next) => commit(setColorHsva(state, next))}
       />
+      {/* One row: the format, its fields and the eyedropper. */}
       <div
         data-slot="color-picker-controls"
         className="cn-color-picker-controls flex"
@@ -725,18 +748,18 @@ function ColorPicker({
             commit(state, next)
           }}
         />
+        <ColorPickerFields
+          state={state}
+          format={format}
+          onStateChange={commit}
+          onColorText={commitText}
+        />
         {!hideEyedropper && (
           <ColorPickerEyedropper
             onPick={(rgba) => commit(setColorFromRgba(state, rgba))}
           />
         )}
       </div>
-      <ColorPickerFields
-        state={state}
-        format={format}
-        onStateChange={commit}
-        onColorText={commitText}
-      />
       {swatches && swatches.length > 0 && (
         <ColorPickerSwatches
           swatches={swatches}

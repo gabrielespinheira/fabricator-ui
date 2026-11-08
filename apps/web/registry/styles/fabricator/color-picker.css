@@ -1,18 +1,22 @@
 /* MARK: Color Picker */
 
-  /* A 280px card: surface 2 with its shadow ring, rounded-xl, 12px inset.
+  /* A card 336px wide at the default density (295 compact, 377 spacious:
+     text shrinks less than the spacing, so the width follows both), wide
+     enough for the format, three fields and the eyedropper in one row.
+     Surface 2 with its shadow ring, rounded-xl, 12px inset.
      Inside a popover the popup is the card, so the panel drops its own.
      --color-picker-checker paints the squares behind translucent colors:
      the foreground at 14% over the surface, so it follows the theme. */
   .cn-color-picker {
-    @apply bg-card text-card-foreground shadow-surface-2 w-70 gap-(--density-8) rounded-xl p-(--density-12) text-(length:--density-text-13) [--color-picker-checker:color-mix(in_oklab,var(--foreground)_14%,transparent)] data-[size=lg]:density-spacious data-[size=sm]:density-compact in-data-[slot=popover-content]:w-64 in-data-[slot=popover-content]:bg-transparent in-data-[slot=popover-content]:p-0 in-data-[slot=popover-content]:shadow-none;
+    @apply bg-card text-card-foreground shadow-surface-2 w-[calc(152px+var(--density-36)*5.125)] gap-(--density-8) rounded-xl p-(--density-12) text-(length:--density-text-13) [--color-picker-checker:color-mix(in_oklab,var(--foreground)_14%,transparent)] data-[size=lg]:density-spacious data-[size=sm]:density-compact in-data-[slot=popover-content]:w-[calc(152px+var(--density-36)*5.125-var(--density-12)*2)] in-data-[slot=popover-content]:bg-transparent in-data-[slot=popover-content]:p-0 in-data-[slot=popover-content]:shadow-none;
   }
 
   /* The HSV plane at the current hue: black rising over white to the pure
-     hue. Its corners nest inside the card's (radius less the inset). The
-     pointer hides; a hollow ring previews where a press lands. */
+     hue. rounded-lg, like the fields and the select below it (the card's
+     radius less its inset left only 2px). The pointer hides; a hollow ring
+     previews where a press lands. */
   .cn-color-picker-area {
-    @apply aspect-[8/5] cursor-none rounded-[max(0px,calc(var(--radius-xl)_-_var(--density-12)))] bg-[linear-gradient(to_top,#000,transparent),linear-gradient(to_right,#fff,var(--color-picker-hue))] focus-visible:ring-2 focus-visible:ring-focus-ring;
+    @apply aspect-[8/5] cursor-none rounded-lg bg-[linear-gradient(to_top,#000,transparent),linear-gradient(to_right,#fff,var(--color-picker-hue))] focus-visible:ring-2 focus-visible:ring-focus-ring;
   }
 
   /* The thumb is the color itself, ringed white then black, so it reads on
@@ -30,31 +34,53 @@
   }
 
   /* Hue and alpha are Sliders: the gradient is the track, so the range
-     fill hides, and the knob takes the color under it with a white edge. */
+     fill hides, and the knob takes the color under it with a white edge.
+     A hairline keeps each rail's edge when its color matches the card. */
   .cn-color-picker-hue {
-    @apply [&_[data-slot=slider-range]]:hidden [&_[data-slot=slider-thumb]]:border-2 [&_[data-slot=slider-thumb]]:border-white [&_[data-slot=slider-thumb]]:bg-(--color-picker-thumb) [&_[data-slot=slider-thumb]]:shadow-[0_0_0_1px_rgb(0_0_0/0.25),0_1px_2px_rgb(0_0_0/0.2)] [&_[data-slot=slider-track]]:border-0 [&_[data-slot=slider-track]]:bg-[linear-gradient(to_right,#f00,#ff0,#0f0,#0ff,#00f,#f0f,#f00)];
+    @apply [&_[data-slot=slider-range]]:hidden [&_[data-slot=slider-thumb]]:border-2 [&_[data-slot=slider-thumb]]:border-white [&_[data-slot=slider-thumb]]:bg-(--color-picker-thumb) [&_[data-slot=slider-thumb]]:shadow-[0_0_0_1px_rgb(0_0_0/0.25),0_1px_2px_rgb(0_0_0/0.2)] [&_[data-slot=slider-track]]:border-0 [&_[data-slot=slider-track]]:bg-[linear-gradient(to_right,#f00,#ff0,#0f0,#0ff,#00f,#f0f,#f00)] [&_[data-slot=slider-track]]:shadow-[inset_0_0_0_1px_color-mix(in_oklab,var(--foreground)_12%,transparent)];
   }
 
   /* Transparent to the opaque color, over an 8px checker. */
   .cn-color-picker-alpha {
-    @apply [&_[data-slot=slider-range]]:hidden [&_[data-slot=slider-thumb]]:border-2 [&_[data-slot=slider-thumb]]:border-white [&_[data-slot=slider-thumb]]:bg-(--color-picker-thumb) [&_[data-slot=slider-thumb]]:shadow-[0_0_0_1px_rgb(0_0_0/0.25),0_1px_2px_rgb(0_0_0/0.2)] [&_[data-slot=slider-track]]:border-0 [&_[data-slot=slider-track]]:bg-[linear-gradient(to_right,transparent,var(--color-picker-opaque)),conic-gradient(var(--color-picker-checker)_0_25%,transparent_0_50%,var(--color-picker-checker)_0_75%,transparent_0)] [&_[data-slot=slider-track]]:bg-size-[100%_100%,8px_8px];
+    @apply [&_[data-slot=slider-range]]:hidden [&_[data-slot=slider-thumb]]:border-2 [&_[data-slot=slider-thumb]]:border-white [&_[data-slot=slider-thumb]]:bg-(--color-picker-thumb) [&_[data-slot=slider-thumb]]:shadow-[0_0_0_1px_rgb(0_0_0/0.25),0_1px_2px_rgb(0_0_0/0.2)] [&_[data-slot=slider-track]]:border-0 [&_[data-slot=slider-track]]:bg-[linear-gradient(to_right,transparent,var(--color-picker-opaque)),conic-gradient(var(--color-picker-checker)_0_25%,transparent_0_50%,var(--color-picker-checker)_0_75%,transparent_0)] [&_[data-slot=slider-track]]:bg-size-[100%_100%,8px_8px] [&_[data-slot=slider-track]]:shadow-[inset_0_0_0_1px_color-mix(in_oklab,var(--foreground)_12%,transparent)];
   }
 
+  /* Each slider with its value beside it (degrees, percent), 12px apart:
+     a React Aria knob centres on its value, so at the end it reaches half
+     its width past the rail. */
+  .cn-color-picker-slider-row {
+    @apply gap-(--density-12);
+  }
+
+  /* Every value and code in the picker is set in the mono font, so each
+     character is 1ch: a fixed 4ch fits "100%" and "360°", and nothing
+     shifts or resizes as the value changes (tabular figures alone leave
+     hex letters and "%" their own widths). */
+  .cn-color-picker-slider-value {
+    @apply text-muted-foreground w-[4ch] text-end font-mono whitespace-nowrap text-(length:--density-text-12);
+  }
+
+  /* One row: the format select at its own width, the fields filling the
+     rest, then the eyedropper. Below md inputs set 16px text (so iOS
+     doesn't zoom on focus), too wide for one row, so the fields wrap onto
+     a line of their own and the select takes the first. */
   .cn-color-picker-controls {
-    @apply gap-(--density-8);
+    @apply gap-(--density-6) max-md:flex-wrap;
   }
 
+  /* As wide as "OKLCH" needs (its text in em, its insets and chevron in
+     the density), whichever format shows, so the fields never resize. */
   .cn-color-picker-format {
-    @apply flex-1;
+    @apply w-[calc(3.6em+var(--density-40))] shrink-0 max-md:flex-1;
   }
 
   .cn-color-picker-eyedropper {
     @apply text-muted-foreground hover:text-foreground;
   }
 
-  /* Four fields to a row: three channels and alpha, or hex across three. */
+  /* Three channels, or the hex field alone. Alpha is the slider's. */
   .cn-color-picker-fields {
-    @apply gap-(--density-4);
+    @apply min-w-0 flex-1 gap-(--density-4) max-md:order-last max-md:basis-full;
   }
 
   /* An Input Group, so it frames, hovers and focuses like every field. While
@@ -69,12 +95,12 @@
      one line box as tall as the field: an input places its text 1px lower
      than a padded addon would, so equal line boxes are what line them up. */
   .cn-color-picker-field-label {
-    @apply self-stretch py-0 pl-(--density-8)! leading-(--density-36) font-medium data-scrubbable:cursor-ew-resize;
+    @apply self-stretch py-0 pl-(--density-6)! leading-(--density-36) font-medium data-scrubbable:cursor-ew-resize;
   }
 
-  /* Digits keep one width, so a value doesn't shift as it changes. */
+  /* Mono, so a value doesn't shift as it changes. */
   .cn-color-picker-field-input {
-    @apply min-w-0 py-0! pr-(--density-4) pl-(--density-4)! leading-(--density-36) tabular-nums;
+    @apply min-w-0 py-0! pr-(--density-4) pl-(--density-4)! leading-(--density-36) font-mono;
   }
 
   /* The cells tile with no gap and overhang the strip by their 4px inset,
@@ -108,7 +134,7 @@
   }
 
   .cn-color-picker-trigger-value {
-    @apply tabular-nums;
+    @apply font-mono;
   }
 
   .cn-color-picker-trigger-label {

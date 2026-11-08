@@ -57,7 +57,6 @@ type ColorChannel =
   | "oklchLightness"
   | "oklchChroma"
   | "oklchHue"
-  | "alpha"
 
 type ChannelRange = {
   min: number
@@ -405,7 +404,6 @@ const CHANNEL_RANGES: Record<ColorChannel, ChannelRange> = {
   // is reachable; anything past the gamut clips.
   oklchChroma: { min: 0, max: 0.4, wrap: false, decimals: 2 },
   oklchHue: { min: 0, max: 360, wrap: true, decimals: 0 },
-  alpha: { min: 0, max: 100, wrap: false, decimals: 0 },
 }
 
 const CHANNEL_LABELS: Record<ColorChannel, [string, string]> = {
@@ -418,18 +416,18 @@ const CHANNEL_LABELS: Record<ColorChannel, [string, string]> = {
   oklchLightness: ["Lightness", "L"],
   oklchChroma: ["Chroma", "C"],
   oklchHue: ["Hue", "H"],
-  alpha: ["Alpha", "A"],
 }
 
+// Alpha is the alpha slider's, and hex is one field of its own.
 const FORMAT_CHANNELS: Record<ColorFormat, ColorChannel[]> = {
-  hex: ["alpha"],
-  rgb: ["red", "green", "blue", "alpha"],
-  hsl: ["hslHue", "hslSaturation", "hslLightness", "alpha"],
-  oklch: ["oklchLightness", "oklchChroma", "oklchHue", "alpha"],
+  hex: [],
+  rgb: ["red", "green", "blue"],
+  hsl: ["hslHue", "hslSaturation", "hslLightness"],
+  oklch: ["oklchLightness", "oklchChroma", "oklchHue"],
 }
 
 function getChannelValue(state: ColorState, channel: ColorChannel) {
-  const { h, s, v, a } = state.hsva
+  const { h, s, v } = state.hsva
   const rgb = hsvToRgb(h, s, v)
   switch (channel) {
     case "red":
@@ -450,12 +448,10 @@ function getChannelValue(state: ColorState, channel: ColorChannel) {
       return rgbToOklch(rgb.r, rgb.g, rgb.b).C
     case "oklchHue":
       return state.oklchHue ?? rgbToOklch(rgb.r, rgb.g, rgb.b).H
-    case "alpha":
-      return a * 100
   }
 }
 
-/** The fields a format shows beside the area. Hex lists only alpha. */
+/** The channel fields a format shows. Hex has none: it is one text field. */
 function getChannelFields(
   state: ColorState,
   format: ColorFormat
@@ -523,11 +519,6 @@ function setColorChannel(
       )
       return { hsva: toHsva({ ...next, a }, h), oklchHue: hue }
     }
-    case "alpha":
-      return {
-        hsva: { ...state.hsva, a: value / 100 },
-        oklchHue: state.oklchHue,
-      }
   }
 }
 

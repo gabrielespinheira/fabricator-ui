@@ -11,7 +11,7 @@ component: true
   previewClassName="h-auto"
 />
 
-Drag in the area to set saturation and brightness, and use the sliders for hue and alpha. Pick a format to type or scrub its channels: drag a field's letter sideways to change its value. Use it inline as a panel, or behind a trigger with `ColorPickerPopover`.
+Drag in the area to set saturation and brightness, and use the sliders for hue and alpha (transparency); each shows its value beside it. Pick a format to type or scrub its channels: drag a field's letter sideways to change its value. Use it inline as a panel, or behind a trigger with `ColorPickerPopover`.
 
 Color Picker is part of the Fabricator style. It's composed from [Slider](/docs/components/radix/slider), [Select](/docs/components/radix/select), [Input Group](/docs/components/radix/input-group), [Popover](/docs/components/radix/popover) and [Tooltip](/docs/components/radix/tooltip), so every control looks and behaves like the rest of your fields. It's adapted from the Color Picker of [Fluid Functionalism](https://www.fluidfunctionalism.com/docs/color-picker) (MIT).
 
@@ -85,9 +85,8 @@ import { ColorPicker, ColorPickerPopover } from "@/components/ui/color-picker"
 ```text
 ColorPicker
 ├── area (saturation and brightness)
-├── hue and alpha sliders
-├── format select and eyedropper
-├── channel fields
+├── hue and alpha sliders, each with its value
+├── one row: format select, channel fields, eyedropper
 └── swatches (optional)
 
 ColorPickerPopover
@@ -212,6 +211,8 @@ Every `ColorPicker` prop, plus:
 | `data-slot="color-picker-area"`       | the saturation and brightness area |
 | `data-slot="color-picker-area-thumb"` | the area's thumb                   |
 | `data-slot="color-picker-sliders"`    | the hue and alpha sliders          |
+| `data-slot="color-picker-hue"`        | the hue slider and its value       |
+| `data-slot="color-picker-alpha"`      | the alpha slider and its value     |
 | `data-slot="color-picker-format"`     | the format select's trigger        |
 | `data-slot="color-picker-eyedropper"` | the eyedropper button              |
 | `data-slot="color-picker-fields"`     | the channel fields                 |
@@ -225,8 +226,8 @@ Every `ColorPicker` prop, plus:
 ## Accessibility
 
 - The area is a slider named "Color" that reports saturation and brightness as its value text. Left and right arrows change saturation, up and down brightness, by 1% (10% with Shift). Home and End jump to the saturation ends, Page Up and Page Down to the brightness ends.
-- The hue and alpha sliders are Sliders, named "Hue" and "Alpha", with the Slider's keyboard.
-- Each channel field is a text input named after its channel; alpha is a percent. Up and down arrows step it (ten times further with Shift), Enter or leaving the field commits typed text, and Escape puts the last value back. Hue fields wrap past 360.
+- The hue and alpha sliders are Sliders, named "Hue" and "Alpha", with the Slider's keyboard. The alpha slider is the only alpha control, in percent. The value beside each slider is hidden from screen readers, which hear it from the slider.
+- Each channel field is a text input named after its channel. Up and down arrows step it (ten times further with Shift), Enter or leaving the field commits typed text, and Escape puts the last value back. Hue fields wrap past 360.
 - Swatches are toggle buttons: the selected one reports `aria-pressed`, and a labelled swatch is named by its label.
 - The popover's trigger is a button that reports `aria-expanded`. Focus moves into the panel when it opens and back to the trigger when it closes. With a changed value in a field, the first Escape reverts the field and the second closes the popover.
 - The eyedropper is a button named "Pick a color from the screen". Pressing Escape during a pick cancels it.

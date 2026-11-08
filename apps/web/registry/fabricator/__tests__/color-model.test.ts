@@ -158,25 +158,24 @@ describe("setColorFromRgba", () => {
 })
 
 describe("getChannelFields", () => {
-  it("lists RGB channels and alpha", () => {
-    const fields = getChannelFields(stateOf("#6b97ff"), "rgb")
+  it("lists the RGB channels; alpha has its own slider", () => {
+    const fields = getChannelFields(stateOf("#6b97ff80"), "rgb")
     expect(fields.map((field) => [field.channel, field.value])).toEqual([
       ["red", 107],
       ["green", 151],
       ["blue", 255],
-      ["alpha", 100],
     ])
   })
 
   it("lists HSL channels with whole percents", () => {
     const fields = getChannelFields(stateOf("#ff0000"), "hsl")
-    expect(fields.map((field) => field.value)).toEqual([0, 100, 50, 100])
+    expect(fields.map((field) => field.value)).toEqual([0, 100, 50])
     expect(fields[0]).toMatchObject({ channel: "hslHue", wrap: true, max: 360 })
   })
 
   it("lists OKLCH channels with chroma in hundredths", () => {
     const fields = getChannelFields(stateOf("#ff0000"), "oklch")
-    expect(fields.map((field) => field.value)).toEqual([63, 0.26, 29, 100])
+    expect(fields.map((field) => field.value)).toEqual([63, 0.26, 29])
     expect(fields[1]).toMatchObject({ step: 0.01, decimals: 2, max: 0.4 })
   })
 
@@ -185,10 +184,8 @@ describe("getChannelFields", () => {
     expect(getChannelFields(state, "oklch")[2]?.value).toBe(145)
   })
 
-  it("lists only alpha beside the hex field", () => {
-    const fields = getChannelFields(stateOf("#6b97ff80"), "hex")
-    expect(fields).toHaveLength(1)
-    expect(fields[0]).toMatchObject({ channel: "alpha", value: 50 })
+  it("lists no channels for hex, which has its own field", () => {
+    expect(getChannelFields(stateOf("#6b97ff80"), "hex")).toEqual([])
   })
 })
 
@@ -225,9 +222,9 @@ describe("setColorChannel", () => {
     expect(r).toBeGreaterThan(b)
   })
 
-  it("sets alpha from a percent, clamped", () => {
-    expect(setColorChannel(stateOf("#fff"), "alpha", 40).hsva.a).toBe(0.4)
-    expect(setColorChannel(stateOf("#fff"), "alpha", 140).hsva.a).toBe(1)
+  it("keeps alpha when a channel changes", () => {
+    const next = setColorChannel(stateOf("#ffffff80"), "red", 0)
+    expect(next.hsva.a).toBeCloseTo(128 / 255)
   })
 
   it("drops the held OKLCH hue on an RGB edit", () => {
