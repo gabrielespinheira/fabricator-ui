@@ -32,6 +32,8 @@ import {
   ChatInputContextMeter,
   ChatInputFooter,
   ChatInputMic,
+  ChatInputOption,
+  ChatInputOptions,
   ChatInputSubmit,
   ChatInputTextarea,
   ChatInputTools,
@@ -195,6 +197,7 @@ export function ChatInputDemo() {
   const [isAuto, setAuto] = React.useState(false)
   const [effort, setEffort] = React.useState<string | null>("high")
   const [permission, setPermission] = React.useState("edit")
+  const [isPermissionOpen, setPermissionOpen] = React.useState(false)
   const [isVoiceActive, setVoiceActive] = React.useState(false)
   const [activity, setActivity] =
     React.useState<ChatInputMicActivity>("listening")
@@ -301,7 +304,11 @@ export function ChatInputDemo() {
                   <PlusIcon />
                 </ChatInputButton>
               </DropdownMenuTrigger>
-              <DropdownMenuContent side="top" align="start" className="w-56">
+              <DropdownMenuContent
+                side="top"
+                align="start"
+                className="w-56 bg-surface-5 shadow-surface-5"
+              >
                 <DropdownMenuGroup>
                   <DropdownMenuItem onClick={() => pickerRef.current?.click()}>
                     <PaperclipIcon />
@@ -335,8 +342,8 @@ export function ChatInputDemo() {
                 event.target.value = ""
               }}
             />
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
+            <Popover open={isPermissionOpen} onOpenChange={setPermissionOpen}>
+              <PopoverTrigger asChild>
                 <ChatInputButton
                   aria-label={`Permissions: ${Permission.label}`}
                 >
@@ -344,27 +351,31 @@ export function ChatInputDemo() {
                   <span>{Permission.label}</span>
                   <ChevronDownIcon />
                 </ChatInputButton>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent side="top" align="start" className="w-64">
-                <DropdownMenuGroup>
+              </PopoverTrigger>
+              <PopoverContent
+                side="top"
+                align="start"
+                sideOffset={10}
+                className="w-64 gap-0 bg-surface-5 p-1 shadow-surface-5"
+              >
+                <ChatInputOptions
+                  aria-label="Permissions"
+                  value={permission}
+                  onValueChange={setPermission}
+                >
                   {Object.entries(PERMISSIONS).map(([key, option]) => (
-                    <DropdownMenuItem
+                    <ChatInputOption
                       key={key}
-                      onClick={() => setPermission(key)}
-                      className="items-start py-2"
-                    >
-                      <option.icon className="mt-0.5" />
-                      <span className="grid gap-0.5">
-                        <span>{option.label}</span>
-                        <span className="text-xs text-muted-foreground">
-                          {option.hint}
-                        </span>
-                      </span>
-                    </DropdownMenuItem>
+                      value={key}
+                      icon={<option.icon />}
+                      label={option.label}
+                      description={option.hint}
+                      onClick={() => setPermissionOpen(false)}
+                    />
                   ))}
-                </DropdownMenuGroup>
-              </DropdownMenuContent>
-            </DropdownMenu>
+                </ChatInputOptions>
+              </PopoverContent>
+            </Popover>
           </ChatInputTools>
           <ChatInputActions>
             <Popover>
@@ -374,7 +385,11 @@ export function ChatInputDemo() {
                   label={formatTokenCount(84_200)}
                 />
               </PopoverTrigger>
-              <PopoverContent side="top" align="end" className="w-60">
+              <PopoverContent
+                side="top"
+                align="end"
+                className="w-60 bg-surface-5 shadow-surface-5"
+              >
                 <div className="grid gap-1 text-sm">
                   <span className="font-medium">Context</span>
                   <span className="text-muted-foreground">
@@ -411,7 +426,7 @@ export function ChatInputDemo() {
                 side="top"
                 align="end"
                 sideOffset={10}
-                className="w-80 gap-0 p-1"
+                className="w-80 gap-0 bg-surface-5 p-1 shadow-surface-5"
               >
                 {view === "effort" && current && !isAuto ? (
                   <ModelPickerEffort

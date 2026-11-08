@@ -1539,7 +1539,7 @@ function ChatInputContextMeter({
   value,
   label,
   variant = "ghost",
-  size = "default",
+  size = "icon",
   "aria-label": ariaLabel,
   ...props
 }: ChatInputContextMeterProps) {
@@ -1592,6 +1592,171 @@ function ChatInputContextMeter({
           strokeDashoffset={circumference * (1 - fraction)}
         />
       </svg>
+    </button>
+  )
+}
+
+/** The option a key moves to in a set of options, wrapping around; null for any other key. */
+function getChatInputOptionKeyIndex(key: string, index: number, count: number) {
+  if (count === 0) return null
+  if (key === "ArrowDown" || key === "ArrowRight") return (index + 1) % count
+  if (key === "ArrowUp" || key === "ArrowLeft")
+    return (index - 1 + count) % count
+  if (key === "Home") return 0
+  if (key === "End") return count - 1
+  return null
+}
+
+type ChatInputOptionsContextValue = {
+  value: string | undefined
+  select: (value: string) => void
+}
+
+const ChatInputOptionsContext =
+  React.createContext<ChatInputOptionsContextValue | null>(null)
+
+type ChatInputOptionsProps = Omit<
+  React.ComponentProps<"div">,
+  "defaultValue" | "onChange"
+> & {
+  /** The option in use. Controlled. */
+  value?: string
+  defaultValue?: string
+  onValueChange?: (value: string) => void
+}
+
+/**
+ * A set of choices with a line of explanation each, such as what the agent
+ * may do without asking: a radio group that goes in a popover from a footer
+ * pill. One option is in use and checked; arrows move and pick, as in any
+ * radio group.
+ */
+function ChatInputOptions({
+  className,
+  value: valueProp,
+  defaultValue,
+  onValueChange,
+  onKeyDown,
+  ...props
+}: ChatInputOptionsProps) {
+  const [value, setValue] = useControllable<string | undefined>(
+    valueProp,
+    defaultValue
+  )
+  const context = React.useMemo(
+    () => ({
+      value,
+      select: (next: string) => {
+        setValue(next)
+        onValueChange?.(next)
+      },
+    }),
+    [value, setValue, onValueChange]
+  )
+
+  return (
+    <ChatInputOptionsContext.Provider value={context}>
+      <div
+        role="radiogroup"
+        data-slot="chat-input-options"
+        onKeyDown={(event) => {
+          onKeyDown?.(event)
+          if (event.defaultPrevented) return
+          const options = Array.from(
+            event.currentTarget.querySelectorAll<HTMLButtonElement>(
+              '[data-slot="chat-input-option"]:not(:disabled)'
+            )
+          )
+          const index = options.findIndex(
+            (option) => option === document.activeElement
+          )
+          const next = getChatInputOptionKeyIndex(
+            event.key,
+            Math.max(0, index),
+            options.length
+          )
+          if (next === null) return
+          event.preventDefault()
+          const option = options[next]
+          option?.focus()
+          if (option?.dataset.value) context.select(option.dataset.value)
+        }}
+        className={cn("cn-chat-input-options flex flex-col", className)}
+        {...props}
+      />
+    </ChatInputOptionsContext.Provider>
+  )
+}
+
+type ChatInputOptionProps = Omit<
+  React.ComponentProps<"button">,
+  "value" | "children"
+> & {
+  value: string
+  label: React.ReactNode
+  /** A line under the label on what the option does. */
+  description?: React.ReactNode
+  icon?: React.ReactNode
+}
+
+/** One choice: its icon, label and description, and a check while it's in use. */
+function ChatInputOption({
+  className,
+  value,
+  label,
+  description,
+  icon,
+  type = "button",
+  onClick,
+  ...props
+}: ChatInputOptionProps) {
+  const context = React.useContext(ChatInputOptionsContext)
+  if (!context)
+    throw new ChatInputContextError("ChatInputOption> in <ChatInputOptions")
+  const isChecked = context.value === value
+
+  return (
+    <button
+      type={type}
+      role="radio"
+      aria-checked={isChecked}
+      tabIndex={isChecked || context.value === undefined ? 0 : -1}
+      data-slot="chat-input-option"
+      data-value={value}
+      data-checked={isChecked ? "" : undefined}
+      onClick={(event) => {
+        onClick?.(event)
+        if (!event.defaultPrevented) context.select(value)
+      }}
+      className={cn(
+        "cn-chat-input-option flex w-full items-start text-start outline-none disabled:pointer-events-none",
+        className
+      )}
+      {...props}
+    >
+      {icon && (
+        <span aria-hidden className="cn-chat-input-option-icon flex shrink-0">
+          {icon}
+        </span>
+      )}
+      <span className="grid min-w-0 flex-1">
+        <span className="cn-chat-input-option-label">{label}</span>
+        {description && (
+          <span className="cn-chat-input-option-description">
+            {description}
+          </span>
+        )}
+      </span>
+      <IconPlaceholder
+        lucide="CheckIcon"
+        tabler="IconCheck"
+        hugeicons="Tick02Icon"
+        phosphor="CheckIcon"
+        remixicon="RiCheckLine"
+        aria-hidden
+        data-slot="chat-input-option-check"
+        className="cn-chat-input-option-check shrink-0"
+      />
     </button>
   )
 }
@@ -2024,6 +2189,8 @@ export {
   ChatInputSubmit,
   ChatInputMic,
   ChatInputContextMeter,
+  ChatInputOptions,
+  ChatInputOption,
   ChatInputCommands,
   ChatInputTray,
   ChatInputTrayEntry,
@@ -2043,6 +2210,7 @@ export {
   applyChatInputPick,
   filterChatInputCommands,
   formatChatInputDuration,
+  getChatInputOptionKeyIndex,
   formatTokenCount,
   isChatInputBusy,
   isChatInputReady,
