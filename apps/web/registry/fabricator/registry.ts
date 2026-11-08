@@ -113,8 +113,8 @@ export const fabricatorItems = [
     type: "registry:ui",
     title: "Chat Input",
     description:
-      "The message box of a chat: a raised card whose field grows with the draft, a compact pill that stacks once it wraps, and a send button that turns into stop while a reply streams.",
-    registryDependencies: ["button", "spinner"],
+      "The message box of a chat: a card that grows with the draft or a compact pill, attachments with drop and paste, voice chat with a glow and a level-following mic, a context meter, and one send slot that starts voice, sends, queues and stops.",
+    registryDependencies: ["button", "spinner", "density"],
     files: [{ path: "ui/chat-input.tsx", type: "registry:ui" }],
     meta: {
       fabricator: true,
@@ -122,6 +122,22 @@ export const fabricatorItems = [
         docs: "https://fabricator-ui.vercel.app/docs/components/base/chat-input",
         examples:
           "https://fabricator-ui.vercel.app/docs/components/base/chat-input#examples",
+      },
+    },
+  },
+  {
+    name: "model-picker",
+    type: "registry:ui",
+    title: "Model Picker",
+    description:
+      "The model switcher's panel: a reasoning effort slider that warms from blue to violet, routing tiles such as Auto, and the models grouped by provider. It goes in a popover of your own.",
+    files: [{ path: "ui/model-picker.tsx", type: "registry:ui" }],
+    meta: {
+      fabricator: true,
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/model-picker",
+        examples:
+          "https://fabricator-ui.vercel.app/docs/components/base/model-picker#examples",
       },
     },
   },
@@ -151,11 +167,11 @@ export const fabricatorItems = [
     type: "registry:ui",
     title: "Date Picker",
     description:
-      "A date field: type a date or pick one from a calendar, with a display format, a minimum and maximum, and a form value.",
+      "A date field that opens a calendar, with an optional column of times, a display format, a minimum and maximum, typing on request and a form value.",
     // @internationalized/date is for the React Aria calendar; date-fns reads
     // and writes the text in every base.
     dependencies: ["date-fns", "@internationalized/date"],
-    registryDependencies: ["calendar", "input-group", "popover"],
+    registryDependencies: ["calendar", "input-group", "popover", "time-input"],
     files: [
       { path: "ui/date-picker.tsx", type: "registry:ui" },
       { path: "lib/date-picker-model.ts", type: "registry:lib" },
@@ -197,10 +213,11 @@ export const fabricatorItems = [
     type: "registry:ui",
     title: "Time Input",
     description:
-      "A text field that takes a typed time or one picked from a list, in 12- or 24-hour form, with steps, a range and a form value.",
-    registryDependencies: ["input-group", "popover", "fluid-hover"],
+      "A text field that takes a typed time or one picked on a scroll wheel of hours, minutes and seconds, in 12- or 24-hour form, with a range and a form value.",
+    registryDependencies: ["input-group", "popover"],
     files: [
       { path: "ui/time-input.tsx", type: "registry:ui" },
+      { path: "ui/time-wheel.tsx", type: "registry:ui" },
       { path: "lib/time-input-model.ts", type: "registry:lib" },
     ],
     categories: ["forms"],

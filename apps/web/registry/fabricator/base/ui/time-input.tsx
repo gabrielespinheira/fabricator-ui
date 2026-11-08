@@ -1,34 +1,27 @@
 "use client"
 
-// Time Input: a text field that takes a typed time or one picked from a list,
-// following the WAI-ARIA combobox pattern. Clicking the field or pressing an
-// arrow key opens the list while focus stays in the field: the arrows move
-// through the times, typing (9, 930, 9:30 pm, 21:30, noon) jumps to the
-// nearest one, Enter commits and Escape puts the last value back. The value is
-// "HH:mm", what a form submits. Time Range Input pairs two of them: the end's
-// list starts after the start and counts the duration, and moving the start
-// keeps it. The rules are in lib/time-input-model.
+// Time Input: a text field that takes a typed time or one picked on a wheel.
+// Clicking the field opens the wheel under it (hours, minutes, optional
+// seconds and AM/PM, as in the iOS Clock app) while the field keeps focus for
+// typing; Arrow Down or Up opens it with focus on the hours. Typing (9, 930,
+// 9:30 pm, 21:30:15, noon) commits on Enter or blur; the wheel commits as it
+// settles. The value is "HH:mm", or "HH:mm:ss" with seconds, what a form
+// submits. Time Range Input pairs two of them: the end stays after the start,
+// and moving the start keeps the duration. The rules are in
+// lib/time-input-model.
 import * as React from "react"
 import { cn } from "cn"
 
-import {
-  FluidHoverHighlight,
-  FluidHoverSelection,
-  useFluidHover,
-} from "@/registry/bases/base/lib/fluid-hover"
 import {
   addMinutesToTime,
   commitTimeText,
   formatTimeDuration,
   formatTimeValue,
   getLocaleHourCycle,
-  getNearestTimeOption,
   getTimeDuration,
-  getTimeOfDay,
-  getTimeOptions,
-  getWidestTimeText,
-  parseTimeText,
+  joinTime,
   shiftEndTime,
+  splitTime,
   type HourCycle,
 } from "@/registry/bases/base/lib/time-input-model"
 import {
@@ -37,6 +30,7 @@ import {
   InputGroupInput,
 } from "@/registry/bases/base/ui/input-group"
 import { Popover, PopoverContent } from "@/registry/bases/base/ui/popover"
+import { TimeWheel } from "@/registry/bases/base/ui/time-wheel"
 import { IconPlaceholder } from "@/app/(create)/components/icon-placeholder"
 
 function subscribeToLocale() {
@@ -57,119 +51,9 @@ function useHourCycle(hourCycle: HourCycle | undefined): HourCycle {
   return hourCycle ?? localeHourCycle
 }
 
-function getOptionId(listId: string, time: string) {
-  return `${listId}-${time.replace(":", "")}`
-}
-
-function TimeInputList({
-  id,
-  options,
-  value,
-  activeTime,
-  startTime,
-  hourCycle,
-  label,
-  onActiveTimeChange,
-  onSelect,
-}: {
-  id: string
-  options: string[]
-  value: string | undefined
-  activeTime: string | undefined
-  startTime: string | undefined
-  hourCycle: HourCycle
-  label: string
-  onActiveTimeChange: (time: string) => void
-  onSelect: (time: string) => void
-}) {
-  const fluid = useFluidHover<HTMLDivElement>({
-    items: '[role="option"]',
-    highlighted: "[data-highlighted]",
-    selected: '[aria-selected="true"]',
-  })
-  const listRef = React.useRef<HTMLDivElement>(null)
-  const previousIndex = React.useRef<number>(undefined)
-  const isPointerMove = React.useRef(false)
-
-  // The list opens with the active time centred. An arrow step keeps it in
-  // view and a jump (typing, Page keys) centres it again; the pointer never
-  // scrolls it. Only the list scrolls, never the page around it.
-  React.useEffect(() => {
-    const list = listRef.current
-    if (!activeTime || !list) return
-    const index = options.indexOf(activeTime)
-    const isStep =
-      previousIndex.current !== undefined &&
-      Math.abs(index - previousIndex.current) === 1
-    previousIndex.current = index
-    if (isPointerMove.current) {
-      isPointerMove.current = false
-      return
-    }
-    const option = list.querySelector<HTMLElement>(
-      `#${getOptionId(id, activeTime)}`
-    )
-    if (!option) return
-    const top = option.offsetTop
-    const bottom = top + option.offsetHeight
-    if (!isStep) {
-      list.scrollTop = top - (list.clientHeight - option.offsetHeight) / 2
-    } else if (top < list.scrollTop) {
-      list.scrollTop = top
-    } else if (bottom > list.scrollTop + list.clientHeight) {
-      list.scrollTop = bottom - list.clientHeight
-    }
-  }, [activeTime, id, options])
-
-  return (
-    <div
-      ref={(element) => {
-        listRef.current = element
-        fluid.attach(element)
-      }}
-      id={id}
-      role="listbox"
-      aria-label={label}
-      data-slot="time-input-list"
-      data-duration={startTime ? true : undefined}
-      className="cn-time-input-list relative isolate grid grid-cols-[max-content_1fr] overflow-y-auto overscroll-contain outline-none"
-      // Rows never take focus: the field keeps it while the list moves.
-      onMouseDown={(event) => event.preventDefault()}
-      {...fluid.props}
-    >
-      <FluidHoverSelection selection={fluid.selection} />
-      <FluidHoverHighlight hover={fluid.hover} />
-      {options.map((time) => {
-        const duration = startTime && getTimeDuration(startTime, time)
-        return (
-          <div
-            key={time}
-            id={getOptionId(id, time)}
-            role="option"
-            data-slot="time-input-option"
-            data-highlighted={time === activeTime || undefined}
-            aria-selected={time === value}
-            className="cn-time-input-option relative col-span-full grid shrink-0 cursor-pointer grid-cols-subgrid items-center select-none"
-            onPointerMove={() => {
-              if (time === activeTime) return
-              isPointerMove.current = true
-              onActiveTimeChange(time)
-            }}
-            onClick={() => onSelect(time)}
-          >
-            <span className="cn-time-input-option-time">
-              {formatTimeValue(time, { hourCycle })}
-            </span>
-            {duration && (
-              <span className="cn-time-input-option-duration">
-                {formatTimeDuration(duration)}
-              </span>
-            )}
-          </div>
-        )
-      })}
-    </div>
-  )
+/** A typed or set value in the field's form: with seconds or without. */
+function toFieldTime(time: string | undefined, hasSeconds: boolean) {
+  return time && joinTime(splitTime(time), { hasSeconds })
 }
 
 function TimeInput(
@@ -181,13 +65,16 @@ function TimeInput(
     defaultValue?: string
     onValueChange?: (value: string | undefined) => void
     hourCycle?: HourCycle
+    /** Adds a seconds wheel; the value becomes "HH:mm:ss". */
+    hasSeconds?: boolean
+    /** Minutes between the minute wheel's rows. */
     step?: number
     minTime?: string
     maxTime?: string
-    /** The start of a range: the list begins after it and shows durations. */
+    /** The start of a range: the value has to come after it. */
     startTime?: string
     name?: string
-    listLabel?: string
+    wheelLabel?: string
   }
 ) {
   const {
@@ -195,12 +82,13 @@ function TimeInput(
     defaultValue,
     onValueChange,
     hourCycle: hourCycleProp,
-    step = 15,
+    hasSeconds = false,
+    step = 1,
     minTime,
     maxTime,
     startTime,
     name,
-    listLabel = "Choose time",
+    wheelLabel = "Choose time",
     className,
     style,
     disabled,
@@ -208,7 +96,6 @@ function TimeInput(
     onBlur,
     onChange,
     onClick,
-    onFocus,
     onKeyDown,
     ref,
     ...inputProps
@@ -216,7 +103,10 @@ function TimeInput(
   const hourCycle = useHourCycle(hourCycleProp)
   const isControlled = "value" in props
   const [uncontrolledValue, setUncontrolledValue] = React.useState(defaultValue)
-  const currentValue = isControlled ? value : uncontrolledValue
+  const currentValue = toFieldTime(
+    isControlled ? value : uncontrolledValue,
+    hasSeconds
+  )
 
   const [text, setText] = React.useState(() =>
     formatTimeValue(currentValue, { hourCycle })
@@ -225,25 +115,18 @@ function TimeInput(
   const [syncedValue, setSyncedValue] = React.useState(currentValue)
   const [syncedHourCycle, setSyncedHourCycle] = React.useState(hourCycle)
   const [isOpen, setIsOpen] = React.useState(false)
-  const [activeTime, setActiveTime] = React.useState<string>()
-  // The list is at least as wide as the field, from its first frame, so the
-  // highlight never measures a narrower row.
+  // The wheel's popup is at least as wide as the field.
   const [fieldWidth, setFieldWidth] = React.useState<number>()
   const groupRef = React.useRef<HTMLDivElement>(null)
-  const listId = React.useId()
+  const inputRef = React.useRef<HTMLInputElement>(null)
+  const wheelId = React.useId()
 
-  const options = React.useMemo(
-    () => getTimeOptions({ step, minTime, maxTime, after: startTime }),
-    [step, minTime, maxTime, startTime]
-  )
   // An end must come after its start, typed or picked.
   const earliestTime = startTime ? addMinutesToTime(startTime, 1) : minTime
-
   // The field is never narrower than its longest time, so none is cropped.
-  const widestText = React.useMemo(
-    () => getWidestTimeText(options, hourCycle),
-    [options, hourCycle]
-  )
+  const widestText = formatTimeValue(hasSeconds ? "22:00:00" : "22:00", {
+    hourCycle,
+  })
 
   // A value set from outside, or a new clock, rewrites the text.
   if (syncedValue !== currentValue || syncedHourCycle !== hourCycle) {
@@ -260,20 +143,22 @@ function TimeInput(
     onValueChange?.(nextValue)
   }
 
-  function openList() {
-    if (disabled || isOpen) return
-    // Open on the value, or on the time nearest now, as a calendar opens on
-    // today.
-    setActiveTime(
-      getNearestTimeOption(options, currentValue ?? getTimeOfDay(new Date()))
-    )
+  function openWheel({ focusWheel }: { focusWheel: boolean }) {
+    if (disabled) return
     setFieldWidth(groupRef.current?.offsetWidth)
     setIsOpen(true)
+    if (!focusWheel) return
+    requestAnimationFrame(() =>
+      document
+        .getElementById(wheelId)
+        ?.querySelector<HTMLElement>('[role="spinbutton"]')
+        ?.focus()
+    )
   }
 
-  function closeList() {
+  function closeWheel({ focusField }: { focusField: boolean }) {
     setIsOpen(false)
-    setActiveTime(undefined)
+    if (focusField) inputRef.current?.focus()
   }
 
   function commitText() {
@@ -284,32 +169,14 @@ function TimeInput(
     })
     setText(commit.text)
     setIsTextInvalid(commit.isInvalid)
-    updateValue(commit.value)
+    updateValue(toFieldTime(commit.value, hasSeconds))
     return commit
   }
 
-  function selectTime(time: string) {
+  function pickTime(time: string) {
     setText(formatTimeValue(time, { hourCycle }))
     setIsTextInvalid(false)
     updateValue(time)
-    closeList()
-  }
-
-  function moveActiveTime(offset: number) {
-    const index = activeTime ? options.indexOf(activeTime) : -1
-    const nextIndex = Math.max(0, Math.min(options.length - 1, index + offset))
-    const time = options[nextIndex]
-    if (!time) return
-    setActiveTime(time)
-    setText(formatTimeValue(time, { hourCycle }))
-    setIsTextInvalid(false)
-  }
-
-  const moves: Record<string, number> = {
-    ArrowDown: 1,
-    ArrowUp: -1,
-    PageDown: 5,
-    PageUp: -5,
   }
 
   return (
@@ -318,7 +185,10 @@ function TimeInput(
       className={cn("cn-time-input w-full min-w-fit", className)}
     >
       <InputGroup ref={groupRef}>
-        <InputGroupAddon align="inline-start" onClick={openList}>
+        <InputGroupAddon
+          align="inline-start"
+          onClick={() => openWheel({ focusWheel: false })}
+        >
           <IconPlaceholder
             lucide="ClockIcon"
             tabler="IconClock"
@@ -329,63 +199,49 @@ function TimeInput(
           />
         </InputGroupAddon>
         <InputGroupInput
-          ref={ref}
+          ref={(element) => {
+            inputRef.current = element
+            if (typeof ref === "function") return ref(element)
+            if (ref) ref.current = element
+          }}
           type="text"
           inputMode="text"
           autoComplete="off"
           spellCheck={false}
-          role="combobox"
-          aria-autocomplete="list"
+          aria-haspopup="dialog"
           aria-expanded={isOpen}
-          aria-controls={isOpen ? listId : undefined}
-          aria-activedescendant={
-            isOpen && activeTime ? getOptionId(listId, activeTime) : undefined
-          }
+          aria-controls={isOpen ? wheelId : undefined}
           aria-invalid={ariaInvalid || isTextInvalid || undefined}
           style={{ minWidth: `${widestText.length}ch`, ...style }}
           disabled={disabled}
           value={text}
-          onFocus={(event) => {
-            event.currentTarget.select()
-            onFocus?.(event)
-          }}
           onClick={(event) => {
-            openList()
+            openWheel({ focusWheel: false })
             onClick?.(event)
           }}
           onChange={(event) => {
             setText(event.target.value)
-            const typed = parseTimeText(event.target.value)
-            if (typed) setActiveTime(getNearestTimeOption(options, typed))
-            if (!isOpen) {
-              setFieldWidth(groupRef.current?.offsetWidth)
-              setIsOpen(true)
-            }
             onChange?.(event)
           }}
           onBlur={(event) => {
             commitText()
-            closeList()
             onBlur?.(event)
           }}
           onKeyDown={(event) => {
             onKeyDown?.(event)
             if (event.defaultPrevented) return
-            const offset = moves[event.key]
-            if (offset !== undefined) {
+            if (event.key === "ArrowDown" || event.key === "ArrowUp") {
               event.preventDefault()
-              if (isOpen) moveActiveTime(offset)
-              else openList()
+              commitText()
+              openWheel({ focusWheel: true })
             } else if (event.key === "Escape" && isOpen) {
               event.preventDefault()
               event.stopPropagation()
-              setText(formatTimeValue(currentValue, { hourCycle }))
-              setIsTextInvalid(false)
-              closeList()
+              closeWheel({ focusField: false })
             } else if (event.key === "Enter") {
               const committedText = text
               const commit = commitText()
-              closeList()
+              closeWheel({ focusField: false })
               // Show the rewritten time before a second Enter submits the form.
               if (commit.text !== committedText || commit.isInvalid) {
                 event.preventDefault()
@@ -398,12 +254,12 @@ function TimeInput(
       <Popover
         open={isOpen}
         onOpenChange={(open, details) => {
-          // A press on the field itself keeps the list; the field handles it.
+          // A press on the field itself keeps the wheel; the field handles it.
           const target = details.event?.target
           if (target instanceof Node && groupRef.current?.contains(target)) {
             return
           }
-          if (!open) closeList()
+          if (!open) setIsOpen(false)
         }}
       >
         <PopoverContent
@@ -414,16 +270,22 @@ function TimeInput(
           className="cn-time-input-content"
           style={{ minWidth: fieldWidth }}
         >
-          <TimeInputList
-            id={listId}
-            options={options}
+          <TimeWheel
+            id={wheelId}
             value={currentValue}
-            activeTime={activeTime}
-            startTime={startTime}
+            onValueChange={pickTime}
             hourCycle={hourCycle}
-            label={listLabel}
-            onActiveTimeChange={setActiveTime}
-            onSelect={selectTime}
+            hasSeconds={hasSeconds}
+            step={step}
+            minTime={earliestTime}
+            maxTime={maxTime}
+            label={wheelLabel}
+            onKeyDown={(event) => {
+              if (event.key !== "Enter" && event.key !== "Escape") return
+              event.preventDefault()
+              event.stopPropagation()
+              closeWheel({ focusField: true })
+            }}
           />
         </PopoverContent>
       </Popover>
@@ -468,7 +330,7 @@ function TimeRangeInput(
     defaultValue,
     onValueChange,
     hourCycle,
-    step = 15,
+    step = 1,
     minTime,
     maxTime,
     startId,
@@ -503,9 +365,9 @@ function TimeRangeInput(
     // Moving the start keeps the duration; a new start pushes an end that
     // no longer follows it to one step after.
     const end = range.start
-      ? shiftEndTime(range.start, range.end, start, step)
+      ? shiftEndTime(range.start, range.end, start, 60)
       : range.end && !getTimeDuration(start, range.end)
-        ? shiftEndTime(start, undefined, start, step)
+        ? shiftEndTime(start, undefined, start, 60)
         : range.end
     updateRange({ start, end })
   }
@@ -520,7 +382,7 @@ function TimeRangeInput(
       <TimeInput
         id={startId}
         aria-label={startLabel}
-        listLabel={startLabel}
+        wheelLabel={startLabel}
         value={range.start}
         onValueChange={changeStart}
         hourCycle={hourCycle}
@@ -542,7 +404,7 @@ function TimeRangeInput(
       />
       <TimeInput
         aria-label={endLabel}
-        listLabel={endLabel}
+        wheelLabel={endLabel}
         value={range.end}
         onValueChange={(end) => updateRange({ ...range, end })}
         hourCycle={hourCycle}
@@ -566,4 +428,4 @@ function TimeRangeInput(
   )
 }
 
-export { TimeInput, TimeRangeInput, type TimeRangeValue }
+export { TimeInput, TimeRangeInput, useHourCycle, type TimeRangeValue }

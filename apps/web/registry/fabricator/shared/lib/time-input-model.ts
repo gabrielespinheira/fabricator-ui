@@ -1,7 +1,8 @@
 // Time Input's rules as pure functions: reading typed text as a time of day,
 // writing it back in 12- or 24-hour form, the range check and the list of
-// times to pick from. Values are "HH:mm", what a time field submits. No React
-// and no DOM, so the website and React Native share it.
+// times to pick from, and the wheel's columns. Values are "HH:mm", or
+// "HH:mm:ss" with seconds, what a time field submits. No React and no DOM, so
+// the website and React Native share it.
 
 type HourCycle = 12 | 24
 
@@ -9,6 +10,14 @@ type TimeRange = {
   minTime?: string
   maxTime?: string
 }
+
+type TimeParts = {
+  hours: number
+  minutes: number
+  seconds: number
+}
+
+type Meridiem = "AM" | "PM"
 
 type TimeCommit = {
   value: string | undefined
@@ -24,8 +33,32 @@ const NAMED_TIMES: Record<string, string> = {
   midnight: "00:00",
 }
 
-// Hours, then optional minutes, then an optional a or p of a meridiem.
-const TIME_PATTERN = /^(\d{1,2})(?:[:.h]?(\d{2}))?\s*([ap])?\.?\s*(?:m\.?)?$/
+// Hours, then optional minutes and seconds, then an optional a or p of a
+// meridiem.
+const TIME_PATTERN =
+  /^(\d{1,2})(?:[:.h]?(\d{2}))?(?::(\d{2}))?\s*([ap])?\.?\s*(?:m\.?)?$/
+
+const pad = (value: number) => String(value).padStart(2, "0")
+
+/** A time's hours, minutes and seconds; seconds are 0 when it has none. */
+function splitTime(time: string): TimeParts {
+  const [hours = 0, minutes = 0, seconds = 0] = time.split(":").map(Number)
+  return { hours, minutes, seconds }
+}
+
+/** The parts as "HH:mm", or "HH:mm:ss" with seconds. */
+function joinTime(
+  { hours, minutes, seconds }: TimeParts,
+  { hasSeconds }: { hasSeconds: boolean }
+) {
+  const time = `${pad(hours)}:${pad(minutes)}`
+  return hasSeconds ? `${time}:${pad(seconds)}` : time
+}
+
+function toSeconds(time: string) {
+  const { hours, minutes, seconds } = splitTime(time)
+  return hours * 3600 + minutes * 60 + seconds
+}
 
 function toMinutes(time: string) {
   const [hours = 0, minutes = 0] = time.split(":").map(Number)
@@ -62,12 +95,16 @@ function parseTimeText(text: string) {
     : normalized
   const match = TIME_PATTERN.exec(compact)
   if (!match) return undefined
-  const [, hourText = "", minuteText = "0", meridiem] = match
+  const [, hourText = "", minuteText = "0", secondText, meridiem] = match
 
   const hours = toDayHour(Number(hourText), meridiem)
   const minutes = Number(minuteText)
-  if (hours === undefined || minutes > 59) return undefined
-  return fromMinutes(hours * 60 + minutes)
+  const seconds = Number(secondText ?? 0)
+  if (hours === undefined || minutes > 59 || seconds > 59) return undefined
+  return joinTime(
+    { hours, minutes, seconds },
+    { hasSeconds: secondText !== undefined }
+  )
 }
 
 /** The time as people read it: "9:30 PM" or "21:30". "" without one. */
@@ -76,12 +113,52 @@ function formatTimeValue(
   { hourCycle }: { hourCycle: HourCycle }
 ) {
   if (!time) return ""
-  const totalMinutes = toMinutes(time)
-  const hours = Math.floor(totalMinutes / 60)
-  const minutes = String(totalMinutes % 60).padStart(2, "0")
-  if (hourCycle === 24) return `${String(hours).padStart(2, "0")}:${minutes}`
-  const meridiem = hours < 12 ? "AM" : "PM"
-  return `${hours % 12 || 12}:${minutes} ${meridiem}`
+  const { hours, minutes, seconds } = splitTime(time)
+  const rest =
+    time.split(":").length > 2
+      ? `${pad(minutes)}:${pad(seconds)}`
+      : pad(minutes)
+  if (hourCycle === 24) return `${pad(hours)}:${rest}`
+  const { hour, meridiem } = toHour12(hours)
+  return `${hour}:${rest} ${meridiem}`
+}
+
+/** An hour of the day on a 12-hour clock: 0 is 12 AM, 13 is 1 PM. */
+function toHour12(hours: number): { hour: number; meridiem: Meridiem } {
+  return { hour: hours % 12 || 12, meridiem: hours < 12 ? "AM" : "PM" }
+}
+
+/** A 12-hour clock's hour back on the day: 12 AM is 0, 1 PM is 13. */
+function fromHour12(hour: number, meridiem: Meridiem) {
+  return (hour % 12) + (meridiem === "PM" ? 12 : 0)
+}
+
+/** The hour wheel: 1 to 12 on a 12-hour clock, 0 to 23 on a 24-hour one. */
+function getHourValues(hourCycle: HourCycle) {
+  return hourCycle === 12
+    ? Array.from({ length: 12 }, (_, index) => index + 1)
+    : Array.from({ length: 24 }, (_, index) => index)
+}
+
+/** The minute (or second) wheel: 0 to 59, every `step`. */
+function getMinuteValues(step: number) {
+  const safeStep = Math.max(1, Math.round(step))
+  return Array.from(
+    { length: Math.ceil(60 / safeStep) },
+    (_, index) => index * safeStep
+  )
+}
+
+/**
+ * The time moved inside the range when a wheel leaves it: before the start
+ * becomes the start, after the end the end. Keeps the time's own form.
+ */
+function clampTime(time: string, { minTime, maxTime }: TimeRange) {
+  const hasSeconds = time.split(":").length > 2
+  const bound = (limit: string) => joinTime(splitTime(limit), { hasSeconds })
+  if (minTime && toSeconds(time) < toSeconds(minTime)) return bound(minTime)
+  if (maxTime && toSeconds(time) > toSeconds(maxTime)) return bound(maxTime)
+  return time
 }
 
 /** Whether the time falls within the range, both ends included. */
@@ -195,9 +272,19 @@ function getWidestTimeText(options: string[], hourCycle: HourCycle) {
     .reduce((widest, text) => (text.length > widest.length ? text : widest), "")
 }
 
-/** A date's clock time as HH:mm, to open the list on now. */
-function getTimeOfDay(date: Date) {
-  return fromMinutes(date.getHours() * 60 + date.getMinutes())
+/** A date's clock time as HH:mm, or HH:mm:ss with seconds. */
+function getTimeOfDay(
+  date: Date,
+  { hasSeconds = false }: { hasSeconds?: boolean } = {}
+) {
+  return joinTime(
+    {
+      hours: date.getHours(),
+      minutes: date.getMinutes(),
+      seconds: date.getSeconds(),
+    },
+    { hasSeconds }
+  )
 }
 
 /** The option a list should show first: the value, or the nearest after it. */
@@ -211,6 +298,13 @@ function getNearestTimeOption(options: string[], time: string | undefined) {
 
 export {
   addMinutesToTime,
+  clampTime,
+  fromHour12,
+  getHourValues,
+  getMinuteValues,
+  joinTime,
+  splitTime,
+  toHour12,
   commitTimeText,
   formatTimeDuration,
   formatTimeValue,
@@ -224,6 +318,8 @@ export {
   parseTimeText,
   shiftEndTime,
   type HourCycle,
+  type Meridiem,
+  type TimeParts,
   type TimeCommit,
   type TimeRange,
 }

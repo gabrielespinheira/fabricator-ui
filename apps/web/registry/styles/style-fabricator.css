@@ -931,9 +931,9 @@
 
   /* A raised card on surface 3 that lifts to surface 4's shadow while the
      field has focus, with a faint foreground ring for the keyboard. Its height
-     eases to what it holds on the move timing, so a growing draft or a
-     header of attachments slides the card open rather than jumping. 16px
-     corners; the compact pill rounds to 24px around its round send. */
+     eases to what it holds on the move timing, so a growing draft or a row of
+     attachments slides the card open rather than jumping. 16px corners; the
+     compact pill rounds to 24px around its round send. */
   .cn-chat-input {
     @apply bg-surface-3 shadow-surface-3 rounded-2xl text-foreground transition-[height,box-shadow] duration-move ease-move focus-within:shadow-surface-4 has-[[data-slot=chat-input-textarea]:focus-visible]:ring-1 has-[[data-slot=chat-input-textarea]:focus-visible]:ring-foreground/10 has-[[data-slot=chat-input-textarea][aria-invalid=true]]:ring-1 has-[[data-slot=chat-input-textarea][aria-invalid=true]]:ring-destructive/50 data-[layout=compact]:rounded-3xl data-disabled:cursor-not-allowed data-disabled:opacity-60 motion-reduce:transition-[box-shadow];
   }
@@ -942,16 +942,77 @@
     @apply min-w-0;
   }
 
-  /* Attachments and context chips, inset to line up with the text. */
+  /* Quoted context or a mode, inset to line up with the text. */
   .cn-chat-input-header {
-    @apply gap-(--density-8) px-(--density-12) pt-(--density-12) empty:hidden;
+    @apply gap-(--density-8) px-(--density-16) pt-(--density-14) empty:hidden;
   }
 
-  /* 14px reading text on a 24px line, as the transcript. Default: grows from
-     two lines' room to 288px, then scrolls. Compact: one line beside its
-     controls, 192px at most; stacked, it takes the card's width. */
+  /* "Drop to attach": the card's surface over everything, with the focus
+     ring as its edge. */
+  .cn-chat-input-drop {
+    @apply bg-surface-3/90 ring-focus-ring text-muted-foreground gap-(--density-8) rounded-[inherit] text-(length:--density-text-13) ring-1 animate-in fade-in-0 duration-feedback ease-feedback motion-reduce:animate-none [&_svg]:size-(--density-icon-16) [&_svg]:stroke-[1.5];
+  }
+
+  /* Voice chat's glow: two soft blooms of the info hue (the second turned
+     toward violet) rising from the card's bottom edge, swelling and
+     brightening with --chat-input-voice-level, which the component writes
+     every frame. */
+  .cn-chat-input-voice-glow {
+    @apply rounded-[inherit] *:bottom-0 *:h-[140%] *:w-[70%] *:translate-y-1/2 *:origin-bottom *:rounded-full *:blur-2xl *:opacity-[calc(0.3_+_var(--chat-input-voice-level,0)_*_0.7)] *:scale-[calc(0.7_+_var(--chat-input-voice-level,0)_*_0.5)] *:transition-[opacity,scale] *:duration-feedback *:ease-feedback motion-reduce:*:scale-100;
+  }
+
+  .cn-chat-input-voice-glow-start {
+    @apply start-[-10%] bg-[oklch(from_var(--info)_l_c_h_/_0.55)];
+  }
+
+  .cn-chat-input-voice-glow-end {
+    @apply end-[-10%] bg-[oklch(from_var(--info)_l_c_calc(h_+_60)_/_0.5)];
+  }
+
+  /* Files riding along: 56px tiles across the top in the default layout,
+     44px ones nested in the pill's corner above a compact draft, and 36px
+     thumbnails beside send while a compact draft is on one line. */
+  .cn-chat-input-attachments {
+    @apply data-[layout=default]:gap-(--density-8) data-[layout=default]:px-(--density-16) data-[layout=default]:pt-(--density-16) data-[layout=compact]:gap-(--density-8) data-[layout=compact]:px-(--density-8) data-[layout=compact]:pt-(--density-8) data-[layout=inline]:me-(--density-4) data-[layout=inline]:gap-(--density-6) data-[layout=inline]:self-center;
+  }
+
+  .cn-chat-input-attachment {
+    @apply animate-in fade-in-0 slide-in-from-bottom-1 duration-move ease-enter motion-reduce:animate-none;
+  }
+
+  /* Surface 2 with a hairline. An image fills a square; a file is a chip
+     with its icon and name. Uploading dims the image under a spinner. */
+  .cn-chat-input-attachment-tile {
+    @apply bg-surface-2 ring-border h-14 rounded-lg ring-1 group-data-[layout=compact]/chat-input-attachments:h-(--density-40) group-data-[layout=compact]/chat-input-attachments:rounded-2xl group-data-[layout=inline]/chat-input-attachments:h-(--density-36) group-data-[layout=inline]/chat-input-attachments:rounded-xl group-data-[kind=image]/chat-input-attachment:aspect-square group-data-[kind=file]/chat-input-attachment:max-w-48 group-data-[kind=file]/chat-input-attachment:gap-(--density-8) group-data-[kind=file]/chat-input-attachment:px-(--density-12) [&>svg]:text-muted-foreground [&>svg]:shrink-0 [&>svg]:size-(--density-icon-16) [&>svg]:stroke-[1.5] group-data-uploading/chat-input-attachment:[&_img]:opacity-50;
+  }
+
+  .cn-chat-input-attachment-image {
+    @apply transition-opacity duration-move ease-move;
+  }
+
+  .cn-chat-input-attachment-name {
+    @apply text-(length:--density-text-12);
+  }
+
+  /* A small round button on the tile's corner, shown on hover or focus. */
+  .cn-chat-input-attachment-remove {
+    @apply bg-surface-4 shadow-surface-3 text-muted-foreground hover:text-foreground focus-visible:ring-ring -top-1.5 -end-1.5 size-(--density-20) cursor-pointer rounded-full opacity-0 outline-none transition-[opacity,color] duration-feedback ease-feedback group-hover/chat-input-attachment:opacity-100 group-focus-within/chat-input-attachment:opacity-100 focus-visible:ring-1 [&_svg]:size-(--density-icon-14);
+  }
+
+  /* 14px reading text on a 24px line, as the transcript. Default: 56px for
+     the first line, 288px at most, then it scrolls. Compact: one line beside
+     its controls, 192px at most; stacked, it takes the card's width. The
+     rotating hint fades out quicker than the next one fades in. */
   .cn-chat-input-textarea {
-    @apply text-foreground placeholder:text-muted-foreground max-h-72 min-h-(--density-48) px-(--density-16) pt-(--density-14) pb-(--density-4) text-(length:--density-text-14) leading-6 group-data-[layout=compact]/chat-input:max-h-48 group-data-[layout=compact]/chat-input:min-h-0 group-data-[layout=compact]/chat-input:px-(--density-6) group-data-[layout=compact]/chat-input:py-(--density-14) group-data-[layout=compact]/chat-input:group-data-stacked/chat-input:px-(--density-16) group-data-[layout=compact]/chat-input:group-data-stacked/chat-input:pb-(--density-4);
+    @apply text-foreground placeholder:text-muted-foreground max-h-72 min-h-14 px-(--density-20) pt-(--density-16) pb-(--density-4) text-(length:--density-text-14) leading-6 placeholder:transition-colors placeholder:duration-move data-placeholder-fading:placeholder:text-transparent data-placeholder-fading:placeholder:duration-feedback-exit data-mentions:text-transparent data-mentions:caret-foreground data-mentions:selection:bg-foreground/25 group-data-[layout=compact]/chat-input:max-h-48 group-data-[layout=compact]/chat-input:min-h-0 group-data-[layout=compact]/chat-input:ps-(--density-6) group-data-[layout=compact]/chat-input:pe-(--density-6) group-data-[layout=compact]/chat-input:py-(--density-14) group-data-[layout=compact]/chat-input:group-data-stacked/chat-input:px-(--density-16) group-data-[layout=compact]/chat-input:group-data-stacked/chat-input:pb-(--density-4);
+  }
+
+  /* A mention keeps the field's metrics (it sits in the overlay drawn under
+     the textarea): only colour, a tint and a ring outside the box. Files
+     (@) are info, skills (/) violet, artifacts ($) warning, cards (#)
+     success, any other sigil the primary role. */
+  .cn-chat-input-mention {
+    @apply bg-primary/12 text-primary-text ring-primary/12 rounded-sm ring-2 box-decoration-clone data-[sigil='@']:bg-info/15 data-[sigil='@']:text-info-text data-[sigil='@']:ring-info/15 data-[sigil='/']:bg-[oklch(from_var(--info)_l_c_calc(h_+_50)_/_0.15)] data-[sigil='/']:text-[oklch(from_var(--info-text)_l_c_calc(h_+_50))] data-[sigil='/']:ring-[oklch(from_var(--info)_l_c_calc(h_+_50)_/_0.15)] data-[sigil='$']:bg-warning/15 data-[sigil='$']:text-warning-text data-[sigil='$']:ring-warning/15 data-[sigil='#']:bg-success/15 data-[sigil='#']:text-success-text data-[sigil='#']:ring-success/15;
   }
 
   .cn-chat-input-footer {
@@ -970,44 +1031,150 @@
 
   /* The build puts these rules before Button's own classes, so the ones
      that replace a Button class are marked important.
-     Footer controls are round: 32px icons, pills with a label. A toggle
-     (aria-pressed) holds the active fill while on. */
+     Footer controls: 32px ghost squares (36px and round in the compact
+     pill); with a label they are pills, 8px in. A toggle (aria-pressed)
+     holds the active fill while on. */
   .cn-chat-input-button {
-    @apply rounded-full! not-has-[>span]:size-(--density-32)! has-[>span]:h-(--density-32)! has-[>span]:w-auto! has-[>span]:gap-(--density-6)! has-[>span]:px-(--density-10)! aria-pressed:bg-active! aria-pressed:text-foreground!;
+    @apply not-has-[>span]:size-(--density-32)! has-[>span]:h-(--density-32)! has-[>span]:w-auto! has-[>span]:gap-(--density-6)! has-[>span]:px-(--density-8)! aria-pressed:bg-active! aria-pressed:text-foreground! group-data-[layout=compact]/chat-input:rounded-full! group-data-[layout=compact]/chat-input:not-has-[>span]:size-(--density-36)! group-data-[layout=compact]/chat-input:has-[>span]:h-(--density-36)! group-data-[layout=compact]/chat-input:has-[>span]:px-(--density-10)!;
   }
 
-  /* Send: a 32px round button (36px in the compact pill), the primary fill
-     once there is something to send. Its three glyphs share one cell and
-     trade places on the feedback timing: the arrow; the spinner while a
-     reply is on its way; the stop square over the spinner on hover or focus
-     when the reply can be stopped. */
+  /* The microphone mutes rather than toggles a mode, so a muted mic stays
+     muted-looking rather than lit; its icon swells with the voice level. */
+  .cn-chat-input-mic {
+    @apply data-[activity=muted]:bg-transparent! data-[activity=muted]:text-muted-foreground!;
+  }
+
+  .cn-chat-input-mic-icon {
+    @apply scale-[calc(1_+_var(--chat-input-voice-level,0)_*_0.4)] motion-reduce:scale-100 [&_svg]:size-(--density-icon-16);
+  }
+
+  /* How full the context is: the reading (hidden in a narrow input) and a
+     14px ring on a faint track, warning from 70% and destructive from 90%. */
+  .cn-chat-input-context-meter {
+    @apply tabular-nums;
+  }
+
+  .cn-chat-input-context-meter-label {
+    @apply @max-md/chat-input:hidden;
+  }
+
+  .cn-chat-input-context-meter-ring {
+    @apply text-muted-foreground size-(--density-icon-14)! in-data-[level=high]:text-warning in-data-[level=full]:text-destructive;
+  }
+
+  .cn-chat-input-context-meter-track {
+    @apply stroke-foreground/15;
+  }
+
+  /* Send: 32px (36px and round in the compact pill), the primary fill
+     whenever it does something, secondary while there is nothing to send.
+     Its glyphs share one cell and trade places with a fade and a scale on
+     the feedback timing: the arrow to send or queue; the audio lines to start
+     voice chat, an X to end it; the spinner while a reply runs, which turns
+     into the stop square on hover or focus. */
   .cn-chat-input-submit {
-    @apply rounded-full! size-(--density-32)! group-data-[layout=compact]/chat-input:size-(--density-36)! disabled:opacity-100!;
+    @apply size-(--density-32)! group-data-[layout=compact]/chat-input:size-(--density-36)! group-data-[layout=compact]/chat-input:rounded-full! disabled:opacity-100! disabled:data-[state=idle]:text-muted-foreground disabled:data-[state=uploading]:text-muted-foreground;
   }
 
   .cn-chat-input-submit-send {
-    @apply size-(--density-icon-16) stroke-2 transition-[opacity,scale] duration-feedback ease-feedback group-data-[state=busy]/chat-input-submit:scale-50 group-data-[state=busy]/chat-input-submit:opacity-0;
+    @apply size-(--density-icon-16) stroke-2 scale-50 opacity-0 transition-[opacity,scale] duration-feedback ease-feedback group-data-[state=send]/chat-input-submit:scale-100 group-data-[state=send]/chat-input-submit:opacity-100 group-data-[state=queue]/chat-input-submit:scale-100 group-data-[state=queue]/chat-input-submit:opacity-100 group-data-[state=idle]/chat-input-submit:scale-100 group-data-[state=idle]/chat-input-submit:opacity-100 group-data-[state=uploading]/chat-input-submit:scale-100 group-data-[state=uploading]/chat-input-submit:opacity-100;
+  }
+
+  .cn-chat-input-submit-voice {
+    @apply size-(--density-icon-16) scale-50 opacity-0 transition-[opacity,scale] duration-feedback ease-feedback group-data-[state=voice]/chat-input-submit:not-group-data-voice/chat-input-submit:scale-100 group-data-[state=voice]/chat-input-submit:not-group-data-voice/chat-input-submit:opacity-100;
+  }
+
+  .cn-chat-input-submit-end {
+    @apply size-(--density-icon-16) scale-50 opacity-0 transition-[opacity,scale] duration-feedback ease-feedback group-data-voice/chat-input-submit:scale-100 group-data-voice/chat-input-submit:opacity-100;
   }
 
   .cn-chat-input-submit-spinner {
-    @apply size-(--density-icon-16) scale-50 opacity-0 transition-[opacity,scale] duration-feedback ease-feedback group-data-[state=busy]/chat-input-submit:scale-100 group-data-[state=busy]/chat-input-submit:opacity-100 group-data-can-stop/chat-input-submit:group-hover/chat-input-submit:opacity-0 group-data-can-stop/chat-input-submit:group-focus-visible/chat-input-submit:opacity-0;
+    @apply size-(--density-icon-16) scale-50 opacity-0 transition-[opacity,scale] duration-feedback ease-feedback group-data-[state=busy]/chat-input-submit:scale-100 group-data-[state=busy]/chat-input-submit:opacity-100 group-data-[state=stop]/chat-input-submit:scale-100 group-data-[state=stop]/chat-input-submit:opacity-100 group-data-[state=stop]/chat-input-submit:group-hover/chat-input-submit:opacity-0 group-data-[state=stop]/chat-input-submit:group-focus-visible/chat-input-submit:opacity-0;
   }
 
   .cn-chat-input-submit-stop {
-    @apply size-(--density-icon-14) fill-current scale-50 opacity-0 transition-[opacity,scale] duration-feedback ease-feedback group-data-can-stop/chat-input-submit:group-hover/chat-input-submit:scale-75 group-data-can-stop/chat-input-submit:group-hover/chat-input-submit:opacity-100 group-data-can-stop/chat-input-submit:group-focus-visible/chat-input-submit:scale-75 group-data-can-stop/chat-input-submit:group-focus-visible/chat-input-submit:opacity-100;
+    @apply size-(--density-icon-14) fill-current scale-50 opacity-0 transition-[opacity,scale] duration-feedback ease-feedback group-data-[state=stop]/chat-input-submit:group-hover/chat-input-submit:scale-75 group-data-[state=stop]/chat-input-submit:group-hover/chat-input-submit:opacity-100 group-data-[state=stop]/chat-input-submit:group-focus-visible/chat-input-submit:scale-75 group-data-[state=stop]/chat-input-submit:group-focus-visible/chat-input-submit:opacity-100;
   }
 
-  /* A step further back than the card: surface 2 with a hairline, inset
-     from the card's corners and tucked 16px under its top edge, so the card
-     overlaps it. It rises into place on the move timing. */
+  /* The `/` menu: one step over the card (surface 4), spanning it and
+     floating 8px above it, rising in on the popup timing. A caption row
+     names it and the keys; rows are 36px menu rows, muted until active. */
+  .cn-chat-input-commands {
+    @apply bg-surface-4 shadow-surface-4 text-foreground mb-(--density-8) rounded-xl text-(length:--density-text-13) animate-in fade-in-0 slide-in-from-bottom-1 duration-popup ease-enter motion-reduce:animate-none;
+  }
+
+  .cn-chat-input-commands-header {
+    @apply text-muted-foreground gap-(--density-8) px-(--density-10) pt-(--density-8) pb-(--density-6) text-(length:--density-text-12);
+  }
+
+  .cn-chat-input-commands-title {
+    @apply font-medium tracking-wide uppercase;
+  }
+
+  .cn-chat-input-commands-hint {
+    @apply hidden sm:inline;
+  }
+
+  .cn-chat-input-commands-empty {
+    @apply text-muted-foreground px-(--density-10) pt-1 pb-(--density-10);
+  }
+
+  .cn-chat-input-commands-list {
+    @apply max-h-72 p-1 pt-0;
+  }
+
+  .cn-chat-input-command {
+    @apply text-muted-foreground aria-selected:bg-hover aria-selected:text-foreground min-h-(--density-36) gap-(--density-10) rounded-lg px-(--density-8) transition-colors duration-feedback ease-feedback;
+  }
+
+  .cn-chat-input-command-icon {
+    @apply text-muted-foreground [&_svg]:stroke-[1.5] [&_svg:not([class*='size-'])]:size-(--density-icon-16) in-data-[kind=skill]:text-[oklch(from_var(--info-text)_l_c_calc(h_+_50))];
+  }
+
+  /* Commands read bold; skills mono in the skill tint, as their mentions. */
+  .cn-chat-input-command-name {
+    @apply text-foreground font-medium in-data-[kind=skill]:font-mono in-data-[kind=skill]:text-(length:--density-text-12) in-data-[kind=skill]:text-[oklch(from_var(--info-text)_l_c_calc(h_+_50))];
+  }
+
+  .cn-chat-input-command-description {
+    @apply text-muted-foreground;
+  }
+
+  .cn-chat-input-command-badge {
+    @apply bg-active text-foreground rounded-md px-(--density-6) text-(length:--density-text-11) leading-5;
+  }
+
+  /* Trays step back from the card: level 1 (queued messages) on surface 2,
+     inset 20px; level 2 (background work) and 3 (a goal) on surface 1,
+     inset 28 and 36px. Each is tucked 16px under what's in front of it, so
+     the card overlaps the stack; the compact pill insets them 4px more.
+     They rise into place on the move timing. */
   .cn-chat-input-tray {
-    @apply bg-surface-2 ring-border/60 mx-(--density-20) -mb-(--density-16) rounded-t-2xl px-(--density-6) pt-(--density-6) pb-(--density-20) ring-1 animate-in fade-in-0 slide-in-from-bottom-2 duration-move ease-enter motion-reduce:animate-none [&:has(+[data-layout=compact])]:mx-(--density-24);
+    @apply ring-border/60 -mb-(--density-16) rounded-t-2xl px-(--density-6) pt-(--density-6) pb-(--density-20) ring-1 animate-in fade-in-0 slide-in-from-bottom-2 duration-move ease-enter motion-reduce:animate-none data-[level=1]:bg-surface-2 data-[level=1]:mx-(--density-20) data-[level=2]:bg-surface-1 data-[level=2]:mx-(--density-28) data-[level=3]:bg-surface-1 data-[level=3]:mx-(--density-36) data-[level=1]:[&:has(~[data-slot=chat-input][data-layout=compact])]:mx-(--density-24) data-[level=2]:[&:has(~[data-slot=chat-input][data-layout=compact])]:mx-(--density-32) data-[level=3]:[&:has(~[data-slot=chat-input][data-layout=compact])]:mx-(--density-40);
   }
 
   /* 36px rows of 13px text with a muted 16px icon and ghost actions at
      the end. */
   .cn-chat-input-tray-item {
-    @apply h-(--density-36) gap-(--density-8) rounded-lg ps-(--density-8) pe-(--density-4) text-(length:--density-text-13) [&>svg]:text-muted-foreground [&>svg]:shrink-0 [&>svg]:stroke-[1.5] [&>svg:not([class*='size-'])]:size-(--density-icon-16);
+    @apply h-(--density-36) gap-(--density-8) rounded-lg ps-(--density-8) pe-(--density-4) text-(length:--density-text-13) has-[[data-slot=chat-input-tray-trigger]]:ps-0 [&>svg]:text-muted-foreground [&>svg]:shrink-0 [&>svg]:stroke-[1.5] [&>svg:not([class*='size-'])]:size-(--density-icon-16);
+  }
+
+  /* The row's text as a button that opens its content: the hover fill, a
+     chevron at the end that turns while open. */
+  .cn-chat-input-tray-trigger {
+    @apply text-foreground hover:bg-hover focus-visible:ring-ring cursor-pointer gap-(--density-8) rounded-lg ps-(--density-8) pe-(--density-6) transition-colors duration-feedback ease-feedback focus-visible:ring-1 [&>svg]:text-muted-foreground [&>svg]:shrink-0 [&>svg]:stroke-[1.5] [&>svg:not([class*='size-'])]:size-(--density-icon-16);
+  }
+
+  .cn-chat-input-tray-chevron {
+    @apply size-(--density-icon-14)! transition-transform duration-feedback ease-feedback group-data-open/chat-input-tray-entry:rotate-180;
+  }
+
+  .cn-chat-input-tray-meta {
+    @apply text-muted-foreground text-(length:--density-text-12) tabular-nums;
+  }
+
+  .cn-chat-input-tray-content {
+    @apply px-(--density-8) pt-0.5 pb-(--density-8) text-(length:--density-text-12) animate-in fade-in-0 duration-disclosure ease-enter motion-reduce:animate-none;
   }
 
 /* MARK: Checkbox */
@@ -1053,19 +1220,23 @@
 
 /* MARK: Color Picker */
 
-  /* A 280px card: surface 2 with its shadow ring, rounded-xl, 12px inset.
+  /* A card 336px wide at the default density (295 compact, 377 spacious:
+     text shrinks less than the spacing, so the width follows both), wide
+     enough for the format, three fields and the eyedropper in one row.
+     Surface 2 with its shadow ring, rounded-xl, 12px inset.
      Inside a popover the popup is the card, so the panel drops its own.
      --color-picker-checker paints the squares behind translucent colors:
      the foreground at 14% over the surface, so it follows the theme. */
   .cn-color-picker {
-    @apply bg-card text-card-foreground shadow-surface-2 w-70 gap-(--density-8) rounded-xl p-(--density-12) text-(length:--density-text-13) [--color-picker-checker:color-mix(in_oklab,var(--foreground)_14%,transparent)] data-[size=lg]:density-spacious data-[size=sm]:density-compact in-data-[slot=popover-content]:w-64 in-data-[slot=popover-content]:bg-transparent in-data-[slot=popover-content]:p-0 in-data-[slot=popover-content]:shadow-none;
+    @apply bg-card text-card-foreground shadow-surface-2 w-[calc(152px+var(--density-36)*5.125)] gap-(--density-8) rounded-xl p-(--density-12) text-(length:--density-text-13) [--color-picker-checker:color-mix(in_oklab,var(--foreground)_14%,transparent)] data-[size=lg]:density-spacious data-[size=sm]:density-compact in-data-[slot=popover-content]:w-[calc(152px+var(--density-36)*5.125-var(--density-12)*2)] in-data-[slot=popover-content]:bg-transparent in-data-[slot=popover-content]:p-0 in-data-[slot=popover-content]:shadow-none;
   }
 
   /* The HSV plane at the current hue: black rising over white to the pure
-     hue. Its corners nest inside the card's (radius less the inset). The
-     pointer hides; a hollow ring previews where a press lands. */
+     hue. rounded-lg, like the fields and the select below it (the card's
+     radius less its inset left only 2px). The pointer hides; a hollow ring
+     previews where a press lands. */
   .cn-color-picker-area {
-    @apply aspect-[8/5] cursor-none rounded-[max(0px,calc(var(--radius-xl)_-_var(--density-12)))] bg-[linear-gradient(to_top,#000,transparent),linear-gradient(to_right,#fff,var(--color-picker-hue))] focus-visible:ring-2 focus-visible:ring-focus-ring;
+    @apply aspect-[8/5] cursor-none rounded-lg bg-[linear-gradient(to_top,#000,transparent),linear-gradient(to_right,#fff,var(--color-picker-hue))] focus-visible:ring-2 focus-visible:ring-focus-ring;
   }
 
   /* The thumb is the color itself, ringed white then black, so it reads on
@@ -1083,31 +1254,53 @@
   }
 
   /* Hue and alpha are Sliders: the gradient is the track, so the range
-     fill hides, and the knob takes the color under it with a white edge. */
+     fill hides, and the knob takes the color under it with a white edge.
+     A hairline keeps each rail's edge when its color matches the card. */
   .cn-color-picker-hue {
-    @apply [&_[data-slot=slider-range]]:hidden [&_[data-slot=slider-thumb]]:border-2 [&_[data-slot=slider-thumb]]:border-white [&_[data-slot=slider-thumb]]:bg-(--color-picker-thumb) [&_[data-slot=slider-thumb]]:shadow-[0_0_0_1px_rgb(0_0_0/0.25),0_1px_2px_rgb(0_0_0/0.2)] [&_[data-slot=slider-track]]:border-0 [&_[data-slot=slider-track]]:bg-[linear-gradient(to_right,#f00,#ff0,#0f0,#0ff,#00f,#f0f,#f00)];
+    @apply [&_[data-slot=slider-range]]:hidden [&_[data-slot=slider-thumb]]:border-2 [&_[data-slot=slider-thumb]]:border-white [&_[data-slot=slider-thumb]]:bg-(--color-picker-thumb) [&_[data-slot=slider-thumb]]:shadow-[0_0_0_1px_rgb(0_0_0/0.25),0_1px_2px_rgb(0_0_0/0.2)] [&_[data-slot=slider-track]]:border-0 [&_[data-slot=slider-track]]:bg-[linear-gradient(to_right,#f00,#ff0,#0f0,#0ff,#00f,#f0f,#f00)] [&_[data-slot=slider-track]]:shadow-[inset_0_0_0_1px_color-mix(in_oklab,var(--foreground)_12%,transparent)];
   }
 
   /* Transparent to the opaque color, over an 8px checker. */
   .cn-color-picker-alpha {
-    @apply [&_[data-slot=slider-range]]:hidden [&_[data-slot=slider-thumb]]:border-2 [&_[data-slot=slider-thumb]]:border-white [&_[data-slot=slider-thumb]]:bg-(--color-picker-thumb) [&_[data-slot=slider-thumb]]:shadow-[0_0_0_1px_rgb(0_0_0/0.25),0_1px_2px_rgb(0_0_0/0.2)] [&_[data-slot=slider-track]]:border-0 [&_[data-slot=slider-track]]:bg-[linear-gradient(to_right,transparent,var(--color-picker-opaque)),conic-gradient(var(--color-picker-checker)_0_25%,transparent_0_50%,var(--color-picker-checker)_0_75%,transparent_0)] [&_[data-slot=slider-track]]:bg-size-[100%_100%,8px_8px];
+    @apply [&_[data-slot=slider-range]]:hidden [&_[data-slot=slider-thumb]]:border-2 [&_[data-slot=slider-thumb]]:border-white [&_[data-slot=slider-thumb]]:bg-(--color-picker-thumb) [&_[data-slot=slider-thumb]]:shadow-[0_0_0_1px_rgb(0_0_0/0.25),0_1px_2px_rgb(0_0_0/0.2)] [&_[data-slot=slider-track]]:border-0 [&_[data-slot=slider-track]]:bg-[linear-gradient(to_right,transparent,var(--color-picker-opaque)),conic-gradient(var(--color-picker-checker)_0_25%,transparent_0_50%,var(--color-picker-checker)_0_75%,transparent_0)] [&_[data-slot=slider-track]]:bg-size-[100%_100%,8px_8px] [&_[data-slot=slider-track]]:shadow-[inset_0_0_0_1px_color-mix(in_oklab,var(--foreground)_12%,transparent)];
   }
 
+  /* Each slider with its value beside it (degrees, percent), 12px apart:
+     a React Aria knob centres on its value, so at the end it reaches half
+     its width past the rail. */
+  .cn-color-picker-slider-row {
+    @apply gap-(--density-12);
+  }
+
+  /* Every value and code in the picker is set in the mono font, so each
+     character is 1ch: a fixed 4ch fits "100%" and "360°", and nothing
+     shifts or resizes as the value changes (tabular figures alone leave
+     hex letters and "%" their own widths). */
+  .cn-color-picker-slider-value {
+    @apply text-muted-foreground w-[4ch] text-end font-mono whitespace-nowrap text-(length:--density-text-12);
+  }
+
+  /* One row: the format select at its own width, the fields filling the
+     rest, then the eyedropper. Below md inputs set 16px text (so iOS
+     doesn't zoom on focus), too wide for one row, so the fields wrap onto
+     a line of their own and the select takes the first. */
   .cn-color-picker-controls {
-    @apply gap-(--density-8);
+    @apply gap-(--density-6) max-md:flex-wrap;
   }
 
+  /* As wide as "OKLCH" needs (its text in em, its insets and chevron in
+     the density), whichever format shows, so the fields never resize. */
   .cn-color-picker-format {
-    @apply flex-1;
+    @apply w-[calc(3.6em+var(--density-40))] shrink-0 max-md:flex-1;
   }
 
   .cn-color-picker-eyedropper {
     @apply text-muted-foreground hover:text-foreground;
   }
 
-  /* Four fields to a row: three channels and alpha, or hex across three. */
+  /* Three channels, or the hex field alone. Alpha is the slider's. */
   .cn-color-picker-fields {
-    @apply gap-(--density-4);
+    @apply min-w-0 flex-1 gap-(--density-4) max-md:order-last max-md:basis-full;
   }
 
   /* An Input Group, so it frames, hovers and focuses like every field. While
@@ -1122,12 +1315,12 @@
      one line box as tall as the field: an input places its text 1px lower
      than a padded addon would, so equal line boxes are what line them up. */
   .cn-color-picker-field-label {
-    @apply self-stretch py-0 pl-(--density-8)! leading-(--density-36) font-medium data-scrubbable:cursor-ew-resize;
+    @apply self-stretch py-0 pl-(--density-6)! leading-(--density-36) font-medium data-scrubbable:cursor-ew-resize;
   }
 
-  /* Digits keep one width, so a value doesn't shift as it changes. */
+  /* Mono, so a value doesn't shift as it changes. */
   .cn-color-picker-field-input {
-    @apply min-w-0 py-0! pr-(--density-4) pl-(--density-4)! leading-(--density-36) tabular-nums;
+    @apply min-w-0 py-0! pr-(--density-4) pl-(--density-4)! leading-(--density-36) font-mono;
   }
 
   /* The cells tile with no gap and overhang the strip by their 4px inset,
@@ -1161,7 +1354,7 @@
   }
 
   .cn-color-picker-trigger-value {
-    @apply tabular-nums;
+    @apply font-mono;
   }
 
   .cn-color-picker-trigger-label {
@@ -1390,10 +1583,20 @@
 
 /* MARK: Date Picker */
 
-  /* An Input Group: the frame, focus, invalid and disabled states are the
-     group's. Dates line up in tabular figures. */
+  /* Editable: an Input Group, so the frame, focus, invalid and disabled states
+     are the group's. Dates line up in tabular figures. */
   .cn-date-picker {
     @apply [&_[data-slot=input-group-control]]:tabular-nums;
+  }
+
+  /* The default field is a button framed like every other field, as the
+     Select trigger is: muted while it asks for a date, lit while open. */
+  .cn-date-picker-field {
+    @apply text-foreground cursor-pointer ring-border data-placeholder:text-muted-foreground hover:bg-muted/50 aria-expanded:bg-card focus-visible:ring-ring aria-invalid:ring-destructive/50 aria-invalid:hover:bg-destructive/5 data-invalid:ring-destructive/50 data-invalid:hover:bg-destructive/5 h-(--density-36) gap-(--density-8) rounded-lg bg-transparent px-(--density-10) text-(length:--density-text-13) tabular-nums ring-1 ring-inset transition-[color,background-color,box-shadow] duration-feedback ease-feedback select-none;
+  }
+
+  .cn-date-picker-field-icon {
+    @apply text-muted-foreground size-(--density-icon-16);
   }
 
   /* The calendar button stays lit while its calendar is open. */
@@ -1404,6 +1607,18 @@
   /* The calendar brings its own padding. */
   .cn-date-picker-content {
     @apply p-0;
+  }
+
+  /* The calendar and the time column side by side, the column as tall as
+     the calendar. */
+  .cn-date-picker-panel {
+    @apply items-stretch;
+  }
+
+  /* The time column: a hairline from the calendar, the wheel inside as tall
+     as it. */
+  .cn-date-picker-time {
+    @apply border-border border-s px-(--density-4) py-(--density-8);
   }
 
 /* MARK: Dialog */
@@ -1708,6 +1923,68 @@
 
   .cn-file-upload-description {
     @apply text-muted-foreground text-(length:--density-text-12) leading-snug;
+  }
+
+  /* The field: Input's frame (inset ring-border, hover tint, card while
+     focused, red when invalid), and Input's height whatever it holds. Its
+     padding is the inset of a 24px chip, so a row of chips sits centred.
+     While files are dragged over it, it lifts to the card surface, the ring
+     firms, it grows a hair on the move timing, and the drop message fades in
+     over its contents. */
+  .cn-file-upload-field {
+    @apply text-foreground ring-border hover:not-focus-within:bg-muted/50 has-focus-visible:bg-card has-focus-visible:ring-foreground/25 data-invalid:ring-destructive/50 data-invalid:hover:not-focus-within:bg-destructive/5 h-(--density-36) gap-(--density-4) rounded-lg bg-transparent p-[calc((var(--density-36)-var(--density-24))/2)] text-(length:--density-text-13) ring-1 ring-inset transition-[background-color,box-shadow,scale] duration-feedback ease-feedback data-dragging:bg-card data-dragging:ring-foreground/40 data-dragging:scale-[1.01] data-dragging:duration-move data-dragging:ease-move motion-reduce:data-dragging:scale-100 data-disabled:pointer-events-none data-disabled:opacity-50;
+  }
+
+  /* Empty, the browse button is the whole field: icon and placeholder where
+     Input puts its text. With files it shrinks to a quiet 24px plus button at
+     the row's end, named Add files (or Replace file). */
+  .cn-file-upload-field-browse {
+    @apply cursor-pointer text-muted-foreground h-(--density-24) flex-1 gap-(--density-8) rounded-md px-(--density-4) text-start transition-colors duration-feedback ease-feedback group-data-filled/file-upload-field:ms-auto group-data-filled/file-upload-field:size-(--density-24) group-data-filled/file-upload-field:flex-none group-data-filled/file-upload-field:justify-center group-data-filled/file-upload-field:p-0 group-data-filled/file-upload-field:hover:bg-hover group-data-filled/file-upload-field:hover:text-foreground group-data-filled/file-upload-field:focus-visible:bg-hover group-data-filled/file-upload-field:focus-visible:text-foreground;
+  }
+
+  .cn-file-upload-field-icon {
+    @apply [&_svg]:stroke-[1.5] [&_svg:not([class*='size-'])]:size-(--density-icon-16) group-data-filled/file-upload-field:[&_svg:not([class*='size-'])]:size-(--density-icon-14);
+  }
+
+  .cn-file-upload-field-text {
+    @apply min-w-0;
+  }
+
+  /* The drop message: over the contents, inside the ring, hidden until files
+     are dragged over; its arrow drops into place as it appears. */
+  .cn-file-upload-field-drop {
+    @apply bg-card text-foreground inset-px gap-(--density-8) rounded-[calc(var(--radius-lg)-1px)] text-(length:--density-text-13) font-medium opacity-0 transition-opacity duration-feedback ease-feedback group-data-dragging/file-upload-field:opacity-100 [&_svg]:stroke-[1.5] [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:-translate-y-1 [&_svg]:transition-transform [&_svg]:duration-move [&_svg]:ease-move group-data-dragging/file-upload-field:[&_svg]:translate-y-0 motion-reduce:[&_svg]:translate-y-0;
+  }
+
+  /* The chips: one row that scrolls sideways under faded edges, so the field
+     never grows. Each fade is as wide as what's left to scroll on its side,
+     up to 24px, so the last chip fades out instead of being cut. */
+  .cn-file-upload-chips {
+    @apply no-scrollbar scroll-fade-x gap-(--density-4) overscroll-x-contain [--scroll-fade-reveal:--spacing(6)] [--scroll-fade-size:--spacing(6)];
+  }
+
+  /* A picked file: the Combobox chip (active fill, 24px, 12px text), with a
+     16px picture or file icon, the name cut short, and a remove button at
+     50% that wakes on hover. Its size is in its tooltip. It rises into place
+     as it's added. */
+  .cn-file-upload-chip {
+    @apply bg-active text-foreground h-(--density-24) max-w-full gap-(--density-6) rounded-md ps-(--density-4) pe-(--density-2) text-(length:--density-text-12) animate-in fade-in-0 slide-in-from-bottom-1 duration-feedback ease-enter motion-reduce:animate-none;
+  }
+
+  .cn-file-upload-chip-preview {
+    @apply size-(--density-icon-16) rounded-[4px] object-cover;
+  }
+
+  .cn-file-upload-chip-icon {
+    @apply text-muted-foreground [&_svg]:stroke-[1.5] [&_svg:not([class*='size-'])]:size-(--density-icon-14);
+  }
+
+  .cn-file-upload-chip-name {
+    @apply min-w-0 max-w-24 font-medium;
+  }
+
+  .cn-file-upload-chip-remove {
+    @apply cursor-pointer size-(--density-20) rounded-[4px] opacity-50 transition-opacity duration-feedback ease-feedback hover:opacity-100 focus-visible:opacity-100 focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none [&_svg]:stroke-2 [&_svg:not([class*='size-'])]:size-(--density-icon-14);
   }
 
   /* The trigger is a Button (outline by default); this adds nothing. */
@@ -2162,6 +2439,102 @@
 
   .cn-message-group {
     @apply gap-(--density-8);
+  }
+
+/* MARK: Model Picker */
+
+  /* The panel inside a popover (give the popover p-1 and no gap): 13px rows
+     on the popover's own surface, scrolling past 512px or 60% of the view. */
+  .cn-model-picker {
+    @apply max-h-[min(32rem,60dvh)] bg-inherit text-(length:--density-text-13);
+  }
+
+  .cn-model-picker-header {
+    @apply text-muted-foreground h-(--density-36) gap-0.5 px-1 text-(length:--density-text-12);
+  }
+
+  /* Routing tiles share a row: a soft fill that lifts to the hover fill and
+     foreground on hover, focus and selection. */
+  .cn-model-picker-routes {
+    @apply gap-1 pb-(--density-8);
+  }
+
+  .cn-model-picker-route {
+    @apply bg-hover/60 text-muted-foreground hover:bg-hover hover:text-foreground focus-visible:bg-hover focus-visible:text-foreground aria-pressed:bg-hover aria-pressed:text-foreground data-selected:bg-hover data-selected:text-foreground cursor-pointer gap-0.5 rounded-lg px-(--density-10) py-(--density-8) transition-colors duration-feedback ease-feedback disabled:opacity-50;
+  }
+
+  .cn-model-picker-route-label {
+    @apply gap-(--density-6) text-(length:--density-text-13) [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5];
+  }
+
+  .cn-model-picker-route-caption {
+    @apply text-muted-foreground text-(length:--density-text-12) leading-snug text-pretty;
+  }
+
+  /* A provider's label stays pinned on the popover's surface while its
+     models scroll under it. */
+  .cn-model-picker-group {
+    @apply bg-inherit pb-(--density-6);
+  }
+
+  .cn-model-picker-group-label {
+    @apply text-muted-foreground bg-inherit h-(--density-28) gap-(--density-8) px-(--density-8) text-(length:--density-text-12) font-medium [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-(--density-icon-16);
+  }
+
+  /* Menu rows, their names lined up under the provider's: muted until lit,
+     the model in use tinted with a check at the end. */
+  .cn-model-picker-item {
+    @apply text-muted-foreground hover:bg-hover hover:text-foreground focus-visible:bg-hover focus-visible:text-foreground data-selected:bg-hover/60 data-selected:text-foreground min-h-(--density-32) cursor-pointer gap-(--density-8) rounded-lg ps-(--density-32) pe-(--density-8) transition-colors duration-feedback ease-feedback disabled:opacity-50 [&>[data-slot=model-picker-check]]:invisible data-selected:[&>[data-slot=model-picker-check]]:visible;
+  }
+
+  .cn-model-picker-check {
+    @apply text-foreground size-(--density-icon-14)!;
+  }
+
+  .cn-model-picker-item-meta {
+    @apply text-muted-foreground gap-(--density-8) text-(length:--density-text-12) tabular-nums [&_svg:not([class*='size-'])]:size-3;
+  }
+
+  /* Effort: the model button and the level's name over a 20px rail. The
+     fill and the name take the info hue turned toward violet as the effort
+     rises (--model-picker-effort-shift, in degrees), neutral until a level
+     is chosen; the top level is more saturated. The 24px thumb steps between levels on
+     the feedback timing and grows a little under the pointer. */
+  .cn-model-picker-effort {
+    @apply gap-1 px-(--density-8) pt-0.5 pb-(--density-10) [--model-picker-effort-thumb:var(--density-24)];
+  }
+
+  .cn-model-picker-effort-label {
+    @apply text-muted-foreground text-(length:--density-text-12) font-medium transition-colors duration-feedback ease-feedback in-data-chosen:text-[oklch(from_var(--info-text)_l_c_calc(h_+_var(--model-picker-effort-shift,0)))];
+  }
+
+  .cn-model-picker-effort-track {
+    @apply h-(--density-24);
+  }
+
+  .cn-model-picker-effort-rail {
+    @apply bg-hover h-(--density-20) rounded-full;
+  }
+
+  .cn-model-picker-effort-fill {
+    @apply bg-foreground/16 w-[calc(var(--model-picker-effort-thumb)_+_(100%_-_var(--model-picker-effort-thumb))_*_var(--model-picker-effort-at,0))] rounded-full transition-[width,background-color] duration-feedback ease-feedback in-data-chosen:bg-[oklch(from_var(--info)_l_c_calc(h_+_var(--model-picker-effort-shift,0)))] in-data-peak:saturate-150;
+  }
+
+  .cn-model-picker-effort-step {
+    @apply bg-foreground/25 data-reached:bg-foreground/55 start-[calc(var(--model-picker-effort-thumb)/2_+_(100%_-_var(--model-picker-effort-thumb))_*_var(--model-picker-effort-step,0))] size-1 rounded-full transition-colors duration-feedback ease-feedback;
+  }
+
+  .cn-model-picker-effort-thumb {
+    @apply bg-foreground shadow-surface-3 start-[calc((100%_-_var(--model-picker-effort-thumb))_*_var(--model-picker-effort-at,0))] size-(--model-picker-effort-thumb) rounded-full transition-[inset-inline-start,scale] duration-feedback ease-feedback group-hover/model-picker-effort:scale-[1.08] group-active/model-picker-effort:scale-95 group-focus-visible/model-picker-effort:ring-3 group-focus-visible/model-picker-effort:ring-foreground/25 motion-reduce:transition-none;
+  }
+
+  /* A setting under the panel, ruled off from what's above. */
+  .cn-model-picker-setting {
+    @apply border-border/60 -mx-1 mt-1 gap-(--density-8) border-t pt-(--density-6) pe-1 pb-0.5 ps-(--density-12);
+  }
+
+  .cn-model-picker-setting-label {
+    @apply text-muted-foreground text-(length:--density-text-12);
   }
 
 /* MARK: Month Input */
@@ -3260,37 +3633,14 @@
 /* MARK: Time Input */
 
   /* An Input Group: the frame, focus, invalid and disabled states are the
-     group's. Times line up in tabular figures; the clock opens the list. */
+     group's. Times line up in tabular figures; the clock opens the wheel. */
   .cn-time-input {
     @apply [&_[data-slot=input-group-control]]:tabular-nums [&_[data-slot=input-group-addon]]:cursor-pointer;
   }
 
-  /* The popover holds only the list, padded like a menu. */
+  /* The popover holds only the wheel. */
   .cn-time-input-content {
     @apply w-auto gap-0 p-1;
-  }
-
-  /* Seven and a half rows tall, so the cut row says it scrolls, fading at the
-     edges it can scroll past. Two columns: the time, then its duration. */
-  .cn-time-input-list {
-    @apply scroll-fade no-scrollbar max-h-[calc(var(--density-32)*7.5)] gap-x-(--density-8);
-  }
-
-  /* Menu rows: muted at rest, lit by the gliding highlight (keyboard and
-     pointer share it), the chosen time on the sliding selection in semibold. */
-  .cn-time-input-option {
-    @apply text-muted-foreground h-(--density-32) rounded-lg px-(--density-8) text-(length:--density-text-13) tabular-nums transition-colors duration-feedback data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent aria-selected:bg-active aria-selected:text-foreground in-data-[fluid-hover]:aria-selected:bg-transparent;
-  }
-
-  /* The chosen time is semibold. The time column takes the widest row, so
-     the durations beside it line up. */
-  .cn-time-input-option-time {
-    @apply in-aria-selected:font-semibold;
-  }
-
-  /* A step quieter than the time it follows. */
-  .cn-time-input-option-duration {
-    @apply text-muted-foreground/70;
   }
 
   /* MARK: Time Range Input */
@@ -3307,6 +3657,38 @@
 
   .cn-time-range-input-duration {
     @apply text-muted-foreground text-(length:--density-text-13) tabular-nums;
+  }
+
+/* MARK: Time Wheel */
+
+  /* Seven rows tall by default, about what an iOS wheel shows; a parent can set
+     its own height (the Date Picker fills the calendar's). */
+  .cn-time-wheel {
+    @apply h-[calc(var(--density-32)*7)] gap-(--density-4) px-(--density-4);
+  }
+
+  /* The band the value sits on, across every column. */
+  .cn-time-wheel-band {
+    @apply bg-active h-(--density-32) rounded-lg;
+  }
+
+  /* A column snaps to its rows and fades out towards its ends; the rows tilt
+     around a shallow perspective, like a drum. Its rows don't size it
+     (contain-size): it takes the wheel's height, and its width from the
+     token, so a parent can make the wheel as tall as it likes. */
+  .cn-time-wheel-column {
+    @apply no-scrollbar contain-size w-(--density-48) snap-y snap-mandatory rounded-lg [perspective:15rem] [mask-image:linear-gradient(to_bottom,transparent,black_20%,black_80%,transparent)] focus-visible:ring-1 focus-visible:ring-focus-ring;
+  }
+
+  /* Room above the first row and below the last, so either can sit on the
+     band. */
+  .cn-time-wheel-spacer {
+    @apply h-[calc(50%-var(--density-32)/2)];
+  }
+
+  /* Rows: muted, the one on the band in the foreground and semibold. */
+  .cn-time-wheel-item {
+    @apply text-muted-foreground h-(--density-32) snap-center px-(--density-6) text-(length:--density-text-16) tabular-nums transition-colors duration-feedback ease-feedback [backface-visibility:hidden] data-selected:text-foreground data-selected:font-semibold;
   }
 
 /* MARK: Toast */

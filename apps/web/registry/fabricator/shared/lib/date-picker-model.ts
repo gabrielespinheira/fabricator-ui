@@ -60,6 +60,53 @@ function formatIsoDate(date: Date | undefined) {
   return formatWithPattern(date, ISO_DATE_FORMAT)
 }
 
+/**
+ * The day and its time as a form's datetime-local value: yyyy-MM-ddTHH:mm, or
+ * yyyy-MM-ddTHH:mm:ss with seconds.
+ */
+function formatIsoDateTime(
+  date: Date | undefined,
+  { hasSeconds = false }: { hasSeconds?: boolean } = {}
+) {
+  if (!isDate(date)) return ""
+  return formatWithPattern(
+    date,
+    hasSeconds ? "yyyy-MM-dd'T'HH:mm:ss" : "yyyy-MM-dd'T'HH:mm"
+  )
+}
+
+/** The day with the time of day "HH:mm" or "HH:mm:ss" on it. */
+function setDateTime(date: Date, time: string) {
+  const [hours = 0, minutes = 0, seconds = 0] = time.split(":").map(Number)
+  return new Date(
+    date.getFullYear(),
+    date.getMonth(),
+    date.getDate(),
+    hours,
+    minutes,
+    seconds
+  )
+}
+
+// What a time looks like at the end of typed text: 10:30, 9.30, 9pm, noon.
+const TIME_TEXT_PATTERN =
+  /^(\d{1,2}[:.]\d{2}|\d{1,2}\s*[ap]\.?m?\.?|noon|midnight)/i
+
+/**
+ * Typed text split into its date and its time: "Nov 12, 2026, 10:30 AM" or
+ * "tomorrow at 9pm". The part after the last comma or "at" is the time only
+ * when it reads like one, so a date's own year stays with the date.
+ */
+function splitDateTimeText(text: string) {
+  const trimmed = text.trim()
+  const match = /^(.*?)(?:,\s*|\s+at\s+)([^,]+)$/i.exec(trimmed)
+  const timeText = match?.[2]?.trim()
+  if (!match?.[1] || !timeText || !TIME_TEXT_PATTERN.test(timeText)) {
+    return { dateText: trimmed, timeText: undefined }
+  }
+  return { dateText: match[1].trim(), timeText }
+}
+
 function parseWithPattern(
   text: string,
   pattern: string,
@@ -129,10 +176,13 @@ export {
   DEFAULT_DATE_FORMAT,
   formatDateValue,
   formatIsoDate,
+  formatIsoDateTime,
   isDateInRange,
   isSameDateValue,
   ISO_DATE_FORMAT,
   parseDateText,
+  setDateTime,
+  splitDateTimeText,
   type DateCommit,
   type DateFormatOptions,
   type DateParseOptions,

@@ -529,6 +529,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "chart-tooltip",
       filePath: "examples/base/chart-tooltip.tsx",
     },
+    "chat-input-agent": {
+      name: "chat-input-agent",
+      filePath: "examples/base/chat-input-agent.tsx",
+    },
     "chat-input-attachments": {
       name: "chat-input-attachments",
       filePath: "examples/base/chat-input-attachments.tsx",
@@ -536,6 +540,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "chat-input-compact": {
       name: "chat-input-compact",
       filePath: "examples/base/chat-input-compact.tsx",
+    },
+    "chat-input-context-meter": {
+      name: "chat-input-context-meter",
+      filePath: "examples/base/chat-input-context-meter.tsx",
     },
     "chat-input-demo": {
       name: "chat-input-demo",
@@ -545,13 +553,17 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "chat-input-disabled",
       filePath: "examples/base/chat-input-disabled.tsx",
     },
+    "chat-input-mentions": {
+      name: "chat-input-mentions",
+      filePath: "examples/base/chat-input-mentions.tsx",
+    },
     "chat-input-submit-on": {
       name: "chat-input-submit-on",
       filePath: "examples/base/chat-input-submit-on.tsx",
     },
-    "chat-input-tray": {
-      name: "chat-input-tray",
-      filePath: "examples/base/chat-input-tray.tsx",
+    "chat-input-voice": {
+      name: "chat-input-voice",
+      filePath: "examples/base/chat-input-voice.tsx",
     },
     "checkbox-basic": {
       name: "checkbox-basic",
@@ -777,10 +789,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "date-picker-controlled",
       filePath: "examples/base/date-picker-controlled.tsx",
     },
-    "date-picker-date-time-24-hour": {
-      name: "date-picker-date-time-24-hour",
-      filePath: "examples/base/date-picker-date-time-24-hour.tsx",
-    },
     "date-picker-date-time-range": {
       name: "date-picker-date-time-range",
       filePath: "examples/base/date-picker-date-time-range.tsx",
@@ -800,6 +808,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "date-picker-dob": {
       name: "date-picker-dob",
       filePath: "examples/base/date-picker-dob.tsx",
+    },
+    "date-picker-editable": {
+      name: "date-picker-editable",
+      filePath: "examples/base/date-picker-editable.tsx",
     },
     "date-picker-field": {
       name: "date-picker-field",
@@ -844,10 +856,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "date-picker-time": {
       name: "date-picker-time",
       filePath: "examples/base/date-picker-time.tsx",
-    },
-    "date-picker-typed": {
-      name: "date-picker-typed",
-      filePath: "examples/base/date-picker-typed.tsx",
     },
     "dialog-close-button": {
       name: "dialog-close-button",
@@ -1052,6 +1060,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "file-upload-disabled": {
       name: "file-upload-disabled",
       filePath: "examples/base/file-upload-disabled.tsx",
+    },
+    "file-upload-field": {
+      name: "file-upload-field",
+      filePath: "examples/base/file-upload-field.tsx",
     },
     "file-upload-form": {
       name: "file-upload-form",
@@ -1520,6 +1532,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "message-scroller-visibility": {
       name: "message-scroller-visibility",
       filePath: "examples/base/message-scroller-visibility.tsx",
+    },
+    "model-picker-demo": {
+      name: "model-picker-demo",
+      filePath: "examples/base/model-picker-demo.tsx",
+    },
+    "model-picker-effort": {
+      name: "model-picker-effort",
+      filePath: "examples/base/model-picker-effort.tsx",
     },
     "month-input-controlled": {
       name: "month-input-controlled",
@@ -2241,6 +2261,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "time-input-range",
       filePath: "examples/base/time-input-range.tsx",
     },
+    "time-input-seconds": {
+      name: "time-input-seconds",
+      filePath: "examples/base/time-input-seconds.tsx",
+    },
     "toast-demo": {
       name: "toast-demo",
       filePath: "examples/base/toast-demo.tsx",
@@ -2915,6 +2939,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "chart-tooltip",
       filePath: "examples/aria/chart-tooltip.tsx",
     },
+    "chat-input-agent": {
+      name: "chat-input-agent",
+      filePath: "examples/aria/chat-input-agent.tsx",
+    },
     "chat-input-attachments": {
       name: "chat-input-attachments",
       filePath: "examples/aria/chat-input-attachments.tsx",
@@ -2922,6 +2950,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "chat-input-compact": {
       name: "chat-input-compact",
       filePath: "examples/aria/chat-input-compact.tsx",
+    },
+    "chat-input-context-meter": {
+      name: "chat-input-context-meter",
+      filePath: "examples/aria/chat-input-context-meter.tsx",
     },
     "chat-input-demo": {
       name: "chat-input-demo",
@@ -2931,13 +2963,17 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "chat-input-disabled",
       filePath: "examples/aria/chat-input-disabled.tsx",
     },
+    "chat-input-mentions": {
+      name: "chat-input-mentions",
+      filePath: "examples/aria/chat-input-mentions.tsx",
+    },
     "chat-input-submit-on": {
       name: "chat-input-submit-on",
       filePath: "examples/aria/chat-input-submit-on.tsx",
     },
-    "chat-input-tray": {
-      name: "chat-input-tray",
-      filePath: "examples/aria/chat-input-tray.tsx",
+    "chat-input-voice": {
+      name: "chat-input-voice",
+      filePath: "examples/aria/chat-input-voice.tsx",
     },
     "checkbox-basic": {
       name: "checkbox-basic",
@@ -3155,10 +3191,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "date-picker-controlled",
       filePath: "examples/aria/date-picker-controlled.tsx",
     },
-    "date-picker-date-time-24-hour": {
-      name: "date-picker-date-time-24-hour",
-      filePath: "examples/aria/date-picker-date-time-24-hour.tsx",
-    },
     "date-picker-date-time-range": {
       name: "date-picker-date-time-range",
       filePath: "examples/aria/date-picker-date-time-range.tsx",
@@ -3178,6 +3210,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "date-picker-dob": {
       name: "date-picker-dob",
       filePath: "examples/aria/date-picker-dob.tsx",
+    },
+    "date-picker-editable": {
+      name: "date-picker-editable",
+      filePath: "examples/aria/date-picker-editable.tsx",
     },
     "date-picker-field": {
       name: "date-picker-field",
@@ -3222,10 +3258,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "date-picker-time": {
       name: "date-picker-time",
       filePath: "examples/aria/date-picker-time.tsx",
-    },
-    "date-picker-typed": {
-      name: "date-picker-typed",
-      filePath: "examples/aria/date-picker-typed.tsx",
     },
     "dialog-close-button": {
       name: "dialog-close-button",
@@ -3430,6 +3462,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "file-upload-disabled": {
       name: "file-upload-disabled",
       filePath: "examples/aria/file-upload-disabled.tsx",
+    },
+    "file-upload-field": {
+      name: "file-upload-field",
+      filePath: "examples/aria/file-upload-field.tsx",
     },
     "file-upload-form": {
       name: "file-upload-form",
@@ -3874,6 +3910,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "message-scroller-visibility": {
       name: "message-scroller-visibility",
       filePath: "examples/aria/message-scroller-visibility.tsx",
+    },
+    "model-picker-demo": {
+      name: "model-picker-demo",
+      filePath: "examples/aria/model-picker-demo.tsx",
+    },
+    "model-picker-effort": {
+      name: "model-picker-effort",
+      filePath: "examples/aria/model-picker-effort.tsx",
     },
     "month-input-controlled": {
       name: "month-input-controlled",
@@ -4599,6 +4643,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "time-input-range",
       filePath: "examples/aria/time-input-range.tsx",
     },
+    "time-input-seconds": {
+      name: "time-input-seconds",
+      filePath: "examples/aria/time-input-seconds.tsx",
+    },
     "toggle-demo": {
       name: "toggle-demo",
       filePath: "examples/aria/toggle-demo.tsx",
@@ -5265,6 +5313,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "chart-tooltip",
       filePath: "examples/radix/chart-tooltip.tsx",
     },
+    "chat-input-agent": {
+      name: "chat-input-agent",
+      filePath: "examples/radix/chat-input-agent.tsx",
+    },
     "chat-input-attachments": {
       name: "chat-input-attachments",
       filePath: "examples/radix/chat-input-attachments.tsx",
@@ -5272,6 +5324,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "chat-input-compact": {
       name: "chat-input-compact",
       filePath: "examples/radix/chat-input-compact.tsx",
+    },
+    "chat-input-context-meter": {
+      name: "chat-input-context-meter",
+      filePath: "examples/radix/chat-input-context-meter.tsx",
     },
     "chat-input-demo": {
       name: "chat-input-demo",
@@ -5281,13 +5337,17 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "chat-input-disabled",
       filePath: "examples/radix/chat-input-disabled.tsx",
     },
+    "chat-input-mentions": {
+      name: "chat-input-mentions",
+      filePath: "examples/radix/chat-input-mentions.tsx",
+    },
     "chat-input-submit-on": {
       name: "chat-input-submit-on",
       filePath: "examples/radix/chat-input-submit-on.tsx",
     },
-    "chat-input-tray": {
-      name: "chat-input-tray",
-      filePath: "examples/radix/chat-input-tray.tsx",
+    "chat-input-voice": {
+      name: "chat-input-voice",
+      filePath: "examples/radix/chat-input-voice.tsx",
     },
     "checkbox-basic": {
       name: "checkbox-basic",
@@ -5513,10 +5573,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "date-picker-controlled",
       filePath: "examples/radix/date-picker-controlled.tsx",
     },
-    "date-picker-date-time-24-hour": {
-      name: "date-picker-date-time-24-hour",
-      filePath: "examples/radix/date-picker-date-time-24-hour.tsx",
-    },
     "date-picker-date-time-range": {
       name: "date-picker-date-time-range",
       filePath: "examples/radix/date-picker-date-time-range.tsx",
@@ -5536,6 +5592,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "date-picker-dob": {
       name: "date-picker-dob",
       filePath: "examples/radix/date-picker-dob.tsx",
+    },
+    "date-picker-editable": {
+      name: "date-picker-editable",
+      filePath: "examples/radix/date-picker-editable.tsx",
     },
     "date-picker-field": {
       name: "date-picker-field",
@@ -5580,10 +5640,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "date-picker-time": {
       name: "date-picker-time",
       filePath: "examples/radix/date-picker-time.tsx",
-    },
-    "date-picker-typed": {
-      name: "date-picker-typed",
-      filePath: "examples/radix/date-picker-typed.tsx",
     },
     "dialog-close-button": {
       name: "dialog-close-button",
@@ -5776,6 +5832,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "file-upload-disabled": {
       name: "file-upload-disabled",
       filePath: "examples/radix/file-upload-disabled.tsx",
+    },
+    "file-upload-field": {
+      name: "file-upload-field",
+      filePath: "examples/radix/file-upload-field.tsx",
     },
     "file-upload-form": {
       name: "file-upload-form",
@@ -6240,6 +6300,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "message-scroller-visibility": {
       name: "message-scroller-visibility",
       filePath: "examples/radix/message-scroller-visibility.tsx",
+    },
+    "model-picker-demo": {
+      name: "model-picker-demo",
+      filePath: "examples/radix/model-picker-demo.tsx",
+    },
+    "model-picker-effort": {
+      name: "model-picker-effort",
+      filePath: "examples/radix/model-picker-effort.tsx",
     },
     "month-input-controlled": {
       name: "month-input-controlled",
@@ -6973,6 +7041,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "time-input-range",
       filePath: "examples/radix/time-input-range.tsx",
     },
+    "time-input-seconds": {
+      name: "time-input-seconds",
+      filePath: "examples/radix/time-input-seconds.tsx",
+    },
     "toggle-demo": {
       name: "toggle-demo",
       filePath: "examples/radix/toggle-demo.tsx",
@@ -7565,6 +7637,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "carousel-spacing",
       filePath: "examples/__styles__/base-fabricator/carousel-spacing.tsx",
     },
+    "chat-input-agent": {
+      name: "chat-input-agent",
+      filePath: "examples/__styles__/base-fabricator/chat-input-agent.tsx",
+    },
     "chat-input-attachments": {
       name: "chat-input-attachments",
       filePath:
@@ -7574,6 +7650,11 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "chat-input-compact",
       filePath: "examples/__styles__/base-fabricator/chat-input-compact.tsx",
     },
+    "chat-input-context-meter": {
+      name: "chat-input-context-meter",
+      filePath:
+        "examples/__styles__/base-fabricator/chat-input-context-meter.tsx",
+    },
     "chat-input-demo": {
       name: "chat-input-demo",
       filePath: "examples/__styles__/base-fabricator/chat-input-demo.tsx",
@@ -7582,13 +7663,17 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "chat-input-disabled",
       filePath: "examples/__styles__/base-fabricator/chat-input-disabled.tsx",
     },
+    "chat-input-mentions": {
+      name: "chat-input-mentions",
+      filePath: "examples/__styles__/base-fabricator/chat-input-mentions.tsx",
+    },
     "chat-input-submit-on": {
       name: "chat-input-submit-on",
       filePath: "examples/__styles__/base-fabricator/chat-input-submit-on.tsx",
     },
-    "chat-input-tray": {
-      name: "chat-input-tray",
-      filePath: "examples/__styles__/base-fabricator/chat-input-tray.tsx",
+    "chat-input-voice": {
+      name: "chat-input-voice",
+      filePath: "examples/__styles__/base-fabricator/chat-input-voice.tsx",
     },
     "checkbox-basic": {
       name: "checkbox-basic",
@@ -7799,11 +7884,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       filePath:
         "examples/__styles__/base-fabricator/date-picker-controlled.tsx",
     },
-    "date-picker-date-time-24-hour": {
-      name: "date-picker-date-time-24-hour",
-      filePath:
-        "examples/__styles__/base-fabricator/date-picker-date-time-24-hour.tsx",
-    },
     "date-picker-date-time-range": {
       name: "date-picker-date-time-range",
       filePath:
@@ -7824,6 +7904,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "date-picker-dob": {
       name: "date-picker-dob",
       filePath: "examples/__styles__/base-fabricator/date-picker-dob.tsx",
+    },
+    "date-picker-editable": {
+      name: "date-picker-editable",
+      filePath: "examples/__styles__/base-fabricator/date-picker-editable.tsx",
     },
     "date-picker-field": {
       name: "date-picker-field",
@@ -7865,10 +7949,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "date-picker-time": {
       name: "date-picker-time",
       filePath: "examples/__styles__/base-fabricator/date-picker-time.tsx",
-    },
-    "date-picker-typed": {
-      name: "date-picker-typed",
-      filePath: "examples/__styles__/base-fabricator/date-picker-typed.tsx",
     },
     "dialog-close-button": {
       name: "dialog-close-button",
@@ -8061,6 +8141,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "file-upload-disabled": {
       name: "file-upload-disabled",
       filePath: "examples/__styles__/base-fabricator/file-upload-disabled.tsx",
+    },
+    "file-upload-field": {
+      name: "file-upload-field",
+      filePath: "examples/__styles__/base-fabricator/file-upload-field.tsx",
     },
     "file-upload-form": {
       name: "file-upload-form",
@@ -8518,6 +8602,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "message-scroller-visibility",
       filePath:
         "examples/__styles__/base-fabricator/message-scroller-visibility.tsx",
+    },
+    "model-picker-demo": {
+      name: "model-picker-demo",
+      filePath: "examples/__styles__/base-fabricator/model-picker-demo.tsx",
+    },
+    "model-picker-effort": {
+      name: "model-picker-effort",
+      filePath: "examples/__styles__/base-fabricator/model-picker-effort.tsx",
     },
     "month-input-controlled": {
       name: "month-input-controlled",
@@ -9158,6 +9250,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "time-input-range",
       filePath: "examples/__styles__/base-fabricator/time-input-range.tsx",
     },
+    "time-input-seconds": {
+      name: "time-input-seconds",
+      filePath: "examples/__styles__/base-fabricator/time-input-seconds.tsx",
+    },
     "toast-demo": {
       name: "toast-demo",
       filePath: "examples/__styles__/base-fabricator/toast-demo.tsx",
@@ -9741,6 +9837,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "carousel-spacing",
       filePath: "examples/__styles__/aria-fabricator/carousel-spacing.tsx",
     },
+    "chat-input-agent": {
+      name: "chat-input-agent",
+      filePath: "examples/__styles__/aria-fabricator/chat-input-agent.tsx",
+    },
     "chat-input-attachments": {
       name: "chat-input-attachments",
       filePath:
@@ -9750,6 +9850,11 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "chat-input-compact",
       filePath: "examples/__styles__/aria-fabricator/chat-input-compact.tsx",
     },
+    "chat-input-context-meter": {
+      name: "chat-input-context-meter",
+      filePath:
+        "examples/__styles__/aria-fabricator/chat-input-context-meter.tsx",
+    },
     "chat-input-demo": {
       name: "chat-input-demo",
       filePath: "examples/__styles__/aria-fabricator/chat-input-demo.tsx",
@@ -9758,13 +9863,17 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "chat-input-disabled",
       filePath: "examples/__styles__/aria-fabricator/chat-input-disabled.tsx",
     },
+    "chat-input-mentions": {
+      name: "chat-input-mentions",
+      filePath: "examples/__styles__/aria-fabricator/chat-input-mentions.tsx",
+    },
     "chat-input-submit-on": {
       name: "chat-input-submit-on",
       filePath: "examples/__styles__/aria-fabricator/chat-input-submit-on.tsx",
     },
-    "chat-input-tray": {
-      name: "chat-input-tray",
-      filePath: "examples/__styles__/aria-fabricator/chat-input-tray.tsx",
+    "chat-input-voice": {
+      name: "chat-input-voice",
+      filePath: "examples/__styles__/aria-fabricator/chat-input-voice.tsx",
     },
     "checkbox-basic": {
       name: "checkbox-basic",
@@ -9966,11 +10075,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       filePath:
         "examples/__styles__/aria-fabricator/date-picker-controlled.tsx",
     },
-    "date-picker-date-time-24-hour": {
-      name: "date-picker-date-time-24-hour",
-      filePath:
-        "examples/__styles__/aria-fabricator/date-picker-date-time-24-hour.tsx",
-    },
     "date-picker-date-time-range": {
       name: "date-picker-date-time-range",
       filePath:
@@ -9991,6 +10095,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "date-picker-dob": {
       name: "date-picker-dob",
       filePath: "examples/__styles__/aria-fabricator/date-picker-dob.tsx",
+    },
+    "date-picker-editable": {
+      name: "date-picker-editable",
+      filePath: "examples/__styles__/aria-fabricator/date-picker-editable.tsx",
     },
     "date-picker-field": {
       name: "date-picker-field",
@@ -10032,10 +10140,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "date-picker-time": {
       name: "date-picker-time",
       filePath: "examples/__styles__/aria-fabricator/date-picker-time.tsx",
-    },
-    "date-picker-typed": {
-      name: "date-picker-typed",
-      filePath: "examples/__styles__/aria-fabricator/date-picker-typed.tsx",
     },
     "dialog-close-button": {
       name: "dialog-close-button",
@@ -10228,6 +10332,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "file-upload-disabled": {
       name: "file-upload-disabled",
       filePath: "examples/__styles__/aria-fabricator/file-upload-disabled.tsx",
+    },
+    "file-upload-field": {
+      name: "file-upload-field",
+      filePath: "examples/__styles__/aria-fabricator/file-upload-field.tsx",
     },
     "file-upload-form": {
       name: "file-upload-form",
@@ -10665,6 +10773,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "message-scroller-visibility",
       filePath:
         "examples/__styles__/aria-fabricator/message-scroller-visibility.tsx",
+    },
+    "model-picker-demo": {
+      name: "model-picker-demo",
+      filePath: "examples/__styles__/aria-fabricator/model-picker-demo.tsx",
+    },
+    "model-picker-effort": {
+      name: "model-picker-effort",
+      filePath: "examples/__styles__/aria-fabricator/model-picker-effort.tsx",
     },
     "month-input-controlled": {
       name: "month-input-controlled",
@@ -11312,6 +11428,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "time-input-range",
       filePath: "examples/__styles__/aria-fabricator/time-input-range.tsx",
     },
+    "time-input-seconds": {
+      name: "time-input-seconds",
+      filePath: "examples/__styles__/aria-fabricator/time-input-seconds.tsx",
+    },
     "toggle-demo": {
       name: "toggle-demo",
       filePath: "examples/__styles__/aria-fabricator/toggle-demo.tsx",
@@ -11891,6 +12011,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "carousel-spacing",
       filePath: "examples/__styles__/radix-fabricator/carousel-spacing.tsx",
     },
+    "chat-input-agent": {
+      name: "chat-input-agent",
+      filePath: "examples/__styles__/radix-fabricator/chat-input-agent.tsx",
+    },
     "chat-input-attachments": {
       name: "chat-input-attachments",
       filePath:
@@ -11900,6 +12024,11 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "chat-input-compact",
       filePath: "examples/__styles__/radix-fabricator/chat-input-compact.tsx",
     },
+    "chat-input-context-meter": {
+      name: "chat-input-context-meter",
+      filePath:
+        "examples/__styles__/radix-fabricator/chat-input-context-meter.tsx",
+    },
     "chat-input-demo": {
       name: "chat-input-demo",
       filePath: "examples/__styles__/radix-fabricator/chat-input-demo.tsx",
@@ -11908,13 +12037,17 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "chat-input-disabled",
       filePath: "examples/__styles__/radix-fabricator/chat-input-disabled.tsx",
     },
+    "chat-input-mentions": {
+      name: "chat-input-mentions",
+      filePath: "examples/__styles__/radix-fabricator/chat-input-mentions.tsx",
+    },
     "chat-input-submit-on": {
       name: "chat-input-submit-on",
       filePath: "examples/__styles__/radix-fabricator/chat-input-submit-on.tsx",
     },
-    "chat-input-tray": {
-      name: "chat-input-tray",
-      filePath: "examples/__styles__/radix-fabricator/chat-input-tray.tsx",
+    "chat-input-voice": {
+      name: "chat-input-voice",
+      filePath: "examples/__styles__/radix-fabricator/chat-input-voice.tsx",
     },
     "checkbox-basic": {
       name: "checkbox-basic",
@@ -12127,11 +12260,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       filePath:
         "examples/__styles__/radix-fabricator/date-picker-controlled.tsx",
     },
-    "date-picker-date-time-24-hour": {
-      name: "date-picker-date-time-24-hour",
-      filePath:
-        "examples/__styles__/radix-fabricator/date-picker-date-time-24-hour.tsx",
-    },
     "date-picker-date-time-range": {
       name: "date-picker-date-time-range",
       filePath:
@@ -12153,6 +12281,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "date-picker-dob": {
       name: "date-picker-dob",
       filePath: "examples/__styles__/radix-fabricator/date-picker-dob.tsx",
+    },
+    "date-picker-editable": {
+      name: "date-picker-editable",
+      filePath: "examples/__styles__/radix-fabricator/date-picker-editable.tsx",
     },
     "date-picker-field": {
       name: "date-picker-field",
@@ -12194,10 +12326,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "date-picker-time": {
       name: "date-picker-time",
       filePath: "examples/__styles__/radix-fabricator/date-picker-time.tsx",
-    },
-    "date-picker-typed": {
-      name: "date-picker-typed",
-      filePath: "examples/__styles__/radix-fabricator/date-picker-typed.tsx",
     },
     "dialog-close-button": {
       name: "dialog-close-button",
@@ -12381,6 +12509,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "file-upload-disabled": {
       name: "file-upload-disabled",
       filePath: "examples/__styles__/radix-fabricator/file-upload-disabled.tsx",
+    },
+    "file-upload-field": {
+      name: "file-upload-field",
+      filePath: "examples/__styles__/radix-fabricator/file-upload-field.tsx",
     },
     "file-upload-form": {
       name: "file-upload-form",
@@ -12838,6 +12970,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "message-scroller-visibility",
       filePath:
         "examples/__styles__/radix-fabricator/message-scroller-visibility.tsx",
+    },
+    "model-picker-demo": {
+      name: "model-picker-demo",
+      filePath: "examples/__styles__/radix-fabricator/model-picker-demo.tsx",
+    },
+    "model-picker-effort": {
+      name: "model-picker-effort",
+      filePath: "examples/__styles__/radix-fabricator/model-picker-effort.tsx",
     },
     "month-input-controlled": {
       name: "month-input-controlled",
@@ -13492,6 +13632,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "time-input-range": {
       name: "time-input-range",
       filePath: "examples/__styles__/radix-fabricator/time-input-range.tsx",
+    },
+    "time-input-seconds": {
+      name: "time-input-seconds",
+      filePath: "examples/__styles__/radix-fabricator/time-input-seconds.tsx",
     },
     "toggle-demo": {
       name: "toggle-demo",

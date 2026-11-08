@@ -236,6 +236,13 @@ const SOURCES: CatalogSource[] = [
       import("@/examples/__styles__/base-fabricator/message-scroller-demo"),
   },
   {
+    slug: "model-picker",
+    title: "Model Picker",
+    height: "sm",
+    load: () =>
+      import("@/examples/__styles__/base-fabricator/model-picker-demo"),
+  },
+  {
     slug: "navigation-menu",
     title: "Navigation Menu",
     height: "lg",

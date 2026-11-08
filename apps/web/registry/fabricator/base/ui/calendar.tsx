@@ -234,6 +234,9 @@ function CalendarDayButton({
 
   return (
     <Button
+      // Upstream's base calendar leaves the ref off, so arrow keys never move
+      // focus between days; radix attaches it.
+      ref={ref}
       variant="ghost"
       size="icon"
       data-day={day.date.toLocaleDateString(locale?.code)}

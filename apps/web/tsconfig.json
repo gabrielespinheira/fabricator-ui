@@ -90,6 +90,9 @@
       "@/registry/bases/*/ui/month-input": [
         "./registry/fabricator/*/ui/month-input"
       ],
+      "@/registry/bases/*/ui/time-wheel": [
+        "./registry/fabricator/shared/ui/time-wheel"
+      ],
       "@/registry/bases/*/ui/time-input": [
         "./registry/fabricator/*/ui/time-input"
       ],

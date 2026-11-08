@@ -1,15 +1,15 @@
 ---
 title: Date Picker
-description: A date field you can type into or pick from a calendar, and Calendar compositions for buttons, ranges, presets and times.
+description: A date field that opens a calendar, with an optional time wheel, and Calendar compositions for ranges and presets.
 base: aria
 component: true
 ---
 
-<ComponentPreview styleName="aria-nova" name="date-picker-typed" />
+<ComponentPreview styleName="aria-nova" name="date-picker-field" />
 
-Type a date, or open the calendar with the button or Alt+ArrowDown and pick one. The text is read when the field loses focus or on Enter, then rewritten in the display format, so `2026-11-12`, `Nov 12, 2026` and `tomorrow` all land on the same kind of value: a `Date`.
+Click the field and pick a day from the calendar. With `hasTime`, a time wheel sits beside the calendar, as in the iOS Clock app: the field reads `Nov 12, 2026, 10:30 AM`, and the value is that day at that time. For people who'd rather type, `editable` adds a text field that reads `2026-11-12`, `Nov 12, 2026` or `tomorrow at 9pm`.
 
-The `DatePicker` field is part of the Fabricator style. It's composed from [Input Group](/docs/components/aria/input-group), [Popover](/docs/components/aria/popover) and [Calendar](/docs/components/aria/calendar), so the frame, focus ring and invalid state match every other field.
+The `DatePicker` field is part of the Fabricator style. It's composed from [Popover](/docs/components/aria/popover), [Calendar](/docs/components/aria/calendar) and the [Time Input](/docs/components/aria/time-input) list, and framed like every other field, so the focus ring and invalid state match. With `editable`, the field is an [Input Group](/docs/components/aria/input-group).
 
 ## Installation
 
@@ -39,8 +39,9 @@ npm install date-fns @internationalized/date
 
 <Step>
   Add the [Calendar](/docs/components/aria/calendar), [Input
-  Group](/docs/components/aria/input-group) and
-  [Popover](/docs/components/aria/popover) components.
+  Group](/docs/components/aria/input-group),
+  [Popover](/docs/components/aria/popover) and [Time
+  Input](/docs/components/aria/time-input) components.
 </Step>
 
 <Step>Copy and paste the following code into your project.</Step>
@@ -73,52 +74,65 @@ import { DatePicker } from "@/components/ui/date-picker"
 
 ```tsx
 <DatePicker aria-label="Due date" />
+<DatePicker aria-label="Starts" hasTime />
 ```
 
 ## Composition
 
 ```text
 DatePicker
-├── InputGroup
-│   ├── InputGroupInput          the text, and every input prop
-│   └── InputGroupAddon
-│       └── InputGroupButton     opens the calendar
+├── PopoverTrigger               the field: the date, or its placeholder
 ├── PopoverContent
-│   └── Calendar                 one month, single selection
-└── input[type=hidden]           with `name`: the day as yyyy-MM-dd
+│   ├── Calendar                 one month, single selection
+│   └── TimeWheel                with `hasTime`: hours, minutes, seconds, AM or PM
+└── input[type=hidden]           with `name`: yyyy-MM-dd, or yyyy-MM-ddTHH:mm(:ss)
 ```
 
-`className` goes on the root, for layout. Every other prop goes to the text input: `id`, `placeholder`, `disabled`, `required`, `aria-*`, `onBlur` and `onKeyDown` among them.
+With `editable`, the field is an `InputGroup` instead: an `InputGroupInput` for the text and an `InputGroupButton` that opens the same popover.
+
+`className` goes on the root, for layout. `id`, `placeholder`, `disabled` and the `aria-*` labels go to the field; with `editable`, every other input prop goes to the text input as well.
 
 ## Examples
 
 ### Field
 
-Put it in a `Field` with a `FieldLabel` pointing at its `id`, and a `FieldDescription` for the format.
+Put it in a `Field` with a `FieldLabel` pointing at its `id`, and a `FieldDescription` for what to pick.
 
 <ComponentPreview styleName="aria-nova" name="date-picker-field" />
 
+### Date and time
+
+`hasTime` puts a [Time Input](/docs/components/aria/time-input) wheel beside the calendar, as tall as it: hours, minutes, AM or PM on a 12-hour clock, and seconds with `hasSeconds`. It opens on the value's time, or now. Pick a day and turn the wheel: the field shows both and the value follows as each column settles. A new day keeps the time. Enter, Escape or a click elsewhere closes the popover. `step` sets the minutes between the minute wheel's rows (1 by default), and the clock follows the reader's locale unless `hourCycle` fixes one.
+
+<ComponentPreview styleName="aria-nova" name="date-picker-date-time" />
+
+### Typing
+
+`editable` makes the field a text input with a calendar button, for people who know the date already. The text is read on Enter or when the field loses focus, then rewritten in the display format. With `hasTime`, the time comes after a comma or "at": `Nov 12, 2026, 10:30 AM` or `tomorrow at 9pm`. See [What it reads](#what-it-reads).
+
+<ComponentPreview styleName="aria-nova" name="date-picker-editable" />
+
 ### Controlled
 
-Control the value with `value` and `onValueChange`. It changes when the text is committed or a day is picked, not on every keystroke.
+Control the value with `value` and `onValueChange`. It changes when a day (and, with `hasTime`, a time) is picked, or when typed text is committed, not on every keystroke.
 
 <ComponentPreview styleName="aria-nova" name="date-picker-controlled" />
 
 ### Format
 
-`format` is a [date-fns pattern](https://date-fns.org/docs/format) for the text, `MMM d, yyyy` by default. Typing reads the same pattern, and ISO `yyyy-MM-dd` always works. Pass a date-fns `locale` to write and read month names in another language; it also sets the calendar's.
+`format` is a [date-fns pattern](https://date-fns.org/docs/format) for the text, `MMM d, yyyy` by default. With `editable`, typing reads the same pattern, and ISO `yyyy-MM-dd` always works. Pass a date-fns `locale` to write and read month names in another language; it also sets the calendar's.
 
 <ComponentPreview styleName="aria-nova" name="date-picker-format" />
 
 ### Minimum and maximum
 
-`minDate` and `maxDate` turn off the days outside them in the calendar, and stop its navigation at their months. A typed date outside them is rewritten, marked invalid, and leaves the value empty.
+`minDate` and `maxDate` turn off the days outside them in the calendar, and stop its navigation at their months. With `editable`, a typed date outside them is rewritten, marked invalid, and leaves the value empty.
 
 <ComponentPreview styleName="aria-nova" name="date-picker-min-max" />
 
 ### Invalid
 
-Pass `aria-invalid` to show your own validation, with the message in a `FieldError`. Text that isn't a date sets it on its own.
+Pass `aria-invalid` to show your own validation, with the message in a `FieldError`. With `editable`, text that isn't a date sets it on its own.
 
 <ComponentPreview styleName="aria-nova" name="date-picker-invalid" />
 
@@ -134,15 +148,13 @@ The field follows the nearest density. Add `density-compact` or `density-spaciou
 
 ### In a form
 
-With `name`, a hidden input sends the day as `yyyy-MM-dd`, whatever the display format. Enter commits the text first; a second Enter submits.
+With `name`, a hidden input sends the day as `yyyy-MM-dd`, or `yyyy-MM-ddTHH:mm` with `hasTime` (`yyyy-MM-ddTHH:mm:ss` with `hasSeconds`), whatever the display format. With `editable`, Enter commits the text first; a second Enter submits.
 
 <ComponentPreview styleName="aria-nova" name="date-picker-form" />
 
 ## Compositions
 
-`DatePicker` is a date in a form. For a date on a button, a range, presets or a date with a time, compose a [Calendar](/docs/components/aria/calendar) in a [Popover](/docs/components/aria/popover) yourself. There is no root component for these; each example is the whole recipe.
-
-A date picker is built from `Popover` and `Calendar` (there is no `DatePicker` root component):
+`DatePicker` is one date, with or without a time. For a range, presets, or a range with times, compose a [Calendar](/docs/components/aria/calendar) in a [Popover](/docs/components/aria/popover) yourself. There is no root component for these; each example is the whole recipe.
 
 ```text
 PopoverTrigger
@@ -151,7 +163,7 @@ PopoverTrigger
     └── Calendar
 ```
 
-To pick a time as well, put a [Time Input](/docs/components/aria/time-input) beside the trigger: it takes a typed time or one from its list, and a `TimeRangeInput` takes a start and an end with the duration between them. See [Date and Time](#date-and-time) and [Date and Time Range](#date-and-time-range).
+For times on a range, put a `TimeRangeInput` from [Time Input](/docs/components/aria/time-input) under the trigger: a start and an end with the duration between them. See [Date and Time Range](#date-and-time-range).
 
 See the [React Aria](https://react-aria.adobe.com/Calendar) documentation for more information.
 
@@ -173,18 +185,6 @@ A date picker component for selecting a date of birth. This component includes a
 
 <ComponentPreview styleName="aria-nova" name="date-picker-dob" />
 
-### Date and Time
-
-The day from a calendar and the time from a [Time Input](/docs/components/aria/time-input), side by side.
-
-<ComponentPreview styleName="aria-nova" name="date-picker-date-time" />
-
-### 24-hour time
-
-The Time Input follows the reader's clock: 12-hour (`6:45 PM`) or 24-hour (`18:45`), from their locale. `hourCycle={12}` or `hourCycle={24}` fixes one; the value is `"18:45"` either way.
-
-<ComponentPreview styleName="aria-nova" name="date-picker-date-time-24-hour" />
-
 ### Date and Time Range
 
 The days from a range calendar, and a start and an end time below them. On a single day the times are a `TimeRangeInput`: the end's list counts the duration from the start, moving the start keeps it, and an end at or before the start is marked invalid. Across days, any two times work.
@@ -199,49 +199,61 @@ This component uses the `chrono-node` library to parse natural language dates.
 
 ## What it reads
 
-| Typed                                 | Becomes                                 |
-| ------------------------------------- | --------------------------------------- |
-| The display format (`Nov 12, 2026`)   | That day                                |
-| ISO (`2026-11-12`)                    | That day                                |
-| `today`, `tomorrow`, `yesterday`      | That day, from the person's clock       |
-| Nothing                               | No value                                |
-| Anything else, or a day that can't be | No value; the text stays and is invalid |
+With `editable`, the text field reads:
 
-Case and extra spaces don't matter. Years need four digits, so `Nov 12, 26` isn't read as the year 26. The rules are pure functions in `lib/date-picker-model.ts` (`parseDateText`, `commitDateText`, `formatDateValue`, `formatIsoDate`, `isDateInRange`), which you can use for your own validation.
+| Typed                                                                                      | Becomes                                 |
+| ------------------------------------------------------------------------------------------ | --------------------------------------- |
+| The display format (`Nov 12, 2026`)                                                        | That day                                |
+| ISO (`2026-11-12`)                                                                         | That day                                |
+| `today`, `tomorrow`, `yesterday`                                                           | That day, from the person's clock       |
+| With `hasTime`, a time after a comma or `at` (`Nov 12, 2026, 10:30 AM`, `tomorrow at 9pm`) | That day at that time                   |
+| Nothing                                                                                    | No value                                |
+| Anything else, or a day that can't be                                                      | No value; the text stays and is invalid |
+
+Case and extra spaces don't matter. Years need four digits, so `Nov 12, 26` isn't read as the year 26. The rules are pure functions in `lib/date-picker-model.ts` (`parseDateText`, `commitDateText`, `formatDateValue`, `formatIsoDate`, `formatIsoDateTime`, `setDateTime`, `splitDateTimeText`, `isDateInRange`), which you can use for your own validation.
 
 ## API Reference
 
 ### DatePicker
 
-| Prop            | Type                                 | Default         |
-| --------------- | ------------------------------------ | --------------- |
-| `value`         | `Date \| undefined`                  | -               |
-| `defaultValue`  | `Date`                               | -               |
-| `onValueChange` | `(value: Date \| undefined) => void` | -               |
-| `format`        | `string` (date-fns pattern)          | `"MMM d, yyyy"` |
-| `locale`        | `Locale` (date-fns)                  | -               |
-| `minDate`       | `Date`                               | -               |
-| `maxDate`       | `Date`                               | -               |
-| `name`          | `string`                             | -               |
-| `calendarLabel` | `string`                             | `"Choose date"` |
-| `placeholder`   | `string`                             | -               |
-| `disabled`      | `boolean`                            | `false`         |
-| `aria-invalid`  | `boolean`                            | -               |
+| Prop            | Type                                 | Default                                      |
+| --------------- | ------------------------------------ | -------------------------------------------- |
+| `value`         | `Date \| undefined`                  | -                                            |
+| `defaultValue`  | `Date`                               | -                                            |
+| `onValueChange` | `(value: Date \| undefined) => void` | -                                            |
+| `format`        | `string` (date-fns pattern)          | `"MMM d, yyyy"`                              |
+| `locale`        | `Locale` (date-fns)                  | -                                            |
+| `minDate`       | `Date`                               | -                                            |
+| `maxDate`       | `Date`                               | -                                            |
+| `name`          | `string`                             | -                                            |
+| `hasTime`       | `boolean`                            | `false`                                      |
+| `step`          | `number` (minutes)                   | `1`                                          |
+| `hasSeconds`    | `boolean`                            | `false`                                      |
+| `hourCycle`     | `12 \| 24`                           | the locale's                                 |
+| `editable`      | `boolean`                            | `false`                                      |
+| `calendarLabel` | `string`                             | `"Choose date"`                              |
+| `timeLabel`     | `string`                             | `"Choose time"`                              |
+| `placeholder`   | `string`                             | `"Pick a date"`, or `"Pick a date and time"` |
+| `disabled`      | `boolean`                            | `false`                                      |
+| `aria-invalid`  | `boolean`                            | -                                            |
 
 ### Data attributes
 
-| Attribute                         | Element              | Present when  |
-| --------------------------------- | -------------------- | ------------- |
-| `data-slot="date-picker"`         | root                 | always        |
-| `data-slot="input-group-control"` | the text input       | always        |
-| `data-slot="popover-content"`     | the calendar's popup | open          |
-| `data-slot="date-picker-value"`   | the hidden input     | `name` is set |
+| Attribute                         | Element              | Present when    |
+| --------------------------------- | -------------------- | --------------- |
+| `data-slot="date-picker"`         | root                 | always          |
+| `data-slot="date-picker-field"`   | the field (a button) | not `editable`  |
+| `data-slot="input-group-control"` | the text input       | `editable`      |
+| `data-slot="date-picker-time"`    | the wheel's column   | open, `hasTime` |
+| `data-slot="popover-content"`     | the calendar's popup | open            |
+| `data-slot="date-picker-value"`   | the hidden input     | `name` is set   |
 
 ## Accessibility
 
-- The text input is a plain text field: label it with a `FieldLabel` or `aria-label`, and describe the format with `aria-describedby`.
-- Alt+ArrowDown in the field opens the calendar (announced through `aria-keyshortcuts`). The button is named by `calendarLabel` and reports `aria-expanded`.
-- The calendar opens on the selected or typed day's month, with focus on that day. Arrow keys move by day and week, Page Up and Page Down by month, Enter or Space picks, and Escape closes.
-- Picking a day closes the calendar and returns focus to the field.
-- Text that isn't a date, or a date outside the range, sets `aria-invalid` on the field, so the frame turns red and screen readers announce it.
-- Disabled, both the field and the button leave the tab order, and the hidden input isn't submitted.
+- The field is a button that reports `aria-expanded`. Label it with a `FieldLabel` pointing at its `id`, or `aria-label`; the placeholder isn't a label.
+- Enter, Space or a click opens the calendar on the selected day's month, with focus on that day. Arrow keys move by day and week, Page Up and Page Down by month, Enter or Space picks, and Escape closes.
+- With `hasTime`, Tab moves from the calendar to the wheel, a group named by `timeLabel`. Each column is a `spinbutton` (Hours, Minutes, Seconds, AM or PM): Arrow Up and Down step it, Page Up and Page Down jump five, Home and End go to the ends, and Tab moves to the next column. Enter closes the popover.
+- Without `hasTime`, picking a day closes the popover. Closing returns focus to the field.
+- With `editable`, the text input is a plain text field and Alt+ArrowDown opens the calendar (announced through `aria-keyshortcuts`); its button is named by `calendarLabel`. Text that isn't a date sets `aria-invalid`.
+- `aria-invalid` turns the frame red, and screen readers announce it.
+- Disabled, the field leaves the tab order and the hidden input isn't submitted.

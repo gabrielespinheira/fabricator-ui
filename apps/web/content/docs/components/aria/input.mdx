@@ -89,7 +89,7 @@ input type has a component of its own, built on the same frame. The preview at t
 | `number`                      | [Number Field](/docs/components/aria/number-field)                                                                                                 |
 | `date`                        | [Date Picker](/docs/components/aria/date-picker)                                                                                                   |
 | `time`                        | [Time Input](/docs/components/aria/time-input)                                                                                                     |
-| `datetime-local`              | [Date Picker](/docs/components/aria/date-picker) and [Time Input](/docs/components/aria/time-input) side by side                                   |
+| `datetime-local`              | [Date Picker](/docs/components/aria/date-picker) with `hasTime`                                                                                    |
 | `month`                       | [Month Input](/docs/components/aria/month-input)                                                                                                   |
 | `color`                       | [Color Picker](/docs/components/aria/color-picker)                                                                                                 |
 | `file`                        | [File Upload](/docs/components/aria/file-upload)                                                                                                   |
@@ -181,8 +181,8 @@ max, keyboard stepping and locale formatting such as currency or percent.
 
 ## Date
 
-For dates, use [Date Picker](/docs/components/aria/date-picker): type a date in your own
-format or pick it from the library's calendar.
+For dates, use [Date Picker](/docs/components/aria/date-picker): it opens the library's
+calendar, with a column of times beside it when you add `hasTime`.
 
 <ComponentPreview styleName="aria-nova" name="date-picker-field" />
 
@@ -208,14 +208,11 @@ and HEX, RGB, HSL and OKLCH fields.
 
 ## File
 
-For files, use [File Upload](/docs/components/aria/file-upload): a drop zone or a button,
-checks on type, size and count, and the picked files as a list.
+For files, use [File Upload](/docs/components/aria/file-upload). Its
+field is the size and frame of an Input: drop files on it or choose them, and
+they show inside it as chips you can remove, on one row that scrolls sideways, so the field keeps its height.
 
-<ComponentPreview
-  styleName="aria-nova"
-  name="file-upload-button"
-  previewClassName="h-auto p-6 sm:p-10"
-/>
+<ComponentPreview styleName="aria-nova" name="file-upload-field" />
 
 ## Inline
 

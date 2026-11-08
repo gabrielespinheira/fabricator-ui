@@ -180,5 +180,110 @@
     "name": "month-input-value",
     "reason": "The website's hidden input carries the month to a form submit. React Native has no forms, so there is no element to carry the slot; `name` is accepted so code moves across.",
     "date": "2026-11-07"
+  },
+  {
+    "item": "date-picker",
+    "kind": "prop",
+    "name": "hasTime",
+    "reason": "The native Date Picker has no time wheel yet: native has no Time Input or Time Wheel to build it from (both are still missing on native). It comes with them.",
+    "date": "2026-11-08"
+  },
+  {
+    "item": "date-picker",
+    "kind": "prop",
+    "name": "step",
+    "reason": "The native Date Picker has no time wheel yet: native has no Time Input or Time Wheel to build it from (both are still missing on native). It comes with them.",
+    "date": "2026-11-08"
+  },
+  {
+    "item": "date-picker",
+    "kind": "prop",
+    "name": "hourCycle",
+    "reason": "The native Date Picker has no time wheel yet: native has no Time Input or Time Wheel to build it from (both are still missing on native). It comes with them.",
+    "date": "2026-11-08"
+  },
+  {
+    "item": "date-picker",
+    "kind": "prop",
+    "name": "timeLabel",
+    "reason": "The native Date Picker has no time wheel yet: native has no Time Input or Time Wheel to build it from (both are still missing on native). It comes with them.",
+    "date": "2026-11-08"
+  },
+  {
+    "item": "date-picker",
+    "kind": "slot",
+    "name": "date-picker-time",
+    "reason": "The native Date Picker has no time wheel yet: native has no Time Input or Time Wheel to build it from (both are still missing on native). It comes with them.",
+    "date": "2026-11-08"
+  },
+  {
+    "item": "date-picker",
+    "kind": "placeholder",
+    "name": "cn-date-picker-time",
+    "reason": "The native Date Picker has no time wheel yet: native has no Time Input or Time Wheel to build it from (both are still missing on native). It comes with them.",
+    "date": "2026-11-08"
+  },
+  {
+    "item": "date-picker",
+    "kind": "slot",
+    "name": "date-picker-panel",
+    "reason": "The native Date Picker has no time wheel yet: native has no Time Input or Time Wheel to build it from (both are still missing on native). It comes with them.",
+    "date": "2026-11-08"
+  },
+  {
+    "item": "date-picker",
+    "kind": "placeholder",
+    "name": "cn-date-picker-panel",
+    "reason": "The native Date Picker has no time wheel yet: native has no Time Input or Time Wheel to build it from (both are still missing on native). It comes with them.",
+    "date": "2026-11-08"
+  },
+  {
+    "item": "date-picker",
+    "kind": "prop",
+    "name": "editable",
+    "reason": "The native field is still the editable text field with a calendar button; its button-first field comes with the native time column.",
+    "date": "2026-11-08"
+  },
+  {
+    "item": "date-picker",
+    "kind": "slot",
+    "name": "date-picker-field",
+    "reason": "The native field is still the editable text field with a calendar button; its button-first field comes with the native time column.",
+    "date": "2026-11-08"
+  },
+  {
+    "item": "date-picker",
+    "kind": "placeholder",
+    "name": "cn-date-picker-field",
+    "reason": "The native field is still the editable text field with a calendar button; its button-first field comes with the native time column.",
+    "date": "2026-11-08"
+  },
+  {
+    "item": "date-picker",
+    "kind": "placeholder",
+    "name": "cn-date-picker-field-icon",
+    "reason": "The native field is still the editable text field with a calendar button; its button-first field comes with the native time column.",
+    "date": "2026-11-08"
+  },
+  {
+    "item": "date-picker",
+    "kind": "prop",
+    "name": "hasSeconds",
+    "reason": "The native Date Picker has no time wheel yet: native has no Time Input or Time Wheel to build it from (both are still missing on native). It comes with them.",
+    "date": "2026-11-08"
+  },
+  {
+    "item": "date-picker",
+    "kind": "placeholder",
+    "name": "cn-date-picker-time-wheel",
+    "reason": "The native Date Picker has no time wheel yet: native has no Time Input or Time Wheel to build it from (both are still missing on native). It comes with them.",
+    "date": "2026-11-08"
+  },
+  {
+    "item": "date-picker",
+    "kind": "slot",
+    "name": "calendar",
+    "reason": "Not a slot the Date Picker renders: the website's field looks up the Calendar's own data-slot to put focus on its day when the popover opens. The native Calendar keeps focus itself.",
+    "date": "2026-11-08"
   }
 ]

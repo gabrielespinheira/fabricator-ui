@@ -564,62 +564,62 @@ Component names, props, variants and `data-slot` values are stable, and new ones
 
 ### Choosing a component
 
-| Need                                       | Use                                                                                 |
-| ------------------------------------------ | ----------------------------------------------------------------------------------- |
-| An action                                  | `Button` with a variant; `ButtonGroup` for joined actions and split buttons         |
-| One on/off tool (bold, pin, mute)          | `Toggle`                                                                            |
-| A choice of 2 to 7 options, or a view mode | `ToggleGroup` (a segmented control)                                                 |
-| Switching between panels of content        | `Tabs`                                                                              |
-| Short text                                 | `Input`; with icons, prefixes or buttons, `InputGroup`                              |
-| A password                                 | `InputGroup` with a show button (never the browser's reveal)                        |
-| A number                                   | `NumberField` (steppers, limits, formatting), never `type="number"`                 |
-| A typed date, time or month                | `DatePicker`, `TimeInput`, `MonthInput`, never the browser's pickers                |
-| A start and an end time on one day         | `TimeRangeInput`: the end's list shows durations and follows the start              |
-| A file                                     | `FileUpload` (drop zone or button), never `type="file"`                             |
-| A color                                    | `ColorPicker`; `ColorPickerPopover` behind a trigger; never `type="color"`          |
-| Long text                                  | `Textarea` (`InputGroupTextarea` for a composer with actions)                       |
-| Searching or filtering a page              | `Search` (collapses to a button in toolbars); `CommandInput` inside a palette       |
-| One choice from a known list               | `Select`; `RadioGroup` when every option should stay visible (up to about 5)        |
-| One choice from a long or searchable list  | `Combobox` (also multiple selection with chips)                                     |
-| Several independent options                | `Checkbox` in a `FieldSet`                                                          |
-| A setting that applies at once             | `Switch`                                                                            |
-| A date range, or a date as a button        | `Calendar` in a `Popover` (the Date Picker page's compositions)                     |
-| A one-time code                            | `InputOTP`                                                                          |
-| An approximate value                       | `Slider` with the value shown beside it                                             |
-| A focused task or form                     | `Dialog`                                                                            |
-| Confirming something irreversible          | `AlertDialog`                                                                       |
-| Details or editing beside the current view | `Sheet`                                                                             |
-| A bottom panel on phones                   | `Drawer`                                                                            |
-| Small interactive content on a trigger     | `Popover`                                                                           |
-| A preview of a linked thing on hover       | `HoverCard`                                                                         |
-| A label for an icon or a shortcut hint     | `Tooltip`                                                                           |
-| Actions on a trigger                       | `DropdownMenu`; `ContextMenu` for right-click; `Menubar` for desktop-app menus      |
-| Jump anywhere, run any command             | `Command` in a `CommandDialog`                                                      |
-| An app frame                               | `AppShell` with `AppNav` (see [The app frame](#the-app-frame))                      |
-| A hand-built side navigation               | `Sidebar`                                                                           |
-| Document tabs (files, records, chats)      | `TabStrip`                                                                          |
-| Switching organization or workspace        | `WorkspaceSwitcher`                                                                 |
-| The signed-in person's menu                | `UserMenu`                                                                          |
-| Website header navigation                  | `NavigationMenu`                                                                    |
-| Where am I                                 | `Breadcrumb`                                                                        |
-| More results than one page                 | `Pagination`                                                                        |
-| Records compared across columns            | `Table` (the Data Table guide adds sorting, filters and paging with TanStack Table) |
-| A list of things (people, files, links)    | `Item` in an `ItemGroup`                                                            |
-| One discrete object                        | `Card`                                                                              |
-| A status or label                          | `Badge`                                                                             |
-| A person or account                        | `Avatar` with `AvatarFallback`; `AvatarGroup` for several                           |
-| A keyboard shortcut                        | `Kbd`, `KbdGroup`                                                                   |
-| A persistent message in the page           | `Alert`                                                                             |
-| The result of an action                    | A toast (`toast` on Base UI, Sonner on Radix and React Aria)                        |
-| Progress of known length                   | `Progress`                                                                          |
-| Waiting in place                           | `Spinner`                                                                           |
-| Content loading                            | `Skeleton` in the shape of the content                                              |
-| Nothing to show yet                        | `Empty`                                                                             |
-| Sections that open and close               | `Accordion`; `Collapsible` for one                                                  |
-| Resizable split views                      | `Resizable`                                                                         |
-| A custom scroll area                       | `ScrollArea`                                                                        |
-| A conversation                             | `MessageScroller`, `Message`, `Bubble`, `Attachment`, `Marker`, `ChatInput`         |
-| Questions an assistant asks                | `Questionnaire`                                                                     |
+| Need                                       | Use                                                                                                                                        |
+| ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| An action                                  | `Button` with a variant; `ButtonGroup` for joined actions and split buttons                                                                |
+| One on/off tool (bold, pin, mute)          | `Toggle`                                                                                                                                   |
+| A choice of 2 to 7 options, or a view mode | `ToggleGroup` (a segmented control)                                                                                                        |
+| Switching between panels of content        | `Tabs`                                                                                                                                     |
+| Short text                                 | `Input`; with icons, prefixes or buttons, `InputGroup`                                                                                     |
+| A password                                 | `InputGroup` with a show button (never the browser's reveal)                                                                               |
+| A number                                   | `NumberField` (steppers, limits, formatting), never `type="number"`                                                                        |
+| A date, a time or a month                  | `DatePicker` (`hasTime` adds a time wheel), `TimeInput` (a wheel of hours, minutes and seconds), `MonthInput`; never the browser's pickers |
+| A start and an end time on one day         | `TimeRangeInput`: the end's list shows durations and follows the start                                                                     |
+| A file                                     | `FileUploadField` in a form, `FileUploadDropzone` for a large target; never `type="file"`                                                  |
+| A color                                    | `ColorPicker`; `ColorPickerPopover` behind a trigger; never `type="color"`                                                                 |
+| Long text                                  | `Textarea` (`InputGroupTextarea` for a composer with actions)                                                                              |
+| Searching or filtering a page              | `Search` (collapses to a button in toolbars); `CommandInput` inside a palette                                                              |
+| One choice from a known list               | `Select`; `RadioGroup` when every option should stay visible (up to about 5)                                                               |
+| One choice from a long or searchable list  | `Combobox` (also multiple selection with chips)                                                                                            |
+| Several independent options                | `Checkbox` in a `FieldSet`                                                                                                                 |
+| A setting that applies at once             | `Switch`                                                                                                                                   |
+| A date range, or a date as a button        | `Calendar` in a `Popover` (the Date Picker page's compositions)                                                                            |
+| A one-time code                            | `InputOTP`                                                                                                                                 |
+| An approximate value                       | `Slider` with the value shown beside it                                                                                                    |
+| A focused task or form                     | `Dialog`                                                                                                                                   |
+| Confirming something irreversible          | `AlertDialog`                                                                                                                              |
+| Details or editing beside the current view | `Sheet`                                                                                                                                    |
+| A bottom panel on phones                   | `Drawer`                                                                                                                                   |
+| Small interactive content on a trigger     | `Popover`                                                                                                                                  |
+| A preview of a linked thing on hover       | `HoverCard`                                                                                                                                |
+| A label for an icon or a shortcut hint     | `Tooltip`                                                                                                                                  |
+| Actions on a trigger                       | `DropdownMenu`; `ContextMenu` for right-click; `Menubar` for desktop-app menus                                                             |
+| Jump anywhere, run any command             | `Command` in a `CommandDialog`                                                                                                             |
+| An app frame                               | `AppShell` with `AppNav` (see [The app frame](#the-app-frame))                                                                             |
+| A hand-built side navigation               | `Sidebar`                                                                                                                                  |
+| Document tabs (files, records, chats)      | `TabStrip`                                                                                                                                 |
+| Switching organization or workspace        | `WorkspaceSwitcher`                                                                                                                        |
+| The signed-in person's menu                | `UserMenu`                                                                                                                                 |
+| Website header navigation                  | `NavigationMenu`                                                                                                                           |
+| Where am I                                 | `Breadcrumb`                                                                                                                               |
+| More results than one page                 | `Pagination`                                                                                                                               |
+| Records compared across columns            | `Table` (the Data Table guide adds sorting, filters and paging with TanStack Table)                                                        |
+| A list of things (people, files, links)    | `Item` in an `ItemGroup`                                                                                                                   |
+| One discrete object                        | `Card`                                                                                                                                     |
+| A status or label                          | `Badge`                                                                                                                                    |
+| A person or account                        | `Avatar` with `AvatarFallback`; `AvatarGroup` for several                                                                                  |
+| A keyboard shortcut                        | `Kbd`, `KbdGroup`                                                                                                                          |
+| A persistent message in the page           | `Alert`                                                                                                                                    |
+| The result of an action                    | A toast (`toast` on Base UI, Sonner on Radix and React Aria)                                                                               |
+| Progress of known length                   | `Progress`                                                                                                                                 |
+| Waiting in place                           | `Spinner`                                                                                                                                  |
+| Content loading                            | `Skeleton` in the shape of the content                                                                                                     |
+| Nothing to show yet                        | `Empty`                                                                                                                                    |
+| Sections that open and close               | `Accordion`; `Collapsible` for one                                                                                                         |
+| Resizable split views                      | `Resizable`                                                                                                                                |
+| A custom scroll area                       | `ScrollArea`                                                                                                                               |
+| A conversation                             | `MessageScroller`, `Message`, `Bubble`, `Attachment`, `Marker`, `ChatInput`, `ModelPicker`                                                 |
+| Questions an assistant asks                | `Questionnaire`                                                                                                                            |
 
 The `@fabricator` registry leaves out Native Select (use `Select`) and, for now, Chart. React Aria projects have no `Menubar` or `NavigationMenu`; use a `DropdownMenu` per menu and a header of links.
 
@@ -740,7 +740,7 @@ React Native projects install the same names with the same variants, sizes and t
 - Rows are `Message` (consecutive messages from one sender in a `MessageGroup`); surfaces are `Bubble`; files are `Attachment` in an `AttachmentGroup`; system notes and day dividers are `Marker`.
 - The person's messages sit in bubbles; the assistant's replies are plain text on the page.
 - "Thinking…" is `shimmer` text. Clarifying questions with options are a `Questionnaire`.
-- The composer is a `ChatInput`: `ChatInputTextarea`, then a `ChatInputFooter` with `ChatInputTools` (add, attach, modes) and `ChatInputActions` (model, `ChatInputSubmit`). Pass `useChat`'s `status` and `stop`, so send turns into stop while a reply streams. Attachments go in `ChatInputHeader`; queued messages in a `ChatInputTray` just before it.
+- The composer is a `ChatInput`: `ChatInputAttachments` (files riding along), `ChatInputTextarea`, then a `ChatInputFooter` with `ChatInputTools` (add menu, permissions) and `ChatInputActions` (`ChatInputContextMeter`, the model as a `ChatInputButton` opening a `ModelPicker` in a Popover, `ChatInputMic`, `ChatInputSubmit`). Pass `useChat`'s `status` and `stop`: send stops a reply while the field is empty, and with `queue` typed text waits behind it. With `onVoiceActiveChange`, an empty input offers voice chat in send's place; pass `voiceLevel` for the glow and the mic. `onAttach` takes dropped and pasted files. A rotating `placeholder` list hints at the input's sigils, and `mentions` tints them as they're typed. `ChatInputCommands` is the `/` menu of commands (`/goal`, ones your app runs) and skills; pass their names to `isKnownMention`. An agent's session stacks trays just before the input, furthest back first: the goal (`level={3}`), background tasks (`level={2}`) and queued messages (`level={1}`), each row a `ChatInputTrayEntry` that opens to more; with `queue` and `onRecall`, ↑ in an empty field takes the last queued message back.
 - A chat that opens on an empty page, or a composer floating over content, uses `layout="compact"`: a one-line pill that stacks once the draft wraps. A docked composer under a transcript keeps the default card.
 
 ### Composition per base

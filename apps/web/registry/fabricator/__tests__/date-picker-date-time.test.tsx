@@ -16,22 +16,22 @@ const BASES = [
 
 function getComboboxValues(html: string) {
   return Array.from(
-    html.matchAll(/<input[^>]*role="combobox"[^>]*>/g),
+    html.matchAll(/<input[^>]*aria-haspopup="dialog"[^>]*>/g),
     ([tag]) => /value="([^"]*)"/.exec(tag)?.[1]
   )
 }
 
 describe.each(BASES)("%s date and time pickers", (_, single, range) => {
-  it("picks the day in a calendar and the time in a Time Input", () => {
+  it("shows the day and the time in one field", () => {
     const html = renderToStaticMarkup(<single.DatePickerDateTime />)
 
     expect(html).toMatch(
       /<label[^>]*for="date-picker-date-time"[^>]*>Date and time</
     )
     expect(html).toMatch(
-      /id="date-picker-date-time"[^>]*>[^]*?[A-Z][a-z]{2}, [A-Z][a-z]{2} 12</
+      /id="date-picker-date-time"[^]*?[A-Z][a-z]{2} 12, \d{4}, 10:30\sAM/u
     )
-    expect(getComboboxValues(html)).toEqual(["10:30 AM"])
+    expect(getComboboxValues(html)).toEqual([])
     expect(html).not.toContain('type="time"')
   })
 

@@ -1046,6 +1046,14 @@ export const Components: Record<string, any> = {
       ) || "chart-tooltip"
     return { default: mod.default || mod[exportName] }
   }),
+  "chat-input-agent": React.lazy(async () => {
+    const mod = await import("@/examples/radix/chat-input-agent")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "chat-input-agent"
+    return { default: mod.default || mod[exportName] }
+  }),
   "chat-input-attachments": React.lazy(async () => {
     const mod = await import("@/examples/radix/chat-input-attachments")
     const exportName =
@@ -1060,6 +1068,14 @@ export const Components: Record<string, any> = {
       Object.keys(mod).find(
         (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
       ) || "chat-input-compact"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "chat-input-context-meter": React.lazy(async () => {
+    const mod = await import("@/examples/radix/chat-input-context-meter")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "chat-input-context-meter"
     return { default: mod.default || mod[exportName] }
   }),
   "chat-input-demo": React.lazy(async () => {
@@ -1078,6 +1094,14 @@ export const Components: Record<string, any> = {
       ) || "chat-input-disabled"
     return { default: mod.default || mod[exportName] }
   }),
+  "chat-input-mentions": React.lazy(async () => {
+    const mod = await import("@/examples/radix/chat-input-mentions")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "chat-input-mentions"
+    return { default: mod.default || mod[exportName] }
+  }),
   "chat-input-submit-on": React.lazy(async () => {
     const mod = await import("@/examples/radix/chat-input-submit-on")
     const exportName =
@@ -1086,12 +1110,12 @@ export const Components: Record<string, any> = {
       ) || "chat-input-submit-on"
     return { default: mod.default || mod[exportName] }
   }),
-  "chat-input-tray": React.lazy(async () => {
-    const mod = await import("@/examples/radix/chat-input-tray")
+  "chat-input-voice": React.lazy(async () => {
+    const mod = await import("@/examples/radix/chat-input-voice")
     const exportName =
       Object.keys(mod).find(
         (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
-      ) || "chat-input-tray"
+      ) || "chat-input-voice"
     return { default: mod.default || mod[exportName] }
   }),
   "checkbox-basic": React.lazy(async () => {
@@ -1542,14 +1566,6 @@ export const Components: Record<string, any> = {
       ) || "date-picker-controlled"
     return { default: mod.default || mod[exportName] }
   }),
-  "date-picker-date-time-24-hour": React.lazy(async () => {
-    const mod = await import("@/examples/radix/date-picker-date-time-24-hour")
-    const exportName =
-      Object.keys(mod).find(
-        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
-      ) || "date-picker-date-time-24-hour"
-    return { default: mod.default || mod[exportName] }
-  }),
   "date-picker-date-time-range": React.lazy(async () => {
     const mod = await import("@/examples/radix/date-picker-date-time-range")
     const exportName =
@@ -1588,6 +1604,14 @@ export const Components: Record<string, any> = {
       Object.keys(mod).find(
         (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
       ) || "date-picker-dob"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "date-picker-editable": React.lazy(async () => {
+    const mod = await import("@/examples/radix/date-picker-editable")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "date-picker-editable"
     return { default: mod.default || mod[exportName] }
   }),
   "date-picker-field": React.lazy(async () => {
@@ -1676,14 +1700,6 @@ export const Components: Record<string, any> = {
       Object.keys(mod).find(
         (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
       ) || "date-picker-time"
-    return { default: mod.default || mod[exportName] }
-  }),
-  "date-picker-typed": React.lazy(async () => {
-    const mod = await import("@/examples/radix/date-picker-typed")
-    const exportName =
-      Object.keys(mod).find(
-        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
-      ) || "date-picker-typed"
     return { default: mod.default || mod[exportName] }
   }),
   "dialog-close-button": React.lazy(async () => {
@@ -2068,6 +2084,14 @@ export const Components: Record<string, any> = {
       Object.keys(mod).find(
         (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
       ) || "file-upload-disabled"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "file-upload-field": React.lazy(async () => {
+    const mod = await import("@/examples/radix/file-upload-field")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "file-upload-field"
     return { default: mod.default || mod[exportName] }
   }),
   "file-upload-form": React.lazy(async () => {
@@ -3000,6 +3024,22 @@ export const Components: Record<string, any> = {
       Object.keys(mod).find(
         (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
       ) || "message-scroller-visibility"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "model-picker-demo": React.lazy(async () => {
+    const mod = await import("@/examples/radix/model-picker-demo")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "model-picker-demo"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "model-picker-effort": React.lazy(async () => {
+    const mod = await import("@/examples/radix/model-picker-effort")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "model-picker-effort"
     return { default: mod.default || mod[exportName] }
   }),
   "month-input-controlled": React.lazy(async () => {
@@ -4464,6 +4504,14 @@ export const Components: Record<string, any> = {
       Object.keys(mod).find(
         (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
       ) || "time-input-range"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "time-input-seconds": React.lazy(async () => {
+    const mod = await import("@/examples/radix/time-input-seconds")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "time-input-seconds"
     return { default: mod.default || mod[exportName] }
   }),
   "toggle-demo": React.lazy(async () => {

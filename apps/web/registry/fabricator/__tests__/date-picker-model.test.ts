@@ -6,9 +6,12 @@ import {
   DEFAULT_DATE_FORMAT,
   formatDateValue,
   formatIsoDate,
+  formatIsoDateTime,
   isDateInRange,
   isSameDateValue,
   parseDateText,
+  setDateTime,
+  splitDateTimeText,
 } from "@/registry/fabricator/shared/lib/date-picker-model"
 
 // Sunday 15 June 2025, mid-afternoon: relative words must land on whole days.
@@ -174,5 +177,50 @@ describe("isSameDateValue", () => {
     expect(isSameDateValue(day(2025, 6, 1), day(2025, 6, 2))).toBe(false)
     expect(isSameDateValue(undefined, undefined)).toBe(true)
     expect(isSameDateValue(undefined, day(2025, 6, 1))).toBe(false)
+  })
+})
+
+describe("setDateTime", () => {
+  it("puts the time on the day, keeping the day", () => {
+    const date = setDateTime(new Date(2026, 10, 12, 8, 5, 30), "14:45")
+    expect(date).toEqual(new Date(2026, 10, 12, 14, 45))
+  })
+})
+
+describe("formatIsoDateTime", () => {
+  it("writes the day and the time as a datetime-local value", () => {
+    expect(formatIsoDateTime(new Date(2026, 10, 2, 9, 5))).toBe(
+      "2026-11-02T09:05"
+    )
+  })
+
+  it("is empty without a date", () => {
+    expect(formatIsoDateTime(undefined)).toBe("")
+  })
+})
+
+describe("splitDateTimeText", () => {
+  it.each([
+    ["Nov 12, 2026, 10:30 AM", "Nov 12, 2026", "10:30 AM"],
+    ["2026-11-12, 21:30", "2026-11-12", "21:30"],
+    ["tomorrow at 9pm", "tomorrow", "9pm"],
+    ["Nov 12, 2026", "Nov 12, 2026", undefined],
+    ["tomorrow", "tomorrow", undefined],
+  ])("splits %s", (text, dateText, timeText) => {
+    expect(splitDateTimeText(text)).toEqual({ dateText, timeText })
+  })
+})
+
+describe("seconds", () => {
+  it("puts a time with seconds on the day", () => {
+    expect(setDateTime(new Date(2026, 10, 12), "14:45:30")).toEqual(
+      new Date(2026, 10, 12, 14, 45, 30)
+    )
+  })
+
+  it("writes the seconds when asked", () => {
+    expect(
+      formatIsoDateTime(new Date(2026, 10, 2, 9, 5, 7), { hasSeconds: true })
+    ).toBe("2026-11-02T09:05:07")
   })
 })

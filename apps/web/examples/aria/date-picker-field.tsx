@@ -12,10 +12,9 @@ export function DatePickerField() {
       <DatePicker
         id="date-picker-start"
         aria-describedby="date-picker-start-description"
-        placeholder="Nov 12, 2026"
       />
       <FieldDescription id="date-picker-start-description">
-        Type a date, or press Alt+Down to open the calendar.
+        The day the work begins.
       </FieldDescription>
     </Field>
   )

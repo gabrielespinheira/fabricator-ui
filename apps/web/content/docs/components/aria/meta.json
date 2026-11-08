@@ -42,6 +42,7 @@
     "label",
     "marker",
     "message",
+    "model-picker",
     "message-scroller",
     "month-input",
     "number-field",

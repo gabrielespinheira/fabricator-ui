@@ -80,7 +80,7 @@ input type has a component of its own, built on the same frame. The preview at t
 | `number`                      | [Number Field](/docs/components/base/number-field)                                                                                                 |
 | `date`                        | [Date Picker](/docs/components/base/date-picker)                                                                                                   |
 | `time`                        | [Time Input](/docs/components/base/time-input)                                                                                                     |
-| `datetime-local`              | [Date Picker](/docs/components/base/date-picker) and [Time Input](/docs/components/base/time-input) side by side                                   |
+| `datetime-local`              | [Date Picker](/docs/components/base/date-picker) with `hasTime`                                                                                    |
 | `month`                       | [Month Input](/docs/components/base/month-input)                                                                                                   |
 | `color`                       | [Color Picker](/docs/components/base/color-picker)                                                                                                 |
 | `file`                        | [File Upload](/docs/components/base/file-upload)                                                                                                   |
@@ -172,8 +172,8 @@ max, keyboard stepping and locale formatting such as currency or percent.
 
 ## Date
 
-For dates, use [Date Picker](/docs/components/base/date-picker): type a date in your own
-format or pick it from the library's calendar.
+For dates, use [Date Picker](/docs/components/base/date-picker): it opens the library's
+calendar, with a column of times beside it when you add `hasTime`.
 
 <ComponentPreview styleName="base-nova" name="date-picker-field" />
 
@@ -199,14 +199,11 @@ and HEX, RGB, HSL and OKLCH fields.
 
 ## File
 
-For files, use [File Upload](/docs/components/base/file-upload): a drop zone or a button,
-checks on type, size and count, and the picked files as a list.
+For files, use [File Upload](/docs/components/base/file-upload). Its
+field is the size and frame of an Input: drop files on it or choose them, and
+they show inside it as chips you can remove, on one row that scrolls sideways, so the field keeps its height.
 
-<ComponentPreview
-  styleName="base-nova"
-  name="file-upload-button"
-  previewClassName="h-auto p-6 sm:p-10"
-/>
+<ComponentPreview styleName="base-nova" name="file-upload-field" />
 
 ## Inline
 

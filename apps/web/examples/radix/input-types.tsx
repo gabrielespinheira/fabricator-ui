@@ -1,13 +1,13 @@
 "use client"
 
 import * as React from "react"
-import { EyeIcon, EyeOffIcon, PaperclipIcon, SearchIcon } from "lucide-react"
+import { EyeIcon, EyeOffIcon, SearchIcon } from "lucide-react"
 
 import { ColorPickerPopover } from "@/styles/radix-fabricator/ui/color-picker"
 import { DatePicker } from "@/styles/radix-fabricator/ui/date-picker"
 import {
   FileUpload,
-  FileUploadTrigger,
+  FileUploadField,
 } from "@/styles/radix-fabricator/ui/file-upload"
 import { MonthInput } from "@/styles/radix-fabricator/ui/month-input"
 import {
@@ -56,22 +56,11 @@ function PasswordField() {
 }
 
 function FileField() {
-  const [files, setFiles] = React.useState<File[]>([])
-  const names = files.map((file) => file.name).join(", ")
-
   return (
     <Field>
-      <FieldLabel>File</FieldLabel>
-      <FileUpload value={files} onValueChange={setFiles}>
-        <div className="flex min-w-0 items-center gap-3">
-          <FileUploadTrigger>
-            <PaperclipIcon data-icon="inline-start" />
-            Choose file
-          </FileUploadTrigger>
-          <span className="truncate text-sm text-muted-foreground">
-            {names || "No file chosen"}
-          </span>
-        </div>
+      <FieldLabel htmlFor="input-type-file">Files</FieldLabel>
+      <FileUpload multiple>
+        <FileUploadField id="input-type-file" />
       </FileUpload>
     </Field>
   )
@@ -138,14 +127,7 @@ export function InputTypes() {
       </Field>
       <Field>
         <FieldLabel htmlFor="input-type-date-time">Date and time</FieldLabel>
-        <div className="flex gap-2">
-          <DatePicker
-            id="input-type-date-time"
-            placeholder="Date"
-            className="flex-1"
-          />
-          <TimeInput aria-label="Time" placeholder="Time" className="w-32" />
-        </div>
+        <DatePicker id="input-type-date-time" hasTime />
       </Field>
       <Field>
         <FieldLabel htmlFor="input-type-month">Month</FieldLabel>

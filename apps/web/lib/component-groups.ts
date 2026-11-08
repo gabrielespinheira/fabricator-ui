@@ -93,6 +93,7 @@ const GROUP_BY_SLUG: Record<string, ComponentGroup> = {
   empty: "Data & Feedback",
   // AI & Chat
   "chat-input": "AI & Chat",
+  "model-picker": "AI & Chat",
   message: "AI & Chat",
   "message-scroller": "AI & Chat",
   bubble: "AI & Chat",

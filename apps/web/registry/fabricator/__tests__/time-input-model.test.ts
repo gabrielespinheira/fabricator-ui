@@ -2,18 +2,25 @@ import { describe, expect, it } from "vitest"
 
 import {
   addMinutesToTime,
+  clampTime,
   commitTimeText,
   formatTimeDuration,
   formatTimeValue,
+  fromHour12,
+  getHourValues,
   getLocaleHourCycle,
+  getMinuteValues,
   getNearestTimeOption,
   getTimeDuration,
   getTimeOfDay,
   getTimeOptions,
   getWidestTimeText,
   isTimeInRange,
+  joinTime,
   parseTimeText,
   shiftEndTime,
+  splitTime,
+  toHour12,
 } from "@/registry/fabricator/shared/lib/time-input-model"
 
 describe("parseTimeText", () => {
@@ -238,5 +245,82 @@ describe("getWidestTimeText", () => {
 
   it("is five characters on a 24-hour clock", () => {
     expect(getWidestTimeText(getTimeOptions({ step: 15 }), 24)).toHaveLength(5)
+  })
+})
+
+describe("seconds", () => {
+  it.each([
+    ["10:30:15", "10:30:15"],
+    ["9:05:09 pm", "21:05:09"],
+  ])("reads %s as %s", (text, expected) => {
+    expect(parseTimeText(text)).toBe(expected)
+  })
+
+  it("rejects 60 seconds", () => {
+    expect(parseTimeText("10:30:60")).toBeUndefined()
+  })
+
+  it("writes the seconds when the time has them", () => {
+    expect(formatTimeValue("21:05:09", { hourCycle: 12 })).toBe("9:05:09 PM")
+    expect(formatTimeValue("21:05:09", { hourCycle: 24 })).toBe("21:05:09")
+  })
+})
+
+describe("splitTime and joinTime", () => {
+  it("splits a time into its parts", () => {
+    expect(splitTime("21:05:09")).toEqual({ hours: 21, minutes: 5, seconds: 9 })
+    expect(splitTime("21:05")).toEqual({ hours: 21, minutes: 5, seconds: 0 })
+  })
+
+  it("joins the parts, with seconds only when asked", () => {
+    const parts = { hours: 7, minutes: 3, seconds: 4 }
+    expect(joinTime(parts, { hasSeconds: true })).toBe("07:03:04")
+    expect(joinTime(parts, { hasSeconds: false })).toBe("07:03")
+  })
+})
+
+describe("12-hour clock", () => {
+  it.each([
+    [0, 12, "AM"],
+    [9, 9, "AM"],
+    [12, 12, "PM"],
+    [23, 11, "PM"],
+  ] as const)("writes hour %i as %i %s", (hours, hour, meridiem) => {
+    expect(toHour12(hours)).toEqual({ hour, meridiem })
+    expect(fromHour12(hour, meridiem)).toBe(hours)
+  })
+})
+
+describe("wheel values", () => {
+  it("lists the hours of each clock", () => {
+    expect(getHourValues(12)).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12])
+    expect(getHourValues(24)).toHaveLength(24)
+    expect(getHourValues(24)[0]).toBe(0)
+  })
+
+  it("lists the minutes every step", () => {
+    expect(getMinuteValues(15)).toEqual([0, 15, 30, 45])
+    expect(getMinuteValues(1)).toHaveLength(60)
+  })
+})
+
+describe("clampTime", () => {
+  it("keeps a time inside the range", () => {
+    const range = { minTime: "09:00", maxTime: "17:00" }
+    expect(clampTime("08:15", range)).toBe("09:00")
+    expect(clampTime("18:30:20", range)).toBe("17:00:00")
+    expect(clampTime("12:30", range)).toBe("12:30")
+  })
+
+  it("writes the bound with seconds when the time has them", () => {
+    expect(clampTime("08:15:30", { minTime: "09:00" })).toBe("09:00:00")
+  })
+})
+
+describe("getTimeOfDay with seconds", () => {
+  it("reads the seconds when asked", () => {
+    const date = new Date(2026, 10, 12, 9, 5, 7)
+    expect(getTimeOfDay(date)).toBe("09:05")
+    expect(getTimeOfDay(date, { hasSeconds: true })).toBe("09:05:07")
   })
 })
