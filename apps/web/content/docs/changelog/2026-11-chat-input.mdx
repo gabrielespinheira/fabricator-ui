@@ -1,0 +1,10 @@
+---
+title: November 2026 - Chat Input
+description: A Chat Input for AI conversations, with a compact pill layout, a send button that stops a streaming reply, attachments and a queue tray.
+date: 2026-11-07
+---
+
+- **Chat Input.** `npx fabricator-ui@latest add chat-input` adds the message box of a chat: a raised card whose field grows with the draft and whose height eases to what it holds. Enter sends, Shift+Enter adds a line, Escape stops, and an input method's Enter never sends. Pass the AI SDK's `status` and `stop`, and send spins while a reply streams and turns into a stop square on hover.
+- **A compact pill.** `layout="compact"` is one line with its controls beside the field, and stacks above them once the draft wraps, without flipping back and forth mid-sentence.
+- **Attachments and a queue.** `ChatInputHeader` holds Attachment tiles, and `hasContent` sends them without text. With `queue`, Enter sends while a reply streams, and `ChatInputTray` shows what's waiting, tucked behind the card.
+- **The Message Scroller demos** use Chat Input for their composer.

@@ -1,0 +1,209 @@
+---
+title: Chat Input
+description: The message box of a chat. A raised card that grows with the draft, a compact pill, and a send button that turns into stop while a reply streams.
+base: radix
+component: true
+---
+
+<ComponentPreview styleName="radix-nova" name="chat-input-demo" />
+
+Type and press Enter to send; Shift+Enter adds a line. While a reply is on its way, send spins, and turns into a stop square when you hover or focus it; Escape in the field stops too. The card's height eases to what it holds, so a growing draft or a row of attachments slides it open instead of jumping.
+
+Chat Input is part of the Fabricator style. It's built on plain HTML (a `<form>` around a `<textarea>`), so the same component ships for every base. Pair it with [Message Scroller](/docs/components/radix/message-scroller), [Message](/docs/components/radix/message) and [Bubble](/docs/components/radix/bubble) for a whole conversation.
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">Command</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx fabricator-ui@latest add chat-input
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps className="mb-0 pt-2">
+
+<Step>Install the Button and Spinner components.</Step>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  src="styles/radix-fabricator/ui/chat-input.tsx"
+  title="components/ui/chat-input.tsx"
+  styleName="radix-nova"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import {
+  ChatInput,
+  ChatInputActions,
+  ChatInputButton,
+  ChatInputFooter,
+  ChatInputSubmit,
+  ChatInputTextarea,
+  ChatInputTools,
+} from "@/components/ui/chat-input"
+```
+
+```tsx
+const { sendMessage, status, stop } = useChat()
+
+<ChatInput
+  status={status}
+  onSubmit={(text) => sendMessage({ text })}
+  onStop={stop}
+>
+  <ChatInputTextarea placeholder="Ask anything…" />
+  <ChatInputFooter>
+    <ChatInputTools>
+      <ChatInputButton aria-label="Attach files">
+        <PaperclipIcon />
+      </ChatInputButton>
+    </ChatInputTools>
+    <ChatInputActions>
+      <ChatInputSubmit />
+    </ChatInputActions>
+  </ChatInputFooter>
+</ChatInput>
+```
+
+`status` takes the AI SDK's `useChat` status as it is: `"ready"`, `"submitted"`, `"streaming"` or `"error"`. After `onSubmit`, the draft clears (through `onValueChange("")` when it's controlled).
+
+## Composition
+
+```text
+ChatInputTray            optional, before ChatInput: queued messages
+└── ChatInputTrayItem
+ChatInput                the <form>: the draft, the status, the card
+├── ChatInputHeader      across the top: attachments, quoted context
+├── ChatInputTextarea    the field; grows with the draft
+└── ChatInputFooter      the row under the field
+    ├── ChatInputTools   at the start: add, attach, modes
+    │   └── ChatInputButton
+    └── ChatInputActions at the end: the model, voice, send
+        └── ChatInputSubmit
+```
+
+Every part reads the root through context. `ChatInputButton` is a ghost, round Button that never submits the form; it takes the Button's `variant` and `size`, and a label next to its icon (in a `<span>`) makes it a pill. With `aria-pressed` it holds the active fill, for a mode such as web search. `useChatInput()` returns the draft, the status and `submit` and `stop`, for parts of your own.
+
+## Examples
+
+### Compact
+
+`layout="compact"` is a one-line pill: the tools sit before the field and the actions after it, around a larger round send. Once the draft wraps it stacks, the field across the card and the controls on a row below, and it goes back only when the draft fits on one line beside the controls again, so it never flips mid-sentence.
+
+<ComponentPreview styleName="radix-nova" name="chat-input-compact" />
+
+### Attachments
+
+`ChatInputHeader` holds [Attachment](/docs/components/radix/attachment) tiles over the field. `hasContent` makes a message with attachments and no text sendable. Paste works through the textarea's own `onPaste`.
+
+<ComponentPreview styleName="radix-nova" name="chat-input-attachments" />
+
+### Queue and tray
+
+With `queue`, Enter still sends while a reply streams, for a message to run after it; send stays the stop button. `ChatInputTray`, placed just before `ChatInput`, tucks behind the card's top edge to show what's waiting.
+
+<ComponentPreview styleName="radix-nova" name="chat-input-tray" />
+
+### Submit with ⌘↵
+
+`submitOn="mod-enter"` sends with Cmd or Ctrl+Enter only, so Enter adds a line, for long-form briefs. Cmd+Enter sends in the default mode too.
+
+<ComponentPreview styleName="radix-nova" name="chat-input-submit-on" />
+
+### Disabled
+
+<ComponentPreview styleName="radix-nova" name="chat-input-disabled" />
+
+## API Reference
+
+### ChatInput
+
+All other props go to the `<form>`.
+
+| Prop            | Type                                               | Default     |
+| --------------- | -------------------------------------------------- | ----------- |
+| `value`         | `string`                                           | -           |
+| `defaultValue`  | `string`                                           | `""`        |
+| `onValueChange` | `(value: string) => void`                          | -           |
+| `onSubmit`      | `(value: string) => void`                          | -           |
+| `onStop`        | `() => void`                                       | -           |
+| `status`        | `"ready" \| "submitted" \| "streaming" \| "error"` | `"ready"`   |
+| `layout`        | `"default" \| "compact"`                           | `"default"` |
+| `submitOn`      | `"enter" \| "mod-enter"`                           | `"enter"`   |
+| `hasContent`    | `boolean`                                          | `false`     |
+| `queue`         | `boolean`                                          | `false`     |
+| `disabled`      | `boolean`                                          | `false`     |
+
+Without `onStop`, send only spins while a reply is on its way.
+
+### ChatInputTextarea
+
+A `<textarea>` with every prop except `value` and `defaultValue`, which belong to the root. Named "Message" unless you pass `aria-label`. An `onKeyDown` that calls `preventDefault()` keeps a key from sending, for a mention menu of your own.
+
+### ChatInputButton
+
+A `<button type="button">` drawn as a Button.
+
+| Prop      | Type              | Default   |
+| --------- | ----------------- | --------- |
+| `variant` | Button's variants | `"ghost"` |
+| `size`    | Button's sizes    | `"icon"`  |
+
+### ChatInputSubmit
+
+A `<button>` drawn as a Button: a submit button, and a plain button that calls `onStop` while busy. Named "Send", "Stop" or "Sending" unless you pass `aria-label`; children replace the glyphs. Its variant is `default` when there is something to send and `secondary` when there isn't, unless you pass one.
+
+### Helpers
+
+The rules are plain functions, exported for your own parts and tests: `getChatInputKeyAction(event, { submitOn })` returns `"submit"`, `"stop"` or `"none"`; `isChatInputBusy(status)`; `isChatInputReady({ value, status, disabled, hasContent, queue })`; `nextChatInputStacked(…)` decides the compact layout.
+
+### Data attributes
+
+| Attribute                         | Element   | Present when                   |
+| --------------------------------- | --------- | ------------------------------ |
+| `data-slot="chat-input"`          | root      | always                         |
+| `data-layout`                     | root      | always: `default` or `compact` |
+| `data-status`                     | root      | always: the `status`           |
+| `data-stacked`                    | root      | a compact draft has wrapped    |
+| `data-disabled`                   | root      | `disabled`                     |
+| `data-slot="chat-input-textarea"` | the field | always                         |
+| `data-slot="chat-input-submit"`   | send      | always                         |
+| `data-state`                      | send      | always: `idle` or `busy`       |
+| `data-can-stop`                   | send      | busy, with `onStop`            |
+| `data-slot="chat-input-tray"`     | the tray  | always                         |
+
+## Motion
+
+- The card's height eases on the move timing (`duration-move ease-move`) as the draft grows or a header appears. With reduced motion it changes at once.
+- Focus lifts the card from surface 3's shadow to surface 4's.
+- Send's arrow, spinner and stop square trade places with a fade and a scale on the feedback timing.
+- The compact controls' row and the tray rise into place on the move timing; with reduced motion they appear.
+
+## Accessibility
+
+- It's a real `<form>` and `<textarea>`: the field is named "Message" by default, and its `enterkeyhint` tells a phone's keyboard that Enter sends.
+- Enter sends, Shift+Enter adds a line, Cmd or Ctrl+Enter always sends, and Escape stops a reply. Enter that picks a candidate in an input method (Japanese, Chinese, Korean) never sends.
+- Send is named for what it does: "Send", "Stop" while a reply can be stopped (its tooltip names Esc), "Sending" while it can't. It's disabled when there's nothing to send.
+- Footer buttons need an `aria-label` when they show only an icon. A toggle uses `aria-pressed`.
+- A press on the card's bare surface puts the caret in the field, so the whole card is a target; controls inside it keep their own clicks.
+- Give the tray `role="list"` with an `aria-label`, and its rows `role="listitem"`, when it holds a list.
