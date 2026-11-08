@@ -56,6 +56,50 @@ export const formItems: Registry["items"] = [
     meta: docs("input-group"),
   },
   {
+    name: "date-picker",
+    type: "registry:ui",
+    title: "Date Picker",
+    description:
+      "A text field that takes a typed date or one picked from a calendar.",
+    dependencies: ["@fabricator-ui/icons-react-native", "cn", "date-fns"],
+    registryDependencies: [
+      "@fabricator/calendar",
+      "@fabricator/input-group",
+      "@fabricator/popover",
+    ],
+    files: [
+      { path: "ui/date-picker.tsx", type: "registry:ui" },
+      { path: "lib/date-picker-model.ts", type: "registry:lib" },
+    ],
+    meta: docs("date-picker"),
+  },
+  {
+    name: "month-input",
+    type: "registry:ui",
+    title: "Month Input",
+    description:
+      "A text field that takes a typed month or one picked from a year of months.",
+    dependencies: [
+      "@fabricator-ui/icons-react-native",
+      "cn",
+      "date-fns",
+      "react-native-reanimated",
+    ],
+    registryDependencies: [
+      "@fabricator/button",
+      "@fabricator/feedback",
+      "@fabricator/input-group",
+      "@fabricator/motion",
+      "@fabricator/popover",
+      "@fabricator/text",
+    ],
+    files: [
+      { path: "ui/month-input.tsx", type: "registry:ui" },
+      { path: "lib/month-input-model.ts", type: "registry:lib" },
+    ],
+    meta: docs("month-input"),
+  },
+  {
     name: "field",
     type: "registry:ui",
     title: "Field",

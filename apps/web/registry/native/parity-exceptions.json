@@ -168,10 +168,17 @@
     "date": "2026-11-07"
   },
   {
-    "item": "date-input",
+    "item": "date-picker",
     "kind": "slot",
-    "name": "date-input-value",
+    "name": "date-picker-value",
     "reason": "The website's hidden input carries the day to a form submit. React Native has no forms, so there is no element to carry the slot; `name` is accepted so code moves across.",
+    "date": "2026-11-07"
+  },
+  {
+    "item": "month-input",
+    "kind": "slot",
+    "name": "month-input-value",
+    "reason": "The website's hidden input carries the month to a form submit. React Native has no forms, so there is no element to carry the slot; `name` is accepted so code moves across.",
     "date": "2026-11-07"
   }
 ]

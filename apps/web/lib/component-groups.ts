@@ -45,10 +45,15 @@ const GROUP_BY_SLUG: Record<string, ComponentGroup> = {
   select: "Forms",
   combobox: "Forms",
   search: "Forms",
+  "number-field": "Forms",
+  "file-upload": "Forms",
+  "color-picker": "Forms",
   "button-group": "Forms",
   "toggle-group": "Forms",
   calendar: "Forms",
   "date-picker": "Forms",
+  "month-input": "Forms",
+  "time-input": "Forms",
   // Overlays & Menus
   dialog: "Overlays & Menus",
   "alert-dialog": "Overlays & Menus",
@@ -87,6 +92,7 @@ const GROUP_BY_SLUG: Record<string, ComponentGroup> = {
   progress: "Data & Feedback",
   empty: "Data & Feedback",
   // AI & Chat
+  "chat-input": "AI & Chat",
   message: "AI & Chat",
   "message-scroller": "AI & Chat",
   bubble: "AI & Chat",

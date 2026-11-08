@@ -571,13 +571,19 @@ Component names, props, variants and `data-slot` values are stable, and new ones
 | A choice of 2 to 7 options, or a view mode | `ToggleGroup` (a segmented control)                                                 |
 | Switching between panels of content        | `Tabs`                                                                              |
 | Short text                                 | `Input`; with icons, prefixes or buttons, `InputGroup`                              |
+| A password                                 | `InputGroup` with a show button (never the browser's reveal)                        |
+| A number                                   | `NumberField` (steppers, limits, formatting), never `type="number"`                 |
+| A typed date, time or month                | `DatePicker`, `TimeInput`, `MonthInput`, never the browser's pickers                |
+| A start and an end time on one day         | `TimeRangeInput`: the end's list shows durations and follows the start              |
+| A file                                     | `FileUpload` (drop zone or button), never `type="file"`                             |
+| A color                                    | `ColorPicker`; `ColorPickerPopover` behind a trigger; never `type="color"`          |
 | Long text                                  | `Textarea` (`InputGroupTextarea` for a composer with actions)                       |
 | Searching or filtering a page              | `Search` (collapses to a button in toolbars); `CommandInput` inside a palette       |
 | One choice from a known list               | `Select`; `RadioGroup` when every option should stay visible (up to about 5)        |
 | One choice from a long or searchable list  | `Combobox` (also multiple selection with chips)                                     |
 | Several independent options                | `Checkbox` in a `FieldSet`                                                          |
 | A setting that applies at once             | `Switch`                                                                            |
-| A date or range                            | `Calendar` in a `Popover` (the Date Picker pattern)                                 |
+| A date range, or a date as a button        | `Calendar` in a `Popover` (the Date Picker page's compositions)                     |
 | A one-time code                            | `InputOTP`                                                                          |
 | An approximate value                       | `Slider` with the value shown beside it                                             |
 | A focused task or form                     | `Dialog`                                                                            |
@@ -612,7 +618,7 @@ Component names, props, variants and `data-slot` values are stable, and new ones
 | Sections that open and close               | `Accordion`; `Collapsible` for one                                                  |
 | Resizable split views                      | `Resizable`                                                                         |
 | A custom scroll area                       | `ScrollArea`                                                                        |
-| A conversation                             | `MessageScroller`, `Message`, `Bubble`, `Attachment`, `Marker`                      |
+| A conversation                             | `MessageScroller`, `Message`, `Bubble`, `Attachment`, `Marker`, `ChatInput`         |
 | Questions an assistant asks                | `Questionnaire`                                                                     |
 
 The `@fabricator` registry leaves out Native Select (use `Select`) and, for now, Chart. React Aria projects have no `Menubar` or `NavigationMenu`; use a `DropdownMenu` per menu and a header of links.
@@ -630,6 +636,7 @@ React Native projects install the same names with the same variants, sizes and t
 | Toggle Group            | `default`, `outline`                                                                                    | `default`, `sm`, `lg`; `spacing`, `orientation`                                                                                                                    |
 | Tabs                    | `default` (track with a sliding pill), `subtle` (no track; only the active tab shows its label)         | `orientation`                                                                                                                                                      |
 | Search                  | `default`, `outline`                                                                                    | `default`, `sm`, `lg`                                                                                                                                              |
+| Color Picker            |                                                                                                         | `default`, `sm`, `lg`; `format`, `swatches`                                                                                                                        |
 | Select trigger, Switch  |                                                                                                         | `default`, `sm`                                                                                                                                                    |
 | Card                    |                                                                                                         | `default`, `sm`                                                                                                                                                    |
 | Avatar                  |                                                                                                         | `default`, `sm`, `lg`                                                                                                                                              |
@@ -733,7 +740,8 @@ React Native projects install the same names with the same variants, sizes and t
 - Rows are `Message` (consecutive messages from one sender in a `MessageGroup`); surfaces are `Bubble`; files are `Attachment` in an `AttachmentGroup`; system notes and day dividers are `Marker`.
 - The person's messages sit in bubbles; the assistant's replies are plain text on the page.
 - "Thinking…" is `shimmer` text. Clarifying questions with options are a `Questionnaire`.
-- The composer is an `InputGroup` with `InputGroupTextarea` and the send button in an `InputGroupAddon` (`align="block-end"`).
+- The composer is a `ChatInput`: `ChatInputTextarea`, then a `ChatInputFooter` with `ChatInputTools` (add, attach, modes) and `ChatInputActions` (model, `ChatInputSubmit`). Pass `useChat`'s `status` and `stop`, so send turns into stop while a reply streams. Attachments go in `ChatInputHeader`; queued messages in a `ChatInputTray` just before it.
+- A chat that opens on an empty page, or a composer floating over content, uses `layout="compact"`: a one-line pill that stacks once the draft wraps. A docked composer under a transcript keeps the default card.
 
 ### Composition per base
 

@@ -1,0 +1,51 @@
+/* MARK: Time Input */
+
+  /* An Input Group: the frame, focus, invalid and disabled states are the
+     group's. Times line up in tabular figures; the clock opens the list. */
+  .cn-time-input {
+    @apply [&_[data-slot=input-group-control]]:tabular-nums [&_[data-slot=input-group-addon]]:cursor-pointer;
+  }
+
+  /* The popover holds only the list, padded like a menu. */
+  .cn-time-input-content {
+    @apply w-auto gap-0 p-1;
+  }
+
+  /* Seven and a half rows tall, so the cut row says it scrolls, fading at the
+     edges it can scroll past. Two columns: the time, then its duration. */
+  .cn-time-input-list {
+    @apply scroll-fade no-scrollbar max-h-[calc(var(--density-32)*7.5)] gap-x-(--density-8);
+  }
+
+  /* Menu rows: muted at rest, lit by the gliding highlight (keyboard and
+     pointer share it), the chosen time on the sliding selection in semibold. */
+  .cn-time-input-option {
+    @apply text-muted-foreground h-(--density-32) rounded-lg px-(--density-8) text-(length:--density-text-13) tabular-nums transition-colors duration-feedback data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent aria-selected:bg-active aria-selected:text-foreground in-data-[fluid-hover]:aria-selected:bg-transparent;
+  }
+
+  /* The chosen time is semibold. The time column takes the widest row, so
+     the durations beside it line up. */
+  .cn-time-input-option-time {
+    @apply in-aria-selected:font-semibold;
+  }
+
+  /* A step quieter than the time it follows. */
+  .cn-time-input-option-duration {
+    @apply text-muted-foreground/70;
+  }
+
+  /* MARK: Time Range Input */
+
+  /* Start, an arrow, end and the duration on one line; the fields fit a
+     time, not the row. */
+  .cn-time-range-input {
+    @apply gap-(--density-8) *:data-[slot=time-input]:w-36;
+  }
+
+  .cn-time-range-input-separator {
+    @apply text-muted-foreground size-(--density-icon-16);
+  }
+
+  .cn-time-range-input-duration {
+    @apply text-muted-foreground text-(length:--density-text-13) tabular-nums;
+  }

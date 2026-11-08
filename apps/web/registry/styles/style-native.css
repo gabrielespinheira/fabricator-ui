@@ -1779,27 +1779,27 @@
     @apply border-border/60 my-1 ml-(--density-8) border-l pl-1;
   }
 
-/* MARK: Date Input */
+/* MARK: Date Picker */
 
   /* An Input Group: the frame, focus, invalid and disabled states are the
      group's. */
-  .cn-date-input {
+  .cn-date-picker {
     @apply w-full;
   }
 
   /* Dates line up in tabular figures. */
-  .cn-date-input-text {
+  .cn-date-picker-text {
     @apply tabular-nums;
   }
 
   /* The calendar button stays lit while its calendar is open (the website's
      aria-expanded). */
-  .cn-date-input-trigger {
+  .cn-date-picker-trigger {
     @apply data-[open=true]:bg-active;
   }
 
   /* The calendar brings its own padding, and sets the popup's width. */
-  .cn-date-input-content {
+  .cn-date-picker-content {
     @apply w-auto p-0;
   }
 
@@ -2646,6 +2646,58 @@
 
   .cn-message-group {
     @apply gap-(--density-8);
+  }
+
+/* MARK: Month Input */
+
+  /* An Input Group: the frame, focus, invalid and disabled states are the
+     group's. */
+  .cn-month-input {
+    @apply w-full;
+  }
+
+  /* Months line up in tabular figures. */
+  .cn-month-input-text {
+    @apply tabular-nums;
+  }
+
+  /* The calendar button stays lit while the year is open (the website's
+     aria-expanded). */
+  .cn-month-input-trigger {
+    @apply data-[open=true]:bg-active;
+  }
+
+  .cn-month-input-content {
+    @apply w-auto gap-(--density-8) p-(--density-8);
+  }
+
+  /* The year between its arrows, on one row with them. */
+  .cn-month-input-header {
+    @apply gap-(--density-8);
+  }
+
+  .cn-month-input-year {
+    @apply text-foreground text-(length:--density-text-13) font-medium tabular-nums;
+  }
+
+  /* Twelve months in four rows of three. The year's slide is drawn in the
+     source. */
+  .cn-month-input-grid {
+    @apply gap-1;
+  }
+
+  .cn-month-input-row {
+    @apply gap-1;
+  }
+
+  /* Ghost cells; the chosen month on bg-active, out of range at 50%. */
+  .cn-month-input-month {
+    @apply h-(--density-36) min-w-16 rounded-lg px-(--density-12) data-[selected=true]:bg-active disabled:opacity-50;
+  }
+
+  /* Muted at rest; this month in the foreground, the chosen one semibold. */
+  .cn-month-input-month-text {
+    @apply text-muted-foreground text-(length:--density-text-13) data-[current=true]:text-foreground data-[current=true]:font-medium data-[selected=true]:text-foreground data-[selected=true]:font-semibold;
   }
 
 /* MARK: Navigation Menu */

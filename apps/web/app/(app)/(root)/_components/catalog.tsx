@@ -95,11 +95,24 @@ const SOURCES: CatalogSource[] = [
     load: () => import("@/examples/__styles__/base-fabricator/carousel-demo"),
   },
   {
+    slug: "chat-input",
+    title: "Chat Input",
+    height: "sm",
+    load: () => import("@/examples/__styles__/base-fabricator/chat-input-demo"),
+  },
+  {
     slug: "collapsible",
     title: "Collapsible",
     height: "sm",
     load: () =>
       import("@/examples/__styles__/base-fabricator/collapsible-demo"),
+  },
+  {
+    slug: "color-picker",
+    title: "Color Picker",
+    height: "lg",
+    load: () =>
+      import("@/examples/__styles__/base-fabricator/color-picker-swatches"),
   },
   {
     slug: "context-menu",
@@ -118,9 +131,23 @@ const SOURCES: CatalogSource[] = [
   {
     slug: "date-picker",
     title: "Date Picker",
-    height: "lg",
+    height: "sm",
     load: () =>
-      import("@/examples/__styles__/base-fabricator/date-picker-demo"),
+      import("@/examples/__styles__/base-fabricator/date-picker-field"),
+  },
+  {
+    slug: "time-input",
+    title: "Time Input",
+    height: "sm",
+    load: () =>
+      import("@/examples/__styles__/base-fabricator/time-input-field"),
+  },
+  {
+    slug: "month-input",
+    title: "Month Input",
+    height: "sm",
+    load: () =>
+      import("@/examples/__styles__/base-fabricator/month-input-field"),
   },
   {
     slug: "dialog",
@@ -145,6 +172,13 @@ const SOURCES: CatalogSource[] = [
     title: "Field",
     height: "lg",
     load: () => import("@/examples/__styles__/base-fabricator/field-demo"),
+  },
+  {
+    slug: "file-upload",
+    title: "File Upload",
+    height: "md",
+    load: () =>
+      import("@/examples/__styles__/base-fabricator/file-upload-demo"),
   },
   {
     slug: "hover-card",
@@ -207,6 +241,13 @@ const SOURCES: CatalogSource[] = [
     height: "lg",
     load: () =>
       import("@/examples/__styles__/base-fabricator/navigation-menu-demo"),
+  },
+  {
+    slug: "number-field",
+    title: "Number Field",
+    height: "sm",
+    load: () =>
+      import("@/examples/__styles__/base-fabricator/number-field-demo"),
   },
   {
     slug: "pagination",

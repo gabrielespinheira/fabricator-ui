@@ -109,6 +109,23 @@ export const fabricatorItems = [
     },
   },
   {
+    name: "chat-input",
+    type: "registry:ui",
+    title: "Chat Input",
+    description:
+      "The message box of a chat: a raised card whose field grows with the draft, a compact pill that stacks once it wraps, and a send button that turns into stop while a reply streams.",
+    registryDependencies: ["button", "spinner"],
+    files: [{ path: "ui/chat-input.tsx", type: "registry:ui" }],
+    meta: {
+      fabricator: true,
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/chat-input",
+        examples:
+          "https://fabricator-ui.vercel.app/docs/components/base/chat-input#examples",
+      },
+    },
+  },
+  {
     name: "number-field",
     type: "registry:ui",
     title: "Number Field",
@@ -130,26 +147,99 @@ export const fabricatorItems = [
     },
   },
   {
-    name: "date-input",
+    name: "date-picker",
     type: "registry:ui",
-    title: "Date Input",
+    title: "Date Picker",
     description:
-      "A text field that takes a typed date or one picked from a calendar, with a display format, a range and a form value.",
+      "A date field: type a date or pick one from a calendar, with a display format, a minimum and maximum, and a form value.",
     // @internationalized/date is for the React Aria calendar; date-fns reads
     // and writes the text in every base.
     dependencies: ["date-fns", "@internationalized/date"],
     registryDependencies: ["calendar", "input-group", "popover"],
     files: [
-      { path: "ui/date-input.tsx", type: "registry:ui" },
-      { path: "lib/date-input-model.ts", type: "registry:lib" },
+      { path: "ui/date-picker.tsx", type: "registry:ui" },
+      { path: "lib/date-picker-model.ts", type: "registry:lib" },
     ],
     categories: ["forms"],
     meta: {
       fabricator: true,
       links: {
-        docs: "https://fabricator-ui.vercel.app/docs/components/base/date-input",
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/date-picker",
         examples:
-          "https://fabricator-ui.vercel.app/docs/components/base/date-input#examples",
+          "https://fabricator-ui.vercel.app/docs/components/base/date-picker#examples",
+      },
+    },
+  },
+  {
+    name: "month-input",
+    type: "registry:ui",
+    title: "Month Input",
+    description:
+      "A text field that takes a typed month or one picked from a year of months, with a display format, a range and a form value.",
+    dependencies: ["date-fns"],
+    registryDependencies: ["button", "input-group", "popover", "fluid-hover"],
+    files: [
+      { path: "ui/month-input.tsx", type: "registry:ui" },
+      { path: "lib/month-input-model.ts", type: "registry:lib" },
+    ],
+    categories: ["forms"],
+    meta: {
+      fabricator: true,
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/month-input",
+        examples:
+          "https://fabricator-ui.vercel.app/docs/components/base/month-input#examples",
+      },
+    },
+  },
+  {
+    name: "time-input",
+    type: "registry:ui",
+    title: "Time Input",
+    description:
+      "A text field that takes a typed time or one picked from a list, in 12- or 24-hour form, with steps, a range and a form value.",
+    registryDependencies: ["input-group", "popover", "fluid-hover"],
+    files: [
+      { path: "ui/time-input.tsx", type: "registry:ui" },
+      { path: "lib/time-input-model.ts", type: "registry:lib" },
+    ],
+    categories: ["forms"],
+    meta: {
+      fabricator: true,
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/time-input",
+        examples:
+          "https://fabricator-ui.vercel.app/docs/components/base/time-input#examples",
+      },
+    },
+  },
+  {
+    name: "color-picker",
+    type: "registry:ui",
+    title: "Color Picker",
+    description:
+      "A color picker with a saturation area, hue and alpha sliders, HEX, RGB, HSL and OKLCH fields, swatches and the eyedropper, inline or in a popover.",
+    registryDependencies: [
+      "button",
+      "button-group",
+      "input-group",
+      "popover",
+      "select",
+      "slider",
+      "tooltip",
+      "fluid-hover",
+    ],
+    files: [
+      { path: "ui/color-picker.tsx", type: "registry:ui" },
+      { path: "lib/color-model.ts", type: "registry:lib" },
+    ],
+    categories: ["forms"],
+    meta: {
+      fabricator: true,
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/color-picker",
+        examples:
+          "https://fabricator-ui.vercel.app/docs/components/base/color-picker#examples",
       },
     },
   },
@@ -410,6 +500,8 @@ export const fabricatorOverrides: Record<
   sidebar: { registryDependencies: ["fluid-hover", "kbd", "sidebar-model"] },
   accordion: { registryDependencies: ["fluid-hover"] },
   table: { registryDependencies: ["fluid-hover"] },
+  // The month and year dropdowns are the library's Select.
+  calendar: { registryDependencies: ["select"] },
 }
 
 /**

@@ -63,7 +63,9 @@ Fabricator Icons: every Lucide icon (2,015, Lucide 1.66.0) under its Lucide name
 - [Button Group](https://fabricator-ui.vercel.app/docs/components/base/button-group.md): A container that groups related buttons together with consistent styling.
 - [Input](https://fabricator-ui.vercel.app/docs/components/base/input.md): A text input component for forms and user data entry with built-in styling and accessibility features.
 - [Input Group](https://fabricator-ui.vercel.app/docs/components/base/input-group.md): Add addons, buttons, and helper content to inputs.
+- [Number Field](https://fabricator-ui.vercel.app/docs/components/base/number-field.md): A number input with steppers, limits, keyboard stepping and locale formatting.
 - [Input OTP](https://fabricator-ui.vercel.app/docs/components/base/input-otp.md): Accessible one-time password component with copy-paste functionality.
+- [File Upload](https://fabricator-ui.vercel.app/docs/components/base/file-upload.md): A file picker with a drop zone, checks on type, size and count, and the picked files as Attachment rows.
 - [Textarea](https://fabricator-ui.vercel.app/docs/components/base/textarea.md): Displays a form textarea or a component that looks like a textarea.
 - [Checkbox](https://fabricator-ui.vercel.app/docs/components/base/checkbox.md): A control that allows the user to toggle between checked and not checked.
 - [Radio Group](https://fabricator-ui.vercel.app/docs/components/base/radio-group.md): A set of checkable buttons—known as radio buttons—where no more than one of the buttons can be checked at a time.
@@ -71,7 +73,9 @@ Fabricator Icons: every Lucide icon (2,015, Lucide 1.66.0) under its Lucide name
 - [Switch](https://fabricator-ui.vercel.app/docs/components/base/switch.md): A control that allows the user to toggle between checked and not checked.
 - [Slider](https://fabricator-ui.vercel.app/docs/components/base/slider.md): An input where the user selects a value from within a given range.
 - [Calendar](https://fabricator-ui.vercel.app/docs/components/base/calendar.md): A calendar component that allows users to select a date or a range of dates.
-- [Date Picker](https://fabricator-ui.vercel.app/docs/components/base/date-picker.md): A date picker component with range and presets.
+- [Date Picker](https://fabricator-ui.vercel.app/docs/components/base/date-picker.md): A field that takes a typed date or one picked from a calendar, with time and range compositions.
+- [Month Input](https://fabricator-ui.vercel.app/docs/components/base/month-input.md): A text field that takes a typed month or one picked from a year of months.
+- [Time Input](https://fabricator-ui.vercel.app/docs/components/base/time-input.md): A text field that takes a typed time or one picked from a list.
 - [Combobox](https://fabricator-ui.vercel.app/docs/components/base/combobox.md): Autocomplete input with a list of suggestions.
 - [Label](https://fabricator-ui.vercel.app/docs/components/base/label.md): Renders an accessible label associated with controls.
 

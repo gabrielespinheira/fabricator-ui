@@ -1,23 +1,18 @@
 "use client"
 
 import * as React from "react"
-import { format, isAfter, parse } from "date-fns"
-import { CalendarIcon, Clock2Icon } from "lucide-react"
+import { format, isSameDay } from "date-fns"
+import { ArrowRightIcon, CalendarIcon } from "lucide-react"
 import { type DateRange } from "react-day-picker"
 
+import {
+  TimeInput,
+  TimeRangeInput,
+  type TimeRangeValue,
+} from "@/styles/radix-fabricator/ui/time-input"
 import { Button } from "@/styles/radix-nova/ui/button"
 import { Calendar } from "@/styles/radix-nova/ui/calendar"
-import {
-  Field,
-  FieldError,
-  FieldGroup,
-  FieldLabel,
-} from "@/styles/radix-nova/ui/field"
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupInput,
-} from "@/styles/radix-nova/ui/input-group"
+import { Field, FieldLabel } from "@/styles/radix-nova/ui/field"
 import {
   Popover,
   PopoverContent,
@@ -29,15 +24,18 @@ export function DatePickerDateTimeRange() {
     from: new Date(new Date().getFullYear(), new Date().getMonth(), 12),
     to: new Date(new Date().getFullYear(), new Date().getMonth(), 15),
   })
-  const [startTime, setStartTime] = React.useState("09:00")
-  const [endTime, setEndTime] = React.useState("17:30")
-
-  const start = range?.from && parse(startTime, "HH:mm", range.from)
-  const end = range?.from && parse(endTime, "HH:mm", range.to ?? range.from)
-  const isInvalid = start && end ? !isAfter(end, start) : false
+  const [times, setTimes] = React.useState<TimeRangeValue>({
+    start: "09:00",
+    end: "17:30",
+  })
+  // On one day the end must follow the start, and its list counts the
+  // duration; across days any two times work.
+  const isOneDay = Boolean(
+    range?.from && (!range.to || isSameDay(range.from, range.to))
+  )
 
   return (
-    <Field className="mx-auto w-80" data-invalid={isInvalid}>
+    <Field className="mx-auto w-fit">
       <FieldLabel htmlFor="date-picker-date-time-range">
         Starts and ends
       </FieldLabel>
@@ -46,24 +44,23 @@ export function DatePickerDateTimeRange() {
           <Button
             variant="outline"
             id="date-picker-date-time-range"
-            data-empty={!start}
-            aria-invalid={isInvalid}
-            className="justify-start px-2.5 font-normal data-[empty=true]:text-muted-foreground"
+            data-empty={!range?.from}
+            className="justify-start font-normal data-[empty=true]:text-muted-foreground"
           >
             <CalendarIcon data-icon="inline-start" />
-            {start && end ? (
+            {range?.from ? (
               <>
-                {format(start, "LLL d, p")} - {format(end, "LLL d, p")}
+                {format(range.from, "EEE, LLL d")}
+                {range.to && !isOneDay && (
+                  <> - {format(range.to, "EEE, LLL d")}</>
+                )}
               </>
             ) : (
-              <span>Pick a start and end</span>
+              <span>Pick the days</span>
             )}
           </Button>
         </PopoverTrigger>
-        <PopoverContent
-          className="w-auto gap-0 overflow-hidden p-0"
-          align="start"
-        >
+        <PopoverContent className="w-auto overflow-hidden p-0" align="start">
           <Calendar
             mode="range"
             selected={range}
@@ -71,63 +68,27 @@ export function DatePickerDateTimeRange() {
             onSelect={setRange}
             numberOfMonths={2}
           />
-          <div className="flex flex-col gap-3 border-t p-3">
-            <FieldGroup className="flex-row">
-              <Field>
-                <FieldLabel htmlFor="date-picker-date-time-range-start">
-                  Start time
-                </FieldLabel>
-                <InputGroup>
-                  <InputGroupInput
-                    id="date-picker-date-time-range-start"
-                    type="time"
-                    required
-                    value={startTime}
-                    onChange={(event) => {
-                      if (event.target.value) setStartTime(event.target.value)
-                    }}
-                    className="appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
-                  />
-                  <InputGroupAddon>
-                    <Clock2Icon className="text-muted-foreground" />
-                  </InputGroupAddon>
-                </InputGroup>
-              </Field>
-              <Field data-invalid={isInvalid}>
-                <FieldLabel htmlFor="date-picker-date-time-range-end">
-                  End time
-                </FieldLabel>
-                <InputGroup>
-                  <InputGroupInput
-                    id="date-picker-date-time-range-end"
-                    type="time"
-                    required
-                    value={endTime}
-                    aria-invalid={isInvalid}
-                    aria-describedby={
-                      isInvalid
-                        ? "date-picker-date-time-range-error"
-                        : undefined
-                    }
-                    onChange={(event) => {
-                      if (event.target.value) setEndTime(event.target.value)
-                    }}
-                    className="appearance-none [&::-webkit-calendar-picker-indicator]:hidden [&::-webkit-calendar-picker-indicator]:appearance-none"
-                  />
-                  <InputGroupAddon>
-                    <Clock2Icon className="text-muted-foreground" />
-                  </InputGroupAddon>
-                </InputGroup>
-              </Field>
-            </FieldGroup>
-            {isInvalid && (
-              <FieldError id="date-picker-date-time-range-error">
-                The end must be after the start.
-              </FieldError>
-            )}
-          </div>
         </PopoverContent>
       </Popover>
+      {isOneDay ? (
+        <TimeRangeInput value={times} onValueChange={setTimes} />
+      ) : (
+        <div role="group" className="flex items-center gap-2">
+          <TimeInput
+            aria-label="Start time"
+            value={times.start}
+            onValueChange={(start) => setTimes({ ...times, start })}
+            className="w-36"
+          />
+          <ArrowRightIcon className="size-4 shrink-0 text-muted-foreground" />
+          <TimeInput
+            aria-label="End time"
+            value={times.end}
+            onValueChange={(end) => setTimes({ ...times, end })}
+            className="w-36"
+          />
+        </div>
+      )}
     </Field>
   )
 }

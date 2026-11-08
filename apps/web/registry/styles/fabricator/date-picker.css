@@ -1,0 +1,17 @@
+/* MARK: Date Picker */
+
+  /* An Input Group: the frame, focus, invalid and disabled states are the
+     group's. Dates line up in tabular figures. */
+  .cn-date-picker {
+    @apply [&_[data-slot=input-group-control]]:tabular-nums;
+  }
+
+  /* The calendar button stays lit while its calendar is open. */
+  .cn-date-picker-trigger {
+    @apply aria-expanded:bg-active aria-expanded:text-foreground;
+  }
+
+  /* The calendar brings its own padding. */
+  .cn-date-picker-content {
+    @apply p-0;
+  }

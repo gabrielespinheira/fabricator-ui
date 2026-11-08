@@ -1,0 +1,11 @@
+---
+title: November 2026 - Inputs line up, and every type has its own field
+description: Form controls are exactly their height and join buttons on one hairline, Input OTP starts empty and animates each digit, and Month Input joins the date fields.
+date: 2026-11-07
+---
+
+- **Inputs line up.** Input, Textarea, Input Group, Select, the Combobox chips and Input OTP slots draw their frame inside the box, like a button's border. A 36px input is 36px, sits flush with its label, and joins a button in a Button Group on one hairline instead of a doubled seam and a one-pixel step.
+- **Input Group spacing.** Icons, text, buttons and keycaps in an addon sit as far from the side as from the top at every density, and a prefix such as `https://` shares a baseline with the value.
+- **No browser pickers.** The Input docs now map every input type to a component: Number Field, Date Picker, Time Input, Month Input, Color Picker, File Upload and Slider. Input itself hides the browser's search clear and password reveal buttons; the docs show your own, in an Input Group.
+- **Month Input.** A new field for months: type `3/2028` or `Mar 2028`, or pick from a year of months with a gliding highlight. The value is `yyyy-MM`. On the web and on React Native.
+- **Input OTP.** `defaultValue` works (it used to throw and fill the field), each typed digit rises into its slot, filled slots keep a firmer ring, and `placeholder` characters show in empty slots. On the web and on React Native.

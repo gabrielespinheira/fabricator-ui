@@ -927,6 +927,89 @@
     @apply bg-surface-3 shadow-surface-3 text-popover-foreground gap-(--density-6) rounded-lg px-(--density-10) py-(--density-6) text-(length:--density-text-12);
   }
 
+/* MARK: Chat Input */
+
+  /* A raised card on surface 3 that lifts to surface 4's shadow while the
+     field has focus, with a faint foreground ring for the keyboard. Its height
+     eases to what it holds on the move timing, so a growing draft or a
+     header of attachments slides the card open rather than jumping. 16px
+     corners; the compact pill rounds to 24px around its round send. */
+  .cn-chat-input {
+    @apply bg-surface-3 shadow-surface-3 rounded-2xl text-foreground transition-[height,box-shadow] duration-move ease-move focus-within:shadow-surface-4 has-[[data-slot=chat-input-textarea]:focus-visible]:ring-1 has-[[data-slot=chat-input-textarea]:focus-visible]:ring-foreground/10 has-[[data-slot=chat-input-textarea][aria-invalid=true]]:ring-1 has-[[data-slot=chat-input-textarea][aria-invalid=true]]:ring-destructive/50 data-[layout=compact]:rounded-3xl data-disabled:cursor-not-allowed data-disabled:opacity-60 motion-reduce:transition-[box-shadow];
+  }
+
+  .cn-chat-input-content {
+    @apply min-w-0;
+  }
+
+  /* Attachments and context chips, inset to line up with the text. */
+  .cn-chat-input-header {
+    @apply gap-(--density-8) px-(--density-12) pt-(--density-12) empty:hidden;
+  }
+
+  /* 14px reading text on a 24px line, as the transcript. Default: grows from
+     two lines' room to 288px, then scrolls. Compact: one line beside its
+     controls, 192px at most; stacked, it takes the card's width. */
+  .cn-chat-input-textarea {
+    @apply text-foreground placeholder:text-muted-foreground max-h-72 min-h-(--density-48) px-(--density-16) pt-(--density-14) pb-(--density-4) text-(length:--density-text-14) leading-6 group-data-[layout=compact]/chat-input:max-h-48 group-data-[layout=compact]/chat-input:min-h-0 group-data-[layout=compact]/chat-input:px-(--density-6) group-data-[layout=compact]/chat-input:py-(--density-14) group-data-[layout=compact]/chat-input:group-data-stacked/chat-input:px-(--density-16) group-data-[layout=compact]/chat-input:group-data-stacked/chat-input:pb-(--density-4);
+  }
+
+  .cn-chat-input-footer {
+    @apply gap-(--density-4) px-(--density-10) pt-(--density-4) pb-(--density-10);
+  }
+
+  /* Compact: the groups sit beside the field, 8px from the pill's edge; the
+     row under a stacked draft slides in. */
+  .cn-chat-input-tools {
+    @apply gap-(--density-4) group-data-[layout=compact]/chat-input:py-(--density-8) group-data-[layout=compact]/chat-input:ps-(--density-8) group-data-[layout=compact]/chat-input:group-data-stacked/chat-input:animate-in group-data-[layout=compact]/chat-input:group-data-stacked/chat-input:fade-in-0 group-data-[layout=compact]/chat-input:group-data-stacked/chat-input:slide-in-from-top-1 group-data-[layout=compact]/chat-input:group-data-stacked/chat-input:duration-move group-data-[layout=compact]/chat-input:group-data-stacked/chat-input:ease-enter motion-reduce:animate-none;
+  }
+
+  .cn-chat-input-actions {
+    @apply gap-(--density-4) group-data-[layout=compact]/chat-input:p-(--density-8) group-data-[layout=compact]/chat-input:group-data-stacked/chat-input:animate-in group-data-[layout=compact]/chat-input:group-data-stacked/chat-input:fade-in-0 group-data-[layout=compact]/chat-input:group-data-stacked/chat-input:slide-in-from-top-1 group-data-[layout=compact]/chat-input:group-data-stacked/chat-input:duration-move group-data-[layout=compact]/chat-input:group-data-stacked/chat-input:ease-enter motion-reduce:animate-none;
+  }
+
+  /* The build puts these rules before Button's own classes, so the ones
+     that replace a Button class are marked important.
+     Footer controls are round: 32px icons, pills with a label. A toggle
+     (aria-pressed) holds the active fill while on. */
+  .cn-chat-input-button {
+    @apply rounded-full! not-has-[>span]:size-(--density-32)! has-[>span]:h-(--density-32)! has-[>span]:w-auto! has-[>span]:gap-(--density-6)! has-[>span]:px-(--density-10)! aria-pressed:bg-active! aria-pressed:text-foreground!;
+  }
+
+  /* Send: a 32px round button (36px in the compact pill), the primary fill
+     once there is something to send. Its three glyphs share one cell and
+     trade places on the feedback timing: the arrow; the spinner while a
+     reply is on its way; the stop square over the spinner on hover or focus
+     when the reply can be stopped. */
+  .cn-chat-input-submit {
+    @apply rounded-full! size-(--density-32)! group-data-[layout=compact]/chat-input:size-(--density-36)! disabled:opacity-100!;
+  }
+
+  .cn-chat-input-submit-send {
+    @apply size-(--density-icon-16) stroke-2 transition-[opacity,scale] duration-feedback ease-feedback group-data-[state=busy]/chat-input-submit:scale-50 group-data-[state=busy]/chat-input-submit:opacity-0;
+  }
+
+  .cn-chat-input-submit-spinner {
+    @apply size-(--density-icon-16) scale-50 opacity-0 transition-[opacity,scale] duration-feedback ease-feedback group-data-[state=busy]/chat-input-submit:scale-100 group-data-[state=busy]/chat-input-submit:opacity-100 group-data-can-stop/chat-input-submit:group-hover/chat-input-submit:opacity-0 group-data-can-stop/chat-input-submit:group-focus-visible/chat-input-submit:opacity-0;
+  }
+
+  .cn-chat-input-submit-stop {
+    @apply size-(--density-icon-14) fill-current scale-50 opacity-0 transition-[opacity,scale] duration-feedback ease-feedback group-data-can-stop/chat-input-submit:group-hover/chat-input-submit:scale-75 group-data-can-stop/chat-input-submit:group-hover/chat-input-submit:opacity-100 group-data-can-stop/chat-input-submit:group-focus-visible/chat-input-submit:scale-75 group-data-can-stop/chat-input-submit:group-focus-visible/chat-input-submit:opacity-100;
+  }
+
+  /* A step further back than the card: surface 2 with a hairline, inset
+     from the card's corners and tucked 16px under its top edge, so the card
+     overlaps it. It rises into place on the move timing. */
+  .cn-chat-input-tray {
+    @apply bg-surface-2 ring-border/60 mx-(--density-20) -mb-(--density-16) rounded-t-2xl px-(--density-6) pt-(--density-6) pb-(--density-20) ring-1 animate-in fade-in-0 slide-in-from-bottom-2 duration-move ease-enter motion-reduce:animate-none [&:has(+[data-layout=compact])]:mx-(--density-24);
+  }
+
+  /* 36px rows of 13px text with a muted 16px icon and ghost actions at
+     the end. */
+  .cn-chat-input-tray-item {
+    @apply h-(--density-36) gap-(--density-8) rounded-lg ps-(--density-8) pe-(--density-4) text-(length:--density-text-13) [&>svg]:text-muted-foreground [&>svg]:shrink-0 [&>svg]:stroke-[1.5] [&>svg:not([class*='size-'])]:size-(--density-icon-16);
+  }
+
 /* MARK: Checkbox */
 
   /* 18px, rounded-[6px], a quiet 1.5px outline that firms up on hover. Checked
@@ -975,14 +1058,14 @@
      --color-picker-checker paints the squares behind translucent colors:
      the foreground at 14% over the surface, so it follows the theme. */
   .cn-color-picker {
-    @apply bg-card text-card-foreground shadow-surface-2 w-70 gap-(--density-8) rounded-xl p-(--density-12) text-(length:--density-text-13) [--color-picker-checker:color-mix(in_oklab,var(--foreground)_14%,transparent)] data-[size=lg]:density-spacious data-[size=sm]:density-compact in-data-[slot=popover-content]:bg-transparent in-data-[slot=popover-content]:p-0 in-data-[slot=popover-content]:shadow-none;
+    @apply bg-card text-card-foreground shadow-surface-2 w-70 gap-(--density-8) rounded-xl p-(--density-12) text-(length:--density-text-13) [--color-picker-checker:color-mix(in_oklab,var(--foreground)_14%,transparent)] data-[size=lg]:density-spacious data-[size=sm]:density-compact in-data-[slot=popover-content]:w-64 in-data-[slot=popover-content]:bg-transparent in-data-[slot=popover-content]:p-0 in-data-[slot=popover-content]:shadow-none;
   }
 
   /* The HSV plane at the current hue: black rising over white to the pure
      hue. Its corners nest inside the card's (radius less the inset). The
      pointer hides; a hollow ring previews where a press lands. */
   .cn-color-picker-area {
-    @apply aspect-[8/5] cursor-none rounded-[max(0px,calc(var(--radius-xl)-var(--density-12)))] bg-[linear-gradient(to_top,#000,transparent),linear-gradient(to_right,#fff,var(--color-picker-hue))] focus-visible:ring-2 focus-visible:ring-focus-ring;
+    @apply aspect-[8/5] cursor-none rounded-[max(0px,calc(var(--radius-xl)_-_var(--density-12)))] bg-[linear-gradient(to_top,#000,transparent),linear-gradient(to_right,#fff,var(--color-picker-hue))] focus-visible:ring-2 focus-visible:ring-focus-ring;
   }
 
   /* The thumb is the color itself, ringed white then black, so it reads on
@@ -1033,14 +1116,18 @@
     @apply min-w-0 data-scrubbing:bg-muted/50;
   }
 
-  /* The letter names the channel and scrubs it sideways. */
+  /* The letter names the channel and scrubs it sideways. Field and letter
+     sit closer to the frame than a full-size field's, so four fit a row;
+     they override the Input Group's addon insets. Letter and value share
+     one line box as tall as the field: an input places its text 1px lower
+     than a padded addon would, so equal line boxes are what line them up. */
   .cn-color-picker-field-label {
-    @apply font-medium data-scrubbable:cursor-ew-resize;
+    @apply self-stretch py-0 pl-(--density-8)! leading-(--density-36) font-medium data-scrubbable:cursor-ew-resize;
   }
 
   /* Digits keep one width, so a value doesn't shift as it changes. */
   .cn-color-picker-field-input {
-    @apply min-w-0 pr-(--density-6) tabular-nums;
+    @apply min-w-0 py-0! pr-(--density-4) pl-(--density-4)! leading-(--density-36) tabular-nums;
   }
 
   /* The cells tile with no gap and overhang the strip by their 4px inset,
@@ -1053,18 +1140,18 @@
   /* A cell 4px around its swatch. Selected, a foreground band 2px in frames
      the swatch, so no swatch color can hide the selection. */
   .cn-color-picker-swatch {
-    @apply size-(--density-32) cursor-pointer rounded-lg p-(--density-4) before:absolute before:inset-0.5 before:rounded-[calc(var(--radius-lg)-2px)] before:bg-foreground before:opacity-0 before:transition-opacity before:duration-feedback before:ease-feedback focus-visible:ring-1 focus-visible:ring-focus-ring aria-pressed:before:opacity-100 [--color-picker-checker:color-mix(in_oklab,var(--foreground)_14%,transparent)];
+    @apply size-(--density-32) cursor-pointer rounded-lg p-(--density-4) before:absolute before:inset-0.5 before:rounded-[calc(var(--radius-lg)_-_2px)] before:bg-foreground before:opacity-0 before:transition-opacity before:duration-feedback before:ease-feedback focus-visible:ring-1 focus-visible:ring-focus-ring aria-pressed:before:opacity-100 [--color-picker-checker:color-mix(in_oklab,var(--foreground)_14%,transparent)];
   }
 
   /* The color over the checker, with a hairline so white and near-clear
      swatches keep an edge. */
   .cn-color-picker-swatch-color {
-    @apply size-full rounded-[calc(var(--radius-lg)-4px)] bg-[linear-gradient(var(--color-tile),var(--color-tile)),conic-gradient(var(--color-picker-checker)_0_25%,transparent_0_50%,var(--color-picker-checker)_0_75%,transparent_0)] bg-size-[100%_100%,8px_8px] shadow-[inset_0_0_0_1px_color-mix(in_oklab,var(--foreground)_15%,transparent)];
+    @apply size-full rounded-[calc(var(--radius-lg)_-_4px)] bg-[linear-gradient(var(--color-tile),var(--color-tile)),conic-gradient(var(--color-picker-checker)_0_25%,transparent_0_50%,var(--color-picker-checker)_0_75%,transparent_0)] bg-size-[100%_100%,8px_8px] shadow-[inset_0_0_0_1px_color-mix(in_oklab,var(--foreground)_15%,transparent)];
   }
 
   /* A small color square, alpha shown over the checker. */
   .cn-color-tile {
-    @apply size-(--density-icon-16) rounded-[calc(var(--radius-sm)+1px)] bg-[linear-gradient(var(--color-tile),var(--color-tile)),conic-gradient(var(--color-picker-checker)_0_25%,transparent_0_50%,var(--color-picker-checker)_0_75%,transparent_0)] bg-size-[100%_100%,8px_8px] shadow-[inset_0_0_0_1px_color-mix(in_oklab,var(--foreground)_15%,transparent)] [--color-picker-checker:color-mix(in_oklab,var(--foreground)_14%,transparent)];
+    @apply size-(--density-icon-16) rounded-sm bg-[linear-gradient(var(--color-tile),var(--color-tile)),conic-gradient(var(--color-picker-checker)_0_25%,transparent_0_50%,var(--color-picker-checker)_0_75%,transparent_0)] bg-size-[100%_100%,8px_8px] shadow-[inset_0_0_0_1px_color-mix(in_oklab,var(--foreground)_15%,transparent)] [--color-picker-checker:color-mix(in_oklab,var(--foreground)_14%,transparent)];
   }
 
   /* The popover's trigger: an outline button with the tile, the hex value
@@ -1301,21 +1388,21 @@
     @apply motion-popup bg-surface-3 shadow-surface-3 text-popover-foreground relative isolate min-w-32 rounded-xl p-1;
   }
 
-/* MARK: Date Input */
+/* MARK: Date Picker */
 
   /* An Input Group: the frame, focus, invalid and disabled states are the
      group's. Dates line up in tabular figures. */
-  .cn-date-input {
+  .cn-date-picker {
     @apply [&_[data-slot=input-group-control]]:tabular-nums;
   }
 
   /* The calendar button stays lit while its calendar is open. */
-  .cn-date-input-trigger {
+  .cn-date-picker-trigger {
     @apply aria-expanded:bg-active aria-expanded:text-foreground;
   }
 
   /* The calendar brings its own padding. */
-  .cn-date-input-content {
+  .cn-date-picker-content {
     @apply p-0;
   }
 
@@ -1805,7 +1892,7 @@
      Input is for text: text, email, password, tel, url and search. The
      browser's own controls never show: search drops its clear button, password
      the reveal button, number its spinners (it uses tabular figures). Types with
-     a picker have a component of their own (Number Field, Date Input, Time
+     a picker have a component of their own (Number Field, Date Picker, Time
      Input, Month Input, Color Picker, File Upload, Slider); if one is passed to
      Input anyway, the file button is a quiet chip, date and time follow the
      theme with a muted indicator, and colour shows a rounded swatch. Autofill
@@ -3180,7 +3267,7 @@
 
   /* The popover holds only the list, padded like a menu. */
   .cn-time-input-content {
-    @apply w-auto min-w-[var(--anchor-width,var(--radix-popover-trigger-width,var(--trigger-width)))] gap-0 p-1;
+    @apply w-auto gap-0 p-1;
   }
 
   /* Seven and a half rows tall, so the cut row says it scrolls, fading at the

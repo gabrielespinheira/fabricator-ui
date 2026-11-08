@@ -1,11 +1,22 @@
 /* MARK: Input */
 
-  /* Frame-by-ring: a 1px ring-border instead of a border, transparent at
-     rest, tinted on hover, lifted to the card surface on focus. Focus keeps
-     the neutral ring (no blue halo). Invalid turns the ring red and tints
-     the hover. 13px text from md up (16px below, so iOS doesn't zoom).
-     Inside an input group the group draws the frame, so the control drops
-     its own (data-slot=input-group-control). */
+  /* Frame-by-ring: a 1px inset ring-border instead of a border, transparent at
+     rest, tinted on hover, lifted to the card surface on focus. The ring is
+     inset so the frame sits inside the box like a button's border: a 36px
+     input is 36px, lines up with the field's label and joins a button group
+     on one hairline. Focus keeps the neutral ring (no blue halo). Invalid
+     turns the ring red and tints the hover. 13px text from md up (16px below,
+     so iOS doesn't zoom). Inside an input group the group draws the frame, so
+     the control drops its own (data-slot=input-group-control).
+
+     Input is for text: text, email, password, tel, url and search. The
+     browser's own controls never show: search drops its clear button, password
+     the reveal button, number its spinners (it uses tabular figures). Types with
+     a picker have a component of their own (Number Field, Date Picker, Time
+     Input, Month Input, Color Picker, File Upload, Slider); if one is passed to
+     Input anyway, the file button is a quiet chip, date and time follow the
+     theme with a muted indicator, and colour shows a rounded swatch. Autofill
+     keeps the card surface and the foreground text. */
   .cn-input {
-    @apply text-foreground ring-border hover:bg-muted/50 focus-visible:bg-card focus-visible:ring-foreground/25 aria-invalid:ring-destructive/50 aria-invalid:hover:bg-destructive/5 aria-invalid:focus-visible:bg-card h-(--density-36) rounded-lg border-0 bg-transparent px-(--density-10) py-1 text-base ring-1 transition-[color,background-color,box-shadow] duration-feedback ease-feedback file:h-(--density-28) file:text-(length:--density-text-13) file:font-medium md:text-(length:--density-text-13) data-[slot=input-group-control]:bg-transparent data-[slot=input-group-control]:ring-0 data-[slot=input-group-control]:hover:bg-transparent data-[slot=input-group-control]:focus-visible:bg-transparent data-[slot=input-group-control]:aria-invalid:hover:bg-transparent;
+    @apply text-foreground ring-border hover:bg-muted/50 focus-visible:bg-card focus-visible:ring-foreground/25 aria-invalid:ring-destructive/50 aria-invalid:hover:bg-destructive/5 aria-invalid:focus-visible:bg-card h-(--density-36) rounded-lg border-0 bg-transparent px-(--density-10) py-1 text-base ring-1 ring-inset transition-[color,background-color,box-shadow] duration-feedback ease-feedback md:text-(length:--density-text-13) scheme-light dark:scheme-dark autofill:shadow-[inset_0_0_0_100vmax_var(--card)] autofill:[-webkit-text-fill-color:var(--foreground)] file:me-(--density-8) file:h-(--density-24) file:cursor-pointer file:rounded-md file:bg-hover! file:px-(--density-8) file:text-(length:--density-text-12) file:font-medium file:transition-colors file:duration-feedback hover:file:bg-active! [&[type=file]]:cursor-pointer [&[type=file]]:py-(--density-6) [&[type=file]]:ps-(--density-6) [&[type=file]]:text-muted-foreground [&[type=number]]:tabular-nums [&[type=number]]:[appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-search-decoration]:appearance-none [&::-webkit-search-cancel-button]:appearance-none [&::-ms-reveal]:hidden [&::-ms-clear]:hidden [&::-webkit-datetime-edit]:p-0 [&::-webkit-datetime-edit-fields-wrapper]:p-0 [&::-webkit-date-and-time-value]:min-h-[1lh] [&::-webkit-date-and-time-value]:text-start [&::-webkit-calendar-picker-indicator]:cursor-pointer [&::-webkit-calendar-picker-indicator]:opacity-50 [&::-webkit-calendar-picker-indicator]:transition-opacity [&::-webkit-calendar-picker-indicator]:duration-feedback hover:[&::-webkit-calendar-picker-indicator]:opacity-100 [&[type=color]]:cursor-pointer [&[type=color]]:p-(--density-6) [&::-webkit-color-swatch-wrapper]:p-0 [&::-webkit-color-swatch]:rounded-md [&::-webkit-color-swatch]:border-0 [&::-moz-color-swatch]:rounded-md [&::-moz-color-swatch]:border-0 data-[slot=input-group-control]:bg-transparent data-[slot=input-group-control]:ring-0 data-[slot=input-group-control]:hover:bg-transparent data-[slot=input-group-control]:focus-visible:bg-transparent data-[slot=input-group-control]:aria-invalid:hover:bg-transparent;
   }
