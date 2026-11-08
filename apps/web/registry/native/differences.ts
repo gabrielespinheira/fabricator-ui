@@ -157,6 +157,10 @@ export const NATIVE_DIFFERENCES: Record<
     note: "Sonner is DOM-only. It shares one engine with `toast`, keeping its API. `position` is accepted and unused: toasts stay at the top. A dialog opened later covers them.",
   },
   spinner: SAME,
+  "syntax-highlight": {
+    tier: "same",
+    note: "The same tokenizer and colours. Lines scroll sideways in their own `ScrollView`, and Copy writes through `expo-clipboard` and announces the copy to VoiceOver and TalkBack. Android draws the code in its `monospace` font, as it has no Menlo.",
+  },
   switch: {
     tier: "same",
     note: "Drawn by Fabricator UI, rather than the system's switch, so it matches the website.",
@@ -187,6 +191,10 @@ export const NATIVE_DIFFERENCES: Record<
   "user-menu": {
     tier: "same",
     note: "Opens as a sheet on phones.",
+  },
+  "video-player": {
+    tier: "engine",
+    note: "expo-video plays the video in place of the browser's `<video>`. A tap shows or hides the controls and a double tap plays or pauses. Captions are read from the same WebVTT files and drawn by the player. Settings open as a bottom sheet in the theme's colours, full screen is the system's player with its own controls, and there's no volume slider: the device's buttons set the volume. There are no keyboard shortcuts.",
   },
   "workspace-switcher": {
     tier: "same",

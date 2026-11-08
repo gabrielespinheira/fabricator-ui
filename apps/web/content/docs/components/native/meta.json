@@ -61,6 +61,7 @@
     "sonner",
     "spinner",
     "switch",
+    "syntax-highlight",
     "tab-strip",
     "table",
     "tabs",
@@ -71,6 +72,7 @@
     "toggle-group",
     "tooltip",
     "user-menu",
+    "video-player",
     "workspace-switcher"
   ]
 }

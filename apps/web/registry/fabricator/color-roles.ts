@@ -190,9 +190,16 @@ function lerpCss([from, to]: readonly [number, number], ramp: string) {
   return `calc(${from} ${sign} ${round(Math.abs(to - from), 4)} * ${ramp})`
 }
 
+/** How a token derives from a hue and a chroma, for families built on roles. */
+export type ColorSlot = Slot
+
 /** A slot as CSS that reads --<role>-hue and --<role>-chroma. */
-function slotCss(role: ColorRole, slot: Slot) {
-  const chroma = `var(--${role}-chroma)`
+export function roleSlotCss(role: ColorRole, slot: Slot) {
+  return colorSlotCss(slot, hueCss(role), `var(--${role}-chroma)`)
+}
+
+/** A slot as CSS that reads a hue and a chroma (CSS expressions). */
+export function colorSlotCss(slot: Slot, hue: string, chroma: string) {
   const ramp = `min(1, ${chroma} / ${RAMP_CHROMA})`
   const lightness = lerpCss(slot.l, ramp)
   if (slot.share === 0) return `oklch(${lightness} 0 0)`
@@ -211,7 +218,7 @@ function slotCss(role: ColorRole, slot: Slot) {
     isProduct = true
   }
   const alpha = slot.alpha ? ` / ${lerpCss(slot.alpha, ramp)}` : ""
-  return `oklch(${lightness} ${isProduct ? `calc(${c})` : c} ${hueCss(role)}${alpha})`
+  return `oklch(${lightness} ${isProduct ? `calc(${c})` : c} ${hue}${alpha})`
 }
 
 /** A role's tokens as CSS that follows its two variables. */
@@ -219,7 +226,7 @@ export function roleCss(role: ColorRole, mode: Mode) {
   return Object.fromEntries(
     Object.entries(roleSlots(role, mode)).map(([name, slot]) => [
       name,
-      slotCss(role, slot),
+      roleSlotCss(role, slot),
     ])
   )
 }
@@ -246,6 +253,16 @@ function slotValue(slot: Slot, color: RoleColor): Oklch {
 function formatOklch({ l, c, h, alpha }: Oklch) {
   const base = c === 0 ? `${l} 0 0` : `${l} ${c} ${h}`
   return alpha === undefined ? `oklch(${base})` : `oklch(${base} / ${alpha})`
+}
+
+/** A slot as a literal colour for one hue and chroma. */
+export function colorSlotLiteral(slot: Slot, color: RoleColor) {
+  return formatOklch(slotValue(slot, color))
+}
+
+/** A slot as a literal colour for one setting of a role. */
+export function roleSlotLiteral(role: ColorRole, slot: Slot, color: RoleColor) {
+  return colorSlotLiteral(slot, { ...color, hue: roleHue(role, color.hue) })
 }
 
 /** A role's tokens as literal colours for one setting. */

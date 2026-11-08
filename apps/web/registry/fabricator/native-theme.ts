@@ -31,6 +31,7 @@ import {
   TINTED_NEUTRALS,
   tintedLiteral,
 } from "@/registry/fabricator/surface-tint"
+import { syntaxLiterals } from "@/registry/fabricator/syntax-colors"
 
 export type NativeMode = "light" | "dark"
 
@@ -277,6 +278,14 @@ function getRoleVariables(mode: NativeMode, look: FabricatorLook) {
   )
 }
 
+function getSyntaxVariables(mode: NativeMode, look: FabricatorLook) {
+  return Object.fromEntries(
+    Object.entries(syntaxLiterals(mode, look.colors, look.surface)).map(
+      ([name, value]) => [`--syntax-${name}`, toNativeColor(value)]
+    )
+  )
+}
+
 /** Colours the look leaves alone: the palette and the interaction tokens. */
 const LITERAL_COLOR_TOKENS = [
   "foreground",
@@ -356,6 +365,7 @@ export function getNativeCssVariables(
     "--tint": toNativeColor(tokens.tint),
     "--tint-hover": toNativeColor(tokens["tint-hover"]),
     "--focus-ring": toNativeColor(tokens["focus-ring"]),
+    ...getSyntaxVariables(mode, look),
     "--app-shell-frame": appShell.frame,
     "--app-shell-main": appShell.main,
     "--app-shell-panel": appShell.panel,

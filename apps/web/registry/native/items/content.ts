@@ -215,6 +215,26 @@ export const contentItems: Registry["items"] = [
     meta: docs("kbd"),
   },
   {
+    name: "syntax-highlight",
+    type: "registry:ui",
+    title: "Syntax Highlight",
+    description:
+      "Code coloured by the foundations' syntax tokens, from the website's tokenizer: a title bar with the file and Copy, line numbers, marked lines and wrapping.",
+    dependencies: [
+      "@fabricator-ui/icons-react-native",
+      "class-variance-authority",
+      "cn",
+      "expo-clipboard",
+      "refractor@5.0.0",
+    ],
+    registryDependencies: ["@fabricator/button", "@fabricator/text"],
+    files: [
+      { path: "ui/syntax-highlight.tsx", type: "registry:ui" },
+      { path: "lib/syntax-highlight-model.ts", type: "registry:lib" },
+    ],
+    meta: docs("syntax-highlight"),
+  },
+  {
     name: "label",
     type: "registry:ui",
     title: "Label",

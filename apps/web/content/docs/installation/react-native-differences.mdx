@@ -73,6 +73,7 @@ Interface sounds are the same on React Native, under the same `<SoundEffects />`
 | [Sonner](/docs/components/native/sonner) | New engine | Sonner is DOM-only. It shares one engine with `toast`, keeping its API. `position` is accepted and unused: toasts stay at the top. A dialog opened later covers them. |
 | [Spinner](/docs/components/native/spinner) | Same |  |
 | [Switch](/docs/components/native/switch) | Same | Drawn by Fabricator UI, rather than the system's switch, so it matches the website. |
+| [Syntax Highlight](/docs/components/native/syntax-highlight) | Same | The same tokenizer and colours. Lines scroll sideways in their own `ScrollView`, and Copy writes through `expo-clipboard` and announces the copy to VoiceOver and TalkBack. Android draws the code in its `monospace` font, as it has no Menlo. |
 | [Tab Strip](/docs/components/native/tab-strip) | Touch input | The strip scrolls sideways, and tabs reorder from their menu instead of by dragging. |
 | [Table](/docs/components/native/table) | Same | Views in a horizontal scroll: React Native has no table layout, so `rowSpan` isn't supported. |
 | [Tabs](/docs/components/native/tabs) | Same | In a subtle list the active tab's label appears without fading in. |
@@ -82,4 +83,5 @@ Interface sounds are the same on React Native, under the same `<SoundEffects />`
 | [Toggle Group](/docs/components/native/toggle-group) | Same |  |
 | [Tooltip](/docs/components/native/tooltip) | Touch input | A long press shows it, and screen readers read it as the trigger's hint. |
 | [User Menu](/docs/components/native/user-menu) | Same | Opens as a sheet on phones. |
+| [Video Player](/docs/components/native/video-player) | New engine | expo-video plays the video in place of the browser's `<video>`. A tap shows or hides the controls and a double tap plays or pauses. Captions are read from the same WebVTT files and drawn by the player. Settings open as a bottom sheet in the theme's colours, full screen is the system's player with its own controls, and there's no volume slider: the device's buttons set the volume. There are no keyboard shortcuts. |
 | [Workspace Switcher](/docs/components/native/workspace-switcher) | Same | Opens as a sheet on phones. |

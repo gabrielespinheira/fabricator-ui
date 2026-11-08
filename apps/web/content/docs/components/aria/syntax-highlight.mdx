@@ -1,0 +1,275 @@
+---
+title: Syntax Highlight
+description: Code coloured by the foundations' syntax tokens, in over 30 languages.
+base: aria
+component: true
+---
+
+<ComponentPreview
+  styleName="aria-nova"
+  name="syntax-highlight-demo"
+  previewClassName="h-auto"
+/>
+
+Give it the code and a language, or just a file name, and it colours the code with the [syntax colours](#colours): six hues that follow the [colour roles](/docs/foundations/colors) and two neutrals, contrast-checked on every surface in light and dark. A title bar shows the file and a Copy button; the code can number its lines, mark lines, show what was added and removed, and wrap.
+
+Syntax Highlight is part of the Fabricator style. It's built on plain HTML, so the same component ships for every base, and the same tokenizer runs in the [React Native version](/docs/components/native/syntax-highlight).
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">Command</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx fabricator-ui@latest add syntax-highlight
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps className="mb-0 pt-2">
+
+<Step>Install the following dependency.</Step>
+
+```bash
+npm install refractor@5.0.0
+```
+
+<Step>Add the [Button](/docs/components/aria/button) component.</Step>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  src="styles/aria-fabricator/lib/syntax-highlight-model.ts"
+  title="lib/syntax-highlight-model.ts"
+  styleName="aria-nova"
+/>
+
+<ComponentSource
+  src="styles/aria-fabricator/ui/syntax-highlight.tsx"
+  title="components/ui/syntax-highlight.tsx"
+  styleName="aria-nova"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import {
+  SyntaxHighlight,
+  SyntaxHighlightContent,
+  SyntaxHighlightCopy,
+  SyntaxHighlightHeader,
+  SyntaxHighlightIcon,
+  SyntaxHighlightTitle,
+} from "@/components/ui/syntax-highlight"
+```
+
+```tsx
+<SyntaxHighlight code={code} filename="app/page.tsx">
+  <SyntaxHighlightHeader>
+    <SyntaxHighlightIcon />
+    <SyntaxHighlightTitle />
+    <SyntaxHighlightCopy />
+  </SyntaxHighlightHeader>
+  <SyntaxHighlightContent showLineNumbers />
+</SyntaxHighlight>
+```
+
+With no children it renders just the code:
+
+```tsx
+<SyntaxHighlight code="bun add refractor" language="bash" />
+```
+
+## Composition
+
+```text
+SyntaxHighlight              the code, its language and its tokens
+├── SyntaxHighlightHeader    the title bar
+│   ├── SyntaxHighlightIcon      a file, or a terminal for shell code
+│   ├── SyntaxHighlightTitle     the file name, else the language's name
+│   ├── SyntaxHighlightLanguage  the language's name
+│   └── SyntaxHighlightCopy      copies the code
+└── SyntaxHighlightContent   the lines: numbers, marks, diff, wrapping
+```
+
+Every part reads the root through context, so they can sit anywhere inside it. For parts of your own, `useSyntaxHighlight()` returns the `code`, the `language`, the `filename` and the tokenized `lines`.
+
+## Examples
+
+### Languages
+
+The language comes from `language`, a name or an alias (`ts`, `sh`, `yml`, `html`), or from the extension of `filename` when `language` is left out. `Dockerfile`, `Makefile`, `.gitignore` and `.env` files are read by their name.
+
+<ComponentPreview
+  styleName="aria-nova"
+  name="syntax-highlight-languages"
+  previewClassName="h-auto"
+/>
+
+### Line numbers
+
+`showLineNumbers` numbers the lines, and `startLine` sets the first number, for an excerpt. The numbers can't be selected, so copying the code leaves them out.
+
+<ComponentPreview styleName="aria-nova" name="syntax-highlight-line-numbers" />
+
+### Highlighted lines
+
+`highlightLines` takes line numbers and inclusive ranges: `[2, [6, 7]]`.
+
+<ComponentPreview
+  styleName="aria-nova"
+  name="syntax-highlight-highlight-lines"
+  previewClassName="h-auto"
+/>
+
+### Diff
+
+A `diff` or a `.patch` marks its added and removed lines on its own. Give a diff the `filename` of the file it changes and its lines keep that file's colours; `language="diff-json"` does the same without one. To show a change without a diff, mark lines with `insertedLines` and `deletedLines`.
+
+<ComponentPreview
+  styleName="aria-nova"
+  name="syntax-highlight-diff"
+  previewClassName="h-auto"
+/>
+
+### Wrapping
+
+`wrap` wraps long lines at the panel's edge instead of scrolling sideways.
+
+<ComponentPreview styleName="aria-nova" name="syntax-highlight-wrap" />
+
+### Long code
+
+Give `SyntaxHighlightContent` a maximum height and it scrolls, fading at the top and bottom edges while there is more.
+
+<ComponentPreview
+  styleName="aria-nova"
+  name="syntax-highlight-scroll"
+  previewClassName="h-auto"
+/>
+
+### Command
+
+Copy can sit anywhere inside the root, here beside a one-line command.
+
+<ComponentPreview styleName="aria-nova" name="syntax-highlight-command" />
+
+## Colours
+
+Each token kind takes one of eight foundation tokens, installed with every Fabricator component (`bg-syntax-keyword`, `text-syntax-string`, …):
+
+| Token                  | Follows                | Colours                                        |
+| ---------------------- | ---------------------- | ---------------------------------------------- |
+| `--syntax-keyword`     | its own hue and chroma | keywords, at-rules, markdown headings          |
+| `--syntax-function`    | the info role          | functions, methods, properties and keys, links |
+| `--syntax-string`      | the success role       | strings, characters, attribute values          |
+| `--syntax-constant`    | the warning role       | numbers, booleans, constants, attribute names  |
+| `--syntax-type`        | its own hue and chroma | types, classes, built-ins, regular expressions |
+| `--syntax-tag`         | the destructive role   | tags, selectors, variables                     |
+| `--syntax-comment`     | the surface tint       | comments, line numbers                         |
+| `--syntax-punctuation` | the surface tint       | punctuation and operators                      |
+
+Retint a role and its tokens turn with it; set a role to strength 0 and they turn to the foreground colour. Keyword and type have no role, so they take their own variables:
+
+```css
+:root {
+  --syntax-keyword-hue: 315;
+  --syntax-keyword-chroma: 0.16;
+  --syntax-type-hue: 195;
+  --syntax-type-chroma: 0.08;
+}
+```
+
+Every colour is the same lightness at any hue, so no token outshouts another, and every one keeps 4.5:1 against the first four surfaces, tinted or not, for any role setting. Added and removed lines use the success and destructive roles.
+
+## Languages
+
+These languages are bundled: Bash, C, C++, C#, CSS, Diff, Dockerfile, Go, GraphQL, HTML, XML and SVG, Ignore files, INI, Java, JavaScript, JSON, JSX, Kotlin, Lua, Makefile, Markdown, PHP, Python, Ruby, Rust, SCSS, SQL, Swift, TOML, TSX, TypeScript and YAML. Anything else renders as plain text.
+
+refractor has grammars for around 300 more. Register one once, anywhere before it renders:
+
+```tsx
+import elixir from "refractor/elixir"
+
+import { registerLanguage } from "@/lib/syntax-highlight-model"
+
+registerLanguage(elixir)
+```
+
+To trim the bundle, remove languages from `BUNDLED_LANGUAGES` in `lib/syntax-highlight-model.ts`. The tokenizer is plain data with no DOM: `highlightCode(code, language)` returns the lines and their tokens, for a renderer of your own.
+
+## API Reference
+
+### SyntaxHighlight
+
+All other props go to the root `<div>`.
+
+| Prop       | Type        | Default                               |
+| ---------- | ----------- | ------------------------------------- |
+| `code`     | `string`    | required                              |
+| `language` | `string`    | read from `filename`, else plain text |
+| `filename` | `string`    | -                                     |
+| `children` | `ReactNode` | `<SyntaxHighlightContent />`          |
+
+### SyntaxHighlightContent
+
+All other props go to the `<pre>`.
+
+| Prop              | Type                                | Default |
+| ----------------- | ----------------------------------- | ------- |
+| `showLineNumbers` | `boolean`                           | `false` |
+| `startLine`       | `number`                            | `1`     |
+| `highlightLines`  | `Array<number \| [number, number]>` | -       |
+| `insertedLines`   | `Array<number \| [number, number]>` | -       |
+| `deletedLines`    | `Array<number \| [number, number]>` | -       |
+| `wrap`            | `boolean`                           | `false` |
+
+### SyntaxHighlightCopy
+
+All other props go to the `<button>`. A handler that calls `event.preventDefault()` stops the copy.
+
+| Prop       | Type                      | Default  |
+| ---------- | ------------------------- | -------- |
+| `value`    | `string`                  | the code |
+| `onCopied` | `(value: string) => void` | -        |
+
+### SyntaxHighlightTitle, SyntaxHighlightLanguage
+
+Children replace the text: the file name or the language's name.
+
+### Data attributes
+
+| Attribute                                  | Element         | Present when                         |
+| ------------------------------------------ | --------------- | ------------------------------------ |
+| `data-slot="syntax-highlight"`             | root            | always                               |
+| `data-language`                            | root            | always: the language read, or `text` |
+| `data-slot="syntax-highlight-content"`     | the `<pre>`     | always                               |
+| `data-wrap`                                | the `<pre>`     | `wrap` is true                       |
+| `data-slot="syntax-highlight-line"`        | a line          | always                               |
+| `data-highlighted`                         | a line          | its number is in `highlightLines`    |
+| `data-diff="inserted" \| "deleted"`        | a line          | added or removed                     |
+| `data-slot="syntax-highlight-line-number"` | a line's number | `showLineNumbers`                    |
+| `data-token`                               | a token         | the token's kind (`keyword`, …)      |
+| `data-copied`                              | Copy            | for two seconds after a copy         |
+
+## Accessibility
+
+- The code is a `<pre>` that takes focus, so a keyboard can scroll it sideways and down with the arrow keys.
+- Line numbers are hidden from screen readers and can't be selected, so neither reading nor copying the code includes them.
+- Copy is a button named "Copy code". After a copy it's named "Copied", and a polite live region says "Copied to clipboard". When the page has no clipboard (an insecure page, a denied permission), it stays as it was.
+- Every token colour, comments included, keeps 4.5:1 contrast against the code's surface in light and dark. Added and removed lines also carry a coloured edge, and a diff keeps its `+` and `-`, so the change doesn't rest on colour alone.

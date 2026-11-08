@@ -420,6 +420,7 @@ The website renders the Fabricator style, so it shows what `fabricator-ui add` i
   - Full-screen demos (shells, sidebars) are `type="frame"` previews. Their example names start with a prefix listed in `FRAME_EXAMPLE_PREFIXES` (`app/(view)/view/[style]/[name]/page.tsx`); the dev server picks up new frame examples only after a restart.
   - Code shown to readers is rewritten to user-facing paths (`@/components/ui/*`).
 - **CLI commands in docs:** written once as `npx shadcn@latest …`. The highlighter generates the npm/pnpm/yarn/bun tabs, and bun is the default tab.
+- **Code colours:** the docs' code blocks (`source.config.ts`, `lib/highlight-code.ts`) use one Shiki theme for both modes, `lib/shiki-fabricator-theme.ts`, which maps TextMate scopes to the foundations' `--syntax-*` tokens, the colours Syntax Highlight uses. Change a colour in `registry/fabricator/syntax-colors.ts`, never in the theme.
 - **Component doc pages:** each base has one, with these sections:
   1. Preview
   2. Installation (CLI + Manual)

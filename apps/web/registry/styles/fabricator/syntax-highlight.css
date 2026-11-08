@@ -1,0 +1,149 @@
+/* MARK: Syntax Highlight */
+
+  /* A raised panel one step up the ladder (surface 2, like the docs' code
+     blocks) with a hairline ring, rounded-xl like Card. The colours come
+     from the foundations' --syntax-* tokens (syntax-colors.ts), which follow
+     the colour roles and the surface tint. */
+  .cn-syntax-highlight {
+    @apply bg-surface-2 text-foreground ring-border/60 rounded-xl ring-1;
+  }
+
+  /* The title bar: the file's icon and name, then its language and Copy at
+     the end. A hairline separates it from the code. */
+  .cn-syntax-highlight-header {
+    @apply border-border/60 text-muted-foreground h-(--density-36) gap-(--density-8) border-b ps-(--density-12) pe-(--density-4) text-(length:--density-text-12);
+  }
+
+  .cn-syntax-highlight-icon {
+    @apply [&_svg]:stroke-[1.75] [&_svg:not([class*='size-'])]:size-(--density-icon-14);
+  }
+
+  .cn-syntax-highlight-title {
+    @apply text-foreground flex-1 font-medium;
+  }
+
+  .cn-syntax-highlight-language {
+    @apply text-muted-foreground;
+  }
+
+  /* Ghost icon button, quieter until hovered. The icon swaps to a check for
+     two seconds once the code is on the clipboard. */
+  .cn-syntax-highlight-copy {
+    @apply text-muted-foreground hover:text-foreground data-copied:text-success-text;
+  }
+
+  .cn-syntax-highlight-copy-icon {
+    @apply animate-in fade-in-0 zoom-in-75 duration-feedback ease-enter motion-reduce:zoom-in-100;
+  }
+
+  /* The code scrolls both ways inside the panel and fades at the top and
+     bottom edges while there is more. 14px mono on a relaxed line height;
+     wrapping breaks anywhere so a long URL can't push the panel wider. */
+  .cn-syntax-highlight-content {
+    @apply scroll-fade-y py-(--density-12) font-mono text-(length:--density-text-14) leading-relaxed focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-inset data-wrap:whitespace-pre-wrap;
+  }
+
+  .cn-syntax-highlight-code {
+    @apply w-max min-w-full in-data-wrap:w-full;
+  }
+
+  /* Lines carry a 2px start edge, clear until the line is marked (14 of
+     padding after it lines the code up with an unmarked panel's 16):
+     highlighted lines take the active fill and a foreground edge, added and
+     removed lines their status's soft fill and edge. */
+  .cn-syntax-highlight-line {
+    @apply gap-(--density-16) border-s-2 border-transparent ps-(--density-14) pe-(--density-16) data-highlighted:bg-active data-highlighted:border-foreground/40 data-[diff=inserted]:bg-success/12 data-[diff=inserted]:border-success data-[diff=deleted]:bg-destructive/12 data-[diff=deleted]:border-destructive;
+  }
+
+  /* Numbers sit in a column as wide as the last one, in the comment colour,
+     and brighten on a marked line. */
+  .cn-syntax-highlight-line-number {
+    @apply text-syntax-comment w-(--syntax-highlight-gutter) tabular-nums in-data-highlighted:text-foreground in-data-[diff=inserted]:text-success-text in-data-[diff=deleted]:text-destructive-text;
+  }
+
+  .cn-syntax-highlight-line-content {
+    @apply in-data-wrap:wrap-anywhere;
+  }
+
+  /* MARK: Syntax Highlight tokens */
+
+  /* One colour per kind, from the six syntax colours and two neutrals.
+     Comments recede in italic; markdown keeps its weight and slant. */
+  .cn-syntax-highlight-token-comment {
+    @apply text-syntax-comment italic;
+  }
+
+  .cn-syntax-highlight-token-keyword {
+    @apply text-syntax-keyword;
+  }
+
+  .cn-syntax-highlight-token-string {
+    @apply text-syntax-string;
+  }
+
+  .cn-syntax-highlight-token-constant {
+    @apply text-syntax-constant;
+  }
+
+  .cn-syntax-highlight-token-function {
+    @apply text-syntax-function;
+  }
+
+  .cn-syntax-highlight-token-type {
+    @apply text-syntax-type;
+  }
+
+  .cn-syntax-highlight-token-tag {
+    @apply text-syntax-tag;
+  }
+
+  /* Attributes read as values a tag is set to, in the constant colour. */
+  .cn-syntax-highlight-token-attribute {
+    @apply text-syntax-constant;
+  }
+
+  /* Keys (JSON, YAML, CSS properties) in the function colour. */
+  .cn-syntax-highlight-token-property {
+    @apply text-syntax-function;
+  }
+
+  /* Shell and PHP variables, like tags, stand out from the words around. */
+  .cn-syntax-highlight-token-variable {
+    @apply text-syntax-tag;
+  }
+
+  .cn-syntax-highlight-token-regex {
+    @apply text-syntax-type;
+  }
+
+  .cn-syntax-highlight-token-operator {
+    @apply text-syntax-punctuation;
+  }
+
+  .cn-syntax-highlight-token-punctuation {
+    @apply text-syntax-punctuation;
+  }
+
+  .cn-syntax-highlight-token-inserted {
+    @apply text-success-text;
+  }
+
+  .cn-syntax-highlight-token-deleted {
+    @apply text-destructive-text;
+  }
+
+  .cn-syntax-highlight-token-heading {
+    @apply text-syntax-keyword font-semibold;
+  }
+
+  .cn-syntax-highlight-token-link {
+    @apply text-syntax-function underline underline-offset-2;
+  }
+
+  .cn-syntax-highlight-token-strong {
+    @apply font-semibold;
+  }
+
+  .cn-syntax-highlight-token-emphasis {
+    @apply italic;
+  }

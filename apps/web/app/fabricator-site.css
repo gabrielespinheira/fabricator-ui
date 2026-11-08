@@ -92,6 +92,17 @@ html:root {
   --code: var(--surface-2);
 }
 
+/* Code blocks use one Shiki theme for both modes (lib/shiki-fabricator-theme.ts):
+   its colours are the --syntax-* tokens, which switch with .dark themselves.
+   Shiki writes a dual theme's styles as variables; globals.css applies the
+   colour, and this applies the rest: italic comments, bold headings,
+   underlined links. */
+[data-line] span {
+  font-style: var(--shiki-light-font-style);
+  font-weight: var(--shiki-light-font-weight);
+  text-decoration: var(--shiki-light-text-decoration);
+}
+
 /* Surface tint (Settings → Surface, Surfaces → Base colour). The site's own
    tokens from globals.css follow the surfaces too: `bg-surface` stages behind
    previews are the page, and highlighted code lines a step off it. */
