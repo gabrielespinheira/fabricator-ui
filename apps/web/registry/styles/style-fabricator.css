@@ -953,20 +953,11 @@
     @apply bg-surface-3/90 ring-focus-ring text-muted-foreground gap-(--density-8) rounded-[inherit] text-(length:--density-text-13) ring-1 animate-in fade-in-0 duration-feedback ease-feedback motion-reduce:animate-none [&_svg]:size-(--density-icon-16) [&_svg]:stroke-[1.5];
   }
 
-  /* Voice chat's glow: two soft blooms of the info hue (the second turned
-     toward violet) rising from the card's bottom edge, swelling and
-     brightening with --chat-input-voice-level, which the component writes
-     every frame. */
+  /* Voice chat's glow is voice-glow's VoiceBeam with its own colours and
+     motion (it follows reduced motion itself); the card only places it
+     behind the content. */
   .cn-chat-input-voice-glow {
-    @apply rounded-[inherit] *:bottom-0 *:h-[140%] *:w-[70%] *:translate-y-1/2 *:origin-bottom *:rounded-full *:blur-2xl *:opacity-[calc(0.3_+_var(--chat-input-voice-level,0)_*_0.7)] *:scale-[calc(0.7_+_var(--chat-input-voice-level,0)_*_0.5)] *:transition-[opacity,scale] *:duration-feedback *:ease-feedback motion-reduce:*:scale-100;
-  }
-
-  .cn-chat-input-voice-glow-start {
-    @apply start-[-10%] bg-[oklch(from_var(--info)_l_c_h_/_0.55)];
-  }
-
-  .cn-chat-input-voice-glow-end {
-    @apply end-[-10%] bg-[oklch(from_var(--info)_l_c_calc(h_+_60)_/_0.5)];
+    @apply z-0;
   }
 
   /* Files riding along: 56px tiles across the top in the default layout,
@@ -3704,12 +3695,13 @@
     @apply bg-active h-(--density-32) rounded-lg;
   }
 
-  /* A column snaps to its rows and fades out towards its ends; the rows tilt
+  /* A column snaps to its rows and fades from the band out: the band's row
+     whole, the next rows at 60%, the far ones at 15%, then nothing; the rows tilt
      around a shallow perspective, like a drum. Its rows don't size it
      (contain-size): it takes the wheel's height, and its width from the
      token, so a parent can make the wheel as tall as it likes. */
   .cn-time-wheel-column {
-    @apply no-scrollbar contain-size w-(--density-48) snap-y snap-mandatory rounded-lg [perspective:15rem] [mask-image:linear-gradient(to_bottom,transparent,black_20%,black_80%,transparent)] focus-visible:ring-1 focus-visible:ring-focus-ring;
+    @apply no-scrollbar contain-size w-(--density-48) snap-y snap-mandatory rounded-lg [perspective:15rem] [mask-image:linear-gradient(to_bottom,transparent,rgb(0_0_0/0.15)_15%,rgb(0_0_0/0.6)_calc(50%-var(--density-32)*1.5),black_calc(50%-var(--density-32)/2),black_calc(50%+var(--density-32)/2),rgb(0_0_0/0.6)_calc(50%+var(--density-32)*1.5),rgb(0_0_0/0.15)_85%,transparent)] focus-visible:ring-1 focus-visible:ring-focus-ring;
   }
 
   /* Room above the first row and below the last, so either can sit on the
