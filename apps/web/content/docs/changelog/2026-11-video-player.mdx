@@ -1,0 +1,11 @@
+---
+title: November 2026 - Video Player
+description: A Video Player with chapters, captions, speed, picture in picture and full screen, and a compact variant for cards and feeds.
+date: 2026-11-08
+---
+
+- **Video Player.** `npx fabricator-ui@latest add video-player` adds a video with its own controls drawn over the picture, so they stay the same in full screen: play and pause in the middle, and along the bottom play, volume, the time, captions, settings, picture in picture and full screen. While a video plays and the pointer rests, the controls and the cursor fade away.
+- **Seek bar.** It shows what has loaded and the time under the pointer, grows when you reach for it, and with `chapters` it splits into segments and names the chapter in the preview and the bar.
+- **Captions.** Pass WebVTT files as `tracks`. The player draws the captions itself, clear of the controls, and the settings menu picks the language next to the speed.
+- **Keyboard.** Space or K, J and L, the arrows, M, F, C, the digits and < and > work as in the common web players. ↑ and ↓ set the volume from anywhere in the player, with the level shown over the volume knob. The seek bar and volume are sliders, and settings is a menu that works in full screen.
+- **Compact.** `variant="compact"` keeps play, a slim seek bar, the time left, mute and full screen on one row, at the compact density.

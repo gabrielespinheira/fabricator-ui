@@ -618,6 +618,7 @@ Component names, props, variants and `data-slot` values are stable, and new ones
 | Sections that open and close               | `Accordion`; `Collapsible` for one                                                                                                         |
 | Resizable split views                      | `Resizable`                                                                                                                                |
 | A custom scroll area                       | `ScrollArea`                                                                                                                               |
+| A video                                    | `VideoPlayer`; `variant="compact"` in cards, feeds and attachments; never the browser's `controls`                                         |
 | A conversation                             | `MessageScroller`, `Message`, `Bubble`, `Attachment`, `Marker`, `ChatInput`, `ModelPicker`                                                 |
 | Questions an assistant asks                | `Questionnaire`                                                                                                                            |
 
@@ -727,6 +728,8 @@ React Native projects install the same names with the same variants, sizes and t
 - **Badge** for statuses and short labels: status variants for state, `secondary` for neutral counts, `outline` for tags. One or two words.
 - **Avatar** always has `AvatarFallback` (initials); `AvatarGroup` with `AvatarGroupCount` for overflow, `AvatarBadge` for presence.
 - **Kbd** for shortcuts in tooltips, menus and help text: `<KbdGroup><Kbd>⌘</Kbd><Kbd>K</Kbd></KbdGroup>`.
+- **SyntaxHighlight** for code a person reads or copies: a snippet in docs, a config to paste, a diff, a model's code in a chat. Give it the `filename` when the code is a file (the language comes from it) and a `SyntaxHighlightHeader` with the icon, title and Copy; a one-line command takes Copy beside it and no header. `showLineNumbers` when the text refers to lines, `highlightLines` for the part that matters, and `wrap` in narrow columns such as a chat. Long code gets a `max-h-*` on `SyntaxHighlightContent`. Never colour code by hand: the `--syntax-*` tokens follow the look.
+- **VideoPlayer** for any video with controls: the default variant on a page about the video (a lesson, a launch film, a recording), `variant="compact"` where it's one item among others. Give it a `title`, a `poster` and a width; pass `chapters` when the video has parts and WebVTT `tracks` for captions whenever it has speech. A muted, looping `autoPlay` is for ambient clips only.
 
 ### Feedback
 

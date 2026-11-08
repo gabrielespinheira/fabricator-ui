@@ -4654,6 +4654,86 @@ export const Components: Record<string, any> = {
       ) || "switch-sizes"
     return { default: mod.default || mod[exportName] }
   }),
+  "syntax-highlight-command": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/aria-fabricator/syntax-highlight-command"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "syntax-highlight-command"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "syntax-highlight-demo": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/aria-fabricator/syntax-highlight-demo"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "syntax-highlight-demo"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "syntax-highlight-diff": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/aria-fabricator/syntax-highlight-diff"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "syntax-highlight-diff"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "syntax-highlight-highlight-lines": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/aria-fabricator/syntax-highlight-highlight-lines"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "syntax-highlight-highlight-lines"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "syntax-highlight-languages": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/aria-fabricator/syntax-highlight-languages"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "syntax-highlight-languages"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "syntax-highlight-line-numbers": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/aria-fabricator/syntax-highlight-line-numbers"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "syntax-highlight-line-numbers"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "syntax-highlight-scroll": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/aria-fabricator/syntax-highlight-scroll"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "syntax-highlight-scroll"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "syntax-highlight-wrap": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/aria-fabricator/syntax-highlight-wrap"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "syntax-highlight-wrap"
+    return { default: mod.default || mod[exportName] }
+  }),
   "tab-strip-demo": React.lazy(async () => {
     const mod = await import(
       "@/examples/__styles__/aria-fabricator/tab-strip-demo"
@@ -5184,6 +5264,66 @@ export const Components: Record<string, any> = {
       Object.keys(mod).find(
         (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
       ) || "user-menu-demo"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "video-player-autoplay": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/aria-fabricator/video-player-autoplay"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "video-player-autoplay"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "video-player-captions": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/aria-fabricator/video-player-captions"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "video-player-captions"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "video-player-chapters": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/aria-fabricator/video-player-chapters"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "video-player-chapters"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "video-player-compact": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/aria-fabricator/video-player-compact"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "video-player-compact"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "video-player-demo": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/aria-fabricator/video-player-demo"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "video-player-demo"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "video-player-error": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/aria-fabricator/video-player-error"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "video-player-error"
     return { default: mod.default || mod[exportName] }
   }),
   "workspace-switcher-demo": React.lazy(async () => {

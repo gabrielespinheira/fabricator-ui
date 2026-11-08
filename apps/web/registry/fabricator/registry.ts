@@ -129,6 +129,26 @@ export const fabricatorItems = [
     },
   },
   {
+    name: "video-player",
+    type: "registry:ui",
+    title: "Video Player",
+    description:
+      "A video with its own controls over the picture: a seek bar with chapters and a time preview, skip, volume, captions, speed, picture in picture, full screen and the common keyboard shortcuts. A compact variant keeps play, the seek bar, the time, mute and full screen.",
+    registryDependencies: ["spinner"],
+    files: [
+      { path: "ui/video-player.tsx", type: "registry:ui" },
+      { path: "lib/video-player-model.ts", type: "registry:lib" },
+    ],
+    meta: {
+      fabricator: true,
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/video-player",
+        examples:
+          "https://fabricator-ui.vercel.app/docs/components/base/video-player#examples",
+      },
+    },
+  },
+  {
     name: "model-picker",
     type: "registry:ui",
     title: "Model Picker",
@@ -230,6 +250,31 @@ export const fabricatorItems = [
         docs: "https://fabricator-ui.vercel.app/docs/components/base/time-input",
         examples:
           "https://fabricator-ui.vercel.app/docs/components/base/time-input#examples",
+      },
+    },
+  },
+  {
+    name: "syntax-highlight",
+    type: "registry:ui",
+    title: "Syntax Highlight",
+    description:
+      "Code coloured by the foundations' syntax tokens, in over 30 languages, read from a name or a file name: a title bar with the file and Copy, line numbers, highlighted, added and removed lines, and wrapping. The same tokenizer runs on React Native.",
+    // refractor (MIT, typed, no DOM) reads the code: Prism's grammars as
+    // plain ESM, synchronous, so it renders on the server and on React
+    // Native alike. Core plus the bundled languages is ~37 kB gzipped.
+    // Pinned: the model maps its token names.
+    dependencies: ["refractor@5.0.0"],
+    registryDependencies: ["button"],
+    files: [
+      { path: "ui/syntax-highlight.tsx", type: "registry:ui" },
+      { path: "lib/syntax-highlight-model.ts", type: "registry:lib" },
+    ],
+    meta: {
+      fabricator: true,
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/syntax-highlight",
+        examples:
+          "https://fabricator-ui.vercel.app/docs/components/base/syntax-highlight#examples",
       },
     },
   },

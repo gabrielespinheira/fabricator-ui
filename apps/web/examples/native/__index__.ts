@@ -61,6 +61,7 @@ export const NATIVE_EXAMPLES: Record<string, () => React.ComponentType> = {
   "sonner": () => require("@/examples/native/sonner-example").SonnerExample,
   "spinner": () => require("@/examples/native/spinner-example").SpinnerExample,
   "switch": () => require("@/examples/native/switch-example").SwitchExample,
+  "syntax-highlight": () => require("@/examples/native/syntax-highlight-example").SyntaxHighlightExample,
   "tab-strip": () => require("@/examples/native/tab-strip-example").TabStripExample,
   "table": () => require("@/examples/native/table-example").TableExample,
   "tabs": () => require("@/examples/native/tabs-example").TabsExample,
@@ -71,6 +72,7 @@ export const NATIVE_EXAMPLES: Record<string, () => React.ComponentType> = {
   "toggle-group": () => require("@/examples/native/toggle-group-example").ToggleGroupExample,
   "tooltip": () => require("@/examples/native/tooltip-example").TooltipExample,
   "user-menu": () => require("@/examples/native/user-menu-example").UserMenuExample,
+  "video-player": () => require("@/examples/native/video-player-example").VideoPlayerExample,
   "workspace-switcher": () => require("@/examples/native/workspace-switcher-example").WorkspaceSwitcherExample,
 }
 

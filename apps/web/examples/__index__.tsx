@@ -2161,6 +2161,38 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "switch-sizes",
       filePath: "examples/base/switch-sizes.tsx",
     },
+    "syntax-highlight-command": {
+      name: "syntax-highlight-command",
+      filePath: "examples/base/syntax-highlight-command.tsx",
+    },
+    "syntax-highlight-demo": {
+      name: "syntax-highlight-demo",
+      filePath: "examples/base/syntax-highlight-demo.tsx",
+    },
+    "syntax-highlight-diff": {
+      name: "syntax-highlight-diff",
+      filePath: "examples/base/syntax-highlight-diff.tsx",
+    },
+    "syntax-highlight-highlight-lines": {
+      name: "syntax-highlight-highlight-lines",
+      filePath: "examples/base/syntax-highlight-highlight-lines.tsx",
+    },
+    "syntax-highlight-languages": {
+      name: "syntax-highlight-languages",
+      filePath: "examples/base/syntax-highlight-languages.tsx",
+    },
+    "syntax-highlight-line-numbers": {
+      name: "syntax-highlight-line-numbers",
+      filePath: "examples/base/syntax-highlight-line-numbers.tsx",
+    },
+    "syntax-highlight-scroll": {
+      name: "syntax-highlight-scroll",
+      filePath: "examples/base/syntax-highlight-scroll.tsx",
+    },
+    "syntax-highlight-wrap": {
+      name: "syntax-highlight-wrap",
+      filePath: "examples/base/syntax-highlight-wrap.tsx",
+    },
     "tab-strip-demo": {
       name: "tab-strip-demo",
       filePath: "examples/base/tab-strip-demo.tsx",
@@ -2420,6 +2452,30 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "user-menu-demo": {
       name: "user-menu-demo",
       filePath: "examples/base/user-menu-demo.tsx",
+    },
+    "video-player-autoplay": {
+      name: "video-player-autoplay",
+      filePath: "examples/base/video-player-autoplay.tsx",
+    },
+    "video-player-captions": {
+      name: "video-player-captions",
+      filePath: "examples/base/video-player-captions.tsx",
+    },
+    "video-player-chapters": {
+      name: "video-player-chapters",
+      filePath: "examples/base/video-player-chapters.tsx",
+    },
+    "video-player-compact": {
+      name: "video-player-compact",
+      filePath: "examples/base/video-player-compact.tsx",
+    },
+    "video-player-demo": {
+      name: "video-player-demo",
+      filePath: "examples/base/video-player-demo.tsx",
+    },
+    "video-player-error": {
+      name: "video-player-error",
+      filePath: "examples/base/video-player-error.tsx",
     },
     "workspace-switcher-demo": {
       name: "workspace-switcher-demo",
@@ -4551,6 +4607,38 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "switch-sizes",
       filePath: "examples/aria/switch-sizes.tsx",
     },
+    "syntax-highlight-command": {
+      name: "syntax-highlight-command",
+      filePath: "examples/aria/syntax-highlight-command.tsx",
+    },
+    "syntax-highlight-demo": {
+      name: "syntax-highlight-demo",
+      filePath: "examples/aria/syntax-highlight-demo.tsx",
+    },
+    "syntax-highlight-diff": {
+      name: "syntax-highlight-diff",
+      filePath: "examples/aria/syntax-highlight-diff.tsx",
+    },
+    "syntax-highlight-highlight-lines": {
+      name: "syntax-highlight-highlight-lines",
+      filePath: "examples/aria/syntax-highlight-highlight-lines.tsx",
+    },
+    "syntax-highlight-languages": {
+      name: "syntax-highlight-languages",
+      filePath: "examples/aria/syntax-highlight-languages.tsx",
+    },
+    "syntax-highlight-line-numbers": {
+      name: "syntax-highlight-line-numbers",
+      filePath: "examples/aria/syntax-highlight-line-numbers.tsx",
+    },
+    "syntax-highlight-scroll": {
+      name: "syntax-highlight-scroll",
+      filePath: "examples/aria/syntax-highlight-scroll.tsx",
+    },
+    "syntax-highlight-wrap": {
+      name: "syntax-highlight-wrap",
+      filePath: "examples/aria/syntax-highlight-wrap.tsx",
+    },
     "tab-strip-demo": {
       name: "tab-strip-demo",
       filePath: "examples/aria/tab-strip-demo.tsx",
@@ -4794,6 +4882,30 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "user-menu-demo": {
       name: "user-menu-demo",
       filePath: "examples/aria/user-menu-demo.tsx",
+    },
+    "video-player-autoplay": {
+      name: "video-player-autoplay",
+      filePath: "examples/aria/video-player-autoplay.tsx",
+    },
+    "video-player-captions": {
+      name: "video-player-captions",
+      filePath: "examples/aria/video-player-captions.tsx",
+    },
+    "video-player-chapters": {
+      name: "video-player-chapters",
+      filePath: "examples/aria/video-player-chapters.tsx",
+    },
+    "video-player-compact": {
+      name: "video-player-compact",
+      filePath: "examples/aria/video-player-compact.tsx",
+    },
+    "video-player-demo": {
+      name: "video-player-demo",
+      filePath: "examples/aria/video-player-demo.tsx",
+    },
+    "video-player-error": {
+      name: "video-player-error",
+      filePath: "examples/aria/video-player-error.tsx",
     },
     "workspace-switcher-demo": {
       name: "workspace-switcher-demo",
@@ -6953,6 +7065,38 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "switch-sizes",
       filePath: "examples/radix/switch-sizes.tsx",
     },
+    "syntax-highlight-command": {
+      name: "syntax-highlight-command",
+      filePath: "examples/radix/syntax-highlight-command.tsx",
+    },
+    "syntax-highlight-demo": {
+      name: "syntax-highlight-demo",
+      filePath: "examples/radix/syntax-highlight-demo.tsx",
+    },
+    "syntax-highlight-diff": {
+      name: "syntax-highlight-diff",
+      filePath: "examples/radix/syntax-highlight-diff.tsx",
+    },
+    "syntax-highlight-highlight-lines": {
+      name: "syntax-highlight-highlight-lines",
+      filePath: "examples/radix/syntax-highlight-highlight-lines.tsx",
+    },
+    "syntax-highlight-languages": {
+      name: "syntax-highlight-languages",
+      filePath: "examples/radix/syntax-highlight-languages.tsx",
+    },
+    "syntax-highlight-line-numbers": {
+      name: "syntax-highlight-line-numbers",
+      filePath: "examples/radix/syntax-highlight-line-numbers.tsx",
+    },
+    "syntax-highlight-scroll": {
+      name: "syntax-highlight-scroll",
+      filePath: "examples/radix/syntax-highlight-scroll.tsx",
+    },
+    "syntax-highlight-wrap": {
+      name: "syntax-highlight-wrap",
+      filePath: "examples/radix/syntax-highlight-wrap.tsx",
+    },
     "tab-strip-demo": {
       name: "tab-strip-demo",
       filePath: "examples/radix/tab-strip-demo.tsx",
@@ -7196,6 +7340,30 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "user-menu-demo": {
       name: "user-menu-demo",
       filePath: "examples/radix/user-menu-demo.tsx",
+    },
+    "video-player-autoplay": {
+      name: "video-player-autoplay",
+      filePath: "examples/radix/video-player-autoplay.tsx",
+    },
+    "video-player-captions": {
+      name: "video-player-captions",
+      filePath: "examples/radix/video-player-captions.tsx",
+    },
+    "video-player-chapters": {
+      name: "video-player-chapters",
+      filePath: "examples/radix/video-player-chapters.tsx",
+    },
+    "video-player-compact": {
+      name: "video-player-compact",
+      filePath: "examples/radix/video-player-compact.tsx",
+    },
+    "video-player-demo": {
+      name: "video-player-demo",
+      filePath: "examples/radix/video-player-demo.tsx",
+    },
+    "video-player-error": {
+      name: "video-player-error",
+      filePath: "examples/radix/video-player-error.tsx",
     },
     "workspace-switcher-demo": {
       name: "workspace-switcher-demo",
@@ -9173,6 +9341,43 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "switch-sizes",
       filePath: "examples/__styles__/base-fabricator/switch-sizes.tsx",
     },
+    "syntax-highlight-command": {
+      name: "syntax-highlight-command",
+      filePath:
+        "examples/__styles__/base-fabricator/syntax-highlight-command.tsx",
+    },
+    "syntax-highlight-demo": {
+      name: "syntax-highlight-demo",
+      filePath: "examples/__styles__/base-fabricator/syntax-highlight-demo.tsx",
+    },
+    "syntax-highlight-diff": {
+      name: "syntax-highlight-diff",
+      filePath: "examples/__styles__/base-fabricator/syntax-highlight-diff.tsx",
+    },
+    "syntax-highlight-highlight-lines": {
+      name: "syntax-highlight-highlight-lines",
+      filePath:
+        "examples/__styles__/base-fabricator/syntax-highlight-highlight-lines.tsx",
+    },
+    "syntax-highlight-languages": {
+      name: "syntax-highlight-languages",
+      filePath:
+        "examples/__styles__/base-fabricator/syntax-highlight-languages.tsx",
+    },
+    "syntax-highlight-line-numbers": {
+      name: "syntax-highlight-line-numbers",
+      filePath:
+        "examples/__styles__/base-fabricator/syntax-highlight-line-numbers.tsx",
+    },
+    "syntax-highlight-scroll": {
+      name: "syntax-highlight-scroll",
+      filePath:
+        "examples/__styles__/base-fabricator/syntax-highlight-scroll.tsx",
+    },
+    "syntax-highlight-wrap": {
+      name: "syntax-highlight-wrap",
+      filePath: "examples/__styles__/base-fabricator/syntax-highlight-wrap.tsx",
+    },
     "tab-strip-demo": {
       name: "tab-strip-demo",
       filePath: "examples/__styles__/base-fabricator/tab-strip-demo.tsx",
@@ -9407,6 +9612,30 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "user-menu-demo": {
       name: "user-menu-demo",
       filePath: "examples/__styles__/base-fabricator/user-menu-demo.tsx",
+    },
+    "video-player-autoplay": {
+      name: "video-player-autoplay",
+      filePath: "examples/__styles__/base-fabricator/video-player-autoplay.tsx",
+    },
+    "video-player-captions": {
+      name: "video-player-captions",
+      filePath: "examples/__styles__/base-fabricator/video-player-captions.tsx",
+    },
+    "video-player-chapters": {
+      name: "video-player-chapters",
+      filePath: "examples/__styles__/base-fabricator/video-player-chapters.tsx",
+    },
+    "video-player-compact": {
+      name: "video-player-compact",
+      filePath: "examples/__styles__/base-fabricator/video-player-compact.tsx",
+    },
+    "video-player-demo": {
+      name: "video-player-demo",
+      filePath: "examples/__styles__/base-fabricator/video-player-demo.tsx",
+    },
+    "video-player-error": {
+      name: "video-player-error",
+      filePath: "examples/__styles__/base-fabricator/video-player-error.tsx",
     },
     "workspace-switcher-demo": {
       name: "workspace-switcher-demo",
@@ -11360,6 +11589,43 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "switch-sizes",
       filePath: "examples/__styles__/aria-fabricator/switch-sizes.tsx",
     },
+    "syntax-highlight-command": {
+      name: "syntax-highlight-command",
+      filePath:
+        "examples/__styles__/aria-fabricator/syntax-highlight-command.tsx",
+    },
+    "syntax-highlight-demo": {
+      name: "syntax-highlight-demo",
+      filePath: "examples/__styles__/aria-fabricator/syntax-highlight-demo.tsx",
+    },
+    "syntax-highlight-diff": {
+      name: "syntax-highlight-diff",
+      filePath: "examples/__styles__/aria-fabricator/syntax-highlight-diff.tsx",
+    },
+    "syntax-highlight-highlight-lines": {
+      name: "syntax-highlight-highlight-lines",
+      filePath:
+        "examples/__styles__/aria-fabricator/syntax-highlight-highlight-lines.tsx",
+    },
+    "syntax-highlight-languages": {
+      name: "syntax-highlight-languages",
+      filePath:
+        "examples/__styles__/aria-fabricator/syntax-highlight-languages.tsx",
+    },
+    "syntax-highlight-line-numbers": {
+      name: "syntax-highlight-line-numbers",
+      filePath:
+        "examples/__styles__/aria-fabricator/syntax-highlight-line-numbers.tsx",
+    },
+    "syntax-highlight-scroll": {
+      name: "syntax-highlight-scroll",
+      filePath:
+        "examples/__styles__/aria-fabricator/syntax-highlight-scroll.tsx",
+    },
+    "syntax-highlight-wrap": {
+      name: "syntax-highlight-wrap",
+      filePath: "examples/__styles__/aria-fabricator/syntax-highlight-wrap.tsx",
+    },
     "tab-strip-demo": {
       name: "tab-strip-demo",
       filePath: "examples/__styles__/aria-fabricator/tab-strip-demo.tsx",
@@ -11577,6 +11843,30 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "user-menu-demo": {
       name: "user-menu-demo",
       filePath: "examples/__styles__/aria-fabricator/user-menu-demo.tsx",
+    },
+    "video-player-autoplay": {
+      name: "video-player-autoplay",
+      filePath: "examples/__styles__/aria-fabricator/video-player-autoplay.tsx",
+    },
+    "video-player-captions": {
+      name: "video-player-captions",
+      filePath: "examples/__styles__/aria-fabricator/video-player-captions.tsx",
+    },
+    "video-player-chapters": {
+      name: "video-player-chapters",
+      filePath: "examples/__styles__/aria-fabricator/video-player-chapters.tsx",
+    },
+    "video-player-compact": {
+      name: "video-player-compact",
+      filePath: "examples/__styles__/aria-fabricator/video-player-compact.tsx",
+    },
+    "video-player-demo": {
+      name: "video-player-demo",
+      filePath: "examples/__styles__/aria-fabricator/video-player-demo.tsx",
+    },
+    "video-player-error": {
+      name: "video-player-error",
+      filePath: "examples/__styles__/aria-fabricator/video-player-error.tsx",
     },
     "workspace-switcher-demo": {
       name: "workspace-switcher-demo",
@@ -13568,6 +13858,46 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "switch-sizes",
       filePath: "examples/__styles__/radix-fabricator/switch-sizes.tsx",
     },
+    "syntax-highlight-command": {
+      name: "syntax-highlight-command",
+      filePath:
+        "examples/__styles__/radix-fabricator/syntax-highlight-command.tsx",
+    },
+    "syntax-highlight-demo": {
+      name: "syntax-highlight-demo",
+      filePath:
+        "examples/__styles__/radix-fabricator/syntax-highlight-demo.tsx",
+    },
+    "syntax-highlight-diff": {
+      name: "syntax-highlight-diff",
+      filePath:
+        "examples/__styles__/radix-fabricator/syntax-highlight-diff.tsx",
+    },
+    "syntax-highlight-highlight-lines": {
+      name: "syntax-highlight-highlight-lines",
+      filePath:
+        "examples/__styles__/radix-fabricator/syntax-highlight-highlight-lines.tsx",
+    },
+    "syntax-highlight-languages": {
+      name: "syntax-highlight-languages",
+      filePath:
+        "examples/__styles__/radix-fabricator/syntax-highlight-languages.tsx",
+    },
+    "syntax-highlight-line-numbers": {
+      name: "syntax-highlight-line-numbers",
+      filePath:
+        "examples/__styles__/radix-fabricator/syntax-highlight-line-numbers.tsx",
+    },
+    "syntax-highlight-scroll": {
+      name: "syntax-highlight-scroll",
+      filePath:
+        "examples/__styles__/radix-fabricator/syntax-highlight-scroll.tsx",
+    },
+    "syntax-highlight-wrap": {
+      name: "syntax-highlight-wrap",
+      filePath:
+        "examples/__styles__/radix-fabricator/syntax-highlight-wrap.tsx",
+    },
     "tab-strip-demo": {
       name: "tab-strip-demo",
       filePath: "examples/__styles__/radix-fabricator/tab-strip-demo.tsx",
@@ -13789,6 +14119,33 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "user-menu-demo": {
       name: "user-menu-demo",
       filePath: "examples/__styles__/radix-fabricator/user-menu-demo.tsx",
+    },
+    "video-player-autoplay": {
+      name: "video-player-autoplay",
+      filePath:
+        "examples/__styles__/radix-fabricator/video-player-autoplay.tsx",
+    },
+    "video-player-captions": {
+      name: "video-player-captions",
+      filePath:
+        "examples/__styles__/radix-fabricator/video-player-captions.tsx",
+    },
+    "video-player-chapters": {
+      name: "video-player-chapters",
+      filePath:
+        "examples/__styles__/radix-fabricator/video-player-chapters.tsx",
+    },
+    "video-player-compact": {
+      name: "video-player-compact",
+      filePath: "examples/__styles__/radix-fabricator/video-player-compact.tsx",
+    },
+    "video-player-demo": {
+      name: "video-player-demo",
+      filePath: "examples/__styles__/radix-fabricator/video-player-demo.tsx",
+    },
+    "video-player-error": {
+      name: "video-player-error",
+      filePath: "examples/__styles__/radix-fabricator/video-player-error.tsx",
     },
     "workspace-switcher-demo": {
       name: "workspace-switcher-demo",

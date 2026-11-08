@@ -41,6 +41,7 @@ import {
   Calendar as FabricatorCalendar,
   CalendarIcon as FabricatorCalendarIcon,
   CalendarPlusIcon as FabricatorCalendarPlusIcon,
+  CaptionsIcon as FabricatorCaptionsIcon,
   ChartBarIcon as FabricatorChartBarIcon,
   ChartColumnIcon as FabricatorChartColumnIcon,
   ChartLineIcon as FabricatorChartLineIcon,
@@ -92,6 +93,7 @@ import {
   Frame as FabricatorFrame,
   FrameIcon as FabricatorFrameIcon,
   GalleryVerticalEnd as FabricatorGalleryVerticalEnd,
+  GaugeIcon as FabricatorGaugeIcon,
   GitBranchIcon as FabricatorGitBranchIcon,
   GlobeIcon as FabricatorGlobeIcon,
   GripVerticalIcon as FabricatorGripVerticalIcon,
@@ -148,6 +150,7 @@ import {
   PaperclipIcon as FabricatorPaperclipIcon,
   PauseIcon as FabricatorPauseIcon,
   PencilIcon as FabricatorPencilIcon,
+  PictureInPicture2Icon as FabricatorPictureInPicture2Icon,
   PieChart as FabricatorPieChart,
   PieChartIcon as FabricatorPieChartIcon,
   PipetteIcon as FabricatorPipetteIcon,
@@ -208,7 +211,10 @@ import {
   UserIcon as FabricatorUserIcon,
   UserRoundXIcon as FabricatorUserRoundXIcon,
   UsersIcon as FabricatorUsersIcon,
+  Volume1Icon as FabricatorVolume1Icon,
+  Volume2Icon as FabricatorVolume2Icon,
   VolumeOffIcon as FabricatorVolumeOffIcon,
+  VolumeXIcon as FabricatorVolumeXIcon,
   WalletIcon as FabricatorWalletIcon,
   WandSparklesIcon as FabricatorWandSparklesIcon,
   WaypointsIcon as FabricatorWaypointsIcon,
@@ -480,6 +486,13 @@ export const CalendarPlusIcon = createSiteIcon(FabricatorCalendarPlusIcon, {
   hugeicons: "CalendarAdd01Icon",
   phosphor: "CalendarPlusIcon",
   remixicon: "RiCalendarScheduleLine",
+})
+export const CaptionsIcon = createSiteIcon(FabricatorCaptionsIcon, {
+  lucide: "CaptionsIcon",
+  tabler: "IconTextCaption",
+  hugeicons: "TextCheckIcon",
+  phosphor: "TextTIcon",
+  remixicon: "RiTextWrap",
 })
 export const ChartBarIcon = createSiteIcon(FabricatorChartBarIcon, {
   lucide: "ChartBarIcon",
@@ -816,6 +829,13 @@ export const GalleryVerticalEnd = createSiteIcon(FabricatorGalleryVerticalEnd, {
   hugeicons: "LayoutBottomIcon",
   phosphor: "RowsIcon",
   remixicon: "RiGalleryLine",
+})
+export const GaugeIcon = createSiteIcon(FabricatorGaugeIcon, {
+  lucide: "GaugeIcon",
+  tabler: "IconGauge",
+  hugeicons: "Settings01Icon",
+  phosphor: "GaugeIcon",
+  remixicon: "RiDashboardLine",
 })
 export const GitBranchIcon = createSiteIcon(FabricatorGitBranchIcon, {
   lucide: "GitBranchIcon",
@@ -1179,6 +1199,10 @@ export const PencilIcon = createSiteIcon(FabricatorPencilIcon, {
   phosphor: "PencilIcon",
   remixicon: "RiPencilLine",
 })
+export const PictureInPicture2Icon = createSiteIcon(
+  FabricatorPictureInPicture2Icon,
+  { lucide: "PictureInPicture2Icon" }
+)
 export const PieChart = createSiteIcon(FabricatorPieChart, {
   lucide: "PieChart",
   tabler: "IconChartPie",
@@ -1550,8 +1574,25 @@ export const UsersIcon = createSiteIcon(FabricatorUsersIcon, {
   phosphor: "UsersIcon",
   remixicon: "RiGroupLine",
 })
+export const Volume1Icon = createSiteIcon(FabricatorVolume1Icon, {
+  lucide: "Volume1Icon",
+})
+export const Volume2Icon = createSiteIcon(FabricatorVolume2Icon, {
+  lucide: "Volume2Icon",
+  tabler: "IconVolume",
+  hugeicons: "VolumeHighIcon",
+  phosphor: "SpeakerHighIcon",
+  remixicon: "RiVolumeUpLine",
+})
 export const VolumeOffIcon = createSiteIcon(FabricatorVolumeOffIcon, {
   lucide: "VolumeOffIcon",
+  tabler: "IconVolume",
+  hugeicons: "VolumeOffIcon",
+  phosphor: "SpeakerSlashIcon",
+  remixicon: "RiVolumeMuteLine",
+})
+export const VolumeXIcon = createSiteIcon(FabricatorVolumeXIcon, {
+  lucide: "VolumeXIcon",
   tabler: "IconVolume",
   hugeicons: "VolumeOffIcon",
   phosphor: "SpeakerSlashIcon",

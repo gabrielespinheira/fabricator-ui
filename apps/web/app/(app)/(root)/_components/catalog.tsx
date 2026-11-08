@@ -313,6 +313,16 @@ const SOURCES: CatalogSource[] = [
     load: () => import("@/examples/__styles__/base-fabricator/spinner-demo"),
   },
   {
+    slug: "syntax-highlight",
+    title: "Syntax Highlight",
+    height: "md",
+    // The numbered excerpt: short enough for a card, with every colour.
+    load: () =>
+      import(
+        "@/examples/__styles__/base-fabricator/syntax-highlight-line-numbers"
+      ),
+  },
+  {
     slug: "textarea",
     title: "Textarea",
     height: "sm",
@@ -323,6 +333,14 @@ const SOURCES: CatalogSource[] = [
     title: "Toggle",
     height: "sm",
     load: () => import("@/examples/__styles__/base-fabricator/toggle-demo"),
+  },
+  {
+    slug: "video-player",
+    title: "Video Player",
+    height: "md",
+    // The compact variant: a card is narrower than the full control bar.
+    load: () =>
+      import("@/examples/__styles__/base-fabricator/video-player-compact"),
   },
 ]
 

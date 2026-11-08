@@ -91,6 +91,8 @@ const GROUP_BY_SLUG: Record<string, ComponentGroup> = {
   sonner: "Data & Feedback",
   progress: "Data & Feedback",
   empty: "Data & Feedback",
+  "video-player": "Data & Feedback",
+  "syntax-highlight": "Data & Feedback",
   // AI & Chat
   "chat-input": "AI & Chat",
   "model-picker": "AI & Chat",

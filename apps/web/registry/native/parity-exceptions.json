@@ -341,5 +341,96 @@
     "name": "cn-questionnaire-choice-check",
     "reason": "The check inside the website's square chip for a multiple choice without shortcuts. Native multiple choices keep the Checkbox mark, which draws its own check.",
     "date": "2026-11-08"
+  },
+  {
+    "item": "video-player",
+    "kind": "slot",
+    "name": "video-player-volume-slider",
+    "reason": "The website's volume slider opens on hover beside the mute button and stays closed on touch screens; on a phone or tablet the device's buttons set the volume, so the native player keeps only mute.",
+    "date": "2026-11-08"
+  },
+  {
+    "item": "video-player",
+    "kind": "slot",
+    "name": "video-player-volume-track",
+    "reason": "The website's volume slider opens on hover beside the mute button and stays closed on touch screens; on a phone or tablet the device's buttons set the volume, so the native player keeps only mute.",
+    "date": "2026-11-08"
+  },
+  {
+    "item": "video-player",
+    "kind": "slot",
+    "name": "video-player-volume-level",
+    "reason": "The website's volume slider opens on hover beside the mute button and stays closed on touch screens; on a phone or tablet the device's buttons set the volume, so the native player keeps only mute.",
+    "date": "2026-11-08"
+  },
+  {
+    "item": "video-player",
+    "kind": "slot",
+    "name": "video-player-volume-thumb",
+    "reason": "The website's volume slider opens on hover beside the mute button and stays closed on touch screens; on a phone or tablet the device's buttons set the volume, so the native player keeps only mute.",
+    "date": "2026-11-08"
+  },
+  {
+    "item": "video-player",
+    "kind": "placeholder",
+    "name": "cn-video-player-volume-slider",
+    "reason": "The website's volume slider opens on hover beside the mute button and stays closed on touch screens; on a phone or tablet the device's buttons set the volume, so the native player keeps only mute.",
+    "date": "2026-11-08"
+  },
+  {
+    "item": "video-player",
+    "kind": "placeholder",
+    "name": "cn-video-player-volume-track",
+    "reason": "The website's volume slider opens on hover beside the mute button and stays closed on touch screens; on a phone or tablet the device's buttons set the volume, so the native player keeps only mute.",
+    "date": "2026-11-08"
+  },
+  {
+    "item": "video-player",
+    "kind": "placeholder",
+    "name": "cn-video-player-volume-level",
+    "reason": "The website's volume slider opens on hover beside the mute button and stays closed on touch screens; on a phone or tablet the device's buttons set the volume, so the native player keeps only mute.",
+    "date": "2026-11-08"
+  },
+  {
+    "item": "video-player",
+    "kind": "placeholder",
+    "name": "cn-video-player-volume-thumb",
+    "reason": "The website's volume slider opens on hover beside the mute button and stays closed on touch screens; on a phone or tablet the device's buttons set the volume, so the native player keeps only mute.",
+    "date": "2026-11-08"
+  },
+  {
+    "item": "video-player",
+    "kind": "slot",
+    "name": "video-player-seek-hover",
+    "reason": "The fill up to the pointer while it hovers the seek bar: a finger doesn't hover, and while it drags the played fill follows it.",
+    "date": "2026-11-08"
+  },
+  {
+    "item": "video-player",
+    "kind": "placeholder",
+    "name": "cn-video-player-seek-hover",
+    "reason": "The fill up to the pointer while it hovers the seek bar: a finger doesn't hover, and while it drags the played fill follows it.",
+    "date": "2026-11-08"
+  },
+  {
+    "item": "video-player",
+    "kind": "slot",
+    "name": "video-player-volume-readout",
+    "reason": "The website's volume readout answers the volume keys. A phone or tablet changes the volume with its hardware buttons and the system draws its own indicator, and the mute button already shows mute in its icon.",
+    "date": "2026-11-08"
+  },
+  {
+    "item": "video-player",
+    "kind": "placeholder",
+    "name": "cn-video-player-volume-readout",
+    "reason": "The website's volume readout answers the volume keys. A phone or tablet changes the volume with its hardware buttons and the system draws its own indicator, and the mute button already shows mute in its icon.",
+    "date": "2026-11-08"
+  },
+  {
+    "item": "video-player",
+    "kind": "placeholder",
+    "name": "cn-video-player-volume-readout-value",
+    "reason": "The website's volume readout answers the volume keys. A phone or tablet changes the volume with its hardware buttons and the system draws its own indicator, and the mute button already shows mute in its icon.",
+    "date": "2026-11-08"
   }
 ]

@@ -3724,6 +3724,156 @@
     @apply bg-primary-foreground rounded-full;
   }
 
+/* MARK: Syntax Highlight */
+
+  /* The website's raised panel: surface 2 with a hairline edge, rounded-xl.
+     The colours are the same --syntax-* tokens, resolved for the look by
+     native-theme.ts. */
+  .cn-syntax-highlight {
+    @apply bg-surface-2 border-border/60 rounded-xl border;
+  }
+
+  .cn-syntax-highlight-header {
+    @apply border-border/60 h-(--density-36) gap-(--density-8) border-b ps-(--density-12) pe-(--density-4);
+  }
+
+  /* Header text and icons: 12pt muted, as the website's bar. */
+  .cn-syntax-highlight-header-text {
+    @apply text-muted-foreground text-(length:--density-text-12);
+  }
+
+  .cn-syntax-highlight-icon {
+    @apply items-center;
+  }
+
+  .cn-syntax-highlight-title {
+    @apply text-foreground flex-1 font-medium;
+  }
+
+  .cn-syntax-highlight-language {
+    @apply text-muted-foreground;
+  }
+
+  .cn-syntax-highlight-copy {
+    @apply shrink-0;
+  }
+
+  /* Copy's icon is muted, and turns to the success colour with its check. */
+  .cn-syntax-highlight-copy-icon {
+    @apply text-muted-foreground;
+  }
+
+  .cn-syntax-highlight-copy-icon-copied {
+    @apply text-success-text;
+  }
+
+  .cn-syntax-highlight-content {
+    @apply py-(--density-12);
+  }
+
+  /* 14pt mono on a relaxed line height, the website's code text. */
+  .cn-syntax-highlight-content-text {
+    @apply text-foreground font-mono text-(length:--density-text-14) leading-relaxed;
+  }
+
+  .cn-syntax-highlight-code {
+    @apply flex-col;
+  }
+
+  /* A 2pt start edge, clear until the line is marked: highlighted lines take
+     the active fill and a foreground edge, added and removed lines their
+     status's soft fill and edge. */
+  .cn-syntax-highlight-line {
+    @apply gap-(--density-16) border-s-2 border-transparent ps-(--density-14) pe-(--density-16) data-[highlighted=true]:bg-active data-[highlighted=true]:border-foreground/40 data-[diff=inserted]:bg-success/12 data-[diff=inserted]:border-success data-[diff=deleted]:bg-destructive/12 data-[diff=deleted]:border-destructive;
+  }
+
+  /* No in-data-* here: a number takes its line's marks as its own props. */
+  .cn-syntax-highlight-line-number {
+    @apply text-syntax-comment data-[highlighted=true]:text-foreground data-[diff=inserted]:text-success-text data-[diff=deleted]:text-destructive-text;
+  }
+
+  .cn-syntax-highlight-line-content {
+    @apply text-foreground;
+  }
+
+  /* MARK: Syntax Highlight tokens */
+
+  .cn-syntax-highlight-token-comment {
+    @apply text-syntax-comment italic;
+  }
+
+  .cn-syntax-highlight-token-keyword {
+    @apply text-syntax-keyword;
+  }
+
+  .cn-syntax-highlight-token-string {
+    @apply text-syntax-string;
+  }
+
+  .cn-syntax-highlight-token-constant {
+    @apply text-syntax-constant;
+  }
+
+  .cn-syntax-highlight-token-function {
+    @apply text-syntax-function;
+  }
+
+  .cn-syntax-highlight-token-type {
+    @apply text-syntax-type;
+  }
+
+  .cn-syntax-highlight-token-tag {
+    @apply text-syntax-tag;
+  }
+
+  .cn-syntax-highlight-token-attribute {
+    @apply text-syntax-constant;
+  }
+
+  .cn-syntax-highlight-token-property {
+    @apply text-syntax-function;
+  }
+
+  .cn-syntax-highlight-token-variable {
+    @apply text-syntax-tag;
+  }
+
+  .cn-syntax-highlight-token-regex {
+    @apply text-syntax-type;
+  }
+
+  .cn-syntax-highlight-token-operator {
+    @apply text-syntax-punctuation;
+  }
+
+  .cn-syntax-highlight-token-punctuation {
+    @apply text-syntax-punctuation;
+  }
+
+  .cn-syntax-highlight-token-inserted {
+    @apply text-success-text;
+  }
+
+  .cn-syntax-highlight-token-deleted {
+    @apply text-destructive-text;
+  }
+
+  .cn-syntax-highlight-token-heading {
+    @apply text-syntax-keyword font-semibold;
+  }
+
+  .cn-syntax-highlight-token-link {
+    @apply text-syntax-function underline;
+  }
+
+  .cn-syntax-highlight-token-strong {
+    @apply font-semibold;
+  }
+
+  .cn-syntax-highlight-token-emphasis {
+    @apply italic;
+  }
+
 /* MARK: Tab Strip */
 
   /* A row of document tabs on the surface it sits on: 48pt at a phone's density,
@@ -4173,6 +4323,192 @@
 
   .cn-user-menu-label {
     @apply gap-(--density-8) px-(--density-8) py-(--density-6);
+  }
+
+/* MARK: Video Player */
+
+  /* The picture on black, rounded like a card, 16:9 unless the className
+     sets another ratio. The chrome over it is white on black scrims whatever
+     the theme, as on the website: it sits on arbitrary footage, which no
+     theme token stays legible on. Compact pins the compact density in the
+     source and takes smaller corners. */
+  .cn-video-player {
+    @apply aspect-video rounded-xl bg-black data-[variant=compact]:rounded-lg;
+  }
+
+  .cn-video-player-video {
+    @apply bg-black;
+  }
+
+  .cn-video-player-poster {
+    @apply bg-black;
+  }
+
+  /* A tap shows or hides the controls; a double tap plays or pauses. */
+  .cn-video-player-surface {
+    @apply bg-transparent;
+  }
+
+  /* The title fades with the controls, over a scrim of its own (drawn in the
+     source: gradients aren't classes here). */
+  .cn-video-player-header {
+    @apply px-(--density-16) pt-(--density-14) pb-(--density-28);
+  }
+
+  .cn-video-player-title {
+    @apply text-(length:--density-text-14) font-medium text-white;
+  }
+
+  .cn-video-player-center {
+    @apply gap-(--density-8);
+  }
+
+  /* The default variant's centre: play and pause, showing and fading with
+     the controls (the spinner takes its place while buffering). Compact only
+     shows the play button before the first play and at the end. */
+  .cn-video-player-transport {
+    @apply gap-0;
+  }
+
+  /* A round button on dark glass, 64pt at the default density (48 compact),
+     the play and pause glyphs filled. */
+  .cn-video-player-play {
+    @apply size-[calc(var(--density-48)+var(--density-16))] rounded-full border border-white/15 bg-black/45 active:bg-black/60;
+  }
+
+  .cn-video-player-spinner {
+    @apply size-(--density-32) text-white;
+  }
+
+  .cn-video-player-error {
+    @apply max-w-xs gap-(--density-8) px-(--density-16);
+  }
+
+  .cn-video-player-error-text {
+    @apply text-(length:--density-text-13) text-white/80;
+  }
+
+  /* A double tap's play or pause answers in the centre and fades on the
+     sheet timing; Reduce Motion leaves it out. */
+  .cn-video-player-flash {
+    @apply size-[calc(var(--density-48)+var(--density-8))] rounded-full bg-black/45;
+  }
+
+  /* Captions sit clear of the controls while they show. */
+  .cn-video-player-captions {
+    @apply bottom-(--density-16) px-(--density-16) data-[controls=visible]:bottom-[calc(var(--density-48)+var(--density-40))] data-[variant=compact]:data-[controls=visible]:bottom-[calc(var(--density-36)+var(--density-12))];
+  }
+
+  /* 16pt medium text on a 75% black band. */
+  .cn-video-player-cue {
+    @apply max-w-[80%] overflow-hidden rounded-md bg-black/75 px-(--density-8) py-(--density-4) text-(length:--density-text-16) leading-snug font-medium text-white;
+  }
+
+  /* The controls sit on a scrim that rises from the bottom edge, and fade
+     with it on the move timing while a video plays untouched. */
+  .cn-video-player-controls {
+    @apply gap-(--density-4) px-(--density-12) pt-(--density-40) pb-(--density-8) data-[variant=compact]:px-(--density-6) data-[variant=compact]:pt-(--density-24) data-[variant=compact]:pb-(--density-6);
+  }
+
+  .cn-video-player-bar {
+    @apply gap-(--density-4);
+  }
+
+  .cn-video-player-bar-text {
+    @apply text-white;
+  }
+
+  /* Round icon buttons; a glass of white at 15% under a finger. Pressed
+     captions add a short bar under the icon. */
+  .cn-video-player-control {
+    @apply size-(--density-36) rounded-full active:bg-white/15;
+  }
+
+  .cn-video-player-control-indicator {
+    @apply bottom-(--density-6) h-0.5 w-(--density-14) rounded-full bg-white;
+  }
+
+  /* The seek bar: a 6pt pill with what has loaded at 30% white and what has
+     played in white; chapters are pills of their own 2pt apart. Touch keeps
+     the 12pt thumb showing, since there's no hover to reveal it. */
+  .cn-video-player-seek {
+    @apply h-(--density-24) data-[variant=compact]:mx-(--density-6) data-[variant=compact]:h-(--density-36);
+  }
+
+  .cn-video-player-seek-track {
+    @apply h-(--density-6) gap-0.5 data-[dragging=true]:h-(--density-8);
+  }
+
+  .cn-video-player-seek-chapter {
+    @apply rounded-full bg-white/25;
+  }
+
+  .cn-video-player-seek-buffered {
+    @apply bg-white/30;
+  }
+
+  .cn-video-player-seek-played {
+    @apply bg-white;
+  }
+
+  .cn-video-player-seek-thumb {
+    @apply size-(--density-12) rounded-full bg-white shadow-surface-2 data-[dragging=true]:size-(--density-16);
+  }
+
+  /* While dragging: the time under the finger, with its chapter, on dark
+     glass above it. */
+  .cn-video-player-seek-preview {
+    @apply mb-(--density-8) rounded-md bg-black/75 px-(--density-8) py-(--density-4);
+  }
+
+  .cn-video-player-seek-preview-chapter {
+    @apply text-(length:--density-text-11) text-white/70;
+  }
+
+  .cn-video-player-seek-preview-text {
+    @apply text-(length:--density-text-12) font-medium text-white;
+  }
+
+  .cn-video-player-volume {
+    @apply gap-0;
+  }
+
+  .cn-video-player-time {
+    @apply px-(--density-6) text-(length:--density-text-13) font-medium text-white data-[variant=compact]:text-(length:--density-text-12);
+  }
+
+  .cn-video-player-time-separator {
+    @apply text-white/60;
+  }
+
+  .cn-video-player-chapter {
+    @apply ps-(--density-4) text-(length:--density-text-13) text-white/70;
+  }
+
+  /* Settings is a bottom sheet in the theme's colours: rows like a menu's,
+     the current value muted, a check on the chosen one. */
+  .cn-video-player-menu {
+    @apply gap-(--density-4) px-(--density-8) pb-(--density-16);
+  }
+
+  .cn-video-player-menu-item {
+    @apply h-(--density-36) gap-(--density-8) rounded-lg px-(--density-8) active:bg-hover;
+  }
+
+  .cn-video-player-menu-item-text {
+    @apply text-(length:--density-text-13) text-foreground;
+  }
+
+  .cn-video-player-menu-value {
+    @apply text-muted-foreground;
+  }
+
+  .cn-video-player-menu-check {
+    @apply size-(--density-icon-16);
+  }
+
+  .cn-video-player-menu-separator {
+    @apply my-(--density-4) h-px bg-border;
   }
 
 /* MARK: Workspace Switcher */

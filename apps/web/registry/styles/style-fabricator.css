@@ -3444,6 +3444,156 @@
     @apply data-selected:translate-x-(--density-14) not-data-selected:translate-x-0 group-data-hovered/switch:not-data-selected:before:-right-0.5 group-data-hovered/switch:data-selected:before:-left-0.5 group-data-pressed/switch:not-data-selected:before:-right-1 group-data-pressed/switch:data-selected:before:-left-1 group-data-pressed/switch:before:inset-y-0.5 data-selected:before:bg-primary-foreground;
   }
 
+/* MARK: Syntax Highlight */
+
+  /* A raised panel one step up the ladder (surface 2, like the docs' code
+     blocks) with a hairline ring, rounded-xl like Card. The colours come
+     from the foundations' --syntax-* tokens (syntax-colors.ts), which follow
+     the colour roles and the surface tint. */
+  .cn-syntax-highlight {
+    @apply bg-surface-2 text-foreground ring-border/60 rounded-xl ring-1;
+  }
+
+  /* The title bar: the file's icon and name, then its language and Copy at
+     the end. A hairline separates it from the code. */
+  .cn-syntax-highlight-header {
+    @apply border-border/60 text-muted-foreground h-(--density-36) gap-(--density-8) border-b ps-(--density-12) pe-(--density-4) text-(length:--density-text-12);
+  }
+
+  .cn-syntax-highlight-icon {
+    @apply [&_svg]:stroke-[1.75] [&_svg:not([class*='size-'])]:size-(--density-icon-14);
+  }
+
+  .cn-syntax-highlight-title {
+    @apply text-foreground flex-1 font-medium;
+  }
+
+  .cn-syntax-highlight-language {
+    @apply text-muted-foreground;
+  }
+
+  /* Ghost icon button, quieter until hovered. The icon swaps to a check for
+     two seconds once the code is on the clipboard. */
+  .cn-syntax-highlight-copy {
+    @apply text-muted-foreground hover:text-foreground data-copied:text-success-text;
+  }
+
+  .cn-syntax-highlight-copy-icon {
+    @apply animate-in fade-in-0 zoom-in-75 duration-feedback ease-enter motion-reduce:zoom-in-100;
+  }
+
+  /* The code scrolls both ways inside the panel and fades at the top and
+     bottom edges while there is more. 14px mono on a relaxed line height;
+     wrapping breaks anywhere so a long URL can't push the panel wider. */
+  .cn-syntax-highlight-content {
+    @apply scroll-fade-y py-(--density-12) font-mono text-(length:--density-text-14) leading-relaxed focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-inset data-wrap:whitespace-pre-wrap;
+  }
+
+  .cn-syntax-highlight-code {
+    @apply w-max min-w-full in-data-wrap:w-full;
+  }
+
+  /* Lines carry a 2px start edge, clear until the line is marked (14 of
+     padding after it lines the code up with an unmarked panel's 16):
+     highlighted lines take the active fill and a foreground edge, added and
+     removed lines their status's soft fill and edge. */
+  .cn-syntax-highlight-line {
+    @apply gap-(--density-16) border-s-2 border-transparent ps-(--density-14) pe-(--density-16) data-highlighted:bg-active data-highlighted:border-foreground/40 data-[diff=inserted]:bg-success/12 data-[diff=inserted]:border-success data-[diff=deleted]:bg-destructive/12 data-[diff=deleted]:border-destructive;
+  }
+
+  /* Numbers sit in a column as wide as the last one, in the comment colour,
+     and brighten on a marked line. */
+  .cn-syntax-highlight-line-number {
+    @apply text-syntax-comment w-(--syntax-highlight-gutter) tabular-nums in-data-highlighted:text-foreground in-data-[diff=inserted]:text-success-text in-data-[diff=deleted]:text-destructive-text;
+  }
+
+  .cn-syntax-highlight-line-content {
+    @apply in-data-wrap:wrap-anywhere;
+  }
+
+  /* MARK: Syntax Highlight tokens */
+
+  /* One colour per kind, from the six syntax colours and two neutrals.
+     Comments recede in italic; markdown keeps its weight and slant. */
+  .cn-syntax-highlight-token-comment {
+    @apply text-syntax-comment italic;
+  }
+
+  .cn-syntax-highlight-token-keyword {
+    @apply text-syntax-keyword;
+  }
+
+  .cn-syntax-highlight-token-string {
+    @apply text-syntax-string;
+  }
+
+  .cn-syntax-highlight-token-constant {
+    @apply text-syntax-constant;
+  }
+
+  .cn-syntax-highlight-token-function {
+    @apply text-syntax-function;
+  }
+
+  .cn-syntax-highlight-token-type {
+    @apply text-syntax-type;
+  }
+
+  .cn-syntax-highlight-token-tag {
+    @apply text-syntax-tag;
+  }
+
+  /* Attributes read as values a tag is set to, in the constant colour. */
+  .cn-syntax-highlight-token-attribute {
+    @apply text-syntax-constant;
+  }
+
+  /* Keys (JSON, YAML, CSS properties) in the function colour. */
+  .cn-syntax-highlight-token-property {
+    @apply text-syntax-function;
+  }
+
+  /* Shell and PHP variables, like tags, stand out from the words around. */
+  .cn-syntax-highlight-token-variable {
+    @apply text-syntax-tag;
+  }
+
+  .cn-syntax-highlight-token-regex {
+    @apply text-syntax-type;
+  }
+
+  .cn-syntax-highlight-token-operator {
+    @apply text-syntax-punctuation;
+  }
+
+  .cn-syntax-highlight-token-punctuation {
+    @apply text-syntax-punctuation;
+  }
+
+  .cn-syntax-highlight-token-inserted {
+    @apply text-success-text;
+  }
+
+  .cn-syntax-highlight-token-deleted {
+    @apply text-destructive-text;
+  }
+
+  .cn-syntax-highlight-token-heading {
+    @apply text-syntax-keyword font-semibold;
+  }
+
+  .cn-syntax-highlight-token-link {
+    @apply text-syntax-function underline underline-offset-2;
+  }
+
+  .cn-syntax-highlight-token-strong {
+    @apply font-semibold;
+  }
+
+  .cn-syntax-highlight-token-emphasis {
+    @apply italic;
+  }
+
 /* MARK: Tab Strip */
 
   /* A 40px row of document tabs on the surface it sits on. `sm` pins it to
@@ -3894,6 +4044,202 @@
 
   .cn-user-menu-label {
     @apply gap-(--density-8) px-(--density-8) py-(--density-6) font-normal text-foreground;
+  }
+
+/* MARK: Video Player */
+
+  /* The picture on black, rounded like a card (square in full screen). The
+     chrome over it is white on black scrims whatever the theme: it sits on
+     arbitrary footage, which no theme token stays legible on (see Known
+     deviations). The cursor hides with the controls. Compact steps down to
+     the compact density and smaller corners. */
+  .cn-video-player {
+    @apply aspect-video rounded-xl bg-black text-white text-(length:--density-text-13) focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background data-fullscreen:rounded-none data-[controls=hidden]:cursor-none data-[variant=compact]:density-compact data-[variant=compact]:rounded-lg;
+  }
+
+  .cn-video-player-video {
+    @apply bg-black object-contain;
+  }
+
+  /* Clicks on the picture play and pause; a double click goes full screen. */
+  .cn-video-player-surface {
+    @apply cursor-pointer group-data-[controls=hidden]/video-player:cursor-none;
+  }
+
+  /* The title fades with the controls, over a scrim of its own. */
+  .cn-video-player-header {
+    @apply bg-linear-to-b from-black/60 to-transparent px-(--density-16) pt-(--density-14) pb-(--density-28) transition-opacity duration-move ease-move group-data-[controls=hidden]/video-player:opacity-0;
+  }
+
+  .cn-video-player-title {
+    @apply text-(length:--density-text-14) font-medium text-white;
+  }
+
+  .cn-video-player-center {
+    @apply gap-(--density-8);
+  }
+
+  /* The middle of the picture: a 64px round play button on dark glass (48px
+     in compact), the play and pause glyphs filled and play nudged right to
+     look centred. In the default variant it shows with the controls, as
+     pause while playing, and fades with them; compact only shows it before
+     the first play and at the end. */
+  .cn-video-player-transport {
+    @apply transition-opacity duration-move ease-move group-data-[controls=hidden]/video-player:opacity-0 group-data-[controls=hidden]/video-player:[&_button]:pointer-events-none;
+  }
+
+  .cn-video-player-play {
+    @apply size-[calc(var(--density-48)+var(--density-16))] cursor-pointer rounded-full bg-black/45 text-white ring-1 ring-white/15 backdrop-blur-md transition-[background-color,scale] duration-feedback ease-feedback motion-press animate-in fade-in-0 hover:bg-black/60 focus-visible:ring-2 focus-visible:ring-white [&_svg]:size-(--density-28) [&_svg]:stroke-[1.5] data-[action=pause]:[&_svg]:fill-current data-[action=play]:[&_svg]:ms-0.5 data-[action=play]:[&_svg]:fill-current group-data-[variant=compact]/video-player:size-(--density-48) group-data-[variant=compact]/video-player:[&_svg]:size-(--density-20);
+  }
+
+  .cn-video-player-spinner {
+    @apply size-(--density-32) text-white;
+  }
+
+  .cn-video-player-error {
+    @apply max-w-xs gap-(--density-8) px-(--density-16) text-(length:--density-text-13) text-white/80 [&_svg]:size-(--density-24) [&_svg]:text-white [&_svg]:stroke-[1.5];
+  }
+
+  /* A play or pause from a click or a key answers in the centre and fades on
+     the sheet timing. Reduced motion leaves it out: the button already
+     changed. */
+  .cn-video-player-flash {
+    @apply size-[calc(var(--density-48)+var(--density-8))] rounded-full bg-black/45 text-white animate-out fade-out-0 fill-mode-forwards duration-sheet ease-exit motion-reduce:hidden [&_svg]:size-(--density-24) [&_svg]:fill-current;
+  }
+
+  /* Captions are drawn by the player: 16px medium text on a 75% black band,
+     clear of the controls while they show (they move up on the move timing),
+     larger in full screen. */
+  .cn-video-player-captions {
+    @apply bottom-(--density-16) px-(--density-16) transition-transform duration-move ease-move group-data-[controls=visible]/video-player:-translate-y-[calc(var(--density-48)+var(--density-24))] group-data-[variant=compact]/video-player:group-data-[controls=visible]/video-player:-translate-y-(--density-32);
+  }
+
+  .cn-video-player-cue {
+    @apply max-w-[80%] rounded-md bg-black/75 px-(--density-8) py-(--density-4) text-(length:--density-text-16) leading-snug font-medium text-white box-decoration-clone group-data-fullscreen/video-player:text-[clamp(1.25rem,2.5vw,2rem)] group-data-[variant=compact]/video-player:text-(length:--density-text-13);
+  }
+
+  /* The controls sit on a scrim that rises from the bottom edge, and fade
+     with it on the move timing while a video plays untouched. A control that
+     takes focus brings them back. A video that can't play has none. */
+  .cn-video-player-controls {
+    @apply gap-(--density-4) bg-linear-to-t from-black/70 via-black/30 to-transparent px-(--density-12) pt-(--density-40) pb-(--density-8) transition-opacity duration-move ease-move group-data-[controls=hidden]/video-player:pointer-events-none group-data-[controls=hidden]/video-player:opacity-0 group-data-[status=error]/video-player:hidden group-data-[variant=compact]/video-player:px-(--density-6) group-data-[variant=compact]/video-player:pt-(--density-24) group-data-[variant=compact]/video-player:pb-(--density-6);
+  }
+
+  .cn-video-player-bar {
+    @apply gap-(--density-4);
+  }
+
+  /* Round icon buttons, white at 90% and full on hover; a glass of white at
+     15% on hover, press and while a menu is open. The play glyphs are filled.
+     Pressed captions add a short bar under the icon; settings turn a little
+     while open. */
+  .cn-video-player-control {
+    @apply size-(--density-36) cursor-pointer rounded-full text-white/90 transition-[background-color,color] duration-feedback ease-feedback motion-press hover:bg-white/15 hover:text-white focus-visible:ring-1 focus-visible:ring-white/80 aria-expanded:bg-white/15 aria-pressed:text-white aria-pressed:after:absolute aria-pressed:after:bottom-(--density-6) aria-pressed:after:h-0.5 aria-pressed:after:w-(--density-14) aria-pressed:after:rounded-full aria-pressed:after:bg-white [&_svg]:size-(--density-20) [&_svg]:stroke-[1.75] data-[control=play]:[&_svg]:fill-current data-[control=settings]:[&_svg]:transition-transform data-[control=settings]:[&_svg]:duration-move data-[control=settings]:[&_svg]:ease-move data-[control=settings]:aria-expanded:[&_svg]:rotate-45 group-data-[variant=compact]/video-player:[&_svg]:size-(--density-icon-16);
+  }
+
+  /* The seek bar: a 6px pill drawn at 60% height that grows to full on hover,
+     focus or a drag (on the move timing), with what has loaded at 30% white,
+     where the pointer is at 30%, and what has played in white. Chapters cut
+     2px gaps into it. The thumb appears with the grown track. */
+  .cn-video-player-seek {
+    @apply h-(--density-16) cursor-pointer aria-disabled:cursor-default group-data-[variant=compact]/video-player:mx-(--density-6) group-data-[variant=compact]/video-player:h-(--density-28);
+  }
+
+  .cn-video-player-seek-track {
+    @apply h-(--density-6) scale-y-[0.6] rounded-full bg-white/25 transition-transform duration-move ease-move group-hover/video-player-seek:scale-y-100 group-focus-visible/video-player-seek:scale-y-100 group-active/video-player-seek:scale-y-100;
+  }
+
+  .cn-video-player-seek-buffered {
+    @apply bg-white/30;
+  }
+
+  .cn-video-player-seek-hover {
+    @apply bg-white/30;
+  }
+
+  .cn-video-player-seek-played {
+    @apply bg-white;
+  }
+
+  .cn-video-player-seek-thumb {
+    @apply size-(--density-12) scale-0 rounded-full bg-white shadow-[0_1px_3px_rgb(0_0_0/0.4)] transition-transform duration-move ease-move group-hover/video-player-seek:scale-100 group-focus-visible/video-player-seek:scale-100 group-focus-visible/video-player-seek:ring-4 group-focus-visible/video-player-seek:ring-white/35 group-active/video-player-seek:scale-100;
+  }
+
+  /* The time under the pointer, with its chapter, on dark glass above it. */
+  .cn-video-player-seek-preview {
+    @apply mb-(--density-8) gap-0.5 rounded-md bg-black/75 px-(--density-8) py-(--density-4) text-(length:--density-text-12) font-medium text-white backdrop-blur-md;
+  }
+
+  .cn-video-player-seek-preview-chapter {
+    @apply text-(length:--density-text-11) text-white/70;
+  }
+
+  .cn-video-player-volume {
+    @apply gap-0;
+  }
+
+  /* The volume slider opens beside its button on hover, on focus and while a
+     volume shortcut is in use, its width on the move timing (the one width
+     animation here, as Search's), and stays closed on touch, where the device
+     sets the volume. */
+  .cn-video-player-volume-slider {
+    @apply group-data-volume-changing/video-player:me-(--density-8) group-data-volume-changing/video-player:w-[calc(var(--density-48)+var(--density-16))] group-data-volume-changing/video-player:opacity-100 h-(--density-28) w-0 cursor-pointer opacity-0 transition-[width,opacity,margin] duration-move ease-move group-focus-within/video-player-volume:me-(--density-8) group-focus-within/video-player-volume:w-[calc(var(--density-48)+var(--density-16))] group-focus-within/video-player-volume:opacity-100 group-hover/video-player-volume:me-(--density-8) group-hover/video-player-volume:w-[calc(var(--density-48)+var(--density-16))] group-hover/video-player-volume:opacity-100 focus-visible:[&_[data-slot=video-player-volume-thumb]]:ring-4 focus-visible:[&_[data-slot=video-player-volume-thumb]]:ring-white/35;
+  }
+
+  /* A volume change answers over the volume knob, in the seek preview's
+     bubble and at its height: the percentage (or Muted) on dark glass, at a
+     fixed width so it never jitters, following the knob. Compact has no
+     slider, so it sits over the mute button. It fades in rising 4px on the
+     feedback timing, and fades out a second after the last change. */
+  .cn-video-player-volume-readout {
+    @apply bottom-[calc(100%+var(--density-4)+var(--density-16)+var(--density-8))] left-[calc(var(--density-36)+var(--video-player-volume)*(var(--density-48)+var(--density-16)))] min-w-[6ch] translate-y-1 rounded-md bg-black/75 px-(--density-8) py-(--density-4) text-(length:--density-text-12) font-medium text-white opacity-0 backdrop-blur-md transition-[opacity,translate] duration-feedback-exit ease-exit data-visible:translate-y-0 data-visible:opacity-100 data-visible:duration-feedback data-visible:ease-enter motion-reduce:translate-y-0 group-data-[variant=compact]/video-player:bottom-full group-data-[variant=compact]/video-player:left-[calc(var(--density-36)/2)] group-data-[variant=compact]/video-player:mb-(--density-8);
+  }
+
+  .cn-video-player-volume-track {
+    @apply h-(--density-4) rounded-full bg-white/30;
+  }
+
+  .cn-video-player-volume-level {
+    @apply bg-white;
+  }
+
+  .cn-video-player-volume-thumb {
+    @apply size-(--density-12) rounded-full bg-white shadow-[0_1px_3px_rgb(0_0_0/0.4)];
+  }
+
+  .cn-video-player-time {
+    @apply px-(--density-6) text-(length:--density-text-13) font-medium whitespace-nowrap text-white group-data-[variant=compact]/video-player:text-(length:--density-text-12);
+  }
+
+  .cn-video-player-time-separator {
+    @apply text-white/60;
+  }
+
+  .cn-video-player-chapter {
+    @apply ps-(--density-4) text-(length:--density-text-13) text-white/70;
+  }
+
+  /* Settings: dark glass above the bar's end, 224px wide, rows like a menu's
+     (32px, white at 10% on hover and focus), never taller than the player
+     above the bar. It fades and rises in on the popup timing. */
+  .cn-video-player-menu {
+    @apply end-(--density-12) bottom-[calc(var(--density-36)+var(--density-16)+var(--density-16))] max-h-[calc(100%-var(--density-36)-var(--density-16)-var(--density-16)-var(--density-12))] min-w-56 overflow-y-auto rounded-xl bg-black/75 p-(--density-4) text-(length:--density-text-13) text-white ring-1 ring-white/10 backdrop-blur-xl animate-in fade-in-0 slide-in-from-bottom-1 duration-popup ease-enter motion-reduce:slide-in-from-bottom-0;
+  }
+
+  .cn-video-player-menu-item {
+    @apply h-(--density-32) shrink-0 cursor-pointer gap-(--density-8) rounded-lg px-(--density-8) text-white/90 transition-colors duration-feedback ease-feedback hover:bg-white/10 hover:text-white focus-visible:bg-white/10 focus-visible:text-white aria-checked:text-white data-back:font-medium [&_svg]:size-(--density-icon-16) [&_svg]:shrink-0 [&_svg]:stroke-[1.5];
+  }
+
+  .cn-video-player-menu-value {
+    @apply text-white/60;
+  }
+
+  .cn-video-player-menu-check {
+    @apply size-(--density-icon-16);
+  }
+
+  .cn-video-player-menu-separator {
+    @apply -mx-(--density-4) my-(--density-4) h-px shrink-0 bg-white/10;
   }
 
 /* MARK: Workspace Switcher */

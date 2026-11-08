@@ -14,3 +14,5 @@ Fabricator Icons (`packages/icons*`) vendors the outline icons of [Lucide](https
 The React Native components (`apps/web/registry/native`) are built on [RN Primitives](https://github.com/roninoss/rn-primitives) (MIT) and style themselves with [Uniwind](https://github.com/uni-stack/uniwind) (MIT). [React Native Reusables](https://github.com/founded-labs/react-native-reusables) (MIT) was the reference for how shadcn's patterns translate to React Native.
 
 The Color Picker (`registry/fabricator/*/ui/color-picker.tsx`, `registry/fabricator/shared/lib/color-model.ts`) is adapted from the Color Picker of [Fluid Functionalism](https://www.fluidfunctionalism.com) (MIT License, Copyright (c) 2026 Micka Touillaud).
+
+The Video Player's demo clip (`apps/web/public/media/sintel-trailer.*`) is the trailer for [Sintel](https://durian.blender.org), Copyright (c) Blender Foundation, used under [CC BY 3.0](https://creativecommons.org/licenses/by/3.0/). It is re-encoded, with a poster frame taken from it and captions transcribed from its dialogue, with a Portuguese translation.

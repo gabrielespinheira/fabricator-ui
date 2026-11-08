@@ -8,6 +8,7 @@ const TOKEN_MODULES: Record<string, string> = {
   "css-object": "css-object",
   "surface-tint": "surface-tint",
   "color-roles": "color-roles",
+  "syntax-colors": "syntax-colors",
   density: "density-scale",
   "density-variables": "density-variables",
   motion: "motion-speeds",
@@ -32,6 +33,8 @@ const SHARED_LIB_FILES = [
   "month-input-model",
   "sidebar-model",
   "sound-recipes",
+  "syntax-highlight-model",
+  "video-player-model",
 ] as const
 
 /**

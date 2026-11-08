@@ -1,0 +1,232 @@
+---
+title: Video Player
+description: A video with its own controls over the picture, and a compact variant for cards and feeds.
+base: base
+component: true
+---
+
+<ComponentPreview
+  styleName="base-nova"
+  name="video-player-demo"
+  previewClassName="h-auto"
+/>
+
+The controls sit over the picture and stay there in full screen. In the middle, play or pause. Along the bottom, a seek bar that shows what has loaded, the chapters and the time under the pointer; then play, volume, the time and the current chapter; captions; a settings menu for speed and the captions language; picture in picture and full screen. While a video plays and the pointer rests, the controls and the cursor fade away.
+
+Video Player is part of the Fabricator style. It's built on the HTML `<video>` element, so the same component ships for every base.
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">Command</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx fabricator-ui@latest add video-player
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps className="mb-0 pt-2">
+
+<Step>Install the [Spinner](/docs/components/base/spinner).</Step>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  src="styles/base-fabricator/lib/video-player-model.ts"
+  title="lib/video-player-model.ts"
+  styleName="base-nova"
+/>
+
+<ComponentSource
+  src="styles/base-fabricator/ui/video-player.tsx"
+  title="components/ui/video-player.tsx"
+  styleName="base-nova"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { VideoPlayer } from "@/components/ui/video-player"
+```
+
+```tsx
+<VideoPlayer
+  src="/media/launch.mp4"
+  poster="/media/launch.jpg"
+  title="Launch film"
+/>
+```
+
+The player is 16:9 by default. Give it a width (`className="w-full max-w-2xl"`), or another ratio with `aspect-*`. The settings menu never grows taller than the player.
+
+## Examples
+
+### Compact
+
+`variant="compact"` keeps play, a slim seek bar, the time left, mute and full screen on one row, at the compact density. The title names the player for screen readers but isn't shown. Chapters, the volume slider, settings and picture in picture are left out.
+
+<ComponentPreview
+  styleName="base-nova"
+  name="video-player-compact"
+  previewClassName="h-auto"
+/>
+
+### Captions
+
+Pass WebVTT files as `tracks`. The player draws the captions itself, so they keep clear of the controls and look the same in every browser. `default: true` turns a track on from the start; the captions button and C turn them on and off, and the settings menu picks the language. Tracks must be same-origin, or served with CORS.
+
+<ComponentPreview
+  styleName="base-nova"
+  name="video-player-captions"
+  previewClassName="h-auto"
+/>
+
+### Chapters
+
+`chapters` cuts the seek bar into segments, one per chapter, from each `start` in seconds. The time preview and the control bar name the chapter. `playbackRates` sets the speeds in the settings menu.
+
+<ComponentPreview
+  styleName="base-nova"
+  name="video-player-chapters"
+  previewClassName="h-auto"
+/>
+
+### Autoplay
+
+Browsers only play a video on their own when it's muted, so pass `muted` with `autoPlay`. With `loop` it suits an ambient clip.
+
+<ComponentPreview
+  styleName="base-nova"
+  name="video-player-autoplay"
+  previewClassName="h-auto"
+/>
+
+### Error
+
+A source that fails to load shows a message in place of the controls.
+
+<ComponentPreview
+  styleName="base-nova"
+  name="video-player-error"
+  previewClassName="h-auto"
+/>
+
+## Keyboard shortcuts
+
+They work while focus is anywhere in the player. Click the picture to focus it.
+
+| Key           | Does                           |
+| ------------- | ------------------------------ |
+| Space, K      | Play or pause                  |
+| ← / →         | Back or forward 5 seconds      |
+| J / L         | Back or forward 10 seconds     |
+| ↑ / ↓         | Volume up or down 5%           |
+| M             | Mute or unmute                 |
+| F             | Full screen                    |
+| C             | Captions on or off             |
+| 0 to 9        | Jump to 0% to 90% of the video |
+| Home / End    | Jump to the start or the end   |
+| Shift + < / > | Slower or faster               |
+
+↑ and ↓ set the volume wherever focus is in the player, the seek bar included, and the volume slider opens with the level over its knob (over the mute button in compact). On a focused button, Space and Enter press the button. The seek bar takes ← and →, Page Up, Page Down, Home and End for itself; the volume slider takes every arrow.
+
+## Motion
+
+- The controls, the title and their scrims fade on the move timing (`duration-move ease-move`, 250ms at the default [speed](/docs/foundations/motion)), 2.5 seconds after the pointer last moved while the video plays.
+- The seek bar grows from 60% to its full height on hover, focus or a drag, and its thumb appears with it, on the move timing.
+- The volume slider opens beside its button on the move timing. Its width animates, as Search's does.
+- A volume change from a key or the slider fades the level in over the volume knob, rising 4px on the feedback timing, at the seek preview's height; it fades out a second after the last change.
+- Play and pause in the middle fade with the controls. In compact, a play or pause from a click or a key answers with the icon in the centre, fading on the sheet timing.
+- The settings menu fades and rises in on the popup timing.
+- With reduced motion, the centre icon and the menu's rise are left out.
+
+## API Reference
+
+### VideoPlayer
+
+All other props go to the root `<div>`.
+
+| Prop              | Type                           | Default                                    |
+| ----------------- | ------------------------------ | ------------------------------------------ |
+| `src`             | `string`                       | required                                   |
+| `poster`          | `string`                       | -                                          |
+| `title`           | `string`                       | -                                          |
+| `variant`         | `"default" \| "compact"`       | `"default"`                                |
+| `tracks`          | `VideoPlayerTrack[]`           | `[]`                                       |
+| `chapters`        | `VideoPlayerChapter[]`         | `[]`                                       |
+| `playbackRates`   | `number[]`                     | `[0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2]` |
+| `autoPlay`        | `boolean`                      | `false`                                    |
+| `muted`           | `boolean`                      | `false`                                    |
+| `loop`            | `boolean`                      | `false`                                    |
+| `onPlayingChange` | `(isPlaying: boolean) => void` | -                                          |
+| `onEnded`         | `() => void`                   | -                                          |
+
+`title` names the player for screen readers ("Video player" without one) and shows over the top of the default variant.
+
+### VideoPlayerTrack
+
+| Field     | Type                        | Default      |
+| --------- | --------------------------- | ------------ |
+| `src`     | `string`                    | required     |
+| `srcLang` | `string`                    | required     |
+| `label`   | `string`                    | required     |
+| `kind`    | `"captions" \| "subtitles"` | `"captions"` |
+| `default` | `boolean`                   | `false`      |
+
+### VideoPlayerChapter
+
+| Field   | Type     | Description                  |
+| ------- | -------- | ---------------------------- |
+| `start` | `number` | Where it starts, in seconds  |
+| `title` | `string` | Shown in the preview and bar |
+
+### Data attributes
+
+| Attribute                                 | Element                        | Values or present when                                                                          |
+| ----------------------------------------- | ------------------------------ | ----------------------------------------------------------------------------------------------- |
+| `data-slot="video-player"`                | root                           | always                                                                                          |
+| `data-variant`                            | root                           | `default`, `compact`                                                                            |
+| `data-status`                             | root                           | `idle`, `playing`, `paused`, `buffering`, `ended`, `error`                                      |
+| `data-controls`                           | root                           | `visible`, `hidden`                                                                             |
+| `data-fullscreen`                         | root                           | the player is in full screen                                                                    |
+| `data-slot="video-player-video"`          | the `<video>`                  | always                                                                                          |
+| `data-slot="video-player-transport"`      | play and pause in the middle   | default variant once started; compact before the first play and at the end                      |
+| `data-slot="video-player-controls"`       | the scrim with the controls    | always                                                                                          |
+| `data-slot="video-player-seek"`           | the seek slider                | always                                                                                          |
+| `data-slot="video-player-control"`        | each control button            | with `data-control`: `play`, `mute`, `captions`, `settings`, `picture-in-picture`, `fullscreen` |
+| `data-slot="video-player-volume-slider"`  | the volume slider              | default variant                                                                                 |
+| `data-slot="video-player-volume-readout"` | the level over the volume knob | always, with `data-visible` for a second after a volume change                                  |
+| `data-volume-changing`                    | root                           | the volume readout is showing                                                                   |
+| `data-slot="video-player-captions"`       | the caption band               | a cue is showing                                                                                |
+| `data-slot="video-player-menu"`           | the settings menu              | open, with `data-view`: `main`, `speed`, `captions`                                             |
+
+## Accessibility
+
+- The root is a region named by `title`. Every control is a button with a name ("Play", "Mute", "Full screen", …) that follows its state, and `aria-keyshortcuts` with its key.
+- The seek bar and the volume are WAI-ARIA sliders. The seek bar leaves ↑ and ↓ to the player's volume, as video players do. The seek bar's value is spoken as "1 minute 5 seconds of 4 minutes"; the volume's as a percentage, or "Muted".
+- The captions button is a toggle with `aria-pressed`.
+- Settings is a menu button (`aria-haspopup`, `aria-expanded`, `aria-controls`). In the menu, ↑ and ↓ move, Enter, Space or → open a page or pick, ← and Escape go back a page, and Escape on the first page closes it and returns focus to the button. The speeds and languages are `menuitemradio` items with `aria-checked`.
+- The menu is drawn inside the player, so it works in full screen.
+- Controls that take focus bring the hidden controls back, so keyboard users never tab into an invisible control.
+- On touch, the first tap on the picture shows the controls and the next one plays or pauses.
+- A source that fails shows its message in a `role="alert"`.
+- The volume readout is a `role="status"`, so a screen reader hears "Volume 60%" after a shortcut.
+- The controls are white on black scrims in either theme, since they sit over footage. White text over the scrims meets AA on all but the brightest frames; captions sit on a 75% black band.
+
+The demo video is the trailer for [Sintel](https://durian.blender.org), © Blender Foundation, [CC BY 3.0](https://creativecommons.org/licenses/by/3.0/).
