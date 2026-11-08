@@ -106,6 +106,7 @@ FileUpload                 the files, the checks and a hidden <input type="file"
 │   ├── FileUploadMedia    the icon tile (an upload icon by default)
 │   ├── FileUploadTitle
 │   └── FileUploadDescription
+├── FileUploadField        an Input-sized field: the picked files as chips, drops too
 ├── FileUploadTrigger      a Button that opens the picker, for a compact control
 └── FileUploadList
     └── FileUploadItem     an Attachment for one file
@@ -115,9 +116,15 @@ FileUpload                 the files, the checks and a hidden <input type="file"
             └── FileUploadItemDelete
 ```
 
-Use a dropzone, a trigger or both. Every part reads the root through context, so they can sit anywhere inside it. `FileUploadItem` takes every Attachment prop (`state`, `size`, `orientation`), so a row can show an upload's progress. For parts of your own, `useFileUpload()` returns the files and `openPicker`, `addFiles`, `removeFile` and `clearFiles`.
+Use a dropzone, a field, a trigger, or a mix. Every part reads the root through context, so they can sit anywhere inside it. `FileUploadItem` takes every Attachment prop (`state`, `size`, `orientation`), so a row can show an upload's progress. For parts of your own, `useFileUpload()` returns the files and `openPicker`, `addFiles`, `removeFile` and `clearFiles`.
 
 ## Examples
+
+### Field
+
+`FileUploadField` sits in a form like any other field: the Input frame, 36px tall, with a placeholder that opens the picker. It keeps an Input's height whatever it holds: picked files show inside it as chips with a picture or icon, a short name and a remove button, on one row that scrolls sideways under faded edges, and a new file scrolls into view. The size is in each chip's tooltip. A plus button at the end of the row adds more, named Add files (Replace file without `multiple`). Drop files on it too: while they're over it, it lifts to the card surface and says what a drop does.
+
+<ComponentPreview styleName="base-nova" name="file-upload-field" />
 
 ### Image
 
@@ -209,6 +216,16 @@ All other props go to the root `<div>`.
 
 A `<div>` with `role="button"`. Takes every `<div>` prop, including `aria-invalid` and `aria-label`.
 
+### FileUploadField
+
+A `<div>` frame and drop target holding the chips and a `<button>` that opens the picker. `id` and `aria-describedby` go to that button, so a `FieldLabel` with `htmlFor` names it.
+
+| Prop           | Type               | Default                                                                |
+| -------------- | ------------------ | ---------------------------------------------------------------------- |
+| `placeholder`  | `string`           | `"Choose a file or drop it here"` (`"Choose files or drop them here"`) |
+| `aria-invalid` | `boolean`          | -                                                                      |
+| ...            | every `<div>` prop | -                                                                      |
+
 ### FileUploadTrigger
 
 A `<button>` drawn as a Button.
@@ -237,21 +254,28 @@ A `<button>` drawn as a ghost `icon-xs` Button, named "Remove" and the file's na
 
 ### Data attributes
 
-| Attribute                             | Element            | Present when              |
-| ------------------------------------- | ------------------ | ------------------------- |
-| `data-slot="file-upload"`             | root               | always                    |
-| `data-dragging`                       | root, dropzone     | files are dragged over it |
-| `data-disabled`                       | root, dropzone     | `disabled`                |
-| `data-slot="file-upload-dropzone"`    | the drop zone      | always                    |
-| `data-slot="file-upload-trigger"`     | the trigger button | always                    |
-| `data-slot="file-upload-list"`        | the list           | always                    |
-| `data-slot="file-upload-item"`        | a row              | always                    |
-| `data-slot="file-upload-item-delete"` | a row's delete     | always                    |
+| Attribute                              | Element               | Present when              |
+| -------------------------------------- | --------------------- | ------------------------- |
+| `data-slot="file-upload"`              | root                  | always                    |
+| `data-dragging`                        | root, dropzone, field | files are dragged over it |
+| `data-disabled`                        | root, dropzone, field | `disabled`                |
+| `data-filled`                          | field                 | a file is picked          |
+| `data-invalid`                         | field                 | `aria-invalid`            |
+| `data-slot="file-upload-dropzone"`     | the drop zone         | always                    |
+| `data-slot="file-upload-field"`        | the field             | always                    |
+| `data-slot="file-upload-field-browse"` | the field's button    | always                    |
+| `data-slot="file-upload-chip"`         | a file in the field   | always                    |
+| `data-slot="file-upload-chip-remove"`  | a chip's remove       | always                    |
+| `data-slot="file-upload-trigger"`      | the trigger button    | always                    |
+| `data-slot="file-upload-list"`         | the list              | always                    |
+| `data-slot="file-upload-item"`         | a row                 | always                    |
+| `data-slot="file-upload-item-delete"`  | a row's delete        | always                    |
 
 ## Motion
 
 - Hover and drag-over change the fill and the edge on the feedback timing (`duration-feedback ease-feedback`).
 - During a drag, the icon tile rises a step on the move timing. With reduced motion it stays still.
+- Over the field, a drag lifts it to the card surface, firms its ring and grows it a hair on the move timing, while the drop message fades in and its arrow drops into place. A new chip rises and fades in on the feedback timing. With reduced motion the field doesn't grow and nothing moves.
 
 ## Accessibility
 
@@ -259,5 +283,6 @@ A `<button>` drawn as a ghost `icon-xs` Button, named "Remove" and the file's na
 - The real `<input type="file">` is hidden and left out of the tab order, so focus never lands twice. A `FieldLabel` with `htmlFor` set to `inputId` opens the picker on click.
 - Dropping is a shortcut, never the only way: everything a drop does, the picker does too.
 - Rejections belong in a `FieldError` (`role="alert"`, so it's announced), with `aria-invalid` and `aria-describedby` on the dropzone.
+- The field's button carries its `id`, so a `FieldLabel` names it and clicking the label opens the picker. Each chip's remove button is named after the file.
 - Each row is a list item. Its delete button is named after the file, and removing a row moves focus to the next row's delete button, or back to the dropzone when the list is empty.
 - Disabled, the dropzone leaves the tab order and reports `aria-disabled`, and drops are refused.

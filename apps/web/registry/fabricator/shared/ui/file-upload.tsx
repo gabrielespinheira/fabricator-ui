@@ -253,12 +253,12 @@ function FileUpload({
     if (index === null || !root) return
     pendingFocusIndexRef.current = null
     const buttons = root.querySelectorAll<HTMLElement>(
-      "[data-slot=file-upload-item-delete]"
+      "[data-slot=file-upload-item-delete], [data-slot=file-upload-chip-remove]"
     )
     const target =
       buttons[Math.min(index, buttons.length - 1)] ??
       root.querySelector<HTMLElement>(
-        "[data-slot=file-upload-dropzone], [data-slot=file-upload-trigger]"
+        "[data-slot=file-upload-field-browse], [data-slot=file-upload-dropzone], [data-slot=file-upload-trigger]"
       )
     target?.focus()
   }, [files])
@@ -345,6 +345,53 @@ function hasFiles(event: React.DragEvent) {
   return event.dataTransfer.types.includes("Files")
 }
 
+type DropTargetHandlers = Pick<
+  React.ComponentProps<"div">,
+  "onDragEnter" | "onDragOver" | "onDragLeave" | "onDrop"
+>
+
+/**
+ * Makes an element take dropped files: it lights while files are over it and
+ * hands a drop to the same checks as a pick. Your own handlers run first.
+ */
+function useFileDropTarget({
+  onDragEnter,
+  onDragOver,
+  onDragLeave,
+  onDrop,
+}: DropTargetHandlers): DropTargetHandlers {
+  const { addFiles, isDisabled, setDragging } = useFileUpload()
+
+  return {
+    onDragEnter: (event) => {
+      onDragEnter?.(event)
+      if (isDisabled || !hasFiles(event)) return
+      event.preventDefault()
+      setDragging(true)
+    },
+    onDragOver: (event) => {
+      onDragOver?.(event)
+      if (!hasFiles(event)) return
+      event.preventDefault()
+      event.dataTransfer.dropEffect = isDisabled ? "none" : "copy"
+    },
+    onDragLeave: (event) => {
+      onDragLeave?.(event)
+      // Leaving for a child isn't leaving the target.
+      const next = event.relatedTarget
+      if (next instanceof Node && event.currentTarget.contains(next)) return
+      setDragging(false)
+    },
+    onDrop: (event) => {
+      onDrop?.(event)
+      if (!hasFiles(event)) return
+      event.preventDefault()
+      setDragging(false)
+      addFiles(Array.from(event.dataTransfer.files))
+    },
+  }
+}
+
 function FileUploadDropzone({
   className,
   onClick,
@@ -355,14 +402,13 @@ function FileUploadDropzone({
   onDrop,
   ...props
 }: React.ComponentProps<"div">) {
-  const {
-    addFiles,
-    openPicker,
-    isDisabled,
-    isDragging,
-    setDragging,
-    multiple,
-  } = useFileUpload()
+  const { openPicker, isDisabled, isDragging, multiple } = useFileUpload()
+  const dropHandlers = useFileDropTarget({
+    onDragEnter,
+    onDragOver,
+    onDragLeave,
+    onDrop,
+  })
 
   return (
     <div
@@ -391,34 +437,200 @@ function FileUploadDropzone({
           openPicker()
         }
       }}
-      onDragEnter={(event) => {
-        onDragEnter?.(event)
-        if (isDisabled || !hasFiles(event)) return
-        event.preventDefault()
-        setDragging(true)
-      }}
-      onDragOver={(event) => {
-        onDragOver?.(event)
-        if (!hasFiles(event)) return
-        event.preventDefault()
-        event.dataTransfer.dropEffect = isDisabled ? "none" : "copy"
-      }}
-      onDragLeave={(event) => {
-        onDragLeave?.(event)
-        // Leaving for a child isn't leaving the zone.
-        const next = event.relatedTarget
-        if (next instanceof Node && event.currentTarget.contains(next)) return
-        setDragging(false)
-      }}
-      onDrop={(event) => {
-        onDrop?.(event)
-        if (!hasFiles(event)) return
-        event.preventDefault()
-        setDragging(false)
-        addFiles(Array.from(event.dataTransfer.files))
-      }}
+      {...dropHandlers}
       {...props}
     />
+  )
+}
+
+/** One picked file in a field: its picture or icon, name and remove. */
+function FileUploadChip({ file }: { file: File }) {
+  const { removeFile, isDisabled } = useFileUpload()
+  const isImage = file.type.startsWith("image/")
+  const url = useFileUrl(isImage ? file : null)
+
+  return (
+    <span
+      title={`${file.name}, ${formatFileSize(file.size)}`}
+      data-slot="file-upload-chip"
+      className="cn-file-upload-chip inline-flex shrink-0 items-center"
+    >
+      {url ? (
+        <img
+          src={url}
+          alt=""
+          data-slot="file-upload-chip-preview"
+          className="cn-file-upload-chip-preview shrink-0"
+        />
+      ) : (
+        <span
+          aria-hidden="true"
+          data-slot="file-upload-chip-icon"
+          className="cn-file-upload-chip-icon flex shrink-0 items-center"
+        >
+          <IconPlaceholder
+            lucide="FileIcon"
+            tabler="IconFile"
+            hugeicons="File01Icon"
+            phosphor="FileIcon"
+            remixicon="RiFileLine"
+          />
+        </span>
+      )}
+      <span className="cn-file-upload-chip-name truncate">{file.name}</span>
+      <button
+        type="button"
+        aria-label={`Remove ${file.name}`}
+        disabled={isDisabled}
+        data-slot="file-upload-chip-remove"
+        className="cn-file-upload-chip-remove flex shrink-0 items-center justify-center outline-none"
+        onClick={() => removeFile(file, { moveFocus: true })}
+      >
+        <IconPlaceholder
+          lucide="XIcon"
+          tabler="IconX"
+          hugeicons="Cancel01Icon"
+          phosphor="XIcon"
+          remixicon="RiCloseLine"
+        />
+      </button>
+    </span>
+  )
+}
+
+/**
+ * A file picker the size and frame of an Input, which it keeps whatever it
+ * holds. Empty, it reads like one, with a placeholder that opens the picker.
+ * Picked files sit in it as chips on one row that scrolls sideways, with a
+ * plus button to add more (or replace the one) at its end.
+ * Files dropped on it go through the same checks, and while they're over it
+ * the frame lifts and says what a drop does.
+ */
+function FileUploadField({
+  className,
+  id,
+  placeholder,
+  "aria-invalid": ariaInvalid,
+  "aria-describedby": ariaDescribedBy,
+  onDragEnter,
+  onDragOver,
+  onDragLeave,
+  onDrop,
+  ...props
+}: Omit<React.ComponentProps<"div">, "placeholder"> & {
+  /** Shown while no file is picked. */
+  placeholder?: string
+}) {
+  const { files, openPicker, isDisabled, isDragging, multiple } =
+    useFileUpload()
+  const dropHandlers = useFileDropTarget({
+    onDragEnter,
+    onDragOver,
+    onDragLeave,
+    onDrop,
+  })
+  const hasPicked = files.length > 0
+  const isInvalid = ariaInvalid === true || ariaInvalid === "true"
+  const chipsRef = React.useRef<HTMLDivElement>(null)
+  const previousCountRef = React.useRef(files.length)
+
+  // An added file is the last chip: bring it into view.
+  React.useEffect(() => {
+    const chips = chipsRef.current
+    if (chips && files.length > previousCountRef.current) {
+      chips.scrollTo({ left: chips.scrollWidth, behavior: "smooth" })
+    }
+    previousCountRef.current = files.length
+  }, [files.length])
+  const emptyText =
+    placeholder ??
+    (multiple
+      ? "Choose files or drop them here"
+      : "Choose a file or drop it here")
+
+  return (
+    <div
+      data-slot="file-upload-field"
+      data-invalid={isInvalid ? "" : undefined}
+      data-disabled={isDisabled ? "" : undefined}
+      data-dragging={isDragging ? "" : undefined}
+      data-filled={hasPicked ? "" : undefined}
+      className={cn(
+        "cn-file-upload-field group/file-upload-field relative flex w-full min-w-0 items-center",
+        className
+      )}
+      {...dropHandlers}
+      {...props}
+    >
+      {hasPicked && (
+        <div
+          ref={chipsRef}
+          data-slot="file-upload-chips"
+          className="cn-file-upload-chips flex min-w-0 flex-1 items-center overflow-x-auto"
+        >
+          {files.map((file) => (
+            <FileUploadChip
+              key={`${file.name}-${file.size}-${file.lastModified}`}
+              file={file}
+            />
+          ))}
+        </div>
+      )}
+      <button
+        type="button"
+        id={id}
+        disabled={isDisabled}
+        aria-label={
+          hasPicked ? (multiple ? "Add files" : "Replace file") : undefined
+        }
+        data-slot="file-upload-field-browse"
+        aria-describedby={ariaDescribedBy}
+        className="cn-file-upload-field-browse flex min-w-0 items-center outline-none"
+        onClick={openPicker}
+      >
+        <span
+          aria-hidden="true"
+          className="cn-file-upload-field-icon flex shrink-0 items-center"
+        >
+          {hasPicked ? (
+            <IconPlaceholder
+              lucide="PlusIcon"
+              tabler="IconPlus"
+              hugeicons="PlusSignIcon"
+              phosphor="PlusIcon"
+              remixicon="RiAddLine"
+            />
+          ) : (
+            <IconPlaceholder
+              lucide="PaperclipIcon"
+              tabler="IconPaperclip"
+              hugeicons="Attachment01Icon"
+              phosphor="PaperclipIcon"
+              remixicon="RiAttachment2"
+            />
+          )}
+        </span>
+        {!hasPicked && (
+          <span className="cn-file-upload-field-text truncate">
+            {emptyText}
+          </span>
+        )}
+      </button>
+      <span
+        aria-hidden="true"
+        data-slot="file-upload-field-drop"
+        className="cn-file-upload-field-drop pointer-events-none absolute flex items-center justify-center"
+      >
+        <IconPlaceholder
+          lucide="ArrowDownIcon"
+          tabler="IconArrowDown"
+          hugeicons="ArrowDown02Icon"
+          phosphor="ArrowDownIcon"
+          remixicon="RiArrowDownLine"
+        />
+        {multiple ? "Drop to add" : "Drop to upload"}
+      </span>
+    </div>
   )
 }
 
@@ -645,6 +857,7 @@ function FileUploadItemDelete({
 export {
   FileUpload,
   FileUploadDropzone,
+  FileUploadField,
   FileUploadMedia,
   FileUploadTitle,
   FileUploadDescription,
