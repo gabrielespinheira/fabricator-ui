@@ -520,6 +520,7 @@ export const fabricatorOverrides: Record<
   sidebar: { registryDependencies: ["fluid-hover", "kbd", "sidebar-model"] },
   accordion: { registryDependencies: ["fluid-hover"] },
   table: { registryDependencies: ["fluid-hover"] },
+  questionnaire: { registryDependencies: ["fluid-hover"] },
   // The month and year dropdowns are the library's Select.
   calendar: { registryDependencies: ["select"] },
 }

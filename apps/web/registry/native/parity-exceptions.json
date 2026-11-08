@@ -285,5 +285,61 @@
     "name": "calendar",
     "reason": "Not a slot the Date Picker renders: the website's field looks up the Calendar's own data-slot to put focus on its day when the popover opens. The native Calendar keeps focus itself.",
     "date": "2026-11-08"
+  },
+  {
+    "item": "questionnaire",
+    "kind": "export",
+    "name": "QuestionnaireHeader",
+    "reason": "Added on the website with the restyle after Relay's agent questions, so a questionnaire can take a chat input's place. React Native has no Chat Input yet; the native questionnaire takes this when it does.",
+    "date": "2026-11-08"
+  },
+  {
+    "item": "questionnaire",
+    "kind": "slot",
+    "name": "questionnaire-header",
+    "reason": "Added on the website with the restyle after Relay's agent questions, so a questionnaire can take a chat input's place. React Native has no Chat Input yet; the native questionnaire takes this when it does.",
+    "date": "2026-11-08"
+  },
+  {
+    "item": "questionnaire",
+    "kind": "placeholder",
+    "name": "cn-questionnaire-header",
+    "reason": "Added on the website with the restyle after Relay's agent questions, so a questionnaire can take a chat input's place. React Native has no Chat Input yet; the native questionnaire takes this when it does.",
+    "date": "2026-11-08"
+  },
+  {
+    "item": "questionnaire",
+    "kind": "prop",
+    "name": "advanceOnSelect",
+    "reason": "Added on the website with the restyle after Relay's agent questions, so a questionnaire can take a chat input's place. React Native has no Chat Input yet; the native questionnaire takes this when it does.",
+    "date": "2026-11-08"
+  },
+  {
+    "item": "questionnaire",
+    "kind": "export",
+    "name": "shouldAdvanceQuestionnaire",
+    "reason": "Added on the website with the restyle after Relay's agent questions, so a questionnaire can take a chat input's place. React Native has no Chat Input yet; the native questionnaire takes this when it does.",
+    "date": "2026-11-08"
+  },
+  {
+    "item": "questionnaire",
+    "kind": "slot",
+    "name": "questionnaire-choice-advance",
+    "reason": "The arrow is a pointer cue: it covers a single choice's chip on hover (and keyboard focus) where a pick moves on. Native rows keep their tap feedback.",
+    "date": "2026-11-08"
+  },
+  {
+    "item": "questionnaire",
+    "kind": "placeholder",
+    "name": "cn-questionnaire-choice-advance",
+    "reason": "The same pointer cue's style.",
+    "date": "2026-11-08"
+  },
+  {
+    "item": "questionnaire",
+    "kind": "placeholder",
+    "name": "cn-questionnaire-choice-check",
+    "reason": "The check inside the website's square chip for a multiple choice without shortcuts. Native multiple choices keep the Checkbox mark, which draws its own check.",
+    "date": "2026-11-08"
   }
 ]

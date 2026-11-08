@@ -114,6 +114,7 @@ import {
   LayoutIcon as FabricatorLayoutIcon,
   LifeBuoyIcon as FabricatorLifeBuoyIcon,
   Link2Icon as FabricatorLink2Icon,
+  ListChecksIcon as FabricatorListChecksIcon,
   ListEndIcon as FabricatorListEndIcon,
   ListFilterIcon as FabricatorListFilterIcon,
   ListIcon as FabricatorListIcon,
@@ -960,6 +961,9 @@ export const Link2Icon = createSiteIcon(FabricatorLink2Icon, {
   hugeicons: "Link02Icon",
   phosphor: "LinkSimpleIcon",
   remixicon: "RiLinksLine",
+})
+export const ListChecksIcon = createSiteIcon(FabricatorListChecksIcon, {
+  lucide: "ListChecksIcon",
 })
 export const ListEndIcon = createSiteIcon(FabricatorListEndIcon, {
   lucide: "ListEndIcon",

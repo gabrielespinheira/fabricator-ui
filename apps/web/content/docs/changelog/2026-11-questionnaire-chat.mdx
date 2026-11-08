@@ -1,0 +1,10 @@
+---
+title: November 2026 - Questionnaire in a chat
+description: A Questionnaire drawn after Relay's agent questions, which can take a Chat Input's place and move on as you pick.
+date: 2026-11-08
+---
+
+- **Rows with a chip.** Each choice is a row with its label and, at the end, a chip with its shortcut. A multiple choice's chip is a square that fills once picked. One highlight glides between the rows, and a picked row holds the active fill.
+- **Pick and move on.** With `advanceOnSelect`, picking a single choice with the pointer or its number moves to the next question, or sends the answers on the last. The arrows only walk the choices, and a hovered single choice shows an arrow in its chip.
+- **A header row.** `QuestionnaireHeader` holds the progress at the start and actions such as Stop at the end. Back and Skip are now ghost buttons.
+- **In a chat.** The new example puts the questions in the Chat Input's place on the same surface, stops with Escape, and hands the focus back to the field once they're answered.
