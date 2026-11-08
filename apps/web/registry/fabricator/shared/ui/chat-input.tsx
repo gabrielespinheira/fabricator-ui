@@ -3,6 +3,7 @@
 import * as React from "react"
 import { cn } from "cn"
 import { createPortal } from "react-dom"
+import { VoiceBeam, type VoiceBeamColorVariant } from "voice-glow"
 
 import {
   buttonVariants,
@@ -582,6 +583,10 @@ type ChatInputProps = Omit<
   onVoiceActiveChange?: (active: boolean) => void
   /** The live voice level, 0 to 1, read every frame: the glow and the microphone follow it. */
   voiceLevel?: () => number
+  /** The microphone's stream: the glow analyses it itself (and wins over `voiceLevel`). */
+  voiceStream?: MediaStream | null
+  /** The glow's palette. Default `colorful`. */
+  voiceColor?: VoiceBeamColorVariant
   disabled?: boolean
 }
 
@@ -605,6 +610,8 @@ function ChatInput({
   defaultVoiceActive = false,
   onVoiceActiveChange,
   voiceLevel,
+  voiceStream,
+  voiceColor = "colorful",
   disabled = false,
   style,
   onPointerDown,
@@ -678,7 +685,6 @@ function ChatInput({
     },
     [ref]
   )
-  const glowRef = useVoiceLevelVariable(voiceLevel, isVoiceActive)
 
   const isBusy = isChatInputBusy(status)
   const isReady = isChatInputReady({
@@ -830,16 +836,22 @@ function ChatInput({
         {...props}
       >
         {isVoiceActive && (
+          // voice-glow's VoiceBeam draws a sound-reactive glow along the
+          // bottom edge of what it wraps; here it wraps an empty layer the
+          // size of the card, behind the content.
           <div
-            ref={(node) => {
-              glowRef.current = node
-            }}
             aria-hidden
             data-slot="chat-input-voice-glow"
-            className="cn-chat-input-voice-glow pointer-events-none absolute inset-0 overflow-hidden"
+            className="cn-chat-input-voice-glow pointer-events-none absolute inset-0 overflow-hidden rounded-[inherit]"
           >
-            <span className="cn-chat-input-voice-glow-start absolute" />
-            <span className="cn-chat-input-voice-glow-end absolute" />
+            <VoiceBeam
+              stream={voiceStream}
+              level={voiceLevel ?? 0}
+              colorVariant={voiceColor}
+              className="size-full rounded-[inherit]"
+            >
+              <div className="size-full rounded-[inherit]" />
+            </VoiceBeam>
           </div>
         )}
         {isDropping && (

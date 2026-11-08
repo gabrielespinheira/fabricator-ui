@@ -181,7 +181,7 @@ export function MessageScrollerPreviousContext() {
                     <DropdownMenuContent
                       align="start"
                       side="top"
-                      className="w-44"
+                      className="w-44 bg-surface-5 shadow-surface-5"
                     >
                       <DropdownMenuItem>
                         <PaperclipIcon />

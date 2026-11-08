@@ -1,6 +1,7 @@
 "use client"
 
 import * as React from "react"
+import { useMicrophone } from "voice-glow"
 
 import {
   ChatInput,
@@ -12,8 +13,10 @@ import {
   type ChatInputMicActivity,
 } from "@/styles/radix-fabricator/ui/chat-input"
 
-// A stand-in for a voice session: it hears you, transcribes, then speaks
-// the reply, and listens again. A real one reads the microphone's level.
+// Voice chat listens to your microphone: the glow reacts to your voice.
+// Without one (denied, or no device) a stand-in level drives it. The
+// session itself is a stand-in too: it hears you, transcribes, speaks the
+// reply, and listens again.
 const CYCLE: { activity: ChatInputMicActivity; ms: number }[] = [
   { activity: "listening", ms: 1600 },
   { activity: "hearing", ms: 2200 },
@@ -22,6 +25,7 @@ const CYCLE: { activity: ChatInputMicActivity; ms: number }[] = [
 ]
 
 export function ChatInputVoice() {
+  const mic = useMicrophone()
   const [isVoiceActive, setVoiceActive] = React.useState(false)
   const [step, setStep] = React.useState(0)
   const [isMuted, setMuted] = React.useState(false)
@@ -48,8 +52,12 @@ export function ChatInputVoice() {
           setVoiceActive(active)
           setStep(0)
           setMuted(false)
+          // Started from the press, so the browser lets audio begin.
+          if (active) void mic.start()
+          else mic.stop()
         }}
-        voiceLevel={voiceLevel}
+        voiceStream={isMuted ? null : mic.stream}
+        voiceLevel={isMuted ? () => 0 : voiceLevel}
       >
         <ChatInputTextarea
           placeholder={

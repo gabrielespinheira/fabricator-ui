@@ -179,7 +179,10 @@ export function MessageScrollerStreaming() {
                     >
                       <PlusIcon />
                     </Button>
-                    <DropdownMenu placement="top start" className="w-44">
+                    <DropdownMenu
+                      placement="top start"
+                      className="w-44 bg-surface-5 shadow-surface-5"
+                    >
                       <DropdownMenuItem>
                         <PaperclipIcon />
                         Add Photos & Files
