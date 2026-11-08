@@ -3,7 +3,11 @@
 import * as React from "react"
 import { cn } from "cn"
 import { createPortal } from "react-dom"
-import { VoiceBeam, type VoiceBeamColorVariant } from "voice-glow"
+import {
+  getAudioContext,
+  VoiceBeam,
+  type VoiceBeamColorVariant,
+} from "voice-glow"
 
 import {
   buttonVariants,
@@ -186,6 +190,44 @@ function getChatInputAttachmentsLayout({
     items.length <= INLINE_ATTACHMENTS &&
     items.every((item) => item.isImage)
   return isInline ? "inline" : "compact"
+}
+
+type ChatInputAttached = {
+  id: string
+  /** The file's name, for the tile. */
+  name: string
+  /** A preview: an object URL for an attached image, or a URL of your own. */
+  src?: string
+  /** The file, to send with the message. */
+  file?: File
+  /** True while its upload runs; send waits for it. */
+  isUploading: boolean
+}
+
+type ChatInputAttachmentsAction =
+  | { type: "add"; entries: ChatInputAttached[] }
+  | { type: "land"; id: string }
+  | { type: "remove"; id: string }
+  | { type: "clear" }
+
+/** The attachments' state changes, for `useChatInputAttachments`. */
+function reduceChatInputAttachments(
+  entries: ChatInputAttached[],
+  action: ChatInputAttachmentsAction
+): ChatInputAttached[] {
+  switch (action.type) {
+    case "add":
+      return [...entries, ...action.entries]
+    case "land":
+      if (!entries.some((entry) => entry.id === action.id)) return entries
+      return entries.map((entry) =>
+        entry.id === action.id ? { ...entry, isUploading: false } : entry
+      )
+    case "remove":
+      return entries.filter((entry) => entry.id !== action.id)
+    case "clear":
+      return []
+  }
 }
 
 /** How full a model's context is: warning from 70%, destructive from 90%. */
@@ -389,6 +431,105 @@ function measureOneLineHeight(field: HTMLElement) {
   )
 }
 
+// The input chain voice-glow applies to a microphone (its defaults), so the
+// mic icon, which reads the same stream, moves with the glow.
+const VOICE_GAIN = 3.1
+const VOICE_GATE = 0.015
+const VOICE_ATTACK_SECONDS = 0.325
+const VOICE_RELEASE_SECONDS = 0.86
+
+/** A voice level, 0 to 1, from a frame's RMS: silence under the noise gate, then the gain, capped at 1. */
+function getChatInputVoiceLevel(rms: number) {
+  if (rms < VOICE_GATE) return 0
+  return Math.min(1, rms * VOICE_GAIN)
+}
+
+/** One step of the level's envelope: it rises on the attack and settles on the slower release. */
+function smoothChatInputVoiceLevel(
+  previous: number,
+  target: number,
+  seconds: number
+) {
+  const timeConstant =
+    target > previous ? VOICE_ATTACK_SECONDS : VOICE_RELEASE_SECONDS
+  return (
+    previous + (target - previous) * (1 - Math.exp(-seconds / timeConstant))
+  )
+}
+
+/** The glow's palette for the page it's on: the theme passed, else dark inside `.dark`. */
+function getChatInputVoiceTheme({
+  isDark,
+  theme,
+}: {
+  isDark: boolean
+  theme?: "dark" | "light"
+}) {
+  return theme ?? (isDark ? "dark" : "light")
+}
+
+/**
+ * A getter for the live level of a microphone stream, analysed on the page's
+ * shared audio context (voice-glow's): RMS each frame, through the same gate,
+ * gain and envelope as the glow.
+ */
+function useStreamLevel(stream: MediaStream | null | undefined) {
+  const [read, setRead] = React.useState<(() => number) | undefined>()
+
+  React.useEffect(() => {
+    const context = stream ? getAudioContext() : null
+    if (!stream || !context || stream.getAudioTracks().length === 0) {
+      setRead(undefined)
+      return
+    }
+    const source = context.createMediaStreamSource(stream)
+    const analyser = context.createAnalyser()
+    analyser.fftSize = 1024
+    source.connect(analyser)
+    const samples = new Float32Array(analyser.fftSize)
+    let level = 0
+    let last = performance.now()
+    setRead(() => () => {
+      analyser.getFloatTimeDomainData(samples)
+      let sum = 0
+      for (const sample of samples) sum += sample * sample
+      const now = performance.now()
+      level = smoothChatInputVoiceLevel(
+        level,
+        getChatInputVoiceLevel(Math.sqrt(sum / samples.length)),
+        (now - last) / 1000
+      )
+      last = now
+      return level
+    })
+    return () => {
+      source.disconnect()
+      analyser.disconnect()
+    }
+  }, [stream])
+
+  return read
+}
+
+/** Whether an element sits in a dark theme (`.dark` on it or an ancestor), following changes to <html>. */
+function useIsDark(element: HTMLElement | null) {
+  const [isDark, setDark] = React.useState(false)
+
+  React.useEffect(() => {
+    if (!element) return
+    const update = () => setDark(element.closest(".dark") !== null)
+    update()
+    const observer = new MutationObserver(update)
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    })
+    return () => observer.disconnect()
+  }, [element])
+
+  return isDark
+}
+
 /** How long each placeholder phrase stays. */
 const PLACEHOLDER_MS = 4000
 
@@ -587,6 +728,8 @@ type ChatInputProps = Omit<
   voiceStream?: MediaStream | null
   /** The glow's palette. Default `colorful`. */
   voiceColor?: VoiceBeamColorVariant
+  /** The glow's light or dark tuning. Default: dark inside `.dark`, else light. */
+  voiceTheme?: "dark" | "light"
   disabled?: boolean
 }
 
@@ -612,6 +755,7 @@ function ChatInput({
   voiceLevel,
   voiceStream,
   voiceColor = "colorful",
+  voiceTheme,
   disabled = false,
   style,
   onPointerDown,
@@ -646,6 +790,10 @@ function ChatInput({
   )
   const contentRef = React.useRef<HTMLDivElement>(null)
   const height = useContentHeight(contentRef)
+  const isDark = useIsDark(card)
+  const streamLevel = useStreamLevel(isVoiceActive ? voiceStream : null)
+  // With a stream, the mic icon follows its real level; else the one passed.
+  const level = voiceStream ? streamLevel : voiceLevel
 
   const registerMenuKeys = React.useCallback(
     (
@@ -732,7 +880,7 @@ function ChatInput({
       setStacked,
       isVoiceActive,
       setVoiceActive,
-      voiceLevel,
+      voiceLevel: level,
       attach: onAttach,
       recall: onRecall,
       setTextarea,
@@ -765,7 +913,7 @@ function ChatInput({
       isStacked,
       isVoiceActive,
       setVoiceActive,
-      voiceLevel,
+      level,
       onAttach,
       onRecall,
       card,
@@ -848,6 +996,7 @@ function ChatInput({
               stream={voiceStream}
               level={voiceLevel ?? 0}
               colorVariant={voiceColor}
+              theme={getChatInputVoiceTheme({ isDark, theme: voiceTheme })}
               className="size-full rounded-[inherit]"
             >
               <div className="size-full rounded-[inherit]" />
@@ -948,6 +1097,89 @@ type ChatInputAttachmentProps = Omit<React.ComponentProps<"li">, "children"> & {
   onRemove?: () => void
   /** Content for a tile of your own, such as a lightbox trigger around the image. */
   children?: React.ReactNode
+}
+
+/**
+ * The files riding along with a draft: what to render as
+ * `ChatInputAttachment`s, and `attach` for the root's `onAttach` (dropped and
+ * pasted files) and your own file picker. Images get an object URL preview,
+ * released when they're removed, cleared or unmounted, so take what you send
+ * from `file` before `clear`. With `upload`, each file waits for it; a
+ * rejected upload drops the file and reports the error.
+ */
+function useChatInputAttachments({
+  initial = [],
+  upload,
+}: {
+  initial?: ChatInputAttached[]
+  upload?: (file: File) => Promise<unknown>
+} = {}) {
+  const [attachments, dispatch] = React.useReducer(
+    reduceChatInputAttachments,
+    initial
+  )
+  const [previews] = React.useState(() => new Set<string>())
+
+  React.useEffect(
+    () => () => {
+      for (const url of previews) URL.revokeObjectURL(url)
+      previews.clear()
+    },
+    [previews]
+  )
+
+  const release = (entry: ChatInputAttached | undefined) => {
+    if (!entry?.src || !previews.delete(entry.src)) return
+    URL.revokeObjectURL(entry.src)
+  }
+
+  const remove = (id: string) => {
+    release(attachments.find((entry) => entry.id === id))
+    dispatch({ type: "remove", id })
+  }
+
+  const attach = (files: File[]) => {
+    const added = files.map((file) => {
+      const src = file.type.startsWith("image/")
+        ? URL.createObjectURL(file)
+        : undefined
+      if (src) previews.add(src)
+      return {
+        id: crypto.randomUUID(),
+        name: file.name,
+        src,
+        file,
+        isUploading: upload !== undefined,
+      }
+    })
+    dispatch({ type: "add", entries: added })
+    if (!upload) return
+    for (const entry of added)
+      upload(entry.file).then(
+        () => dispatch({ type: "land", id: entry.id }),
+        (error: unknown) => {
+          release(entry)
+          dispatch({ type: "remove", id: entry.id })
+          reportError(error)
+        }
+      )
+  }
+
+  const clear = () => {
+    for (const entry of attachments) release(entry)
+    dispatch({ type: "clear" })
+  }
+
+  return {
+    attachments,
+    attach,
+    remove,
+    clear,
+    /** For the root's `hasContent`: files send without text. */
+    hasContent: attachments.length > 0,
+    /** For the root's `isUploading`: send waits while one uploads. */
+    isUploading: attachments.some((entry) => entry.isUploading),
+  }
 }
 
 function ChatInputAttachment({
@@ -2212,11 +2444,16 @@ export {
   ChatInputTrayMeta,
   useChatInput,
   useRotatingPlaceholder,
+  useChatInputAttachments,
+  reduceChatInputAttachments,
   getChatInputKeyAction,
   getChatInputSendAction,
   getChatInputAttachmentsLayout,
   getChatInputContextLevel,
   getChatInputMicLabel,
+  getChatInputVoiceLevel,
+  getChatInputVoiceTheme,
+  smoothChatInputVoiceLevel,
   splitChatInputMentions,
   findChatInputTrigger,
   applyChatInputPick,
@@ -2234,4 +2471,5 @@ export {
   type ChatInputSendAction,
   type ChatInputTrigger,
   type ChatInputCommand,
+  type ChatInputAttached,
 }

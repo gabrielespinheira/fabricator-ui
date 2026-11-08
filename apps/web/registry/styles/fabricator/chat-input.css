@@ -6,7 +6,7 @@
      attachments slides the card open rather than jumping. 16px corners; the
      compact pill rounds to 24px around its round send. */
   .cn-chat-input {
-    @apply bg-surface-3 shadow-surface-3 rounded-2xl text-foreground transition-[height,box-shadow] duration-move ease-move focus-within:shadow-surface-4 has-[[data-slot=chat-input-textarea]:focus-visible]:ring-1 has-[[data-slot=chat-input-textarea]:focus-visible]:ring-foreground/10 has-[[data-slot=chat-input-textarea][aria-invalid=true]]:ring-1 has-[[data-slot=chat-input-textarea][aria-invalid=true]]:ring-destructive/50 data-[layout=compact]:rounded-3xl data-disabled:cursor-not-allowed data-disabled:opacity-60 motion-reduce:transition-[box-shadow];
+    @apply bg-surface-3 shadow-surface-3 rounded-2xl text-foreground transition-[height,box-shadow] duration-move ease-move focus-within:shadow-surface-4 has-[[data-slot=chat-input-textarea]:focus-visible]:ring-1 has-[[data-slot=chat-input-textarea]:focus-visible]:ring-foreground/10 has-[[data-slot=chat-input-textarea][aria-invalid=true]]:ring-1 has-[[data-slot=chat-input-textarea][aria-invalid=true]]:ring-destructive/50 data-[layout=compact]:rounded-[calc(var(--density-36)/2+var(--density-8))] data-disabled:cursor-not-allowed data-disabled:opacity-60 motion-reduce:transition-[box-shadow];
   }
 
   .cn-chat-input-content {
@@ -24,20 +24,11 @@
     @apply bg-surface-3/90 ring-focus-ring text-muted-foreground gap-(--density-8) rounded-[inherit] text-(length:--density-text-13) ring-1 animate-in fade-in-0 duration-feedback ease-feedback motion-reduce:animate-none [&_svg]:size-(--density-icon-16) [&_svg]:stroke-[1.5];
   }
 
-  /* Voice chat's glow: two soft blooms of the info hue (the second turned
-     toward violet) rising from the card's bottom edge, swelling and
-     brightening with --chat-input-voice-level, which the component writes
-     every frame. */
+  /* Voice chat's glow is voice-glow's VoiceBeam with its own colours and
+     motion (it follows reduced motion itself); the card only places it
+     behind the content. */
   .cn-chat-input-voice-glow {
-    @apply rounded-[inherit] *:bottom-0 *:h-[140%] *:w-[70%] *:translate-y-1/2 *:origin-bottom *:rounded-full *:blur-2xl *:opacity-[calc(0.3_+_var(--chat-input-voice-level,0)_*_0.7)] *:scale-[calc(0.7_+_var(--chat-input-voice-level,0)_*_0.5)] *:transition-[opacity,scale] *:duration-feedback *:ease-feedback motion-reduce:*:scale-100;
-  }
-
-  .cn-chat-input-voice-glow-start {
-    @apply start-[-10%] bg-[oklch(from_var(--info)_l_c_h_/_0.55)];
-  }
-
-  .cn-chat-input-voice-glow-end {
-    @apply end-[-10%] bg-[oklch(from_var(--info)_l_c_calc(h_+_60)_/_0.5)];
+    @apply z-0;
   }
 
   /* Files riding along: 56px tiles across the top in the default layout,
@@ -101,13 +92,16 @@
   }
 
   /* The build puts these rules before Button's own classes, so the ones
-     that replace a Button class are marked important.
+     that replace a Button class are marked important. They size only the
+     default (`size="icon"`); a size you pass keeps the Button's own.
      Footer controls: 32px ghost squares (36px and round in the compact
-     pill); with a label they are pills, 8px in. A toggle (aria-pressed)
-     holds the active fill while on. */
+     pill); with a label they are pills, 8px in. In a tray they are compact:
+     24px squares and pills with 12px text and 14px icons, so the row's text
+     leads. A toggle (aria-pressed) holds the active fill while on. */
   .cn-chat-input-button {
-    @apply not-has-[>span]:size-(--density-32)! has-[>span]:h-(--density-32)! has-[>span]:w-auto! has-[>span]:gap-(--density-6)! has-[>span]:px-(--density-8)! aria-pressed:bg-active! aria-pressed:text-foreground! group-data-[layout=compact]/chat-input:rounded-full! group-data-[layout=compact]/chat-input:not-has-[>span]:size-(--density-36)! group-data-[layout=compact]/chat-input:has-[>span]:h-(--density-36)! group-data-[layout=compact]/chat-input:has-[>span]:px-(--density-10)!;
+    @apply aria-pressed:bg-active! aria-pressed:text-foreground! data-[size=icon]:not-has-[>span]:size-(--density-32)! data-[size=icon]:has-[>span]:h-(--density-32)! data-[size=icon]:has-[>span]:w-auto! data-[size=icon]:has-[>span]:gap-(--density-6)! data-[size=icon]:has-[>span]:px-(--density-8)! group-data-[layout=compact]/chat-input:rounded-full! group-data-[layout=compact]/chat-input:data-[size=icon]:not-has-[>span]:size-(--density-36)! group-data-[layout=compact]/chat-input:data-[size=icon]:has-[>span]:h-(--density-36)! group-data-[layout=compact]/chat-input:data-[size=icon]:has-[>span]:px-(--density-10)! [[data-slot=chat-input-tray]_&]:rounded-md! [[data-slot=chat-input-tray]_&]:data-[size=icon]:not-has-[>span]:size-(--density-24)! [[data-slot=chat-input-tray]_&]:data-[size=icon]:has-[>span]:h-(--density-24)! [[data-slot=chat-input-tray]_&]:data-[size=icon]:has-[>span]:gap-(--density-4)! [[data-slot=chat-input-tray]_&]:data-[size=icon]:has-[>span]:px-(--density-6)! [[data-slot=chat-input-tray]_&]:text-(length:--density-text-12)! [[data-slot=chat-input-tray]_&]:[&_svg:not([class*='size-'])]:size-(--density-icon-14)!;
   }
+
 
   /* The microphone mutes rather than toggles a mode, so a muted mic stays
      muted-looking rather than lit; its icon swells with the voice level. */
@@ -167,11 +161,40 @@
     @apply size-(--density-icon-14) fill-current scale-50 opacity-0 transition-[opacity,scale] duration-feedback ease-feedback group-data-[state=stop]/chat-input-submit:group-hover/chat-input-submit:scale-75 group-data-[state=stop]/chat-input-submit:group-hover/chat-input-submit:opacity-100 group-data-[state=stop]/chat-input-submit:group-focus-visible/chat-input-submit:scale-75 group-data-[state=stop]/chat-input-submit:group-focus-visible/chat-input-submit:opacity-100;
   }
 
-  /* The `/` menu: one step over the card (surface 4), spanning it and
+  /* Choices with a line each, in a popover from a footer pill (give it p-1
+     and no gap): rows px10 py8 gap10, the 16px icon on the label's line,
+     the label 13px, the description 12px muted under it. Muted until
+     hovered or focused (the hover fill) or in use (foreground, the check
+     at the end). */
+  .cn-chat-input-options {
+    @apply gap-0.5;
+  }
+
+  .cn-chat-input-option {
+    @apply text-muted-foreground hover:bg-hover hover:text-foreground focus-visible:bg-hover focus-visible:text-foreground data-checked:text-foreground cursor-pointer gap-(--density-10) rounded-lg px-(--density-10) py-(--density-8) transition-colors duration-feedback ease-feedback disabled:opacity-50 [&[data-checked]_[data-slot=chat-input-option-check]]:visible;
+  }
+
+  .cn-chat-input-option-icon {
+    @apply mt-0.5 [&_svg]:stroke-[1.5] [&_svg:not([class*='size-'])]:size-(--density-icon-16);
+  }
+
+  .cn-chat-input-option-label {
+    @apply text-(length:--density-text-13) leading-5;
+  }
+
+  .cn-chat-input-option-description {
+    @apply text-muted-foreground text-(length:--density-text-12) leading-snug text-pretty;
+  }
+
+  .cn-chat-input-option-check {
+    @apply text-foreground invisible mt-1 size-(--density-icon-14)!;
+  }
+
+  /* The `/` menu: two steps over the card (surface 5), so it never reads as the card, spanning it and
      floating 8px above it, rising in on the popup timing. A caption row
      names it and the keys; rows are 36px menu rows, muted until active. */
   .cn-chat-input-commands {
-    @apply bg-surface-4 shadow-surface-4 text-foreground mb-(--density-8) rounded-xl text-(length:--density-text-13) animate-in fade-in-0 slide-in-from-bottom-1 duration-popup ease-enter motion-reduce:animate-none;
+    @apply bg-surface-5 shadow-surface-5 text-foreground mb-(--density-8) rounded-xl text-(length:--density-text-13) animate-in fade-in-0 slide-in-from-bottom-1 duration-popup ease-enter motion-reduce:animate-none;
   }
 
   .cn-chat-input-commands-header {

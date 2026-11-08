@@ -10,10 +10,15 @@ import {
   getChatInputContextLevel,
   getChatInputKeyAction,
   getChatInputMicLabel,
+  getChatInputOptionKeyIndex,
   getChatInputSendAction,
+  getChatInputVoiceLevel,
+  getChatInputVoiceTheme,
   isChatInputBusy,
   isChatInputReady,
   nextChatInputStacked,
+  reduceChatInputAttachments,
+  smoothChatInputVoiceLevel,
   splitChatInputMentions,
 } from "@/registry/fabricator/shared/ui/chat-input"
 
@@ -478,5 +483,100 @@ describe("splitChatInputMentions with known names", () => {
         (mention) => mention === "/goal"
       )
     ).toEqual([{ text: "/goal", sigil: "/" }, { text: " ship /unknown" }])
+  })
+})
+
+describe("getChatInputOptionKeyIndex", () => {
+  it("moves to the next and previous option, wrapping around", () => {
+    expect(getChatInputOptionKeyIndex("ArrowDown", 0, 3)).toBe(1)
+    expect(getChatInputOptionKeyIndex("ArrowRight", 2, 3)).toBe(0)
+    expect(getChatInputOptionKeyIndex("ArrowUp", 0, 3)).toBe(2)
+    expect(getChatInputOptionKeyIndex("ArrowLeft", 1, 3)).toBe(0)
+  })
+
+  it("jumps to the ends with Home and End", () => {
+    expect(getChatInputOptionKeyIndex("Home", 2, 3)).toBe(0)
+    expect(getChatInputOptionKeyIndex("End", 0, 3)).toBe(2)
+  })
+
+  it("ignores other keys", () => {
+    expect(getChatInputOptionKeyIndex("Enter", 1, 3)).toBeNull()
+  })
+})
+
+describe("getChatInputVoiceLevel", () => {
+  it("reads silence below the noise gate", () => {
+    expect(getChatInputVoiceLevel(0.01)).toBe(0)
+  })
+
+  it("scales a voice by the gain and caps it at 1", () => {
+    expect(getChatInputVoiceLevel(0.1)).toBeCloseTo(0.31)
+    expect(getChatInputVoiceLevel(0.6)).toBe(1)
+  })
+})
+
+describe("smoothChatInputVoiceLevel", () => {
+  it("rises quicker than it settles", () => {
+    const rise = smoothChatInputVoiceLevel(0, 1, 0.1)
+    const fall = 1 - smoothChatInputVoiceLevel(1, 0, 0.1)
+    expect(rise).toBeGreaterThan(fall)
+  })
+
+  it("moves toward the target and never past it", () => {
+    const next = smoothChatInputVoiceLevel(0.2, 0.8, 0.05)
+    expect(next).toBeGreaterThan(0.2)
+    expect(next).toBeLessThan(0.8)
+    expect(smoothChatInputVoiceLevel(0.2, 0.8, 10)).toBeCloseTo(0.8)
+  })
+})
+
+describe("getChatInputVoiceTheme", () => {
+  it("follows the page unless a theme is passed", () => {
+    expect(getChatInputVoiceTheme({ isDark: true })).toBe("dark")
+    expect(getChatInputVoiceTheme({ isDark: false })).toBe("light")
+    expect(getChatInputVoiceTheme({ isDark: false, theme: "dark" })).toBe(
+      "dark"
+    )
+  })
+})
+
+describe("reduceChatInputAttachments", () => {
+  const brief = { id: "brief", name: "brief.pdf", isUploading: true }
+  const desk = {
+    id: "desk",
+    name: "desk.png",
+    src: "blob:desk",
+    isUploading: false,
+  }
+
+  it("adds files after the ones already attached", () => {
+    expect(
+      reduceChatInputAttachments([desk], { type: "add", entries: [brief] })
+    ).toEqual([desk, brief])
+  })
+
+  it("marks a file landed once its upload resolves", () => {
+    expect(
+      reduceChatInputAttachments([desk, brief], { type: "land", id: "brief" })
+    ).toEqual([desk, { ...brief, isUploading: false }])
+  })
+
+  it("ignores an upload landing after its file was removed", () => {
+    const entries = [desk]
+    expect(
+      reduceChatInputAttachments(entries, { type: "land", id: "brief" })
+    ).toBe(entries)
+  })
+
+  it("removes one file", () => {
+    expect(
+      reduceChatInputAttachments([desk, brief], { type: "remove", id: "desk" })
+    ).toEqual([brief])
+  })
+
+  it("clears every file", () => {
+    expect(
+      reduceChatInputAttachments([desk, brief], { type: "clear" })
+    ).toEqual([])
   })
 })
