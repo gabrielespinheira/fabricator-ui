@@ -1,0 +1,37 @@
+/* MARK: Month Input */
+
+  /* An Input Group: the frame, focus, invalid and disabled states are the
+     group's. */
+  .cn-month-input {
+    @apply [&_[data-slot=input-group-control]]:tabular-nums;
+  }
+
+  /* The calendar button stays lit while its grid is open. */
+  .cn-month-input-trigger {
+    @apply aria-expanded:bg-active aria-expanded:text-foreground;
+  }
+
+  .cn-month-input-content {
+    @apply w-auto gap-(--density-8) p-(--density-8);
+  }
+
+  /* The year between its arrows, on one row with them. */
+  .cn-month-input-header {
+    @apply gap-(--density-8);
+  }
+
+  .cn-month-input-year {
+    @apply text-(length:--density-text-13) font-medium tabular-nums;
+  }
+
+  /* Twelve months in four rows. A new year slides in from the side it came
+     from, on the move timing. */
+  .cn-month-input-grid {
+    @apply gap-1 animate-in fade-in-0 duration-move ease-move motion-reduce:animate-none data-[direction=next]:slide-in-from-right-2 data-[direction=previous]:slide-in-from-left-2;
+  }
+
+  /* Menu cells: muted at rest, lit by the gliding highlight; the chosen month
+     on the sliding selection in semibold, this month in the foreground. */
+  .cn-month-input-month {
+    @apply cursor-pointer text-muted-foreground h-(--density-36) min-w-16 rounded-lg px-(--density-12) text-(length:--density-text-13) transition-colors duration-feedback data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-fluid-hover-active:text-foreground data-current:text-foreground data-current:font-medium aria-selected:bg-active aria-selected:text-foreground aria-selected:font-semibold in-data-[fluid-hover]:aria-selected:bg-transparent focus-visible:text-foreground disabled:pointer-events-none disabled:opacity-50;
+  }

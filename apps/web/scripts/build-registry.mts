@@ -1143,7 +1143,7 @@ async function buildBases(bases: Base[], targetStyleNames?: Set<string>) {
         style,
         baseRegistry,
         registryItems: isFabricator
-          ? withFabricatorItems(registryItems, fabricatorOverlay)
+          ? withFabricatorItems(registryItems, fabricatorOverlay, base.name)
           : registryItems,
         sourceFiles: isFabricator
           ? new Map([...sourceFiles, ...fabricatorOverlay])
@@ -1291,7 +1291,8 @@ async function loadFabricatorOverlay(baseName: string) {
 
 function withFabricatorItems(
   items: RegistryItem[],
-  overlay: Map<string, string>
+  overlay: Map<string, string>,
+  baseName: string
 ): RegistryItem[] {
   const unique = (values: string[]) => Array.from(new Set(values))
   // Excluded items leave the Fabricator styles; dependencies on them point at their
@@ -1337,10 +1338,37 @@ function withFabricatorItems(
   const names = new Set(items.map((item) => item.name))
   return [
     ...overridden,
-    ...(fabricatorItems as RegistryItem[]).filter(
-      (item) => !names.has(item.name)
-    ),
+    ...(fabricatorItems as RegistryItem[])
+      .filter((item) => !names.has(item.name))
+      .map((item) => withImplementationDependencies(item, baseName)),
   ]
+}
+
+// A Fabricator item whose meta.implementation maps this base to another one
+// (Number Field on Radix is the Base UI implementation) installs that base's
+// primitive packages too.
+function withImplementationDependencies(
+  item: RegistryItem,
+  baseName: string
+): RegistryItem {
+  const implementation: unknown = item.meta?.implementation
+  if (typeof implementation !== "object" || implementation === null) {
+    return item
+  }
+  const implementationBaseName: unknown = Reflect.get(implementation, baseName)
+  const implementationBase = BASES.find(
+    (base) => base.name === implementationBaseName && base.name !== baseName
+  )
+  if (!implementationBase?.dependencies) return item
+  return {
+    ...item,
+    dependencies: Array.from(
+      new Set([
+        ...(item.dependencies ?? []),
+        ...implementationBase.dependencies,
+      ])
+    ),
+  }
 }
 
 async function buildExamplesIndex() {

@@ -1,0 +1,218 @@
+---
+title: Number Field
+description: A number input with steppers, limits, keyboard stepping and locale formatting.
+base: radix
+component: true
+links:
+  doc: https://base-ui.com/react/components/number-field
+  api: https://base-ui.com/react/components/number-field#api-reference
+---
+
+<ComponentPreview styleName="radix-nova" name="number-field-demo" />
+
+Number Field is a number input with decrement and increment buttons. It keeps the value within `min` and `max`, steps by `step` from the buttons and the keyboard, and formats the value for the reader's locale: currency, percent and units.
+
+It's drawn by the [Input Group](/docs/components/radix/input-group), so its frame, focus, hover, invalid and disabled states are the input's. Number Field is part of the Fabricator style.
+
+<Callout>
+  Radix UI has no number field, so the Radix item installs the Base UI
+  implementation: it adds `@base-ui/react` to your project next to `radix-ui`.
+  Its API is Base UI's, and the rest of your components stay on Radix.
+</Callout>
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">Command</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx fabricator-ui@latest add number-field
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps className="mb-0 pt-2">
+
+<Step>Install the following dependencies:</Step>
+
+```bash
+npm install @base-ui/react
+```
+
+<Step>
+  Add the [Input Group](/docs/components/radix/input-group) component.
+</Step>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  src="styles/radix-fabricator/ui/number-field.tsx"
+  title="components/ui/number-field.tsx"
+  styleName="radix-nova"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx showLineNumbers
+import {
+  NumberField,
+  NumberFieldDecrement,
+  NumberFieldGroup,
+  NumberFieldIncrement,
+  NumberFieldInput,
+} from "@/components/ui/number-field"
+```
+
+```tsx showLineNumbers
+<NumberField defaultValue={1} min={0} max={10}>
+  <NumberFieldGroup>
+    <NumberFieldDecrement />
+    <NumberFieldInput aria-label="Quantity" />
+    <NumberFieldIncrement />
+  </NumberFieldGroup>
+</NumberField>
+```
+
+## Composition
+
+Use the following composition to build a `NumberField`:
+
+```text
+NumberField
+└── NumberFieldGroup
+    ├── NumberFieldDecrement
+    ├── NumberFieldInput
+    └── NumberFieldIncrement
+```
+
+Each stepper sits in its own Input Group addon. The decrement goes at the start and the increment at the end. For both at the end, put the input first and set `align="inline-end"` on the decrement:
+
+```tsx showLineNumbers
+<NumberFieldGroup>
+  <NumberFieldInput />
+  <NumberFieldDecrement align="inline-end" />
+  <NumberFieldIncrement />
+</NumberFieldGroup>
+```
+
+## Examples
+
+### Basic
+
+Without a visible label, name the input with `aria-label`.
+
+<ComponentPreview styleName="radix-nova" name="number-field-basic" />
+
+### Steppers at the end
+
+<ComponentPreview styleName="radix-nova" name="number-field-steppers-end" />
+
+### Min, max and step
+
+The buttons and the arrow keys stop at `min` and `max`, and a stepper turns disabled at its limit. A typed value is clamped when the field loses focus. `step` sets the amount; hold Shift for `largeStep` (10) and Alt for `smallStep` (0.1).
+
+<ComponentPreview styleName="radix-nova" name="number-field-min-max" />
+
+### Formatting
+
+`format` takes [`Intl.NumberFormat` options](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/NumberFormat#options). The value stays a plain number: `0.15` shows as 15% with `style: "percent"`. `locale` sets the locale; it defaults to the reader's.
+
+<ComponentPreview styleName="radix-nova" name="number-field-format" />
+
+### Field
+
+Compose it with `Field`, `FieldLabel` and `FieldDescription`. The `id` on `NumberField` goes to the input, so `htmlFor` on the label points at it.
+
+<ComponentPreview styleName="radix-nova" name="number-field-field" />
+
+### Disabled and read-only
+
+`disabled` dims the field and turns it and its steppers off. `readOnly` keeps the value focusable and selectable, but it can't change.
+
+<ComponentPreview styleName="radix-nova" name="number-field-disabled" />
+
+### Invalid
+
+Set `aria-invalid` on `NumberFieldInput` and `data-invalid` on `Field`.
+
+<ComponentPreview styleName="radix-nova" name="number-field-invalid" />
+
+### Sizes
+
+The field follows the [density](/docs/foundations/density). Set `density-compact` or `density-spacious` on it, or on any parent.
+
+<ComponentPreview styleName="radix-nova" name="number-field-sizes" />
+
+### Controlled
+
+Control the value with `value` and `onValueChange`. The value is `null` when the input is empty.
+
+<ComponentPreview styleName="radix-nova" name="number-field-controlled" />
+
+## API Reference
+
+`NumberField`, `NumberFieldGroup` and `NumberFieldInput` take every prop of their Base UI part. See the [Base UI Number Field](https://base-ui.com/react/components/number-field#api-reference) documentation.
+
+### NumberField
+
+| Prop            | Type                                       | Default |
+| --------------- | ------------------------------------------ | ------- |
+| `value`         | `number \| null`                           | -       |
+| `defaultValue`  | `number`                                   | -       |
+| `onValueChange` | `(value: number \| null, details) => void` | -       |
+| `min`           | `number`                                   | -       |
+| `max`           | `number`                                   | -       |
+| `step`          | `number \| "any"`                          | `1`     |
+| `smallStep`     | `number`                                   | `0.1`   |
+| `largeStep`     | `number`                                   | `10`    |
+| `format`        | `Intl.NumberFormatOptions`                 | -       |
+| `locale`        | `Intl.LocalesArgument`                     | -       |
+| `disabled`      | `boolean`                                  | `false` |
+| `readOnly`      | `boolean`                                  | `false` |
+| `required`      | `boolean`                                  | `false` |
+| `name`          | `string`                                   | -       |
+| `id`            | `string`                                   | -       |
+
+### NumberFieldDecrement and NumberFieldIncrement
+
+Every Base UI stepper prop, plus:
+
+| Prop       | Type                             | Default                                                  |
+| ---------- | -------------------------------- | -------------------------------------------------------- |
+| `align`    | `"inline-start" \| "inline-end"` | `"inline-start"` (decrement), `"inline-end"` (increment) |
+| `children` | `React.ReactNode`                | a minus or plus icon                                     |
+
+### Data attributes
+
+| Attribute                            | Element              |
+| ------------------------------------ | -------------------- |
+| `data-slot="number-field"`           | root                 |
+| `data-slot="number-field-group"`     | the frame            |
+| `data-slot="number-field-input"`     | the `<input>`        |
+| `data-slot="number-field-decrement"` | the decrement button |
+| `data-slot="number-field-increment"` | the increment button |
+
+Base UI also sets `data-disabled`, `data-readonly`, `data-invalid` and `data-scrubbing` on its parts.
+
+## Accessibility
+
+- The input is a text input described as a "Number field". ArrowUp and ArrowDown step by `step`, Shift and Alt step by `largeStep` and `smallStep`, and Home and End jump to `min` and `max` when they're set.
+- The steppers are named "Decrease" and "Increase" and stay out of the tab order, so Tab moves from the field to the next control. Pass `aria-label` to name them for your field.
+- Give the field a name: a `FieldLabel` with `htmlFor`, or `aria-label` on the input.
+- Typing accepts the locale's digits, separators, currency signs and percent signs. On phones the input opens a numeric keyboard, or the decimal one when the value can have decimals.
+- Focus lifts the frame to the card surface with the neutral focus ring. Invalid turns the ring red.

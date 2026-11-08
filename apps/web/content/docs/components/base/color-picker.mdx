@@ -1,0 +1,231 @@
+---
+title: Color Picker
+description: A color picker with a saturation area, hue and alpha sliders, HEX, RGB, HSL and OKLCH fields, swatches and the eyedropper.
+base: base
+component: true
+---
+
+<ComponentPreview
+  styleName="base-nova"
+  name="color-picker-demo"
+  previewClassName="h-auto"
+/>
+
+Drag in the area to set saturation and brightness, and use the sliders for hue and alpha. Pick a format to type or scrub its channels: drag a field's letter sideways to change its value. Use it inline as a panel, or behind a trigger with `ColorPickerPopover`.
+
+Color Picker is part of the Fabricator style. It's composed from [Slider](/docs/components/base/slider), [Select](/docs/components/base/select), [Input Group](/docs/components/base/input-group), [Popover](/docs/components/base/popover) and [Tooltip](/docs/components/base/tooltip), so every control looks and behaves like the rest of your fields. It's adapted from the Color Picker of [Fluid Functionalism](https://www.fluidfunctionalism.com/docs/color-picker) (MIT).
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">Command</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx fabricator-ui@latest add color-picker
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps className="mb-0 pt-2">
+
+<Step>
+  Add the [Button](/docs/components/base/button), [Button
+  Group](/docs/components/base/button-group), [Input
+  Group](/docs/components/base/input-group),
+  [Popover](/docs/components/base/popover),
+  [Select](/docs/components/base/select), [Slider](/docs/components/base/slider)
+  and [Tooltip](/docs/components/base/tooltip) components, and [Fluid
+  Hover](/docs/foundations/fluid-hover).
+</Step>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  src="styles/base-fabricator/lib/color-model.ts"
+  title="lib/color-model.ts"
+  styleName="base-nova"
+/>
+
+<ComponentSource
+  src="styles/base-fabricator/ui/color-picker.tsx"
+  title="components/ui/color-picker.tsx"
+  styleName="base-nova"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx showLineNumbers
+import { ColorPicker, ColorPickerPopover } from "@/components/ui/color-picker"
+```
+
+```tsx showLineNumbers
+<ColorPicker defaultValue="#6b97ff" />
+
+<ColorPickerPopover defaultValue="#6b97ff" triggerLabel="Fill" />
+```
+
+## Composition
+
+```text
+ColorPicker
+├── area (saturation and brightness)
+├── hue and alpha sliders
+├── format select and eyedropper
+├── channel fields
+└── swatches (optional)
+
+ColorPickerPopover
+├── trigger (tile, hex value, label) and optional remove button
+└── ColorPicker, in a popover
+```
+
+`ColorSwatch` and `ColorTile` are exported too, to show a color elsewhere with the same checker behind translucent colors.
+
+## Examples
+
+### Popover
+
+`ColorPickerPopover` shows the color as a tile and its hex value. `triggerLabel` adds a label beside it, before the tile or after it with `triggerLabelPosition="right"`.
+
+<ComponentPreview styleName="base-nova" name="color-picker-popover" />
+
+### Swatches
+
+`swatches` adds preset colors below the fields. Any CSS color works, named ones too, and a `{ color, label }` swatch names the color in a tooltip and to screen readers. The swatch matching the current color is framed.
+
+<ComponentPreview
+  styleName="base-nova"
+  name="color-picker-swatches"
+  previewClassName="h-auto"
+/>
+
+### OKLCH
+
+`defaultFormat` picks the format the fields show and `onValueChange` writes. In OKLCH the hue you type is kept while you change lightness and chroma, even through gray.
+
+<ComponentPreview
+  styleName="base-nova"
+  name="color-picker-oklch"
+  previewClassName="h-auto"
+/>
+
+### Controlled
+
+Control the color with `value` and `onValueChange`. The value comes back in the selected format, and switching the format writes the same color again in the new one.
+
+<ComponentPreview
+  styleName="base-nova"
+  name="color-picker-controlled"
+  previewClassName="h-auto"
+/>
+
+### Removable
+
+`triggerShowRemove` adds a remove button beside the trigger, which calls `onTriggerRemove` without opening the picker.
+
+<ComponentPreview styleName="base-nova" name="color-picker-removable" />
+
+### Sizes
+
+`size="sm"` and `size="lg"` set the compact and spacious [density](/docs/foundations/density) on the trigger and the panel. Without it, both follow the nearest density.
+
+<ComponentPreview styleName="base-nova" name="color-picker-sizes" />
+
+### Without the eyedropper
+
+The eyedropper uses the browser's `EyeDropper`, which only Chromium browsers have; elsewhere the button doesn't render. `hideEyedropper` hides it everywhere.
+
+<ComponentPreview
+  styleName="base-nova"
+  name="color-picker-no-eyedropper"
+  previewClassName="h-auto"
+/>
+
+## What it reads
+
+`value`, `defaultValue` and the hex field read:
+
+- hex with 3, 4, 6 or 8 digits, with or without `#`
+- `rgb()` and `rgba()`, with commas, spaces or a `/` before alpha
+- `hsl()` and `hsla()`
+- `oklch()`, with lightness as a percent or a fraction
+
+The hex field and swatches also take named colors (`tomato`). A value that can't be read is ignored and the color stays as it was.
+
+## API Reference
+
+### ColorPicker
+
+Every `div` prop, plus:
+
+| Prop             | Type                                              | Default     |
+| ---------------- | ------------------------------------------------- | ----------- |
+| `value`          | `string`                                          | -           |
+| `defaultValue`   | `string`                                          | `"#6b97ff"` |
+| `onValueChange`  | `(value: string, color: ParsedColor) => void`     | -           |
+| `format`         | `"hex" \| "rgb" \| "hsl" \| "oklch"`              | -           |
+| `defaultFormat`  | `"hex" \| "rgb" \| "hsl" \| "oklch"`              | `"hex"`     |
+| `onFormatChange` | `(format: ColorFormat) => void`                   | -           |
+| `swatches`       | `(string \| { color: string; label?: string })[]` | -           |
+| `hideEyedropper` | `boolean`                                         | `false`     |
+| `size`           | `"sm" \| "default" \| "lg"`                       | `"default"` |
+
+`onValueChange` also hands over the color in every format: `hex`, `rgb`, `hsl` and `oklch` strings, the rounded `r`, `g` and `b` channels, and `h`, `s`, `v` and `a`.
+
+### ColorPickerPopover
+
+Every `ColorPicker` prop, plus:
+
+| Prop                   | Type                      | Default  |
+| ---------------------- | ------------------------- | -------- |
+| `triggerLabel`         | `string`                  | -        |
+| `triggerLabelPosition` | `"left" \| "right"`       | `"left"` |
+| `triggerShowValue`     | `boolean`                 | `true`   |
+| `triggerShowRemove`    | `boolean`                 | `false`  |
+| `onTriggerRemove`      | `() => void`              | -        |
+| `triggerClassName`     | `string`                  | -        |
+| `open`                 | `boolean`                 | -        |
+| `defaultOpen`          | `boolean`                 | -        |
+| `onOpenChange`         | `(open: boolean) => void` | -        |
+
+### Data attributes
+
+| Attribute                             | Element                            |
+| ------------------------------------- | ---------------------------------- |
+| `data-slot="color-picker"`            | the panel                          |
+| `data-slot="color-picker-area"`       | the saturation and brightness area |
+| `data-slot="color-picker-area-thumb"` | the area's thumb                   |
+| `data-slot="color-picker-sliders"`    | the hue and alpha sliders          |
+| `data-slot="color-picker-format"`     | the format select's trigger        |
+| `data-slot="color-picker-eyedropper"` | the eyedropper button              |
+| `data-slot="color-picker-fields"`     | the channel fields                 |
+| `data-slot="color-picker-field"`      | one field                          |
+| `data-slot="color-picker-swatches"`   | the swatches                       |
+| `data-slot="color-picker-swatch"`     | one swatch                         |
+| `data-slot="color-picker-trigger"`    | the popover's trigger              |
+| `data-slot="color-picker-remove"`     | the remove button                  |
+| `data-slot="color-tile"`              | a color tile                       |
+
+## Accessibility
+
+- The area is a slider named "Color" that reports saturation and brightness as its value text. Left and right arrows change saturation, up and down brightness, by 1% (10% with Shift). Home and End jump to the saturation ends, Page Up and Page Down to the brightness ends.
+- The hue and alpha sliders are Sliders, named "Hue" and "Alpha", with the Slider's keyboard.
+- Each channel field is a text input named after its channel; alpha is a percent. Up and down arrows step it (ten times further with Shift), Enter or leaving the field commits typed text, and Escape puts the last value back. Hue fields wrap past 360.
+- Swatches are toggle buttons: the selected one reports `aria-pressed`, and a labelled swatch is named by its label.
+- The popover's trigger is a button that reports `aria-expanded`. Focus moves into the panel when it opens and back to the trigger when it closes. With a changed value in a field, the first Escape reverts the field and the second closes the popover.
+- The eyedropper is a button named "Pick a color from the screen". Pressing Escape during a pick cancels it.

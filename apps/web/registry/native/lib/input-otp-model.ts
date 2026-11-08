@@ -42,13 +42,21 @@ export function getNextOtpValue(
 export function getOtpSlots(
   value: string,
   maxLength: number,
-  isFocused: boolean
+  isFocused: boolean,
+  placeholder?: string
 ) {
   const activeIndex = Math.min(value.length, maxLength - 1)
   return Array.from({ length: maxLength }, (_, index) => {
     const char = value[index] ?? null
     const isActive = isFocused && index === activeIndex
-    return { char, isActive, hasFakeCaret: isActive && char === null }
+    const placeholderChar =
+      char === null ? (placeholder?.[index] ?? null) : null
+    return {
+      char,
+      placeholderChar,
+      isActive,
+      hasFakeCaret: isActive && char === null,
+    }
   })
 }
 

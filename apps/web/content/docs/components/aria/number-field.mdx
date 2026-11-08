@@ -1,0 +1,210 @@
+---
+title: Number Field
+description: A number input with steppers, limits, keyboard stepping and locale formatting.
+base: aria
+component: true
+links:
+  doc: https://react-aria.adobe.com/NumberField
+  api: https://react-aria.adobe.com/NumberField#api
+---
+
+<ComponentPreview styleName="aria-nova" name="number-field-demo" />
+
+Number Field is a number input with decrement and increment buttons. It keeps the value within `minValue` and `maxValue`, steps by `step` from the buttons and the keyboard, and formats the value for the reader's locale: currency, percent and units.
+
+It's built on the React Aria NumberField and drawn by the [Input Group](/docs/components/aria/input-group), so its frame, focus, hover, invalid and disabled states are the input's. Number Field is part of the Fabricator style.
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">Command</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx fabricator-ui@latest add number-field
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps className="mb-0 pt-2">
+
+<Step>Install the following dependencies:</Step>
+
+```bash
+npm install react-aria-components
+```
+
+<Step>Add the [Input Group](/docs/components/aria/input-group) component.</Step>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  src="styles/aria-fabricator/ui/number-field.tsx"
+  title="components/ui/number-field.tsx"
+  styleName="aria-nova"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx showLineNumbers
+import { FieldLabel } from "@/components/ui/field"
+import {
+  NumberField,
+  NumberFieldDecrement,
+  NumberFieldGroup,
+  NumberFieldIncrement,
+  NumberFieldInput,
+} from "@/components/ui/number-field"
+```
+
+```tsx showLineNumbers
+<NumberField defaultValue={1} minValue={0} maxValue={10}>
+  <FieldLabel>Quantity</FieldLabel>
+  <NumberFieldGroup>
+    <NumberFieldDecrement />
+    <NumberFieldInput />
+    <NumberFieldIncrement />
+  </NumberFieldGroup>
+</NumberField>
+```
+
+## Composition
+
+Use the following composition to build a `NumberField`:
+
+```text
+NumberField
+├── FieldLabel
+└── NumberFieldGroup
+    ├── NumberFieldDecrement
+    ├── NumberFieldInput
+    └── NumberFieldIncrement
+```
+
+Each stepper sits in its own Input Group addon. The decrement goes at the start and the increment at the end. For both at the end, put the input first and set `align="inline-end"` on the decrement:
+
+```tsx showLineNumbers
+<NumberFieldGroup>
+  <NumberFieldInput />
+  <NumberFieldDecrement align="inline-end" />
+  <NumberFieldIncrement />
+</NumberFieldGroup>
+```
+
+## Examples
+
+### Basic
+
+Without a visible label, name the field with `aria-label` on `NumberField`.
+
+<ComponentPreview styleName="aria-nova" name="number-field-basic" />
+
+### Steppers at the end
+
+<ComponentPreview styleName="aria-nova" name="number-field-steppers-end" />
+
+### Min, max and step
+
+The buttons and the arrow keys stop at `minValue` and `maxValue`, and a stepper turns disabled at its limit. A typed value is clamped and snapped to the step when the field loses focus. `step` sets the amount.
+
+<ComponentPreview styleName="aria-nova" name="number-field-min-max" />
+
+### Formatting
+
+`formatOptions` takes [`Intl.NumberFormat` options](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/NumberFormat/NumberFormat#options). The value stays a plain number: `0.15` shows as 15% with `style: "percent"`. The locale comes from React Aria's `I18nProvider`, and defaults to the reader's.
+
+<ComponentPreview styleName="aria-nova" name="number-field-format" />
+
+### Field
+
+Put `FieldLabel` inside `NumberField`: React Aria wires the label to the input. Point `aria-describedby` on `NumberField` at the `FieldDescription`.
+
+<ComponentPreview styleName="aria-nova" name="number-field-field" />
+
+### Disabled and read-only
+
+`isDisabled` dims the field and turns it and its steppers off. `isReadOnly` keeps the value focusable and selectable, but it can't change.
+
+<ComponentPreview styleName="aria-nova" name="number-field-disabled" />
+
+### Invalid
+
+Set `isInvalid` on `NumberField` and `data-invalid` on `Field`.
+
+<ComponentPreview styleName="aria-nova" name="number-field-invalid" />
+
+### Sizes
+
+The field follows the [density](/docs/foundations/density). Set `density-compact` or `density-spacious` on it, or on any parent.
+
+<ComponentPreview styleName="aria-nova" name="number-field-sizes" />
+
+### Controlled
+
+Control the value with `value` and `onChange`. The value is `NaN` when the input is empty.
+
+<ComponentPreview styleName="aria-nova" name="number-field-controlled" />
+
+## API Reference
+
+`NumberField`, `NumberFieldGroup` and `NumberFieldInput` take every prop of their React Aria part. See the [React Aria NumberField](https://react-aria.adobe.com/NumberField#api) documentation.
+
+### NumberField
+
+| Prop            | Type                       | Default |
+| --------------- | -------------------------- | ------- |
+| `value`         | `number`                   | -       |
+| `defaultValue`  | `number`                   | -       |
+| `onChange`      | `(value: number) => void`  | -       |
+| `minValue`      | `number`                   | -       |
+| `maxValue`      | `number`                   | -       |
+| `step`          | `number`                   | `1`     |
+| `formatOptions` | `Intl.NumberFormatOptions` | -       |
+| `isDisabled`    | `boolean`                  | `false` |
+| `isReadOnly`    | `boolean`                  | `false` |
+| `isRequired`    | `boolean`                  | `false` |
+| `isInvalid`     | `boolean`                  | `false` |
+| `name`          | `string`                   | -       |
+
+### NumberFieldDecrement and NumberFieldIncrement
+
+Every `Button` prop except `slot`, plus:
+
+| Prop       | Type                             | Default                                                  |
+| ---------- | -------------------------------- | -------------------------------------------------------- |
+| `align`    | `"inline-start" \| "inline-end"` | `"inline-start"` (decrement), `"inline-end"` (increment) |
+| `children` | `React.ReactNode`                | a minus or plus icon                                     |
+
+### Data attributes
+
+| Attribute                            | Element              |
+| ------------------------------------ | -------------------- |
+| `data-slot="number-field"`           | root                 |
+| `data-slot="number-field-group"`     | the frame            |
+| `data-slot="number-field-input"`     | the `<input>`        |
+| `data-slot="number-field-decrement"` | the decrement button |
+| `data-slot="number-field-increment"` | the increment button |
+
+React Aria also sets `data-disabled`, `data-readonly`, `data-invalid` and `data-required` on the root.
+
+## Accessibility
+
+- React Aria's NumberField: the input is a text input described as a "Number field". ArrowUp and ArrowDown step by `step`, PageUp and PageDown step by a larger amount, and Home and End jump to `minValue` and `maxValue` when they're set.
+- The steppers stay out of the tab order, so Tab moves from the field to the next control. React Aria names them "Increase" and "Decrease" with the field's label, in the reader's language.
+- Give the field a name: a `FieldLabel` inside `NumberField`, or `aria-label` on it.
+- Typing accepts the locale's digits, separators, currency signs and percent signs. On phones the input opens a numeric keyboard, or the decimal one when the value can have decimals.
+- Focus lifts the frame to the card surface with the neutral focus ring. Invalid turns the ring red.

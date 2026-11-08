@@ -59,6 +59,21 @@ describe("getOtpSlots", () => {
     expect(slots[2]?.hasFakeCaret).toBe(true)
   })
 
+  it("gives each empty slot its placeholder character, as input-otp does", () => {
+    const slots = getOtpSlots("1", 4, false, "0000")
+    expect(slots.map((slot) => slot.placeholderChar)).toEqual([
+      null,
+      "0",
+      "0",
+      "0",
+    ])
+  })
+
+  it("has no placeholder characters without a placeholder", () => {
+    const slots = getOtpSlots("", 3, false)
+    expect(slots.every((slot) => slot.placeholderChar === null)).toBe(true)
+  })
+
   it("lights nothing without focus", () => {
     const slots = getOtpSlots("12", 4, false)
     expect(slots.some((slot) => slot.isActive)).toBe(false)

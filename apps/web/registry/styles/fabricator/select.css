@@ -5,7 +5,7 @@
      compact (28px, 12px). Keyboard focus turns the ring
      blue; invalid turns it destructive. The chevron brightens on hover. */
   .cn-select-trigger {
-    @apply cursor-pointer ring-border data-placeholder:text-muted-foreground hover:bg-muted/50 focus-visible:ring-ring aria-invalid:ring-destructive/50 aria-invalid:hover:bg-destructive/5 h-(--density-36) gap-(--density-8) rounded-lg bg-transparent py-0 pr-(--density-8) pl-(--density-10) text-(length:--density-text-13) ring-1 transition-[color,background-color,box-shadow] duration-feedback select-none data-[size=sm]:density-compact *:data-[slot=select-value]:flex *:data-[slot=select-value]:gap-(--density-8) [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5] hover:[&>svg]:text-foreground;
+    @apply cursor-pointer ring-border data-placeholder:text-muted-foreground hover:bg-muted/50 focus-visible:ring-ring aria-invalid:ring-destructive/50 aria-invalid:hover:bg-destructive/5 h-(--density-36) gap-(--density-8) rounded-lg bg-transparent py-0 pr-(--density-8) pl-(--density-10) text-(length:--density-text-13) ring-1 ring-inset transition-[color,background-color,box-shadow] duration-feedback select-none data-[size=sm]:density-compact *:data-[slot=select-value]:flex *:data-[slot=select-value]:gap-(--density-8) [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5] hover:[&>svg]:text-foreground;
   }
 
   .cn-select-value {
