@@ -3,10 +3,12 @@
   /* A raised card on surface 3 that lifts to surface 4's shadow while the
      field has focus, with a faint foreground ring for the keyboard. Its height
      eases to what it holds on the move timing, so a growing draft or a row of
-     attachments slides the card open rather than jumping. The pill rounds to
+     attachments slides the card open rather than jumping. On a card (surface
+     3 too) it steps up to surface 4, and 5's shadow on focus, so it never
+     blends into what holds it. The pill rounds to
      26px around its round send; the large card has 16px corners. */
   .cn-chat-input {
-    @apply bg-surface-3 shadow-surface-3 rounded-2xl text-foreground transition-[height,box-shadow] duration-move ease-move focus-within:shadow-surface-4 has-[[data-slot=chat-input-textarea]:focus-visible]:ring-1 has-[[data-slot=chat-input-textarea]:focus-visible]:ring-foreground/10 has-[[data-slot=chat-input-textarea][aria-invalid=true]]:ring-1 has-[[data-slot=chat-input-textarea][aria-invalid=true]]:ring-destructive/50 data-[layout=default]:rounded-[calc(var(--density-36)/2+var(--density-8))] data-disabled:cursor-not-allowed data-disabled:opacity-60 motion-reduce:transition-[box-shadow];
+    @apply bg-surface-3 shadow-surface-3 rounded-2xl text-foreground transition-[height,box-shadow] duration-move ease-move focus-within:shadow-surface-4 in-data-[slot=card]:bg-surface-4 in-data-[slot=card]:shadow-surface-4 in-data-[slot=card]:focus-within:shadow-surface-5 has-[[data-slot=chat-input-textarea]:focus-visible]:ring-1 has-[[data-slot=chat-input-textarea]:focus-visible]:ring-foreground/10 has-[[data-slot=chat-input-textarea][aria-invalid=true]]:ring-1 has-[[data-slot=chat-input-textarea][aria-invalid=true]]:ring-destructive/50 data-[layout=default]:rounded-[calc(var(--density-36)/2+var(--density-8))] data-disabled:cursor-not-allowed data-disabled:opacity-60 motion-reduce:transition-[box-shadow];
   }
 
   .cn-chat-input-content {
