@@ -1,6 +1,6 @@
 [package]
 name = "fabricator-ui-desktop"
-version = "0.5.1"
+version = "0.6.0"
 description = "The Tauri shell of the Fabricator UI desktop example"
 edition = "2021"
 publish = false
