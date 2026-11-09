@@ -52,7 +52,7 @@ const LOCAL_NPM = `http://localhost:${LOCAL_NPM_PORT}`
 const env = {
   ...process.env,
   FABRICATOR_REGISTRY_URL: REGISTRY_URL,
-  // Installs the icons this checkout builds: see local-npm.ts.
+  // Installs the icons and editor-native this checkout builds: see local-npm.ts.
   BUN_CONFIG_REGISTRY: LOCAL_NPM,
   npm_config_registry: LOCAL_NPM,
   pnpm_config_registry: LOCAL_NPM,
@@ -1035,32 +1035,29 @@ const scenarios: Scenario[] = [
   },
 ]
 
-// Packs the workspace's icons and serves them, in its own process: every step
-// below blocks this one with spawnSync.
-const packedIcons = ["packages/icons", "packages/icons-react-native"].flatMap(
-  (packagePath) => {
-    const packDir = fs.mkdtempSync(
-      path.join(os.tmpdir(), "fabricator-e2e-npm-")
-    )
-    const packageDir = path.join(ROOT, packagePath)
-    spawnSync("bun", ["pm", "pack", "--destination", packDir, "--quiet"], {
-      cwd: packageDir,
-      stdio: "inherit",
-    })
-    const [tarball] = fs.readdirSync(packDir)
-    assert(
-      tarball,
-      `Packing ${packagePath} failed: run \`bun run build\` first`
-    )
-    return [path.join(packDir, tarball), path.join(packageDir, "package.json")]
-  }
-)
+// Packs the workspace packages registry items install and serves them, in its
+// own process: every step below blocks this one with spawnSync.
+const packedPackages = [
+  "packages/icons",
+  "packages/icons-react-native",
+  "packages/editor-native",
+].flatMap((packagePath) => {
+  const packDir = fs.mkdtempSync(path.join(os.tmpdir(), "fabricator-e2e-npm-"))
+  const packageDir = path.join(ROOT, packagePath)
+  spawnSync("bun", ["pm", "pack", "--destination", packDir, "--quiet"], {
+    cwd: packageDir,
+    stdio: "inherit",
+  })
+  const [tarball] = fs.readdirSync(packDir)
+  assert(tarball, `Packing ${packagePath} failed: run \`bun run build\` first`)
+  return [path.join(packDir, tarball), path.join(packageDir, "package.json")]
+})
 const localNpm = spawn(
   "bun",
   [
     path.join(import.meta.dirname, "local-npm.ts"),
     String(LOCAL_NPM_PORT),
-    ...packedIcons,
+    ...packedPackages,
   ],
   { stdio: "inherit" }
 )

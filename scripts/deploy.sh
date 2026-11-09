@@ -9,9 +9,10 @@
 #   bun run deploy              production deploy; only from a clean, pushed `main`
 #   bun run deploy -- --preview preview deploy of the current checkout
 #
-# A production deploy first publishes the icon packages (scripts/publish-icons.sh),
-# since `/init` installs @fabricator-ui/icons by default and the site must not go
-# live ahead of it. After the site it releases the CLI (scripts/publish.sh): it
+# A production deploy first publishes the icon packages and editor-native
+# (scripts/publish-icons.sh), since `/init` installs @fabricator-ui/icons by
+# default, the native `editor` item installs @fabricator-ui/editor-native, and
+# the site must not go live ahead of them. After the site it releases the CLI (scripts/publish.sh): it
 # publishes the version in packages/cli/package.json to npm if it is new, and
 # tags it with a GitHub release. The site ships first there, so a new CLI never
 # points at registry items the site does not serve yet.

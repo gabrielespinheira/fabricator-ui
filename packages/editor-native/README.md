@@ -2,7 +2,7 @@
 
 The native text view behind Fabricator UI's Markdown editor, as an Expo module. One `UITextView` (TextKit 2) holds the whole document, like Apple Notes: selection runs across paragraphs, and typing, autocorrect, predictive text, dictation and marked text are the system's own. JS owns the model; the view shows it, reports edits as ranges of the document's flat text, and reports the caret. The design is in `docs/plans/editor.md` (§2, §7.3).
 
-Private for now: it isn't published, and its API can still change.
+Install it with `npx fabricator-ui@latest add editor` in a React Native project, which adds it with the `editor` item. Its API can still change before 1.0.
 
 ## Platforms
 

@@ -163,7 +163,7 @@
     },
     "packages/editor-native": {
       "name": "@fabricator-ui/editor-native",
-      "version": "0.0.0",
+      "version": "0.1.0",
       "peerDependencies": {
         "expo": "*",
         "react": "*",
