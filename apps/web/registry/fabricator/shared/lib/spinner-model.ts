@@ -219,7 +219,7 @@ export function getSpinnerPolygonPoints(
   width: number,
   height: number
 ) {
-  const points =
+  const points: readonly (readonly [number, number])[] =
     shape === "triangle"
       ? [
           [0.5, 0],
@@ -760,10 +760,12 @@ export function getSpinnerFrame(
   phase: number
 ): SpinnerFrame {
   "worklet"
-  for (let index = 1; index < motion.length; index++) {
-    const previous = motion[index - 1]
-    const next = motion[index]
-    if (phase > next.at) continue
+  let previous = motion[0]
+  for (const next of motion.slice(1)) {
+    if (phase > next.at) {
+      previous = next
+      continue
+    }
     const progress = (phase - previous.at) / (next.at - previous.at)
     return {
       at: phase,
@@ -780,7 +782,7 @@ export function getSpinnerFrame(
         previous.rotation + (next.rotation - previous.rotation) * progress,
     }
   }
-  return motion[motion.length - 1]
+  return previous
 }
 
 // Loading cycles stay independent of UI transition speeds.
