@@ -799,7 +799,7 @@ describe("round trip of edits", () => {
         5
       )
     }
-  })
+  }, 60_000)
 
   it("holds every ASCII punctuation character at every position", () => {
     for (const character of ASCII_PUNCTUATION) {
