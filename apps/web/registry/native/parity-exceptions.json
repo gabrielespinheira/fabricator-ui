@@ -434,10 +434,59 @@
     "date": "2026-11-08"
   },
   {
+    "item": "chat-input",
+    "kind": "component",
+    "name": "chat-input",
+    "reason": "Web-first chat composer uses DOM text editing, file drop/paste and voice-glow. Native composition, attachment picking and voice visuals are deferred.",
+    "date": "2026-11-09"
+  },
+  {
+    "item": "color-picker",
+    "kind": "component",
+    "name": "color-picker",
+    "reason": "Web-first color picker uses pointer scrubbing and the browser eyedropper. Native touch color controls are deferred.",
+    "date": "2026-11-09"
+  },
+  {
     "item": "file-tree",
-    "kind": "export",
-    "name": "FileTree",
-    "reason": "New desktop explorer ships on web first. The native File Tree, with touch selection and action menus in place of pointer modifiers and keyboard deletion, is deferred; the native parity report intentionally lists this item as missing.",
-    "date": "2026-11-08"
+    "kind": "component",
+    "name": "file-tree",
+    "reason": "Desktop explorer ships on web first. Native touch selection and action menus are deferred.",
+    "date": "2026-11-09"
+  },
+  {
+    "item": "file-upload",
+    "kind": "component",
+    "name": "file-upload",
+    "reason": "Web-first upload controls use File, drag-and-drop, paste and native HTML form submission. Native document/image picking is deferred.",
+    "date": "2026-11-09"
+  },
+  {
+    "item": "model-picker",
+    "kind": "component",
+    "name": "model-picker",
+    "reason": "Web-first model and reasoning selector ships with Chat Input. Native selector presentation is deferred with the composer.",
+    "date": "2026-11-09"
+  },
+  {
+    "item": "number-field",
+    "kind": "component",
+    "name": "number-field",
+    "reason": "Web Number Field ships first. Native number formatting models exist, but the native stepper field and its demo are deferred.",
+    "date": "2026-11-09"
+  },
+  {
+    "item": "time-input",
+    "kind": "component",
+    "name": "time-input",
+    "reason": "Web-first time field and duration modes use Time Wheel. Native field and wheel controls are deferred; the native Date Picker documents this limit.",
+    "date": "2026-11-09"
+  },
+  {
+    "item": "time-wheel",
+    "kind": "component",
+    "name": "time-wheel",
+    "reason": "Web-first wheel is a Time Input and Date Picker part. Native touch scrolling, snapping and accessibility adjustments are deferred with Time Input.",
+    "date": "2026-11-09"
   }
 ]

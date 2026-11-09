@@ -9,6 +9,7 @@ import {
   compareShapes,
   findMissingDemoValues,
   findUnresolvedImports,
+  getMissingComponentStatus,
   readComponentShape,
   readImports,
   type NativeItem,
@@ -76,7 +77,11 @@ async function main() {
   for (const name of webNames) {
     const nativeFile = `registry/native/ui/${name}.tsx`
     if (!items.has(name) || !existsSync(path.join(ROOT, nativeFile))) {
-      report.push({ name, status: "missing" as const, gaps: [] as ParityGap[] })
+      report.push({
+        name,
+        status: getMissingComponentStatus(name, exceptions),
+        gaps: [] as ParityGap[],
+      })
       continue
     }
     const webSource = await read(getWebSourcePath(name) ?? nativeFile)
@@ -143,6 +148,7 @@ async function main() {
 
   const done = report.filter((entry) => entry.status === "ok")
   const gapped = report.filter((entry) => entry.status === "gap")
+  const deferred = report.filter((entry) => entry.status === "deferred")
   const missing = report.filter((entry) => entry.status === "missing")
 
   for (const entry of gapped) {
@@ -153,6 +159,11 @@ async function main() {
     console.log(`✗ ${entry.name} imports what it doesn't install`)
     for (const gap of entry.gaps) console.log(`    ${gap.name}`)
   }
+  if (deferred.length > 0) {
+    console.log(
+      `Deferred (dated exceptions): ${deferred.map((entry) => entry.name).join(", ")}`
+    )
+  }
   if (missing.length > 0) {
     console.log(`Missing: ${missing.map((entry) => entry.name).join(", ")}`)
   }
@@ -160,7 +171,7 @@ async function main() {
     console.log(`Missing blocks: ${missingBlocks.join(", ")}`)
   }
   console.log(
-    `\nNative parity: ${done.length} of ${report.length} components clean, ${gapped.length} with gaps, ${missing.length} missing. ${webBlocks.length - missingBlocks.length} of ${webBlocks.length} blocks.`
+    `\nNative parity: ${done.length} of ${report.length} components clean, ${gapped.length} with gaps, ${missing.length} missing, ${deferred.length} deferred. ${webBlocks.length - missingBlocks.length} of ${webBlocks.length} blocks.`
   )
 
   if (jsonPath) {
@@ -172,7 +183,10 @@ async function main() {
   }
 
   if (importGaps.length > 0) process.exit(1)
-  if (isStrict && (done.length !== report.length || missingBlocks.length > 0)) {
+  if (
+    isStrict &&
+    (gapped.length > 0 || missing.length > 0 || missingBlocks.length > 0)
+  ) {
     process.exit(1)
   }
 }
