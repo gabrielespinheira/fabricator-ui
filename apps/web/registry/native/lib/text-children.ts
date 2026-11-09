@@ -36,6 +36,8 @@ export function wrapTextChildren<Wrapped>(
  */
 export function getTextContent(children: React.ReactNode) {
   return wrapTextChildren(children, (text) => text.trim())
-    .filter((child): child is string => typeof child === "string" && child !== "")
+    .filter(
+      (child): child is string => typeof child === "string" && child !== ""
+    )
     .join(" ")
 }

@@ -223,9 +223,7 @@ function TabsTrigger({
             feedback("note", { pitch: noteStep(index) })
             onPress?.(event)
           }}
-          accessibilityLabel={
-            isIconOnly ? getTextContent(children) : undefined
-          }
+          accessibilityLabel={isIconOnly ? getTextContent(children) : undefined}
           {...rowProps}
           {...props}
         >

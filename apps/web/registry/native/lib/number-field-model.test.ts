@@ -75,7 +75,9 @@ describe("parseNumberText", () => {
 
   it("ignores currency signs and units", () => {
     expect(
-      parseNumberText("$49.50", { format: { style: "currency", currency: "USD" } })
+      parseNumberText("$49.50", {
+        format: { style: "currency", currency: "USD" },
+      })
     ).toBe(49.5)
     expect(
       parseNumberText("5 km", { format: { style: "unit", unit: "kilometer" } })
