@@ -64,6 +64,14 @@ elif ! npm view @fabricator-ui/icons version > /dev/null 2>&1; then
 fi
 
 vercel pull --yes --environment="$mode"
+# apps/mobile's typecheck links its node_modules into the native source folders
+# (scripts/link-native-types.mjs). The site's `./registry/**/*` trace include
+# follows the link, which puts React Native in every function and an absolute
+# symlink Vercel rejects at deploy. `outputFileTracingExcludes` doesn't reach
+# Turbopack's include, so the links go; the next typecheck recreates them.
+for link in apps/web/registry/native/node_modules apps/web/examples/native/node_modules; do
+  if [ -L "$link" ]; then rm "$link"; fi
+done
 vercel build ${prod_flag[@]+"${prod_flag[@]}"}
 # The output has ~48k files; Vercel accepts 15k per upload, so send one archive.
 vercel deploy --prebuilt --archive=tgz ${prod_flag[@]+"${prod_flag[@]}"}
