@@ -25,6 +25,18 @@ Props match `@fabricator-ui/icons`. Brand marks accept `color="brand"` for their
 
 Brand marks are trademarks of their owners. Read [BRANDS.md](./BRANDS.md) before using one.
 
+## File icons
+
+```tsx
+import { FileTypeIcon, FileTypescriptIcon } from "@fabricator-ui/icons-react-native/files"
+
+<FileTypeIcon name="page.tsx" />
+<FileTypeIcon name="components" kind="folder" open />
+<FileTypescriptIcon size={20} />
+```
+
+249 file and folder drawings from Charmed Icons (MIT), default size 16px. `getFileIconName` and `getFolderIconName` expose the case-insensitive filename associations. Colours follow the device scheme, or `IconProvider`’s `colorScheme`.
+
 ## Licence
 
 MIT for Fabricator's code and Custom icons; the other outline icons are Lucide's, under ISC. See [LICENSE.md](./LICENSE.md).

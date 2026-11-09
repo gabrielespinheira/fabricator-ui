@@ -42,7 +42,7 @@ function describeWebItems(setup: ProjectSetup) {
     "your look",
     ...(setup.appShell ? ["the App Shell"] : []),
     ...(setup.sound ? ["interface sounds"] : []),
-    setup.components === "all" ? "every component" : "the button",
+    setup.components === "all" ? "every component" : "the button and spinner",
   ])
 }
 

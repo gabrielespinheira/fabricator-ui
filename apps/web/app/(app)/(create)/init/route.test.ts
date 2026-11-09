@@ -252,3 +252,26 @@ describe("GET /init", () => {
     )
   })
 })
+
+describe("spinner defaults", () => {
+  it("writes the selected default into the web theme", async () => {
+    const response = await GET(createCliRequest("&spinner=ripple"))
+    const item = await response.json()
+    expect(response.status).toBe(200)
+    expect(item.cssVars.light["spinner-ripple"]).toBe("inline")
+    expect(item.cssVars.light["spinner-orbit"]).toBe("none")
+  })
+
+  it("writes the same selection for native", async () => {
+    const response = await GET(
+      createCliRequest("&platform=native&spinner=ripple")
+    )
+    const item = await response.json()
+    expect(item.cssVars.light["spinner-variant"]).toBe("1")
+  })
+
+  it("rejects an unknown spinner", async () => {
+    const response = await GET(createCliRequest("&spinner=unknown"))
+    expect(response.status).toBe(400)
+  })
+})

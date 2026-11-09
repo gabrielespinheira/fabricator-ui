@@ -39,6 +39,10 @@ npx fabricator-icons png house bell --size 16 --scale 1,2 --template --out src-t
 
 Brand marks are trademarks of their owners. Read [BRANDS.md](./BRANDS.md) before using one.
 
+## File icons
+
+The `/files` entry exports 249 Charmed SVG strings, such as `FileTypescript`. The package includes `files/<name>.svg`, `files-sprite.svg`, and explicit `files/light/<name>.svg` and `files/dark/<name>.svg` variants for renderers without CSS support. Charmed Icons is MIT-licensed; see LICENSE.md.
+
 ## Licence
 
 MIT for Fabricator's code and Custom icons; the other outline icons are Lucide's, under ISC. See [LICENSE.md](./LICENSE.md).

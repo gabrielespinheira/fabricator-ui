@@ -32,6 +32,10 @@ import {
 } from "@/registry/fabricator/color-roles"
 import type { DensityName } from "@/registry/fabricator/density"
 import {
+  SPINNERS,
+  type SpinnerVariant,
+} from "@/registry/fabricator/shared/lib/spinner-model"
+import {
   sameTint,
   tintToHex,
   type SurfaceTint,
@@ -51,6 +55,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/styles/base-fabricator/ui/select"
+import { Spinner } from "@/styles/base-fabricator/ui/spinner"
 import {
   ToggleGroup,
   ToggleGroupItem,
@@ -395,6 +400,7 @@ export function SiteSettingsFields({ className }: { className?: string }) {
   const hydrated = useHydrated()
   const { theme, setTheme } = useTheme()
   const [sound, setSound] = useSiteSetting("sound")
+  const [spinner, setSpinner] = useSiteSetting("spinner")
   const [iconLibrary, setIconLibrary] = useSiteSetting("iconLibrary")
   const [radius, setRadius] = useSiteSetting("radius")
   const [motion, setMotion] = useSiteSetting("motion")
@@ -432,6 +438,21 @@ export function SiteSettingsFields({ className }: { className?: string }) {
           onValueChange={setIconLibrary}
           options={ICON_LIBRARIES.map((library) => ({ ...library }))}
         />
+      </SettingRow>
+      <SettingRow label="Spinner">
+        <div className="flex items-center gap-3">
+          <Spinner variant={spinner} aria-hidden="true" />
+          <SettingSelect<SpinnerVariant>
+            label="Spinner"
+            value={spinner}
+            onValueChange={setSpinner}
+            options={SPINNERS.map(({ value, label }) => ({
+              value,
+              label,
+              icon: <Spinner variant={value} aria-hidden="true" />,
+            }))}
+          />
+        </div>
       </SettingRow>
       <SettingRow label="Radius">
         <SettingSelect<SiteRadius>

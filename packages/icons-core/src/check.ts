@@ -5,6 +5,7 @@ import { AnimatedTransformError, loadAnimatedIcons } from "./animated"
 import { contrast, DARK_SURFACE } from "./brand-colors"
 import { SCALE_FLOOR } from "./brand-scale"
 import { loadBrands } from "./brands"
+import { loadFileIcons } from "./file-icons"
 import { getBounds, type Bounds } from "./geometry"
 import { isKebabCase } from "./names"
 import { loadOutlineIcons, readBrandStopwords, readCategories } from "./outline"
@@ -190,6 +191,7 @@ export function checkAnimated() {
 }
 
 export function checkSources() {
+  loadFileIcons()
   return [
     ...checkOriginals(),
     ...checkBrands(),

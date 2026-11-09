@@ -53,6 +53,7 @@ Options:
   --shell [options]           the App Shell, with key=value options
   --no-shell                  skip the App Shell
   --icons <library>           an icon library other than Fabricator's
+  --spinner <variant>         default loading animation (see Spinner for all twenty-two variants)
   --no-sounds                 skip the interface sounds
   --all                       add every component
   --agents <assistants>       claude, cursor, vscode, codex, opencode
@@ -76,6 +77,7 @@ npx fabricator-ui@latest init --shell --sounds --agents claude,codex --yes
 ```
 
 - `--shell` writes the App Shell and adds it to your root layout, when it recognises the file. When it doesn't, it leaves the file alone and tells you what to add.
+- `--spinner <variant>` installs [Spinner](/docs/components/base/spinner) and saves the default pattern for your project. `orbit` is the default. All twenty-two patterns on the Spinner page work with this flag.
 - `--look` applies a look, which reinstalls your components. In a project with uncommitted work it stops, unless you pass `--force`.
 - In a monorepo, run it at the root: it sets up each app, with the React Native components in an Expo app.
 

@@ -432,5 +432,12 @@
     "name": "cn-video-player-volume-readout-value",
     "reason": "The website's volume readout answers the volume keys. A phone or tablet changes the volume with its hardware buttons and the system draws its own indicator, and the mute button already shows mute in its icon.",
     "date": "2026-11-08"
+  },
+  {
+    "item": "file-tree",
+    "kind": "export",
+    "name": "FileTree",
+    "reason": "New desktop explorer ships on web first. The native File Tree, with touch selection and action menus in place of pointer modifiers and keyboard deletion, is deferred; the native parity report intentionally lists this item as missing.",
+    "date": "2026-11-08"
   }
 ]

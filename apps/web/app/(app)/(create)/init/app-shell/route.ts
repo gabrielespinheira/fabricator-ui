@@ -3,6 +3,10 @@ import { registryItemSchema } from "shadcn/schema"
 
 import { usesFabricatorIcons } from "@/registry/fabricator-init"
 import {
+  getSpinnerVariables,
+  isSpinnerVariant,
+} from "@/registry/fabricator/shared/lib/spinner-model"
+import {
   buildAppShellItem,
   parseAppShellParams,
   parseAppShellTarget,
@@ -15,6 +19,13 @@ import { buildNativeAppShellItem } from "@/app/(view)/app-shell/_lib/app-shell-s
  */
 export async function GET(request: NextRequest) {
   const params = request.nextUrl.searchParams
+  const spinner = params.get("spinner")
+  if (spinner !== null && !isSpinnerVariant(spinner)) {
+    return NextResponse.json(
+      { error: `Unknown spinner "${spinner}".` },
+      { status: 400 }
+    )
+  }
   const target = parseAppShellTarget(params)
   const options = parseAppShellParams(params, target)
   const item = registryItemSchema.safeParse(
@@ -30,6 +41,19 @@ export async function GET(request: NextRequest) {
       { error: "Invalid registry item", details: item.error.format() },
       { status: 500 }
     )
+  }
+  if (spinner) {
+    const variables = getSpinnerVariables(spinner)
+    item.data.cssVars = {
+      light: Object.fromEntries(
+        Object.entries(variables)
+          .filter(
+            ([key]) =>
+              params.get("platform") !== "native" || key === "--spinner-variant"
+          )
+          .map(([key, value]) => [key.slice(2), value])
+      ),
+    }
   }
   return NextResponse.json(item.data)
 }

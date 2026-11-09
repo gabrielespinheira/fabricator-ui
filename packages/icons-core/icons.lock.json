@@ -14,5 +14,11 @@
   },
   "logos": {
     "version": "1.2.18"
+  },
+  "files": {
+    "repository": "https://github.com/littensy/charmed-icons.git",
+    "tag": "v0.10.0",
+    "sha": "4b004b21601b367726e6472bd22bbb66e4db79f4",
+    "syncedAt": "2026-11-08"
   }
 }

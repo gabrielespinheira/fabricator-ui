@@ -70,6 +70,7 @@ const GROUP_BY_SLUG: Record<string, ComponentGroup> = {
   sidebar: "Navigation & Layout",
   "app-shell": "Navigation & Layout",
   "app-nav": "Navigation & Layout",
+  "file-tree": "Navigation & Layout",
   "tab-strip": "Navigation & Layout",
   "workspace-switcher": "Navigation & Layout",
   "user-menu": "Navigation & Layout",

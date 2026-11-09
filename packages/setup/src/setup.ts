@@ -88,6 +88,32 @@ export const ICON_LIBRARY_VALUES = [
 ] as const
 export type IconLibrary = (typeof ICON_LIBRARY_VALUES)[number]
 
+export const SPINNER_VALUES = [
+  "orbit",
+  "ripple",
+  "cascade",
+  "wave",
+  "pulse",
+  "braid",
+  "ring",
+  "comet",
+  "bounce",
+  "equalizer",
+  "flip",
+  "scan",
+  "quad-swap",
+  "quad-fold",
+  "tic-tac",
+  "bloom",
+  "checker",
+  "diagonal",
+  "triangle",
+  "square",
+  "rings",
+  "hex",
+] as const
+export type SpinnerVariant = (typeof SPINNER_VALUES)[number]
+
 export const ASSISTANT_VALUES = [
   "claude",
   "cursor",
@@ -142,6 +168,7 @@ export const projectSetupSchema = z.object({
   skill: z.boolean(),
   mcp: z.boolean(),
   iconLibrary: z.enum(ICON_LIBRARY_VALUES),
+  spinner: z.enum(SPINNER_VALUES).default("orbit"),
   /** The look's values that differ from the defaults, as URL params. */
   look: z.record(z.string(), z.string()),
 })
@@ -164,6 +191,7 @@ export const DEFAULT_PROJECT_SETUP: ProjectSetup = {
   skill: true,
   mcp: true,
   iconLibrary: "fabricator",
+  spinner: "orbit",
   look: {},
 }
 

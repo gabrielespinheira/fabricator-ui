@@ -14,6 +14,9 @@ export const CLI_PACKAGE = "fabricator-ui@latest"
 
 function sharedFlags(setup: ProjectSetup) {
   return [
+    ...(setup.spinner === DEFAULT_PROJECT_SETUP.spinner
+      ? []
+      : ["--spinner", setup.spinner]),
     ...(setup.iconLibrary === DEFAULT_PROJECT_SETUP.iconLibrary
       ? []
       : ["--icons", setup.iconLibrary]),

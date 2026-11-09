@@ -17,6 +17,7 @@ import {
   ArrowUpDownIcon as FabricatorArrowUpDownIcon,
   ArrowUpIcon as FabricatorArrowUpIcon,
   ArrowUpRightIcon as FabricatorArrowUpRightIcon,
+  AtomIcon as FabricatorAtomIcon,
   AtSignIcon as FabricatorAtSignIcon,
   AudioLinesIcon as FabricatorAudioLinesIcon,
   AudioWaveform as FabricatorAudioWaveform,
@@ -34,6 +35,7 @@ import {
   Bot as FabricatorBot,
   BotIcon as FabricatorBotIcon,
   BoxIcon as FabricatorBoxIcon,
+  BracesIcon as FabricatorBracesIcon,
   Building2Icon as FabricatorBuilding2Icon,
   BuildingIcon as FabricatorBuildingIcon,
   Calculator as FabricatorCalculator,
@@ -143,6 +145,7 @@ import {
   MoreHorizontalIcon as FabricatorMoreHorizontalIcon,
   NewspaperIcon as FabricatorNewspaperIcon,
   OctagonXIcon as FabricatorOctagonXIcon,
+  PackageIcon as FabricatorPackageIcon,
   PaletteIcon as FabricatorPaletteIcon,
   PanelLeftCloseIcon as FabricatorPanelLeftCloseIcon,
   PanelLeftIcon as FabricatorPanelLeftIcon,
@@ -336,6 +339,9 @@ export const ArrowUpRightIcon = createSiteIcon(FabricatorArrowUpRightIcon, {
 export const AtSignIcon = createSiteIcon(FabricatorAtSignIcon, {
   lucide: "AtSignIcon",
 })
+export const AtomIcon = createSiteIcon(FabricatorAtomIcon, {
+  lucide: "AtomIcon",
+})
 export const AudioLinesIcon = createSiteIcon(FabricatorAudioLinesIcon, {
   lucide: "AudioLinesIcon",
   tabler: "IconPlayerRecordFilled",
@@ -442,6 +448,9 @@ export const BotIcon = createSiteIcon(FabricatorBotIcon, {
   remixicon: "RiRobotLine",
 })
 export const BoxIcon = createSiteIcon(FabricatorBoxIcon, { lucide: "BoxIcon" })
+export const BracesIcon = createSiteIcon(FabricatorBracesIcon, {
+  lucide: "BracesIcon",
+})
 export const Building2Icon = createSiteIcon(FabricatorBuilding2Icon, {
   lucide: "Building2Icon",
   tabler: "IconBuildingBank",
@@ -1153,6 +1162,9 @@ export const OctagonXIcon = createSiteIcon(FabricatorOctagonXIcon, {
   hugeicons: "MultiplicationSignCircleIcon",
   phosphor: "XCircleIcon",
   remixicon: "RiCloseCircleLine",
+})
+export const PackageIcon = createSiteIcon(FabricatorPackageIcon, {
+  lucide: "PackageIcon",
 })
 export const PaletteIcon = createSiteIcon(FabricatorPaletteIcon, {
   lucide: "PaletteIcon",

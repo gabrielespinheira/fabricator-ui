@@ -66,6 +66,18 @@ const Burger = createIcon({ name: "burger", node: [["path", { d: "M4 12h16" }]] 
 <Icon data={{ name: "burger", node: [["path", { d: "M4 12h16" }]] }} />
 ```
 
+## File icons
+
+```tsx
+import { FileTypeIcon, FileTypescriptIcon } from "@fabricator-ui/icons/files"
+
+<FileTypeIcon name="page.tsx" />
+<FileTypeIcon name="components" kind="folder" open />
+<FileTypescriptIcon size={20} />
+```
+
+249 file and folder drawings from Charmed Icons (MIT), default size 16px. `getFileIconName` and `getFolderIconName` expose the case-insensitive filename associations. Colours follow CSS `color-scheme`; override `--file-icon-*` tokens to retint them. Direct imports tree-shake (about 1.4 KB min+gzip for TypeScript); `FileTypeIcon` includes all drawings and associations (about 138 KB min+gzip, React excluded).
+
 ## Licence
 
 MIT for Fabricator's code and Custom icons; the other outline icons are Lucide's, under ISC. See [LICENSE.md](./LICENSE.md).

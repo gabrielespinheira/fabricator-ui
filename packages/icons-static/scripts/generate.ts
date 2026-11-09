@@ -9,10 +9,12 @@ import {
   getBrandViewBox,
   licenseText,
   loadBrands,
+  loadFileIcons,
   loadOutlineIcons,
   OUTLINE_ROOT_ATTRIBUTES,
   prefixGradientFills,
   readRuntimeFiles,
+  renderFileSvg,
   renderGradients,
   renderSvg,
   renderSvgInline,
@@ -99,6 +101,7 @@ function brandSprite(brands: BrandIcon[]) {
 
 const icons = loadOutlineIcons()
 const brands = loadBrands()
+const filePack = loadFileIcons()
 
 const generated = new Map<string, string>()
 const svgs = new Map<string, string>()
@@ -160,6 +163,10 @@ const brandNodes = Object.fromEntries(
 generated.set(
   "nodes.ts",
   withGeneratedHeader(`import type { BrandIconData, IconElement } from "./runtime/types.js"
+import type { FileIconData, FilePalette } from "./runtime/files.js"
+
+export const fileNodes: Record<string, FileIconData> = ${JSON.stringify(Object.fromEntries(filePack.icons.map((icon) => [icon.name, icon])))}
+export const filePalette: FilePalette = ${JSON.stringify(filePack.palette)}
 
 export const outlineNodes: Record<string, IconElement[]> = ${JSON.stringify(Object.fromEntries(icons.map((icon) => [icon.name, icon.node])))}
 
@@ -167,6 +174,49 @@ export const brandNodes: Record<string, Omit<BrandIconData, "name">> = ${JSON.st
 `)
 )
 writeGeneratedDirectory(path.join(root, "brands"), brandFiles)
+
+const fileSvgs = new Map<string, string>()
+for (const icon of filePack.icons) {
+  const svg = renderFileSvg(icon, filePack.palette)
+  fileSvgs.set(`${icon.name}.svg`, svg)
+  fileSvgs.set(
+    `light/${icon.name}.svg`,
+    renderFileSvg(icon, filePack.palette, "light")
+  )
+  fileSvgs.set(
+    `dark/${icon.name}.svg`,
+    renderFileSvg(icon, filePack.palette, "dark")
+  )
+  generated.set(
+    `files/${icon.name}.ts`,
+    withGeneratedHeader(`export default ${JSON.stringify(svg)}\n`)
+  )
+}
+generated.set(
+  "files.ts",
+  withGeneratedHeader(
+    filePack.icons
+      .map(
+        (icon) =>
+          `export { default as ${toPascalCase(icon.name)} } from "./files/${icon.name}.js"`
+      )
+      .join("\n")
+  )
+)
+writeGeneratedDirectory(path.join(root, "files"), fileSvgs)
+writeGeneratedFile(
+  path.join(root, "files-sprite.svg"),
+  `<svg xmlns="http://www.w3.org/2000/svg">${filePack.icons
+    .map((icon) =>
+      renderFileSvg(icon, filePack.palette)
+        .replace(
+          /^<svg[^>]*>/,
+          `<symbol id="${icon.name}" viewBox="0 0 16 16" fill="none">`
+        )
+        .replace(/<\/svg>$/, "</symbol>")
+    )
+    .join("")}</svg>\n`
+)
 
 writeGeneratedDirectory(path.join(root, "src/generated"), generated)
 writeGeneratedDirectory(path.join(root, "icons"), svgs)

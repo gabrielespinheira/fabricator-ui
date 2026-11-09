@@ -444,9 +444,12 @@ export function getNativeRuntimeVariables(
   )
 }
 
-export function toNativeStylesheet(look: FabricatorLook = DEFAULT_NATIVE_LOOK) {
+export function toNativeStylesheet(
+  look: FabricatorLook = DEFAULT_NATIVE_LOOK,
+  spinnerIndex = 0
+) {
   const mode = (name: NativeMode) =>
-    `    @variant ${name} {\n${toCssBlock(getNativeCssVariables(name, look), "      ")}\n    }`
+    `    @variant ${name} {\n${toCssBlock({ ...getNativeCssVariables(name, look), "--spinner-variant": spinnerIndex }, "      ")}\n    }`
   return [
     "/* Fabricator UI's tokens for React Native. Generated; change the look with `fabricator-ui init` or at runtime with applyLook. */",
     `@layer theme {\n  :root {\n${mode("light")}\n${mode("dark")}\n  }\n}`,

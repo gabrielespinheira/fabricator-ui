@@ -9,6 +9,7 @@ export function buildSetupInitUrl(setup: ProjectSetup, baseUrl: string) {
     {
       base: setup.base,
       look: setup.look,
+      ...(setup.spinner === "orbit" ? {} : { spinner: setup.spinner }),
       ...(setup.project === "existing"
         ? {}
         : {
@@ -24,7 +25,10 @@ export function buildSetupInitUrl(setup: ProjectSetup, baseUrl: string) {
 }
 
 export function buildNativeSetupInitUrl(setup: ProjectSetup, baseUrl: string) {
-  return buildNativeInitUrl(undefined, baseUrl, setup.look)
+  return buildNativeInitUrl(undefined, baseUrl, {
+    ...setup.look,
+    ...(setup.spinner === "orbit" ? {} : { spinner: setup.spinner }),
+  })
 }
 
 /** `/init/app-shell` for one app: `expo` asks for the native file. */
@@ -59,6 +63,7 @@ export function getWebItems(
 ) {
   return [
     "@fabricator/button",
+    "@fabricator/spinner",
     ...(setup.sound ? ["@fabricator/sounds"] : []),
     ...(setup.appShell
       ? ["@fabricator/app-shell", buildShellUrl(setup, baseUrl, framework)]
@@ -75,6 +80,7 @@ export function getNativeItems(
   return [
     "@fabricator/fabricator-root",
     "@fabricator/button",
+    "@fabricator/spinner",
     ...(setup.sound ? ["@fabricator/sounds"] : []),
     ...(setup.appShell
       ? ["@fabricator/app-shell", buildShellUrl(setup, baseUrl, "expo")]

@@ -71,7 +71,7 @@ Interface sounds are the same on React Native, under the same `<SoundEffects />`
 | [Skeleton](/docs/components/native/skeleton) | Same |  |
 | [Slider](/docs/components/native/slider) | Same |  |
 | [Sonner](/docs/components/native/sonner) | New engine | Sonner is DOM-only. It shares one engine with `toast`, keeping its API. `position` is accepted and unused: toasts stay at the top. A dialog opened later covers them. |
-| [Spinner](/docs/components/native/spinner) | Same |  |
+| [Spinner](/docs/components/native/spinner) | Same | Twenty-two original Fabricator animations: 2×2, 3×3 and 4×4 grids, triangles, circles, squares, hexagons, bouncing dots and a classic ring, inspired by [Dot Matrix by Shawn](https://dotmatrix.zzzzshawn.cloud/). Pick the project default with `--spinner <variant>` in the CLI. `variant` overrides it per instance, `speed` scales the cycle, and `animated={false}` pauses it. Native shares the geometry with web and animates on the UI thread; Reduce Motion and motion off leave a still indicator. |
 | [Switch](/docs/components/native/switch) | Same | Drawn by Fabricator UI, rather than the system's switch, so it matches the website. |
 | [Syntax Highlight](/docs/components/native/syntax-highlight) | Same | The same tokenizer and colours. Lines scroll sideways in their own `ScrollView`, and Copy writes through `expo-clipboard` and announces the copy to VoiceOver and TalkBack. Android draws the code in its `monospace` font, as it has no Menlo. |
 | [Tab Strip](/docs/components/native/tab-strip) | Touch input | The strip scrolls sideways, and tabs reorder from their menu instead of by dragging. |

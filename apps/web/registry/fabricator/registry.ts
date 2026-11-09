@@ -18,6 +18,12 @@ import { FABRICATOR_FOUNDATIONS } from "@/registry/fabricator/foundations"
 
 export const fabricatorItems = [
   {
+    name: "spinner-model",
+    type: "registry:lib",
+    title: "Spinner patterns",
+    files: [{ path: "lib/spinner-model.ts", type: "registry:lib" }],
+  },
+  {
     name: "foundations",
     type: "registry:lib",
     title: "Foundations",
@@ -87,6 +93,28 @@ export const fabricatorItems = [
         docs: "https://fabricator-ui.vercel.app/docs/components/base/search",
         examples:
           "https://fabricator-ui.vercel.app/docs/components/base/search#examples",
+      },
+    },
+  },
+  {
+    name: "file-tree",
+    type: "registry:ui",
+    title: "File Tree",
+    description:
+      "A desktop file explorer with folder guides, file-type icons, keyboard navigation, single and range selection, and open and delete callbacks.",
+    dependencies: ["@fabricator-ui/icons"],
+    registryDependencies: ["fluid-hover"],
+    files: [
+      { path: "ui/file-tree.tsx", type: "registry:ui" },
+      { path: "lib/file-tree-model.ts", type: "registry:lib" },
+    ],
+    categories: ["navigation"],
+    meta: {
+      fabricator: true,
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/file-tree",
+        examples:
+          "https://fabricator-ui.vercel.app/docs/components/base/file-tree#examples",
       },
     },
   },
@@ -545,6 +573,7 @@ export const fabricatorOverrides: Record<
   string,
   { dependencies?: string[]; registryDependencies?: string[] }
 > = {
+  spinner: { registryDependencies: ["spinner-model"] },
   // Portalled popups, dialogs and sheets read the nearest DensityProvider.
   dialog: { registryDependencies: ["density"] },
   "alert-dialog": { registryDependencies: ["density"] },

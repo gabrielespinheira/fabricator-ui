@@ -102,9 +102,15 @@ describe("buildShellUrl", () => {
 
 describe("the items a setup installs", () => {
   it("lists the web items, button first so it replaces the template's", () => {
-    const [button, sounds, shell, url] = getWebItems(setup(), SITE, "next", [])
-    expect([button, sounds, shell]).toEqual([
+    const [button, spinner, sounds, shell, url] = getWebItems(
+      setup(),
+      SITE,
+      "next",
+      []
+    )
+    expect([button, spinner, sounds, shell]).toEqual([
       "@fabricator/button",
+      "@fabricator/spinner",
       "@fabricator/sounds",
       "@fabricator/app-shell",
     ])
@@ -116,7 +122,7 @@ describe("the items a setup installs", () => {
       getWebItems(setup({ appShell: false, sound: false }), SITE, "next", [
         "card",
       ])
-    ).toEqual(["@fabricator/button", "@fabricator/card"])
+    ).toEqual(["@fabricator/button", "@fabricator/spinner", "@fabricator/card"])
   })
 
   it("lists the native items", () => {
@@ -126,6 +132,28 @@ describe("the items a setup installs", () => {
     expect(items.at(-1)).toContain("platform=native")
     expect(
       getNativeItems(setup({ appShell: false, sound: false }), SITE, [])
-    ).toEqual(["@fabricator/fabricator-root", "@fabricator/button"])
+    ).toEqual([
+      "@fabricator/fabricator-root",
+      "@fabricator/button",
+      "@fabricator/spinner",
+    ])
   })
+})
+
+it("carries the spinner into web and native init", () => {
+  const selected = setup({ spinner: "cascade" })
+  expect(
+    new URL(buildSetupInitUrl(selected, SITE)).searchParams.get("spinner")
+  ).toBe("cascade")
+  expect(
+    new URL(buildNativeSetupInitUrl(selected, SITE)).searchParams.get("spinner")
+  ).toBe("cascade")
+})
+
+it("installs the spinner even without an App Shell", () => {
+  const selected = setup({ appShell: false, sound: false })
+  expect(getWebItems(selected, SITE, "next", [])).toContain(
+    "@fabricator/spinner"
+  )
+  expect(getNativeItems(selected, SITE, [])).toContain("@fabricator/spinner")
 })

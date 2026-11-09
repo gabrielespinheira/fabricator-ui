@@ -103,5 +103,10 @@ export type CatalogEntry =
   | OutlineCatalogEntry
   | BrandCatalogEntry
   | AnimatedCatalogEntry
+  | FileCatalogEntry
+
+export type FileCatalogEntry = Omit<OutlineCatalogEntry, "set"> & {
+  set: "files"
+}
 
 export type IconSet = CatalogEntry["set"]

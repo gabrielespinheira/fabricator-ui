@@ -303,18 +303,30 @@ export const contentItems: Registry["items"] = [
     meta: docs("skeleton"),
   },
   {
+    name: "spinner-model",
+    type: "registry:lib",
+    title: "Spinner patterns",
+    files: [{ path: "lib/spinner-model.ts", type: "registry:lib" }],
+  },
+  {
     name: "spinner",
     type: "registry:ui",
     title: "Spinner",
-    description: "A rotating icon that shows something is loading.",
+    description:
+      "Twenty-two original loading animations with distinct shapes and movement.",
     dependencies: [
       "@fabricator-ui/icons-react-native",
       "class-variance-authority",
       "cn",
       "react-native-reanimated",
+      "react-native-svg",
       "uniwind@1.13.1",
     ],
-    registryDependencies: ["@fabricator/motion"],
+    registryDependencies: [
+      "@fabricator/motion",
+      "@fabricator/spinner-model",
+      "@fabricator/text",
+    ],
     files: [{ path: "ui/spinner.tsx", type: "registry:ui" }],
     meta: docs("spinner"),
   },

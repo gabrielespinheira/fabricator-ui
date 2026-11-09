@@ -233,6 +233,7 @@ describe("setup params", () => {
       desktop: "tauri",
       base: "radix",
       iconLibrary: "phosphor",
+      spinner: "ripple",
       look: { ...DEFAULT_LOOK, surface: { hue: 145, chroma: 0.022 } },
       sound: false,
       components: "all",
@@ -293,4 +294,10 @@ describe("the default icon pack", () => {
       buildSetupCommand(setup({ iconLibrary: "lucide" }), "npm")
     ).toContain("--icons lucide")
   })
+})
+
+it("shares a spinner and installs the same selection", () => {
+  const selected = setup({ spinner: "braid" })
+  expect(parseSetupParams(setupToParams(selected)).spinner).toBe("braid")
+  expect(buildSetupCommand(selected, "bun")).toContain("--spinner braid")
 })

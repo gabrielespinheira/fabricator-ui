@@ -156,7 +156,10 @@ export const NATIVE_DIFFERENCES: Record<
     tier: "engine",
     note: "Sonner is DOM-only. It shares one engine with `toast`, keeping its API. `position` is accepted and unused: toasts stay at the top. A dialog opened later covers them.",
   },
-  spinner: SAME,
+  spinner: {
+    tier: "same",
+    note: "Twenty-two original Fabricator animations: 2×2, 3×3 and 4×4 grids, triangles, circles, squares, hexagons, bouncing dots and a classic ring, inspired by [Dot Matrix by Shawn](https://dotmatrix.zzzzshawn.cloud/). Pick the project default with `--spinner <variant>` in the CLI. `variant` overrides it per instance, `speed` scales the cycle, and `animated={false}` pauses it. Native shares the geometry with web and animates on the UI thread; Reduce Motion and motion off leave a still indicator.",
+  },
   "syntax-highlight": {
     tier: "same",
     note: "The same tokenizer and colours. Lines scroll sideways in their own `ScrollView`, and Copy writes through `expo-clipboard` and announces the copy to VoiceOver and TalkBack. Android draws the code in its `monospace` font, as it has no Menlo.",
