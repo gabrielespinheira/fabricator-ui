@@ -306,6 +306,7 @@ function OptionsCard({
 }) {
   const { packageManager } = usePackageManager()
   const [iconLibrary] = useSiteSetting("iconLibrary")
+  const [spinner] = useSiteSetting("spinner")
   const { size } = useAppShell()
   const changed = countChangedOptions(options, defaults)
 
@@ -346,6 +347,7 @@ function OptionsCard({
             siteUrl: getFabricatorSiteUrl(),
             packageManager,
             iconLibrary,
+            spinner,
           }),
         ]}
       >

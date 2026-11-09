@@ -78,6 +78,7 @@ export interface InitUrlOptions {
   baseColor?: string
   theme?: string
   chartColor?: string
+  spinner?: string
   iconLibrary?: string
   font?: string
   fontHeading?: string
@@ -94,6 +95,7 @@ export interface InitUrlOptions {
 }
 
 const STRING_PARAMS = [
+  "spinner",
   "style",
   "baseColor",
   "theme",

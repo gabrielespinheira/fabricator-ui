@@ -29,6 +29,7 @@ export const SHARED_TOKEN_FILES = Object.keys(TOKEN_MODULES).map(getTokenFile)
 
 const SHARED_LIB_FILES = [
   "app-shell-model",
+  "spinner-model",
   "date-picker-model",
   "month-input-model",
   "sidebar-model",

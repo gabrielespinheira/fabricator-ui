@@ -106,7 +106,27 @@
         "default": "./dist/cjs/generated/brands/*.js"
       }
     },
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./files": {
+      "import": {
+        "types": "./dist/esm/files.d.ts",
+        "default": "./dist/esm/files.js"
+      },
+      "require": {
+        "types": "./dist/cjs/files.d.ts",
+        "default": "./dist/cjs/files.js"
+      }
+    },
+    "./files/*": {
+      "import": {
+        "types": "./dist/esm/generated/files/*.d.ts",
+        "default": "./dist/esm/generated/files/*.js"
+      },
+      "require": {
+        "types": "./dist/cjs/generated/files/*.d.ts",
+        "default": "./dist/cjs/generated/files/*.js"
+      }
+    }
   },
   "files": [
     "dist",
