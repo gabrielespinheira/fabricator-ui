@@ -488,5 +488,152 @@
     "name": "time-wheel",
     "reason": "Web-first wheel is a Time Input and Date Picker part. Native touch scrolling, snapping and accessibility adjustments are deferred with Time Input.",
     "date": "2026-11-09"
+  },
+  {
+    "item": "editor",
+    "kind": "slot",
+    "name": "editor-task-checkbox",
+    "reason": "The native editor's surface is one text view (packages/editor-native) that draws every block itself, as paragraphs of one string, so there is no element per block to carry the website's block slots and placeholders. Its colours come from Markdown's and the editor's own rules instead.",
+    "date": "2026-11-09"
+  },
+  {
+    "item": "editor",
+    "kind": "slot",
+    "name": "editor-void",
+    "reason": "The native editor's surface is one text view (packages/editor-native) that draws every block itself, as paragraphs of one string, so there is no element per block to carry the website's block slots and placeholders. Its colours come from Markdown's and the editor's own rules instead.",
+    "date": "2026-11-09"
+  },
+  {
+    "item": "editor",
+    "kind": "slot",
+    "name": "markdown-code-block",
+    "reason": "The native editor's surface is one text view (packages/editor-native) that draws every block itself, as paragraphs of one string, so there is no element per block to carry the website's block slots and placeholders. Its colours come from Markdown's and the editor's own rules instead.",
+    "date": "2026-11-09"
+  },
+  {
+    "item": "editor",
+    "kind": "slot",
+    "name": "markdown-heading",
+    "reason": "The native editor's surface is one text view (packages/editor-native) that draws every block itself, as paragraphs of one string, so there is no element per block to carry the website's block slots and placeholders. Its colours come from Markdown's and the editor's own rules instead.",
+    "date": "2026-11-09"
+  },
+  {
+    "item": "editor",
+    "kind": "slot",
+    "name": "markdown-list",
+    "reason": "The native editor's surface is one text view (packages/editor-native) that draws every block itself, as paragraphs of one string, so there is no element per block to carry the website's block slots and placeholders. Its colours come from Markdown's and the editor's own rules instead.",
+    "date": "2026-11-09"
+  },
+  {
+    "item": "editor",
+    "kind": "slot",
+    "name": "markdown-list-item",
+    "reason": "The native editor's surface is one text view (packages/editor-native) that draws every block itself, as paragraphs of one string, so there is no element per block to carry the website's block slots and placeholders. Its colours come from Markdown's and the editor's own rules instead.",
+    "date": "2026-11-09"
+  },
+  {
+    "item": "editor",
+    "kind": "slot",
+    "name": "markdown-paragraph",
+    "reason": "The native editor's surface is one text view (packages/editor-native) that draws every block itself, as paragraphs of one string, so there is no element per block to carry the website's block slots and placeholders. Its colours come from Markdown's and the editor's own rules instead.",
+    "date": "2026-11-09"
+  },
+  {
+    "item": "editor",
+    "kind": "slot",
+    "name": "markdown-quote",
+    "reason": "The native editor's surface is one text view (packages/editor-native) that draws every block itself, as paragraphs of one string, so there is no element per block to carry the website's block slots and placeholders. Its colours come from Markdown's and the editor's own rules instead.",
+    "date": "2026-11-09"
+  },
+  {
+    "item": "editor",
+    "kind": "slot",
+    "name": "markdown-raw",
+    "reason": "The native editor's surface is one text view (packages/editor-native) that draws every block itself, as paragraphs of one string, so there is no element per block to carry the website's block slots and placeholders. Its colours come from Markdown's and the editor's own rules instead.",
+    "date": "2026-11-09"
+  },
+  {
+    "item": "editor",
+    "kind": "placeholder",
+    "name": "cn-editor-void",
+    "reason": "The native editor's surface is one text view (packages/editor-native) that draws every block itself, as paragraphs of one string, so there is no element per block to carry the website's block slots and placeholders. Its colours come from Markdown's and the editor's own rules instead.",
+    "date": "2026-11-09"
+  },
+  {
+    "item": "editor",
+    "kind": "placeholder",
+    "name": "cn-markdown-heading",
+    "reason": "The native editor's surface is one text view (packages/editor-native) that draws every block itself, as paragraphs of one string, so there is no element per block to carry the website's block slots and placeholders. Its colours come from Markdown's and the editor's own rules instead.",
+    "date": "2026-11-09"
+  },
+  {
+    "item": "editor",
+    "kind": "placeholder",
+    "name": "cn-markdown-list",
+    "reason": "The native editor's surface is one text view (packages/editor-native) that draws every block itself, as paragraphs of one string, so there is no element per block to carry the website's block slots and placeholders. Its colours come from Markdown's and the editor's own rules instead.",
+    "date": "2026-11-09"
+  },
+  {
+    "item": "editor",
+    "kind": "placeholder",
+    "name": "cn-markdown-list-item",
+    "reason": "The native editor's surface is one text view (packages/editor-native) that draws every block itself, as paragraphs of one string, so there is no element per block to carry the website's block slots and placeholders. Its colours come from Markdown's and the editor's own rules instead.",
+    "date": "2026-11-09"
+  },
+  {
+    "item": "editor",
+    "kind": "placeholder",
+    "name": "cn-markdown-paragraph",
+    "reason": "The native editor's surface is one text view (packages/editor-native) that draws every block itself, as paragraphs of one string, so there is no element per block to carry the website's block slots and placeholders. Its colours come from Markdown's and the editor's own rules instead.",
+    "date": "2026-11-09"
+  },
+  {
+    "item": "editor",
+    "kind": "placeholder",
+    "name": "cn-markdown-raw-block",
+    "reason": "The native editor's surface is one text view (packages/editor-native) that draws every block itself, as paragraphs of one string, so there is no element per block to carry the website's block slots and placeholders. Its colours come from Markdown's and the editor's own rules instead.",
+    "date": "2026-11-09"
+  },
+  {
+    "item": "editor",
+    "kind": "placeholder",
+    "name": "cn-editor-task-checkbox",
+    "reason": "The native editor's surface is one text view (packages/editor-native) that draws every block itself, as paragraphs of one string, so there is no element per block to carry the website's block slots and placeholders. Its colours come from Markdown's and the editor's own rules instead.",
+    "date": "2026-11-09"
+  },
+  {
+    "item": "editor",
+    "kind": "slot",
+    "name": "editor-bubble-menu",
+    "reason": "EditorBubbleMenu renders nothing on phones and tablets: the system's menu sits over a touch selection, and the keyboard bar carries the marks.",
+    "date": "2026-11-09"
+  },
+  {
+    "item": "editor",
+    "kind": "placeholder",
+    "name": "cn-editor-bubble-menu",
+    "reason": "EditorBubbleMenu renders nothing on phones and tablets: the system's menu sits over a touch selection, and the keyboard bar carries the marks.",
+    "date": "2026-11-09"
+  },
+  {
+    "item": "editor",
+    "kind": "placeholder",
+    "name": "cn-editor-table-edit",
+    "reason": "The website's Edit table button shows over a table on hover or focus. On phones and tablets the text view draws the table itself, so there is no element to carry it: a tap on the table opens the sheet.",
+    "date": "2026-11-09"
+  },
+  {
+    "item": "editor",
+    "kind": "slot",
+    "name": "editor-code-block",
+    "reason": "On phones and tablets a code block is a paragraph of the editor's one native text view, which draws its panel, colours and language label itself: there is no element to carry the slot. Its panel colour is read from cn-editor-code-block.",
+    "date": "2026-11-09"
+  },
+  {
+    "item": "editor",
+    "kind": "placeholder",
+    "name": "cn-editor-code-pre",
+    "reason": "The website's pre holds the editable code. On phones and tablets the code is text in the editor's native text view, which sets its mono font, size and padding from the Document role: there is no element to style.",
+    "date": "2026-11-09"
   }
 ]

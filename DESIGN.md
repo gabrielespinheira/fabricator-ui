@@ -383,7 +383,7 @@ Components set their own type; this table is for headings and copy you write aro
 - **Figures:** `tabular-nums` on numbers that update or line up (tables, counters, prices, timers, durations).
 - **Long text:** paragraphs `max-w-prose text-pretty`, headings `text-balance`.
 - **Fixed-height custom controls:** `text-box-trim` centres the text optically.
-- Fabricator UI ships no prose styles: style articles and docs with the roles above.
+- **Documents** (notes, articles, comments, assistant replies) use the Document role through `Markdown` or `Editor`, never the roles above: `size="sm"` 14px for comments, chat and panels, `default` 16px, `lg` 18px for long-form reading, on a 1.6 to 1.7 line height, with headings 1.875, 1.5 and 1.25 times the body. The Document role doesn't follow the density, so a compact dashboard doesn't shrink what people read. Anything else you write around documents uses the roles above.
 
 ## Layout
 
@@ -578,6 +578,7 @@ Component names, props, variants and `data-slot` values are stable, and new ones
 | A file                                     | `FileUploadField` in a form, `FileUploadDropzone` for a large target; never `type="file"`                                                  |
 | A color                                    | `ColorPicker`; `ColorPickerPopover` behind a trigger; never `type="color"`                                                                 |
 | Long text                                  | `Textarea` (`InputGroupTextarea` for a composer with actions)                                                                              |
+| Formatted text, notes, documents           | `Editor` (its value is Markdown); `Markdown` to show it back                                                                               |
 | Searching or filtering a page              | `Search` (collapses to a button in toolbars); `CommandInput` inside a palette                                                              |
 | One choice from a known list               | `Select`; `RadioGroup` when every option should stay visible (up to about 5)                                                               |
 | One choice from a long or searchable list  | `Combobox` (also multiple selection with chips)                                                                                            |

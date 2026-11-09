@@ -235,6 +235,26 @@ export const contentItems: Registry["items"] = [
     meta: docs("syntax-highlight"),
   },
   {
+    name: "markdown",
+    type: "registry:ui",
+    title: "Markdown",
+    description:
+      "Markdown drawn with the Document typography the Editor uses, from the Editor's own parser: headings, lists, tasks, quotes, code, tables and images.",
+    dependencies: [
+      "@fabricator-ui/icons-react-native",
+      "class-variance-authority",
+      "cn",
+    ],
+    registryDependencies: ["@fabricator/syntax-highlight", "@fabricator/text"],
+    files: [
+      { path: "ui/markdown.tsx", type: "registry:ui" },
+      { path: "lib/editor-model.ts", type: "registry:lib" },
+      { path: "lib/markdown-parse.ts", type: "registry:lib" },
+      { path: "lib/markdown-tree.ts", type: "registry:lib" },
+    ],
+    meta: docs("markdown"),
+  },
+  {
     name: "label",
     type: "registry:ui",
     title: "Label",

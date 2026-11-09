@@ -17,6 +17,7 @@ import {
 } from "@fabricator-ui/icons-react-native"
 import { StatusBar } from "expo-status-bar"
 import { Linking, useWindowDimensions, View } from "react-native"
+import { KeyboardProvider } from "react-native-keyboard-controller"
 import { SafeAreaProvider } from "react-native-safe-area-context"
 
 import { SoundEffects } from "@/registry/native/components/sound-effects"
@@ -82,6 +83,11 @@ import {
   type ShellOptions,
 } from "./shell-options"
 import { GlassView, hasLiquidGlass } from "./shell/glass"
+import {
+  EDITOR_NATIVE_SPIKE_PATH,
+  EditorNativeSpike,
+  getSpikePathFromUrl,
+} from "./spikes/editor-native-spike"
 import { ThemeProvider, useTheme, useThemeSettings } from "./theme"
 
 const HOME_HREF = "/"
@@ -210,7 +216,7 @@ function Shell() {
   const pageTabs = usePageTabs({ homeHref: HOME_HREF })
   const { pathname, setPathname } = pageTabs
   const openUrl = React.useEffectEvent((url: string | null | undefined) => {
-    const path = getPathFromUrl(url)
+    const path = getPathFromUrl(url) ?? getSpikePathFromUrl(url)
     if (path) setPathname(path)
   })
   React.useEffect(() => {
@@ -225,6 +231,10 @@ function Shell() {
   )
   const [workspaceId, setWorkspaceId] = React.useState("acme")
   const [options, setOptions] = React.useState(DEFAULT_SHELL_OPTIONS)
+
+  if (pathname === EDITOR_NATIVE_SPIKE_PATH) {
+    return <EditorNativeSpike onBack={() => setPathname(HOME_HREF)} />
+  }
 
   const blockName = getBlockName(pathname)
   if (blockName) {
@@ -446,13 +456,16 @@ function ThemedStatusBar() {
 export function App() {
   return (
     <SafeAreaProvider>
-      <FabricatorRoot>
-        <ThemeProvider>
-          <ThemedStatusBar />
-          <SoundEffectsFromSettings />
-          <Shell />
-        </ThemeProvider>
-      </FabricatorRoot>
+      {/* The Editor's keyboard bar rides the keyboard through this. */}
+      <KeyboardProvider>
+        <FabricatorRoot>
+          <ThemeProvider>
+            <ThemedStatusBar />
+            <SoundEffectsFromSettings />
+            <Shell />
+          </ThemeProvider>
+        </FabricatorRoot>
+      </KeyboardProvider>
     </SafeAreaProvider>
   )
 }

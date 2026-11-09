@@ -1894,6 +1894,38 @@ export const Components: Record<string, any> = {
       ) || "dropdown-menu-submenu"
     return { default: mod.default || mod[exportName] }
   }),
+  "editor-comment": React.lazy(async () => {
+    const mod = await import("@/examples/radix/editor-comment")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "editor-comment"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "editor-demo": React.lazy(async () => {
+    const mod = await import("@/examples/radix/editor-demo")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "editor-demo"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "editor-markdown": React.lazy(async () => {
+    const mod = await import("@/examples/radix/editor-markdown")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "editor-markdown"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "editor-read-only": React.lazy(async () => {
+    const mod = await import("@/examples/radix/editor-read-only")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "editor-read-only"
+    return { default: mod.default || mod[exportName] }
+  }),
   "empty-avatar-group": React.lazy(async () => {
     const mod = await import("@/examples/radix/empty-avatar-group")
     const exportName =
@@ -2774,12 +2806,52 @@ export const Components: Record<string, any> = {
       ) || "label-rtl"
     return { default: mod.default || mod[exportName] }
   }),
+  "markdown-components": React.lazy(async () => {
+    const mod = await import("@/examples/radix/markdown-components")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "markdown-components"
+    return { default: mod.default || mod[exportName] }
+  }),
   "markdown-demo": React.lazy(async () => {
     const mod = await import("@/examples/radix/markdown-demo")
     const exportName =
       Object.keys(mod).find(
         (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
       ) || "markdown-demo"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "markdown-document": React.lazy(async () => {
+    const mod = await import("@/examples/radix/markdown-document")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "markdown-document"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "markdown-sizes": React.lazy(async () => {
+    const mod = await import("@/examples/radix/markdown-sizes")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "markdown-sizes"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "markdown-source": React.lazy(async () => {
+    const mod = await import("@/examples/radix/markdown-source")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "markdown-source"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "markdown-table": React.lazy(async () => {
+    const mod = await import("@/examples/radix/markdown-table")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "markdown-table"
     return { default: mod.default || mod[exportName] }
   }),
   "marker-border": React.lazy(async () => {

@@ -18,6 +18,7 @@ import Animated, {
   useSharedValue,
   withTiming,
 } from "react-native-reanimated"
+import { useSafeAreaInsets } from "react-native-safe-area-context"
 
 import {
   useFeedback,
@@ -33,6 +34,7 @@ import { useMotion, useSurfaceAnimation } from "@/registry/native/lib/motion"
 import {
   COLLISION_INSETS,
   getFittedSide,
+  getMenuAvailableSpace,
   getMenuMaxHeight,
   getMenuMinWidth,
   getVerticalSide,
@@ -186,8 +188,15 @@ function DropdownMenuContent({
 }) {
   const density = useDensity()
   const { width, height } = useWindowDimensions()
+  const safeArea = useSafeAreaInsets()
   const { triggerPosition } = DropdownMenuPrimitive.useRootContext()
   const [contentHeight, setContentHeight] = React.useState<number | null>(null)
+  // Collisions keep clear of the status bar and the home indicator too.
+  const fittedInsets = {
+    ...insets,
+    top: (insets.top ?? 0) + safeArea.top,
+    bottom: (insets.bottom ?? 0) + safeArea.bottom,
+  }
   const verticalSide = getFittedSide({
     side: getVerticalSide(side),
     triggerY: triggerPosition?.pageY,
@@ -195,8 +204,20 @@ function DropdownMenuContent({
     contentHeight,
     offset: sideOffset,
     windowHeight: height,
-    insets,
+    insets: fittedInsets,
   })
+  const maxHeight = getMenuMaxHeight(
+    height,
+    width,
+    getMenuAvailableSpace({
+      side: verticalSide,
+      triggerY: triggerPosition?.pageY,
+      triggerHeight: triggerPosition?.height,
+      offset: sideOffset,
+      windowHeight: height,
+      insets: fittedInsets,
+    })
+  )
   const { entering, exiting, origin } = useSurfaceAnimation("popup", {
     side: verticalSide,
     align,
@@ -210,7 +231,7 @@ function DropdownMenuContent({
             alignOffset={alignOffset}
             side={verticalSide}
             sideOffset={sideOffset}
-            insets={insets}
+            insets={fittedInsets}
             {...props}
             onLayout={(event) => {
               setContentHeight(event.nativeEvent.layout.height)
@@ -233,9 +254,7 @@ function DropdownMenuContent({
               <DropdownMenuFeedback />
               <DropdownMenuInsideContext value={true}>
                 <TextStyle className="cn-dropdown-menu-text">
-                  <FluidHoverScrollList
-                    style={{ maxHeight: getMenuMaxHeight(height, width) }}
-                  >
+                  <FluidHoverScrollList style={{ maxHeight }}>
                     {renderTextChildren(children)}
                   </FluidHoverScrollList>
                 </TextStyle>

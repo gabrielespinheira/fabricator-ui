@@ -1,0 +1,163 @@
+---
+title: Markdown
+description: Markdown drawn with the document typography the Editor uses.
+base: aria
+component: true
+---
+
+<ComponentPreview
+  styleName="aria-nova"
+  name="markdown-document"
+  previewClassName="h-auto"
+/>
+
+Give it a Markdown string and it draws headings, lists and tasks, quotes, code, tables, images and links in the document type role the [Editor](/docs/components/aria/editor) uses, so a preview looks like what was written. It has its own parser with no dependencies, and anything the parser doesn't model (HTML, footnotes, math) shows as its source instead of disappearing.
+
+Markdown is part of the Fabricator style. It renders plain HTML with no hooks, so the same component ships for every base and works in Server Components, and the same parser runs in the [React Native version](/docs/components/native/markdown).
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">Command</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx fabricator-ui@latest add markdown
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps className="mb-0 pt-2">
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  src="styles/aria-fabricator/lib/editor-model.ts"
+  title="lib/editor-model.ts"
+  styleName="aria-nova"
+/>
+
+<ComponentSource
+  src="styles/aria-fabricator/lib/markdown-parse.ts"
+  title="lib/markdown-parse.ts"
+  styleName="aria-nova"
+/>
+
+<ComponentSource
+  src="styles/aria-fabricator/lib/markdown-tree.ts"
+  title="lib/markdown-tree.ts"
+  styleName="aria-nova"
+/>
+
+<ComponentSource
+  src="styles/aria-fabricator/ui/markdown.tsx"
+  title="components/ui/markdown.tsx"
+  styleName="aria-nova"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { Markdown } from "@/components/ui/markdown"
+```
+
+```tsx
+<Markdown>{note.body}</Markdown>
+```
+
+## Composition
+
+```text
+Markdown    parses the string and draws its blocks
+```
+
+One part. To change how links or images render, pass `components`; for the parsed document itself, `parseMarkdown` in `lib/markdown-parse.ts` returns the blocks and their runs.
+
+## Examples
+
+### Sizes
+
+`size` picks the document type role: `sm` (14px, for comments, chat and panels), `default` (16px) and `lg` (18px, for long-form reading). Headings, code and spacing scale with it.
+
+<ComponentPreview
+  styleName="aria-nova"
+  name="markdown-sizes"
+  previewClassName="h-auto"
+/>
+
+### Tables
+
+GitHub tables, with their column alignment. Wide tables scroll sideways in their own box.
+
+<ComponentPreview
+  styleName="aria-nova"
+  name="markdown-table"
+  previewClassName="h-auto"
+/>
+
+### Links through your router
+
+`components.a` replaces the link element, for a router's link or to open external links in a new tab. `components.img` does the same for images.
+
+<ComponentPreview styleName="aria-nova" name="markdown-components" />
+
+### Source it keeps
+
+HTML blocks, inline HTML, footnotes, reference links and math aren't modelled yet. They show as their source, quiet and monospace, so nothing in a document is hidden.
+
+<ComponentPreview
+  styleName="aria-nova"
+  name="markdown-source"
+  previewClassName="h-auto"
+/>
+
+## Supported syntax
+
+| Syntax                                                             | Drawn as                                |
+| ------------------------------------------------------------------ | --------------------------------------- |
+| `#` to `######` headings, and underlined (setext) ones             | Headings 1 to 6                         |
+| Paragraphs, hard line breaks                                       | Paragraphs                              |
+| `-`, `*`, `+` and numbered lists, nested by indentation            | Lists, numbered from their first item   |
+| `- [ ]` and `- [x]` task items                                     | A read-only checkbox; done items struck |
+| `>` quotes                                                         | A muted block behind a bar              |
+| Fenced and indented code                                           | A code panel like Syntax Highlight's    |
+| `---`, `***`, `___`                                                | A divider                               |
+| GitHub tables                                                      | A table, aligned per column             |
+| An image alone on its line                                         | An image                                |
+| `*em*`, `**strong**`, `~~strike~~`, `` `code` ``, links, autolinks | Inline formatting                       |
+| Frontmatter                                                        | Not drawn                               |
+| Anything else                                                      | Its source, monospace and muted         |
+
+## API Reference
+
+### Markdown
+
+All other props go to the root `<div>`.
+
+| Prop         | Type                                         | Default     |
+| ------------ | -------------------------------------------- | ----------- |
+| `children`   | `string`                                     | required    |
+| `size`       | `"sm" \| "default" \| "lg"`                  | `"default"` |
+| `components` | `{ a?: ComponentType, img?: ComponentType }` | -           |
+| `syntax`     | `MarkdownSyntax[]`                           | -           |
+
+## Accessibility
+
+- It renders semantic HTML: headings, lists, `blockquote`, `pre`, `table` with a header row, so screen readers navigate it as a document.
+- Task checkboxes are disabled inputs labelled "Done" or "Not done".
+- Images take their alt text from the Markdown; write it there.
+- Links keep their own text; a link with no text reads its address.

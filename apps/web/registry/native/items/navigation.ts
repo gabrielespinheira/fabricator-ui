@@ -79,6 +79,7 @@ export const navigationItems: Registry["items"] = [
     ],
     registryDependencies: [
       "@fabricator/app-shell-model",
+      "@fabricator/bottom-bar",
       "@fabricator/breadcrumb",
       "@fabricator/button",
       "@fabricator/density",

@@ -15,8 +15,16 @@ export function getBlockName(pathname: string) {
     : null
 }
 
-/** `dropdown-menu` → `Dropdown Menu`. */
+// Components whose title says more than their name, as their registry
+// items and the website's docs call them.
+const TITLES: Readonly<Record<string, string>> = {
+  editor: "Rich Text Editor",
+}
+
+/** `dropdown-menu` → `Dropdown Menu`; `editor` → `Rich Text Editor`. */
 export function getComponentTitle(name: string) {
+  const title = TITLES[name]
+  if (title) return title
   return name
     .split("-")
     .map((word) =>

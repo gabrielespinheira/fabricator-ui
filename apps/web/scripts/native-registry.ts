@@ -36,7 +36,20 @@ const SHARED_LIB_FILES = [
   "sound-recipes",
   "syntax-highlight-model",
   "video-player-model",
+  "editor-model",
+  "editor-transaction",
+  "editor-input",
+  "editor-commands",
+  "editor-kit",
+  "editor-store",
+  "editor-native-content",
+  "editor-table",
+  "markdown-parse",
+  "markdown-serialize",
+  "markdown-tree",
 ] as const
+
+const SHARED_LIB_NAMES: ReadonlySet<string> = new Set(SHARED_LIB_FILES)
 
 /**
  * Where a native item's file comes from. Most live in registry/native; the
@@ -62,6 +75,15 @@ export function getNativeSourcePath(filePath: string) {
 /** Points imports of the shared modules at their installed copies. */
 export function rewriteSharedImports(source: string) {
   return source
+    .replace(
+      // The shared modules import each other relatively; installed, they
+      // sit side by side under lib/, as the alias says.
+      /from "\.\/([a-z0-9-]+)"/g,
+      (match, name: string) =>
+        SHARED_LIB_NAMES.has(name)
+          ? `from "@/registry/native/lib/${name}"`
+          : match
+    )
     .replace(
       /@\/registry\/fabricator\/shared\/lib\//g,
       "@/registry/native/lib/"

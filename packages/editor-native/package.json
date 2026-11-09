@@ -1,0 +1,43 @@
+{
+  "name": "@fabricator-ui/editor-native",
+  "version": "0.0.0",
+  "private": true,
+  "description": "The native rich text view behind Fabricator UI's Markdown editor: one UITextView (TextKit 2) holding the whole document.",
+  "license": "MIT",
+  "homepage": "https://fabricator-ui.vercel.app",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gabrielespinheira/fabricator-ui",
+    "directory": "packages/editor-native"
+  },
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "files": [
+    "src",
+    "ios",
+    "expo-module.config.json"
+  ],
+  "keywords": [
+    "fabricator-ui",
+    "editor",
+    "markdown",
+    "react-native",
+    "expo"
+  ],
+  "peerDependencies": {
+    "expo": "*",
+    "react": "*",
+    "react-native": "*"
+  },
+  "peerDependenciesMeta": {
+    "expo": {
+      "optional": true
+    },
+    "react": {
+      "optional": true
+    },
+    "react-native": {
+      "optional": true
+    }
+  }
+}

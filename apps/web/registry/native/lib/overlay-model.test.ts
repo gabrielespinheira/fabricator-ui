@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest"
 
 import {
   getFittedSide,
+  getMenuAvailableSpace,
   getMenuMaxHeight,
   getMenuMinWidth,
   getTextContent,
@@ -47,6 +48,39 @@ describe("getMenuMaxHeight", () => {
 
   it("keeps to the window on a short tablet window", () => {
     expect(getMenuMaxHeight(500, 800)).toBe(400)
+  })
+
+  it("never runs past the space on the side it opens to", () => {
+    expect(getMenuMaxHeight(956, 440, 520)).toBe(520)
+    expect(getMenuMaxHeight(956, 440, 900)).toBeCloseTo(764.8)
+    expect(getMenuMaxHeight(956, 440, -20)).toBe(0)
+  })
+})
+
+describe("getMenuAvailableSpace", () => {
+  const base = {
+    triggerHeight: 44,
+    offset: 4,
+    windowHeight: 956,
+    insets: { top: 67, bottom: 42 },
+  }
+
+  it("measures up to the safe area above a trigger near the bottom", () => {
+    expect(getMenuAvailableSpace({ ...base, side: "top", triggerY: 563 })).toBe(
+      492
+    )
+  })
+
+  it("measures down to the safe area below a trigger", () => {
+    expect(
+      getMenuAvailableSpace({ ...base, side: "bottom", triggerY: 100 })
+    ).toBe(766)
+  })
+
+  it("knows nothing before the trigger is measured", () => {
+    expect(
+      getMenuAvailableSpace({ ...base, side: "top", triggerY: undefined })
+    ).toBeUndefined()
   })
 })
 

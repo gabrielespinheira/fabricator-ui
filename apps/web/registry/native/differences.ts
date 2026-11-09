@@ -82,6 +82,10 @@ export const NATIVE_DIFFERENCES: Record<
     tier: "same",
     note: "`side` takes `top` and `bottom`; `left` and `right` fall back to `bottom`. Shortcuts show from the `sm` breakpoint, since a phone has no keyboard.",
   },
+  editor: {
+    tier: "engine",
+    note: "The surface is our own native text view (`@fabricator-ui/editor-native`, one `UITextView` holding the whole document), driven by the same store and rules as the website. iOS only for now: on Android the content shows the document read-only until the Android view lands, and the app needs a development build, not Expo Go. There's no selection bar on touch, so `EditorBubbleMenu` renders nothing and the keyboard bar carries the marks. There is no slash menu: formatting comes from the toolbar, the keyboard bar, Markdown shortcuts and a hardware keyboard's shortcuts. The link editor is a dialog. Tables draw as the Markdown preview's grid in the text view and edit in a sheet on phones and tablets (a tap on the table opens it): a grid of cell fields, rows and columns added and removed at the focused cell, the focused column's alignment, Cancel and Done, where the website edits them in place. Code blocks wrap their lines instead of scrolling sideways (one text view can't scroll a paragraph on its own); their language and Copy are drawn in the block's strip, and a tap on the language opens a sheet to pick another. While the editor has focus, `EditorKeyboardBar` takes the bottom of the screen from the App Shell's tab bar (through the `bottom-bar` slot): a floating capsule in the tab bar's place, docked full width on top of the on-screen keyboard while that's up, with Done giving the tab bar back. It needs `KeyboardProvider` from `react-native-keyboard-controller` at the app's root.",
+  },
   empty: SAME,
   field: SAME,
   "hover-card": {
@@ -103,6 +107,10 @@ export const NATIVE_DIFFERENCES: Record<
     note: "Visual only. Useful on tablets with a hardware keyboard. It doesn't invert inside a tooltip.",
   },
   label: SAME,
+  markdown: {
+    tier: "same",
+    note: "`components.a` receives `href`, `title` and `children` and renders inside a Text; the default opens the link with `Linking`. `components.img` receives `src`, `alt` and `title`; the default is React Native's `Image`. Tables scroll sideways with each cell on one line. Inline code takes the hover fill without the website's rounded, padded chip: React Native can't pad a run of text inside a paragraph.",
+  },
   marker: SAME,
   menubar: {
     tier: "touch",

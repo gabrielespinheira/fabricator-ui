@@ -1,0 +1,12 @@
+---
+title: November 2026 - Editor and Markdown
+description: A rich text editor whose value is Markdown, and a Markdown preview with the same typography, on their own engine.
+date: 2026-11-09
+---
+
+- **Editor.** `npx fabricator-ui@latest add editor` adds a rich text editor whose value is Markdown: you see formatted text, and `onValueChange` gets Markdown back. A toolbar, a formatting bar over selected text, a link popover, a word count, and on phones a bar on top of the keyboard.
+- **Markdown as you type.** `# `, `- `, `1. `, `[] `, `> `, ` ``` ` and `---` start blocks; `**bold**`, `*italic*`, `~~strike~~` and `` `code` `` format inline. Each is its own undo step, so Backspace gives back what you typed.
+- **Saved byte for byte.** A document saved without edits is the file you opened, and an edit rewrites only the blocks it touched, so it's safe on Markdown in a Git repository. Anything it doesn't model, HTML, footnotes and math, is kept as its source.
+- **Markdown.** `npx fabricator-ui@latest add markdown` draws Markdown with the editor's document typography in three sizes: headings, nested lists, tasks, quotes, code panels, tables and links, with `components` to route links and images through your app.
+- **Its own engine.** No editor or Markdown library underneath: the document model, input handling, history, commands and parser are plain TypeScript, shared with React Native.
+- **Kits.** Commands, shortcuts and Markdown shortcuts come from kits; a command with `surfaces: ["toolbar"]` gets a button.

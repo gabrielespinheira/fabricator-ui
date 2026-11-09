@@ -204,6 +204,14 @@ export const foundationItems: Registry["items"] = [
     ],
   },
   {
+    name: "bottom-bar",
+    type: "registry:lib",
+    title: "Bottom Bar",
+    description:
+      "The bottom of a phone screen as one slot: the App Shell's tab bar steps aside while a part such as the Editor's formatting bar claims it.",
+    files: [{ path: "lib/bottom-bar.tsx", type: "registry:lib" }],
+  },
+  {
     name: "sortable",
     type: "registry:lib",
     title: "Sortable",

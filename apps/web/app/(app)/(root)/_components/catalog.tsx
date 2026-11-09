@@ -162,6 +162,12 @@ const SOURCES: CatalogSource[] = [
     load: () => import("@/examples/__styles__/base-fabricator/drawer-demo"),
   },
   {
+    slug: "editor",
+    title: "Rich Text Editor",
+    height: "lg",
+    load: () => import("@/examples/__styles__/base-fabricator/editor-comment"),
+  },
+  {
     slug: "empty",
     title: "Empty",
     height: "lg",
@@ -209,6 +215,13 @@ const SOURCES: CatalogSource[] = [
     title: "Label",
     height: "sm",
     load: () => import("@/examples/__styles__/base-fabricator/label-demo"),
+  },
+  {
+    slug: "markdown",
+    title: "Markdown",
+    height: "md",
+    load: () =>
+      import("@/examples/__styles__/base-fabricator/markdown-document"),
   },
   {
     slug: "marker",

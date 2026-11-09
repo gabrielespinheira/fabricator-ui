@@ -96,6 +96,10 @@ import {
   isTitleScrolledAway,
   shouldShowHeaderTrigger,
 } from "@/registry/native/lib/app-shell-layout-model"
+import {
+  BottomBarProvider,
+  useIsBottomBarClaimed,
+} from "@/registry/native/lib/bottom-bar"
 import { useFeedback } from "@/registry/native/lib/feedback"
 import {
   FluidHoverArea,
@@ -711,7 +715,11 @@ function AppShellScrollProvider({ children }: { children: React.ReactNode }) {
       setTitle,
     ]
   )
-  return <AppShellScrollContext value={value}>{children}</AppShellScrollContext>
+  return (
+    <AppShellScrollContext value={value}>
+      <BottomBarProvider>{children}</BottomBarProvider>
+    </AppShellScrollContext>
+  )
 }
 
 /**
@@ -1652,7 +1660,11 @@ function AppShellBottomNav({
     return () => setBottomNavOverlap(0)
   }, [overlap, setBottomNavOverlap])
   const context = React.useMemo(() => ({ setSelected }), [])
-  if (!isPhone) return null
+  // Something else holds the bottom of the screen (the Editor's formatting
+  // bar while it has focus): step aside, keeping the page's clearance so
+  // nothing jumps.
+  const isClaimed = useIsBottomBarClaimed()
+  if (!isPhone || isClaimed) return null
   const track = (
     <FluidHoverProvider fluid={fluid}>
       <FluidHoverArea fluid={fluid}>

@@ -48,6 +48,7 @@ const GROUP_BY_SLUG: Record<string, ComponentGroup> = {
   "number-field": "Forms",
   "file-upload": "Forms",
   "color-picker": "Forms",
+  editor: "Forms",
   "button-group": "Forms",
   "toggle-group": "Forms",
   calendar: "Forms",
@@ -94,6 +95,7 @@ const GROUP_BY_SLUG: Record<string, ComponentGroup> = {
   empty: "Data & Feedback",
   "video-player": "Data & Feedback",
   "syntax-highlight": "Data & Feedback",
+  markdown: "Data & Feedback",
   // AI & Chat
   "chat-input": "AI & Chat",
   "model-picker": "AI & Chat",

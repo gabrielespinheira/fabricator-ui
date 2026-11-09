@@ -174,6 +174,7 @@ export const overlayItems: Registry["items"] = [
       "class-variance-authority",
       "cn",
       "react-native-reanimated",
+      "react-native-safe-area-context",
     ],
     registryDependencies: [
       "@fabricator/collapsible",
