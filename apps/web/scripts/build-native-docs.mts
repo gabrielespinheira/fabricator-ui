@@ -17,7 +17,11 @@ import {
   toReaderSource,
   toTitleCase,
 } from "./native-docs"
-import { readComponentShape } from "./native-parity"
+import {
+  getMissingComponentStatus,
+  readComponentShape,
+  type ParityException,
+} from "./native-parity"
 
 /*
  * Writes content/docs/components/native/*.mdx and the compatibility table from
@@ -120,6 +124,31 @@ ${roles.length > 0 ? `Parts set ${roles.map((role) => `\`role="${role}"\``).join
 }
 
 async function buildCompatibilityPage(names: string[]) {
+  const exceptions: ParityException[] = JSON.parse(
+    await fs.readFile(
+      path.join(ROOT, "registry/native/parity-exceptions.json"),
+      "utf8"
+    )
+  )
+  const deferred = exceptions
+    .filter(
+      (entry) =>
+        !names.includes(entry.item) &&
+        entry.kind === "component" &&
+        getMissingComponentStatus(entry.item, [entry]) === "deferred"
+    )
+    .sort((left, right) => left.item.localeCompare(right.item))
+  const deferredSection =
+    deferred.length > 0
+      ? `## Not yet available
+
+These web components are not available for React Native yet. Each deferral has a reason and date in the parity exceptions.
+
+${deferred.map((entry) => `- **${toTitleCase(entry.item)}** (${entry.date}): ${entry.reason}`).join("\n")}
+
+`
+      : ""
+
   const rows = names
     .filter((name) => NATIVE_DIFFERENCES[name])
     .map((name) => {
@@ -133,7 +162,7 @@ title: React Native differences
 description: What each React Native component does differently from its web version, and why.
 ---
 
-Every component has a React Native version with the same name, exports, variants, sizes and tokens. A check in the repo compares them, so this table is the complete list of differences.
+Native components keep the web component's name, exports, variants, sizes and tokens, with the differences listed below. Components listed as not yet available have explicit, dated deferrals in the parity check.
 
 Across all of them: \`onPress\` replaces \`onClick\`, \`hover:\` styles become \`active:\`, and text goes through \`Text\`, since React Native has no cascade. A screen written for the web won't run on native unchanged, because \`<div>\` and \`<span>\` don't exist there.
 
@@ -144,7 +173,7 @@ Across all of them: \`onPress\` replaces \`onClick\`, \`hover:\` styles become \
 
 Interface sounds are the same on React Native, under the same \`<SoundEffects />\`, with a haptic for each. The ring switch silences them.
 
-| Component | Kind | What's different |
+${deferredSection}| Component | Kind | What's different |
 | --- | --- | --- |
 ${rows.join("\n")}
 `

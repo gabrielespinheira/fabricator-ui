@@ -38,6 +38,10 @@ import {
   parseLook,
   type FabricatorLook,
 } from "@/registry/fabricator/look"
+import {
+  isSpinnerVariant,
+  type SpinnerVariant,
+} from "@/registry/fabricator/shared/lib/spinner-model"
 import { normalizeInstallOptions } from "@/app/(view)/app-shell/_lib/app-shell-source"
 import {
   playgroundParsers,
@@ -105,6 +109,7 @@ export type SetupChoices = inferParserType<typeof setupParsers>
 
 export type Setup = SetupChoices & {
   iconLibrary: IconLibraryName
+  spinner: SpinnerVariant
   look: FabricatorLook
   /** The App Shell's options, URL state of their own. */
   shell: PlaygroundOptions
@@ -113,6 +118,7 @@ export type Setup = SetupChoices & {
 export const DEFAULT_SETUP: Setup = {
   ...createLoader(setupParsers)(new URLSearchParams()),
   iconLibrary: "fabricator",
+  spinner: "orbit",
   look: DEFAULT_LOOK,
   shell: createLoader(playgroundParsers)(new URLSearchParams()),
 }
@@ -163,6 +169,7 @@ export function toProjectSetup(setup: Setup): ProjectSetup {
     skill: setup.skill,
     mcp: setup.mcp,
     iconLibrary: setup.iconLibrary,
+    spinner: setup.spinner,
     look: paramsToRecord(lookToSearchParams(setup.look)),
     shell: paramsToRecord(
       new URLSearchParams(
@@ -204,6 +211,8 @@ export function setupToParams(setup: Setup) {
   if (setup.iconLibrary !== DEFAULT_SETUP.iconLibrary) {
     params.set("iconLibrary", setup.iconLibrary)
   }
+  if (setup.spinner !== DEFAULT_SETUP.spinner)
+    params.set("spinner", setup.spinner)
   for (const [key, value] of lookToSearchParams(setup.look)) {
     params.set(key, value)
   }
@@ -227,10 +236,12 @@ function migrateOldParams(params: URLSearchParams) {
 export function parseSetupParams(rawParams: URLSearchParams): Setup {
   const params = migrateOldParams(rawParams)
   const iconLibrary = params.get("iconLibrary")
+  const spinner = params.get("spinner")
   const look = parseLook(params)
   return {
     ...loadChoices(params),
     shell: loadShell(params),
+    spinner: isSpinnerVariant(spinner) ? spinner : DEFAULT_SETUP.spinner,
     iconLibrary: isIconLibraryName(iconLibrary)
       ? iconLibrary
       : DEFAULT_SETUP.iconLibrary,

@@ -1,0 +1,374 @@
+---
+title: Chat Input
+description: The message box of a chat. A pill that stacks once the draft wraps, or a large card, with attachments, voice chat, a context meter, a model switcher and one send slot that starts voice, sends, queues and stops.
+base: base
+component: true
+---
+
+<ComponentPreview styleName="base-nova" name="chat-input-demo" />
+
+Type and press Enter to send; Shift+Enter adds a line. With the field empty, send's place offers voice chat; once you type, it sends. While a reply runs, an empty field turns it into stop (a spinner that becomes a square on hover or focus), and with `queue` typed text waits behind the reply. Escape in the field stops too. The input's height eases to what it holds, so a growing draft, a row of attachments or voice chat's glow slides it open instead of jumping.
+
+By default it's a one-line pill: the tools sit before the field and the actions after it, round, around a larger send. Once the draft wraps it stacks, the field across the pill and the controls on a row below, and it goes back only when the draft fits on one line beside the controls again, so it never flips mid-sentence. Labels can hide in a narrow input with the `@max-sm/chat-input:` container variants. In the demo, files dropped on the pill or pasted into the field attach, `/` opens the commands and skills (`ChatInputCommands`), + opens a menu (attach files, or start a `@`, `$` or `/` mention, which puts the caret back in the field), and the model beside send, with its effort, opens the session's settings in one popover: the model and its effort, the permissions and the context meter, each opening its own view inside it. For long drafts, use the [large card](#large).
+
+Chat Input is part of the Fabricator style. It's built on plain HTML (a `<form>` around a `<textarea>`), so the same component ships for every base. The model switcher in the demo is the [Model Picker](/docs/components/base/model-picker) in a Popover. Pair them with [Message Scroller](/docs/components/base/message-scroller), [Message](/docs/components/base/message) and [Bubble](/docs/components/base/bubble) for a whole conversation.
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">Command</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx fabricator-ui@latest add chat-input
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps className="mb-0 pt-2">
+
+<Step>Install the Button and Spinner components, and `voice-glow`.</Step>
+
+```bash
+npm install voice-glow@0.3.0
+```
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  src="styles/base-fabricator/ui/chat-input.tsx"
+  title="components/ui/chat-input.tsx"
+  styleName="base-nova"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import {
+  ChatInput,
+  ChatInputActions,
+  ChatInputButton,
+  ChatInputFooter,
+  ChatInputSubmit,
+  ChatInputTextarea,
+  ChatInputTools,
+} from "@/components/ui/chat-input"
+```
+
+```tsx
+const { sendMessage, status, stop } = useChat()
+
+<ChatInput
+  status={status}
+  onSubmit={(text) => sendMessage({ text })}
+  onStop={stop}
+>
+  <ChatInputTextarea placeholder={["Ask for anything…", "@ for files"]} />
+  <ChatInputFooter>
+    <ChatInputTools>
+      <ChatInputButton aria-label="Attach files">
+        <PaperclipIcon />
+      </ChatInputButton>
+    </ChatInputTools>
+    <ChatInputActions>
+      <ChatInputSubmit />
+    </ChatInputActions>
+  </ChatInputFooter>
+</ChatInput>
+```
+
+`status` takes the AI SDK's `useChat` status as it is: `"ready"`, `"submitted"`, `"streaming"` or `"error"`. After `onSubmit`, the draft clears (through `onValueChange("")` when it's controlled).
+
+## Composition
+
+```text
+ChatInputTray level={3}    optional, before ChatInput, furthest back first: a goal
+ChatInputTray level={2}    background tasks
+ChatInputTray level={1}    queued messages
+└── ChatInputTrayEntry     a row that opens: ChatInputTrayItem, ChatInputTrayContent
+    └── ChatInputTrayItem  ChatInputTrayTrigger (text, ChatInputTrayMeta), actions
+ChatInput                  the <form>: the draft, the status, voice chat, the card
+├── ChatInputHeader        across the top: quoted context, a mode
+├── ChatInputAttachments   the files riding along
+│   └── ChatInputAttachment
+├── ChatInputTextarea      the field; grows with the draft
+├── ChatInputCommands      the / menu: commands and skills, over the card
+└── ChatInputFooter        the row under the field
+    ├── ChatInputTools     at the start: add, attach, permissions
+    │   ├── ChatInputButton
+    │   └── ChatInputOptions  in a Popover: permissions and other modes
+    └── ChatInputActions   at the end
+        ├── ChatInputContextMeter
+        ├── ChatInputButton   the model, opening a Model Picker
+        ├── ChatInputMic      while voice chat is on
+        └── ChatInputSubmit   voice, send, queue, stop
+```
+
+Every part reads the root through context. `ChatInputButton` is a ghost Button that never submits the form: round and 36px with just an icon in the pill (a 32px square in the large card), and a pill with a label in a `<span>`. With `aria-pressed` it holds the active fill. Popovers and menus opened from the card sit two surfaces above it, `bg-surface-5 shadow-surface-5` on their content (the `/` menu does this itself), so they never read as part of the card. In a tray it's compact: 24px squares and pills with 12px text. A `size` you pass keeps the Button's own. It takes the Button's `variant` and `size`, and goes in a trigger's `render` prop. `useChatInput()` returns the draft, the status, `submit`, `stop` and the voice state, for parts of your own.
+
+## Examples
+
+### Large
+
+`layout="large"` is a card with the controls on a row under the field, for long drafts and full composers: the field starts at 56px and grows to 288px before it scrolls, and the controls are 32px squares. In the example the footer holds the permissions, the context meter and the model with its effort, each in a popover of its own.
+
+<ComponentPreview styleName="base-nova" name="chat-input-large" />
+
+### Commands and skills
+
+`ChatInputCommands` is the `/` menu. Typing `/` at the start or after a space opens it over the card, with your commands and skills filtered by what follows (names starting with it first). ↑ and ↓ move, ↵ or Tab write the pick into the draft with a space after it, and Esc dismisses it until you type again. Each command takes a `value` (the name), a `description`, an `icon`, a `badge` and a `kind`: `command` names read bold, `skill` names mono in the skill tint. A command with `runs` is taken out of the draft and handed to `onRun` instead, for one your app opens (a sub-agent, a settings panel). Pass the names to the textarea's `isKnownMention` so only real ones are tinted once typed. Another sigil gets a menu of its own: `<ChatInputCommands sigil="@" title="Files" />`.
+
+<ComponentPreview styleName="base-nova" name="chat-input-demo" />
+
+### Attachments
+
+`ChatInputAttachments` holds `ChatInputAttachment` tiles: an image is a square thumbnail, anything else a chip with its name, and `isUploading` dims it under a spinner while send waits. With `onAttach`, files dropped on the input ("Drop to attach") or pasted into the field reach you; `isUploading` on the root makes send wait for them, and `hasContent` sends them without text. In the pill, up to three images ride beside send while the draft is on one line, and move above it otherwise; the large card lays them across its top. `useChatInputAttachments()` holds the files for you: spread its `attach`, `hasContent` and `isUploading` onto the root, render its `attachments`, and call `clear` when the message sends. Images get a preview it releases when they're removed or sent, so take what you send from each entry's `file` first. With `upload`, each file waits for your upload to resolve; a rejected one drops the file and reports the error.
+
+<ComponentPreview styleName="base-nova" name="chat-input-attachments" />
+
+### Voice chat
+
+With `onVoiceActiveChange`, an empty input offers voice chat in send's place; while it's on, send ends it and `ChatInputMic` sits beside it. The glow along the input's bottom edge is [voice-glow](https://libraries.dev/voice)'s `VoiceBeam`, the effect Relay uses: hand it the microphone as `voiceStream` and it analyses the voice itself, and the microphone's icon swells with the same stream, through the same noise gate, gain and attack and release as the glow. Without a stream, drive both with `voiceLevel`, a 0 to 1 getter the input reads every frame: a recording's or the reply's playback level. `voiceColor` picks its palette, and its light or dark tuning follows the page (`.dark` on the card or an ancestor) unless you pass `voiceTheme`. The mic mutes and unmutes, or stops a reply while one is speaking. The example asks for your microphone when voice chat starts (`useMicrophone` from `voice-glow`), and falls back to a stand-in level without one.
+
+<ComponentPreview styleName="base-nova" name="chat-input-voice" />
+
+### Mentions
+
+`mentions` lists the sigils whose mentions are drawn tinted as you type: files (`@`) info, skills (`/`) violet, artifacts (`$`) warning, cards (`#`) success. The tint is an overlay under the text, so the field keeps its metrics and its caret. Drive a suggestion menu of your own from the textarea's `onKeyDown`; a key you `preventDefault()` never sends.
+
+<ComponentPreview styleName="base-nova" name="chat-input-mentions" />
+
+### Context meter
+
+`ChatInputContextMeter` is a ring for how full the model's context is, with a reading beside it that hides in a narrow input. It turns warning from 70% and destructive from 90%. It's a button: open the details in a Popover. `formatTokenCount(84_200)` writes `84K`.
+
+<ComponentPreview styleName="base-nova" name="chat-input-context-meter" />
+
+### Goal, background tasks and queue
+
+An agent's session keeps three trays tucked behind the card's top edge, each a step further back: `level={1}` for messages queued behind the reply, `level={2}` for work running in the background, `level={3}` for the goal the agent works toward. With `queue`, a message typed while a reply runs is handed to `onSubmit` to queue (send reads "Queue message"); an empty field still stops the reply, and ↑ in an empty field calls `onRecall` to take the last queued message back to edit. A `ChatInputTrayEntry` row opens to more (a task's output, the goal's reason) through its `ChatInputTrayTrigger`; `ChatInputTrayMeta` holds a reading such as the time a task has run, and `formatChatInputDuration` writes it. In the example, `/goal <objective>` sets the goal, `/code-review` starts a background watch, and `/subagent` runs one.
+
+<ComponentPreview styleName="base-nova" name="chat-input-agent" />
+
+### Submit with ⌘↵
+
+`submitOn="mod-enter"` sends with Cmd or Ctrl+Enter only, so Enter adds a line, for long-form briefs. Cmd+Enter sends in the default mode too.
+
+<ComponentPreview styleName="base-nova" name="chat-input-submit-on" />
+
+### Disabled
+
+<ComponentPreview styleName="base-nova" name="chat-input-disabled" />
+
+## API Reference
+
+### ChatInput
+
+All other props go to the `<form>`.
+
+| Prop                  | Type                                               | Default      |
+| --------------------- | -------------------------------------------------- | ------------ |
+| `value`               | `string`                                           | -            |
+| `defaultValue`        | `string`                                           | `""`         |
+| `onValueChange`       | `(value: string) => void`                          | -            |
+| `onSubmit`            | `(value: string) => void`                          | -            |
+| `onStop`              | `() => void`                                       | -            |
+| `status`              | `"ready" \| "submitted" \| "streaming" \| "error"` | `"ready"`    |
+| `layout`              | `"default" \| "large"`                             | `"default"`  |
+| `submitOn`            | `"enter" \| "mod-enter"`                           | `"enter"`    |
+| `hasContent`          | `boolean`                                          | `false`      |
+| `queue`               | `boolean`                                          | `false`      |
+| `isUploading`         | `boolean`                                          | `false`      |
+| `onAttach`            | `(files: File[]) => void`                          | -            |
+| `onRecall`            | `() => void`                                       | -            |
+| `isVoiceActive`       | `boolean`                                          | -            |
+| `defaultVoiceActive`  | `boolean`                                          | `false`      |
+| `onVoiceActiveChange` | `(active: boolean) => void`                        | -            |
+| `voiceLevel`          | `() => number` (0 to 1)                            | -            |
+| `voiceStream`         | `MediaStream \| null`                              | -            |
+| `voiceColor`          | voice-glow's `colorVariant`                        | `"colorful"` |
+| `voiceTheme`          | `"dark" \| "light"`                                | the page's   |
+| `disabled`            | `boolean`                                          | `false`      |
+
+Without `onStop`, send only spins while a reply is on its way. Without `onVoiceActiveChange`, send never offers voice chat.
+
+### ChatInputTextarea
+
+A `<textarea>` with every prop except `value` and `defaultValue`, which belong to the root. Named "Message" unless you pass `aria-label`. An `onKeyDown` that calls `preventDefault()` keeps a key from sending.
+
+| Prop             | Type                           | Default       |
+| ---------------- | ------------------------------ | ------------- |
+| `placeholder`    | `string \| readonly string[]`  | `""`          |
+| `mentions`       | `readonly string[]`            | -             |
+| `isKnownMention` | `(mention: string) => boolean` | every mention |
+
+A list of placeholders takes turns every four seconds while the field is empty, each fading out before the next; reduced motion holds the first.
+
+### ChatInputAttachment
+
+An `<li>`. Children replace the tile's content, for a lightbox trigger of your own.
+
+| Prop          | Type         | Default |
+| ------------- | ------------ | ------- |
+| `name`        | `string`     | -       |
+| `src`         | `string`     | -       |
+| `isUploading` | `boolean`    | `false` |
+| `onRemove`    | `() => void` | -       |
+
+### useChatInputAttachments
+
+Takes `{ initial?, upload? }` and returns the files and what to wire them to.
+
+| Option    | Type                               | Default |
+| --------- | ---------------------------------- | ------- |
+| `initial` | `ChatInputAttached[]`              | `[]`    |
+| `upload`  | `(file: File) => Promise<unknown>` | -       |
+
+| Returns       | Type                      |
+| ------------- | ------------------------- |
+| `attachments` | `ChatInputAttached[]`     |
+| `attach`      | `(files: File[]) => void` |
+| `remove`      | `(id: string) => void`    |
+| `clear`       | `() => void`              |
+| `hasContent`  | `boolean`                 |
+| `isUploading` | `boolean`                 |
+
+A `ChatInputAttached` is `{ id, name, src?, file?, isUploading }`.
+
+### ChatInputCommands
+
+A menu in a portal over the card, named by `title`. The field becomes its combobox: `aria-autocomplete="list"`, `aria-controls` and `aria-activedescendant` follow the open menu.
+
+| Prop        | Type                                  | Default                   |
+| ----------- | ------------------------------------- | ------------------------- |
+| `commands`  | `readonly ChatInputCommand[]`         | -                         |
+| `sigil`     | `string`                              | `"/"`                     |
+| `onRun`     | `(command: ChatInputCommand) => void` | -                         |
+| `title`     | `string`                              | `"Commands and skills"`   |
+| `emptyText` | `ReactNode`                           | `"No matching commands."` |
+
+`ChatInputCommand` is `{ value: string; description?: ReactNode; icon?: ReactNode; badge?: ReactNode; kind?: "command" | "skill"; runs?: boolean }`.
+
+### ChatInputOptions
+
+A radio group of choices with a line of explanation each, for a Popover opened from a footer pill: permissions, speed, any mode. `ChatInputOption` takes a `value`, a `label`, a `description` and an `icon`, and shows a check while it's in use. Arrows move and pick, as in any radio group; close the popover from the option's `onClick`, which also runs for Enter and Space, so arrowing through doesn't close it.
+
+| Prop            | Type                      | Default |
+| --------------- | ------------------------- | ------- |
+| `value`         | `string`                  | -       |
+| `defaultValue`  | `string`                  | -       |
+| `onValueChange` | `(value: string) => void` | -       |
+
+### ChatInputTray
+
+A `<div>`; give it `role="list"` and an `aria-label` when it holds a list.
+
+| Prop    | Type          | Default |
+| ------- | ------------- | ------- |
+| `level` | `1 \| 2 \| 3` | `1`     |
+
+`ChatInputTrayEntry` takes `open`, `defaultOpen` and `onOpenChange`. `ChatInputTrayTrigger` is a `<button>` with `aria-expanded`, a chevron at its end; `ChatInputTrayContent` is hidden until the entry opens.
+
+### ChatInputButton
+
+A `<button type="button">` drawn as a Button.
+
+| Prop      | Type              | Default   |
+| --------- | ----------------- | --------- |
+| `variant` | Button's variants | `"ghost"` |
+| `size`    | Button's sizes    | `"icon"`  |
+
+### ChatInputSubmit
+
+A `<button>` drawn as a Button. What it is follows the input:
+
+| State       | When                                                    | Name               |
+| ----------- | ------------------------------------------------------- | ------------------ |
+| `voice`     | empty, with `onVoiceActiveChange`, and no reply running | "Start voice chat" |
+| `voice`     | voice chat is on and the field is empty                 | "End voice chat"   |
+| `send`      | there is something to send                              | "Send message"     |
+| `queue`     | a reply runs, there is text, and `queue` is on          | "Queue message"    |
+| `stop`      | a reply runs, with `onStop`                             | "Stop"             |
+| `busy`      | a reply runs, without `onStop`                          | "Sending"          |
+| `uploading` | `isUploading`                                           | "Attaching…"       |
+| `idle`      | nothing to send (disabled)                              | "Send message"     |
+
+`getChatInputSendAction` returns the state, for a send button of your own.
+
+### ChatInputMic
+
+A `<button>` drawn as a ghost Button, shown only while voice chat is on. `aria-pressed` while muted.
+
+| Prop       | Type                                                                  | Default |
+| ---------- | --------------------------------------------------------------------- | ------- |
+| `activity` | `"muted" \| "listening" \| "hearing" \| "transcribing" \| "speaking"` | -       |
+
+### ChatInputContextMeter
+
+A `<button>` drawn as a ghost Button.
+
+| Prop    | Type              | Default        |
+| ------- | ----------------- | -------------- |
+| `value` | `number` (0 to 1) | -              |
+| `label` | `ReactNode`       | the percentage |
+
+### Helpers
+
+Plain functions, exported for your own parts and tests: `getChatInputKeyAction`, `findChatInputTrigger`, `applyChatInputPick`, `filterChatInputCommands`, `formatChatInputDuration`, `getChatInputOptionKeyIndex`, `getChatInputVoiceLevel`, `smoothChatInputVoiceLevel`, `getChatInputVoiceTheme`, `getChatInputSendAction`, `getChatInputAttachmentsLayout`, `getChatInputContextLevel`, `getChatInputMicLabel`, `splitChatInputMentions`, `formatTokenCount`, `isChatInputBusy`, `isChatInputReady`, `nextChatInputStacked`, and the `useRotatingPlaceholder` hook. `reduceChatInputAttachments` is the state behind `useChatInputAttachments`, for a store of your own.
+
+### Data attributes
+
+| Attribute                            | Element           | Present when                   |
+| ------------------------------------ | ----------------- | ------------------------------ |
+| `data-slot="chat-input"`             | root              | always                         |
+| `data-layout`                        | root              | always: `default` or `large`   |
+| `data-status`                        | root              | always: the `status`           |
+| `data-stacked`                       | root              | the pill's draft has wrapped   |
+| `data-voice`                         | root              | voice chat is on               |
+| `data-dropping`                      | root              | files are dragged over it      |
+| `data-disabled`                      | root              | `disabled`                     |
+| `data-slot="chat-input-attachments"` | the tiles' list   | there are attachments          |
+| `data-layout`                        | the tiles' list   | `large`, `default` or `inline` |
+| `data-slot="chat-input-submit"`      | send              | always                         |
+| `data-state`                         | send              | always: the state above        |
+| `data-slot="chat-input-mic"`         | the microphone    | voice chat is on               |
+| `data-activity`                      | the microphone    | always: the `activity`         |
+| `data-level`                         | the context meter | `calm`, `high` or `full`       |
+
+## Motion
+
+- The card's height eases on the move timing (`duration-move ease-move`) as the draft grows, attachments arrive or voice chat starts. With reduced motion it changes at once.
+- Focus lifts the card from surface 3's shadow to surface 4's.
+- Send's glyphs (arrow, audio lines, X, spinner, stop square) trade places with a fade and a scale on the feedback timing.
+- Voice chat's glow is voice-glow's, with its own motion, and it handles reduced motion itself. The microphone's icon follows `voiceLevel` every frame and holds its size with reduced motion.
+- Attachments, the trays and the pill's stacked row rise into place on the move timing, the `/` menu on the popup timing, and a tray entry opens on the disclosure timing; with reduced motion they appear.
+
+## Accessibility
+
+- It's a real `<form>` and `<textarea>`: the field is named "Message" by default, and its `enterkeyhint` tells a phone's keyboard that Enter sends.
+- Enter sends, Shift+Enter adds a line, Cmd or Ctrl+Enter always sends, and Escape stops a reply. Enter that picks a candidate in an input method (Japanese, Chinese, Korean) never sends.
+- Send is named for what it does in each state, and is disabled while there's nothing to send or files are uploading. Voice chat's button reports `aria-pressed`; the microphone reports it while muted.
+- Attachments are a list named "Attachments". Each remove button is named after its file and shows on hover and on focus; an uploading tile reports `aria-busy` and its spinner names the file.
+- Dropping files is a shortcut: give the input an attach button too.
+- The mention tint is drawn in an overlay hidden from assistive technology; the textarea keeps the text.
+- The `/` menu is a listbox the field controls: focus stays in the field, ↑ and ↓ move `aria-activedescendant` through the options, ↵ or Tab pick, Esc closes it before it would stop a reply. A pointer picks on press without taking focus from the field.
+- `ChatInputOptions` is a `radiogroup` of `radio` buttons: only the one in use is in the tab order, arrows move and pick, Home and End jump to the ends. Name it (`aria-label="Permissions"`).
+- Tray rows that open are buttons with `aria-expanded` and `aria-controls`; their actions (Steer, Stop, Pause) are named for the row.
+- ↑ in an empty field takes the last queued message back only with `onRecall`; otherwise it moves the caret as usual.
+- Footer buttons need an `aria-label` when they show only an icon. A toggle uses `aria-pressed`.
+- A press on the card's bare surface puts the caret in the field, so the whole card is a target; controls inside it keep their own clicks.
+- Give the tray `role="list"` with an `aria-label`, and its rows `role="listitem"`, when it holds a list.

@@ -5,85 +5,112 @@ import { Questionnaire as QuestionnairePrimitive } from "@shadcn/react/questionn
 import { cn } from "cn"
 
 import {
+  FluidHoverHighlight,
+  useFluidHover,
+  useMergedRef,
+} from "@/registry/bases/__base__/lib/fluid-hover"
+import {
   buttonVariants,
   type Button,
 } from "@/registry/bases/__base__/ui/button"
 import { IconPlaceholder } from "@/app/(create)/components/icon-placeholder"
 
-// Fabricator override of the upstream questionnaire (identical in every base).
-// It reuses the library's own controls instead of drawing its own: a choice's
-// mark is the Checkbox (multiple) or the Radio Group item (single), built from
-// their placeholders and driven by the choice's state, the free-text answer is
-// the Input, and the shortcut is the Kbd keycap. The native input still covers
-// the row, so semantics and keyboard behaviour are upstream's.
+// Fabricator override of the upstream questionnaire (identical in every base),
+// drawn after Relay's agent questions so it can take a chat input's place.
+// A choice is a row with its label and a chip at the end: the shortcut (1, 2,
+// 3…) for a single choice, a square that fills for a multiple one, and an
+// arrow on a single choice's hover when picking it moves on. One highlight
+// glides between the rows. The native input still covers the row, so
+// semantics and keyboard behaviour are upstream's.
 
-function QuestionnaireChoiceIndicator({
-  checked,
-  invalid,
+type QuestionnaireShortcuts = "letters" | "numbers"
+
+/**
+ * Whether picking a choice moves to the next question (or submits the last):
+ * a single choice picked with the pointer or by its shortcut. The arrows and
+ * space only walk the choices, and a multiple choice takes several picks.
+ */
+function shouldAdvanceQuestionnaire({
   type,
+  isPointer,
+  key,
+  shortcuts,
 }: {
-  checked: boolean
-  invalid: boolean
   type: "checkbox" | "radio"
+  isPointer: boolean
+  key: string | null
+  shortcuts: QuestionnaireShortcuts | null
 }) {
-  const state = {
-    "aria-invalid": invalid || undefined,
-    "data-checked": checked ? "" : undefined,
-    "data-unchecked": checked ? undefined : "",
-  }
-
-  if (type === "radio") {
-    return (
-      <span
-        aria-hidden="true"
-        data-slot="questionnaire-choice-indicator"
-        data-type={type}
-        className="cn-radio-group-item cn-questionnaire-choice-indicator pointer-events-none relative aspect-square shrink-0"
-        {...state}
-      >
-        <span className="cn-radio-group-indicator" {...state}>
-          <span
-            data-slot="questionnaire-choice-indicator-dot"
-            className="cn-radio-group-indicator-icon"
-          />
-        </span>
-      </span>
-    )
-  }
-
-  return (
-    <span
-      aria-hidden="true"
-      data-slot="questionnaire-choice-indicator"
-      data-type={type}
-      className="cn-checkbox cn-questionnaire-choice-indicator pointer-events-none relative shrink-0"
-      {...state}
-    >
-      <span
-        className="cn-checkbox-indicator grid place-content-center text-current"
-        {...state}
-      >
-        <IconPlaceholder
-          data-slot="questionnaire-choice-indicator-check"
-          lucide="CheckIcon"
-          tabler="IconCheck"
-          hugeicons="Tick02Icon"
-          phosphor="CheckIcon"
-          remixicon="RiCheckLine"
-        />
-      </span>
-    </span>
-  )
+  if (type !== "radio") return false
+  if (isPointer) return true
+  if (!key || key.length !== 1 || !shortcuts) return false
+  return shortcuts === "numbers" ? /^[1-9]$/.test(key) : /^[a-z]$/i.test(key)
 }
+
+type QuestionnaireAdvance = {
+  shortcuts: QuestionnaireShortcuts | null
+  /** The key that last went down in the questionnaire, read at click time. */
+  getLastKey: () => string | null
+}
+
+const QuestionnaireAdvanceContext =
+  React.createContext<QuestionnaireAdvance | null>(null)
 
 function Questionnaire({
   className,
+  advanceOnSelect = false,
+  shortcuts,
+  onKeyDownCapture,
+  onPointerDownCapture,
   ...props
-}: React.ComponentProps<typeof QuestionnairePrimitive.Root>) {
+}: React.ComponentProps<typeof QuestionnairePrimitive.Root> & {
+  /** Picking a single choice with the pointer or its shortcut moves to the next question, or submits the last. */
+  advanceOnSelect?: boolean
+}) {
+  const lastKey = React.useRef<string | null>(null)
+  const getLastKey = React.useCallback(() => lastKey.current, [])
+  const advance = React.useMemo(
+    () =>
+      advanceOnSelect ? { shortcuts: shortcuts ?? null, getLastKey } : null,
+    [advanceOnSelect, shortcuts, getLastKey]
+  )
+
   return (
-    <QuestionnairePrimitive.Root
-      data-slot="questionnaire"
-      className={cn("cn-questionnaire flex w-full min-w-0 flex-col", className)}
+    <QuestionnaireAdvanceContext.Provider value={advance}>
+      <QuestionnairePrimitive.Root
+        data-slot="questionnaire"
+        data-advance-on-select={advanceOnSelect ? "" : undefined}
+        shortcuts={shortcuts}
+        className={cn(
+          "cn-questionnaire flex w-full min-w-0 flex-col",
+          className
+        )}
+        onKeyDownCapture={(event) => {
+          onKeyDownCapture?.(event)
+          lastKey.current = event.key
+        }}
+        onPointerDownCapture={(event) => {
+          onPointerDownCapture?.(event)
+          lastKey.current = null
+        }}
+        {...props}
+      />
+    </QuestionnaireAdvanceContext.Provider>
+  )
+}
+
+/** The row above the questions: the progress at the start, actions such as Stop at the end. */
+function QuestionnaireHeader({
+  className,
+  ...props
+}: React.ComponentProps<"div">) {
+  return (
+    <div
+      data-slot="questionnaire-header"
+      className={cn(
+        "cn-questionnaire-header flex min-w-0 items-center justify-between",
+        className
+      )}
       {...props}
     />
   )
@@ -155,17 +182,29 @@ function QuestionnaireDescription({
 
 function QuestionnaireChoices({
   className,
+  children,
+  ref,
   ...props
 }: React.ComponentProps<typeof QuestionnairePrimitive.Choices>) {
+  const fluid = useFluidHover<HTMLDivElement>({
+    items: "[data-slot=questionnaire-choice]",
+  })
+  const mergedRef = useMergedRef(fluid.attach, ref)
+
   return (
     <QuestionnairePrimitive.Choices
       data-slot="questionnaire-choices"
       className={cn(
-        "cn-questionnaire-choices group/questionnaire-choices grid min-w-0",
+        "cn-questionnaire-choices group/questionnaire-choices relative isolate grid min-w-0",
         className
       )}
+      ref={mergedRef}
+      {...fluid.props}
       {...props}
-    />
+    >
+      <FluidHoverHighlight hover={fluid.hover} />
+      {children}
+    </QuestionnairePrimitive.Choices>
   )
 }
 
@@ -174,11 +213,36 @@ function QuestionnaireChoice({
   className,
   ...props
 }: React.ComponentProps<typeof QuestionnairePrimitive.Choice>) {
+  const advance = React.useContext(QuestionnaireAdvanceContext)
+
+  function handleInputClick(event: React.MouseEvent<HTMLInputElement>) {
+    if (!advance) return
+    const input = event.currentTarget
+    const isAdvancing = shouldAdvanceQuestionnaire({
+      type: input.type === "checkbox" ? "checkbox" : "radio",
+      isPointer: event.detail > 0,
+      key: advance.getLastKey(),
+      shortcuts: advance.shortcuts,
+    })
+    if (!isAdvancing) return
+    // Once the pick is in, Enter on a chosen answer moves on (or submits the
+    // last question), with the questionnaire's own validation.
+    requestAnimationFrame(() =>
+      input.dispatchEvent(
+        new KeyboardEvent("keydown", {
+          key: "Enter",
+          bubbles: true,
+          cancelable: true,
+        })
+      )
+    )
+  }
+
   return (
     <QuestionnairePrimitive.Choice
       data-slot="questionnaire-choice"
       className={cn(
-        "cn-questionnaire-choice group/questionnaire-choice relative flex min-h-11 cursor-pointer items-start text-start transition-colors outline-none select-none",
+        "cn-questionnaire-choice group/questionnaire-choice relative flex cursor-pointer items-center text-start transition-colors outline-none select-none",
         "data-disabled:pointer-events-none data-disabled:cursor-not-allowed data-disabled:opacity-50",
         className
       )}
@@ -187,27 +251,42 @@ function QuestionnaireChoice({
       <QuestionnairePrimitive.ChoiceInput
         data-slot="questionnaire-choice-input"
         className="cn-questionnaire-choice-input absolute inset-0 z-10 size-full cursor-pointer opacity-0"
-        render={(inputProps, state) => (
-          <>
-            <input {...inputProps} />
-            <QuestionnaireChoiceIndicator
-              checked={state.checked}
-              invalid={state.invalid}
-              type={state.type}
-            />
-          </>
-        )}
+        onClick={handleInputClick}
       />
       <QuestionnairePrimitive.ChoiceLabel
         data-slot="questionnaire-choice-label"
-        className="cn-questionnaire-choice-label cn-questionnaire-choice-content flex min-w-0 flex-1 flex-col leading-snug"
+        className="cn-questionnaire-choice-label cn-questionnaire-choice-content flex min-w-0 flex-1 flex-col"
       >
         {children}
       </QuestionnairePrimitive.ChoiceLabel>
-      <QuestionnairePrimitive.ChoiceShortcut
-        data-slot="questionnaire-choice-shortcut"
-        className="cn-kbd cn-questionnaire-choice-shortcut cn-questionnaire-shortcut pointer-events-none ms-auto hidden shrink-0 items-center justify-center select-none group-data-[shortcut]/questionnaire-choice:inline-flex"
-      />
+      <span
+        aria-hidden="true"
+        data-slot="questionnaire-choice-indicator"
+        className="cn-questionnaire-choice-indicator pointer-events-none relative inline-flex shrink-0 items-center justify-center"
+      >
+        <QuestionnairePrimitive.ChoiceShortcut
+          data-slot="questionnaire-choice-shortcut"
+          className="cn-questionnaire-choice-shortcut cn-questionnaire-shortcut select-none"
+        />
+        <IconPlaceholder
+          data-slot="questionnaire-choice-indicator-check"
+          className="cn-questionnaire-choice-check absolute"
+          lucide="CheckIcon"
+          tabler="IconCheck"
+          hugeicons="Tick02Icon"
+          phosphor="CheckIcon"
+          remixicon="RiCheckLine"
+        />
+        <IconPlaceholder
+          data-slot="questionnaire-choice-advance"
+          className="cn-questionnaire-choice-advance absolute"
+          lucide="ArrowRightIcon"
+          tabler="IconArrowRight"
+          hugeicons="ArrowRight02Icon"
+          phosphor="ArrowRightIcon"
+          remixicon="RiArrowRightLine"
+        />
+      </span>
     </QuestionnairePrimitive.Choice>
   )
 }
@@ -280,7 +359,7 @@ function QuestionnairePrevious({
   children,
   className,
   size = "default",
-  variant = "outline",
+  variant = "ghost",
   ...props
 }: React.ComponentProps<typeof QuestionnairePrimitive.Previous> &
   Pick<React.ComponentProps<typeof Button>, "size" | "variant">) {
@@ -305,7 +384,7 @@ function QuestionnaireSkip({
   children,
   className,
   size = "default",
-  variant = "outline",
+  variant = "ghost",
   ...props
 }: React.ComponentProps<typeof QuestionnairePrimitive.Skip> &
   Pick<React.ComponentProps<typeof Button>, "size" | "variant">) {
@@ -384,6 +463,7 @@ export {
   QuestionnaireChoices,
   QuestionnaireDescription,
   QuestionnaireError,
+  QuestionnaireHeader,
   QuestionnaireInput,
   QuestionnaireItem,
   QuestionnaireNext,
@@ -392,4 +472,5 @@ export {
   QuestionnaireSkip,
   QuestionnaireSubmit,
   QuestionnaireTitle,
+  shouldAdvanceQuestionnaire,
 }

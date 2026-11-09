@@ -529,6 +529,42 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "chart-tooltip",
       filePath: "examples/base/chart-tooltip.tsx",
     },
+    "chat-input-agent": {
+      name: "chat-input-agent",
+      filePath: "examples/base/chat-input-agent.tsx",
+    },
+    "chat-input-attachments": {
+      name: "chat-input-attachments",
+      filePath: "examples/base/chat-input-attachments.tsx",
+    },
+    "chat-input-context-meter": {
+      name: "chat-input-context-meter",
+      filePath: "examples/base/chat-input-context-meter.tsx",
+    },
+    "chat-input-demo": {
+      name: "chat-input-demo",
+      filePath: "examples/base/chat-input-demo.tsx",
+    },
+    "chat-input-disabled": {
+      name: "chat-input-disabled",
+      filePath: "examples/base/chat-input-disabled.tsx",
+    },
+    "chat-input-large": {
+      name: "chat-input-large",
+      filePath: "examples/base/chat-input-large.tsx",
+    },
+    "chat-input-mentions": {
+      name: "chat-input-mentions",
+      filePath: "examples/base/chat-input-mentions.tsx",
+    },
+    "chat-input-submit-on": {
+      name: "chat-input-submit-on",
+      filePath: "examples/base/chat-input-submit-on.tsx",
+    },
+    "chat-input-voice": {
+      name: "chat-input-voice",
+      filePath: "examples/base/chat-input-voice.tsx",
+    },
     "checkbox-basic": {
       name: "checkbox-basic",
       filePath: "examples/base/checkbox-basic.tsx",
@@ -580,6 +616,38 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "collapsible-settings": {
       name: "collapsible-settings",
       filePath: "examples/base/collapsible-settings.tsx",
+    },
+    "color-picker-controlled": {
+      name: "color-picker-controlled",
+      filePath: "examples/base/color-picker-controlled.tsx",
+    },
+    "color-picker-demo": {
+      name: "color-picker-demo",
+      filePath: "examples/base/color-picker-demo.tsx",
+    },
+    "color-picker-no-eyedropper": {
+      name: "color-picker-no-eyedropper",
+      filePath: "examples/base/color-picker-no-eyedropper.tsx",
+    },
+    "color-picker-oklch": {
+      name: "color-picker-oklch",
+      filePath: "examples/base/color-picker-oklch.tsx",
+    },
+    "color-picker-popover": {
+      name: "color-picker-popover",
+      filePath: "examples/base/color-picker-popover.tsx",
+    },
+    "color-picker-removable": {
+      name: "color-picker-removable",
+      filePath: "examples/base/color-picker-removable.tsx",
+    },
+    "color-picker-sizes": {
+      name: "color-picker-sizes",
+      filePath: "examples/base/color-picker-sizes.tsx",
+    },
+    "color-picker-swatches": {
+      name: "color-picker-swatches",
+      filePath: "examples/base/color-picker-swatches.tsx",
     },
     "combobox-auto-highlight": {
       name: "combobox-auto-highlight",
@@ -717,17 +785,57 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "date-picker-basic",
       filePath: "examples/base/date-picker-basic.tsx",
     },
+    "date-picker-controlled": {
+      name: "date-picker-controlled",
+      filePath: "examples/base/date-picker-controlled.tsx",
+    },
+    "date-picker-date-time-range": {
+      name: "date-picker-date-time-range",
+      filePath: "examples/base/date-picker-date-time-range.tsx",
+    },
+    "date-picker-date-time": {
+      name: "date-picker-date-time",
+      filePath: "examples/base/date-picker-date-time.tsx",
+    },
     "date-picker-demo": {
       name: "date-picker-demo",
       filePath: "examples/base/date-picker-demo.tsx",
+    },
+    "date-picker-disabled": {
+      name: "date-picker-disabled",
+      filePath: "examples/base/date-picker-disabled.tsx",
     },
     "date-picker-dob": {
       name: "date-picker-dob",
       filePath: "examples/base/date-picker-dob.tsx",
     },
+    "date-picker-editable": {
+      name: "date-picker-editable",
+      filePath: "examples/base/date-picker-editable.tsx",
+    },
+    "date-picker-field": {
+      name: "date-picker-field",
+      filePath: "examples/base/date-picker-field.tsx",
+    },
+    "date-picker-form": {
+      name: "date-picker-form",
+      filePath: "examples/base/date-picker-form.tsx",
+    },
+    "date-picker-format": {
+      name: "date-picker-format",
+      filePath: "examples/base/date-picker-format.tsx",
+    },
     "date-picker-input": {
       name: "date-picker-input",
       filePath: "examples/base/date-picker-input.tsx",
+    },
+    "date-picker-invalid": {
+      name: "date-picker-invalid",
+      filePath: "examples/base/date-picker-invalid.tsx",
+    },
+    "date-picker-min-max": {
+      name: "date-picker-min-max",
+      filePath: "examples/base/date-picker-min-max.tsx",
     },
     "date-picker-natural-language": {
       name: "date-picker-natural-language",
@@ -740,6 +848,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "date-picker-rtl": {
       name: "date-picker-rtl",
       filePath: "examples/base/date-picker-rtl.tsx",
+    },
+    "date-picker-sizes": {
+      name: "date-picker-sizes",
+      filePath: "examples/base/date-picker-sizes.tsx",
     },
     "date-picker-time": {
       name: "date-picker-time",
@@ -937,9 +1049,53 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "field-textarea",
       filePath: "examples/base/field-textarea.tsx",
     },
+    "file-tree-demo": {
+      name: "file-tree-demo",
+      filePath: "examples/base/file-tree-demo.tsx",
+    },
+    "file-tree-single": {
+      name: "file-tree-single",
+      filePath: "examples/base/file-tree-single.tsx",
+    },
+    "file-upload-button": {
+      name: "file-upload-button",
+      filePath: "examples/base/file-upload-button.tsx",
+    },
+    "file-upload-demo": {
+      name: "file-upload-demo",
+      filePath: "examples/base/file-upload-demo.tsx",
+    },
+    "file-upload-disabled": {
+      name: "file-upload-disabled",
+      filePath: "examples/base/file-upload-disabled.tsx",
+    },
+    "file-upload-field": {
+      name: "file-upload-field",
+      filePath: "examples/base/file-upload-field.tsx",
+    },
+    "file-upload-form": {
+      name: "file-upload-form",
+      filePath: "examples/base/file-upload-form.tsx",
+    },
+    "file-upload-image": {
+      name: "file-upload-image",
+      filePath: "examples/base/file-upload-image.tsx",
+    },
     "file-upload-list": {
       name: "file-upload-list",
       filePath: "examples/base/file-upload-list.tsx",
+    },
+    "file-upload-multiple": {
+      name: "file-upload-multiple",
+      filePath: "examples/base/file-upload-multiple.tsx",
+    },
+    "file-upload-progress": {
+      name: "file-upload-progress",
+      filePath: "examples/base/file-upload-progress.tsx",
+    },
+    "file-upload-validation": {
+      name: "file-upload-validation",
+      filePath: "examples/base/file-upload-validation.tsx",
     },
     "hover-card-demo": {
       name: "hover-card-demo",
@@ -1053,6 +1209,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "input-group-rtl",
       filePath: "examples/base/input-group-rtl.tsx",
     },
+    "input-group-sizes": {
+      name: "input-group-sizes",
+      filePath: "examples/base/input-group-sizes.tsx",
+    },
     "input-group-spinner": {
       name: "input-group-spinner",
       filePath: "examples/base/input-group-spinner.tsx",
@@ -1133,6 +1293,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "input-otp-pattern",
       filePath: "examples/base/input-otp-pattern.tsx",
     },
+    "input-otp-placeholder": {
+      name: "input-otp-placeholder",
+      filePath: "examples/base/input-otp-placeholder.tsx",
+    },
     "input-otp-rtl": {
       name: "input-otp-rtl",
       filePath: "examples/base/input-otp-rtl.tsx",
@@ -1141,6 +1305,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "input-otp-separator",
       filePath: "examples/base/input-otp-separator.tsx",
     },
+    "input-password": {
+      name: "input-password",
+      filePath: "examples/base/input-password.tsx",
+    },
     "input-required": {
       name: "input-required",
       filePath: "examples/base/input-required.tsx",
@@ -1148,6 +1316,18 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "input-rtl": {
       name: "input-rtl",
       filePath: "examples/base/input-rtl.tsx",
+    },
+    "input-search": {
+      name: "input-search",
+      filePath: "examples/base/input-search.tsx",
+    },
+    "input-sizes": {
+      name: "input-sizes",
+      filePath: "examples/base/input-sizes.tsx",
+    },
+    "input-types": {
+      name: "input-types",
+      filePath: "examples/base/input-types.tsx",
     },
     "item-avatar": {
       name: "item-avatar",
@@ -1361,6 +1541,34 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "message-scroller-visibility",
       filePath: "examples/base/message-scroller-visibility.tsx",
     },
+    "model-picker-demo": {
+      name: "model-picker-demo",
+      filePath: "examples/base/model-picker-demo.tsx",
+    },
+    "model-picker-effort": {
+      name: "model-picker-effort",
+      filePath: "examples/base/model-picker-effort.tsx",
+    },
+    "month-input-controlled": {
+      name: "month-input-controlled",
+      filePath: "examples/base/month-input-controlled.tsx",
+    },
+    "month-input-demo": {
+      name: "month-input-demo",
+      filePath: "examples/base/month-input-demo.tsx",
+    },
+    "month-input-field": {
+      name: "month-input-field",
+      filePath: "examples/base/month-input-field.tsx",
+    },
+    "month-input-format": {
+      name: "month-input-format",
+      filePath: "examples/base/month-input-format.tsx",
+    },
+    "month-input-range": {
+      name: "month-input-range",
+      filePath: "examples/base/month-input-range.tsx",
+    },
     "muted-item-group": {
       name: "muted-item-group",
       filePath: "examples/base/muted-item-group.tsx",
@@ -1392,6 +1600,46 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "navigation-menu-rtl": {
       name: "navigation-menu-rtl",
       filePath: "examples/base/navigation-menu-rtl.tsx",
+    },
+    "number-field-basic": {
+      name: "number-field-basic",
+      filePath: "examples/base/number-field-basic.tsx",
+    },
+    "number-field-controlled": {
+      name: "number-field-controlled",
+      filePath: "examples/base/number-field-controlled.tsx",
+    },
+    "number-field-demo": {
+      name: "number-field-demo",
+      filePath: "examples/base/number-field-demo.tsx",
+    },
+    "number-field-disabled": {
+      name: "number-field-disabled",
+      filePath: "examples/base/number-field-disabled.tsx",
+    },
+    "number-field-field": {
+      name: "number-field-field",
+      filePath: "examples/base/number-field-field.tsx",
+    },
+    "number-field-format": {
+      name: "number-field-format",
+      filePath: "examples/base/number-field-format.tsx",
+    },
+    "number-field-invalid": {
+      name: "number-field-invalid",
+      filePath: "examples/base/number-field-invalid.tsx",
+    },
+    "number-field-min-max": {
+      name: "number-field-min-max",
+      filePath: "examples/base/number-field-min-max.tsx",
+    },
+    "number-field-sizes": {
+      name: "number-field-sizes",
+      filePath: "examples/base/number-field-sizes.tsx",
+    },
+    "number-field-steppers-end": {
+      name: "number-field-steppers-end",
+      filePath: "examples/base/number-field-steppers-end.tsx",
     },
     "outline-item-group": {
       name: "outline-item-group",
@@ -1456,6 +1704,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "questionnaire-card": {
       name: "questionnaire-card",
       filePath: "examples/base/questionnaire-card.tsx",
+    },
+    "questionnaire-chat": {
+      name: "questionnaire-chat",
+      filePath: "examples/base/questionnaire-chat.tsx",
     },
     "questionnaire-conditional": {
       name: "questionnaire-conditional",
@@ -1917,6 +2169,38 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "switch-sizes",
       filePath: "examples/base/switch-sizes.tsx",
     },
+    "syntax-highlight-command": {
+      name: "syntax-highlight-command",
+      filePath: "examples/base/syntax-highlight-command.tsx",
+    },
+    "syntax-highlight-demo": {
+      name: "syntax-highlight-demo",
+      filePath: "examples/base/syntax-highlight-demo.tsx",
+    },
+    "syntax-highlight-diff": {
+      name: "syntax-highlight-diff",
+      filePath: "examples/base/syntax-highlight-diff.tsx",
+    },
+    "syntax-highlight-highlight-lines": {
+      name: "syntax-highlight-highlight-lines",
+      filePath: "examples/base/syntax-highlight-highlight-lines.tsx",
+    },
+    "syntax-highlight-languages": {
+      name: "syntax-highlight-languages",
+      filePath: "examples/base/syntax-highlight-languages.tsx",
+    },
+    "syntax-highlight-line-numbers": {
+      name: "syntax-highlight-line-numbers",
+      filePath: "examples/base/syntax-highlight-line-numbers.tsx",
+    },
+    "syntax-highlight-scroll": {
+      name: "syntax-highlight-scroll",
+      filePath: "examples/base/syntax-highlight-scroll.tsx",
+    },
+    "syntax-highlight-wrap": {
+      name: "syntax-highlight-wrap",
+      filePath: "examples/base/syntax-highlight-wrap.tsx",
+    },
     "tab-strip-demo": {
       name: "tab-strip-demo",
       filePath: "examples/base/tab-strip-demo.tsx",
@@ -1957,6 +2241,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "tabs-rtl",
       filePath: "examples/base/tabs-rtl.tsx",
     },
+    "tabs-subtle": {
+      name: "tabs-subtle",
+      filePath: "examples/base/tabs-subtle.tsx",
+    },
     "tabs-vertical": {
       name: "tabs-vertical",
       filePath: "examples/base/tabs-vertical.tsx",
@@ -1988,6 +2276,38 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "textarea-rtl": {
       name: "textarea-rtl",
       filePath: "examples/base/textarea-rtl.tsx",
+    },
+    "time-input-24-hour": {
+      name: "time-input-24-hour",
+      filePath: "examples/base/time-input-24-hour.tsx",
+    },
+    "time-input-controlled": {
+      name: "time-input-controlled",
+      filePath: "examples/base/time-input-controlled.tsx",
+    },
+    "time-input-date-time": {
+      name: "time-input-date-time",
+      filePath: "examples/base/time-input-date-time.tsx",
+    },
+    "time-input-demo": {
+      name: "time-input-demo",
+      filePath: "examples/base/time-input-demo.tsx",
+    },
+    "time-input-duration": {
+      name: "time-input-duration",
+      filePath: "examples/base/time-input-duration.tsx",
+    },
+    "time-input-field": {
+      name: "time-input-field",
+      filePath: "examples/base/time-input-field.tsx",
+    },
+    "time-input-range": {
+      name: "time-input-range",
+      filePath: "examples/base/time-input-range.tsx",
+    },
+    "time-input-seconds": {
+      name: "time-input-seconds",
+      filePath: "examples/base/time-input-seconds.tsx",
     },
     "toast-demo": {
       name: "toast-demo",
@@ -2140,6 +2460,30 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "user-menu-demo": {
       name: "user-menu-demo",
       filePath: "examples/base/user-menu-demo.tsx",
+    },
+    "video-player-autoplay": {
+      name: "video-player-autoplay",
+      filePath: "examples/base/video-player-autoplay.tsx",
+    },
+    "video-player-captions": {
+      name: "video-player-captions",
+      filePath: "examples/base/video-player-captions.tsx",
+    },
+    "video-player-chapters": {
+      name: "video-player-chapters",
+      filePath: "examples/base/video-player-chapters.tsx",
+    },
+    "video-player-compact": {
+      name: "video-player-compact",
+      filePath: "examples/base/video-player-compact.tsx",
+    },
+    "video-player-demo": {
+      name: "video-player-demo",
+      filePath: "examples/base/video-player-demo.tsx",
+    },
+    "video-player-error": {
+      name: "video-player-error",
+      filePath: "examples/base/video-player-error.tsx",
     },
     "workspace-switcher-demo": {
       name: "workspace-switcher-demo",
@@ -2663,6 +3007,42 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "chart-tooltip",
       filePath: "examples/aria/chart-tooltip.tsx",
     },
+    "chat-input-agent": {
+      name: "chat-input-agent",
+      filePath: "examples/aria/chat-input-agent.tsx",
+    },
+    "chat-input-attachments": {
+      name: "chat-input-attachments",
+      filePath: "examples/aria/chat-input-attachments.tsx",
+    },
+    "chat-input-context-meter": {
+      name: "chat-input-context-meter",
+      filePath: "examples/aria/chat-input-context-meter.tsx",
+    },
+    "chat-input-demo": {
+      name: "chat-input-demo",
+      filePath: "examples/aria/chat-input-demo.tsx",
+    },
+    "chat-input-disabled": {
+      name: "chat-input-disabled",
+      filePath: "examples/aria/chat-input-disabled.tsx",
+    },
+    "chat-input-large": {
+      name: "chat-input-large",
+      filePath: "examples/aria/chat-input-large.tsx",
+    },
+    "chat-input-mentions": {
+      name: "chat-input-mentions",
+      filePath: "examples/aria/chat-input-mentions.tsx",
+    },
+    "chat-input-submit-on": {
+      name: "chat-input-submit-on",
+      filePath: "examples/aria/chat-input-submit-on.tsx",
+    },
+    "chat-input-voice": {
+      name: "chat-input-voice",
+      filePath: "examples/aria/chat-input-voice.tsx",
+    },
     "checkbox-basic": {
       name: "checkbox-basic",
       filePath: "examples/aria/checkbox-basic.tsx",
@@ -2714,6 +3094,38 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "collapsible-settings": {
       name: "collapsible-settings",
       filePath: "examples/aria/collapsible-settings.tsx",
+    },
+    "color-picker-controlled": {
+      name: "color-picker-controlled",
+      filePath: "examples/aria/color-picker-controlled.tsx",
+    },
+    "color-picker-demo": {
+      name: "color-picker-demo",
+      filePath: "examples/aria/color-picker-demo.tsx",
+    },
+    "color-picker-no-eyedropper": {
+      name: "color-picker-no-eyedropper",
+      filePath: "examples/aria/color-picker-no-eyedropper.tsx",
+    },
+    "color-picker-oklch": {
+      name: "color-picker-oklch",
+      filePath: "examples/aria/color-picker-oklch.tsx",
+    },
+    "color-picker-popover": {
+      name: "color-picker-popover",
+      filePath: "examples/aria/color-picker-popover.tsx",
+    },
+    "color-picker-removable": {
+      name: "color-picker-removable",
+      filePath: "examples/aria/color-picker-removable.tsx",
+    },
+    "color-picker-sizes": {
+      name: "color-picker-sizes",
+      filePath: "examples/aria/color-picker-sizes.tsx",
+    },
+    "color-picker-swatches": {
+      name: "color-picker-swatches",
+      filePath: "examples/aria/color-picker-swatches.tsx",
     },
     "combobox-basic": {
       name: "combobox-basic",
@@ -2843,17 +3255,57 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "date-picker-basic",
       filePath: "examples/aria/date-picker-basic.tsx",
     },
+    "date-picker-controlled": {
+      name: "date-picker-controlled",
+      filePath: "examples/aria/date-picker-controlled.tsx",
+    },
+    "date-picker-date-time-range": {
+      name: "date-picker-date-time-range",
+      filePath: "examples/aria/date-picker-date-time-range.tsx",
+    },
+    "date-picker-date-time": {
+      name: "date-picker-date-time",
+      filePath: "examples/aria/date-picker-date-time.tsx",
+    },
     "date-picker-demo": {
       name: "date-picker-demo",
       filePath: "examples/aria/date-picker-demo.tsx",
+    },
+    "date-picker-disabled": {
+      name: "date-picker-disabled",
+      filePath: "examples/aria/date-picker-disabled.tsx",
     },
     "date-picker-dob": {
       name: "date-picker-dob",
       filePath: "examples/aria/date-picker-dob.tsx",
     },
+    "date-picker-editable": {
+      name: "date-picker-editable",
+      filePath: "examples/aria/date-picker-editable.tsx",
+    },
+    "date-picker-field": {
+      name: "date-picker-field",
+      filePath: "examples/aria/date-picker-field.tsx",
+    },
+    "date-picker-form": {
+      name: "date-picker-form",
+      filePath: "examples/aria/date-picker-form.tsx",
+    },
+    "date-picker-format": {
+      name: "date-picker-format",
+      filePath: "examples/aria/date-picker-format.tsx",
+    },
     "date-picker-input": {
       name: "date-picker-input",
       filePath: "examples/aria/date-picker-input.tsx",
+    },
+    "date-picker-invalid": {
+      name: "date-picker-invalid",
+      filePath: "examples/aria/date-picker-invalid.tsx",
+    },
+    "date-picker-min-max": {
+      name: "date-picker-min-max",
+      filePath: "examples/aria/date-picker-min-max.tsx",
     },
     "date-picker-natural-language": {
       name: "date-picker-natural-language",
@@ -2866,6 +3318,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "date-picker-rtl": {
       name: "date-picker-rtl",
       filePath: "examples/aria/date-picker-rtl.tsx",
+    },
+    "date-picker-sizes": {
+      name: "date-picker-sizes",
+      filePath: "examples/aria/date-picker-sizes.tsx",
     },
     "date-picker-time": {
       name: "date-picker-time",
@@ -3063,9 +3519,53 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "field-textarea",
       filePath: "examples/aria/field-textarea.tsx",
     },
+    "file-tree-demo": {
+      name: "file-tree-demo",
+      filePath: "examples/aria/file-tree-demo.tsx",
+    },
+    "file-tree-single": {
+      name: "file-tree-single",
+      filePath: "examples/aria/file-tree-single.tsx",
+    },
+    "file-upload-button": {
+      name: "file-upload-button",
+      filePath: "examples/aria/file-upload-button.tsx",
+    },
+    "file-upload-demo": {
+      name: "file-upload-demo",
+      filePath: "examples/aria/file-upload-demo.tsx",
+    },
+    "file-upload-disabled": {
+      name: "file-upload-disabled",
+      filePath: "examples/aria/file-upload-disabled.tsx",
+    },
+    "file-upload-field": {
+      name: "file-upload-field",
+      filePath: "examples/aria/file-upload-field.tsx",
+    },
+    "file-upload-form": {
+      name: "file-upload-form",
+      filePath: "examples/aria/file-upload-form.tsx",
+    },
+    "file-upload-image": {
+      name: "file-upload-image",
+      filePath: "examples/aria/file-upload-image.tsx",
+    },
     "file-upload-list": {
       name: "file-upload-list",
       filePath: "examples/aria/file-upload-list.tsx",
+    },
+    "file-upload-multiple": {
+      name: "file-upload-multiple",
+      filePath: "examples/aria/file-upload-multiple.tsx",
+    },
+    "file-upload-progress": {
+      name: "file-upload-progress",
+      filePath: "examples/aria/file-upload-progress.tsx",
+    },
+    "file-upload-validation": {
+      name: "file-upload-validation",
+      filePath: "examples/aria/file-upload-validation.tsx",
     },
     "hover-card-demo": {
       name: "hover-card-demo",
@@ -3179,6 +3679,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "input-group-rtl",
       filePath: "examples/aria/input-group-rtl.tsx",
     },
+    "input-group-sizes": {
+      name: "input-group-sizes",
+      filePath: "examples/aria/input-group-sizes.tsx",
+    },
     "input-group-spinner": {
       name: "input-group-spinner",
       filePath: "examples/aria/input-group-spinner.tsx",
@@ -3259,6 +3763,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "input-otp-pattern",
       filePath: "examples/aria/input-otp-pattern.tsx",
     },
+    "input-otp-placeholder": {
+      name: "input-otp-placeholder",
+      filePath: "examples/aria/input-otp-placeholder.tsx",
+    },
     "input-otp-rtl": {
       name: "input-otp-rtl",
       filePath: "examples/aria/input-otp-rtl.tsx",
@@ -3267,6 +3775,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "input-otp-separator",
       filePath: "examples/aria/input-otp-separator.tsx",
     },
+    "input-password": {
+      name: "input-password",
+      filePath: "examples/aria/input-password.tsx",
+    },
     "input-required": {
       name: "input-required",
       filePath: "examples/aria/input-required.tsx",
@@ -3274,6 +3786,18 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "input-rtl": {
       name: "input-rtl",
       filePath: "examples/aria/input-rtl.tsx",
+    },
+    "input-search": {
+      name: "input-search",
+      filePath: "examples/aria/input-search.tsx",
+    },
+    "input-sizes": {
+      name: "input-sizes",
+      filePath: "examples/aria/input-sizes.tsx",
+    },
+    "input-types": {
+      name: "input-types",
+      filePath: "examples/aria/input-types.tsx",
     },
     "item-avatar": {
       name: "item-avatar",
@@ -3463,6 +3987,34 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "message-scroller-visibility",
       filePath: "examples/aria/message-scroller-visibility.tsx",
     },
+    "model-picker-demo": {
+      name: "model-picker-demo",
+      filePath: "examples/aria/model-picker-demo.tsx",
+    },
+    "model-picker-effort": {
+      name: "model-picker-effort",
+      filePath: "examples/aria/model-picker-effort.tsx",
+    },
+    "month-input-controlled": {
+      name: "month-input-controlled",
+      filePath: "examples/aria/month-input-controlled.tsx",
+    },
+    "month-input-demo": {
+      name: "month-input-demo",
+      filePath: "examples/aria/month-input-demo.tsx",
+    },
+    "month-input-field": {
+      name: "month-input-field",
+      filePath: "examples/aria/month-input-field.tsx",
+    },
+    "month-input-format": {
+      name: "month-input-format",
+      filePath: "examples/aria/month-input-format.tsx",
+    },
+    "month-input-range": {
+      name: "month-input-range",
+      filePath: "examples/aria/month-input-range.tsx",
+    },
     "muted-item-group": {
       name: "muted-item-group",
       filePath: "examples/aria/muted-item-group.tsx",
@@ -3486,6 +4038,46 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "native-select-rtl": {
       name: "native-select-rtl",
       filePath: "examples/aria/native-select-rtl.tsx",
+    },
+    "number-field-basic": {
+      name: "number-field-basic",
+      filePath: "examples/aria/number-field-basic.tsx",
+    },
+    "number-field-controlled": {
+      name: "number-field-controlled",
+      filePath: "examples/aria/number-field-controlled.tsx",
+    },
+    "number-field-demo": {
+      name: "number-field-demo",
+      filePath: "examples/aria/number-field-demo.tsx",
+    },
+    "number-field-disabled": {
+      name: "number-field-disabled",
+      filePath: "examples/aria/number-field-disabled.tsx",
+    },
+    "number-field-field": {
+      name: "number-field-field",
+      filePath: "examples/aria/number-field-field.tsx",
+    },
+    "number-field-format": {
+      name: "number-field-format",
+      filePath: "examples/aria/number-field-format.tsx",
+    },
+    "number-field-invalid": {
+      name: "number-field-invalid",
+      filePath: "examples/aria/number-field-invalid.tsx",
+    },
+    "number-field-min-max": {
+      name: "number-field-min-max",
+      filePath: "examples/aria/number-field-min-max.tsx",
+    },
+    "number-field-sizes": {
+      name: "number-field-sizes",
+      filePath: "examples/aria/number-field-sizes.tsx",
+    },
+    "number-field-steppers-end": {
+      name: "number-field-steppers-end",
+      filePath: "examples/aria/number-field-steppers-end.tsx",
     },
     "outline-item-group": {
       name: "outline-item-group",
@@ -3550,6 +4142,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "questionnaire-card": {
       name: "questionnaire-card",
       filePath: "examples/aria/questionnaire-card.tsx",
+    },
+    "questionnaire-chat": {
+      name: "questionnaire-chat",
+      filePath: "examples/aria/questionnaire-chat.tsx",
     },
     "questionnaire-conditional": {
       name: "questionnaire-conditional",
@@ -4027,6 +4623,38 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "switch-sizes",
       filePath: "examples/aria/switch-sizes.tsx",
     },
+    "syntax-highlight-command": {
+      name: "syntax-highlight-command",
+      filePath: "examples/aria/syntax-highlight-command.tsx",
+    },
+    "syntax-highlight-demo": {
+      name: "syntax-highlight-demo",
+      filePath: "examples/aria/syntax-highlight-demo.tsx",
+    },
+    "syntax-highlight-diff": {
+      name: "syntax-highlight-diff",
+      filePath: "examples/aria/syntax-highlight-diff.tsx",
+    },
+    "syntax-highlight-highlight-lines": {
+      name: "syntax-highlight-highlight-lines",
+      filePath: "examples/aria/syntax-highlight-highlight-lines.tsx",
+    },
+    "syntax-highlight-languages": {
+      name: "syntax-highlight-languages",
+      filePath: "examples/aria/syntax-highlight-languages.tsx",
+    },
+    "syntax-highlight-line-numbers": {
+      name: "syntax-highlight-line-numbers",
+      filePath: "examples/aria/syntax-highlight-line-numbers.tsx",
+    },
+    "syntax-highlight-scroll": {
+      name: "syntax-highlight-scroll",
+      filePath: "examples/aria/syntax-highlight-scroll.tsx",
+    },
+    "syntax-highlight-wrap": {
+      name: "syntax-highlight-wrap",
+      filePath: "examples/aria/syntax-highlight-wrap.tsx",
+    },
     "tab-strip-demo": {
       name: "tab-strip-demo",
       filePath: "examples/aria/tab-strip-demo.tsx",
@@ -4067,6 +4695,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "tabs-rtl",
       filePath: "examples/aria/tabs-rtl.tsx",
     },
+    "tabs-subtle": {
+      name: "tabs-subtle",
+      filePath: "examples/aria/tabs-subtle.tsx",
+    },
     "tabs-vertical": {
       name: "tabs-vertical",
       filePath: "examples/aria/tabs-vertical.tsx",
@@ -4094,6 +4726,38 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "textarea-rtl": {
       name: "textarea-rtl",
       filePath: "examples/aria/textarea-rtl.tsx",
+    },
+    "time-input-24-hour": {
+      name: "time-input-24-hour",
+      filePath: "examples/aria/time-input-24-hour.tsx",
+    },
+    "time-input-controlled": {
+      name: "time-input-controlled",
+      filePath: "examples/aria/time-input-controlled.tsx",
+    },
+    "time-input-date-time": {
+      name: "time-input-date-time",
+      filePath: "examples/aria/time-input-date-time.tsx",
+    },
+    "time-input-demo": {
+      name: "time-input-demo",
+      filePath: "examples/aria/time-input-demo.tsx",
+    },
+    "time-input-duration": {
+      name: "time-input-duration",
+      filePath: "examples/aria/time-input-duration.tsx",
+    },
+    "time-input-field": {
+      name: "time-input-field",
+      filePath: "examples/aria/time-input-field.tsx",
+    },
+    "time-input-range": {
+      name: "time-input-range",
+      filePath: "examples/aria/time-input-range.tsx",
+    },
+    "time-input-seconds": {
+      name: "time-input-seconds",
+      filePath: "examples/aria/time-input-seconds.tsx",
     },
     "toggle-demo": {
       name: "toggle-demo",
@@ -4234,6 +4898,30 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "user-menu-demo": {
       name: "user-menu-demo",
       filePath: "examples/aria/user-menu-demo.tsx",
+    },
+    "video-player-autoplay": {
+      name: "video-player-autoplay",
+      filePath: "examples/aria/video-player-autoplay.tsx",
+    },
+    "video-player-captions": {
+      name: "video-player-captions",
+      filePath: "examples/aria/video-player-captions.tsx",
+    },
+    "video-player-chapters": {
+      name: "video-player-chapters",
+      filePath: "examples/aria/video-player-chapters.tsx",
+    },
+    "video-player-compact": {
+      name: "video-player-compact",
+      filePath: "examples/aria/video-player-compact.tsx",
+    },
+    "video-player-demo": {
+      name: "video-player-demo",
+      filePath: "examples/aria/video-player-demo.tsx",
+    },
+    "video-player-error": {
+      name: "video-player-error",
+      filePath: "examples/aria/video-player-error.tsx",
     },
     "workspace-switcher-demo": {
       name: "workspace-switcher-demo",
@@ -4761,6 +5449,42 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "chart-tooltip",
       filePath: "examples/radix/chart-tooltip.tsx",
     },
+    "chat-input-agent": {
+      name: "chat-input-agent",
+      filePath: "examples/radix/chat-input-agent.tsx",
+    },
+    "chat-input-attachments": {
+      name: "chat-input-attachments",
+      filePath: "examples/radix/chat-input-attachments.tsx",
+    },
+    "chat-input-context-meter": {
+      name: "chat-input-context-meter",
+      filePath: "examples/radix/chat-input-context-meter.tsx",
+    },
+    "chat-input-demo": {
+      name: "chat-input-demo",
+      filePath: "examples/radix/chat-input-demo.tsx",
+    },
+    "chat-input-disabled": {
+      name: "chat-input-disabled",
+      filePath: "examples/radix/chat-input-disabled.tsx",
+    },
+    "chat-input-large": {
+      name: "chat-input-large",
+      filePath: "examples/radix/chat-input-large.tsx",
+    },
+    "chat-input-mentions": {
+      name: "chat-input-mentions",
+      filePath: "examples/radix/chat-input-mentions.tsx",
+    },
+    "chat-input-submit-on": {
+      name: "chat-input-submit-on",
+      filePath: "examples/radix/chat-input-submit-on.tsx",
+    },
+    "chat-input-voice": {
+      name: "chat-input-voice",
+      filePath: "examples/radix/chat-input-voice.tsx",
+    },
     "checkbox-basic": {
       name: "checkbox-basic",
       filePath: "examples/radix/checkbox-basic.tsx",
@@ -4812,6 +5536,38 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "collapsible-settings": {
       name: "collapsible-settings",
       filePath: "examples/radix/collapsible-settings.tsx",
+    },
+    "color-picker-controlled": {
+      name: "color-picker-controlled",
+      filePath: "examples/radix/color-picker-controlled.tsx",
+    },
+    "color-picker-demo": {
+      name: "color-picker-demo",
+      filePath: "examples/radix/color-picker-demo.tsx",
+    },
+    "color-picker-no-eyedropper": {
+      name: "color-picker-no-eyedropper",
+      filePath: "examples/radix/color-picker-no-eyedropper.tsx",
+    },
+    "color-picker-oklch": {
+      name: "color-picker-oklch",
+      filePath: "examples/radix/color-picker-oklch.tsx",
+    },
+    "color-picker-popover": {
+      name: "color-picker-popover",
+      filePath: "examples/radix/color-picker-popover.tsx",
+    },
+    "color-picker-removable": {
+      name: "color-picker-removable",
+      filePath: "examples/radix/color-picker-removable.tsx",
+    },
+    "color-picker-sizes": {
+      name: "color-picker-sizes",
+      filePath: "examples/radix/color-picker-sizes.tsx",
+    },
+    "color-picker-swatches": {
+      name: "color-picker-swatches",
+      filePath: "examples/radix/color-picker-swatches.tsx",
     },
     "combobox-auto-highlight": {
       name: "combobox-auto-highlight",
@@ -4949,17 +5705,57 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "date-picker-basic",
       filePath: "examples/radix/date-picker-basic.tsx",
     },
+    "date-picker-controlled": {
+      name: "date-picker-controlled",
+      filePath: "examples/radix/date-picker-controlled.tsx",
+    },
+    "date-picker-date-time-range": {
+      name: "date-picker-date-time-range",
+      filePath: "examples/radix/date-picker-date-time-range.tsx",
+    },
+    "date-picker-date-time": {
+      name: "date-picker-date-time",
+      filePath: "examples/radix/date-picker-date-time.tsx",
+    },
     "date-picker-demo": {
       name: "date-picker-demo",
       filePath: "examples/radix/date-picker-demo.tsx",
+    },
+    "date-picker-disabled": {
+      name: "date-picker-disabled",
+      filePath: "examples/radix/date-picker-disabled.tsx",
     },
     "date-picker-dob": {
       name: "date-picker-dob",
       filePath: "examples/radix/date-picker-dob.tsx",
     },
+    "date-picker-editable": {
+      name: "date-picker-editable",
+      filePath: "examples/radix/date-picker-editable.tsx",
+    },
+    "date-picker-field": {
+      name: "date-picker-field",
+      filePath: "examples/radix/date-picker-field.tsx",
+    },
+    "date-picker-form": {
+      name: "date-picker-form",
+      filePath: "examples/radix/date-picker-form.tsx",
+    },
+    "date-picker-format": {
+      name: "date-picker-format",
+      filePath: "examples/radix/date-picker-format.tsx",
+    },
     "date-picker-input": {
       name: "date-picker-input",
       filePath: "examples/radix/date-picker-input.tsx",
+    },
+    "date-picker-invalid": {
+      name: "date-picker-invalid",
+      filePath: "examples/radix/date-picker-invalid.tsx",
+    },
+    "date-picker-min-max": {
+      name: "date-picker-min-max",
+      filePath: "examples/radix/date-picker-min-max.tsx",
     },
     "date-picker-natural-language": {
       name: "date-picker-natural-language",
@@ -4972,6 +5768,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "date-picker-rtl": {
       name: "date-picker-rtl",
       filePath: "examples/radix/date-picker-rtl.tsx",
+    },
+    "date-picker-sizes": {
+      name: "date-picker-sizes",
+      filePath: "examples/radix/date-picker-sizes.tsx",
     },
     "date-picker-time": {
       name: "date-picker-time",
@@ -5157,9 +5957,53 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "field-textarea",
       filePath: "examples/radix/field-textarea.tsx",
     },
+    "file-tree-demo": {
+      name: "file-tree-demo",
+      filePath: "examples/radix/file-tree-demo.tsx",
+    },
+    "file-tree-single": {
+      name: "file-tree-single",
+      filePath: "examples/radix/file-tree-single.tsx",
+    },
+    "file-upload-button": {
+      name: "file-upload-button",
+      filePath: "examples/radix/file-upload-button.tsx",
+    },
+    "file-upload-demo": {
+      name: "file-upload-demo",
+      filePath: "examples/radix/file-upload-demo.tsx",
+    },
+    "file-upload-disabled": {
+      name: "file-upload-disabled",
+      filePath: "examples/radix/file-upload-disabled.tsx",
+    },
+    "file-upload-field": {
+      name: "file-upload-field",
+      filePath: "examples/radix/file-upload-field.tsx",
+    },
+    "file-upload-form": {
+      name: "file-upload-form",
+      filePath: "examples/radix/file-upload-form.tsx",
+    },
+    "file-upload-image": {
+      name: "file-upload-image",
+      filePath: "examples/radix/file-upload-image.tsx",
+    },
     "file-upload-list": {
       name: "file-upload-list",
       filePath: "examples/radix/file-upload-list.tsx",
+    },
+    "file-upload-multiple": {
+      name: "file-upload-multiple",
+      filePath: "examples/radix/file-upload-multiple.tsx",
+    },
+    "file-upload-progress": {
+      name: "file-upload-progress",
+      filePath: "examples/radix/file-upload-progress.tsx",
+    },
+    "file-upload-validation": {
+      name: "file-upload-validation",
+      filePath: "examples/radix/file-upload-validation.tsx",
     },
     "hover-card-demo": {
       name: "hover-card-demo",
@@ -5273,6 +6117,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "input-group-rtl",
       filePath: "examples/radix/input-group-rtl.tsx",
     },
+    "input-group-sizes": {
+      name: "input-group-sizes",
+      filePath: "examples/radix/input-group-sizes.tsx",
+    },
     "input-group-spinner": {
       name: "input-group-spinner",
       filePath: "examples/radix/input-group-spinner.tsx",
@@ -5353,6 +6201,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "input-otp-pattern",
       filePath: "examples/radix/input-otp-pattern.tsx",
     },
+    "input-otp-placeholder": {
+      name: "input-otp-placeholder",
+      filePath: "examples/radix/input-otp-placeholder.tsx",
+    },
     "input-otp-rtl": {
       name: "input-otp-rtl",
       filePath: "examples/radix/input-otp-rtl.tsx",
@@ -5361,6 +6213,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "input-otp-separator",
       filePath: "examples/radix/input-otp-separator.tsx",
     },
+    "input-password": {
+      name: "input-password",
+      filePath: "examples/radix/input-password.tsx",
+    },
     "input-required": {
       name: "input-required",
       filePath: "examples/radix/input-required.tsx",
@@ -5368,6 +6224,18 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "input-rtl": {
       name: "input-rtl",
       filePath: "examples/radix/input-rtl.tsx",
+    },
+    "input-search": {
+      name: "input-search",
+      filePath: "examples/radix/input-search.tsx",
+    },
+    "input-sizes": {
+      name: "input-sizes",
+      filePath: "examples/radix/input-sizes.tsx",
+    },
+    "input-types": {
+      name: "input-types",
+      filePath: "examples/radix/input-types.tsx",
     },
     "item-avatar": {
       name: "item-avatar",
@@ -5577,6 +6445,34 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "message-scroller-visibility",
       filePath: "examples/radix/message-scroller-visibility.tsx",
     },
+    "model-picker-demo": {
+      name: "model-picker-demo",
+      filePath: "examples/radix/model-picker-demo.tsx",
+    },
+    "model-picker-effort": {
+      name: "model-picker-effort",
+      filePath: "examples/radix/model-picker-effort.tsx",
+    },
+    "month-input-controlled": {
+      name: "month-input-controlled",
+      filePath: "examples/radix/month-input-controlled.tsx",
+    },
+    "month-input-demo": {
+      name: "month-input-demo",
+      filePath: "examples/radix/month-input-demo.tsx",
+    },
+    "month-input-field": {
+      name: "month-input-field",
+      filePath: "examples/radix/month-input-field.tsx",
+    },
+    "month-input-format": {
+      name: "month-input-format",
+      filePath: "examples/radix/month-input-format.tsx",
+    },
+    "month-input-range": {
+      name: "month-input-range",
+      filePath: "examples/radix/month-input-range.tsx",
+    },
     "muted-item-group": {
       name: "muted-item-group",
       filePath: "examples/radix/muted-item-group.tsx",
@@ -5608,6 +6504,46 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "navigation-menu-rtl": {
       name: "navigation-menu-rtl",
       filePath: "examples/radix/navigation-menu-rtl.tsx",
+    },
+    "number-field-basic": {
+      name: "number-field-basic",
+      filePath: "examples/radix/number-field-basic.tsx",
+    },
+    "number-field-controlled": {
+      name: "number-field-controlled",
+      filePath: "examples/radix/number-field-controlled.tsx",
+    },
+    "number-field-demo": {
+      name: "number-field-demo",
+      filePath: "examples/radix/number-field-demo.tsx",
+    },
+    "number-field-disabled": {
+      name: "number-field-disabled",
+      filePath: "examples/radix/number-field-disabled.tsx",
+    },
+    "number-field-field": {
+      name: "number-field-field",
+      filePath: "examples/radix/number-field-field.tsx",
+    },
+    "number-field-format": {
+      name: "number-field-format",
+      filePath: "examples/radix/number-field-format.tsx",
+    },
+    "number-field-invalid": {
+      name: "number-field-invalid",
+      filePath: "examples/radix/number-field-invalid.tsx",
+    },
+    "number-field-min-max": {
+      name: "number-field-min-max",
+      filePath: "examples/radix/number-field-min-max.tsx",
+    },
+    "number-field-sizes": {
+      name: "number-field-sizes",
+      filePath: "examples/radix/number-field-sizes.tsx",
+    },
+    "number-field-steppers-end": {
+      name: "number-field-steppers-end",
+      filePath: "examples/radix/number-field-steppers-end.tsx",
     },
     "outline-item-group": {
       name: "outline-item-group",
@@ -5672,6 +6608,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "questionnaire-card": {
       name: "questionnaire-card",
       filePath: "examples/radix/questionnaire-card.tsx",
+    },
+    "questionnaire-chat": {
+      name: "questionnaire-chat",
+      filePath: "examples/radix/questionnaire-chat.tsx",
     },
     "questionnaire-conditional": {
       name: "questionnaire-conditional",
@@ -6149,6 +7089,38 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "switch-sizes",
       filePath: "examples/radix/switch-sizes.tsx",
     },
+    "syntax-highlight-command": {
+      name: "syntax-highlight-command",
+      filePath: "examples/radix/syntax-highlight-command.tsx",
+    },
+    "syntax-highlight-demo": {
+      name: "syntax-highlight-demo",
+      filePath: "examples/radix/syntax-highlight-demo.tsx",
+    },
+    "syntax-highlight-diff": {
+      name: "syntax-highlight-diff",
+      filePath: "examples/radix/syntax-highlight-diff.tsx",
+    },
+    "syntax-highlight-highlight-lines": {
+      name: "syntax-highlight-highlight-lines",
+      filePath: "examples/radix/syntax-highlight-highlight-lines.tsx",
+    },
+    "syntax-highlight-languages": {
+      name: "syntax-highlight-languages",
+      filePath: "examples/radix/syntax-highlight-languages.tsx",
+    },
+    "syntax-highlight-line-numbers": {
+      name: "syntax-highlight-line-numbers",
+      filePath: "examples/radix/syntax-highlight-line-numbers.tsx",
+    },
+    "syntax-highlight-scroll": {
+      name: "syntax-highlight-scroll",
+      filePath: "examples/radix/syntax-highlight-scroll.tsx",
+    },
+    "syntax-highlight-wrap": {
+      name: "syntax-highlight-wrap",
+      filePath: "examples/radix/syntax-highlight-wrap.tsx",
+    },
     "tab-strip-demo": {
       name: "tab-strip-demo",
       filePath: "examples/radix/tab-strip-demo.tsx",
@@ -6189,6 +7161,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "tabs-rtl",
       filePath: "examples/radix/tabs-rtl.tsx",
     },
+    "tabs-subtle": {
+      name: "tabs-subtle",
+      filePath: "examples/radix/tabs-subtle.tsx",
+    },
     "tabs-vertical": {
       name: "tabs-vertical",
       filePath: "examples/radix/tabs-vertical.tsx",
@@ -6216,6 +7192,38 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "textarea-rtl": {
       name: "textarea-rtl",
       filePath: "examples/radix/textarea-rtl.tsx",
+    },
+    "time-input-24-hour": {
+      name: "time-input-24-hour",
+      filePath: "examples/radix/time-input-24-hour.tsx",
+    },
+    "time-input-controlled": {
+      name: "time-input-controlled",
+      filePath: "examples/radix/time-input-controlled.tsx",
+    },
+    "time-input-date-time": {
+      name: "time-input-date-time",
+      filePath: "examples/radix/time-input-date-time.tsx",
+    },
+    "time-input-demo": {
+      name: "time-input-demo",
+      filePath: "examples/radix/time-input-demo.tsx",
+    },
+    "time-input-duration": {
+      name: "time-input-duration",
+      filePath: "examples/radix/time-input-duration.tsx",
+    },
+    "time-input-field": {
+      name: "time-input-field",
+      filePath: "examples/radix/time-input-field.tsx",
+    },
+    "time-input-range": {
+      name: "time-input-range",
+      filePath: "examples/radix/time-input-range.tsx",
+    },
+    "time-input-seconds": {
+      name: "time-input-seconds",
+      filePath: "examples/radix/time-input-seconds.tsx",
     },
     "toggle-demo": {
       name: "toggle-demo",
@@ -6356,6 +7364,30 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "user-menu-demo": {
       name: "user-menu-demo",
       filePath: "examples/radix/user-menu-demo.tsx",
+    },
+    "video-player-autoplay": {
+      name: "video-player-autoplay",
+      filePath: "examples/radix/video-player-autoplay.tsx",
+    },
+    "video-player-captions": {
+      name: "video-player-captions",
+      filePath: "examples/radix/video-player-captions.tsx",
+    },
+    "video-player-chapters": {
+      name: "video-player-chapters",
+      filePath: "examples/radix/video-player-chapters.tsx",
+    },
+    "video-player-compact": {
+      name: "video-player-compact",
+      filePath: "examples/radix/video-player-compact.tsx",
+    },
+    "video-player-demo": {
+      name: "video-player-demo",
+      filePath: "examples/radix/video-player-demo.tsx",
+    },
+    "video-player-error": {
+      name: "video-player-error",
+      filePath: "examples/radix/video-player-error.tsx",
     },
     "workspace-switcher-demo": {
       name: "workspace-switcher-demo",
@@ -6809,6 +7841,44 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "carousel-spacing",
       filePath: "examples/__styles__/base-fabricator/carousel-spacing.tsx",
     },
+    "chat-input-agent": {
+      name: "chat-input-agent",
+      filePath: "examples/__styles__/base-fabricator/chat-input-agent.tsx",
+    },
+    "chat-input-attachments": {
+      name: "chat-input-attachments",
+      filePath:
+        "examples/__styles__/base-fabricator/chat-input-attachments.tsx",
+    },
+    "chat-input-context-meter": {
+      name: "chat-input-context-meter",
+      filePath:
+        "examples/__styles__/base-fabricator/chat-input-context-meter.tsx",
+    },
+    "chat-input-demo": {
+      name: "chat-input-demo",
+      filePath: "examples/__styles__/base-fabricator/chat-input-demo.tsx",
+    },
+    "chat-input-disabled": {
+      name: "chat-input-disabled",
+      filePath: "examples/__styles__/base-fabricator/chat-input-disabled.tsx",
+    },
+    "chat-input-large": {
+      name: "chat-input-large",
+      filePath: "examples/__styles__/base-fabricator/chat-input-large.tsx",
+    },
+    "chat-input-mentions": {
+      name: "chat-input-mentions",
+      filePath: "examples/__styles__/base-fabricator/chat-input-mentions.tsx",
+    },
+    "chat-input-submit-on": {
+      name: "chat-input-submit-on",
+      filePath: "examples/__styles__/base-fabricator/chat-input-submit-on.tsx",
+    },
+    "chat-input-voice": {
+      name: "chat-input-voice",
+      filePath: "examples/__styles__/base-fabricator/chat-input-voice.tsx",
+    },
     "checkbox-basic": {
       name: "checkbox-basic",
       filePath: "examples/__styles__/base-fabricator/checkbox-basic.tsx",
@@ -6852,6 +7922,41 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "collapsible-settings": {
       name: "collapsible-settings",
       filePath: "examples/__styles__/base-fabricator/collapsible-settings.tsx",
+    },
+    "color-picker-controlled": {
+      name: "color-picker-controlled",
+      filePath:
+        "examples/__styles__/base-fabricator/color-picker-controlled.tsx",
+    },
+    "color-picker-demo": {
+      name: "color-picker-demo",
+      filePath: "examples/__styles__/base-fabricator/color-picker-demo.tsx",
+    },
+    "color-picker-no-eyedropper": {
+      name: "color-picker-no-eyedropper",
+      filePath:
+        "examples/__styles__/base-fabricator/color-picker-no-eyedropper.tsx",
+    },
+    "color-picker-oklch": {
+      name: "color-picker-oklch",
+      filePath: "examples/__styles__/base-fabricator/color-picker-oklch.tsx",
+    },
+    "color-picker-popover": {
+      name: "color-picker-popover",
+      filePath: "examples/__styles__/base-fabricator/color-picker-popover.tsx",
+    },
+    "color-picker-removable": {
+      name: "color-picker-removable",
+      filePath:
+        "examples/__styles__/base-fabricator/color-picker-removable.tsx",
+    },
+    "color-picker-sizes": {
+      name: "color-picker-sizes",
+      filePath: "examples/__styles__/base-fabricator/color-picker-sizes.tsx",
+    },
+    "color-picker-swatches": {
+      name: "color-picker-swatches",
+      filePath: "examples/__styles__/base-fabricator/color-picker-swatches.tsx",
     },
     "combobox-auto-highlight": {
       name: "combobox-auto-highlight",
@@ -6978,17 +8083,59 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "date-picker-basic",
       filePath: "examples/__styles__/base-fabricator/date-picker-basic.tsx",
     },
+    "date-picker-controlled": {
+      name: "date-picker-controlled",
+      filePath:
+        "examples/__styles__/base-fabricator/date-picker-controlled.tsx",
+    },
+    "date-picker-date-time-range": {
+      name: "date-picker-date-time-range",
+      filePath:
+        "examples/__styles__/base-fabricator/date-picker-date-time-range.tsx",
+    },
+    "date-picker-date-time": {
+      name: "date-picker-date-time",
+      filePath: "examples/__styles__/base-fabricator/date-picker-date-time.tsx",
+    },
     "date-picker-demo": {
       name: "date-picker-demo",
       filePath: "examples/__styles__/base-fabricator/date-picker-demo.tsx",
+    },
+    "date-picker-disabled": {
+      name: "date-picker-disabled",
+      filePath: "examples/__styles__/base-fabricator/date-picker-disabled.tsx",
     },
     "date-picker-dob": {
       name: "date-picker-dob",
       filePath: "examples/__styles__/base-fabricator/date-picker-dob.tsx",
     },
+    "date-picker-editable": {
+      name: "date-picker-editable",
+      filePath: "examples/__styles__/base-fabricator/date-picker-editable.tsx",
+    },
+    "date-picker-field": {
+      name: "date-picker-field",
+      filePath: "examples/__styles__/base-fabricator/date-picker-field.tsx",
+    },
+    "date-picker-form": {
+      name: "date-picker-form",
+      filePath: "examples/__styles__/base-fabricator/date-picker-form.tsx",
+    },
+    "date-picker-format": {
+      name: "date-picker-format",
+      filePath: "examples/__styles__/base-fabricator/date-picker-format.tsx",
+    },
     "date-picker-input": {
       name: "date-picker-input",
       filePath: "examples/__styles__/base-fabricator/date-picker-input.tsx",
+    },
+    "date-picker-invalid": {
+      name: "date-picker-invalid",
+      filePath: "examples/__styles__/base-fabricator/date-picker-invalid.tsx",
+    },
+    "date-picker-min-max": {
+      name: "date-picker-min-max",
+      filePath: "examples/__styles__/base-fabricator/date-picker-min-max.tsx",
     },
     "date-picker-natural-language": {
       name: "date-picker-natural-language",
@@ -6998,6 +8145,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "date-picker-range": {
       name: "date-picker-range",
       filePath: "examples/__styles__/base-fabricator/date-picker-range.tsx",
+    },
+    "date-picker-sizes": {
+      name: "date-picker-sizes",
+      filePath: "examples/__styles__/base-fabricator/date-picker-sizes.tsx",
     },
     "date-picker-time": {
       name: "date-picker-time",
@@ -7183,9 +8334,54 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "field-textarea",
       filePath: "examples/__styles__/base-fabricator/field-textarea.tsx",
     },
+    "file-tree-demo": {
+      name: "file-tree-demo",
+      filePath: "examples/__styles__/base-fabricator/file-tree-demo.tsx",
+    },
+    "file-tree-single": {
+      name: "file-tree-single",
+      filePath: "examples/__styles__/base-fabricator/file-tree-single.tsx",
+    },
+    "file-upload-button": {
+      name: "file-upload-button",
+      filePath: "examples/__styles__/base-fabricator/file-upload-button.tsx",
+    },
+    "file-upload-demo": {
+      name: "file-upload-demo",
+      filePath: "examples/__styles__/base-fabricator/file-upload-demo.tsx",
+    },
+    "file-upload-disabled": {
+      name: "file-upload-disabled",
+      filePath: "examples/__styles__/base-fabricator/file-upload-disabled.tsx",
+    },
+    "file-upload-field": {
+      name: "file-upload-field",
+      filePath: "examples/__styles__/base-fabricator/file-upload-field.tsx",
+    },
+    "file-upload-form": {
+      name: "file-upload-form",
+      filePath: "examples/__styles__/base-fabricator/file-upload-form.tsx",
+    },
+    "file-upload-image": {
+      name: "file-upload-image",
+      filePath: "examples/__styles__/base-fabricator/file-upload-image.tsx",
+    },
     "file-upload-list": {
       name: "file-upload-list",
       filePath: "examples/__styles__/base-fabricator/file-upload-list.tsx",
+    },
+    "file-upload-multiple": {
+      name: "file-upload-multiple",
+      filePath: "examples/__styles__/base-fabricator/file-upload-multiple.tsx",
+    },
+    "file-upload-progress": {
+      name: "file-upload-progress",
+      filePath: "examples/__styles__/base-fabricator/file-upload-progress.tsx",
+    },
+    "file-upload-validation": {
+      name: "file-upload-validation",
+      filePath:
+        "examples/__styles__/base-fabricator/file-upload-validation.tsx",
     },
     "hover-card-demo": {
       name: "hover-card-demo",
@@ -7295,6 +8491,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "input-group-label",
       filePath: "examples/__styles__/base-fabricator/input-group-label.tsx",
     },
+    "input-group-sizes": {
+      name: "input-group-sizes",
+      filePath: "examples/__styles__/base-fabricator/input-group-sizes.tsx",
+    },
     "input-group-spinner": {
       name: "input-group-spinner",
       filePath: "examples/__styles__/base-fabricator/input-group-spinner.tsx",
@@ -7380,13 +8580,33 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "input-otp-pattern",
       filePath: "examples/__styles__/base-fabricator/input-otp-pattern.tsx",
     },
+    "input-otp-placeholder": {
+      name: "input-otp-placeholder",
+      filePath: "examples/__styles__/base-fabricator/input-otp-placeholder.tsx",
+    },
     "input-otp-separator": {
       name: "input-otp-separator",
       filePath: "examples/__styles__/base-fabricator/input-otp-separator.tsx",
     },
+    "input-password": {
+      name: "input-password",
+      filePath: "examples/__styles__/base-fabricator/input-password.tsx",
+    },
     "input-required": {
       name: "input-required",
       filePath: "examples/__styles__/base-fabricator/input-required.tsx",
+    },
+    "input-search": {
+      name: "input-search",
+      filePath: "examples/__styles__/base-fabricator/input-search.tsx",
+    },
+    "input-sizes": {
+      name: "input-sizes",
+      filePath: "examples/__styles__/base-fabricator/input-sizes.tsx",
+    },
+    "input-types": {
+      name: "input-types",
+      filePath: "examples/__styles__/base-fabricator/input-types.tsx",
     },
     "item-avatar": {
       name: "item-avatar",
@@ -7595,6 +8815,35 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       filePath:
         "examples/__styles__/base-fabricator/message-scroller-visibility.tsx",
     },
+    "model-picker-demo": {
+      name: "model-picker-demo",
+      filePath: "examples/__styles__/base-fabricator/model-picker-demo.tsx",
+    },
+    "model-picker-effort": {
+      name: "model-picker-effort",
+      filePath: "examples/__styles__/base-fabricator/model-picker-effort.tsx",
+    },
+    "month-input-controlled": {
+      name: "month-input-controlled",
+      filePath:
+        "examples/__styles__/base-fabricator/month-input-controlled.tsx",
+    },
+    "month-input-demo": {
+      name: "month-input-demo",
+      filePath: "examples/__styles__/base-fabricator/month-input-demo.tsx",
+    },
+    "month-input-field": {
+      name: "month-input-field",
+      filePath: "examples/__styles__/base-fabricator/month-input-field.tsx",
+    },
+    "month-input-format": {
+      name: "month-input-format",
+      filePath: "examples/__styles__/base-fabricator/month-input-format.tsx",
+    },
+    "month-input-range": {
+      name: "month-input-range",
+      filePath: "examples/__styles__/base-fabricator/month-input-range.tsx",
+    },
     "muted-item-group": {
       name: "muted-item-group",
       filePath: "examples/__styles__/base-fabricator/muted-item-group.tsx",
@@ -7602,6 +8851,48 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "navigation-menu-demo": {
       name: "navigation-menu-demo",
       filePath: "examples/__styles__/base-fabricator/navigation-menu-demo.tsx",
+    },
+    "number-field-basic": {
+      name: "number-field-basic",
+      filePath: "examples/__styles__/base-fabricator/number-field-basic.tsx",
+    },
+    "number-field-controlled": {
+      name: "number-field-controlled",
+      filePath:
+        "examples/__styles__/base-fabricator/number-field-controlled.tsx",
+    },
+    "number-field-demo": {
+      name: "number-field-demo",
+      filePath: "examples/__styles__/base-fabricator/number-field-demo.tsx",
+    },
+    "number-field-disabled": {
+      name: "number-field-disabled",
+      filePath: "examples/__styles__/base-fabricator/number-field-disabled.tsx",
+    },
+    "number-field-field": {
+      name: "number-field-field",
+      filePath: "examples/__styles__/base-fabricator/number-field-field.tsx",
+    },
+    "number-field-format": {
+      name: "number-field-format",
+      filePath: "examples/__styles__/base-fabricator/number-field-format.tsx",
+    },
+    "number-field-invalid": {
+      name: "number-field-invalid",
+      filePath: "examples/__styles__/base-fabricator/number-field-invalid.tsx",
+    },
+    "number-field-min-max": {
+      name: "number-field-min-max",
+      filePath: "examples/__styles__/base-fabricator/number-field-min-max.tsx",
+    },
+    "number-field-sizes": {
+      name: "number-field-sizes",
+      filePath: "examples/__styles__/base-fabricator/number-field-sizes.tsx",
+    },
+    "number-field-steppers-end": {
+      name: "number-field-steppers-end",
+      filePath:
+        "examples/__styles__/base-fabricator/number-field-steppers-end.tsx",
     },
     "outline-item-group": {
       name: "outline-item-group",
@@ -7655,6 +8946,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "questionnaire-card": {
       name: "questionnaire-card",
       filePath: "examples/__styles__/base-fabricator/questionnaire-card.tsx",
+    },
+    "questionnaire-chat": {
+      name: "questionnaire-chat",
+      filePath: "examples/__styles__/base-fabricator/questionnaire-chat.tsx",
     },
     "questionnaire-conditional": {
       name: "questionnaire-conditional",
@@ -8078,6 +9373,43 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "switch-sizes",
       filePath: "examples/__styles__/base-fabricator/switch-sizes.tsx",
     },
+    "syntax-highlight-command": {
+      name: "syntax-highlight-command",
+      filePath:
+        "examples/__styles__/base-fabricator/syntax-highlight-command.tsx",
+    },
+    "syntax-highlight-demo": {
+      name: "syntax-highlight-demo",
+      filePath: "examples/__styles__/base-fabricator/syntax-highlight-demo.tsx",
+    },
+    "syntax-highlight-diff": {
+      name: "syntax-highlight-diff",
+      filePath: "examples/__styles__/base-fabricator/syntax-highlight-diff.tsx",
+    },
+    "syntax-highlight-highlight-lines": {
+      name: "syntax-highlight-highlight-lines",
+      filePath:
+        "examples/__styles__/base-fabricator/syntax-highlight-highlight-lines.tsx",
+    },
+    "syntax-highlight-languages": {
+      name: "syntax-highlight-languages",
+      filePath:
+        "examples/__styles__/base-fabricator/syntax-highlight-languages.tsx",
+    },
+    "syntax-highlight-line-numbers": {
+      name: "syntax-highlight-line-numbers",
+      filePath:
+        "examples/__styles__/base-fabricator/syntax-highlight-line-numbers.tsx",
+    },
+    "syntax-highlight-scroll": {
+      name: "syntax-highlight-scroll",
+      filePath:
+        "examples/__styles__/base-fabricator/syntax-highlight-scroll.tsx",
+    },
+    "syntax-highlight-wrap": {
+      name: "syntax-highlight-wrap",
+      filePath: "examples/__styles__/base-fabricator/syntax-highlight-wrap.tsx",
+    },
     "tab-strip-demo": {
       name: "tab-strip-demo",
       filePath: "examples/__styles__/base-fabricator/tab-strip-demo.tsx",
@@ -8110,6 +9442,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "tabs-line",
       filePath: "examples/__styles__/base-fabricator/tabs-line.tsx",
     },
+    "tabs-subtle": {
+      name: "tabs-subtle",
+      filePath: "examples/__styles__/base-fabricator/tabs-subtle.tsx",
+    },
     "tabs-vertical": {
       name: "tabs-vertical",
       filePath: "examples/__styles__/base-fabricator/tabs-vertical.tsx",
@@ -8138,6 +9474,38 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "textarea-invalid": {
       name: "textarea-invalid",
       filePath: "examples/__styles__/base-fabricator/textarea-invalid.tsx",
+    },
+    "time-input-24-hour": {
+      name: "time-input-24-hour",
+      filePath: "examples/__styles__/base-fabricator/time-input-24-hour.tsx",
+    },
+    "time-input-controlled": {
+      name: "time-input-controlled",
+      filePath: "examples/__styles__/base-fabricator/time-input-controlled.tsx",
+    },
+    "time-input-date-time": {
+      name: "time-input-date-time",
+      filePath: "examples/__styles__/base-fabricator/time-input-date-time.tsx",
+    },
+    "time-input-demo": {
+      name: "time-input-demo",
+      filePath: "examples/__styles__/base-fabricator/time-input-demo.tsx",
+    },
+    "time-input-duration": {
+      name: "time-input-duration",
+      filePath: "examples/__styles__/base-fabricator/time-input-duration.tsx",
+    },
+    "time-input-field": {
+      name: "time-input-field",
+      filePath: "examples/__styles__/base-fabricator/time-input-field.tsx",
+    },
+    "time-input-range": {
+      name: "time-input-range",
+      filePath: "examples/__styles__/base-fabricator/time-input-range.tsx",
+    },
+    "time-input-seconds": {
+      name: "time-input-seconds",
+      filePath: "examples/__styles__/base-fabricator/time-input-seconds.tsx",
     },
     "toast-demo": {
       name: "toast-demo",
@@ -8276,6 +9644,30 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "user-menu-demo": {
       name: "user-menu-demo",
       filePath: "examples/__styles__/base-fabricator/user-menu-demo.tsx",
+    },
+    "video-player-autoplay": {
+      name: "video-player-autoplay",
+      filePath: "examples/__styles__/base-fabricator/video-player-autoplay.tsx",
+    },
+    "video-player-captions": {
+      name: "video-player-captions",
+      filePath: "examples/__styles__/base-fabricator/video-player-captions.tsx",
+    },
+    "video-player-chapters": {
+      name: "video-player-chapters",
+      filePath: "examples/__styles__/base-fabricator/video-player-chapters.tsx",
+    },
+    "video-player-compact": {
+      name: "video-player-compact",
+      filePath: "examples/__styles__/base-fabricator/video-player-compact.tsx",
+    },
+    "video-player-demo": {
+      name: "video-player-demo",
+      filePath: "examples/__styles__/base-fabricator/video-player-demo.tsx",
+    },
+    "video-player-error": {
+      name: "video-player-error",
+      filePath: "examples/__styles__/base-fabricator/video-player-error.tsx",
     },
     "workspace-switcher-demo": {
       name: "workspace-switcher-demo",
@@ -8722,6 +10114,44 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "carousel-spacing",
       filePath: "examples/__styles__/aria-fabricator/carousel-spacing.tsx",
     },
+    "chat-input-agent": {
+      name: "chat-input-agent",
+      filePath: "examples/__styles__/aria-fabricator/chat-input-agent.tsx",
+    },
+    "chat-input-attachments": {
+      name: "chat-input-attachments",
+      filePath:
+        "examples/__styles__/aria-fabricator/chat-input-attachments.tsx",
+    },
+    "chat-input-context-meter": {
+      name: "chat-input-context-meter",
+      filePath:
+        "examples/__styles__/aria-fabricator/chat-input-context-meter.tsx",
+    },
+    "chat-input-demo": {
+      name: "chat-input-demo",
+      filePath: "examples/__styles__/aria-fabricator/chat-input-demo.tsx",
+    },
+    "chat-input-disabled": {
+      name: "chat-input-disabled",
+      filePath: "examples/__styles__/aria-fabricator/chat-input-disabled.tsx",
+    },
+    "chat-input-large": {
+      name: "chat-input-large",
+      filePath: "examples/__styles__/aria-fabricator/chat-input-large.tsx",
+    },
+    "chat-input-mentions": {
+      name: "chat-input-mentions",
+      filePath: "examples/__styles__/aria-fabricator/chat-input-mentions.tsx",
+    },
+    "chat-input-submit-on": {
+      name: "chat-input-submit-on",
+      filePath: "examples/__styles__/aria-fabricator/chat-input-submit-on.tsx",
+    },
+    "chat-input-voice": {
+      name: "chat-input-voice",
+      filePath: "examples/__styles__/aria-fabricator/chat-input-voice.tsx",
+    },
     "checkbox-basic": {
       name: "checkbox-basic",
       filePath: "examples/__styles__/aria-fabricator/checkbox-basic.tsx",
@@ -8765,6 +10195,41 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "collapsible-settings": {
       name: "collapsible-settings",
       filePath: "examples/__styles__/aria-fabricator/collapsible-settings.tsx",
+    },
+    "color-picker-controlled": {
+      name: "color-picker-controlled",
+      filePath:
+        "examples/__styles__/aria-fabricator/color-picker-controlled.tsx",
+    },
+    "color-picker-demo": {
+      name: "color-picker-demo",
+      filePath: "examples/__styles__/aria-fabricator/color-picker-demo.tsx",
+    },
+    "color-picker-no-eyedropper": {
+      name: "color-picker-no-eyedropper",
+      filePath:
+        "examples/__styles__/aria-fabricator/color-picker-no-eyedropper.tsx",
+    },
+    "color-picker-oklch": {
+      name: "color-picker-oklch",
+      filePath: "examples/__styles__/aria-fabricator/color-picker-oklch.tsx",
+    },
+    "color-picker-popover": {
+      name: "color-picker-popover",
+      filePath: "examples/__styles__/aria-fabricator/color-picker-popover.tsx",
+    },
+    "color-picker-removable": {
+      name: "color-picker-removable",
+      filePath:
+        "examples/__styles__/aria-fabricator/color-picker-removable.tsx",
+    },
+    "color-picker-sizes": {
+      name: "color-picker-sizes",
+      filePath: "examples/__styles__/aria-fabricator/color-picker-sizes.tsx",
+    },
+    "color-picker-swatches": {
+      name: "color-picker-swatches",
+      filePath: "examples/__styles__/aria-fabricator/color-picker-swatches.tsx",
     },
     "combobox-basic": {
       name: "combobox-basic",
@@ -8882,17 +10347,59 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "date-picker-basic",
       filePath: "examples/__styles__/aria-fabricator/date-picker-basic.tsx",
     },
+    "date-picker-controlled": {
+      name: "date-picker-controlled",
+      filePath:
+        "examples/__styles__/aria-fabricator/date-picker-controlled.tsx",
+    },
+    "date-picker-date-time-range": {
+      name: "date-picker-date-time-range",
+      filePath:
+        "examples/__styles__/aria-fabricator/date-picker-date-time-range.tsx",
+    },
+    "date-picker-date-time": {
+      name: "date-picker-date-time",
+      filePath: "examples/__styles__/aria-fabricator/date-picker-date-time.tsx",
+    },
     "date-picker-demo": {
       name: "date-picker-demo",
       filePath: "examples/__styles__/aria-fabricator/date-picker-demo.tsx",
+    },
+    "date-picker-disabled": {
+      name: "date-picker-disabled",
+      filePath: "examples/__styles__/aria-fabricator/date-picker-disabled.tsx",
     },
     "date-picker-dob": {
       name: "date-picker-dob",
       filePath: "examples/__styles__/aria-fabricator/date-picker-dob.tsx",
     },
+    "date-picker-editable": {
+      name: "date-picker-editable",
+      filePath: "examples/__styles__/aria-fabricator/date-picker-editable.tsx",
+    },
+    "date-picker-field": {
+      name: "date-picker-field",
+      filePath: "examples/__styles__/aria-fabricator/date-picker-field.tsx",
+    },
+    "date-picker-form": {
+      name: "date-picker-form",
+      filePath: "examples/__styles__/aria-fabricator/date-picker-form.tsx",
+    },
+    "date-picker-format": {
+      name: "date-picker-format",
+      filePath: "examples/__styles__/aria-fabricator/date-picker-format.tsx",
+    },
     "date-picker-input": {
       name: "date-picker-input",
       filePath: "examples/__styles__/aria-fabricator/date-picker-input.tsx",
+    },
+    "date-picker-invalid": {
+      name: "date-picker-invalid",
+      filePath: "examples/__styles__/aria-fabricator/date-picker-invalid.tsx",
+    },
+    "date-picker-min-max": {
+      name: "date-picker-min-max",
+      filePath: "examples/__styles__/aria-fabricator/date-picker-min-max.tsx",
     },
     "date-picker-natural-language": {
       name: "date-picker-natural-language",
@@ -8902,6 +10409,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "date-picker-range": {
       name: "date-picker-range",
       filePath: "examples/__styles__/aria-fabricator/date-picker-range.tsx",
+    },
+    "date-picker-sizes": {
+      name: "date-picker-sizes",
+      filePath: "examples/__styles__/aria-fabricator/date-picker-sizes.tsx",
     },
     "date-picker-time": {
       name: "date-picker-time",
@@ -9087,9 +10598,54 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "field-textarea",
       filePath: "examples/__styles__/aria-fabricator/field-textarea.tsx",
     },
+    "file-tree-demo": {
+      name: "file-tree-demo",
+      filePath: "examples/__styles__/aria-fabricator/file-tree-demo.tsx",
+    },
+    "file-tree-single": {
+      name: "file-tree-single",
+      filePath: "examples/__styles__/aria-fabricator/file-tree-single.tsx",
+    },
+    "file-upload-button": {
+      name: "file-upload-button",
+      filePath: "examples/__styles__/aria-fabricator/file-upload-button.tsx",
+    },
+    "file-upload-demo": {
+      name: "file-upload-demo",
+      filePath: "examples/__styles__/aria-fabricator/file-upload-demo.tsx",
+    },
+    "file-upload-disabled": {
+      name: "file-upload-disabled",
+      filePath: "examples/__styles__/aria-fabricator/file-upload-disabled.tsx",
+    },
+    "file-upload-field": {
+      name: "file-upload-field",
+      filePath: "examples/__styles__/aria-fabricator/file-upload-field.tsx",
+    },
+    "file-upload-form": {
+      name: "file-upload-form",
+      filePath: "examples/__styles__/aria-fabricator/file-upload-form.tsx",
+    },
+    "file-upload-image": {
+      name: "file-upload-image",
+      filePath: "examples/__styles__/aria-fabricator/file-upload-image.tsx",
+    },
     "file-upload-list": {
       name: "file-upload-list",
       filePath: "examples/__styles__/aria-fabricator/file-upload-list.tsx",
+    },
+    "file-upload-multiple": {
+      name: "file-upload-multiple",
+      filePath: "examples/__styles__/aria-fabricator/file-upload-multiple.tsx",
+    },
+    "file-upload-progress": {
+      name: "file-upload-progress",
+      filePath: "examples/__styles__/aria-fabricator/file-upload-progress.tsx",
+    },
+    "file-upload-validation": {
+      name: "file-upload-validation",
+      filePath:
+        "examples/__styles__/aria-fabricator/file-upload-validation.tsx",
     },
     "hover-card-demo": {
       name: "hover-card-demo",
@@ -9199,6 +10755,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "input-group-label",
       filePath: "examples/__styles__/aria-fabricator/input-group-label.tsx",
     },
+    "input-group-sizes": {
+      name: "input-group-sizes",
+      filePath: "examples/__styles__/aria-fabricator/input-group-sizes.tsx",
+    },
     "input-group-spinner": {
       name: "input-group-spinner",
       filePath: "examples/__styles__/aria-fabricator/input-group-spinner.tsx",
@@ -9284,13 +10844,33 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "input-otp-pattern",
       filePath: "examples/__styles__/aria-fabricator/input-otp-pattern.tsx",
     },
+    "input-otp-placeholder": {
+      name: "input-otp-placeholder",
+      filePath: "examples/__styles__/aria-fabricator/input-otp-placeholder.tsx",
+    },
     "input-otp-separator": {
       name: "input-otp-separator",
       filePath: "examples/__styles__/aria-fabricator/input-otp-separator.tsx",
     },
+    "input-password": {
+      name: "input-password",
+      filePath: "examples/__styles__/aria-fabricator/input-password.tsx",
+    },
     "input-required": {
       name: "input-required",
       filePath: "examples/__styles__/aria-fabricator/input-required.tsx",
+    },
+    "input-search": {
+      name: "input-search",
+      filePath: "examples/__styles__/aria-fabricator/input-search.tsx",
+    },
+    "input-sizes": {
+      name: "input-sizes",
+      filePath: "examples/__styles__/aria-fabricator/input-sizes.tsx",
+    },
+    "input-types": {
+      name: "input-types",
+      filePath: "examples/__styles__/aria-fabricator/input-types.tsx",
     },
     "item-avatar": {
       name: "item-avatar",
@@ -9479,9 +11059,80 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       filePath:
         "examples/__styles__/aria-fabricator/message-scroller-visibility.tsx",
     },
+    "model-picker-demo": {
+      name: "model-picker-demo",
+      filePath: "examples/__styles__/aria-fabricator/model-picker-demo.tsx",
+    },
+    "model-picker-effort": {
+      name: "model-picker-effort",
+      filePath: "examples/__styles__/aria-fabricator/model-picker-effort.tsx",
+    },
+    "month-input-controlled": {
+      name: "month-input-controlled",
+      filePath:
+        "examples/__styles__/aria-fabricator/month-input-controlled.tsx",
+    },
+    "month-input-demo": {
+      name: "month-input-demo",
+      filePath: "examples/__styles__/aria-fabricator/month-input-demo.tsx",
+    },
+    "month-input-field": {
+      name: "month-input-field",
+      filePath: "examples/__styles__/aria-fabricator/month-input-field.tsx",
+    },
+    "month-input-format": {
+      name: "month-input-format",
+      filePath: "examples/__styles__/aria-fabricator/month-input-format.tsx",
+    },
+    "month-input-range": {
+      name: "month-input-range",
+      filePath: "examples/__styles__/aria-fabricator/month-input-range.tsx",
+    },
     "muted-item-group": {
       name: "muted-item-group",
       filePath: "examples/__styles__/aria-fabricator/muted-item-group.tsx",
+    },
+    "number-field-basic": {
+      name: "number-field-basic",
+      filePath: "examples/__styles__/aria-fabricator/number-field-basic.tsx",
+    },
+    "number-field-controlled": {
+      name: "number-field-controlled",
+      filePath:
+        "examples/__styles__/aria-fabricator/number-field-controlled.tsx",
+    },
+    "number-field-demo": {
+      name: "number-field-demo",
+      filePath: "examples/__styles__/aria-fabricator/number-field-demo.tsx",
+    },
+    "number-field-disabled": {
+      name: "number-field-disabled",
+      filePath: "examples/__styles__/aria-fabricator/number-field-disabled.tsx",
+    },
+    "number-field-field": {
+      name: "number-field-field",
+      filePath: "examples/__styles__/aria-fabricator/number-field-field.tsx",
+    },
+    "number-field-format": {
+      name: "number-field-format",
+      filePath: "examples/__styles__/aria-fabricator/number-field-format.tsx",
+    },
+    "number-field-invalid": {
+      name: "number-field-invalid",
+      filePath: "examples/__styles__/aria-fabricator/number-field-invalid.tsx",
+    },
+    "number-field-min-max": {
+      name: "number-field-min-max",
+      filePath: "examples/__styles__/aria-fabricator/number-field-min-max.tsx",
+    },
+    "number-field-sizes": {
+      name: "number-field-sizes",
+      filePath: "examples/__styles__/aria-fabricator/number-field-sizes.tsx",
+    },
+    "number-field-steppers-end": {
+      name: "number-field-steppers-end",
+      filePath:
+        "examples/__styles__/aria-fabricator/number-field-steppers-end.tsx",
     },
     "outline-item-group": {
       name: "outline-item-group",
@@ -9535,6 +11186,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "questionnaire-card": {
       name: "questionnaire-card",
       filePath: "examples/__styles__/aria-fabricator/questionnaire-card.tsx",
+    },
+    "questionnaire-chat": {
+      name: "questionnaire-chat",
+      filePath: "examples/__styles__/aria-fabricator/questionnaire-chat.tsx",
     },
     "questionnaire-conditional": {
       name: "questionnaire-conditional",
@@ -9974,6 +11629,43 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "switch-sizes",
       filePath: "examples/__styles__/aria-fabricator/switch-sizes.tsx",
     },
+    "syntax-highlight-command": {
+      name: "syntax-highlight-command",
+      filePath:
+        "examples/__styles__/aria-fabricator/syntax-highlight-command.tsx",
+    },
+    "syntax-highlight-demo": {
+      name: "syntax-highlight-demo",
+      filePath: "examples/__styles__/aria-fabricator/syntax-highlight-demo.tsx",
+    },
+    "syntax-highlight-diff": {
+      name: "syntax-highlight-diff",
+      filePath: "examples/__styles__/aria-fabricator/syntax-highlight-diff.tsx",
+    },
+    "syntax-highlight-highlight-lines": {
+      name: "syntax-highlight-highlight-lines",
+      filePath:
+        "examples/__styles__/aria-fabricator/syntax-highlight-highlight-lines.tsx",
+    },
+    "syntax-highlight-languages": {
+      name: "syntax-highlight-languages",
+      filePath:
+        "examples/__styles__/aria-fabricator/syntax-highlight-languages.tsx",
+    },
+    "syntax-highlight-line-numbers": {
+      name: "syntax-highlight-line-numbers",
+      filePath:
+        "examples/__styles__/aria-fabricator/syntax-highlight-line-numbers.tsx",
+    },
+    "syntax-highlight-scroll": {
+      name: "syntax-highlight-scroll",
+      filePath:
+        "examples/__styles__/aria-fabricator/syntax-highlight-scroll.tsx",
+    },
+    "syntax-highlight-wrap": {
+      name: "syntax-highlight-wrap",
+      filePath: "examples/__styles__/aria-fabricator/syntax-highlight-wrap.tsx",
+    },
     "tab-strip-demo": {
       name: "tab-strip-demo",
       filePath: "examples/__styles__/aria-fabricator/tab-strip-demo.tsx",
@@ -10006,6 +11698,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "tabs-line",
       filePath: "examples/__styles__/aria-fabricator/tabs-line.tsx",
     },
+    "tabs-subtle": {
+      name: "tabs-subtle",
+      filePath: "examples/__styles__/aria-fabricator/tabs-subtle.tsx",
+    },
     "tabs-vertical": {
       name: "tabs-vertical",
       filePath: "examples/__styles__/aria-fabricator/tabs-vertical.tsx",
@@ -10029,6 +11725,38 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "textarea-invalid": {
       name: "textarea-invalid",
       filePath: "examples/__styles__/aria-fabricator/textarea-invalid.tsx",
+    },
+    "time-input-24-hour": {
+      name: "time-input-24-hour",
+      filePath: "examples/__styles__/aria-fabricator/time-input-24-hour.tsx",
+    },
+    "time-input-controlled": {
+      name: "time-input-controlled",
+      filePath: "examples/__styles__/aria-fabricator/time-input-controlled.tsx",
+    },
+    "time-input-date-time": {
+      name: "time-input-date-time",
+      filePath: "examples/__styles__/aria-fabricator/time-input-date-time.tsx",
+    },
+    "time-input-demo": {
+      name: "time-input-demo",
+      filePath: "examples/__styles__/aria-fabricator/time-input-demo.tsx",
+    },
+    "time-input-duration": {
+      name: "time-input-duration",
+      filePath: "examples/__styles__/aria-fabricator/time-input-duration.tsx",
+    },
+    "time-input-field": {
+      name: "time-input-field",
+      filePath: "examples/__styles__/aria-fabricator/time-input-field.tsx",
+    },
+    "time-input-range": {
+      name: "time-input-range",
+      filePath: "examples/__styles__/aria-fabricator/time-input-range.tsx",
+    },
+    "time-input-seconds": {
+      name: "time-input-seconds",
+      filePath: "examples/__styles__/aria-fabricator/time-input-seconds.tsx",
     },
     "toggle-demo": {
       name: "toggle-demo",
@@ -10155,6 +11883,30 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "user-menu-demo": {
       name: "user-menu-demo",
       filePath: "examples/__styles__/aria-fabricator/user-menu-demo.tsx",
+    },
+    "video-player-autoplay": {
+      name: "video-player-autoplay",
+      filePath: "examples/__styles__/aria-fabricator/video-player-autoplay.tsx",
+    },
+    "video-player-captions": {
+      name: "video-player-captions",
+      filePath: "examples/__styles__/aria-fabricator/video-player-captions.tsx",
+    },
+    "video-player-chapters": {
+      name: "video-player-chapters",
+      filePath: "examples/__styles__/aria-fabricator/video-player-chapters.tsx",
+    },
+    "video-player-compact": {
+      name: "video-player-compact",
+      filePath: "examples/__styles__/aria-fabricator/video-player-compact.tsx",
+    },
+    "video-player-demo": {
+      name: "video-player-demo",
+      filePath: "examples/__styles__/aria-fabricator/video-player-demo.tsx",
+    },
+    "video-player-error": {
+      name: "video-player-error",
+      filePath: "examples/__styles__/aria-fabricator/video-player-error.tsx",
     },
     "workspace-switcher-demo": {
       name: "workspace-switcher-demo",
@@ -10609,6 +12361,44 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "carousel-spacing",
       filePath: "examples/__styles__/radix-fabricator/carousel-spacing.tsx",
     },
+    "chat-input-agent": {
+      name: "chat-input-agent",
+      filePath: "examples/__styles__/radix-fabricator/chat-input-agent.tsx",
+    },
+    "chat-input-attachments": {
+      name: "chat-input-attachments",
+      filePath:
+        "examples/__styles__/radix-fabricator/chat-input-attachments.tsx",
+    },
+    "chat-input-context-meter": {
+      name: "chat-input-context-meter",
+      filePath:
+        "examples/__styles__/radix-fabricator/chat-input-context-meter.tsx",
+    },
+    "chat-input-demo": {
+      name: "chat-input-demo",
+      filePath: "examples/__styles__/radix-fabricator/chat-input-demo.tsx",
+    },
+    "chat-input-disabled": {
+      name: "chat-input-disabled",
+      filePath: "examples/__styles__/radix-fabricator/chat-input-disabled.tsx",
+    },
+    "chat-input-large": {
+      name: "chat-input-large",
+      filePath: "examples/__styles__/radix-fabricator/chat-input-large.tsx",
+    },
+    "chat-input-mentions": {
+      name: "chat-input-mentions",
+      filePath: "examples/__styles__/radix-fabricator/chat-input-mentions.tsx",
+    },
+    "chat-input-submit-on": {
+      name: "chat-input-submit-on",
+      filePath: "examples/__styles__/radix-fabricator/chat-input-submit-on.tsx",
+    },
+    "chat-input-voice": {
+      name: "chat-input-voice",
+      filePath: "examples/__styles__/radix-fabricator/chat-input-voice.tsx",
+    },
     "checkbox-basic": {
       name: "checkbox-basic",
       filePath: "examples/__styles__/radix-fabricator/checkbox-basic.tsx",
@@ -10653,6 +12443,42 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "collapsible-settings": {
       name: "collapsible-settings",
       filePath: "examples/__styles__/radix-fabricator/collapsible-settings.tsx",
+    },
+    "color-picker-controlled": {
+      name: "color-picker-controlled",
+      filePath:
+        "examples/__styles__/radix-fabricator/color-picker-controlled.tsx",
+    },
+    "color-picker-demo": {
+      name: "color-picker-demo",
+      filePath: "examples/__styles__/radix-fabricator/color-picker-demo.tsx",
+    },
+    "color-picker-no-eyedropper": {
+      name: "color-picker-no-eyedropper",
+      filePath:
+        "examples/__styles__/radix-fabricator/color-picker-no-eyedropper.tsx",
+    },
+    "color-picker-oklch": {
+      name: "color-picker-oklch",
+      filePath: "examples/__styles__/radix-fabricator/color-picker-oklch.tsx",
+    },
+    "color-picker-popover": {
+      name: "color-picker-popover",
+      filePath: "examples/__styles__/radix-fabricator/color-picker-popover.tsx",
+    },
+    "color-picker-removable": {
+      name: "color-picker-removable",
+      filePath:
+        "examples/__styles__/radix-fabricator/color-picker-removable.tsx",
+    },
+    "color-picker-sizes": {
+      name: "color-picker-sizes",
+      filePath: "examples/__styles__/radix-fabricator/color-picker-sizes.tsx",
+    },
+    "color-picker-swatches": {
+      name: "color-picker-swatches",
+      filePath:
+        "examples/__styles__/radix-fabricator/color-picker-swatches.tsx",
     },
     "combobox-auto-highlight": {
       name: "combobox-auto-highlight",
@@ -10779,17 +12605,60 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "date-picker-basic",
       filePath: "examples/__styles__/radix-fabricator/date-picker-basic.tsx",
     },
+    "date-picker-controlled": {
+      name: "date-picker-controlled",
+      filePath:
+        "examples/__styles__/radix-fabricator/date-picker-controlled.tsx",
+    },
+    "date-picker-date-time-range": {
+      name: "date-picker-date-time-range",
+      filePath:
+        "examples/__styles__/radix-fabricator/date-picker-date-time-range.tsx",
+    },
+    "date-picker-date-time": {
+      name: "date-picker-date-time",
+      filePath:
+        "examples/__styles__/radix-fabricator/date-picker-date-time.tsx",
+    },
     "date-picker-demo": {
       name: "date-picker-demo",
       filePath: "examples/__styles__/radix-fabricator/date-picker-demo.tsx",
+    },
+    "date-picker-disabled": {
+      name: "date-picker-disabled",
+      filePath: "examples/__styles__/radix-fabricator/date-picker-disabled.tsx",
     },
     "date-picker-dob": {
       name: "date-picker-dob",
       filePath: "examples/__styles__/radix-fabricator/date-picker-dob.tsx",
     },
+    "date-picker-editable": {
+      name: "date-picker-editable",
+      filePath: "examples/__styles__/radix-fabricator/date-picker-editable.tsx",
+    },
+    "date-picker-field": {
+      name: "date-picker-field",
+      filePath: "examples/__styles__/radix-fabricator/date-picker-field.tsx",
+    },
+    "date-picker-form": {
+      name: "date-picker-form",
+      filePath: "examples/__styles__/radix-fabricator/date-picker-form.tsx",
+    },
+    "date-picker-format": {
+      name: "date-picker-format",
+      filePath: "examples/__styles__/radix-fabricator/date-picker-format.tsx",
+    },
     "date-picker-input": {
       name: "date-picker-input",
       filePath: "examples/__styles__/radix-fabricator/date-picker-input.tsx",
+    },
+    "date-picker-invalid": {
+      name: "date-picker-invalid",
+      filePath: "examples/__styles__/radix-fabricator/date-picker-invalid.tsx",
+    },
+    "date-picker-min-max": {
+      name: "date-picker-min-max",
+      filePath: "examples/__styles__/radix-fabricator/date-picker-min-max.tsx",
     },
     "date-picker-natural-language": {
       name: "date-picker-natural-language",
@@ -10799,6 +12668,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "date-picker-range": {
       name: "date-picker-range",
       filePath: "examples/__styles__/radix-fabricator/date-picker-range.tsx",
+    },
+    "date-picker-sizes": {
+      name: "date-picker-sizes",
+      filePath: "examples/__styles__/radix-fabricator/date-picker-sizes.tsx",
     },
     "date-picker-time": {
       name: "date-picker-time",
@@ -10975,9 +12848,54 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "field-textarea",
       filePath: "examples/__styles__/radix-fabricator/field-textarea.tsx",
     },
+    "file-tree-demo": {
+      name: "file-tree-demo",
+      filePath: "examples/__styles__/radix-fabricator/file-tree-demo.tsx",
+    },
+    "file-tree-single": {
+      name: "file-tree-single",
+      filePath: "examples/__styles__/radix-fabricator/file-tree-single.tsx",
+    },
+    "file-upload-button": {
+      name: "file-upload-button",
+      filePath: "examples/__styles__/radix-fabricator/file-upload-button.tsx",
+    },
+    "file-upload-demo": {
+      name: "file-upload-demo",
+      filePath: "examples/__styles__/radix-fabricator/file-upload-demo.tsx",
+    },
+    "file-upload-disabled": {
+      name: "file-upload-disabled",
+      filePath: "examples/__styles__/radix-fabricator/file-upload-disabled.tsx",
+    },
+    "file-upload-field": {
+      name: "file-upload-field",
+      filePath: "examples/__styles__/radix-fabricator/file-upload-field.tsx",
+    },
+    "file-upload-form": {
+      name: "file-upload-form",
+      filePath: "examples/__styles__/radix-fabricator/file-upload-form.tsx",
+    },
+    "file-upload-image": {
+      name: "file-upload-image",
+      filePath: "examples/__styles__/radix-fabricator/file-upload-image.tsx",
+    },
     "file-upload-list": {
       name: "file-upload-list",
       filePath: "examples/__styles__/radix-fabricator/file-upload-list.tsx",
+    },
+    "file-upload-multiple": {
+      name: "file-upload-multiple",
+      filePath: "examples/__styles__/radix-fabricator/file-upload-multiple.tsx",
+    },
+    "file-upload-progress": {
+      name: "file-upload-progress",
+      filePath: "examples/__styles__/radix-fabricator/file-upload-progress.tsx",
+    },
+    "file-upload-validation": {
+      name: "file-upload-validation",
+      filePath:
+        "examples/__styles__/radix-fabricator/file-upload-validation.tsx",
     },
     "hover-card-demo": {
       name: "hover-card-demo",
@@ -11088,6 +13006,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "input-group-label",
       filePath: "examples/__styles__/radix-fabricator/input-group-label.tsx",
     },
+    "input-group-sizes": {
+      name: "input-group-sizes",
+      filePath: "examples/__styles__/radix-fabricator/input-group-sizes.tsx",
+    },
     "input-group-spinner": {
       name: "input-group-spinner",
       filePath: "examples/__styles__/radix-fabricator/input-group-spinner.tsx",
@@ -11174,13 +13096,34 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "input-otp-pattern",
       filePath: "examples/__styles__/radix-fabricator/input-otp-pattern.tsx",
     },
+    "input-otp-placeholder": {
+      name: "input-otp-placeholder",
+      filePath:
+        "examples/__styles__/radix-fabricator/input-otp-placeholder.tsx",
+    },
     "input-otp-separator": {
       name: "input-otp-separator",
       filePath: "examples/__styles__/radix-fabricator/input-otp-separator.tsx",
     },
+    "input-password": {
+      name: "input-password",
+      filePath: "examples/__styles__/radix-fabricator/input-password.tsx",
+    },
     "input-required": {
       name: "input-required",
       filePath: "examples/__styles__/radix-fabricator/input-required.tsx",
+    },
+    "input-search": {
+      name: "input-search",
+      filePath: "examples/__styles__/radix-fabricator/input-search.tsx",
+    },
+    "input-sizes": {
+      name: "input-sizes",
+      filePath: "examples/__styles__/radix-fabricator/input-sizes.tsx",
+    },
+    "input-types": {
+      name: "input-types",
+      filePath: "examples/__styles__/radix-fabricator/input-types.tsx",
     },
     "item-avatar": {
       name: "item-avatar",
@@ -11386,6 +13329,35 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       filePath:
         "examples/__styles__/radix-fabricator/message-scroller-visibility.tsx",
     },
+    "model-picker-demo": {
+      name: "model-picker-demo",
+      filePath: "examples/__styles__/radix-fabricator/model-picker-demo.tsx",
+    },
+    "model-picker-effort": {
+      name: "model-picker-effort",
+      filePath: "examples/__styles__/radix-fabricator/model-picker-effort.tsx",
+    },
+    "month-input-controlled": {
+      name: "month-input-controlled",
+      filePath:
+        "examples/__styles__/radix-fabricator/month-input-controlled.tsx",
+    },
+    "month-input-demo": {
+      name: "month-input-demo",
+      filePath: "examples/__styles__/radix-fabricator/month-input-demo.tsx",
+    },
+    "month-input-field": {
+      name: "month-input-field",
+      filePath: "examples/__styles__/radix-fabricator/month-input-field.tsx",
+    },
+    "month-input-format": {
+      name: "month-input-format",
+      filePath: "examples/__styles__/radix-fabricator/month-input-format.tsx",
+    },
+    "month-input-range": {
+      name: "month-input-range",
+      filePath: "examples/__styles__/radix-fabricator/month-input-range.tsx",
+    },
     "muted-item-group": {
       name: "muted-item-group",
       filePath: "examples/__styles__/radix-fabricator/muted-item-group.tsx",
@@ -11393,6 +13365,49 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "navigation-menu-demo": {
       name: "navigation-menu-demo",
       filePath: "examples/__styles__/radix-fabricator/navigation-menu-demo.tsx",
+    },
+    "number-field-basic": {
+      name: "number-field-basic",
+      filePath: "examples/__styles__/radix-fabricator/number-field-basic.tsx",
+    },
+    "number-field-controlled": {
+      name: "number-field-controlled",
+      filePath:
+        "examples/__styles__/radix-fabricator/number-field-controlled.tsx",
+    },
+    "number-field-demo": {
+      name: "number-field-demo",
+      filePath: "examples/__styles__/radix-fabricator/number-field-demo.tsx",
+    },
+    "number-field-disabled": {
+      name: "number-field-disabled",
+      filePath:
+        "examples/__styles__/radix-fabricator/number-field-disabled.tsx",
+    },
+    "number-field-field": {
+      name: "number-field-field",
+      filePath: "examples/__styles__/radix-fabricator/number-field-field.tsx",
+    },
+    "number-field-format": {
+      name: "number-field-format",
+      filePath: "examples/__styles__/radix-fabricator/number-field-format.tsx",
+    },
+    "number-field-invalid": {
+      name: "number-field-invalid",
+      filePath: "examples/__styles__/radix-fabricator/number-field-invalid.tsx",
+    },
+    "number-field-min-max": {
+      name: "number-field-min-max",
+      filePath: "examples/__styles__/radix-fabricator/number-field-min-max.tsx",
+    },
+    "number-field-sizes": {
+      name: "number-field-sizes",
+      filePath: "examples/__styles__/radix-fabricator/number-field-sizes.tsx",
+    },
+    "number-field-steppers-end": {
+      name: "number-field-steppers-end",
+      filePath:
+        "examples/__styles__/radix-fabricator/number-field-steppers-end.tsx",
     },
     "outline-item-group": {
       name: "outline-item-group",
@@ -11447,6 +13462,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "questionnaire-card": {
       name: "questionnaire-card",
       filePath: "examples/__styles__/radix-fabricator/questionnaire-card.tsx",
+    },
+    "questionnaire-chat": {
+      name: "questionnaire-chat",
+      filePath: "examples/__styles__/radix-fabricator/questionnaire-chat.tsx",
     },
     "questionnaire-conditional": {
       name: "questionnaire-conditional",
@@ -11887,6 +13906,46 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "switch-sizes",
       filePath: "examples/__styles__/radix-fabricator/switch-sizes.tsx",
     },
+    "syntax-highlight-command": {
+      name: "syntax-highlight-command",
+      filePath:
+        "examples/__styles__/radix-fabricator/syntax-highlight-command.tsx",
+    },
+    "syntax-highlight-demo": {
+      name: "syntax-highlight-demo",
+      filePath:
+        "examples/__styles__/radix-fabricator/syntax-highlight-demo.tsx",
+    },
+    "syntax-highlight-diff": {
+      name: "syntax-highlight-diff",
+      filePath:
+        "examples/__styles__/radix-fabricator/syntax-highlight-diff.tsx",
+    },
+    "syntax-highlight-highlight-lines": {
+      name: "syntax-highlight-highlight-lines",
+      filePath:
+        "examples/__styles__/radix-fabricator/syntax-highlight-highlight-lines.tsx",
+    },
+    "syntax-highlight-languages": {
+      name: "syntax-highlight-languages",
+      filePath:
+        "examples/__styles__/radix-fabricator/syntax-highlight-languages.tsx",
+    },
+    "syntax-highlight-line-numbers": {
+      name: "syntax-highlight-line-numbers",
+      filePath:
+        "examples/__styles__/radix-fabricator/syntax-highlight-line-numbers.tsx",
+    },
+    "syntax-highlight-scroll": {
+      name: "syntax-highlight-scroll",
+      filePath:
+        "examples/__styles__/radix-fabricator/syntax-highlight-scroll.tsx",
+    },
+    "syntax-highlight-wrap": {
+      name: "syntax-highlight-wrap",
+      filePath:
+        "examples/__styles__/radix-fabricator/syntax-highlight-wrap.tsx",
+    },
     "tab-strip-demo": {
       name: "tab-strip-demo",
       filePath: "examples/__styles__/radix-fabricator/tab-strip-demo.tsx",
@@ -11919,6 +13978,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "tabs-line",
       filePath: "examples/__styles__/radix-fabricator/tabs-line.tsx",
     },
+    "tabs-subtle": {
+      name: "tabs-subtle",
+      filePath: "examples/__styles__/radix-fabricator/tabs-subtle.tsx",
+    },
     "tabs-vertical": {
       name: "tabs-vertical",
       filePath: "examples/__styles__/radix-fabricator/tabs-vertical.tsx",
@@ -11942,6 +14005,39 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "textarea-invalid": {
       name: "textarea-invalid",
       filePath: "examples/__styles__/radix-fabricator/textarea-invalid.tsx",
+    },
+    "time-input-24-hour": {
+      name: "time-input-24-hour",
+      filePath: "examples/__styles__/radix-fabricator/time-input-24-hour.tsx",
+    },
+    "time-input-controlled": {
+      name: "time-input-controlled",
+      filePath:
+        "examples/__styles__/radix-fabricator/time-input-controlled.tsx",
+    },
+    "time-input-date-time": {
+      name: "time-input-date-time",
+      filePath: "examples/__styles__/radix-fabricator/time-input-date-time.tsx",
+    },
+    "time-input-demo": {
+      name: "time-input-demo",
+      filePath: "examples/__styles__/radix-fabricator/time-input-demo.tsx",
+    },
+    "time-input-duration": {
+      name: "time-input-duration",
+      filePath: "examples/__styles__/radix-fabricator/time-input-duration.tsx",
+    },
+    "time-input-field": {
+      name: "time-input-field",
+      filePath: "examples/__styles__/radix-fabricator/time-input-field.tsx",
+    },
+    "time-input-range": {
+      name: "time-input-range",
+      filePath: "examples/__styles__/radix-fabricator/time-input-range.tsx",
+    },
+    "time-input-seconds": {
+      name: "time-input-seconds",
+      filePath: "examples/__styles__/radix-fabricator/time-input-seconds.tsx",
     },
     "toggle-demo": {
       name: "toggle-demo",
@@ -12071,6 +14167,33 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "user-menu-demo": {
       name: "user-menu-demo",
       filePath: "examples/__styles__/radix-fabricator/user-menu-demo.tsx",
+    },
+    "video-player-autoplay": {
+      name: "video-player-autoplay",
+      filePath:
+        "examples/__styles__/radix-fabricator/video-player-autoplay.tsx",
+    },
+    "video-player-captions": {
+      name: "video-player-captions",
+      filePath:
+        "examples/__styles__/radix-fabricator/video-player-captions.tsx",
+    },
+    "video-player-chapters": {
+      name: "video-player-chapters",
+      filePath:
+        "examples/__styles__/radix-fabricator/video-player-chapters.tsx",
+    },
+    "video-player-compact": {
+      name: "video-player-compact",
+      filePath: "examples/__styles__/radix-fabricator/video-player-compact.tsx",
+    },
+    "video-player-demo": {
+      name: "video-player-demo",
+      filePath: "examples/__styles__/radix-fabricator/video-player-demo.tsx",
+    },
+    "video-player-error": {
+      name: "video-player-error",
+      filePath: "examples/__styles__/radix-fabricator/video-player-error.tsx",
     },
     "workspace-switcher-demo": {
       name: "workspace-switcher-demo",

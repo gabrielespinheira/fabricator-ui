@@ -1,64 +1,162 @@
 ---
 title: Date Picker
-description: A date picker component with range and presets.
+description: A date field that opens a calendar, with an optional time wheel, and Calendar compositions for ranges and presets.
 base: radix
 component: true
 ---
 
-<ComponentPreview styleName="radix-nova" name="date-picker-demo" />
+<ComponentPreview styleName="radix-nova" name="date-picker-field" />
+
+<ComponentPreview styleName="radix-nova" name="date-picker-date-time" />
+
+Click the field and pick a day from the calendar. With `hasTime`, a time wheel sits beside the calendar, as in the iOS Clock app: the field reads `Nov 12, 2026, 10:30 AM`, and the value is that day at that time. For people who'd rather type, `editable` adds a text field that reads `2026-11-12`, `Nov 12, 2026` or `tomorrow at 9pm`.
+
+The `DatePicker` field is part of the Fabricator style. It's composed from [Popover](/docs/components/radix/popover), [Calendar](/docs/components/radix/calendar) and the [Time Input](/docs/components/radix/time-input) wheel, and framed like every other field, so the focus ring and invalid state match. With `editable`, the field is an [Input Group](/docs/components/radix/input-group).
 
 ## Installation
 
-The Date Picker is built using a composition of the `<Popover />` and the `<Calendar />` components.
+<CodeTabs>
 
-See installation instructions for the [Popover](/docs/components/radix/popover#installation) and the [Calendar](/docs/components/radix/calendar#installation) components.
+<TabsList>
+  <TabsTrigger value="cli">Command</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx fabricator-ui@latest add date-picker
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps className="mb-0 pt-2">
+
+<Step>Install the following dependencies:</Step>
+
+```bash
+npm install date-fns
+```
+
+<Step>
+  Add the [Calendar](/docs/components/radix/calendar), [Input
+  Group](/docs/components/radix/input-group),
+  [Popover](/docs/components/radix/popover) and [Time
+  Input](/docs/components/radix/time-input) components.
+</Step>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  src="styles/radix-fabricator/lib/date-picker-model.ts"
+  title="lib/date-picker-model.ts"
+  styleName="radix-nova"
+/>
+
+<ComponentSource
+  src="styles/radix-fabricator/ui/date-picker.tsx"
+  title="components/ui/date-picker.tsx"
+  styleName="radix-nova"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
 
 ## Usage
 
-```tsx showLineNumbers title="components/example-date-picker.tsx"
-"use client"
-
-import * as React from "react"
-import { Calendar as CalendarIcon } from "@fabricator-ui/icons"
-import { cn } from "cn"
-import { format } from "date-fns"
-
-import { Button } from "@/components/ui/button"
-import { Calendar } from "@/components/ui/calendar"
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover"
-
-export function DatePickerDemo() {
-  const [date, setDate] = React.useState<Date>()
-
-  return (
-    <Popover>
-      <PopoverTrigger asChild>
-        <Button
-          variant="outline"
-          data-empty={!date}
-          className="w-[280px] justify-start text-left font-normal data-[empty=true]:text-muted-foreground"
-        >
-          <CalendarIcon />
-          {date ? format(date, "PPP") : <span>Pick a date</span>}
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-auto p-0">
-        <Calendar mode="single" selected={date} onSelect={setDate} />
-      </PopoverContent>
-    </Popover>
-  )
-}
+```tsx
+import { DatePicker } from "@/components/ui/date-picker"
 ```
 
-See the [React DayPicker](https://react-day-picker.js.org) documentation for more information.
+```tsx
+<DatePicker aria-label="Due date" />
+<DatePicker aria-label="Starts" hasTime />
+```
 
 ## Composition
 
-A date picker is built from `Popover` and `Calendar` (there is no `DatePicker` root component):
+```text
+DatePicker
+├── PopoverTrigger               the field: the date, or its placeholder
+├── PopoverContent
+│   ├── Calendar                 one month, single selection
+│   └── TimeWheel                with `hasTime`: hours, minutes, seconds, AM or PM
+└── input[type=hidden]           with `name`: yyyy-MM-dd, or yyyy-MM-ddTHH:mm(:ss)
+```
+
+With `editable`, the field is an `InputGroup` instead: an `InputGroupInput` for the text and an `InputGroupButton` that opens the same popover.
+
+`className` goes on the root, for layout. `id`, `placeholder`, `disabled` and the `aria-*` labels go to the field; with `editable`, every other input prop goes to the text input as well.
+
+## Examples
+
+### Field
+
+Put it in a `Field` with a `FieldLabel` pointing at its `id`, and a `FieldDescription` for what to pick.
+
+<ComponentPreview styleName="radix-nova" name="date-picker-field" />
+
+### Date and time
+
+`hasTime` puts a [Time Input](/docs/components/radix/time-input) wheel beside the calendar, as tall as it: hours, minutes, AM or PM on a 12-hour clock, and seconds with `hasSeconds`. It opens on the value's time, or now. Pick a day and turn the wheel: the field shows both and the value follows as each column settles. A new day keeps the time. Enter, Escape or a click elsewhere closes the popover. `step` sets the minutes between the minute wheel's rows (1 by default), and the clock follows the reader's locale unless `hourCycle` fixes one.
+
+<ComponentPreview styleName="radix-nova" name="date-picker-date-time" />
+
+### Typing
+
+`editable` makes the field a text input with a calendar button, for people who know the date already. The text is read on Enter or when the field loses focus, then rewritten in the display format. With `hasTime`, the time comes after a comma or "at": `Nov 12, 2026, 10:30 AM` or `tomorrow at 9pm`. See [What it reads](#what-it-reads).
+
+<ComponentPreview styleName="radix-nova" name="date-picker-editable" />
+
+### Controlled
+
+Control the value with `value` and `onValueChange`. It changes when a day (and, with `hasTime`, a time) is picked, or when typed text is committed, not on every keystroke.
+
+<ComponentPreview styleName="radix-nova" name="date-picker-controlled" />
+
+### Format
+
+`format` is a [date-fns pattern](https://date-fns.org/docs/format) for the text, `MMM d, yyyy` by default. With `editable`, typing reads the same pattern, and ISO `yyyy-MM-dd` always works. Pass a date-fns `locale` to write and read month names in another language; it also sets the calendar's.
+
+<ComponentPreview styleName="radix-nova" name="date-picker-format" />
+
+### Minimum and maximum
+
+`minDate` and `maxDate` turn off the days outside them in the calendar, and stop its navigation at their months. With `editable`, a typed date outside them is rewritten, marked invalid, and leaves the value empty.
+
+<ComponentPreview styleName="radix-nova" name="date-picker-min-max" />
+
+### Invalid
+
+Pass `aria-invalid` to show your own validation, with the message in a `FieldError`. With `editable`, text that isn't a date sets it on its own.
+
+<ComponentPreview styleName="radix-nova" name="date-picker-invalid" />
+
+### Disabled
+
+<ComponentPreview styleName="radix-nova" name="date-picker-disabled" />
+
+### Sizes
+
+The field follows the nearest density. Add `density-compact` or `density-spacious` to one field, or wrap a form in a `DensityProvider`.
+
+<ComponentPreview styleName="radix-nova" name="date-picker-sizes" />
+
+### In a form
+
+With `name`, a hidden input sends the day as `yyyy-MM-dd`, or `yyyy-MM-ddTHH:mm` with `hasTime` (`yyyy-MM-ddTHH:mm:ss` with `hasSeconds`), whatever the display format. With `editable`, Enter commits the text first; a second Enter submits.
+
+<ComponentPreview styleName="radix-nova" name="date-picker-form" />
+
+## Compositions
+
+`DatePicker` is one date, with or without a time. For a range, presets, or a range with times, compose a [Calendar](/docs/components/radix/calendar) in a [Popover](/docs/components/radix/popover) yourself. There is no root component for these; each example is the whole recipe.
 
 ```text
 Popover
@@ -67,38 +165,97 @@ Popover
     └── Calendar
 ```
 
-## Basic
+For times on a range, put a `TimeRangeInput` from [Time Input](/docs/components/radix/time-input) under the trigger: a start and an end with the duration between them. See [Date and Time Range](#date-and-time-range).
+
+See the [React DayPicker](https://react-day-picker.js.org) documentation for more information.
+
+### Basic
 
 A basic date picker component.
 
 <ComponentPreview styleName="radix-nova" name="date-picker-basic" />
 
-## Range Picker
+### Range Picker
 
 A date picker component for selecting a range of dates.
 
 <ComponentPreview styleName="radix-nova" name="date-picker-range" />
 
-## Date of Birth
+### Date of Birth
 
 A date picker component for selecting a date of birth. This component includes a dropdown caption layout for date and month selection.
 
 <ComponentPreview styleName="radix-nova" name="date-picker-dob" />
 
-## Input
+### Date and Time Range
 
-A date picker component with an input field for selecting a date.
+The days from a range calendar, and a start and an end time below them. On a single day the times are a `TimeRangeInput`: the end's list counts the duration from the start, moving the start keeps it, and an end at or before the start is marked invalid. Across days, any two times work.
 
-<ComponentPreview styleName="radix-nova" name="date-picker-input" />
+<ComponentPreview styleName="radix-nova" name="date-picker-date-time-range" />
 
-## Time Picker
-
-A date picker component with a time input field for selecting a time.
-
-<ComponentPreview styleName="radix-nova" name="date-picker-time" />
-
-## Natural Language Picker
+### Natural Language Picker
 
 This component uses the `chrono-node` library to parse natural language dates.
 
 <ComponentPreview styleName="radix-nova" name="date-picker-natural-language" />
+
+## What it reads
+
+With `editable`, the text field reads:
+
+| Typed                                                                                      | Becomes                                 |
+| ------------------------------------------------------------------------------------------ | --------------------------------------- |
+| The display format (`Nov 12, 2026`)                                                        | That day                                |
+| ISO (`2026-11-12`)                                                                         | That day                                |
+| `today`, `tomorrow`, `yesterday`                                                           | That day, from the person's clock       |
+| With `hasTime`, a time after a comma or `at` (`Nov 12, 2026, 10:30 AM`, `tomorrow at 9pm`) | That day at that time                   |
+| Nothing                                                                                    | No value                                |
+| Anything else, or a day that can't be                                                      | No value; the text stays and is invalid |
+
+Case and extra spaces don't matter. Years need four digits, so `Nov 12, 26` isn't read as the year 26. The rules are pure functions in `lib/date-picker-model.ts` (`parseDateText`, `commitDateText`, `formatDateValue`, `formatIsoDate`, `formatIsoDateTime`, `setDateTime`, `splitDateTimeText`, `isDateInRange`), which you can use for your own validation.
+
+## API Reference
+
+### DatePicker
+
+| Prop            | Type                                 | Default                                      |
+| --------------- | ------------------------------------ | -------------------------------------------- |
+| `value`         | `Date \| undefined`                  | -                                            |
+| `defaultValue`  | `Date`                               | -                                            |
+| `onValueChange` | `(value: Date \| undefined) => void` | -                                            |
+| `format`        | `string` (date-fns pattern)          | `"MMM d, yyyy"`                              |
+| `locale`        | `Locale` (date-fns)                  | -                                            |
+| `minDate`       | `Date`                               | -                                            |
+| `maxDate`       | `Date`                               | -                                            |
+| `name`          | `string`                             | -                                            |
+| `hasTime`       | `boolean`                            | `false`                                      |
+| `step`          | `number` (minutes)                   | `1`                                          |
+| `hasSeconds`    | `boolean`                            | `false`                                      |
+| `hourCycle`     | `12 \| 24`                           | the locale's                                 |
+| `editable`      | `boolean`                            | `false`                                      |
+| `calendarLabel` | `string`                             | `"Choose date"`                              |
+| `timeLabel`     | `string`                             | `"Choose time"`                              |
+| `placeholder`   | `string`                             | `"Pick a date"`, or `"Pick a date and time"` |
+| `disabled`      | `boolean`                            | `false`                                      |
+| `aria-invalid`  | `boolean`                            | -                                            |
+
+### Data attributes
+
+| Attribute                         | Element              | Present when    |
+| --------------------------------- | -------------------- | --------------- |
+| `data-slot="date-picker"`         | root                 | always          |
+| `data-slot="date-picker-field"`   | the field (a button) | not `editable`  |
+| `data-slot="input-group-control"` | the text input       | `editable`      |
+| `data-slot="date-picker-time"`    | the wheel's column   | open, `hasTime` |
+| `data-slot="popover-content"`     | the calendar's popup | open            |
+| `data-slot="date-picker-value"`   | the hidden input     | `name` is set   |
+
+## Accessibility
+
+- The field is a button that reports `aria-expanded`. Label it with a `FieldLabel` pointing at its `id`, or `aria-label`; the placeholder isn't a label.
+- Enter, Space or a click opens the calendar on the selected day's month, with focus on that day. Arrow keys move by day and week, Page Up and Page Down by month, Enter or Space picks, and Escape closes.
+- With `hasTime`, Tab moves from the calendar to the wheel, a group named by `timeLabel`. Each column is a `spinbutton` (Hours, Minutes, Seconds, AM or PM): Arrow Up and Down step it, Page Up and Page Down jump five, Home and End go to the ends, and Tab moves to the next column. Enter closes the popover.
+- Without `hasTime`, picking a day closes the popover. Closing returns focus to the field.
+- With `editable`, the text input is a plain text field and Alt+ArrowDown opens the calendar (announced through `aria-keyshortcuts`); its button is named by `calendarLabel`. Text that isn't a date sets `aria-invalid`.
+- `aria-invalid` turns the frame red, and screen readers announce it.
+- Disabled, the field leaves the tab order and the hidden input isn't submitted.

@@ -899,6 +899,29 @@
       "held": "Google Cloud allows a plain-text mention only; its logo and icon need approval from Google's Cloud brand team (https://services.google.com/fh/files/misc/external_customer_co_branding_eligibility.pdf)."
     },
     {
+      "name": "google-gemini",
+      "title": "Google Gemini",
+      "group": "Product & dev",
+      "tags": [
+        "gemini",
+        "google",
+        "ai",
+        "assistant",
+        "llm",
+        "model"
+      ],
+      "aliases": [
+        "gemini",
+        "bard"
+      ],
+      "hex": "#8E75B2",
+      "mono": {
+        "from": "simple-icons",
+        "slug": "googlegemini"
+      },
+      "credit": "Gemini and its logo are trademarks of Google LLC and belong to it. Terms: https://partnermarketinghub.withgoogle.com/brands/google/trademarks-and-terms/terms-and-conditions/"
+    },
+    {
       "name": "google-maps",
       "title": "Google Maps",
       "group": "Marketing & commerce",
@@ -1007,6 +1030,30 @@
         "from": "simple-icons",
         "slug": "graphql"
       }
+    },
+    {
+      "name": "grok",
+      "title": "Grok",
+      "group": "Product & dev",
+      "tags": [
+        "xai",
+        "ai",
+        "assistant",
+        "llm",
+        "model"
+      ],
+      "aliases": [
+        "xai"
+      ],
+      "hex": "#000000",
+      "mono": {
+        "from": "art"
+      },
+      "art": {
+        "from": "logos",
+        "icon": "grok-icon"
+      },
+      "credit": "Grok and its logo are trademarks of SpaceXSI (formerly xAI) and belong to it. Terms: https://x.ai/legal/brand-guidelines"
     },
     {
       "name": "gsap",

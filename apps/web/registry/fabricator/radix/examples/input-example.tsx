@@ -1,11 +1,14 @@
 // Fabricator: uses Select instead of NativeSelect, which isn't part of the
-// Fabricator library. Everything else matches the upstream file.
+// Fabricator library, and the library's own fields for number, date, time and
+// month instead of the browser's pickers. Everything else matches the upstream
+// file.
 
 import {
   Example,
   ExampleWrapper,
 } from "@/registry/bases/radix/components/example"
 import { Button } from "@/registry/bases/radix/ui/button"
+import { DatePicker } from "@/registry/bases/radix/ui/date-picker"
 import {
   Field,
   FieldDescription,
@@ -13,6 +16,14 @@ import {
   FieldLabel,
 } from "@/registry/bases/radix/ui/field"
 import { Input } from "@/registry/bases/radix/ui/input"
+import { MonthInput } from "@/registry/bases/radix/ui/month-input"
+import {
+  NumberField,
+  NumberFieldDecrement,
+  NumberFieldGroup,
+  NumberFieldIncrement,
+  NumberFieldInput,
+} from "@/registry/bases/radix/ui/number-field"
 import {
   Select,
   SelectContent,
@@ -137,19 +148,21 @@ function InputTypes() {
         </Field>
         <Field>
           <FieldLabel htmlFor="input-demo-number">Number</FieldLabel>
-          <Input id="input-demo-number" type="number" placeholder="123" />
+          <NumberField id="input-demo-number" defaultValue={12}>
+            <NumberFieldGroup>
+              <NumberFieldDecrement />
+              <NumberFieldInput />
+              <NumberFieldIncrement />
+            </NumberFieldGroup>
+          </NumberField>
         </Field>
         <Field>
           <FieldLabel htmlFor="input-demo-date">Date</FieldLabel>
-          <Input id="input-demo-date" type="date" />
+          <DatePicker id="input-demo-date" placeholder="Nov 12, 2026" />
         </Field>
         <Field>
-          <FieldLabel htmlFor="input-demo-time">Time</FieldLabel>
-          <Input id="input-demo-time" type="time" />
-        </Field>
-        <Field>
-          <FieldLabel htmlFor="input-demo-file">File</FieldLabel>
-          <Input id="input-demo-file" type="file" />
+          <FieldLabel htmlFor="input-demo-month">Month</FieldLabel>
+          <MonthInput id="input-demo-month" placeholder="Nov 2026" />
         </Field>
       </div>
     </Example>

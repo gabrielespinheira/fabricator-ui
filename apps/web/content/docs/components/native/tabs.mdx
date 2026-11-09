@@ -49,7 +49,12 @@ import { Text } from "@/components/ui/text"
 
 ```tsx showLineNumbers title="tabs-example.tsx"
 import * as React from "react"
-import { CodeIcon, EyeIcon } from "@fabricator-ui/icons-react-native"
+import {
+  CodeIcon,
+  EyeIcon,
+  HistoryIcon,
+  SettingsIcon,
+} from "@fabricator-ui/icons-react-native"
 
 import {
   Tabs,
@@ -75,14 +80,30 @@ function TabsExample() {
           <TabsContent value="reports">Reports you have saved.</TabsContent>
         </Tabs>
       </Example>
-      <Example title="Line">
+      <Example title="Subtle">
         <Tabs defaultValue="preview" className="w-full">
-          <TabsList variant="line">
-            <TabsTrigger value="preview">Preview</TabsTrigger>
-            <TabsTrigger value="code">Code</TabsTrigger>
+          <TabsList variant="subtle">
+            <TabsTrigger value="preview">
+              <EyeIcon />
+              Preview
+            </TabsTrigger>
+            <TabsTrigger value="code">
+              <CodeIcon />
+              Code
+            </TabsTrigger>
+            <TabsTrigger value="history">
+              <HistoryIcon />
+              History
+            </TabsTrigger>
+            <TabsTrigger value="settings">
+              <SettingsIcon />
+              Settings
+            </TabsTrigger>
           </TabsList>
           <TabsContent value="preview">The rendered result.</TabsContent>
           <TabsContent value="code">The source.</TabsContent>
+          <TabsContent value="history">Every saved version.</TabsContent>
+          <TabsContent value="settings">How this file builds.</TabsContent>
         </Tabs>
       </Example>
       <Example title="Icons">
@@ -145,13 +166,13 @@ export { TabsExample }
 
 | Prop | Values |
 | --- | --- |
-| `variant` | `default`, `line` |
+| `variant` | `default`, `line`, `subtle` |
 
 Props it adds to what it wraps: `defaultValue`, `keepMounted`, `onValueChange`, `value`.
 
 ## Differences from web
 
-**Same.** In dark the selected tab's pill is a translucent step over the track, so it stands out on every surface.
+**Same.** In a subtle list the active tab's label appears without fading in.
 
 ## Accessibility
 

@@ -1,0 +1,40 @@
+---
+title: Files
+description: Colour file and folder icons, resolved from filenames and folder names.
+---
+
+Fabricator Icons includes 249 file and folder drawings from [Charmed Icons](https://github.com/littensy/charmed-icons/tree/v0.10.0), by Littensy, under the MIT licence. [Browse the set](/icons?set=files).
+
+## React
+
+```tsx
+import { FileTypeIcon, FileTypescriptIcon } from "@fabricator-ui/icons/files"
+
+<FileTypeIcon name="page.tsx" />
+<FileTypeIcon name="components" kind="folder" open />
+<FileTypescriptIcon size={20} />
+```
+
+`FileTypeIcon` takes `name`, `kind` (`"file"` by default), `open` and SVG props. Icons default to 16px and keep their 16 × 16 viewBox at every size. They are hidden from assistive technology unless given an accessible name, role or children.
+
+`getFileIconName(name)` checks the full filename, then compound extensions from longest to shortest. `getFolderIconName(name, open)` checks named folders and chooses the expanded drawing when requested. Lookups ignore case, accept paths, and fall back to generic artwork.
+
+## Theme
+
+Paint follows the CSS `color-scheme`, using the light and dark palettes. Set `color-scheme: light` or `color-scheme: dark` on the themed region. No extra stylesheet is required. Override a token such as `--file-icon-blue` to retint the artwork. Stroke width and `currentColor` do not recolour this set.
+
+## File Tree
+
+[File Tree](/docs/components/base/file-tree) uses this pack by default, independently of the project's icon library. Its `renderIcon(node, expanded)` prop still accepts custom icons.
+
+## React Native
+
+Import the same exports from `@fabricator-ui/icons-react-native/files`. The device colour scheme selects the palette; `IconProvider` can override `colorScheme` and `size`. Rendering uses `react-native-svg` with concrete paints.
+
+## Static files
+
+`@fabricator-ui/icons-static/files` exports SVG strings such as `FileTypescript`. The package also includes `files/file-typescript.svg` and `files-sprite.svg`. Theme-aware SVGs use CSS variables. For image renderers and exports that cannot resolve CSS functions, use `files/light/file-typescript.svg` or `files/dark/file-typescript.svg`.
+
+## Bundle size
+
+A direct `FileTypescriptIcon` import measures about 1.4 KB minified and gzipped, excluding React. `FileTypeIcon` includes all artwork and associations, about 138 KB minified and gzipped. Use direct imports when the icon is known in advance. Importing this pack adds nothing to the outline entry.

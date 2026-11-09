@@ -1,6 +1,6 @@
 {
   "name": "@fabricator-ui/icons-core",
-  "version": "0.5.1",
+  "version": "0.6.0",
   "private": true,
   "license": "MIT",
   "type": "module",
@@ -17,7 +17,8 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "format:write": "prettier --write \"{src,scripts}/**/*.ts\" \"*.{json,md}\" --cache",
-    "format:check": "prettier --check \"{src,scripts}/**/*.ts\" \"*.{json,md}\" --cache"
+    "format:check": "prettier --check \"{src,scripts}/**/*.ts\" \"*.{json,md}\" --cache",
+    "files": "bun ./scripts/sync-files.ts"
   },
   "dependencies": {
     "svgpath": "2.6.0",

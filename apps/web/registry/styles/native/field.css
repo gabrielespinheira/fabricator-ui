@@ -22,8 +22,9 @@
     @apply flex-col;
   }
 
+  /* A checkbox, radio or switch leaves its label 10 of room. */
   .cn-field-orientation-horizontal {
-    @apply flex-row items-center;
+    @apply flex-row items-center gap-(--density-10);
   }
 
   /* Stacked on a phone, side by side from the sm breakpoint. */

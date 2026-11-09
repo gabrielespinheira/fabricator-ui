@@ -18,6 +18,12 @@ import { FABRICATOR_FOUNDATIONS } from "@/registry/fabricator/foundations"
 
 export const fabricatorItems = [
   {
+    name: "spinner-model",
+    type: "registry:lib",
+    title: "Spinner patterns",
+    files: [{ path: "lib/spinner-model.ts", type: "registry:lib" }],
+  },
+  {
     name: "foundations",
     type: "registry:lib",
     title: "Foundations",
@@ -87,6 +93,246 @@ export const fabricatorItems = [
         docs: "https://fabricator-ui.vercel.app/docs/components/base/search",
         examples:
           "https://fabricator-ui.vercel.app/docs/components/base/search#examples",
+      },
+    },
+  },
+  {
+    name: "file-tree",
+    type: "registry:ui",
+    title: "File Tree",
+    description:
+      "A desktop file explorer with folder guides, file-type icons, keyboard navigation, single and range selection, and open and delete callbacks.",
+    dependencies: ["@fabricator-ui/icons"],
+    registryDependencies: ["fluid-hover"],
+    files: [
+      { path: "ui/file-tree.tsx", type: "registry:ui" },
+      { path: "lib/file-tree-model.ts", type: "registry:lib" },
+    ],
+    categories: ["navigation"],
+    meta: {
+      fabricator: true,
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/file-tree",
+        examples:
+          "https://fabricator-ui.vercel.app/docs/components/base/file-tree#examples",
+      },
+    },
+  },
+  {
+    name: "file-upload",
+    type: "registry:ui",
+    title: "File Upload",
+    description:
+      "A file picker with a drop zone: type, size and count checks with reasons, and the picked files as Attachment rows.",
+    registryDependencies: ["attachment", "button"],
+    files: [{ path: "ui/file-upload.tsx", type: "registry:ui" }],
+    categories: ["forms"],
+    meta: {
+      fabricator: true,
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/file-upload",
+        examples:
+          "https://fabricator-ui.vercel.app/docs/components/base/file-upload#examples",
+      },
+    },
+  },
+  {
+    name: "chat-input",
+    type: "registry:ui",
+    title: "Chat Input",
+    description:
+      "The message box of a chat: a pill that stacks once the draft wraps, or a large card, attachments with drop and paste, voice chat with a glow and a level-following mic, a context meter, and one send slot that starts voice, sends, queues and stops.",
+    // voice-glow (MIT, no runtime dependencies, React 18+) draws the voice
+    // chat glow; pinned like Relay, which uses the same version.
+    dependencies: ["voice-glow@0.3.0"],
+    registryDependencies: ["button", "spinner", "density"],
+    files: [{ path: "ui/chat-input.tsx", type: "registry:ui" }],
+    meta: {
+      fabricator: true,
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/chat-input",
+        examples:
+          "https://fabricator-ui.vercel.app/docs/components/base/chat-input#examples",
+      },
+    },
+  },
+  {
+    name: "video-player",
+    type: "registry:ui",
+    title: "Video Player",
+    description:
+      "A video with its own controls over the picture: a seek bar with chapters and a time preview, skip, volume, captions, speed, picture in picture, full screen and the common keyboard shortcuts. A compact variant keeps play, the seek bar, the time, mute and full screen.",
+    registryDependencies: ["spinner"],
+    files: [
+      { path: "ui/video-player.tsx", type: "registry:ui" },
+      { path: "lib/video-player-model.ts", type: "registry:lib" },
+    ],
+    meta: {
+      fabricator: true,
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/video-player",
+        examples:
+          "https://fabricator-ui.vercel.app/docs/components/base/video-player#examples",
+      },
+    },
+  },
+  {
+    name: "model-picker",
+    type: "registry:ui",
+    title: "Model Picker",
+    description:
+      "The model switcher's panel: a reasoning effort slider that warms from blue to violet, routing tiles such as Auto, and the models grouped by provider. It goes in a popover of your own.",
+    files: [{ path: "ui/model-picker.tsx", type: "registry:ui" }],
+    meta: {
+      fabricator: true,
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/model-picker",
+        examples:
+          "https://fabricator-ui.vercel.app/docs/components/base/model-picker#examples",
+      },
+    },
+  },
+  {
+    name: "number-field",
+    type: "registry:ui",
+    title: "Number Field",
+    description:
+      "A number input with decrement and increment steppers, min, max and step, keyboard stepping, and locale formatting for currency, percent and units.",
+    registryDependencies: ["input-group"],
+    files: [{ path: "ui/number-field.tsx", type: "registry:ui" }],
+    categories: ["forms"],
+    meta: {
+      fabricator: true,
+      // Radix has no number field: the radix item is the Base UI
+      // implementation, and the build adds Base UI's packages to it.
+      implementation: { radix: "base" },
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/number-field",
+        examples:
+          "https://fabricator-ui.vercel.app/docs/components/base/number-field#examples",
+      },
+    },
+  },
+  {
+    name: "date-picker",
+    type: "registry:ui",
+    title: "Date Picker",
+    description:
+      "A date field that opens a calendar, with an optional column of times, a display format, a minimum and maximum, typing on request and a form value.",
+    // @internationalized/date is for the React Aria calendar; date-fns reads
+    // and writes the text in every base.
+    dependencies: ["date-fns", "@internationalized/date"],
+    registryDependencies: ["calendar", "input-group", "popover", "time-input"],
+    files: [
+      { path: "ui/date-picker.tsx", type: "registry:ui" },
+      { path: "lib/date-picker-model.ts", type: "registry:lib" },
+    ],
+    categories: ["forms"],
+    meta: {
+      fabricator: true,
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/date-picker",
+        examples:
+          "https://fabricator-ui.vercel.app/docs/components/base/date-picker#examples",
+      },
+    },
+  },
+  {
+    name: "month-input",
+    type: "registry:ui",
+    title: "Month Input",
+    description:
+      "A text field that takes a typed month or one picked from a year of months, with a display format, a range and a form value.",
+    dependencies: ["date-fns"],
+    registryDependencies: ["button", "input-group", "popover", "fluid-hover"],
+    files: [
+      { path: "ui/month-input.tsx", type: "registry:ui" },
+      { path: "lib/month-input-model.ts", type: "registry:lib" },
+    ],
+    categories: ["forms"],
+    meta: {
+      fabricator: true,
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/month-input",
+        examples:
+          "https://fabricator-ui.vercel.app/docs/components/base/month-input#examples",
+      },
+    },
+  },
+  {
+    name: "time-input",
+    type: "registry:ui",
+    title: "Time Input",
+    description:
+      "A text field that takes a typed time or one picked on a scroll wheel of hours, minutes and seconds, in 12- or 24-hour form, with a range and a form value.",
+    registryDependencies: ["input-group", "popover"],
+    files: [
+      { path: "ui/time-input.tsx", type: "registry:ui" },
+      { path: "ui/time-wheel.tsx", type: "registry:ui" },
+      { path: "lib/time-input-model.ts", type: "registry:lib" },
+    ],
+    categories: ["forms"],
+    meta: {
+      fabricator: true,
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/time-input",
+        examples:
+          "https://fabricator-ui.vercel.app/docs/components/base/time-input#examples",
+      },
+    },
+  },
+  {
+    name: "syntax-highlight",
+    type: "registry:ui",
+    title: "Syntax Highlight",
+    description:
+      "Code coloured by the foundations' syntax tokens, in over 30 languages, read from a name or a file name: a title bar with the file and Copy, line numbers, highlighted, added and removed lines, and wrapping. The same tokenizer runs on React Native.",
+    // refractor (MIT, typed, no DOM) reads the code: Prism's grammars as
+    // plain ESM, synchronous, so it renders on the server and on React
+    // Native alike. Core plus the bundled languages is ~37 kB gzipped.
+    // Pinned: the model maps its token names.
+    dependencies: ["refractor@5.0.0"],
+    registryDependencies: ["button"],
+    files: [
+      { path: "ui/syntax-highlight.tsx", type: "registry:ui" },
+      { path: "lib/syntax-highlight-model.ts", type: "registry:lib" },
+    ],
+    meta: {
+      fabricator: true,
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/syntax-highlight",
+        examples:
+          "https://fabricator-ui.vercel.app/docs/components/base/syntax-highlight#examples",
+      },
+    },
+  },
+  {
+    name: "color-picker",
+    type: "registry:ui",
+    title: "Color Picker",
+    description:
+      "A color picker with a saturation area, hue and alpha sliders, HEX, RGB, HSL and OKLCH fields, swatches and the eyedropper, inline or in a popover.",
+    registryDependencies: [
+      "button",
+      "button-group",
+      "input-group",
+      "popover",
+      "select",
+      "slider",
+      "tooltip",
+      "fluid-hover",
+    ],
+    files: [
+      { path: "ui/color-picker.tsx", type: "registry:ui" },
+      { path: "lib/color-model.ts", type: "registry:lib" },
+    ],
+    categories: ["forms"],
+    meta: {
+      fabricator: true,
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/color-picker",
+        examples:
+          "https://fabricator-ui.vercel.app/docs/components/base/color-picker#examples",
       },
     },
   },
@@ -327,6 +573,7 @@ export const fabricatorOverrides: Record<
   string,
   { dependencies?: string[]; registryDependencies?: string[] }
 > = {
+  spinner: { registryDependencies: ["spinner-model"] },
   // Portalled popups, dialogs and sheets read the nearest DensityProvider.
   dialog: { registryDependencies: ["density"] },
   "alert-dialog": { registryDependencies: ["density"] },
@@ -347,6 +594,9 @@ export const fabricatorOverrides: Record<
   sidebar: { registryDependencies: ["fluid-hover", "kbd", "sidebar-model"] },
   accordion: { registryDependencies: ["fluid-hover"] },
   table: { registryDependencies: ["fluid-hover"] },
+  questionnaire: { registryDependencies: ["fluid-hover"] },
+  // The month and year dropdowns are the library's Select.
+  calendar: { registryDependencies: ["select"] },
 }
 
 /**

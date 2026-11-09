@@ -153,7 +153,7 @@ export function CheckboxDemo() {
 }
 
 export function InputOTPDemo() {
-  const [value, setValue] = React.useState("482")
+  const [value, setValue] = React.useState("")
 
   return (
     <InputOTP maxLength={6} value={value} onChange={setValue}>

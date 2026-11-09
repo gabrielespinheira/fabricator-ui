@@ -312,6 +312,7 @@ function CaptionButton({
 }) {
   return (
     <Pressable
+      data-slot="calendar-dropdown"
       role="button"
       aria-expanded={isOpen}
       hitSlop={CAPTION_SLOP}

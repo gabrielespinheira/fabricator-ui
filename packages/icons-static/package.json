@@ -1,6 +1,6 @@
 {
   "name": "@fabricator-ui/icons-static",
-  "version": "0.5.1",
+  "version": "0.6.0",
   "description": "Fabricator Icons as SVG files, a sprite, JSON data and SVG strings, plus a PNG exporter for desktop apps.",
   "license": "MIT",
   "type": "module",
@@ -66,7 +66,19 @@
     "./icon-nodes.json": "./icon-nodes.json",
     "./brand-nodes.json": "./brand-nodes.json",
     "./tags.json": "./tags.json",
-    "./package.json": "./package.json"
+    "./package.json": "./package.json",
+    "./files": {
+      "import": {
+        "types": "./dist/esm/files.d.ts",
+        "default": "./dist/esm/files.js"
+      },
+      "require": {
+        "types": "./dist/cjs/files.d.ts",
+        "default": "./dist/cjs/files.js"
+      }
+    },
+    "./files/*.svg": "./files/*.svg",
+    "./files-sprite.svg": "./files-sprite.svg"
   },
   "files": [
     "dist",
@@ -78,7 +90,9 @@
     "brand-nodes.json",
     "tags.json",
     "LICENSE.md",
-    "BRANDS.md"
+    "BRANDS.md",
+    "files",
+    "files-sprite.svg"
   ],
   "publishConfig": {
     "access": "public"

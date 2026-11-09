@@ -10,6 +10,7 @@ import {
   isWebFramework,
   MONOREPO_FRAMEWORKS,
   resolveApps,
+  SPINNER_VALUES,
   type ProjectSetup,
 } from "@fabricator-ui/setup"
 
@@ -130,6 +131,16 @@ export async function askForSetup(
     if (!flags.base) {
       next.base = await promptSelect("Component primitives", toChoices(BASES))
     }
+  }
+
+  if (!flags.spinner) {
+    next.spinner = await promptSelect(
+      "Default spinner",
+      SPINNER_VALUES.map((value) => ({
+        value,
+        title: value.charAt(0).toUpperCase() + value.slice(1),
+      }))
+    )
   }
 
   if (flags.sounds === undefined) {

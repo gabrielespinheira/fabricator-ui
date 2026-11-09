@@ -54,6 +54,7 @@ function InputOTP({
   autoFocus,
   onFocus,
   onBlur,
+  placeholder,
   ref,
   children,
   ...props
@@ -98,10 +99,10 @@ function InputOTP({
 
   const context = React.useMemo(
     () => ({
-      slots: getOtpSlots(current, maxLength, isFocused),
+      slots: getOtpSlots(current, maxLength, isFocused, placeholder),
       isInvalid: isFieldInvalid,
     }),
-    [current, isFieldInvalid, isFocused, maxLength]
+    [current, isFieldInvalid, isFocused, maxLength, placeholder]
   )
 
   return (
@@ -202,6 +203,28 @@ function InputOTPCaret() {
   )
 }
 
+// A typed character rises into its slot and fades in, on the feedback timing.
+// Its parent keys it by character, so a replaced one rises again.
+function InputOTPChar({ char }: { char: string }) {
+  const motion = useMotion("feedback")
+  const shouldAnimate = !motion.isOff && !motion.isReduced
+  const progress = useSharedValue(shouldAnimate ? 0 : 1)
+  const { enterMs, enterEasing } = motion
+  React.useEffect(() => {
+    if (!shouldAnimate) return
+    progress.value = withTiming(1, { duration: enterMs, easing: enterEasing })
+  }, [enterEasing, enterMs, progress, shouldAnimate])
+  const riseStyle = useAnimatedStyle(() => ({
+    opacity: progress.value,
+    transform: [{ translateY: (1 - progress.value) * 4 }],
+  }))
+  return (
+    <Animated.View style={riseStyle}>
+      <Text className="cn-input-otp-slot-text cn-input-otp-char">{char}</Text>
+    </Animated.View>
+  )
+}
+
 function InputOTPSlot({
   index,
   className,
@@ -215,6 +238,8 @@ function InputOTPSlot({
   const slot = context?.slots[index]
   const isActive = slot?.isActive ?? false
   const isSlotInvalid = isInvalid ?? context?.isInvalid ?? false
+  const char = slot?.char ?? null
+  const placeholderChar = slot?.placeholderChar ?? null
 
   // The active slot's surface fades in on the feedback timing, a layer because
   // React Native can't transition a class's colour. Reduce Motion keeps the fade,
@@ -235,6 +260,8 @@ function InputOTPSlot({
       data-slot="input-otp-slot"
       data-active={isActive}
       data-invalid={isSlotInvalid}
+      // An invalid slot keeps its red edge whether it's filled or not.
+      data-filled={char !== null && !isSlotInvalid}
       // The input over the slots is what a screen reader and a finger reach.
       accessibilityElementsHidden
       importantForAccessibility="no-hide-descendants"
@@ -250,7 +277,12 @@ function InputOTPSlot({
         className="cn-input-otp-slot-focus absolute"
         style={focusStyle}
       />
-      <Text className="cn-input-otp-slot-text">{slot?.char ?? ""}</Text>
+      {char !== null ? <InputOTPChar key={char} char={char} /> : null}
+      {char === null && placeholderChar !== null && !slot?.hasFakeCaret ? (
+        <Text className="cn-input-otp-slot-text cn-input-otp-placeholder">
+          {placeholderChar}
+        </Text>
+      ) : null}
       {slot?.hasFakeCaret ? <InputOTPCaret /> : null}
     </View>
   )

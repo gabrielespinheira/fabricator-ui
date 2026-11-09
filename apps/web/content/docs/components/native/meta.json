@@ -22,6 +22,7 @@
     "combobox",
     "command",
     "context-menu",
+    "date-picker",
     "density",
     "dialog",
     "direction",
@@ -41,6 +42,7 @@
     "menubar",
     "message",
     "message-scroller",
+    "month-input",
     "navigation-menu",
     "pagination",
     "popover",
@@ -59,6 +61,7 @@
     "sonner",
     "spinner",
     "switch",
+    "syntax-highlight",
     "tab-strip",
     "table",
     "tabs",
@@ -69,6 +72,7 @@
     "toggle-group",
     "tooltip",
     "user-menu",
+    "video-player",
     "workspace-switcher"
   ]
 }

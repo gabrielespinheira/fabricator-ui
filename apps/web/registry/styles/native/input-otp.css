@@ -16,9 +16,10 @@
     @apply gap-(--density-6) rounded-lg;
   }
 
-  /* 36pt slots framed by a hairline. Invalid slots turn the edge red. */
+  /* 36pt slots framed by a hairline; filled slots keep a slightly firmer edge,
+     so progress reads at a glance. Invalid slots turn the edge red. */
   .cn-input-otp-slot {
-    @apply border-border data-[invalid=true]:border-destructive/50 size-(--density-36) rounded-lg border bg-transparent;
+    @apply border-border data-[filled=true]:border-foreground/15 data-[invalid=true]:border-destructive/50 size-(--density-36) rounded-lg border bg-transparent;
   }
 
   /* The active slot lifts to the card surface with a firmer neutral edge, red when
@@ -29,6 +30,15 @@
 
   .cn-input-otp-slot-text {
     @apply text-foreground text-(length:--density-text-14) tabular-nums;
+  }
+
+  /* The character's rise is drawn in the source (InputOTPChar). */
+  .cn-input-otp-char {
+    @apply text-foreground;
+  }
+
+  .cn-input-otp-placeholder {
+    @apply text-muted-foreground;
   }
 
   .cn-input-otp-caret {

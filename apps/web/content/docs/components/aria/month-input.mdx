@@ -1,0 +1,170 @@
+---
+title: Month Input
+description: A text field that takes a typed month or one picked from a year of months.
+base: aria
+component: true
+---
+
+<ComponentPreview styleName="aria-nova" name="month-input-demo" />
+
+Type a month, or open the year with the button or Alt+ArrowDown and pick one. The text is read when the field loses focus or on Enter, then rewritten in the display format, so `3/2028`, `2028-03` and `March 2028` all land on the same value: `"2028-03"`, the string a month field submits.
+
+Month Input is part of the Fabricator style. It's composed from [Input Group](/docs/components/aria/input-group) and [Popover](/docs/components/aria/popover), so the frame, focus ring and invalid state match every other field. One highlight glides between months, the chosen month sits on the sliding selection, and a new year slides in from the side it came from. It never shows the browser's own month picker.
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">Command</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx fabricator-ui@latest add month-input
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps className="mb-0 pt-2">
+
+<Step>Install the following dependencies:</Step>
+
+```bash
+npm install date-fns
+```
+
+<Step>
+  Add the [Button](/docs/components/aria/button), [Input
+  Group](/docs/components/aria/input-group) and
+  [Popover](/docs/components/aria/popover) components and the Fluid Hover
+  library.
+</Step>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  src="styles/aria-fabricator/lib/month-input-model.ts"
+  title="lib/month-input-model.ts"
+  styleName="aria-nova"
+/>
+
+<ComponentSource
+  src="styles/aria-fabricator/ui/month-input.tsx"
+  title="components/ui/month-input.tsx"
+  styleName="aria-nova"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { MonthInput } from "@/components/ui/month-input"
+```
+
+```tsx
+<MonthInput aria-label="Billing month" />
+```
+
+## Composition
+
+```text
+MonthInput
+├── InputGroup
+│   ├── InputGroupInput          the text, and every input prop
+│   └── InputGroupAddon
+│       └── InputGroupButton     opens the months
+├── PopoverContent
+│   ├── Button × 2               the previous and next year
+│   └── grid                     twelve months, three to a row
+└── input[type=hidden]           with `name`: the month as yyyy-MM
+```
+
+`className` goes on the root, for layout. Every other prop goes to the text input: `id`, `placeholder`, `disabled`, `required`, `aria-*`, `onBlur` and `onKeyDown` among them.
+
+## Examples
+
+### Field
+
+Put it in a `Field` with a `FieldLabel` pointing at its `id`, and a `FieldDescription` for what people can type.
+
+<ComponentPreview styleName="aria-nova" name="month-input-field" />
+
+### Format
+
+`format` is a [date-fns pattern](https://date-fns.org/docs/format) for the text, `MMM yyyy` by default. Typing reads it as well as `MMMM yyyy`, `yyyy-MM` and `M/yyyy`. Pass a date-fns `locale` for month names in another language.
+
+<ComponentPreview styleName="aria-nova" name="month-input-format" />
+
+### Minimum and maximum
+
+`minMonth` and `maxMonth` turn off the months outside them. A typed month outside them is rewritten, marked invalid, and leaves the value empty.
+
+<ComponentPreview styleName="aria-nova" name="month-input-range" />
+
+### Controlled
+
+Control the value with `value` and `onValueChange`. It changes when the text is committed or a month is picked, not on every keystroke.
+
+<ComponentPreview styleName="aria-nova" name="month-input-controlled" />
+
+## What it reads
+
+| Typed                                    | Becomes                                 |
+| ---------------------------------------- | --------------------------------------- |
+| The display format (`Nov 2026`)          | That month                              |
+| `November 2026`, `2026-11`, `11/2026`    | That month                              |
+| `this month`, `next month`, `last month` | That month, from the person's clock     |
+| Nothing                                  | No value                                |
+| Anything else                            | No value; the text stays and is invalid |
+
+Years need four digits, so `Nov 26` isn't read as the year 26. The rules are pure functions in `lib/month-input-model.ts` (`parseMonthText`, `commitMonthText`, `formatMonthValue`, `getMonthOptions`, `isMonthInRange`).
+
+## API Reference
+
+### MonthInput
+
+| Prop            | Type                                   | Default          |
+| --------------- | -------------------------------------- | ---------------- |
+| `value`         | `string \| undefined` (`yyyy-MM`)      | -                |
+| `defaultValue`  | `string` (`yyyy-MM`)                   | -                |
+| `onValueChange` | `(value: string \| undefined) => void` | -                |
+| `format`        | `string` (date-fns pattern)            | `"MMM yyyy"`     |
+| `locale`        | `Locale` (date-fns)                    | -                |
+| `minMonth`      | `string` (`yyyy-MM`)                   | -                |
+| `maxMonth`      | `string` (`yyyy-MM`)                   | -                |
+| `name`          | `string`                               | -                |
+| `pickerLabel`   | `string`                               | `"Choose month"` |
+| `placeholder`   | `string`                               | -                |
+| `disabled`      | `boolean`                              | `false`          |
+| `aria-invalid`  | `boolean`                              | -                |
+
+### Data attributes
+
+| Attribute                         | Element          | Present when  |
+| --------------------------------- | ---------------- | ------------- |
+| `data-slot="month-input"`         | root             | always        |
+| `data-slot="input-group-control"` | the text input   | always        |
+| `data-slot="month-input-grid"`    | the month grid   | open          |
+| `data-slot="month-input-month"`   | each month       | open          |
+| `data-current`                    | this month       | open          |
+| `data-slot="month-input-value"`   | the hidden input | `name` is set |
+
+## Accessibility
+
+- The text input is a plain text field: label it with a `FieldLabel` or `aria-label`, and describe what people can type with `aria-describedby`.
+- Alt+ArrowDown in the field opens the months (announced through `aria-keyshortcuts`). The button is named by `pickerLabel` and reports `aria-expanded`.
+- The months are a grid with focus on the selected month, or this month. Left and Right move by one month, Up and Down by three, Page Up and Page Down by a year, Enter or Space picks, and Escape closes. The year is announced as it changes.
+- Picking a month closes the grid and returns focus to the field.
+- Text that isn't a month, or a month outside the range, sets `aria-invalid` on the field.
+- Disabled, both the field and the button leave the tab order, and the hidden input isn't submitted.

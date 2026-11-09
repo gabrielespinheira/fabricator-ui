@@ -31,6 +31,7 @@ import {
   TINTED_NEUTRALS,
   tintedLiteral,
 } from "@/registry/fabricator/surface-tint"
+import { syntaxLiterals } from "@/registry/fabricator/syntax-colors"
 
 export type NativeMode = "light" | "dark"
 
@@ -277,6 +278,14 @@ function getRoleVariables(mode: NativeMode, look: FabricatorLook) {
   )
 }
 
+function getSyntaxVariables(mode: NativeMode, look: FabricatorLook) {
+  return Object.fromEntries(
+    Object.entries(syntaxLiterals(mode, look.colors, look.surface)).map(
+      ([name, value]) => [`--syntax-${name}`, toNativeColor(value)]
+    )
+  )
+}
+
 /** Colours the look leaves alone: the palette and the interaction tokens. */
 const LITERAL_COLOR_TOKENS = [
   "foreground",
@@ -356,6 +365,7 @@ export function getNativeCssVariables(
     "--tint": toNativeColor(tokens.tint),
     "--tint-hover": toNativeColor(tokens["tint-hover"]),
     "--focus-ring": toNativeColor(tokens["focus-ring"]),
+    ...getSyntaxVariables(mode, look),
     "--app-shell-frame": appShell.frame,
     "--app-shell-main": appShell.main,
     "--app-shell-panel": appShell.panel,
@@ -434,9 +444,12 @@ export function getNativeRuntimeVariables(
   )
 }
 
-export function toNativeStylesheet(look: FabricatorLook = DEFAULT_NATIVE_LOOK) {
+export function toNativeStylesheet(
+  look: FabricatorLook = DEFAULT_NATIVE_LOOK,
+  spinnerIndex = 0
+) {
   const mode = (name: NativeMode) =>
-    `    @variant ${name} {\n${toCssBlock(getNativeCssVariables(name, look), "      ")}\n    }`
+    `    @variant ${name} {\n${toCssBlock({ ...getNativeCssVariables(name, look), "--spinner-variant": spinnerIndex }, "      ")}\n    }`
   return [
     "/* Fabricator UI's tokens for React Native. Generated; change the look with `fabricator-ui init` or at runtime with applyLook. */",
     `@layer theme {\n  :root {\n${mode("light")}\n${mode("dark")}\n  }\n}`,

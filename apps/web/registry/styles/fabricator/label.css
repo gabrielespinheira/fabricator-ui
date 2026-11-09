@@ -1,7 +1,10 @@
 /* MARK: Label */
 
+  /* Beside a checkbox, radio or switch (either side) the label grows its hit
+     area 10 above and below (negative margin, so the row keeps its height):
+     leading-none leaves it only 13px tall otherwise. */
   .cn-label {
-    @apply has-[[data-slot=checkbox],[data-slot=switch],[data-slot=radio-group-item]]:cursor-pointer [[data-slot=checkbox]~&]:cursor-pointer [[data-slot=switch]~&]:cursor-pointer [[data-slot=radio-group-item]~&]:cursor-pointer in-[[data-slot=field]:has([data-slot=checkbox],[data-slot=switch],[data-slot=radio-group-item])]:cursor-pointer text-foreground gap-(--density-8) text-(length:--density-text-13) leading-none font-medium group-data-[disabled=true]:opacity-50 peer-disabled:opacity-50;
+    @apply [:is([data-slot=checkbox],[data-slot=radio-group-item],[data-slot=switch])~&]:-my-(--density-10) [:is([data-slot=checkbox],[data-slot=radio-group-item],[data-slot=switch])~&]:py-(--density-10) has-[~:is([data-slot=checkbox],[data-slot=radio-group-item],[data-slot=switch])]:-my-(--density-10) has-[~:is([data-slot=checkbox],[data-slot=radio-group-item],[data-slot=switch])]:py-(--density-10) has-[[data-slot=checkbox],[data-slot=switch],[data-slot=radio-group-item]]:cursor-pointer [[data-slot=checkbox]~&]:cursor-pointer [[data-slot=switch]~&]:cursor-pointer [[data-slot=radio-group-item]~&]:cursor-pointer in-[[data-slot=field]:has([data-slot=checkbox],[data-slot=switch],[data-slot=radio-group-item])]:cursor-pointer text-foreground gap-(--density-8) text-(length:--density-text-13) leading-none font-medium group-data-[disabled=true]:opacity-50 peer-disabled:opacity-50;
   }
 
   .cn-label-aria {

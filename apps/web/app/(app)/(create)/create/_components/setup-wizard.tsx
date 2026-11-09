@@ -53,7 +53,7 @@ export type StepName = (typeof STEPS)[number]["value"]
 const STEP_NAMES = STEPS.map(({ value }) => value)
 
 /** The params a share link carries that live in the site settings. */
-const SETTINGS_PARAMS = [...LOOK_PARAM_NAMES, "iconLibrary"]
+const SETTINGS_PARAMS = [...LOOK_PARAM_NAMES, "iconLibrary", "spinner"]
 
 /**
  * Opening a share link applies its look and icons to the site settings, so
@@ -64,9 +64,10 @@ function useSettingsFromShareLink() {
     const url = new URL(window.location.href)
     if (!SETTINGS_PARAMS.some((name) => url.searchParams.has(name))) return
 
-    const { look, iconLibrary } = parseSetupParams(url.searchParams)
+    const { look, iconLibrary, spinner } = parseSetupParams(url.searchParams)
     setSiteSettings({
       iconLibrary,
+      spinner,
       surface: look.surface,
       colors: look.colors,
       radius: look.radius,
@@ -143,6 +144,7 @@ export function SetupWizard() {
     ...choices,
     shell,
     iconLibrary: settings.iconLibrary,
+    spinner: settings.spinner,
     look: {
       surface: settings.surface,
       colors: settings.colors,

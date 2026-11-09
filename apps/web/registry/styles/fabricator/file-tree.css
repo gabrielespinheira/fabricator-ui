@@ -1,0 +1,42 @@
+/* MARK: File Tree */
+
+/* A desktop explorer: 13px names in 28px rows, inset a little from the panel
+   edge so the rounded highlight has room. Density scales every size. */
+.cn-file-tree {
+  @apply text-foreground p-(--density-4) text-(length:--density-text-13) leading-none focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-focus-ring data-disabled:opacity-50;
+}
+
+/* Fluid Hover draws the hover (and a single selection), so rows stay clear
+   inside it. A multiple selection paints its rows, and neighbouring selected
+   rows join into one block. Selection is quieter while the tree is blurred,
+   as in a desktop explorer. */
+.cn-file-tree-item {
+  @apply h-(--density-28) cursor-default rounded-md ps-(--density-4) pe-(--density-8) hover:bg-hover in-data-[fluid-hover]:hover:bg-transparent group-data-[selection-mode=multiple]/file-tree:aria-selected:bg-hover group-data-[selection-mode=multiple]/file-tree:group-focus-within/file-tree:aria-selected:bg-active aria-selected:[[aria-selected=true]+&]:rounded-t-none aria-selected:has-[+[aria-selected=true]]:rounded-b-none focus-visible:ring-1 focus-visible:ring-inset focus-visible:ring-focus-ring data-disabled:pointer-events-none data-disabled:opacity-50 data-muted:text-muted-foreground;
+}
+
+.cn-file-tree-highlight {
+  @apply rounded-md;
+}
+
+.cn-file-tree-selection {
+  @apply rounded-md bg-hover group-focus-within/file-tree:bg-active;
+}
+
+/* One guide per ancestor, centred under that ancestor's chevron. They show
+   while the pointer or focus is in the tree, so a resting tree stays quiet. */
+.cn-file-tree-guide {
+  @apply w-(--density-16) opacity-0 transition-opacity duration-feedback ease-feedback group-hover/file-tree:opacity-100 group-focus-within/file-tree:opacity-100 before:absolute before:inset-y-0 before:start-1/2 before:border-s before:border-border;
+}
+
+.cn-file-tree-chevron {
+  @apply h-full w-(--density-16) text-muted-foreground [&_svg]:size-(--density-icon-14) [&_svg]:transition-transform [&_svg]:duration-move [&_svg]:ease-move motion-reduce:[&_svg]:transition-none data-expanded:[&_svg]:rotate-90;
+}
+
+/* The file pack owns its palette; the tree controls only size and spacing. */
+.cn-file-tree-icon {
+  @apply ms-(--density-4) size-(--density-icon-16) [&>svg]:size-full;
+}
+
+.cn-file-tree-name {
+  @apply ps-(--density-6) leading-normal;
+}

@@ -21,6 +21,10 @@ import {
   type RolePreset,
 } from "@/registry/fabricator/look-presets"
 import {
+  isSpinnerVariant,
+  type SpinnerVariant,
+} from "@/registry/fabricator/shared/lib/spinner-model"
+import {
   NEUTRAL_TINT,
   normalizeTint,
   SURFACE_MAX_CHROMA,
@@ -61,6 +65,7 @@ export type SiteMotion = (typeof MOTION_OPTIONS)[number]["value"]
 export type SiteSettings = {
   sound: boolean
   iconLibrary: SiteIconLibrary
+  spinner: SpinnerVariant
   radius: SiteRadius
   motion: SiteMotion
   density: DensityName
@@ -73,6 +78,7 @@ export const SITE_SETTINGS_STORAGE_KEY = "fabricator-settings"
 export const DEFAULT_SITE_SETTINGS: SiteSettings = {
   sound: true,
   iconLibrary: "fabricator",
+  spinner: "orbit",
   radius: "rounded",
   motion: "default",
   density: DEFAULT_DENSITY,
@@ -118,6 +124,9 @@ function read(): SiteSettings {
         ? stored.sound
         : DEFAULT_SITE_SETTINGS.sound,
     iconLibrary: resolveStoredIconLibrary(stored),
+    spinner: isSpinnerVariant(stored.spinner)
+      ? stored.spinner
+      : DEFAULT_SITE_SETTINGS.spinner,
     radius:
       stored.radius === "pill" || stored.radius === "rounded"
         ? stored.radius

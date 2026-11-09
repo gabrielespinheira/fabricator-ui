@@ -652,3 +652,18 @@ describe("the icons in the written file", () => {
     ).toBe(`${SITE}/init/app-shell?variant=floating&iconLibrary=tabler`)
   })
 })
+
+it("installs the selected spinner when copying the App Shell command alone", async () => {
+  const command = buildAppShellCommand(DEFAULT_PLAYGROUND_OPTIONS, {
+    siteUrl: SITE,
+    packageManager: "npm",
+    spinner: "pulse",
+  })
+  expect(command).toContain("spinner=pulse")
+  const response = await GET({
+    nextUrl: new URL(`${SITE}/init/app-shell?spinner=pulse`),
+  } as Parameters<typeof GET>[0])
+  const item = await response.json()
+  expect(item.cssVars.light["spinner-pulse"]).toBe("inline")
+  expect(item.cssVars.light["spinner-orbit"]).toBe("none")
+})

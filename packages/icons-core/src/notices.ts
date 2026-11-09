@@ -3,7 +3,12 @@ import path from "node:path"
 
 import { loadBrands } from "./brands"
 import { readLock } from "./lock"
-import { ANIMATED_SOURCES, BRAND_SOURCES, LUCIDE_SOURCES } from "./paths"
+import {
+  ANIMATED_SOURCES,
+  BRAND_SOURCES,
+  FILE_SOURCES,
+  LUCIDE_SOURCES,
+} from "./paths"
 import { allowlistSchema, readJson } from "./schemas"
 
 const MIT = `MIT License
@@ -43,6 +48,13 @@ its licence, reproduced below. The Custom icons are Fabricator's own, under the
 MIT licence above. Brand marks are not covered by either licence: see BRANDS.md.
 
 ${lucide}
+
+---
+
+The file and folder icons in the \`/files\` entry come from Charmed Icons
+(https://github.com/littensy/charmed-icons), under its MIT licence:
+
+${fs.readFileSync(path.join(FILE_SOURCES, "LICENSE"), "utf8").trim()}
 `
   if (!animated) return notice
   const license = fs

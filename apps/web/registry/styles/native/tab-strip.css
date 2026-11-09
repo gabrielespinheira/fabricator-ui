@@ -52,7 +52,7 @@
 
   /* A preview tab is italic. */
   .cn-tab-strip-title {
-    @apply font-normal data-[active=true]:font-semibold data-[preview=true]:italic;
+    @apply font-normal data-[preview=true]:italic;
   }
 
   /* The close button's slot is always there, so titles never reflow. A touch

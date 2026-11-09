@@ -32,6 +32,12 @@ describe("getNativeSourcePath", () => {
     expect(getNativeSourcePath("lib/app-shell-model.ts")).toBe(
       "registry/fabricator/shared/lib/app-shell-model.ts"
     )
+    expect(getNativeSourcePath("lib/date-picker-model.ts")).toBe(
+      "registry/fabricator/shared/lib/date-picker-model.ts"
+    )
+    expect(getNativeSourcePath("lib/month-input-model.ts")).toBe(
+      "registry/fabricator/shared/lib/month-input-model.ts"
+    )
   })
 })
 

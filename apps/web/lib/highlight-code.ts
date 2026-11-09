@@ -3,6 +3,8 @@ import { LRUCache } from "lru-cache"
 import { codeToHtml } from "shiki"
 import type { ShikiTransformer } from "shiki"
 
+import { fabricatorShikiTheme } from "@/lib/shiki-fabricator-theme"
+
 // LRU cache for cross-request caching of highlighted code.
 // Shiki highlighting is CPU-intensive and deterministic, so caching is safe.
 const highlightCache = new LRUCache<string, string>({
@@ -72,8 +74,8 @@ export async function highlightCode(code: string, language: string = "tsx") {
   const html = await codeToHtml(code, {
     lang: language,
     themes: {
-      dark: "github-dark",
-      light: "github-light",
+      dark: fabricatorShikiTheme,
+      light: fabricatorShikiTheme,
     },
     transformers: [
       {

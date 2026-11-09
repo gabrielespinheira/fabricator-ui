@@ -53,6 +53,25 @@ const animatedBell: AnimatedCatalogEntry = {
 }
 
 describe("getIconDescription", () => {
+  it("imports file icons from their pack without stroke props", () => {
+    const file = {
+      name: "file-typescript",
+      set: "files",
+      aliases: [],
+      categories: ["files"],
+      tags: ["ts"],
+    } as const
+    const entry = { ...file, aliases: [], categories: ["files"], tags: ["ts"] }
+    expect(getImportLine(entry)).toBe(
+      'import { FileTypescriptIcon } from "@fabricator-ui/icons/files"'
+    )
+    expect(
+      getJsxSnippet(entry, { size: 16, strokeWidth: 1.5, brandColor: false })
+    ).toBe("<FileTypescriptIcon />")
+    expect(getCategoryOptions([entry], [], "files")).toEqual([
+      { value: "files", label: "Files", count: 1 },
+    ])
+  })
   it("credits Lucide for Lucide's icons, animated or not", () => {
     expect(getIconDescription(bell)).toBe("Lucide's bell icon.")
     expect(getIconDescription(animatedBell)).toBe(

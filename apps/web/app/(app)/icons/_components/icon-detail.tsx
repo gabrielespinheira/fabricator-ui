@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import Link from "next/link"
+import { useTheme } from "next-themes"
 
 import {
   ArrowUpRightIcon,
@@ -180,10 +181,16 @@ export function IconDetail({
   animated: AnimatedComponents | null
 }) {
   const previewRef = React.useRef<HTMLDivElement>(null)
+  const { resolvedTheme } = useTheme()
+  const scheme = resolvedTheme === "dark" ? "dark" : "light"
   const { entry } = icon
   const title = entry.set === "brands" ? entry.title : entry.name
   const snippet = `${getImportLine(entry)}\n\n${getJsxSnippet(entry, options)}`
-  const svg = buildSvgMarkup(icon.source, { ...options, color: "currentColor" })
+  const svg = buildSvgMarkup(icon.source, {
+    ...options,
+    color: "currentColor",
+    scheme,
+  })
   const moving =
     entry.set === "animated"
       ? animated?.get(toComponentName(entry.name))
@@ -199,6 +206,7 @@ export function IconDetail({
       ...options,
       size: PNG_SIZE,
       color,
+      scheme,
     })
     downloadBlob(await svgToPng(markup, PNG_SIZE), `${entry.name}.png`)
   }
@@ -277,6 +285,18 @@ export function IconDetail({
       <InstallCommand packages={getPackages(entry.set)} />
 
       <dl className="flex flex-col gap-4">
+        {entry.set === "files" && (
+          <Fact label="Source">
+            <a
+              href="https://github.com/littensy/charmed-icons/tree/v0.10.0"
+              target="_blank"
+              rel="noreferrer"
+              className="underline underline-offset-4"
+            >
+              Charmed Icons v0.10.0 · MIT
+            </a>
+          </Fact>
+        )}
         {entry.set !== "brands" ? (
           <>
             {entry.set === "animated" && (

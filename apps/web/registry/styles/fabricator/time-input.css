@@ -1,0 +1,28 @@
+/* MARK: Time Input */
+
+  /* An Input Group: the frame, focus, invalid and disabled states are the
+     group's. Times line up in tabular figures; the clock opens the wheel. */
+  .cn-time-input {
+    @apply [&_[data-slot=input-group-control]]:tabular-nums [&_[data-slot=input-group-addon]]:cursor-pointer;
+  }
+
+  /* The popover holds only the wheel. */
+  .cn-time-input-content {
+    @apply w-auto gap-0 p-1;
+  }
+
+  /* MARK: Time Range Input */
+
+  /* Start, an arrow, end and the duration on one line; the fields fit a
+     time, not the row. */
+  .cn-time-range-input {
+    @apply gap-(--density-8) *:data-[slot=time-input]:w-36;
+  }
+
+  .cn-time-range-input-separator {
+    @apply text-muted-foreground size-(--density-icon-16);
+  }
+
+  .cn-time-range-input-duration {
+    @apply text-muted-foreground text-(length:--density-text-13) tabular-nums;
+  }

@@ -6,6 +6,7 @@ import {
   DEFAULT_PROJECT_SETUP,
   parseKeyValues,
   projectSetupSchema,
+  SPINNER_VALUES,
   type ProjectSetup,
 } from "@fabricator-ui/setup"
 import type { Command } from "commander"
@@ -19,6 +20,7 @@ export type SetupFlags = {
   desktop?: string
   look?: string
   shell?: string | boolean
+  spinner?: string
   icons?: string
   sounds?: boolean
   all?: boolean
@@ -35,6 +37,10 @@ export function addSetupOptions(command: Command) {
     )
     .option("--shell [options]", "the App Shell, with key=value options")
     .option("--no-shell", "skip the App Shell")
+    .option(
+      "--spinner <variant>",
+      `default spinner: ${SPINNER_VALUES.join(", ")}`
+    )
     .option("--icons <library>", "an icon library other than Fabricator's")
     .option("--sounds", "add the interface sounds")
     .option("--no-sounds", "skip the interface sounds")
@@ -63,6 +69,7 @@ function commonFields(flags: SetupFlags) {
     skill: flags.skill ?? true,
     mcp: flags.mcp ?? true,
     components: flags.all ? "all" : "starter",
+    spinner: flags.spinner ?? DEFAULT_PROJECT_SETUP.spinner,
     iconLibrary: flags.icons ?? DEFAULT_PROJECT_SETUP.iconLibrary,
     base: flags.base ?? DEFAULT_PROJECT_SETUP.base,
   }
@@ -112,6 +119,7 @@ export function hasSetupFlags(flags: SetupFlags) {
       flags.sounds ||
       flags.all ||
       flags.agents ||
-      flags.icons
+      flags.icons ||
+      flags.spinner
   )
 }

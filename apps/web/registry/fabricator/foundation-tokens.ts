@@ -18,6 +18,7 @@ import {
   TINTED_NEUTRALS,
   tintedCss,
 } from "@/registry/fabricator/surface-tint"
+import { SYNTAX_CSS_VARS } from "@/registry/fabricator/syntax-colors"
 
 export type CssVars = {
   theme: Record<string, string>
@@ -98,6 +99,8 @@ export const FABRICATOR_TOKENS: CssVars = {
     // Every colour role's text, border and surface ladder, and the status
     // fills (info, success, warning) with their foregrounds.
     ...ROLE_CSS_VARS.theme,
+    // Syntax Highlight's colours, built on the roles (syntax-colors.ts).
+    ...SYNTAX_CSS_VARS.theme,
     "color-focus-ring": "var(--focus-ring)",
     // Motion: duration-<role>, delay-<role> and ease-<curve> (motion.ts).
     ...MOTION_THEME,
@@ -123,6 +126,7 @@ export const FABRICATOR_TOKENS: CssVars = {
     tint: "oklch(0 0 0 / 0.08)",
     "tint-hover": "oklch(0 0 0 / 0.065)",
     ...ROLE_CSS_VARS.light,
+    ...SYNTAX_CSS_VARS.light,
     "focus-ring": "oklch(0.693 0.161 265.2)",
   },
   dark: {
@@ -147,6 +151,7 @@ export const FABRICATOR_TOKENS: CssVars = {
     tint: "oklch(1 0 0 / 0.25)",
     "tint-hover": "oklch(1 0 0 / 0.2)",
     ...ROLE_CSS_VARS.dark,
+    ...SYNTAX_CSS_VARS.dark,
     "focus-ring": "oklch(0.693 0.161 265.2)",
   },
 }

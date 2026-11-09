@@ -5,16 +5,30 @@
   }
 
   /* Slots stand apart (each is framed like an input), so the group only
-     spaces them. */
+     spaces them. The root's placeholder sits in input-otp's
+     `containerClassName`, which the style build never replaces, so groups and
+     separators space themselves from whatever comes before them. */
   .cn-input-otp-group {
-    @apply gap-(--density-6) rounded-lg;
+    @apply gap-(--density-6) rounded-lg [[data-slot]+&]:ms-(--density-8);
   }
 
-  /* 36px slots framed by ring-border; the active slot lifts to the card
-     surface with a firmer neutral ring (no blue halo). Invalid slots turn the
-     ring red. */
+  /* 36px slots framed by an inset ring-border; the active slot lifts to the
+     card surface with a firmer neutral ring (no blue halo), and filled slots
+     keep a slightly firmer ring than empty ones, so progress reads at a
+     glance. Invalid slots turn the ring red. Ring and fill ease on the
+     feedback timing as the caret moves. */
   .cn-input-otp-slot {
-    @apply cursor-text text-foreground ring-border data-[active=true]:bg-card data-[active=true]:ring-foreground/30 aria-invalid:ring-destructive/50 data-[active=true]:aria-invalid:ring-destructive size-(--density-36) rounded-lg bg-transparent text-(length:--density-text-14) tabular-nums ring-1 transition-[background-color,box-shadow] duration-feedback ease-feedback outline-none;
+    @apply cursor-text text-foreground ring-border data-[active=true]:bg-card data-[active=true]:ring-foreground/30 aria-invalid:ring-destructive/50 data-[active=true]:aria-invalid:ring-destructive data-[filled=true]:not-data-[active=true]:not-aria-invalid:ring-foreground/15 size-(--density-36) rounded-lg bg-transparent text-(length:--density-text-14) tabular-nums ring-1 ring-inset transition-[background-color,box-shadow] duration-feedback ease-feedback outline-none;
+  }
+
+  /* A typed character rises into its slot and fades in; a replaced one does
+     it again. Placeholder characters stay muted. */
+  .cn-input-otp-char {
+    @apply animate-in fade-in-0 slide-in-from-bottom-1 duration-feedback ease-enter motion-reduce:animate-none;
+  }
+
+  .cn-input-otp-placeholder {
+    @apply text-muted-foreground;
   }
 
   .cn-input-otp-caret-line {
@@ -22,5 +36,5 @@
   }
 
   .cn-input-otp-separator {
-    @apply text-muted-foreground [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5];
+    @apply [[data-slot]+&]:ms-(--density-8) text-muted-foreground [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5];
   }

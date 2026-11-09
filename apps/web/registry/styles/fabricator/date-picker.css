@@ -1,0 +1,39 @@
+/* MARK: Date Picker */
+
+  /* Editable: an Input Group, so the frame, focus, invalid and disabled states
+     are the group's. Dates line up in tabular figures. */
+  .cn-date-picker {
+    @apply [&_[data-slot=input-group-control]]:tabular-nums;
+  }
+
+  /* The default field is a button framed like every other field, as the
+     Select trigger is: muted while it asks for a date, lit while open. */
+  .cn-date-picker-field {
+    @apply text-foreground cursor-pointer ring-border data-placeholder:text-muted-foreground hover:bg-muted/50 aria-expanded:bg-card focus-visible:ring-ring aria-invalid:ring-destructive/50 aria-invalid:hover:bg-destructive/5 data-invalid:ring-destructive/50 data-invalid:hover:bg-destructive/5 h-(--density-36) gap-(--density-8) rounded-lg bg-transparent px-(--density-10) text-(length:--density-text-13) tabular-nums ring-1 ring-inset transition-[color,background-color,box-shadow] duration-feedback ease-feedback select-none;
+  }
+
+  .cn-date-picker-field-icon {
+    @apply text-muted-foreground size-(--density-icon-16);
+  }
+
+  /* The calendar button stays lit while its calendar is open. */
+  .cn-date-picker-trigger {
+    @apply aria-expanded:bg-active aria-expanded:text-foreground;
+  }
+
+  /* The calendar brings its own padding. */
+  .cn-date-picker-content {
+    @apply p-0;
+  }
+
+  /* The calendar and the time column side by side, the column as tall as
+     the calendar. */
+  .cn-date-picker-panel {
+    @apply items-stretch;
+  }
+
+  /* The time column: a hairline from the calendar, the wheel inside as tall
+     as it. */
+  .cn-date-picker-time {
+    @apply border-border border-s px-(--density-4) py-(--density-8);
+  }

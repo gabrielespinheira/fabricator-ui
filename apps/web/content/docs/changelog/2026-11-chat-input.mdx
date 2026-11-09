@@ -1,0 +1,15 @@
+---
+title: November 2026 - Chat Input and Model Picker
+description: A Chat Input for AI conversations with voice chat, attachments, mentions and a context meter, and a Model Picker with an effort slider.
+date: 2026-11-08
+---
+
+- **Chat Input.** `npx fabricator-ui@latest add chat-input` adds the message box of a chat: a raised pill that stacks once the draft wraps and whose height eases to what it holds, or with `layout="large"` a card whose field grows under the draft. Enter sends, Shift+Enter adds a line, Escape stops, and an input method's Enter never sends.
+- **One send slot.** An empty input offers voice chat in send's place; typing turns it into send; a running reply turns an empty input's send into stop, and with `queue` typed text waits behind the reply. Pass the AI SDK's `status` and `stop` as they are.
+- **Voice chat.** While it's on, a glow rises from the input's bottom edge and `ChatInputMic` sits beside send, both swelling with the `voiceLevel` you pass. The mic mutes and unmutes, or stops a reply that's speaking.
+- **Attachments.** `ChatInputAttachment` tiles: square image thumbnails and file chips, a remove button on hover, a spinner while uploading. Files dropped on the input or pasted into the field reach `onAttach`, in both layouts; `useChatInputAttachments` holds them, with their previews and uploads. In the pill a few images ride beside send.
+- **Mentions, hints and context.** `mentions` tints `@`, `/`, `$` and `#` mentions as they're typed, a `placeholder` list takes turns while the field is empty, and `ChatInputContextMeter` shows how full the model's context is.
+- **Commands and skills.** `ChatInputCommands` is the `/` menu: commands such as `/goal` and skills, filtered as you type, picked with ↑↓ and ↵ or Tab. A command with `runs` goes to your app instead of the draft.
+- **Goal, background tasks and queue.** Trays stack behind the card, a step further back each: queued messages (Steer, remove, ↑ to edit the last one), background tasks with their running time, output and Stop, and the goal with pause, resume and clear.
+- **Model Picker.** `npx fabricator-ui@latest add model-picker` adds the model switcher's panel: a reasoning effort slider that warms from blue to violet, routing tiles such as Auto, and the models grouped by provider. It goes in a Popover, opened from the Chat Input's model button.
+- **The Message Scroller demos** use Chat Input for their composer.

@@ -1,0 +1,220 @@
+---
+title: Time Input
+description: A text field that takes a typed time or one picked on a scroll wheel of hours, minutes and seconds, alone or as a start and an end.
+base: aria
+component: true
+---
+
+<ComponentPreview styleName="aria-nova" name="time-input-demo" />
+
+Click the field and a wheel opens under it, as in the iOS Clock app: hours, minutes, seconds with `hasSeconds`, and AM or PM on a 12-hour clock. Scroll a column, or click a row, and the time moves as it settles on the band in the middle. The field keeps focus, so you can type instead: the text is read on Enter or when the field loses focus, then rewritten in the display format, so `930`, `9:30 am` and `09:30` all land on the same value, `"09:30"`, the 24-hour string a time field submits. Time Range Input pairs a start and an end, keeps the end after the start, and moving the start keeps the duration.
+
+Time Input is part of the Fabricator style. It's composed from [Input Group](/docs/components/aria/input-group) and [Popover](/docs/components/aria/popover), so the frame, focus ring and invalid state match every other field. Its wheel is the `TimeWheel` in `components/ui/time-wheel.tsx`: rows fade towards the ends and tilt away from the band like a drum, flat under reduced motion. It never shows the browser's own time picker.
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">Command</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx fabricator-ui@latest add time-input
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps className="mb-0 pt-2">
+
+<Step>
+  Add the [Input Group](/docs/components/aria/input-group) and
+  [Popover](/docs/components/aria/popover) components.
+</Step>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  src="styles/aria-fabricator/lib/time-input-model.ts"
+  title="lib/time-input-model.ts"
+  styleName="aria-nova"
+/>
+
+<ComponentSource
+  src="styles/aria-fabricator/ui/time-input.tsx"
+  title="components/ui/time-input.tsx"
+  styleName="aria-nova"
+/>
+
+<ComponentSource
+  src="styles/aria-fabricator/ui/time-wheel.tsx"
+  title="components/ui/time-wheel.tsx"
+  styleName="aria-nova"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { TimeInput, TimeRangeInput } from "@/components/ui/time-input"
+```
+
+```tsx
+<TimeInput aria-label="Start time" />
+<TimeRangeInput defaultValue={{ start: "11:00", end: "12:45" }} />
+```
+
+## Composition
+
+```text
+TimeInput
+├── InputGroup
+│   ├── InputGroupAddon          the clock; a click opens the wheel
+│   └── InputGroupInput          the text, and every input prop
+├── PopoverContent               anchored to the whole field
+│   └── TimeWheel                hours, minutes, seconds, AM or PM
+└── input[type=hidden]           with `name`: HH:mm, or HH:mm:ss with seconds
+
+TimeRangeInput
+├── TimeInput                    the start
+├── arrow
+├── TimeInput                    the end, with `startTime`: kept after the start
+└── duration                     once both are set
+```
+
+`className` goes on the root, for layout. Every other prop goes to the text input: `id`, `placeholder`, `disabled`, `required`, `aria-*`, `onBlur` and `onKeyDown` among them.
+
+## Examples
+
+### Field
+
+Put it in a `Field` with a `FieldLabel` pointing at its `id`, and a `FieldDescription` for what people can type.
+
+<ComponentPreview styleName="aria-nova" name="time-input-field" />
+
+### 24-hour
+
+Without `hourCycle`, the field follows the reader's locale: `6:45 PM` in the US, `18:45` in most of Europe. It renders 12-hour on the server and switches right after hydration. `hourCycle={24}` or `hourCycle={12}` fixes the clock. Typing reads both either way, and the value is `"18:45"` in both.
+
+<ComponentPreview styleName="aria-nova" name="time-input-24-hour" />
+
+### Seconds
+
+`hasSeconds` adds a seconds wheel. The field shows `6:30:15 AM`, the value is `"06:30:15"`, and typed text can carry seconds too.
+
+<ComponentPreview styleName="aria-nova" name="time-input-seconds" />
+
+### Steps and range
+
+`step` sets the minutes between the minute wheel's rows, 1 by default. `minTime` and `maxTime` keep the wheel within them: turned past one, it settles on it. A typed time outside them is rewritten, marked invalid, and leaves the value empty.
+
+<ComponentPreview styleName="aria-nova" name="time-input-range" />
+
+### Start and end
+
+`TimeRangeInput` takes `{ start, end }`. The end's wheel can't go before the start, and the duration sits beside the fields. Moving the start moves the end with it, so the duration holds. A typed end at or before the start is marked invalid.
+
+<ComponentPreview styleName="aria-nova" name="time-input-duration" />
+
+To keep a single `TimeInput` after another time, give it a `startTime`.
+
+### Controlled
+
+Control the value with `value` and `onValueChange`. It changes when the text is committed or the wheel settles, not on every keystroke.
+
+<ComponentPreview styleName="aria-nova" name="time-input-controlled" />
+
+### Date and time
+
+For a date and a time in one field, use a [Date Picker](/docs/components/aria/date-picker#date-and-time) with `hasTime`. To keep them as two fields, put a Date Picker and a Time Input side by side: each keeps its own value, and with `name` each submits its own field.
+
+<ComponentPreview styleName="aria-nova" name="time-input-date-time" />
+
+## What it reads
+
+| Typed                                     | Becomes                                 |
+| ----------------------------------------- | --------------------------------------- |
+| An hour (`9`, `21`)                       | That hour, on the hour                  |
+| Hours and minutes (`9:30`, `9.30`, `930`) | That time                               |
+| A meridiem (`9pm`, `9:30 p.m.`, `12am`)   | That time in 24-hour form               |
+| `noon`, `midnight`                        | `12:00`, `00:00`                        |
+| Nothing                                   | No value                                |
+| Anything else, or a time that can't be    | No value; the text stays and is invalid |
+
+The rules are pure functions in `lib/time-input-model.ts` (`parseTimeText`, `commitTimeText`, `formatTimeValue`, `isTimeInRange`, `clampTime`, `splitTime`, `joinTime`, `getTimeDuration`, `formatTimeDuration`, `shiftEndTime`), which you can use for your own validation.
+
+## API Reference
+
+### TimeInput
+
+| Prop            | Type                                   | Default         |
+| --------------- | -------------------------------------- | --------------- |
+| `value`         | `string \| undefined` (`HH:mm`)        | -               |
+| `defaultValue`  | `string` (`HH:mm`)                     | -               |
+| `onValueChange` | `(value: string \| undefined) => void` | -               |
+| `hourCycle`     | `12 \| 24`                             | the locale's    |
+| `step`          | `number` (minutes)                     | `1`             |
+| `minTime`       | `string` (`HH:mm`)                     | -               |
+| `maxTime`       | `string` (`HH:mm`)                     | -               |
+| `startTime`     | `string` (`HH:mm`)                     | -               |
+| `name`          | `string`                               | -               |
+| `hasSeconds`    | `boolean`                              | `false`         |
+| `wheelLabel`    | `string`                               | `"Choose time"` |
+| `placeholder`   | `string`                               | -               |
+| `disabled`      | `boolean`                              | `false`         |
+| `aria-invalid`  | `boolean`                              | -               |
+
+`startTime` makes it an end time: the wheel stays after it, and a typed time must come after it.
+
+### TimeRangeInput
+
+| Prop            | Type                                           | Default        |
+| --------------- | ---------------------------------------------- | -------------- |
+| `value`         | `{ start?: string; end?: string }` (`HH:mm`)   | -              |
+| `defaultValue`  | `{ start?: string; end?: string }`             | -              |
+| `onValueChange` | `(value: TimeRangeValue) => void`              | -              |
+| `hourCycle`     | `12 \| 24`                                     | the locale's   |
+| `step`          | `number` (minutes)                             | `1`            |
+| `minTime`       | `string` (`HH:mm`)                             | -              |
+| `maxTime`       | `string` (`HH:mm`)                             | -              |
+| `startId`       | `string`, the start field's id                 | -              |
+| `startLabel`    | `string`                                       | `"Start time"` |
+| `endLabel`      | `string`                                       | `"End time"`   |
+| `name`          | `string`, submits `<name>-start`, `<name>-end` | -              |
+| `disabled`      | `boolean`                                      | `false`        |
+
+### Data attributes
+
+| Attribute                               | Element          | Present when  |
+| --------------------------------------- | ---------------- | ------------- |
+| `data-slot="time-input"`                | root             | always        |
+| `data-slot="input-group-control"`       | the text input   | always        |
+| `data-slot="time-wheel"`                | the wheel        | open          |
+| `data-slot="time-wheel-column"`         | each column      | open          |
+| `data-slot="time-wheel-band"`           | the band         | open          |
+| `data-slot="time-input-value"`          | the hidden input | `name` is set |
+| `data-slot="time-range-input"`          | range root       | always        |
+| `data-slot="time-range-input-duration"` | the duration     | both are set  |
+
+## Accessibility
+
+- The field is a text field that reports `aria-haspopup` and `aria-expanded`. Label it with a `FieldLabel` or `aria-label`, and describe what people can type with `aria-describedby`.
+- A click opens the wheel and leaves focus in the field. Arrow Down or Arrow Up opens it with focus on the hours.
+- The wheel is a `group` named by `wheelLabel`. Each column is a `spinbutton` (Hours, Minutes, Seconds, AM or PM) that reports its value as text: Arrow Up and Down step it, Page Up and Page Down jump five, Home and End go to the ends, and Tab moves to the next column.
+- Enter or Escape on the wheel closes it and returns focus to the field. In the field, Enter commits the typed text and Escape closes the wheel.
+- Text that isn't a time, a time outside the range, or an end at or before its start sets `aria-invalid` on the field, so the frame turns red and screen readers announce it.
+- Time Range Input is a `group`; its fields are named by `startLabel` and `endLabel`. The duration is plain text after them.
+- The field is never narrower than its longest time (`12:45 PM`, or `23:45` on a 24-hour clock), so a time is never cropped; it grows past a width set on it if it has to.
+- Rows tilt with the scroll, never on their own; with reduced motion, or motion off, the wheel is flat.
+- Disabled, the field leaves the tab order and the hidden input isn't submitted.

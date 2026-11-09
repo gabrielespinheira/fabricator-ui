@@ -26,6 +26,10 @@ import {
   type FabricatorLook,
 } from "@/registry/fabricator/look"
 import { FABRICATOR_REQUIRED_ITEMS } from "@/registry/fabricator/registry"
+import {
+  getSpinnerVariables,
+  type SpinnerVariant,
+} from "@/registry/fabricator/shared/lib/spinner-model"
 
 // Named presets accepted by `?preset=<name>`. Values fill any design-system
 // param the request leaves out; explicit params always win.
@@ -129,6 +133,7 @@ export function toFabricatorRegistryBase<T extends RegistryBase>(
     palette = false,
     look = DEFAULT_LOOK,
     icons = false,
+    spinner = "orbit",
     isPartial = false,
     siteUrl = getFabricatorSiteUrl(),
   }: {
@@ -139,6 +144,7 @@ export function toFabricatorRegistryBase<T extends RegistryBase>(
     look?: FabricatorLook
     /** Install Fabricator's icons: see usesFabricatorIcons. */
     icons?: boolean
+    spinner?: SpinnerVariant
     /** A partial payload (`only=theme`) leaves the project's registry entry alone. */
     isPartial?: boolean
     siteUrl?: string
@@ -178,6 +184,11 @@ export function toFabricatorRegistryBase<T extends RegistryBase>(
             ...registryBase.cssVars.light,
             ...FABRICATOR_PALETTE.light,
             ...lookVars.light,
+            ...Object.fromEntries(
+              Object.entries(getSpinnerVariables(spinner)).map(
+                ([key, value]) => [key.slice(2), value]
+              )
+            ),
           },
           dark: {
             ...registryBase.cssVars.dark,

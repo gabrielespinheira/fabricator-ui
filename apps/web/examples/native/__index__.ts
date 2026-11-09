@@ -23,6 +23,7 @@ export const NATIVE_EXAMPLES: Record<string, () => React.ComponentType> = {
   "combobox": () => require("@/examples/native/combobox-example").ComboboxExample,
   "command": () => require("@/examples/native/command-example").CommandExample,
   "context-menu": () => require("@/examples/native/context-menu-example").ContextMenuExample,
+  "date-picker": () => require("@/examples/native/date-picker-example").DatePickerExample,
   "density": () => require("@/examples/native/density-example").DensityExample,
   "dialog": () => require("@/examples/native/dialog-example").DialogExample,
   "direction": () => require("@/examples/native/direction-example").DirectionExample,
@@ -41,6 +42,7 @@ export const NATIVE_EXAMPLES: Record<string, () => React.ComponentType> = {
   "menubar": () => require("@/examples/native/menubar-example").MenubarExample,
   "message": () => require("@/examples/native/message-example").MessageExample,
   "message-scroller": () => require("@/examples/native/message-scroller-example").MessageScrollerExample,
+  "month-input": () => require("@/examples/native/month-input-example").MonthInputExample,
   "navigation-menu": () => require("@/examples/native/navigation-menu-example").NavigationMenuExample,
   "pagination": () => require("@/examples/native/pagination-example").PaginationExample,
   "popover": () => require("@/examples/native/popover-example").PopoverExample,
@@ -59,6 +61,7 @@ export const NATIVE_EXAMPLES: Record<string, () => React.ComponentType> = {
   "sonner": () => require("@/examples/native/sonner-example").SonnerExample,
   "spinner": () => require("@/examples/native/spinner-example").SpinnerExample,
   "switch": () => require("@/examples/native/switch-example").SwitchExample,
+  "syntax-highlight": () => require("@/examples/native/syntax-highlight-example").SyntaxHighlightExample,
   "tab-strip": () => require("@/examples/native/tab-strip-example").TabStripExample,
   "table": () => require("@/examples/native/table-example").TableExample,
   "tabs": () => require("@/examples/native/tabs-example").TabsExample,
@@ -69,6 +72,7 @@ export const NATIVE_EXAMPLES: Record<string, () => React.ComponentType> = {
   "toggle-group": () => require("@/examples/native/toggle-group-example").ToggleGroupExample,
   "tooltip": () => require("@/examples/native/tooltip-example").TooltipExample,
   "user-menu": () => require("@/examples/native/user-menu-example").UserMenuExample,
+  "video-player": () => require("@/examples/native/video-player-example").VideoPlayerExample,
   "workspace-switcher": () => require("@/examples/native/workspace-switcher-example").WorkspaceSwitcherExample,
 }
 

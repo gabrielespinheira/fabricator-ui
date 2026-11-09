@@ -133,6 +133,19 @@ Use `align="block-end"` to position the addon below the input.
   previewClassName="h-[26rem]"
 />
 
+## Sizes
+
+The group takes its height from the density, and every addon follows it:
+icons and text sit as far from the side as from the top, and inline buttons and
+keycaps keep the same inset above, below and beside them. Set `data-density` or
+a `density-compact` / `density-spacious` class on the group or any parent.
+
+<ComponentPreview
+  styleName="base-nova"
+  name="input-group-sizes"
+  previewClassName="h-auto p-6 sm:p-10 *:max-w-xs"
+/>
+
 ## Icon
 
 <ComponentPreview

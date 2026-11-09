@@ -1,0 +1,13 @@
+---
+title: November 2026 - Syntax Highlight
+description: A Syntax Highlight for code in over 30 languages, coloured by new syntax tokens in the foundations, on the website and React Native.
+date: 2026-11-08
+---
+
+- **Syntax Highlight.** `npx fabricator-ui@latest add syntax-highlight` adds code with its syntax coloured: a title bar with the file's icon and name, its language and Copy, then the lines. Give it `code` and a `language`, or just a `filename`.
+- **Over 30 languages.** TypeScript, TSX, JavaScript, JSON, CSS, SCSS, HTML, Markdown, Bash, Python, Go, Rust, Swift, Kotlin, YAML, TOML, SQL, Dockerfile and more, read from a name, an alias (`ts`, `sh`, `yml`) or a file name. `registerLanguage` adds any of refractor's other grammars.
+- **Lines.** `showLineNumbers` and `startLine` number them, outside selection and copy; `highlightLines` marks lines and ranges; `wrap` wraps long ones.
+- **Diffs.** A diff marks its added and removed lines, and keeps the colours of the file it changes when you pass its `filename`. `insertedLines` and `deletedLines` mark a change without a diff.
+- **Syntax colours.** Eight new tokens in the foundations, `--syntax-keyword` to `--syntax-punctuation`: functions follow the info role, strings success, constants warning and tags destructive, so retinting a role retints the code. Every one keeps 4.5:1 on the first four surfaces in light and dark.
+- **React Native.** The same component, tokenizer and colours, with Copy through `expo-clipboard`.
+- **The docs' code blocks** now use the syntax colours too, and follow the site's colour settings.

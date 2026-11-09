@@ -162,6 +162,38 @@ export const dataItems: Registry["items"] = [
     meta: docs("carousel"),
   },
   {
+    name: "video-player",
+    type: "registry:ui",
+    title: "Video Player",
+    description:
+      "A video with its own controls over the picture: a seek bar with chapters, skip, mute, captions from WebVTT files, speed, picture in picture and full screen. A compact variant keeps play, the seek bar, the time, mute and full screen.",
+    // expo-video is Expo's maintained player (MIT); expo provides useEvent.
+    dependencies: [
+      "@fabricator-ui/icons-react-native",
+      "cn",
+      "expo",
+      "expo-linear-gradient",
+      "expo-video@58.0.13",
+      "react-native-gesture-handler",
+      "react-native-reanimated",
+      "uniwind@1.13.1",
+    ],
+    registryDependencies: [
+      "@fabricator/density",
+      "@fabricator/feedback",
+      "@fabricator/motion",
+      "@fabricator/sheet",
+      "@fabricator/spinner",
+      "@fabricator/text",
+    ],
+    files: [
+      { path: "ui/video-player.tsx", type: "registry:ui" },
+      { path: "lib/video-player-model.ts", type: "registry:lib" },
+      { path: "lib/video-captions-model.ts", type: "registry:lib" },
+    ],
+    meta: docs("video-player"),
+  },
+  {
     name: "table",
     type: "registry:ui",
     title: "Table",

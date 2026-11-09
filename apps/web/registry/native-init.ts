@@ -9,6 +9,10 @@ import {
   DEFAULT_NATIVE_LOOK,
   toNativeStylesheet,
 } from "@/registry/fabricator/native-theme"
+import {
+  SPINNER_VALUES,
+  type SpinnerVariant,
+} from "@/registry/fabricator/shared/lib/spinner-model"
 
 export function isNativeInit(searchParams: URLSearchParams) {
   return searchParams.get("platform") === "native"
@@ -32,7 +36,10 @@ export function parseNativeLook(
   }
 }
 
-export function buildNativeInit(look: FabricatorLook): RegistryItem {
+export function buildNativeInit(
+  look: FabricatorLook,
+  spinner: SpinnerVariant = "orbit"
+): RegistryItem {
   return {
     name: "fabricator-native",
     type: "registry:item",
@@ -40,12 +47,15 @@ export function buildNativeInit(look: FabricatorLook): RegistryItem {
     description:
       "Everything native components need, with this project's look as its theme.",
     registryDependencies: ["@fabricator/index"],
+    cssVars: {
+      light: { "spinner-variant": String(SPINNER_VALUES.indexOf(spinner)) },
+    },
     files: [
       {
         path: "registry/native/fabricator.css",
         type: "registry:file",
         target: "fabricator.css",
-        content: toNativeStylesheet(look),
+        content: toNativeStylesheet(look, SPINNER_VALUES.indexOf(spinner)),
       },
     ],
     css: { '@import "./fabricator.css"': {} },

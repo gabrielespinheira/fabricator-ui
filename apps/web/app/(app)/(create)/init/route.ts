@@ -15,6 +15,7 @@ import {
   usesFabricatorPalette,
 } from "@/registry/fabricator-init"
 import { parseLook } from "@/registry/fabricator/look"
+import { isSpinnerVariant } from "@/registry/fabricator/shared/lib/spinner-model"
 import {
   buildNativeInit,
   isNativeInit,
@@ -25,12 +26,19 @@ import { getPresetCode } from "@/app/(app)/(create)/lib/preset-code"
 
 export async function GET(request: NextRequest) {
   try {
+    const spinner = request.nextUrl.searchParams.get("spinner") ?? "orbit"
+    if (!isSpinnerVariant(spinner)) {
+      return NextResponse.json(
+        { error: `Unknown spinner "${spinner}".` },
+        { status: 400 }
+      )
+    }
     if (isNativeInit(request.nextUrl.searchParams)) {
       const look = parseNativeLook(request.nextUrl.searchParams)
       if (!look.success) {
         return NextResponse.json({ error: look.error }, { status: 400 })
       }
-      return NextResponse.json(buildNativeInit(look.look))
+      return NextResponse.json(buildNativeInit(look.look, spinner))
     }
 
     const resolved = resolveFabricatorSearchParams(request.nextUrl.searchParams)
@@ -69,6 +77,7 @@ export async function GET(request: NextRequest) {
         config: result.data,
         palette: usesFabricatorPalette(request.nextUrl.searchParams),
         look: lookResult.look,
+        spinner,
         icons: usesFabricatorIcons(request.nextUrl.searchParams),
         isPartial: onlyResult.parts !== undefined,
       }

@@ -1,6 +1,6 @@
 # @fabricator-ui/icons-react-native
 
-Fabricator Icons for React Native and Expo: every [Lucide](https://lucide.dev) icon under its Lucide name, Fabricator's own Custom icons, and 143 brand marks, drawn with `react-native-svg`. Part of [Fabricator UI](https://fabricator-ui.vercel.app).
+Fabricator Icons for React Native and Expo: every [Lucide](https://lucide.dev) icon under its Lucide name, Fabricator's own Custom icons, and 145 brand marks, drawn with `react-native-svg`. Part of [Fabricator UI](https://fabricator-ui.vercel.app).
 
 ```sh
 npx expo install @fabricator-ui/icons-react-native react-native-svg
@@ -24,6 +24,18 @@ React Native has no colour inheritance, so icons default to the provider's `colo
 Props match `@fabricator-ui/icons`. Brand marks accept `color="brand"` for their own colours.
 
 Brand marks are trademarks of their owners. Read [BRANDS.md](./BRANDS.md) before using one.
+
+## File icons
+
+```tsx
+import { FileTypeIcon, FileTypescriptIcon } from "@fabricator-ui/icons-react-native/files"
+
+<FileTypeIcon name="page.tsx" />
+<FileTypeIcon name="components" kind="folder" open />
+<FileTypescriptIcon size={20} />
+```
+
+249 file and folder drawings from Charmed Icons (MIT), default size 16px. `getFileIconName` and `getFolderIconName` expose the case-insensitive filename associations. Colours follow the device scheme, or `IconProvider`’s `colorScheme`.
 
 ## Licence
 

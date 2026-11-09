@@ -1,6 +1,7 @@
 import {
   DEFAULT_PROJECT_SETUP,
   normalizeProjectSetup,
+  SPINNER_VALUES,
   toCliArgs,
   type ProjectSetup,
 } from "@fabricator-ui/setup"
@@ -53,6 +54,7 @@ const CREATE_SETUPS: Partial<ProjectSetup>[] = [
   { web: false, desktop: "tauri" },
   { web: false, mobile: true, desktop: "electron" },
   { iconLibrary: "lucide" },
+  { spinner: "ripple" },
   { look: { primary: "260_0.2", shape: "pill" } },
   { shell: { variant: "floating", tabs: "main" } },
   { appShell: false },
@@ -84,6 +86,7 @@ describe("the command the site writes", () => {
     { assistants: ["codex"] },
     { components: "all" },
     { iconLibrary: "lucide" },
+    { spinner: "ripple" },
     { base: "aria" },
   ]
 
@@ -175,3 +178,11 @@ describe("create's starting point", () => {
     })
   })
 })
+
+it.each(SPINNER_VALUES)(
+  "accepts the %s spinner in create and init",
+  (spinner) => {
+    expect(setupFromCreateFlags("matrix", { spinner }).spinner).toBe(spinner)
+    expect(setupFromInitFlags({ spinner }).spinner).toBe(spinner)
+  }
+)

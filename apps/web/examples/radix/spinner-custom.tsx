@@ -1,21 +1,27 @@
-import { cn } from "cn"
-import { LoaderIcon } from "lucide-react"
-
-function Spinner({ className, ...props }: React.ComponentProps<"svg">) {
-  return (
-    <LoaderIcon
-      role="status"
-      aria-label="Loading"
-      className={cn("size-4 animate-spin", className)}
-      {...props}
-    />
-  )
-}
+import { Spinner } from "@/styles/radix-fabricator/ui/spinner"
 
 export function SpinnerCustom() {
   return (
-    <div className="flex items-center gap-4">
-      <Spinner />
+    <div className="flex items-center gap-8">
+      <Spinner
+        variant="ripple"
+        speed={0.6}
+        className="size-8"
+        aria-label="Slow ripple"
+      />
+      <Spinner variant="ripple" className="size-8" aria-label="Normal ripple" />
+      <Spinner
+        variant="ripple"
+        speed={1.5}
+        className="size-8"
+        aria-label="Fast ripple"
+      />
+      <Spinner
+        variant="ripple"
+        animated={false}
+        className="size-8"
+        aria-label="Paused ripple"
+      />
     </div>
   )
 }

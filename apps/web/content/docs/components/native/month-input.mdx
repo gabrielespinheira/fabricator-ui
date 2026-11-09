@@ -1,0 +1,128 @@
+---
+title: Month Input
+description: A text field that takes a typed month or one picked from a year of months.
+base: native
+component: true
+---
+
+## Installation
+
+```bash
+npx fabricator-ui@latest add month-input
+```
+
+## Usage
+
+```tsx
+import { DensityScope } from "@/components/ui/density"
+import {
+  Field,
+  FieldDescription,
+  FieldError,
+  FieldLabel,
+} from "@/components/ui/field"
+import { MonthInput } from "@/components/ui/month-input"
+import { Text } from "@/components/ui/text"
+```
+
+```tsx
+<MonthInput
+  aria-label="Billing month"
+  placeholder="Pick or type a month"
+/>
+```
+
+## Examples
+
+```tsx showLineNumbers title="month-input-example.tsx"
+import * as React from "react"
+
+import { DensityScope } from "@/components/ui/density"
+import {
+  Field,
+  FieldDescription,
+  FieldError,
+  FieldLabel,
+} from "@/components/ui/field"
+import { MonthInput } from "@/components/ui/month-input"
+import { Text } from "@/components/ui/text"
+
+function MonthInputExample() {
+  const [month, setMonth] = React.useState<string | undefined>("2026-11")
+  return (
+    <ExampleWrapper fit>
+      <Example title="Default">
+        <MonthInput
+          aria-label="Billing month"
+          placeholder="Pick or type a month"
+        />
+      </Example>
+      <Example title="In a field">
+        <Field>
+          <FieldLabel>Card expiry</FieldLabel>
+          <MonthInput placeholder="Mar 2028" />
+          <FieldDescription>
+            Type 3/2028 or Mar 2028, or press the calendar to pick one.
+          </FieldDescription>
+        </Field>
+      </Example>
+      <Example title="Controlled">
+        <MonthInput
+          aria-label="Statement"
+          value={month}
+          onValueChange={setMonth}
+        />
+        <Text className="text-muted-foreground tabular-nums">
+          Value: {month ?? "none"}
+        </Text>
+      </Example>
+      <Example title="Format">
+        <MonthInput
+          aria-label="Start month"
+          format="MMMM yyyy"
+          defaultValue="2027-02"
+        />
+      </Example>
+      <Example title="Minimum and maximum">
+        <MonthInput
+          aria-label="Report month"
+          minMonth="2026-01"
+          maxMonth="2026-11"
+          defaultValue="2026-10"
+        />
+      </Example>
+      <Example title="Invalid">
+        <Field data-invalid>
+          <FieldLabel>Renewal month</FieldLabel>
+          <MonthInput aria-invalid defaultValue="2026-01" />
+          <FieldError>Pick a month after this one.</FieldError>
+        </Field>
+      </Example>
+      <Example title="Disabled">
+        <MonthInput aria-label="Created" disabled defaultValue="2026-09" />
+      </Example>
+      <Example title="Sizes">
+        <DensityScope density="compact">
+          <MonthInput aria-label="Compact month" defaultValue="2026-11" />
+        </DensityScope>
+        <MonthInput aria-label="Default month" defaultValue="2026-11" />
+        <DensityScope density="spacious">
+          <MonthInput aria-label="Spacious month" defaultValue="2026-11" />
+        </DensityScope>
+      </Example>
+    </ExampleWrapper>
+  )
+}
+
+export { MonthInputExample }
+```
+
+## API reference
+
+
+
+Props it adds to what it wraps: `"aria-invalid"`, `defaultValue`, `disabled`, `format`, `locale`, `maxMonth`, `minMonth`, `name`, `onValueChange`, `pickerLabel`, `value`.
+
+## Accessibility
+
+Text is read as it appears. Give a control with no text an `accessibilityLabel`.

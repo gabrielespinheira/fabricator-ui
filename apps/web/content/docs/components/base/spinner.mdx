@@ -1,11 +1,15 @@
 ---
 title: Spinner
-description: An indicator that can be used to show a loading state.
+description: Twenty-two loading animations, from dot matrices to bouncing dots and turning tiles.
 base: base
 component: true
 ---
 
-<ComponentPreview styleName="base-nova" name="spinner-demo" />
+<ComponentPreview
+  styleName="base-nova"
+  name="spinner-demo"
+  previewClassName="h-auto px-4 py-6 sm:p-10"
+/>
 
 ## Installation
 
@@ -53,29 +57,99 @@ import { Spinner } from "@/components/ui/spinner"
 <Spinner />
 ```
 
-## Customization
+## Patterns
 
-You can replace the default spinner icon with any other icon by editing the `Spinner` component.
+`Orbit` is the default. Set `variant` on a single spinner to choose another pattern.
+
+```tsx
+<Spinner variant="orbit" />
+<Spinner variant="ripple" />
+<Spinner variant="cascade" />
+<Spinner variant="wave" />
+<Spinner variant="pulse" />
+<Spinner variant="braid" />
+<Spinner variant="comet" />
+<Spinner variant="bounce" />
+<Spinner variant="equalizer" />
+<Spinner variant="flip" />
+<Spinner variant="scan" />
+<Spinner variant="quad-swap" />
+<Spinner variant="quad-fold" />
+<Spinner variant="tic-tac" />
+<Spinner variant="bloom" />
+<Spinner variant="checker" />
+<Spinner variant="diagonal" />
+<Spinner variant="triangle" />
+<Spinner variant="square" />
+<Spinner variant="rings" />
+<Spinner variant="hex" />
+<Spinner variant="ring" />
+```
+
+| Variant     | Motion                                           |
+| ----------- | ------------------------------------------------ |
+| `orbit`     | A bright trail circles twelve dots.              |
+| `ripple`    | An expanding wave pushes the matrix outward.     |
+| `cascade`   | Short columns rain down in staggered bursts.     |
+| `wave`      | Five dots ride a travelling sine wave.           |
+| `pulse`     | A diamond of tiles expands and contracts as one. |
+| `braid`     | Two strands cross over and under each other.     |
+| `comet`     | A sharp tail chases the square perimeter.        |
+| `bounce`    | Three dots jump and squash on landing.           |
+| `equalizer` | Five bars stretch in syncopated beats.           |
+| `flip`      | Four tiles turn edge-on, then open again.        |
+| `scan`      | A three-dot beam sweeps from side to side.       |
+| `ring`      | The classic rotating arc.                        |
+
+### Grid sizes and geometry
+
+Choose a compact matrix or a shaped layout. Triangle and Hex use polygon tiles as well as matching arrangements.
+
+| Variant     | Layout             | Motion                                                    |
+| ----------- | ------------------ | --------------------------------------------------------- |
+| `quad-swap` | 2×2                | Four tiles trade corners.                                 |
+| `quad-fold` | 2×2                | Four tiles fold into the centre and open.                 |
+| `tic-tac`   | 3×3                | Three rows light up in sequence.                          |
+| `bloom`     | 3×3                | Nine dots burst outward.                                  |
+| `checker`   | 4×4                | Alternating tiles shrink and turn.                        |
+| `diagonal`  | 4×4                | A diagonal wave zips across sixteen tiles.                |
+| `triangle`  | Triangle           | Ten triangular tiles follow a three-sided trail.          |
+| `square`    | Square outline     | Twelve tiles expand and contract as one frame.            |
+| `rings`     | Concentric circles | Six inner dots and twelve outer dots run opposite trails. |
+| `hex`       | Hexagonal lattice  | Nineteen hexagonal cells swell in a honeycomb wave.       |
+
+## Project default
+
+Choose **Spinner** in the Look step on [Get started](/create?step=look) or in the settings on [App Shell](/app-shell). The previews follow your choice, and the install command saves it for every `<Spinner />` without a `variant`.
+
+```bash
+npx fabricator-ui@latest create my-app --spinner ripple
+npx fabricator-ui@latest init --spinner braid --yes
+```
+
+The CLI also asks for a default spinner during interactive setup. These are copy-in components; no spinner package is required. An explicit `variant` always overrides the project default.
+
+## Speed and motion
+
+`speed={1}` is a 1.1-second cycle. Lower values slow it down; higher values speed it up. Set `animated={false}` to show a still pattern.
 
 <ComponentPreview styleName="base-nova" name="spinner-custom" />
 
-```tsx showLineNumbers title="components/ui/spinner.tsx"
-import { LoaderIcon } from "@fabricator-ui/icons"
-import { cn } from "cn"
-
-function Spinner({ className, ...props }: React.ComponentProps<"svg">) {
-  return (
-    <LoaderIcon
-      role="status"
-      aria-label="Loading"
-      className={cn("size-4 animate-spin", className)}
-      {...props}
-    />
-  )
-}
-
-export { Spinner }
+```tsx
+<Spinner variant="ripple" speed={0.6} />
+<Spinner variant="ripple" speed={1.5} />
+<Spinner variant="ripple" animated={false} />
 ```
+
+Spinners stop under reduced motion or `data-motion="off"`, retaining a visible loading indicator. Transition speed settings do not change the loading cycle.
+
+## Accessibility
+
+The SVG has `role="status"` and `aria-label="Loading"`. Give it a label that describes the work, such as `aria-label="Uploading file"`. When adjacent text already describes the state, use `aria-hidden="true"` to avoid duplicate announcements. Pair a still spinner with visible loading text.
+
+## Inspiration
+
+[Dot Matrix by Shawn](https://dotmatrix.zzzzshawn.cloud/) prompted this collection. Fabricator's patterns and animation code are original implementations; no Dot Matrix source is included.
 
 ## Size
 

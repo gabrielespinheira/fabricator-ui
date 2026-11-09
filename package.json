@@ -1,6 +1,6 @@
 {
   "name": "fabricator-ui-monorepo",
-  "version": "0.5.1",
+  "version": "0.6.0",
   "private": true,
   "license": "MIT",
   "type": "module",
@@ -41,7 +41,8 @@
     "release:icons": "./scripts/publish-icons.sh",
     "icons:brands": "bun ./packages/icons-core/scripts/import-brands.ts",
     "icons:check": "bun ./packages/icons-core/scripts/check.ts",
-    "icons:sheet": "bun ./packages/icons-core/scripts/sheet.ts"
+    "icons:sheet": "bun ./packages/icons-core/scripts/sheet.ts",
+    "icons:files": "bun ./packages/icons-core/scripts/sync-files.ts"
   },
   "devDependencies": {
     "@changesets/changelog-github": "^1.0.1",

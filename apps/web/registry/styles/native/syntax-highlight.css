@@ -1,0 +1,149 @@
+/* MARK: Syntax Highlight */
+
+  /* The website's raised panel: surface 2 with a hairline edge, rounded-xl.
+     The colours are the same --syntax-* tokens, resolved for the look by
+     native-theme.ts. */
+  .cn-syntax-highlight {
+    @apply bg-surface-2 border-border/60 rounded-xl border;
+  }
+
+  .cn-syntax-highlight-header {
+    @apply border-border/60 h-(--density-36) gap-(--density-8) border-b ps-(--density-12) pe-(--density-4);
+  }
+
+  /* Header text and icons: 12pt muted, as the website's bar. */
+  .cn-syntax-highlight-header-text {
+    @apply text-muted-foreground text-(length:--density-text-12);
+  }
+
+  .cn-syntax-highlight-icon {
+    @apply items-center;
+  }
+
+  .cn-syntax-highlight-title {
+    @apply text-foreground flex-1 font-medium;
+  }
+
+  .cn-syntax-highlight-language {
+    @apply text-muted-foreground;
+  }
+
+  .cn-syntax-highlight-copy {
+    @apply shrink-0;
+  }
+
+  /* Copy's icon is muted, and turns to the success colour with its check. */
+  .cn-syntax-highlight-copy-icon {
+    @apply text-muted-foreground;
+  }
+
+  .cn-syntax-highlight-copy-icon-copied {
+    @apply text-success-text;
+  }
+
+  .cn-syntax-highlight-content {
+    @apply py-(--density-12);
+  }
+
+  /* 14pt mono on a relaxed line height, the website's code text. */
+  .cn-syntax-highlight-content-text {
+    @apply text-foreground font-mono text-(length:--density-text-14) leading-relaxed;
+  }
+
+  .cn-syntax-highlight-code {
+    @apply flex-col;
+  }
+
+  /* A 2pt start edge, clear until the line is marked: highlighted lines take
+     the active fill and a foreground edge, added and removed lines their
+     status's soft fill and edge. */
+  .cn-syntax-highlight-line {
+    @apply gap-(--density-16) border-s-2 border-transparent ps-(--density-14) pe-(--density-16) data-[highlighted=true]:bg-active data-[highlighted=true]:border-foreground/40 data-[diff=inserted]:bg-success/12 data-[diff=inserted]:border-success data-[diff=deleted]:bg-destructive/12 data-[diff=deleted]:border-destructive;
+  }
+
+  /* No in-data-* here: a number takes its line's marks as its own props. */
+  .cn-syntax-highlight-line-number {
+    @apply text-syntax-comment data-[highlighted=true]:text-foreground data-[diff=inserted]:text-success-text data-[diff=deleted]:text-destructive-text;
+  }
+
+  .cn-syntax-highlight-line-content {
+    @apply text-foreground;
+  }
+
+  /* MARK: Syntax Highlight tokens */
+
+  .cn-syntax-highlight-token-comment {
+    @apply text-syntax-comment italic;
+  }
+
+  .cn-syntax-highlight-token-keyword {
+    @apply text-syntax-keyword;
+  }
+
+  .cn-syntax-highlight-token-string {
+    @apply text-syntax-string;
+  }
+
+  .cn-syntax-highlight-token-constant {
+    @apply text-syntax-constant;
+  }
+
+  .cn-syntax-highlight-token-function {
+    @apply text-syntax-function;
+  }
+
+  .cn-syntax-highlight-token-type {
+    @apply text-syntax-type;
+  }
+
+  .cn-syntax-highlight-token-tag {
+    @apply text-syntax-tag;
+  }
+
+  .cn-syntax-highlight-token-attribute {
+    @apply text-syntax-constant;
+  }
+
+  .cn-syntax-highlight-token-property {
+    @apply text-syntax-function;
+  }
+
+  .cn-syntax-highlight-token-variable {
+    @apply text-syntax-tag;
+  }
+
+  .cn-syntax-highlight-token-regex {
+    @apply text-syntax-type;
+  }
+
+  .cn-syntax-highlight-token-operator {
+    @apply text-syntax-punctuation;
+  }
+
+  .cn-syntax-highlight-token-punctuation {
+    @apply text-syntax-punctuation;
+  }
+
+  .cn-syntax-highlight-token-inserted {
+    @apply text-success-text;
+  }
+
+  .cn-syntax-highlight-token-deleted {
+    @apply text-destructive-text;
+  }
+
+  .cn-syntax-highlight-token-heading {
+    @apply text-syntax-keyword font-semibold;
+  }
+
+  .cn-syntax-highlight-token-link {
+    @apply text-syntax-function underline;
+  }
+
+  .cn-syntax-highlight-token-strong {
+    @apply font-semibold;
+  }
+
+  .cn-syntax-highlight-token-emphasis {
+    @apply italic;
+  }

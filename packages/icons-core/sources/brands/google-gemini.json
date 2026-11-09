@@ -1,0 +1,20 @@
+{
+  "title": "Google Gemini",
+  "group": "Product & dev",
+  "tags": [
+    "gemini",
+    "google",
+    "ai",
+    "assistant",
+    "llm",
+    "model"
+  ],
+  "aliases": [
+    "gemini",
+    "bard"
+  ],
+  "hex": "#8E75B2",
+  "source": "Simple Icons 16.36.0 (https://gemini.google.com)",
+  "license": "CC0-1.0",
+  "credit": "Gemini and its logo are trademarks of Google LLC and belong to it. Terms: https://partnermarketinghub.withgoogle.com/brands/google/trademarks-and-terms/terms-and-conditions/"
+}

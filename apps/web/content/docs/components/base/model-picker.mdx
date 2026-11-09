@@ -1,0 +1,176 @@
+---
+title: Model Picker
+description: The model switcher's panel. A reasoning effort slider that warms from blue to violet, routing tiles such as Auto, and the models grouped by provider.
+base: base
+component: true
+---
+
+<ComponentPreview styleName="base-nova" name="model-picker-demo" />
+
+The panel opens on the model in use: its effort slider, with the model's button over it. The button turns to the list, where routing tiles (Auto) sit above the models grouped by provider, each with its context window and the model in use checked. Picking a model goes back to its effort.
+
+Model Picker is part of the Fabricator style. It's plain HTML that goes inside a [Popover](/docs/components/base/popover) of your own, so the same component ships for every base. In a [Chat Input](/docs/components/base/chat-input), its trigger is a `ChatInputButton`.
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">Command</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx fabricator-ui@latest add model-picker
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps className="mb-0 pt-2">
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  src="styles/base-fabricator/ui/model-picker.tsx"
+  title="components/ui/model-picker.tsx"
+  styleName="base-nova"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import {
+  ModelPicker,
+  ModelPickerEffort,
+  ModelPickerGroup,
+  ModelPickerGroupLabel,
+  ModelPickerHeader,
+  ModelPickerItem,
+  ModelPickerItemMeta,
+  ModelPickerItemName,
+  ModelPickerRoute,
+  ModelPickerRoutes,
+} from "@/components/ui/model-picker"
+```
+
+```tsx
+<PopoverContent className="w-80 gap-0 p-1">
+  <ModelPicker>
+    <ModelPickerHeader>Select model</ModelPickerHeader>
+    <ModelPickerRoutes>
+      <ModelPickerRoute caption="Picks the model for each message">
+        <WaypointsIcon />
+        Auto
+      </ModelPickerRoute>
+    </ModelPickerRoutes>
+    <ModelPickerGroup>
+      <ModelPickerGroupLabel>
+        <SparklesIcon />
+        Lumen
+      </ModelPickerGroupLabel>
+      <ModelPickerItem selected>
+        <ModelPickerItemName>Lumen 3</ModelPickerItemName>
+        <ModelPickerItemMeta>1M</ModelPickerItemMeta>
+      </ModelPickerItem>
+    </ModelPickerGroup>
+  </ModelPicker>
+</PopoverContent>
+```
+
+## Composition
+
+```text
+ModelPicker                 the panel: scrolls past 512px or 60% of the view
+├── ModelPickerHeader       a caption row, with a back button
+├── ModelPickerRoutes       tiles side by side
+│   └── ModelPickerRoute    icon and label, a caption, a check when selected
+└── ModelPickerGroup        one provider
+    ├── ModelPickerGroupLabel   pinned while its models scroll
+    └── ModelPickerItem     a model: name, meta, check
+        ├── ModelPickerItemName
+        └── ModelPickerItemMeta
+ModelPickerEffort           the effort slider, with the model's button over it
+ModelPickerSetting          a labelled control under the panel: speed, permissions
+```
+
+Give the Popover `p-1` and no gap; the panel uses the popover's surface. Keep the open view (effort or models) in state, and reset it when the popover opens.
+
+## Examples
+
+### Effort
+
+`ModelPickerEffort` takes the model's levels, lowest first. Until a level is chosen it rests in the middle, neutral, and reads "Default". The fill and the level's name take the info hue, turned toward violet as the effort rises; the top level is the most saturated. Drag or press anywhere on the rail; the arrows, Home and End step it.
+
+<ComponentPreview styleName="base-nova" name="model-picker-effort" />
+
+## API Reference
+
+### ModelPickerEffort
+
+A `<div>`; its children sit across from the level's name, over the slider.
+
+| Prop            | Type                                          | Default |
+| --------------- | --------------------------------------------- | ------- |
+| `levels`        | `readonly { value: string; label: string }[]` | -       |
+| `value`         | `string \| null`                              | -       |
+| `onValueChange` | `(value: string) => void`                     | -       |
+
+### ModelPickerRoute
+
+A `<button>`.
+
+| Prop       | Type        | Default |
+| ---------- | ----------- | ------- |
+| `selected` | `boolean`   | `false` |
+| `caption`  | `ReactNode` | -       |
+
+Picked in place of a model, it's `selected` and checked. A route that's switched on beside a model (such as an orchestrator) takes `aria-pressed` instead.
+
+### ModelPickerItem
+
+A `<button>` with a check at the end.
+
+| Prop       | Type      | Default |
+| ---------- | --------- | ------- |
+| `selected` | `boolean` | `false` |
+
+### ModelPickerSetting
+
+A `<div>` with the `label` before its children.
+
+### Helpers
+
+`getEffortHueShift(index, count)`, `getEffortKeyIndex(key, index, count)` and `getEffortIndexAtPoint(…)` are the slider's rules, exported for tests.
+
+### Data attributes
+
+| Attribute                         | Element     | Present when            |
+| --------------------------------- | ----------- | ----------------------- |
+| `data-slot="model-picker"`        | the panel   | always                  |
+| `data-selected="true"`            | item, route | `selected`              |
+| `data-slot="model-picker-effort"` | effort      | always                  |
+| `data-chosen`                     | effort      | a level is chosen       |
+| `data-peak`                       | effort      | the top level is chosen |
+
+## Motion
+
+- Rows and tiles change colour on the feedback timing.
+- The effort thumb steps between levels on the feedback timing and grows a little under the pointer; the fill's width and colour follow. With reduced motion the thumb moves at once.
+
+## Accessibility
+
+- The effort slider is a `role="slider"` named "Reasoning effort", with the level's name as its `aria-valuetext`. Arrow keys, Home and End move it.
+- The model in use reports `aria-current`; so does a selected route.
+- Give a back button an `aria-label` ("Back to effort"), and the fast mark `role="img"` with a label.
+- The Popover traps focus and Escape closes it.

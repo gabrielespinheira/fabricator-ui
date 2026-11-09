@@ -1,0 +1,111 @@
+/* MARK: File Upload */
+
+  .cn-file-upload {
+    @apply gap-(--density-12) text-(length:--density-text-13);
+  }
+
+  /* A dashed hairline over whatever surface it sits on, rounded-xl like
+     Empty. Hover lifts it to the hover fill; a drag over it takes the active
+     fill and a firmer, solid edge, and the media tile rises to meet the
+     file. Keyboard focus is the 1px blue ring; invalid turns the edge
+     destructive. */
+  .cn-file-upload-dropzone {
+    @apply text-foreground border-border cursor-pointer gap-(--density-6) rounded-xl border border-dashed p-(--density-24) transition-[background-color,border-color] duration-feedback ease-feedback hover:bg-hover focus-visible:ring-1 focus-visible:ring-ring data-dragging:border-solid data-dragging:border-foreground/30 data-dragging:bg-active aria-invalid:border-destructive/50 data-dragging:aria-invalid:border-destructive/70 data-disabled:cursor-not-allowed data-disabled:opacity-50 data-disabled:hover:bg-transparent;
+  }
+
+  /* Empty's raised tile: surface 4 with its shadow ring. */
+  .cn-file-upload-media {
+    @apply bg-surface-4 shadow-surface-4 text-foreground mb-(--density-6) size-(--density-40) rounded-xl transition-transform duration-move ease-move group-data-dragging/file-upload-dropzone:-translate-y-1 motion-reduce:transition-none motion-reduce:group-data-dragging/file-upload-dropzone:translate-y-0 [&_svg]:stroke-[1.5] [&_svg:not([class*='size-'])]:size-(--density-20);
+  }
+
+  .cn-file-upload-title {
+    @apply text-(length:--density-text-14) font-medium leading-snug;
+  }
+
+  .cn-file-upload-description {
+    @apply text-muted-foreground text-(length:--density-text-12) leading-snug;
+  }
+
+  /* The field: Input's frame (inset ring-border, hover tint, card while
+     focused, red when invalid), and Input's height whatever it holds. Its
+     padding is the inset of a 24px chip, so a row of chips sits centred.
+     While files are dragged over it, it lifts to the card surface, the ring
+     firms, it grows a hair on the move timing, and the drop message fades in
+     over its contents. */
+  .cn-file-upload-field {
+    @apply text-foreground ring-border hover:not-focus-within:bg-muted/50 has-focus-visible:bg-card has-focus-visible:ring-foreground/25 data-invalid:ring-destructive/50 data-invalid:hover:not-focus-within:bg-destructive/5 h-(--density-36) gap-(--density-4) rounded-lg bg-transparent p-[calc((var(--density-36)-var(--density-24))/2)] text-(length:--density-text-13) ring-1 ring-inset transition-[background-color,box-shadow,scale] duration-feedback ease-feedback data-dragging:bg-card data-dragging:ring-foreground/40 data-dragging:scale-[1.01] data-dragging:duration-move data-dragging:ease-move motion-reduce:data-dragging:scale-100 data-disabled:pointer-events-none data-disabled:opacity-50;
+  }
+
+  /* Empty, the browse button is the whole field: icon and placeholder where
+     Input puts its text. With files it shrinks to a quiet 24px plus button at
+     the row's end, named Add files (or Replace file). */
+  .cn-file-upload-field-browse {
+    @apply cursor-pointer text-muted-foreground h-(--density-24) flex-1 gap-(--density-8) rounded-md px-(--density-4) text-start transition-colors duration-feedback ease-feedback group-data-filled/file-upload-field:ms-auto group-data-filled/file-upload-field:size-(--density-24) group-data-filled/file-upload-field:flex-none group-data-filled/file-upload-field:justify-center group-data-filled/file-upload-field:p-0 group-data-filled/file-upload-field:hover:bg-hover group-data-filled/file-upload-field:hover:text-foreground group-data-filled/file-upload-field:focus-visible:bg-hover group-data-filled/file-upload-field:focus-visible:text-foreground;
+  }
+
+  .cn-file-upload-field-icon {
+    @apply [&_svg]:stroke-[1.5] [&_svg:not([class*='size-'])]:size-(--density-icon-16) group-data-filled/file-upload-field:[&_svg:not([class*='size-'])]:size-(--density-icon-14);
+  }
+
+  .cn-file-upload-field-text {
+    @apply min-w-0;
+  }
+
+  /* The drop message: over the contents, inside the ring, hidden until files
+     are dragged over; its arrow drops into place as it appears. */
+  .cn-file-upload-field-drop {
+    @apply bg-card text-foreground inset-px gap-(--density-8) rounded-[calc(var(--radius-lg)-1px)] text-(length:--density-text-13) font-medium opacity-0 transition-opacity duration-feedback ease-feedback group-data-dragging/file-upload-field:opacity-100 [&_svg]:stroke-[1.5] [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:-translate-y-1 [&_svg]:transition-transform [&_svg]:duration-move [&_svg]:ease-move group-data-dragging/file-upload-field:[&_svg]:translate-y-0 motion-reduce:[&_svg]:translate-y-0;
+  }
+
+  /* The chips: one row that scrolls sideways under faded edges, so the field
+     never grows. Each fade is as wide as what's left to scroll on its side,
+     up to 24px, so the last chip fades out instead of being cut. */
+  .cn-file-upload-chips {
+    @apply no-scrollbar scroll-fade-x gap-(--density-4) overscroll-x-contain [--scroll-fade-reveal:--spacing(6)] [--scroll-fade-size:--spacing(6)];
+  }
+
+  /* A picked file: the Combobox chip (active fill, 24px, 12px text), with a
+     16px picture or file icon, the name cut short, and a remove button at
+     50% that wakes on hover. Its size is in its tooltip. It rises into place
+     as it's added. */
+  .cn-file-upload-chip {
+    @apply bg-active text-foreground h-(--density-24) max-w-full gap-(--density-6) rounded-md ps-(--density-4) pe-(--density-2) text-(length:--density-text-12) animate-in fade-in-0 slide-in-from-bottom-1 duration-feedback ease-enter motion-reduce:animate-none;
+  }
+
+  .cn-file-upload-chip-preview {
+    @apply size-(--density-icon-16) rounded-[4px] object-cover;
+  }
+
+  .cn-file-upload-chip-icon {
+    @apply text-muted-foreground [&_svg]:stroke-[1.5] [&_svg:not([class*='size-'])]:size-(--density-icon-14);
+  }
+
+  .cn-file-upload-chip-name {
+    @apply min-w-0 max-w-24 font-medium;
+  }
+
+  .cn-file-upload-chip-remove {
+    @apply cursor-pointer size-(--density-20) rounded-[4px] opacity-50 transition-opacity duration-feedback ease-feedback hover:opacity-100 focus-visible:opacity-100 focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none [&_svg]:stroke-2 [&_svg:not([class*='size-'])]:size-(--density-icon-14);
+  }
+
+  /* The trigger is a Button (outline by default); this adds nothing. */
+  .cn-file-upload-trigger {
+    @apply self-start;
+  }
+
+  .cn-file-upload-list {
+    @apply gap-(--density-8);
+  }
+
+  /* Rows are Attachments, full width in a list. */
+  .cn-file-upload-item {
+    @apply w-full;
+  }
+
+  .cn-file-upload-item-preview {
+    @apply select-none;
+  }
+
+  .cn-file-upload-item-delete {
+    @apply shrink-0;
+  }

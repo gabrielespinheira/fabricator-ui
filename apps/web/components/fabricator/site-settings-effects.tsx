@@ -7,11 +7,13 @@ import {
   applySurfaceTint,
   useSiteSettings,
 } from "@/lib/site-settings"
+import { getSpinnerVariables } from "@/registry/fabricator/shared/lib/spinner-model"
 import { SoundEffects } from "@/styles/base-fabricator/components/sound-effects"
 
 /** Applies the website settings that live outside React's tree. */
 export function SiteSettingsEffects() {
-  const { radius, sound, motion, density, surface, colors } = useSiteSettings()
+  const { radius, sound, motion, density, surface, colors, spinner } =
+    useSiteSettings()
 
   React.useEffect(() => {
     const root = document.documentElement
@@ -47,6 +49,12 @@ export function SiteSettingsEffects() {
   React.useEffect(() => {
     applyColorRoles(colors)
   }, [colors])
+
+  React.useEffect(() => {
+    for (const [key, value] of Object.entries(getSpinnerVariables(spinner))) {
+      document.documentElement.style.setProperty(key, value)
+    }
+  }, [spinner])
 
   // Every component on the site plays its sounds through one listener.
   return <SoundEffects enabled={sound} />

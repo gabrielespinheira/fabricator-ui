@@ -56,13 +56,13 @@ import {
   type PreviewOptions,
 } from "./icon-preview"
 
-const SETS = ["outline", "brands", "animated"] as const
+const SETS = ["outline", "brands", "files", "animated"] as const
 const SIZES = [16, 20, 24] as const
 const STROKES = [1.5, 2] as const
 const COLORS = ["mono", "brand"] as const
 const ALL = "all"
 // The three tabs and their counts need 332px: under that, the labels alone fit.
-const TAB_COUNT_CLASS = "tabular-nums max-[359px]:hidden"
+const TAB_COUNT_CLASS = "tabular-nums max-[479px]:hidden"
 
 const iconParsers = {
   q: parseAsString.withDefault(""),
@@ -134,6 +134,35 @@ function joinLibrary(catalog: typeof Catalog, nodes: typeof Nodes): Library {
   const categoryTitles = new Map(
     catalog.outlineCategories.map((category) => [category.name, category.title])
   )
+  for (const entry of catalog.fileCatalog) {
+    const data = nodes.fileNodes[entry.name]
+    if (!data) throw new MissingShapesError(`No shapes for ${entry.name}`)
+    icons.set(key("files", entry.name), {
+      set: "files",
+      entry,
+      data: {
+        ...data,
+        node: toReactAttributes(data.node),
+        ...(data.masks && {
+          masks: data.masks.map((mask) => ({
+            ...mask,
+            attributes: Object.fromEntries(
+              Object.entries(mask.attributes).map(([key, value]) => [
+                key.replace(/-([a-z])/g, (_, letter: string) =>
+                  letter.toUpperCase()
+                ),
+                value,
+              ])
+            ),
+            node: toReactAttributes(mask.node),
+          })),
+        }),
+      },
+      source: { set: "files", data, palette: nodes.filePalette },
+    })
+  }
+  categoryTitles.set("files", "Files")
+  categoryTitles.set("folders", "Folders")
   return { catalog, icons, categoryTitles }
 }
 
@@ -289,6 +318,7 @@ export function IconsBrowser() {
         outline: library.catalog.outlineCatalog.length,
         brands: library.catalog.brandCatalog.length,
         animated: library.catalog.animatedCatalog.length,
+        files: library.catalog.fileCatalog.length,
       }
     : undefined
   const categoryItems = [
@@ -320,7 +350,7 @@ export function IconsBrowser() {
           label="Search icons"
           placeholder={
             counts
-              ? `Search ${(counts.outline + counts.brands).toLocaleString("en")} icons`
+              ? `Search ${counts[params.set].toLocaleString("en")} icons`
               : "Search icons"
           }
           width="100%"
@@ -349,6 +379,10 @@ export function IconsBrowser() {
             {counts && (
               <span className={TAB_COUNT_CLASS}>{counts.animated}</span>
             )}
+          </TabsTrigger>
+          <TabsTrigger value="files">
+            Files
+            {counts && <span className={TAB_COUNT_CLASS}>{counts.files}</span>}
           </TabsTrigger>
         </TabsList>
         <Select
@@ -380,7 +414,7 @@ export function IconsBrowser() {
             onValueChange={(size) => void setParams({ size })}
             format={(size) => `${size}px`}
           />
-          {params.set !== "brands" ? (
+          {params.set !== "brands" && params.set !== "files" ? (
             <NumberToggle
               label="Stroke width"
               values={STROKES}
@@ -388,7 +422,7 @@ export function IconsBrowser() {
               onValueChange={(stroke) => void setParams({ stroke })}
               format={(stroke) => `${stroke}`}
             />
-          ) : (
+          ) : params.set === "brands" ? (
             <ToggleGroup
               aria-label="Brand colours"
               value={[params.color]}
@@ -413,7 +447,7 @@ export function IconsBrowser() {
                 Brand colour
               </ToggleGroupItem>
             </ToggleGroup>
-          )}
+          ) : null}
         </div>
       </div>
 

@@ -1,7 +1,10 @@
 import * as React from "react"
 import { describe, expect, it } from "vitest"
 
-import { wrapTextChildren } from "@/registry/native/lib/text-children"
+import {
+  getTextContent,
+  wrapTextChildren,
+} from "@/registry/native/lib/text-children"
 
 const label = (text: string, key: number) => ({ text, key })
 
@@ -38,5 +41,21 @@ describe("wrapTextChildren", () => {
     const output = wrapTextChildren(["a", icon, "b"], label)
     expect(output).toHaveLength(3)
     expect(output[2]).toEqual({ text: "b", key: 2 })
+  })
+})
+
+describe("getTextContent", () => {
+  it("reads the text beside an icon", () => {
+    const icon = React.createElement("icon")
+    expect(getTextContent([icon, "Files ", 2])).toBe("Files 2")
+  })
+
+  it("joins text on both sides of an element with a space", () => {
+    const icon = React.createElement("icon")
+    expect(getTextContent(["Save", icon, "now"])).toBe("Save now")
+  })
+
+  it("is empty without text", () => {
+    expect(getTextContent(React.createElement("icon"))).toBe("")
   })
 })

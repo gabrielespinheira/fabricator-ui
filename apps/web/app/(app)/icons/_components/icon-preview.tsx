@@ -3,13 +3,21 @@ import { BrandIcon, type BrandIconData } from "@fabricator-ui/icons/brands"
 import type {
   AnimatedCatalogEntry,
   BrandCatalogEntry,
+  FileCatalogEntry,
   OutlineCatalogEntry,
 } from "@fabricator-ui/icons/catalog"
+import { FileIcon, type FileIconData } from "@fabricator-ui/icons/files"
 
 import type { PreviewIcon } from "../lib/icons"
 
 /** An icon with its catalog entry, its React data and its SVG source data. */
 export type LoadedIcon =
+  | {
+      set: "files"
+      entry: FileCatalogEntry
+      data: FileIconData
+      source: PreviewIcon
+    }
   | {
       set: "outline"
       entry: OutlineCatalogEntry
@@ -44,6 +52,8 @@ export function IconPreview({
   brandColor,
   className,
 }: { icon: LoadedIcon; className?: string } & PreviewOptions) {
+  if (icon.set === "files")
+    return <FileIcon data={icon.data} size={size} className={className} />
   if (icon.set !== "brands") {
     return (
       <Icon

@@ -159,5 +159,334 @@
     "name": "tab-strip",
     "reason": "Not a part: a selector, for F6's regions and for the header's inset when a tab strip starts it. Neither exists here: no key to press, no `has-*`.",
     "date": "2026-11-04"
+  },
+  {
+    "item": "tabs",
+    "kind": "demo",
+    "name": "variant.line",
+    "reason": "`line` is a retired alias of `default`, kept so existing code compiles. Demos don't show it, on the website either.",
+    "date": "2026-11-07"
+  },
+  {
+    "item": "date-picker",
+    "kind": "slot",
+    "name": "date-picker-value",
+    "reason": "The website's hidden input carries the day to a form submit. React Native has no forms, so there is no element to carry the slot; `name` is accepted so code moves across.",
+    "date": "2026-11-07"
+  },
+  {
+    "item": "month-input",
+    "kind": "slot",
+    "name": "month-input-value",
+    "reason": "The website's hidden input carries the month to a form submit. React Native has no forms, so there is no element to carry the slot; `name` is accepted so code moves across.",
+    "date": "2026-11-07"
+  },
+  {
+    "item": "date-picker",
+    "kind": "prop",
+    "name": "hasTime",
+    "reason": "The native Date Picker has no time wheel yet: native has no Time Input or Time Wheel to build it from (both are still missing on native). It comes with them.",
+    "date": "2026-11-08"
+  },
+  {
+    "item": "date-picker",
+    "kind": "prop",
+    "name": "step",
+    "reason": "The native Date Picker has no time wheel yet: native has no Time Input or Time Wheel to build it from (both are still missing on native). It comes with them.",
+    "date": "2026-11-08"
+  },
+  {
+    "item": "date-picker",
+    "kind": "prop",
+    "name": "hourCycle",
+    "reason": "The native Date Picker has no time wheel yet: native has no Time Input or Time Wheel to build it from (both are still missing on native). It comes with them.",
+    "date": "2026-11-08"
+  },
+  {
+    "item": "date-picker",
+    "kind": "prop",
+    "name": "timeLabel",
+    "reason": "The native Date Picker has no time wheel yet: native has no Time Input or Time Wheel to build it from (both are still missing on native). It comes with them.",
+    "date": "2026-11-08"
+  },
+  {
+    "item": "date-picker",
+    "kind": "slot",
+    "name": "date-picker-time",
+    "reason": "The native Date Picker has no time wheel yet: native has no Time Input or Time Wheel to build it from (both are still missing on native). It comes with them.",
+    "date": "2026-11-08"
+  },
+  {
+    "item": "date-picker",
+    "kind": "placeholder",
+    "name": "cn-date-picker-time",
+    "reason": "The native Date Picker has no time wheel yet: native has no Time Input or Time Wheel to build it from (both are still missing on native). It comes with them.",
+    "date": "2026-11-08"
+  },
+  {
+    "item": "date-picker",
+    "kind": "slot",
+    "name": "date-picker-panel",
+    "reason": "The native Date Picker has no time wheel yet: native has no Time Input or Time Wheel to build it from (both are still missing on native). It comes with them.",
+    "date": "2026-11-08"
+  },
+  {
+    "item": "date-picker",
+    "kind": "placeholder",
+    "name": "cn-date-picker-panel",
+    "reason": "The native Date Picker has no time wheel yet: native has no Time Input or Time Wheel to build it from (both are still missing on native). It comes with them.",
+    "date": "2026-11-08"
+  },
+  {
+    "item": "date-picker",
+    "kind": "prop",
+    "name": "editable",
+    "reason": "The native field is still the editable text field with a calendar button; its button-first field comes with the native time column.",
+    "date": "2026-11-08"
+  },
+  {
+    "item": "date-picker",
+    "kind": "slot",
+    "name": "date-picker-field",
+    "reason": "The native field is still the editable text field with a calendar button; its button-first field comes with the native time column.",
+    "date": "2026-11-08"
+  },
+  {
+    "item": "date-picker",
+    "kind": "placeholder",
+    "name": "cn-date-picker-field",
+    "reason": "The native field is still the editable text field with a calendar button; its button-first field comes with the native time column.",
+    "date": "2026-11-08"
+  },
+  {
+    "item": "date-picker",
+    "kind": "placeholder",
+    "name": "cn-date-picker-field-icon",
+    "reason": "The native field is still the editable text field with a calendar button; its button-first field comes with the native time column.",
+    "date": "2026-11-08"
+  },
+  {
+    "item": "date-picker",
+    "kind": "prop",
+    "name": "hasSeconds",
+    "reason": "The native Date Picker has no time wheel yet: native has no Time Input or Time Wheel to build it from (both are still missing on native). It comes with them.",
+    "date": "2026-11-08"
+  },
+  {
+    "item": "date-picker",
+    "kind": "placeholder",
+    "name": "cn-date-picker-time-wheel",
+    "reason": "The native Date Picker has no time wheel yet: native has no Time Input or Time Wheel to build it from (both are still missing on native). It comes with them.",
+    "date": "2026-11-08"
+  },
+  {
+    "item": "date-picker",
+    "kind": "slot",
+    "name": "calendar",
+    "reason": "Not a slot the Date Picker renders: the website's field looks up the Calendar's own data-slot to put focus on its day when the popover opens. The native Calendar keeps focus itself.",
+    "date": "2026-11-08"
+  },
+  {
+    "item": "questionnaire",
+    "kind": "export",
+    "name": "QuestionnaireHeader",
+    "reason": "Added on the website with the restyle after Relay's agent questions, so a questionnaire can take a chat input's place. React Native has no Chat Input yet; the native questionnaire takes this when it does.",
+    "date": "2026-11-08"
+  },
+  {
+    "item": "questionnaire",
+    "kind": "slot",
+    "name": "questionnaire-header",
+    "reason": "Added on the website with the restyle after Relay's agent questions, so a questionnaire can take a chat input's place. React Native has no Chat Input yet; the native questionnaire takes this when it does.",
+    "date": "2026-11-08"
+  },
+  {
+    "item": "questionnaire",
+    "kind": "placeholder",
+    "name": "cn-questionnaire-header",
+    "reason": "Added on the website with the restyle after Relay's agent questions, so a questionnaire can take a chat input's place. React Native has no Chat Input yet; the native questionnaire takes this when it does.",
+    "date": "2026-11-08"
+  },
+  {
+    "item": "questionnaire",
+    "kind": "prop",
+    "name": "advanceOnSelect",
+    "reason": "Added on the website with the restyle after Relay's agent questions, so a questionnaire can take a chat input's place. React Native has no Chat Input yet; the native questionnaire takes this when it does.",
+    "date": "2026-11-08"
+  },
+  {
+    "item": "questionnaire",
+    "kind": "export",
+    "name": "shouldAdvanceQuestionnaire",
+    "reason": "Added on the website with the restyle after Relay's agent questions, so a questionnaire can take a chat input's place. React Native has no Chat Input yet; the native questionnaire takes this when it does.",
+    "date": "2026-11-08"
+  },
+  {
+    "item": "questionnaire",
+    "kind": "slot",
+    "name": "questionnaire-choice-advance",
+    "reason": "The arrow is a pointer cue: it covers a single choice's chip on hover (and keyboard focus) where a pick moves on. Native rows keep their tap feedback.",
+    "date": "2026-11-08"
+  },
+  {
+    "item": "questionnaire",
+    "kind": "placeholder",
+    "name": "cn-questionnaire-choice-advance",
+    "reason": "The same pointer cue's style.",
+    "date": "2026-11-08"
+  },
+  {
+    "item": "questionnaire",
+    "kind": "placeholder",
+    "name": "cn-questionnaire-choice-check",
+    "reason": "The check inside the website's square chip for a multiple choice without shortcuts. Native multiple choices keep the Checkbox mark, which draws its own check.",
+    "date": "2026-11-08"
+  },
+  {
+    "item": "video-player",
+    "kind": "slot",
+    "name": "video-player-volume-slider",
+    "reason": "The website's volume slider opens on hover beside the mute button and stays closed on touch screens; on a phone or tablet the device's buttons set the volume, so the native player keeps only mute.",
+    "date": "2026-11-08"
+  },
+  {
+    "item": "video-player",
+    "kind": "slot",
+    "name": "video-player-volume-track",
+    "reason": "The website's volume slider opens on hover beside the mute button and stays closed on touch screens; on a phone or tablet the device's buttons set the volume, so the native player keeps only mute.",
+    "date": "2026-11-08"
+  },
+  {
+    "item": "video-player",
+    "kind": "slot",
+    "name": "video-player-volume-level",
+    "reason": "The website's volume slider opens on hover beside the mute button and stays closed on touch screens; on a phone or tablet the device's buttons set the volume, so the native player keeps only mute.",
+    "date": "2026-11-08"
+  },
+  {
+    "item": "video-player",
+    "kind": "slot",
+    "name": "video-player-volume-thumb",
+    "reason": "The website's volume slider opens on hover beside the mute button and stays closed on touch screens; on a phone or tablet the device's buttons set the volume, so the native player keeps only mute.",
+    "date": "2026-11-08"
+  },
+  {
+    "item": "video-player",
+    "kind": "placeholder",
+    "name": "cn-video-player-volume-slider",
+    "reason": "The website's volume slider opens on hover beside the mute button and stays closed on touch screens; on a phone or tablet the device's buttons set the volume, so the native player keeps only mute.",
+    "date": "2026-11-08"
+  },
+  {
+    "item": "video-player",
+    "kind": "placeholder",
+    "name": "cn-video-player-volume-track",
+    "reason": "The website's volume slider opens on hover beside the mute button and stays closed on touch screens; on a phone or tablet the device's buttons set the volume, so the native player keeps only mute.",
+    "date": "2026-11-08"
+  },
+  {
+    "item": "video-player",
+    "kind": "placeholder",
+    "name": "cn-video-player-volume-level",
+    "reason": "The website's volume slider opens on hover beside the mute button and stays closed on touch screens; on a phone or tablet the device's buttons set the volume, so the native player keeps only mute.",
+    "date": "2026-11-08"
+  },
+  {
+    "item": "video-player",
+    "kind": "placeholder",
+    "name": "cn-video-player-volume-thumb",
+    "reason": "The website's volume slider opens on hover beside the mute button and stays closed on touch screens; on a phone or tablet the device's buttons set the volume, so the native player keeps only mute.",
+    "date": "2026-11-08"
+  },
+  {
+    "item": "video-player",
+    "kind": "slot",
+    "name": "video-player-seek-hover",
+    "reason": "The fill up to the pointer while it hovers the seek bar: a finger doesn't hover, and while it drags the played fill follows it.",
+    "date": "2026-11-08"
+  },
+  {
+    "item": "video-player",
+    "kind": "placeholder",
+    "name": "cn-video-player-seek-hover",
+    "reason": "The fill up to the pointer while it hovers the seek bar: a finger doesn't hover, and while it drags the played fill follows it.",
+    "date": "2026-11-08"
+  },
+  {
+    "item": "video-player",
+    "kind": "slot",
+    "name": "video-player-volume-readout",
+    "reason": "The website's volume readout answers the volume keys. A phone or tablet changes the volume with its hardware buttons and the system draws its own indicator, and the mute button already shows mute in its icon.",
+    "date": "2026-11-08"
+  },
+  {
+    "item": "video-player",
+    "kind": "placeholder",
+    "name": "cn-video-player-volume-readout",
+    "reason": "The website's volume readout answers the volume keys. A phone or tablet changes the volume with its hardware buttons and the system draws its own indicator, and the mute button already shows mute in its icon.",
+    "date": "2026-11-08"
+  },
+  {
+    "item": "video-player",
+    "kind": "placeholder",
+    "name": "cn-video-player-volume-readout-value",
+    "reason": "The website's volume readout answers the volume keys. A phone or tablet changes the volume with its hardware buttons and the system draws its own indicator, and the mute button already shows mute in its icon.",
+    "date": "2026-11-08"
+  },
+  {
+    "item": "chat-input",
+    "kind": "component",
+    "name": "chat-input",
+    "reason": "Web-first chat composer uses DOM text editing, file drop/paste and voice-glow. Native composition, attachment picking and voice visuals are deferred.",
+    "date": "2026-11-09"
+  },
+  {
+    "item": "color-picker",
+    "kind": "component",
+    "name": "color-picker",
+    "reason": "Web-first color picker uses pointer scrubbing and the browser eyedropper. Native touch color controls are deferred.",
+    "date": "2026-11-09"
+  },
+  {
+    "item": "file-tree",
+    "kind": "component",
+    "name": "file-tree",
+    "reason": "Desktop explorer ships on web first. Native touch selection and action menus are deferred.",
+    "date": "2026-11-09"
+  },
+  {
+    "item": "file-upload",
+    "kind": "component",
+    "name": "file-upload",
+    "reason": "Web-first upload controls use File, drag-and-drop, paste and native HTML form submission. Native document/image picking is deferred.",
+    "date": "2026-11-09"
+  },
+  {
+    "item": "model-picker",
+    "kind": "component",
+    "name": "model-picker",
+    "reason": "Web-first model and reasoning selector ships with Chat Input. Native selector presentation is deferred with the composer.",
+    "date": "2026-11-09"
+  },
+  {
+    "item": "number-field",
+    "kind": "component",
+    "name": "number-field",
+    "reason": "Web Number Field ships first. Native number formatting models exist, but the native stepper field and its demo are deferred.",
+    "date": "2026-11-09"
+  },
+  {
+    "item": "time-input",
+    "kind": "component",
+    "name": "time-input",
+    "reason": "Web-first time field and duration modes use Time Wheel. Native field and wheel controls are deferred; the native Date Picker documents this limit.",
+    "date": "2026-11-09"
+  },
+  {
+    "item": "time-wheel",
+    "kind": "component",
+    "name": "time-wheel",
+    "reason": "Web-first wheel is a Time Input and Date Picker part. Native touch scrolling, snapping and accessibility adjustments are deferred with Time Input.",
+    "date": "2026-11-09"
   }
 ]

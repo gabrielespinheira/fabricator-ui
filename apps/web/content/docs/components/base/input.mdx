@@ -7,8 +7,8 @@ component: true
 
 <ComponentPreview
   styleName="base-nova"
-  name="input-demo"
-  previewClassName="*:max-w-xs"
+  name="input-types"
+  previewClassName="h-auto p-6 sm:p-10"
 />
 
 ## Installation
@@ -65,6 +65,63 @@ import { Input } from "@/components/ui/input"
   previewClassName="*:max-w-xs"
 />
 
+## Types
+
+`Input` is for text: `text`, `email`, `tel`, `url`, and `password` and
+`search` below. It never shows the browser's own controls, so every field
+looks and moves like the rest of the library in light and dark. Every other
+input type has a component of its own, built on the same frame. The preview at the top of this page shows each one:
+
+| Type                          | Use                                                                                                                                                |
+| ----------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `text`, `email`, `tel`, `url` | `Input`                                                                                                                                            |
+| `password`                    | `Input` in an [Input Group](/docs/components/base/input-group) with a show button ([Password](#password))                                          |
+| `search`                      | An [Input Group](/docs/components/base/input-group) with a clear button ([Search](#search)), or [Search](/docs/components/base/search) in toolbars |
+| `number`                      | [Number Field](/docs/components/base/number-field)                                                                                                 |
+| `date`                        | [Date Picker](/docs/components/base/date-picker)                                                                                                   |
+| `time`                        | [Time Input](/docs/components/base/time-input)                                                                                                     |
+| `datetime-local`              | [Date Picker](/docs/components/base/date-picker) with `hasTime`                                                                                    |
+| `month`                       | [Month Input](/docs/components/base/month-input)                                                                                                   |
+| `color`                       | [Color Picker](/docs/components/base/color-picker)                                                                                                 |
+| `file`                        | [File Upload](/docs/components/base/file-upload)                                                                                                   |
+| `range`                       | [Slider](/docs/components/base/slider)                                                                                                             |
+| `checkbox`, `radio`           | [Checkbox](/docs/components/base/checkbox), [Radio Group](/docs/components/base/radio-group)                                                       |
+
+## Password
+
+Put a password in an Input Group with a button that shows it. The button says
+what it does next and reports `aria-pressed`. The browser's own reveal button
+never shows.
+
+<ComponentPreview
+  styleName="base-nova"
+  name="input-password"
+  previewClassName="*:max-w-xs"
+/>
+
+## Search
+
+`type="search"` without the browser's clear button: add your own, which
+appears once there's text and puts the focus back in the field.
+
+<ComponentPreview
+  styleName="base-nova"
+  name="input-search"
+  previewClassName="*:max-w-xs"
+/>
+
+## Sizes
+
+Inputs take their height, padding and text size from the density. Set
+`data-density` or a `density-compact` / `density-spacious` class on the input
+or any parent, and the input stays the same height as the buttons beside it.
+
+<ComponentPreview
+  styleName="base-nova"
+  name="input-sizes"
+  previewClassName="h-auto p-6 sm:p-10 *:max-w-xs"
+/>
+
 ## Field
 
 Use `Field`, `FieldLabel`, and `FieldDescription` to create an input with a
@@ -106,15 +163,47 @@ Use the `aria-invalid` prop to mark the input as invalid. To style the invalid s
   previewClassName="*:max-w-xs"
 />
 
+## Number
+
+For numbers, use [Number Field](/docs/components/base/number-field): steppers, min and
+max, keyboard stepping and locale formatting such as currency or percent.
+
+<ComponentPreview styleName="base-nova" name="number-field-field" />
+
+## Date
+
+For dates, use [Date Picker](/docs/components/base/date-picker): it opens the library's
+calendar, with a column of times beside it when you add `hasTime`.
+
+<ComponentPreview styleName="base-nova" name="date-picker-field" />
+
+## Time
+
+For times, use [Time Input](/docs/components/base/time-input): type `930` or `9:30 pm`,
+or pick from a list of times.
+
+## Month
+
+For a month, use [Month Input](/docs/components/base/month-input): type `3/2028` or
+`Mar 2028`, or pick from a year of months.
+
+<ComponentPreview styleName="base-nova" name="month-input-field" />
+
+## Color
+
+For colours, use [Color Picker](/docs/components/base/color-picker): a
+swatch and hex trigger that opens a saturation area, hue and alpha tracks,
+and HEX, RGB, HSL and OKLCH fields.
+
+<ComponentPreview styleName="base-nova" name="color-picker-popover" />
+
 ## File
 
-Use the `type="file"` prop to create a file input.
+For files, use [File Upload](/docs/components/base/file-upload). Its
+field is the size and frame of an Input: drop files on it or choose them, and
+they show inside it as chips you can remove, on one row that scrolls sideways, so the field keeps its height.
 
-<ComponentPreview
-  styleName="base-nova"
-  name="input-file"
-  previewClassName="*:max-w-xs"
-/>
+<ComponentPreview styleName="base-nova" name="file-upload-field" />
 
 ## Inline
 
@@ -186,3 +275,25 @@ A full form example with multiple inputs, a select, and a button.
   name="input-form"
   previewClassName="h-[32rem]"
 />
+
+## API Reference
+
+### Input
+
+`Input` takes every prop of the native `input` element and passes it through.
+
+| Prop           | Type      | Default  | Description                                                         |
+| -------------- | --------- | -------- | ------------------------------------------------------------------- |
+| `type`         | `string`  | `"text"` | A text type: `text`, `email`, `password`, `tel`, `url` or `search`. |
+| `aria-invalid` | `boolean` | -        | Turns the frame red. Pair with `data-invalid` on the `Field`.       |
+| `disabled`     | `boolean` | `false`  | Dims the input and blocks interaction.                              |
+| `className`    | `string`  | -        | Merged last, for layout such as width.                              |
+
+## Accessibility
+
+- Give every input a visible label with `FieldLabel` and `htmlFor`, or an
+  `aria-label` when the label is implied (a search field with an icon).
+- Describe errors with `FieldError` inside a `Field` that has `data-invalid`,
+  and set `aria-invalid` on the input so assistive technology announces it.
+- Focus shows a firmer neutral ring; the caret marks the focused field.
+- Text is 16px below the `md` breakpoint so iOS doesn't zoom into the field.

@@ -2,6 +2,7 @@ import { defineConfig, defineDocs } from "fumadocs-mdx/config"
 import rehypePrettyCode from "rehype-pretty-code"
 
 import { transformers } from "@/lib/highlight-code"
+import { fabricatorShikiTheme } from "@/lib/shiki-fabricator-theme"
 
 export default defineConfig({
   mdxOptions: {
@@ -10,9 +11,10 @@ export default defineConfig({
       plugins.push([
         rehypePrettyCode,
         {
+          // One theme for both: its colours are the --syntax-* tokens.
           theme: {
-            dark: "vesper",
-            light: "github-light-default",
+            dark: fabricatorShikiTheme,
+            light: fabricatorShikiTheme,
           },
           transformers,
         },

@@ -1,0 +1,19 @@
+{
+  "title": "Grok",
+  "group": "Product & dev",
+  "tags": [
+    "xai",
+    "ai",
+    "assistant",
+    "llm",
+    "model"
+  ],
+  "aliases": [
+    "xai"
+  ],
+  "hex": "#000000",
+  "source": "gilbarbara/logos via @iconify-json/logos 1.2.18",
+  "license": "CC0-1.0",
+  "artSource": "gilbarbara/logos via @iconify-json/logos 1.2.18 (CC0-1.0)",
+  "credit": "Grok and its logo are trademarks of SpaceXSI (formerly xAI) and belong to it. Terms: https://x.ai/legal/brand-guidelines"
+}

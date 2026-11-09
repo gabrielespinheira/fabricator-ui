@@ -378,7 +378,7 @@ Inter, the variable font with its optical size axis (`next/font`: `axes: ["opsz"
 
 Components set their own type; this table is for headings and copy you write around them. Body, caption, subtitle and title follow the density (12/13/15px body from compact to spacious) when written with the `--density-text-*` tokens.
 
-- **Weight is state.** Hover changes colour (muted to foreground) and icon stroke; weight changes only for persistent state: checked, selected, an active tab, an open accordion. To change weight without shifting layout, use `weight-normal`, `weight-medium`, `weight-semibold` or `weight-bold` (weight paired with optical size) with `transition-[font-variation-settings]`: `weight-normal aria-pressed:weight-semibold`.
+- **Weight is state.** Hover changes colour (muted to foreground) and icon stroke; weight changes only for persistent state: checked, selected, an open accordion. Tabs never change weight: the active tab is its colour and pill. To change weight without shifting layout, use `weight-normal`, `weight-medium`, `weight-semibold` or `weight-bold` (weight paired with optical size) with `transition-[font-variation-settings]`: `weight-normal aria-pressed:weight-semibold`.
 - **Two weights per view** is the norm: regular for text, medium or semibold for titles and values. Bold is for dialog titles.
 - **Figures:** `tabular-nums` on numbers that update or line up (tables, counters, prices, timers, durations).
 - **Long text:** paragraphs `max-w-prose text-pretty`, headings `text-balance`.
@@ -478,15 +478,15 @@ Use a plain `SidebarProvider`, `Sidebar` and `SidebarInset` only for a screen th
 
 Depth is an eight-level ladder of surfaces. Each level pairs a background with a shadow, and the shadow starts with a 1px ring that draws the edge, so surfaces have no borders.
 
-| Level      | Classes                         | Holds                                                                                                                                         |
-| ---------- | ------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1          | `bg-background`                 | The page and the app frame                                                                                                                    |
-| 2          | `bg-surface-2 shadow-surface-2` | Sidebar (`bg-sidebar`; in an App Shell it sits on the frame), side panels, inset regions, the default Card                                    |
-| 3          | `bg-surface-3 shadow-surface-3` | Raised cards, the App Shell main column (with the inset sidebar), menus, selects, popovers, hover cards, sheets, drawers                      |
-| 4          | `bg-surface-4 shadow-surface-4` | The active tab and segmented selection (on React Native in dark, a translucent step over the track); anything raised inside a level-3 surface |
-| 5          | `bg-surface-5 shadow-surface-5` | Dialogs, alert dialogs, toasts                                                                                                                |
-| 6–8        | `bg-surface-N shadow-surface-N` | Rare: surfaces stacked above a dialog                                                                                                         |
-| (inverted) | `bg-foreground text-background` | Tooltips                                                                                                                                      |
+| Level      | Classes                         | Holds                                                                                                                                                   |
+| ---------- | ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1          | `bg-background`                 | The page and the app frame                                                                                                                              |
+| 2          | `bg-surface-2 shadow-surface-2` | Sidebar (`bg-sidebar`; in an App Shell it sits on the frame), side panels, inset regions, the default Card                                              |
+| 3          | `bg-surface-3 shadow-surface-3` | Raised cards, the App Shell main column (with the inset sidebar), menus, selects, popovers, hover cards, sheets, drawers                                |
+| 4          | `bg-surface-4 shadow-surface-4` | The active tab and segmented selection (in dark, the active tab is a translucent step over the track instead); anything raised inside a level-3 surface |
+| 5          | `bg-surface-5 shadow-surface-5` | Dialogs, alert dialogs, toasts                                                                                                                          |
+| 6–8        | `bg-surface-N shadow-surface-N` | Rare: surfaces stacked above a dialog                                                                                                                   |
+| (inverted) | `bg-foreground text-background` | Tooltips                                                                                                                                                |
 
 In light mode levels 3 and up are all white and only the shadow shows the height; in dark mode each level is a step lighter. Scrims behind dialogs and sheets belong to those components.
 
@@ -564,56 +564,63 @@ Component names, props, variants and `data-slot` values are stable, and new ones
 
 ### Choosing a component
 
-| Need                                       | Use                                                                                 |
-| ------------------------------------------ | ----------------------------------------------------------------------------------- |
-| An action                                  | `Button` with a variant; `ButtonGroup` for joined actions and split buttons         |
-| One on/off tool (bold, pin, mute)          | `Toggle`                                                                            |
-| A choice of 2 to 7 options, or a view mode | `ToggleGroup` (a segmented control)                                                 |
-| Switching between panels of content        | `Tabs`                                                                              |
-| Short text                                 | `Input`; with icons, prefixes or buttons, `InputGroup`                              |
-| Long text                                  | `Textarea` (`InputGroupTextarea` for a composer with actions)                       |
-| Searching or filtering a page              | `Search` (collapses to a button in toolbars); `CommandInput` inside a palette       |
-| One choice from a known list               | `Select`; `RadioGroup` when every option should stay visible (up to about 5)        |
-| One choice from a long or searchable list  | `Combobox` (also multiple selection with chips)                                     |
-| Several independent options                | `Checkbox` in a `FieldSet`                                                          |
-| A setting that applies at once             | `Switch`                                                                            |
-| A date or range                            | `Calendar` in a `Popover` (the Date Picker pattern)                                 |
-| A one-time code                            | `InputOTP`                                                                          |
-| An approximate value                       | `Slider` with the value shown beside it                                             |
-| A focused task or form                     | `Dialog`                                                                            |
-| Confirming something irreversible          | `AlertDialog`                                                                       |
-| Details or editing beside the current view | `Sheet`                                                                             |
-| A bottom panel on phones                   | `Drawer`                                                                            |
-| Small interactive content on a trigger     | `Popover`                                                                           |
-| A preview of a linked thing on hover       | `HoverCard`                                                                         |
-| A label for an icon or a shortcut hint     | `Tooltip`                                                                           |
-| Actions on a trigger                       | `DropdownMenu`; `ContextMenu` for right-click; `Menubar` for desktop-app menus      |
-| Jump anywhere, run any command             | `Command` in a `CommandDialog`                                                      |
-| An app frame                               | `AppShell` with `AppNav` (see [The app frame](#the-app-frame))                      |
-| A hand-built side navigation               | `Sidebar`                                                                           |
-| Document tabs (files, records, chats)      | `TabStrip`                                                                          |
-| Switching organization or workspace        | `WorkspaceSwitcher`                                                                 |
-| The signed-in person's menu                | `UserMenu`                                                                          |
-| Website header navigation                  | `NavigationMenu`                                                                    |
-| Where am I                                 | `Breadcrumb`                                                                        |
-| More results than one page                 | `Pagination`                                                                        |
-| Records compared across columns            | `Table` (the Data Table guide adds sorting, filters and paging with TanStack Table) |
-| A list of things (people, files, links)    | `Item` in an `ItemGroup`                                                            |
-| One discrete object                        | `Card`                                                                              |
-| A status or label                          | `Badge`                                                                             |
-| A person or account                        | `Avatar` with `AvatarFallback`; `AvatarGroup` for several                           |
-| A keyboard shortcut                        | `Kbd`, `KbdGroup`                                                                   |
-| A persistent message in the page           | `Alert`                                                                             |
-| The result of an action                    | A toast (`toast` on Base UI, Sonner on Radix and React Aria)                        |
-| Progress of known length                   | `Progress`                                                                          |
-| Waiting in place                           | `Spinner`                                                                           |
-| Content loading                            | `Skeleton` in the shape of the content                                              |
-| Nothing to show yet                        | `Empty`                                                                             |
-| Sections that open and close               | `Accordion`; `Collapsible` for one                                                  |
-| Resizable split views                      | `Resizable`                                                                         |
-| A custom scroll area                       | `ScrollArea`                                                                        |
-| A conversation                             | `MessageScroller`, `Message`, `Bubble`, `Attachment`, `Marker`                      |
-| Questions an assistant asks                | `Questionnaire`                                                                     |
+| Need                                       | Use                                                                                                                                        |
+| ------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------ |
+| An action                                  | `Button` with a variant; `ButtonGroup` for joined actions and split buttons                                                                |
+| One on/off tool (bold, pin, mute)          | `Toggle`                                                                                                                                   |
+| A choice of 2 to 7 options, or a view mode | `ToggleGroup` (a segmented control)                                                                                                        |
+| Switching between panels of content        | `Tabs`                                                                                                                                     |
+| Short text                                 | `Input`; with icons, prefixes or buttons, `InputGroup`                                                                                     |
+| A password                                 | `InputGroup` with a show button (never the browser's reveal)                                                                               |
+| A number                                   | `NumberField` (steppers, limits, formatting), never `type="number"`                                                                        |
+| A date, a time or a month                  | `DatePicker` (`hasTime` adds a time wheel), `TimeInput` (a wheel of hours, minutes and seconds), `MonthInput`; never the browser's pickers |
+| A start and an end time on one day         | `TimeRangeInput`: the end's list shows durations and follows the start                                                                     |
+| A file                                     | `FileUploadField` in a form, `FileUploadDropzone` for a large target; never `type="file"`                                                  |
+| A color                                    | `ColorPicker`; `ColorPickerPopover` behind a trigger; never `type="color"`                                                                 |
+| Long text                                  | `Textarea` (`InputGroupTextarea` for a composer with actions)                                                                              |
+| Searching or filtering a page              | `Search` (collapses to a button in toolbars); `CommandInput` inside a palette                                                              |
+| One choice from a known list               | `Select`; `RadioGroup` when every option should stay visible (up to about 5)                                                               |
+| One choice from a long or searchable list  | `Combobox` (also multiple selection with chips)                                                                                            |
+| Several independent options                | `Checkbox` in a `FieldSet`                                                                                                                 |
+| A setting that applies at once             | `Switch`                                                                                                                                   |
+| A date range, or a date as a button        | `Calendar` in a `Popover` (the Date Picker page's compositions)                                                                            |
+| A one-time code                            | `InputOTP`                                                                                                                                 |
+| An approximate value                       | `Slider` with the value shown beside it                                                                                                    |
+| A focused task or form                     | `Dialog`                                                                                                                                   |
+| Confirming something irreversible          | `AlertDialog`                                                                                                                              |
+| Details or editing beside the current view | `Sheet`                                                                                                                                    |
+| A bottom panel on phones                   | `Drawer`                                                                                                                                   |
+| Small interactive content on a trigger     | `Popover`                                                                                                                                  |
+| A preview of a linked thing on hover       | `HoverCard`                                                                                                                                |
+| A label for an icon or a shortcut hint     | `Tooltip`                                                                                                                                  |
+| Actions on a trigger                       | `DropdownMenu`; `ContextMenu` for right-click; `Menubar` for desktop-app menus                                                             |
+| Jump anywhere, run any command             | `Command` in a `CommandDialog`                                                                                                             |
+| An app frame                               | `AppShell` with `AppNav` (see [The app frame](#the-app-frame))                                                                             |
+| A hand-built side navigation               | `Sidebar`                                                                                                                                  |
+| Document tabs (files, records, chats)      | `TabStrip`                                                                                                                                 |
+| Switching organization or workspace        | `WorkspaceSwitcher`                                                                                                                        |
+| The signed-in person's menu                | `UserMenu`                                                                                                                                 |
+| Website header navigation                  | `NavigationMenu`                                                                                                                           |
+| Where am I                                 | `Breadcrumb`                                                                                                                               |
+| More results than one page                 | `Pagination`                                                                                                                               |
+| Records compared across columns            | `Table` (the Data Table guide adds sorting, filters and paging with TanStack Table)                                                        |
+| A list of things (people, files, links)    | `Item` in an `ItemGroup`                                                                                                                   |
+| One discrete object                        | `Card`                                                                                                                                     |
+| A status or label                          | `Badge`                                                                                                                                    |
+| A person or account                        | `Avatar` with `AvatarFallback`; `AvatarGroup` for several                                                                                  |
+| A keyboard shortcut                        | `Kbd`, `KbdGroup`                                                                                                                          |
+| A persistent message in the page           | `Alert`                                                                                                                                    |
+| The result of an action                    | A toast (`toast` on Base UI, Sonner on Radix and React Aria)                                                                               |
+| Progress of known length                   | `Progress`                                                                                                                                 |
+| Waiting in place                           | `Spinner`                                                                                                                                  |
+| Content loading                            | `Skeleton` in the shape of the content                                                                                                     |
+| Nothing to show yet                        | `Empty`                                                                                                                                    |
+| Sections that open and close               | `Accordion`; `Collapsible` for one                                                                                                         |
+| Resizable split views                      | `Resizable`                                                                                                                                |
+| A custom scroll area                       | `ScrollArea`                                                                                                                               |
+| A video                                    | `VideoPlayer`; `variant="compact"` in cards, feeds and attachments; never the browser's `controls`                                         |
+| A conversation                             | `MessageScroller`, `Message`, `Bubble`, `Attachment`, `Marker`, `ChatInput`, `ModelPicker`                                                 |
+| Questions an assistant asks                | `Questionnaire`                                                                                                                            |
 
 The `@fabricator` registry leaves out Native Select (use `Select`) and, for now, Chart. React Aria projects have no `Menubar` or `NavigationMenu`; use a `DropdownMenu` per menu and a header of links.
 
@@ -628,8 +635,9 @@ React Native projects install the same names with the same variants, sizes and t
 | Alert                   | `default`, `info`, `success`, `warning`, `destructive`/`error`                                          | `contrast`: `low` (default), `high`                                                                                                                                |
 | Toggle                  | `default`, `outline`                                                                                    | `default`, `sm`, `lg`                                                                                                                                              |
 | Toggle Group            | `default`, `outline`                                                                                    | `default`, `sm`, `lg`; `spacing`, `orientation`                                                                                                                    |
-| Tabs                    | `default` (track with a sliding pill), `line`                                                           | `orientation`                                                                                                                                                      |
+| Tabs                    | `default` (track with a sliding pill), `subtle` (no track; only the active tab shows its label)         | `orientation`                                                                                                                                                      |
 | Search                  | `default`, `outline`                                                                                    | `default`, `sm`, `lg`                                                                                                                                              |
+| Color Picker            |                                                                                                         | `default`, `sm`, `lg`; `format`, `swatches`                                                                                                                        |
 | Select trigger, Switch  |                                                                                                         | `default`, `sm`                                                                                                                                                    |
 | Card                    |                                                                                                         | `default`, `sm`                                                                                                                                                    |
 | Avatar                  |                                                                                                         | `default`, `sm`, `lg`                                                                                                                                              |
@@ -672,6 +680,7 @@ React Native projects install the same names with the same variants, sizes and t
 
 - **Anatomy:** `FieldGroup` > `Field` > `FieldLabel`, the control, `FieldDescription`, `FieldError`. Related checkboxes, radios and switches group in `FieldSet` + `FieldLegend`. Hidden labels stay in the tree with `className="sr-only"`.
 - **Orientation:** `vertical` (labels above, the default for forms), `horizontal` (a control and its label in one row: switches, checkboxes, settings rows), `responsive` (stacked on narrow containers, label beside the control from `@md`).
+- **Checkbox and radio rows:** the label comes right after the control (`<Checkbox /><FieldLabel />`), as its sibling. The style pads that label's hit area up to the next row, so the whole row toggles; don't add gaps or margins between the rows.
 - **Validation:** `data-invalid` on `Field` and `aria-invalid` on the control, with the message in `FieldError`. Validate on blur and on submit; the message says how to fix the value ("Use at least 8 characters").
 - **Disabled:** `data-disabled` on `Field` and `disabled` on the control.
 - **Adornments:** icons, prefixes, units and inline buttons go in `InputGroupAddon`, around `InputGroupInput` or `InputGroupTextarea`.
@@ -706,7 +715,7 @@ React Native projects install the same names with the same variants, sizes and t
 - **WorkspaceSwitcher:** `variant="menu"` for a few workspaces, `variant="command"` for many. Set `switchingTo` while the next one loads (a full-screen status overlay) and clear it when done. `mod+O` opens it inside an App Shell.
 - **UserMenu:** `variant="row"` in the sidebar footer, `variant="mark"` (the avatar) in a header row. Its children are `DropdownMenuGroup`s: account items first, Sign out last in its own group.
 - **TabStrip** holds documents the person opens and closes (files, records, chats), with pinned and preview tabs, drag to reorder, a reopen stack and editor shortcuts. Drive it with `useTabStripState` and link the content with `panelId`. Give it `min-w-0 flex-1` so it runs the full width of its row: `TabStripNew` follows the last tab, and `TabStripOverflow` ends the row. Keep the URL on the active tab with `router.replace`, so Back walks pages.
-- **Tabs** switch between a fixed set of views of one thing, two to six short labels: `variant="line"` under a page header for page sections, the default track for switching inside a card or panel.
+- **Tabs** switch between a fixed set of views of one thing, two to six short labels, on the default track. Where space is tight (a panel header, a toolbar), use `variant="subtle"` with an icon on every tab: only the active tab shows its label. Vertical tabs (`orientation="vertical"`) suit settings pages with more sections than fit across.
 - **Breadcrumb:** in an App Shell, `AppShellBreadcrumb`; elsewhere the `Breadcrumb` parts with `BreadcrumbPage` last.
 - **Search** in headers and toolbars: `<form role="search" action="/search"><Search name="q" /></form>`. It opens from a round button into a field; Escape clears, then closes. `collapsible={false}` keeps it open. `className` goes on its root and every other prop on the input.
 - **Websites** use `NavigationMenu` in a site header; **long lists** use `Pagination` under the table.
@@ -719,11 +728,16 @@ React Native projects install the same names with the same variants, sizes and t
 - **Badge** for statuses and short labels: status variants for state, `secondary` for neutral counts, `outline` for tags. One or two words.
 - **Avatar** always has `AvatarFallback` (initials); `AvatarGroup` with `AvatarGroupCount` for overflow, `AvatarBadge` for presence.
 - **Kbd** for shortcuts in tooltips, menus and help text: `<KbdGroup><Kbd>⌘</Kbd><Kbd>K</Kbd></KbdGroup>`.
+- **SyntaxHighlight** for code a person reads or copies: a snippet in docs, a config to paste, a diff, a model's code in a chat. Give it the `filename` when the code is a file (the language comes from it) and a `SyntaxHighlightHeader` with the icon, title and Copy; a one-line command takes Copy beside it and no header. `showLineNumbers` when the text refers to lines, `highlightLines` for the part that matters, and `wrap` in narrow columns such as a chat. Long code gets a `max-h-*` on `SyntaxHighlightContent`. Never colour code by hand: the `--syntax-*` tokens follow the look.
+- **VideoPlayer** for any video with controls: the default variant on a page about the video (a lesson, a launch film, a recording), `variant="compact"` where it's one item among others. Give it a `title`, a `poster` and a width; pass `chapters` when the video has parts and WebVTT `tracks` for captions whenever it has speech. A muted, looping `autoPlay` is for ambient clips only.
+
+- **FileTree** for project and file navigation: density-scaled 28px rows, 16px icons and indentation, folder guides, and automatic file-type icons from `@fabricator-ui/icons/files`. The Files pack follows the theme independently of the chosen icon library; `renderIcon` can replace it. Use single selection for opening files, `selectionMode="multiple"` for bulk actions, and `onDelete` to request deletion in the app with confirmation or Undo. Selection uses `bg-active`; muted files remain interactive, disabled subtrees do not. The same component serves all three web bases.
 
 ### Feedback
 
 - **Toast** reports the result of an action ("Invite sent"), with Undo when the action can be undone. Base UI projects call `toast.add({ title, type })` from `@/components/ui/toast` (types `success`, `info`, `warning`, `error`, `loading`; `toast.promise` for async work). Radix and React Aria projects call Sonner's `toast.success()`. Form errors stay in the form.
 - **Alert** holds a message that stays on the page: a section-level warning, a degraded service, a required step. `contrast="low"` (a neutral panel with a coloured icon) by default; `contrast="high"` (tinted panel) for what must not be missed. One alert per region.
+- **Spinner** defaults to the original Orbit matrix. Its `variant` values are `orbit`, `ripple`, `cascade`, `wave`, `pulse`, `braid`, `comet`, `bounce`, `equalizer`, `flip`, `scan`, `quad-swap`, `quad-fold`, `tic-tac`, `bloom`, `checker`, `diagonal`, `triangle`, `square`, `rings`, `hex` and `ring`; `speed` scales its 1.1-second cycle, and `animated={false}` pauses it. Choose the project default on Get started or App Shell, or with `--spinner <variant>` in the CLI. Explicit variants override that choice. Motion stops under reduced motion or motion off; keep a loading label visible. The SVG keeps `data-slot="spinner"`, inherits the current colour and scales through `className`.
 - **Progress** for work of known length; **Spinner** for short waits in place (a button, a row); **Skeleton** for content loading, in the content's shape; `shimmer` for streaming text.
 
 ### AI and chat
@@ -731,8 +745,9 @@ React Native projects install the same names with the same variants, sizes and t
 - A conversation composes `MessageScrollerProvider` > `MessageScroller` > `MessageScrollerViewport` > `MessageScrollerContent` > `MessageScrollerItem`, with `MessageScrollerButton` after the viewport. The scroller owns following the stream, anchoring and jump to latest.
 - Rows are `Message` (consecutive messages from one sender in a `MessageGroup`); surfaces are `Bubble`; files are `Attachment` in an `AttachmentGroup`; system notes and day dividers are `Marker`.
 - The person's messages sit in bubbles; the assistant's replies are plain text on the page.
-- "Thinking…" is `shimmer` text. Clarifying questions with options are a `Questionnaire`.
-- The composer is an `InputGroup` with `InputGroupTextarea` and the send button in an `InputGroupAddon` (`align="block-end"`).
+- "Thinking…" is `shimmer` text. Clarifying questions with options are a `Questionnaire`: it takes the `ChatInput`'s place on the same surface (`rounded-2xl bg-surface-3 shadow-surface-3`) until they're answered, with `advanceOnSelect` and `shortcuts="numbers"`, a `QuestionnaireHeader` holding the progress and a Stop (Escape stops too), focus on the first choice when it appears and back on the field when it goes.
+- The composer is a `ChatInput`: `ChatInputAttachments` (files riding along), `ChatInputTextarea`, then a `ChatInputFooter` with `ChatInputTools` (add menu, permissions) and `ChatInputActions` (`ChatInputContextMeter`, the model as a `ChatInputButton` opening a `ModelPicker` in a Popover, `ChatInputMic`, `ChatInputSubmit`). Pass `useChat`'s `status` and `stop`: send stops a reply while the field is empty, and with `queue` typed text waits behind it. With `onVoiceActiveChange`, an empty input offers voice chat in send's place; pass `voiceLevel` for the glow and the mic. `onAttach` takes dropped and pasted files in both layouts; `useChatInputAttachments` holds them (previews, uploads, `clear` on send), so every composer accepts files. A rotating `placeholder` list hints at the input's sigils, and `mentions` tints them as they're typed. Give popovers and menus opened from a `ChatInput` `bg-surface-5 shadow-surface-5`, two steps over its card, so they don't blend into it. Permissions and other modes are a footer pill opening a Popover with `ChatInputOptions` (icon, label, description, a check on the one in use), not a dropdown menu. `ChatInputCommands` is the `/` menu of commands (`/goal`, ones your app runs) and skills; pass their names to `isKnownMention`. An agent's session stacks trays just before the input, furthest back first: the goal (`level={3}`), background tasks (`level={2}`) and queued messages (`level={1}`), each row a `ChatInputTrayEntry` that opens to more; with `queue` and `onRecall`, ↑ in an empty field takes the last queued message back.
+- `ChatInput` is a one-line pill that stacks once the draft wraps, for a chat on an empty page, a composer floating over content or docked under a transcript. Long-form drafts and composers with a full footer of controls use `layout="large"`, a card with the controls under the field.
 
 ### Composition per base
 
@@ -847,14 +862,14 @@ The index of a collection: issues, customers, invoices.
 One record: an issue, a customer, an order.
 
 - **Header:** the title (`AppShellPageTitle`), its status `Badge`, and the actions: one primary, the rest in a ghost icon "More" `DropdownMenu` with the destructive item last.
-- **Body:** the main content; sections as `Tabs variant="line"` when they are views of the same record (Overview, Activity, Files).
+- **Body:** the main content; sections as `Tabs` when they are views of the same record (Overview, Activity, Files).
 - **Side:** metadata and activity in an `AppShellPanel` the person can close, so the content can take the room.
 
 ### Settings
 
 - One column at `max-w-2xl`. Each section is a `FieldSet` with a `FieldLegend` and a `FieldDescription`, separated by space (and a `FieldSeparator`).
 - Rows are `Field orientation="horizontal"`: label and description start, control end. A `Switch` applies on change; text settings save with one button per section.
-- Many sections get their own pages in a sidebar group, or `Tabs variant="line"` across the top.
+- Many sections get their own pages in a sidebar group, or `Tabs` across the top.
 - The danger zone is last: a `destructive` button that opens an `AlertDialog` naming what is lost.
 
 ### Create and edit

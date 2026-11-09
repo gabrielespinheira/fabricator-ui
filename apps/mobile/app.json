@@ -48,6 +48,12 @@
             ]
           }
         }
+      ],
+      [
+        "expo-video",
+        {
+          "supportsPictureInPicture": true
+        }
       ]
     ],
     "scheme": "fabricator-ui",

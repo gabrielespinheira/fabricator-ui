@@ -1,6 +1,6 @@
 ---
 title: Spinner
-description: An indicator that can be used to show a loading state.
+description: Twenty-two loading animations, from dot matrices to bouncing dots and turning tiles.
 base: native
 component: true
 ---
@@ -19,26 +19,104 @@ npx fabricator-ui@latest add spinner
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Spinner } from "@/components/ui/spinner"
+import { Text } from "@/components/ui/text"
 ```
 
 ```tsx
-<Spinner className="size-3" />
-<Spinner />
-<Spinner className="size-6" />
-<Spinner className="size-8" />
+{(
+  [
+    "orbit",
+    "ripple",
+    "cascade",
+    "wave",
+    "pulse",
+    "braid",
+    "comet",
+    "bounce",
+    "equalizer",
+    "flip",
+    "scan",
+    "quad-swap",
+    "quad-fold",
+    "tic-tac",
+    "bloom",
+    "checker",
+    "diagonal",
+    "triangle",
+    "square",
+    "rings",
+    "hex",
+    "ring",
+  ] as const
+).map((value) => (
+  <View key={value} className="items-center gap-3">
+    <Spinner variant={value} className="size-8" />
+    <Text>
+      {value.charAt(0).toUpperCase() +
+        value.slice(1).replaceAll("-", " ")}
+    </Text>
+  </View>
+))}
 ```
+
+## Composition
+
+- `Spinner`
+- `SpinnerProps`
+- `SpinnerVariant`
 
 ## Examples
 
 ```tsx showLineNumbers title="spinner-example.tsx"
+import { View } from "react-native"
 
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Spinner } from "@/components/ui/spinner"
+import { Text } from "@/components/ui/text"
 
 function SpinnerExample() {
   return (
     <ExampleWrapper>
+      <Example
+        title="Matrix patterns"
+        className="flex-row flex-wrap items-center"
+      >
+        {(
+          [
+            "orbit",
+            "ripple",
+            "cascade",
+            "wave",
+            "pulse",
+            "braid",
+            "comet",
+            "bounce",
+            "equalizer",
+            "flip",
+            "scan",
+            "quad-swap",
+            "quad-fold",
+            "tic-tac",
+            "bloom",
+            "checker",
+            "diagonal",
+            "triangle",
+            "square",
+            "rings",
+            "hex",
+            "ring",
+          ] as const
+        ).map((value) => (
+          <View key={value} className="items-center gap-3">
+            <Spinner variant={value} className="size-8" />
+            <Text>
+              {value.charAt(0).toUpperCase() +
+                value.slice(1).replaceAll("-", " ")}
+            </Text>
+          </View>
+        ))}
+      </Example>
       <Example title="Sizes" className="flex-row items-center">
         <Spinner className="size-3" />
         <Spinner />
@@ -78,7 +156,7 @@ export { SpinnerExample }
 
 ## Differences from web
 
-**Same.** It works as it does on the web, with `onPress` for `onClick`.
+**Same.** Twenty-two original Fabricator animations: 2×2, 3×3 and 4×4 grids, triangles, circles, squares, hexagons, bouncing dots and a classic ring, inspired by [Dot Matrix by Shawn](https://dotmatrix.zzzzshawn.cloud/). Pick the project default with `--spinner <variant>` in the CLI. `variant` overrides it per instance, `speed` scales the cycle, and `animated={false}` pauses it. Native shares the geometry with web and animates on the UI thread; Reduce Motion and motion off leave a still indicator.
 
 ## Accessibility
 

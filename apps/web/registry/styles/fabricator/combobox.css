@@ -58,7 +58,7 @@
   /* Chips field: the input recipe (1px ring-border frame, light fill on
      hover, card fill while focused). */
   .cn-combobox-chips {
-    @apply cursor-text ring-border hover:bg-muted/50 focus-within:bg-card has-aria-invalid:ring-destructive/50 has-aria-invalid:hover:bg-destructive/5 flex min-h-(--density-36) flex-wrap items-center gap-1 rounded-lg bg-transparent px-(--density-10) py-1 text-(length:--density-text-13) ring-1 transition-[color,background-color,box-shadow] duration-feedback has-data-[slot=combobox-chip]:px-1;
+    @apply cursor-text ring-border hover:bg-muted/50 focus-within:bg-card has-aria-invalid:ring-destructive/50 has-aria-invalid:hover:bg-destructive/5 flex min-h-(--density-36) flex-wrap items-center gap-1 rounded-lg bg-transparent px-(--density-10) py-1 text-(length:--density-text-13) ring-1 ring-inset transition-[color,background-color,box-shadow] duration-feedback has-data-[slot=combobox-chip]:px-1;
   }
 
   .cn-combobox-chip {

@@ -8,7 +8,6 @@ import { findNeighbour } from "fumadocs-core/page-tree"
 import { replaceComponentsList } from "@/lib/llm"
 import { source } from "@/lib/source"
 import { absoluteUrl } from "@/lib/utils"
-import { DocsBaseSwitcher } from "@/components/docs-base-switcher"
 import { DocsCopyPage } from "@/components/fabricator/docs-copy-page"
 
 export const revalidate = false
@@ -86,9 +85,6 @@ export default async function Page(props: {
     : findNeighbour(source.pageTree, page.url)
   const raw = replaceComponentsList(await page.data.getText("raw"))
 
-  const isComponentPage =
-    params.slug?.[0] === "components" && !!params.slug[1] && !!params.slug[2]
-
   return (
     <div data-slot="docs" className="flex items-start">
       <div className="flex min-w-0 flex-1 flex-col">
@@ -126,13 +122,6 @@ export default async function Page(props: {
             )}
           </header>
           <div className="typeset w-full flex-1 *:data-[slot=alert]:first:mt-0">
-            {isComponentPage && (
-              <DocsBaseSwitcher
-                base={params.slug[1]}
-                component={params.slug[2]}
-                className="mb-6"
-              />
-            )}
             <MDX components={mdxComponents} />
           </div>
           <nav className="hidden items-center gap-2 sm:flex">

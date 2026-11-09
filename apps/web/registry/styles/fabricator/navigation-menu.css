@@ -24,8 +24,11 @@
     @apply cursor-pointer flex items-center gap-(--density-8) rounded-lg p-(--density-8) text-(length:--density-text-13) transition-colors duration-feedback outline-none hover:bg-hover in-data-[fluid-hover]:hover:bg-transparent focus-visible:bg-hover data-active:bg-active data-active:text-foreground [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5] data-fluid-hover-active:[&_svg]:stroke-2;
   }
 
+  /* The chevron centres on the label (no baseline nudge) and pulls into the
+     right padding by its own side bearing, so the trigger reads 12px of
+     space on both sides like a plain link. */
   .cn-navigation-menu-trigger-icon {
-    @apply relative top-px ml-1 size-3 transition duration-popup ease-enter group-data-open/navigation-menu-trigger:rotate-180 group-data-popup-open/navigation-menu-trigger:rotate-180;
+    @apply ms-(--density-4) -me-(--density-4) size-(--density-icon-14) transition duration-popup ease-enter group-data-open/navigation-menu-trigger:rotate-180 group-data-popup-open/navigation-menu-trigger:rotate-180;
   }
 
   /* A panel is a fluid hover container for its links (relative isolate).

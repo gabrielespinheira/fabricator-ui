@@ -14,6 +14,7 @@ export type ComponentShape = {
 
 export type ParityGap = {
   kind:
+    | "component"
     | "export"
     | "variant"
     | "prop"
@@ -284,4 +285,26 @@ export function applyExceptions(
           exception.name === gap.name
       )
   )
+}
+
+/** Whole-component exceptions never suppress gaps in an implemented item. */
+export function getMissingComponentStatus(
+  item: string,
+  exceptions: ParityException[]
+): "missing" | "deferred" {
+  const deferred = exceptions.some((exception) => {
+    if (
+      exception.item !== item ||
+      exception.kind !== "component" ||
+      exception.name !== item ||
+      !exception.reason.trim()
+    )
+      return false
+    const date = new Date(exception.date)
+    return (
+      !Number.isNaN(date.getTime()) &&
+      date.toISOString().slice(0, 10) === exception.date
+    )
+  })
+  return deferred ? "deferred" : "missing"
 }

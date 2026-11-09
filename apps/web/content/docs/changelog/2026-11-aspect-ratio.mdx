@@ -1,0 +1,10 @@
+---
+title: November 2026 - Aspect Ratio glides
+description: Aspect Ratio reshapes on the move timing when its ratio changes, sizes the same way in every primitive, and has new docs demos.
+date: 2026-11-07
+---
+
+- **The frame glides.** When `ratio` changes, Aspect Ratio reshapes on the move timing instead of jumping. Under reduced motion it snaps. On the web and on React Native.
+- **One element in every primitive.** The Radix version no longer wraps the frame in a full-width padding-bottom box: like Base UI and React Aria, it is one element sized with CSS `aspect-ratio`, so `className` sets its width. `ratio` still defaults to `1`, and `asChild` still works.
+- **`style` merges.** A `style` prop on Aspect Ratio now keeps the ratio instead of replacing it.
+- **New demos.** The docs preview switches one photo between 16:9, 4:3, 1:1, 3:4 and 9:16.

@@ -86,11 +86,11 @@ Tabs
 └── TabsContent
 ```
 
-## Line
+## Subtle
 
-Use the `variant="line"` prop on `TabsList` for a line style.
+Use `variant="subtle"` on `TabsList` for a compact row without a track. Only the active tab shows its label; the others show their icon, so give every trigger an icon and a text label.
 
-<ComponentPreview styleName="base-nova" name="tabs-line" />
+<ComponentPreview styleName="base-nova" name="tabs-subtle" />
 
 ## Vertical
 
@@ -109,3 +109,17 @@ Use `orientation="vertical"` for vertical tabs.
 ## API Reference
 
 See the [Base UI Tabs](https://base-ui.com/react/components/tabs#api-reference) documentation.
+
+### TabsList
+
+| Prop      | Type                    | Default     |
+| --------- | ----------------------- | ----------- |
+| `variant` | `"default" \| "subtle"` | `"default"` |
+
+`variant="line"` is still accepted, so existing code keeps compiling, and renders as `"default"`.
+
+## Accessibility
+
+- Keyboard behaviour and roles come from the primitive: arrow keys move between tabs, and `orientation="vertical"` switches them to up and down.
+- In a subtle list, the labels of inactive tabs are hidden visually but stay in each tab's accessible name.
+- The active tab never changes weight or size, so the row never shifts when the selection moves.

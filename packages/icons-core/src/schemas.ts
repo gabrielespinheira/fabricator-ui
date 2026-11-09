@@ -32,6 +32,14 @@ export const brandMetadataSchema = z.object({
 })
 
 export const iconsLockSchema = z.object({
+  files: z
+    .object({
+      repository: z.string(),
+      tag: z.string(),
+      sha: z.string(),
+      syncedAt: z.string(),
+    })
+    .optional(),
   lucide: z
     .object({ tag: z.string(), sha: z.string(), syncedAt: z.string() })
     .optional(),

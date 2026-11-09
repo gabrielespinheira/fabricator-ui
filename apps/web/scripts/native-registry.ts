@@ -8,6 +8,7 @@ const TOKEN_MODULES: Record<string, string> = {
   "css-object": "css-object",
   "surface-tint": "surface-tint",
   "color-roles": "color-roles",
+  "syntax-colors": "syntax-colors",
   density: "density-scale",
   "density-variables": "density-variables",
   motion: "motion-speeds",
@@ -28,8 +29,13 @@ export const SHARED_TOKEN_FILES = Object.keys(TOKEN_MODULES).map(getTokenFile)
 
 const SHARED_LIB_FILES = [
   "app-shell-model",
+  "spinner-model",
+  "date-picker-model",
+  "month-input-model",
   "sidebar-model",
   "sound-recipes",
+  "syntax-highlight-model",
+  "video-player-model",
 ] as const
 
 /**

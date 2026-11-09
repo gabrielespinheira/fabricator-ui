@@ -168,7 +168,8 @@ function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
 
 ```text
 Questionnaire
-├── QuestionnaireProgress
+├── QuestionnaireHeader       optional: the progress and actions such as Stop
+│   └── QuestionnaireProgress
 ├── QuestionnaireItem
 │   ├── QuestionnaireTitle
 │   ├── QuestionnaireDescription
@@ -336,6 +337,17 @@ Compose Questionnaire inside a Dialog while keeping cancellation and dismissal h
   previewClassName="min-h-[320px] p-4 sm:p-8"
 />
 
+## In a chat
+
+When an agent asks before it acts, the questions take the [Chat Input](/docs/components/radix/chat-input)'s place on the same surface (`rounded-2xl bg-surface-3 shadow-surface-3`), and give it back once they're answered. With `advanceOnSelect`, picking a single choice with the pointer or its number moves to the next question, or sends the answers on the last; the arrows only walk the choices, and a hovered single choice shows an arrow in its chip. `QuestionnaireHeader` holds the progress and a Stop button, and Escape stops too. Hand the focus to the first choice when the questions appear, and back to the field when they go.
+
+<ComponentPreview
+  align="end"
+  styleName="radix-nova"
+  name="questionnaire-chat"
+  previewClassName="min-h-[420px] p-4 sm:p-8"
+/>
+
 ## Accessibility
 
 `QuestionnaireItem` renders a `fieldset`, and `QuestionnaireTitle` renders its
@@ -367,3 +379,14 @@ the package's
 The styled components inherit the corresponding unstyled props. Navigation
 components also accept Button `size` and `variant` props, and
 `QuestionnaireActions` is a styled-only layout helper.
+
+The Fabricator style adds:
+
+| Prop or part          | Type                          | Default | Description                                                                                       |
+| --------------------- | ----------------------------- | ------- | ------------------------------------------------------------------------------------------------- |
+| `advanceOnSelect`     | `boolean`                     | `false` | On `Questionnaire`: a single choice picked with the pointer or its shortcut moves on, or submits. |
+| `QuestionnaireHeader` | `React.ComponentProps<"div">` | -       | The row above the questions: the progress at the start, actions at the end.                       |
+
+Each choice ends in a chip: its shortcut, a square that fills for a multiple
+choice, and the arrow where a pick moves on. `QuestionnairePrevious` and
+`QuestionnaireSkip` default to the ghost variant.

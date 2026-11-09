@@ -1,0 +1,15 @@
+---
+title: November 2026 - Color Picker
+description: A new Color Picker with a saturation area, hue and alpha sliders, HEX, RGB, HSL and OKLCH fields, swatches and the eyedropper, inline or in a popover.
+date: 2026-11-07
+---
+
+- **Color Picker.** Drag in the area for saturation and brightness, and set hue and alpha on two sliders. Type or scrub the channels in HEX, RGB, HSL or OKLCH: drag a field's letter sideways to change it, or step it with the arrow keys. Add `swatches` for preset colors, named ones included. The eyedropper picks from the screen in Chromium browsers. In Base UI, Radix and React Aria projects.
+- **In a popover.** `ColorPickerPopover` puts the same panel behind a trigger that shows the color and its hex value, with an optional label and remove button.
+- **Steady hues.** A hue survives a pass through gray, black or white, and an OKLCH hue you type stays put while lightness and chroma change.
+
+```bash
+npx fabricator-ui@latest add color-picker
+```
+
+The Color Picker is adapted from the one in [Fluid Functionalism](https://www.fluidfunctionalism.com/docs/color-picker) (MIT).

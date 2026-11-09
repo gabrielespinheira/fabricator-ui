@@ -1,6 +1,7 @@
 import {
   animatedCatalog,
   brandCatalog,
+  fileCatalog,
   outlineCatalog,
   outlineCategories,
 } from "./generated/catalog-data.js"
@@ -12,6 +13,7 @@ export const catalog: CatalogEntry[] = [
   ...outlineCatalog,
   ...brandCatalog,
   ...animatedCatalog,
+  ...fileCatalog,
 ]
 
 /** Searches names, aliases, tags, brand titles and categories, ignoring case and punctuation. */
@@ -27,10 +29,17 @@ export function getIconEntry(name: string, set: IconSet = "outline") {
   )
 }
 
-export { animatedCatalog, brandCatalog, outlineCatalog, outlineCategories }
+export {
+  animatedCatalog,
+  brandCatalog,
+  fileCatalog,
+  outlineCatalog,
+  outlineCategories,
+}
 export type {
   AnimatedCatalogEntry,
   BrandCatalogEntry,
+  FileCatalogEntry,
   CatalogEntry,
   IconCategory,
   IconSet,

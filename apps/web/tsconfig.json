@@ -19,6 +19,12 @@
       }
     ],
     "paths": {
+      "@/registry/bases/*/ui/spinner": [
+        "./registry/fabricator/shared/ui/spinner"
+      ],
+      "@/registry/bases/*/lib/spinner-model": [
+        "./registry/fabricator/shared/lib/spinner-model"
+      ],
       // Temp aliases: registry sources import @/app/(create)/* (ships
       // verbatim in published registry payloads) and a handful still use
       // the legacy @/app/(app)/create/* path. The files actually live under
@@ -49,12 +55,27 @@
       "@/registry/bases/*/lib/sidebar-model": [
         "./registry/fabricator/shared/lib/sidebar-model"
       ],
+      "@/registry/bases/*/lib/date-picker-model": [
+        "./registry/fabricator/shared/lib/date-picker-model"
+      ],
+      "@/registry/bases/*/lib/month-input-model": [
+        "./registry/fabricator/shared/lib/month-input-model"
+      ],
+      "@/registry/bases/*/lib/time-input-model": [
+        "./registry/fabricator/shared/lib/time-input-model"
+      ],
+      "@/registry/bases/*/lib/color-model": [
+        "./registry/fabricator/shared/lib/color-model"
+      ],
       "@/registry/bases/*/lib/sortable": [
         "./registry/fabricator/shared/lib/sortable"
       ],
       // Every base overrides the Sidebar with a superset of upstream's API;
       // App Shell and App Nav use the additions (peek, status, actions…).
       "@/registry/bases/*/ui/sidebar": ["./registry/fabricator/*/ui/sidebar"],
+      // Every base overrides Popover with a superset; Time Input anchors its
+      // list with the Base UI override's `anchor`.
+      "@/registry/bases/*/ui/popover": ["./registry/fabricator/*/ui/popover"],
       // Fabricator-exclusive components live only in the overlay, per base.
       "@/registry/bases/*/ui/app-shell": [
         "./registry/fabricator/*/ui/app-shell"
@@ -62,14 +83,30 @@
       "@/registry/bases/*/ui/tab-strip": [
         "./registry/fabricator/*/ui/tab-strip"
       ],
-      "@/registry/bases/*/ui/app-nav": [
-        "./registry/fabricator/*/ui/app-nav"
-      ],
+      "@/registry/bases/*/ui/app-nav": ["./registry/fabricator/*/ui/app-nav"],
       "@/registry/bases/*/ui/workspace-switcher": [
         "./registry/fabricator/*/ui/workspace-switcher"
       ],
       "@/registry/bases/*/ui/user-menu": [
         "./registry/fabricator/*/ui/user-menu"
+      ],
+      "@/registry/bases/*/ui/date-picker": [
+        "./registry/fabricator/*/ui/date-picker"
+      ],
+      "@/registry/bases/*/ui/month-input": [
+        "./registry/fabricator/*/ui/month-input"
+      ],
+      "@/registry/bases/*/ui/time-wheel": [
+        "./registry/fabricator/shared/ui/time-wheel"
+      ],
+      "@/registry/bases/*/ui/time-input": [
+        "./registry/fabricator/*/ui/time-input"
+      ],
+      "@/registry/bases/*/ui/number-field": [
+        "./registry/fabricator/*/ui/number-field"
+      ],
+      "@/registry/bases/*/ui/color-picker": [
+        "./registry/fabricator/*/ui/color-picker"
       ],
       // Shared blocks compose the overlay's Base UI components.
       "@/registry/bases/__base__/ui/sidebar": [

@@ -1,24 +1,32 @@
 /* MARK: Input Group */
 
-  /* The group is the frame (same recipe as the input): ring-border,
-     transparent → hover tint (unless focused) → card while anything inside has focus, no blue
-     halo. Invalid controls turn the ring red and tint the hover. */
+  /* The group is the frame (same recipe as the input): an inset ring-border,
+     transparent → hover tint (unless focused) → card while anything inside
+     has focus, no blue halo. Invalid controls turn the ring red and tint the
+     hover. Inset, so the group is exactly its height and joins a button group
+     on one hairline. */
   .cn-input-group {
-    @apply ring-border hover:not-focus-within:bg-muted/50 focus-within:bg-card focus-within:ring-foreground/25 has-[[data-slot][aria-invalid=true]]:ring-destructive/50 has-[[data-slot][aria-invalid=true]]:hover:not-focus-within:bg-destructive/5 has-disabled:bg-transparent h-(--density-36) rounded-lg border-0 bg-transparent ring-1 transition-[color,background-color,box-shadow] duration-feedback ease-feedback in-data-[slot=combobox-content]:focus-within:ring-border has-disabled:opacity-50 has-[>[data-align=block-end]]:h-auto has-[>[data-align=block-end]]:flex-col has-[>[data-align=block-start]]:h-auto has-[>[data-align=block-start]]:flex-col has-[>[data-align=block-end]]:[&>input]:pt-(--density-12) has-[>[data-align=block-start]]:[&>input]:pb-(--density-12) has-[>[data-align=inline-end]]:[&>input]:pr-(--density-6) has-[>[data-align=inline-start]]:[&>input]:pl-(--density-6);
+    @apply ring-border hover:not-focus-within:bg-muted/50 focus-within:bg-card focus-within:ring-foreground/25 has-[[data-slot][aria-invalid=true]]:ring-destructive/50 has-[[data-slot][aria-invalid=true]]:hover:not-focus-within:bg-destructive/5 has-disabled:bg-transparent h-(--density-36) rounded-lg border-0 bg-transparent ring-1 ring-inset transition-[color,background-color,box-shadow] duration-feedback ease-feedback in-data-[slot=combobox-content]:focus-within:ring-border has-disabled:opacity-50 has-[>[data-align=block-end]]:h-auto has-[>[data-align=block-end]]:flex-col has-[>[data-align=block-start]]:h-auto has-[>[data-align=block-start]]:flex-col has-[>[data-align=block-end]]:[&>input]:pt-(--density-12) has-[>[data-align=block-start]]:[&>input]:pb-(--density-12) has-[>[data-align=inline-end]]:[&>input]:pr-(--density-6) has-[>[data-align=inline-start]]:[&>input]:pl-(--density-6);
   }
 
   /* Addons: muted 13px text and 16px icons at stroke 1.5; they wake to
-     foreground (stroke 2) while the group has focus. */
+     foreground (stroke 2) while the group has focus. The text takes the
+     input's line height (1.5), so a prefix such as https:// and the value
+     share one baseline instead of rounding a pixel apart. */
   .cn-input-group-addon {
-    @apply text-muted-foreground group-focus-within/input-group:text-foreground h-auto gap-(--density-8) py-(--density-6) text-(length:--density-text-13) font-normal transition-colors duration-feedback group-data-[disabled=true]/input-group:opacity-50 [&>kbd]:rounded-[5px] [&>svg]:stroke-[1.5] [&>svg]:transition-[stroke-width] group-focus-within/input-group:[&>svg]:stroke-2 [&>svg:not([class*='size-'])]:size-(--density-icon-16);
+    @apply text-muted-foreground group-focus-within/input-group:text-foreground h-auto gap-(--density-8) py-(--density-6) text-(length:--density-text-13) leading-normal font-normal transition-colors duration-feedback group-data-[disabled=true]/input-group:opacity-50 [&>kbd]:rounded-[5px] [&>svg]:stroke-[1.5] [&>svg]:transition-[stroke-width] group-focus-within/input-group:[&>svg]:stroke-2 [&>svg:not([class*='size-'])]:size-(--density-icon-16);
   }
 
+  /* Inline addons sit as far from the side as their content sits from the
+     top: icons and text 10px in, a 24px button 6px, a 28px button 4px, a
+     20px keycap 8px. Each inset is (group height - content height) / 2, so it
+     holds at every density. */
   .cn-input-group-addon-align-inline-start {
-    @apply pl-(--density-10) has-[>button]:ml-[-0.3rem] has-[>kbd]:ml-[-0.15rem];
+    @apply pl-(--density-10) has-[>[data-slot=kbd],>[data-slot=kbd-group]]:pl-[calc((var(--density-36)-var(--density-20))/2)] has-[>button]:pl-[calc((var(--density-36)-var(--density-24))/2)] has-[>[data-size=sm],>[data-size=icon-sm]]:pl-[calc((var(--density-36)-var(--density-28))/2)];
   }
 
   .cn-input-group-addon-align-inline-end {
-    @apply pr-(--density-10) has-[>button]:mr-[-0.3rem] has-[>kbd]:mr-[-0.15rem];
+    @apply pr-(--density-10) has-[>[data-slot=kbd],>[data-slot=kbd-group]]:pr-[calc((var(--density-36)-var(--density-20))/2)] has-[>button]:pr-[calc((var(--density-36)-var(--density-24))/2)] has-[>[data-size=sm],>[data-size=icon-sm]]:pr-[calc((var(--density-36)-var(--density-28))/2)];
   }
 
   .cn-input-group-addon-align-block-start {

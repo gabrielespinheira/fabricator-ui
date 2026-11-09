@@ -137,6 +137,17 @@ const nextConfig = {
         destination: "/docs/components/aria/field",
         permanent: true,
       },
+      // Date Input became the Date Picker component.
+      {
+        source: "/docs/components/:base(base|radix|aria|native)/date-input",
+        destination: "/docs/components/:base/date-picker",
+        permanent: true,
+      },
+      {
+        source: "/docs/components/:base(base|radix|aria|native)/date-input.md",
+        destination: "/docs/components/:base/date-picker.md",
+        permanent: true,
+      },
       // Base UI Sonner redirects to Toast.
       {
         source: "/docs/components/base/sonner",

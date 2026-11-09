@@ -1094,6 +1094,96 @@ export const Components: Record<string, any> = {
       ) || "carousel-spacing"
     return { default: mod.default || mod[exportName] }
   }),
+  "chat-input-agent": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/chat-input-agent"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "chat-input-agent"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "chat-input-attachments": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/chat-input-attachments"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "chat-input-attachments"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "chat-input-context-meter": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/chat-input-context-meter"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "chat-input-context-meter"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "chat-input-demo": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/chat-input-demo"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "chat-input-demo"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "chat-input-disabled": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/chat-input-disabled"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "chat-input-disabled"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "chat-input-large": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/chat-input-large"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "chat-input-large"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "chat-input-mentions": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/chat-input-mentions"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "chat-input-mentions"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "chat-input-submit-on": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/chat-input-submit-on"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "chat-input-submit-on"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "chat-input-voice": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/chat-input-voice"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "chat-input-voice"
+    return { default: mod.default || mod[exportName] }
+  }),
   "checkbox-basic": React.lazy(async () => {
     const mod = await import(
       "@/examples/__styles__/radix-fabricator/checkbox-basic"
@@ -1202,6 +1292,86 @@ export const Components: Record<string, any> = {
       Object.keys(mod).find(
         (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
       ) || "collapsible-settings"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "color-picker-controlled": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/color-picker-controlled"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "color-picker-controlled"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "color-picker-demo": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/color-picker-demo"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "color-picker-demo"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "color-picker-no-eyedropper": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/color-picker-no-eyedropper"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "color-picker-no-eyedropper"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "color-picker-oklch": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/color-picker-oklch"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "color-picker-oklch"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "color-picker-popover": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/color-picker-popover"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "color-picker-popover"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "color-picker-removable": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/color-picker-removable"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "color-picker-removable"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "color-picker-sizes": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/color-picker-sizes"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "color-picker-sizes"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "color-picker-swatches": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/color-picker-swatches"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "color-picker-swatches"
     return { default: mod.default || mod[exportName] }
   }),
   "combobox-auto-highlight": React.lazy(async () => {
@@ -1504,6 +1674,36 @@ export const Components: Record<string, any> = {
       ) || "date-picker-basic"
     return { default: mod.default || mod[exportName] }
   }),
+  "date-picker-controlled": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/date-picker-controlled"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "date-picker-controlled"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "date-picker-date-time-range": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/date-picker-date-time-range"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "date-picker-date-time-range"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "date-picker-date-time": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/date-picker-date-time"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "date-picker-date-time"
+    return { default: mod.default || mod[exportName] }
+  }),
   "date-picker-demo": React.lazy(async () => {
     const mod = await import(
       "@/examples/__styles__/radix-fabricator/date-picker-demo"
@@ -1512,6 +1712,16 @@ export const Components: Record<string, any> = {
       Object.keys(mod).find(
         (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
       ) || "date-picker-demo"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "date-picker-disabled": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/date-picker-disabled"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "date-picker-disabled"
     return { default: mod.default || mod[exportName] }
   }),
   "date-picker-dob": React.lazy(async () => {
@@ -1524,6 +1734,46 @@ export const Components: Record<string, any> = {
       ) || "date-picker-dob"
     return { default: mod.default || mod[exportName] }
   }),
+  "date-picker-editable": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/date-picker-editable"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "date-picker-editable"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "date-picker-field": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/date-picker-field"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "date-picker-field"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "date-picker-form": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/date-picker-form"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "date-picker-form"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "date-picker-format": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/date-picker-format"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "date-picker-format"
+    return { default: mod.default || mod[exportName] }
+  }),
   "date-picker-input": React.lazy(async () => {
     const mod = await import(
       "@/examples/__styles__/radix-fabricator/date-picker-input"
@@ -1532,6 +1782,26 @@ export const Components: Record<string, any> = {
       Object.keys(mod).find(
         (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
       ) || "date-picker-input"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "date-picker-invalid": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/date-picker-invalid"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "date-picker-invalid"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "date-picker-min-max": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/date-picker-min-max"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "date-picker-min-max"
     return { default: mod.default || mod[exportName] }
   }),
   "date-picker-natural-language": React.lazy(async () => {
@@ -1552,6 +1822,16 @@ export const Components: Record<string, any> = {
       Object.keys(mod).find(
         (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
       ) || "date-picker-range"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "date-picker-sizes": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/date-picker-sizes"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "date-picker-sizes"
     return { default: mod.default || mod[exportName] }
   }),
   "date-picker-time": React.lazy(async () => {
@@ -1964,6 +2244,86 @@ export const Components: Record<string, any> = {
       ) || "field-textarea"
     return { default: mod.default || mod[exportName] }
   }),
+  "file-tree-demo": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/file-tree-demo"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "file-tree-demo"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "file-tree-single": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/file-tree-single"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "file-tree-single"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "file-upload-button": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/file-upload-button"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "file-upload-button"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "file-upload-demo": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/file-upload-demo"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "file-upload-demo"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "file-upload-disabled": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/file-upload-disabled"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "file-upload-disabled"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "file-upload-field": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/file-upload-field"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "file-upload-field"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "file-upload-form": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/file-upload-form"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "file-upload-form"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "file-upload-image": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/file-upload-image"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "file-upload-image"
+    return { default: mod.default || mod[exportName] }
+  }),
   "file-upload-list": React.lazy(async () => {
     const mod = await import(
       "@/examples/__styles__/radix-fabricator/file-upload-list"
@@ -1972,6 +2332,36 @@ export const Components: Record<string, any> = {
       Object.keys(mod).find(
         (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
       ) || "file-upload-list"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "file-upload-multiple": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/file-upload-multiple"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "file-upload-multiple"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "file-upload-progress": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/file-upload-progress"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "file-upload-progress"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "file-upload-validation": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/file-upload-validation"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "file-upload-validation"
     return { default: mod.default || mod[exportName] }
   }),
   "hover-card-demo": React.lazy(async () => {
@@ -2234,6 +2624,16 @@ export const Components: Record<string, any> = {
       ) || "input-group-label"
     return { default: mod.default || mod[exportName] }
   }),
+  "input-group-sizes": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/input-group-sizes"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "input-group-sizes"
+    return { default: mod.default || mod[exportName] }
+  }),
   "input-group-spinner": React.lazy(async () => {
     const mod = await import(
       "@/examples/__styles__/radix-fabricator/input-group-spinner"
@@ -2434,6 +2834,16 @@ export const Components: Record<string, any> = {
       ) || "input-otp-pattern"
     return { default: mod.default || mod[exportName] }
   }),
+  "input-otp-placeholder": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/input-otp-placeholder"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "input-otp-placeholder"
+    return { default: mod.default || mod[exportName] }
+  }),
   "input-otp-separator": React.lazy(async () => {
     const mod = await import(
       "@/examples/__styles__/radix-fabricator/input-otp-separator"
@@ -2444,6 +2854,16 @@ export const Components: Record<string, any> = {
       ) || "input-otp-separator"
     return { default: mod.default || mod[exportName] }
   }),
+  "input-password": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/input-password"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "input-password"
+    return { default: mod.default || mod[exportName] }
+  }),
   "input-required": React.lazy(async () => {
     const mod = await import(
       "@/examples/__styles__/radix-fabricator/input-required"
@@ -2452,6 +2872,36 @@ export const Components: Record<string, any> = {
       Object.keys(mod).find(
         (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
       ) || "input-required"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "input-search": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/input-search"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "input-search"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "input-sizes": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/input-sizes"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "input-sizes"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "input-types": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/input-types"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "input-types"
     return { default: mod.default || mod[exportName] }
   }),
   "item-avatar": React.lazy(async () => {
@@ -2922,6 +3372,76 @@ export const Components: Record<string, any> = {
       ) || "message-scroller-visibility"
     return { default: mod.default || mod[exportName] }
   }),
+  "model-picker-demo": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/model-picker-demo"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "model-picker-demo"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "model-picker-effort": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/model-picker-effort"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "model-picker-effort"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "month-input-controlled": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/month-input-controlled"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "month-input-controlled"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "month-input-demo": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/month-input-demo"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "month-input-demo"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "month-input-field": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/month-input-field"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "month-input-field"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "month-input-format": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/month-input-format"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "month-input-format"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "month-input-range": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/month-input-range"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "month-input-range"
+    return { default: mod.default || mod[exportName] }
+  }),
   "muted-item-group": React.lazy(async () => {
     const mod = await import(
       "@/examples/__styles__/radix-fabricator/muted-item-group"
@@ -2940,6 +3460,106 @@ export const Components: Record<string, any> = {
       Object.keys(mod).find(
         (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
       ) || "navigation-menu-demo"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "number-field-basic": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/number-field-basic"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "number-field-basic"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "number-field-controlled": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/number-field-controlled"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "number-field-controlled"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "number-field-demo": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/number-field-demo"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "number-field-demo"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "number-field-disabled": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/number-field-disabled"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "number-field-disabled"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "number-field-field": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/number-field-field"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "number-field-field"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "number-field-format": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/number-field-format"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "number-field-format"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "number-field-invalid": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/number-field-invalid"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "number-field-invalid"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "number-field-min-max": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/number-field-min-max"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "number-field-min-max"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "number-field-sizes": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/number-field-sizes"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "number-field-sizes"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "number-field-steppers-end": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/number-field-steppers-end"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "number-field-steppers-end"
     return { default: mod.default || mod[exportName] }
   }),
   "outline-item-group": React.lazy(async () => {
@@ -3070,6 +3690,16 @@ export const Components: Record<string, any> = {
       Object.keys(mod).find(
         (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
       ) || "questionnaire-card"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "questionnaire-chat": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/questionnaire-chat"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "questionnaire-chat"
     return { default: mod.default || mod[exportName] }
   }),
   "questionnaire-conditional": React.lazy(async () => {
@@ -4132,6 +4762,86 @@ export const Components: Record<string, any> = {
       ) || "switch-sizes"
     return { default: mod.default || mod[exportName] }
   }),
+  "syntax-highlight-command": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/syntax-highlight-command"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "syntax-highlight-command"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "syntax-highlight-demo": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/syntax-highlight-demo"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "syntax-highlight-demo"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "syntax-highlight-diff": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/syntax-highlight-diff"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "syntax-highlight-diff"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "syntax-highlight-highlight-lines": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/syntax-highlight-highlight-lines"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "syntax-highlight-highlight-lines"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "syntax-highlight-languages": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/syntax-highlight-languages"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "syntax-highlight-languages"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "syntax-highlight-line-numbers": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/syntax-highlight-line-numbers"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "syntax-highlight-line-numbers"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "syntax-highlight-scroll": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/syntax-highlight-scroll"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "syntax-highlight-scroll"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "syntax-highlight-wrap": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/syntax-highlight-wrap"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "syntax-highlight-wrap"
+    return { default: mod.default || mod[exportName] }
+  }),
   "tab-strip-demo": React.lazy(async () => {
     const mod = await import(
       "@/examples/__styles__/radix-fabricator/tab-strip-demo"
@@ -4208,6 +4918,16 @@ export const Components: Record<string, any> = {
       ) || "tabs-line"
     return { default: mod.default || mod[exportName] }
   }),
+  "tabs-subtle": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/tabs-subtle"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "tabs-subtle"
+    return { default: mod.default || mod[exportName] }
+  }),
   "tabs-vertical": React.lazy(async () => {
     const mod = await import(
       "@/examples/__styles__/radix-fabricator/tabs-vertical"
@@ -4266,6 +4986,86 @@ export const Components: Record<string, any> = {
       Object.keys(mod).find(
         (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
       ) || "textarea-invalid"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "time-input-24-hour": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/time-input-24-hour"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "time-input-24-hour"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "time-input-controlled": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/time-input-controlled"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "time-input-controlled"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "time-input-date-time": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/time-input-date-time"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "time-input-date-time"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "time-input-demo": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/time-input-demo"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "time-input-demo"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "time-input-duration": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/time-input-duration"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "time-input-duration"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "time-input-field": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/time-input-field"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "time-input-field"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "time-input-range": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/time-input-range"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "time-input-range"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "time-input-seconds": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/time-input-seconds"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "time-input-seconds"
     return { default: mod.default || mod[exportName] }
   }),
   "toggle-demo": React.lazy(async () => {
@@ -4576,6 +5376,66 @@ export const Components: Record<string, any> = {
       Object.keys(mod).find(
         (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
       ) || "user-menu-demo"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "video-player-autoplay": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/video-player-autoplay"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "video-player-autoplay"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "video-player-captions": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/video-player-captions"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "video-player-captions"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "video-player-chapters": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/video-player-chapters"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "video-player-chapters"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "video-player-compact": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/video-player-compact"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "video-player-compact"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "video-player-demo": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/video-player-demo"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "video-player-demo"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "video-player-error": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/video-player-error"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "video-player-error"
     return { default: mod.default || mod[exportName] }
   }),
   "workspace-switcher-demo": React.lazy(async () => {

@@ -1,6 +1,11 @@
 import * as React from "react"
 import { Example, ExampleWrapper } from "@/examples/native/example"
-import { CodeIcon, EyeIcon } from "@fabricator-ui/icons-react-native"
+import {
+  CodeIcon,
+  EyeIcon,
+  HistoryIcon,
+  SettingsIcon,
+} from "@fabricator-ui/icons-react-native"
 
 import {
   Tabs,
@@ -26,14 +31,30 @@ function TabsExample() {
           <TabsContent value="reports">Reports you have saved.</TabsContent>
         </Tabs>
       </Example>
-      <Example title="Line">
+      <Example title="Subtle">
         <Tabs defaultValue="preview" className="w-full">
-          <TabsList variant="line">
-            <TabsTrigger value="preview">Preview</TabsTrigger>
-            <TabsTrigger value="code">Code</TabsTrigger>
+          <TabsList variant="subtle">
+            <TabsTrigger value="preview">
+              <EyeIcon />
+              Preview
+            </TabsTrigger>
+            <TabsTrigger value="code">
+              <CodeIcon />
+              Code
+            </TabsTrigger>
+            <TabsTrigger value="history">
+              <HistoryIcon />
+              History
+            </TabsTrigger>
+            <TabsTrigger value="settings">
+              <SettingsIcon />
+              Settings
+            </TabsTrigger>
           </TabsList>
           <TabsContent value="preview">The rendered result.</TabsContent>
           <TabsContent value="code">The source.</TabsContent>
+          <TabsContent value="history">Every saved version.</TabsContent>
+          <TabsContent value="settings">How this file builds.</TabsContent>
         </Tabs>
       </Example>
       <Example title="Icons">

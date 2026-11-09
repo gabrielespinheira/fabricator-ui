@@ -2,6 +2,7 @@
 // and what installs the shell with its selected options.
 
 import type { SiteIconLibrary, SiteSettings } from "@/lib/site-settings"
+import type { SpinnerVariant } from "@/registry/fabricator/shared/lib/spinner-model"
 import type { AppShellWindow } from "@/styles/base-fabricator/ui/app-shell"
 import {
   buildSetupCommand,
@@ -19,6 +20,7 @@ type CommandContext = {
   packageManager: PackageManager
   /** The site's Icons setting. */
   iconLibrary?: SiteIconLibrary
+  spinner?: SpinnerVariant
 }
 
 /**
@@ -27,9 +29,10 @@ type CommandContext = {
  */
 export function buildAppShellCommand(
   options: PlaygroundOptions,
-  { siteUrl, packageManager, iconLibrary }: CommandContext
+  { siteUrl, packageManager, iconLibrary, spinner = "orbit" }: CommandContext
 ) {
-  const url = buildAppShellInstallUrl(options, siteUrl, iconLibrary)
+  const url = new URL(buildAppShellInstallUrl(options, siteUrl, iconLibrary))
+  if (spinner !== "orbit") url.searchParams.set("spinner", spinner)
   return forPackageManager(`${CLI} add app-shell "${url}"`, packageManager)
 }
 
@@ -46,6 +49,7 @@ export function buildSettingsCommands(
         project: "existing",
         sound: settings.sound,
         iconLibrary: settings.iconLibrary,
+        spinner: settings.spinner,
         look: {
           surface: settings.surface,
           colors: settings.colors,

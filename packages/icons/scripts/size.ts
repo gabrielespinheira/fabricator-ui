@@ -59,6 +59,19 @@ function measureAnimated() {
 }
 
 try {
+  const fileIcon = measure(
+    "file-icon",
+    `import { FileTypescriptIcon } from ${JSON.stringify(path.join(root, "src/files.ts"))}\nconsole.log(FileTypescriptIcon)\n`
+  )
+  const fileLookup = measure(
+    "file-lookup",
+    `import { FileTypeIcon } from ${JSON.stringify(path.join(root, "src/files.ts"))}\nconsole.log(FileTypeIcon)\n`
+  )
+  console.log(
+    `FileTypescriptIcon: ${fileIcon} B; FileTypeIcon with all artwork and associations: ${fileLookup} B min+gzip`
+  )
+  if (fileIcon > 2500 || fileLookup > 150000)
+    throw new Error("File icon bundle exceeds its size budget")
   measureAnimated()
   const ours = measure(
     "fabricator",

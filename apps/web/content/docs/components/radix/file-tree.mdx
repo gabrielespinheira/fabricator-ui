@@ -1,0 +1,152 @@
+---
+title: File Tree
+description: A compact file explorer with folder guides, file-type icons, keyboard navigation, and single or multiple selection.
+base: radix
+component: true
+---
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="file-tree-demo"
+  previewClassName="h-[36rem]"
+/>
+
+File Tree is part of the Fabricator style. It uses the same HTML implementation in Base UI, Radix and React Aria projects. Rows follow the region's density: 28px rows, 13px labels, 16px icons and 16px indentation at the default density.
+
+## Installation
+
+```bash
+npx fabricator-ui@latest add file-tree
+```
+
+## Usage
+
+```tsx
+import { FileTree, type FileTreeNode } from "@/components/ui/file-tree"
+
+const nodes: FileTreeNode[] = [
+  {
+    id: "src",
+    name: "src",
+    children: [
+      { id: "src/app.tsx", name: "app.tsx" },
+      { id: "src/styles.css", name: "styles.css" },
+    ],
+  },
+  { id: "package.json", name: "package.json" },
+]
+
+<FileTree
+  aria-label="Project files"
+  nodes={nodes}
+  defaultExpandedIds={["src"]}
+  onOpen={(node) => openFile(node.id)}
+/>
+```
+
+Every ID must be unique across the tree. Full relative paths work well. A node with `children`, including an empty array, is a folder. Omit `children` for a file. The component preserves the order supplied by the caller.
+
+## Examples
+
+### Single selection
+
+Single selection is the default. Clicking a file selects it; double-click or Enter calls `onOpen`. Clicking a folder toggles it; clicking its chevron only changes expansion.
+
+<ComponentPreview styleName="radix-nova" name="file-tree-single" />
+
+### Multiple selection and delete
+
+Use `selectionMode="multiple"` for independent selection with Command/Ctrl-click and ranges with Shift-click. Command/Ctrl+Shift-click adds a range to the current selection. Selected children stay selected when their folder collapses.
+
+The first demo controls both selection and expansion and includes Delete, Collapse all and Undo. `onDelete` receives the selected nodes, with selected descendants suppressed when their ancestor is also selected. It includes selected files inside collapsed folders and skips disabled nodes and stale IDs. Deleting a folder requests its entire subtree.
+
+File Tree never writes to the filesystem or removes data itself. Persist the action in your app, confirm permanent deletion, or offer Undo. The installed `@/lib/file-tree-model` exports `getFileTreeDeleteNodes(nodes, ids)` for toolbar actions and `removeFileTreeNodes(nodes, ids)` for removing in-memory data without mutating the original tree.
+
+### Icons and muted files
+
+Folder names and file extensions choose the default icon. Project folders have filled folder icons with a small badge. `muted` quiets ignored or generated items without disabling them; `disabled` prevents selection, opening and expansion, including for descendants.
+
+Supply `renderIcon` to use your own icon pack. Return an icon element; the component handles its size and hides it from assistive technology. `FileTreeIcon` is also exported for falling back to the default icon:
+
+```tsx
+<FileTree
+  nodes={nodes}
+  renderIcon={(node, expanded) =>
+    node.name.endsWith(".tsx") ? (
+      <ReactLogo />
+    ) : (
+      <FileTreeIcon node={node} expanded={expanded} />
+    )
+  }
+/>
+```
+
+Import `FileTreeIcon` from `@/components/ui/file-tree`. Give the icon its own semantic colour if needed. Use `emptyContent` to compose an `Empty` state when there are no nodes.
+
+## API Reference
+
+### FileTree
+
+Extends the props of a `<div>`, excluding `children` and `onSelect`.
+
+| Prop                 | Type                               | Default      |
+| -------------------- | ---------------------------------- | ------------ |
+| `nodes`              | `readonly FileTreeNode[]`          | Required     |
+| `selectionMode`      | `"single" \| "multiple" \| "none"` | `"single"`   |
+| `selectedIds`        | `readonly string[]`                | Uncontrolled |
+| `defaultSelectedIds` | `readonly string[]`                | `[]`         |
+| `onSelectionChange`  | `(ids: string[]) => void`          | -            |
+| `expandedIds`        | `readonly string[]`                | Uncontrolled |
+| `defaultExpandedIds` | `readonly string[]`                | `[]`         |
+| `onExpandedChange`   | `(ids: string[]) => void`          | -            |
+| `onOpen`             | `(node: FileTreeNode) => void`     | -            |
+| `onDelete`           | `(nodes: FileTreeNode[]) => void`  | -            |
+| `onNodeContextMenu`  | `(node, event) => void`            | -            |
+| `renderIcon`         | `(node, expanded) => ReactNode`    | -            |
+| `emptyContent`       | `ReactNode`                        | -            |
+| `disabled`           | `boolean`                          | `false`      |
+
+Set `aria-label` or `aria-labelledby` to name the tree. `onNodeContextMenu` selects an unselected target before calling the callback; right-clicking an existing selection preserves it. Call `event.preventDefault()` in your handler when providing a custom menu. Compose a Context Menu for touch users or additional actions. Renaming, moving and loading folder contents belong to the caller.
+
+### FileTreeNode
+
+| Property   | Type                      | Meaning                         |
+| ---------- | ------------------------- | ------------------------------- |
+| `id`       | `string`                  | Unique, stable identifier       |
+| `name`     | `string`                  | Visible name and typeahead text |
+| `children` | `readonly FileTreeNode[]` | Present for folders             |
+| `disabled` | `boolean`                 | Disables this subtree           |
+| `muted`    | `boolean`                 | Quiets this row visually        |
+
+### Data attributes
+
+The parts expose `data-slot="file-tree"`, `file-tree-item`, `file-tree-guide`, `file-tree-chevron`, `file-tree-icon` and `file-tree-name`. Items expose `data-selected`, `data-disabled` and `data-muted`. Chevrons and icons expose `data-expanded`; icons also expose `data-kind` and `data-folder`.
+
+## Icons
+
+File Tree installs `@fabricator-ui/icons` and uses its Files pack for file-type and named-folder artwork, including expanded folders. Colours follow the theme independently of the project's icon library. Use `renderIcon(node, expanded)` to replace it. The automatic lookup includes all drawings and associations, about 138 KB minified and gzipped; see [Files](/docs/icons/files).
+
+## Accessibility
+
+The tree uses roving focus with explicit levels, positions and sibling counts. Disabled rows are skipped. Focus and selection are distinct in multiple-selection mode, so moving the focus preserves the selection.
+
+| Key                          | Action                                                        |
+| ---------------------------- | ------------------------------------------------------------- |
+| Up / Down                    | Focus the previous / next visible enabled row                 |
+| Right                        | Expand a folder, then focus its first enabled child           |
+| Left                         | Collapse a folder, or focus its parent                        |
+| Home / End                   | Focus the first / last enabled row                            |
+| Enter                        | Toggle a folder or open a file                                |
+| Space                        | Select; toggle in multiple-selection mode                     |
+| Shift+Up / Down / Home / End | Extend a selection range                                      |
+| Command/Ctrl+A               | Select all visible enabled nodes in multiple-selection mode   |
+| Escape                       | Clear selection                                               |
+| Delete / Backspace           | Request deletion through `onDelete`                           |
+| Letters                      | Focus a matching visible name; repeated letters cycle matches |
+| `*`                          | Expand sibling folders                                        |
+
+Single-selection mode selects as keyboard focus moves, unless Command/Ctrl is held. Expansion is immediate; there is no animation to wait through during repeated navigation.
+
+## Platforms
+
+Available for all three web bases. React Native is deferred and recorded in the native parity exceptions.

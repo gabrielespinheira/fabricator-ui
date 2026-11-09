@@ -20,8 +20,8 @@
   }
 
   /* Tabs: up to 192px, down to 144px before the strip scrolls; pinned tabs
-     are their icon. 13px, muted at rest; the active tab is foreground and
-     semibold without shifting. A preview tab is italic. */
+     are their icon. 13px, muted at rest; the active tab is foreground, with
+     the same weight and size as the others. A preview tab is italic. */
   .cn-tab-strip-tab {
     @apply h-full w-48 min-w-36 rounded-lg text-(length:--density-text-13) text-muted-foreground transition-[color,opacity] duration-feedback ease-feedback data-active:text-foreground data-fluid-hover-active:text-foreground data-pinned:w-auto data-pinned:min-w-0 data-preview:italic data-dragging:z-10 in-data-dragging:data-active:bg-surface-4 in-data-dragging:data-active:shadow-surface-4;
   }
@@ -31,7 +31,7 @@
   }
 
   .cn-tab-strip-title {
-    @apply weight-normal in-data-active:weight-semibold;
+    @apply font-normal;
   }
 
   /* The close button's slot is always there, so titles never reflow. The

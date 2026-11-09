@@ -279,3 +279,13 @@ describe("getNativeRuntimeVariables", () => {
     }
   })
 })
+
+it("declares a static spinner default without overwriting it when the look changes", () => {
+  expect(toNativeStylesheet()).toContain("--spinner-variant: 0;")
+  expect(toNativeStylesheet(DEFAULT_NATIVE_LOOK, 8)).toContain(
+    "--spinner-variant: 8;"
+  )
+  expect(getNativeRuntimeVariables("light", DEFAULT_LOOK)).not.toHaveProperty(
+    "--spinner-variant"
+  )
+})

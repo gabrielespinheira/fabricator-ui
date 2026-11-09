@@ -54,6 +54,12 @@ next-env.d.ts
 /public/r/native/
 /public/r/colors/
 
+# temporary styled registries and manifests created during registry:build
+/registry/base-*/
+/registry/radix-*/
+/registry/aria-*/
+/registry-*.json
+
 # upstream styles compiled only for `bun run test:parity`; never published.
 /.upstream-registry/
 

@@ -6,9 +6,11 @@ import {
   findMissingDemoValues,
   findUnresolvedImports,
   getItemClosure,
+  getMissingComponentStatus,
   readComponentShape,
   readImports,
   type NativeItem,
+  type ParityException,
 } from "./native-parity"
 
 const WEB = `
@@ -209,5 +211,47 @@ describe("applyExceptions", () => {
         ]
       )
     ).toEqual([{ kind: "slot", name: "thing-part" }])
+  })
+})
+
+describe("missing native components", () => {
+  const exception: ParityException = {
+    item: "file-tree",
+    kind: "component",
+    name: "file-tree",
+    reason:
+      "Desktop explorer ships on web first; native touch selection is deferred.",
+    date: "2026-11-09",
+  }
+
+  it("reports an unlisted missing component as a failure", () => {
+    expect(getMissingComponentStatus("chat-input", [exception])).toBe("missing")
+  })
+
+  it("reports an explicitly dated whole-component deferral separately", () => {
+    expect(getMissingComponentStatus("file-tree", [exception])).toBe("deferred")
+  })
+
+  it.each([
+    { ...exception, kind: "export" as const },
+    { ...exception, name: "FileTree" },
+    { ...exception, reason: " " },
+    { ...exception, date: "" },
+    { ...exception, date: "not a date" },
+  ])("rejects incomplete or unrelated deferrals", (entry) => {
+    expect(getMissingComponentStatus("file-tree", [entry])).toBe("missing")
+  })
+
+  it("does not waive API or install dependencies for an implemented component", () => {
+    expect(
+      applyExceptions(
+        "file-tree",
+        [
+          { kind: "export", name: "FileTree" },
+          { kind: "import", name: "missing-package" },
+        ],
+        [exception]
+      )
+    ).toHaveLength(2)
   })
 })

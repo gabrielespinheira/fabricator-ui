@@ -1,0 +1,288 @@
+---
+title: File Upload
+description: A file picker with a drop zone, checks on type, size and count, and the picked files as Attachment rows.
+base: radix
+component: true
+---
+
+<ComponentPreview styleName="radix-nova" name="file-upload-demo" />
+
+Drop files on the zone, or click it (or press Enter or Space) to open the file picker. Each file is checked against `accept`, `maxSize` and `maxFiles`; the ones that pass join the list, and the rest go to `onFileReject` with a reason. The picked files show as [Attachment](/docs/components/radix/attachment) rows.
+
+File Upload is part of the Fabricator style. It's built on plain HTML around a real `<input type="file">`, so the same component ships for every base.
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">Command</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx fabricator-ui@latest add file-upload
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps className="mb-0 pt-2">
+
+<Step>Install the Attachment and Button components.</Step>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  src="styles/radix-fabricator/ui/file-upload.tsx"
+  title="components/ui/file-upload.tsx"
+  styleName="radix-nova"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import {
+  AttachmentActions,
+  AttachmentContent,
+  AttachmentDescription,
+  AttachmentTitle,
+} from "@/components/ui/attachment"
+import {
+  FileUpload,
+  FileUploadDescription,
+  FileUploadDropzone,
+  FileUploadItem,
+  FileUploadItemDelete,
+  FileUploadItemPreview,
+  FileUploadList,
+  FileUploadMedia,
+  FileUploadTitle,
+  formatFileSize,
+} from "@/components/ui/file-upload"
+```
+
+```tsx
+const [files, setFiles] = React.useState<File[]>([])
+
+<FileUpload value={files} onValueChange={setFiles} multiple>
+  <FileUploadDropzone>
+    <FileUploadMedia />
+    <FileUploadTitle>Drop files here or click to browse</FileUploadTitle>
+    <FileUploadDescription>Any file, as many as you like</FileUploadDescription>
+  </FileUploadDropzone>
+  <FileUploadList>
+    {files.map((file) => (
+      <FileUploadItem key={file.name} file={file}>
+        <FileUploadItemPreview />
+        <AttachmentContent>
+          <AttachmentTitle>{file.name}</AttachmentTitle>
+          <AttachmentDescription>{formatFileSize(file.size)}</AttachmentDescription>
+        </AttachmentContent>
+        <AttachmentActions>
+          <FileUploadItemDelete />
+        </AttachmentActions>
+      </FileUploadItem>
+    ))}
+  </FileUploadList>
+</FileUpload>
+```
+
+## Composition
+
+```text
+FileUpload                 the files, the checks and a hidden <input type="file">
+├── FileUploadDropzone     drop target and button that opens the picker
+│   ├── FileUploadMedia    the icon tile (an upload icon by default)
+│   ├── FileUploadTitle
+│   └── FileUploadDescription
+├── FileUploadField        an Input-sized field: the picked files as chips, drops too
+├── FileUploadTrigger      a Button that opens the picker, for a compact control
+└── FileUploadList
+    └── FileUploadItem     an Attachment for one file
+        ├── FileUploadItemPreview    the image, or a file icon
+        ├── AttachmentContent        AttachmentTitle, AttachmentDescription
+        └── AttachmentActions
+            └── FileUploadItemDelete
+```
+
+Use a dropzone, a field, a trigger, or a mix. Every part reads the root through context, so they can sit anywhere inside it. `FileUploadItem` takes every Attachment prop (`state`, `size`, `orientation`), so a row can show an upload's progress. For parts of your own, `useFileUpload()` returns the files and `openPicker`, `addFiles`, `removeFile` and `clearFiles`.
+
+## Examples
+
+### Field
+
+`FileUploadField` sits in a form like any other field: the Input frame, 36px tall, with a placeholder that opens the picker. It keeps an Input's height whatever it holds: picked files show inside it as chips with a picture or icon, a short name and a remove button, on one row that scrolls sideways under faded edges, and a new file scrolls into view. The size is in each chip's tooltip. A plus button at the end of the row adds more, named Add files (Replace file without `multiple`). Drop files on it too: while they're over it, it lifts to the card surface and says what a drop does.
+
+<ComponentPreview styleName="radix-nova" name="file-upload-field" />
+
+### Image
+
+A single file (no `multiple`) replaces the one picked before. `useFileUrl(file)` gives an object URL for a preview and revokes it when the file changes or the component unmounts.
+
+<ComponentPreview styleName="radix-nova" name="file-upload-image" />
+
+### Multiple
+
+Vertical Attachments in a grid make a gallery of picked images.
+
+<ComponentPreview styleName="radix-nova" name="file-upload-multiple" />
+
+### Validation
+
+`accept`, `maxSize` (bytes) and `maxFiles` check every pick and drop. Rejected files reach `onFileReject` with a reason: `"type"`, `"size"` or `"count"`. Show them with `FieldError`, and set `aria-invalid` on the dropzone.
+
+<ComponentPreview styleName="radix-nova" name="file-upload-validation" />
+
+### Button
+
+`FileUploadTrigger` is a Button that opens the picker, for a toolbar or a message composer. It takes the Button's `variant` and `size` (outline by default).
+
+<ComponentPreview styleName="radix-nova" name="file-upload-button" />
+
+### Upload progress
+
+Upload each file as it arrives and drive the row with Attachment's `state`: `uploading` shimmers the title, `done` settles it.
+
+<ComponentPreview styleName="radix-nova" name="file-upload-progress" />
+
+### Form
+
+With `name`, the hidden input carries the picked files, so a form posts them like any field. `inputId` lets a `FieldLabel` point at it.
+
+<ComponentPreview styleName="radix-nova" name="file-upload-form" />
+
+### Disabled
+
+<ComponentPreview styleName="radix-nova" name="file-upload-disabled" />
+
+## Checking files yourself
+
+The checks are plain functions, exported for a server action or your own drop target.
+
+```tsx
+import {
+  checkFiles,
+  formatFileSize,
+  isFileTypeAccepted,
+} from "@/components/ui/file-upload"
+
+const { accepted, rejected } = checkFiles(files, {
+  accept: "image/*,.pdf",
+  maxSize: 5 * 1024 * 1024,
+  maxFiles: 3,
+  existingCount: 1,
+})
+
+isFileTypeAccepted(file, "image/*") // matches the MIME family
+formatFileSize(1536) // "1.5 KB"
+```
+
+`accept` reads like the browser's: `.pdf` matches the extension, `image/*` the MIME family, `application/pdf` the exact type. The type is checked first, then the size, then the count, so a file of the wrong type never takes a place.
+
+## API Reference
+
+### FileUpload
+
+All other props go to the root `<div>`.
+
+| Prop            | Type                                    | Default |
+| --------------- | --------------------------------------- | ------- |
+| `value`         | `File[]`                                | -       |
+| `defaultValue`  | `File[]`                                | `[]`    |
+| `onValueChange` | `(files: File[]) => void`               | -       |
+| `onFileReject`  | `(rejections: FileRejection[]) => void` | -       |
+| `accept`        | `string`                                | -       |
+| `multiple`      | `boolean`                               | `false` |
+| `maxSize`       | `number` (bytes)                        | -       |
+| `maxFiles`      | `number`                                | -       |
+| `disabled`      | `boolean`                               | `false` |
+| `name`          | `string`                                | -       |
+| `inputId`       | `string`                                | -       |
+
+`FileRejection` is `{ file: File; reason: "type" | "size" | "count" }`.
+
+### FileUploadDropzone
+
+A `<div>` with `role="button"`. Takes every `<div>` prop, including `aria-invalid` and `aria-label`.
+
+### FileUploadField
+
+A `<div>` frame and drop target holding the chips and a `<button>` that opens the picker. `id` and `aria-describedby` go to that button, so a `FieldLabel` with `htmlFor` names it.
+
+| Prop           | Type               | Default                                                                |
+| -------------- | ------------------ | ---------------------------------------------------------------------- |
+| `placeholder`  | `string`           | `"Choose a file or drop it here"` (`"Choose files or drop them here"`) |
+| `aria-invalid` | `boolean`          | -                                                                      |
+| ...            | every `<div>` prop | -                                                                      |
+
+### FileUploadTrigger
+
+A `<button>` drawn as a Button.
+
+| Prop      | Type              | Default     |
+| --------- | ----------------- | ----------- |
+| `variant` | Button's variants | `"outline"` |
+| `size`    | Button's sizes    | `"default"` |
+
+### FileUploadItem
+
+An [Attachment](/docs/components/radix/attachment) with `role="listitem"`.
+
+| Prop   | Type                  | Default |
+| ------ | --------------------- | ------- |
+| `file` | `File`                | -       |
+| ...    | every Attachment prop | -       |
+
+### FileUploadItemPreview
+
+An `AttachmentMedia`: the image for image files, otherwise its children or a file icon.
+
+### FileUploadItemDelete
+
+A `<button>` drawn as a ghost `icon-xs` Button, named "Remove" and the file's name. Children replace the X icon.
+
+### Data attributes
+
+| Attribute                              | Element               | Present when              |
+| -------------------------------------- | --------------------- | ------------------------- |
+| `data-slot="file-upload"`              | root                  | always                    |
+| `data-dragging`                        | root, dropzone, field | files are dragged over it |
+| `data-disabled`                        | root, dropzone, field | `disabled`                |
+| `data-filled`                          | field                 | a file is picked          |
+| `data-invalid`                         | field                 | `aria-invalid`            |
+| `data-slot="file-upload-dropzone"`     | the drop zone         | always                    |
+| `data-slot="file-upload-field"`        | the field             | always                    |
+| `data-slot="file-upload-field-browse"` | the field's button    | always                    |
+| `data-slot="file-upload-chip"`         | a file in the field   | always                    |
+| `data-slot="file-upload-chip-remove"`  | a chip's remove       | always                    |
+| `data-slot="file-upload-trigger"`      | the trigger button    | always                    |
+| `data-slot="file-upload-list"`         | the list              | always                    |
+| `data-slot="file-upload-item"`         | a row                 | always                    |
+| `data-slot="file-upload-item-delete"`  | a row's delete        | always                    |
+
+## Motion
+
+- Hover and drag-over change the fill and the edge on the feedback timing (`duration-feedback ease-feedback`).
+- During a drag, the icon tile rises a step on the move timing. With reduced motion it stays still.
+- Over the field, a drag lifts it to the card surface, firms its ring and grows it a hair on the move timing, while the drop message fades in and its arrow drops into place. A new chip rises and fades in on the feedback timing. With reduced motion the field doesn't grow and nothing moves.
+
+## Accessibility
+
+- The dropzone is a button: Tab reaches it, and Enter or Space opens the file picker. Its name is its text; give it `aria-label` when the text isn't enough (as when it shows a preview).
+- The real `<input type="file">` is hidden and left out of the tab order, so focus never lands twice. A `FieldLabel` with `htmlFor` set to `inputId` opens the picker on click.
+- Dropping is a shortcut, never the only way: everything a drop does, the picker does too.
+- Rejections belong in a `FieldError` (`role="alert"`, so it's announced), with `aria-invalid` and `aria-describedby` on the dropzone.
+- The field's button carries its `id`, so a `FieldLabel` names it and clicking the label opens the picker. Each chip's remove button is named after the file.
+- Each row is a list item. Its delete button is named after the file, and removing a row moves focus to the next row's delete button, or back to the dropzone when the list is empty.
+- Disabled, the dropzone leaves the tab order and reports `aria-disabled`, and drops are refused.

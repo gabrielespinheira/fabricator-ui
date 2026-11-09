@@ -1,0 +1,6 @@
+/* MARK: Spinner */
+
+/* Icon-sized by default; matrix geometry scales with the SVG viewBox. */
+.cn-spinner {
+  @apply size-(--density-icon-16);
+}

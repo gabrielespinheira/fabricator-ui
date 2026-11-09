@@ -1,6 +1,8 @@
 import { loadAnimatedIcons, type AnimatedIcon } from "./animated"
 import { loadBrands } from "./brands"
 import { loadDuotoneIcons } from "./duotone"
+import { buildFileComponentSources } from "./file-component-sources"
+import { loadFileIcons } from "./file-icons"
 import { getExportNames } from "./names"
 import { loadOutlineIcons, readCategoryTitles } from "./outline"
 import {
@@ -178,7 +180,26 @@ function catalogData(
       ...(icon.isOlderDrawing && { isOlderDrawing: true }),
     }
   })
-  return withGeneratedHeader(`import type { AnimatedCatalogEntry, BrandCatalogEntry, IconCategory, OutlineCatalogEntry } from "./runtime/types.js"
+  const {
+    icons: fileIcons,
+    fileNames,
+    fileExtensions,
+    folderNames,
+  } = loadFileIcons()
+  const fileEntries = fileIcons.map(({ name }) => ({
+    name,
+    set: "files",
+    aliases: [],
+    categories: [name.includes("folder") ? "folders" : "files"],
+    tags: [
+      ...Object.entries(fileNames),
+      ...Object.entries(fileExtensions),
+      ...Object.entries(folderNames),
+    ]
+      .filter(([, id]) => id === name || `${id}-open` === name)
+      .map(([association]) => association),
+  }))
+  return withGeneratedHeader(`import type { AnimatedCatalogEntry, BrandCatalogEntry, FileCatalogEntry, IconCategory, OutlineCatalogEntry } from "./runtime/types.js"
 
 export const outlineCategories: IconCategory[] = ${JSON.stringify(readCategoryTitles())}
 
@@ -187,6 +208,8 @@ export const outlineCatalog: OutlineCatalogEntry[] = ${JSON.stringify(outline)}
 export const brandCatalog: BrandCatalogEntry[] = ${JSON.stringify(brand)}
 
 export const animatedCatalog: AnimatedCatalogEntry[] = ${JSON.stringify(moving)}
+
+export const fileCatalog: FileCatalogEntry[] = ${JSON.stringify(fileEntries)}
 `)
 }
 
@@ -300,6 +323,8 @@ export function buildComponentSources({
   const brands = loadBrands()
   const duotone = loadDuotoneIcons()
   const files = new Map<string, string>()
+  for (const [name, source] of buildFileComponentSources())
+    files.set(name, source)
   for (const [file, content] of readRuntimeFiles())
     files.set(`runtime/${file}`, content)
   for (const icon of icons) files.set(`icons/${icon.name}.ts`, iconModule(icon))
