@@ -27,7 +27,13 @@ function getDotStyle(
   return {
     "--spinner-travel-x": `${dot.travelX}px`,
     "--spinner-travel-y": `${dot.travelY}px`,
-    animation: `${isExplicit ? name : `var(--spinner-${pattern}-animation, ${pattern === "orbit" ? name : "none"})`} ${duration}ms linear ${-dot.phase * duration}ms infinite`,
+    animationName: isExplicit
+      ? name
+      : `var(--spinner-${pattern}-animation, ${pattern === "orbit" ? name : "none"})`,
+    animationDuration: `${duration}ms`,
+    animationTimingFunction: "linear",
+    animationDelay: `${-dot.phase * duration}ms`,
+    animationIterationCount: "infinite",
   }
 }
 
@@ -78,7 +84,12 @@ function Spinner({
                 data-spinner-motion=""
                 style={{
                   transformOrigin: "12px 12px",
-                  animation: `${variant ? "fabricator-spinner-ring" : "var(--spinner-ring-animation, none)"} ${duration}ms linear infinite`,
+                  animationName: variant
+                    ? "fabricator-spinner-ring"
+                    : "var(--spinner-ring-animation, none)",
+                  animationDuration: `${duration}ms`,
+                  animationTimingFunction: "linear",
+                  animationIterationCount: "infinite",
                 }}
               >
                 <circle

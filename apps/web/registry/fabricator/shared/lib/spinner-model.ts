@@ -190,7 +190,7 @@ function createDot(
   phase: number,
   options: Partial<SpinnerDot> = {}
 ): SpinnerDot {
-  return {
+  const dot: SpinnerDot = {
     x,
     y,
     phase: ((phase % 1) + 1) % 1,
@@ -201,6 +201,16 @@ function createDot(
     travelX: 0,
     travelY: 0,
     ...options,
+  }
+  // Math functions can differ in their final bits between server and browser engines.
+  const round = (value: number) => Number(value.toFixed(6)) + 0
+  return {
+    ...dot,
+    x: round(dot.x),
+    y: round(dot.y),
+    phase: round(dot.phase),
+    travelX: round(dot.travelX),
+    travelY: round(dot.travelY),
   }
 }
 

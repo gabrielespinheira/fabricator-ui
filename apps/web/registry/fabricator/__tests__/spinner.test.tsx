@@ -243,3 +243,22 @@ it("alternates the two checkerboard groups instead of pulsing them together", ()
     new Set([0, 0.5])
   )
 })
+
+it("serializes particle geometry with stable precision across server and browser engines", () => {
+  for (const variant of SPINNER_VALUES.filter((value) => value !== "ring")) {
+    for (const dot of getSpinnerDots(variant)) {
+      for (const value of [dot.x, dot.y, dot.phase, dot.travelX, dot.travelY]) {
+        expect(value).toBe(Number(value.toFixed(6)))
+      }
+    }
+  }
+})
+
+it("uses animation longhands so browser CSS normalization preserves hydration styles", () => {
+  const markup = render(<Spinner />)
+  expect(markup).toContain(
+    "animation-name:var(--spinner-rings-animation, none)"
+  )
+  expect(markup).toContain("animation-duration:1100ms")
+  expect(markup).not.toMatch(/(?:[;"])animation:/)
+})

@@ -7,10 +7,27 @@ import { toPascalCase } from "./generated/runtime/names.js"
 export type FileIconProps = SVGProps<SVGSVGElement> & { size?: number | string }
 export type FileIconComponent = (props: FileIconProps) => ReactElement
 
+function getShapeStyle(value: string): Record<string, string> {
+  return Object.fromEntries(
+    value
+      .split(";")
+      .filter((declaration) => declaration.trim())
+      .map((declaration) => {
+        const colon = declaration.indexOf(":")
+        const property = declaration
+          .slice(0, colon)
+          .trim()
+          .replace(/-([a-z])/g, (_, letter: string) => letter.toUpperCase())
+        return [property, declaration.slice(colon + 1).trim()]
+      })
+  )
+}
+
 function renderShapes(node: FileIconData["node"], prefix: string) {
   return node.map(([tag, attributes], key) =>
     createElement(tag, {
       ...attributes,
+      ...(attributes.style && { style: getShapeStyle(attributes.style) }),
       key,
       ...(attributes.mask && {
         mask: attributes.mask.replace("url(#", `url(#${prefix}`),

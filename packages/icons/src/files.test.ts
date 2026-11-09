@@ -3,9 +3,13 @@ import { renderToStaticMarkup } from "react-dom/server"
 import { describe, expect, it } from "vitest"
 
 import {
+  FileDartIcon,
+  FileEslintIcon,
   FileSvelteIcon,
   FileTypeIcon,
   FileTypescriptIcon,
+  FolderNodeIcon,
+  FolderNodeOpenIcon,
   getFileIconName,
   getFolderIconName,
 } from "./files"
@@ -67,3 +71,11 @@ describe("file icon rendering", () => {
     expect(svg).toContain("fab-file-typescript")
   })
 })
+
+it.each([FileDartIcon, FileEslintIcon, FolderNodeIcon, FolderNodeOpenIcon])(
+  "renders file artwork with inline blend styles",
+  (Icon) => {
+    const svg = renderToStaticMarkup(createElement(Icon))
+    expect(svg).toMatch(/style="mix-blend-mode:plus-(darker|lighter)"/)
+  }
+)
