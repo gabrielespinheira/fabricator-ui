@@ -5,10 +5,10 @@ import { getShellOptionSections } from "@/registry/fabricator/app-shell-options"
 import {
   buildInstallCommand,
   countChangedOptions,
+  getBottomNavStyleChoices,
   getDefaultShellOptions,
   getNativeHiddenOptions,
   getOptionNotes,
-  getTabBarStyleChoices,
   NATIVE_HIDDEN_OPTIONS,
   NATIVE_PROJECT,
   type ShellOptions,
@@ -32,13 +32,13 @@ describe("the React Native App Shell card", () => {
     )
   })
 
-  it("always offers Glass, disabled when it can't be drawn", () => {
-    expect(getTabBarStyleChoices({ hasGlass: true })).toEqual([
-      { value: "flat", label: "Flat", disabled: false },
+  it("always offers Glass first, disabled when it can't be drawn", () => {
+    expect(getBottomNavStyleChoices({ hasGlass: true })).toEqual([
       { value: "glass", label: "Glass", disabled: false },
       { value: "floating", label: "Floating", disabled: false },
+      { value: "flat", label: "Flat", disabled: false },
     ])
-    expect(getTabBarStyleChoices({ hasGlass: false })[1]).toEqual({
+    expect(getBottomNavStyleChoices({ hasGlass: false })[0]).toEqual({
       value: "glass",
       label: "Glass",
       disabled: true,

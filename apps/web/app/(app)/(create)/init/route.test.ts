@@ -45,7 +45,8 @@ describe("GET /init?platform=native", () => {
     const json = await response.json()
     expect(response.status).toBe(200)
     expect(json.registryDependencies).toEqual(["@fabricator/index"])
-    expect(json.files[0].content).toContain("--density-36: 44px;")
+    // The Default density's tokens: FabricatorRoot sizes them for the device.
+    expect(json.files[0].content).toContain("--density-36: 36px;")
   })
 
   it("takes a look", async () => {

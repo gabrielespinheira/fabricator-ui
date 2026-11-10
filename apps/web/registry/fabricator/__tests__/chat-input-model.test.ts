@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest"
 
 import {
   getChatInputSendLabel,
+  getChatInputTrayStack,
   isChatInputMicLive,
   isChatInputSendDisabled,
   isChatInputSendLit,
@@ -66,5 +67,60 @@ describe("isChatInputMicLive", () => {
     expect(isChatInputMicLive("speaking")).toBe(true)
     expect(isChatInputMicLive("muted")).toBe(false)
     expect(isChatInputMicLive("transcribing")).toBe(false)
+  })
+})
+
+describe("getChatInputTrayStack", () => {
+  it("leaves a single row as it is: nothing to fold", () => {
+    expect(getChatInputTrayStack({ rows: [1], isExpanded: false })).toEqual({
+      isCollapsible: false,
+      isCollapsed: false,
+      front: 0,
+      hiddenRows: 0,
+      edges: 0,
+    })
+  })
+
+  it("folds every row but the front one behind it, at most two edges", () => {
+    expect(
+      getChatInputTrayStack({ rows: [1, 1, 3], isExpanded: false })
+    ).toEqual({
+      isCollapsible: true,
+      isCollapsed: true,
+      front: 2,
+      hiddenRows: 4,
+      edges: 2,
+    })
+    expect(getChatInputTrayStack({ rows: [2], isExpanded: false }).edges).toBe(
+      1
+    )
+  })
+
+  it("takes the frontmost tray with rows as the front", () => {
+    expect(
+      getChatInputTrayStack({ rows: [1, 2, 0], isExpanded: false }).front
+    ).toBe(1)
+  })
+
+  it("shows everything once opened", () => {
+    expect(
+      getChatInputTrayStack({ rows: [1, 1, 3], isExpanded: true })
+    ).toEqual({
+      isCollapsible: true,
+      isCollapsed: false,
+      front: 2,
+      hiddenRows: 0,
+      edges: 0,
+    })
+  })
+
+  it("has no front without rows", () => {
+    expect(getChatInputTrayStack({ rows: [], isExpanded: false })).toEqual({
+      isCollapsible: false,
+      isCollapsed: false,
+      front: -1,
+      hiddenRows: 0,
+      edges: 0,
+    })
   })
 })

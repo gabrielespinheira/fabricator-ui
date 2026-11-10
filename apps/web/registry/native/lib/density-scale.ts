@@ -3,6 +3,7 @@
 
 import {
   DENSITIES,
+  isDensityName,
   type DensityName,
   type Density as DensityTokens,
 } from "@/registry/fabricator/density"
@@ -146,21 +147,30 @@ const isTabletRung = (density: SizeDensity) =>
   density === "tablet" || density === "tablet-sm" || density === "tablet-lg"
 
 /**
- * The rung a device takes in place of its look's density, if any. A native app's
- * look is spacious, the phone's base; a tablet takes its own. Default on a phone
- * takes the tablet's rung too: the website's default (36pt controls, 13pt text)
- * is sized for a pointer, and this is the step under a phone's base that still
- * fits a finger. Compact stays as picked, and a window narrower than a tablet
- * (Split View) is a phone's.
+ * The rung each density takes on a device, where it differs from the
+ * website's. The website's densities are sized for a pointer; on a touch
+ * screen Default is the platform's own size (a phone's 44pt controls, a
+ * tablet's 40pt) and Compact and Spacious a step either side of it.
+ */
+const DEVICE_RUNGS: Record<
+  "phone" | "tablet",
+  Partial<Record<DensityName, SizeDensity>>
+> = {
+  phone: { compact: "tablet", default: "spacious", spacious: "large" },
+  tablet: { compact: "tablet-sm", default: "tablet" },
+}
+
+/**
+ * The rung a device takes in place of its look's density, if any. A window
+ * narrower than a tablet (Split View) is a phone's.
  */
 export function getDeviceDensity(
   density: SizeDensity,
   windowWidth: number
 ): SizeDensity | undefined {
-  const isTablet = windowWidth >= TABLET_MIN_WIDTH
-  if (density === "spacious" && isTablet) return "tablet"
-  if (density === "default" && !isTablet) return "tablet"
-  return undefined
+  if (!isDensityName(density)) return undefined
+  const device = windowWidth >= TABLET_MIN_WIDTH ? "tablet" : "phone"
+  return DEVICE_RUNGS[device][density]
 }
 
 /**

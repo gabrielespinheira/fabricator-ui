@@ -35,7 +35,7 @@ export const ACCOUNT_PLACEMENTS = ["footer", "header", "none"] as const
 export const TAB_PLACEMENTS = ["none", "main", "titlebar"] as const
 export const CONTENT_SIZES = ["sm", "md", "lg"] as const
 export const PANEL_MOBILE = ["drawer", "swap", "none"] as const
-export const BOTTOM_NAV_STYLES = ["flat", "floating", "glass"] as const
+export const BOTTOM_NAV_STYLES = ["glass", "floating", "flat"] as const
 export const WINDOWS = ["web", "macos", "windows"] as const
 
 export const playgroundParsers = {

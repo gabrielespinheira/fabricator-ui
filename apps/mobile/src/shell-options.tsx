@@ -33,10 +33,10 @@ import { Text } from "@/registry/native/ui/text"
 import {
   buildInstallCommand,
   countChangedOptions,
+  getBottomNavStyleChoices,
   getDefaultShellOptions,
   getNativeHiddenOptions,
   getOptionNotes,
-  getTabBarStyleChoices,
   NATIVE_PROJECT,
   type ShellOptions,
 } from "./shell-options-model"
@@ -117,7 +117,7 @@ function OptionRow({
         label={row.label}
         options={
           row.key === "bottomNavStyle"
-            ? getTabBarStyleChoices({ hasGlass: hasLiquidGlass() })
+            ? getBottomNavStyleChoices({ hasGlass: hasLiquidGlass() })
             : row.choices
         }
         value={options[row.key]}

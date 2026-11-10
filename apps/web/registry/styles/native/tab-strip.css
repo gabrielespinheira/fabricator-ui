@@ -1,9 +1,7 @@
 /* MARK: Tab Strip */
 
   /* A row of document tabs on the surface it sits on: 48pt at a phone's density,
-     40pt at `sm`, a step down the scale. A press takes the row's whole height.
-     Compact (a phone), the count's button sits right after the pill, with no
-     gap: its own inset is the space between them. */
+     40pt at `sm`, a step down the scale. A press takes the row's whole height. */
   .cn-tab-strip {
     @apply h-(--density-40) gap-(--density-4) px-(--density-6) data-[compact=true]:gap-0;
   }
@@ -107,28 +105,24 @@
 
   /* MARK: Compact strip (phones) */
 
-  /* The active tab on the selection's raised pill, filling the row. Its chevron
-     says a press shows the rest; its glyph sits inside its box, so the end takes
-     less padding to look even. */
+  /* The active tab on the selection's raised pill, filling the row, with the
+     count of open tabs at its end: a press shows them all. The chip's own box
+     is the end's inset, so the end takes less padding to look even. */
   .cn-tab-strip-compact-tab {
-    @apply bg-surface-4 shadow-surface-4 my-(--density-4) gap-(--density-6) rounded-lg ps-(--density-10) pe-(--density-6);
+    @apply bg-surface-4 shadow-surface-4 my-(--density-4) gap-(--density-6) rounded-lg ps-(--density-10) pe-(--density-8);
   }
 
   .cn-tab-strip-compact-text {
     @apply text-foreground text-(length:--density-text-13);
   }
 
-  .cn-tab-strip-compact-chevron {
-    @apply text-muted-foreground;
-  }
-
-  /* The count of open tabs in a rounded frame, as a phone's browser draws it. */
+  /* The count, a soft chip as wide as its digits. */
   .cn-tab-strip-count {
-    @apply border-foreground h-(--density-20) min-w-(--density-20) rounded-md border-[1.5px] px-(--density-4);
+    @apply bg-muted h-(--density-20) min-w-(--density-20) rounded-md px-(--density-6);
   }
 
   .cn-tab-strip-count-text {
-    @apply text-foreground text-(length:--density-text-11) leading-none font-semibold;
+    @apply text-muted-foreground text-(length:--density-text-12) leading-none font-semibold tabular-nums;
   }
 
   /* The switcher: two columns of cards in a sheet, the sheet's inset around them.

@@ -2,13 +2,24 @@
 // the track, the level a key or a touch moves it to and the hue it warms to.
 // Plain data, shared by the website's component and React Native's.
 
-/** The hue the top effort level turns, in degrees past the first one's. */
-const EFFORT_HUE_RANGE = 60
+/** Where the effort ramp starts and ends, in degrees from the info hue. */
+const EFFORT_HUE_FROM = -30
+const EFFORT_HUE_TO = 40
 
-/** Each effort level warms from the info hue toward violet. */
+/**
+ * The effort fill's OKLCH lightness, in both modes: lighter than the info fill,
+ * so the ramp reads fresh from sky blue to violet. The website's style map
+ * writes the same number.
+ */
+export const EFFORT_FILL_LIGHTNESS = 0.68
+
+/** Each effort level turns from sky blue, below the info hue, toward violet. */
 export function getEffortHueShift(index: number, count: number) {
-  if (count <= 1) return 0
-  return Math.round((index / (count - 1)) * EFFORT_HUE_RANGE)
+  if (count <= 1) return EFFORT_HUE_FROM
+  const progress = index / (count - 1)
+  return Math.round(
+    EFFORT_HUE_FROM + progress * (EFFORT_HUE_TO - EFFORT_HUE_FROM)
+  )
 }
 
 /** The level a key moves the effort slider to, or null for any other key. */

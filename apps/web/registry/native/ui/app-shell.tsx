@@ -100,6 +100,7 @@ import {
   BottomBarProvider,
   useIsBottomBarClaimed,
 } from "@/registry/native/lib/bottom-bar"
+import { BottomNavFade, HeaderFade } from "@/registry/native/lib/edge-fade"
 import { useFeedback } from "@/registry/native/lib/feedback"
 import {
   FluidHoverArea,
@@ -109,7 +110,6 @@ import {
   useFluidHover,
   useFluidRow,
 } from "@/registry/native/lib/fluid-hover"
-import { HeaderFade } from "@/registry/native/lib/header-fade"
 import { useMotion, useSurfaceAnimation } from "@/registry/native/lib/motion"
 import { parseNumber } from "@/registry/native/lib/motion-tokens"
 import { getTextContent } from "@/registry/native/lib/overlay-model"
@@ -1316,7 +1316,7 @@ function AppShellFab({ action }: { action: AppShellAction }) {
   const { bottomNavOverlap, hasBottomNav, setHasFab } = useAppShellScroll()
   const insets = useShellInsets()
   const name = React.useId()
-  const [row, gap] = useCSSVariable(["--density-48", "--density-16"])
+  const [row, gap] = useCSSVariable(["--density-40", "--density-16"])
   React.useLayoutEffect(() => {
     setHasFab(true)
     return () => setHasFab(false)
@@ -1333,7 +1333,7 @@ function AppShellFab({ action }: { action: AppShellAction }) {
         style={{
           bottom: getFabBottom({
             hasBottomNav,
-            rowHeight: parseNumber(row, 48),
+            rowHeight: parseNumber(row, 40),
             gap: parseNumber(gap, 16),
             insetBottom: insets.bottom,
             overlap: bottomNavOverlap,
@@ -1603,6 +1603,7 @@ const BottomNavIndexContext = React.createContext(0)
 const bottomNavTextVariants = cva("cn-app-shell-bottom-nav-text")
 const bottomNavLitTextVariants = cva("cn-app-shell-bottom-nav-text-lit")
 const bottomNavActiveTextVariants = cva("cn-app-shell-bottom-nav-text-active")
+const bottomNavFadeVariants = cva("cn-app-shell-bottom-nav-fade")
 
 /**
  * A phone tab bar. It hides itself from tablets up. `flat` is a row under the page.
@@ -1639,12 +1640,12 @@ function AppShellBottomNav({
     previewsSelection: isFloating,
   })
   const [row, padding, gap] = useCSSVariable([
-    "--density-48",
+    "--density-40",
     "--density-6",
     "--density-12",
   ])
   const metrics = getFloatingNavMetrics({
-    row: parseNumber(row, 48),
+    row: parseNumber(row, 40),
     padding: parseNumber(padding, 6),
     gap: parseNumber(gap, 12),
     insetBottom: insets.bottom,
@@ -1663,6 +1664,7 @@ function AppShellBottomNav({
     return () => setBottomNavOverlap(0)
   }, [overlap, setBottomNavOverlap])
   const context = React.useMemo(() => ({ setSelected }), [])
+  const { color: fadeColor } = useResolveClassNames(bottomNavFadeVariants())
   // Something else holds the bottom of the screen (the Editor's formatting
   // bar while it has focus): step aside, keeping the page's clearance so
   // nothing jumps.
@@ -1706,30 +1708,39 @@ function AppShellBottomNav({
       borderRadius: metrics.radius,
     }
     return (
-      <View
-        data-slot="app-shell-bottom-nav"
-        data-variant={variant}
-        accessibilityRole="tabbar"
-        aria-label="Main"
-        className={cn("cn-app-shell-bottom-nav-floating absolute", className)}
-        style={[{ bottom: metrics.bottom }, style]}
-        {...props}
-      >
-        {capsule ? (
-          React.cloneElement(capsule, {
-            style: [surface, capsule.props.style],
-            children: track,
-          })
-        ) : (
-          <View
-            data-slot="app-shell-bottom-nav-capsule"
-            className="cn-app-shell-bottom-nav-capsule"
-            style={surface}
-          >
-            {track}
-          </View>
-        )}
-      </View>
+      <>
+        {typeof fadeColor === "string" ? (
+          <BottomNavFade
+            color={fadeColor}
+            clearance={metrics.clearance}
+            barHeight={metrics.height}
+          />
+        ) : null}
+        <View
+          data-slot="app-shell-bottom-nav"
+          data-variant={variant}
+          accessibilityRole="tabbar"
+          aria-label="Main"
+          className={cn("cn-app-shell-bottom-nav-floating absolute", className)}
+          style={[{ bottom: metrics.bottom }, style]}
+          {...props}
+        >
+          {capsule ? (
+            React.cloneElement(capsule, {
+              style: [surface, capsule.props.style],
+              children: track,
+            })
+          ) : (
+            <View
+              data-slot="app-shell-bottom-nav-capsule"
+              className="cn-app-shell-bottom-nav-capsule"
+              style={surface}
+            >
+              {track}
+            </View>
+          )}
+        </View>
+      </>
     )
   }
   return (
@@ -2516,7 +2527,7 @@ function AppShellPanelTrigger({
               insetTop: insets.top,
               insetRight: insets.right,
               gutter: variant === "inset" ? parseNumber(gutter, 8) : 0,
-              rowHeight: parseNumber(row, 48),
+              rowHeight: parseNumber(row, 40),
               buttonSize: smallButton,
               rowPadding: parseNumber(padding, 12),
               rowOffset,

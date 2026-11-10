@@ -1,8 +1,8 @@
 // The Model Picker's effort tint. The website turns the info colour's hue with
-// relative colour syntax (`oklch(from var(--info) l c calc(h + shift))`) and
-// saturates the top level with a `saturate()` filter. React Native has neither,
-// so these do the same maths on the resolved colour.
+// relative colour syntax (`oklch(from var(--info) 0.68 c calc(h + shift))`).
+// React Native has none, so these do the same maths on the resolved colour.
 
+import { EFFORT_FILL_LIGHTNESS } from "@/registry/fabricator/shared/lib/model-picker-model"
 import { oklchToHex } from "@/registry/fabricator/surface-tint"
 
 type Rgba = { r: number; g: number; b: number; a: number }
@@ -77,25 +77,10 @@ export function shiftHue(color: string, degrees: number) {
   return formatColor({ ...shifted, a: parsed.a })
 }
 
-/** CSS's `saturate(amount)` filter on one colour, or null if unreadable. */
-export function saturateColor(color: string, amount: number) {
-  const parsed = parseColor(color)
+/** The effort fill: the info colour's chroma at the fill's lightness, its hue turned. */
+export function toEffortFill(infoColor: string, degrees: number) {
+  const parsed = parseColor(infoColor)
   if (!parsed) return null
-  const { r, g, b, a } = parsed
-  const s = amount
-  return formatColor({
-    r:
-      (0.213 + 0.787 * s) * r +
-      (0.715 - 0.715 * s) * g +
-      (0.072 - 0.072 * s) * b,
-    g:
-      (0.213 - 0.213 * s) * r +
-      (0.715 + 0.285 * s) * g +
-      (0.072 - 0.072 * s) * b,
-    b:
-      (0.213 - 0.213 * s) * r +
-      (0.715 - 0.715 * s) * g +
-      (0.072 + 0.928 * s) * b,
-    a,
-  })
+  const { c, h } = toOklch(parsed)
+  return oklchToHex(EFFORT_FILL_LIGHTNESS, c, h + degrees)
 }

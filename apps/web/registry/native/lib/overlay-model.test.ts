@@ -6,6 +6,7 @@ import {
   getMenuAvailableSpace,
   getMenuMaxHeight,
   getMenuMinWidth,
+  getSafeInsets,
   getTextContent,
   getTriggerAction,
   getVerticalSide,
@@ -81,6 +82,23 @@ describe("getMenuAvailableSpace", () => {
     expect(
       getMenuAvailableSpace({ ...base, side: "top", triggerY: undefined })
     ).toBeUndefined()
+  })
+})
+
+describe("getSafeInsets", () => {
+  it("keeps clear of the status bar and the home indicator", () => {
+    expect(
+      getSafeInsets(
+        { top: 8, right: 8, bottom: 8, left: 8 },
+        { top: 59, right: 0, bottom: 34, left: 0 }
+      )
+    ).toEqual({ top: 67, right: 8, bottom: 42, left: 8 })
+  })
+
+  it("adds only the safe area to a side left unset", () => {
+    expect(
+      getSafeInsets({}, { top: 20, right: 0, bottom: 0, left: 0 })
+    ).toEqual({ top: 20, bottom: 0 })
   })
 })
 

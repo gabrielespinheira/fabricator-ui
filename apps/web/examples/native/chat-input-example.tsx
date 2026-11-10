@@ -55,9 +55,11 @@ import {
   ChatInputTrayEntry,
   ChatInputTrayItem,
   ChatInputTrayMeta,
+  ChatInputTrays,
   ChatInputTrayTrigger,
   formatChatInputDuration,
   formatTokenCount,
+  useChatInput,
   useChatInputAttachments,
   type ChatInputAttached,
   type ChatInputCommand,
@@ -84,6 +86,7 @@ import {
   ModelPickerItemName,
   ModelPickerRoute,
   ModelPickerRoutes,
+  ModelPickerSetting,
 } from "@/registry/native/ui/model-picker"
 import {
   Popover,
@@ -324,6 +327,7 @@ function PillDemo() {
           />
         </ChatInputTools>
         <ChatInputActions>
+          <SessionSettings />
           <ChatInputMic
             activity={activity}
             onPress={() =>
@@ -437,7 +441,11 @@ function ModelSwitcher() {
             value={effort}
             onValueChange={setEffort}
           >
-            <ChatInputButton size="sm" onPress={() => setView("models")}>
+            <ChatInputButton
+              size="sm"
+              className="-ms-1.5"
+              onPress={() => setView("models")}
+            >
               <ProviderIcon color="brand" />
               <Text className="text-foreground">{model.label}</Text>
               <ChevronRightIcon />
@@ -500,6 +508,239 @@ function ModelSwitcher() {
               </ModelPickerGroup>
             ))}
           </ModelPicker>
+        )}
+      </PopoverContent>
+    </Popover>
+  )
+}
+
+const CONTEXT = { used: 84_200, window: 200_000 }
+const CONTEXT_PARTS = [
+  { label: "Messages", tokens: 61_400 },
+  { label: "Tools", tokens: 14_600 },
+  { label: "System", tokens: 8_200 },
+]
+
+/**
+ * The pill's session settings, as the website's: the model beside send opens
+ * its effort, the permissions and the context, each with a page of its own.
+ */
+function SessionSettings() {
+  const { isNarrow } = useChatInput()
+  const [modelId, setModelId] = React.useState("opus")
+  const [isAuto, setAuto] = React.useState(false)
+  const [effort, setEffort] = React.useState<string | null>("high")
+  const [permission, setPermission] = React.useState("edit")
+  const [view, setView] = React.useState<
+    "settings" | "models" | "permissions" | "context"
+  >("settings")
+  const [isOpen, setOpen] = React.useState(false)
+  const provider = PROVIDERS.find((entry) =>
+    entry.models.some((model) => model.id === modelId)
+  )
+  const model = provider?.models.find((entry) => entry.id === modelId)
+  const ProviderIcon = provider?.icon ?? ClaudeIcon
+  const Permission = PERMISSIONS[permission] ?? PERMISSIONS.ask
+  const back = (
+    <ChatInputButton
+      size="icon-sm"
+      accessibilityLabel="Back to settings"
+      onPress={() => setView("settings")}
+    >
+      <ChevronLeftIcon />
+    </ChatInputButton>
+  )
+
+  return (
+    <Popover
+      open={isOpen}
+      onOpenChange={(open) => {
+        setOpen(open)
+        if (open) setView("settings")
+      }}
+    >
+      <PopoverTrigger
+        render={
+          <ChatInputButton
+            accessibilityLabel={`Session settings: ${isAuto ? "Auto" : `${model?.label}, ${effort} effort`}, ${Permission?.label}`}
+          />
+        }
+      >
+        {isAuto ? <WaypointsIcon /> : <ProviderIcon color="brand" />}
+        {isNarrow ? null : (
+          <Text className="text-foreground">
+            {isAuto ? "Auto" : model?.short}
+          </Text>
+        )}
+        {isNarrow || isAuto || !effort ? null : (
+          <Text className="text-(length:--density-text-12) text-muted-foreground">
+            {effort}
+          </Text>
+        )}
+      </PopoverTrigger>
+      <PopoverContent
+        side="top"
+        align="end"
+        sideOffset={10}
+        className="w-80 gap-0 bg-surface-5 p-1 shadow-surface-5"
+      >
+        {view === "models" ? (
+          <ModelPicker>
+            <ModelPickerHeader>
+              {back}
+              <Text>Select model</Text>
+            </ModelPickerHeader>
+            <ModelPickerRoutes>
+              <ModelPickerRoute
+                selected={isAuto}
+                caption="Picks the model and effort for each message"
+                onPress={() => {
+                  setAuto(true)
+                  setView("settings")
+                }}
+              >
+                <WaypointsIcon />
+                Auto
+              </ModelPickerRoute>
+            </ModelPickerRoutes>
+            {PROVIDERS.map((entry) => (
+              <ModelPickerGroup key={entry.id}>
+                <ModelPickerGroupLabel>
+                  <entry.icon color="brand" />
+                  {entry.label}
+                </ModelPickerGroupLabel>
+                {entry.models.map((option) => (
+                  <ModelPickerItem
+                    key={option.id}
+                    selected={!isAuto && option.id === modelId}
+                    onPress={() => {
+                      setModelId(option.id)
+                      setAuto(false)
+                      setView("settings")
+                    }}
+                  >
+                    <ModelPickerItemName>{option.label}</ModelPickerItemName>
+                    <ModelPickerItemMeta>
+                      <Text accessibilityLabel={`${option.context} context`}>
+                        {option.context}
+                      </Text>
+                      {"fast" in option && option.fast ? (
+                        <ZapIcon accessible accessibilityLabel="Fast" />
+                      ) : null}
+                    </ModelPickerItemMeta>
+                  </ModelPickerItem>
+                ))}
+              </ModelPickerGroup>
+            ))}
+          </ModelPicker>
+        ) : view === "permissions" ? (
+          <>
+            <ModelPickerHeader>
+              {back}
+              <Text>Permissions</Text>
+            </ModelPickerHeader>
+            <ChatInputOptions
+              aria-label="Permissions"
+              value={permission}
+              onValueChange={setPermission}
+            >
+              {Object.entries(PERMISSIONS).map(([key, option]) => (
+                <ChatInputOption
+                  key={key}
+                  value={key}
+                  icon={<option.icon />}
+                  label={option.label}
+                  description={option.hint}
+                  onPress={() => setView("settings")}
+                />
+              ))}
+            </ChatInputOptions>
+          </>
+        ) : view === "context" ? (
+          <>
+            <ModelPickerHeader>
+              {back}
+              <Text>Context</Text>
+            </ModelPickerHeader>
+            <View className="gap-3 px-2 pb-2">
+              <Text className="text-sm text-muted-foreground">
+                {formatTokenCount(CONTEXT.used)} of{" "}
+                {formatTokenCount(CONTEXT.window)} tokens used. Older turns are
+                summarised once it fills.
+              </Text>
+              <View className="h-2 flex-row overflow-hidden rounded-full bg-hover">
+                {CONTEXT_PARTS.map((part, index) => (
+                  <View
+                    key={part.label}
+                    style={{
+                      width: `${(part.tokens / CONTEXT.window) * 100}%`,
+                      opacity: 1 - index * 0.25,
+                    }}
+                    className="h-full bg-info"
+                  />
+                ))}
+              </View>
+              <View className="gap-1">
+                {CONTEXT_PARTS.map((part) => (
+                  <View key={part.label} className="flex-row justify-between">
+                    <Text className="text-sm text-muted-foreground">
+                      {part.label}
+                    </Text>
+                    <Text className="text-sm tabular-nums">
+                      {formatTokenCount(part.tokens)}
+                    </Text>
+                  </View>
+                ))}
+              </View>
+            </View>
+          </>
+        ) : (
+          <>
+            {isAuto || !model ? (
+              <ModelPickerHeader>
+                <ChatInputButton size="sm" onPress={() => setView("models")}>
+                  <WaypointsIcon />
+                  <Text className="text-foreground">Auto</Text>
+                  <ChevronRightIcon />
+                </ChatInputButton>
+              </ModelPickerHeader>
+            ) : (
+              <ModelPickerEffort
+                levels={EFFORTS}
+                value={effort}
+                onValueChange={setEffort}
+              >
+                <ChatInputButton
+                  size="sm"
+                  className="-ms-1.5"
+                  onPress={() => setView("models")}
+                >
+                  <ProviderIcon color="brand" />
+                  <Text className="text-foreground">{model.label}</Text>
+                  <ChevronRightIcon />
+                </ChatInputButton>
+              </ModelPickerEffort>
+            )}
+            {Permission ? (
+              <ModelPickerSetting label="Permissions">
+                <ChatInputButton
+                  accessibilityLabel={`Permissions: ${Permission.label}`}
+                  onPress={() => setView("permissions")}
+                >
+                  <Permission.icon />
+                  <Text>{Permission.label}</Text>
+                  <ChevronRightIcon />
+                </ChatInputButton>
+              </ModelPickerSetting>
+            ) : null}
+            <ModelPickerSetting label="Context">
+              <ChatInputContextMeter
+                value={CONTEXT.used / CONTEXT.window}
+                label={formatTokenCount(CONTEXT.used)}
+                onPress={() => setView("context")}
+              />
+            </ModelPickerSetting>
+          </>
         )}
       </PopoverContent>
     </Popover>
@@ -903,112 +1144,114 @@ function AgentDemo() {
   return (
     // The trays tuck under the card: no gap between them.
     <View>
-      {goal ? (
-        <ChatInputTray level={3} aria-label="Goal">
-          <ChatInputTrayEntry>
-            <ChatInputTrayItem>
-              <ChatInputTrayTrigger>
-                <TargetIcon aria-hidden />
-                <Text numberOfLines={1} className="min-w-0 flex-1">
-                  {goal.objective}
-                </Text>
-                <ChatInputTrayMeta>
-                  {goal.isPaused
-                    ? "Paused"
-                    : `Working · ${formatChatInputDuration(now - goal.startedAt)}`}
-                </ChatInputTrayMeta>
-              </ChatInputTrayTrigger>
-              <ChatInputButton
-                aria-label={goal.isPaused ? "Resume goal" : "Pause goal"}
-                onPress={() => setGoal({ ...goal, isPaused: !goal.isPaused })}
-              >
-                {goal.isPaused ? <PlayIcon /> : <PauseIcon />}
-              </ChatInputButton>
-              <ChatInputButton
-                aria-label="Clear goal"
-                onPress={() => setGoal(null)}
-              >
-                <XIcon />
-              </ChatInputButton>
-            </ChatInputTrayItem>
-            <ChatInputTrayContent>
-              <Text className="text-foreground">{goal.objective}</Text>
-              <Text className="text-muted-foreground">{goal.reason}</Text>
-            </ChatInputTrayContent>
-          </ChatInputTrayEntry>
-        </ChatInputTray>
-      ) : null}
-      {tasks.length > 0 ? (
-        <ChatInputTray level={2} role="list" aria-label="Background tasks">
-          {tasks.map((task) => {
-            const Icon = TASK_ICONS[task.kind]
-            return (
-              <ChatInputTrayEntry key={task.id} role="listitem">
-                <ChatInputTrayItem>
-                  <ChatInputTrayTrigger>
-                    <Icon aria-hidden />
-                    <Text numberOfLines={1} className="min-w-0 flex-1">
-                      {task.description}
-                    </Text>
-                    <ChatInputTrayMeta>
-                      {formatChatInputDuration(now - task.startedAt)}
-                    </ChatInputTrayMeta>
-                  </ChatInputTrayTrigger>
-                  <ChatInputButton
-                    aria-label={`Stop: ${task.description}`}
-                    onPress={() =>
-                      setTasks((current) =>
-                        current.filter((entry) => entry.id !== task.id)
-                      )
-                    }
-                  >
-                    <SquareIcon />
-                  </ChatInputButton>
-                </ChatInputTrayItem>
-                <ChatInputTrayContent>
-                  <Text className="rounded-md bg-hover p-2 font-mono text-muted-foreground">
-                    {`$ ${task.command}\n▸ running for ${formatChatInputDuration(now - task.startedAt)}`}
+      <ChatInputTrays>
+        {goal ? (
+          <ChatInputTray level={3} aria-label="Goal">
+            <ChatInputTrayEntry>
+              <ChatInputTrayItem>
+                <ChatInputTrayTrigger>
+                  <TargetIcon aria-hidden />
+                  <Text numberOfLines={1} className="min-w-0 flex-1">
+                    {goal.objective}
                   </Text>
-                </ChatInputTrayContent>
-              </ChatInputTrayEntry>
-            )
-          })}
-        </ChatInputTray>
-      ) : null}
-      {queued.length > 0 ? (
-        <ChatInputTray level={1} role="list" aria-label="Queued messages">
-          {queued.map((message) => (
-            <ChatInputTrayItem key={message.id} role="listitem">
-              <ListEndIcon aria-hidden />
-              <Text numberOfLines={1} className="min-w-0 flex-1">
-                {message.text}
-              </Text>
-              <ChatInputButton
-                aria-label={`Steer: ${message.text}`}
-                onPress={() => {
-                  setQueued((current) =>
-                    current.filter((entry) => entry.id !== message.id)
-                  )
-                  startReply(message.text)
-                }}
-              >
-                <CornerDownRightIcon />
-                <Text>Steer</Text>
-              </ChatInputButton>
-              <ChatInputButton
-                aria-label={`Remove: ${message.text}`}
-                onPress={() =>
-                  setQueued((current) =>
-                    current.filter((entry) => entry.id !== message.id)
-                  )
-                }
-              >
-                <Trash2Icon />
-              </ChatInputButton>
-            </ChatInputTrayItem>
-          ))}
-        </ChatInputTray>
-      ) : null}
+                  <ChatInputTrayMeta>
+                    {goal.isPaused
+                      ? "Paused"
+                      : `Working · ${formatChatInputDuration(now - goal.startedAt)}`}
+                  </ChatInputTrayMeta>
+                </ChatInputTrayTrigger>
+                <ChatInputButton
+                  aria-label={goal.isPaused ? "Resume goal" : "Pause goal"}
+                  onPress={() => setGoal({ ...goal, isPaused: !goal.isPaused })}
+                >
+                  {goal.isPaused ? <PlayIcon /> : <PauseIcon />}
+                </ChatInputButton>
+                <ChatInputButton
+                  aria-label="Clear goal"
+                  onPress={() => setGoal(null)}
+                >
+                  <XIcon />
+                </ChatInputButton>
+              </ChatInputTrayItem>
+              <ChatInputTrayContent>
+                <Text className="text-foreground">{goal.objective}</Text>
+                <Text className="text-muted-foreground">{goal.reason}</Text>
+              </ChatInputTrayContent>
+            </ChatInputTrayEntry>
+          </ChatInputTray>
+        ) : null}
+        {tasks.length > 0 ? (
+          <ChatInputTray level={2} role="list" aria-label="Background tasks">
+            {tasks.map((task) => {
+              const Icon = TASK_ICONS[task.kind]
+              return (
+                <ChatInputTrayEntry key={task.id} role="listitem">
+                  <ChatInputTrayItem>
+                    <ChatInputTrayTrigger>
+                      <Icon aria-hidden />
+                      <Text numberOfLines={1} className="min-w-0 flex-1">
+                        {task.description}
+                      </Text>
+                      <ChatInputTrayMeta>
+                        {formatChatInputDuration(now - task.startedAt)}
+                      </ChatInputTrayMeta>
+                    </ChatInputTrayTrigger>
+                    <ChatInputButton
+                      aria-label={`Stop: ${task.description}`}
+                      onPress={() =>
+                        setTasks((current) =>
+                          current.filter((entry) => entry.id !== task.id)
+                        )
+                      }
+                    >
+                      <SquareIcon />
+                    </ChatInputButton>
+                  </ChatInputTrayItem>
+                  <ChatInputTrayContent>
+                    <Text className="rounded-md bg-hover p-2 font-mono text-muted-foreground">
+                      {`$ ${task.command}\n▸ running for ${formatChatInputDuration(now - task.startedAt)}`}
+                    </Text>
+                  </ChatInputTrayContent>
+                </ChatInputTrayEntry>
+              )
+            })}
+          </ChatInputTray>
+        ) : null}
+        {queued.length > 0 ? (
+          <ChatInputTray level={1} role="list" aria-label="Queued messages">
+            {queued.map((message) => (
+              <ChatInputTrayItem key={message.id} role="listitem">
+                <ListEndIcon aria-hidden />
+                <Text numberOfLines={1} className="min-w-0 flex-1">
+                  {message.text}
+                </Text>
+                <ChatInputButton
+                  aria-label={`Steer: ${message.text}`}
+                  onPress={() => {
+                    setQueued((current) =>
+                      current.filter((entry) => entry.id !== message.id)
+                    )
+                    startReply(message.text)
+                  }}
+                >
+                  <CornerDownRightIcon />
+                  <Text>Steer</Text>
+                </ChatInputButton>
+                <ChatInputButton
+                  aria-label={`Remove: ${message.text}`}
+                  onPress={() =>
+                    setQueued((current) =>
+                      current.filter((entry) => entry.id !== message.id)
+                    )
+                  }
+                >
+                  <Trash2Icon />
+                </ChatInputButton>
+              </ChatInputTrayItem>
+            ))}
+          </ChatInputTray>
+        ) : null}
+      </ChatInputTrays>
       <ChatInput
         value={value}
         onValueChange={setValue}
@@ -1072,6 +1315,66 @@ function AgentDemo() {
 function ChatInputExample() {
   return (
     <ExampleWrapper fit>
+      <Example
+        title="Pill: attachments, mentions, a / menu and voice"
+        framed={false}
+      >
+        <PillDemo />
+      </Example>
+      <Example
+        title="Large: tools, permissions, context and voice"
+        framed={false}
+      >
+        <LargeDemo />
+      </Example>
+      <Example title="Attachments" framed={false}>
+        <AttachmentsDemo layout="default" initial={IMAGES} />
+        <AttachmentsDemo layout="large" initial={SAMPLES} />
+      </Example>
+      <Example title="Voice chat" framed={false}>
+        <VoiceDemo />
+      </Example>
+      <Example title="Mentions" framed={false}>
+        <MentionsDemo />
+      </Example>
+      <Example title="Context meter" framed={false}>
+        <ChatInput>
+          <ChatInputTextarea placeholder="Ask for anything…" />
+          <ChatInputFooter>
+            <ChatInputActions>
+              {READINGS.map((reading) => (
+                <ChatInputContextMeter
+                  key={reading.tokens}
+                  value={reading.tokens / reading.of}
+                  label={formatTokenCount(reading.tokens)}
+                />
+              ))}
+              <ChatInputSubmit />
+            </ChatInputActions>
+          </ChatInputFooter>
+        </ChatInput>
+      </Example>
+      <Example
+        title="Agent: queued messages, background tasks and a goal"
+        framed={false}
+      >
+        <AgentDemo />
+      </Example>
+      <Example title="Return key adds a line" framed={false}>
+        <ChatInput layout="large" submitOn="mod-enter">
+          <ChatInputTextarea placeholder="Write a longer brief. Return adds a line." />
+          <ChatInputFooter>
+            <ChatInputTools className="ps-(--density-6)">
+              <Text className="text-(length:--density-text-12) text-muted-foreground">
+                Send with the arrow
+              </Text>
+            </ChatInputTools>
+            <ChatInputActions>
+              <ChatInputSubmit />
+            </ChatInputActions>
+          </ChatInputFooter>
+        </ChatInput>
+      </Example>
       <Example title="Reply on its way" framed={false}>
         {/* Streaming with onStop: send turns into stop. */}
         <ChatInput status="streaming" onStop={() => undefined}>
@@ -1100,66 +1403,6 @@ function ChatInputExample() {
             </ChatInputActions>
           </ChatInputFooter>
         </ChatInput>
-      </Example>
-      <Example
-        title="Pill: attachments, mentions, a / menu and voice"
-        framed={false}
-      >
-        <PillDemo />
-      </Example>
-      <Example
-        title="Large: tools, permissions, context and voice"
-        framed={false}
-      >
-        <LargeDemo />
-      </Example>
-      <Example title="Attachments" framed={false}>
-        <AttachmentsDemo layout="default" initial={IMAGES} />
-        <AttachmentsDemo layout="large" initial={SAMPLES} />
-      </Example>
-      <Example title="Mentions" framed={false}>
-        <MentionsDemo />
-      </Example>
-      <Example title="Return key adds a line" framed={false}>
-        <ChatInput layout="large" submitOn="mod-enter">
-          <ChatInputTextarea placeholder="Write a longer brief. Return adds a line." />
-          <ChatInputFooter>
-            <ChatInputTools className="ps-(--density-6)">
-              <Text className="text-(length:--density-text-12) text-muted-foreground">
-                Send with the arrow
-              </Text>
-            </ChatInputTools>
-            <ChatInputActions>
-              <ChatInputSubmit />
-            </ChatInputActions>
-          </ChatInputFooter>
-        </ChatInput>
-      </Example>
-      <Example title="Voice chat" framed={false}>
-        <VoiceDemo />
-      </Example>
-      <Example title="Context meter" framed={false}>
-        <ChatInput>
-          <ChatInputTextarea placeholder="Ask for anything…" />
-          <ChatInputFooter>
-            <ChatInputActions>
-              {READINGS.map((reading) => (
-                <ChatInputContextMeter
-                  key={reading.tokens}
-                  value={reading.tokens / reading.of}
-                  label={formatTokenCount(reading.tokens)}
-                />
-              ))}
-              <ChatInputSubmit />
-            </ChatInputActions>
-          </ChatInputFooter>
-        </ChatInput>
-      </Example>
-      <Example
-        title="Agent: queued messages, background tasks and a goal"
-        framed={false}
-      >
-        <AgentDemo />
       </Example>
       <Example title="Disabled" framed={false}>
         <ChatInput disabled>

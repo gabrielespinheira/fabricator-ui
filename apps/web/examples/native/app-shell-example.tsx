@@ -286,7 +286,7 @@ function AppShellExample() {
   return (
     <ExampleWrapper>
       <Example
-        title="Inset cards, a drawer panel and a tab bar"
+        title="Inset cards, a drawer panel and a bottom nav"
         className="p-0"
       >
         <Frame>

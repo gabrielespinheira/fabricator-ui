@@ -405,7 +405,32 @@
      overlaps the stack. They rise into place on the move timing (in the
      source). */
   .cn-chat-input-tray {
-    @apply border-border/60 -mb-(--density-16) rounded-t-2xl border px-(--density-6) pt-(--density-6) pb-(--density-20) data-[level=1]:bg-surface-2 data-[level=1]:mx-(--density-20) data-[level=2]:bg-surface-1 data-[level=2]:mx-(--density-28) data-[level=3]:bg-surface-1 data-[level=3]:mx-(--density-36);
+    @apply border-border/60 -mb-(--density-16) rounded-t-2xl border px-(--density-4) pt-(--density-4) pb-(--density-20) data-[level=1]:bg-surface-2 data-[level=1]:mx-(--density-20) data-[level=2]:bg-surface-1 data-[level=2]:mx-(--density-28) data-[level=3]:bg-surface-1 data-[level=3]:mx-(--density-36);
+  }
+
+  /* A folding stack. */
+  .cn-chat-input-trays {
+    @apply min-w-0;
+  }
+
+  /* Folded, the rows behind the front one peek out as edges: an empty tray
+     8pt proud of the one in front, each a step further back. Pressing them
+     opens the stack. */
+  .cn-chat-input-tray-edge {
+    @apply h-(--density-24) p-0;
+  }
+
+  .cn-chat-input-trays-edges {
+    @apply rounded-t-2xl;
+  }
+
+  /* Opened, Show less folds the stack again: quiet 12pt text over its end. */
+  .cn-chat-input-trays-less {
+    @apply mb-(--density-6) h-(--density-24) gap-(--density-4) rounded-md px-(--density-6);
+  }
+
+  .cn-chat-input-trays-less-text {
+    @apply text-muted-foreground text-(length:--density-text-12);
   }
 
   .cn-chat-input-tray-entry {
@@ -415,7 +440,7 @@
   /* Rows of 13pt text with a muted icon (in the source) and ghost actions at
      the end. */
   .cn-chat-input-tray-item {
-    @apply h-(--density-36) gap-(--density-8) rounded-lg ps-(--density-8) pe-(--density-4) data-[trigger=true]:ps-0;
+    @apply h-(--density-30) gap-(--density-8) rounded-lg ps-(--density-8) pe-(--density-4) data-[trigger=true]:ps-0;
   }
 
   .cn-chat-input-tray-item-text {
@@ -436,8 +461,10 @@
     @apply items-center;
   }
 
+  /* A row's reading gives way to its text: past 45% of the row it truncates
+     (one line, in the source), so a narrow tray keeps the title readable. */
   .cn-chat-input-tray-meta {
-    @apply text-muted-foreground text-(length:--density-text-12) tabular-nums;
+    @apply text-muted-foreground text-(length:--density-text-12) tabular-nums max-w-[45%];
   }
 
   .cn-chat-input-tray-content {

@@ -7,14 +7,14 @@ import {
 } from "@/registry/fabricator/shared/ui/model-picker"
 
 describe("getEffortHueShift", () => {
-  it("warms from the first level's hue to the top level's", () => {
-    expect(getEffortHueShift(0, 5)).toBe(0)
-    expect(getEffortHueShift(4, 5)).toBe(60)
-    expect(getEffortHueShift(2, 5)).toBe(30)
+  it("runs from sky blue below the info hue to violet above it", () => {
+    expect(getEffortHueShift(0, 5)).toBe(-30)
+    expect(getEffortHueShift(4, 5)).toBe(40)
+    expect(getEffortHueShift(2, 5)).toBe(5)
   })
 
   it("keeps a single level at the start", () => {
-    expect(getEffortHueShift(0, 1)).toBe(0)
+    expect(getEffortHueShift(0, 1)).toBe(-30)
   })
 })
 

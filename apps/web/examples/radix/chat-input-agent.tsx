@@ -32,6 +32,7 @@ import {
   ChatInputTrayEntry,
   ChatInputTrayItem,
   ChatInputTrayMeta,
+  ChatInputTrays,
   ChatInputTrayTrigger,
   formatChatInputDuration,
   useChatInputAttachments,
@@ -159,121 +160,123 @@ export function ChatInputAgent() {
 
   return (
     <div className="mx-auto flex w-full max-w-xl flex-col">
-      {goal && (
-        <ChatInputTray level={3} aria-label="Goal">
-          <ChatInputTrayEntry>
-            <ChatInputTrayItem>
-              <ChatInputTrayTrigger title={goal.objective}>
-                <TargetIcon aria-hidden />
-                <span className="min-w-0 flex-1 truncate">
+      <ChatInputTrays>
+        {goal && (
+          <ChatInputTray level={3} aria-label="Goal">
+            <ChatInputTrayEntry>
+              <ChatInputTrayItem>
+                <ChatInputTrayTrigger title={goal.objective}>
+                  <TargetIcon aria-hidden />
+                  <span className="min-w-0 flex-1 truncate">
+                    {goal.objective}
+                  </span>
+                  <ChatInputTrayMeta>
+                    {goal.isPaused
+                      ? "Paused"
+                      : `Working · ${formatChatInputDuration(now - goal.startedAt)}`}
+                  </ChatInputTrayMeta>
+                </ChatInputTrayTrigger>
+                <ChatInputButton
+                  aria-label={goal.isPaused ? "Resume goal" : "Pause goal"}
+                  title={
+                    goal.isPaused
+                      ? "Resume: the agent carries on toward it"
+                      : "Pause: the agent stops working toward it until you resume"
+                  }
+                  onClick={() => setGoal({ ...goal, isPaused: !goal.isPaused })}
+                >
+                  {goal.isPaused ? <PlayIcon /> : <PauseIcon />}
+                </ChatInputButton>
+                <ChatInputButton
+                  aria-label="Clear goal"
+                  title="Clear: stop the goal and forget it"
+                  onClick={() => setGoal(null)}
+                >
+                  <XIcon />
+                </ChatInputButton>
+              </ChatInputTrayItem>
+              <ChatInputTrayContent>
+                <p className="whitespace-pre-wrap text-foreground">
                   {goal.objective}
-                </span>
-                <ChatInputTrayMeta>
-                  {goal.isPaused
-                    ? "Paused"
-                    : `Working · ${formatChatInputDuration(now - goal.startedAt)}`}
-                </ChatInputTrayMeta>
-              </ChatInputTrayTrigger>
-              <ChatInputButton
-                aria-label={goal.isPaused ? "Resume goal" : "Pause goal"}
-                title={
-                  goal.isPaused
-                    ? "Resume: the agent carries on toward it"
-                    : "Pause: the agent stops working toward it until you resume"
-                }
-                onClick={() => setGoal({ ...goal, isPaused: !goal.isPaused })}
-              >
-                {goal.isPaused ? <PlayIcon /> : <PauseIcon />}
-              </ChatInputButton>
-              <ChatInputButton
-                aria-label="Clear goal"
-                title="Clear: stop the goal and forget it"
-                onClick={() => setGoal(null)}
-              >
-                <XIcon />
-              </ChatInputButton>
-            </ChatInputTrayItem>
-            <ChatInputTrayContent>
-              <p className="whitespace-pre-wrap text-foreground">
-                {goal.objective}
-              </p>
-              <p className="text-muted-foreground">{goal.reason}</p>
-            </ChatInputTrayContent>
-          </ChatInputTrayEntry>
-        </ChatInputTray>
-      )}
-      {tasks.length > 0 && (
-        <ChatInputTray level={2} role="list" aria-label="Background tasks">
-          {tasks.map((task) => {
-            const Icon = TASK_ICONS[task.kind]
-            return (
-              <ChatInputTrayEntry key={task.id} role="listitem">
-                <ChatInputTrayItem>
-                  <ChatInputTrayTrigger title={task.command}>
-                    <Icon aria-hidden />
-                    <span className="min-w-0 flex-1 truncate">
-                      {task.description}
-                    </span>
-                    <ChatInputTrayMeta>
-                      {formatChatInputDuration(now - task.startedAt)}
-                    </ChatInputTrayMeta>
-                  </ChatInputTrayTrigger>
-                  <ChatInputButton
-                    aria-label={`Stop: ${task.description}`}
-                    title="Stop this task"
-                    onClick={() =>
-                      setTasks((current) =>
-                        current.filter((entry) => entry.id !== task.id)
-                      )
-                    }
-                  >
-                    <SquareIcon />
-                  </ChatInputButton>
-                </ChatInputTrayItem>
-                <ChatInputTrayContent>
-                  <pre className="overflow-x-auto rounded-md bg-hover p-2 font-mono text-muted-foreground">
-                    {`$ ${task.command}\n▸ running for ${formatChatInputDuration(now - task.startedAt)}`}
-                  </pre>
-                </ChatInputTrayContent>
-              </ChatInputTrayEntry>
-            )
-          })}
-        </ChatInputTray>
-      )}
-      {queued.length > 0 && (
-        <ChatInputTray level={1} role="list" aria-label="Queued messages">
-          {queued.map((message) => (
-            <ChatInputTrayItem key={message.id} role="listitem">
-              <ListEndIcon aria-hidden />
-              <span className="min-w-0 flex-1 truncate">{message.text}</span>
-              <ChatInputButton
-                aria-label={`Steer: ${message.text}`}
-                title="Send this now, stopping the reply"
-                onClick={() => {
-                  setQueued((current) =>
-                    current.filter((entry) => entry.id !== message.id)
-                  )
-                  startReply(message.text)
-                }}
-              >
-                <CornerDownRightIcon />
-                <span>Steer</span>
-              </ChatInputButton>
-              <ChatInputButton
-                aria-label={`Remove: ${message.text}`}
-                title="Remove from the queue"
-                onClick={() =>
-                  setQueued((current) =>
-                    current.filter((entry) => entry.id !== message.id)
-                  )
-                }
-              >
-                <Trash2Icon />
-              </ChatInputButton>
-            </ChatInputTrayItem>
-          ))}
-        </ChatInputTray>
-      )}
+                </p>
+                <p className="text-muted-foreground">{goal.reason}</p>
+              </ChatInputTrayContent>
+            </ChatInputTrayEntry>
+          </ChatInputTray>
+        )}
+        {tasks.length > 0 && (
+          <ChatInputTray level={2} role="list" aria-label="Background tasks">
+            {tasks.map((task) => {
+              const Icon = TASK_ICONS[task.kind]
+              return (
+                <ChatInputTrayEntry key={task.id} role="listitem">
+                  <ChatInputTrayItem>
+                    <ChatInputTrayTrigger title={task.command}>
+                      <Icon aria-hidden />
+                      <span className="min-w-0 flex-1 truncate">
+                        {task.description}
+                      </span>
+                      <ChatInputTrayMeta>
+                        {formatChatInputDuration(now - task.startedAt)}
+                      </ChatInputTrayMeta>
+                    </ChatInputTrayTrigger>
+                    <ChatInputButton
+                      aria-label={`Stop: ${task.description}`}
+                      title="Stop this task"
+                      onClick={() =>
+                        setTasks((current) =>
+                          current.filter((entry) => entry.id !== task.id)
+                        )
+                      }
+                    >
+                      <SquareIcon />
+                    </ChatInputButton>
+                  </ChatInputTrayItem>
+                  <ChatInputTrayContent>
+                    <pre className="overflow-x-auto rounded-md bg-hover p-2 font-mono text-muted-foreground">
+                      {`$ ${task.command}\n▸ running for ${formatChatInputDuration(now - task.startedAt)}`}
+                    </pre>
+                  </ChatInputTrayContent>
+                </ChatInputTrayEntry>
+              )
+            })}
+          </ChatInputTray>
+        )}
+        {queued.length > 0 && (
+          <ChatInputTray level={1} role="list" aria-label="Queued messages">
+            {queued.map((message) => (
+              <ChatInputTrayItem key={message.id} role="listitem">
+                <ListEndIcon aria-hidden />
+                <span className="min-w-0 flex-1 truncate">{message.text}</span>
+                <ChatInputButton
+                  aria-label={`Steer: ${message.text}`}
+                  title="Send this now, stopping the reply"
+                  onClick={() => {
+                    setQueued((current) =>
+                      current.filter((entry) => entry.id !== message.id)
+                    )
+                    startReply(message.text)
+                  }}
+                >
+                  <CornerDownRightIcon />
+                  <span>Steer</span>
+                </ChatInputButton>
+                <ChatInputButton
+                  aria-label={`Remove: ${message.text}`}
+                  title="Remove from the queue"
+                  onClick={() =>
+                    setQueued((current) =>
+                      current.filter((entry) => entry.id !== message.id)
+                    )
+                  }
+                >
+                  <Trash2Icon />
+                </ChatInputButton>
+              </ChatInputTrayItem>
+            ))}
+          </ChatInputTray>
+        )}
+      </ChatInputTrays>
       <ChatInput
         value={value}
         onValueChange={setValue}

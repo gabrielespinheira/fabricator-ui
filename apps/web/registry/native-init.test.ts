@@ -23,8 +23,8 @@ describe("parseNativeLook", () => {
     return result.look
   }
 
-  it("defaults to a phone's density", () => {
-    expect(look("").density).toBe("spacious")
+  it("defaults to the Default density, which sizes itself for the device", () => {
+    expect(look("").density).toBe("default")
   })
 
   it("keeps a density the URL names", () => {

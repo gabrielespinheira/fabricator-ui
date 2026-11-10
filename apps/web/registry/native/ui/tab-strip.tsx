@@ -10,13 +10,12 @@
 //   website's drag, until the strip takes up lib/sortable.
 // - The strip scrolls sideways and keeps the active tab in view.
 // - A phone's width holds one tab and a half, so there the strip folds into a
-//   switcher, as a phone's browser does: the active tab and a count of the tabs.
-//   Either opens a sheet of every tab as a card, to switch, close or long press
+//   switcher, as a phone's browser does: the active tab with a count of the tabs.
+//   A press opens a sheet of every tab as a card, to switch, close or long press
 //   for the tab's menu; the new tab button moves into the sheet.
 import * as React from "react"
 import {
   ChevronDownIcon,
-  ChevronsUpDownIcon,
   CircleAlertIcon,
   FileIcon,
   IconProvider,
@@ -848,23 +847,14 @@ function TabStripNew({
   )
 }
 
-/** A menu of every tab, for strips that overflow. */
+/** A menu of every tab, for strips that overflow. A phone's pill holds the count. */
 function TabStripOverflow({
   className,
   ...props
 }: React.ComponentProps<typeof Button>) {
-  const { value, onActivate, getTabs, isCompact, openSwitcher } = useTabStrip()
+  const { value, onActivate, getTabs, isCompact } = useTabStrip()
   const [order, setOrder] = React.useState<ReturnType<typeof getTabs>>([])
-  if (isCompact) {
-    return (
-      <TabCountButton
-        count={getTabs().length}
-        onPress={openSwitcher}
-        className={className}
-        {...props}
-      />
-    )
-  }
+  if (isCompact) return null
   return (
     <DropdownMenu onOpenChange={(open) => open && setOrder(getTabs())}>
       <DropdownMenuTrigger
@@ -996,42 +986,20 @@ function CompactTab({
               />
             )}
           </TextStyle>
-          <TextStyle className="cn-tab-strip-compact-chevron">
-            <ChevronsUpDownIcon />
-          </TextStyle>
+          <View
+            data-slot="tab-strip-count"
+            className="cn-tab-strip-count items-center justify-center"
+          >
+            <Text className="cn-tab-strip-count-text">
+              {getTabCountLabel(order.length)}
+            </Text>
+          </View>
         </Trigger>
       </IconProvider>
       <ContextMenuContent className="cn-tab-strip-menu">
         <TabStripMenuItems strip={strip} tabValue={tab.value} />
       </ContextMenuContent>
     </ContextMenu>
-  )
-}
-
-/** The number of open tabs in a frame, as a phone's browser shows it. */
-function TabCountButton({
-  count,
-  className,
-  ...props
-}: React.ComponentProps<typeof Button> & { count: number }) {
-  return (
-    <Button
-      variant="ghost"
-      size="icon-sm"
-      accessibilityLabel={`All tabs, ${describeTabCount(count)} open`}
-      data-slot="tab-strip-overflow"
-      className={cn("cn-tab-strip-overflow", className)}
-      {...props}
-    >
-      <View
-        data-slot="tab-strip-count"
-        className="cn-tab-strip-count items-center justify-center"
-      >
-        <Text className="cn-tab-strip-count-text">
-          {getTabCountLabel(count)}
-        </Text>
-      </View>
-    </Button>
   )
 }
 

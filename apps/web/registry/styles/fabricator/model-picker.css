@@ -52,11 +52,13 @@
     @apply text-muted-foreground gap-(--density-8) text-(length:--density-text-12) tabular-nums [&_svg:not([class*='size-'])]:size-3;
   }
 
-  /* Effort: the model button and the level's name over a 20px rail. The
-     fill and the name take the info hue turned toward violet as the effort
-     rises (--model-picker-effort-shift, in degrees), neutral until a level
-     is chosen; the top level is more saturated. The 24px thumb steps between levels on
-     the feedback timing and grows a little under the pointer. */
+  /* Effort: the model button and the level's name over a 20px rail. The fill
+     runs from sky blue to violet as the effort rises: the info role's chroma at
+     a lighter 0.68 (EFFORT_FILL_LIGHTNESS), its hue turned by
+     --model-picker-effort-shift; the name takes the info text's colour turned
+     the same way. Neutral until a level is chosen. The thumb is the Slider's
+     white knob at 24px, standing 2px proud of the rail; it steps between levels
+     on the feedback timing and grows a little under the pointer. */
   .cn-model-picker-effort {
     @apply gap-1 px-(--density-8) pt-0.5 pb-(--density-10) [--model-picker-effort-thumb:var(--density-24)];
   }
@@ -74,15 +76,15 @@
   }
 
   .cn-model-picker-effort-fill {
-    @apply bg-foreground/16 w-[calc(var(--model-picker-effort-thumb)_+_(100%_-_var(--model-picker-effort-thumb))_*_var(--model-picker-effort-at,0))] rounded-full transition-[width,background-color] duration-feedback ease-feedback in-data-chosen:bg-[oklch(from_var(--info)_l_c_calc(h_+_var(--model-picker-effort-shift,0)))] in-data-peak:saturate-150;
+    @apply bg-foreground/16 w-[calc(var(--model-picker-effort-thumb)_+_(100%_-_var(--model-picker-effort-thumb))_*_var(--model-picker-effort-at,0))] rounded-full transition-[width,background-color] duration-feedback ease-feedback in-data-chosen:bg-[oklch(from_var(--info)_0.68_c_calc(h_+_var(--model-picker-effort-shift,0)))];
   }
 
   .cn-model-picker-effort-step {
-    @apply bg-foreground/25 data-reached:bg-foreground/55 start-[calc(var(--model-picker-effort-thumb)/2_+_(100%_-_var(--model-picker-effort-thumb))_*_var(--model-picker-effort-step,0))] size-1 rounded-full transition-colors duration-feedback ease-feedback;
+    @apply bg-foreground/25 data-reached:bg-foreground/55 in-data-chosen:data-reached:bg-white/70 start-[calc(var(--model-picker-effort-thumb)/2_+_(100%_-_var(--model-picker-effort-thumb))_*_var(--model-picker-effort-step,0))] size-1 rounded-full transition-colors duration-feedback ease-feedback;
   }
 
   .cn-model-picker-effort-thumb {
-    @apply bg-foreground shadow-surface-3 start-[calc((100%_-_var(--model-picker-effort-thumb))_*_var(--model-picker-effort-at,0))] size-(--model-picker-effort-thumb) rounded-full transition-[inset-inline-start,scale] duration-feedback ease-feedback group-hover/model-picker-effort:scale-[1.08] group-active/model-picker-effort:scale-95 group-focus-visible/model-picker-effort:ring-3 group-focus-visible/model-picker-effort:ring-foreground/25 motion-reduce:transition-none;
+    @apply bg-white shadow-surface-3 ring-1 ring-black/5 start-[calc((100%_-_var(--model-picker-effort-thumb))_*_var(--model-picker-effort-at,0))] size-(--model-picker-effort-thumb) rounded-full transition-[inset-inline-start,scale] duration-feedback ease-feedback group-hover/model-picker-effort:scale-[1.08] group-active/model-picker-effort:scale-95 group-focus-visible/model-picker-effort:ring-3 group-focus-visible/model-picker-effort:ring-foreground/25 motion-reduce:transition-none;
   }
 
   /* A setting under the panel, ruled off from what's above. */

@@ -8,6 +8,21 @@ type TriggerAction = "open" | "close"
 /** Keeps an anchored surface off the edge of the screen. */
 export const COLLISION_INSETS = { top: 8, right: 8, bottom: 8, left: 8 }
 
+type Insets = { top?: number; right?: number; bottom?: number; left?: number }
+
+/** Collision insets that keep clear of the status bar and the home indicator too. */
+export function getSafeInsets(
+  insets: Insets,
+  /** What `useSafeAreaInsets()` returns. */
+  safeArea: Required<Insets>
+) {
+  return {
+    ...insets,
+    top: (insets.top ?? 0) + safeArea.top,
+    bottom: (insets.bottom ?? 0) + safeArea.bottom,
+  }
+}
+
 const MENU_HEIGHT_FRACTION = 0.8
 
 /** Where a window stops being a phone's: a tall screen is no reason for a tall menu. */

@@ -22,6 +22,7 @@ import {
   getChatInputOptionKeyIndex,
   getChatInputSendAction,
   getChatInputSendLabel,
+  getChatInputTrayStack,
   getChatInputVoiceLevel,
   getChatInputVoiceTheme,
   isChatInputBusy,
@@ -1867,6 +1868,12 @@ function ChatInputCommands({
   )
 }
 
+// Where a tray sits in a `ChatInputTrays` stack: all of it, its first row in
+// front of a folded stack, or folded away behind it.
+const TrayStackContext = React.createContext<"full" | "front" | "hidden">(
+  "full"
+)
+
 type ChatInputTrayProps = React.ComponentProps<"div"> & {
   /**
    * How far back it sits: 1 just behind the card (queued messages), 2
@@ -1881,14 +1888,131 @@ type ChatInputTrayProps = React.ComponentProps<"div"> & {
  * work running in the background, the goal the agent works toward. Place
  * trays just before `ChatInput`, furthest back first.
  */
-function ChatInputTray({ className, level = 1, ...props }: ChatInputTrayProps) {
+function ChatInputTray({
+  className,
+  level = 1,
+  children,
+  ...props
+}: ChatInputTrayProps) {
+  const place = React.useContext(TrayStackContext)
+  if (place === "hidden") return null
+  // Folded, the front tray holds only its first row and sits just behind
+  // the card, with the stack's edges stepping back from it.
+  const isFront = place === "front"
   return (
     <div
       data-slot="chat-input-tray"
-      data-level={level}
+      data-level={isFront ? 1 : level}
       className={cn("cn-chat-input-tray relative grid min-w-0", className)}
       {...props}
-    />
+    >
+      {isFront ? React.Children.toArray(children).slice(0, 1) : children}
+    </div>
+  )
+}
+
+type ChatInputTraysProps = React.ComponentProps<"div"> & {
+  /** Whether every row shows. Folded by default: the front row, and the rest as edges behind it. */
+  expanded?: boolean
+  defaultExpanded?: boolean
+  onExpandedChange?: (expanded: boolean) => void
+}
+
+/**
+ * Folds a stack of `ChatInputTray`s. Only the front row shows, the frontmost
+ * tray's first, with the other rows peeking out behind it as up to two
+ * edges; pressing the edges opens every row, and Show less folds them
+ * again. Place it just before `ChatInput`, with the trays inside, furthest
+ * back first.
+ */
+function ChatInputTrays({
+  className,
+  expanded: expandedProp,
+  defaultExpanded = false,
+  onExpandedChange,
+  children,
+  ...props
+}: ChatInputTraysProps) {
+  const [expandedState, setExpandedState] = React.useState(defaultExpanded)
+  const isExpanded = expandedProp ?? expandedState
+  const setExpanded = (next: boolean) => {
+    if (expandedProp === undefined) setExpandedState(next)
+    onExpandedChange?.(next)
+  }
+  const trays = React.Children.toArray(children).filter((child) =>
+    React.isValidElement<{ children?: React.ReactNode }>(child)
+  )
+  const stack = getChatInputTrayStack({
+    rows: trays.map((tray) =>
+      React.isValidElement<{ children?: React.ReactNode }>(tray)
+        ? React.Children.toArray(tray.props.children).length
+        : 0
+    ),
+    isExpanded,
+  })
+  const edges = Array.from({ length: stack.edges }, (_, index) =>
+    String(stack.edges - index + 1)
+  )
+  return (
+    <div
+      data-slot="chat-input-trays"
+      data-collapsed={stack.isCollapsed ? "" : undefined}
+      className={cn("cn-chat-input-trays grid min-w-0", className)}
+      {...props}
+    >
+      {stack.isCollapsible && !stack.isCollapsed && (
+        <button
+          type="button"
+          aria-expanded
+          data-slot="chat-input-trays-less"
+          className="cn-chat-input-trays-less flex items-center justify-self-end outline-none"
+          onClick={() => setExpanded(false)}
+        >
+          Show less
+          <IconPlaceholder
+            lucide="ChevronDownIcon"
+            tabler="IconChevronDown"
+            hugeicons="ArrowDown01Icon"
+            phosphor="CaretDownIcon"
+            remixicon="RiArrowDownSLine"
+            aria-hidden
+          />
+        </button>
+      )}
+      {stack.isCollapsed && (
+        <button
+          type="button"
+          aria-expanded={false}
+          aria-label={`Show ${stack.hiddenRows} more`}
+          data-slot="chat-input-trays-edges"
+          className="cn-chat-input-trays-edges grid cursor-pointer outline-none"
+          onClick={() => setExpanded(true)}
+        >
+          {edges.map((level) => (
+            <span
+              key={level}
+              data-slot="chat-input-tray-edge"
+              data-level={level}
+              className="cn-chat-input-tray cn-chat-input-tray-edge block"
+            />
+          ))}
+        </button>
+      )}
+      {trays.map((tray, index) => (
+        <TrayStackContext
+          key={index}
+          value={
+            stack.isCollapsed
+              ? index === stack.front
+                ? "front"
+                : "hidden"
+              : "full"
+          }
+        >
+          {tray}
+        </TrayStackContext>
+      ))}
+    </div>
   )
 }
 
@@ -2050,6 +2174,7 @@ export {
   ChatInputOption,
   ChatInputCommands,
   ChatInputTray,
+  ChatInputTrays,
   ChatInputTrayEntry,
   ChatInputTrayItem,
   ChatInputTrayTrigger,

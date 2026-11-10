@@ -243,16 +243,38 @@
   /* Trays step back from the card: level 1 (queued messages) on surface 2,
      inset 20px; level 2 (background work) and 3 (a goal) on surface 1,
      inset 28 and 36px. Each is tucked 16px under what's in front of it, so
-     the card overlaps the stack; the pill insets them 4px more.
-     They rise into place on the move timing. */
+     the card overlaps the stack; the pill insets them 4px more (in a
+     ChatInputTrays, through its padding). They rise into place on the move
+     timing. */
   .cn-chat-input-tray {
-    @apply ring-border/60 -mb-(--density-16) rounded-t-2xl px-(--density-6) pt-(--density-6) pb-(--density-20) ring-1 animate-in fade-in-0 slide-in-from-bottom-2 duration-move ease-enter motion-reduce:animate-none data-[level=1]:bg-surface-2 data-[level=1]:mx-(--density-20) data-[level=2]:bg-surface-1 data-[level=2]:mx-(--density-28) data-[level=3]:bg-surface-1 data-[level=3]:mx-(--density-36) data-[level=1]:[&:has(~[data-slot=chat-input][data-layout=default])]:mx-(--density-24) data-[level=2]:[&:has(~[data-slot=chat-input][data-layout=default])]:mx-(--density-32) data-[level=3]:[&:has(~[data-slot=chat-input][data-layout=default])]:mx-(--density-40);
+    @apply ring-border/60 -mb-(--density-16) rounded-t-2xl px-(--density-4) pt-(--density-4) pb-(--density-20) ring-1 animate-in fade-in-0 slide-in-from-bottom-2 duration-move ease-enter motion-reduce:animate-none data-[level=1]:bg-surface-2 data-[level=1]:mx-(--density-20) data-[level=2]:bg-surface-1 data-[level=2]:mx-(--density-28) data-[level=3]:bg-surface-1 data-[level=3]:mx-(--density-36) data-[level=1]:[&:has(~[data-slot=chat-input][data-layout=default])]:mx-(--density-24) data-[level=2]:[&:has(~[data-slot=chat-input][data-layout=default])]:mx-(--density-32) data-[level=3]:[&:has(~[data-slot=chat-input][data-layout=default])]:mx-(--density-40);
   }
 
-  /* 36px rows of 13px text with a muted 16px icon and ghost actions at
+  /* A folding stack: 4px more inset before the pill, as loose trays get. */
+  .cn-chat-input-trays {
+    @apply [&:has(~[data-slot=chat-input][data-layout=default])]:px-(--density-4);
+  }
+
+  /* Folded, the rows behind the front one peek out as edges: an empty tray
+     8px proud of the one in front, each a step further back. Pressing them
+     opens the stack; under the pointer they rise a little. */
+  .cn-chat-input-tray-edge {
+    @apply h-(--density-24) p-0 transition-transform duration-feedback ease-feedback;
+  }
+
+  .cn-chat-input-trays-edges {
+    @apply rounded-t-2xl focus-visible:ring-ring focus-visible:ring-1 hover:[&>[data-slot=chat-input-tray-edge]]:-translate-y-0.5;
+  }
+
+  /* Opened, Show less folds the stack again: quiet 12px text over its end. */
+  .cn-chat-input-trays-less {
+    @apply text-muted-foreground hover:text-foreground focus-visible:ring-ring mb-(--density-6) h-(--density-24) gap-(--density-4) rounded-md px-(--density-6) text-(length:--density-text-12) transition-colors duration-feedback ease-feedback focus-visible:ring-1 [&_svg]:size-(--density-icon-14);
+  }
+
+  /* 30px rows of 13px text with a muted 16px icon and ghost actions at
      the end. */
   .cn-chat-input-tray-item {
-    @apply h-(--density-36) gap-(--density-8) rounded-lg ps-(--density-8) pe-(--density-4) text-(length:--density-text-13) has-[[data-slot=chat-input-tray-trigger]]:ps-0 [&>svg]:text-muted-foreground [&>svg]:shrink-0 [&>svg]:stroke-[1.5] [&>svg:not([class*='size-'])]:size-(--density-icon-16);
+    @apply h-(--density-30) gap-(--density-8) rounded-lg ps-(--density-8) pe-(--density-4) text-(length:--density-text-13) has-[[data-slot=chat-input-tray-trigger]]:ps-0 [&>svg]:text-muted-foreground [&>svg]:shrink-0 [&>svg]:stroke-[1.5] [&>svg:not([class*='size-'])]:size-(--density-icon-16);
   }
 
   /* The row's text as a button that opens its content: the hover fill, a
@@ -265,8 +287,10 @@
     @apply size-(--density-icon-14)! transition-transform duration-feedback ease-feedback group-data-open/chat-input-tray-entry:rotate-180;
   }
 
+  /* A row's reading gives way to its text: past 45% of the row it truncates,
+     so a narrow tray keeps the title readable. */
   .cn-chat-input-tray-meta {
-    @apply text-muted-foreground text-(length:--density-text-12) tabular-nums;
+    @apply text-muted-foreground text-(length:--density-text-12) tabular-nums max-w-[45%] truncate;
   }
 
   .cn-chat-input-tray-content {

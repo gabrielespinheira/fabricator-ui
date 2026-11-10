@@ -90,10 +90,31 @@ function getChatInputKeyboardOffset({
   return Math.max(0, distanceToBottom) - gap
 }
 
+// Inter's ascender, descender and line gap over its em: one line of the field.
+const INTER_LINE_HEIGHT = 1.21
+
+/**
+ * The pill's field while empty: one line and its padding. iOS wraps a
+ * multiline field's placeholder and grows the field to fit; held to one line,
+ * it truncates the placeholder instead, as the website's single-line pill does.
+ */
+function getChatInputOneLineHeight({
+  fontSize,
+  paddingTop,
+  paddingBottom,
+}: {
+  fontSize: number
+  paddingTop: number
+  paddingBottom: number
+}) {
+  return paddingTop + paddingBottom + Math.ceil(fontSize * INTER_LINE_HEIGHT)
+}
+
 export {
   getChatInputGlowRoles,
   getChatInputKeyboardOffset,
   getChatInputMentionTone,
+  getChatInputOneLineHeight,
   getChatInputReturnKey,
   withChatInputAlpha,
   type ChatInputGlowRole,

@@ -28,28 +28,35 @@ const ALL_DENSITIES: SizeDensity[] = [
 ]
 
 describe("getDeviceDensity", () => {
-  it("gives a tablet its own rung in place of the phone's base", () => {
-    expect(getDeviceDensity("spacious", 768)).toBe("tablet")
-    expect(getDeviceDensity("spacious", 1032)).toBe("tablet")
-    expect(getDeviceDensity("spacious", 1376)).toBe("tablet")
+  const PHONE = 390
+  const TABLET = 1032
+
+  it("sizes Default for the device: a phone's 44pt controls, a tablet's 40pt", () => {
+    expect(getDeviceDensity("default", PHONE)).toBe("spacious")
+    expect(getDeviceDensity("default", 767)).toBe("spacious")
+    expect(getDeviceDensity("default", 768)).toBe("tablet")
+    expect(getDeviceDensity("default", TABLET)).toBe("tablet")
+    expect(DENSITIES.spacious.space[36]).toBe(44)
+    expect(TABLET_DENSITY.space[36]).toBe(40)
   })
 
-  it("leaves a phone on its base", () => {
-    expect(getDeviceDensity("spacious", 390)).toBeUndefined()
-    expect(getDeviceDensity("spacious", 767)).toBeUndefined()
+  it("makes Compact a step down from Default on each device", () => {
+    expect(getDeviceDensity("compact", PHONE)).toBe("tablet")
+    expect(getDeviceDensity("compact", TABLET)).toBe("tablet-sm")
   })
 
-  it("leaves a density someone picked on purpose", () => {
-    expect(getDeviceDensity("compact", 1032)).toBeUndefined()
-    expect(getDeviceDensity("default", 1032)).toBeUndefined()
-    expect(getDeviceDensity("compact", 390)).toBeUndefined()
+  it("makes Spacious a step up from Default on each device", () => {
+    expect(getDeviceDensity("spacious", PHONE)).toBe("large")
+    expect(getDeviceDensity("spacious", TABLET)).toBeUndefined()
   })
 
-  it("sizes a phone's Default for a finger: the tablet's rung, not a pointer's", () => {
-    expect(getDeviceDensity("default", 390)).toBe("tablet")
-    expect(getDeviceDensity("default", 767)).toBe("tablet")
-    expect(TABLET_DENSITY.space[36]).toBeGreaterThan(36)
-    expect(TABLET_DENSITY.text[13]).toBeGreaterThan(13)
+  it("keeps every step for a finger: 34pt controls at the least", () => {
+    for (const width of [PHONE, TABLET]) {
+      for (const density of ["compact", "default", "spacious"] as const) {
+        const rung = getDeviceDensity(density, width) ?? density
+        expect(getDensityTokens(rung).space[36]).toBeGreaterThanOrEqual(34)
+      }
+    }
   })
 
   it("changes rung where the App Shell changes layout", () => {

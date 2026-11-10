@@ -3,8 +3,8 @@ import { describe, expect, it } from "vitest"
 import { oklchToHex } from "@/registry/fabricator/surface-tint"
 import {
   parseColor,
-  saturateColor,
   shiftHue,
+  toEffortFill,
 } from "@/registry/native/lib/model-picker-color"
 
 function channels(color: string | null) {
@@ -13,13 +13,13 @@ function channels(color: string | null) {
   return parsed
 }
 
-/** Equal within a step of rounding on each channel. */
-function expectClose(actual: string | null, expected: string) {
+/** Equal within `steps` of rounding on each channel. */
+function expectClose(actual: string | null, expected: string, steps = 1) {
   const a = channels(actual)
   const b = channels(expected)
-  expect(Math.abs(a.r - b.r)).toBeLessThanOrEqual(1)
-  expect(Math.abs(a.g - b.g)).toBeLessThanOrEqual(1)
-  expect(Math.abs(a.b - b.b)).toBeLessThanOrEqual(1)
+  expect(Math.abs(a.r - b.r)).toBeLessThanOrEqual(steps)
+  expect(Math.abs(a.g - b.g)).toBeLessThanOrEqual(steps)
+  expect(Math.abs(a.b - b.b)).toBeLessThanOrEqual(steps)
   expect(a.a).toBeCloseTo(b.a)
 }
 
@@ -85,23 +85,22 @@ describe("shiftHue", () => {
   })
 })
 
-describe("saturateColor", () => {
-  it("applies CSS's saturate() filter", () => {
-    expect(saturateColor("#808040", 1.5)).toBe("#828222")
-  })
-
-  it("leaves a colour alone at 1 and greys at any amount", () => {
-    expect(saturateColor("#1156c1", 1)).toBe("#1156c1")
-    expect(saturateColor("#808080", 1.5)).toBe("#808080")
-  })
-
-  it("clamps to the sRGB range", () => {
-    expect(saturateColor("#ff0000", 1.5)).toBe("#ff0000")
-  })
-
-  it("keeps alpha", () => {
-    expect(saturateColor("rgba(128, 128, 64, 0.5)", 1.5)).toBe(
-      "rgba(130, 130, 34, 0.5)"
+describe("toEffortFill", () => {
+  // The info colour arrives as hex, so its chroma reads back a little off.
+  it("takes the info colour's chroma at the fill's lightness, its hue turned", () => {
+    expectClose(
+      toEffortFill(oklchToHex(0.48, 0.18, 260), -30),
+      oklchToHex(0.68, 0.18, 230),
+      3
     )
+    expectClose(
+      toEffortFill(oklchToHex(0.62, 0.16, 260), 40),
+      oklchToHex(0.68, 0.16, 300),
+      3
+    )
+  })
+
+  it("is null for what it can't read", () => {
+    expect(toEffortFill("oklch(0.5 0.1 200)", 0)).toBeNull()
   })
 })

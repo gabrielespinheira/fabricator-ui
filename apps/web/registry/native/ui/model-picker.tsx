@@ -29,8 +29,8 @@ import {
 } from "@/registry/fabricator/shared/lib/model-picker-model"
 import { useFeedback } from "@/registry/native/lib/feedback"
 import {
-  saturateColor,
   shiftHue,
+  toEffortFill,
 } from "@/registry/native/lib/model-picker-color"
 import { useMotion, usePressScale } from "@/registry/native/lib/motion"
 import { parseNumber } from "@/registry/native/lib/motion-tokens"
@@ -54,8 +54,6 @@ const FAIL_OFFSET = 12
 // The 24pt rail keeps a finger-sized target. Not with the gesture's hitSlop: on
 // iOS a touch outside the view's bounds never reaches its recognizer.
 const MIN_TARGET = 44
-// The top level's fill, as the website's `saturate-150`.
-const PEAK_SATURATION = 1.5
 // The thumb under a finger, as the website's `active:scale-95`.
 const THUMB_HELD_SCALE = 0.95
 
@@ -437,10 +435,10 @@ function ModelPickerEffort({
   const { color: infoTextColor } = useResolveClassNames(
     effortLabelTintVariants()
   )
-  const tint = typeof infoColor === "string" ? shiftHue(infoColor, shift) : null
+  const tint =
+    typeof infoColor === "string" ? toEffortFill(infoColor, shift) : null
   const fillColor = isChosen
-    ? ((tint && isPeak ? saturateColor(tint, PEAK_SATURATION) : tint) ??
-      undefined)
+    ? (tint ?? undefined)
     : typeof restColor === "string"
       ? restColor
       : undefined
@@ -637,6 +635,7 @@ function ModelPickerEffort({
                 >
                   <StateFill
                     isOn={at <= index}
+                    data-chosen={isChosen}
                     className="cn-model-picker-effort-step-reached"
                   />
                 </View>

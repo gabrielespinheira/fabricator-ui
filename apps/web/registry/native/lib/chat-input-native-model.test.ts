@@ -4,6 +4,7 @@ import {
   getChatInputGlowRoles,
   getChatInputKeyboardOffset,
   getChatInputMentionTone,
+  getChatInputOneLineHeight,
   getChatInputReturnKey,
   withChatInputAlpha,
 } from "@/registry/native/lib/chat-input-native-model"
@@ -97,3 +98,31 @@ describe("getChatInputKeyboardOffset", () => {
     )
   })
 })
+
+describe("getChatInputOneLineHeight", () => {
+  it("holds one line of Inter and the field's padding", () => {
+    expect(
+      getChatInputOneLineHeight({
+        fontSize: 16,
+        paddingTop: 16,
+        paddingBottom: 16,
+      })
+    ).toBe(52)
+  })
+
+  it("never has room for a second line, so a long placeholder truncates", () => {
+    for (const fontSize of [13, 14, 15, 16, 18]) {
+      const line = fontSize * INTER_LINE_HEIGHT
+      const height = getChatInputOneLineHeight({
+        fontSize,
+        paddingTop: 14,
+        paddingBottom: 14,
+      })
+      expect(height - 28).toBeGreaterThanOrEqual(line)
+      expect(height - 28).toBeLessThan(line * 2)
+    }
+  })
+})
+
+// Inter's ascender, descender and line gap over its em.
+const INTER_LINE_HEIGHT = 1.21

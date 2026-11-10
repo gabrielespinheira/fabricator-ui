@@ -1,7 +1,10 @@
 import { LinearGradient } from "expo-linear-gradient"
 import { StyleSheet } from "react-native"
 
-import { getHeaderFade } from "@/registry/native/lib/scroll-fade-model"
+import {
+  getBottomNavFade,
+  getHeaderFade,
+} from "@/registry/native/lib/scroll-fade-model"
 
 /**
  * What a phone's header sits on: the page's colour, behind the clock and the
@@ -35,8 +38,40 @@ function HeaderFade({
   )
 }
 
+/**
+ * What a floating tab bar sits on: the page quieting toward the screen's bottom
+ * edge, so its text doesn't read through the capsule. Render it before the bar.
+ */
+function BottomNavFade({
+  color,
+  clearance,
+  barHeight,
+}: {
+  /** The colour of what's behind the bar. */
+  color: string
+  clearance: number
+  barHeight: number
+}) {
+  const { height, colors, locations } = getBottomNavFade({
+    color,
+    clearance,
+    barHeight,
+  })
+  return (
+    <LinearGradient
+      pointerEvents="none"
+      importantForAccessibility="no-hide-descendants"
+      accessibilityElementsHidden
+      colors={colors}
+      locations={locations}
+      style={[styles.bottomFade, { height }]}
+    />
+  )
+}
+
 const styles = StyleSheet.create({
   fade: { position: "absolute", top: 0, left: 0, right: 0 },
+  bottomFade: { position: "absolute", bottom: 0, left: 0, right: 0 },
 })
 
-export { HeaderFade }
+export { BottomNavFade, HeaderFade }

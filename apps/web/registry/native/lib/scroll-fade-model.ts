@@ -64,3 +64,47 @@ export function getHeaderFade({
   }
   return { height, colors, locations }
 }
+
+// How much of the page shows through under a floating tab bar: enough for the
+// glass to bend, too little to read against the labels.
+const BOTTOM_NAV_FADE_HOLD = 0.85
+
+/**
+ * The fade under a phone's floating tab bar, as Apple's scroll edge effect: the
+ * page quiets from half a bar above the capsule to the bar's middle, then holds
+ * to the screen's edge. Drawn top to bottom.
+ */
+export function getBottomNavFade({
+  color,
+  clearance,
+  barHeight,
+}: {
+  color: string
+  /** From the screen's bottom edge to the capsule's top. */
+  clearance: number
+  barHeight: number
+}) {
+  const height = clearance + barHeight * 0.5
+  const middle = height - (clearance - barHeight * 0.5)
+  const ramp = Array.from({ length: HEADER_FADE_SAMPLES - 1 }, (_, index) => {
+    const progress = (index + 1) / HEADER_FADE_SAMPLES
+    const eased = progress * progress * (3 - 2 * progress)
+    return {
+      color: withAlpha(
+        color,
+        Number((BOTTOM_NAV_FADE_HOLD * eased).toFixed(3))
+      ),
+      location: (middle * progress) / height,
+    }
+  })
+  // The clear top and the held middle, with the ramp between them.
+  const colors: [string, string, ...string[]] = [
+    withAlpha(color, 0),
+    withAlpha(color, BOTTOM_NAV_FADE_HOLD),
+    withAlpha(color, BOTTOM_NAV_FADE_HOLD),
+  ]
+  const locations: [number, number, ...number[]] = [0, middle / height, 1]
+  colors.splice(1, 0, ...ramp.map((stop) => stop.color))
+  locations.splice(1, 0, ...ramp.map((stop) => stop.location))
+  return { height, colors, locations }
+}

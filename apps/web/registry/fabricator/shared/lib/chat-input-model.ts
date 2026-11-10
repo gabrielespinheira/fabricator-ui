@@ -460,6 +460,35 @@ function getChatInputOptionKeyIndex(key: string, index: number, count: number) {
   return null
 }
 
+// Edges a folded stack shows behind its front row, however many rows it holds.
+const TRAY_STACK_EDGES = 2
+
+/**
+ * How a stack of trays folds. `rows` counts each tray's rows, furthest back
+ * first. Folded, only the front row shows, the frontmost tray's first, and
+ * the rest peek out behind it as up to two edges; opened, every row shows.
+ */
+function getChatInputTrayStack({
+  rows,
+  isExpanded,
+}: {
+  rows: readonly number[]
+  isExpanded: boolean
+}) {
+  const total = rows.reduce((sum, count) => sum + count, 0)
+  const front = rows.findLastIndex((count) => count > 0)
+  const isCollapsible = total > 1
+  const isCollapsed = isCollapsible && !isExpanded
+  const hiddenRows = isCollapsed ? total - 1 : 0
+  return {
+    isCollapsible,
+    isCollapsed,
+    front,
+    hiddenRows,
+    edges: Math.min(TRAY_STACK_EDGES, hiddenRows),
+  }
+}
+
 export {
   applyChatInputPick,
   filterChatInputCommands,
@@ -473,6 +502,7 @@ export {
   getChatInputOptionKeyIndex,
   getChatInputSendAction,
   getChatInputSendLabel,
+  getChatInputTrayStack,
   getChatInputVoiceLevel,
   getChatInputVoiceTheme,
   isChatInputBusy,

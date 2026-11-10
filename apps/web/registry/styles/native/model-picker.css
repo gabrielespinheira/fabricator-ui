@@ -113,10 +113,12 @@
   }
 
   /* Effort: the model button and the level's name over a 20pt rail. The fill
-     and the name take the info hue turned toward violet as the effort rises,
-     neutral until a level is chosen; the top level is more saturated. The
-     source turns the hue from the two tint rules below. The 24pt thumb steps
-     between levels on the feedback timing and gives a little under a finger. */
+     runs from sky blue to violet as the effort rises (the info role's chroma at
+     the shared fill lightness, its hue turned) and the name takes the info
+     text's colour turned the same way, neutral until a level is chosen; the
+     source turns them from the two tint rules below. The thumb is the Slider's
+     white knob at 24pt, 2pt proud of the rail; it steps between levels on the
+     feedback timing and gives a little under a finger. */
   .cn-model-picker-effort {
     @apply gap-1 px-(--density-8) pt-0.5 pb-(--density-10);
   }
@@ -152,13 +154,14 @@
     @apply bg-foreground/25 -ms-0.5 -mt-0.5 size-1 rounded-full;
   }
 
-  /* 40% over the step's 25% makes the website's 55%, easing in. */
+  /* 40% over the step's 25% makes the website's 55%, easing in. On a chosen
+     level's colour the reached marks are light. */
   .cn-model-picker-effort-step-reached {
-    @apply bg-foreground/40 rounded-full;
+    @apply bg-foreground/40 data-[chosen=true]:bg-white/70 rounded-full;
   }
 
   .cn-model-picker-effort-thumb {
-    @apply bg-foreground shadow-surface-3 size-(--density-24) rounded-full;
+    @apply shadow-surface-3 size-(--density-24) rounded-full border border-black/5 bg-white;
   }
 
   /* A setting under the panel, ruled off from what's above. */

@@ -37,6 +37,7 @@ import {
   getMenuAvailableSpace,
   getMenuMaxHeight,
   getMenuMinWidth,
+  getSafeInsets,
   getVerticalSide,
   useTriggerOpen,
 } from "@/registry/native/lib/overlay-model"
@@ -191,12 +192,7 @@ function DropdownMenuContent({
   const safeArea = useSafeAreaInsets()
   const { triggerPosition } = DropdownMenuPrimitive.useRootContext()
   const [contentHeight, setContentHeight] = React.useState<number | null>(null)
-  // Collisions keep clear of the status bar and the home indicator too.
-  const fittedInsets = {
-    ...insets,
-    top: (insets.top ?? 0) + safeArea.top,
-    bottom: (insets.bottom ?? 0) + safeArea.bottom,
-  }
+  const fittedInsets = getSafeInsets(insets, safeArea)
   const verticalSide = getFittedSide({
     side: getVerticalSide(side),
     triggerY: triggerPosition?.pageY,
