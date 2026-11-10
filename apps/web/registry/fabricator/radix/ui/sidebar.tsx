@@ -1901,7 +1901,7 @@ function SidebarMenuBadge({
       data-slot="sidebar-menu-badge"
       data-sidebar="menu-badge"
       className={cn(
-        "cn-sidebar-menu-badge flex items-center justify-center tabular-nums select-none group-data-[collapsible=icon]:hidden",
+        "cn-sidebar-menu-badge block content-center tabular-nums select-none group-data-[collapsible=icon]:hidden",
         className
       )}
       {...props}

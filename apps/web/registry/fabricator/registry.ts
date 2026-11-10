@@ -513,6 +513,7 @@ export const fabricatorItems = [
       "sidebar",
       "command",
       "dropdown-menu",
+      "kbd",
       "spinner",
       "tooltip",
     ],

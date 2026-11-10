@@ -6,7 +6,9 @@
 // - `menu`: a dropdown with every workspace, then Create and Manage. Fits a
 //   handful of workspaces.
 // - `command`: a searchable dialog (⌘O by default), for people in many
-//   workspaces. Extra groups (pending invitations…) go in as children.
+//   workspaces. It searches names and descriptions, marks the current one
+//   and lists its keys along the bottom. Extra groups (pending
+//   invitations…) go in as children.
 //
 // `size="row"` fills the sidebar header with logo, name and description;
 // `size="mark"` is the logo alone, for a header row it shares with the user
@@ -43,6 +45,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/registry/bases/aria/ui/dropdown-menu"
+import { Kbd, KbdGroup } from "@/registry/bases/aria/ui/kbd"
 import {
   SidebarMenu,
   SidebarMenuButton,
@@ -93,6 +96,69 @@ function CheckMark() {
       remixicon="RiCheckLine"
       className="cn-workspace-switcher-check ms-auto"
     />
+  )
+}
+
+/** Matched by the command search: the name, the description and the id. */
+function getSearchValue(workspace: Workspace) {
+  return [workspace.name, workspace.description, workspace.id]
+    .filter(Boolean)
+    .join(" ")
+}
+
+/** A workspace in the list: its logo beside the name and description. The
+ * check that marks the current one is decorative, so its name says it. */
+function WorkspaceRow({
+  workspace,
+  isCurrent,
+}: {
+  workspace: Workspace
+  isCurrent: boolean
+}) {
+  return (
+    <>
+      <WorkspaceLogo
+        workspace={workspace}
+        className="cn-workspace-switcher-logo-sm"
+      />
+      <span className="grid min-w-0 flex-1">
+        <span className="truncate">{workspace.name}</span>
+        {workspace.description && (
+          <span className="cn-workspace-switcher-description truncate">
+            {workspace.description}
+          </span>
+        )}
+      </span>
+      {isCurrent && <span className="sr-only">(current)</span>}
+    </>
+  )
+}
+
+/** The search dialog's keys. Hidden from screen readers, which announce
+ * the list's own keyboard behaviour. */
+function CommandHints() {
+  return (
+    <div
+      aria-hidden
+      data-slot="workspace-switcher-hints"
+      className="cn-workspace-switcher-hints flex items-center"
+    >
+      <span className="cn-workspace-switcher-hint flex items-center">
+        <KbdGroup>
+          <Kbd>↑</Kbd>
+          <Kbd>↓</Kbd>
+        </KbdGroup>
+        Navigate
+      </span>
+      <span className="cn-workspace-switcher-hint flex items-center">
+        <Kbd>↵</Kbd>
+        Switch
+      </span>
+      <span className="cn-workspace-switcher-hint ms-auto flex items-center">
+        <Kbd>esc</Kbd>
+        Close
+      </span>
+    </div>
   )
 }
 
@@ -256,7 +322,7 @@ function WorkspaceSwitcher({
             <CommandInput placeholder={`Search ${label.toLowerCase()}…`} />
             <CommandList
               renderEmptyState={() => (
-                <CommandEmpty>Nothing found.</CommandEmpty>
+                <CommandEmpty>No {label.toLowerCase()} found.</CommandEmpty>
               )}
             >
               <CommandGroup heading={label}>
@@ -264,15 +330,15 @@ function WorkspaceSwitcher({
                   <CommandItem
                     key={workspace.id}
                     id={workspace.id}
-                    textValue={`${workspace.name} ${workspace.id}`}
+                    textValue={getSearchValue(workspace)}
+                    data-checked={workspace.id === activeId}
                     onAction={() => select(workspace.id)}
+                    className="cn-workspace-switcher-item"
                   >
-                    <WorkspaceLogo
+                    <WorkspaceRow
                       workspace={workspace}
-                      className="cn-workspace-switcher-logo-sm"
+                      isCurrent={workspace.id === activeId}
                     />
-                    <span className="truncate">{workspace.name}</span>
-                    {workspace.id === activeId && <CheckMark />}
                   </CommandItem>
                 ))}
               </CommandGroup>
@@ -321,6 +387,7 @@ function WorkspaceSwitcher({
                 </>
               )}
             </CommandList>
+            <CommandHints />
           </Command>
         </CommandDialog>
         {switching && <SwitchingOverlay workspace={switching} />}
@@ -348,18 +415,10 @@ function WorkspaceSwitcher({
                   onAction={() => select(workspace.id)}
                   className="cn-workspace-switcher-item"
                 >
-                  <WorkspaceLogo
+                  <WorkspaceRow
                     workspace={workspace}
-                    className="cn-workspace-switcher-logo-sm"
+                    isCurrent={workspace.id === activeId}
                   />
-                  <span className="grid min-w-0 flex-1">
-                    <span className="truncate">{workspace.name}</span>
-                    {workspace.description && (
-                      <span className="cn-workspace-switcher-description truncate">
-                        {workspace.description}
-                      </span>
-                    )}
-                  </span>
                   {workspace.id === activeId && <CheckMark />}
                 </DropdownMenuItem>
               ))}

@@ -3,8 +3,10 @@
 //
 // - `menu`: every workspace, then Create and Manage. Fits a handful of workspaces.
 //   A popover on tablets, a sheet on phones.
-// - `command`: a searchable dialog, for people in many workspaces. Extra groups
-//   (pending invitations…) go in as children.
+// - `command`: a searchable dialog, for people in many workspaces. It searches
+//   names and descriptions and marks the current one; the website's key hints
+//   have no keys to name here. Extra groups (pending invitations…) go in as
+//   children.
 //
 // `size="row"` fills the sidebar header with logo, name and description;
 // `size="mark"` is the logo alone, for a header row it shares with the user menu.
@@ -106,6 +108,34 @@ function CheckMark() {
         <CheckIcon />
       </View>
     </TextStyle>
+  )
+}
+
+/** Matched by the command search: the name, the description and the id. */
+function getSearchValue(workspace: Workspace) {
+  return [workspace.name, workspace.description, workspace.id]
+    .filter(Boolean)
+    .join(" ")
+}
+
+/** A workspace in the list: its logo beside the name and description. */
+function WorkspaceRow({ workspace }: { workspace: Workspace }) {
+  return (
+    <>
+      <WorkspaceLogo
+        workspace={workspace}
+        className="cn-workspace-switcher-logo-sm"
+        textClassName={workspaceLogoSmallTextVariants()}
+      />
+      <View className="min-w-0 flex-1 flex-col">
+        <Text numberOfLines={1}>{workspace.name}</Text>
+        {workspace.description ? (
+          <Text numberOfLines={1} className="cn-workspace-switcher-description">
+            {workspace.description}
+          </Text>
+        ) : null}
+      </View>
+    </>
   )
 }
 
@@ -277,23 +307,17 @@ function WorkspaceSwitcher({
         >
           <CommandInput placeholder={`Search ${label.toLowerCase()}…`} />
           <CommandList>
-            <CommandEmpty>Nothing found.</CommandEmpty>
+            <CommandEmpty>No {label.toLowerCase()} found.</CommandEmpty>
             <CommandGroup heading={label}>
               {workspaces.map((workspace) => (
                 <CommandItem
                   key={workspace.id}
-                  value={`${workspace.name} ${workspace.id}`}
+                  value={getSearchValue(workspace)}
                   data-checked={workspace.id === activeId}
                   onSelect={() => select(workspace.id)}
+                  className="cn-workspace-switcher-item"
                 >
-                  <WorkspaceLogo
-                    workspace={workspace}
-                    className="cn-workspace-switcher-logo-sm"
-                    textClassName={workspaceLogoSmallTextVariants()}
-                  />
-                  <Text numberOfLines={1} className="flex-1">
-                    {workspace.name}
-                  </Text>
+                  <WorkspaceRow workspace={workspace} />
                 </CommandItem>
               ))}
             </CommandGroup>
@@ -346,22 +370,7 @@ function WorkspaceSwitcher({
             onPress={() => select(workspace.id)}
             className="cn-workspace-switcher-item"
           >
-            <WorkspaceLogo
-              workspace={workspace}
-              className="cn-workspace-switcher-logo-sm"
-              textClassName={workspaceLogoSmallTextVariants()}
-            />
-            <View className="min-w-0 flex-1 flex-col">
-              <Text numberOfLines={1}>{workspace.name}</Text>
-              {workspace.description ? (
-                <Text
-                  numberOfLines={1}
-                  className="cn-workspace-switcher-description"
-                >
-                  {workspace.description}
-                </Text>
-              ) : null}
-            </View>
+            <WorkspaceRow workspace={workspace} />
             {workspace.id === activeId ? <CheckMark /> : null}
           </DropdownMenuItem>
         ))}

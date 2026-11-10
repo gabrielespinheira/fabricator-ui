@@ -635,5 +635,26 @@
     "name": "cn-editor-code-pre",
     "reason": "The website's pre holds the editable code. On phones and tablets the code is text in the editor's native text view, which sets its mono font, size and padding from the Document role: there is no element to style.",
     "date": "2026-11-09"
+  },
+  {
+    "item": "workspace-switcher",
+    "kind": "slot",
+    "name": "workspace-switcher-hints",
+    "reason": "The search dialog's key hints (arrows, Enter, Escape). React Native has no keys to name on a phone, and the website hides them on touch screens too.",
+    "date": "2026-11-10"
+  },
+  {
+    "item": "workspace-switcher",
+    "kind": "placeholder",
+    "name": "cn-workspace-switcher-hints",
+    "reason": "The search dialog's key hints (arrows, Enter, Escape). React Native has no keys to name on a phone, and the website hides them on touch screens too.",
+    "date": "2026-11-10"
+  },
+  {
+    "item": "workspace-switcher",
+    "kind": "placeholder",
+    "name": "cn-workspace-switcher-hint",
+    "reason": "The search dialog's key hints (arrows, Enter, Escape). React Native has no keys to name on a phone, and the website hides them on touch screens too.",
+    "date": "2026-11-10"
   }
 ]

@@ -1480,8 +1480,10 @@
     @apply bg-surface-3 text-popover-foreground rounded-xl! in-data-[slot=dialog-content]:bg-transparent in-data-[slot=popover-content]:bg-transparent;
   }
 
+  /* Anchored by its top, unlike other dialogs, so it stays put while the
+     results grow and shrink under the search. */
   .cn-command-dialog {
-    @apply rounded-xl!;
+    @apply rounded-xl! top-[20%]! bottom-auto! mt-0!;
   }
 
   .cn-command-input-wrapper {
@@ -3665,9 +3667,11 @@
      highlight and the sliding selection do. Pressed is a bg-active step.
      The end padding clears the row's badge and actions exactly
      (--sidebar-menu-gutter, published by the row); a row that publishes
-     nothing (the upstream markup) clears one action. */
+     nothing (the upstream markup) clears one action. The label is trimmed
+     to its cap height so it centres on the icon (Inter's line box sits it
+     1px high); the padding keeps descenders clear of truncate's clip. */
   .cn-sidebar-menu-button {
-    @apply cursor-pointer text-foreground/80 ring-ring gap-(--density-8) rounded-lg px-(--density-8) pe-[var(--sidebar-menu-gutter,var(--density-8))] text-start text-(length:--density-text-13) weight-normal transition-[width,height,padding,color,background-color,box-shadow] duration-feedback hover:pe-[var(--sidebar-menu-gutter-hover,var(--density-8))] data-fluid-hover-active:pe-[var(--sidebar-menu-gutter-hover,var(--density-8))] focus-visible:pe-[var(--sidebar-menu-gutter-hover,var(--density-8))] group-has-[>[data-sidebar=menu-action]]/menu-item:pe-[var(--sidebar-menu-gutter,var(--density-32))] hover:group-has-[>[data-sidebar=menu-action]]/menu-item:pe-[var(--sidebar-menu-gutter-hover,var(--density-32))] data-fluid-hover-active:group-has-[>[data-sidebar=menu-action]]/menu-item:pe-[var(--sidebar-menu-gutter-hover,var(--density-32))] focus-visible:group-has-[>[data-sidebar=menu-action]]/menu-item:pe-[var(--sidebar-menu-gutter-hover,var(--density-32))] group-data-[collapsible=icon]:size-(--density-32)! group-data-[collapsible=icon]:p-[calc((var(--density-32)-var(--density-icon-16))/2)]! focus-visible:ring-1 [&_svg]:stroke-[1.5] [&_svg:not([class*='text-'])]:text-muted-foreground [&_svg]:transition-[stroke-width,color] hover:bg-hover hover:text-foreground hover:[&_svg]:stroke-2 hover:[&_svg:not([class*='text-'])]:text-foreground active:bg-active active:text-foreground data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-fluid-hover-active:[&_svg:not([class*='text-'])]:text-foreground data-active:bg-active data-active:text-foreground data-active:shadow-surface-2 data-active:[&_svg]:stroke-2 data-active:[&_svg:not([class*='text-'])]:text-foreground data-open:text-foreground data-open:[&_svg:not([class*='text-'])]:text-foreground in-data-[fluid-hover]:hover:bg-transparent in-data-[fluid-hover]:data-active:bg-transparent in-data-[fluid-hover]:data-active:shadow-none;
+    @apply cursor-pointer text-foreground/80 ring-ring gap-(--density-8) rounded-lg px-(--density-8) pe-[var(--sidebar-menu-gutter,var(--density-8))] text-start text-(length:--density-text-13) weight-normal transition-[width,height,padding,color,background-color,box-shadow] duration-feedback hover:pe-[var(--sidebar-menu-gutter-hover,var(--density-8))] data-fluid-hover-active:pe-[var(--sidebar-menu-gutter-hover,var(--density-8))] focus-visible:pe-[var(--sidebar-menu-gutter-hover,var(--density-8))] group-has-[>[data-sidebar=menu-action]]/menu-item:pe-[var(--sidebar-menu-gutter,var(--density-32))] hover:group-has-[>[data-sidebar=menu-action]]/menu-item:pe-[var(--sidebar-menu-gutter-hover,var(--density-32))] data-fluid-hover-active:group-has-[>[data-sidebar=menu-action]]/menu-item:pe-[var(--sidebar-menu-gutter-hover,var(--density-32))] focus-visible:group-has-[>[data-sidebar=menu-action]]/menu-item:pe-[var(--sidebar-menu-gutter-hover,var(--density-32))] group-data-[collapsible=icon]:size-(--density-32)! group-data-[collapsible=icon]:p-[calc((var(--density-32)-var(--density-icon-16))/2)]! focus-visible:ring-1 [&_svg]:stroke-[1.5] [&_svg:not([class*='text-'])]:text-muted-foreground [&_svg]:transition-[stroke-width,color] hover:bg-hover hover:text-foreground hover:[&_svg]:stroke-2 hover:[&_svg:not([class*='text-'])]:text-foreground active:bg-active active:text-foreground data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-fluid-hover-active:[&_svg:not([class*='text-'])]:text-foreground data-active:bg-active data-active:text-foreground data-active:shadow-surface-2 data-active:[&_svg]:stroke-2 data-active:[&_svg:not([class*='text-'])]:text-foreground data-open:text-foreground data-open:[&_svg:not([class*='text-'])]:text-foreground in-data-[fluid-hover]:hover:bg-transparent in-data-[fluid-hover]:data-active:bg-transparent in-data-[fluid-hover]:data-active:shadow-none [&>span:last-child]:text-box-trim [&>span:last-child]:py-(--density-4);
   }
 
   .cn-sidebar-menu-button-aria {
@@ -3710,8 +3714,11 @@
     @apply top-[calc((var(--density-30)-var(--density-24))/2)] end-(--density-6) gap-1 transition-opacity duration-feedback [:has(>[data-sidebar=menu-badge])>&]:end-[calc(var(--density-8)+var(--density-20)+var(--density-6))] peer-data-[size=lg]/menu-button:top-[calc((var(--density-48)-var(--density-24))/2)] peer-data-[size=sm]/menu-button:top-[calc((var(--density-28)-var(--density-24))/2)] in-data-[sidebar=menu-sub-item]:top-[calc((var(--density-30)-var(--density-24))/2)];
   }
 
+  /* Counts end-aligned, so a column of them lines up by the last digit, and
+     on the label's baseline: the trimmed digits drop by half the difference
+     between the label's cap height and theirs (Inter's is 0.727em). */
   .cn-sidebar-menu-badge {
-    @apply text-muted-foreground weight-normal peer-hover/menu-button:text-foreground peer-data-fluid-hover-active/menu-button:text-foreground peer-data-active/menu-button:text-foreground pointer-events-none absolute end-(--density-8) top-[calc((var(--density-30)-var(--density-20))/2)] flex h-(--density-20) min-w-(--density-20) rounded-md px-1 text-(length:--density-text-12) tabular-nums transition-[color,font-variation-settings] duration-feedback peer-data-[size=lg]/menu-button:top-[calc((var(--density-48)-var(--density-20))/2)] peer-data-[size=sm]/menu-button:top-[calc((var(--density-28)-var(--density-20))/2)] in-data-[sidebar=menu-sub-item]:top-[calc((var(--density-30)-var(--density-20))/2)];
+    @apply text-muted-foreground weight-normal peer-hover/menu-button:text-foreground peer-data-fluid-hover-active/menu-button:text-foreground peer-data-active/menu-button:text-foreground pointer-events-none absolute end-(--density-8) top-[calc((var(--density-30)-var(--density-20))/2)] flex h-(--density-20) min-w-(--density-20) rounded-md px-1 text-(length:--density-text-12) tabular-nums transition-[color,font-variation-settings] duration-feedback peer-data-[size=lg]/menu-button:top-[calc((var(--density-48)-var(--density-20))/2)] peer-data-[size=sm]/menu-button:top-[calc((var(--density-28)-var(--density-20))/2)] in-data-[sidebar=menu-sub-item]:top-[calc((var(--density-30)-var(--density-20))/2)] text-end text-box-trim pt-[calc((var(--density-text-13)-var(--density-text-12))*0.727)] peer-data-[size=sm]/menu-button:pt-0;
   }
 
   .cn-sidebar-menu-skeleton {
@@ -3741,7 +3748,7 @@
      hovered or lit; the current one sits on a quiet wash (half the hover fill)
      instead of the raised selection, which marks its top-level row. */
   .cn-sidebar-menu-sub-button {
-    @apply cursor-pointer text-muted-foreground ring-ring h-(--density-30) gap-(--density-8) rounded-lg ps-[calc(var(--density-8)+(var(--density-icon-16)+var(--density-8))*var(--sidebar-menu-depth,1))] pe-[var(--sidebar-menu-gutter,var(--density-8))] text-(length:--density-text-13) weight-normal transition-[color,background-color,padding] duration-feedback in-data-[slot=sidebar-menu-sub]:translate-x-0 hover:pe-[var(--sidebar-menu-gutter-hover,var(--density-8))] data-fluid-hover-active:pe-[var(--sidebar-menu-gutter-hover,var(--density-8))] focus-visible:pe-[var(--sidebar-menu-gutter-hover,var(--density-8))] focus-visible:ring-1 data-[size=sm]:h-(--density-24) data-[size=sm]:text-(length:--density-text-12) [&>svg]:size-(--density-icon-16) [&>svg]:stroke-[1.5] [&>svg:not([class*='text-'])]:text-muted-foreground [&>svg]:transition-[stroke-width,color] hover:bg-hover hover:text-foreground hover:[&>svg:not([class*='text-'])]:text-foreground active:bg-active active:text-foreground data-fluid-hover-active:text-foreground data-fluid-hover-active:[&>svg]:stroke-2 data-fluid-hover-active:[&>svg:not([class*='text-'])]:text-foreground data-active:bg-hover/50 data-active:text-foreground data-active:[&>svg:not([class*='text-'])]:text-foreground in-data-[fluid-hover]:not-data-active:hover:bg-transparent;
+    @apply cursor-pointer text-muted-foreground ring-ring h-(--density-30) gap-(--density-8) rounded-lg ps-[calc(var(--density-8)+(var(--density-icon-16)+var(--density-8))*var(--sidebar-menu-depth,1))] pe-[var(--sidebar-menu-gutter,var(--density-8))] text-(length:--density-text-13) weight-normal transition-[color,background-color,padding] duration-feedback in-data-[slot=sidebar-menu-sub]:translate-x-0 hover:pe-[var(--sidebar-menu-gutter-hover,var(--density-8))] data-fluid-hover-active:pe-[var(--sidebar-menu-gutter-hover,var(--density-8))] focus-visible:pe-[var(--sidebar-menu-gutter-hover,var(--density-8))] focus-visible:ring-1 data-[size=sm]:h-(--density-24) data-[size=sm]:text-(length:--density-text-12) [&>svg]:size-(--density-icon-16) [&>svg]:stroke-[1.5] [&>svg:not([class*='text-'])]:text-muted-foreground [&>svg]:transition-[stroke-width,color] hover:bg-hover hover:text-foreground hover:[&>svg:not([class*='text-'])]:text-foreground active:bg-active active:text-foreground data-fluid-hover-active:text-foreground data-fluid-hover-active:[&>svg]:stroke-2 data-fluid-hover-active:[&>svg:not([class*='text-'])]:text-foreground data-active:bg-hover/50 data-active:text-foreground data-active:[&>svg:not([class*='text-'])]:text-foreground in-data-[fluid-hover]:not-data-active:hover:bg-transparent [&>span:last-child]:text-box-trim [&>span:last-child]:py-(--density-4);
   }
 
 /* MARK: Skeleton */
@@ -4631,8 +4638,9 @@
     @apply text-(length:--density-text-13) weight-semibold text-foreground;
   }
 
+  /* Regular even in the command list's current row, which is semibold. */
   .cn-workspace-switcher-description {
-    @apply text-(length:--density-text-12) text-muted-foreground;
+    @apply text-(length:--density-text-12) font-normal text-muted-foreground;
   }
 
   /* On the axis of the rows' actions and badges. */
@@ -4651,6 +4659,16 @@
   /* Two-line rows: the name over its description. */
   .cn-workspace-switcher-item {
     @apply h-auto gap-(--density-8) py-(--density-6);
+  }
+
+  /* The search dialog's keys along its bottom, under a hairline like the
+     one above the list. Touch screens have no keys to show. */
+  .cn-workspace-switcher-hints {
+    @apply h-(--density-36) gap-(--density-12) border-t border-border/60 px-(--density-12) text-(length:--density-text-12) text-muted-foreground pointer-coarse:hidden;
+  }
+
+  .cn-workspace-switcher-hint {
+    @apply gap-(--density-6);
   }
 
   /* A shortcut inside an inverted tooltip. */

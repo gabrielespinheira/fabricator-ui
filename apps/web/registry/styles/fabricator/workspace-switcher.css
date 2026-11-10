@@ -23,8 +23,9 @@
     @apply text-(length:--density-text-13) weight-semibold text-foreground;
   }
 
+  /* Regular even in the command list's current row, which is semibold. */
   .cn-workspace-switcher-description {
-    @apply text-(length:--density-text-12) text-muted-foreground;
+    @apply text-(length:--density-text-12) font-normal text-muted-foreground;
   }
 
   /* On the axis of the rows' actions and badges. */
@@ -43,6 +44,16 @@
   /* Two-line rows: the name over its description. */
   .cn-workspace-switcher-item {
     @apply h-auto gap-(--density-8) py-(--density-6);
+  }
+
+  /* The search dialog's keys along its bottom, under a hairline like the
+     one above the list. Touch screens have no keys to show. */
+  .cn-workspace-switcher-hints {
+    @apply h-(--density-36) gap-(--density-12) border-t border-border/60 px-(--density-12) text-(length:--density-text-12) text-muted-foreground pointer-coarse:hidden;
+  }
+
+  .cn-workspace-switcher-hint {
+    @apply gap-(--density-6);
   }
 
   /* A shortcut inside an inverted tooltip. */

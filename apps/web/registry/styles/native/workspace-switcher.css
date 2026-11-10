@@ -31,7 +31,7 @@
   }
 
   .cn-workspace-switcher-description {
-    @apply text-muted-foreground text-(length:--density-text-12) leading-tight;
+    @apply text-muted-foreground text-(length:--density-text-12) font-normal leading-tight;
   }
 
   /* On the axis of the rows' actions and badges. */
