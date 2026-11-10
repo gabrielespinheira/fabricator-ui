@@ -1,0 +1,171 @@
+/* MARK: Model Picker */
+
+  /* The panel inside a popover (give the popover p-1 and no gap): 13pt rows on
+     the popover's own surface. It scrolls past 512pt or 60% of the screen, which
+     registry/native/ui/model-picker.tsx sets from the window. */
+  .cn-model-picker {
+    @apply bg-transparent;
+  }
+
+  .cn-model-picker-text {
+    @apply text-(length:--density-text-13);
+  }
+
+  .cn-model-picker-header {
+    @apply h-(--density-36) gap-0.5 px-1;
+  }
+
+  .cn-model-picker-header-text {
+    @apply text-muted-foreground text-(length:--density-text-12);
+  }
+
+  /* Routing tiles share a row: a soft fill that lifts to the hover fill and
+     foreground while pressed and once selected or switched on. */
+  .cn-model-picker-routes {
+    @apply gap-1 pb-(--density-8);
+  }
+
+  .cn-model-picker-route {
+    @apply bg-hover/60 gap-0.5 rounded-lg px-(--density-10) py-(--density-8) disabled:opacity-50;
+  }
+
+  /* The lift, as layers that ease under the tile's content: 40% of the hover
+     fill over the tile's 60% makes the website's full hover fill. */
+  .cn-model-picker-route-fill {
+    @apply bg-hover/40;
+  }
+
+  .cn-model-picker-route-wash {
+    @apply bg-hover/40;
+  }
+
+  .cn-model-picker-route-text {
+    @apply text-muted-foreground text-(length:--density-text-13);
+  }
+
+  .cn-model-picker-route-text-lit {
+    @apply text-foreground;
+  }
+
+  /* Icons take the label's colour at 16pt with a 1.5 stroke, from the source. */
+  .cn-model-picker-route-label {
+    @apply gap-(--density-6);
+  }
+
+  .cn-model-picker-route-caption {
+    @apply text-muted-foreground text-(length:--density-text-12) leading-snug;
+  }
+
+  /* A provider's models under its label. React Native can't pin a header
+     inside a group, so the label scrolls with its models. */
+  .cn-model-picker-group {
+    @apply pb-(--density-6);
+  }
+
+  .cn-model-picker-group-label {
+    @apply h-(--density-28) gap-(--density-8) px-(--density-8);
+  }
+
+  .cn-model-picker-group-label-text {
+    @apply text-muted-foreground text-(length:--density-text-12) font-medium;
+  }
+
+  /* Menu rows, their names lined up under the provider's: muted until lit, the
+     model in use tinted with a check at the end. Rows keep the 44pt touch
+     target on small screens and take the density's height from sm up. */
+  .cn-model-picker-item {
+    @apply gap-(--density-8) rounded-lg ps-(--density-32) pe-(--density-8) disabled:opacity-50 sm:min-h-(--density-32);
+  }
+
+  /* The model in use, easing in under the row's content. */
+  .cn-model-picker-item-fill {
+    @apply bg-hover/60;
+  }
+
+  /* Pressed is the hover fill, easing in and out. */
+  .cn-model-picker-item-wash {
+    @apply bg-hover;
+  }
+
+  .cn-model-picker-item-text {
+    @apply text-muted-foreground;
+  }
+
+  .cn-model-picker-item-text-lit {
+    @apply text-foreground;
+  }
+
+  /* 14pt, from the source; it keeps its room in a row that isn't selected. */
+  .cn-model-picker-check {
+    @apply data-[selected=false]:opacity-0;
+  }
+
+  .cn-model-picker-check-text {
+    @apply text-foreground;
+  }
+
+  .cn-model-picker-item-meta {
+    @apply gap-(--density-8);
+  }
+
+  .cn-model-picker-item-meta-text {
+    @apply text-muted-foreground text-(length:--density-text-12) tabular-nums;
+  }
+
+  /* Effort: the model button and the level's name over a 20pt rail. The fill
+     and the name take the info hue turned toward violet as the effort rises,
+     neutral until a level is chosen; the top level is more saturated. The
+     source turns the hue from the two tint rules below. The 24pt thumb steps
+     between levels on the feedback timing and gives a little under a finger. */
+  .cn-model-picker-effort {
+    @apply gap-1 px-(--density-8) pt-0.5 pb-(--density-10);
+  }
+
+  .cn-model-picker-effort-label {
+    @apply text-muted-foreground text-(length:--density-text-12) font-medium;
+  }
+
+  .cn-model-picker-effort-label-tint {
+    @apply text-info-text;
+  }
+
+  .cn-model-picker-effort-tint {
+    @apply bg-info;
+  }
+
+  .cn-model-picker-effort-track {
+    @apply h-(--density-24);
+  }
+
+  .cn-model-picker-effort-rail {
+    @apply bg-hover h-(--density-20) rounded-full;
+  }
+
+  /* At rest, before a level is chosen. Its width and chosen colour come from
+     the source. */
+  .cn-model-picker-effort-fill {
+    @apply bg-foreground/16 rounded-full;
+  }
+
+  /* A 4pt mark at each level's centre, darker once the shown level reaches it. */
+  .cn-model-picker-effort-step {
+    @apply bg-foreground/25 -ms-0.5 -mt-0.5 size-1 rounded-full;
+  }
+
+  /* 40% over the step's 25% makes the website's 55%, easing in. */
+  .cn-model-picker-effort-step-reached {
+    @apply bg-foreground/40 rounded-full;
+  }
+
+  .cn-model-picker-effort-thumb {
+    @apply bg-foreground shadow-surface-3 size-(--density-24) rounded-full;
+  }
+
+  /* A setting under the panel, ruled off from what's above. */
+  .cn-model-picker-setting {
+    @apply border-border/60 -mx-1 mt-1 gap-(--density-8) border-t pt-(--density-6) pe-1 pb-0.5 ps-(--density-12);
+  }
+
+  .cn-model-picker-setting-label {
+    @apply text-muted-foreground text-(length:--density-text-12);
+  }

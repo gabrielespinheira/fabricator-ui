@@ -2,10 +2,10 @@
 
   /* A row of document tabs on the surface it sits on: 48pt at a phone's density,
      40pt at `sm`, a step down the scale. A press takes the row's whole height.
-     Compact (a phone), the pill keeps as far from the count's frame as from the
-     header's sidebar glyph once a header takes the inset away (px-0). */
+     Compact (a phone), the count's button sits right after the pill, with no
+     gap: its own inset is the space between them. */
   .cn-tab-strip {
-    @apply h-(--density-40) gap-(--density-4) px-(--density-6) data-[compact=true]:gap-(--density-12);
+    @apply h-(--density-40) gap-(--density-4) px-(--density-6) data-[compact=true]:gap-0;
   }
 
   /* The list is as wide as its tabs, so the new tab button follows the last one,

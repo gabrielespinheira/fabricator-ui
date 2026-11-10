@@ -288,41 +288,6 @@
   },
   {
     "item": "questionnaire",
-    "kind": "export",
-    "name": "QuestionnaireHeader",
-    "reason": "Added on the website with the restyle after Relay's agent questions, so a questionnaire can take a chat input's place. React Native has no Chat Input yet; the native questionnaire takes this when it does.",
-    "date": "2026-11-08"
-  },
-  {
-    "item": "questionnaire",
-    "kind": "slot",
-    "name": "questionnaire-header",
-    "reason": "Added on the website with the restyle after Relay's agent questions, so a questionnaire can take a chat input's place. React Native has no Chat Input yet; the native questionnaire takes this when it does.",
-    "date": "2026-11-08"
-  },
-  {
-    "item": "questionnaire",
-    "kind": "placeholder",
-    "name": "cn-questionnaire-header",
-    "reason": "Added on the website with the restyle after Relay's agent questions, so a questionnaire can take a chat input's place. React Native has no Chat Input yet; the native questionnaire takes this when it does.",
-    "date": "2026-11-08"
-  },
-  {
-    "item": "questionnaire",
-    "kind": "prop",
-    "name": "advanceOnSelect",
-    "reason": "Added on the website with the restyle after Relay's agent questions, so a questionnaire can take a chat input's place. React Native has no Chat Input yet; the native questionnaire takes this when it does.",
-    "date": "2026-11-08"
-  },
-  {
-    "item": "questionnaire",
-    "kind": "export",
-    "name": "shouldAdvanceQuestionnaire",
-    "reason": "Added on the website with the restyle after Relay's agent questions, so a questionnaire can take a chat input's place. React Native has no Chat Input yet; the native questionnaire takes this when it does.",
-    "date": "2026-11-08"
-  },
-  {
-    "item": "questionnaire",
     "kind": "slot",
     "name": "questionnaire-choice-advance",
     "reason": "The arrow is a pointer cue: it covers a single choice's chip on hover (and keyboard focus) where a pick moves on. Native rows keep their tap feedback.",
@@ -333,13 +298,6 @@
     "kind": "placeholder",
     "name": "cn-questionnaire-choice-advance",
     "reason": "The same pointer cue's style.",
-    "date": "2026-11-08"
-  },
-  {
-    "item": "questionnaire",
-    "kind": "placeholder",
-    "name": "cn-questionnaire-choice-check",
-    "reason": "The check inside the website's square chip for a multiple choice without shortcuts. Native multiple choices keep the Checkbox mark, which draws its own check.",
     "date": "2026-11-08"
   },
   {
@@ -435,10 +393,24 @@
   },
   {
     "item": "chat-input",
-    "kind": "component",
-    "name": "chat-input",
-    "reason": "Web-first chat composer uses DOM text editing, file drop/paste and voice-glow. Native composition, attachment picking and voice visuals are deferred.",
-    "date": "2026-11-09"
+    "kind": "slot",
+    "name": "chat-input-drop",
+    "reason": "The website's \"Drop to attach\" layer shows while files are dragged over the card. React Native has no file drag and drop (nor pasted files in a text field), so files come from a picker of the app's own through `attach`.",
+    "date": "2026-11-10"
+  },
+  {
+    "item": "chat-input",
+    "kind": "placeholder",
+    "name": "cn-chat-input-drop",
+    "reason": "The same drop layer's style.",
+    "date": "2026-11-10"
+  },
+  {
+    "item": "chat-input",
+    "kind": "slot",
+    "name": "chat-input-mirror",
+    "reason": "The website tints mentions in an overlay drawn under a transparent textarea, since a textarea can't style its text. A React Native text field draws styled Text children itself, so the mentions are tinted inside the field and there is no overlay.",
+    "date": "2026-11-10"
   },
   {
     "item": "color-picker",
@@ -459,13 +431,6 @@
     "kind": "component",
     "name": "file-upload",
     "reason": "Web-first upload controls use File, drag-and-drop, paste and native HTML form submission. Native document/image picking is deferred.",
-    "date": "2026-11-09"
-  },
-  {
-    "item": "model-picker",
-    "kind": "component",
-    "name": "model-picker",
-    "reason": "Web-first model and reasoning selector ships with Chat Input. Native selector presentation is deferred with the composer.",
     "date": "2026-11-09"
   },
   {

@@ -146,7 +146,10 @@ export const fabricatorItems = [
     // chat glow; pinned like Relay, which uses the same version.
     dependencies: ["voice-glow@0.3.0"],
     registryDependencies: ["button", "spinner", "density"],
-    files: [{ path: "ui/chat-input.tsx", type: "registry:ui" }],
+    files: [
+      { path: "ui/chat-input.tsx", type: "registry:ui" },
+      { path: "lib/chat-input-model.ts", type: "registry:lib" },
+    ],
     meta: {
       fabricator: true,
       links: {
@@ -182,7 +185,10 @@ export const fabricatorItems = [
     title: "Model Picker",
     description:
       "The model switcher's panel: a reasoning effort slider that warms from blue to violet, routing tiles such as Auto, and the models grouped by provider. It goes in a popover of your own.",
-    files: [{ path: "ui/model-picker.tsx", type: "registry:ui" }],
+    files: [
+      { path: "ui/model-picker.tsx", type: "registry:ui" },
+      { path: "lib/model-picker-model.ts", type: "registry:lib" },
+    ],
     meta: {
       fabricator: true,
       links: {

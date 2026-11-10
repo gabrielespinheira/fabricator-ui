@@ -63,13 +63,18 @@
   /* The toggle's ghost look, icon-only and square: the website's 36pt in
      the toolbar, 40pt on the keyboard bar a thumb works (a step under the
      default control, so a row of them fits), each with a 44pt touch target.
-     On and pressed are one fill under the icon. */
+     On and pressed are one fill under the icon. On the keyboard bar's capsule
+     they're pills, nested in its round ends. */
   .cn-editor-toolbar-button {
-    @apply h-(--density-36) min-w-(--density-36) shrink-0 gap-(--density-6) rounded-lg px-(--density-10) disabled:opacity-40 data-[bar=keyboard]:h-(--density-40) data-[bar=keyboard]:min-w-(--density-40);
+    @apply h-(--density-36) min-w-(--density-36) shrink-0 gap-(--density-6) rounded-lg px-(--density-10) disabled:opacity-40 data-[bar=keyboard]:h-(--density-40) data-[bar=keyboard]:min-w-(--density-40) data-[bar=keyboard]:rounded-full;
   }
 
   .cn-editor-toolbar-button-fill {
     @apply bg-active rounded-lg;
+  }
+
+  .cn-editor-keyboard-bar-button-fill {
+    @apply bg-active rounded-full;
   }
 
   /* Muted at rest in the toolbar, as the website's; the foreground at 80% on
@@ -202,13 +207,14 @@
   }
 
   /* While the editor has focus this bar holds the bottom of the screen in
-     the tab bar's place. On top of the on-screen keyboard it's docked: full
-     width, surface 3 with a hairline above. Without one it floats where the
-     tab bar was, as a capsule like the shell's floating tab bar, with a
-     hairline edge and a stronger shadow so it stands off a white page. The
-     controls scroll sideways, with Hide keyboard or Done at the end. */
+     the tab bar's place. It floats there as a capsule like the shell's floating
+     tab bar, with a hairline edge and a stronger shadow so it stands off a white
+     page, and stays one just above iOS's keyboard, a rounded panel of its own.
+     On Android's full-width keyboard it docks: full width, surface 3 with a
+     hairline above. The controls scroll sideways, with Hide keyboard or Done at
+     the end. */
   .cn-editor-keyboard-bar {
-    @apply bg-surface-3 gap-0.5 px-(--density-4) py-(--density-4) data-[docked=true]:border-border/60 data-[docked=true]:border-t data-[docked=false]:mx-(--density-12) data-[docked=false]:rounded-full data-[docked=false]:px-(--density-8) data-[docked=false]:border data-[docked=false]:border-border data-[docked=false]:shadow-surface-4;
+    @apply bg-surface-3 gap-0.5 px-(--density-4) py-(--density-4) data-[floating=false]:border-border/60 data-[floating=false]:border-t data-[floating=true]:mx-(--density-12) data-[floating=true]:rounded-full data-[floating=true]:px-(--density-6) data-[floating=true]:border data-[floating=true]:border-border data-[floating=true]:shadow-surface-4;
   }
 
   .cn-editor-keyboard-bar-commands {

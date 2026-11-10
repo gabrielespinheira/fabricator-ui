@@ -75,9 +75,10 @@
     @apply text-muted-foreground text-(length:--density-text-13);
   }
 
-  /* The control drops its own frame and fills; the group draws both. */
+  /* The control drops its own frame and fills; the group draws both. It fits
+     inside the frame: an input's own minimum height would overflow it. */
   .cn-input-group-input {
-    @apply focus:border-0 focus:bg-transparent h-full rounded-none border-0 bg-transparent data-[stacked=true]:h-(--density-36) data-[stacked=true]:flex-none;
+    @apply focus:border-0 focus:bg-transparent h-full min-h-0 rounded-none border-0 bg-transparent data-[stacked=true]:h-(--density-36) data-[stacked=true]:flex-none;
   }
 
   .cn-input-group-textarea {

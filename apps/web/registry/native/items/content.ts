@@ -1,3 +1,4 @@
+import { getTokenFile } from "@/scripts/native-registry"
 import { type Registry } from "shadcn/schema"
 
 import { docs } from "./shared"
@@ -292,6 +293,66 @@ export const contentItems: Registry["items"] = [
     registryDependencies: ["@fabricator/text"],
     files: [{ path: "ui/message.tsx", type: "registry:ui" }],
     meta: docs("message"),
+  },
+  {
+    name: "chat-input",
+    type: "registry:ui",
+    title: "Chat Input",
+    description:
+      "The message box of a chat: a pill that stacks once the draft wraps, or a large card, attachments, mentions and a / menu, voice chat with a glow and a level-following mic, a context meter, trays, and one send slot that starts voice, sends, queues and stops.",
+    dependencies: [
+      "@fabricator-ui/icons-react-native",
+      "@rn-primitives/hooks",
+      "class-variance-authority",
+      "cn",
+      "react-native-keyboard-controller",
+      "react-native-reanimated",
+      "react-native-svg",
+      "uniwind@1.13.1",
+    ],
+    registryDependencies: [
+      "@fabricator/button",
+      "@fabricator/density",
+      "@fabricator/feedback",
+      "@fabricator/fluid-hover",
+      "@fabricator/motion",
+      "@fabricator/spinner",
+      "@fabricator/text",
+    ],
+    files: [
+      { path: "ui/chat-input.tsx", type: "registry:ui" },
+      { path: "lib/chat-input-model.ts", type: "registry:lib" },
+      { path: "lib/chat-input-native-model.ts", type: "registry:lib" },
+    ],
+    meta: docs("chat-input"),
+  },
+  {
+    name: "model-picker",
+    type: "registry:ui",
+    title: "Model Picker",
+    description:
+      "The model switcher's panel: a reasoning effort slider that warms from blue to violet, taken by a tap or a drag, routing tiles such as Auto, and the models grouped by provider. It goes in a popover of your own.",
+    dependencies: [
+      "@fabricator-ui/icons-react-native",
+      "class-variance-authority",
+      "cn",
+      "react-native-gesture-handler",
+      "react-native-reanimated",
+      "uniwind@1.13.1",
+    ],
+    registryDependencies: [
+      "@fabricator/feedback",
+      "@fabricator/motion",
+      "@fabricator/text",
+    ],
+    files: [
+      { path: "ui/model-picker.tsx", type: "registry:ui" },
+      { path: "lib/model-picker-model.ts", type: "registry:lib" },
+      { path: "lib/model-picker-color.ts", type: "registry:lib" },
+      { path: "lib/slider-model.ts", type: "registry:lib" },
+      { path: getTokenFile("surface-tint"), type: "registry:lib" },
+    ],
+    meta: docs("model-picker"),
   },
   {
     name: "progress",

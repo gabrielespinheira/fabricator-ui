@@ -17,7 +17,8 @@ import { parseNumber } from "@/registry/native/lib/motion-tokens"
 const NO_VARIABLES = {}
 
 /**
- * The sizes for this window: a tablet's rung where the look has a phone's base. The
+ * The sizes for this window: a tablet's rung where the look has a phone's base,
+ * and on a phone whose look is Default, which is sized for a pointer. The
  * scope stays mounted with nothing in it: a wrapper that came and went with a density
  * change or a resized window would remount the whole app, and lose its state.
  */

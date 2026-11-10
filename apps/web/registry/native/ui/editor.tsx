@@ -1423,6 +1423,9 @@ const DEFAULT_TOOLBAR: readonly (readonly string[])[] = [
 /** Space under the floating bar on screens with no home indicator. */
 const FLOATING_BAR_GAP = 12
 
+/** Space between the floating bar and iOS's floating keyboard. */
+const KEYBOARD_BAR_GAP = 8
+
 // One steady set on the keyboard bar, so a thumb learns where things are:
 // marks (which also set what typing at the caret takes), blocks, nesting,
 // then history.
@@ -1463,6 +1466,10 @@ const ToolbarBarContext = React.createContext<ToolbarBar>("toolbar")
 // One cva each, so the build reaches both placeholders; the bar isn't a
 // variant anyone picks.
 const editorToolbarButtonTextVariants = cva("cn-editor-toolbar-button-text")
+const editorToolbarButtonFillVariants = cva("cn-editor-toolbar-button-fill")
+const editorKeyboardBarButtonFillVariants = cva(
+  "cn-editor-keyboard-bar-button-fill"
+)
 const editorKeyboardBarButtonTextVariants = cva(
   "cn-editor-keyboard-bar-button-text"
 )
@@ -1542,7 +1549,11 @@ function ToolbarPressable({
           >
             <StateFill
               isOn={isOn || isHeld}
-              className="cn-editor-toolbar-button-fill"
+              className={
+                bar === "keyboard"
+                  ? editorKeyboardBarButtonFillVariants()
+                  : editorToolbarButtonFillVariants()
+              }
             />
             {children}
           </AnimatedPressable>
@@ -1869,8 +1880,9 @@ function EditorLinkPopover({ className }: { className?: string }) {
 /**
  * The formatting bar of a phone or tablet. While the editor has focus it
  * takes the bottom of the screen from the App Shell's tab bar: a floating
- * capsule in the tab bar's place, or docked full width on top of the
- * on-screen keyboard while that's up. Losing focus gives the tab bar back.
+ * capsule in the tab bar's place. While the on-screen keyboard is up it floats
+ * just above it on iOS, whose keyboard is a rounded panel of its own, and docks
+ * full width on Android's. Losing focus gives the tab bar back.
  */
 function EditorKeyboardBar({
   className,
@@ -1883,6 +1895,7 @@ function EditorKeyboardBar({
   const insets = useSafeAreaInsets()
   const isKeyboardVisible = useKeyboardState((state) => state.isVisible)
   const isActive = isFocused && !readOnly
+  const isFloating = !isKeyboardVisible || Platform.OS === "ios"
   useBottomBarClaim(isActive)
   if (!isActive) return null
   const groups = KEYBOARD_BAR.map((group) =>
@@ -1899,13 +1912,17 @@ function EditorKeyboardBar({
               className="absolute inset-x-0 bottom-0"
             >
               <KeyboardStickyView
-                offset={{ closed: -Math.max(insets.bottom, FLOATING_BAR_GAP) }}
+                offset={{
+                  closed: -Math.max(insets.bottom, FLOATING_BAR_GAP),
+                  opened: isFloating ? -KEYBOARD_BAR_GAP : 0,
+                }}
               >
                 <View
                   role="toolbar"
                   aria-label="Formatting"
                   data-slot="editor-keyboard-bar"
                   data-docked={isKeyboardVisible}
+                  data-floating={isFloating}
                   className={cn(
                     "cn-editor-keyboard-bar flex-row items-center",
                     className
@@ -1930,6 +1947,8 @@ function EditorKeyboardBar({
                       ))}
                     </View>
                   </ScrollView>
+                  {/* The scrolling commands end here: Done always stays. */}
+                  <EditorToolbarSeparator />
                   <ToolbarPressable
                     isOn={false}
                     label={isKeyboardVisible ? "Hide keyboard" : "Done"}

@@ -51,6 +51,10 @@ export const NATIVE_DIFFERENCES: Record<
     tier: "engine",
     note: "`embla` is DOM-only. Paging is native, with the same parts and `CarouselApi`. `loop` rewinds to the first slide instead of wrapping.",
   },
+  "chat-input": {
+    tier: "touch",
+    note: "The on-screen keyboard's return key sends, and adds a line with `submitOn=\"mod-enter\"`, where only the send slot sends; Shift+Enter and Cmd+Enter have no equivalent. While a `/` menu is open, the return key picks its first row, a tap picks any, and a close button stands in for Escape. A streaming reply shows the stop square, where the website spins and shows it on hover. Escape and ↑ work only where a hardware keyboard reports them, so `recall` and `attach` are on `useChatInput()` for buttons of your own. There's no drag and drop or pasted files: `onAttach` and `useChatInputAttachments` take picked files (`ChatInputFile`: Expo's picker assets fit), and images preview from their URI. Attachments' remove buttons always show. Mentions are tinted inside the text field, skills in the syntax keyword's violet. There's no `voiceStream`: pass the level as `voiceLevel`. The voice glow is our own, three lobes in the colour roles along the card's bottom edge for each of voice-glow's palette names, rising with the level. `sticky` rides the keyboard for a composer pinned to the bottom of a screen, and needs `KeyboardProvider` from `react-native-keyboard-controller` at the app's root.",
+  },
   checkbox: SAME,
   collapsible: SAME,
   combobox: {
@@ -72,7 +76,7 @@ export const NATIVE_DIFFERENCES: Record<
   },
   density: {
     tier: "same",
-    note: '`DensityProvider` sets scoped variables, with no wrapper view. Phones default to spacious, and there a control\'s `size="sm"` is a step down, 36pt, and `size="lg"` a step up, 52pt, rather than compact and spacious. Tablets take their own step in place of spacious: 40pt controls with the same 15pt text, `sm` 34pt, `lg` 48pt. `FabricatorRoot` sets it from the window\'s width; a density picked on purpose stays.',
+    note: '`DensityProvider` sets scoped variables, with no wrapper view. Phones default to spacious, and there a control\'s `size="sm"` is a step down, 36pt, and `size="lg"` a step up, 52pt, rather than compact and spacious. Tablets take their own step in place of spacious: 40pt controls with the same 15pt text, `sm` 34pt, `lg` 48pt, and so does Default on a phone, where the website\'s pointer sizes would be too small for a finger. `FabricatorRoot` sets it from the window\'s width; compact stays as picked.',
   },
   drawer: {
     tier: "engine",
@@ -121,6 +125,10 @@ export const NATIVE_DIFFERENCES: Record<
     tier: "engine",
     note: "An inverted list that sticks to the bottom.",
   },
+  "model-picker": {
+    tier: "touch",
+    note: "The effort slider takes a tap or a drag along its rail, previewing each level it crosses and taking the one under the finger when it lifts; a screen reader steps it with increment and decrement in place of the arrow keys. Model rows are 44pt tall on phones. A provider's label scrolls with its models instead of staying pinned, and `ModelPicker` is a scroll view that stops at 512pt or 60% of the screen. `onPress` replaces `onClick`, and a selected row or tile reports itself selected in place of `aria-current`.",
+  },
   "navigation-menu": {
     tier: "touch",
     note: "A desktop pattern: each trigger opens its content in a popover, or a sheet on phones. A press lights a trigger; a drag scrolls the row.",
@@ -133,7 +141,7 @@ export const NATIVE_DIFFERENCES: Record<
   progress: SAME,
   questionnaire: {
     tier: "same",
-    note: "Key hints show from the `sm` breakpoint, since a phone has no keyboard.",
+    note: "Each choice's chip shows its letter or number on every screen size, as a label rather than a key to press. With `advanceOnSelect`, a tap on a single choice moves on. The website's arrow over the chip, a pointer cue, isn't drawn.",
   },
   "radio-group": SAME,
   resizable: {

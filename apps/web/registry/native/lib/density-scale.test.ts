@@ -42,6 +42,14 @@ describe("getDeviceDensity", () => {
   it("leaves a density someone picked on purpose", () => {
     expect(getDeviceDensity("compact", 1032)).toBeUndefined()
     expect(getDeviceDensity("default", 1032)).toBeUndefined()
+    expect(getDeviceDensity("compact", 390)).toBeUndefined()
+  })
+
+  it("sizes a phone's Default for a finger: the tablet's rung, not a pointer's", () => {
+    expect(getDeviceDensity("default", 390)).toBe("tablet")
+    expect(getDeviceDensity("default", 767)).toBe("tablet")
+    expect(TABLET_DENSITY.space[36]).toBeGreaterThan(36)
+    expect(TABLET_DENSITY.text[13]).toBeGreaterThan(13)
   })
 
   it("changes rung where the App Shell changes layout", () => {

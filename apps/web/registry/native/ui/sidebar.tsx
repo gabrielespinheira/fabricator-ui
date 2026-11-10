@@ -47,6 +47,7 @@ import {
   getRevealDragProgress,
   getRevealWidth,
   getToggleGlyphPanel,
+  REVEAL_RADIUS,
   shouldRevealStayOpen,
   TOGGLE_GLYPH,
   TOGGLE_GLYPH_SCALE,
@@ -152,6 +153,8 @@ type SidebarInternalContextProps = {
   /** Open is 1, closed is 0. The page and the revealed sidebar both follow it. */
   progress: SharedValue<number>
   revealWidth: number
+  /** The phone sheet's width: `widthMobile`, leaving the page's strip in view. */
+  sheetWidth: number
   /** Stays true until the page is back, so its corners and shadow leave last. */
   isAside: boolean
   setIsAside: React.Dispatch<React.SetStateAction<boolean>>
@@ -411,9 +414,10 @@ function SidebarProvider({
     ]
   )
 
-  const revealWidth = getRevealWidth(
+  const revealWidth = getRevealWidth(windowWidth)
+  const sheetWidth = Math.min(
     parseSidebarWidth(widthMobile, DEFAULT_WIDTH_MOBILE),
-    windowWidth
+    revealWidth
   )
   const internalValue = React.useMemo<SidebarInternalContextProps>(
     () => ({
@@ -427,6 +431,7 @@ function SidebarProvider({
       gapWidth,
       progress,
       revealWidth,
+      sheetWidth,
       isAside,
       setIsAside,
       settleReveal,
@@ -440,6 +445,7 @@ function SidebarProvider({
       registerGapWidth,
       revealWidth,
       settleReveal,
+      sheetWidth,
       unregisterCollapsible,
       variant,
     ]
@@ -477,12 +483,13 @@ function SidebarInner({
 }: React.ComponentProps<typeof View>) {
   const frame = React.use(SidebarFrameContext)
   const { isMobile } = useSidebar()
-  const control = parseNumber(useCSSVariable("--density-36"), 36)
-  // A finger's rows: as tall as a control on a phone, where a pointer's 38pt row
-  // is a miss away from the next. Everything lined up on a row reads this token.
+  const fingerRow = parseNumber(useCSSVariable("--density-32"), 32)
+  // A finger's rows on a phone: 40pt at its density, between a pointer's 38pt
+  // row and a 44pt control, so a list stays compact and each row a clear target.
+  // Everything lined up on a row reads this token.
   const variables = React.useMemo(
-    () => (isMobile ? { ...frame, "--density-30": control } : frame),
-    [control, frame, isMobile]
+    () => (isMobile ? { ...frame, "--density-30": fingerRow } : frame),
+    [fingerRow, frame, isMobile]
   )
   const inner = (
     <TextStyle className="cn-sidebar-text">
@@ -709,7 +716,7 @@ function SidebarSheet({
       side={side}
       className={cn("cn-sidebar-sheet", className)}
       style={[
-        { width: internal.revealWidth, maxWidth: windowWidth },
+        { width: internal.sheetWidth, maxWidth: windowWidth },
         // An undefined backgroundColor would still override the class's.
         typeof frame?.["--sidebar"] === "string" && {
           backgroundColor: frame["--sidebar"],
@@ -1192,12 +1199,7 @@ function SidebarPage({
   const canSwipeOpen =
     isMobile && collapsible !== null && collapsible !== "none" && !openMobile
   const openGesture = useRevealOpenGesture(canSwipeOpen, isReveal)
-  const [asideRadiusToken, cardRadiusToken] = useCSSVariable([
-    "--radius-2xl",
-    "--radius-xl",
-  ])
-  const asideRadius = parseNumber(asideRadiusToken, 16)
-  const cardRadius = parseNumber(cardRadiusToken, 11)
+  const cardRadius = parseNumber(useCSSVariable("--radius-xl"), 11)
   const restRadius = !isMobile && variant === "inset" ? cardRadius : 0
   const revealStyle = useAnimatedStyle(() => {
     const amount = isReveal ? progress.value : 0
@@ -1211,7 +1213,7 @@ function SidebarPage({
     // too: turning a phone sideways would leave them square.
     return {
       transform: [{ translateX }, { scale }],
-      borderRadius: isReveal ? asideRadius * amount : restRadius,
+      borderRadius: isReveal ? REVEAL_RADIUS * amount : restRadius,
     }
   })
   const isCard = variant === "inset"

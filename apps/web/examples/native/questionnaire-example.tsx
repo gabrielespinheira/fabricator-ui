@@ -1,7 +1,15 @@
 import * as React from "react"
 import { Example, ExampleWrapper } from "@/examples/native/example"
+import { View } from "react-native"
 
 import { Button } from "@/registry/native/ui/button"
+import {
+  ChatInput,
+  ChatInputActions,
+  ChatInputFooter,
+  ChatInputSubmit,
+  ChatInputTextarea,
+} from "@/registry/native/ui/chat-input"
 import {
   Questionnaire,
   QuestionnaireActions,
@@ -10,6 +18,7 @@ import {
   QuestionnaireChoices,
   QuestionnaireDescription,
   QuestionnaireError,
+  QuestionnaireHeader,
   QuestionnaireInput,
   QuestionnaireItem,
   QuestionnaireNext,
@@ -44,6 +53,173 @@ const PLAN_ITEMS = [
   { name: "timing", required: true },
 ]
 
+type Question = {
+  name: string
+  title: string
+  multiple?: boolean
+  required: boolean
+  choices: { value: string; label: string; description?: string }[]
+}
+
+// The website's "In a chat" questions.
+const CHAT_QUESTIONS: Question[] = [
+  {
+    name: "scope",
+    title: "Where should the agent start?",
+    required: true,
+    choices: [
+      {
+        value: "api",
+        label: "The API",
+        description: "Routes and validation first",
+      },
+      {
+        value: "interface",
+        label: "The interface",
+        description: "Screens and their states first",
+      },
+      {
+        value: "slices",
+        label: "Vertical slices",
+        description: "One feature end to end at a time",
+      },
+    ],
+  },
+  {
+    name: "tests",
+    title: "How should it test the work?",
+    required: true,
+    choices: [
+      { value: "unit", label: "Unit tests" },
+      { value: "e2e", label: "End-to-end tests" },
+      { value: "none", label: "No tests for now" },
+    ],
+  },
+  {
+    name: "checks",
+    title: "What should it check before it's done?",
+    multiple: true,
+    required: false,
+    choices: [
+      { value: "types", label: "Types" },
+      { value: "lint", label: "Lint" },
+      { value: "a11y", label: "Accessibility" },
+    ],
+  },
+]
+
+function getLabel(name: string, value: string) {
+  const question = CHAT_QUESTIONS.find((entry) => entry.name === name)
+  return (
+    question?.choices.find((choice) => choice.value === value)?.label ?? value
+  )
+}
+
+/**
+ * The agent's questions in a chat input's place: a single pick moves on, Stop
+ * gives the input back, and so does the last answer.
+ */
+function QuestionnaireChat() {
+  const [isAsking, setAsking] = React.useState(true)
+  const [reply, setReply] = React.useState(
+    "Before I start, a few questions about the work."
+  )
+  const finish = (message: string) => {
+    setReply(message)
+    setAsking(false)
+  }
+  return (
+    <View className="w-full gap-3">
+      <Text className="px-1 text-sm text-muted-foreground">{reply}</Text>
+      {isAsking ? (
+        <Questionnaire
+          items={CHAT_QUESTIONS}
+          shortcuts="numbers"
+          advanceOnSelect
+          accessibilityLabel="Questions from the agent"
+          className="rounded-2xl bg-surface-3 p-4 shadow-surface-3"
+          onSubmit={(answers) => {
+            const scope = answers.scope
+            const tests = answers.tests
+            const checks = answers.checks
+            finish(
+              [
+                typeof scope === "string" &&
+                  `Starting with ${getLabel("scope", scope).toLowerCase()}`,
+                typeof tests === "string" &&
+                  getLabel("tests", tests).toLowerCase(),
+                Array.isArray(checks) &&
+                  checks.length > 0 &&
+                  `checking ${checks.map((value) => getLabel("checks", value)).join(", ")}`,
+              ]
+                .filter(Boolean)
+                .join(", ") + "."
+            )
+          }}
+        >
+          <QuestionnaireHeader>
+            <QuestionnaireProgress />
+            <Button
+              variant="ghost"
+              size="sm"
+              onPress={() => finish("Stopped. Ask me anything.")}
+            >
+              Stop
+            </Button>
+          </QuestionnaireHeader>
+          {CHAT_QUESTIONS.map((question) => (
+            <QuestionnaireItem
+              key={question.name}
+              name={question.name}
+              multiple={question.multiple}
+              required={question.required}
+            >
+              <QuestionnaireTitle>{question.title}</QuestionnaireTitle>
+              <QuestionnaireChoices>
+                {question.choices.map((choice) => (
+                  <QuestionnaireChoice key={choice.value} value={choice.value}>
+                    <Text>{choice.label}</Text>
+                    {choice.description ? (
+                      <QuestionnaireChoiceDescription>
+                        {choice.description}
+                      </QuestionnaireChoiceDescription>
+                    ) : null}
+                  </QuestionnaireChoice>
+                ))}
+              </QuestionnaireChoices>
+            </QuestionnaireItem>
+          ))}
+          <QuestionnaireActions>
+            <QuestionnairePrevious>Back</QuestionnairePrevious>
+            <QuestionnaireSkip />
+            <QuestionnaireNext>Continue</QuestionnaireNext>
+            <QuestionnaireSubmit>Send answers</QuestionnaireSubmit>
+          </QuestionnaireActions>
+        </Questionnaire>
+      ) : (
+        <ChatInput onSubmit={() => setReply("On it.")}>
+          <ChatInputTextarea placeholder="Reply to the agent…" />
+          <ChatInputFooter>
+            <ChatInputActions>
+              <Button
+                variant="ghost"
+                size="sm"
+                onPress={() => {
+                  setReply("A few more questions before the next step.")
+                  setAsking(true)
+                }}
+              >
+                Ask again
+              </Button>
+              <ChatInputSubmit />
+            </ChatInputActions>
+          </ChatInputFooter>
+        </ChatInput>
+      )}
+    </View>
+  )
+}
+
 function Answers({ answers }: { answers: QuestionnaireAnswers | null }) {
   if (!answers) return null
   return (
@@ -75,6 +251,12 @@ function QuestionnaireExample() {
   return (
     <ExampleWrapper>
       <Example
+        title="In a chat, moving on as you pick"
+        className="items-stretch"
+      >
+        <QuestionnaireChat />
+      </Example>
+      <Example
         title="Required, multiple, skip and free text"
         className="items-stretch"
       >
@@ -94,16 +276,22 @@ function QuestionnaireExample() {
             </QuestionnaireDescription>
             <QuestionnaireChoices>
               <QuestionnaireChoice value="tools">
-                <Text className="font-medium">Tool call timeline</Text>
+                <Text>Tool call timeline</Text>
                 <QuestionnaireChoiceDescription>
                   Show what the agent ran and what came back.
                 </QuestionnaireChoiceDescription>
               </QuestionnaireChoice>
               <QuestionnaireChoice value="approvals">
-                Approval checkpoints
+                <Text>Approval checkpoints</Text>
+                <QuestionnaireChoiceDescription>
+                  Ask before sensitive or destructive actions.
+                </QuestionnaireChoiceDescription>
               </QuestionnaireChoice>
               <QuestionnaireChoice value="handoffs">
-                Sub-agent handoffs
+                <Text>Sub-agent handoffs</Text>
+                <QuestionnaireChoiceDescription>
+                  Make delegated work and results easier to follow.
+                </QuestionnaireChoiceDescription>
               </QuestionnaireChoice>
               <QuestionnaireInput
                 aria-label="Another agent feature"

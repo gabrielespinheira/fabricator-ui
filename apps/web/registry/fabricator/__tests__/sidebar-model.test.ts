@@ -6,7 +6,8 @@ import {
   getRevealDragProgress,
   getRevealWidth,
   getToggleGlyphPanel,
-  REVEAL_MIN_PAGE,
+  REVEAL_PAGE,
+  REVEAL_RADIUS,
   REVEAL_SCALE,
   shouldRevealStayOpen,
   TOGGLE_GLYPH,
@@ -34,12 +35,14 @@ describe("getToggleGlyphPanel", () => {
 })
 
 describe("getRevealWidth", () => {
-  it("takes the sidebar's width when the screen has room", () => {
-    expect(getRevealWidth(288, 430)).toBe(288)
+  it("gives the sidebar the screen but a strip of the page", () => {
+    expect(getRevealWidth(440)).toBe(440 - REVEAL_PAGE)
+    expect(getRevealWidth(320)).toBe(320 - REVEAL_PAGE)
   })
 
-  it("always leaves some of the page in view", () => {
-    expect(getRevealWidth(288, 320)).toBe(320 - REVEAL_MIN_PAGE)
+  it("leaves a thumb's width of the page in view, to tap or drag it back", () => {
+    expect(REVEAL_PAGE).toBeGreaterThanOrEqual(44)
+    expect(REVEAL_PAGE).toBeLessThan(96)
   })
 })
 
@@ -87,10 +90,13 @@ describe("the Sidebar's style", () => {
     )
   })
 
-  it("uses the same scale and page margin", () => {
+  it("uses the same scale, page strip and corners", () => {
     expect(styleMap).toContain(`[--sidebar-reveal-scale:${REVEAL_SCALE}]`)
     expect(styleMap).toContain(
-      `[--sidebar-reveal-width:min(var(--sidebar-width-mobile),calc(100%-${REVEAL_MIN_PAGE}px))]`
+      `[--sidebar-reveal-width:calc(100%-${REVEAL_PAGE}px)]`
+    )
+    expect(styleMap).toContain(
+      `group-data-[reveal=open]/sidebar-wrapper:rounded-[${REVEAL_RADIUS}px]`
     )
   })
 })

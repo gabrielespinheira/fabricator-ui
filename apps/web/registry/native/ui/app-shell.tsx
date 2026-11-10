@@ -1508,6 +1508,9 @@ function AppShellContent({
       data-content-size={size}
       scrollEventThrottle={16}
       className={cn("cn-app-shell-content flex-1", className)}
+      // iOS makes room for the keyboard and scrolls a focused field into view.
+      automaticallyAdjustKeyboardInsets
+      keyboardShouldPersistTaps="handled"
       style={[{ marginTop: -scroll.phoneHeaderHeight }, style]}
       scrollIndicatorInsets={{
         top: scroll.phoneHeaderHeight,

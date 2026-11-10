@@ -43,15 +43,15 @@ import { renderSlot, type RenderProps } from "@/registry/native/lib/render"
 import { Button } from "@/registry/native/ui/button"
 import { renderTextChildren, Text, TextStyle } from "@/registry/native/ui/text"
 
-// The website's questionnaire reuses the library's controls, and so does this:
-// a choice's mark takes the Checkbox or Radio Group item's placeholders, the
-// free-text answer the Input's, and the shortcut the Kbd's. A web form hands its
-// answers to `onSubmit` as form data; here they come as an object.
+// The website's questionnaire, drawn after Relay's agent questions so it can
+// take a chat input's place: a choice is a row with its label and a chip at the
+// end, the shortcut (A, B…) for a single choice and a square that fills for a
+// multiple one, and a chosen row holds the active fill. The free-text answer
+// takes the Input's look. A web form hands its answers to `onSubmit` as form
+// data; here they come as an object.
 
-// The row's press gives the mark the control's own: the website's `scale-90`.
+// The row's press gives the chip the control's own: the website's `scale-90`.
 const MARK_PRESS_GIVE = 0.1
-// The check is this much smaller than the icon size, as in Checkbox.
-const CHECK_INSET = 4
 
 type QuestionnaireAnswers = Record<string, string | string[] | undefined>
 
@@ -66,6 +66,12 @@ type QuestionnaireContextValue = {
   hasNavigated: boolean
   progress: QuestionnaireProgressState
   shortcuts: QuestionnaireShortcutMode | undefined
+  advanceOnSelect: boolean
+  /** Answers the item and moves to the next question, or submits the last. */
+  answerAndAdvance: (
+    name: string,
+    change: (answer: QuestionnaireAnswer) => QuestionnaireAnswer
+  ) => void
   goNext: () => void
   goPrevious: () => void
   register: (item: QuestionnaireItemDefinition) => void
@@ -120,19 +126,48 @@ function useQuestionnaireItem() {
   return context
 }
 
+/**
+ * Whether picking a choice moves to the next question (or submits the last): a
+ * single choice picked with a tap or by its shortcut. A multiple choice takes
+ * several picks.
+ */
+function shouldAdvanceQuestionnaire({
+  type,
+  isPointer,
+  key,
+  shortcuts,
+}: {
+  type: "checkbox" | "radio"
+  isPointer: boolean
+  key: string | null
+  shortcuts: QuestionnaireShortcutMode | null
+}) {
+  if (type !== "radio") return false
+  if (isPointer) return true
+  if (!key || key.length !== 1 || !shortcuts) return false
+  return shortcuts === "numbers" ? /^[1-9]$/.test(key) : /^[a-z]$/i.test(key)
+}
+
+/**
+ * The chip at the row's end: the shortcut, or for a multiple choice a square
+ * that fills with the foreground and shows a check once chosen.
+ */
 function QuestionnaireChoiceIndicator({
   checked,
   invalid,
   type,
+  shortcut,
 }: {
   checked: boolean
   invalid: boolean
   type: "checkbox" | "radio"
+  shortcut: string | undefined
 }) {
   const state = checked ? "checked" : "unchecked"
+  const isBoxed = type === "checkbox"
+  const isFilled = isBoxed && checked
 
-  // The marks stay mounted, and come and go as the Checkbox's and Radio Group's
-  // do: in on the move timing, out on the feedback exit.
+  // The check comes in on the move timing and leaves on the feedback exit.
   const enter = useMotion("move")
   const exit = useMotion("feedback")
   const progress = useSharedValue(checked ? 1 : 0)
@@ -142,43 +177,11 @@ function QuestionnaireChoiceIndicator({
       easing: checked ? enter.enterEasing : exit.exitEasing,
     })
   }, [checked, enter, exit, progress])
-  const dotStyle = useAnimatedStyle(() => ({
-    opacity: progress.value,
-    transform: [{ scale: progress.value }],
-  }))
   const checkStyle = useAnimatedStyle(() => ({
     opacity: progress.value,
     transform: [{ scale: 0.6 + 0.4 * progress.value }],
   }))
-  const wipeStyle = useAnimatedStyle(() => ({
-    width: `${progress.value * 100}%`,
-  }))
-  const checkSize =
-    parseNumber(useCSSVariable("--density-icon-16"), 16) - CHECK_INSET
-
-  if (type === "radio") {
-    return (
-      <View
-        aria-hidden
-        data-slot="questionnaire-choice-indicator"
-        data-type={type}
-        data-state={state}
-        data-invalid={invalid}
-        className="cn-radio-group-item cn-questionnaire-choice-indicator relative shrink-0 items-center justify-center"
-      >
-        <Animated.View
-          data-state={state}
-          className="cn-radio-group-indicator items-center justify-center"
-          style={dotStyle}
-        >
-          <View
-            data-slot="questionnaire-choice-indicator-dot"
-            className="cn-radio-group-indicator-icon"
-          />
-        </Animated.View>
-      </View>
-    )
-  }
+  const checkSize = parseNumber(useCSSVariable("--density-icon-14"), 14)
 
   return (
     <View
@@ -186,29 +189,42 @@ function QuestionnaireChoiceIndicator({
       data-slot="questionnaire-choice-indicator"
       data-type={type}
       data-state={state}
+      data-boxed={isBoxed}
+      data-filled={isFilled}
       data-invalid={invalid}
-      className="cn-checkbox cn-questionnaire-choice-indicator relative shrink-0 items-center justify-center"
+      className="cn-questionnaire-choice-indicator relative shrink-0 items-center justify-center"
     >
-      <TextStyle className="cn-checkbox-indicator-text">
-        <Animated.View
-          data-slot="questionnaire-choice-indicator-check"
-          className="cn-checkbox-indicator items-center justify-center"
-          style={checkStyle}
+      {shortcut ? (
+        <View
+          data-slot="questionnaire-choice-shortcut"
+          className="cn-questionnaire-choice-shortcut cn-questionnaire-shortcut items-center justify-center"
         >
-          <Animated.View
-            className="h-full self-start overflow-hidden"
-            style={wipeStyle}
+          <Text
+            data-checked={checked}
+            data-filled={isFilled}
+            className="cn-questionnaire-shortcut-text"
           >
-            <CheckIcon size={checkSize} strokeWidth={3} />
+            {shortcut}
+          </Text>
+        </View>
+      ) : isBoxed ? (
+        <TextStyle className="cn-questionnaire-choice-check-text">
+          <Animated.View
+            data-slot="questionnaire-choice-indicator-check"
+            className="cn-questionnaire-choice-check items-center justify-center"
+            style={checkStyle}
+          >
+            <CheckIcon size={checkSize} strokeWidth={2.5} />
           </Animated.View>
-        </Animated.View>
-      </TextStyle>
+        </TextStyle>
+      ) : null}
     </View>
   )
 }
 
 function Questionnaire({
   className,
+  advanceOnSelect = false,
   defaultItem,
   item,
   items,
@@ -226,6 +242,8 @@ function Questionnaire({
   onReset?: () => void
   onSubmit?: (answers: QuestionnaireAnswers) => void
   shortcuts?: QuestionnaireShortcutMode
+  /** Picking a single choice moves to the next question, or submits the last. */
+  advanceOnSelect?: boolean
 }) {
   const [registered, setRegistered] = React.useState<
     readonly QuestionnaireItemDefinition[]
@@ -339,6 +357,13 @@ function Questionnaire({
     hasNavigated,
     progress,
     shortcuts,
+    advanceOnSelect,
+    answerAndAdvance: (name, change) => {
+      const next = { ...answers, [name]: change(getAnswer(answers, name)) }
+      setAnswers(next)
+      if (progress.last) submit(next)
+      else goTo(enabled[progress.index + 1]?.name)
+    },
     register,
     seed,
     unregister,
@@ -373,12 +398,33 @@ function Questionnaire({
     <QuestionnaireContext value={context}>
       <View
         data-slot="questionnaire"
+        data-advance-on-select={advanceOnSelect}
         className={cn("cn-questionnaire w-full flex-col", className)}
         {...props}
       >
         {renderTextChildren(children)}
       </View>
     </QuestionnaireContext>
+  )
+}
+
+/** The row above the questions: the progress at the start, actions such as Stop at the end. */
+function QuestionnaireHeader({
+  className,
+  children,
+  ...props
+}: React.ComponentProps<typeof View>) {
+  return (
+    <View
+      data-slot="questionnaire-header"
+      className={cn(
+        "cn-questionnaire-header min-w-0 flex-row items-center justify-between",
+        className
+      )}
+      {...props}
+    >
+      {renderTextChildren(children)}
+    </View>
   )
 }
 
@@ -624,7 +670,7 @@ function QuestionnaireChoice({
       aria-invalid={item.isInvalid || undefined}
       disabled={isDisabled}
       className={cn(
-        "cn-questionnaire-choice relative min-h-11 flex-row items-start disabled:opacity-50",
+        "cn-questionnaire-choice relative flex-row items-center disabled:opacity-50",
         className
       )}
       onPressIn={(event) => {
@@ -640,13 +686,32 @@ function QuestionnaireChoice({
         if (multiple) feedback(next ? "check" : "uncheck")
         else if (!isChecked) feedback("pick")
         onChange?.(next)
-        if (!isControlled || (isSkipped && checked === next)) {
-          update(name, (answer) => applyAnswer(answer, value, next, multiple))
+        const change = (answer: QuestionnaireAnswer) =>
+          applyAnswer(answer, value, next, multiple)
+        const isAdvancing =
+          root.advanceOnSelect &&
+          shouldAdvanceQuestionnaire({
+            type: multiple ? "checkbox" : "radio",
+            isPointer: true,
+            key: null,
+            shortcuts: root.shortcuts ?? null,
+          })
+        if (isAdvancing) root.answerAndAdvance(name, change)
+        else if (!isControlled || (isSkipped && checked === next)) {
+          update(name, change)
         }
       }}
       {...props}
     >
       <PressWash press={press} className="cn-questionnaire-choice-wash" />
+      <TextStyle className="cn-questionnaire-choice-text">
+        <View
+          data-slot="questionnaire-choice-label"
+          className="cn-questionnaire-choice-label cn-questionnaire-choice-content flex-col"
+        >
+          {renderTextChildren(children)}
+        </View>
+      </TextStyle>
       <Animated.View
         data-slot="questionnaire-choice-input"
         className="cn-questionnaire-choice-input"
@@ -656,28 +721,9 @@ function QuestionnaireChoice({
           checked={isChecked}
           invalid={item.isInvalid}
           type={multiple ? "checkbox" : "radio"}
+          shortcut={shortcut}
         />
       </Animated.View>
-      <View
-        data-slot="questionnaire-choice-label"
-        className="cn-questionnaire-choice-label cn-questionnaire-choice-content flex-col"
-      >
-        {renderTextChildren(children)}
-      </View>
-      {shortcut ? (
-        <View
-          data-slot="questionnaire-choice-shortcut"
-          aria-hidden
-          className="cn-kbd cn-questionnaire-choice-shortcut cn-questionnaire-shortcut items-center justify-center"
-        >
-          <Text
-            data-checked={isChecked}
-            className="cn-kbd-text cn-questionnaire-shortcut-text"
-          >
-            {shortcut}
-          </Text>
-        </View>
-      ) : null}
     </Pressable>
   )
 }
@@ -921,6 +967,7 @@ function QuestionnaireSubmit({
 export {
   Questionnaire,
   QuestionnaireActions,
+  QuestionnaireHeader,
   QuestionnaireChoice,
   QuestionnaireChoiceDescription,
   QuestionnaireChoices,
@@ -934,6 +981,7 @@ export {
   QuestionnaireSkip,
   QuestionnaireSubmit,
   QuestionnaireTitle,
+  shouldAdvanceQuestionnaire,
   useQuestionnaire,
   type QuestionnaireAnswers,
 }

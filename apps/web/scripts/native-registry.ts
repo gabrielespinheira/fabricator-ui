@@ -29,6 +29,7 @@ export const SHARED_TOKEN_FILES = Object.keys(TOKEN_MODULES).map(getTokenFile)
 
 const SHARED_LIB_FILES = [
   "app-shell-model",
+  "chat-input-model",
   "spinner-model",
   "date-picker-model",
   "month-input-model",
@@ -47,6 +48,7 @@ const SHARED_LIB_FILES = [
   "markdown-parse",
   "markdown-serialize",
   "markdown-tree",
+  "model-picker-model",
 ] as const
 
 const SHARED_LIB_NAMES: ReadonlySet<string> = new Set(SHARED_LIB_FILES)

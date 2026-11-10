@@ -37,8 +37,17 @@ export function getToggleGlyphPanel(progress: number) {
 /** How small the page gets while the sidebar is open. */
 export const REVEAL_SCALE = 0.88
 
-/** How much of the page stays in view on the narrowest phones, in px. */
-export const REVEAL_MIN_PAGE = 56
+/**
+ * How much of the page stays in view beside the revealed sidebar, in px: enough
+ * to tap or drag it back, so the sidebar gets the rest of the screen.
+ */
+export const REVEAL_PAGE = 72
+
+/**
+ * The page's corners while it's aside, in px: a screen's, as iOS draws a card of
+ * one, so it reads as the app moved aside rather than a panel.
+ */
+export const REVEAL_RADIUS = 48
 
 /** A flick faster than this decides the drag by itself, in px per ms. */
 const FLICK_VELOCITY = 0.5
@@ -49,9 +58,9 @@ const FLICK_WINDOW = 100
 /** How much of the open distance a drag has to keep to stay open. */
 const STAY_OPEN_PROGRESS = 0.6
 
-/** How far the page moves: the sidebar's width, leaving some page in view. */
-export function getRevealWidth(sidebarWidth: number, screenWidth: number) {
-  return Math.min(sidebarWidth, screenWidth - REVEAL_MIN_PAGE)
+/** How far the page moves, and how wide the sidebar is: the screen but a strip. */
+export function getRevealWidth(screenWidth: number) {
+  return screenWidth - REVEAL_PAGE
 }
 
 /** Open is 1, closed is 0. `deltaX` is negative towards closed. */
