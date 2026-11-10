@@ -1,10 +1,10 @@
-// Opens every component demo and block in the example on an iPhone and an iPad
+// Opens every component demo in the example on an iPhone and an iPad
 // simulator, and fails on what they log: errors the app sees (console errors,
 // uncaught errors, render errors) and React Native's own errors in the
 // device's native log (a native view that isn't registered). Warnings are
 // listed, and fail the check with --strict.
 //
-//   bun run mobile:check [--device <name or udid>]... [--scope components|blocks]
+//   bun run mobile:check [--device <name or udid>]... [--scope all|components]
 //                        [--settle <ms>] [--strict]
 //
 // The app must be built on each simulator first (bun run mobile, bun run
@@ -42,6 +42,12 @@ const { values: options } = parseArgs({
     strict: { type: "boolean", default: false },
   },
 })
+
+if (options.scope !== "all" && options.scope !== "components") {
+  throw new Error(
+    "The mobile example checks component demos only. Use --scope components or omit --scope."
+  )
+}
 
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 

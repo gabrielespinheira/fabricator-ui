@@ -353,6 +353,7 @@ function AppNav({
     [preferences, groups, applied, updatePreferences]
   )
 
+  const hasPinnedIcons = hasIconColumn(pinned)
   const contextValue: AppNavContextValue = {
     groups,
     applied,
@@ -394,7 +395,7 @@ function AppNav({
                       count={pinned.length}
                       depth={0}
                       reorderable={false}
-                      hasIconColumn={hasIconColumn(pinned)}
+                      hasIconColumn={hasPinnedIcons}
                       idPrefix={`${PINNED_GROUP}:`}
                     />
                   ))}
@@ -456,6 +457,7 @@ function renderGroupActions(actions: AppNavAction[]) {
 }
 
 function AppNavGroupSection({ group }: { group: AppNavGroup }) {
+  const hasIcons = hasIconColumn(group.items)
   const { preferences, updatePreferences } = useAppNav()
   const isOpen = preferences.open[group.id] ?? group.defaultOpen ?? true
 
@@ -484,7 +486,7 @@ function AppNavGroupSection({ group }: { group: AppNavGroup }) {
               count={group.items.length}
               depth={0}
               reorderable={group.reorderable ?? false}
-              hasIconColumn={hasIconColumn(group.items)}
+              hasIconColumn={hasIcons}
             />
           ))}
         </SidebarMenu>
@@ -740,6 +742,7 @@ function AppNavRow({
     canChangeGroup: isTopLevel,
   })
   const children = item.children ?? []
+  const hasChildIcons = hasIconColumn(children)
   const hasChildren = children.length > 0
   const isCurrent = item.id === activeId
   const holdsActive = !isCurrent && containsNavItem(item, activeId)
@@ -935,7 +938,7 @@ function AppNavRow({
               count={children.length}
               depth={depth + 1}
               reorderable={reorderable}
-              hasIconColumn={hasIconColumn(children)}
+              hasIconColumn={hasChildIcons}
               idPrefix={idPrefix}
             />
           ))}

@@ -1,14 +1,12 @@
 // The example's navigation: the desktop example's component explorer
 // (lib/component-explorer), with the library's icons. The app adds what only it
-// has: the searchable list a phone browses with, and the blocks.
+// has: its native Icons screen.
 import { NATIVE_EXAMPLES } from "@/examples/native/__index__"
 import {
   BoxIcon,
   ChartColumnIcon,
   HomeIcon,
   LayersIcon,
-  LayoutTemplateIcon,
-  LibraryIcon,
   PanelLeftIcon,
   SparklesIcon,
   TextCursorInputIcon,
@@ -22,11 +20,7 @@ import type {
   AppNavItem,
 } from "@/registry/native/ui/app-nav"
 
-import {
-  BLOCKS_HREF,
-  COMPONENTS_HREF,
-  getExplorerComponents,
-} from "./library/library-model"
+import { getExplorerComponents } from "./components/component-model"
 
 export const WORKSPACES = [
   { id: "acme", name: "Acme Inc", description: "Enterprise" },
@@ -48,10 +42,10 @@ const EXPLORER_ICONS: {
   groups: {
     Basics: BoxIcon,
     Forms: TextCursorInputIcon,
-    "Overlays & Menus": LayersIcon,
-    "Navigation & Layout": PanelLeftIcon,
-    "Data & Feedback": ChartColumnIcon,
-    "AI & Chat": SparklesIcon,
+    Overlays: LayersIcon,
+    Structure: PanelLeftIcon,
+    Content: ChartColumnIcon,
+    Chat: SparklesIcon,
   },
 }
 
@@ -61,20 +55,6 @@ const APP_PAGES: AppNavItem[] = [
     label: "Icons",
     href: "/icons",
     icon: SparklesIcon,
-    mobile: "tab",
-  },
-  {
-    id: "library",
-    label: "Library",
-    href: COMPONENTS_HREF,
-    icon: LibraryIcon,
-    mobile: "tab",
-  },
-  {
-    id: "blocks",
-    label: "Blocks",
-    href: BLOCKS_HREF,
-    icon: LayoutTemplateIcon,
     mobile: "tab",
   },
 ]

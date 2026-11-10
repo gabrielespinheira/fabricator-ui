@@ -1,4 +1,4 @@
-import { existsSync, promises as fs } from "fs"
+import { promises as fs } from "fs"
 import path from "path"
 import { pathToFileURL } from "url"
 import { registryItemSchema, type RegistryItem } from "shadcn/schema"
@@ -137,32 +137,6 @@ async function buildExamplesIndex() {
       return `  ${JSON.stringify(name)}: () => require("@/examples/native/${file.replace(/\.tsx$/, "")}").${match[1]},`
     })
   )
-  const blocksDir = path.join(ROOT, "registry/native/blocks")
-  const blockFiles = existsSync(blocksDir)
-    ? (await fs.readdir(blocksDir))
-        .filter((file) => file.endsWith(".tsx"))
-        // A block only compiles once it's declared, and the index points at the compiled copy.
-        .filter((file) =>
-          (nativeItems as RegistryItem[]).some(
-            (item) => item.name === file.replace(/\.tsx$/, "")
-          )
-        )
-        .sort()
-    : []
-  const blocks = await Promise.all(
-    blockFiles.map(async (file) => {
-      const name = file.replace(/\.tsx$/, "")
-      const component = name
-        .split("-")
-        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-        .join("")
-      const source = await fs.readFile(path.join(blocksDir, file), "utf8")
-      if (!new RegExp(`function ${component}\\b`).test(source)) {
-        throw new Error(`${file} has no function ${component}.`)
-      }
-      return `  ${JSON.stringify(name)}: () => require("@/registry/native/blocks/${name}").${component},`
-    })
-  )
   await writeIfChanged(
     path.join(dir, "__index__.ts"),
     [
@@ -171,10 +145,6 @@ async function buildExamplesIndex() {
       "",
       "export const NATIVE_EXAMPLES: Record<string, () => React.ComponentType> = {",
       ...examples,
-      "}",
-      "",
-      "export const NATIVE_BLOCKS: Record<string, () => React.ComponentType> = {",
-      ...blocks,
       "}",
       "",
     ].join("\n")

@@ -5,6 +5,8 @@ import { countChangedOptions } from "../../app-shell/_lib/options"
 import {
   DEFAULT_EXPLORER_OPTIONS,
   explorerParsers,
+  getDocsExplorerOptions,
+  getHiddenDocsExplorerOptions,
   getHiddenExplorerOptions,
 } from "./explorer-options"
 
@@ -12,6 +14,24 @@ const load = (query: string) =>
   createLoader(explorerParsers)(new URLSearchParams(query))
 
 describe("explorer options", () => {
+  it("keeps documentation free of tabs and panels, including old URLs", () => {
+    const options = getDocsExplorerOptions(
+      load("tabs=main&panel=true&contentSize=lg")
+    )
+    expect(options).toMatchObject({
+      tabs: "none",
+      panel: false,
+      contentSize: "lg",
+    })
+    const hidden = getHiddenDocsExplorerOptions()
+    expect(hidden.has("tabs")).toBe(true)
+    expect(hidden.has("panel")).toBe(true)
+    expect(hidden.has("panelMobile")).toBe(true)
+    expect(DEFAULT_EXPLORER_OPTIONS).toMatchObject({
+      tabs: "main",
+      panel: true,
+    })
+  })
   it("starts from the window the explorer has always been", () => {
     expect(DEFAULT_EXPLORER_OPTIONS).toMatchObject({
       variant: "inset",

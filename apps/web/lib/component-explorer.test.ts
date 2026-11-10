@@ -6,6 +6,7 @@ import {
   getExplorerInstallNames,
   getExplorerNavGroups,
   getExplorerTabId,
+  getGroupNavId,
   getNewTabId,
   isNewTab,
 } from "./component-explorer"
@@ -13,7 +14,6 @@ import {
 describe("getExplorerTabId", () => {
   it("reads the tab a link opens", () => {
     expect(getExplorerTabId("/")).toBe("overview")
-    expect(getExplorerTabId("/components")).toBe("library")
     expect(getExplorerTabId("/icons")).toBe("icons")
     expect(getExplorerTabId(`${COMPONENT_PATH}button`)).toBe("button")
   })
@@ -21,6 +21,7 @@ describe("getExplorerTabId", () => {
   it("has no tab for anything else", () => {
     expect(getExplorerTabId(undefined)).toBeNull()
     expect(getExplorerTabId("/docs")).toBeNull()
+    expect(getExplorerTabId("/components")).toBeNull()
   })
 })
 
@@ -73,15 +74,15 @@ describe("composed example installation", () => {
 describe("getExplorerNavGroups", () => {
   const icons = {
     overview: "home",
-    groups: { Basics: "box", "Overlays & Menus": "layers" },
+    groups: { Basics: "box", Overlays: "layers" },
   }
 
   it("lists an overview, then one row per component group holding its components", () => {
     const groups = getExplorerNavGroups(
       [
-        { slug: "tooltip", title: "Tooltip", group: "Overlays & Menus" },
+        { slug: "tooltip", title: "Tooltip", group: "Overlays" },
         { slug: "button", title: "Button", group: "Basics" },
-        { slug: "dialog", title: "Dialog", group: "Overlays & Menus" },
+        { slug: "dialog", title: "Dialog", group: "Overlays" },
       ],
       icons
     )
@@ -107,12 +108,7 @@ describe("getExplorerNavGroups", () => {
       ])
     ).toEqual([
       ["Basics", "box", 1, ["/components/button"]],
-      [
-        "Overlays & Menus",
-        "layers",
-        2,
-        ["/components/dialog", "/components/tooltip"],
-      ],
+      ["Overlays", "layers", 2, ["/components/dialog", "/components/tooltip"]],
     ])
   })
 
@@ -142,5 +138,18 @@ describe("getExplorerNavGroups", () => {
     expect(
       getExplorerNavGroups([], icons, { reorderable: true })[1]?.reorderable
     ).toBe(true)
+  })
+})
+
+describe("getGroupNavId", () => {
+  it.each([
+    ["Basics", "group-basics"],
+    ["Forms", "group-forms"],
+    ["Overlays", "group-overlays-menus"],
+    ["Structure", "group-navigation-layout"],
+    ["Content", "group-data-feedback"],
+    ["Chat", "group-ai-chat"],
+  ] as const)("preserves the saved navigation identity of %s", (group, id) => {
+    expect(getGroupNavId(group)).toBe(id)
   })
 })

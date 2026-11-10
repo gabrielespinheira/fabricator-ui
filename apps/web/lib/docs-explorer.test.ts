@@ -7,6 +7,7 @@ describe("docs explorer", () => {
     const groups = getDocsExplorerGroups(
       [
         { url: "/docs", title: "Introduction" },
+        { url: "/docs/components", title: "Components" },
         { url: "/docs/installation", title: "Installation" },
         { url: "/docs/javascript", title: "JavaScript" },
         { url: "/docs/components/base/button", title: "Button" },
@@ -14,10 +15,7 @@ describe("docs explorer", () => {
       ],
       "native"
     )
-    expect(groups[0]?.items.map((item) => item.label)).toEqual([
-      "Overview",
-      "Library",
-    ])
+    expect(groups[0]?.items.map((item) => item.label)).toEqual(["Overview"])
     expect(groups[1]?.items[0]?.children?.[0]?.href).toBe(
       "/docs/components/native/button"
     )

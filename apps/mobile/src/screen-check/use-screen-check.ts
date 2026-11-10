@@ -1,8 +1,8 @@
 // The screen check's side in the app, in development builds: a
-// `fabricator-ui://screen-check` link opens every demo and block in turn and
+// `fabricator-ui://screen-check` link opens every component demo in turn and
 // posts what each one logged to the runner (scripts/check-screens.mjs).
 import * as React from "react"
-import { NATIVE_BLOCKS, NATIVE_EXAMPLES } from "@/examples/native/__index__"
+import { NATIVE_EXAMPLES } from "@/examples/native/__index__"
 import { requireOptionalNativeModule } from "expo"
 import { Linking, LogBox } from "react-native"
 
@@ -104,11 +104,7 @@ async function runScreenCheck(
   request: ScreenCheckRequest,
   open: (path: string) => void
 ) {
-  const paths = getScreenCheckPaths({
-    components: Object.keys(NATIVE_EXAMPLES),
-    blocks: Object.keys(NATIVE_BLOCKS),
-    scope: request.scope,
-  })
+  const paths = getScreenCheckPaths(Object.keys(NATIVE_EXAMPLES))
   let logs: ScreenLog[] = []
   const restore = captureLogs((log) => logs.push(log))
   await post(request, "start", { total: paths.length })

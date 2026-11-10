@@ -51,3 +51,25 @@ export function getHiddenExplorerOptions({
     ...(hasGlass ? [] : (["glass"] as const)),
   ])
 }
+
+/** Documentation has one routed page and no auxiliary panel. */
+export function getDocsExplorerOptions(
+  options: PlaygroundOptions
+): PlaygroundOptions {
+  return { ...options, tabs: "none", panel: false }
+}
+
+export const DEFAULT_DOCS_EXPLORER_OPTIONS = getDocsExplorerOptions(
+  DEFAULT_EXPLORER_OPTIONS
+)
+
+export function getHiddenDocsExplorerOptions(): ReadonlySet<
+  keyof PlaygroundOptions
+> {
+  return new Set<keyof PlaygroundOptions>([
+    ...getHiddenExplorerOptions({ hasGlass: false }),
+    "tabs",
+    "panel",
+    "panelMobile",
+  ])
+}

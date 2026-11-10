@@ -269,7 +269,7 @@ export function InstallStep({
         <ul className="flex list-disc flex-col gap-1.5 ps-5 text-[13px] leading-relaxed text-muted-foreground marker:text-muted-foreground/60">
           <li>
             Browse the{" "}
-            <Link href="/docs/components" className={LINK_CLASS}>
+            <Link href="/docs" className={LINK_CLASS}>
               components
             </Link>{" "}
             and add one with{" "}

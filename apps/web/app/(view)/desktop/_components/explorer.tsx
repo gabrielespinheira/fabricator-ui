@@ -19,13 +19,11 @@ import { EXPLORER_ICONS } from "@/lib/explorer-icons"
 import {
   ExternalLinkIcon,
   HomeIcon,
-  LayersIcon,
   MoonIcon,
   SparklesIcon,
   SunIcon,
 } from "@/lib/site-icons"
 import { usePackageManager } from "@/hooks/use-package-manager"
-import { ExplorerLibrary } from "@/components/fabricator/explorer-library"
 import { useDesktopWindow } from "@/registry/fabricator/shared/hooks/use-desktop-window"
 import {
   getActiveNavItem,
@@ -83,7 +81,6 @@ const NEW_TAB_PATH = "/new"
 
 function getTabTitle(id: string | null, items: Map<string, ExplorerComponent>) {
   if (isNewTab(id)) return NEW_TAB_TITLE
-  if (id === "library") return "Library"
   if (id === "icons") return "Icons"
   const item = id ? items.get(id) : undefined
   return item?.title ?? "Overview"
@@ -317,9 +314,7 @@ export function DesktopExplorer({
       ? NEW_TAB_PATH
       : tabs.activeId === "icons"
         ? "/icons"
-        : tabs.activeId === "library"
-          ? "/components"
-          : "/"
+        : "/"
   const groups = React.useMemo(
     () =>
       getExplorerNavGroups(components, EXPLORER_ICONS, {
@@ -330,13 +325,6 @@ export function DesktopExplorer({
             label: "Icons",
             href: "/icons",
             icon: SparklesIcon,
-            mobile: "tab",
-          },
-          {
-            id: "library",
-            label: "Library",
-            href: "/components",
-            icon: LayersIcon,
             mobile: "tab",
           },
         ],
@@ -406,9 +394,7 @@ export function DesktopExplorer({
                     ? undefined
                     : id === "icons"
                       ? SparklesIcon
-                      : id === "library"
-                        ? LayersIcon
-                        : HomeIcon
+                      : HomeIcon
                 }
                 preview={tabs.state.preview === id}
               >
@@ -483,19 +469,6 @@ export function DesktopExplorer({
               <IconsBrowser />
             </React.Suspense>
           </div>
-        ) : tabs.activeId === "library" ? (
-          <ExplorerLibrary
-            components={components}
-            renderLink={(component) => (
-              <a
-                href={`${COMPONENT_PATH}${component.slug}`}
-                onClick={(event) => {
-                  event.preventDefault()
-                  open(component.slug)
-                }}
-              />
-            )}
-          />
         ) : isBlankTab ? (
           <NewTabPage onOpen={open} components={components} />
         ) : (

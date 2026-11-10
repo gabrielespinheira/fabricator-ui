@@ -2,27 +2,22 @@
 
 import * as React from "react"
 import Link from "next/link"
-import { usePathname, useRouter, useSearchParams } from "next/navigation"
+import { usePathname, useSearchParams } from "next/navigation"
 import { useQueryStates } from "nuqs"
 
 import { getGroupNavId } from "@/lib/component-explorer"
-import { COMPONENT_GROUPS, getComponentGroup } from "@/lib/component-groups"
+import { COMPONENT_GROUPS } from "@/lib/component-groups"
 import { siteConfig } from "@/lib/config"
 import { getDocsExplorerGroups, type ExplorerPage } from "@/lib/docs-explorer"
 import { EXPLORER_ICONS } from "@/lib/explorer-icons"
 import { getCurrentBase } from "@/lib/page-tree"
-import { HomeIcon, LayersIcon } from "@/lib/site-icons"
+import { HomeIcon } from "@/lib/site-icons"
 import type { source } from "@/lib/source"
 import { CommandMenu } from "@/components/command-menu"
-import { ExplorerLibrary } from "@/components/fabricator/explorer-library"
 import { SiteSettingsMenu } from "@/components/fabricator/site-settings"
 import {
   AppShellContent,
   AppShellPageTitle,
-  AppShellPanelClose,
-  AppShellPanelContent,
-  AppShellPanelHeader,
-  AppShellPanelTitle,
 } from "@/styles/base-fabricator/ui/app-shell"
 import {
   Item,
@@ -30,19 +25,13 @@ import {
   ItemDescription,
   ItemTitle,
 } from "@/styles/base-fabricator/ui/item"
-import {
-  TabStrip,
-  TabStripList,
-  TabStripOverflow,
-  TabStripTab,
-  useTabStripState,
-} from "@/styles/base-fabricator/ui/tab-strip"
 import { OptionShell } from "@/app/(view)/app-shell/_components/option-shell"
 import { SetupCards } from "@/app/(view)/app-shell/_components/options-card"
 import {
-  DEFAULT_EXPLORER_OPTIONS,
+  DEFAULT_DOCS_EXPLORER_OPTIONS,
   explorerParsers,
-  getHiddenExplorerOptions,
+  getDocsExplorerOptions,
+  getHiddenDocsExplorerOptions,
 } from "@/app/(view)/desktop/_lib/explorer-options"
 
 export function DocsAppShell({
@@ -55,11 +44,11 @@ export function DocsAppShell({
   children: React.ReactNode
 }) {
   const pathname = usePathname()
-  const router = useRouter()
   const searchParams = useSearchParams()
   const getHref = (href: string) =>
     searchParams.size ? `${href}?${searchParams}` : href
-  const [options, setOptions] = useQueryStates(explorerParsers)
+  const [urlOptions, setOptions] = useQueryStates(explorerParsers)
+  const options = getDocsExplorerOptions(urlOptions)
   const groups = React.useMemo(
     () =>
       getDocsExplorerGroups(pages, getCurrentBase(pathname)).map((group) => ({
@@ -73,40 +62,19 @@ export function DocsAppShell({
             icon:
               item.id === "overview"
                 ? HomeIcon
-                : item.id === "library"
-                  ? LayersIcon
-                  : componentGroup
-                    ? EXPLORER_ICONS.groups[componentGroup]
-                    : undefined,
+                : componentGroup
+                  ? EXPLORER_ICONS.groups[componentGroup]
+                  : undefined,
           }
         }),
       })),
     [pages, pathname]
   )
-  const tabs = useTabStripState({
-    defaultState: {
-      tabs: ["/docs"],
-      pinned: ["/docs"],
-      recent: ["/docs"],
-      preview: null,
-      closed: [],
-    },
-  })
-  const openTab = tabs.open
-  React.useEffect(() => {
-    openTab(pathname, { preview: true })
-  }, [pathname, openTab])
   const title =
     pathname === "/docs"
       ? "Overview"
-      : pathname === "/docs/components"
-        ? "Library"
-        : (pages.find((page) => page.url === pathname)?.title ??
-          "Documentation")
-  const hidden = React.useMemo(
-    () => getHiddenExplorerOptions({ hasGlass: false }),
-    []
-  )
+      : (pages.find((page) => page.url === pathname)?.title ?? "Documentation")
+  const hidden = React.useMemo(() => getHiddenDocsExplorerOptions(), [])
   return (
     <div data-slot="docs-shell" className="w-full">
       <OptionShell
@@ -134,68 +102,10 @@ export function DocsAppShell({
         rootCrumb="Fabricator UI"
         crumbs={[{ label: title }]}
         pageTitle={title}
-        tabStrip={
-          <TabStrip
-            {...tabs.stripProps}
-            value={pathname}
-            onValueChange={(href) => router.push(getHref(href))}
-            onClose={(hrefs) => {
-              tabs.close(hrefs)
-              if (hrefs.includes(pathname)) router.push(getHref("/docs"))
-            }}
-            onReopen={() => {
-              const href = tabs.state.closed[0]
-              if (href) {
-                tabs.reopen()
-                router.push(getHref(href))
-              }
-            }}
-            className="min-w-0 flex-1"
-          >
-            <TabStripList aria-label="Open documentation">
-              {tabs.state.tabs.map((href) => (
-                <TabStripTab
-                  key={href}
-                  value={href}
-                  pinned={tabs.state.pinned.includes(href)}
-                  icon={href === "/docs" ? HomeIcon : undefined}
-                  preview={tabs.state.preview === href}
-                >
-                  {href === "/docs"
-                    ? "Overview"
-                    : href === "/docs/components"
-                      ? "Library"
-                      : (pages.find((page) => page.url === href)?.title ??
-                        "Documentation")}
-                </TabStripTab>
-              ))}
-            </TabStripList>
-            <TabStripOverflow />
-          </TabStrip>
-        }
+        tabStrip={null}
         panelId="details"
         panelLabel="Details"
-        isPanelOpenByDefault={false}
-        panel={
-          <>
-            <AppShellPanelHeader>
-              <AppShellPanelTitle>Details</AppShellPanelTitle>
-              <AppShellPanelClose />
-            </AppShellPanelHeader>
-            <AppShellPanelContent className="flex flex-col gap-4 p-4">
-              <CommandMenu
-                tree={tree}
-                navItems={siteConfig.navItems}
-                trigger="sidebar"
-              />
-              <Link href="/desktop">Desktop example</Link>
-              <Link href="/docs/installation/react-native">
-                React Native setup
-              </Link>
-              <Link href="/">Website home</Link>
-            </AppShellPanelContent>
-          </>
-        }
+        panel={null}
         status={
           <>
             <span>Website · Documentation</span>
@@ -226,7 +136,7 @@ export function DocsAppShell({
               <SetupCards
                 options={options}
                 setOptions={setOptions}
-                defaults={DEFAULT_EXPLORER_OPTIONS}
+                defaults={DEFAULT_DOCS_EXPLORER_OPTIONS}
                 hidden={hidden}
               />
               <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -236,9 +146,7 @@ export function DocsAppShell({
                     variant="muted"
                     render={
                       <Link
-                        href={getHref(
-                          group.children?.[0]?.href ?? "/docs/components"
-                        )}
+                        href={getHref(group.children?.[0]?.href ?? "/docs")}
                       />
                     }
                   >
@@ -253,27 +161,7 @@ export function DocsAppShell({
               </div>
             </div>
           )}
-          {pathname === "/docs/components" ? (
-            <ExplorerLibrary
-              components={pages
-                .filter((page) => page.url.startsWith("/docs/components/base/"))
-                .map((page) => {
-                  const slug = page.url.split("/").at(-1) ?? ""
-                  return {
-                    slug,
-                    title: page.title,
-                    group: getComponentGroup(slug),
-                  }
-                })}
-              renderLink={(component) => (
-                <Link
-                  href={getHref(`/docs/components/base/${component.slug}`)}
-                />
-              )}
-            />
-          ) : (
-            children
-          )}
+          {children}
         </AppShellContent>
       </OptionShell>
     </div>

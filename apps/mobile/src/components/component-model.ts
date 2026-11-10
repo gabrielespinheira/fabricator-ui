@@ -5,19 +5,11 @@ import {
 import { getComponentGroup } from "@/lib/component-groups"
 
 export const COMPONENTS_HREF = "/components"
-export const BLOCKS_HREF = "/blocks"
 
-/** The demo a path opens, or null on the list and everywhere else. */
+/** The demo a path opens, or null for a page without a component. */
 export function getDemoName(pathname: string) {
   return pathname.startsWith(`${COMPONENTS_HREF}/`)
     ? pathname.slice(COMPONENTS_HREF.length + 1)
-    : null
-}
-
-/** The block a path opens, full screen, if it opens one. */
-export function getBlockName(pathname: string) {
-  return pathname.startsWith(`${BLOCKS_HREF}/`)
-    ? pathname.slice(BLOCKS_HREF.length + 1)
     : null
 }
 
@@ -61,24 +53,14 @@ export function getComponentDocsUrl(slug: string) {
   return `${SITE_URL}/docs/components/native/${component}`
 }
 
-/** Names matching a search, by name or title, in alphabetical order. */
-export function filterComponents(names: string[], query: string) {
-  const term = query.trim().toLowerCase()
-  return [...names]
-    .filter(
-      (name) =>
-        term === "" ||
-        name.includes(term) ||
-        getComponentTitle(name).toLowerCase().includes(term)
-    )
-    .sort()
-}
-
 const DEEP_LINK =
   /^fabricator-ui:\/\/((?:components|blocks)(?:\/[a-z0-9-]+)?|icons)\/?(?:\?.*)?$/
 
 /** The path a `fabricator-ui://components/<name>` link opens, if it is one. */
 export function getPathFromUrl(url: string | null | undefined) {
   const match = url ? DEEP_LINK.exec(url) : null
-  return match ? `/${match[1]}` : null
+  if (!match) return null
+  return match[1] === "components" || match[1].split("/")[0] === "blocks"
+    ? "/"
+    : `/${match[1]}`
 }

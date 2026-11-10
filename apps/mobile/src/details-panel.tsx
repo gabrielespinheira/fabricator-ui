@@ -17,7 +17,7 @@ import {
   getComponentDocsUrl,
   getComponentInstallCommand,
   getComponentTitle,
-} from "./library/library-model"
+} from "./components/component-model"
 import { CommandBox } from "./shell/command-box"
 
 export function DetailsPanel({ slug }: { slug: string | null }) {

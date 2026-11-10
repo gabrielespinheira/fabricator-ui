@@ -48,14 +48,6 @@ export function getDocsExplorerGroups(
     {
       overviewHref: "/docs",
       componentPath,
-      pages: [
-        {
-          id: "library",
-          label: "Library",
-          href: "/docs/components",
-          mobile: "tab",
-        },
-      ],
     }
   )
   const guidePages = pages.filter(

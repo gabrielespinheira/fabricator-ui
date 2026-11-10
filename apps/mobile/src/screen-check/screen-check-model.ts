@@ -1,8 +1,8 @@
 // The screen check (`bun run mobile:check`): a link asks the example to open
-// every demo and block in turn and report what each logged to the runner on
+// every component demo in turn and report what each logged to the runner on
 // this machine. Pure, so the runner's tests can read it.
 
-export type ScreenCheckScope = "all" | "components" | "blocks"
+export type ScreenCheckScope = "all" | "components"
 
 export type ScreenCheckRequest = {
   reportUrl: string
@@ -27,7 +27,7 @@ const DEFAULT_SETTLE_MS = 1500
 const LINK = /^fabricator-ui:\/\/screen-check\?(.+)$/
 // The runner listens on this machine; reports never leave it.
 const LOCAL_URL = /^http:\/\/(?:localhost|127\.0\.0\.1):\d+$/
-const SCOPES: readonly ScreenCheckScope[] = ["all", "components", "blocks"]
+const SCOPES: readonly ScreenCheckScope[] = ["all", "components"]
 
 function isScope(value: string | undefined): value is ScreenCheckScope {
   return SCOPES.some((scope) => scope === value)
@@ -54,6 +54,7 @@ export function parseScreenCheckUrl(
   const device = query.get("device")
   if (!reportUrl || !LOCAL_URL.test(reportUrl) || !device) return null
   const scope = query.get("scope")
+  if (scope !== undefined && !isScope(scope)) return null
   const settle = Number(query.get("settle"))
   return {
     reportUrl,
@@ -63,22 +64,9 @@ export function parseScreenCheckUrl(
   }
 }
 
-/** Every demo, then every block, each A to Z. */
-export function getScreenCheckPaths({
-  components,
-  blocks,
-  scope,
-}: {
-  components: string[]
-  blocks: string[]
-  scope: ScreenCheckScope
-}) {
-  const paths = (prefix: string, names: string[]) =>
-    [...names].sort().map((name) => `${prefix}/${name}`)
-  return [
-    ...(scope === "blocks" ? [] : paths("/components", components)),
-    ...(scope === "components" ? [] : paths("/blocks", blocks)),
-  ]
+/** Every component demo, A to Z. */
+export function getScreenCheckPaths(components: string[]) {
+  return [...components].sort().map((name) => `/components/${name}`)
 }
 
 // Expo's native logger sends a message line by line, each marked with its

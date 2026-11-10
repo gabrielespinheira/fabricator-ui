@@ -31,9 +31,17 @@ describe("parseScreenCheckUrl", () => {
   it("takes a scope and how long each screen settles", () => {
     expect(
       parseScreenCheckUrl(
-        `fabricator-ui://screen-check?report=${REPORT}&device=A&scope=blocks&settle=3000`
+        `fabricator-ui://screen-check?report=${REPORT}&device=A&scope=components&settle=3000`
       )
-    ).toMatchObject({ scope: "blocks", settleMs: 3000 })
+    ).toMatchObject({ scope: "components", settleMs: 3000 })
+  })
+
+  it("rejects the removed Blocks scope", () => {
+    expect(
+      parseScreenCheckUrl(
+        `fabricator-ui://screen-check?report=${REPORT}&device=A&scope=blocks`
+      )
+    ).toBeNull()
   })
 
   it("only reports to this machine", () => {
@@ -55,19 +63,10 @@ describe("parseScreenCheckUrl", () => {
 })
 
 describe("getScreenCheckPaths", () => {
-  const names = { components: ["tabs", "button"], blocks: ["login-01"] }
-
-  it("lists every demo, then every block, A to Z", () => {
-    expect(getScreenCheckPaths({ ...names, scope: "all" })).toEqual([
+  it("lists only component demos, A to Z", () => {
+    expect(getScreenCheckPaths(["tabs", "button"])).toEqual([
       "/components/button",
       "/components/tabs",
-      "/blocks/login-01",
-    ])
-  })
-
-  it("keeps to a scope", () => {
-    expect(getScreenCheckPaths({ ...names, scope: "blocks" })).toEqual([
-      "/blocks/login-01",
     ])
   })
 })

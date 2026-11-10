@@ -1,17 +1,15 @@
 import { describe, expect, it } from "vitest"
 
 import {
-  BLOCKS_HREF,
   COMPONENTS_HREF,
-  getBlockName,
   getComponentDocsUrl,
   getComponentInstallCommand,
   getComponentTitle,
   getDemoName,
   getExplorerComponents,
-} from "../../../../../mobile/src/library/library-model"
+} from "../../../../../mobile/src/components/component-model"
 
-describe("the React Native example's library paths", () => {
+describe("the React Native example's component paths", () => {
   it("finds the demo a path opens", () => {
     expect(getDemoName(`${COMPONENTS_HREF}/avatar`)).toBe("avatar")
   })
@@ -20,11 +18,6 @@ describe("the React Native example's library paths", () => {
     expect(getDemoName(COMPONENTS_HREF)).toBeNull()
     expect(getDemoName("/")).toBeNull()
     expect(getDemoName("/components-extra/avatar")).toBeNull()
-  })
-
-  it("finds the block a path opens", () => {
-    expect(getBlockName(`${BLOCKS_HREF}/login-01`)).toBe("login-01")
-    expect(getBlockName(BLOCKS_HREF)).toBeNull()
   })
 })
 

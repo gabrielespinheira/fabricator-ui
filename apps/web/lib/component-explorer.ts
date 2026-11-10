@@ -55,7 +55,6 @@ export function getExplorerInstallNames(
 /** The tab a navigation link opens: a component, the overview, or none. */
 export function getExplorerTabId(href: string | undefined) {
   if (href === "/") return "overview"
-  if (href === "/components") return "library"
   if (href === "/icons") return "icons"
   if (href?.startsWith(COMPONENT_PATH)) return href.slice(COMPONENT_PATH.length)
   return null
@@ -82,9 +81,18 @@ type ExplorerIcons<TIcon> = {
   groups: Partial<Record<ComponentGroup, TIcon>>
 }
 
-/** A group's id in the navigation: `Overlays & Menus` → `group-overlays-menus`. */
+// Preserve saved navigation preferences when the visible group labels change.
+const GROUP_NAV_IDS: Record<ComponentGroup, string> = {
+  Basics: "group-basics",
+  Forms: "group-forms",
+  Overlays: "group-overlays-menus",
+  Structure: "group-navigation-layout",
+  Content: "group-data-feedback",
+  Chat: "group-ai-chat",
+}
+
 export function getGroupNavId(group: ComponentGroup) {
-  return `group-${group.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`
+  return GROUP_NAV_IDS[group]
 }
 
 /**

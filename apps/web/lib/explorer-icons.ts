@@ -13,9 +13,9 @@ export const EXPLORER_ICONS = {
   groups: {
     Basics: BoxIcon,
     Forms: TextCursorInputIcon,
-    "Overlays & Menus": LayersIcon,
-    "Navigation & Layout": PanelLeftIcon,
-    "Data & Feedback": ChartColumnIcon,
-    "AI & Chat": SparklesIcon,
+    Overlays: LayersIcon,
+    Structure: PanelLeftIcon,
+    Content: ChartColumnIcon,
+    Chat: SparklesIcon,
   },
 }
