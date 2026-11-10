@@ -55,6 +55,7 @@ const GROUP_BY_SLUG: Record<string, ComponentGroup> = {
   "date-picker": "Forms",
   "month-input": "Forms",
   "time-input": "Forms",
+  "time-wheel": "Forms",
   // Overlays & Menus
   dialog: "Overlays & Menus",
   "alert-dialog": "Overlays & Menus",
