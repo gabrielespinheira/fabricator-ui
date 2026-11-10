@@ -43,6 +43,7 @@ import {
   CalendarPlusIcon as FabricatorCalendarPlusIcon,
   CaptionsIcon as FabricatorCaptionsIcon,
   ChartBarIcon as FabricatorChartBarIcon,
+  ChartColumnIcon as FabricatorChartColumnIcon,
   ChartLineIcon as FabricatorChartLineIcon,
   ChartPieIcon as FabricatorChartPieIcon,
   CheckCircle2Icon as FabricatorCheckCircle2Icon,
@@ -211,6 +212,7 @@ import {
   TargetIcon as FabricatorTargetIcon,
   TelescopeIcon as FabricatorTelescopeIcon,
   TerminalIcon as FabricatorTerminalIcon,
+  TextCursorInputIcon as FabricatorTextCursorInputIcon,
   TextQuoteIcon as FabricatorTextQuoteIcon,
   ThumbsDownIcon as FabricatorThumbsDownIcon,
   ThumbsUpIcon as FabricatorThumbsUpIcon,
@@ -515,6 +517,9 @@ export const ChartBarIcon = createSiteIcon(FabricatorChartBarIcon, {
   hugeicons: "ChartHistogramIcon",
   phosphor: "ChartBarIcon",
   remixicon: "RiBarChartLine",
+})
+export const ChartColumnIcon = createSiteIcon(FabricatorChartColumnIcon, {
+  lucide: "ChartColumnIcon",
 })
 export const ChartLineIcon = createSiteIcon(FabricatorChartLineIcon, {
   lucide: "ChartLineIcon",
@@ -1544,6 +1549,10 @@ export const TerminalIcon = createSiteIcon(FabricatorTerminalIcon, {
   phosphor: "TerminalIcon",
   remixicon: "RiTerminalBoxLine",
 })
+export const TextCursorInputIcon = createSiteIcon(
+  FabricatorTextCursorInputIcon,
+  { lucide: "TextCursorInputIcon" }
+)
 export const TextQuoteIcon = createSiteIcon(FabricatorTextQuoteIcon, {
   lucide: "TextQuoteIcon",
 })

@@ -3,6 +3,8 @@ import * as fs from "fs"
 import * as path from "path"
 import { iconLibraries, type IconLibraryName } from "shadcn/icons"
 
+import { scanSiteIconNames } from "./site-icon-usage"
+
 type IconUsage = Record<IconLibraryName, Set<string>>
 
 // Canonical (lucide) icon name -> { library: icon name }.
@@ -256,39 +258,8 @@ const SITE_ICON_SOURCES = [
   "app/(view)/app-shell",
   "app/(view)/desktop",
   "components/foundations",
+  "lib",
 ]
-
-const LUCIDE_IMPORT_REGEX =
-  /import\s*\{([^}]*)\}\s*from\s*["'](?:lucide-react|@\/lib\/site-icons)["']/g
-const LUCIDE_PLACEHOLDER_REGEX =
-  /<IconPlaceholder\b[^>]*?\blucide=["']([^"']+)["']/g
-
-function scanSiteIconNames() {
-  const names = new Set<string>()
-  for (const dir of SITE_ICON_SOURCES) {
-    const fullDir = path.join(process.cwd(), dir)
-    if (!fs.existsSync(fullDir)) continue
-    for (const file of findTsxFiles(fullDir)) {
-      const content = fs.readFileSync(file, "utf-8")
-      for (const match of content.matchAll(LUCIDE_IMPORT_REGEX)) {
-        for (const specifier of match[1].split(",")) {
-          const name = specifier
-            .trim()
-            .split(/\s+as\s+/)[0]
-            .trim()
-          // Types (LucideIcon, LucideProps) are re-exported as they are.
-          if (name && !name.startsWith("type ") && !/^Lucide/.test(name)) {
-            names.add(name)
-          }
-        }
-      }
-      for (const match of content.matchAll(LUCIDE_PLACEHOLDER_REGEX)) {
-        names.add(match[1])
-      }
-    }
-  }
-  return Array.from(names).sort()
-}
 
 function exportedNames(file: string) {
   if (!fs.existsSync(file)) return new Set<string>()
@@ -328,7 +299,7 @@ async function generateSiteIcons(mapping: IconMapping) {
     return entry
   }
 
-  const names = scanSiteIconNames()
+  const names = scanSiteIconNames(process.cwd(), SITE_ICON_SOURCES)
   const entries = names.map((name) => ({ name, mapping: lookup(name) }))
   const libDir = path.join(process.cwd(), "lib")
 
