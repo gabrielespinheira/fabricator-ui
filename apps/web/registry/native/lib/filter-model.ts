@@ -185,6 +185,7 @@ function isSameSnapshot(a: CommandSnapshot, b: CommandSnapshot) {
  */
 export function createCommandStore() {
   const entries = new Map<string, CommandEntry>()
+  const visibility = new Map<string, boolean>()
   const listeners = new Set<() => void>()
   let filter: CommandFilter = scoreCommand
   let shouldFilter = true
@@ -193,11 +194,23 @@ export function createCommandStore() {
   const isVisible = (value: string, keywords?: readonly string[]) =>
     !shouldFilter || query === "" || filter(value, query, keywords) > 0
 
-  const compute = (): CommandSnapshot => {
+  let snapshot: CommandSnapshot = { query, count: 0, groupCounts: new Map() }
+
+  const publish = (next: CommandSnapshot, visibilityChanged = false) => {
+    if (!visibilityChanged && isSameSnapshot(snapshot, next)) return
+    snapshot = next
+    listeners.forEach((listener) => listener())
+  }
+
+  const refresh = () => {
     const groupCounts = new Map<string, number>()
     let count = 0
+    let visibilityChanged = false
     for (const entry of entries.values()) {
-      if (!isVisible(entry.value, entry.keywords)) continue
+      const isMatch = isVisible(entry.value, entry.keywords)
+      if (visibility.get(entry.id) !== isMatch) visibilityChanged = true
+      visibility.set(entry.id, isMatch)
+      if (!isMatch) continue
       count += 1
       if (entry.groupId !== undefined) {
         groupCounts.set(
@@ -206,19 +219,29 @@ export function createCommandStore() {
         )
       }
     }
-    return { query, count, groupCounts }
+    publish({ query, count, groupCounts }, visibilityChanged)
   }
 
-  let snapshot = compute()
-  const refresh = () => {
-    const next = compute()
-    if (isSameSnapshot(snapshot, next)) return
-    snapshot = next
-    listeners.forEach((listener) => listener())
+  // Mounting or removing one item doesn't change any other item's score.
+  const changeCounts = (
+    changes: readonly { entry: CommandEntry; delta: number }[]
+  ) => {
+    const groupCounts = new Map(snapshot.groupCounts)
+    let count = snapshot.count
+    for (const { entry, delta } of changes) {
+      count += delta
+      if (entry.groupId === undefined || delta === 0) continue
+      const groupCount = (groupCounts.get(entry.groupId) ?? 0) + delta
+      if (groupCount === 0) groupCounts.delete(entry.groupId)
+      else groupCounts.set(entry.groupId, groupCount)
+    }
+    publish({ query, count, groupCounts })
   }
 
   return {
     isVisible,
+    isItemVisible: (id: string) =>
+      visibility.get(id) ?? (!shouldFilter || query === ""),
     getSnapshot: () => snapshot,
     subscribe(listener: () => void) {
       listeners.add(listener)
@@ -227,11 +250,21 @@ export function createCommandStore() {
       }
     },
     register(entry: CommandEntry) {
+      const previous = entries.get(entry.id)
+      const wasVisible = visibility.get(entry.id)
       entries.set(entry.id, entry)
-      refresh()
+      const isMatch = isVisible(entry.value, entry.keywords)
+      visibility.set(entry.id, isMatch)
+      changeCounts([
+        ...(previous && wasVisible ? [{ entry: previous, delta: -1 }] : []),
+        { entry, delta: isMatch ? 1 : 0 },
+      ])
       return () => {
+        if (entries.get(entry.id) !== entry) return
         entries.delete(entry.id)
-        refresh()
+        const wasVisible = visibility.get(entry.id)
+        visibility.delete(entry.id)
+        if (wasVisible) changeCounts([{ entry, delta: -1 }])
       }
     },
     setQuery(next: string) {
@@ -240,8 +273,12 @@ export function createCommandStore() {
       refresh()
     },
     configure(options: { filter?: CommandFilter; shouldFilter?: boolean }) {
-      filter = options.filter ?? filter
-      shouldFilter = options.shouldFilter ?? shouldFilter
+      const nextFilter =
+        "filter" in options ? (options.filter ?? scoreCommand) : filter
+      const nextShouldFilter = options.shouldFilter ?? shouldFilter
+      if (nextFilter === filter && nextShouldFilter === shouldFilter) return
+      filter = nextFilter
+      shouldFilter = nextShouldFilter
       refresh()
     },
   }

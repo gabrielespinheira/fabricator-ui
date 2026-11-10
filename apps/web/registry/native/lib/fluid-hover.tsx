@@ -25,6 +25,7 @@ import { scheduleOnRN } from "react-native-worklets"
 
 import { useFeedback } from "@/registry/native/lib/feedback"
 import {
+  createFluidHoverStore,
   getFadeOutDelay,
   isNearRows,
   pickNearestRow,
@@ -79,7 +80,10 @@ function useOverlayValues(): OverlayValues {
   const width = useSharedValue(0)
   const height = useSharedValue(0)
   const opacity = useSharedValue(0)
-  return { x, y, width, height, opacity }
+  return React.useMemo(
+    () => ({ x, y, width, height, opacity }),
+    [x, y, width, height, opacity]
+  )
 }
 
 function placeOverlay(
@@ -142,7 +146,15 @@ export function useFluidHover({
   const isTracking = useSharedValue(false)
   const hover = useOverlayValues()
   const selection = useOverlayValues()
-  const [lit, setLit] = React.useState<string | null>(null)
+  const [lit, setCurrentLit] = React.useState<string | null>(null)
+  const [litStore] = React.useState(createFluidHoverStore)
+  const setLit = React.useCallback(
+    (key: string | null) => {
+      litStore.set(key)
+      setCurrentLit(key)
+    },
+    [litStore]
+  )
 
   const glideTravel = React.useMemo(
     () =>
@@ -291,14 +303,14 @@ export function useFluidHover({
         fadeIn
       )
     },
-    [fadeIn, glideTravel, hover, previewsSelection, selected]
+    [fadeIn, glideTravel, hover, previewsSelection, selected, setLit]
   )
 
   const release = React.useCallback(() => {
     setLit(null)
     const delay = getFadeOutDelay(Date.now() - pressedAt.current, glide.enterMs)
     hover.opacity.value = withDelay(delay, withTiming(0, fadeOut))
-  }, [fadeOut, glide.enterMs, hover])
+  }, [fadeOut, glide.enterMs, hover, setLit])
 
   const getItemProps = React.useCallback(
     (key: string) => ({
@@ -417,6 +429,19 @@ export function useFluidHover({
     container.current = isMeasurable(node) ? node : null
   }, [])
 
+  const pressDelay = track === "drag" ? 0 : SCROLL_PRESS_DELAY
+  const rowContext = React.useMemo(
+    () => ({
+      getItemProps,
+      register,
+      unregister,
+      remeasure: remeasureRows,
+      pressDelay,
+      litStore,
+    }),
+    [getItemProps, register, unregister, remeasureRows, pressDelay, litStore]
+  )
+
   return React.useMemo(
     () => ({
       /** Ref callback for the container that holds the rows. */
@@ -424,7 +449,8 @@ export function useFluidHover({
       /** Wraps the container through FluidHoverArea. */
       gesture,
       isTrackable: track !== "none",
-      pressDelay: track === "drag" ? 0 : SCROLL_PRESS_DELAY,
+      pressDelay,
+      rowContext,
       getItemProps,
       register,
       unregister,
@@ -444,6 +470,8 @@ export function useFluidHover({
       register,
       remeasureRows,
       selection,
+      pressDelay,
+      rowContext,
       track,
       unregister,
     ]
@@ -452,7 +480,9 @@ export function useFluidHover({
 
 type FluidHover = ReturnType<typeof useFluidHover>
 
-const FluidHoverContext = React.createContext<FluidHover | null>(null)
+const FluidHoverContext = React.createContext<FluidHover["rowContext"] | null>(
+  null
+)
 
 /** Lets the rows inside find their container. */
 function FluidHoverProvider({
@@ -462,7 +492,22 @@ function FluidHoverProvider({
   fluid: FluidHover
   children?: React.ReactNode
 }) {
-  return <FluidHoverContext value={fluid}>{children}</FluidHoverContext>
+  return (
+    <FluidHoverContext value={fluid.rowContext}>{children}</FluidHoverContext>
+  )
+}
+
+const subscribeNever = () => () => {}
+
+/** Also lets a table row follow the highlight on its next row. */
+function useFluidRowLit(key: string) {
+  const store = React.use(FluidHoverContext)?.litStore
+  const subscribe = React.useCallback(
+    (listener: () => void) =>
+      store ? store.subscribe(key, listener) : subscribeNever(),
+    [key, store]
+  )
+  return React.useSyncExternalStore(subscribe, () => store?.get() === key)
 }
 
 /**
@@ -497,6 +542,7 @@ function useFluidRow<
   const fluid = React.use(FluidHoverContext)
   const id = React.useId()
   const key = itemKey ?? id
+  const isLit = useFluidRowLit(key)
   const activate = useLatestCallback(() => onActivate?.())
   const isDisabled = Boolean(disabled)
   const register = fluid?.register
@@ -508,7 +554,7 @@ function useFluidRow<
   const item = fluid?.getItemProps(key)
   return {
     key,
-    isLit: fluid?.lit === key,
+    isLit,
     /** Measures the rows again, when this one moved without its layout changing. */
     remeasure: fluid?.remeasure,
     rowProps: {
@@ -723,5 +769,6 @@ export {
   FluidHoverScrollList,
   FluidHoverSelection,
   useFluidRemeasure,
+  useFluidRowLit,
   useFluidRow,
 }

@@ -444,10 +444,24 @@ function FluidHoverSelection({
 function useMergedRef<T>(...refs: Array<React.Ref<T> | undefined>) {
   return React.useCallback(
     (value: T | null) => {
+      const cleanups: Array<() => void> = []
       for (const ref of refs) {
-        if (typeof ref === "function") ref(value)
-        else if (ref) (ref as React.RefObject<T | null>).current = value
+        if (typeof ref === "function") {
+          const cleanup = ref(value)
+          cleanups.push(
+            typeof cleanup === "function" ? cleanup : () => ref(null)
+          )
+        } else if (ref) {
+          ref.current = value
+          cleanups.push(() => {
+            ref.current = null
+          })
+        }
       }
+      if (value !== null)
+        return () => {
+          for (const cleanup of cleanups) cleanup()
+        }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
     refs

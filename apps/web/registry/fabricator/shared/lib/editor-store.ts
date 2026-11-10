@@ -196,8 +196,10 @@ function useEditorBlock(
   id: string
 ): EditorBlock | undefined {
   const selector = useCallback(
-    (state: EditorState) =>
-      state.document.blocks.find((block) => block.id === id),
+    (state: EditorState) => {
+      const index = getBlockIndex(state.document, id)
+      return state.document.blocks[index]
+    },
     [id]
   )
   return useEditorSelector(store, selector)

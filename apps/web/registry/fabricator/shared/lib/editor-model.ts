@@ -228,34 +228,57 @@ function getFlatText(document: Pick<EditorDocument, "blocks">) {
   return document.blocks.map(getBlockFlatText).join(BLOCK_SEPARATOR)
 }
 
-/** Where each block starts in flat text. */
-function getBlockStarts(document: Pick<EditorDocument, "blocks">) {
+// Transactions replace blocks and their array. Weak keys let selection changes
+// and block subscribers reuse the index without retaining old undo documents.
+const blockIndexes = new WeakMap<readonly EditorBlock[], Map<string, number>>()
+const blockLayouts = new WeakMap<
+  readonly EditorBlock[],
+  { starts: number[]; lengths: number[]; end: number }
+>()
+
+function getBlockLayout({ blocks }: Pick<EditorDocument, "blocks">) {
+  const cached = blockLayouts.get(blocks)
+  if (cached) return cached
   const starts: number[] = []
+  const lengths: number[] = []
   let offset = 0
-  for (const block of document.blocks) {
+  for (const block of blocks) {
+    const length = getBlockLength(block)
     starts.push(offset)
-    offset += getBlockLength(block) + BLOCK_SEPARATOR.length
+    lengths.push(length)
+    offset += length + BLOCK_SEPARATOR.length
   }
-  return starts
+  const layout = { starts, lengths, end: offset - BLOCK_SEPARATOR.length }
+  blockLayouts.set(blocks, layout)
+  return layout
 }
 
-function getBlockIndex(document: Pick<EditorDocument, "blocks">, id: string) {
-  return document.blocks.findIndex((block) => block.id === id)
+/** Where each block starts in flat text. The caller owns the returned array. */
+function getBlockStarts(document: Pick<EditorDocument, "blocks">) {
+  return [...getBlockLayout(document).starts]
+}
+
+function getBlockIndex({ blocks }: Pick<EditorDocument, "blocks">, id: string) {
+  let indexes = blockIndexes.get(blocks)
+  if (!indexes) {
+    indexes = new Map()
+    for (const [index, block] of blocks.entries()) indexes.set(block.id, index)
+    blockIndexes.set(blocks, indexes)
+  }
+  return indexes.get(id) ?? -1
 }
 
 function toFlatOffset(
   document: Pick<EditorDocument, "blocks">,
   position: EditorPosition
 ) {
-  let offset = 0
-  for (const block of document.blocks) {
-    const length = getBlockLength(block)
-    if (block.id === position.blockId) {
-      return offset + Math.min(Math.max(position.offset, 0), length)
-    }
-    offset += length + BLOCK_SEPARATOR.length
-  }
-  return offset - BLOCK_SEPARATOR.length
+  const layout = getBlockLayout(document)
+  const index = getBlockIndex(document, position.blockId)
+  if (index === -1) return layout.end
+  return (
+    layout.starts[index] +
+    Math.min(Math.max(position.offset, 0), layout.lengths[index])
+  )
 }
 
 function fromFlatOffset(
@@ -263,18 +286,20 @@ function fromFlatOffset(
   offset: number
 ): EditorPosition {
   const { blocks } = document
-  let start = 0
-  for (const [index, block] of blocks.entries()) {
-    const length = getBlockLength(block)
-    if (offset <= start + length || index === blocks.length - 1) {
-      return {
-        blockId: block.id,
-        offset: Math.min(Math.max(offset - start, 0), length),
-      }
-    }
-    start += length + BLOCK_SEPARATOR.length
+  if (blocks.length === 0)
+    throw new Error("An editor document needs at least one block.")
+  const { starts, lengths } = getBlockLayout(document)
+  let low = 0
+  let high = blocks.length - 1
+  while (low < high) {
+    const middle = Math.floor((low + high) / 2)
+    if (offset <= starts[middle] + lengths[middle]) high = middle
+    else low = middle + 1
   }
-  throw new Error("An editor document needs at least one block.")
+  return {
+    blockId: blocks[low].id,
+    offset: Math.min(Math.max(offset - starts[low], 0), lengths[low]),
+  }
 }
 
 // MARK: Nesting

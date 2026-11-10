@@ -5,10 +5,12 @@
 // line its height) count for nothing.
 import {
   BLOCK_SEPARATOR,
+  fromFlatOffset,
+  getBlockIndex,
   getBlockLength,
-  getBlockStarts,
   getFlatText,
   LINE_BREAK,
+  toFlatOffset,
   type EditorDocument,
 } from "./editor-model"
 import {
@@ -70,13 +72,6 @@ function getBlockElement(root: Element, id: string) {
   return root.querySelector(`[data-block-id="${CSS.escape(id)}"]`)
 }
 
-function getBlockStartById(document: EditorDocument) {
-  const starts = getBlockStarts(document)
-  return new Map(
-    document.blocks.map((block, index) => [block.id, starts[index]])
-  )
-}
-
 /** Text length of the segments that sit before a DOM point inside a block. */
 function getLocalOffset(blockElement: Element, point: DomPoint) {
   const segments = getBlockSegments(blockElement)
@@ -123,9 +118,10 @@ function getFlatOffsetFromDom(
   const found = findBlockForPoint(root, point)
   if (!found) return null
   const id = found.element.getAttribute("data-block-id")
-  const block = document.blocks.find((candidate) => candidate.id === id)
-  const start = id ? getBlockStartById(document).get(id) : undefined
-  if (!block || start === undefined) return null
+  if (id === null) return null
+  const block = document.blocks[getBlockIndex(document, id)]
+  if (!block) return null
+  const start = toFlatOffset(document, { blockId: id, offset: 0 })
   const length = getBlockLength(block)
   if (found.isAfter) return start + length
   if (found.element.getAttribute("data-void") === "true") return start
@@ -138,20 +134,12 @@ function getDomPointFromFlat(
   document: EditorDocument,
   offset: number
 ): DomPoint | null {
-  const starts = getBlockStarts(document)
-  let index = document.blocks.length - 1
-  for (const [position, start] of starts.entries()) {
-    const block = document.blocks[position]
-    if (offset <= start + getBlockLength(block)) {
-      index = position
-      break
-    }
-  }
-  const block = document.blocks[index]
-  if (!block) return null
+  if (document.blocks.length === 0) return null
+  const editorPosition = fromFlatOffset(document, offset)
+  const block = document.blocks[getBlockIndex(document, editorPosition.blockId)]
   const element = getBlockElement(root, block.id)
   if (!element) return null
-  const local = Math.max(offset - starts[index], 0)
+  const local = editorPosition.offset
   if (element.getAttribute("data-void") === "true") {
     const parent = element.parentNode
     if (!parent) return null

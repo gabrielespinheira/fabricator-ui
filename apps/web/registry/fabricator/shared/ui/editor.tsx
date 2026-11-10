@@ -1914,6 +1914,7 @@ function EditorToolbar({
     <div
       role="toolbar"
       aria-label="Formatting"
+      tabIndex={0}
       data-slot="editor-toolbar"
       className={cn(
         "cn-editor-toolbar flex items-center overflow-x-auto",

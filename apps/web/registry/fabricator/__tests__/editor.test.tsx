@@ -70,6 +70,15 @@ describe("Editor", () => {
     expect(html).toContain('aria-label="Heading 1"')
   })
 
+  it("keeps the scrolling toolbar keyboard reachable with all commands disabled", () => {
+    const html = render(
+      <Editor readOnly>
+        <EditorToolbar />
+      </Editor>
+    )
+    expect(html).toMatch(/role="toolbar"[^>]*tabindex="0"/)
+  })
+
   it("skips a toolbar button for a command no kit defines", () => {
     const html = render(
       <Editor>

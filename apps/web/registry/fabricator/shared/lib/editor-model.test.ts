@@ -4,6 +4,8 @@ import {
   createBlock,
   fromFlatOffset,
   getBlockFingerprint,
+  getBlockIndex,
+  getBlockStarts,
   getBlockText,
   getFlatText,
   getIndentLimit,
@@ -75,6 +77,58 @@ describe("runs", () => {
 })
 
 describe("flat text", () => {
+  it("indexes a document once when every block subscribes to it", () => {
+    let reads = 0
+    const blocks = Array.from({ length: 1000 }, (_, index) => ({
+      ...createBlock({ type: "paragraph" }, "Text"),
+      get id() {
+        reads += 1
+        return String(index)
+      },
+    }))
+    for (let index = 0; index < blocks.length; index += 1) {
+      expect(getBlockIndex({ blocks }, String(index))).toBe(index)
+    }
+    expect(getBlockIndex({ blocks }, "missing")).toBe(-1)
+    expect(reads).toBeLessThanOrEqual(blocks.length * 2)
+  })
+
+  it("reuses flat text measurements while the document is unchanged", () => {
+    let reads = 0
+    const blocks = Array.from({ length: 100 }, (_, index) => ({
+      ...createBlock({ id: String(index), type: "paragraph" }),
+      get content() {
+        reads += 1
+        return [{ text: "Text" }]
+      },
+    }))
+    for (let index = 0; index < blocks.length; index += 1) {
+      const position = { blockId: String(index), offset: 2 }
+      expect(toFlatOffset({ blocks }, position)).toBe(index * 5 + 2)
+      expect(fromFlatOffset({ blocks }, index * 5 + 2)).toEqual(position)
+    }
+    expect(reads).toBeLessThanOrEqual(blocks.length * 2)
+  })
+
+  it("reads replaced and reordered blocks without stale offsets or indexes", () => {
+    expect(getBlockIndex(doc, "b")).toBe(1)
+    expect(getBlockStarts(doc)).toEqual([0, 6, 14, 16])
+    const changed = {
+      blocks: [
+        createBlock({ id: "b", type: "paragraph" }, "Hi"),
+        doc.blocks[0],
+      ],
+    }
+    expect(getBlockIndex(changed, "b")).toBe(0)
+    expect(getBlockIndex(changed, "missing")).toBe(-1)
+    expect(getBlockStarts(changed)).toEqual([0, 3])
+    expect(toFlatOffset(changed, { blockId: "a", offset: 20 })).toBe(8)
+    expect(fromFlatOffset(changed, 3)).toEqual({ blockId: "a", offset: 0 })
+    const starts = getBlockStarts(changed)
+    starts[0] = 42
+    expect(getBlockStarts(changed)).toEqual([0, 3])
+  })
+
   it("joins blocks with newlines, line breaks as U+2028 and void blocks as U+FFFC", () => {
     expect(getFlatText(doc)).toBe("Title\nOne\u2028Two\n\uFFFC\n")
   })

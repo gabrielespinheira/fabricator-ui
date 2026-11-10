@@ -12,6 +12,7 @@ import {
   FluidHoverProvider,
   useFluidHover,
   useFluidRow,
+  useFluidRowLit,
 } from "@/registry/native/lib/fluid-hover"
 import {
   getCellColumns,
@@ -42,7 +43,6 @@ const TableRowPositionContext = React.createContext<{
   isBeforeLit?: boolean
 }>({ isLast: false })
 const TableColumnContext = React.createContext(0)
-const TableLitContext = React.createContext<string | null>(null)
 const TableRowLitContext = React.createContext(false)
 
 function useCell(
@@ -90,9 +90,16 @@ function Table({
 
   // A caption sits under the table wherever it's written, as `caption-bottom`
   // puts it on the website, and doesn't scroll with the columns.
-  const parts = React.Children.toArray(children)
-  const isCaption = (part: React.ReactNode) =>
-    React.isValidElement(part) && part.type === TableCaption
+  const { captions, body } = React.useMemo(() => {
+    const captions: React.ReactNode[] = []
+    const body: React.ReactNode[] = []
+    for (const part of React.Children.toArray(children)) {
+      if (React.isValidElement(part) && part.type === TableCaption)
+        captions.push(part)
+      else body.push(part)
+    }
+    return { captions, body }
+  }, [children])
 
   return (
     <TableContext value={context}>
@@ -116,17 +123,11 @@ function Table({
                 hover={fluid.hover}
                 className="cn-table-highlight"
               />
-              <FluidHoverProvider fluid={fluid}>
-                <TableLitContext value={fluid.lit}>
-                  {parts.filter((part) => !isCaption(part))}
-                </TableLitContext>
-              </FluidHoverProvider>
+              <FluidHoverProvider fluid={fluid}>{body}</FluidHoverProvider>
             </View>
           </TextStyle>
         </ScrollView>
-        <TextStyle className="cn-table-text">
-          {parts.filter(isCaption)}
-        </TextStyle>
+        <TextStyle className="cn-table-text">{captions}</TextStyle>
       </View>
     </TableContext>
   )
@@ -155,7 +156,6 @@ function TableBody({
 }: React.ComponentProps<typeof View>) {
   const rows = React.Children.toArray(children)
   const id = React.useId()
-  const lit = React.use(TableLitContext)
   return (
     <TableSectionContext value="body">
       <View
@@ -165,19 +165,38 @@ function TableBody({
         {...props}
       >
         {rows.map((row, index) => (
-          <TableRowPositionContext
+          <TableRowPosition
             key={React.isValidElement(row) ? row.key : index}
-            value={{
-              isLast: index === rows.length - 1,
-              itemKey: `${id}-${index}`,
-              isBeforeLit: lit === `${id}-${index + 1}`,
-            }}
+            isLast={index === rows.length - 1}
+            itemKey={`${id}-${index}`}
+            nextKey={`${id}-${index + 1}`}
           >
             {row}
-          </TableRowPositionContext>
+          </TableRowPosition>
         ))}
       </View>
     </TableSectionContext>
+  )
+}
+
+function TableRowPosition({
+  isLast,
+  itemKey,
+  nextKey,
+  children,
+}: {
+  isLast: boolean
+  itemKey: string
+  nextKey: string
+  children: React.ReactNode
+}) {
+  const isBeforeLit = useFluidRowLit(nextKey)
+  const value = React.useMemo(
+    () => ({ isLast, itemKey, isBeforeLit }),
+    [isLast, itemKey, isBeforeLit]
+  )
+  return (
+    <TableRowPositionContext value={value}>{children}</TableRowPositionContext>
   )
 }
 

@@ -19,6 +19,7 @@ import {
   createCommandStore,
   getChildrenText,
   type CommandFilter,
+  type CommandSnapshot,
 } from "@/registry/native/lib/filter-model"
 import {
   FluidHoverScrollList,
@@ -55,8 +56,13 @@ function useCommand() {
   return context
 }
 
-function useCommandSnapshot(store: CommandStore) {
-  return React.useSyncExternalStore(store.subscribe, store.getSnapshot)
+function useCommandSelector<TValue>(
+  store: CommandStore,
+  selector: (snapshot: CommandSnapshot) => TValue
+) {
+  return React.useSyncExternalStore(store.subscribe, () =>
+    selector(store.getSnapshot())
+  )
 }
 
 function Command({
@@ -233,8 +239,8 @@ function CommandEmpty({
   ...props
 }: React.ComponentProps<typeof Text>) {
   const { store } = useCommand()
-  const { count } = useCommandSnapshot(store)
-  if (count > 0) return null
+  const isEmpty = useCommandSelector(store, (snapshot) => snapshot.count === 0)
+  if (!isEmpty) return null
   return (
     <Text
       data-slot="command-empty"
@@ -259,8 +265,11 @@ function CommandGroup({
 }) {
   const { store } = useCommand()
   const id = React.useId()
-  const { query, groupCounts } = useCommandSnapshot(store)
-  const isHidden = !forceMount && query !== "" && !groupCounts.get(id)
+  const isHidden = useCommandSelector(
+    store,
+    (snapshot) =>
+      !forceMount && snapshot.query !== "" && !snapshot.groupCounts.get(id)
+  )
   // Hidden, its items stay mounted: they're what counts for the next search.
   return (
     <CommandGroupContext value={id}>
@@ -292,11 +301,15 @@ function CommandSeparator({
   ...props
 }: React.ComponentProps<typeof View> & { alwaysRender?: boolean }) {
   const { store } = useCommand()
-  const { query } = useCommandSnapshot(store)
-  if (query !== "" && !alwaysRender) return null
+  const isSearching = useCommandSelector(
+    store,
+    (snapshot) => snapshot.query !== ""
+  )
+  if (isSearching && !alwaysRender) return null
   return (
     <View
       data-slot="command-separator"
+      aria-hidden={true}
       role="separator"
       className={cn("cn-command-separator", className)}
       {...props}
@@ -344,9 +357,11 @@ function CommandItem({
       }),
     [groupId, id, itemKeywords, itemValue, store]
   )
-  // Reads the search, so a new one re-renders every item.
-  useCommandSnapshot(store)
-  if (!forceMount && !store.isVisible(itemValue, itemKeywords)) return null
+  const isVisible = React.useSyncExternalStore(
+    store.subscribe,
+    () => forceMount || store.isItemVisible(id)
+  )
+  if (!isVisible) return null
   return <CommandItemRow itemValue={itemValue} {...props} />
 }
 
