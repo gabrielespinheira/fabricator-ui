@@ -120,33 +120,19 @@ export function getShellOptionNotes({
   }
 }
 
-export type PreviewSize = "browser" | "macos" | "windows" | "tablet" | "phone"
+export type PreviewSize = "browser" | "macos" | "windows" | "phone"
 
-/** What the preview can show, for the apps a project has. */
-export function getPreviewChoices({
+/**
+ * What the preview draws for a project: its desktop window, else its browser,
+ * else a phone for a React Native app.
+ */
+export function getPreviewSize({
   hasWeb,
   hasDesktop,
-  hasMobile,
-}: ShellProject): ReadonlyArray<{ value: PreviewSize; label: string }> {
-  const tablet = {
-    value: "tablet" as const,
-    label: hasMobile ? "Tablet" : "Tablet width",
-  }
-  const phone = {
-    value: "phone" as const,
-    label: hasMobile ? "Phone" : "Phone width",
-  }
-  return [
-    ...(hasWeb ? [{ value: "browser" as const, label: "Browser" }] : []),
-    ...(hasDesktop
-      ? [
-          { value: "macos" as const, label: "macOS" },
-          { value: "windows" as const, label: "Windows" },
-        ]
-      : []),
-    // A React Native project is mostly phones, so it opens on one.
-    ...(hasWeb || hasDesktop ? [tablet, phone] : [phone, tablet]),
-  ]
+}: ShellProject): PreviewSize {
+  if (hasDesktop) return "macos"
+  if (hasWeb) return "browser"
+  return "phone"
 }
 
 /**

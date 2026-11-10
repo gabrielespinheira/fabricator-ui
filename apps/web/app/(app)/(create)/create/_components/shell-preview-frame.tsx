@@ -22,8 +22,6 @@ const FRAME_CLASSES: Record<PreviewSize, string> = {
     "overflow-hidden rounded-[14px] shadow-surface-6 ring-1 ring-foreground/15",
   windows:
     "overflow-hidden rounded-lg shadow-surface-6 ring-1 ring-foreground/15",
-  tablet:
-    "rounded-[38px] bg-black p-3 shadow-surface-5 ring-1 ring-foreground/15",
   phone:
     "rounded-[58px] bg-black p-2.5 shadow-surface-5 ring-1 ring-foreground/15",
 }
@@ -32,7 +30,6 @@ const SCREEN_CLASSES: Record<PreviewSize, string> = {
   browser: "bg-background",
   macos: "bg-background",
   windows: "bg-background",
-  tablet: "rounded-[26px] bg-surface-1",
   phone: "rounded-[48px] bg-surface-1",
 }
 
@@ -84,18 +81,12 @@ function BatteryGlyph() {
   )
 }
 
-/** The top of a device's screen, which the system keeps for itself. */
-function DeviceStatusBar({ device }: { device: "tablet" | "phone" }) {
-  const isPhone = device === "phone"
+/** The top of a phone's screen, which the system keeps for itself. */
+function PhoneStatusBar() {
   return (
     <div
       aria-hidden
-      className={cn(
-        "flex shrink-0 items-center justify-between text-foreground select-none",
-        isPhone
-          ? "h-[54px] px-9 text-[15px] font-semibold"
-          : "h-6 px-5 text-xs font-medium"
-      )}
+      className="flex h-[54px] shrink-0 items-center justify-between px-9 text-[15px] font-semibold text-foreground select-none"
     >
       <span>9:41</span>
       <span className="flex items-center gap-1.5">
@@ -106,7 +97,7 @@ function DeviceStatusBar({ device }: { device: "tablet" | "phone" }) {
   )
 }
 
-function DeviceHomeBar() {
+function PhoneHomeBar() {
   return (
     <div
       aria-hidden
@@ -148,7 +139,7 @@ export function ShellPreviewFrame({
   const [isReady, setIsReady] = React.useState(false)
   const stageSize = useElementSize(stage)
   const layout = getPreviewLayout(size, stageSize)
-  const isDevice = size === "tablet" || size === "phone"
+  const isPhone = size === "phone"
 
   React.useEffect(() => {
     const onMessage = (event: MessageEvent) => {
@@ -204,8 +195,8 @@ export function ShellPreviewFrame({
               SCREEN_CLASSES[size]
             )}
           >
-            {isDevice ? <DeviceStatusBar device={size} /> : null}
-            {size === "phone" ? (
+            {isPhone ? <PhoneStatusBar /> : null}
+            {isPhone ? (
               <span
                 aria-hidden
                 className="absolute top-[11px] left-1/2 z-10 h-[34px] w-[122px] -translate-x-1/2 rounded-full bg-black"
@@ -227,7 +218,7 @@ export function ShellPreviewFrame({
                 isReady && "opacity-100"
               )}
             />
-            {isDevice ? <DeviceHomeBar /> : null}
+            {isPhone ? <PhoneHomeBar /> : null}
           </div>
         </div>
       </div>

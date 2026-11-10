@@ -241,7 +241,7 @@ export function getTabChoices({ hasDesktop }: ShellProject) {
 
 /**
  * The options a project's shell can't honour. `window` and `fullscreen` only
- * choose what the preview draws, so the page's size switch has them instead.
+ * choose what the preview draws, which follows the project's apps instead.
  */
 export function getHiddenShellOptions({
   hasWeb,

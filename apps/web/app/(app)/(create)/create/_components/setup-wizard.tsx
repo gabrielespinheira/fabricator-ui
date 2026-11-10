@@ -6,7 +6,6 @@ import { cn } from "cn"
 import { parseAsStringLiteral, useQueryState, useQueryStates } from "nuqs"
 
 import { setSiteSettings, useSiteSettings } from "@/lib/site-settings"
-import { Segmented } from "@/components/fabricator/site-settings"
 import { LOOK_PARAM_NAMES } from "@/registry/fabricator/look"
 import {
   Tabs,
@@ -24,10 +23,9 @@ import {
 } from "@/app/(app)/(create)/lib/setup"
 import {
   DEFAULT_PLAYGROUND_OPTIONS,
-  getPreviewChoices,
+  getPreviewSize,
   playgroundParsers,
   type PlaygroundOptions,
-  type PreviewSize,
   type ShellProject,
 } from "@/app/(view)/app-shell/_lib/options"
 
@@ -101,29 +99,11 @@ function useOldShareLink() {
   }, [setChoices])
 }
 
-const previewParsers = {
-  preview: parseAsStringLiteral([
-    "browser",
-    "tablet",
-    "phone",
-  ] as const).withDefault("browser"),
-}
-
-function getPreviewSize(
-  options: PlaygroundOptions,
-  preview: "browser" | "tablet" | "phone"
-): PreviewSize {
-  if (preview !== "browser") return preview
-  return options.window === "web" ? "browser" : options.window
-}
-
-function describePreview(size: PreviewSize, { hasMobile }: ShellProject) {
-  if (size !== "tablet" && size !== "phone") {
-    return "Sample content. Your project starts with an empty Home."
+function describePreview({ hasWeb, hasDesktop, hasMobile }: ShellProject) {
+  if (hasMobile && !hasWeb && !hasDesktop) {
+    return "Drawn with the web shell at a phone's size. Your app follows the same options, in React Native."
   }
-  return hasMobile
-    ? `Drawn with the web shell at a ${size}'s size. Your mobile app follows the same options, in React Native.`
-    : `The same shell at a ${size}'s width.`
+  return "Sample content. Your project starts with an empty Home."
 }
 
 export function SetupWizard() {
@@ -135,7 +115,6 @@ export function SetupWizard() {
   )
   const [choices, setChoices] = useQueryStates(setupParsers)
   const [shell, setShell] = useQueryStates(playgroundParsers)
-  const [{ preview }, setPreview] = useQueryStates(previewParsers)
   const settings = useSiteSettings()
   useSettingsFromShareLink()
   useOldShareLink()
@@ -155,26 +134,12 @@ export function SetupWizard() {
   }
 
   const project = getShellProject(choices)
-  const previewChoices = getPreviewChoices(project)
-  const rawSize = getPreviewSize(shell, preview)
-  // A size the project no longer has falls back to the first it does.
-  const size = previewChoices.some(({ value }) => value === rawSize)
-    ? rawSize
-    : (previewChoices[0]?.value ?? "browser")
+  const size = getPreviewSize(project)
   const previewOptions: PlaygroundOptions = {
     ...shell,
-    window: size === "macos" || size === "windows" ? size : "web",
+    window: size === "macos" ? size : "web",
   }
   const desktop = choices.desktop === "none" ? null : choices.desktop
-
-  const choosePreview = (next: PreviewSize) => {
-    void setPreview({
-      preview: next === "tablet" || next === "phone" ? next : "browser",
-    })
-    void setShell({
-      window: next === "macos" || next === "windows" ? next : "web",
-    })
-  }
 
   const onDesktopRemoved = () => {
     void setShell({
@@ -262,19 +227,9 @@ export function SetupWizard() {
             aria-label="Preview"
             className={cn("flex flex-col gap-3", !hasShellPreview && "hidden")}
           >
-            <div className="flex flex-wrap items-center justify-between gap-3">
-              <p className="min-w-48 flex-1 text-[13px] text-muted-foreground">
-                {describePreview(size, project)}
-              </p>
-              {previewChoices.length > 1 ? (
-                <Segmented
-                  label="Preview size"
-                  value={size}
-                  options={previewChoices}
-                  onValueChange={choosePreview}
-                />
-              ) : null}
-            </div>
+            <p className="text-[13px] text-muted-foreground">
+              {describePreview(project)}
+            </p>
             <ShellPreviewFrame
               options={previewOptions}
               size={size}
