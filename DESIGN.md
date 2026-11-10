@@ -529,6 +529,7 @@ Use the library's inputs for dates, times, numbers, files and colours in place o
 - **Phones are spacious, tablets a step lighter.** Phone controls are 44pt. Tablets use 40pt controls with the same text, since there is more room and the screen is read from further away. A narrow split-screen window counts as a phone.
 - **Popups follow the size of the screen:** a `Select` or a menu is a sheet from the bottom on a phone and a popover on a tablet.
 - **The App Shell on a phone:** the sidebar is revealed behind the page, the main destinations become a bottom nav, the page scrolls under a fading header, a side panel is a drawer with a grab handle, and a tab strip collapses to the active tab and a count.
+- **Native bottom navigation:** Glass and Floating keep equal-width items with centred labels, a consistent icon box and padding above and below each icon-and-label stack. The capsule grows with the text and the page clears its measured height. Glass uses Apple's native Liquid Glass on supported iOS builds, with a lighter scroll-edge fade that lets the material sample the page; Floating supplies the solid surface elsewhere.
 
 ## Patterns
 

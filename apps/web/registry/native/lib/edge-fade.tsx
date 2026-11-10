@@ -46,11 +46,14 @@ function BottomNavFade({
   color,
   clearance,
   barHeight,
+  opacity = 1,
 }: {
   /** The colour of what's behind the bar. */
   color: string
   clearance: number
   barHeight: number
+  /** Native materials already quiet the page; keep their scroll-edge fade lighter. */
+  opacity?: number
 }) {
   const { height, colors, locations } = getBottomNavFade({
     color,
@@ -64,7 +67,7 @@ function BottomNavFade({
       accessibilityElementsHidden
       colors={colors}
       locations={locations}
-      style={[styles.bottomFade, { height }]}
+      style={[styles.bottomFade, { height, opacity }]}
     />
   )
 }

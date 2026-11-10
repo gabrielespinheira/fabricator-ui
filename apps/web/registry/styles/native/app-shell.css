@@ -237,10 +237,10 @@
     @apply data-[variant=flat]:px-(--density-4) data-[variant=flat]:pt-(--density-4);
   }
 
-  /* 48pt at a phone's density, Apple's tab bar row with room for its label. The
-     pressed fill is the Fluid Hover highlight, so a tab has none of its own. */
+  /* Padding belongs inside the selection pill, around the icon and label. The
+     capsule measures this row instead of clipping larger text to a fixed height. */
   .cn-app-shell-bottom-nav-item {
-    @apply min-h-(--density-40) gap-(--density-4);
+    @apply min-h-(--density-40) gap-(--density-4) data-[variant=floating]:py-(--density-6);
   }
 
   /* The current tab's pill slides on the move timing. */
@@ -261,9 +261,9 @@
   }
 
   .cn-app-shell-bottom-nav-text-active {
-    @apply text-foreground font-semibold;
+    @apply text-foreground;
   }
 
   .cn-app-shell-bottom-nav-label {
-    @apply max-w-full px-(--density-4);
+    @apply self-stretch px-(--density-4) text-center;
   }

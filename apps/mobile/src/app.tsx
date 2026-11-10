@@ -64,21 +64,14 @@ import { Text } from "@/registry/native/ui/text"
 import { UserMenu } from "@/registry/native/ui/user-menu"
 import { WorkspaceSwitcher } from "@/registry/native/ui/workspace-switcher"
 
-import { DetailsPanel } from "./details-panel"
-import { NewTabPage, OverviewPage } from "./explorer-pages"
 import {
-  BlockLibrary,
-  BlockScreen,
-  ComponentLibrary,
-} from "./library/component-library"
-import {
-  BLOCKS_HREF,
-  COMPONENTS_HREF,
-  getBlockName,
   getComponentTitle,
   getDemoName,
   getPathFromUrl,
-} from "./library/library-model"
+} from "./components/component-model"
+import { ComponentScreen } from "./components/component-screen"
+import { DetailsPanel } from "./details-panel"
+import { NewTabPage, OverviewPage } from "./explorer-pages"
 import { EXPLORER_COMPONENTS, getNavGroups, USER, WORKSPACES } from "./nav"
 import {
   HOME_HREF,
@@ -113,10 +106,6 @@ const showNewTask = () => toast("New task")
 
 const PLATFORM_LABEL =
   Platform.OS === "ios" ? (Platform.isPad ? "iPadOS" : "iOS") : "Android"
-
-/** Opens on top of the shell, with its own way back. */
-const isFullScreenPath = (pathname: string) =>
-  pathname === EDITOR_NATIVE_SPIKE_PATH || getBlockName(pathname) !== null
 
 function getPageTitle(pathname: string, groups: AppNavGroup[]) {
   const demo = getDemoName(pathname)
@@ -234,11 +223,9 @@ function Page({
         <NativeIconsPage />
       </React.Suspense>
     )
-  if (pathname.startsWith(BLOCKS_HREF)) {
-    return <BlockLibrary onNavigate={onOpen} />
-  }
-  if (pathname.startsWith(COMPONENTS_HREF)) {
-    return <ComponentLibrary pathname={pathname} onNavigate={onOpen} />
+  const demoName = getDemoName(pathname)
+  if (demoName) {
+    return <ComponentScreen name={demoName} />
   }
   if (pathname === NEW_TAB_PATH) {
     return (
@@ -272,15 +259,14 @@ function Shell() {
 
   const pageTabs = usePageTabs()
   const { pathname } = pageTabs
-  // A block or the spike, over the shell.
-  const [fullScreen, setFullScreen] = React.useState<string | null>(null)
+  const [isSpikeOpen, setIsSpikeOpen] = React.useState(false)
   // A page in a tab leaves whatever was full screen.
   const open = (href: string) => {
-    if (isFullScreenPath(href)) {
-      setFullScreen(href)
+    if (href === EDITOR_NATIVE_SPIKE_PATH) {
+      setIsSpikeOpen(true)
       return
     }
-    setFullScreen(null)
+    setIsSpikeOpen(false)
     pageTabs.open(href)
   }
   useScreenCheck(open)
@@ -305,22 +291,9 @@ function Shell() {
     [options.reorder]
   )
 
-  if (fullScreen === EDITOR_NATIVE_SPIKE_PATH) {
-    return <EditorNativeSpike onBack={() => setFullScreen(null)} />
+  if (isSpikeOpen) {
+    return <EditorNativeSpike onBack={() => setIsSpikeOpen(false)} />
   }
-  const blockName = fullScreen ? getBlockName(fullScreen) : null
-  if (blockName) {
-    return (
-      <BlockScreen
-        name={blockName}
-        onBack={() => {
-          setFullScreen(null)
-          pageTabs.open(BLOCKS_HREF)
-        }}
-      />
-    )
-  }
-
   const activeId = getActiveNavItem(groups, pathname)
   const path = activeId ? getNavPath(groups, activeId) : []
   const getTitle = (tabPath: string) => getPageTitle(tabPath, groups)
@@ -360,7 +333,7 @@ function Shell() {
     <AppShell
       storage={null}
       mobileSidebar={options.mobileSidebar}
-      // Going back to a shell, as a block leaves, keeps its place.
+      // Returning from the spike keeps the shell in place.
       storageKey="example"
     >
       <Sidebar variant={options.variant} collapsible={options.collapse}>
@@ -475,7 +448,11 @@ function Shell() {
             variant={options.bottomNavStyle === "flat" ? "flat" : "floating"}
             capsule={
               options.bottomNavStyle === "glass" && hasLiquidGlass() ? (
-                <GlassView isInteractive colorScheme={theme.mode} />
+                <GlassView
+                  glassEffectStyle="regular"
+                  isInteractive
+                  colorScheme={theme.mode}
+                />
               ) : undefined
             }
           />

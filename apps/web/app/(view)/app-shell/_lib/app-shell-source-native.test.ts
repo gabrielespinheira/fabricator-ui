@@ -89,7 +89,7 @@ describe("buildNativeAppShellSource", () => {
     expect(glass).toContain('from "expo-glass-effect"')
     // Without Liquid Glass, a GlassView is a see-through View.
     expect(glass).toContain(
-      "capsule={isLiquidGlassAvailable() ? <GlassView isInteractive /> : undefined}"
+      'capsule={isLiquidGlassAvailable() && isGlassEffectAPIAvailable() ? <GlassView glassEffectStyle="regular" isInteractive /> : undefined}'
     )
 
     const flat = source({ bottomNav: true, bottomNavStyle: "flat" })

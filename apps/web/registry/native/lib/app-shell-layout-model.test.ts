@@ -250,6 +250,18 @@ describe("getFloatingNavMetrics", () => {
       94
     )
   })
+
+  it("grows the capsule and page clearance with padded or scaled labels", () => {
+    expect(
+      getFloatingNavMetrics({ ...base, measuredRow: 76, insetBottom: 34 })
+    ).toEqual({ height: 92, radius: 46, bottom: 22, clearance: 114 })
+  })
+
+  it("keeps the minimum row before measurement or with smaller content", () => {
+    expect(
+      getFloatingNavMetrics({ ...base, measuredRow: 40, insetBottom: 0 })
+    ).toEqual(getFloatingNavMetrics({ ...base, insetBottom: 0 }))
+  })
 })
 
 describe("getContentColumn", () => {

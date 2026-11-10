@@ -101,7 +101,10 @@ function buildImports(options: PlaygroundOptions) {
   ]
   return [
     ...(hasGlassTabBar(options)
-      ? importLines(["GlassView", "isLiquidGlassAvailable"], GLASS_PACKAGE)
+      ? importLines(
+          ["GlassView", "isLiquidGlassAvailable", "isGlassEffectAPIAvailable"],
+          GLASS_PACKAGE
+        )
       : []),
     ...importLines(usedIcons(options), ICONS_PACKAGE),
     ...(isRowOfTabs ? importLines(["View"], "react-native") : []),
@@ -382,7 +385,7 @@ function buildMain(options: PlaygroundOptions) {
             : ['    variant="floating"']),
           ...(hasGlassTabBar(options)
             ? [
-                "    capsule={isLiquidGlassAvailable() ? <GlassView isInteractive /> : undefined}",
+                '    capsule={isLiquidGlassAvailable() && isGlassEffectAPIAvailable() ? <GlassView glassEffectStyle="regular" isInteractive /> : undefined}',
               ]
             : []),
           "  />",

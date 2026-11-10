@@ -1595,11 +1595,12 @@ function AppShellStatusBar({
 
 const BottomNavContext = React.createContext<{
   setSelected: React.Dispatch<React.SetStateAction<string | undefined>>
+  variant: "flat" | "floating"
 } | null>(null)
 
 const BottomNavIndexContext = React.createContext(0)
 
-// A lit tab turns foreground too; only the current one turns semibold.
+// Colour and the sliding pill mark selection without shifting label widths.
 const bottomNavTextVariants = cva("cn-app-shell-bottom-nav-text")
 const bottomNavLitTextVariants = cva("cn-app-shell-bottom-nav-text-lit")
 const bottomNavActiveTextVariants = cva("cn-app-shell-bottom-nav-text-active")
@@ -1632,6 +1633,7 @@ function AppShellBottomNav({
   const { width } = useWindowDimensions()
   const isPhone = (shell?.size ?? getShellSize(width)) === "phone"
   const isFloating = variant === "floating"
+  const [measuredRow, setMeasuredRow] = React.useState(0)
   const [selected, setSelected] = React.useState<string>()
   const fluid = useFluidHover({
     selected: isFloating ? selected : undefined,
@@ -1641,12 +1643,13 @@ function AppShellBottomNav({
   })
   const [row, padding, gap] = useCSSVariable([
     "--density-40",
-    "--density-6",
+    "--density-4",
     "--density-12",
   ])
   const metrics = getFloatingNavMetrics({
     row: parseNumber(row, 40),
-    padding: parseNumber(padding, 6),
+    measuredRow,
+    padding: parseNumber(padding, 4),
     gap: parseNumber(gap, 12),
     insetBottom: insets.bottom,
   })
@@ -1663,7 +1666,7 @@ function AppShellBottomNav({
     setBottomNavOverlap(overlap)
     return () => setBottomNavOverlap(0)
   }, [overlap, setBottomNavOverlap])
-  const context = React.useMemo(() => ({ setSelected }), [])
+  const context = React.useMemo(() => ({ setSelected, variant }), [variant])
   const { color: fadeColor } = useResolveClassNames(bottomNavFadeVariants())
   // Something else holds the bottom of the screen (the Editor's formatting
   // bar while it has focus): step aside, keeping the page's clearance so
@@ -1678,6 +1681,7 @@ function AppShellBottomNav({
           data-slot="app-shell-bottom-nav-track"
           data-variant={variant}
           className="cn-app-shell-bottom-nav-track relative flex-row"
+          onLayout={(event) => setMeasuredRow(event.nativeEvent.layout.height)}
         >
           {isFloating ? (
             <FluidHoverSelection
@@ -1703,8 +1707,8 @@ function AppShellBottomNav({
   )
   if (isFloating) {
     const surface = {
-      height: metrics.height,
-      padding: parseNumber(padding, 6),
+      minHeight: metrics.height,
+      padding: parseNumber(padding, 4),
       borderRadius: metrics.radius,
     }
     return (
@@ -1714,6 +1718,7 @@ function AppShellBottomNav({
             color={fadeColor}
             clearance={metrics.clearance}
             barHeight={metrics.height}
+            opacity={capsule ? 0.5 : 1}
           />
         ) : null}
         <View
@@ -1807,9 +1812,14 @@ function AppShellBottomNavItem({
   }, [isActive, label, setSelected])
   const content = (
     <>
-      <IconProvider size={iconSize} strokeWidth={isActive || isLit ? 2 : 1.5}>
-        <IconSlot icon={icon} />
-      </IconProvider>
+      <View
+        className="items-center justify-center"
+        style={{ width: iconSize, height: iconSize }}
+      >
+        <IconProvider size={iconSize} strokeWidth={isActive || isLit ? 2 : 1.5}>
+          <IconSlot icon={icon} />
+        </IconProvider>
+      </View>
       <Text
         numberOfLines={1}
         // A long label in a narrow tab shrinks a little instead of truncating.
@@ -1823,6 +1833,7 @@ function AppShellBottomNavItem({
   )
   const shared = {
     "data-slot": "app-shell-bottom-nav-item",
+    "data-variant": nav?.variant ?? "flat",
     role: "button" as const,
     "aria-selected": isActive,
     accessibilityState: { selected: isActive },

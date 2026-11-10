@@ -114,16 +114,19 @@ export function getFabBottom({
  */
 export function getFloatingNavMetrics({
   row,
+  measuredRow = 0,
   padding,
   gap,
   insetBottom,
 }: {
   row: number
+  /** The laid-out icon, label and item padding, including Dynamic Type. */
+  measuredRow?: number
   padding: number
   gap: number
   insetBottom: number
 }) {
-  const height = row + 2 * padding
+  const height = Math.max(row, measuredRow) + 2 * padding
   const bottom = Math.max(insetBottom - gap, gap)
   return { height, bottom, radius: height / 2, clearance: bottom + height }
 }
