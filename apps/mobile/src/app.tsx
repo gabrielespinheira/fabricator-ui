@@ -10,13 +10,20 @@ import {
 } from "@fabricator-ui/app-shell-model"
 import {
   BellIcon,
-  GitBranchIcon,
   LogOutIcon,
+  MoonIcon,
   PlusIcon,
+  SunIcon,
   UserIcon,
 } from "@fabricator-ui/icons-react-native"
 import { StatusBar } from "expo-status-bar"
-import { Linking, useWindowDimensions, View } from "react-native"
+import {
+  Linking,
+  Platform,
+  Pressable,
+  useWindowDimensions,
+  View,
+} from "react-native"
 import { KeyboardProvider } from "react-native-keyboard-controller"
 import { SafeAreaProvider } from "react-native-safe-area-context"
 
@@ -25,23 +32,20 @@ import {
   AppNav,
   AppNavBottomBar,
   AppNavCustomize,
+  type AppNavGroup,
   type AppNavItem,
 } from "@/registry/native/ui/app-nav"
 import {
   AppShell,
   AppShellBreadcrumb,
-  AppShellContent,
   AppShellHeader,
   AppShellHeaderActions,
   AppShellMain,
-  AppShellPageTitle,
   AppShellPanel,
-  AppShellPanelClose,
-  AppShellPanelHeader,
-  AppShellPanelTabs,
   AppShellPanelTrigger,
   AppShellStatusBar,
 } from "@/registry/native/ui/app-shell"
+import { Button } from "@/registry/native/ui/button"
 import {
   DropdownMenuGroup,
   DropdownMenuItem,
@@ -60,6 +64,8 @@ import { Text } from "@/registry/native/ui/text"
 import { UserMenu } from "@/registry/native/ui/user-menu"
 import { WorkspaceSwitcher } from "@/registry/native/ui/workspace-switcher"
 
+import { DetailsPanel } from "./details-panel"
+import { NewTabPage, OverviewPage } from "./explorer-pages"
 import {
   BlockLibrary,
   BlockScreen,
@@ -73,9 +79,16 @@ import {
   getDemoName,
   getPathFromUrl,
 } from "./library/library-model"
-import { NAV_GROUPS, PANEL_VIEWS, USER, WORKSPACES } from "./nav"
-import { PageTabs, usePageTabs } from "./page-tabs"
-import { PanelViews } from "./panel-views"
+import { EXPLORER_COMPONENTS, getNavGroups, USER, WORKSPACES } from "./nav"
+import {
+  HOME_HREF,
+  NEW_TAB_PATH,
+  NEW_TAB_TITLE,
+  PageTabs,
+  usePageTabs,
+} from "./page-tabs"
+import { ScreenBoundary } from "./screen-boundary"
+import { useScreenCheck } from "./screen-check/use-screen-check"
 import { SettingsCard } from "./settings"
 import {
   DEFAULT_SHELL_OPTIONS,
@@ -90,20 +103,21 @@ import {
 } from "./spikes/editor-native-spike"
 import { ThemeProvider, useTheme, useThemeSettings } from "./theme"
 
-const HOME_HREF = "/"
-const SETTINGS_HREF = "/settings"
-
 const showNewTask = () => toast("New task")
 
-const isLibraryPath = (pathname: string) =>
-  pathname.startsWith(COMPONENTS_HREF) || pathname.startsWith(BLOCKS_HREF)
+const PLATFORM_LABEL =
+  Platform.OS === "ios" ? (Platform.isPad ? "iPadOS" : "iOS") : "Android"
 
-function getPageTitle(pathname: string) {
+/** Opens on top of the shell, with its own way back. */
+const isFullScreenPath = (pathname: string) =>
+  pathname === EDITOR_NATIVE_SPIKE_PATH || getBlockName(pathname) !== null
+
+function getPageTitle(pathname: string, groups: AppNavGroup[]) {
   const demo = getDemoName(pathname)
   if (demo) return getComponentTitle(demo)
-  const activeId = getActiveNavItem(NAV_GROUPS, pathname)
-  const path = activeId ? getNavPath(NAV_GROUPS, activeId) : []
-  return path.at(-1)?.label ?? "Home"
+  const activeId = getActiveNavItem(groups, pathname)
+  const path = activeId ? getNavPath(groups, activeId) : []
+  return path.at(-1)?.label ?? "Overview"
 }
 
 function AccountMenuItems() {
@@ -156,55 +170,80 @@ function SetupCards({
   )
 }
 
-/** The page: its title, then its content on the page's own rhythm. */
+/** Stands in the sidebar's header without a workspace switcher. */
+function Brand({ onPress }: { onPress: () => void }) {
+  return (
+    <Pressable
+      role="link"
+      accessibilityLabel="Fabricator UI, overview"
+      onPress={onPress}
+      className="h-8 flex-row items-center rounded-lg px-2"
+    >
+      <Text className="text-lg font-semibold tracking-tight text-foreground">
+        Fabricator UI
+      </Text>
+    </Pressable>
+  )
+}
+
+function ThemeToggle() {
+  const { isDark } = useTheme()
+  const { setThemeChoice } = useThemeSettings()
+  return (
+    <Button
+      variant="ghost"
+      size="xs"
+      className="ml-auto"
+      onPress={() => setThemeChoice(isDark ? "light" : "dark")}
+    >
+      {isDark ? <SunIcon /> : <MoonIcon />}
+      {isDark ? "Light" : "Dark"}
+    </Button>
+  )
+}
+
+/** The page a tab is on. */
 function Page({
-  title,
   pathname,
-  setup,
-  contentSize,
-  onNavigate,
+  isPhone,
+  options,
+  onOptionsChange,
+  onOpen,
 }: {
-  title: string
   pathname: string
-  setup: React.ReactNode
-  contentSize: ShellOptions["contentSize"]
-  onNavigate: (href: string) => void
+  isPhone: boolean
+  options: ShellOptions
+  onOptionsChange: (options: ShellOptions) => void
+  onOpen: (href: string) => void
 }) {
   if (pathname.startsWith(BLOCKS_HREF)) {
-    return <BlockLibrary onNavigate={onNavigate} />
+    return <BlockLibrary onNavigate={onOpen} />
   }
   if (pathname.startsWith(COMPONENTS_HREF)) {
-    return <ComponentLibrary pathname={pathname} onNavigate={onNavigate} />
+    return <ComponentLibrary pathname={pathname} onNavigate={onOpen} />
   }
-  const isSetup = pathname === HOME_HREF || pathname === SETTINGS_HREF
+  if (pathname === NEW_TAB_PATH) {
+    return (
+      <NewTabPage
+        contentSize={options.contentSize}
+        isPhone={isPhone}
+        onOpen={onOpen}
+      />
+    )
+  }
   return (
-    <AppShellContent
-      // Each page opens at its top.
-      key={pathname}
-      size={contentSize}
-      contentContainerClassName="gap-6"
-    >
-      <AppShellPageTitle>{title}</AppShellPageTitle>
-      {isSetup ? (
-        <>
-          <Text className="text-base text-muted-foreground">
-            Set up the shell and its look here.
-          </Text>
-          {setup}
-        </>
-      ) : (
-        <>
-          <Text className="text-base text-muted-foreground">
-            The shell's options and settings are on Home. This screen's active
-            page, breadcrumb and panel placement come from lib/app-shell-model,
-            the same file the web shell runs.
-          </Text>
-          {Array.from({ length: 6 }, (_, index) => (
-            <View key={index} className="h-32 rounded-xl bg-muted/50" />
-          ))}
-        </>
-      )}
-    </AppShellContent>
+    <OverviewPage
+      contentSize={options.contentSize}
+      isPhone={isPhone}
+      onOpen={onOpen}
+      setup={
+        <SetupCards
+          options={options}
+          onOptionsChange={onOptionsChange}
+          isPhone={isPhone}
+        />
+      }
+    />
   )
 }
 
@@ -213,11 +252,23 @@ function Shell() {
   const { width } = useWindowDimensions()
   const isPhone = getShellSize(width) === "phone"
 
-  const pageTabs = usePageTabs({ homeHref: HOME_HREF })
-  const { pathname, setPathname } = pageTabs
+  const pageTabs = usePageTabs()
+  const { pathname } = pageTabs
+  // A block or the spike, over the shell.
+  const [fullScreen, setFullScreen] = React.useState<string | null>(null)
+  // A page in a tab leaves whatever was full screen.
+  const open = (href: string) => {
+    if (isFullScreenPath(href)) {
+      setFullScreen(href)
+      return
+    }
+    setFullScreen(null)
+    pageTabs.open(href)
+  }
+  useScreenCheck(open)
   const openUrl = React.useEffectEvent((url: string | null | undefined) => {
     const path = getPathFromUrl(url) ?? getSpikePathFromUrl(url)
-    if (path) setPathname(path)
+    if (path) open(path)
   })
   React.useEffect(() => {
     void Linking.getInitialURL().then(openUrl)
@@ -231,49 +282,51 @@ function Shell() {
   )
   const [workspaceId, setWorkspaceId] = React.useState("acme")
   const [options, setOptions] = React.useState(DEFAULT_SHELL_OPTIONS)
+  const groups = React.useMemo(
+    () => getNavGroups({ reorderable: options.reorder }),
+    [options.reorder]
+  )
 
-  if (pathname === EDITOR_NATIVE_SPIKE_PATH) {
-    return <EditorNativeSpike onBack={() => setPathname(HOME_HREF)} />
+  if (fullScreen === EDITOR_NATIVE_SPIKE_PATH) {
+    return <EditorNativeSpike onBack={() => setFullScreen(null)} />
   }
-
-  const blockName = getBlockName(pathname)
+  const blockName = fullScreen ? getBlockName(fullScreen) : null
   if (blockName) {
     return (
       <BlockScreen
         name={blockName}
         onBack={() => {
-          setPathname(BLOCKS_HREF)
+          setFullScreen(null)
+          pageTabs.open(BLOCKS_HREF)
         }}
       />
     )
   }
 
-  const activeId = getActiveNavItem(NAV_GROUPS, pathname)
-  const path = activeId ? getNavPath(NAV_GROUPS, activeId) : []
-  const title = getPageTitle(pathname)
+  const activeId = getActiveNavItem(groups, pathname)
+  const path = activeId ? getNavPath(groups, activeId) : []
+  const getTitle = (tabPath: string) => getPageTitle(tabPath, groups)
+  const title = pathname === NEW_TAB_PATH ? NEW_TAB_TITLE : getTitle(pathname)
+  const activeComponent = getDemoName(pathname)
   const workspace =
     WORKSPACES.find((entry) => entry.id === workspaceId) ?? WORKSPACES[0]
   const navigate = (item: AppNavItem) => {
-    if (item.href) setPathname(item.href)
+    if (item.href) open(item.href)
   }
+  // The trail to the page; the group a component is in has no page.
   const crumbs = [
-    ...path.map((item) => ({
+    ...path.slice(0, -1).map((item) => ({
       label: item.label,
       onSelect: item.href ? () => navigate(item) : undefined,
     })),
-    // A demo is a level below its list, which isn't in the navigation.
-    ...(getDemoName(pathname) ? [{ label: title }] : []),
+    { label: title },
   ]
-  const hasAccountOnTop = options.account === "header"
   const hasSwitcher = options.switcher !== "none"
-  const groups = NAV_GROUPS.map((group) => ({
-    ...group,
-    reorderable: options.reorder,
-  }))
+  const hasAccountOnTop = options.account === "header"
   const panelTrigger = options.panel ? (
     <AppShellPanelTrigger panel="details" />
   ) : null
-  const pageTabStrip = <PageTabs pageTabs={pageTabs} getTitle={getPageTitle} />
+  const pageTabStrip = <PageTabs pageTabs={pageTabs} getTitle={getTitle} />
   // Tablets only: on a phone the library floats the primary action over the page,
   // and this example shows no floating button.
   const hasHeaderActions = options.actions && !isPhone
@@ -293,26 +346,26 @@ function Shell() {
       storageKey="example"
     >
       <Sidebar variant={options.variant} collapsible={options.collapse}>
-        {hasSwitcher || hasAccountOnTop ? (
-          <SidebarHeader className="flex-row items-center">
-            {hasAccountOnTop ? (
-              <UserMenu variant="mark" align="start" user={USER}>
-                <AccountMenuItems />
-              </UserMenu>
-            ) : null}
-            {hasSwitcher ? (
-              <WorkspaceSwitcher
-                variant={options.switcher === "command" ? "command" : "menu"}
-                workspaces={WORKSPACES}
-                activeId={workspaceId}
-                onSelect={setWorkspaceId}
-                size={hasAccountOnTop ? "mark" : "row"}
-                onCreate={() => toast("Create a workspace")}
-                onManage={() => toast("Manage workspaces")}
-              />
-            ) : null}
-          </SidebarHeader>
-        ) : null}
+        <SidebarHeader className="flex-row items-center">
+          {hasAccountOnTop ? (
+            <UserMenu variant="mark" align="start" user={USER}>
+              <AccountMenuItems />
+            </UserMenu>
+          ) : null}
+          {hasSwitcher ? (
+            <WorkspaceSwitcher
+              variant={options.switcher === "command" ? "command" : "menu"}
+              workspaces={WORKSPACES}
+              activeId={workspaceId}
+              onSelect={setWorkspaceId}
+              size={hasAccountOnTop ? "mark" : "row"}
+              onCreate={() => toast("Create a workspace")}
+              onManage={() => toast("Manage workspaces")}
+            />
+          ) : (
+            <Brand onPress={() => open(HOME_HREF)} />
+          )}
+        </SidebarHeader>
         <SidebarContent>
           <AppNav
             groups={groups}
@@ -349,10 +402,14 @@ function Shell() {
             <AppShellBreadcrumb
               items={
                 isPhone
-                  ? crumbs.length > 0
-                    ? crumbs
-                    : [{ label: title }]
-                  : [{ label: workspace.name }, ...crumbs]
+                  ? crumbs
+                  : [
+                      {
+                        label: hasSwitcher ? workspace.name : "Fabricator UI",
+                        onSelect: () => open(HOME_HREF),
+                      },
+                      ...crumbs,
+                    ]
               }
             />
           ) : isPhone ? (
@@ -366,7 +423,7 @@ function Shell() {
               {title}
             </Text>
           )}
-          {hasHeaderActions && !isLibraryPath(pathname) ? (
+          {hasHeaderActions ? (
             <AppShellHeaderActions
               primaryAction={{
                 id: "new-task",
@@ -383,22 +440,18 @@ function Shell() {
             {pageTabStrip}
           </View>
         ) : null}
-        <Page
-          title={title}
-          pathname={pathname}
-          contentSize={options.contentSize}
-          onNavigate={setPathname}
-          setup={
-            <SetupCards
-              options={options}
-              onOptionsChange={setOptions}
-              isPhone={isPhone}
-            />
-          }
-        />
+        <ScreenBoundary key={pathname}>
+          <Page
+            pathname={pathname}
+            isPhone={isPhone}
+            options={options}
+            onOptionsChange={setOptions}
+            onOpen={open}
+          />
+        </ScreenBoundary>
         {options.bottomNav ? (
           <AppNavBottomBar
-            groups={NAV_GROUPS}
+            groups={groups}
             pathname={pathname}
             onNavigate={navigate}
             variant={options.bottomNavStyle === "flat" ? "flat" : "floating"}
@@ -415,30 +468,23 @@ function Shell() {
           id="details"
           label="Details"
           side="right"
-          views={PANEL_VIEWS}
           defaultOpen
-          defaultView="details"
           defaultWidth={320}
           minWidth={240}
           maxWidth={480}
           mobile={options.panelMobile}
         >
-          <AppShellPanelHeader>
-            <AppShellPanelTabs />
-            <AppShellPanelClose />
-          </AppShellPanelHeader>
-          <PanelViews title={title} />
+          <DetailsPanel slug={activeComponent} />
         </AppShellPanel>
       ) : null}
       {options.status ? (
         <AppShellStatusBar>
-          <GitBranchIcon />
-          <Text>main</Text>
-          <Text>Synced</Text>
-          <Text className="ml-auto">4 open</Text>
+          <Text>React Native · {PLATFORM_LABEL}</Text>
+          <Text>{EXPLORER_COMPONENTS.length} components</Text>
+          <ThemeToggle />
         </AppShellStatusBar>
       ) : null}
-      {isLibraryPath(pathname) ? null : <Toaster />}
+      {activeComponent ? null : <Toaster />}
     </AppShell>
   )
 }

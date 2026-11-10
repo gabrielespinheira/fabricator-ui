@@ -67,7 +67,20 @@ function getOptionKeys(options: ShellOptions) {
   )
 }
 
-/** The website's defaults, for an app: a tab bar, in the best style it can draw. */
+/**
+ * Where the desktop example's explorer differs from the website's defaults: its
+ * brand tops the sidebar, and components open in tabs.
+ */
+const EXPLORER_DEFAULTS: Partial<ShellOptions> = {
+  switcher: "none",
+  account: "none",
+  reorder: false,
+  breadcrumb: false,
+  actions: false,
+  tabs: "main",
+}
+
+/** The desktop example's shell, for an app: a tab bar, in the best style it can draw. */
 export function getDefaultShellOptions({
   hasGlass,
 }: {
@@ -75,6 +88,7 @@ export function getDefaultShellOptions({
 }): ShellOptions {
   return {
     ...WEBSITE_DEFAULTS,
+    ...EXPLORER_DEFAULTS,
     bottomNav: true,
     bottomNavStyle: hasGlass ? "glass" : "flat",
   }

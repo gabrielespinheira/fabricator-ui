@@ -1,0 +1,10 @@
+---
+title: November 2026 - Tab Strip on phones and React Native fixes
+description: On React Native phones the Tab Strip shows the active tab and a tab count, either of which opens a sheet of every tab as a card. Message Scroller opens at the start, and the editor's native view registers in every install.
+date: 2026-11-10
+---
+
+- **A tab switcher on phones.** A phone's width fits about one and a half tabs, so on React Native phones the Tab Strip shows only the active tab, on a raised pill, and a count of open tabs. Tapping either opens a sheet with every tab as a card: tap a card to switch to it, tap × to close it, or long press it for the tab's menu. The sheet also has New tab and Done, so `TabStripNew` draws nothing on a phone. Tablets keep the full strip, and the API is the same, so existing code needs no changes.
+- **The React Native example matches the desktop one.** Its sidebar is the same component explorer: an overview, then a row per component group that holds its components. Each component opens in a tab, and the Details panel has its install command.
+- **Message Scroller opens at the start.** With `defaultScrollPosition="start"`, a React Native transcript longer than the first batch of messages it renders used to open part of the way down. It now opens on the first message, and `scrollToStart()` reaches it too.
+- **The editor's native view registers when installed through a link.** `@fabricator-ui/editor-native` names its podspec for Expo, so a `file:` or `link:` install no longer fails with "native component is not registered".

@@ -4,6 +4,13 @@ import * as React from "react"
 import { useTheme } from "next-themes"
 import { useQueryStates } from "nuqs"
 
+import {
+  COMPONENT_PATH,
+  getExplorerNavGroups,
+  getExplorerTabId,
+  getNewTabId,
+  isNewTab,
+} from "@/lib/component-explorer"
 import { getComponentGroup } from "@/lib/component-groups"
 import {
   BoxIcon,
@@ -47,15 +54,7 @@ import {
   type GalleryItem,
 } from "@/app/(app)/(root)/_components/gallery"
 
-import {
-  COMPONENT_PATH,
-  getExplorerNavGroups,
-  getExplorerTabId,
-  getNewTabId,
-  isNewTab,
-  withGlass,
-  type DesktopHost,
-} from "../_lib/desktop"
+import { withGlass, type DesktopHost } from "../_lib/desktop"
 import {
   DEFAULT_EXPLORER_OPTIONS,
   explorerParsers,

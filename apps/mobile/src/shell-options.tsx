@@ -2,11 +2,10 @@ import {
   IconProvider,
   LayersIcon,
   RotateCcwIcon,
-  ShareIcon,
   SmartphoneIcon,
   TabletIcon,
 } from "@fabricator-ui/icons-react-native"
-import { Share, View } from "react-native"
+import { View } from "react-native"
 import { useCSSVariable } from "uniwind"
 
 import {
@@ -41,6 +40,7 @@ import {
   NATIVE_PROJECT,
   type ShellOptions,
 } from "./shell-options-model"
+import { CommandBox } from "./shell/command-box"
 import { hasLiquidGlass } from "./shell/glass"
 import { SegmentedControl } from "./shell/segmented-control"
 
@@ -199,7 +199,7 @@ function OptionSection({
   )
 }
 
-/** What installs these choices. The share sheet has Copy. */
+/** What installs these choices. */
 function InstallCommand({ options }: { options: ShellOptions }) {
   const command = buildInstallCommand(options)
   return (
@@ -210,22 +210,7 @@ function InstallCommand({ options }: { options: ShellOptions }) {
       >
         Install with the CLI
       </Text>
-      <View className="flex-row items-start gap-2 rounded-lg bg-foreground/5 py-2 pr-1 pl-3">
-        <Text
-          selectable
-          className="flex-1 font-mono text-(length:--density-text-11) text-foreground"
-        >
-          {command}
-        </Text>
-        <Button
-          variant="ghost"
-          size="icon-sm"
-          accessibilityLabel="Share the install command"
-          onPress={() => void Share.share({ message: command })}
-        >
-          <ShareIcon />
-        </Button>
-      </View>
+      <CommandBox command={command} />
       <Text className="text-(length:--density-text-12) text-muted-foreground">
         Writes components/app-shell-layout.tsx with these choices.
       </Text>

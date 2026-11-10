@@ -13,8 +13,8 @@ import {
   NATIVE_PROJECT,
   type ShellOptions,
 } from "../../../../../mobile/src/shell-options-model"
+import { DEFAULT_EXPLORER_OPTIONS } from "../../desktop/_lib/explorer-options"
 import { parseAppShellParams } from "./app-shell-source"
-import { DEFAULT_PLAYGROUND_OPTIONS } from "./options"
 
 const defaults = getDefaultShellOptions({ hasGlass: true })
 
@@ -49,16 +49,17 @@ describe("the React Native App Shell card", () => {
     expect(countChangedOptions(defaults, defaults)).toBe(0)
     expect(
       countChangedOptions(
-        { ...defaults, tabs: "main", customize: true },
+        { ...defaults, tabs: "none", customize: true },
         defaults
       )
     ).toBe(2)
   })
 
-  it("starts from the website's defaults, with a tab bar", () => {
+  it("starts from the desktop example's shell, with a tab bar", () => {
     expect(getDefaultShellOptions({ hasGlass: true })).toEqual({
-      ...DEFAULT_PLAYGROUND_OPTIONS,
+      ...DEFAULT_EXPLORER_OPTIONS,
       bottomNav: true,
+      bottomNavStyle: "glass",
     })
   })
 

@@ -1,4 +1,5 @@
-// The library's components, in the website's groups. Each row opens the item's
+// The searchable list of the library's components, in the website's groups,
+// and the page each opens. Each row opens the item's
 // demo from apps/web/examples/native, running the compiled registry source.
 import * as React from "react"
 import { NATIVE_BLOCKS, NATIVE_EXAMPLES } from "@/examples/native/__index__"
@@ -9,13 +10,12 @@ import {
 } from "@fabricator-ui/icons-react-native"
 import { Pressable, View } from "react-native"
 import Animated from "react-native-reanimated"
-import { useSafeAreaInsets } from "react-native-safe-area-context"
-
 import {
-  COMPONENT_GROUPS,
-  getComponentGroup,
-  type ComponentGroup,
-} from "@/lib/component-groups"
+  SafeAreaInsetsContext,
+  useSafeAreaInsets,
+} from "react-native-safe-area-context"
+
+import { COMPONENT_GROUPS, getComponentGroup } from "@/lib/component-groups"
 import { useFeedback } from "@/registry/native/lib/feedback"
 import { FluidHoverList, useFluidRow } from "@/registry/native/lib/fluid-hover"
 import { useSurfaceAnimation } from "@/registry/native/lib/motion"
@@ -27,6 +27,7 @@ import { Button } from "@/registry/native/ui/button"
 import { Input } from "@/registry/native/ui/input"
 import { Text, TextStyle } from "@/registry/native/ui/text"
 
+import { ScreenBoundary } from "../screen-boundary"
 import {
   BLOCKS_HREF,
   COMPONENTS_HREF,
@@ -35,14 +36,8 @@ import {
   getDemoName,
 } from "./library-model"
 
-const FOUNDATIONS = ["text", "density"]
-
 // How far a page slides as it opens: a hint of direction, not a full push.
 const PAGE_TRAVEL = 16
-
-function getGroup(name: string): ComponentGroup | "Foundations" {
-  return FOUNDATIONS.includes(name) ? "Foundations" : getComponentGroup(name)
-}
 
 function ComponentRow({
   name,
@@ -100,14 +95,13 @@ function PageTransition({
 function ComponentList({ onNavigate }: { onNavigate: (href: string) => void }) {
   const [query, setQuery] = React.useState("")
   const names = filterComponents(Object.keys(NATIVE_EXAMPLES), query)
-  const groups = ["Foundations", ...COMPONENT_GROUPS] as const
   return (
     <AppShellContent
       size="md"
       keyboardShouldPersistTaps="handled"
       contentContainerClassName="gap-6"
     >
-      <AppShellPageTitle>UI</AppShellPageTitle>
+      <AppShellPageTitle>Library</AppShellPageTitle>
       <Input
         placeholder={`Search ${Object.keys(NATIVE_EXAMPLES).length} components`}
         value={query}
@@ -115,8 +109,8 @@ function ComponentList({ onNavigate }: { onNavigate: (href: string) => void }) {
         autoCorrect={false}
         autoCapitalize="none"
       />
-      {groups.map((group) => {
-        const rows = names.filter((name) => getGroup(name) === group)
+      {COMPONENT_GROUPS.map((group) => {
+        const rows = names.filter((name) => getComponentGroup(name) === group)
         if (rows.length === 0) return null
         return (
           <View key={group} className="gap-1">
@@ -151,7 +145,12 @@ function ComponentDemo({ name }: { name: string }) {
   // The way back is in the header's breadcrumb. The title scrolls with the demo,
   // under the header, and takes the header's place once it's gone.
   const heading = (
-    <AppShellPageTitle>{getComponentTitle(name)}</AppShellPageTitle>
+    <View className="gap-1">
+      <AppShellPageTitle>{getComponentTitle(name)}</AppShellPageTitle>
+      <Text className="text-sm text-muted-foreground">
+        {getComponentGroup(name)}
+      </Text>
+    </View>
   )
   if (!Example) {
     return (
@@ -190,8 +189,9 @@ function BlockList({ onNavigate }: { onNavigate: (href: string) => void }) {
 }
 
 /**
- * One block, as the screen it is: it has its own shell and its own header, so it
- * takes the whole window, with a way back floating over it.
+ * One block, as the screen it is, under a bar with the way back: a block has its
+ * own shell, header and tab bar, so nothing floats over it. The block starts
+ * below the bar, so it takes no top safe area of its own.
  */
 export function BlockScreen({
   name,
@@ -201,29 +201,50 @@ export function BlockScreen({
   onBack: () => void
 }) {
   const insets = useSafeAreaInsets()
+  const blockInsets = React.useMemo(() => ({ ...insets, top: 0 }), [insets])
   const Block = NATIVE_BLOCKS[name]?.()
   return (
-    <PageTransition pageKey={name} isBack={false}>
-      {Block ? (
-        <Block />
-      ) : (
-        <Text className="p-4 text-muted-foreground">
-          No block named {name}.
-        </Text>
-      )}
-      <Button
-        variant="outline"
-        size="sm"
-        accessibilityLabel="All blocks"
-        onPress={onBack}
-        // Clear of a sidebar's footer on a tablet.
-        className="absolute left-4 bg-background shadow-surface-3 md:right-4 md:left-auto"
-        style={{ bottom: insets.bottom + 8 }}
+    <View className="flex-1 bg-background">
+      <View
+        className="border-b border-border"
+        style={{ paddingTop: insets.top }}
       >
-        <ChevronLeftIcon />
-        Blocks
-      </Button>
-    </PageTransition>
+        <View className="h-(--density-48) flex-row items-center px-(--density-8)">
+          <View className="flex-1 items-start">
+            <Button
+              variant="ghost"
+              size="sm"
+              accessibilityLabel="All blocks"
+              onPress={onBack}
+            >
+              <ChevronLeftIcon />
+              Blocks
+            </Button>
+          </View>
+          <Text
+            role="heading"
+            numberOfLines={1}
+            className="text-(length:--density-text-14) font-medium text-foreground"
+          >
+            {getComponentTitle(name)}
+          </Text>
+          <View className="flex-1" />
+        </View>
+      </View>
+      <SafeAreaInsetsContext value={blockInsets}>
+        <PageTransition pageKey={name} isBack={false}>
+          {Block ? (
+            <ScreenBoundary>
+              <Block />
+            </ScreenBoundary>
+          ) : (
+            <Text className="p-4 text-muted-foreground">
+              No block named {name}.
+            </Text>
+          )}
+        </PageTransition>
+      </SafeAreaInsetsContext>
+    </View>
   )
 }
 

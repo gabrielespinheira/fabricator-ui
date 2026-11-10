@@ -1,6 +1,9 @@
 import { describe, expect, it } from "vitest"
 
-import { pickIpad } from "../../../../../mobile/scripts/pick-ipad.mjs"
+import {
+  pickIpad,
+  pickIphone,
+} from "../../../../../mobile/scripts/pick-simulator.mjs"
 
 const IOS_26 = "com.apple.CoreSimulator.SimRuntime.iOS-26-0"
 const IOS_27 = "com.apple.CoreSimulator.SimRuntime.iOS-27-0"
@@ -53,5 +56,31 @@ describe("pickIpad", () => {
   it("has nothing to pick without an iPad", () => {
     expect(pickIpad({ [IOS_27]: [iphone] })).toBeNull()
     expect(pickIpad({})).toBeNull()
+  })
+})
+
+describe("pickIphone", () => {
+  const phone = (name: string, state = "Shutdown") =>
+    ipad(name, state, "iPhone-17")
+
+  it("never picks an iPad", () => {
+    expect(
+      pickIphone({ [IOS_27]: [ipad("iPad", "Booted"), phone("Phone")] })?.name
+    ).toBe("Phone")
+  })
+
+  it("reuses one that's already running, then takes the newest iOS", () => {
+    const running = phone("Old phone", "Booted")
+    expect(
+      pickIphone({ [IOS_26]: [running], [IOS_27]: [phone("New phone")] })
+    ).toBe(running)
+    const newest = phone("New phone")
+    expect(
+      pickIphone({ [IOS_26]: [phone("Old phone")], [IOS_27]: [newest] })
+    ).toBe(newest)
+  })
+
+  it("has nothing to pick without an iPhone", () => {
+    expect(pickIphone({ [IOS_27]: [ipad("iPad")] })).toBeNull()
   })
 })

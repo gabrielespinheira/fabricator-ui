@@ -15,7 +15,8 @@
       "@/registry/fabricator/*": ["../web/registry/fabricator/*"],
       "@/registry/native/*": ["../web/registry/native/*"],
       "@/examples/native/*": ["../web/examples/native/*"],
-      "@/lib/component-groups": ["../web/lib/component-groups.ts"]
+      "@/lib/component-groups": ["../web/lib/component-groups.ts"],
+      "@/lib/component-explorer": ["../web/lib/component-explorer.ts"]
     }
   },
   "include": [

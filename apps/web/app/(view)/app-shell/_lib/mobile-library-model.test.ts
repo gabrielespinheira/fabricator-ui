@@ -4,8 +4,11 @@ import {
   BLOCKS_HREF,
   COMPONENTS_HREF,
   getBlockName,
+  getComponentDocsUrl,
+  getComponentInstallCommand,
   getComponentTitle,
   getDemoName,
+  getExplorerComponents,
 } from "../../../../../mobile/src/library/library-model"
 
 describe("the React Native example's library paths", () => {
@@ -33,5 +36,28 @@ describe("the React Native example's component titles", () => {
 
   it("uses the registry's title where it says more", () => {
     expect(getComponentTitle("editor")).toBe("Rich Text Editor")
+  })
+})
+
+describe("the React Native example's explorer", () => {
+  it("lists each demo under its title and the website's group", () => {
+    expect(getExplorerComponents(["editor", "text"])).toEqual([
+      { slug: "editor", title: "Rich Text Editor", group: "Forms" },
+      { slug: "text", title: "Text", group: "Basics" },
+    ])
+  })
+})
+
+describe("the React Native example's details panel", () => {
+  it("installs a component with the CLI", () => {
+    expect(getComponentInstallCommand("button")).toBe(
+      "npx fabricator-ui@latest add button"
+    )
+  })
+
+  it("links to the component's React Native docs", () => {
+    expect(getComponentDocsUrl("dropdown-menu")).toBe(
+      "https://fabricator-ui.vercel.app/docs/components/native/dropdown-menu"
+    )
   })
 })

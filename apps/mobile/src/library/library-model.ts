@@ -1,3 +1,6 @@
+import type { ExplorerComponent } from "@/lib/component-explorer"
+import { getComponentGroup } from "@/lib/component-groups"
+
 export const COMPONENTS_HREF = "/components"
 export const BLOCKS_HREF = "/blocks"
 
@@ -31,6 +34,26 @@ export function getComponentTitle(name: string) {
       word === "otp" ? "OTP" : word.charAt(0).toUpperCase() + word.slice(1)
     )
     .join(" ")
+}
+
+/** The demos as the explorer lists them: titled, in the website's groups. */
+export function getExplorerComponents(names: string[]): ExplorerComponent[] {
+  return names.map((slug) => ({
+    slug,
+    title: getComponentTitle(slug),
+    group: getComponentGroup(slug),
+  }))
+}
+
+const SITE_URL = "https://fabricator-ui.vercel.app"
+
+/** What adds a component to a React Native project. */
+export function getComponentInstallCommand(slug: string) {
+  return `npx fabricator-ui@latest add ${slug}`
+}
+
+export function getComponentDocsUrl(slug: string) {
+  return `${SITE_URL}/docs/components/native/${slug}`
 }
 
 /** Names matching a search, by name or title, in alphabetical order. */

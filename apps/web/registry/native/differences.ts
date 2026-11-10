@@ -178,7 +178,7 @@ export const NATIVE_DIFFERENCES: Record<
   },
   "tab-strip": {
     tier: "touch",
-    note: "The strip scrolls sideways, and tabs reorder from their menu instead of by dragging.",
+    note: "On a phone the strip shows the active tab and a count of the tabs; either opens a sheet of every tab as a card, with the new tab button. From a tablet up the strip scrolls sideways. Tabs reorder from their menu instead of by dragging.",
   },
   table: {
     tier: "same",
@@ -209,6 +209,6 @@ export const NATIVE_DIFFERENCES: Record<
   },
   "workspace-switcher": {
     tier: "same",
-    note: "Opens as a sheet on phones.",
+    note: "Opens as a sheet on phones. The search dialog has no key hints.",
   },
 }

@@ -1,28 +1,32 @@
-// The example's navigation: the same model the website's playground renders, with
-// the library's icons.
+// The example's navigation: the desktop example's component explorer
+// (lib/component-explorer), with the library's icons. The app adds what only it
+// has: the searchable list a phone browses with, and the blocks.
+import { NATIVE_EXAMPLES } from "@/examples/native/__index__"
 import {
-  ActivityIcon,
   BoxIcon,
-  CalendarIcon,
-  ChartLineIcon,
-  FileTextIcon,
-  GlobeIcon,
+  ChartColumnIcon,
   HomeIcon,
-  InboxIcon,
-  InfoIcon,
-  LayoutGridIcon,
+  LayersIcon,
   LayoutTemplateIcon,
-  LifeBuoyIcon,
-  ListTodoIcon,
-  MessageSquareIcon,
-  RocketIcon,
-  SettingsIcon,
-  SmartphoneIcon,
-  StickyNoteIcon,
-  UsersIcon,
+  LibraryIcon,
+  PanelLeftIcon,
+  SparklesIcon,
+  TextCursorInputIcon,
 } from "@fabricator-ui/icons-react-native"
 
-import type { AppNavGroup } from "@/registry/native/ui/app-nav"
+import { getExplorerNavGroups } from "@/lib/component-explorer"
+import type { ComponentGroup } from "@/lib/component-groups"
+import type {
+  AppNavGroup,
+  AppNavIcon,
+  AppNavItem,
+} from "@/registry/native/ui/app-nav"
+
+import {
+  BLOCKS_HREF,
+  COMPONENTS_HREF,
+  getExplorerComponents,
+} from "./library/library-model"
 
 export const WORKSPACES = [
   { id: "acme", name: "Acme Inc", description: "Enterprise" },
@@ -32,130 +36,54 @@ export const WORKSPACES = [
 
 export const USER = { name: "Gabs Fabricator", email: "gabs@fabricator.dev" }
 
-export const NAV_GROUPS: AppNavGroup[] = [
+export const EXPLORER_COMPONENTS = getExplorerComponents(
+  Object.keys(NATIVE_EXAMPLES)
+)
+
+const EXPLORER_ICONS: {
+  overview: AppNavIcon
+  groups: Partial<Record<ComponentGroup, AppNavIcon>>
+} = {
+  overview: HomeIcon,
+  groups: {
+    Basics: BoxIcon,
+    Forms: TextCursorInputIcon,
+    "Overlays & Menus": LayersIcon,
+    "Navigation & Layout": PanelLeftIcon,
+    "Data & Feedback": ChartColumnIcon,
+    "AI & Chat": SparklesIcon,
+  },
+}
+
+const APP_PAGES: AppNavItem[] = [
   {
-    id: "main",
-    items: [
-      { id: "home", label: "Home", href: "/", icon: HomeIcon, mobile: "tab" },
-      {
-        id: "components",
-        label: "UI",
-        href: "/components",
-        icon: LayoutGridIcon,
-        mobile: "tab",
-      },
-      {
-        id: "blocks",
-        label: "Blocks",
-        href: "/blocks",
-        icon: LayoutTemplateIcon,
-      },
-      {
-        id: "inbox",
-        label: "Inbox",
-        href: "/inbox",
-        icon: InboxIcon,
-        badge: 4,
-        mobile: "tab",
-      },
-      {
-        id: "calendar",
-        label: "Calendar",
-        href: "/calendar",
-        icon: CalendarIcon,
-        mobile: "tab",
-      },
-    ],
+    id: "library",
+    label: "Library",
+    href: COMPONENTS_HREF,
+    icon: LibraryIcon,
+    mobile: "tab",
   },
   {
-    id: "workspace",
-    label: "Workspace",
-    collapsible: true,
-    items: [
-      {
-        id: "projects",
-        label: "Projects",
-        href: "/projects",
-        icon: BoxIcon,
-        children: [
-          {
-            id: "launch",
-            label: "Q4 launch",
-            href: "/projects/launch",
-            icon: RocketIcon,
-            children: [
-              {
-                id: "launch-specs",
-                label: "Specs",
-                href: "/projects/launch/specs",
-                icon: FileTextIcon,
-              },
-              {
-                id: "launch-tasks",
-                label: "Tasks",
-                href: "/projects/launch/tasks",
-                icon: ListTodoIcon,
-                badge: 3,
-              },
-              {
-                id: "launch-retro",
-                label: "Retro",
-                href: "/projects/launch/retro",
-                icon: MessageSquareIcon,
-                children: [
-                  {
-                    id: "launch-retro-notes",
-                    label: "Notes",
-                    href: "/projects/launch/retro/notes",
-                    icon: StickyNoteIcon,
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            id: "website",
-            label: "Website",
-            href: "/projects/website",
-            icon: GlobeIcon,
-          },
-          {
-            id: "mobile",
-            label: "Mobile app",
-            href: "/projects/mobile",
-            icon: SmartphoneIcon,
-          },
-        ],
-      },
-      { id: "docs", label: "Documents", href: "/docs", icon: FileTextIcon },
-      { id: "team", label: "Team", href: "/team", icon: UsersIcon },
-      {
-        id: "reports",
-        label: "Reports",
-        href: "/reports",
-        icon: ChartLineIcon,
-      },
-    ],
-  },
-  {
-    id: "support",
-    label: "Support",
-    collapsible: true,
-    items: [
-      { id: "help", label: "Help center", href: "/help", icon: LifeBuoyIcon },
-      {
-        id: "settings",
-        label: "Settings",
-        href: "/settings",
-        icon: SettingsIcon,
-        mobile: "tab",
-      },
-    ],
+    id: "blocks",
+    label: "Blocks",
+    href: BLOCKS_HREF,
+    icon: LayoutTemplateIcon,
+    mobile: "tab",
   },
 ]
 
-export const PANEL_VIEWS = [
-  { value: "details", label: "Details", icon: InfoIcon },
-  { value: "activity", label: "Activity", icon: ActivityIcon },
-  { value: "comments", label: "Comments", icon: MessageSquareIcon },
-]
+export function getNavGroups({
+  reorderable,
+}: {
+  reorderable: boolean
+}): AppNavGroup[] {
+  return getExplorerNavGroups(EXPLORER_COMPONENTS, EXPLORER_ICONS, {
+    reorderable,
+    pages: APP_PAGES,
+  })
+}
+
+/** The component groups' rows, each holding its components. */
+export const GROUP_ROWS = getNavGroups({ reorderable: false }).flatMap(
+  (group) => group.items.filter((item) => item.children)
+)

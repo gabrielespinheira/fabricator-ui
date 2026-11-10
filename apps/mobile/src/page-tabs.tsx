@@ -1,5 +1,6 @@
-import * as React from "react"
+import { HomeIcon } from "@fabricator-ui/icons-react-native"
 
+import { getNewTabId, isNewTab } from "@/lib/component-explorer"
 import {
   TabStrip,
   TabStripList,
@@ -9,47 +10,45 @@ import {
   useTabStripState,
 } from "@/registry/native/ui/tab-strip"
 
-const FIRST_TAB = "tab-1"
+export const HOME_HREF = "/"
+/** Matches nothing in the navigation: a blank tab highlights no row. */
+export const NEW_TAB_PATH = "/new"
+export const NEW_TAB_TITLE = "New tab"
 
 /**
- * The page on screen, per tab, as on the website: going somewhere opens it in the
- * current tab, and each tab remembers where it was. Without the strip there's
- * simply one tab.
+ * The open pages, as the desktop example keeps them: a tab per page, the
+ * overview pinned first. Going somewhere opens it in the preview tab (or in
+ * the blank tab on screen), so browsing doesn't pile tabs up.
  */
-export function usePageTabs({ homeHref }: { homeHref: string }) {
+export function usePageTabs() {
   const tabs = useTabStripState({
     defaultState: {
-      tabs: [FIRST_TAB],
-      pinned: [],
-      recent: [FIRST_TAB],
+      tabs: [HOME_HREF, "/components/button"],
+      pinned: [HOME_HREF],
+      recent: [HOME_HREF, "/components/button"],
       preview: null,
       closed: [],
     },
   })
-  const [paths, setPaths] = React.useState<Record<string, string>>({})
-  const nextTab = React.useRef(2)
-  const activeId = tabs.activeId ?? FIRST_TAB
-
-  const setPathname = (pathname: string) =>
-    setPaths((current) => ({ ...current, [activeId]: pathname }))
-
-  const openNewTab = () => {
-    tabs.open(`tab-${nextTab.current}`)
-    nextTab.current += 1
-  }
-
-  const getPath = (id: string) => paths[id] ?? homeHref
+  const isBlankTab = isNewTab(tabs.activeId)
+  const open = (pathname: string) =>
+    tabs.open(pathname, {
+      preview: true,
+      replace: isBlankTab && tabs.activeId ? tabs.activeId : undefined,
+    })
+  const openNewTab = () =>
+    tabs.open(getNewTabId([...tabs.state.tabs, ...tabs.state.closed]))
 
   return {
     tabs,
-    getPath,
+    open,
     openNewTab,
-    pathname: getPath(activeId),
-    setPathname,
+    isBlankTab,
+    pathname: isBlankTab ? NEW_TAB_PATH : (tabs.activeId ?? HOME_HREF),
   }
 }
 
-/** The strip. A tab's name is the page it's on. */
+/** The strip. A tab's name is the page it's on; the overview's is its icon. */
 export function PageTabs({
   pageTabs,
   getTitle,
@@ -57,13 +56,14 @@ export function PageTabs({
   pageTabs: ReturnType<typeof usePageTabs>
   getTitle: (pathname: string) => string
 }) {
-  const { tabs, getPath, openNewTab } = pageTabs
+  const { tabs, openNewTab } = pageTabs
   return (
     <TabStrip
       {...tabs.stripProps}
       onNew={openNewTab}
+      // On a phone the header's gap spaces the strip, so it drops its own inset.
       // Its first tab sits on the page's edge on a tablet, in the header or below it.
-      className="min-w-0 flex-1 md:pl-0"
+      className="min-w-0 flex-1 px-0 md:px-(--density-6) md:pl-0"
     >
       <TabStripList aria-label="Open pages">
         {tabs.state.tabs.map((id) => (
@@ -71,8 +71,10 @@ export function PageTabs({
             key={id}
             value={id}
             pinned={tabs.state.pinned.includes(id)}
+            icon={id === HOME_HREF ? HomeIcon : undefined}
+            preview={tabs.state.preview === id}
           >
-            {getTitle(getPath(id))}
+            {isNewTab(id) ? NEW_TAB_TITLE : getTitle(id)}
           </TabStripTab>
         ))}
       </TabStripList>

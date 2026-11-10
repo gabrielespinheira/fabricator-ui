@@ -1,6 +1,7 @@
 {
   "platforms": ["apple"],
   "apple": {
-    "modules": ["EditorNativeModule"]
+    "modules": ["EditorNativeModule"],
+    "podspecPath": "ios/EditorNative.podspec"
   }
 }

@@ -1,7 +1,11 @@
 import { describe, expect, it } from "vitest"
 
 import {
+  describeTabCount,
+  describeTabPosition,
+  getTabCountLabel,
   getTabScrollOffset,
+  isCompactTabStrip,
   orderTabs,
 } from "@/registry/native/lib/tab-strip-model"
 
@@ -41,5 +45,34 @@ describe("orderTabs", () => {
       ["a", { index: 0 }],
     ])
     expect(orderTabs(tabs).map((tab) => tab.value)).toEqual(["a", "b", "c"])
+  })
+})
+
+describe("isCompactTabStrip", () => {
+  it("folds the strip into a switcher on a phone", () => {
+    expect(isCompactTabStrip(390)).toBe(true)
+  })
+
+  it("keeps every tab in view from a tablet up", () => {
+    expect(isCompactTabStrip(820)).toBe(false)
+    expect(isCompactTabStrip(1366)).toBe(false)
+  })
+})
+
+describe("the switcher's count", () => {
+  it("shows how many tabs are open, up to 99", () => {
+    expect(getTabCountLabel(0)).toBe("0")
+    expect(getTabCountLabel(7)).toBe("7")
+    expect(getTabCountLabel(99)).toBe("99")
+    expect(getTabCountLabel(100)).toBe("99+")
+  })
+
+  it("says it in words for screen readers", () => {
+    expect(describeTabCount(1)).toBe("1 tab")
+    expect(describeTabCount(3)).toBe("3 tabs")
+  })
+
+  it("names where a tab sits", () => {
+    expect(describeTabPosition("Calendar", 1, 3)).toBe("Calendar, tab 2 of 3")
   })
 })

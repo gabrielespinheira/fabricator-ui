@@ -18,6 +18,13 @@ const registryAlias = "@/registry/fabricator/"
 const nativeAlias = "@/registry/native/"
 const examplesAlias = "@/examples/native/"
 
+// The website's pure modules the example shares: the component groups and the
+// explorer's navigation, which the desktop example renders too.
+const SHARED_LIB = new Set([
+  "@/lib/component-groups",
+  "@/lib/component-explorer",
+])
+
 const config = getDefaultConfig(__dirname)
 
 function resolveSource(base, moduleName, alias) {
@@ -58,10 +65,10 @@ config.resolver.resolveRequest = (context, moduleName, platform) => {
       filePath: path.join(icons, "dist/esm/brands.js"),
     }
   }
-  if (moduleName === "@/lib/component-groups") {
+  if (SHARED_LIB.has(moduleName)) {
     return {
       type: "sourceFile",
-      filePath: path.join(web, "lib/component-groups.ts"),
+      filePath: path.join(web, `${moduleName.slice(2)}.ts`),
     }
   }
   if (moduleName.startsWith(registryAlias)) {

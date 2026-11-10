@@ -10,7 +10,8 @@
     "ios": "expo run:ios",
     "ipad": "node scripts/run-ipad.mjs",
     "android": "expo run:android",
-    "typecheck": "node scripts/link-native-types.mjs && tsc --noEmit"
+    "typecheck": "node scripts/link-native-types.mjs && tsc --noEmit",
+    "check:screens": "node scripts/check-screens.mjs"
   },
   "dependencies": {
     "@expo-google-fonts/inter": "0.4.2",

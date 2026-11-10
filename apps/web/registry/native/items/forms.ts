@@ -296,7 +296,7 @@ export const formItems: Registry["items"] = [
     type: "registry:ui",
     title: "Tab Strip",
     description:
-      "Document tabs, as in a browser or an editor: pinned, closable, renamable and movable through a menu.",
+      "Document tabs, as in a browser or an editor: pinned, closable, renamable and movable through a menu. On a phone, the active tab and a switcher of every tab.",
     dependencies: [
       "@fabricator-ui/icons-react-native",
       "class-variance-authority",
@@ -308,6 +308,7 @@ export const formItems: Registry["items"] = [
       "@fabricator/button",
       "@fabricator/context-menu",
       "@fabricator/density",
+      "@fabricator/drawer",
       "@fabricator/dropdown-menu",
       "@fabricator/feedback",
       "@fabricator/fluid-hover",
