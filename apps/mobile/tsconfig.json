@@ -16,7 +16,17 @@
       "@/registry/native/*": ["../web/registry/native/*"],
       "@/examples/native/*": ["../web/examples/native/*"],
       "@/lib/component-groups": ["../web/lib/component-groups.ts"],
-      "@/lib/component-explorer": ["../web/lib/component-explorer.ts"]
+      "@/lib/component-explorer": ["../web/lib/component-explorer.ts"],
+      "@/lib/icon-explorer": ["../web/lib/icon-explorer.ts"],
+      "@fabricator-ui/icons/catalog": [
+        "../../packages/icons/dist/esm/catalog.d.ts"
+      ],
+      "@fabricator-ui/icons-static/nodes": [
+        "../../packages/icons-static/dist/esm/nodes.d.ts"
+      ],
+      "@fabricator-ui/icons-react-native/files": [
+        "../../packages/icons-react-native/dist/esm/files.d.ts"
+      ]
     }
   },
   "include": [

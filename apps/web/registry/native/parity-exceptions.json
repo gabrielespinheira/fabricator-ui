@@ -413,48 +413,6 @@
     "date": "2026-11-10"
   },
   {
-    "item": "color-picker",
-    "kind": "component",
-    "name": "color-picker",
-    "reason": "Web-first color picker uses pointer scrubbing and the browser eyedropper. Native touch color controls are deferred.",
-    "date": "2026-11-09"
-  },
-  {
-    "item": "file-tree",
-    "kind": "component",
-    "name": "file-tree",
-    "reason": "Desktop explorer ships on web first. Native touch selection and action menus are deferred.",
-    "date": "2026-11-09"
-  },
-  {
-    "item": "file-upload",
-    "kind": "component",
-    "name": "file-upload",
-    "reason": "Web-first upload controls use File, drag-and-drop, paste and native HTML form submission. Native document/image picking is deferred.",
-    "date": "2026-11-09"
-  },
-  {
-    "item": "number-field",
-    "kind": "component",
-    "name": "number-field",
-    "reason": "Web Number Field ships first. Native number formatting models exist, but the native stepper field and its demo are deferred.",
-    "date": "2026-11-09"
-  },
-  {
-    "item": "time-input",
-    "kind": "component",
-    "name": "time-input",
-    "reason": "Web-first time field and duration modes use Time Wheel. Native field and wheel controls are deferred; the native Date Picker documents this limit.",
-    "date": "2026-11-09"
-  },
-  {
-    "item": "time-wheel",
-    "kind": "component",
-    "name": "time-wheel",
-    "reason": "Web-first wheel is a Time Input and Date Picker part. Native touch scrolling, snapping and accessibility adjustments are deferred with Time Input.",
-    "date": "2026-11-09"
-  },
-  {
     "item": "editor",
     "kind": "slot",
     "name": "editor-task-checkbox",
@@ -620,6 +578,62 @@
     "kind": "placeholder",
     "name": "cn-workspace-switcher-hint",
     "reason": "The search dialog's key hints (arrows, Enter, Escape). React Native has no keys to name on a phone, and the website hides them on touch screens too.",
+    "date": "2026-11-10"
+  },
+  {
+    "item": "color-picker",
+    "kind": "slot",
+    "name": "color-picker-area-cursor",
+    "reason": "A touch screen has no hover cursor. The thumb follows the finger on the native saturation/brightness area.",
+    "date": "2026-11-10"
+  },
+  {
+    "item": "color-picker",
+    "kind": "placeholder",
+    "name": "cn-color-picker-area-cursor",
+    "reason": "A touch screen has no hover cursor. The thumb follows the finger on the native saturation/brightness area.",
+    "date": "2026-11-10"
+  },
+  {
+    "item": "color-picker",
+    "kind": "slot",
+    "name": "color-picker-eyedropper",
+    "reason": "React Native has no browser EyeDropper API. The picker provides the same color area, channels, formats and swatches without a screen sampler.",
+    "date": "2026-11-10"
+  },
+  {
+    "item": "color-picker",
+    "kind": "placeholder",
+    "name": "cn-color-picker-eyedropper",
+    "reason": "React Native has no browser EyeDropper API. The picker provides the same color area, channels, formats and swatches without a screen sampler.",
+    "date": "2026-11-10"
+  },
+  {
+    "item": "file-upload",
+    "kind": "slot",
+    "name": "file-upload-field-drop",
+    "reason": "The field has no browser drag/drop target or its drop feedback on touch. Picking and validation use the same native asset pipeline.",
+    "date": "2026-11-10"
+  },
+  {
+    "item": "file-upload",
+    "kind": "placeholder",
+    "name": "cn-file-upload-field-drop",
+    "reason": "The field has no browser drag/drop target or its drop feedback on touch. Picking and validation use the same native asset pipeline.",
+    "date": "2026-11-10"
+  },
+  {
+    "item": "file-upload",
+    "kind": "slot",
+    "name": "file-upload-input",
+    "reason": "React Native has no hidden HTML file input or browser form submission. The host picker supplies URI assets through onPick or FileUploadPickerProvider.",
+    "date": "2026-11-10"
+  },
+  {
+    "item": "time-input",
+    "kind": "slot",
+    "name": "time-input-value",
+    "reason": "The hidden input only submits the web form. Native consumers receive the same time string through onValueChange.",
     "date": "2026-11-10"
   }
 ]

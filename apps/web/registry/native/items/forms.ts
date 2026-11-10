@@ -5,6 +5,100 @@ import { docs } from "./shared"
 // Form controls and disclosures.
 export const formItems: Registry["items"] = [
   {
+    name: "number-field",
+    type: "registry:ui",
+    title: "Number Field",
+    dependencies: [
+      "@fabricator-ui/icons-react-native",
+      "@rn-primitives/hooks",
+      "cn",
+    ],
+    registryDependencies: ["@fabricator/input-group"],
+    files: [
+      { path: "ui/number-field.tsx", type: "registry:ui" },
+      { path: "lib/number-field-model.ts", type: "registry:lib" },
+    ],
+    meta: docs("number-field"),
+  },
+  {
+    name: "time-wheel",
+    type: "registry:ui",
+    title: "Time Wheel",
+    dependencies: ["cn", "uniwind@1.13.1"],
+    registryDependencies: ["@fabricator/text", "@fabricator/motion"],
+    files: [
+      { path: "ui/time-wheel.tsx", type: "registry:ui" },
+      { path: "lib/time-wheel-model.ts", type: "registry:lib" },
+      { path: "lib/time-input-model.ts", type: "registry:lib" },
+    ],
+    meta: docs("time-input"),
+  },
+  {
+    name: "time-input",
+    type: "registry:ui",
+    title: "Time Input",
+    dependencies: [
+      "@fabricator-ui/icons-react-native",
+      "@rn-primitives/hooks",
+      "cn",
+    ],
+    registryDependencies: [
+      "@fabricator/time-wheel",
+      "@fabricator/input-group",
+      "@fabricator/popover",
+      "@fabricator/text",
+    ],
+    files: [{ path: "ui/time-input.tsx", type: "registry:ui" }],
+    meta: docs("time-input"),
+  },
+  {
+    name: "color-picker",
+    type: "registry:ui",
+    title: "Color Picker",
+    dependencies: [
+      "@fabricator-ui/icons-react-native",
+      "@rn-primitives/hooks",
+      "cn",
+      "expo-linear-gradient",
+      "react-native-gesture-handler",
+    ],
+    registryDependencies: [
+      "@fabricator/density",
+      "@fabricator/button",
+      "@fabricator/input",
+      "@fabricator/popover",
+      "@fabricator/select",
+      "@fabricator/slider",
+      "@fabricator/text",
+    ],
+    files: [
+      { path: "ui/color-picker.tsx", type: "registry:ui" },
+      { path: "lib/color-model.ts", type: "registry:lib" },
+    ],
+    meta: docs("color-picker"),
+  },
+  {
+    name: "file-upload",
+    type: "registry:ui",
+    title: "File Upload",
+    dependencies: [
+      "@fabricator-ui/icons-react-native",
+      "@rn-primitives/hooks",
+      "cn",
+    ],
+    registryDependencies: [
+      "@fabricator/attachment",
+      "@fabricator/button",
+      "@fabricator/text",
+    ],
+    files: [
+      { path: "ui/file-upload.tsx", type: "registry:ui" },
+      { path: "lib/file-upload-model.ts", type: "registry:lib" },
+    ],
+    meta: docs("file-upload"),
+  },
+
+  {
     name: "field-model",
     type: "registry:lib",
     title: "Field Model",

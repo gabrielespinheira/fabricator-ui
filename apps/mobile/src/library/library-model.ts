@@ -1,4 +1,7 @@
-import type { ExplorerComponent } from "@/lib/component-explorer"
+import {
+  getExplorerInstallNames,
+  type ExplorerComponent,
+} from "@/lib/component-explorer"
 import { getComponentGroup } from "@/lib/component-groups"
 
 export const COMPONENTS_HREF = "/components"
@@ -49,11 +52,13 @@ const SITE_URL = "https://fabricator-ui.vercel.app"
 
 /** What adds a component to a React Native project. */
 export function getComponentInstallCommand(slug: string) {
-  return `npx fabricator-ui@latest add ${slug}`
+  return `npx fabricator-ui@latest add ${getExplorerInstallNames(slug, true).join(" ")}`
 }
 
 export function getComponentDocsUrl(slug: string) {
-  return `${SITE_URL}/docs/components/native/${slug}`
+  const component =
+    slug === "data-table" ? "table" : slug === "typography" ? "text" : slug
+  return `${SITE_URL}/docs/components/native/${component}`
 }
 
 /** Names matching a search, by name or title, in alphabetical order. */
@@ -70,7 +75,7 @@ export function filterComponents(names: string[], query: string) {
 }
 
 const DEEP_LINK =
-  /^fabricator-ui:\/\/((?:components|blocks)(?:\/[a-z0-9-]+)?)\/?(?:\?.*)?$/
+  /^fabricator-ui:\/\/((?:components|blocks)(?:\/[a-z0-9-]+)?|icons)\/?(?:\?.*)?$/
 
 /** The path a `fabricator-ui://components/<name>` link opens, if it is one. */
 export function getPathFromUrl(url: string | null | undefined) {

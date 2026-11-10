@@ -103,6 +103,12 @@ import {
 } from "./spikes/editor-native-spike"
 import { ThemeProvider, useTheme, useThemeSettings } from "./theme"
 
+const NativeIconsPage = React.lazy(() =>
+  import("./icons/icons-page").then((module) => ({
+    default: module.NativeIconsPage,
+  }))
+)
+
 const showNewTask = () => toast("New task")
 
 const PLATFORM_LABEL =
@@ -216,6 +222,18 @@ function Page({
   onOptionsChange: (options: ShellOptions) => void
   onOpen: (href: string) => void
 }) {
+  if (pathname === "/icons")
+    return (
+      <React.Suspense
+        fallback={
+          <View className="flex-1 items-center justify-center">
+            <Text>Loading icons…</Text>
+          </View>
+        }
+      >
+        <NativeIconsPage />
+      </React.Suspense>
+    )
   if (pathname.startsWith(BLOCKS_HREF)) {
     return <BlockLibrary onNavigate={onOpen} />
   }

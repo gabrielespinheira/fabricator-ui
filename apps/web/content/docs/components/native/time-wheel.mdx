@@ -1,0 +1,62 @@
+---
+title: Time Wheel
+description: "Time Wheel for React Native."
+base: native
+component: true
+---
+
+## Installation
+
+```bash
+npx fabricator-ui@latest add time-wheel
+```
+
+## Usage
+
+```tsx
+import { TimeWheel } from "@/components/ui/time-wheel"
+```
+
+```tsx
+<TimeWheel value={value} onValueChange={setValue} hourCycle={12} />
+```
+
+## Examples
+
+```tsx showLineNumbers title="time-wheel-example.tsx"
+import * as React from "react"
+
+import { TimeWheel } from "@/components/ui/time-wheel"
+
+function TimeWheelExample() {
+  const [value, setValue] = React.useState<string | undefined>("09:30")
+  return (
+    <ExampleWrapper fit>
+      <Example title="12 hour clock">
+        <TimeWheel value={value} onValueChange={setValue} hourCycle={12} />
+      </Example>
+      <Example title="24 hour clock and seconds">
+        <TimeWheel
+          value={value}
+          onValueChange={setValue}
+          hourCycle={24}
+          hasSeconds
+        />
+      </Example>
+    </ExampleWrapper>
+  )
+}
+export { TimeWheelExample }
+```
+
+## API reference
+
+Props it adds to what it wraps: `hasSeconds`, `hourCycle`, `label`, `maxTime`, `minTime`, `onValueChange`, `step`, `value`.
+
+## Differences from web
+
+**Touch input.** Native scroll views snap each column to its rows; accessibility adjustment actions step it. Values and bounds use the same shared time model. DOM keyboard shortcuts and hover effects have no native equivalent.
+
+## Accessibility
+
+Text is read as it appears. Give a control with no text an `accessibilityLabel`.

@@ -11,6 +11,55 @@ component: true
 npx fabricator-ui@latest add fabricator-root
 ```
 
+## Usage
+
+```tsx
+import { Button } from "@/components/ui/button"
+import { Text } from "@/components/ui/text"
+```
+
+```tsx
+<Text selectable className="font-mono text-sm">
+  {
+    "<SafeAreaProvider>\n  <FabricatorRoot>\n    <App />\n  </FabricatorRoot>\n</SafeAreaProvider>"
+  }
+</Text>
+```
+
+## Examples
+
+```tsx showLineNumbers title="fabricator-root-example.tsx"
+import * as React from "react"
+
+import { Button } from "@/components/ui/button"
+import { Text } from "@/components/ui/text"
+
+function FabricatorRootExample() {
+  const [count, setCount] = React.useState(0)
+  return (
+    <ExampleWrapper>
+      <Example title="Root setup">
+        <Text selectable className="font-mono text-sm">
+          {
+            "<SafeAreaProvider>\n  <FabricatorRoot>\n    <App />\n  </FabricatorRoot>\n</SafeAreaProvider>"
+          }
+        </Text>
+      </Example>
+      <Example title="Running inside FabricatorRoot">
+        <Text>
+          The example app already uses FabricatorRoot for gestures, density,
+          safe areas and overlays.
+        </Text>
+        <Button onPress={() => setCount(count + 1)}>
+          Pressed {count} times
+        </Button>
+      </Example>
+    </ExampleWrapper>
+  )
+}
+export { FabricatorRootExample }
+```
+
 ## Accessibility
 
 Text is read as it appears. Give a control with no text an `accessibilityLabel`.

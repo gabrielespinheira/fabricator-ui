@@ -2,6 +2,8 @@ import { describe, expect, it } from "vitest"
 
 import {
   COMPONENT_PATH,
+  filterExplorerComponents,
+  getExplorerInstallNames,
   getExplorerNavGroups,
   getExplorerTabId,
   getNewTabId,
@@ -11,12 +13,28 @@ import {
 describe("getExplorerTabId", () => {
   it("reads the tab a link opens", () => {
     expect(getExplorerTabId("/")).toBe("overview")
+    expect(getExplorerTabId("/components")).toBe("library")
+    expect(getExplorerTabId("/icons")).toBe("icons")
     expect(getExplorerTabId(`${COMPONENT_PATH}button`)).toBe("button")
   })
 
   it("has no tab for anything else", () => {
     expect(getExplorerTabId(undefined)).toBeNull()
     expect(getExplorerTabId("/docs")).toBeNull()
+  })
+})
+
+describe("filterExplorerComponents", () => {
+  it("searches names and titles without changing the inventory", () => {
+    const components = [
+      { slug: "switch", title: "Switch", group: "Basics" as const },
+      { slug: "editor", title: "Rich Text Editor", group: "Forms" as const },
+    ]
+    expect(
+      filterExplorerComponents(components, " RICH ").map((item) => item.slug)
+    ).toEqual(["editor"])
+    expect(filterExplorerComponents(components, "missing")).toEqual([])
+    expect(components[0]?.slug).toBe("switch")
   })
 })
 
@@ -35,6 +53,20 @@ describe("getNewTabId", () => {
     expect(isNewTab("button")).toBe(false)
     expect(isNewTab("overview")).toBe(false)
     expect(isNewTab(null)).toBe(false)
+  })
+})
+
+describe("composed example installation", () => {
+  it("installs the parts of tutorial examples instead of nonexistent components", () => {
+    expect(getExplorerInstallNames("data-table", false)).toEqual([
+      "table",
+      "button",
+      "checkbox",
+      "input",
+    ])
+    expect(getExplorerInstallNames("typography", false)).toEqual([])
+    expect(getExplorerInstallNames("typography", true)).toEqual(["text"])
+    expect(getExplorerInstallNames("button", true)).toEqual(["button"])
   })
 })
 
@@ -91,6 +123,18 @@ describe("getExplorerNavGroups", () => {
       "overview",
       "blocks",
     ])
+  })
+
+  it("keeps docs routes while using the same groups and ordering", () => {
+    const groups = getExplorerNavGroups(
+      [{ slug: "button", title: "Button", group: "Basics" }],
+      icons,
+      { overviewHref: "/docs", componentPath: "/docs/components/aria/" }
+    )
+    expect(groups[0]?.items[0]?.href).toBe("/docs")
+    expect(groups[1]?.items[0]?.children?.[0]?.href).toBe(
+      "/docs/components/aria/button"
+    )
   })
 
   it("lets the components be dragged into a new order when asked", () => {

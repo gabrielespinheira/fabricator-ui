@@ -1,0 +1,7 @@
+/* MARK: Number Field */
+.cn-number-field { @apply gap-(--density-8); }
+.cn-number-field-group { @apply w-full; }
+.cn-number-field-input { @apply tabular-nums; }
+.cn-number-field-addon { @apply shrink-0; }
+.cn-number-field-decrement { @apply text-muted-foreground; }
+.cn-number-field-increment { @apply text-muted-foreground; }

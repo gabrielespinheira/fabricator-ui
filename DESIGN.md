@@ -47,9 +47,9 @@ Pick the mode for the product, then for each region that differs (a marketing pa
 
 | Mode    | For                                     | Density  | Motion            | Frame                                      |
 | ------- | --------------------------------------- | -------- | ----------------- | ------------------------------------------ |
-| App     | Product UI people use every day         | Default  | Default or snappy | The App Shell                              |
+| App     | Product UI, docs and component explorers | Default  | Default or snappy | The App Shell                              |
 | Tool    | Dashboards, admin, editors, dense data  | Compact  | Snappy or instant | The App Shell, compact toolbars and tables |
-| Website | Marketing, landing pages, docs, pricing | Spacious | Smooth            | A site header and centred content          |
+| Website | Marketing, landing pages, pricing       | Spacious | Smooth            | A site header and centred content          |
 
 ### Principles
 
@@ -215,7 +215,7 @@ Apps live in the `AppShell`. It replaces the hand-built sidebar, header and pane
 | Content     | The page, under its page title. It is the one thing that scrolls                                                |
 | Side panels | Details, activity, an inspector: content about the page, which the person can open, resize and close            |
 | Status bar  | Optional: a thin row under everything for what is true of the whole workspace (a branch, a sync state, a count) |
-| Tab bar     | On phones, the few main destinations                                                                            |
+| Bottom nav  | On phones, the few main destinations                                                                            |
 
 - **The frame is a step darker than the page.** The sidebar sits on the frame, and the main column and the side panels are cards on it, so the content reads as the thing in front.
 - **The page title hands over to the header.** It sits at the top of the content; once it scrolls away, the header shows it in the breadcrumb's place.
@@ -528,7 +528,7 @@ Use the library's inputs for dates, times, numbers, files and colours in place o
 - **Touch takes the pointer's place.** What opens on hover or right-click on the web (`Tooltip`, `HoverCard`, `ContextMenu`) opens on a long press. Every sound has a matching haptic.
 - **Phones are spacious, tablets a step lighter.** Phone controls are 44pt. Tablets use 40pt controls with the same text, since there is more room and the screen is read from further away. A narrow split-screen window counts as a phone.
 - **Popups follow the size of the screen:** a `Select` or a menu is a sheet from the bottom on a phone and a popover on a tablet.
-- **The App Shell on a phone:** the sidebar is revealed behind the page, the main destinations become a tab bar, the page scrolls under a fading header, a side panel is a drawer with a grab handle, and a tab strip collapses to the active tab and a count.
+- **The App Shell on a phone:** the sidebar is revealed behind the page, the main destinations become a bottom nav, the page scrolls under a fading header, a side panel is a drawer with a grab handle, and a tab strip collapses to the active tab and a count.
 
 ## Patterns
 
@@ -540,7 +540,7 @@ Start from the closest pattern, install its block when there is one, and remove 
 | `app-shell-02`                                     | Workbench: document tabs above the content, a resources panel, a status bar, a peeking sidebar                         |
 | `app-shell-03`                                     | Classic SaaS: team switcher on top, the person's menu at the bottom, a sidebar that collapses to icons                 |
 | `app-shell-04`                                     | Desktop app: a translucent window, tabs in the top row beside the window's controls                                    |
-| `app-shell-05`                                     | Mobile first: a tab bar and a floating primary action on phones, a message that takes over the list                    |
+| `app-shell-05`                                     | Mobile first: a bottom nav and a floating primary action on phones, a message that takes over the list                    |
 | `login-01` … `login-05`, `signup-01` … `signup-05` | Sign in and sign up                                                                                                    |
 | `sidebar-01` … `sidebar-16`                        | Sidebar layouts                                                                                                        |
 

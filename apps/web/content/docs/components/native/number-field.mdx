@@ -1,0 +1,117 @@
+---
+title: Number Field
+description: A number input with steppers, limits, keyboard stepping and locale formatting.
+base: native
+component: true
+---
+
+## Installation
+
+```bash
+npx fabricator-ui@latest add number-field
+```
+
+## Usage
+
+```tsx
+import {
+  NumberField,
+  NumberFieldDecrement,
+  NumberFieldGroup,
+  NumberFieldIncrement,
+  NumberFieldInput,
+} from "@/components/ui/number-field"
+```
+
+```tsx
+<NumberField defaultValue={3} min={0} max={10}>
+  <NumberFieldGroup>
+    <NumberFieldDecrement />
+    <NumberFieldInput accessibilityLabel="Quantity" />
+    <NumberFieldIncrement />
+  </NumberFieldGroup>
+</NumberField>
+```
+
+## Composition
+
+- `NumberField`
+- `NumberFieldDecrement`
+- `NumberFieldGroup`
+- `NumberFieldIncrement`
+- `NumberFieldInput`
+
+## Examples
+
+```tsx showLineNumbers title="number-field-example.tsx"
+import { View } from "react-native"
+
+import {
+  NumberField,
+  NumberFieldDecrement,
+  NumberFieldGroup,
+  NumberFieldIncrement,
+  NumberFieldInput,
+} from "@/components/ui/number-field"
+
+function NumberFieldExample() {
+  return (
+    <ExampleWrapper fit>
+      <Example title="Stepper">
+        <NumberField defaultValue={3} min={0} max={10}>
+          <NumberFieldGroup>
+            <NumberFieldDecrement />
+            <NumberFieldInput accessibilityLabel="Quantity" />
+            <NumberFieldIncrement />
+          </NumberFieldGroup>
+        </NumberField>
+      </Example>
+      <Example title="Currency and fractional steps">
+        <NumberField
+          defaultValue={19.95}
+          min={0}
+          step={0.05}
+          format={{ style: "currency", currency: "EUR" }}
+        >
+          <NumberFieldGroup>
+            <NumberFieldInput accessibilityLabel="Price" />
+            <NumberFieldDecrement align="inline-end" />
+            <NumberFieldIncrement />
+          </NumberFieldGroup>
+        </NumberField>
+      </Example>
+      <Example title="Disabled and read only">
+        <View className="w-full gap-4">
+          {[true, false].map((disabled) => (
+            <NumberField
+              key={String(disabled)}
+              defaultValue={5}
+              disabled={disabled}
+              readOnly={!disabled}
+            >
+              <NumberFieldGroup>
+                <NumberFieldDecrement />
+                <NumberFieldInput
+                  accessibilityLabel={
+                    disabled ? "Disabled quantity" : "Read only quantity"
+                  }
+                />
+                <NumberFieldIncrement />
+              </NumberFieldGroup>
+            </NumberField>
+          ))}
+        </View>
+      </Example>
+    </ExampleWrapper>
+  )
+}
+export { NumberFieldExample }
+```
+
+## Differences from web
+
+**Touch input.** A decimal keyboard and touch steppers use the same clamping, locale parsing, formatting, fractional steps and bounds. Browser keyboard shortcuts and pointer scrubbing have no native equivalent.
+
+## Accessibility
+
+Text is read as it appears. Give a control with no text an `accessibilityLabel`.

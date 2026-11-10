@@ -125,7 +125,10 @@ export const fabricatorItems = [
     description:
       "A file picker with a drop zone: type, size and count checks with reasons, and the picked files as Attachment rows.",
     registryDependencies: ["attachment", "button"],
-    files: [{ path: "ui/file-upload.tsx", type: "registry:ui" }],
+    files: [
+      { path: "ui/file-upload.tsx", type: "registry:ui" },
+      { path: "lib/file-upload-model.ts", type: "registry:lib" },
+    ],
     categories: ["forms"],
     meta: {
       fabricator: true,

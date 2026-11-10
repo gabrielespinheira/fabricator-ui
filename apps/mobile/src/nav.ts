@@ -57,6 +57,13 @@ const EXPLORER_ICONS: {
 
 const APP_PAGES: AppNavItem[] = [
   {
+    id: "icons",
+    label: "Icons",
+    href: "/icons",
+    icon: SparklesIcon,
+    mobile: "tab",
+  },
+  {
     id: "library",
     label: "Library",
     href: COMPONENTS_HREF,

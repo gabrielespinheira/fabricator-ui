@@ -33,6 +33,7 @@ import { Markdown } from "@/components/ui/markdown"
 - `MarkdownComponents`
 - `MarkdownInline`
 - `MarkdownSize`
+- `MarkdownTaskCheck`
 
 ## Examples
 
@@ -128,8 +129,8 @@ Props it adds to what it wraps: `block`, `components`, `isFirst`, `runs`, `size`
 
 ## Differences from web
 
-**Same.** `components.a` receives `href`, `title` and `children` and renders inside a Text; the default opens the link with `Linking`. `components.img` receives `src`, `alt` and `title`; the default is React Native's `Image`. Tables scroll sideways with each cell on one line.
+**Same.** `components.a` receives `href`, `title` and `children` and renders inside a Text; the default opens the link with `Linking`. `components.img` receives `src`, `alt` and `title`; the default is React Native's `Image`. Tables scroll sideways with each cell on one line. Inline code takes the hover fill without the website's rounded, padded chip: React Native can't pad a run of text inside a paragraph.
 
 ## Accessibility
 
-Parts set `role="checkbox"`, read by VoiceOver and TalkBack. Give a control with no text an `accessibilityLabel`.
+Parts set `role="cell"`, `role="checkbox"`, `role="columnheader"`, read by VoiceOver and TalkBack. Give a control with no text an `accessibilityLabel`.

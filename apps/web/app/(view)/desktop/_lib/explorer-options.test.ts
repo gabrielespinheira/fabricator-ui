@@ -24,6 +24,7 @@ describe("explorer options", () => {
       tabs: "main",
       panel: true,
       status: true,
+      bottomNav: true,
     })
     expect(
       countChangedOptions(DEFAULT_EXPLORER_OPTIONS, DEFAULT_EXPLORER_OPTIONS)
@@ -37,10 +38,9 @@ describe("explorer options", () => {
     })
   })
 
-  it("hides what the window decides, and the phone tab bar it has no tabs for", () => {
+  it("hides runtime choices and native bottom navigation materials", () => {
     const hidden = getHiddenExplorerOptions({ hasGlass: true })
     expect([...hidden].sort()).toEqual([
-      "bottomNav",
       "bottomNavStyle",
       "fullscreen",
       "window",

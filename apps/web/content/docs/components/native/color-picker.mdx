@@ -1,0 +1,106 @@
+---
+title: Color Picker
+description: A color picker with a saturation area, hue and alpha sliders, HEX, RGB, HSL and OKLCH fields, swatches and the eyedropper.
+base: native
+component: true
+---
+
+## Installation
+
+```bash
+npx fabricator-ui@latest add color-picker
+```
+
+## Usage
+
+```tsx
+import {
+  ColorPicker,
+  ColorPickerPopover,
+  ColorSwatch,
+  ColorTile,
+} from "@/components/ui/color-picker"
+```
+
+```tsx
+<ColorPicker defaultValue="#3b82f6" swatches={SWATCHES} />
+```
+
+## Composition
+
+- `ColorPicker`
+- `ColorPickerPopover`
+- `ColorPickerPopoverProps`
+- `ColorPickerProps`
+- `ColorSwatch`
+- `ColorSwatchItem`
+- `ColorTile`
+
+## Examples
+
+```tsx showLineNumbers title="color-picker-example.tsx"
+import { View } from "react-native"
+
+import {
+  ColorPicker,
+  ColorPickerPopover,
+  ColorSwatch,
+  ColorTile,
+} from "@/components/ui/color-picker"
+
+const SWATCHES = [
+  "#ef4444",
+  "#f59e0b",
+  "#22c55e",
+  "#3b82f6",
+  "#8b5cf6",
+  "#171717",
+]
+function ColorPickerExample() {
+  return (
+    <ExampleWrapper fit>
+      <Example title="Color picker">
+        <ColorPicker defaultValue="#3b82f6" swatches={SWATCHES} />
+      </Example>
+      <Example title="Formats">
+        <ColorPicker defaultValue="#8b5cf680" defaultFormat="oklch" size="sm" />
+      </Example>
+      <Example title="Popover and sizes">
+        <View className="flex-row flex-wrap gap-3">
+          {(["sm", "default", "lg"] as const).map((size) => (
+            <ColorPickerPopover
+              key={size}
+              size={size}
+              triggerLabel={size}
+              triggerShowValue
+              defaultValue="#22c55e"
+              swatches={SWATCHES}
+            />
+          ))}
+        </View>
+      </Example>
+      <Example title="Swatches and tiles">
+        <View className="flex-row flex-wrap gap-2">
+          {SWATCHES.map((color) => (
+            <ColorSwatch key={color} color={color} />
+          ))}
+          <ColorTile color="#3b82f680" />
+        </View>
+      </Example>
+    </ExampleWrapper>
+  )
+}
+export { ColorPickerExample }
+```
+
+## API reference
+
+Props it adds to what it wraps: `color`, `selected`.
+
+## Differences from web
+
+**Touch input.** The color area follows touch and the sliders expose hue and opacity. HEX, RGB, HSL, OKLCH, swatches and popover triggers share the web model. There is no screen eyedropper or hover cursor.
+
+## Accessibility
+
+Text is read as it appears. Give a control with no text an `accessibilityLabel`.

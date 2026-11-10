@@ -6,25 +6,26 @@ import { useQueryStates } from "nuqs"
 
 import {
   COMPONENT_PATH,
+  getExplorerInstallNames,
   getExplorerNavGroups,
   getExplorerTabId,
   getNewTabId,
   isNewTab,
+  type ExplorerComponent,
 } from "@/lib/component-explorer"
 import { getComponentGroup } from "@/lib/component-groups"
+import type { ExplorerExample } from "@/lib/explorer-examples"
+import { EXPLORER_ICONS } from "@/lib/explorer-icons"
 import {
-  BoxIcon,
-  ChartColumnIcon,
   ExternalLinkIcon,
   HomeIcon,
   LayersIcon,
   MoonIcon,
-  PanelLeftIcon,
   SparklesIcon,
   SunIcon,
-  TextCursorInputIcon,
 } from "@/lib/site-icons"
 import { usePackageManager } from "@/hooks/use-package-manager"
+import { ExplorerLibrary } from "@/components/fabricator/explorer-library"
 import { useDesktopWindow } from "@/registry/fabricator/shared/hooks/use-desktop-window"
 import {
   getActiveNavItem,
@@ -39,7 +40,20 @@ import {
   AppShellPanelTitle,
 } from "@/styles/base-fabricator/ui/app-shell"
 import { Button } from "@/styles/base-fabricator/ui/button"
-import { Skeleton } from "@/styles/base-fabricator/ui/skeleton"
+import {
+  Item,
+  ItemContent,
+  ItemDescription,
+  ItemTitle,
+} from "@/styles/base-fabricator/ui/item"
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/styles/base-fabricator/ui/select"
 import {
   TabStrip,
   TabStripList,
@@ -49,10 +63,7 @@ import {
   useTabStripState,
 } from "@/styles/base-fabricator/ui/tab-strip"
 import { CLI, forPackageManager } from "@/app/(app)/(create)/lib/setup"
-import {
-  GALLERY_ITEMS,
-  type GalleryItem,
-} from "@/app/(app)/(root)/_components/gallery"
+import { IconsBrowser } from "@/app/(app)/icons/_components/icons-browser"
 
 import { withGlass, type DesktopHost } from "../_lib/desktop"
 import {
@@ -66,37 +77,17 @@ import { SetupCards } from "../../app-shell/_components/options-card"
 import { getWindowOption } from "../../app-shell/_lib/install"
 import { getTabsPlacement } from "../../app-shell/_lib/options"
 
-const ITEMS = new Map(GALLERY_ITEMS.map((item) => [item.slug, item]))
 const NEW_TAB_TITLE = "New tab"
 /** Matches nothing in the navigation: a blank tab highlights no row. */
 const NEW_TAB_PATH = "/new"
 
-function getTabTitle(id: string | null) {
+function getTabTitle(id: string | null, items: Map<string, ExplorerComponent>) {
   if (isNewTab(id)) return NEW_TAB_TITLE
-  const item = id ? ITEMS.get(id) : undefined
+  if (id === "library") return "Library"
+  if (id === "icons") return "Icons"
+  const item = id ? items.get(id) : undefined
   return item?.title ?? "Overview"
 }
-
-const EXPLORER_COMPONENTS = GALLERY_ITEMS.map((item) => ({
-  slug: item.slug,
-  title: item.title,
-  group: getComponentGroup(item.slug),
-}))
-const EXPLORER_ICONS = {
-  overview: HomeIcon,
-  groups: {
-    Basics: BoxIcon,
-    Forms: TextCursorInputIcon,
-    "Overlays & Menus": LayersIcon,
-    "Navigation & Layout": PanelLeftIcon,
-    "Data & Feedback": ChartColumnIcon,
-    "AI & Chat": SparklesIcon,
-  },
-}
-const GROUP_ROWS = getExplorerNavGroups(
-  EXPLORER_COMPONENTS,
-  EXPLORER_ICONS
-).flatMap((group) => group.items.filter((item) => item.children))
 
 const RUNTIME_LABELS: Record<DesktopHost["runtime"], string> = {
   electron: "Electron",
@@ -110,7 +101,18 @@ const PLATFORM_LABELS: Record<DesktopHost["platform"], string> = {
 }
 
 /** The component's demo on a stage; lazy demos load on first show. */
-function ComponentStage({ item }: { item: GalleryItem }) {
+function ComponentStage({
+  item,
+  examples,
+}: {
+  item: ExplorerComponent
+  examples: ExplorerExample[]
+}) {
+  const [exampleName, setExampleName] = React.useState(examples[0]?.name)
+  const choices = examples.map((example) => ({
+    value: example.name,
+    label: example.title,
+  }))
   return (
     <div className="flex min-h-full flex-col gap-6">
       <div className="flex flex-col gap-1">
@@ -119,42 +121,88 @@ function ComponentStage({ item }: { item: GalleryItem }) {
           {getComponentGroup(item.slug)}
         </p>
       </div>
-      <div className="flex min-h-96 flex-1 items-center justify-center overflow-auto rounded-xl bg-muted/40 p-8">
-        <React.Suspense
-          fallback={<Skeleton className="h-40 w-full max-w-md" />}
+      {examples.length > 0 && (
+        <Select
+          items={choices}
+          value={exampleName}
+          onValueChange={(value) => {
+            if (typeof value === "string") setExampleName(value)
+          }}
         >
-          {item.entry ? <item.entry.Demo /> : item.Demo && <item.Demo />}
-        </React.Suspense>
-      </div>
+          <SelectTrigger aria-label="Example" className="w-full sm:w-72">
+            <SelectValue />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              {choices.map((choice) => (
+                <SelectItem key={choice.value} value={choice.value}>
+                  {choice.label}
+                </SelectItem>
+              ))}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+      )}
+      {exampleName ? (
+        <iframe
+          key={exampleName}
+          src={`/desktop/preview/${exampleName}`}
+          title={`${item.title}: ${examples.find((example) => example.name === exampleName)?.title}`}
+          className="min-h-[32rem] w-full flex-1 rounded-xl bg-background"
+        />
+      ) : (
+        <p className="text-muted-foreground">
+          Examples and properties are available in this component’s
+          documentation.
+        </p>
+      )}
     </div>
   )
 }
 
 /** A card per component group, which opens the group's first component. */
-function GroupGrid({ onOpen }: { onOpen: (slug: string) => void }) {
+function GroupGrid({
+  onOpen,
+  components,
+}: {
+  onOpen: (slug: string) => void
+  components: ExplorerComponent[]
+}) {
+  const groupRows = getExplorerNavGroups(components, EXPLORER_ICONS).flatMap(
+    (group) => group.items.filter((item) => item.children)
+  )
   return (
     <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-      {GROUP_ROWS.map((group) => {
+      {groupRows.map((group) => {
         const first = group.children?.[0]
         return (
-          <button
+          <Item
             key={group.id}
-            type="button"
-            onClick={() => first && onOpen(first.id)}
-            className="flex flex-col items-start gap-1 rounded-xl bg-muted/40 p-4 text-start transition-colors hover:bg-muted"
+            variant="muted"
+            render={
+              <button type="button" onClick={() => first && onOpen(first.id)} />
+            }
           >
-            <span className="font-medium">{group.label}</span>
-            <span className="text-sm text-foreground/70">
-              {group.children?.length} components
-            </span>
-          </button>
+            <ItemContent>
+              <ItemTitle>{group.label}</ItemTitle>
+              <ItemDescription>
+                {group.children?.length} components
+              </ItemDescription>
+            </ItemContent>
+          </Item>
         )
       })}
     </div>
   )
 }
 
-function NewTabPage({ onOpen }: { onOpen: (slug: string) => void }) {
+function NewTabPage({
+  onOpen,
+  components,
+}: {
+  onOpen: (slug: string) => void
+  components: ExplorerComponent[]
+}) {
   return (
     <div className="flex flex-col gap-6">
       <div className="flex flex-col gap-2">
@@ -163,7 +211,7 @@ function NewTabPage({ onOpen }: { onOpen: (slug: string) => void }) {
           Pick a component here or in the sidebar, and it opens in this tab.
         </p>
       </div>
-      <GroupGrid onOpen={onOpen} />
+      <GroupGrid onOpen={onOpen} components={components} />
     </div>
   )
 }
@@ -171,9 +219,11 @@ function NewTabPage({ onOpen }: { onOpen: (slug: string) => void }) {
 function Overview({
   onOpen,
   setup,
+  components,
 }: {
   onOpen: (slug: string) => void
   setup: React.ReactNode
+  components: ExplorerComponent[]
 }) {
   return (
     <div className="flex flex-col gap-6">
@@ -186,16 +236,23 @@ function Overview({
         </p>
       </div>
       {setup}
-      <GroupGrid onOpen={onOpen} />
+      <GroupGrid onOpen={onOpen} components={components} />
     </div>
   )
 }
 
 function InstallCommand({ slug }: { slug: string }) {
   const { packageManager } = usePackageManager()
+  const names = getExplorerInstallNames(slug, false)
+  if (!names.length)
+    return (
+      <p className="text-muted-foreground">
+        Use the typography utilities shown in the documentation.
+      </p>
+    )
   return (
     <CliCommand
-      code={forPackageManager(`${CLI} add ${slug}`, packageManager)}
+      code={forPackageManager(`${CLI} add ${names.join(" ")}`, packageManager)}
     />
   )
 }
@@ -221,7 +278,17 @@ function ThemeToggle() {
 }
 
 /** The desktop example: a component explorer in the App Shell. */
-export function DesktopExplorer() {
+export function DesktopExplorer({
+  examples,
+  components,
+}: {
+  examples: Record<string, ExplorerExample[]>
+  components: ExplorerComponent[]
+}) {
+  const items = React.useMemo(
+    () => new Map(components.map((item) => [item.slug, item])),
+    [components]
+  )
   const [options, setOptions] = useQueryStates(explorerParsers)
   const { host, shellWindow } = useDesktopWindow({
     hasTitlebar: getTabsPlacement(options) === "titlebar",
@@ -235,7 +302,7 @@ export function DesktopExplorer() {
       closed: [],
     },
   })
-  const activeItem = tabs.activeId ? ITEMS.get(tabs.activeId) : undefined
+  const activeItem = tabs.activeId ? items.get(tabs.activeId) : undefined
   const isBlankTab = isNewTab(tabs.activeId)
   const open = (slug: string) =>
     tabs.open(slug, {
@@ -248,17 +315,37 @@ export function DesktopExplorer() {
     ? `${COMPONENT_PATH}${activeItem.slug}`
     : isBlankTab
       ? NEW_TAB_PATH
-      : "/"
+      : tabs.activeId === "icons"
+        ? "/icons"
+        : tabs.activeId === "library"
+          ? "/components"
+          : "/"
   const groups = React.useMemo(
     () =>
-      getExplorerNavGroups(EXPLORER_COMPONENTS, EXPLORER_ICONS, {
+      getExplorerNavGroups(components, EXPLORER_ICONS, {
         reorderable: options.reorder,
+        pages: [
+          {
+            id: "icons",
+            label: "Icons",
+            href: "/icons",
+            icon: SparklesIcon,
+            mobile: "tab",
+          },
+          {
+            id: "library",
+            label: "Library",
+            href: "/components",
+            icon: LayersIcon,
+            mobile: "tab",
+          },
+        ],
       }),
-    [options.reorder]
+    [options.reorder, components]
   )
   const activeId = getActiveNavItem(groups, pathname)
   const path = activeId ? getNavPath(groups, activeId) : []
-  const pageTitle = getTabTitle(tabs.activeId)
+  const pageTitle = getTabTitle(tabs.activeId, items)
   const hidden = React.useMemo(
     () =>
       getHiddenExplorerOptions({
@@ -314,10 +401,18 @@ export function DesktopExplorer() {
                 key={id}
                 value={id}
                 pinned={tabs.state.pinned.includes(id)}
-                icon={ITEMS.has(id) || isNewTab(id) ? undefined : HomeIcon}
+                icon={
+                  items.has(id) || isNewTab(id)
+                    ? undefined
+                    : id === "icons"
+                      ? SparklesIcon
+                      : id === "library"
+                        ? LayersIcon
+                        : HomeIcon
+                }
                 preview={tabs.state.preview === id}
               >
-                {getTabTitle(id)}
+                {getTabTitle(id, items)}
               </TabStripTab>
             ))}
           </TabStripList>
@@ -369,18 +464,43 @@ export function DesktopExplorer() {
           <span>
             {RUNTIME_LABELS[host.runtime]} · {PLATFORM_LABELS[host.platform]}
           </span>
-          <span>{GALLERY_ITEMS.length} components</span>
+          <span>{components.length} components</span>
           <ThemeToggle />
         </>
       }
     >
       <AppShellContent size={options.contentSize}>
         {activeItem ? (
-          <ComponentStage key={activeItem.slug} item={activeItem} />
+          <ComponentStage
+            key={activeItem.slug}
+            item={activeItem}
+            examples={examples[activeItem.slug] ?? []}
+          />
+        ) : tabs.activeId === "icons" ? (
+          <div className="flex flex-col gap-6">
+            <AppShellPageTitle>Fabricator UI Icons</AppShellPageTitle>
+            <React.Suspense>
+              <IconsBrowser />
+            </React.Suspense>
+          </div>
+        ) : tabs.activeId === "library" ? (
+          <ExplorerLibrary
+            components={components}
+            renderLink={(component) => (
+              <a
+                href={`${COMPONENT_PATH}${component.slug}`}
+                onClick={(event) => {
+                  event.preventDefault()
+                  open(component.slug)
+                }}
+              />
+            )}
+          />
         ) : isBlankTab ? (
-          <NewTabPage onOpen={open} />
+          <NewTabPage onOpen={open} components={components} />
         ) : (
           <Overview
+            components={components}
             onOpen={open}
             setup={
               <SetupCards

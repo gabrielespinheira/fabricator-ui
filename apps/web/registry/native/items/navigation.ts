@@ -5,6 +5,23 @@ import { docs } from "./shared"
 // Navigation, layout and the shell.
 export const navigationItems: Registry["items"] = [
   {
+    name: "file-tree",
+    type: "registry:ui",
+    title: "File Tree",
+    dependencies: [
+      "@fabricator-ui/icons-react-native",
+      "cn",
+      "class-variance-authority",
+    ],
+    registryDependencies: ["@fabricator/text", "@fabricator/fluid-hover"],
+    files: [
+      { path: "ui/file-tree.tsx", type: "registry:ui" },
+      { path: "lib/file-tree-model.ts", type: "registry:lib" },
+    ],
+    meta: docs("file-tree"),
+  },
+
+  {
     name: "menu-sheet",
     type: "registry:lib",
     title: "Menu Sheet",
@@ -101,7 +118,7 @@ export const navigationItems: Registry["items"] = [
     files: [
       { path: "ui/app-shell.tsx", type: "registry:ui" },
       { path: "lib/app-shell-layout-model.ts", type: "registry:lib" },
-      { path: "lib/header-fade.tsx", type: "registry:lib" },
+      { path: "lib/edge-fade.tsx", type: "registry:lib" },
       { path: "lib/sound-recipes.ts", type: "registry:lib" },
     ],
     meta: docs("app-shell"),

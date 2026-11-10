@@ -2,9 +2,10 @@
 // names, so the card's install command is the website's too. A test in apps/web
 // reads the command back through the endpoint's own parsers.
 
+import { EXPLORER_DEFAULTS } from "@/lib/component-explorer"
 import {
+  BOTTOM_NAV_STYLE_CHOICES,
   getHiddenShellOptions,
-  TAB_BAR_STYLE_CHOICES,
   type ShellOptionKey,
   type ShellOptionValues,
   type ShellProject,
@@ -67,20 +68,7 @@ function getOptionKeys(options: ShellOptions) {
   )
 }
 
-/**
- * Where the desktop example's explorer differs from the website's defaults: its
- * brand tops the sidebar, and components open in tabs.
- */
-const EXPLORER_DEFAULTS: Partial<ShellOptions> = {
-  switcher: "none",
-  account: "none",
-  reorder: false,
-  breadcrumb: false,
-  actions: false,
-  tabs: "main",
-}
-
-/** The desktop example's shell, for an app: a tab bar, in the best style it can draw. */
+/** The desktop example's shell, for an app: a bottom nav, in the best style it can draw. */
 export function getDefaultShellOptions({
   hasGlass,
 }: {
@@ -95,8 +83,8 @@ export function getDefaultShellOptions({
 }
 
 /** Glass stays on the list: a build that can't draw it says why. */
-export function getTabBarStyleChoices({ hasGlass }: { hasGlass: boolean }) {
-  return TAB_BAR_STYLE_CHOICES.map((choice) => ({
+export function getBottomNavStyleChoices({ hasGlass }: { hasGlass: boolean }) {
+  return BOTTOM_NAV_STYLE_CHOICES.map((choice) => ({
     ...choice,
     disabled: choice.value === "glass" && !hasGlass,
   }))

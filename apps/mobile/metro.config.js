@@ -23,6 +23,7 @@ const examplesAlias = "@/examples/native/"
 const SHARED_LIB = new Set([
   "@/lib/component-groups",
   "@/lib/component-explorer",
+  "@/lib/icon-explorer",
 ])
 
 const config = getDefaultConfig(__dirname)
@@ -42,6 +43,8 @@ config.watchFolders = [
   compiled,
   examples,
   icons,
+  path.join(repo, "packages/icons"),
+  path.join(repo, "packages/icons-static"),
   path.join(web, "lib"),
 ]
 config.resolver.nodeModulesPaths = [path.resolve(__dirname, "node_modules")]
@@ -63,6 +66,19 @@ config.resolver.resolveRequest = (context, moduleName, platform) => {
     return {
       type: "sourceFile",
       filePath: path.join(icons, "dist/esm/brands.js"),
+    }
+  }
+  const iconSources = {
+    "@fabricator-ui/icons/catalog": "packages/icons/dist/esm/catalog.js",
+    "@fabricator-ui/icons-static/nodes":
+      "packages/icons-static/dist/esm/nodes.js",
+    "@fabricator-ui/icons-react-native/files":
+      "packages/icons-react-native/dist/esm/files.js",
+  }
+  if (Object.hasOwn(iconSources, moduleName)) {
+    return {
+      type: "sourceFile",
+      filePath: path.join(repo, iconSources[moduleName]),
     }
   }
   if (SHARED_LIB.has(moduleName)) {

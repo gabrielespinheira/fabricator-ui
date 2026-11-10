@@ -10,17 +10,53 @@ import type {
 
 import { COMPONENT_GROUPS, type ComponentGroup } from "./component-groups"
 
+/** Shared starting point for docs, desktop and the native explorer. */
+export const EXPLORER_DEFAULTS = {
+  switcher: "none",
+  account: "none",
+  reorder: false,
+  breadcrumb: false,
+  actions: false,
+  tabs: "main",
+  bottomNav: true,
+} as const
+
 export type ExplorerComponent = {
   slug: string
   title: string
   group: ComponentGroup
 }
 
+export function filterExplorerComponents(
+  components: ExplorerComponent[],
+  query: string
+) {
+  const term = query.trim().toLowerCase()
+  return components
+    .filter(
+      (item) =>
+        item.slug.includes(term) || item.title.toLowerCase().includes(term)
+    )
+    .sort((a, b) => a.title.localeCompare(b.title))
+}
+
 export const COMPONENT_PATH = "/components/"
+
+/** Tutorial examples are compositions, rather than installable registry items. */
+export function getExplorerInstallNames(
+  slug: string,
+  isNative: boolean
+): string[] {
+  if (slug === "data-table") return ["table", "button", "checkbox", "input"]
+  if (slug === "typography") return isNative ? ["text"] : []
+  return [slug]
+}
 
 /** The tab a navigation link opens: a component, the overview, or none. */
 export function getExplorerTabId(href: string | undefined) {
   if (href === "/") return "overview"
+  if (href === "/components") return "library"
+  if (href === "/icons") return "icons"
   if (href?.startsWith(COMPONENT_PATH)) return href.slice(COMPONENT_PATH.length)
   return null
 }
@@ -62,7 +98,14 @@ export function getExplorerNavGroups<TIcon>(
   {
     reorderable = false,
     pages = [],
-  }: { reorderable?: boolean; pages?: NavItem<TIcon>[] } = {}
+    overviewHref = "/",
+    componentPath = COMPONENT_PATH,
+  }: {
+    reorderable?: boolean
+    pages?: NavItem<TIcon>[]
+    overviewHref?: string
+    componentPath?: string
+  } = {}
 ): NavGroup<TIcon>[] {
   const groupRows = COMPONENT_GROUPS.flatMap((group) => {
     const children = components
@@ -71,7 +114,7 @@ export function getExplorerNavGroups<TIcon>(
       .map((component) => ({
         id: component.slug,
         label: component.title,
-        href: `${COMPONENT_PATH}${component.slug}`,
+        href: `${componentPath}${component.slug}`,
       }))
     if (children.length === 0) return []
     return [
@@ -91,7 +134,7 @@ export function getExplorerNavGroups<TIcon>(
         {
           id: "overview",
           label: "Overview",
-          href: "/",
+          href: overviewHref,
           icon: icons.overview,
           mobile: "tab",
         },

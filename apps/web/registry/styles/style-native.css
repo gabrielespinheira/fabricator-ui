@@ -527,6 +527,11 @@
     @apply inset-x-(--density-16) z-20;
   }
 
+  /* The page quiets under the floating bar, toward the main column's colour. */
+  .cn-app-shell-bottom-nav-fade {
+    @apply text-app-shell-main;
+  }
+
   .cn-app-shell-bottom-nav-capsule {
     @apply bg-app-shell-frame shadow-surface-3;
   }
@@ -536,9 +541,10 @@
     @apply data-[variant=flat]:px-(--density-4) data-[variant=flat]:pt-(--density-4);
   }
 
-  /* The pressed fill is the Fluid Hover highlight, so a tab has none of its own. */
+  /* 48pt at a phone's density, Apple's tab bar row with room for its label. The
+     pressed fill is the Fluid Hover highlight, so a tab has none of its own. */
   .cn-app-shell-bottom-nav-item {
-    @apply min-h-(--density-48) gap-(--density-4);
+    @apply min-h-(--density-40) gap-(--density-4);
   }
 
   /* The current tab's pill slides on the move timing. */
@@ -551,7 +557,7 @@
   }
 
   .cn-app-shell-bottom-nav-text {
-    @apply text-muted-foreground text-(length:--density-text-11);
+    @apply text-muted-foreground text-(length:--density-text-11) font-medium;
   }
 
   .cn-app-shell-bottom-nav-text-lit {
@@ -1837,7 +1843,32 @@
      overlaps the stack. They rise into place on the move timing (in the
      source). */
   .cn-chat-input-tray {
-    @apply border-border/60 -mb-(--density-16) rounded-t-2xl border px-(--density-6) pt-(--density-6) pb-(--density-20) data-[level=1]:bg-surface-2 data-[level=1]:mx-(--density-20) data-[level=2]:bg-surface-1 data-[level=2]:mx-(--density-28) data-[level=3]:bg-surface-1 data-[level=3]:mx-(--density-36);
+    @apply border-border/60 -mb-(--density-16) rounded-t-2xl border px-(--density-4) pt-(--density-4) pb-(--density-20) data-[level=1]:bg-surface-2 data-[level=1]:mx-(--density-20) data-[level=2]:bg-surface-1 data-[level=2]:mx-(--density-28) data-[level=3]:bg-surface-1 data-[level=3]:mx-(--density-36);
+  }
+
+  /* A folding stack. */
+  .cn-chat-input-trays {
+    @apply min-w-0;
+  }
+
+  /* Folded, the rows behind the front one peek out as edges: an empty tray
+     8pt proud of the one in front, each a step further back. Pressing them
+     opens the stack. */
+  .cn-chat-input-tray-edge {
+    @apply h-(--density-24) p-0;
+  }
+
+  .cn-chat-input-trays-edges {
+    @apply rounded-t-2xl;
+  }
+
+  /* Opened, Show less folds the stack again: quiet 12pt text over its end. */
+  .cn-chat-input-trays-less {
+    @apply mb-(--density-6) h-(--density-24) gap-(--density-4) rounded-md px-(--density-6);
+  }
+
+  .cn-chat-input-trays-less-text {
+    @apply text-muted-foreground text-(length:--density-text-12);
   }
 
   .cn-chat-input-tray-entry {
@@ -1847,7 +1878,7 @@
   /* Rows of 13pt text with a muted icon (in the source) and ghost actions at
      the end. */
   .cn-chat-input-tray-item {
-    @apply h-(--density-36) gap-(--density-8) rounded-lg ps-(--density-8) pe-(--density-4) data-[trigger=true]:ps-0;
+    @apply h-(--density-30) gap-(--density-8) rounded-lg ps-(--density-8) pe-(--density-4) data-[trigger=true]:ps-0;
   }
 
   .cn-chat-input-tray-item-text {
@@ -1868,8 +1899,10 @@
     @apply items-center;
   }
 
+  /* A row's reading gives way to its text: past 45% of the row it truncates
+     (one line, in the source), so a narrow tray keeps the title readable. */
   .cn-chat-input-tray-meta {
-    @apply text-muted-foreground text-(length:--density-text-12) tabular-nums;
+    @apply text-muted-foreground text-(length:--density-text-12) tabular-nums max-w-[45%];
   }
 
   .cn-chat-input-tray-content {
@@ -1916,6 +1949,32 @@
   .cn-collapsible-content {
     @apply w-full;
   }
+
+/* MARK: color-picker */
+.cn-color-picker { @apply gap-(--density-12); }
+.cn-color-picker-area { @apply h-40 rounded-lg overflow-hidden; }
+.cn-color-picker-area-thumb { @apply size-4 rounded-full border-2 border-white; }
+.cn-color-picker-controls { @apply relative; }
+.cn-color-picker-field { @apply gap-(--density-4); }
+.cn-color-picker-field-input { @apply relative; }
+.cn-color-picker-field-label { @apply text-muted-foreground text-(length:--density-text-12); }
+.cn-color-picker-fields { @apply gap-(--density-8); }
+.cn-color-picker-format { @apply relative; }
+.cn-color-picker-popover-content { @apply min-w-64; }
+.cn-color-picker-slider-row { @apply gap-(--density-4); }
+.cn-color-picker-sliders { @apply relative; }
+.cn-color-picker-swatch { @apply rounded-lg; }
+.cn-color-picker-swatch-color { @apply rounded-md; }
+.cn-color-picker-swatches { @apply gap-(--density-4); }
+.cn-color-picker-trigger { @apply relative; }
+.cn-color-picker-trigger-label { @apply relative; }
+.cn-color-picker-trigger-value { @apply text-muted-foreground text-(length:--density-text-12); }
+.cn-color-tile { @apply size-6 rounded-md; }
+.cn-color-picker-alpha { @apply relative; }
+.cn-color-picker-content { @apply relative; }
+.cn-color-picker-hue { @apply relative; }
+.cn-color-picker-remove { @apply relative; }
+.cn-color-picker-slider-value { @apply text-(length:--density-text-12) text-muted-foreground; }
 
 /* MARK: Combobox */
 
@@ -2801,6 +2860,38 @@
   .cn-field-error-text {
     @apply text-destructive-text text-(length:--density-text-12) font-normal;
   }
+
+/* MARK: File Tree */
+.cn-file-tree { @apply p-(--density-4); }
+.cn-file-tree-item { @apply min-h-(--density-40) rounded-md data-[disabled=true]:opacity-50; }
+.cn-file-tree-chevron { @apply text-muted-foreground; }
+.cn-file-tree-icon { @apply mx-(--density-4); }
+.cn-file-tree-name { @apply ps-(--density-6) text-(length:--density-text-13); }
+.cn-file-tree-guide { @apply border-border opacity-30; }
+.cn-file-tree-highlight { @apply rounded-md; }
+.cn-file-tree-selection { @apply rounded-md bg-active; }
+
+/* MARK: file-upload */
+.cn-file-upload { @apply gap-(--density-12); }
+.cn-file-upload-description { @apply text-muted-foreground text-(length:--density-text-13); }
+.cn-file-upload-dropzone { @apply rounded-xl bg-muted p-(--density-24); }
+.cn-file-upload-field { @apply relative; }
+.cn-file-upload-item { @apply w-full; }
+.cn-file-upload-item-delete { @apply relative; }
+.cn-file-upload-item-preview { @apply relative; }
+.cn-file-upload-list { @apply gap-(--density-8); }
+.cn-file-upload-media { @apply items-center justify-center; }
+.cn-file-upload-title { @apply font-medium; }
+.cn-file-upload-trigger { @apply relative; }
+.cn-file-upload-chip { @apply relative; }
+.cn-file-upload-chip-icon { @apply relative; }
+.cn-file-upload-chip-name { @apply text-(length:--density-text-12); }
+.cn-file-upload-chip-preview { @apply relative; }
+.cn-file-upload-chip-remove { @apply relative; }
+.cn-file-upload-chips { @apply relative; }
+.cn-file-upload-field-browse { @apply relative; }
+.cn-file-upload-field-icon { @apply relative; }
+.cn-file-upload-field-text { @apply relative; }
 
 /* MARK: Fluid Hover */
 
@@ -3699,10 +3790,12 @@
   }
 
   /* Effort: the model button and the level's name over a 20pt rail. The fill
-     and the name take the info hue turned toward violet as the effort rises,
-     neutral until a level is chosen; the top level is more saturated. The
-     source turns the hue from the two tint rules below. The 24pt thumb steps
-     between levels on the feedback timing and gives a little under a finger. */
+     runs from sky blue to violet as the effort rises (the info role's chroma at
+     the shared fill lightness, its hue turned) and the name takes the info
+     text's colour turned the same way, neutral until a level is chosen; the
+     source turns them from the two tint rules below. The thumb is the Slider's
+     white knob at 24pt, 2pt proud of the rail; it steps between levels on the
+     feedback timing and gives a little under a finger. */
   .cn-model-picker-effort {
     @apply gap-1 px-(--density-8) pt-0.5 pb-(--density-10);
   }
@@ -3738,13 +3831,14 @@
     @apply bg-foreground/25 -ms-0.5 -mt-0.5 size-1 rounded-full;
   }
 
-  /* 40% over the step's 25% makes the website's 55%, easing in. */
+  /* 40% over the step's 25% makes the website's 55%, easing in. On a chosen
+     level's colour the reached marks are light. */
   .cn-model-picker-effort-step-reached {
-    @apply bg-foreground/40 rounded-full;
+    @apply bg-foreground/40 data-[chosen=true]:bg-white/70 rounded-full;
   }
 
   .cn-model-picker-effort-thumb {
-    @apply bg-foreground shadow-surface-3 size-(--density-24) rounded-full;
+    @apply shadow-surface-3 size-(--density-24) rounded-full border border-black/5 bg-white;
   }
 
   /* A setting under the panel, ruled off from what's above. */
@@ -3893,6 +3987,14 @@
   .cn-navigation-menu-indicator-arrow {
     @apply bg-border top-[60%] size-2 rotate-45 rounded-tl-sm;
   }
+
+/* MARK: Number Field */
+.cn-number-field { @apply gap-(--density-8); }
+.cn-number-field-group { @apply w-full; }
+.cn-number-field-input { @apply tabular-nums; }
+.cn-number-field-addon { @apply shrink-0; }
+.cn-number-field-decrement { @apply text-muted-foreground; }
+.cn-number-field-increment { @apply text-muted-foreground; }
 
 /* MARK: Pagination */
 
@@ -5008,9 +5110,7 @@
 /* MARK: Tab Strip */
 
   /* A row of document tabs on the surface it sits on: 48pt at a phone's density,
-     40pt at `sm`, a step down the scale. A press takes the row's whole height.
-     Compact (a phone), the count's button sits right after the pill, with no
-     gap: its own inset is the space between them. */
+     40pt at `sm`, a step down the scale. A press takes the row's whole height. */
   .cn-tab-strip {
     @apply h-(--density-40) gap-(--density-4) px-(--density-6) data-[compact=true]:gap-0;
   }
@@ -5114,28 +5214,24 @@
 
   /* MARK: Compact strip (phones) */
 
-  /* The active tab on the selection's raised pill, filling the row. Its chevron
-     says a press shows the rest; its glyph sits inside its box, so the end takes
-     less padding to look even. */
+  /* The active tab on the selection's raised pill, filling the row, with the
+     count of open tabs at its end: a press shows them all. The chip's own box
+     is the end's inset, so the end takes less padding to look even. */
   .cn-tab-strip-compact-tab {
-    @apply bg-surface-4 shadow-surface-4 my-(--density-4) gap-(--density-6) rounded-lg ps-(--density-10) pe-(--density-6);
+    @apply bg-surface-4 shadow-surface-4 my-(--density-4) gap-(--density-6) rounded-lg ps-(--density-10) pe-(--density-8);
   }
 
   .cn-tab-strip-compact-text {
     @apply text-foreground text-(length:--density-text-13);
   }
 
-  .cn-tab-strip-compact-chevron {
-    @apply text-muted-foreground;
-  }
-
-  /* The count of open tabs in a rounded frame, as a phone's browser draws it. */
+  /* The count, a soft chip as wide as its digits. */
   .cn-tab-strip-count {
-    @apply border-foreground h-(--density-20) min-w-(--density-20) rounded-md border-[1.5px] px-(--density-4);
+    @apply bg-muted h-(--density-20) min-w-(--density-20) rounded-md px-(--density-6);
   }
 
   .cn-tab-strip-count-text {
-    @apply text-foreground text-(length:--density-text-11) leading-none font-semibold;
+    @apply text-muted-foreground text-(length:--density-text-12) leading-none font-semibold tabular-nums;
   }
 
   /* The switcher: two columns of cards in a sheet, the sheet's inset around them.
@@ -5342,6 +5438,20 @@
   .cn-textarea-focus {
     @apply border-foreground/25 bg-card;
   }
+
+/* MARK: Time Input */
+.cn-time-input { @apply w-full; }
+.cn-time-input-content { @apply p-1; }
+.cn-time-range-input { @apply gap-(--density-8); }
+.cn-time-range-input-separator { @apply text-muted-foreground; }
+.cn-time-range-input-duration { @apply text-muted-foreground text-(length:--density-text-13) tabular-nums; }
+
+/* MARK: Time Wheel */
+.cn-time-wheel { @apply gap-(--density-4) px-(--density-4) min-w-56; }
+.cn-time-wheel-band { @apply bg-active rounded-lg; }
+.cn-time-wheel-column { @apply min-w-12; }
+.cn-time-wheel-spacer { @apply shrink-0; }
+.cn-time-wheel-item { @apply px-(--density-6); }
 
 /* MARK: Toast */
 

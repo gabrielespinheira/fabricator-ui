@@ -17,6 +17,31 @@ export const NATIVE_DIFFERENCES: Record<
   string,
   { tier: NativeTier; note?: string }
 > = {
+  "color-picker": {
+    tier: "touch",
+    note: "The color area follows touch and the sliders expose hue and opacity. HEX, RGB, HSL, OKLCH, swatches and popover triggers share the web model. There is no screen eyedropper or hover cursor.",
+  },
+  "file-tree": {
+    tier: "touch",
+    note: "Tap selects, a second tap opens, and a folder's chevron expands. Multiple selection toggles each row. A long press calls onNodeContextMenu; accessibility actions open or request deletion. Keyboard navigation and pointer modifier keys have no native equivalent.",
+  },
+  "file-upload": {
+    tier: "touch",
+    note: "Files are URI assets with name, type and size. The host supplies onPick or FileUploadPickerProvider; validation, rejection reasons, controlled values, chips, previews and removal share the web rules. Browser drag/drop, hidden inputs and HTML forms have no native equivalent. The component does not send files to a server.",
+  },
+  "number-field": {
+    tier: "touch",
+    note: "A decimal keyboard and touch steppers use the same clamping, locale parsing, formatting, fractional steps and bounds. Browser keyboard shortcuts and pointer scrubbing have no native equivalent.",
+  },
+  "time-input": {
+    tier: "touch",
+    note: "Typing commits on blur or return; the clock opens snapping native wheels. The shared model preserves 12/24-hour time, seconds, minute steps, bounds and range duration. name is accepted without HTML form submission.",
+  },
+  "time-wheel": {
+    tier: "touch",
+    note: "Native scroll views snap each column to its rows; accessibility adjustment actions step it. Values and bounds use the same shared time model. DOM keyboard shortcuts and hover effects have no native equivalent.",
+  },
+
   accordion: SAME,
   alert: SAME,
   "alert-dialog": SAME,
@@ -26,7 +51,7 @@ export const NATIVE_DIFFERENCES: Record<
   },
   "app-shell": {
     tier: "touch",
-    note: "On tablets the sidebar's toggle stays in the header while the sidebar can collapse, the toggles have no tooltip, and the status bar is its row plus half the home indicator's space, with its ends the same distance inside the cards' edges. On phones the sidebar reveals behind the page, panels open as sheets with centred tabs and a grab handle in place of a close button, a panel's toggle draws a bottom panel, and the nav's mobile items become a tab bar, flat or floating, on a surface of your own through `capsule` (a `GlassView` for Liquid Glass). The page scrolls under the header, which sits on a fade behind the status bar, instead of showing a hairline. The breadcrumb shows the way up, and the page's name only once its heading has scrolled away. `window`, `shortcut` and `shortcutScope` are accepted and do nothing, since React Native has no window controls or global key events. Panels don't drag to resize, and the layout is only saved if you pass `storage`.",
+    note: "On tablets the sidebar's toggle stays in the header while the sidebar can collapse, the toggles have no tooltip, and the status bar is its row plus half the home indicator's space, with its ends the same distance inside the cards' edges. On phones the sidebar reveals behind the page, panels open as sheets with centred tabs and a grab handle in place of a close button, a panel's toggle draws a bottom panel, and the nav's mobile items become a bottom nav, flat or floating, on a surface of your own through `capsule` (a `GlassView` for Liquid Glass). The page scrolls under the header, which sits on a fade behind the status bar, instead of showing a hairline. The breadcrumb shows the way up, and the page's name only once its heading has scrolled away. `window`, `shortcut` and `shortcutScope` are accepted and do nothing, since React Native has no window controls or global key events. Panels don't drag to resize, and the layout is only saved if you pass `storage`.",
   },
   "aspect-ratio": SAME,
   attachment: SAME,
@@ -76,7 +101,7 @@ export const NATIVE_DIFFERENCES: Record<
   },
   density: {
     tier: "same",
-    note: '`DensityProvider` sets scoped variables, with no wrapper view. Phones default to spacious, and there a control\'s `size="sm"` is a step down, 36pt, and `size="lg"` a step up, 52pt, rather than compact and spacious. Tablets take their own step in place of spacious: 40pt controls with the same 15pt text, `sm` 34pt, `lg` 48pt, and so does Default on a phone, where the website\'s pointer sizes would be too small for a finger. `FabricatorRoot` sets it from the window\'s width; compact stays as picked.',
+    note: "`DensityProvider` sets scoped variables, with no wrapper view. `FabricatorRoot` sizes each density for the device from the window's width, since the website's are sized for a pointer: Default is a phone's 44pt controls with 15pt text and a tablet's 40pt, Compact a step down (40pt on a phone, 34pt on a tablet) and Spacious a step up (52pt on a phone, 44pt on a tablet). At a phone's Default a control's `size=\"sm\"` is a step down, 36pt, and `size=\"lg\"` a step up, 52pt.",
   },
   drawer: {
     tier: "engine",
@@ -88,7 +113,7 @@ export const NATIVE_DIFFERENCES: Record<
   },
   editor: {
     tier: "engine",
-    note: "The surface is our own native text view (`@fabricator-ui/editor-native`, one `UITextView` holding the whole document), driven by the same store and rules as the website. iOS only for now: on Android the content shows the document read-only until the Android view lands, and the app needs a development build, not Expo Go. There's no selection bar on touch, so `EditorBubbleMenu` renders nothing and the keyboard bar carries the marks. There is no slash menu: formatting comes from the toolbar, the keyboard bar, Markdown shortcuts and a hardware keyboard's shortcuts. The link editor is a dialog. Tables draw as the Markdown preview's grid in the text view and edit in a sheet on phones and tablets (a tap on the table opens it): a grid of cell fields, rows and columns added and removed at the focused cell, the focused column's alignment, Cancel and Done, where the website edits them in place. Code blocks wrap their lines instead of scrolling sideways (one text view can't scroll a paragraph on its own); their language and Copy are drawn in the block's strip, and a tap on the language opens a sheet to pick another. While the editor has focus, `EditorKeyboardBar` takes the bottom of the screen from the App Shell's tab bar (through the `bottom-bar` slot): a floating capsule in the tab bar's place, docked full width on top of the on-screen keyboard while that's up, with Done giving the tab bar back. It needs `KeyboardProvider` from `react-native-keyboard-controller` at the app's root.",
+    note: "The surface is our own native text view (`@fabricator-ui/editor-native`, one `UITextView` holding the whole document), driven by the same store and rules as the website. iOS only for now: on Android the content shows the document read-only until the Android view lands, and the app needs a development build, not Expo Go. There's no selection bar on touch, so `EditorBubbleMenu` renders nothing and the keyboard bar carries the marks. There is no slash menu: formatting comes from the toolbar, the keyboard bar, Markdown shortcuts and a hardware keyboard's shortcuts. The link editor is a dialog. Tables draw as the Markdown preview's grid in the text view and edit in a sheet on phones and tablets (a tap on the table opens it): a grid of cell fields, rows and columns added and removed at the focused cell, the focused column's alignment, Cancel and Done, where the website edits them in place. Code blocks wrap their lines instead of scrolling sideways (one text view can't scroll a paragraph on its own); their language and Copy are drawn in the block's strip, and a tap on the language opens a sheet to pick another. While the editor has focus, `EditorKeyboardBar` takes the bottom of the screen from the App Shell's bottom nav (through the `bottom-bar` slot): a floating capsule in the bottom nav's place, docked full width on top of the on-screen keyboard while that's up, with Done giving the bottom nav back. It needs `KeyboardProvider` from `react-native-keyboard-controller` at the app's root.",
   },
   empty: SAME,
   field: SAME,
@@ -186,7 +211,7 @@ export const NATIVE_DIFFERENCES: Record<
   },
   "tab-strip": {
     tier: "touch",
-    note: "On a phone the strip shows the active tab and a count of the tabs; either opens a sheet of every tab as a card, with the new tab button. From a tablet up the strip scrolls sideways. Tabs reorder from their menu instead of by dragging.",
+    note: "On a phone the strip shows the active tab on a pill with a count of the tabs; a press opens a sheet of every tab as a card, with the new tab button, so `TabStripNew` and `TabStripOverflow` draw nothing there. From a tablet up the strip scrolls sideways. Tabs reorder from their menu instead of by dragging.",
   },
   table: {
     tier: "same",

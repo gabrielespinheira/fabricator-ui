@@ -1,6 +1,12 @@
+import { Suspense } from "react"
+
 import { source } from "@/lib/source"
-import { DocsMobileBar } from "@/components/fabricator/docs-mobile-bar"
-import { DocsShellSidebar } from "@/components/fabricator/docs-shell-sidebar"
+import { DocsAppShell } from "@/components/fabricator/docs-app-shell"
+import {
+  AppShell,
+  AppShellContent,
+  AppShellMain,
+} from "@/styles/base-fabricator/ui/app-shell"
 
 export default function DocsLayout({
   children,
@@ -8,12 +14,25 @@ export default function DocsLayout({
   children: React.ReactNode
 }) {
   return (
-    <div data-slot="docs-shell" className="flex flex-1 items-start">
-      <DocsShellSidebar tree={source.pageTree} className="hidden lg:flex" />
-      <div className="flex min-w-0 flex-1 flex-col">
-        <DocsMobileBar tree={source.pageTree} />
+    <Suspense
+      fallback={
+        <div data-slot="docs-shell">
+          <AppShell storage={null}>
+            <AppShellMain>
+              <AppShellContent>{children}</AppShellContent>
+            </AppShellMain>
+          </AppShell>
+        </div>
+      }
+    >
+      <DocsAppShell
+        tree={source.pageTree}
+        pages={source
+          .getPages()
+          .map((page) => ({ url: page.url, title: page.data.title }))}
+      >
         {children}
-      </div>
-    </div>
+      </DocsAppShell>
+    </Suspense>
   )
 }

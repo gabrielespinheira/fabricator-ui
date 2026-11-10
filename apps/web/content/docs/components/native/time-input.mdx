@@ -1,0 +1,93 @@
+---
+title: Time Input
+description: A text field that takes a typed time or one picked on a scroll wheel of hours, minutes and seconds, alone or as a start and an end.
+base: native
+component: true
+---
+
+## Installation
+
+```bash
+npx fabricator-ui@latest add time-input
+```
+
+## Usage
+
+```tsx
+import { TimeInput, TimeRangeInput } from "@/components/ui/time-input"
+```
+
+```tsx
+<TimeInput
+  defaultValue="09:30"
+  hourCycle={12}
+  accessibilityLabel="12 hour time"
+/>
+```
+
+## Composition
+
+- `TimeInput`
+- `TimeRangeInput`
+- `TimeRangeValue`
+
+## Examples
+
+```tsx showLineNumbers title="time-input-example.tsx"
+
+import { TimeInput, TimeRangeInput } from "@/components/ui/time-input"
+
+function TimeInputExample() {
+  return (
+    <ExampleWrapper fit>
+      <Example title="12 hour time">
+        <TimeInput
+          defaultValue="09:30"
+          hourCycle={12}
+          accessibilityLabel="12 hour time"
+        />
+      </Example>
+      <Example title="24 hour time and seconds">
+        <TimeInput
+          defaultValue="21:30:15"
+          hourCycle={24}
+          hasSeconds
+          accessibilityLabel="24 hour time"
+        />
+      </Example>
+      <Example title="Range and duration">
+        <TimeRangeInput defaultValue={{ start: "09:00", end: "10:30" }} />
+      </Example>
+      <Example title="Bounds and minute steps">
+        <TimeInput
+          defaultValue="10:00"
+          minTime="09:00"
+          maxTime="17:00"
+          step={15}
+          accessibilityLabel="Appointment time"
+        />
+      </Example>
+      <Example title="Disabled">
+        <TimeInput
+          defaultValue="12:00"
+          disabled
+          accessibilityLabel="Disabled time"
+        />
+      </Example>
+    </ExampleWrapper>
+  )
+}
+export { TimeInputExample }
+```
+
+## API reference
+
+Props it adds to what it wraps: `"aria-invalid"`, `defaultValue`, `disabled`, `endLabel`, `hasSeconds`, `hourCycle`, `maxTime`, `minTime`, `name`, `onValueChange`, `startId`, `startLabel`, `startTime`, `step`, `value`, `wheelLabel`.
+
+## Differences from web
+
+**Touch input.** Typing commits on blur or return; the clock opens snapping native wheels. The shared model preserves 12/24-hour time, seconds, minute steps, bounds and range duration. name is accepted without HTML form submission.
+
+## Accessibility
+
+Text is read as it appears. Give a control with no text an `accessibilityLabel`.
