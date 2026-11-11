@@ -1,6 +1,6 @@
 {
   "name": "@fabricator-ui/icons",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Fabricator Icons for React: every Lucide icon under its Lucide name, plus brand marks.",
   "license": "MIT",
   "type": "module",

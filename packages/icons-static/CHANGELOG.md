@@ -1,5 +1,13 @@
 # @fabricator-ui/icons-static
 
+## 0.7.0
+
+### Minor Changes
+
+- [#15](https://github.com/gabrielespinheira/fabricator-ui/pull/15) [`4c56f6e`](https://github.com/gabrielespinheira/fabricator-ui/commit/4c56f6e5af6547ad441f07e87c9f7dfe218638a5) Thanks [@gabrielespinheira](https://github.com/gabrielespinheira)! - Add the Google Gemini and Grok brand marks (`GoogleGeminiIcon`, `GrokIcon`), so the four main AI providers (Claude, OpenAI, Gemini, Grok) all have one.
+
+- [#15](https://github.com/gabrielespinheira/fabricator-ui/pull/15) [`e57c99f`](https://github.com/gabrielespinheira/fabricator-ui/commit/e57c99f407da2bbda3d61e1a926b58524e2a5f0a) Thanks [@gabrielespinheira](https://github.com/gabrielespinheira)! - Add the Files pack: 249 Charmed file and folder icons with light and dark palettes, filename associations, React and React Native components, static SVGs and a sprite. Export `FileTypeIcon`, named icons and lookup helpers from `/files`.
+
 ## 0.1.0
 
 ### Minor Changes
