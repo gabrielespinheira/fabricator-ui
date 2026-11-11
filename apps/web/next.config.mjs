@@ -95,15 +95,25 @@ const nextConfig = {
   },
   redirects() {
     return [
+      {
+        source: "/docs/components",
+        destination: "/docs",
+        permanent: true,
+      },
+      {
+        source: "/docs/components.md",
+        destination: "/docs.md",
+        permanent: true,
+      },
       // The blocks gallery is removed for now.
       {
         source: "/blocks/:path*",
-        destination: "/docs/components",
+        destination: "/docs",
         permanent: false,
       },
       {
         source: "/blocks",
-        destination: "/docs/components",
+        destination: "/docs",
         permanent: false,
       },
       // Form and the removed /docs/forms guides redirect to Field.
@@ -179,17 +189,17 @@ const nextConfig = {
       // Chart isn't part of the Fabricator library for now.
       {
         source: "/charts/:path*",
-        destination: "/docs/components",
+        destination: "/docs",
         permanent: false,
       },
       {
         source: "/docs/components/:base(base|radix|aria)/chart",
-        destination: "/docs/components",
+        destination: "/docs",
         permanent: false,
       },
       {
         source: "/docs/components/:base(base|radix|aria)/chart.md",
-        destination: "/docs/components",
+        destination: "/docs",
         permanent: false,
       },
       // Theming is removed, and Surfaces is part of Colors: Colors covers
@@ -254,7 +264,7 @@ const nextConfig = {
       },
       {
         source: "/docs/components/:base(base|radix|aria)/direction",
-        destination: "/docs/components",
+        destination: "/docs",
         permanent: false,
       },
       {
@@ -276,7 +286,7 @@ const nextConfig = {
       // Other redirects.
       {
         source: "/components",
-        destination: "/docs/components",
+        destination: "/docs",
         permanent: true,
       },
       {

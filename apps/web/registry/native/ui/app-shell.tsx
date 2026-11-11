@@ -80,9 +80,11 @@ import {
   FALLBACK_PANEL,
   getContentBottomInset,
   getContentColumn,
+  getContentViewport,
   getFabBottom,
   getFabClearance,
   getFloatingNavMetrics,
+  getNativeNavMetrics,
   getOtherPanelsWidth,
   getPanelFrame,
   getPanelHeaderEnd,
@@ -96,6 +98,11 @@ import {
   isTitleScrolledAway,
   shouldShowHeaderTrigger,
 } from "@/registry/native/lib/app-shell-layout-model"
+import {
+  BottomBarProvider,
+  useIsBottomBarClaimed,
+} from "@/registry/native/lib/bottom-bar"
+import { BottomNavFade, HeaderFade } from "@/registry/native/lib/edge-fade"
 import { useFeedback } from "@/registry/native/lib/feedback"
 import {
   FluidHoverArea,
@@ -105,7 +112,6 @@ import {
   useFluidHover,
   useFluidRow,
 } from "@/registry/native/lib/fluid-hover"
-import { HeaderFade } from "@/registry/native/lib/header-fade"
 import { useMotion, useSurfaceAnimation } from "@/registry/native/lib/motion"
 import { parseNumber } from "@/registry/native/lib/motion-tokens"
 import { getTextContent } from "@/registry/native/lib/overlay-model"
@@ -328,6 +334,8 @@ type AppShellScrollValue = {
 const AppShellScrollContext = React.createContext<AppShellScrollValue | null>(
   null
 )
+
+const NativeTabsSceneContext = React.createContext(false)
 
 function useAppShell() {
   const context = React.use(AppShellContext)
@@ -711,7 +719,11 @@ function AppShellScrollProvider({ children }: { children: React.ReactNode }) {
       setTitle,
     ]
   )
-  return <AppShellScrollContext value={value}>{children}</AppShellScrollContext>
+  return (
+    <AppShellScrollContext value={value}>
+      <BottomBarProvider>{children}</BottomBarProvider>
+    </AppShellScrollContext>
+  )
 }
 
 /**
@@ -1308,7 +1320,7 @@ function AppShellFab({ action }: { action: AppShellAction }) {
   const { bottomNavOverlap, hasBottomNav, setHasFab } = useAppShellScroll()
   const insets = useShellInsets()
   const name = React.useId()
-  const [row, gap] = useCSSVariable(["--density-48", "--density-16"])
+  const [row, gap] = useCSSVariable(["--density-40", "--density-16"])
   React.useLayoutEffect(() => {
     setHasFab(true)
     return () => setHasFab(false)
@@ -1325,7 +1337,7 @@ function AppShellFab({ action }: { action: AppShellAction }) {
         style={{
           bottom: getFabBottom({
             hasBottomNav,
-            rowHeight: parseNumber(row, 48),
+            rowHeight: parseNumber(row, 40),
             gap: parseNumber(gap, 16),
             insetBottom: insets.bottom,
             overlap: bottomNavOverlap,
@@ -1460,6 +1472,11 @@ function AppShellContent({
 }) {
   const shell = useAppShell()
   const scroll = useAppShellScroll()
+  const isNativeScene = React.use(NativeTabsSceneContext)
+  const viewport = getContentViewport({
+    headerHeight: scroll.phoneHeaderHeight,
+    isNativeScene,
+  })
   const insets = useShellInsets()
   const { variant } = useSidebarLayout()
   const composedRef = useComposedRefs(scroll.scrollRoot, ref)
@@ -1490,7 +1507,7 @@ function AppShellContent({
       buttonSize: fabButton,
       gap: parseNumber(phoneGutter, 16),
     }),
-    topInset: scroll.phoneHeaderHeight,
+    topInset: viewport.topInset,
   })
   return (
     <ScrollView
@@ -1500,7 +1517,10 @@ function AppShellContent({
       data-content-size={size}
       scrollEventThrottle={16}
       className={cn("cn-app-shell-content flex-1", className)}
-      style={[{ marginTop: -scroll.phoneHeaderHeight }, style]}
+      // iOS makes room for the keyboard and scrolls a focused field into view.
+      automaticallyAdjustKeyboardInsets
+      keyboardShouldPersistTaps="handled"
+      style={[{ marginTop: viewport.marginTop }, style]}
       scrollIndicatorInsets={{
         top: scroll.phoneHeaderHeight,
         bottom: scroll.bottomNavOverlap,
@@ -1584,14 +1604,20 @@ function AppShellStatusBar({
 
 const BottomNavContext = React.createContext<{
   setSelected: React.Dispatch<React.SetStateAction<string | undefined>>
+  variant: "flat" | "floating"
+  hasMaterial: boolean
 } | null>(null)
 
 const BottomNavIndexContext = React.createContext(0)
 
-// A lit tab turns foreground too; only the current one turns semibold.
+// Colour and the sliding pill mark selection without shifting label widths.
 const bottomNavTextVariants = cva("cn-app-shell-bottom-nav-text")
+const bottomNavMaterialTextVariants = cva(
+  "cn-app-shell-bottom-nav-text-material"
+)
 const bottomNavLitTextVariants = cva("cn-app-shell-bottom-nav-text-lit")
 const bottomNavActiveTextVariants = cva("cn-app-shell-bottom-nav-text-active")
+const bottomNavFadeVariants = cva("cn-app-shell-bottom-nav-fade")
 
 /**
  * A phone tab bar. It hides itself from tablets up. `flat` is a row under the page.
@@ -1602,6 +1628,7 @@ const bottomNavActiveTextVariants = cva("cn-app-shell-bottom-nav-text-active")
 function AppShellBottomNav({
   variant = "flat",
   capsule,
+  nativeTabs,
   className,
   children,
   style,
@@ -1613,6 +1640,11 @@ function AppShellBottomNav({
     style?: React.ComponentProps<typeof View>["style"]
     children?: React.ReactNode
   }>
+  /** A system tab view, including its page. Reports its bar height, safe area included. */
+  nativeTabs?: React.ReactElement<{
+    onHeightChange?: (height: number) => void
+    isBarHidden?: boolean
+  }>
 }) {
   const shell = React.use(AppShellContext)
   const scroll = React.use(AppShellScrollContext)
@@ -1620,6 +1652,8 @@ function AppShellBottomNav({
   const { width } = useWindowDimensions()
   const isPhone = (shell?.size ?? getShellSize(width)) === "phone"
   const isFloating = variant === "floating"
+  const [measuredRow, setMeasuredRow] = React.useState(0)
+  const [nativeHeight, setNativeHeight] = React.useState(0)
   const [selected, setSelected] = React.useState<string>()
   const fluid = useFluidHover({
     selected: isFloating ? selected : undefined,
@@ -1628,19 +1662,32 @@ function AppShellBottomNav({
     previewsSelection: isFloating,
   })
   const [row, padding, gap] = useCSSVariable([
-    "--density-48",
-    "--density-6",
+    "--density-40",
+    "--density-4",
     "--density-12",
   ])
   const metrics = getFloatingNavMetrics({
-    row: parseNumber(row, 48),
-    padding: parseNumber(padding, 6),
+    row: parseNumber(row, 40),
+    measuredRow,
+    padding: parseNumber(padding, 4),
     gap: parseNumber(gap, 12),
+    insetBottom: insets.bottom,
+  })
+  const nativeMetrics = getNativeNavMetrics({
+    measuredHeight: nativeHeight,
+    row: parseNumber(row, 40),
+    padding: parseNumber(padding, 4),
     insetBottom: insets.bottom,
   })
   const setHasBottomNav = scroll?.setHasBottomNav
   const setBottomNavOverlap = scroll?.setBottomNavOverlap
-  const overlap = isPhone && isFloating ? metrics.clearance : 0
+  const overlap = !isPhone
+    ? 0
+    : nativeTabs
+      ? nativeMetrics.height
+      : isFloating
+        ? metrics.clearance
+        : 0
   React.useLayoutEffect(() => {
     if (!isPhone || !setHasBottomNav) return
     setHasBottomNav(true)
@@ -1651,8 +1698,38 @@ function AppShellBottomNav({
     setBottomNavOverlap(overlap)
     return () => setBottomNavOverlap(0)
   }, [overlap, setBottomNavOverlap])
-  const context = React.useMemo(() => ({ setSelected }), [])
+  const hasMaterial = isFloating && capsule !== undefined
+  const context = React.useMemo(
+    () => ({ setSelected, variant, hasMaterial }),
+    [variant, hasMaterial]
+  )
+  const { color: fadeColor } = useResolveClassNames(bottomNavFadeVariants())
+  // Something else holds the bottom of the screen (the Editor's formatting
+  // bar while it has focus): step aside, keeping the page's clearance so
+  // nothing jumps.
+  const isClaimed = useIsBottomBarClaimed()
   if (!isPhone) return null
+  if (nativeTabs) {
+    return (
+      <View
+        data-slot="app-shell-bottom-nav"
+        data-variant="native"
+        className={cn("min-h-0 flex-1", className)}
+        // The controller clips its scenes. Move it, rather than just its scroller,
+        // behind the header so the gradient has real content to fade over.
+        style={[{ marginTop: -(scroll?.phoneHeaderHeight ?? 0) }, style]}
+        {...props}
+      >
+        <NativeTabsSceneContext value={true}>
+          {React.cloneElement(nativeTabs, {
+            onHeightChange: setNativeHeight,
+            isBarHidden: isClaimed,
+          })}
+        </NativeTabsSceneContext>
+      </View>
+    )
+  }
+  if (isClaimed) return null
   const track = (
     <FluidHoverProvider fluid={fluid}>
       <FluidHoverArea fluid={fluid}>
@@ -1661,10 +1738,12 @@ function AppShellBottomNav({
           data-slot="app-shell-bottom-nav-track"
           data-variant={variant}
           className="cn-app-shell-bottom-nav-track relative flex-row"
+          onLayout={(event) => setMeasuredRow(event.nativeEvent.layout.height)}
         >
           {isFloating ? (
             <FluidHoverSelection
               selection={fluid.selection}
+              data-material={hasMaterial}
               className="cn-app-shell-bottom-nav-selection"
             />
           ) : null}
@@ -1686,35 +1765,45 @@ function AppShellBottomNav({
   )
   if (isFloating) {
     const surface = {
-      height: metrics.height,
-      padding: parseNumber(padding, 6),
+      minHeight: metrics.height,
+      padding: parseNumber(padding, 4),
       borderRadius: metrics.radius,
     }
     return (
-      <View
-        data-slot="app-shell-bottom-nav"
-        data-variant={variant}
-        accessibilityRole="tabbar"
-        aria-label="Main"
-        className={cn("cn-app-shell-bottom-nav-floating absolute", className)}
-        style={[{ bottom: metrics.bottom }, style]}
-        {...props}
-      >
-        {capsule ? (
-          React.cloneElement(capsule, {
-            style: [surface, capsule.props.style],
-            children: track,
-          })
-        ) : (
-          <View
-            data-slot="app-shell-bottom-nav-capsule"
-            className="cn-app-shell-bottom-nav-capsule"
-            style={surface}
-          >
-            {track}
-          </View>
-        )}
-      </View>
+      <>
+        {typeof fadeColor === "string" ? (
+          <BottomNavFade
+            color={fadeColor}
+            clearance={metrics.clearance}
+            barHeight={metrics.height}
+            opacity={hasMaterial ? 0.25 : 1}
+          />
+        ) : null}
+        <View
+          data-slot="app-shell-bottom-nav"
+          data-variant={variant}
+          accessibilityRole="tabbar"
+          aria-label="Main"
+          className={cn("cn-app-shell-bottom-nav-floating absolute", className)}
+          style={[{ bottom: metrics.bottom }, style]}
+          {...props}
+        >
+          {capsule ? (
+            React.cloneElement(capsule, {
+              style: [surface, capsule.props.style],
+              children: track,
+            })
+          ) : (
+            <View
+              data-slot="app-shell-bottom-nav-capsule"
+              className="cn-app-shell-bottom-nav-capsule"
+              style={surface}
+            >
+              {track}
+            </View>
+          )}
+        </View>
+      </>
     )
   }
   return (
@@ -1781,9 +1870,14 @@ function AppShellBottomNavItem({
   }, [isActive, label, setSelected])
   const content = (
     <>
-      <IconProvider size={iconSize} strokeWidth={isActive || isLit ? 2 : 1.5}>
-        <IconSlot icon={icon} />
-      </IconProvider>
+      <View
+        className="items-center justify-center"
+        style={{ width: iconSize, height: iconSize }}
+      >
+        <IconProvider size={iconSize} strokeWidth={isActive || isLit ? 2 : 1.5}>
+          <IconSlot icon={icon} />
+        </IconProvider>
+      </View>
       <Text
         numberOfLines={1}
         // A long label in a narrow tab shrinks a little instead of truncating.
@@ -1797,7 +1891,8 @@ function AppShellBottomNavItem({
   )
   const shared = {
     "data-slot": "app-shell-bottom-nav-item",
-    role: "button" as const,
+    "data-variant": nav?.variant ?? "flat",
+    role: "tab" as const,
     "aria-selected": isActive,
     accessibilityState: { selected: isActive },
     className: cn(
@@ -1816,6 +1911,7 @@ function AppShellBottomNavItem({
       eases
       className={cn(
         bottomNavTextVariants(),
+        nav?.hasMaterial ? bottomNavMaterialTextVariants() : undefined,
         isActive
           ? bottomNavActiveTextVariants()
           : isLit
@@ -2501,7 +2597,7 @@ function AppShellPanelTrigger({
               insetTop: insets.top,
               insetRight: insets.right,
               gutter: variant === "inset" ? parseNumber(gutter, 8) : 0,
-              rowHeight: parseNumber(row, 48),
+              rowHeight: parseNumber(row, 40),
               buttonSize: smallButton,
               rowPadding: parseNumber(padding, 12),
               rowOffset,

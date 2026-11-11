@@ -1,9 +1,30 @@
+import { getTokenFile } from "@/scripts/native-registry"
 import { type Registry } from "shadcn/schema"
 
 import { docs } from "./shared"
 
 // Content and controls: plain views and form inputs.
 export const contentItems: Registry["items"] = [
+  {
+    name: "bot-face",
+    type: "registry:ui",
+    title: "BotFace",
+    description:
+      "An animated assistant face with fourteen silhouettes, palette colours, blinking, idle glances and touch-following eyes.",
+    dependencies: [
+      "cn",
+      "class-variance-authority",
+      "react-native-reanimated",
+      "react-native-svg",
+      "uniwind@1.13.1",
+    ],
+    registryDependencies: ["@fabricator/motion"],
+    files: [
+      { path: "ui/bot-face.tsx", type: "registry:ui" },
+      { path: "lib/bot-face-model.ts", type: "registry:lib" },
+    ],
+    meta: docs("bot-face"),
+  },
   {
     name: "card",
     type: "registry:ui",
@@ -235,6 +256,26 @@ export const contentItems: Registry["items"] = [
     meta: docs("syntax-highlight"),
   },
   {
+    name: "markdown",
+    type: "registry:ui",
+    title: "Markdown",
+    description:
+      "Markdown drawn with the Document typography the Editor uses, from the Editor's own parser: headings, lists, tasks, quotes, code, tables and images.",
+    dependencies: [
+      "@fabricator-ui/icons-react-native",
+      "class-variance-authority",
+      "cn",
+    ],
+    registryDependencies: ["@fabricator/syntax-highlight", "@fabricator/text"],
+    files: [
+      { path: "ui/markdown.tsx", type: "registry:ui" },
+      { path: "lib/editor-model.ts", type: "registry:lib" },
+      { path: "lib/markdown-parse.ts", type: "registry:lib" },
+      { path: "lib/markdown-tree.ts", type: "registry:lib" },
+    ],
+    meta: docs("markdown"),
+  },
+  {
     name: "label",
     type: "registry:ui",
     title: "Label",
@@ -272,6 +313,66 @@ export const contentItems: Registry["items"] = [
     registryDependencies: ["@fabricator/text"],
     files: [{ path: "ui/message.tsx", type: "registry:ui" }],
     meta: docs("message"),
+  },
+  {
+    name: "chat-input",
+    type: "registry:ui",
+    title: "Chat Input",
+    description:
+      "The message box of a chat: a pill that stacks once the draft wraps, or a large card, attachments, mentions and a / menu, voice chat with a glow and a level-following mic, a context meter, trays, and one send slot that starts voice, sends, queues and stops.",
+    dependencies: [
+      "@fabricator-ui/icons-react-native",
+      "@rn-primitives/hooks",
+      "class-variance-authority",
+      "cn",
+      "react-native-keyboard-controller",
+      "react-native-reanimated",
+      "react-native-svg",
+      "uniwind@1.13.1",
+    ],
+    registryDependencies: [
+      "@fabricator/button",
+      "@fabricator/density",
+      "@fabricator/feedback",
+      "@fabricator/fluid-hover",
+      "@fabricator/motion",
+      "@fabricator/spinner",
+      "@fabricator/text",
+    ],
+    files: [
+      { path: "ui/chat-input.tsx", type: "registry:ui" },
+      { path: "lib/chat-input-model.ts", type: "registry:lib" },
+      { path: "lib/chat-input-native-model.ts", type: "registry:lib" },
+    ],
+    meta: docs("chat-input"),
+  },
+  {
+    name: "model-picker",
+    type: "registry:ui",
+    title: "Model Picker",
+    description:
+      "The model switcher's panel: a reasoning effort slider that warms from blue to violet, taken by a tap or a drag, routing tiles such as Auto, and the models grouped by provider. It goes in a popover of your own.",
+    dependencies: [
+      "@fabricator-ui/icons-react-native",
+      "class-variance-authority",
+      "cn",
+      "react-native-gesture-handler",
+      "react-native-reanimated",
+      "uniwind@1.13.1",
+    ],
+    registryDependencies: [
+      "@fabricator/feedback",
+      "@fabricator/motion",
+      "@fabricator/text",
+    ],
+    files: [
+      { path: "ui/model-picker.tsx", type: "registry:ui" },
+      { path: "lib/model-picker-model.ts", type: "registry:lib" },
+      { path: "lib/model-picker-color.ts", type: "registry:lib" },
+      { path: "lib/slider-model.ts", type: "registry:lib" },
+      { path: getTokenFile("surface-tint"), type: "registry:lib" },
+    ],
+    meta: docs("model-picker"),
   },
   {
     name: "progress",

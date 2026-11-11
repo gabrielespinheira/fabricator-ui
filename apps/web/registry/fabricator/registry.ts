@@ -18,6 +18,25 @@ import { FABRICATOR_FOUNDATIONS } from "@/registry/fabricator/foundations"
 
 export const fabricatorItems = [
   {
+    name: "bot-face",
+    type: "registry:ui",
+    title: "BotFace",
+    description:
+      "An animated assistant face with fourteen silhouettes, palette colours, blinking and pointer-following eyes.",
+    dependencies: ["cn", "class-variance-authority"],
+    files: [
+      { path: "ui/bot-face.tsx", type: "registry:ui" },
+      { path: "lib/bot-face-model.ts", type: "registry:lib" },
+    ],
+    categories: ["chat"],
+    meta: {
+      fabricator: true,
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/bot-face",
+      },
+    },
+  },
+  {
     name: "spinner-model",
     type: "registry:lib",
     title: "Spinner patterns",
@@ -125,7 +144,10 @@ export const fabricatorItems = [
     description:
       "A file picker with a drop zone: type, size and count checks with reasons, and the picked files as Attachment rows.",
     registryDependencies: ["attachment", "button"],
-    files: [{ path: "ui/file-upload.tsx", type: "registry:ui" }],
+    files: [
+      { path: "ui/file-upload.tsx", type: "registry:ui" },
+      { path: "lib/file-upload-model.ts", type: "registry:lib" },
+    ],
     categories: ["forms"],
     meta: {
       fabricator: true,
@@ -146,7 +168,10 @@ export const fabricatorItems = [
     // chat glow; pinned like Relay, which uses the same version.
     dependencies: ["voice-glow@0.3.0"],
     registryDependencies: ["button", "spinner", "density"],
-    files: [{ path: "ui/chat-input.tsx", type: "registry:ui" }],
+    files: [
+      { path: "ui/chat-input.tsx", type: "registry:ui" },
+      { path: "lib/chat-input-model.ts", type: "registry:lib" },
+    ],
     meta: {
       fabricator: true,
       links: {
@@ -182,7 +207,10 @@ export const fabricatorItems = [
     title: "Model Picker",
     description:
       "The model switcher's panel: a reasoning effort slider that warms from blue to violet, routing tiles such as Auto, and the models grouped by provider. It goes in a popover of your own.",
-    files: [{ path: "ui/model-picker.tsx", type: "registry:ui" }],
+    files: [
+      { path: "ui/model-picker.tsx", type: "registry:ui" },
+      { path: "lib/model-picker-model.ts", type: "registry:lib" },
+    ],
     meta: {
       fabricator: true,
       links: {
@@ -303,6 +331,56 @@ export const fabricatorItems = [
         docs: "https://fabricator-ui.vercel.app/docs/components/base/syntax-highlight",
         examples:
           "https://fabricator-ui.vercel.app/docs/components/base/syntax-highlight#examples",
+      },
+    },
+  },
+  {
+    name: "markdown",
+    type: "registry:ui",
+    title: "Markdown",
+    description:
+      "Markdown drawn with the Editor's document typography in three sizes: headings, lists and tasks, quotes, code, tables, images and links, with anything it doesn't model kept as its source. Its own parser, no dependencies.",
+    registryDependencies: ["syntax-highlight"],
+    files: [
+      { path: "ui/markdown.tsx", type: "registry:ui" },
+      { path: "lib/editor-model.ts", type: "registry:lib" },
+      { path: "lib/markdown-parse.ts", type: "registry:lib" },
+      { path: "lib/markdown-tree.ts", type: "registry:lib" },
+    ],
+    meta: {
+      fabricator: true,
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/markdown",
+        examples:
+          "https://fabricator-ui.vercel.app/docs/components/base/markdown#examples",
+      },
+    },
+  },
+  {
+    name: "editor",
+    type: "registry:ui",
+    title: "Rich Text Editor",
+    description:
+      "A rich text editor whose value is Markdown: a toolbar, a selection bar, a keyboard bar on phones, shortcuts and Markdown shortcuts, saving unedited blocks byte for byte. Its own engine, shared with React Native, no dependencies.",
+    registryDependencies: ["markdown", "syntax-highlight", "toggle"],
+    files: [
+      { path: "ui/editor.tsx", type: "registry:ui" },
+      { path: "lib/editor-commands.ts", type: "registry:lib" },
+      { path: "lib/editor-dom.ts", type: "registry:lib" },
+      { path: "lib/editor-input.ts", type: "registry:lib" },
+      { path: "lib/editor-kit.ts", type: "registry:lib" },
+      { path: "lib/editor-store.ts", type: "registry:lib" },
+      { path: "lib/editor-surface-model.ts", type: "registry:lib" },
+      { path: "lib/editor-table.ts", type: "registry:lib" },
+      { path: "lib/editor-transaction.ts", type: "registry:lib" },
+      { path: "lib/markdown-serialize.ts", type: "registry:lib" },
+    ],
+    meta: {
+      fabricator: true,
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/editor",
+        examples:
+          "https://fabricator-ui.vercel.app/docs/components/base/editor#examples",
       },
     },
   },
@@ -463,6 +541,7 @@ export const fabricatorItems = [
       "sidebar",
       "command",
       "dropdown-menu",
+      "kbd",
       "spinner",
       "tooltip",
     ],

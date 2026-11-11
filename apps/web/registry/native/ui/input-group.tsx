@@ -299,8 +299,19 @@ function InputGroupText({
   )
 }
 
+/**
+ * The group draws the frame and lifts it on focus. A control inside clears its
+ * own: Input and Textarea ease their fill and border in an inline style, which a
+ * class can't override, and an opaque fill would paint over the group's border.
+ */
+const CLEAR_FRAME = {
+  backgroundColor: "transparent",
+  borderColor: "transparent",
+} as const
+
 function InputGroupInput({
   className,
+  style,
   "aria-invalid": isInvalid,
   editable,
   onFocus,
@@ -325,6 +336,7 @@ function InputGroupInput({
       onFocus={control.onFocus}
       onBlur={control.onBlur}
       className={cn("cn-input-group-input flex-1", className)}
+      style={[CLEAR_FRAME, style]}
       {...props}
     />
   )
@@ -332,6 +344,7 @@ function InputGroupInput({
 
 function InputGroupTextarea({
   className,
+  style,
   "aria-invalid": isInvalid,
   disabled,
   editable,
@@ -357,6 +370,7 @@ function InputGroupTextarea({
       onFocus={control.onFocus}
       onBlur={control.onBlur}
       className={cn("cn-input-group-textarea flex-1", className)}
+      style={[CLEAR_FRAME, style]}
       {...props}
     />
   )

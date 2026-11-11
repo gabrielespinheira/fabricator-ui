@@ -79,7 +79,7 @@
      the phone sidebar is revealed it moves aside and shrinks towards the sidebar's
      edge on the sheet's timing, and its corners and shadow leave last. */
   .cn-sidebar-inset {
-    @apply bg-background data-[aside=true]:shadow-surface-6 data-[layout=card]:bg-surface-2 data-[layout=card]:shadow-surface-2 data-[aside=true]:overflow-hidden data-[layout=card]:overflow-hidden data-[aside=true]:rounded-2xl data-[layout=card]:rounded-xl data-[reveal=true]:z-10;
+    @apply bg-background data-[aside=true]:shadow-surface-6 data-[layout=card]:bg-surface-2 data-[layout=card]:shadow-surface-2 data-[aside=true]:overflow-hidden data-[layout=card]:overflow-hidden data-[aside=true]:rounded-[48px] ios:border-continuous data-[layout=card]:rounded-xl data-[reveal=true]:z-10;
   }
 
   /* The revealed sidebar: behind the page, drifting a little as it uncovers. */

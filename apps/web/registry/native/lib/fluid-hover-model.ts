@@ -10,6 +10,36 @@ export type FluidRow = { key: string; rect: Rect; disabled?: boolean }
 
 type Point = { x: number; y: number }
 
+/** Only the old and new row need to redraw when the highlight moves. */
+export function createFluidHoverStore() {
+  let key: string | null = null
+  const listeners = new Map<string, Set<() => void>>()
+  return {
+    get: () => key,
+    set(next: string | null) {
+      if (key === next) return
+      const previous = key
+      key = next
+      if (previous !== null)
+        listeners.get(previous)?.forEach((notify) => notify())
+      if (next !== null) listeners.get(next)?.forEach((notify) => notify())
+    },
+    subscribe(row: string, listener: () => void) {
+      let subscribers = listeners.get(row)
+      if (!subscribers) {
+        subscribers = new Set()
+        listeners.set(row, subscribers)
+      }
+      subscribers.add(listener)
+      return () => {
+        subscribers.delete(listener)
+        if (subscribers.size === 0 && listeners.get(row) === subscribers)
+          listeners.delete(row)
+      }
+    },
+  }
+}
+
 export function sameRect(a: Rect | null, b: Rect | null) {
   "worklet"
   return (

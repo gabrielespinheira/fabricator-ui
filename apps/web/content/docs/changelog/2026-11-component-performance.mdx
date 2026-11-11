@@ -1,0 +1,15 @@
+---
+title: November 2026 - Component performance
+description: Less repeated work in web and native components, with the same appearance and public APIs.
+date: 2026-11-10
+---
+
+Editor block lookups and selection offsets reuse indexes of the immutable document. The shared engine serves web and native; the web surface uses those indexes when mapping the caret to the DOM.
+
+File Tree updates its hover overlays without rendering every file again. Calendar keeps its root and day components mounted when selection changes in Base UI and Radix. App Nav checks each list's icon column once in all three web bases and native.
+
+Native command menus cache item visibility and score only changed registrations. Parts subscribe to the values they display. Native hover updates notify the affected rows, and tables also follow the highlight on the next row to preserve their dividers.
+
+App Shell measures width on resize and sidebar membership changes, skipping unrelated content mutations. Shared web ref composition now runs React 19 callback-ref cleanup functions.
+
+Command dividers are hidden from listbox semantics. The Editor toolbar remains keyboard reachable when all its commands are disabled.

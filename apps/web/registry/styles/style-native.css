@@ -527,6 +527,11 @@
     @apply inset-x-(--density-16) z-20;
   }
 
+  /* The page quiets under the floating bar, toward the main column's colour. */
+  .cn-app-shell-bottom-nav-fade {
+    @apply text-app-shell-main;
+  }
+
   .cn-app-shell-bottom-nav-capsule {
     @apply bg-app-shell-frame shadow-surface-3;
   }
@@ -536,14 +541,15 @@
     @apply data-[variant=flat]:px-(--density-4) data-[variant=flat]:pt-(--density-4);
   }
 
-  /* The pressed fill is the Fluid Hover highlight, so a tab has none of its own. */
+  /* Padding belongs inside the selection pill, around the icon and label. The
+     capsule measures this row instead of clipping larger text to a fixed height. */
   .cn-app-shell-bottom-nav-item {
-    @apply min-h-(--density-48) gap-(--density-4);
+    @apply min-w-0 min-h-(--density-40) gap-(--density-4) data-[variant=floating]:py-(--density-6);
   }
 
   /* The current tab's pill slides on the move timing. */
   .cn-app-shell-bottom-nav-selection {
-    @apply bg-active rounded-full;
+    @apply bg-active rounded-full data-[material=true]:bg-foreground/10;
   }
 
   .cn-app-shell-bottom-nav-highlight {
@@ -551,7 +557,13 @@
   }
 
   .cn-app-shell-bottom-nav-text {
-    @apply text-muted-foreground text-(length:--density-text-11);
+    @apply text-muted-foreground text-(length:--density-text-11) font-medium;
+  }
+
+  /* Material already softens the backdrop. Solid ink stays legible as the page
+     changes behind it; the pill and icon stroke carry the selected state. */
+  .cn-app-shell-bottom-nav-text-material {
+    @apply text-foreground;
   }
 
   .cn-app-shell-bottom-nav-text-lit {
@@ -559,11 +571,11 @@
   }
 
   .cn-app-shell-bottom-nav-text-active {
-    @apply text-foreground font-semibold;
+    @apply text-foreground;
   }
 
   .cn-app-shell-bottom-nav-label {
-    @apply max-w-full px-(--density-4);
+    @apply self-stretch px-(--density-4) text-center leading-tight;
   }
 
 /* MARK: Aspect Ratio */
@@ -883,6 +895,78 @@
 
   .cn-badge-icon-variant-error {
     @apply text-destructive;
+  }
+
+/* MARK: BotFace */
+
+  /* Named hues use the Fabricator primary presets at their light/dark fill,
+     checked against ROLE_PRESETS by bot-face-palette.test.ts. */
+  .cn-bot-face {
+    @apply relative;
+  }
+
+  .cn-bot-face-color-primary {
+    @apply text-primary;
+  }
+
+  .cn-bot-face-color-secondary {
+    @apply text-secondary;
+  }
+
+  .cn-bot-face-color-info {
+    @apply text-info;
+  }
+
+  .cn-bot-face-color-success {
+    @apply text-success;
+  }
+
+  .cn-bot-face-color-warning {
+    @apply text-warning;
+  }
+
+  .cn-bot-face-color-destructive {
+    @apply text-destructive;
+  }
+
+  .cn-bot-face-color-neutral {
+    @apply text-foreground;
+  }
+
+  .cn-bot-face-color-blue {
+    @apply text-[oklch(0.48_0.195_260)] dark:text-[oklch(0.74_0.13_260)];
+  }
+
+  .cn-bot-face-color-indigo {
+    @apply text-[oklch(0.48_0.22_277)] dark:text-[oklch(0.74_0.13_277)];
+  }
+
+  .cn-bot-face-color-violet {
+    @apply text-[oklch(0.48_0.22_300)] dark:text-[oklch(0.74_0.13_300)];
+  }
+
+  .cn-bot-face-color-pink {
+    @apply text-[oklch(0.48_0.2_350)] dark:text-[oklch(0.74_0.13_350)];
+  }
+
+  .cn-bot-face-color-red {
+    @apply text-[oklch(0.48_0.195_25)] dark:text-[oklch(0.74_0.13_25)];
+  }
+
+  .cn-bot-face-color-orange {
+    @apply text-[oklch(0.48_0.1375_45)] dark:text-[oklch(0.74_0.13_45)];
+  }
+
+  .cn-bot-face-color-amber {
+    @apply text-[oklch(0.48_0.1_75)] dark:text-[oklch(0.74_0.1_75)];
+  }
+
+  .cn-bot-face-color-green {
+    @apply text-[oklch(0.48_0.1325_150)] dark:text-[oklch(0.74_0.13_150)];
+  }
+
+  .cn-bot-face-color-teal {
+    @apply text-[oklch(0.48_0.0825_190)] dark:text-[oklch(0.74_0.0825_190)];
   }
 
 /* MARK: Breadcrumb */
@@ -1430,6 +1514,483 @@
     @apply rounded-full;
   }
 
+/* MARK: Chat Input */
+
+  /* A raised card on surface 3 that lifts to surface 4's shadow while the
+     field has focus. Its height eases to what it holds on the move timing (in
+     the source: a class could only snap), so a growing draft or a row of
+     attachments slides the card open rather than jumping. The pill's corners
+     are set in the source, the website's half a control plus 8, so they stay
+     26pt-round around the round send as the stacked pill grows; the large
+     card has 16pt corners. */
+  .cn-chat-input {
+    @apply bg-surface-3 shadow-surface-3 rounded-2xl data-[focused=true]:shadow-surface-4 data-[disabled=true]:opacity-60;
+  }
+
+  /* Invalid draws a red hairline over the card's edge. */
+  .cn-chat-input-invalid {
+    @apply border-destructive/50 rounded-2xl;
+  }
+
+  /* What the card holds, clipped to its corners while its height eases. */
+  .cn-chat-input-clip {
+    @apply rounded-2xl;
+  }
+
+  .cn-chat-input-content {
+    @apply min-w-0;
+  }
+
+  /* Quoted context or a mode, inset to line up with the text. */
+  .cn-chat-input-header {
+    @apply gap-(--density-8) px-(--density-16) pt-(--density-14);
+  }
+
+  /* Voice chat's glow behind the content: three lobes in the colour roles
+     (drawn in the source), stronger on a dark theme, where the website's
+     voice-glow tunes its palettes the same way. */
+  .cn-chat-input-voice-glow {
+    @apply z-0;
+  }
+
+  .cn-chat-input-voice-glow-dark {
+    @apply opacity-100;
+  }
+
+  .cn-chat-input-voice-glow-light {
+    @apply opacity-70;
+  }
+
+  .cn-chat-input-voice-glow-lobe-primary {
+    @apply text-primary;
+  }
+
+  .cn-chat-input-voice-glow-lobe-info {
+    @apply text-info;
+  }
+
+  .cn-chat-input-voice-glow-lobe-success {
+    @apply text-success;
+  }
+
+  .cn-chat-input-voice-glow-lobe-warning {
+    @apply text-warning;
+  }
+
+  .cn-chat-input-voice-glow-lobe-destructive {
+    @apply text-destructive;
+  }
+
+  .cn-chat-input-voice-glow-lobe-foreground {
+    @apply text-foreground;
+  }
+
+  /* Files riding along: tiles across the top of the large card, smaller
+     ones nested in the pill's corner above a stacked draft, and thumbnails
+     beside send while the pill's draft is on one line. */
+  .cn-chat-input-attachments {
+    @apply data-[layout=large]:gap-(--density-8) data-[layout=large]:px-(--density-16) data-[layout=large]:pt-(--density-16) data-[layout=default]:gap-(--density-8) data-[layout=default]:px-(--density-8) data-[layout=default]:pt-(--density-8) data-[layout=inline]:me-(--density-4) data-[layout=inline]:gap-(--density-6);
+  }
+
+  .cn-chat-input-attachment {
+    @apply self-start;
+  }
+
+  /* Surface 2 with a hairline. An image fills a square; a file is a chip
+     with its icon and name. Uploading dims the image under a spinner (the
+     dimming is in the source, easing on the move timing). */
+  .cn-chat-input-attachment-tile {
+    @apply bg-surface-2 border-border h-(--density-48) rounded-lg border data-[layout=default]:h-(--density-40) data-[layout=default]:rounded-2xl data-[layout=inline]:h-(--density-36) data-[layout=inline]:rounded-xl data-[kind=image]:aspect-square data-[kind=file]:max-w-48 data-[kind=file]:gap-(--density-8) data-[kind=file]:px-(--density-12);
+  }
+
+  .cn-chat-input-attachment-image {
+    @apply bg-hover;
+  }
+
+  .cn-chat-input-attachment-icon {
+    @apply text-muted-foreground;
+  }
+
+  .cn-chat-input-attachment-name {
+    @apply text-foreground text-(length:--density-text-12);
+  }
+
+  /* A small round button on the tile's corner. The website shows it on hover
+     and focus; a touch has neither, so it always shows, and its touch target
+     reaches 44pt. */
+  .cn-chat-input-attachment-remove {
+    @apply bg-surface-4 shadow-surface-3 -end-1.5 -top-1.5 z-10 size-(--density-20) rounded-full;
+  }
+
+  .cn-chat-input-attachment-remove-text {
+    @apply text-muted-foreground;
+  }
+
+  /* 14pt reading text at the font's own line: an iOS text view puts a taller
+     line's extra space above the glyphs, below centre in the pill. The pill
+     sets its top and bottom padding one by one, since React Native lets a
+     side's padding win over `py`. Large: 288pt at
+     most, then it scrolls. Pill: one line beside its controls (16 in from
+     the edge when no tools come first), 192pt at most; stacked, it takes the
+     card's width. The rotating hint's fade is in the source. */
+  .cn-chat-input-textarea {
+    @apply font-sans text-foreground text-(length:--density-text-14) min-h-(--density-48) max-h-72 px-(--density-20) pt-(--density-16) pb-(--density-4) data-[layout=default]:max-h-48 data-[layout=default]:min-h-0 data-[layout=default]:pt-(--density-14) data-[layout=default]:pb-(--density-14) data-[layout=default]:ps-(--density-6) data-[layout=default]:pe-(--density-6) data-[layout=default]:data-[tools=false]:ps-(--density-16) data-[layout=default]:data-[stacked=true]:ps-(--density-16) data-[layout=default]:data-[stacked=true]:pe-(--density-16) data-[layout=default]:data-[stacked=true]:pb-(--density-4);
+  }
+
+  /* An unseen copy of the draft on one line, with the pill's inline field's
+     type and insets: its width says when the draft no longer fits beside the
+     controls, its height what one line is. */
+  .cn-chat-input-measure {
+    @apply font-sans text-(length:--density-text-14) py-(--density-14) ps-(--density-6) pe-(--density-6) data-[tools=false]:ps-(--density-16);
+  }
+
+  /* The draft's plain runs, while its mentions are tinted. */
+  .cn-chat-input-segment {
+    @apply text-foreground text-(length:--density-text-14);
+  }
+
+  /* A mention keeps the field's metrics, only a colour and a tint: files (@)
+     are info, skills (/) the syntax keyword's violet (set in the source),
+     artifacts ($) warning, cards (#) success, any other sigil the primary
+     role. */
+  .cn-chat-input-mention {
+    @apply text-(length:--density-text-14) rounded-sm;
+  }
+
+  .cn-chat-input-mention-file {
+    @apply bg-info/15 text-info-text;
+  }
+
+  .cn-chat-input-mention-skill {
+    @apply bg-info/15 text-info-text;
+  }
+
+  .cn-chat-input-mention-artifact {
+    @apply bg-warning/15 text-warning-text;
+  }
+
+  .cn-chat-input-mention-card {
+    @apply bg-success/15 text-success-text;
+  }
+
+  .cn-chat-input-mention-other {
+    @apply bg-primary/12 text-primary-text;
+  }
+
+  .cn-chat-input-field {
+    @apply min-w-0;
+  }
+
+  .cn-chat-input-footer {
+    @apply gap-(--density-4) px-(--density-10) pt-(--density-4) pb-(--density-10);
+  }
+
+  /* Pill: the groups sit beside the field, 8 from the pill's edge; the row
+     under a stacked draft slides in (in the source). */
+  .cn-chat-input-tools {
+    @apply gap-(--density-4) data-[layout=default]:py-(--density-8) data-[layout=default]:ps-(--density-8);
+  }
+
+  .cn-chat-input-actions {
+    @apply gap-(--density-4) data-[layout=default]:p-(--density-8);
+  }
+
+  /* Controls: round in the pill (a control's height), squares in the large
+     card and popovers (a step smaller); with a label they are pills. In a
+     tray they are compact, with 12pt text and 14pt icons, so the row's text
+     leads. A toggle that's on holds the active fill. A size you pass keeps
+     the Button's own. */
+  .cn-chat-input-button {
+    @apply data-[pressed=true]:bg-active data-[shape=square]:size-(--density-32) data-[shape=pill]:h-(--density-32) data-[shape=pill]:w-auto data-[shape=pill]:gap-(--density-6) data-[shape=pill]:px-(--density-8) data-[place=pill]:rounded-full data-[place=pill]:data-[shape=square]:size-(--density-36) data-[place=pill]:data-[shape=pill]:h-(--density-36) data-[place=pill]:data-[shape=pill]:px-(--density-10) data-[place=tray]:rounded-md data-[place=tray]:data-[shape=square]:size-(--density-24) data-[place=tray]:data-[shape=pill]:h-(--density-24) data-[place=tray]:data-[shape=pill]:gap-(--density-4) data-[place=tray]:data-[shape=pill]:px-(--density-6);
+  }
+
+  .cn-chat-input-button-wash {
+    @apply -inset-px;
+  }
+
+  .cn-chat-input-button-wash-pill {
+    @apply rounded-full;
+  }
+
+  .cn-chat-input-button-wash-tray {
+    @apply rounded-md;
+  }
+
+  .cn-chat-input-button-text-tray {
+    @apply text-(length:--density-text-12);
+  }
+
+  /* The microphone mutes rather than toggles a mode, so a muted mic stays
+     muted-looking rather than lit; its icon swells with the voice level (in
+     the source). */
+  .cn-chat-input-mic {
+    @apply data-[activity=muted]:bg-transparent;
+  }
+
+  .cn-chat-input-mic-icon {
+    @apply size-(--density-icon-16);
+  }
+
+  /* How full the context is: the reading (hidden in a narrow input) and a
+     14pt ring on a faint track, warning from 70% and destructive from 90%. */
+  .cn-chat-input-context-meter {
+    @apply data-[shape=pill]:gap-(--density-6);
+  }
+
+  .cn-chat-input-context-meter-label {
+    @apply tabular-nums;
+  }
+
+  .cn-chat-input-context-meter-ring {
+    @apply text-muted-foreground;
+  }
+
+  .cn-chat-input-context-meter-ring-calm {
+    @apply text-muted-foreground;
+  }
+
+  .cn-chat-input-context-meter-ring-high {
+    @apply text-warning;
+  }
+
+  .cn-chat-input-context-meter-ring-full {
+    @apply text-destructive;
+  }
+
+  .cn-chat-input-context-meter-track {
+    @apply text-foreground/15;
+  }
+
+  /* Send: round in the pill, a square in the large card, the primary fill
+     whenever it does something, secondary while there is nothing to send,
+     when it doesn't fade but mutes its glyph. Its glyphs share one cell and
+     trade places with a fade and a scale on the feedback timing (in the
+     source): the arrow to send or queue; the audio lines to start voice
+     chat, an X to end it; the stop square while a reply streams, and the
+     spinner while one is on its way that it can't stop. */
+  .cn-chat-input-submit {
+    @apply data-[place=card]:size-(--density-32) data-[place=pill]:rounded-full disabled:opacity-100;
+  }
+
+  .cn-chat-input-submit-text-muted {
+    @apply text-muted-foreground;
+  }
+
+  .cn-chat-input-submit-send {
+    @apply size-(--density-icon-16);
+  }
+
+  .cn-chat-input-submit-voice {
+    @apply size-(--density-icon-16);
+  }
+
+  .cn-chat-input-submit-end {
+    @apply size-(--density-icon-16);
+  }
+
+  .cn-chat-input-submit-spinner {
+    @apply size-(--density-icon-16);
+  }
+
+  .cn-chat-input-submit-stop {
+    @apply size-(--density-icon-14);
+  }
+
+  /* Choices with a line each, in a popover from a footer pill: the icon on
+     the label's line, the label 13pt, the description 12pt muted under it.
+     Muted until pressed (the hover fill) or in use (foreground, the check at
+     the end). */
+  .cn-chat-input-options {
+    @apply gap-0.5;
+  }
+
+  .cn-chat-input-option {
+    @apply gap-(--density-10) rounded-lg px-(--density-10) py-(--density-8);
+  }
+
+  .cn-chat-input-option-wash {
+    @apply bg-hover rounded-lg;
+  }
+
+  .cn-chat-input-option-text {
+    @apply text-muted-foreground;
+  }
+
+  .cn-chat-input-option-text-checked {
+    @apply text-foreground;
+  }
+
+  .cn-chat-input-option-icon {
+    @apply mt-0.5;
+  }
+
+  .cn-chat-input-option-label {
+    @apply text-(length:--density-text-13) leading-5;
+  }
+
+  .cn-chat-input-option-description {
+    @apply text-muted-foreground text-(length:--density-text-12) leading-snug;
+  }
+
+  .cn-chat-input-option-check {
+    @apply mt-1 opacity-0 data-[checked=true]:opacity-100;
+  }
+
+  /* The `/` menu: two steps over the card (surface 5), so it never reads as
+     the card, spanning it and floating 8 above it, rising in on the popup
+     timing. A caption row names it, with a dismiss button where the website
+     lists the keys; rows are menu rows, muted until lit, the first (the
+     return key's pick) on the hover fill. */
+  .cn-chat-input-commands {
+    @apply bg-surface-5 shadow-surface-5 mb-(--density-8) rounded-xl;
+  }
+
+  .cn-chat-input-commands-header {
+    @apply gap-(--density-8) ps-(--density-10) pe-(--density-6) pt-(--density-8) pb-(--density-6);
+  }
+
+  .cn-chat-input-commands-title {
+    @apply text-muted-foreground text-(length:--density-text-12) font-medium tracking-wide uppercase;
+  }
+
+  .cn-chat-input-commands-hint {
+    @apply size-(--density-24) rounded-full;
+  }
+
+  .cn-chat-input-commands-hint-text {
+    @apply text-muted-foreground;
+  }
+
+  .cn-chat-input-commands-empty {
+    @apply text-muted-foreground text-(length:--density-text-13) px-(--density-10) pt-1 pb-(--density-10);
+  }
+
+  .cn-chat-input-commands-list {
+    @apply max-h-72;
+  }
+
+  .cn-chat-input-commands-list-content {
+    @apply p-1 pt-0;
+  }
+
+  .cn-chat-input-command {
+    @apply min-h-(--density-36) gap-(--density-10) rounded-lg px-(--density-8) data-[active=true]:data-[lit=false]:bg-hover;
+  }
+
+  .cn-chat-input-command-text {
+    @apply text-muted-foreground text-(length:--density-text-13);
+  }
+
+  .cn-chat-input-command-text-lit {
+    @apply text-foreground;
+  }
+
+  .cn-chat-input-command-icon {
+    @apply items-center;
+  }
+
+  /* Commands read bold; skills mono in the skill tint (set in the source),
+     as their mentions. */
+  .cn-chat-input-command-name {
+    @apply text-foreground font-medium;
+  }
+
+  .cn-chat-input-command-name-command {
+    @apply font-medium;
+  }
+
+  .cn-chat-input-command-name-skill {
+    @apply font-mono text-(length:--density-text-12);
+  }
+
+  .cn-chat-input-command-description {
+    @apply text-muted-foreground;
+  }
+
+  .cn-chat-input-command-badge {
+    @apply bg-active rounded-md px-(--density-6);
+  }
+
+  .cn-chat-input-command-badge-text {
+    @apply text-foreground text-(length:--density-text-11) leading-5;
+  }
+
+  /* Trays step back from the card: level 1 (queued messages) on surface 2,
+     inset 20; level 2 (background work) and 3 (a goal) on surface 1, inset
+     28 and 36. Each is tucked 16 under what's in front of it, so the card
+     overlaps the stack. They rise into place on the move timing (in the
+     source). */
+  .cn-chat-input-tray {
+    @apply border-border/60 -mb-(--density-16) rounded-t-2xl border px-(--density-4) pt-(--density-4) pb-(--density-20) data-[level=1]:bg-surface-2 data-[level=1]:mx-(--density-20) data-[level=2]:bg-surface-1 data-[level=2]:mx-(--density-28) data-[level=3]:bg-surface-1 data-[level=3]:mx-(--density-36);
+  }
+
+  /* A folding stack. */
+  .cn-chat-input-trays {
+    @apply min-w-0;
+  }
+
+  /* Folded, the rows behind the front one peek out as edges: an empty tray
+     8pt proud of the one in front, each a step further back. Pressing them
+     opens the stack. */
+  .cn-chat-input-tray-edge {
+    @apply h-(--density-24) p-0;
+  }
+
+  .cn-chat-input-trays-edges {
+    @apply rounded-t-2xl;
+  }
+
+  /* Opened, Show less folds the stack again: quiet 12pt text over its end. */
+  .cn-chat-input-trays-less {
+    @apply mb-(--density-6) h-(--density-24) gap-(--density-4) rounded-md px-(--density-6);
+  }
+
+  .cn-chat-input-trays-less-text {
+    @apply text-muted-foreground text-(length:--density-text-12);
+  }
+
+  .cn-chat-input-tray-entry {
+    @apply min-w-0;
+  }
+
+  /* Rows of 13pt text with a muted icon (in the source) and ghost actions at
+     the end. */
+  .cn-chat-input-tray-item {
+    @apply h-(--density-30) gap-(--density-8) rounded-lg ps-(--density-8) pe-(--density-4) data-[trigger=true]:ps-0;
+  }
+
+  .cn-chat-input-tray-item-text {
+    @apply text-foreground text-(length:--density-text-13);
+  }
+
+  /* The row's text as a button that opens its content: the hover fill while
+     pressed, a chevron at the end that turns while open. */
+  .cn-chat-input-tray-trigger {
+    @apply gap-(--density-8) rounded-lg ps-(--density-8) pe-(--density-6);
+  }
+
+  .cn-chat-input-tray-trigger-wash {
+    @apply bg-hover rounded-lg;
+  }
+
+  .cn-chat-input-tray-chevron {
+    @apply items-center;
+  }
+
+  /* A row's reading gives way to its text: past 45% of the row it truncates
+     (one line, in the source), so a narrow tray keeps the title readable. */
+  .cn-chat-input-tray-meta {
+    @apply text-muted-foreground text-(length:--density-text-12) tabular-nums max-w-[45%];
+  }
+
+  .cn-chat-input-tray-content {
+    @apply gap-(--density-4) px-(--density-8) pt-0.5 pb-(--density-8);
+  }
+
+  .cn-chat-input-tray-content-text {
+    @apply text-(length:--density-text-12);
+  }
+
 /* MARK: Checkbox */
 
   /* 18pt, rounded-[6px], a quiet 1.5pt outline, and the check pops in in the
@@ -1466,6 +2027,32 @@
   .cn-collapsible-content {
     @apply w-full;
   }
+
+/* MARK: color-picker */
+.cn-color-picker { @apply gap-(--density-12); }
+.cn-color-picker-area { @apply h-40 rounded-lg overflow-hidden; }
+.cn-color-picker-area-thumb { @apply size-4 rounded-full border-2 border-white; }
+.cn-color-picker-controls { @apply relative; }
+.cn-color-picker-field { @apply gap-(--density-4); }
+.cn-color-picker-field-input { @apply relative; }
+.cn-color-picker-field-label { @apply text-muted-foreground text-(length:--density-text-12); }
+.cn-color-picker-fields { @apply gap-(--density-8); }
+.cn-color-picker-format { @apply relative; }
+.cn-color-picker-popover-content { @apply min-w-64; }
+.cn-color-picker-slider-row { @apply gap-(--density-4); }
+.cn-color-picker-sliders { @apply relative; }
+.cn-color-picker-swatch { @apply rounded-lg; }
+.cn-color-picker-swatch-color { @apply rounded-md; }
+.cn-color-picker-swatches { @apply gap-(--density-4); }
+.cn-color-picker-trigger { @apply relative; }
+.cn-color-picker-trigger-label { @apply relative; }
+.cn-color-picker-trigger-value { @apply text-muted-foreground text-(length:--density-text-12); }
+.cn-color-tile { @apply size-6 rounded-md; }
+.cn-color-picker-alpha { @apply relative; }
+.cn-color-picker-content { @apply relative; }
+.cn-color-picker-hue { @apply relative; }
+.cn-color-picker-remove { @apply relative; }
+.cn-color-picker-slider-value { @apply text-(length:--density-text-12) text-muted-foreground; }
 
 /* MARK: Combobox */
 
@@ -1990,6 +2577,241 @@
     @apply border-border/60 my-1 ml-(--density-8) border-l pl-1;
   }
 
+/* MARK: Editor */
+
+  /* A card-like frame (the card's fill with a hairline edge, rounded-xl)
+     that darkens its edge while the document has focus, like a text field.
+     Pass a className to drop the frame for a full-page document. */
+  .cn-editor {
+    @apply bg-card border-border/70 overflow-hidden rounded-xl border data-[focused=true]:border-foreground/25;
+  }
+
+  /* The document's padding, 1em by 0.75em of the Document role's body. The
+     text view sizes to its content, at least six lines, unless it scrolls
+     inside a height of its own. */
+  .cn-editor-content {
+    @apply px-[16px] py-[12px] data-[size=sm]:px-[14px] data-[size=sm]:py-[10.5px] data-[size=lg]:px-[18px] data-[size=lg]:py-[13.5px] data-[scroll=true]:min-h-0 data-[scroll=true]:flex-1;
+  }
+
+  /* What the text view draws with, read from these rules so the editor
+     follows the theme. The rest of its colours come from Markdown's rules
+     (raw text, links, the code panel, the quote bar, the divider), so what
+     you edit looks like what the preview shows. */
+  .cn-editor-text {
+    @apply text-foreground;
+  }
+
+  .cn-editor-placeholder {
+    @apply text-muted-foreground;
+  }
+
+  /* The caret and the selection come from the primary role. */
+  .cn-editor-caret {
+    @apply text-primary;
+  }
+
+  .cn-editor-selection {
+    @apply bg-primary/20;
+  }
+
+  /* The checkbox the view draws in a task's margin, filled when done. */
+  .cn-editor-task-checkbox-input {
+    @apply bg-primary;
+  }
+
+  /* The toolbar: ghost toggles in groups split by hairlines, scrolling
+     sideways when the editor is narrow. */
+  .cn-editor-toolbar {
+    @apply border-border/60 border-b;
+  }
+
+  .cn-editor-toolbar-content {
+    @apply gap-(--density-4) p-(--density-4);
+  }
+
+  .cn-editor-toolbar-group {
+    @apply gap-0.5;
+  }
+
+  /* Hairlines between groups: the website's 70% in the toolbar, the full
+     border colour on the keyboard bar, over whatever it floats on. */
+  .cn-editor-toolbar-separator {
+    @apply bg-border/70 h-(--density-20) w-px data-[bar=keyboard]:bg-border;
+  }
+
+  /* The toggle's ghost look, icon-only and square: the website's 36pt in
+     the toolbar, 40pt on the keyboard bar a thumb works (a step under the
+     default control, so a row of them fits), each with a 44pt touch target.
+     On and pressed are one fill under the icon. On the keyboard bar's capsule
+     they're pills, nested in its round ends. */
+  .cn-editor-toolbar-button {
+    @apply h-(--density-36) min-w-(--density-36) shrink-0 gap-(--density-6) rounded-lg px-(--density-10) disabled:opacity-40 data-[bar=keyboard]:h-(--density-40) data-[bar=keyboard]:min-w-(--density-40) data-[bar=keyboard]:rounded-full;
+  }
+
+  .cn-editor-toolbar-button-fill {
+    @apply bg-active rounded-lg;
+  }
+
+  .cn-editor-keyboard-bar-button-fill {
+    @apply bg-active rounded-full;
+  }
+
+  /* Muted at rest in the toolbar, as the website's; the foreground at 80% on
+     the keyboard bar, so the icons read over the page. Full foreground when
+     on or pressed; the icon's stroke follows, 1.5 then 2. */
+  .cn-editor-toolbar-button-text {
+    @apply text-muted-foreground text-(length:--density-text-13) font-medium;
+  }
+
+  .cn-editor-keyboard-bar-button-text {
+    @apply text-foreground/80 text-(length:--density-text-13) font-medium;
+  }
+
+  .cn-editor-toolbar-button-text-on {
+    @apply text-foreground;
+  }
+
+  /* The link editor is a dialog on phones and tablets, with the address
+     field and its actions. */
+  .cn-editor-link {
+    @apply gap-(--density-16);
+  }
+
+  .cn-editor-link-input {
+    @apply self-stretch;
+  }
+
+  .cn-editor-link-action {
+    @apply shrink-0;
+  }
+
+  /* Turn into: the block type at the selection as a labelled toolbar
+     button with a chevron, opening the dropdown menu of every type; each row
+     has its icon, its label and its Markdown shortcut in mono at the end. */
+  .cn-editor-block-type {
+    @apply shrink-0;
+  }
+
+  .cn-editor-block-type-trigger {
+    @apply gap-(--density-4) px-(--density-8);
+  }
+
+  .cn-editor-block-type-menu {
+    @apply min-w-56;
+  }
+
+  .cn-editor-block-type-item {
+    @apply gap-(--density-8);
+  }
+
+  .cn-editor-block-type-icon {
+    @apply size-(--density-icon-16);
+  }
+
+  /* The shortcut sits at the row's end, after the label's own width. */
+  .cn-editor-block-type-shortcut {
+    @apply text-muted-foreground font-mono text-(length:--density-text-12) ms-auto ps-(--density-16);
+  }
+
+  /* Code: the text view draws a code block on Syntax Highlight's panel
+     (surface 2, read from this rule) in its colours, with the language
+     small and muted in its top-end corner. A tap on the language opens the
+     code block's sheet: Copy code, then the languages, the current one
+     checked. */
+  .cn-editor-code-block {
+    @apply bg-surface-2 border-border/60 rounded-xl border;
+  }
+
+  .cn-editor-code-sheet {
+    @apply gap-(--density-8) pt-(--density-8);
+  }
+
+  .cn-editor-code-header {
+    @apply gap-(--density-8) px-(--density-16);
+  }
+
+  .cn-editor-code-language {
+    @apply text-muted-foreground text-(length:--density-text-13);
+  }
+
+  .cn-editor-code-copy {
+    @apply shrink-0;
+  }
+
+  .cn-editor-code-language-option {
+    @apply active:bg-active min-h-11 gap-(--density-8) px-(--density-16);
+  }
+
+  .cn-editor-code-language-check {
+    @apply text-foreground size-(--density-icon-16);
+  }
+
+  .cn-editor-code-language-id {
+    @apply text-muted-foreground font-mono text-(length:--density-text-12);
+  }
+
+  /* Tables edit in a sheet on phones and tablets: a tap on the drawn grid
+     opens it. The toolbar acts on the focused cell's row and column and
+     wraps under itself on a phone; the grid below scrolls both ways. */
+  .cn-editor-table-editor {
+    @apply gap-(--density-12) px-(--density-16) pt-(--density-12);
+  }
+
+  .cn-editor-table-toolbar {
+    @apply gap-(--density-4);
+  }
+
+  .cn-editor-table-action {
+    @apply shrink-0;
+  }
+
+  .cn-editor-table-done {
+    @apply shrink-0;
+  }
+
+  /* The grid looks like the table it edits: it takes Markdown's frame,
+     header tint, row hairlines and cell padding (cn-markdown-table-*), and
+     adds the hairline between columns and a primary wash on the focused
+     cell. Its fields fill their cells. */
+  .cn-editor-table {
+    @apply self-stretch;
+  }
+
+  .cn-editor-table-cell {
+    @apply border-border/50 border-e data-[last-column=true]:border-e-0 data-[focused=true]:bg-primary/10;
+  }
+
+  .cn-editor-table-input {
+    @apply text-foreground font-sans self-stretch p-0 text-[14px] tabular-nums data-[header=true]:font-semibold data-[size=sm]:text-[12.25px] data-[size=lg]:text-[15.75px];
+  }
+
+  /* While the editor has focus this bar holds the bottom of the screen in
+     the tab bar's place. It floats there as a capsule like the shell's floating
+     tab bar, with a hairline edge and a stronger shadow so it stands off a white
+     page, and stays one just above iOS's keyboard, a rounded panel of its own.
+     On Android's full-width keyboard it docks: full width, surface 3 with a
+     hairline above. The controls scroll sideways, with Hide keyboard or Done at
+     the end. */
+  .cn-editor-keyboard-bar {
+    @apply bg-surface-3 gap-0.5 px-(--density-4) py-(--density-4) data-[floating=false]:border-border/60 data-[floating=false]:border-t data-[floating=true]:mx-(--density-12) data-[floating=true]:rounded-full data-[floating=true]:px-(--density-6) data-[floating=true]:border data-[floating=true]:border-border data-[floating=true]:shadow-surface-4;
+  }
+
+  .cn-editor-keyboard-bar-commands {
+    @apply gap-0.5;
+  }
+
+  .cn-editor-footer {
+    @apply border-border/60 gap-(--density-8) border-t px-(--density-12) py-(--density-6);
+  }
+
+  .cn-editor-footer-text {
+    @apply text-muted-foreground text-(length:--density-text-12);
+  }
+
+  .cn-editor-word-count {
+    @apply ms-auto;
+  }
+
 /* MARK: Empty */
 
   .cn-empty {
@@ -2117,6 +2939,38 @@
     @apply text-destructive-text text-(length:--density-text-12) font-normal;
   }
 
+/* MARK: File Tree */
+.cn-file-tree { @apply p-(--density-4); }
+.cn-file-tree-item { @apply min-h-(--density-40) rounded-md data-[disabled=true]:opacity-50; }
+.cn-file-tree-chevron { @apply text-muted-foreground; }
+.cn-file-tree-icon { @apply mx-(--density-4); }
+.cn-file-tree-name { @apply ps-(--density-6) text-(length:--density-text-13); }
+.cn-file-tree-guide { @apply border-border opacity-30; }
+.cn-file-tree-highlight { @apply rounded-md; }
+.cn-file-tree-selection { @apply rounded-md bg-active; }
+
+/* MARK: file-upload */
+.cn-file-upload { @apply gap-(--density-12); }
+.cn-file-upload-description { @apply text-muted-foreground text-(length:--density-text-13); }
+.cn-file-upload-dropzone { @apply rounded-xl bg-muted p-(--density-24); }
+.cn-file-upload-field { @apply relative; }
+.cn-file-upload-item { @apply w-full; }
+.cn-file-upload-item-delete { @apply relative; }
+.cn-file-upload-item-preview { @apply relative; }
+.cn-file-upload-list { @apply gap-(--density-8); }
+.cn-file-upload-media { @apply items-center justify-center; }
+.cn-file-upload-title { @apply font-medium; }
+.cn-file-upload-trigger { @apply relative; }
+.cn-file-upload-chip { @apply relative; }
+.cn-file-upload-chip-icon { @apply relative; }
+.cn-file-upload-chip-name { @apply text-(length:--density-text-12); }
+.cn-file-upload-chip-preview { @apply relative; }
+.cn-file-upload-chip-remove { @apply relative; }
+.cn-file-upload-chips { @apply relative; }
+.cn-file-upload-field-browse { @apply relative; }
+.cn-file-upload-field-icon { @apply relative; }
+.cn-file-upload-field-text { @apply relative; }
+
 /* MARK: Fluid Hover */
 
   /* The highlight and the selection, under the rows. */
@@ -2223,9 +3077,10 @@
     @apply text-muted-foreground text-(length:--density-text-13);
   }
 
-  /* The control drops its own frame and fills; the group draws both. */
+  /* The control drops its own frame and fills; the group draws both. It fits
+     inside the frame: an input's own minimum height would overflow it. */
   .cn-input-group-input {
-    @apply focus:border-0 focus:bg-transparent h-full rounded-none border-0 bg-transparent data-[stacked=true]:h-(--density-36) data-[stacked=true]:flex-none;
+    @apply focus:border-0 focus:bg-transparent h-full min-h-0 rounded-none border-0 bg-transparent data-[stacked=true]:h-(--density-36) data-[stacked=true]:flex-none;
   }
 
   .cn-input-group-textarea {
@@ -2415,6 +3270,256 @@
   /* Tight where the website has leading-none, so descenders keep their room. */
   .cn-label {
     @apply text-foreground text-(length:--density-text-13) leading-tight font-medium data-[disabled=true]:opacity-50;
+  }
+
+/* MARK: Markdown */
+
+  /* The Document type role, shared with the Editor: a 14, 16 or 18pt body on
+     a relaxed line height. React Native has no em, so every em on the
+     website is written out in points for each size. Documents keep their
+     size whatever the density, like chat text. A block fills its parent's
+     width, as on the website. */
+  .cn-markdown {
+    @apply self-stretch;
+  }
+
+  /* Blocks sit 0.75em apart. */
+  .cn-markdown-size-sm {
+    @apply gap-[10.5px];
+  }
+
+  .cn-markdown-size-default {
+    @apply gap-[12px];
+  }
+
+  .cn-markdown-size-lg {
+    @apply gap-[13.5px];
+  }
+
+  /* The body text every part starts from, through TextStyle. The size comes
+     before the line height, which a later size would otherwise drop. */
+  .cn-markdown-text {
+    @apply text-foreground;
+  }
+
+  .cn-markdown-text-size-sm {
+    @apply text-[14px] leading-[1.6];
+  }
+
+  .cn-markdown-text-size-default {
+    @apply text-[16px] leading-[1.65];
+  }
+
+  .cn-markdown-text-size-lg {
+    @apply text-[18px] leading-[1.7];
+  }
+
+  /* Code, raw Markdown and tables: 0.875em, on the body's line box so a code
+     run doesn't change its line's height. */
+  .cn-markdown-small-text-size-sm {
+    @apply text-[12.25px] leading-[22.4px];
+  }
+
+  .cn-markdown-small-text-size-default {
+    @apply text-[14px] leading-[24px];
+  }
+
+  .cn-markdown-small-text-size-lg {
+    @apply text-[15.75px] leading-[30.6px];
+  }
+
+  /* Headings step down from 1.875em; a heading after other content gets an
+     extra 0.75em of its own size above it, so sections read as sections. The small size
+     keeps headings close to the body, since it sits in comments and panels.
+     Level 5 takes the body's size and level 6 a step under it. */
+  .cn-markdown-heading {
+    @apply font-semibold tracking-tight leading-[1.25];
+  }
+
+  .cn-markdown-heading-size-sm {
+    @apply mt-[10.5px] data-[level=1]:text-[20px] data-[level=1]:mt-[15px] data-[level=2]:text-[17px] data-[level=2]:mt-[12.75px] data-[level=3]:text-[15px] data-[level=3]:mt-[11.25px] data-[level=4]:text-[15.75px] data-[level=4]:mt-[11.8px] data-[level=6]:text-[12.25px] data-[level=6]:mt-[9.2px] data-[first=true]:mt-0;
+  }
+
+  .cn-markdown-heading-size-default {
+    @apply mt-[12px] data-[level=1]:text-[30px] data-[level=1]:mt-[22.5px] data-[level=2]:text-[24px] data-[level=2]:mt-[18px] data-[level=3]:text-[20px] data-[level=3]:mt-[15px] data-[level=4]:text-[18px] data-[level=4]:mt-[13.5px] data-[level=6]:text-[14px] data-[level=6]:mt-[10.5px] data-[first=true]:mt-0;
+  }
+
+  .cn-markdown-heading-size-lg {
+    @apply mt-[13.5px] data-[level=1]:text-[33.75px] data-[level=1]:mt-[25.3px] data-[level=2]:text-[27px] data-[level=2]:mt-[20.25px] data-[level=3]:text-[22.5px] data-[level=3]:mt-[16.9px] data-[level=4]:text-[20.25px] data-[level=4]:mt-[15.2px] data-[level=6]:text-[15.75px] data-[level=6]:mt-[11.8px] data-[first=true]:mt-0;
+  }
+
+  .cn-markdown-paragraph {
+    @apply text-foreground;
+  }
+
+  .cn-markdown-strong {
+    @apply font-semibold;
+  }
+
+  .cn-markdown-emphasis {
+    @apply italic;
+  }
+
+  .cn-markdown-strike {
+    @apply line-through;
+  }
+
+  /* Links in the primary role's text colour, underlined. A press opens them. */
+  .cn-markdown-link {
+    @apply text-primary-text underline;
+  }
+
+  /* Inline code: the hover fill behind mono text. A run inside a line can't
+     take a radius or padding on React Native. */
+  .cn-markdown-code {
+    @apply bg-hover font-mono;
+  }
+
+  /* A quote is a muted block behind a 2pt bar, 1em in. */
+  .cn-markdown-quote {
+    @apply border-border border-s-2 ps-[16px] data-[size=sm]:ps-[14px] data-[size=lg]:ps-[18px];
+  }
+
+  .cn-markdown-quote-text {
+    @apply text-muted-foreground;
+  }
+
+  /* Code blocks are Syntax Highlight itself: its panel, title bar, Copy and
+     syntax colours, at its own type size whatever the document's. */
+  .cn-markdown-code-block {
+    @apply min-w-0 self-stretch;
+  }
+
+  /* A hairline with 0.5em of room above and below. */
+  .cn-markdown-divider {
+    @apply bg-border my-[8px] h-px data-[size=sm]:my-[7px] data-[size=lg]:my-[9px];
+  }
+
+  .cn-markdown-image {
+    @apply rounded-lg;
+  }
+
+  /* Items 0.25em apart; a nested list starts 0.25em under its item. */
+  .cn-markdown-list {
+    @apply gap-[4px] data-[size=sm]:gap-[3.5px] data-[size=lg]:gap-[4.5px] data-[nested=true]:mt-[4px];
+  }
+
+  .cn-markdown-list-item {
+    @apply min-w-0;
+  }
+
+  /* A block that belongs to a list item (a second paragraph, a quote, code)
+     sits under the item's text, 0.25em below what comes before it. */
+  .cn-markdown-list-item-block {
+    @apply mt-[4px] data-[size=sm]:mt-[3.5px] data-[size=lg]:mt-[4.5px];
+  }
+
+  /* The marker column: the website's 1.5em of list padding and 0.25em of
+     item padding. A number ends 0.5em before the text; a bullet sits 1em
+     before it, where the website's disc is. */
+  .cn-markdown-list-marker {
+    @apply w-[28px] items-end pe-[8px] data-[size=sm]:w-[24.5px] data-[size=sm]:pe-[7px] data-[size=lg]:w-[31.5px] data-[size=lg]:pe-[9px];
+  }
+
+  /* Markers in the muted colour. */
+  .cn-markdown-list-marker-text {
+    @apply text-muted-foreground;
+  }
+
+  .cn-markdown-bullet-size-sm {
+    @apply me-[7px];
+  }
+
+  .cn-markdown-bullet-size-default {
+    @apply me-[8px];
+  }
+
+  .cn-markdown-bullet-size-lg {
+    @apply me-[9px];
+  }
+
+  /* Task items swap the bullet for the Checkbox's look in em: 1.125em with
+     a 0.375em corner and a quiet 1.5pt outline, at the start of the marker
+     column where the bullet would be and centred on the first line. Checked
+     fills with the primary role, the check in its foreground. */
+  .cn-markdown-task-checkbox {
+    @apply border-foreground/25 mt-[3px] size-[18px] rounded-[6px] border-[1.5px] data-[checked=true]:bg-primary data-[checked=true]:border-primary data-[size=sm]:mt-[3.3px] data-[size=sm]:size-[15.75px] data-[size=sm]:rounded-[5.25px] data-[size=lg]:mt-[5.2px] data-[size=lg]:size-[20.25px] data-[size=lg]:rounded-[6.75px];
+  }
+
+  /* The check: 0.75em, a heavy stroke, in the primary role's foreground. */
+  .cn-markdown-task-check {
+    @apply text-primary-foreground;
+  }
+
+  .cn-markdown-task-text {
+    @apply data-[checked=true]:text-muted-foreground data-[checked=true]:line-through;
+  }
+
+  /* Tables sit in a framed box (rounded-xl, a hairline at 70%) that scrolls
+     sideways when they're wide, and fill the width when they aren't. The
+     header row takes the muted tint, semibold; hairlines at 50% run between
+     rows and columns (70% under the header); body text stays foreground, at
+     0.875em with tabular figures so numbers line up. Cells stay on one line,
+     so every row is one fixed height: the text's line plus 0.5em above and
+     below, with 0.875em at the sides. */
+  .cn-markdown-table {
+    @apply border-border/70 self-stretch overflow-hidden rounded-xl border;
+  }
+
+  .cn-markdown-table-text {
+    @apply text-foreground tabular-nums;
+  }
+
+  .cn-markdown-table-text-size-sm {
+    @apply text-[12.25px] leading-[19.6px];
+  }
+
+  .cn-markdown-table-text-size-default {
+    @apply text-[14px] leading-[21px];
+  }
+
+  .cn-markdown-table-text-size-lg {
+    @apply text-[15.75px] leading-[26.775px];
+  }
+
+  /* A column grows to share the room past its widest cell; a hairline
+     separates it from the next. */
+  .cn-markdown-table-column {
+    @apply border-border/50 border-e data-[last=true]:border-e-0;
+  }
+
+  .cn-markdown-table-head {
+    @apply bg-muted/60 border-border/70 h-[35px] items-start justify-center border-b px-[12.25px] data-[align=center]:items-center data-[align=right]:items-end data-[size=sm]:h-[31.85px] data-[size=sm]:px-[10.72px] data-[size=lg]:h-[42.525px] data-[size=lg]:px-[13.78px];
+  }
+
+  .cn-markdown-table-head-text {
+    @apply text-foreground font-semibold;
+  }
+
+  .cn-markdown-table-row {
+    @apply border-border/50 border-b data-[last=true]:border-b-0;
+  }
+
+  .cn-markdown-table-cell {
+    @apply h-[35px] items-start justify-center px-[12.25px] data-[align=center]:items-center data-[align=right]:items-end data-[size=sm]:h-[31.85px] data-[size=sm]:px-[10.72px] data-[size=lg]:h-[42.525px] data-[size=lg]:px-[13.78px];
+  }
+
+  .cn-markdown-table-cell-text {
+    @apply text-foreground;
+  }
+
+  /* Markdown the model doesn't represent (HTML, footnotes, math) shows as
+     its source, quiet and monospace, so nothing is hidden. */
+  .cn-markdown-raw {
+    @apply text-muted-foreground font-mono;
+  }
+
+  .cn-markdown-raw-block {
+    @apply bg-muted rounded-md p-[12px] data-[size=sm]:p-[10.5px] data-[size=lg]:p-[13.5px];
+  }
+
+  .cn-markdown-raw-block-text {
+    @apply text-muted-foreground font-mono;
   }
 
 /* MARK: Marker */
@@ -2648,6 +3753,181 @@
     @apply gap-(--density-8);
   }
 
+/* MARK: Model Picker */
+
+  /* The panel inside a popover (give the popover p-1 and no gap): 13pt rows on
+     the popover's own surface. It scrolls past 512pt or 60% of the screen, which
+     registry/native/ui/model-picker.tsx sets from the window. */
+  .cn-model-picker {
+    @apply bg-transparent;
+  }
+
+  .cn-model-picker-text {
+    @apply text-(length:--density-text-13);
+  }
+
+  .cn-model-picker-header {
+    @apply h-(--density-36) gap-0.5 px-1;
+  }
+
+  .cn-model-picker-header-text {
+    @apply text-muted-foreground text-(length:--density-text-12);
+  }
+
+  /* Routing tiles share a row: a soft fill that lifts to the hover fill and
+     foreground while pressed and once selected or switched on. */
+  .cn-model-picker-routes {
+    @apply gap-1 pb-(--density-8);
+  }
+
+  .cn-model-picker-route {
+    @apply bg-hover/60 gap-0.5 rounded-lg px-(--density-10) py-(--density-8) disabled:opacity-50;
+  }
+
+  /* The lift, as layers that ease under the tile's content: 40% of the hover
+     fill over the tile's 60% makes the website's full hover fill. */
+  .cn-model-picker-route-fill {
+    @apply bg-hover/40;
+  }
+
+  .cn-model-picker-route-wash {
+    @apply bg-hover/40;
+  }
+
+  .cn-model-picker-route-text {
+    @apply text-muted-foreground text-(length:--density-text-13);
+  }
+
+  .cn-model-picker-route-text-lit {
+    @apply text-foreground;
+  }
+
+  /* Icons take the label's colour at 16pt with a 1.5 stroke, from the source. */
+  .cn-model-picker-route-label {
+    @apply gap-(--density-6);
+  }
+
+  .cn-model-picker-route-caption {
+    @apply text-muted-foreground text-(length:--density-text-12) leading-snug;
+  }
+
+  /* A provider's models under its label. React Native can't pin a header
+     inside a group, so the label scrolls with its models. */
+  .cn-model-picker-group {
+    @apply pb-(--density-6);
+  }
+
+  .cn-model-picker-group-label {
+    @apply h-(--density-28) gap-(--density-8) px-(--density-8);
+  }
+
+  .cn-model-picker-group-label-text {
+    @apply text-muted-foreground text-(length:--density-text-12) font-medium;
+  }
+
+  /* Menu rows, their names lined up under the provider's: muted until lit, the
+     model in use tinted with a check at the end. Rows keep the 44pt touch
+     target on small screens and take the density's height from sm up. */
+  .cn-model-picker-item {
+    @apply gap-(--density-8) rounded-lg ps-(--density-32) pe-(--density-8) disabled:opacity-50 sm:min-h-(--density-32);
+  }
+
+  /* The model in use, easing in under the row's content. */
+  .cn-model-picker-item-fill {
+    @apply bg-hover/60;
+  }
+
+  /* Pressed is the hover fill, easing in and out. */
+  .cn-model-picker-item-wash {
+    @apply bg-hover;
+  }
+
+  .cn-model-picker-item-text {
+    @apply text-muted-foreground;
+  }
+
+  .cn-model-picker-item-text-lit {
+    @apply text-foreground;
+  }
+
+  /* 14pt, from the source; it keeps its room in a row that isn't selected. */
+  .cn-model-picker-check {
+    @apply data-[selected=false]:opacity-0;
+  }
+
+  .cn-model-picker-check-text {
+    @apply text-foreground;
+  }
+
+  .cn-model-picker-item-meta {
+    @apply gap-(--density-8);
+  }
+
+  .cn-model-picker-item-meta-text {
+    @apply text-muted-foreground text-(length:--density-text-12) tabular-nums;
+  }
+
+  /* Effort: the model button and the level's name over a 20pt rail. The fill
+     runs from sky blue to violet as the effort rises (the info role's chroma at
+     the shared fill lightness, its hue turned) and the name takes the info
+     text's colour turned the same way, neutral until a level is chosen; the
+     source turns them from the two tint rules below. The thumb is the Slider's
+     white knob at 24pt, 2pt proud of the rail; it steps between levels on the
+     feedback timing and gives a little under a finger. */
+  .cn-model-picker-effort {
+    @apply gap-1 px-(--density-8) pt-0.5 pb-(--density-10);
+  }
+
+  .cn-model-picker-effort-label {
+    @apply text-muted-foreground text-(length:--density-text-12) font-medium;
+  }
+
+  .cn-model-picker-effort-label-tint {
+    @apply text-info-text;
+  }
+
+  .cn-model-picker-effort-tint {
+    @apply bg-info;
+  }
+
+  .cn-model-picker-effort-track {
+    @apply h-(--density-24);
+  }
+
+  .cn-model-picker-effort-rail {
+    @apply bg-hover h-(--density-20) rounded-full;
+  }
+
+  /* At rest, before a level is chosen. Its width and chosen colour come from
+     the source. */
+  .cn-model-picker-effort-fill {
+    @apply bg-foreground/16 rounded-full;
+  }
+
+  /* A 4pt mark at each level's centre, darker once the shown level reaches it. */
+  .cn-model-picker-effort-step {
+    @apply bg-foreground/25 -ms-0.5 -mt-0.5 size-1 rounded-full;
+  }
+
+  /* 40% over the step's 25% makes the website's 55%, easing in. On a chosen
+     level's colour the reached marks are light. */
+  .cn-model-picker-effort-step-reached {
+    @apply bg-foreground/40 data-[chosen=true]:bg-white/70 rounded-full;
+  }
+
+  .cn-model-picker-effort-thumb {
+    @apply shadow-surface-3 size-(--density-24) rounded-full border border-black/5 bg-white;
+  }
+
+  /* A setting under the panel, ruled off from what's above. */
+  .cn-model-picker-setting {
+    @apply border-border/60 -mx-1 mt-1 gap-(--density-8) border-t pt-(--density-6) pe-1 pb-0.5 ps-(--density-12);
+  }
+
+  .cn-model-picker-setting-label {
+    @apply text-muted-foreground text-(length:--density-text-12);
+  }
+
 /* MARK: Month Input */
 
   /* An Input Group: the frame, focus, invalid and disabled states are the
@@ -2786,6 +4066,14 @@
     @apply bg-border top-[60%] size-2 rotate-45 rounded-tl-sm;
   }
 
+/* MARK: Number Field */
+.cn-number-field { @apply gap-(--density-8); }
+.cn-number-field-group { @apply w-full; }
+.cn-number-field-input { @apply tabular-nums; }
+.cn-number-field-addon { @apply shrink-0; }
+.cn-number-field-decrement { @apply text-muted-foreground; }
+.cn-number-field-increment { @apply text-muted-foreground; }
+
 /* MARK: Pagination */
 
   .cn-pagination {
@@ -2895,13 +4183,19 @@
 
 /* MARK: Questionnaire */
 
-  /* registry/native/ui/questionnaire.tsx reuses the library's controls: each mark
-     stacks the Checkbox or Radio Group item placeholders, the free-text answer the
-     Input's, the shortcut the Kbd's. The rules below only add what the
-     questionnaire context needs. */
+  /* registry/native/ui/questionnaire.tsx follows the website's Fabricator
+     questionnaire, drawn after Relay's agent questions: rows with a chip at the
+     end, and a single pick that can move on. The free-text answer takes the
+     Input's look. */
 
   .cn-questionnaire {
     @apply gap-(--density-12);
+  }
+
+  /* The progress at the start, actions such as Stop at the end, pulled in so a
+     ghost button's padding doesn't grow the row. */
+  .cn-questionnaire-header {
+    @apply -my-(--density-4) gap-(--density-8);
   }
 
   /* "Question 1 of 3": a quiet 12pt caption. */
@@ -2912,27 +4206,33 @@
   /* Only the active item shows. The rest stay mounted, so they keep their
      answers. */
   .cn-questionnaire-item {
-    @apply gap-(--density-12) data-[active=false]:hidden;
+    @apply gap-(--density-8) data-[active=false]:hidden;
   }
 
   .cn-questionnaire-title {
-    @apply text-foreground mb-0.5 text-(length:--density-text-16) leading-snug font-semibold;
+    @apply text-foreground text-(length:--density-text-16) leading-snug font-semibold;
   }
 
+  /* Tucked under the title, as on the website. */
   .cn-questionnaire-description {
-    @apply text-(length:--density-text-13);
+    @apply -mt-(--density-4) text-(length:--density-text-13);
   }
 
-  /* Choices bleed 8pt each side so the mark lines up with the title. */
+  /* Choices bleed 12pt each side so the labels line up with the title. */
   .cn-questionnaire-choices {
-    @apply -mx-2 gap-0.5;
+    @apply -mx-(--density-12) mt-(--density-4) gap-0.5;
   }
 
-  /* A row is a Field choice card without the frame: 13pt foreground label, the
-     active step once chosen. Rows keep the 44pt touch target on small screens
-     (padded so one line sits centred) and tighten to 36pt from sm up. */
+  /* A row: the label and the chip at the end, the website's coarse-pointer
+     48pt (40pt from the density's step up). A chosen row holds the active
+     fill. */
   .cn-questionnaire-choice {
-    @apply gap-(--density-10) rounded-lg bg-transparent px-(--density-8) py-(--density-12) data-[checked=true]:bg-active sm:min-h-(--density-36) sm:py-(--density-8);
+    @apply min-h-(--density-40) gap-(--density-12) rounded-lg bg-transparent py-(--density-8) ps-(--density-12) pe-(--density-8) data-[checked=true]:bg-active;
+  }
+
+  /* 14pt medium, as the website's row. */
+  .cn-questionnaire-choice-text {
+    @apply text-foreground text-(length:--density-text-14) leading-snug font-medium;
   }
 
   /* Pressed is a tint, easing in and out under the row's content. */
@@ -2940,50 +4240,61 @@
     @apply bg-hover rounded-lg;
   }
 
-  /* The Checkbox or Radio mark, lit by the whole row: the look is theirs, and the
-     row's press gives it the control's scale. It keeps to the first line. */
+  /* The chip: 20pt. A multiple choice's is a square with a hairline that fills
+     with the foreground once chosen; the row's press gives it the control's
+     scale. */
   .cn-questionnaire-choice-indicator {
-    @apply self-start;
+    @apply size-(--density-20) rounded-md data-[boxed=true]:border data-[boxed=true]:border-border data-[filled=true]:border-foreground data-[filled=true]:bg-foreground;
   }
 
-  /* The mark sits in its row as an input does on the website. */
+  /* The chip sits in its row as an input does on the website. */
   .cn-questionnaire-choice-input {
     @apply shrink-0;
   }
 
-  /* The label takes what the mark and the keycap leave. */
+  /* A multiple choice's check, in the filled chip's background colour. */
+  .cn-questionnaire-choice-check {
+    @apply size-(--density-icon-14);
+  }
+
+  .cn-questionnaire-choice-check-text {
+    @apply text-background;
+  }
+
+  /* The label takes what the chip leaves. */
   .cn-questionnaire-choice-label {
     @apply flex-1;
   }
 
+  /* A second line is a caption. */
   .cn-questionnaire-choice-content {
     @apply gap-0.5;
   }
 
-  /* Captions: 12pt muted, as in Field. */
+  /* Captions: 12pt muted. */
   .cn-questionnaire-choice-description {
     @apply text-muted-foreground text-(length:--density-text-12) font-normal;
   }
 
-  /* The Kbd keycap, which holds the look, at the end of the row. */
-  /* Keyboard shortcuts wait for a tablet: a phone has no keyboard to press them on. */
+  /* The shortcut fills the chip. */
   .cn-questionnaire-choice-shortcut {
-    @apply hidden sm:flex ms-auto shrink-0;
+    @apply size-full;
   }
 
   .cn-questionnaire-shortcut {
-    @apply hidden sm:flex self-start;
+    @apply rounded-md;
   }
 
-  /* It takes the foreground once its row is chosen. */
+  /* 11pt muted figures; the chosen row's turns foreground, and a filled chip's
+     takes the background's colour. */
   .cn-questionnaire-shortcut-text {
-    @apply data-[checked=true]:text-foreground;
+    @apply text-muted-foreground text-(length:--density-text-11) tabular-nums data-[checked=true]:text-foreground data-[checked=true]:font-semibold data-[filled=true]:text-background;
   }
 
   /* Inside the choices, back out of their bleed so the field lines up with the
      text. */
   .cn-questionnaire-input-wrapper {
-    @apply data-[nested=true]:mx-2 data-[nested=true]:mt-1;
+    @apply data-[nested=true]:mx-(--density-12) data-[nested=true]:mt-1;
   }
 
   .cn-questionnaire-input {
@@ -3418,7 +4729,7 @@
      the phone sidebar is revealed it moves aside and shrinks towards the sidebar's
      edge on the sheet's timing, and its corners and shadow leave last. */
   .cn-sidebar-inset {
-    @apply bg-background data-[aside=true]:shadow-surface-6 data-[layout=card]:bg-surface-2 data-[layout=card]:shadow-surface-2 data-[aside=true]:overflow-hidden data-[layout=card]:overflow-hidden data-[aside=true]:rounded-2xl data-[layout=card]:rounded-xl data-[reveal=true]:z-10;
+    @apply bg-background data-[aside=true]:shadow-surface-6 data-[layout=card]:bg-surface-2 data-[layout=card]:shadow-surface-2 data-[aside=true]:overflow-hidden data-[layout=card]:overflow-hidden data-[aside=true]:rounded-[48px] ios:border-continuous data-[layout=card]:rounded-xl data-[reveal=true]:z-10;
   }
 
   /* The revealed sidebar: behind the page, drifting a little as it uncovers. */
@@ -3879,7 +5190,7 @@
   /* A row of document tabs on the surface it sits on: 48pt at a phone's density,
      40pt at `sm`, a step down the scale. A press takes the row's whole height. */
   .cn-tab-strip {
-    @apply h-(--density-40) gap-(--density-4) px-(--density-6);
+    @apply h-(--density-40) gap-(--density-4) px-(--density-6) data-[compact=true]:gap-0;
   }
 
   /* The list is as wide as its tabs, so the new tab button follows the last one,
@@ -3977,6 +5288,60 @@
 
   .cn-tab-strip-menu {
     @apply min-w-48;
+  }
+
+  /* MARK: Compact strip (phones) */
+
+  /* The active tab on the selection's raised pill, filling the row, with the
+     count of open tabs at its end: a press shows them all. The chip's own box
+     is the end's inset, so the end takes less padding to look even. */
+  .cn-tab-strip-compact-tab {
+    @apply bg-surface-4 shadow-surface-4 my-(--density-4) gap-(--density-6) rounded-lg ps-(--density-10) pe-(--density-8);
+  }
+
+  .cn-tab-strip-compact-text {
+    @apply text-foreground text-(length:--density-text-13);
+  }
+
+  /* The count, a soft chip as wide as its digits. */
+  .cn-tab-strip-count {
+    @apply bg-muted h-(--density-20) min-w-(--density-20) rounded-md px-(--density-6);
+  }
+
+  .cn-tab-strip-count-text {
+    @apply text-muted-foreground text-(length:--density-text-12) leading-none font-semibold tabular-nums;
+  }
+
+  /* The switcher: two columns of cards in a sheet, the sheet's inset around them.
+     The cards' width comes from these tokens (TabSwitcher). */
+  .cn-tab-strip-switcher-scroll {
+    @apply shrink;
+  }
+
+  .cn-tab-strip-switcher-grid {
+    @apply gap-(--density-12) p-(--density-16);
+  }
+
+  /* A card one step above the sheet. The active tab's is ringed in primary. */
+  .cn-tab-strip-card {
+    @apply bg-surface-4 shadow-surface-2 data-[active=true]:border-primary min-h-24 gap-(--density-12) rounded-xl border-2 border-transparent p-(--density-12);
+  }
+
+  .cn-tab-strip-card-text {
+    @apply text-muted-foreground text-(length:--density-text-13);
+  }
+
+  .cn-tab-strip-card-text-active {
+    @apply text-foreground text-(length:--density-text-13);
+  }
+
+  /* Clear of the close button, two lines at most. */
+  .cn-tab-strip-card-title {
+    @apply text-foreground pe-(--density-16);
+  }
+
+  .cn-tab-strip-card-close {
+    @apply active:bg-hover top-(--density-8) right-(--density-8) size-(--density-24) rounded-full;
   }
 
 /* MARK: Table */
@@ -4151,6 +5516,20 @@
   .cn-textarea-focus {
     @apply border-foreground/25 bg-card;
   }
+
+/* MARK: Time Input */
+.cn-time-input { @apply w-full; }
+.cn-time-input-content { @apply p-1; }
+.cn-time-range-input { @apply gap-(--density-8); }
+.cn-time-range-input-separator { @apply text-muted-foreground; }
+.cn-time-range-input-duration { @apply text-muted-foreground text-(length:--density-text-13) tabular-nums; }
+
+/* MARK: Time Wheel */
+.cn-time-wheel { @apply gap-(--density-4) px-(--density-4) min-w-56; }
+.cn-time-wheel-band { @apply bg-active rounded-lg; }
+.cn-time-wheel-column { @apply min-w-12; }
+.cn-time-wheel-spacer { @apply shrink-0; }
+.cn-time-wheel-item { @apply px-(--density-6); }
 
 /* MARK: Toast */
 
@@ -4544,7 +5923,7 @@
   }
 
   .cn-workspace-switcher-description {
-    @apply text-muted-foreground text-(length:--density-text-12) leading-tight;
+    @apply text-muted-foreground text-(length:--density-text-12) font-normal leading-tight;
   }
 
   /* On the axis of the rows' actions and badges. */

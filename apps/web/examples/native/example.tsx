@@ -55,13 +55,17 @@ function ExampleWrapper({
   )
 }
 
-/** One labelled state or variant, on a card. */
+/**
+ * One labelled state or variant, on a card. `framed={false}` drops the card
+ * for a component with a frame of its own, which then takes the full width.
+ */
 function Example({
   title,
+  framed = true,
   className,
   children,
   ...props
-}: ViewProps & { title?: string }) {
+}: ViewProps & { title?: string; framed?: boolean }) {
   const fit = React.use(ExampleFitContext)
   const body = "items-start gap-(--density-16)"
   return (
@@ -71,21 +75,27 @@ function Example({
           {title}
         </Text>
       ) : null}
-      <View
-        className={cn(
-          "rounded-xl bg-card p-(--density-20) shadow-surface-2",
-          !fit && body,
-          !fit && className
-        )}
-      >
-        {fit ? (
-          <View className={cn("w-full md:max-w-[440px]", body, className)}>
-            {children}
-          </View>
-        ) : (
-          children
-        )}
-      </View>
+      {framed ? (
+        <View
+          className={cn(
+            "rounded-xl bg-card p-(--density-20) shadow-surface-2",
+            !fit && body,
+            !fit && className
+          )}
+        >
+          {fit ? (
+            <View className={cn("w-full md:max-w-[440px]", body, className)}>
+              {children}
+            </View>
+          ) : (
+            children
+          )}
+        </View>
+      ) : (
+        <View className={cn("w-full gap-(--density-12)", className)}>
+          {children}
+        </View>
+      )}
     </View>
   )
 }

@@ -1,0 +1,9 @@
+/* MARK: File Tree */
+.cn-file-tree { @apply p-(--density-4); }
+.cn-file-tree-item { @apply min-h-(--density-40) rounded-md data-[disabled=true]:opacity-50; }
+.cn-file-tree-chevron { @apply text-muted-foreground; }
+.cn-file-tree-icon { @apply mx-(--density-4); }
+.cn-file-tree-name { @apply ps-(--density-6) text-(length:--density-text-13); }
+.cn-file-tree-guide { @apply border-border opacity-30; }
+.cn-file-tree-highlight { @apply rounded-md; }
+.cn-file-tree-selection { @apply rounded-md bg-active; }

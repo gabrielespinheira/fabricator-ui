@@ -4,7 +4,7 @@ import { execFileSync, spawnSync } from "node:child_process"
 import path from "node:path"
 import { fileURLToPath } from "node:url"
 
-import { pickIpad } from "./pick-ipad.mjs"
+import { pickIpad } from "./pick-simulator.mjs"
 
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)))
 const expo = path.join(root, "node_modules/.bin/expo")

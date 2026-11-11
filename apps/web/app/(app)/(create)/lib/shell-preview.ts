@@ -52,11 +52,8 @@ const WINDOW_MARGIN = 12
 // Narrower than this, a desktop app's window draws as it never does in practice.
 const WINDOW_MIN_WIDTH = 1100
 
-// Each with its bezel: a 1180 by 820 tablet in landscape, a 390 by 844 phone.
-const DEVICE_FRAMES = {
-  tablet: { width: 1204, height: 844 },
-  phone: { width: 410, height: 864 },
-}
+// A 390 by 844 phone, with its bezel.
+const PHONE_FRAME = { width: 410, height: 864 }
 
 /**
  * The size to draw a preview at, and how far to scale it into the stage, so the
@@ -67,8 +64,8 @@ export function getPreviewLayout(
   stage: Size
 ): { frame: Size; scale: number } {
   if (size === "browser") return { frame: stage, scale: 1 }
-  if (size === "tablet" || size === "phone") {
-    const frame = DEVICE_FRAMES[size]
+  if (size === "phone") {
+    const frame = PHONE_FRAME
     if (stage.width === 0) return { frame, scale: 1 }
     return {
       frame,

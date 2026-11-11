@@ -9,9 +9,10 @@
 #   bun run deploy              production deploy; only from a clean, pushed `main`
 #   bun run deploy -- --preview preview deploy of the current checkout
 #
-# A production deploy first publishes the icon packages (scripts/publish-icons.sh),
-# since `/init` installs @fabricator-ui/icons by default and the site must not go
-# live ahead of it. After the site it releases the CLI (scripts/publish.sh): it
+# A production deploy first publishes the icon packages and editor-native
+# (scripts/publish-icons.sh), since `/init` installs @fabricator-ui/icons by
+# default, the native `editor` item installs @fabricator-ui/editor-native, and
+# the site must not go live ahead of them. After the site it releases the CLI (scripts/publish.sh): it
 # publishes the version in packages/cli/package.json to npm if it is new, and
 # tags it with a GitHub release. The site ships first there, so a new CLI never
 # points at registry items the site does not serve yet.
@@ -64,6 +65,14 @@ elif ! npm view @fabricator-ui/icons version > /dev/null 2>&1; then
 fi
 
 vercel pull --yes --environment="$mode"
+# apps/mobile's typecheck links its node_modules into the native source folders
+# (scripts/link-native-types.mjs). The site's `./registry/**/*` trace include
+# follows the link, which puts React Native in every function and an absolute
+# symlink Vercel rejects at deploy. `outputFileTracingExcludes` doesn't reach
+# Turbopack's include, so the links go; the next typecheck recreates them.
+for link in apps/web/registry/native/node_modules apps/web/examples/native/node_modules; do
+  if [ -L "$link" ]; then rm "$link"; fi
+done
 vercel build ${prod_flag[@]+"${prod_flag[@]}"}
 # The output has ~48k files; Vercel accepts 15k per upload, so send one archive.
 vercel deploy --prebuilt --archive=tgz ${prod_flag[@]+"${prod_flag[@]}"}

@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest"
 
 import {
+  createFluidHoverStore,
   getFadeOutDelay,
   isNearRows,
   pickNearestRow,
@@ -10,6 +11,58 @@ import {
 
 const a = { top: 0, left: 0, width: 100, height: 40 }
 const b = { top: 40, left: 0, width: 100, height: 40 }
+
+describe("createFluidHoverStore", () => {
+  it("keeps a new subscription when an old cleanup runs again", () => {
+    const store = createFluidHoverStore()
+    const stop = store.subscribe("a", () => {})
+    stop()
+    let calls = 0
+    store.subscribe("a", () => {
+      calls += 1
+    })
+    stop()
+    store.set("a")
+    expect(calls).toBe(1)
+  })
+
+  it("notifies only the rows whose highlight changed", () => {
+    const store = createFluidHoverStore()
+    const calls = Array.from({ length: 100 }, () => 0)
+    calls.forEach((_, index) =>
+      store.subscribe(String(index), () => {
+        calls[index] += 1
+      })
+    )
+    store.set("0")
+    store.set("1")
+    store.set("1")
+    expect(store.get()).toBe("1")
+    expect(calls[0]).toBe(2)
+    expect(calls[1]).toBe(1)
+    expect(calls.slice(2).every((count) => count === 0)).toBe(true)
+    store.set(null)
+    expect(calls[1]).toBe(2)
+  })
+
+  it("unsubscribes a row without losing its other subscribers", () => {
+    const store = createFluidHoverStore()
+    let calls = 0
+    const stop = store.subscribe("a", () => {
+      calls += 1
+    })
+    store.subscribe("a", () => {
+      calls += 1
+    })
+    store.set("a")
+    expect(calls).toBe(2)
+    stop()
+    stop()
+    store.set(null)
+    expect(calls).toBe(3)
+    expect(store.get()).toBeNull()
+  })
+})
 
 describe("sameRect", () => {
   it("compares by value", () => {

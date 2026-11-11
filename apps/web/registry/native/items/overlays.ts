@@ -119,7 +119,12 @@ export const overlayItems: Registry["items"] = [
     type: "registry:ui",
     title: "Popover",
     description: "Rich content in a surface anchored to its trigger.",
-    dependencies: ["@rn-primitives/popover", "cn", "react-native-reanimated"],
+    dependencies: [
+      "@rn-primitives/popover",
+      "cn",
+      "react-native-reanimated",
+      "react-native-safe-area-context",
+    ],
     registryDependencies: [
       ...OVERLAY_REGISTRY_DEPENDENCIES,
       "@fabricator/feedback",
@@ -174,6 +179,7 @@ export const overlayItems: Registry["items"] = [
       "class-variance-authority",
       "cn",
       "react-native-reanimated",
+      "react-native-safe-area-context",
     ],
     registryDependencies: [
       "@fabricator/collapsible",

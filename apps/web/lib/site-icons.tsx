@@ -98,6 +98,12 @@ import {
   GlobeIcon as FabricatorGlobeIcon,
   GripVerticalIcon as FabricatorGripVerticalIcon,
   HashIcon as FabricatorHashIcon,
+  Heading1Icon as FabricatorHeading1Icon,
+  Heading2Icon as FabricatorHeading2Icon,
+  Heading3Icon as FabricatorHeading3Icon,
+  Heading4Icon as FabricatorHeading4Icon,
+  Heading5Icon as FabricatorHeading5Icon,
+  Heading6Icon as FabricatorHeading6Icon,
   HelpCircle as FabricatorHelpCircle,
   HelpCircleIcon as FabricatorHelpCircleIcon,
   HistoryIcon as FabricatorHistoryIcon,
@@ -105,10 +111,13 @@ import {
   ImageIcon as FabricatorImageIcon,
   ImagesIcon as FabricatorImagesIcon,
   InboxIcon as FabricatorInboxIcon,
+  IndentDecreaseIcon as FabricatorIndentDecreaseIcon,
+  IndentIncreaseIcon as FabricatorIndentIncreaseIcon,
   InfoIcon as FabricatorInfoIcon,
   Italic as FabricatorItalic,
   ItalicIcon as FabricatorItalicIcon,
   KeyboardIcon as FabricatorKeyboardIcon,
+  KeyboardOffIcon as FabricatorKeyboardOffIcon,
   LanguagesIcon as FabricatorLanguagesIcon,
   LayersIcon as FabricatorLayersIcon,
   LayoutDashboardIcon as FabricatorLayoutDashboardIcon,
@@ -116,10 +125,12 @@ import {
   LayoutIcon as FabricatorLayoutIcon,
   LifeBuoyIcon as FabricatorLifeBuoyIcon,
   Link2Icon as FabricatorLink2Icon,
+  LinkIcon as FabricatorLinkIcon,
   ListChecksIcon as FabricatorListChecksIcon,
   ListEndIcon as FabricatorListEndIcon,
   ListFilterIcon as FabricatorListFilterIcon,
   ListIcon as FabricatorListIcon,
+  ListOrderedIcon as FabricatorListOrderedIcon,
   ListTodoIcon as FabricatorListTodoIcon,
   Loader2Icon as FabricatorLoader2Icon,
   LoaderIcon as FabricatorLoaderIcon,
@@ -153,6 +164,7 @@ import {
   PictureInPicture2Icon as FabricatorPictureInPicture2Icon,
   PieChart as FabricatorPieChart,
   PieChartIcon as FabricatorPieChartIcon,
+  PilcrowIcon as FabricatorPilcrowIcon,
   PipetteIcon as FabricatorPipetteIcon,
   PlayIcon as FabricatorPlayIcon,
   Plus as FabricatorPlus,
@@ -161,6 +173,7 @@ import {
   RadioIcon as FabricatorRadioIcon,
   RectangleHorizontalIcon as FabricatorRectangleHorizontalIcon,
   RectangleVerticalIcon as FabricatorRectangleVerticalIcon,
+  Redo2Icon as FabricatorRedo2Icon,
   RefreshCcwIcon as FabricatorRefreshCcwIcon,
   RefreshCwIcon as FabricatorRefreshCwIcon,
   RocketIcon as FabricatorRocketIcon,
@@ -186,11 +199,13 @@ import {
   SmileIcon as FabricatorSmileIcon,
   Sparkles as FabricatorSparkles,
   SparklesIcon as FabricatorSparklesIcon,
+  SquareCodeIcon as FabricatorSquareCodeIcon,
   SquareIcon as FabricatorSquareIcon,
   SquareTerminal as FabricatorSquareTerminal,
   SquareTerminalIcon as FabricatorSquareTerminalIcon,
   StarIcon as FabricatorStarIcon,
   StickyNoteIcon as FabricatorStickyNoteIcon,
+  StrikethroughIcon as FabricatorStrikethroughIcon,
   SunIcon as FabricatorSunIcon,
   TableIcon as FabricatorTableIcon,
   TagIcon as FabricatorTagIcon,
@@ -198,6 +213,7 @@ import {
   TelescopeIcon as FabricatorTelescopeIcon,
   TerminalIcon as FabricatorTerminalIcon,
   TextCursorInputIcon as FabricatorTextCursorInputIcon,
+  TextQuoteIcon as FabricatorTextQuoteIcon,
   ThumbsDownIcon as FabricatorThumbsDownIcon,
   ThumbsUpIcon as FabricatorThumbsUpIcon,
   Trash2 as FabricatorTrash2,
@@ -206,6 +222,7 @@ import {
   TriangleAlertIcon as FabricatorTriangleAlertIcon,
   Underline as FabricatorUnderline,
   UnderlineIcon as FabricatorUnderlineIcon,
+  Undo2Icon as FabricatorUndo2Icon,
   UploadIcon as FabricatorUploadIcon,
   User as FabricatorUser,
   UserIcon as FabricatorUserIcon,
@@ -861,6 +878,24 @@ export const GripVerticalIcon = createSiteIcon(FabricatorGripVerticalIcon, {
 export const HashIcon = createSiteIcon(FabricatorHashIcon, {
   lucide: "HashIcon",
 })
+export const Heading1Icon = createSiteIcon(FabricatorHeading1Icon, {
+  lucide: "Heading1Icon",
+})
+export const Heading2Icon = createSiteIcon(FabricatorHeading2Icon, {
+  lucide: "Heading2Icon",
+})
+export const Heading3Icon = createSiteIcon(FabricatorHeading3Icon, {
+  lucide: "Heading3Icon",
+})
+export const Heading4Icon = createSiteIcon(FabricatorHeading4Icon, {
+  lucide: "Heading4Icon",
+})
+export const Heading5Icon = createSiteIcon(FabricatorHeading5Icon, {
+  lucide: "Heading5Icon",
+})
+export const Heading6Icon = createSiteIcon(FabricatorHeading6Icon, {
+  lucide: "Heading6Icon",
+})
 export const HelpCircle = createSiteIcon(FabricatorHelpCircle, {
   lucide: "HelpCircle",
   tabler: "IconHelpCircle",
@@ -902,6 +937,12 @@ export const InboxIcon = createSiteIcon(FabricatorInboxIcon, {
   phosphor: "TrayIcon",
   remixicon: "RiInboxLine",
 })
+export const IndentDecreaseIcon = createSiteIcon(FabricatorIndentDecreaseIcon, {
+  lucide: "IndentDecreaseIcon",
+})
+export const IndentIncreaseIcon = createSiteIcon(FabricatorIndentIncreaseIcon, {
+  lucide: "IndentIncreaseIcon",
+})
 export const InfoIcon = createSiteIcon(FabricatorInfoIcon, {
   lucide: "InfoIcon",
   tabler: "IconInfoCircle",
@@ -929,6 +970,9 @@ export const KeyboardIcon = createSiteIcon(FabricatorKeyboardIcon, {
   hugeicons: "KeyboardIcon",
   phosphor: "KeyboardIcon",
   remixicon: "RiKeyboardLine",
+})
+export const KeyboardOffIcon = createSiteIcon(FabricatorKeyboardOffIcon, {
+  lucide: "KeyboardOffIcon",
 })
 export const LanguagesIcon = createSiteIcon(FabricatorLanguagesIcon, {
   lucide: "LanguagesIcon",
@@ -982,6 +1026,13 @@ export const Link2Icon = createSiteIcon(FabricatorLink2Icon, {
   phosphor: "LinkSimpleIcon",
   remixicon: "RiLinksLine",
 })
+export const LinkIcon = createSiteIcon(FabricatorLinkIcon, {
+  lucide: "LinkIcon",
+  tabler: "IconLink",
+  hugeicons: "LinkIcon",
+  phosphor: "LinkIcon",
+  remixicon: "RiLinksLine",
+})
 export const ListChecksIcon = createSiteIcon(FabricatorListChecksIcon, {
   lucide: "ListChecksIcon",
 })
@@ -1001,6 +1052,9 @@ export const ListIcon = createSiteIcon(FabricatorListIcon, {
   hugeicons: "Menu01Icon",
   phosphor: "ListIcon",
   remixicon: "RiListUnordered",
+})
+export const ListOrderedIcon = createSiteIcon(FabricatorListOrderedIcon, {
+  lucide: "ListOrderedIcon",
 })
 export const ListTodoIcon = createSiteIcon(FabricatorListTodoIcon, {
   lucide: "ListTodoIcon",
@@ -1217,6 +1271,9 @@ export const PieChartIcon = createSiteIcon(FabricatorPieChartIcon, {
   phosphor: "ChartPieIcon",
   remixicon: "RiPieChartLine",
 })
+export const PilcrowIcon = createSiteIcon(FabricatorPilcrowIcon, {
+  lucide: "PilcrowIcon",
+})
 export const PipetteIcon = createSiteIcon(FabricatorPipetteIcon, {
   lucide: "PipetteIcon",
 })
@@ -1255,6 +1312,9 @@ export const RectangleVerticalIcon = createSiteIcon(
   FabricatorRectangleVerticalIcon,
   { lucide: "RectangleVerticalIcon" }
 )
+export const Redo2Icon = createSiteIcon(FabricatorRedo2Icon, {
+  lucide: "Redo2Icon",
+})
 export const RefreshCcwIcon = createSiteIcon(FabricatorRefreshCcwIcon, {
   lucide: "RefreshCcwIcon",
   tabler: "IconRefresh",
@@ -1410,6 +1470,9 @@ export const SparklesIcon = createSiteIcon(FabricatorSparklesIcon, {
   phosphor: "SparkleIcon",
   remixicon: "RiSparklingLine",
 })
+export const SquareCodeIcon = createSiteIcon(FabricatorSquareCodeIcon, {
+  lucide: "SquareCodeIcon",
+})
 export const SquareIcon = createSiteIcon(FabricatorSquareIcon, {
   lucide: "SquareIcon",
   tabler: "IconPlayerStop",
@@ -1440,6 +1503,9 @@ export const StarIcon = createSiteIcon(FabricatorStarIcon, {
 })
 export const StickyNoteIcon = createSiteIcon(FabricatorStickyNoteIcon, {
   lucide: "StickyNoteIcon",
+})
+export const StrikethroughIcon = createSiteIcon(FabricatorStrikethroughIcon, {
+  lucide: "StrikethroughIcon",
 })
 export const SunIcon = createSiteIcon(FabricatorSunIcon, {
   lucide: "SunIcon",
@@ -1487,6 +1553,9 @@ export const TextCursorInputIcon = createSiteIcon(
   FabricatorTextCursorInputIcon,
   { lucide: "TextCursorInputIcon" }
 )
+export const TextQuoteIcon = createSiteIcon(FabricatorTextQuoteIcon, {
+  lucide: "TextQuoteIcon",
+})
 export const ThumbsDownIcon = createSiteIcon(FabricatorThumbsDownIcon, {
   lucide: "ThumbsDownIcon",
   tabler: "IconThumbDown",
@@ -1542,6 +1611,9 @@ export const UnderlineIcon = createSiteIcon(FabricatorUnderlineIcon, {
   hugeicons: "TextUnderlineIcon",
   phosphor: "TextUnderlineIcon",
   remixicon: "RiUnderline",
+})
+export const Undo2Icon = createSiteIcon(FabricatorUndo2Icon, {
+  lucide: "Undo2Icon",
 })
 export const UploadIcon = createSiteIcon(FabricatorUploadIcon, {
   lucide: "UploadIcon",

@@ -1,55 +1,93 @@
 import * as React from "react"
+import {
+  closeTabs,
+  moveTab,
+  reopenClosedTab,
+  togglePinnedTab,
+} from "@fabricator-ui/app-shell-model"
 
+import { getNewTabId, isNewTab } from "@/lib/component-explorer"
 import {
   TabStrip,
   TabStripList,
   TabStripNew,
   TabStripOverflow,
   TabStripTab,
-  useTabStripState,
 } from "@/registry/native/ui/tab-strip"
 
-const FIRST_TAB = "tab-1"
+import {
+  createPageTabs,
+  HOME_HREF,
+  openPage,
+  updatePageTabs,
+} from "./page-tabs-model"
+
+export { HOME_HREF } from "./page-tabs-model"
+/** Matches nothing in the navigation: a blank tab highlights no row. */
+export const NEW_TAB_PATH = "/new"
+export const NEW_TAB_TITLE = "New tab"
 
 /**
- * The page on screen, per tab, as on the website: going somewhere opens it in the
- * current tab, and each tab remembers where it was. Without the strip there's
- * simply one tab.
+ * The open pages, as the desktop example keeps them: a tab per page, the
+ * overview outside the strip. Going somewhere opens it in the preview tab (or in
+ * the blank tab on screen), so browsing doesn't pile tabs up.
  */
-export function usePageTabs({ homeHref }: { homeHref: string }) {
-  const tabs = useTabStripState({
-    defaultState: {
-      tabs: [FIRST_TAB],
-      pinned: [],
-      recent: [FIRST_TAB],
-      preview: null,
-      closed: [],
+export function usePageTabs() {
+  const [state, setState] = React.useState(createPageTabs)
+  const activeId = state.pathname === HOME_HREF ? null : state.pathname
+  const isBlankTab = isNewTab(activeId)
+  const open = (pathname: string) =>
+    setState((current) => openPage(current, pathname))
+  const openNewTab = () =>
+    setState((current) =>
+      openPage(
+        current,
+        getNewTabId([...current.tabs.tabs, ...current.tabs.closed])
+      )
+    )
+  const tabs = {
+    state: state.tabs,
+    activeId,
+    stripProps: {
+      value: activeId,
+      onValueChange: (id: string) =>
+        setState((current) =>
+          openPage(current, id, { preview: current.tabs.preview === id })
+        ),
+      onClose: (ids: string[]) =>
+        setState((current) =>
+          updatePageTabs(current, closeTabs(current.tabs, ids))
+        ),
+      onReorder: (id: string, index: number) =>
+        setState((current) =>
+          updatePageTabs(current, moveTab(current.tabs, id, index))
+        ),
+      onPin: (id: string, pinned: boolean) =>
+        setState((current) =>
+          updatePageTabs(
+            current,
+            current.tabs.pinned.includes(id) === pinned
+              ? current.tabs
+              : togglePinnedTab(current.tabs, id)
+          )
+        ),
+      onReopen: () =>
+        setState((current) =>
+          updatePageTabs(current, reopenClosedTab(current.tabs), true)
+        ),
     },
-  })
-  const [paths, setPaths] = React.useState<Record<string, string>>({})
-  const nextTab = React.useRef(2)
-  const activeId = tabs.activeId ?? FIRST_TAB
-
-  const setPathname = (pathname: string) =>
-    setPaths((current) => ({ ...current, [activeId]: pathname }))
-
-  const openNewTab = () => {
-    tabs.open(`tab-${nextTab.current}`)
-    nextTab.current += 1
   }
-
-  const getPath = (id: string) => paths[id] ?? homeHref
 
   return {
     tabs,
-    getPath,
+    open,
     openNewTab,
-    pathname: getPath(activeId),
-    setPathname,
+    isBlankTab,
+    pathname: isBlankTab ? NEW_TAB_PATH : (tabs.activeId ?? HOME_HREF),
   }
 }
 
-/** The strip. A tab's name is the page it's on. */
+/** The strip holds open pages; Overview stays in the navigation. */
 export function PageTabs({
   pageTabs,
   getTitle,
@@ -57,13 +95,14 @@ export function PageTabs({
   pageTabs: ReturnType<typeof usePageTabs>
   getTitle: (pathname: string) => string
 }) {
-  const { tabs, getPath, openNewTab } = pageTabs
+  const { tabs, openNewTab } = pageTabs
   return (
     <TabStrip
       {...tabs.stripProps}
       onNew={openNewTab}
+      // On a phone the header's gap spaces the strip, so it drops its own inset.
       // Its first tab sits on the page's edge on a tablet, in the header or below it.
-      className="min-w-0 flex-1 md:pl-0"
+      className="min-w-0 flex-1 px-0 md:px-(--density-6) md:pl-0"
     >
       <TabStripList aria-label="Open pages">
         {tabs.state.tabs.map((id) => (
@@ -71,8 +110,9 @@ export function PageTabs({
             key={id}
             value={id}
             pinned={tabs.state.pinned.includes(id)}
+            preview={tabs.state.preview === id}
           >
-            {getTitle(getPath(id))}
+            {isNewTab(id) ? NEW_TAB_TITLE : getTitle(id)}
           </TabStripTab>
         ))}
       </TabStripList>

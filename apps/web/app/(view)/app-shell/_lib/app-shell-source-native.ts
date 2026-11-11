@@ -101,7 +101,10 @@ function buildImports(options: PlaygroundOptions) {
   ]
   return [
     ...(hasGlassTabBar(options)
-      ? importLines(["GlassView", "isLiquidGlassAvailable"], GLASS_PACKAGE)
+      ? importLines(
+          ["GlassView", "isLiquidGlassAvailable", "isGlassEffectAPIAvailable"],
+          GLASS_PACKAGE
+        )
       : []),
     ...importLines(usedIcons(options), ICONS_PACKAGE),
     ...(isRowOfTabs ? importLines(["View"], "react-native") : []),
@@ -225,25 +228,16 @@ function buildHelpers(options: PlaygroundOptions) {
       ? []
       : [
           "function DocumentTabs() {",
-          "  const [titles, setTitles] = React.useState<Record<string, string>>({",
-          '    home: "Home",',
-          "  })",
-          "  const tabs = useTabStripState({",
-          "    defaultState: {",
-          '      tabs: ["home"],',
-          "      pinned: [],",
-          '      recent: ["home"],',
-          "      preview: null,",
-          "      closed: [],",
-          "    },",
-          "  })",
+          "  const [titles, setTitles] = React.useState<Record<string, string>>({})",
+          "  const tabs = useTabStripState()",
           "  const openNewTab = () => {",
           "    const id = String(Date.now())",
           '    setTitles((current) => ({ ...current, [id]: "New tab" }))',
           "    tabs.open(id)",
           "  }",
           "  return (",
-          '    <TabStrip {...tabs.stripProps} onNew={openNewTab} className="min-w-0 flex-1">',
+          "    // On a phone the header's gap spaces the strip, so it drops its own inset.",
+          '    <TabStrip {...tabs.stripProps} onNew={openNewTab} className="min-w-0 flex-1 px-0 md:px-(--density-6)">',
           '      <TabStripList aria-label="Open documents">',
           "        {tabs.state.tabs.map((id) => (",
           "          <TabStripTab key={id} value={id}>",
@@ -381,7 +375,7 @@ function buildMain(options: PlaygroundOptions) {
             : ['    variant="floating"']),
           ...(hasGlassTabBar(options)
             ? [
-                "    capsule={isLiquidGlassAvailable() ? <GlassView isInteractive /> : undefined}",
+                '    capsule={isLiquidGlassAvailable() && isGlassEffectAPIAvailable() ? <GlassView glassEffectStyle="regular" isInteractive /> : undefined}',
               ]
             : []),
           "  />",

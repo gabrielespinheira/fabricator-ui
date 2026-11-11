@@ -129,15 +129,14 @@ export const PREVIEW_DOCUMENTS: Record<
   string,
   { title: string; icon: typeof FileTextIcon }
 > = {
-  overview: { title: "Overview", icon: HomeIcon },
   website: { title: "Website relaunch", icon: GlobeIcon },
   brand: { title: "Brand refresh", icon: FileTextIcon },
 }
 
 export const PREVIEW_TABS = {
-  tabs: ["overview", "website", "brand"],
-  pinned: ["overview"],
-  recent: ["overview"],
+  tabs: ["website", "brand"],
+  pinned: [],
+  recent: ["website"],
   preview: null,
   closed: [],
 }

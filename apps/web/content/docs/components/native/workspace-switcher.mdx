@@ -5,7 +5,10 @@ base: native
 component: true
 ---
 
-<NativePreview src="/images/native/workspace-switcher.jpg" alt="Workspace Switcher on iOS" />
+<NativePreview
+  src="/images/native/workspace-switcher.jpg"
+  alt="Workspace Switcher on iOS"
+/>
 
 ## Installation
 
@@ -180,13 +183,11 @@ export { WorkspaceSwitcherExample }
 
 ## API reference
 
-
-
 Props it adds to what it wraps: `activeId`, `createLabel`, `label`, `manageLabel`, `onCreate`, `onManage`, `onSelect`, `shortcut`, `size`, `switchingTo`, `variant`, `workspaces`.
 
 ## Differences from web
 
-**Same.** Opens as a sheet on phones.
+**Same.** Opens as a sheet on phones. The search dialog has no key hints.
 
 ## Accessibility
 

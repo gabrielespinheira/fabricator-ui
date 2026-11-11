@@ -51,6 +51,16 @@ describe("rewriteSharedImports", () => {
       'import { DENSITIES } from "@/registry/native/lib/fabricator/density-scale"\nimport { x } from "@/registry/native/lib/app-shell-model"\nimport { y } from "@/registry/native/ui/text"'
     )
   })
+
+  it("points a shared module's relative imports at the installed copies", () => {
+    expect(
+      rewriteSharedImports(
+        'import { a } from "./editor-model"\nimport type { b } from "./not-shared"'
+      )
+    ).toBe(
+      'import { a } from "@/registry/native/lib/editor-model"\nimport type { b } from "./not-shared"'
+    )
+  })
 })
 
 describe("findPlaceholders", () => {

@@ -60,7 +60,7 @@ export default function ExamplesLayout({
             <Link href="/docs/installation">Get Started</Link>
           </Button>
           <Button asChild variant="secondary">
-            <Link href="/docs/components">View Components</Link>
+            <Link href="/docs">View Components</Link>
           </Button>
         </PageActions>
       </PageHeader>

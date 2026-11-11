@@ -1,0 +1,183 @@
+/* MARK: Editor */
+
+  /* A card-like frame (surface 1 with a hairline ring, rounded-xl) that
+     lifts its ring while the document has focus, like a text field. Pass a
+     className to drop the frame for a full-page document. */
+  .cn-editor {
+    @apply bg-card ring-border/70 has-data-focused:ring-foreground/25 overflow-hidden rounded-xl ring-1 transition-shadow duration-feedback ease-feedback;
+  }
+
+  /* The document itself uses Markdown's typography (cn-markdown), so what
+     you edit is what the preview shows. */
+  .cn-editor-content {
+    @apply caret-primary min-h-[6lh] px-[1em] py-[0.75em] whitespace-pre-wrap;
+  }
+
+  /* Every editable block. The first empty block shows the placeholder, out
+     of the text's way so the caret stays at its start. */
+  .cn-editor-text {
+    @apply relative data-checked:text-muted-foreground data-checked:line-through data-placeholder:before:text-muted-foreground data-placeholder:before:pointer-events-none data-placeholder:before:absolute data-placeholder:before:content-[attr(data-placeholder)];
+  }
+
+  /* Dividers, images and tables can't be typed into; they take the
+     selection's colour when selected as a whole. */
+  .cn-editor-void {
+    @apply rounded-md select-none;
+  }
+
+  /* A code block is Syntax Highlight's panel (surface 2, a hairline ring,
+     rounded-xl) and colours around editable code: a 36px strip with the
+     language picker and Copy, then the code in mono at Syntax Highlight's
+     14px, scrolling sideways instead of wrapping. */
+  .cn-editor-code-block {
+    @apply bg-surface-2 ring-border/60 overflow-hidden rounded-xl ring-1;
+  }
+
+  .cn-editor-code-header {
+    @apply border-border/60 text-muted-foreground h-(--density-36) gap-(--density-4) border-b ps-(--density-4) pe-(--density-4);
+  }
+
+  .cn-editor-code-language {
+    @apply text-muted-foreground hover:text-foreground gap-(--density-4) px-(--density-8) text-(length:--density-text-12) font-normal;
+  }
+
+  .cn-editor-code-copy {
+    @apply text-muted-foreground hover:text-foreground data-copied:text-success-text;
+  }
+
+  .cn-editor-code-pre {
+    @apply overflow-x-auto px-(--density-16) py-(--density-12) font-mono text-(length:--density-text-14) leading-relaxed whitespace-pre;
+  }
+
+  /* A table in the document. A click or tap edits it in place; on hover its
+     frame lifts to the focus ring's strength, so nothing covers the cells.
+     Keyboard users reach the Edit table button, shown only while focused. */
+  .cn-editor-table {
+    @apply cursor-pointer data-editing:cursor-auto [&_[data-slot=markdown-table]]:transition-shadow [&_[data-slot=markdown-table]]:duration-feedback hover:not-data-editing:[&_[data-slot=markdown-table]]:ring-foreground/25;
+  }
+
+  .cn-editor-table-edit {
+    @apply bg-surface-5 shadow-surface-5 text-foreground end-(--density-6) top-(--density-6) gap-(--density-6) px-(--density-8) pointer-events-none opacity-0 focus-visible:pointer-events-auto focus-visible:opacity-100;
+  }
+
+  /* Editing in place: a row of actions over the same framed grid, each cell
+     an input with the cell's own padding, the focused one outlined. */
+  .cn-editor-table-editor {
+    @apply gap-(--density-6);
+  }
+
+  .cn-editor-table-toolbar {
+    @apply bg-surface-5 shadow-surface-5 gap-0.5 self-start rounded-lg p-(--density-4) max-w-full overflow-x-auto [scrollbar-width:none];
+  }
+
+  .cn-editor-table-action {
+    @apply shrink-0 gap-(--density-4) px-(--density-8) disabled:pointer-events-none disabled:opacity-40;
+  }
+
+  .cn-editor-table-done {
+    @apply text-foreground shrink-0 px-(--density-10) font-semibold;
+  }
+
+  .cn-editor-table-cell {
+    @apply p-0 focus-within:ring-ring focus-within:ring-1 focus-within:ring-inset;
+  }
+
+  .cn-editor-table-input {
+    @apply text-inherit px-[0.875em] py-[0.5em] font-[inherit] placeholder:text-muted-foreground;
+  }
+
+  .cn-editor-task-checkbox {
+    @apply select-none;
+  }
+
+  /* The task box is Markdown's, pressable: it firms up on hover, gives on
+     press like the Checkbox, and takes the focus ring. */
+  .cn-editor-task-checkbox-input {
+    @apply cursor-pointer outline-none hover:border-foreground/45 data-checked:hover:border-primary active:scale-90 motion-reduce:active:scale-100 focus-visible:ring-1 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:cursor-default disabled:hover:border-foreground/25;
+  }
+
+  /* The toolbar: ghost toggles in groups split by hairlines, scrolling
+     sideways when the editor is narrow. */
+  .cn-editor-toolbar {
+    @apply border-border/60 gap-(--density-4) border-b p-(--density-4) scroll-fade-x [scrollbar-width:none];
+  }
+
+  .cn-editor-toolbar-group {
+    @apply gap-0.5;
+  }
+
+  .cn-editor-toolbar-separator {
+    @apply bg-border/70 h-(--density-20) w-px;
+  }
+
+  /* Toolbar buttons take the toggle's default size (36px at the default
+     density, 44px on the phone keyboard bar's spacious density), a step up
+     from the small toggles a dense app bar uses, so they're easy to hit. */
+  .cn-editor-toolbar-button {
+    @apply shrink-0 disabled:pointer-events-none disabled:opacity-40;
+  }
+
+  /* Over a selection: a tight row of toggles. The editor's frame is a card
+     (surface 3), so the bar and the link popover step two levels above it,
+     as Chat Input's menus do, or in dark they'd melt into the document. */
+  .cn-editor-bubble-menu {
+    @apply bg-surface-5 shadow-surface-5 gap-0.5 rounded-lg p-(--density-4) motion-popup animate-in fade-in-0;
+  }
+
+  /* Turn into: the block type as a labelled toggle with a chevron, and its
+     menu under it on the bar's surface. Rows follow the library's menu
+     rows: muted until lit, the current type foreground, its Markdown
+     shortcut in mono at the end. */
+  .cn-editor-block-type {
+    @apply shrink-0;
+  }
+
+  .cn-editor-block-type-trigger {
+    @apply text-foreground gap-(--density-4) px-(--density-8) aria-expanded:bg-active;
+  }
+
+  .cn-editor-block-type-menu {
+    @apply bg-surface-5 shadow-surface-5 mt-(--density-6) max-h-[min(24rem,60vh)] min-w-52 overflow-y-auto rounded-lg p-(--density-4) motion-popup animate-in fade-in-0;
+  }
+
+  .cn-editor-block-type-item {
+    @apply text-muted-foreground h-(--density-32) gap-(--density-8) rounded-md px-(--density-8) text-(length:--density-text-13) outline-none transition-colors duration-feedback ease-feedback hover:bg-hover hover:text-foreground focus-visible:bg-hover focus-visible:text-foreground aria-checked:text-foreground aria-checked:font-medium [&_svg]:stroke-[1.5] [&_svg:not([class*='size-'])]:size-(--density-icon-16);
+  }
+
+  .cn-editor-block-type-icon {
+    @apply shrink-0;
+  }
+
+  .cn-editor-block-type-shortcut {
+    @apply text-muted-foreground text-(length:--density-text-11);
+  }
+
+  .cn-editor-link {
+    @apply bg-surface-5 shadow-surface-5 gap-(--density-4) w-[min(22rem,calc(100vw-2rem))] rounded-lg p-(--density-4) motion-popup animate-in fade-in-0;
+  }
+
+  .cn-editor-link-input {
+    @apply text-foreground placeholder:text-muted-foreground h-(--density-32) bg-transparent px-(--density-8) text-base md:text-(length:--density-text-13);
+  }
+
+  .cn-editor-link-action {
+    @apply text-foreground shrink-0 px-(--density-10);
+  }
+
+  /* On top of a phone's keyboard: surface 3 with a hairline above, 44pt
+     targets, the controls scrolling sideways. */
+  .cn-editor-keyboard-bar {
+    @apply bg-surface-3 border-border/60 density-spacious gap-0.5 border-t px-(--density-4) py-(--density-4);
+  }
+
+  .cn-editor-keyboard-bar-commands {
+    @apply gap-0.5 scroll-fade-x [scrollbar-width:none];
+  }
+
+  .cn-editor-footer {
+    @apply border-border/60 text-muted-foreground gap-(--density-8) border-t px-(--density-12) py-(--density-6) text-(length:--density-text-12);
+  }
+
+  .cn-editor-word-count {
+    @apply ms-auto;
+  }

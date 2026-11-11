@@ -379,7 +379,7 @@ function AppShellExample() {
   return (
     <ExampleWrapper>
       <Example
-        title="Inset cards, a drawer panel and a tab bar"
+        title="Inset cards, a drawer panel and a bottom nav"
         className="p-0"
       >
         <Frame>
@@ -428,14 +428,14 @@ export { AppShellExample }
 
 ## API reference
 
-
-
-Props it adds to what it wraps: `actions`, `capsule`, `defaultOpen`, `defaultView`, `defaultWidth`, `icon`, `id`, `isActive`, `items`, `label`, `maxItems`, `maxWidth`, `minWidth`, `mobile`, `onPress`, `panel`, `primaryAction`, `renderLink`, `shortcut`, `side`, `size`, `trigger`, `variant`, `view`, `views`.
+Props it adds to what it wraps: `actions`, `capsule`, `defaultOpen`, `defaultView`, `defaultWidth`, `icon`, `id`, `isActive`, `items`, `label`, `maxItems`, `maxWidth`, `minWidth`, `mobile`, `nativeTabs`, `onPress`, `panel`, `primaryAction`, `renderLink`, `shortcut`, `side`, `size`, `trigger`, `variant`, `view`, `views`.
 
 ## Differences from web
 
-**Touch input.** On tablets the sidebar's toggle stays in the header while the sidebar can collapse, the toggles have no tooltip, and the status bar is its row plus half the home indicator's space, with its ends the same distance inside the cards' edges. On phones the sidebar reveals behind the page, panels open as sheets with centred tabs and a grab handle in place of a close button, a panel's toggle draws a bottom panel, and the nav's mobile items become a tab bar, flat or floating, on a surface of your own through `capsule` (a `GlassView` for Liquid Glass). The page scrolls under the header, which sits on a fade behind the status bar, instead of showing a hairline. The breadcrumb shows the way up, and the page's name only once its heading has scrolled away. `window`, `shortcut` and `shortcutScope` are accepted and do nothing, since React Native has no window controls or global key events. Panels don't drag to resize, and the layout is only saved if you pass `storage`.
+**Touch input.** On tablets the sidebar's toggle stays in the header while the sidebar can collapse, the toggles have no tooltip, and the status bar is its row plus half the home indicator's space, with its ends the same distance inside the cards' edges. On phones the sidebar reveals behind the page, panels open as sheets with centred tabs and a grab handle in place of a close button, a panel's toggle draws a bottom panel, and the nav's mobile items become a bottom nav, flat or floating, on a surface of your own through `capsule` (a `GlassView` for Liquid Glass). The page scrolls under the header, which sits on a fade behind the status bar, instead of showing a hairline. The breadcrumb shows the way up, and the page's name only once its heading has scrolled away. `window`, `shortcut` and `shortcutScope` are accepted and do nothing, since React Native has no window controls or global key events. Panels don't drag to resize, and the layout is only saved if you pass `storage`.
 
 ## Accessibility
 
 Parts set `role="heading"`, `role="link"`, `role="summary"`, read by VoiceOver and TalkBack. Give a control with no text an `accessibilityLabel`.
+
+**System tabs.** `AppShellBottomNav` and `AppNavBottomBar` accept `nativeTabs`: a native tab view containing the current page. The element receives `onHeightChange(height)` and `isBarHidden`. Report the system bar's measured height, including its safe area, and pass `isBarHidden` to its tab-bar visibility prop. This keeps the page mounted when the editor takes the bottom edge. On iOS 26, a system tab controller supplies the actual Liquid Glass selection lens and switching animation. `capsule` changes only the background of the Fabricator-drawn tab bar.

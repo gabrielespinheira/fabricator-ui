@@ -353,6 +353,7 @@ function AppNav({
     [preferences, groups, applied, updatePreferences]
   )
 
+  const hasPinnedIcons = hasIconColumn(pinned)
   const contextValue: AppNavContextValue = {
     groups,
     applied,
@@ -395,7 +396,7 @@ function AppNav({
                       count={pinned.length}
                       depth={0}
                       reorderable={false}
-                      hasIconColumn={hasIconColumn(pinned)}
+                      hasIconColumn={hasPinnedIcons}
                       idPrefix={`${PINNED_GROUP}:`}
                     />
                   ))}
@@ -456,6 +457,7 @@ function renderGroupActions(actions: AppNavAction[]) {
 }
 
 function AppNavGroupSection({ group }: { group: AppNavGroup }) {
+  const hasIcons = hasIconColumn(group.items)
   const { preferences, updatePreferences } = useAppNav()
   return (
     <SidebarGroup
@@ -482,7 +484,7 @@ function AppNavGroupSection({ group }: { group: AppNavGroup }) {
               count={group.items.length}
               depth={0}
               reorderable={group.reorderable ?? false}
-              hasIconColumn={hasIconColumn(group.items)}
+              hasIconColumn={hasIcons}
             />
           ))}
         </SidebarMenu>
@@ -697,6 +699,7 @@ function AppNavRow({
     preferences
   )
   const children = item.children ?? []
+  const hasChildIcons = hasIconColumn(children)
   const toggle = () =>
     updatePreferences(setNavOpen(preferences, item.id, !isOpen))
   // A row without a page of its own toggles its children.
@@ -842,7 +845,7 @@ function AppNavRow({
               count={children.length}
               depth={depth + 1}
               reorderable={reorderable}
-              hasIconColumn={hasIconColumn(children)}
+              hasIconColumn={hasChildIcons}
               idPrefix={idPrefix}
             />
           ))}

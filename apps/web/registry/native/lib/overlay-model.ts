@@ -8,6 +8,21 @@ type TriggerAction = "open" | "close"
 /** Keeps an anchored surface off the edge of the screen. */
 export const COLLISION_INSETS = { top: 8, right: 8, bottom: 8, left: 8 }
 
+type Insets = { top?: number; right?: number; bottom?: number; left?: number }
+
+/** Collision insets that keep clear of the status bar and the home indicator too. */
+export function getSafeInsets(
+  insets: Insets,
+  /** What `useSafeAreaInsets()` returns. */
+  safeArea: Required<Insets>
+) {
+  return {
+    ...insets,
+    top: (insets.top ?? 0) + safeArea.top,
+    bottom: (insets.bottom ?? 0) + safeArea.bottom,
+  }
+}
+
 const MENU_HEIGHT_FRACTION = 0.8
 
 /** Where a window stops being a phone's: a tall screen is no reason for a tall menu. */
@@ -78,11 +93,46 @@ export function getFittedSide({
 }
 
 /** The tallest a menu gets before it scrolls. */
-export function getMenuMaxHeight(windowHeight: number, windowWidth: number) {
+export function getMenuMaxHeight(
+  windowHeight: number,
+  windowWidth: number,
+  /** Room on the side the menu opens to, when it's known. */
+  available?: number
+) {
   const fraction = windowHeight * MENU_HEIGHT_FRACTION
-  return windowWidth >= TABLET_WIDTH
-    ? Math.min(fraction, TABLET_MENU_MAX_HEIGHT)
-    : fraction
+  const height =
+    windowWidth >= TABLET_WIDTH
+      ? Math.min(fraction, TABLET_MENU_MAX_HEIGHT)
+      : fraction
+  return available === undefined
+    ? height
+    : Math.min(height, Math.max(available, 0))
+}
+
+/**
+ * The room between a trigger and the screen's edge on the side a menu opens
+ * to, inside the insets (which include the safe area: a menu opening up from
+ * a bar at the bottom mustn't run under the status bar).
+ */
+export function getMenuAvailableSpace({
+  side,
+  triggerY,
+  triggerHeight,
+  offset,
+  windowHeight,
+  insets,
+}: {
+  side: "top" | "bottom"
+  triggerY: number | undefined
+  triggerHeight: number | undefined
+  offset: number
+  windowHeight: number
+  insets: { top: number; bottom: number }
+}) {
+  if (triggerY === undefined || triggerHeight === undefined) return undefined
+  return side === "top"
+    ? triggerY - offset - insets.top
+    : windowHeight - (triggerY + triggerHeight) - offset - insets.bottom
 }
 
 /**

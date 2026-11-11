@@ -478,6 +478,36 @@ export const Components: Record<string, any> = {
       ) || "badge-variants"
     return { default: mod.default || mod[exportName] }
   }),
+  "bot-face-demo": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/base-fabricator/bot-face-demo"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "bot-face-demo"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "bot-face-eyes": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/base-fabricator/bot-face-eyes"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "bot-face-eyes"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "bot-face-sizes": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/base-fabricator/bot-face-sizes"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "bot-face-sizes"
+    return { default: mod.default || mod[exportName] }
+  }),
   "breadcrumb-basic": React.lazy(async () => {
     const mod = await import(
       "@/examples/__styles__/base-fabricator/breadcrumb-basic"
@@ -2082,6 +2112,46 @@ export const Components: Record<string, any> = {
       ) || "dropdown-menu-submenu"
     return { default: mod.default || mod[exportName] }
   }),
+  "editor-comment": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/base-fabricator/editor-comment"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "editor-comment"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "editor-demo": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/base-fabricator/editor-demo"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "editor-demo"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "editor-markdown": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/base-fabricator/editor-markdown"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "editor-markdown"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "editor-read-only": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/base-fabricator/editor-read-only"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "editor-read-only"
+    return { default: mod.default || mod[exportName] }
+  }),
   "empty-avatar-group": React.lazy(async () => {
     const mod = await import(
       "@/examples/__styles__/base-fabricator/empty-avatar-group"
@@ -3058,6 +3128,16 @@ export const Components: Record<string, any> = {
       ) || "label-demo"
     return { default: mod.default || mod[exportName] }
   }),
+  "markdown-components": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/base-fabricator/markdown-components"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "markdown-components"
+    return { default: mod.default || mod[exportName] }
+  }),
   "markdown-demo": React.lazy(async () => {
     const mod = await import(
       "@/examples/__styles__/base-fabricator/markdown-demo"
@@ -3066,6 +3146,46 @@ export const Components: Record<string, any> = {
       Object.keys(mod).find(
         (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
       ) || "markdown-demo"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "markdown-document": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/base-fabricator/markdown-document"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "markdown-document"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "markdown-sizes": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/base-fabricator/markdown-sizes"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "markdown-sizes"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "markdown-source": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/base-fabricator/markdown-source"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "markdown-source"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "markdown-table": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/base-fabricator/markdown-table"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "markdown-table"
     return { default: mod.default || mod[exportName] }
   }),
   "marker-border": React.lazy(async () => {

@@ -118,24 +118,20 @@ describe("getPreviewLayout", () => {
     })
   })
 
-  it("keeps a device's real size and fits it in the stage", () => {
-    const tablet = getPreviewLayout("tablet", stage)
-    expect(tablet.frame).toEqual({ width: 1204, height: 844 })
-    expect(tablet.frame.width * tablet.scale).toBeCloseTo(stage.width)
-
+  it("keeps a phone's real size and fits it in the stage", () => {
     const phone = getPreviewLayout("phone", stage)
     expect(phone.frame).toEqual({ width: 410, height: 864 })
     expect(phone.frame.height * phone.scale).toBeCloseTo(stage.height)
   })
 
-  it("never enlarges a device", () => {
+  it("never enlarges a phone", () => {
     expect(getPreviewLayout("phone", { width: 2000, height: 1400 }).scale).toBe(
       1
     )
   })
 
   it("stays at full size until the stage is measured", () => {
-    expect(getPreviewLayout("tablet", { width: 0, height: 0 }).scale).toBe(1)
+    expect(getPreviewLayout("phone", { width: 0, height: 0 }).scale).toBe(1)
     expect(getPreviewLayout("macos", { width: 0, height: 0 }).scale).toBe(1)
   })
 })

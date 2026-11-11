@@ -1,0 +1,202 @@
+---
+title: File Upload
+description: A file picker with a drop zone, checks on type, size and count, and the picked files as Attachment rows.
+base: native
+component: true
+---
+
+## Installation
+
+```bash
+npx fabricator-ui@latest add file-upload
+```
+
+## Usage
+
+```tsx
+import {
+  AttachmentContent,
+  AttachmentDescription,
+  AttachmentTitle,
+} from "@/components/ui/attachment"
+import {
+  FileUpload,
+  FileUploadDescription,
+  FileUploadDropzone,
+  FileUploadField,
+  FileUploadItem,
+  FileUploadItemDelete,
+  FileUploadItemPreview,
+  FileUploadList,
+  FileUploadMedia,
+  FileUploadTitle,
+  FileUploadTrigger,
+  formatFileSize,
+  useFileUpload,
+  type FileUploadFile,
+} from "@/components/ui/file-upload"
+import { Text } from "@/components/ui/text"
+```
+
+```tsx
+<FileUpload
+  multiple
+  accept="image/*,.pdf"
+  maxSize={5 * 1024 * 1024}
+  maxFiles={3}
+  defaultValue={INITIAL_FILES}
+  onFileReject={(rejections) =>
+    setError(
+      rejections
+        .map(({ file, reason }) => `${file.name}: ${reason}`)
+        .join(", ")
+    )
+  }
+>
+  <FileUploadDropzone>
+    <FileUploadMedia />
+    <FileUploadTitle>Choose files</FileUploadTitle>
+    <FileUploadDescription>
+      Images or PDF, up to 5 MB each. At most 3 files.
+    </FileUploadDescription>
+    <FileUploadTrigger>Browse files</FileUploadTrigger>
+  </FileUploadDropzone>
+  <PickedFiles />
+</FileUpload>
+{error ? <Text className="text-destructive-text">{error}</Text> : null}
+```
+
+## Composition
+
+- `FileRejection`
+- `FileRejectionReason`
+- `FileUpload`
+- `FileUploadDescription`
+- `FileUploadDropzone`
+- `FileUploadField`
+- `FileUploadFile`
+- `FileUploadItem`
+- `FileUploadItemDelete`
+- `FileUploadItemPreview`
+- `FileUploadList`
+- `FileUploadMedia`
+- `FileUploadPicker`
+- `FileUploadPickerProvider`
+- `FileUploadTitle`
+- `FileUploadTrigger`
+
+## Examples
+
+```tsx showLineNumbers title="file-upload-example.tsx"
+import * as React from "react"
+
+import {
+  AttachmentContent,
+  AttachmentDescription,
+  AttachmentTitle,
+} from "@/components/ui/attachment"
+import {
+  FileUpload,
+  FileUploadDescription,
+  FileUploadDropzone,
+  FileUploadField,
+  FileUploadItem,
+  FileUploadItemDelete,
+  FileUploadItemPreview,
+  FileUploadList,
+  FileUploadMedia,
+  FileUploadTitle,
+  FileUploadTrigger,
+  formatFileSize,
+  useFileUpload,
+  type FileUploadFile,
+} from "@/components/ui/file-upload"
+import { Text } from "@/components/ui/text"
+
+function PickedFiles() {
+  const { files } = useFileUpload()
+  return (
+    <FileUploadList>
+      {files.map((file) => (
+        <FileUploadItem key={file.uri} file={file}>
+          <FileUploadItemPreview />
+          <AttachmentContent>
+            <AttachmentTitle>{file.name}</AttachmentTitle>
+            <AttachmentDescription>
+              {formatFileSize(file.size)}
+            </AttachmentDescription>
+          </AttachmentContent>
+          <FileUploadItemDelete />
+        </FileUploadItem>
+      ))}
+    </FileUploadList>
+  )
+}
+const INITIAL_FILES: FileUploadFile[] = [
+  {
+    uri: "file:///example-report.pdf",
+    name: "example-report.pdf",
+    size: 2048,
+    type: "application/pdf",
+  },
+]
+function FileUploadExample() {
+  const [error, setError] = React.useState("")
+  return (
+    <ExampleWrapper fit>
+      <Example title="Multiple files and validation">
+        <FileUpload
+          multiple
+          accept="image/*,.pdf"
+          maxSize={5 * 1024 * 1024}
+          maxFiles={3}
+          defaultValue={INITIAL_FILES}
+          onFileReject={(rejections) =>
+            setError(
+              rejections
+                .map(({ file, reason }) => `${file.name}: ${reason}`)
+                .join(", ")
+            )
+          }
+        >
+          <FileUploadDropzone>
+            <FileUploadMedia />
+            <FileUploadTitle>Choose files</FileUploadTitle>
+            <FileUploadDescription>
+              Images or PDF, up to 5 MB each. At most 3 files.
+            </FileUploadDescription>
+            <FileUploadTrigger>Browse files</FileUploadTrigger>
+          </FileUploadDropzone>
+          <PickedFiles />
+        </FileUpload>
+        {error ? <Text className="text-destructive-text">{error}</Text> : null}
+      </Example>
+      <Example title="Single file field">
+        <FileUpload accept=".pdf">
+          <FileUploadField placeholder="Choose a PDF" />
+          <PickedFiles />
+        </FileUpload>
+      </Example>
+      <Example title="Disabled">
+        <FileUpload disabled defaultValue={INITIAL_FILES}>
+          <FileUploadField />
+          <PickedFiles />
+        </FileUpload>
+      </Example>
+    </ExampleWrapper>
+  )
+}
+export { FileUploadExample }
+```
+
+## API reference
+
+Props it adds to what it wraps: `"aria-invalid"`, `file`, `pickFiles`, `placeholder`.
+
+## Differences from web
+
+**Touch input.** Files are URI assets with name, type and size. The host supplies onPick or FileUploadPickerProvider; validation, rejection reasons, controlled values, chips, previews and removal share the web rules. Browser drag/drop, hidden inputs and HTML forms have no native equivalent. The component does not send files to a server.
+
+## Accessibility
+
+Text is read as it appears. Give a control with no text an `accessibilityLabel`.

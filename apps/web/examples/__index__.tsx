@@ -221,6 +221,18 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "badge-variants",
       filePath: "examples/base/badge-variants.tsx",
     },
+    "bot-face-demo": {
+      name: "bot-face-demo",
+      filePath: "examples/base/bot-face-demo.tsx",
+    },
+    "bot-face-eyes": {
+      name: "bot-face-eyes",
+      filePath: "examples/base/bot-face-eyes.tsx",
+    },
+    "bot-face-sizes": {
+      name: "bot-face-sizes",
+      filePath: "examples/base/bot-face-sizes.tsx",
+    },
     "breadcrumb-basic": {
       name: "breadcrumb-basic",
       filePath: "examples/base/breadcrumb-basic.tsx",
@@ -965,6 +977,22 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "dropdown-menu-submenu",
       filePath: "examples/base/dropdown-menu-submenu.tsx",
     },
+    "editor-comment": {
+      name: "editor-comment",
+      filePath: "examples/base/editor-comment.tsx",
+    },
+    "editor-demo": {
+      name: "editor-demo",
+      filePath: "examples/base/editor-demo.tsx",
+    },
+    "editor-markdown": {
+      name: "editor-markdown",
+      filePath: "examples/base/editor-markdown.tsx",
+    },
+    "editor-read-only": {
+      name: "editor-read-only",
+      filePath: "examples/base/editor-read-only.tsx",
+    },
     "empty-avatar-group": {
       name: "empty-avatar-group",
       filePath: "examples/base/empty-avatar-group.tsx",
@@ -1405,9 +1433,29 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "label-rtl",
       filePath: "examples/base/label-rtl.tsx",
     },
+    "markdown-components": {
+      name: "markdown-components",
+      filePath: "examples/base/markdown-components.tsx",
+    },
     "markdown-demo": {
       name: "markdown-demo",
       filePath: "examples/base/markdown-demo.tsx",
+    },
+    "markdown-document": {
+      name: "markdown-document",
+      filePath: "examples/base/markdown-document.tsx",
+    },
+    "markdown-sizes": {
+      name: "markdown-sizes",
+      filePath: "examples/base/markdown-sizes.tsx",
+    },
+    "markdown-source": {
+      name: "markdown-source",
+      filePath: "examples/base/markdown-source.tsx",
+    },
+    "markdown-table": {
+      name: "markdown-table",
+      filePath: "examples/base/markdown-table.tsx",
     },
     "marker-border": {
       name: "marker-border",
@@ -2703,6 +2751,18 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "badge-variants",
       filePath: "examples/aria/badge-variants.tsx",
     },
+    "bot-face-demo": {
+      name: "bot-face-demo",
+      filePath: "examples/aria/bot-face-demo.tsx",
+    },
+    "bot-face-eyes": {
+      name: "bot-face-eyes",
+      filePath: "examples/aria/bot-face-eyes.tsx",
+    },
+    "bot-face-sizes": {
+      name: "bot-face-sizes",
+      filePath: "examples/aria/bot-face-sizes.tsx",
+    },
     "breadcrumb-basic": {
       name: "breadcrumb-basic",
       filePath: "examples/aria/breadcrumb-basic.tsx",
@@ -3435,6 +3495,22 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "dropdown-menu-submenu",
       filePath: "examples/aria/dropdown-menu-submenu.tsx",
     },
+    "editor-comment": {
+      name: "editor-comment",
+      filePath: "examples/aria/editor-comment.tsx",
+    },
+    "editor-demo": {
+      name: "editor-demo",
+      filePath: "examples/aria/editor-demo.tsx",
+    },
+    "editor-markdown": {
+      name: "editor-markdown",
+      filePath: "examples/aria/editor-markdown.tsx",
+    },
+    "editor-read-only": {
+      name: "editor-read-only",
+      filePath: "examples/aria/editor-read-only.tsx",
+    },
     "empty-avatar-group": {
       name: "empty-avatar-group",
       filePath: "examples/aria/empty-avatar-group.tsx",
@@ -3875,9 +3951,29 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "label-rtl",
       filePath: "examples/aria/label-rtl.tsx",
     },
+    "markdown-components": {
+      name: "markdown-components",
+      filePath: "examples/aria/markdown-components.tsx",
+    },
     "markdown-demo": {
       name: "markdown-demo",
       filePath: "examples/aria/markdown-demo.tsx",
+    },
+    "markdown-document": {
+      name: "markdown-document",
+      filePath: "examples/aria/markdown-document.tsx",
+    },
+    "markdown-sizes": {
+      name: "markdown-sizes",
+      filePath: "examples/aria/markdown-sizes.tsx",
+    },
+    "markdown-source": {
+      name: "markdown-source",
+      filePath: "examples/aria/markdown-source.tsx",
+    },
+    "markdown-table": {
+      name: "markdown-table",
+      filePath: "examples/aria/markdown-table.tsx",
     },
     "marker-border": {
       name: "marker-border",
@@ -5141,6 +5237,18 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "badge-variants",
       filePath: "examples/radix/badge-variants.tsx",
     },
+    "bot-face-demo": {
+      name: "bot-face-demo",
+      filePath: "examples/radix/bot-face-demo.tsx",
+    },
+    "bot-face-eyes": {
+      name: "bot-face-eyes",
+      filePath: "examples/radix/bot-face-eyes.tsx",
+    },
+    "bot-face-sizes": {
+      name: "bot-face-sizes",
+      filePath: "examples/radix/bot-face-sizes.tsx",
+    },
     "breadcrumb-basic": {
       name: "breadcrumb-basic",
       filePath: "examples/radix/breadcrumb-basic.tsx",
@@ -5873,6 +5981,22 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "dropdown-menu-submenu",
       filePath: "examples/radix/dropdown-menu-submenu.tsx",
     },
+    "editor-comment": {
+      name: "editor-comment",
+      filePath: "examples/radix/editor-comment.tsx",
+    },
+    "editor-demo": {
+      name: "editor-demo",
+      filePath: "examples/radix/editor-demo.tsx",
+    },
+    "editor-markdown": {
+      name: "editor-markdown",
+      filePath: "examples/radix/editor-markdown.tsx",
+    },
+    "editor-read-only": {
+      name: "editor-read-only",
+      filePath: "examples/radix/editor-read-only.tsx",
+    },
     "empty-avatar-group": {
       name: "empty-avatar-group",
       filePath: "examples/radix/empty-avatar-group.tsx",
@@ -6313,9 +6437,29 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "label-rtl",
       filePath: "examples/radix/label-rtl.tsx",
     },
+    "markdown-components": {
+      name: "markdown-components",
+      filePath: "examples/radix/markdown-components.tsx",
+    },
     "markdown-demo": {
       name: "markdown-demo",
       filePath: "examples/radix/markdown-demo.tsx",
+    },
+    "markdown-document": {
+      name: "markdown-document",
+      filePath: "examples/radix/markdown-document.tsx",
+    },
+    "markdown-sizes": {
+      name: "markdown-sizes",
+      filePath: "examples/radix/markdown-sizes.tsx",
+    },
+    "markdown-source": {
+      name: "markdown-source",
+      filePath: "examples/radix/markdown-source.tsx",
+    },
+    "markdown-table": {
+      name: "markdown-table",
+      filePath: "examples/radix/markdown-table.tsx",
     },
     "marker-border": {
       name: "marker-border",
@@ -7590,6 +7734,18 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "badge-variants",
       filePath: "examples/__styles__/base-fabricator/badge-variants.tsx",
     },
+    "bot-face-demo": {
+      name: "bot-face-demo",
+      filePath: "examples/__styles__/base-fabricator/bot-face-demo.tsx",
+    },
+    "bot-face-eyes": {
+      name: "bot-face-eyes",
+      filePath: "examples/__styles__/base-fabricator/bot-face-eyes.tsx",
+    },
+    "bot-face-sizes": {
+      name: "bot-face-sizes",
+      filePath: "examples/__styles__/base-fabricator/bot-face-sizes.tsx",
+    },
     "breadcrumb-basic": {
       name: "breadcrumb-basic",
       filePath: "examples/__styles__/base-fabricator/breadcrumb-basic.tsx",
@@ -8258,6 +8414,22 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "dropdown-menu-submenu",
       filePath: "examples/__styles__/base-fabricator/dropdown-menu-submenu.tsx",
     },
+    "editor-comment": {
+      name: "editor-comment",
+      filePath: "examples/__styles__/base-fabricator/editor-comment.tsx",
+    },
+    "editor-demo": {
+      name: "editor-demo",
+      filePath: "examples/__styles__/base-fabricator/editor-demo.tsx",
+    },
+    "editor-markdown": {
+      name: "editor-markdown",
+      filePath: "examples/__styles__/base-fabricator/editor-markdown.tsx",
+    },
+    "editor-read-only": {
+      name: "editor-read-only",
+      filePath: "examples/__styles__/base-fabricator/editor-read-only.tsx",
+    },
     "empty-avatar-group": {
       name: "empty-avatar-group",
       filePath: "examples/__styles__/base-fabricator/empty-avatar-group.tsx",
@@ -8672,9 +8844,29 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "label-demo",
       filePath: "examples/__styles__/base-fabricator/label-demo.tsx",
     },
+    "markdown-components": {
+      name: "markdown-components",
+      filePath: "examples/__styles__/base-fabricator/markdown-components.tsx",
+    },
     "markdown-demo": {
       name: "markdown-demo",
       filePath: "examples/__styles__/base-fabricator/markdown-demo.tsx",
+    },
+    "markdown-document": {
+      name: "markdown-document",
+      filePath: "examples/__styles__/base-fabricator/markdown-document.tsx",
+    },
+    "markdown-sizes": {
+      name: "markdown-sizes",
+      filePath: "examples/__styles__/base-fabricator/markdown-sizes.tsx",
+    },
+    "markdown-source": {
+      name: "markdown-source",
+      filePath: "examples/__styles__/base-fabricator/markdown-source.tsx",
+    },
+    "markdown-table": {
+      name: "markdown-table",
+      filePath: "examples/__styles__/base-fabricator/markdown-table.tsx",
     },
     "marker-border": {
       name: "marker-border",
@@ -9867,6 +10059,18 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "badge-variants",
       filePath: "examples/__styles__/aria-fabricator/badge-variants.tsx",
     },
+    "bot-face-demo": {
+      name: "bot-face-demo",
+      filePath: "examples/__styles__/aria-fabricator/bot-face-demo.tsx",
+    },
+    "bot-face-eyes": {
+      name: "bot-face-eyes",
+      filePath: "examples/__styles__/aria-fabricator/bot-face-eyes.tsx",
+    },
+    "bot-face-sizes": {
+      name: "bot-face-sizes",
+      filePath: "examples/__styles__/aria-fabricator/bot-face-sizes.tsx",
+    },
     "breadcrumb-basic": {
       name: "breadcrumb-basic",
       filePath: "examples/__styles__/aria-fabricator/breadcrumb-basic.tsx",
@@ -10522,6 +10726,22 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "dropdown-menu-submenu",
       filePath: "examples/__styles__/aria-fabricator/dropdown-menu-submenu.tsx",
     },
+    "editor-comment": {
+      name: "editor-comment",
+      filePath: "examples/__styles__/aria-fabricator/editor-comment.tsx",
+    },
+    "editor-demo": {
+      name: "editor-demo",
+      filePath: "examples/__styles__/aria-fabricator/editor-demo.tsx",
+    },
+    "editor-markdown": {
+      name: "editor-markdown",
+      filePath: "examples/__styles__/aria-fabricator/editor-markdown.tsx",
+    },
+    "editor-read-only": {
+      name: "editor-read-only",
+      filePath: "examples/__styles__/aria-fabricator/editor-read-only.tsx",
+    },
     "empty-avatar-group": {
       name: "empty-avatar-group",
       filePath: "examples/__styles__/aria-fabricator/empty-avatar-group.tsx",
@@ -10936,9 +11156,29 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "label-demo",
       filePath: "examples/__styles__/aria-fabricator/label-demo.tsx",
     },
+    "markdown-components": {
+      name: "markdown-components",
+      filePath: "examples/__styles__/aria-fabricator/markdown-components.tsx",
+    },
     "markdown-demo": {
       name: "markdown-demo",
       filePath: "examples/__styles__/aria-fabricator/markdown-demo.tsx",
+    },
+    "markdown-document": {
+      name: "markdown-document",
+      filePath: "examples/__styles__/aria-fabricator/markdown-document.tsx",
+    },
+    "markdown-sizes": {
+      name: "markdown-sizes",
+      filePath: "examples/__styles__/aria-fabricator/markdown-sizes.tsx",
+    },
+    "markdown-source": {
+      name: "markdown-source",
+      filePath: "examples/__styles__/aria-fabricator/markdown-source.tsx",
+    },
+    "markdown-table": {
+      name: "markdown-table",
+      filePath: "examples/__styles__/aria-fabricator/markdown-table.tsx",
     },
     "marker-border": {
       name: "marker-border",
@@ -12107,6 +12347,18 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "badge-variants",
       filePath: "examples/__styles__/radix-fabricator/badge-variants.tsx",
     },
+    "bot-face-demo": {
+      name: "bot-face-demo",
+      filePath: "examples/__styles__/radix-fabricator/bot-face-demo.tsx",
+    },
+    "bot-face-eyes": {
+      name: "bot-face-eyes",
+      filePath: "examples/__styles__/radix-fabricator/bot-face-eyes.tsx",
+    },
+    "bot-face-sizes": {
+      name: "bot-face-sizes",
+      filePath: "examples/__styles__/radix-fabricator/bot-face-sizes.tsx",
+    },
     "breadcrumb-basic": {
       name: "breadcrumb-basic",
       filePath: "examples/__styles__/radix-fabricator/breadcrumb-basic.tsx",
@@ -12772,6 +13024,22 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       filePath:
         "examples/__styles__/radix-fabricator/dropdown-menu-submenu.tsx",
     },
+    "editor-comment": {
+      name: "editor-comment",
+      filePath: "examples/__styles__/radix-fabricator/editor-comment.tsx",
+    },
+    "editor-demo": {
+      name: "editor-demo",
+      filePath: "examples/__styles__/radix-fabricator/editor-demo.tsx",
+    },
+    "editor-markdown": {
+      name: "editor-markdown",
+      filePath: "examples/__styles__/radix-fabricator/editor-markdown.tsx",
+    },
+    "editor-read-only": {
+      name: "editor-read-only",
+      filePath: "examples/__styles__/radix-fabricator/editor-read-only.tsx",
+    },
     "empty-avatar-group": {
       name: "empty-avatar-group",
       filePath: "examples/__styles__/radix-fabricator/empty-avatar-group.tsx",
@@ -13189,9 +13457,29 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "label-demo",
       filePath: "examples/__styles__/radix-fabricator/label-demo.tsx",
     },
+    "markdown-components": {
+      name: "markdown-components",
+      filePath: "examples/__styles__/radix-fabricator/markdown-components.tsx",
+    },
     "markdown-demo": {
       name: "markdown-demo",
       filePath: "examples/__styles__/radix-fabricator/markdown-demo.tsx",
+    },
+    "markdown-document": {
+      name: "markdown-document",
+      filePath: "examples/__styles__/radix-fabricator/markdown-document.tsx",
+    },
+    "markdown-sizes": {
+      name: "markdown-sizes",
+      filePath: "examples/__styles__/radix-fabricator/markdown-sizes.tsx",
+    },
+    "markdown-source": {
+      name: "markdown-source",
+      filePath: "examples/__styles__/radix-fabricator/markdown-source.tsx",
+    },
+    "markdown-table": {
+      name: "markdown-table",
+      filePath: "examples/__styles__/radix-fabricator/markdown-table.tsx",
     },
     "marker-border": {
       name: "marker-border",

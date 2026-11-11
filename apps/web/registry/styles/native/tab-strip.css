@@ -3,7 +3,7 @@
   /* A row of document tabs on the surface it sits on: 48pt at a phone's density,
      40pt at `sm`, a step down the scale. A press takes the row's whole height. */
   .cn-tab-strip {
-    @apply h-(--density-40) gap-(--density-4) px-(--density-6);
+    @apply h-(--density-40) gap-(--density-4) px-(--density-6) data-[compact=true]:gap-0;
   }
 
   /* The list is as wide as its tabs, so the new tab button follows the last one,
@@ -101,4 +101,58 @@
 
   .cn-tab-strip-menu {
     @apply min-w-48;
+  }
+
+  /* MARK: Compact strip (phones) */
+
+  /* The active tab on the selection's raised pill, filling the row, with the
+     count of open tabs at its end: a press shows them all. The chip's own box
+     is the end's inset, so the end takes less padding to look even. */
+  .cn-tab-strip-compact-tab {
+    @apply bg-surface-4 shadow-surface-4 my-(--density-4) gap-(--density-6) rounded-lg ps-(--density-10) pe-(--density-8);
+  }
+
+  .cn-tab-strip-compact-text {
+    @apply text-foreground text-(length:--density-text-13);
+  }
+
+  /* The count, a soft chip as wide as its digits. */
+  .cn-tab-strip-count {
+    @apply bg-muted h-(--density-20) min-w-(--density-20) rounded-md px-(--density-6);
+  }
+
+  .cn-tab-strip-count-text {
+    @apply text-muted-foreground text-(length:--density-text-12) leading-none font-semibold tabular-nums;
+  }
+
+  /* The switcher: two columns of cards in a sheet, the sheet's inset around them.
+     The cards' width comes from these tokens (TabSwitcher). */
+  .cn-tab-strip-switcher-scroll {
+    @apply shrink;
+  }
+
+  .cn-tab-strip-switcher-grid {
+    @apply gap-(--density-12) p-(--density-16);
+  }
+
+  /* A card one step above the sheet. The active tab's is ringed in primary. */
+  .cn-tab-strip-card {
+    @apply bg-surface-4 shadow-surface-2 data-[active=true]:border-primary min-h-24 gap-(--density-12) rounded-xl border-2 border-transparent p-(--density-12);
+  }
+
+  .cn-tab-strip-card-text {
+    @apply text-muted-foreground text-(length:--density-text-13);
+  }
+
+  .cn-tab-strip-card-text-active {
+    @apply text-foreground text-(length:--density-text-13);
+  }
+
+  /* Clear of the close button, two lines at most. */
+  .cn-tab-strip-card-title {
+    @apply text-foreground pe-(--density-16);
+  }
+
+  .cn-tab-strip-card-close {
+    @apply active:bg-hover top-(--density-8) right-(--density-8) size-(--density-24) rounded-full;
   }

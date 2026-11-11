@@ -452,11 +452,11 @@ export function ChatInputDemo() {
                 className="h-(--density-36) gap-(--density-6) rounded-full px-(--density-10)"
               >
                 <ModelIcon color="brand" />
-                <span className="text-foreground @max-sm/chat-input:hidden">
+                <span className="text-foreground @max-md/chat-input:hidden">
                   {isAuto ? "Auto" : current?.model.short}
                 </span>
                 {!isAuto && effort && (
-                  <span className="text-(length:--density-text-12) text-muted-foreground @max-sm/chat-input:hidden">
+                  <span className="text-(length:--density-text-12) text-muted-foreground @max-md/chat-input:hidden">
                     {effort}
                   </span>
                 )}

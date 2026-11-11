@@ -77,6 +77,10 @@ function createScrollerState({
 }) {
   return {
     listRef: React.createRef<FlatList<MessageElement>>(),
+    // While going to the start: how many messages there were. The list renders
+    // older messages as it nears them, so it goes again as each batch lays out,
+    // until the person scrolls or a new message arrives.
+    startSettle: { current: null as number | null },
     items: NO_ITEMS,
     metrics: { offset: 0, contentSize: 0, viewportSize: 0 },
     config: {
@@ -117,6 +121,21 @@ function useScrollerState() {
   return context
 }
 
+/**
+ * The start is the far end of the inverted list. Scrolls to the offset the list's
+ * own measurements give: FlatList's scrollToEnd can stop short by the inset.
+ */
+function scrollToStartIn(state: ScrollerState, animated = false) {
+  const list = state.listRef.current
+  if (!list) return false
+  state.startSettle.current = state.items.length
+  list.scrollToOffset({
+    offset: Math.max(0, state.metrics.contentSize - state.metrics.viewportSize),
+    animated,
+  })
+  return true
+}
+
 function scrollToMessageIn(
   state: ScrollerState,
   messageId: string,
@@ -126,6 +145,7 @@ function scrollToMessageIn(
     scrollMargin,
   }: MessageScrollerScrollOptions = {}
 ) {
+  state.startSettle.current = null
   const index = getMessageIndex(
     state.items.map((item) => item.props),
     messageId
@@ -148,6 +168,7 @@ function useMessageScroller() {
       scrollToEnd(options?: MessageScrollerScrollOptions) {
         const list = state.listRef.current
         if (!list) return false
+        state.startSettle.current = null
         list.scrollToOffset({
           offset: 0,
           animated: options?.behavior === "smooth",
@@ -155,10 +176,7 @@ function useMessageScroller() {
         return true
       },
       scrollToStart(options?: MessageScrollerScrollOptions) {
-        const list = state.listRef.current
-        if (!list) return false
-        list.scrollToEnd({ animated: options?.behavior === "smooth" })
-        return true
+        return scrollToStartIn(state, options?.behavior === "smooth")
       },
       scrollToMessage(
         messageId: string,
@@ -301,6 +319,7 @@ function MessageScrollerContent({
   "aria-relevant": _ariaRelevant,
   spacerClassName: _spacerClassName,
   onScroll,
+  onScrollBeginDrag,
   onContentSizeChange,
   onLayout,
   ...props
@@ -355,13 +374,23 @@ function MessageScrollerContent({
     [autoScroll, scrollEdgeThreshold]
   )
 
+  const settleAtStart = () => {
+    if (state.startSettle.current === null) return
+    if (state.startSettle.current !== items.length) {
+      state.startSettle.current = null
+      return
+    }
+    // After the frame, so it goes to the size the list just laid out.
+    requestAnimationFrame(() => scrollToStartIn(state))
+  }
+
   const applyDefaultPosition = () => {
     if (!state.isPending.get()) return
     const list = state.listRef.current
     if (!list || items.length === 0) return
     state.isPending.set(false)
     if (state.config.defaultScrollPosition === "start") {
-      list.scrollToEnd({ animated: false })
+      scrollToStartIn(state)
       return
     }
     const anchor = [...items].reverse().find((item) => item.props.scrollAnchor)
@@ -393,9 +422,14 @@ function MessageScrollerContent({
         updateEdges()
         onScroll?.(event)
       }}
+      onScrollBeginDrag={(event) => {
+        state.startSettle.current = null
+        onScrollBeginDrag?.(event)
+      }}
       onContentSizeChange={(width, height) => {
         state.metrics.contentSize = height
         updateEdges()
+        settleAtStart()
         applyDefaultPosition()
         onContentSizeChange?.(width, height)
       }}

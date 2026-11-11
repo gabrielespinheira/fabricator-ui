@@ -1,0 +1,21 @@
+/* MARK: file-upload */
+.cn-file-upload { @apply gap-(--density-12); }
+.cn-file-upload-description { @apply text-muted-foreground text-(length:--density-text-13); }
+.cn-file-upload-dropzone { @apply rounded-xl bg-muted p-(--density-24); }
+.cn-file-upload-field { @apply relative; }
+.cn-file-upload-item { @apply w-full; }
+.cn-file-upload-item-delete { @apply relative; }
+.cn-file-upload-item-preview { @apply relative; }
+.cn-file-upload-list { @apply gap-(--density-8); }
+.cn-file-upload-media { @apply items-center justify-center; }
+.cn-file-upload-title { @apply font-medium; }
+.cn-file-upload-trigger { @apply relative; }
+.cn-file-upload-chip { @apply relative; }
+.cn-file-upload-chip-icon { @apply relative; }
+.cn-file-upload-chip-name { @apply text-(length:--density-text-12); }
+.cn-file-upload-chip-preview { @apply relative; }
+.cn-file-upload-chip-remove { @apply relative; }
+.cn-file-upload-chips { @apply relative; }
+.cn-file-upload-field-browse { @apply relative; }
+.cn-file-upload-field-icon { @apply relative; }
+.cn-file-upload-field-text { @apply relative; }

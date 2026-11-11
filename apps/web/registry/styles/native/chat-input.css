@@ -1,0 +1,476 @@
+/* MARK: Chat Input */
+
+  /* A raised card on surface 3 that lifts to surface 4's shadow while the
+     field has focus. Its height eases to what it holds on the move timing (in
+     the source: a class could only snap), so a growing draft or a row of
+     attachments slides the card open rather than jumping. The pill's corners
+     are set in the source, the website's half a control plus 8, so they stay
+     26pt-round around the round send as the stacked pill grows; the large
+     card has 16pt corners. */
+  .cn-chat-input {
+    @apply bg-surface-3 shadow-surface-3 rounded-2xl data-[focused=true]:shadow-surface-4 data-[disabled=true]:opacity-60;
+  }
+
+  /* Invalid draws a red hairline over the card's edge. */
+  .cn-chat-input-invalid {
+    @apply border-destructive/50 rounded-2xl;
+  }
+
+  /* What the card holds, clipped to its corners while its height eases. */
+  .cn-chat-input-clip {
+    @apply rounded-2xl;
+  }
+
+  .cn-chat-input-content {
+    @apply min-w-0;
+  }
+
+  /* Quoted context or a mode, inset to line up with the text. */
+  .cn-chat-input-header {
+    @apply gap-(--density-8) px-(--density-16) pt-(--density-14);
+  }
+
+  /* Voice chat's glow behind the content: three lobes in the colour roles
+     (drawn in the source), stronger on a dark theme, where the website's
+     voice-glow tunes its palettes the same way. */
+  .cn-chat-input-voice-glow {
+    @apply z-0;
+  }
+
+  .cn-chat-input-voice-glow-dark {
+    @apply opacity-100;
+  }
+
+  .cn-chat-input-voice-glow-light {
+    @apply opacity-70;
+  }
+
+  .cn-chat-input-voice-glow-lobe-primary {
+    @apply text-primary;
+  }
+
+  .cn-chat-input-voice-glow-lobe-info {
+    @apply text-info;
+  }
+
+  .cn-chat-input-voice-glow-lobe-success {
+    @apply text-success;
+  }
+
+  .cn-chat-input-voice-glow-lobe-warning {
+    @apply text-warning;
+  }
+
+  .cn-chat-input-voice-glow-lobe-destructive {
+    @apply text-destructive;
+  }
+
+  .cn-chat-input-voice-glow-lobe-foreground {
+    @apply text-foreground;
+  }
+
+  /* Files riding along: tiles across the top of the large card, smaller
+     ones nested in the pill's corner above a stacked draft, and thumbnails
+     beside send while the pill's draft is on one line. */
+  .cn-chat-input-attachments {
+    @apply data-[layout=large]:gap-(--density-8) data-[layout=large]:px-(--density-16) data-[layout=large]:pt-(--density-16) data-[layout=default]:gap-(--density-8) data-[layout=default]:px-(--density-8) data-[layout=default]:pt-(--density-8) data-[layout=inline]:me-(--density-4) data-[layout=inline]:gap-(--density-6);
+  }
+
+  .cn-chat-input-attachment {
+    @apply self-start;
+  }
+
+  /* Surface 2 with a hairline. An image fills a square; a file is a chip
+     with its icon and name. Uploading dims the image under a spinner (the
+     dimming is in the source, easing on the move timing). */
+  .cn-chat-input-attachment-tile {
+    @apply bg-surface-2 border-border h-(--density-48) rounded-lg border data-[layout=default]:h-(--density-40) data-[layout=default]:rounded-2xl data-[layout=inline]:h-(--density-36) data-[layout=inline]:rounded-xl data-[kind=image]:aspect-square data-[kind=file]:max-w-48 data-[kind=file]:gap-(--density-8) data-[kind=file]:px-(--density-12);
+  }
+
+  .cn-chat-input-attachment-image {
+    @apply bg-hover;
+  }
+
+  .cn-chat-input-attachment-icon {
+    @apply text-muted-foreground;
+  }
+
+  .cn-chat-input-attachment-name {
+    @apply text-foreground text-(length:--density-text-12);
+  }
+
+  /* A small round button on the tile's corner. The website shows it on hover
+     and focus; a touch has neither, so it always shows, and its touch target
+     reaches 44pt. */
+  .cn-chat-input-attachment-remove {
+    @apply bg-surface-4 shadow-surface-3 -end-1.5 -top-1.5 z-10 size-(--density-20) rounded-full;
+  }
+
+  .cn-chat-input-attachment-remove-text {
+    @apply text-muted-foreground;
+  }
+
+  /* 14pt reading text at the font's own line: an iOS text view puts a taller
+     line's extra space above the glyphs, below centre in the pill. The pill
+     sets its top and bottom padding one by one, since React Native lets a
+     side's padding win over `py`. Large: 288pt at
+     most, then it scrolls. Pill: one line beside its controls (16 in from
+     the edge when no tools come first), 192pt at most; stacked, it takes the
+     card's width. The rotating hint's fade is in the source. */
+  .cn-chat-input-textarea {
+    @apply font-sans text-foreground text-(length:--density-text-14) min-h-(--density-48) max-h-72 px-(--density-20) pt-(--density-16) pb-(--density-4) data-[layout=default]:max-h-48 data-[layout=default]:min-h-0 data-[layout=default]:pt-(--density-14) data-[layout=default]:pb-(--density-14) data-[layout=default]:ps-(--density-6) data-[layout=default]:pe-(--density-6) data-[layout=default]:data-[tools=false]:ps-(--density-16) data-[layout=default]:data-[stacked=true]:ps-(--density-16) data-[layout=default]:data-[stacked=true]:pe-(--density-16) data-[layout=default]:data-[stacked=true]:pb-(--density-4);
+  }
+
+  /* An unseen copy of the draft on one line, with the pill's inline field's
+     type and insets: its width says when the draft no longer fits beside the
+     controls, its height what one line is. */
+  .cn-chat-input-measure {
+    @apply font-sans text-(length:--density-text-14) py-(--density-14) ps-(--density-6) pe-(--density-6) data-[tools=false]:ps-(--density-16);
+  }
+
+  /* The draft's plain runs, while its mentions are tinted. */
+  .cn-chat-input-segment {
+    @apply text-foreground text-(length:--density-text-14);
+  }
+
+  /* A mention keeps the field's metrics, only a colour and a tint: files (@)
+     are info, skills (/) the syntax keyword's violet (set in the source),
+     artifacts ($) warning, cards (#) success, any other sigil the primary
+     role. */
+  .cn-chat-input-mention {
+    @apply text-(length:--density-text-14) rounded-sm;
+  }
+
+  .cn-chat-input-mention-file {
+    @apply bg-info/15 text-info-text;
+  }
+
+  .cn-chat-input-mention-skill {
+    @apply bg-info/15 text-info-text;
+  }
+
+  .cn-chat-input-mention-artifact {
+    @apply bg-warning/15 text-warning-text;
+  }
+
+  .cn-chat-input-mention-card {
+    @apply bg-success/15 text-success-text;
+  }
+
+  .cn-chat-input-mention-other {
+    @apply bg-primary/12 text-primary-text;
+  }
+
+  .cn-chat-input-field {
+    @apply min-w-0;
+  }
+
+  .cn-chat-input-footer {
+    @apply gap-(--density-4) px-(--density-10) pt-(--density-4) pb-(--density-10);
+  }
+
+  /* Pill: the groups sit beside the field, 8 from the pill's edge; the row
+     under a stacked draft slides in (in the source). */
+  .cn-chat-input-tools {
+    @apply gap-(--density-4) data-[layout=default]:py-(--density-8) data-[layout=default]:ps-(--density-8);
+  }
+
+  .cn-chat-input-actions {
+    @apply gap-(--density-4) data-[layout=default]:p-(--density-8);
+  }
+
+  /* Controls: round in the pill (a control's height), squares in the large
+     card and popovers (a step smaller); with a label they are pills. In a
+     tray they are compact, with 12pt text and 14pt icons, so the row's text
+     leads. A toggle that's on holds the active fill. A size you pass keeps
+     the Button's own. */
+  .cn-chat-input-button {
+    @apply data-[pressed=true]:bg-active data-[shape=square]:size-(--density-32) data-[shape=pill]:h-(--density-32) data-[shape=pill]:w-auto data-[shape=pill]:gap-(--density-6) data-[shape=pill]:px-(--density-8) data-[place=pill]:rounded-full data-[place=pill]:data-[shape=square]:size-(--density-36) data-[place=pill]:data-[shape=pill]:h-(--density-36) data-[place=pill]:data-[shape=pill]:px-(--density-10) data-[place=tray]:rounded-md data-[place=tray]:data-[shape=square]:size-(--density-24) data-[place=tray]:data-[shape=pill]:h-(--density-24) data-[place=tray]:data-[shape=pill]:gap-(--density-4) data-[place=tray]:data-[shape=pill]:px-(--density-6);
+  }
+
+  .cn-chat-input-button-wash {
+    @apply -inset-px;
+  }
+
+  .cn-chat-input-button-wash-pill {
+    @apply rounded-full;
+  }
+
+  .cn-chat-input-button-wash-tray {
+    @apply rounded-md;
+  }
+
+  .cn-chat-input-button-text-tray {
+    @apply text-(length:--density-text-12);
+  }
+
+  /* The microphone mutes rather than toggles a mode, so a muted mic stays
+     muted-looking rather than lit; its icon swells with the voice level (in
+     the source). */
+  .cn-chat-input-mic {
+    @apply data-[activity=muted]:bg-transparent;
+  }
+
+  .cn-chat-input-mic-icon {
+    @apply size-(--density-icon-16);
+  }
+
+  /* How full the context is: the reading (hidden in a narrow input) and a
+     14pt ring on a faint track, warning from 70% and destructive from 90%. */
+  .cn-chat-input-context-meter {
+    @apply data-[shape=pill]:gap-(--density-6);
+  }
+
+  .cn-chat-input-context-meter-label {
+    @apply tabular-nums;
+  }
+
+  .cn-chat-input-context-meter-ring {
+    @apply text-muted-foreground;
+  }
+
+  .cn-chat-input-context-meter-ring-calm {
+    @apply text-muted-foreground;
+  }
+
+  .cn-chat-input-context-meter-ring-high {
+    @apply text-warning;
+  }
+
+  .cn-chat-input-context-meter-ring-full {
+    @apply text-destructive;
+  }
+
+  .cn-chat-input-context-meter-track {
+    @apply text-foreground/15;
+  }
+
+  /* Send: round in the pill, a square in the large card, the primary fill
+     whenever it does something, secondary while there is nothing to send,
+     when it doesn't fade but mutes its glyph. Its glyphs share one cell and
+     trade places with a fade and a scale on the feedback timing (in the
+     source): the arrow to send or queue; the audio lines to start voice
+     chat, an X to end it; the stop square while a reply streams, and the
+     spinner while one is on its way that it can't stop. */
+  .cn-chat-input-submit {
+    @apply data-[place=card]:size-(--density-32) data-[place=pill]:rounded-full disabled:opacity-100;
+  }
+
+  .cn-chat-input-submit-text-muted {
+    @apply text-muted-foreground;
+  }
+
+  .cn-chat-input-submit-send {
+    @apply size-(--density-icon-16);
+  }
+
+  .cn-chat-input-submit-voice {
+    @apply size-(--density-icon-16);
+  }
+
+  .cn-chat-input-submit-end {
+    @apply size-(--density-icon-16);
+  }
+
+  .cn-chat-input-submit-spinner {
+    @apply size-(--density-icon-16);
+  }
+
+  .cn-chat-input-submit-stop {
+    @apply size-(--density-icon-14);
+  }
+
+  /* Choices with a line each, in a popover from a footer pill: the icon on
+     the label's line, the label 13pt, the description 12pt muted under it.
+     Muted until pressed (the hover fill) or in use (foreground, the check at
+     the end). */
+  .cn-chat-input-options {
+    @apply gap-0.5;
+  }
+
+  .cn-chat-input-option {
+    @apply gap-(--density-10) rounded-lg px-(--density-10) py-(--density-8);
+  }
+
+  .cn-chat-input-option-wash {
+    @apply bg-hover rounded-lg;
+  }
+
+  .cn-chat-input-option-text {
+    @apply text-muted-foreground;
+  }
+
+  .cn-chat-input-option-text-checked {
+    @apply text-foreground;
+  }
+
+  .cn-chat-input-option-icon {
+    @apply mt-0.5;
+  }
+
+  .cn-chat-input-option-label {
+    @apply text-(length:--density-text-13) leading-5;
+  }
+
+  .cn-chat-input-option-description {
+    @apply text-muted-foreground text-(length:--density-text-12) leading-snug;
+  }
+
+  .cn-chat-input-option-check {
+    @apply mt-1 opacity-0 data-[checked=true]:opacity-100;
+  }
+
+  /* The `/` menu: two steps over the card (surface 5), so it never reads as
+     the card, spanning it and floating 8 above it, rising in on the popup
+     timing. A caption row names it, with a dismiss button where the website
+     lists the keys; rows are menu rows, muted until lit, the first (the
+     return key's pick) on the hover fill. */
+  .cn-chat-input-commands {
+    @apply bg-surface-5 shadow-surface-5 mb-(--density-8) rounded-xl;
+  }
+
+  .cn-chat-input-commands-header {
+    @apply gap-(--density-8) ps-(--density-10) pe-(--density-6) pt-(--density-8) pb-(--density-6);
+  }
+
+  .cn-chat-input-commands-title {
+    @apply text-muted-foreground text-(length:--density-text-12) font-medium tracking-wide uppercase;
+  }
+
+  .cn-chat-input-commands-hint {
+    @apply size-(--density-24) rounded-full;
+  }
+
+  .cn-chat-input-commands-hint-text {
+    @apply text-muted-foreground;
+  }
+
+  .cn-chat-input-commands-empty {
+    @apply text-muted-foreground text-(length:--density-text-13) px-(--density-10) pt-1 pb-(--density-10);
+  }
+
+  .cn-chat-input-commands-list {
+    @apply max-h-72;
+  }
+
+  .cn-chat-input-commands-list-content {
+    @apply p-1 pt-0;
+  }
+
+  .cn-chat-input-command {
+    @apply min-h-(--density-36) gap-(--density-10) rounded-lg px-(--density-8) data-[active=true]:data-[lit=false]:bg-hover;
+  }
+
+  .cn-chat-input-command-text {
+    @apply text-muted-foreground text-(length:--density-text-13);
+  }
+
+  .cn-chat-input-command-text-lit {
+    @apply text-foreground;
+  }
+
+  .cn-chat-input-command-icon {
+    @apply items-center;
+  }
+
+  /* Commands read bold; skills mono in the skill tint (set in the source),
+     as their mentions. */
+  .cn-chat-input-command-name {
+    @apply text-foreground font-medium;
+  }
+
+  .cn-chat-input-command-name-command {
+    @apply font-medium;
+  }
+
+  .cn-chat-input-command-name-skill {
+    @apply font-mono text-(length:--density-text-12);
+  }
+
+  .cn-chat-input-command-description {
+    @apply text-muted-foreground;
+  }
+
+  .cn-chat-input-command-badge {
+    @apply bg-active rounded-md px-(--density-6);
+  }
+
+  .cn-chat-input-command-badge-text {
+    @apply text-foreground text-(length:--density-text-11) leading-5;
+  }
+
+  /* Trays step back from the card: level 1 (queued messages) on surface 2,
+     inset 20; level 2 (background work) and 3 (a goal) on surface 1, inset
+     28 and 36. Each is tucked 16 under what's in front of it, so the card
+     overlaps the stack. They rise into place on the move timing (in the
+     source). */
+  .cn-chat-input-tray {
+    @apply border-border/60 -mb-(--density-16) rounded-t-2xl border px-(--density-4) pt-(--density-4) pb-(--density-20) data-[level=1]:bg-surface-2 data-[level=1]:mx-(--density-20) data-[level=2]:bg-surface-1 data-[level=2]:mx-(--density-28) data-[level=3]:bg-surface-1 data-[level=3]:mx-(--density-36);
+  }
+
+  /* A folding stack. */
+  .cn-chat-input-trays {
+    @apply min-w-0;
+  }
+
+  /* Folded, the rows behind the front one peek out as edges: an empty tray
+     8pt proud of the one in front, each a step further back. Pressing them
+     opens the stack. */
+  .cn-chat-input-tray-edge {
+    @apply h-(--density-24) p-0;
+  }
+
+  .cn-chat-input-trays-edges {
+    @apply rounded-t-2xl;
+  }
+
+  /* Opened, Show less folds the stack again: quiet 12pt text over its end. */
+  .cn-chat-input-trays-less {
+    @apply mb-(--density-6) h-(--density-24) gap-(--density-4) rounded-md px-(--density-6);
+  }
+
+  .cn-chat-input-trays-less-text {
+    @apply text-muted-foreground text-(length:--density-text-12);
+  }
+
+  .cn-chat-input-tray-entry {
+    @apply min-w-0;
+  }
+
+  /* Rows of 13pt text with a muted icon (in the source) and ghost actions at
+     the end. */
+  .cn-chat-input-tray-item {
+    @apply h-(--density-30) gap-(--density-8) rounded-lg ps-(--density-8) pe-(--density-4) data-[trigger=true]:ps-0;
+  }
+
+  .cn-chat-input-tray-item-text {
+    @apply text-foreground text-(length:--density-text-13);
+  }
+
+  /* The row's text as a button that opens its content: the hover fill while
+     pressed, a chevron at the end that turns while open. */
+  .cn-chat-input-tray-trigger {
+    @apply gap-(--density-8) rounded-lg ps-(--density-8) pe-(--density-6);
+  }
+
+  .cn-chat-input-tray-trigger-wash {
+    @apply bg-hover rounded-lg;
+  }
+
+  .cn-chat-input-tray-chevron {
+    @apply items-center;
+  }
+
+  /* A row's reading gives way to its text: past 45% of the row it truncates
+     (one line, in the source), so a narrow tray keeps the title readable. */
+  .cn-chat-input-tray-meta {
+    @apply text-muted-foreground text-(length:--density-text-12) tabular-nums max-w-[45%];
+  }
+
+  .cn-chat-input-tray-content {
+    @apply gap-(--density-4) px-(--density-8) pt-0.5 pb-(--density-8);
+  }
+
+  .cn-chat-input-tray-content-text {
+    @apply text-(length:--density-text-12);
+  }

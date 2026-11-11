@@ -200,9 +200,9 @@ describe("toNativeStylesheet", () => {
     expect(css).toContain("--font-heading: Inter;")
   })
 
-  it("defaults native projects to the spacious density", () => {
-    expect(DEFAULT_NATIVE_LOOK.density).toBe("spacious")
-    expect(css).toContain("--density-36: 44px;")
+  it("defaults native projects to the Default density, which FabricatorRoot sizes for the device", () => {
+    expect(DEFAULT_NATIVE_LOOK.density).toBe("default")
+    expect(css).toContain("--density-36: 36px;")
   })
 
   it("nests the modes where Uniwind reads them", () => {
@@ -231,7 +231,7 @@ describe("toNativeStylesheet", () => {
   it("writes sizes in pixels and the radius scale per mode", () => {
     expect(css).toContain("--radius: 8px;")
     expect(css).toContain("--radius-lg: 8px;")
-    expect(css).toContain("--density-text-13: 15px;")
+    expect(css).toContain("--density-text-13: 13px;")
     expect(css).toContain("--motion-dialog: 250;")
   })
 

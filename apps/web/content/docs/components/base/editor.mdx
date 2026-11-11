@@ -1,0 +1,247 @@
+---
+title: Rich Text Editor
+description: A rich text editor whose value is Markdown.
+base: base
+component: true
+---
+
+<ComponentPreview
+  styleName="base-nova"
+  name="editor-demo"
+  previewClassName="h-auto"
+/>
+
+You write formatted text and the editor keeps Markdown: headings, lists and tasks, quotes, code, links and inline formatting, from the toolbar, keyboard shortcuts or Markdown shortcuts as you type. It draws the document with the [Markdown](/docs/components/base/markdown) component's typography, so the editor and the preview look the same. A file opened and saved without edits comes back byte for byte, and an edit rewrites only the blocks it touched.
+
+The editor is part of the Fabricator style, with its own engine and no dependencies. The engine is plain TypeScript that the [React Native version](/docs/components/native/editor) runs too, so typing, Enter, Backspace, shortcuts and undo behave the same on every platform.
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">Command</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx fabricator-ui@latest add editor
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps className="mb-0 pt-2">
+
+<Step>
+  Add the [Markdown](/docs/components/base/markdown) and
+  [Toggle](/docs/components/base/toggle) components.
+</Step>
+
+<Step>
+  Copy the editor's files into your project: `components/ui/editor.tsx` and, in
+  `lib/`, `editor-commands.ts`, `editor-dom.ts`, `editor-input.ts`,
+  `editor-kit.ts`, `editor-store.ts`, `editor-surface-model.ts`,
+  `editor-transaction.ts` and `markdown-serialize.ts`.
+</Step>
+
+<ComponentSource
+  src="styles/base-fabricator/ui/editor.tsx"
+  title="components/ui/editor.tsx"
+  styleName="base-nova"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import {
+  Editor,
+  EditorBubbleMenu,
+  EditorContent,
+  EditorKeyboardBar,
+  EditorLinkPopover,
+  EditorToolbar,
+} from "@/components/ui/editor"
+```
+
+```tsx
+const [markdown, setMarkdown] = React.useState(note.body)
+
+<Editor value={markdown} onValueChange={setMarkdown} placeholder="Write something">
+  <EditorToolbar />
+  <EditorContent />
+  <EditorBubbleMenu />
+  <EditorLinkPopover />
+  <EditorKeyboardBar />
+</Editor>
+```
+
+With no children it renders just the document.
+
+## Composition
+
+```text
+Editor                    the document, its history and commands
+├── EditorToolbar         the commands as toggles, in groups
+│   ├── EditorToolbarGroup
+│   │   └── EditorToolbarButton   one command: command="bold"
+│   └── EditorToolbarSeparator
+├── EditorContent         the document you type in
+├── EditorBubbleMenu      formatting over a selection (mouse and trackpad)
+│   └── EditorBlockTypeMenu   Turn into: text, headings 1 to 6, lists, quote, code
+├── EditorLinkPopover     edits the link at the selection (Mod+K)
+├── EditorKeyboardBar     the bar on top of a phone's keyboard
+└── EditorFooter
+    └── EditorWordCount
+```
+
+Each part reads the root through context. `useEditor()` returns the store, `run(commandId, args)`, `focus()` and `getMarkdown()`, for parts of your own.
+
+## Examples
+
+### Markdown in and out
+
+The value is Markdown both ways. Controlled, the editor takes a new `value` as a new document; `onValueChange` fires after edits, never for a value you passed in.
+
+<ComponentPreview
+  styleName="base-nova"
+  name="editor-markdown"
+  previewClassName="h-auto"
+/>
+
+### Comment box
+
+No toolbar, the small document size, and a placeholder. Selecting text still brings up the formatting bar, and Markdown shortcuts work.
+
+<ComponentPreview styleName="base-nova" name="editor-comment" />
+
+### Read only
+
+`readOnly` keeps the document and turns off editing.
+
+<ComponentPreview styleName="base-nova" name="editor-read-only" />
+
+## Writing
+
+| Type this                                          | You get           |
+| -------------------------------------------------- | ----------------- |
+| `# `, `## `, `### `                                | Headings 1 to 3   |
+| `- `, `* `, `+ `                                   | A bulleted list   |
+| `1. `                                              | A numbered list   |
+| `[] `, `[x] `                                      | A task            |
+| `> `                                               | A quote           |
+| ` ``` ` and Enter                                  | A code block      |
+| `---` and Enter                                    | A divider         |
+| `**bold**`, `*italic*`, `~~strike~~`, `` `code` `` | Inline formatting |
+
+Each shortcut is its own undo step: Backspace or Mod+Z right after it gives back what you typed. Enter in an empty list item outdents it, then ends the list; Backspace at the start of a heading, quote or list item turns it into a paragraph first; Tab and Shift+Tab, or the toolbar's Indent and Outdent, nest blocks: a list item can go one level under the item above it, as deep as you like, and a paragraph under a list item becomes part of that item (a continuation paragraph in the Markdown, indented to the item's text). Its children move with it. Markdown has no indented paragraph outside a list, so there Indent stays disabled.
+
+| Action                 | Keys                      |
+| ---------------------- | ------------------------- |
+| Bold, italic, strike   | Mod+B, Mod+I, Mod+Shift+S |
+| Inline code, link      | Mod+E, Mod+K              |
+| Heading 1 to 3, text   | Mod+Alt+1 to 3, Mod+Alt+0 |
+| Bullet, numbered, task | Mod+Shift+8, 7, 9         |
+| Quote, code block      | Mod+Shift+., Mod+Alt+C    |
+| Undo, redo             | Mod+Z, Mod+Shift+Z        |
+
+Mod is ⌘ on Apple platforms and Ctrl elsewhere. Pasted Markdown arrives formatted; Mod+Shift+V pastes plain text.
+
+## The selection bar
+
+Selecting text with a mouse or trackpad brings up `EditorBubbleMenu`: Turn into, which changes the block to text, a heading from 1 to 6, a list, a quote or a code block, then bold, italic, strikethrough, inline code and link, and any kit command with the `bubble` surface. Pass children to choose its controls:
+
+```tsx
+<EditorBubbleMenu>
+  <EditorBlockTypeMenu />
+  <EditorToolbarSeparator />
+  <EditorToolbarButton command="bold" />
+  <EditorToolbarButton command="link" />
+</EditorBubbleMenu>
+```
+
+Turn into is a menu button: ArrowDown or a click opens it on the current type, arrow keys move, Enter picks, Escape closes. `EditorBlockTypeMenu` works in `EditorToolbar` too.
+
+## Code
+
+Code blocks use [Syntax Highlight](/docs/components/base/syntax-highlight)'s tokenizer and colours while you type in them. A strip above the code picks the language (written after the fence in the Markdown, ` ```ts `) and copies the code. Type ` ``` ` and a language, then Enter, to start one; Enter adds a line, and Mod+Enter or Enter on two empty lines leaves it.
+
+## Tables
+
+Tables are GitHub tables, written back as Markdown. Click or tap one to edit it in place: each cell is a field that takes Markdown (`**bold**`, `` `code` ``, links), and a toolbar adds and removes rows and columns and aligns the column you're in. Tab moves to the next cell and past the last one adds a row, Enter moves down, Escape discards your changes, and Done, Mod+Enter or a click outside the table saves them as one undo step. The toolbar's Table button inserts a new table.
+
+On React Native the editor draws the table in the document and a tap opens the same grid in a sheet.
+
+## Commands and kits
+
+Every button, shortcut and Markdown shortcut is a command from a kit. The starter kit is always on; pass more in `kits` to add marks, commands and shortcuts. A command whose `surfaces` include `toolbar` gets a button in `EditorToolbar`; with `bubble`, in the selection bar; with `keyboard-bar`, on phones.
+
+```tsx
+import { defineEditorKit } from "@/lib/editor-kit"
+
+const summarize = defineEditorKit({
+  name: "summarize",
+  commands: [
+    {
+      id: "summarize",
+      label: "Summarize",
+      surfaces: ["toolbar"],
+      run: (state) => state, // your own transaction
+    },
+  ],
+})
+
+<Editor kits={[summarize]} />
+```
+
+## API Reference
+
+### Editor
+
+All other props go to the root `<div>`.
+
+| Prop            | Type                      | Default             |
+| --------------- | ------------------------- | ------------------- |
+| `value`         | `string`                  | -                   |
+| `defaultValue`  | `string`                  | `""`                |
+| `onValueChange` | `(value: string) => void` | -                   |
+| `kits`          | `EditorKit[]`             | the starter kit     |
+| `readOnly`      | `boolean`                 | `false`             |
+| `placeholder`   | `string`                  | -                   |
+| `children`      | `ReactNode`               | `<EditorContent />` |
+
+### EditorContent
+
+All other props go to the editable `<div>`.
+
+| Prop         | Type                        | Default     |
+| ------------ | --------------------------- | ----------- |
+| `size`       | `"sm" \| "default" \| "lg"` | `"default"` |
+| `aria-label` | `string`                    | `"Editor"`  |
+
+### EditorToolbarButton
+
+All other props go to the `<button>`.
+
+| Prop       | Type        | Default            |
+| ---------- | ----------- | ------------------ |
+| `command`  | `string`    | required           |
+| `children` | `ReactNode` | the command's icon |
+
+## Accessibility
+
+- The document is a `role="textbox"` with `aria-multiline`, labelled by `aria-label`, and its blocks are real headings, lists, quotes and code, so screen readers read structure as well as text.
+- Toolbars follow the WAI-ARIA toolbar pattern: arrow keys, Home and End move between buttons, and toggles report `aria-pressed`. Each button names its command and its shortcut.
+- Pressing a toolbar button keeps the caret and the selection in the document.
+- The link popover is a dialog with a labelled field; Escape closes it and returns to the text.
+- On phones the selection bar stays away, so it never covers the system's own selection menu; the keyboard bar holds the same commands.

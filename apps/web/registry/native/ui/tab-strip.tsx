@@ -9,11 +9,17 @@
 //   reopen, plus the tab's own actions. Moving through it stands in for the
 //   website's drag, until the strip takes up lib/sortable.
 // - The strip scrolls sideways and keeps the active tab in view.
+// - A phone's width holds one tab and a half, so there the strip folds into a
+//   switcher, as a phone's browser does: the active tab with a count of the tabs.
+//   A press opens a sheet of every tab as a card, to switch, close or long press
+//   for the tab's menu; the new tab button moves into the sheet.
 import * as React from "react"
 import {
   ChevronDownIcon,
   CircleAlertIcon,
+  FileIcon,
   IconProvider,
+  PinIcon,
   PlusIcon,
   XIcon,
   type IconProps,
@@ -25,6 +31,7 @@ import {
   Pressable,
   ScrollView,
   TextInput,
+  useWindowDimensions,
   View,
 } from "react-native"
 import { useCSSVariable } from "uniwind"
@@ -60,7 +67,11 @@ import {
 import { useMotion } from "@/registry/native/lib/motion"
 import { parseNumber } from "@/registry/native/lib/motion-tokens"
 import {
+  describeTabCount,
+  describeTabPosition,
+  getTabCountLabel,
   getTabScrollOffset,
+  isCompactTabStrip,
   orderTabs,
 } from "@/registry/native/lib/tab-strip-model"
 import { Button } from "@/registry/native/ui/button"
@@ -73,6 +84,14 @@ import {
   ContextMenuTrigger,
 } from "@/registry/native/ui/context-menu"
 import { DensityScope, useControlSize } from "@/registry/native/ui/density"
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerFooter,
+  DrawerHeader,
+  DrawerTitle,
+} from "@/registry/native/ui/drawer"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -103,6 +122,9 @@ type TabInfo = {
   index: number
   title: string
   pinned: boolean
+  preview: boolean
+  status?: TabStripStatus
+  icon?: IconLike
   closable: boolean
   actions: TabStripAction[]
 }
@@ -121,6 +143,9 @@ type TabStripContextValue = {
   registerTab: (value: string, info: TabInfo) => () => void
   getTabs: () => { value: string; info: TabInfo }[]
   moveBy: (value: string, offset: number) => void
+  /** On a phone: the strip is its active tab, and the rest are in a switcher. */
+  isCompact: boolean
+  openSwitcher: () => void
 }
 
 const TabStripContext = React.createContext<TabStripContextValue | null>(null)
@@ -129,6 +154,13 @@ const TabStripContext = React.createContext<TabStripContextValue | null>(null)
 const tabStripTextVariants = cva("cn-tab-strip-tab-text")
 const tabStripLitTextVariants = cva("cn-tab-strip-tab-text-lit")
 const tabStripActiveTextVariants = cva("cn-tab-strip-tab-text-active")
+// A scroll view's content takes its classes here: the compiler reads className
+// and cn() only.
+const tabStripSwitcherGridVariants = cva(
+  "cn-tab-strip-switcher-grid flex-row flex-wrap"
+)
+const tabStripCardTextVariants = cva("cn-tab-strip-card-text")
+const tabStripCardActiveTextVariants = cva("cn-tab-strip-card-text-active")
 
 function useTabStrip() {
   const context = React.use(TabStripContext)
@@ -182,12 +214,22 @@ function TabStrip({
   children?: React.ReactNode
 }) {
   const [renaming, setRenaming] = React.useState<string | null>(null)
+  const [isSwitcherOpen, setIsSwitcherOpen] = React.useState(false)
   const tabs = React.useRef(new Map<string, TabInfo>())
+  const { width } = useWindowDimensions()
+  const isCompact = isCompactTabStrip(width)
+  // The compact strip draws its tabs from what they registered, so it renders
+  // again as they change. The full strip draws each tab where it is.
+  const isCompactRef = React.useRef(isCompact)
+  isCompactRef.current = isCompact
+  const [, refresh] = React.useReducer((count: number) => count + 1, 0)
 
   const registerTab = React.useCallback((tabValue: string, info: TabInfo) => {
     tabs.current.set(tabValue, info)
+    if (isCompactRef.current) refresh()
     return () => {
       tabs.current.delete(tabValue)
+      if (isCompactRef.current) refresh()
     }
   }, [])
 
@@ -223,6 +265,8 @@ function TabStrip({
     registerTab,
     getTabs,
     moveBy,
+    isCompact,
+    openSwitcher: () => setIsSwitcherOpen(true),
   }
 
   const { density } = useControlSize(size)
@@ -232,6 +276,7 @@ function TabStrip({
         <View
           data-slot="tab-strip"
           data-size={size}
+          data-compact={isCompact}
           className={cn(
             "cn-tab-strip min-w-0 shrink-0 flex-row items-center",
             className
@@ -240,6 +285,13 @@ function TabStrip({
         >
           {renderTextChildren(children)}
         </View>
+        {isCompact && (
+          <TabSwitcher
+            strip={contextValue}
+            open={isSwitcherOpen}
+            onOpenChange={setIsSwitcherOpen}
+          />
+        )}
       </DensityScope>
     </TabStripContext>
   )
@@ -302,6 +354,18 @@ function TabStripList({
       {child}
     </TabIndexContext>
   ))
+
+  // The tabs still mount, to register, and draw nothing.
+  if (strip.isCompact) {
+    return (
+      <>
+        <CompactTab strip={strip} label={ariaLabel} />
+        <FluidHoverProvider fluid={fluid}>
+          <TabStripListContext value={context}>{items}</TabStripListContext>
+        </FluidHoverProvider>
+      </>
+    )
+  }
 
   return (
     <ScrollView
@@ -579,9 +643,33 @@ function TabStripTab({
 
   const { registerTab } = strip
   React.useLayoutEffect(
-    () => registerTab(tabValue, { index, title, pinned, closable, actions }),
-    [registerTab, tabValue, index, title, pinned, closable, actions]
+    () =>
+      registerTab(tabValue, {
+        index,
+        title,
+        pinned,
+        preview,
+        status,
+        icon,
+        closable,
+        actions,
+      }),
+    [
+      registerTab,
+      tabValue,
+      index,
+      title,
+      pinned,
+      preview,
+      status,
+      icon,
+      closable,
+      actions,
+    ]
   )
+
+  // The compact strip draws the active tab, and the switcher every tab.
+  if (strip.isCompact) return null
 
   // The primitive's `disabled` turns off its press too, and a tab with no menu
   // still has to select, so it's a plain press.
@@ -592,7 +680,7 @@ function TabStripTab({
   const content = (
     <IconProvider size={iconSize} strokeWidth={isActive || isLit ? 2 : 1.5}>
       {isRenaming ? (
-        <TabRenameInput value={tabValue} title={title} />
+        <TabRenameInput strip={strip} value={tabValue} title={title} />
       ) : (
         <Trigger
           data-slot="tab-strip-trigger"
@@ -699,8 +787,17 @@ function TabStripTab({
   )
 }
 
-function TabRenameInput({ value, title }: { value: string; title: string }) {
-  const { onRename, setRenaming } = useTabStrip()
+/** Takes the strip as a prop: the switcher's sheet leaves the React tree. */
+function TabRenameInput({
+  strip,
+  value,
+  title,
+}: {
+  strip: TabStripContextValue
+  value: string
+  title: string
+}) {
+  const { onRename, setRenaming } = strip
   const [draft, setDraft] = React.useState(title)
   const isDone = React.useRef(false)
   const finish = () => {
@@ -732,7 +829,9 @@ function TabStripNew({
   children,
   ...props
 }: React.ComponentProps<typeof Button>) {
-  const { onNew } = useTabStrip()
+  const { onNew, isCompact } = useTabStrip()
+  // On a phone the switcher's sheet has the new tab button.
+  if (isCompact) return null
   return (
     <Button
       variant="ghost"
@@ -748,13 +847,14 @@ function TabStripNew({
   )
 }
 
-/** A menu of every tab, for strips that overflow. */
+/** A menu of every tab, for strips that overflow. A phone's pill holds the count. */
 function TabStripOverflow({
   className,
   ...props
 }: React.ComponentProps<typeof Button>) {
-  const { value, onActivate, getTabs } = useTabStrip()
+  const { value, onActivate, getTabs, isCompact } = useTabStrip()
   const [order, setOrder] = React.useState<ReturnType<typeof getTabs>>([])
+  if (isCompact) return null
   return (
     <DropdownMenu onOpenChange={(open) => open && setOrder(getTabs())}>
       <DropdownMenuTrigger
@@ -794,6 +894,290 @@ function TabStripOverflow({
         </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>
+  )
+}
+
+// MARK: Compact strip
+
+/** The tab's status or its own icon, or a page for a tab without one. */
+function TabIcon({ info, size }: { info: TabInfo; size: number }) {
+  if (info.status === "loading" || info.status === "error" || info.icon) {
+    return <TabStatusIcon status={info.status} icon={info.icon} size={size} />
+  }
+  return <FileIcon />
+}
+
+/**
+ * The active tab, on a phone: its icon and name on a raised pill. A press shows
+ * every tab; a long press opens the tab's menu.
+ */
+function CompactTab({
+  strip,
+  label,
+}: {
+  strip: TabStripContextValue
+  label: string
+}) {
+  const feedback = useFeedback()
+  const [iconToken] = useCSSVariable(["--density-icon-14"])
+  const iconSize = parseNumber(iconToken, 14)
+  const order = strip.getTabs()
+  const index = order.findIndex((tab) => tab.value === strip.value)
+  const tab = order[index]
+  if (!tab) {
+    return <View data-slot="tab-strip-compact" className="min-w-0 flex-1" />
+  }
+  if (strip.renaming === tab.value) {
+    return (
+      <View
+        data-slot="tab-strip-compact"
+        className="cn-tab-strip-compact-tab min-w-0 flex-1 flex-row items-center"
+      >
+        <TabRenameInput
+          strip={strip}
+          value={tab.value}
+          title={tab.info.title}
+        />
+      </View>
+    )
+  }
+  const Trigger =
+    hasMenuEntries(strip, true) || tab.info.actions.length > 0
+      ? ContextMenuTrigger
+      : Pressable
+  return (
+    <ContextMenu
+      data-slot="tab-strip-compact"
+      data-value={tab.value}
+      data-preview={tab.info.preview}
+      data-status={tab.info.status}
+      className="min-w-0 flex-1 self-stretch"
+    >
+      <IconProvider size={iconSize} strokeWidth={2}>
+        <Trigger
+          data-slot="tab-strip-compact-tab"
+          role="button"
+          accessibilityLabel={describeTabPosition(
+            tab.info.title,
+            index,
+            order.length
+          )}
+          accessibilityHint={`Shows every tab in ${label}`}
+          className="cn-tab-strip-compact-tab min-w-0 flex-1 flex-row items-center"
+          onPress={() => {
+            feedback("tap")
+            strip.openSwitcher()
+          }}
+        >
+          <TextStyle className="cn-tab-strip-compact-text">
+            <TabIcon info={tab.info} size={iconSize} />
+            <Text
+              data-slot="tab-strip-title"
+              data-preview={tab.info.preview}
+              numberOfLines={1}
+              className="cn-tab-strip-title flex-1 shrink"
+            >
+              {tab.info.title}
+            </Text>
+            {tab.info.status === "waiting" && (
+              <View
+                data-slot="tab-strip-waiting"
+                className="cn-tab-strip-waiting"
+              />
+            )}
+          </TextStyle>
+          <View
+            data-slot="tab-strip-count"
+            className="cn-tab-strip-count items-center justify-center"
+          >
+            <Text className="cn-tab-strip-count-text">
+              {getTabCountLabel(order.length)}
+            </Text>
+          </View>
+        </Trigger>
+      </IconProvider>
+      <ContextMenuContent className="cn-tab-strip-menu">
+        <TabStripMenuItems strip={strip} tabValue={tab.value} />
+      </ContextMenuContent>
+    </ContextMenu>
+  )
+}
+
+/** One tab in the switcher. Takes the strip as a prop: the sheet's portal leaves the tree. */
+function TabCard({
+  strip,
+  tab,
+  index,
+  count,
+  width,
+  onPick,
+}: {
+  strip: TabStripContextValue
+  tab: { value: string; info: TabInfo }
+  index: number
+  count: number
+  width: number
+  onPick: () => void
+}) {
+  const feedback = useFeedback()
+  const [iconToken, closeToken] = useCSSVariable([
+    "--density-icon-16",
+    "--density-icon-14",
+  ])
+  const iconSize = parseNumber(iconToken, 16)
+  const closeSize = parseNumber(closeToken, 14)
+  const isActive = strip.value === tab.value
+  const { title, pinned, preview, closable, actions } = tab.info
+  const Trigger =
+    hasMenuEntries(strip, true) || actions.length > 0
+      ? ContextMenuTrigger
+      : Pressable
+  return (
+    <ContextMenu
+      data-slot="tab-strip-card"
+      data-value={tab.value}
+      data-active={isActive}
+      data-pinned={pinned}
+      data-preview={preview}
+      className="relative"
+      style={{ width }}
+    >
+      <IconProvider size={iconSize} strokeWidth={isActive ? 2 : 1.5}>
+        <Trigger
+          data-slot="tab-strip-card-trigger"
+          data-active={isActive}
+          role="tab"
+          aria-selected={isActive}
+          accessibilityState={{ selected: isActive }}
+          accessibilityLabel={describeTabPosition(title, index, count)}
+          className="cn-tab-strip-card justify-between"
+          onPress={() => {
+            feedback("note", { pitch: noteStep(index) })
+            strip.onActivate(tab.value)
+            onPick()
+          }}
+        >
+          <TextStyle
+            className={
+              isActive
+                ? tabStripCardActiveTextVariants()
+                : tabStripCardTextVariants()
+            }
+          >
+            <View className="flex-row items-center gap-1">
+              <TabIcon info={tab.info} size={iconSize} />
+              {pinned && <PinIcon />}
+            </View>
+            {strip.renaming === tab.value ? (
+              <TabRenameInput strip={strip} value={tab.value} title={title} />
+            ) : (
+              <Text
+                data-slot="tab-strip-title"
+                data-active={isActive}
+                data-preview={preview}
+                numberOfLines={2}
+                className="cn-tab-strip-title cn-tab-strip-card-title"
+              >
+                {title}
+              </Text>
+            )}
+          </TextStyle>
+        </Trigger>
+      </IconProvider>
+      {closable && (
+        <Pressable
+          data-slot="tab-strip-close"
+          role="button"
+          accessibilityLabel={`Close ${title}`}
+          hitSlop={8}
+          className="cn-tab-strip-card-close absolute items-center justify-center"
+          onPress={() => {
+            feedback("tap")
+            strip.onClose?.([tab.value])
+          }}
+        >
+          <TextStyle className="cn-tab-strip-card-text">
+            <IconProvider size={closeSize}>
+              <XIcon />
+            </IconProvider>
+          </TextStyle>
+        </Pressable>
+      )}
+      <ContextMenuContent className="cn-tab-strip-menu">
+        <TabStripMenuItems strip={strip} tabValue={tab.value} />
+      </ContextMenuContent>
+    </ContextMenu>
+  )
+}
+
+const SWITCHER_COLUMNS = 2
+
+/** Every tab as a card, in a sheet from the bottom. */
+function TabSwitcher({
+  strip,
+  open,
+  onOpenChange,
+}: {
+  strip: TabStripContextValue
+  open: boolean
+  onOpenChange: (open: boolean) => void
+}) {
+  const [gridWidth, setGridWidth] = React.useState(0)
+  // The grid's own gap and inset, from its rule in the style map, size the cards.
+  const [gapToken, insetToken] = useCSSVariable([
+    "--density-12",
+    "--density-16",
+  ])
+  const gap = parseNumber(gapToken, 12)
+  const inset = parseNumber(insetToken, 16)
+  const order = strip.getTabs()
+  const cardWidth =
+    (gridWidth - inset * 2 - gap * (SWITCHER_COLUMNS - 1)) / SWITCHER_COLUMNS
+  const close = () => onOpenChange(false)
+  return (
+    <Drawer open={open} onOpenChange={onOpenChange} showSwipeHandle>
+      <DrawerContent data-slot="tab-strip-switcher">
+        <DrawerHeader>
+          <DrawerTitle>{describeTabCount(order.length)}</DrawerTitle>
+        </DrawerHeader>
+        <ScrollView
+          role="tablist"
+          aria-label="Tabs"
+          className="cn-tab-strip-switcher-scroll"
+          contentContainerClassName={tabStripSwitcherGridVariants()}
+          onLayout={(event) => setGridWidth(event.nativeEvent.layout.width)}
+        >
+          {gridWidth > 0 &&
+            order.map((tab, index) => (
+              <TabCard
+                key={tab.value}
+                strip={strip}
+                tab={tab}
+                index={index}
+                count={order.length}
+                width={cardWidth}
+                onPick={close}
+              />
+            ))}
+        </ScrollView>
+        <DrawerFooter className="flex-row">
+          {strip.onNew && (
+            <Button
+              variant="outline"
+              className="flex-1"
+              onPress={() => {
+                strip.onNew?.()
+                close()
+              }}
+            >
+              <PlusIcon />
+              New tab
+            </Button>
+          )}
+          <DrawerClose render={<Button className="flex-1" />}>Done</DrawerClose>
+        </DrawerFooter>
+      </DrawerContent>
+    </Drawer>
   )
 }
 

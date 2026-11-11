@@ -60,10 +60,10 @@ export const TAB_PLACEMENT_CHOICES = [
   { value: "titlebar", label: "Titlebar" },
 ] as const
 
-export const TAB_BAR_STYLE_CHOICES = [
-  { value: "flat", label: "Flat" },
+export const BOTTOM_NAV_STYLE_CHOICES = [
   { value: "glass", label: "Glass" },
   { value: "floating", label: "Floating" },
+  { value: "flat", label: "Flat" },
 ] as const
 
 const SWITCH_LABELS: Record<SwitchKey, string> = {
@@ -142,7 +142,7 @@ const CHOICE_FIELDS: {
       { value: "none", label: "None" },
     ],
   },
-  bottomNavStyle: { label: "Style", choices: TAB_BAR_STYLE_CHOICES },
+  bottomNavStyle: { label: "Style", choices: BOTTOM_NAV_STYLE_CHOICES },
 }
 
 const SECTION_LAYOUT = {
@@ -163,7 +163,7 @@ const SECTION_LAYOUT = {
   ],
   mobile: [
     { title: "Opens as", keys: ["mobileSidebar", "panelMobile"] },
-    { title: "Tab bar", keys: ["bottomNav", "bottomNavStyle"] },
+    { title: "Bottom nav", keys: ["bottomNav", "bottomNavStyle"] },
   ],
 } as const
 
@@ -241,7 +241,7 @@ export function getTabChoices({ hasDesktop }: ShellProject) {
 
 /**
  * The options a project's shell can't honour. `window` and `fullscreen` only
- * choose what the preview draws, so the page's size switch has them instead.
+ * choose what the preview draws, which follows the project's apps instead.
  */
 export function getHiddenShellOptions({
   hasWeb,
@@ -273,7 +273,7 @@ function getRequirement(
     return "Needs the right panel on."
   }
   if (key === "bottomNavStyle" && !options.bottomNav) {
-    return "Needs the tab bar on."
+    return "Needs the bottom nav on."
   }
   // Without a choice of runtime, the real window decides what applies.
   const isWindowOff = !hidden?.has("window") && options.window === "web"

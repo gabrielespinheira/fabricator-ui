@@ -3,55 +3,18 @@
 import * as React from "react"
 import { cn } from "cn"
 
+import {
+  getEffortHueShift,
+  getEffortIndexAtPoint,
+  getEffortKeyIndex,
+  getEffortState,
+} from "@/registry/bases/__base__/lib/model-picker-model"
 import { IconPlaceholder } from "@/app/(create)/components/icon-placeholder"
 
 // The model switcher's panel: an effort slider for the model in use, Auto
 // and other routing tiles, and the models grouped by provider. It is the
 // content of a popover of your own (from a Chat Input's model button, for
 // one), so it fits every base.
-
-/** The hue the top effort level turns, in degrees past the first one's. */
-const EFFORT_HUE_RANGE = 60
-
-/** Each effort level warms from the info hue toward violet. */
-function getEffortHueShift(index: number, count: number) {
-  if (count <= 1) return 0
-  return Math.round((index / (count - 1)) * EFFORT_HUE_RANGE)
-}
-
-/** The level a key moves the effort slider to, or null for any other key. */
-function getEffortKeyIndex(key: string, index: number, count: number) {
-  const last = count - 1
-  if (key === "ArrowRight" || key === "ArrowUp")
-    return Math.min(last, index + 1)
-  if (key === "ArrowLeft" || key === "ArrowDown") return Math.max(0, index - 1)
-  if (key === "Home") return 0
-  if (key === "End") return last
-  return null
-}
-
-/**
- * The level nearest a pointer on the track. The thumb sits inside the track's
- * ends, so the first and last level centres are half a thumb in.
- */
-function getEffortIndexAtPoint({
-  x,
-  left,
-  width,
-  thumb,
-  count,
-}: {
-  x: number
-  left: number
-  width: number
-  thumb: number
-  count: number
-}) {
-  if (count <= 1) return 0
-  const room = Math.max(1, width - thumb)
-  const position = (x - left - thumb / 2) / room
-  return Math.min(count - 1, Math.max(0, Math.round(position * (count - 1))))
-}
 
 /** The panel, inside a popover's content: scrolls past its max height. */
 function ModelPicker({ className, ...props }: React.ComponentProps<"div">) {
@@ -293,13 +256,13 @@ function ModelPickerEffort({
   const thumbRef = React.useRef<HTMLSpanElement>(null)
   const [preview, setPreview] = React.useState<number | null>(null)
   const count = levels.length
-  const chosenIndex = levels.findIndex((level) => level.value === value)
-  const isChosen = chosenIndex >= 0 || preview !== null
-  const index =
-    preview ?? (chosenIndex >= 0 ? chosenIndex : Math.floor((count - 1) / 2))
+  const { index, isChosen, isPeak } = getEffortState({
+    count,
+    chosenIndex: levels.findIndex((level) => level.value === value),
+    preview,
+  })
   const level = levels[index]
   const steps = Math.max(1, count - 1)
-  const isPeak = isChosen && count > 1 && index === count - 1
 
   const indexAt = (x: number) => {
     const track = trackRef.current

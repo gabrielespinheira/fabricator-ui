@@ -288,41 +288,6 @@
   },
   {
     "item": "questionnaire",
-    "kind": "export",
-    "name": "QuestionnaireHeader",
-    "reason": "Added on the website with the restyle after Relay's agent questions, so a questionnaire can take a chat input's place. React Native has no Chat Input yet; the native questionnaire takes this when it does.",
-    "date": "2026-11-08"
-  },
-  {
-    "item": "questionnaire",
-    "kind": "slot",
-    "name": "questionnaire-header",
-    "reason": "Added on the website with the restyle after Relay's agent questions, so a questionnaire can take a chat input's place. React Native has no Chat Input yet; the native questionnaire takes this when it does.",
-    "date": "2026-11-08"
-  },
-  {
-    "item": "questionnaire",
-    "kind": "placeholder",
-    "name": "cn-questionnaire-header",
-    "reason": "Added on the website with the restyle after Relay's agent questions, so a questionnaire can take a chat input's place. React Native has no Chat Input yet; the native questionnaire takes this when it does.",
-    "date": "2026-11-08"
-  },
-  {
-    "item": "questionnaire",
-    "kind": "prop",
-    "name": "advanceOnSelect",
-    "reason": "Added on the website with the restyle after Relay's agent questions, so a questionnaire can take a chat input's place. React Native has no Chat Input yet; the native questionnaire takes this when it does.",
-    "date": "2026-11-08"
-  },
-  {
-    "item": "questionnaire",
-    "kind": "export",
-    "name": "shouldAdvanceQuestionnaire",
-    "reason": "Added on the website with the restyle after Relay's agent questions, so a questionnaire can take a chat input's place. React Native has no Chat Input yet; the native questionnaire takes this when it does.",
-    "date": "2026-11-08"
-  },
-  {
-    "item": "questionnaire",
     "kind": "slot",
     "name": "questionnaire-choice-advance",
     "reason": "The arrow is a pointer cue: it covers a single choice's chip on hover (and keyboard focus) where a pick moves on. Native rows keep their tap feedback.",
@@ -333,13 +298,6 @@
     "kind": "placeholder",
     "name": "cn-questionnaire-choice-advance",
     "reason": "The same pointer cue's style.",
-    "date": "2026-11-08"
-  },
-  {
-    "item": "questionnaire",
-    "kind": "placeholder",
-    "name": "cn-questionnaire-choice-check",
-    "reason": "The check inside the website's square chip for a multiple choice without shortcuts. Native multiple choices keep the Checkbox mark, which draws its own check.",
     "date": "2026-11-08"
   },
   {
@@ -435,58 +393,247 @@
   },
   {
     "item": "chat-input",
-    "kind": "component",
-    "name": "chat-input",
-    "reason": "Web-first chat composer uses DOM text editing, file drop/paste and voice-glow. Native composition, attachment picking and voice visuals are deferred.",
+    "kind": "slot",
+    "name": "chat-input-drop",
+    "reason": "The website's \"Drop to attach\" layer shows while files are dragged over the card. React Native has no file drag and drop (nor pasted files in a text field), so files come from a picker of the app's own through `attach`.",
+    "date": "2026-11-10"
+  },
+  {
+    "item": "chat-input",
+    "kind": "placeholder",
+    "name": "cn-chat-input-drop",
+    "reason": "The same drop layer's style.",
+    "date": "2026-11-10"
+  },
+  {
+    "item": "chat-input",
+    "kind": "slot",
+    "name": "chat-input-mirror",
+    "reason": "The website tints mentions in an overlay drawn under a transparent textarea, since a textarea can't style its text. A React Native text field draws styled Text children itself, so the mentions are tinted inside the field and there is no overlay.",
+    "date": "2026-11-10"
+  },
+  {
+    "item": "editor",
+    "kind": "slot",
+    "name": "editor-task-checkbox",
+    "reason": "The native editor's surface is one text view (packages/editor-native) that draws every block itself, as paragraphs of one string, so there is no element per block to carry the website's block slots and placeholders. Its colours come from Markdown's and the editor's own rules instead.",
     "date": "2026-11-09"
+  },
+  {
+    "item": "editor",
+    "kind": "slot",
+    "name": "editor-void",
+    "reason": "The native editor's surface is one text view (packages/editor-native) that draws every block itself, as paragraphs of one string, so there is no element per block to carry the website's block slots and placeholders. Its colours come from Markdown's and the editor's own rules instead.",
+    "date": "2026-11-09"
+  },
+  {
+    "item": "editor",
+    "kind": "slot",
+    "name": "markdown-code-block",
+    "reason": "The native editor's surface is one text view (packages/editor-native) that draws every block itself, as paragraphs of one string, so there is no element per block to carry the website's block slots and placeholders. Its colours come from Markdown's and the editor's own rules instead.",
+    "date": "2026-11-09"
+  },
+  {
+    "item": "editor",
+    "kind": "slot",
+    "name": "markdown-heading",
+    "reason": "The native editor's surface is one text view (packages/editor-native) that draws every block itself, as paragraphs of one string, so there is no element per block to carry the website's block slots and placeholders. Its colours come from Markdown's and the editor's own rules instead.",
+    "date": "2026-11-09"
+  },
+  {
+    "item": "editor",
+    "kind": "slot",
+    "name": "markdown-list",
+    "reason": "The native editor's surface is one text view (packages/editor-native) that draws every block itself, as paragraphs of one string, so there is no element per block to carry the website's block slots and placeholders. Its colours come from Markdown's and the editor's own rules instead.",
+    "date": "2026-11-09"
+  },
+  {
+    "item": "editor",
+    "kind": "slot",
+    "name": "markdown-list-item",
+    "reason": "The native editor's surface is one text view (packages/editor-native) that draws every block itself, as paragraphs of one string, so there is no element per block to carry the website's block slots and placeholders. Its colours come from Markdown's and the editor's own rules instead.",
+    "date": "2026-11-09"
+  },
+  {
+    "item": "editor",
+    "kind": "slot",
+    "name": "markdown-paragraph",
+    "reason": "The native editor's surface is one text view (packages/editor-native) that draws every block itself, as paragraphs of one string, so there is no element per block to carry the website's block slots and placeholders. Its colours come from Markdown's and the editor's own rules instead.",
+    "date": "2026-11-09"
+  },
+  {
+    "item": "editor",
+    "kind": "slot",
+    "name": "markdown-quote",
+    "reason": "The native editor's surface is one text view (packages/editor-native) that draws every block itself, as paragraphs of one string, so there is no element per block to carry the website's block slots and placeholders. Its colours come from Markdown's and the editor's own rules instead.",
+    "date": "2026-11-09"
+  },
+  {
+    "item": "editor",
+    "kind": "slot",
+    "name": "markdown-raw",
+    "reason": "The native editor's surface is one text view (packages/editor-native) that draws every block itself, as paragraphs of one string, so there is no element per block to carry the website's block slots and placeholders. Its colours come from Markdown's and the editor's own rules instead.",
+    "date": "2026-11-09"
+  },
+  {
+    "item": "editor",
+    "kind": "placeholder",
+    "name": "cn-editor-void",
+    "reason": "The native editor's surface is one text view (packages/editor-native) that draws every block itself, as paragraphs of one string, so there is no element per block to carry the website's block slots and placeholders. Its colours come from Markdown's and the editor's own rules instead.",
+    "date": "2026-11-09"
+  },
+  {
+    "item": "editor",
+    "kind": "placeholder",
+    "name": "cn-markdown-heading",
+    "reason": "The native editor's surface is one text view (packages/editor-native) that draws every block itself, as paragraphs of one string, so there is no element per block to carry the website's block slots and placeholders. Its colours come from Markdown's and the editor's own rules instead.",
+    "date": "2026-11-09"
+  },
+  {
+    "item": "editor",
+    "kind": "placeholder",
+    "name": "cn-markdown-list",
+    "reason": "The native editor's surface is one text view (packages/editor-native) that draws every block itself, as paragraphs of one string, so there is no element per block to carry the website's block slots and placeholders. Its colours come from Markdown's and the editor's own rules instead.",
+    "date": "2026-11-09"
+  },
+  {
+    "item": "editor",
+    "kind": "placeholder",
+    "name": "cn-markdown-list-item",
+    "reason": "The native editor's surface is one text view (packages/editor-native) that draws every block itself, as paragraphs of one string, so there is no element per block to carry the website's block slots and placeholders. Its colours come from Markdown's and the editor's own rules instead.",
+    "date": "2026-11-09"
+  },
+  {
+    "item": "editor",
+    "kind": "placeholder",
+    "name": "cn-markdown-paragraph",
+    "reason": "The native editor's surface is one text view (packages/editor-native) that draws every block itself, as paragraphs of one string, so there is no element per block to carry the website's block slots and placeholders. Its colours come from Markdown's and the editor's own rules instead.",
+    "date": "2026-11-09"
+  },
+  {
+    "item": "editor",
+    "kind": "placeholder",
+    "name": "cn-markdown-raw-block",
+    "reason": "The native editor's surface is one text view (packages/editor-native) that draws every block itself, as paragraphs of one string, so there is no element per block to carry the website's block slots and placeholders. Its colours come from Markdown's and the editor's own rules instead.",
+    "date": "2026-11-09"
+  },
+  {
+    "item": "editor",
+    "kind": "placeholder",
+    "name": "cn-editor-task-checkbox",
+    "reason": "The native editor's surface is one text view (packages/editor-native) that draws every block itself, as paragraphs of one string, so there is no element per block to carry the website's block slots and placeholders. Its colours come from Markdown's and the editor's own rules instead.",
+    "date": "2026-11-09"
+  },
+  {
+    "item": "editor",
+    "kind": "slot",
+    "name": "editor-bubble-menu",
+    "reason": "EditorBubbleMenu renders nothing on phones and tablets: the system's menu sits over a touch selection, and the keyboard bar carries the marks.",
+    "date": "2026-11-09"
+  },
+  {
+    "item": "editor",
+    "kind": "placeholder",
+    "name": "cn-editor-bubble-menu",
+    "reason": "EditorBubbleMenu renders nothing on phones and tablets: the system's menu sits over a touch selection, and the keyboard bar carries the marks.",
+    "date": "2026-11-09"
+  },
+  {
+    "item": "editor",
+    "kind": "placeholder",
+    "name": "cn-editor-table-edit",
+    "reason": "The website's Edit table button shows over a table on hover or focus. On phones and tablets the text view draws the table itself, so there is no element to carry it: a tap on the table opens the sheet.",
+    "date": "2026-11-09"
+  },
+  {
+    "item": "editor",
+    "kind": "slot",
+    "name": "editor-code-block",
+    "reason": "On phones and tablets a code block is a paragraph of the editor's one native text view, which draws its panel, colours and language label itself: there is no element to carry the slot. Its panel colour is read from cn-editor-code-block.",
+    "date": "2026-11-09"
+  },
+  {
+    "item": "editor",
+    "kind": "placeholder",
+    "name": "cn-editor-code-pre",
+    "reason": "The website's pre holds the editable code. On phones and tablets the code is text in the editor's native text view, which sets its mono font, size and padding from the Document role: there is no element to style.",
+    "date": "2026-11-09"
+  },
+  {
+    "item": "workspace-switcher",
+    "kind": "slot",
+    "name": "workspace-switcher-hints",
+    "reason": "The search dialog's key hints (arrows, Enter, Escape). React Native has no keys to name on a phone, and the website hides them on touch screens too.",
+    "date": "2026-11-10"
+  },
+  {
+    "item": "workspace-switcher",
+    "kind": "placeholder",
+    "name": "cn-workspace-switcher-hints",
+    "reason": "The search dialog's key hints (arrows, Enter, Escape). React Native has no keys to name on a phone, and the website hides them on touch screens too.",
+    "date": "2026-11-10"
+  },
+  {
+    "item": "workspace-switcher",
+    "kind": "placeholder",
+    "name": "cn-workspace-switcher-hint",
+    "reason": "The search dialog's key hints (arrows, Enter, Escape). React Native has no keys to name on a phone, and the website hides them on touch screens too.",
+    "date": "2026-11-10"
   },
   {
     "item": "color-picker",
-    "kind": "component",
-    "name": "color-picker",
-    "reason": "Web-first color picker uses pointer scrubbing and the browser eyedropper. Native touch color controls are deferred.",
-    "date": "2026-11-09"
+    "kind": "slot",
+    "name": "color-picker-area-cursor",
+    "reason": "A touch screen has no hover cursor. The thumb follows the finger on the native saturation/brightness area.",
+    "date": "2026-11-10"
   },
   {
-    "item": "file-tree",
-    "kind": "component",
-    "name": "file-tree",
-    "reason": "Desktop explorer ships on web first. Native touch selection and action menus are deferred.",
-    "date": "2026-11-09"
+    "item": "color-picker",
+    "kind": "placeholder",
+    "name": "cn-color-picker-area-cursor",
+    "reason": "A touch screen has no hover cursor. The thumb follows the finger on the native saturation/brightness area.",
+    "date": "2026-11-10"
+  },
+  {
+    "item": "color-picker",
+    "kind": "slot",
+    "name": "color-picker-eyedropper",
+    "reason": "React Native has no browser EyeDropper API. The picker provides the same color area, channels, formats and swatches without a screen sampler.",
+    "date": "2026-11-10"
+  },
+  {
+    "item": "color-picker",
+    "kind": "placeholder",
+    "name": "cn-color-picker-eyedropper",
+    "reason": "React Native has no browser EyeDropper API. The picker provides the same color area, channels, formats and swatches without a screen sampler.",
+    "date": "2026-11-10"
   },
   {
     "item": "file-upload",
-    "kind": "component",
-    "name": "file-upload",
-    "reason": "Web-first upload controls use File, drag-and-drop, paste and native HTML form submission. Native document/image picking is deferred.",
-    "date": "2026-11-09"
+    "kind": "slot",
+    "name": "file-upload-field-drop",
+    "reason": "The field has no browser drag/drop target or its drop feedback on touch. Picking and validation use the same native asset pipeline.",
+    "date": "2026-11-10"
   },
   {
-    "item": "model-picker",
-    "kind": "component",
-    "name": "model-picker",
-    "reason": "Web-first model and reasoning selector ships with Chat Input. Native selector presentation is deferred with the composer.",
-    "date": "2026-11-09"
+    "item": "file-upload",
+    "kind": "placeholder",
+    "name": "cn-file-upload-field-drop",
+    "reason": "The field has no browser drag/drop target or its drop feedback on touch. Picking and validation use the same native asset pipeline.",
+    "date": "2026-11-10"
   },
   {
-    "item": "number-field",
-    "kind": "component",
-    "name": "number-field",
-    "reason": "Web Number Field ships first. Native number formatting models exist, but the native stepper field and its demo are deferred.",
-    "date": "2026-11-09"
+    "item": "file-upload",
+    "kind": "slot",
+    "name": "file-upload-input",
+    "reason": "React Native has no hidden HTML file input or browser form submission. The host picker supplies URI assets through onPick or FileUploadPickerProvider.",
+    "date": "2026-11-10"
   },
   {
     "item": "time-input",
-    "kind": "component",
-    "name": "time-input",
-    "reason": "Web-first time field and duration modes use Time Wheel. Native field and wheel controls are deferred; the native Date Picker documents this limit.",
-    "date": "2026-11-09"
-  },
-  {
-    "item": "time-wheel",
-    "kind": "component",
-    "name": "time-wheel",
-    "reason": "Web-first wheel is a Time Input and Date Picker part. Native touch scrolling, snapping and accessibility adjustments are deferred with Time Input.",
-    "date": "2026-11-09"
+    "kind": "slot",
+    "name": "time-input-value",
+    "reason": "The hidden input only submits the web form. Native consumers receive the same time string through onValueChange.",
+    "date": "2026-11-10"
   }
 ]

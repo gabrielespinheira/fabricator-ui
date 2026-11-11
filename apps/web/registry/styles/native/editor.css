@@ -1,0 +1,234 @@
+/* MARK: Editor */
+
+  /* A card-like frame (the card's fill with a hairline edge, rounded-xl)
+     that darkens its edge while the document has focus, like a text field.
+     Pass a className to drop the frame for a full-page document. */
+  .cn-editor {
+    @apply bg-card border-border/70 overflow-hidden rounded-xl border data-[focused=true]:border-foreground/25;
+  }
+
+  /* The document's padding, 1em by 0.75em of the Document role's body. The
+     text view sizes to its content, at least six lines, unless it scrolls
+     inside a height of its own. */
+  .cn-editor-content {
+    @apply px-[16px] py-[12px] data-[size=sm]:px-[14px] data-[size=sm]:py-[10.5px] data-[size=lg]:px-[18px] data-[size=lg]:py-[13.5px] data-[scroll=true]:min-h-0 data-[scroll=true]:flex-1;
+  }
+
+  /* What the text view draws with, read from these rules so the editor
+     follows the theme. The rest of its colours come from Markdown's rules
+     (raw text, links, the code panel, the quote bar, the divider), so what
+     you edit looks like what the preview shows. */
+  .cn-editor-text {
+    @apply text-foreground;
+  }
+
+  .cn-editor-placeholder {
+    @apply text-muted-foreground;
+  }
+
+  /* The caret and the selection come from the primary role. */
+  .cn-editor-caret {
+    @apply text-primary;
+  }
+
+  .cn-editor-selection {
+    @apply bg-primary/20;
+  }
+
+  /* The checkbox the view draws in a task's margin, filled when done. */
+  .cn-editor-task-checkbox-input {
+    @apply bg-primary;
+  }
+
+  /* The toolbar: ghost toggles in groups split by hairlines, scrolling
+     sideways when the editor is narrow. */
+  .cn-editor-toolbar {
+    @apply border-border/60 border-b;
+  }
+
+  .cn-editor-toolbar-content {
+    @apply gap-(--density-4) p-(--density-4);
+  }
+
+  .cn-editor-toolbar-group {
+    @apply gap-0.5;
+  }
+
+  /* Hairlines between groups: the website's 70% in the toolbar, the full
+     border colour on the keyboard bar, over whatever it floats on. */
+  .cn-editor-toolbar-separator {
+    @apply bg-border/70 h-(--density-20) w-px data-[bar=keyboard]:bg-border;
+  }
+
+  /* The toggle's ghost look, icon-only and square: the website's 36pt in
+     the toolbar, 40pt on the keyboard bar a thumb works (a step under the
+     default control, so a row of them fits), each with a 44pt touch target.
+     On and pressed are one fill under the icon. On the keyboard bar's capsule
+     they're pills, nested in its round ends. */
+  .cn-editor-toolbar-button {
+    @apply h-(--density-36) min-w-(--density-36) shrink-0 gap-(--density-6) rounded-lg px-(--density-10) disabled:opacity-40 data-[bar=keyboard]:h-(--density-40) data-[bar=keyboard]:min-w-(--density-40) data-[bar=keyboard]:rounded-full;
+  }
+
+  .cn-editor-toolbar-button-fill {
+    @apply bg-active rounded-lg;
+  }
+
+  .cn-editor-keyboard-bar-button-fill {
+    @apply bg-active rounded-full;
+  }
+
+  /* Muted at rest in the toolbar, as the website's; the foreground at 80% on
+     the keyboard bar, so the icons read over the page. Full foreground when
+     on or pressed; the icon's stroke follows, 1.5 then 2. */
+  .cn-editor-toolbar-button-text {
+    @apply text-muted-foreground text-(length:--density-text-13) font-medium;
+  }
+
+  .cn-editor-keyboard-bar-button-text {
+    @apply text-foreground/80 text-(length:--density-text-13) font-medium;
+  }
+
+  .cn-editor-toolbar-button-text-on {
+    @apply text-foreground;
+  }
+
+  /* The link editor is a dialog on phones and tablets, with the address
+     field and its actions. */
+  .cn-editor-link {
+    @apply gap-(--density-16);
+  }
+
+  .cn-editor-link-input {
+    @apply self-stretch;
+  }
+
+  .cn-editor-link-action {
+    @apply shrink-0;
+  }
+
+  /* Turn into: the block type at the selection as a labelled toolbar
+     button with a chevron, opening the dropdown menu of every type; each row
+     has its icon, its label and its Markdown shortcut in mono at the end. */
+  .cn-editor-block-type {
+    @apply shrink-0;
+  }
+
+  .cn-editor-block-type-trigger {
+    @apply gap-(--density-4) px-(--density-8);
+  }
+
+  .cn-editor-block-type-menu {
+    @apply min-w-56;
+  }
+
+  .cn-editor-block-type-item {
+    @apply gap-(--density-8);
+  }
+
+  .cn-editor-block-type-icon {
+    @apply size-(--density-icon-16);
+  }
+
+  /* The shortcut sits at the row's end, after the label's own width. */
+  .cn-editor-block-type-shortcut {
+    @apply text-muted-foreground font-mono text-(length:--density-text-12) ms-auto ps-(--density-16);
+  }
+
+  /* Code: the text view draws a code block on Syntax Highlight's panel
+     (surface 2, read from this rule) in its colours, with the language
+     small and muted in its top-end corner. A tap on the language opens the
+     code block's sheet: Copy code, then the languages, the current one
+     checked. */
+  .cn-editor-code-block {
+    @apply bg-surface-2 border-border/60 rounded-xl border;
+  }
+
+  .cn-editor-code-sheet {
+    @apply gap-(--density-8) pt-(--density-8);
+  }
+
+  .cn-editor-code-header {
+    @apply gap-(--density-8) px-(--density-16);
+  }
+
+  .cn-editor-code-language {
+    @apply text-muted-foreground text-(length:--density-text-13);
+  }
+
+  .cn-editor-code-copy {
+    @apply shrink-0;
+  }
+
+  .cn-editor-code-language-option {
+    @apply active:bg-active min-h-11 gap-(--density-8) px-(--density-16);
+  }
+
+  .cn-editor-code-language-check {
+    @apply text-foreground size-(--density-icon-16);
+  }
+
+  .cn-editor-code-language-id {
+    @apply text-muted-foreground font-mono text-(length:--density-text-12);
+  }
+
+  /* Tables edit in a sheet on phones and tablets: a tap on the drawn grid
+     opens it. The toolbar acts on the focused cell's row and column and
+     wraps under itself on a phone; the grid below scrolls both ways. */
+  .cn-editor-table-editor {
+    @apply gap-(--density-12) px-(--density-16) pt-(--density-12);
+  }
+
+  .cn-editor-table-toolbar {
+    @apply gap-(--density-4);
+  }
+
+  .cn-editor-table-action {
+    @apply shrink-0;
+  }
+
+  .cn-editor-table-done {
+    @apply shrink-0;
+  }
+
+  /* The grid looks like the table it edits: it takes Markdown's frame,
+     header tint, row hairlines and cell padding (cn-markdown-table-*), and
+     adds the hairline between columns and a primary wash on the focused
+     cell. Its fields fill their cells. */
+  .cn-editor-table {
+    @apply self-stretch;
+  }
+
+  .cn-editor-table-cell {
+    @apply border-border/50 border-e data-[last-column=true]:border-e-0 data-[focused=true]:bg-primary/10;
+  }
+
+  .cn-editor-table-input {
+    @apply text-foreground font-sans self-stretch p-0 text-[14px] tabular-nums data-[header=true]:font-semibold data-[size=sm]:text-[12.25px] data-[size=lg]:text-[15.75px];
+  }
+
+  /* While the editor has focus this bar holds the bottom of the screen in
+     the tab bar's place. It floats there as a capsule like the shell's floating
+     tab bar, with a hairline edge and a stronger shadow so it stands off a white
+     page, and stays one just above iOS's keyboard, a rounded panel of its own.
+     On Android's full-width keyboard it docks: full width, surface 3 with a
+     hairline above. The controls scroll sideways, with Hide keyboard or Done at
+     the end. */
+  .cn-editor-keyboard-bar {
+    @apply bg-surface-3 gap-0.5 px-(--density-4) py-(--density-4) data-[floating=false]:border-border/60 data-[floating=false]:border-t data-[floating=true]:mx-(--density-12) data-[floating=true]:rounded-full data-[floating=true]:px-(--density-6) data-[floating=true]:border data-[floating=true]:border-border data-[floating=true]:shadow-surface-4;
+  }
+
+  .cn-editor-keyboard-bar-commands {
+    @apply gap-0.5;
+  }
+
+  .cn-editor-footer {
+    @apply border-border/60 gap-(--density-8) border-t px-(--density-12) py-(--density-6);
+  }
+
+  .cn-editor-footer-text {
+    @apply text-muted-foreground text-(length:--density-text-12);
+  }
+
+  .cn-editor-word-count {
+    @apply ms-auto;
+  }

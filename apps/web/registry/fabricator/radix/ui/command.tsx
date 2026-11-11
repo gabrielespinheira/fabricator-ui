@@ -172,6 +172,7 @@ function CommandSeparator({
   return (
     <CommandPrimitive.Separator
       data-slot="command-separator"
+      aria-hidden="true"
       className={cn("cn-command-separator", className)}
       {...props}
     />

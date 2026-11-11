@@ -6,8 +6,10 @@
     @apply bg-surface-3 text-popover-foreground rounded-xl! in-data-[slot=dialog-content]:bg-transparent in-data-[slot=popover-content]:bg-transparent;
   }
 
+  /* Anchored by its top, unlike other dialogs, so it stays put while the
+     results grow and shrink under the search. */
   .cn-command-dialog {
-    @apply rounded-xl!;
+    @apply rounded-xl! top-[20%]! bottom-auto! mt-0!;
   }
 
   .cn-command-input-wrapper {

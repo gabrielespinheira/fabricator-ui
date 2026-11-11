@@ -1,0 +1,1426 @@
+import * as React from "react"
+import { Example, ExampleWrapper } from "@/examples/native/example"
+import {
+  AtSignIcon,
+  BotIcon,
+  ChevronDownIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  CornerDownRightIcon,
+  DollarSignIcon,
+  HashIcon,
+  ImageIcon,
+  ListEndIcon,
+  PaperclipIcon,
+  PauseIcon,
+  PlayIcon,
+  PlusIcon,
+  RadarIcon,
+  ShieldCheckIcon,
+  ShieldIcon,
+  ShieldOffIcon,
+  SlashIcon,
+  SquareIcon,
+  TargetIcon,
+  TerminalIcon,
+  Trash2Icon,
+  WandSparklesIcon,
+  WaypointsIcon,
+  XIcon,
+  ZapIcon,
+} from "@fabricator-ui/icons-react-native"
+import {
+  ClaudeIcon,
+  OpenaiIcon,
+} from "@fabricator-ui/icons-react-native/brands"
+import { View } from "react-native"
+
+import {
+  ChatInput,
+  ChatInputActions,
+  ChatInputAttachment,
+  ChatInputAttachments,
+  ChatInputButton,
+  ChatInputCommands,
+  ChatInputContextMeter,
+  ChatInputFooter,
+  ChatInputMic,
+  ChatInputOption,
+  ChatInputOptions,
+  ChatInputSubmit,
+  ChatInputTextarea,
+  ChatInputTools,
+  ChatInputTray,
+  ChatInputTrayContent,
+  ChatInputTrayEntry,
+  ChatInputTrayItem,
+  ChatInputTrayMeta,
+  ChatInputTrays,
+  ChatInputTrayTrigger,
+  formatChatInputDuration,
+  formatTokenCount,
+  useChatInput,
+  useChatInputAttachments,
+  type ChatInputAttached,
+  type ChatInputCommand,
+  type ChatInputFile,
+  type ChatInputMicActivity,
+  type ChatInputStatus,
+} from "@/registry/native/ui/chat-input"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuShortcut,
+  DropdownMenuTrigger,
+} from "@/registry/native/ui/dropdown-menu"
+import {
+  ModelPicker,
+  ModelPickerEffort,
+  ModelPickerGroup,
+  ModelPickerGroupLabel,
+  ModelPickerHeader,
+  ModelPickerItem,
+  ModelPickerItemMeta,
+  ModelPickerItemName,
+  ModelPickerRoute,
+  ModelPickerRoutes,
+  ModelPickerSetting,
+} from "@/registry/native/ui/model-picker"
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/registry/native/ui/popover"
+import { Text } from "@/registry/native/ui/text"
+
+const PHOTOS: ChatInputFile[] = [
+  {
+    uri: "https://images.unsplash.com/photo-1497366754035-f200968a6e72?w=300&auto=format&fit=crop&q=80",
+    name: "workspace.png",
+    mimeType: "image/png",
+  },
+  {
+    uri: "https://images.unsplash.com/photo-1497215728101-856f4ea42174?w=300&auto=format&fit=crop&q=80",
+    name: "studio.png",
+    mimeType: "image/png",
+  },
+]
+
+const BRIEF: ChatInputFile = {
+  uri: "file:///launch-brief.pdf",
+  name: "launch-brief.pdf",
+  mimeType: "application/pdf",
+}
+
+const IMAGES: ChatInputAttached[] = PHOTOS.map((photo) => ({
+  id: photo.name,
+  name: photo.name,
+  src: photo.uri,
+  isUploading: false,
+}))
+
+const SAMPLES: ChatInputAttached[] = [
+  IMAGES[0],
+  { id: "brief", name: BRIEF.name, isUploading: false },
+].filter((entry): entry is ChatInputAttached => entry !== undefined)
+
+const PERMISSIONS: Record<
+  string,
+  { label: string; hint: string; icon: typeof ShieldIcon }
+> = {
+  ask: {
+    label: "Ask first",
+    hint: "Asks before every change",
+    icon: ShieldIcon,
+  },
+  edit: {
+    label: "Auto-edit",
+    hint: "Edits files, asks for commands",
+    icon: ShieldCheckIcon,
+  },
+  full: {
+    label: "Full access",
+    hint: "Runs anything without asking",
+    icon: ShieldOffIcon,
+  },
+}
+
+const COMMANDS: ChatInputCommand[] = [
+  {
+    value: "goal",
+    description: "Keep working toward an objective until it's done",
+    icon: <TargetIcon />,
+  },
+  {
+    value: "code-review",
+    kind: "skill",
+    description: "Review the current diff for bugs",
+    icon: <WandSparklesIcon />,
+  },
+  {
+    value: "simplify",
+    kind: "skill",
+    description: "Clean up the code that changed",
+    icon: <WandSparklesIcon />,
+  },
+  {
+    value: "write-tests",
+    kind: "skill",
+    description: "Write tests for what changed",
+    icon: <WandSparklesIcon />,
+    badge: "project",
+  },
+]
+
+const COMMAND_NAMES = new Set(COMMANDS.map((command) => `/${command.value}`))
+
+/** `/` mentions read as mentions only for real commands and skills. */
+function isKnownMention(mention: string) {
+  return !mention.startsWith("/") || COMMAND_NAMES.has(mention)
+}
+
+// A stand-in for an upload: each file lands a moment later.
+function upload() {
+  return new Promise<void>((resolve) => setTimeout(resolve, 1200))
+}
+
+/** A stand-in reply: submitted, then streaming, then done. */
+function useStandInReply() {
+  const [status, setStatus] = React.useState<ChatInputStatus>("ready")
+  const timers = React.useRef<ReturnType<typeof setTimeout>[]>([])
+  React.useEffect(() => {
+    const pending = timers.current
+    return () => {
+      for (const timer of pending) clearTimeout(timer)
+    }
+  }, [])
+  return {
+    status,
+    start: () => {
+      setStatus("submitted")
+      timers.current.push(
+        setTimeout(() => setStatus("streaming"), 600),
+        setTimeout(() => setStatus("ready"), 5000)
+      )
+    },
+    stop: () => {
+      for (const timer of timers.current) clearTimeout(timer)
+      timers.current = []
+      setStatus("ready")
+    },
+  }
+}
+
+/** A level that moves like a voice, for the glow and the mic without a microphone. */
+function standInLevel() {
+  const time = Date.now() / 1000
+  return 0.45 + Math.sin(time * 6) * 0.3 + Math.sin(time * 17) * 0.15
+}
+
+// The + menu: attach a file, or start a mention whose menu or tint follows.
+function AddMenu({
+  onAttach,
+  onInsert,
+}: {
+  onAttach: () => void
+  onInsert: (sigil: string) => void
+}) {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger
+        render={<ChatInputButton aria-label="Add to message" />}
+      >
+        <PlusIcon />
+      </DropdownMenuTrigger>
+      <DropdownMenuContent side="top" align="start" className="w-56">
+        <DropdownMenuGroup>
+          <DropdownMenuItem onPress={onAttach}>
+            <PaperclipIcon />
+            Attach files
+          </DropdownMenuItem>
+          <DropdownMenuItem onPress={() => onInsert("@")}>
+            <AtSignIcon />
+            Mention a file
+            <DropdownMenuShortcut>@</DropdownMenuShortcut>
+          </DropdownMenuItem>
+          <DropdownMenuItem onPress={() => onInsert("$")}>
+            <DollarSignIcon />
+            Use an artifact
+            <DropdownMenuShortcut>$</DropdownMenuShortcut>
+          </DropdownMenuItem>
+          <DropdownMenuItem onPress={() => onInsert("/")}>
+            <SlashIcon />
+            Run a skill
+            <DropdownMenuShortcut>/</DropdownMenuShortcut>
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
+}
+
+function withSigil(value: string, sigil: string) {
+  return value === "" || /\s$/.test(value)
+    ? `${value}${sigil}`
+    : `${value} ${sigil}`
+}
+
+function PillDemo() {
+  const [value, setValue] = React.useState("")
+  const reply = useStandInReply()
+  const [isVoiceActive, setVoiceActive] = React.useState(false)
+  const [activity, setActivity] =
+    React.useState<ChatInputMicActivity>("listening")
+  const files = useChatInputAttachments({ upload })
+  const picked = React.useRef(0)
+
+  return (
+    <ChatInput
+      value={value}
+      onValueChange={setValue}
+      status={reply.status}
+      queue
+      onAttach={files.attach}
+      hasContent={files.hasContent}
+      isUploading={files.isUploading}
+      onSubmit={() => {
+        files.clear()
+        reply.start()
+      }}
+      onStop={reply.stop}
+      isVoiceActive={isVoiceActive}
+      onVoiceActiveChange={(active) => {
+        setVoiceActive(active)
+        setActivity("listening")
+      }}
+      voiceLevel={activity === "muted" ? () => 0 : standInLevel}
+    >
+      <ChatInputAttachments>
+        {files.attachments.map((entry) => (
+          <ChatInputAttachment
+            key={entry.id}
+            name={entry.name}
+            src={entry.src}
+            isUploading={entry.isUploading}
+            onRemove={() => files.remove(entry.id)}
+          />
+        ))}
+      </ChatInputAttachments>
+      <ChatInputTextarea
+        placeholder={["Message", "/ for skills", "@ for files"]}
+        mentions={["@", "/", "$"]}
+        isKnownMention={isKnownMention}
+      />
+      <ChatInputCommands commands={COMMANDS} />
+      <ChatInputFooter>
+        <ChatInputTools>
+          <AddMenu
+            // A real app opens expo-image-picker or expo-document-picker here.
+            onAttach={() => {
+              const photo = PHOTOS[picked.current % PHOTOS.length]
+              picked.current += 1
+              if (photo) files.attach([photo])
+            }}
+            onInsert={(sigil) => setValue(withSigil(value, sigil))}
+          />
+        </ChatInputTools>
+        <ChatInputActions>
+          <SessionSettings />
+          <ChatInputMic
+            activity={activity}
+            onPress={() =>
+              setActivity(activity === "muted" ? "listening" : "muted")
+            }
+          />
+          <ChatInputSubmit />
+        </ChatInputActions>
+      </ChatInputFooter>
+    </ChatInput>
+  )
+}
+
+const PROVIDERS = [
+  {
+    id: "anthropic",
+    label: "Claude",
+    icon: ClaudeIcon,
+    models: [
+      {
+        id: "opus",
+        label: "Claude Opus 5.5",
+        short: "Opus 5.5",
+        context: "1M",
+      },
+      {
+        id: "sonnet",
+        label: "Claude Sonnet 5.5",
+        short: "Sonnet 5.5",
+        context: "1M",
+      },
+      {
+        id: "haiku",
+        label: "Claude Haiku 5.5",
+        short: "Haiku 5.5",
+        context: "1M",
+        fast: true,
+      },
+    ],
+  },
+  {
+    id: "openai",
+    label: "OpenAI",
+    icon: OpenaiIcon,
+    models: [
+      {
+        id: "sol",
+        label: "GPT-6.1 Sol",
+        short: "GPT-6.1 Sol",
+        context: "1.05M",
+      },
+      {
+        id: "luna",
+        label: "GPT-6 Luna",
+        short: "GPT-6 Luna",
+        context: "1.05M",
+        fast: true,
+      },
+    ],
+  },
+]
+
+const EFFORTS = [
+  { value: "low", label: "Low" },
+  { value: "medium", label: "Medium" },
+  { value: "high", label: "High" },
+  { value: "max", label: "Max" },
+]
+
+/**
+ * The large demo's model switcher, as the website's: the model's effort first,
+ * the list of models behind its button, and Auto above them.
+ */
+function ModelSwitcher() {
+  const [modelId, setModelId] = React.useState("opus")
+  const [isAuto, setAuto] = React.useState(false)
+  const [effort, setEffort] = React.useState<string | null>("high")
+  const [view, setView] = React.useState<"effort" | "models">("effort")
+  const [isOpen, setOpen] = React.useState(false)
+  const provider = PROVIDERS.find((entry) =>
+    entry.models.some((model) => model.id === modelId)
+  )
+  const model = provider?.models.find((entry) => entry.id === modelId)
+  const ProviderIcon = provider?.icon ?? ClaudeIcon
+
+  return (
+    <Popover
+      open={isOpen}
+      onOpenChange={(open) => {
+        setOpen(open)
+        if (open) setView(isAuto ? "models" : "effort")
+      }}
+    >
+      <PopoverTrigger
+        render={<ChatInputButton accessibilityLabel="Model and effort" />}
+      >
+        {isAuto ? <WaypointsIcon /> : <ProviderIcon color="brand" />}
+        <Text className="text-foreground">
+          {isAuto ? "Auto" : model?.short}
+        </Text>
+        <ChevronDownIcon />
+      </PopoverTrigger>
+      <PopoverContent
+        side="top"
+        align="end"
+        className="w-80 gap-0 bg-surface-5 p-1 shadow-surface-5"
+      >
+        {view === "effort" && !isAuto && model ? (
+          <ModelPickerEffort
+            levels={EFFORTS}
+            value={effort}
+            onValueChange={setEffort}
+          >
+            <ChatInputButton
+              size="sm"
+              className="-ms-1.5"
+              onPress={() => setView("models")}
+            >
+              <ProviderIcon color="brand" />
+              <Text className="text-foreground">{model.label}</Text>
+              <ChevronRightIcon />
+            </ChatInputButton>
+          </ModelPickerEffort>
+        ) : (
+          <ModelPicker>
+            <ModelPickerHeader>
+              {!isAuto ? (
+                <ChatInputButton
+                  size="icon-sm"
+                  accessibilityLabel="Back to effort"
+                  onPress={() => setView("effort")}
+                >
+                  <ChevronLeftIcon />
+                </ChatInputButton>
+              ) : null}
+              <Text>Select model</Text>
+            </ModelPickerHeader>
+            <ModelPickerRoutes>
+              <ModelPickerRoute
+                selected={isAuto}
+                caption="Picks the model and effort for each message"
+                onPress={() => {
+                  setAuto(true)
+                  setOpen(false)
+                }}
+              >
+                <WaypointsIcon />
+                Auto
+              </ModelPickerRoute>
+            </ModelPickerRoutes>
+            {PROVIDERS.map((entry) => (
+              <ModelPickerGroup key={entry.id}>
+                <ModelPickerGroupLabel>
+                  <entry.icon color="brand" />
+                  {entry.label}
+                </ModelPickerGroupLabel>
+                {entry.models.map((option) => (
+                  <ModelPickerItem
+                    key={option.id}
+                    selected={!isAuto && option.id === modelId}
+                    onPress={() => {
+                      setModelId(option.id)
+                      setAuto(false)
+                      setView("effort")
+                    }}
+                  >
+                    <ModelPickerItemName>{option.label}</ModelPickerItemName>
+                    <ModelPickerItemMeta>
+                      <Text accessibilityLabel={`${option.context} context`}>
+                        {option.context}
+                      </Text>
+                      {"fast" in option && option.fast ? (
+                        <ZapIcon accessible accessibilityLabel="Fast" />
+                      ) : null}
+                    </ModelPickerItemMeta>
+                  </ModelPickerItem>
+                ))}
+              </ModelPickerGroup>
+            ))}
+          </ModelPicker>
+        )}
+      </PopoverContent>
+    </Popover>
+  )
+}
+
+const CONTEXT = { used: 84_200, window: 200_000 }
+const CONTEXT_PARTS = [
+  { label: "Messages", tokens: 61_400 },
+  { label: "Tools", tokens: 14_600 },
+  { label: "System", tokens: 8_200 },
+]
+
+/**
+ * The pill's session settings, as the website's: the model beside send opens
+ * its effort, the permissions and the context, each with a page of its own.
+ */
+function SessionSettings() {
+  const { isNarrow } = useChatInput()
+  const [modelId, setModelId] = React.useState("opus")
+  const [isAuto, setAuto] = React.useState(false)
+  const [effort, setEffort] = React.useState<string | null>("high")
+  const [permission, setPermission] = React.useState("edit")
+  const [view, setView] = React.useState<
+    "settings" | "models" | "permissions" | "context"
+  >("settings")
+  const [isOpen, setOpen] = React.useState(false)
+  const provider = PROVIDERS.find((entry) =>
+    entry.models.some((model) => model.id === modelId)
+  )
+  const model = provider?.models.find((entry) => entry.id === modelId)
+  const ProviderIcon = provider?.icon ?? ClaudeIcon
+  const Permission = PERMISSIONS[permission] ?? PERMISSIONS.ask
+  const back = (
+    <ChatInputButton
+      size="icon-sm"
+      accessibilityLabel="Back to settings"
+      onPress={() => setView("settings")}
+    >
+      <ChevronLeftIcon />
+    </ChatInputButton>
+  )
+
+  return (
+    <Popover
+      open={isOpen}
+      onOpenChange={(open) => {
+        setOpen(open)
+        if (open) setView("settings")
+      }}
+    >
+      <PopoverTrigger
+        render={
+          <ChatInputButton
+            accessibilityLabel={`Session settings: ${isAuto ? "Auto" : `${model?.label}, ${effort} effort`}, ${Permission?.label}`}
+          />
+        }
+      >
+        {isAuto ? <WaypointsIcon /> : <ProviderIcon color="brand" />}
+        {isNarrow ? null : (
+          <Text className="text-foreground">
+            {isAuto ? "Auto" : model?.short}
+          </Text>
+        )}
+        {isNarrow || isAuto || !effort ? null : (
+          <Text className="text-(length:--density-text-12) text-muted-foreground">
+            {effort}
+          </Text>
+        )}
+      </PopoverTrigger>
+      <PopoverContent
+        side="top"
+        align="end"
+        sideOffset={10}
+        className="w-80 gap-0 bg-surface-5 p-1 shadow-surface-5"
+      >
+        {view === "models" ? (
+          <ModelPicker>
+            <ModelPickerHeader>
+              {back}
+              <Text>Select model</Text>
+            </ModelPickerHeader>
+            <ModelPickerRoutes>
+              <ModelPickerRoute
+                selected={isAuto}
+                caption="Picks the model and effort for each message"
+                onPress={() => {
+                  setAuto(true)
+                  setView("settings")
+                }}
+              >
+                <WaypointsIcon />
+                Auto
+              </ModelPickerRoute>
+            </ModelPickerRoutes>
+            {PROVIDERS.map((entry) => (
+              <ModelPickerGroup key={entry.id}>
+                <ModelPickerGroupLabel>
+                  <entry.icon color="brand" />
+                  {entry.label}
+                </ModelPickerGroupLabel>
+                {entry.models.map((option) => (
+                  <ModelPickerItem
+                    key={option.id}
+                    selected={!isAuto && option.id === modelId}
+                    onPress={() => {
+                      setModelId(option.id)
+                      setAuto(false)
+                      setView("settings")
+                    }}
+                  >
+                    <ModelPickerItemName>{option.label}</ModelPickerItemName>
+                    <ModelPickerItemMeta>
+                      <Text accessibilityLabel={`${option.context} context`}>
+                        {option.context}
+                      </Text>
+                      {"fast" in option && option.fast ? (
+                        <ZapIcon accessible accessibilityLabel="Fast" />
+                      ) : null}
+                    </ModelPickerItemMeta>
+                  </ModelPickerItem>
+                ))}
+              </ModelPickerGroup>
+            ))}
+          </ModelPicker>
+        ) : view === "permissions" ? (
+          <>
+            <ModelPickerHeader>
+              {back}
+              <Text>Permissions</Text>
+            </ModelPickerHeader>
+            <ChatInputOptions
+              aria-label="Permissions"
+              value={permission}
+              onValueChange={setPermission}
+            >
+              {Object.entries(PERMISSIONS).map(([key, option]) => (
+                <ChatInputOption
+                  key={key}
+                  value={key}
+                  icon={<option.icon />}
+                  label={option.label}
+                  description={option.hint}
+                  onPress={() => setView("settings")}
+                />
+              ))}
+            </ChatInputOptions>
+          </>
+        ) : view === "context" ? (
+          <>
+            <ModelPickerHeader>
+              {back}
+              <Text>Context</Text>
+            </ModelPickerHeader>
+            <View className="gap-3 px-2 pb-2">
+              <Text className="text-sm text-muted-foreground">
+                {formatTokenCount(CONTEXT.used)} of{" "}
+                {formatTokenCount(CONTEXT.window)} tokens used. Older turns are
+                summarised once it fills.
+              </Text>
+              <View className="h-2 flex-row overflow-hidden rounded-full bg-hover">
+                {CONTEXT_PARTS.map((part, index) => (
+                  <View
+                    key={part.label}
+                    style={{
+                      width: `${(part.tokens / CONTEXT.window) * 100}%`,
+                      opacity: 1 - index * 0.25,
+                    }}
+                    className="h-full bg-info"
+                  />
+                ))}
+              </View>
+              <View className="gap-1">
+                {CONTEXT_PARTS.map((part) => (
+                  <View key={part.label} className="flex-row justify-between">
+                    <Text className="text-sm text-muted-foreground">
+                      {part.label}
+                    </Text>
+                    <Text className="text-sm tabular-nums">
+                      {formatTokenCount(part.tokens)}
+                    </Text>
+                  </View>
+                ))}
+              </View>
+            </View>
+          </>
+        ) : (
+          <>
+            {isAuto || !model ? (
+              <ModelPickerHeader>
+                <ChatInputButton size="sm" onPress={() => setView("models")}>
+                  <WaypointsIcon />
+                  <Text className="text-foreground">Auto</Text>
+                  <ChevronRightIcon />
+                </ChatInputButton>
+              </ModelPickerHeader>
+            ) : (
+              <ModelPickerEffort
+                levels={EFFORTS}
+                value={effort}
+                onValueChange={setEffort}
+              >
+                <ChatInputButton
+                  size="sm"
+                  className="-ms-1.5"
+                  onPress={() => setView("models")}
+                >
+                  <ProviderIcon color="brand" />
+                  <Text className="text-foreground">{model.label}</Text>
+                  <ChevronRightIcon />
+                </ChatInputButton>
+              </ModelPickerEffort>
+            )}
+            {Permission ? (
+              <ModelPickerSetting label="Permissions">
+                <ChatInputButton
+                  accessibilityLabel={`Permissions: ${Permission.label}`}
+                  onPress={() => setView("permissions")}
+                >
+                  <Permission.icon />
+                  <Text>{Permission.label}</Text>
+                  <ChevronRightIcon />
+                </ChatInputButton>
+              </ModelPickerSetting>
+            ) : null}
+            <ModelPickerSetting label="Context">
+              <ChatInputContextMeter
+                value={CONTEXT.used / CONTEXT.window}
+                label={formatTokenCount(CONTEXT.used)}
+                onPress={() => setView("context")}
+              />
+            </ModelPickerSetting>
+          </>
+        )}
+      </PopoverContent>
+    </Popover>
+  )
+}
+
+function LargeDemo() {
+  const [value, setValue] = React.useState("")
+  const reply = useStandInReply()
+  const files = useChatInputAttachments({ upload })
+  const [permission, setPermission] = React.useState("edit")
+  const [isPermissionOpen, setPermissionOpen] = React.useState(false)
+  const [isVoiceActive, setVoiceActive] = React.useState(false)
+  const [activity, setActivity] =
+    React.useState<ChatInputMicActivity>("listening")
+  const Permission = PERMISSIONS[permission] ?? PERMISSIONS.ask
+
+  return (
+    <ChatInput
+      layout="large"
+      value={value}
+      onValueChange={setValue}
+      status={reply.status}
+      queue
+      hasContent={files.hasContent}
+      isUploading={files.isUploading}
+      onAttach={files.attach}
+      onSubmit={() => {
+        files.clear()
+        reply.start()
+      }}
+      onStop={reply.stop}
+      isVoiceActive={isVoiceActive}
+      onVoiceActiveChange={(active) => {
+        setVoiceActive(active)
+        setActivity("listening")
+      }}
+      voiceLevel={activity === "muted" ? () => 0 : standInLevel}
+      voiceColor="ocean"
+    >
+      <ChatInputAttachments>
+        {files.attachments.map((entry) => (
+          <ChatInputAttachment
+            key={entry.id}
+            name={entry.name}
+            src={entry.src}
+            isUploading={entry.isUploading}
+            onRemove={() => files.remove(entry.id)}
+          />
+        ))}
+      </ChatInputAttachments>
+      <ChatInputTextarea
+        placeholder={[
+          "Ask for anything…",
+          "/ runs a skill",
+          "$ uses an artifact",
+        ]}
+        mentions={["@", "/", "$"]}
+        isKnownMention={isKnownMention}
+      />
+      <ChatInputCommands commands={COMMANDS} />
+      <ChatInputFooter>
+        <ChatInputTools>
+          <AddMenu
+            onAttach={() => files.attach([BRIEF])}
+            onInsert={(sigil) => setValue(withSigil(value, sigil))}
+          />
+          {Permission ? (
+            <Popover open={isPermissionOpen} onOpenChange={setPermissionOpen}>
+              <PopoverTrigger
+                render={
+                  <ChatInputButton
+                    aria-label={`Permissions: ${Permission.label}`}
+                  />
+                }
+              >
+                <Permission.icon />
+                <Text>{Permission.label}</Text>
+                <ChevronDownIcon />
+              </PopoverTrigger>
+              <PopoverContent
+                side="top"
+                align="start"
+                sideOffset={10}
+                className="w-64 gap-0 bg-surface-5 p-1 shadow-surface-5"
+              >
+                <ChatInputOptions
+                  aria-label="Permissions"
+                  value={permission}
+                  onValueChange={setPermission}
+                >
+                  {Object.entries(PERMISSIONS).map(([key, option]) => (
+                    <ChatInputOption
+                      key={key}
+                      value={key}
+                      icon={<option.icon />}
+                      label={option.label}
+                      description={option.hint}
+                      onPress={() => setPermissionOpen(false)}
+                    />
+                  ))}
+                </ChatInputOptions>
+              </PopoverContent>
+            </Popover>
+          ) : null}
+        </ChatInputTools>
+        <ChatInputActions>
+          <Popover>
+            <PopoverTrigger
+              render={
+                <ChatInputContextMeter
+                  value={0.42}
+                  label={formatTokenCount(84_200)}
+                />
+              }
+            />
+            <PopoverContent
+              side="top"
+              align="end"
+              className="w-60 bg-surface-5 shadow-surface-5"
+            >
+              <Text className="font-medium">Context</Text>
+              <Text className="text-muted-foreground">
+                84K of 200K tokens: 42% used. Older turns are summarised once it
+                fills.
+              </Text>
+            </PopoverContent>
+          </Popover>
+          <ModelSwitcher />
+          <ChatInputMic
+            activity={activity}
+            onPress={() =>
+              setActivity(activity === "muted" ? "listening" : "muted")
+            }
+          />
+          <ChatInputSubmit />
+        </ChatInputActions>
+      </ChatInputFooter>
+    </ChatInput>
+  )
+}
+
+function AttachmentsDemo({
+  layout,
+  initial,
+}: {
+  layout: "default" | "large"
+  initial: ChatInputAttached[]
+}) {
+  const files = useChatInputAttachments({ initial, upload })
+  const picked = React.useRef(0)
+  return (
+    <ChatInput
+      layout={layout}
+      hasContent={files.hasContent}
+      isUploading={files.isUploading}
+      onAttach={files.attach}
+      onSubmit={files.clear}
+    >
+      <ChatInputAttachments>
+        {files.attachments.map((entry) => (
+          <ChatInputAttachment
+            key={entry.id}
+            name={entry.name}
+            src={entry.src}
+            isUploading={entry.isUploading}
+            onRemove={() => files.remove(entry.id)}
+          />
+        ))}
+      </ChatInputAttachments>
+      <ChatInputTextarea placeholder="Attach photos or files…" />
+      <ChatInputFooter>
+        <ChatInputTools>
+          <ChatInputButton
+            aria-label="Attach a photo"
+            onPress={() => {
+              const photo = PHOTOS[picked.current % PHOTOS.length]
+              picked.current += 1
+              if (photo) files.attach([photo])
+            }}
+          >
+            <ImageIcon />
+          </ChatInputButton>
+          <ChatInputButton
+            aria-label="Attach a file"
+            onPress={() => files.attach([BRIEF])}
+          >
+            <PaperclipIcon />
+          </ChatInputButton>
+        </ChatInputTools>
+        <ChatInputActions>
+          <ChatInputSubmit />
+        </ChatInputActions>
+      </ChatInputFooter>
+    </ChatInput>
+  )
+}
+
+const SIGILS = [
+  { sigil: "@", label: "Mention a file", icon: AtSignIcon },
+  { sigil: "/", label: "Run a skill", icon: SlashIcon },
+  { sigil: "$", label: "Use an artifact", icon: DollarSignIcon },
+  { sigil: "#", label: "Link a card", icon: HashIcon },
+]
+
+function MentionsDemo() {
+  const [value, setValue] = React.useState(
+    "Review @src/app.tsx with /code-review, then update #612 and $launch-brief"
+  )
+  return (
+    <ChatInput value={value} onValueChange={setValue}>
+      <ChatInputTextarea mentions={["@", "/", "$", "#"]} />
+      <ChatInputFooter>
+        <ChatInputTools>
+          {SIGILS.map((entry) => (
+            <ChatInputButton
+              key={entry.sigil}
+              aria-label={entry.label}
+              onPress={() => setValue(withSigil(value, entry.sigil))}
+            >
+              <entry.icon />
+            </ChatInputButton>
+          ))}
+        </ChatInputTools>
+        <ChatInputActions>
+          <ChatInputSubmit />
+        </ChatInputActions>
+      </ChatInputFooter>
+    </ChatInput>
+  )
+}
+
+// Voice chat: a stand-in session hears you, transcribes, speaks the reply,
+// and listens again.
+const CYCLE: { activity: ChatInputMicActivity; ms: number }[] = [
+  { activity: "listening", ms: 1600 },
+  { activity: "hearing", ms: 2200 },
+  { activity: "transcribing", ms: 900 },
+  { activity: "speaking", ms: 2600 },
+]
+
+function VoiceDemo() {
+  const [isVoiceActive, setVoiceActive] = React.useState(false)
+  const [step, setStep] = React.useState(0)
+  const [isMuted, setMuted] = React.useState(false)
+  const current = CYCLE[step % CYCLE.length] ?? CYCLE[0]
+  const activity: ChatInputMicActivity = isMuted
+    ? "muted"
+    : (current?.activity ?? "listening")
+
+  React.useEffect(() => {
+    if (!isVoiceActive || isMuted || !current) return
+    const timer = setTimeout(() => setStep(step + 1), current.ms)
+    return () => clearTimeout(timer)
+  }, [isVoiceActive, isMuted, step, current])
+
+  const voiceLevel = React.useCallback(() => {
+    if (activity !== "hearing" && activity !== "speaking") return 0.15
+    return standInLevel()
+  }, [activity])
+
+  return (
+    <ChatInput
+      isVoiceActive={isVoiceActive}
+      onVoiceActiveChange={(active) => {
+        setVoiceActive(active)
+        setStep(0)
+        setMuted(false)
+      }}
+      voiceLevel={isMuted ? () => 0 : voiceLevel}
+    >
+      <ChatInputTextarea
+        placeholder={
+          isVoiceActive ? "Speak, or type a message…" : "Ask for anything…"
+        }
+      />
+      <ChatInputFooter>
+        <ChatInputActions>
+          <ChatInputMic
+            activity={activity}
+            onPress={() => {
+              if (activity === "speaking") setStep(0)
+              else setMuted(!isMuted)
+            }}
+          />
+          <ChatInputSubmit />
+        </ChatInputActions>
+      </ChatInputFooter>
+    </ChatInput>
+  )
+}
+
+const READINGS = [
+  { tokens: 84_200, of: 200_000 },
+  { tokens: 156_000, of: 200_000 },
+  { tokens: 191_000, of: 200_000 },
+]
+
+type Queued = { id: string; text: string }
+type Task = {
+  id: string
+  kind: "shell" | "monitor" | "agent"
+  description: string
+  command: string
+  startedAt: number
+}
+type Goal = {
+  objective: string
+  isPaused: boolean
+  startedAt: number
+  reason: string
+}
+
+const TASK_ICONS: Record<Task["kind"], typeof TerminalIcon> = {
+  shell: TerminalIcon,
+  monitor: RadarIcon,
+  agent: BotIcon,
+}
+
+const AGENT_COMMANDS: ChatInputCommand[] = [
+  {
+    value: "goal",
+    description: "Keep working toward an objective until it's done",
+    icon: <TargetIcon />,
+  },
+  {
+    value: "subagent",
+    description: "Start a sub-agent on a task of its own",
+    icon: <BotIcon />,
+    runs: true,
+  },
+  ...COMMANDS.slice(1),
+]
+
+const AGENT_COMMAND_NAMES = new Set(
+  AGENT_COMMANDS.map((command) => `/${command.value}`)
+)
+
+/** How long a stand-in reply runs. */
+const REPLY_MS = 6000
+
+function AgentDemo() {
+  const [value, setValue] = React.useState("")
+  const [status, setStatus] = React.useState<ChatInputStatus>("ready")
+  const [queued, setQueued] = React.useState<Queued[]>([
+    { id: "screenshot", text: "Then add a dark mode screenshot to the PR" },
+  ])
+  const [tasks, setTasks] = React.useState<Task[]>(() => [
+    {
+      id: "dev",
+      kind: "shell",
+      description: "Dev server",
+      command: "bun run dev",
+      startedAt: Date.now() - 184_000,
+    },
+  ])
+  const [goal, setGoal] = React.useState<Goal | null>({
+    objective: "Ship the dark mode toggle",
+    isPaused: false,
+    startedAt: Date.now() - 64_000,
+    reason: "Started from /goal. The agent checks in after each turn.",
+  })
+  const [now, setNow] = React.useState(() => Date.now())
+  const replyTimer = React.useRef<ReturnType<typeof setTimeout> | undefined>(
+    undefined
+  )
+  const count = React.useRef(0)
+  const nextId = () => {
+    count.current += 1
+    return `item-${count.current}`
+  }
+
+  React.useEffect(() => {
+    const ticker = setInterval(() => setNow(Date.now()), 1000)
+    return () => {
+      clearInterval(ticker)
+      clearTimeout(replyTimer.current)
+    }
+  }, [])
+
+  // A stand-in for the agent: it replies for a few seconds, then takes the
+  // next queued message.
+  const queuedRef = React.useRef(queued)
+  React.useEffect(() => {
+    queuedRef.current = queued
+  }, [queued])
+
+  const startReply = React.useCallback(function run(text: string) {
+    clearTimeout(replyTimer.current)
+    setStatus("streaming")
+    replyTimer.current = setTimeout(() => {
+      const [next, ...rest] = queuedRef.current
+      if (!next) return setStatus("ready")
+      setQueued(rest)
+      run(next.text)
+    }, REPLY_MS)
+  }, [])
+
+  const isBusy = status === "submitted" || status === "streaming"
+
+  return (
+    // The trays tuck under the card: no gap between them.
+    <View>
+      <ChatInputTrays>
+        {goal ? (
+          <ChatInputTray level={3} aria-label="Goal">
+            <ChatInputTrayEntry>
+              <ChatInputTrayItem>
+                <ChatInputTrayTrigger>
+                  <TargetIcon aria-hidden />
+                  <Text numberOfLines={1} className="min-w-0 flex-1">
+                    {goal.objective}
+                  </Text>
+                  <ChatInputTrayMeta>
+                    {goal.isPaused
+                      ? "Paused"
+                      : `Working · ${formatChatInputDuration(now - goal.startedAt)}`}
+                  </ChatInputTrayMeta>
+                </ChatInputTrayTrigger>
+                <ChatInputButton
+                  aria-label={goal.isPaused ? "Resume goal" : "Pause goal"}
+                  onPress={() => setGoal({ ...goal, isPaused: !goal.isPaused })}
+                >
+                  {goal.isPaused ? <PlayIcon /> : <PauseIcon />}
+                </ChatInputButton>
+                <ChatInputButton
+                  aria-label="Clear goal"
+                  onPress={() => setGoal(null)}
+                >
+                  <XIcon />
+                </ChatInputButton>
+              </ChatInputTrayItem>
+              <ChatInputTrayContent>
+                <Text className="text-foreground">{goal.objective}</Text>
+                <Text className="text-muted-foreground">{goal.reason}</Text>
+              </ChatInputTrayContent>
+            </ChatInputTrayEntry>
+          </ChatInputTray>
+        ) : null}
+        {tasks.length > 0 ? (
+          <ChatInputTray level={2} role="list" aria-label="Background tasks">
+            {tasks.map((task) => {
+              const Icon = TASK_ICONS[task.kind]
+              return (
+                <ChatInputTrayEntry key={task.id} role="listitem">
+                  <ChatInputTrayItem>
+                    <ChatInputTrayTrigger>
+                      <Icon aria-hidden />
+                      <Text numberOfLines={1} className="min-w-0 flex-1">
+                        {task.description}
+                      </Text>
+                      <ChatInputTrayMeta>
+                        {formatChatInputDuration(now - task.startedAt)}
+                      </ChatInputTrayMeta>
+                    </ChatInputTrayTrigger>
+                    <ChatInputButton
+                      aria-label={`Stop: ${task.description}`}
+                      onPress={() =>
+                        setTasks((current) =>
+                          current.filter((entry) => entry.id !== task.id)
+                        )
+                      }
+                    >
+                      <SquareIcon />
+                    </ChatInputButton>
+                  </ChatInputTrayItem>
+                  <ChatInputTrayContent>
+                    <Text className="rounded-md bg-hover p-2 font-mono text-muted-foreground">
+                      {`$ ${task.command}\n▸ running for ${formatChatInputDuration(now - task.startedAt)}`}
+                    </Text>
+                  </ChatInputTrayContent>
+                </ChatInputTrayEntry>
+              )
+            })}
+          </ChatInputTray>
+        ) : null}
+        {queued.length > 0 ? (
+          <ChatInputTray level={1} role="list" aria-label="Queued messages">
+            {queued.map((message) => (
+              <ChatInputTrayItem key={message.id} role="listitem">
+                <ListEndIcon aria-hidden />
+                <Text numberOfLines={1} className="min-w-0 flex-1">
+                  {message.text}
+                </Text>
+                <ChatInputButton
+                  aria-label={`Steer: ${message.text}`}
+                  onPress={() => {
+                    setQueued((current) =>
+                      current.filter((entry) => entry.id !== message.id)
+                    )
+                    startReply(message.text)
+                  }}
+                >
+                  <CornerDownRightIcon />
+                  <Text>Steer</Text>
+                </ChatInputButton>
+                <ChatInputButton
+                  aria-label={`Remove: ${message.text}`}
+                  onPress={() =>
+                    setQueued((current) =>
+                      current.filter((entry) => entry.id !== message.id)
+                    )
+                  }
+                >
+                  <Trash2Icon />
+                </ChatInputButton>
+              </ChatInputTrayItem>
+            ))}
+          </ChatInputTray>
+        ) : null}
+      </ChatInputTrays>
+      <ChatInput
+        value={value}
+        onValueChange={setValue}
+        status={status}
+        queue
+        onStop={() => {
+          clearTimeout(replyTimer.current)
+          setStatus("ready")
+        }}
+        onRecall={() => {
+          const last = queued.at(-1)
+          if (!last) return
+          setQueued(queued.slice(0, -1))
+          setValue(last.text)
+        }}
+        onSubmit={(text) => {
+          const objective = text.match(/^\/goal\s+([\s\S]+)/)?.[1]?.trim()
+          if (objective)
+            setGoal({
+              objective,
+              isPaused: false,
+              startedAt: Date.now(),
+              reason:
+                "Started from /goal. The agent checks in after each turn.",
+            })
+          if (isBusy)
+            return setQueued((current) => [...current, { id: nextId(), text }])
+          startReply(text)
+        }}
+      >
+        <ChatInputTextarea
+          placeholder={["Ask, or / for commands", "/goal sets an objective"]}
+          mentions={["/"]}
+          isKnownMention={(mention) => AGENT_COMMAND_NAMES.has(mention)}
+        />
+        <ChatInputCommands
+          commands={AGENT_COMMANDS}
+          onRun={() =>
+            setTasks((current) => [
+              ...current,
+              {
+                id: nextId(),
+                kind: "agent",
+                description: "Sub-agent: explore the codebase",
+                command: "agent explore",
+                startedAt: Date.now(),
+              },
+            ])
+          }
+        />
+        <ChatInputFooter>
+          <ChatInputActions>
+            <ChatInputSubmit />
+          </ChatInputActions>
+        </ChatInputFooter>
+      </ChatInput>
+    </View>
+  )
+}
+
+function ChatInputExample() {
+  return (
+    <ExampleWrapper fit>
+      <Example
+        title="Pill: attachments, mentions, a / menu and voice"
+        framed={false}
+      >
+        <PillDemo />
+      </Example>
+      <Example
+        title="Large: tools, permissions, context and voice"
+        framed={false}
+      >
+        <LargeDemo />
+      </Example>
+      <Example title="Attachments" framed={false}>
+        <AttachmentsDemo layout="default" initial={IMAGES} />
+        <AttachmentsDemo layout="large" initial={SAMPLES} />
+      </Example>
+      <Example title="Voice chat" framed={false}>
+        <VoiceDemo />
+      </Example>
+      <Example title="Mentions" framed={false}>
+        <MentionsDemo />
+      </Example>
+      <Example title="Context meter" framed={false}>
+        <ChatInput>
+          <ChatInputTextarea placeholder="Ask for anything…" />
+          <ChatInputFooter>
+            <ChatInputActions>
+              {READINGS.map((reading) => (
+                <ChatInputContextMeter
+                  key={reading.tokens}
+                  value={reading.tokens / reading.of}
+                  label={formatTokenCount(reading.tokens)}
+                />
+              ))}
+              <ChatInputSubmit />
+            </ChatInputActions>
+          </ChatInputFooter>
+        </ChatInput>
+      </Example>
+      <Example
+        title="Agent: queued messages, background tasks and a goal"
+        framed={false}
+      >
+        <AgentDemo />
+      </Example>
+      <Example title="Return key adds a line" framed={false}>
+        <ChatInput layout="large" submitOn="mod-enter">
+          <ChatInputTextarea placeholder="Write a longer brief. Return adds a line." />
+          <ChatInputFooter>
+            <ChatInputTools className="ps-(--density-6)">
+              <Text className="text-(length:--density-text-12) text-muted-foreground">
+                Send with the arrow
+              </Text>
+            </ChatInputTools>
+            <ChatInputActions>
+              <ChatInputSubmit />
+            </ChatInputActions>
+          </ChatInputFooter>
+        </ChatInput>
+      </Example>
+      <Example title="Reply on its way" framed={false}>
+        {/* Streaming with onStop: send turns into stop. */}
+        <ChatInput status="streaming" onStop={() => undefined}>
+          <ChatInputTextarea placeholder="Press stop to end the reply" />
+          <ChatInputFooter>
+            <ChatInputActions>
+              <ChatInputSubmit />
+            </ChatInputActions>
+          </ChatInputFooter>
+        </ChatInput>
+        {/* Submitted without onStop: send only spins. */}
+        <ChatInput status="submitted">
+          <ChatInputTextarea placeholder="Sending…" />
+          <ChatInputFooter>
+            <ChatInputActions>
+              <ChatInputSubmit />
+            </ChatInputActions>
+          </ChatInputFooter>
+        </ChatInput>
+        {/* An upload on its way: send waits for it. */}
+        <ChatInput defaultValue="Here's the brief" hasContent isUploading>
+          <ChatInputTextarea />
+          <ChatInputFooter>
+            <ChatInputActions>
+              <ChatInputSubmit />
+            </ChatInputActions>
+          </ChatInputFooter>
+        </ChatInput>
+      </Example>
+      <Example title="Disabled" framed={false}>
+        <ChatInput disabled>
+          <ChatInputTextarea placeholder="Sign in to send messages" />
+          <ChatInputFooter>
+            <ChatInputTools>
+              <ChatInputButton aria-label="Add to message" disabled>
+                <PlusIcon />
+              </ChatInputButton>
+            </ChatInputTools>
+            <ChatInputActions>
+              <ChatInputSubmit />
+            </ChatInputActions>
+          </ChatInputFooter>
+        </ChatInput>
+      </Example>
+    </ExampleWrapper>
+  )
+}
+
+export { ChatInputExample }

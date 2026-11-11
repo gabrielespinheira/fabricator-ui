@@ -15,6 +15,7 @@ import {
   parseAppShellTarget,
   type AppShellTarget,
 } from "./app-shell-source"
+import { buildNativeAppShellSource } from "./app-shell-source-native"
 import {
   buildAppShellCommand,
   buildSettingsCommands,
@@ -29,6 +30,19 @@ const pick = (changes: Partial<PlaygroundOptions>): PlaygroundOptions => ({
 })
 const source = (changes: Partial<PlaygroundOptions> = {}) =>
   buildAppShellSource(pick(changes))
+
+describe("document tab defaults", () => {
+  it.each(["web", "native"])("does not seed a Home tab on %s", (platform) => {
+    const content =
+      platform === "native"
+        ? buildNativeAppShellSource(pick({ tabs: "main" }))
+        : source({ tabs: "main" })
+    expect(content).not.toContain('tabs: ["home"]')
+    expect(content).not.toContain('recent: ["home"]')
+    expect(content).not.toContain('home: "Home"')
+    expect(content).toContain("useTabStripState()")
+  })
+})
 
 describe("buildAppShellInstallUrl", () => {
   it("has no query at the defaults", () => {

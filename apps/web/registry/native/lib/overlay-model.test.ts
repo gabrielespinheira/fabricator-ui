@@ -3,8 +3,10 @@ import { describe, expect, it } from "vitest"
 
 import {
   getFittedSide,
+  getMenuAvailableSpace,
   getMenuMaxHeight,
   getMenuMinWidth,
+  getSafeInsets,
   getTextContent,
   getTriggerAction,
   getVerticalSide,
@@ -47,6 +49,56 @@ describe("getMenuMaxHeight", () => {
 
   it("keeps to the window on a short tablet window", () => {
     expect(getMenuMaxHeight(500, 800)).toBe(400)
+  })
+
+  it("never runs past the space on the side it opens to", () => {
+    expect(getMenuMaxHeight(956, 440, 520)).toBe(520)
+    expect(getMenuMaxHeight(956, 440, 900)).toBeCloseTo(764.8)
+    expect(getMenuMaxHeight(956, 440, -20)).toBe(0)
+  })
+})
+
+describe("getMenuAvailableSpace", () => {
+  const base = {
+    triggerHeight: 44,
+    offset: 4,
+    windowHeight: 956,
+    insets: { top: 67, bottom: 42 },
+  }
+
+  it("measures up to the safe area above a trigger near the bottom", () => {
+    expect(getMenuAvailableSpace({ ...base, side: "top", triggerY: 563 })).toBe(
+      492
+    )
+  })
+
+  it("measures down to the safe area below a trigger", () => {
+    expect(
+      getMenuAvailableSpace({ ...base, side: "bottom", triggerY: 100 })
+    ).toBe(766)
+  })
+
+  it("knows nothing before the trigger is measured", () => {
+    expect(
+      getMenuAvailableSpace({ ...base, side: "top", triggerY: undefined })
+    ).toBeUndefined()
+  })
+})
+
+describe("getSafeInsets", () => {
+  it("keeps clear of the status bar and the home indicator", () => {
+    expect(
+      getSafeInsets(
+        { top: 8, right: 8, bottom: 8, left: 8 },
+        { top: 59, right: 0, bottom: 34, left: 0 }
+      )
+    ).toEqual({ top: 67, right: 8, bottom: 42, left: 8 })
+  })
+
+  it("adds only the safe area to a side left unset", () => {
+    expect(
+      getSafeInsets({}, { top: 20, right: 0, bottom: 0, left: 0 })
+    ).toEqual({ top: 20, bottom: 0 })
   })
 })
 

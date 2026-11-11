@@ -1,0 +1,10 @@
+---
+title: November 2026 - Sidebar alignment and workspace search
+description: Sidebar labels centre on their icons, counts line up, and the Workspace Switcher's search dialog shows descriptions and its keys.
+date: 2026-11-10
+---
+
+- **Sidebar labels centre on their icons.** Row labels are trimmed to their cap height, so they no longer sit 1px above the icon. Descenders still clear the truncation.
+- **Counts line up.** Sidebar badges end-align their number, so single and double digits share a right edge, and sit on the label's baseline.
+- **A better workspace search.** The Workspace Switcher's `command` variant shows each workspace's description and searches it, marks the current one with the row's check at its end (and says so to screen readers), and lists its keys along the bottom on devices with a keyboard. On React Native the rows show descriptions too.
+- **Command dialogs stay put.** `CommandDialog` is anchored 20% from the top instead of centred, so it no longer jumps while results change.

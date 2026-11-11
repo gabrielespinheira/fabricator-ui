@@ -233,13 +233,11 @@ export function getNativeTheme(mode: NativeMode, look: FabricatorLook) {
 export type NativeTheme = ReturnType<typeof getNativeTheme>
 
 /**
- * A phone's default look: the website's, at the spacious density, because the
- * default's 36pt controls and 30pt rows are small for a finger.
+ * A native app's default look: the website's, Default density included.
+ * FabricatorRoot sizes each density for the device (lib/density-scale), so
+ * Default draws a phone's 44pt controls and a tablet's 40pt.
  */
-export const DEFAULT_NATIVE_LOOK: FabricatorLook = {
-  ...DEFAULT_LOOK,
-  density: "spacious",
-}
+export const DEFAULT_NATIVE_LOOK: FabricatorLook = { ...DEFAULT_LOOK }
 
 type NativeVariables = Record<string, string | number>
 

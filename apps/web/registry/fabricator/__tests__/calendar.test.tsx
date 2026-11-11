@@ -1,4 +1,5 @@
 import * as React from "react"
+import type * as DayPickerModule from "react-day-picker"
 import { renderToStaticMarkup } from "react-dom/server"
 import { describe, expect, it, vi } from "vitest"
 
@@ -18,7 +19,37 @@ const BASES = [
 
 const month = new Date(2026, 10, 1)
 
+const { calendarParts } = vi.hoisted(() => {
+  const calendarParts: Record<string, unknown>[] = []
+  return { calendarParts }
+})
+
+vi.mock("react-day-picker", async (importOriginal) => {
+  const original = await importOriginal<typeof DayPickerModule>()
+  return {
+    ...original,
+    DayPicker: (props: React.ComponentProps<typeof original.DayPicker>) => {
+      calendarParts.push({ ...props.components })
+      return <original.DayPicker {...props} />
+    },
+  }
+})
+
 describe.each(BASES)("%s calendar", (_, { Calendar }) => {
+  it("keeps the root and day component types when selection changes", () => {
+    calendarParts.length = 0
+    renderToStaticMarkup(<Calendar mode="single" month={month} />)
+    renderToStaticMarkup(
+      <Calendar mode="single" month={month} selected={month} />
+    )
+    const [before, after] = calendarParts
+    for (const part of ["Root", "Chevron", "DayButton", "WeekNumber"]) {
+      expect(after[part], `${part} must keep its mounted subtree`).toBe(
+        before[part]
+      )
+    }
+  })
+
   it("picks the month and the year with the library's Select", () => {
     const html = renderToStaticMarkup(
       <Calendar

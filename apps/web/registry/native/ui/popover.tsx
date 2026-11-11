@@ -1,13 +1,16 @@
 import * as React from "react"
 import * as PopoverPrimitive from "@rn-primitives/popover"
 import { cn } from "cn"
-import { View } from "react-native"
+import { useWindowDimensions, View } from "react-native"
 import Animated from "react-native-reanimated"
+import { useSafeAreaInsets } from "react-native-safe-area-context"
 
 import { useMountFeedback } from "@/registry/native/lib/feedback"
 import { useSurfaceAnimation } from "@/registry/native/lib/motion"
 import {
   COLLISION_INSETS,
+  getFittedSide,
+  getSafeInsets,
   getVerticalSide,
   useTriggerOpen,
 } from "@/registry/native/lib/overlay-model"
@@ -82,13 +85,28 @@ function PopoverContent({
   sideOffset = 4,
   insets = COLLISION_INSETS,
   children,
+  onLayout,
   ...props
 }: Omit<PopoverPrimitive.ContentProps, "side"> & {
   side?: "top" | "right" | "bottom" | "left"
 }) {
   const density = useDensity()
-  // The primitive clamps to the screen and never flips, so this is what renders.
-  const renderedSide = getVerticalSide(side)
+  const { height } = useWindowDimensions()
+  const safeArea = useSafeAreaInsets()
+  const { triggerPosition } = PopoverPrimitive.useRootContext()
+  const [contentHeight, setContentHeight] = React.useState<number | null>(null)
+  const fittedInsets = getSafeInsets(insets, safeArea)
+  // The primitive clamps to the screen and never flips: this picks the side
+  // with room, so a popover never runs under the clock or the island.
+  const renderedSide = getFittedSide({
+    side: getVerticalSide(side),
+    triggerY: triggerPosition?.pageY,
+    triggerHeight: triggerPosition?.height,
+    contentHeight,
+    offset: sideOffset,
+    windowHeight: height,
+    insets: fittedInsets,
+  })
   const { entering, exiting, origin } = useSurfaceAnimation("popup", {
     side: renderedSide,
     align,
@@ -103,8 +121,12 @@ function PopoverContent({
             alignOffset={alignOffset}
             side={renderedSide}
             sideOffset={sideOffset}
-            insets={insets}
+            insets={fittedInsets}
             {...props}
+            onLayout={(event) => {
+              setContentHeight(event.nativeEvent.layout.height)
+              onLayout?.(event)
+            }}
           >
             <Animated.View
               data-slot="popover-content"

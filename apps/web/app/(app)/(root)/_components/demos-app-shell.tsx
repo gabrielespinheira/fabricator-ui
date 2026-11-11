@@ -171,8 +171,7 @@ export function AppShellCardDemo() {
   )
 }
 
-const TABS: Record<string, { title: string; icon: typeof HomeIcon }> = {
-  home: { title: "Home", icon: HomeIcon },
+const TABS: Record<string, { title: string; icon: typeof FileTextIcon }> = {
   readme: { title: "README.md", icon: FileTextIcon },
   shell: { title: "app-shell.tsx", icon: CodeIcon },
   site: { title: "Website", icon: GlobeIcon },
@@ -181,8 +180,8 @@ const TABS: Record<string, { title: string; icon: typeof HomeIcon }> = {
 export function TabStripCardDemo() {
   const tabs = useTabStripState({
     defaultState: {
-      tabs: ["home", "readme", "shell"],
-      pinned: ["home"],
+      tabs: ["readme", "shell"],
+      pinned: [],
       recent: ["shell"],
       preview: "site",
       closed: [],

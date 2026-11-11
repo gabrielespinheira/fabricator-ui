@@ -1,0 +1,6 @@
+/* MARK: Time Input */
+.cn-time-input { @apply w-full; }
+.cn-time-input-content { @apply p-1; }
+.cn-time-range-input { @apply gap-(--density-8); }
+.cn-time-range-input-separator { @apply text-muted-foreground; }
+.cn-time-range-input-duration { @apply text-muted-foreground text-(length:--density-text-13) tabular-nums; }

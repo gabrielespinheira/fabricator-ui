@@ -109,6 +109,7 @@ export function OptionShell({
   user = USER,
   groups,
   navLabel,
+  sidebarTools,
   pathname,
   renderLink,
   brand,
@@ -132,6 +133,7 @@ export function OptionShell({
   user?: React.ComponentProps<typeof UserMenu>["user"]
   groups: AppNavGroup[]
   navLabel?: string
+  sidebarTools?: React.ReactNode
   pathname: string
   renderLink: (item: { id?: string; href?: string }) => React.ReactElement
   /** Stands in the sidebar's header without a workspace switcher. */
@@ -200,6 +202,7 @@ export function OptionShell({
             <SidebarTrigger className="ms-auto group-data-[collapsible=icon]:hidden" />
           )}
         </SidebarHeader>
+        {sidebarTools && <div className="px-2 pb-2">{sidebarTools}</div>}
         <SidebarContent>
           <AppNav
             aria-label={navLabel}

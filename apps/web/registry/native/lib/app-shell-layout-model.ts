@@ -114,18 +114,53 @@ export function getFabBottom({
  */
 export function getFloatingNavMetrics({
   row,
+  measuredRow = 0,
   padding,
   gap,
   insetBottom,
 }: {
   row: number
+  /** The laid-out icon, label and item padding, including Dynamic Type. */
+  measuredRow?: number
   padding: number
   gap: number
   insetBottom: number
 }) {
-  const height = row + 2 * padding
+  const height = Math.max(row, measuredRow) + 2 * padding
   const bottom = Math.max(insetBottom - gap, gap)
   return { height, bottom, radius: height / 2, clearance: bottom + height }
+}
+
+/** A system tab bar reports a height that already includes its safe area. */
+export function getNativeNavMetrics({
+  measuredHeight = 0,
+  row,
+  padding,
+  insetBottom,
+}: {
+  measuredHeight?: number
+  row: number
+  padding: number
+  insetBottom: number
+}) {
+  return {
+    height:
+      measuredHeight > 0 ? measuredHeight : row + padding * 2 + insetBottom,
+  }
+}
+
+/** A native controller already spans behind the header; a plain scroller moves there itself. */
+export function getContentViewport({
+  headerHeight,
+  isNativeScene,
+}: {
+  headerHeight: number
+  isNativeScene: boolean
+}) {
+  return {
+    marginTop: headerHeight > 0 && !isNativeScene ? -headerHeight : 0,
+    topInset: headerHeight,
+  }
 }
 
 /** What the page's end leaves free, so its last row can scroll out from under it. */

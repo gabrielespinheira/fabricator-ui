@@ -48,6 +48,59 @@ type FileTreeProps = Omit<
   disabled?: boolean
 }
 
+// Hover owns only the two overlays. Moving the pointer must not render every
+// file, rebuild its icon, or detach and reattach all the row refs.
+function FileTreeSurface({
+  selectionMode,
+  ref,
+  onPointerEnter,
+  onPointerMove,
+  onPointerLeave,
+  children,
+  ...props
+}: React.ComponentProps<"div"> & { selectionMode: FileTreeSelectionMode }) {
+  const fluid = useFluidHover<HTMLDivElement>({
+    items: "[data-slot=file-tree-item]",
+    selected:
+      selectionMode === "single"
+        ? "[data-slot=file-tree-item][data-selected]"
+        : undefined,
+    gapClick: false,
+  })
+  const mergedRef = useMergedRef(fluid.attach, ref)
+  return (
+    <div
+      {...props}
+      ref={mergedRef}
+      data-fluid-hover={fluid.props["data-fluid-hover"]}
+      onPointerEnter={(event) => {
+        fluid.props.onPointerEnter(event)
+        onPointerEnter?.(event)
+      }}
+      onPointerMove={(event) => {
+        fluid.props.onPointerMove(event)
+        onPointerMove?.(event)
+      }}
+      onPointerLeave={(event) => {
+        fluid.props.onPointerLeave()
+        onPointerLeave?.(event)
+      }}
+    >
+      {selectionMode === "single" && (
+        <FluidHoverSelection
+          selection={fluid.selection}
+          className="cn-file-tree-selection"
+        />
+      )}
+      <FluidHoverHighlight
+        hover={fluid.hover}
+        className="cn-file-tree-highlight"
+      />
+      {children}
+    </div>
+  )
+}
+
 function FileTree({
   nodes,
   selectionMode = "single",
@@ -72,17 +125,6 @@ function FileTree({
   onPointerLeave,
   ...props
 }: FileTreeProps) {
-  // One highlight glides between rows; a single selection slides the same way.
-  // A multiple one paints its own rows, which join into blocks (style map).
-  const fluid = useFluidHover<HTMLDivElement>({
-    items: "[data-slot=file-tree-item]",
-    selected:
-      selectionMode === "single"
-        ? "[data-slot=file-tree-item][data-selected]"
-        : undefined,
-    gapClick: false,
-  })
-  const mergedRef = useMergedRef(fluid.attach, ref)
   const [localSelectedIds, setLocalSelectedIds] =
     React.useState(defaultSelectedIds)
   const [localExpandedIds, setLocalExpandedIds] =
@@ -261,34 +303,25 @@ function FileTree({
   }
 
   return (
-    <div
+    <FileTreeSurface
+      selectionMode={selectionMode}
       aria-label="Files"
       {...props}
       role="tree"
       aria-multiselectable={selectionMode === "multiple" ? true : undefined}
       aria-disabled={disabled || undefined}
       tabIndex={!disabled && !tabId ? 0 : undefined}
-      ref={mergedRef}
+      ref={ref}
       data-slot="file-tree"
       data-selection-mode={selectionMode}
       data-disabled={disabled ? "" : undefined}
-      data-fluid-hover={fluid.props["data-fluid-hover"]}
       className={cn(
         "cn-file-tree group/file-tree relative isolate flex flex-col overflow-auto outline-none select-none",
         className
       )}
-      onPointerEnter={(event) => {
-        fluid.props.onPointerEnter(event)
-        onPointerEnter?.(event)
-      }}
-      onPointerMove={(event) => {
-        fluid.props.onPointerMove(event)
-        onPointerMove?.(event)
-      }}
-      onPointerLeave={(event) => {
-        fluid.props.onPointerLeave()
-        onPointerLeave?.(event)
-      }}
+      onPointerEnter={onPointerEnter}
+      onPointerMove={onPointerMove}
+      onPointerLeave={onPointerLeave}
       onFocusCapture={(event) => {
         treeElement.current = event.currentTarget
         hasFocus.current = true
@@ -302,16 +335,6 @@ function FileTree({
         onBlurCapture?.(event)
       }}
     >
-      {selectionMode === "single" && (
-        <FluidHoverSelection
-          selection={fluid.selection}
-          className="cn-file-tree-selection"
-        />
-      )}
-      <FluidHoverHighlight
-        hover={fluid.hover}
-        className="cn-file-tree-highlight"
-      />
       {rows.length === 0 && emptyContent}
       {rows.map((row) => {
         const { node } = row
@@ -425,7 +448,7 @@ function FileTree({
           </div>
         )
       })}
-    </div>
+    </FileTreeSurface>
   )
 }
 

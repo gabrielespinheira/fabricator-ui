@@ -5,9 +5,11 @@ import {
   applyPanelUpdate,
   getContentBottomInset,
   getContentColumn,
+  getContentViewport,
   getFabBottom,
   getFabClearance,
   getFloatingNavMetrics,
+  getNativeNavMetrics,
   getOtherPanelsWidth,
   getPanelFrame,
   getPanelHeaderEnd,
@@ -23,6 +25,53 @@ import {
 } from "@/registry/native/lib/app-shell-layout-model"
 
 const DEFAULTS = { open: true, view: "details", width: 320 }
+
+describe("the phone's scrolling viewport", () => {
+  it("extends a normal scroller behind the header while keeping its content clear", () => {
+    expect(
+      getContentViewport({ headerHeight: 118, isNativeScene: false })
+    ).toEqual({
+      marginTop: -118,
+      topInset: 118,
+    })
+  })
+
+  it("does not offset a native scene twice when its controller is already behind the header", () => {
+    expect(
+      getContentViewport({ headerHeight: 118, isNativeScene: true })
+    ).toEqual({
+      marginTop: 0,
+      topInset: 118,
+    })
+  })
+
+  it("leaves tablet viewports flush with no phone header", () => {
+    expect(
+      getContentViewport({ headerHeight: 0, isNativeScene: false })
+    ).toEqual({
+      marginTop: 0,
+      topInset: 0,
+    })
+  })
+})
+
+describe("native bottom navigation clearance", () => {
+  const base = { row: 48, padding: 4, insetBottom: 34 }
+
+  it("reserves the native bar including its safe area before it measures", () => {
+    expect(getNativeNavMetrics(base).height).toBe(90)
+  })
+
+  it("uses the system's measured height without counting the safe area twice", () => {
+    expect(getNativeNavMetrics({ ...base, measuredHeight: 83 }).height).toBe(83)
+  })
+
+  it("follows a larger system bar when text or orientation changes", () => {
+    expect(getNativeNavMetrics({ ...base, measuredHeight: 110 }).height).toBe(
+      110
+    )
+  })
+})
 
 describe("applyPanelUpdate", () => {
   it("saves a docked panel's change", () => {
@@ -249,6 +298,18 @@ describe("getFloatingNavMetrics", () => {
     expect(getFloatingNavMetrics({ ...base, insetBottom: 34 }).clearance).toBe(
       94
     )
+  })
+
+  it("grows the capsule and page clearance with padded or scaled labels", () => {
+    expect(
+      getFloatingNavMetrics({ ...base, measuredRow: 76, insetBottom: 34 })
+    ).toEqual({ height: 92, radius: 46, bottom: 22, clearance: 114 })
+  })
+
+  it("keeps the minimum row before measurement or with smaller content", () => {
+    expect(
+      getFloatingNavMetrics({ ...base, measuredRow: 40, insetBottom: 0 })
+    ).toEqual(getFloatingNavMetrics({ ...base, insetBottom: 0 }))
   })
 })
 

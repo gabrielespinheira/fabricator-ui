@@ -428,7 +428,21 @@ function useShellWidths(root: React.RefObject<HTMLDivElement | null>) {
     observer.observe(element)
     // The sidebar gap mounts and unmounts as the layout crosses the phone
     // breakpoint; watch for it.
-    const mutations = new MutationObserver(measure)
+    const mutations = new MutationObserver((records) => {
+      if (gap && !element.contains(gap)) {
+        measure()
+        return
+      }
+      const hasNewGap = records.some((record) =>
+        Array.from(record.addedNodes).some(
+          (node) =>
+            node instanceof Element &&
+            (node.matches('[data-slot="sidebar-gap"]') ||
+              node.querySelector('[data-slot="sidebar-gap"]'))
+        )
+      )
+      if (hasNewGap) measure()
+    })
     mutations.observe(element, { childList: true, subtree: true })
     measure()
     return () => {

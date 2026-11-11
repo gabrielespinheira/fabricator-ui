@@ -1,0 +1,23 @@
+diff --git a/ios/TabViewImpl.swift b/ios/TabViewImpl.swift
+index 6de510d0190ee9fc99b99a68f2e8f021c3776391..292d782b50aa7e0667fef32b975e9021978f22e2 100644
+--- a/ios/TabViewImpl.swift
++++ b/ios/TabViewImpl.swift
+@@ -660,14 +660,11 @@ extension View {
+   @ViewBuilder
+   func hideTabBar(_ flag: Bool) -> some View {
+     #if !os(macOS)
+-      if flag {
+-        if #available(iOS 16.0, tvOS 16.0, *) {
+-          self.toolbar(.hidden, for: .tabBar)
+-        } else {
+-          // We fallback to isHidden on UITabBar
+-          self
+-        }
++      if #available(iOS 16.0, tvOS 16.0, *) {
++        // Keep the scene's identity when an editor hides the bar, preserving its first responder.
++        self.toolbar(flag ? .hidden : .visible, for: .tabBar)
+       } else {
++        // We fallback to isHidden on UITabBar
+         self
+       }
+     #else

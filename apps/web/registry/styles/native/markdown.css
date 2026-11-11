@@ -1,0 +1,249 @@
+/* MARK: Markdown */
+
+  /* The Document type role, shared with the Editor: a 14, 16 or 18pt body on
+     a relaxed line height. React Native has no em, so every em on the
+     website is written out in points for each size. Documents keep their
+     size whatever the density, like chat text. A block fills its parent's
+     width, as on the website. */
+  .cn-markdown {
+    @apply self-stretch;
+  }
+
+  /* Blocks sit 0.75em apart. */
+  .cn-markdown-size-sm {
+    @apply gap-[10.5px];
+  }
+
+  .cn-markdown-size-default {
+    @apply gap-[12px];
+  }
+
+  .cn-markdown-size-lg {
+    @apply gap-[13.5px];
+  }
+
+  /* The body text every part starts from, through TextStyle. The size comes
+     before the line height, which a later size would otherwise drop. */
+  .cn-markdown-text {
+    @apply text-foreground;
+  }
+
+  .cn-markdown-text-size-sm {
+    @apply text-[14px] leading-[1.6];
+  }
+
+  .cn-markdown-text-size-default {
+    @apply text-[16px] leading-[1.65];
+  }
+
+  .cn-markdown-text-size-lg {
+    @apply text-[18px] leading-[1.7];
+  }
+
+  /* Code, raw Markdown and tables: 0.875em, on the body's line box so a code
+     run doesn't change its line's height. */
+  .cn-markdown-small-text-size-sm {
+    @apply text-[12.25px] leading-[22.4px];
+  }
+
+  .cn-markdown-small-text-size-default {
+    @apply text-[14px] leading-[24px];
+  }
+
+  .cn-markdown-small-text-size-lg {
+    @apply text-[15.75px] leading-[30.6px];
+  }
+
+  /* Headings step down from 1.875em; a heading after other content gets an
+     extra 0.75em of its own size above it, so sections read as sections. The small size
+     keeps headings close to the body, since it sits in comments and panels.
+     Level 5 takes the body's size and level 6 a step under it. */
+  .cn-markdown-heading {
+    @apply font-semibold tracking-tight leading-[1.25];
+  }
+
+  .cn-markdown-heading-size-sm {
+    @apply mt-[10.5px] data-[level=1]:text-[20px] data-[level=1]:mt-[15px] data-[level=2]:text-[17px] data-[level=2]:mt-[12.75px] data-[level=3]:text-[15px] data-[level=3]:mt-[11.25px] data-[level=4]:text-[15.75px] data-[level=4]:mt-[11.8px] data-[level=6]:text-[12.25px] data-[level=6]:mt-[9.2px] data-[first=true]:mt-0;
+  }
+
+  .cn-markdown-heading-size-default {
+    @apply mt-[12px] data-[level=1]:text-[30px] data-[level=1]:mt-[22.5px] data-[level=2]:text-[24px] data-[level=2]:mt-[18px] data-[level=3]:text-[20px] data-[level=3]:mt-[15px] data-[level=4]:text-[18px] data-[level=4]:mt-[13.5px] data-[level=6]:text-[14px] data-[level=6]:mt-[10.5px] data-[first=true]:mt-0;
+  }
+
+  .cn-markdown-heading-size-lg {
+    @apply mt-[13.5px] data-[level=1]:text-[33.75px] data-[level=1]:mt-[25.3px] data-[level=2]:text-[27px] data-[level=2]:mt-[20.25px] data-[level=3]:text-[22.5px] data-[level=3]:mt-[16.9px] data-[level=4]:text-[20.25px] data-[level=4]:mt-[15.2px] data-[level=6]:text-[15.75px] data-[level=6]:mt-[11.8px] data-[first=true]:mt-0;
+  }
+
+  .cn-markdown-paragraph {
+    @apply text-foreground;
+  }
+
+  .cn-markdown-strong {
+    @apply font-semibold;
+  }
+
+  .cn-markdown-emphasis {
+    @apply italic;
+  }
+
+  .cn-markdown-strike {
+    @apply line-through;
+  }
+
+  /* Links in the primary role's text colour, underlined. A press opens them. */
+  .cn-markdown-link {
+    @apply text-primary-text underline;
+  }
+
+  /* Inline code: the hover fill behind mono text. A run inside a line can't
+     take a radius or padding on React Native. */
+  .cn-markdown-code {
+    @apply bg-hover font-mono;
+  }
+
+  /* A quote is a muted block behind a 2pt bar, 1em in. */
+  .cn-markdown-quote {
+    @apply border-border border-s-2 ps-[16px] data-[size=sm]:ps-[14px] data-[size=lg]:ps-[18px];
+  }
+
+  .cn-markdown-quote-text {
+    @apply text-muted-foreground;
+  }
+
+  /* Code blocks are Syntax Highlight itself: its panel, title bar, Copy and
+     syntax colours, at its own type size whatever the document's. */
+  .cn-markdown-code-block {
+    @apply min-w-0 self-stretch;
+  }
+
+  /* A hairline with 0.5em of room above and below. */
+  .cn-markdown-divider {
+    @apply bg-border my-[8px] h-px data-[size=sm]:my-[7px] data-[size=lg]:my-[9px];
+  }
+
+  .cn-markdown-image {
+    @apply rounded-lg;
+  }
+
+  /* Items 0.25em apart; a nested list starts 0.25em under its item. */
+  .cn-markdown-list {
+    @apply gap-[4px] data-[size=sm]:gap-[3.5px] data-[size=lg]:gap-[4.5px] data-[nested=true]:mt-[4px];
+  }
+
+  .cn-markdown-list-item {
+    @apply min-w-0;
+  }
+
+  /* A block that belongs to a list item (a second paragraph, a quote, code)
+     sits under the item's text, 0.25em below what comes before it. */
+  .cn-markdown-list-item-block {
+    @apply mt-[4px] data-[size=sm]:mt-[3.5px] data-[size=lg]:mt-[4.5px];
+  }
+
+  /* The marker column: the website's 1.5em of list padding and 0.25em of
+     item padding. A number ends 0.5em before the text; a bullet sits 1em
+     before it, where the website's disc is. */
+  .cn-markdown-list-marker {
+    @apply w-[28px] items-end pe-[8px] data-[size=sm]:w-[24.5px] data-[size=sm]:pe-[7px] data-[size=lg]:w-[31.5px] data-[size=lg]:pe-[9px];
+  }
+
+  /* Markers in the muted colour. */
+  .cn-markdown-list-marker-text {
+    @apply text-muted-foreground;
+  }
+
+  .cn-markdown-bullet-size-sm {
+    @apply me-[7px];
+  }
+
+  .cn-markdown-bullet-size-default {
+    @apply me-[8px];
+  }
+
+  .cn-markdown-bullet-size-lg {
+    @apply me-[9px];
+  }
+
+  /* Task items swap the bullet for the Checkbox's look in em: 1.125em with
+     a 0.375em corner and a quiet 1.5pt outline, at the start of the marker
+     column where the bullet would be and centred on the first line. Checked
+     fills with the primary role, the check in its foreground. */
+  .cn-markdown-task-checkbox {
+    @apply border-foreground/25 mt-[3px] size-[18px] rounded-[6px] border-[1.5px] data-[checked=true]:bg-primary data-[checked=true]:border-primary data-[size=sm]:mt-[3.3px] data-[size=sm]:size-[15.75px] data-[size=sm]:rounded-[5.25px] data-[size=lg]:mt-[5.2px] data-[size=lg]:size-[20.25px] data-[size=lg]:rounded-[6.75px];
+  }
+
+  /* The check: 0.75em, a heavy stroke, in the primary role's foreground. */
+  .cn-markdown-task-check {
+    @apply text-primary-foreground;
+  }
+
+  .cn-markdown-task-text {
+    @apply data-[checked=true]:text-muted-foreground data-[checked=true]:line-through;
+  }
+
+  /* Tables sit in a framed box (rounded-xl, a hairline at 70%) that scrolls
+     sideways when they're wide, and fill the width when they aren't. The
+     header row takes the muted tint, semibold; hairlines at 50% run between
+     rows and columns (70% under the header); body text stays foreground, at
+     0.875em with tabular figures so numbers line up. Cells stay on one line,
+     so every row is one fixed height: the text's line plus 0.5em above and
+     below, with 0.875em at the sides. */
+  .cn-markdown-table {
+    @apply border-border/70 self-stretch overflow-hidden rounded-xl border;
+  }
+
+  .cn-markdown-table-text {
+    @apply text-foreground tabular-nums;
+  }
+
+  .cn-markdown-table-text-size-sm {
+    @apply text-[12.25px] leading-[19.6px];
+  }
+
+  .cn-markdown-table-text-size-default {
+    @apply text-[14px] leading-[21px];
+  }
+
+  .cn-markdown-table-text-size-lg {
+    @apply text-[15.75px] leading-[26.775px];
+  }
+
+  /* A column grows to share the room past its widest cell; a hairline
+     separates it from the next. */
+  .cn-markdown-table-column {
+    @apply border-border/50 border-e data-[last=true]:border-e-0;
+  }
+
+  .cn-markdown-table-head {
+    @apply bg-muted/60 border-border/70 h-[35px] items-start justify-center border-b px-[12.25px] data-[align=center]:items-center data-[align=right]:items-end data-[size=sm]:h-[31.85px] data-[size=sm]:px-[10.72px] data-[size=lg]:h-[42.525px] data-[size=lg]:px-[13.78px];
+  }
+
+  .cn-markdown-table-head-text {
+    @apply text-foreground font-semibold;
+  }
+
+  .cn-markdown-table-row {
+    @apply border-border/50 border-b data-[last=true]:border-b-0;
+  }
+
+  .cn-markdown-table-cell {
+    @apply h-[35px] items-start justify-center px-[12.25px] data-[align=center]:items-center data-[align=right]:items-end data-[size=sm]:h-[31.85px] data-[size=sm]:px-[10.72px] data-[size=lg]:h-[42.525px] data-[size=lg]:px-[13.78px];
+  }
+
+  .cn-markdown-table-cell-text {
+    @apply text-foreground;
+  }
+
+  /* Markdown the model doesn't represent (HTML, footnotes, math) shows as
+     its source, quiet and monospace, so nothing is hidden. */
+  .cn-markdown-raw {
+    @apply text-muted-foreground font-mono;
+  }
+
+  .cn-markdown-raw-block {
+    @apply bg-muted rounded-md p-[12px] data-[size=sm]:p-[10.5px] data-[size=lg]:p-[13.5px];
+  }
+
+  .cn-markdown-raw-block-text {
+    @apply text-muted-foreground font-mono;
+  }

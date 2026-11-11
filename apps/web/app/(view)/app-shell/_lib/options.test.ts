@@ -7,7 +7,7 @@ import {
   countChangedOptions,
   DEFAULT_PLAYGROUND_OPTIONS,
   getPlaygroundWindow,
-  getPreviewChoices,
+  getPreviewSize,
   getShellOptionNotes,
   getTabsPlacement,
   playgroundParsers,
@@ -152,23 +152,12 @@ describe("what a project's shell offers", () => {
     expect(getShellOptionNotes(expo).bottomNavStyle).toMatch(/React Native/)
   })
 
-  it("previews the sizes a project has", () => {
-    const values = (project: typeof web) =>
-      getPreviewChoices(project).map(({ value }) => value)
-    expect(values(web)).toEqual(["browser", "tablet", "phone"])
-    expect(values(both)).toEqual([
-      "browser",
-      "macos",
-      "windows",
-      "tablet",
-      "phone",
-    ])
-    // A React Native project is mostly phones, so it opens on one.
-    expect(values(expo)).toEqual(["phone", "tablet"])
-    expect(getPreviewChoices(web).at(-1)?.label).toBe("Phone width")
-    expect(getPreviewChoices(web).at(-2)?.label).toBe("Tablet width")
-    expect(getPreviewChoices(mobile).at(-1)?.label).toBe("Phone")
-    expect(getPreviewChoices(mobile).at(-2)?.label).toBe("Tablet")
+  it("previews the app a project leads with", () => {
+    expect(getPreviewSize(web)).toBe("browser")
+    expect(getPreviewSize(mobile)).toBe("browser")
+    expect(getPreviewSize(desktop)).toBe("macos")
+    expect(getPreviewSize(both)).toBe("macos")
+    expect(getPreviewSize(expo)).toBe("phone")
   })
 })
 

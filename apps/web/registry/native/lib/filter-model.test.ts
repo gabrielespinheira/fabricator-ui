@@ -139,6 +139,83 @@ describe("getChildrenText", () => {
 })
 
 describe("createCommandStore", () => {
+  it("replaces an entry atomically and ignores its old cleanup", () => {
+    const store = createCommandStore()
+    const removeOld = store.register({
+      id: "a",
+      value: "Alpha",
+      groupId: "old",
+    })
+    const counts: number[] = []
+    store.subscribe(() => counts.push(store.getSnapshot().count))
+    store.register({ id: "a", value: "Beta", groupId: "new" })
+    removeOld()
+    expect(counts).toEqual([1])
+    expect(store.getSnapshot().groupCounts.get("old")).toBeUndefined()
+    expect(store.getSnapshot().groupCounts.get("new")).toBe(1)
+  })
+
+  it("scores only the changed registration while searching", () => {
+    const store = createCommandStore()
+    const filter = vi.fn(() => 1)
+    store.configure({ filter })
+    store.setQuery("a")
+    const unregister = Array.from({ length: 100 }, (_, index) =>
+      store.register({
+        id: String(index),
+        value: `Action ${index}`,
+        groupId: "a",
+      })
+    )
+    expect(store.getSnapshot().count).toBe(100)
+    for (let index = 0; index < 100; index += 1) {
+      expect(store.isItemVisible(String(index))).toBe(true)
+    }
+    expect(filter).toHaveBeenCalledTimes(100)
+    filter.mockClear()
+    unregister.forEach((remove) => remove())
+    expect(store.getSnapshot().count).toBe(0)
+    expect(filter).not.toHaveBeenCalled()
+  })
+
+  it("notifies when a new filter swaps matches with the same counts", () => {
+    const store = createCommandStore()
+    store.register({ id: "a", value: "Alpha", groupId: "group" })
+    store.register({ id: "b", value: "Beta", groupId: "group" })
+    store.setQuery("search")
+    store.configure({ filter: (value) => Number(value === "Alpha") })
+    const previous = store.getSnapshot()
+    const listener = vi.fn()
+    store.subscribe(listener)
+    store.configure({ filter: (value) => Number(value === "Beta") })
+    expect(store.getSnapshot().count).toBe(1)
+    expect(store.getSnapshot().groupCounts.get("group")).toBe(1)
+    expect(store.isItemVisible("a")).toBe(false)
+    expect(store.isItemVisible("b")).toBe(true)
+    expect(store.getSnapshot()).not.toBe(previous)
+    expect(listener).toHaveBeenCalledOnce()
+  })
+
+  it("restores the default filter when a custom filter is removed", () => {
+    const store = createCommandStore()
+    store.register({ id: "a", value: "Alpha" })
+    store.configure({ filter: () => 0 })
+    store.setQuery("alpha")
+    expect(store.getSnapshot().count).toBe(0)
+    store.configure({ filter: undefined })
+    expect(store.getSnapshot().count).toBe(1)
+  })
+
+  it("keeps old snapshots unchanged when entries mount or unmount", () => {
+    const store = createCommandStore()
+    const remove = store.register({ id: "a", value: "Alpha", groupId: "group" })
+    const previous = store.getSnapshot()
+    store.register({ id: "b", value: "Beta", groupId: "group" })
+    remove()
+    expect(previous.count).toBe(1)
+    expect(previous.groupCounts.get("group")).toBe(1)
+  })
+
   it("counts the items a query keeps, overall and per group", () => {
     const store = createCommandStore()
     store.register({ id: "1", value: "Calendar", groupId: "a" })

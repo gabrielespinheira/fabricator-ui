@@ -223,6 +223,11 @@
     @apply inset-x-(--density-16) z-20;
   }
 
+  /* The page quiets under the floating bar, toward the main column's colour. */
+  .cn-app-shell-bottom-nav-fade {
+    @apply text-app-shell-main;
+  }
+
   .cn-app-shell-bottom-nav-capsule {
     @apply bg-app-shell-frame shadow-surface-3;
   }
@@ -232,14 +237,15 @@
     @apply data-[variant=flat]:px-(--density-4) data-[variant=flat]:pt-(--density-4);
   }
 
-  /* The pressed fill is the Fluid Hover highlight, so a tab has none of its own. */
+  /* Padding belongs inside the selection pill, around the icon and label. The
+     capsule measures this row instead of clipping larger text to a fixed height. */
   .cn-app-shell-bottom-nav-item {
-    @apply min-h-(--density-48) gap-(--density-4);
+    @apply min-w-0 min-h-(--density-40) gap-(--density-4) data-[variant=floating]:py-(--density-6);
   }
 
   /* The current tab's pill slides on the move timing. */
   .cn-app-shell-bottom-nav-selection {
-    @apply bg-active rounded-full;
+    @apply bg-active rounded-full data-[material=true]:bg-foreground/10;
   }
 
   .cn-app-shell-bottom-nav-highlight {
@@ -247,7 +253,13 @@
   }
 
   .cn-app-shell-bottom-nav-text {
-    @apply text-muted-foreground text-(length:--density-text-11);
+    @apply text-muted-foreground text-(length:--density-text-11) font-medium;
+  }
+
+  /* Material already softens the backdrop. Solid ink stays legible as the page
+     changes behind it; the pill and icon stroke carry the selected state. */
+  .cn-app-shell-bottom-nav-text-material {
+    @apply text-foreground;
   }
 
   .cn-app-shell-bottom-nav-text-lit {
@@ -255,9 +267,9 @@
   }
 
   .cn-app-shell-bottom-nav-text-active {
-    @apply text-foreground font-semibold;
+    @apply text-foreground;
   }
 
   .cn-app-shell-bottom-nav-label {
-    @apply max-w-full px-(--density-4);
+    @apply self-stretch px-(--density-4) text-center leading-tight;
   }

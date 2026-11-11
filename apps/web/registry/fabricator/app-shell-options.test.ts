@@ -140,6 +140,17 @@ describe("getShellOptionSections", () => {
     )
   })
 
+  it("names the phone's bar after its part, AppShellBottomNav", () => {
+    const sections = getShellOptionSections({
+      options: OPTIONS,
+      project: desktop,
+    })
+    const titles = getSection(sections, "mobile")?.groups.map(
+      ({ title }) => title
+    )
+    expect(titles).toEqual(["Opens as", "Bottom nav"])
+  })
+
   it("drops what's hidden, and a group or section left empty", () => {
     const sections = getShellOptionSections({
       options: OPTIONS,

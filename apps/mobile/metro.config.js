@@ -18,6 +18,14 @@ const registryAlias = "@/registry/fabricator/"
 const nativeAlias = "@/registry/native/"
 const examplesAlias = "@/examples/native/"
 
+// The website's pure modules the example shares: the component groups and the
+// explorer's navigation, which the desktop example renders too.
+const SHARED_LIB = new Set([
+  "@/lib/component-groups",
+  "@/lib/component-explorer",
+  "@/lib/icon-explorer",
+])
+
 const config = getDefaultConfig(__dirname)
 
 function resolveSource(base, moduleName, alias) {
@@ -35,6 +43,8 @@ config.watchFolders = [
   compiled,
   examples,
   icons,
+  path.join(repo, "packages/icons"),
+  path.join(repo, "packages/icons-static"),
   path.join(web, "lib"),
 ]
 config.resolver.nodeModulesPaths = [path.resolve(__dirname, "node_modules")]
@@ -58,10 +68,23 @@ config.resolver.resolveRequest = (context, moduleName, platform) => {
       filePath: path.join(icons, "dist/esm/brands.js"),
     }
   }
-  if (moduleName === "@/lib/component-groups") {
+  const iconSources = {
+    "@fabricator-ui/icons/catalog": "packages/icons/dist/esm/catalog.js",
+    "@fabricator-ui/icons-static/nodes":
+      "packages/icons-static/dist/esm/nodes.js",
+    "@fabricator-ui/icons-react-native/files":
+      "packages/icons-react-native/dist/esm/files.js",
+  }
+  if (Object.hasOwn(iconSources, moduleName)) {
     return {
       type: "sourceFile",
-      filePath: path.join(web, "lib/component-groups.ts"),
+      filePath: path.join(repo, iconSources[moduleName]),
+    }
+  }
+  if (SHARED_LIB.has(moduleName)) {
+    return {
+      type: "sourceFile",
+      filePath: path.join(web, `${moduleName.slice(2)}.ts`),
     }
   }
   if (moduleName.startsWith(registryAlias)) {

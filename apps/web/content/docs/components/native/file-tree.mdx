@@ -1,0 +1,105 @@
+---
+title: File Tree
+description: A compact file explorer with folder guides, file-type icons, keyboard navigation, and single or multiple selection.
+base: native
+component: true
+---
+
+## Installation
+
+```bash
+npx fabricator-ui@latest add file-tree
+```
+
+## Usage
+
+```tsx
+import { FileTree, type FileTreeNode } from "@/components/ui/file-tree"
+import { Text } from "@/components/ui/text"
+```
+
+```tsx
+<FileTree
+  nodes={NODES}
+  defaultExpandedIds={["src"]}
+  onOpen={(node) => setOpened(`Opened ${node.name}`)}
+/>
+<Text className="text-muted-foreground">{opened}</Text>
+```
+
+## Composition
+
+- `FileTree`
+- `FileTreeIcon`
+- `FileTreeNode`
+- `FileTreeProps`
+- `FileTreeSelectionMode`
+
+## Examples
+
+```tsx showLineNumbers title="file-tree-example.tsx"
+import * as React from "react"
+
+import { FileTree, type FileTreeNode } from "@/components/ui/file-tree"
+import { Text } from "@/components/ui/text"
+
+const NODES: FileTreeNode[] = [
+  {
+    id: "src",
+    name: "src",
+    children: [
+      { id: "src/app.tsx", name: "app.tsx" },
+      {
+        id: "src/ui",
+        name: "ui",
+        children: [{ id: "src/ui/button.tsx", name: "button.tsx" }],
+      },
+    ],
+  },
+  { id: "package.json", name: "package.json" },
+  { id: "bun.lock", name: "bun.lock", muted: true },
+  { id: "private", name: "private", disabled: true, children: [] },
+]
+function FileTreeExample() {
+  const [opened, setOpened] = React.useState("Double tap a file to open it")
+  return (
+    <ExampleWrapper>
+      <Example title="Files and folders">
+        <FileTree
+          nodes={NODES}
+          defaultExpandedIds={["src"]}
+          onOpen={(node) => setOpened(`Opened ${node.name}`)}
+        />
+        <Text className="text-muted-foreground">{opened}</Text>
+      </Example>
+      <Example title="Multiple selection">
+        <FileTree
+          nodes={NODES}
+          selectionMode="multiple"
+          defaultExpandedIds={["src", "src/ui"]}
+          defaultSelectedIds={["src/app.tsx", "package.json"]}
+        />
+      </Example>
+      <Example title="Disabled">
+        <FileTree nodes={NODES} disabled />
+      </Example>
+      <Example title="Empty">
+        <FileTree nodes={[]} />
+      </Example>
+    </ExampleWrapper>
+  )
+}
+export { FileTreeExample }
+```
+
+## API reference
+
+Props it adds to what it wraps: `expanded`, `node`.
+
+## Differences from web
+
+**Touch input.** Tap selects, a second tap opens, and a folder's chevron expands. Multiple selection toggles each row. A long press calls onNodeContextMenu; accessibility actions open or request deletion. Keyboard navigation and pointer modifier keys have no native equivalent.
+
+## Accessibility
+
+Text is read as it appears. Give a control with no text an `accessibilityLabel`.

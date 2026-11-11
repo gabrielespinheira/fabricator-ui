@@ -9,7 +9,7 @@ component: true
 
 Type and press Enter to send; Shift+Enter adds a line. With the field empty, send's place offers voice chat; once you type, it sends. While a reply runs, an empty field turns it into stop (a spinner that becomes a square on hover or focus), and with `queue` typed text waits behind the reply. Escape in the field stops too. The input's height eases to what it holds, so a growing draft, a row of attachments or voice chat's glow slides it open instead of jumping.
 
-By default it's a one-line pill: the tools sit before the field and the actions after it, round, around a larger send. Once the draft wraps it stacks, the field across the pill and the controls on a row below, and it goes back only when the draft fits on one line beside the controls again, so it never flips mid-sentence. Labels can hide in a narrow input with the `@max-sm/chat-input:` container variants. In the demo, files dropped on the pill or pasted into the field attach, `/` opens the commands and skills (`ChatInputCommands`), + opens a menu (attach files, or start a `@`, `$` or `/` mention, which puts the caret back in the field), and the model beside send, with its effort, opens the session's settings in one popover: the model and its effort, the permissions and the context meter, each opening its own view inside it. For long drafts, use the [large card](#large).
+By default it's a one-line pill: the tools sit before the field and the actions after it, round, around a larger send. Once the draft wraps it stacks, the field across the pill and the controls on a row below, and it goes back only when the draft fits on one line beside the controls again, so it never flips mid-sentence. Labels can hide in a narrow input with the `@max-md/chat-input:` container variants, below 448px, where React Native's `useChatInput().isNarrow` turns on too. In the demo, files dropped on the pill or pasted into the field attach, `/` opens the commands and skills (`ChatInputCommands`), + opens a menu (attach files, or start a `@`, `$` or `/` mention, which puts the caret back in the field), and the model beside send, with its effort, opens the session's settings in one popover: the model and its effort, the permissions and the context meter, each opening its own view inside it. For long drafts, use the [large card](#large).
 
 Chat Input is part of the Fabricator style. It's built on plain HTML (a `<form>` around a `<textarea>`), so the same component ships for every base. The model switcher in the demo is the [Model Picker](/docs/components/base/model-picker) in a Popover. Pair them with [Message Scroller](/docs/components/base/message-scroller), [Message](/docs/components/base/message) and [Bubble](/docs/components/base/bubble) for a whole conversation.
 
@@ -160,7 +160,7 @@ With `onVoiceActiveChange`, an empty input offers voice chat in send's place; wh
 
 ### Goal, background tasks and queue
 
-An agent's session keeps three trays tucked behind the card's top edge, each a step further back: `level={1}` for messages queued behind the reply, `level={2}` for work running in the background, `level={3}` for the goal the agent works toward. With `queue`, a message typed while a reply runs is handed to `onSubmit` to queue (send reads "Queue message"); an empty field still stops the reply, and ↑ in an empty field calls `onRecall` to take the last queued message back to edit. A `ChatInputTrayEntry` row opens to more (a task's output, the goal's reason) through its `ChatInputTrayTrigger`; `ChatInputTrayMeta` holds a reading such as the time a task has run, and `formatChatInputDuration` writes it. In the example, `/goal <objective>` sets the goal, `/code-review` starts a background watch, and `/subagent` runs one.
+An agent's session keeps three trays tucked behind the card's top edge, each a step further back: `level={1}` for messages queued behind the reply, `level={2}` for work running in the background, `level={3}` for the goal the agent works toward. `ChatInputTrays` around them folds the stack: only the front row shows, with the other rows peeking out behind it as up to two edges, so a long queue never pushes the page up; pressing the edges opens every row, and Show less folds them again. With `queue`, a message typed while a reply runs is handed to `onSubmit` to queue (send reads "Queue message"); an empty field still stops the reply, and ↑ in an empty field calls `onRecall` to take the last queued message back to edit. A `ChatInputTrayEntry` row opens to more (a task's output, the goal's reason) through its `ChatInputTrayTrigger`; `ChatInputTrayMeta` holds a reading such as the time a task has run, and `formatChatInputDuration` writes it. In the example, `/goal <objective>` sets the goal, `/code-review` starts a background watch, and `/subagent` runs one.
 
 <ComponentPreview styleName="base-nova" name="chat-input-agent" />
 
@@ -281,6 +281,16 @@ A `<div>`; give it `role="list"` and an `aria-label` when it holds a list.
 | ------- | ------------- | ------- |
 | `level` | `1 \| 2 \| 3` | `1`     |
 
+`ChatInputTrays` is a `<div>` around the trays, furthest back first, that folds them:
+
+| Prop               | Type                          | Default |
+| ------------------ | ----------------------------- | ------- |
+| `expanded`         | `boolean`                     | -       |
+| `defaultExpanded`  | `boolean`                     | `false` |
+| `onExpandedChange` | `(expanded: boolean) => void` | -       |
+
+Folded, the frontmost tray shows its first row as `level={1}`, and the edges are one `<button>` named "Show _n_ more" with `aria-expanded`. Opened, a Show less button sits over the stack's end. A single row never folds.
+
 `ChatInputTrayEntry` takes `open`, `defaultOpen` and `onOpenChange`. `ChatInputTrayTrigger` is a `<button>` with `aria-expanded`, a chevron at its end; `ChatInputTrayContent` is hidden until the entry opens.
 
 ### ChatInputButton
@@ -348,6 +358,8 @@ Plain functions, exported for your own parts and tests: `getChatInputKeyAction`,
 | `data-slot="chat-input-mic"`         | the microphone    | voice chat is on               |
 | `data-activity`                      | the microphone    | always: the `activity`         |
 | `data-level`                         | the context meter | `calm`, `high` or `full`       |
+| `data-slot="chat-input-trays"`       | the tray stack    | always                         |
+| `data-collapsed`                     | the tray stack    | folded, with rows behind       |
 
 ## Motion
 

@@ -1,0 +1,6 @@
+/* MARK: Time Wheel */
+.cn-time-wheel { @apply gap-(--density-4) px-(--density-4) min-w-56; }
+.cn-time-wheel-band { @apply bg-active rounded-lg; }
+.cn-time-wheel-column { @apply min-w-12; }
+.cn-time-wheel-spacer { @apply shrink-0; }
+.cn-time-wheel-item { @apply px-(--density-6); }

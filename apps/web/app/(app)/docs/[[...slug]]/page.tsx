@@ -3,12 +3,13 @@ import { notFound } from "next/navigation"
 import { mdxComponents } from "@/mdx-components"
 import { IconArrowLeft, IconArrowRight } from "@tabler/icons-react"
 import { cn } from "cn"
-import { findNeighbour } from "fumadocs-core/page-tree"
 
+import { getDocsNeighbours } from "@/lib/docs-explorer"
 import { replaceComponentsList } from "@/lib/llm"
 import { source } from "@/lib/source"
 import { absoluteUrl } from "@/lib/utils"
 import { DocsCopyPage } from "@/components/fabricator/docs-copy-page"
+import { AppShellPageTitle } from "@/styles/base-fabricator/ui/app-shell"
 
 export const revalidate = false
 export const dynamic = "force-static"
@@ -82,18 +83,27 @@ export default async function Page(props: {
   const isChangelog = params.slug?.[0] === "changelog"
   const neighbours = isChangelog
     ? { previous: null, next: null }
-    : findNeighbour(source.pageTree, page.url)
+    : getDocsNeighbours(
+        source
+          .getPages()
+          .map((page) => ({ url: page.url, title: page.data.title })),
+        page.url
+      )
   const raw = replaceComponentsList(await page.data.getText("raw"))
 
   return (
     <div data-slot="docs" className="flex items-start">
       <div className="flex min-w-0 flex-1 flex-col">
-        <div className="mx-auto flex w-full max-w-3xl min-w-0 flex-1 flex-col gap-8 px-4 pt-8 pb-16 text-foreground md:px-0 lg:pt-24">
+        <div className="mx-auto flex w-full min-w-0 flex-1 flex-col gap-8 pb-16 text-foreground">
           <header className="flex flex-col gap-2">
             <div className="flex items-start justify-between gap-4">
-              <h1 className="scroll-m-24 text-[28px] leading-tight font-semibold tracking-tight text-balance">
-                {doc.title}
-              </h1>
+              {page.url === "/docs" ? (
+                <h2 className="text-2xl font-semibold tracking-tight">
+                  {doc.title}
+                </h2>
+              ) : (
+                <AppShellPageTitle>{doc.title}</AppShellPageTitle>
+              )}
               <div className="docs-nav flex shrink-0 items-center gap-1 pt-1">
                 <div className="hidden sm:block">
                   <DocsCopyPage page={raw} url={absoluteUrl(page.url)} />
@@ -128,7 +138,7 @@ export default async function Page(props: {
             {neighbours.previous && (
               <Link href={neighbours.previous.url} className={NAV_LINK_CLASS}>
                 <IconArrowLeft className="size-4" />
-                {neighbours.previous.name}
+                {neighbours.previous.title}
               </Link>
             )}
             {neighbours.next && (
@@ -136,7 +146,7 @@ export default async function Page(props: {
                 href={neighbours.next.url}
                 className={cn(NAV_LINK_CLASS, "ms-auto")}
               >
-                {neighbours.next.name}
+                {neighbours.next.title}
                 <IconArrowRight className="size-4" />
               </Link>
             )}

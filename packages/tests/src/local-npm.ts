@@ -1,7 +1,8 @@
 /**
- * A small npm registry for the end-to-end tests: the icon packages come from
- * tarballs of the workspace packages, everything else from npm. So the tests
- * install the icons this checkout builds, published or not.
+ * A small npm registry for the end-to-end tests: the icon packages and
+ * editor-native come from tarballs of the workspace packages, everything else
+ * from npm. So the tests install the packages this checkout builds, published
+ * or not.
  *
  *   bun ./src/local-npm.ts <port> <tarball> <package.json> [<tarball> <package.json>…]
  */

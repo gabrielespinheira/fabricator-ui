@@ -1,0 +1,25 @@
+/* MARK: color-picker */
+.cn-color-picker { @apply gap-(--density-12); }
+.cn-color-picker-area { @apply h-40 rounded-lg overflow-hidden; }
+.cn-color-picker-area-thumb { @apply size-4 rounded-full border-2 border-white; }
+.cn-color-picker-controls { @apply relative; }
+.cn-color-picker-field { @apply gap-(--density-4); }
+.cn-color-picker-field-input { @apply relative; }
+.cn-color-picker-field-label { @apply text-muted-foreground text-(length:--density-text-12); }
+.cn-color-picker-fields { @apply gap-(--density-8); }
+.cn-color-picker-format { @apply relative; }
+.cn-color-picker-popover-content { @apply min-w-64; }
+.cn-color-picker-slider-row { @apply gap-(--density-4); }
+.cn-color-picker-sliders { @apply relative; }
+.cn-color-picker-swatch { @apply rounded-lg; }
+.cn-color-picker-swatch-color { @apply rounded-md; }
+.cn-color-picker-swatches { @apply gap-(--density-4); }
+.cn-color-picker-trigger { @apply relative; }
+.cn-color-picker-trigger-label { @apply relative; }
+.cn-color-picker-trigger-value { @apply text-muted-foreground text-(length:--density-text-12); }
+.cn-color-tile { @apply size-6 rounded-md; }
+.cn-color-picker-alpha { @apply relative; }
+.cn-color-picker-content { @apply relative; }
+.cn-color-picker-hue { @apply relative; }
+.cn-color-picker-remove { @apply relative; }
+.cn-color-picker-slider-value { @apply text-(length:--density-text-12) text-muted-foreground; }

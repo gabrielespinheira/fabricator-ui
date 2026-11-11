@@ -156,15 +156,14 @@ export const DOCUMENTS: Record<
   string,
   { title: string; icon: typeof FileTextIcon }
 > = {
-  home: { title: "Home", icon: HomeIcon },
   plan: { title: "app-shell.md", icon: FileTextIcon },
   shell: { title: "app-shell.tsx", icon: CodeIcon },
   site: { title: "fabricator-ui.vercel.app", icon: GlobeIcon },
 }
 
 export const INITIAL_TABS = {
-  tabs: ["home", "plan", "shell", "site"],
-  pinned: ["home"],
+  tabs: ["plan", "shell", "site"],
+  pinned: [],
   recent: ["shell"],
   preview: null,
   closed: [],

@@ -1,0 +1,129 @@
+/* MARK: Markdown */
+
+  /* The Document type role, shared with the Editor: 14, 16 or 18px body on
+     a relaxed line height. Everything inside is sized in em, so the three
+     sizes scale together. Documents keep their size whatever the density,
+     like chat text, so a compact dashboard doesn't shrink what people read.
+     Blocks never shrink, or a capped height would squash the ones that
+     scroll sideways (code, tables) to nothing; italic may be synthesised,
+     since many projects load a font with no italic cut. */
+  .cn-markdown {
+    @apply text-foreground flex min-w-0 flex-col gap-[0.75em] leading-[1.65] text-pretty break-words [font-synthesis:style] *:shrink-0;
+  }
+
+  .cn-markdown-size-sm {
+    @apply text-sm leading-[1.6];
+  }
+
+  .cn-markdown-size-default {
+    @apply text-base leading-[1.65];
+  }
+
+  .cn-markdown-size-lg {
+    @apply text-lg leading-[1.7];
+  }
+
+  /* Headings step down from 1.875em; a heading after other content gets an
+     extra 0.75em above it, so sections read as sections. The small size
+     keeps headings close to the body, since it sits in comments and panels.
+     Level 5 takes the body's size and level 6 a step under it. */
+  .cn-markdown-heading {
+    @apply font-semibold tracking-tight leading-[1.25] text-balance not-first:mt-[0.75em] data-[level=1]:text-[1.875em] data-[level=2]:text-[1.5em] data-[level=3]:text-[1.25em] data-[level=4]:text-[1.125em] data-[level=5]:text-[1em] data-[level=6]:text-[0.875em] in-data-[size=sm]:data-[level=1]:text-[1.43em] in-data-[size=sm]:data-[level=2]:text-[1.21em] in-data-[size=sm]:data-[level=3]:text-[1.07em];
+  }
+
+  .cn-markdown-paragraph {
+    @apply text-pretty;
+  }
+
+  .cn-markdown-strong {
+    @apply font-semibold;
+  }
+
+  .cn-markdown-strike {
+    @apply decoration-foreground/50;
+  }
+
+  /* Links in the primary role's text colour, underlined at a third of its
+     strength until hovered. */
+  .cn-markdown-link {
+    @apply text-primary-text decoration-primary-text/35 hover:decoration-primary-text underline underline-offset-[0.2em] transition-colors duration-feedback ease-feedback;
+  }
+
+  .cn-markdown-code {
+    @apply bg-hover rounded-[0.3em] px-[0.3em] py-[0.1em] font-mono text-[0.875em];
+  }
+
+  /* A quote is a muted block behind a 2px bar. */
+  .cn-markdown-quote {
+    @apply text-muted-foreground border-border border-s-2 ps-[1em];
+  }
+
+  /* Code blocks are Syntax Highlight itself: its panel, title bar, Copy and
+     syntax colours, at its own type size whatever the document's. */
+  .cn-markdown-code-block {
+    @apply min-w-0;
+  }
+
+  .cn-markdown-divider {
+    @apply border-border my-[0.5em];
+  }
+
+  .cn-markdown-image {
+    @apply h-auto max-w-full rounded-lg;
+  }
+
+  .cn-markdown-list {
+    @apply flex flex-col gap-[0.25em] ps-[1.5em] data-[ordered=false]:list-disc data-[ordered=true]:list-decimal in-data-[slot=markdown-list-item]:mt-[0.25em];
+  }
+
+  /* Markers in the muted colour; task items swap the bullet for their
+     checkbox, which sits where the bullet was. */
+  .cn-markdown-list-item {
+    @apply marker:text-muted-foreground relative ps-[0.25em] data-task:list-none;
+  }
+
+  /* The Checkbox component's look in em, so it scales with the document:
+     1.125em (18px in a 16px body) with a 0.375em corner and a quiet 1.5px
+     outline, centred on the first line where the bullet would be. Checked
+     fills with the primary role and the check pops in in its foreground. */
+  .cn-markdown-task-checkbox {
+    @apply border-foreground/25 text-primary-foreground data-checked:border-primary data-checked:bg-primary absolute -start-[1.5em] top-[calc((1lh-1.125em)/2)] flex size-[1.125em] items-center justify-center rounded-[0.375em] border-[1.5px] bg-transparent transition-[background-color,border-color,scale] duration-feedback ease-feedback;
+  }
+
+  .cn-markdown-task-check {
+    @apply size-[0.75em] scale-[0.6] stroke-[3] opacity-0 transition-[opacity,scale] duration-feedback-exit ease-exit group-data-checked/task-check:scale-100 group-data-checked/task-check:opacity-100 group-data-checked/task-check:duration-move group-data-checked/task-check:ease-enter motion-reduce:transition-none;
+  }
+
+  .cn-markdown-task-text {
+    @apply data-checked:text-muted-foreground data-checked:line-through;
+  }
+
+  /* Tables sit in a framed box (rounded-xl, a hairline at 70%) that
+     scrolls sideways when they're wide. The header row takes the muted tint,
+     semibold; hairlines at 50% run between rows and columns; body text stays
+     foreground, at 0.875em with tabular figures so numbers line up. */
+  .cn-markdown-table {
+    @apply ring-border/70 overflow-x-auto rounded-xl text-[0.875em] tabular-nums ring-1 ring-inset [&_table]:w-full [&_table]:border-collapse;
+  }
+
+  .cn-markdown-table-head {
+    @apply bg-muted/60 border-border/70 text-foreground border-b px-[0.875em] py-[0.5em] text-start align-bottom font-semibold whitespace-nowrap not-last:border-e not-last:border-e-border/50 data-[align=center]:text-center data-[align=right]:text-end;
+  }
+
+  .cn-markdown-table-row {
+    @apply border-border/50 not-last:border-b;
+  }
+
+  .cn-markdown-table-cell {
+    @apply border-border/50 text-foreground px-[0.875em] py-[0.5em] align-top not-last:border-e data-[align=center]:text-center data-[align=right]:text-end;
+  }
+
+  /* Markdown the model doesn't represent (HTML, footnotes, math) shows as
+     its source, quiet and monospace, so nothing is hidden. */
+  .cn-markdown-raw {
+    @apply text-muted-foreground font-mono text-[0.875em];
+  }
+
+  .cn-markdown-raw-block {
+    @apply bg-muted text-muted-foreground rounded-md p-[0.75em] font-mono text-[0.8125em] whitespace-pre-wrap;
+  }
