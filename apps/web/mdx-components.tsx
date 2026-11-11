@@ -105,7 +105,7 @@ function HeadingAnchor({
   }
 
   return (
-    <a className="group no-underline" href={`#${id}`}>
+    <Link className="group no-underline" href={`#${id}`}>
       <span className="underline-offset-4 group-hover:underline">
         {children}
       </span>
@@ -115,7 +115,7 @@ function HeadingAnchor({
       >
         #
       </span>
-    </a>
+    </Link>
   )
 }
 

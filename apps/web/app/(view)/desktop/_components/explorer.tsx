@@ -1,6 +1,8 @@
 "use client"
 
 import * as React from "react"
+import Link from "next/link"
+import { useSearchParams } from "next/navigation"
 import { useTheme } from "next-themes"
 import { useQueryStates } from "nuqs"
 
@@ -14,11 +16,9 @@ import {
   type ExplorerComponent,
 } from "@/lib/component-explorer"
 import { getComponentGroup } from "@/lib/component-groups"
-import type { ExplorerExample } from "@/lib/explorer-examples"
 import { EXPLORER_ICONS } from "@/lib/explorer-icons"
 import {
   ExternalLinkIcon,
-  HomeIcon,
   MoonIcon,
   SparklesIcon,
   SunIcon,
@@ -45,20 +45,11 @@ import {
   ItemTitle,
 } from "@/styles/base-fabricator/ui/item"
 import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/styles/base-fabricator/ui/select"
-import {
   TabStrip,
   TabStripList,
   TabStripNew,
   TabStripOverflow,
   TabStripTab,
-  useTabStripState,
 } from "@/styles/base-fabricator/ui/tab-strip"
 import { CLI, forPackageManager } from "@/app/(app)/(create)/lib/setup"
 import { IconsBrowser } from "@/app/(app)/icons/_components/icons-browser"
@@ -69,11 +60,13 @@ import {
   explorerParsers,
   getHiddenExplorerOptions,
 } from "../_lib/explorer-options"
+import { getDesktopHref } from "../_lib/navigation"
 import { CliCommand } from "../../app-shell/_components/cli-command"
 import { OptionShell } from "../../app-shell/_components/option-shell"
 import { SetupCards } from "../../app-shell/_components/options-card"
 import { getWindowOption } from "../../app-shell/_lib/install"
 import { getTabsPlacement } from "../../app-shell/_lib/options"
+import { useDesktopTabs } from "./use-desktop-tabs"
 
 const NEW_TAB_TITLE = "New tab"
 /** Matches nothing in the navigation: a blank tab highlights no row. */
@@ -95,66 +88,6 @@ const PLATFORM_LABELS: Record<DesktopHost["platform"], string> = {
   mac: "macOS",
   windows: "Windows",
   linux: "Linux",
-}
-
-/** The component's demo on a stage; lazy demos load on first show. */
-function ComponentStage({
-  item,
-  examples,
-}: {
-  item: ExplorerComponent
-  examples: ExplorerExample[]
-}) {
-  const [exampleName, setExampleName] = React.useState(examples[0]?.name)
-  const choices = examples.map((example) => ({
-    value: example.name,
-    label: example.title,
-  }))
-  return (
-    <div className="flex min-h-full flex-col gap-6">
-      <div className="flex flex-col gap-1">
-        <AppShellPageTitle>{item.title}</AppShellPageTitle>
-        <p className="text-sm text-muted-foreground">
-          {getComponentGroup(item.slug)}
-        </p>
-      </div>
-      {examples.length > 0 && (
-        <Select
-          items={choices}
-          value={exampleName}
-          onValueChange={(value) => {
-            if (typeof value === "string") setExampleName(value)
-          }}
-        >
-          <SelectTrigger aria-label="Example" className="w-full sm:w-72">
-            <SelectValue />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectGroup>
-              {choices.map((choice) => (
-                <SelectItem key={choice.value} value={choice.value}>
-                  {choice.label}
-                </SelectItem>
-              ))}
-            </SelectGroup>
-          </SelectContent>
-        </Select>
-      )}
-      {exampleName ? (
-        <iframe
-          key={exampleName}
-          src={`/desktop/preview/${exampleName}`}
-          title={`${item.title}: ${examples.find((example) => example.name === exampleName)?.title}`}
-          className="min-h-[32rem] w-full flex-1 rounded-xl bg-background"
-        />
-      ) : (
-        <p className="text-muted-foreground">
-          Examples and properties are available in this component’s
-          documentation.
-        </p>
-      )}
-    </div>
-  )
 }
 
 /** A card per component group, which opens the group's first component. */
@@ -227,9 +160,9 @@ function Overview({
       <div className="flex flex-col gap-2">
         <AppShellPageTitle>Fabricator UI</AppShellPageTitle>
         <p className="text-muted-foreground">
-          Every component in a desktop window built with the App Shell. Pick one
-          in the sidebar; it opens in a tab, and the panel on the right has its
-          install command.
+          Every component and its documentation in a desktop window. Pick one in
+          the sidebar to explore its examples, variants, source and API. The
+          panel on the right has its install command and page sections.
         </p>
       </div>
       {setup}
@@ -276,11 +209,13 @@ function ThemeToggle() {
 
 /** The desktop example: a component explorer in the App Shell. */
 export function DesktopExplorer({
-  examples,
   components,
+  children,
 }: {
-  examples: Record<string, ExplorerExample[]>
-  components: ExplorerComponent[]
+  components: (ExplorerComponent & {
+    toc: { title: React.ReactNode; url: string; depth: number }[]
+  })[]
+  children: React.ReactNode
 }) {
   const items = React.useMemo(
     () => new Map(components.map((item) => [item.slug, item])),
@@ -290,15 +225,8 @@ export function DesktopExplorer({
   const { host, shellWindow } = useDesktopWindow({
     hasTitlebar: getTabsPlacement(options) === "titlebar",
   })
-  const tabs = useTabStripState({
-    defaultState: {
-      tabs: ["overview", "button"],
-      pinned: ["overview"],
-      recent: ["overview", "button"],
-      preview: null,
-      closed: [],
-    },
-  })
+  const tabs = useDesktopTabs()
+  const search = useSearchParams()
   const activeItem = tabs.activeId ? items.get(tabs.activeId) : undefined
   const isBlankTab = isNewTab(tabs.activeId)
   const open = (slug: string) =>
@@ -350,16 +278,25 @@ export function DesktopExplorer({
       groups={groups}
       navLabel="Components"
       pathname={pathname}
-      renderLink={(item) => (
-        <a
-          href={item.href}
-          onClick={(event) => {
-            event.preventDefault()
-            const tabId = getExplorerTabId(item.href)
-            if (tabId) open(tabId)
-          }}
-        />
-      )}
+      renderLink={(item) => {
+        const tabId = getExplorerTabId(item.href)
+        return (
+          <Link
+            href={tabId ? getDesktopHref(tabId, search.toString()) : "/desktop"}
+            onClick={(event) => {
+              if (
+                event.metaKey ||
+                event.ctrlKey ||
+                event.shiftKey ||
+                event.altKey
+              )
+                return
+              event.preventDefault()
+              if (tabId) open(tabId)
+            }}
+          />
+        )
+      }}
       brand={
         <button
           type="button"
@@ -389,13 +326,7 @@ export function DesktopExplorer({
                 key={id}
                 value={id}
                 pinned={tabs.state.pinned.includes(id)}
-                icon={
-                  items.has(id) || isNewTab(id)
-                    ? undefined
-                    : id === "icons"
-                      ? SparklesIcon
-                      : HomeIcon
-                }
+                icon={id === "icons" ? SparklesIcon : undefined}
                 preview={tabs.state.preview === id}
               >
                 {getTabTitle(id, items)}
@@ -427,13 +358,34 @@ export function DesktopExplorer({
                   <p className="text-muted-foreground">Install</p>
                   <InstallCommand slug={activeItem.slug} />
                 </div>
+                {activeItem.toc.length > 0 && (
+                  <nav
+                    aria-label="On this page"
+                    className="flex flex-col gap-2"
+                  >
+                    <p className="font-medium">On this page</p>
+                    <ul className="flex flex-col gap-1">
+                      {activeItem.toc.map((entry) => (
+                        <li key={entry.url}>
+                          <Link
+                            href={entry.url}
+                            data-depth={entry.depth}
+                            className="block rounded-md px-2 py-1 text-muted-foreground outline-none hover:bg-hover hover:text-foreground focus-visible:ring-1 focus-visible:ring-focus-ring data-[depth=3]:ps-4"
+                          >
+                            {entry.title}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </nav>
+                )}
                 <a
                   href={`/docs/components/base/${activeItem.slug}`}
                   target="_blank"
                   rel="noreferrer"
                   className="inline-flex items-center gap-1.5 text-sm underline-offset-4 hover:underline"
                 >
-                  Read the docs
+                  Open website docs
                   <ExternalLinkIcon className="size-3.5" />
                 </a>
               </>
@@ -455,13 +407,11 @@ export function DesktopExplorer({
         </>
       }
     >
-      <AppShellContent size={options.contentSize}>
-        {activeItem ? (
-          <ComponentStage
-            key={activeItem.slug}
-            item={activeItem}
-            examples={examples[activeItem.slug] ?? []}
-          />
+      <AppShellContent key={tabs.activeId} size={options.contentSize}>
+        {tabs.activeId !== "overview" &&
+        tabs.activeId !== "icons" &&
+        !isBlankTab ? (
+          children
         ) : tabs.activeId === "icons" ? (
           <div className="flex flex-col gap-6">
             <AppShellPageTitle>Fabricator UI Icons</AppShellPageTitle>
