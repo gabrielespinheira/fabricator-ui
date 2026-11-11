@@ -11,9 +11,11 @@ describe("native explorer routes", () => {
     expect(getPathFromUrl("fabricator-ui://blocks")).toBe("/")
     expect(getPathFromUrl("fabricator-ui://blocks/login-01")).toBe("/")
   })
-  it("returns old component list links to the overview", () => {
-    expect(getPathFromUrl("fabricator-ui://components")).toBe("/")
-    expect(getPathFromUrl("fabricator-ui://components/?theme=dark")).toBe("/")
+  it("opens component list links in the Components directory", () => {
+    expect(getPathFromUrl("fabricator-ui://components")).toBe("/components")
+    expect(getPathFromUrl("fabricator-ui://components/?theme=dark")).toBe(
+      "/components"
+    )
   })
   it("opens Icons and components without accepting nonexistent icon routes", () => {
     expect(getPathFromUrl("fabricator-ui://icons")).toBe("/icons")
