@@ -143,7 +143,7 @@ bun run dev              # http://localhost:4000
 | Compare output with upstream shadcn/ui                   | `bun run test:parity`                                                           |
 | CLI end-to-end tests (dev server running)                | `bun run test:e2e`                                                              |
 | Run the local CLI against the local registry             | `FABRICATOR_REGISTRY_URL=http://localhost:4000 bun run cli add button -c <app>` |
-| Add a release note                                       | `bunx changeset`                                                                |
+| Check that every version file agrees                     | `bun run release:check`                                                         |
 
 ## Contributing
 

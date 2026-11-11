@@ -41,6 +41,7 @@ if [ "$mode" = production ]; then
   [ "$(git rev-parse HEAD)" = "$(git rev-parse origin/main)" ] \
     || { echo "main is not at origin/main. Pull or push first." >&2; exit 1; }
   # Fail before the long build, not after it.
+  bun run release:check
   npm whoami > /dev/null 2>&1 || { echo "Log in to npm first: npm login" >&2; exit 1; }
   gh auth status > /dev/null 2>&1 || { echo "Log in to GitHub first: gh auth login" >&2; exit 1; }
 fi
