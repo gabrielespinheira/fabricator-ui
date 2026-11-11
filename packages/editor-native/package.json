@@ -1,6 +1,6 @@
 {
   "name": "@fabricator-ui/editor-native",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "The native rich text view behind Fabricator UI's Markdown editor: one UITextView (TextKit 2) holding the whole document.",
   "license": "MIT",
   "homepage": "https://fabricator-ui.vercel.app",
