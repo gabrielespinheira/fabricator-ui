@@ -221,6 +221,18 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "badge-variants",
       filePath: "examples/base/badge-variants.tsx",
     },
+    "bot-face-demo": {
+      name: "bot-face-demo",
+      filePath: "examples/base/bot-face-demo.tsx",
+    },
+    "bot-face-eyes": {
+      name: "bot-face-eyes",
+      filePath: "examples/base/bot-face-eyes.tsx",
+    },
+    "bot-face-sizes": {
+      name: "bot-face-sizes",
+      filePath: "examples/base/bot-face-sizes.tsx",
+    },
     "breadcrumb-basic": {
       name: "breadcrumb-basic",
       filePath: "examples/base/breadcrumb-basic.tsx",
@@ -2739,6 +2751,18 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "badge-variants",
       filePath: "examples/aria/badge-variants.tsx",
     },
+    "bot-face-demo": {
+      name: "bot-face-demo",
+      filePath: "examples/aria/bot-face-demo.tsx",
+    },
+    "bot-face-eyes": {
+      name: "bot-face-eyes",
+      filePath: "examples/aria/bot-face-eyes.tsx",
+    },
+    "bot-face-sizes": {
+      name: "bot-face-sizes",
+      filePath: "examples/aria/bot-face-sizes.tsx",
+    },
     "breadcrumb-basic": {
       name: "breadcrumb-basic",
       filePath: "examples/aria/breadcrumb-basic.tsx",
@@ -5212,6 +5236,18 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "badge-variants": {
       name: "badge-variants",
       filePath: "examples/radix/badge-variants.tsx",
+    },
+    "bot-face-demo": {
+      name: "bot-face-demo",
+      filePath: "examples/radix/bot-face-demo.tsx",
+    },
+    "bot-face-eyes": {
+      name: "bot-face-eyes",
+      filePath: "examples/radix/bot-face-eyes.tsx",
+    },
+    "bot-face-sizes": {
+      name: "bot-face-sizes",
+      filePath: "examples/radix/bot-face-sizes.tsx",
     },
     "breadcrumb-basic": {
       name: "breadcrumb-basic",
@@ -7698,6 +7734,18 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "badge-variants",
       filePath: "examples/__styles__/base-fabricator/badge-variants.tsx",
     },
+    "bot-face-demo": {
+      name: "bot-face-demo",
+      filePath: "examples/__styles__/base-fabricator/bot-face-demo.tsx",
+    },
+    "bot-face-eyes": {
+      name: "bot-face-eyes",
+      filePath: "examples/__styles__/base-fabricator/bot-face-eyes.tsx",
+    },
+    "bot-face-sizes": {
+      name: "bot-face-sizes",
+      filePath: "examples/__styles__/base-fabricator/bot-face-sizes.tsx",
+    },
     "breadcrumb-basic": {
       name: "breadcrumb-basic",
       filePath: "examples/__styles__/base-fabricator/breadcrumb-basic.tsx",
@@ -10011,6 +10059,18 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "badge-variants",
       filePath: "examples/__styles__/aria-fabricator/badge-variants.tsx",
     },
+    "bot-face-demo": {
+      name: "bot-face-demo",
+      filePath: "examples/__styles__/aria-fabricator/bot-face-demo.tsx",
+    },
+    "bot-face-eyes": {
+      name: "bot-face-eyes",
+      filePath: "examples/__styles__/aria-fabricator/bot-face-eyes.tsx",
+    },
+    "bot-face-sizes": {
+      name: "bot-face-sizes",
+      filePath: "examples/__styles__/aria-fabricator/bot-face-sizes.tsx",
+    },
     "breadcrumb-basic": {
       name: "breadcrumb-basic",
       filePath: "examples/__styles__/aria-fabricator/breadcrumb-basic.tsx",
@@ -12286,6 +12346,18 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "badge-variants": {
       name: "badge-variants",
       filePath: "examples/__styles__/radix-fabricator/badge-variants.tsx",
+    },
+    "bot-face-demo": {
+      name: "bot-face-demo",
+      filePath: "examples/__styles__/radix-fabricator/bot-face-demo.tsx",
+    },
+    "bot-face-eyes": {
+      name: "bot-face-eyes",
+      filePath: "examples/__styles__/radix-fabricator/bot-face-eyes.tsx",
+    },
+    "bot-face-sizes": {
+      name: "bot-face-sizes",
+      filePath: "examples/__styles__/radix-fabricator/bot-face-sizes.tsx",
     },
     "breadcrumb-basic": {
       name: "breadcrumb-basic",

@@ -3,6 +3,7 @@
 // has: its native Icons screen.
 import { NATIVE_EXAMPLES } from "@/examples/native/__index__"
 import {
+  BoxesIcon,
   BoxIcon,
   ChartColumnIcon,
   HomeIcon,
@@ -14,13 +15,10 @@ import {
 
 import { getExplorerNavGroups } from "@/lib/component-explorer"
 import type { ComponentGroup } from "@/lib/component-groups"
-import type {
-  AppNavGroup,
-  AppNavIcon,
-  AppNavItem,
-} from "@/registry/native/ui/app-nav"
+import type { AppNavGroup, AppNavIcon } from "@/registry/native/ui/app-nav"
 
 import { getExplorerComponents } from "./components/component-model"
+import { getMobilePages } from "./nav-model"
 
 export const WORKSPACES = [
   { id: "acme", name: "Acme Inc", description: "Enterprise" },
@@ -49,15 +47,10 @@ const EXPLORER_ICONS: {
   },
 }
 
-const APP_PAGES: AppNavItem[] = [
-  {
-    id: "icons",
-    label: "Icons",
-    href: "/icons",
-    icon: SparklesIcon,
-    mobile: "tab",
-  },
-]
+const APP_PAGES = getMobilePages<AppNavIcon>({
+  components: BoxesIcon,
+  icons: SparklesIcon,
+})
 
 export function getNavGroups({
   reorderable,

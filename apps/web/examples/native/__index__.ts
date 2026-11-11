@@ -11,6 +11,7 @@ export const NATIVE_EXAMPLES: Record<string, () => React.ComponentType> = {
   "attachment": () => require("@/examples/native/attachment-example").AttachmentExample,
   "avatar": () => require("@/examples/native/avatar-example").AvatarExample,
   "badge": () => require("@/examples/native/badge-example").BadgeExample,
+  "bot-face": () => require("@/examples/native/bot-face-example").BotFaceExample,
   "breadcrumb": () => require("@/examples/native/breadcrumb-example").BreadcrumbExample,
   "bubble": () => require("@/examples/native/bubble-example").BubbleExample,
   "button": () => require("@/examples/native/button-example").ButtonExample,

@@ -438,6 +438,30 @@ export const Components: Record<string, any> = {
       ) || "badge-variants"
     return { default: mod.default || mod[exportName] }
   }),
+  "bot-face-demo": React.lazy(async () => {
+    const mod = await import("@/examples/base/bot-face-demo")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "bot-face-demo"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "bot-face-eyes": React.lazy(async () => {
+    const mod = await import("@/examples/base/bot-face-eyes")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "bot-face-eyes"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "bot-face-sizes": React.lazy(async () => {
+    const mod = await import("@/examples/base/bot-face-sizes")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "bot-face-sizes"
+    return { default: mod.default || mod[exportName] }
+  }),
   "breadcrumb-basic": React.lazy(async () => {
     const mod = await import("@/examples/base/breadcrumb-basic")
     const exportName =

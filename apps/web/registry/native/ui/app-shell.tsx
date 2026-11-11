@@ -83,6 +83,7 @@ import {
   getFabBottom,
   getFabClearance,
   getFloatingNavMetrics,
+  getNativeNavMetrics,
   getOtherPanelsWidth,
   getPanelFrame,
   getPanelHeaderEnd,
@@ -1596,12 +1597,16 @@ function AppShellStatusBar({
 const BottomNavContext = React.createContext<{
   setSelected: React.Dispatch<React.SetStateAction<string | undefined>>
   variant: "flat" | "floating"
+  hasMaterial: boolean
 } | null>(null)
 
 const BottomNavIndexContext = React.createContext(0)
 
 // Colour and the sliding pill mark selection without shifting label widths.
 const bottomNavTextVariants = cva("cn-app-shell-bottom-nav-text")
+const bottomNavMaterialTextVariants = cva(
+  "cn-app-shell-bottom-nav-text-material"
+)
 const bottomNavLitTextVariants = cva("cn-app-shell-bottom-nav-text-lit")
 const bottomNavActiveTextVariants = cva("cn-app-shell-bottom-nav-text-active")
 const bottomNavFadeVariants = cva("cn-app-shell-bottom-nav-fade")
@@ -1615,6 +1620,7 @@ const bottomNavFadeVariants = cva("cn-app-shell-bottom-nav-fade")
 function AppShellBottomNav({
   variant = "flat",
   capsule,
+  nativeTabs,
   className,
   children,
   style,
@@ -1626,6 +1632,11 @@ function AppShellBottomNav({
     style?: React.ComponentProps<typeof View>["style"]
     children?: React.ReactNode
   }>
+  /** A system tab view, including its page. Reports its bar height, safe area included. */
+  nativeTabs?: React.ReactElement<{
+    onHeightChange?: (height: number) => void
+    isBarHidden?: boolean
+  }>
 }) {
   const shell = React.use(AppShellContext)
   const scroll = React.use(AppShellScrollContext)
@@ -1634,6 +1645,7 @@ function AppShellBottomNav({
   const isPhone = (shell?.size ?? getShellSize(width)) === "phone"
   const isFloating = variant === "floating"
   const [measuredRow, setMeasuredRow] = React.useState(0)
+  const [nativeHeight, setNativeHeight] = React.useState(0)
   const [selected, setSelected] = React.useState<string>()
   const fluid = useFluidHover({
     selected: isFloating ? selected : undefined,
@@ -1653,9 +1665,21 @@ function AppShellBottomNav({
     gap: parseNumber(gap, 12),
     insetBottom: insets.bottom,
   })
+  const nativeMetrics = getNativeNavMetrics({
+    measuredHeight: nativeHeight,
+    row: parseNumber(row, 40),
+    padding: parseNumber(padding, 4),
+    insetBottom: insets.bottom,
+  })
   const setHasBottomNav = scroll?.setHasBottomNav
   const setBottomNavOverlap = scroll?.setBottomNavOverlap
-  const overlap = isPhone && isFloating ? metrics.clearance : 0
+  const overlap = !isPhone
+    ? 0
+    : nativeTabs
+      ? nativeMetrics.height
+      : isFloating
+        ? metrics.clearance
+        : 0
   React.useLayoutEffect(() => {
     if (!isPhone || !setHasBottomNav) return
     setHasBottomNav(true)
@@ -1666,13 +1690,34 @@ function AppShellBottomNav({
     setBottomNavOverlap(overlap)
     return () => setBottomNavOverlap(0)
   }, [overlap, setBottomNavOverlap])
-  const context = React.useMemo(() => ({ setSelected, variant }), [variant])
+  const hasMaterial = isFloating && capsule !== undefined
+  const context = React.useMemo(
+    () => ({ setSelected, variant, hasMaterial }),
+    [variant, hasMaterial]
+  )
   const { color: fadeColor } = useResolveClassNames(bottomNavFadeVariants())
   // Something else holds the bottom of the screen (the Editor's formatting
   // bar while it has focus): step aside, keeping the page's clearance so
   // nothing jumps.
   const isClaimed = useIsBottomBarClaimed()
-  if (!isPhone || isClaimed) return null
+  if (!isPhone) return null
+  if (nativeTabs) {
+    return (
+      <View
+        data-slot="app-shell-bottom-nav"
+        data-variant="native"
+        className={cn("min-h-0 flex-1", className)}
+        style={style}
+        {...props}
+      >
+        {React.cloneElement(nativeTabs, {
+          onHeightChange: setNativeHeight,
+          isBarHidden: isClaimed,
+        })}
+      </View>
+    )
+  }
+  if (isClaimed) return null
   const track = (
     <FluidHoverProvider fluid={fluid}>
       <FluidHoverArea fluid={fluid}>
@@ -1686,6 +1731,7 @@ function AppShellBottomNav({
           {isFloating ? (
             <FluidHoverSelection
               selection={fluid.selection}
+              data-material={hasMaterial}
               className="cn-app-shell-bottom-nav-selection"
             />
           ) : null}
@@ -1718,7 +1764,7 @@ function AppShellBottomNav({
             color={fadeColor}
             clearance={metrics.clearance}
             barHeight={metrics.height}
-            opacity={capsule ? 0.5 : 1}
+            opacity={hasMaterial ? 0.25 : 1}
           />
         ) : null}
         <View
@@ -1834,7 +1880,7 @@ function AppShellBottomNavItem({
   const shared = {
     "data-slot": "app-shell-bottom-nav-item",
     "data-variant": nav?.variant ?? "flat",
-    role: "button" as const,
+    role: "tab" as const,
     "aria-selected": isActive,
     accessibilityState: { selected: isActive },
     className: cn(
@@ -1853,6 +1899,7 @@ function AppShellBottomNavItem({
       eases
       className={cn(
         bottomNavTextVariants(),
+        nav?.hasMaterial ? bottomNavMaterialTextVariants() : undefined,
         isActive
           ? bottomNavActiveTextVariants()
           : isLit

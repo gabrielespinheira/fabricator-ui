@@ -240,12 +240,12 @@
   /* Padding belongs inside the selection pill, around the icon and label. The
      capsule measures this row instead of clipping larger text to a fixed height. */
   .cn-app-shell-bottom-nav-item {
-    @apply min-h-(--density-40) gap-(--density-4) data-[variant=floating]:py-(--density-6);
+    @apply min-w-0 min-h-(--density-40) gap-(--density-4) data-[variant=floating]:py-(--density-6);
   }
 
   /* The current tab's pill slides on the move timing. */
   .cn-app-shell-bottom-nav-selection {
-    @apply bg-active rounded-full;
+    @apply bg-active rounded-full data-[material=true]:bg-foreground/10;
   }
 
   .cn-app-shell-bottom-nav-highlight {
@@ -254,6 +254,12 @@
 
   .cn-app-shell-bottom-nav-text {
     @apply text-muted-foreground text-(length:--density-text-11) font-medium;
+  }
+
+  /* Material already softens the backdrop. Solid ink stays legible as the page
+     changes behind it; the pill and icon stroke carry the selected state. */
+  .cn-app-shell-bottom-nav-text-material {
+    @apply text-foreground;
   }
 
   .cn-app-shell-bottom-nav-text-lit {
@@ -265,5 +271,5 @@
   }
 
   .cn-app-shell-bottom-nav-label {
-    @apply self-stretch px-(--density-4) text-center;
+    @apply self-stretch px-(--density-4) text-center leading-tight;
   }

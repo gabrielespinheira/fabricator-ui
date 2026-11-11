@@ -8,6 +8,7 @@ import {
   getFabBottom,
   getFabClearance,
   getFloatingNavMetrics,
+  getNativeNavMetrics,
   getOtherPanelsWidth,
   getPanelFrame,
   getPanelHeaderEnd,
@@ -23,6 +24,24 @@ import {
 } from "@/registry/native/lib/app-shell-layout-model"
 
 const DEFAULTS = { open: true, view: "details", width: 320 }
+
+describe("native bottom navigation clearance", () => {
+  const base = { row: 48, padding: 4, insetBottom: 34 }
+
+  it("reserves the native bar including its safe area before it measures", () => {
+    expect(getNativeNavMetrics(base).height).toBe(90)
+  })
+
+  it("uses the system's measured height without counting the safe area twice", () => {
+    expect(getNativeNavMetrics({ ...base, measuredHeight: 83 }).height).toBe(83)
+  })
+
+  it("follows a larger system bar when text or orientation changes", () => {
+    expect(getNativeNavMetrics({ ...base, measuredHeight: 110 }).height).toBe(
+      110
+    )
+  })
+})
 
 describe("applyPanelUpdate", () => {
   it("saves a docked panel's change", () => {

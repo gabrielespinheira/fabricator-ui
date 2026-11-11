@@ -65,14 +65,17 @@ import { UserMenu } from "@/registry/native/ui/user-menu"
 import { WorkspaceSwitcher } from "@/registry/native/ui/workspace-switcher"
 
 import {
+  COMPONENTS_HREF,
   getComponentTitle,
   getDemoName,
   getPathFromUrl,
 } from "./components/component-model"
 import { ComponentScreen } from "./components/component-screen"
+import { ComponentsPage } from "./components/components-page"
 import { DetailsPanel } from "./details-panel"
 import { NewTabPage, OverviewPage } from "./explorer-pages"
 import { EXPLORER_COMPONENTS, getNavGroups, USER, WORKSPACES } from "./nav"
+import { getMobileActiveId } from "./nav-model"
 import {
   HOME_HREF,
   NEW_TAB_PATH,
@@ -88,7 +91,8 @@ import {
   ShellOptionsCard,
   type ShellOptions,
 } from "./shell-options"
-import { GlassView, hasLiquidGlass } from "./shell/glass"
+import { hasLiquidGlass } from "./shell/glass"
+import { NativeBottomNav } from "./shell/native-bottom-nav"
 import {
   EDITOR_NATIVE_SPIKE_PATH,
   EditorNativeSpike,
@@ -211,6 +215,9 @@ function Page({
   onOptionsChange: (options: ShellOptions) => void
   onOpen: (href: string) => void
 }) {
+  if (pathname === COMPONENTS_HREF) {
+    return <ComponentsPage contentSize={options.contentSize} onOpen={onOpen} />
+  }
   if (pathname === "/icons")
     return (
       <React.Suspense
@@ -253,7 +260,6 @@ function Page({
 }
 
 function Shell() {
-  const theme = useTheme()
   const { width } = useWindowDimensions()
   const isPhone = getShellSize(width) === "phone"
 
@@ -328,6 +334,22 @@ function Shell() {
     options.tabs === "main" &&
     (options.breadcrumb || hasHeaderActions)
   const hasTabsInHeader = options.tabs === "main" && !hasRowOfTabs
+  const hasNativeBottomNav =
+    isPhone &&
+    options.bottomNav &&
+    options.bottomNavStyle === "glass" &&
+    hasLiquidGlass()
+  const page = (
+    <ScreenBoundary key={pathname}>
+      <Page
+        pathname={pathname}
+        isPhone={isPhone}
+        options={options}
+        onOptionsChange={setOptions}
+        onOpen={open}
+      />
+    </ScreenBoundary>
+  )
 
   return (
     <AppShell
@@ -431,28 +453,23 @@ function Shell() {
             {pageTabStrip}
           </View>
         ) : null}
-        <ScreenBoundary key={pathname}>
-          <Page
-            pathname={pathname}
-            isPhone={isPhone}
-            options={options}
-            onOptionsChange={setOptions}
-            onOpen={open}
-          />
-        </ScreenBoundary>
+        {hasNativeBottomNav ? null : page}
         {options.bottomNav ? (
           <AppNavBottomBar
             groups={groups}
             pathname={pathname}
+            activeId={getMobileActiveId(groups, pathname)}
             onNavigate={navigate}
             variant={options.bottomNavStyle === "flat" ? "flat" : "floating"}
-            capsule={
-              options.bottomNavStyle === "glass" && hasLiquidGlass() ? (
-                <GlassView
-                  glassEffectStyle="regular"
-                  isInteractive
-                  colorScheme={theme.mode}
-                />
+            nativeTabs={
+              hasNativeBottomNav ? (
+                <NativeBottomNav
+                  groups={groups}
+                  activeId={getMobileActiveId(groups, pathname)}
+                  onNavigate={navigate}
+                >
+                  {page}
+                </NativeBottomNav>
               ) : undefined
             }
           />

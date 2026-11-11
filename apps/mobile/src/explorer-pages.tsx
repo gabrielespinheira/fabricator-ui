@@ -81,7 +81,7 @@ export function OverviewPage({
         <AppShellPageTitle>Fabricator UI</AppShellPageTitle>
         <Text className="text-base text-muted-foreground">
           Every component in a React Native app built with the App Shell. Pick
-          one in the sidebar; it opens in a tab, and the Details panel has its
+          one in Components; it opens in a tab, and the Details panel has its
           install command.
         </Text>
       </View>

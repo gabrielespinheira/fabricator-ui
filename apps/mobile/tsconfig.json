@@ -37,6 +37,7 @@
     "../web/examples/native/**/*.tsx"
   ],
   "exclude": [
+    "src/**/*.test.ts",
     "../web/registry/native/_registry.ts",
     "../web/registry/native/items",
     "../web/registry/native/**/*.test.ts"

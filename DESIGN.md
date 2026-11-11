@@ -484,6 +484,7 @@ Use the library's inputs for dates, times, numbers, files and colours in place o
 - **`WorkspaceSwitcher`** is a menu for a few workspaces and a searchable dialog for many. While the next workspace loads, the whole screen says so.
 - **`UserMenu`** sits at the bottom of the sidebar as a row, or in a header as the avatar alone. Account items come first and Sign out last, in its own group.
 - **`TabStrip`** holds the documents a person opens and closes (files, records, chats), with pinned tabs, a preview tab for a quick look, and drag to reorder.
+- Home and Overview belong in the sidebar or bottom navigation, never as a permanent tab in the document strip.
 - **`Tabs`** switch between a fixed set of views of one thing: two to six short labels on a track with a sliding pill. Where space is tight, such as a panel header, use the subtle variant, where every tab has an icon and only the active one shows its label. Vertical tabs suit a settings page with more sections than fit across.
 - **Breadcrumbs** show the path with the current page last. Long paths fold their middle into a menu.
 - **`Search`** in a header or toolbar opens from a round button into a field. Escape clears it, then closes it.
@@ -529,7 +530,7 @@ Use the library's inputs for dates, times, numbers, files and colours in place o
 - **Phones are spacious, tablets a step lighter.** Phone controls are 44pt. Tablets use 40pt controls with the same text, since there is more room and the screen is read from further away. A narrow split-screen window counts as a phone.
 - **Popups follow the size of the screen:** a `Select` or a menu is a sheet from the bottom on a phone and a popover on a tablet.
 - **The App Shell on a phone:** the sidebar is revealed behind the page, the main destinations become a bottom nav, the page scrolls under a fading header, a side panel is a drawer with a grab handle, and a tab strip collapses to the active tab and a count.
-- **Native bottom navigation:** Glass and Floating keep equal-width items with centred labels, a consistent icon box and padding above and below each icon-and-label stack. The capsule grows with the text and the page clears its measured height. Glass uses Apple's native Liquid Glass on supported iOS builds, with a lighter scroll-edge fade that lets the material sample the page; Floating supplies the solid surface elsewhere.
+- **Native bottom navigation:** Glass uses the system tab controller on supported iOS builds. iOS owns its capsule, selection lens, touch tracking, refraction and settling animation. Fabricator icons are template images at native pixel densities, with separate selected strokes. Use `nativeTabs` on the bottom nav to host the system tabs and the page together; it reports the bar's measured height including the safe area, and hides the bar while the editor claims the bottom edge without unmounting the page. Floating and Flat keep Fabricator's icon-and-caption rows and sliding highlight. A destination stays selected on its detail pages.
 
 ## Patterns
 
@@ -641,6 +642,8 @@ Writing or reading one long text: a note, a spec, an article.
 - Comments, the outline and the history go in a side panel.
 
 ### Chat
+
+- **Assistant identity:** `BotFace` is an animated face for assistant avatars, empty conversations and voice interfaces. Choose from fourteen soft silhouettes, three eye styles and the Fabricator role or named palette colours. It follows the pointer on web and desktop, glances naturally and responds to touch on native, and stays still with Reduce Motion or `animated={false}`. Label it when it conveys identity.
 
 - The conversation takes the full main column: the transcript scrolls between the header and the composer, which stays docked under it. On wide screens both are capped at a reading width.
 - Conversations the person switches between are a `TabStrip`, or a sidebar group with dots on the unread ones.

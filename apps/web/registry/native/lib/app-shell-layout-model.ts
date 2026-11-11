@@ -131,6 +131,24 @@ export function getFloatingNavMetrics({
   return { height, bottom, radius: height / 2, clearance: bottom + height }
 }
 
+/** A system tab bar reports a height that already includes its safe area. */
+export function getNativeNavMetrics({
+  measuredHeight = 0,
+  row,
+  padding,
+  insetBottom,
+}: {
+  measuredHeight?: number
+  row: number
+  padding: number
+  insetBottom: number
+}) {
+  return {
+    height:
+      measuredHeight > 0 ? measuredHeight : row + padding * 2 + insetBottom,
+  }
+}
+
 /** What the page's end leaves free, so its last row can scroll out from under it. */
 export function getFabClearance({
   hasFab,

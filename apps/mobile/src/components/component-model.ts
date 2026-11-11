@@ -2,7 +2,7 @@ import {
   getExplorerInstallNames,
   type ExplorerComponent,
 } from "@/lib/component-explorer"
-import { getComponentGroup } from "@/lib/component-groups"
+import { COMPONENT_GROUPS, getComponentGroup } from "@/lib/component-groups"
 
 export const COMPONENTS_HREF = "/components"
 
@@ -16,6 +16,7 @@ export function getDemoName(pathname: string) {
 // Components whose title says more than their name, as their registry
 // items and the website's docs call them.
 const TITLES: Readonly<Record<string, string>> = {
+  "bot-face": "BotFace",
   editor: "Rich Text Editor",
 }
 
@@ -40,6 +41,15 @@ export function getExplorerComponents(names: string[]): ExplorerComponent[] {
   }))
 }
 
+export function getComponentSections(components: ExplorerComponent[]) {
+  return COMPONENT_GROUPS.flatMap((title) => {
+    const data = components
+      .filter((component) => component.group === title)
+      .sort((first, second) => first.title.localeCompare(second.title))
+    return data.length > 0 ? [{ title, data }] : []
+  })
+}
+
 const SITE_URL = "https://fabricator-ui.vercel.app"
 
 /** What adds a component to a React Native project. */
@@ -60,7 +70,5 @@ const DEEP_LINK =
 export function getPathFromUrl(url: string | null | undefined) {
   const match = url ? DEEP_LINK.exec(url) : null
   if (!match) return null
-  return match[1] === "components" || match[1].split("/")[0] === "blocks"
-    ? "/"
-    : `/${match[1]}`
+  return match[1].split("/")[0] === "blocks" ? "/" : `/${match[1]}`
 }
