@@ -21,6 +21,27 @@ function SliderExample() {
           step={5}
         />
       </Example>
+      <Example title="Steps">
+        <Slider
+          accessibilityLabel="Quality"
+          defaultValue={[50]}
+          max={100}
+          step={25}
+          showSteps
+        />
+        <Slider
+          accessibilityLabel="Zoom"
+          defaultValue={[20]}
+          max={100}
+          step={10}
+          showSteps
+        />
+      </Example>
+      <Example title="Sizes">
+        <Slider accessibilityLabel="Small" size="sm" defaultValue={[25]} />
+        <Slider accessibilityLabel="Default" defaultValue={[50]} />
+        <Slider accessibilityLabel="Large" size="lg" defaultValue={[75]} />
+      </Example>
       <Example title="Three thumbs">
         <Slider
           accessibilityLabel="Stops"

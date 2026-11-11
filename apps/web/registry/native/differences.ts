@@ -29,6 +29,10 @@ export const NATIVE_DIFFERENCES: Record<
     tier: "touch",
     note: "Files are URI assets with name, type and size. The host supplies onPick or FileUploadPickerProvider; validation, rejection reasons, controlled values, chips, previews and removal share the web rules. Browser drag/drop, hidden inputs and HTML forms have no native equivalent. The component does not send files to a server.",
   },
+  "image-compare": {
+    tier: "touch",
+    note: 'A horizontal drag moves the line and a vertical one scrolls the page; a tap glides it there and a flick sends it to the edge, with a notch every step. One SVG draws both pictures with the same cover crop and clips the "before" one along the curve. Screen readers adjust it by `step` with swipes up and down. There\'s no hover or keyboard, and the labels have no backdrop blur.',
+  },
   "number-field": {
     tier: "touch",
     note: "A decimal keyboard and touch steppers use the same clamping, locale parsing, formatting, fractional steps and bounds. Browser keyboard shortcuts and pointer scrubbing have no native equivalent.",

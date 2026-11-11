@@ -193,6 +193,13 @@ const SOURCES: CatalogSource[] = [
     load: () => import("@/examples/__styles__/base-fabricator/hover-card-demo"),
   },
   {
+    slug: "image-compare",
+    title: "Image Compare",
+    height: "md",
+    load: () =>
+      import("@/examples/__styles__/base-fabricator/image-compare-demo"),
+  },
+  {
     slug: "input",
     title: "Input",
     height: "sm",

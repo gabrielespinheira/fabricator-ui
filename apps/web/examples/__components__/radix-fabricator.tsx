@@ -2454,6 +2454,46 @@ export const Components: Record<string, any> = {
       ) || "hover-card-sides"
     return { default: mod.default || mod[exportName] }
   }),
+  "image-compare-controlled": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/image-compare-controlled"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "image-compare-controlled"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "image-compare-demo": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/image-compare-demo"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "image-compare-demo"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "image-compare-disabled": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/image-compare-disabled"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "image-compare-disabled"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "image-compare-labels": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/image-compare-labels"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "image-compare-labels"
+    return { default: mod.default || mod[exportName] }
+  }),
   "input-badge": React.lazy(async () => {
     const mod = await import(
       "@/examples/__styles__/radix-fabricator/input-badge"
@@ -4700,6 +4740,26 @@ export const Components: Record<string, any> = {
       Object.keys(mod).find(
         (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
       ) || "slider-range"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "slider-sizes": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/slider-sizes"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "slider-sizes"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "slider-steps": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/radix-fabricator/slider-steps"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "slider-steps"
     return { default: mod.default || mod[exportName] }
   }),
   "slider-vertical": React.lazy(async () => {

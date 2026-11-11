@@ -45,11 +45,11 @@ Fabricator interfaces are calm and exact. They feel like well-made tools: neutra
 
 Pick the mode for the product, then for each region that differs (a marketing page inside an app, a dense table inside a spacious page).
 
-| Mode    | For                                     | Density  | Motion            | Frame                                      |
-| ------- | --------------------------------------- | -------- | ----------------- | ------------------------------------------ |
+| Mode    | For                                      | Density  | Motion            | Frame                                      |
+| ------- | ---------------------------------------- | -------- | ----------------- | ------------------------------------------ |
 | App     | Product UI, docs and component explorers | Default  | Default or snappy | The App Shell                              |
-| Tool    | Dashboards, admin, editors, dense data  | Compact  | Snappy or instant | The App Shell, compact toolbars and tables |
-| Website | Marketing, landing pages, pricing       | Spacious | Smooth            | A site header and centred content          |
+| Tool    | Dashboards, admin, editors, dense data   | Compact  | Snappy or instant | The App Shell, compact toolbars and tables |
+| Website | Marketing, landing pages, pricing        | Spacious | Smooth            | A site header and centred content          |
 
 ### Principles
 
@@ -347,6 +347,7 @@ Components can play short, synthesised sounds, a different one for each family: 
 - **A screenshot is an object.** On a page it sits on a raised surface with the container corner.
 - **People are `Avatar`s** with initials as the fallback; companies are their logo; files are their type icon.
 - **Text over an image sits on a scrim,** because no theme colour stays readable on arbitrary pixels.
+- **Before and after uses `ImageCompare`:** two pictures of the same scene at the same size, such as an edit, a redesign or a restoration, split by a line the person drags. Name both sides when "Before" and "After" don't say enough.
 - **Video uses the `VideoPlayer`:** the full player on a page about the video, the compact one where it is one item among others. A muted, looping clip is for ambience only, and anything with speech has captions.
 
 ## Components
@@ -378,7 +379,7 @@ The library covers most of what a product needs, so a screen is mostly a matter 
 | Several independent options                  | `Checkbox`es in a `FieldSet`                                                   |
 | A setting that applies at once               | `Switch`                                                                       |
 | A one-time code                              | `InputOTP`                                                                     |
-| An approximate value                         | `Slider`, with the value shown beside it                                       |
+| An approximate value                         | `Slider`, with the value shown beside it; `showSteps` when there are few steps |
 | A focused task or short form                 | `Dialog`                                                                       |
 | Confirming something irreversible            | `AlertDialog`                                                                  |
 | Details or editing beside the current view   | `Sheet`                                                                        |
@@ -415,6 +416,7 @@ The library covers most of what a product needs, so a screen is mostly a matter 
 | Panes the person resizes                     | `Resizable`                                                                    |
 | A scrolling region inside a page             | `ScrollArea`                                                                   |
 | A video                                      | `VideoPlayer`                                                                  |
+| Two versions of one picture, side by side    | `ImageCompare`                                                                 |
 | An image, a map or an embed at a fixed ratio | `AspectRatio`                                                                  |
 | A few peer slides (screenshots, quotes)      | `Carousel`, for content people can afford to miss                              |
 | A conversation                               | `MessageScroller`, `Message`, `Bubble`, `Attachment`, `Marker`, `ChatInput`    |
@@ -542,7 +544,7 @@ Start from the closest pattern, install its block when there is one, and remove 
 | `app-shell-02`                                     | Workbench: document tabs above the content, a resources panel, a status bar, a peeking sidebar                         |
 | `app-shell-03`                                     | Classic SaaS: team switcher on top, the person's menu at the bottom, a sidebar that collapses to icons                 |
 | `app-shell-04`                                     | Desktop app: a translucent window, tabs in the top row beside the window's controls                                    |
-| `app-shell-05`                                     | Mobile first: a bottom nav and a floating primary action on phones, a message that takes over the list                    |
+| `app-shell-05`                                     | Mobile first: a bottom nav and a floating primary action on phones, a message that takes over the list                 |
 | `login-01` … `login-05`, `signup-01` … `signup-05` | Sign in and sign up                                                                                                    |
 | `sidebar-01` … `sidebar-16`                        | Sidebar layouts                                                                                                        |
 

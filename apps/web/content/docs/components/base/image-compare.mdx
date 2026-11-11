@@ -1,0 +1,159 @@
+---
+title: Image Compare
+description: Two pictures of one scene in a single frame, split by a line that bends like jelly as you drag it.
+base: base
+component: true
+---
+
+<ComponentPreview
+  styleName="base-nova"
+  name="image-compare-demo"
+  previewClassName="h-auto"
+/>
+
+Drag the line to show more of either picture. The line is jelly: its ends trail the knob on a soft spring, and the "before" picture is cut along the same curve, so it bends with the line. Click anywhere on the frame and the knob glides there; flick it and it glides to that edge. The labels fade as the line reaches them.
+
+Image Compare is part of the Fabricator style. It's built on HTML and SVG, so the same component ships for every base.
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">Command</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx fabricator-ui@latest add image-compare
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps className="mb-0 pt-2">
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  src="styles/base-fabricator/lib/image-compare-model.ts"
+  title="lib/image-compare-model.ts"
+  styleName="base-nova"
+/>
+
+<ComponentSource
+  src="styles/base-fabricator/ui/image-compare.tsx"
+  title="components/ui/image-compare.tsx"
+  styleName="base-nova"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { ImageCompare } from "@/components/ui/image-compare"
+```
+
+```tsx
+<ImageCompare
+  beforeSrc="/photos/raw.jpg"
+  afterSrc="/photos/graded.jpg"
+  beforeAlt="The harbour straight from the camera"
+  afterAlt="The harbour after a warm colour grade"
+/>
+```
+
+Use two pictures of the same scene at the same size: both cover the frame the same way, so the halves line up. The frame is 3:2 by default. Give it a width (`className="w-full max-w-xl"`), and another ratio with `aspect-*`.
+
+## Composition
+
+Image Compare is one component. Its parts carry a `data-slot` for styling from outside:
+
+```text
+ImageCompare                 data-slot="image-compare"
+├── img (after)              data-slot="image-compare-image" data-side="after"
+├── div (before, clipped)    data-slot="image-compare-before"
+│   └── img                  data-slot="image-compare-image" data-side="before"
+├── span (labels)            data-slot="image-compare-label" data-side="before | after"
+├── svg > path               data-slot="image-compare-line"
+└── span (knob)              data-slot="image-compare-handle"
+```
+
+## Examples
+
+### Labels and shape
+
+`beforeLabel` and `afterLabel` name the pictures on their labels and for screen readers. `defaultValue` sets where the line starts, from 0 to 100: the share of the frame the "before" picture holds. The corners and the ratio are classes.
+
+<ComponentPreview
+  styleName="base-nova"
+  name="image-compare-labels"
+  previewClassName="h-auto"
+/>
+
+### Controlled
+
+Pass `value` and `onValueChange` to drive the line from outside: a new value glides there, the same way a click does. `hasLabels={false}` hides the labels; screen readers still read the names. `onValueCommitted` reports where a drag, a click or a key landed.
+
+<ComponentPreview
+  styleName="base-nova"
+  name="image-compare-controlled"
+  previewClassName="h-auto"
+/>
+
+### Disabled
+
+<ComponentPreview
+  styleName="base-nova"
+  name="image-compare-disabled"
+  previewClassName="h-auto"
+/>
+
+## Motion
+
+The knob glides to a click, a key or a flick on an ease-out, and follows a drag exactly. A drag that starts away from the knob reels it in first. While the knob moves, the line's ends chase it on a soft spring, bending the line by up to a thirtieth of the frame's shorter side. A release faster than 1000px a second sends the knob to that edge.
+
+The motion follows the speed setting's scale, and Reduce Motion or motion off jumps the line where it's going, straight.
+
+## API Reference
+
+| Prop               | Type                      | Default            |
+| ------------------ | ------------------------- | ------------------ |
+| `beforeSrc`        | `string`                  | Required           |
+| `afterSrc`         | `string`                  | Required           |
+| `beforeAlt`        | `string`                  | `""`               |
+| `afterAlt`         | `string`                  | `""`               |
+| `beforeLabel`      | `string`                  | `"Before"`         |
+| `afterLabel`       | `string`                  | `"After"`          |
+| `hasLabels`        | `boolean`                 | `true`             |
+| `value`            | `number`                  | (none)             |
+| `defaultValue`     | `number`                  | `50`               |
+| `onValueChange`    | `(value: number) => void` | (none)             |
+| `onValueCommitted` | `(value: number) => void` | (none)             |
+| `step`             | `number`                  | `10`               |
+| `disabled`         | `boolean`                 | `false`            |
+| `aria-label`       | `string`                  | `"Compare images"` |
+
+The root is a `div` and takes its props and `ref`. The value is the share of the frame the "before" picture holds, from 0 to 100.
+
+## Accessibility
+
+Image Compare is a [slider](https://www.w3.org/WAI/ARIA/apg/patterns/slider/): it takes focus as one control, and announces its name and both shares, such as "Before 30%, After 70%".
+
+| Key                 | Does                    |
+| ------------------- | ----------------------- |
+| ← / ↓               | Show `step` less before |
+| → / ↑               | Show `step` more before |
+| Page Down / Page Up | Move by 25              |
+| Home / End          | All after / all before  |
+
+A touch drag across the frame moves the line; a vertical one scrolls the page.

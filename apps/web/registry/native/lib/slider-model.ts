@@ -246,3 +246,54 @@ export function stepThumb(
   return resolveThumbCollision(behavior, values, values, index, next, range)
     .values
 }
+
+/**
+ * The knob's size from the density tokens, as the website's `min()`: the icon
+ * size inside the track at compact (where `--density-36` is 28), and overhanging
+ * it above: 24 over 18 at default, 28 over 20 spacious. Size sm stays inside
+ * too: on a phone it only takes a step down, to the default density.
+ */
+export function getThumbSize({
+  space24,
+  space36,
+  icon16,
+  size,
+}: {
+  space24: number
+  space36: number
+  icon16: number
+  size?: string
+}) {
+  if (size === "sm") return icon16
+  return Math.min(space24, icon16 + space36 - 28)
+}
+
+/** Under the range: one thumb fills from min, more fill between the ends. */
+export function isStepFilled(value: number, values: readonly number[]) {
+  "worklet"
+  const last = values[values.length - 1]
+  if (last === undefined) return false
+  const first = values.length > 1 ? (values[0] ?? last) : -Infinity
+  return value >= first && value <= last
+}
+
+/** Every value a thumb can land on, with whether the range covers it. */
+export function getSliderSteps({
+  min,
+  max,
+  step,
+  values,
+}: {
+  min: number
+  max: number
+  step: number
+  values: readonly number[]
+}) {
+  if (max <= min || step <= 0) return []
+  const count = Math.floor((max - min) / step + 1e-9)
+  const sorted = toSliderValues(values)
+  return Array.from({ length: count + 1 }, (_, index) => {
+    const value = roundValueToStep(min + index * step, step, min)
+    return { value, isFilled: isStepFilled(value, sorted) }
+  })
+}

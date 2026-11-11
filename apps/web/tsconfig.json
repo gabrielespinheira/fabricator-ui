@@ -55,6 +55,12 @@
       "@/registry/bases/*/lib/sidebar-model": [
         "./registry/fabricator/shared/lib/sidebar-model"
       ],
+      "@/registry/bases/*/lib/slider-model": [
+        "./registry/fabricator/shared/lib/slider-model"
+      ],
+      "@/registry/bases/*/hooks/use-slider-drag": [
+        "./registry/fabricator/shared/hooks/use-slider-drag"
+      ],
       "@/registry/bases/*/lib/date-picker-model": [
         "./registry/fabricator/shared/lib/date-picker-model"
       ],

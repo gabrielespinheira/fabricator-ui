@@ -2270,6 +2270,38 @@ export const Components: Record<string, any> = {
       ) || "hover-card-sides"
     return { default: mod.default || mod[exportName] }
   }),
+  "image-compare-controlled": React.lazy(async () => {
+    const mod = await import("@/examples/base/image-compare-controlled")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "image-compare-controlled"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "image-compare-demo": React.lazy(async () => {
+    const mod = await import("@/examples/base/image-compare-demo")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "image-compare-demo"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "image-compare-disabled": React.lazy(async () => {
+    const mod = await import("@/examples/base/image-compare-disabled")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "image-compare-disabled"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "image-compare-labels": React.lazy(async () => {
+    const mod = await import("@/examples/base/image-compare-labels")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "image-compare-labels"
+    return { default: mod.default || mod[exportName] }
+  }),
   "input-badge": React.lazy(async () => {
     const mod = await import("@/examples/base/input-badge")
     const exportName =
@@ -4304,6 +4336,22 @@ export const Components: Record<string, any> = {
       Object.keys(mod).find(
         (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
       ) || "slider-rtl"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "slider-sizes": React.lazy(async () => {
+    const mod = await import("@/examples/base/slider-sizes")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "slider-sizes"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "slider-steps": React.lazy(async () => {
+    const mod = await import("@/examples/base/slider-steps")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "slider-steps"
     return { default: mod.default || mod[exportName] }
   }),
   "slider-vertical": React.lazy(async () => {

@@ -1137,6 +1137,22 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "hover-card-sides",
       filePath: "examples/base/hover-card-sides.tsx",
     },
+    "image-compare-controlled": {
+      name: "image-compare-controlled",
+      filePath: "examples/base/image-compare-controlled.tsx",
+    },
+    "image-compare-demo": {
+      name: "image-compare-demo",
+      filePath: "examples/base/image-compare-demo.tsx",
+    },
+    "image-compare-disabled": {
+      name: "image-compare-disabled",
+      filePath: "examples/base/image-compare-disabled.tsx",
+    },
+    "image-compare-labels": {
+      name: "image-compare-labels",
+      filePath: "examples/base/image-compare-labels.tsx",
+    },
     "input-badge": {
       name: "input-badge",
       filePath: "examples/base/input-badge.tsx",
@@ -2152,6 +2168,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "slider-rtl": {
       name: "slider-rtl",
       filePath: "examples/base/slider-rtl.tsx",
+    },
+    "slider-sizes": {
+      name: "slider-sizes",
+      filePath: "examples/base/slider-sizes.tsx",
+    },
+    "slider-steps": {
+      name: "slider-steps",
+      filePath: "examples/base/slider-steps.tsx",
     },
     "slider-vertical": {
       name: "slider-vertical",
@@ -3655,6 +3679,22 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "hover-card-sides",
       filePath: "examples/aria/hover-card-sides.tsx",
     },
+    "image-compare-controlled": {
+      name: "image-compare-controlled",
+      filePath: "examples/aria/image-compare-controlled.tsx",
+    },
+    "image-compare-demo": {
+      name: "image-compare-demo",
+      filePath: "examples/aria/image-compare-demo.tsx",
+    },
+    "image-compare-disabled": {
+      name: "image-compare-disabled",
+      filePath: "examples/aria/image-compare-disabled.tsx",
+    },
+    "image-compare-labels": {
+      name: "image-compare-labels",
+      filePath: "examples/aria/image-compare-labels.tsx",
+    },
     "input-badge": {
       name: "input-badge",
       filePath: "examples/aria/input-badge.tsx",
@@ -4638,6 +4678,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "slider-rtl": {
       name: "slider-rtl",
       filePath: "examples/aria/slider-rtl.tsx",
+    },
+    "slider-sizes": {
+      name: "slider-sizes",
+      filePath: "examples/aria/slider-sizes.tsx",
+    },
+    "slider-steps": {
+      name: "slider-steps",
+      filePath: "examples/aria/slider-steps.tsx",
     },
     "slider-vertical": {
       name: "slider-vertical",
@@ -6141,6 +6189,22 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "hover-card-sides",
       filePath: "examples/radix/hover-card-sides.tsx",
     },
+    "image-compare-controlled": {
+      name: "image-compare-controlled",
+      filePath: "examples/radix/image-compare-controlled.tsx",
+    },
+    "image-compare-demo": {
+      name: "image-compare-demo",
+      filePath: "examples/radix/image-compare-demo.tsx",
+    },
+    "image-compare-disabled": {
+      name: "image-compare-disabled",
+      filePath: "examples/radix/image-compare-disabled.tsx",
+    },
+    "image-compare-labels": {
+      name: "image-compare-labels",
+      filePath: "examples/radix/image-compare-labels.tsx",
+    },
     "input-badge": {
       name: "input-badge",
       filePath: "examples/radix/input-badge.tsx",
@@ -7152,6 +7216,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "slider-rtl": {
       name: "slider-rtl",
       filePath: "examples/radix/slider-rtl.tsx",
+    },
+    "slider-sizes": {
+      name: "slider-sizes",
+      filePath: "examples/radix/slider-sizes.tsx",
+    },
+    "slider-steps": {
+      name: "slider-steps",
+      filePath: "examples/radix/slider-steps.tsx",
     },
     "slider-vertical": {
       name: "slider-vertical",
@@ -8563,6 +8635,24 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "hover-card-sides",
       filePath: "examples/__styles__/base-fabricator/hover-card-sides.tsx",
     },
+    "image-compare-controlled": {
+      name: "image-compare-controlled",
+      filePath:
+        "examples/__styles__/base-fabricator/image-compare-controlled.tsx",
+    },
+    "image-compare-demo": {
+      name: "image-compare-demo",
+      filePath: "examples/__styles__/base-fabricator/image-compare-demo.tsx",
+    },
+    "image-compare-disabled": {
+      name: "image-compare-disabled",
+      filePath:
+        "examples/__styles__/base-fabricator/image-compare-disabled.tsx",
+    },
+    "image-compare-labels": {
+      name: "image-compare-labels",
+      filePath: "examples/__styles__/base-fabricator/image-compare-labels.tsx",
+    },
     "input-badge": {
       name: "input-badge",
       filePath: "examples/__styles__/base-fabricator/input-badge.tsx",
@@ -9508,6 +9598,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "slider-range": {
       name: "slider-range",
       filePath: "examples/__styles__/base-fabricator/slider-range.tsx",
+    },
+    "slider-sizes": {
+      name: "slider-sizes",
+      filePath: "examples/__styles__/base-fabricator/slider-sizes.tsx",
+    },
+    "slider-steps": {
+      name: "slider-steps",
+      filePath: "examples/__styles__/base-fabricator/slider-steps.tsx",
     },
     "slider-vertical": {
       name: "slider-vertical",
@@ -10875,6 +10973,24 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "hover-card-sides",
       filePath: "examples/__styles__/aria-fabricator/hover-card-sides.tsx",
     },
+    "image-compare-controlled": {
+      name: "image-compare-controlled",
+      filePath:
+        "examples/__styles__/aria-fabricator/image-compare-controlled.tsx",
+    },
+    "image-compare-demo": {
+      name: "image-compare-demo",
+      filePath: "examples/__styles__/aria-fabricator/image-compare-demo.tsx",
+    },
+    "image-compare-disabled": {
+      name: "image-compare-disabled",
+      filePath:
+        "examples/__styles__/aria-fabricator/image-compare-disabled.tsx",
+    },
+    "image-compare-labels": {
+      name: "image-compare-labels",
+      filePath: "examples/__styles__/aria-fabricator/image-compare-labels.tsx",
+    },
     "input-badge": {
       name: "input-badge",
       filePath: "examples/__styles__/aria-fabricator/input-badge.tsx",
@@ -11796,6 +11912,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "slider-range": {
       name: "slider-range",
       filePath: "examples/__styles__/aria-fabricator/slider-range.tsx",
+    },
+    "slider-sizes": {
+      name: "slider-sizes",
+      filePath: "examples/__styles__/aria-fabricator/slider-sizes.tsx",
+    },
+    "slider-steps": {
+      name: "slider-steps",
+      filePath: "examples/__styles__/aria-fabricator/slider-steps.tsx",
     },
     "slider-vertical": {
       name: "slider-vertical",
@@ -13173,6 +13297,24 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "hover-card-sides",
       filePath: "examples/__styles__/radix-fabricator/hover-card-sides.tsx",
     },
+    "image-compare-controlled": {
+      name: "image-compare-controlled",
+      filePath:
+        "examples/__styles__/radix-fabricator/image-compare-controlled.tsx",
+    },
+    "image-compare-demo": {
+      name: "image-compare-demo",
+      filePath: "examples/__styles__/radix-fabricator/image-compare-demo.tsx",
+    },
+    "image-compare-disabled": {
+      name: "image-compare-disabled",
+      filePath:
+        "examples/__styles__/radix-fabricator/image-compare-disabled.tsx",
+    },
+    "image-compare-labels": {
+      name: "image-compare-labels",
+      filePath: "examples/__styles__/radix-fabricator/image-compare-labels.tsx",
+    },
     "input-badge": {
       name: "input-badge",
       filePath: "examples/__styles__/radix-fabricator/input-badge.tsx",
@@ -14121,6 +14263,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "slider-range": {
       name: "slider-range",
       filePath: "examples/__styles__/radix-fabricator/slider-range.tsx",
+    },
+    "slider-sizes": {
+      name: "slider-sizes",
+      filePath: "examples/__styles__/radix-fabricator/slider-sizes.tsx",
+    },
+    "slider-steps": {
+      name: "slider-steps",
+      filePath: "examples/__styles__/radix-fabricator/slider-steps.tsx",
     },
     "slider-vertical": {
       name: "slider-vertical",

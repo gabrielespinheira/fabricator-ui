@@ -24,15 +24,19 @@ import { parseNumber } from "@/registry/native/lib/motion-tokens"
 import {
   getClosestThumb,
   getNotchPitch,
+  getSliderSteps,
   getThumbCenter,
   getThumbOffset,
+  getThumbSize,
   getValueAtPosition,
+  isStepFilled,
   resolveThumbCollision,
   sameValues,
   stepThumb,
   toSliderValues,
   type SliderCollision,
 } from "@/registry/native/lib/slider-model"
+import { DensityScope, useControlSize } from "@/registry/native/ui/density"
 
 // A vertical scroll under a horizontal slider, or the reverse, stays a scroll.
 const ACTIVE_OFFSET = 8
@@ -81,11 +85,14 @@ function SliderThumb({
       length: length.value,
       thumbSize,
     })
+    // Held, the knob grows 2pt all round, as the website's white ring offset.
+    const grow = pressedIndex.value === index ? (held.value * 4) / thumbSize : 0
     return {
       transform: [
         isVertical
           ? { translateY: Math.max(length.value - thumbSize - offset, 0) }
           : { translateX: offset },
+        { scale: 1 + grow },
       ],
     }
   })
@@ -106,7 +113,7 @@ function SliderThumb({
       accessibilityState={{ disabled: isDisabled }}
       onAccessibilityAction={onAccessibilityAction}
       className="cn-slider-thumb absolute shrink-0"
-      style={positionStyle}
+      style={[{ width: thumbSize, height: thumbSize }, positionStyle]}
     >
       <Animated.View
         pointerEvents="none"
@@ -117,7 +124,58 @@ function SliderThumb({
   )
 }
 
-function Slider({
+function SliderStep({
+  value,
+  shown,
+  length,
+  min,
+  max,
+  thumbSize,
+  isVertical,
+  duration,
+  easing,
+}: {
+  value: number
+  shown: SharedValue<number[]>
+  length: SharedValue<number>
+  min: number
+  max: number
+  thumbSize: number
+  isVertical: boolean
+  duration: number
+  easing: ReturnType<typeof useMotion>["enterEasing"]
+}) {
+  // A thumb-sized box on the step's thumb position, so the dot sits under the
+  // knob's centre whatever its size. It shrinks away as the range covers it.
+  const style = useAnimatedStyle(() => {
+    const offset = getThumbOffset(value, {
+      min,
+      max,
+      length: length.value,
+      thumbSize,
+    })
+    const shownAmount = isStepFilled(value, shown.value) ? 0 : 1
+    return {
+      opacity: withTiming(shownAmount, { duration, easing }),
+      transform: [
+        isVertical
+          ? { translateY: Math.max(length.value - thumbSize - offset, 0) }
+          : { translateX: offset },
+        { scale: withTiming(shownAmount, { duration, easing }) },
+      ],
+    }
+  })
+  return (
+    <Animated.View
+      className="absolute items-center justify-center"
+      style={[{ width: thumbSize, height: thumbSize }, style]}
+    >
+      <View data-slot="slider-step" className="cn-slider-step" />
+    </Animated.View>
+  )
+}
+
+function SliderControl({
   className,
   defaultValue,
   value,
@@ -130,23 +188,12 @@ function Slider({
   thumbCollisionBehavior = "push",
   orientation = "horizontal",
   disabled,
+  size = "default",
+  showSteps = false,
   accessibilityLabel,
   "aria-label": ariaLabel,
   ...props
-}: Omit<React.ComponentProps<typeof View>, "children"> & {
-  value?: number | readonly number[]
-  defaultValue?: number | readonly number[]
-  onValueChange?: (value: number | readonly number[]) => void
-  /** When a drag or tap ends, with the value it landed on. */
-  onValueCommitted?: (value: number | readonly number[]) => void
-  min?: number
-  max?: number
-  step?: number
-  minStepsBetweenValues?: number
-  thumbCollisionBehavior?: SliderCollision
-  orientation?: "horizontal" | "vertical"
-  disabled?: boolean
-}) {
+}: React.ComponentProps<typeof Slider>) {
   const [current = [min, max], setCurrent] = useControllableState<
     number | readonly number[]
   >({
@@ -162,7 +209,18 @@ function Slider({
   const label = accessibilityLabel ?? ariaLabel
   const feedback = useFeedback()
 
-  const thumbSize = parseNumber(useCSSVariable("--density-icon-16"), 16)
+  const [space24, space36, icon16] = useCSSVariable([
+    "--density-24",
+    "--density-36",
+    "--density-icon-16",
+  ])
+  const trackSize = parseNumber(icon16, 16) + 2
+  const thumbSize = getThumbSize({
+    space24: parseNumber(space24, 24),
+    space36: parseNumber(space36, 36),
+    icon16: parseNumber(icon16, 16),
+    size,
+  })
   const length = useSharedValue(0)
 
   // The thumbs follow this on the UI thread, so a drag never waits for a render.
@@ -176,14 +234,15 @@ function Slider({
   // What's drawn: under a drag it's the finger, and anything else (a tap on the
   // track, a screen reader's step, a new `value`) moves there on the move timing.
   const shown = useSharedValue(values)
-  const { enterMs: moveMs, moveEasing } = useMotion("move")
+  // Ease-out, as the website's glide: it answers the tap at once and settles.
+  const { enterMs: moveMs, enterEasing: glideEasing } = useMotion("move")
   useAnimatedReaction(
     () => live.value,
     (next, previous) => {
       if (previous === null) return
       shown.value = isDragging.value
         ? next
-        : withTiming(next, { duration: moveMs, easing: moveEasing })
+        : withTiming(next, { duration: moveMs, easing: glideEasing })
     }
   )
 
@@ -192,6 +251,7 @@ function Slider({
     enterMs: holdMs,
     exitMs: letGoMs,
     feedbackEasing,
+    enterEasing: stepEasing,
   } = useMotion("feedback")
 
   // A drag may end on values the app didn't take: `syncCount` puts the thumbs
@@ -378,9 +438,11 @@ function Slider({
       onValueCommitted?.(toValue(next))
     }
 
+  const steps = showSteps ? getSliderSteps({ min, max, step, values }) : []
+
   // Grows the control across its axis to the target, and takes the same back from
   // the layout, so it still sits as an 18pt track.
-  const slop = Math.max((MIN_TARGET - thumbSize - 2) / 2, 0)
+  const slop = Math.max((MIN_TARGET - trackSize) / 2, 0)
   const targetStyle = isVertical
     ? { marginHorizontal: -slop, paddingHorizontal: slop }
     : { marginVertical: -slop, paddingVertical: slop }
@@ -388,6 +450,7 @@ function Slider({
   return (
     <View
       data-slot="slider"
+      data-size={size}
       data-orientation={orientation}
       className={cn(
         "data-[orientation=horizontal]:w-full data-[orientation=vertical]:h-full",
@@ -418,6 +481,31 @@ function Slider({
               style={rangeStyle}
             />
           </View>
+          {steps.length > 0 && (
+            <View
+              data-slot="slider-steps"
+              data-orientation={orientation}
+              pointerEvents="none"
+              accessibilityElementsHidden
+              importantForAccessibility="no-hide-descendants"
+              className="absolute inset-0 flex-row items-center data-[orientation=vertical]:flex-col"
+            >
+              {steps.map(({ value: stepValue }) => (
+                <SliderStep
+                  key={stepValue}
+                  value={stepValue}
+                  shown={shown}
+                  length={length}
+                  min={min}
+                  max={max}
+                  thumbSize={thumbSize}
+                  isVertical={isVertical}
+                  duration={holdMs}
+                  easing={stepEasing}
+                />
+              ))}
+            </View>
+          )}
           {values.map((_, index) => (
             <SliderThumb
               key={index}
@@ -440,6 +528,36 @@ function Slider({
         </View>
       </GestureDetector>
     </View>
+  )
+}
+
+function Slider({
+  size = "default",
+  ...props
+}: Omit<React.ComponentProps<typeof View>, "children"> & {
+  value?: number | readonly number[]
+  defaultValue?: number | readonly number[]
+  onValueChange?: (value: number | readonly number[]) => void
+  /** When a drag or tap ends, with the value it landed on. */
+  onValueCommitted?: (value: number | readonly number[]) => void
+  min?: number
+  max?: number
+  step?: number
+  minStepsBetweenValues?: number
+  thumbCollisionBehavior?: SliderCollision
+  orientation?: "horizontal" | "vertical"
+  disabled?: boolean
+  size?: "sm" | "default" | "lg"
+  /** A dot on every value the thumb can land on. For coarse steps. */
+  showSteps?: boolean
+}) {
+  // size="sm" pins the compact density and "lg" the spacious one; the knob's
+  // numbers are read inside the scope.
+  const { density } = useControlSize(size)
+  return (
+    <DensityScope density={density}>
+      <SliderControl size={size} {...props} />
+    </DensityScope>
   )
 }
 

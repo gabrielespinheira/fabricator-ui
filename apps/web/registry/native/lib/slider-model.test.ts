@@ -3,8 +3,10 @@ import { describe, expect, it } from "vitest"
 import {
   getClosestThumb,
   getNotchPitch,
+  getSliderSteps,
   getThumbCenter,
   getThumbOffset,
+  getThumbSize,
   getValueAtPosition,
   resolveThumbCollision,
   roundValueToStep,
@@ -200,5 +202,58 @@ describe("getNotchPitch", () => {
 
   it("takes the middle of an empty scale", () => {
     expect(getNotchPitch(5, { min: 5, max: 5 })).toBeCloseTo(1.1)
+  })
+})
+
+describe("getThumbSize", () => {
+  it("sits inside the track at the compact density", () => {
+    expect(getThumbSize({ space24: 20, space36: 28, icon16: 14 })).toBe(14)
+  })
+
+  it("sits inside the track at size sm, which a phone keeps a step up", () => {
+    expect(
+      getThumbSize({ space24: 24, space36: 36, icon16: 16, size: "sm" })
+    ).toBe(16)
+  })
+
+  it("overhangs the track above it, as on the website", () => {
+    expect(getThumbSize({ space24: 24, space36: 36, icon16: 16 })).toBe(24)
+    expect(getThumbSize({ space24: 28, space36: 44, icon16: 18 })).toBe(28)
+  })
+})
+
+describe("getSliderSteps", () => {
+  it("marks every step from min to max, without float noise", () => {
+    expect(
+      getSliderSteps({ min: 0, max: 1, step: 0.25, values: [0] }).map(
+        (step) => step.value
+      )
+    ).toEqual([0, 0.25, 0.5, 0.75, 1])
+    expect(
+      getSliderSteps({ min: 0, max: 0.3, step: 0.1, values: [0] }).map(
+        (step) => step.value
+      )
+    ).toEqual([0, 0.1, 0.2, 0.3])
+  })
+
+  it("stops at the last step a thumb can reach", () => {
+    expect(
+      getSliderSteps({ min: 0, max: 10, step: 4, values: [0] }).map(
+        (step) => step.value
+      )
+    ).toEqual([0, 4, 8])
+  })
+
+  it("fills up to one thumb, or between the first and last", () => {
+    const filled = (values: number[]) =>
+      getSliderSteps({ min: 0, max: 100, step: 25, values }).map(
+        (step) => step.isFilled
+      )
+    expect(filled([50])).toEqual([true, true, true, false, false])
+    expect(filled([75, 25])).toEqual([false, true, true, true, false])
+  })
+
+  it("has no steps without a range to cover", () => {
+    expect(getSliderSteps({ min: 5, max: 5, step: 1, values: [5] })).toEqual([])
   })
 })

@@ -275,6 +275,7 @@ export const formItems: Registry["items"] = [
       "uniwind@1.13.1",
     ],
     registryDependencies: [
+      "@fabricator/density",
       "@fabricator/feedback",
       "@fabricator/field-model",
       "@fabricator/motion",

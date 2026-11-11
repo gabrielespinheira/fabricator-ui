@@ -202,6 +202,25 @@ export const fabricatorItems = [
     },
   },
   {
+    name: "image-compare",
+    type: "registry:ui",
+    title: "Image Compare",
+    description:
+      "Two pictures of one scene in a single frame, split by a line you drag. The line bends like jelly and the picture is cut along it; a click or a key glides it there and a flick sends it to the edge.",
+    files: [
+      { path: "ui/image-compare.tsx", type: "registry:ui" },
+      { path: "lib/image-compare-model.ts", type: "registry:lib" },
+    ],
+    meta: {
+      fabricator: true,
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/image-compare",
+        examples:
+          "https://fabricator-ui.vercel.app/docs/components/base/image-compare#examples",
+      },
+    },
+  },
+  {
     name: "model-picker",
     type: "registry:ui",
     title: "Model Picker",
@@ -429,6 +448,17 @@ export const fabricatorItems = [
     description:
       "The Sidebar's plain data and rules: its toggle's glyph, and how the phone sidebar's reveal moves and settles. No DOM, so a React Native shell can share it.",
     files: [{ path: "lib/sidebar-model.ts", type: "registry:lib" }],
+  },
+  {
+    name: "slider-model",
+    type: "registry:lib",
+    title: "Slider model",
+    description:
+      "The Slider's step dots and the rule that tells a drag from a press, so a click on the track glides and a drag follows the pointer.",
+    files: [
+      { path: "lib/slider-model.ts", type: "registry:lib" },
+      { path: "hooks/use-slider-drag.ts", type: "registry:hook" },
+    ],
   },
   {
     name: "sortable",
@@ -674,6 +704,7 @@ export const fabricatorOverrides: Record<
   accordion: { registryDependencies: ["fluid-hover"] },
   table: { registryDependencies: ["fluid-hover"] },
   questionnaire: { registryDependencies: ["fluid-hover"] },
+  slider: { registryDependencies: ["slider-model"] },
   // The month and year dropdowns are the library's Select.
   calendar: { registryDependencies: ["select"] },
 }

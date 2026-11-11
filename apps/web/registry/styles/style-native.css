@@ -3000,6 +3000,41 @@
     @apply text-popover-foreground text-(length:--density-text-13);
   }
 
+/* MARK: Image Compare */
+
+  /* A 3:2 frame rounded like a card, on the muted fill while the pictures
+     load. Disabled dims it; the gestures are off. */
+  .cn-image-compare {
+    @apply aspect-3/2 rounded-xl bg-muted data-[disabled=true]:opacity-50;
+  }
+
+  /* The labels sit in the top corners on dark glass, white whatever the
+     theme: they lie on arbitrary pictures, which no theme token stays legible
+     on (see Known deviations). Each fades as the line crosses it. No backdrop
+     blur on native. */
+  .cn-image-compare-label {
+    @apply top-(--density-12) rounded-full bg-black/45 px-(--density-10) py-(--density-4) data-[side=after]:right-(--density-12) data-[side=before]:left-(--density-12);
+  }
+
+  .cn-image-compare-label-text {
+    @apply text-(length:--density-text-12) leading-none font-medium text-white;
+  }
+
+  /* The line's colour, read by the SVG: 2pt white on a soft white band. */
+  .cn-image-compare-line {
+    @apply text-white;
+  }
+
+  /* The knob: a 36pt disc of the background colour with a chevron each way,
+     on a soft shadow. It presses in while held, on the feedback timing. */
+  .cn-image-compare-handle {
+    @apply size-(--density-36) rounded-full border border-black/5 bg-background shadow-surface-2 dark:border-white/10;
+  }
+
+  .cn-image-compare-handle-icon {
+    @apply text-foreground;
+  }
+
 /* MARK: Input Group */
 
   /* The group is the frame (same recipe as the input): a hairline, transparent at
@@ -4982,14 +5017,22 @@
     @apply bg-primary/10 dark:bg-primary/15;
   }
 
-  /* White 16pt knob with a soft drop shadow and a hairline. It doesn't scale or
-     ring under a finger: the website's ring is keyboard focus, and its only
-     pointer state is the deeper hover shadow. */
-  .cn-slider-thumb {
-    @apply shadow-surface-2 size-(--density-icon-16) rounded-full border border-black/5 bg-white;
+  /* One 4pt dot per step, the foreground at 25%. Under the range it shrinks
+     away (the component animates it), so the fill reads as one piece. */
+  .cn-slider-step {
+    @apply bg-foreground/25 size-1 rounded-full;
   }
 
-  /* That deeper shadow, fading in while the thumb is held. It covers the border
+  /* White knob with a soft drop shadow and a hairline, sized by the component:
+     the icon size inside the track at size sm and the compact density, and
+     larger than the track above them (24pt over 18pt). Held, it grows 2pt all
+     round, as the website's. No ring under a finger: the website's ring is
+     keyboard focus. */
+  .cn-slider-thumb {
+    @apply shadow-surface-2 rounded-full border border-black/5 bg-white;
+  }
+
+  /* The deeper shadow, fading in while the thumb is held. It covers the border
      box, so it sits exactly on the knob's edge. */
   .cn-slider-thumb-held {
     @apply shadow-surface-3 -inset-px rounded-full;
