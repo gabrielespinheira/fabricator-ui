@@ -40,6 +40,7 @@ export const NATIVE_EXAMPLES: Record<string, () => React.ComponentType> = {
   "file-tree": () => require("@/examples/native/file-tree-example").FileTreeExample,
   "file-upload": () => require("@/examples/native/file-upload-example").FileUploadExample,
   "hover-card": () => require("@/examples/native/hover-card-example").HoverCardExample,
+  "image-compare": () => require("@/examples/native/image-compare-example").ImageCompareExample,
   "input": () => require("@/examples/native/input-example").InputExample,
   "input-group": () => require("@/examples/native/input-group-example").InputGroupExample,
   "input-otp": () => require("@/examples/native/input-otp-example").InputOtpExample,

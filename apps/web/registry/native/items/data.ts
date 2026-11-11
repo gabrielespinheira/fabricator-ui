@@ -194,6 +194,33 @@ export const dataItems: Registry["items"] = [
     meta: docs("video-player"),
   },
   {
+    name: "image-compare",
+    type: "registry:ui",
+    title: "Image Compare",
+    description:
+      "Two pictures of one scene in a single frame, split by a line you drag. The line bends like jelly and the picture is cut along it; a tap glides it there and a flick sends it to the edge.",
+    dependencies: [
+      "@fabricator-ui/icons-react-native",
+      "@rn-primitives/hooks",
+      "class-variance-authority",
+      "cn",
+      "react-native-gesture-handler",
+      "react-native-reanimated",
+      "react-native-svg",
+      "uniwind@1.13.1",
+    ],
+    registryDependencies: [
+      "@fabricator/feedback",
+      "@fabricator/motion",
+      "@fabricator/text",
+    ],
+    files: [
+      { path: "ui/image-compare.tsx", type: "registry:ui" },
+      { path: "lib/image-compare-model.ts", type: "registry:lib" },
+    ],
+    meta: docs("image-compare"),
+  },
+  {
     name: "table",
     type: "registry:ui",
     title: "Table",

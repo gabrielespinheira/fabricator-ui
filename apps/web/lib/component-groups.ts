@@ -95,6 +95,7 @@ const GROUP_BY_SLUG: Record<string, ComponentGroup> = {
   progress: "Content",
   empty: "Content",
   "video-player": "Content",
+  "image-compare": "Content",
   "syntax-highlight": "Content",
   markdown: "Content",
   // Chat
