@@ -1,6 +1,6 @@
 # React Native
 
-Check `info --json` first: `project.framework` is `Expo`, or `components.json`'s `@fabricator` registry ends in `/r/fabricator/native/{name}.json`. In a React Native project the CLI installs the native source of each item under the same names. Don't use web patterns here.
+Identify Expo from local project files or the native `/r/fabricator/native/{name}.json` registry URL in `components.json`; use the selected CLI's `info --json` when needed. In a React Native project the CLI installs native source under the same item names. Use native patterns here.
 
 ## Contents
 

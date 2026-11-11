@@ -2,9 +2,9 @@
 
 Configuration is read from `components.json`.
 
-> **IMPORTANT:** Always run commands with the project's package runner: `npx fabricator-ui@latest`, `pnpm dlx fabricator-ui@latest`, `yarn dlx fabricator-ui@latest`, or `bunx --bun fabricator-ui@latest`. Pick it from the project's lockfile. Examples below use `npx fabricator-ui@latest`; substitute the right runner.
+> **Runner:** Always use `fabricator-ui@latest` with the project's package runner: `npx fabricator-ui@latest`, `pnpm dlx fabricator-ui@latest`, `yarn dlx fabricator-ui@latest`, or `bunx --bun fabricator-ui@latest`. Pick it from the lockfile. Examples use `npx`; substitute the right runner.
 
-> **IMPORTANT:** Only use the flags documented below. Do not invent or guess flags — if a flag isn't listed here, it doesn't exist. The CLI auto-detects the package manager from the project's lockfile; there is no `--package-manager` flag. Run `npx fabricator-ui@latest <command> --help` when in doubt.
+> **Version:** Check the latest CLI's `--help` for available flags; published releases may have changed since this reference was written. The CLI auto-detects the package manager from the project's lockfile; there is no `--package-manager` flag. Run `npx fabricator-ui@latest <command> --help` when in doubt.
 
 ## Contents
 
