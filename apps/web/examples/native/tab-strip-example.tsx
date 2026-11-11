@@ -4,7 +4,6 @@ import {
   CodeIcon,
   FileTextIcon,
   GlobeIcon,
-  HomeIcon,
   TerminalIcon,
   TrashIcon,
 } from "@fabricator-ui/icons-react-native"
@@ -28,7 +27,6 @@ type Doc = {
 }
 
 const INITIAL_DOCS: Record<string, Doc> = {
-  home: { title: "Home", icon: HomeIcon },
   readme: { title: "README.md", icon: FileTextIcon, status: "dirty" },
   shell: { title: "app-shell.tsx", icon: CodeIcon },
   docs: { title: "Docs", icon: GlobeIcon, status: "loading" },
@@ -42,8 +40,8 @@ function TabStripExample() {
   const [defaultValue, setDefaultValue] = React.useState("one")
   const tabs = useTabStripState({
     defaultState: {
-      tabs: ["home", "readme", "shell", "docs", "terminal", "broken"],
-      pinned: ["home"],
+      tabs: ["readme", "shell", "docs", "terminal", "broken"],
+      pinned: [],
       recent: ["shell"],
       preview: "docs",
       closed: [],

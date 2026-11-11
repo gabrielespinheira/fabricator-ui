@@ -1,13 +1,7 @@
 "use client"
 
 import * as React from "react"
-import {
-  CodeIcon,
-  FileTextIcon,
-  GlobeIcon,
-  HomeIcon,
-  TerminalIcon,
-} from "lucide-react"
+import { CodeIcon, FileTextIcon, GlobeIcon, TerminalIcon } from "lucide-react"
 
 import {
   TabStrip,
@@ -26,7 +20,6 @@ type Doc = {
 }
 
 const INITIAL_DOCS: Record<string, Doc> = {
-  home: { title: "Home", icon: HomeIcon },
   readme: { title: "README.md", icon: FileTextIcon, status: "dirty" },
   shell: { title: "app-shell.tsx", icon: CodeIcon },
   docs: { title: "Docs", icon: GlobeIcon, status: "loading" },
@@ -37,8 +30,8 @@ export function TabStripDemo() {
   const [docs, setDocs] = React.useState(INITIAL_DOCS)
   const tabs = useTabStripState({
     defaultState: {
-      tabs: ["home", "readme", "shell", "docs", "terminal"],
-      pinned: ["home"],
+      tabs: ["readme", "shell", "docs", "terminal"],
+      pinned: [],
       recent: ["shell"],
       preview: "docs",
       closed: [],
