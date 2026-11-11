@@ -3,8 +3,8 @@ import { notFound } from "next/navigation"
 import { mdxComponents } from "@/mdx-components"
 import { IconArrowLeft, IconArrowRight } from "@tabler/icons-react"
 import { cn } from "cn"
-import { findNeighbour } from "fumadocs-core/page-tree"
 
+import { getDocsNeighbours } from "@/lib/docs-explorer"
 import { replaceComponentsList } from "@/lib/llm"
 import { source } from "@/lib/source"
 import { absoluteUrl } from "@/lib/utils"
@@ -83,7 +83,12 @@ export default async function Page(props: {
   const isChangelog = params.slug?.[0] === "changelog"
   const neighbours = isChangelog
     ? { previous: null, next: null }
-    : findNeighbour(source.pageTree, page.url)
+    : getDocsNeighbours(
+        source
+          .getPages()
+          .map((page) => ({ url: page.url, title: page.data.title })),
+        page.url
+      )
   const raw = replaceComponentsList(await page.data.getText("raw"))
 
   return (
@@ -133,7 +138,7 @@ export default async function Page(props: {
             {neighbours.previous && (
               <Link href={neighbours.previous.url} className={NAV_LINK_CLASS}>
                 <IconArrowLeft className="size-4" />
-                {neighbours.previous.name}
+                {neighbours.previous.title}
               </Link>
             )}
             {neighbours.next && (
@@ -141,7 +146,7 @@ export default async function Page(props: {
                 href={neighbours.next.url}
                 className={cn(NAV_LINK_CLASS, "ms-auto")}
               >
-                {neighbours.next.name}
+                {neighbours.next.title}
                 <IconArrowRight className="size-4" />
               </Link>
             )}

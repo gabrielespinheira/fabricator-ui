@@ -1,7 +1,11 @@
-import type { NavGroup } from "@/registry/fabricator/shared/lib/app-shell-model"
+import type {
+  NavGroup,
+  NavItem,
+} from "@/registry/fabricator/shared/lib/app-shell-model"
 
 import { getExplorerNavGroups } from "./component-explorer"
 import { getComponentGroup } from "./component-groups"
+import { getCurrentBase } from "./page-tree"
 
 export type ExplorerPage = { url: string; title: string }
 
@@ -95,4 +99,21 @@ export function getDocsExplorerGroups(
       ),
     },
   ]
+}
+
+function getLinkedDocsPages(items: NavItem<undefined>[]): ExplorerPage[] {
+  return items.flatMap((item) => [
+    ...(item.href ? [{ url: item.href, title: item.label }] : []),
+    ...getLinkedDocsPages(item.children ?? []),
+  ])
+}
+
+export function getDocsNeighbours(pages: ExplorerPage[], url: string) {
+  const orderedPages = getDocsExplorerGroups(
+    pages,
+    getCurrentBase(url)
+  ).flatMap((group) => getLinkedDocsPages(group.items))
+  const index = orderedPages.findIndex((page) => page.url === url)
+  if (index === -1) return { previous: undefined, next: undefined }
+  return { previous: orderedPages[index - 1], next: orderedPages[index + 1] }
 }
