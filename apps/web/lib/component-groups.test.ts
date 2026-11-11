@@ -37,6 +37,7 @@ describe("getComponentGroup", () => {
     ["file-tree", "Structure"],
     ["alert", "Content"],
     ["attachment", "Chat"],
+    ["bot-face", "Chat"],
   ])("keeps %s in its existing category", (slug, group) => {
     expect(getComponentGroup(slug)).toBe(group)
   })

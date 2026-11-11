@@ -1,0 +1,71 @@
+/* MARK: BotFace */
+
+  /* Named hues use the Fabricator primary presets at their light/dark fill,
+     checked against ROLE_PRESETS by bot-face-palette.test.ts. */
+  .cn-bot-face {
+    @apply select-none;
+  }
+
+  .cn-bot-face-color-primary {
+    @apply text-primary;
+  }
+
+  .cn-bot-face-color-secondary {
+    @apply text-secondary;
+  }
+
+  .cn-bot-face-color-info {
+    @apply text-info;
+  }
+
+  .cn-bot-face-color-success {
+    @apply text-success;
+  }
+
+  .cn-bot-face-color-warning {
+    @apply text-warning;
+  }
+
+  .cn-bot-face-color-destructive {
+    @apply text-destructive;
+  }
+
+  .cn-bot-face-color-neutral {
+    @apply text-foreground;
+  }
+
+  .cn-bot-face-color-blue {
+    @apply text-[oklch(0.48_0.195_260)] dark:text-[oklch(0.74_0.13_260)];
+  }
+
+  .cn-bot-face-color-indigo {
+    @apply text-[oklch(0.48_0.22_277)] dark:text-[oklch(0.74_0.13_277)];
+  }
+
+  .cn-bot-face-color-violet {
+    @apply text-[oklch(0.48_0.22_300)] dark:text-[oklch(0.74_0.13_300)];
+  }
+
+  .cn-bot-face-color-pink {
+    @apply text-[oklch(0.48_0.2_350)] dark:text-[oklch(0.74_0.13_350)];
+  }
+
+  .cn-bot-face-color-red {
+    @apply text-[oklch(0.48_0.195_25)] dark:text-[oklch(0.74_0.13_25)];
+  }
+
+  .cn-bot-face-color-orange {
+    @apply text-[oklch(0.48_0.1375_45)] dark:text-[oklch(0.74_0.13_45)];
+  }
+
+  .cn-bot-face-color-amber {
+    @apply text-[oklch(0.48_0.1_75)] dark:text-[oklch(0.74_0.1_75)];
+  }
+
+  .cn-bot-face-color-green {
+    @apply text-[oklch(0.48_0.1325_150)] dark:text-[oklch(0.74_0.13_150)];
+  }
+
+  .cn-bot-face-color-teal {
+    @apply text-[oklch(0.48_0.0825_190)] dark:text-[oklch(0.74_0.0825_190)];
+  }

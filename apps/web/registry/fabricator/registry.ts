@@ -18,6 +18,25 @@ import { FABRICATOR_FOUNDATIONS } from "@/registry/fabricator/foundations"
 
 export const fabricatorItems = [
   {
+    name: "bot-face",
+    type: "registry:ui",
+    title: "BotFace",
+    description:
+      "An animated assistant face with fourteen silhouettes, palette colours, blinking and pointer-following eyes.",
+    dependencies: ["cn", "class-variance-authority"],
+    files: [
+      { path: "ui/bot-face.tsx", type: "registry:ui" },
+      { path: "lib/bot-face-model.ts", type: "registry:lib" },
+    ],
+    categories: ["chat"],
+    meta: {
+      fabricator: true,
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/bot-face",
+      },
+    },
+  },
+  {
     name: "spinner-model",
     type: "registry:lib",
     title: "Spinner patterns",

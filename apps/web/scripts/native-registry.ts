@@ -28,6 +28,7 @@ export function getTokenFile(name: string) {
 export const SHARED_TOKEN_FILES = Object.keys(TOKEN_MODULES).map(getTokenFile)
 
 const SHARED_LIB_FILES = [
+  "bot-face-model",
   "color-model",
   "file-tree-model",
   "file-upload-model",

@@ -6,6 +6,26 @@ import { docs } from "./shared"
 // Content and controls: plain views and form inputs.
 export const contentItems: Registry["items"] = [
   {
+    name: "bot-face",
+    type: "registry:ui",
+    title: "BotFace",
+    description:
+      "An animated assistant face with fourteen silhouettes, palette colours, blinking, idle glances and touch-following eyes.",
+    dependencies: [
+      "cn",
+      "class-variance-authority",
+      "react-native-reanimated",
+      "react-native-svg",
+      "uniwind@1.13.1",
+    ],
+    registryDependencies: ["@fabricator/motion"],
+    files: [
+      { path: "ui/bot-face.tsx", type: "registry:ui" },
+      { path: "lib/bot-face-model.ts", type: "registry:lib" },
+    ],
+    meta: docs("bot-face"),
+  },
+  {
     name: "card",
     type: "registry:ui",
     title: "Card",

@@ -98,6 +98,7 @@ const GROUP_BY_SLUG: Record<string, ComponentGroup> = {
   "syntax-highlight": "Content",
   markdown: "Content",
   // Chat
+  "bot-face": "Chat",
   "chat-input": "Chat",
   "model-picker": "Chat",
   message: "Chat",

@@ -237,7 +237,9 @@ function Button({
   return (
     <DensityScope density={control.density}>
       <TextStyle
-        eases={variant === "ghost"}
+        // Changing this wrapper on a variant switch remounts the press target
+        // before its delayed release, leaving the pressed wash held.
+        eases
         className={cn(
           buttonTextVariants({ variant, size }),
           isLifted ? buttonLiftedTextVariants({ variant }) : undefined

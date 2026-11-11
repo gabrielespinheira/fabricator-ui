@@ -1,0 +1,79 @@
+---
+title: BotFace
+description: An assistant face with fourteen silhouettes, theme colours, blinking and a gaze that follows you.
+base: radix
+component: true
+---
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="bot-face-demo"
+  previewClassName="h-auto min-h-[36rem] py-8"
+/>
+
+## Installation
+
+```bash
+npx fabricator-ui@latest add bot-face
+```
+
+## Usage
+
+```tsx
+import { BotFace } from "@/components/ui/bot-face"
+
+<BotFace shape="squircle" color="violet" aria-label="Fabricator assistant" />
+```
+
+BotFace belongs in an assistant avatar, an empty conversation or a voice interface. It is a decorative image by default. Give it `aria-label` when it conveys identity; put it inside a named Button if it performs an action.
+
+## Shapes and colours
+
+The demo separates **Palette** (ten named colours) from **Theme** (six labelled roles). Theme roles may share a hue with a palette colour, depending on the project's look.
+
+The fourteen shapes are `circle`, `blob`, `square`, `star`, `clover`, `heart`, `flower`, `droplet`, `pill`, `triangle`, `pentagon`, `burst`, `hexagon` and `squircle`.
+
+The theme roles `primary`, `secondary`, `info`, `success`, `warning` and `destructive` follow the project's look. `neutral` uses the foreground. Named hues `blue`, `indigo`, `violet`, `pink`, `red`, `orange`, `amber`, `green` and `teal` use Fabricator's primary colour presets, including their light and dark fills and contrasting eyes. Use status roles when the face communicates a status.
+
+## Sizes
+
+<ComponentPreview styleName="radix-nova" name="bot-face-sizes" />
+
+`sm`, `default` and `lg` are 40, 80 and 120 respectively. For an avatar that must fit another size, set width and height through `style`.
+
+## Eyes
+
+<ComponentPreview styleName="radix-nova" name="bot-face-eyes" />
+
+`slant` gives the reference's two rounded, slanted eyes. `dots` and `square` offer quieter alternatives.
+
+## Motion
+
+On web and desktop, the eyes follow the pointer anywhere in the window. The face tilts gently in the same direction. A touch holds its gaze briefly, then returns to idle glances. Without a pointer, it pauses between glances and blinks periodically. On React Native, idle glances happen automatically and touching or dragging over the face guides its eyes. It does not request device sensor access.
+
+`followPointer={false}` keeps idle motion and blinking while disabling pointer/touch tracking. `blink={false}` keeps the eyes open. `gaze={{ x: 0.6, y: -0.2 }}` controls the direction, with both axes normalized to -1…1 and clamped to an ellipse. `animated={false}`, Reduce Motion and the Fabricator motion-off setting keep the face still with its eyes open, including controlled gaze.
+
+```tsx
+<BotFace color="info" shape="pill" eyes="dots" blink={false} />
+<BotFace color="primary" gaze={{ x: 0.6, y: -0.2 }} />
+<BotFace shape="flower" color="success" animated={false} />
+```
+
+## API Reference
+
+| Prop            | Type                            | Default                         |
+| --------------- | ------------------------------- | ------------------------------- |
+| `shape`         | `BotFaceShape`                  | `"squircle"`                    |
+| `color`         | `BotFaceColor`                  | `"primary"`                     |
+| `eyes`          | `"slant" \| "dots" \| "square"` | `"slant"`                       |
+| `size`          | `"sm" \| "default" \| "lg"`     | `"default"`                     |
+| `animated`      | `boolean`                       | `true`                          |
+| `blink`         | `boolean`                       | `true`                          |
+| `followPointer` | `boolean`                       | `true`                          |
+| `gaze`          | `{ x: number; y: number }`      | Idle or pointer/touch direction |
+
+Web renders a `span`; native renders a `View`. Both accept their platform's element props and `ref`, and export `BotFaceProps`, `BotFaceShape`, `BotFaceColor`, `BotFaceEyes`, `BotFaceSize` and `BotFaceGaze`.
+
+### Data attributes
+
+`data-slot` values are `bot-face`, `bot-face-body`, `bot-face-shape`, `bot-face-gaze` and `bot-face-eyes`. The root exposes `data-shape`, `data-color`, `data-eyes`, `data-size` and `data-animated`.
