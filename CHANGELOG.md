@@ -1,5 +1,39 @@
 # Changelog
 
+## [0.7.0](https://github.com/gabrielespinheira/fabricator-ui/compare/fabricator-ui%400.6.0...fabricator-ui%400.7.0) (2026-11-11)
+
+### Highlights
+
+A Rich Text Editor whose value is Markdown, and a Markdown component, on the web and React Native. React Native now covers every published web component, BotFace adds an animated assistant face, and the docs, desktop and mobile examples share one component explorer.
+
+### Upgrade notes
+
+- Components remain copy-in source: reinstall the items you want to update.
+- The native `editor` item installs `@fabricator-ui/editor-native`, an iOS text view. The app needs a development build, and Android shows the document read-only for now.
+- The docs' Library pages, docs tabs and right panel are removed; their old links return to the overview. Component groups are renamed to Basics, Forms, Overlays, Structure, Content and Chat; saved preferences keep working.
+- Every package now shares one version, so `@fabricator-ui/editor-native` moves from 0.1.1 to 0.7.0 with no API change.
+- `fabricator-ui@0.6.0` on npm was published from this release's code after the v0.7.0 version bump was missed; 0.7.0 is the same CLI with its version and notes in order.
+
+### Features
+
+- Rich Text Editor: `add editor` installs an editor with a toolbar, a selection bar, a keyboard bar on phones, keyboard and Markdown shortcuts, tables, code blocks with Syntax Highlight, and links. Its value is a Markdown string, and blocks the person didn't edit are saved exactly as they were.
+- Markdown: `add markdown` renders headings, lists and tasks, quotes, code, tables, images and links in three sizes, with the editor's own parser and no dependencies. Anything it doesn't model is kept as its source text.
+- React Native gains Chat Input (pill, send slot, attachments, mentions, the `/` menu, trays, context meter, `sticky` above the keyboard), Model Picker, Color Picker, File Tree, File Upload, Number Field, Time Input and Time Wheel, so the native registry covers every published web component. Browser-only interactions are documented as native differences.
+- On React Native phones, the Tab Strip shows the active tab on a raised pill and opens a sheet with every tab as a card. With `mobileSidebar="reveal"` the sidebar leaves a 72px strip of the page on the web and React Native.
+- BotFace: `add bot-face` installs an animated assistant face with fourteen silhouettes, palette colours, blinking, and eyes that follow the pointer or a touch.
+- `ChatInputTrays` folds a Chat Input's trays into one front row with up to two edges peeking behind it.
+- The Workspace Switcher's `command` variant shows and searches each workspace's description and marks the current one. `CommandDialog` is anchored 20% from the top, so it no longer jumps while results change.
+- The docs run in the App Shell with the same component groups as the desktop and mobile examples, and `/create` previews the shell at the size of the app the project leads with.
+- Faster components: the editor reuses document indexes, File Tree updates hover without re-rendering every file, Calendar keeps its days mounted, and native command menus cache item visibility.
+
+### Bug Fixes
+
+- `@fabricator-ui/editor-native` names its podspec in `expo-module.config.json`, so Expo registers the native view in `file:` and `link:` installs.
+- A production deploy no longer fails on the symlinks `apps/mobile`'s typecheck leaves in the native registry folders.
+- On React Native, Message Scroller with `defaultScrollPosition="start"` opens on the first message, tab content shows behind the translucent header, and a Button gives press feedback again after its variant changes.
+- Icons used only by shared modules are included in site builds, and the docs' previous and next links follow the sidebar's order.
+- Releases version every package together through `/release`, and the CLI's GitHub release takes its notes from `CHANGELOG.md`. Changesets and its "version packages" pull request are removed.
+
 ## [0.6.0](https://github.com/gabrielespinheira/fabricator-ui/compare/fabricator-ui%400.5.1...fabricator-ui%400.6.0) (2026-11-09)
 
 ### Highlights
