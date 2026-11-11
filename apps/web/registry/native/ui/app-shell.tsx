@@ -80,6 +80,7 @@ import {
   FALLBACK_PANEL,
   getContentBottomInset,
   getContentColumn,
+  getContentViewport,
   getFabBottom,
   getFabClearance,
   getFloatingNavMetrics,
@@ -333,6 +334,8 @@ type AppShellScrollValue = {
 const AppShellScrollContext = React.createContext<AppShellScrollValue | null>(
   null
 )
+
+const NativeTabsSceneContext = React.createContext(false)
 
 function useAppShell() {
   const context = React.use(AppShellContext)
@@ -1469,6 +1472,11 @@ function AppShellContent({
 }) {
   const shell = useAppShell()
   const scroll = useAppShellScroll()
+  const isNativeScene = React.use(NativeTabsSceneContext)
+  const viewport = getContentViewport({
+    headerHeight: scroll.phoneHeaderHeight,
+    isNativeScene,
+  })
   const insets = useShellInsets()
   const { variant } = useSidebarLayout()
   const composedRef = useComposedRefs(scroll.scrollRoot, ref)
@@ -1499,7 +1507,7 @@ function AppShellContent({
       buttonSize: fabButton,
       gap: parseNumber(phoneGutter, 16),
     }),
-    topInset: scroll.phoneHeaderHeight,
+    topInset: viewport.topInset,
   })
   return (
     <ScrollView
@@ -1512,7 +1520,7 @@ function AppShellContent({
       // iOS makes room for the keyboard and scrolls a focused field into view.
       automaticallyAdjustKeyboardInsets
       keyboardShouldPersistTaps="handled"
-      style={[{ marginTop: -scroll.phoneHeaderHeight }, style]}
+      style={[{ marginTop: viewport.marginTop }, style]}
       scrollIndicatorInsets={{
         top: scroll.phoneHeaderHeight,
         bottom: scroll.bottomNavOverlap,
@@ -1707,13 +1715,17 @@ function AppShellBottomNav({
         data-slot="app-shell-bottom-nav"
         data-variant="native"
         className={cn("min-h-0 flex-1", className)}
-        style={style}
+        // The controller clips its scenes. Move it, rather than just its scroller,
+        // behind the header so the gradient has real content to fade over.
+        style={[{ marginTop: -(scroll?.phoneHeaderHeight ?? 0) }, style]}
         {...props}
       >
-        {React.cloneElement(nativeTabs, {
-          onHeightChange: setNativeHeight,
-          isBarHidden: isClaimed,
-        })}
+        <NativeTabsSceneContext value={true}>
+          {React.cloneElement(nativeTabs, {
+            onHeightChange: setNativeHeight,
+            isBarHidden: isClaimed,
+          })}
+        </NativeTabsSceneContext>
       </View>
     )
   }

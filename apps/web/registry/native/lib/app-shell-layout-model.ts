@@ -149,6 +149,20 @@ export function getNativeNavMetrics({
   }
 }
 
+/** A native controller already spans behind the header; a plain scroller moves there itself. */
+export function getContentViewport({
+  headerHeight,
+  isNativeScene,
+}: {
+  headerHeight: number
+  isNativeScene: boolean
+}) {
+  return {
+    marginTop: headerHeight > 0 && !isNativeScene ? -headerHeight : 0,
+    topInset: headerHeight,
+  }
+}
+
 /** What the page's end leaves free, so its last row can scroll out from under it. */
 export function getFabClearance({
   hasFab,

@@ -5,6 +5,7 @@ import {
   applyPanelUpdate,
   getContentBottomInset,
   getContentColumn,
+  getContentViewport,
   getFabBottom,
   getFabClearance,
   getFloatingNavMetrics,
@@ -24,6 +25,35 @@ import {
 } from "@/registry/native/lib/app-shell-layout-model"
 
 const DEFAULTS = { open: true, view: "details", width: 320 }
+
+describe("the phone's scrolling viewport", () => {
+  it("extends a normal scroller behind the header while keeping its content clear", () => {
+    expect(
+      getContentViewport({ headerHeight: 118, isNativeScene: false })
+    ).toEqual({
+      marginTop: -118,
+      topInset: 118,
+    })
+  })
+
+  it("does not offset a native scene twice when its controller is already behind the header", () => {
+    expect(
+      getContentViewport({ headerHeight: 118, isNativeScene: true })
+    ).toEqual({
+      marginTop: 0,
+      topInset: 118,
+    })
+  })
+
+  it("leaves tablet viewports flush with no phone header", () => {
+    expect(
+      getContentViewport({ headerHeight: 0, isNativeScene: false })
+    ).toEqual({
+      marginTop: 0,
+      topInset: 0,
+    })
+  })
+})
 
 describe("native bottom navigation clearance", () => {
   const base = { row: 48, padding: 4, insetBottom: 34 }
