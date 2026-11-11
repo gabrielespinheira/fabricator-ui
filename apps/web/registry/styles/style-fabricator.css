@@ -1376,15 +1376,16 @@
 
   /* Hue and alpha are Sliders: the gradient is the track, so the range
      fill hides, and the knob takes the color under it with a white edge. The
-     knob keeps the icon size, inside the rail, where a plain Slider's overhangs.
+     rail stays the icon size plus 2px and the knob the icon size, inside it,
+     where a plain Slider's is smaller and its knob overhangs.
      A hairline keeps each rail's edge when its color matches the card. */
   .cn-color-picker-hue {
-    @apply [&_[data-slot=slider-range]]:hidden [&_[data-slot=slider-thumb]]:size-(--density-icon-16) [&_[data-slot=slider-thumb]]:border-2 [&_[data-slot=slider-thumb]]:border-white [&_[data-slot=slider-thumb]]:bg-(--color-picker-thumb) [&_[data-slot=slider-thumb]]:shadow-[0_0_0_1px_rgb(0_0_0/0.25),0_1px_2px_rgb(0_0_0/0.2)] [&_[data-slot=slider-track]]:border-0 [&_[data-slot=slider-track]]:bg-[linear-gradient(to_right,#f00,#ff0,#0f0,#0ff,#00f,#f0f,#f00)] [&_[data-slot=slider-track]]:shadow-[inset_0_0_0_1px_color-mix(in_oklab,var(--foreground)_12%,transparent)];
+    @apply [&_[data-slot=slider-range]]:hidden [&_[data-slot=slider-track]]:[--slider-track-size:calc(var(--density-icon-16)+2px)] [&_[data-slot=slider-thumb]]:size-(--density-icon-16) [&_[data-slot=slider-thumb]]:border-2 [&_[data-slot=slider-thumb]]:border-white [&_[data-slot=slider-thumb]]:bg-(--color-picker-thumb) [&_[data-slot=slider-thumb]]:shadow-[0_0_0_1px_rgb(0_0_0/0.25),0_1px_2px_rgb(0_0_0/0.2)] [&_[data-slot=slider-track]]:border-0 [&_[data-slot=slider-track]]:bg-[linear-gradient(to_right,#f00,#ff0,#0f0,#0ff,#00f,#f0f,#f00)] [&_[data-slot=slider-track]]:shadow-[inset_0_0_0_1px_color-mix(in_oklab,var(--foreground)_12%,transparent)];
   }
 
   /* Transparent to the opaque color, over an 8px checker. */
   .cn-color-picker-alpha {
-    @apply [&_[data-slot=slider-range]]:hidden [&_[data-slot=slider-thumb]]:size-(--density-icon-16) [&_[data-slot=slider-thumb]]:border-2 [&_[data-slot=slider-thumb]]:border-white [&_[data-slot=slider-thumb]]:bg-(--color-picker-thumb) [&_[data-slot=slider-thumb]]:shadow-[0_0_0_1px_rgb(0_0_0/0.25),0_1px_2px_rgb(0_0_0/0.2)] [&_[data-slot=slider-track]]:border-0 [&_[data-slot=slider-track]]:bg-[linear-gradient(to_right,transparent,var(--color-picker-opaque)),conic-gradient(var(--color-picker-checker)_0_25%,transparent_0_50%,var(--color-picker-checker)_0_75%,transparent_0)] [&_[data-slot=slider-track]]:bg-size-[100%_100%,8px_8px] [&_[data-slot=slider-track]]:shadow-[inset_0_0_0_1px_color-mix(in_oklab,var(--foreground)_12%,transparent)];
+    @apply [&_[data-slot=slider-range]]:hidden [&_[data-slot=slider-track]]:[--slider-track-size:calc(var(--density-icon-16)+2px)] [&_[data-slot=slider-thumb]]:size-(--density-icon-16) [&_[data-slot=slider-thumb]]:border-2 [&_[data-slot=slider-thumb]]:border-white [&_[data-slot=slider-thumb]]:bg-(--color-picker-thumb) [&_[data-slot=slider-thumb]]:shadow-[0_0_0_1px_rgb(0_0_0/0.25),0_1px_2px_rgb(0_0_0/0.2)] [&_[data-slot=slider-track]]:border-0 [&_[data-slot=slider-track]]:bg-[linear-gradient(to_right,transparent,var(--color-picker-opaque)),conic-gradient(var(--color-picker-checker)_0_25%,transparent_0_50%,var(--color-picker-checker)_0_75%,transparent_0)] [&_[data-slot=slider-track]]:bg-size-[100%_100%,8px_8px] [&_[data-slot=slider-track]]:shadow-[inset_0_0_0_1px_color-mix(in_oklab,var(--foreground)_12%,transparent)];
   }
 
   /* Each slider with its value beside it (degrees, percent), 12px apart:
@@ -2416,11 +2417,12 @@
     @apply stroke-white stroke-2 drop-shadow-[0_0_6px_rgb(255_255_255/0.5)];
   }
 
-  /* The knob: a 36px disc of the background colour with a chevron each way,
-     on a soft shadow. It grows a little under the pointer and presses in
-     while held, on the feedback timing. */
+  /* The knob: a 36px white disc, the line's colour, with a dark chevron each
+     way, on a soft shadow. Like the line it stays white in both themes, as it
+     lies on arbitrary pictures. It grows a little under the pointer and
+     presses in while held, on the feedback timing. */
   .cn-image-compare-handle {
-    @apply size-(--density-36) gap-0 rounded-full bg-background text-foreground shadow-[0_2px_12px_rgb(0_0_0/0.25)] ring-1 ring-black/5 transition-[scale] duration-feedback ease-enter group-hover/image-compare:scale-108 group-data-dragging/image-compare:scale-90 group-data-disabled/image-compare:scale-100 dark:ring-white/10 [&_svg]:-mx-0.5 [&_svg]:size-(--density-icon-16) [&_svg]:stroke-[2.25];
+    @apply size-(--density-36) gap-0 rounded-full bg-white text-neutral-950 shadow-[0_2px_12px_rgb(0_0_0/0.25)] ring-1 ring-black/5 transition-[scale] duration-feedback ease-enter group-hover/image-compare:scale-108 group-data-dragging/image-compare:scale-90 group-data-disabled/image-compare:scale-100 [&_svg]:-mx-0.5 [&_svg]:size-(--density-icon-16) [&_svg]:stroke-[2.25];
   }
 
 /* MARK: Input Group */
@@ -3890,17 +3892,17 @@
 /* MARK: Slider */
 
   /* size sm pins the slider to the compact density and lg to spacious.
-     --slider-thumb-size is the icon size at compact, inside the track, and
-     overhangs the track above it: 24px over 18px at default, 28px over 20px
-     spacious. min() reads it off the density tokens (--density-36 is 28px only
+     --slider-thumb-size is the small icon size at compact, inside the track,
+     and overhangs the track above it: 20px over 16px at default, 24px over
+     18px spacious. min() reads it off the density tokens (--density-36 is 28px only
      at compact), so a DensityProvider sets it as well as size does.
      --slider-glide is the move timing for a click or a key, and nothing while a
      drag follows the pointer. Radix positions each thumb on a wrapper span. */
   .cn-slider {
-    @apply cursor-pointer data-disabled:cursor-not-allowed data-vertical:min-h-40 data-[size=sm]:density-compact data-[size=lg]:density-spacious [--slider-track-size:calc(var(--density-icon-16)+2px)] [--slider-thumb-size:min(var(--density-24),calc(var(--density-icon-16)+var(--density-36)-1.75rem))] [--slider-glide:calc(var(--motion-move)*var(--motion-scale,1))] data-following:[--slider-glide:calc(var(--motion-move)*0)] [&>span:has(>[data-slot=slider-thumb])]:transition-[left,bottom] [&>span:has(>[data-slot=slider-thumb])]:duration-(--slider-glide) [&>span:has(>[data-slot=slider-thumb])]:ease-enter;
+    @apply cursor-pointer data-disabled:cursor-not-allowed data-vertical:min-h-40 data-[size=sm]:density-compact data-[size=lg]:density-spacious [--slider-track-size:calc(var(--density-icon-14)+2px)] [--slider-thumb-size:min(var(--density-20),calc(var(--density-icon-14)+var(--density-36)-1.75rem))] [--slider-glide:calc(var(--motion-move)*var(--motion-scale,1))] data-following:[--slider-glide:calc(var(--motion-move)*0)] [&>span:has(>[data-slot=slider-thumb])]:transition-[left,bottom] [&>span:has(>[data-slot=slider-thumb])]:duration-(--slider-glide) [&>span:has(>[data-slot=slider-thumb])]:ease-enter;
   }
 
-  /* An 18px pill framed by the border colour, transparent inside. */
+  /* A 16px pill framed by the border colour, transparent inside. */
   .cn-slider-track {
     @apply border-border rounded-full border bg-transparent data-horizontal:h-(--slider-track-size) data-horizontal:w-full data-vertical:h-full data-vertical:w-(--slider-track-size);
   }

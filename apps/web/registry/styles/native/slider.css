@@ -4,9 +4,9 @@
     @apply data-[disabled=true]:opacity-50 data-[orientation=vertical]:min-h-40;
   }
 
-  /* An 18pt pill framed by the border colour, transparent inside. */
+  /* A 16pt pill framed by the border colour, transparent inside. */
   .cn-slider-track {
-    @apply border-border rounded-full border bg-transparent data-[orientation=horizontal]:h-[calc(var(--density-icon-16)+2px)] data-[orientation=vertical]:w-[calc(var(--density-icon-16)+2px)];
+    @apply border-border rounded-full border bg-transparent data-[orientation=horizontal]:h-[calc(var(--density-icon-14)+2px)] data-[orientation=vertical]:w-[calc(var(--density-icon-14)+2px)];
   }
 
   /* The filled range is a soft wash of the primary role: a neutral grey while
@@ -23,7 +23,7 @@
 
   /* White knob with a soft drop shadow and a hairline, sized by the component:
      the icon size inside the track at size sm and the compact density, and
-     larger than the track above them (24pt over 18pt). Held, it grows 2pt all
+     larger than the track above them (20pt over 16pt). Held, it grows 2pt all
      round, as the website's. No ring under a finger: the website's ring is
      keyboard focus. */
   .cn-slider-thumb {

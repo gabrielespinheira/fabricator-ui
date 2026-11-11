@@ -41,7 +41,7 @@ import { DensityScope, useControlSize } from "@/registry/native/ui/density"
 // A vertical scroll under a horizontal slider, or the reverse, stays a scroll.
 const ACTIVE_OFFSET = 8
 const FAIL_OFFSET = 12
-// The 18pt track keeps a finger-sized target. Not with the gesture's hitSlop: on
+// The 16pt track keeps a finger-sized target. Not with the gesture's hitSlop: on
 // iOS a touch outside the view's bounds never reaches its recognizer.
 const MIN_TARGET = 44
 
@@ -209,16 +209,16 @@ function SliderControl({
   const label = accessibilityLabel ?? ariaLabel
   const feedback = useFeedback()
 
-  const [space24, space36, icon16] = useCSSVariable([
-    "--density-24",
+  const [space20, space36, icon14] = useCSSVariable([
+    "--density-20",
     "--density-36",
-    "--density-icon-16",
+    "--density-icon-14",
   ])
-  const trackSize = parseNumber(icon16, 16) + 2
+  const trackSize = parseNumber(icon14, 14) + 2
   const thumbSize = getThumbSize({
-    space24: parseNumber(space24, 24),
+    space20: parseNumber(space20, 20),
     space36: parseNumber(space36, 36),
-    icon16: parseNumber(icon16, 16),
+    icon14: parseNumber(icon14, 14),
     size,
   })
   const length = useSharedValue(0)
@@ -441,7 +441,7 @@ function SliderControl({
   const steps = showSteps ? getSliderSteps({ min, max, step, values }) : []
 
   // Grows the control across its axis to the target, and takes the same back from
-  // the layout, so it still sits as an 18pt track.
+  // the layout, so it still sits as a 16pt track.
   const slop = Math.max((MIN_TARGET - trackSize) / 2, 0)
   const targetStyle = isVertical
     ? { marginHorizontal: -slop, paddingHorizontal: slop }

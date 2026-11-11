@@ -207,18 +207,18 @@ describe("getNotchPitch", () => {
 
 describe("getThumbSize", () => {
   it("sits inside the track at the compact density", () => {
-    expect(getThumbSize({ space24: 20, space36: 28, icon16: 14 })).toBe(14)
+    expect(getThumbSize({ space20: 16, space36: 28, icon14: 12 })).toBe(12)
   })
 
   it("sits inside the track at size sm, which a phone keeps a step up", () => {
     expect(
-      getThumbSize({ space24: 24, space36: 36, icon16: 16, size: "sm" })
-    ).toBe(16)
+      getThumbSize({ space20: 20, space36: 36, icon14: 14, size: "sm" })
+    ).toBe(14)
   })
 
   it("overhangs the track above it, as on the website", () => {
-    expect(getThumbSize({ space24: 24, space36: 36, icon16: 16 })).toBe(24)
-    expect(getThumbSize({ space24: 28, space36: 44, icon16: 18 })).toBe(28)
+    expect(getThumbSize({ space20: 20, space36: 36, icon14: 14 })).toBe(20)
+    expect(getThumbSize({ space20: 24, space36: 44, icon14: 16 })).toBe(24)
   })
 })
 

@@ -1,17 +1,17 @@
 /* MARK: Slider */
 
   /* size sm pins the slider to the compact density and lg to spacious.
-     --slider-thumb-size is the icon size at compact, inside the track, and
-     overhangs the track above it: 24px over 18px at default, 28px over 20px
-     spacious. min() reads it off the density tokens (--density-36 is 28px only
+     --slider-thumb-size is the small icon size at compact, inside the track,
+     and overhangs the track above it: 20px over 16px at default, 24px over
+     18px spacious. min() reads it off the density tokens (--density-36 is 28px only
      at compact), so a DensityProvider sets it as well as size does.
      --slider-glide is the move timing for a click or a key, and nothing while a
      drag follows the pointer. Radix positions each thumb on a wrapper span. */
   .cn-slider {
-    @apply cursor-pointer data-disabled:cursor-not-allowed data-vertical:min-h-40 data-[size=sm]:density-compact data-[size=lg]:density-spacious [--slider-track-size:calc(var(--density-icon-16)+2px)] [--slider-thumb-size:min(var(--density-24),calc(var(--density-icon-16)+var(--density-36)-1.75rem))] [--slider-glide:calc(var(--motion-move)*var(--motion-scale,1))] data-following:[--slider-glide:calc(var(--motion-move)*0)] [&>span:has(>[data-slot=slider-thumb])]:transition-[left,bottom] [&>span:has(>[data-slot=slider-thumb])]:duration-(--slider-glide) [&>span:has(>[data-slot=slider-thumb])]:ease-enter;
+    @apply cursor-pointer data-disabled:cursor-not-allowed data-vertical:min-h-40 data-[size=sm]:density-compact data-[size=lg]:density-spacious [--slider-track-size:calc(var(--density-icon-14)+2px)] [--slider-thumb-size:min(var(--density-20),calc(var(--density-icon-14)+var(--density-36)-1.75rem))] [--slider-glide:calc(var(--motion-move)*var(--motion-scale,1))] data-following:[--slider-glide:calc(var(--motion-move)*0)] [&>span:has(>[data-slot=slider-thumb])]:transition-[left,bottom] [&>span:has(>[data-slot=slider-thumb])]:duration-(--slider-glide) [&>span:has(>[data-slot=slider-thumb])]:ease-enter;
   }
 
-  /* An 18px pill framed by the border colour, transparent inside. */
+  /* A 16px pill framed by the border colour, transparent inside. */
   .cn-slider-track {
     @apply border-border rounded-full border bg-transparent data-horizontal:h-(--slider-track-size) data-horizontal:w-full data-vertical:h-full data-vertical:w-(--slider-track-size);
   }

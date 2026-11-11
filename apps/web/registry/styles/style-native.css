@@ -3025,14 +3025,15 @@
     @apply text-white;
   }
 
-  /* The knob: a 36pt disc of the background colour with a chevron each way,
-     on a soft shadow. It presses in while held, on the feedback timing. */
+  /* The knob: a 36pt white disc, the line's colour, with a dark chevron each
+     way, on a soft shadow. Like the line it stays white in both themes. It
+     presses in while held, on the feedback timing. */
   .cn-image-compare-handle {
-    @apply size-(--density-36) rounded-full border border-black/5 bg-background shadow-surface-2 dark:border-white/10;
+    @apply size-(--density-36) rounded-full border border-black/5 bg-white shadow-surface-2;
   }
 
   .cn-image-compare-handle-icon {
-    @apply text-foreground;
+    @apply text-neutral-950;
   }
 
 /* MARK: Input Group */
@@ -5006,9 +5007,9 @@
     @apply data-[disabled=true]:opacity-50 data-[orientation=vertical]:min-h-40;
   }
 
-  /* An 18pt pill framed by the border colour, transparent inside. */
+  /* A 16pt pill framed by the border colour, transparent inside. */
   .cn-slider-track {
-    @apply border-border rounded-full border bg-transparent data-[orientation=horizontal]:h-[calc(var(--density-icon-16)+2px)] data-[orientation=vertical]:w-[calc(var(--density-icon-16)+2px)];
+    @apply border-border rounded-full border bg-transparent data-[orientation=horizontal]:h-[calc(var(--density-icon-14)+2px)] data-[orientation=vertical]:w-[calc(var(--density-icon-14)+2px)];
   }
 
   /* The filled range is a soft wash of the primary role: a neutral grey while
@@ -5025,7 +5026,7 @@
 
   /* White knob with a soft drop shadow and a hairline, sized by the component:
      the icon size inside the track at size sm and the compact density, and
-     larger than the track above them (24pt over 18pt). Held, it grows 2pt all
+     larger than the track above them (20pt over 16pt). Held, it grows 2pt all
      round, as the website's. No ring under a finger: the website's ring is
      keyboard focus. */
   .cn-slider-thumb {

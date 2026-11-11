@@ -248,24 +248,25 @@ export function stepThumb(
 }
 
 /**
- * The knob's size from the density tokens, as the website's `min()`: the icon
- * size inside the track at compact (where `--density-36` is 28), and overhanging
- * it above: 24 over 18 at default, 28 over 20 spacious. Size sm stays inside
- * too: on a phone it only takes a step down, to the default density.
+ * The knob's size from the density tokens, as the website's `min()`: the small
+ * icon size inside the track at compact (where `--density-36` is 28), and
+ * overhanging it above: 20 over 16 at default, 24 over 18 spacious. Size sm
+ * stays inside too: on a phone it only takes a step down, to the default
+ * density.
  */
 export function getThumbSize({
-  space24,
+  space20,
   space36,
-  icon16,
+  icon14,
   size,
 }: {
-  space24: number
+  space20: number
   space36: number
-  icon16: number
+  icon14: number
   size?: string
 }) {
-  if (size === "sm") return icon16
-  return Math.min(space24, icon16 + space36 - 28)
+  if (size === "sm") return icon14
+  return Math.min(space20, icon14 + space36 - 28)
 }
 
 /** Under the range: one thumb fills from min, more fill between the ends. */
