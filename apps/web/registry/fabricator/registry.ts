@@ -10,7 +10,7 @@
 //
 // Overlay files import other registry files through
 // `@/registry/bases/__base__/…`; the build substitutes the base being compiled.
-// See AGENTS.md, "Fabricator overrides".
+// See docs/STYLES.md, "Overrides".
 
 import { type Registry } from "shadcn/schema"
 

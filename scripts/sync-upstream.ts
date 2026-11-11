@@ -4,7 +4,7 @@
  * The vendor branch holds pristine upstream files mapped to this repo's
  * layout (apps/v4 -> apps/web). Fabricator changes live on `main`; merging the
  * vendor branch into `main` turns every upstream upgrade into a normal,
- * reviewable 3-way merge (PLAN.md D10, AGENTS.md "Upstream sync").
+ * reviewable 3-way merge (docs/MAINTAINING.md, "Upstream sync").
  *
  * Usage:
  *   bun run sync:upstream --ref <sha|tag|branch>   # default: main

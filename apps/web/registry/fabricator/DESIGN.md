@@ -46,7 +46,7 @@ The website docs, desktop example and React Native example are component explore
 5. Base UI first, then Radix (same behaviour), then React Aria. A base without an override keeps upstream behaviour with Fabricator styling.
 6. A portalled part reads `useDensity()` and sets `data-density` (see [Density](#density)).
 
-The preview and build loops (live CSS, compiled styles, mobile captures) are in AGENTS.md, "Seeing style changes on the site". Check every change in light and dark.
+The preview and build loops (live CSS, compiled styles, mobile captures) are in `docs/STYLES.md`, "Seeing a change". Check every change in light and dark.
 
 ## Foundations
 
