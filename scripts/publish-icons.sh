@@ -17,7 +17,7 @@ for dir in packages/icons packages/icons-react-native packages/icons-static pack
   version=$(node -p "require('./$dir/package.json').version")
 
   if [ "$version" = 0.0.0 ]; then
-    echo "$name is still 0.0.0. Merge the changesets \"version packages\" pull request first." >&2
+    echo "$name is still 0.0.0. Cut a release with /release first." >&2
     exit 1
   fi
 

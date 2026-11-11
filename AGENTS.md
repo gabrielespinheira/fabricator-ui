@@ -1,521 +1,83 @@
-# AGENTS.md: Fabricator UI
+# AGENTS.md
 
-Fabricator UI is an open-source React component library distributed as copy-in source through the shadcn CLI. It has its own design system and is fully compatible with shadcn/ui. This repository holds the component registry, the `fabricator-ui` CLI, and the Next.js website (fabricator-ui.vercel.app) that documents and serves the registry.
+Fabricator UI is an open-source React component library for web, React Native and desktop. People install it as copy-in source through the shadcn CLI. It has its own design system and stays fully compatible with shadcn/ui. This repo holds the registry, the `fabricator-ui` CLI, Fabricator Icons and the website (fabricator-ui.vercel.app) that documents and serves the registry. These rules bind every agent and contributor. `CLAUDE.md` imports this file. When a convention changes, update the doc that owns it in the same change.
 
-This file is the shared contract for every coding agent (Claude Code, Codex, others) and every human contributor. `CLAUDE.md` imports it; there is no other copy. When a convention changes, update this file in the same change.
+## Read before you work
 
-**`PLAN.md`** holds the architecture, the decision log (D1–D16), and the phased roadmap. Read it before adding a package, changing registry URLs or `components.json` handling, touching the CLI, or starting a roadmap phase. The decisions there are settled; to change one, propose an edit to `PLAN.md` rather than working around it.
+| When you                                                       | Read                                                   |
+| -------------------------------------------------------------- | ------------------------------------------------------ |
+| Design a screen, demo, block or site page                      | [`DESIGN.md`](DESIGN.md)                               |
+| Write or change a component, example or block                  | [`docs/COMPONENTS.md`](docs/COMPONENTS.md)             |
+| Add a component, or place one in the docs sidebar and gallery  | [`docs/COMPONENT-GROUPS.md`](docs/COMPONENT-GROUPS.md) |
+| Change a look, token, motion, density or colour                | [`docs/STYLES.md`](docs/STYLES.md)                     |
+| Touch React Native, desktop, icons or `editor-native`          | [`docs/PLATFORMS.md`](docs/PLATFORMS.md)               |
+| Declare an item, run the registry build, touch generated files | [`docs/REGISTRY.md`](docs/REGISTRY.md)                 |
+| Touch the CLI, `/init`, `/create` or project setup             | [`docs/CLI.md`](docs/CLI.md)                           |
+| Work on the website outside the registry                       | [`docs/WEBSITE.md`](docs/WEBSITE.md)                   |
+| Sync upstream, bump a pinned tool, release or deploy           | [`docs/MAINTAINING.md`](docs/MAINTAINING.md)           |
+| Set up the repo, run checks, open a pull request               | [`CONTRIBUTING.md`](CONTRIBUTING.md)                   |
+| Need the public pitch or the user-facing CLI                   | [`README.md`](README.md)                               |
+| Need what shipped in a version                                 | [`CHANGELOG.md`](CHANGELOG.md)                         |
+| Plan or resume a large feature                                 | [`docs/plans/`](docs/plans/), one file per feature     |
 
-**`DESIGN.md`** is the design system for building UI with the components: product modes, component choice, layout, states and screen patterns, in the [DESIGN.md format](https://github.com/google-labs-code/design.md). Read it before building a site page, a demo or a block. When a component's API, variants or look change, update it in the same change.
+Scripts live in the root `package.json`. On a fresh clone: `bun install`, `bun install --cwd apps/mobile`, `bun run registry:build`, then `bun run dev` (port 4000).
 
----
+## Layout
+
+| Path                     | What                                                                                  |
+| ------------------------ | ------------------------------------------------------------------------------------- |
+| `apps/web`               | The website and the registry it serves (`registry/`, `examples/`, `content/docs/`)    |
+| `apps/desktop`           | Electron and Tauri example around the site's `/desktop` route                         |
+| `apps/mobile`            | Private Expo example; its own install, outside the bun workspace                      |
+| `packages/cli`           | The `fabricator-ui` CLI                                                               |
+| `packages/setup`         | Private, pure: one project setup, its command, plan and agent prompt                  |
+| `packages/icons*`        | Fabricator Icons: `icons-core` sources, `icons`, `icons-react-native`, `icons-static` |
+| `packages/editor-native` | The Expo module the native `editor` draws with                                        |
+| `packages/tests`         | CLI end-to-end tests against real templates                                           |
+| `skills/fabricator`      | Agent skill for projects that use the library                                         |
+| `tmp/`                   | Personal experiments, gitignored, outside the product                                 |
 
 ## Vocabulary
 
-These words have exact meanings here. Use them in code review, commits and docs.
-
-- **Upstream**: `shadcn-ui/ui`, pinned to the SHA in `upstream.lock.json` (until that file exists: `295a1f11`, 2026-10-02).
-- **Base**: the primitive library a component is built on: `base` (Base UI, the primary target), `radix` (`radix-ui`), `aria` (`react-aria-components`). Each base has its own hand-written source tree.
-- **Style**: a visual language compiled into components at build time. The library ships one: the Fabricator style (`fabricator`). The 8 upstream styles (`vega`, `nova`, `maia`, `lyra`, `mira`, `luma`, `sera`, `rhea`) are still compiled, but only for the parity check; they are never published. The full id is `<base>-<style>`, for example `base-nova`.
-- **Placeholder**: a semantic `cn-*` class in component source (`cn-button-variant-outline`). It holds no CSS. The build replaces it with Tailwind classes.
-- **Style map**: `registry/styles/style-<style>.css`. It maps every placeholder to Tailwind utilities via `@apply`.
-- **Parity**:
-  - Across bases: the same component behaves and looks the same in every base.
-  - With upstream: our compiled output for an upstream item in an upstream style (`apps/web/.upstream-registry/`) is byte-identical to `ui.shadcn.com/r/styles/<base>-<style>/<name>.json`.
-- **Superset**: a Fabricator component that replaces an upstream one keeps every name, prop, variant, export and `data-slot`. It only adds.
-- **Registry URL**: `/r/fabricator/{style}/{name}.json`. Items are compiled with the Fabricator style for the base in the user's `style`. The retired blend-mode URLs (`/r/{style}/{name}.json`, `/r/styles/<base>-<upstream style>/…`) redirect to it. React Native projects use `/r/fabricator/native/{name}.json`.
-- **Native tree**: `apps/web/registry/native/`, the React Native version of every published item under the same names. It is not a base. Its conventions are in `registry/native/README.md`.
-- **Platform parity**: a native item has the same exports, `variant` and `size` values, declared props, `data-slot`s and placeholder names as its web one. `bun run native:parity` compares them.
-
----
+- **Upstream:** `shadcn-ui/ui` at the SHA in `upstream.lock.json`.
+- **Base:** the primitive library a web component is built on: `base` (Base UI, primary), `radix`, `aria` (React Aria Components). Each has its own source tree.
+- **Style:** a visual language compiled in at build time. Only `fabricator` ships. The 8 upstream styles (`nova`, `vega`, …) compile for the parity check alone. Full id: `<base>-<style>`.
+- **Placeholder:** a `cn-*` class in source (`cn-button-variant-outline`) that the build replaces with the Tailwind classes in a **style map** (`registry/styles/…`).
+- **Superset:** a replacement keeps every upstream name, prop, variant, export and `data-slot`, and only adds.
+- **Native tree:** `apps/web/registry/native/`, the React Native version of every item under the same names. Not a base.
+- **Parity:** across bases (same behaviour and look), with upstream (byte-identical output in upstream styles), across platforms (native matches web's API).
 
 ## The contract
 
-These invariants are what make Fabricator a drop-in for shadcn projects. A change that breaks one is a bug, even if everything builds.
-
-1. **Superset.** Replacements keep the upstream item name, target file path, export names, props, variant names and `data-slot` values. New props and variants are additive and optional.
-2. **Valid shadcn style ids only.** Any `components.json` we write or generate has `"style": "<base>-<upstream style>"`. The Fabricator look comes from the `/r/fabricator/` registry URL, never from the `style` field. Bare names like `button` always resolve against ui.shadcn.com, so a custom style id would 404 for every user.
-3. **Namespaced dependencies.** `registryDependencies` reference our own items as `@fabricator/<name>`. A bare name means "install upstream shadcn's item", and is written only when that is the intent.
-4. **The token contract.** Every shadcn CSS variable keeps its name and meaning:
-   - `background`, `foreground`
-   - `card`, `popover`, `primary`, `secondary`, `muted`, `accent` (each with `-foreground`)
-   - `destructive`, `border`, `input`, `ring`
-   - `chart-1…5`, `sidebar-*`
-   - `radius` (and the derived `--radius-*`), `font-sans`, `font-heading`, `font-mono`
-
-   Fabricator tokens are added under new names (`--surface-*`, `--motion-*`, …) and shipped in the `cssVars` of the items that use them.
-
-5. **Base parity.** A change to a component, example or block in one base tree lands in all base trees in the same change. See "Bases" below.
-6. **Generated output is rebuilt, never hand-edited.** Edit the authored source and run the registry build. See "Registry" for which paths are generated.
-7. **Bun is the toolchain.** Use `bun install`, `bun run <script>`, `bunx --bun <bin>`, and keep a single `bun.lock`. The one exception is `scripts/publish.sh`, which uploads the Bun-packed tarball with `npm publish`.
-8. **Attribution.** Files derived from upstream stay under MIT, with shadcn's copyright kept in `LICENSE.md`/`NOTICE.md`. Site copy, logos and branding are Fabricator's own.
-9. **Platform parity.** A web change to a component's API, variants or look lands in `registry/native/` in the same change, or adds a dated entry to `registry/native/parity-exceptions.json`. Native registry source never imports from `apps/mobile`.
-
----
-
-## Brand policy
-
-Fabricator UI is its own product. It is built on shadcn/ui, and that name appears only where it is needed:
-
-- **Attribution:** `LICENSE.md`, `NOTICE.md`, the Acknowledgements section of the docs introduction, the first changelog entry, and READMEs.
-- **Compatibility:** one short section on the docs introduction, the Registry docs page (existing projects, the raw shadcn CLI), and one line on the CLI page and in the CLI README.
-- **Technical identifiers users install or import:** the `shadcn` npm package (`shadcn/tailwind.css`), `@shadcn/react`, and the shadcn CLI where a command has no Fabricator equivalent (`migrate`).
-- **Internal engineering docs and code:** `PLAN.md`, this file, upstream-sync tooling, import statements and code comments.
-
-Everywhere else, write "Fabricator UI", "the CLI" (`npx fabricator-ui@latest …`), "the registry" and "styles". Demo content (avatars, handles, emails, sample links) uses the Fabricator identity defined in `scripts/rebrand.ts`; `bun run rebrand --check` runs in CI. Schemas point at `https://fabricator-ui.vercel.app/schema.json` and `/schema/registry-item.json`.
-
----
-
-## Repository map
-
-The full target tree is in `PLAN.md` §4. Which paths are authored and which are generated:
-
-| Path                                                                                                 | What                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Authored?                                                                                                                                      |
-| ---------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| `apps/web/registry/bases/{base,radix,aria}/`                                                         | Component, block, hook and lib source plus `_registry.ts` item declarations                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | ✅ authored                                                                                                                                    |
-| `apps/web/registry/styles/style-*.css`                                                               | Style maps for the 8 upstream styles (parity and upstream sync only)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | ✅ authored                                                                                                                                    |
-| `apps/web/registry/styles/fabricator/*.css`                                                          | Fabricator style map, one file per component                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | ✅ authored                                                                                                                                    |
-| `apps/web/registry/styles/style-fabricator.css`                                                      | Assembled Fabricator style map                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                         | ⚙️ generated, committed                                                                                                                        |
-| `apps/web/registry/native/`, `apps/web/registry/styles/native/*.css`, `apps/web/examples/native/`    | React Native components, their style map (one file per component) and demos. Conventions: `registry/native/README.md`                                                                                                                                                                                                                                                                                                                                                                                                                                  | ✅ authored                                                                                                                                    |
-| `apps/web/registry/styles/style-native.css`, `apps/web/examples/native/__index__.ts`                 | Assembled native style map; the example app's demo index                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | ⚙️ generated, committed                                                                                                                        |
-| `apps/web/styles/native/`, `apps/web/public/r/native/`                                               | Compiled native components; installable registry JSON                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | ⚙️ generated, gitignored                                                                                                                       |
-| `apps/web/registry/fabricator/`                                                                      | Fabricator foundations (`foundations.ts`), design spec (`DESIGN.md`), extra items and overrides (`registry.ts`), overlay sources (`shared/`, `<base>/`)                                                                                                                                                                                                                                                                                                                                                                                                | ✅ authored                                                                                                                                    |
-| `apps/web/app/fabricator.css`                                                                        | Foundations + palette stylesheet for the website                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | ⚙️ generated, committed                                                                                                                        |
-| `apps/web/registry/{bases,styles,themes,fonts,config,presets}.ts`                                    | Registry metadata, themes, presets, `registry:base` builder                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | ✅ authored                                                                                                                                    |
-| `apps/web/examples/{base,radix,aria}/*.tsx`                                                          | Docs demos (flat folders, no subdirectories)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                           | ✅ authored                                                                                                                                    |
-| `apps/web/content/docs/**`                                                                           | MDX docs (Fumadocs)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | ✅ authored                                                                                                                                    |
-| `apps/web/registry/**/__index__.tsx`, `__components__/`, `__blocks__.json`, `examples/__index__.tsx` | Runtime lookup indexes                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 | ⚙️ generated, committed                                                                                                                        |
-| `apps/web/styles/<base>-<style>/`                                                                    | Compiled components the docs import                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | ⚙️ generated, gitignored                                                                                                                       |
-| `apps/web/public/r/**`                                                                               | Installable registry JSON                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | ⚙️ generated, gitignored (except small committed indexes)                                                                                      |
-| `apps/desktop/`                                                                                      | Desktop example: Electron (`electron/`) and Tauri (`src-tauri/`) windows around the website's `/desktop` route (`app/(view)/desktop/`)                                                                                                                                                                                                                                                                                                                                                                                                                 | ✅ authored                                                                                                                                    |
-| `apps/mobile/`                                                                                       | Private React Native example of the library (Expo, its own install outside the bun workspace: React Native pins its own React). Runs every component's demo from the compiled registry (`styles/native`) through `metro.config.js`, and its own shell is the library's `AppShell`, so it shows what a project gets. It is the desktop example's component explorer on React Native: both build their sidebar from `apps/web/lib/component-explorer.ts`, and start from the same shell options. Never published, and nothing in the library imports it. | ✅ authored                                                                                                                                    |
-| `packages/setup/`                                                                                    | Private, pure: one project setup, its command, plan, project tree and agent prompt (D17). The site imports it; the CLI bundles it                                                                                                                                                                                                                                                                                                                                                                                                                      | ✅ authored                                                                                                                                    |
-| `packages/cli/`                                                                                      | `fabricator-ui` CLI (Node target, wraps `shadcn`). `templates/` holds the desktop apps it scaffolds                                                                                                                                                                                                                                                                                                                                                                                                                                                    | ✅ authored                                                                                                                                    |
-| `packages/react/`                                                                                    | `@fabricator-ui/react` headless primitives (later phase)                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | ✅ authored                                                                                                                                    |
-| `packages/editor-native/`                                                                            | `@fabricator-ui/editor-native`: the native text view the React Native `editor` item draws its document with (Expo module; Swift today, Android to come). Published by `release:icons` with the icon packages; the editor's engine is the shared TypeScript in `registry/fabricator/shared/lib/editor-*.ts` and `markdown-*.ts`. Plan: `docs/plans/editor.md`                                                                                                                                                                                           | ✅ authored                                                                                                                                    |
-| `packages/tests/`                                                                                    | CLI end-to-end tests against real templates                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | ✅ authored                                                                                                                                    |
-| `packages/icons-core/`                                                                               | Fabricator Icons sources (vendored Lucide, lucide-animated and Charmed, originals, brand allowlist), checks and generators; private. Plan: `docs/plans/icon-pack.md`                                                                                                                                                                                                                                                                                                                                                                                   | ✅ authored (`sources/lucide/`, `sources/animated/` and imported brand files are written by `icons:sync`, `icons:animated` and `icons:brands`) |
-| `packages/icons/`, `packages/icons-react-native/`, `packages/icons-static/`                          | `@fabricator-ui/icons` (React), `-react-native`, `-static` (files, sprites, PNG CLI); `src/generated/`, `dist/` and the static outputs are gitignored                                                                                                                                                                                                                                                                                                                                                                                                  | ✅ authored                                                                                                                                    |
-| `skills/fabricator/`                                                                                 | Agent skill for consumers of the library                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | ✅ authored                                                                                                                                    |
-| `DESIGN.md`                                                                                          | Design system for products built with the library, which projects copy; `bunx @google/design.md lint DESIGN.md` validates it                                                                                                                                                                                                                                                                                                                                                                                                                           | ✅ authored                                                                                                                                    |
-| `upstream.lock.json`, `scripts/sync-upstream.ts`                                                     | Upstream pin and import tooling                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        | ✅ authored                                                                                                                                    |
-| `tmp/`                                                                                               | Personal experiments (Three.js hero prototype); gitignored                                                                                                                                                                                                                                                                                                                                                                                                                                                                                             | outside the product                                                                                                                            |
-
----
-
-## Commands
-
-The root `package.json` is the source of truth for scripts. Keep this table in step when scripts change.
-
-| Task                                                                                                                        | Command                                                                                                  |
-| --------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
-| Install                                                                                                                     | `bun install`                                                                                            |
-| Website dev server                                                                                                          | `bun run dev` (`apps/web`; `registry:build` once on a fresh clone; fails fast if port 4000 is taken)     |
-| Desktop example (starts the website unless it already runs)                                                                 | `bun run desktop` (Electron) or `bun run desktop:tauri` (needs Rust; the first run compiles for minutes) |
-| React Native example in the iOS Simulator                                                                                   | `bun run mobile` (installs `apps/mobile`, then `expo run:ios`; the first native build takes minutes)     |
-| React Native example in the iPad Simulator                                                                                  | `bun run mobile:ipad` (finds an iPad, or `--device <name>`; the first native build takes minutes)        |
-| Check every component demo on an iPhone and an iPad simulator for errors and warnings (the app built on each; reuses Metro) | `bun run mobile:check` (`--device <name>`, `--scope components`, `--strict`)                     |
-| React Native example in the Android Emulator (needs the Android SDK)                                                        | `bun run mobile:android`                                                                                 |
-| Native registry build (in `apps/web`; also part of the full build)                                                          | `bun run registry:native` (`--check <names>` compiles items without writing)                             |
-| Native parity check (in `apps/web`)                                                                                         | `bun run native:parity` (`--strict` fails on any gap)                                                    |
-| Native types (in `apps/mobile`)                                                                                             | `bun run typecheck`                                                                                      |
-| Native docs pages, from the source and `registry/native/differences.ts`                                                     | `bun run native:docs` (in `apps/web`; rerun after changing a native item)                                |
-| Full registry build (canonical, formatted; run before committing)                                                           | `bun run registry:build`                                                                                 |
-| Targeted registry builds (fast, unformatted; run in `apps/web`)                                                             | `bun run registry:build --examples \| --indexes \| --style <id\|all> \| --registry <id\|all>`            |
-| Lint, typecheck, format check                                                                                               | `bun run check`                                                                                          |
-| Unit tests                                                                                                                  | `bun run test`                                                                                           |
-| Upstream parity check (fetches ui.shadcn.com)                                                                               | `bun run test:parity` (`--styles all` for every combination)                                             |
-| CLI end-to-end (needs `bun run dev` running and `bun run cli:build`)                                                        | `bun run test:e2e` (`--only create-next,monorepo-web`, `--keep`)                                         |
-| Run the local CLI against the local registry                                                                                | `FABRICATOR_REGISTRY_URL=http://localhost:4000 bun run cli <create\|init\|add\|…> -c <path-to-app>`      |
-| Build the CLI                                                                                                               | `bun run cli:build`                                                                                      |
-| Import upstream                                                                                                             | `bun run sync:upstream --ref <sha\|tag>`                                                                 |
-| Rebrand upstream demo content (after every sync)                                                                            | `bun run rebrand` (`--check` to verify)                                                                  |
-| Vendor Lucide's icons at a tag                                                                                              | `bun run icons:sync --ref <tag>` (then bump the parity dev deps in `packages/icons`)                     |
-| Import brand marks from the allowlist                                                                                       | `bun run icons:brands` (`--measure` sets optical scales for new marks)                                   |
-| Vendor lucide-animated at a commit                                                                                          | `bun run icons:animated --ref <sha>` (then `bun run icons:audit`)                                        |
-| Audit every animated icon in Chrome (after an animated or Lucide sync)                                                      | `bun run icons:audit`                                                                                    |
-| Vendor Charmed file and folder icons                                                                                        | `bun run icons:files --ref v0.10.0`                                                                      |
-| Check icon sources (originals, brands, duotone, animated, files; part of `check`)                                           | `bun run icons:check`                                                                                    |
-| Review sheet for new icons (PNG to attach to the PR)                                                                        | `bun run icons:sheet <names...>`                                                                         |
-| Recapture mobile preview screenshots (dev server running)                                                                   | `cd apps/web && bun run registry:capture --force && bun run pages:capture`                               |
-| Add a release note                                                                                                          | `bunx changeset`                                                                                         |
-| Deploy the website (builds here, uploads prebuilt to Vercel)                                                                | `bun run deploy` from a clean, pushed `main`; `bun run deploy -- --preview` for a preview                |
-| Release the CLI (npm, git tag, GitHub release; part of `deploy`)                                                            | `bun run release:publish` (needs `npm login` and `gh auth login`)                                        |
-| Publish the icon packages and `editor-native` (part of `deploy`, before the site ships)                                     | `bun run release:icons` (needs `npm login`)                                                              |
-
-### Toolchain notes
-
-- `bunfig.toml` sets `linker = "hoisted"`. Isolated installs create one copy of a package per peer set (for example `fumadocs-core` with Zod 3 and with Zod 4), which breaks TypeScript type identity and caused a Fumadocs runtime stack overflow.
-- Root `overrides` pin a few tools to upstream's resolved versions: `prettier` 3.6.2 (the registry build formats generated source; another version changes output and breaks parity), `eslint-plugin-react-hooks` 7.0.1, and `mdast-util-to-markdown` 2.1.2. Bump them only together with upstream, and rerun `test:parity`.
-- The website is built on the maintainer's machine and uploaded prebuilt (`scripts/deploy.sh`); Vercel's Git builds are off (`apps/web/vercel.json`). If they are turned back on, `next build` must fit in 8 GB, the memory of a standard Vercel build machine; above that the process is OOM-killed with no error and the deployment hangs in "Building". `apps/web/next.config.mjs` turns off the Turbopack build cache and source maps (not worker threads for the loaders: a worker that ran MDX later fails on a PostCSS job), and `scripts/build-registry.mts` writes lazy component shards only for the styles the site renders (`legacyStyles`). Before adding a route, a style or a lazy map to the site's module graph, check the build in a container limited to 4 CPUs and 8 GB (it needed ~7 GB with worker threads, about 0.5 GB more without).
-- Turborepo's auto-written agent guidance is disabled (`"agentGuidance": false` in `turbo.json`) so this file stays the single source.
-- `bun run test` needs `bun install --cwd apps/mobile` once on a fresh clone: the web tests of the example's models make Vite read `apps/mobile/tsconfig.json`, which extends Expo's.
-
----
-
-## Working on components
-
-### Look at upstream first
-
-For any component, block or registry behaviour, read the upstream implementation before writing code. That means the matching file in `apps/v4/registry/bases/<base>/`, its rules in `registry/styles/style-nova.css`, and its examples. Upstream's choices about structure, slots, variants and accessibility are the baseline we extend.
-
-To get the source, sparse-clone upstream at the pinned SHA into a scratch directory outside the repo:
-
-```bash
-git clone --filter=blob:none --sparse https://github.com/shadcn-ui/ui.git <scratch>/shadcn
-git -C <scratch>/shadcn sparse-checkout set apps/v4/registry apps/v4/examples packages/shadcn/src packages/registry/src skills
-```
-
-To see what upstream actually ships, run `bunx --bun shadcn@latest view @shadcn/<name>` or `bunx --bun shadcn@latest docs <name>`.
-
-### File conventions
-
-```tsx
-"use client"
-
-// only when the file uses state, effects, context, events or an interactive primitive
-import * as React from "react"
-import { Dialog as DialogPrimitive } from "@base-ui/react/dialog" // base-specific import
-import { cva, type VariantProps } from "class-variance-authority"
-import { cn } from "cn"
-
-function DialogContent({ className, ...props }: DialogPrimitive.Popup.Props) {
-  return (
-    <DialogPrimitive.Popup
-      data-slot="dialog-content"
-      className={cn(
-        "cn-dialog-content fixed top-1/2 left-1/2 z-50 grid w-full",
-        className
-      )}
-      {...props}
-    />
-  )
-}
-
-export { DialogContent }
-```
-
-- **Components:**
-  - Plain function components, with `ref` as a regular prop (React 19).
-  - One named `export { … }` block at the bottom of the file.
-  - `className` is always merged last through `cn()`, so consumers can override it.
-- **Prop types:** extend the primitive's own props:
-  - `DialogPrimitive.Popup.Props` (Base UI)
-  - `React.ComponentProps<typeof X>` (Radix)
-  - the RAC prop types (Aria)
-  - `React.ComponentProps<"div">` (plain HTML)
-- **`data-slot="<component>-<part>"`** goes on every rendered part. Parents style children with `has-data-[slot=…]:` and `in-data-[slot=…]:`.
-- **Variants** use `cva`, with the upstream axis names `variant` and `size`, and `defaultVariants` set. Variant values are placeholders: `default: "cn-button-variant-default"`.
-- **`cn`** comes from the `cn` package, and `lib/utils.ts` is just `export { cn } from "cn"`.
-- **Imports between registry files** use the alias form `@/registry/bases/<base>/ui/<name>`. The build and the CLI rewrite these.
-
-### Placeholders and style maps
-
-The split between inline classes and placeholders is what makes styles swappable and upstream merges cheap.
-
-- **Inline in source:** structure and behaviour that every style shares. That means display, flex/grid mechanics, positioning, `z-50` on overlay popups, `outline-none`, `select-none`, disabled mechanics, `[&_svg]:pointer-events-none`, and group names (`group/button`).
-- **Placeholder (`cn-<component>[-<part>][-variant-<v>|-size-<s>]`):** anything a style could change. That means radius, colour, border, shadow, spacing, height, gap, typography, focus ring, invalid state, and animation timing.
-- **Style map coverage:** every placeholder used in upstream-derived source has a rule in **every** style map, upstream and Fabricator. Placeholders used only by Fabricator overrides and exclusive components need a rule in the Fabricator style map only. The build's coverage lint enforces this.
-- **Rule order in style maps:** follow upstream, under a `/* MARK: <Component> */` heading.
-- **State variants:** use the cross-base variants from `shadcn/tailwind.css` (`data-open:`, `data-closed:`, `data-checked:`, `data-selected:`, `data-disabled:`, …). These match Radix `data-state` and Base UI attributes alike.
-- **Install-time markers** stay as literal classes for the CLI to resolve: `cn-menu-target`, `cn-menu-translucent`, `cn-font-heading`, `cn-rtl-flip`, `cn-logical-sides`.
-- **Placeholders compile only as string literals in a `className` attribute or a `cn(...)` argument.** One inside a ternary, an `&&` or a variable ships unreplaced. Put variant styles in the placeholder's rule behind a `data-*` attribute (`data-[size=sm]:density-compact`), and check compiled output with `grep -no '"[^"]*cn-[a-z][^"]*"' styles/<style>/ui/<name>.tsx`.
-
-### Icons
-
-- Inside registry source, icons are `<IconPlaceholder lucide="…" tabler="…" hugeicons="…" phosphor="…" remixicon="…" />`, with all five libraries filled in. The CLI swaps in the user's `iconLibrary`.
-- Components size their own icons with `[&_svg:not([class*='size-'])]:size-4`.
-- Icon slots in buttons and similar controls use `data-icon="inline-start" | "inline-end"`.
-- Icons are passed as component values (`icon={CheckIcon}`), not string keys.
-
-### Composition per base
-
-| Base    | Composition API                           | Example                                                         |
-| ------- | ----------------------------------------- | --------------------------------------------------------------- |
-| `radix` | `asChild` + `Slot.Root` from `radix-ui`   | `<DialogClose asChild><Button/></DialogClose>`                  |
-| `base`  | `render` prop, `useRender` / `mergeProps` | `<DialogPrimitive.Close render={<Button variant="ghost" />} />` |
-| `aria`  | RAC render props and slots                | per `react-aria-components` docs                                |
-
-Part names follow each library (Radix `Overlay`/`Content`, Base UI `Backdrop`/`Popup`, RAC `ModalOverlay`/`Modal`). The `data-slot` and placeholder names stay identical across bases.
-
-### Styling rules (consumer code, examples, blocks)
-
-- **Semantic tokens for colour:** `bg-primary text-primary-foreground`, `text-muted-foreground`, `text-destructive`. Light and dark both come from the tokens, so one class covers both.
-- **Variants first:** `variant="outline"`, then semantic tokens, then new CSS variables. `className` on library components is for layout (`max-w-md`, `mx-auto`, `mt-4`).
-- **Spacing:** gaps through flex/grid (`flex flex-col gap-4`). Write `size-10` for equal width and height, and `truncate` for single-line overflow.
-- **Conditional classes:** `cn()`.
-- **Overlays:** Dialog, Sheet, Drawer, Popover, Tooltip, DropdownMenu and HoverCard manage their own stacking.
-- **Loading text:** the `shimmer` utility. **Scroll edges:** the `scroll-fade` utilities.
-- **Composition:**
-  - Items go inside their group (`SelectGroup`, `DropdownMenuGroup`, `CommandGroup`, …).
-  - Dialog, Sheet and Drawer always have a Title (use `sr-only` if it should be hidden).
-  - Cards use the full Header/Title/Description/Content/Footer structure.
-  - Use `Avatar` with `AvatarFallback`, and use `Alert`, `Empty`, `Skeleton`, `Separator` and `Badge` for their roles.
-  - Loading buttons compose `Spinner` + `data-icon` + `disabled`.
-- **Toasts follow the base:** `toast` for Base UI, Sonner for Radix and Aria.
-
-### Accessibility and internationalisation
-
-- Keyboard behaviour and ARIA wiring come from the primitive. Leave them intact.
-- Custom (non-primitive) components implement the matching WAI-ARIA Authoring Practices pattern in full: roles, keyboard map, focus management.
-- **Focus:** `focus-visible:` ring placeholders on every interactive element.
-- **Invalid state:** `aria-invalid:` styling on every form control. Forms use `Field`/`FieldGroup` with `data-invalid`.
-- **Motion:** honour `prefers-reduced-motion` through `motion-safe:` / `motion-reduce:` or the motion tokens.
-- **Direction:** Fabricator UI is left-to-right only.
-  - There are no RTL docs, demos or checks.
-  - Prefer logical utilities (`ms-*`, `ps-*`, `start-*`, `text-start`) anyway.
-  - Keep upstream's `cn-rtl-flip` markers in upstream-derived code (the CLI resolves them at install time).
-
-### Dependencies
-
-- Reuse what upstream uses: `radix-ui`, `@base-ui/react`, `react-aria-components`, `cmdk`, `vaul`, `sonner`, `recharts`, `react-day-picker` + `date-fns`, `embla-carousel-react`, `input-otp`, `react-resizable-panels`, `motion`.
-- A new runtime dependency for a registry item needs a written reason in the PR: size, maintenance, licence, React 19 support.
-- Base primitives belong on the base's `index`/`style` item, not on each component item.
-- Drag and drop goes through `lib/sortable.tsx` (D15): components import the adapter, and keep keyboard reordering and a menu alternative of their own.
-- Pin versions only where upstream pins (`recharts@3.8.0`, `react-day-picker@latest`).
-
----
-
-## Bases
-
-- An authored change in `registry/bases/<base>/` or `examples/<base>/` is mirrored to the same path in the other base trees in the same change. Only imports, primitive APIs and part names differ.
-- When a change is intentionally scoped to one base, say so in the commit body and the PR.
-- **Fabricator-exclusive components:**
-  - Base UI first.
-  - Radix and Aria versions are written when their primitive differs.
-  - Otherwise the item falls back to the Base UI implementation, which is recorded in the item's `meta` and documented on its page.
-  - Pure-HTML components (no primitive) keep one identical source across all base trees.
-  - Typechecking resolves `@/registry/bases/<base>/ui/<name>` to the upstream tree, so a component that exists only in the overlay, or overlay code that uses an override's additions, needs a path alias in `apps/web/tsconfig.json` (see the App Shell entries).
-- **Reporting:** after editing base trees, list which bases were updated in your report.
-
----
-
-## Registry
-
-### Declaring items
-
-Items are TypeScript objects in each folder's `_registry.ts`, typed `Registry["items"]` from `shadcn/schema`, and validated with zod at build time:
-
-```ts
-{
-  name: "stepper",                          // kebab-case; same name as upstream when it replaces one
-  type: "registry:ui",
-  title: "Stepper",
-  description: "A multi-step progress indicator with keyboard navigation.",
-  dependencies: [],                         // npm deps beyond the base's index item
-  registryDependencies: ["@fabricator/button", "@fabricator/separator"],
-  files: [{ path: "ui/stepper.tsx", type: "registry:ui" }],
-  categories: ["navigation"],
-  meta: {
-    fabricator: true,                       // true for items that do not exist upstream
-    links: { docs: "https://fabricator-ui.vercel.app/docs/components/base/stepper",
-             examples: "https://fabricator-ui.vercel.app/docs/components/base/stepper#examples" },
-  },
-}
-```
-
-- **Type** by role:
-
-  | Role                 | Type                              |
-  | -------------------- | --------------------------------- |
-  | UI primitive         | `registry:ui`                     |
-  | Composed component   | `registry:component`              |
-  | Block                | `registry:block`                  |
-  | Route file           | `registry:page`                   |
-  | Hook                 | `registry:hook`                   |
-  | Utility              | `registry:lib`                    |
-  | Token set            | `registry:theme`                  |
-  | Init payload         | `registry:base`                   |
-  | Font                 | `registry:font`                   |
-  | Config or agent file | `registry:file` / `registry:item` |
-
-- **Targets:** `registry:page` and `registry:file` files need an explicit `target` (blocks use `app/<route>/page.tsx`). The CLI remaps it per framework.
-- **Naming:**
-  - Blocks: `<category>-<nn>` (`login-01`).
-  - Examples: `<component>-example`, or `<component>-<intent>` (`button-loading`).
-  - Exclusive component names are checked against upstream's catalog.
-- **New tokens** ship in the item's `cssVars` (`theme`, `light`, `dark`), and new CSS (`@utility`, `@keyframes`) ships in `css`.
-
-### Build and output
-
-- **Pipeline:** placeholders + style map → `createStyleMap` / `transformStyle` from `shadcn/utils` → `shadcn build`.
-- **Output paths:**
-  - Published: `public/r/styles/<base>-fabricator/<name>.json`, served at `/r/fabricator/<base>-<style>/<name>.json` (rewrites in `next.config.mjs`)
-  - The same items with Fabricator's icons: `public/r/styles/icons-fabricator/<base>/<name>.json`, served at the same URL with `?icons=fabricator`, the param `/init` writes into the project's registry entry (`registry/fabricator/fabricator-icons.ts`)
-  - Upstream styles, for `test:parity` only: `.upstream-registry/<base>-<style>/<name>.json` (gitignored, never published)
-  - Catalogs: `public/r/registry.json`, `index.json`, `config.json`
-- **Rebuild:** after authored changes, run the full `bun run registry:build`. Targeted flags are for iteration only.
-- **Examples:** editing an existing example needs no rebuild. Adding, removing or renaming one needs `--examples`.
-- **`/init`** (`app/(app)/(create)/init/route.ts`) returns the `registry:base` payload. Its `config.registries` writes `@fabricator` into the user's `components.json`. Its `config.style` is always a valid upstream style id (contract item 2). It defaults to Fabricator's icons, and `iconLibrary=<name>` or a shadcn preset code opts out (`usesFabricatorIcons`); `config.iconLibrary` stays a real shadcn library either way. It also takes a look (`registry/fabricator/look.ts`: `surface`, the six colour roles as `<hue>_<chroma>`, `shape=pill`, `motion=<speed>`, `density=<compact|spacious>`) and adds its cssVars on top of the Fabricator palette.
-- **`/init/app-shell`** (`app/(app)/(create)/init/app-shell/route.ts`) returns a `registry:block` with an App Shell written out from the option cards' choices (`app/(view)/app-shell/_lib/app-shell-source.ts`). It uses only the parts' shared API, so one source fits every base. A new option or part in the cards gets a branch there, and in `app-shell-source-native.ts`; `install.test.ts`, `app-shell-source-native.test.ts` and the `create-*` and `vite-*` e2e scenarios cover it. `framework=<name>` adds `app-shell-root.tsx`, the adapter that passes the router's path and link (`app-shell-root-source.ts`), and picks the storage. `desktop=<electron|tauri>` writes a layout that finds its window at runtime through the `desktop-window` item. `platform=native` serves the React Native version. Every card renders the layout in `registry/fabricator/app-shell-options.ts`: what applies everywhere first, then Desktop and Mobile (Tablets and Phones for a React Native project), so a new option takes its place there, and a test fails until it has one. A card inside a running shell (the examples' Overview pages) passes `platform`, so it shows only what that shell can preview, following its size class; `/create` passes none, because it writes the command for every app and its preview switches device. The React Native example's card (`apps/mobile/src/shell-options-model.ts`) uses the same option names, and a test reads its command back through the endpoint's parsers. The cards' command names `app-shell` as well as the URL, because `add` only ensures the `@fabricator` registry when a Fabricator name is present.
-- **`/create`** (`app/(app)/(create)/create/`) is the Get started page: project, look, App Shell and extras in the left rail, their result on the right (the files it creates, or the real App Shell), and the one command on the Install step. The shell runs in an iframe (`/create/preview`, `(create)/lib/shell-preview.ts`), drawn at the size of the app the project leads with (`getPreviewSize`: a macOS window for a desktop project, the browser, or a phone for a React Native-only one) and scaled into the column (`getPreviewLayout`), so its collapse, peek, window and phone layouts behave as they do in a project; the page sends it the options and the desktop runtime, and the look reaches it through the site settings. What the Shell step offers follows the project (`getHiddenShellOptions` in `registry/fabricator/app-shell-options.ts`, `getShellOptionNotes` in `app-shell/_lib/options.ts`). Its choices are URL state (`setupParsers` in `(create)/lib/setup.ts`, `playgroundParsers` for the shell); the look lives in the site settings. `toProjectSetup` turns them into a `@fabricator-ui/setup` setup: `toCliArgs` writes the command, `planSetup` the steps the page lists and the CLI runs. `getAgentPrompt` turns the same setup into the prompt the Install step offers, for an AI agent to run the command and finish the setup; a new step a person takes after the command goes there too. A test in `packages/cli/src/setup/flags.test.ts` parses every written command with the real program, so the site and the flags can't drift.
-
----
-
-## Design system (Fabricator layer)
-
-**`apps/web/registry/fabricator/DESIGN.md` is the specification of the Fabricator design language**: surfaces, interaction tokens, density, motion speeds, fluid hover, scrollbars, the look of every component, and the known deviations from it. Read it before changing any Fabricator style or override. The root `DESIGN.md` says how products use the components; a change to a look or a rule updates both.
-
-- **Tokens** live in `registry/fabricator/foundations.ts` (foundations: new token names only; palette: Fabricator values for the shadcn token names, applied by the `fabricator` preset).
-- **Motion is by role, never milliseconds** (`registry/fabricator/motion.ts`, spec in DESIGN.md):
-  - Surfaces use one utility each: `motion-tooltip`, `-popup`, `-dialog`, `-scrim`, `-sheet`, `-disclosure`, `-toast`; buttons and toggles add `motion-press`.
-  - Everything else uses `duration-<role>`, `duration-<role>-exit` and `delay-<role>` (feedback, glide, move, …) with `ease-enter`, `-move`, `-exit`, `-feedback` or `-drawer`.
-  - Four speeds set the tokens: `smooth` (websites), `default` (Emil Kowalski's timings), `snappy`, `instant` (dashboards). `data-motion` on `<html>` or any element picks one, `off` stops motion, and `--motion-scale` multiplies every duration.
-  - `registry/fabricator/__tests__/motion-usage.test.ts` fails on fixed durations, literal curves, fixed zooms and the retired tier names (`duration-fast`, `ease-spring`, …), which stay only as aliases for consumers.
-- **Sizes come from the density, never fixed pixels** (`registry/fabricator/density.ts`, spec in DESIGN.md):
-  - Three densities set the tokens: `compact` (dashboards), `default` (apps), `spacious` (websites). `data-density` on `<html>` or any element picks one; the `density-<name>` utilities do the same from a class.
-  - Style maps use the tokens, each named after its default value: `h-(--density-36)`, `px-(--density-16)`, `text-(length:--density-text-13)`, `size-(--density-icon-16)`. Not theme keys (`h-control`): class merging wouldn't recognise them.
-  - A control's `size="sm"` adds `density-compact` and `size="lg"` `density-spacious`; the default size follows the nearest density.
-  - Portalled parts read `useDensity()` from `DensityProvider` (`registry/fabricator/shared/ui/density.tsx`) and set `data-density`, so a new overlay override does the same.
-  - `registry/fabricator/__tests__/density-usage.test.ts` fails on fixed control heights, text sizes and icon sizes in the style maps.
-- **Look:** each component's placeholder rules are in `registry/styles/fabricator/<component>.css`. The build assembles them into `style-fabricator.css` and fails if any placeholder used by the components has no rule.
-- **Behaviour** that CSS can't express (fluid hover, sliding selection) is added with **Fabricator overrides**: `registry/fabricator/<base>/ui/<component>.tsx` is a copy of the upstream source with additive, container-level changes; `registry/fabricator/shared/` holds files every base uses (`lib/fluid-hover.tsx`). Overrides compile into the Fabricator style only, so upstream styles keep their exact output. They keep the full upstream API (superset rule). Extra registry dependencies go in `fabricatorOverrides` in `registry/fabricator/registry.ts`.
-- **Blocks gallery:** `/blocks` is removed for now and redirects to `/docs/components`. Block items stay in the registry and install with `add`.
-- **Excluded items:** `FABRICATOR_EXCLUDED_ITEMS` in `registry/fabricator/registry.ts` lists upstream items the Fabricator library leaves out:
-  - Native Select: it only restyles a raw `<select>`; Select replaces it.
-  - Chart, for now, with the blocks built on it (`dashboard-01`, `preview`, `preview-02`). The `/charts` gallery and the Chart docs pages are removed, and their URLs redirect to `/docs/components`.
-  - The build drops them from the published registry and the site indexes, and rewrites dependencies to the replacement.
-  - It also skips their demos in the Fabricator example copies.
-  - Items that used one get an override, and docs demos an override in `registry/fabricator/site-examples/<base>/`.
-  - The upstream styles, compiled only for the parity check, keep every upstream item.
-- **After an upstream sync**, review the upstream changes to every overridden file (`git diff <old>..<new> -- apps/web/registry/bases/<base>/ui/<component>.tsx`) and port them into the override.
-
-- **Dimensions** (rationale in `PLAN.md` §6):
-  - Colour, surfaces, motion, density (compact/default/spacious) and radius (rounded/pill) are **tokens**, switchable at runtime.
-- **Colour:**
-  - Values are OKLCH, defined for both `:root` and `.dark`.
-  - Every foreground/background pair meets WCAG 2.2 AA (4.5:1 for text, 3:1 for UI and large text). The contrast check enforces this.
-  - Colour comes from six roles (`primary`, `secondary`, `info`, `success`, `warning`, `destructive`), each derived from `--<role>-hue` and `--<role>-chroma` by one recipe in `registry/fabricator/color-roles.ts`. Primary and secondary take any hue; the statuses keep to their family (`ROLE_HUE_RANGES`: info blue, success green, warning orange to yellow, destructive red to orange), clamped in the CSS too. Components use the role tokens (`bg-<role>`, `text-<role>-text`, `bg-<role>-surface-N`, …) or neutrals, never a raw colour. States are opacity steps of the fill (`/90`, `/80`; soft `/12`, `/16`, `/20`). The foundations never define the shadcn role names; the palette writes them as literals.
-
-### The theme on React Native
-
-`registry/fabricator/native-theme.ts` resolves a look to what React Native can draw (no OKLCH, CSS variables or `calc()`), from the modules the website's stylesheet is generated from; never write a colour or size by hand in `apps/mobile`. `getNativeCssVariables` gives every token under the website's names: `toNativeStylesheet` writes them into the installed `fabricator.css`, and `applyLook` hands them to Uniwind at runtime. Its tests pin the result to values measured in a browser and read `app-shell.css` and `globals.css`, so a change to the tokens or the radius scale fails there until `native-theme.ts` follows. `registry/fabricator/look-presets.ts` holds the named choices both settings UIs offer. Modules native installs import (`foundation-tokens.ts`, not `foundations.ts`) stay free of React, the DOM and the website's CSS.
-
-Text is Inter through `--font-sans`: React Native picks a weight's cut from the family, so `font-medium` and `font-semibold` draw the static 500 and 600. Sounds share the website's recipes (`shared/lib/sound-recipes.ts`): `registry/native/lib/sound-synth.ts` renders them to files on the device, since there is no Web Audio, and `expo-audio` plays them. Don't seek a finished player and play in the same tick: the play is dropped, so `lib/sounds.ts` rewinds when a sound finishes.
-
-Uniwind's compiler can't hold a `cubic-bezier()` in a variable, so `--motion-speed` names the speed and `lib/motion.ts` reads its curves from `motion.ts`. It splits shadow lists on commas, so shadow colours are written as hex, and it mangles a runtime `-0.5px`, so `applyLook` goes through `getNativeRuntimeVariables`. Reanimated's `Keyframe` left surfaces invisible, so `useSurfaceAnimation` uses custom worklets. Expo's Metro reads `tsconfig` paths at runtime, which `apps/mobile` turns off because its aliases differ between types (source) and bundling (compiled).
-
-### Seeing style changes on the site
-
-The website renders the Fabricator style, so it shows what `fabricator-ui add` installs.
-
-- **Live CSS loop (no compile):** edit `registry/styles/fabricator/<component>.css`, run `bun run registry:build --examples` in `apps/web`, and open `/view/base-fabricator/<component>-example`. It renders the component's showcase from raw sources with the style map's CSS, and the dev server hot-reloads.
-- **Compiled loop (overrides, docs pages):** `scripts/build-fabricator.sh [base|radix|aria|all]` in `apps/web` rebuilds `styles/*-fabricator` under a lock (safe with parallel workers). Run the full `bun run registry:build` before committing.
-- **Stale Turbopack cache:** if the dev server can't resolve a newly generated file that exists on disk, stop it, delete `apps/web/.next/dev`, and restart.
-- **Where it applies** (`lib/site-style.ts`):
-  - Docs previews and code. Pages name upstream's default styles (`<base>-nova`, `<base>-rhea`), and `toSiteStyle()` maps them to `<base>-fabricator`. The build generates Fabricator copies of every demo in `examples/__styles__/` (gitignored).
-  - The homepage cards, which import `@/styles/base-fabricator/*`.
-  - The `.md` exports and `llms-full.txt`.
-- **Tailwind sources:** compiled styles live in gitignored `styles/<base>-<style>/`, which Tailwind doesn't detect on its own. Every style folder the site renders must have an `@source` line in `app/globals.css`, or classes used only by that style are never generated.
-- **Mobile screenshots:** after visible style changes, recapture with `bun run registry:capture --force && bun run pages:capture` (dev server running).
-
----
-
-## Website (`apps/web`)
-
-- **Stack:** Next.js 16 App Router, React 19.3, Tailwind 4, Fumadocs, `rehype-pretty-code` + shiki, next-themes, jotai, nuqs.
-- **Rendering:**
-  - Docs, component and block pages are statically generated (`generateStaticParams`, `dynamic = "force-static"`).
-  - Server Components by default. `"use client"` goes on the smallest interactive leaf.
-- **Previews:**
-  - Rendered through `ComponentPreview` / `ComponentSource` from the generated indexes.
-  - Blocks render in the `/view/[style]/[name]` iframe.
-  - Full-screen demos (shells, sidebars) are `type="frame"` previews. Their example names start with a prefix listed in `FRAME_EXAMPLE_PREFIXES` (`app/(view)/view/[style]/[name]/page.tsx`); the dev server picks up new frame examples only after a restart.
-  - Code shown to readers is rewritten to user-facing paths (`@/components/ui/*`).
-- **CLI commands in docs:** written once as `npx shadcn@latest …`. The highlighter generates the npm/pnpm/yarn/bun tabs, and bun is the default tab.
-- **Code colours:** the docs' code blocks (`source.config.ts`, `lib/highlight-code.ts`) use one Shiki theme for both modes, `lib/shiki-fabricator-theme.ts`, which maps TextMate scopes to the foundations' `--syntax-*` tokens, the colours Syntax Highlight uses. Change a colour in `registry/fabricator/syntax-colors.ts`, never in the theme.
-- **Component doc pages:** each base has one, with these sections:
-  1. Preview
-  2. Installation (CLI + Manual)
-  3. Usage
-  4. Composition
-  5. Examples
-  6. API reference
-  7. Accessibility
-- **AI-facing outputs:** every docs page has a `.md` export, and `llms.txt` lists the docs. Both stay accurate as pages change.
-- **Registry endpoints** under `/r/**` return `application/json` with permissive CORS and long CDN caching.
-- **Site UI:** the website uses Fabricator components from the registry, so it is the library's flagship example.
-- **Site chrome** follows the Fabricator design (DESIGN.md), and lives in new files so upstream merges of the website stay small:
-  - `components/fabricator/`:
-    - `site-header.tsx` / `site-footer.tsx`: the minimal top bar and footer for the homepage and the full-width pages.
-    - `docs-shell-sidebar.tsx`, `docs-mobile-bar.tsx`: the docs shell (no top bar), with a left sidebar of search, settings and nav groups, and the page content centred beside it.
-    - `fluid-nav.tsx`: the site's link lists, which use the real Fluid Hover hook.
-  - `app/fabricator-site.css`: site-only CSS such as docs typography. `app/fabricator.css` is generated; don't edit it.
-  - The homepage (`app/(app)/(root)/`) is a gallery of every component.
-    - Hand-built demos (`_components/demos-*.tsx`, importing `@/styles/base-fabricator/ui/*`) come first.
-    - Every other component follows with its docs demo, listed in `_components/catalog.tsx` and lazy-loaded from `examples/__styles__/base-fabricator/` as its card nears the viewport.
-    - A full-screen component gets a compact hand-built card instead (static sidebar, `shortcutScope="focus"`), as in `_components/demos-app-shell.tsx`.
-    - When you add a component, add it to the catalog with a card height, and give it a group in `lib/component-groups.ts` (the docs sidebar and the homepage filter share these groups; a test fails while a component page has none).
-- **Docs pages** use the docs shell: `[data-slot=docs-shell]` hides the site header and footer.
-- **Site settings** (`lib/site-settings.ts`, stored in localStorage):
-  - The settings menu (`components/fabricator/site-settings.tsx`) is in the top bar and the docs sidebar, and holds theme, sound, icons, radius, density, motion, surface (the surface tint, also set by the Surface tab on the Colors page) and primary (the primary colour role; the Colors page sets every role).
-  - `components/fabricator/site-settings-effects.tsx` applies them: it sets `data-radius` on `<html>` (Pill sets `--radius: 1.25rem` in `app/fabricator-site.css`) sets `data-motion` (Smooth, Snappy, Instant or Off: the foundations' speed switches; Default removes it), sets `data-density` (Compact or Spacious; Default removes it), sets `--surface-hue` and `--surface-chroma` inline on `<html>` (the site's palette links `background`, `card`, `popover`, `sidebar` and `muted` to the surfaces, so they follow), sets each colour role's `--<role>-hue` and `--<role>-chroma` the same way (the palette links `primary`, `secondary` and `destructive` to the roles), and mounts the registry's `<SoundEffects />`.
-  - A script in `<head>` applies a stored Pill radius, motion speed, density, surface tint and colour roles before paint.
-- **Site icons:** the Fabricator copies the site renders (`examples/__styles__/*-fabricator`, `styles/*-fabricator/ui`) import icons from `@/lib/site-icons`, not `lucide-react`, so previews follow the Icons setting. They render `@fabricator-ui/icons`, the default pack; the other packs, Lucide included, load on demand.
-  - `lib/site-icons*.ts(x)` is generated by `bun run icons:build` (also part of `bun run dev`) and committed.
-  - The generator maps names through `registry/icons/site-mapping.json`, then `public/r/icons/index.json`.
-  - Everything shown to readers maps the import to `@fabricator-ui/icons`, what a project installs by default (`lib/site-icons-display.ts`). Registry JSON never contains site icons.
-- **Icons page and docs:** `/icons` (`app/(app)/icons/`) and `content/docs/icons/` render Fabricator Icons with the real packages.
-  - Fabricator's own icons (`packages/icons-core/sources/outline/`) are the Custom category, added by `loadOutlineIcons`. New candidates: `docs/plans/icon-pack-expansion.md`.
-  - The page lazy-loads `@fabricator-ui/icons/catalog` and `@fabricator-ui/icons-static/nodes`, so its data stays out of every other page. Filters are URL state; the logic is in `app/(app)/icons/lib/icons.ts` and unit-tested.
-  - The site imports the packages' built `dist/`: `bun run dev` and `bun run build` in `apps/web` run `icons:packages` first.
-  - The Animated tab loads `@fabricator-ui/icons/animated`, and with it Motion, only when it opens; the docs demo goes through `next/dynamic` in a client module (`icons-animated-loader.tsx`), since every docs page imports the demo map and Next lists any client module a page can reach.
-  - Docs demos live in `components/icon-demos/` (not `components/icons/`, which `@/components/icons.tsx` shadows). Name them `Icons*`, so the `.md` export drops them.
-- **Sounds** (`registry/fabricator/shared/lib/sounds.ts` and `components/sound-effects.tsx`) are our own Web Audio synthesis.
-  - `<SoundEffects />` resolves sounds from `data-slot`, ARIA roles and `data-sound`, so components need no changes.
-  - Don't add audio files or third-party sound assets without a licence that allows redistribution under MIT.
-
----
-
-## CLI (`packages/cli`)
-
-- It wraps `shadcn`: it resolves the pinned package, runs it as a child process with `process.execPath`, forwards arguments, stdio and exit codes, and adds Fabricator defaults (init URL, `@fabricator` resolution, `doctor`).
-- **Registry logic stays in shadcn.** Resolution, file writing and transforms are not re-implemented here; any gap goes to `PLAN.md` first.
-- **`create` and `init`'s setup flags run a plan** (D17). `planSetup` in `packages/setup` lists the steps and `src/setup/steps.ts` does them, each checking whether its work is there, so running a failed command again resumes it. Child output goes to a log file; `--verbose` streams it. A new choice goes in `packages/setup` first.
-- **Root-file edits** (`src/mount/`) know one exact shape each and return `null` for anything else, so the CLI prints the snippet instead of guessing at someone's code.
-- **Generated monorepos** follow the recipe in D18 (`src/setup/workspace-config.ts`, `src/utils/workspace.ts`). `add` keeps an existing monorepo in step too.
-- **`dependencies` stay external in the bundle; `@fabricator-ui/setup` is bundled.** `scripts/build.ts` also copies `templates/` and the agent skill into `dist/`.
-- **Runtime:** Node ≥ 20.18.1, ESM, `#!/usr/bin/env node`. The code uses Node APIs only, so it runs identically under `npx`, `pnpm dlx`, `yarn dlx` and `bunx`.
-- **`shadcn` upgrades:** bumping the pinned version is its own change, verified by the e2e matrix.
-- **Releases:** every user-facing change gets a changeset. The Release workflow turns pending changesets into a "version packages" pull request; after it merges, a production `bun run deploy` ships the site and then publishes the new version to npm, tags it and creates its GitHub release (`scripts/publish.sh`). Releases are published from the maintainer's machine, so npm shows no provenance.
-
----
-
-## Upstream sync
-
-- Upstream code enters the repo only through `bun run sync:upstream`. It writes pristine files to the `upstream/shadcn` vendor branch and records the SHA in `upstream.lock.json`. That branch is merged into `main`, and conflicts are resolved in the merge commit.
-- Fabricator changes live in **new files** wherever possible: Fabricator style maps, tokens, exclusive items, site components. Upstream-derived files take the smallest edit that works, which keeps future merges small.
-- After merging a sync, run `bun run rebrand` (demo content), then the full registry build and `bun run test:parity --styles all`. The parity check applies the same rebrand rules to upstream before comparing, so it confirms that everything else matches upstream exactly.
-- A deliberate divergence from upstream (a bug fix) is recorded in `scripts/parity-exceptions.json` with its reason and date. Report the bug upstream too, and remove the entry once upstream ships the fix.
-
----
+A change that breaks one of these is a bug, even if everything builds. Code comments cite them by number.
+
+1. **Superset.** Replacements keep the upstream item name, target path, exports, props, variant names and `data-slot`s. Additions are optional.
+2. **Valid shadcn style ids only.** A `components.json` we write has `"style": "<base>-<upstream style>"`. The Fabricator look comes from the `/r/fabricator/` registry URL. A custom id would 404 every bare name.
+3. **Namespaced dependencies.** `registryDependencies` name our items `@fabricator/<name>`. A bare name installs upstream's item, on purpose only.
+4. **Token contract.** Every shadcn CSS variable keeps its name and meaning (`background`, `primary`, `border`, `ring`, `radius`, `chart-*`, `sidebar-*`, `font-*`, …). Fabricator tokens get new names and ship in the `cssVars` of the items that use them.
+5. **Base parity.** A change in one base tree lands in all of them in the same change.
+6. **Generated output is rebuilt, never hand-edited.** [`docs/REGISTRY.md`](docs/REGISTRY.md) lists what is generated.
+7. **Bun is the toolchain.** `bun install`, `bun run`, `bunx --bun`, one `bun.lock`. Only `scripts/publish.sh` uses `npm publish`.
+8. **Attribution.** Upstream-derived files stay MIT, with shadcn's copyright in `LICENSE.md` and `NOTICE.md`.
+9. **Platform parity.** A web change to a component's API, variants or look lands in the native tree in the same change, or adds a dated entry to `registry/native/parity-exceptions.json`. Native registry source never imports from `apps/mobile`.
+
+## Brand
+
+Write "Fabricator UI", "the CLI" (`npx fabricator-ui@latest …`), "the registry" and "styles". The shadcn name appears only in attribution (`LICENSE.md`, `NOTICE.md`, READMEs, the docs' Acknowledgements, the first changelog entry), compatibility notes (docs introduction, Registry page, one line on the CLI page and CLI README), technical identifiers (`shadcn/tailwind.css`, `@shadcn/react`, `shadcn migrate`) and internal docs and code. Demo content uses the identity in `scripts/rebrand.ts`; CI runs `bun run rebrand --check`.
 
 ## Definition of done
 
-A change is done when every applicable line below is true. Report each one as passed, or name what was not run and why.
+Report each applicable line as passed, or name what wasn't run and why.
 
-- [ ] `bun run check` (lint, types, format) and `bun run test` pass.
-- [ ] Authored registry changes are followed by a full `bun run registry:build`. The committed indexes are updated, and no generated output is staged.
-- [ ] The contract holds: superset, valid style ids, namespaced dependencies, token names, base parity.
-- [ ] Every placeholder used has a rule in every style map (coverage lint passes).
-- [ ] `bun run test:parity` passes for upstream items whenever upstream-derived source, style maps or the build script changed.
-- [ ] For new or changed items, `shadcn add --dry-run` succeeds against the local registry for each base. `bun run test:e2e` passes when install behaviour, the CLI or `/init` changed.
-- [ ] Components have examples covering each variant and state, plus a docs page per base with the API table and accessibility notes.
-- [ ] For a component change, the native item follows (contract item 9): `bun run native:parity` passes, `add <item>` works in a fresh Expo project using nothing from `apps/mobile`, `bun run mobile:check` passes, and the demo in `apps/mobile` was checked on the iOS Simulator and Android Emulator, light and dark, with VoiceOver and TalkBack.
-- [ ] The UI was checked in the running site, light and dark, keyboard only, at mobile and desktop widths. axe reports no violations on touched example pages.
-- [ ] A changeset exists for changes to published packages. User-visible registry changes get a changelog entry in `content/docs/changelog/`.
-- [ ] `AGENTS.md` / `PLAN.md` are updated if a convention or decision changed.
+- [ ] `bun run check` and `bun run test` pass.
+- [ ] Authored registry changes are followed by a full `bun run registry:build`; committed indexes are updated and no gitignored output is staged.
+- [ ] The contract holds, and the area doc's own checks pass (each doc ends with a **Done when** list).
+- [ ] UI was checked in the running site: light and dark, keyboard only, phone and desktop widths, axe clean on touched pages.
+- [ ] User-visible registry changes have an entry in `apps/web/content/docs/changelog/`. Versions and `CHANGELOG.md` change only in a `/release` commit.
+- [ ] Docs that own a changed convention are updated.
 
----
+## Git
 
-## Git and pull requests
-
-- **Commits:** Conventional Commits with a scope, for example `feat(registry): add stepper`, `fix(web): …`, `chore(upstream): sync shadcn@<sha>`. Types: `feat`, `fix`, `refactor`, `docs`, `build`, `test`, `ci`, `chore`. Scopes: `registry`, `styles`, `tokens`, `web`, `docs`, `cli`, `react`, `tests`, `upstream`, `deps`.
-- **Granularity:** one logical change per commit. A component plus its examples and docs is one change.
-- **Default branch:** `main`. Work happens on topic branches and reaches `main` through a pull request with green CI.
-- **PR description:**
-  - what changed and why
-  - bases touched
-  - styles touched
-  - screenshots or recordings for visual changes
-  - Definition of done status
+- Conventional Commits with a scope: `feat(registry): add stepper`. Types: `feat`, `fix`, `refactor`, `docs`, `build`, `test`, `ci`, `chore`. Scopes: `registry`, `styles`, `tokens`, `native`, `icons`, `web`, `docs`, `cli`, `setup`, `desktop`, `mobile`, `tests`, `release`, `upstream`, `deps`.
+- One logical change per commit; a component with its examples and docs is one change.
+- Topic branches reach `main` through a pull request with green CI. The PR says what changed and why, the bases and styles touched, screenshots for visual changes, and the definition of done.

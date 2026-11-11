@@ -25,6 +25,11 @@ jobs:
         with:
           node-version: 22
       - run: bun install --frozen-lockfile
+      # A release/v* pull request must carry its version in every version file (/release's cut).
+      - name: Versions are in step
+        run: bun run test:scripts && bun run release:check
+        env:
+          RELEASE_BRANCH: ${{ github.head_ref }}
       - name: Demo content is rebranded
         run: bun run rebrand --check
       - name: Build registry
