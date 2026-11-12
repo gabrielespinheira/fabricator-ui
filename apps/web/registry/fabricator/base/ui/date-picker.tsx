@@ -2,31 +2,46 @@
 
 // Date Picker: a date field. By default the field is a button that opens a
 // calendar; with `hasTime` a column of times sits beside the calendar and the
-// value is that day at that time. `editable` makes the field a text input as
-// well, which reads the display format, ISO yyyy-MM-dd, today, tomorrow or
-// yesterday, and a time after a comma or "at". The rules are in
-// lib/date-picker-model and lib/time-input-model.
+// value is that day at that time. `granularity` picks a month or a year from a
+// grid of twelve instead, and the value is its first day. `editable` makes the
+// field a text input as well, which reads the display format, ISO yyyy-MM-dd,
+// today, tomorrow or yesterday, and a time after a comma or "at" (or a month or
+// year's own forms). The rules are in lib/date-picker-model and
+// lib/time-input-model.
 import * as React from "react"
 import { cn } from "cn"
 import { type Locale } from "date-fns"
 
 import {
   commitDateText,
-  DEFAULT_DATE_FORMAT,
   formatDateValue,
   formatIsoDate,
   formatIsoDateTime,
+  getDateGridOptions,
+  getDateGridTitle,
+  getDefaultDateFormat,
+  isSameDateGridPage,
   isSameDateValue,
+  moveDateCell,
   parseDateText,
   setDateTime,
   splitDateTimeText,
+  startOfGranularity,
+  type DateGranularity,
+  type DateGridGranularity,
 } from "@/registry/bases/base/lib/date-picker-model"
+import {
+  FluidHoverHighlight,
+  FluidHoverSelection,
+  useFluidHover,
+} from "@/registry/bases/base/lib/fluid-hover"
 import {
   formatTimeValue,
   getTimeOfDay,
   parseTimeText,
   type HourCycle,
 } from "@/registry/bases/base/lib/time-input-model"
+import { Button } from "@/registry/bases/base/ui/button"
 import { Calendar } from "@/registry/bases/base/ui/calendar"
 import {
   InputGroup,
@@ -119,6 +134,193 @@ function DatePickerPanel({
   )
 }
 
+// Arrow keys move by one cell and by a row of three; Page Up and Page Down by
+// a page of twelve.
+const GRID_MOVES: Record<string, number> = {
+  ArrowLeft: -1,
+  ArrowRight: 1,
+  ArrowUp: -3,
+  ArrowDown: 3,
+  PageUp: -12,
+  PageDown: 12,
+}
+
+const GRID_PAGE_LABELS: Record<
+  DateGridGranularity,
+  { previous: string; next: string }
+> = {
+  month: { previous: "Previous year", next: "Next year" },
+  year: { previous: "Previous years", next: "Next years" },
+}
+
+function DatePickerGrid({
+  value,
+  defaultFocus,
+  granularity,
+  minDate,
+  maxDate,
+  locale,
+  label,
+  onSelect,
+}: {
+  value: Date | undefined
+  defaultFocus: Date | undefined
+  granularity: DateGridGranularity
+  minDate: Date | undefined
+  maxDate: Date | undefined
+  locale: Locale | undefined
+  label: string
+  onSelect: (value: Date) => void
+}) {
+  const [focusedCell, setFocusedCell] = React.useState(() =>
+    startOfGranularity(defaultFocus ?? new Date(), granularity)
+  )
+  const [direction, setDirection] = React.useState<"previous" | "next">()
+  const toKey = (date: Date | undefined) => formatIsoDate(date, { granularity })
+  const focusedKey = toKey(focusedCell)
+  const selectedKey = toKey(value)
+  const currentKey = toKey(new Date())
+  const title = getDateGridTitle(focusedCell, granularity)
+  const options = getDateGridOptions(focusedCell, {
+    granularity,
+    minDate,
+    maxDate,
+    locale,
+  })
+  const pageLabels = GRID_PAGE_LABELS[granularity]
+  const gridRef = React.useRef<HTMLDivElement>(null)
+  const fluid = useFluidHover<HTMLDivElement>({
+    items: '[role="gridcell"]',
+    highlighted: "[data-highlighted]",
+    selected: '[aria-selected="true"]',
+    axis: "xy",
+  })
+
+  // Focus follows the focused cell, including onto a new page.
+  React.useEffect(() => {
+    gridRef.current
+      ?.querySelector<HTMLElement>(`[data-value="${focusedKey}"]`)
+      ?.focus()
+  }, [focusedKey])
+
+  function moveFocus(amount: number) {
+    const next = moveDateCell(focusedCell, amount, granularity)
+    if (!isSameDateGridPage(next, focusedCell, granularity)) {
+      setDirection(amount > 0 ? "next" : "previous")
+    }
+    setFocusedCell(next)
+  }
+
+  return (
+    <div
+      data-slot="date-picker-grid-panel"
+      className="cn-date-picker-grid-panel flex flex-col"
+    >
+      <div
+        data-slot="date-picker-grid-header"
+        className="cn-date-picker-grid-header flex items-center justify-between"
+      >
+        <Button
+          variant="ghost"
+          size="icon-sm"
+          aria-label={pageLabels.previous}
+          onClick={() => moveFocus(-12)}
+        >
+          <IconPlaceholder
+            lucide="ChevronLeftIcon"
+            tabler="IconChevronLeft"
+            hugeicons="ArrowLeft01Icon"
+            phosphor="CaretLeftIcon"
+            remixicon="RiArrowLeftSLine"
+          />
+        </Button>
+        <span
+          aria-live="polite"
+          data-slot="date-picker-grid-title"
+          className="cn-date-picker-grid-title"
+        >
+          {title}
+        </span>
+        <Button
+          variant="ghost"
+          size="icon-sm"
+          aria-label={pageLabels.next}
+          onClick={() => moveFocus(12)}
+        >
+          <IconPlaceholder
+            lucide="ChevronRightIcon"
+            tabler="IconChevronRight"
+            hugeicons="ArrowRight01Icon"
+            phosphor="CaretRightIcon"
+            remixicon="RiArrowRightSLine"
+          />
+        </Button>
+      </div>
+      <div
+        key={title}
+        ref={(element) => {
+          gridRef.current = element
+          fluid.attach(element)
+        }}
+        role="grid"
+        aria-label={`${label}, ${title}`}
+        data-slot="date-picker-grid"
+        data-direction={direction}
+        className="cn-date-picker-grid relative isolate grid grid-cols-3"
+        onKeyDown={(event) => {
+          const move = GRID_MOVES[event.key]
+          if (move === undefined) return
+          event.preventDefault()
+          moveFocus(move)
+        }}
+        {...fluid.props}
+      >
+        <FluidHoverSelection selection={fluid.selection} />
+        <FluidHoverHighlight hover={fluid.hover} />
+        {[0, 3, 6, 9].map((rowStart) => (
+          <div key={rowStart} role="row" className="contents">
+            {options.slice(rowStart, rowStart + 3).map((option) => {
+              const key = toKey(option.value)
+              return (
+                <button
+                  key={key}
+                  type="button"
+                  role="gridcell"
+                  tabIndex={key === focusedKey ? 0 : -1}
+                  disabled={option.isDisabled}
+                  aria-selected={key === selectedKey}
+                  aria-label={option.fullLabel}
+                  data-value={key}
+                  data-slot="date-picker-cell"
+                  data-highlighted={key === focusedKey || undefined}
+                  data-current={key === currentKey || undefined}
+                  className="cn-date-picker-cell relative flex items-center justify-center outline-none select-none"
+                  onFocus={() => setFocusedCell(option.value)}
+                  onClick={() => onSelect(option.value)}
+                >
+                  {option.label}
+                </button>
+              )
+            })}
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+const CALENDAR_LABELS: Record<DateGranularity, string> = {
+  day: "Choose date",
+  month: "Choose month",
+  year: "Choose year",
+}
+
+const PLACEHOLDERS: Record<DateGranularity, string> = {
+  day: "Pick a date",
+  month: "Pick a month",
+  year: "Pick a year",
+}
+
 function DatePicker(
   props: Omit<
     React.ComponentProps<"input">,
@@ -133,9 +335,11 @@ function DatePicker(
     maxDate?: Date
     name?: string
     calendarLabel?: string
+    /** What the value is: a day from a calendar, or a month or year from a grid. */
+    granularity?: DateGranularity
     /** Lets people type the date (and time) as well as pick it. */
     editable?: boolean
-    /** Adds a time wheel beside the calendar. */
+    /** Adds a time wheel beside the calendar. Days only. */
     hasTime?: boolean
     /** Adds a seconds wheel; the time gets seconds. */
     hasSeconds?: boolean
@@ -148,19 +352,22 @@ function DatePicker(
     value,
     defaultValue,
     onValueChange,
-    format = DEFAULT_DATE_FORMAT,
+    granularity = "day",
+    format = getDefaultDateFormat(granularity),
     locale,
     minDate,
     maxDate,
     name,
-    calendarLabel = "Choose date",
+    calendarLabel = CALENDAR_LABELS[granularity],
     editable = false,
-    hasTime = false,
+    hasTime: hasTimeProp = false,
     hasSeconds = false,
     step = 1,
     hourCycle: hourCycleProp,
     timeLabel = "Choose time",
-    placeholder = hasTime ? "Pick a date and time" : "Pick a date",
+    placeholder = hasTimeProp && granularity === "day"
+      ? "Pick a date and time"
+      : PLACEHOLDERS[granularity],
     className,
     disabled,
     "aria-invalid": ariaInvalid,
@@ -171,10 +378,12 @@ function DatePicker(
     ...inputProps
   } = props
   const hourCycle = useHourCycle(hourCycleProp)
+  // A month or a year has no time of day.
+  const hasTime = hasTimeProp && granularity === "day"
   const isControlled = "value" in props
   const [uncontrolledValue, setUncontrolledValue] = React.useState(defaultValue)
   const currentValue = isControlled ? value : uncontrolledValue
-  const formatOptions = { format, locale }
+  const formatOptions = { format, locale, granularity }
 
   function formatFieldText(date: Date | undefined) {
     const dateText = formatDateValue(date, formatOptions)
@@ -200,7 +409,7 @@ function DatePicker(
 
   // A value set from outside, or a new clock, rewrites the text.
   if (
-    !isSameDateValue(syncedValue, currentValue) ||
+    !isSameDateValue(syncedValue, currentValue, { granularity }) ||
     syncedHourCycle !== hourCycle
   ) {
     setSyncedValue(currentValue)
@@ -211,7 +420,7 @@ function DatePicker(
 
   function updateValue(nextValue: Date | undefined) {
     setSyncedValue(nextValue)
-    if (isSameDateValue(nextValue, currentValue)) return
+    if (isSameDateValue(nextValue, currentValue, { granularity })) return
     if (!isControlled) setUncontrolledValue(nextValue)
     onValueChange?.(nextValue)
   }
@@ -289,25 +498,37 @@ function DatePicker(
       })
     : undefined
 
-  const panel = (
-    <DatePickerPanel
-      day={draftDay}
-      time={draftTime}
-      defaultMonth={typedDate ?? draftDay}
-      hasTime={hasTime}
-      hasSeconds={hasSeconds}
-      step={step}
-      hourCycle={hourCycle}
-      locale={locale}
-      minDate={minDate}
-      maxDate={maxDate}
-      timeListId={timeListId}
-      timeLabel={timeLabel}
-      onDayChange={selectDay}
-      onTimeChange={selectTime}
-      onTimeDone={() => setIsOpen(false)}
-    />
-  )
+  const panel =
+    granularity === "day" ? (
+      <DatePickerPanel
+        day={draftDay}
+        time={draftTime}
+        defaultMonth={typedDate ?? draftDay}
+        hasTime={hasTime}
+        hasSeconds={hasSeconds}
+        step={step}
+        hourCycle={hourCycle}
+        locale={locale}
+        minDate={minDate}
+        maxDate={maxDate}
+        timeListId={timeListId}
+        timeLabel={timeLabel}
+        onDayChange={selectDay}
+        onTimeChange={selectTime}
+        onTimeDone={() => setIsOpen(false)}
+      />
+    ) : (
+      <DatePickerGrid
+        value={currentValue}
+        defaultFocus={typedDate ?? currentValue}
+        granularity={granularity}
+        minDate={minDate}
+        maxDate={maxDate}
+        locale={locale}
+        label={calendarLabel}
+        onSelect={selectDay}
+      />
+    )
 
   const hiddenInput = name && (
     <input
@@ -317,7 +538,7 @@ function DatePicker(
       value={
         hasTime
           ? formatIsoDateTime(currentValue, { hasSeconds })
-          : formatIsoDate(currentValue)
+          : formatIsoDate(currentValue, { granularity })
       }
       disabled={disabled}
     />
@@ -359,11 +580,11 @@ function DatePicker(
             aria-label={calendarLabel}
             align="start"
             ref={contentRef}
-            // Open on the calendar's day (the picked one, or today), not on
-            // the popup itself.
+            // Open on the calendar's day or the grid's cell (the picked one,
+            // or today's), not on the popup itself.
             initialFocus={() =>
               contentRef.current?.querySelector<HTMLElement>(
-                '[data-slot="calendar"] [tabindex="0"]'
+                '[data-slot="calendar"] [tabindex="0"], [data-slot="date-picker-grid"] [tabindex="0"]'
               ) ?? true
             }
             className="cn-date-picker-content w-auto overflow-hidden"

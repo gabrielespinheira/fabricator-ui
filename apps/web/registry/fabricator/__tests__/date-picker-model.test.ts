@@ -7,8 +7,12 @@ import {
   formatDateValue,
   formatIsoDate,
   formatIsoDateTime,
+  getDateGridOptions,
+  getDateGridTitle,
   isDateInRange,
+  isSameDateGridPage,
   isSameDateValue,
+  moveDateCell,
   parseDateText,
   setDateTime,
   splitDateTimeText,
@@ -222,5 +226,186 @@ describe("seconds", () => {
     expect(
       formatIsoDateTime(new Date(2026, 10, 2, 9, 5, 7), { hasSeconds: true })
     ).toBe("2026-11-02T09:05:07")
+  })
+})
+
+describe("month granularity", () => {
+  const options = {
+    referenceDate: REFERENCE_DATE,
+    granularity: "month" as const,
+  }
+
+  it.each([
+    ["Nov 2026", day(2026, 11, 1)],
+    ["november 2026", day(2026, 11, 1)],
+    ["2026-03", day(2026, 3, 1)],
+    ["3/2026", day(2026, 3, 1)],
+    ["03/2026", day(2026, 3, 1)],
+    ["  Mar   2027 ", day(2027, 3, 1)],
+    ["this month", day(2025, 6, 1)],
+    ["next month", day(2025, 7, 1)],
+    ["last month", day(2025, 5, 1)],
+  ])("reads %s as the first of its month", (text, expected) => {
+    expect(parseDateText(text, options)).toEqual(expected)
+  })
+
+  it.each(["", "13/2026", "2026-13", "Nov 26", "soon", "Nov", "today"])(
+    "rejects %s",
+    (text) => {
+      expect(parseDateText(text, options)).toBeUndefined()
+    }
+  )
+
+  it("writes the month in its default format", () => {
+    expect(formatDateValue(day(2026, 11, 1), { granularity: "month" })).toBe(
+      "Nov 2026"
+    )
+  })
+
+  it("submits yyyy-MM", () => {
+    expect(formatIsoDate(day(2026, 3, 18), { granularity: "month" })).toBe(
+      "2026-03"
+    )
+  })
+
+  it("compares whole months against the range", () => {
+    const range = {
+      minDate: day(2026, 3, 20),
+      maxDate: day(2026, 9, 2),
+      granularity: "month" as const,
+    }
+    expect(isDateInRange(day(2026, 3, 1), range)).toBe(true)
+    expect(isDateInRange(day(2026, 9, 1), range)).toBe(true)
+    expect(isDateInRange(day(2026, 2, 1), range)).toBe(false)
+    expect(isDateInRange(day(2026, 10, 1), range)).toBe(false)
+  })
+
+  it("commits a month, rewritten in the display format", () => {
+    expect(commitDateText("2026-03", options)).toEqual({
+      value: day(2026, 3, 1),
+      text: "Mar 2026",
+      isInvalid: false,
+    })
+  })
+
+  it("marks a month outside the range invalid, without a value", () => {
+    expect(
+      commitDateText("Jan 2026", { ...options, minDate: day(2026, 3, 1) })
+    ).toEqual({ value: undefined, text: "Jan 2026", isInvalid: true })
+  })
+})
+
+describe("year granularity", () => {
+  const options = {
+    referenceDate: REFERENCE_DATE,
+    granularity: "year" as const,
+  }
+
+  it.each([
+    ["2028", day(2028, 1, 1)],
+    [" 2028 ", day(2028, 1, 1)],
+    ["this year", day(2025, 1, 1)],
+    ["next year", day(2026, 1, 1)],
+    ["last year", day(2024, 1, 1)],
+  ])("reads %s as the first of its year", (text, expected) => {
+    expect(parseDateText(text, options)).toEqual(expected)
+  })
+
+  it.each(["", "28", "Nov 2026", "someday"])("rejects %s", (text) => {
+    expect(parseDateText(text, options)).toBeUndefined()
+  })
+
+  it("writes and submits the year", () => {
+    expect(formatDateValue(day(2028, 1, 1), { granularity: "year" })).toBe(
+      "2028"
+    )
+    expect(formatIsoDate(day(2028, 6, 3), { granularity: "year" })).toBe("2028")
+  })
+
+  it("compares whole years against the range", () => {
+    const range = {
+      minDate: day(2020, 6, 1),
+      maxDate: day(2030, 2, 1),
+      granularity: "year" as const,
+    }
+    expect(isDateInRange(day(2020, 1, 1), range)).toBe(true)
+    expect(isDateInRange(day(2030, 1, 1), range)).toBe(true)
+    expect(isDateInRange(day(2019, 1, 1), range)).toBe(false)
+    expect(isDateInRange(day(2031, 1, 1), range)).toBe(false)
+  })
+})
+
+describe("getDateGridOptions", () => {
+  it("lists the twelve months of the year, marking those out of range", () => {
+    const options = getDateGridOptions(day(2026, 5, 1), {
+      granularity: "month",
+      minDate: day(2026, 3, 1),
+    })
+    expect(options).toHaveLength(12)
+    expect(options[0]).toEqual({
+      value: day(2026, 1, 1),
+      label: "Jan",
+      fullLabel: "January 2026",
+      isDisabled: true,
+    })
+    expect(options[2]).toMatchObject({ label: "Mar", isDisabled: false })
+  })
+
+  it("lists twelve years on a page that holds the year", () => {
+    const options = getDateGridOptions(day(2026, 5, 1), {
+      granularity: "year",
+      maxDate: day(2026, 12, 31),
+    })
+    expect(options.map((option) => option.label)).toEqual([
+      "2016",
+      "2017",
+      "2018",
+      "2019",
+      "2020",
+      "2021",
+      "2022",
+      "2023",
+      "2024",
+      "2025",
+      "2026",
+      "2027",
+    ])
+    expect(options[10]?.isDisabled).toBe(false)
+    expect(options[11]?.isDisabled).toBe(true)
+  })
+})
+
+describe("getDateGridTitle", () => {
+  it("names the year, or the years on the page", () => {
+    expect(getDateGridTitle(day(2026, 5, 1), "month")).toBe("2026")
+    expect(getDateGridTitle(day(2026, 5, 1), "year")).toBe("2016–2027")
+  })
+})
+
+describe("moveDateCell", () => {
+  it("moves by months across years", () => {
+    expect(moveDateCell(day(2026, 11, 1), 3, "month")).toEqual(day(2027, 2, 1))
+    expect(moveDateCell(day(2026, 1, 1), -1, "month")).toEqual(day(2025, 12, 1))
+  })
+
+  it("moves by years", () => {
+    expect(moveDateCell(day(2026, 1, 1), -12, "year")).toEqual(day(2014, 1, 1))
+  })
+})
+
+describe("isSameDateGridPage", () => {
+  it("is the same year for months, the same twelve years for years", () => {
+    expect(isSameDateGridPage(day(2026, 1, 1), day(2026, 12, 1), "month")).toBe(
+      true
+    )
+    expect(isSameDateGridPage(day(2026, 1, 1), day(2027, 1, 1), "month")).toBe(
+      false
+    )
+    expect(isSameDateGridPage(day(2016, 1, 1), day(2027, 1, 1), "year")).toBe(
+      true
+    )
+    expect(isSameDateGridPage(day(2027, 1, 1), day(2028, 1, 1), "year")).toBe(
+      false
+    )
   })
 })
