@@ -4213,9 +4213,10 @@
 
   /* Field: the input recipe, a hairline frame that lifts to the card surface
      while its list is open, growing a row per line of chips. Invalid turns the
-     frame red. With chips it tightens its start so they sit in it. */
+     frame red. Its start padding holds chips snug, and the prompt adds its
+     own, so the prompt never moves as the last chip leaves. */
   .cn-multi-select-trigger {
-    @apply border-border data-[open=true]:bg-card data-[open=true]:border-foreground/25 data-[invalid=true]:border-destructive/50 min-h-(--density-36) gap-(--density-6) rounded-lg border bg-transparent py-(--density-4) pr-(--density-10) pl-(--density-10) data-[has-chips=true]:pl-(--density-4);
+    @apply border-border data-[open=true]:bg-card data-[open=true]:border-foreground/25 data-[invalid=true]:border-destructive/50 min-h-(--density-36) gap-(--density-6) rounded-lg border bg-transparent py-(--density-4) pr-(--density-10) pl-(--density-4);
   }
 
   .cn-multi-select-chips {
@@ -4253,7 +4254,7 @@
   }
 
   .cn-multi-select-placeholder {
-    @apply text-muted-foreground px-(--density-2) text-(length:--density-text-13);
+    @apply text-muted-foreground pr-(--density-2) pl-(--density-6) text-(length:--density-text-13);
   }
 
   /* The popup is a dialog on the popup's surface. Its search sits in its own

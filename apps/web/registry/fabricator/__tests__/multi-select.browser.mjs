@@ -227,6 +227,41 @@ try {
       ["Product"],
       `${base}: reduced motion removes at once`
     )
+
+    // Removing the last chip shows the placeholder where it stays: it doesn't
+    // shift once the leaving chip has gone.
+    await page.emulateMediaFeatures([
+      { name: "prefers-reduced-motion", value: "no-preference" },
+    ])
+    await page.click('[aria-label="Remove Product"]')
+    const textStarts = await page.evaluate(
+      () =>
+        new Promise((resolve) => {
+          const input = document.querySelector(
+            '[data-slot="multi-select-input"]'
+          )
+          const starts = new Set()
+          const startedAt = performance.now()
+          const sample = () => {
+            const style = getComputedStyle(input)
+            starts.add(
+              Math.round(
+                input.getBoundingClientRect().left +
+                  Number.parseFloat(style.paddingLeft)
+              )
+            )
+            if (performance.now() - startedAt < 700) {
+              requestAnimationFrame(sample)
+            } else resolve([...starts])
+          }
+          sample()
+        })
+    )
+    assert.equal(
+      textStarts.length,
+      1,
+      `${base}: the placeholder holds still, seen at ${textStarts.join(", ")}`
+    )
     console.log(`✓ ${base}`)
   }
 

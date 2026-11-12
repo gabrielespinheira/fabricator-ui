@@ -1021,9 +1021,34 @@ export const Components: Record<string, any> = {
         const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "data-table-demo"
         return { default: mod.default || mod[exportName] }
       }),
+  "data-table-infinite": React.lazy(async () => {
+        const mod = await import("@/examples/base/data-table-infinite")
+        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "data-table-infinite"
+        return { default: mod.default || mod[exportName] }
+      }),
+  "data-table-pagination": React.lazy(async () => {
+        const mod = await import("@/examples/base/data-table-pagination")
+        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "data-table-pagination"
+        return { default: mod.default || mod[exportName] }
+      }),
   "data-table-rtl": React.lazy(async () => {
         const mod = await import("@/examples/base/data-table-rtl")
         const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "data-table-rtl"
+        return { default: mod.default || mod[exportName] }
+      }),
+  "data-table-server": React.lazy(async () => {
+        const mod = await import("@/examples/base/data-table-server")
+        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "data-table-server"
+        return { default: mod.default || mod[exportName] }
+      }),
+  "data-table-states": React.lazy(async () => {
+        const mod = await import("@/examples/base/data-table-states")
+        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "data-table-states"
+        return { default: mod.default || mod[exportName] }
+      }),
+  "data-table-variants": React.lazy(async () => {
+        const mod = await import("@/examples/base/data-table-variants")
+        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "data-table-variants"
         return { default: mod.default || mod[exportName] }
       }),
   "date-picker-basic": React.lazy(async () => {

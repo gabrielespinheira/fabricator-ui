@@ -1,0 +1,88 @@
+/* MARK: Multi Select */
+
+  /* Field: the input recipe (1px ring-border frame, light fill on hover,
+     card fill and a stronger ring while focused). It grows a row for each
+     line of chips. Its start padding holds chips snug, and the search adds
+     its own so the text starts 10px in either way: the placeholder never
+     moves as the last chip leaves. */
+  .cn-multi-select-trigger {
+    @apply cursor-text ring-border hover:not-focus-within:bg-muted/50 focus-within:bg-card focus-within:ring-foreground/25 has-[[aria-invalid=true]]:ring-destructive/50 has-[[aria-invalid=true]]:hover:not-focus-within:bg-destructive/5 data-disabled:cursor-not-allowed data-disabled:opacity-50 has-disabled:cursor-not-allowed has-disabled:opacity-50 min-h-(--density-36) gap-(--density-6) rounded-lg bg-transparent py-(--density-4) ps-(--density-4) pe-(--density-10) text-(length:--density-text-13) ring-1 ring-inset transition-[color,background-color,box-shadow] duration-feedback ease-feedback;
+  }
+
+  .cn-multi-select-chips {
+    @apply gap-(--density-4);
+  }
+
+  .cn-multi-select-icon {
+    @apply text-muted-foreground [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5];
+  }
+
+  /* Chips pop in (fade, a 6px rise from 0.92) and glide to a new place on the
+     move timing. A leaving chip comes out of the row where it stood and fades
+     as it wipes out from its start on the exit timing, while the chips after
+     it glide over. A leaving chip can be a new element (Base UI's chips are
+     a different one), so it starts its exit from fully shown. */
+  .cn-multi-select-chip {
+    @apply bg-active text-foreground h-(--density-28) max-w-full gap-(--density-2) rounded-md ps-(--density-8) pe-(--density-4) text-(length:--density-text-12) font-medium whitespace-nowrap [clip-path:inset(-4px)] transition-[opacity,scale,translate,clip-path,box-shadow] duration-move ease-enter starting:not-data-exiting:translate-y-1.5 starting:not-data-exiting:scale-92 starting:not-data-exiting:opacity-0 starting:data-exiting:opacity-100 starting:data-exiting:[clip-path:inset(-4px)] focus-visible:ring-1 focus-visible:ring-ring data-exiting:[clip-path:inset(-4px_-4px_-4px_100%)] data-exiting:opacity-0 data-exiting:duration-move-exit data-exiting:ease-exit motion-reduce:transition-none;
+  }
+
+  .cn-multi-select-chip-label {
+    @apply min-w-0;
+  }
+
+  .cn-multi-select-chip-remove {
+    @apply text-muted-foreground hover:bg-hover hover:text-foreground focus-visible:ring-1 focus-visible:ring-ring size-(--density-20) rounded-sm transition-colors duration-feedback ease-feedback [&_svg:not([class*='size-'])]:size-3 [&_svg]:stroke-2;
+  }
+
+  .cn-multi-select-input {
+    @apply text-foreground placeholder:text-muted-foreground h-(--density-28) ps-(--density-6) pe-(--density-2) text-base md:text-(length:--density-text-13) disabled:cursor-not-allowed;
+  }
+
+  /* Popup: surface 3 with its shadow ring (no border), rounded-xl, on the
+     popup motion. */
+  .cn-multi-select-content {
+    @apply bg-surface-3 shadow-surface-3 text-popover-foreground max-h-72 min-w-36 overflow-hidden rounded-xl motion-popup data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0;
+  }
+
+  .cn-multi-select-content-aria {
+    @apply bg-surface-3 shadow-surface-3 text-popover-foreground max-h-72 min-w-36 overflow-hidden rounded-xl motion-popup data-entering:animate-in data-entering:fade-in-0 data-exiting:animate-out data-exiting:fade-out-0;
+  }
+
+  /* The list scrolls and is the fluid hover container (relative isolate).
+     One shared highlight glides to the lit row; pressing a row fills it to
+     bg-active and gives it the press scale, easing both ways on the glide
+     timing. */
+  .cn-multi-select-list {
+    @apply no-scrollbar max-h-[min(--spacing(72),var(--available-height,--spacing(72)))] scroll-py-1 p-1 data-empty:p-0 [&>[data-slot=fluid-hover-highlight]]:transition-[opacity,background-color,scale] [&>[data-slot=fluid-hover-highlight][data-animate]]:transition-[transform,width,height,opacity,background-color,scale] [&:has([data-slot=multi-select-item]:active)>[data-slot=fluid-hover-highlight]]:bg-active [&:has([data-slot=multi-select-item]:active)>[data-slot=fluid-hover-highlight]]:scale-(--motion-press-scale) motion-reduce:[&:has([data-slot=multi-select-item]:active)>[data-slot=fluid-hover-highlight]]:scale-100;
+  }
+
+  .cn-multi-select-label {
+    @apply text-muted-foreground px-(--density-8) py-(--density-6) text-(length:--density-text-12);
+  }
+
+  /* Rows: 36px, 13px, muted at rest; the lit row turns foreground and a
+     picked row turns foreground and semibold. The check scales in from 0.9
+     on the move timing and stays mounted to scale out. */
+  .cn-multi-select-item {
+    @apply cursor-pointer text-muted-foreground h-(--density-36) gap-(--density-8) rounded-lg py-0 pe-[calc(var(--density-8)*2+var(--density-icon-16))] ps-(--density-8) text-(length:--density-text-13) transition-colors duration-feedback [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5] data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-[selected]:text-foreground data-[selected]:font-semibold;
+  }
+
+  .cn-multi-select-item-aria {
+    @apply data-focused:bg-hover data-focused:text-foreground in-data-[fluid-hover]:data-focused:bg-transparent;
+  }
+
+  .cn-multi-select-item-indicator {
+    @apply text-foreground end-(--density-8) size-(--density-icon-16) scale-90 opacity-0 transition-[opacity,scale] duration-move-exit ease-exit group-data-[selected]/multi-select-item:scale-100 group-data-[selected]/multi-select-item:opacity-100 group-data-[selected]/multi-select-item:duration-move group-data-[selected]/multi-select-item:ease-enter motion-reduce:transition-none;
+  }
+
+  .cn-multi-select-empty {
+    @apply text-muted-foreground hidden w-full justify-center py-(--density-16) text-center text-(length:--density-text-13) group-data-empty/multi-select-content:flex;
+  }
+
+  .cn-multi-select-empty-aria {
+    @apply flex;
+  }
+
+  .cn-multi-select-separator {
+    @apply bg-border/60 -mx-1 my-1 h-px;
+  }

@@ -817,9 +817,29 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "data-table-demo",
       filePath: "examples/base/data-table-demo.tsx",
     },
+    "data-table-infinite": {
+      name: "data-table-infinite",
+      filePath: "examples/base/data-table-infinite.tsx",
+    },
+    "data-table-pagination": {
+      name: "data-table-pagination",
+      filePath: "examples/base/data-table-pagination.tsx",
+    },
     "data-table-rtl": {
       name: "data-table-rtl",
       filePath: "examples/base/data-table-rtl.tsx",
+    },
+    "data-table-server": {
+      name: "data-table-server",
+      filePath: "examples/base/data-table-server.tsx",
+    },
+    "data-table-states": {
+      name: "data-table-states",
+      filePath: "examples/base/data-table-states.tsx",
+    },
+    "data-table-variants": {
+      name: "data-table-variants",
+      filePath: "examples/base/data-table-variants.tsx",
     },
     "date-picker-basic": {
       name: "date-picker-basic",
@@ -8558,6 +8578,26 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "data-table-demo": {
       name: "data-table-demo",
       filePath: "examples/__styles__/base-fabricator/data-table-demo.tsx",
+    },
+    "data-table-infinite": {
+      name: "data-table-infinite",
+      filePath: "examples/__styles__/base-fabricator/data-table-infinite.tsx",
+    },
+    "data-table-pagination": {
+      name: "data-table-pagination",
+      filePath: "examples/__styles__/base-fabricator/data-table-pagination.tsx",
+    },
+    "data-table-server": {
+      name: "data-table-server",
+      filePath: "examples/__styles__/base-fabricator/data-table-server.tsx",
+    },
+    "data-table-states": {
+      name: "data-table-states",
+      filePath: "examples/__styles__/base-fabricator/data-table-states.tsx",
+    },
+    "data-table-variants": {
+      name: "data-table-variants",
+      filePath: "examples/__styles__/base-fabricator/data-table-variants.tsx",
     },
     "date-picker-basic": {
       name: "date-picker-basic",

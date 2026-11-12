@@ -76,6 +76,7 @@ Fabricator Icons: every Lucide icon (2,015, Lucide 1.66.0) under its Lucide name
 - [Calendar](https://fabricator-ui.vercel.app/docs/components/base/calendar.md): A calendar component that allows users to select a date or a range of dates.
 - [Date Picker](https://fabricator-ui.vercel.app/docs/components/base/date-picker.md): A field that takes a typed date or one picked from a calendar, with time and range compositions.
 - [Month Input](https://fabricator-ui.vercel.app/docs/components/base/month-input.md): A text field that takes a typed month or one picked from a year of months.
+- [Multi Select](https://fabricator-ui.vercel.app/docs/components/base/multi-select.md): Pick several options from a searchable list, shown as chips that pop in, wipe out and glide into place.
 - [Time Input](https://fabricator-ui.vercel.app/docs/components/base/time-input.md): A text field that takes a typed time or one picked from a list.
 - [Combobox](https://fabricator-ui.vercel.app/docs/components/base/combobox.md): Autocomplete input with a list of suggestions.
 - [Label](https://fabricator-ui.vercel.app/docs/components/base/label.md): Renders an accessible label associated with controls.

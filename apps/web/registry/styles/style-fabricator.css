@@ -2017,7 +2017,7 @@
   /* Numbered rows: the number gives way to the checkbox while the row is
      lit, picked or the checkbox has focus. */
   .cn-data-table-row-number {
-    @apply text-(length:--density-text-12) text-muted-foreground tabular-nums transition-opacity duration-feedback ease-feedback in-data-[state=selected]:opacity-0 in-[[data-slot=data-table-select]:has(:focus-visible)]:opacity-0 in-[tr:hover]:opacity-0;
+    @apply text-(length:--density-text-12) text-muted-foreground tabular-nums transition-opacity duration-feedback ease-feedback in-data-[state=selected]:opacity-0 group-focus-within/data-table-select:opacity-0 in-[tr:hover]:opacity-0;
   }
 
   .cn-data-table-checkbox {
@@ -3658,9 +3658,11 @@
 
   /* Field: the input recipe (1px ring-border frame, light fill on hover,
      card fill and a stronger ring while focused). It grows a row for each
-     line of chips; with chips it tightens its start so they sit in it. */
+     line of chips. Its start padding holds chips snug, and the search adds
+     its own so the text starts 10px in either way: the placeholder never
+     moves as the last chip leaves. */
   .cn-multi-select-trigger {
-    @apply cursor-text ring-border hover:not-focus-within:bg-muted/50 focus-within:bg-card focus-within:ring-foreground/25 has-[[aria-invalid=true]]:ring-destructive/50 has-[[aria-invalid=true]]:hover:not-focus-within:bg-destructive/5 data-disabled:cursor-not-allowed data-disabled:opacity-50 has-disabled:cursor-not-allowed has-disabled:opacity-50 min-h-(--density-36) gap-(--density-6) rounded-lg bg-transparent py-(--density-4) ps-(--density-10) pe-(--density-10) text-(length:--density-text-13) ring-1 ring-inset transition-[color,background-color,box-shadow] duration-feedback ease-feedback has-data-[slot=multi-select-chip]:ps-(--density-4);
+    @apply cursor-text ring-border hover:not-focus-within:bg-muted/50 focus-within:bg-card focus-within:ring-foreground/25 has-[[aria-invalid=true]]:ring-destructive/50 has-[[aria-invalid=true]]:hover:not-focus-within:bg-destructive/5 data-disabled:cursor-not-allowed data-disabled:opacity-50 has-disabled:cursor-not-allowed has-disabled:opacity-50 min-h-(--density-36) gap-(--density-6) rounded-lg bg-transparent py-(--density-4) ps-(--density-4) pe-(--density-10) text-(length:--density-text-13) ring-1 ring-inset transition-[color,background-color,box-shadow] duration-feedback ease-feedback;
   }
 
   .cn-multi-select-chips {
@@ -3689,7 +3691,7 @@
   }
 
   .cn-multi-select-input {
-    @apply text-foreground placeholder:text-muted-foreground h-(--density-28) px-(--density-2) text-base md:text-(length:--density-text-13) disabled:cursor-not-allowed;
+    @apply text-foreground placeholder:text-muted-foreground h-(--density-28) ps-(--density-6) pe-(--density-2) text-base md:text-(length:--density-text-13) disabled:cursor-not-allowed;
   }
 
   /* Popup: surface 3 with its shadow ring (no border), rounded-xl, on the
