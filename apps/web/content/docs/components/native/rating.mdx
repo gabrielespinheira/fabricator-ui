@@ -1,0 +1,149 @@
+---
+title: Rating
+description: A row of stars that holds a score, in whole or half stars, yellow by default or in your primary and status colours.
+base: native
+component: true
+---
+
+## Installation
+
+```bash
+npx fabricator-ui@latest add rating
+```
+
+## Usage
+
+```tsx
+import { Button } from "@/components/ui/button"
+import { Rating } from "@/components/ui/rating"
+import { Text } from "@/components/ui/text"
+```
+
+```tsx
+<Rating
+  defaultValue={3.5}
+  step={0.5}
+  size="lg"
+  aria-label="Your rating"
+/>
+```
+
+## Composition
+
+- `Rating`
+- `RatingProps`
+
+## Examples
+
+```tsx showLineNumbers title="rating-example.tsx"
+import * as React from "react"
+import { View } from "react-native"
+
+import { Button } from "@/components/ui/button"
+import { Rating } from "@/components/ui/rating"
+import { Text } from "@/components/ui/text"
+
+const VARIANTS = [
+  { variant: "default", label: "Default" },
+  { variant: "primary", label: "Primary" },
+  { variant: "info", label: "Info" },
+  { variant: "success", label: "Success" },
+  { variant: "warning", label: "Warning" },
+  { variant: "error", label: "Error" },
+] as const
+
+function RatingExample() {
+  const [value, setValue] = React.useState(2.5)
+  return (
+    <ExampleWrapper>
+      <Example title="Half stars">
+        <Rating
+          defaultValue={3.5}
+          step={0.5}
+          size="lg"
+          aria-label="Your rating"
+        />
+      </Example>
+      <Example title="Variants">
+        <View className="gap-3">
+          {VARIANTS.map(({ variant, label }) => (
+            <View key={variant} className="flex-row items-center gap-4">
+              <Text className="w-20 text-(length:--density-text-13) text-muted-foreground">
+                {label}
+              </Text>
+              <Rating
+                variant={variant}
+                defaultValue={3.5}
+                step={0.5}
+                aria-label={`${label} rating`}
+              />
+            </View>
+          ))}
+        </View>
+      </Example>
+      <Example title="Sizes">
+        <View className="gap-4">
+          <Rating size="sm" defaultValue={4} aria-label="Small rating" />
+          <Rating defaultValue={4} aria-label="Default rating" />
+          <Rating size="lg" defaultValue={4} aria-label="Large rating" />
+        </View>
+      </Example>
+      <Example title="Read-only">
+        <View className="flex-row items-center gap-2">
+          <Text className="text-(length:--density-text-14) font-medium">
+            4.3
+          </Text>
+          <Rating value={4.3} readOnly size="sm" aria-label="Average rating" />
+          <Text className="text-(length:--density-text-14) text-muted-foreground">
+            1,284 reviews
+          </Text>
+        </View>
+      </Example>
+      <Example title="Controlled">
+        <View className="flex-row items-center gap-4">
+          <Rating
+            value={value}
+            onValueChange={setValue}
+            step={0.5}
+            aria-label="Delivery"
+          />
+          <Text className="text-(length:--density-text-14) text-muted-foreground">
+            {value} / 5
+          </Text>
+          <Button
+            variant="outline"
+            size="sm"
+            disabled={value === 0}
+            onPress={() => setValue(0)}
+          >
+            Clear
+          </Button>
+        </View>
+      </Example>
+      <Example title="Invalid">
+        <Rating defaultValue={0} aria-invalid aria-label="Rate your stay" />
+      </Example>
+      <Example title="Disabled">
+        <Rating defaultValue={3} disabled aria-label="Rating" />
+      </Example>
+    </ExampleWrapper>
+  )
+}
+
+export { RatingExample }
+```
+
+## API reference
+
+| Prop | Values |
+| --- | --- |
+| `variant` | `default`, `error`, `info`, `primary`, `success`, `warning` |
+| `size` | `default`, `lg`, `sm` |
+
+## Differences from web
+
+**Touch input.** A tap sets the score under the finger and a horizontal drag scrubs it with a notch each step; a vertical one scrolls. The star under the finger lifts while dragging, as the hovered star does on the website. Screen readers adjust it by `step` with swipes up and down. There's no hover preview or keyboard, and `name` is accepted without HTML form submission.
+
+## Accessibility
+
+Text is read as it appears. Give a control with no text an `accessibilityLabel`.

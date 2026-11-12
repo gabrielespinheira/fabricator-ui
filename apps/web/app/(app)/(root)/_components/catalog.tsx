@@ -141,13 +141,6 @@ const SOURCES: CatalogSource[] = [
       import("@/examples/__styles__/base-fabricator/time-input-field"),
   },
   {
-    slug: "month-input",
-    title: "Month Input",
-    height: "sm",
-    load: () =>
-      import("@/examples/__styles__/base-fabricator/month-input-field"),
-  },
-  {
     slug: "multi-select",
     title: "Multi Select",
     height: "sm",
@@ -308,6 +301,12 @@ const SOURCES: CatalogSource[] = [
     height: "lg",
     load: () =>
       import("@/examples/__styles__/base-fabricator/questionnaire-demo"),
+  },
+  {
+    slug: "rating",
+    title: "Rating",
+    height: "sm",
+    load: () => import("@/examples/__styles__/base-fabricator/rating-demo"),
   },
   {
     slug: "resizable",

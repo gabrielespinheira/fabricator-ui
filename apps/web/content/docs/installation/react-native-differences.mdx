@@ -14,6 +14,13 @@ Across all of them: `onPress` replaces `onClick`, `hover:` styles become `active
 
 Interface sounds are the same on React Native, under the same `<SoundEffects />`, with a haptic for each. The ring switch silences them.
 
+## Not yet available
+
+These web components are not available for React Native yet. Each deferral has a reason and date in the parity exceptions.
+
+- **Data Table** (2026-11-12): The web Data Table draws a TanStack table as an HTML `<table>` with virtual rows, sticky pinned columns and header popovers. Native needs its own grid built on a virtual list, with a horizontal header scroller and sheets for the filters; the native Data Table example keeps showing Table until then.
+- **Data Table Cells** (2026-11-12): The Data Table's typed cells ship with it; they follow it to native (see data-table).
+
 | Component | Kind | What's different |
 | --- | --- | --- |
 | [Accordion](/docs/components/native/accordion) | Same |  |
@@ -73,6 +80,7 @@ Interface sounds are the same on React Native, under the same `<SoundEffects />`
 | [Progress](/docs/components/native/progress) | Same |  |
 | [Questionnaire](/docs/components/native/questionnaire) | Same | Each choice's chip shows its letter or number on every screen size, as a label rather than a key to press. With `advanceOnSelect`, a tap on a single choice moves on. The website's arrow over the chip, a pointer cue, isn't drawn. |
 | [Radio Group](/docs/components/native/radio-group) | Same |  |
+| [Rating](/docs/components/native/rating) | Touch input | A tap sets the score under the finger and a horizontal drag scrubs it with a notch each step; a vertical one scrolls. The star under the finger lifts while dragging, as the hovered star does on the website. Screen readers adjust it by `step` with swipes up and down. There's no hover preview or keyboard, and `name` is accepted without HTML form submission. |
 | [Resizable](/docs/components/native/resizable) | New engine | `react-resizable-panels` is DOM-only. A drag handle, with increment and decrement actions for screen readers. Panels don't collapse. |
 | [Scroll Area](/docs/components/native/scroll-area) | Same | Touch keeps native scrolling, so `ScrollBar` renders nothing, as it does on touch devices on the web. |
 | [Search](/docs/components/native/search) | Same |  |

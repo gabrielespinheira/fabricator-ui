@@ -1,0 +1,11 @@
+---
+title: November 2026 - Rating
+description: A Rating of stars that takes whole or half stars, yellow by default or in your primary and status colours, on the web and React Native.
+date: 2026-11-12
+---
+
+- **Rating.** `npx fabricator-ui@latest add rating` adds a row of stars that holds a score. Hover previews it, a click or a drag sets it, and `step={0.5}` takes half stars.
+- **Colours and sizes.** The default stars are yellow; `variant` fills them with your primary colour or a status colour, and `size` takes `sm`, `default` and `lg`.
+- **Read-only.** `readOnly` shows an average with its exact fraction, such as 4.3, and reads it to screen readers as "4.3 out of 5 stars".
+- **A slider for everyone.** It's one focusable slider from 0 to `max`: the arrows, Page Up, Page Down, Home, End and the digits set it. `name` submits it with a form, and `aria-invalid` turns the empty stars red.
+- **React Native.** The same API: a tap sets the score, a horizontal drag scrubs it with a notch each step, and a star the score reaches pops in on the bounce spring.

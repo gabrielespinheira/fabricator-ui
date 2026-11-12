@@ -258,6 +258,26 @@ export const fabricatorItems = [
     },
   },
   {
+    name: "rating",
+    type: "registry:ui",
+    title: "Rating",
+    description:
+      "A row of stars that holds a score. Hover previews it, a click or a drag sets it, in whole or half stars; read-only it shows any fraction. Yellow by default, or primary and the status colours.",
+    files: [
+      { path: "ui/rating.tsx", type: "registry:ui" },
+      { path: "lib/rating-model.ts", type: "registry:lib" },
+    ],
+    categories: ["forms"],
+    meta: {
+      fabricator: true,
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/rating",
+        examples:
+          "https://fabricator-ui.vercel.app/docs/components/base/rating#examples",
+      },
+    },
+  },
+  {
     name: "preview-rail",
     type: "registry:ui",
     title: "Preview Rail",
@@ -322,11 +342,18 @@ export const fabricatorItems = [
     type: "registry:ui",
     title: "Date Picker",
     description:
-      "A date field that opens a calendar, with an optional column of times, a display format, a minimum and maximum, typing on request and a form value.",
+      "A date field that opens a calendar, with an optional column of times, or a grid of months or years, a display format, a minimum and maximum, typing on request and a form value.",
     // @internationalized/date is for the React Aria calendar; date-fns reads
     // and writes the text in every base.
     dependencies: ["date-fns", "@internationalized/date"],
-    registryDependencies: ["calendar", "input-group", "popover", "time-input"],
+    registryDependencies: [
+      "button",
+      "calendar",
+      "fluid-hover",
+      "input-group",
+      "popover",
+      "time-input",
+    ],
     files: [
       { path: "ui/date-picker.tsx", type: "registry:ui" },
       { path: "lib/date-picker-model.ts", type: "registry:lib" },
@@ -338,28 +365,6 @@ export const fabricatorItems = [
         docs: "https://fabricator-ui.vercel.app/docs/components/base/date-picker",
         examples:
           "https://fabricator-ui.vercel.app/docs/components/base/date-picker#examples",
-      },
-    },
-  },
-  {
-    name: "month-input",
-    type: "registry:ui",
-    title: "Month Input",
-    description:
-      "A text field that takes a typed month or one picked from a year of months, with a display format, a range and a form value.",
-    dependencies: ["date-fns"],
-    registryDependencies: ["button", "input-group", "popover", "fluid-hover"],
-    files: [
-      { path: "ui/month-input.tsx", type: "registry:ui" },
-      { path: "lib/month-input-model.ts", type: "registry:lib" },
-    ],
-    categories: ["forms"],
-    meta: {
-      fabricator: true,
-      links: {
-        docs: "https://fabricator-ui.vercel.app/docs/components/base/month-input",
-        examples:
-          "https://fabricator-ui.vercel.app/docs/components/base/month-input#examples",
       },
     },
   },
@@ -391,7 +396,13 @@ export const fabricatorItems = [
     title: "Data Table",
     description:
       "A TanStack table drawn as one sticky-headed grid: typed columns, sorting, filters in header popovers, pinned and resizable columns, 10,000 virtual rows, pagination or infinite scroll, loading and empty states, a selection bar and a footer of calculations.",
-    dependencies: ["@tanstack/react-table@9.3.1", "@tanstack/react-virtual@3.14.26"],
+    // @internationalized/date is for the React Aria date filter's
+    // RangeCalendar, as with Date Picker.
+    dependencies: [
+      "@tanstack/react-table@9.3.1",
+      "@tanstack/react-virtual@3.14.26",
+      "@internationalized/date",
+    ],
     registryDependencies: [
       "avatar",
       "badge",

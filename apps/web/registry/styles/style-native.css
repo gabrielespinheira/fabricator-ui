@@ -2583,6 +2583,42 @@
     @apply w-auto p-0;
   }
 
+  /* With a month or year granularity: a grid of twelve under its heading,
+     padded as a menu is, since there's no calendar to bring its own. */
+  .cn-date-picker-grid-panel {
+    @apply gap-(--density-8) p-(--density-8);
+  }
+
+  /* The year (or span of years) between its arrows, on one row with them. */
+  .cn-date-picker-grid-header {
+    @apply gap-(--density-8);
+  }
+
+  .cn-date-picker-grid-title {
+    @apply text-foreground text-(length:--density-text-13) font-medium tabular-nums;
+  }
+
+  /* Twelve cells in four rows of three. The page's slide is drawn in the
+     source. */
+  .cn-date-picker-grid {
+    @apply gap-1;
+  }
+
+  .cn-date-picker-grid-row {
+    @apply gap-1;
+  }
+
+  /* Ghost cells; the chosen one on bg-active, out of range at 50%. */
+  .cn-date-picker-cell {
+    @apply h-(--density-36) min-w-16 rounded-lg px-(--density-12) data-[selected=true]:bg-active disabled:opacity-50;
+  }
+
+  /* Muted at rest; this month or year in the foreground, the chosen one
+     semibold. */
+  .cn-date-picker-cell-text {
+    @apply text-muted-foreground text-(length:--density-text-13) tabular-nums data-[current=true]:text-foreground data-[current=true]:font-medium data-[selected=true]:text-foreground data-[selected=true]:font-semibold;
+  }
+
 /* MARK: Dialog */
 
   /* Scrim: 40% black (80% in dark). */
@@ -4157,58 +4193,6 @@
     @apply text-muted-foreground text-(length:--density-text-12);
   }
 
-/* MARK: Month Input */
-
-  /* An Input Group: the frame, focus, invalid and disabled states are the
-     group's. */
-  .cn-month-input {
-    @apply w-full;
-  }
-
-  /* Months line up in tabular figures. */
-  .cn-month-input-text {
-    @apply tabular-nums;
-  }
-
-  /* The calendar button stays lit while the year is open (the website's
-     aria-expanded). */
-  .cn-month-input-trigger {
-    @apply data-[open=true]:bg-active;
-  }
-
-  .cn-month-input-content {
-    @apply w-auto gap-(--density-8) p-(--density-8);
-  }
-
-  /* The year between its arrows, on one row with them. */
-  .cn-month-input-header {
-    @apply gap-(--density-8);
-  }
-
-  .cn-month-input-year {
-    @apply text-foreground text-(length:--density-text-13) font-medium tabular-nums;
-  }
-
-  /* Twelve months in four rows of three. The year's slide is drawn in the
-     source. */
-  .cn-month-input-grid {
-    @apply gap-1;
-  }
-
-  .cn-month-input-row {
-    @apply gap-1;
-  }
-
-  /* Ghost cells; the chosen month on bg-active, out of range at 50%. */
-  .cn-month-input-month {
-    @apply h-(--density-36) min-w-16 rounded-lg px-(--density-12) data-[selected=true]:bg-active disabled:opacity-50;
-  }
-
-  /* Muted at rest; this month in the foreground, the chosen one semibold. */
-  .cn-month-input-month-text {
-    @apply text-muted-foreground text-(length:--density-text-13) data-[current=true]:text-foreground data-[current=true]:font-medium data-[selected=true]:text-foreground data-[selected=true]:font-semibold;
-  }
-
 /* MARK: Multi Select */
 
   /* Field: the input recipe, a hairline frame that lifts to the card surface
@@ -4755,6 +4739,88 @@
   /* The 8pt dot in the role, gliding between radios in the source. */
   .cn-radio-group-indicator-icon {
     @apply bg-primary data-[invalid=true]:bg-destructive size-[calc(var(--density-icon-16)/2)] rounded-full;
+  }
+
+/* MARK: Rating */
+
+  /* A row of stars with no frame of its own. Disabled dims it. */
+  .cn-rating {
+    @apply data-[disabled=true]:opacity-50;
+  }
+
+  /* The fill colour (text) and its edge (border), read off for the icons.
+     The default stars are the yellow everyone reads as a score, fixed
+     whatever the theme or the roles (see Known deviations), with an amber-500
+     edge in light so they hold on white. The other variants fill with a role. */
+  .cn-rating-variant-default {
+    @apply border-amber-500 text-amber-400 dark:border-amber-400;
+  }
+
+  .cn-rating-variant-primary {
+    @apply border-primary text-primary;
+  }
+
+  .cn-rating-variant-info {
+    @apply border-info text-info;
+  }
+
+  .cn-rating-variant-success {
+    @apply border-success text-success;
+  }
+
+  .cn-rating-variant-warning {
+    @apply border-warning text-warning;
+  }
+
+  .cn-rating-variant-error {
+    @apply border-destructive text-destructive;
+  }
+
+  /* A fifth of a star apart. */
+  .cn-rating-size-sm {
+    @apply gap-0.5;
+  }
+
+  .cn-rating-size-default {
+    @apply gap-1;
+  }
+
+  .cn-rating-size-lg {
+    @apply gap-1.5;
+  }
+
+  /* Stars of 16, 20 and 28pt at the website's default density; the icon is
+     drawn at the box's width. */
+  .cn-rating-star {
+    @apply shrink-0;
+  }
+
+  .cn-rating-star-size-sm {
+    @apply size-(--density-16);
+  }
+
+  .cn-rating-star-size-default {
+    @apply size-(--density-20);
+  }
+
+  .cn-rating-star-size-lg {
+    @apply size-(--density-28);
+  }
+
+  /* An empty star is a faint foreground fill, read off for its icon; invalid
+     tints it red. */
+  .cn-rating-star-empty {
+    @apply text-foreground/12 dark:text-foreground/16;
+  }
+
+  .cn-rating-star-empty-invalid {
+    @apply text-destructive/35;
+  }
+
+  /* The fill is cut at the score's share of the star; the pop and the lift
+     are animated in source on the bounce and feedback timings. */
+  .cn-rating-star-fill {
+    @apply overflow-hidden;
   }
 
 /* MARK: Resizable */

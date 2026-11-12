@@ -1,0 +1,68 @@
+/* MARK: Rating */
+
+  /* A row of stars with no frame of its own. The pointer is a hand while it
+     takes input. Focus shows the 1px ring around the row. Disabled dims it;
+     read-only keeps the plain arrow. */
+  .cn-rating {
+    @apply cursor-pointer rounded-sm focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background data-disabled:cursor-not-allowed data-disabled:opacity-50 data-readonly:cursor-default;
+  }
+
+  /* The default stars are the yellow everyone reads as a score, fixed
+     whatever the theme or the roles (see Known deviations), with an amber-500
+     edge in light so they hold on white. The other variants fill with a role:
+     primary, or a status for a score that reads as good or bad. */
+  .cn-rating-variant-default {
+    @apply [&_[data-slot=rating-star-fill]]:text-amber-400 [&_[data-slot=rating-star-fill]_svg]:stroke-amber-500 dark:[&_[data-slot=rating-star-fill]_svg]:stroke-amber-400;
+  }
+
+  .cn-rating-variant-primary {
+    @apply [&_[data-slot=rating-star-fill]]:text-primary;
+  }
+
+  .cn-rating-variant-info {
+    @apply [&_[data-slot=rating-star-fill]]:text-info;
+  }
+
+  .cn-rating-variant-success {
+    @apply [&_[data-slot=rating-star-fill]]:text-success;
+  }
+
+  .cn-rating-variant-warning {
+    @apply [&_[data-slot=rating-star-fill]]:text-warning;
+  }
+
+  .cn-rating-variant-error {
+    @apply [&_[data-slot=rating-star-fill]]:text-destructive;
+  }
+
+  /* Stars of 16, 20 and 28px at the default density, a fifth of a star
+     apart. */
+  .cn-rating-size-sm {
+    @apply gap-0.5 [&_[data-slot=rating-star]]:size-(--density-16);
+  }
+
+  .cn-rating-size-default {
+    @apply gap-1 [&_[data-slot=rating-star]]:size-(--density-20);
+  }
+
+  .cn-rating-size-lg {
+    @apply gap-1.5 [&_[data-slot=rating-star]]:size-(--density-28);
+  }
+
+  /* Solid stars: the icon filled and stroked in its colour, so its rounded
+     joins round the points. The star under the pointer lifts to 115% on the
+     feedback timing and gives to 95% while pressed. */
+  .cn-rating-star {
+    @apply transition-[scale] duration-feedback ease-enter data-active:scale-115 group-data-pressed/rating:data-active:scale-95 motion-reduce:data-active:scale-100 [&_svg]:size-full [&_svg]:fill-current [&_svg]:stroke-current;
+  }
+
+  /* An empty star is a faint foreground fill; invalid tints it red. */
+  .cn-rating-star-empty {
+    @apply text-foreground/12 dark:text-foreground/16 group-aria-invalid/rating:text-destructive/35;
+  }
+
+  /* The fill is cut at the score's share of the star. A star it reaches pops
+     in from half size on the bounce spring; leaving, it's cut away at once. */
+  .cn-rating-star-fill {
+    @apply transition-[scale] motion-bounce group-data-[state=empty]/rating-star:scale-50 motion-reduce:transition-none;
+  }

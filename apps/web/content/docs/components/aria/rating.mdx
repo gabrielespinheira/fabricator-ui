@@ -1,0 +1,147 @@
+---
+title: Rating
+description: A row of stars that holds a score, in whole or half stars, yellow by default or in your primary and status colours.
+base: aria
+component: true
+---
+
+<ComponentPreview styleName="aria-nova" name="rating-demo" />
+
+Hover the stars to preview a score, then click to set it. With `step={0.5}` the left half of a star sets half a star. Drag across the row to scrub, or use the arrow keys. Read-only, it shows any fraction, such as 4.3.
+
+Rating is part of the Fabricator style. It's built on HTML, so the same component ships for every base.
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">Command</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx fabricator-ui@latest add rating
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps className="mb-0 pt-2">
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  src="styles/aria-fabricator/lib/rating-model.ts"
+  title="lib/rating-model.ts"
+  styleName="aria-nova"
+/>
+
+<ComponentSource
+  src="styles/aria-fabricator/ui/rating.tsx"
+  title="components/ui/rating.tsx"
+  styleName="aria-nova"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { Rating } from "@/components/ui/rating"
+```
+
+```tsx
+<Rating defaultValue={4} aria-label="Your rating" />
+```
+
+## Composition
+
+Rating is one component. Its parts carry a `data-slot` for styling from outside:
+
+```text
+Rating                    data-slot="rating"
+└── span (per star)       data-slot="rating-star" data-state="full | half | partial | empty"
+    ├── span              data-slot="rating-star-empty"
+    └── span (clipped)    data-slot="rating-star-fill"
+```
+
+## Examples
+
+### Variants
+
+The default stars are yellow, the colour everyone reads as a score. `primary` follows your primary colour, and `info`, `success`, `warning` and `error` take the status colours, for a score that reads as good or bad.
+
+<ComponentPreview styleName="aria-nova" name="rating-variants" />
+
+### Sizes
+
+<ComponentPreview styleName="aria-nova" name="rating-sizes" />
+
+### Read-only
+
+`readOnly` shows the score as an image for screen readers, such as "Average rating: 4.3 out of 5 stars". It keeps the exact fraction: 4.3 fills a third of the fifth star.
+
+<ComponentPreview styleName="aria-nova" name="rating-read-only" />
+
+### Controlled
+
+Pass `value` and `onValueChange` to hold the score in your state. `onValueCommitted` reports where a click, a drag or a key landed.
+
+<ComponentPreview styleName="aria-nova" name="rating-controlled" />
+
+### Field
+
+Inside a `Field`, name the rating with `aria-labelledby` pointing at the `FieldLabel`, and set `aria-invalid` with the field's `data-invalid`: the empty stars turn red. `name` submits the score with the form.
+
+<ComponentPreview styleName="aria-nova" name="rating-field" />
+
+### Disabled
+
+<ComponentPreview styleName="aria-nova" name="rating-disabled" />
+
+## Motion
+
+The star under the pointer lifts to 115% on the feedback timing and gives to 95% while pressed. A star the score reaches pops in from half size on the bounce spring. Reduce Motion or motion off keeps the stars still.
+
+## API Reference
+
+| Prop               | Type                                                                    | Default              |
+| ------------------ | ----------------------------------------------------------------------- | -------------------- |
+| `value`            | `number`                                                                | (none)               |
+| `defaultValue`     | `number`                                                                | `0`                  |
+| `onValueChange`    | `(value: number) => void`                                               | (none)               |
+| `onValueCommitted` | `(value: number) => void`                                               | (none)               |
+| `max`              | `number`                                                                | `5`                  |
+| `step`             | `1 \| 0.5`                                                              | `1`                  |
+| `variant`          | `"default" \| "primary" \| "info" \| "success" \| "warning" \| "error"` | `"default"`          |
+| `size`             | `"sm" \| "default" \| "lg"`                                             | `"default"`          |
+| `readOnly`         | `boolean`                                                               | `false`              |
+| `disabled`         | `boolean`                                                               | `false`              |
+| `name`             | `string`                                                                | (none)               |
+| `getAriaValueText` | `(value: number, max: number) => string`                                | `"3 out of 5 stars"` |
+| `aria-label`       | `string`                                                                | `"Rating"`           |
+
+The root is a `div` and takes its props and `ref`. A value you set keeps to `step`; a read-only value keeps its fraction.
+
+## Accessibility
+
+Rating is a [slider](https://www.w3.org/WAI/ARIA/apg/patterns/slider/) from 0 to `max`: it takes focus as one control and announces its name and score, such as "Your rating, 3.5 out of 5 stars". Pass `getAriaValueText` to read the score in another language. Read-only, it's an image named with the score.
+
+| Key                 | Does                  |
+| ------------------- | --------------------- |
+| ← / ↓               | `step` less           |
+| → / ↑               | `step` more           |
+| Page Down / Page Up | One star less or more |
+| Home / End          | No stars / every star |
+| 0 to 9              | That many stars       |
+
+A touch drag across the stars scrubs the score; a vertical one scrolls the page.

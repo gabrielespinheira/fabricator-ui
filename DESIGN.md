@@ -368,7 +368,7 @@ The library covers most of what a product needs, so a screen is mostly a matter 
 | A number                                     | `NumberField`, with steppers, limits and formatting                            |
 | A date                                       | `DatePicker`, which can add a time                                             |
 | A time, or a start and an end on one day     | `TimeInput`, `TimeRangeInput`                                                  |
-| A month                                      | `MonthInput`                                                                   |
+| A month or a year                            | `DatePicker` with `granularity="month"` or `"year"`                            |
 | A date range, or a date shown as a button    | `Calendar` in a `Popover`                                                      |
 | A file                                       | `FileUploadField` in a form, `FileUploadDropzone` for a large drop target      |
 | A colour                                     | `ColorPicker`, alone or behind a swatch                                        |
@@ -382,6 +382,7 @@ The library covers most of what a product needs, so a screen is mostly a matter 
 | A setting that applies at once               | `Switch`                                                                       |
 | A one-time code                              | `InputOTP`                                                                     |
 | An approximate value                         | `Slider`, with the value shown beside it; `showSteps` when there are few steps |
+| A score out of five, or a review's stars     | `Rating`; `readOnly` to show an average                                        |
 | A focused task or short form                 | `Dialog`                                                                       |
 | Confirming something irreversible            | `AlertDialog`                                                                  |
 | Details or editing beside the current view   | `Sheet`                                                                        |
@@ -401,6 +402,7 @@ The library covers most of what a product needs, so a screen is mostly a matter 
 | More results than one page                   | `Pagination`                                                                   |
 | Compact section navigation, names on hover   | `PreviewRail`                                                                  |
 | Records compared across columns              | `Table`                                                                        |
+| Many records people sort, filter or pick     | `DataTable`                                                                    |
 | A list of things (people, files, links)      | `Item`s in an `ItemGroup`                                                      |
 | A tree of files and folders                  | `FileTree`                                                                     |
 | One discrete object                          | `Card`                                                                         |
@@ -500,6 +502,7 @@ Use the library's inputs for dates, times, numbers, files and colours in place o
 ### Data display
 
 - **Table** for records compared across columns. The first column is the record's name, in the foreground and medium weight; the other cells rest in grey and darken with the row under the pointer. Numbers align to the end in tabular figures. A status is a `Badge`. Row actions sit in a ghost "More" menu at the row's end. Show the columns people compare and leave the rest to the record.
+- **DataTable** when people work the records: sort, filter, pick, page or scroll through hundreds or thousands. It keeps Table's rules and adds a header per column (a type icon that becomes the sort arrow, an options popover with the filter), the record's name pinned to the start and actions to the end, and a footer of calculations. Everything but the search happens in the table: column options in each header, the table's menu (columns, density, clearing filters) at the header's end. Give it the full column and a height; use compact density in dense tools. Declare each column's type rather than drawing cells by hand, so the filter, sort and alignment follow. Paginate when position matters ("page 3"); scroll otherwise, and load more as it nears the end when the data lives on a server.
 - **A row opens its record.** The name is the link, which is the keyboard's way in; clicking anywhere on the row is the shortcut to it.
 - **Item** for lists of things read one at a time: people, files, integrations, links to settings. Each has a picture (an icon, an avatar or an image), a title, a description and its actions.
 - **Stat cards** show one number each: the label in grey, the value large in tabular figures, and the change as a status badge or status-coloured text with an arrow. Every card in the row has the same parts.
@@ -775,3 +778,7 @@ A Button trigger with a sun/moon swap: the icons scale, rotate 45 degrees and cr
 ### Multi select
 
 A searchable field for several values, built on each base's Combobox in multiple mode. The field takes the input recipe (ring-border frame, `bg-muted/50` hover, `bg-card` and `ring-foreground/25` while focused), grows a row per line of chips and ends in a muted chevrons icon. Chips are `bg-active` `rounded-md` h28 t12 medium with a h20 remove button. A new chip rises 6px from 0.92 scale and fades in on the move timing; a removed chip comes out of the row where it stood and fades as it wipes out from its start on the exit timing, while the chips after it glide over at the same time (FLIP on `translate`). The popup, rows and labels are Combobox's. One shared highlight glides to the hovered row on the glide timing; holding a row fills it to `bg-active` with the press scale, easing back on release, and on native the highlight under a finger takes that pressed fill. Picked rows turn foreground semibold and their check scales in from 0.9 and stays mounted to scale out. Picking keeps the list open and clears the search. Reduced motion and motion off remove chips at once. Native opens the list in a dialog like Combobox and animates chips with Reanimated on the same roles.
+
+### Rating
+
+A row of solid stars that holds a score, built on HTML for every base and on React Native. Default stars are the yellow people read as a score (`amber-400`, with an `amber-500` edge in light), fixed across themes; `primary` and the status variants fill with their role. Empty stars are a faint foreground fill. Hover previews the score under the pointer, a click or a drag sets it, `step={0.5}` takes halves, and read-only shows any fraction. The hovered star lifts to 115% on the feedback timing, and a star the score reaches pops in from half size on the bounce spring.

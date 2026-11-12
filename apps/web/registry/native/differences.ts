@@ -38,6 +38,10 @@ export const NATIVE_DIFFERENCES: Record<
     tier: "touch",
     note: 'A horizontal drag moves the line and a vertical one scrolls the page; a tap glides it there and a flick sends it to the edge, with a notch every step. One SVG draws both pictures with the same cover crop and clips the "before" one along the curve. Screen readers adjust it by `step` with swipes up and down. There\'s no hover or keyboard, and the labels have no backdrop blur.',
   },
+  rating: {
+    tier: "touch",
+    note: "A tap sets the score under the finger and a horizontal drag scrubs it with a notch each step; a vertical one scrolls. The star under the finger lifts while dragging, as the hovered star does on the website. Screen readers adjust it by `step` with swipes up and down. There's no hover preview or keyboard, and `name` is accepted without HTML form submission.",
+  },
   "preview-rail": {
     tier: "touch",
     note: "A finger scrubs the rail: a press lights the tick under it and shows its card, a drag moves the light with a tick on each step, and lifting on the rail chooses the lit item. An `href` with a scheme opens through `Linking`; in-page anchors and paths have nowhere to go in an app, so navigate from `onValueChange`. Screen readers activate a tick with a double tap and hear its description as a hint. There's no hover or keyboard.",

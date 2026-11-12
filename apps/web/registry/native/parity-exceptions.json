@@ -175,13 +175,6 @@
     "date": "2026-11-07"
   },
   {
-    "item": "month-input",
-    "kind": "slot",
-    "name": "month-input-value",
-    "reason": "The website's hidden input carries the month to a form submit. React Native has no forms, so there is no element to carry the slot; `name` is accepted so code moves across.",
-    "date": "2026-11-07"
-  },
-  {
     "item": "date-picker",
     "kind": "prop",
     "name": "hasTime",
@@ -739,6 +732,20 @@
     "kind": "slot",
     "name": "audio-player-audio",
     "reason": "The website renders a hidden `<audio>` element; expo-audio's player has no view.",
+    "date": "2026-11-12"
+  },
+  {
+    "item": "data-table",
+    "kind": "component",
+    "name": "data-table",
+    "reason": "The web Data Table draws a TanStack table as an HTML `<table>` with virtual rows, sticky pinned columns and header popovers. Native needs its own grid built on a virtual list, with a horizontal header scroller and sheets for the filters; the native Data Table example keeps showing Table until then.",
+    "date": "2026-11-12"
+  },
+  {
+    "item": "data-table-cells",
+    "kind": "component",
+    "name": "data-table-cells",
+    "reason": "The Data Table's typed cells ship with it; they follow it to native (see data-table).",
     "date": "2026-11-12"
   }
 ]
