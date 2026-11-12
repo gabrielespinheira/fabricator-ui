@@ -12,10 +12,31 @@
     @apply cursor-pointer data-hovered:border-foreground/45 data-pressed:scale-90 motion-reduce:data-pressed:scale-100 data-selected:border-primary data-selected:bg-primary data-selected:data-hovered:border-primary data-focus-visible:ring-1 data-focus-visible:ring-focus-ring data-focus-visible:ring-offset-2 data-focus-visible:ring-offset-background data-invalid:border-destructive data-invalid:data-selected:border-destructive data-invalid:data-selected:bg-destructive data-indeterminate:border-primary data-indeterminate:bg-primary;
   }
 
-  /* The check: 12px, heavier stroke, centred on whole pixels in the 18px box.
-     It stays mounted. Checking wipes it in from the start edge while it
-     scales up from 0.6 on the move timing with the entrance curve; unchecking
-     fades and shrinks it on the feedback exit. Reduced motion: no transition. */
+  /* The mark: the indicator stays mounted and carries the state. Checking
+     fades it in from 0.6 on the feedback timing with the entrance curve while
+     the stroke draws itself from the short leg on the move timing. Unchecking
+     shrinks it back, blurs it 2px and fades it on the feedback exit, the
+     stroke still drawn. Indeterminate draws a minus instead; moving
+     between the two retracts one stroke while the other draws. Reduced
+     motion: no transition. */
   .cn-checkbox-indicator {
-    @apply [&>svg]:size-[calc(var(--density-icon-16)-4px)] [&>svg]:stroke-[3] opacity-0 scale-[0.6] [clip-path:inset(0_100%_0_0)] transition-[opacity,scale,clip-path] duration-feedback-exit ease-exit data-checked:opacity-100 data-checked:scale-100 data-checked:[clip-path:inset(0_0_0_0)] data-checked:duration-move data-checked:ease-enter data-indeterminate:opacity-100 data-indeterminate:scale-100 data-indeterminate:[clip-path:inset(0_0_0_0)] data-indeterminate:duration-move data-indeterminate:ease-enter data-[state=indeterminate]:opacity-100 data-[state=indeterminate]:scale-100 data-[state=indeterminate]:[clip-path:inset(0_0_0_0)] data-[state=indeterminate]:duration-move data-[state=indeterminate]:ease-enter motion-reduce:transition-none;
+    @apply opacity-0 scale-[0.6] blur-[2px] transition-[opacity,scale,filter] duration-feedback-exit ease-exit data-checked:opacity-100 data-checked:scale-100 data-checked:blur-none data-checked:transition-[opacity,scale] data-checked:duration-feedback data-checked:ease-enter data-indeterminate:opacity-100 data-indeterminate:scale-100 data-indeterminate:blur-none data-indeterminate:transition-[opacity,scale] data-indeterminate:duration-feedback data-indeterminate:ease-enter data-[state=indeterminate]:opacity-100 data-[state=indeterminate]:scale-100 data-[state=indeterminate]:blur-none data-[state=indeterminate]:transition-[opacity,scale] data-[state=indeterminate]:duration-feedback data-[state=indeterminate]:ease-enter motion-reduce:transition-none;
+  }
+
+  /* 12px, a heavier stroke, centred on whole pixels in the 18px box. */
+  .cn-checkbox-mark {
+    @apply size-[calc(var(--density-icon-16)-4px)] stroke-[3];
+  }
+
+  /* Each path has pathLength 1: a 1-long dash and a 2-long gap, offset by 1,
+     hide it; offset 0 draws it from its start. A drawn stroke stays while
+     the indicator fades out, then resets after the feedback delay (longer
+     than the fade at every speed). Between checked and indeterminate the
+     indicator stays, so the outgoing stroke retracts on the feedback exit. */
+  .cn-checkbox-check {
+    @apply [stroke-dasharray:1_2] [stroke-dashoffset:1] transition-[stroke-dashoffset] duration-0 delay-feedback group-data-checked/checkbox-indicator:group-not-data-indeterminate/checkbox-indicator:[stroke-dashoffset:0] group-data-checked/checkbox-indicator:group-not-data-indeterminate/checkbox-indicator:duration-move group-data-checked/checkbox-indicator:group-not-data-indeterminate/checkbox-indicator:ease-enter group-data-checked/checkbox-indicator:group-not-data-indeterminate/checkbox-indicator:delay-0 group-data-indeterminate/checkbox-indicator:duration-feedback-exit group-data-indeterminate/checkbox-indicator:ease-exit group-data-indeterminate/checkbox-indicator:delay-0 group-data-[state=indeterminate]/checkbox-indicator:duration-feedback-exit group-data-[state=indeterminate]/checkbox-indicator:ease-exit group-data-[state=indeterminate]/checkbox-indicator:delay-0 motion-reduce:transition-none;
+  }
+
+  .cn-checkbox-minus {
+    @apply [stroke-dasharray:1_2] [stroke-dashoffset:1] transition-[stroke-dashoffset] duration-0 delay-feedback group-data-checked/checkbox-indicator:group-not-data-indeterminate/checkbox-indicator:duration-feedback-exit group-data-checked/checkbox-indicator:group-not-data-indeterminate/checkbox-indicator:ease-exit group-data-checked/checkbox-indicator:group-not-data-indeterminate/checkbox-indicator:delay-0 group-data-indeterminate/checkbox-indicator:[stroke-dashoffset:0] group-data-indeterminate/checkbox-indicator:duration-move group-data-indeterminate/checkbox-indicator:ease-enter group-data-indeterminate/checkbox-indicator:delay-0 group-data-[state=indeterminate]/checkbox-indicator:[stroke-dashoffset:0] group-data-[state=indeterminate]/checkbox-indicator:duration-move group-data-[state=indeterminate]/checkbox-indicator:ease-enter group-data-[state=indeterminate]/checkbox-indicator:delay-0 motion-reduce:transition-none;
   }

@@ -1,8 +1,8 @@
 /* MARK: Checkbox */
 
-  /* 18pt, rounded-[6px], a quiet 1.5pt outline, and the check pops in in the
-     role's foreground. The press gives on the feedback timing, in the source: a
-     class could only snap. */
+  /* 18pt, rounded-[6px], a quiet 1.5pt outline, and the check draws itself
+     in the role's foreground. The press gives on the feedback timing, in the
+     source: a class could only snap. */
   .cn-checkbox {
     @apply size-[calc(var(--density-icon-16)+2px)] rounded-[6px] border-[1.5px] border-foreground/25 bg-transparent data-[invalid=true]:border-destructive;
   }
@@ -13,10 +13,22 @@
     @apply -inset-[1.5px] rounded-[6px] bg-primary data-[invalid=true]:bg-destructive;
   }
 
+  /* The mark fades in from 0.6 while its stroke draws itself, in the source:
+     a class can't animate an SVG stroke. No blur on the way out: React Native
+     has none on iOS. */
   .cn-checkbox-indicator {
     @apply size-[calc(var(--density-icon-16)-4px)];
   }
 
-  .cn-checkbox-indicator-text {
+  .cn-checkbox-mark {
+    @apply size-full;
+  }
+
+  /* The strokes' colour, resolved in the source: an SVG path takes no class. */
+  .cn-checkbox-check {
+    @apply text-primary-foreground;
+  }
+
+  .cn-checkbox-minus {
     @apply text-primary-foreground;
   }

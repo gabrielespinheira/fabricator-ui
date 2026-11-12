@@ -6,21 +6,31 @@
     @apply w-full;
   }
 
-  /* No dividers between items. */
-  .cn-accordion-item {
-    @apply border-0;
+  /* The highlight draws under the items; their tiles are a wash, so it shows
+     through, as on the website where it sits over them. */
+  .cn-accordion-highlight {
+    @apply rounded-lg;
   }
 
-  /* Triggers: rounded-lg rows. The root's Fluid Hover paints the pressed row: a
-     press fades its highlight in, and another before it has faded glides there. */
+  /* Each item is a tile, a 6% wash of the foreground over whatever it sits
+     on. Closed neighbours join into one card; an open item parts from both
+     by --density-8 and rounds every corner. The gap and the rounded-xl
+     corners spring there from the item's animated style (accordion-model). */
+  .cn-accordion-item {
+    @apply bg-foreground/6 p-(--density-4);
+  }
+
+  /* Triggers: rounded-lg rows inside the tile. The root's Fluid Hover paints
+     the pressed row through the tile: a press fades its highlight in, and
+     another before it has faded glides there. */
   .cn-accordion-trigger {
     @apply gap-(--density-8) rounded-lg px-(--density-12) py-(--density-8);
   }
 
-  /* 13pt and muted at rest. The lit trigger turns foreground, and an open item's
-     trigger foreground and semibold. */
+  /* 14pt medium in foreground/80 at rest; the lit and the open trigger turn
+     foreground. */
   .cn-accordion-trigger-text {
-    @apply text-muted-foreground text-start text-(length:--density-text-13) leading-5 font-normal;
+    @apply text-foreground/80 text-start text-(length:--density-text-14) leading-5 font-medium;
   }
 
   .cn-accordion-trigger-text-lit {
@@ -28,26 +38,28 @@
   }
 
   .cn-accordion-trigger-text-open {
-    @apply text-foreground font-semibold;
+    @apply text-foreground;
   }
 
-  /* One chevron that points to the end and turns 90 degrees to point down when
-     open, on the disclosure timing both ways, as the website's transition does.
-     Reduce Motion drops the turn. Its stroke thickens when lit and when open. */
+  /* One chevron that points to the end and springs a quarter turn to point
+     down when open, on the bounce role both ways. Reduce Motion drops the
+     turn. Its stroke thickens when lit and when open. */
   .cn-accordion-trigger-icon {
     @apply mt-0.5 ms-auto size-(--density-icon-16);
   }
 
   .cn-accordion-content-text {
-    @apply text-muted-foreground text-(length:--density-text-13);
+    @apply text-muted-foreground text-(length:--density-text-14) leading-5;
   }
 
   .cn-accordion-content {
     @apply w-full;
   }
 
+  /* The panel springs open and shut on the bounce role, its text fading with
+     it. */
   .cn-accordion-content-inner {
-    @apply px-(--density-12) pt-1 pb-(--density-12);
+    @apply px-(--density-12) pt-0 pb-(--density-12);
   }
 
 /* MARK: Alert Dialog */
@@ -1993,9 +2005,9 @@
 
 /* MARK: Checkbox */
 
-  /* 18pt, rounded-[6px], a quiet 1.5pt outline, and the check pops in in the
-     role's foreground. The press gives on the feedback timing, in the source: a
-     class could only snap. */
+  /* 18pt, rounded-[6px], a quiet 1.5pt outline, and the check draws itself
+     in the role's foreground. The press gives on the feedback timing, in the
+     source: a class could only snap. */
   .cn-checkbox {
     @apply size-[calc(var(--density-icon-16)+2px)] rounded-[6px] border-[1.5px] border-foreground/25 bg-transparent data-[invalid=true]:border-destructive;
   }
@@ -2006,11 +2018,23 @@
     @apply -inset-[1.5px] rounded-[6px] bg-primary data-[invalid=true]:bg-destructive;
   }
 
+  /* The mark fades in from 0.6 while its stroke draws itself, in the source:
+     a class can't animate an SVG stroke. No blur on the way out: React Native
+     has none on iOS. */
   .cn-checkbox-indicator {
     @apply size-[calc(var(--density-icon-16)-4px)];
   }
 
-  .cn-checkbox-indicator-text {
+  .cn-checkbox-mark {
+    @apply size-full;
+  }
+
+  /* The strokes' colour, resolved in the source: an SVG path takes no class. */
+  .cn-checkbox-check {
+    @apply text-primary-foreground;
+  }
+
+  .cn-checkbox-minus {
     @apply text-primary-foreground;
   }
 
@@ -4368,25 +4392,27 @@
     @apply gap-(--density-16);
   }
 
-  /* 18pt circle with the checkbox's outline, and a 6pt dot pops in in the role's
-     foreground. Invalid turns the outline destructive. The press gives on the
-     feedback timing, in the source: a class could only snap. */
+  /* 18pt ring with the checkbox's outline. Invalid turns the outline
+     destructive. The press gives on the feedback timing, in the source: a
+     class could only snap. */
   .cn-radio-group-item {
     @apply border-foreground/25 data-[invalid=true]:border-destructive size-[calc(var(--density-icon-16)+2px)] rounded-full border-[1.5px] bg-transparent;
   }
 
-  /* Checked fills with the primary role, or the destructive one when invalid,
-     over the outline, easing on the feedback timing. */
+  /* Checked turns the ring primary, or destructive when invalid, easing on the
+     feedback timing; the inside stays clear so the dot can glide between
+     radios. */
   .cn-radio-group-fill {
-    @apply bg-primary data-[invalid=true]:bg-destructive -inset-[1.5px] rounded-full;
+    @apply border-primary data-[invalid=true]:border-destructive -inset-[1.5px] rounded-full border-[1.5px];
   }
 
   .cn-radio-group-indicator {
     @apply size-full;
   }
 
+  /* The 8pt dot in the role, gliding between radios in the source. */
   .cn-radio-group-indicator-icon {
-    @apply bg-primary-foreground size-1.5 rounded-full;
+    @apply bg-primary data-[invalid=true]:bg-destructive size-[calc(var(--density-icon-16)/2)] rounded-full;
   }
 
 /* MARK: Resizable */

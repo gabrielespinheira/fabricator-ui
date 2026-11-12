@@ -8,32 +8,45 @@
     @apply relative isolate;
   }
 
-  /* No dividers between items. */
+  /* The highlight sits over the items' surfaces and under the triggers, which
+     are positioned and come later. */
+  .cn-accordion-highlight {
+    @apply z-0;
+  }
+
+  /* Each item is a raised card (surface 2, as Card). Closed neighbours join
+     into one card, squaring the corners they share; an open item parts from
+     its neighbours by a gap and rounds every corner. The gap, the corners and
+     the panel's height move on the bounce spring, both ways. Open is
+     data-open (Base UI), data-state=open (Radix) or data-expanded (React
+     Aria). */
   .cn-accordion-item {
-    @apply border-0;
+    @apply bg-foreground/6 rounded-xl p-(--density-4) transition-[margin,border-radius] duration-bounce ease-bounce motion-reduce:transition-none [[data-slot=accordion-item]~&:is([data-open],[data-state=open],[data-expanded])]:mt-(--density-8) [[data-slot=accordion-item]:is([data-open],[data-state=open],[data-expanded])+&]:mt-(--density-8) [&:not([data-open],[data-state=open],[data-expanded]):has(+[data-slot=accordion-item]:not([data-open],[data-state=open],[data-expanded]))]:rounded-b-none [[data-slot=accordion-item]:not([data-open],[data-state=open],[data-expanded])+&:not([data-open],[data-state=open],[data-expanded])]:rounded-t-none;
   }
 
-  /* Triggers: rounded-lg rows, 13px, muted at rest. Hover and the lit
-     trigger turn foreground (bg-hover where there is no fluid container);
-     an open item's trigger turns foreground and semibold. Focus is a 1px
-     blue ring. */
+  /* Triggers: rounded-lg rows inside the card, 14px medium in foreground/80 at
+     rest, foreground when lit or open. A leading icon rests in grey. Hover is
+     bg-hover where there is no fluid container. Focus is a 1px blue ring. */
   .cn-accordion-trigger {
-    @apply cursor-pointer text-muted-foreground rounded-lg px-(--density-12) py-(--density-8) text-start text-(length:--density-text-13) leading-5 font-normal transition-[color,background-color] duration-feedback hover:bg-hover hover:text-foreground in-data-[fluid-hover]:hover:bg-transparent data-fluid-hover-active:text-foreground aria-expanded:text-foreground aria-expanded:font-semibold focus-visible:ring-ring focus-visible:ring-1 **:data-[slot=accordion-trigger-icon]:ms-auto **:data-[slot=accordion-trigger-icon]:mt-0.5 **:data-[slot=accordion-trigger-icon]:size-4;
+    @apply cursor-pointer gap-(--density-8) rounded-lg px-(--density-12) py-(--density-8) text-start text-(length:--density-text-14) leading-5 font-medium text-foreground/80 transition-[color,background-color] duration-feedback hover:bg-hover hover:text-foreground in-data-[fluid-hover]:hover:bg-transparent data-fluid-hover-active:text-foreground aria-expanded:text-foreground focus-visible:ring-ring focus-visible:ring-1 **:data-[slot=accordion-trigger-icon]:ms-auto **:data-[slot=accordion-trigger-icon]:mt-0.5 **:data-[slot=accordion-trigger-icon]:size-(--density-icon-16) [&>svg:not([data-slot=accordion-trigger-icon])]:mt-0.5 [&>svg:not([data-slot=accordion-trigger-icon])]:shrink-0 [&>svg:not([data-slot=accordion-trigger-icon])]:size-(--density-icon-16) [&>svg:not([data-slot=accordion-trigger-icon])]:text-muted-foreground;
   }
 
-  /* One chevron that points to the end and turns 90° to point down when
-     open (the second, "up" chevron of the source is never shown). Its stroke
-     thickens on hover, when lit and when open. */
+  /* One chevron that points to the end and springs a quarter turn to point
+     down when open (the second, "up" chevron of the source is never shown).
+     Its stroke thickens on hover, when lit and when open. */
   .cn-accordion-trigger-icon {
-    @apply text-muted-foreground -rotate-90 stroke-[1.5] transition-[rotate,color,stroke-width] duration-disclosure ease-enter group-hover/accordion-trigger:text-foreground group-hover/accordion-trigger:stroke-2 group-data-fluid-hover-active/accordion-trigger:text-foreground group-data-fluid-hover-active/accordion-trigger:stroke-2 group-aria-expanded/accordion-trigger:text-foreground group-aria-expanded/accordion-trigger:stroke-2 group-aria-expanded/accordion-trigger:rotate-0 rtl:rotate-90 group-aria-expanded/accordion-trigger:not-[[data-slot=accordion-trigger-icon]~*]:inline-block group-aria-expanded/accordion-trigger:[[data-slot=accordion-trigger-icon]~&]:hidden motion-reduce:transition-colors;
+    @apply text-muted-foreground -rotate-90 stroke-[1.5] transition-[rotate,color,stroke-width] duration-bounce ease-bounce group-hover/accordion-trigger:text-foreground group-hover/accordion-trigger:stroke-2 group-data-fluid-hover-active/accordion-trigger:text-foreground group-data-fluid-hover-active/accordion-trigger:stroke-2 group-aria-expanded/accordion-trigger:text-foreground group-aria-expanded/accordion-trigger:stroke-2 group-aria-expanded/accordion-trigger:rotate-0 rtl:rotate-90 group-aria-expanded/accordion-trigger:not-[[data-slot=accordion-trigger-icon]~*]:inline-block group-aria-expanded/accordion-trigger:[[data-slot=accordion-trigger-icon]~&]:hidden motion-reduce:transition-colors;
   }
 
+  /* The panel springs open and shut on the bounce role. */
   .cn-accordion-content {
-    @apply text-muted-foreground motion-disclosure data-open:animate-accordion-down data-closed:animate-accordion-up text-(length:--density-text-13);
+    @apply text-muted-foreground motion-bounce data-open:animate-accordion-down data-closed:animate-accordion-up text-(length:--density-text-14) motion-reduce:animate-none;
   }
 
+  /* Its text fades in from a slight blur as the panel opens, and back out as
+     it closes. Reduced motion keeps the fade. */
   .cn-accordion-content-inner {
-    @apply px-(--density-12) pt-1 pb-(--density-12);
+    @apply px-(--density-12) pt-0 pb-(--density-12) leading-5 duration-disclosure ease-enter in-[[data-slot=accordion-item]:is([data-open],[data-state=open],[data-expanded])]:animate-in in-[[data-slot=accordion-item]:is([data-open],[data-state=open],[data-expanded])]:fade-in in-[[data-slot=accordion-item]:is([data-open],[data-state=open],[data-expanded])]:blur-in-xs in-[[data-slot=accordion-item]:not([data-open],[data-state=open],[data-expanded])]:animate-out in-[[data-slot=accordion-item]:not([data-open],[data-state=open],[data-expanded])]:fade-out in-[[data-slot=accordion-item]:not([data-open],[data-state=open],[data-expanded])]:blur-out-xs motion-reduce:blur-in-[0px] motion-reduce:blur-out-[0px];
   }
 
 /* MARK: Alert Dialog */
@@ -1312,12 +1325,33 @@
     @apply cursor-pointer data-hovered:border-foreground/45 data-pressed:scale-90 motion-reduce:data-pressed:scale-100 data-selected:border-primary data-selected:bg-primary data-selected:data-hovered:border-primary data-focus-visible:ring-1 data-focus-visible:ring-focus-ring data-focus-visible:ring-offset-2 data-focus-visible:ring-offset-background data-invalid:border-destructive data-invalid:data-selected:border-destructive data-invalid:data-selected:bg-destructive data-indeterminate:border-primary data-indeterminate:bg-primary;
   }
 
-  /* The check: 12px, heavier stroke, centred on whole pixels in the 18px box.
-     It stays mounted. Checking wipes it in from the start edge while it
-     scales up from 0.6 on the move timing with the entrance curve; unchecking
-     fades and shrinks it on the feedback exit. Reduced motion: no transition. */
+  /* The mark: the indicator stays mounted and carries the state. Checking
+     fades it in from 0.6 on the feedback timing with the entrance curve while
+     the stroke draws itself from the short leg on the move timing. Unchecking
+     shrinks it back, blurs it 2px and fades it on the feedback exit, the
+     stroke still drawn. Indeterminate draws a minus instead; moving
+     between the two retracts one stroke while the other draws. Reduced
+     motion: no transition. */
   .cn-checkbox-indicator {
-    @apply [&>svg]:size-[calc(var(--density-icon-16)-4px)] [&>svg]:stroke-[3] opacity-0 scale-[0.6] [clip-path:inset(0_100%_0_0)] transition-[opacity,scale,clip-path] duration-feedback-exit ease-exit data-checked:opacity-100 data-checked:scale-100 data-checked:[clip-path:inset(0_0_0_0)] data-checked:duration-move data-checked:ease-enter data-indeterminate:opacity-100 data-indeterminate:scale-100 data-indeterminate:[clip-path:inset(0_0_0_0)] data-indeterminate:duration-move data-indeterminate:ease-enter data-[state=indeterminate]:opacity-100 data-[state=indeterminate]:scale-100 data-[state=indeterminate]:[clip-path:inset(0_0_0_0)] data-[state=indeterminate]:duration-move data-[state=indeterminate]:ease-enter motion-reduce:transition-none;
+    @apply opacity-0 scale-[0.6] blur-[2px] transition-[opacity,scale,filter] duration-feedback-exit ease-exit data-checked:opacity-100 data-checked:scale-100 data-checked:blur-none data-checked:transition-[opacity,scale] data-checked:duration-feedback data-checked:ease-enter data-indeterminate:opacity-100 data-indeterminate:scale-100 data-indeterminate:blur-none data-indeterminate:transition-[opacity,scale] data-indeterminate:duration-feedback data-indeterminate:ease-enter data-[state=indeterminate]:opacity-100 data-[state=indeterminate]:scale-100 data-[state=indeterminate]:blur-none data-[state=indeterminate]:transition-[opacity,scale] data-[state=indeterminate]:duration-feedback data-[state=indeterminate]:ease-enter motion-reduce:transition-none;
+  }
+
+  /* 12px, a heavier stroke, centred on whole pixels in the 18px box. */
+  .cn-checkbox-mark {
+    @apply size-[calc(var(--density-icon-16)-4px)] stroke-[3];
+  }
+
+  /* Each path has pathLength 1: a 1-long dash and a 2-long gap, offset by 1,
+     hide it; offset 0 draws it from its start. A drawn stroke stays while
+     the indicator fades out, then resets after the feedback delay (longer
+     than the fade at every speed). Between checked and indeterminate the
+     indicator stays, so the outgoing stroke retracts on the feedback exit. */
+  .cn-checkbox-check {
+    @apply [stroke-dasharray:1_2] [stroke-dashoffset:1] transition-[stroke-dashoffset] duration-0 delay-feedback group-data-checked/checkbox-indicator:group-not-data-indeterminate/checkbox-indicator:[stroke-dashoffset:0] group-data-checked/checkbox-indicator:group-not-data-indeterminate/checkbox-indicator:duration-move group-data-checked/checkbox-indicator:group-not-data-indeterminate/checkbox-indicator:ease-enter group-data-checked/checkbox-indicator:group-not-data-indeterminate/checkbox-indicator:delay-0 group-data-indeterminate/checkbox-indicator:duration-feedback-exit group-data-indeterminate/checkbox-indicator:ease-exit group-data-indeterminate/checkbox-indicator:delay-0 group-data-[state=indeterminate]/checkbox-indicator:duration-feedback-exit group-data-[state=indeterminate]/checkbox-indicator:ease-exit group-data-[state=indeterminate]/checkbox-indicator:delay-0 motion-reduce:transition-none;
+  }
+
+  .cn-checkbox-minus {
+    @apply [stroke-dasharray:1_2] [stroke-dashoffset:1] transition-[stroke-dashoffset] duration-0 delay-feedback group-data-checked/checkbox-indicator:group-not-data-indeterminate/checkbox-indicator:duration-feedback-exit group-data-checked/checkbox-indicator:group-not-data-indeterminate/checkbox-indicator:ease-exit group-data-checked/checkbox-indicator:group-not-data-indeterminate/checkbox-indicator:delay-0 group-data-indeterminate/checkbox-indicator:[stroke-dashoffset:0] group-data-indeterminate/checkbox-indicator:duration-move group-data-indeterminate/checkbox-indicator:ease-enter group-data-indeterminate/checkbox-indicator:delay-0 group-data-[state=indeterminate]/checkbox-indicator:[stroke-dashoffset:0] group-data-[state=indeterminate]/checkbox-indicator:duration-move group-data-[state=indeterminate]/checkbox-indicator:ease-enter group-data-[state=indeterminate]/checkbox-indicator:delay-0 motion-reduce:transition-none;
   }
 
 /* MARK: Collapsible */
@@ -3090,6 +3124,88 @@
     @apply cursor-pointer text-muted-foreground h-(--density-36) min-w-16 rounded-lg px-(--density-12) text-(length:--density-text-13) transition-colors duration-feedback data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-fluid-hover-active:text-foreground data-current:text-foreground data-current:font-medium aria-selected:bg-active aria-selected:text-foreground aria-selected:font-semibold in-data-[fluid-hover]:aria-selected:bg-transparent focus-visible:text-foreground disabled:pointer-events-none disabled:opacity-50;
   }
 
+/* MARK: Multi Select */
+
+  /* Field: the input recipe (1px ring-border frame, light fill on hover,
+     card fill and a stronger ring while focused). It grows a row for each
+     line of chips; with chips it tightens its start so they sit in it. */
+  .cn-multi-select-trigger {
+    @apply cursor-text ring-border hover:not-focus-within:bg-muted/50 focus-within:bg-card focus-within:ring-foreground/25 has-[[aria-invalid=true]]:ring-destructive/50 has-[[aria-invalid=true]]:hover:not-focus-within:bg-destructive/5 data-disabled:cursor-not-allowed data-disabled:opacity-50 has-disabled:cursor-not-allowed has-disabled:opacity-50 min-h-(--density-36) gap-(--density-6) rounded-lg bg-transparent py-(--density-4) ps-(--density-10) pe-(--density-10) text-(length:--density-text-13) ring-1 ring-inset transition-[color,background-color,box-shadow] duration-feedback ease-feedback has-data-[slot=multi-select-chip]:ps-(--density-4);
+  }
+
+  .cn-multi-select-chips {
+    @apply gap-(--density-4);
+  }
+
+  .cn-multi-select-icon {
+    @apply text-muted-foreground [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5];
+  }
+
+  /* Chips pop in (fade, a 6px rise from 0.92) and glide to a new place on the
+     move timing. A leaving chip wipes out from its start on the exit timing,
+     and the chips after it glide over once it has gone. */
+  .cn-multi-select-chip {
+    @apply bg-active text-foreground h-(--density-28) max-w-full gap-(--density-2) rounded-md ps-(--density-8) pe-(--density-4) text-(length:--density-text-12) font-medium whitespace-nowrap [clip-path:inset(-4px)] transition-[opacity,scale,translate,clip-path,box-shadow] duration-move ease-enter starting:translate-y-1.5 starting:scale-92 starting:opacity-0 focus-visible:ring-1 focus-visible:ring-ring data-exiting:[clip-path:inset(-4px_-4px_-4px_100%)] data-exiting:duration-move-exit data-exiting:ease-exit motion-reduce:transition-none;
+  }
+
+  .cn-multi-select-chip-label {
+    @apply min-w-0;
+  }
+
+  .cn-multi-select-chip-remove {
+    @apply text-muted-foreground hover:bg-hover hover:text-foreground focus-visible:ring-1 focus-visible:ring-ring size-(--density-20) rounded-sm transition-colors duration-feedback ease-feedback [&_svg:not([class*='size-'])]:size-3 [&_svg]:stroke-2;
+  }
+
+  .cn-multi-select-input {
+    @apply text-foreground placeholder:text-muted-foreground h-(--density-28) px-(--density-2) text-base md:text-(length:--density-text-13) disabled:cursor-not-allowed;
+  }
+
+  /* Popup: surface 3 with its shadow ring (no border), rounded-xl, on the
+     popup motion. */
+  .cn-multi-select-content {
+    @apply bg-surface-3 shadow-surface-3 text-popover-foreground max-h-72 min-w-36 overflow-hidden rounded-xl motion-popup data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0;
+  }
+
+  .cn-multi-select-content-aria {
+    @apply bg-surface-3 shadow-surface-3 text-popover-foreground max-h-72 min-w-36 overflow-hidden rounded-xl motion-popup data-entering:animate-in data-entering:fade-in-0 data-exiting:animate-out data-exiting:fade-out-0;
+  }
+
+  /* The list scrolls and is the fluid hover container (relative isolate). */
+  .cn-multi-select-list {
+    @apply no-scrollbar max-h-[min(--spacing(72),var(--available-height,--spacing(72)))] scroll-py-1 p-1 data-empty:p-0;
+  }
+
+  .cn-multi-select-label {
+    @apply text-muted-foreground px-(--density-8) py-(--density-6) text-(length:--density-text-12);
+  }
+
+  /* Rows: 36px, 13px, muted at rest; the lit row turns foreground and a
+     picked row turns foreground and semibold. The check scales in from 0.9
+     on the move timing and stays mounted to scale out. */
+  .cn-multi-select-item {
+    @apply cursor-pointer text-muted-foreground h-(--density-36) gap-(--density-8) rounded-lg py-0 pe-[calc(var(--density-8)*2+var(--density-icon-16))] ps-(--density-8) text-(length:--density-text-13) transition-colors duration-feedback [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5] data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-[selected]:text-foreground data-[selected]:font-semibold;
+  }
+
+  .cn-multi-select-item-aria {
+    @apply data-focused:bg-hover data-focused:text-foreground in-data-[fluid-hover]:data-focused:bg-transparent;
+  }
+
+  .cn-multi-select-item-indicator {
+    @apply text-foreground end-(--density-8) size-(--density-icon-16) scale-90 opacity-0 transition-[opacity,scale] duration-move-exit ease-exit group-data-[selected]/multi-select-item:scale-100 group-data-[selected]/multi-select-item:opacity-100 group-data-[selected]/multi-select-item:duration-move group-data-[selected]/multi-select-item:ease-enter motion-reduce:transition-none;
+  }
+
+  .cn-multi-select-empty {
+    @apply text-muted-foreground hidden w-full justify-center py-(--density-16) text-center text-(length:--density-text-13) group-data-empty/multi-select-content:flex;
+  }
+
+  .cn-multi-select-empty-aria {
+    @apply flex;
+  }
+
+  .cn-multi-select-separator {
+    @apply bg-border/60 -mx-1 my-1 h-px;
+  }
+
 /* MARK: Native Select */
 
   /* Same frame as the input (ring-border, hover tint, card on focus, no blue
@@ -3394,25 +3510,29 @@
     @apply grid gap-(--density-16);
   }
 
-  /* 18px circle with the checkbox's outline. Checked fills with the primary role
-     (the foreground while neutral) and a 6px dot pops in in its foreground. The border width is important because
-     the components carry an inline 1px `border`. */
+  /* 18px ring with the checkbox's outline. Checked, the ring turns primary
+     (the foreground while neutral) and holds an 8px primary dot; the inside
+     stays clear, so the dot can glide between radios. The border width is
+     important because the components carry an inline 1px `border`. */
   .cn-radio-group-item {
-    @apply cursor-pointer flex size-[calc(var(--density-icon-16)+2px)] items-center justify-center border-[1.5px]! border-foreground/25 bg-transparent transition-[background-color,border-color,box-shadow,scale] duration-feedback ease-feedback motion-reduce:transition-none hover:border-foreground/45 active:scale-90 motion-reduce:active:scale-100 focus-visible:ring-1 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background aria-invalid:border-destructive group-has-[:focus-visible]/field-label:ring-0 rounded-full data-checked:border-primary data-checked:bg-primary data-checked:hover:border-primary aria-invalid:data-checked:border-destructive aria-invalid:data-checked:bg-destructive;
+    @apply cursor-pointer flex size-[calc(var(--density-icon-16)+2px)] items-center justify-center border-[1.5px]! border-foreground/25 bg-transparent transition-[border-color,box-shadow,scale] duration-feedback ease-feedback motion-reduce:transition-none hover:border-foreground/45 active:scale-90 motion-reduce:active:scale-100 focus-visible:ring-1 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background aria-invalid:border-destructive group-has-[:focus-visible]/field-label:ring-0 rounded-full data-checked:border-primary data-checked:hover:border-primary aria-invalid:data-checked:border-destructive;
   }
 
   .cn-radio-group-item-aria {
-    @apply cursor-pointer data-hovered:border-foreground/45 data-pressed:scale-90 motion-reduce:data-pressed:scale-100 data-selected:border-primary data-selected:bg-primary data-selected:data-hovered:border-primary data-focus-visible:ring-1 data-focus-visible:ring-focus-ring data-focus-visible:ring-offset-2 data-focus-visible:ring-offset-background data-invalid:border-destructive data-invalid:data-selected:border-destructive data-invalid:data-selected:bg-destructive;
+    @apply cursor-pointer data-hovered:border-foreground/45 data-pressed:scale-90 motion-reduce:data-pressed:scale-100 data-selected:border-primary data-selected:data-hovered:border-primary data-focus-visible:ring-1 data-focus-visible:ring-focus-ring data-focus-visible:ring-offset-2 data-focus-visible:ring-offset-background data-invalid:border-destructive data-invalid:data-selected:border-destructive;
   }
 
-  /* Stays mounted: the dot scales in on the move timing with the entrance
-     curve and out on the feedback exit. Reduced motion: no transition. */
+  /* Stays mounted. Picking another radio glides the dot over from the one it
+     leaves (lib/radio-glide sets the start offset under data-gliding, which
+     skips the transitions) on the move timing with the entrance curve. A first
+     pick scales the dot in on the same timing; a cleared value scales it out
+     on the feedback exit. Reduced motion: no transition. */
   .cn-radio-group-indicator {
-    @apply flex size-full items-center justify-center opacity-0 scale-0 transition-[opacity,scale] duration-feedback-exit ease-exit data-checked:opacity-100 data-checked:scale-100 data-checked:duration-move data-checked:ease-enter motion-reduce:transition-none;
+    @apply flex size-full items-center justify-center opacity-0 scale-0 transition-[opacity,scale,translate] duration-feedback-exit ease-exit data-checked:opacity-100 data-checked:scale-100 data-checked:duration-move data-checked:ease-enter data-gliding:transition-none motion-reduce:transition-none;
   }
 
   .cn-radio-group-indicator-icon {
-    @apply bg-primary-foreground absolute top-1/2 left-1/2 size-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full;
+    @apply bg-primary absolute top-1/2 left-1/2 size-[calc(var(--density-icon-16)/2)] -translate-x-1/2 -translate-y-1/2 rounded-full group-aria-invalid/radio-group-item:bg-destructive group-data-invalid/radio-group-item:bg-destructive;
   }
 
 /* MARK: Resizable */

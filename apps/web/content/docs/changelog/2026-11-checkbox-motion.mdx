@@ -1,0 +1,9 @@
+---
+title: Checkbox motion
+description: The checkmark draws itself in, and indeterminate shows a minus.
+date: 2026-11-12
+---
+
+Checking a Checkbox now draws its mark in from the short leg while it fades and grows from 0.6. Unchecking shrinks it back through a small blur and fades it out, quicker than it came in. Indeterminate draws a minus instead of a check, and moving between checked and indeterminate retracts one stroke while the other draws. Every timing follows the motion speed, and reduced motion turns the transitions off.
+
+The mark is drawn inline on every base, so it no longer comes from the project's icon library. React Native draws the same strokes with `react-native-svg` on the same timings, without the blur.
