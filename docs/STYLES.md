@@ -27,7 +27,8 @@ Paths are under `apps/web/`. `style-fabricator.css` and `app/fabricator.css` are
 
 By role, never milliseconds.
 
-- Surfaces take one utility each: `motion-tooltip`, `-popup`, `-dialog`, `-scrim`, `-sheet`, `-disclosure`, `-toast`. Buttons and toggles add `motion-press`.
+- Surfaces take one utility each: `motion-tooltip`, `-popup`, `-dialog`, `-scrim`, `-sheet`, `-disclosure`, `-bounce`, `-toast`. Buttons and toggles add `motion-press`.
+- The bounce role is the one spring: `ease-bounce` is a CSS `linear()` curve sampled from `getSpringSamples(bounce)` per speed, and native interpolates the same samples. Use it only for layout that should feel physical (accordion items); everything else keeps its curve.
 - Everything else: `duration-<role>`, `duration-<role>-exit`, `delay-<role>` (feedback, glide, move, …) with `ease-enter`, `-move`, `-exit`, `-feedback` or `-drawer`.
 - Full-page theme changes use `--motion-theme` (700ms by default) with `--motion-ease-theme` (the reference Material curve, `cubic-bezier(0.4, 0, 0.2, 1)`); icon swaps keep the move timing. `circle-blur` blurs the incoming page from 8px to zero across the full reveal; polygon masks feather the edge while keeping content sharp.
 - Speeds `smooth`, `default`, `snappy`, `instant` via `data-motion` on any element; `off` stops motion; `--motion-scale` multiplies every duration.

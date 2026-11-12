@@ -218,6 +218,27 @@ export const fabricatorItems = [
     },
   },
   {
+    name: "audio-player",
+    type: "registry:ui",
+    title: "Audio Player",
+    description:
+      "An audio file on a card: the artwork, title and artist, a seek bar drawn as the file's waveform, the time played and left, skip back and forward, speed and volume. A cover variant shows a large artwork that breathes with the music, and a compact variant fits play, the waveform, the time and the speed on one row.",
+    registryDependencies: ["spinner"],
+    files: [
+      { path: "ui/audio-player.tsx", type: "registry:ui" },
+      { path: "lib/audio-player-model.ts", type: "registry:lib" },
+      { path: "lib/video-player-model.ts", type: "registry:lib" },
+    ],
+    meta: {
+      fabricator: true,
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/audio-player",
+        examples:
+          "https://fabricator-ui.vercel.app/docs/components/base/audio-player#examples",
+      },
+    },
+  },
+  {
     name: "image-compare",
     type: "registry:ui",
     title: "Image Compare",
@@ -233,6 +254,26 @@ export const fabricatorItems = [
         docs: "https://fabricator-ui.vercel.app/docs/components/base/image-compare",
         examples:
           "https://fabricator-ui.vercel.app/docs/components/base/image-compare#examples",
+      },
+    },
+  },
+  {
+    name: "preview-rail",
+    type: "registry:ui",
+    title: "Preview Rail",
+    description:
+      "A rail of thin ticks, one per section, that swell around the pointer like a dock, with a card beside the rail naming the section it's on. A finger scrubs along it.",
+    files: [
+      { path: "ui/preview-rail.tsx", type: "registry:ui" },
+      { path: "lib/preview-rail-model.ts", type: "registry:lib" },
+    ],
+    categories: ["navigation"],
+    meta: {
+      fabricator: true,
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/preview-rail",
+        examples:
+          "https://fabricator-ui.vercel.app/docs/components/base/preview-rail#examples",
       },
     },
   },
@@ -499,6 +540,17 @@ export const fabricatorItems = [
     ],
   },
   {
+    name: "accordion-shape",
+    type: "registry:lib",
+    title: "Accordion shape",
+    description:
+      "Joins closed accordion items into one card and parts an open one from its neighbours, for the web and React Native.",
+    files: [
+      { path: "lib/accordion-model.ts", type: "registry:lib" },
+      { path: "hooks/use-accordion-shape.ts", type: "registry:hook" },
+    ],
+  },
+  {
     name: "radio-glide",
     type: "registry:lib",
     title: "Radio glide",
@@ -751,7 +803,7 @@ export const fabricatorOverrides: Record<
   tabs: { registryDependencies: ["fluid-hover"] },
   "toggle-group": { registryDependencies: ["fluid-hover"] },
   sidebar: { registryDependencies: ["fluid-hover", "kbd", "sidebar-model"] },
-  accordion: { registryDependencies: ["fluid-hover"] },
+  accordion: { registryDependencies: ["fluid-hover", "accordion-shape"] },
   table: { registryDependencies: ["fluid-hover"] },
   questionnaire: { registryDependencies: ["fluid-hover"] },
   slider: { registryDependencies: ["slider-model"] },
@@ -779,6 +831,24 @@ export const FABRICATOR_EXCLUDED_ITEMS: Record<string, string | null> = {
   "dashboard-01": null,
   preview: null,
   "preview-02": null,
+}
+
+/**
+ * Whether a demo file (`<item>-<intent>.tsx`) belongs to an excluded item.
+ * A Fabricator item whose name only starts with an excluded one keeps its
+ * demos: `preview-rail-demo.tsx` is Preview Rail's, not the `preview` block's.
+ */
+export function isFabricatorExcludedDemo(file: string) {
+  const isOwnedByFabricatorItem = (excluded: string) =>
+    fabricatorItems.some(
+      (item) =>
+        item.name.length > excluded.length &&
+        item.name.startsWith(`${excluded}-`) &&
+        file.startsWith(`${item.name}-`)
+    )
+  return Object.keys(FABRICATOR_EXCLUDED_ITEMS).some(
+    (name) => file.startsWith(`${name}-`) && !isOwnedByFabricatorItem(name)
+  )
 }
 
 /** Items that every Fabricator component installs alongside itself. */

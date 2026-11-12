@@ -1,0 +1,137 @@
+---
+title: Audio Player
+description: An audio file on a card with its waveform, skip, speed and volume, a cover variant for music and a compact one for voice messages.
+base: native
+component: true
+---
+
+## Installation
+
+```bash
+npx fabricator-ui@latest add audio-player
+```
+
+## Usage
+
+```tsx
+import { AudioPlayer } from "@/components/ui/audio-player"
+import { Text } from "@/components/ui/text"
+```
+
+```tsx
+<AudioPlayer
+  src={`${MEDIA}/sintel-trailer.m4a`}
+  artwork={`${MEDIA}/sintel-trailer-cover.jpg`}
+  title="Sintel, trailer"
+  artist="Blender Foundation"
+  peaks={PEAKS}
+  onPlayingChange={setIsPlaying}
+  className="w-full"
+/>
+<Text className="text-(length:--density-text-12) text-muted-foreground">
+  {isPlaying ? "Playing" : "Paused"} · Sintel © Blender Foundation, CC
+  BY 3.0
+</Text>
+```
+
+## Composition
+
+- `AudioPlayer`
+- `AudioPlayerProps`
+- `AudioPlayerVariant`
+
+## Examples
+
+```tsx showLineNumbers title="audio-player-example.tsx"
+import * as React from "react"
+
+import { AudioPlayer } from "@/components/ui/audio-player"
+import { Text } from "@/components/ui/text"
+
+const MEDIA = "https://fabricator-ui.vercel.app/media"
+
+// The trailer's loudness, worked out once from the file with getAudioPeaks.
+const PEAKS = [
+  0, 0.01, 0.12, 0.14, 0.1, 0.12, 0.68, 1, 0.62, 0.44, 0.27, 1, 1, 0.67, 0.21,
+  0.94, 0.81, 0.48, 0.26, 0.28, 1, 1, 0.75, 0.55, 0.3, 0.36, 0.31, 0.62, 0.61,
+  0.59, 0.52, 0.95, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0.54, 0.36, 0.22, 0.33, 0.72,
+  0.55, 0.49, 0.23, 1, 0.75, 0.47, 0.44, 0.36, 0.18, 0.19, 0.33, 0.85, 1, 1,
+  0.61, 0.19, 0.04, 0,
+]
+
+function AudioPlayerExample() {
+  const [isPlaying, setIsPlaying] = React.useState(false)
+  return (
+    <ExampleWrapper fit>
+      <Example title="Default, with a waveform">
+        <AudioPlayer
+          src={`${MEDIA}/sintel-trailer.m4a`}
+          artwork={`${MEDIA}/sintel-trailer-cover.jpg`}
+          title="Sintel, trailer"
+          artist="Blender Foundation"
+          peaks={PEAKS}
+          onPlayingChange={setIsPlaying}
+          className="w-full"
+        />
+        <Text className="text-(length:--density-text-12) text-muted-foreground">
+          {isPlaying ? "Playing" : "Paused"} · Sintel © Blender Foundation, CC
+          BY 3.0
+        </Text>
+      </Example>
+      <Example title="Cover">
+        <AudioPlayer
+          variant="cover"
+          src={`${MEDIA}/sintel-trailer.m4a`}
+          artwork={`${MEDIA}/sintel-trailer-cover.jpg`}
+          title="Sintel, trailer"
+          artist="Blender Foundation"
+          peaks={PEAKS}
+          className="w-full max-w-xs self-center"
+        />
+      </Example>
+      <Example title="Compact">
+        <AudioPlayer
+          variant="compact"
+          src={`${MEDIA}/sintel-trailer.m4a`}
+          title="Sintel, trailer"
+          peaks={PEAKS}
+          className="w-full"
+        />
+      </Example>
+      <Example title="Without a waveform">
+        <AudioPlayer
+          src={`${MEDIA}/sintel-trailer.m4a`}
+          title="Sintel, trailer"
+          artist="Blender Foundation"
+          playbackRates={[1, 1.5, 2]}
+          className="w-full"
+        />
+        <AudioPlayer
+          variant="compact"
+          src={`${MEDIA}/sintel-trailer.m4a`}
+          title="Sintel, trailer"
+          className="w-full"
+        />
+      </Example>
+      <Example title="Audio that can't load">
+        <AudioPlayer
+          src={`${MEDIA}/missing-audio.m4a`}
+          title="An episode that can't load"
+          artist="Acme Inc"
+          className="w-full"
+        />
+      </Example>
+    </ExampleWrapper>
+  )
+}
+
+export { AudioPlayerExample }
+```
+
+## Differences from web
+
+**New engine.** expo-audio plays the file in place of the browser's `<audio>`. The seek bar is dragged or tapped, and shows the time under the finger while dragged; it has no hover preview and doesn't show what has loaded. There's no volume slider: the device's buttons set the volume, and mute stays. The play glyphs fade and scale without the blur. There are no keyboard shortcuts.
+
+## Accessibility
+
+Parts set `role="alert"`, `role="button"`, read by VoiceOver and TalkBack. Give a control with no text an `accessibilityLabel`.

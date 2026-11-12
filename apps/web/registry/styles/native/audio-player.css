@@ -1,0 +1,166 @@
+/* MARK: Audio Player */
+
+  /* A card on the page (surface 3 with its ring), so the theme carries it:
+     unlike the Video Player there's no footage under the controls. Default
+     stacks the header, the seek bar and the controls; cover adds room for a
+     large artwork; compact is one pill-shaped row, as a voice message. */
+  .cn-audio-player {
+    @apply gap-(--density-12) rounded-xl bg-card p-(--density-16) shadow-surface-2 data-[variant=compact]:flex-row data-[variant=compact]:items-center data-[variant=compact]:gap-(--density-8) data-[variant=compact]:rounded-full data-[variant=compact]:p-(--density-6) data-[variant=compact]:pe-(--density-8) data-[variant=cover]:gap-(--density-16) data-[variant=cover]:p-(--density-20);
+  }
+
+  .cn-audio-player-header {
+    @apply flex-row items-center gap-(--density-12) data-[variant=cover]:flex-col data-[variant=cover]:items-stretch data-[variant=cover]:gap-(--density-16);
+  }
+
+  /* The artwork rests a little smaller while paused and grows to full size
+     as it plays (the scale is in the source, on the sheet timing and the
+     drawer curve). Without an image it's a muted tile with a note. The image
+     carries the corners itself, so the tile keeps its shadow on iOS, where
+     clipping would cut it. */
+  .cn-audio-player-artwork {
+    @apply size-(--density-48) rounded-lg bg-muted shadow-surface-1 data-[variant=cover]:aspect-square data-[variant=cover]:size-auto data-[variant=cover]:w-full data-[variant=cover]:rounded-xl data-[variant=cover]:shadow-surface-3;
+  }
+
+  .cn-audio-player-artwork-image {
+    @apply rounded-lg data-[variant=cover]:rounded-xl;
+  }
+
+  .cn-audio-player-artwork-text {
+    @apply text-muted-foreground;
+  }
+
+  .cn-audio-player-meta {
+    @apply gap-0.5;
+  }
+
+  .cn-audio-player-title {
+    @apply text-(length:--density-text-14) font-medium text-foreground data-[variant=cover]:text-center data-[variant=cover]:text-(length:--density-text-16) data-[variant=cover]:font-semibold;
+  }
+
+  .cn-audio-player-artist {
+    @apply text-(length:--density-text-13) text-muted-foreground data-[variant=cover]:text-center;
+  }
+
+  /* Three bars that bounce out of step while the audio plays, fading in on
+     the move timing and out when it stops. On the cover they sit on dark
+     glass in the artwork's corner (a plain 45% black here: there's no
+     backdrop blur). */
+  .cn-audio-player-equalizer {
+    @apply h-(--density-14) gap-0.5 data-[variant=cover]:absolute data-[variant=cover]:end-(--density-12) data-[variant=cover]:top-(--density-12) data-[variant=cover]:h-[calc(var(--density-14)+var(--density-16))] data-[variant=cover]:rounded-full data-[variant=cover]:bg-black/45 data-[variant=cover]:p-(--density-8);
+  }
+
+  .cn-audio-player-equalizer-bar {
+    @apply w-[3px] rounded-full bg-primary data-[variant=cover]:bg-white;
+  }
+
+  .cn-audio-player-timeline {
+    @apply gap-(--density-4);
+  }
+
+  /* The seek bar. With `peaks` it's the file's waveform: rounded bars in
+     foreground at 15%, and those played in primary, cut at the playhead so a
+     bar fills partway as it passes. The bars rise from the middle when they
+     first draw. Without peaks it's a pill that thickens while dragged. */
+  .cn-audio-player-seek {
+    @apply h-(--density-32) data-[shape=bar]:h-(--density-16) data-[shape=compact]:h-(--density-28);
+  }
+
+  .cn-audio-player-waveform-bars {
+    @apply gap-0.5;
+  }
+
+  .cn-audio-player-waveform-bar {
+    @apply min-h-0.5 rounded-full bg-foreground/15 data-[layer=played]:bg-primary;
+  }
+
+  .cn-audio-player-seek-track {
+    @apply h-(--density-4) rounded-full bg-foreground/15 data-[dragging=true]:h-(--density-6);
+  }
+
+  .cn-audio-player-seek-played {
+    @apply bg-primary;
+  }
+
+  .cn-audio-player-seek-thumb {
+    @apply size-(--density-12) rounded-full bg-primary shadow-surface-2 data-[dragging=true]:size-(--density-16);
+  }
+
+  /* The time under the finger while it drags, inverted like a tooltip. */
+  .cn-audio-player-seek-preview {
+    @apply mb-(--density-6) rounded-md bg-foreground px-(--density-6) py-0.5;
+  }
+
+  .cn-audio-player-seek-preview-text {
+    @apply text-(length:--density-text-11) font-medium text-background;
+  }
+
+  .cn-audio-player-time {
+    @apply data-[status=error]:hidden data-[variant=compact]:min-w-[4ch] data-[variant=compact]:justify-end;
+  }
+
+  .cn-audio-player-time-text {
+    @apply text-(length:--density-text-12) font-medium text-muted-foreground;
+  }
+
+  .cn-audio-player-bar {
+    @apply gap-(--density-8);
+  }
+
+  .cn-audio-player-transport {
+    @apply gap-(--density-8) data-[variant=cover]:gap-(--density-16);
+  }
+
+  /* Play is the one filled control: a primary circle, 48pt (56 on the cover,
+     32 in compact) at the density, pressed to 0.97 like a button. Its glyphs
+     trade places by fading and scaling through each other (in the source).
+     Play is nudged right to look centred. */
+  .cn-audio-player-play {
+    @apply size-(--density-48) rounded-full bg-primary active:bg-primary/80 disabled:opacity-50 data-[variant=compact]:size-(--density-32) data-[variant=cover]:size-[calc(var(--density-48)+var(--density-8))];
+  }
+
+  .cn-audio-player-play-text {
+    @apply text-primary-foreground;
+  }
+
+  .cn-audio-player-play-icon {
+    @apply data-[icon=play]:ms-0.5;
+  }
+
+  .cn-audio-player-spinner {
+    @apply text-primary-foreground;
+  }
+
+  /* Round ghost buttons in muted grey, the pressed wash on a press. The skip
+     arrows wind back or forward a little while pressed, and the speed shows
+     as a number whose new value rises in on the popup timing. */
+  .cn-audio-player-control {
+    @apply size-(--density-36) rounded-full active:bg-active disabled:opacity-50 data-[control=speed]:w-auto data-[control=speed]:min-w-(--density-36) data-[control=speed]:px-(--density-8) data-[variant=compact]:size-(--density-28) data-[pill=true]:min-w-(--density-28) data-[pill=true]:bg-hover;
+  }
+
+  .cn-audio-player-control-text {
+    @apply text-muted-foreground;
+  }
+
+  .cn-audio-player-skip-label {
+    @apply text-[8px] leading-none font-semibold text-muted-foreground;
+  }
+
+  .cn-audio-player-speed {
+    @apply text-(length:--density-text-12) font-semibold text-foreground;
+  }
+
+  .cn-audio-player-volume {
+    @apply gap-0;
+  }
+
+  .cn-audio-player-error {
+    @apply h-(--density-32) gap-(--density-8) data-[variant=compact]:h-(--density-28);
+  }
+
+  .cn-audio-player-error-icon {
+    @apply text-destructive;
+  }
+
+  .cn-audio-player-error-text {
+    @apply text-(length:--density-text-13) text-muted-foreground;
+  }

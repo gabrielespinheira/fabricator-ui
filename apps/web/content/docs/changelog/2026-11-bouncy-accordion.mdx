@@ -1,0 +1,11 @@
+---
+title: Bouncy Accordion
+description: Accordion items are tiles that part, spring open and join back together.
+date: 2026-11-12
+---
+
+Accordion items now sit on a tinted tile, so they stand off the page and off cards in light and dark. Closed items join into one card; an open item parts from its neighbours, rounds its corners and springs open. Trigger labels are 14px in foreground at 80%, and a leading icon rests in grey.
+
+The spring is a new motion role, `bounce`, with `ease-bounce`, `duration-bounce` and the `motion-bounce` utility. Each speed sets how far it overshoots: about 7% at default, peaking at 40% of its 600ms, none at instant. The chevron turns without overshoot and a closing gap settles without dipping into an overlap. The website draws it as a CSS `linear()` curve and React Native interpolates the same samples, so both bounce alike. Reduced motion opens at once and keeps the text fade.
+
+The API is unchanged on Base UI, Radix, React Aria and React Native. Update with `npx fabricator-ui@latest add accordion`.

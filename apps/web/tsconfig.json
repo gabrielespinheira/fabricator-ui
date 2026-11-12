@@ -76,6 +76,12 @@
       "@/registry/bases/*/hooks/use-radio-glide": [
         "./registry/fabricator/shared/hooks/use-radio-glide"
       ],
+      "@/registry/bases/*/lib/accordion-model": [
+        "./registry/fabricator/shared/lib/accordion-model"
+      ],
+      "@/registry/bases/*/hooks/use-accordion-shape": [
+        "./registry/fabricator/shared/hooks/use-accordion-shape"
+      ],
       "@/registry/bases/*/lib/date-picker-model": [
         "./registry/fabricator/shared/lib/date-picker-model"
       ],
@@ -87,6 +93,26 @@
       ],
       "@/registry/bases/*/ui/multi-select": [
         "./registry/fabricator/*/ui/multi-select"
+      ],
+      "@/registry/bases/*/lib/data-table-model": [
+        "./registry/fabricator/shared/lib/data-table-model"
+      ],
+      "@/registry/bases/*/hooks/use-data-table": [
+        "./registry/fabricator/shared/hooks/use-data-table"
+      ],
+      "@/registry/bases/*/ui/data-table-cells": [
+        "./registry/fabricator/shared/ui/data-table-cells"
+      ],
+      "@/registry/bases/*/ui/search": [
+        "./registry/fabricator/shared/ui/search"
+      ],
+      "@/registry/bases/*/ui/data-table": [
+        "./registry/fabricator/*/ui/data-table"
+      ],
+      // The Data Table's shared cells draw status tones with the Badge
+      // override's status variants.
+      "@/registry/bases/__base__/ui/badge": [
+        "./registry/fabricator/base/ui/badge"
       ],
       "@/registry/bases/*/lib/month-input-model": [
         "./registry/fabricator/shared/lib/month-input-model"

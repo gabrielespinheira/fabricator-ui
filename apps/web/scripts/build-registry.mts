@@ -35,6 +35,7 @@ import {
   FABRICATOR_REQUIRED_ITEMS,
   fabricatorItems,
   fabricatorOverrides,
+  isFabricatorExcludedDemo,
 } from "@/registry/fabricator/registry"
 import { fonts } from "@/registry/fonts"
 import { STYLES } from "@/registry/styles"
@@ -1475,9 +1476,7 @@ async function buildStyledExamples(
         (file) =>
           !file.endsWith("-rtl.tsx") &&
           file !== "calendar-hijri.tsx" &&
-          !Object.keys(FABRICATOR_EXCLUDED_ITEMS).some((name) =>
-            file.startsWith(`${name}-`)
-          )
+          !isFabricatorExcludedDemo(file)
       )
       await runWithConcurrency(
         styledFiles,

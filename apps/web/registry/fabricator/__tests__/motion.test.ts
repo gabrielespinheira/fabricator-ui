@@ -2,12 +2,14 @@ import { describe, expect, it } from "vitest"
 
 import {
   DEFAULT_MOTION_SPEED,
+  getSpringSamples,
   MOTION_CSS,
   MOTION_ROLES,
   MOTION_SPEED_NAMES,
   MOTION_SPEEDS,
   MOTION_THEME,
   toMotionVars,
+  toSpringEasing,
 } from "@/registry/fabricator/motion"
 
 const SLOWEST_FIRST = MOTION_SPEED_NAMES
@@ -123,6 +125,7 @@ describe("MOTION_CSS", () => {
       "scrim",
       "sheet",
       "disclosure",
+      "bounce",
       "toast",
       "press",
     ]) {
@@ -141,4 +144,63 @@ it("matches the reference circle reveal easing", () => {
     "cubic-bezier(0.4, 0, 0.2, 1)"
   )
   expect(MOTION_THEME["ease-theme"]).toBe("var(--motion-ease-theme)")
+})
+
+describe("getSpringSamples", () => {
+  const peak = (samples: number[]) => Math.max(...samples)
+
+  it("runs from rest to rest", () => {
+    const samples = getSpringSamples(0.3)
+    expect(samples[0]).toBe(0)
+    expect(samples.at(-1)).toBe(1)
+  })
+
+  it("overshoots once, then settles", () => {
+    const samples = getSpringSamples(0.3)
+    expect(peak(samples)).toBeGreaterThan(1.03)
+    expect(peak(samples)).toBeLessThan(1.15)
+    const settled = samples.slice(-5)
+    for (const sample of settled)
+      expect(Math.abs(sample - 1)).toBeLessThan(0.01)
+  })
+
+  it("bounces more as bounce grows", () => {
+    expect(peak(getSpringSamples(0.4))).toBeGreaterThan(
+      peak(getSpringSamples(0.2))
+    )
+  })
+
+  it("never passes its target without bounce", () => {
+    const samples = getSpringSamples(0)
+    expect(peak(samples)).toBe(1)
+    expect(samples).toEqual([...samples].sort((a, b) => a - b))
+  })
+})
+
+describe("toSpringEasing", () => {
+  it("writes a CSS linear() curve from the samples", () => {
+    const easing = toSpringEasing(0.3)
+    expect(easing).toMatch(/^linear\(0, [\d., ]+, 1\)$/)
+    expect(easing.split(",")).toHaveLength(getSpringSamples(0.3).length)
+  })
+})
+
+describe("the bounce role", () => {
+  it("springs on every speed but instant", () => {
+    expect(MOTION_SPEEDS.default.bounce).toBeGreaterThan(0)
+    expect(MOTION_SPEEDS.smooth.bounce).toBeGreaterThan(0)
+    expect(MOTION_SPEEDS.snappy.bounce).toBeGreaterThan(0)
+    expect(MOTION_SPEEDS.instant.bounce).toBe(0)
+  })
+
+  it("writes its curve and keeps it on the way out", () => {
+    const vars = toMotionVars(MOTION_SPEEDS.default)
+    expect(vars["motion-ease-bounce"]).toBe(
+      toSpringEasing(MOTION_SPEEDS.default.bounce)
+    )
+    expect(MOTION_THEME["ease-bounce"]).toBe("var(--motion-ease-bounce)")
+    expect(JSON.stringify(MOTION_CSS["@utility motion-bounce"])).not.toContain(
+      "--motion-ease-exit"
+    )
+  })
 })

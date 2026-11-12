@@ -348,6 +348,7 @@ Components can play short, synthesised sounds, a different one for each family: 
 - **People are `Avatar`s** with initials as the fallback; companies are their logo; files are their type icon.
 - **Text over an image sits on a scrim,** because no theme colour stays readable on arbitrary pixels.
 - **Before and after uses `ImageCompare`:** two pictures of the same scene at the same size, such as an edit, a redesign or a restoration, split by a line the person drags. Name both sides when "Before" and "After" don't say enough.
+- **Audio uses the `AudioPlayer`:** the default card where the audio is the subject, the cover variant for music and podcasts with artwork, the compact one for voice messages and audio in lists. Pass the file's `peaks` so the seek bar shows its waveform.
 - **Video uses the `VideoPlayer`:** the full player on a page about the video, the compact one where it is one item among others. A muted, looping clip is for ambience only, and anything with speech has captions.
 
 ## Components
@@ -376,6 +377,7 @@ The library covers most of what a product needs, so a screen is mostly a matter 
 | Searching or filtering a page                | `Search`, which folds to a button in a toolbar                                 |
 | One choice from a known list                 | `Select`; `RadioGroup` when every option should stay visible, up to about five |
 | One choice from a long or searchable list    | `Combobox`, which also takes several values as chips                           |
+| Several choices from a long list             | `MultiSelect`, which stays open between picks and shows them as chips          |
 | Several independent options                  | `Checkbox`es in a `FieldSet`                                                   |
 | A setting that applies at once               | `Switch`                                                                       |
 | A one-time code                              | `InputOTP`                                                                     |
@@ -397,6 +399,7 @@ The library covers most of what a product needs, so a screen is mostly a matter 
 | A website's header navigation                | `NavigationMenu`                                                               |
 | Where am I                                   | `Breadcrumb`                                                                   |
 | More results than one page                   | `Pagination`                                                                   |
+| Compact section navigation, names on hover   | `PreviewRail`                                                                  |
 | Records compared across columns              | `Table`                                                                        |
 | A list of things (people, files, links)      | `Item`s in an `ItemGroup`                                                      |
 | A tree of files and folders                  | `FileTree`                                                                     |
@@ -415,6 +418,7 @@ The library covers most of what a product needs, so a screen is mostly a matter 
 | A dividing line                              | `Separator`                                                                    |
 | Panes the person resizes                     | `Resizable`                                                                    |
 | A scrolling region inside a page             | `ScrollArea`                                                                   |
+| An audio file, a podcast, a voice message    | `AudioPlayer`                                                                  |
 | A video                                      | `VideoPlayer`                                                                  |
 | Two versions of one picture, side by side    | `ImageCompare`                                                                 |
 | An image, a map or an embed at a fixed ratio | `AspectRatio`                                                                  |
@@ -489,6 +493,7 @@ Use the library's inputs for dates, times, numbers, files and colours in place o
 - Home and Overview belong in the sidebar or bottom navigation, never as a permanent tab in the document strip.
 - **`Tabs`** switch between a fixed set of views of one thing: two to six short labels on a track with a sliding pill. Where space is tight, such as a panel header, use the subtle variant, where every tab has an icon and only the active one shows its label. Vertical tabs suit a settings page with more sections than fit across.
 - **Breadcrumbs** show the path with the current page last. Long paths fold their middle into a menu.
+- **`PreviewRail`** suits a long page's sections or a sequence (chapters, months, steps) where a compact rail beats a list of names: thin ticks that swell around the pointer, with a card naming the section. The current section stays marked. When people need to read every name at once, use `Tabs` or a `Sidebar`.
 - **`Search`** in a header or toolbar opens from a round button into a field. Escape clears it, then closes it.
 - **Websites** use a `NavigationMenu` in the header, or plain links when there are five or fewer.
 
@@ -766,3 +771,7 @@ A screen is done when every line holds. Check it in the running app, never from 
 ### Theme toggle
 
 A Button trigger with a sun/moon swap: the icons scale, rotate 45 degrees and crossfade through a 2px blur on the move timing. On web and desktop its icon has its own view-transition snapshot above the page reveal, so theme providers cannot suppress the morph and the page never freezes it mid-swap. The page uses the theme role (700ms at default speed) and the reference Material curve (`cubic-bezier(0.4, 0, 0.2, 1)`), revealing as a circle, blurred circle, square, diamond, rectangle, hexagon, triangle or twelve blinds that fan out from the origin. The blurred circle animates the incoming page snapshot from 8px blur to zero throughout a crisp circular clip expanding to 150%, with no opacity fade. Polygon boundaries fade through an alpha mask so text stays sharp; the polygon expands evenly and fully covers the viewport. A blurred circle from the pressed button is the default; its viewport position is measured on every activation, including after scrolling or resizing. Six explicit viewport origins remain available. Reduced motion and motion off apply the theme immediately. The app owns the resolved theme and persistence. Native keeps the icon morph and transient blur; its screen reveals remain a documented parity exception.
+
+### Multi select
+
+A searchable field for several values, built on each base's Combobox in multiple mode. The field takes the input recipe (ring-border frame, `bg-muted/50` hover, `bg-card` and `ring-foreground/25` while focused), grows a row per line of chips and ends in a muted chevrons icon. Chips are `bg-active` `rounded-md` h28 t12 medium with a h20 remove button. A new chip rises 6px from 0.92 scale and fades in on the move timing; a removed chip stays in place and wipes out from its start on the exit timing, then the chips after it glide over (FLIP on `translate`). The popup, rows and labels are Combobox's. One shared highlight glides to the hovered row on the glide timing; holding a row fills it to `bg-active` with the press scale, easing back on release, and on native the highlight under a finger takes that pressed fill. Picked rows turn foreground semibold and their check scales in from 0.9 and stays mounted to scale out. Picking keeps the list open and clears the search. Reduced motion and motion off remove chips at once. Native opens the list in a dialog like Combobox and animates chips with Reanimated on the same roles.

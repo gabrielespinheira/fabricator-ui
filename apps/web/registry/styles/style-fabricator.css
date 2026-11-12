@@ -14,14 +14,15 @@
     @apply z-0;
   }
 
-  /* Each item is a raised card (surface 2, as Card). Closed neighbours join
-     into one card, squaring the corners they share; an open item parts from
-     its neighbours by a gap and rounds every corner. The gap, the corners and
-     the panel's height move on the bounce spring, both ways. Open is
-     data-open (Base UI), data-state=open (Radix) or data-expanded (React
-     Aria). */
+  /* Each item is a tile, a 6% wash of the foreground over whatever it sits
+     on. useAccordionShape marks where it sits: closed neighbours join into
+     one card (data-joined-top, data-joined-bottom square the corners they
+     share) and an open item parts from both (data-gap). Opening, the gap and
+     corners spring on the bounce role; closing, the gap settles on ease-enter,
+     so it never dips into an overlap. Hovering an open card tints it on the
+     feedback timing; closed rows have the fluid highlight instead. */
   .cn-accordion-item {
-    @apply bg-foreground/6 rounded-xl p-(--density-4) transition-[margin,border-radius] duration-bounce ease-bounce motion-reduce:transition-none [[data-slot=accordion-item]~&:is([data-open],[data-state=open],[data-expanded])]:mt-(--density-8) [[data-slot=accordion-item]:is([data-open],[data-state=open],[data-expanded])+&]:mt-(--density-8) [&:not([data-open],[data-state=open],[data-expanded]):has(+[data-slot=accordion-item]:not([data-open],[data-state=open],[data-expanded]))]:rounded-b-none [[data-slot=accordion-item]:not([data-open],[data-state=open],[data-expanded])+&:not([data-open],[data-state=open],[data-expanded])]:rounded-t-none;
+    @apply bg-foreground/6 rounded-xl p-(--density-4) transition-[margin,border-radius,background-color] [transition-duration:calc(var(--motion-bounce-exit)*var(--motion-scale,1)),calc(var(--motion-bounce)*var(--motion-scale,1)),calc(var(--motion-feedback)*var(--motion-scale,1))] [transition-timing-function:var(--motion-ease-enter),var(--motion-ease-bounce),var(--motion-ease-feedback)] data-gap:mt-(--density-8) data-gap:[transition-duration:calc(var(--motion-bounce)*var(--motion-scale,1)),calc(var(--motion-bounce)*var(--motion-scale,1)),calc(var(--motion-feedback)*var(--motion-scale,1))] data-gap:[transition-timing-function:var(--motion-ease-bounce),var(--motion-ease-bounce),var(--motion-ease-feedback)] data-joined-top:rounded-t-none data-joined-bottom:rounded-b-none motion-reduce:transition-[background-color] [&:is([data-open],[data-state=open],[data-expanded])]:hover:bg-foreground/9;
   }
 
   /* Triggers: rounded-lg rows inside the card, 14px medium in foreground/80 at
@@ -31,16 +32,18 @@
     @apply cursor-pointer gap-(--density-8) rounded-lg px-(--density-12) py-(--density-8) text-start text-(length:--density-text-14) leading-5 font-medium text-foreground/80 transition-[color,background-color] duration-feedback hover:bg-hover hover:text-foreground in-data-[fluid-hover]:hover:bg-transparent data-fluid-hover-active:text-foreground aria-expanded:text-foreground focus-visible:ring-ring focus-visible:ring-1 **:data-[slot=accordion-trigger-icon]:ms-auto **:data-[slot=accordion-trigger-icon]:mt-0.5 **:data-[slot=accordion-trigger-icon]:size-(--density-icon-16) [&>svg:not([data-slot=accordion-trigger-icon])]:mt-0.5 [&>svg:not([data-slot=accordion-trigger-icon])]:shrink-0 [&>svg:not([data-slot=accordion-trigger-icon])]:size-(--density-icon-16) [&>svg:not([data-slot=accordion-trigger-icon])]:text-muted-foreground;
   }
 
-  /* One chevron that points to the end and springs a quarter turn to point
-     down when open (the second, "up" chevron of the source is never shown).
-     Its stroke thickens on hover, when lit and when open. */
+  /* One chevron that points to the end and turns a quarter to point down
+     when open, on the move timing: a spring would wobble it (the second, "up"
+     chevron of the source is never shown). Its stroke thickens on hover, when
+     lit and when open. */
   .cn-accordion-trigger-icon {
-    @apply text-muted-foreground -rotate-90 stroke-[1.5] transition-[rotate,color,stroke-width] duration-bounce ease-bounce group-hover/accordion-trigger:text-foreground group-hover/accordion-trigger:stroke-2 group-data-fluid-hover-active/accordion-trigger:text-foreground group-data-fluid-hover-active/accordion-trigger:stroke-2 group-aria-expanded/accordion-trigger:text-foreground group-aria-expanded/accordion-trigger:stroke-2 group-aria-expanded/accordion-trigger:rotate-0 rtl:rotate-90 group-aria-expanded/accordion-trigger:not-[[data-slot=accordion-trigger-icon]~*]:inline-block group-aria-expanded/accordion-trigger:[[data-slot=accordion-trigger-icon]~&]:hidden motion-reduce:transition-colors;
+    @apply text-muted-foreground -rotate-90 stroke-[1.5] transition-[rotate,color,stroke-width] duration-move ease-move group-hover/accordion-trigger:text-foreground group-hover/accordion-trigger:stroke-2 group-data-fluid-hover-active/accordion-trigger:text-foreground group-data-fluid-hover-active/accordion-trigger:stroke-2 group-aria-expanded/accordion-trigger:text-foreground group-aria-expanded/accordion-trigger:stroke-2 group-aria-expanded/accordion-trigger:rotate-0 rtl:rotate-90 group-aria-expanded/accordion-trigger:not-[[data-slot=accordion-trigger-icon]~*]:inline-block group-aria-expanded/accordion-trigger:[[data-slot=accordion-trigger-icon]~&]:hidden motion-reduce:transition-colors;
   }
 
-  /* The panel springs open and shut on the bounce role. */
+  /* The panel springs open and shut on the bounce role. Its text is
+     foreground/65: muted-foreground misses AA on the light tile (4.0:1). */
   .cn-accordion-content {
-    @apply text-muted-foreground motion-bounce data-open:animate-accordion-down data-closed:animate-accordion-up text-(length:--density-text-14) motion-reduce:animate-none;
+    @apply text-foreground/65 motion-bounce data-open:animate-accordion-down data-closed:animate-accordion-up text-(length:--density-text-14) motion-reduce:animate-none;
   }
 
   /* Its text fades in from a slight blur as the panel opens, and back out as
@@ -570,6 +573,166 @@
 
   .cn-attachment-trigger {
     @apply cursor-pointer absolute inset-0 z-10 rounded-[inherit] outline-none;
+  }
+
+/* MARK: Audio Player */
+
+  /* A card on the page (surface 3 with its ring), so the theme carries it:
+     unlike the Video Player there's no footage under the controls. Default
+     stacks the header, the seek bar and the controls; cover adds room for a
+     large artwork; compact is one pill-shaped row, as a voice message. */
+  .cn-audio-player {
+    @apply flex-col gap-(--density-12) rounded-xl bg-card p-(--density-16) text-(length:--density-text-13) text-card-foreground shadow-surface-2 focus-visible:ring-1 focus-visible:ring-ring data-[variant=compact]:flex-row data-[variant=compact]:items-center data-[variant=compact]:gap-(--density-8) data-[variant=compact]:rounded-full data-[variant=compact]:p-(--density-6) data-[variant=compact]:pe-(--density-8) data-[variant=cover]:gap-(--density-16) data-[variant=cover]:p-(--density-20);
+  }
+
+  .cn-audio-player-header {
+    @apply gap-(--density-12) group-data-[variant=cover]/audio-player:relative group-data-[variant=cover]/audio-player:flex-col group-data-[variant=cover]/audio-player:items-stretch group-data-[variant=cover]/audio-player:gap-(--density-16);
+  }
+
+  /* The artwork rests a little smaller while paused and grows to full size
+     as it plays, its shadow deepening, on the sheet timing and iOS's drawer
+     curve: the cover breathes with the music. Without an image it's a muted
+     tile with a note. */
+  .cn-audio-player-artwork {
+    @apply size-(--density-48) scale-[0.94] rounded-lg bg-muted text-muted-foreground shadow-surface-1 transition-[scale,box-shadow] duration-sheet ease-drawer data-playing:scale-100 motion-reduce:scale-100 [&_svg]:size-(--density-20) [&_svg]:stroke-[1.5] group-data-[variant=cover]/audio-player:aspect-square group-data-[variant=cover]/audio-player:size-auto group-data-[variant=cover]/audio-player:w-full group-data-[variant=cover]/audio-player:scale-[0.92] group-data-[variant=cover]/audio-player:rounded-xl group-data-[variant=cover]/audio-player:data-playing:scale-100 group-data-[variant=cover]/audio-player:data-playing:shadow-surface-4 group-data-[variant=cover]/audio-player:motion-reduce:scale-100 group-data-[variant=cover]/audio-player:[&_svg]:size-(--density-48) group-data-[variant=cover]/audio-player:[&_svg]:stroke-1;
+  }
+
+  .cn-audio-player-meta {
+    @apply gap-0.5 group-data-[variant=cover]/audio-player:text-center;
+  }
+
+  .cn-audio-player-title {
+    @apply text-(length:--density-text-14) font-medium text-foreground group-data-[variant=cover]/audio-player:text-(length:--density-text-16) group-data-[variant=cover]/audio-player:font-semibold;
+  }
+
+  .cn-audio-player-artist {
+    @apply text-(length:--density-text-13) text-muted-foreground;
+  }
+
+  /* Three bars that bounce out of step while the audio plays, fading in on
+     the move timing and out when it stops. On the cover they sit on dark
+     glass in the artwork's corner. */
+  .cn-audio-player-equalizer {
+    @apply h-(--density-14) scale-90 gap-0.5 opacity-0 transition-[opacity,scale] duration-move ease-move group-data-[status=playing]/audio-player:scale-100 group-data-[status=playing]/audio-player:opacity-100 group-data-[variant=cover]/audio-player:absolute group-data-[variant=cover]/audio-player:end-(--density-12) group-data-[variant=cover]/audio-player:top-(--density-12) group-data-[variant=cover]/audio-player:box-content group-data-[variant=cover]/audio-player:rounded-full group-data-[variant=cover]/audio-player:bg-black/45 group-data-[variant=cover]/audio-player:p-(--density-8) group-data-[variant=cover]/audio-player:backdrop-blur-md;
+  }
+
+  .cn-audio-player-equalizer-bar {
+    @apply w-[3px] rounded-full bg-primary group-data-[variant=cover]/audio-player:bg-white;
+  }
+
+  .cn-audio-player-timeline {
+    @apply gap-(--density-4);
+  }
+
+  /* The seek bar. With `peaks` it's the file's waveform: rounded bars in
+     foreground at 15%, those under the pointer at 30%, and those played in
+     primary, each layer clipped at its fraction so a bar fills partway as the
+     playhead crosses it. The bars rise from the middle when they first draw.
+     Without peaks it's the Video Player's pill on theme colours. */
+  .cn-audio-player-seek {
+    @apply h-(--density-32) cursor-pointer rounded-md focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-card aria-disabled:cursor-default not-data-waveform:h-(--density-16) group-data-[variant=compact]/audio-player:h-(--density-28) group-data-[variant=compact]/audio-player:not-data-waveform:h-(--density-28);
+  }
+
+  .cn-audio-player-waveform-bars {
+    @apply gap-0.5;
+  }
+
+  .cn-audio-player-waveform-bar {
+    @apply min-h-0.5 rounded-full bg-foreground/15 in-data-[layer=hover]:bg-foreground/30 in-data-[layer=played]:bg-primary;
+  }
+
+  .cn-audio-player-seek-track {
+    @apply h-(--density-6) scale-y-[0.67] rounded-full bg-foreground/15 transition-transform duration-move ease-move group-hover/audio-player-seek:scale-y-100 group-focus-visible/audio-player-seek:scale-y-100 group-active/audio-player-seek:scale-y-100;
+  }
+
+  .cn-audio-player-seek-buffered {
+    @apply bg-foreground/10;
+  }
+
+  .cn-audio-player-seek-hover {
+    @apply bg-foreground/15;
+  }
+
+  .cn-audio-player-seek-played {
+    @apply bg-primary;
+  }
+
+  .cn-audio-player-seek-thumb {
+    @apply size-(--density-12) scale-0 rounded-full bg-primary shadow-surface-2 transition-transform duration-move ease-move group-hover/audio-player-seek:scale-100 group-focus-visible/audio-player-seek:scale-100 group-active/audio-player-seek:scale-100;
+  }
+
+  /* The time under the pointer, inverted like a tooltip and on its timing. */
+  .cn-audio-player-seek-preview {
+    @apply mb-(--density-6) rounded-md bg-foreground px-(--density-6) py-0.5 text-(length:--density-text-11) font-medium text-background animate-in fade-in-0 duration-tooltip ease-enter;
+  }
+
+  .cn-audio-player-time {
+    @apply text-(length:--density-text-12) font-medium text-muted-foreground group-data-[status=error]/audio-player:hidden group-data-[variant=compact]/audio-player:min-w-[4ch] group-data-[variant=compact]/audio-player:text-end;
+  }
+
+  .cn-audio-player-bar {
+    @apply gap-(--density-8);
+  }
+
+  .cn-audio-player-transport {
+    @apply gap-(--density-8) group-data-[variant=cover]/audio-player:gap-(--density-16);
+  }
+
+  /* Play is the one filled control: a primary circle, 48px (56 on the cover,
+     32 in compact), pressed to 0.97 like a button. Its glyphs trade places
+     by scaling and blurring through each other on the move timing; reduced
+     motion keeps only the fade. Play is nudged right to look centred. */
+  .cn-audio-player-play {
+    @apply size-(--density-48) cursor-pointer rounded-full bg-primary text-primary-foreground transition-[background-color,scale] duration-feedback ease-feedback motion-press hover:bg-primary/90 focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-card active:bg-primary/80 disabled:pointer-events-none disabled:opacity-50 group-data-[variant=compact]/audio-player:size-(--density-32) group-data-[variant=cover]/audio-player:size-[calc(var(--density-48)+var(--density-8))];
+  }
+
+  .cn-audio-player-play-icon {
+    @apply scale-50 opacity-0 blur-xs transition-[opacity,scale,filter] duration-move ease-move data-visible:scale-100 data-visible:opacity-100 data-visible:blur-none motion-reduce:scale-100 motion-reduce:blur-none data-[icon=play]:ms-0.5 [&_svg]:size-(--density-20) [&_svg]:fill-current data-[icon=replay]:[&_svg]:fill-none data-[icon=replay]:[&_svg]:stroke-2 group-data-[variant=compact]/audio-player:[&_svg]:size-(--density-icon-14) group-data-[variant=cover]/audio-player:[&_svg]:size-(--density-24);
+  }
+
+  .cn-audio-player-spinner {
+    @apply size-(--density-20) group-data-[variant=compact]/audio-player:size-(--density-icon-14);
+  }
+
+  /* Round ghost buttons in muted grey, foreground on hover. The skip arrows
+     wind back or forward a little while pressed, and the speed shows as a
+     number whose new value rises in on the popup timing. */
+  .cn-audio-player-control {
+    @apply size-(--density-36) cursor-pointer rounded-full text-muted-foreground transition-[background-color,color,scale] duration-feedback ease-feedback motion-press hover:bg-hover hover:text-foreground focus-visible:ring-1 focus-visible:ring-ring active:bg-active disabled:pointer-events-none disabled:opacity-50 [&_svg]:size-(--density-20) [&_svg]:stroke-[1.75] [&_svg]:transition-transform [&_svg]:duration-move [&_svg]:ease-move data-[control=skip-back]:active:[&_svg]:-rotate-30 data-[control=skip-forward]:active:[&_svg]:rotate-30 data-[control=speed]:w-auto data-[control=speed]:min-w-(--density-36) data-[control=speed]:px-(--density-8) group-data-[variant=compact]/audio-player:size-(--density-28) group-data-[variant=compact]/audio-player:data-[control=speed]:min-w-(--density-28) group-data-[variant=compact]/audio-player:data-[control=speed]:bg-hover group-data-[variant=compact]/audio-player:data-[control=speed]:hover:bg-active;
+  }
+
+  .cn-audio-player-skip-label {
+    @apply pt-px text-[calc(var(--density-icon-16)*0.45)] leading-none font-semibold tabular-nums;
+  }
+
+  .cn-audio-player-speed {
+    @apply text-(length:--density-text-12) font-semibold text-foreground animate-in fade-in-0 slide-in-from-bottom-1 duration-popup ease-enter motion-reduce:slide-in-from-bottom-0;
+  }
+
+  .cn-audio-player-volume {
+    @apply gap-0;
+  }
+
+  /* The volume slider opens beside its button on hover, on focus and while
+     a volume key is in use, as the Video Player's does. */
+  .cn-audio-player-volume-slider {
+    @apply h-(--density-28) w-0 cursor-pointer opacity-0 transition-[width,opacity,margin] duration-move ease-move group-focus-within/audio-player-volume:me-(--density-4) group-focus-within/audio-player-volume:w-[calc(var(--density-48)+var(--density-16))] group-focus-within/audio-player-volume:opacity-100 group-hover/audio-player-volume:me-(--density-4) group-hover/audio-player-volume:w-[calc(var(--density-48)+var(--density-16))] group-hover/audio-player-volume:opacity-100 group-data-volume-changing/audio-player:me-(--density-4) group-data-volume-changing/audio-player:w-[calc(var(--density-48)+var(--density-16))] group-data-volume-changing/audio-player:opacity-100 focus-visible:[&_[data-slot=audio-player-volume-thumb]]:ring-1 focus-visible:[&_[data-slot=audio-player-volume-thumb]]:ring-ring focus-visible:[&_[data-slot=audio-player-volume-thumb]]:ring-offset-2 focus-visible:[&_[data-slot=audio-player-volume-thumb]]:ring-offset-card;
+  }
+
+  .cn-audio-player-volume-track {
+    @apply h-(--density-4) rounded-full bg-foreground/15;
+  }
+
+  .cn-audio-player-volume-level {
+    @apply bg-foreground;
+  }
+
+  .cn-audio-player-volume-thumb {
+    @apply size-(--density-12) rounded-full bg-foreground shadow-surface-2;
+  }
+
+  .cn-audio-player-error {
+    @apply h-(--density-32) gap-(--density-8) text-(length:--density-text-13) text-muted-foreground group-data-[variant=compact]/audio-player:h-(--density-28) [&_svg]:size-(--density-icon-16) [&_svg]:shrink-0 [&_svg]:text-destructive;
   }
 
 /* MARK: Avatar */
@@ -3170,9 +3333,12 @@
     @apply bg-surface-3 shadow-surface-3 text-popover-foreground max-h-72 min-w-36 overflow-hidden rounded-xl motion-popup data-entering:animate-in data-entering:fade-in-0 data-exiting:animate-out data-exiting:fade-out-0;
   }
 
-  /* The list scrolls and is the fluid hover container (relative isolate). */
+  /* The list scrolls and is the fluid hover container (relative isolate).
+     One shared highlight glides to the lit row; pressing a row fills it to
+     bg-active and gives it the press scale, easing both ways on the glide
+     timing. */
   .cn-multi-select-list {
-    @apply no-scrollbar max-h-[min(--spacing(72),var(--available-height,--spacing(72)))] scroll-py-1 p-1 data-empty:p-0;
+    @apply no-scrollbar max-h-[min(--spacing(72),var(--available-height,--spacing(72)))] scroll-py-1 p-1 data-empty:p-0 [&>[data-slot=fluid-hover-highlight]]:transition-[opacity,background-color,scale] [&>[data-slot=fluid-hover-highlight][data-animate]]:transition-[transform,width,height,opacity,background-color,scale] [&:has([data-slot=multi-select-item]:active)>[data-slot=fluid-hover-highlight]]:bg-active [&:has([data-slot=multi-select-item]:active)>[data-slot=fluid-hover-highlight]]:scale-(--motion-press-scale) motion-reduce:[&:has([data-slot=multi-select-item]:active)>[data-slot=fluid-hover-highlight]]:scale-100;
   }
 
   .cn-multi-select-label {
@@ -3366,6 +3532,62 @@
   /* React Aria */
   .cn-popover-content-aria {
     @apply bg-surface-3 shadow-surface-3 text-popover-foreground flex flex-col gap-(--density-12) rounded-xl p-(--density-12) text-(length:--density-text-13) motion-popup data-entering:animate-in data-entering:fade-in-0 data-exiting:animate-out data-exiting:fade-out-0;
+  }
+
+/* MARK: Preview Rail */
+
+  /* Every tick holds a 24-step along the rail; the rail is a 40-step across,
+     the length of a fully swollen tick. */
+  .cn-preview-rail {
+    @apply [--preview-rail-step:var(--density-24)] [--preview-rail-length:var(--density-40)];
+  }
+
+  .cn-preview-rail-list {
+    @apply rounded-lg;
+  }
+
+  /* A tick's box fills its step. Ticks are muted at rest and turn foreground
+     when lit or current, on the feedback timing. Focus shows the 1px ring on
+     the box. Disabled ticks dim and take no click. */
+  .cn-preview-rail-item {
+    @apply h-(--preview-rail-step) w-(--preview-rail-length) cursor-pointer rounded-md text-muted-foreground transition-colors duration-feedback ease-feedback focus-visible:ring-1 focus-visible:ring-ring data-current:text-foreground data-lit:text-foreground data-disabled:cursor-not-allowed data-disabled:opacity-50 data-[orientation=horizontal]:h-(--preview-rail-length) data-[orientation=horizontal]:w-(--preview-rail-step);
+  }
+
+  /* A 2px bar that grows towards the card, from the rest length to the full
+     40-step around the lit tick, on the move timing. Reduced motion snaps. */
+  .cn-preview-rail-tick {
+    @apply h-0.5 w-full rounded-full bg-current transition-[scale] duration-move ease-move motion-reduce:transition-none data-[orientation=horizontal]:h-full data-[orientation=horizontal]:w-0.5 data-[orientation=vertical]:[scale:var(--preview-rail-scale)_1] data-[orientation=horizontal]:[scale:1_var(--preview-rail-scale)] data-[orientation=vertical]:data-[side=end]:origin-left data-[orientation=vertical]:data-[side=start]:origin-right data-[orientation=horizontal]:data-[side=start]:origin-bottom data-[orientation=horizontal]:data-[side=end]:origin-top;
+  }
+
+  /* The card's track: beside the rail, 8 off it, centred on the lit tick but
+     never past the rail's ends (a card longer than the rail overhangs both
+     as little as it can). Its own size along the rail is the card's, so
+     percentages measure the card. It glides from tick to tick on the move
+     timing; a card that has just opened appears in place (data-instant), and
+     reduced motion snaps. */
+  .cn-preview-rail-preview {
+    @apply w-max [--preview-rail-end:calc(var(--preview-rail-count)*var(--preview-rail-step))] [--preview-rail-center:calc((var(--preview-rail-index)_+_0.5)*var(--preview-rail-step))] transition-[translate] duration-move ease-move motion-reduce:transition-none data-instant:transition-none data-[orientation=vertical]:top-0 data-[orientation=vertical]:[translate:0_clamp(min(0px,var(--preview-rail-end)_-_100%),var(--preview-rail-center)_-_50%,max(0px,var(--preview-rail-end)_-_100%))] data-[orientation=vertical]:data-[side=end]:left-full data-[orientation=vertical]:data-[side=end]:ps-(--density-8) data-[orientation=vertical]:data-[side=start]:right-full data-[orientation=vertical]:data-[side=start]:pe-(--density-8) data-[orientation=horizontal]:left-0 data-[orientation=horizontal]:[translate:clamp(min(0px,var(--preview-rail-end)_-_100%),var(--preview-rail-center)_-_50%,max(0px,var(--preview-rail-end)_-_100%))_0] data-[orientation=horizontal]:data-[side=start]:bottom-full data-[orientation=horizontal]:data-[side=start]:pb-(--density-8) data-[orientation=horizontal]:data-[side=end]:top-full data-[orientation=horizontal]:data-[side=end]:pt-(--density-8);
+  }
+
+  /* The hover card's recipe: surface 3 with its shadow ring, rounded-xl,
+     p12, 13px, w-64. It grows from the rail on the popup motion and closes
+     quicker than it opened. */
+  .cn-preview-rail-card {
+    @apply w-64 rounded-xl bg-surface-3 p-(--density-12) text-(length:--density-text-13) text-popover-foreground shadow-surface-3 motion-popup data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0 data-closed:opacity-0 data-[side=left]:origin-right data-[side=right]:origin-left data-[side=top]:origin-bottom data-[side=bottom]:origin-top;
+  }
+
+  /* Each item's content fades in as the card reaches it, through the popup's
+     blur at the smooth speed. */
+  .cn-preview-rail-content {
+    @apply flex flex-col gap-(--density-4) animate-in fade-in-0 duration-feedback [--tw-enter-blur:var(--motion-popup-blur)];
+  }
+
+  .cn-preview-rail-title {
+    @apply text-(length:--density-text-14) leading-snug font-medium text-foreground;
+  }
+
+  .cn-preview-rail-description {
+    @apply text-(length:--density-text-13) text-muted-foreground;
   }
 
 /* MARK: Progress */

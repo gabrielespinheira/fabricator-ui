@@ -13,6 +13,7 @@ import { useCSSVariable } from "uniwind"
 
 import {
   DEFAULT_MOTION_SPEED,
+  getSpringSamples,
   MOTION_SPEED_NAMES,
   MOTION_SPEEDS,
   type MotionSpeedName,
@@ -37,11 +38,27 @@ type MotionRole =
   | "dialog"
   | "sheet"
   | "disclosure"
+  | "bounce"
   | "toast"
 
+// The website's `linear()` spring: the same samples, joined by straight lines.
+function createSampledEasing(samples: number[]) {
+  const segments = samples.length - 1
+  return (progress: number) => {
+    "worklet"
+    if (progress <= 0) return samples[0]
+    if (progress >= 1) return samples[segments]
+    const position = progress * segments
+    const index = Math.floor(position)
+    const from = samples[index]
+    return from + (samples[index + 1] - from) * (position - index)
+  }
+}
+
 function buildEasings(name: MotionSpeedName) {
-  const { easings } = MOTION_SPEEDS[name]
+  const { easings, bounce } = MOTION_SPEEDS[name]
   return {
+    bounceEasing: createSampledEasing(getSpringSamples(bounce)),
     enterEasing: Easing.bezier(...parseBezier(easings.enter)),
     exitEasing: Easing.bezier(...parseBezier(easings.exit)),
     moveEasing: Easing.bezier(...parseBezier(easings.move)),

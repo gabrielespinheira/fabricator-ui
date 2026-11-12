@@ -38,6 +38,10 @@ export const NATIVE_DIFFERENCES: Record<
     tier: "touch",
     note: 'A horizontal drag moves the line and a vertical one scrolls the page; a tap glides it there and a flick sends it to the edge, with a notch every step. One SVG draws both pictures with the same cover crop and clips the "before" one along the curve. Screen readers adjust it by `step` with swipes up and down. There\'s no hover or keyboard, and the labels have no backdrop blur.',
   },
+  "preview-rail": {
+    tier: "touch",
+    note: "A finger scrubs the rail: a press lights the tick under it and shows its card, a drag moves the light with a tick on each step, and lifting on the rail chooses the lit item. An `href` with a scheme opens through `Linking`; in-page anchors and paths have nowhere to go in an app, so navigate from `onValueChange`. Screen readers activate a tick with a double tap and hear its description as a hint. There's no hover or keyboard.",
+  },
   "number-field": {
     tier: "touch",
     note: "A decimal keyboard and touch steppers use the same clamping, locale parsing, formatting, fractional steps and bounds. Browser keyboard shortcuts and pointer scrubbing have no native equivalent.",
@@ -94,6 +98,10 @@ export const NATIVE_DIFFERENCES: Record<
   combobox: {
     tier: "engine",
     note: "A filtered list in a dialog, in place of Base UI's combobox, with the same parts. Typing happens in the dialog rather than the trigger.",
+  },
+  "multi-select": {
+    tier: "engine",
+    note: "A filtered list in a dialog, like Combobox, that stays open between picks, with the same parts. Typing happens in the dialog. Chips rise in and glide on Reanimated; a removed chip fades and shrinks instead of the website's clip-path wipe.",
   },
   command: {
     tier: "engine",
@@ -244,6 +252,10 @@ export const NATIVE_DIFFERENCES: Record<
   "user-menu": {
     tier: "same",
     note: "Opens as a sheet on phones.",
+  },
+  "audio-player": {
+    tier: "engine",
+    note: "expo-audio plays the file in place of the browser's `<audio>`. The seek bar is dragged or tapped, and shows the time under the finger while dragged; it has no hover preview and doesn't show what has loaded. There's no volume slider: the device's buttons set the volume, and mute stays. The play glyphs fade and scale without the blur. There are no keyboard shortcuts.",
   },
   "video-player": {
     tier: "engine",
