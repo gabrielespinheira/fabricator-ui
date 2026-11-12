@@ -23,6 +23,8 @@ export const MOTION_ROLES = [
   // Something travelling or resizing on screen: tab indicators, switch
   // thumbs, selection backgrounds, checkmarks, progress, the sidebar.
   "move",
+  // A full-viewport theme reveal, slower than a control moving.
+  "theme",
   "tooltip",
   // Menus, selects, comboboxes, popovers, hover cards, navigation menus.
   "popup",
@@ -63,6 +65,8 @@ export type MotionSpeed = {
     feedback: string
     /** Sheets and drawers. */
     drawer: string
+    /** Full-page theme reveals. */
+    theme: string
   }
   /** The scale a surface grows from and shrinks to; press is while held. */
   scales: { press: number; tooltip: number; popup: number; dialog: number }
@@ -76,6 +80,7 @@ const EASE_OUT = "cubic-bezier(0.23, 1, 0.32, 1)"
 const EASE_OUT_EXPO = "cubic-bezier(0.16, 1, 0.3, 1)"
 const EASE_IN_OUT = "cubic-bezier(0.77, 0, 0.175, 1)"
 const EASE_IN_OUT_SOFT = "cubic-bezier(0.65, 0, 0.35, 1)"
+const EASE_THEME = "cubic-bezier(0.4, 0, 0.2, 1)"
 const EASE = "cubic-bezier(0.25, 0.1, 0.25, 1)"
 // The iOS sheet curve, as in Vaul.
 const EASE_DRAWER = "cubic-bezier(0.32, 0.72, 0, 1)"
@@ -87,6 +92,7 @@ export const MOTION_SPEEDS: Record<MotionSpeedName, MotionSpeed> = {
     durations: {
       feedback: { enter: 220, exit: 160 },
       glide: { enter: 220, exit: 160 },
+      theme: { enter: 900, exit: 900 },
       move: { enter: 360, exit: 260 },
       tooltip: { enter: 200, exit: 140 },
       popup: { enter: 280, exit: 180 },
@@ -101,6 +107,7 @@ export const MOTION_SPEEDS: Record<MotionSpeedName, MotionSpeed> = {
       exit: EASE_OUT,
       feedback: EASE,
       drawer: EASE_DRAWER,
+      theme: EASE_THEME,
     },
     scales: { press: 0.97, tooltip: 0.96, popup: 0.94, dialog: 0.94 },
     travel: { tooltip: 4, popup: 6 },
@@ -111,6 +118,7 @@ export const MOTION_SPEEDS: Record<MotionSpeedName, MotionSpeed> = {
     durations: {
       feedback: { enter: 150, exit: 100 },
       glide: { enter: 150, exit: 100 },
+      theme: { enter: 700, exit: 700 },
       move: { enter: 250, exit: 180 },
       tooltip: { enter: 125, exit: 90 },
       popup: { enter: 180, exit: 120 },
@@ -125,6 +133,7 @@ export const MOTION_SPEEDS: Record<MotionSpeedName, MotionSpeed> = {
       exit: EASE_OUT,
       feedback: EASE,
       drawer: EASE_DRAWER,
+      theme: EASE_THEME,
     },
     scales: { press: 0.97, tooltip: 0.97, popup: 0.95, dialog: 0.95 },
     travel: { tooltip: 0, popup: 0 },
@@ -136,6 +145,7 @@ export const MOTION_SPEEDS: Record<MotionSpeedName, MotionSpeed> = {
     durations: {
       feedback: { enter: 100, exit: 70 },
       glide: { enter: 110, exit: 80 },
+      theme: { enter: 500, exit: 500 },
       move: { enter: 180, exit: 130 },
       tooltip: { enter: 100, exit: 70 },
       popup: { enter: 140, exit: 90 },
@@ -150,6 +160,7 @@ export const MOTION_SPEEDS: Record<MotionSpeedName, MotionSpeed> = {
       exit: EASE_OUT,
       feedback: EASE,
       drawer: EASE_DRAWER,
+      theme: EASE_THEME,
     },
     scales: { press: 0.98, tooltip: 0.98, popup: 0.97, dialog: 0.97 },
     travel: { tooltip: 0, popup: 0 },
@@ -161,6 +172,7 @@ export const MOTION_SPEEDS: Record<MotionSpeedName, MotionSpeed> = {
     durations: {
       feedback: { enter: 50, exit: 40 },
       glide: { enter: 70, exit: 50 },
+      theme: { enter: 200, exit: 200 },
       move: { enter: 120, exit: 90 },
       tooltip: { enter: 0, exit: 0 },
       popup: { enter: 80, exit: 60 },
@@ -175,6 +187,7 @@ export const MOTION_SPEEDS: Record<MotionSpeedName, MotionSpeed> = {
       exit: EASE_OUT,
       feedback: EASE,
       drawer: EASE_DRAWER,
+      theme: EASE_THEME,
     },
     scales: { press: 1, tooltip: 1, popup: 1, dialog: 1 },
     travel: { tooltip: 0, popup: 0 },
@@ -199,6 +212,7 @@ export function toMotionVars(speed: MotionSpeed): Record<string, string> {
     "motion-ease-exit": speed.easings.exit,
     "motion-ease-feedback": speed.easings.feedback,
     "motion-ease-drawer": speed.easings.drawer,
+    "motion-ease-theme": speed.easings.theme,
     "motion-press-scale": String(speed.scales.press),
     "motion-tooltip-scale": String(speed.scales.tooltip),
     "motion-popup-scale": String(speed.scales.popup),
@@ -228,7 +242,7 @@ const durationKeys = (name: string, role: MotionRole) => [
 
 /**
  * Theme keys: `duration-<role>`, `duration-<role>-exit`, `delay-<role>` and
- * the `ease-enter|move|exit|feedback|drawer` curves. They resolve where they
+ * the `ease-enter|move|exit|feedback|drawer|theme` curves. They resolve where they
  * are used, so a speed set on a subtree applies inside it.
  */
 export const MOTION_THEME: Record<string, string> = {
@@ -245,6 +259,7 @@ export const MOTION_THEME: Record<string, string> = {
   "ease-exit": "var(--motion-ease-exit)",
   "ease-feedback": "var(--motion-ease-feedback)",
   "ease-drawer": "var(--motion-ease-drawer)",
+  "ease-theme": "var(--motion-ease-theme)",
   // The old spring curves, now the entrance curve.
   "ease-spring": "var(--motion-ease-enter)",
   "ease-spring-bounce": "var(--motion-ease-enter)",

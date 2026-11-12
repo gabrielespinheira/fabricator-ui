@@ -31,6 +31,7 @@ type MotionRole =
   | "feedback"
   | "glide"
   | "move"
+  | "theme"
   | "tooltip"
   | "popup"
   | "dialog"
@@ -45,6 +46,7 @@ function buildEasings(name: MotionSpeedName) {
     exitEasing: Easing.bezier(...parseBezier(easings.exit)),
     moveEasing: Easing.bezier(...parseBezier(easings.move)),
     drawerEasing: Easing.bezier(...parseBezier(easings.drawer)),
+    themeEasing: Easing.bezier(...parseBezier(easings.theme)),
     feedbackEasing: Easing.bezier(...parseBezier(easings.feedback)),
   }
 }

@@ -762,3 +762,7 @@ A screen is done when every line holds. Check it in the running app, never from 
 - [ ] Surfaces follow the ladder, with no borders or stray shadows.
 - [ ] Copy is in sentence case, buttons are verbs, errors say how to fix.
 - [ ] An automated accessibility check reports no violations.
+
+### Theme toggle
+
+A Button trigger with a sun/moon swap: the icons scale, rotate 45 degrees and crossfade through a 2px blur on the move timing. On web and desktop its icon has its own view-transition snapshot above the page reveal, so theme providers cannot suppress the morph and the page never freezes it mid-swap. The page uses the theme role (700ms at default speed) and the reference Material curve (`cubic-bezier(0.4, 0, 0.2, 1)`), revealing as a circle, blurred circle, square, diamond, rectangle, hexagon, triangle or twelve blinds that fan out from the origin. The blurred circle animates the incoming page snapshot from 8px blur to zero throughout a crisp circular clip expanding to 150%, with no opacity fade. Polygon boundaries fade through an alpha mask so text stays sharp; the polygon expands evenly and fully covers the viewport. A blurred circle from the pressed button is the default; its viewport position is measured on every activation, including after scrolling or resizing. Six explicit viewport origins remain available. Reduced motion and motion off apply the theme immediately. The app owns the resolved theme and persistence. Native keeps the icon morph and transient blur; its screen reveals remain a documented parity exception.

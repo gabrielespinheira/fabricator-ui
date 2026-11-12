@@ -1,5 +1,6 @@
-import { existsSync, readdirSync } from "node:fs"
+import { existsSync, readdirSync, readFileSync } from "node:fs"
 import { describe, expect, it } from "vitest"
+import { z } from "zod"
 
 import { nativeItems } from "@/registry/native/_registry"
 
@@ -10,6 +11,25 @@ import { getDocsExplorerGroups } from "./docs-explorer"
 
 const examples = new URL("../examples/native/", import.meta.url)
 describe("cross-platform explorer coverage", () => {
+  it.each(["base", "radix", "aria", "native"])(
+    "lists every %s component in the page tree used by the command menu",
+    (base) => {
+      const directory = new URL(
+        `../content/docs/components/${base}/`,
+        import.meta.url
+      )
+      const metadata = z
+        .object({ pages: z.array(z.string()) })
+        .parse(
+          JSON.parse(readFileSync(new URL("meta.json", directory), "utf8"))
+        )
+      const missing = readdirSync(directory)
+        .filter((name) => name.endsWith(".mdx"))
+        .map((name) => name.replace(/\.mdx$/, ""))
+        .filter((name) => !metadata.pages.includes(name))
+      expect(missing).toEqual([])
+    }
+  )
   it.each(["base", "radix", "aria", "native"])(
     "keeps %s docs and the native examples in the same six groups",
     (base) => {

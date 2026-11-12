@@ -18,6 +18,22 @@ import { FABRICATOR_FOUNDATIONS } from "@/registry/fabricator/foundations"
 
 export const fabricatorItems = [
   {
+    name: "theme-toggle",
+    type: "registry:ui",
+    title: "Theme Toggle",
+    description:
+      "A theme button with a morphing sun and moon, four page reveals that start at the pressed button.",
+    dependencies: ["cn"],
+    registryDependencies: ["@fabricator/button"],
+    files: [
+      { path: "ui/theme-toggle.tsx", type: "registry:ui" },
+      { path: "lib/theme-toggle-model.ts", type: "registry:lib" },
+      { path: "lib/theme-transition.ts", type: "registry:lib" },
+    ],
+    categories: ["basics"],
+    meta: { fabricator: true },
+  },
+  {
     name: "bot-face",
     type: "registry:ui",
     title: "BotFace",

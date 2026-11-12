@@ -4344,6 +4344,17 @@
     @apply text-foreground ring-border hover:bg-muted/50 focus-visible:bg-card focus-visible:ring-foreground/25 aria-invalid:ring-destructive/50 aria-invalid:hover:bg-destructive/5 aria-invalid:focus-visible:bg-card min-h-16 rounded-lg border-0 bg-transparent px-(--density-10) py-(--density-8) text-base ring-1 ring-inset transition-[color,background-color,box-shadow] duration-feedback ease-feedback md:text-(length:--density-text-13) data-[slot=input-group-control]:bg-transparent data-[slot=input-group-control]:ring-0 data-[slot=input-group-control]:hover:bg-transparent data-[slot=input-group-control]:focus-visible:bg-transparent data-[slot=input-group-control]:aria-invalid:hover:bg-transparent;
   }
 
+/* MARK: Theme Toggle */
+.cn-theme-toggle-icon {
+  @apply size-(--density-icon-16) group-data-[ready=false]/theme-toggle:invisible;
+}
+.cn-theme-toggle-sun {
+  @apply transition-[opacity,transform,filter] duration-move ease-enter group-data-[theme=dark]/theme-toggle:rotate-45 group-data-[theme=dark]/theme-toggle:scale-25 group-data-[theme=dark]/theme-toggle:opacity-0 group-data-[theme=dark]/theme-toggle:blur-[2px] motion-reduce:transition-none;
+}
+.cn-theme-toggle-moon {
+  @apply -rotate-45 scale-25 opacity-0 blur-[2px] transition-[opacity,transform,filter] duration-move ease-enter group-data-[theme=dark]/theme-toggle:rotate-0 group-data-[theme=dark]/theme-toggle:scale-100 group-data-[theme=dark]/theme-toggle:opacity-100 group-data-[theme=dark]/theme-toggle:blur-none motion-reduce:transition-none;
+}
+
 /* MARK: Time Input */
 
   /* An Input Group: the frame, focus, invalid and disabled states are the

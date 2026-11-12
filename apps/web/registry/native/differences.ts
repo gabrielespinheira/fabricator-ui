@@ -17,6 +17,11 @@ export const NATIVE_DIFFERENCES: Record<
   string,
   { tier: NativeTier; note?: string }
 > = {
+  "theme-toggle": {
+    tier: "engine",
+    note: "Button variants, sizes, labels and the animated sun/moon swap with a transient blur use native views. Theme ownership stays in the app. Full-screen snapshot reveals are not implemented yet: variant and start are accepted for API parity, while the app's theme changes immediately. Reduced motion disables icon motion.",
+  },
+
   "color-picker": {
     tier: "touch",
     note: "The color area follows touch and the sliders expose hue and opacity. HEX, RGB, HSL, OKLCH, swatches and popover triggers share the web model. There is no screen eyedropper or hover cursor.",

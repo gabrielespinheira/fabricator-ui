@@ -2349,6 +2349,22 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "textarea-rtl",
       filePath: "examples/base/textarea-rtl.tsx",
     },
+    "theme-toggle-buttons": {
+      name: "theme-toggle-buttons",
+      filePath: "examples/base/theme-toggle-buttons.tsx",
+    },
+    "theme-toggle-demo": {
+      name: "theme-toggle-demo",
+      filePath: "examples/base/theme-toggle-demo.tsx",
+    },
+    "theme-toggle-origins": {
+      name: "theme-toggle-origins",
+      filePath: "examples/base/theme-toggle-origins.tsx",
+    },
+    "theme-toggle-position": {
+      name: "theme-toggle-position",
+      filePath: "examples/base/theme-toggle-position.tsx",
+    },
     "time-input-24-hour": {
       name: "time-input-24-hour",
       filePath: "examples/base/time-input-24-hour.tsx",
@@ -4870,6 +4886,22 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "textarea-rtl": {
       name: "textarea-rtl",
       filePath: "examples/aria/textarea-rtl.tsx",
+    },
+    "theme-toggle-buttons": {
+      name: "theme-toggle-buttons",
+      filePath: "examples/aria/theme-toggle-buttons.tsx",
+    },
+    "theme-toggle-demo": {
+      name: "theme-toggle-demo",
+      filePath: "examples/aria/theme-toggle-demo.tsx",
+    },
+    "theme-toggle-origins": {
+      name: "theme-toggle-origins",
+      filePath: "examples/aria/theme-toggle-origins.tsx",
+    },
+    "theme-toggle-position": {
+      name: "theme-toggle-position",
+      filePath: "examples/aria/theme-toggle-position.tsx",
     },
     "time-input-24-hour": {
       name: "time-input-24-hour",
@@ -7409,6 +7441,22 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "textarea-rtl",
       filePath: "examples/radix/textarea-rtl.tsx",
     },
+    "theme-toggle-buttons": {
+      name: "theme-toggle-buttons",
+      filePath: "examples/radix/theme-toggle-buttons.tsx",
+    },
+    "theme-toggle-demo": {
+      name: "theme-toggle-demo",
+      filePath: "examples/radix/theme-toggle-demo.tsx",
+    },
+    "theme-toggle-origins": {
+      name: "theme-toggle-origins",
+      filePath: "examples/radix/theme-toggle-origins.tsx",
+    },
+    "theme-toggle-position": {
+      name: "theme-toggle-position",
+      filePath: "examples/radix/theme-toggle-position.tsx",
+    },
     "time-input-24-hour": {
       name: "time-input-24-hour",
       filePath: "examples/radix/time-input-24-hour.tsx",
@@ -9765,6 +9813,22 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "textarea-invalid",
       filePath: "examples/__styles__/base-fabricator/textarea-invalid.tsx",
     },
+    "theme-toggle-buttons": {
+      name: "theme-toggle-buttons",
+      filePath: "examples/__styles__/base-fabricator/theme-toggle-buttons.tsx",
+    },
+    "theme-toggle-demo": {
+      name: "theme-toggle-demo",
+      filePath: "examples/__styles__/base-fabricator/theme-toggle-demo.tsx",
+    },
+    "theme-toggle-origins": {
+      name: "theme-toggle-origins",
+      filePath: "examples/__styles__/base-fabricator/theme-toggle-origins.tsx",
+    },
+    "theme-toggle-position": {
+      name: "theme-toggle-position",
+      filePath: "examples/__styles__/base-fabricator/theme-toggle-position.tsx",
+    },
     "time-input-24-hour": {
       name: "time-input-24-hour",
       filePath: "examples/__styles__/base-fabricator/time-input-24-hour.tsx",
@@ -12089,6 +12153,22 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "textarea-invalid": {
       name: "textarea-invalid",
       filePath: "examples/__styles__/aria-fabricator/textarea-invalid.tsx",
+    },
+    "theme-toggle-buttons": {
+      name: "theme-toggle-buttons",
+      filePath: "examples/__styles__/aria-fabricator/theme-toggle-buttons.tsx",
+    },
+    "theme-toggle-demo": {
+      name: "theme-toggle-demo",
+      filePath: "examples/__styles__/aria-fabricator/theme-toggle-demo.tsx",
+    },
+    "theme-toggle-origins": {
+      name: "theme-toggle-origins",
+      filePath: "examples/__styles__/aria-fabricator/theme-toggle-origins.tsx",
+    },
+    "theme-toggle-position": {
+      name: "theme-toggle-position",
+      filePath: "examples/__styles__/aria-fabricator/theme-toggle-position.tsx",
     },
     "time-input-24-hour": {
       name: "time-input-24-hour",
@@ -14443,6 +14523,23 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "textarea-invalid": {
       name: "textarea-invalid",
       filePath: "examples/__styles__/radix-fabricator/textarea-invalid.tsx",
+    },
+    "theme-toggle-buttons": {
+      name: "theme-toggle-buttons",
+      filePath: "examples/__styles__/radix-fabricator/theme-toggle-buttons.tsx",
+    },
+    "theme-toggle-demo": {
+      name: "theme-toggle-demo",
+      filePath: "examples/__styles__/radix-fabricator/theme-toggle-demo.tsx",
+    },
+    "theme-toggle-origins": {
+      name: "theme-toggle-origins",
+      filePath: "examples/__styles__/radix-fabricator/theme-toggle-origins.tsx",
+    },
+    "theme-toggle-position": {
+      name: "theme-toggle-position",
+      filePath:
+        "examples/__styles__/radix-fabricator/theme-toggle-position.tsx",
     },
     "time-input-24-hour": {
       name: "time-input-24-hour",

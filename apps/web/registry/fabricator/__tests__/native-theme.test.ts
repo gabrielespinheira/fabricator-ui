@@ -12,6 +12,7 @@ import {
   APP_SHELL_FRAME_BLACK,
   APP_SHELL_FRAME_MUTED_BLACK,
   getLookFromUrl,
+  getNativeCssVariables,
   getNativeTheme,
   RADIUS_SCALE,
 } from "@/registry/fabricator/native-theme"
@@ -282,4 +283,15 @@ describe("the App Shell's tokens", () => {
       )
     }
   })
+})
+
+it("shares the page theme-reveal timing with native and disables it with motion off", () => {
+  expect(getNativeCssVariables("light", DEFAULT_LOOK)["--motion-theme"]).toBe(
+    700
+  )
+  expect(
+    getNativeCssVariables("dark", { ...DEFAULT_LOOK, motion: "off" })[
+      "--motion-theme"
+    ]
+  ).toBe(0)
 })

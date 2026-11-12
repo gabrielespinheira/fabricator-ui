@@ -5146,6 +5146,46 @@ export const Components: Record<string, any> = {
       ) || "textarea-invalid"
     return { default: mod.default || mod[exportName] }
   }),
+  "theme-toggle-buttons": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/base-fabricator/theme-toggle-buttons"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "theme-toggle-buttons"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "theme-toggle-demo": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/base-fabricator/theme-toggle-demo"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "theme-toggle-demo"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "theme-toggle-origins": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/base-fabricator/theme-toggle-origins"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "theme-toggle-origins"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "theme-toggle-position": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/base-fabricator/theme-toggle-position"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "theme-toggle-position"
+    return { default: mod.default || mod[exportName] }
+  }),
   "time-input-24-hour": React.lazy(async () => {
     const mod = await import(
       "@/examples/__styles__/base-fabricator/time-input-24-hour"

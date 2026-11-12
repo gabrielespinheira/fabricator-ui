@@ -130,3 +130,15 @@ describe("MOTION_CSS", () => {
     }
   })
 })
+
+it("gives a full-page theme reveal its own timing on both renderers", () => {
+  expect(MOTION_SPEEDS.default.durations.theme.enter).toBe(700)
+  expect(toMotionVars(MOTION_SPEEDS.default)["motion-theme"]).toBe("700ms")
+})
+
+it("matches the reference circle reveal easing", () => {
+  expect(toMotionVars(MOTION_SPEEDS.default)["motion-ease-theme"]).toBe(
+    "cubic-bezier(0.4, 0, 0.2, 1)"
+  )
+  expect(MOTION_THEME["ease-theme"]).toBe("var(--motion-ease-theme)")
+})

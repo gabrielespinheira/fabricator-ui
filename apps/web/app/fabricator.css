@@ -10,6 +10,8 @@ html:root {
   --motion-glide-exit: 100ms;
   --motion-move: 250ms;
   --motion-move-exit: 180ms;
+  --motion-theme: 700ms;
+  --motion-theme-exit: 700ms;
   --motion-tooltip: 125ms;
   --motion-tooltip-exit: 90ms;
   --motion-popup: 180ms;
@@ -27,6 +29,7 @@ html:root {
   --motion-ease-exit: cubic-bezier(0.23, 1, 0.32, 1);
   --motion-ease-feedback: cubic-bezier(0.25, 0.1, 0.25, 1);
   --motion-ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  --motion-ease-theme: cubic-bezier(0.4, 0, 0.2, 1);
   --motion-press-scale: 0.97;
   --motion-tooltip-scale: 0.97;
   --motion-popup-scale: 0.95;
@@ -452,6 +455,9 @@ html.dark {
   --transition-duration-move: calc(var(--motion-move) * var(--motion-scale, 1));
   --transition-duration-move-exit: calc(var(--motion-move-exit) * var(--motion-scale, 1));
   --transition-delay-move: calc(var(--motion-move) * var(--motion-scale, 1));
+  --transition-duration-theme: calc(var(--motion-theme) * var(--motion-scale, 1));
+  --transition-duration-theme-exit: calc(var(--motion-theme-exit) * var(--motion-scale, 1));
+  --transition-delay-theme: calc(var(--motion-theme) * var(--motion-scale, 1));
   --transition-duration-tooltip: calc(var(--motion-tooltip) * var(--motion-scale, 1));
   --transition-duration-tooltip-exit: calc(var(--motion-tooltip-exit) * var(--motion-scale, 1));
   --transition-delay-tooltip: calc(var(--motion-tooltip) * var(--motion-scale, 1));
@@ -484,6 +490,7 @@ html.dark {
   --ease-exit: var(--motion-ease-exit);
   --ease-feedback: var(--motion-ease-feedback);
   --ease-drawer: var(--motion-ease-drawer);
+  --ease-theme: var(--motion-ease-theme);
   --ease-spring: var(--motion-ease-enter);
   --ease-spring-bounce: var(--motion-ease-enter);
   --color-background: var(--background);
@@ -558,6 +565,8 @@ html.dark {
   --motion-glide-exit: 160ms;
   --motion-move: 360ms;
   --motion-move-exit: 260ms;
+  --motion-theme: 900ms;
+  --motion-theme-exit: 900ms;
   --motion-tooltip: 200ms;
   --motion-tooltip-exit: 140ms;
   --motion-popup: 280ms;
@@ -575,6 +584,7 @@ html.dark {
   --motion-ease-exit: cubic-bezier(0.23, 1, 0.32, 1);
   --motion-ease-feedback: cubic-bezier(0.25, 0.1, 0.25, 1);
   --motion-ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  --motion-ease-theme: cubic-bezier(0.4, 0, 0.2, 1);
   --motion-press-scale: 0.97;
   --motion-tooltip-scale: 0.96;
   --motion-popup-scale: 0.94;
@@ -590,6 +600,8 @@ html.dark {
   --motion-glide-exit: 100ms;
   --motion-move: 250ms;
   --motion-move-exit: 180ms;
+  --motion-theme: 700ms;
+  --motion-theme-exit: 700ms;
   --motion-tooltip: 125ms;
   --motion-tooltip-exit: 90ms;
   --motion-popup: 180ms;
@@ -607,6 +619,7 @@ html.dark {
   --motion-ease-exit: cubic-bezier(0.23, 1, 0.32, 1);
   --motion-ease-feedback: cubic-bezier(0.25, 0.1, 0.25, 1);
   --motion-ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  --motion-ease-theme: cubic-bezier(0.4, 0, 0.2, 1);
   --motion-press-scale: 0.97;
   --motion-tooltip-scale: 0.97;
   --motion-popup-scale: 0.95;
@@ -622,6 +635,8 @@ html.dark {
   --motion-glide-exit: 80ms;
   --motion-move: 180ms;
   --motion-move-exit: 130ms;
+  --motion-theme: 500ms;
+  --motion-theme-exit: 500ms;
   --motion-tooltip: 100ms;
   --motion-tooltip-exit: 70ms;
   --motion-popup: 140ms;
@@ -639,6 +654,7 @@ html.dark {
   --motion-ease-exit: cubic-bezier(0.23, 1, 0.32, 1);
   --motion-ease-feedback: cubic-bezier(0.25, 0.1, 0.25, 1);
   --motion-ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  --motion-ease-theme: cubic-bezier(0.4, 0, 0.2, 1);
   --motion-press-scale: 0.98;
   --motion-tooltip-scale: 0.98;
   --motion-popup-scale: 0.97;
@@ -654,6 +670,8 @@ html.dark {
   --motion-glide-exit: 50ms;
   --motion-move: 120ms;
   --motion-move-exit: 90ms;
+  --motion-theme: 200ms;
+  --motion-theme-exit: 200ms;
   --motion-tooltip: 0ms;
   --motion-tooltip-exit: 0ms;
   --motion-popup: 80ms;
@@ -671,6 +689,7 @@ html.dark {
   --motion-ease-exit: cubic-bezier(0.23, 1, 0.32, 1);
   --motion-ease-feedback: cubic-bezier(0.25, 0.1, 0.25, 1);
   --motion-ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+  --motion-ease-theme: cubic-bezier(0.4, 0, 0.2, 1);
   --motion-press-scale: 1;
   --motion-tooltip-scale: 1;
   --motion-popup-scale: 1;

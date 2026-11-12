@@ -24,6 +24,13 @@ export type CatalogEntry = Omit<CatalogSource, "load"> & {
 
 const SOURCES: CatalogSource[] = [
   {
+    slug: "theme-toggle",
+    title: "Theme Toggle",
+    height: "md",
+    load: () =>
+      import("@/examples/__styles__/base-fabricator/theme-toggle-demo"),
+  },
+  {
     slug: "alert",
     title: "Alert",
     height: "md",

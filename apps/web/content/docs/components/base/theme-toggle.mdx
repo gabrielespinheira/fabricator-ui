@@ -1,0 +1,132 @@
+---
+title: Theme Toggle
+description: A theme button with a morphing sun and moon, eight page reveals that start at the pressed button.
+base: base
+component: true
+---
+
+<ComponentPreview
+  styleName="base-nova"
+  name="theme-toggle-demo"
+  previewClassName="h-auto"
+/>
+
+Switch between light and dark with circle, blurred circle, square, diamond, rectangle, hexagon, triangle or blinds reveals. The default blurred circle expands from the centre of the pressed button, wherever it sits on screen. The incoming page starts at an 8px blur and sharpens to zero throughout the circular reveal. Polygon variants keep a feathered edge and sharp content. Square keeps equal sides; rectangle follows the viewport aspect ratio. The trigger composes Button, so it follows the region's density, focus ring, press feedback and motion speed. Its sun and moon rotate, scale and crossfade through a small blur.
+
+The [beUI theme toggle](https://beui.dev/components/motion/theme-toggle) and [Magic UI animated theme toggler](https://magicui.design/docs/components/animated-theme-toggler) are the interaction references. Theme Toggle is part of the Fabricator style and shares one implementation across all three web bases and desktop.
+
+## Installation
+
+<CodeTabs>
+<TabsList>
+  <TabsTrigger value="cli">Command</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx fabricator-ui@latest add theme-toggle
+```
+
+</TabsContent>
+<TabsContent value="manual">
+
+Install Button first, then copy the three files and update their import paths:
+
+<ComponentSource
+  src="styles/base-fabricator/lib/theme-toggle-model.ts"
+  title="lib/theme-toggle-model.ts"
+  styleName="base-nova"
+/>
+<ComponentSource
+  src="styles/base-fabricator/lib/theme-transition.ts"
+  title="lib/theme-transition.ts"
+  styleName="base-nova"
+/>
+<ComponentSource
+  src="styles/base-fabricator/ui/theme-toggle.tsx"
+  title="components/ui/theme-toggle.tsx"
+  styleName="base-nova"
+/>
+
+Button installs the density and motion tokens used by the compiled classes.
+
+</TabsContent>
+</CodeTabs>
+
+## Usage
+
+Theme ownership stays in your app. Pass the resolved light or dark theme and a synchronous callback that applies the new theme. An unresolved theme leaves the trigger disabled until mounting finishes.
+
+```tsx
+"use client"
+
+import { useTheme } from "next-themes"
+
+import { ThemeToggle } from "@/components/ui/theme-toggle"
+
+export function AppearanceButton() {
+  const { resolvedTheme, setTheme } = useTheme()
+  const theme =
+    resolvedTheme === "light" || resolvedTheme === "dark"
+      ? resolvedTheme
+      : undefined
+
+  return (
+    <ThemeToggle theme={theme} onThemeChange={setTheme} variant="circle-blur" />
+  )
+}
+```
+
+The component does not persist a preference or change the system theme itself. Your provider handles persistence and follows the system until the user picks a theme. The callback must apply the theme synchronously; do not defer it behind a network request or React transition.
+
+## Composition
+
+`ThemeToggle` renders Button with decorative sun and moon layers. `buttonVariant` styles the trigger; `variant` selects the page reveal. The root forwards the button's props and ref. `children` is reserved for the icon.
+
+`useThemeToggle({ theme, onThemeChange, variant, start })` exposes `isDark`, `mounted` and `toggle(element?)` for a custom trigger. Pass its element so the reveal measures the button in viewport coordinates and reads the closest region's motion tokens. The position is measured on every activation, including after scrolling or resizing.
+
+## Examples
+
+### Button position
+
+The default `start="trigger"` follows the pressed button. Try each corner and the centre; no coordinates or positioning props are needed.
+
+<ComponentPreview
+  styleName="base-nova"
+  name="theme-toggle-position"
+  previewClassName="h-auto"
+/>
+
+### Explicit viewport origins
+
+Use `start` to opt into top-left, top-right, bottom-left, bottom-right, center or bottom-up instead. Blinds open first beside the origin and fan out across the page.
+
+<ComponentPreview styleName="base-nova" name="theme-toggle-origins" />
+
+### Button variants, sizes and disabled
+
+All Button variants and sizes remain available. Use icon sizes for this icon-only control. Give each action a specific accessible name when several appear together.
+
+<ComponentPreview styleName="base-nova" name="theme-toggle-buttons" />
+
+## API Reference
+
+| Prop            | Type                                                                                                       | Default               |
+| --------------- | ---------------------------------------------------------------------------------------------------------- | --------------------- |
+| `theme`         | `"light" \| "dark" \| undefined`                                                                           | Required              |
+| `onThemeChange` | `(theme: "light" \| "dark") => void`                                                                       | Required              |
+| `variant`       | `"rectangle" \| "circle" \| "circle-blur" \| "blinds" \| "square" \| "diamond" \| "hexagon" \| "triangle"` | `"circle-blur"`       |
+| `start`         | `"trigger" \| "top-left" \| "top-right" \| "bottom-left" \| "bottom-right" \| "center" \| "bottom-up"`     | `"trigger"`           |
+| `buttonVariant` | Button's `variant`                                                                                         | `"ghost"`             |
+| `size`          | Button's `size`                                                                                            | `"icon"`              |
+| `labels`        | `{ switchToLight?: string; switchToDark?: string }`                                                        | English action labels |
+| `disabled`      | `boolean`                                                                                                  | `false`               |
+
+`aria-label` overrides the default action label. An `onClick` handler can cancel a toggle with `event.preventDefault()`.
+
+## Accessibility
+
+Tab focuses the button; Enter or Space changes the theme. Focus stays on the trigger. Its accessible name describes the destination theme; decorative icons are hidden from screen readers. Use `labels` to translate the default labels.
+
+The page reveal uses the theme timing (700ms at default speed) and the reference curve, `cubic-bezier(0.4, 0, 0.2, 1)`. The sun/moon swap uses the move timing on its own snapshot layer, so it stays sharp and finishes before the page sweep. `circle-blur` animates the incoming snapshot from `blur(8px)` to `blur(0px)` over the full reveal, with a crisp circular clip expanding to 150% of the viewport reference size. Its page stays fully opaque; the old theme remains behind it. Polygon reveals feather the moving edge without blurring text. Circle keeps a crisp edge. Browsers without animated mask support use a sharp polygon reveal with a short fade. Reduced motion and motion off change the theme immediately. Browsers without View Transitions keep a working button and icon swap. A new press supersedes a pending reveal, so rapid toggles keep the latest choice.

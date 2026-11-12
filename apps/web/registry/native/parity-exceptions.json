@@ -635,5 +635,19 @@
     "name": "time-input-value",
     "reason": "The hidden input only submits the web form. Native consumers receive the same time string through onValueChange.",
     "date": "2026-11-10"
+  },
+  {
+    "item": "theme-toggle",
+    "kind": "prop",
+    "name": "variant",
+    "reason": "Native has the icon morph and blur, but full-screen snapshot reveals await approval for react-native-view-shot. This reveal option is accepted without a screen effect.",
+    "date": "2026-11-11"
+  },
+  {
+    "item": "theme-toggle",
+    "kind": "prop",
+    "name": "start",
+    "reason": "Native has the icon morph and blur, but full-screen snapshot reveals await approval for react-native-view-shot. This reveal option is accepted without a screen effect.",
+    "date": "2026-11-11"
   }
 ]

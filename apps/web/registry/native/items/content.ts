@@ -6,6 +6,23 @@ import { docs } from "./shared"
 // Content and controls: plain views and form inputs.
 export const contentItems: Registry["items"] = [
   {
+    name: "theme-toggle",
+    type: "registry:ui",
+    title: "Theme Toggle",
+    dependencies: [
+      "@fabricator-ui/icons-react-native",
+      "cn",
+      "expo-blur",
+      "react-native-reanimated",
+    ],
+    registryDependencies: ["@fabricator/button", "@fabricator/motion"],
+    files: [
+      { path: "ui/theme-toggle.tsx", type: "registry:ui" },
+      { path: "lib/theme-toggle-model.ts", type: "registry:lib" },
+    ],
+    meta: docs("theme-toggle"),
+  },
+  {
     name: "bot-face",
     type: "registry:ui",
     title: "BotFace",
