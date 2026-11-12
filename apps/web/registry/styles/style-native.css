@@ -5561,6 +5561,17 @@
     @apply border-foreground/25 bg-card;
   }
 
+/* MARK: Theme Toggle */
+.cn-theme-toggle-icon {
+  @apply size-(--density-icon-16);
+}
+.cn-theme-toggle-sun {
+  @apply items-center justify-center;
+}
+.cn-theme-toggle-moon {
+  @apply items-center justify-center;
+}
+
 /* MARK: Time Input */
 .cn-time-input { @apply w-full; }
 .cn-time-input-content { @apply p-1; }

@@ -79,6 +79,7 @@ export const NATIVE_EXAMPLES: Record<string, () => React.ComponentType> = {
   "tabs": () => require("@/examples/native/tabs-example").TabsExample,
   "text": () => require("@/examples/native/text-example").TextExample,
   "textarea": () => require("@/examples/native/textarea-example").TextareaExample,
+  "theme-toggle": () => require("@/examples/native/theme-toggle-example").ThemeToggleExample,
   "time-input": () => require("@/examples/native/time-input-example").TimeInputExample,
   "time-wheel": () => require("@/examples/native/time-wheel-example").TimeWheelExample,
   "toast": () => require("@/examples/native/toast-example").ToastExample,

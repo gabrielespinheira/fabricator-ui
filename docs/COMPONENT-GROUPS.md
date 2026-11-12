@@ -32,7 +32,8 @@ When two groups still fit, follow the closest neighbour already in `GROUP_BY_SLU
 
 1. Add its slug to `GROUP_BY_SLUG` in `apps/web/lib/component-groups.ts`, under its group's comment. The slug is the docs page slug, which is the registry item name.
 2. Add its homepage card to `app/(app)/(root)/_components/catalog.tsx` with a card height ([WEBSITE.md](WEBSITE.md#homepage)).
-3. Run `bun run test`. `getComponentGroup` throws `UngroupedComponentError` for a page without a group, and `lib/explorer-coverage.test.ts` fails while a published native component isn't browsable in a known group.
+3. Add the docs slug to `content/docs/components/<base>/meta.json` for every web base. The command menu reads this page tree; a page can render at its URL and in the grouped sidebar while remaining absent from ⌘K. `native:docs` generates the native metadata.
+4. Run `bun run test`. `getComponentGroup` throws `UngroupedComponentError` for a page without a group, and `lib/explorer-coverage.test.ts` fails while a published native component isn't browsable in a known group.
 
 ## Changing the groups
 

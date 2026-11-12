@@ -20,6 +20,7 @@ const GROUP_BY_SLUG: Record<string, ComponentGroup> = {
   density: "Basics",
   "fabricator-root": "Structure",
   direction: "Structure",
+  "theme-toggle": "Basics",
   button: "Basics",
   input: "Basics",
   textarea: "Basics",

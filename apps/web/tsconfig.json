@@ -19,6 +19,9 @@
       }
     ],
     "paths": {
+      "@/registry/bases/*/ui/theme-toggle": ["./registry/fabricator/shared/ui/theme-toggle"],
+      "@/registry/bases/*/lib/theme-toggle-model": ["./registry/fabricator/shared/lib/theme-toggle-model"],
+      "@/registry/bases/*/lib/theme-transition": ["./registry/fabricator/shared/lib/theme-transition"],
       "@/registry/bases/*/ui/spinner": [
         "./registry/fabricator/shared/ui/spinner"
       ],

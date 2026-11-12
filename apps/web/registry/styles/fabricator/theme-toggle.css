@@ -1,0 +1,10 @@
+/* MARK: Theme Toggle */
+.cn-theme-toggle-icon {
+  @apply size-(--density-icon-16) group-data-[ready=false]/theme-toggle:invisible;
+}
+.cn-theme-toggle-sun {
+  @apply transition-[opacity,transform,filter] duration-move ease-enter group-data-[theme=dark]/theme-toggle:rotate-45 group-data-[theme=dark]/theme-toggle:scale-25 group-data-[theme=dark]/theme-toggle:opacity-0 group-data-[theme=dark]/theme-toggle:blur-[2px] motion-reduce:transition-none;
+}
+.cn-theme-toggle-moon {
+  @apply -rotate-45 scale-25 opacity-0 blur-[2px] transition-[opacity,transform,filter] duration-move ease-enter group-data-[theme=dark]/theme-toggle:rotate-0 group-data-[theme=dark]/theme-toggle:scale-100 group-data-[theme=dark]/theme-toggle:opacity-100 group-data-[theme=dark]/theme-toggle:blur-none motion-reduce:transition-none;
+}

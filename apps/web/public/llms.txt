@@ -60,6 +60,7 @@ Fabricator Icons: every Lucide icon (2,015, Lucide 1.66.0) under its Lucide name
 
 - [Field](https://fabricator-ui.vercel.app/docs/components/base/field.md): Combine labels, controls, and help text to compose accessible form fields and grouped inputs.
 - [Button](https://fabricator-ui.vercel.app/docs/components/base/button.md): Displays a button or a component that looks like a button.
+- [Theme Toggle](https://fabricator-ui.vercel.app/docs/components/base/theme-toggle.md): A morphing sun and moon button with eight page reveals from the pressed trigger and feathered transitions.
 - [Button Group](https://fabricator-ui.vercel.app/docs/components/base/button-group.md): A container that groups related buttons together with consistent styling.
 - [Input](https://fabricator-ui.vercel.app/docs/components/base/input.md): A text input component for forms and user data entry with built-in styling and accessibility features.
 - [Input Group](https://fabricator-ui.vercel.app/docs/components/base/input-group.md): Add addons, buttons, and helper content to inputs.
