@@ -44,6 +44,7 @@ const SHARED_LIB_FILES = [
   "syntax-highlight-model",
   "video-player-model",
   "image-compare-model",
+  "radio-glide-model",
   "editor-model",
   "editor-transaction",
   "editor-input",

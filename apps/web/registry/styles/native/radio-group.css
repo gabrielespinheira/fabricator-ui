@@ -4,23 +4,25 @@
     @apply gap-(--density-16);
   }
 
-  /* 18pt circle with the checkbox's outline, and a 6pt dot pops in in the role's
-     foreground. Invalid turns the outline destructive. The press gives on the
-     feedback timing, in the source: a class could only snap. */
+  /* 18pt ring with the checkbox's outline. Invalid turns the outline
+     destructive. The press gives on the feedback timing, in the source: a
+     class could only snap. */
   .cn-radio-group-item {
     @apply border-foreground/25 data-[invalid=true]:border-destructive size-[calc(var(--density-icon-16)+2px)] rounded-full border-[1.5px] bg-transparent;
   }
 
-  /* Checked fills with the primary role, or the destructive one when invalid,
-     over the outline, easing on the feedback timing. */
+  /* Checked turns the ring primary, or destructive when invalid, easing on the
+     feedback timing; the inside stays clear so the dot can glide between
+     radios. */
   .cn-radio-group-fill {
-    @apply bg-primary data-[invalid=true]:bg-destructive -inset-[1.5px] rounded-full;
+    @apply border-primary data-[invalid=true]:border-destructive -inset-[1.5px] rounded-full border-[1.5px];
   }
 
   .cn-radio-group-indicator {
     @apply size-full;
   }
 
+  /* The 8pt dot in the role, gliding between radios in the source. */
   .cn-radio-group-indicator-icon {
-    @apply bg-primary-foreground size-1.5 rounded-full;
+    @apply bg-primary data-[invalid=true]:bg-destructive size-[calc(var(--density-icon-16)/2)] rounded-full;
   }

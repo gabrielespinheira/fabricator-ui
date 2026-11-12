@@ -1,13 +1,15 @@
 import * as React from "react"
-import { useControllableState } from "@rn-primitives/hooks"
+import { useComposedRefs, useControllableState } from "@rn-primitives/hooks"
 import { cn } from "cn"
 import { Pressable, View } from "react-native"
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
   withTiming,
+  type SharedValue,
 } from "react-native-reanimated"
 
+import { getGlideOffset } from "@/registry/fabricator/shared/lib/radio-glide-model"
 import { useFeedback } from "@/registry/native/lib/feedback"
 import { useFieldControl } from "@/registry/native/lib/field-model"
 import { useMotion, usePressScale } from "@/registry/native/lib/motion"
@@ -19,11 +21,33 @@ const AnimatedPressable = Animated.createAnimatedComponent(Pressable)
 // The press gives more than a button's: the website's `active:scale-90`.
 const PRESS_GIVE = 0.1
 
+// The checked radio's dot, so the next pick can glide it over.
+type Dot = {
+  item: React.RefObject<ViewInstance | null>
+  progress: SharedValue<number>
+  offsetX: SharedValue<number>
+  offsetY: SharedValue<number>
+}
+
 type RadioGroupContextValue = {
   value: string | undefined
   select: (value: string) => void
   isDisabled: boolean
   isReadOnly: boolean
+  checkedDot: React.RefObject<Dot | null>
+}
+
+type ViewInstance = React.ComponentRef<typeof View>
+
+type Rect = { left: number; top: number; width: number; height: number }
+
+function measure(view: ViewInstance | null) {
+  return new Promise<Rect | null>((resolve) => {
+    if (!view) return resolve(null)
+    view.measureInWindow((left, top, width, height) =>
+      resolve({ left, top, width, height })
+    )
+  })
 }
 
 const RadioGroupContext = React.createContext<RadioGroupContextValue | null>(
@@ -54,12 +78,14 @@ function RadioGroup({
       if (next !== undefined) onValueChange?.(next)
     },
   })
+  const checkedDot = React.useRef<Dot | null>(null)
   const context = React.useMemo<RadioGroupContextValue>(
     () => ({
       value: current,
       select: setCurrent,
       isDisabled: disabled,
       isReadOnly: readOnly,
+      checkedDot,
     }),
     [current, disabled, readOnly, setCurrent]
   )
@@ -87,6 +113,7 @@ function RadioGroupItem({
   onPressIn,
   onPressOut,
   style,
+  ref,
   ...props
 }: Omit<React.ComponentProps<typeof Pressable>, "children"> & {
   value: string
@@ -110,29 +137,102 @@ function RadioGroupItem({
   const isFieldInvalid = isInvalid ?? field.isInvalid
   const state = isChecked ? "checked" : "unchecked"
 
-  // The dot scales in on the move timing and out on the feedback exit.
+  // Picking another radio glides the dot over from the one it leaves, on the
+  // move timing with the entrance curve, as the website does. A first pick
+  // scales it in on the same timing; a cleared value scales it out on the
+  // feedback exit. Reduce Motion and motion off snap.
   const enter = useMotion("move")
   const exit = useMotion("feedback")
+  const isFlat = exit.isReduced || exit.isOff
+  const item = React.useRef<ViewInstance>(null)
+  const itemRef = useComposedRefs(item, ref)
   const progress = useSharedValue(isChecked ? 1 : 0)
+  const offsetX = useSharedValue(0)
+  const offsetY = useSharedValue(0)
+  const dot = React.useMemo<Dot>(
+    () => ({ item, progress, offsetX, offsetY }),
+    [progress, offsetX, offsetY]
+  )
+  const checkedDot = group?.checkedDot
+  const isGroupCleared = group?.value === undefined || group.value === ""
   React.useEffect(() => {
-    progress.value = withTiming(isChecked ? 1 : 0, {
-      duration: isChecked ? enter.enterMs : exit.exitMs,
-      easing: isChecked ? enter.enterEasing : exit.exitEasing,
+    if (!isChecked) {
+      // Switching hands the dot to the next radio, which takes it over.
+      if (isGroupCleared && checkedDot?.current === dot)
+        checkedDot.current = null
+      progress.set(
+        withTiming(0, { duration: exit.exitMs, easing: exit.exitEasing })
+      )
+      return
+    }
+    const previous = checkedDot?.current ?? null
+    if (checkedDot) checkedDot.current = dot
+    const timing = { duration: enter.enterMs, easing: enter.enterEasing }
+    if (!previous || previous === dot || isFlat) {
+      progress.set(withTiming(1, timing))
+      return
+    }
+    let isCancelled = false
+    void Promise.all([
+      measure(previous.item.current),
+      measure(item.current),
+    ]).then(([from, to]) => {
+      if (isCancelled) return
+      // Mid-flight, the old dot still stands off its radio.
+      const start = from && {
+        ...from,
+        left: from.left + previous.offsetX.get(),
+        top: from.top + previous.offsetY.get(),
+      }
+      const offset = to ? getGlideOffset(start, to) : null
+      previous.progress.set(0)
+      previous.offsetX.set(0)
+      previous.offsetY.set(0)
+      progress.set(1)
+      if (!offset) return
+      offsetX.set(offset.x)
+      offsetY.set(offset.y)
+      offsetX.set(withTiming(0, timing))
+      offsetY.set(withTiming(0, timing))
     })
-  }, [enter, exit, isChecked, progress])
+    return () => {
+      isCancelled = true
+    }
+  }, [
+    checkedDot,
+    dot,
+    enter,
+    exit,
+    isChecked,
+    isFlat,
+    isGroupCleared,
+    offsetX,
+    offsetY,
+    progress,
+  ])
+  React.useEffect(
+    () => () => {
+      if (checkedDot?.current === dot) checkedDot.current = null
+    },
+    [checkedDot, dot]
+  )
   const indicatorStyle = useAnimatedStyle(() => ({
     opacity: progress.value,
-    transform: [{ scale: progress.value }],
+    transform: [
+      { translateX: offsetX.value },
+      { translateY: offsetY.value },
+      { scale: progress.value },
+    ],
   }))
 
   const press = usePressScale()
-  const isFlat = exit.isReduced || exit.isOff
   const pressStyle = useAnimatedStyle(() => ({
     transform: [{ scale: isFlat ? 1 : 1 - PRESS_GIVE * press.progress.value }],
   }))
 
   return (
     <AnimatedPressable
+      ref={itemRef}
       data-slot="radio-group-item"
       data-state={state}
       data-invalid={isFieldInvalid}
@@ -171,7 +271,10 @@ function RadioGroupItem({
         className="cn-radio-group-indicator items-center justify-center"
         style={indicatorStyle}
       >
-        <View className="cn-radio-group-indicator-icon" />
+        <View
+          data-invalid={Boolean(isFieldInvalid)}
+          className="cn-radio-group-indicator-icon"
+        />
       </Animated.View>
     </AnimatedPressable>
   )

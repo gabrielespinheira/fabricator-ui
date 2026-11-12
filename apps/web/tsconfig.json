@@ -19,9 +19,15 @@
       }
     ],
     "paths": {
-      "@/registry/bases/*/ui/theme-toggle": ["./registry/fabricator/shared/ui/theme-toggle"],
-      "@/registry/bases/*/lib/theme-toggle-model": ["./registry/fabricator/shared/lib/theme-toggle-model"],
-      "@/registry/bases/*/lib/theme-transition": ["./registry/fabricator/shared/lib/theme-transition"],
+      "@/registry/bases/*/ui/theme-toggle": [
+        "./registry/fabricator/shared/ui/theme-toggle"
+      ],
+      "@/registry/bases/*/lib/theme-toggle-model": [
+        "./registry/fabricator/shared/lib/theme-toggle-model"
+      ],
+      "@/registry/bases/*/lib/theme-transition": [
+        "./registry/fabricator/shared/lib/theme-transition"
+      ],
       "@/registry/bases/*/ui/spinner": [
         "./registry/fabricator/shared/ui/spinner"
       ],
@@ -64,8 +70,23 @@
       "@/registry/bases/*/hooks/use-slider-drag": [
         "./registry/fabricator/shared/hooks/use-slider-drag"
       ],
+      "@/registry/bases/*/lib/radio-glide-model": [
+        "./registry/fabricator/shared/lib/radio-glide-model"
+      ],
+      "@/registry/bases/*/hooks/use-radio-glide": [
+        "./registry/fabricator/shared/hooks/use-radio-glide"
+      ],
       "@/registry/bases/*/lib/date-picker-model": [
         "./registry/fabricator/shared/lib/date-picker-model"
+      ],
+      "@/registry/bases/*/lib/multi-select-model": [
+        "./registry/fabricator/shared/lib/multi-select-model"
+      ],
+      "@/registry/bases/*/hooks/use-chip-presence": [
+        "./registry/fabricator/shared/hooks/use-chip-presence"
+      ],
+      "@/registry/bases/*/ui/multi-select": [
+        "./registry/fabricator/*/ui/multi-select"
       ],
       "@/registry/bases/*/lib/month-input-model": [
         "./registry/fabricator/shared/lib/month-input-model"

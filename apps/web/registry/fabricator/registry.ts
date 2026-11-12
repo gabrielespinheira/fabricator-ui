@@ -323,6 +323,28 @@ export const fabricatorItems = [
     },
   },
   {
+    name: "multi-select",
+    type: "registry:ui",
+    title: "Multi Select",
+    description:
+      "A searchable list for picking several options, shown as chips in the field that pop in, wipe out and glide into place. The list stays open between picks.",
+    registryDependencies: ["fluid-hover", "density"],
+    files: [
+      { path: "ui/multi-select.tsx", type: "registry:ui" },
+      { path: "lib/multi-select-model.ts", type: "registry:lib" },
+      { path: "hooks/use-chip-presence.ts", type: "registry:hook" },
+    ],
+    categories: ["forms"],
+    meta: {
+      fabricator: true,
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/multi-select",
+        examples:
+          "https://fabricator-ui.vercel.app/docs/components/base/multi-select#examples",
+      },
+    },
+  },
+  {
     name: "time-input",
     type: "registry:ui",
     title: "Time Input",
@@ -474,6 +496,18 @@ export const fabricatorItems = [
     files: [
       { path: "lib/slider-model.ts", type: "registry:lib" },
       { path: "hooks/use-slider-drag.ts", type: "registry:hook" },
+    ],
+  },
+  {
+    name: "radio-glide",
+    type: "registry:lib",
+    title: "Radio glide",
+    description:
+      "Glides the Radio Group's checked dot from the radio it leaves to the one picked.",
+    registryDependencies: ["fluid-hover"],
+    files: [
+      { path: "lib/radio-glide-model.ts", type: "registry:lib" },
+      { path: "hooks/use-radio-glide.ts", type: "registry:hook" },
     ],
   },
   {
@@ -721,6 +755,7 @@ export const fabricatorOverrides: Record<
   table: { registryDependencies: ["fluid-hover"] },
   questionnaire: { registryDependencies: ["fluid-hover"] },
   slider: { registryDependencies: ["slider-model"] },
+  "radio-group": { registryDependencies: ["radio-glide"] },
   // The month and year dropdowns are the library's Select.
   calendar: { registryDependencies: ["select"] },
 }

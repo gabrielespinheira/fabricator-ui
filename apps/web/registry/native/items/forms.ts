@@ -239,7 +239,10 @@ export const formItems: Registry["items"] = [
       "@fabricator/motion",
       "@fabricator/text",
     ],
-    files: [{ path: "ui/radio-group.tsx", type: "registry:ui" }],
+    files: [
+      { path: "ui/radio-group.tsx", type: "registry:ui" },
+      { path: "lib/radio-glide-model.ts", type: "registry:lib" },
+    ],
     meta: docs("radio-group"),
   },
   {
@@ -359,7 +362,10 @@ export const formItems: Registry["items"] = [
       "@fabricator/motion",
       "@fabricator/text",
     ],
-    files: [{ path: "ui/accordion.tsx", type: "registry:ui" }],
+    files: [
+      { path: "ui/accordion.tsx", type: "registry:ui" },
+      { path: "lib/accordion-model.ts", type: "registry:lib" },
+    ],
     meta: docs("accordion"),
   },
   {
