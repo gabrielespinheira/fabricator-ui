@@ -35,7 +35,7 @@ describe("the React Native example's component titles", () => {
 describe("the React Native example's explorer", () => {
   it("lists each demo under its title and the website's group", () => {
     expect(getExplorerComponents(["editor", "text"])).toEqual([
-      { slug: "editor", title: "Rich Text Editor", group: "Forms" },
+      { slug: "editor", title: "Rich Text Editor", group: "Advanced" },
       { slug: "text", title: "Text", group: "Basics" },
     ])
   })

@@ -1,6 +1,7 @@
 // The component groups shared by the docs sidebar and the homepage gallery.
-// Basics are the building blocks other components are made of; the other
-// groups are what a reader is trying to build.
+// Basics are the building blocks other components are made of; the middle
+// groups are what a reader is trying to build; Advanced holds the large,
+// self-contained components that are products of their own.
 
 export const COMPONENT_GROUPS = [
   "Basics",
@@ -9,6 +10,7 @@ export const COMPONENT_GROUPS = [
   "Structure",
   "Content",
   "Chat",
+  "Advanced",
 ] as const
 
 export type ComponentGroup = (typeof COMPONENT_GROUPS)[number]
@@ -29,6 +31,7 @@ const GROUP_BY_SLUG: Record<string, ComponentGroup> = {
   "radio-group": "Basics",
   switch: "Basics",
   slider: "Basics",
+  rating: "Basics",
   toggle: "Basics",
   badge: "Basics",
   avatar: "Basics",
@@ -49,12 +52,10 @@ const GROUP_BY_SLUG: Record<string, ComponentGroup> = {
   "number-field": "Forms",
   "file-upload": "Forms",
   "color-picker": "Forms",
-  editor: "Forms",
   "button-group": "Forms",
   "toggle-group": "Forms",
   calendar: "Forms",
   "date-picker": "Forms",
-  "month-input": "Forms",
   "multi-select": "Forms",
   "time-input": "Forms",
   "time-wheel": "Forms",
@@ -74,7 +75,6 @@ const GROUP_BY_SLUG: Record<string, ComponentGroup> = {
   sidebar: "Structure",
   "app-shell": "Structure",
   "app-nav": "Structure",
-  "file-tree": "Structure",
   "tab-strip": "Structure",
   "workspace-switcher": "Structure",
   "user-menu": "Structure",
@@ -97,10 +97,6 @@ const GROUP_BY_SLUG: Record<string, ComponentGroup> = {
   sonner: "Content",
   progress: "Content",
   empty: "Content",
-  "video-player": "Content",
-  "audio-player": "Content",
-  "image-compare": "Content",
-  "syntax-highlight": "Content",
   markdown: "Content",
   // Chat
   "bot-face": "Chat",
@@ -112,6 +108,13 @@ const GROUP_BY_SLUG: Record<string, ComponentGroup> = {
   attachment: "Chat",
   marker: "Chat",
   questionnaire: "Chat",
+  // Advanced
+  editor: "Advanced",
+  "file-tree": "Advanced",
+  "syntax-highlight": "Advanced",
+  "image-compare": "Advanced",
+  "video-player": "Advanced",
+  "audio-player": "Advanced",
 }
 
 export class UngroupedComponentError extends Error {

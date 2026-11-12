@@ -89,6 +89,7 @@ const GROUP_NAV_IDS: Record<ComponentGroup, string> = {
   Structure: "group-navigation-layout",
   Content: "group-data-feedback",
   Chat: "group-ai-chat",
+  Advanced: "group-advanced",
 }
 
 export function getGroupNavId(group: ComponentGroup) {

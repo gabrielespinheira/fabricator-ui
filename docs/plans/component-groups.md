@@ -1,6 +1,6 @@
 # Component groups
 
-Status: option 2 selected by Gabs on 2026-11-10. Six groups with shorter labels.
+Status: option 2 selected by Gabs on 2026-11-10. Six groups with shorter labels. A seventh group, Advanced, added on 2026-11-12 (see [Advanced](#advanced)).
 
 ## Decision
 
@@ -48,3 +48,20 @@ These counts cover the 85 entries in the shared grouping map. A surface's badge 
 ## Separate inventory finding
 
 Native Data Table and Typography examples have no corresponding native docs pages. This predates the label change and is outside this implementation.
+
+## Advanced
+
+Added by Gabs on 2026-11-12. A seventh group, **Advanced**, placed last, holds the large, self-contained components that fit no other group well:
+
+| Component          | Previous group |
+| ------------------ | -------------- |
+| `syntax-highlight` | Content        |
+| `editor`           | Forms          |
+| `file-tree`        | Structure      |
+| `image-compare`    | Content        |
+| `video-player`     | Content        |
+| `audio-player`     | Content        |
+
+- Its navigation ID is `group-advanced`; the six existing IDs are unchanged, so saved preferences still apply.
+- Its icon is `ZapIcon` in `apps/web/lib/explorer-icons.ts` and `apps/mobile/src/nav.ts`.
+- Component URLs, registry names and install commands are unchanged; only the group shown in the docs sidebar, homepage filter, desktop explorer and mobile example moves.

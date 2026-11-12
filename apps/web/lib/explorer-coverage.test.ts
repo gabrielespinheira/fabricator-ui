@@ -31,7 +31,7 @@ describe("cross-platform explorer coverage", () => {
     }
   )
   it.each(["base", "radix", "aria", "native"])(
-    "keeps %s docs and the native examples in the same six groups",
+    "keeps %s docs and the native examples in the same groups",
     (base) => {
       const names = readdirSync(
         new URL(`../content/docs/components/${base}/`, import.meta.url)
