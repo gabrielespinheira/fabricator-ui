@@ -1952,7 +1952,7 @@
   }
 
   .cn-data-table-head-content {
-    @apply gap-(--density-4) in-data-[align=end]:flex-row-reverse;
+    @apply gap-(--density-4) in-data-[align=center]:justify-center in-data-[align=end]:flex-row-reverse;
   }
 
   /* Sort: the label and the type icon, which turns into the direction arrow

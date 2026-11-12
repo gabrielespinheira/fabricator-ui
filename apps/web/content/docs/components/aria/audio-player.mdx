@@ -1,0 +1,240 @@
+---
+title: Audio Player
+description: An audio file on a card with its waveform, skip, speed and volume, a cover variant for music and a compact one for voice messages.
+base: aria
+component: true
+---
+
+<ComponentPreview
+  styleName="aria-nova"
+  name="audio-player-demo"
+  previewClassName="h-auto"
+/>
+
+A card with the artwork, the title and the artist, a seek bar drawn as the file's waveform, the time played and the time left, and a row of controls: the speed, back and forward 10 seconds, play, and the volume. While it plays, three bars bounce beside the title and the artwork grows to full size.
+
+Audio Player is part of the Fabricator style. It's built on the HTML `<audio>` element, so the same component ships for every base.
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">Command</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx fabricator-ui@latest add audio-player
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps className="mb-0 pt-2">
+
+<Step>Install the [Spinner](/docs/components/aria/spinner).</Step>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  src="styles/aria-fabricator/lib/video-player-model.ts"
+  title="lib/video-player-model.ts"
+  styleName="aria-nova"
+/>
+
+<ComponentSource
+  src="styles/aria-fabricator/lib/audio-player-model.ts"
+  title="lib/audio-player-model.ts"
+  styleName="aria-nova"
+/>
+
+<ComponentSource
+  src="styles/aria-fabricator/ui/audio-player.tsx"
+  title="components/ui/audio-player.tsx"
+  styleName="aria-nova"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+The player shares its time, volume and keyboard rules with the [Video Player](/docs/components/aria/video-player), so it installs `video-player-model.ts` too.
+
+## Usage
+
+```tsx
+import { AudioPlayer } from "@/components/ui/audio-player"
+```
+
+```tsx
+<AudioPlayer
+  src="/media/episode-12.m4a"
+  artwork="/media/podcast-cover.jpg"
+  title="Episode 12: Shipping on Fridays"
+  artist="Acme Inc"
+  peaks={episode.peaks}
+/>
+```
+
+The player fills its container's width. Give it one with `className="w-full max-w-md"`.
+
+## Waveform
+
+`peaks` is the file's loudness from start to end, each value from 0 to 1. The player resamples them to the bars that fit its width, keeps the loudest peak in each bar and scales the loudest bar to full height, so any count works; 64 to 200 is plenty.
+
+Work the peaks out once, when the file is made or uploaded, and store them beside it. `getAudioPeaks` takes decoded samples, such as an `AudioBuffer`'s channel data:
+
+```ts
+import { getAudioPeaks } from "@/lib/audio-player-model"
+
+const response = await fetch(url)
+const buffer = await new AudioContext().decodeAudioData(
+  await response.arrayBuffer()
+)
+const peaks = getAudioPeaks(buffer.getChannelData(0), 128)
+```
+
+Without `peaks` the seek bar is a slim track that shows what has loaded.
+
+## Examples
+
+### Cover
+
+`variant="cover"` puts a large square artwork above the title and the controls, for music and podcasts. The artwork rests a little smaller while paused and grows to full size as it plays, its shadow deepening; the bouncing bars sit on dark glass in its corner.
+
+<ComponentPreview
+  styleName="aria-nova"
+  name="audio-player-cover"
+  previewClassName="h-auto"
+/>
+
+### Compact
+
+`variant="compact"` keeps play, the seek bar, the time and the speed on one pill-shaped row, as a voice message. The time is the length before the first play and at the end, and the time played in between. The title names the player for screen readers but isn't shown; the artwork, skip and volume are left out.
+
+<ComponentPreview
+  styleName="aria-nova"
+  name="audio-player-compact"
+  previewClassName="h-auto"
+/>
+
+### Without a waveform
+
+Without `peaks`, both variants draw a slim seek bar that grows on hover, with what has loaded and the time under the pointer. With no `artwork`, a note stands in.
+
+<ComponentPreview
+  styleName="aria-nova"
+  name="audio-player-seek-bar"
+  previewClassName="h-auto"
+/>
+
+### Speeds and events
+
+The speed button steps through `playbackRates` and wraps back to the slowest. `onPlayingChange` and `onEnded` report what the player does.
+
+<ComponentPreview
+  styleName="aria-nova"
+  name="audio-player-controlled"
+  previewClassName="h-auto"
+/>
+
+### Error
+
+A source that fails to load shows a message in place of the seek bar, and the controls turn off.
+
+<ComponentPreview
+  styleName="aria-nova"
+  name="audio-player-error"
+  previewClassName="h-auto"
+/>
+
+## Keyboard shortcuts
+
+They work while focus is anywhere in the player.
+
+| Key           | Does                           |
+| ------------- | ------------------------------ |
+| Space, K      | Play or pause                  |
+| ← / →         | Back or forward 5 seconds      |
+| J / L         | Back or forward 10 seconds     |
+| ↑ / ↓         | Volume up or down 5%           |
+| M             | Mute or unmute                 |
+| 0 to 9        | Jump to 0% to 90% of the audio |
+| Home / End    | Jump to the start or the end   |
+| Shift + < / > | Slower or faster               |
+
+On a focused button, Space and Enter press the button. The seek bar takes ← and →, Page Up, Page Down, Home and End for itself; the volume slider takes every arrow. A volume key opens the volume slider for a moment so the change shows.
+
+## Motion
+
+Every animation reads the [motion tokens](/docs/foundations/motion), follows the project's speed and stops with reduced motion or `data-motion="off"`.
+
+- Play, pause and replay trade places by scaling and blurring through each other on the move timing. Reduced motion keeps the fade.
+- The waveform's bars rise from the middle when they first draw, one after another, on the sheet timing.
+- What has played fills the bars in primary as the playhead crosses them, a frame at a time; the bars under the pointer darken.
+- The artwork grows from 94% (92% on the cover) to full size while playing, on the sheet timing and the drawer curve.
+- The three bars beside the title bounce out of step while playing, and fade in and out on the move timing.
+- The skip arrows wind back or forward while pressed. A new speed rises into the speed button on the popup timing.
+- The volume slider opens beside its button on the move timing, as the Video Player's does.
+
+## API Reference
+
+### AudioPlayer
+
+All other props go to the root `<div>`.
+
+| Prop              | Type                                | Default                   |
+| ----------------- | ----------------------------------- | ------------------------- |
+| `src`             | `string`                            | required                  |
+| `title`           | `string`                            | -                         |
+| `artist`          | `string`                            | -                         |
+| `artwork`         | `string`                            | -                         |
+| `variant`         | `"default" \| "compact" \| "cover"` | `"default"`               |
+| `peaks`           | `number[]`                          | -                         |
+| `playbackRates`   | `number[]`                          | `[0.75, 1, 1.25, 1.5, 2]` |
+| `autoPlay`        | `boolean`                           | `false`                   |
+| `muted`           | `boolean`                           | `false`                   |
+| `loop`            | `boolean`                           | `false`                   |
+| `onPlayingChange` | `(isPlaying: boolean) => void`      | -                         |
+| `onEnded`         | `() => void`                        | -                         |
+
+`title` names the player for screen readers ("Audio player" without one) and shows beside the artwork in the default and cover variants.
+
+### getAudioPeaks
+
+`getAudioPeaks(samples, count)` from `lib/audio-player-model.ts` returns `count` peaks from samples between -1 and 1: the loudest in each slice, capped at 1 and rounded to two decimals.
+
+### Data attributes
+
+| Attribute                                | Element                   | Values or present when                                            |
+| ---------------------------------------- | ------------------------- | ----------------------------------------------------------------- |
+| `data-slot="audio-player"`               | root                      | always                                                            |
+| `data-variant`                           | root                      | `default`, `compact`, `cover`                                     |
+| `data-status`                            | root                      | `idle`, `playing`, `paused`, `buffering`, `ended`, `error`        |
+| `data-volume-changing`                   | root                      | for a second after a volume key                                   |
+| `data-slot="audio-player-artwork"`       | the artwork               | default and cover, with `data-playing` while playing              |
+| `data-slot="audio-player-equalizer"`     | the bouncing bars         | default and cover                                                 |
+| `data-slot="audio-player-play"`          | play                      | with `data-icon`: `play`, `pause`, `replay`, `buffering`          |
+| `data-slot="audio-player-seek"`          | the seek slider           | with `data-waveform` when `peaks` are given                       |
+| `data-slot="audio-player-waveform-bars"` | one layer of the waveform | with `data-layer`: `track`, `hover`, `played`                     |
+| `data-slot="audio-player-control"`       | each other button         | with `data-control`: `speed`, `skip-back`, `skip-forward`, `mute` |
+| `data-slot="audio-player-volume-slider"` | the volume slider         | default and cover                                                 |
+| `data-slot="audio-player-error"`         | the error message         | the source failed                                                 |
+
+## Accessibility
+
+- The root is a group named by `title`, not a landmark, so a list of voice messages doesn't fill the page's landmarks. Every control is a button with a name that follows its state ("Play", "Pause", "Replay", "Mute", "Speed 1.5×", "Back 10 seconds") and `aria-keyshortcuts` with its key.
+- The seek bar and the volume are WAI-ARIA sliders. The seek bar's value is spoken as "1 minute 5 seconds of 4 minutes"; the volume's as a percentage, or "Muted".
+- The time left reads as "Remaining −0:40".
+- The waveform, the artwork and the bouncing bars are hidden from screen readers; the slider carries the position.
+- A source that fails shows its message in a `role="alert"`.
+- Everything is drawn in theme colours on the card, so it meets AA in light and dark.
+
+The demo audio is the soundtrack of the trailer for [Sintel](https://durian.blender.org), © Blender Foundation, [CC BY 3.0](https://creativecommons.org/licenses/by/3.0/).
