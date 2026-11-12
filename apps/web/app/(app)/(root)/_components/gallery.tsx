@@ -25,13 +25,6 @@ import {
 
 import { CATALOG, type CatalogEntry } from "./catalog"
 import {
-  AppNavCardDemo,
-  AppShellCardDemo,
-  TabStripCardDemo,
-  UserMenuCardDemo,
-  WorkspaceSwitcherCardDemo,
-} from "./demos-app-shell"
-import {
   CheckboxDemo,
   InputOTPDemo,
   RadioGroupDemo,
@@ -52,7 +45,6 @@ import {
   ButtonDemo,
   CalendarDemo,
   ProgressDemo,
-  SidebarDemo,
   TableDemo,
   TabsDemo,
   ToastDemo,
@@ -121,48 +113,6 @@ const ITEMS: GalleryItem[] = [
     height: "lg",
     isNew: true,
     Demo: CommandDemo,
-  },
-  {
-    slug: "sidebar",
-    title: "Sidebar",
-    height: "lg",
-    isNew: true,
-    Demo: SidebarDemo,
-  },
-  {
-    slug: "app-shell",
-    title: "App Shell",
-    height: "lg",
-    isNew: true,
-    Demo: AppShellCardDemo,
-  },
-  {
-    slug: "app-nav",
-    title: "App Nav",
-    height: "lg",
-    isNew: true,
-    Demo: AppNavCardDemo,
-  },
-  {
-    slug: "tab-strip",
-    title: "Tab Strip",
-    height: "sm",
-    isNew: true,
-    Demo: TabStripCardDemo,
-  },
-  {
-    slug: "workspace-switcher",
-    title: "Workspace Switcher",
-    height: "md",
-    isNew: true,
-    Demo: WorkspaceSwitcherCardDemo,
-  },
-  {
-    slug: "user-menu",
-    title: "User Menu",
-    height: "md",
-    isNew: true,
-    Demo: UserMenuCardDemo,
   },
   {
     slug: "radio-group",
@@ -262,8 +212,8 @@ const ITEMS: GalleryItem[] = [
   },
 ]
 
-// Curated demos first, then every other component with its docs demo.
-// Every component with its demo; the desktop example (/desktop) lists them too.
+// Curated demos first, then the catalog. App frames, their navigation, the
+// data table and the media players stay on their docs pages.
 export const GALLERY_ITEMS: GalleryItem[] = [
   ...ITEMS,
   ...CATALOG.map((entry) => ({
@@ -422,10 +372,7 @@ function GalleryCard({ item }: { item: GalleryItem }) {
       >
         <ArrowUpRightIcon />
       </Button>
-      <div
-        className="flex w-full max-w-full min-w-0 items-center justify-center"
-        style={item.entry?.zoom ? { zoom: item.entry.zoom } : undefined}
-      >
+      <div className="flex w-full max-w-full min-w-0 items-center justify-center">
         {item.Demo ? <item.Demo /> : <LazyDemo entry={item.entry} />}
       </div>
       {/* Tall demos start at the top and fade out at the bottom edge. */}

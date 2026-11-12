@@ -7,12 +7,7 @@ import {
   AlignLeftIcon,
   AlignRightIcon,
   BoldIcon,
-  HomeIcon,
-  InboxIcon,
   ItalicIcon,
-  LayersIcon,
-  SearchIcon,
-  SettingsIcon,
   Trash2Icon,
   UnderlineIcon,
 } from "@/lib/site-icons"
@@ -42,18 +37,6 @@ import {
   ProgressLabel,
   ProgressValue,
 } from "@/styles/base-fabricator/ui/progress"
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
-  SidebarMenu,
-  SidebarMenuBadge,
-  SidebarMenuButton,
-  SidebarMenuItem,
-  SidebarProvider,
-} from "@/styles/base-fabricator/ui/sidebar"
 import { Spinner } from "@/styles/base-fabricator/ui/spinner"
 import {
   Table,
@@ -114,49 +97,6 @@ export function ToggleGroupDemo() {
         </ToggleGroupItem>
       </ToggleGroup>
     </div>
-  )
-}
-
-const NAV = [
-  { label: "Home", icon: HomeIcon },
-  { label: "Inbox", icon: InboxIcon, badge: "4" },
-  { label: "Search", icon: SearchIcon },
-  { label: "Projects", icon: LayersIcon, badge: "12" },
-  { label: "Settings", icon: SettingsIcon },
-]
-
-export function SidebarDemo() {
-  const [active, setActive] = React.useState("Inbox")
-
-  return (
-    <SidebarProvider
-      className="min-h-0 w-auto"
-      style={{ "--sidebar-width": "220px" } as React.CSSProperties}
-    >
-      <Sidebar collapsible="none" className="rounded-xl">
-        <SidebarContent>
-          <SidebarGroup>
-            <SidebarGroupLabel>Workspace</SidebarGroupLabel>
-            <SidebarGroupContent>
-              <SidebarMenu>
-                {NAV.map(({ label, icon: Icon, badge }) => (
-                  <SidebarMenuItem key={label}>
-                    <SidebarMenuButton
-                      isActive={active === label}
-                      onClick={() => setActive(label)}
-                    >
-                      <Icon />
-                      <span>{label}</span>
-                    </SidebarMenuButton>
-                    {badge && <SidebarMenuBadge>{badge}</SidebarMenuBadge>}
-                  </SidebarMenuItem>
-                ))}
-              </SidebarMenu>
-            </SidebarGroupContent>
-          </SidebarGroup>
-        </SidebarContent>
-      </Sidebar>
-    </SidebarProvider>
   )
 }
 

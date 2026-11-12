@@ -8,9 +8,11 @@ import {
   Field,
   FieldContent,
   FieldDescription,
+  FieldError,
   FieldGroup,
   FieldLabel,
 } from "@/styles/base-fabricator/ui/field"
+import { Input } from "@/styles/base-fabricator/ui/input"
 import {
   InputGroup,
   InputGroupAddon,
@@ -31,6 +33,8 @@ import {
 import { Search } from "@/styles/base-fabricator/ui/search"
 import { Slider } from "@/styles/base-fabricator/ui/slider"
 import { Switch } from "@/styles/base-fabricator/ui/switch"
+
+import { getUsernameError } from "../_lib/username"
 
 export function SwitchDemo() {
   return (
@@ -148,6 +152,58 @@ export function CheckboxDemo() {
           </FieldContent>
         </Field>
       ))}
+    </FieldGroup>
+  )
+}
+
+/**
+ * Input: a filled field, an invalid one and an empty one. The username is
+ * checked when the person leaves the field (DESIGN.md, Forms); fixing it
+ * clears the error at once.
+ */
+export function InputDemo() {
+  const [username, setUsername] = React.useState("ana")
+  const [error, setError] = React.useState(getUsernameError("ana"))
+
+  return (
+    <FieldGroup className="w-[260px] gap-5">
+      <Field>
+        <FieldLabel htmlFor="home-input-name">Name</FieldLabel>
+        <Input id="home-input-name" defaultValue="Ana Silva" />
+      </Field>
+      <Field data-invalid={Boolean(error)}>
+        <FieldLabel htmlFor="home-input-username">Username</FieldLabel>
+        <Input
+          id="home-input-username"
+          value={username}
+          aria-invalid={Boolean(error)}
+          aria-describedby="home-input-username-help"
+          onChange={(event) => {
+            setUsername(event.target.value)
+            if (error && !getUsernameError(event.target.value)) {
+              setError(undefined)
+            }
+          }}
+          onBlur={() => setError(getUsernameError(username))}
+        />
+        {/* The description holds the error's line, so the card keeps its
+            height when the error clears. */}
+        {error ? (
+          <FieldError id="home-input-username-help">{error}</FieldError>
+        ) : (
+          <FieldDescription id="home-input-username-help">
+            Shown on your profile.
+          </FieldDescription>
+        )}
+      </Field>
+      <Field>
+        <FieldLabel htmlFor="home-input-email">Email</FieldLabel>
+        <Input
+          id="home-input-email"
+          type="email"
+          placeholder="ana@example.com"
+        />
+      </Field>
     </FieldGroup>
   )
 }
