@@ -428,6 +428,8 @@ export { AppShellExample }
 
 ## API reference
 
+
+
 Props it adds to what it wraps: `actions`, `capsule`, `defaultOpen`, `defaultView`, `defaultWidth`, `icon`, `id`, `isActive`, `items`, `label`, `maxItems`, `maxWidth`, `minWidth`, `mobile`, `nativeTabs`, `onPress`, `panel`, `primaryAction`, `renderLink`, `shortcut`, `side`, `size`, `trigger`, `variant`, `view`, `views`.
 
 ## Differences from web
@@ -437,5 +439,3 @@ Props it adds to what it wraps: `actions`, `capsule`, `defaultOpen`, `defaultVie
 ## Accessibility
 
 Parts set `role="heading"`, `role="link"`, `role="summary"`, read by VoiceOver and TalkBack. Give a control with no text an `accessibilityLabel`.
-
-**System tabs.** `AppShellBottomNav` and `AppNavBottomBar` accept `nativeTabs`: a native tab view containing the current page. The element receives `onHeightChange(height)` and `isBarHidden`. Report the system bar's measured height, including its safe area, and pass `isBarHidden` to its tab-bar visibility prop. This keeps the page mounted when the editor takes the bottom edge. On iOS 26, a system tab controller supplies the actual Liquid Glass selection lens and switching animation. `capsule` changes only the background of the Fabricator-drawn tab bar.

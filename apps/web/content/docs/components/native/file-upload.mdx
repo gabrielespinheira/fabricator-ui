@@ -61,6 +61,7 @@ import { Text } from "@/components/ui/text"
     </FileUploadDescription>
     <FileUploadTrigger>Browse files</FileUploadTrigger>
   </FileUploadDropzone>
+  <PickerStatus />
   <PickedFiles />
 </FileUpload>
 {error ? <Text className="text-destructive-text">{error}</Text> : null}
@@ -113,6 +114,15 @@ import {
 } from "@/components/ui/file-upload"
 import { Text } from "@/components/ui/text"
 
+function PickerStatus() {
+  const { canPick } = useFileUpload()
+  return canPick ? null : (
+    <Text className="text-muted-foreground">
+      The host app supplies document picking. Validation and file removal work
+      independently.
+    </Text>
+  )
+}
 function PickedFiles() {
   const { files } = useFileUpload()
   return (
@@ -167,6 +177,7 @@ function FileUploadExample() {
             </FileUploadDescription>
             <FileUploadTrigger>Browse files</FileUploadTrigger>
           </FileUploadDropzone>
+          <PickerStatus />
           <PickedFiles />
         </FileUpload>
         {error ? <Text className="text-destructive-text">{error}</Text> : null}
@@ -190,6 +201,8 @@ export { FileUploadExample }
 ```
 
 ## API reference
+
+
 
 Props it adds to what it wraps: `"aria-invalid"`, `file`, `pickFiles`, `placeholder`.
 

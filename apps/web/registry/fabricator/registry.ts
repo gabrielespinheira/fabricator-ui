@@ -386,6 +386,47 @@ export const fabricatorItems = [
     },
   },
   {
+    name: "data-table",
+    type: "registry:ui",
+    title: "Data Table",
+    description:
+      "A TanStack table drawn as one sticky-headed grid: typed columns, sorting, filters in header popovers, pinned and resizable columns, 10,000 virtual rows, pagination or infinite scroll, loading and empty states, a selection bar and a footer of calculations.",
+    dependencies: ["@tanstack/react-table@9.3.1", "@tanstack/react-virtual@3.14.26"],
+    registryDependencies: [
+      "avatar",
+      "badge",
+      "button",
+      "calendar",
+      "checkbox",
+      "density",
+      "dropdown-menu",
+      "empty",
+      "input",
+      "popover",
+      "progress",
+      "search",
+      "select",
+      "separator",
+      "skeleton",
+      "toggle-group",
+    ],
+    files: [
+      { path: "ui/data-table.tsx", type: "registry:ui" },
+      { path: "ui/data-table-cells.tsx", type: "registry:ui" },
+      { path: "hooks/use-data-table.ts", type: "registry:hook" },
+      { path: "lib/data-table-model.ts", type: "registry:lib" },
+    ],
+    categories: ["data"],
+    meta: {
+      fabricator: true,
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/data-table",
+        examples:
+          "https://fabricator-ui.vercel.app/docs/components/base/data-table#examples",
+      },
+    },
+  },
+  {
     name: "time-input",
     type: "registry:ui",
     title: "Time Input",

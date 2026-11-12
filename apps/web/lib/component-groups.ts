@@ -55,6 +55,7 @@ const GROUP_BY_SLUG: Record<string, ComponentGroup> = {
   calendar: "Forms",
   "date-picker": "Forms",
   "month-input": "Forms",
+  "multi-select": "Forms",
   "time-input": "Forms",
   "time-wheel": "Forms",
   // Overlays
@@ -81,6 +82,7 @@ const GROUP_BY_SLUG: Record<string, ComponentGroup> = {
   tabs: "Structure",
   breadcrumb: "Structure",
   pagination: "Structure",
+  "preview-rail": "Structure",
   accordion: "Structure",
   collapsible: "Structure",
   resizable: "Structure",
@@ -96,6 +98,7 @@ const GROUP_BY_SLUG: Record<string, ComponentGroup> = {
   progress: "Content",
   empty: "Content",
   "video-player": "Content",
+  "audio-player": "Content",
   "image-compare": "Content",
   "syntax-highlight": "Content",
   markdown: "Content",

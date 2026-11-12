@@ -1903,6 +1903,373 @@
     @apply motion-popup bg-surface-3 shadow-surface-3 text-popover-foreground relative isolate min-w-32 rounded-xl p-1;
   }
 
+/* MARK: Data Table */
+
+  /* Root: the parts stack 12 apart. Rows are the 40-step tall; pinned and
+     sticky cells paint the surface the table sits on (the card, or the page
+     when flat). */
+  .cn-data-table {
+    @apply gap-(--density-12) text-(length:--density-text-13) [--data-table-row-height:var(--density-40)] [--data-table-surface:var(--card)] data-[variant=flat]:[--data-table-surface:var(--background)];
+  }
+
+  .cn-data-table-toolbar {
+    @apply gap-(--density-8);
+  }
+
+  .cn-data-table-search {
+    @apply min-w-0;
+  }
+
+  .cn-data-table-filter-menu-trigger {
+    @apply shrink-0;
+  }
+
+  .cn-data-table-view-options {
+    @apply ms-auto shrink-0;
+  }
+
+  /* Frame: a card (surface 3 on the card shadow, rounded) or nothing. */
+  .cn-data-table-content {
+    @apply overflow-hidden data-[variant=card]:rounded-xl data-[variant=card]:bg-card data-[variant=card]:shadow-surface-2;
+  }
+
+  .cn-data-table-viewport {
+    @apply data-empty:min-h-72;
+  }
+
+  .cn-data-table-table {
+    @apply text-(length:--density-text-13);
+  }
+
+  .cn-data-table-header {
+    @apply text-foreground;
+  }
+
+  /* Head: 36 tall, sticky, foreground semibold with a hairline under it.
+     Pinned heads sit above the scrolling ones. */
+  .cn-data-table-head {
+    @apply sticky top-0 z-20 h-(--density-36) border-b border-border/60 bg-(--data-table-surface) px-(--density-12) text-start align-middle font-semibold whitespace-nowrap data-pinned:z-30 data-[align=center]:text-center data-[align=end]:text-end data-[kind=actions]:px-0 data-[kind=select]:px-0 in-data-[lines=grid]:border-e in-data-[lines=grid]:last:border-e-0 data-[pin-edge=end]:in-data-overflow-end:shadow-[-1px_0_0_var(--color-border),-8px_0_12px_-8px_color-mix(in_oklab,var(--color-foreground)_16%,transparent)] data-[pin-edge=start]:in-data-overflow-start:shadow-[1px_0_0_var(--color-border),8px_0_12px_-8px_color-mix(in_oklab,var(--color-foreground)_16%,transparent)];
+  }
+
+  .cn-data-table-head-content {
+    @apply gap-(--density-4) in-data-[align=end]:flex-row-reverse;
+  }
+
+  /* Sort: the label and the type icon, which turns into the direction arrow
+     on the move timing (and turns over for descending). */
+  .cn-data-table-sort {
+    @apply -mx-(--density-4) h-(--density-28) flex-1 gap-(--density-6) rounded-md px-(--density-4) font-semibold transition-colors duration-feedback ease-feedback in-data-[align=center]:justify-center in-data-[align=end]:justify-end focus-visible:ring-1 focus-visible:ring-ring;
+  }
+
+  .cn-data-table-sort-icon {
+    @apply size-(--density-icon-16) text-muted-foreground [&_svg]:size-(--density-icon-14) [&_svg]:stroke-[1.75];
+  }
+
+  .cn-data-table-sort-type {
+    @apply transition-[opacity,scale] duration-move ease-move in-data-direction:scale-50 in-data-direction:opacity-0 motion-reduce:transition-none;
+  }
+
+  .cn-data-table-sort-arrow {
+    @apply scale-50 text-foreground opacity-0 transition-[opacity,scale,rotate] duration-move ease-move in-data-direction:scale-100 in-data-direction:opacity-100 in-data-[direction=desc]:rotate-180 motion-reduce:transition-none;
+  }
+
+  .cn-data-table-sort-index {
+    @apply text-(length:--density-text-11) font-medium text-muted-foreground tabular-nums;
+  }
+
+  /* The column's options: shown while the head is lit or focused, and
+     always while it filters (with a dot) or is open. */
+  .cn-data-table-column-trigger {
+    @apply relative shrink-0 text-muted-foreground opacity-0 transition-opacity duration-feedback ease-feedback in-[th:hover]:opacity-100 focus-visible:opacity-100 data-filtered:text-foreground data-filtered:opacity-100 data-filtered:after:absolute data-filtered:after:end-0.5 data-filtered:after:top-0.5 data-filtered:after:size-1.5 data-filtered:after:rounded-full data-filtered:after:bg-primary data-popup-open:opacity-100 pointer-coarse:opacity-100;
+  }
+
+  /* Resize: an 6px strip on the head's end edge with a hairline that shows
+     while it's lit, dragged or focused. */
+  .cn-data-table-resize {
+    @apply w-1.5 after:absolute after:inset-y-(--density-8) after:end-0 after:w-px after:bg-transparent after:transition-colors after:duration-feedback hover:after:bg-foreground/25 focus-visible:after:bg-ring data-resizing:after:bg-ring;
+  }
+
+  .cn-data-table-body {
+    @apply transition-opacity duration-feedback ease-feedback data-refetching:opacity-60;
+  }
+
+  /* Rows: the hover, stripe and selection tint is a gradient image, so the
+     opaque pinned cells can draw the same tint over the surface. */
+  .cn-data-table-row {
+    @apply bg-[image:var(--data-table-row-tint)] outline-none in-data-striped:data-odd:not-hover:[--data-table-row-tint:linear-gradient(color-mix(in_oklab,var(--color-muted)_45%,transparent),color-mix(in_oklab,var(--color-muted)_45%,transparent))] hover:[--data-table-row-tint:linear-gradient(var(--color-hover),var(--color-hover))] focus-visible:outline-1 focus-visible:-outline-offset-1 focus-visible:outline-ring data-clickable:cursor-pointer data-[state=selected]:[--data-table-row-tint:linear-gradient(var(--color-active),var(--color-active))];
+  }
+
+  /* Cells: muted, the lit or picked row and the record's name in the
+     foreground. Numbers align to the end in tabular figures. */
+  .cn-data-table-cell {
+    @apply h-(--data-table-row-height) overflow-hidden border-b border-border/60 px-(--density-12) py-0 text-start align-middle text-ellipsis whitespace-nowrap text-muted-foreground transition-colors duration-feedback ease-feedback in-data-[state=selected]:text-foreground in-[tr:hover]:text-foreground data-pinned:sticky data-pinned:z-10 data-pinned:bg-(--data-table-surface) data-pinned:bg-[image:var(--data-table-row-tint)] data-primary:font-medium data-primary:text-foreground data-[align=center]:text-center data-[align=end]:text-end data-[kind=actions]:px-(--density-4) data-[kind=select]:px-0 in-data-[lines=grid]:border-e in-data-[lines=grid]:last:border-e-0 data-[pin-edge=end]:in-data-overflow-end:shadow-[-1px_0_0_var(--color-border),-8px_0_12px_-8px_color-mix(in_oklab,var(--color-foreground)_16%,transparent)] data-[pin-edge=start]:in-data-overflow-start:shadow-[1px_0_0_var(--color-border),8px_0_12px_-8px_color-mix(in_oklab,var(--color-foreground)_16%,transparent)];
+  }
+
+  /* The empty column that takes the width the others leave. */
+  .cn-data-table-filler {
+    @apply border-b border-border/60 p-0 in-data-[slot=data-table-footer]:sticky in-data-[slot=data-table-footer]:bottom-0 in-data-[slot=data-table-footer]:z-20 in-data-[slot=data-table-footer]:border-t in-data-[slot=data-table-footer]:border-b-0 in-data-[slot=data-table-footer]:bg-(--data-table-surface) in-data-[slot=data-table-header]:sticky in-data-[slot=data-table-header]:top-0 in-data-[slot=data-table-header]:z-20 in-data-[slot=data-table-header]:bg-(--data-table-surface);
+  }
+
+  .cn-data-table-select {
+    @apply w-full;
+  }
+
+  /* Numbered rows: the number gives way to the checkbox while the row is
+     lit, picked or the checkbox has focus. */
+  .cn-data-table-row-number {
+    @apply text-(length:--density-text-12) text-muted-foreground tabular-nums transition-opacity duration-feedback ease-feedback in-data-[state=selected]:opacity-0 in-[[data-slot=data-table-select]:has(:focus-visible)]:opacity-0 in-[tr:hover]:opacity-0;
+  }
+
+  .cn-data-table-checkbox {
+    @apply transition-[opacity,background-color,border-color,box-shadow,scale] in-data-numbered:opacity-0 in-data-numbered:focus-visible:opacity-100 in-data-numbered:in-data-[state=selected]:opacity-100 in-data-numbered:in-[tr:hover]:opacity-100;
+  }
+
+  .cn-data-table-skeleton {
+    @apply h-(--density-12) rounded-sm;
+  }
+
+  /* Footer: sticky, a hairline above, one calculation per column. */
+  .cn-data-table-footer {
+    @apply text-foreground;
+  }
+
+  .cn-data-table-footer-cell {
+    @apply sticky bottom-0 z-20 h-(--density-36) border-t border-border/60 bg-(--data-table-surface) px-(--density-8) align-middle font-normal data-pinned:z-30 data-[kind=actions]:px-0 data-[kind=select]:px-0 in-data-[lines=grid]:border-e in-data-[lines=grid]:last:border-e-0 data-[pin-edge=end]:in-data-overflow-end:shadow-[-1px_0_0_var(--color-border),-8px_0_12px_-8px_color-mix(in_oklab,var(--color-foreground)_16%,transparent)] data-[pin-edge=start]:in-data-overflow-start:shadow-[1px_0_0_var(--color-border),8px_0_12px_-8px_color-mix(in_oklab,var(--color-foreground)_16%,transparent)];
+  }
+
+  /* A calculation: its name muted, its value in the foreground. An unset
+     one ("Calculate") shows while its cell is lit. */
+  .cn-data-table-aggregate {
+    @apply h-(--density-28) gap-(--density-6) rounded-md px-(--density-4) text-(length:--density-text-12) transition-[background-color,opacity] duration-feedback ease-feedback in-data-[align=center]:justify-center in-data-[align=end]:justify-end hover:bg-hover focus-visible:opacity-100 focus-visible:ring-1 focus-visible:ring-ring data-empty:opacity-0 data-popup-open:bg-hover data-popup-open:opacity-100 in-[td:hover]:opacity-100 pointer-coarse:opacity-100;
+  }
+
+  .cn-data-table-aggregate-label {
+    @apply shrink-0 text-muted-foreground;
+  }
+
+  .cn-data-table-aggregate-value {
+    @apply font-medium text-foreground tabular-nums;
+  }
+
+  /* Refetching: a primary line pulses under the header. */
+  .cn-data-table-loading-bar {
+    @apply top-(--density-36) h-0.5 animate-pulse bg-primary/60 motion-reduce:animate-none;
+  }
+
+  .cn-data-table-empty {
+    @apply top-(--density-36) p-(--density-16);
+  }
+
+  .cn-data-table-empty-state {
+    @apply border-none bg-transparent p-(--density-16);
+  }
+
+  /* Popover panels: the column's name, sort, filter and actions. */
+  .cn-data-table-panel {
+    @apply max-h-[min(36rem,var(--available-height))] gap-(--density-10) overflow-y-auto;
+  }
+
+  .cn-data-table-panel-header {
+    @apply gap-(--density-8) font-medium text-foreground [&_svg:not([class*='size-'])]:size-(--density-icon-14) [&_svg]:shrink-0 [&_svg]:text-muted-foreground;
+  }
+
+  .cn-data-table-panel-sort {
+    @apply gap-(--density-6);
+  }
+
+  .cn-data-table-panel-list {
+    @apply -mx-(--density-6) gap-px;
+  }
+
+  .cn-data-table-panel-item {
+    @apply justify-start gap-(--density-8) px-(--density-8) font-normal text-muted-foreground hover:text-foreground [&_svg]:text-muted-foreground;
+  }
+
+  .cn-data-table-filter-dot {
+    @apply size-1.5 shrink-0 rounded-full bg-primary;
+  }
+
+  .cn-data-table-filter-text {
+    @apply gap-(--density-8);
+  }
+
+  .cn-data-table-filter-range {
+    @apply gap-(--density-6);
+  }
+
+  .cn-data-table-filter-range-inputs {
+    @apply gap-(--density-6);
+  }
+
+  .cn-data-table-filter-range-separator {
+    @apply shrink-0 text-muted-foreground;
+  }
+
+  .cn-data-table-filter-hint {
+    @apply text-(length:--density-text-12) text-muted-foreground;
+  }
+
+  .cn-data-table-filter-date {
+    @apply gap-(--density-8);
+  }
+
+  .cn-data-table-filter-presets {
+    @apply gap-(--density-4);
+  }
+
+  .cn-data-table-filter-calendar {
+    @apply mx-auto p-0;
+  }
+
+  .cn-data-table-filter-options {
+    @apply gap-(--density-8);
+  }
+
+  .cn-data-table-filter-option-list {
+    @apply -mx-(--density-6) max-h-64 gap-px;
+  }
+
+  .cn-data-table-filter-option {
+    @apply min-h-(--density-36) cursor-pointer gap-(--density-8) rounded-lg px-(--density-6) transition-colors duration-feedback ease-feedback hover:bg-hover;
+  }
+
+  .cn-data-table-filter-option-count {
+    @apply ms-auto shrink-0 text-(length:--density-text-12) text-muted-foreground tabular-nums;
+  }
+
+  .cn-data-table-filter-boolean {
+    @apply w-full;
+  }
+
+  /* Filter chips: pills with the column, its summary and a remove button. */
+  .cn-data-table-filter-list {
+    @apply gap-(--density-6);
+  }
+
+  .cn-data-table-filter-chip {
+    @apply h-(--density-28) rounded-full text-(length:--density-text-12) ring-1 ring-border ring-inset;
+  }
+
+  .cn-data-table-filter-chip-trigger {
+    @apply h-full gap-(--density-6) rounded-s-full ps-(--density-10) pe-(--density-4) transition-colors duration-feedback ease-feedback hover:bg-hover focus-visible:ring-1 focus-visible:ring-ring data-popup-open:bg-hover [&_svg]:size-3.5 [&_svg]:shrink-0 [&_svg]:text-muted-foreground;
+  }
+
+  .cn-data-table-filter-chip-label {
+    @apply shrink-0 font-medium text-foreground;
+  }
+
+  .cn-data-table-filter-chip-summary {
+    @apply max-w-48 text-muted-foreground;
+  }
+
+  .cn-data-table-filter-chip-remove {
+    @apply me-(--density-2) size-(--density-24) rounded-full text-muted-foreground transition-colors duration-feedback ease-feedback hover:bg-hover hover:text-foreground focus-visible:ring-1 focus-visible:ring-ring [&_svg]:size-3;
+  }
+
+  /* Selection bar: the toast surface, rising over the table's bottom edge
+     on the move timing. */
+  .cn-data-table-selection-bar {
+    @apply bottom-(--density-12) gap-(--density-8) rounded-xl bg-surface-5 p-(--density-4) ps-(--density-12) text-(length:--density-text-13) shadow-surface-5 transition-[opacity,translate,scale] duration-move ease-enter data-[state=closed]:pointer-events-none data-[state=closed]:translate-y-2 data-[state=closed]:scale-95 data-[state=closed]:opacity-0 data-[state=closed]:duration-move-exit data-[state=closed]:ease-exit motion-reduce:transition-none;
+  }
+
+  .cn-data-table-selection-count {
+    @apply font-medium text-foreground tabular-nums;
+  }
+
+  .cn-data-table-selection-actions {
+    @apply gap-(--density-4);
+  }
+
+  /* Pagination: muted text, the range in tabular figures, square pages. */
+  .cn-data-table-pagination {
+    @apply gap-(--density-12) text-(length:--density-text-13) text-muted-foreground;
+  }
+
+  .cn-data-table-pagination-size {
+    @apply gap-(--density-8);
+  }
+
+  .cn-data-table-pagination-range {
+    @apply tabular-nums;
+  }
+
+  .cn-data-table-pagination-pages {
+    @apply gap-(--density-2);
+  }
+
+  .cn-data-table-page {
+    @apply w-auto min-w-(--density-36) px-(--density-6) tabular-nums;
+  }
+
+  .cn-data-table-pagination-ellipsis {
+    @apply w-(--density-24) text-center;
+  }
+
+  /* Cells by type. */
+  .cn-data-table-text {
+    @apply block truncate;
+  }
+
+  .cn-data-table-number {
+    @apply tabular-nums;
+  }
+
+  .cn-data-table-date {
+    @apply tabular-nums;
+  }
+
+  .cn-data-table-empty-value {
+    @apply text-muted-foreground/60;
+  }
+
+  .cn-data-table-status {
+    @apply max-w-full gap-(--density-6);
+  }
+
+  .cn-data-table-status-dot {
+    @apply size-1.5 shrink-0 rounded-full bg-current;
+  }
+
+  .cn-data-table-tags {
+    @apply inline-flex max-w-full items-center gap-(--density-4) overflow-hidden align-middle;
+  }
+
+  .cn-data-table-tag {
+    @apply min-w-0;
+  }
+
+  .cn-data-table-tag-more {
+    @apply shrink-0 text-muted-foreground;
+  }
+
+  .cn-data-table-person {
+    @apply inline-flex max-w-full min-w-0 items-center gap-(--density-8) align-middle;
+  }
+
+  .cn-data-table-person-avatar {
+    @apply shrink-0;
+  }
+
+  .cn-data-table-link {
+    @apply inline-flex max-w-full items-center gap-(--density-4) text-primary-text underline-offset-4 outline-none hover:underline focus-visible:rounded-sm focus-visible:ring-1 focus-visible:ring-ring [&_svg]:size-3 [&_svg]:shrink-0 [&_svg]:opacity-60;
+  }
+
+  .cn-data-table-boolean {
+    @apply inline-flex items-center text-muted-foreground/60 data-checked:text-foreground [&_svg]:size-(--density-icon-16);
+  }
+
+  .cn-data-table-progress {
+    @apply flex w-full items-center gap-(--density-8);
+  }
+
+  .cn-data-table-progress-bar {
+    @apply min-w-0 flex-1;
+  }
+
+  .cn-data-table-progress-value {
+    @apply w-[4ch] shrink-0 text-end text-(length:--density-text-12) tabular-nums;
+  }
+
 /* MARK: Date Picker */
 
   /* Editable: an Input Group, so the frame, focus, invalid and disabled states
@@ -3305,10 +3672,12 @@
   }
 
   /* Chips pop in (fade, a 6px rise from 0.92) and glide to a new place on the
-     move timing. A leaving chip wipes out from its start on the exit timing,
-     and the chips after it glide over once it has gone. */
+     move timing. A leaving chip comes out of the row where it stood and fades
+     as it wipes out from its start on the exit timing, while the chips after
+     it glide over. A leaving chip can be a new element (Base UI's chips are
+     a different one), so it starts its exit from fully shown. */
   .cn-multi-select-chip {
-    @apply bg-active text-foreground h-(--density-28) max-w-full gap-(--density-2) rounded-md ps-(--density-8) pe-(--density-4) text-(length:--density-text-12) font-medium whitespace-nowrap [clip-path:inset(-4px)] transition-[opacity,scale,translate,clip-path,box-shadow] duration-move ease-enter starting:translate-y-1.5 starting:scale-92 starting:opacity-0 focus-visible:ring-1 focus-visible:ring-ring data-exiting:[clip-path:inset(-4px_-4px_-4px_100%)] data-exiting:duration-move-exit data-exiting:ease-exit motion-reduce:transition-none;
+    @apply bg-active text-foreground h-(--density-28) max-w-full gap-(--density-2) rounded-md ps-(--density-8) pe-(--density-4) text-(length:--density-text-12) font-medium whitespace-nowrap [clip-path:inset(-4px)] transition-[opacity,scale,translate,clip-path,box-shadow] duration-move ease-enter starting:not-data-exiting:translate-y-1.5 starting:not-data-exiting:scale-92 starting:not-data-exiting:opacity-0 starting:data-exiting:opacity-100 starting:data-exiting:[clip-path:inset(-4px)] focus-visible:ring-1 focus-visible:ring-ring data-exiting:[clip-path:inset(-4px_-4px_-4px_100%)] data-exiting:opacity-0 data-exiting:duration-move-exit data-exiting:ease-exit motion-reduce:transition-none;
   }
 
   .cn-multi-select-chip-label {

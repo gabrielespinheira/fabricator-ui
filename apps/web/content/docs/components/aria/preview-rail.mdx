@@ -1,0 +1,179 @@
+---
+title: Preview Rail
+description: A rail of thin ticks, one per section, that swell around the pointer with a card naming the section it's on.
+base: aria
+component: true
+---
+
+<ComponentPreview
+  styleName="aria-nova"
+  name="preview-rail-demo"
+  previewClassName="h-auto"
+/>
+
+Move the pointer along the rail: the ticks swell around the one it's on, like a dock, and a card beside the rail names that section. The card glides from tick to tick. With the pointer away, the swell rests on the current section, so the rail still shows where the reader is. On a touch screen a finger scrubs: a press lights the tick under it, a drag moves the light, and lifting on the rail follows the lit section.
+
+Preview Rail is part of the Fabricator style. It's built on HTML, so the same component ships for every base.
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">Command</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx fabricator-ui@latest add preview-rail
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps className="mb-0 pt-2">
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  src="styles/aria-fabricator/lib/preview-rail-model.ts"
+  title="lib/preview-rail-model.ts"
+  styleName="aria-nova"
+/>
+
+<ComponentSource
+  src="styles/aria-fabricator/ui/preview-rail.tsx"
+  title="components/ui/preview-rail.tsx"
+  styleName="aria-nova"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { PreviewRail } from "@/components/ui/preview-rail"
+```
+
+```tsx
+<PreviewRail
+  aria-label="On this page"
+  defaultValue="installation"
+  items={[
+    { value: "overview", label: "Overview", href: "#overview" },
+    {
+      value: "installation",
+      label: "Installation",
+      description: "Add the CLI and set up your first project.",
+      href: "#installation",
+    },
+    { value: "usage", label: "Usage", href: "#usage" },
+  ]}
+/>
+```
+
+Use it for a page's sections or a sequence of places, such as chapters, months or steps, where the rail is compact and the names can wait for the pointer. When people need to read every name at once, use `Tabs` or a `Sidebar` instead. An item with an `href` is a link; without one it's a button, and `onValueChange` says which was chosen.
+
+## Composition
+
+Preview Rail is one component. Its parts carry a `data-slot` for styling from outside:
+
+```text
+PreviewRail                      data-slot="preview-rail"
+├── div (the rail)               data-slot="preview-rail-list"
+│   └── a | button (one a tick)  data-slot="preview-rail-item" data-current data-lit
+│       └── span                 data-slot="preview-rail-tick"
+└── div (the card's track)       data-slot="preview-rail-preview"
+    └── div                      data-slot="preview-rail-card" data-open | data-closed
+        └── div                  data-slot="preview-rail-content"
+            ├── p                data-slot="preview-rail-title"
+            └── p                data-slot="preview-rail-description"
+```
+
+## Examples
+
+### Horizontal
+
+`orientation="horizontal"` lays the ticks in a row, with the card above them.
+
+<ComponentPreview
+  styleName="aria-nova"
+  name="preview-rail-horizontal"
+  previewClassName="h-auto"
+/>
+
+### Controlled
+
+Pass `value` and `onValueChange` to keep the current item in your state, such as the section scrolled into view. `side="start"` puts the card before the rail, here on its left. A `disabled` item dims and is skipped.
+
+<ComponentPreview
+  styleName="aria-nova"
+  name="preview-rail-controlled"
+  previewClassName="h-auto"
+/>
+
+### Custom card
+
+`renderPreview` draws the card's content for an item, here a chapter's time above its name.
+
+<ComponentPreview
+  styleName="aria-nova"
+  name="preview-rail-chapters"
+  previewClassName="h-auto"
+/>
+
+## Motion
+
+The ticks swell on the move timing: the lit one to its full length, the next ones to three quarters and three fifths, and the rest stay short. The card grows from the rail on the popup motion, glides between ticks on the move timing, and its content fades in as it arrives. Near the ends of the rail it stops at the rail's edge rather than running past it. It closes quicker than it opens.
+
+Everything follows the speed setting. Reduce Motion keeps the fades and drops the swell's travel, the glide and the growth.
+
+## API Reference
+
+### PreviewRail
+
+| Prop            | Type                                   | Default                                          |
+| --------------- | -------------------------------------- | ------------------------------------------------ |
+| `items`         | `PreviewRailItem[]`                    | Required                                         |
+| `orientation`   | `"vertical" \| "horizontal"`           | `"vertical"`                                     |
+| `side`          | `"start" \| "end"`                     | `"end"` when vertical, `"start"` when horizontal |
+| `value`         | `string`                               | (none)                                           |
+| `defaultValue`  | `string`                               | The first enabled item                           |
+| `onValueChange` | `(value: string) => void`              | (none)                                           |
+| `renderPreview` | `(item: PreviewRailItem) => ReactNode` | The item's label and description                 |
+| `aria-label`    | `string`                               | `"Section navigation"`                           |
+
+The root is a `nav` and takes its props and `ref`. `side` places the card: `end` after a vertical rail (on its right) or below a horizontal one, `start` before a vertical rail or above a horizontal one.
+
+### PreviewRailItem
+
+| Field         | Type                        | Notes                                       |
+| ------------- | --------------------------- | ------------------------------------------- |
+| `value`       | `string`                    | Unique among the items                      |
+| `label`       | `string`                    | The tick's name, and the card's title       |
+| `description` | `ReactNode`                 | Under the title, and the tick's description |
+| `href`        | `string`                    | Makes the tick a link                       |
+| `target`      | `HTMLAttributeAnchorTarget` | `_blank` adds `rel="noreferrer noopener"`   |
+| `rel`         | `string`                    |                                             |
+| `disabled`    | `boolean`                   | Dims the tick and skips it                  |
+
+## Accessibility
+
+Preview Rail is a navigation landmark, named by `aria-label`. Every tick is a link or a button named by its item's label, with the description as its description, and the current one carries `aria-current` (`page` on a link). The card repeats what the tick already says, so screen readers skip it.
+
+| Key    | Does                                      |
+| ------ | ----------------------------------------- |
+| Tab    | Moves to the next tick and shows its card |
+| Enter  | Follows the link, or chooses the item     |
+| Space  | Chooses the item (buttons)                |
+| Escape | Hides the card                            |
+
+On a touch screen, a press on the rail lights the tick under the finger and shows its card, a drag along the rail scrubs instead of scrolling the page, and lifting on the rail follows the lit tick. Lifting away from the rail chooses nothing.

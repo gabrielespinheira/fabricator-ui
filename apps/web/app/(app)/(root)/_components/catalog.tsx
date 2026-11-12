@@ -12,8 +12,6 @@ type CatalogSource = {
   slug: string
   title: string
   height: "sm" | "md" | "lg"
-  /** Scales a demo that is wider than a card. */
-  zoom?: number
   load: () => Promise<DemoModule>
 }
 
@@ -129,13 +127,6 @@ const SOURCES: CatalogSource[] = [
       import("@/examples/__styles__/base-fabricator/context-menu-demo"),
   },
   {
-    slug: "data-table",
-    title: "Data Table",
-    height: "lg",
-    zoom: 0.82,
-    load: () => import("@/examples/__styles__/base-fabricator/data-table-demo"),
-  },
-  {
     slug: "date-picker",
     title: "Date Picker",
     height: "sm",
@@ -155,6 +146,13 @@ const SOURCES: CatalogSource[] = [
     height: "sm",
     load: () =>
       import("@/examples/__styles__/base-fabricator/month-input-field"),
+  },
+  {
+    slug: "multi-select",
+    title: "Multi Select",
+    height: "sm",
+    load: () =>
+      import("@/examples/__styles__/base-fabricator/multi-select-demo"),
   },
   {
     slug: "dialog",
@@ -209,8 +207,10 @@ const SOURCES: CatalogSource[] = [
   {
     slug: "input",
     title: "Input",
-    height: "sm",
-    load: () => import("@/examples/__styles__/base-fabricator/input-demo"),
+    height: "md",
+    // Homepage demo: a filled, an invalid and an empty field.
+    load: () =>
+      import("./demos-forms").then((mod) => ({ InputDemo: mod.InputDemo })),
   },
   {
     slug: "item",
@@ -296,6 +296,13 @@ const SOURCES: CatalogSource[] = [
     load: () => import("@/examples/__styles__/base-fabricator/popover-demo"),
   },
   {
+    slug: "preview-rail",
+    title: "Preview Rail",
+    height: "md",
+    load: () =>
+      import("@/examples/__styles__/base-fabricator/preview-rail-demo"),
+  },
+  {
     slug: "questionnaire",
     title: "Questionnaire",
     height: "lg",
@@ -360,14 +367,6 @@ const SOURCES: CatalogSource[] = [
     title: "Toggle",
     height: "sm",
     load: () => import("@/examples/__styles__/base-fabricator/toggle-demo"),
-  },
-  {
-    slug: "video-player",
-    title: "Video Player",
-    height: "md",
-    // The compact variant: a card is narrower than the full control bar.
-    load: () =>
-      import("@/examples/__styles__/base-fabricator/video-player-compact"),
   },
 ]
 

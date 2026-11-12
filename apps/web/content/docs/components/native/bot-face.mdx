@@ -5,8 +5,6 @@ base: native
 component: true
 ---
 
-The same BotFace API renders with native SVG and Reanimated. Try the interactive example in the mobile component explorer under Chat.
-
 ## Installation
 
 ```bash
@@ -16,60 +14,294 @@ npx fabricator-ui@latest add bot-face
 ## Usage
 
 ```tsx
-import { BotFace } from "@/components/ui/bot-face"
-
-<BotFace shape="squircle" color="violet" aria-label="Fabricator assistant" />
+import {
+  BotFace,
+  type BotFaceColor,
+  type BotFaceEyes,
+  type BotFaceShape,
+} from "@/components/ui/bot-face"
+import { Button } from "@/components/ui/button"
 ```
-
-BotFace belongs in an assistant avatar, an empty conversation or a voice interface. It is a decorative image by default. Give it `aria-label` when it conveys identity; put it inside a named Button if it performs an action.
-
-## Shapes and colours
-
-The demo separates **Palette** (ten named colours) from **Theme** (six labelled roles). Theme roles may share a hue with a palette colour, depending on the project's look.
-
-The fourteen shapes are `circle`, `blob`, `square`, `star`, `clover`, `heart`, `flower`, `droplet`, `pill`, `triangle`, `pentagon`, `burst`, `hexagon` and `squircle`.
-
-The theme roles `primary`, `secondary`, `info`, `success`, `warning` and `destructive` follow the project's look. `neutral` uses the foreground. Named hues `blue`, `indigo`, `violet`, `pink`, `red`, `orange`, `amber`, `green` and `teal` use Fabricator's primary colour presets, including their light and dark fills and contrasting eyes. Use status roles when the face communicates a status.
-
-## Sizes
-
-`<BotFace size="sm" />`, `<BotFace />`, `<BotFace size="lg" />`.
-
-`sm`, `default` and `lg` are 40, 80 and 120 respectively. For an avatar that must fit another size, set width and height through `style`.
-
-## Eyes
-
-`<BotFace eyes="slant" />`, `<BotFace eyes="dots" />`, `<BotFace eyes="square" />`.
-
-`slant` gives the reference's two rounded, slanted eyes. `dots` and `square` offer quieter alternatives.
-
-## Motion
-
-On web and desktop, the eyes follow the pointer anywhere in the window. The face tilts gently in the same direction. A touch holds its gaze briefly, then returns to idle glances. Without a pointer, it pauses between glances and blinks periodically. On React Native, idle glances happen automatically and touching or dragging over the face guides its eyes. It does not request device sensor access.
-
-`followPointer={false}` keeps idle motion and blinking while disabling pointer/touch tracking. `blink={false}` keeps the eyes open. `gaze={{ x: 0.6, y: -0.2 }}` controls the direction, with both axes normalized to -1…1 and clamped to an ellipse. `animated={false}`, Reduce Motion and the Fabricator motion-off setting keep the face still with its eyes open, including controlled gaze.
 
 ```tsx
-<BotFace color="info" shape="pill" eyes="dots" blink={false} />
-<BotFace color="primary" gaze={{ x: 0.6, y: -0.2 }} />
-<BotFace shape="flower" color="success" animated={false} />
+<BotFace
+  shape={shape}
+  color={color}
+  eyes={eyes}
+  size="lg"
+  animated={animated}
+  aria-label="Assistant preview"
+/>
+<View className="flex-row flex-wrap justify-center gap-2">
+  {shapes.map((value) => (
+    <Button
+      key={value}
+      variant={shape === value ? "secondary" : "ghost"}
+      aria-label={`Use ${value} shape`}
+      aria-pressed={shape === value}
+      onPress={() => setShape(value)}
+    >
+      <BotFace
+        shape={value}
+        color={color}
+        eyes={eyes}
+        size="sm"
+        animated={animated}
+      />
+    </Button>
+  ))}
+</View>
+<View className="flex-row justify-center gap-2">
+  <Button
+    variant={isThemeColor ? "ghost" : "secondary"}
+    aria-label="Use palette colors"
+    aria-pressed={!isThemeColor}
+    onPress={() => setColor("violet")}
+  >
+    Palette
+  </Button>
+  <Button
+    variant={isThemeColor ? "secondary" : "ghost"}
+    aria-label="Use theme colors"
+    aria-pressed={isThemeColor}
+    onPress={() => setColor("primary")}
+  >
+    Theme
+  </Button>
+</View>
+<View className="flex-row flex-wrap justify-center gap-2">
+  {colors.map((value) => (
+    <Button
+      key={value}
+      variant={color === value ? "secondary" : "ghost"}
+      aria-label={`Use ${value} color`}
+      aria-pressed={color === value}
+      onPress={() => setColor(value)}
+    >
+      <BotFace
+        shape="circle"
+        color={value}
+        eyes="dots"
+        size="sm"
+        animated={false}
+        style={{ width: 24, height: 24 }}
+      />
+      {isThemeColor
+        ? value.charAt(0).toUpperCase() + value.slice(1)
+        : null}
+    </Button>
+  ))}
+</View>
+<View className="flex-row flex-wrap justify-center gap-2">
+  {(["slant", "dots", "square"] as const).map((value) => (
+    <Button
+      key={value}
+      variant={eyes === value ? "secondary" : "outline"}
+      aria-pressed={eyes === value}
+      onPress={() => setEyes(value)}
+    >
+      {value === "slant"
+        ? "Slanted"
+        : value === "dots"
+          ? "Dots"
+          : "Squares"}
+    </Button>
+  ))}
+  <Button
+    variant="outline"
+    aria-pressed={!animated}
+    onPress={() => setAnimated(!animated)}
+  >
+    {animated ? "Pause" : "Resume"}
+  </Button>
+</View>
 ```
 
-## API Reference
+## Composition
 
-| Prop            | Type                            | Default                         |
-| --------------- | ------------------------------- | ------------------------------- |
-| `shape`         | `BotFaceShape`                  | `"squircle"`                    |
-| `color`         | `BotFaceColor`                  | `"primary"`                     |
-| `eyes`          | `"slant" \| "dots" \| "square"` | `"slant"`                       |
-| `size`          | `"sm" \| "default" \| "lg"`     | `"default"`                     |
-| `animated`      | `boolean`                       | `true`                          |
-| `blink`         | `boolean`                       | `true`                          |
-| `followPointer` | `boolean`                       | `true`                          |
-| `gaze`          | `{ x: number; y: number }`      | Idle or pointer/touch direction |
+- `BotFace`
+- `BotFaceColor`
+- `BotFaceEyes`
+- `BotFaceGaze`
+- `BotFaceProps`
+- `BotFaceShape`
+- `BotFaceSize`
 
-Web renders a `span`; native renders a `View`. Both accept their platform's element props and `ref`, and export `BotFaceProps`, `BotFaceShape`, `BotFaceColor`, `BotFaceEyes`, `BotFaceSize` and `BotFaceGaze`.
+## Examples
 
-### Data attributes
+```tsx showLineNumbers title="bot-face-example.tsx"
+import * as React from "react"
+import { View } from "react-native"
 
-`data-slot` values are `bot-face`, `bot-face-body`, `bot-face-shape`, `bot-face-gaze` and `bot-face-eyes`. The root exposes `data-shape`, `data-color`, `data-eyes`, `data-size` and `data-animated`.
+import {
+  BotFace,
+  type BotFaceColor,
+  type BotFaceEyes,
+  type BotFaceShape,
+} from "@/components/ui/bot-face"
+import { Button } from "@/components/ui/button"
+
+const shapes = [
+  "circle",
+  "blob",
+  "square",
+  "star",
+  "clover",
+  "heart",
+  "flower",
+  "droplet",
+  "pill",
+  "triangle",
+  "pentagon",
+  "burst",
+  "hexagon",
+  "squircle",
+] as const
+const themeColors = [
+  "primary",
+  "secondary",
+  "info",
+  "success",
+  "warning",
+  "destructive",
+] as const
+const paletteColors = [
+  "neutral",
+  "blue",
+  "indigo",
+  "violet",
+  "pink",
+  "red",
+  "orange",
+  "amber",
+  "green",
+  "teal",
+] as const
+
+function BotFaceExample() {
+  const [shape, setShape] = React.useState<BotFaceShape>("squircle")
+  const [color, setColor] = React.useState<BotFaceColor>("violet")
+  const [eyes, setEyes] = React.useState<BotFaceEyes>("slant")
+  const [animated, setAnimated] = React.useState(true)
+  const isThemeColor = themeColors.some((value) => value === color)
+  const colors = isThemeColor ? themeColors : paletteColors
+  return (
+    <ExampleWrapper>
+      <Example title="Face" className="items-center">
+        <BotFace
+          shape={shape}
+          color={color}
+          eyes={eyes}
+          size="lg"
+          animated={animated}
+          aria-label="Assistant preview"
+        />
+        <View className="flex-row flex-wrap justify-center gap-2">
+          {shapes.map((value) => (
+            <Button
+              key={value}
+              variant={shape === value ? "secondary" : "ghost"}
+              aria-label={`Use ${value} shape`}
+              aria-pressed={shape === value}
+              onPress={() => setShape(value)}
+            >
+              <BotFace
+                shape={value}
+                color={color}
+                eyes={eyes}
+                size="sm"
+                animated={animated}
+              />
+            </Button>
+          ))}
+        </View>
+        <View className="flex-row justify-center gap-2">
+          <Button
+            variant={isThemeColor ? "ghost" : "secondary"}
+            aria-label="Use palette colors"
+            aria-pressed={!isThemeColor}
+            onPress={() => setColor("violet")}
+          >
+            Palette
+          </Button>
+          <Button
+            variant={isThemeColor ? "secondary" : "ghost"}
+            aria-label="Use theme colors"
+            aria-pressed={isThemeColor}
+            onPress={() => setColor("primary")}
+          >
+            Theme
+          </Button>
+        </View>
+        <View className="flex-row flex-wrap justify-center gap-2">
+          {colors.map((value) => (
+            <Button
+              key={value}
+              variant={color === value ? "secondary" : "ghost"}
+              aria-label={`Use ${value} color`}
+              aria-pressed={color === value}
+              onPress={() => setColor(value)}
+            >
+              <BotFace
+                shape="circle"
+                color={value}
+                eyes="dots"
+                size="sm"
+                animated={false}
+                style={{ width: 24, height: 24 }}
+              />
+              {isThemeColor
+                ? value.charAt(0).toUpperCase() + value.slice(1)
+                : null}
+            </Button>
+          ))}
+        </View>
+        <View className="flex-row flex-wrap justify-center gap-2">
+          {(["slant", "dots", "square"] as const).map((value) => (
+            <Button
+              key={value}
+              variant={eyes === value ? "secondary" : "outline"}
+              aria-pressed={eyes === value}
+              onPress={() => setEyes(value)}
+            >
+              {value === "slant"
+                ? "Slanted"
+                : value === "dots"
+                  ? "Dots"
+                  : "Squares"}
+            </Button>
+          ))}
+          <Button
+            variant="outline"
+            aria-pressed={!animated}
+            onPress={() => setAnimated(!animated)}
+          >
+            {animated ? "Pause" : "Resume"}
+          </Button>
+        </View>
+      </Example>
+      <Example title="Sizes" className="flex-row items-center">
+        <BotFace size="sm" color="violet" />
+        <BotFace color="info" shape="circle" />
+        <BotFace size="lg" color="success" shape="flower" />
+      </Example>
+      <Example title="Eye styles" className="flex-row flex-wrap">
+        <BotFace eyes="slant" color="violet" />
+        <BotFace eyes="dots" color="teal" shape="pill" />
+        <BotFace eyes="square" color="orange" shape="hexagon" />
+      </Example>
+    </ExampleWrapper>
+  )
+}
+export { BotFaceExample }
+```
+
+## API reference
+
+| Prop | Values |
+| --- | --- |
+| `color` | `amber`, `blue`, `destructive`, `green`, `indigo`, `info`, `neutral`, `orange`, `pink`, `primary`, `red`, `secondary`, `success`, `teal`, `violet`, `warning` |
+
+## Accessibility
+
+Text is read as it appears. Give a control with no text an `accessibilityLabel`.

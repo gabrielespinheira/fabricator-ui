@@ -146,26 +146,36 @@ try {
       OPTION
     )
 
-    // Removing a chip keeps it in place while it wipes out; then the chips
-    // after it glide over.
+    // Removing a chip pops it out of the row where it stood: it fades and
+    // wipes out there while the chips after it glide over at the same time,
+    // not after it has gone.
     await page.evaluate(() => {
-      document.documentElement.dataset.motion = "smooth"
+      document.documentElement.dataset.motion = "default"
     })
     await page.click('[aria-label="Remove Engineering"]')
     await pause(16)
-    const leaving = await chipState(page)
+    const leaving = await page.$$eval(CHIP, (chips) =>
+      chips.map((chip) => ({
+        text: chip.textContent?.trim() ?? "",
+        isExiting: chip.hasAttribute("data-exiting"),
+        position: getComputedStyle(chip).position,
+        translate: getComputedStyle(chip).translate,
+      }))
+    )
     assert.deepEqual(
       leaving.map((c) => (c.isExiting ? `-${c.text}` : c.text)),
       ["Design", "-Engineering", "Product", "Marketing"],
-      `${base}: the removed chip leaves in place`
+      `${base}: the removed chip leaves where it stood`
     )
-    await page.waitForFunction(
-      (selector) =>
-        [...document.querySelectorAll(selector)].some(
-          (c) => getComputedStyle(c).translate !== "none"
-        ),
-      { timeout: 2000 },
-      CHIP
+    assert.equal(
+      leaving.find((c) => c.isExiting)?.position,
+      "absolute",
+      `${base}: the leaving chip is out of the row`
+    )
+    assert.notEqual(
+      leaving.find((c) => c.text === "Product")?.translate,
+      "none",
+      `${base}: the next chip glides while the removed one leaves`
     )
     await page.waitForFunction(
       (selector) =>
@@ -174,7 +184,7 @@ try {
             !c.hasAttribute("data-exiting") &&
             getComputedStyle(c).translate === "none"
         ),
-      { timeout: 3000 },
+      { timeout: 3000, polling: 16 },
       CHIP
     )
     assert.deepEqual(
