@@ -1,6 +1,6 @@
 {
   "name": "@fabricator-ui/mobile",
-  "version": "0.0.0",
+  "version": "0.8.0",
   "private": true,
   "description": "The React Native example: the App Shell's shared model rendered with native views.",
   "license": "MIT",

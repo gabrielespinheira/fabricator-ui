@@ -21,6 +21,7 @@ Upstream syncs, pinned tools, releases and deploys. Most of this is the maintain
 
 - One version for the whole repository, in lockstep: the root `package.json`, every workspace package (the CLI, icon packages, `editor-native`, private apps and packages), the Tauri and Cargo manifests and `bun.lock`. There are no changesets and no release bot.
 - `/release` (or `/release X.Y.Z`) cuts it: a version commit that writes every version file and a `## [X.Y.Z]` section at the top of [`CHANGELOG.md`](../CHANGELOG.md), the only changelog, on a `release/v*` branch with its pull request. Feature PRs never touch versions or `CHANGELOG.md`.
+- The separately installed mobile example follows the same version in `apps/mobile/package.json` and `apps/mobile/app.json`. When the release writer omits it, update these mirrors on the source release branch before cutting. Scaffold templates keep their own starter versions.
 - CI runs `bun run release:check`, which fails when a version file is out of step or a `release/v*` branch doesn't carry its version (`bun run test:scripts` tests it).
 
 ## Deploy
