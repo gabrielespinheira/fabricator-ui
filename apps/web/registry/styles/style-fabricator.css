@@ -8,32 +8,48 @@
     @apply relative isolate;
   }
 
-  /* No dividers between items. */
+  /* The highlight sits over the items' surfaces and under the triggers, which
+     are positioned and come later. */
+  .cn-accordion-highlight {
+    @apply z-0;
+  }
+
+  /* Each item is a tile, a 6% wash of the foreground over whatever it sits
+     on. useAccordionShape marks where it sits: closed neighbours join into
+     one card (data-joined-top, data-joined-bottom square the corners they
+     share) and an open item parts from both (data-gap). Opening, the gap and
+     corners spring on the bounce role; closing, the gap settles on ease-enter,
+     so it never dips into an overlap. Hovering an open card tints it on the
+     feedback timing; closed rows have the fluid highlight instead. */
   .cn-accordion-item {
-    @apply border-0;
+    @apply bg-foreground/6 rounded-xl p-(--density-4) transition-[margin,border-radius,background-color] [transition-duration:calc(var(--motion-bounce-exit)*var(--motion-scale,1)),calc(var(--motion-bounce)*var(--motion-scale,1)),calc(var(--motion-feedback)*var(--motion-scale,1))] [transition-timing-function:var(--motion-ease-enter),var(--motion-ease-bounce),var(--motion-ease-feedback)] data-gap:mt-(--density-8) data-gap:[transition-duration:calc(var(--motion-bounce)*var(--motion-scale,1)),calc(var(--motion-bounce)*var(--motion-scale,1)),calc(var(--motion-feedback)*var(--motion-scale,1))] data-gap:[transition-timing-function:var(--motion-ease-bounce),var(--motion-ease-bounce),var(--motion-ease-feedback)] data-joined-top:rounded-t-none data-joined-bottom:rounded-b-none motion-reduce:transition-[background-color] [&:is([data-open],[data-state=open],[data-expanded])]:hover:bg-foreground/9;
   }
 
-  /* Triggers: rounded-lg rows, 13px, muted at rest. Hover and the lit
-     trigger turn foreground (bg-hover where there is no fluid container);
-     an open item's trigger turns foreground and semibold. Focus is a 1px
-     blue ring. */
+  /* Triggers: rounded-lg rows inside the card, 14px medium in foreground/80 at
+     rest, foreground when lit or open. A leading icon rests in grey. Hover is
+     bg-hover where there is no fluid container. Focus is a 1px blue ring. */
   .cn-accordion-trigger {
-    @apply cursor-pointer text-muted-foreground rounded-lg px-(--density-12) py-(--density-8) text-start text-(length:--density-text-13) leading-5 font-normal transition-[color,background-color] duration-feedback hover:bg-hover hover:text-foreground in-data-[fluid-hover]:hover:bg-transparent data-fluid-hover-active:text-foreground aria-expanded:text-foreground aria-expanded:font-semibold focus-visible:ring-ring focus-visible:ring-1 **:data-[slot=accordion-trigger-icon]:ms-auto **:data-[slot=accordion-trigger-icon]:mt-0.5 **:data-[slot=accordion-trigger-icon]:size-4;
+    @apply cursor-pointer gap-(--density-8) rounded-lg px-(--density-12) py-(--density-8) text-start text-(length:--density-text-14) leading-5 font-medium text-foreground/80 transition-[color,background-color] duration-feedback hover:bg-hover hover:text-foreground in-data-[fluid-hover]:hover:bg-transparent data-fluid-hover-active:text-foreground aria-expanded:text-foreground focus-visible:ring-ring focus-visible:ring-1 **:data-[slot=accordion-trigger-icon]:ms-auto **:data-[slot=accordion-trigger-icon]:mt-0.5 **:data-[slot=accordion-trigger-icon]:size-(--density-icon-16) [&>svg:not([data-slot=accordion-trigger-icon])]:mt-0.5 [&>svg:not([data-slot=accordion-trigger-icon])]:shrink-0 [&>svg:not([data-slot=accordion-trigger-icon])]:size-(--density-icon-16) [&>svg:not([data-slot=accordion-trigger-icon])]:text-muted-foreground;
   }
 
-  /* One chevron that points to the end and turns 90° to point down when
-     open (the second, "up" chevron of the source is never shown). Its stroke
-     thickens on hover, when lit and when open. */
+  /* One chevron that points to the end and turns a quarter to point down
+     when open, on the move timing: a spring would wobble it (the second, "up"
+     chevron of the source is never shown). Its stroke thickens on hover, when
+     lit and when open. */
   .cn-accordion-trigger-icon {
-    @apply text-muted-foreground -rotate-90 stroke-[1.5] transition-[rotate,color,stroke-width] duration-disclosure ease-enter group-hover/accordion-trigger:text-foreground group-hover/accordion-trigger:stroke-2 group-data-fluid-hover-active/accordion-trigger:text-foreground group-data-fluid-hover-active/accordion-trigger:stroke-2 group-aria-expanded/accordion-trigger:text-foreground group-aria-expanded/accordion-trigger:stroke-2 group-aria-expanded/accordion-trigger:rotate-0 rtl:rotate-90 group-aria-expanded/accordion-trigger:not-[[data-slot=accordion-trigger-icon]~*]:inline-block group-aria-expanded/accordion-trigger:[[data-slot=accordion-trigger-icon]~&]:hidden motion-reduce:transition-colors;
+    @apply text-muted-foreground -rotate-90 stroke-[1.5] transition-[rotate,color,stroke-width] duration-move ease-move group-hover/accordion-trigger:text-foreground group-hover/accordion-trigger:stroke-2 group-data-fluid-hover-active/accordion-trigger:text-foreground group-data-fluid-hover-active/accordion-trigger:stroke-2 group-aria-expanded/accordion-trigger:text-foreground group-aria-expanded/accordion-trigger:stroke-2 group-aria-expanded/accordion-trigger:rotate-0 rtl:rotate-90 group-aria-expanded/accordion-trigger:not-[[data-slot=accordion-trigger-icon]~*]:inline-block group-aria-expanded/accordion-trigger:[[data-slot=accordion-trigger-icon]~&]:hidden motion-reduce:transition-colors;
   }
 
+  /* The panel springs open and shut on the bounce role. Its text is
+     foreground/65: muted-foreground misses AA on the light tile (4.0:1). */
   .cn-accordion-content {
-    @apply text-muted-foreground motion-disclosure data-open:animate-accordion-down data-closed:animate-accordion-up text-(length:--density-text-13);
+    @apply text-foreground/65 motion-bounce data-open:animate-accordion-down data-closed:animate-accordion-up text-(length:--density-text-14) motion-reduce:animate-none;
   }
 
+  /* Its text fades in from a slight blur as the panel opens, and back out as
+     it closes. Reduced motion keeps the fade. */
   .cn-accordion-content-inner {
-    @apply px-(--density-12) pt-1 pb-(--density-12);
+    @apply px-(--density-12) pt-0 pb-(--density-12) leading-5 duration-disclosure ease-enter in-[[data-slot=accordion-item]:is([data-open],[data-state=open],[data-expanded])]:animate-in in-[[data-slot=accordion-item]:is([data-open],[data-state=open],[data-expanded])]:fade-in in-[[data-slot=accordion-item]:is([data-open],[data-state=open],[data-expanded])]:blur-in-xs in-[[data-slot=accordion-item]:not([data-open],[data-state=open],[data-expanded])]:animate-out in-[[data-slot=accordion-item]:not([data-open],[data-state=open],[data-expanded])]:fade-out in-[[data-slot=accordion-item]:not([data-open],[data-state=open],[data-expanded])]:blur-out-xs motion-reduce:blur-in-[0px] motion-reduce:blur-out-[0px];
   }
 
 /* MARK: Alert Dialog */
@@ -557,6 +573,166 @@
 
   .cn-attachment-trigger {
     @apply cursor-pointer absolute inset-0 z-10 rounded-[inherit] outline-none;
+  }
+
+/* MARK: Audio Player */
+
+  /* A card on the page (surface 3 with its ring), so the theme carries it:
+     unlike the Video Player there's no footage under the controls. Default
+     stacks the header, the seek bar and the controls; cover adds room for a
+     large artwork; compact is one pill-shaped row, as a voice message. */
+  .cn-audio-player {
+    @apply flex-col gap-(--density-12) rounded-xl bg-card p-(--density-16) text-(length:--density-text-13) text-card-foreground shadow-surface-2 focus-visible:ring-1 focus-visible:ring-ring data-[variant=compact]:flex-row data-[variant=compact]:items-center data-[variant=compact]:gap-(--density-8) data-[variant=compact]:rounded-full data-[variant=compact]:p-(--density-6) data-[variant=compact]:pe-(--density-8) data-[variant=cover]:gap-(--density-16) data-[variant=cover]:p-(--density-20);
+  }
+
+  .cn-audio-player-header {
+    @apply gap-(--density-12) group-data-[variant=cover]/audio-player:relative group-data-[variant=cover]/audio-player:flex-col group-data-[variant=cover]/audio-player:items-stretch group-data-[variant=cover]/audio-player:gap-(--density-16);
+  }
+
+  /* The artwork rests a little smaller while paused and grows to full size
+     as it plays, its shadow deepening, on the sheet timing and iOS's drawer
+     curve: the cover breathes with the music. Without an image it's a muted
+     tile with a note. */
+  .cn-audio-player-artwork {
+    @apply size-(--density-48) scale-[0.94] rounded-lg bg-muted text-muted-foreground shadow-surface-1 transition-[scale,box-shadow] duration-sheet ease-drawer data-playing:scale-100 motion-reduce:scale-100 [&_svg]:size-(--density-20) [&_svg]:stroke-[1.5] group-data-[variant=cover]/audio-player:aspect-square group-data-[variant=cover]/audio-player:size-auto group-data-[variant=cover]/audio-player:w-full group-data-[variant=cover]/audio-player:scale-[0.92] group-data-[variant=cover]/audio-player:rounded-xl group-data-[variant=cover]/audio-player:data-playing:scale-100 group-data-[variant=cover]/audio-player:data-playing:shadow-surface-4 group-data-[variant=cover]/audio-player:motion-reduce:scale-100 group-data-[variant=cover]/audio-player:[&_svg]:size-(--density-48) group-data-[variant=cover]/audio-player:[&_svg]:stroke-1;
+  }
+
+  .cn-audio-player-meta {
+    @apply gap-0.5 group-data-[variant=cover]/audio-player:text-center;
+  }
+
+  .cn-audio-player-title {
+    @apply text-(length:--density-text-14) font-medium text-foreground group-data-[variant=cover]/audio-player:text-(length:--density-text-16) group-data-[variant=cover]/audio-player:font-semibold;
+  }
+
+  .cn-audio-player-artist {
+    @apply text-(length:--density-text-13) text-muted-foreground;
+  }
+
+  /* Three bars that bounce out of step while the audio plays, fading in on
+     the move timing and out when it stops. On the cover they sit on dark
+     glass in the artwork's corner. */
+  .cn-audio-player-equalizer {
+    @apply h-(--density-14) scale-90 gap-0.5 opacity-0 transition-[opacity,scale] duration-move ease-move group-data-[status=playing]/audio-player:scale-100 group-data-[status=playing]/audio-player:opacity-100 group-data-[variant=cover]/audio-player:absolute group-data-[variant=cover]/audio-player:end-(--density-12) group-data-[variant=cover]/audio-player:top-(--density-12) group-data-[variant=cover]/audio-player:box-content group-data-[variant=cover]/audio-player:rounded-full group-data-[variant=cover]/audio-player:bg-black/45 group-data-[variant=cover]/audio-player:p-(--density-8) group-data-[variant=cover]/audio-player:backdrop-blur-md;
+  }
+
+  .cn-audio-player-equalizer-bar {
+    @apply w-[3px] rounded-full bg-primary group-data-[variant=cover]/audio-player:bg-white;
+  }
+
+  .cn-audio-player-timeline {
+    @apply gap-(--density-4);
+  }
+
+  /* The seek bar. With `peaks` it's the file's waveform: rounded bars in
+     foreground at 15%, those under the pointer at 30%, and those played in
+     primary, each layer clipped at its fraction so a bar fills partway as the
+     playhead crosses it. The bars rise from the middle when they first draw.
+     Without peaks it's the Video Player's pill on theme colours. */
+  .cn-audio-player-seek {
+    @apply h-(--density-32) cursor-pointer rounded-md focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-card aria-disabled:cursor-default not-data-waveform:h-(--density-16) group-data-[variant=compact]/audio-player:h-(--density-28) group-data-[variant=compact]/audio-player:not-data-waveform:h-(--density-28);
+  }
+
+  .cn-audio-player-waveform-bars {
+    @apply gap-0.5;
+  }
+
+  .cn-audio-player-waveform-bar {
+    @apply min-h-0.5 rounded-full bg-foreground/15 in-data-[layer=hover]:bg-foreground/30 in-data-[layer=played]:bg-primary;
+  }
+
+  .cn-audio-player-seek-track {
+    @apply h-(--density-6) scale-y-[0.67] rounded-full bg-foreground/15 transition-transform duration-move ease-move group-hover/audio-player-seek:scale-y-100 group-focus-visible/audio-player-seek:scale-y-100 group-active/audio-player-seek:scale-y-100;
+  }
+
+  .cn-audio-player-seek-buffered {
+    @apply bg-foreground/10;
+  }
+
+  .cn-audio-player-seek-hover {
+    @apply bg-foreground/15;
+  }
+
+  .cn-audio-player-seek-played {
+    @apply bg-primary;
+  }
+
+  .cn-audio-player-seek-thumb {
+    @apply size-(--density-12) scale-0 rounded-full bg-primary shadow-surface-2 transition-transform duration-move ease-move group-hover/audio-player-seek:scale-100 group-focus-visible/audio-player-seek:scale-100 group-active/audio-player-seek:scale-100;
+  }
+
+  /* The time under the pointer, inverted like a tooltip and on its timing. */
+  .cn-audio-player-seek-preview {
+    @apply mb-(--density-6) rounded-md bg-foreground px-(--density-6) py-0.5 text-(length:--density-text-11) font-medium text-background animate-in fade-in-0 duration-tooltip ease-enter;
+  }
+
+  .cn-audio-player-time {
+    @apply text-(length:--density-text-12) font-medium text-muted-foreground group-data-[status=error]/audio-player:hidden group-data-[variant=compact]/audio-player:min-w-[4ch] group-data-[variant=compact]/audio-player:text-end;
+  }
+
+  .cn-audio-player-bar {
+    @apply gap-(--density-8);
+  }
+
+  .cn-audio-player-transport {
+    @apply gap-(--density-8) group-data-[variant=cover]/audio-player:gap-(--density-16);
+  }
+
+  /* Play is the one filled control: a primary circle, 48px (56 on the cover,
+     32 in compact), pressed to 0.97 like a button. Its glyphs trade places
+     by scaling and blurring through each other on the move timing; reduced
+     motion keeps only the fade. Play is nudged right to look centred. */
+  .cn-audio-player-play {
+    @apply size-(--density-48) cursor-pointer rounded-full bg-primary text-primary-foreground transition-[background-color,scale] duration-feedback ease-feedback motion-press hover:bg-primary/90 focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-card active:bg-primary/80 disabled:pointer-events-none disabled:opacity-50 group-data-[variant=compact]/audio-player:size-(--density-32) group-data-[variant=cover]/audio-player:size-[calc(var(--density-48)+var(--density-8))];
+  }
+
+  .cn-audio-player-play-icon {
+    @apply scale-50 opacity-0 blur-xs transition-[opacity,scale,filter] duration-move ease-move data-visible:scale-100 data-visible:opacity-100 data-visible:blur-none motion-reduce:scale-100 motion-reduce:blur-none data-[icon=play]:ms-0.5 [&_svg]:size-(--density-20) [&_svg]:fill-current data-[icon=replay]:[&_svg]:fill-none data-[icon=replay]:[&_svg]:stroke-2 group-data-[variant=compact]/audio-player:[&_svg]:size-(--density-icon-14) group-data-[variant=cover]/audio-player:[&_svg]:size-(--density-24);
+  }
+
+  .cn-audio-player-spinner {
+    @apply size-(--density-20) group-data-[variant=compact]/audio-player:size-(--density-icon-14);
+  }
+
+  /* Round ghost buttons in muted grey, foreground on hover. The skip arrows
+     wind back or forward a little while pressed, and the speed shows as a
+     number whose new value rises in on the popup timing. */
+  .cn-audio-player-control {
+    @apply size-(--density-36) cursor-pointer rounded-full text-muted-foreground transition-[background-color,color,scale] duration-feedback ease-feedback motion-press hover:bg-hover hover:text-foreground focus-visible:ring-1 focus-visible:ring-ring active:bg-active disabled:pointer-events-none disabled:opacity-50 [&_svg]:size-(--density-20) [&_svg]:stroke-[1.75] [&_svg]:transition-transform [&_svg]:duration-move [&_svg]:ease-move data-[control=skip-back]:active:[&_svg]:-rotate-30 data-[control=skip-forward]:active:[&_svg]:rotate-30 data-[control=speed]:w-auto data-[control=speed]:min-w-(--density-36) data-[control=speed]:px-(--density-8) group-data-[variant=compact]/audio-player:size-(--density-28) group-data-[variant=compact]/audio-player:data-[control=speed]:min-w-(--density-28) group-data-[variant=compact]/audio-player:data-[control=speed]:bg-hover group-data-[variant=compact]/audio-player:data-[control=speed]:hover:bg-active;
+  }
+
+  .cn-audio-player-skip-label {
+    @apply pt-px text-[calc(var(--density-icon-16)*0.45)] leading-none font-semibold tabular-nums;
+  }
+
+  .cn-audio-player-speed {
+    @apply text-(length:--density-text-12) font-semibold text-foreground animate-in fade-in-0 slide-in-from-bottom-1 duration-popup ease-enter motion-reduce:slide-in-from-bottom-0;
+  }
+
+  .cn-audio-player-volume {
+    @apply gap-0;
+  }
+
+  /* The volume slider opens beside its button on hover, on focus and while
+     a volume key is in use, as the Video Player's does. */
+  .cn-audio-player-volume-slider {
+    @apply h-(--density-28) w-0 cursor-pointer opacity-0 transition-[width,opacity,margin] duration-move ease-move group-focus-within/audio-player-volume:me-(--density-4) group-focus-within/audio-player-volume:w-[calc(var(--density-48)+var(--density-16))] group-focus-within/audio-player-volume:opacity-100 group-hover/audio-player-volume:me-(--density-4) group-hover/audio-player-volume:w-[calc(var(--density-48)+var(--density-16))] group-hover/audio-player-volume:opacity-100 group-data-volume-changing/audio-player:me-(--density-4) group-data-volume-changing/audio-player:w-[calc(var(--density-48)+var(--density-16))] group-data-volume-changing/audio-player:opacity-100 focus-visible:[&_[data-slot=audio-player-volume-thumb]]:ring-1 focus-visible:[&_[data-slot=audio-player-volume-thumb]]:ring-ring focus-visible:[&_[data-slot=audio-player-volume-thumb]]:ring-offset-2 focus-visible:[&_[data-slot=audio-player-volume-thumb]]:ring-offset-card;
+  }
+
+  .cn-audio-player-volume-track {
+    @apply h-(--density-4) rounded-full bg-foreground/15;
+  }
+
+  .cn-audio-player-volume-level {
+    @apply bg-foreground;
+  }
+
+  .cn-audio-player-volume-thumb {
+    @apply size-(--density-12) rounded-full bg-foreground shadow-surface-2;
+  }
+
+  .cn-audio-player-error {
+    @apply h-(--density-32) gap-(--density-8) text-(length:--density-text-13) text-muted-foreground group-data-[variant=compact]/audio-player:h-(--density-28) [&_svg]:size-(--density-icon-16) [&_svg]:shrink-0 [&_svg]:text-destructive;
   }
 
 /* MARK: Avatar */
@@ -1312,12 +1488,33 @@
     @apply cursor-pointer data-hovered:border-foreground/45 data-pressed:scale-90 motion-reduce:data-pressed:scale-100 data-selected:border-primary data-selected:bg-primary data-selected:data-hovered:border-primary data-focus-visible:ring-1 data-focus-visible:ring-focus-ring data-focus-visible:ring-offset-2 data-focus-visible:ring-offset-background data-invalid:border-destructive data-invalid:data-selected:border-destructive data-invalid:data-selected:bg-destructive data-indeterminate:border-primary data-indeterminate:bg-primary;
   }
 
-  /* The check: 12px, heavier stroke, centred on whole pixels in the 18px box.
-     It stays mounted. Checking wipes it in from the start edge while it
-     scales up from 0.6 on the move timing with the entrance curve; unchecking
-     fades and shrinks it on the feedback exit. Reduced motion: no transition. */
+  /* The mark: the indicator stays mounted and carries the state. Checking
+     fades it in from 0.6 on the feedback timing with the entrance curve while
+     the stroke draws itself from the short leg on the move timing. Unchecking
+     shrinks it back, blurs it 2px and fades it on the feedback exit, the
+     stroke still drawn. Indeterminate draws a minus instead; moving
+     between the two retracts one stroke while the other draws. Reduced
+     motion: no transition. */
   .cn-checkbox-indicator {
-    @apply [&>svg]:size-[calc(var(--density-icon-16)-4px)] [&>svg]:stroke-[3] opacity-0 scale-[0.6] [clip-path:inset(0_100%_0_0)] transition-[opacity,scale,clip-path] duration-feedback-exit ease-exit data-checked:opacity-100 data-checked:scale-100 data-checked:[clip-path:inset(0_0_0_0)] data-checked:duration-move data-checked:ease-enter data-indeterminate:opacity-100 data-indeterminate:scale-100 data-indeterminate:[clip-path:inset(0_0_0_0)] data-indeterminate:duration-move data-indeterminate:ease-enter data-[state=indeterminate]:opacity-100 data-[state=indeterminate]:scale-100 data-[state=indeterminate]:[clip-path:inset(0_0_0_0)] data-[state=indeterminate]:duration-move data-[state=indeterminate]:ease-enter motion-reduce:transition-none;
+    @apply opacity-0 scale-[0.6] blur-[2px] transition-[opacity,scale,filter] duration-feedback-exit ease-exit data-checked:opacity-100 data-checked:scale-100 data-checked:blur-none data-checked:transition-[opacity,scale] data-checked:duration-feedback data-checked:ease-enter data-indeterminate:opacity-100 data-indeterminate:scale-100 data-indeterminate:blur-none data-indeterminate:transition-[opacity,scale] data-indeterminate:duration-feedback data-indeterminate:ease-enter data-[state=indeterminate]:opacity-100 data-[state=indeterminate]:scale-100 data-[state=indeterminate]:blur-none data-[state=indeterminate]:transition-[opacity,scale] data-[state=indeterminate]:duration-feedback data-[state=indeterminate]:ease-enter motion-reduce:transition-none;
+  }
+
+  /* 12px, a heavier stroke, centred on whole pixels in the 18px box. */
+  .cn-checkbox-mark {
+    @apply size-[calc(var(--density-icon-16)-4px)] stroke-[3];
+  }
+
+  /* Each path has pathLength 1: a 1-long dash and a 2-long gap, offset by 1,
+     hide it; offset 0 draws it from its start. A drawn stroke stays while
+     the indicator fades out, then resets after the feedback delay (longer
+     than the fade at every speed). Between checked and indeterminate the
+     indicator stays, so the outgoing stroke retracts on the feedback exit. */
+  .cn-checkbox-check {
+    @apply [stroke-dasharray:1_2] [stroke-dashoffset:1] transition-[stroke-dashoffset] duration-0 delay-feedback group-data-checked/checkbox-indicator:group-not-data-indeterminate/checkbox-indicator:[stroke-dashoffset:0] group-data-checked/checkbox-indicator:group-not-data-indeterminate/checkbox-indicator:duration-move group-data-checked/checkbox-indicator:group-not-data-indeterminate/checkbox-indicator:ease-enter group-data-checked/checkbox-indicator:group-not-data-indeterminate/checkbox-indicator:delay-0 group-data-indeterminate/checkbox-indicator:duration-feedback-exit group-data-indeterminate/checkbox-indicator:ease-exit group-data-indeterminate/checkbox-indicator:delay-0 group-data-[state=indeterminate]/checkbox-indicator:duration-feedback-exit group-data-[state=indeterminate]/checkbox-indicator:ease-exit group-data-[state=indeterminate]/checkbox-indicator:delay-0 motion-reduce:transition-none;
+  }
+
+  .cn-checkbox-minus {
+    @apply [stroke-dasharray:1_2] [stroke-dashoffset:1] transition-[stroke-dashoffset] duration-0 delay-feedback group-data-checked/checkbox-indicator:group-not-data-indeterminate/checkbox-indicator:duration-feedback-exit group-data-checked/checkbox-indicator:group-not-data-indeterminate/checkbox-indicator:ease-exit group-data-checked/checkbox-indicator:group-not-data-indeterminate/checkbox-indicator:delay-0 group-data-indeterminate/checkbox-indicator:[stroke-dashoffset:0] group-data-indeterminate/checkbox-indicator:duration-move group-data-indeterminate/checkbox-indicator:ease-enter group-data-indeterminate/checkbox-indicator:delay-0 group-data-[state=indeterminate]/checkbox-indicator:[stroke-dashoffset:0] group-data-[state=indeterminate]/checkbox-indicator:duration-move group-data-[state=indeterminate]/checkbox-indicator:ease-enter group-data-[state=indeterminate]/checkbox-indicator:delay-0 motion-reduce:transition-none;
   }
 
 /* MARK: Collapsible */
@@ -1375,15 +1572,17 @@
   }
 
   /* Hue and alpha are Sliders: the gradient is the track, so the range
-     fill hides, and the knob takes the color under it with a white edge.
+     fill hides, and the knob takes the color under it with a white edge. The
+     rail stays the icon size plus 2px and the knob the icon size, inside it,
+     where a plain Slider's is smaller and its knob overhangs.
      A hairline keeps each rail's edge when its color matches the card. */
   .cn-color-picker-hue {
-    @apply [&_[data-slot=slider-range]]:hidden [&_[data-slot=slider-thumb]]:border-2 [&_[data-slot=slider-thumb]]:border-white [&_[data-slot=slider-thumb]]:bg-(--color-picker-thumb) [&_[data-slot=slider-thumb]]:shadow-[0_0_0_1px_rgb(0_0_0/0.25),0_1px_2px_rgb(0_0_0/0.2)] [&_[data-slot=slider-track]]:border-0 [&_[data-slot=slider-track]]:bg-[linear-gradient(to_right,#f00,#ff0,#0f0,#0ff,#00f,#f0f,#f00)] [&_[data-slot=slider-track]]:shadow-[inset_0_0_0_1px_color-mix(in_oklab,var(--foreground)_12%,transparent)];
+    @apply [&_[data-slot=slider-range]]:hidden [&_[data-slot=slider-track]]:[--slider-track-size:calc(var(--density-icon-16)+2px)] [&_[data-slot=slider-thumb]]:size-(--density-icon-16) [&_[data-slot=slider-thumb]]:border-2 [&_[data-slot=slider-thumb]]:border-white [&_[data-slot=slider-thumb]]:bg-(--color-picker-thumb) [&_[data-slot=slider-thumb]]:shadow-[0_0_0_1px_rgb(0_0_0/0.25),0_1px_2px_rgb(0_0_0/0.2)] [&_[data-slot=slider-track]]:border-0 [&_[data-slot=slider-track]]:bg-[linear-gradient(to_right,#f00,#ff0,#0f0,#0ff,#00f,#f0f,#f00)] [&_[data-slot=slider-track]]:shadow-[inset_0_0_0_1px_color-mix(in_oklab,var(--foreground)_12%,transparent)];
   }
 
   /* Transparent to the opaque color, over an 8px checker. */
   .cn-color-picker-alpha {
-    @apply [&_[data-slot=slider-range]]:hidden [&_[data-slot=slider-thumb]]:border-2 [&_[data-slot=slider-thumb]]:border-white [&_[data-slot=slider-thumb]]:bg-(--color-picker-thumb) [&_[data-slot=slider-thumb]]:shadow-[0_0_0_1px_rgb(0_0_0/0.25),0_1px_2px_rgb(0_0_0/0.2)] [&_[data-slot=slider-track]]:border-0 [&_[data-slot=slider-track]]:bg-[linear-gradient(to_right,transparent,var(--color-picker-opaque)),conic-gradient(var(--color-picker-checker)_0_25%,transparent_0_50%,var(--color-picker-checker)_0_75%,transparent_0)] [&_[data-slot=slider-track]]:bg-size-[100%_100%,8px_8px] [&_[data-slot=slider-track]]:shadow-[inset_0_0_0_1px_color-mix(in_oklab,var(--foreground)_12%,transparent)];
+    @apply [&_[data-slot=slider-range]]:hidden [&_[data-slot=slider-track]]:[--slider-track-size:calc(var(--density-icon-16)+2px)] [&_[data-slot=slider-thumb]]:size-(--density-icon-16) [&_[data-slot=slider-thumb]]:border-2 [&_[data-slot=slider-thumb]]:border-white [&_[data-slot=slider-thumb]]:bg-(--color-picker-thumb) [&_[data-slot=slider-thumb]]:shadow-[0_0_0_1px_rgb(0_0_0/0.25),0_1px_2px_rgb(0_0_0/0.2)] [&_[data-slot=slider-track]]:border-0 [&_[data-slot=slider-track]]:bg-[linear-gradient(to_right,transparent,var(--color-picker-opaque)),conic-gradient(var(--color-picker-checker)_0_25%,transparent_0_50%,var(--color-picker-checker)_0_75%,transparent_0)] [&_[data-slot=slider-track]]:bg-size-[100%_100%,8px_8px] [&_[data-slot=slider-track]]:shadow-[inset_0_0_0_1px_color-mix(in_oklab,var(--foreground)_12%,transparent)];
   }
 
   /* Each slider with its value beside it (degrees, percent), 12px apart:
@@ -1704,6 +1903,457 @@
     @apply motion-popup bg-surface-3 shadow-surface-3 text-popover-foreground relative isolate min-w-32 rounded-xl p-1;
   }
 
+/* MARK: Data Table */
+
+  /* Root: the parts stack 12 apart. Rows are the 48-step tall; pinned and
+     sticky cells paint the surface the table sits on (the card, or the page
+     when flat). */
+  .cn-data-table {
+    @apply gap-(--density-12) text-(length:--density-text-13) [--data-table-ink:var(--foreground)] [--data-table-paper:var(--background)] [--data-table-row-height:var(--density-48)] [--data-table-surface:var(--card)] data-[variant=flat]:[--data-table-surface:var(--background)];
+  }
+
+  .cn-data-table-toolbar {
+    @apply gap-(--density-8);
+  }
+
+  .cn-data-table-search {
+    @apply min-w-0;
+  }
+
+  /* Frame: a card (surface 3 on the card shadow, rounded) or nothing.
+     While a column resizes, the whole table shows the resize cursor and
+     nothing under the pointer lights up or selects. */
+  .cn-data-table-content {
+    @apply overflow-hidden data-[variant=card]:rounded-xl data-[variant=card]:bg-card data-[variant=card]:shadow-surface-2 data-resizing:cursor-col-resize data-resizing:select-none data-resizing:**:pointer-events-none;
+  }
+
+  /* The system's scrollbars give way to the table's own for a mouse or
+     trackpad; touch keeps them. */
+  .cn-data-table-viewport {
+    @apply contain-content data-empty:min-h-72 pointer-fine:scrollbar-hide;
+  }
+
+  /* Pinned edges: while rows scroll under the pinned columns, a hairline
+     marks the edge and the content fades into the surface over 32px, both
+     on the move timing. In grid lines the hairline sits on the column's own
+     rule. */
+  .cn-data-table-pin-edge {
+    @apply w-8 border-border from-(--data-table-surface) via-(--data-table-surface)/55 via-35% to-transparent opacity-0 transition-opacity duration-move ease-move data-[side=end]:border-e data-[side=end]:bg-linear-to-l data-[side=start]:border-s data-[side=start]:bg-linear-to-r in-data-[lines=grid]:data-[side=end]:-me-px in-data-[lines=grid]:data-[side=start]:-ms-px rtl:data-[side=end]:bg-linear-to-r rtl:data-[side=start]:bg-linear-to-l in-data-overflow-end:data-[side=end]:opacity-100 in-data-overflow-start:data-[side=start]:opacity-100;
+  }
+
+  /* Scrollbars: drawn over the rows. The vertical track runs from under
+     the header to above the footer, the horizontal one between the pinned
+     columns, above the footer. A 10px hit area holds Scroll Area's thumb:
+     overlay 8%, 12% under the pointer, 16% held; 4px wide, 6px under the
+     pointer. It shows while the table is lit, scrolling or dragged. */
+  .cn-data-table-scrollbar {
+    @apply pointer-coarse:hidden data-hidden:hidden data-[orientation=horizontal]:bottom-(--data-table-foot-height) data-[orientation=horizontal]:h-2.5 data-[orientation=vertical]:end-0 data-[orientation=vertical]:top-(--data-table-head-height) data-[orientation=vertical]:bottom-(--data-table-foot-height) data-[orientation=vertical]:w-2.5;
+  }
+
+  .cn-data-table-scrollbar-thumb {
+    @apply start-0 top-0 opacity-0 transition-opacity duration-move ease-move after:absolute after:rounded-full after:bg-[rgb(var(--overlay)/0.08)] after:transition-[background-color,width,height] after:duration-feedback after:ease-feedback hover:after:bg-[rgb(var(--overlay)/0.12)] active:after:bg-[rgb(var(--overlay)/0.16)] in-data-[orientation=horizontal]:h-full in-data-[orientation=horizontal]:after:inset-x-0 in-data-[orientation=horizontal]:after:bottom-0.5 in-data-[orientation=horizontal]:after:h-1 in-data-[orientation=horizontal]:hover:after:h-1.5 in-data-[orientation=vertical]:w-full in-data-[orientation=vertical]:after:inset-y-0 in-data-[orientation=vertical]:after:end-0.5 in-data-[orientation=vertical]:after:w-1 in-data-[orientation=vertical]:hover:after:w-1.5 in-data-dragging:opacity-100 in-data-scrolling:opacity-100 in-[[data-slot=data-table-content]:hover]:opacity-100;
+  }
+
+  .cn-data-table-table {
+    @apply text-(length:--density-text-13);
+  }
+
+  .cn-data-table-header {
+    @apply text-foreground;
+  }
+
+  /* Head: 36 tall, sticky, foreground semibold with a hairline under it.
+     Pinned heads sit above the scrolling ones. */
+  .cn-data-table-head {
+    @apply sticky top-0 z-20 h-(--density-36) cursor-default border-b border-border/60 bg-(--data-table-surface) px-(--density-12) text-start align-middle font-semibold whitespace-nowrap data-pinned:z-30 data-[kind=actions]:px-0 data-[kind=select]:px-0 in-data-[lines=grid]:border-e in-data-[lines=grid]:last:border-e-0;
+  }
+
+  /* Every head reads from the start with its options at the end, whatever
+     its column's cells align to; the checkbox and settings columns center
+     their one control. */
+  .cn-data-table-head-content {
+    @apply gap-(--density-4) in-data-kind:justify-center;
+  }
+
+  /* Sort: the label and the type icon, which turns into the direction arrow
+     on the move timing (and turns over for descending). */
+  .cn-data-table-sort {
+    @apply -mx-(--density-4) h-(--density-28) flex-1 gap-(--density-6) rounded-md px-(--density-4) font-semibold enabled:cursor-pointer transition-colors duration-feedback ease-feedback focus-visible:ring-1 focus-visible:ring-ring;
+  }
+
+  .cn-data-table-sort-icon {
+    @apply size-(--density-icon-16) text-muted-foreground [&_svg]:size-(--density-icon-14) [&_svg]:stroke-[1.75];
+  }
+
+  .cn-data-table-sort-type {
+    @apply transition-[opacity,scale] duration-move ease-move in-data-direction:scale-50 in-data-direction:opacity-0 motion-reduce:transition-none;
+  }
+
+  .cn-data-table-sort-arrow {
+    @apply scale-50 text-foreground opacity-0 transition-[opacity,scale,rotate] duration-move ease-move in-data-direction:scale-100 in-data-direction:opacity-100 in-data-[direction=desc]:rotate-180 motion-reduce:transition-none;
+  }
+
+  .cn-data-table-sort-index {
+    @apply text-(length:--density-text-11) font-medium text-muted-foreground tabular-nums;
+  }
+
+  /* The column's options: shown while the head is lit or focused, and
+     always while it filters (with a dot) or is open. */
+  .cn-data-table-column-trigger {
+    @apply relative shrink-0 text-muted-foreground opacity-0 transition-opacity duration-feedback ease-feedback in-[th:hover]:opacity-100 focus-visible:opacity-100 data-filtered:text-foreground data-filtered:opacity-100 data-filtered:after:absolute data-filtered:after:end-0.5 data-filtered:after:top-0.5 data-filtered:after:size-1.5 data-filtered:after:rounded-full data-filtered:after:bg-primary data-popup-open:opacity-100 data-[state=open]:opacity-100 aria-expanded:opacity-100 pointer-coarse:opacity-100;
+  }
+
+  /* Resize: an 8px strip on the head's end edge. Its 2px bar shows while
+     the head is lit, turns primary and tall under the pointer or focus, and
+     spans the head while dragged, with a guide line down the table. */
+  .cn-data-table-resize {
+    @apply w-2 cursor-col-resize after:absolute after:inset-y-(--density-10) after:end-[3px] after:w-0.5 after:rounded-full after:bg-transparent after:transition-[background-color,top,bottom] after:duration-feedback after:ease-feedback in-[th:hover]:after:bg-foreground/25 hover:after:inset-y-(--density-4) hover:after:bg-primary focus-visible:after:inset-y-(--density-4) focus-visible:after:bg-ring data-resizing:after:inset-y-0 data-resizing:after:bg-primary pointer-coarse:after:bg-foreground/25;
+  }
+
+  .cn-data-table-resize-guide {
+    @apply w-0.5 -translate-x-1/2 bg-primary;
+  }
+
+  /* Rows: the hover, stripe and selection tint is a gradient image, so the
+     opaque pinned cells can draw the same tint over the surface. */
+  .cn-data-table-row {
+    @apply bg-[image:var(--data-table-row-tint)] outline-none in-data-striped:data-odd:not-hover:[--data-table-row-tint:linear-gradient(color-mix(in_oklab,var(--color-muted)_45%,transparent),color-mix(in_oklab,var(--color-muted)_45%,transparent))] hover:[--data-table-row-tint:linear-gradient(var(--color-hover),var(--color-hover))] focus-visible:outline-1 focus-visible:-outline-offset-1 focus-visible:outline-ring data-clickable:cursor-pointer data-[state=selected]:[--data-table-row-tint:linear-gradient(var(--color-active),var(--color-active))];
+  }
+
+  /* Cells: muted, the lit or picked row and the record's name in the
+     foreground, at once: a transition on the inherited colour restyles
+     every cell's contents each frame, which picking all rows multiplies.
+     Numbers align to the end in tabular figures. */
+  .cn-data-table-cell {
+    @apply h-(--data-table-row-height) cursor-default overflow-hidden border-b border-border/60 px-(--density-12) py-0 text-start in-data-clickable:cursor-pointer align-middle text-ellipsis whitespace-nowrap text-muted-foreground in-data-[state=selected]:text-foreground in-[tr:hover]:text-foreground data-pinned:sticky data-pinned:z-10 data-pinned:bg-(--data-table-surface) data-pinned:bg-[image:var(--data-table-row-tint)] data-primary:font-medium data-primary:text-foreground data-[align=center]:text-center data-[align=end]:text-end data-[kind=actions]:px-0 data-[kind=select]:px-0 data-editable:px-0 data-editable:not-data-pinned:relative data-editable:[&>[data-slot=checkbox]]:mx-auto in-data-[lines=grid]:border-e in-data-[lines=grid]:last:border-e-0;
+  }
+
+  /* The empty column that takes the width the others leave. */
+  /* The space above and below the rows drawn: their hairlines, so a fast
+     scroll that outruns the rows still shows rows, never a blank. */
+  .cn-data-table-spacer {
+    @apply bg-[repeating-linear-gradient(to_bottom,transparent_0,transparent_calc(var(--data-table-row-height)-1px),color-mix(in_oklab,var(--color-border)_60%,transparent)_calc(var(--data-table-row-height)-1px),color-mix(in_oklab,var(--color-border)_60%,transparent)_var(--data-table-row-height))];
+  }
+
+  .cn-data-table-filler {
+    @apply cursor-default border-b border-border/60 p-0 in-data-[slot=data-table-footer]:sticky in-data-[slot=data-table-footer]:bottom-0 in-data-[slot=data-table-footer]:z-20 in-data-[slot=data-table-footer]:border-t in-data-[slot=data-table-footer]:border-b-0 in-data-[slot=data-table-footer]:bg-(--data-table-surface) in-data-[slot=data-table-header]:sticky in-data-[slot=data-table-header]:top-0 in-data-[slot=data-table-header]:z-20 in-data-[slot=data-table-header]:bg-(--data-table-surface);
+  }
+
+  .cn-data-table-select {
+    @apply w-full;
+  }
+
+  /* Numbered rows: the number gives way to the checkbox while the row is
+     lit, picked or the checkbox has focus. */
+  .cn-data-table-row-number {
+    @apply text-(length:--density-text-12) text-muted-foreground tabular-nums transition-opacity duration-feedback ease-feedback in-data-[state=selected]:opacity-0 group-focus-within/data-table-select:opacity-0 in-[tr:hover]:opacity-0;
+  }
+
+  .cn-data-table-checkbox {
+    @apply transition-[opacity,background-color,border-color,box-shadow,scale] in-data-numbered:opacity-0 in-data-numbered:focus-visible:opacity-100 in-data-numbered:in-data-[state=selected]:opacity-100 in-data-numbered:in-[tr:hover]:opacity-100;
+  }
+
+  .cn-data-table-skeleton {
+    @apply h-(--density-12) rounded-sm;
+  }
+
+  /* Footer: sticky, a hairline above, one calculation per column. */
+  .cn-data-table-footer {
+    @apply text-foreground;
+  }
+
+  .cn-data-table-footer-cell {
+    @apply sticky bottom-0 z-20 h-(--density-36) cursor-default border-t border-border/60 bg-(--data-table-surface) px-(--density-8) align-middle font-normal data-pinned:z-30 data-[kind=actions]:px-0 data-[kind=select]:px-0 in-data-[lines=grid]:border-e in-data-[lines=grid]:last:border-e-0;
+  }
+
+  /* A calculation: its name muted, its value in the foreground. An unset
+     one ("Calculate") shows while its cell is lit. */
+  .cn-data-table-aggregate {
+    @apply h-(--density-28) cursor-pointer gap-(--density-6) rounded-md px-(--density-4) text-(length:--density-text-12) transition-[background-color,opacity] duration-feedback ease-feedback in-data-[align=center]:justify-center in-data-[align=end]:justify-end hover:bg-hover focus-visible:opacity-100 focus-visible:ring-1 focus-visible:ring-ring data-focus-visible:opacity-100 data-focus-visible:ring-1 data-focus-visible:ring-ring data-empty:opacity-0 data-popup-open:bg-hover data-popup-open:opacity-100 data-[state=open]:bg-hover data-[state=open]:opacity-100 aria-expanded:bg-hover aria-expanded:opacity-100 in-[td:hover]:opacity-100 pointer-coarse:opacity-100;
+  }
+
+  .cn-data-table-aggregate-label {
+    @apply shrink-0 text-muted-foreground;
+  }
+
+  .cn-data-table-aggregate-value {
+    @apply font-medium text-foreground tabular-nums;
+  }
+
+  .cn-data-table-empty {
+    @apply top-(--density-36) p-(--density-16);
+  }
+
+  /* A window failed: its first row in view says so and tries again; the
+     rows around it stay. */
+  .cn-data-table-load-error {
+    @apply sticky start-0 flex h-(--data-table-row-height) w-fit items-center gap-(--density-8) px-(--density-16) text-(length:--density-text-13) text-muted-foreground;
+  }
+
+  .cn-data-table-empty-state {
+    @apply border-none bg-transparent p-(--density-16);
+  }
+
+  /* React Aria's popover holds a dialog: the panel's stack moves into it. */
+  .cn-data-table-panel-aria {
+    @apply gap-(--density-10);
+  }
+
+  .cn-data-table-panel-header {
+    @apply gap-(--density-8) font-medium text-foreground [&_svg:not([class*='size-'])]:size-(--density-icon-14) [&_svg]:shrink-0 [&_svg]:text-muted-foreground;
+  }
+
+  .cn-data-table-panel-sort {
+    @apply gap-(--density-6);
+  }
+
+  /* Selection bar: inverted in light (the page's ink, its text and the
+     buttons inside drawn in the page's paper), a raised surface with a
+     border in dark. It rises over the table's bottom edge, above the
+     footer, on the move timing. */
+  .cn-data-table-selection-bar {
+    @apply bottom-(--density-12) gap-(--density-8) rounded-xl bg-(--data-table-ink) p-(--density-4) ps-(--density-12) text-(length:--density-text-13) text-(--data-table-paper) shadow-surface-6 [--active:color-mix(in_oklab,var(--data-table-paper)_18%,transparent)] [--border:color-mix(in_oklab,var(--data-table-paper)_20%,transparent)] [--foreground:var(--data-table-paper)] [--hover:color-mix(in_oklab,var(--data-table-paper)_12%,transparent)] [--muted-foreground:color-mix(in_oklab,var(--data-table-paper)_72%,transparent)] in-data-footer:bottom-[calc(var(--density-36)+var(--density-12))] dark:border dark:border-border dark:bg-surface-6 dark:text-foreground dark:[--active:inherit] dark:[--border:inherit] dark:[--foreground:inherit] dark:[--hover:inherit] dark:[--muted-foreground:inherit] transition-[opacity,translate,scale] duration-move ease-enter data-[state=closed]:pointer-events-none data-[state=closed]:translate-y-2 data-[state=closed]:scale-95 data-[state=closed]:opacity-0 data-[state=closed]:duration-move-exit data-[state=closed]:ease-exit motion-reduce:transition-none;
+  }
+
+  .cn-data-table-selection-count {
+    @apply font-medium text-foreground tabular-nums;
+  }
+
+  .cn-data-table-selection-actions {
+    @apply gap-(--density-4);
+  }
+
+  /* Pagination: muted text, the range in tabular figures, square pages. */
+  .cn-data-table-pagination {
+    @apply gap-(--density-12) text-(length:--density-text-13) text-muted-foreground;
+  }
+
+  .cn-data-table-pagination-size {
+    @apply gap-(--density-8);
+  }
+
+  .cn-data-table-pagination-range {
+    @apply tabular-nums;
+  }
+
+  .cn-data-table-pagination-pages {
+    @apply gap-(--density-2);
+  }
+
+  .cn-data-table-page {
+    @apply w-auto min-w-(--density-36) px-(--density-6) tabular-nums;
+  }
+
+  .cn-data-table-pagination-ellipsis {
+    @apply w-(--density-24) text-center;
+  }
+
+  /* Cells by type. */
+  .cn-data-table-text {
+    @apply block truncate;
+  }
+
+  .cn-data-table-number {
+    @apply tabular-nums;
+  }
+
+  .cn-data-table-date {
+    @apply tabular-nums;
+  }
+
+  .cn-data-table-empty-value {
+    @apply text-muted-foreground/60;
+  }
+
+  .cn-data-table-status {
+    @apply max-w-full gap-(--density-6);
+  }
+
+  .cn-data-table-status-dot {
+    @apply size-1.5 shrink-0 rounded-full bg-current;
+  }
+
+  .cn-data-table-person {
+    @apply inline-flex max-w-full min-w-0 items-center gap-(--density-8) align-middle;
+  }
+
+  .cn-data-table-person-avatar {
+    @apply shrink-0;
+  }
+
+  /* Initials at 12px need more than the Avatar's muted text to reach AA on
+     its fill. */
+  .cn-data-table-person-fallback {
+    @apply text-foreground/75;
+  }
+
+  .cn-data-table-link {
+    @apply inline-flex max-w-full items-center gap-(--density-4) text-primary-text underline-offset-4 outline-none hover:underline focus-visible:rounded-sm focus-visible:ring-1 focus-visible:ring-ring [&_svg]:size-3 [&_svg]:shrink-0 [&_svg]:opacity-60;
+  }
+
+  .cn-data-table-boolean {
+    @apply inline-flex items-center align-middle text-muted-foreground/60 data-checked:text-foreground [&_svg]:size-(--density-icon-16);
+  }
+
+  .cn-data-table-progress {
+    @apply flex w-full items-center gap-(--density-8);
+  }
+
+  .cn-data-table-progress-bar {
+    @apply min-w-0 flex-1;
+  }
+
+  .cn-data-table-progress-value {
+    @apply w-[4ch] shrink-0 text-end text-(length:--density-text-12) tabular-nums;
+  }
+
+  /* Rows load: refreshing dims them and a primary sweep runs under the
+     header, both after a short wait so quick answers don't flash. */
+  .cn-data-table-body {
+    @apply transition-opacity duration-move ease-feedback data-refetching:opacity-60 data-refetching:delay-move;
+  }
+
+  .cn-data-table-loading-bar {
+    @apply top-(--density-36) h-0.5 bg-primary/15 shimmer [--shimmer-image:linear-gradient(90deg,transparent_25%,var(--color-primary)_50%,transparent_75%)] [--shimmer-spread:0px] [-webkit-background-clip:border-box]! [-webkit-text-fill-color:currentColor]! [background-clip:border-box]! transition-opacity delay-move duration-move ease-feedback starting:opacity-0;
+  }
+
+  /* Panels and menus: two levels over the card (surface 5), so they stand
+     off the table rather than blend into it. */
+  .cn-data-table-panel {
+    @apply max-h-[min(36rem,var(--available-height,var(--radix-popover-content-available-height,100dvh)))] w-80 gap-(--density-10) overflow-y-auto bg-surface-5 shadow-surface-5;
+  }
+
+  .cn-data-table-menu {
+    @apply bg-surface-5 shadow-surface-5;
+  }
+
+  .cn-data-table-section {
+    @apply gap-(--density-6);
+  }
+
+  .cn-data-table-section-label {
+    @apply text-(length:--density-text-12) font-medium text-muted-foreground;
+  }
+
+  .cn-data-table-hint {
+    @apply px-(--density-2) text-(length:--density-text-12) text-muted-foreground;
+  }
+
+  .cn-data-table-panel-actions {
+    @apply -mx-(--density-6) gap-px;
+  }
+
+  .cn-data-table-panel-item {
+    @apply justify-start gap-(--density-8) px-(--density-8) font-normal text-muted-foreground hover:text-foreground [&_svg]:text-muted-foreground;
+  }
+
+  /* Settings: a sliders button centred over the actions, a density toggle,
+     switches for the footer, numbers, stripes and lines, and the columns. */
+  .cn-data-table-settings-trigger {
+    @apply text-muted-foreground hover:text-foreground data-popup-open:text-foreground data-[state=open]:text-foreground aria-expanded:text-foreground;
+  }
+
+  .cn-data-table-settings {
+    @apply w-72;
+  }
+
+  .cn-data-table-setting {
+    @apply -mx-(--density-6) min-h-(--density-32) cursor-pointer gap-(--density-8) rounded-lg px-(--density-6) transition-colors duration-feedback ease-feedback hover:bg-hover;
+  }
+
+  .cn-data-table-column-list {
+    @apply -mx-(--density-6) max-h-60 gap-px;
+  }
+
+  .cn-data-table-column-item {
+    @apply justify-start gap-(--density-8) px-(--density-6) font-normal text-foreground data-hidden:text-muted-foreground [&_svg]:text-muted-foreground;
+  }
+
+  /* Filters: "Filter" and the condition on one line, then its value. */
+  .cn-data-table-filter {
+    @apply gap-(--density-8);
+  }
+
+  .cn-data-table-filter-head {
+    @apply justify-between gap-(--density-8);
+  }
+
+  .cn-data-table-operator {
+    @apply h-(--density-28) w-auto gap-(--density-4) px-(--density-8) font-medium text-foreground ring-0 hover:bg-hover;
+  }
+
+  .cn-data-table-filter-number {
+    @apply gap-(--density-6);
+  }
+
+  .cn-data-table-filter-inputs {
+    @apply gap-(--density-6);
+  }
+
+  .cn-data-table-presets {
+    @apply -mx-(--density-6) gap-px;
+  }
+
+  .cn-data-table-preset {
+    @apply justify-start px-(--density-6) font-normal;
+  }
+
+  .cn-data-table-calendar {
+    @apply mx-auto p-0;
+  }
+
+  .cn-data-table-option-list {
+    @apply gap-(--density-8);
+  }
+
+  .cn-data-table-option-items {
+    @apply -mx-(--density-6) max-h-64 gap-px;
+  }
+
+  .cn-data-table-option {
+    @apply min-h-(--density-36) cursor-pointer gap-(--density-8) rounded-lg px-(--density-6) transition-colors duration-feedback ease-feedback hover:bg-hover;
+  }
+
+  .cn-data-table-option-count {
+    @apply ms-auto shrink-0 text-(length:--density-text-12) text-muted-foreground tabular-nums;
+  }
+
+  /* Editing: the cell is a button that fills it; the editor takes its place
+     with an inset ring, Notion's way. */
+  .cn-data-table-edit-trigger {
+    @apply flex h-[calc(var(--data-table-row-height)-1px)] w-full min-w-0 cursor-pointer items-center px-(--density-12) text-start outline-none in-data-[align=center]:justify-center in-data-[align=end]:justify-end focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-inset aria-expanded:ring-1 aria-expanded:ring-ring aria-expanded:ring-inset data-scroll:overflow-x-auto data-scroll:overscroll-x-none data-scroll:scrollbar-hide data-scroll:scroll-fade-x data-scroll:[--scroll-fade-size:var(--density-24)];
+  }
+
+  .cn-data-table-edit-input {
+    @apply h-[calc(var(--data-table-row-height)-1px)] w-full min-w-0 bg-(--data-table-surface) px-(--density-12) text-(length:--density-text-13) text-foreground tabular-nums ring-1 ring-ring outline-none ring-inset in-data-[align=end]:text-end;
+  }
+
+  .cn-data-table-edit-link {
+    @apply absolute inset-y-0 end-(--density-6) my-auto grid size-(--density-24) place-items-center rounded-md text-muted-foreground opacity-0 transition-opacity duration-feedback ease-feedback in-[td:hover]:opacity-100 hover:bg-hover hover:text-foreground focus-visible:opacity-100 focus-visible:ring-1 focus-visible:ring-ring [&_svg]:size-(--density-icon-14);
+  }
+
+  .cn-data-table-picker {
+    @apply w-auto min-w-56;
+  }
+
+  .cn-data-table-picker-options {
+    @apply -mx-(--density-6) max-h-72 gap-px;
+  }
+
+  .cn-data-table-picker-option {
+    @apply min-h-(--density-36) cursor-pointer gap-(--density-8) rounded-lg px-(--density-6) text-start outline-none transition-colors duration-feedback ease-feedback hover:bg-hover focus-visible:ring-1 focus-visible:ring-ring [&>svg]:size-(--density-icon-16) [&>svg]:shrink-0;
+  }
+
+  /* Tags keep every value: a narrow column scrolls them sideways, fading
+     at the edges where more are hidden. */
+  .cn-data-table-tags {
+    @apply flex max-w-full items-center gap-(--density-4) overflow-x-auto overscroll-x-none rounded-sm align-middle scrollbar-hide outline-none scroll-fade-x [--scroll-fade-size:var(--density-24)] focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-inset in-data-scroll:max-w-none in-data-scroll:overflow-visible in-data-scroll:mask-none;
+  }
+
+  .cn-data-table-tag {
+    @apply shrink-0;
+  }
+
 /* MARK: Date Picker */
 
   /* Editable: an Input Group, so the frame, focus, invalid and disabled states
@@ -1742,6 +2392,34 @@
      as it. */
   .cn-date-picker-time {
     @apply border-border border-s px-(--density-4) py-(--density-8);
+  }
+
+  /* With a month or year granularity: a grid of twelve under its heading,
+     padded as a menu is, since there's no calendar to bring its own. */
+  .cn-date-picker-grid-panel {
+    @apply gap-(--density-8) p-(--density-8);
+  }
+
+  /* The year (or span of years) between its arrows, on one row with them. */
+  .cn-date-picker-grid-header {
+    @apply gap-(--density-8);
+  }
+
+  .cn-date-picker-grid-title {
+    @apply text-(length:--density-text-13) font-medium tabular-nums;
+  }
+
+  /* Twelve cells in four rows. A new page slides in from the side it came
+     from, on the move timing. */
+  .cn-date-picker-grid {
+    @apply gap-1 animate-in fade-in-0 duration-move ease-move motion-reduce:animate-none data-[direction=next]:slide-in-from-right-2 data-[direction=previous]:slide-in-from-left-2;
+  }
+
+  /* Menu cells: muted at rest, lit by the gliding highlight; the chosen cell
+     on the sliding selection in semibold, this month or year in the
+     foreground. */
+  .cn-date-picker-cell {
+    @apply cursor-pointer text-muted-foreground h-(--density-36) min-w-16 rounded-lg px-(--density-12) text-(length:--density-text-13) tabular-nums transition-colors duration-feedback data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-fluid-hover-active:text-foreground data-current:text-foreground data-current:font-medium aria-selected:bg-active aria-selected:text-foreground aria-selected:font-semibold in-data-[fluid-hover]:aria-selected:bg-transparent focus-visible:text-foreground disabled:pointer-events-none disabled:opacity-50;
   }
 
 /* MARK: Dialog */
@@ -2392,6 +3070,37 @@
     @apply bg-surface-3 shadow-surface-3 text-popover-foreground w-64 rounded-xl p-(--density-12) text-(length:--density-text-13) motion-popup data-entering:animate-in data-entering:fade-in-0 data-exiting:animate-out data-exiting:fade-out-0;
   }
 
+/* MARK: Image Compare */
+
+  /* A 3:2 frame rounded like a card, on the muted fill while the pictures
+     load. The pointer reads as a horizontal resize everywhere on it: a click
+     anywhere glides the line there. Focus shows the 1px ring outside the
+     frame. Disabled dims it and takes no pointer. */
+  .cn-image-compare {
+    @apply aspect-3/2 cursor-ew-resize rounded-xl bg-muted focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background data-disabled:pointer-events-none data-disabled:cursor-not-allowed data-disabled:opacity-50;
+  }
+
+  /* The labels sit in the top corners on dark glass, white whatever the
+     theme: they lie on arbitrary pictures, which no theme token stays legible
+     on (see Known deviations). Each fades as the line crosses it. */
+  .cn-image-compare-label {
+    @apply top-(--density-12) rounded-full bg-black/35 px-(--density-10) py-(--density-4) text-(length:--density-text-12) leading-none font-medium text-white backdrop-blur-md data-[side=after]:right-(--density-12) data-[side=before]:left-(--density-12);
+  }
+
+  /* A 2px white line with a soft white glow, so it reads on dark and light
+     pictures alike. */
+  .cn-image-compare-line {
+    @apply stroke-white stroke-2 drop-shadow-[0_0_6px_rgb(255_255_255/0.5)];
+  }
+
+  /* The knob: a 36px white disc, the line's colour, with a dark chevron each
+     way, on a soft shadow. Like the line it stays white in both themes, as it
+     lies on arbitrary pictures. It grows a little under the pointer and
+     presses in while held, on the feedback timing. */
+  .cn-image-compare-handle {
+    @apply size-(--density-36) gap-0 rounded-full bg-white text-neutral-950 shadow-[0_2px_12px_rgb(0_0_0/0.25)] ring-1 ring-black/5 transition-[scale] duration-feedback ease-enter group-hover/image-compare:scale-108 group-data-dragging/image-compare:scale-90 group-data-disabled/image-compare:scale-100 [&_svg]:-mx-0.5 [&_svg]:size-(--density-icon-16) [&_svg]:stroke-[2.25];
+  }
+
 /* MARK: Input Group */
 
   /* The group is the frame (same recipe as the input): an inset ring-border,
@@ -3019,42 +3728,93 @@
     @apply text-muted-foreground text-(length:--density-text-12);
   }
 
-/* MARK: Month Input */
+/* MARK: Multi Select */
 
-  /* An Input Group: the frame, focus, invalid and disabled states are the
-     group's. */
-  .cn-month-input {
-    @apply [&_[data-slot=input-group-control]]:tabular-nums;
+  /* Field: the input recipe (1px ring-border frame, light fill on hover,
+     card fill and a stronger ring while focused). It grows a row for each
+     line of chips. Its start padding holds chips snug, and the search adds
+     its own so the text starts 10px in either way: the placeholder never
+     moves as the last chip leaves. */
+  .cn-multi-select-trigger {
+    @apply cursor-text ring-border hover:not-focus-within:bg-muted/50 focus-within:bg-card focus-within:ring-foreground/25 has-[[aria-invalid=true]]:ring-destructive/50 has-[[aria-invalid=true]]:hover:not-focus-within:bg-destructive/5 data-disabled:cursor-not-allowed data-disabled:opacity-50 has-disabled:cursor-not-allowed has-disabled:opacity-50 min-h-(--density-36) gap-(--density-6) rounded-lg bg-transparent py-(--density-4) ps-(--density-4) pe-(--density-10) text-(length:--density-text-13) ring-1 ring-inset transition-[color,background-color,box-shadow] duration-feedback ease-feedback;
   }
 
-  /* The calendar button stays lit while its grid is open. */
-  .cn-month-input-trigger {
-    @apply aria-expanded:bg-active aria-expanded:text-foreground;
+  .cn-multi-select-chips {
+    @apply gap-(--density-4);
   }
 
-  .cn-month-input-content {
-    @apply w-auto gap-(--density-8) p-(--density-8);
+  .cn-multi-select-icon {
+    @apply text-muted-foreground [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5];
   }
 
-  /* The year between its arrows, on one row with them. */
-  .cn-month-input-header {
-    @apply gap-(--density-8);
+  /* Chips pop in (fade, a 6px rise from 0.92) and glide to a new place on the
+     move timing. A leaving chip comes out of the row where it stood and fades
+     as it wipes out from its start on the exit timing, while the chips after
+     it glide over. A leaving chip can be a new element (Base UI's chips are
+     a different one), so it starts its exit from fully shown. */
+  .cn-multi-select-chip {
+    @apply bg-active text-foreground h-(--density-28) max-w-full gap-(--density-2) rounded-md ps-(--density-8) pe-(--density-4) text-(length:--density-text-12) font-medium whitespace-nowrap [clip-path:inset(-4px)] transition-[opacity,scale,translate,clip-path,box-shadow] duration-move ease-enter starting:not-data-exiting:translate-y-1.5 starting:not-data-exiting:scale-92 starting:not-data-exiting:opacity-0 starting:data-exiting:opacity-100 starting:data-exiting:[clip-path:inset(-4px)] focus-visible:ring-1 focus-visible:ring-ring data-exiting:[clip-path:inset(-4px_-4px_-4px_100%)] data-exiting:opacity-0 data-exiting:duration-move-exit data-exiting:ease-exit motion-reduce:transition-none;
   }
 
-  .cn-month-input-year {
-    @apply text-(length:--density-text-13) font-medium tabular-nums;
+  .cn-multi-select-chip-label {
+    @apply min-w-0;
   }
 
-  /* Twelve months in four rows. A new year slides in from the side it came
-     from, on the move timing. */
-  .cn-month-input-grid {
-    @apply gap-1 animate-in fade-in-0 duration-move ease-move motion-reduce:animate-none data-[direction=next]:slide-in-from-right-2 data-[direction=previous]:slide-in-from-left-2;
+  .cn-multi-select-chip-remove {
+    @apply text-muted-foreground hover:bg-hover hover:text-foreground focus-visible:ring-1 focus-visible:ring-ring size-(--density-20) rounded-sm transition-colors duration-feedback ease-feedback [&_svg:not([class*='size-'])]:size-3 [&_svg]:stroke-2;
   }
 
-  /* Menu cells: muted at rest, lit by the gliding highlight; the chosen month
-     on the sliding selection in semibold, this month in the foreground. */
-  .cn-month-input-month {
-    @apply cursor-pointer text-muted-foreground h-(--density-36) min-w-16 rounded-lg px-(--density-12) text-(length:--density-text-13) transition-colors duration-feedback data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-fluid-hover-active:text-foreground data-current:text-foreground data-current:font-medium aria-selected:bg-active aria-selected:text-foreground aria-selected:font-semibold in-data-[fluid-hover]:aria-selected:bg-transparent focus-visible:text-foreground disabled:pointer-events-none disabled:opacity-50;
+  .cn-multi-select-input {
+    @apply text-foreground placeholder:text-muted-foreground h-(--density-28) ps-(--density-6) pe-(--density-2) text-base md:text-(length:--density-text-13) disabled:cursor-not-allowed;
+  }
+
+  /* Popup: surface 3 with its shadow ring (no border), rounded-xl, on the
+     popup motion. */
+  .cn-multi-select-content {
+    @apply bg-surface-3 shadow-surface-3 text-popover-foreground max-h-72 min-w-36 overflow-hidden rounded-xl motion-popup data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0;
+  }
+
+  .cn-multi-select-content-aria {
+    @apply bg-surface-3 shadow-surface-3 text-popover-foreground max-h-72 min-w-36 overflow-hidden rounded-xl motion-popup data-entering:animate-in data-entering:fade-in-0 data-exiting:animate-out data-exiting:fade-out-0;
+  }
+
+  /* The list scrolls and is the fluid hover container (relative isolate).
+     One shared highlight glides to the lit row; pressing a row fills it to
+     bg-active and gives it the press scale, easing both ways on the glide
+     timing. */
+  .cn-multi-select-list {
+    @apply no-scrollbar max-h-[min(--spacing(72),var(--available-height,--spacing(72)))] scroll-py-1 p-1 data-empty:p-0 [&>[data-slot=fluid-hover-highlight]]:transition-[opacity,background-color,scale] [&>[data-slot=fluid-hover-highlight][data-animate]]:transition-[transform,width,height,opacity,background-color,scale] [&:has([data-slot=multi-select-item]:active)>[data-slot=fluid-hover-highlight]]:bg-active [&:has([data-slot=multi-select-item]:active)>[data-slot=fluid-hover-highlight]]:scale-(--motion-press-scale) motion-reduce:[&:has([data-slot=multi-select-item]:active)>[data-slot=fluid-hover-highlight]]:scale-100;
+  }
+
+  .cn-multi-select-label {
+    @apply text-muted-foreground px-(--density-8) py-(--density-6) text-(length:--density-text-12);
+  }
+
+  /* Rows: 36px, 13px, muted at rest; the lit row turns foreground and a
+     picked row turns foreground and semibold. The check scales in from 0.9
+     on the move timing and stays mounted to scale out. */
+  .cn-multi-select-item {
+    @apply cursor-pointer text-muted-foreground h-(--density-36) gap-(--density-8) rounded-lg py-0 pe-[calc(var(--density-8)*2+var(--density-icon-16))] ps-(--density-8) text-(length:--density-text-13) transition-colors duration-feedback [&_svg:not([class*='size-'])]:size-(--density-icon-16) [&_svg]:stroke-[1.5] data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-fluid-hover-active:text-foreground data-fluid-hover-active:[&_svg]:stroke-2 data-[selected]:text-foreground data-[selected]:font-semibold;
+  }
+
+  .cn-multi-select-item-aria {
+    @apply data-focused:bg-hover data-focused:text-foreground in-data-[fluid-hover]:data-focused:bg-transparent;
+  }
+
+  .cn-multi-select-item-indicator {
+    @apply text-foreground end-(--density-8) size-(--density-icon-16) scale-90 opacity-0 transition-[opacity,scale] duration-move-exit ease-exit group-data-[selected]/multi-select-item:scale-100 group-data-[selected]/multi-select-item:opacity-100 group-data-[selected]/multi-select-item:duration-move group-data-[selected]/multi-select-item:ease-enter motion-reduce:transition-none;
+  }
+
+  .cn-multi-select-empty {
+    @apply text-muted-foreground hidden w-full justify-center py-(--density-16) text-center text-(length:--density-text-13) group-data-empty/multi-select-content:flex;
+  }
+
+  .cn-multi-select-empty-aria {
+    @apply flex;
+  }
+
+  .cn-multi-select-separator {
+    @apply bg-border/60 -mx-1 my-1 h-px;
   }
 
 /* MARK: Native Select */
@@ -3219,6 +3979,62 @@
     @apply bg-surface-3 shadow-surface-3 text-popover-foreground flex flex-col gap-(--density-12) rounded-xl p-(--density-12) text-(length:--density-text-13) motion-popup data-entering:animate-in data-entering:fade-in-0 data-exiting:animate-out data-exiting:fade-out-0;
   }
 
+/* MARK: Preview Rail */
+
+  /* Every tick holds a 24-step along the rail; the rail is a 40-step across,
+     the length of a fully swollen tick. */
+  .cn-preview-rail {
+    @apply [--preview-rail-step:var(--density-24)] [--preview-rail-length:var(--density-40)];
+  }
+
+  .cn-preview-rail-list {
+    @apply rounded-lg;
+  }
+
+  /* A tick's box fills its step. Ticks are muted at rest and turn foreground
+     when lit or current, on the feedback timing. Focus shows the 1px ring on
+     the box. Disabled ticks dim and take no click. */
+  .cn-preview-rail-item {
+    @apply h-(--preview-rail-step) w-(--preview-rail-length) cursor-pointer rounded-md text-muted-foreground transition-colors duration-feedback ease-feedback focus-visible:ring-1 focus-visible:ring-ring data-current:text-foreground data-lit:text-foreground data-disabled:cursor-not-allowed data-disabled:opacity-50 data-[orientation=horizontal]:h-(--preview-rail-length) data-[orientation=horizontal]:w-(--preview-rail-step);
+  }
+
+  /* A 2px bar that grows towards the card, from the rest length to the full
+     40-step around the lit tick, on the move timing. Reduced motion snaps. */
+  .cn-preview-rail-tick {
+    @apply h-0.5 w-full rounded-full bg-current transition-[scale] duration-move ease-move motion-reduce:transition-none data-[orientation=horizontal]:h-full data-[orientation=horizontal]:w-0.5 data-[orientation=vertical]:[scale:var(--preview-rail-scale)_1] data-[orientation=horizontal]:[scale:1_var(--preview-rail-scale)] data-[orientation=vertical]:data-[side=end]:origin-left data-[orientation=vertical]:data-[side=start]:origin-right data-[orientation=horizontal]:data-[side=start]:origin-bottom data-[orientation=horizontal]:data-[side=end]:origin-top;
+  }
+
+  /* The card's track: beside the rail, 8 off it, centred on the lit tick but
+     never past the rail's ends (a card longer than the rail overhangs both
+     as little as it can). Its own size along the rail is the card's, so
+     percentages measure the card. It glides from tick to tick on the move
+     timing; a card that has just opened appears in place (data-instant), and
+     reduced motion snaps. */
+  .cn-preview-rail-preview {
+    @apply w-max [--preview-rail-end:calc(var(--preview-rail-count)*var(--preview-rail-step))] [--preview-rail-center:calc((var(--preview-rail-index)_+_0.5)*var(--preview-rail-step))] transition-[translate] duration-move ease-move motion-reduce:transition-none data-instant:transition-none data-[orientation=vertical]:top-0 data-[orientation=vertical]:[translate:0_clamp(min(0px,var(--preview-rail-end)_-_100%),var(--preview-rail-center)_-_50%,max(0px,var(--preview-rail-end)_-_100%))] data-[orientation=vertical]:data-[side=end]:left-full data-[orientation=vertical]:data-[side=end]:ps-(--density-8) data-[orientation=vertical]:data-[side=start]:right-full data-[orientation=vertical]:data-[side=start]:pe-(--density-8) data-[orientation=horizontal]:left-0 data-[orientation=horizontal]:[translate:clamp(min(0px,var(--preview-rail-end)_-_100%),var(--preview-rail-center)_-_50%,max(0px,var(--preview-rail-end)_-_100%))_0] data-[orientation=horizontal]:data-[side=start]:bottom-full data-[orientation=horizontal]:data-[side=start]:pb-(--density-8) data-[orientation=horizontal]:data-[side=end]:top-full data-[orientation=horizontal]:data-[side=end]:pt-(--density-8);
+  }
+
+  /* The hover card's recipe: surface 3 with its shadow ring, rounded-xl,
+     p12, 13px, w-64. It grows from the rail on the popup motion and closes
+     quicker than it opened. */
+  .cn-preview-rail-card {
+    @apply w-64 rounded-xl bg-surface-3 p-(--density-12) text-(length:--density-text-13) text-popover-foreground shadow-surface-3 motion-popup data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0 data-closed:opacity-0 data-[side=left]:origin-right data-[side=right]:origin-left data-[side=top]:origin-bottom data-[side=bottom]:origin-top;
+  }
+
+  /* Each item's content fades in as the card reaches it, through the popup's
+     blur at the smooth speed. */
+  .cn-preview-rail-content {
+    @apply flex flex-col gap-(--density-4) animate-in fade-in-0 duration-feedback [--tw-enter-blur:var(--motion-popup-blur)];
+  }
+
+  .cn-preview-rail-title {
+    @apply text-(length:--density-text-14) leading-snug font-medium text-foreground;
+  }
+
+  .cn-preview-rail-description {
+    @apply text-(length:--density-text-13) text-muted-foreground;
+  }
+
 /* MARK: Progress */
 
   /* 6px hover-tinted track; the indicator, in the primary role's fill,
@@ -3361,25 +4177,98 @@
     @apply grid gap-(--density-16);
   }
 
-  /* 18px circle with the checkbox's outline. Checked fills with the primary role
-     (the foreground while neutral) and a 6px dot pops in in its foreground. The border width is important because
-     the components carry an inline 1px `border`. */
+  /* 18px ring with the checkbox's outline. Checked, the ring turns primary
+     (the foreground while neutral) and holds an 8px primary dot; the inside
+     stays clear, so the dot can glide between radios. The border width is
+     important because the components carry an inline 1px `border`. */
   .cn-radio-group-item {
-    @apply cursor-pointer flex size-[calc(var(--density-icon-16)+2px)] items-center justify-center border-[1.5px]! border-foreground/25 bg-transparent transition-[background-color,border-color,box-shadow,scale] duration-feedback ease-feedback motion-reduce:transition-none hover:border-foreground/45 active:scale-90 motion-reduce:active:scale-100 focus-visible:ring-1 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background aria-invalid:border-destructive group-has-[:focus-visible]/field-label:ring-0 rounded-full data-checked:border-primary data-checked:bg-primary data-checked:hover:border-primary aria-invalid:data-checked:border-destructive aria-invalid:data-checked:bg-destructive;
+    @apply cursor-pointer flex size-[calc(var(--density-icon-16)+2px)] items-center justify-center border-[1.5px]! border-foreground/25 bg-transparent transition-[border-color,box-shadow,scale] duration-feedback ease-feedback motion-reduce:transition-none hover:border-foreground/45 active:scale-90 motion-reduce:active:scale-100 focus-visible:ring-1 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background aria-invalid:border-destructive group-has-[:focus-visible]/field-label:ring-0 rounded-full data-checked:border-primary data-checked:hover:border-primary aria-invalid:data-checked:border-destructive;
   }
 
   .cn-radio-group-item-aria {
-    @apply cursor-pointer data-hovered:border-foreground/45 data-pressed:scale-90 motion-reduce:data-pressed:scale-100 data-selected:border-primary data-selected:bg-primary data-selected:data-hovered:border-primary data-focus-visible:ring-1 data-focus-visible:ring-focus-ring data-focus-visible:ring-offset-2 data-focus-visible:ring-offset-background data-invalid:border-destructive data-invalid:data-selected:border-destructive data-invalid:data-selected:bg-destructive;
+    @apply cursor-pointer data-hovered:border-foreground/45 data-pressed:scale-90 motion-reduce:data-pressed:scale-100 data-selected:border-primary data-selected:data-hovered:border-primary data-focus-visible:ring-1 data-focus-visible:ring-focus-ring data-focus-visible:ring-offset-2 data-focus-visible:ring-offset-background data-invalid:border-destructive data-invalid:data-selected:border-destructive;
   }
 
-  /* Stays mounted: the dot scales in on the move timing with the entrance
-     curve and out on the feedback exit. Reduced motion: no transition. */
+  /* Stays mounted. Picking another radio glides the dot over from the one it
+     leaves (lib/radio-glide sets the start offset under data-gliding, which
+     skips the transitions) on the move timing with the entrance curve. A first
+     pick scales the dot in on the same timing; a cleared value scales it out
+     on the feedback exit. Reduced motion: no transition. */
   .cn-radio-group-indicator {
-    @apply flex size-full items-center justify-center opacity-0 scale-0 transition-[opacity,scale] duration-feedback-exit ease-exit data-checked:opacity-100 data-checked:scale-100 data-checked:duration-move data-checked:ease-enter motion-reduce:transition-none;
+    @apply flex size-full items-center justify-center opacity-0 scale-0 transition-[opacity,scale,translate] duration-feedback-exit ease-exit data-checked:opacity-100 data-checked:scale-100 data-checked:duration-move data-checked:ease-enter data-gliding:transition-none motion-reduce:transition-none;
   }
 
   .cn-radio-group-indicator-icon {
-    @apply bg-primary-foreground absolute top-1/2 left-1/2 size-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full;
+    @apply bg-primary absolute top-1/2 left-1/2 size-[calc(var(--density-icon-16)/2)] -translate-x-1/2 -translate-y-1/2 rounded-full group-aria-invalid/radio-group-item:bg-destructive group-data-invalid/radio-group-item:bg-destructive;
+  }
+
+/* MARK: Rating */
+
+  /* A row of stars with no frame of its own. The pointer is a hand while it
+     takes input. Focus shows the 1px ring around the row. Disabled dims it;
+     read-only keeps the plain arrow. */
+  .cn-rating {
+    @apply cursor-pointer rounded-sm focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background data-disabled:cursor-not-allowed data-disabled:opacity-50 data-readonly:cursor-default;
+  }
+
+  /* The default stars are the yellow everyone reads as a score, fixed
+     whatever the theme or the roles (see Known deviations), with an amber-500
+     edge in light so they hold on white. The other variants fill with a role:
+     primary, or a status for a score that reads as good or bad. */
+  .cn-rating-variant-default {
+    @apply [&_[data-slot=rating-star-fill]]:text-amber-400 [&_[data-slot=rating-star-fill]_svg]:stroke-amber-500 dark:[&_[data-slot=rating-star-fill]_svg]:stroke-amber-400;
+  }
+
+  .cn-rating-variant-primary {
+    @apply [&_[data-slot=rating-star-fill]]:text-primary;
+  }
+
+  .cn-rating-variant-info {
+    @apply [&_[data-slot=rating-star-fill]]:text-info;
+  }
+
+  .cn-rating-variant-success {
+    @apply [&_[data-slot=rating-star-fill]]:text-success;
+  }
+
+  .cn-rating-variant-warning {
+    @apply [&_[data-slot=rating-star-fill]]:text-warning;
+  }
+
+  .cn-rating-variant-error {
+    @apply [&_[data-slot=rating-star-fill]]:text-destructive;
+  }
+
+  /* Stars of 16, 20 and 28px at the default density, a fifth of a star
+     apart. */
+  .cn-rating-size-sm {
+    @apply gap-0.5 [&_[data-slot=rating-star]]:size-(--density-16);
+  }
+
+  .cn-rating-size-default {
+    @apply gap-1 [&_[data-slot=rating-star]]:size-(--density-20);
+  }
+
+  .cn-rating-size-lg {
+    @apply gap-1.5 [&_[data-slot=rating-star]]:size-(--density-28);
+  }
+
+  /* Solid stars: the icon filled and stroked in its colour, so its rounded
+     joins round the points. The star under the pointer lifts to 115% on the
+     feedback timing and gives to 95% while pressed. */
+  .cn-rating-star {
+    @apply transition-[scale] duration-feedback ease-enter data-active:scale-115 group-data-pressed/rating:data-active:scale-95 motion-reduce:data-active:scale-100 [&_svg]:size-full [&_svg]:fill-current [&_svg]:stroke-current;
+  }
+
+  /* An empty star is a faint foreground fill; invalid tints it red. */
+  .cn-rating-star-empty {
+    @apply text-foreground/12 dark:text-foreground/16 group-aria-invalid/rating:text-destructive/35;
+  }
+
+  /* The fill is cut at the score's share of the star. A star it reaches pops
+     in from half size on the bounce spring; leaving, it's cut away at once. */
+  .cn-rating-star-fill {
+    @apply transition-[scale] motion-bounce group-data-[state=empty]/rating-star:scale-50 motion-reduce:transition-none;
   }
 
 /* MARK: Resizable */
@@ -3858,25 +4747,42 @@
 
 /* MARK: Slider */
 
+  /* size sm pins the slider to the compact density and lg to spacious.
+     --slider-thumb-size is the small icon size at compact, inside the track,
+     and overhangs the track above it: 20px over 16px at default, 24px over
+     18px spacious. min() reads it off the density tokens (--density-36 is 28px only
+     at compact), so a DensityProvider sets it as well as size does.
+     --slider-glide is the move timing for a click or a key, and nothing while a
+     drag follows the pointer. Radix positions each thumb on a wrapper span. */
   .cn-slider {
-    @apply cursor-pointer data-disabled:cursor-not-allowed data-vertical:min-h-40;
+    @apply cursor-pointer data-disabled:cursor-not-allowed data-vertical:min-h-40 data-[size=sm]:density-compact data-[size=lg]:density-spacious [--slider-track-size:calc(var(--density-icon-14)+2px)] [--slider-thumb-size:min(var(--density-20),calc(var(--density-icon-14)+var(--density-36)-1.75rem))] [--slider-glide:calc(var(--motion-move)*var(--motion-scale,1))] data-following:[--slider-glide:calc(var(--motion-move)*0)] [&>span:has(>[data-slot=slider-thumb])]:transition-[left,bottom] [&>span:has(>[data-slot=slider-thumb])]:duration-(--slider-glide) [&>span:has(>[data-slot=slider-thumb])]:ease-enter;
   }
 
-  /* An 18px pill framed by the border colour, transparent inside. */
+  /* A 16px pill framed by the border colour, transparent inside. */
   .cn-slider-track {
-    @apply border-border rounded-full border bg-transparent data-horizontal:h-[calc(var(--density-icon-16)+2px)] data-horizontal:w-full data-vertical:h-full data-vertical:w-[calc(var(--density-icon-16)+2px)];
+    @apply border-border rounded-full border bg-transparent data-horizontal:h-(--slider-track-size) data-horizontal:w-full data-vertical:h-full data-vertical:w-(--slider-track-size);
   }
 
   /* The filled range is a soft wash of the primary role: a neutral grey
-     while primary is neutral. */
+     while primary is neutral. It glides with the thumb. */
   .cn-slider-range {
-    @apply bg-primary/10 dark:bg-primary/15;
+    @apply bg-primary/10 dark:bg-primary/15 transition-[inset-inline-start,left,right,top,bottom,width,height] duration-(--slider-glide) ease-enter;
   }
 
-  /* White 16px knob with a soft drop shadow and hairline. Focus shows a 1px
-     blue ring 4px outside the knob (::before); ::after widens the hit area. */
+  /* One 4px dot per step, the foreground at 25%. Under the range it shrinks
+     away, so the fill reads as one piece and the dots count what's left. */
+  .cn-slider-step {
+    @apply bg-foreground/25 size-1 rounded-full transition-[opacity,scale] duration-feedback ease-enter data-filled:scale-0 data-filled:opacity-0;
+  }
+
+  /* A white knob with a soft drop shadow and hairline. It glides to a click or
+     a key on the move timing and follows a drag at once. Hover deepens the
+     shadow; held, it grows 2px all round with a white band (the ring offset,
+     so Base UI's measured thumb size never changes) and lifts on a deeper
+     shadow. Focus shows a 1px blue ring 4px outside the knob (::before);
+     ::after widens the hit area. */
   .cn-slider-thumb {
-    @apply cursor-grab active:cursor-grabbing data-dragging:cursor-grabbing data-disabled:cursor-not-allowed relative size-(--density-icon-16) rounded-full bg-white shadow-[0_1px_2px_rgb(0_0_0/0.1)] ring-1 ring-black/5 transition-[box-shadow] duration-feedback ease-feedback before:absolute before:-inset-1 before:rounded-full before:border before:border-ring before:opacity-0 before:transition-opacity before:duration-feedback after:absolute after:-inset-2 hover:shadow-[0_1px_3px_rgb(0_0_0/0.16)] focus-visible:outline-hidden focus-visible:before:opacity-100 has-focus-visible:before:opacity-100 data-focus-visible:before:opacity-100;
+    @apply cursor-grab active:cursor-grabbing data-dragging:cursor-grabbing data-disabled:cursor-not-allowed relative size-(--slider-thumb-size) rounded-full bg-white shadow-[0_1px_2px_rgb(0_0_0/0.12)] ring-1 ring-black/5 ring-offset-white transition-[box-shadow,inset-inline-start,left,top,bottom] [transition-duration:calc(var(--motion-feedback)*var(--motion-scale,1)),var(--slider-glide),var(--slider-glide),var(--slider-glide),var(--slider-glide)] ease-enter before:absolute before:-inset-1 before:rounded-full before:border before:border-ring before:opacity-0 before:transition-opacity before:duration-feedback after:absolute after:-inset-2 hover:shadow-[0_1px_4px_rgb(0_0_0/0.18)] [[data-slot=slider]:active_&:focus-within]:ring-offset-2 [[data-slot=slider]:active_&:focus-within]:shadow-[0_4px_12px_rgb(0_0_0/0.18)] focus-visible:outline-hidden focus-visible:before:opacity-100 has-focus-visible:before:opacity-100 data-focus-visible:before:opacity-100;
   }
 
 /* MARK: Spinner */
@@ -4293,6 +5199,17 @@
   .cn-textarea {
     @apply text-foreground ring-border hover:bg-muted/50 focus-visible:bg-card focus-visible:ring-foreground/25 aria-invalid:ring-destructive/50 aria-invalid:hover:bg-destructive/5 aria-invalid:focus-visible:bg-card min-h-16 rounded-lg border-0 bg-transparent px-(--density-10) py-(--density-8) text-base ring-1 ring-inset transition-[color,background-color,box-shadow] duration-feedback ease-feedback md:text-(length:--density-text-13) data-[slot=input-group-control]:bg-transparent data-[slot=input-group-control]:ring-0 data-[slot=input-group-control]:hover:bg-transparent data-[slot=input-group-control]:focus-visible:bg-transparent data-[slot=input-group-control]:aria-invalid:hover:bg-transparent;
   }
+
+/* MARK: Theme Toggle */
+.cn-theme-toggle-icon {
+  @apply size-(--density-icon-16) group-data-[ready=false]/theme-toggle:invisible;
+}
+.cn-theme-toggle-sun {
+  @apply transition-[opacity,transform,filter] duration-move ease-enter group-data-[theme=dark]/theme-toggle:rotate-45 group-data-[theme=dark]/theme-toggle:scale-25 group-data-[theme=dark]/theme-toggle:opacity-0 group-data-[theme=dark]/theme-toggle:blur-[2px] motion-reduce:transition-none;
+}
+.cn-theme-toggle-moon {
+  @apply -rotate-45 scale-25 opacity-0 blur-[2px] transition-[opacity,transform,filter] duration-move ease-enter group-data-[theme=dark]/theme-toggle:rotate-0 group-data-[theme=dark]/theme-toggle:scale-100 group-data-[theme=dark]/theme-toggle:opacity-100 group-data-[theme=dark]/theme-toggle:blur-none motion-reduce:transition-none;
+}
 
 /* MARK: Time Input */
 

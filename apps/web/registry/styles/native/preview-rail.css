@@ -1,0 +1,56 @@
+/* MARK: Preview Rail */
+
+  /* The rail keeps its own size inside a stretching parent. */
+  .cn-preview-rail {
+    @apply self-start;
+  }
+
+  .cn-preview-rail-list {
+    @apply rounded-lg;
+  }
+
+  /* A tick's box fills its step: a 24-step along the rail, a 40-step across,
+     the length of a fully swollen tick. Disabled ticks dim. */
+  .cn-preview-rail-item {
+    @apply h-(--density-24) w-(--density-40) data-[orientation=horizontal]:h-(--density-40) data-[orientation=horizontal]:w-(--density-24) data-[disabled=true]:opacity-50;
+  }
+
+  /* A 2pt bar, muted at rest. It grows towards the card around the lit tick
+     on the move timing (useMotion). */
+  .cn-preview-rail-tick {
+    @apply h-0.5 w-full rounded-full bg-muted-foreground data-[orientation=horizontal]:h-full data-[orientation=horizontal]:w-0.5;
+  }
+
+  /* Lit or current, the bar turns foreground on the feedback timing
+     (StateFill). */
+  .cn-preview-rail-tick-fill {
+    @apply rounded-full bg-foreground;
+  }
+
+  /* The card's track: beside the rail, 8 off it. The component places it
+     from the rail's measured size, and centres it on the lit tick within the
+     rail's ends, gliding on the move timing (useAnimatedStyle). */
+  .cn-preview-rail-preview {
+    @apply data-[side=bottom]:pt-(--density-8) data-[side=left]:pe-(--density-8) data-[side=right]:ps-(--density-8) data-[side=top]:pb-(--density-8);
+  }
+
+  /* The hover card's recipe: surface 3 with its shadow ring, rounded-xl,
+     p12, w-64. It grows from the rail on the popup motion
+     (useSurfaceAnimation). */
+  .cn-preview-rail-card {
+    @apply w-64 rounded-xl bg-surface-3 p-(--density-12) shadow-surface-3;
+  }
+
+  /* Each item's content fades in as the card reaches it, on the feedback
+     timing. */
+  .cn-preview-rail-content {
+    @apply gap-(--density-4);
+  }
+
+  .cn-preview-rail-title {
+    @apply text-(length:--density-text-14) font-medium text-foreground;
+  }
+
+  .cn-preview-rail-description {
+    @apply text-(length:--density-text-13) text-muted-foreground;
+  }

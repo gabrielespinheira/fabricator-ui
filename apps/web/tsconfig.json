@@ -19,6 +19,15 @@
       }
     ],
     "paths": {
+      "@/registry/bases/*/ui/theme-toggle": [
+        "./registry/fabricator/shared/ui/theme-toggle"
+      ],
+      "@/registry/bases/*/lib/theme-toggle-model": [
+        "./registry/fabricator/shared/lib/theme-toggle-model"
+      ],
+      "@/registry/bases/*/lib/theme-transition": [
+        "./registry/fabricator/shared/lib/theme-transition"
+      ],
       "@/registry/bases/*/ui/spinner": [
         "./registry/fabricator/shared/ui/spinner"
       ],
@@ -55,11 +64,55 @@
       "@/registry/bases/*/lib/sidebar-model": [
         "./registry/fabricator/shared/lib/sidebar-model"
       ],
+      "@/registry/bases/*/lib/slider-model": [
+        "./registry/fabricator/shared/lib/slider-model"
+      ],
+      "@/registry/bases/*/hooks/use-slider-drag": [
+        "./registry/fabricator/shared/hooks/use-slider-drag"
+      ],
+      "@/registry/bases/*/lib/radio-glide-model": [
+        "./registry/fabricator/shared/lib/radio-glide-model"
+      ],
+      "@/registry/bases/*/hooks/use-radio-glide": [
+        "./registry/fabricator/shared/hooks/use-radio-glide"
+      ],
+      "@/registry/bases/*/lib/accordion-model": [
+        "./registry/fabricator/shared/lib/accordion-model"
+      ],
+      "@/registry/bases/*/hooks/use-accordion-shape": [
+        "./registry/fabricator/shared/hooks/use-accordion-shape"
+      ],
       "@/registry/bases/*/lib/date-picker-model": [
         "./registry/fabricator/shared/lib/date-picker-model"
       ],
-      "@/registry/bases/*/lib/month-input-model": [
-        "./registry/fabricator/shared/lib/month-input-model"
+      "@/registry/bases/*/lib/multi-select-model": [
+        "./registry/fabricator/shared/lib/multi-select-model"
+      ],
+      "@/registry/bases/*/hooks/use-chip-presence": [
+        "./registry/fabricator/shared/hooks/use-chip-presence"
+      ],
+      "@/registry/bases/*/ui/multi-select": [
+        "./registry/fabricator/*/ui/multi-select"
+      ],
+      "@/registry/bases/*/lib/data-table-model": [
+        "./registry/fabricator/shared/lib/data-table-model"
+      ],
+      "@/registry/bases/*/hooks/use-data-table": [
+        "./registry/fabricator/shared/hooks/use-data-table"
+      ],
+      "@/registry/bases/*/ui/data-table-cells": [
+        "./registry/fabricator/shared/ui/data-table-cells"
+      ],
+      "@/registry/bases/*/ui/search": [
+        "./registry/fabricator/shared/ui/search"
+      ],
+      "@/registry/bases/*/ui/data-table": [
+        "./registry/fabricator/*/ui/data-table"
+      ],
+      // The Data Table's shared cells draw status tones with the Badge
+      // override's status variants.
+      "@/registry/bases/__base__/ui/badge": [
+        "./registry/fabricator/base/ui/badge"
       ],
       "@/registry/bases/*/lib/time-input-model": [
         "./registry/fabricator/shared/lib/time-input-model"
@@ -92,9 +145,6 @@
       ],
       "@/registry/bases/*/ui/date-picker": [
         "./registry/fabricator/*/ui/date-picker"
-      ],
-      "@/registry/bases/*/ui/month-input": [
-        "./registry/fabricator/*/ui/month-input"
       ],
       "@/registry/bases/*/ui/time-wheel": [
         "./registry/fabricator/shared/ui/time-wheel"

@@ -6,30 +6,46 @@
     @apply relative isolate;
   }
 
-  /* No dividers between items. */
+  /* The highlight sits over the items' surfaces and under the triggers, which
+     are positioned and come later. */
+  .cn-accordion-highlight {
+    @apply z-0;
+  }
+
+  /* Each item is a tile, a 6% wash of the foreground over whatever it sits
+     on. useAccordionShape marks where it sits: closed neighbours join into
+     one card (data-joined-top, data-joined-bottom square the corners they
+     share) and an open item parts from both (data-gap). Opening, the gap and
+     corners spring on the bounce role; closing, the gap settles on ease-enter,
+     so it never dips into an overlap. Hovering an open card tints it on the
+     feedback timing; closed rows have the fluid highlight instead. */
   .cn-accordion-item {
-    @apply border-0;
+    @apply bg-foreground/6 rounded-xl p-(--density-4) transition-[margin,border-radius,background-color] [transition-duration:calc(var(--motion-bounce-exit)*var(--motion-scale,1)),calc(var(--motion-bounce)*var(--motion-scale,1)),calc(var(--motion-feedback)*var(--motion-scale,1))] [transition-timing-function:var(--motion-ease-enter),var(--motion-ease-bounce),var(--motion-ease-feedback)] data-gap:mt-(--density-8) data-gap:[transition-duration:calc(var(--motion-bounce)*var(--motion-scale,1)),calc(var(--motion-bounce)*var(--motion-scale,1)),calc(var(--motion-feedback)*var(--motion-scale,1))] data-gap:[transition-timing-function:var(--motion-ease-bounce),var(--motion-ease-bounce),var(--motion-ease-feedback)] data-joined-top:rounded-t-none data-joined-bottom:rounded-b-none motion-reduce:transition-[background-color] [&:is([data-open],[data-state=open],[data-expanded])]:hover:bg-foreground/9;
   }
 
-  /* Triggers: rounded-lg rows, 13px, muted at rest. Hover and the lit
-     trigger turn foreground (bg-hover where there is no fluid container);
-     an open item's trigger turns foreground and semibold. Focus is a 1px
-     blue ring. */
+  /* Triggers: rounded-lg rows inside the card, 14px medium in foreground/80 at
+     rest, foreground when lit or open. A leading icon rests in grey. Hover is
+     bg-hover where there is no fluid container. Focus is a 1px blue ring. */
   .cn-accordion-trigger {
-    @apply cursor-pointer text-muted-foreground rounded-lg px-(--density-12) py-(--density-8) text-start text-(length:--density-text-13) leading-5 font-normal transition-[color,background-color] duration-feedback hover:bg-hover hover:text-foreground in-data-[fluid-hover]:hover:bg-transparent data-fluid-hover-active:text-foreground aria-expanded:text-foreground aria-expanded:font-semibold focus-visible:ring-ring focus-visible:ring-1 **:data-[slot=accordion-trigger-icon]:ms-auto **:data-[slot=accordion-trigger-icon]:mt-0.5 **:data-[slot=accordion-trigger-icon]:size-4;
+    @apply cursor-pointer gap-(--density-8) rounded-lg px-(--density-12) py-(--density-8) text-start text-(length:--density-text-14) leading-5 font-medium text-foreground/80 transition-[color,background-color] duration-feedback hover:bg-hover hover:text-foreground in-data-[fluid-hover]:hover:bg-transparent data-fluid-hover-active:text-foreground aria-expanded:text-foreground focus-visible:ring-ring focus-visible:ring-1 **:data-[slot=accordion-trigger-icon]:ms-auto **:data-[slot=accordion-trigger-icon]:mt-0.5 **:data-[slot=accordion-trigger-icon]:size-(--density-icon-16) [&>svg:not([data-slot=accordion-trigger-icon])]:mt-0.5 [&>svg:not([data-slot=accordion-trigger-icon])]:shrink-0 [&>svg:not([data-slot=accordion-trigger-icon])]:size-(--density-icon-16) [&>svg:not([data-slot=accordion-trigger-icon])]:text-muted-foreground;
   }
 
-  /* One chevron that points to the end and turns 90° to point down when
-     open (the second, "up" chevron of the source is never shown). Its stroke
-     thickens on hover, when lit and when open. */
+  /* One chevron that points to the end and turns a quarter to point down
+     when open, on the move timing: a spring would wobble it (the second, "up"
+     chevron of the source is never shown). Its stroke thickens on hover, when
+     lit and when open. */
   .cn-accordion-trigger-icon {
-    @apply text-muted-foreground -rotate-90 stroke-[1.5] transition-[rotate,color,stroke-width] duration-disclosure ease-enter group-hover/accordion-trigger:text-foreground group-hover/accordion-trigger:stroke-2 group-data-fluid-hover-active/accordion-trigger:text-foreground group-data-fluid-hover-active/accordion-trigger:stroke-2 group-aria-expanded/accordion-trigger:text-foreground group-aria-expanded/accordion-trigger:stroke-2 group-aria-expanded/accordion-trigger:rotate-0 rtl:rotate-90 group-aria-expanded/accordion-trigger:not-[[data-slot=accordion-trigger-icon]~*]:inline-block group-aria-expanded/accordion-trigger:[[data-slot=accordion-trigger-icon]~&]:hidden motion-reduce:transition-colors;
+    @apply text-muted-foreground -rotate-90 stroke-[1.5] transition-[rotate,color,stroke-width] duration-move ease-move group-hover/accordion-trigger:text-foreground group-hover/accordion-trigger:stroke-2 group-data-fluid-hover-active/accordion-trigger:text-foreground group-data-fluid-hover-active/accordion-trigger:stroke-2 group-aria-expanded/accordion-trigger:text-foreground group-aria-expanded/accordion-trigger:stroke-2 group-aria-expanded/accordion-trigger:rotate-0 rtl:rotate-90 group-aria-expanded/accordion-trigger:not-[[data-slot=accordion-trigger-icon]~*]:inline-block group-aria-expanded/accordion-trigger:[[data-slot=accordion-trigger-icon]~&]:hidden motion-reduce:transition-colors;
   }
 
+  /* The panel springs open and shut on the bounce role. Its text is
+     foreground/65: muted-foreground misses AA on the light tile (4.0:1). */
   .cn-accordion-content {
-    @apply text-muted-foreground motion-disclosure data-open:animate-accordion-down data-closed:animate-accordion-up text-(length:--density-text-13);
+    @apply text-foreground/65 motion-bounce data-open:animate-accordion-down data-closed:animate-accordion-up text-(length:--density-text-14) motion-reduce:animate-none;
   }
 
+  /* Its text fades in from a slight blur as the panel opens, and back out as
+     it closes. Reduced motion keeps the fade. */
   .cn-accordion-content-inner {
-    @apply px-(--density-12) pt-1 pb-(--density-12);
+    @apply px-(--density-12) pt-0 pb-(--density-12) leading-5 duration-disclosure ease-enter in-[[data-slot=accordion-item]:is([data-open],[data-state=open],[data-expanded])]:animate-in in-[[data-slot=accordion-item]:is([data-open],[data-state=open],[data-expanded])]:fade-in in-[[data-slot=accordion-item]:is([data-open],[data-state=open],[data-expanded])]:blur-in-xs in-[[data-slot=accordion-item]:not([data-open],[data-state=open],[data-expanded])]:animate-out in-[[data-slot=accordion-item]:not([data-open],[data-state=open],[data-expanded])]:fade-out in-[[data-slot=accordion-item]:not([data-open],[data-state=open],[data-expanded])]:blur-out-xs motion-reduce:blur-in-[0px] motion-reduce:blur-out-[0px];
   }

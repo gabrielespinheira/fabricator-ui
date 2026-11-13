@@ -6,23 +6,27 @@
     @apply grid gap-(--density-16);
   }
 
-  /* 18px circle with the checkbox's outline. Checked fills with the primary role
-     (the foreground while neutral) and a 6px dot pops in in its foreground. The border width is important because
-     the components carry an inline 1px `border`. */
+  /* 18px ring with the checkbox's outline. Checked, the ring turns primary
+     (the foreground while neutral) and holds an 8px primary dot; the inside
+     stays clear, so the dot can glide between radios. The border width is
+     important because the components carry an inline 1px `border`. */
   .cn-radio-group-item {
-    @apply cursor-pointer flex size-[calc(var(--density-icon-16)+2px)] items-center justify-center border-[1.5px]! border-foreground/25 bg-transparent transition-[background-color,border-color,box-shadow,scale] duration-feedback ease-feedback motion-reduce:transition-none hover:border-foreground/45 active:scale-90 motion-reduce:active:scale-100 focus-visible:ring-1 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background aria-invalid:border-destructive group-has-[:focus-visible]/field-label:ring-0 rounded-full data-checked:border-primary data-checked:bg-primary data-checked:hover:border-primary aria-invalid:data-checked:border-destructive aria-invalid:data-checked:bg-destructive;
+    @apply cursor-pointer flex size-[calc(var(--density-icon-16)+2px)] items-center justify-center border-[1.5px]! border-foreground/25 bg-transparent transition-[border-color,box-shadow,scale] duration-feedback ease-feedback motion-reduce:transition-none hover:border-foreground/45 active:scale-90 motion-reduce:active:scale-100 focus-visible:ring-1 focus-visible:ring-focus-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background aria-invalid:border-destructive group-has-[:focus-visible]/field-label:ring-0 rounded-full data-checked:border-primary data-checked:hover:border-primary aria-invalid:data-checked:border-destructive;
   }
 
   .cn-radio-group-item-aria {
-    @apply cursor-pointer data-hovered:border-foreground/45 data-pressed:scale-90 motion-reduce:data-pressed:scale-100 data-selected:border-primary data-selected:bg-primary data-selected:data-hovered:border-primary data-focus-visible:ring-1 data-focus-visible:ring-focus-ring data-focus-visible:ring-offset-2 data-focus-visible:ring-offset-background data-invalid:border-destructive data-invalid:data-selected:border-destructive data-invalid:data-selected:bg-destructive;
+    @apply cursor-pointer data-hovered:border-foreground/45 data-pressed:scale-90 motion-reduce:data-pressed:scale-100 data-selected:border-primary data-selected:data-hovered:border-primary data-focus-visible:ring-1 data-focus-visible:ring-focus-ring data-focus-visible:ring-offset-2 data-focus-visible:ring-offset-background data-invalid:border-destructive data-invalid:data-selected:border-destructive;
   }
 
-  /* Stays mounted: the dot scales in on the move timing with the entrance
-     curve and out on the feedback exit. Reduced motion: no transition. */
+  /* Stays mounted. Picking another radio glides the dot over from the one it
+     leaves (lib/radio-glide sets the start offset under data-gliding, which
+     skips the transitions) on the move timing with the entrance curve. A first
+     pick scales the dot in on the same timing; a cleared value scales it out
+     on the feedback exit. Reduced motion: no transition. */
   .cn-radio-group-indicator {
-    @apply flex size-full items-center justify-center opacity-0 scale-0 transition-[opacity,scale] duration-feedback-exit ease-exit data-checked:opacity-100 data-checked:scale-100 data-checked:duration-move data-checked:ease-enter motion-reduce:transition-none;
+    @apply flex size-full items-center justify-center opacity-0 scale-0 transition-[opacity,scale,translate] duration-feedback-exit ease-exit data-checked:opacity-100 data-checked:scale-100 data-checked:duration-move data-checked:ease-enter data-gliding:transition-none motion-reduce:transition-none;
   }
 
   .cn-radio-group-indicator-icon {
-    @apply bg-primary-foreground absolute top-1/2 left-1/2 size-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full;
+    @apply bg-primary absolute top-1/2 left-1/2 size-[calc(var(--density-icon-16)/2)] -translate-x-1/2 -translate-y-1/2 rounded-full group-aria-invalid/radio-group-item:bg-destructive group-data-invalid/radio-group-item:bg-destructive;
   }

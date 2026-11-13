@@ -86,6 +86,16 @@ export function getVersionProblems({
     expect(path, readJsonVersion(read(path)))
   }
 
+  expect(
+    "apps/mobile/package.json",
+    readJsonVersion(read("apps/mobile/package.json"))
+  )
+  const mobileApp = read("apps/mobile/app.json")
+  if (mobileApp !== null) {
+    const app: { expo: { version: string } } = JSON.parse(mobileApp)
+    expect("apps/mobile/app.json", app.expo.version)
+  }
+
   for (const path of files.filter((file) =>
     file.endsWith("src-tauri/tauri.conf.json")
   )) {

@@ -4,6 +4,7 @@ import * as React from "react"
 import { cn } from "cn"
 import { Accordion as AccordionPrimitive } from "radix-ui"
 
+import { useAccordionShape } from "@/registry/bases/radix/hooks/use-accordion-shape"
 import {
   FluidHoverHighlight,
   useFluidHover,
@@ -14,8 +15,14 @@ import { IconPlaceholder } from "@/app/(create)/components/icon-placeholder"
 // Fabricator override of the upstream accordion: the root is a fluid hover
 // container, so one highlight glides between triggers. The pointer lights a
 // trigger only while it is over one; open panels switch it off (and a click
-// in a panel never toggles a trigger).
+// in a panel never toggles a trigger). Items are cards that part and spring
+// back together: useAccordionShape marks each item's gap and joined corners,
+// and the style map springs them there.
+// An open item's trigger is never lit: a row highlight inside its own card
+// reads as a box in a box, so hovering it tints the whole card instead.
 const TRIGGER = '[data-slot="accordion-trigger"]'
+const OPEN_TRIGGER = `${TRIGGER}[aria-expanded="true"]`
+const UNLIT = `${OPEN_TRIGGER}, [data-disabled], [aria-disabled="true"], :disabled`
 
 function Accordion({
   className,
@@ -25,9 +32,11 @@ function Accordion({
 }: React.ComponentProps<typeof AccordionPrimitive.Root>) {
   const fluid = useFluidHover<HTMLDivElement>({
     items: TRIGGER,
+    disabled: UNLIT,
     gapClick: false,
   })
-  const mergedRef = useMergedRef(fluid.attach, ref)
+  const shape = useAccordionShape<HTMLDivElement>()
+  const mergedRef = useMergedRef(fluid.attach, shape, ref)
 
   return (
     <AccordionPrimitive.Root
@@ -36,7 +45,8 @@ function Accordion({
       ref={mergedRef}
       {...fluid.props}
       onPointerMove={(event: React.PointerEvent<HTMLDivElement>) => {
-        if ((event.target as Element).closest(TRIGGER)) {
+        const trigger = (event.target as Element).closest(TRIGGER)
+        if (trigger && !trigger.matches(OPEN_TRIGGER)) {
           fluid.props.onPointerMove(event)
         } else {
           fluid.props.onPointerLeave()
@@ -44,7 +54,10 @@ function Accordion({
       }}
       {...props}
     >
-      <FluidHoverHighlight hover={fluid.hover} />
+      <FluidHoverHighlight
+        hover={fluid.hover}
+        className="cn-accordion-highlight"
+      />
       {children}
     </AccordionPrimitive.Root>
   )

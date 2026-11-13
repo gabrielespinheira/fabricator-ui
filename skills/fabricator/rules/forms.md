@@ -5,7 +5,7 @@
 - Forms use FieldGroup + Field
 - InputGroup requires InputGroupInput/InputGroupTextarea
 - Buttons inside inputs use InputGroup + InputGroupAddon
-- Option sets (2–7 choices) use ToggleGroup
+- Segmented choices use ToggleGroup
 - FieldSet + FieldLegend for grouping related fields
 - Field validation and disabled states
 
@@ -99,7 +99,7 @@ import { InputGroup, InputGroupInput, InputGroupAddon } from "@/components/ui/in
 
 ---
 
-## Option sets (2–7 choices) use ToggleGroup
+## Segmented choices use ToggleGroup
 
 Don't manually loop `Button` components with active state.
 

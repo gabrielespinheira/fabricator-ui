@@ -24,8 +24,8 @@ describe("the Components directory", () => {
 
     expect(sections.map((section) => section.title)).toEqual([
       "Basics",
-      "Forms",
       "Structure",
+      "Advanced",
     ])
     expect(sections[0]?.data.map((component) => component.slug)).toEqual([
       "button",

@@ -1,0 +1,194 @@
+---
+title: Multi Select
+description: Pick several options from a searchable list, shown as chips in the field.
+base: base
+component: true
+---
+
+<ComponentPreview styleName="base-nova" name="multi-select-demo" />
+
+Type to filter, pick with a click or Enter, and keep picking: the list stays open and the search clears after each pick. Every pick becomes a chip in the field. Remove one with its button, or with Backspace in an empty search.
+
+Multi Select is part of the Fabricator style. It's built on Base UI's Combobox in `multiple` mode, which owns filtering, the keyboard and ARIA, and it shares Combobox's frame, popup and rows. Chips pop in with a small rise, fade and wipe out where they stand while the chips after them glide over. One highlight glides between options and the check scales in on the picked ones. Motion follows the motion speed and stops under reduced motion.
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">Command</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx fabricator-ui@latest add multi-select
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps className="mb-0 pt-2">
+
+<Step>Install the following dependencies:</Step>
+
+```bash
+npm install @base-ui/react
+```
+
+<Step>Add the Density component and the Fluid Hover library.</Step>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  src="styles/base-fabricator/lib/multi-select-model.ts"
+  title="lib/multi-select-model.ts"
+  styleName="base-nova"
+/>
+
+<ComponentSource
+  src="styles/base-fabricator/hooks/use-chip-presence.ts"
+  title="hooks/use-chip-presence.ts"
+  styleName="base-nova"
+/>
+
+<ComponentSource
+  src="styles/base-fabricator/ui/multi-select.tsx"
+  title="components/ui/multi-select.tsx"
+  styleName="base-nova"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import {
+  MultiSelect,
+  MultiSelectContent,
+  MultiSelectEmpty,
+  MultiSelectInput,
+  MultiSelectItem,
+  MultiSelectList,
+  MultiSelectTrigger,
+  MultiSelectValue,
+} from "@/components/ui/multi-select"
+```
+
+```tsx
+const frameworks = ["Next.js", "Remix", "Astro", "SvelteKit"]
+
+<MultiSelect items={frameworks}>
+  <MultiSelectTrigger>
+    <MultiSelectValue />
+    <MultiSelectInput aria-label="Frameworks" placeholder="Add frameworks" />
+  </MultiSelectTrigger>
+  <MultiSelectContent>
+    <MultiSelectEmpty>No frameworks found.</MultiSelectEmpty>
+    <MultiSelectList>
+      {(framework: string) => (
+        <MultiSelectItem key={framework} value={framework}>
+          {framework}
+        </MultiSelectItem>
+      )}
+    </MultiSelectList>
+  </MultiSelectContent>
+</MultiSelect>
+```
+
+## Composition
+
+```text
+MultiSelect                     Combobox.Root, always `multiple`
+├── MultiSelectTrigger          the field: Combobox.InputGroup
+│   ├── MultiSelectValue        a chip per picked item
+│   │   └── chip + remove button
+│   ├── MultiSelectInput        the search, a combobox input
+│   └── chevron
+└── MultiSelectContent          the popup, anchored to the field
+    ├── MultiSelectEmpty
+    └── MultiSelectList
+        └── MultiSelectGroup
+            ├── MultiSelectLabel
+            ├── MultiSelectCollection
+            │   └── MultiSelectItem
+            └── MultiSelectSeparator
+```
+
+Items work like Combobox's: pass them to `items` and render them in `MultiSelectList`. Strings work as they are. Objects with `value` and `label` show their `label` in the chip and search by it. Pass `children` to `MultiSelectValue` to draw a chip yourself: `{(item) => …}`.
+
+## Examples
+
+### Field
+
+Point a `FieldLabel` at the input's `id` and describe it with `FieldDescription`.
+
+<ComponentPreview styleName="base-nova" name="multi-select-field" />
+
+### Controlled
+
+Control the picks with `value` and `onValueChange`. Setting `value` from outside animates the chips too.
+
+<ComponentPreview styleName="base-nova" name="multi-select-controlled" />
+
+### Invalid
+
+Set `aria-invalid` on the input and `data-invalid` on the `Field`.
+
+<ComponentPreview styleName="base-nova" name="multi-select-invalid" />
+
+### Disabled
+
+<ComponentPreview styleName="base-nova" name="multi-select-disabled" />
+
+## API Reference
+
+### MultiSelect
+
+Every [Combobox.Root](https://base-ui.com/react/components/combobox) prop except `multiple`, which is always on.
+
+| Prop            | Type                               | Default |
+| --------------- | ---------------------------------- | ------- |
+| `items`         | `Item[] \| { value, items }[]`     | -       |
+| `value`         | `Item[]`                           | -       |
+| `defaultValue`  | `Item[]`                           | -       |
+| `onValueChange` | `(value: Item[], details) => void` | -       |
+| `autoHighlight` | `boolean`                          | `true`  |
+| `disabled`      | `boolean`                          | `false` |
+| `name`          | `string`                           | -       |
+
+Picking an item doesn't close the list, so `onOpenChange` never reports an `item-press` close. The search clears after each pick and `onInputValueChange` reports it.
+
+### MultiSelectValue
+
+| Prop       | Type                        | Default        |
+| ---------- | --------------------------- | -------------- |
+| `children` | `(item: Item) => ReactNode` | the item label |
+
+### Data attributes
+
+| Attribute                              | Element         | Present when      |
+| -------------------------------------- | --------------- | ----------------- |
+| `data-slot="multi-select-trigger"`     | the field       | always            |
+| `data-slot="multi-select-chip"`        | each chip       | an item is picked |
+| `data-exiting`                         | a chip          | it's leaving      |
+| `data-slot="multi-select-chip-remove"` | a chip's button | an item is picked |
+| `data-slot="multi-select-input"`       | the search      | always            |
+| `data-slot="multi-select-content"`     | the popup       | open              |
+| `data-slot="multi-select-item"`        | each option     | open              |
+| `data-selected`                        | an option       | it's picked       |
+
+## Accessibility
+
+- The search is a `combobox` input. Label it with a `FieldLabel` or `aria-label`; the list is `aria-multiselectable`.
+- Up and Down move through the options, Enter picks or unpicks, and Escape closes. Typing filters.
+- Backspace in an empty search removes the last chip. Left Arrow at the start of the search moves into the chips, where Backspace or Delete removes the focused one.
+- Each remove button is named "Remove" and the item's label. A leaving chip is hidden from assistive technology and can't be pressed.
+- Clicking anywhere on the field focuses the search and opens the list.

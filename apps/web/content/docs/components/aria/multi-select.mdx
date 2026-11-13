@@ -1,0 +1,195 @@
+---
+title: Multi Select
+description: Pick several options from a searchable list, shown as chips in the field.
+base: aria
+component: true
+---
+
+<ComponentPreview styleName="aria-nova" name="multi-select-demo" />
+
+Type to filter, pick with a click or Enter, and keep picking: the list stays open and the search clears after each pick. Every pick becomes a chip in the field. Remove one with its button, or with Backspace in an empty search.
+
+Multi Select is part of the Fabricator style. It's built on React Aria's ComboBox with `selectionMode="multiple"`, which owns filtering, the keyboard and ARIA, and it shares Combobox's frame, popup and rows. Chips pop in with a small rise, fade and wipe out where they stand while the chips after them glide over. One highlight glides between options and the check scales in on the picked ones. Motion follows the motion speed and stops under reduced motion.
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">Command</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx fabricator-ui@latest add multi-select
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps className="mb-0 pt-2">
+
+<Step>Install the following dependencies:</Step>
+
+```bash
+npm install react-aria-components
+```
+
+<Step>Add the Density component and the Fluid Hover library.</Step>
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  src="styles/aria-fabricator/lib/multi-select-model.ts"
+  title="lib/multi-select-model.ts"
+  styleName="aria-nova"
+/>
+
+<ComponentSource
+  src="styles/aria-fabricator/hooks/use-chip-presence.ts"
+  title="hooks/use-chip-presence.ts"
+  styleName="aria-nova"
+/>
+
+<ComponentSource
+  src="styles/aria-fabricator/ui/multi-select.tsx"
+  title="components/ui/multi-select.tsx"
+  styleName="aria-nova"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import {
+  MultiSelect,
+  MultiSelectContent,
+  MultiSelectEmpty,
+  MultiSelectInput,
+  MultiSelectItem,
+  MultiSelectList,
+  MultiSelectTrigger,
+  MultiSelectValue,
+} from "@/components/ui/multi-select"
+```
+
+```tsx
+const frameworks = ["Next.js", "Remix", "Astro", "SvelteKit"]
+
+<MultiSelect aria-label="Frameworks">
+  <MultiSelectTrigger>
+    <MultiSelectValue />
+    <MultiSelectInput placeholder="Add frameworks" />
+  </MultiSelectTrigger>
+  <MultiSelectContent>
+    <MultiSelectList
+      renderEmptyState={() => (
+        <MultiSelectEmpty>No frameworks found.</MultiSelectEmpty>
+      )}
+    >
+      {frameworks.map((framework) => (
+        <MultiSelectItem key={framework} id={framework}>
+          {framework}
+        </MultiSelectItem>
+      ))}
+    </MultiSelectList>
+  </MultiSelectContent>
+</MultiSelect>
+```
+
+## Composition
+
+```text
+MultiSelect                     ComboBox, always `selectionMode="multiple"`
+├── Label                       optional, e.g. FieldLabel
+├── MultiSelectTrigger          the field: Group
+│   ├── MultiSelectValue        a chip per picked item
+│   │   └── chip + remove button
+│   ├── MultiSelectInput        the search, a combobox input
+│   └── chevron
+└── MultiSelectContent          the popover, anchored to the field
+    └── MultiSelectList         ListBox
+        ├── MultiSelectItem     ListBoxItem
+        └── MultiSelectGroup    ListBoxSection, with MultiSelectLabel
+```
+
+The value is the picked items' `id`s. A chip shows the item's text (its string child or `textValue`); pass `children` to `MultiSelectValue` to draw it yourself from the item's `value`.
+
+React 19.2 in development throws when a React Aria ComboBox list with sections is filtered ([react#35126](https://github.com/react/react/issues/35126)); production builds are fine. Until React ships the fix, prefer a flat list on this base.
+
+## Examples
+
+### Field
+
+Put a `FieldLabel` inside `MultiSelect` and React Aria links it to the search.
+
+<ComponentPreview styleName="aria-nova" name="multi-select-field" />
+
+### Controlled
+
+Control the picks with `value` and `onChange`. Setting `value` from outside animates the chips too.
+
+<ComponentPreview styleName="aria-nova" name="multi-select-controlled" />
+
+### Invalid
+
+Set `isInvalid` on `MultiSelect` and `data-invalid` on the `Field`.
+
+<ComponentPreview styleName="aria-nova" name="multi-select-invalid" />
+
+### Disabled
+
+<ComponentPreview styleName="aria-nova" name="multi-select-disabled" />
+
+## API Reference
+
+### MultiSelect
+
+Every [ComboBox](https://react-spectrum.adobe.com/react-aria/ComboBox.html) prop except `selectionMode`, which is always `"multiple"`.
+
+| Prop           | Type                     | Default |
+| -------------- | ------------------------ | ------- |
+| `value`        | `Key[]`                  | -       |
+| `defaultValue` | `Key[]`                  | -       |
+| `onChange`     | `(value: Key[]) => void` | -       |
+| `isDisabled`   | `boolean`                | `false` |
+| `isInvalid`    | `boolean`                | `false` |
+| `name`         | `string`                 | -       |
+
+The search clears after each pick and `onInputChange` reports it.
+
+### MultiSelectValue
+
+| Prop       | Type                     | Default       |
+| ---------- | ------------------------ | ------------- |
+| `children` | `(item: T) => ReactNode` | the item text |
+
+### Data attributes
+
+| Attribute                              | Element         | Present when      |
+| -------------------------------------- | --------------- | ----------------- |
+| `data-slot="multi-select-trigger"`     | the field       | always            |
+| `data-slot="multi-select-chip"`        | each chip       | an item is picked |
+| `data-exiting`                         | a chip          | it's leaving      |
+| `data-slot="multi-select-chip-remove"` | a chip's button | an item is picked |
+| `data-slot="multi-select-input"`       | the search      | always            |
+| `data-slot="multi-select-content"`     | the popover     | open              |
+| `data-slot="multi-select-item"`        | each option     | open              |
+| `data-selected`                        | an option       | it's picked       |
+
+## Accessibility
+
+- The search is a `combobox` input. Label it with a `Label` inside `MultiSelect` or `aria-label`; the list is `aria-multiselectable`.
+- Up and Down move through the options, Enter picks or unpicks, and Escape closes. Typing filters.
+- Backspace in an empty search removes the last chip.
+- Each remove button is a button in the tab order, named "Remove" and the item's text. A leaving chip is hidden from assistive technology and can't be pressed.
+- Clicking anywhere on the field focuses the search and opens the list.

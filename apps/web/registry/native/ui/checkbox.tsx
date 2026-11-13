@@ -1,28 +1,68 @@
 import * as React from "react"
-import { CheckIcon, MinusIcon } from "@fabricator-ui/icons-react-native"
 import { useControllableState } from "@rn-primitives/hooks"
+import { cva } from "class-variance-authority"
 import { cn } from "cn"
 import { Pressable } from "react-native"
 import Animated, {
+  useAnimatedProps,
   useAnimatedStyle,
   useSharedValue,
+  withDelay,
   withTiming,
+  type SharedValue,
 } from "react-native-reanimated"
-import { useCSSVariable } from "uniwind"
+import Svg, { Path } from "react-native-svg"
+import { useResolveClassNames } from "uniwind"
 
 import { useFeedback } from "@/registry/native/lib/feedback"
 import { useFieldControl } from "@/registry/native/lib/field-model"
 import { useMotion, usePressScale } from "@/registry/native/lib/motion"
-import { parseNumber } from "@/registry/native/lib/motion-tokens"
 import { StateFill } from "@/registry/native/lib/press-wash"
-import { TextStyle } from "@/registry/native/ui/text"
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable)
+const AnimatedPath = Animated.createAnimatedComponent(Path)
 
 // The press gives more than a button's: the website's `active:scale-90`.
 const PRESS_GIVE = 0.1
-// The mark is this much smaller than the icon size, centred in the box.
-const MARK_INSET = 4
+// The website's mark, in a 24-unit box: the check starts at its short leg.
+// react-native-svg has no `pathLength`, so each path carries its own length.
+const CHECK = { d: "M4 12l5 5L20 6", length: 16 * Math.SQRT2 }
+const MINUS = { d: "M5 12h14", length: 14 }
+const MARK_STROKE = 3
+
+// Resolved for each stroke's colour: an SVG path takes no class.
+const checkboxCheckVariants = cva("cn-checkbox-check")
+const checkboxMinusVariants = cva("cn-checkbox-minus")
+
+/** A path that draws itself from its start as `progress` goes 0 → 1. */
+function MarkPath({
+  d,
+  length,
+  progress,
+  className,
+}: {
+  d: string
+  length: number
+  progress: SharedValue<number>
+  className: string
+}) {
+  const { color } = useResolveClassNames(className)
+  const animatedProps = useAnimatedProps(() => ({
+    strokeDashoffset: length * (1 - progress.value),
+  }))
+  return (
+    <AnimatedPath
+      d={d}
+      fill="none"
+      stroke={typeof color === "string" ? color : "white"}
+      strokeWidth={MARK_STROKE}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      strokeDasharray={[length, length * 2]}
+      animatedProps={animatedProps}
+    />
+  )
+}
 
 function Checkbox({
   className,
@@ -69,29 +109,60 @@ function Checkbox({
       ? "checked"
       : "unchecked"
 
-  // The check comes in on the move timing and goes on the feedback exit.
-  const enter = useMotion("move")
-  const exit = useMotion("feedback")
-  const progress = useSharedValue(isOn ? 1 : 0)
+  // The mark fades in from 0.6 on the feedback timing while its stroke draws
+  // on the move timing, both on the entrance curve; it shrinks and fades on
+  // the feedback exit. Indeterminate draws a minus.
+  const feedbackMotion = useMotion("feedback")
+  const drawMotion = useMotion("move")
+  const visible = useSharedValue(isOn ? 1 : 0)
+  const checkDraw = useSharedValue(isChecked && !indeterminate ? 1 : 0)
+  const minusDraw = useSharedValue(indeterminate ? 1 : 0)
   React.useEffect(() => {
-    progress.value = withTiming(isOn ? 1 : 0, {
-      duration: isOn ? enter.enterMs : exit.exitMs,
-      easing: isOn ? enter.enterEasing : exit.exitEasing,
-    })
-  }, [enter, exit, isOn, progress])
+    const exit = {
+      duration: feedbackMotion.exitMs,
+      easing: feedbackMotion.exitEasing,
+    }
+    // A drawn stroke stays while the mark fades out, then resets; between
+    // checked and indeterminate the mark stays, so the outgoing one retracts.
+    const draw = (isDrawn: boolean) => {
+      if (isDrawn) {
+        return withTiming(1, {
+          duration: drawMotion.enterMs,
+          easing: drawMotion.enterEasing,
+        })
+      }
+      if (isOn) return withTiming(0, exit)
+      return withDelay(exit.duration, withTiming(0, { duration: 0 }))
+    }
+    visible.set(
+      withTiming(
+        isOn ? 1 : 0,
+        isOn
+          ? {
+              duration: feedbackMotion.enterMs,
+              easing: feedbackMotion.enterEasing,
+            }
+          : exit
+      )
+    )
+    checkDraw.set(draw(isChecked && !indeterminate))
+    minusDraw.set(draw(indeterminate))
+  }, [
+    checkDraw,
+    drawMotion,
+    feedbackMotion,
+    indeterminate,
+    isChecked,
+    isOn,
+    minusDraw,
+    visible,
+  ])
   const indicatorStyle = useAnimatedStyle(() => ({
-    opacity: progress.value,
-    transform: [{ scale: 0.6 + 0.4 * progress.value }],
+    opacity: visible.value,
+    transform: [{ scale: 0.6 + 0.4 * visible.value }],
   }))
-  // The website's clip-path: it wipes in from the start edge.
-  const wipeStyle = useAnimatedStyle(() => ({
-    width: `${progress.value * 100}%`,
-  }))
-  const markSize =
-    parseNumber(useCSSVariable("--density-icon-16"), 16) - MARK_INSET
-
   const press = usePressScale()
-  const isFlat = exit.isReduced || exit.isOff
+  const isFlat = feedbackMotion.isReduced || feedbackMotion.isOff
   const pressStyle = useAnimatedStyle(() => ({
     transform: [{ scale: isFlat ? 1 : 1 - PRESS_GIVE * press.progress.value }],
   }))
@@ -131,24 +202,26 @@ function Checkbox({
         data-invalid={Boolean(isFieldInvalid)}
         className="cn-checkbox-fill"
       />
-      <TextStyle className="cn-checkbox-indicator-text">
-        <Animated.View
-          data-slot="checkbox-indicator"
-          className="cn-checkbox-indicator items-center justify-center"
-          style={indicatorStyle}
-        >
-          <Animated.View
-            className="h-full self-start overflow-hidden"
-            style={wipeStyle}
-          >
-            {indeterminate ? (
-              <MinusIcon size={markSize} strokeWidth={3} />
-            ) : (
-              <CheckIcon size={markSize} strokeWidth={3} />
-            )}
-          </Animated.View>
+      <Animated.View
+        data-slot="checkbox-indicator"
+        className="cn-checkbox-indicator items-center justify-center"
+        style={indicatorStyle}
+      >
+        <Animated.View data-slot="checkbox-mark" className="cn-checkbox-mark">
+          <Svg width="100%" height="100%" viewBox="0 0 24 24">
+            <MarkPath
+              {...CHECK}
+              progress={checkDraw}
+              className={checkboxCheckVariants()}
+            />
+            <MarkPath
+              {...MINUS}
+              progress={minusDraw}
+              className={checkboxMinusVariants()}
+            />
+          </Svg>
         </Animated.View>
-      </TextStyle>
+      </Animated.View>
     </AnimatedPressable>
   )
 }

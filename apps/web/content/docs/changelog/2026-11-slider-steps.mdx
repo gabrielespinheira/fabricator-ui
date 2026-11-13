@@ -1,0 +1,11 @@
+---
+title: November 2026 - Slider steps and motion
+description: Step dots, sizes and a larger thumb for Slider, and a thumb that glides to a click and follows a drag.
+date: 2026-11-11
+---
+
+- **Step dots.** `showSteps` draws a dot on every value the thumb can land on. The dots under the range shrink away as it covers them, so they count what's left.
+- **Sizes.** `size="sm"` and `size="lg"` set the compact and spacious density, like the other controls.
+- **A larger thumb.** At the default and large sizes the thumb is bigger than the track: 20px over a 16px track at the default density. At the small size it sits inside the track.
+- **Better motion.** A click on the track or a key press glides the thumb and the range to the new value. A drag follows the pointer with no delay. Held, the thumb grows and lifts. All of it follows the motion speed.
+- On the web and on React Native.

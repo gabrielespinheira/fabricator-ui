@@ -15,6 +15,6 @@ The React Native components (`apps/web/registry/native`) are built on [RN Primit
 
 The Color Picker (`registry/fabricator/*/ui/color-picker.tsx`, `registry/fabricator/shared/lib/color-model.ts`) is adapted from the Color Picker of [Fluid Functionalism](https://www.fluidfunctionalism.com) (MIT License, Copyright (c) 2026 Micka Touillaud).
 
-The Video Player's demo clip (`apps/web/public/media/sintel-trailer.*`) is the trailer for [Sintel](https://durian.blender.org), Copyright (c) Blender Foundation, used under [CC BY 3.0](https://creativecommons.org/licenses/by/3.0/). It is re-encoded, with a poster frame taken from it and captions transcribed from its dialogue, with a Portuguese translation.
+The Video Player's demo clip (`apps/web/public/media/sintel-trailer.*`) is the trailer for [Sintel](https://durian.blender.org), Copyright (c) Blender Foundation, used under [CC BY 3.0](https://creativecommons.org/licenses/by/3.0/). It is re-encoded, with a poster frame taken from it and captions transcribed from its dialogue, with a Portuguese translation. The Audio Player's demo (`sintel-trailer.m4a`, `sintel-trailer-cover.jpg`) is its soundtrack and a square frame from it.
 
 The file and folder icons in the `/files` entries come from [Charmed Icons](https://github.com/littensy/charmed-icons) v0.10.0 (MIT License, Copyright 2024 Littensy), vendored in `packages/icons-core/sources/files/`. Its full licence is included in each icon package's `LICENSE.md`.

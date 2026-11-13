@@ -1,0 +1,11 @@
+---
+title: November 2026 - Audio Player
+description: An Audio Player with the file's waveform, skip, speed and volume, a cover variant for music and a compact one for voice messages, on the web and React Native.
+date: 2026-11-12
+---
+
+- **Audio Player.** `npx fabricator-ui@latest add audio-player` adds an audio file on a card: the artwork, the title and the artist, the seek bar, the time played and left, the speed, back and forward 10 seconds, play and the volume.
+- **Waveform.** Pass `peaks` and the seek bar draws the file's waveform. The bars rise in when they first draw, fill in primary as the playhead crosses them and darken under the pointer. `getAudioPeaks` works the peaks out from decoded samples, once, when the file is made or uploaded.
+- **Cover and compact.** `variant="cover"` puts a large artwork above the controls that grows to full size while the music plays. `variant="compact"` keeps play, the waveform, the time and the speed on one pill-shaped row, as a voice message.
+- **Motion.** Play and pause trade places by scaling and blurring through each other, three bars bounce beside the title while it plays, and the skip arrows wind as you press them. Everything follows the motion speed and stops with reduced motion.
+- **Keyboard.** The Video Player's keys: Space or K, J and L, the arrows, M, the digits and < and >. The seek bar and volume are sliders.

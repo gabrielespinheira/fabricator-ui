@@ -175,13 +175,6 @@
     "date": "2026-11-07"
   },
   {
-    "item": "month-input",
-    "kind": "slot",
-    "name": "month-input-value",
-    "reason": "The website's hidden input carries the month to a form submit. React Native has no forms, so there is no element to carry the slot; `name` is accepted so code moves across.",
-    "date": "2026-11-07"
-  },
-  {
     "item": "date-picker",
     "kind": "prop",
     "name": "hasTime",
@@ -635,5 +628,124 @@
     "name": "time-input-value",
     "reason": "The hidden input only submits the web form. Native consumers receive the same time string through onValueChange.",
     "date": "2026-11-10"
+  },
+  {
+    "item": "theme-toggle",
+    "kind": "prop",
+    "name": "variant",
+    "reason": "Native has the icon morph and blur, but full-screen snapshot reveals await approval for react-native-view-shot. This reveal option is accepted without a screen effect.",
+    "date": "2026-11-11"
+  },
+  {
+    "item": "theme-toggle",
+    "kind": "prop",
+    "name": "start",
+    "reason": "Native has the icon morph and blur, but full-screen snapshot reveals await approval for react-native-view-shot. This reveal option is accepted without a screen effect.",
+    "date": "2026-11-11"
+  },
+  {
+    "item": "audio-player",
+    "kind": "slot",
+    "name": "audio-player-volume-slider",
+    "reason": "The website's volume slider opens on hover beside the mute button and stays closed on touch screens; on a phone or tablet the device's buttons set the volume, so the native player keeps only mute.",
+    "date": "2026-11-12"
+  },
+  {
+    "item": "audio-player",
+    "kind": "placeholder",
+    "name": "cn-audio-player-volume-slider",
+    "reason": "The website's volume slider opens on hover beside the mute button and stays closed on touch screens; on a phone or tablet the device's buttons set the volume, so the native player keeps only mute.",
+    "date": "2026-11-12"
+  },
+  {
+    "item": "audio-player",
+    "kind": "slot",
+    "name": "audio-player-volume-track",
+    "reason": "The website's volume slider opens on hover beside the mute button and stays closed on touch screens; on a phone or tablet the device's buttons set the volume, so the native player keeps only mute.",
+    "date": "2026-11-12"
+  },
+  {
+    "item": "audio-player",
+    "kind": "placeholder",
+    "name": "cn-audio-player-volume-track",
+    "reason": "The website's volume slider opens on hover beside the mute button and stays closed on touch screens; on a phone or tablet the device's buttons set the volume, so the native player keeps only mute.",
+    "date": "2026-11-12"
+  },
+  {
+    "item": "audio-player",
+    "kind": "slot",
+    "name": "audio-player-volume-level",
+    "reason": "The website's volume slider opens on hover beside the mute button and stays closed on touch screens; on a phone or tablet the device's buttons set the volume, so the native player keeps only mute.",
+    "date": "2026-11-12"
+  },
+  {
+    "item": "audio-player",
+    "kind": "placeholder",
+    "name": "cn-audio-player-volume-level",
+    "reason": "The website's volume slider opens on hover beside the mute button and stays closed on touch screens; on a phone or tablet the device's buttons set the volume, so the native player keeps only mute.",
+    "date": "2026-11-12"
+  },
+  {
+    "item": "audio-player",
+    "kind": "slot",
+    "name": "audio-player-volume-thumb",
+    "reason": "The website's volume slider opens on hover beside the mute button and stays closed on touch screens; on a phone or tablet the device's buttons set the volume, so the native player keeps only mute.",
+    "date": "2026-11-12"
+  },
+  {
+    "item": "audio-player",
+    "kind": "placeholder",
+    "name": "cn-audio-player-volume-thumb",
+    "reason": "The website's volume slider opens on hover beside the mute button and stays closed on touch screens; on a phone or tablet the device's buttons set the volume, so the native player keeps only mute.",
+    "date": "2026-11-12"
+  },
+  {
+    "item": "audio-player",
+    "kind": "slot",
+    "name": "audio-player-seek-hover",
+    "reason": "The website darkens the seek bar up to the pointer while it hovers; a touch screen has no hover, and a drag moves the playhead itself.",
+    "date": "2026-11-12"
+  },
+  {
+    "item": "audio-player",
+    "kind": "placeholder",
+    "name": "cn-audio-player-seek-hover",
+    "reason": "The website darkens the seek bar up to the pointer while it hovers; a touch screen has no hover, and a drag moves the playhead itself.",
+    "date": "2026-11-12"
+  },
+  {
+    "item": "audio-player",
+    "kind": "slot",
+    "name": "audio-player-seek-buffered",
+    "reason": "expo-audio doesn't report how much of the file has loaded, so the native seek bar shows only what has played.",
+    "date": "2026-11-12"
+  },
+  {
+    "item": "audio-player",
+    "kind": "placeholder",
+    "name": "cn-audio-player-seek-buffered",
+    "reason": "expo-audio doesn't report how much of the file has loaded, so the native seek bar shows only what has played.",
+    "date": "2026-11-12"
+  },
+  {
+    "item": "audio-player",
+    "kind": "slot",
+    "name": "audio-player-audio",
+    "reason": "The website renders a hidden `<audio>` element; expo-audio's player has no view.",
+    "date": "2026-11-12"
+  },
+  {
+    "item": "data-table",
+    "kind": "component",
+    "name": "data-table",
+    "reason": "The web Data Table draws a TanStack table as an HTML `<table>` with virtual rows, sticky pinned columns and header popovers. Native needs its own grid built on a virtual list, with a horizontal header scroller and sheets for the filters; the native Data Table example keeps showing Table until then.",
+    "date": "2026-11-12"
+  },
+  {
+    "item": "data-table-cells",
+    "kind": "component",
+    "name": "data-table-cells",
+    "reason": "The Data Table's typed cells ship with it; they follow it to native (see data-table).",
+    "date": "2026-11-12"
   }
 ]

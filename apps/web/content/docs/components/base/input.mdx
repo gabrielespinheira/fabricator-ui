@@ -81,7 +81,7 @@ input type has a component of its own, built on the same frame. The preview at t
 | `date`                        | [Date Picker](/docs/components/base/date-picker)                                                                                                   |
 | `time`                        | [Time Input](/docs/components/base/time-input)                                                                                                     |
 | `datetime-local`              | [Date Picker](/docs/components/base/date-picker) with `hasTime`                                                                                    |
-| `month`                       | [Month Input](/docs/components/base/month-input)                                                                                                   |
+| `month`                       | [Date Picker](/docs/components/base/date-picker#month-and-year) with `granularity="month"`                                                         |
 | `color`                       | [Color Picker](/docs/components/base/color-picker)                                                                                                 |
 | `file`                        | [File Upload](/docs/components/base/file-upload)                                                                                                   |
 | `range`                       | [Slider](/docs/components/base/slider)                                                                                                             |
@@ -184,10 +184,11 @@ or pick from a list of times.
 
 ## Month
 
-For a month, use [Month Input](/docs/components/base/month-input): type `3/2028` or
-`Mar 2028`, or pick from a year of months.
+For a month, use [Date Picker](/docs/components/base/date-picker#month-and-year)
+with `granularity="month"`: pick from a year of months, or with `editable`, type
+`3/2028` or `Mar 2028`.
 
-<ComponentPreview styleName="base-nova" name="month-input-field" />
+<ComponentPreview styleName="base-nova" name="date-picker-month" />
 
 ## Color
 

@@ -48,6 +48,7 @@ Every animation belongs to a role, and reads that role's tokens. No component wr
 | press      | Buttons and toggles while held                                          | `motion-press`                    | scale 0.97  |
 | glide      | The [Fluid Hover](/docs/foundations/fluid-hover) highlight              | `duration-glide ease-enter`       | 150 / 100ms |
 | move       | Tab indicators, switch thumbs, selection, checkmarks, progress, sidebar | `duration-move ease-move`         | 250 / 180ms |
+| theme      | Full-page theme reveals from the pressed trigger                        | `duration-theme ease-theme`       | 700 / 700ms |
 | tooltip    | Tooltips                                                                | `motion-tooltip`                  | 125 / 90ms  |
 | popup      | Menus, selects, comboboxes, popovers, hover cards, navigation menus     | `motion-popup`                    | 180 / 120ms |
 | dialog     | Dialogs and alert dialogs; their scrims                                 | `motion-dialog`, `motion-scrim`   | 250 / 180ms |
@@ -90,22 +91,23 @@ Pick the role and use its utilities. Never write milliseconds or a curve:
 <span className="transition-transform duration-move ease-move" />
 ```
 
-`duration-<role>`, `duration-<role>-exit` and `delay-<role>` exist for every role, and the curves are `ease-enter`, `ease-move`, `ease-exit`, `ease-feedback` and `ease-drawer`. In this repository a test fails when a Fabricator style or override uses a fixed duration, a literal curve or a fixed zoom.
+`duration-<role>`, `duration-<role>-exit` and `delay-<role>` exist for every role, and the curves are `ease-enter`, `ease-move`, `ease-exit`, `ease-feedback`, `ease-drawer` and `ease-theme`. In this repository a test fails when a Fabricator style or override uses a fixed duration, a literal curve or a fixed zoom.
 
 ## Tokens
 
 The speeds set these tokens. Retune any of them in `:root` for the default speed, or under `:root[data-motion="<speed>"]` for another:
 
-| Token                                                                     | Holds                                  |
-| ------------------------------------------------------------------------- | -------------------------------------- |
-| `--motion-<role>`, `--motion-<role>-exit`                                 | Each role's entrance and exit duration |
-| `--motion-ease-enter`, `--motion-ease-move`, `--motion-ease-exit`         | The entrance, movement and exit curves |
-| `--motion-ease-feedback`, `--motion-ease-drawer`                          | Colour changes; sheets and drawers     |
-| `--motion-press-scale`                                                    | The scale while pressed                |
-| `--motion-tooltip-scale`, `--motion-popup-scale`, `--motion-dialog-scale` | The scale each surface grows from      |
-| `--motion-tooltip-travel`, `--motion-popup-travel`                        | The slide from the trigger side        |
-| `--motion-popup-blur`                                                     | The blur popups fade through           |
-| `--motion-scale`                                                          | A multiplier on every duration (1)     |
+| Token                                                                     | Holds                                       |
+| ------------------------------------------------------------------------- | ------------------------------------------- |
+| `--motion-<role>`, `--motion-<role>-exit`                                 | Each role's entrance and exit duration      |
+| `--motion-ease-enter`, `--motion-ease-move`, `--motion-ease-exit`         | The entrance, movement and exit curves      |
+| `--motion-ease-feedback`, `--motion-ease-drawer`                          | Colour changes; sheets and drawers          |
+| `--motion-ease-theme`                                                     | Material easing for full-page theme reveals |
+| `--motion-press-scale`                                                    | The scale while pressed                     |
+| `--motion-tooltip-scale`, `--motion-popup-scale`, `--motion-dialog-scale` | The scale each surface grows from           |
+| `--motion-tooltip-travel`, `--motion-popup-travel`                        | The slide from the trigger side             |
+| `--motion-popup-blur`                                                     | The blur popups fade through                |
+| `--motion-scale`                                                          | A multiplier on every duration (1)          |
 
 ```css
 :root {

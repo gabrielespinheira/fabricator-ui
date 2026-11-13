@@ -154,25 +154,7 @@ export const formItems: Registry["items"] = [
     type: "registry:ui",
     title: "Date Picker",
     description:
-      "A text field that takes a typed date or one picked from a calendar.",
-    dependencies: ["@fabricator-ui/icons-react-native", "cn", "date-fns"],
-    registryDependencies: [
-      "@fabricator/calendar",
-      "@fabricator/input-group",
-      "@fabricator/popover",
-    ],
-    files: [
-      { path: "ui/date-picker.tsx", type: "registry:ui" },
-      { path: "lib/date-picker-model.ts", type: "registry:lib" },
-    ],
-    meta: docs("date-picker"),
-  },
-  {
-    name: "month-input",
-    type: "registry:ui",
-    title: "Month Input",
-    description:
-      "A text field that takes a typed month or one picked from a year of months.",
+      "A text field that takes a typed date, or one picked from a calendar or a grid of months or years.",
     dependencies: [
       "@fabricator-ui/icons-react-native",
       "cn",
@@ -181,6 +163,7 @@ export const formItems: Registry["items"] = [
     ],
     registryDependencies: [
       "@fabricator/button",
+      "@fabricator/calendar",
       "@fabricator/feedback",
       "@fabricator/input-group",
       "@fabricator/motion",
@@ -188,10 +171,10 @@ export const formItems: Registry["items"] = [
       "@fabricator/text",
     ],
     files: [
-      { path: "ui/month-input.tsx", type: "registry:ui" },
-      { path: "lib/month-input-model.ts", type: "registry:lib" },
+      { path: "ui/date-picker.tsx", type: "registry:ui" },
+      { path: "lib/date-picker-model.ts", type: "registry:lib" },
     ],
-    meta: docs("month-input"),
+    meta: docs("date-picker"),
   },
   {
     name: "field",
@@ -239,7 +222,10 @@ export const formItems: Registry["items"] = [
       "@fabricator/motion",
       "@fabricator/text",
     ],
-    files: [{ path: "ui/radio-group.tsx", type: "registry:ui" }],
+    files: [
+      { path: "ui/radio-group.tsx", type: "registry:ui" },
+      { path: "lib/radio-glide-model.ts", type: "registry:lib" },
+    ],
     meta: docs("radio-group"),
   },
   {
@@ -275,6 +261,7 @@ export const formItems: Registry["items"] = [
       "uniwind@1.13.1",
     ],
     registryDependencies: [
+      "@fabricator/density",
       "@fabricator/feedback",
       "@fabricator/field-model",
       "@fabricator/motion",
@@ -284,6 +271,28 @@ export const formItems: Registry["items"] = [
       { path: "lib/slider-model.ts", type: "registry:lib" },
     ],
     meta: docs("slider"),
+  },
+  {
+    name: "rating",
+    type: "registry:ui",
+    title: "Rating",
+    description:
+      "A row of stars that holds a score. A tap sets it and a drag scrubs it, in whole or half stars; read-only it shows any fraction. Yellow by default, or primary and the status colours.",
+    dependencies: [
+      "@fabricator-ui/icons-react-native",
+      "@rn-primitives/hooks",
+      "class-variance-authority",
+      "cn",
+      "react-native-gesture-handler",
+      "react-native-reanimated",
+      "uniwind@1.13.1",
+    ],
+    registryDependencies: ["@fabricator/feedback", "@fabricator/motion"],
+    files: [
+      { path: "ui/rating.tsx", type: "registry:ui" },
+      { path: "lib/rating-model.ts", type: "registry:lib" },
+    ],
+    meta: docs("rating"),
   },
   {
     name: "toggle",
@@ -358,7 +367,10 @@ export const formItems: Registry["items"] = [
       "@fabricator/motion",
       "@fabricator/text",
     ],
-    files: [{ path: "ui/accordion.tsx", type: "registry:ui" }],
+    files: [
+      { path: "ui/accordion.tsx", type: "registry:ui" },
+      { path: "lib/accordion-model.ts", type: "registry:lib" },
+    ],
     meta: docs("accordion"),
   },
   {

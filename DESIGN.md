@@ -45,11 +45,11 @@ Fabricator interfaces are calm and exact. They feel like well-made tools: neutra
 
 Pick the mode for the product, then for each region that differs (a marketing page inside an app, a dense table inside a spacious page).
 
-| Mode    | For                                     | Density  | Motion            | Frame                                      |
-| ------- | --------------------------------------- | -------- | ----------------- | ------------------------------------------ |
+| Mode    | For                                      | Density  | Motion            | Frame                                      |
+| ------- | ---------------------------------------- | -------- | ----------------- | ------------------------------------------ |
 | App     | Product UI, docs and component explorers | Default  | Default or snappy | The App Shell                              |
-| Tool    | Dashboards, admin, editors, dense data  | Compact  | Snappy or instant | The App Shell, compact toolbars and tables |
-| Website | Marketing, landing pages, pricing       | Spacious | Smooth            | A site header and centred content          |
+| Tool    | Dashboards, admin, editors, dense data   | Compact  | Snappy or instant | The App Shell, compact toolbars and tables |
+| Website | Marketing, landing pages, pricing        | Spacious | Smooth            | A site header and centred content          |
 
 ### Principles
 
@@ -347,6 +347,8 @@ Components can play short, synthesised sounds, a different one for each family: 
 - **A screenshot is an object.** On a page it sits on a raised surface with the container corner.
 - **People are `Avatar`s** with initials as the fallback; companies are their logo; files are their type icon.
 - **Text over an image sits on a scrim,** because no theme colour stays readable on arbitrary pixels.
+- **Before and after uses `ImageCompare`:** two pictures of the same scene at the same size, such as an edit, a redesign or a restoration, split by a line the person drags. Name both sides when "Before" and "After" don't say enough.
+- **Audio uses the `AudioPlayer`:** the default card where the audio is the subject, the cover variant for music and podcasts with artwork, the compact one for voice messages and audio in lists. Pass the file's `peaks` so the seek bar shows its waveform.
 - **Video uses the `VideoPlayer`:** the full player on a page about the video, the compact one where it is one item among others. A muted, looping clip is for ambience only, and anything with speech has captions.
 
 ## Components
@@ -366,7 +368,7 @@ The library covers most of what a product needs, so a screen is mostly a matter 
 | A number                                     | `NumberField`, with steppers, limits and formatting                            |
 | A date                                       | `DatePicker`, which can add a time                                             |
 | A time, or a start and an end on one day     | `TimeInput`, `TimeRangeInput`                                                  |
-| A month                                      | `MonthInput`                                                                   |
+| A month or a year                            | `DatePicker` with `granularity="month"` or `"year"`                            |
 | A date range, or a date shown as a button    | `Calendar` in a `Popover`                                                      |
 | A file                                       | `FileUploadField` in a form, `FileUploadDropzone` for a large drop target      |
 | A colour                                     | `ColorPicker`, alone or behind a swatch                                        |
@@ -375,10 +377,12 @@ The library covers most of what a product needs, so a screen is mostly a matter 
 | Searching or filtering a page                | `Search`, which folds to a button in a toolbar                                 |
 | One choice from a known list                 | `Select`; `RadioGroup` when every option should stay visible, up to about five |
 | One choice from a long or searchable list    | `Combobox`, which also takes several values as chips                           |
+| Several choices from a long list             | `MultiSelect`, which stays open between picks and shows them as chips          |
 | Several independent options                  | `Checkbox`es in a `FieldSet`                                                   |
 | A setting that applies at once               | `Switch`                                                                       |
 | A one-time code                              | `InputOTP`                                                                     |
-| An approximate value                         | `Slider`, with the value shown beside it                                       |
+| An approximate value                         | `Slider`, with the value shown beside it; `showSteps` when there are few steps |
+| A score out of five, or a review's stars     | `Rating`; `readOnly` to show an average                                        |
 | A focused task or short form                 | `Dialog`                                                                       |
 | Confirming something irreversible            | `AlertDialog`                                                                  |
 | Details or editing beside the current view   | `Sheet`                                                                        |
@@ -396,7 +400,9 @@ The library covers most of what a product needs, so a screen is mostly a matter 
 | A website's header navigation                | `NavigationMenu`                                                               |
 | Where am I                                   | `Breadcrumb`                                                                   |
 | More results than one page                   | `Pagination`                                                                   |
+| Compact section navigation, names on hover   | `PreviewRail`                                                                  |
 | Records compared across columns              | `Table`                                                                        |
+| Many records people sort, filter or pick     | `DataTable`                                                                    |
 | A list of things (people, files, links)      | `Item`s in an `ItemGroup`                                                      |
 | A tree of files and folders                  | `FileTree`                                                                     |
 | One discrete object                          | `Card`                                                                         |
@@ -414,7 +420,9 @@ The library covers most of what a product needs, so a screen is mostly a matter 
 | A dividing line                              | `Separator`                                                                    |
 | Panes the person resizes                     | `Resizable`                                                                    |
 | A scrolling region inside a page             | `ScrollArea`                                                                   |
+| An audio file, a podcast, a voice message    | `AudioPlayer`                                                                  |
 | A video                                      | `VideoPlayer`                                                                  |
+| Two versions of one picture, side by side    | `ImageCompare`                                                                 |
 | An image, a map or an embed at a fixed ratio | `AspectRatio`                                                                  |
 | A few peer slides (screenshots, quotes)      | `Carousel`, for content people can afford to miss                              |
 | A conversation                               | `MessageScroller`, `Message`, `Bubble`, `Attachment`, `Marker`, `ChatInput`    |
@@ -487,12 +495,14 @@ Use the library's inputs for dates, times, numbers, files and colours in place o
 - Home and Overview belong in the sidebar or bottom navigation, never as a permanent tab in the document strip.
 - **`Tabs`** switch between a fixed set of views of one thing: two to six short labels on a track with a sliding pill. Where space is tight, such as a panel header, use the subtle variant, where every tab has an icon and only the active one shows its label. Vertical tabs suit a settings page with more sections than fit across.
 - **Breadcrumbs** show the path with the current page last. Long paths fold their middle into a menu.
+- **`PreviewRail`** suits a long page's sections or a sequence (chapters, months, steps) where a compact rail beats a list of names: thin ticks that swell around the pointer, with a card naming the section. The current section stays marked. When people need to read every name at once, use `Tabs` or a `Sidebar`.
 - **`Search`** in a header or toolbar opens from a round button into a field. Escape clears it, then closes it.
 - **Websites** use a `NavigationMenu` in the header, or plain links when there are five or fewer.
 
 ### Data display
 
 - **Table** for records compared across columns. The first column is the record's name, in the foreground and medium weight; the other cells rest in grey and darken with the row under the pointer. Numbers align to the end in tabular figures. A status is a `Badge`. Row actions sit in a ghost "More" menu at the row's end. Show the columns people compare and leave the rest to the record.
+- **DataTable** when people work the records: sort, filter, edit, pick, page or scroll through hundreds or thousands. It keeps Table's rules and adds a header per column (a type icon that becomes the sort arrow, an options popover with Notion-style filters), the record's name pinned to the start and actions to the end, cells that edit in place, and an optional footer of calculations. Everything but the search happens in the table: column options in each header, the table's settings (density, calculations, row numbers, stripes, lines, columns) at the header's end. Give it the full column and a height; use compact density in dense tools. Declare each column's type rather than drawing cells by hand, so the filter, editor, sort and alignment follow. Feed it from a loader and let it load more as the scroll nears the end; paginate only when position matters ("page 3").
 - **A row opens its record.** The name is the link, which is the keyboard's way in; clicking anywhere on the row is the shortcut to it.
 - **Item** for lists of things read one at a time: people, files, integrations, links to settings. Each has a picture (an icon, an avatar or an image), a title, a description and its actions.
 - **Stat cards** show one number each: the label in grey, the value large in tabular figures, and the change as a status badge or status-coloured text with an arrow. Every card in the row has the same parts.
@@ -542,7 +552,7 @@ Start from the closest pattern, install its block when there is one, and remove 
 | `app-shell-02`                                     | Workbench: document tabs above the content, a resources panel, a status bar, a peeking sidebar                         |
 | `app-shell-03`                                     | Classic SaaS: team switcher on top, the person's menu at the bottom, a sidebar that collapses to icons                 |
 | `app-shell-04`                                     | Desktop app: a translucent window, tabs in the top row beside the window's controls                                    |
-| `app-shell-05`                                     | Mobile first: a bottom nav and a floating primary action on phones, a message that takes over the list                    |
+| `app-shell-05`                                     | Mobile first: a bottom nav and a floating primary action on phones, a message that takes over the list                 |
 | `login-01` … `login-05`, `signup-01` … `signup-05` | Sign in and sign up                                                                                                    |
 | `sidebar-01` … `sidebar-16`                        | Sidebar layouts                                                                                                        |
 
@@ -760,3 +770,15 @@ A screen is done when every line holds. Check it in the running app, never from 
 - [ ] Surfaces follow the ladder, with no borders or stray shadows.
 - [ ] Copy is in sentence case, buttons are verbs, errors say how to fix.
 - [ ] An automated accessibility check reports no violations.
+
+### Theme toggle
+
+A Button trigger with a sun/moon swap: the icons scale, rotate 45 degrees and crossfade through a 2px blur on the move timing. On web and desktop its icon has its own view-transition snapshot above the page reveal, so theme providers cannot suppress the morph and the page never freezes it mid-swap. The page uses the theme role (700ms at default speed) and the reference Material curve (`cubic-bezier(0.4, 0, 0.2, 1)`), revealing as a circle, blurred circle, square, diamond, rectangle, hexagon, triangle or twelve blinds that fan out from the origin. The blurred circle animates the incoming page snapshot from 8px blur to zero throughout a crisp circular clip expanding to 150%, with no opacity fade. Polygon boundaries fade through an alpha mask so text stays sharp; the polygon expands evenly and fully covers the viewport. A blurred circle from the pressed button is the default; its viewport position is measured on every activation, including after scrolling or resizing. Six explicit viewport origins remain available. Reduced motion and motion off apply the theme immediately. The app owns the resolved theme and persistence. Native keeps the icon morph and transient blur; its screen reveals remain a documented parity exception.
+
+### Multi select
+
+A searchable field for several values, built on each base's Combobox in multiple mode. The field takes the input recipe (ring-border frame, `bg-muted/50` hover, `bg-card` and `ring-foreground/25` while focused), grows a row per line of chips and ends in a muted chevrons icon. Chips are `bg-active` `rounded-md` h28 t12 medium with a h20 remove button. A new chip rises 6px from 0.92 scale and fades in on the move timing; a removed chip comes out of the row where it stood and fades as it wipes out from its start on the exit timing, while the chips after it glide over at the same time (FLIP on `translate`). The popup, rows and labels are Combobox's. One shared highlight glides to the hovered row on the glide timing; holding a row fills it to `bg-active` with the press scale, easing back on release, and on native the highlight under a finger takes that pressed fill. Picked rows turn foreground semibold and their check scales in from 0.9 and stays mounted to scale out. Picking keeps the list open and clears the search. Reduced motion and motion off remove chips at once. Native opens the list in a dialog like Combobox and animates chips with Reanimated on the same roles.
+
+### Rating
+
+A row of solid stars that holds a score, built on HTML for every base and on React Native. Default stars are the yellow people read as a score (`amber-400`, with an `amber-500` edge in light), fixed across themes; `primary` and the status variants fill with their role. Empty stars are a faint foreground fill. Hover previews the score under the pointer, a click or a drag sets it, `step={0.5}` takes halves, and read-only shows any fraction. The hovered star lifts to 115% on the feedback timing, and a star the score reaches pops in from half size on the bounce spring.

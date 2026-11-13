@@ -20,6 +20,29 @@ export const navigationItems: Registry["items"] = [
     ],
     meta: docs("file-tree"),
   },
+  {
+    name: "preview-rail",
+    type: "registry:ui",
+    title: "Preview Rail",
+    description:
+      "A rail of thin ticks, one per section, that swell around the finger with a card naming the section. A drag scrubs along it and lifting follows the lit section.",
+    dependencies: [
+      "@rn-primitives/hooks",
+      "cn",
+      "react-native-gesture-handler",
+      "react-native-reanimated",
+    ],
+    registryDependencies: [
+      "@fabricator/feedback",
+      "@fabricator/motion",
+      "@fabricator/text",
+    ],
+    files: [
+      { path: "ui/preview-rail.tsx", type: "registry:ui" },
+      { path: "lib/preview-rail-model.ts", type: "registry:lib" },
+    ],
+    meta: docs("preview-rail"),
+  },
 
   {
     name: "menu-sheet",

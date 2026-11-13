@@ -17,7 +17,7 @@ function getComponentSlugs(base: string) {
 }
 
 describe("getComponentGroup", () => {
-  it("uses the six single-word groups in the existing order", () => {
+  it("uses the seven single-word groups in order, Advanced last", () => {
     expect(COMPONENT_GROUPS).toEqual([
       "Basics",
       "Forms",
@@ -25,6 +25,7 @@ describe("getComponentGroup", () => {
       "Structure",
       "Content",
       "Chat",
+      "Advanced",
     ])
   })
 
@@ -34,12 +35,23 @@ describe("getComponentGroup", () => {
     ["button-group", "Forms"],
     ["dropdown-menu", "Overlays"],
     ["app-shell", "Structure"],
-    ["file-tree", "Structure"],
     ["alert", "Content"],
     ["attachment", "Chat"],
     ["bot-face", "Chat"],
   ])("keeps %s in its existing category", (slug, group) => {
     expect(getComponentGroup(slug)).toBe(group)
+  })
+
+  it.each([
+    "syntax-highlight",
+    "editor",
+    "file-tree",
+    "data-table",
+    "image-compare",
+    "video-player",
+    "audio-player",
+  ])("puts %s in Advanced", (slug) => {
+    expect(getComponentGroup(slug)).toBe("Advanced")
   })
 
   it.each(BASES)("groups every %s component page", (base) => {

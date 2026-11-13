@@ -4,14 +4,18 @@ import { Radio as RadioPrimitive } from "@base-ui/react/radio"
 import { RadioGroup as RadioGroupPrimitive } from "@base-ui/react/radio-group"
 import { cn } from "cn"
 
-// Fabricator override of the upstream radio group: the indicator stays
-// mounted so the dot scales out as well as in (driven by its state attributes
-// in the style map), instead of unmounting when another radio is picked.
+import { useRadioGlide } from "@/registry/bases/base/hooks/use-radio-glide"
 
-function RadioGroup({ className, ...props }: RadioGroupPrimitive.Props) {
+// Fabricator override of the upstream radio group: the indicator stays
+// mounted, and the checked dot glides from the radio it leaves to the one
+// picked. A first pick scales the dot in (state attributes in the style map).
+
+function RadioGroup({ className, ref, ...props }: RadioGroupPrimitive.Props) {
+  const glideRef = useRadioGlide<HTMLDivElement>("[data-checked]", ref)
   return (
     <RadioGroupPrimitive
       data-slot="radio-group"
+      ref={glideRef}
       className={cn("cn-radio-group w-full", className)}
       {...props}
     />

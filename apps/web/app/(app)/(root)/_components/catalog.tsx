@@ -12,8 +12,6 @@ type CatalogSource = {
   slug: string
   title: string
   height: "sm" | "md" | "lg"
-  /** Scales a demo that is wider than a card. */
-  zoom?: number
   load: () => Promise<DemoModule>
 }
 
@@ -23,6 +21,13 @@ export type CatalogEntry = Omit<CatalogSource, "load"> & {
 }
 
 const SOURCES: CatalogSource[] = [
+  {
+    slug: "theme-toggle",
+    title: "Theme Toggle",
+    height: "md",
+    load: () =>
+      import("@/examples/__styles__/base-fabricator/theme-toggle-demo"),
+  },
   {
     slug: "alert",
     title: "Alert",
@@ -122,13 +127,6 @@ const SOURCES: CatalogSource[] = [
       import("@/examples/__styles__/base-fabricator/context-menu-demo"),
   },
   {
-    slug: "data-table",
-    title: "Data Table",
-    height: "lg",
-    zoom: 0.82,
-    load: () => import("@/examples/__styles__/base-fabricator/data-table-demo"),
-  },
-  {
     slug: "date-picker",
     title: "Date Picker",
     height: "sm",
@@ -143,11 +141,11 @@ const SOURCES: CatalogSource[] = [
       import("@/examples/__styles__/base-fabricator/time-input-field"),
   },
   {
-    slug: "month-input",
-    title: "Month Input",
+    slug: "multi-select",
+    title: "Multi Select",
     height: "sm",
     load: () =>
-      import("@/examples/__styles__/base-fabricator/month-input-field"),
+      import("@/examples/__styles__/base-fabricator/multi-select-demo"),
   },
   {
     slug: "dialog",
@@ -193,10 +191,19 @@ const SOURCES: CatalogSource[] = [
     load: () => import("@/examples/__styles__/base-fabricator/hover-card-demo"),
   },
   {
+    slug: "image-compare",
+    title: "Image Compare",
+    height: "md",
+    load: () =>
+      import("@/examples/__styles__/base-fabricator/image-compare-demo"),
+  },
+  {
     slug: "input",
     title: "Input",
-    height: "sm",
-    load: () => import("@/examples/__styles__/base-fabricator/input-demo"),
+    height: "md",
+    // Homepage demo: a filled, an invalid and an empty field.
+    load: () =>
+      import("./demos-forms").then((mod) => ({ InputDemo: mod.InputDemo })),
   },
   {
     slug: "item",
@@ -282,11 +289,24 @@ const SOURCES: CatalogSource[] = [
     load: () => import("@/examples/__styles__/base-fabricator/popover-demo"),
   },
   {
+    slug: "preview-rail",
+    title: "Preview Rail",
+    height: "md",
+    load: () =>
+      import("@/examples/__styles__/base-fabricator/preview-rail-demo"),
+  },
+  {
     slug: "questionnaire",
     title: "Questionnaire",
     height: "lg",
     load: () =>
       import("@/examples/__styles__/base-fabricator/questionnaire-demo"),
+  },
+  {
+    slug: "rating",
+    title: "Rating",
+    height: "sm",
+    load: () => import("@/examples/__styles__/base-fabricator/rating-demo"),
   },
   {
     slug: "resizable",
@@ -346,14 +366,6 @@ const SOURCES: CatalogSource[] = [
     title: "Toggle",
     height: "sm",
     load: () => import("@/examples/__styles__/base-fabricator/toggle-demo"),
-  },
-  {
-    slug: "video-player",
-    title: "Video Player",
-    height: "md",
-    // The compact variant: a card is narrower than the full control bar.
-    load: () =>
-      import("@/examples/__styles__/base-fabricator/video-player-compact"),
   },
 ]
 

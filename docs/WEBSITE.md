@@ -27,7 +27,7 @@ Site chrome lives in new files so upstream merges stay small:
 
 ## Homepage
 
-`app/(app)/(root)/` is a gallery of every component: hand-built demos (`_components/demos-*.tsx`, importing `@/styles/base-fabricator/ui/*`) first, then each component's docs demo, listed in `_components/catalog.tsx` and lazy-loaded from `examples/__styles__/base-fabricator/`. A full-screen component gets a compact hand-built card (static sidebar, `shortcutScope="focus"`), as in `demos-app-shell.tsx`. A new component needs a catalog entry with a card height and a group ([COMPONENT-GROUPS.md](COMPONENT-GROUPS.md)), which the docs sidebar, the homepage filter and both example apps share.
+`app/(app)/(root)/` is a gallery of the components: hand-built demos (`_components/demos-*.tsx`, importing `@/styles/base-fabricator/ui/*`) first, then each component's docs demo, listed in `_components/catalog.tsx` and lazy-loaded from `examples/__styles__/base-fabricator/`. A catalog entry can load a hand-built demo instead when the docs demo doesn't suit a card (`input`, `alert`). App frames and their navigation (`app-shell`, `app-nav`, `sidebar`, `tab-strip`, `workspace-switcher`, `user-menu`), `data-table` and the media players (`audio-player`, `video-player`) have no card; their docs pages show them. Any other new component needs a catalog entry with a card height and a group ([COMPONENT-GROUPS.md](COMPONENT-GROUPS.md)), which the docs sidebar, the homepage filter and both example apps share.
 
 ## Settings
 

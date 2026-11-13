@@ -32,6 +32,32 @@ export const dataItems: Registry["items"] = [
     meta: docs("combobox"),
   },
   {
+    name: "multi-select",
+    type: "registry:ui",
+    title: "Multi Select",
+    description:
+      "A field of chips for picking several options from a filtered list, opening it in a dialog on phones.",
+    dependencies: [
+      "@fabricator-ui/icons-react-native",
+      "@rn-primitives/hooks",
+      "cn",
+      "react-native-reanimated",
+    ],
+    registryDependencies: [
+      "@fabricator/button",
+      "@fabricator/dialog",
+      "@fabricator/feedback",
+      "@fabricator/fluid-hover",
+      "@fabricator/motion",
+      "@fabricator/text",
+    ],
+    files: [
+      { path: "ui/multi-select.tsx", type: "registry:ui" },
+      { path: "lib/filter-model.ts", type: "registry:lib" },
+    ],
+    meta: docs("multi-select"),
+  },
+  {
     name: "command",
     type: "registry:ui",
     title: "Command",
@@ -192,6 +218,62 @@ export const dataItems: Registry["items"] = [
       { path: "lib/video-captions-model.ts", type: "registry:lib" },
     ],
     meta: docs("video-player"),
+  },
+  {
+    name: "audio-player",
+    type: "registry:ui",
+    title: "Audio Player",
+    description:
+      "An audio file on a card: the artwork, title and artist, a seek bar drawn as the file's waveform, the time played and left, skip back and forward, speed and mute. A cover variant shows a large artwork that breathes with the music, and a compact variant fits play, the waveform, the time and the speed on one row.",
+    // expo-audio is Expo's maintained player (MIT), already behind the sounds.
+    dependencies: [
+      "@fabricator-ui/icons-react-native",
+      "cn",
+      "expo-audio@58.0.11",
+      "react-native-gesture-handler",
+      "react-native-reanimated",
+      UNIWIND,
+    ],
+    registryDependencies: [
+      "@fabricator/density",
+      "@fabricator/feedback",
+      "@fabricator/motion",
+      "@fabricator/spinner",
+      "@fabricator/text",
+    ],
+    files: [
+      { path: "ui/audio-player.tsx", type: "registry:ui" },
+      { path: "lib/audio-player-model.ts", type: "registry:lib" },
+      { path: "lib/video-player-model.ts", type: "registry:lib" },
+    ],
+    meta: docs("audio-player"),
+  },
+  {
+    name: "image-compare",
+    type: "registry:ui",
+    title: "Image Compare",
+    description:
+      "Two pictures of one scene in a single frame, split by a line you drag. The line bends like jelly and the picture is cut along it; a tap glides it there and a flick sends it to the edge.",
+    dependencies: [
+      "@fabricator-ui/icons-react-native",
+      "@rn-primitives/hooks",
+      "class-variance-authority",
+      "cn",
+      "react-native-gesture-handler",
+      "react-native-reanimated",
+      "react-native-svg",
+      "uniwind@1.13.1",
+    ],
+    registryDependencies: [
+      "@fabricator/feedback",
+      "@fabricator/motion",
+      "@fabricator/text",
+    ],
+    files: [
+      { path: "ui/image-compare.tsx", type: "registry:ui" },
+      { path: "lib/image-compare-model.ts", type: "registry:lib" },
+    ],
+    meta: docs("image-compare"),
   },
   {
     name: "table",

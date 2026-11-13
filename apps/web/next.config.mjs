@@ -158,6 +158,17 @@ const nextConfig = {
         destination: "/docs/components/:base/date-picker.md",
         permanent: true,
       },
+      // Month Input became Date Picker's month granularity.
+      {
+        source: "/docs/components/:base(base|radix|aria|native)/month-input",
+        destination: "/docs/components/:base/date-picker#month-and-year",
+        permanent: true,
+      },
+      {
+        source: "/docs/components/:base(base|radix|aria|native)/month-input.md",
+        destination: "/docs/components/:base/date-picker.md",
+        permanent: true,
+      },
       // Base UI Sonner redirects to Toast.
       {
         source: "/docs/components/base/sonner",

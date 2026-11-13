@@ -37,3 +37,31 @@
   .cn-date-picker-time {
     @apply border-border border-s px-(--density-4) py-(--density-8);
   }
+
+  /* With a month or year granularity: a grid of twelve under its heading,
+     padded as a menu is, since there's no calendar to bring its own. */
+  .cn-date-picker-grid-panel {
+    @apply gap-(--density-8) p-(--density-8);
+  }
+
+  /* The year (or span of years) between its arrows, on one row with them. */
+  .cn-date-picker-grid-header {
+    @apply gap-(--density-8);
+  }
+
+  .cn-date-picker-grid-title {
+    @apply text-(length:--density-text-13) font-medium tabular-nums;
+  }
+
+  /* Twelve cells in four rows. A new page slides in from the side it came
+     from, on the move timing. */
+  .cn-date-picker-grid {
+    @apply gap-1 animate-in fade-in-0 duration-move ease-move motion-reduce:animate-none data-[direction=next]:slide-in-from-right-2 data-[direction=previous]:slide-in-from-left-2;
+  }
+
+  /* Menu cells: muted at rest, lit by the gliding highlight; the chosen cell
+     on the sliding selection in semibold, this month or year in the
+     foreground. */
+  .cn-date-picker-cell {
+    @apply cursor-pointer text-muted-foreground h-(--density-36) min-w-16 rounded-lg px-(--density-12) text-(length:--density-text-13) tabular-nums transition-colors duration-feedback data-highlighted:bg-hover data-highlighted:text-foreground in-data-[fluid-hover]:data-highlighted:bg-transparent data-fluid-hover-active:text-foreground data-current:text-foreground data-current:font-medium aria-selected:bg-active aria-selected:text-foreground aria-selected:font-semibold in-data-[fluid-hover]:aria-selected:bg-transparent focus-visible:text-foreground disabled:pointer-events-none disabled:opacity-50;
+  }

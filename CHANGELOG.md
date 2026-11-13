@@ -1,5 +1,29 @@
 # Changelog
 
+## [0.8.0](https://github.com/gabrielespinheira/fabricator-ui/compare/fabricator-ui@0.7.0...fabricator-ui@0.8.0) (2026-11-13)
+
+### Highlights
+
+New data tables, multi-select, ratings, audio players, image comparisons and preview rails. Form controls gain motion and the date picker now selects months and years across platforms.
+
+### Breaking changes
+
+- The `month-input` registry item and its documentation are removed. Replace `MonthInput` with `DatePicker` using `granularity="month"`; adapt the value and change handler to the date picker's API. Existing copied source remains in your project until you replace it.
+
+### Features
+
+- Add data tables with typed columns, filters, sorting, editing, virtualization and server loading across web bases.
+- Add multi-select, rating, audio player, image compare, preview rail and theme toggle components across web and native.
+- Add month and year selection to the date picker.
+- Animate accordion expansion, checkbox marks, radio selection and slider dragging; add slider sizes and steps.
+- Add the Advanced component group and screen-design guidance to the Fabricator skill.
+
+### Bug Fixes
+
+- Complete theme-toggle integration and refine slider sizing and image-compare handles.
+- Include the separately installed mobile example's package and Expo versions in release validation.
+- Finish every chip exit when several Multi Select options are removed quickly.
+
 ## [0.7.0](https://github.com/gabrielespinheira/fabricator-ui/compare/fabricator-ui%400.6.0...fabricator-ui%400.7.0) (2026-11-11)
 
 ### Highlights

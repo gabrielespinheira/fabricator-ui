@@ -1,0 +1,11 @@
+---
+title: Multi Select
+description: Pick several options from a searchable list, shown as chips that move.
+date: 2026-11-12
+---
+
+Multi Select is a new form control for picking several options from a searchable list. It's built on each base's Combobox in multiple mode, so filtering, the keyboard and ARIA come from Base UI or React Aria, and it shares Combobox's frame, popup and rows.
+
+Each pick becomes a chip that rises in from a small scale. A removed chip fades and wipes out where it stands while the chips after it glide over at the same time. The list stays open between picks and the search clears after each one; Backspace in an empty search removes the last chip. One shared highlight glides between options as the pointer moves, and holding an option fills it and presses it in. Every motion follows the motion speed and stops under reduced motion.
+
+React Native opens the list in a dialog like Combobox, with the same chips and motion. Install it with `npx fabricator-ui@latest add multi-select`.

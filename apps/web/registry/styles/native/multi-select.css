@@ -1,0 +1,115 @@
+/* MARK: Multi Select */
+
+  /* Field: the input recipe, a hairline frame that lifts to the card surface
+     while its list is open, growing a row per line of chips. Invalid turns the
+     frame red. Its start padding holds chips snug, and the prompt adds its
+     own, so the prompt never moves as the last chip leaves. */
+  .cn-multi-select-trigger {
+    @apply border-border data-[open=true]:bg-card data-[open=true]:border-foreground/25 data-[invalid=true]:border-destructive/50 min-h-(--density-36) gap-(--density-6) rounded-lg border bg-transparent py-(--density-4) pr-(--density-10) pl-(--density-4);
+  }
+
+  .cn-multi-select-chips {
+    @apply gap-(--density-4);
+  }
+
+  /* The chips take the row once there are some; empty, they leave it to the
+     prompt. */
+  .cn-multi-select-value {
+    @apply flex-1 gap-(--density-4) data-[empty=true]:flex-none;
+  }
+
+  .cn-multi-select-icon {
+    @apply text-muted-foreground;
+  }
+
+  .cn-multi-select-chip {
+    @apply bg-active h-(--density-28) gap-(--density-2) rounded-md pr-(--density-2) pl-(--density-8);
+  }
+
+  .cn-multi-select-chip-text {
+    @apply text-foreground text-(length:--density-text-12) font-medium;
+  }
+
+  .cn-multi-select-chip-label {
+    @apply text-foreground text-(length:--density-text-12) font-medium;
+  }
+
+  .cn-multi-select-chip-remove {
+    @apply rounded-sm;
+  }
+
+  .cn-multi-select-chip-remove-icon {
+    @apply text-muted-foreground;
+  }
+
+  .cn-multi-select-placeholder {
+    @apply text-muted-foreground pr-(--density-2) pl-(--density-6) text-(length:--density-text-13);
+  }
+
+  /* The popup is a dialog on the popup's surface. Its search sits in its own
+     row above the list. */
+  .cn-multi-select-content {
+    @apply bg-surface-3 shadow-surface-3 max-h-96 gap-0 overflow-hidden rounded-xl p-0 sm:max-w-[400px];
+  }
+
+  .cn-multi-select-search {
+    @apply border-border m-1 mb-0 h-(--density-36) rounded-lg border px-(--density-10);
+  }
+
+  .cn-multi-select-input {
+    @apply font-sans text-foreground h-full py-0 text-(length:--density-text-13);
+  }
+
+  /* The list scrolls under the search. */
+  .cn-multi-select-list {
+    @apply max-h-72 p-1 data-[empty=true]:p-0;
+  }
+
+  .cn-multi-select-highlight {
+    @apply bg-active;
+  }
+
+  .cn-multi-select-label {
+    @apply text-muted-foreground px-(--density-8) py-(--density-6) text-(length:--density-text-12);
+  }
+
+  /* Rows: 36pt, 13pt, muted at rest. They paint nothing themselves: one
+     highlight glides under the finger (Fluid Hover). Picked rows are
+     foreground and semibold, with a check that scales in at the end. */
+  .cn-multi-select-item {
+    @apply h-(--density-36) gap-(--density-8) rounded-lg py-0 pr-[calc(var(--density-8)*2+var(--density-icon-16))] pl-(--density-8);
+  }
+
+  .cn-multi-select-item-text {
+    @apply text-muted-foreground text-(length:--density-text-13);
+  }
+
+  .cn-multi-select-item-text-selected {
+    @apply text-foreground text-(length:--density-text-13) font-semibold;
+  }
+
+  /* Under the highlight a row reads foreground, as a hovered one does on the
+     website; only picking it changes the weight. */
+  .cn-multi-select-item-text-lit {
+    @apply text-foreground text-(length:--density-text-13);
+  }
+
+  .cn-multi-select-item-indicator {
+    @apply right-(--density-8) size-(--density-icon-16);
+  }
+
+  .cn-multi-select-item-indicator-icon {
+    @apply text-foreground;
+  }
+
+  .cn-multi-select-empty {
+    @apply text-muted-foreground py-(--density-16) text-center text-(length:--density-text-13);
+  }
+
+  .cn-multi-select-group {
+    @apply flex-col;
+  }
+
+  .cn-multi-select-separator {
+    @apply bg-border/60 -mx-1 my-1 h-px;
+  }

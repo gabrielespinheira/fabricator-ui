@@ -1,0 +1,450 @@
+/* MARK: Data Table */
+
+  /* Root: the parts stack 12 apart. Rows are the 48-step tall; pinned and
+     sticky cells paint the surface the table sits on (the card, or the page
+     when flat). */
+  .cn-data-table {
+    @apply gap-(--density-12) text-(length:--density-text-13) [--data-table-ink:var(--foreground)] [--data-table-paper:var(--background)] [--data-table-row-height:var(--density-48)] [--data-table-surface:var(--card)] data-[variant=flat]:[--data-table-surface:var(--background)];
+  }
+
+  .cn-data-table-toolbar {
+    @apply gap-(--density-8);
+  }
+
+  .cn-data-table-search {
+    @apply min-w-0;
+  }
+
+  /* Frame: a card (surface 3 on the card shadow, rounded) or nothing.
+     While a column resizes, the whole table shows the resize cursor and
+     nothing under the pointer lights up or selects. */
+  .cn-data-table-content {
+    @apply overflow-hidden data-[variant=card]:rounded-xl data-[variant=card]:bg-card data-[variant=card]:shadow-surface-2 data-resizing:cursor-col-resize data-resizing:select-none data-resizing:**:pointer-events-none;
+  }
+
+  /* The system's scrollbars give way to the table's own for a mouse or
+     trackpad; touch keeps them. */
+  .cn-data-table-viewport {
+    @apply contain-content data-empty:min-h-72 pointer-fine:scrollbar-hide;
+  }
+
+  /* Pinned edges: while rows scroll under the pinned columns, a hairline
+     marks the edge and the content fades into the surface over 32px, both
+     on the move timing. In grid lines the hairline sits on the column's own
+     rule. */
+  .cn-data-table-pin-edge {
+    @apply w-8 border-border from-(--data-table-surface) via-(--data-table-surface)/55 via-35% to-transparent opacity-0 transition-opacity duration-move ease-move data-[side=end]:border-e data-[side=end]:bg-linear-to-l data-[side=start]:border-s data-[side=start]:bg-linear-to-r in-data-[lines=grid]:data-[side=end]:-me-px in-data-[lines=grid]:data-[side=start]:-ms-px rtl:data-[side=end]:bg-linear-to-r rtl:data-[side=start]:bg-linear-to-l in-data-overflow-end:data-[side=end]:opacity-100 in-data-overflow-start:data-[side=start]:opacity-100;
+  }
+
+  /* Scrollbars: drawn over the rows. The vertical track runs from under
+     the header to above the footer, the horizontal one between the pinned
+     columns, above the footer. A 10px hit area holds Scroll Area's thumb:
+     overlay 8%, 12% under the pointer, 16% held; 4px wide, 6px under the
+     pointer. It shows while the table is lit, scrolling or dragged. */
+  .cn-data-table-scrollbar {
+    @apply pointer-coarse:hidden data-hidden:hidden data-[orientation=horizontal]:bottom-(--data-table-foot-height) data-[orientation=horizontal]:h-2.5 data-[orientation=vertical]:end-0 data-[orientation=vertical]:top-(--data-table-head-height) data-[orientation=vertical]:bottom-(--data-table-foot-height) data-[orientation=vertical]:w-2.5;
+  }
+
+  .cn-data-table-scrollbar-thumb {
+    @apply start-0 top-0 opacity-0 transition-opacity duration-move ease-move after:absolute after:rounded-full after:bg-[rgb(var(--overlay)/0.08)] after:transition-[background-color,width,height] after:duration-feedback after:ease-feedback hover:after:bg-[rgb(var(--overlay)/0.12)] active:after:bg-[rgb(var(--overlay)/0.16)] in-data-[orientation=horizontal]:h-full in-data-[orientation=horizontal]:after:inset-x-0 in-data-[orientation=horizontal]:after:bottom-0.5 in-data-[orientation=horizontal]:after:h-1 in-data-[orientation=horizontal]:hover:after:h-1.5 in-data-[orientation=vertical]:w-full in-data-[orientation=vertical]:after:inset-y-0 in-data-[orientation=vertical]:after:end-0.5 in-data-[orientation=vertical]:after:w-1 in-data-[orientation=vertical]:hover:after:w-1.5 in-data-dragging:opacity-100 in-data-scrolling:opacity-100 in-[[data-slot=data-table-content]:hover]:opacity-100;
+  }
+
+  .cn-data-table-table {
+    @apply text-(length:--density-text-13);
+  }
+
+  .cn-data-table-header {
+    @apply text-foreground;
+  }
+
+  /* Head: 36 tall, sticky, foreground semibold with a hairline under it.
+     Pinned heads sit above the scrolling ones. */
+  .cn-data-table-head {
+    @apply sticky top-0 z-20 h-(--density-36) cursor-default border-b border-border/60 bg-(--data-table-surface) px-(--density-12) text-start align-middle font-semibold whitespace-nowrap data-pinned:z-30 data-[kind=actions]:px-0 data-[kind=select]:px-0 in-data-[lines=grid]:border-e in-data-[lines=grid]:last:border-e-0;
+  }
+
+  /* Every head reads from the start with its options at the end, whatever
+     its column's cells align to; the checkbox and settings columns center
+     their one control. */
+  .cn-data-table-head-content {
+    @apply gap-(--density-4) in-data-kind:justify-center;
+  }
+
+  /* Sort: the label and the type icon, which turns into the direction arrow
+     on the move timing (and turns over for descending). */
+  .cn-data-table-sort {
+    @apply -mx-(--density-4) h-(--density-28) flex-1 gap-(--density-6) rounded-md px-(--density-4) font-semibold enabled:cursor-pointer transition-colors duration-feedback ease-feedback focus-visible:ring-1 focus-visible:ring-ring;
+  }
+
+  .cn-data-table-sort-icon {
+    @apply size-(--density-icon-16) text-muted-foreground [&_svg]:size-(--density-icon-14) [&_svg]:stroke-[1.75];
+  }
+
+  .cn-data-table-sort-type {
+    @apply transition-[opacity,scale] duration-move ease-move in-data-direction:scale-50 in-data-direction:opacity-0 motion-reduce:transition-none;
+  }
+
+  .cn-data-table-sort-arrow {
+    @apply scale-50 text-foreground opacity-0 transition-[opacity,scale,rotate] duration-move ease-move in-data-direction:scale-100 in-data-direction:opacity-100 in-data-[direction=desc]:rotate-180 motion-reduce:transition-none;
+  }
+
+  .cn-data-table-sort-index {
+    @apply text-(length:--density-text-11) font-medium text-muted-foreground tabular-nums;
+  }
+
+  /* The column's options: shown while the head is lit or focused, and
+     always while it filters (with a dot) or is open. */
+  .cn-data-table-column-trigger {
+    @apply relative shrink-0 text-muted-foreground opacity-0 transition-opacity duration-feedback ease-feedback in-[th:hover]:opacity-100 focus-visible:opacity-100 data-filtered:text-foreground data-filtered:opacity-100 data-filtered:after:absolute data-filtered:after:end-0.5 data-filtered:after:top-0.5 data-filtered:after:size-1.5 data-filtered:after:rounded-full data-filtered:after:bg-primary data-popup-open:opacity-100 data-[state=open]:opacity-100 aria-expanded:opacity-100 pointer-coarse:opacity-100;
+  }
+
+  /* Resize: an 8px strip on the head's end edge. Its 2px bar shows while
+     the head is lit, turns primary and tall under the pointer or focus, and
+     spans the head while dragged, with a guide line down the table. */
+  .cn-data-table-resize {
+    @apply w-2 cursor-col-resize after:absolute after:inset-y-(--density-10) after:end-[3px] after:w-0.5 after:rounded-full after:bg-transparent after:transition-[background-color,top,bottom] after:duration-feedback after:ease-feedback in-[th:hover]:after:bg-foreground/25 hover:after:inset-y-(--density-4) hover:after:bg-primary focus-visible:after:inset-y-(--density-4) focus-visible:after:bg-ring data-resizing:after:inset-y-0 data-resizing:after:bg-primary pointer-coarse:after:bg-foreground/25;
+  }
+
+  .cn-data-table-resize-guide {
+    @apply w-0.5 -translate-x-1/2 bg-primary;
+  }
+
+  /* Rows: the hover, stripe and selection tint is a gradient image, so the
+     opaque pinned cells can draw the same tint over the surface. */
+  .cn-data-table-row {
+    @apply bg-[image:var(--data-table-row-tint)] outline-none in-data-striped:data-odd:not-hover:[--data-table-row-tint:linear-gradient(color-mix(in_oklab,var(--color-muted)_45%,transparent),color-mix(in_oklab,var(--color-muted)_45%,transparent))] hover:[--data-table-row-tint:linear-gradient(var(--color-hover),var(--color-hover))] focus-visible:outline-1 focus-visible:-outline-offset-1 focus-visible:outline-ring data-clickable:cursor-pointer data-[state=selected]:[--data-table-row-tint:linear-gradient(var(--color-active),var(--color-active))];
+  }
+
+  /* Cells: muted, the lit or picked row and the record's name in the
+     foreground, at once: a transition on the inherited colour restyles
+     every cell's contents each frame, which picking all rows multiplies.
+     Numbers align to the end in tabular figures. */
+  .cn-data-table-cell {
+    @apply h-(--data-table-row-height) cursor-default overflow-hidden border-b border-border/60 px-(--density-12) py-0 text-start in-data-clickable:cursor-pointer align-middle text-ellipsis whitespace-nowrap text-muted-foreground in-data-[state=selected]:text-foreground in-[tr:hover]:text-foreground data-pinned:sticky data-pinned:z-10 data-pinned:bg-(--data-table-surface) data-pinned:bg-[image:var(--data-table-row-tint)] data-primary:font-medium data-primary:text-foreground data-[align=center]:text-center data-[align=end]:text-end data-[kind=actions]:px-0 data-[kind=select]:px-0 data-editable:px-0 data-editable:not-data-pinned:relative data-editable:[&>[data-slot=checkbox]]:mx-auto in-data-[lines=grid]:border-e in-data-[lines=grid]:last:border-e-0;
+  }
+
+  /* The empty column that takes the width the others leave. */
+  /* The space above and below the rows drawn: their hairlines, so a fast
+     scroll that outruns the rows still shows rows, never a blank. */
+  .cn-data-table-spacer {
+    @apply bg-[repeating-linear-gradient(to_bottom,transparent_0,transparent_calc(var(--data-table-row-height)-1px),color-mix(in_oklab,var(--color-border)_60%,transparent)_calc(var(--data-table-row-height)-1px),color-mix(in_oklab,var(--color-border)_60%,transparent)_var(--data-table-row-height))];
+  }
+
+  .cn-data-table-filler {
+    @apply cursor-default border-b border-border/60 p-0 in-data-[slot=data-table-footer]:sticky in-data-[slot=data-table-footer]:bottom-0 in-data-[slot=data-table-footer]:z-20 in-data-[slot=data-table-footer]:border-t in-data-[slot=data-table-footer]:border-b-0 in-data-[slot=data-table-footer]:bg-(--data-table-surface) in-data-[slot=data-table-header]:sticky in-data-[slot=data-table-header]:top-0 in-data-[slot=data-table-header]:z-20 in-data-[slot=data-table-header]:bg-(--data-table-surface);
+  }
+
+  .cn-data-table-select {
+    @apply w-full;
+  }
+
+  /* Numbered rows: the number gives way to the checkbox while the row is
+     lit, picked or the checkbox has focus. */
+  .cn-data-table-row-number {
+    @apply text-(length:--density-text-12) text-muted-foreground tabular-nums transition-opacity duration-feedback ease-feedback in-data-[state=selected]:opacity-0 group-focus-within/data-table-select:opacity-0 in-[tr:hover]:opacity-0;
+  }
+
+  .cn-data-table-checkbox {
+    @apply transition-[opacity,background-color,border-color,box-shadow,scale] in-data-numbered:opacity-0 in-data-numbered:focus-visible:opacity-100 in-data-numbered:in-data-[state=selected]:opacity-100 in-data-numbered:in-[tr:hover]:opacity-100;
+  }
+
+  .cn-data-table-skeleton {
+    @apply h-(--density-12) rounded-sm;
+  }
+
+  /* Footer: sticky, a hairline above, one calculation per column. */
+  .cn-data-table-footer {
+    @apply text-foreground;
+  }
+
+  .cn-data-table-footer-cell {
+    @apply sticky bottom-0 z-20 h-(--density-36) cursor-default border-t border-border/60 bg-(--data-table-surface) px-(--density-8) align-middle font-normal data-pinned:z-30 data-[kind=actions]:px-0 data-[kind=select]:px-0 in-data-[lines=grid]:border-e in-data-[lines=grid]:last:border-e-0;
+  }
+
+  /* A calculation: its name muted, its value in the foreground. An unset
+     one ("Calculate") shows while its cell is lit. */
+  .cn-data-table-aggregate {
+    @apply h-(--density-28) cursor-pointer gap-(--density-6) rounded-md px-(--density-4) text-(length:--density-text-12) transition-[background-color,opacity] duration-feedback ease-feedback in-data-[align=center]:justify-center in-data-[align=end]:justify-end hover:bg-hover focus-visible:opacity-100 focus-visible:ring-1 focus-visible:ring-ring data-focus-visible:opacity-100 data-focus-visible:ring-1 data-focus-visible:ring-ring data-empty:opacity-0 data-popup-open:bg-hover data-popup-open:opacity-100 data-[state=open]:bg-hover data-[state=open]:opacity-100 aria-expanded:bg-hover aria-expanded:opacity-100 in-[td:hover]:opacity-100 pointer-coarse:opacity-100;
+  }
+
+  .cn-data-table-aggregate-label {
+    @apply shrink-0 text-muted-foreground;
+  }
+
+  .cn-data-table-aggregate-value {
+    @apply font-medium text-foreground tabular-nums;
+  }
+
+  .cn-data-table-empty {
+    @apply top-(--density-36) p-(--density-16);
+  }
+
+  /* A window failed: its first row in view says so and tries again; the
+     rows around it stay. */
+  .cn-data-table-load-error {
+    @apply sticky start-0 flex h-(--data-table-row-height) w-fit items-center gap-(--density-8) px-(--density-16) text-(length:--density-text-13) text-muted-foreground;
+  }
+
+  .cn-data-table-empty-state {
+    @apply border-none bg-transparent p-(--density-16);
+  }
+
+  /* React Aria's popover holds a dialog: the panel's stack moves into it. */
+  .cn-data-table-panel-aria {
+    @apply gap-(--density-10);
+  }
+
+  .cn-data-table-panel-header {
+    @apply gap-(--density-8) font-medium text-foreground [&_svg:not([class*='size-'])]:size-(--density-icon-14) [&_svg]:shrink-0 [&_svg]:text-muted-foreground;
+  }
+
+  .cn-data-table-panel-sort {
+    @apply gap-(--density-6);
+  }
+
+  /* Selection bar: inverted in light (the page's ink, its text and the
+     buttons inside drawn in the page's paper), a raised surface with a
+     border in dark. It rises over the table's bottom edge, above the
+     footer, on the move timing. */
+  .cn-data-table-selection-bar {
+    @apply bottom-(--density-12) gap-(--density-8) rounded-xl bg-(--data-table-ink) p-(--density-4) ps-(--density-12) text-(length:--density-text-13) text-(--data-table-paper) shadow-surface-6 [--active:color-mix(in_oklab,var(--data-table-paper)_18%,transparent)] [--border:color-mix(in_oklab,var(--data-table-paper)_20%,transparent)] [--foreground:var(--data-table-paper)] [--hover:color-mix(in_oklab,var(--data-table-paper)_12%,transparent)] [--muted-foreground:color-mix(in_oklab,var(--data-table-paper)_72%,transparent)] in-data-footer:bottom-[calc(var(--density-36)+var(--density-12))] dark:border dark:border-border dark:bg-surface-6 dark:text-foreground dark:[--active:inherit] dark:[--border:inherit] dark:[--foreground:inherit] dark:[--hover:inherit] dark:[--muted-foreground:inherit] transition-[opacity,translate,scale] duration-move ease-enter data-[state=closed]:pointer-events-none data-[state=closed]:translate-y-2 data-[state=closed]:scale-95 data-[state=closed]:opacity-0 data-[state=closed]:duration-move-exit data-[state=closed]:ease-exit motion-reduce:transition-none;
+  }
+
+  .cn-data-table-selection-count {
+    @apply font-medium text-foreground tabular-nums;
+  }
+
+  .cn-data-table-selection-actions {
+    @apply gap-(--density-4);
+  }
+
+  /* Pagination: muted text, the range in tabular figures, square pages. */
+  .cn-data-table-pagination {
+    @apply gap-(--density-12) text-(length:--density-text-13) text-muted-foreground;
+  }
+
+  .cn-data-table-pagination-size {
+    @apply gap-(--density-8);
+  }
+
+  .cn-data-table-pagination-range {
+    @apply tabular-nums;
+  }
+
+  .cn-data-table-pagination-pages {
+    @apply gap-(--density-2);
+  }
+
+  .cn-data-table-page {
+    @apply w-auto min-w-(--density-36) px-(--density-6) tabular-nums;
+  }
+
+  .cn-data-table-pagination-ellipsis {
+    @apply w-(--density-24) text-center;
+  }
+
+  /* Cells by type. */
+  .cn-data-table-text {
+    @apply block truncate;
+  }
+
+  .cn-data-table-number {
+    @apply tabular-nums;
+  }
+
+  .cn-data-table-date {
+    @apply tabular-nums;
+  }
+
+  .cn-data-table-empty-value {
+    @apply text-muted-foreground/60;
+  }
+
+  .cn-data-table-status {
+    @apply max-w-full gap-(--density-6);
+  }
+
+  .cn-data-table-status-dot {
+    @apply size-1.5 shrink-0 rounded-full bg-current;
+  }
+
+  .cn-data-table-person {
+    @apply inline-flex max-w-full min-w-0 items-center gap-(--density-8) align-middle;
+  }
+
+  .cn-data-table-person-avatar {
+    @apply shrink-0;
+  }
+
+  /* Initials at 12px need more than the Avatar's muted text to reach AA on
+     its fill. */
+  .cn-data-table-person-fallback {
+    @apply text-foreground/75;
+  }
+
+  .cn-data-table-link {
+    @apply inline-flex max-w-full items-center gap-(--density-4) text-primary-text underline-offset-4 outline-none hover:underline focus-visible:rounded-sm focus-visible:ring-1 focus-visible:ring-ring [&_svg]:size-3 [&_svg]:shrink-0 [&_svg]:opacity-60;
+  }
+
+  .cn-data-table-boolean {
+    @apply inline-flex items-center align-middle text-muted-foreground/60 data-checked:text-foreground [&_svg]:size-(--density-icon-16);
+  }
+
+  .cn-data-table-progress {
+    @apply flex w-full items-center gap-(--density-8);
+  }
+
+  .cn-data-table-progress-bar {
+    @apply min-w-0 flex-1;
+  }
+
+  .cn-data-table-progress-value {
+    @apply w-[4ch] shrink-0 text-end text-(length:--density-text-12) tabular-nums;
+  }
+
+  /* Rows load: refreshing dims them and a primary sweep runs under the
+     header, both after a short wait so quick answers don't flash. */
+  .cn-data-table-body {
+    @apply transition-opacity duration-move ease-feedback data-refetching:opacity-60 data-refetching:delay-move;
+  }
+
+  .cn-data-table-loading-bar {
+    @apply top-(--density-36) h-0.5 bg-primary/15 shimmer [--shimmer-image:linear-gradient(90deg,transparent_25%,var(--color-primary)_50%,transparent_75%)] [--shimmer-spread:0px] [-webkit-background-clip:border-box]! [-webkit-text-fill-color:currentColor]! [background-clip:border-box]! transition-opacity delay-move duration-move ease-feedback starting:opacity-0;
+  }
+
+  /* Panels and menus: two levels over the card (surface 5), so they stand
+     off the table rather than blend into it. */
+  .cn-data-table-panel {
+    @apply max-h-[min(36rem,var(--available-height,var(--radix-popover-content-available-height,100dvh)))] w-80 gap-(--density-10) overflow-y-auto bg-surface-5 shadow-surface-5;
+  }
+
+  .cn-data-table-menu {
+    @apply bg-surface-5 shadow-surface-5;
+  }
+
+  .cn-data-table-section {
+    @apply gap-(--density-6);
+  }
+
+  .cn-data-table-section-label {
+    @apply text-(length:--density-text-12) font-medium text-muted-foreground;
+  }
+
+  .cn-data-table-hint {
+    @apply px-(--density-2) text-(length:--density-text-12) text-muted-foreground;
+  }
+
+  .cn-data-table-panel-actions {
+    @apply -mx-(--density-6) gap-px;
+  }
+
+  .cn-data-table-panel-item {
+    @apply justify-start gap-(--density-8) px-(--density-8) font-normal text-muted-foreground hover:text-foreground [&_svg]:text-muted-foreground;
+  }
+
+  /* Settings: a sliders button centred over the actions, a density toggle,
+     switches for the footer, numbers, stripes and lines, and the columns. */
+  .cn-data-table-settings-trigger {
+    @apply text-muted-foreground hover:text-foreground data-popup-open:text-foreground data-[state=open]:text-foreground aria-expanded:text-foreground;
+  }
+
+  .cn-data-table-settings {
+    @apply w-72;
+  }
+
+  .cn-data-table-setting {
+    @apply -mx-(--density-6) min-h-(--density-32) cursor-pointer gap-(--density-8) rounded-lg px-(--density-6) transition-colors duration-feedback ease-feedback hover:bg-hover;
+  }
+
+  .cn-data-table-column-list {
+    @apply -mx-(--density-6) max-h-60 gap-px;
+  }
+
+  .cn-data-table-column-item {
+    @apply justify-start gap-(--density-8) px-(--density-6) font-normal text-foreground data-hidden:text-muted-foreground [&_svg]:text-muted-foreground;
+  }
+
+  /* Filters: "Filter" and the condition on one line, then its value. */
+  .cn-data-table-filter {
+    @apply gap-(--density-8);
+  }
+
+  .cn-data-table-filter-head {
+    @apply justify-between gap-(--density-8);
+  }
+
+  .cn-data-table-operator {
+    @apply h-(--density-28) w-auto gap-(--density-4) px-(--density-8) font-medium text-foreground ring-0 hover:bg-hover;
+  }
+
+  .cn-data-table-filter-number {
+    @apply gap-(--density-6);
+  }
+
+  .cn-data-table-filter-inputs {
+    @apply gap-(--density-6);
+  }
+
+  .cn-data-table-presets {
+    @apply -mx-(--density-6) gap-px;
+  }
+
+  .cn-data-table-preset {
+    @apply justify-start px-(--density-6) font-normal;
+  }
+
+  .cn-data-table-calendar {
+    @apply mx-auto p-0;
+  }
+
+  .cn-data-table-option-list {
+    @apply gap-(--density-8);
+  }
+
+  .cn-data-table-option-items {
+    @apply -mx-(--density-6) max-h-64 gap-px;
+  }
+
+  .cn-data-table-option {
+    @apply min-h-(--density-36) cursor-pointer gap-(--density-8) rounded-lg px-(--density-6) transition-colors duration-feedback ease-feedback hover:bg-hover;
+  }
+
+  .cn-data-table-option-count {
+    @apply ms-auto shrink-0 text-(length:--density-text-12) text-muted-foreground tabular-nums;
+  }
+
+  /* Editing: the cell is a button that fills it; the editor takes its place
+     with an inset ring, Notion's way. */
+  .cn-data-table-edit-trigger {
+    @apply flex h-[calc(var(--data-table-row-height)-1px)] w-full min-w-0 cursor-pointer items-center px-(--density-12) text-start outline-none in-data-[align=center]:justify-center in-data-[align=end]:justify-end focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-inset aria-expanded:ring-1 aria-expanded:ring-ring aria-expanded:ring-inset data-scroll:overflow-x-auto data-scroll:overscroll-x-none data-scroll:scrollbar-hide data-scroll:scroll-fade-x data-scroll:[--scroll-fade-size:var(--density-24)];
+  }
+
+  .cn-data-table-edit-input {
+    @apply h-[calc(var(--data-table-row-height)-1px)] w-full min-w-0 bg-(--data-table-surface) px-(--density-12) text-(length:--density-text-13) text-foreground tabular-nums ring-1 ring-ring outline-none ring-inset in-data-[align=end]:text-end;
+  }
+
+  .cn-data-table-edit-link {
+    @apply absolute inset-y-0 end-(--density-6) my-auto grid size-(--density-24) place-items-center rounded-md text-muted-foreground opacity-0 transition-opacity duration-feedback ease-feedback in-[td:hover]:opacity-100 hover:bg-hover hover:text-foreground focus-visible:opacity-100 focus-visible:ring-1 focus-visible:ring-ring [&_svg]:size-(--density-icon-14);
+  }
+
+  .cn-data-table-picker {
+    @apply w-auto min-w-56;
+  }
+
+  .cn-data-table-picker-options {
+    @apply -mx-(--density-6) max-h-72 gap-px;
+  }
+
+  .cn-data-table-picker-option {
+    @apply min-h-(--density-36) cursor-pointer gap-(--density-8) rounded-lg px-(--density-6) text-start outline-none transition-colors duration-feedback ease-feedback hover:bg-hover focus-visible:ring-1 focus-visible:ring-ring [&>svg]:size-(--density-icon-16) [&>svg]:shrink-0;
+  }
+
+  /* Tags keep every value: a narrow column scrolls them sideways, fading
+     at the edges where more are hidden. */
+  .cn-data-table-tags {
+    @apply flex max-w-full items-center gap-(--density-4) overflow-x-auto overscroll-x-none rounded-sm align-middle scrollbar-hide outline-none scroll-fade-x [--scroll-fade-size:var(--density-24)] focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-inset in-data-scroll:max-w-none in-data-scroll:overflow-visible in-data-scroll:mask-none;
+  }
+
+  .cn-data-table-tag {
+    @apply shrink-0;
+  }

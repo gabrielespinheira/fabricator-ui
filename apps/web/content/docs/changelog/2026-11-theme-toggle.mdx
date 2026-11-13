@@ -1,0 +1,11 @@
+---
+title: Theme Toggle
+description: A theme button with icon motion, blur and eight page reveals.
+date: 2026-11-11
+---
+
+Theme Toggle composes Button with sun and moon icons that rotate, scale and crossfade through a small blur. It follows Fabricator's density, focus ring, press feedback and motion speed.
+
+Web and desktop offer rectangle, circle, circle-blur, blinds, square, diamond, hexagon and triangle reveals, starting at the pressed button, with six optional viewport origins. The page has its own theme timing with Material easing and the icon morphs on a separate snapshot layer. Circle-blur follows beUI: the incoming page sharpens from an 8px blur to zero across the full expanding circle. Polygon reveals feather the moving boundary while keeping content sharp. Reduced motion and motion off apply the theme immediately; browsers without View Transitions keep a working trigger. The app supplies its resolved theme and change callback, so theme storage stays with its provider.
+
+Install it with `npx fabricator-ui@latest add theme-toggle`. The docs include all reveals, origins, Button variants, sizes and a disabled example.

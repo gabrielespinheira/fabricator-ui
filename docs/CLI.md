@@ -10,6 +10,7 @@ The `fabricator-ui` CLI (`packages/cli`), the shared setup model (`packages/setu
 - **Root-file edits** (`src/mount/`) know one exact shape each and return `null` for anything else, so the CLI prints the snippet instead of guessing at someone's code.
 - **Monorepos** follow `src/setup/workspace-config.ts` and `src/utils/workspace.ts`; `add` keeps an existing monorepo in step.
 - **Bundle:** `dependencies` stay external; `@fabricator-ui/setup` is bundled. `scripts/build.ts` copies `templates/` and `skills/fabricator` into `dist/`.
+- **Agent skill:** `skills/fabricator/SKILL.md` starts from local project context and routes screen design to bundled `design.md`, API rules to `rules/`, and optional setup to the CLI/MCP references. Keep it portable: no load-time commands or tool permission grants. CLI commands and reference examples always request `fabricator-ui@latest` through the project's package runner. Update `evals/evals.json` when changing behavior.
 - **Runtime:** Node ≥ 20.18.1, ESM, Node APIs only, so it runs the same under `npx`, `pnpm dlx`, `yarn dlx` and `bunx`.
 - Bumping the pinned `shadcn` is its own change, verified by the e2e matrix.
 

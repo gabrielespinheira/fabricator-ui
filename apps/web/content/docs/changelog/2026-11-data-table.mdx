@@ -1,0 +1,19 @@
+---
+title: Data Table
+description: A real Data Table component with typed columns, Notion-style filters, cells that edit in place and ten thousand rows that load as you scroll.
+date: 2026-11-12
+---
+
+Data Table is now a component instead of a guide. `npx fabricator-ui@latest add data-table` installs a TanStack Table v9 setup (`useDataTable`), typed cells and the parts that draw it, on every base.
+
+Each column's `meta.type` (text, number, currency, percent, progress, date, status, tags, person, link, email or boolean) picks its cell, its filter, its editor, its sort, its alignment and its footer calculations. A header sorts on click, with Shift for a second sort, and its options popover filters the way Notion does: a condition and the value it calls for, from "contains" and "is between" to "is within the past week", "has all of" and "is empty". Columns pin to either edge, resize from their edge or the keyboard, and hide from their popover.
+
+`useDataTable({ load })` feeds the table a window of rows at a time: the scroll covers every match and loads the windows in view, even after a jump or a fling, with skeleton rows meanwhile, pages with `paginate`, a fresh first window on a new sort, filter or search, aborted stale requests, and footer figures from the server. `queryRows` and `summarizeRows` answer a query the way the table would, so a TypeScript server can use them as is. Rows in memory still go in `data`.
+
+Cells edit in place with `meta.editable` and `onCellChange`: inputs for text and numbers, pickers for statuses, people and tags, a Calendar for dates and a Checkbox for booleans.
+
+The settings at the end of the header set the density and switch the calculations, row numbers, stripes and column lines, show and hide columns, and clear the sort and filters, so everything but the search happens inside the table. `defaultView`, or `view` with `onViewChange`, sets them from code.
+
+Rows are virtual, so 10,000 of them scroll like a screenful, without bouncing at either edge. Rows, cells, the header and the footer redraw only when what they show changes, a column resize restyles no cells, and the checkboxes and avatars in rows are light enough that picking every row or scrolling fast stays smooth. Skeleton, refresh and error states, an Empty for no results, Shift-click ranges, a floating selection bar and a footer of calculations come with it.
+
+React Native keeps the Table-based example for now; a native Data Table is planned.

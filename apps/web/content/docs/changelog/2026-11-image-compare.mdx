@@ -1,0 +1,10 @@
+---
+title: November 2026 - Image Compare
+description: An Image Compare for before and after pictures, with a line that bends like jelly, on the web and React Native.
+date: 2026-11-11
+---
+
+- **Image Compare.** `npx fabricator-ui@latest add image-compare` adds two pictures of one scene in a single frame, split by a line you drag. Labels in the top corners name both sides and fade as the line reaches them.
+- **Jelly line.** The line's ends trail the knob on a soft spring, and the "before" picture is cut along the same curve, so the picture bends with the line. A click glides the knob there and a flick sends it to the edge.
+- **A slider for everyone.** It's one focusable slider from 0 to 100: the arrows, Page Up, Page Down, Home and End move it, and screen readers hear both shares, such as "Before 30%, After 70%". `value` and `onValueChange` drive it from outside.
+- **React Native.** The same API with the same physics on the UI thread: a horizontal drag moves the line, a vertical one scrolls, and each step notches with a sound and a haptic.

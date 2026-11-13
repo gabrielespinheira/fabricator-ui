@@ -1,22 +1,39 @@
 /* MARK: Slider */
 
+  /* size sm pins the slider to the compact density and lg to spacious.
+     --slider-thumb-size is the small icon size at compact, inside the track,
+     and overhangs the track above it: 20px over 16px at default, 24px over
+     18px spacious. min() reads it off the density tokens (--density-36 is 28px only
+     at compact), so a DensityProvider sets it as well as size does.
+     --slider-glide is the move timing for a click or a key, and nothing while a
+     drag follows the pointer. Radix positions each thumb on a wrapper span. */
   .cn-slider {
-    @apply cursor-pointer data-disabled:cursor-not-allowed data-vertical:min-h-40;
+    @apply cursor-pointer data-disabled:cursor-not-allowed data-vertical:min-h-40 data-[size=sm]:density-compact data-[size=lg]:density-spacious [--slider-track-size:calc(var(--density-icon-14)+2px)] [--slider-thumb-size:min(var(--density-20),calc(var(--density-icon-14)+var(--density-36)-1.75rem))] [--slider-glide:calc(var(--motion-move)*var(--motion-scale,1))] data-following:[--slider-glide:calc(var(--motion-move)*0)] [&>span:has(>[data-slot=slider-thumb])]:transition-[left,bottom] [&>span:has(>[data-slot=slider-thumb])]:duration-(--slider-glide) [&>span:has(>[data-slot=slider-thumb])]:ease-enter;
   }
 
-  /* An 18px pill framed by the border colour, transparent inside. */
+  /* A 16px pill framed by the border colour, transparent inside. */
   .cn-slider-track {
-    @apply border-border rounded-full border bg-transparent data-horizontal:h-[calc(var(--density-icon-16)+2px)] data-horizontal:w-full data-vertical:h-full data-vertical:w-[calc(var(--density-icon-16)+2px)];
+    @apply border-border rounded-full border bg-transparent data-horizontal:h-(--slider-track-size) data-horizontal:w-full data-vertical:h-full data-vertical:w-(--slider-track-size);
   }
 
   /* The filled range is a soft wash of the primary role: a neutral grey
-     while primary is neutral. */
+     while primary is neutral. It glides with the thumb. */
   .cn-slider-range {
-    @apply bg-primary/10 dark:bg-primary/15;
+    @apply bg-primary/10 dark:bg-primary/15 transition-[inset-inline-start,left,right,top,bottom,width,height] duration-(--slider-glide) ease-enter;
   }
 
-  /* White 16px knob with a soft drop shadow and hairline. Focus shows a 1px
-     blue ring 4px outside the knob (::before); ::after widens the hit area. */
+  /* One 4px dot per step, the foreground at 25%. Under the range it shrinks
+     away, so the fill reads as one piece and the dots count what's left. */
+  .cn-slider-step {
+    @apply bg-foreground/25 size-1 rounded-full transition-[opacity,scale] duration-feedback ease-enter data-filled:scale-0 data-filled:opacity-0;
+  }
+
+  /* A white knob with a soft drop shadow and hairline. It glides to a click or
+     a key on the move timing and follows a drag at once. Hover deepens the
+     shadow; held, it grows 2px all round with a white band (the ring offset,
+     so Base UI's measured thumb size never changes) and lifts on a deeper
+     shadow. Focus shows a 1px blue ring 4px outside the knob (::before);
+     ::after widens the hit area. */
   .cn-slider-thumb {
-    @apply cursor-grab active:cursor-grabbing data-dragging:cursor-grabbing data-disabled:cursor-not-allowed relative size-(--density-icon-16) rounded-full bg-white shadow-[0_1px_2px_rgb(0_0_0/0.1)] ring-1 ring-black/5 transition-[box-shadow] duration-feedback ease-feedback before:absolute before:-inset-1 before:rounded-full before:border before:border-ring before:opacity-0 before:transition-opacity before:duration-feedback after:absolute after:-inset-2 hover:shadow-[0_1px_3px_rgb(0_0_0/0.16)] focus-visible:outline-hidden focus-visible:before:opacity-100 has-focus-visible:before:opacity-100 data-focus-visible:before:opacity-100;
+    @apply cursor-grab active:cursor-grabbing data-dragging:cursor-grabbing data-disabled:cursor-not-allowed relative size-(--slider-thumb-size) rounded-full bg-white shadow-[0_1px_2px_rgb(0_0_0/0.12)] ring-1 ring-black/5 ring-offset-white transition-[box-shadow,inset-inline-start,left,top,bottom] [transition-duration:calc(var(--motion-feedback)*var(--motion-scale,1)),var(--slider-glide),var(--slider-glide),var(--slider-glide),var(--slider-glide)] ease-enter before:absolute before:-inset-1 before:rounded-full before:border before:border-ring before:opacity-0 before:transition-opacity before:duration-feedback after:absolute after:-inset-2 hover:shadow-[0_1px_4px_rgb(0_0_0/0.18)] [[data-slot=slider]:active_&:focus-within]:ring-offset-2 [[data-slot=slider]:active_&:focus-within]:shadow-[0_4px_12px_rgb(0_0_0/0.18)] focus-visible:outline-hidden focus-visible:before:opacity-100 has-focus-visible:before:opacity-100 data-focus-visible:before:opacity-100;
   }

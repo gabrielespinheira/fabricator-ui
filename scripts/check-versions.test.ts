@@ -33,6 +33,18 @@ describe("getVersionProblems", () => {
     expect(check(createFiles("0.7.0"))).toEqual([])
   })
 
+  test("checks the separately installed mobile app and Expo version", () => {
+    const files = {
+      ...createFiles("0.8.0"),
+      "apps/mobile/package.json": manifest("0.0.0"),
+      "apps/mobile/app.json": JSON.stringify({ expo: { version: "0.0.0" } }),
+    }
+    expect(check(files)).toEqual([
+      "apps/mobile/package.json is 0.0.0, not 0.8.0",
+      "apps/mobile/app.json is 0.0.0, not 0.8.0",
+    ])
+  })
+
   test("names a workspace manifest left behind", () => {
     const files = {
       ...createFiles("0.7.0"),

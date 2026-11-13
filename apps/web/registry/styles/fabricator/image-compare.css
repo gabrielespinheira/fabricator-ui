@@ -1,0 +1,30 @@
+/* MARK: Image Compare */
+
+  /* A 3:2 frame rounded like a card, on the muted fill while the pictures
+     load. The pointer reads as a horizontal resize everywhere on it: a click
+     anywhere glides the line there. Focus shows the 1px ring outside the
+     frame. Disabled dims it and takes no pointer. */
+  .cn-image-compare {
+    @apply aspect-3/2 cursor-ew-resize rounded-xl bg-muted focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background data-disabled:pointer-events-none data-disabled:cursor-not-allowed data-disabled:opacity-50;
+  }
+
+  /* The labels sit in the top corners on dark glass, white whatever the
+     theme: they lie on arbitrary pictures, which no theme token stays legible
+     on (see Known deviations). Each fades as the line crosses it. */
+  .cn-image-compare-label {
+    @apply top-(--density-12) rounded-full bg-black/35 px-(--density-10) py-(--density-4) text-(length:--density-text-12) leading-none font-medium text-white backdrop-blur-md data-[side=after]:right-(--density-12) data-[side=before]:left-(--density-12);
+  }
+
+  /* A 2px white line with a soft white glow, so it reads on dark and light
+     pictures alike. */
+  .cn-image-compare-line {
+    @apply stroke-white stroke-2 drop-shadow-[0_0_6px_rgb(255_255_255/0.5)];
+  }
+
+  /* The knob: a 36px white disc, the line's colour, with a dark chevron each
+     way, on a soft shadow. Like the line it stays white in both themes, as it
+     lies on arbitrary pictures. It grows a little under the pointer and
+     presses in while held, on the feedback timing. */
+  .cn-image-compare-handle {
+    @apply size-(--density-36) gap-0 rounded-full bg-white text-neutral-950 shadow-[0_2px_12px_rgb(0_0_0/0.25)] ring-1 ring-black/5 transition-[scale] duration-feedback ease-enter group-hover/image-compare:scale-108 group-data-dragging/image-compare:scale-90 group-data-disabled/image-compare:scale-100 [&_svg]:-mx-0.5 [&_svg]:size-(--density-icon-16) [&_svg]:stroke-[2.25];
+  }

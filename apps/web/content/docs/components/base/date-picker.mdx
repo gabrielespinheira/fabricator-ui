@@ -1,6 +1,6 @@
 ---
 title: Date Picker
-description: A date field that opens a calendar, with an optional time wheel, and Calendar compositions for ranges and presets.
+description: A date field that opens a calendar, with an optional time wheel, a month or year granularity, and Calendar compositions for ranges and presets.
 base: base
 component: true
 ---
@@ -9,9 +9,9 @@ component: true
 
 <ComponentPreview styleName="base-nova" name="date-picker-date-time" />
 
-Click the field and pick a day from the calendar. With `hasTime`, a time wheel sits beside the calendar, as in the iOS Clock app: the field reads `Nov 12, 2026, 10:30 AM`, and the value is that day at that time. For people who'd rather type, `editable` adds a text field that reads `2026-11-12`, `Nov 12, 2026` or `tomorrow at 9pm`.
+Click the field and pick a day from the calendar. With `hasTime`, a time wheel sits beside the calendar, as in the iOS Clock app: the field reads `Nov 12, 2026, 10:30 AM`, and the value is that day at that time. With `granularity="month"` or `"year"`, a grid of twelve months or years takes the calendar's place. For people who'd rather type, `editable` adds a text field that reads `2026-11-12`, `Nov 12, 2026` or `tomorrow at 9pm`.
 
-The `DatePicker` field is part of the Fabricator style. It's composed from [Popover](/docs/components/base/popover), [Calendar](/docs/components/base/calendar) and the [Time Input](/docs/components/base/time-input) wheel, and framed like every other field, so the focus ring and invalid state match. With `editable`, the field is an [Input Group](/docs/components/base/input-group).
+The `DatePicker` field is part of the Fabricator style. It's composed from [Popover](/docs/components/base/popover), [Calendar](/docs/components/base/calendar) and the [Time Input](/docs/components/base/time-input) wheel, with Fluid Hover on the month and year grid, and framed like every other field, so the focus ring and invalid state match. With `editable`, the field is an [Input Group](/docs/components/base/input-group).
 
 ## Installation
 
@@ -40,10 +40,12 @@ npm install date-fns
 ```
 
 <Step>
-  Add the [Calendar](/docs/components/base/calendar), [Input
+  Add the [Button](/docs/components/base/button),
+  [Calendar](/docs/components/base/calendar), [Input
   Group](/docs/components/base/input-group),
   [Popover](/docs/components/base/popover) and [Time
-  Input](/docs/components/base/time-input) components.
+  Input](/docs/components/base/time-input) components and the Fluid Hover
+  library.
 </Step>
 
 <Step>Copy and paste the following code into your project.</Step>
@@ -77,6 +79,7 @@ import { DatePicker } from "@/components/ui/date-picker"
 ```tsx
 <DatePicker aria-label="Due date" />
 <DatePicker aria-label="Starts" hasTime />
+<DatePicker aria-label="Billing month" granularity="month" />
 ```
 
 ## Composition
@@ -86,8 +89,10 @@ DatePicker
 ├── PopoverTrigger               the field: the date, or its placeholder
 ├── PopoverContent
 │   ├── Calendar                 one month, single selection
-│   └── TimeWheel                with `hasTime`: hours, minutes, seconds, AM or PM
-└── input[type=hidden]           with `name`: yyyy-MM-dd, or yyyy-MM-ddTHH:mm(:ss)
+│   ├── TimeWheel                with `hasTime`: hours, minutes, seconds, AM or PM
+│   └── grid                     instead of both, at a month or year granularity:
+│                                twelve cells, three to a row, under the page's arrows
+└── input[type=hidden]           with `name`: yyyy-MM-dd, yyyy-MM-ddTHH:mm(:ss), yyyy-MM or yyyy
 ```
 
 With `editable`, the field is an `InputGroup` instead: an `InputGroupInput` for the text and an `InputGroupButton` that opens the same popover.
@@ -107,6 +112,16 @@ Put it in a `Field` with a `FieldLabel` pointing at its `id`, and a `FieldDescri
 `hasTime` puts a [Time Input](/docs/components/base/time-input) wheel beside the calendar, as tall as it: hours, minutes, AM or PM on a 12-hour clock, and seconds with `hasSeconds`. It opens on the value's time, or now. Pick a day and turn the wheel: the field shows both and the value follows as each column settles. A new day keeps the time. Enter, Escape or a click elsewhere closes the popover. `step` sets the minutes between the minute wheel's rows (1 by default), and the clock follows the reader's locale unless `hourCycle` fixes one.
 
 <ComponentPreview styleName="base-nova" name="date-picker-date-time" />
+
+### Month and year
+
+`granularity="month"` picks a month from a year of them; `granularity="year"` picks a year from a page of twelve. The arrows beside the heading turn the page, one highlight glides between the cells, and a new page slides in from the side it came from. The value is still a `Date`: the first day of the month or year. The text reads `Mar 2028` or `2028`; `format` changes it. `minDate` and `maxDate` compare whole months or years, and `hasTime` doesn't apply.
+
+With `editable`, a month reads `Mar 2028`, `March 2028`, `2028-03`, `3/2028` and `this month`, `next month` or `last month`; a year reads `2028` and `this year`, `next year` or `last year`. Use a month for a card's expiry or a billing period, where the browser would offer `<input type="month">`.
+
+<ComponentPreview styleName="base-nova" name="date-picker-month" />
+
+<ComponentPreview styleName="base-nova" name="date-picker-year" />
 
 ### Typing
 
@@ -150,7 +165,7 @@ The field follows the nearest density. Add `density-compact` or `density-spaciou
 
 ### In a form
 
-With `name`, a hidden input sends the day as `yyyy-MM-dd`, or `yyyy-MM-ddTHH:mm` with `hasTime` (`yyyy-MM-ddTHH:mm:ss` with `hasSeconds`), whatever the display format. With `editable`, Enter commits the text first; a second Enter submits.
+With `name`, a hidden input sends the day as `yyyy-MM-dd`, or `yyyy-MM-ddTHH:mm` with `hasTime` (`yyyy-MM-ddTHH:mm:ss` with `hasSeconds`), whatever the display format. A month sends `yyyy-MM`, what `<input type="month">` submits, and a year `yyyy`. With `editable`, Enter commits the text first; a second Enter submits.
 
 <ComponentPreview styleName="base-nova" name="date-picker-form" />
 
@@ -203,59 +218,66 @@ This component uses the `chrono-node` library to parse natural language dates.
 
 With `editable`, the text field reads:
 
-| Typed                                                                                      | Becomes                                 |
-| ------------------------------------------------------------------------------------------ | --------------------------------------- |
-| The display format (`Nov 12, 2026`)                                                        | That day                                |
-| ISO (`2026-11-12`)                                                                         | That day                                |
-| `today`, `tomorrow`, `yesterday`                                                           | That day, from the person's clock       |
-| With `hasTime`, a time after a comma or `at` (`Nov 12, 2026, 10:30 AM`, `tomorrow at 9pm`) | That day at that time                   |
-| Nothing                                                                                    | No value                                |
-| Anything else, or a day that can't be                                                      | No value; the text stays and is invalid |
+| Typed                                                                                            | Becomes                                 |
+| ------------------------------------------------------------------------------------------------ | --------------------------------------- |
+| The display format (`Nov 12, 2026`)                                                              | That day                                |
+| ISO (`2026-11-12`)                                                                               | That day                                |
+| `today`, `tomorrow`, `yesterday`                                                                 | That day, from the person's clock       |
+| With `hasTime`, a time after a comma or `at` (`Nov 12, 2026, 10:30 AM`, `tomorrow at 9pm`)       | That day at that time                   |
+| A month: `Mar 2028`, `March 2028`, `2028-03`, `3/2028`, `this month`, `next month`, `last month` | The first of that month                 |
+| A year: `2028`, `this year`, `next year`, `last year`                                            | The first of that year                  |
+| Nothing                                                                                          | No value                                |
+| Anything else, or a day that can't be                                                            | No value; the text stays and is invalid |
 
-Case and extra spaces don't matter. Years need four digits, so `Nov 12, 26` isn't read as the year 26. The rules are pure functions in `lib/date-picker-model.ts` (`parseDateText`, `commitDateText`, `formatDateValue`, `formatIsoDate`, `formatIsoDateTime`, `setDateTime`, `splitDateTimeText`, `isDateInRange`), which you can use for your own validation.
+Case and extra spaces don't matter. Years need four digits, so `Nov 12, 26` isn't read as the year 26. The rules are pure functions in `lib/date-picker-model.ts` (`parseDateText`, `commitDateText`, `formatDateValue`, `formatIsoDate`, `formatIsoDateTime`, `setDateTime`, `splitDateTimeText`, `isDateInRange`, and `getDateGridOptions` for the grid), each taking a `granularity`, which you can use for your own validation.
 
 ## API Reference
 
 ### DatePicker
 
-| Prop            | Type                                 | Default                                      |
-| --------------- | ------------------------------------ | -------------------------------------------- |
-| `value`         | `Date \| undefined`                  | -                                            |
-| `defaultValue`  | `Date`                               | -                                            |
-| `onValueChange` | `(value: Date \| undefined) => void` | -                                            |
-| `format`        | `string` (date-fns pattern)          | `"MMM d, yyyy"`                              |
-| `locale`        | `Locale` (date-fns)                  | -                                            |
-| `minDate`       | `Date`                               | -                                            |
-| `maxDate`       | `Date`                               | -                                            |
-| `name`          | `string`                             | -                                            |
-| `hasTime`       | `boolean`                            | `false`                                      |
-| `step`          | `number` (minutes)                   | `1`                                          |
-| `hasSeconds`    | `boolean`                            | `false`                                      |
-| `hourCycle`     | `12 \| 24`                           | the locale's                                 |
-| `editable`      | `boolean`                            | `false`                                      |
-| `calendarLabel` | `string`                             | `"Choose date"`                              |
-| `timeLabel`     | `string`                             | `"Choose time"`                              |
-| `placeholder`   | `string`                             | `"Pick a date"`, or `"Pick a date and time"` |
-| `disabled`      | `boolean`                            | `false`                                      |
-| `aria-invalid`  | `boolean`                            | -                                            |
+| Prop            | Type                                 | Default                                                                        |
+| --------------- | ------------------------------------ | ------------------------------------------------------------------------------ |
+| `value`         | `Date \| undefined`                  | -                                                                              |
+| `defaultValue`  | `Date`                               | -                                                                              |
+| `onValueChange` | `(value: Date \| undefined) => void` | -                                                                              |
+| `granularity`   | `"day" \| "month" \| "year"`         | `"day"`                                                                        |
+| `format`        | `string` (date-fns pattern)          | `"MMM d, yyyy"`, `"MMM yyyy"` or `"yyyy"`                                      |
+| `locale`        | `Locale` (date-fns)                  | -                                                                              |
+| `minDate`       | `Date`                               | -                                                                              |
+| `maxDate`       | `Date`                               | -                                                                              |
+| `name`          | `string`                             | -                                                                              |
+| `hasTime`       | `boolean` (days only)                | `false`                                                                        |
+| `step`          | `number` (minutes)                   | `1`                                                                            |
+| `hasSeconds`    | `boolean`                            | `false`                                                                        |
+| `hourCycle`     | `12 \| 24`                           | the locale's                                                                   |
+| `editable`      | `boolean`                            | `false`                                                                        |
+| `calendarLabel` | `string`                             | `"Choose date"`, `"Choose month"` or `"Choose year"`                           |
+| `timeLabel`     | `string`                             | `"Choose time"`                                                                |
+| `placeholder`   | `string`                             | `"Pick a date"`, `"Pick a date and time"`, `"Pick a month"` or `"Pick a year"` |
+| `disabled`      | `boolean`                            | `false`                                                                        |
+| `aria-invalid`  | `boolean`                            | -                                                                              |
 
 ### Data attributes
 
-| Attribute                         | Element              | Present when    |
-| --------------------------------- | -------------------- | --------------- |
-| `data-slot="date-picker"`         | root                 | always          |
-| `data-slot="date-picker-field"`   | the field (a button) | not `editable`  |
-| `data-slot="input-group-control"` | the text input       | `editable`      |
-| `data-slot="date-picker-time"`    | the wheel's column   | open, `hasTime` |
-| `data-slot="popover-content"`     | the calendar's popup | open            |
-| `data-slot="date-picker-value"`   | the hidden input     | `name` is set   |
+| Attribute                         | Element                | Present when                      |
+| --------------------------------- | ---------------------- | --------------------------------- |
+| `data-slot="date-picker"`         | root                   | always                            |
+| `data-slot="date-picker-field"`   | the field (a button)   | not `editable`                    |
+| `data-slot="input-group-control"` | the text input         | `editable`                        |
+| `data-slot="date-picker-time"`    | the wheel's column     | open, `hasTime`                   |
+| `data-slot="date-picker-grid"`    | the month or year grid | open, a month or year granularity |
+| `data-slot="date-picker-cell"`    | each month or year     | open, a month or year granularity |
+| `data-current`                    | this month or year     | open, a month or year granularity |
+| `data-slot="popover-content"`     | the calendar's popup   | open                              |
+| `data-slot="date-picker-value"`   | the hidden input       | `name` is set                     |
 
 ## Accessibility
 
 - The field is a button that reports `aria-expanded`. Label it with a `FieldLabel` pointing at its `id`, or `aria-label`; the placeholder isn't a label.
 - Enter, Space or a click opens the calendar on the selected day's month, with focus on that day. Arrow keys move by day and week, Page Up and Page Down by month, Enter or Space picks, and Escape closes.
 - With `hasTime`, Tab moves from the calendar to the wheel, a group named by `timeLabel`. Each column is a `spinbutton` (Hours, Minutes, Seconds, AM or PM): Arrow Up and Down step it, Page Up and Page Down jump five, Home and End go to the ends, and Tab moves to the next column. Enter closes the popover.
-- Without `hasTime`, picking a day closes the popover. Closing returns focus to the field.
+- At a month or year granularity, the cells are a grid with focus on the selected cell, or this month or year. Left and Right move by one, Up and Down by three, Page Up and Page Down by a page of twelve, Enter or Space picks, and Escape closes. The heading is announced as it changes.
+- Without `hasTime`, picking a day, month or year closes the popover. Closing returns focus to the field.
 - With `editable`, the text input is a plain text field and Alt+ArrowDown opens the calendar (announced through `aria-keyshortcuts`); its button is named by `calendarLabel`. Text that isn't a date sets `aria-invalid`.
 - `aria-invalid` turns the frame red, and screen readers announce it.
 - Disabled, the field leaves the tab order and the hidden input isn't submitted.

@@ -28,6 +28,7 @@ export function getTokenFile(name: string) {
 export const SHARED_TOKEN_FILES = Object.keys(TOKEN_MODULES).map(getTokenFile)
 
 const SHARED_LIB_FILES = [
+  "theme-toggle-model",
   "bot-face-model",
   "color-model",
   "file-tree-model",
@@ -37,11 +38,16 @@ const SHARED_LIB_FILES = [
   "chat-input-model",
   "spinner-model",
   "date-picker-model",
-  "month-input-model",
   "sidebar-model",
   "sound-recipes",
   "syntax-highlight-model",
   "video-player-model",
+  "audio-player-model",
+  "image-compare-model",
+  "preview-rail-model",
+  "rating-model",
+  "radio-glide-model",
+  "accordion-model",
   "editor-model",
   "editor-transaction",
   "editor-input",

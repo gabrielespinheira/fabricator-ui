@@ -18,6 +18,22 @@ import { FABRICATOR_FOUNDATIONS } from "@/registry/fabricator/foundations"
 
 export const fabricatorItems = [
   {
+    name: "theme-toggle",
+    type: "registry:ui",
+    title: "Theme Toggle",
+    description:
+      "A theme button with a morphing sun and moon, four page reveals that start at the pressed button.",
+    dependencies: ["cn"],
+    registryDependencies: ["@fabricator/button"],
+    files: [
+      { path: "ui/theme-toggle.tsx", type: "registry:ui" },
+      { path: "lib/theme-toggle-model.ts", type: "registry:lib" },
+      { path: "lib/theme-transition.ts", type: "registry:lib" },
+    ],
+    categories: ["basics"],
+    meta: { fabricator: true },
+  },
+  {
     name: "bot-face",
     type: "registry:ui",
     title: "BotFace",
@@ -202,6 +218,86 @@ export const fabricatorItems = [
     },
   },
   {
+    name: "audio-player",
+    type: "registry:ui",
+    title: "Audio Player",
+    description:
+      "An audio file on a card: the artwork, title and artist, a seek bar drawn as the file's waveform, the time played and left, skip back and forward, speed and volume. A cover variant shows a large artwork that breathes with the music, and a compact variant fits play, the waveform, the time and the speed on one row.",
+    registryDependencies: ["spinner"],
+    files: [
+      { path: "ui/audio-player.tsx", type: "registry:ui" },
+      { path: "lib/audio-player-model.ts", type: "registry:lib" },
+      { path: "lib/video-player-model.ts", type: "registry:lib" },
+    ],
+    meta: {
+      fabricator: true,
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/audio-player",
+        examples:
+          "https://fabricator-ui.vercel.app/docs/components/base/audio-player#examples",
+      },
+    },
+  },
+  {
+    name: "image-compare",
+    type: "registry:ui",
+    title: "Image Compare",
+    description:
+      "Two pictures of one scene in a single frame, split by a line you drag. The line bends like jelly and the picture is cut along it; a click or a key glides it there and a flick sends it to the edge.",
+    files: [
+      { path: "ui/image-compare.tsx", type: "registry:ui" },
+      { path: "lib/image-compare-model.ts", type: "registry:lib" },
+    ],
+    meta: {
+      fabricator: true,
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/image-compare",
+        examples:
+          "https://fabricator-ui.vercel.app/docs/components/base/image-compare#examples",
+      },
+    },
+  },
+  {
+    name: "rating",
+    type: "registry:ui",
+    title: "Rating",
+    description:
+      "A row of stars that holds a score. Hover previews it, a click or a drag sets it, in whole or half stars; read-only it shows any fraction. Yellow by default, or primary and the status colours.",
+    files: [
+      { path: "ui/rating.tsx", type: "registry:ui" },
+      { path: "lib/rating-model.ts", type: "registry:lib" },
+    ],
+    categories: ["forms"],
+    meta: {
+      fabricator: true,
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/rating",
+        examples:
+          "https://fabricator-ui.vercel.app/docs/components/base/rating#examples",
+      },
+    },
+  },
+  {
+    name: "preview-rail",
+    type: "registry:ui",
+    title: "Preview Rail",
+    description:
+      "A rail of thin ticks, one per section, that swell around the pointer like a dock, with a card beside the rail naming the section it's on. A finger scrubs along it.",
+    files: [
+      { path: "ui/preview-rail.tsx", type: "registry:ui" },
+      { path: "lib/preview-rail-model.ts", type: "registry:lib" },
+    ],
+    categories: ["navigation"],
+    meta: {
+      fabricator: true,
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/preview-rail",
+        examples:
+          "https://fabricator-ui.vercel.app/docs/components/base/preview-rail#examples",
+      },
+    },
+  },
+  {
     name: "model-picker",
     type: "registry:ui",
     title: "Model Picker",
@@ -246,11 +342,18 @@ export const fabricatorItems = [
     type: "registry:ui",
     title: "Date Picker",
     description:
-      "A date field that opens a calendar, with an optional column of times, a display format, a minimum and maximum, typing on request and a form value.",
+      "A date field that opens a calendar, with an optional column of times, or a grid of months or years, a display format, a minimum and maximum, typing on request and a form value.",
     // @internationalized/date is for the React Aria calendar; date-fns reads
     // and writes the text in every base.
     dependencies: ["date-fns", "@internationalized/date"],
-    registryDependencies: ["calendar", "input-group", "popover", "time-input"],
+    registryDependencies: [
+      "button",
+      "calendar",
+      "fluid-hover",
+      "input-group",
+      "popover",
+      "time-input",
+    ],
     files: [
       { path: "ui/date-picker.tsx", type: "registry:ui" },
       { path: "lib/date-picker-model.ts", type: "registry:lib" },
@@ -266,24 +369,72 @@ export const fabricatorItems = [
     },
   },
   {
-    name: "month-input",
+    name: "multi-select",
     type: "registry:ui",
-    title: "Month Input",
+    title: "Multi Select",
     description:
-      "A text field that takes a typed month or one picked from a year of months, with a display format, a range and a form value.",
-    dependencies: ["date-fns"],
-    registryDependencies: ["button", "input-group", "popover", "fluid-hover"],
+      "A searchable list for picking several options, shown as chips in the field that pop in, wipe out and glide into place. The list stays open between picks.",
+    registryDependencies: ["fluid-hover", "density"],
     files: [
-      { path: "ui/month-input.tsx", type: "registry:ui" },
-      { path: "lib/month-input-model.ts", type: "registry:lib" },
+      { path: "ui/multi-select.tsx", type: "registry:ui" },
+      { path: "lib/multi-select-model.ts", type: "registry:lib" },
+      { path: "hooks/use-chip-presence.ts", type: "registry:hook" },
     ],
     categories: ["forms"],
     meta: {
       fabricator: true,
       links: {
-        docs: "https://fabricator-ui.vercel.app/docs/components/base/month-input",
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/multi-select",
         examples:
-          "https://fabricator-ui.vercel.app/docs/components/base/month-input#examples",
+          "https://fabricator-ui.vercel.app/docs/components/base/multi-select#examples",
+      },
+    },
+  },
+  {
+    name: "data-table",
+    type: "registry:ui",
+    title: "Data Table",
+    description:
+      "A TanStack table drawn as one sticky-headed grid: typed columns, sorting, Notion-style filters in header popovers, cells that edit in place, pinned and resizable columns, 10,000 virtual rows, infinite scroll or pages from a loader, loading and empty states, a selection bar, table settings and an optional footer of calculations.",
+    // @internationalized/date is for the React Aria date filter's
+    // RangeCalendar, as with Date Picker.
+    dependencies: [
+      "@tanstack/react-table@9.3.1",
+      "@tanstack/react-virtual@3.14.26",
+      "@internationalized/date",
+    ],
+    registryDependencies: [
+      "avatar",
+      "badge",
+      "button",
+      "calendar",
+      "checkbox",
+      "density",
+      "dropdown-menu",
+      "empty",
+      "input",
+      "popover",
+      "progress",
+      "search",
+      "select",
+      "separator",
+      "skeleton",
+      "switch",
+      "toggle-group",
+    ],
+    files: [
+      { path: "ui/data-table.tsx", type: "registry:ui" },
+      { path: "ui/data-table-cells.tsx", type: "registry:ui" },
+      { path: "hooks/use-data-table.ts", type: "registry:hook" },
+      { path: "lib/data-table-model.ts", type: "registry:lib" },
+    ],
+    categories: ["data"],
+    meta: {
+      fabricator: true,
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/data-table",
+        examples:
+          "https://fabricator-ui.vercel.app/docs/components/base/data-table#examples",
       },
     },
   },
@@ -429,6 +580,40 @@ export const fabricatorItems = [
     description:
       "The Sidebar's plain data and rules: its toggle's glyph, and how the phone sidebar's reveal moves and settles. No DOM, so a React Native shell can share it.",
     files: [{ path: "lib/sidebar-model.ts", type: "registry:lib" }],
+  },
+  {
+    name: "slider-model",
+    type: "registry:lib",
+    title: "Slider model",
+    description:
+      "The Slider's step dots and the rule that tells a drag from a press, so a click on the track glides and a drag follows the pointer.",
+    files: [
+      { path: "lib/slider-model.ts", type: "registry:lib" },
+      { path: "hooks/use-slider-drag.ts", type: "registry:hook" },
+    ],
+  },
+  {
+    name: "accordion-shape",
+    type: "registry:lib",
+    title: "Accordion shape",
+    description:
+      "Joins closed accordion items into one card and parts an open one from its neighbours, for the web and React Native.",
+    files: [
+      { path: "lib/accordion-model.ts", type: "registry:lib" },
+      { path: "hooks/use-accordion-shape.ts", type: "registry:hook" },
+    ],
+  },
+  {
+    name: "radio-glide",
+    type: "registry:lib",
+    title: "Radio glide",
+    description:
+      "Glides the Radio Group's checked dot from the radio it leaves to the one picked.",
+    registryDependencies: ["fluid-hover"],
+    files: [
+      { path: "lib/radio-glide-model.ts", type: "registry:lib" },
+      { path: "hooks/use-radio-glide.ts", type: "registry:hook" },
+    ],
   },
   {
     name: "sortable",
@@ -671,9 +856,11 @@ export const fabricatorOverrides: Record<
   tabs: { registryDependencies: ["fluid-hover"] },
   "toggle-group": { registryDependencies: ["fluid-hover"] },
   sidebar: { registryDependencies: ["fluid-hover", "kbd", "sidebar-model"] },
-  accordion: { registryDependencies: ["fluid-hover"] },
+  accordion: { registryDependencies: ["fluid-hover", "accordion-shape"] },
   table: { registryDependencies: ["fluid-hover"] },
   questionnaire: { registryDependencies: ["fluid-hover"] },
+  slider: { registryDependencies: ["slider-model"] },
+  "radio-group": { registryDependencies: ["radio-glide"] },
   // The month and year dropdowns are the library's Select.
   calendar: { registryDependencies: ["select"] },
 }
@@ -697,6 +884,24 @@ export const FABRICATOR_EXCLUDED_ITEMS: Record<string, string | null> = {
   "dashboard-01": null,
   preview: null,
   "preview-02": null,
+}
+
+/**
+ * Whether a demo file (`<item>-<intent>.tsx`) belongs to an excluded item.
+ * A Fabricator item whose name only starts with an excluded one keeps its
+ * demos: `preview-rail-demo.tsx` is Preview Rail's, not the `preview` block's.
+ */
+export function isFabricatorExcludedDemo(file: string) {
+  const isOwnedByFabricatorItem = (excluded: string) =>
+    fabricatorItems.some(
+      (item) =>
+        item.name.length > excluded.length &&
+        item.name.startsWith(`${excluded}-`) &&
+        file.startsWith(`${item.name}-`)
+    )
+  return Object.keys(FABRICATOR_EXCLUDED_ITEMS).some(
+    (name) => file.startsWith(`${name}-`) && !isOwnedByFabricatorItem(name)
+  )
 }
 
 /** Items that every Fabricator component installs alongside itself. */

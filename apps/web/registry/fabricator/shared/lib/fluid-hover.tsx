@@ -230,7 +230,13 @@ export function useFluidHover<T extends HTMLElement = HTMLElement>({
     const observer = new MutationObserver(() => {
       syncSelection()
       syncHighlighted()
-      if (litRef.current && !litRef.current.isConnected) light(null)
+      // A lit item that left, or turned disabled (an accordion item that
+      // opened), goes dark.
+      if (
+        litRef.current &&
+        (!litRef.current.isConnected || litRef.current.matches(disabled))
+      )
+        light(null)
     })
     observer.observe(container, {
       subtree: true,
@@ -278,7 +284,8 @@ export function useFluidHover<T extends HTMLElement = HTMLElement>({
     container.addEventListener("focusout", onFocusOut)
     const resize = new ResizeObserver(() => {
       syncSelection()
-      if (litRef.current) light(litRef.current)
+      if (!litRef.current) return
+      light(litRef.current.matches(disabled) ? null : litRef.current)
     })
     resize.observe(container)
     return () => {

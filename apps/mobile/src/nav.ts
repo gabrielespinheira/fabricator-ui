@@ -11,6 +11,7 @@ import {
   PanelLeftIcon,
   SparklesIcon,
   TextCursorInputIcon,
+  ZapIcon,
 } from "@fabricator-ui/icons-react-native"
 
 import { getExplorerNavGroups } from "@/lib/component-explorer"
@@ -44,6 +45,7 @@ const EXPLORER_ICONS: {
     Structure: PanelLeftIcon,
     Content: ChartColumnIcon,
     Chat: SparklesIcon,
+    Advanced: ZapIcon,
   },
 }
 

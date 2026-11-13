@@ -1,5 +1,5 @@
 interface:
   display_name: "Fabricator UI"
-  short_description: "Add, compose, style and update Fabricator UI components with the fabricator-ui CLI."
+  short_description: "Design and build with Fabricator UI components and icons."
   icon_small: "./assets/fabricator-small.svg"
   icon_large: "./assets/fabricator.svg"

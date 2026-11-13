@@ -1,0 +1,55 @@
+/* MARK: Preview Rail */
+
+  /* Every tick holds a 24-step along the rail; the rail is a 40-step across,
+     the length of a fully swollen tick. */
+  .cn-preview-rail {
+    @apply [--preview-rail-step:var(--density-24)] [--preview-rail-length:var(--density-40)];
+  }
+
+  .cn-preview-rail-list {
+    @apply rounded-lg;
+  }
+
+  /* A tick's box fills its step. Ticks are muted at rest and turn foreground
+     when lit or current, on the feedback timing. Focus shows the 1px ring on
+     the box. Disabled ticks dim and take no click. */
+  .cn-preview-rail-item {
+    @apply h-(--preview-rail-step) w-(--preview-rail-length) cursor-pointer rounded-md text-muted-foreground transition-colors duration-feedback ease-feedback focus-visible:ring-1 focus-visible:ring-ring data-current:text-foreground data-lit:text-foreground data-disabled:cursor-not-allowed data-disabled:opacity-50 data-[orientation=horizontal]:h-(--preview-rail-length) data-[orientation=horizontal]:w-(--preview-rail-step);
+  }
+
+  /* A 2px bar that grows towards the card, from the rest length to the full
+     40-step around the lit tick, on the move timing. Reduced motion snaps. */
+  .cn-preview-rail-tick {
+    @apply h-0.5 w-full rounded-full bg-current transition-[scale] duration-move ease-move motion-reduce:transition-none data-[orientation=horizontal]:h-full data-[orientation=horizontal]:w-0.5 data-[orientation=vertical]:[scale:var(--preview-rail-scale)_1] data-[orientation=horizontal]:[scale:1_var(--preview-rail-scale)] data-[orientation=vertical]:data-[side=end]:origin-left data-[orientation=vertical]:data-[side=start]:origin-right data-[orientation=horizontal]:data-[side=start]:origin-bottom data-[orientation=horizontal]:data-[side=end]:origin-top;
+  }
+
+  /* The card's track: beside the rail, 8 off it, centred on the lit tick but
+     never past the rail's ends (a card longer than the rail overhangs both
+     as little as it can). Its own size along the rail is the card's, so
+     percentages measure the card. It glides from tick to tick on the move
+     timing; a card that has just opened appears in place (data-instant), and
+     reduced motion snaps. */
+  .cn-preview-rail-preview {
+    @apply w-max [--preview-rail-end:calc(var(--preview-rail-count)*var(--preview-rail-step))] [--preview-rail-center:calc((var(--preview-rail-index)_+_0.5)*var(--preview-rail-step))] transition-[translate] duration-move ease-move motion-reduce:transition-none data-instant:transition-none data-[orientation=vertical]:top-0 data-[orientation=vertical]:[translate:0_clamp(min(0px,var(--preview-rail-end)_-_100%),var(--preview-rail-center)_-_50%,max(0px,var(--preview-rail-end)_-_100%))] data-[orientation=vertical]:data-[side=end]:left-full data-[orientation=vertical]:data-[side=end]:ps-(--density-8) data-[orientation=vertical]:data-[side=start]:right-full data-[orientation=vertical]:data-[side=start]:pe-(--density-8) data-[orientation=horizontal]:left-0 data-[orientation=horizontal]:[translate:clamp(min(0px,var(--preview-rail-end)_-_100%),var(--preview-rail-center)_-_50%,max(0px,var(--preview-rail-end)_-_100%))_0] data-[orientation=horizontal]:data-[side=start]:bottom-full data-[orientation=horizontal]:data-[side=start]:pb-(--density-8) data-[orientation=horizontal]:data-[side=end]:top-full data-[orientation=horizontal]:data-[side=end]:pt-(--density-8);
+  }
+
+  /* The hover card's recipe: surface 3 with its shadow ring, rounded-xl,
+     p12, 13px, w-64. It grows from the rail on the popup motion and closes
+     quicker than it opened. */
+  .cn-preview-rail-card {
+    @apply w-64 rounded-xl bg-surface-3 p-(--density-12) text-(length:--density-text-13) text-popover-foreground shadow-surface-3 motion-popup data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0 data-closed:opacity-0 data-[side=left]:origin-right data-[side=right]:origin-left data-[side=top]:origin-bottom data-[side=bottom]:origin-top;
+  }
+
+  /* Each item's content fades in as the card reaches it, through the popup's
+     blur at the smooth speed. */
+  .cn-preview-rail-content {
+    @apply flex flex-col gap-(--density-4) animate-in fade-in-0 duration-feedback [--tw-enter-blur:var(--motion-popup-blur)];
+  }
+
+  .cn-preview-rail-title {
+    @apply text-(length:--density-text-14) leading-snug font-medium text-foreground;
+  }
+
+  .cn-preview-rail-description {
+    @apply text-(length:--density-text-13) text-muted-foreground;
+  }

@@ -1,0 +1,11 @@
+---
+title: November 2026 - Preview Rail
+description: A Preview Rail of thin ticks that swell around the pointer, with a card naming each section, on the web and React Native.
+date: 2026-11-12
+---
+
+- **Preview Rail.** `npx fabricator-ui@latest add preview-rail` adds a compact navigation rail: one thin tick per section. The ticks swell around the pointer like a dock, and a card beside the rail names the section and describes it. With the pointer away, the swell rests on the current section.
+- **One card that travels.** The card grows from the rail on the popup motion, glides from tick to tick on the move timing, and its content fades in as it arrives. Reduce Motion keeps the fades only.
+- **Vertical or horizontal.** `orientation` lays the ticks in a column or a row, `side` puts the card on either side, and `renderPreview` draws your own card content. Items with an `href` are links; the rest are buttons, with `value` and `onValueChange`.
+- **Touch and keyboard.** A finger scrubs along the rail and lifting follows the lit section. Tab shows each card, Escape hides it, and every tick is named for screen readers, with `aria-current` on the current one.
+- **React Native.** The same API and motion: a scrub with a tick on every step, and a card that glides on the UI thread.

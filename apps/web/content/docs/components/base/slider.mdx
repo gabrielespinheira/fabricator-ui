@@ -62,6 +62,18 @@ import { Slider } from "@/components/ui/slider"
 <Slider defaultValue={[33]} max={100} step={1} />
 ```
 
+## Steps
+
+Use `showSteps` to draw a dot on every value the thumb can land on. The dots under the range fade away as it covers them, so they count what's left. Keep it for coarse steps: ten or so dots at most.
+
+<ComponentPreview styleName="base-nova" name="slider-steps" />
+
+## Sizes
+
+Use `size="sm"` for a compact slider and `size="lg"` for a larger one. At the default and large sizes the thumb is bigger than the track; at the small size it sits inside it.
+
+<ComponentPreview styleName="base-nova" name="slider-sizes" />
+
 ## Range
 
 Use an array with two values for a range slider.
@@ -92,4 +104,21 @@ Use the `disabled` prop to disable the slider.
 
 ## API Reference
 
-See the [Base UI Slider](https://base-ui.com/react/components/slider#api-reference) documentation.
+See the [Base UI Slider](https://base-ui.com/react/components/slider#api-reference) documentation. Fabricator UI adds:
+
+| Prop        | Type                        | Default     |
+| ----------- | --------------------------- | ----------- |
+| `showSteps` | `boolean`                   | `false`     |
+| `size`      | `"sm" \| "default" \| "lg"` | `"default"` |
+
+`size="sm"` sets the compact density on the slider and `size="lg"` the spacious one, so a `DensityProvider` sizes it the same way.
+
+## Motion
+
+A click on the track or a key press glides the thumb and the range to the new value on the move timing. A drag follows the pointer with no delay. While held, the thumb grows and lifts. All of it follows the motion speed and stops under reduced motion.
+
+## Accessibility
+
+- Keyboard behaviour and roles come from the primitive: arrow keys step the value, Page Up and Page Down take larger steps, Home and End go to the ends.
+- The step dots are hidden from assistive technology; the value is announced by the thumb.
+- Give every slider an accessible name with a `Label` or `aria-label`.

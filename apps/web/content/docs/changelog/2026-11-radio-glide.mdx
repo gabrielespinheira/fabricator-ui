@@ -1,0 +1,9 @@
+---
+title: Radio Group glide
+description: The checked dot glides from one radio to the next.
+date: 2026-11-12
+---
+
+A checked radio is now a primary ring around an 8px primary dot, with a clear inside, instead of a filled circle. Picking another radio glides that one dot over from the radio it leaves, so the selection reads as a single thing moving. A pick made mid-glide turns the dot around from where it is. The first pick scales the dot in. Invalid radios draw the ring and dot in the destructive role.
+
+The glide follows the motion speed, and reduced motion turns it off. It works the same on Base UI, Radix and React Aria, and React Native glides the same dot with Reanimated. The Radio Group now installs the small `radio-glide` item alongside it.

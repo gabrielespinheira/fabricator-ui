@@ -4,17 +4,22 @@ import * as React from "react"
 import { cn } from "cn"
 import { RadioGroup as RadioGroupPrimitive } from "radix-ui"
 
+import { useRadioGlide } from "@/registry/bases/radix/hooks/use-radio-glide"
+
 // Fabricator override of the upstream radio group: the indicator stays
-// mounted so the dot scales out as well as in (driven by its state attributes
-// in the style map), instead of unmounting when another radio is picked.
+// mounted, and the checked dot glides from the radio it leaves to the one
+// picked. A first pick scales the dot in (state attributes in the style map).
 
 function RadioGroup({
   className,
+  ref,
   ...props
 }: React.ComponentProps<typeof RadioGroupPrimitive.Root>) {
+  const glideRef = useRadioGlide<HTMLDivElement>('[data-state="checked"]', ref)
   return (
     <RadioGroupPrimitive.Root
       data-slot="radio-group"
+      ref={glideRef}
       className={cn("cn-radio-group w-full", className)}
       {...props}
     />

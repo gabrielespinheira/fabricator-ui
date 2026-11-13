@@ -16,7 +16,6 @@ import {
   FieldLabel,
 } from "@/registry/bases/aria/ui/field"
 import { Input } from "@/registry/bases/aria/ui/input"
-import { MonthInput } from "@/registry/bases/aria/ui/month-input"
 import {
   NumberField,
   NumberFieldDecrement,
@@ -162,7 +161,7 @@ function InputTypes() {
         </Field>
         <Field>
           <FieldLabel htmlFor="input-demo-month">Month</FieldLabel>
-          <MonthInput id="input-demo-month" placeholder="Nov 2026" />
+          <DatePicker id="input-demo-month" granularity="month" />
         </Field>
       </div>
     </Example>

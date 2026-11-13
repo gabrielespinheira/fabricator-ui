@@ -1,0 +1,159 @@
+/* MARK: Audio Player */
+
+  /* A card on the page (surface 3 with its ring), so the theme carries it:
+     unlike the Video Player there's no footage under the controls. Default
+     stacks the header, the seek bar and the controls; cover adds room for a
+     large artwork; compact is one pill-shaped row, as a voice message. */
+  .cn-audio-player {
+    @apply flex-col gap-(--density-12) rounded-xl bg-card p-(--density-16) text-(length:--density-text-13) text-card-foreground shadow-surface-2 focus-visible:ring-1 focus-visible:ring-ring data-[variant=compact]:flex-row data-[variant=compact]:items-center data-[variant=compact]:gap-(--density-8) data-[variant=compact]:rounded-full data-[variant=compact]:p-(--density-6) data-[variant=compact]:pe-(--density-8) data-[variant=cover]:gap-(--density-16) data-[variant=cover]:p-(--density-20);
+  }
+
+  .cn-audio-player-header {
+    @apply gap-(--density-12) group-data-[variant=cover]/audio-player:relative group-data-[variant=cover]/audio-player:flex-col group-data-[variant=cover]/audio-player:items-stretch group-data-[variant=cover]/audio-player:gap-(--density-16);
+  }
+
+  /* The artwork rests a little smaller while paused and grows to full size
+     as it plays, its shadow deepening, on the sheet timing and iOS's drawer
+     curve: the cover breathes with the music. Without an image it's a muted
+     tile with a note. */
+  .cn-audio-player-artwork {
+    @apply size-(--density-48) scale-[0.94] rounded-lg bg-muted text-muted-foreground shadow-surface-1 transition-[scale,box-shadow] duration-sheet ease-drawer data-playing:scale-100 motion-reduce:scale-100 [&_svg]:size-(--density-20) [&_svg]:stroke-[1.5] group-data-[variant=cover]/audio-player:aspect-square group-data-[variant=cover]/audio-player:size-auto group-data-[variant=cover]/audio-player:w-full group-data-[variant=cover]/audio-player:scale-[0.92] group-data-[variant=cover]/audio-player:rounded-xl group-data-[variant=cover]/audio-player:data-playing:scale-100 group-data-[variant=cover]/audio-player:data-playing:shadow-surface-4 group-data-[variant=cover]/audio-player:motion-reduce:scale-100 group-data-[variant=cover]/audio-player:[&_svg]:size-(--density-48) group-data-[variant=cover]/audio-player:[&_svg]:stroke-1;
+  }
+
+  .cn-audio-player-meta {
+    @apply gap-0.5 group-data-[variant=cover]/audio-player:text-center;
+  }
+
+  .cn-audio-player-title {
+    @apply text-(length:--density-text-14) font-medium text-foreground group-data-[variant=cover]/audio-player:text-(length:--density-text-16) group-data-[variant=cover]/audio-player:font-semibold;
+  }
+
+  .cn-audio-player-artist {
+    @apply text-(length:--density-text-13) text-muted-foreground;
+  }
+
+  /* Three bars that bounce out of step while the audio plays, fading in on
+     the move timing and out when it stops. On the cover they sit on dark
+     glass in the artwork's corner. */
+  .cn-audio-player-equalizer {
+    @apply h-(--density-14) scale-90 gap-0.5 opacity-0 transition-[opacity,scale] duration-move ease-move group-data-[status=playing]/audio-player:scale-100 group-data-[status=playing]/audio-player:opacity-100 group-data-[variant=cover]/audio-player:absolute group-data-[variant=cover]/audio-player:end-(--density-12) group-data-[variant=cover]/audio-player:top-(--density-12) group-data-[variant=cover]/audio-player:box-content group-data-[variant=cover]/audio-player:rounded-full group-data-[variant=cover]/audio-player:bg-black/45 group-data-[variant=cover]/audio-player:p-(--density-8) group-data-[variant=cover]/audio-player:backdrop-blur-md;
+  }
+
+  .cn-audio-player-equalizer-bar {
+    @apply w-[3px] rounded-full bg-primary group-data-[variant=cover]/audio-player:bg-white;
+  }
+
+  .cn-audio-player-timeline {
+    @apply gap-(--density-4);
+  }
+
+  /* The seek bar. With `peaks` it's the file's waveform: rounded bars in
+     foreground at 15%, those under the pointer at 30%, and those played in
+     primary, each layer clipped at its fraction so a bar fills partway as the
+     playhead crosses it. The bars rise from the middle when they first draw.
+     Without peaks it's the Video Player's pill on theme colours. */
+  .cn-audio-player-seek {
+    @apply h-(--density-32) cursor-pointer rounded-md focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-card aria-disabled:cursor-default not-data-waveform:h-(--density-16) group-data-[variant=compact]/audio-player:h-(--density-28) group-data-[variant=compact]/audio-player:not-data-waveform:h-(--density-28);
+  }
+
+  .cn-audio-player-waveform-bars {
+    @apply gap-0.5;
+  }
+
+  .cn-audio-player-waveform-bar {
+    @apply min-h-0.5 rounded-full bg-foreground/15 in-data-[layer=hover]:bg-foreground/30 in-data-[layer=played]:bg-primary;
+  }
+
+  .cn-audio-player-seek-track {
+    @apply h-(--density-6) scale-y-[0.67] rounded-full bg-foreground/15 transition-transform duration-move ease-move group-hover/audio-player-seek:scale-y-100 group-focus-visible/audio-player-seek:scale-y-100 group-active/audio-player-seek:scale-y-100;
+  }
+
+  .cn-audio-player-seek-buffered {
+    @apply bg-foreground/10;
+  }
+
+  .cn-audio-player-seek-hover {
+    @apply bg-foreground/15;
+  }
+
+  .cn-audio-player-seek-played {
+    @apply bg-primary;
+  }
+
+  .cn-audio-player-seek-thumb {
+    @apply size-(--density-12) scale-0 rounded-full bg-primary shadow-surface-2 transition-transform duration-move ease-move group-hover/audio-player-seek:scale-100 group-focus-visible/audio-player-seek:scale-100 group-active/audio-player-seek:scale-100;
+  }
+
+  /* The time under the pointer, inverted like a tooltip and on its timing. */
+  .cn-audio-player-seek-preview {
+    @apply mb-(--density-6) rounded-md bg-foreground px-(--density-6) py-0.5 text-(length:--density-text-11) font-medium text-background animate-in fade-in-0 duration-tooltip ease-enter;
+  }
+
+  .cn-audio-player-time {
+    @apply text-(length:--density-text-12) font-medium text-muted-foreground group-data-[status=error]/audio-player:hidden group-data-[variant=compact]/audio-player:min-w-[4ch] group-data-[variant=compact]/audio-player:text-end;
+  }
+
+  .cn-audio-player-bar {
+    @apply gap-(--density-8);
+  }
+
+  .cn-audio-player-transport {
+    @apply gap-(--density-8) group-data-[variant=cover]/audio-player:gap-(--density-16);
+  }
+
+  /* Play is the one filled control: a primary circle, 48px (56 on the cover,
+     32 in compact), pressed to 0.97 like a button. Its glyphs trade places
+     by scaling and blurring through each other on the move timing; reduced
+     motion keeps only the fade. Play is nudged right to look centred. */
+  .cn-audio-player-play {
+    @apply size-(--density-48) cursor-pointer rounded-full bg-primary text-primary-foreground transition-[background-color,scale] duration-feedback ease-feedback motion-press hover:bg-primary/90 focus-visible:ring-1 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-card active:bg-primary/80 disabled:pointer-events-none disabled:opacity-50 group-data-[variant=compact]/audio-player:size-(--density-32) group-data-[variant=cover]/audio-player:size-[calc(var(--density-48)+var(--density-8))];
+  }
+
+  .cn-audio-player-play-icon {
+    @apply scale-50 opacity-0 blur-xs transition-[opacity,scale,filter] duration-move ease-move data-visible:scale-100 data-visible:opacity-100 data-visible:blur-none motion-reduce:scale-100 motion-reduce:blur-none data-[icon=play]:ms-0.5 [&_svg]:size-(--density-20) [&_svg]:fill-current data-[icon=replay]:[&_svg]:fill-none data-[icon=replay]:[&_svg]:stroke-2 group-data-[variant=compact]/audio-player:[&_svg]:size-(--density-icon-14) group-data-[variant=cover]/audio-player:[&_svg]:size-(--density-24);
+  }
+
+  .cn-audio-player-spinner {
+    @apply size-(--density-20) group-data-[variant=compact]/audio-player:size-(--density-icon-14);
+  }
+
+  /* Round ghost buttons in muted grey, foreground on hover. The skip arrows
+     wind back or forward a little while pressed, and the speed shows as a
+     number whose new value rises in on the popup timing. */
+  .cn-audio-player-control {
+    @apply size-(--density-36) cursor-pointer rounded-full text-muted-foreground transition-[background-color,color,scale] duration-feedback ease-feedback motion-press hover:bg-hover hover:text-foreground focus-visible:ring-1 focus-visible:ring-ring active:bg-active disabled:pointer-events-none disabled:opacity-50 [&_svg]:size-(--density-20) [&_svg]:stroke-[1.75] [&_svg]:transition-transform [&_svg]:duration-move [&_svg]:ease-move data-[control=skip-back]:active:[&_svg]:-rotate-30 data-[control=skip-forward]:active:[&_svg]:rotate-30 data-[control=speed]:w-auto data-[control=speed]:min-w-(--density-36) data-[control=speed]:px-(--density-8) group-data-[variant=compact]/audio-player:size-(--density-28) group-data-[variant=compact]/audio-player:data-[control=speed]:min-w-(--density-28) group-data-[variant=compact]/audio-player:data-[control=speed]:bg-hover group-data-[variant=compact]/audio-player:data-[control=speed]:hover:bg-active;
+  }
+
+  .cn-audio-player-skip-label {
+    @apply pt-px text-[calc(var(--density-icon-16)*0.45)] leading-none font-semibold tabular-nums;
+  }
+
+  .cn-audio-player-speed {
+    @apply text-(length:--density-text-12) font-semibold text-foreground animate-in fade-in-0 slide-in-from-bottom-1 duration-popup ease-enter motion-reduce:slide-in-from-bottom-0;
+  }
+
+  .cn-audio-player-volume {
+    @apply gap-0;
+  }
+
+  /* The volume slider opens beside its button on hover, on focus and while
+     a volume key is in use, as the Video Player's does. */
+  .cn-audio-player-volume-slider {
+    @apply h-(--density-28) w-0 cursor-pointer opacity-0 transition-[width,opacity,margin] duration-move ease-move group-focus-within/audio-player-volume:me-(--density-4) group-focus-within/audio-player-volume:w-[calc(var(--density-48)+var(--density-16))] group-focus-within/audio-player-volume:opacity-100 group-hover/audio-player-volume:me-(--density-4) group-hover/audio-player-volume:w-[calc(var(--density-48)+var(--density-16))] group-hover/audio-player-volume:opacity-100 group-data-volume-changing/audio-player:me-(--density-4) group-data-volume-changing/audio-player:w-[calc(var(--density-48)+var(--density-16))] group-data-volume-changing/audio-player:opacity-100 focus-visible:[&_[data-slot=audio-player-volume-thumb]]:ring-1 focus-visible:[&_[data-slot=audio-player-volume-thumb]]:ring-ring focus-visible:[&_[data-slot=audio-player-volume-thumb]]:ring-offset-2 focus-visible:[&_[data-slot=audio-player-volume-thumb]]:ring-offset-card;
+  }
+
+  .cn-audio-player-volume-track {
+    @apply h-(--density-4) rounded-full bg-foreground/15;
+  }
+
+  .cn-audio-player-volume-level {
+    @apply bg-foreground;
+  }
+
+  .cn-audio-player-volume-thumb {
+    @apply size-(--density-12) rounded-full bg-foreground shadow-surface-2;
+  }
+
+  .cn-audio-player-error {
+    @apply h-(--density-32) gap-(--density-8) text-(length:--density-text-13) text-muted-foreground group-data-[variant=compact]/audio-player:h-(--density-28) [&_svg]:size-(--density-icon-16) [&_svg]:shrink-0 [&_svg]:text-destructive;
+  }

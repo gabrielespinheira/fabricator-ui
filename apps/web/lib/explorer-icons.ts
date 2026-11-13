@@ -6,6 +6,7 @@ import {
   PanelLeftIcon,
   SparklesIcon,
   TextCursorInputIcon,
+  ZapIcon,
 } from "./site-icons"
 
 export const EXPLORER_ICONS = {
@@ -17,5 +18,6 @@ export const EXPLORER_ICONS = {
     Structure: PanelLeftIcon,
     Content: ChartColumnIcon,
     Chat: SparklesIcon,
+    Advanced: ZapIcon,
   },
 }

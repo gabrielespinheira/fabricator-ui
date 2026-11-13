@@ -29,7 +29,7 @@ describe("filterExplorerComponents", () => {
   it("searches names and titles without changing the inventory", () => {
     const components = [
       { slug: "switch", title: "Switch", group: "Basics" as const },
-      { slug: "editor", title: "Rich Text Editor", group: "Forms" as const },
+      { slug: "editor", title: "Rich Text Editor", group: "Advanced" as const },
     ]
     expect(
       filterExplorerComponents(components, " RICH ").map((item) => item.slug)
@@ -149,6 +149,7 @@ describe("getGroupNavId", () => {
     ["Structure", "group-navigation-layout"],
     ["Content", "group-data-feedback"],
     ["Chat", "group-ai-chat"],
+    ["Advanced", "group-advanced"],
   ] as const)("preserves the saved navigation identity of %s", (group, id) => {
     expect(getGroupNavId(group)).toBe(id)
   })

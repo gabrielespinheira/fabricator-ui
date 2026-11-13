@@ -9,7 +9,6 @@ import {
   FileUpload,
   FileUploadField,
 } from "@/styles/base-fabricator/ui/file-upload"
-import { MonthInput } from "@/styles/base-fabricator/ui/month-input"
 import {
   NumberField,
   NumberFieldDecrement,
@@ -131,7 +130,7 @@ export function InputTypes() {
       </Field>
       <Field>
         <FieldLabel htmlFor="input-type-month">Month</FieldLabel>
-        <MonthInput id="input-type-month" placeholder="Nov 2026" />
+        <DatePicker id="input-type-month" granularity="month" />
       </Field>
       <Field>
         <FieldLabel>Color</FieldLabel>

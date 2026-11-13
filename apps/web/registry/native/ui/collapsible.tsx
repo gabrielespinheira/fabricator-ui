@@ -83,11 +83,13 @@ function CollapsibleTrigger({
  * timing. Settled open, the height is its content's, so something growing inside
  * needs no measure. Reduced motion drops the height's travel and keeps a fade.
  * Its content unmounts once closed, as Base UI's panel does, unless `keepMounted`.
- * Accordion's panels are this one too.
+ * Accordion's panels are this one too, on the bounce role: the height springs
+ * past its content and back both ways, and the content fades with it.
  */
 function DisclosurePanel({
   isOpen,
   keepMounted = false,
+  motionRole = "disclosure",
   className,
   children,
   style,
@@ -98,11 +100,13 @@ function DisclosurePanel({
 > & {
   isOpen: boolean
   keepMounted?: boolean
+  motionRole?: "disclosure" | "bounce"
   className?: string
   children?: React.ReactNode
 }) {
-  const motion = useMotion("disclosure")
+  const motion = useMotion(motionRole)
   const isReduced = motion.isReduced
+  const isSpring = motionRole === "bounce"
   const [isMounted, setIsMounted] = React.useState(isOpen)
   if (isOpen && !isMounted) setIsMounted(true)
 
@@ -117,7 +121,11 @@ function DisclosurePanel({
       isOpen ? 1 : 0,
       {
         duration: isOpen ? motion.enterMs : motion.exitMs,
-        easing: isOpen ? motion.enterEasing : motion.exitEasing,
+        easing: isSpring
+          ? motion.bounceEasing
+          : isOpen
+            ? motion.enterEasing
+            : motion.exitEasing,
       },
       (finished) => {
         if (!finished || isOpen || keepMounted) return
@@ -125,7 +133,7 @@ function DisclosurePanel({
         runOnJS(setHasHeight)(false)
       }
     )
-  }, [hasHeight, isOpen, keepMounted, motion, progress])
+  }, [hasHeight, isOpen, isSpring, keepMounted, motion, progress])
 
   const heightStyle = useAnimatedStyle(() => {
     if (isReduced) {
@@ -134,8 +142,11 @@ function DisclosurePanel({
         height: progress.value > 0 ? "auto" : 0,
       }
     }
-    if (progress.value >= 1) return { height: "auto" }
-    return { height: measured.value * progress.value }
+    // A spring passes 1 on its way and ends on it exactly: only then is it open.
+    if (progress.value === 1) return { height: "auto", opacity: 1 }
+    const height = Math.max(0, measured.value * progress.value)
+    if (!isSpring) return { height }
+    return { height, opacity: Math.min(1, Math.max(0, progress.value)) }
   })
 
   return (

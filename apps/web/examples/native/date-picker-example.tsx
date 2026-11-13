@@ -41,6 +41,24 @@ function DatePickerExample() {
             : "No date"}
         </Text>
       </Example>
+      <Example title="Month">
+        <Field>
+          <FieldLabel>Card expiry</FieldLabel>
+          <DatePicker granularity="month" placeholder="Mar 2028" />
+          <FieldDescription>
+            Type 3/2028 or Mar 2028, or press the calendar to pick one.
+          </FieldDescription>
+        </Field>
+      </Example>
+      <Example title="Year">
+        <DatePicker
+          aria-label="Graduation year"
+          granularity="year"
+          minDate={new Date(1980, 0, 1)}
+          maxDate={new Date(2030, 0, 1)}
+          defaultValue={new Date(2024, 0, 1)}
+        />
+      </Example>
       <Example title="Format">
         <DatePicker
           aria-label="Date of birth"

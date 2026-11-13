@@ -4,21 +4,33 @@
     @apply w-full;
   }
 
-  /* No dividers between items. */
-  .cn-accordion-item {
-    @apply border-0;
+  /* The highlight draws under the items; their tiles are a wash, so it shows
+     through, as on the website where it sits over them. */
+  .cn-accordion-highlight {
+    @apply rounded-lg;
   }
 
-  /* Triggers: rounded-lg rows. The root's Fluid Hover paints the pressed row: a
-     press fades its highlight in, and another before it has faded glides there. */
+  /* Each item is a tile, a 6% wash of the foreground over whatever it sits
+     on. Closed neighbours join into one card; an open item parts from both
+     by --density-8 and rounds every corner. The gap and the rounded-xl
+     corners spring there from the item's animated style (accordion-model);
+     closing, the gap settles without the spring, so the tiles never overlap.
+     An open item's trigger isn't lit; holding it tints the whole card. */
+  .cn-accordion-item {
+    @apply bg-foreground/6 p-(--density-4) data-[pressed=true]:bg-foreground/9;
+  }
+
+  /* Triggers: rounded-lg rows inside the tile. The root's Fluid Hover paints
+     the pressed row through the tile: a press fades its highlight in, and
+     another before it has faded glides there. */
   .cn-accordion-trigger {
     @apply gap-(--density-8) rounded-lg px-(--density-12) py-(--density-8);
   }
 
-  /* 13pt and muted at rest. The lit trigger turns foreground, and an open item's
-     trigger foreground and semibold. */
+  /* 14pt medium in foreground/80 at rest; the lit and the open trigger turn
+     foreground. */
   .cn-accordion-trigger-text {
-    @apply text-muted-foreground text-start text-(length:--density-text-13) leading-5 font-normal;
+    @apply text-foreground/80 text-start text-(length:--density-text-14) leading-5 font-medium;
   }
 
   .cn-accordion-trigger-text-lit {
@@ -26,24 +38,26 @@
   }
 
   .cn-accordion-trigger-text-open {
-    @apply text-foreground font-semibold;
+    @apply text-foreground;
   }
 
-  /* One chevron that points to the end and turns 90 degrees to point down when
-     open, on the disclosure timing both ways, as the website's transition does.
-     Reduce Motion drops the turn. Its stroke thickens when lit and when open. */
+  /* One chevron that points to the end and turns a quarter to point down
+     when open, on the move timing: a spring would wobble it. Reduce Motion drops the
+     turn. Its stroke thickens when lit and when open. */
   .cn-accordion-trigger-icon {
     @apply mt-0.5 ms-auto size-(--density-icon-16);
   }
 
   .cn-accordion-content-text {
-    @apply text-muted-foreground text-(length:--density-text-13);
+    @apply text-foreground/65 text-(length:--density-text-14) leading-5;
   }
 
   .cn-accordion-content {
     @apply w-full;
   }
 
+  /* The panel springs open and shut on the bounce role, its text fading with
+     it. */
   .cn-accordion-content-inner {
-    @apply px-(--density-12) pt-1 pb-(--density-12);
+    @apply px-(--density-12) pt-0 pb-(--density-12);
   }

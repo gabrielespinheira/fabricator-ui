@@ -1,0 +1,81 @@
+/* MARK: Rating */
+
+  /* A row of stars with no frame of its own. Disabled dims it. */
+  .cn-rating {
+    @apply data-[disabled=true]:opacity-50;
+  }
+
+  /* The fill colour (text) and its edge (border), read off for the icons.
+     The default stars are the yellow everyone reads as a score, fixed
+     whatever the theme or the roles (see Known deviations), with an amber-500
+     edge in light so they hold on white. The other variants fill with a role. */
+  .cn-rating-variant-default {
+    @apply border-amber-500 text-amber-400 dark:border-amber-400;
+  }
+
+  .cn-rating-variant-primary {
+    @apply border-primary text-primary;
+  }
+
+  .cn-rating-variant-info {
+    @apply border-info text-info;
+  }
+
+  .cn-rating-variant-success {
+    @apply border-success text-success;
+  }
+
+  .cn-rating-variant-warning {
+    @apply border-warning text-warning;
+  }
+
+  .cn-rating-variant-error {
+    @apply border-destructive text-destructive;
+  }
+
+  /* A fifth of a star apart. */
+  .cn-rating-size-sm {
+    @apply gap-0.5;
+  }
+
+  .cn-rating-size-default {
+    @apply gap-1;
+  }
+
+  .cn-rating-size-lg {
+    @apply gap-1.5;
+  }
+
+  /* Stars of 16, 20 and 28pt at the website's default density; the icon is
+     drawn at the box's width. */
+  .cn-rating-star {
+    @apply shrink-0;
+  }
+
+  .cn-rating-star-size-sm {
+    @apply size-(--density-16);
+  }
+
+  .cn-rating-star-size-default {
+    @apply size-(--density-20);
+  }
+
+  .cn-rating-star-size-lg {
+    @apply size-(--density-28);
+  }
+
+  /* An empty star is a faint foreground fill, read off for its icon; invalid
+     tints it red. */
+  .cn-rating-star-empty {
+    @apply text-foreground/12 dark:text-foreground/16;
+  }
+
+  .cn-rating-star-empty-invalid {
+    @apply text-destructive/35;
+  }
+
+  /* The fill is cut at the score's share of the star; the pop and the lift
+     are animated in source on the bounce and feedback timings. */
+  .cn-rating-star-fill {
+    @apply overflow-hidden;
+  }

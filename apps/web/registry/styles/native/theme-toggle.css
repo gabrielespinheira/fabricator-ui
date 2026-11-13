@@ -1,0 +1,10 @@
+/* MARK: Theme Toggle */
+.cn-theme-toggle-icon {
+  @apply size-(--density-icon-16);
+}
+.cn-theme-toggle-sun {
+  @apply items-center justify-center;
+}
+.cn-theme-toggle-moon {
+  @apply items-center justify-center;
+}

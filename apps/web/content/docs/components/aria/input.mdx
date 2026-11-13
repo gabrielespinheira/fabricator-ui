@@ -90,7 +90,7 @@ input type has a component of its own, built on the same frame. The preview at t
 | `date`                        | [Date Picker](/docs/components/aria/date-picker)                                                                                                   |
 | `time`                        | [Time Input](/docs/components/aria/time-input)                                                                                                     |
 | `datetime-local`              | [Date Picker](/docs/components/aria/date-picker) with `hasTime`                                                                                    |
-| `month`                       | [Month Input](/docs/components/aria/month-input)                                                                                                   |
+| `month`                       | [Date Picker](/docs/components/aria/date-picker#month-and-year) with `granularity="month"`                                                         |
 | `color`                       | [Color Picker](/docs/components/aria/color-picker)                                                                                                 |
 | `file`                        | [File Upload](/docs/components/aria/file-upload)                                                                                                   |
 | `range`                       | [Slider](/docs/components/aria/slider)                                                                                                             |
@@ -193,10 +193,11 @@ or pick from a list of times.
 
 ## Month
 
-For a month, use [Month Input](/docs/components/aria/month-input): type `3/2028` or
-`Mar 2028`, or pick from a year of months.
+For a month, use [Date Picker](/docs/components/aria/date-picker#month-and-year)
+with `granularity="month"`: pick from a year of months, or with `editable`, type
+`3/2028` or `Mar 2028`.
 
-<ComponentPreview styleName="aria-nova" name="month-input-field" />
+<ComponentPreview styleName="aria-nova" name="date-picker-month" />
 
 ## Color
 
