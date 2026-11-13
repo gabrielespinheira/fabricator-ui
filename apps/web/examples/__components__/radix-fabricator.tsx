@@ -1764,16 +1764,6 @@ export const Components: Record<string, any> = {
       ) || "data-table-demo"
     return { default: mod.default || mod[exportName] }
   }),
-  "data-table-infinite": React.lazy(async () => {
-    const mod = await import(
-      "@/examples/__styles__/radix-fabricator/data-table-infinite"
-    )
-    const exportName =
-      Object.keys(mod).find(
-        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
-      ) || "data-table-infinite"
-    return { default: mod.default || mod[exportName] }
-  }),
   "data-table-pagination": React.lazy(async () => {
     const mod = await import(
       "@/examples/__styles__/radix-fabricator/data-table-pagination"

@@ -46,6 +46,7 @@ describe("getComponentGroup", () => {
     "syntax-highlight",
     "editor",
     "file-tree",
+    "data-table",
     "image-compare",
     "video-player",
     "audio-player",

@@ -114,9 +114,6 @@
       "@/registry/bases/__base__/ui/badge": [
         "./registry/fabricator/base/ui/badge"
       ],
-      "@/registry/bases/*/lib/month-input-model": [
-        "./registry/fabricator/shared/lib/month-input-model"
-      ],
       "@/registry/bases/*/lib/time-input-model": [
         "./registry/fabricator/shared/lib/time-input-model"
       ],
@@ -148,9 +145,6 @@
       ],
       "@/registry/bases/*/ui/date-picker": [
         "./registry/fabricator/*/ui/date-picker"
-      ],
-      "@/registry/bases/*/ui/month-input": [
-        "./registry/fabricator/*/ui/month-input"
       ],
       "@/registry/bases/*/ui/time-wheel": [
         "./registry/fabricator/shared/ui/time-wheel"

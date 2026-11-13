@@ -12,15 +12,15 @@ In this order:
 | **Forms**     | Composed inputs and pickers for entering a value                                  | `field`, `input-group`, `select`, `combobox`, `date-picker`, `search`     |
 | **Overlays**  | Surfaces that open above the page from a trigger or a shortcut                    | `dialog`, `sheet`, `popover`, `tooltip`, `dropdown-menu`, `command`       |
 | **Structure** | The frame of an app and the arrangement of a page: navigation, layout, containers | `app-shell`, `sidebar`, `tabs`, `breadcrumb`, `accordion`, `card`, `item` |
-| **Content**   | Showing data, media and the result of an action                                   | `table`, `alert`, `toast`, `progress`, `empty`, `data-table`, `markdown`  |
+| **Content**   | Showing data, media and the result of an action                                   | `table`, `alert`, `toast`, `progress`, `empty`, `markdown`                |
 | **Chat**      | Parts made for a conversation with a person or an assistant                       | `chat-input`, `message`, `bubble`, `model-picker`, `questionnaire`        |
-| **Advanced**  | Large, self-contained components that are a small product of their own            | `editor`, `file-tree`, `syntax-highlight`, `video-player`, `audio-player` |
+| **Advanced**  | Large, self-contained components that are a small product of their own            | `data-table`, `editor`, `file-tree`, `syntax-highlight`, `video-player`   |
 
 ## Choosing a group
 
 Pick the group a reader would look in when building the screen, in this order:
 
-1. **Advanced** when it is a complete tool rather than a part, with its own state model and controls (`editor`, `file-tree`, `syntax-highlight`, `image-compare`, `video-player`, `audio-player`). A component that is merely large but still one part of a screen (`data-table`, `app-shell`) stays in its own group.
+1. **Advanced** when it is a complete tool rather than a part, with its own state model and controls (`data-table`, `editor`, `file-tree`, `syntax-highlight`, `image-compare`, `video-player`, `audio-player`). The Data Table is one: it loads, sorts, filters, edits and lays itself out. A component that is merely large but still one part of a screen (`app-shell`) stays in its own group.
 2. **Chat** when the component exists for conversations. A general component that chat also uses (`markdown`, `avatar`) stays in its own group.
 3. **Overlays** when its main surface floats above the page. A header navigation that stays in place (`navigation-menu`) is Structure.
 4. **Basics** when it is one element other components are built from, whatever it shows: a single control (`input`, `toggle`), a label or mark (`badge`, `kbd`, `avatar`), a placeholder (`skeleton`, `spinner`) or a primitive container (`scroll-area`, `aspect-ratio`).

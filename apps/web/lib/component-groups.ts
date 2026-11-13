@@ -91,7 +91,6 @@ const GROUP_BY_SLUG: Record<string, ComponentGroup> = {
   carousel: "Structure",
   // Content
   table: "Content",
-  "data-table": "Content",
   alert: "Content",
   toast: "Content",
   sonner: "Content",
@@ -109,6 +108,7 @@ const GROUP_BY_SLUG: Record<string, ComponentGroup> = {
   marker: "Chat",
   questionnaire: "Chat",
   // Advanced
+  "data-table": "Advanced",
   editor: "Advanced",
   "file-tree": "Advanced",
   "syntax-highlight": "Advanced",

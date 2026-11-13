@@ -68,6 +68,7 @@ import {
   ClipboardPasteIcon as FabricatorClipboardPasteIcon,
   Clock2Icon as FabricatorClock2Icon,
   ClockIcon as FabricatorClockIcon,
+  CloudOffIcon as FabricatorCloudOffIcon,
   CodeIcon as FabricatorCodeIcon,
   CogIcon as FabricatorCogIcon,
   Command as FabricatorCommand,
@@ -703,6 +704,9 @@ export const ClockIcon = createSiteIcon(FabricatorClockIcon, {
   hugeicons: "Clock01Icon",
   phosphor: "ClockIcon",
   remixicon: "RiTimeLine",
+})
+export const CloudOffIcon = createSiteIcon(FabricatorCloudOffIcon, {
+  lucide: "CloudOffIcon",
 })
 export const CodeIcon = createSiteIcon(FabricatorCodeIcon, {
   lucide: "CodeIcon",

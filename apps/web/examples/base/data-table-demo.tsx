@@ -1,331 +1,387 @@
 "use client"
 
 import * as React from "react"
-import {
-  columnFilteringFeature,
-  columnVisibilityFeature,
-  createColumnHelper,
-  createFilteredRowModel,
-  createPaginatedRowModel,
-  createSortedRowModel,
-  filterFn_includesString,
-  rowPaginationFeature,
-  rowSelectionFeature,
-  rowSortingFeature,
-  sortFn_alphanumeric,
-  sortFn_text,
-  tableFeatures,
-  useTable,
-  type ColumnFiltersState,
-  type ColumnVisibilityState,
-  type SortingState,
-} from "@tanstack/react-table"
-import { ArrowUpDown, ChevronDown, MoreHorizontal } from "lucide-react"
+import { ArchiveIcon, DownloadIcon, MoreHorizontalIcon } from "lucide-react"
 
-import { Button } from "@/styles/base-nova/ui/button"
-import { Checkbox } from "@/styles/base-nova/ui/checkbox"
+import {
+  createDataTableColumnHelper,
+  useDataTable,
+  type DataTableCellChange,
+  type DataTableOption,
+  type DataTablePage,
+  type DataTableQuery,
+} from "@/styles/base-fabricator/hooks/use-data-table"
+import {
+  queryRows,
+  summarizeRows,
+  type DataTableColumnType,
+} from "@/styles/base-fabricator/lib/data-table-model"
+import { Button } from "@/styles/base-fabricator/ui/button"
+import {
+  createDataTableSelectColumn,
+  DataTable,
+  DataTableContent,
+  DataTableSearch,
+  DataTableSelectionBar,
+  DataTableToolbar,
+} from "@/styles/base-fabricator/ui/data-table"
 import {
   DropdownMenu,
-  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/styles/base-nova/ui/dropdown-menu"
-import { Input } from "@/styles/base-nova/ui/input"
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/styles/base-nova/ui/table"
+} from "@/styles/base-fabricator/ui/dropdown-menu"
 
-// New in v9: declare the features this table uses — anything you don't
-// register is tree-shaken out of the bundle.
-const features = tableFeatures({
-  columnFilteringFeature,
-  columnVisibilityFeature,
-  rowPaginationFeature,
-  rowSelectionFeature,
-  rowSortingFeature,
-  filteredRowModel: createFilteredRowModel(),
-  paginatedRowModel: createPaginatedRowModel(),
-  sortedRowModel: createSortedRowModel(),
-  filterFns: { includesString: filterFn_includesString },
-  sortFns: { alphanumeric: sortFn_alphanumeric, text: sortFn_text },
-})
-
-const columnHelper = createColumnHelper<typeof features, Payment>()
-
-const data: Payment[] = [
-  {
-    id: "m5gr84i9",
-    amount: 316,
-    status: "success",
-    email: "ken99@example.com",
-  },
-  {
-    id: "3u1reuv4",
-    amount: 242,
-    status: "success",
-    email: "Abe45@example.com",
-  },
-  {
-    id: "derv1ws0",
-    amount: 837,
-    status: "processing",
-    email: "Monserrat44@example.com",
-  },
-  {
-    id: "5kma53ae",
-    amount: 874,
-    status: "success",
-    email: "Silas22@example.com",
-  },
-  {
-    id: "bhqecj4p",
-    amount: 721,
-    status: "failed",
-    email: "carmella@example.com",
-  },
-]
-
-export type Payment = {
+type Account = {
   id: string
-  amount: number
-  status: "pending" | "processing" | "success" | "failed"
-  email: string
+  company: string
+  stage: string
+  owner: string
+  segments: string[]
+  value: number
+  probability: number
+  health: number
+  seats: number
+  lastContact: string
+  website: string
+  contact: string
+  active: boolean
 }
 
-export const columns = columnHelper.columns([
-  columnHelper.display({
-    id: "select",
-    header: ({ table }) => (
-      <Checkbox
-        checked={table.getIsAllPageRowsSelected()}
-        indeterminate={
-          table.getIsSomePageRowsSelected() && !table.getIsAllPageRowsSelected()
-        }
-        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-        aria-label="Select all"
-      />
-    ),
-    cell: ({ row }) => (
-      <Checkbox
-        checked={row.getIsSelected()}
-        onCheckedChange={(value) => row.toggleSelected(!!value)}
-        aria-label="Select row"
-      />
-    ),
-    enableSorting: false,
-    enableHiding: false,
-  }),
-  columnHelper.accessor("status", {
-    header: "Status",
-    cell: ({ row }) => (
-      <div className="capitalize">{row.getValue("status")}</div>
-    ),
-  }),
-  columnHelper.accessor("email", {
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
-        >
-          Email
-          <ArrowUpDown />
-        </Button>
-      )
-    },
-    cell: ({ row }) => <div className="lowercase">{row.getValue("email")}</div>,
-  }),
-  columnHelper.accessor("amount", {
-    header: () => <div className="text-right">Amount</div>,
-    cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"))
+const STAGES: DataTableOption[] = [
+  { value: "lead", label: "Lead", tone: "neutral" },
+  { value: "qualified", label: "Qualified", tone: "info" },
+  { value: "proposal", label: "Proposal", tone: "info" },
+  { value: "negotiation", label: "Negotiation", tone: "warning" },
+  { value: "won", label: "Won", tone: "success" },
+  { value: "lost", label: "Lost", tone: "destructive" },
+]
 
-      // Format the amount as a dollar amount.
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(amount)
+const OWNERS: DataTableOption[] = [
+  "Maya Chen",
+  "Leo Hartman",
+  "Priya Raman",
+  "Tom Okafor",
+  "Elena Rossi",
+  "Sam Whitaker",
+  "Nora Lind",
+  "Diego Alvarez",
+  "Hana Sato",
+  "Owen Price",
+].map((name) => ({
+  value: name,
+  label: name,
+  image: `https://avatar.vercel.sh/${name.replace(" ", "-").toLowerCase()}`,
+}))
 
-      return <div className="text-right font-medium">{formatted}</div>
+const SEGMENTS: DataTableOption[] = [
+  { value: "Enterprise", label: "Enterprise", tone: "info" },
+  { value: "Mid-Market", label: "Mid-Market" },
+  { value: "SMB", label: "SMB" },
+  { value: "Expansion", label: "Expansion", tone: "success" },
+  { value: "Renewal", label: "Renewal", tone: "warning" },
+  { value: "New Logo", label: "New Logo" },
+  { value: "Pilot", label: "Pilot" },
+]
+
+const NAMES = [
+  "North",
+  "Blue",
+  "Cedar",
+  "Lumen",
+  "Atlas",
+  "Nova",
+  "Orbit",
+  "Harbor",
+  "Summit",
+  "Vector",
+  "Echo",
+  "Maple",
+  "Coral",
+  "Granite",
+  "Aurora",
+  "Delta",
+]
+const KINDS = [
+  "Labs",
+  "Systems",
+  "Works",
+  "Cloud",
+  "Analytics",
+  "Health",
+  "Logistics",
+  "Studio",
+  "Finance",
+  "Robotics",
+  "Energy",
+  "Foods",
+]
+
+// One fixed "today", so the server and the browser render the same dates.
+const NOW = Date.UTC(2026, 10, 12, 12)
+const DAY = 86_400_000
+
+// Seeded, so every visit builds the same 10,000 accounts.
+function createRandom(seed: number) {
+  let state = seed
+  return () => {
+    state = (state + 0x6d2b79f5) | 0
+    let next = Math.imul(state ^ (state >>> 15), 1 | state)
+    next = (next + Math.imul(next ^ (next >>> 7), 61 | next)) ^ next
+    return ((next ^ (next >>> 14)) >>> 0) / 4294967296
+  }
+}
+
+function getAccounts(count: number): Account[] {
+  const random = createRandom(42)
+  const pick = <T,>(items: T[]) => items[Math.floor(random() * items.length)]
+  return Array.from({ length: count }, (_, index) => {
+    const company = `${pick(NAMES)} ${pick(KINDS)}`
+    const slug = `${company.toLowerCase().replace(" ", "-")}-${index + 1}`
+    const stage = pick(STAGES).value
+    return {
+      id: `acc-${index + 1}`,
+      company,
+      stage,
+      owner: pick(OWNERS).value,
+      segments: SEGMENTS.filter(() => random() > 0.62).map(
+        (item) => item.value
+      ),
+      value: Math.round(2_000 + random() ** 2 * 640_000),
+      probability:
+        stage === "won"
+          ? 1
+          : stage === "lost"
+            ? 0
+            : Math.round(random() * 90 + 5) / 100,
+      health: Math.round(random() * 100),
+      seats: Math.round(5 + random() * 1_200),
+      lastContact: new Date(
+        NOW - Math.floor(random() ** 1.6 * 540) * DAY
+      ).toISOString(),
+      website: `https://${slug}.example.com`,
+      contact: `hello@${slug}.example.com`,
+      active: random() > 0.18,
+    }
+  })
+}
+
+// MARK: A stand-in for your API
+
+const database = getAccounts(10_000)
+
+const fields = {
+  company: { type: "text" },
+  stage: { type: "status", options: STAGES },
+  owner: { type: "person", options: OWNERS },
+  segments: { type: "tags", options: SEGMENTS },
+  value: { type: "currency" },
+  probability: { type: "percent" },
+  health: { type: "progress" },
+  seats: { type: "number" },
+  lastContact: { type: "date" },
+  website: { type: "link" },
+  contact: { type: "email" },
+  active: { type: "boolean" },
+} satisfies Record<
+  string,
+  { type: DataTableColumnType; options?: DataTableOption[] }
+>
+
+function isField(id: string): id is keyof typeof fields {
+  return id in fields
+}
+
+function readField(account: Account, id: string) {
+  return isField(id) ? account[id] : undefined
+}
+
+function wait(milliseconds: number, signal: AbortSignal) {
+  return new Promise<void>((resolve, reject) => {
+    const timer = setTimeout(resolve, milliseconds)
+    signal.addEventListener("abort", () => {
+      clearTimeout(timer)
+      reject(signal.reason)
+    })
+  })
+}
+
+async function fetchAccounts(
+  query: DataTableQuery,
+  signal: AbortSignal
+): Promise<DataTablePage<Account>> {
+  await wait(query.offset === 0 ? 500 : 350, signal)
+  // queryRows sorts, filters and searches exactly as the table does.
+  const matching = queryRows(database, query, fields, readField, NOW)
+  return {
+    rows: matching.slice(query.offset, query.offset + query.limit),
+    total: matching.length,
+    // The footer's figures over every match, sent with the first window.
+    aggregates:
+      query.offset === 0
+        ? summarizeRows(matching, fields, readField)
+        : undefined,
+  }
+}
+
+function saveAccount({
+  row,
+  columnId,
+  value,
+  replaceRow,
+}: DataTableCellChange<Account>) {
+  const account = { ...row, [columnId]: value }
+  const index = database.findIndex((item) => item.id === account.id)
+  database[index] = account
+  replaceRow?.(account)
+}
+
+// MARK: The table
+
+const column = createDataTableColumnHelper<Account>()
+
+const columns = column.columns([
+  createDataTableSelectColumn<Account>(),
+  column.accessor("company", {
+    meta: {
+      type: "text",
+      label: "Company",
+      primary: true,
+      pin: "start",
+      aggregate: "count",
+      editable: true,
+    },
+    size: 210,
+  }),
+  column.accessor("stage", {
+    meta: {
+      type: "status",
+      label: "Stage",
+      options: STAGES,
+      aggregate: "unique",
+      editable: true,
     },
   }),
-  columnHelper.display({
+  column.accessor("owner", {
+    meta: { type: "person", label: "Owner", options: OWNERS, editable: true },
+  }),
+  column.accessor("segments", {
+    meta: {
+      type: "tags",
+      label: "Segments",
+      options: SEGMENTS,
+      editable: true,
+    },
+    size: 220,
+  }),
+  column.accessor("value", {
+    meta: {
+      type: "currency",
+      label: "Pipeline",
+      format: { fractionDigits: 0 },
+      aggregate: "sum",
+      editable: true,
+    },
+  }),
+  column.accessor("probability", {
+    meta: {
+      type: "percent",
+      label: "Win rate",
+      aggregate: "average",
+      editable: true,
+    },
+  }),
+  column.accessor("health", {
+    meta: {
+      type: "progress",
+      label: "Health",
+      aggregate: "average",
+      editable: true,
+    },
+  }),
+  column.accessor("seats", {
+    meta: { type: "number", label: "Seats", aggregate: "sum", editable: true },
+  }),
+  column.accessor("lastContact", {
+    meta: {
+      type: "date",
+      label: "Last contact",
+      format: { relative: true },
+      aggregate: "max",
+      editable: true,
+    },
+  }),
+  column.accessor("website", {
+    meta: { type: "link", label: "Website", editable: true },
+  }),
+  column.accessor("contact", {
+    meta: { type: "email", label: "Contact", editable: true },
+  }),
+  column.accessor("active", {
+    meta: {
+      type: "boolean",
+      label: "Active",
+      aggregate: "checked",
+      editable: true,
+    },
+  }),
+  column.display({
     id: "actions",
-    enableHiding: false,
-    cell: ({ row }) => {
-      const payment = row.original
-
-      return (
-        <DropdownMenu>
-          <DropdownMenuTrigger
-            render={<Button variant="ghost" size="icon-xs" />}
-          >
-            <span className="sr-only">Open menu</span>
-            <MoreHorizontal />
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-44">
-            <DropdownMenuGroup>
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <DropdownMenuItem
-                onClick={() => navigator.clipboard.writeText(payment.id)}
-              >
-                Copy payment ID
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuItem>View customer</DropdownMenuItem>
-              <DropdownMenuItem>View payment details</DropdownMenuItem>
-            </DropdownMenuGroup>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      )
-    },
+    meta: { kind: "actions" },
+    cell: ({ row }) => (
+      <DropdownMenu>
+        <DropdownMenuTrigger
+          render={<Button variant="ghost" size="icon-xs" />}
+          aria-label={`Actions for ${row.original.company}`}
+        >
+          <MoreHorizontalIcon />
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" className="w-44">
+          <DropdownMenuGroup>
+            <DropdownMenuItem>Open account</DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => navigator.clipboard.writeText(row.original.id)}
+            >
+              Copy account ID
+            </DropdownMenuItem>
+          </DropdownMenuGroup>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem variant="destructive">Archive</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+    ),
   }),
 ])
 
 export function DataTableDemo() {
-  const [sorting, setSorting] = React.useState<SortingState>([])
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  )
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<ColumnVisibilityState>({})
-  const [rowSelection, setRowSelection] = React.useState({})
-
-  const table = useTable({
-    features,
-    data,
+  const table = useDataTable({
     columns,
-    onSortingChange: setSorting,
-    onColumnFiltersChange: setColumnFilters,
-    onColumnVisibilityChange: setColumnVisibility,
-    onRowSelectionChange: setRowSelection,
-    state: {
-      sorting,
-      columnFilters,
-      columnVisibility,
-      rowSelection,
-    },
+    load: fetchAccounts,
+    now: NOW,
+    getRowId: (row) => row.id,
+    initialState: { sorting: [{ id: "value", desc: true }] },
+    onCellChange: saveAccount,
   })
 
   return (
-    <div className="w-full">
-      <div className="flex items-center py-4">
-        <Input
-          placeholder="Filter emails..."
-          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("email")?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
-        <DropdownMenu>
-          <DropdownMenuTrigger
-            render={<Button variant="outline" className="ml-auto" />}
-          >
-            Columns <ChevronDown />
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-44">
-            <DropdownMenuGroup>
-              {table
-                .getAllColumns()
-                .filter((column) => column.getCanHide())
-                .map((column) => {
-                  return (
-                    <DropdownMenuCheckboxItem
-                      key={column.id}
-                      className="capitalize"
-                      checked={column.getIsVisible()}
-                      onCheckedChange={(value) =>
-                        column.toggleVisibility(!!value)
-                      }
-                    >
-                      {column.id}
-                    </DropdownMenuCheckboxItem>
-                  )
-                })}
-            </DropdownMenuGroup>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
-      <div className="overflow-hidden rounded-md border">
-        <Table>
-          <TableHeader>
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow key={headerGroup.id}>
-                {headerGroup.headers.map((header) => {
-                  return (
-                    <TableHead key={header.id}>
-                      {header.isPlaceholder ? null : (
-                        <table.FlexRender header={header} />
-                      )}
-                    </TableHead>
-                  )
-                })}
-              </TableRow>
-            ))}
-          </TableHeader>
-          <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  data-state={row.getIsSelected() && "selected"}
-                >
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      <table.FlexRender cell={cell} />
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))
-            ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
-                >
-                  No results.
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </div>
-      <div className="flex items-center justify-end space-x-2 py-4">
-        <div className="flex-1 text-sm text-muted-foreground">
-          {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
-        </div>
-        <div className="space-x-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            Previous
+    <DataTable className="h-[640px] w-full" defaultView={{ numbered: true }}>
+      <DataTableToolbar>
+        <DataTableSearch table={table} placeholder="Search accounts…" />
+      </DataTableToolbar>
+      <DataTableContent table={table}>
+        <DataTableSelectionBar table={table}>
+          <Button variant="ghost" size="sm">
+            <DownloadIcon data-icon="inline-start" />
+            Export
           </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            Next
+          <Button variant="ghost" size="sm">
+            <ArchiveIcon data-icon="inline-start" />
+            Archive
           </Button>
-        </div>
-      </div>
-    </div>
+        </DataTableSelectionBar>
+      </DataTableContent>
+    </DataTable>
   )
 }

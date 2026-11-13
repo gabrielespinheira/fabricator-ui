@@ -1,6 +1,6 @@
 ---
 title: Data Table
-description: Powerful table and datagrids built using TanStack Table.
+description: Typed columns, sorting, Notion-style filters, cells that edit in place, and ten thousand rows that load as you scroll, on TanStack Table.
 base: aria
 component: true
 links:
@@ -12,897 +12,499 @@ links:
   name="data-table-demo"
   align="start"
   previewClassName="items-start h-auto px-4 md:px-8"
-  hideCode
 />
 
-## Introduction
+The demo reads 10,000 accounts from a stand-in server, 100 at a time as they come into view: the scroll covers all of them, so drag it anywhere and that window arrives, with skeleton rows meanwhile. Click a header to sort it (Shift adds a second sort), open its options to filter, pin or hide it, drag its edge to resize, and pick rows with their checkboxes (Shift picks a range). Click a cell to edit it. The settings at the end of the header set the density, the calculations, row numbers, stripes, column lines and which columns show. The footer's calculations cover every matching account; click one to change it.
 
-Every data table or datagrid I've created has been unique. They all behave differently, have specific sorting and filtering requirements, and work with different data sources.
-
-It doesn't make sense to combine all of these variations into a single component. If we do that, we'll lose the flexibility that [headless UI](https://tanstack.com/table/latest/docs/overview#what-is-headless-ui) provides.
-
-So instead of a data-table component, I thought it would be more helpful to provide a guide on how to build your own.
-
-We'll start with the basic `<Table />` component and build a complex data table from scratch.
-
-<Callout className="mt-4">
-
-**Tip:** If you find yourself using the same table in multiple places in your app, you can always extract it into a reusable component.
-
-</Callout>
-
-## Table of Contents
-
-This guide will show you how to use [TanStack Table](https://tanstack.com/table) and the `<Table />` component to build your own custom data table. We'll cover the following topics:
-
-- [Set up Table Features](#set-up-table-features)
-- [Basic Table](#basic-table)
-- [Row Actions](#row-actions)
-- [Pagination](#pagination)
-- [Sorting](#sorting)
-- [Filtering](#filtering)
-- [Visibility](#visibility)
-- [Row Selection](#row-selection)
-- [Reusable Components](#reusable-components)
+Data Table is part of the Fabricator style. It draws a [TanStack Table](https://tanstack.com/table) v9 instance as one real `<table>` in a scrolling frame: the header and footer stick, pinned columns stay at either edge, and only the rows in view are in the DOM, through [TanStack Virtual](https://tanstack.com/virtual). Each column's `meta.type` picks its cell, its filter, its editor, its sort, its alignment and its calculations, so a page describes its columns and the table does the rest. Popovers, menus, switches, checkboxes, badges and avatars are the library's own React Aria components; dates use its Calendar and RangeCalendar.
 
 ## Installation
 
-1. Add the `<Table />` component to your project:
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">Command</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
 
 ```bash
-npx fabricator-ui@latest add table
+npx fabricator-ui@latest add data-table
 ```
 
-2. Add the `@tanstack/react-table` dependency. This guide uses **TanStack Table v9**:
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps className="mb-0 pt-2">
+
+<Step>Install the following dependencies:</Step>
 
 ```bash
-npm install @tanstack/react-table
+npm install @tanstack/react-table@9.3.1 @tanstack/react-virtual@3.14.26
 ```
 
-## Prerequisites
-
-We are going to build a table to show recent payments. Here's what our data looks like:
-
-```tsx showLineNumbers
-type Payment = {
-  id: string
-  amount: number
-  status: "pending" | "processing" | "success" | "failed"
-  email: string
-}
-
-export const payments: Payment[] = [
-  {
-    id: "728ed52f",
-    amount: 100,
-    status: "pending",
-    email: "m@example.com",
-  },
-  {
-    id: "489e1d42",
-    amount: 125,
-    status: "processing",
-    email: "user@example.com",
-  },
-  // ...
-]
-```
-
-## Project Structure
-
-Start by creating the following file structure:
-
-```txt
-app
-└── payments
-    ├── columns.tsx
-    ├── data-table-features.ts
-    ├── data-table.tsx
-    └── page.tsx
-```
-
-I'm using a Next.js example here but this works for any other React framework.
-
-- `columns.tsx` (client component) will contain our column definitions.
-- `data-table-features.ts` will contain the shared `features` object that tells TanStack Table which behavior to enable.
-- `data-table.tsx` (client component) will contain our `<DataTable />` component.
-- `page.tsx` (server component) is where we'll fetch data and render our table.
-
-## Set up Table Features
-
-TanStack Table v9 is feature-based: you opt into the behavior you want — sorting, filtering, pagination, and so on — by declaring it with `tableFeatures()`. Anything you don't list is tree-shaken out of your bundle. That includes the built-in filter and sort functions: register the ones your columns rely on under `filterFns` and `sortFns` (our email filter uses `includesString`, and string columns sort with `text` / `alphanumeric`).
-
-```tsx showLineNumbers title="app/payments/data-table-features.ts"
-import {
-  columnFilteringFeature,
-  columnVisibilityFeature,
-  createFilteredRowModel,
-  createPaginatedRowModel,
-  createSortedRowModel,
-  filterFn_includesString,
-  rowPaginationFeature,
-  rowSelectionFeature,
-  rowSortingFeature,
-  sortFn_alphanumeric,
-  sortFn_text,
-  tableFeatures,
-} from "@tanstack/react-table"
-
-// New in v9: declare the features this table uses — anything you don't
-// register is tree-shaken out of the bundle.
-export const features = tableFeatures({
-  columnFilteringFeature,
-  columnVisibilityFeature,
-  rowPaginationFeature,
-  rowSelectionFeature,
-  rowSortingFeature,
-  filteredRowModel: createFilteredRowModel(),
-  paginatedRowModel: createPaginatedRowModel(),
-  sortedRowModel: createSortedRowModel(),
-  filterFns: { includesString: filterFn_includesString },
-  sortFns: { alphanumeric: sortFn_alphanumeric, text: sortFn_text },
-})
-
-// Pass this as the first generic argument to `ColumnDef`, `Column`, `Table`,
-// and `Row` so each type knows which feature APIs are available.
-export type DataTableFeatures = typeof features
-```
-
-<Callout className="mt-4">
-
-**Note:** The core row model is always included, so you never register it yourself. Row models for optional features are created with `create*RowModel()` and registered on the features object — there are no more `get*RowModel` table options.
-
-</Callout>
-
-## Basic Table
-
-Let's start by building a basic table.
-
-<Steps className="mb-0 pt-2">
-
-### Column Definitions
-
-First, we'll define our columns.
-
-```tsx showLineNumbers title="app/payments/columns.tsx" {3,5,16-17,19-29}
-"use client"
-
-import { createColumnHelper } from "@tanstack/react-table"
-
-import { type DataTableFeatures } from "./data-table-features"
-
-// This type is used to define the shape of our data.
-// You can use a Zod schema here if you want.
-export type Payment = {
-  id: string
-  amount: number
-  status: "pending" | "processing" | "success" | "failed"
-  email: string
-}
-
-// Use `accessor` for data columns and `display` for columns without one.
-const columnHelper = createColumnHelper<DataTableFeatures, Payment>()
-
-export const columns = columnHelper.columns([
-  columnHelper.accessor("status", {
-    header: "Status",
-  }),
-  columnHelper.accessor("email", {
-    header: "Email",
-  }),
-  columnHelper.accessor("amount", {
-    header: "Amount",
-  }),
-])
-```
-
-<Callout className="mt-4">
-
-**Note:** Columns are where you define the core of what your table
-will look like. They define the data that will be displayed, how it will be
-formatted, sorted and filtered.
-
-</Callout>
-
-### `<DataTable />` component
-
-Next, we'll create a `<DataTable />` component to render our table.
-
-```tsx showLineNumbers title="app/payments/data-table.tsx"
-"use client"
-
-import { useTable, type ColumnDef, type RowData } from "@tanstack/react-table"
-
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table"
-
-import { features, type DataTableFeatures } from "./data-table-features"
-
-interface DataTableProps<TData extends RowData> {
-  columns: ColumnDef<DataTableFeatures, TData>[]
-  data: TData[]
-}
-
-export function DataTable<TData extends RowData>({
-  columns,
-  data,
-}: DataTableProps<TData>) {
-  const table = useTable({
-    features,
-    data,
-    columns,
-  })
-
-  return (
-    <div className="overflow-hidden rounded-md border">
-      <Table>
-        <TableHeader>
-          {table.getFlatHeaders().map((header) => (
-            <TableHead
-              key={header.id}
-              id={header.id}
-              isRowHeader={header.index === 0}
-            >
-              {header.isPlaceholder ? null : (
-                <table.FlexRender header={header} />
-              )}
-            </TableHead>
-          ))}
-        </TableHeader>
-        <TableBody renderEmptyState={() => "No results."}>
-          {table.getRowModel().rows.map((row) => (
-            <TableRow key={row.id} id={row.id}>
-              {row.getVisibleCells().map((cell) => (
-                <TableCell key={cell.id}>
-                  <table.FlexRender cell={cell} />
-                </TableCell>
-              ))}
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </div>
-  )
-}
-```
-
-<Callout>
-
-**Tip**: If you find yourself using `<DataTable />` in multiple places, this is the component you could make reusable by extracting it to `components/ui/data-table.tsx`.
-
-`<DataTable columns={columns} data={data} />`
-
-</Callout>
-
-<Callout className="mt-4">
-
-**`<table.FlexRender />` vs `flexRender`:** This guide uses v9's `<table.FlexRender header={header} />` and `<table.FlexRender cell={cell} />` component, available right on the table instance — no extra import needed. The classic `flexRender(component, context)` helper from v8 still works too, if you prefer the function form (or need to render outside the component that owns `table`, where you can also import the standalone `<FlexRender />`).
-
-</Callout>
-
-### Render the table
-
-Finally, we'll render our table in our page component.
-
-```tsx showLineNumbers title="app/payments/page.tsx" {22}
-import { columns, Payment } from "./columns"
-import { DataTable } from "./data-table"
-
-async function getData(): Promise<Payment[]> {
-  // Fetch data from your API here.
-  return [
-    {
-      id: "728ed52f",
-      amount: 100,
-      status: "pending",
-      email: "m@example.com",
-    },
-    // ...
-  ]
-}
-
-export default async function DemoPage() {
-  const data = await getData()
-
-  return (
-    <div className="container mx-auto py-10">
-      <DataTable columns={columns} data={data} />
-    </div>
-  )
-}
-```
-
-</Steps>
-
-## Cell Formatting
-
-Let's format the amount cell to display the dollar amount. We'll also align the cell to the right.
-
-<Steps className="mb-0 pt-2">
-
-### Update columns definition
-
-Update the `header` and `cell` definitions for amount as follows:
-
-```tsx showLineNumbers title="app/payments/columns.tsx" {3-13}
-export const columns = columnHelper.columns([
-  columnHelper.accessor("amount", {
-    header: () => <div className="text-right">Amount</div>,
-    cell: ({ row }) => {
-      const amount = parseFloat(row.getValue("amount"))
-      const formatted = new Intl.NumberFormat("en-US", {
-        style: "currency",
-        currency: "USD",
-      }).format(amount)
-
-      return <div className="text-right font-medium">{formatted}</div>
-    },
-  }),
-])
-```
-
-You can use the same approach to format other cells and headers.
-
-</Steps>
-
-## Row Actions
-
-Let's add row actions to our table. We'll use a `<Dropdown />` component for this.
-
-<Steps className="mb-0 pt-2">
-
-### Update columns definition
-
-Update our columns definition to add a new `actions` column. The `actions` cell returns a `<Dropdown />` component.
-
-```tsx showLineNumbers title="app/payments/columns.tsx" {4,6-13,17-46}
-"use client"
-
-import { MoreHorizontal } from "@fabricator-ui/icons"
-import { createColumnHelper } from "@tanstack/react-table"
-
-import { Button } from "@/components/ui/button"
-import {
-  DropdownMenu,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-
-export const columns = columnHelper.columns([
-  // ...
-  columnHelper.display({
-    id: "actions",
-    cell: ({ row }) => {
-      const payment = row.original
-
-      return (
-        <DropdownMenuTrigger>
-          <Button variant="ghost" size="icon-xs">
-            <span className="sr-only">Open menu</span>
-            <MoreHorizontal />
-          </Button>
-          <DropdownMenu placement="bottom end" className="w-44">
-            <DropdownMenuGroup>
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <DropdownMenuItem
-                onClick={() => navigator.clipboard.writeText(payment.id)}
-              >
-                Copy payment ID
-              </DropdownMenuItem>
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-              <DropdownMenuItem>View customer</DropdownMenuItem>
-              <DropdownMenuItem>View payment details</DropdownMenuItem>
-            </DropdownMenuGroup>
-          </DropdownMenu>
-        </DropdownMenuTrigger>
-      )
-    },
-  }),
-  // ...
-])
-```
-
-You can access the row data using `row.original` in the `cell` function. Use this to handle actions for your row eg. use the `id` to make a DELETE call to your API.
-
-</Steps>
-
-## Pagination
-
-Next, we'll add pagination to our table.
-
-<Steps className="mb-0 pt-2">
-
-### Pagination is already enabled
-
-Because our features object includes `rowPaginationFeature` and `createPaginatedRowModel()`, the table automatically paginates rows into pages of 10 — there's nothing to add to `useTable`. See the [pagination docs](https://tanstack.com/table/latest/docs/framework/react/guide/pagination) for more information on customizing page size and implementing manual pagination.
-
-### Add pagination controls
-
-We can add pagination controls to our table using the `<Button />` component and the `table.previousPage()`, `table.nextPage()` API methods.
-
-```tsx showLineNumbers title="app/payments/data-table.tsx" {1,20-37}
-import { Button } from "@/components/ui/button"
-
-export function DataTable<TData extends RowData>({
-  columns,
-  data,
-}: DataTableProps<TData>) {
-  const table = useTable({
-    features,
-    data,
-    columns,
-  })
-
-  return (
-    <div>
-      <div className="overflow-hidden rounded-md border">
-        <Table>
-          { // .... }
-        </Table>
-      </div>
-      <div className="flex items-center justify-end space-x-2 py-4">
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
-        >
-          Previous
-        </Button>
-        <Button
-          variant="outline"
-          size="sm"
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
-        >
-          Next
-        </Button>
-      </div>
-    </div>
-  )
-}
-```
-
-See [Reusable Components](#reusable-components) section for a more advanced pagination component.
-
-</Steps>
-
-## Sorting
-
-Let's make the email column sortable.
-
-The `rowSortingFeature` and sorted row model are already registered in our features object, so all that's left is wiring up the sorting state.
-
-<Steps className="mb-0 pt-2">
-
-### Update `<DataTable>`
-
-```tsx showLineNumbers title="app/payments/data-table.tsx" showLineNumbers {3,8,15,21-24,31-46}
-"use client"
-
-import * as React from "react"
-import {
-  useTable,
-  type ColumnDef,
-  type RowData,
-  type SortingState,
-} from "@tanstack/react-table"
-
-export function DataTable<TData extends RowData>({
-  columns,
-  data,
-}: DataTableProps<TData>) {
-  const [sorting, setSorting] = React.useState<SortingState>([])
-
-  const table = useTable({
-    features,
-    data,
-    columns,
-    onSortingChange: setSorting,
-    state: {
-      sorting,
-    },
-  })
-
-  return (
-    <div>
-      <div className="overflow-hidden rounded-md border">
-        <Table
-          sortDescriptor={
-            sorting.length
-              ? {
-                  column: sorting[0].id,
-                  direction: sorting[0].desc ? "descending" : "ascending",
-                }
-              : undefined
-          }
-          onSortChange={(sortDescriptor) => {
-            table.setSorting([
-              {
-                id: "" + sortDescriptor.column,
-                desc: sortDescriptor.direction === "descending",
-              },
-            ]);
-          }}>
-          { ... }
-        </Table>
-      </div>
-    </div>
-  )
-}
-```
-
-### Make header cell sortable
-
-We can now update the `email` header cell to add sorting controls.
-
-```tsx showLineNumbers title="app/payments/columns.tsx" {4,10-17}
-"use client"
-
-import { ArrowUpDown } from "@fabricator-ui/icons"
-import { createColumnHelper } from "@tanstack/react-table"
-
-import { buttonVariants } from "@/components/ui/button"
-
-export const columns = columnHelper.columns([
-  columnHelper.accessor("email", {
-    header: ({ column }) => {
-      return (
-        <div className={buttonVariants({ variant: "ghost" })}>
-          Email
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </div>
-      )
-    },
-  }),
-])
-```
-
-This will automatically sort the table (asc and desc) when the user toggles on the header cell.
-
-</Steps>
-
-## Filtering
-
-Let's add a search input to filter emails in our table.
-
-The `columnFilteringFeature` and filtered row model are already part of our features object, so we only need to wire up the filter state and render an input.
-
-<Steps className="mb-0 pt-2">
-
-### Update `<DataTable>`
-
-```tsx showLineNumbers title="app/payments/data-table.tsx" {7,13,20-22,29,32,38-46}
-"use client"
-
-import * as React from "react"
-import {
-  useTable,
-  type ColumnDef,
-  type ColumnFiltersState,
-  type RowData,
-  type SortingState,
-} from "@tanstack/react-table"
-
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-
-export function DataTable<TData extends RowData>({
-  columns,
-  data,
-}: DataTableProps<TData>) {
-  const [sorting, setSorting] = React.useState<SortingState>([])
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  )
-
-  const table = useTable({
-    features,
-    data,
-    columns,
-    onSortingChange: setSorting,
-    onColumnFiltersChange: setColumnFilters,
-    state: {
-      sorting,
-      columnFilters,
-    },
-  })
-
-  return (
-    <div>
-      <div className="flex items-center py-4">
-        <Input
-          placeholder="Filter emails..."
-          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("email")?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
-      </div>
-      <div className="overflow-hidden rounded-md border">
-        <Table>{ ... }</Table>
-      </div>
-    </div>
-  )
-}
-```
-
-Filtering is now enabled for the `email` column. You can add filters to other columns as well. See the [filtering docs](https://tanstack.com/table/latest/docs/framework/react/guide/column-filtering) for more information on customizing filters.
-
-</Steps>
-
-## Visibility
-
-Adding column visibility is fairly simple using `@tanstack/react-table` visibility API.
-
-<Steps className="mb-0 pt-2">
-
-### Update `<DataTable>`
-
-```tsx showLineNumbers title="app/payments/data-table.tsx" {8,14-19,29-30,38,42,57-99}
-"use client"
-
-import * as React from "react"
-import {
-  useTable,
-  type ColumnDef,
-  type ColumnFiltersState,
-  type ColumnVisibilityState,
-  type RowData,
-  type SortingState,
-} from "@tanstack/react-table"
-
-import { Button } from "@/components/ui/button"
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-
-export function DataTable<TData extends RowData>({
-  columns,
-  data,
-}: DataTableProps<TData>) {
-  const [sorting, setSorting] = React.useState<SortingState>([])
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  )
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<ColumnVisibilityState>({})
-
-  const table = useTable({
-    features,
-    data,
-    columns,
-    onSortingChange: setSorting,
-    onColumnFiltersChange: setColumnFilters,
-    onColumnVisibilityChange: setColumnVisibility,
-    state: {
-      sorting,
-      columnFilters,
-      columnVisibility,
-    },
-  })
-
-  return (
-    <div>
-      <div className="flex items-center py-4">
-        <Input
-          placeholder="Filter emails..."
-          value={table.getColumn("email")?.getFilterValue() as string}
-          onChange={(event) =>
-            table.getColumn("email")?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
-        <DropdownMenuTrigger>
-          <Button variant="outline" className="ml-auto">
-            Columns
-          </Button>
-          <DropdownMenu placement="bottom end">
-            <DropdownMenuGroup
-              selectionMode="multiple"
-              selectedKeys={
-                table
-                  .getVisibleFlatColumns()
-                  .filter((column) => column.getCanHide())
-                  .map(column => column.id)
-              }
-              onSelectionChange={(keys) => {
-                table.setColumnVisibility(
-                  Object.fromEntries(
-                    table
-                      .getAllFlatColumns()
-                      .map((c) => [
-                        c.id,
-                        !c.getCanHide() || keys === "all" || keys.has(c.id),
-                      ])
-                  )
-                )
-              }}
-            >
-              {table
-                .getAllColumns()
-                .filter((column) => column.getCanHide())
-                .map((column) => {
-                  return (
-                    <DropdownMenuItem
-                      key={column.id}
-                      id={column.id}
-                      className="capitalize"
-                    >
-                      {column.id}
-                    </DropdownMenuItem>
-                  )
-                })}
-            </DropdownMenuGroup>
-          </DropdownMenu>
-        </DropdownMenuTrigger>
-      </div>
-      <div className="overflow-hidden rounded-md border">
-        <Table>{ ... }</Table>
-      </div>
-    </div>
-  )
-}
-```
-
-This adds a dropdown menu that you can use to toggle column visibility.
-
-</Steps>
-
-## Row Selection
-
-Next, we're going to add row selection to our table.
-
-<Steps className="mb-0 pt-2">
-
-### Update column definitions
-
-```tsx showLineNumbers title="app/payments/columns.tsx" {6,9-15}
-"use client"
-
-import { createColumnHelper } from "@tanstack/react-table"
-
-import { Badge } from "@/components/ui/badge"
-import { Checkbox } from "@/components/ui/checkbox"
-
-export const columns = columnHelper.columns([
-  columnHelper.display({
-    id: "select",
-    header: () => <Checkbox slot="selection" />,
-    cell: () => <Checkbox slot="selection" />,
-    enableSorting: false,
-    enableHiding: false,
-  }),
-])
-```
-
-### Update `<DataTable>`
-
-```tsx showLineNumbers title="app/payments/data-table.tsx" {11,20,25,33-43}
-export function DataTable<TData extends RowData>({
-  columns,
-  data,
-}: DataTableProps<TData>) {
-  const [sorting, setSorting] = React.useState<SortingState>([])
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-    []
-  )
-  const [columnVisibility, setColumnVisibility] =
-    React.useState<ColumnVisibilityState>({})
-  const [rowSelection, setRowSelection] = React.useState({})
-
-  const table = useTable({
-    features,
-    data,
-    columns,
-    onSortingChange: setSorting,
-    onColumnFiltersChange: setColumnFilters,
-    onColumnVisibilityChange: setColumnVisibility,
-    onRowSelectionChange: setRowSelection,
-    state: {
-      sorting,
-      columnFilters,
-      columnVisibility,
-      rowSelection,
-    },
-  })
-
-  return (
-    <div>
-      <div className="overflow-hidden rounded-md border">
-        <Table
-          selectionMode="multiple"
-          selectedKeys={table.getSelectedRowModel().rows.map((row) => row.id)}
-          onSelectionChange={(selection) => {
-            if (selection === "all") {
-              table.toggleAllRowsSelected()
-            } else {
-              table.setRowSelection(
-                Object.fromEntries([...selection].map((key) => [key, true]))
-              )
-            }
-          }}
-        />
-      </div>
-    </div>
-  )
-}
-```
-
-This adds a checkbox to each row and a checkbox in the header to select all rows.
-
-### Show selected rows
-
-You can show the number of selected rows using the `table.getFilteredSelectedRowModel()` API.
-
-```tsx
-<div className="flex-1 text-sm text-muted-foreground">
-  {table.getFilteredSelectedRowModel().rows.length} of{" "}
-  {table.getFilteredRowModel().rows.length} row(s) selected.
-</div>
-```
-
-</Steps>
-
-## Reusable Components
-
-Here are some components you can use to build your data tables. This is from the [Tasks](/examples/tasks) demo, which shares its features object (and the matching `TasksTableFeatures` type) across every component via a `data-table-features.ts` module — the same pattern we set up in [Set up Table Features](#set-up-table-features).
-
-### Column header
-
-Make any column header sortable and hideable.
+<Step>
+  Add Avatar, Badge, Button, Calendar, Checkbox, Density, Dropdown Menu, Empty,
+  Input, Popover, Progress, Search, Select, Separator, Skeleton, Switch and
+  Toggle Group.
+</Step>
+
+<Step>Copy and paste the following code into your project.</Step>
 
 <ComponentSource
-  src="/app/(app)/examples/tasks/components/data-table-column-header.tsx"
-  title="components/data-table-column-header.tsx"
+  src="styles/aria-fabricator/lib/data-table-model.ts"
+  title="lib/data-table-model.ts"
+  styleName="aria-nova"
 />
 
-```tsx showLineNumbers {4}
-export const columns = columnHelper.columns([
-  columnHelper.accessor("email", {
-    header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Email" />
-    ),
+<ComponentSource
+  src="styles/aria-fabricator/hooks/use-data-table.ts"
+  title="hooks/use-data-table.ts"
+  styleName="aria-nova"
+/>
+
+<ComponentSource
+  src="styles/aria-fabricator/ui/data-table-cells.tsx"
+  title="components/ui/data-table-cells.tsx"
+  styleName="aria-nova"
+/>
+
+<ComponentSource
+  src="styles/aria-fabricator/ui/data-table.tsx"
+  title="components/ui/data-table.tsx"
+  styleName="aria-nova"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import {
+  createDataTableColumnHelper,
+  useDataTable,
+  type DataTablePage,
+  type DataTableQuery,
+} from "@/hooks/use-data-table"
+import {
+  createDataTableSelectColumn,
+  DataTable,
+  DataTableContent,
+  DataTableSearch,
+  DataTableToolbar,
+} from "@/components/ui/data-table"
+```
+
+```tsx
+type Deal = { id: string; company: string; stage: string; value: number }
+
+const column = createDataTableColumnHelper<Deal>()
+
+const columns = column.columns([
+  createDataTableSelectColumn<Deal>(),
+  column.accessor("company", {
+    meta: { type: "text", label: "Company", primary: true, pin: "start" },
+  }),
+  column.accessor("stage", {
+    meta: {
+      type: "status",
+      label: "Stage",
+      editable: true,
+      options: [
+        { value: "open", label: "Open", tone: "info" },
+        { value: "won", label: "Won", tone: "success" },
+        { value: "lost", label: "Lost", tone: "destructive" },
+      ],
+    },
+  }),
+  column.accessor("value", {
+    meta: { type: "currency", label: "Value", aggregate: "sum" },
   }),
 ])
+
+async function loadDeals(
+  query: DataTableQuery,
+  signal: AbortSignal
+): Promise<DataTablePage<Deal>> {
+  const response = await fetch("/api/deals", {
+    method: "POST",
+    body: JSON.stringify(query),
+    signal,
+  })
+  return response.json()
+}
+
+export function Deals() {
+  const table = useDataTable({
+    columns,
+    load: loadDeals,
+    getRowId: (deal) => deal.id,
+    onCellChange: async ({ row, columnId, value, replaceRow }) => {
+      const deal = { ...row, [columnId]: value }
+      replaceRow?.(deal)
+      await saveDeal(deal)
+    },
+  })
+
+  return (
+    <DataTable className="h-[560px]">
+      <DataTableToolbar>
+        <DataTableSearch table={table} />
+      </DataTableToolbar>
+      <DataTableContent table={table} />
+    </DataTable>
+  )
+}
 ```
+
+Keep `columns` outside the component (or memoize it), and give the table a height: rows scroll inside `DataTableContent`, which fills a `DataTable` with a height or takes one of its own.
+
+Rows already in memory go in `data` instead of `load`: the table sorts, filters and searches them itself.
+
+```tsx
+const table = useDataTable({
+  data: deals,
+  columns,
+  getRowId: (deal) => deal.id,
+})
+```
+
+## Loading rows
+
+`load` is the recommended way to feed the table. It's called with a window of rows and the view that orders them, and returns those rows and how many match in all:
+
+```ts
+type DataTableQuery = {
+  offset: number
+  limit: number // pageSize, 100 by default
+  sorting: { id: string; desc: boolean }[]
+  filters: { id: string; value: DataTableFilter }[]
+  search: string
+}
+
+type DataTablePage<Row> = {
+  rows: Row[]
+  total: number
+  aggregates?: Record<
+    string,
+    Partial<Record<DataTableAggregate, number | null>>
+  >
+}
+```
+
+- **The scroll covers every match.** The first window loads with skeleton rows, and from then on the scroll is as long as `total`: every row not loaded yet is a skeleton row in its place. The windows in view load as the scroll reaches them, with a quarter of a window either side, so dragging the scrollbar to row 8,000 asks for that window alone. A slow scroll asks at once; a fast one asks when it settles and drops requests it has passed. If a window fails, its first row in view says so with a "Try again".
+- **A new view starts over.** A new sort, filter or search asks for the first window again; the rows dim under a bar until it arrives. The search waits 250ms after the last keystroke, and a request the table no longer needs is aborted through `signal`.
+- **Pages instead of a scroll.** Pass `paginate` and add `DataTablePagination`; each page is one request.
+- **The footer covers every match.** Send `aggregates` with the first window, and the footer shows them instead of figures over the loaded rows.
+
+The model answers a query the way the table would, so a server written in TypeScript can use it as is:
+
+```ts
+import { queryRows, summarizeRows } from "@/lib/data-table-model"
+
+const fields = {
+  company: { type: "text" },
+  stage: { type: "status", options: STAGES },
+  value: { type: "currency" },
+} as const
+
+function read(deal: Deal, id: string) {
+  return id === "company" || id === "stage" || id === "value"
+    ? deal[id]
+    : undefined
+}
+
+export function answer(query: DataTableQuery) {
+  const matching = queryRows(deals, query, fields, read)
+  return {
+    rows: matching.slice(query.offset, query.offset + query.limit),
+    total: matching.length,
+    aggregates: summarizeRows(matching, fields, read),
+  }
+}
+```
+
+A database query reads the same `filters`: each value is a `DataTableFilter`, `{ operator, value?, to?, preset? }`, listed under [Filters](#filters).
+
+## Columns
+
+Columns are TanStack column definitions. `createDataTableColumnHelper` is TanStack's helper typed for the Data Table, and `meta` tells the table what each column holds.
+
+### Types
+
+| `meta.type` | Value                      | Cell                                        | Editor                     | Calculations                   |
+| ----------- | -------------------------- | ------------------------------------------- | -------------------------- | ------------------------------ |
+| `text`      | `string`                   | Text, truncated                             | An input                   | Count, filled, empty, unique   |
+| `number`    | `number`                   | Tabular figures, at the end                 | An input                   | Sum, average, median, min, max |
+| `currency`  | `number`                   | Money in `format.currency` (USD)            | An input                   | Sum, average, median, min, max |
+| `percent`   | `number`, a fraction       | `0.42` as 42%                               | An input, in percent       | Sum, average, median, min, max |
+| `progress`  | `number`, 0 to 100         | A Progress bar and its value                | An input                   | Sum, average, median, min, max |
+| `date`      | `Date`, ISO string, or ms  | Nov 3, 2026, or "3 days ago"                | A Calendar                 | Count, filled, empty, min, max |
+| `status`    | `string`, one of `options` | A Badge in the option's tone, with a dot    | A picker                   | Count, filled, empty, unique   |
+| `tags`      | `string[]` of `options`    | Every Badge, scrolling sideways with a fade | A picker that toggles      | Count, filled, empty, unique   |
+| `person`    | `string`, one of `options` | An Avatar (`option.image`) and the name     | A picker                   | Count, filled, empty, unique   |
+| `link`      | URL `string`               | The host, opening in a new tab              | An input, and an open link | Count, filled, empty, unique   |
+| `email`     | `string`                   | A `mailto:` link                            | An input, and an open link | Count, filled, empty, unique   |
+| `boolean`   | `boolean`                  | A check or a dash; a Checkbox when editable | The Checkbox               | Count, checked, unchecked      |
+
+Statuses sort in the order of their `options`, like a pipeline. Numbers and dates sort descending first. Text, status, tags, person, link and email columns answer the search. A picker with more than a handful of options has a search field.
+
+### Meta
+
+| Field       | Type                                              | What it does                                                                             |
+| ----------- | ------------------------------------------------- | ---------------------------------------------------------------------------------------- |
+| `type`      | see above                                         | The cell, filter, editor, sort, alignment, width and calculations                        |
+| `label`     | `string`                                          | The header, and the column's name in menus                                               |
+| `icon`      | `ComponentType`                                   | Replaces the type's icon in the header                                                   |
+| `options`   | `{ value, label, tone?, image? }[]`               | Values of a status, tags or person column; `tone` colours the Badge                      |
+| `format`    | `{ currency, compact, fractionDigits, relative }` | How numbers and dates read                                                               |
+| `aggregate` | `"count" \| "sum" \| "average" \| …`              | The footer's calculation; people can change it                                           |
+| `editable`  | `boolean`                                         | Cells edit in place; needs `onCellChange`                                                |
+| `primary`   | `boolean`                                         | The record's name: foreground and medium weight                                          |
+| `pin`       | `"start" \| "end"`                                | Pins the column on first render                                                          |
+| `align`     | `"start" \| "center" \| "end"`                    | Overrides the type's alignment of cells and the footer; heads always read from the start |
+
+`tone` is `neutral`, `info`, `success`, `warning` or `destructive`, the Badge's status colours.
+
+### Filters
+
+Each column's options hold a filter as Notion has them: a condition, and the value it calls for.
+
+| Kind                      | Conditions                                                                                                                                                                                   |
+| ------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Text, link, email         | Contains, does not contain, is, is not, starts with, ends with, is empty, is not empty                                                                                                       |
+| Number, currency, percent | `=`, `≠`, `>`, `≥`, `<`, `≤`, is between, is empty, is not empty                                                                                                                             |
+| Date                      | Is within (today, yesterday, past week, month or year, this month or year, next week or month), is, is before, is after, is on or before, is on or after, is between, is empty, is not empty |
+| Status, person            | Is any of, is none of, is empty, is not empty, from a checklist                                                                                                                              |
+| Tags                      | Has any of, has all of, has none of, is empty, is not empty                                                                                                                                  |
+| Boolean                   | All, checked, unchecked                                                                                                                                                                      |
+
+With rows in memory, the checklist counts each option and the number filter shows the range in view. Set one in code with the column's filter value, `{ operator: "anyOf", value: ["won"] }`, or through `initialState.columnFilters`.
+
+### Custom cells
+
+Give a column a `cell` to draw it yourself. `DataTableValue` from `data-table-cells` draws one value the way a type does, so a custom cell can keep the look:
+
+```tsx
+column.accessor("company", {
+  meta: { type: "text", label: "Company" },
+  cell: ({ row, getValue }) => (
+    <span className="flex items-center gap-2">
+      <img src={row.original.logo} alt="" className="size-5 rounded" />
+      <DataTableValue type="text" value={getValue()} />
+    </span>
+  ),
+})
+```
+
+A custom cell redraws when its row's data changes, not on every change to the table. One that shows table state, such as whether its row is picked, reads it through TanStack's `Subscribe`:
+
+```tsx
+import { Subscribe } from "@tanstack/react-table"
+
+cell: ({ row, table }) => (
+  <Subscribe source={table.store} selector={(state) => state.rowSelection}>
+    {() => (row.getIsSelected() ? "Picked" : "")}
+  </Subscribe>
+)
+```
+
+### Selection and actions
+
+`createDataTableSelectColumn()` adds the checkbox column, pinned to the start. With row numbers on, each row shows its place until it's lit or picked. A display column with `meta: { kind: "actions" }` is pinned to the end and sized for one icon button, usually a Dropdown Menu. Its header holds the table's settings. A table without an actions column gets an empty one to hold them, so everything but the search happens inside the table.
+
+## Editing
+
+Mark columns `editable` and pass `onCellChange`. A click on a cell opens the editor its type calls for, as in a Notion table:
+
+- Text, numbers, links and emails edit in an input. Enter or Tab saves, Escape cancels. On a focused cell, typing starts over with what you type, and F2 or Enter edits what's there.
+- Statuses and people open a picker; picking the current option clears it. Tags toggle in the same picker.
+- Dates open a Calendar. Checkboxes toggle.
+
+`onCellChange` gets `{ row, rowId, columnId, value }`. Values arrive parsed: numbers as numbers, percents as fractions, dates in the shape the row had them. With `load`, call `replaceRow` with the updated row to show it at once, then save it. With `data`, update your state; the table keeps its page and scroll.
+
+```tsx
+const [deals, setDeals] = React.useState(initialDeals)
+const table = useDataTable({
+  data: deals,
+  columns,
+  onCellChange: ({ rowId, columnId, value }) =>
+    setDeals((current) =>
+      current.map((deal) =>
+        deal.id === rowId ? { ...deal, [columnId]: value } : deal
+      )
+    ),
+})
+```
+
+## Settings
+
+The button at the end of the header opens the table's settings: density (compact, default, comfortable), switches for calculations, row numbers, striped rows and column lines, the columns to show, and clearing the sort and filters or resetting the columns. They're the table's view; set it with `defaultView`, or control it with `view` and `onViewChange`.
+
+```tsx
+<DataTable defaultView={{ numbered: true, footer: false, size: "sm" }}>
+```
+
+## Composition
+
+```text
+DataTable                      frame, variant, view
+├── DataTableToolbar
+│   └── DataTableSearch        the global search
+├── DataTableContent           the scrolling table
+│   ├── header                 sort, type icon, options popover, resize
+│   │   └── settings           density, switches, columns, reset
+│   ├── virtual rows           cells that edit in place
+│   ├── footer                 one calculation per column, optional
+│   └── DataTableSelectionBar  floats while rows are picked
+└── DataTablePagination        with useDataTable({ paginate: true })
+```
+
+Every part takes the `table` from `useDataTable`, so each one is typed by your rows. `DataTableColumnFilter` is the filter editor on its own, for a column filter somewhere else.
+
+## Examples
 
 ### Pagination
 
-Add pagination controls to your table including page size and selection count.
+Pass `paginate` to `useDataTable` and add `DataTablePagination`: rows per page, the range in view and page buttons. The rows here are in memory and editable; an edit keeps the page.
 
-<ComponentSource
-  src="/app/(app)/examples/tasks/components/data-table-pagination.tsx"
+<ComponentPreview
   styleName="aria-nova"
+  name="data-table-pagination"
+  align="start"
+  previewClassName="items-start h-auto px-4 md:px-8"
 />
 
-```tsx
-<DataTablePagination table={table} />
-```
+### Server pages
 
-### Column toggle
+`load` with `paginate`: each page is a request, the rows dim under a bar while the next page loads, and the footer's sum comes from the server.
 
-A component to toggle column visibility.
-
-<ComponentSource
-  src="/app/(app)/examples/tasks/components/data-table-view-options.tsx"
+<ComponentPreview
   styleName="aria-nova"
+  name="data-table-server"
+  align="start"
+  previewClassName="items-start h-auto px-4 md:px-8"
 />
 
-```tsx
-<DataTableViewOptions table={table} />
-```
+### States
+
+Without a loader, `DataTableContent` takes the states as props. `loading` without rows draws skeleton rows; with rows it dims them under a bar. With no rows the table shows an Empty, which offers to clear the filters when they caused it; pass `empty` to replace it. `error` takes the rows' place.
+
+<ComponentPreview
+  styleName="aria-nova"
+  name="data-table-states"
+  align="start"
+  previewClassName="items-start h-auto px-4 md:px-8"
+/>
+
+### Variants
+
+`variant` frames the table on a card or leaves it `flat` on the page. The view is controlled here, so the toggles above and the table's settings stay in step.
+
+<ComponentPreview
+  styleName="aria-nova"
+  name="data-table-variants"
+  align="start"
+  previewClassName="items-start h-auto px-4 md:px-8"
+/>
+
+## API Reference
+
+### useDataTable
+
+Every TanStack `useTable` option except `features`, plus:
+
+| Option         | Type                                                    | Default         |                                                               |
+| -------------- | ------------------------------------------------------- | --------------- | ------------------------------------------------------------- |
+| `load`         | `(query, signal) => Promise<Page>`                      | -               | Rows a window at a time; the recommended source               |
+| `data`         | `TData[]`                                               | -               | Rows in memory, instead of `load`                             |
+| `columns`      | `ColumnDef[]`                                           | -               | Keep them stable: outside the component or memoized           |
+| `getRowId`     | `(row) => string`                                       | the index       | Keeps selection, edits and scroll stable                      |
+| `pageSize`     | `number`                                                | `100`           | Rows `load` asks for at a time while scrolling                |
+| `paginate`     | `boolean`                                               | `false`         | Pages instead of one scroll                                   |
+| `onCellChange` | `({ row, rowId, columnId, value, replaceRow }) => void` | -               | An edited cell's new value                                    |
+| `manual`       | `boolean`                                               | `false`         | `data` is already sorted, filtered and paged; pass `rowCount` |
+| `locale`       | `string`                                                | `"en-US"`       | Numbers and dates                                             |
+| `now`          | `number`                                                | when it mounted | What relative dates count from                                |
+
+It returns the TanStack table. The sort, filters, search and page live in the hook so a change can reload and go back to the first page; pass them in `state` with `on…Change` to control them.
+
+### DataTable
+
+| Prop           | Type                            | Default  |
+| -------------- | ------------------------------- | -------- |
+| `variant`      | `"card" \| "flat"`              | `"card"` |
+| `defaultView`  | `Partial<DataTableView>`        | -        |
+| `view`         | `Partial<DataTableView>`        | -        |
+| `onViewChange` | `(view: DataTableView) => void` | -        |
+
+`DataTableView` is `{ size?: "sm" \| "default" \| "lg", lines: "rows" \| "grid", striped: boolean, footer: boolean, numbered: boolean }`; by default rows, no stripes, the footer on and no numbers, at the page's density.
+
+### DataTableContent
+
+| Prop                | Type            | Default         |
+| ------------------- | --------------- | --------------- |
+| `table`             | the table       | -               |
+| `loading`           | `boolean`       | from the loader |
+| `loadingMore`       | `boolean`       | `false`         |
+| `hasMore`           | `boolean`       | `false`         |
+| `onLoadMore`        | `() => void`    | -               |
+| `loadMoreThreshold` | `number`        | `20`            |
+| `overscan`          | `number`        | `5`             |
+| `empty`             | `ReactNode`     | an Empty        |
+| `error`             | `ReactNode`     | from the loader |
+| `onRowClick`        | `(row) => void` | -               |
+
+### DataTablePagination
+
+| Prop        | Type       | Default             |
+| ----------- | ---------- | ------------------- |
+| `table`     | the table  | -                   |
+| `pageSizes` | `number[]` | `[10, 25, 50, 100]` |
+
+### Other parts
+
+`DataTableSearch` takes the table and Search's props. `DataTableSelectionBar` takes the table and the actions as children.
+
+### Data attributes
+
+| Attribute                                     | Element              | Present when           |
+| --------------------------------------------- | -------------------- | ---------------------- |
+| `data-slot="data-table-row"`                  | each row             | always                 |
+| `data-state="selected"`                       | a row                | it's picked            |
+| `data-pinned="start" \| "end"`                | a cell or head       | its column is pinned   |
+| `data-editable`                               | a cell               | its column edits       |
+| `data-slot="data-table-sort"`                 | a head's sort button | the column sorts       |
+| `data-sorted="asc" \| "desc"`                 | a sort button        | the column is sorted   |
+| `data-slot="data-table-column-trigger"`       | a head's options     | the column has options |
+| `data-filtered`                               | a head's options     | the column filters     |
+| `data-slot="data-table-settings-trigger"`     | the settings button  | always                 |
+| `data-lines="rows" \| "grid"`, `data-striped` | the root             | the view says so       |
+| `data-state="open" \| "closed"`               | the selection bar    | rows are picked        |
+
+## Accessibility
+
+- It's a table, not a grid: every control stays in the tab order, as in the WAI-ARIA sortable table pattern. Heads carry `aria-sort`, rows `aria-rowindex` against the table's `aria-rowcount`, so screen readers count all rows, not only those in the DOM.
+- Each head's sort button is named by its label, and its options button "Label options". The settings button is "Table settings", and each switch is named by its label.
+- An editable cell is a button named by its value; its editor is labelled by the column. Focus returns to the cell when the editor closes.
+- The resize edge is a focusable `separator` with its width as its value: Left and Right resize by 16px, with Shift by 48px. Double-click resets it.
+- Checkboxes are named "Select row N" and "Select all rows"; Shift with a click or Space picks a range. The selection bar announces the count.
+- With `onRowClick`, rows are focusable and Enter activates them; clicks on buttons, links and checkboxes inside a row don't.
+
+## Performance
+
+The table is built to stay smooth with tens of thousands of rows and a page that re-renders around it:
+
+- **Rows.** Only the rows in view, and `overscan` rows around them, are in the DOM. Rows have a fixed height, so the virtualizer never measures them.
+- **Redraws.** Each row, each cell, the header and the footer redraw only when what they show changes. Picking a row redraws its checkbox, not its badges and avatars. The select-all checkbox and the resize handles follow their own slice of state through `Subscribe`, so a selection or a drag doesn't redraw the header. Footer figures are worked out again only when the rows or the calculations change.
+- **Resizing.** Widths go on the `<col>`s and pinned offsets in a rule that matches the pinned cells only, so a drag lays the table out again without restyling its cells. The viewport is layout- and paint-contained.
+- **Light parts per row.** The checkboxes in rows are drawn on plain buttons with the Checkbox's look. Avatar pictures are plain images over the initials. Editors, pickers and menus mount their popover the first time they open.
+- **Data.** With `load`, the browser holds only the windows it has scrolled through. With `data`, sorting, filtering and the search run in TanStack's memoized row models. The search keeps each cell's text, lowercased, until its row changes, and updates in a transition, so typing stays responsive on 10,000 rows.
+- **Scrolling.** A fast scroll draws cheap skeleton rows far ahead of itself and the real rows once it slows, so a fling never shows an empty table; the space beyond the rows drawn carries their hairlines. The viewport doesn't bounce or hand its scroll to the page in either direction. With a mouse or trackpad its scrollbars run from under the header to above the footer, and between the pinned columns; touch keeps the system's.

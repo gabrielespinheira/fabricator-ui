@@ -817,10 +817,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "data-table-demo",
       filePath: "examples/base/data-table-demo.tsx",
     },
-    "data-table-infinite": {
-      name: "data-table-infinite",
-      filePath: "examples/base/data-table-infinite.tsx",
-    },
     "data-table-pagination": {
       name: "data-table-pagination",
       filePath: "examples/base/data-table-pagination.tsx",
@@ -3475,10 +3471,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "data-table-demo",
       filePath: "examples/aria/data-table-demo.tsx",
     },
-    "data-table-infinite": {
-      name: "data-table-infinite",
-      filePath: "examples/aria/data-table-infinite.tsx",
-    },
     "data-table-pagination": {
       name: "data-table-pagination",
       filePath: "examples/aria/data-table-pagination.tsx",
@@ -6113,10 +6105,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "data-table-demo",
       filePath: "examples/radix/data-table-demo.tsx",
     },
-    "data-table-infinite": {
-      name: "data-table-infinite",
-      filePath: "examples/radix/data-table-infinite.tsx",
-    },
     "data-table-pagination": {
       name: "data-table-pagination",
       filePath: "examples/radix/data-table-pagination.tsx",
@@ -8685,10 +8673,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "data-table-demo",
       filePath: "examples/__styles__/base-fabricator/data-table-demo.tsx",
     },
-    "data-table-infinite": {
-      name: "data-table-infinite",
-      filePath: "examples/__styles__/base-fabricator/data-table-infinite.tsx",
-    },
     "data-table-pagination": {
       name: "data-table-pagination",
       filePath: "examples/__styles__/base-fabricator/data-table-pagination.tsx",
@@ -11143,10 +11127,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "data-table-demo",
       filePath: "examples/__styles__/aria-fabricator/data-table-demo.tsx",
     },
-    "data-table-infinite": {
-      name: "data-table-infinite",
-      filePath: "examples/__styles__/aria-fabricator/data-table-infinite.tsx",
-    },
     "data-table-pagination": {
       name: "data-table-pagination",
       filePath: "examples/__styles__/aria-fabricator/data-table-pagination.tsx",
@@ -13595,10 +13575,6 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "data-table-demo": {
       name: "data-table-demo",
       filePath: "examples/__styles__/radix-fabricator/data-table-demo.tsx",
-    },
-    "data-table-infinite": {
-      name: "data-table-infinite",
-      filePath: "examples/__styles__/radix-fabricator/data-table-infinite.tsx",
     },
     "data-table-pagination": {
       name: "data-table-pagination",
