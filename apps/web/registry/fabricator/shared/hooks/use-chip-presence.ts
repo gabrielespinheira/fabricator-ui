@@ -88,7 +88,7 @@ export function useChipPresence<TItem>(
 
   const [container, setContainer] = React.useState<HTMLElement | null>(null)
   const points = React.useRef(new Map<string, ChipPoint>())
-  const leaving = React.useRef(new Set<string>())
+  const leaving = React.useRef(new Map<string, number>())
 
   // Glide every chip that moved since the last layout from where it was.
   React.useLayoutEffect(() => {
@@ -133,15 +133,14 @@ export function useChipPresence<TItem>(
   // Drop each leaving chip once its exit has run.
   React.useEffect(() => {
     if (!container) return
-    const timers: number[] = []
     for (const chip of next) {
       if (!chip.isExiting || leaving.current.has(chip.key)) continue
       const element = container.querySelector(
         `[${KEY}="${CSS.escape(chip.key)}"]`
       )
       const time = element ? getTime(element) : 0
-      leaving.current.add(chip.key)
-      timers.push(
+      leaving.current.set(
+        chip.key,
         window.setTimeout(() => {
           leaving.current.delete(chip.key)
           setChips((current) => removeExitedChip(current, chip.key))
@@ -149,15 +148,22 @@ export function useChipPresence<TItem>(
       )
     }
     // A chip picked again before it left stops leaving.
-    for (const key of leaving.current) {
+    for (const [key, timer] of leaving.current) {
       if (!next.some((chip) => chip.key === key && chip.isExiting)) {
+        window.clearTimeout(timer)
         leaving.current.delete(key)
       }
     }
-    return () => {
-      for (const timer of timers) window.clearTimeout(timer)
-    }
   }, [container, next])
+
+  // Keep in-flight exits through selection changes; cancel only on unmount.
+  React.useEffect(() => {
+    const timers = leaving.current
+    return () => {
+      for (const timer of timers.values()) window.clearTimeout(timer)
+      timers.clear()
+    }
+  }, [])
 
   const getChipProps = React.useCallback(
     ({ key, isExiting }: ChipPresence<TItem>) => ({
