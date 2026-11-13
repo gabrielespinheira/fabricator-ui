@@ -1,6 +1,6 @@
 {
   "name": "@fabricator-ui/setup",
-  "version": "0.7.0",
+  "version": "0.8.0",
   "private": true,
   "description": "One setup, one command: what the setup page shows and the CLI runs. Bundled into the CLI.",
   "license": "MIT",
