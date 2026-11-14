@@ -1,7 +1,0 @@
----
-title: Tinted surface install fix
-description: Installing a look with a tinted surface no longer fails on bg-background.
-date: 2026-11-06
----
-
-Installing a look with tinted surfaces could fail with `Cannot apply unknown utility class bg-background`. The palette now declares explicit Tailwind mappings for background, card, popover and sidebar colors, so their utilities work when the tokens reference surface variables.

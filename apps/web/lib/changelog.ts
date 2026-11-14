@@ -2,6 +2,7 @@ import fs from "fs"
 import path from "path"
 import fm from "front-matter"
 
+import { sortNewestFirst } from "@/lib/changelog-order"
 import { source } from "@/lib/source"
 
 export type ChangelogPageData = {
@@ -33,18 +34,25 @@ export function getDateFromFile(slugs: string[]) {
   return null
 }
 
-// Gets all changelog pages sorted by date descending.
+export function isChangelogEntry(slugs: string[]) {
+  return slugs[0] === "changelog" && slugs.length > 1
+}
+
+// A changelog entry's day as `yyyy-MM-dd`, for client components.
+export function getChangelogDay(slugs: string[]) {
+  return getDateFromFile(slugs)?.toISOString().slice(0, 10)
+}
+
+// Gets all changelog pages, newest first.
 export function getChangelogPages() {
-  return source
-    .getPages()
-    .filter((page) => page.slugs[0] === "changelog" && page.slugs.length > 1)
-    .map((page) => ({
-      ...page,
-      date: getDateFromFile(page.slugs),
-    }))
-    .sort((a, b) => {
-      const dateA = a.date?.getTime() ?? 0
-      const dateB = b.date?.getTime() ?? 0
-      return dateB - dateA
-    })
+  return sortNewestFirst(
+    source
+      .getPages()
+      .filter((page) => isChangelogEntry(page.slugs))
+      .map((page) => ({
+        ...page,
+        title: page.data.title,
+        date: getDateFromFile(page.slugs),
+      }))
+  )
 }

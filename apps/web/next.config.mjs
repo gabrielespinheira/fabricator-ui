@@ -2,6 +2,8 @@ import { existsSync, readdirSync, readFileSync } from "fs"
 import path from "path"
 import { createMDX } from "fumadocs-mdx/next"
 
+import { changelogRedirects } from "./lib/changelog-redirects.mjs"
+
 const GITHUB_RAW_URL =
   "https://raw.githubusercontent.com/gabrielespinheira/fabricator-ui/refs/heads/main"
 
@@ -95,6 +97,18 @@ const nextConfig = {
   },
   redirects() {
     return [
+      ...changelogRedirects.flatMap(([entry, release]) => [
+        {
+          source: `/docs/changelog/${entry}`,
+          destination: `/docs/changelog/${release}`,
+          permanent: true,
+        },
+        {
+          source: `/docs/changelog/${entry}.md`,
+          destination: `/docs/changelog/${release}.md`,
+          permanent: true,
+        },
+      ]),
       {
         source: "/docs/components",
         destination: "/docs",

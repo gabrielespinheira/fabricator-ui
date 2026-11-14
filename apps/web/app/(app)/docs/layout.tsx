@@ -1,5 +1,6 @@
 import { Suspense } from "react"
 
+import { getChangelogDay, isChangelogEntry } from "@/lib/changelog"
 import { source } from "@/lib/source"
 import { DocsAppShell } from "@/components/fabricator/docs-app-shell"
 import {
@@ -27,9 +28,13 @@ export default function DocsLayout({
     >
       <DocsAppShell
         tree={source.pageTree}
-        pages={source
-          .getPages()
-          .map((page) => ({ url: page.url, title: page.data.title }))}
+        pages={source.getPages().map((page) => ({
+          url: page.url,
+          title: page.data.title,
+          date: isChangelogEntry(page.slugs)
+            ? getChangelogDay(page.slugs)
+            : undefined,
+        }))}
       >
         {children}
       </DocsAppShell>

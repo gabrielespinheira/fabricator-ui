@@ -17,6 +17,7 @@
 - CLI commands are written once as `npx shadcn@latest …`; the highlighter makes the package-manager tabs, bun first.
 - Code colours come from one Shiki theme (`lib/shiki-fabricator-theme.ts`) mapped to the `--syntax-*` tokens; change a colour in `registry/fabricator/syntax-colors.ts`.
 - Every page has a `.md` export and is listed in `llms.txt`; keep both accurate.
+- The site changelog is one page per release, `content/docs/changelog/vX-Y-Z.mdx` (`title: Version X.Y.Z`, `date:` the `CHANGELOG.md` release day, a UTC time added only when two releases share a day), plus `unreleased.mdx` for merged changes not yet released, which has no date and lists first. The index, the pages and the sidebar show the day and list releases newest first (`lib/changelog-order.ts`). A page opens with what the release brings, then `## New components`, `## Updated components`, `## Breaking changes`, `## Fixes` and `## Docs`, with a `###` per component, and ends with its GitHub release link. Old per-change URLs redirect through `lib/changelog-redirects.mjs`.
 
 ## Chrome
 
@@ -27,7 +28,7 @@ Site chrome lives in new files so upstream merges stay small:
 
 ## Homepage
 
-`app/(app)/(root)/` is a gallery of the components: hand-built demos (`_components/demos-*.tsx`, importing `@/styles/base-fabricator/ui/*`) first, then each component's docs demo, listed in `_components/catalog.tsx` and lazy-loaded from `examples/__styles__/base-fabricator/`. A catalog entry can load a hand-built demo instead when the docs demo doesn't suit a card (`input`, `alert`). App frames and their navigation (`app-shell`, `app-nav`, `sidebar`, `tab-strip`, `workspace-switcher`, `user-menu`), `data-table` and the media players (`audio-player`, `video-player`) have no card; their docs pages show them. Any other new component needs a catalog entry with a card height and a group ([COMPONENT-GROUPS.md](COMPONENT-GROUPS.md)), which the docs sidebar, the homepage filter and both example apps share.
+`app/(app)/(root)/` is a gallery of the components: hand-built demos (`_components/demos-*.tsx`, importing `@/styles/base-fabricator/ui/*`) first, then each component's docs demo, listed in `_components/catalog.tsx` and lazy-loaded from `examples/__styles__/base-fabricator/`. A catalog entry can load a hand-built demo instead when the docs demo doesn't suit a card (`input`, `alert`). App frames and their navigation (`app-shell`, `app-nav`, `sidebar`, `tab-strip`, `workspace-switcher`, `user-menu`), `data-table`, `event-calendar` and the media players (`audio-player`, `video-player`) have no card; their docs pages show them. Any other new component needs a catalog entry with a card height and a group ([COMPONENT-GROUPS.md](COMPONENT-GROUPS.md)), which the docs sidebar, the homepage filter and both example apps share.
 
 ## Settings
 

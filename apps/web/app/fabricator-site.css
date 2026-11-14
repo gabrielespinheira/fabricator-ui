@@ -170,3 +170,20 @@ html.dark:root .theme-blue {
     box-shadow: none;
   }
 }
+
+/* Changelog rows in the docs sidebar carry their day ("Nov 14") as the badge.
+   The Sidebar sizes a row's gutter for a count, so the label would run under
+   the wider date; these rows clear the date instead. */
+@layer components {
+  [data-slot="docs-shell"]
+    [data-slot="app-nav-item"][data-badge]
+    > a[href^="/docs/changelog/"] {
+    --sidebar-menu-gutter: calc(var(--density-8) + 3.25rem);
+    --sidebar-menu-gutter-hover: calc(var(--density-8) + 3.25rem);
+  }
+  [data-slot="docs-shell"]
+    a[href^="/docs/changelog/"]
+    ~ [data-sidebar="menu-badge"] {
+    color: var(--color-muted-foreground);
+  }
+}

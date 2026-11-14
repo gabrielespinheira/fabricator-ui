@@ -1,0 +1,13 @@
+---
+title: Version 0.5.1
+description: Installing a look with a tinted surface works again.
+date: 2026-11-06T13:17:43Z
+---
+
+Installing a look with tinted surfaces could fail with `Cannot apply unknown utility class bg-background`. The palette now declares explicit Tailwind mappings for background, card, popover and sidebar colors, so their utilities work when the tokens reference surface variables.
+
+## Upgrade notes
+
+Installations that already failed need their CSS repaired or their theme applied again.
+
+[Release on GitHub](https://github.com/gabrielespinheira/fabricator-ui/releases/tag/fabricator-ui%400.5.1)

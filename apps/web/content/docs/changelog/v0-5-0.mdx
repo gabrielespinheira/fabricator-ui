@@ -1,0 +1,134 @@
+---
+title: Version 0.5.0
+description: React Native, App Shell, Fabricator Icons and one-command setup with create.
+date: 2026-11-06
+---
+
+Fabricator UI runs on iOS and Android, five new components frame a whole app, the library has its own icons, and `create` sets up a project, monorepos included, in one command.
+
+## React Native
+
+Fabricator UI now runs on iOS and Android. In an Expo project, the same commands install the native version of each component, and the code looks the same:
+
+```bash
+npx fabricator-ui@latest init
+npx fabricator-ui@latest add button dialog select
+```
+
+```tsx
+import { Button } from "@/components/ui/button"
+
+;<Button variant="outline" size="sm" onPress={save}>
+  Save
+</Button>
+```
+
+The theme comes from the same tokens as the website, so a look draws the same on both: surface tint, colour roles, radius, density and motion, in light and dark. `applyLook` changes it at runtime.
+
+Touch takes over where a web input doesn't exist. Context menus, tooltips and hover cards open on a long press, selects are sheets on phones and popovers on tablets, and sheets and drawers swipe to dismiss. Once `<SoundEffects />` is mounted, controls play the same sounds as on the web, with a haptic for each. Fluid Hover follows the finger: a press lights a row, and dragging across a strip or a menu moves the highlight. On a phone the App Shell's page scrolls under a fade behind the status bar, and its breadcrumb shows the way up, naming the page only once its heading has scrolled away.
+
+The App Shell's tab bar comes flat, floating or in Apple's Liquid Glass, chosen on its install command with `bottomNavStyle`. On phones a panel's toggle draws a bottom panel, and its sheet has a grab handle, full-width tabs and a close button.
+
+Tablets have their own sizes: 40pt controls with the phone's 15pt text, a 288pt sidebar and 32pt page titles, between the website's 36pt and the phone's 44pt, with touch targets staying at 44pt. Split View narrower than 768pt uses the phone's sizes.
+
+Read the [installation guide](/docs/installation/react-native) and [what's different from web](/docs/installation/react-native-differences). Every component page has a React Native tab.
+
+## App Shell and four more components
+
+Five new components put an app's frame together:
+
+- [App Shell](/docs/components/base/app-shell): the Sidebar, a main column with a header, breadcrumb and status bar, side panels that dock beside the page or float over it, one shortcut registry, and the native window controls of Electron and Tauri apps. Its layout follows its own width.
+- [App Nav](/docs/components/base/app-nav): a navigation model rendered into the Sidebar, nested to any depth, with row actions, reordering at every level, pinning and hiding.
+- [Tab Strip](/docs/components/base/tab-strip): document tabs with pinned and preview tabs, drag to reorder, close variants, reopen and rename.
+- [Workspace Switcher](/docs/components/base/workspace-switcher) and [User Menu](/docs/components/base/user-menu).
+
+Five blocks, `app-shell-01` to `app-shell-05`, start you from a workspace app, a workbench, a classic SaaS layout, a desktop app and a mobile-first app.
+
+The behaviour lives in `lib/app-shell-model.ts`, which has no DOM, so a React Native app can share the navigation config, the tab state and the shortcuts.
+
+In a desktop window the sidebar toggle sits in the window's top band, beside the traffic lights on macOS, and `isTranslucent` lets the window's material (macOS vibrancy, Windows Mica) show through the sidebar and the status bar, which sits on the frame under the main column and the panels. Try every option on the [playground](/app-shell).
+
+On phones the shell shows the sidebar behind the page, which moves aside and shrinks beside it; `mobileSidebar="sheet"` keeps a sheet. The panel's toggle holds one spot on screen to open and close.
+
+[The App Shell page](/app-shell) gives you a command for the options you pick: `add app-shell` with its URL writes `components/app-shell-layout.tsx`, already set up with them.
+
+`AppShellContent` takes a `size` (`sm`, `md` or `lg`) that centres the page in a column and gives it the page's padding; left out, the page has the main column's full width.
+
+The [Get started](/create) page previews the real App Shell. A new Shell step sets its options, and the install commands add it with those choices.
+
+With the floating sidebar, only the card has a background: the space around it, the status bar and a titlebar take the main column's colour, and in a translucent window the card shows the glass. The App Shell sits on one 8px grid: the main card and the panel keep 8px from the window and each other, the Sidebar's rows keep 8px from all four of its edges, and the top rows of the Sidebar and the main column line up in every sidebar style. The controls at the ends of the top row sit as far from the card's side as from its top, in every layout and density.
+
+The Sidebar's rows sit 8px from its edges in the `inset` variant, as in `sidebar`, and groups sit 16px apart. Group actions, badges, row actions, the header's trigger and the large rows' chevrons share one axis. Nested rows use the same 16px icons, and each one's icon starts under its parent's label. `SidebarGroupActions` gained `showOnHover`, App Nav uses it, and a closed group hides its actions. `AppNavCustomize`'s default trigger is a sidebar row with an icon, so it fits the icon rail.
+
+App Nav's Customize dialog reorders rows too, by dragging their grips or with the arrow keys, in any group. A dragged row lifts off the list, and a slot marks where it lands.
+
+Toggle Group's joined groups (`spacing={0}`) keep the first button's border and rounded corners, and clip the sliding selection to their own.
+
+The Sidebar's provider gained `onWidthChange`, called when a rail resize ends, and `mobileSidebar`. Its rows are 30px and calmer at rest, with labels at 80% foreground and muted icons, and the active row sits raised on its background instead of turning semibold. Sub-menus nest to any depth, 16px a level, with a guide line that shows on hover and a quiet wash on the current nested row. Group headers are 24px with the chevron after the label, and the toggle draws a filled panel glyph at 18px. Density gained a 30px step (`--density-30`).
+
+Tabs' resting labels are a step darker in light mode, so they meet 4.5:1 on the track.
+
+A sidebar collapsed to icons works much better. Every row, the workspace and the account have a tooltip, with the row's badge in it and a dot on its icon. A row with children opens a menu of them instead of doing nothing, its icon no longer vanishes on hover, and a collapsed group's rows stay on the rail. On macOS the rail is wide enough to keep the traffic lights on it. On React Native, an off-canvas sidebar no longer leaves part of itself in the safe area.
+
+Breadcrumb's text sits on a whole-pixel line at every density, so it centres on its separators and on the App Shell header, instead of rounding up above them.
+
+```bash
+npx fabricator-ui@latest add app-shell app-nav tab-strip workspace-switcher user-menu
+```
+
+## Fabricator Icons
+
+Fabricator UI now has its own icon packages. The outline set is all 2,015 Lucide icons, with Lucide's names, aliases and shapes, so code written for `lucide-react` moves over by changing the import:
+
+```tsx
+import { HouseIcon } from "@fabricator-ui/icons"
+import { GithubIcon } from "@fabricator-ui/icons/brands"
+```
+
+```bash
+npm install @fabricator-ui/icons
+```
+
+The icons render in Server Components, and one icon costs about 1 KB, minified and gzipped.
+
+143 brand marks come with them, from Instagram and LinkedIn to Node.js, PostgreSQL and Tauri. They draw in one colour by default; `color="brand"` uses each brand's own colours, multi-colour art included, and lifts colours that would vanish in dark mode. The marks are never redrawn. Twelve brands whose terms forbid redistribution are left out; [Brands](/docs/icons/brands) lists them and why.
+
+447 of the icons also animate. Import them from `@fabricator-ui/icons/animated` with [Motion](https://motion.dev) installed, under the same names and props, and they play on hover or from a `ref`, and stay still with reduced motion. The animations come from [lucide-animated](https://lucide-animated.com); see [Animated](/docs/icons/animated).
+
+New projects use these icons: `init` and the [Get started](/create) page install `@fabricator-ui/icons`, and components import from it. Existing projects keep the icons they have, and `iconLibrary=lucide` on the init URL keeps Lucide. They draw the same shapes.
+
+The same icons ship for React Native and Expo in `@fabricator-ui/icons-react-native`, where they follow the device's light and dark mode with no setup, and as SVG files, sprites, JSON and strings in `@fabricator-ui/icons-static`. That package also renders PNG tray and menu icons for Electron and Tauri, macOS template images included:
+
+```bash
+npx fabricator-icons png bell --size 16 --scale 1,2 --template
+```
+
+Search and copy every icon, as JSX, SVG or PNG, on the new [Icons](/icons) page, and read the [docs](/docs/icons).
+
+### Custom icons
+
+The icon set now has icons of its own, in a new Custom category on the [Icons](/icons) page. They follow Lucide's drawing rules, so they sit beside Lucide's icons. The first 24 depict Fabricator's components, such as `UiDialogIcon`, `UiToastIcon` and `UiCommandIcon`. Another 15 are for AI and agent products, such as `BotShieldIcon` for guardrails, `MessageSquareStopIcon` for stopping a reply and `QuoteLinkIcon` for citations. The other 73 cover accounts and security, deploys and infrastructure, data grids, commerce, and desktop and mobile, such as `UserCrownIcon` for an owner, `RocketUndoIcon` for a rollback, `ColumnPinIcon`, `ReceiptUndoIcon` for a refund and `GestureSwipeLeftIcon`.
+
+## One command setup
+
+[Get started](/create) now ends in one command, whatever you choose.
+
+```bash
+npx fabricator-ui@latest create my-app --mobile --desktop tauri --agents claude,codex --yes
+```
+
+`create` makes the project, installs your look and components, and wires the App Shell and sounds into your root layout, so there are no files to edit by hand. Sounds are on by default.
+
+**Monorepos.** A new project is now a monorepo unless you pass `--no-monorepo`. Pick any mix of web, mobile and desktop: `--no-web` leaves the website out, and a mobile app on its own stays a plain Expo project. Add a React Native app with Expo, and an Electron or Tauri window around your web app. Every app gets your look, and the App Shell step offers what your apps can honour. `apps add` adds one later, and `add` works from the root with `--app`.
+
+**AI assistants.** Pick as many as you use, with their logos. `agents add claude codex` writes the skill and the MCP server for each, including Codex's `.codex/config.toml`.
+
+**A prompt for your agent.** The Install step also writes your setup as a prompt. Paste it into your agent, and it runs the command, fixes what fails, checks the result and finishes the setup.
+
+**The App Shell.** It now installs on React Native too, from the same options, and nav links work on the first run, with placeholder pages behind them. The Shell step lists what applies everywhere first, then what's only for desktop or mobile, and a project with a React Native app can pick the tab bar's style, with Liquid Glass as the default. The sidebar now collapses by hiding unless you pick Icons. The preview draws real macOS and Windows windows and adds a tablet to the phone, each at its true size and scaled to fit. Two bugs are gone: the phone tab bar installed an empty bar, and choosing a window in the preview wrote one into web projects. On Windows and Linux, the window buttons now get a titlebar row of their own, so they no longer sit over the main card.
+
+**Fixed.** Components with lib dependencies, like `dropdown-menu`, `tabs` and `sidebar`, didn't build in a monorepo.
+
+`upgrade` reinstalls your components at their latest versions. `doctor` checks each app in a monorepo, and the toolchains they need.
+
+[Release on GitHub](https://github.com/gabrielespinheira/fabricator-ui/releases/tag/fabricator-ui%400.5.0)

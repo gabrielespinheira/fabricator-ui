@@ -14,7 +14,7 @@ In this order:
 | **Structure** | The frame of an app and the arrangement of a page: navigation, layout, containers | `app-shell`, `sidebar`, `tabs`, `breadcrumb`, `accordion`, `card`, `item` |
 | **Content**   | Showing data, media and the result of an action                                   | `table`, `alert`, `toast`, `progress`, `empty`, `markdown`                |
 | **Chat**      | Parts made for a conversation with a person or an assistant                       | `chat-input`, `message`, `bubble`, `model-picker`, `questionnaire`        |
-| **Advanced**  | Large, self-contained components that are a small product of their own            | `data-table`, `editor`, `file-tree`, `syntax-highlight`, `video-player`   |
+| **Advanced**  | Large, self-contained components that are a small product of their own            | `data-table`, `event-calendar`, `editor`, `file-tree`, `video-player`     |
 
 ## Choosing a group
 
@@ -44,7 +44,7 @@ The seven groups are a settled decision. Adding, removing, renaming or reorderin
 - `COMPONENT_GROUPS` and the slugs in `apps/web/lib/component-groups.ts`, with `component-groups.test.ts`.
 - The group icons in `apps/web/lib/explorer-icons.ts` and `apps/mobile/src/nav.ts`.
 - The navigation IDs in `apps/web/lib/component-explorer.ts`. Saved navigation preferences store them, so they never change on a rename (`Structure` keeps `group-navigation-layout`); a new group gets a new ID.
-- This file, the root [`DESIGN.md`](../DESIGN.md) if its "Choosing a component" table moves, and a changelog entry.
+- This file, the root [`DESIGN.md`](../DESIGN.md) if its "Choosing a component" table moves, and a section in the unreleased changelog page.
 
 ## Done when
 

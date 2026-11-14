@@ -1,32 +1,31 @@
 import Link from "next/link"
-import { mdxComponents } from "@/mdx-components"
 import { IconRss } from "@tabler/icons-react"
 
 import { getChangelogPages, type ChangelogPageData } from "@/lib/changelog"
+import { formatChangelogDate } from "@/lib/changelog-order"
 import { absoluteUrl } from "@/lib/utils"
 import { Button } from "@/styles/radix-nova/ui/button"
 
 export const revalidate = false
 export const dynamic = "force-static"
 
-const NUMBER_OF_LATEST_PAGES = 5
+const DESCRIPTION =
+  "Every Fabricator UI release, newest first, with the components it added and changed."
 
 export function generateMetadata() {
   return {
     title: "Changelog",
-    description: "Latest updates and announcements.",
+    description: DESCRIPTION,
     openGraph: {
       title: "Changelog",
-      description: "Latest updates and announcements.",
+      description: DESCRIPTION,
       type: "article",
       url: absoluteUrl("/docs/changelog"),
       images: [
         {
           url: `/og?title=${encodeURIComponent(
             "Changelog"
-          )}&description=${encodeURIComponent(
-            "Latest updates and announcements."
-          )}`,
+          )}&description=${encodeURIComponent(DESCRIPTION)}`,
         },
       ],
     },
@@ -35,8 +34,6 @@ export function generateMetadata() {
 
 export default function ChangelogPage() {
   const pages = getChangelogPages()
-  const latestPages = pages.slice(0, NUMBER_OF_LATEST_PAGES)
-  const olderPages = pages.slice(NUMBER_OF_LATEST_PAGES)
 
   return (
     <div
@@ -58,83 +55,40 @@ export default function ChangelogPage() {
                 </a>
               </Button>
             </div>
-            <p className="text-[1.05rem] text-muted-foreground sm:text-base sm:text-balance md:max-w-[80%]">
-              Latest updates and announcements.
+            <p className="text-[1.05rem] text-muted-foreground sm:text-base">
+              {DESCRIPTION}
             </p>
           </div>
-          <div className="w-full flex-1 pb-16 sm:pb-0">
-            {latestPages.map((page) => {
-              const data = page.data as ChangelogPageData
-              const MDX = page.data.body
-
-              return (
-                <article key={page.url} className="mb-12 border-b pb-12">
-                  <h2 className="font-heading text-xl font-semibold tracking-tight">
-                    {data.title}
-                  </h2>
-                  <div className="typeset mt-6 *:first:mt-0">
-                    <MDX components={mdxComponents} />
-                  </div>
-                </article>
-              )
-            })}
-            {olderPages.length > 0 && (
-              <div id="more-updates" className="mb-24 scroll-mt-24">
-                <h2 className="mb-6 font-heading text-xl font-semibold tracking-tight">
-                  More Updates
-                </h2>
-                <div className="grid auto-rows-fr gap-3 sm:grid-cols-2">
-                  {olderPages.map((page) => {
-                    const data = page.data as ChangelogPageData
-                    const [date, ...titleParts] = data.title.split(" - ")
-                    const title = titleParts.join(" - ")
-                    return (
-                      <Link
-                        key={page.url}
-                        href={page.url}
-                        className="flex w-full flex-col rounded-2xl bg-surface px-4 py-3 text-surface-foreground transition-colors hover:bg-surface/80"
-                      >
-                        <span className="text-xs text-muted-foreground">
-                          {date}
-                        </span>
-                        <span className="text-sm font-medium">{title}</span>
-                      </Link>
-                    )
-                  })}
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-      </div>
-      <div className="sticky top-[calc(var(--header-height)+1px)] z-30 ml-auto hidden h-[90svh] w-72 flex-col gap-4 overflow-hidden overscroll-none pb-8 lg:flex">
-        <div className="h-(--top-spacing) shrink-0"></div>
-        <div className="no-scrollbar flex flex-col gap-8 overflow-y-auto px-8">
-          <div className="flex flex-col gap-2 p-4 pt-0 text-sm">
-            <p className="sticky top-0 h-6 bg-background text-xs font-medium text-muted-foreground">
-              On This Page
-            </p>
-            {latestPages.map((page) => {
+          <ol className="flex w-full flex-col gap-3 pb-16 sm:pb-0">
+            {pages.map((page) => {
               const data = page.data as ChangelogPageData
               return (
-                <Link
-                  key={page.url}
-                  href={page.url}
-                  className="text-[0.8rem] text-muted-foreground no-underline transition-colors hover:text-foreground"
-                >
-                  {data.title}
-                </Link>
+                <li key={page.url}>
+                  <Link
+                    href={page.url}
+                    className="flex w-full flex-col rounded-2xl bg-surface px-4 py-3 text-surface-foreground transition-colors hover:bg-surface/80"
+                  >
+                    <span className="flex items-baseline justify-between gap-4">
+                      <span className="text-sm font-medium">{data.title}</span>
+                      {page.date && (
+                        <time
+                          dateTime={page.date.toISOString().slice(0, 10)}
+                          className="shrink-0 text-xs text-muted-foreground"
+                        >
+                          {formatChangelogDate(page.date)}
+                        </time>
+                      )}
+                    </span>
+                    {data.description && (
+                      <span className="mt-1 text-[13px] text-muted-foreground">
+                        {data.description}
+                      </span>
+                    )}
+                  </Link>
+                </li>
               )
             })}
-            {olderPages.length > 0 && (
-              <a
-                href="#more-updates"
-                className="text-[0.8rem] text-muted-foreground no-underline transition-colors hover:text-foreground"
-              >
-                More Updates
-              </a>
-            )}
-          </div>
+          </ol>
         </div>
       </div>
     </div>

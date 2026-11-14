@@ -63,7 +63,7 @@ A change that breaks one of these is a bug, even if everything builds. Code comm
 
 ## Brand
 
-Write "Fabricator UI", "the CLI" (`npx fabricator-ui@latest …`), "the registry" and "styles". The shadcn name appears only in attribution (`LICENSE.md`, `NOTICE.md`, READMEs, the docs' Acknowledgements, the first changelog entry), compatibility notes (docs introduction, Registry page, one line on the CLI page and CLI README), technical identifiers (`shadcn/tailwind.css`, `@shadcn/react`, `shadcn migrate`) and internal docs and code. Demo content uses the identity in `scripts/rebrand.ts`; CI runs `bun run rebrand --check`.
+Write "Fabricator UI", "the CLI" (`npx fabricator-ui@latest …`), "the registry" and "styles". The shadcn name appears only in attribution (`LICENSE.md`, `NOTICE.md`, READMEs, the docs' Acknowledgements, the Version 0.2.0 changelog page), compatibility notes (docs introduction, Registry page, one line on the CLI page and CLI README), technical identifiers (`shadcn/tailwind.css`, `@shadcn/react`, `shadcn migrate`) and internal docs and code. Demo content uses the identity in `scripts/rebrand.ts`; CI runs `bun run rebrand --check`.
 
 ## Definition of done
 
@@ -73,7 +73,7 @@ Report each applicable line as passed, or name what wasn't run and why.
 - [ ] Authored registry changes are followed by a full `bun run registry:build`; committed indexes are updated and no gitignored output is staged.
 - [ ] The contract holds, and the area doc's own checks pass (each doc ends with a **Done when** list).
 - [ ] UI was checked in the running site: light and dark, keyboard only, phone and desktop widths, axe clean on touched pages.
-- [ ] User-visible registry changes have an entry in `apps/web/content/docs/changelog/`. Versions and `CHANGELOG.md` change only in a `/release` commit.
+- [ ] User-visible registry changes have a section in `apps/web/content/docs/changelog/unreleased.mdx` ([`docs/WEBSITE.md`](docs/WEBSITE.md#docs)). Versions and `CHANGELOG.md` change only in a `/release` commit.
 - [ ] Docs that own a changed convention are updated.
 
 ## Git

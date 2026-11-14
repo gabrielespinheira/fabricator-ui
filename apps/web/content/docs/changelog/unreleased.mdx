@@ -1,0 +1,26 @@
+---
+title: Unreleased
+description: Changes merged since the last release. They ship in the next version.
+---
+
+These changes are merged and ship in the next version.
+
+## New components
+
+### Event Calendar
+
+[Event Calendar](/docs/components/base/event-calendar) is a scheduler on FullCalendar 7, in the Advanced group: day, N-day, week, month, year and agenda views, drag to create, move and resize, recurring events that ask "this, following or all" when one occurrence changes, time zones, a month-by-month loader for thousands of events, and changes that show at once, report themselves in a toast with Undo, and revert when saving fails. Every event, panel, form and menu is the library's own, and the keyboard can do everything the pointer can: Space picks up an event, the arrows move it, and Google Calendar's shortcuts switch views.
+
+Add it with `npx fabricator-ui@latest add event-calendar`.
+
+## Updated components
+
+### Avatar
+
+`Avatar` takes an optional `tooltip`, a string or the tooltip content's props, that names the person on hover and keyboard focus. An avatar with a tooltip is focusable and announced as an image named by it. In an `AvatarGroup`, moving along the avatars swaps names without replaying the tooltip's entrance.
+
+Avatars in a group now overlap by a third of their size, and the group parts around the avatar a mouse enters or keyboard focus reaches, until the pointer leaves the group: it lifts 3px, grows to 1.06 and comes forward, while the avatars before it slide back and those after it slide on by a quarter of their size. The moves ride a new `settle` motion role, a spring that doesn't visibly overshoot (`duration-settle`, `ease-settle`), on every motion speed. Touch never parts the group, and reduced motion keeps the avatar coming forward without the moves. On React Native the same parting follows a held avatar, and a long press shows its tooltip.
+
+Avatars in demos and blocks are no longer drawn in grayscale.
+
+Update with `npx fabricator-ui@latest add avatar`. It now installs `tooltip` too.

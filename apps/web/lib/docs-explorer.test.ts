@@ -27,6 +27,39 @@ describe("docs explorer", () => {
   })
 })
 
+describe("docs explorer changelog", () => {
+  it("lists unreleased changes, then releases newest first with their day", () => {
+    const groups = getDocsExplorerGroups(
+      [
+        { url: "/docs/changelog", title: "Changelog" },
+        {
+          url: "/docs/changelog/v0-4-0",
+          title: "Version 0.4.0",
+          date: "2026-10-28",
+        },
+        { url: "/docs/changelog/unreleased", title: "Unreleased" },
+        {
+          url: "/docs/changelog/v0-8-0",
+          title: "Version 0.8.0",
+          date: "2026-11-13",
+        },
+      ],
+      "base"
+    )
+    const changelog = groups
+      .flatMap((group) => group.items)
+      .find((item) => item.id === "Changelog")
+    expect(
+      changelog?.children?.map((child) => [child.label, child.badge])
+    ).toEqual([
+      ["All releases", undefined],
+      ["Unreleased", undefined],
+      ["Version 0.8.0", "Nov 13"],
+      ["Version 0.4.0", "Oct 28"],
+    ])
+  })
+})
+
 describe("docs pagination", () => {
   const components = [
     { slug: "badge", title: "Badge" },

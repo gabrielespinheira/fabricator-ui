@@ -4,6 +4,8 @@ import { mdxComponents } from "@/mdx-components"
 import { IconArrowLeft, IconArrowRight } from "@tabler/icons-react"
 import { cn } from "cn"
 
+import { getDateFromFile, isChangelogEntry } from "@/lib/changelog"
+import { formatChangelogDate } from "@/lib/changelog-order"
 import { getDocsNeighbours } from "@/lib/docs-explorer"
 import { replaceComponentsList } from "@/lib/llm"
 import { source } from "@/lib/source"
@@ -81,6 +83,9 @@ export default async function Page(props: {
   const doc = page.data
   const MDX = doc.body
   const isChangelog = params.slug?.[0] === "changelog"
+  const changelogDate = isChangelogEntry(params.slug ?? [])
+    ? getDateFromFile(params.slug)
+    : null
   const neighbours = isChangelog
     ? { previous: null, next: null }
     : getDocsNeighbours(
@@ -96,6 +101,14 @@ export default async function Page(props: {
       <div className="flex min-w-0 flex-1 flex-col">
         <div className="mx-auto flex w-full min-w-0 flex-1 flex-col gap-8 pb-16 text-foreground">
           <header className="flex flex-col gap-2">
+            {changelogDate && (
+              <time
+                dateTime={changelogDate.toISOString().slice(0, 10)}
+                className="text-[13px] font-medium text-muted-foreground"
+              >
+                {formatChangelogDate(changelogDate)}
+              </time>
+            )}
             <div className="flex items-start justify-between gap-4">
               {page.url === "/docs" ? (
                 <h2 className="text-2xl font-semibold tracking-tight">
