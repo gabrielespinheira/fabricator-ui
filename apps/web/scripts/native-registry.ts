@@ -60,14 +60,20 @@ const SHARED_LIB_FILES = [
   "markdown-serialize",
   "markdown-tree",
   "model-picker-model",
+  "event-calendar-model",
+  "event-calendar-recurrence",
+  "event-calendar-loader",
 ] as const
+
+// React-only hooks the website and native share, from shared/hooks.
+const SHARED_HOOK_FILES = ["use-event-calendar"] as const
 
 const SHARED_LIB_NAMES: ReadonlySet<string> = new Set(SHARED_LIB_FILES)
 
 /**
  * Where a native item's file comes from. Most live in registry/native; the
- * token modules and the App Shell's models are the same files the website
- * compiles from, installed under lib/.
+ * token modules, the shared models and the shared hooks are the same files
+ * the website compiles from, installed under lib/ and hooks/.
  */
 export function getNativeSourcePath(filePath: string) {
   const tokenMatch = /^lib\/fabricator\/(.+)\.ts$/.exec(filePath)
@@ -82,6 +88,10 @@ export function getNativeSourcePath(filePath: string) {
     (name) => filePath === `lib/${name}.ts`
   )
   if (sharedLib) return `registry/fabricator/shared/lib/${sharedLib}.ts`
+  const sharedHook = SHARED_HOOK_FILES.find(
+    (name) => filePath === `hooks/${name}.ts`
+  )
+  if (sharedHook) return `registry/fabricator/shared/hooks/${sharedHook}.ts`
   return `registry/native/${filePath}`
 }
 
@@ -100,6 +110,15 @@ export function rewriteSharedImports(source: string) {
     .replace(
       /@\/registry\/fabricator\/shared\/lib\//g,
       "@/registry/native/lib/"
+    )
+    .replace(
+      /@\/registry\/fabricator\/shared\/hooks\//g,
+      "@/registry/native/hooks/"
+    )
+    .replace(
+      // A shared hook imports the libs as each website base installs them.
+      /@\/registry\/bases\/__base__\/(lib|hooks)\//g,
+      "@/registry/native/$1/"
     )
     .replace(
       /@\/registry\/fabricator\/([a-z-]+)/g,

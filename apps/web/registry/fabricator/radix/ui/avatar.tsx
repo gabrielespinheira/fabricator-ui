@@ -5,6 +5,12 @@ import { cn } from "cn"
 import { Avatar as AvatarPrimitive } from "radix-ui"
 
 import {
+  AvatarGroupLabel,
+  useAvatarGroupName,
+  useAvatarGroupNames,
+  useAvatarGroupParting,
+} from "@/registry/bases/radix/lib/avatar-group-parting"
+import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
@@ -12,14 +18,18 @@ import {
 } from "@/registry/bases/radix/ui/tooltip"
 
 // Fabricator override of the upstream avatar: an optional `tooltip` names the
-// person on hover and focus, and a group parts around the avatar under the
-// pointer (registry/styles/fabricator/avatar.css). A group's avatars share one
-// tooltip provider, so moving along it swaps names without the open animation;
-// an avatar outside a group brings its own, which Radix's tooltip needs.
+// person on hover and focus. A group parts around the avatar a mouse enters or
+// focus reaches, on the settle spring, and shows that avatar's name in one
+// label that glides with it (lib/avatar-group-parting,
+// registry/styles/fabricator/avatar.css). In a group, `tooltip` gives the
+// label its name; its other options apply to an avatar on its own.
 
 type AvatarTooltip = string | React.ComponentProps<typeof TooltipContent>
 
-const AvatarGroupContext = React.createContext(false)
+// Set by a group: its avatars put their names in its label.
+const AvatarGroupNameContext = React.createContext<
+  ((id: string, name: React.ReactNode) => () => void) | null
+>(null)
 
 function getTooltipProps(tooltip: AvatarTooltip) {
   return typeof tooltip === "string" ? { children: tooltip } : tooltip
@@ -38,11 +48,23 @@ function Avatar({
   size?: "default" | "sm" | "lg"
   tooltip?: AvatarTooltip
 }) {
-  const isInGroup = React.use(AvatarGroupContext)
+  const register = React.use(AvatarGroupNameContext)
+  const tooltipProps = tooltip ? getTooltipProps(tooltip) : undefined
+  const nameProps = useAvatarGroupName(
+    tooltipProps ? register : null,
+    tooltipProps?.children
+  )
   const avatar = (
     <AvatarPrimitive.Root
       data-slot="avatar"
       data-size={size}
+      // Focusable, so the name shows on focus too: an image named by it.
+      {...(tooltipProps && {
+        role: "img",
+        "aria-label": getTooltipLabel(tooltipProps),
+        tabIndex: 0,
+        ...(register && nameProps),
+      })}
       className={cn(
         "cn-avatar group/avatar relative flex shrink-0 select-none after:absolute after:inset-0 after:border after:border-border after:mix-blend-darken dark:after:mix-blend-lighten",
         className
@@ -50,27 +72,17 @@ function Avatar({
       {...props}
     />
   )
-  if (!tooltip) return avatar
-
-  const tooltipProps = getTooltipProps(tooltip)
-  // Focusable, so the name shows on focus too: an image named by its tooltip.
-  // No hoverable content: its grace area would hold one name open while the
-  // pointer moves sideways onto the next avatar.
-  const avatarWithTooltip = (
-    <Tooltip disableHoverableContent>
-      <TooltipTrigger
-        asChild
-        role="img"
-        aria-label={getTooltipLabel(tooltipProps)}
-        tabIndex={0}
-      >
-        {avatar}
-      </TooltipTrigger>
-      <TooltipContent {...tooltipProps} />
-    </Tooltip>
+  if (!tooltipProps || register) return avatar
+  // Radix's tooltip needs a provider above it. No hoverable content, so a name
+  // never holds on while the pointer moves away.
+  return (
+    <TooltipProvider>
+      <Tooltip disableHoverableContent>
+        <TooltipTrigger asChild>{avatar}</TooltipTrigger>
+        <TooltipContent {...tooltipProps} />
+      </Tooltip>
+    </TooltipProvider>
   )
-  if (isInGroup) return avatarWithTooltip
-  return <TooltipProvider>{avatarWithTooltip}</TooltipProvider>
 }
 
 function AvatarImage({
@@ -121,20 +133,36 @@ function AvatarBadge({ className, ...props }: React.ComponentProps<"span">) {
   )
 }
 
-function AvatarGroup({ className, ...props }: React.ComponentProps<"div">) {
+function AvatarGroup({
+  className,
+  ref,
+  onPointerOver,
+  onPointerLeave,
+  onFocus,
+  onBlur,
+  ...props
+}: React.ComponentProps<"div">) {
+  const { groupProps, group, activeIndex } = useAvatarGroupParting({
+    ref,
+    onPointerOver,
+    onPointerLeave,
+    onFocus,
+    onBlur,
+  })
+  const { names, register } = useAvatarGroupNames()
   return (
-    <AvatarGroupContext value>
-      <TooltipProvider>
-        <div
-          data-slot="avatar-group"
-          className={cn(
-            "cn-avatar-group group/avatar-group flex -space-x-2 *:data-[slot=avatar]:ring-2 *:data-[slot=avatar]:ring-background",
-            className
-          )}
-          {...props}
-        />
-      </TooltipProvider>
-    </AvatarGroupContext>
+    <AvatarGroupNameContext value={register}>
+      <div
+        data-slot="avatar-group"
+        className={cn(
+          "cn-avatar-group group/avatar-group relative flex *:data-[slot=avatar]:ring-2 *:data-[slot=avatar]:ring-background",
+          className
+        )}
+        {...props}
+        {...groupProps}
+      />
+      <AvatarGroupLabel group={group} activeIndex={activeIndex} names={names} />
+    </AvatarGroupNameContext>
   )
 }
 

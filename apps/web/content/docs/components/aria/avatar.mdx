@@ -141,7 +141,7 @@ You can also use an icon inside `<AvatarGroupCount>`.
 
 ## Avatar Group with Tooltips
 
-Pass `tooltip` to name each person on hover and keyboard focus. The group parts around the avatar under the pointer: it lifts and comes forward while its neighbours slide aside, on a spring. Moving along the group swaps names without replaying the tooltip's entrance.
+Pass `tooltip` to name each person on hover and keyboard focus. The group parts around the avatar the pointer enters: it lifts and comes forward while its neighbours slide aside on a spring, and stays parted until the pointer leaves the group. In a group the names show in one label, the tooltip's chip, which appears after a short beat and glides with the parting from avatar to avatar.
 
 <ComponentPreview styleName="aria-nova" name="avatar-group-tooltip" />
 
@@ -179,7 +179,7 @@ The `Avatar` component is the root component that wraps the avatar image and fal
 | `tooltip`   | `string \| TooltipProps`    | -           |
 | `className` | `string`                    | -           |
 
-A string is the tooltip's text; an object is passed to the `Tooltip`, for its `placement`, `className` or richer `children`. An avatar with a tooltip takes focus and becomes an image named by a string tooltip; pass `aria-label` when its content isn't a string.
+A string is the tooltip's text; an object is passed to the `Tooltip`, for its `placement`, `className` or richer `children`. An avatar with a tooltip takes focus and becomes an image named by a string tooltip; pass `aria-label` when its content isn't a string. In an `AvatarGroup` only its `children` are used, as the name in the group's label.
 
 ### AvatarImage
 
@@ -227,4 +227,5 @@ The `AvatarGroupCount` component displays a count indicator in an avatar group, 
 
 - An avatar's image takes its `alt`; with an image that fails, the fallback's initials show instead.
 - With a `tooltip`, the avatar is in the tab order with `role="img"`, named by the tooltip's text, which also shows on focus.
-- The group's parting runs for a fine pointer and keyboard focus only, and reduced motion keeps the avatar coming forward without the moves.
+- The group parts for a mouse and for keyboard focus, never for touch, and reduced motion keeps the avatar coming forward without the moves.
+- A group's name label is hidden from assistive tech: each avatar is already named by its `tooltip`.

@@ -40,11 +40,19 @@ const AvatarGroupPartingContext = React.createContext<
 >(null)
 const AvatarGroupItemContext = React.createContext<number | null>(null)
 
-// The website's parting: the held avatar lifts 2pt and grows to 1.06, the
-// others slide 4pt away from it.
-const PART_SHIFT = 4
-const PART_LIFT = -2
+// The website's geometry: avatars overlap by a third of their size, and while
+// one is held it lifts 3pt and grows to 1.06 as the others slide a quarter of
+// their size away from it.
+const PART_LIFT = -3
 const PART_SCALE = 1.06
+// Each item's border-2 ring, which a margin has to take in to overlap as much.
+const ITEM_RING = 2
+
+const AVATAR_SIZE_TOKEN: Record<AvatarSize, string> = {
+  default: "--density-32",
+  sm: "--density-24",
+  lg: "--density-40",
+}
 
 type AvatarTooltip = string | React.ComponentProps<typeof TooltipContent>
 
@@ -299,8 +307,9 @@ function AvatarGroup({
   )
 }
 
-// Springs to its place in the parting on the bounce role, both ways. Reduced
-// motion and motion off keep the held avatar in front and drop the moves.
+// Springs to its place in the parting on the settle role, both ways, as the
+// website does. Reduced motion and motion off keep the held avatar in front and
+// drop the moves.
 function AvatarGroupItem({
   index,
   activeIndex,
@@ -310,7 +319,9 @@ function AvatarGroupItem({
   activeIndex: number | null
   children: React.ReactNode
 }) {
-  const motion = useMotion("bounce")
+  const motion = useMotion("settle")
+  const size = React.use(AvatarGroupContext)
+  const avatarSize = parseNumber(useCSSVariable(AVATAR_SIZE_TOKEN[size]), 32)
   const part = getAvatarPart(index, activeIndex)
   const isStill = motion.isReduced || motion.isOff
   const shift = useSharedValue(0)
@@ -319,11 +330,21 @@ function AvatarGroupItem({
     const isParting = activeIndex !== null
     const config = {
       duration: isParting ? motion.enterMs : motion.exitMs,
-      easing: motion.bounceEasing,
+      easing: motion.settleEasing,
     }
-    shift.set(withTiming(isStill ? 0 : part.shift * PART_SHIFT, config))
+    const distance = isStill ? 0 : (part.shift * avatarSize) / 4
+    shift.set(withTiming(distance, config))
     lift.set(withTiming(isStill || !part.isLifted ? 0 : 1, config))
-  }, [activeIndex, isStill, lift, motion, part.isLifted, part.shift, shift])
+  }, [
+    activeIndex,
+    avatarSize,
+    isStill,
+    lift,
+    motion,
+    part.isLifted,
+    part.shift,
+    shift,
+  ])
   const style = useAnimatedStyle(() => ({
     transform: [
       { translateX: shift.get() },
@@ -331,12 +352,15 @@ function AvatarGroupItem({
       { scale: 1 + lift.get() * (PART_SCALE - 1) },
     ],
   }))
+  const overlap = index === 0 ? 0 : avatarSize / 3 + ITEM_RING * 2
   return (
     <AvatarGroupItemContext value={index}>
       <Animated.View
-        data-first={index === 0}
         className="cn-avatar-group-item"
-        style={[style, { zIndex: part.isLifted ? 10 : 0 }]}
+        style={[
+          style,
+          { marginStart: -overlap, zIndex: part.isLifted ? 10 : 0 },
+        ]}
       >
         {children}
       </Animated.View>

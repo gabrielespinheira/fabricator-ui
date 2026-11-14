@@ -39,6 +39,7 @@ type MotionRole =
   | "sheet"
   | "disclosure"
   | "bounce"
+  | "settle"
   | "toast"
 
 // The website's `linear()` spring: the same samples, joined by straight lines.
@@ -56,9 +57,10 @@ function createSampledEasing(samples: number[]) {
 }
 
 function buildEasings(name: MotionSpeedName) {
-  const { easings, bounce } = MOTION_SPEEDS[name]
+  const { easings, bounce, settle } = MOTION_SPEEDS[name]
   return {
     bounceEasing: createSampledEasing(getSpringSamples(bounce)),
+    settleEasing: createSampledEasing(getSpringSamples(settle)),
     enterEasing: Easing.bezier(...parseBezier(easings.enter)),
     exitEasing: Easing.bezier(...parseBezier(easings.exit)),
     moveEasing: Easing.bezier(...parseBezier(easings.move)),

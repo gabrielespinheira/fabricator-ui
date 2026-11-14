@@ -1,3 +1,4 @@
+import { getTokenFile } from "@/scripts/native-registry"
 import { type Registry } from "shadcn/schema"
 
 import { docs } from "./shared"
@@ -288,6 +289,62 @@ export const dataItems: Registry["items"] = [
       { path: "lib/table-model.ts", type: "registry:lib" },
     ],
     meta: docs("table"),
+  },
+  {
+    name: "event-calendar",
+    type: "registry:ui",
+    title: "Event Calendar",
+    description:
+      "A Google Calendar-class scheduler on @super-calendar/native: day, N-day, week, month, year and agenda views, drag to create, move and resize, recurring events with scoped edits, a month-by-month loader, optimistic changes with undo, VoiceOver actions for every drag, settings, a mini month and a calendar list.",
+    // The engine is pinned: the adapter is written against one version's
+    // props. It needs Legend List, Gesture Handler and Reanimated beside it.
+    dependencies: [
+      "@date-fns/tz@1.5.0",
+      "@fabricator-ui/icons-react-native",
+      "@legendapp/list@3.7.2",
+      "@super-calendar/native@2.17.0",
+      "cn",
+      "date-fns",
+      "react-native-gesture-handler",
+      "react-native-reanimated",
+      "react-native-worklets",
+      UNIWIND,
+    ],
+    registryDependencies: [
+      "@fabricator/button",
+      "@fabricator/calendar",
+      "@fabricator/checkbox",
+      "@fabricator/date-picker",
+      "@fabricator/density",
+      "@fabricator/dialog",
+      "@fabricator/drawer",
+      "@fabricator/empty",
+      "@fabricator/feedback",
+      "@fabricator/field",
+      "@fabricator/input",
+      "@fabricator/motion",
+      "@fabricator/popover",
+      "@fabricator/radio-group",
+      "@fabricator/select",
+      "@fabricator/switch",
+      "@fabricator/text",
+      "@fabricator/textarea",
+      "@fabricator/time-input",
+      "@fabricator/toast",
+    ],
+    files: [
+      { path: "ui/event-calendar.tsx", type: "registry:ui" },
+      { path: "ui/event-calendar-engine.tsx", type: "registry:ui" },
+      { path: "ui/event-calendar-event.tsx", type: "registry:ui" },
+      { path: "ui/event-calendar-agenda.tsx", type: "registry:ui" },
+      { path: "hooks/use-event-calendar.ts", type: "registry:hook" },
+      { path: "lib/event-calendar-model.ts", type: "registry:lib" },
+      { path: "lib/event-calendar-recurrence.ts", type: "registry:lib" },
+      { path: "lib/event-calendar-loader.ts", type: "registry:lib" },
+      { path: "lib/event-calendar-native-model.ts", type: "registry:lib" },
+      { path: getTokenFile("surface-tint"), type: "registry:lib" },
+    ],
+    meta: docs("event-calendar"),
   },
   {
     name: "scroll-area",

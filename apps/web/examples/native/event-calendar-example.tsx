@@ -1,0 +1,253 @@
+import * as React from "react"
+import { Example, ExampleWrapper } from "@/examples/native/example"
+import { View } from "react-native"
+
+import {
+  EventCalendar,
+  EventCalendarAgenda,
+  EventCalendarMiniMonth,
+  EventCalendarSources,
+  useEventCalendar,
+  type CalendarEvent,
+  type CalendarSource,
+} from "@/registry/native/ui/event-calendar"
+import { Field, FieldLabel } from "@/registry/native/ui/field"
+import { Switch } from "@/registry/native/ui/switch"
+import { Toaster } from "@/registry/native/ui/toast"
+
+const calendars: CalendarSource[] = [
+  { id: "work", name: "Work", color: "blue" },
+  { id: "team", name: "Team", color: "green" },
+  { id: "personal", name: "Personal", color: "purple" },
+  { id: "holidays", name: "Holidays", color: "orange", editable: false },
+]
+
+const pad = (value: number) => String(value).padStart(2, "0")
+
+/** A local wall time `days` from the start of this week. */
+function at(days: number, time?: string) {
+  const day = new Date()
+  day.setDate(day.getDate() - day.getDay() + days)
+  const date = `${day.getFullYear()}-${pad(day.getMonth() + 1)}-${pad(day.getDate())}`
+  return time ? `${date}T${time}:00` : date
+}
+
+function createEvents(): CalendarEvent[] {
+  return [
+    {
+      id: "standup",
+      title: "Standup",
+      start: at(1, "09:30"),
+      end: at(1, "09:45"),
+      calendarId: "team",
+      recurrence: "RRULE:FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR",
+      location: "Huddle room",
+    },
+    {
+      id: "planning",
+      title: "Sprint planning",
+      start: at(1, "10:00"),
+      end: at(1, "11:30"),
+      calendarId: "team",
+      location: "Atlas, 3rd floor",
+      description: "Bring the estimates for the onboarding epic.",
+    },
+    {
+      id: "design-review",
+      title: "Design review: billing",
+      start: at(2, "14:00"),
+      end: at(2, "15:00"),
+      calendarId: "work",
+    },
+    {
+      id: "one-on-one",
+      title: "1:1 with Maya",
+      start: at(2, "16:00"),
+      end: at(2, "16:30"),
+      calendarId: "work",
+      recurrence: "RRULE:FREQ=WEEKLY;INTERVAL=2;BYDAY=TU",
+    },
+    {
+      id: "lunch",
+      title: "Lunch with Acme Inc",
+      start: at(3, "12:30"),
+      end: at(3, "13:30"),
+      calendarId: "work",
+      location: "Cervejaria Ramiro",
+    },
+    {
+      id: "focus",
+      title: "Focus time",
+      start: at(3, "09:00"),
+      end: at(3, "12:00"),
+      calendarId: "personal",
+    },
+    {
+      id: "interview",
+      title: "Interview: frontend",
+      start: at(3, "10:30"),
+      end: at(3, "11:30"),
+      calendarId: "work",
+    },
+    {
+      id: "sync",
+      title: "Product sync",
+      start: at(3, "11:00"),
+      end: at(3, "11:45"),
+      calendarId: "team",
+    },
+    {
+      id: "launch",
+      title: "Launch day",
+      start: at(4),
+      end: at(5),
+      calendarId: "work",
+    },
+    {
+      id: "offsite",
+      title: "Team offsite",
+      start: at(4),
+      end: at(7),
+      calendarId: "team",
+      location: "Sintra",
+    },
+    {
+      id: "retro",
+      title: "Retro",
+      start: at(5, "15:00"),
+      end: at(5, "16:00"),
+      calendarId: "team",
+      status: "tentative",
+    },
+    {
+      id: "gym",
+      title: "Gym",
+      start: at(0, "18:00"),
+      end: at(0, "19:00"),
+      calendarId: "personal",
+      recurrence: "RRULE:FREQ=WEEKLY;BYDAY=MO,WE,SA",
+    },
+    {
+      id: "holiday",
+      title: "Public holiday",
+      start: at(12),
+      end: at(13),
+      calendarId: "holidays",
+    },
+  ]
+}
+
+const BUSY_TITLES = ["Review", "Call", "Pairing", "Interview", "Sync", "Demo"]
+const BUSY_CALENDARS = ["work", "team", "personal"]
+
+/** About three hundred events across this week, eight in the morning to six. */
+function createBusyWeek(): CalendarEvent[] {
+  return Array.from({ length: 300 }, (_, index) => {
+    const day = index % 7
+    const minutes = 8 * 60 + ((index * 37) % (10 * 60))
+    const slot = Math.floor(minutes / 15) * 15
+    const time = (total: number) =>
+      `${pad(Math.floor(total / 60))}:${pad(total % 60)}`
+    return {
+      id: `busy-${index}`,
+      title: `${BUSY_TITLES[index % BUSY_TITLES.length]} ${index + 1}`,
+      start: at(day, time(slot)),
+      end: at(day, time(Math.min(slot + 30 + (index % 3) * 15, 23 * 60 + 45))),
+      calendarId: BUSY_CALENDARS[index % BUSY_CALENDARS.length],
+    }
+  })
+}
+
+function DefaultCalendar() {
+  const [events, setEvents] = React.useState(createEvents)
+  const [isBusy, setIsBusy] = React.useState(false)
+  return (
+    <>
+      <Field orientation="horizontal">
+        <Switch
+          accessibilityLabel="A busy week, 300 more events"
+          checked={isBusy}
+          onCheckedChange={(checked) => {
+            setIsBusy(checked)
+            setEvents((current) =>
+              checked
+                ? [...current, ...createBusyWeek()]
+                : current.filter((event) => !event.id.startsWith("busy-"))
+            )
+          }}
+        />
+        <FieldLabel onPress={() => setIsBusy(!isBusy)}>
+          A busy week, 300 more events
+        </FieldLabel>
+      </Field>
+      <EventCalendar
+        events={events}
+        calendars={calendars}
+        onEventChange={(change) => setEvents(change.apply)}
+        className="h-[640px] w-full"
+      />
+    </>
+  )
+}
+
+function ComposedCalendar() {
+  const calendar = useEventCalendar({
+    defaultEvents: createEvents(),
+    calendars,
+    defaultView: "agenda",
+  })
+  return (
+    <View className="w-full gap-(--density-16)">
+      <EventCalendarMiniMonth calendar={calendar} />
+      <EventCalendarSources calendar={calendar} />
+      <EventCalendar calendar={calendar} className="h-[480px] w-full" />
+    </View>
+  )
+}
+
+function EventCalendarExample() {
+  return (
+    <ExampleWrapper>
+      <Toaster />
+      <Example
+        title="Default: three days on a phone, the week on a tablet"
+        framed={false}
+      >
+        <DefaultCalendar />
+      </Example>
+      <Example title="Flat and compact, month view" framed={false}>
+        <EventCalendar
+          variant="flat"
+          size="sm"
+          defaultView="month"
+          defaultEvents={createEvents()}
+          calendars={calendars}
+          className="h-[560px] w-full"
+        />
+      </Example>
+      <Example
+        title="Composed: mini month, calendars and the agenda"
+        framed={false}
+      >
+        <ComposedCalendar />
+      </Example>
+      <Example title="Read only, the agenda on its own">
+        <ReadOnlyAgenda />
+      </Example>
+    </ExampleWrapper>
+  )
+}
+
+function ReadOnlyAgenda() {
+  const [events] = React.useState(createEvents)
+  const calendar = useEventCalendar({
+    events,
+    calendars,
+    defaultView: "agenda",
+  })
+  return (
+    <EventCalendarAgenda calendar={calendar} className="h-[320px] w-full" />
+  )
+}
+
+export { EventCalendarExample }

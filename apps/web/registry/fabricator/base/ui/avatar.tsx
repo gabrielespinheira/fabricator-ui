@@ -5,18 +5,30 @@ import { Avatar as AvatarPrimitive } from "@base-ui/react/avatar"
 import { cn } from "cn"
 
 import {
+  AvatarGroupLabel,
+  useAvatarGroupName,
+  useAvatarGroupNames,
+  useAvatarGroupParting,
+} from "@/registry/bases/base/lib/avatar-group-parting"
+import {
   Tooltip,
   TooltipContent,
-  TooltipProvider,
   TooltipTrigger,
 } from "@/registry/bases/base/ui/tooltip"
 
 // Fabricator override of the upstream avatar: an optional `tooltip` names the
-// person on hover and focus, and a group parts around the avatar under the
-// pointer (registry/styles/fabricator/avatar.css). A group's avatars share one
-// tooltip provider, so moving along it swaps names without the open animation.
+// person on hover and focus. A group parts around the avatar a mouse enters or
+// focus reaches, on the settle spring, and shows that avatar's name in one
+// label that glides with it (lib/avatar-group-parting,
+// registry/styles/fabricator/avatar.css). In a group, `tooltip` gives the
+// label its name; its other options apply to an avatar on its own.
 
 type AvatarTooltip = string | React.ComponentProps<typeof TooltipContent>
+
+// Set by a group: its avatars put their names in its label.
+const AvatarGroupNameContext = React.createContext<
+  ((id: string, name: React.ReactNode) => () => void) | null
+>(null)
 
 function getTooltipProps(tooltip: AvatarTooltip) {
   return typeof tooltip === "string" ? { children: tooltip } : tooltip
@@ -35,10 +47,23 @@ function Avatar({
   size?: "default" | "sm" | "lg"
   tooltip?: AvatarTooltip
 }) {
+  const register = React.use(AvatarGroupNameContext)
+  const tooltipProps = tooltip ? getTooltipProps(tooltip) : undefined
+  const nameProps = useAvatarGroupName(
+    tooltipProps ? register : null,
+    tooltipProps?.children
+  )
   const avatar = (
     <AvatarPrimitive.Root
       data-slot="avatar"
       data-size={size}
+      // Focusable, so the name shows on focus too: an image named by it.
+      {...(tooltipProps && {
+        role: "img",
+        "aria-label": getTooltipLabel(tooltipProps),
+        tabIndex: 0,
+        ...(register && nameProps),
+      })}
       className={cn(
         "cn-avatar group/avatar relative flex shrink-0 select-none after:absolute after:inset-0 after:border after:border-border after:mix-blend-darken dark:after:mix-blend-lighten",
         className
@@ -46,18 +71,10 @@ function Avatar({
       {...props}
     />
   )
-  if (!tooltip) return avatar
-
-  const tooltipProps = getTooltipProps(tooltip)
-  // Focusable, so the name shows on focus too: an image named by its tooltip.
+  if (!tooltipProps || register) return avatar
   return (
     <Tooltip>
-      <TooltipTrigger
-        render={avatar}
-        role="img"
-        aria-label={getTooltipLabel(tooltipProps)}
-        tabIndex={0}
-      />
+      <TooltipTrigger render={avatar} />
       <TooltipContent {...tooltipProps} />
     </Tooltip>
   )
@@ -108,18 +125,36 @@ function AvatarBadge({ className, ...props }: React.ComponentProps<"span">) {
   )
 }
 
-function AvatarGroup({ className, ...props }: React.ComponentProps<"div">) {
+function AvatarGroup({
+  className,
+  ref,
+  onPointerOver,
+  onPointerLeave,
+  onFocus,
+  onBlur,
+  ...props
+}: React.ComponentProps<"div">) {
+  const { groupProps, group, activeIndex } = useAvatarGroupParting({
+    ref,
+    onPointerOver,
+    onPointerLeave,
+    onFocus,
+    onBlur,
+  })
+  const { names, register } = useAvatarGroupNames()
   return (
-    <TooltipProvider>
+    <AvatarGroupNameContext value={register}>
       <div
         data-slot="avatar-group"
         className={cn(
-          "cn-avatar-group group/avatar-group flex -space-x-2 *:data-[slot=avatar]:ring-2 *:data-[slot=avatar]:ring-background",
+          "cn-avatar-group group/avatar-group relative flex *:data-[slot=avatar]:ring-2 *:data-[slot=avatar]:ring-background",
           className
         )}
         {...props}
+        {...groupProps}
       />
-    </TooltipProvider>
+      <AvatarGroupLabel group={group} activeIndex={activeIndex} names={names} />
+    </AvatarGroupNameContext>
   )
 }
 

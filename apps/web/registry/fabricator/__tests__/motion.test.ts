@@ -185,6 +185,36 @@ describe("toSpringEasing", () => {
   })
 })
 
+describe("the settle role", () => {
+  const peak = (samples: number[]) => Math.max(...samples)
+
+  it("springs into place without a visible overshoot", () => {
+    for (const name of ["smooth", "default", "snappy"] as const) {
+      const settle = MOTION_SPEEDS[name].settle
+      expect(settle).toBeGreaterThan(0)
+      expect(settle).toBeLessThan(MOTION_SPEEDS[name].bounce)
+      expect(peak(getSpringSamples(settle))).toBeLessThan(1.01)
+    }
+    expect(MOTION_SPEEDS.instant.settle).toBe(0)
+  })
+
+  it("settles quicker than the bounce role", () => {
+    for (const name of ["smooth", "default", "snappy"] as const) {
+      const { settle, bounce } = MOTION_SPEEDS[name].durations
+      expect(settle.enter).toBeLessThan(bounce.enter)
+    }
+  })
+
+  it("writes its curve and a theme key", () => {
+    const vars = toMotionVars(MOTION_SPEEDS.default)
+    expect(vars["motion-settle"]).toBe("380ms")
+    expect(vars["motion-ease-settle"]).toBe(
+      toSpringEasing(MOTION_SPEEDS.default.settle)
+    )
+    expect(MOTION_THEME["ease-settle"]).toBe("var(--motion-ease-settle)")
+  })
+})
+
 describe("the bounce role", () => {
   it("springs on every speed but instant", () => {
     expect(MOTION_SPEEDS.default.bounce).toBeGreaterThan(0)

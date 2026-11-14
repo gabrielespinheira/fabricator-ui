@@ -91,6 +91,15 @@ export const fabricatorItems = [
     files: [{ path: "lib/fluid-hover.tsx", type: "registry:lib" }],
   },
   {
+    name: "avatar-group-parting",
+    type: "registry:lib",
+    title: "Avatar Group Parting",
+    description:
+      "Parts an avatar group around the avatar a mouse enters or keyboard focus reaches, until the pointer leaves the group, and shows its name in one label that glides with it.",
+    registryDependencies: ["density"],
+    files: [{ path: "lib/avatar-group-parting.tsx", type: "registry:lib" }],
+  },
+  {
     name: "sounds",
     type: "registry:lib",
     title: "Sounds",
@@ -435,6 +444,66 @@ export const fabricatorItems = [
         docs: "https://fabricator-ui.vercel.app/docs/components/base/data-table",
         examples:
           "https://fabricator-ui.vercel.app/docs/components/base/data-table#examples",
+      },
+    },
+  },
+  {
+    name: "event-calendar",
+    type: "registry:ui",
+    title: "Event Calendar",
+    description:
+      "A Google Calendar-class scheduler on FullCalendar: day, N-day, week, month, year and agenda views, drag to create, move and resize, recurring events with scoped edits, time zones, a month-by-month loader, optimistic changes with undo, keyboard moves and shortcuts, settings, a mini month and a calendar list.",
+    // FullCalendar 7 needs temporal-polyfill beside it. @internationalized/date
+    // is for the React Aria date and time fields in the event form.
+    dependencies: [
+      "@fullcalendar/react@7.1.5",
+      "temporal-polyfill@1.0.8",
+      "@date-fns/tz@1.5.0",
+      "date-fns",
+      "@internationalized/date",
+    ],
+    registryDependencies: [
+      "button",
+      "calendar",
+      "checkbox",
+      "context-menu",
+      "date-picker",
+      "density",
+      "dialog",
+      "drawer",
+      "empty",
+      "field",
+      "input",
+      "kbd",
+      "popover",
+      "radio-group",
+      "select",
+      "switch",
+      "textarea",
+      "time-input",
+    ],
+    files: [
+      { path: "ui/event-calendar.tsx", type: "registry:ui" },
+      { path: "ui/event-calendar-engine.tsx", type: "registry:ui" },
+      { path: "ui/event-calendar-event.tsx", type: "registry:ui" },
+      { path: "ui/event-calendar-agenda.tsx", type: "registry:ui" },
+      { path: "hooks/use-event-calendar.ts", type: "registry:hook" },
+      { path: "lib/event-calendar-model.ts", type: "registry:lib" },
+      { path: "lib/event-calendar-recurrence.ts", type: "registry:lib" },
+      { path: "lib/event-calendar-loader.ts", type: "registry:lib" },
+    ],
+    categories: ["data", "calendar"],
+    meta: {
+      fabricator: true,
+      baseRegistryDependencies: {
+        base: ["toast"],
+        radix: ["sonner"],
+        aria: ["sonner"],
+      },
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/event-calendar",
+        examples:
+          "https://fabricator-ui.vercel.app/docs/components/base/event-calendar#examples",
       },
     },
   },
@@ -838,8 +907,8 @@ export const fabricatorOverrides: Record<
   { dependencies?: string[]; registryDependencies?: string[] }
 > = {
   spinner: { registryDependencies: ["spinner-model"] },
-  // An avatar's optional tooltip.
-  avatar: { registryDependencies: ["tooltip"] },
+  // An avatar's optional tooltip, and its group's parting.
+  avatar: { registryDependencies: ["tooltip", "avatar-group-parting"] },
   // Portalled popups, dialogs and sheets read the nearest DensityProvider.
   dialog: { registryDependencies: ["density"] },
   "alert-dialog": { registryDependencies: ["density"] },
