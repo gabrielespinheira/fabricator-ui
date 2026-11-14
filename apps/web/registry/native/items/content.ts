@@ -149,10 +149,18 @@ export const contentItems: Registry["items"] = [
       "@fabricator-ui/icons-react-native",
       "class-variance-authority",
       "cn",
+      "react-native-reanimated",
       "uniwind@1.13.1",
     ],
-    registryDependencies: ["@fabricator/text"],
-    files: [{ path: "ui/avatar.tsx", type: "registry:ui" }],
+    registryDependencies: [
+      "@fabricator/motion",
+      "@fabricator/text",
+      "@fabricator/tooltip",
+    ],
+    files: [
+      { path: "ui/avatar.tsx", type: "registry:ui" },
+      { path: "lib/avatar-group-model.ts", type: "registry:lib" },
+    ],
     meta: docs("avatar"),
   },
   {

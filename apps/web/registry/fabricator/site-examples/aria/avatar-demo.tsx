@@ -5,7 +5,7 @@ import {
   AvatarGroup,
   AvatarGroupCount,
   AvatarImage,
-} from "@/styles/aria-nova/ui/avatar"
+} from "@/styles/aria-fabricator/ui/avatar"
 
 export default function AvatarDemo() {
   return (
@@ -14,7 +14,6 @@ export default function AvatarDemo() {
         <AvatarImage
           src="https://github.com/gabrielespinheira.png"
           alt="@gabrielespinheira"
-          className="grayscale"
         />
         <AvatarFallback>CN</AvatarFallback>
       </Avatar>
@@ -26,27 +25,21 @@ export default function AvatarDemo() {
         <AvatarFallback>ER</AvatarFallback>
         <AvatarBadge className="bg-success" />
       </Avatar>
-      <AvatarGroup className="grayscale">
-        <Avatar>
-          <AvatarImage
-            src="https://github.com/gabrielespinheira.png"
-            alt="@gabrielespinheira"
-          />
-          <AvatarFallback>CN</AvatarFallback>
+      <AvatarGroup>
+        <Avatar tooltip="Gabriel Espinheira">
+          <AvatarImage src="https://github.com/gabrielespinheira.png" alt="" />
+          <AvatarFallback>GE</AvatarFallback>
         </Avatar>
-        <Avatar>
-          <AvatarImage
-            src="https://github.com/maxleiter.png"
-            alt="@maxleiter"
-          />
-          <AvatarFallback>LR</AvatarFallback>
+        <Avatar tooltip="Max Leiter">
+          <AvatarImage src="https://github.com/maxleiter.png" alt="" />
+          <AvatarFallback>ML</AvatarFallback>
         </Avatar>
-        <Avatar>
-          <AvatarImage
-            src="https://github.com/evilrabbit.png"
-            alt="@evilrabbit"
-          />
+        <Avatar tooltip="Evil Rabbit">
+          <AvatarImage src="https://github.com/evilrabbit.png" alt="" />
           <AvatarFallback>ER</AvatarFallback>
+        </Avatar>
+        <Avatar tooltip="Ana Costa">
+          <AvatarFallback>AC</AvatarFallback>
         </Avatar>
         <AvatarGroupCount>+3</AvatarGroupCount>
       </AvatarGroup>

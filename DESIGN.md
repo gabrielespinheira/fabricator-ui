@@ -507,7 +507,7 @@ Use the library's inputs for dates, times, numbers, files and colours in place o
 - **Item** for lists of things read one at a time: people, files, integrations, links to settings. Each has a picture (an icon, an avatar or an image), a title, a description and its actions.
 - **Stat cards** show one number each: the label in grey, the value large in tabular figures, and the change as a status badge or status-coloured text with an arrow. Every card in the row has the same parts.
 - **Badge** for statuses and short labels, one or two words. A state takes the colour of what it asks of the person: success for done, info for under way or waiting on someone else, warning for late or needing attention soon, destructive for failed or blocked, and an outline badge for a state with no urgency (draft, archived). The neutral badge is for counts and the outline one for tags.
-- **Avatar** always has initials to fall back on. A group shows a few and a count for the rest; a small dot marks presence.
+- **Avatar** always has initials to fall back on, and shows in colour, never grayscale. A group shows a few and a count for the rest; a small dot marks presence. Give a group's avatars a `tooltip` with the person's name: the group parts around the one under the pointer.
 - **Kbd** shows shortcuts in tooltips, menus and help text.
 - **SyntaxHighlight** for code a person reads or copies: a header with the file name and a Copy button for a file, Copy beside a one-line command, line numbers only when the text refers to lines, and a capped height for long code.
 - **Markdown and Editor** for formatted text. A comment box is the editor's text area alone; a document adds a toolbar; long-form writing adds a word count.

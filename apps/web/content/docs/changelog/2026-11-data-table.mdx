@@ -1,10 +1,10 @@
 ---
 title: Data Table
-description: A real Data Table component with typed columns, Notion-style filters, cells that edit in place and ten thousand rows that load as you scroll.
-date: 2026-11-12
+description: "Data Table is now a component: typed columns, Notion-style filters, cells that edit in place and 10,000 rows that load as you scroll."
+date: 2026-11-13
 ---
 
-Data Table is now a component instead of a guide. `npx fabricator-ui@latest add data-table` installs a TanStack Table v9 setup (`useDataTable`), typed cells and the parts that draw it, on every base.
+Data Table used to be a guide. Now `npx fabricator-ui@latest add data-table` installs a TanStack Table v9 setup (`useDataTable`), typed cells and the parts that draw it, on every base.
 
 Each column's `meta.type` (text, number, currency, percent, progress, date, status, tags, person, link, email or boolean) picks its cell, its filter, its editor, its sort, its alignment and its footer calculations. A header sorts on click, with Shift for a second sort, and its options popover filters the way Notion does: a condition and the value it calls for, from "contains" and "is between" to "is within the past week", "has all of" and "is empty". Columns pin to either edge, resize from their edge or the keyboard, and hide from their popover.
 

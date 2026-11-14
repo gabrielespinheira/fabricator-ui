@@ -201,6 +201,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "avatar-group-count",
       filePath: "examples/base/avatar-group-count.tsx",
     },
+    "avatar-group-tooltip": {
+      name: "avatar-group-tooltip",
+      filePath: "examples/base/avatar-group-tooltip.tsx",
+    },
     "avatar-group": {
       name: "avatar-group",
       filePath: "examples/base/avatar-group.tsx",
@@ -2867,6 +2871,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "avatar-group-count",
       filePath: "examples/aria/avatar-group-count.tsx",
     },
+    "avatar-group-tooltip": {
+      name: "avatar-group-tooltip",
+      filePath: "examples/aria/avatar-group-tooltip.tsx",
+    },
     "avatar-group": {
       name: "avatar-group",
       filePath: "examples/aria/avatar-group.tsx",
@@ -5488,6 +5496,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "avatar-group-count": {
       name: "avatar-group-count",
       filePath: "examples/radix/avatar-group-count.tsx",
+    },
+    "avatar-group-tooltip": {
+      name: "avatar-group-tooltip",
+      filePath: "examples/radix/avatar-group-tooltip.tsx",
     },
     "avatar-group": {
       name: "avatar-group",
@@ -8131,6 +8143,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "avatar-group-count",
       filePath: "examples/__styles__/base-fabricator/avatar-group-count.tsx",
     },
+    "avatar-group-tooltip": {
+      name: "avatar-group-tooltip",
+      filePath: "examples/__styles__/base-fabricator/avatar-group-tooltip.tsx",
+    },
     "avatar-group": {
       name: "avatar-group",
       filePath: "examples/__styles__/base-fabricator/avatar-group.tsx",
@@ -10598,6 +10614,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "avatar-group-count",
       filePath: "examples/__styles__/aria-fabricator/avatar-group-count.tsx",
     },
+    "avatar-group-tooltip": {
+      name: "avatar-group-tooltip",
+      filePath: "examples/__styles__/aria-fabricator/avatar-group-tooltip.tsx",
+    },
     "avatar-group": {
       name: "avatar-group",
       filePath: "examples/__styles__/aria-fabricator/avatar-group.tsx",
@@ -13028,6 +13048,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "avatar-group-count": {
       name: "avatar-group-count",
       filePath: "examples/__styles__/radix-fabricator/avatar-group-count.tsx",
+    },
+    "avatar-group-tooltip": {
+      name: "avatar-group-tooltip",
+      filePath: "examples/__styles__/radix-fabricator/avatar-group-tooltip.tsx",
     },
     "avatar-group": {
       name: "avatar-group",

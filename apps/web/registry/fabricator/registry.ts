@@ -838,6 +838,8 @@ export const fabricatorOverrides: Record<
   { dependencies?: string[]; registryDependencies?: string[] }
 > = {
   spinner: { registryDependencies: ["spinner-model"] },
+  // An avatar's optional tooltip.
+  avatar: { registryDependencies: ["tooltip"] },
   // Portalled popups, dialogs and sheets read the nearest DensityProvider.
   dialog: { registryDependencies: ["density"] },
   "alert-dialog": { registryDependencies: ["density"] },

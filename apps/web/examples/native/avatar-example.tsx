@@ -113,6 +113,26 @@ function AvatarExample() {
           </AvatarGroupCount>
         </AvatarGroup>
       </Example>
+      <Example title="Group with tooltips (long press)">
+        <AvatarGroup>
+          <Avatar tooltip="Gabriel Espinheira">
+            <AvatarImage src={GABS} alt="" />
+            <AvatarFallback>GE</AvatarFallback>
+          </Avatar>
+          <Avatar tooltip="Max Leiter">
+            <AvatarImage src={MAX} alt="" />
+            <AvatarFallback>ML</AvatarFallback>
+          </Avatar>
+          <Avatar tooltip="Evil Rabbit">
+            <AvatarImage src={RABBIT} alt="" />
+            <AvatarFallback>ER</AvatarFallback>
+          </Avatar>
+          <Avatar tooltip="Ana Costa">
+            <AvatarFallback>AC</AvatarFallback>
+          </Avatar>
+          <AvatarGroupCount>+3</AvatarGroupCount>
+        </AvatarGroup>
+      </Example>
     </ExampleWrapper>
   )
 }

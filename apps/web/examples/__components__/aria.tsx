@@ -390,6 +390,14 @@ export const Components: Record<string, any> = {
       ) || "avatar-group-count"
     return { default: mod.default || mod[exportName] }
   }),
+  "avatar-group-tooltip": React.lazy(async () => {
+    const mod = await import("@/examples/aria/avatar-group-tooltip")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "avatar-group-tooltip"
+    return { default: mod.default || mod[exportName] }
+  }),
   "avatar-group": React.lazy(async () => {
     const mod = await import("@/examples/aria/avatar-group")
     const exportName =

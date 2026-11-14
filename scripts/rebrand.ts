@@ -57,17 +57,43 @@ export const CODE_RULES: Rule[] = [
   [/aria-label="Open shadcn\/ui"/g, 'aria-label="Open Fabricator UI"'],
 ]
 
+// Upstream draws its demo avatars in grayscale; Fabricator shows them in colour.
+const AVATAR_PART_CLASS_NAME =
+  /<(Avatar|AvatarImage|AvatarGroup)\b([^>]*?)(\s+)className="([^"]*)"/g
+const AVATAR_CHILD_GRAYSCALE = / \*:data-\[slot=avatar\]:grayscale\b/g
+const AVATAR_WRAPPER_GRAYSCALE = /(<div className="[^"]*?) grayscale(">\s*<Avatar\b)/g
+
+function removeAvatarGrayscale(source: string) {
+  return source
+    .replace(
+      AVATAR_PART_CLASS_NAME,
+      (match, tag: string, attributes: string, space: string, classes: string) => {
+        const tokens = classes.split(/\s+/)
+        const kept = tokens.filter((token) => token !== "grayscale")
+        if (kept.length === tokens.length) return match
+        if (kept.length === 0) return `<${tag}${attributes}`
+        return `<${tag}${attributes}${space}className="${kept.join(" ")}"`
+      }
+    )
+    .replace(AVATAR_CHILD_GRAYSCALE, "")
+    .replace(AVATAR_WRAPPER_GRAYSCALE, "$1$2")
+}
+
 export function rebrandCode(source: string) {
-  return [...DEMO_RULES, ...CODE_RULES].reduce(
-    (text, [pattern, replacement]) => text.replace(pattern, replacement),
-    source
+  return removeAvatarGrayscale(
+    [...DEMO_RULES, ...CODE_RULES].reduce(
+      (text, [pattern, replacement]) => text.replace(pattern, replacement),
+      source
+    )
   )
 }
 
 export function rebrandDocs(source: string) {
-  return DEMO_RULES.reduce(
-    (text, [pattern, replacement]) => text.replace(pattern, replacement),
-    source
+  return removeAvatarGrayscale(
+    DEMO_RULES.reduce(
+      (text, [pattern, replacement]) => text.replace(pattern, replacement),
+      source
+    )
   )
 }
 

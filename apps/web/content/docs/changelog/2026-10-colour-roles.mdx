@@ -1,12 +1,10 @@
 ---
-title: October 2026 - Colour roles
-description: Primary, secondary, info, success, warning and destructive, each set by a hue and a strength, with one recipe for every state and a Colors page to pick them.
+title: Colour roles
+description: Primary, secondary, info, success, warning and destructive, each set by a hue and a strength, carried through every component and picked on the new Colors page.
 date: 2026-10-27
 ---
 
-## Colour roles
-
-The surface tint now has company. Six colour roles, `primary`, `secondary`, `info`, `success`, `warning` and `destructive`, are each held by two variables, `--<role>-hue` and `--<role>-chroma`, and one recipe turns them into the same tokens for every role: a fill and the text on it, a text colour for any surface, a border, and an eight-level tinted ladder. Every pair is AA in light and dark at any hue and strength, which the tests check around the colour wheel.
+Six colour roles, `primary`, `secondary`, `info`, `success`, `warning` and `destructive`, are each held by two variables, `--<role>-hue` and `--<role>-chroma`, and one recipe turns them into the same tokens for every role: a fill and the text on it, a text colour for any surface, a border, and an eight-level tinted ladder. Every pair is AA in light and dark at any hue and strength, which the tests check around the colour wheel.
 
 Primary and secondary are neutral by default, so nothing changes until you pick a colour, and they take any hue. The statuses keep to their family: info is blue, success green, warning orange to yellow, destructive red to orange. Pick one and it carries through the components: primary buttons, links, checked checkboxes and radios, switches, progress bars, slider ranges and selected days take the primary colour; secondary buttons the secondary one; destructive buttons, menu items, invalid fields and error messages the destructive one.
 

@@ -1,15 +1,16 @@
 ---
-title: November 2026 - Component performance
-description: Less repeated work in web and native components, with the same appearance and public APIs.
+title: Faster components
+description: Editor, File Tree, Calendar, App Nav, App Shell and the native command menu do less work on every update, with the same look and API.
 date: 2026-11-10
 ---
 
-Editor block lookups and selection offsets reuse indexes of the immutable document. The shared engine serves web and native; the web surface uses those indexes when mapping the caret to the DOM.
+Several components now do less work when something changes, with the same look and the same API.
 
-File Tree updates its hover overlays without rendering every file again. Calendar keeps its root and day components mounted when selection changes in Base UI and Radix. App Nav checks each list's icon column once in all three web bases and native.
+- **Editor.** Finding a block and placing the caret reuse indexes of the document instead of walking it each time, on the web and React Native.
+- **File Tree.** Moving the pointer updates the hover highlight without rendering every file again.
+- **Calendar.** Picking a day keeps the calendar and its days mounted, in Base UI and Radix.
+- **App Nav.** Each list checks its icon column once, in every base and on React Native.
+- **App Shell.** It measures its width on resize and when the sidebar changes, and ignores unrelated changes in the page.
+- **Command on React Native.** It caches which items show and rescores only items that were added or changed, and each part redraws only when the value it shows changes. Hover updates reach only the affected rows.
 
-Native command menus cache item visibility and score only changed registrations. Parts subscribe to the values they display. Native hover updates notify the affected rows, and tables also follow the highlight on the next row to preserve their dividers.
-
-App Shell measures width on resize and sidebar membership changes, skipping unrelated content mutations. Shared web ref composition now runs React 19 callback-ref cleanup functions.
-
-Command dividers are hidden from listbox semantics. The Editor toolbar remains keyboard reachable when all its commands are disabled.
+Fixes came along too: Command's dividers are hidden from screen readers' option lists, and the Editor toolbar stays reachable by keyboard when all its commands are disabled. Composed refs on the web now run React 19 ref cleanup functions.
