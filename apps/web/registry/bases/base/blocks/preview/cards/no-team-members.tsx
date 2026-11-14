@@ -24,7 +24,7 @@ export function NoTeamMembers() {
         <Empty className="h-56 border">
           <EmptyHeader>
             <EmptyMedia>
-              <AvatarGroup className="grayscale">
+              <AvatarGroup>
                 <Avatar size="lg">
                   <AvatarImage
                     src="https://github.com/gabrielespinheira.png"

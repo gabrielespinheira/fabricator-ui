@@ -42,7 +42,7 @@ export default function ItemAvatar() {
       </Item>
       <Item variant="outline">
         <ItemMedia>
-          <div className="flex -space-x-2 *:data-[slot=avatar]:ring-2 *:data-[slot=avatar]:ring-background *:data-[slot=avatar]:grayscale">
+          <div className="flex -space-x-2 *:data-[slot=avatar]:ring-2 *:data-[slot=avatar]:ring-background">
             <Avatar className="hidden sm:flex">
               <AvatarImage
                 src="https://github.com/gabrielespinheira.png"

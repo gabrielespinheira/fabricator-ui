@@ -2,6 +2,7 @@ import Link from "next/link"
 
 import { siteConfig } from "@/lib/config"
 import { source } from "@/lib/source"
+import { CommandMenu } from "@/components/command-menu"
 import { FluidNav, FluidNavLink } from "@/components/fabricator/fluid-nav"
 import { SiteSettingsMenu } from "@/components/fabricator/site-settings"
 import { Icons } from "@/components/icons"
@@ -54,6 +55,11 @@ export function SiteHeader() {
           </FluidNav>
         </div>
         <div className="flex items-center justify-end gap-2">
+          <CommandMenu
+            tree={pageTree}
+            navItems={siteConfig.navItems}
+            trigger="icon"
+          />
           <SiteSettingsMenu size="icon" />
           <Button nativeButton={false} render={<Link href="/create" />}>
             Get started

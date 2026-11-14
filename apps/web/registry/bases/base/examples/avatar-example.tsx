@@ -445,7 +445,6 @@ function AvatarGroupWithIconCount() {
           <AvatarImage
             src="https://github.com/gabrielespinheira.png"
             alt="@gabrielespinheira"
-            className="grayscale"
           />
           <AvatarFallback>CN</AvatarFallback>
         </Avatar>
@@ -453,7 +452,6 @@ function AvatarGroupWithIconCount() {
           <AvatarImage
             src="https://github.com/maxleiter.png"
             alt="@maxleiter"
-            className="grayscale"
           />
           <AvatarFallback>LR</AvatarFallback>
         </Avatar>
@@ -461,7 +459,6 @@ function AvatarGroupWithIconCount() {
           <AvatarImage
             src="https://github.com/evilrabbit.png"
             alt="@evilrabbit"
-            className="grayscale"
           />
           <AvatarFallback>ER</AvatarFallback>
         </Avatar>
@@ -490,7 +487,6 @@ function AvatarInEmpty() {
                 <AvatarImage
                   src="https://github.com/gabrielespinheira.png"
                   alt="@gabrielespinheira"
-                  className="grayscale"
                 />
                 <AvatarFallback>CN</AvatarFallback>
               </Avatar>
@@ -498,7 +494,6 @@ function AvatarInEmpty() {
                 <AvatarImage
                   src="https://github.com/maxleiter.png"
                   alt="@maxleiter"
-                  className="grayscale"
                 />
                 <AvatarFallback>LR</AvatarFallback>
               </Avatar>
@@ -506,7 +501,6 @@ function AvatarInEmpty() {
                 <AvatarImage
                   src="https://github.com/evilrabbit.png"
                   alt="@evilrabbit"
-                  className="grayscale"
                 />
                 <AvatarFallback>ER</AvatarFallback>
               </Avatar>

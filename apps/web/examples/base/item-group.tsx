@@ -43,7 +43,7 @@ export function ItemGroupExample() {
         <Item key={person.username} variant="outline">
           <ItemMedia>
             <Avatar>
-              <AvatarImage src={person.avatar} className="grayscale" />
+              <AvatarImage src={person.avatar} />
               <AvatarFallback>{person.username.charAt(0)}</AvatarFallback>
             </Avatar>
           </ItemMedia>

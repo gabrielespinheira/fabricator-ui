@@ -222,7 +222,6 @@ function MessageWithAvatar() {
               <AvatarImage
                 src="https://github.com/gabrielespinheira.png"
                 alt="@gabrielespinheira"
-                className="grayscale"
               />
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
