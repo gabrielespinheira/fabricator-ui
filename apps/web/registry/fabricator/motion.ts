@@ -40,6 +40,10 @@ export const MOTION_ROLES = [
   // overshoot: an avatar group parting around the avatar under it.
   "settle",
   "toast",
+  // A chart drawing its marks the first time it shows: lines sweeping in,
+  // bars growing from the baseline. Slower than anything else that moves,
+  // since the eye follows the data being laid out; none when instant.
+  "reveal",
 ] as const
 
 export type MotionRole = (typeof MOTION_ROLES)[number]
@@ -111,6 +115,7 @@ export const MOTION_SPEEDS: Record<MotionSpeedName, MotionSpeed> = {
       bounce: { enter: 700, exit: 560 },
       settle: { enter: 460, exit: 460 },
       toast: { enter: 450, exit: 300 },
+      reveal: { enter: 1000, exit: 600 },
     },
     easings: {
       enter: EASE_OUT_EXPO,
@@ -141,6 +146,7 @@ export const MOTION_SPEEDS: Record<MotionSpeedName, MotionSpeed> = {
       bounce: { enter: 600, exit: 480 },
       settle: { enter: 380, exit: 380 },
       toast: { enter: 350, exit: 220 },
+      reveal: { enter: 700, exit: 450 },
     },
     easings: {
       enter: EASE_OUT,
@@ -173,6 +179,7 @@ export const MOTION_SPEEDS: Record<MotionSpeedName, MotionSpeed> = {
       bounce: { enter: 450, exit: 360 },
       settle: { enter: 300, exit: 300 },
       toast: { enter: 260, exit: 180 },
+      reveal: { enter: 480, exit: 320 },
     },
     easings: {
       enter: EASE_OUT,
@@ -204,6 +211,7 @@ export const MOTION_SPEEDS: Record<MotionSpeedName, MotionSpeed> = {
       bounce: { enter: 120, exit: 90 },
       settle: { enter: 120, exit: 90 },
       toast: { enter: 180, exit: 120 },
+      reveal: { enter: 0, exit: 0 },
     },
     easings: {
       enter: EASE_OUT,

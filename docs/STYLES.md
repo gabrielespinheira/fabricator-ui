@@ -22,6 +22,7 @@ Paths are under `apps/web/`. `style-fabricator.css` and `app/fabricator.css` are
 - OKLCH, defined for `:root` and `.dark`. Every foreground/background pair meets WCAG 2.2 AA (4.5:1 text, 3:1 UI and large text); the contrast check enforces it.
 - Six roles (`primary`, `secondary`, `info`, `success`, `warning`, `destructive`), each from `--<role>-hue` and `--<role>-chroma` through one recipe. Primary and secondary take any hue; statuses stay in their family (`ROLE_HUE_RANGES`), clamped in CSS too.
 - Components use role tokens (`bg-<role>`, `text-<role>-text`, `bg-<role>-surface-N`) or neutrals. States are opacity steps of the fill (`/90`, `/80`; soft `/12`, `/16`, `/20`).
+- Chart series take `--chart-series-1` to `--chart-series-8` (`registry/fabricator/chart-colors.ts`), literal per mode and independent of the roles, so retinting a role never repaints a series. `__tests__/chart-colors.test.ts` holds them to the data-viz checks: a lightness band and chroma floor per mode, ΔE ≥ 8 between neighbours under simulated protanopia and deuteranopia and ≥ 15 in normal vision, and 3:1 on the page and the card. Change a slot only with that test green.
 
 ## Motion
 
@@ -30,6 +31,7 @@ By role, never milliseconds.
 - Surfaces take one utility each: `motion-tooltip`, `-popup`, `-dialog`, `-scrim`, `-sheet`, `-disclosure`, `-bounce`, `-toast`. Buttons and toggles add `motion-press`.
 - Two springs, CSS `linear()` curves sampled from `getSpringSamples` per speed, which native interpolates too. `ease-bounce` overshoots: layout that should feel physical (accordion items). `ease-settle` springs without a visible overshoot (damping ratio 0.84): layout that follows the pointer and mustn't wobble (an avatar group parting). Everything else keeps its curve.
 - Everything else: `duration-<role>`, `duration-<role>-exit`, `delay-<role>` (feedback, glide, move, …) with `ease-enter`, `-move`, `-exit`, `-feedback` or `-drawer`.
+- Charts draw in once on the `reveal` role (700ms at the default speed, none at `instant`) and morph on `move`. Their JavaScript tween reads `--motion-reveal`, `--motion-move`, the curves and `--motion-scale` from the element, so a scoped speed retimes them (`shared/ui/chart-kit.tsx`).
 - Full-page theme changes use `--motion-theme` (700ms by default) with `--motion-ease-theme` (the reference Material curve, `cubic-bezier(0.4, 0, 0.2, 1)`); icon swaps keep the move timing. `circle-blur` blurs the incoming page from 8px to zero across the full reveal; polygon masks feather the edge while keeping content sharp.
 - Speeds `smooth`, `default`, `snappy`, `instant` via `data-motion` on any element; `off` stops motion; `--motion-scale` multiplies every duration.
 - `__tests__/motion-usage.test.ts` fails on fixed durations, literal curves, fixed zooms and retired tier names (`duration-fast`, `ease-spring`), which survive only as consumer aliases.

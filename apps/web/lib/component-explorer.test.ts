@@ -148,6 +148,7 @@ describe("getGroupNavId", () => {
     ["Overlays", "group-overlays-menus"],
     ["Structure", "group-navigation-layout"],
     ["Content", "group-data-feedback"],
+    ["Charts", "group-charts"],
     ["Chat", "group-ai-chat"],
     ["Advanced", "group-advanced"],
   ] as const)("preserves the saved navigation identity of %s", (group, id) => {

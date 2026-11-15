@@ -1,0 +1,175 @@
+---
+title: Funnel Chart
+description: Ordered stages losing volume, with the conversion between stages, vertical or horizontal.
+base: aria
+component: true
+---
+
+<ComponentPreview
+  styleName="aria-nova"
+  name="funnel-chart-demo"
+  previewClassName="h-auto"
+/>
+
+Give it rows of data in order, each with a name and a value. Each row is a stage, top to bottom, as wide as its value against the largest and centred on one line. A smooth taper joins each stage to the next, so the funnel reads as one shape split into stages, with a 2px gap between them. The whole funnel is one colour that lightens stage by stage. Each stage's value sits on a small pill in the card's colour, its name at the start edge, and the conversion from the stage before it beside the taper that leads to it.
+
+Point at a stage, tap it or tab to the chart and use the arrow keys: a soft highlight glides to the stage and a tooltip gives its value, its share of the first stage and its conversion from the previous one. Stages grow out of the centre line in a quick wave the first time the chart is on screen, and move to their new size and place when the data changes.
+
+Funnel Chart is part of the Fabricator style. It's drawn in SVG, so the same component ships for every base, and its layout comes from the same model as the React Native version.
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">Command</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx fabricator-ui@latest add funnel-chart
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps className="mb-0 pt-2">
+
+<Step>Install the following dependencies.</Step>
+
+```bash
+npm install d3-scale@4.0.3
+npm install -D @types/d3-scale@4.0.9
+```
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  src="styles/aria-fabricator/lib/chart-model.ts"
+  title="lib/chart-model.ts"
+  styleName="aria-nova"
+/>
+
+<ComponentSource
+  src="styles/aria-fabricator/lib/chart-cartesian-model.ts"
+  title="lib/chart-cartesian-model.ts"
+  styleName="aria-nova"
+/>
+
+<ComponentSource
+  src="styles/aria-fabricator/lib/chart-funnel-model.ts"
+  title="lib/chart-funnel-model.ts"
+  styleName="aria-nova"
+/>
+
+<ComponentSource
+  src="styles/aria-fabricator/ui/chart-kit.tsx"
+  title="components/ui/chart-kit.tsx"
+  styleName="aria-nova"
+/>
+
+<ComponentSource
+  src="styles/aria-fabricator/ui/funnel-chart.tsx"
+  title="components/ui/funnel-chart.tsx"
+  styleName="aria-nova"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { FunnelChart } from "@/components/ui/funnel-chart"
+```
+
+```tsx
+const data = [
+  { stage: "Visited site", people: 24_800 },
+  { stage: "Signed up", people: 6_420 },
+  { stage: "First payment", people: 690 },
+]
+
+<FunnelChart
+  data={data}
+  nameKey="stage"
+  valueKey="people"
+  label="Sign-up funnel"
+/>
+```
+
+`nameKey` and `valueKey` name the fields to read, and default to `name` and `value`. A missing value draws an empty stage and has no conversion. `config` is optional: keyed by `valueKey`, it gives the value a `label` for the tooltip and the table, and the funnel a `color`; `color` sets the colour on its own. The chart fills its container's width and is 18rem tall until you give it a height with `className`.
+
+## Examples
+
+### Horizontal
+
+`orientation="horizontal"` lays the stages left to right, each as tall as its value, with names under the funnel and conversions over it.
+
+<ComponentPreview styleName="aria-nova" name="funnel-chart-horizontal" />
+
+## Colours
+
+The funnel is one colour: the first slot of the chart palette, `config[valueKey].color` or `color`, which take a palette slot, an upstream chart token (`chart-1` … `chart-5`), a role (`primary`, `info`, `success`, …), a CSS variable (`var(--brand)`) or any CSS colour. The order of the stages is what the colour shows, so it steps from solid at the first stage to 35% at the last, which stays clearly visible. Values sit on pills in the card's colour and names and conversions stay in the text colours, so every label keeps its contrast whatever the step behind it.
+
+## Motion
+
+- **Grow:** the first time the chart scrolls into view, the stages grow out of the centre line in a quick wave from the first stage, on the `reveal` role, once per mount.
+- **Morph:** when `data`, `config`, `color` or `orientation` change, each stage moves and resizes on the `move` role, matched by its name. A new stage grows out of the centre line; one that leaves shrinks into it.
+- **Glide:** the stage highlight and the tooltip glide between stages on the `glide` role.
+
+All three follow the [motion speed](/docs/foundations/motion) of the region they sit in. Reduce Motion and the `instant` speed draw the chart at once and drop the glide; `animate={false}` does the same for one chart.
+
+## API Reference
+
+### FunnelChart
+
+All other props go to the root `<div>`.
+
+| Prop             | Type                                            | Default                       |
+| ---------------- | ----------------------------------------------- | ----------------------------- |
+| `data`           | `TDatum[]`                                      | required                      |
+| `label`          | `string`                                        | required: the accessible name |
+| `nameKey`        | `keyof TDatum`                                  | `"name"`                      |
+| `valueKey`       | `keyof TDatum`                                  | `"value"`                     |
+| `orientation`    | `"vertical" \| "horizontal"`                    | `"vertical"`                  |
+| `config`         | `ChartConfig`, keyed by `valueKey`              | "Value" and the first slot    |
+| `color`          | `ChartColor`                                    | from `config`                 |
+| `formatValue`    | `(value: number, key: string) => string`        | `1,234`                       |
+| `legend`         | `boolean`                                       | `false`                       |
+| `tooltip`        | `boolean`                                       | `true`                        |
+| `animate`        | `boolean`                                       | `true`                        |
+| `loading`        | `boolean`                                       | `false`                       |
+| `empty`          | `ReactNode`                                     | "No data"                     |
+| `onActiveChange` | `(active: ChartActive<TDatum> \| null) => void` | -                             |
+
+`formatValue` receives `valueKey` as its `key`. The stages are named on the chart, so the legend is off unless you ask for it.
+
+### Data attributes
+
+| Attribute                             | Element        | Present when                             |
+| ------------------------------------- | -------------- | ---------------------------------------- |
+| `data-slot="funnel-chart"`            | root           | always; `data-orientation` gives the way |
+| `data-loading`                        | root           | `loading` is true                        |
+| `data-slot="chart-plot"`              | the plot       | always                                   |
+| `data-slot="funnel-chart-stage"`      | a stage        | always                                   |
+| `data-slot="funnel-chart-value"`      | its value pill | the pill fits                            |
+| `data-slot="funnel-chart-name"`       | its name       | the name fits                            |
+| `data-slot="funnel-chart-conversion"` | its conversion | from the second stage                    |
+| `data-slot="chart-band"`              | highlight      | a stage is inspected                     |
+| `data-slot="chart-tooltip"`           | the tooltip    | a stage is inspected                     |
+
+## Accessibility
+
+- The plot is a slider named after `label` ("Sign-up funnel: inspect values"). Tab to it, then the arrow keys step through the stages in order, Home and End jump to the first and last, and Escape lets go. Its value text reads the tooltip: the stage's name, value, share of the first stage and conversion.
+- Every stage is also in a table hidden from sight, with its value, share and conversion.
+- Every stage is named on the chart, and the colour only repeats the order, so nothing is told apart by colour alone.
+- Text never takes the funnel's colour: values sit on card-coloured pills, names and conversions stay in the text colours.
+- `loading` sets `aria-busy` on the root and dims the last drawing until new data arrives.

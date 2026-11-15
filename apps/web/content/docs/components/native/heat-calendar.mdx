@@ -1,0 +1,195 @@
+---
+title: Heat Calendar
+description: A value per day over months, as a grid of weeks by weekdays in five levels of one colour.
+base: native
+component: true
+---
+
+## Installation
+
+```bash
+npx fabricator-ui@latest add heat-calendar
+```
+
+## Usage
+
+```tsx
+import { Button } from "@/components/ui/button"
+import { HeatCalendar } from "@/components/ui/heat-calendar"
+import { Text } from "@/components/ui/text"
+```
+
+```tsx
+<HeatCalendar
+  data={deploys}
+  label="Deploys per day"
+  formatValue={(value) =>
+    value === 1 ? "1 deploy" : `${value} deploys`
+  }
+/>
+```
+
+## Composition
+
+- `HeatCalendar`
+- `HeatCalendarActive`
+- `HeatCalendarProps`
+
+## Examples
+
+```tsx showLineNumbers title="heat-calendar-example.tsx"
+import * as React from "react"
+import { View } from "react-native"
+
+import { Button } from "@/components/ui/button"
+import { HeatCalendar } from "@/components/ui/heat-calendar"
+import { Text } from "@/components/ui/text"
+
+const DAY = 86_400_000
+const END = Date.UTC(2026, 10, 15)
+
+function getRandom(start: number) {
+  let seed = start
+  return () => {
+    seed = (seed * 16_807) % 2_147_483_647
+    return seed / 2_147_483_647
+  }
+}
+
+function toDay(time: number) {
+  return new Date(time).toISOString().slice(0, 10)
+}
+
+// A year of deploys: busy weekdays, quiet weekends.
+const deployRandom = getRandom(7)
+const deploys = Array.from({ length: 364 }, (_, index) => {
+  const time = END - (363 - index) * DAY
+  const weekday = new Date(time).getUTCDay()
+  const isWeekend = weekday === 0 || weekday === 6
+  const chance = isWeekend ? 0.25 : 0.85
+  return {
+    date: toDay(time),
+    value:
+      deployRandom() < chance
+        ? Math.round(deployRandom() ** 2 * (isWeekend ? 4 : 14))
+        : 0,
+  }
+})
+
+// Sixteen weeks of support replies, from Monday, July 27.
+const replyRandom = getRandom(11)
+const replies = Array.from({ length: 112 }, (_, index) => {
+  const time = Date.UTC(2026, 6, 27) + index * DAY
+  const weekday = new Date(time).getUTCDay()
+  const isWeekend = weekday === 0 || weekday === 6
+  return {
+    day: toDay(time),
+    replies: isWeekend
+      ? Math.round(replyRandom() * 2)
+      : Math.round(replyRandom() ** 1.6 * 13),
+  }
+})
+
+// Twelve weeks of commits and reviews, to switch between.
+const workRandom = getRandom(5)
+const work = Array.from({ length: 84 }, (_, index) => {
+  const time = Date.UTC(2026, 7, 24) + index * DAY
+  const weekday = new Date(time).getUTCDay()
+  const isWeekend = weekday === 0 || weekday === 6
+  return {
+    date: toDay(time),
+    commits: Math.round(workRandom() ** 1.4 * (isWeekend ? 3 : 12)),
+    reviews: isWeekend ? 0 : Math.round(workRandom() ** 2 * 6),
+  }
+})
+
+function MetricSwitch() {
+  const [metric, setMetric] = React.useState<"commits" | "reviews">("commits")
+  const [active, setActive] = React.useState<string | null>(null)
+  return (
+    <>
+      <View className="flex-row gap-1">
+        <Button
+          size="sm"
+          variant={metric === "commits" ? "secondary" : "ghost"}
+          accessibilityState={{ selected: metric === "commits" }}
+          onPress={() => setMetric("commits")}
+        >
+          Commits
+        </Button>
+        <Button
+          size="sm"
+          variant={metric === "reviews" ? "secondary" : "ghost"}
+          accessibilityState={{ selected: metric === "reviews" }}
+          onPress={() => setMetric("reviews")}
+        >
+          Reviews
+        </Button>
+      </View>
+      <Text className="text-sm text-muted-foreground">
+        {active ?? "Tap a day"}
+      </Text>
+      <HeatCalendar
+        data={work}
+        valueKey={metric}
+        range={{ start: "2026-08-24", end: "2026-11-15" }}
+        label={metric === "commits" ? "Commits per day" : "Reviews per day"}
+        formatValue={(value) => `${value} ${metric}`}
+        onActiveChange={(day) =>
+          setActive(day ? `${day.date}: ${day.value ?? 0} ${metric}` : null)
+        }
+      />
+    </>
+  )
+}
+
+export function HeatCalendarExample() {
+  return (
+    <ExampleWrapper>
+      <Example title="A year of activity" className="items-stretch">
+        <HeatCalendar
+          data={deploys}
+          label="Deploys per day"
+          formatValue={(value) =>
+            value === 1 ? "1 deploy" : `${value} deploys`
+          }
+        />
+      </Example>
+      <Example title="Sixteen weeks, Sunday first" className="items-stretch">
+        <HeatCalendar
+          data={replies}
+          dateKey="day"
+          valueKey="replies"
+          label="Support replies per day"
+          range={{ start: "2026-07-27", end: "2026-11-15" }}
+          weekStartsOn={0}
+          thresholds={[2, 5, 9]}
+          color="chart-series-6"
+        />
+      </Example>
+      <Example title="Switching the data" className="items-stretch">
+        <MetricSwitch />
+      </Example>
+      <Example title="Loading and empty" className="items-stretch">
+        <HeatCalendar
+          data={replies}
+          dateKey="day"
+          valueKey="replies"
+          label="Support replies per day"
+          range={{ start: "2026-10-05", end: "2026-11-15" }}
+          loading
+        />
+        <HeatCalendar
+          data={[]}
+          label="Deploys per day"
+          empty="No deploys yet"
+        />
+      </Example>
+    </ExampleWrapper>
+  )
+}
+```
+
+## Accessibility
+
+Text is read as it appears. Give a control with no text an `accessibilityLabel`.

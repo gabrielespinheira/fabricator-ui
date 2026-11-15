@@ -1,0 +1,186 @@
+---
+title: Treemap
+description: Hierarchical parts of a whole, as cells sized by value and coloured by their top-level group.
+base: radix
+component: true
+---
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="treemap-demo"
+  previewClassName="h-auto"
+/>
+
+Give it a tree of nodes: each top-level node is a group, `children` nest further nodes, and every leaf with a value becomes a cell whose area is its share of the whole. Cells are laid out squarified, as close to square as the space allows, with a 2px gap between them. Each group takes the next colour of the [chart palette](#colours), and its cells are a light wash of that colour with a hairline edge, so the name and value written inside a cell keep the text colours. A cell too small for its name leaves it to the tooltip and the table.
+
+Point at a cell, tap it or tab to the chart and use the arrow keys: the cell's wash deepens, the others dim a little and a tooltip gives its group, value and share of the total. The legend hides a group when pressed and spotlights it when pointed at. Cells fade and scale up in a quick wave the first time the map is on screen, and when the data changes every cell moves and resizes to its new place.
+
+Treemap is part of the Fabricator style. It's drawn in SVG, so the same component ships for every base, and its layout comes from the same model as the React Native version.
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">Command</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx fabricator-ui@latest add treemap
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps className="mb-0 pt-2">
+
+<Step>Install the following dependencies.</Step>
+
+```bash
+npm install d3-scale@4.0.3 d3-hierarchy@3.1.3
+npm install -D @types/d3-scale@4.0.9 @types/d3-hierarchy@3.1.7
+```
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  src="styles/radix-fabricator/lib/chart-model.ts"
+  title="lib/chart-model.ts"
+  styleName="radix-nova"
+/>
+
+<ComponentSource
+  src="styles/radix-fabricator/lib/chart-cartesian-model.ts"
+  title="lib/chart-cartesian-model.ts"
+  styleName="radix-nova"
+/>
+
+<ComponentSource
+  src="styles/radix-fabricator/lib/chart-treemap-model.ts"
+  title="lib/chart-treemap-model.ts"
+  styleName="radix-nova"
+/>
+
+<ComponentSource
+  src="styles/radix-fabricator/ui/chart-kit.tsx"
+  title="components/ui/chart-kit.tsx"
+  styleName="radix-nova"
+/>
+
+<ComponentSource
+  src="styles/radix-fabricator/ui/treemap.tsx"
+  title="components/ui/treemap.tsx"
+  styleName="radix-nova"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { Treemap } from "@/components/ui/treemap"
+```
+
+```tsx
+const data = [
+  {
+    name: "Technology",
+    children: [
+      { name: "Northwind", value: 182_000 },
+      { name: "Contoso", value: 141_000 },
+    ],
+  },
+  {
+    name: "Healthcare",
+    children: [{ name: "Fabrikam", value: 118_000 }],
+  },
+  { name: "Cash", value: 45_000 },
+]
+
+<Treemap data={data} label="Portfolio allocation" />
+```
+
+`nameKey`, `valueKey` and `childrenKey` name the fields to read, and default to `name`, `value` and `children`. Children have the same shape as their parent, and can nest as deep as you need; every leaf belongs to the group at the top of its branch. A top-level node without children is a group of one. A missing, zero or negative value leaves its cell out. `config` is optional: keyed by a group's name, it gives that group a `label` and a `color`. The chart fills its container's width and is 18rem tall until you give it a height with `className`.
+
+## Examples
+
+### One level
+
+When no node has children, each node is its own group and takes its own colour, so the map reads as one whole split into named parts.
+
+<ComponentPreview styleName="radix-nova" name="treemap-flat" />
+
+## Colours
+
+Groups take the chart palette in the order of the data, and keep their colour when another group is hidden. Give one its own with `config[name].color`: a palette slot, an upstream chart token (`chart-1` … `chart-5`), a role (`primary`, `info`, `success`, …), a CSS variable (`var(--brand)`) or any CSS colour.
+
+| Token              | Hue    | Token              | Hue     |
+| ------------------ | ------ | ------------------ | ------- |
+| `--chart-series-1` | blue   | `--chart-series-5` | magenta |
+| `--chart-series-2` | orange | `--chart-series-6` | green   |
+| `--chart-series-3` | aqua   | `--chart-series-7` | violet  |
+| `--chart-series-4` | amber  | `--chart-series-8` | red     |
+
+A cell is its group's colour at low opacity over the surface, with a hairline edge in the full colour, so neighbouring groups stay apart and the text inside keeps its contrast in light and dark. Slots never repeat: a ninth group is grey, so fold small groups into an "Other" one before that.
+
+## Motion
+
+- **Reveal:** the first time the map scrolls into view, the cells fade in and scale up from their own centres in a quick wave, group by group, on the `reveal` role, once per mount.
+- **Morph:** when `data`, `config` or the visible groups change, each cell moves and resizes to its new place on the `move` role, matched by its path of names. A new cell grows from its centre; one that leaves shrinks into its centre.
+- **Highlight:** the inspected cell's wash deepens on the `glide` role and the others dim on the `feedback` role.
+
+All three follow the [motion speed](/docs/foundations/motion) of the region they sit in. Reduce Motion and the `instant` speed draw the map at once and keep only the fades; `animate={false}` does the same for one chart.
+
+## API Reference
+
+### Treemap
+
+All other props go to the root `<div>`.
+
+| Prop             | Type                                            | Default                       |
+| ---------------- | ----------------------------------------------- | ----------------------------- |
+| `data`           | `TDatum[]`                                      | required                      |
+| `label`          | `string`                                        | required: the accessible name |
+| `nameKey`        | `keyof TDatum`                                  | `"name"`                      |
+| `valueKey`       | `keyof TDatum`                                  | `"value"`                     |
+| `childrenKey`    | `keyof TDatum`                                  | `"children"`                  |
+| `config`         | `ChartConfig`, keyed by group name              | names and the palette         |
+| `formatValue`    | `(value: number, key: string) => string`        | `1,234`                       |
+| `legend`         | `boolean`                                       | on for two or more groups     |
+| `tooltip`        | `boolean`                                       | `true`                        |
+| `animate`        | `boolean`                                       | `true`                        |
+| `loading`        | `boolean`                                       | `false`                       |
+| `empty`          | `ReactNode`                                     | "No data"                     |
+| `onActiveChange` | `(active: ChartActive<TDatum> \| null) => void` | -                             |
+
+`formatValue` receives `valueKey` as its `key`. `onActiveChange` reports the inspected leaf's node as `datum`, its place in reading order as `index` and its group's name as `key`.
+
+### Data attributes
+
+| Attribute                        | Element     | Present when                                                 |
+| -------------------------------- | ----------- | ------------------------------------------------------------ |
+| `data-slot="treemap"`            | root        | always                                                       |
+| `data-loading`                   | root        | `loading` is true                                            |
+| `data-slot="chart-plot"`         | the plot    | always                                                       |
+| `data-slot="treemap-cell"`       | a cell      | always; `data-active` when inspected, `data-dimmed` when not |
+| `data-slot="treemap-cell-name"`  | its name    | the name fits                                                |
+| `data-slot="treemap-cell-value"` | its value   | the name and value fit                                       |
+| `data-slot="chart-legend"`       | the legend  | the legend shows                                             |
+| `data-slot="chart-tooltip"`      | the tooltip | a cell is inspected                                          |
+
+## Accessibility
+
+- The plot is a slider named after `label` ("Portfolio allocation: inspect values"). Tab to it, then the arrow keys step through the cells in reading order, group by group and top to bottom within each, Home and End jump to the first and last, and Escape lets go. Its value text reads the tooltip: the cell's name, group, value and share.
+- Every leaf is also in a table hidden from sight, with its group, value and share.
+- With two or more groups the legend shows, so no group is told apart by colour alone. Its items are toggle buttons with `aria-pressed`.
+- Text never takes a group's colour: names and values stay in the text colours over a light wash.
+- `loading` sets `aria-busy` on the root and dims the last drawing until new data arrives.

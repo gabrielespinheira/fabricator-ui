@@ -1,0 +1,191 @@
+---
+title: Status Bar
+description: Uptime as one pill per day, coloured by status, with the uptime share and a legend.
+base: radix
+component: true
+---
+
+<ComponentPreview
+  styleName="radix-nova"
+  name="status-bar-demo"
+  previewClassName="h-auto"
+/>
+
+Give it rows with a day (or any period) and a status. Each row is a tall pill, coloured by its status, and the pills fill the width with a small gap. Under them sit the first day, the uptime share and the last day, then a legend that names every status shown, so colour never carries a status alone.
+
+Point at a pill, drag a finger along the bar or tab to it and use the arrow keys: the pill lifts, the others dim a little and a tooltip gives the day, its status and its note. Pills rise in a wave from the start the first time the bar is on screen, and a pill whose status changes crossfades to its new colour.
+
+Status Bar is part of the Fabricator style. It's drawn in SVG, so the same component ships for every base, and its layout comes from the same model as the React Native version.
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">Command</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx fabricator-ui@latest add status-bar
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps className="mb-0 pt-2">
+
+<Step>Install the following dependencies.</Step>
+
+```bash
+npm install date-fns @date-fns/tz@1.5.0 d3-scale@4.0.3
+npm install -D @types/d3-scale@4.0.9
+```
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  src="styles/radix-fabricator/lib/chart-model.ts"
+  title="lib/chart-model.ts"
+  styleName="radix-nova"
+/>
+
+<ComponentSource
+  src="styles/radix-fabricator/lib/chart-cartesian-model.ts"
+  title="lib/chart-cartesian-model.ts"
+  styleName="radix-nova"
+/>
+
+<ComponentSource
+  src="styles/radix-fabricator/lib/chart-status-bar-model.ts"
+  title="lib/chart-status-bar-model.ts"
+  styleName="radix-nova"
+/>
+
+<ComponentSource
+  src="styles/radix-fabricator/ui/chart-kit.tsx"
+  title="components/ui/chart-kit.tsx"
+  styleName="radix-nova"
+/>
+
+<ComponentSource
+  src="styles/radix-fabricator/ui/status-bar.tsx"
+  title="components/ui/status-bar.tsx"
+  styleName="radix-nova"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { StatusBar } from "@/components/ui/status-bar"
+```
+
+```tsx
+const data = [
+  { date: "2026-11-13", status: "operational" },
+  { date: "2026-11-14", status: "degraded", note: "Slow responses" },
+  { date: "2026-11-15", status: "operational" },
+]
+
+<StatusBar data={data} index="date" noteKey="note" label="API status" />
+```
+
+`index` names the field for each pill: an ISO date string or a `Date` reads as a day ("Nov 14", "Sat, Nov 14" in the tooltip), anything else as a label as it is. Days are calendar days in UTC, so a page rendered on a server matches the browser. `formatIndex` writes them your way.
+
+The status comes from `statusKey` (`"status"` by default). A row with no status is a faint "No data" pill. The uptime share counts the `operational` days among the days with data. The pills are about 32px tall, from the density, and narrow as days are added; once they reach 4px, only the latest days that fit are shown, and the dates and the uptime describe those.
+
+## Examples
+
+### Notes and renamed statuses
+
+`noteKey` names a field whose text shows in the tooltip, for what happened that day. `statuses` renames or recolours a status, or adds one: `{ maintenance: { label: "Planned maintenance" } }`. Rename the "No data" pill through the `none` key.
+
+<ComponentPreview styleName="radix-nova" name="status-bar-maintenance" />
+
+### Changing the data
+
+A pill whose status changes crossfades to its new colour; pills for new days fade in and the rest move along.
+
+<ComponentPreview styleName="radix-nova" name="status-bar-incident" />
+
+## Colours
+
+Statuses use the status roles, so the bar reads the same as alerts and badges.
+
+| Status        | Label       | Colour                    |
+| ------------- | ----------- | ------------------------- |
+| `operational` | Operational | `success`                 |
+| `degraded`    | Degraded    | `warning`                 |
+| `outage`      | Outage      | `destructive`             |
+| `maintenance` | Maintenance | `info`                    |
+| `none`        | No data     | `muted-foreground` at 30% |
+
+Give a status its own colour with `color` in `statuses`: a role, a palette slot, a CSS variable or any CSS colour. Statuses you add without a colour take palette slots in order. The legend and the tooltip name every status, so a reader never has to tell two by colour.
+
+## Motion
+
+- **Rise:** the first time the bar scrolls into view, pills rise and fade in as a wave from the start, on the `reveal` role, once per mount.
+- **Morph:** when `data`, `statusKey` or `statuses` change, a pill whose status changed crossfades to its new colour on the `move` role, and pills move to their new places. New days fade in; days that left fade out.
+- **Glide:** the pill under the pointer lifts and the others dim on the `glide` role, and the tooltip glides with it.
+
+All three follow the [motion speed](/docs/foundations/motion) of the region they sit in. Reduce Motion and the `instant` speed draw the bar at once and drop the movement; `animate={false}` does the same for one bar.
+
+## API Reference
+
+### StatusBar
+
+All other props go to the root `<div>`.
+
+| Prop             | Type                                            | Default                       |
+| ---------------- | ----------------------------------------------- | ----------------------------- |
+| `data`           | `TDatum[]`                                      | required                      |
+| `index`          | `keyof TDatum`                                  | required                      |
+| `label`          | `string`                                        | required: the accessible name |
+| `statusKey`      | `string`                                        | `"status"`                    |
+| `noteKey`        | `string`                                        | -                             |
+| `statuses`       | `StatusConfig`                                  | the statuses above            |
+| `formatIndex`    | `(value: string, datum: TDatum) => string`      | dates as `Nov 14`             |
+| `legend`         | `boolean`                                       | `true`                        |
+| `tooltip`        | `boolean`                                       | `true`                        |
+| `animate`        | `boolean`                                       | `true`                        |
+| `loading`        | `boolean`                                       | `false`                       |
+| `empty`          | `ReactNode`                                     | "No data"                     |
+| `onActiveChange` | `(active: ChartActive<TDatum> \| null) => void` | -                             |
+
+### StatusConfig
+
+A record of status keys to:
+
+| Field   | Type         | Default                                      |
+| ------- | ------------ | -------------------------------------------- |
+| `label` | `string`     | required                                     |
+| `color` | `ChartColor` | the default's role, or the next palette slot |
+
+### Data attributes
+
+| Attribute                       | Element       | Present when                                        |
+| ------------------------------- | ------------- | --------------------------------------------------- |
+| `data-slot="status-bar"`        | root          | always                                              |
+| `data-loading`                  | root          | `loading` is true                                   |
+| `data-slot="chart-plot"`        | the pills     | always                                              |
+| `data-slot="status-bar-pill"`   | a pill        | always; `data-status`, `data-active`, `data-dimmed` |
+| `data-slot="status-bar-footer"` | dates, uptime | there is data                                       |
+| `data-slot="status-bar-legend"` | the legend    | `legend` is on                                      |
+| `data-slot="chart-tooltip"`     | the tooltip   | a pill is inspected                                 |
+
+## Accessibility
+
+- The bar is a slider named after `label` ("API status: inspect values"). Tab to it, then Left and Right step through the days, Home and End jump to the first and last, and Escape lets go. Its value text reads the tooltip: the day, its status and its note.
+- Every day, shown or not, is also in a table hidden from sight with its status and note.
+- The legend and the tooltip name each status, so no status is told apart by colour alone.
+- `loading` sets `aria-busy` on the root and dims the bar until new data arrives.

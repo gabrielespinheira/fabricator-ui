@@ -215,6 +215,32 @@ describe("the settle role", () => {
   })
 })
 
+describe("the reveal role", () => {
+  it("is a role", () => {
+    expect(MOTION_ROLES).toContain("reveal")
+  })
+
+  it("draws a chart in slower than anything moves, and not at all when instant", () => {
+    for (const name of ["smooth", "default", "snappy"] as const) {
+      const { reveal, move, dialog } = MOTION_SPEEDS[name].durations
+      expect(reveal.enter).toBeGreaterThan(move.enter)
+      expect(reveal.enter).toBeGreaterThan(dialog.enter)
+    }
+    expect(MOTION_SPEEDS.instant.durations.reveal.enter).toBe(0)
+  })
+
+  it("slows from snappy to smooth", () => {
+    const reveal = (name: (typeof SLOWEST_FIRST)[number]) =>
+      MOTION_SPEEDS[name].durations.reveal.enter
+    expect(reveal("smooth")).toBeGreaterThan(reveal("default"))
+    expect(reveal("default")).toBeGreaterThan(reveal("snappy"))
+  })
+
+  it("writes a duration token", () => {
+    expect(toMotionVars(MOTION_SPEEDS.default)["motion-reveal"]).toBe("700ms")
+  })
+})
+
 describe("the bounce role", () => {
   it("springs on every speed but instant", () => {
     expect(MOTION_SPEEDS.default.bounce).toBeGreaterThan(0)

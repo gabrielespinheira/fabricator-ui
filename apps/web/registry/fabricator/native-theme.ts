@@ -4,6 +4,7 @@
 // __tests__/native-theme.test.ts pins the result to values measured in a
 // browser.
 
+import { CHART_CSS_VARS } from "@/registry/fabricator/chart-colors"
 import { COLOR_ROLES, roleLiterals } from "@/registry/fabricator/color-roles"
 import { DENSITIES } from "@/registry/fabricator/density"
 import { getDensityVariables } from "@/registry/fabricator/density-variables"
@@ -284,6 +285,16 @@ function getSyntaxVariables(mode: NativeMode, look: FabricatorLook) {
   )
 }
 
+/** The charts' series palette: literals, the same whatever the look. */
+function getChartVariables(mode: NativeMode) {
+  return Object.fromEntries(
+    Object.entries(CHART_CSS_VARS[mode]).map(([name, value]) => [
+      `--${name}`,
+      toNativeColor(value),
+    ])
+  )
+}
+
 /** Colours the look leaves alone: the palette and the interaction tokens. */
 const LITERAL_COLOR_TOKENS = [
   "foreground",
@@ -364,6 +375,7 @@ export function getNativeCssVariables(
     "--tint-hover": toNativeColor(tokens["tint-hover"]),
     "--focus-ring": toNativeColor(tokens["focus-ring"]),
     ...getSyntaxVariables(mode, look),
+    ...getChartVariables(mode),
     "--app-shell-frame": appShell.frame,
     "--app-shell-main": appShell.main,
     "--app-shell-panel": appShell.panel,

@@ -1,0 +1,187 @@
+---
+title: Sankey Chart
+description: Flow volumes between stages, from sources to destinations, as ribbons as thick as each flow.
+base: native
+component: true
+---
+
+## Installation
+
+```bash
+npx fabricator-ui@latest add sankey-chart
+```
+
+## Usage
+
+```tsx
+import { Button } from "@/components/ui/button"
+import { SankeyChart } from "@/components/ui/sankey-chart"
+```
+
+```tsx
+<SankeyChart
+  nodes={nodes}
+  links={QUARTERS.Q2}
+  label="Revenue by channel, product and region"
+  formatValue={currency}
+  className="h-80 w-full"
+/>
+```
+
+## Composition
+
+- `SankeyChart`
+- `SankeyChartProps`
+
+## Examples
+
+```tsx showLineNumbers title="sankey-chart-example.tsx"
+import * as React from "react"
+import { View } from "react-native"
+
+import { formatChartNumber } from "@/registry/fabricator/shared/lib/chart-model"
+import { Button } from "@/components/ui/button"
+import { SankeyChart } from "@/components/ui/sankey-chart"
+
+const nodes = [
+  { id: "direct", label: "Direct" },
+  { id: "partners", label: "Partners" },
+  { id: "marketplace", label: "Market" },
+  { id: "platform", label: "Platform" },
+  { id: "analytics", label: "Analytics" },
+  { id: "support", label: "Support" },
+  { id: "americas", label: "Americas", color: "muted-foreground" },
+  { id: "emea", label: "EMEA", color: "muted-foreground" },
+  { id: "apac", label: "APAC", color: "muted-foreground" },
+]
+
+const QUARTERS = {
+  Q2: [
+    { source: "direct", target: "platform", value: 420_000 },
+    { source: "direct", target: "analytics", value: 160_000 },
+    { source: "direct", target: "support", value: 70_000 },
+    { source: "partners", target: "platform", value: 210_000 },
+    { source: "partners", target: "analytics", value: 90_000 },
+    { source: "marketplace", target: "platform", value: 120_000 },
+    { source: "marketplace", target: "support", value: 40_000 },
+    { source: "platform", target: "americas", value: 390_000 },
+    { source: "platform", target: "emea", value: 250_000 },
+    { source: "platform", target: "apac", value: 110_000 },
+    { source: "analytics", target: "americas", value: 140_000 },
+    { source: "analytics", target: "emea", value: 110_000 },
+    { source: "support", target: "americas", value: 60_000 },
+    { source: "support", target: "apac", value: 50_000 },
+  ],
+  Q3: [
+    { source: "direct", target: "platform", value: 470_000 },
+    { source: "direct", target: "analytics", value: 210_000 },
+    { source: "direct", target: "support", value: 60_000 },
+    { source: "partners", target: "platform", value: 190_000 },
+    { source: "partners", target: "analytics", value: 140_000 },
+    { source: "partners", target: "support", value: 30_000 },
+    { source: "marketplace", target: "platform", value: 160_000 },
+    { source: "platform", target: "americas", value: 410_000 },
+    { source: "platform", target: "emea", value: 260_000 },
+    { source: "platform", target: "apac", value: 150_000 },
+    { source: "analytics", target: "americas", value: 180_000 },
+    { source: "analytics", target: "emea", value: 120_000 },
+    { source: "analytics", target: "apac", value: 50_000 },
+    { source: "support", target: "americas", value: 90_000 },
+  ],
+}
+
+const budgetNodes = [
+  { id: "budget", label: "Budget" },
+  { id: "engineering", label: "Eng" },
+  { id: "go-to-market", label: "GTM" },
+  { id: "operations", label: "Ops" },
+  { id: "salaries", label: "Salaries" },
+  { id: "infrastructure", label: "Infra" },
+  { id: "campaigns", label: "Ads" },
+  { id: "office", label: "Office" },
+]
+
+const budgetLinks = [
+  { source: "budget", target: "engineering", value: 2_400_000 },
+  { source: "budget", target: "go-to-market", value: 1_500_000 },
+  { source: "budget", target: "operations", value: 700_000 },
+  { source: "engineering", target: "salaries", value: 1_900_000 },
+  { source: "engineering", target: "infrastructure", value: 500_000 },
+  { source: "go-to-market", target: "salaries", value: 800_000 },
+  { source: "go-to-market", target: "campaigns", value: 700_000 },
+  { source: "operations", target: "salaries", value: 400_000 },
+  { source: "operations", target: "office", value: 300_000 },
+]
+
+const currency = (value: number) =>
+  `$${formatChartNumber(value, { compact: true })}`
+
+function QuarterSwitch() {
+  const [quarter, setQuarter] = React.useState<keyof typeof QUARTERS>("Q2")
+  return (
+    <>
+      <SankeyChart
+        nodes={nodes}
+        links={QUARTERS[quarter]}
+        label={`Revenue flow, ${quarter}`}
+        formatValue={currency}
+        className="h-80 w-full"
+      />
+      <View className="flex-row gap-1">
+        {(["Q2", "Q3"] as const).map((item) => (
+          <Button
+            key={item}
+            size="sm"
+            variant={quarter === item ? "secondary" : "ghost"}
+            accessibilityState={{ selected: quarter === item }}
+            onPress={() => setQuarter(item)}
+          >
+            {item}
+          </Button>
+        ))}
+      </View>
+    </>
+  )
+}
+
+export function SankeyChartExample() {
+  return (
+    <ExampleWrapper>
+      <Example title="Revenue flow" className="items-stretch">
+        <SankeyChart
+          nodes={nodes}
+          links={QUARTERS.Q2}
+          label="Revenue by channel, product and region"
+          formatValue={currency}
+          className="h-80 w-full"
+        />
+      </Example>
+      <Example title="Changing the data" className="items-stretch">
+        <QuarterSwitch />
+      </Example>
+      <Example title="Budget" className="items-stretch">
+        <SankeyChart
+          nodes={budgetNodes}
+          links={budgetLinks}
+          label="Annual budget by department and cost"
+          formatValue={currency}
+          className="h-64 w-full"
+        />
+      </Example>
+      <Example title="Empty" className="items-stretch">
+        <SankeyChart
+          nodes={nodes}
+          links={[]}
+          label="Revenue flow"
+          empty="No revenue yet"
+          className="h-40 w-full"
+        />
+      </Example>
+    </ExampleWrapper>
+  )
+}
+```
+
+## Accessibility
+
+Text is read as it appears. Give a control with no text an `accessibilityLabel`.

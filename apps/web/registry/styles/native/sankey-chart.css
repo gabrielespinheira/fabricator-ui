@@ -1,0 +1,38 @@
+/* MARK: Sankey Chart */
+
+  /* The diagram fills its container's width; 18rem tall until the screen
+     gives it a height. */
+  .cn-sankey-chart {
+    @apply h-72 w-full gap-(--density-12);
+  }
+
+  /* Node labels are the chart's reading, a step larger than axis labels.
+     Read as the SVG text's size, which the layout measures against. */
+  .cn-sankey-chart-plot {
+    @apply text-(length:--density-text-12);
+  }
+
+  /* The opacity links, nodes and labels take while another mark is lit.
+     Read by the chart, applied to SVG. */
+  .cn-sankey-chart-link {
+    @apply opacity-35;
+  }
+
+  .cn-sankey-chart-node {
+    @apply opacity-35;
+  }
+
+  .cn-sankey-chart-label {
+    @apply opacity-35;
+  }
+
+  /* Names lead in the text colour, never the node's. Read as the SVG
+     text's fill and weight. */
+  .cn-sankey-chart-name {
+    @apply text-foreground font-medium;
+  }
+
+  /* Values sit under the name, quieter. */
+  .cn-sankey-chart-value {
+    @apply text-muted-foreground;
+  }

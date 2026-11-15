@@ -1,0 +1,84 @@
+import * as React from "react"
+import { Example, ExampleWrapper } from "@/examples/native/example"
+
+import { type ChartConfig } from "@/registry/native/ui/chart-kit"
+import { RadarChart } from "@/registry/native/ui/radar-chart"
+
+const scorecard = [
+  { measure: "Performance", acme: 86, average: 70 },
+  { measure: "Reliability", acme: 92, average: 75 },
+  { measure: "Usability", acme: 78, average: 72 },
+  { measure: "Support", acme: 88, average: 66 },
+  { measure: "Price", acme: 64, average: 70 },
+  { measure: "Integrations", acme: 72, average: 68 },
+]
+
+const scorecardConfig = {
+  acme: { label: "Acme Inc" },
+  average: { label: "Industry average" },
+} satisfies ChartConfig
+
+const skills = [
+  { skill: "Research", design: 70 },
+  { skill: "Interface", design: 92 },
+  { skill: "Prototyping", design: 85 },
+  { skill: "Writing", design: 60 },
+  { skill: "Accessibility", design: 78 },
+]
+
+const plans = [
+  { feature: "Storage", starter: 30, pro: 60, enterprise: 100 },
+  { feature: "Seats", starter: 20, pro: 55, enterprise: 95 },
+  { feature: "Support", starter: 35, pro: 70, enterprise: 90 },
+  { feature: "API", starter: 25, pro: 80, enterprise: 85 },
+  { feature: "Security", starter: 50, pro: 65, enterprise: 98 },
+  { feature: "Analytics", starter: 40, pro: 75, enterprise: 88 },
+]
+
+const plansConfig = {
+  starter: { label: "Starter" },
+  pro: { label: "Pro" },
+  enterprise: { label: "Enterprise" },
+} satisfies ChartConfig
+
+export function RadarChartExample() {
+  return (
+    <ExampleWrapper>
+      <Example title="Two series" className="items-stretch">
+        <RadarChart
+          data={scorecard}
+          index="measure"
+          config={scorecardConfig}
+          label="Customer scorecard"
+        />
+      </Example>
+      <Example title="One series" className="items-stretch">
+        <RadarChart
+          data={skills}
+          index="skill"
+          config={{ design: { label: "Design team" } }}
+          label="Design team skills"
+          className="h-72"
+        />
+      </Example>
+      <Example title="Three series" className="items-stretch">
+        <RadarChart
+          data={plans}
+          index="feature"
+          config={plansConfig}
+          label="Plans compared"
+        />
+      </Example>
+      <Example title="Empty" className="items-stretch">
+        <RadarChart
+          data={[]}
+          index="measure"
+          config={scorecardConfig}
+          label="Customer scorecard"
+          empty="No scores yet"
+          className="h-40"
+        />
+      </Example>
+    </ExampleWrapper>
+  )
+}

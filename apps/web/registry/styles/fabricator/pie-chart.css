@@ -1,0 +1,42 @@
+/* MARK: Pie Chart */
+
+  /* The chart fills its container's width, its pie centred above the
+     legend. */
+  .cn-pie-chart {
+    @apply w-full gap-(--density-12);
+  }
+
+  /* Pie and donut share the plot: square, as wide as the container up to
+     18rem. Beside a donut's list it keeps a fixed width so the list gets the
+     rest. */
+  .cn-chart-pie-plot {
+    @apply aspect-square w-full max-w-72 shrink-0 data-list:@md:w-56;
+  }
+
+  /* A donut's ring and list stack on a narrow container and sit side by
+     side on a wide one. */
+  .cn-chart-pie-body {
+    @apply gap-(--density-16) data-list:@md:flex-row data-list:@md:gap-(--density-24);
+  }
+
+  /* The slice under the pointer lifts out on the glide timing while the
+     others fade back. Reduced motion keeps the fade and drops the lift's
+     travel. */
+  .cn-chart-slice {
+    @apply transition-[transform,opacity] duration-glide ease-enter data-dimmed:opacity-40 motion-reduce:transition-opacity;
+  }
+
+  /* Share labels fade in once the slices have settled. */
+  .cn-chart-slice-label {
+    @apply animate-in fade-in-0 duration-feedback ease-enter pointer-events-none select-none;
+  }
+
+  /* The label sits on a card-coloured pill, so its contrast never depends
+     on the slice's colour. */
+  .cn-chart-slice-label-pill {
+    @apply fill-card;
+  }
+
+  .cn-chart-slice-label-text {
+    @apply fill-foreground font-medium tabular-nums;
+  }

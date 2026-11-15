@@ -41,6 +41,7 @@ type MotionRole =
   | "bounce"
   | "settle"
   | "toast"
+  | "reveal"
 
 // The website's `linear()` spring: the same samples, joined by straight lines.
 function createSampledEasing(samples: number[]) {

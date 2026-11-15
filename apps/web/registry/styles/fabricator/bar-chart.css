@@ -1,0 +1,7 @@
+/* MARK: Bar Chart */
+
+  /* The chart fills its container's width; 18rem tall until the page gives
+     it a height. The legend sits under the plot. */
+  .cn-bar-chart {
+    @apply h-72 w-full gap-(--density-12);
+  }

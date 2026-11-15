@@ -182,8 +182,12 @@ ${rows.join("\n")}
 
 async function main() {
   await fs.mkdir(PAGES_DIR, { recursive: true })
-  const items = nativeItems.filter((item) =>
-    existsSync(path.join(ROOT, `registry/native/ui/${item.name}.tsx`))
+  // Components only: a lib item with parts of its own (chart-kit) is
+  // documented on the pages of the components that install it.
+  const items = nativeItems.filter(
+    (item) =>
+      item.type === "registry:ui" &&
+      existsSync(path.join(ROOT, `registry/native/ui/${item.name}.tsx`))
   )
   await Promise.all(items.map(buildPage))
   const names = items.map((item) => item.name).sort()

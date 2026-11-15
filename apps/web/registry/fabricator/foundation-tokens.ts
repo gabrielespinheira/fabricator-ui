@@ -3,6 +3,7 @@
 // the website's CSS (native-theme.ts resolves these to literal values).
 // foundations.ts adds the CSS and turns them into the registry item.
 
+import { CHART_CSS_VARS } from "@/registry/fabricator/chart-colors"
 import {
   ROLE_CSS_VARS,
   ROLE_PALETTE_LINKS,
@@ -101,6 +102,8 @@ export const FABRICATOR_TOKENS: CssVars = {
     ...ROLE_CSS_VARS.theme,
     // Syntax Highlight's colours, built on the roles (syntax-colors.ts).
     ...SYNTAX_CSS_VARS.theme,
+    // The charts' series palette (chart-colors.ts).
+    ...CHART_CSS_VARS.theme,
     "color-focus-ring": "var(--focus-ring)",
     // Motion: duration-<role>, delay-<role> and ease-<curve> (motion.ts).
     ...MOTION_THEME,
@@ -127,6 +130,7 @@ export const FABRICATOR_TOKENS: CssVars = {
     "tint-hover": "oklch(0 0 0 / 0.065)",
     ...ROLE_CSS_VARS.light,
     ...SYNTAX_CSS_VARS.light,
+    ...CHART_CSS_VARS.light,
     "focus-ring": "oklch(0.693 0.161 265.2)",
   },
   dark: {
@@ -152,6 +156,7 @@ export const FABRICATOR_TOKENS: CssVars = {
     "tint-hover": "oklch(1 0 0 / 0.2)",
     ...ROLE_CSS_VARS.dark,
     ...SYNTAX_CSS_VARS.dark,
+    ...CHART_CSS_VARS.dark,
     "focus-ring": "oklch(0.693 0.161 265.2)",
   },
 }
