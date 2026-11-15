@@ -297,6 +297,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "bot-face-sizes",
       filePath: "examples/base/bot-face-sizes.tsx",
     },
+    "bot-face-states": {
+      name: "bot-face-states",
+      filePath: "examples/base/bot-face-states.tsx",
+    },
     "breadcrumb-basic": {
       name: "breadcrumb-basic",
       filePath: "examples/base/breadcrumb-basic.tsx",
@@ -3139,6 +3143,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "bot-face-sizes",
       filePath: "examples/aria/bot-face-sizes.tsx",
     },
+    "bot-face-states": {
+      name: "bot-face-states",
+      filePath: "examples/aria/bot-face-states.tsx",
+    },
     "breadcrumb-basic": {
       name: "breadcrumb-basic",
       filePath: "examples/aria/breadcrumb-basic.tsx",
@@ -5936,6 +5944,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "bot-face-sizes": {
       name: "bot-face-sizes",
       filePath: "examples/radix/bot-face-sizes.tsx",
+    },
+    "bot-face-states": {
+      name: "bot-face-states",
+      filePath: "examples/radix/bot-face-states.tsx",
     },
     "breadcrumb-basic": {
       name: "breadcrumb-basic",
@@ -8748,6 +8760,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "bot-face-sizes",
       filePath: "examples/__styles__/base-fabricator/bot-face-sizes.tsx",
     },
+    "bot-face-states": {
+      name: "bot-face-states",
+      filePath: "examples/__styles__/base-fabricator/bot-face-states.tsx",
+    },
     "breadcrumb-basic": {
       name: "breadcrumb-basic",
       filePath: "examples/__styles__/base-fabricator/breadcrumb-basic.tsx",
@@ -11400,6 +11416,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "bot-face-sizes",
       filePath: "examples/__styles__/aria-fabricator/bot-face-sizes.tsx",
     },
+    "bot-face-states": {
+      name: "bot-face-states",
+      filePath: "examples/__styles__/aria-fabricator/bot-face-states.tsx",
+    },
     "breadcrumb-basic": {
       name: "breadcrumb-basic",
       filePath: "examples/__styles__/aria-fabricator/breadcrumb-basic.tsx",
@@ -14016,6 +14036,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "bot-face-sizes": {
       name: "bot-face-sizes",
       filePath: "examples/__styles__/radix-fabricator/bot-face-sizes.tsx",
+    },
+    "bot-face-states": {
+      name: "bot-face-states",
+      filePath: "examples/__styles__/radix-fabricator/bot-face-states.tsx",
     },
     "breadcrumb-basic": {
       name: "breadcrumb-basic",

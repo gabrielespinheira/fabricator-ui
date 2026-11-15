@@ -29,6 +29,12 @@ Add one with `npx fabricator-ui@latest add area-chart`. Every chart installs `ch
 
 ## Updated components
 
+### BotFace
+
+[BotFace](/docs/components/base/bot-face) now has ten expressions for idle, listening, thinking, working, speaking, happy, sad, questioning, awaiting permission and error. The body stays anchored while the eyes carry the expression, with bounded gaze movement and tilt. Listening nods in agreement, working turns with its scan, thinking uses rotating arcs and upper-corner gaze, and speaking forms a six-bar sound wave. Questioning blends thick eye shapes with a short question-like curl, asymmetric height and natural blinks; error forms crosses. Shape, colour and eye controls sit on the left of the docs playground, with states on the right; phone layouts stack the two groups. Transitions morph matched eye outlines with retained point velocity, while preserving the pose and blink phase during rapid state changes. Loader exits retain their visible area, and wave bars split from or merge into the eye edges. BotFace also accepts `gray` and CSS hex fills, with contrasting eyes for custom colours. The docs playground replaces Theme options with a Custom Color Picker and live, copyable configuration code.
+
+The optional `useBotFaceState` hook maps normalized agent sessions, prioritizes manual permissions and questions, holds through brief idle gaps and acknowledges successful run completion once. Web and React Native share the expression model. Reduced motion, motion-off and instant keep the selected expression visible without continuous movement.
+
 ### Avatar
 
 `Avatar` takes an optional `tooltip`, a string or the tooltip content's props, that names the person on hover and keyboard focus. An avatar with a tooltip is focusable and announced as an image named by it. In an `AvatarGroup` the names show in one label that appears after a short beat and glides with the parting from avatar to avatar. Swapping it makes no change a `:has()` rule tests, so moving along a group stays at full frame rate on pages full of other components.
@@ -38,3 +44,7 @@ Avatars in a group now overlap by a third of their size, and the group parts aro
 Avatars and the group count are opaque: the fallback and count tints sit on the background, so overlapping avatars and transparent images no longer show what is behind them. Avatars in demos and blocks are no longer drawn in grayscale.
 
 Update with `npx fabricator-ui@latest add avatar`. It now installs `tooltip` too.
+
+## Breaking changes
+
+`create --mobile --no-web` now makes a monorepo with the app in `apps/mobile`, like every other new project, instead of a plain Expo project. For a plain Expo project, use `create -t expo`. The [Get started](/create) page offers New, always a monorepo, and Existing; a link that picked a single project opens as a new monorepo with the same apps.

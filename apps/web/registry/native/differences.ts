@@ -72,6 +72,10 @@ export const NATIVE_DIFFERENCES: Record<
   },
   "aspect-ratio": SAME,
   attachment: SAME,
+  "bot-face": {
+    tier: "touch",
+    note: "The same ten `state` expressions, geometry and `useBotFaceState` session hook run on native. Idle gaze follows touches on the face rather than a window pointer. Reanimated retains the pose and blink phase across state changes and pauses when the app is inactive. Reduce Motion, motion-off, instant and `animated={false}` keep the selected expression still. See the web BotFace page for the state and normalized session API; use visible status text and real approval controls alongside the face.",
+  },
   avatar: SAME,
   badge: SAME,
   breadcrumb: {

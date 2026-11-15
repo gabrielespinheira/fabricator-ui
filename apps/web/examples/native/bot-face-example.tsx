@@ -7,8 +7,10 @@ import {
   type BotFaceColor,
   type BotFaceEyes,
   type BotFaceShape,
+  type BotFaceState,
 } from "@/registry/native/ui/bot-face"
 import { Button } from "@/registry/native/ui/button"
+import { ColorPickerPopover } from "@/registry/native/ui/color-picker"
 
 const shapes = [
   "circle",
@@ -26,16 +28,9 @@ const shapes = [
   "hexagon",
   "squircle",
 ] as const
-const themeColors = [
-  "primary",
-  "secondary",
-  "info",
-  "success",
-  "warning",
-  "destructive",
-] as const
 const paletteColors = [
   "neutral",
+  "gray",
   "blue",
   "indigo",
   "violet",
@@ -50,21 +45,54 @@ const paletteColors = [
 function BotFaceExample() {
   const [shape, setShape] = React.useState<BotFaceShape>("squircle")
   const [color, setColor] = React.useState<BotFaceColor>("violet")
+  const [customColor, setCustomColor] = React.useState<`#${string}`>("#8b5cf6")
   const [eyes, setEyes] = React.useState<BotFaceEyes>("slant")
-  const [animated, setAnimated] = React.useState(true)
-  const isThemeColor = themeColors.some((value) => value === color)
-  const colors = isThemeColor ? themeColors : paletteColors
+  const [state, setState] = React.useState<BotFaceState>("idle")
   return (
     <ExampleWrapper>
-      <Example title="Face" className="items-center">
+      <Example title="Agent states" className="items-center">
         <BotFace
+          state={state}
           shape={shape}
-          color={color}
-          eyes={eyes}
           size="lg"
-          animated={animated}
-          aria-label="Assistant preview"
+          eyes={eyes}
+          color={color}
+          aria-label={`Assistant ${state.replaceAll("-", " ")}`}
         />
+        <View className="flex-row flex-wrap justify-center gap-2">
+          {(
+            [
+              "idle",
+              "listening",
+              "thinking",
+              "working",
+              "speaking",
+              "happy",
+              "sad",
+              "questioning",
+              "awaiting-permission",
+              "error",
+            ] as const
+          ).map((value) => (
+            <Button
+              key={value}
+              variant={state === value ? "secondary" : "ghost"}
+              aria-pressed={state === value}
+              onPress={() => setState(value)}
+            >
+              <BotFace
+                state={value}
+                color={color}
+                eyes={eyes}
+                size="sm"
+                animated={false}
+              />
+              {value === "awaiting-permission"
+                ? "Permission"
+                : value.charAt(0).toUpperCase() + value.slice(1)}
+            </Button>
+          ))}
+        </View>
         <View className="flex-row flex-wrap justify-center gap-2">
           {shapes.map((value) => (
             <Button
@@ -74,36 +102,12 @@ function BotFaceExample() {
               aria-pressed={shape === value}
               onPress={() => setShape(value)}
             >
-              <BotFace
-                shape={value}
-                color={color}
-                eyes={eyes}
-                size="sm"
-                animated={animated}
-              />
+              <BotFace shape={value} color={color} eyes={eyes} size="sm" />
             </Button>
           ))}
         </View>
-        <View className="flex-row justify-center gap-2">
-          <Button
-            variant={isThemeColor ? "ghost" : "secondary"}
-            aria-label="Use palette colors"
-            aria-pressed={!isThemeColor}
-            onPress={() => setColor("violet")}
-          >
-            Palette
-          </Button>
-          <Button
-            variant={isThemeColor ? "secondary" : "ghost"}
-            aria-label="Use theme colors"
-            aria-pressed={isThemeColor}
-            onPress={() => setColor("primary")}
-          >
-            Theme
-          </Button>
-        </View>
         <View className="flex-row flex-wrap justify-center gap-2">
-          {colors.map((value) => (
+          {paletteColors.map((value) => (
             <Button
               key={value}
               variant={color === value ? "secondary" : "ghost"}
@@ -119,12 +123,21 @@ function BotFaceExample() {
                 animated={false}
                 style={{ width: 24, height: 24 }}
               />
-              {isThemeColor
-                ? value.charAt(0).toUpperCase() + value.slice(1)
-                : null}
             </Button>
           ))}
         </View>
+        <ColorPickerPopover
+          triggerLabel="Custom"
+          value={customColor}
+          onOpenChange={(isOpen) => {
+            if (isOpen) setColor(customColor)
+          }}
+          onValueChange={(_, parsed) => {
+            const next = `#${parsed.hex.slice(1)}` as const
+            setCustomColor(next)
+            setColor(next)
+          }}
+        />
         <View className="flex-row flex-wrap justify-center gap-2">
           {(["slant", "dots", "square"] as const).map((value) => (
             <Button
@@ -140,19 +153,28 @@ function BotFaceExample() {
                   : "Squares"}
             </Button>
           ))}
-          <Button
-            variant="outline"
-            aria-pressed={!animated}
-            onPress={() => setAnimated(!animated)}
-          >
-            {animated ? "Pause" : "Resume"}
-          </Button>
         </View>
       </Example>
       <Example title="Sizes" className="flex-row items-center">
         <BotFace size="sm" color="violet" />
         <BotFace color="info" shape="circle" />
         <BotFace size="lg" color="success" shape="flower" />
+      </Example>
+      <Example
+        title="Status colors"
+        className="flex-row flex-wrap items-center"
+      >
+        <BotFace color="primary" aria-label="Assistant ready" />
+        <BotFace
+          color="warning"
+          state="awaiting-permission"
+          aria-label="Waiting for permission"
+        />
+        <BotFace
+          color="destructive"
+          state="error"
+          aria-label="Assistant error"
+        />
       </Example>
       <Example title="Eye styles" className="flex-row flex-wrap">
         <BotFace eyes="slant" color="violet" />

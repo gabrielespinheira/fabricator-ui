@@ -1,14 +1,14 @@
 ---
 title: BotFace
-description: An assistant face with fourteen silhouettes, theme colours, blinking and a gaze that follows you.
+description: A calm assistant face with ten fluid expressions and agent session states.
 base: aria
 component: true
 ---
 
 <ComponentPreview
   styleName="aria-nova"
-  name="bot-face-demo"
-  previewClassName="h-auto min-h-[36rem] py-8"
+  name="bot-face-states"
+  previewClassName="h-auto py-8"
 />
 
 ## Installation
@@ -29,13 +29,68 @@ import { BotFace } from "@/components/ui/bot-face"
 
 BotFace belongs in an assistant avatar, an empty conversation or a voice interface. It is a decorative image by default. Give it `aria-label` when it conveys identity; put it inside a named Button if it performs an action.
 
+## Agent states
+
+`state` changes the expression while keeping the selected silhouette, colour and size. The selected eye style shapes ordinary expressions and waveform caps; thinking, questioning and error morph the eyes into their own symbols. The ten states are `idle`, `listening`, `thinking`, `working`, `speaking`, `happy`, `sad`, `questioning`, `awaiting-permission` and `error`.
+
+```tsx
+<BotFace state="working" color="violet" aria-label="Assistant working" />
+<BotFace state="awaiting-permission" aria-label="Waiting for permission" />
+```
+
+Use `questioning` when the assistant needs an answer and `awaiting-permission` when a manual approval is pending. `speaking` means audio playback; text generation uses `working`. `sad` is an explicit emotion, separate from a failed run. Denying a request or stopping a task does not make the assistant sad.
+
+### Connect an agent session
+
+The optional hook maps a normalized snapshot into a stable expression. It holds through brief busy/idle gaps, shows questions, permissions and failures immediately, and acknowledges successful completion once. The component has no agent SDK dependency.
+
+```tsx
+import {
+  useBotFaceState,
+  type BotFaceSessionSnapshot,
+} from "@/hooks/use-bot-face-state"
+
+function AssistantStatus({ snapshot }: { snapshot: BotFaceSessionSnapshot }) {
+  const state = useBotFaceState(snapshot)
+  return <BotFace state={state} aria-label={`Assistant ${state}`} />
+}
+```
+
+Type `snapshot` as `BotFaceSessionSnapshot`, exported from the hook:
+
+| Field                | Values or meaning                                                |
+| -------------------- | ---------------------------------------------------------------- |
+| `sessionId`          | Conversation identity; changing it clears old presentation holds |
+| `runId`              | Current run identity                                             |
+| `revision`           | Monotonically increasing across runs within the conversation     |
+| `lifecycle`          | `idle`, `running`, `paused`, `cancelled`, `failed`, `succeeded`  |
+| `activity`           | `idle`, `thinking`, `working`, `listening`, `speaking`           |
+| `pendingPermissions` | Number of unresolved requests requiring manual approval          |
+| `pendingQuestions`   | Number of unresolved questions requiring an answer               |
+
+Terminal outcomes clear obsolete blockers. During a run, permissions take priority over questions, which take priority over activity. Only explicit successful run completion produces a brief `happy` expression. Lower revisions are ignored, and duplicate completion updates do not replay it. Assign revisions at the session boundary and discard events belonging to older runs there.
+
+With the AI SDK, map `submitted` to thinking and `streaming` to working unless actual microphone/playback activity is present. Count current tool parts in `approval-requested` only when `part.approval.isAutomatic` is false or absent. Do not count historical tool parts, automatically resolved approvals or already answered requests. Transport `ready` does not prove a successful run; use the application's explicit lifecycle outcome. The adapter keeps transport I/O and external validation in the application.
+
+The hook returns a visual state. Keep status text, permission controls and live announcements tied to actual session facts so presentation holds never delay an actionable request.
+
 ## Shapes and colours
 
-The demo separates **Palette** (ten named colours) from **Theme** (six labelled roles). Theme roles may share a hue with a palette colour, depending on the project's look.
+The main playground groups shape, colour and eyes on the left, with states on the right. Both groups control the same face and stack on a phone. Switching a state retains the selected appearance. Choose from eleven named colours, including `gray`, or open **Custom** to use the Color Picker. The configuration block follows the current options and copies the matching component code. Theme roles remain available through the component’s `color` prop.
 
 The fourteen shapes are `circle`, `blob`, `square`, `star`, `clover`, `heart`, `flower`, `droplet`, `pill`, `triangle`, `pentagon`, `burst`, `hexagon` and `squircle`.
 
-The theme roles `primary`, `secondary`, `info`, `success`, `warning` and `destructive` follow the project's look. `neutral` uses the foreground. Named hues `blue`, `indigo`, `violet`, `pink`, `red`, `orange`, `amber`, `green` and `teal` use Fabricator's primary colour presets, including their light and dark fills and contrasting eyes. Use status roles when the face communicates a status.
+The theme roles `primary`, `secondary`, `info`, `success`, `warning` and `destructive` follow the project's look. `neutral` uses the foreground. The fixed `gray` palette colour uses a medium gray in each theme. Named hues `blue`, `indigo`, `violet`, `pink`, `red`, `orange`, `amber`, `green` and `teal` use Fabricator's primary colour presets, including their light and dark fills and contrasting eyes. Use status roles when the face communicates a status.
+
+### Custom colours
+
+`color` also accepts CSS hex strings with `#`: three, four, six or eight digits, including alpha. The eyes choose black or white from the RGB fill for contrast. Transparency is preserved; its final contrast depends on the surface behind the face.
+
+```tsx
+<BotFace color="#6b97ff" shape="hexagon" state="thinking" />
+<BotFace color="#abc" eyes="dots" />
+<BotFace color="#6b97ffcc" />
+```
 
 ## Sizes
 
@@ -51,9 +106,26 @@ The theme roles `primary`, `secondary`, `info`, `success`, `warning` and `destru
 
 ## Motion
 
-On web and desktop, the eyes follow the pointer anywhere in the window. The face tilts gently in the same direction. A touch holds its gaze briefly, then returns to idle glances. Without a pointer, it pauses between glances and blinks periodically. On React Native, idle glances happen automatically and touching or dragging over the face guides its eyes. It does not request device sensor access.
+The body keeps its layout position and size. Gaze moves within 6% of the face dimension. Body turns stay within 6 degrees, with small head nods (up to 14 degrees of pitch) and side turns (up to 12 degrees of yaw). These rotations change the projected silhouette without translating or scaling the component. Idle follows the pointer on web/desktop or a touch on native; active states direct their own attention. Explicit `gaze` takes priority. It does not request device sensor access.
 
-`followPointer={false}` keeps idle motion and blinking while disabling pointer/touch tracking. `blink={false}` keeps the eyes open. `gaze={{ x: 0.6, y: -0.2 }}` controls the direction, with both axes normalized to -1…1 and clamped to an ellipse. `animated={false}`, Reduce Motion and the Fabricator motion-off setting keep the face still with its eyes open, including controlled gaze.
+| State                 | Eye and body gesture                                                        |
+| --------------------- | --------------------------------------------------------------------------- |
+| `idle`                | Quiet glances and periodic blinks                                           |
+| `listening`           | Two small agreement nods, with the eyes following the head                  |
+| `thinking`            | Rotating loader arcs, looking toward the upper-left and upper-right corners |
+| `working`             | Focused eye scans with a coordinated side-to-side turn of the shape         |
+| `speaking`            | Six independently animated sound-wave bars                                  |
+| `happy`               | Rising smile arcs with a gentle tilt back                                   |
+| `sad`                 | Downcast lids and a slow head droop                                         |
+| `questioning`         | Thick hooked eyes and an inquisitive alternating tilt                       |
+| `awaiting-permission` | Paired eye raises and a small expectant head lift                           |
+| `error`               | Crossed eyes with a slow settling lean                                      |
+
+All states use the same two persistent SVG paths. Questioning keeps thick, connected eyes with a small question-like curl and asymmetric height, sized for the selected eye style. These eyes blink naturally. Waveform, loader and crossed eyes stay open while the blink clock continues in the background.
+
+A gesture starts when its state is entered and continues through repeated session updates. State changes morph the visible eye outlines, matching perimeter points and preserving each point’s position and velocity. Wave bars split from and merge into the eye edges. The eyes keep their SVG nodes and blink clock, including when a transition is interrupted; no neutral reset is inserted. Motion pauses offscreen on web and while the app is inactive on native. Fabricator move/settle timings follow the region’s speed setting.
+
+`followPointer={false}` keeps idle motion and blinking while disabling pointer/touch tracking. `blink={false}` keeps the eyes open. `gaze={{ x: 0.6, y: -0.2 }}` controls the direction, with both axes normalized to -1…1 and clamped to an ellipse. `animated={false}`, Reduce Motion and the Fabricator motion-off or instant setting show a still version of the selected expression, with centred gaze, a level body and no blinking. Static expressions remain readable.
 
 ```tsx
 <BotFace color="info" shape="pill" eyes="dots" blink={false} />
@@ -69,13 +141,20 @@ On web and desktop, the eyes follow the pointer anywhere in the window. The face
 | `color`         | `BotFaceColor`                  | `"primary"`                     |
 | `eyes`          | `"slant" \| "dots" \| "square"` | `"slant"`                       |
 | `size`          | `"sm" \| "default" \| "lg"`     | `"default"`                     |
+| `state`         | `BotFaceState`                  | `"idle"`                        |
 | `animated`      | `boolean`                       | `true`                          |
 | `blink`         | `boolean`                       | `true`                          |
 | `followPointer` | `boolean`                       | `true`                          |
 | `gaze`          | `{ x: number; y: number }`      | Idle or pointer/touch direction |
 
-Web renders a `span`; native renders a `View`. Both accept their platform's element props and `ref`, and export `BotFaceProps`, `BotFaceShape`, `BotFaceColor`, `BotFaceEyes`, `BotFaceSize` and `BotFaceGaze`.
+Web renders a `span`; native renders a `View`. Both accept their platform's element props and `ref`, and export `BotFaceProps`, `BotFaceShape`, `BotFaceColor`, `BotFaceEyes`, `BotFaceSize` `BotFaceGaze` and `BotFaceState`.
 
 ### Data attributes
 
-`data-slot` values are `bot-face`, `bot-face-body`, `bot-face-shape`, `bot-face-gaze` and `bot-face-eyes`. The root exposes `data-shape`, `data-color`, `data-eyes`, `data-size` and `data-animated`.
+`data-slot` values are `bot-face`, `bot-face-body`, `bot-face-shape`, `bot-face-gaze` `bot-face-eyes` and `bot-face-eye`. The root exposes `data-shape`, `data-color`, `data-eyes`, `data-size` `data-state` and `data-animated`.
+
+## Accessibility
+
+BotFace is decorative by default. If adjacent text already identifies the assistant and its state, keep the face hidden from assistive technology. A standalone identity can use `aria-label`; it is an image, not an interactive control. If it performs an action, wrap it in a named Button.
+
+Use visible text to communicate session status and real controls to answer questions or approve actions. A separate polite live region can announce meaningful changes once. Never announce blinks or animation frames. Reduced motion retains the selected static expression.

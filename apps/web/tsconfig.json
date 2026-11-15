@@ -19,6 +19,18 @@
       }
     ],
     "paths": {
+      "@/registry/bases/*/lib/bot-face-eye-morph": [
+        "./registry/fabricator/shared/lib/bot-face-eye-morph"
+      ],
+      "@/registry/bases/*/lib/bot-face-motion": [
+        "./registry/fabricator/shared/lib/bot-face-motion"
+      ],
+      "@/registry/bases/*/lib/bot-face-session": [
+        "./registry/fabricator/shared/lib/bot-face-session"
+      ],
+      "@/registry/bases/*/hooks/use-bot-face-state": [
+        "./registry/fabricator/shared/hooks/use-bot-face-state"
+      ],
       "@/registry/bases/*/ui/theme-toggle": [
         "./registry/fabricator/shared/ui/theme-toggle"
       ],

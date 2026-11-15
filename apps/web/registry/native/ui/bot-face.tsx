@@ -1,30 +1,49 @@
 import * as React from "react"
 import { cva } from "class-variance-authority"
 import { cn } from "cn"
-import { View, type GestureResponderEvent } from "react-native"
+import { AppState, View, type GestureResponderEvent } from "react-native"
 import Animated, {
+  useAnimatedProps,
   useAnimatedStyle,
+  useDerivedValue,
   useFrameCallback,
   useSharedValue,
 } from "react-native-reanimated"
-import Svg, { Path, Rect } from "react-native-svg"
+import Svg, { Path } from "react-native-svg"
 import { useCSSVariable, useResolveClassNames } from "uniwind"
 
+import {
+  createBotFaceEyeMorph,
+  getBotFaceMorphedEyePath,
+  stepBotFaceEyeMorph,
+} from "@/registry/fabricator/shared/lib/bot-face-eye-morph"
 import {
   BOT_FACE_SIZES,
   clampBotFaceGaze,
   getBotFaceBlink,
+  getBotFaceCustomColors,
   getBotFaceGaze,
-  getBotFaceIdleGaze,
   getBotFacePath,
   getBotFacePhase,
+  isBotFaceNamedColor,
   type BotFaceColor,
   type BotFaceEyes,
   type BotFaceGaze,
   type BotFaceShape,
   type BotFaceSize,
 } from "@/registry/fabricator/shared/lib/bot-face-model"
+import {
+  BOT_FACE_GAZE_TRAVEL,
+  createBotFaceMotion,
+  getBotFaceBlinkOpening,
+  getBotFaceTarget,
+  stepBotFaceMotion,
+  stepBotFacePlayback,
+  type BotFaceState,
+} from "@/registry/fabricator/shared/lib/bot-face-motion"
 import { useMotion } from "@/registry/native/lib/motion"
+
+const AnimatedPath = Animated.createAnimatedComponent(Path)
 
 const botFaceVariants = cva("cn-bot-face", {
   variants: {
@@ -36,6 +55,7 @@ const botFaceVariants = cva("cn-bot-face", {
       warning: "cn-bot-face-color-warning",
       destructive: "cn-bot-face-color-destructive",
       neutral: "cn-bot-face-color-neutral",
+      gray: "cn-bot-face-color-gray",
       blue: "cn-bot-face-color-blue",
       indigo: "cn-bot-face-color-indigo",
       violet: "cn-bot-face-color-violet",
@@ -67,6 +87,7 @@ type BotFaceProps = Omit<React.ComponentProps<typeof View>, "children"> & {
   color?: BotFaceColor
   eyes?: BotFaceEyes
   size?: BotFaceSize
+  state?: BotFaceState
   animated?: boolean
   blink?: boolean
   followPointer?: boolean
@@ -79,6 +100,7 @@ function BotFace({
   color = "primary",
   eyes = "slant",
   size = "default",
+  state = "idle",
   animated = true,
   blink = true,
   followPointer = true,
@@ -91,10 +113,28 @@ function BotFace({
   onLayout,
   ...props
 }: BotFaceProps) {
+  const namedColor = isBotFaceNamedColor(color) ? color : undefined
+  const customColor = namedColor ? undefined : getBotFaceCustomColors(color)
   const label = ariaLabel ?? accessibilityLabel
-  const { isReduced, isOff } = useMotion("move")
-  const isAnimated = animated && !isReduced && !isOff
-  const classes = cn("relative shrink-0", botFaceVariants({ color }), className)
+  const move = useMotion("move")
+  const settle = useMotion("settle")
+  const speed = useCSSVariable("--motion-speed")
+  const [isActive, setIsActive] = React.useState(
+    AppState.currentState === "active"
+  )
+  React.useEffect(() => {
+    const subscription = AppState.addEventListener("change", (activity) =>
+      setIsActive(activity === "active")
+    )
+    return () => subscription.remove()
+  }, [])
+  const isAnimated =
+    animated && !move.isReduced && !move.isOff && Number(speed) !== 3
+  const classes = cn(
+    "relative shrink-0",
+    botFaceVariants({ color: namedColor }),
+    className
+  )
   const resolved = useResolveClassNames(classes)
   const eyeColor = useCSSVariable(getBotFaceEyeToken(color))
   const dimension = BOT_FACE_SIZES[size]
@@ -105,62 +145,126 @@ function BotFace({
   const targetX = useSharedValue(0)
   const targetY = useSharedValue(0)
   const touchUntil = useSharedValue(0)
-  const x = useSharedValue(0)
-  const y = useSharedValue(0)
+  const motion = useSharedValue(createBotFaceMotion(state))
+  const playback = useSharedValue({ state, elapsed: 0 })
   const opening = useSharedValue(1)
   const controlledX = gaze?.x
   const controlledY = gaze?.y
+  const [initial] = React.useState(() =>
+    createBotFaceEyeMorph(getBotFaceTarget(state), eyes, state)
+  )
+  const eyeMorph = useSharedValue(initial)
+
+  React.useEffect(() => {
+    if (isAnimated) return
+    const target = {
+      ...getBotFaceTarget(state),
+      gazeX: 0,
+      gazeY: 0,
+      tilt: 0,
+      pitch: 0,
+      yaw: 0,
+    }
+    motion.set(stepBotFaceMotion(motion.get(), target, 0, 0, 0))
+    eyeMorph.set(createBotFaceEyeMorph(target, eyes, state))
+    opening.set(1)
+  }, [isAnimated, state, eyes, motion, eyeMorph, opening])
 
   const frameCallback = useFrameCallback((frame) => {
-    if (!isAnimated) {
-      x.set(0)
-      y.set(0)
-      opening.set(1)
-      return
-    }
-    const elapsed = clock.get() + (frame.timeSincePreviousFrame ?? 0)
+    const delta = Math.min(frame.timeSincePreviousFrame ?? 0, 64)
+    const elapsed = clock.get() + delta
     clock.set(elapsed)
-    const target =
+    const gesture = stepBotFacePlayback(playback.get(), state, delta)
+    playback.set(gesture)
+    const target = getBotFaceTarget(
+      state,
+      gesture.elapsed + (state === "idle" ? phase : 0)
+    )
+    const attention =
       controlledX !== undefined && controlledY !== undefined
         ? clampBotFaceGaze({ x: controlledX, y: controlledY })
-        : elapsed < touchUntil.get()
+        : state === "idle" && followPointer && elapsed < touchUntil.get()
           ? { x: targetX.get(), y: targetY.get() }
-          : getBotFaceIdleGaze(elapsed + phase)
-    const amount =
-      1 - Math.exp(-Math.min(frame.timeSincePreviousFrame ?? 16, 64) / 110)
-    x.set(x.get() + (target.x - x.get()) * amount)
-    y.set(y.get() + (target.y - y.get()) * amount)
+          : { x: target.gazeX, y: target.gazeY }
+    target.gazeX = attention.x
+    target.gazeY = attention.y
+    eyeMorph.set(
+      stepBotFaceEyeMorph(
+        eyeMorph.get(),
+        target,
+        eyes,
+        state,
+        delta,
+        (move.enterMs + settle.enterMs) / 2
+      )
+    )
+    motion.set(
+      stepBotFaceMotion(
+        motion.get(),
+        target,
+        delta,
+        move.enterMs,
+        settle.enterMs
+      )
+    )
     opening.set(getBotFaceBlink(elapsed + phase, blink))
-  }, isAnimated)
+  }, false)
 
   React.useEffect(() => {
-    frameCallback.setActive(isAnimated)
+    frameCallback.setActive(isAnimated && isActive)
     return () => frameCallback.setActive(false)
-  }, [frameCallback, isAnimated])
+  }, [frameCallback, isAnimated, isActive])
 
-  React.useEffect(() => {
-    if (!isAnimated) {
-      x.set(0)
-      y.set(0)
-      opening.set(1)
-    }
-  }, [isAnimated, x, y, opening])
-
+  const pose = useDerivedValue(() =>
+    isAnimated
+      ? motion.get().pose
+      : {
+          ...getBotFaceTarget(state),
+          gazeX: 0,
+          gazeY: 0,
+          tilt: 0,
+          pitch: 0,
+          yaw: 0,
+        }
+  )
   const bodyStyle = useAnimatedStyle(() => ({
     transform: [
-      { translateX: x.get() * width.get() * 0.02 },
-      { translateY: y.get() * height.get() * 0.02 },
-      { rotate: `${x.get() * 9 - y.get() * 4}deg` },
+      { rotate: `${pose.get().tilt}deg` },
+      { rotateX: `${pose.get().pitch}deg` },
+      { rotateY: `${pose.get().yaw}deg` },
     ],
   }))
   const gazeStyle = useAnimatedStyle(() => ({
     transform: [
-      { translateX: x.get() * width.get() * 0.1 },
-      { translateY: y.get() * height.get() * 0.08 },
+      {
+        translateX:
+          (pose.get().gazeX * width.get() * BOT_FACE_GAZE_TRAVEL) / 100,
+      },
+      {
+        translateY:
+          (pose.get().gazeY * height.get() * BOT_FACE_GAZE_TRAVEL) / 100,
+      },
     ],
   }))
   const blinkStyle = useAnimatedStyle(() => ({
-    transform: [{ scaleY: opening.get() }],
+    transform: [
+      {
+        scaleY: isAnimated
+          ? getBotFaceBlinkOpening(pose.get(), opening.get())
+          : 1,
+      },
+    ],
+  }))
+  const renderedEyes = useDerivedValue(() =>
+    isAnimated
+      ? eyeMorph.get()
+      : createBotFaceEyeMorph(getBotFaceTarget(state), eyes, state)
+  )
+  const leftProps = useAnimatedProps(() => ({
+    d: getBotFaceMorphedEyePath(renderedEyes.get(), "left"),
+  }))
+  const rightProps = useAnimatedProps(() => ({
+    d: getBotFaceMorphedEyePath(renderedEyes.get(), "right"),
   }))
   const lookAtTouch = (event: GestureResponderEvent) => {
     if (!followPointer || !isAnimated) return
@@ -181,6 +285,7 @@ function BotFace({
       data-color={color}
       data-eyes={eyes}
       data-size={size}
+      data-state={state}
       data-animated={animated}
       role={label ? "img" : undefined}
       accessible={Boolean(label)}
@@ -219,7 +324,8 @@ function BotFace({
           <Path
             d={getBotFacePath(shape)}
             fill={
-              typeof resolved.color === "string" ? resolved.color : undefined
+              customColor?.fill ??
+              (typeof resolved.color === "string" ? resolved.color : undefined)
             }
           />
         </Svg>
@@ -237,21 +343,21 @@ function BotFace({
               viewBox="0 0 100 100"
               width="100%"
               height="100%"
-              fill={typeof eyeColor === "string" ? eyeColor : undefined}
+              fill={
+                customColor?.eyes ??
+                (typeof eyeColor === "string" ? eyeColor : undefined)
+              }
             >
-              {[40, 60].map((position) => (
-                <Rect
-                  key={position}
-                  x={position - 4.5}
-                  y={eyes === "dots" ? 45.5 : 40}
-                  width={9}
-                  height={eyes === "dots" || eyes === "square" ? 9 : 20}
-                  rx={eyes === "square" ? 2 : 4.5}
-                  transform={
-                    eyes === "slant" ? `rotate(-20 ${position} 50)` : undefined
-                  }
-                />
-              ))}
+              <AnimatedPath
+                data-slot="bot-face-eye"
+                d={getBotFaceMorphedEyePath(initial, "left")}
+                animatedProps={leftProps}
+              />
+              <AnimatedPath
+                data-slot="bot-face-eye"
+                d={getBotFaceMorphedEyePath(initial, "right")}
+                animatedProps={rightProps}
+              />
             </Svg>
           </Animated.View>
         </Animated.View>
@@ -268,4 +374,5 @@ export {
   type BotFaceEyes,
   type BotFaceSize,
   type BotFaceGaze,
+  type BotFaceState,
 }

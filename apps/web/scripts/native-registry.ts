@@ -31,6 +31,9 @@ export const SHARED_TOKEN_FILES = Object.keys(TOKEN_MODULES).map(getTokenFile)
 const SHARED_LIB_FILES = [
   "theme-toggle-model",
   "bot-face-model",
+  "bot-face-motion",
+  "bot-face-eye-morph",
+  "bot-face-session",
   "color-model",
   "file-tree-model",
   "file-upload-model",
@@ -82,7 +85,7 @@ const SHARED_LIB_FILES = [
 ] as const
 
 // React-only hooks the website and native share, from shared/hooks.
-const SHARED_HOOK_FILES = ["use-event-calendar"] as const
+const SHARED_HOOK_FILES = ["use-event-calendar", "use-bot-face-state"] as const
 
 const SHARED_LIB_NAMES: ReadonlySet<string> = new Set(SHARED_LIB_FILES)
 

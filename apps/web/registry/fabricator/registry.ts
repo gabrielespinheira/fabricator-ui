@@ -38,11 +38,16 @@ export const fabricatorItems = [
     type: "registry:ui",
     title: "BotFace",
     description:
-      "An animated assistant face with fourteen silhouettes, palette colours, blinking and pointer-following eyes.",
+      "An assistant face with ten fluid expressions, agent session mapping, fourteen silhouettes and subtle gaze tracking.",
     dependencies: ["cn", "class-variance-authority"],
     files: [
       { path: "ui/bot-face.tsx", type: "registry:ui" },
       { path: "lib/bot-face-model.ts", type: "registry:lib" },
+      { path: "lib/color-model.ts", type: "registry:lib" },
+      { path: "lib/bot-face-motion.ts", type: "registry:lib" },
+      { path: "lib/bot-face-eye-morph.ts", type: "registry:lib" },
+      { path: "lib/bot-face-session.ts", type: "registry:lib" },
+      { path: "hooks/use-bot-face-state.ts", type: "registry:hook" },
     ],
     categories: ["chat"],
     meta: {

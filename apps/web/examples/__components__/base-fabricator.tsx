@@ -668,6 +668,16 @@ export const Components: Record<string, any> = {
       ) || "bot-face-sizes"
     return { default: mod.default || mod[exportName] }
   }),
+  "bot-face-states": React.lazy(async () => {
+    const mod = await import(
+      "@/examples/__styles__/base-fabricator/bot-face-states"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "bot-face-states"
+    return { default: mod.default || mod[exportName] }
+  }),
   "breadcrumb-basic": React.lazy(async () => {
     const mod = await import(
       "@/examples/__styles__/base-fabricator/breadcrumb-basic"

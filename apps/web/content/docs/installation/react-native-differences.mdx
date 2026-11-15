@@ -33,6 +33,7 @@ These web components are not available for React Native yet. Each deferral has a
 | [Audio Player](/docs/components/native/audio-player) | New engine | expo-audio plays the file in place of the browser's `<audio>`. The seek bar is dragged or tapped, and shows the time under the finger while dragged; it has no hover preview and doesn't show what has loaded. There's no volume slider: the device's buttons set the volume, and mute stays. The play glyphs fade and scale without the blur. There are no keyboard shortcuts. |
 | [Avatar](/docs/components/native/avatar) | Same |  |
 | [Badge](/docs/components/native/badge) | Same |  |
+| [Bot Face](/docs/components/native/bot-face) | Touch input | The same ten `state` expressions, geometry and `useBotFaceState` session hook run on native. Idle gaze follows touches on the face rather than a window pointer. Reanimated retains the pose and blink phase across state changes and pauses when the app is inactive. Reduce Motion, motion-off, instant and `animated={false}` keep the selected expression still. See the web BotFace page for the state and normalized session API; use visible status text and real approval controls alongside the face. |
 | [Breadcrumb](/docs/components/native/breadcrumb) | Same | Links are pressables: use `onPress` or `render`. |
 | [Bubble](/docs/components/native/bubble) | Same |  |
 | [Button](/docs/components/native/button) | Same | `onPress` replaces `onClick`. Small sizes keep a 44pt target through `hitSlop`. |
