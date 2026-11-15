@@ -92,9 +92,10 @@ export { DialogContent }
 ## Dependencies
 
 - Reuse upstream's: `radix-ui`, `@base-ui/react`, `react-aria-components`, `cmdk`, `vaul`, `sonner`, `react-day-picker` + `date-fns`, `embla-carousel-react`, `input-otp`, `react-resizable-panels`, `motion`.
+- Fabricator's own: `@tanstack/react-table` and `@tanstack/react-virtual` (Data Table), `@fullcalendar/react` with `temporal-polyfill` and `@date-fns/tz` (Event Calendar), `d3-scale`, `d3-shape` and `d3-hierarchy` (Charts, inside the shared chart models only), each behind its component's files.
 - A new runtime dependency needs a written reason in the PR: size, maintenance, licence, React 19 support. Pin only where upstream pins.
 - Base primitives belong on the base's `index`/`style` item.
-- Drag and drop goes through `lib/sortable.tsx`; each component keeps keyboard reordering and a menu alternative.
+- Sorting by drag and drop goes through `lib/sortable.tsx`; the Event Calendar's time-grid drag is FullCalendar's interaction plugin, inside its one adapter file (`ui/event-calendar-engine.tsx`). Each keeps a keyboard path and a menu alternative.
 
 ## Done when
 

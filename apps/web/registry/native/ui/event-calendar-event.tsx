@@ -132,7 +132,10 @@ function getChipColorStyle(
     status === "tentative"
       ? { borderColor: withAlpha(palette.fill, 0.5) }
       : {
-          backgroundColor: withAlpha(palette.fill, isPast ? 0.08 : 0.14),
+          backgroundColor: withAlpha(
+            palette.fill,
+            isPast ? palette.wash.past : palette.wash.rest
+          ),
           borderColor: palette.fill,
         }
   return { container, text: { color: palette.text }, dot }

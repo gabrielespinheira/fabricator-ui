@@ -101,6 +101,12 @@ const dayHeaderRowClass = { className: cn("cn-event-calendar-day-header-row") }
   .className
 const dayHeaderClass = { className: cn("cn-event-calendar-day-header") }
   .className
+const dayHeaderNarrowClass = {
+  className: cn(
+    "cn-event-calendar-day-header",
+    "cn-event-calendar-day-header-narrow"
+  ),
+}.className
 const dayHeaderWeekdayClass = {
   className: cn("cn-event-calendar-day-header-weekday"),
 }.className
@@ -137,14 +143,6 @@ const moreLinkInnerClass = {
   className: cn("cn-event-calendar-more-link-inner"),
 }.className
 const popoverClass = { className: cn("cn-event-calendar-popover") }.className
-const singleMonthClass = { className: cn("cn-event-calendar-single-month") }
-  .className
-const singleMonthHeaderInnerClass = {
-  className: cn("cn-event-calendar-single-month-header-inner"),
-}.className
-const dayCellMarkedClass = {
-  className: cn("cn-event-calendar-day-cell-marked"),
-}.className
 
 const SLOT_CLASSES: EngineProps<unknown>["classNames"] = {
   header: dayHeaderRowClass,
@@ -167,9 +165,6 @@ const SLOT_CLASSES: EngineProps<unknown>["classNames"] = {
   grid: viewClass,
   more: moreLinkInnerClass,
   morePopover: popoverClass,
-  month: singleMonthClass,
-  monthTitle: singleMonthHeaderInnerClass,
-  eventDot: dayCellMarkedClass,
 }
 
 // --- Chips -------------------------------------------------------------------
@@ -233,8 +228,10 @@ function createChip<TData>() {
         (isNarrow || +times.end - +times.start < SHORT_MINUTES * 60000),
       isPast: !isDraft && +times.end < Date.now(),
       isPending,
+      // Open in details or the form, as on the website.
       isSelected:
-        calendar.panel?.kind === "details" &&
+        calendar.panel !== undefined &&
+        calendar.panel.kind !== "create" &&
         calendar.panel.event.id === event.id,
       isDragging: false,
       isDraft,
@@ -342,16 +339,27 @@ function EventCalendarEngine<TData>({
     pendingIds,
     canEdit,
     businessHours,
+    isCompact,
   } = calendar
   const mode = getEngineMode(view)
-  // Two half-hour slots of the --density-30 step, as on the website.
-  const hourHeight = 2 * parseNumber(useCSSVariable("--density-30"), 30)
+  // Two half-hour slots of the --density-36 step, as on the website.
+  const hourHeight = 2 * parseNumber(useCSSVariable("--density-36"), 36)
   const themeValues = useCSSVariable([...ENGINE_THEME_VARIABLES])
     .map((value) => (typeof value === "string" ? value : ""))
     .join("|")
   const theme = React.useMemo(
     () => getEngineTheme(themeValues.split("|")),
     [themeValues]
+  )
+  // A week on a phone has no room for the weekday beside the date, so the
+  // headers stack, as the website's narrow columns do.
+  const isNarrowWeek = isCompact && view === "week"
+  const classNames = React.useMemo(
+    () =>
+      isNarrowWeek
+        ? { ...SLOT_CLASSES, columnHeader: dayHeaderNarrowClass }
+        : SLOT_CLASSES,
+    [isNarrowWeek]
   )
   const engineBusinessHours = React.useMemo(
     () => getEngineBusinessHours(businessHours),
@@ -468,11 +476,6 @@ function EventCalendarEngine<TData>({
       },
       onPressDay: showDay,
       onPressDateHeader: showDay,
-      onPressMonth: (month: Date) => {
-        const { calendar } = latest.current
-        calendar.goTo(month)
-        calendar.setView("month")
-      },
     }
   }, [feedback])
 
@@ -494,7 +497,7 @@ function EventCalendarEngine<TData>({
               events={events}
               keyExtractor={(event) => event.id}
               renderEvent={EngineChip}
-              classNames={SLOT_CLASSES}
+              classNames={classNames}
               theme={theme}
               weekStartsOn={settings.weekStartsOn}
               hiddenDays={getHiddenDays(view, settings.showWeekends)}
@@ -506,6 +509,11 @@ function EventCalendarEngine<TData>({
               timeslots={2}
               hourHeight={hourHeight}
               businessHours={engineBusinessHours}
+              // Weekends shade only through business hours, as on the web.
+              highlightWeekends={false}
+              // Continuity: a fling carries across days (Day) or pages (Week,
+              // N days) before it snaps, instead of one page per swipe.
+              freeSwipe={calendar.isContinuous}
               scrollOffsetMinutes={SCROLL_MINUTES}
               showTitle={false}
               // The grips sit over the title of a short event; the edges still
@@ -527,7 +535,6 @@ function EventCalendarEngine<TData>({
               }
               onPressDay={handlers.onPressDay}
               onPressDateHeader={handlers.onPressDateHeader}
-              onPressMonth={handlers.onPressMonth}
             />
           </View>
         </ChipContext>

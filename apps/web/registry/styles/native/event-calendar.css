@@ -1,0 +1,387 @@
+/* MARK: Event Calendar */
+
+  /* Root: the header over the grid, 12 apart. It needs a height to scroll
+     the time grid inside: the page gives it one, or flex-1 in a screen. */
+  .cn-event-calendar {
+    @apply min-h-0 gap-(--density-12);
+  }
+
+  /* Header: Today, previous and next, the title; then the view, settings
+     and Create, the one filled button. A phone wraps it to two rows. */
+  .cn-event-calendar-header {
+    @apply flex-wrap justify-between gap-(--density-8);
+  }
+
+  .cn-event-calendar-header-start {
+    @apply shrink gap-(--density-8);
+  }
+
+  .cn-event-calendar-header-end {
+    @apply gap-(--density-8);
+  }
+
+  .cn-event-calendar-today {
+    @apply shrink-0;
+  }
+
+  .cn-event-calendar-navigation {
+    @apply shrink-0 gap-(--density-2);
+  }
+
+  /* The title leads the header and opens the date picker, as on the web. */
+  .cn-event-calendar-title {
+    @apply flex-row;
+  }
+
+  .cn-event-calendar-title-trigger {
+    @apply gap-(--density-8) px-(--density-12);
+  }
+
+  .cn-event-calendar-title-text {
+    @apply font-sans text-(length:--density-text-14) font-semibold text-foreground;
+  }
+
+  .cn-event-calendar-title-icon {
+    @apply text-(length:--density-text-16) text-muted-foreground;
+  }
+
+  .cn-event-calendar-date-picker {
+    @apply w-auto;
+  }
+
+  .cn-event-calendar-view-select {
+    @apply min-w-28;
+  }
+
+  .cn-event-calendar-settings-trigger {
+    @apply shrink-0;
+  }
+
+  .cn-event-calendar-create {
+    @apply shrink-0;
+  }
+
+  /* Settings: switches and selects on the raised panel. */
+  .cn-event-calendar-settings {
+    @apply w-80 bg-surface-5 shadow-surface-5;
+  }
+
+  .cn-event-calendar-settings-group {
+    @apply gap-(--density-12);
+  }
+
+  .cn-event-calendar-settings-select {
+    @apply ms-auto min-w-32;
+  }
+
+  /* Content: the grid's frame, a card unless the calendar is flat. */
+  .cn-event-calendar-content {
+    @apply overflow-hidden data-[variant=card]:rounded-xl data-[variant=card]:bg-card data-[variant=card]:shadow-surface-2 data-[variant=flat]:bg-background;
+  }
+
+  /* Loading: the Data Table's primary line along the top edge. */
+  .cn-event-calendar-loading {
+    @apply h-0.5 bg-primary/40;
+  }
+
+  .cn-event-calendar-error {
+    @apply gap-(--density-8) border-b border-border bg-destructive/5 px-(--density-12) py-(--density-8);
+  }
+
+  .cn-event-calendar-error-text {
+    @apply text-destructive-text;
+  }
+
+  .cn-event-calendar-engine {
+    @apply overflow-hidden;
+  }
+
+  /* MARK: Grid */
+
+  /* The engine's frame. Its own parts take these through their class
+     slots: hairlines at the divider strength, small grey labels, today in
+     the primary disc (from the theme, which the slots can't reach). */
+  .cn-event-calendar-grid {
+    @apply overflow-hidden;
+  }
+
+  .cn-event-calendar-view {
+    @apply bg-transparent;
+  }
+
+  .cn-event-calendar-table-header {
+    @apply border-b border-border py-(--density-6);
+  }
+
+  .cn-event-calendar-day-header-row {
+    @apply border-b border-border;
+  }
+
+  .cn-event-calendar-day-header {
+    @apply flex-row flex-wrap items-center justify-center gap-x-(--density-6) gap-y-(--density-2) py-(--density-6);
+  }
+
+  .cn-event-calendar-day-header-narrow {
+    @apply flex-col gap-(--density-2);
+  }
+
+  .cn-event-calendar-day-header-weekday {
+    @apply text-center font-sans text-(length:--density-text-11) font-medium text-muted-foreground uppercase;
+  }
+
+  .cn-event-calendar-week-number-header {
+    @apply font-sans text-(length:--density-text-11) text-muted-foreground;
+  }
+
+  .cn-event-calendar-all-day-divider {
+    @apply border-b border-border;
+  }
+
+  .cn-event-calendar-all-day-header-inner {
+    @apply font-sans text-(length:--density-text-11) text-muted-foreground;
+  }
+
+  .cn-event-calendar-slot-header-divider {
+    @apply border-e border-border;
+  }
+
+  .cn-event-calendar-slot-header-inner {
+    @apply pe-(--density-6) text-right font-sans text-(length:--density-text-11) text-muted-foreground;
+  }
+
+  .cn-event-calendar-slot-lane {
+    @apply bg-border;
+  }
+
+  .cn-event-calendar-day-lane {
+    @apply bg-border;
+  }
+
+  .cn-event-calendar-non-business {
+    @apply bg-hover;
+  }
+
+  .cn-event-calendar-now-line {
+    @apply bg-destructive;
+  }
+
+  .cn-event-calendar-highlight {
+    @apply rounded-md bg-active;
+  }
+
+  .cn-event-calendar-more-link-inner {
+    @apply px-(--density-4) font-sans text-(length:--density-text-11) font-medium text-muted-foreground;
+  }
+
+  /* The engine's "+N more" day list. */
+  .cn-event-calendar-popover {
+    @apply rounded-xl bg-surface-3 p-(--density-8) shadow-surface-3;
+  }
+
+  /* MARK: Events */
+
+  /* The engine's box only frames the chip: room between neighbours. */
+  .cn-event-calendar-fc-column-event {
+    @apply p-px;
+  }
+
+  .cn-event-calendar-fc-row-event {
+    @apply px-px pb-px;
+  }
+
+  /* The chip: the colour's soft step with its text colour and a 3pt bar in
+     the fill (blocks), a soft bar (all-day and multi-day), or a dot and a
+     line of text (timed events in month). The colours are inline, from the
+     shared model's recipe for the scheme; this sets the shape. */
+  .cn-event-calendar-event {
+    @apply gap-x-(--density-4) rounded-md border-transparent data-[variant=block]:flex-col data-[variant=block]:border-s-[3px] data-[variant=block]:px-(--density-6) data-[variant=block]:pt-(--density-6) data-[variant=block]:pb-(--density-4) data-[selected=true]:shadow-surface-3 data-[short=true]:flex-row data-[short=true]:items-center data-[short=true]:py-0 data-[variant=row]:flex-row data-[variant=row]:items-center data-[variant=row]:px-(--density-6) data-[variant=row]:py-px data-[variant=dot]:flex-row data-[variant=dot]:items-center data-[variant=dot]:px-(--density-4) data-[variant=dot]:py-px data-[pending=true]:opacity-60 data-[dragging=true]:shadow-surface-4 data-[draft=true]:shadow-surface-3 data-[status=tentative]:border;
+  }
+
+  /* Text a dot row leaves uncoloured is foreground, grey once past. */
+  .cn-event-calendar-event-title {
+    @apply text-(length:--density-text-12) leading-snug font-medium text-foreground data-[past=true]:text-muted-foreground;
+  }
+
+  .cn-event-calendar-event-time {
+    @apply text-(length:--density-text-12) leading-snug text-foreground data-[past=true]:text-muted-foreground;
+  }
+
+  .cn-event-calendar-event-location {
+    @apply text-(length:--density-text-12) leading-snug opacity-80;
+  }
+
+  .cn-event-calendar-event-dot {
+    @apply size-2 rounded-full;
+  }
+
+  /* MARK: Panels */
+
+  /* Details and quick create: two levels over the card (surface 5), so they
+     stand off the grid, as the Data Table's panels do. */
+  .cn-event-calendar-panel {
+    @apply w-80 bg-surface-5 p-(--density-12) shadow-surface-5;
+  }
+
+  .cn-event-calendar-drawer-body {
+    @apply px-(--density-16) pt-(--density-8) pb-(--density-16);
+  }
+
+  .cn-event-calendar-event-details {
+    @apply gap-(--density-8);
+  }
+
+  .cn-event-calendar-event-details-actions {
+    @apply -me-(--density-4) -mt-(--density-4) gap-(--density-2);
+  }
+
+  .cn-event-calendar-event-details-heading {
+    @apply gap-(--density-12);
+  }
+
+  .cn-event-calendar-event-details-swatch {
+    @apply mt-(--density-6) size-3.5 rounded-sm bg-primary;
+  }
+
+  .cn-event-calendar-event-details-title {
+    @apply text-(length:--density-text-16) font-semibold;
+  }
+
+  .cn-event-calendar-event-details-time {
+    @apply text-(length:--density-text-13) text-muted-foreground;
+  }
+
+  .cn-event-calendar-event-details-row {
+    @apply gap-(--density-12);
+  }
+
+  .cn-event-calendar-event-details-row-text {
+    @apply text-(length:--density-text-13);
+  }
+
+  .cn-event-calendar-event-details-icon {
+    @apply mt-0.5 size-3.5 text-muted-foreground;
+  }
+
+  .cn-event-calendar-event-form {
+    @apply gap-(--density-16);
+  }
+
+  .cn-event-calendar-event-form-fields {
+    @apply gap-(--density-12);
+  }
+
+  .cn-event-calendar-event-form-title {
+    @apply font-medium;
+  }
+
+  .cn-event-calendar-event-form-summary {
+    @apply text-(length:--density-text-13) text-muted-foreground;
+  }
+
+  /* Two columns of date and time, as the website's grid. */
+  .cn-event-calendar-event-form-times {
+    @apply gap-(--density-12);
+  }
+
+  .cn-event-calendar-event-form-time {
+    @apply min-w-36 flex-1 basis-[45%];
+  }
+
+  .cn-event-calendar-event-form-actions {
+    @apply gap-(--density-8);
+  }
+
+  .cn-event-calendar-form-dialog {
+    @apply sm:max-w-md;
+  }
+
+  .cn-event-calendar-scope-dialog {
+    @apply sm:max-w-sm;
+  }
+
+  /* MARK: Agenda */
+
+  .cn-event-calendar-agenda {
+    @apply py-(--density-8);
+  }
+
+  .cn-event-calendar-agenda-day {
+    @apply gap-(--density-12) border-b border-border px-(--density-12) py-(--density-8);
+  }
+
+  .cn-event-calendar-agenda-date {
+    @apply w-16 pt-(--density-4);
+  }
+
+  .cn-event-calendar-agenda-date-number {
+    @apply text-(length:--density-text-16) font-semibold data-[today=true]:text-primary-text;
+  }
+
+  .cn-event-calendar-agenda-date-label {
+    @apply text-(length:--density-text-11) text-muted-foreground uppercase;
+  }
+
+  .cn-event-calendar-agenda-events {
+    @apply gap-(--density-2);
+  }
+
+  .cn-event-calendar-agenda-event {
+    @apply min-h-(--density-36) gap-(--density-12) rounded-lg px-(--density-8) py-(--density-6) data-[pending=true]:opacity-60;
+  }
+
+  .cn-event-calendar-agenda-event-wash {
+    @apply rounded-lg bg-hover;
+  }
+
+  .cn-event-calendar-agenda-event-dot {
+    @apply size-2.5 rounded-full bg-primary;
+  }
+
+  .cn-event-calendar-agenda-event-time {
+    @apply w-36 text-muted-foreground;
+  }
+
+  .cn-event-calendar-agenda-event-title {
+    @apply font-medium;
+  }
+
+  .cn-event-calendar-empty {
+    @apply flex-1;
+  }
+
+  /* MARK: Beside the grid */
+
+  .cn-event-calendar-mini-month {
+    @apply bg-transparent p-0;
+  }
+
+  /* The days the calendar shows: a band across the days, round at the
+     first and last day and at each week's edges. */
+  .cn-event-calendar-mini-month-in-view {
+    @apply rounded-none bg-hover;
+  }
+
+  .cn-event-calendar-mini-month-in-view-start {
+    @apply rounded-l-lg;
+  }
+
+  .cn-event-calendar-mini-month-in-view-end {
+    @apply rounded-r-lg;
+  }
+
+  .cn-event-calendar-sources {
+    @apply gap-(--density-8);
+  }
+
+  .cn-event-calendar-source {
+    @apply items-center;
+  }
+
+  .cn-event-calendar-source-checkbox {
+    @apply shrink-0;
+  }
+
+  /* The calendar's colour beside its name, as Google's list shows it. */
+  .cn-event-calendar-source-swatch {
+    @apply size-2.5 rounded-full bg-primary;
+  }

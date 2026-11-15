@@ -1341,8 +1341,31 @@ function withFabricatorItems(
     ...overridden,
     ...(fabricatorItems as RegistryItem[])
       .filter((item) => !names.has(item.name))
-      .map((item) => withImplementationDependencies(item, baseName)),
+      .map((item) => withImplementationDependencies(item, baseName))
+      .map((item) => withBaseRegistryDependencies(item, baseName)),
   ]
+}
+
+// A Fabricator item whose meta.baseRegistryDependencies lists items for this
+// base installs them too: the Event Calendar reports changes with Toast on
+// Base UI and with Sonner on Radix and Aria (docs/COMPONENTS.md).
+function withBaseRegistryDependencies(
+  item: RegistryItem,
+  baseName: string
+): RegistryItem {
+  const byBase: unknown = item.meta?.baseRegistryDependencies
+  if (typeof byBase !== "object" || byBase === null) return item
+  const extra: unknown = Reflect.get(byBase, baseName)
+  if (!Array.isArray(extra)) return item
+  return {
+    ...item,
+    registryDependencies: Array.from(
+      new Set([
+        ...(item.registryDependencies ?? []),
+        ...extra.filter((name): name is string => typeof name === "string"),
+      ])
+    ),
+  }
 }
 
 // A Fabricator item whose meta.implementation maps this base to another one

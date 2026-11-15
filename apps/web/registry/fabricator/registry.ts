@@ -452,15 +452,17 @@ export const fabricatorItems = [
     type: "registry:ui",
     title: "Event Calendar",
     description:
-      "A Google Calendar-class scheduler on FullCalendar: day, N-day, week, month, year and agenda views, drag to create, move and resize, recurring events with scoped edits, time zones, a month-by-month loader, optimistic changes with undo, keyboard moves and shortcuts, settings, a mini month and a calendar list.",
+      "A Google Calendar-class scheduler on FullCalendar: day, N-day, week, month and agenda views, drag to create, move and resize, recurring events with scoped edits, time zones, a month-by-month loader, optimistic changes with undo, keyboard moves and shortcuts, settings, a mini month and a calendar list.",
     // FullCalendar 7 needs temporal-polyfill beside it. @internationalized/date
-    // is for the React Aria date and time fields in the event form.
+    // is for the React Aria date and time fields in the event form, and
+    // @tanstack/react-virtual draws the agenda's days in view.
     dependencies: [
       "@fullcalendar/react@7.1.5",
       "temporal-polyfill@1.0.8",
       "@date-fns/tz@1.5.0",
       "date-fns",
       "@internationalized/date",
+      "@tanstack/react-virtual@3.14.26",
     ],
     registryDependencies: [
       "button",
@@ -507,6 +509,371 @@ export const fabricatorItems = [
       },
     },
   },
+  {
+    name: "chart-kit",
+    type: "registry:lib",
+    title: "Chart Kit",
+    description:
+      "What every chart is drawn with: series colours from the chart palette, number formatting, value scales, the tooltip, the legend, axes, the keyboard inspector and the hidden data table. The same model lays charts out on React Native.",
+    // d3-scale (ISC, no DOM) rounds value domains to clean ticks; tree-shaken
+    // to the linear scale. Pinned: the model relies on its tick rules.
+    dependencies: ["d3-scale@4.0.3"],
+    devDependencies: ["@types/d3-scale@4.0.9"],
+    files: [
+      { path: "ui/chart-kit.tsx", type: "registry:ui" },
+      { path: "lib/chart-model.ts", type: "registry:lib" },
+      { path: "lib/chart-cartesian-model.ts", type: "registry:lib" },
+    ],
+    categories: ["charts"],
+    meta: { fabricator: true },
+  },
+  {
+    name: "area-chart",
+    type: "registry:ui",
+    title: "Area Chart",
+    description:
+      "Change over time as filled areas: one or several series, stacked or stretched to 100%, smooth, straight or stepped, with a gliding crosshair and tooltip, a legend that hides and spotlights series, a draw-in and morphing data.",
+    // d3-shape (ISC, no DOM) draws the curves and areas.
+    dependencies: ["d3-shape@3.2.1"],
+    devDependencies: ["@types/d3-shape@3.2.0"],
+    registryDependencies: ["chart-kit"],
+    files: [
+      { path: "ui/area-chart.tsx", type: "registry:ui" },
+      { path: "ui/chart-line-plot.tsx", type: "registry:ui" },
+      { path: "lib/chart-line-model.ts", type: "registry:lib" },
+    ],
+    categories: ["charts"],
+    meta: {
+      fabricator: true,
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/area-chart",
+        examples:
+          "https://fabricator-ui.vercel.app/docs/components/base/area-chart#examples",
+      },
+    },
+  },
+  {
+    name: "line-chart",
+    type: "registry:ui",
+    title: "Line Chart",
+    description:
+      "Change over time as lines for comparing series, with dashed series for targets and forecasts, a gliding crosshair and tooltip, a legend that hides and spotlights series, a draw-in and morphing data.",
+    dependencies: ["d3-shape@3.2.1"],
+    devDependencies: ["@types/d3-shape@3.2.0"],
+    registryDependencies: ["chart-kit"],
+    files: [
+      { path: "ui/line-chart.tsx", type: "registry:ui" },
+      { path: "ui/chart-line-plot.tsx", type: "registry:ui" },
+      { path: "lib/chart-line-model.ts", type: "registry:lib" },
+    ],
+    categories: ["charts"],
+    meta: {
+      fabricator: true,
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/line-chart",
+        examples:
+          "https://fabricator-ui.vercel.app/docs/components/base/line-chart#examples",
+      },
+    },
+  },
+  {
+    name: "bar-chart",
+    type: "registry:ui",
+    title: "Bar Chart",
+    description:
+      "Magnitude by category: bars side by side or stacked, as columns or rows, at most 24px thick with rounded data ends, a highlight that glides between categories, a tooltip, a legend that hides and spotlights series, bars that grow in and morph with the data.",
+    registryDependencies: ["chart-kit"],
+    files: [
+      { path: "ui/bar-chart.tsx", type: "registry:ui" },
+      { path: "ui/chart-bar-plot.tsx", type: "registry:ui" },
+      { path: "lib/chart-bar-model.ts", type: "registry:lib" },
+    ],
+    categories: ["charts"],
+    meta: {
+      fabricator: true,
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/bar-chart",
+        examples:
+          "https://fabricator-ui.vercel.app/docs/components/base/bar-chart#examples",
+      },
+    },
+  },
+  {
+    name: "pie-chart",
+    type: "registry:ui",
+    title: "Pie Chart",
+    description:
+      "Parts of one whole: slices clockwise from 12 o'clock with a 2px gap, the smallest past seven folded into Other, shares printed inside on request, a slice that lifts under the pointer with a tooltip, a legend, a sweep-in and slices that turn with the data.",
+    // d3-shape (ISC, no DOM) lays out the pie and draws its arcs.
+    dependencies: ["d3-shape@3.2.1"],
+    devDependencies: ["@types/d3-shape@3.2.0"],
+    registryDependencies: ["chart-kit"],
+    files: [
+      { path: "ui/pie-chart.tsx", type: "registry:ui" },
+      { path: "ui/chart-pie-plot.tsx", type: "registry:ui" },
+      { path: "lib/chart-pie-model.ts", type: "registry:lib" },
+    ],
+    categories: ["charts"],
+    meta: {
+      fabricator: true,
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/pie-chart",
+        examples:
+          "https://fabricator-ui.vercel.app/docs/components/base/pie-chart#examples",
+      },
+    },
+  },
+  {
+    name: "donut-chart",
+    type: "registry:ui",
+    title: "Donut Chart",
+    description:
+      "Parts of one whole as a ring with the total in the centre, which swaps to the slice under the pointer, and a value list with share bars beside or under it, a sweep-in and slices that turn with the data.",
+    dependencies: ["d3-shape@3.2.1"],
+    devDependencies: ["@types/d3-shape@3.2.0"],
+    registryDependencies: ["chart-kit"],
+    files: [
+      { path: "ui/donut-chart.tsx", type: "registry:ui" },
+      { path: "ui/chart-pie-plot.tsx", type: "registry:ui" },
+      { path: "lib/chart-pie-model.ts", type: "registry:lib" },
+    ],
+    categories: ["charts"],
+    meta: {
+      fabricator: true,
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/donut-chart",
+        examples:
+          "https://fabricator-ui.vercel.app/docs/components/base/donut-chart#examples",
+      },
+    },
+  },
+  {
+    name: "composition-chart",
+    type: "registry:ui",
+    title: "Composition Chart",
+    description:
+      "How the mix of a whole changes over time: a 100% column per period, each part its share, with a legend that reads every part's share of the inspected column, a highlight that glides between columns, a tooltip, columns that grow in and morph with the data.",
+    registryDependencies: ["chart-kit"],
+    files: [
+      { path: "ui/composition-chart.tsx", type: "registry:ui" },
+      { path: "ui/chart-bar-plot.tsx", type: "registry:ui" },
+      { path: "lib/chart-bar-model.ts", type: "registry:lib" },
+      { path: "lib/chart-composition-model.ts", type: "registry:lib" },
+    ],
+    categories: ["charts"],
+    meta: {
+      fabricator: true,
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/composition-chart",
+        examples:
+          "https://fabricator-ui.vercel.app/docs/components/base/composition-chart#examples",
+      },
+    },
+  },
+  {
+    name: "candlestick-chart",
+    type: "registry:ui",
+    title: "Candlestick Chart",
+    description:
+      "Open, high, low and close per period, rising in the success colour and falling in destructive, with an optional volume band, a dashed line at the latest close with its price, a crosshair and tooltip with the signed change, bodies that grow in and candles that slide when a period is added.",
+    registryDependencies: ["chart-kit"],
+    files: [
+      { path: "ui/candlestick-chart.tsx", type: "registry:ui" },
+      { path: "lib/chart-candlestick-model.ts", type: "registry:lib" },
+    ],
+    categories: ["charts"],
+    meta: {
+      fabricator: true,
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/candlestick-chart",
+        examples:
+          "https://fabricator-ui.vercel.app/docs/components/base/candlestick-chart#examples",
+      },
+    },
+  },
+  {
+    name: "bump-chart",
+    type: "registry:ui",
+    title: "Bump Chart",
+    description:
+      "Rank over time, who overtook whom: a line per series through its rank at every index, ranks as given or scores ranked per index, rings holding each rank, names at the line ends, a tooltip with each move, a legend with the latest standing, a sweep-in and points that move to their new places.",
+    // d3-shape (ISC, no DOM) draws the bump curves.
+    dependencies: ["d3-shape@3.2.1"],
+    devDependencies: ["@types/d3-shape@3.2.0"],
+    registryDependencies: ["chart-kit"],
+    files: [
+      { path: "ui/bump-chart.tsx", type: "registry:ui" },
+      { path: "lib/chart-bump-model.ts", type: "registry:lib" },
+    ],
+    categories: ["charts"],
+    meta: {
+      fabricator: true,
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/bump-chart",
+        examples:
+          "https://fabricator-ui.vercel.app/docs/components/base/bump-chart#examples",
+      },
+    },
+  },
+  {
+    name: "treemap",
+    type: "registry:ui",
+    title: "Treemap",
+    description:
+      "Hierarchical parts of a whole: a cell per leaf sized by its value, washed in its top-level group's colour with its name and value inside when they fit, a deeper wash and tooltip under the pointer, a legend that hides and spotlights groups, cells that scale in and re-lay smoothly with the data.",
+    // d3-hierarchy (ISC, no DOM) lays out the squarified treemap.
+    dependencies: ["d3-hierarchy@3.1.3"],
+    devDependencies: ["@types/d3-hierarchy@3.1.7"],
+    registryDependencies: ["chart-kit"],
+    files: [
+      { path: "ui/treemap.tsx", type: "registry:ui" },
+      { path: "lib/chart-treemap-model.ts", type: "registry:lib" },
+    ],
+    categories: ["charts"],
+    meta: {
+      fabricator: true,
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/treemap",
+        examples:
+          "https://fabricator-ui.vercel.app/docs/components/base/treemap#examples",
+      },
+    },
+  },
+  {
+    name: "funnel-chart",
+    type: "registry:ui",
+    title: "Funnel Chart",
+    description:
+      "Ordered stages losing volume, vertical or horizontal: one shape split into stages joined by smooth tapers, in one hue that lightens stage by stage, each value on a pill and each conversion beside its taper, a highlight and tooltip with the share and conversion, stages that grow in and morph with the data.",
+    registryDependencies: ["chart-kit"],
+    files: [
+      { path: "ui/funnel-chart.tsx", type: "registry:ui" },
+      { path: "lib/chart-funnel-model.ts", type: "registry:lib" },
+    ],
+    categories: ["charts"],
+    meta: {
+      fabricator: true,
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/funnel-chart",
+        examples:
+          "https://fabricator-ui.vercel.app/docs/components/base/funnel-chart#examples",
+      },
+    },
+  },
+  {
+    name: "sankey-chart",
+    type: "registry:ui",
+    title: "Sankey Chart",
+    description:
+      "Flow volumes between stages: nodes in columns sized by what flows through them, ribbons as thick as each flow in their source's colour, labels beside the nodes, a highlight of everything a node or link touches with a tooltip, links that extend from their sources and morph with the data.",
+    registryDependencies: ["chart-kit"],
+    files: [
+      { path: "ui/sankey-chart.tsx", type: "registry:ui" },
+      { path: "lib/chart-sankey-model.ts", type: "registry:lib" },
+    ],
+    categories: ["charts"],
+    meta: {
+      fabricator: true,
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/sankey-chart",
+        examples:
+          "https://fabricator-ui.vercel.app/docs/components/base/sankey-chart#examples",
+      },
+    },
+  },
+  {
+    name: "heat-calendar",
+    type: "registry:ui",
+    title: "Heat Calendar",
+    description:
+      "A value per day over months, as a grid of weeks by weekdays in five levels of one hue: month and weekday labels, the range and a Less to More key, square cells sized to the width that scroll past their minimum, a lifted cell and tooltip that glide from day to day, a diagonal draw-in and levels that ease with the data.",
+    // date-fns does the calendar maths and @date-fns/tz keeps it in UTC, so
+    // a server and a browser put a value on the same day.
+    dependencies: ["date-fns", "@date-fns/tz@1.5.0"],
+    registryDependencies: ["chart-kit"],
+    files: [
+      { path: "ui/heat-calendar.tsx", type: "registry:ui" },
+      { path: "lib/chart-heat-calendar-model.ts", type: "registry:lib" },
+    ],
+    categories: ["charts"],
+    meta: {
+      fabricator: true,
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/heat-calendar",
+        examples:
+          "https://fabricator-ui.vercel.app/docs/components/base/heat-calendar#examples",
+      },
+    },
+  },
+  {
+    name: "status-bar",
+    type: "registry:ui",
+    title: "Status Bar",
+    description:
+      "Uptime as one tall pill per day or period, coloured by status with the status roles: the first and last day and the uptime share under it, a legend naming every status shown, a lifted pill and tooltip with the day's note, pills that rise in a wave and crossfade when a status changes.",
+    // date-fns and @date-fns/tz read dates as UTC days, as Heat Calendar does.
+    dependencies: ["date-fns", "@date-fns/tz@1.5.0"],
+    registryDependencies: ["chart-kit"],
+    files: [
+      { path: "ui/status-bar.tsx", type: "registry:ui" },
+      { path: "lib/chart-status-bar-model.ts", type: "registry:lib" },
+    ],
+    categories: ["charts"],
+    meta: {
+      fabricator: true,
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/status-bar",
+        examples:
+          "https://fabricator-ui.vercel.app/docs/components/base/status-bar#examples",
+      },
+    },
+  },
+  {
+    name: "radial-chart",
+    type: "registry:ui",
+    title: "Radial Chart",
+    description:
+      "Progress of a few values against their target as concentric rings, round a full circle or a half gauge: a faint track and a round-capped arc per ring, the first ring's share in the centre, a tooltip, a legend, arcs that sweep in and turn with the data.",
+    // d3-shape (ISC, no DOM) draws the round-capped arcs.
+    dependencies: ["d3-shape@3.2.1"],
+    devDependencies: ["@types/d3-shape@3.2.0"],
+    registryDependencies: ["chart-kit"],
+    files: [
+      { path: "ui/radial-chart.tsx", type: "registry:ui" },
+      { path: "lib/chart-radial-model.ts", type: "registry:lib" },
+    ],
+    categories: ["charts"],
+    meta: {
+      fabricator: true,
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/radial-chart",
+        examples:
+          "https://fabricator-ui.vercel.app/docs/components/base/radial-chart#examples",
+      },
+    },
+  },
+  {
+    name: "radar-chart",
+    type: "registry:ui",
+    title: "Radar Chart",
+    description:
+      "Several measures of one or more subjects on shared axes: a hairline grid of polygons and spokes, a washed polygon per series, an inspector that steps through the axes with a ringed dot per series and a tooltip, a legend, polygons that grow in and morph with the data.",
+    registryDependencies: ["chart-kit"],
+    files: [
+      { path: "ui/radar-chart.tsx", type: "registry:ui" },
+      { path: "lib/chart-radar-model.ts", type: "registry:lib" },
+    ],
+    categories: ["charts"],
+    meta: {
+      fabricator: true,
+      links: {
+        docs: "https://fabricator-ui.vercel.app/docs/components/base/radar-chart",
+        examples:
+          "https://fabricator-ui.vercel.app/docs/components/base/radar-chart#examples",
+      },
+    },
+  },
+  // MARK: next chart
   {
     name: "time-input",
     type: "registry:ui",

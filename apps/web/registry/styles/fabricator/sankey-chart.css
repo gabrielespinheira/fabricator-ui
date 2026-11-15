@@ -1,0 +1,39 @@
+/* MARK: Sankey Chart */
+
+  /* The diagram fills its container's width; 18rem tall until the page
+     gives it a height. */
+  .cn-sankey-chart {
+    @apply h-72 w-full gap-(--density-12);
+  }
+
+  /* Node labels are the chart's reading, a step larger than axis labels.
+     The layout measures against this size. */
+  .cn-sankey-chart-plot {
+    @apply text-(length:--density-text-12);
+  }
+
+  /* Links dim while another mark is inspected, and their wash deepens on
+     the glide role while they are lit, so the highlight follows the
+     pointer. */
+  .cn-sankey-chart-link {
+    @apply transition-[opacity,fill-opacity] duration-glide ease-enter data-dimmed:opacity-35 motion-reduce:transition-none;
+  }
+
+  /* Nodes and their labels dim with the links they don't touch. */
+  .cn-sankey-chart-node {
+    @apply transition-opacity duration-feedback ease-feedback data-dimmed:opacity-35;
+  }
+
+  .cn-sankey-chart-label {
+    @apply transition-opacity duration-feedback ease-feedback data-dimmed:opacity-35;
+  }
+
+  /* Names lead in the text colour, never the node's. */
+  .cn-sankey-chart-name {
+    @apply fill-foreground font-medium select-none;
+  }
+
+  /* Values sit under the name, quieter, tabular. */
+  .cn-sankey-chart-value {
+    @apply fill-muted-foreground tabular-nums select-none;
+  }

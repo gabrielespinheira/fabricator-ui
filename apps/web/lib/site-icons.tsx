@@ -145,6 +145,7 @@ import {
   MailIcon as FabricatorMailIcon,
   Map as FabricatorMap,
   MapIcon as FabricatorMapIcon,
+  MapPinIcon as FabricatorMapPinIcon,
   MaximizeIcon as FabricatorMaximizeIcon,
   MessageCircleDashedIcon as FabricatorMessageCircleDashedIcon,
   MessageSquareIcon as FabricatorMessageSquareIcon,
@@ -1155,6 +1156,9 @@ export const MapIcon = createSiteIcon(FabricatorMapIcon, {
   hugeicons: "MapsIcon",
   phosphor: "MapTrifoldIcon",
   remixicon: "RiMapLine",
+})
+export const MapPinIcon = createSiteIcon(FabricatorMapPinIcon, {
+  lucide: "MapPinIcon",
 })
 export const MaximizeIcon = createSiteIcon(FabricatorMaximizeIcon, {
   lucide: "MaximizeIcon",

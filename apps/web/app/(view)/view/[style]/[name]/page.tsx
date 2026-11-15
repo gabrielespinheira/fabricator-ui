@@ -29,6 +29,7 @@ const FRAME_EXAMPLE_PREFIXES = [
   "app-nav-",
   "workspace-switcher-",
   "user-menu-",
+  "event-calendar-",
 ]
 export const dynamicParams = false
 

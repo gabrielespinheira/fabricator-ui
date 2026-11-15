@@ -128,6 +128,7 @@ Fabricator Icons: every Lucide icon (2,015, Lucide 1.66.0) under its Lucide name
 - [Card](https://fabricator-ui.vercel.app/docs/components/base/card.md): Displays a card with header, content, and footer.
 - [Table](https://fabricator-ui.vercel.app/docs/components/base/table.md): A responsive table component.
 - [Data Table](https://fabricator-ui.vercel.app/docs/components/base/data-table.md): Typed columns, sorting, Notion-style filters, cells that edit in place, and ten thousand rows that load as you scroll, on TanStack Table.
+- [Event Calendar](https://fabricator-ui.vercel.app/docs/components/base/event-calendar.md): A scheduler with day, N-day, week, month and agenda views, drag to create, move and resize, recurring events, time zones and undo, on FullCalendar.
 - [Carousel](https://fabricator-ui.vercel.app/docs/components/base/carousel.md): A carousel with motion and swipe built using Embla.
 - [Aspect Ratio](https://fabricator-ui.vercel.app/docs/components/base/aspect-ratio.md): Displays content within a desired ratio.
 - [Typography](https://fabricator-ui.vercel.app/docs/components/base/typography.md): Styles for headings, paragraphs, lists, etc.

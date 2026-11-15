@@ -18,6 +18,8 @@ export function ComponentPreview({
   chromeLessOnMobile = false,
   styleName = "base-nova",
   caption,
+  wide = false,
+  fit = false,
   ...props
 }: React.ComponentProps<"div"> & {
   name: string
@@ -28,6 +30,10 @@ export function ComponentPreview({
   type?: "block" | "component" | "example" | "frame"
   chromeLessOnMobile?: boolean
   previewClassName?: string
+  /** Breaks out of the prose into the docs column, for big components. */
+  wide?: boolean
+  /** A frame as tall as its demo, unscaled (type="frame"). */
+  fit?: boolean
   caption?: string
 }) {
   if (type === "block") {
@@ -81,11 +87,19 @@ export function ComponentPreview({
     return (
       <ComponentPreviewTabs
         data-frame=""
+        data-wide={wide ? "" : undefined}
         className={className}
-        previewClassName={cn("h-[36rem] p-0", previewClassName)}
+        previewClassName={cn(
+          fit ? "h-auto" : "h-[36rem] p-0",
+          previewClassName
+        )}
         hideCode={hideCode}
         component={
-          <FramePreview src={`/view/${siteStyleName}/${name}`} title={name} />
+          <FramePreview
+            src={`/view/${siteStyleName}/${name}`}
+            title={name}
+            fit={fit}
+          />
         }
         source={
           <ComponentSource
@@ -138,6 +152,7 @@ export function ComponentPreview({
       }
       chromeLessOnMobile={chromeLessOnMobile}
       styleName={siteStyleName}
+      data-wide={wide ? "" : undefined}
       {...props}
     />
   )

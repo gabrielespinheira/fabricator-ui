@@ -206,6 +206,46 @@ export const Components: Record<string, any> = {
       ) || "app-shell-workbench"
     return { default: mod.default || mod[exportName] }
   }),
+  "area-chart-curves": React.lazy(async () => {
+    const mod = await import("@/examples/radix/area-chart-curves")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "area-chart-curves"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "area-chart-demo": React.lazy(async () => {
+    const mod = await import("@/examples/radix/area-chart-demo")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "area-chart-demo"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "area-chart-expand": React.lazy(async () => {
+    const mod = await import("@/examples/radix/area-chart-expand")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "area-chart-expand"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "area-chart-interactive": React.lazy(async () => {
+    const mod = await import("@/examples/radix/area-chart-interactive")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "area-chart-interactive"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "area-chart-stacked": React.lazy(async () => {
+    const mod = await import("@/examples/radix/area-chart-stacked")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "area-chart-stacked"
+    return { default: mod.default || mod[exportName] }
+  }),
   "aspect-ratio-demo": React.lazy(async () => {
     const mod = await import("@/examples/radix/aspect-ratio-demo")
     const exportName =
@@ -486,6 +526,38 @@ export const Components: Record<string, any> = {
       ) || "badge-variants"
     return { default: mod.default || mod[exportName] }
   }),
+  "bar-chart-demo": React.lazy(async () => {
+    const mod = await import("@/examples/radix/bar-chart-demo")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "bar-chart-demo"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "bar-chart-horizontal": React.lazy(async () => {
+    const mod = await import("@/examples/radix/bar-chart-horizontal")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "bar-chart-horizontal"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "bar-chart-interactive": React.lazy(async () => {
+    const mod = await import("@/examples/radix/bar-chart-interactive")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "bar-chart-interactive"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "bar-chart-stacked": React.lazy(async () => {
+    const mod = await import("@/examples/radix/bar-chart-stacked")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "bar-chart-stacked"
+    return { default: mod.default || mod[exportName] }
+  }),
   "bot-face-demo": React.lazy(async () => {
     const mod = await import("@/examples/radix/bot-face-demo")
     const exportName =
@@ -644,6 +716,22 @@ export const Components: Record<string, any> = {
       Object.keys(mod).find(
         (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
       ) || "bubble-variants"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "bump-chart-demo": React.lazy(async () => {
+    const mod = await import("@/examples/radix/bump-chart-demo")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "bump-chart-demo"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "bump-chart-shuffle": React.lazy(async () => {
+    const mod = await import("@/examples/radix/bump-chart-shuffle")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "bump-chart-shuffle"
     return { default: mod.default || mod[exportName] }
   }),
   "button-aschild": React.lazy(async () => {
@@ -948,6 +1036,30 @@ export const Components: Record<string, any> = {
       Object.keys(mod).find(
         (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
       ) || "calendar-week-numbers"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "candlestick-chart-demo": React.lazy(async () => {
+    const mod = await import("@/examples/radix/candlestick-chart-demo")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "candlestick-chart-demo"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "candlestick-chart-live": React.lazy(async () => {
+    const mod = await import("@/examples/radix/candlestick-chart-live")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "candlestick-chart-live"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "candlestick-chart-plain": React.lazy(async () => {
+    const mod = await import("@/examples/radix/candlestick-chart-plain")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "candlestick-chart-plain"
     return { default: mod.default || mod[exportName] }
   }),
   "card-demo": React.lazy(async () => {
@@ -1526,6 +1638,22 @@ export const Components: Record<string, any> = {
       ) || "command-shortcuts"
     return { default: mod.default || mod[exportName] }
   }),
+  "composition-chart-demo": React.lazy(async () => {
+    const mod = await import("@/examples/radix/composition-chart-demo")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "composition-chart-demo"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "composition-chart-plans": React.lazy(async () => {
+    const mod = await import("@/examples/radix/composition-chart-plans")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "composition-chart-plans"
+    return { default: mod.default || mod[exportName] }
+  }),
   "context-menu-basic": React.lazy(async () => {
     const mod = await import("@/examples/radix/context-menu-basic")
     const exportName =
@@ -1884,6 +2012,22 @@ export const Components: Record<string, any> = {
       Object.keys(mod).find(
         (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
       ) || "dialog-sticky-footer"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "donut-chart-demo": React.lazy(async () => {
+    const mod = await import("@/examples/radix/donut-chart-demo")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "donut-chart-demo"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "donut-chart-ring": React.lazy(async () => {
+    const mod = await import("@/examples/radix/donut-chart-ring")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "donut-chart-ring"
     return { default: mod.default || mod[exportName] }
   }),
   "drawer-demo": React.lazy(async () => {
@@ -2348,6 +2492,46 @@ export const Components: Record<string, any> = {
       Object.keys(mod).find(
         (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
       ) || "file-upload-validation"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "funnel-chart-demo": React.lazy(async () => {
+    const mod = await import("@/examples/radix/funnel-chart-demo")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "funnel-chart-demo"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "funnel-chart-horizontal": React.lazy(async () => {
+    const mod = await import("@/examples/radix/funnel-chart-horizontal")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "funnel-chart-horizontal"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "heat-calendar-demo": React.lazy(async () => {
+    const mod = await import("@/examples/radix/heat-calendar-demo")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "heat-calendar-demo"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "heat-calendar-interactive": React.lazy(async () => {
+    const mod = await import("@/examples/radix/heat-calendar-interactive")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "heat-calendar-interactive"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "heat-calendar-weeks": React.lazy(async () => {
+    const mod = await import("@/examples/radix/heat-calendar-weeks")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "heat-calendar-weeks"
     return { default: mod.default || mod[exportName] }
   }),
   "hover-card-demo": React.lazy(async () => {
@@ -2998,6 +3182,22 @@ export const Components: Record<string, any> = {
       ) || "label-rtl"
     return { default: mod.default || mod[exportName] }
   }),
+  "line-chart-demo": React.lazy(async () => {
+    const mod = await import("@/examples/radix/line-chart-demo")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "line-chart-demo"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "line-chart-series": React.lazy(async () => {
+    const mod = await import("@/examples/radix/line-chart-series")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "line-chart-series"
+    return { default: mod.default || mod[exportName] }
+  }),
   "markdown-components": React.lazy(async () => {
     const mod = await import("@/examples/radix/markdown-components")
     const exportName =
@@ -3546,6 +3746,30 @@ export const Components: Record<string, any> = {
       ) || "pagination-simple"
     return { default: mod.default || mod[exportName] }
   }),
+  "pie-chart-demo": React.lazy(async () => {
+    const mod = await import("@/examples/radix/pie-chart-demo")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "pie-chart-demo"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "pie-chart-labels": React.lazy(async () => {
+    const mod = await import("@/examples/radix/pie-chart-labels")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "pie-chart-labels"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "pie-chart-other": React.lazy(async () => {
+    const mod = await import("@/examples/radix/pie-chart-other")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "pie-chart-other"
+    return { default: mod.default || mod[exportName] }
+  }),
   "popover-alignments": React.lazy(async () => {
     const mod = await import("@/examples/radix/popover-alignments")
     const exportName =
@@ -3770,6 +3994,46 @@ export const Components: Record<string, any> = {
       ) || "questionnaire-validation"
     return { default: mod.default || mod[exportName] }
   }),
+  "radar-chart-demo": React.lazy(async () => {
+    const mod = await import("@/examples/radix/radar-chart-demo")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "radar-chart-demo"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "radar-chart-series": React.lazy(async () => {
+    const mod = await import("@/examples/radix/radar-chart-series")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "radar-chart-series"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "radar-chart-single": React.lazy(async () => {
+    const mod = await import("@/examples/radix/radar-chart-single")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "radar-chart-single"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "radial-chart-demo": React.lazy(async () => {
+    const mod = await import("@/examples/radix/radial-chart-demo")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "radial-chart-demo"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "radial-chart-half": React.lazy(async () => {
+    const mod = await import("@/examples/radix/radial-chart-half")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "radial-chart-half"
+    return { default: mod.default || mod[exportName] }
+  }),
   "radio-fields": React.lazy(async () => {
     const mod = await import("@/examples/radix/radio-fields")
     const exportName =
@@ -3920,6 +4184,22 @@ export const Components: Record<string, any> = {
       Object.keys(mod).find(
         (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
       ) || "resizable-vertical"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "sankey-chart-budget": React.lazy(async () => {
+    const mod = await import("@/examples/radix/sankey-chart-budget")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "sankey-chart-budget"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "sankey-chart-demo": React.lazy(async () => {
+    const mod = await import("@/examples/radix/sankey-chart-demo")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "sankey-chart-demo"
     return { default: mod.default || mod[exportName] }
   }),
   "scroll-area-demo": React.lazy(async () => {
@@ -4642,6 +4922,30 @@ export const Components: Record<string, any> = {
       ) || "spinner-size"
     return { default: mod.default || mod[exportName] }
   }),
+  "status-bar-demo": React.lazy(async () => {
+    const mod = await import("@/examples/radix/status-bar-demo")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "status-bar-demo"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "status-bar-incident": React.lazy(async () => {
+    const mod = await import("@/examples/radix/status-bar-incident")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "status-bar-incident"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "status-bar-maintenance": React.lazy(async () => {
+    const mod = await import("@/examples/radix/status-bar-maintenance")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "status-bar-maintenance"
+    return { default: mod.default || mod[exportName] }
+  }),
   "switch-choice-card": React.lazy(async () => {
     const mod = await import("@/examples/radix/switch-choice-card")
     const exportName =
@@ -5156,6 +5460,22 @@ export const Components: Record<string, any> = {
       Object.keys(mod).find(
         (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
       ) || "tooltip-sides"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "treemap-demo": React.lazy(async () => {
+    const mod = await import("@/examples/radix/treemap-demo")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "treemap-demo"
+    return { default: mod.default || mod[exportName] }
+  }),
+  "treemap-flat": React.lazy(async () => {
+    const mod = await import("@/examples/radix/treemap-flat")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "treemap-flat"
     return { default: mod.default || mod[exportName] }
   }),
   "typography-blockquote": React.lazy(async () => {

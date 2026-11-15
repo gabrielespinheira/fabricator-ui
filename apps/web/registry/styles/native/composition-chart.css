@@ -1,0 +1,14 @@
+/* MARK: Composition Chart */
+
+  /* The chart fills its container's width; 18rem tall until the screen
+     gives it a height. The legend of shares sits under the plot. */
+  .cn-composition-chart {
+    @apply h-72 w-full gap-(--density-12);
+  }
+
+  /* A part's share beside its name: in the text colour, since the key
+     carries the identity, and in tabular figures with room for "100.0%",
+     so the legend holds still while the shares change under a scrub. */
+  .cn-composition-chart-share {
+    @apply text-foreground min-w-(--density-40) text-(length:--density-text-12) font-medium tabular-nums;
+  }

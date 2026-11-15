@@ -9,6 +9,7 @@ import * as React from "react"
 import {
   AlignLeftIcon,
   CalendarIcon,
+  ChevronDownIcon,
   ChevronLeftIcon,
   ChevronRightIcon,
   CopyIcon,
@@ -43,8 +44,10 @@ import {
   formatEventDay,
   formatEventTimeRange,
   fromWallParts,
+  getDayBand,
   getEventTimes,
   getViewLabel,
+  getVisibleDays,
   getWallParts,
   isEventCalendarView,
   resolveEventColor,
@@ -116,7 +119,7 @@ import {
   SelectValue,
 } from "@/registry/native/ui/select"
 import { Switch } from "@/registry/native/ui/switch"
-import { Text } from "@/registry/native/ui/text"
+import { Text, TextStyle } from "@/registry/native/ui/text"
 import { Textarea } from "@/registry/native/ui/textarea"
 import { TimeInput } from "@/registry/native/ui/time-input"
 import { toast } from "@/registry/native/ui/toast"
@@ -222,6 +225,7 @@ function EventCalendarWithController<TData>({
   timeZone,
   locale,
   businessHours,
+  continuous,
   editable,
   createId,
   ...rest
@@ -248,6 +252,7 @@ function EventCalendarWithController<TData>({
     timeZone,
     locale,
     businessHours,
+    continuous,
     editable,
     createId,
   })
@@ -375,9 +380,9 @@ function EventCalendarHeader({
       {children ?? (
         <>
           <View className="cn-event-calendar-header-start min-w-0 flex-row items-center">
+            <EventCalendarTitle />
             <EventCalendarToday />
             <EventCalendarNavigation />
-            <EventCalendarTitle />
           </View>
           <View className="cn-event-calendar-header-end flex-row items-center">
             <EventCalendarViewSelect />
@@ -449,23 +454,60 @@ function EventCalendarNavigation<TData>({
   )
 }
 
+/**
+ * The period in view, and the date picker behind it: a mini month that marks
+ * the days the calendar shows and moves it to the day picked.
+ */
 function EventCalendarTitle<TData>({
   calendar: calendarProp,
   className,
   ...props
-}: PartProps<TData> & React.ComponentProps<typeof Text>) {
+}: PartProps<TData> & React.ComponentProps<typeof View>) {
   const calendar = useCalendarPart("EventCalendarTitle", calendarProp)
+  const [open, setOpen] = React.useState(false)
   return (
-    <Text
-      data-slot="event-calendar-title"
-      role="heading"
-      accessibilityLiveRegion="polite"
-      numberOfLines={1}
-      className={cn("cn-event-calendar-title min-w-0 shrink", className)}
-      {...props}
-    >
-      {calendar.title}
-    </Text>
+    <Popover open={open} onOpenChange={setOpen}>
+      <View
+        data-slot="event-calendar-title"
+        role="heading"
+        accessibilityLiveRegion="polite"
+        className={cn("cn-event-calendar-title min-w-0 shrink", className)}
+        {...props}
+      >
+        <PopoverTrigger
+          render={
+            <Button
+              variant="outline"
+              data-slot="event-calendar-title-trigger"
+              accessibilityHint="Opens a calendar to choose a date"
+              className="cn-event-calendar-title-trigger"
+            />
+          }
+        >
+          <Text
+            numberOfLines={1}
+            className="cn-event-calendar-title-text min-w-0 shrink"
+          >
+            {calendar.title}
+          </Text>
+          <View data-slot="event-calendar-title-icon" className="shrink-0">
+            <TextStyle className="cn-event-calendar-title-icon">
+              <ChevronDownIcon />
+            </TextStyle>
+          </View>
+        </PopoverTrigger>
+      </View>
+      <PopoverContent
+        data-slot="event-calendar-date-picker"
+        align="start"
+        className="cn-event-calendar-date-picker"
+      >
+        <EventCalendarMiniMonth
+          calendar={calendar}
+          onDateSelect={() => setOpen(false)}
+        />
+      </PopoverContent>
+    </Popover>
   )
 }
 
@@ -1438,12 +1480,28 @@ function EventCalendarScopeDialog() {
 
 // --- Beside the grid ---------------------------------------------------------
 
+// The days in view, marked as a band behind the mini month's days.
+const inViewClass = { className: cn("cn-event-calendar-mini-month-in-view") }
+  .className
+const inViewStartClass = {
+  className: cn("cn-event-calendar-mini-month-in-view-start"),
+}.className
+const inViewEndClass = {
+  className: cn("cn-event-calendar-mini-month-in-view-end"),
+}.className
+
 function EventCalendarMiniMonth<TData>({
   calendar: calendarProp,
+  onDateSelect,
   className,
-}: PartProps<TData> & { className?: string }) {
+}: PartProps<TData> & {
+  /** After the calendar moves to a picked day, as a popover closes on it. */
+  onDateSelect?: (date: Date) => void
+  className?: string
+}) {
   const calendar = useCalendarPart("EventCalendarMiniMonth", calendarProp)
-  const { date } = calendar
+  const { date, view, range, timeZone } = calendar
+  const { weekStartsOn } = calendar.settings
   const [month, setMonth] = React.useState(date)
   // The shown month follows the calendar when it moves elsewhere.
   const [shownDate, setShownDate] = React.useState(date)
@@ -1451,17 +1509,31 @@ function EventCalendarMiniMonth<TData>({
     setShownDate(date)
     setMonth(date)
   }
+  const visible = getVisibleDays(view, date, range, timeZone)
+  const bandOf = (day: Date) => getDayBand(day, visible, weekStartsOn, timeZone)
   return (
     <Calendar
       data-slot="event-calendar-mini-month"
       mode="single"
       selected={calendar.date}
       onSelect={(day: Date | undefined) => {
-        if (day) calendar.goTo(day)
+        if (!day) return
+        calendar.goTo(day)
+        onDateSelect?.(day)
       }}
       month={month}
       onMonthChange={setMonth}
-      weekStartsOn={calendar.settings.weekStartsOn}
+      weekStartsOn={weekStartsOn}
+      modifiers={{
+        inView: (day: Date) => bandOf(day).isInView,
+        inViewStart: (day: Date) => bandOf(day).isStart,
+        inViewEnd: (day: Date) => bandOf(day).isEnd,
+      }}
+      modifiersClassNames={{
+        inView: inViewClass,
+        inViewStart: inViewStartClass,
+        inViewEnd: inViewEndClass,
+      }}
       className={cn("cn-event-calendar-mini-month", className)}
     />
   )

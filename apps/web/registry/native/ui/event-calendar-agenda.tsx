@@ -1,10 +1,11 @@
 // The Event Calendar's agenda (Google Calendar's "Schedule"): the days that
-// have events, each with its events in order. A plain scroller, as on the
-// website, so it also stands alone in a dashboard card inside a page that
-// scrolls (a virtual list can't sit in a scroller of the same direction).
+// have events, each with its events in order. Days are virtualized, as on the
+// website, so a busy month draws the days in view. LegendList scrolls on its
+// own ScrollView, so it nests inside a page that scrolls.
 import * as React from "react"
+import { LegendList } from "@legendapp/list/react-native"
 import { cn } from "cn"
-import { Pressable, ScrollView, View } from "react-native"
+import { Pressable, View } from "react-native"
 
 import { type EventCalendarController } from "@/registry/fabricator/shared/hooks/use-event-calendar"
 import {
@@ -105,6 +106,10 @@ function AgendaEvent<TData>({
   )
 }
 
+// A first guess at a day's height before it's measured.
+const DAY_ESTIMATE = 96
+const LIST_STYLE = { flex: 1 }
+
 function EventCalendarAgenda<TData>({
   calendar,
   onEventSelect,
@@ -182,9 +187,19 @@ function EventCalendarAgenda<TData>({
         {days.length === 0 && !calendar.isLoading ? (
           empty
         ) : (
-          <ScrollView nestedScrollEnabled className="min-h-0 flex-1">
-            {days.map(renderDay)}
-          </ScrollView>
+          <View className="min-h-0 flex-1">
+            <LegendList
+              data={days}
+              renderItem={({ item }) => renderDay(item)}
+              keyExtractor={(day) => day.key}
+              estimatedItemSize={DAY_ESTIMATE}
+              // A day's rows differ in count and keep their own press state,
+              // so a reused row remounts instead of recycling.
+              recycleItems={false}
+              nestedScrollEnabled
+              style={LIST_STYLE}
+            />
+          </View>
         )}
       </ChipPaletteProvider>
     </View>

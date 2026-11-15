@@ -1,6 +1,9 @@
 import { describe, expect, it } from "vitest"
 
-import { type CalendarEvent } from "@/registry/fabricator/shared/lib/event-calendar-model"
+import {
+  EVENT_CHIP_WASH,
+  type CalendarEvent,
+} from "@/registry/fabricator/shared/lib/event-calendar-model"
 
 import {
   applyEventAction,
@@ -45,7 +48,6 @@ describe("getEngineMode", () => {
     expect(getEngineMode("days")).toBe("custom")
     expect(getEngineMode("week")).toBe("week")
     expect(getEngineMode("month")).toBe("month")
-    expect(getEngineMode("year")).toBe("year")
     expect(getEngineMode("agenda")).toBe("schedule")
   })
 })
@@ -60,7 +62,7 @@ describe("getHiddenDays", () => {
   it("keeps every day otherwise", () => {
     expect(getHiddenDays("week", true)).toBeUndefined()
     expect(getHiddenDays("day", false)).toBeUndefined()
-    expect(getHiddenDays("year", false)).toBeUndefined()
+    expect(getHiddenDays("agenda", false)).toBeUndefined()
   })
 })
 
@@ -309,10 +311,21 @@ describe("getChipPalette", () => {
   it("turns a hue's OKLCH literals into hex for the scheme", () => {
     const light = getChipPalette("blue", "light", read)
     const dark = getChipPalette("blue", "dark", read)
-    for (const value of [...Object.values(light), ...Object.values(dark)]) {
-      expect(value).toMatch(/^#[\da-f]{6}$/)
+    for (const palette of [light, dark]) {
+      for (const value of [palette.fill, palette.text, palette.foreground]) {
+        expect(value).toMatch(/^#[\da-f]{6}$/)
+      }
     }
     expect(light.fill).not.toBe(dark.fill)
+  })
+
+  it("carries the scheme's wash, as the website's chip draws it", () => {
+    expect(getChipPalette("blue", "light", read).wash).toEqual(
+      EVENT_CHIP_WASH.light
+    )
+    expect(getChipPalette("blue", "dark", read).wash).toEqual(
+      EVENT_CHIP_WASH.dark
+    )
   })
 
   it("reads a role's colours from the theme", () => {
@@ -320,6 +333,7 @@ describe("getChipPalette", () => {
       fill: "#1d4ed8",
       text: "#1e40af",
       foreground: "#ffffff",
+      wash: EVENT_CHIP_WASH.light,
     })
   })
 

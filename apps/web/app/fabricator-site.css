@@ -26,6 +26,19 @@
     max-width: none;
     margin-inline: calc((100% - var(--frame-width)) / 2);
   }
+  /* Wide pages (lib/docs-wide-pages.ts, e.g. Event Calendar) sit in the
+     shell's large column; their prose keeps the usual width, centred, and
+     wide previews (ComponentPreview wide) render in place across the column,
+     up to 72rem, as the component would in an app. */
+  [data-slot="docs"][data-wide] > div:first-child > div {
+    max-width: 56rem;
+  }
+  [data-slot="docs"] [data-slot="component-preview"][data-wide] {
+    --frame-width: max(100%, min(72rem, 100cqw - 2rem));
+    width: var(--frame-width);
+    max-width: none;
+    margin-inline: calc((100% - var(--frame-width)) / 2);
+  }
 }
 
 @layer components {

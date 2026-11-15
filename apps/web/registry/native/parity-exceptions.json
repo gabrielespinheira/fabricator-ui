@@ -747,5 +747,384 @@
     "name": "data-table-cells",
     "reason": "The Data Table's typed cells ship with it; they follow it to native (see data-table).",
     "date": "2026-11-12"
+  },
+  {
+    "item": "event-calendar",
+    "kind": "prop",
+    "name": "fullCalendar",
+    "reason": "FullCalendar's options are the website's engine, not the component: React Native draws with @super-calendar/native, whose props the native adapter sets.",
+    "date": "2026-11-14"
+  },
+  {
+    "item": "event-calendar",
+    "kind": "slot",
+    "name": "event-calendar-event-menu",
+    "reason": "On a touch screen a long press picks an editable event up to move it (the engine's gesture), so its menu's actions live in the details sheet and in VoiceOver's actions on the event.",
+    "date": "2026-11-14"
+  },
+  {
+    "item": "event-calendar",
+    "kind": "slot",
+    "name": "event-calendar-shortcuts",
+    "reason": "React Native views get no key events, so the calendar has no keyboard shortcuts on native yet, nor their help dialog.",
+    "date": "2026-11-14"
+  },
+  {
+    "item": "event-calendar",
+    "kind": "placeholder",
+    "name": "cn-event-calendar-shortcuts",
+    "reason": "React Native views get no key events, so the calendar has no keyboard shortcuts on native yet, nor their help dialog.",
+    "date": "2026-11-14"
+  },
+  {
+    "item": "event-calendar",
+    "kind": "placeholder",
+    "name": "cn-event-calendar-shortcuts-label",
+    "reason": "React Native views get no key events, so the calendar has no keyboard shortcuts on native yet, nor their help dialog.",
+    "date": "2026-11-14"
+  },
+  {
+    "item": "event-calendar",
+    "kind": "placeholder",
+    "name": "cn-event-calendar-shortcuts-list",
+    "reason": "React Native views get no key events, so the calendar has no keyboard shortcuts on native yet, nor their help dialog.",
+    "date": "2026-11-14"
+  },
+  {
+    "item": "event-calendar",
+    "kind": "placeholder",
+    "name": "cn-event-calendar-placeholder",
+    "reason": "The website draws this frame on the server until FullCalendar can measure the page. Native renders the grid on its first frame.",
+    "date": "2026-11-14"
+  },
+  {
+    "item": "event-calendar-engine",
+    "kind": "slot",
+    "name": "event-calendar-day-header-number",
+    "reason": "The engine draws the time grid's column headers itself and takes classes, not elements, so the weekday and the date can't carry a slot.",
+    "date": "2026-11-14"
+  },
+  {
+    "item": "event-calendar-engine",
+    "kind": "slot",
+    "name": "event-calendar-day-header-weekday",
+    "reason": "The engine draws the time grid's column headers itself and takes classes, not elements, so the weekday and the date can't carry a slot.",
+    "date": "2026-11-14"
+  },
+  {
+    "item": "event-calendar-engine",
+    "kind": "placeholder",
+    "name": "cn-event-calendar-fc-event",
+    "reason": "A part of FullCalendar's markup with no counterpart in @super-calendar/native, which lays the grid out itself.",
+    "date": "2026-11-14"
+  },
+  {
+    "item": "event-calendar-engine",
+    "kind": "placeholder",
+    "name": "cn-event-calendar-fc-event-inner",
+    "reason": "A part of FullCalendar's markup with no counterpart in @super-calendar/native, which lays the grid out itself.",
+    "date": "2026-11-14"
+  },
+  {
+    "item": "event-calendar-engine",
+    "kind": "placeholder",
+    "name": "cn-event-calendar-fc-list-item-event",
+    "reason": "A part of FullCalendar's markup with no counterpart in @super-calendar/native, which lays the grid out itself.",
+    "date": "2026-11-14"
+  },
+  {
+    "item": "event-calendar-engine",
+    "kind": "placeholder",
+    "name": "cn-event-calendar-filler",
+    "reason": "A part of FullCalendar's markup with no counterpart in @super-calendar/native, which lays the grid out itself.",
+    "date": "2026-11-14"
+  },
+  {
+    "item": "event-calendar-engine",
+    "kind": "placeholder",
+    "name": "cn-event-calendar-table-body",
+    "reason": "A part of FullCalendar's markup with no counterpart in @super-calendar/native, which lays the grid out itself.",
+    "date": "2026-11-14"
+  },
+  {
+    "item": "event-calendar-engine",
+    "kind": "placeholder",
+    "name": "cn-event-calendar-nav-link",
+    "reason": "A part of FullCalendar's markup with no counterpart in @super-calendar/native, which lays the grid out itself.",
+    "date": "2026-11-14"
+  },
+  {
+    "item": "event-calendar-engine",
+    "kind": "placeholder",
+    "name": "cn-event-calendar-popover-close",
+    "reason": "A part of FullCalendar's markup with no counterpart in @super-calendar/native, which lays the grid out itself.",
+    "date": "2026-11-14"
+  },
+  {
+    "item": "event-calendar-engine",
+    "kind": "placeholder",
+    "name": "cn-event-calendar-popover-close-icon",
+    "reason": "A part of FullCalendar's markup with no counterpart in @super-calendar/native, which lays the grid out itself.",
+    "date": "2026-11-14"
+  },
+  {
+    "item": "event-calendar-engine",
+    "kind": "placeholder",
+    "name": "cn-event-calendar-slot-header",
+    "reason": "A part of FullCalendar's markup with no counterpart in @super-calendar/native, which lays the grid out itself.",
+    "date": "2026-11-14"
+  },
+  {
+    "item": "event-calendar-engine",
+    "kind": "placeholder",
+    "name": "cn-event-calendar-slot-header-first",
+    "reason": "A part of FullCalendar's markup with no counterpart in @super-calendar/native, which lays the grid out itself.",
+    "date": "2026-11-14"
+  },
+  {
+    "item": "event-calendar-engine",
+    "kind": "placeholder",
+    "name": "cn-event-calendar-day-lane-inner",
+    "reason": "A part of FullCalendar's markup with no counterpart in @super-calendar/native, which lays the grid out itself.",
+    "date": "2026-11-14"
+  },
+  {
+    "item": "event-calendar-engine",
+    "kind": "placeholder",
+    "name": "cn-event-calendar-day-lane-today",
+    "reason": "A part of FullCalendar's markup with no counterpart in @super-calendar/native, which lays the grid out itself.",
+    "date": "2026-11-14"
+  },
+  {
+    "item": "event-calendar-engine",
+    "kind": "placeholder",
+    "name": "cn-event-calendar-day-row",
+    "reason": "A part of FullCalendar's markup with no counterpart in @super-calendar/native, which lays the grid out itself.",
+    "date": "2026-11-14"
+  },
+  {
+    "item": "event-calendar-engine",
+    "kind": "placeholder",
+    "name": "cn-event-calendar-day-cell-bottom-short",
+    "reason": "A part of FullCalendar's markup with no counterpart in @super-calendar/native, which lays the grid out itself.",
+    "date": "2026-11-14"
+  },
+  {
+    "item": "event-calendar-engine",
+    "kind": "placeholder",
+    "name": "cn-event-calendar-day-cell-bottom-tall",
+    "reason": "A part of FullCalendar's markup with no counterpart in @super-calendar/native, which lays the grid out itself.",
+    "date": "2026-11-14"
+  },
+  {
+    "item": "event-calendar-engine",
+    "kind": "placeholder",
+    "name": "cn-event-calendar-day-cell-inner",
+    "reason": "A part of FullCalendar's markup with no counterpart in @super-calendar/native, which lays the grid out itself.",
+    "date": "2026-11-14"
+  },
+  {
+    "item": "event-calendar-engine",
+    "kind": "placeholder",
+    "name": "cn-event-calendar-day-cell-top",
+    "reason": "A part of FullCalendar's markup with no counterpart in @super-calendar/native, which lays the grid out itself.",
+    "date": "2026-11-14"
+  },
+  {
+    "item": "event-calendar-engine",
+    "kind": "placeholder",
+    "name": "cn-event-calendar-more-link",
+    "reason": "A part of FullCalendar's markup with no counterpart in @super-calendar/native, which lays the grid out itself.",
+    "date": "2026-11-14"
+  },
+  {
+    "item": "event-calendar-engine",
+    "kind": "placeholder",
+    "name": "cn-event-calendar-all-day-header",
+    "reason": "A part of FullCalendar's markup with no counterpart in @super-calendar/native, which lays the grid out itself.",
+    "date": "2026-11-14"
+  },
+  {
+    "item": "event-calendar-engine",
+    "kind": "placeholder",
+    "name": "cn-event-calendar-day-header-divider",
+    "reason": "A part of FullCalendar's markup with no counterpart in @super-calendar/native, which lays the grid out itself.",
+    "date": "2026-11-14"
+  },
+  {
+    "item": "event-calendar-engine",
+    "kind": "placeholder",
+    "name": "cn-event-calendar-day-header-inner",
+    "reason": "The engine paints today's date disc from its theme (the primary colour), and a class on that slot would drop it, so the date takes no placeholder.",
+    "date": "2026-11-14"
+  },
+  {
+    "item": "event-calendar-engine",
+    "kind": "placeholder",
+    "name": "cn-event-calendar-day-header-number",
+    "reason": "The engine paints today's date disc from its theme (the primary colour), and a class on that slot would drop it, so the date takes no placeholder.",
+    "date": "2026-11-14"
+  },
+  {
+    "item": "event-calendar-engine",
+    "kind": "placeholder",
+    "name": "cn-event-calendar-day-header-today",
+    "reason": "The engine paints today's date disc from its theme (the primary colour), and a class on that slot would drop it, so the date takes no placeholder.",
+    "date": "2026-11-14"
+  },
+  {
+    "item": "event-calendar-engine",
+    "kind": "placeholder",
+    "name": "cn-event-calendar-day-cell",
+    "reason": "The engine paints today's date disc from its theme (the primary colour), and a class on that slot would drop it, so the date takes no placeholder.",
+    "date": "2026-11-14"
+  },
+  {
+    "item": "event-calendar-engine",
+    "kind": "placeholder",
+    "name": "cn-event-calendar-day-cell-number",
+    "reason": "The engine paints today's date disc from its theme (the primary colour), and a class on that slot would drop it, so the date takes no placeholder.",
+    "date": "2026-11-14"
+  },
+  {
+    "item": "event-calendar-engine",
+    "kind": "placeholder",
+    "name": "cn-event-calendar-day-cell-number-today",
+    "reason": "The engine paints today's date disc from its theme (the primary colour), and a class on that slot would drop it, so the date takes no placeholder.",
+    "date": "2026-11-14"
+  },
+  {
+    "item": "event-calendar-engine",
+    "kind": "placeholder",
+    "name": "cn-event-calendar-day-cell-today",
+    "reason": "The engine paints today's date disc from its theme (the primary colour), and a class on that slot would drop it, so the date takes no placeholder.",
+    "date": "2026-11-14"
+  },
+  {
+    "item": "event-calendar-engine",
+    "kind": "placeholder",
+    "name": "cn-event-calendar-day-cell-other",
+    "reason": "The engine paints today's date disc from its theme (the primary colour), and a class on that slot would drop it, so the date takes no placeholder.",
+    "date": "2026-11-14"
+  },
+  {
+    "item": "event-calendar-engine",
+    "kind": "placeholder",
+    "name": "cn-event-calendar-day-cell-disabled",
+    "reason": "The engine paints today's date disc from its theme (the primary colour), and a class on that slot would drop it, so the date takes no placeholder.",
+    "date": "2026-11-14"
+  },
+  {
+    "item": "event-calendar-engine",
+    "kind": "placeholder",
+    "name": "cn-event-calendar-fc-column-resizer-start",
+    "reason": "The engine places its own resize handles on each event's edges; they take no class.",
+    "date": "2026-11-14"
+  },
+  {
+    "item": "event-calendar-engine",
+    "kind": "placeholder",
+    "name": "cn-event-calendar-fc-column-resizer-end",
+    "reason": "The engine places its own resize handles on each event's edges; they take no class.",
+    "date": "2026-11-14"
+  },
+  {
+    "item": "event-calendar-engine",
+    "kind": "placeholder",
+    "name": "cn-event-calendar-fc-resizer-start",
+    "reason": "The engine places its own resize handles on each event's edges; they take no class.",
+    "date": "2026-11-14"
+  },
+  {
+    "item": "event-calendar-engine",
+    "kind": "placeholder",
+    "name": "cn-event-calendar-fc-resizer-end",
+    "reason": "The engine places its own resize handles on each event's edges; they take no class.",
+    "date": "2026-11-14"
+  },
+  {
+    "item": "event-calendar-engine",
+    "kind": "placeholder",
+    "name": "cn-event-calendar-now-dot",
+    "reason": "The engine's now line has no dot at the gutter.",
+    "date": "2026-11-14"
+  },
+  {
+    "item": "event-calendar-engine",
+    "kind": "placeholder",
+    "name": "cn-event-calendar-slot-lane-minor",
+    "reason": "The engine draws hour and half-hour lines through one slot, so the half-hour line can't take a fainter class of its own.",
+    "date": "2026-11-14"
+  },
+  {
+    "item": "event-calendar-engine",
+    "kind": "placeholder",
+    "name": "cn-event-calendar-week-number",
+    "reason": "The engine shows the week number once, in the time grid's header gutter (cn-event-calendar-week-number-header), and none in month cells.",
+    "date": "2026-11-14"
+  },
+  {
+    "item": "event-calendar-engine",
+    "kind": "slot",
+    "name": "event-calendar-day-header-content",
+    "reason": "The engine draws the time grid's column headers itself and takes classes, not elements, so the header's content can't carry a slot or a placeholder.",
+    "date": "2026-11-15"
+  },
+  {
+    "item": "event-calendar-engine",
+    "kind": "placeholder",
+    "name": "cn-event-calendar-day-header-content",
+    "reason": "The engine draws the time grid's column headers itself and takes classes, not elements, so the header's content can't carry a slot or a placeholder.",
+    "date": "2026-11-15"
+  },
+  {
+    "item": "event-calendar-engine",
+    "kind": "placeholder",
+    "name": "cn-event-calendar-column-more-link",
+    "reason": "The native engine stacks overlapping events side by side in a time slot and has no overflow link, so the time grid's \"+N\" chip has no counterpart.",
+    "date": "2026-11-15"
+  },
+  {
+    "item": "event-calendar-engine",
+    "kind": "placeholder",
+    "name": "cn-event-calendar-column-more-link-inner",
+    "reason": "The native engine stacks overlapping events side by side in a time slot and has no overflow link, so the time grid's \"+N\" chip has no counterpart.",
+    "date": "2026-11-15"
+  },
+  {
+    "item": "event-calendar-engine",
+    "kind": "placeholder",
+    "name": "cn-event-calendar-week-number-header-inner",
+    "reason": "FullCalendar wraps the week number in an inner element whose margin holds it off the hairline; the native engine draws the week number as one text element styled by cn-event-calendar-week-number-header.",
+    "date": "2026-11-15"
+  },  {
+    "item": "event-calendar-engine",
+    "kind": "slot",
+    "name": "event-calendar-create-preview",
+    "reason": "The web engine draws the event being dragged out in a time grid itself, so a drag never adds or removes elements; the native engine creates by long press and draws its own ghost, styled by cn-event-calendar-highlight.",
+    "date": "2026-11-15"
+  },
+  {
+    "item": "event-calendar-engine",
+    "kind": "placeholder",
+    "name": "cn-event-calendar-create-preview",
+    "reason": "The web engine draws the event being dragged out in a time grid itself, so a drag never adds or removes elements; the native engine creates by long press and draws its own ghost, styled by cn-event-calendar-highlight.",
+    "date": "2026-11-15"
+  },
+
+
+  {
+    "item": "chart-kit",
+    "kind": "slot",
+    "name": "chart-table",
+    "reason": "React Native has no table element. Screen readers read every value through the chart's adjustable inspector, one mark at a time, so ChartDataTable renders nothing there.",
+    "date": "2026-11-15"
+  },
+  {
+    "item": "chart-kit",
+    "kind": "demo",
+    "name": "examples/native/chart-kit-example.tsx",
+    "reason": "Chart Kit is the parts every chart is drawn with and has no page of its own on either platform; every chart's demo shows its tooltip, legend, axes and inspector.",
+    "date": "2026-11-15"
   }
 ]

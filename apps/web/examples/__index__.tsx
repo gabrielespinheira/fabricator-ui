@@ -109,6 +109,26 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "app-shell-workbench",
       filePath: "examples/base/app-shell-workbench.tsx",
     },
+    "area-chart-curves": {
+      name: "area-chart-curves",
+      filePath: "examples/base/area-chart-curves.tsx",
+    },
+    "area-chart-demo": {
+      name: "area-chart-demo",
+      filePath: "examples/base/area-chart-demo.tsx",
+    },
+    "area-chart-expand": {
+      name: "area-chart-expand",
+      filePath: "examples/base/area-chart-expand.tsx",
+    },
+    "area-chart-interactive": {
+      name: "area-chart-interactive",
+      filePath: "examples/base/area-chart-interactive.tsx",
+    },
+    "area-chart-stacked": {
+      name: "area-chart-stacked",
+      filePath: "examples/base/area-chart-stacked.tsx",
+    },
     "aspect-ratio-demo": {
       name: "aspect-ratio-demo",
       filePath: "examples/base/aspect-ratio-demo.tsx",
@@ -249,6 +269,22 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "badge-variants",
       filePath: "examples/base/badge-variants.tsx",
     },
+    "bar-chart-demo": {
+      name: "bar-chart-demo",
+      filePath: "examples/base/bar-chart-demo.tsx",
+    },
+    "bar-chart-horizontal": {
+      name: "bar-chart-horizontal",
+      filePath: "examples/base/bar-chart-horizontal.tsx",
+    },
+    "bar-chart-interactive": {
+      name: "bar-chart-interactive",
+      filePath: "examples/base/bar-chart-interactive.tsx",
+    },
+    "bar-chart-stacked": {
+      name: "bar-chart-stacked",
+      filePath: "examples/base/bar-chart-stacked.tsx",
+    },
     "bot-face-demo": {
       name: "bot-face-demo",
       filePath: "examples/base/bot-face-demo.tsx",
@@ -328,6 +364,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "bubble-variants": {
       name: "bubble-variants",
       filePath: "examples/base/bubble-variants.tsx",
+    },
+    "bump-chart-demo": {
+      name: "bump-chart-demo",
+      filePath: "examples/base/bump-chart-demo.tsx",
+    },
+    "bump-chart-shuffle": {
+      name: "bump-chart-shuffle",
+      filePath: "examples/base/bump-chart-shuffle.tsx",
     },
     "button-default": {
       name: "button-default",
@@ -480,6 +524,18 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "calendar-week-numbers": {
       name: "calendar-week-numbers",
       filePath: "examples/base/calendar-week-numbers.tsx",
+    },
+    "candlestick-chart-demo": {
+      name: "candlestick-chart-demo",
+      filePath: "examples/base/candlestick-chart-demo.tsx",
+    },
+    "candlestick-chart-live": {
+      name: "candlestick-chart-live",
+      filePath: "examples/base/candlestick-chart-live.tsx",
+    },
+    "candlestick-chart-plain": {
+      name: "candlestick-chart-plain",
+      filePath: "examples/base/candlestick-chart-plain.tsx",
     },
     "card-demo": {
       name: "card-demo",
@@ -769,6 +825,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "command-shortcuts",
       filePath: "examples/base/command-shortcuts.tsx",
     },
+    "composition-chart-demo": {
+      name: "composition-chart-demo",
+      filePath: "examples/base/composition-chart-demo.tsx",
+    },
+    "composition-chart-plans": {
+      name: "composition-chart-plans",
+      filePath: "examples/base/composition-chart-plans.tsx",
+    },
     "context-menu-basic": {
       name: "context-menu-basic",
       filePath: "examples/base/context-menu-basic.tsx",
@@ -948,6 +1012,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "dialog-sticky-footer": {
       name: "dialog-sticky-footer",
       filePath: "examples/base/dialog-sticky-footer.tsx",
+    },
+    "donut-chart-demo": {
+      name: "donut-chart-demo",
+      filePath: "examples/base/donut-chart-demo.tsx",
+    },
+    "donut-chart-ring": {
+      name: "donut-chart-ring",
+      filePath: "examples/base/donut-chart-ring.tsx",
     },
     "drawer-demo": {
       name: "drawer-demo",
@@ -1192,6 +1264,26 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "file-upload-validation": {
       name: "file-upload-validation",
       filePath: "examples/base/file-upload-validation.tsx",
+    },
+    "funnel-chart-demo": {
+      name: "funnel-chart-demo",
+      filePath: "examples/base/funnel-chart-demo.tsx",
+    },
+    "funnel-chart-horizontal": {
+      name: "funnel-chart-horizontal",
+      filePath: "examples/base/funnel-chart-horizontal.tsx",
+    },
+    "heat-calendar-demo": {
+      name: "heat-calendar-demo",
+      filePath: "examples/base/heat-calendar-demo.tsx",
+    },
+    "heat-calendar-interactive": {
+      name: "heat-calendar-interactive",
+      filePath: "examples/base/heat-calendar-interactive.tsx",
+    },
+    "heat-calendar-weeks": {
+      name: "heat-calendar-weeks",
+      filePath: "examples/base/heat-calendar-weeks.tsx",
     },
     "hover-card-demo": {
       name: "hover-card-demo",
@@ -1517,6 +1609,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "label-rtl",
       filePath: "examples/base/label-rtl.tsx",
     },
+    "line-chart-demo": {
+      name: "line-chart-demo",
+      filePath: "examples/base/line-chart-demo.tsx",
+    },
+    "line-chart-series": {
+      name: "line-chart-series",
+      filePath: "examples/base/line-chart-series.tsx",
+    },
     "markdown-components": {
       name: "markdown-components",
       filePath: "examples/base/markdown-components.tsx",
@@ -1793,6 +1893,18 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "pagination-simple",
       filePath: "examples/base/pagination-simple.tsx",
     },
+    "pie-chart-demo": {
+      name: "pie-chart-demo",
+      filePath: "examples/base/pie-chart-demo.tsx",
+    },
+    "pie-chart-labels": {
+      name: "pie-chart-labels",
+      filePath: "examples/base/pie-chart-labels.tsx",
+    },
+    "pie-chart-other": {
+      name: "pie-chart-other",
+      filePath: "examples/base/pie-chart-other.tsx",
+    },
     "popover-alignments": {
       name: "popover-alignments",
       filePath: "examples/base/popover-alignments.tsx",
@@ -1905,6 +2017,26 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "questionnaire-validation",
       filePath: "examples/base/questionnaire-validation.tsx",
     },
+    "radar-chart-demo": {
+      name: "radar-chart-demo",
+      filePath: "examples/base/radar-chart-demo.tsx",
+    },
+    "radar-chart-series": {
+      name: "radar-chart-series",
+      filePath: "examples/base/radar-chart-series.tsx",
+    },
+    "radar-chart-single": {
+      name: "radar-chart-single",
+      filePath: "examples/base/radar-chart-single.tsx",
+    },
+    "radial-chart-demo": {
+      name: "radial-chart-demo",
+      filePath: "examples/base/radial-chart-demo.tsx",
+    },
+    "radial-chart-half": {
+      name: "radial-chart-half",
+      filePath: "examples/base/radial-chart-half.tsx",
+    },
     "radio-fields": {
       name: "radio-fields",
       filePath: "examples/base/radio-fields.tsx",
@@ -1980,6 +2112,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "resizable-vertical": {
       name: "resizable-vertical",
       filePath: "examples/base/resizable-vertical.tsx",
+    },
+    "sankey-chart-budget": {
+      name: "sankey-chart-budget",
+      filePath: "examples/base/sankey-chart-budget.tsx",
+    },
+    "sankey-chart-demo": {
+      name: "sankey-chart-demo",
+      filePath: "examples/base/sankey-chart-demo.tsx",
     },
     "scroll-area-demo": {
       name: "scroll-area-demo",
@@ -2325,6 +2465,18 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "spinner-size",
       filePath: "examples/base/spinner-size.tsx",
     },
+    "status-bar-demo": {
+      name: "status-bar-demo",
+      filePath: "examples/base/status-bar-demo.tsx",
+    },
+    "status-bar-incident": {
+      name: "status-bar-incident",
+      filePath: "examples/base/status-bar-incident.tsx",
+    },
+    "status-bar-maintenance": {
+      name: "status-bar-maintenance",
+      filePath: "examples/base/status-bar-maintenance.tsx",
+    },
     "switch-choice-card": {
       name: "switch-choice-card",
       filePath: "examples/base/switch-choice-card.tsx",
@@ -2597,6 +2749,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "tooltip-sides",
       filePath: "examples/base/tooltip-sides.tsx",
     },
+    "treemap-demo": {
+      name: "treemap-demo",
+      filePath: "examples/base/treemap-demo.tsx",
+    },
+    "treemap-flat": {
+      name: "treemap-flat",
+      filePath: "examples/base/treemap-flat.tsx",
+    },
     "typography-blockquote": {
       name: "typography-blockquote",
       filePath: "examples/base/typography-blockquote.tsx",
@@ -2791,6 +2951,26 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "app-shell-workbench",
       filePath: "examples/aria/app-shell-workbench.tsx",
     },
+    "area-chart-curves": {
+      name: "area-chart-curves",
+      filePath: "examples/aria/area-chart-curves.tsx",
+    },
+    "area-chart-demo": {
+      name: "area-chart-demo",
+      filePath: "examples/aria/area-chart-demo.tsx",
+    },
+    "area-chart-expand": {
+      name: "area-chart-expand",
+      filePath: "examples/aria/area-chart-expand.tsx",
+    },
+    "area-chart-interactive": {
+      name: "area-chart-interactive",
+      filePath: "examples/aria/area-chart-interactive.tsx",
+    },
+    "area-chart-stacked": {
+      name: "area-chart-stacked",
+      filePath: "examples/aria/area-chart-stacked.tsx",
+    },
     "aspect-ratio-demo": {
       name: "aspect-ratio-demo",
       filePath: "examples/aria/aspect-ratio-demo.tsx",
@@ -2931,6 +3111,22 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "badge-variants",
       filePath: "examples/aria/badge-variants.tsx",
     },
+    "bar-chart-demo": {
+      name: "bar-chart-demo",
+      filePath: "examples/aria/bar-chart-demo.tsx",
+    },
+    "bar-chart-horizontal": {
+      name: "bar-chart-horizontal",
+      filePath: "examples/aria/bar-chart-horizontal.tsx",
+    },
+    "bar-chart-interactive": {
+      name: "bar-chart-interactive",
+      filePath: "examples/aria/bar-chart-interactive.tsx",
+    },
+    "bar-chart-stacked": {
+      name: "bar-chart-stacked",
+      filePath: "examples/aria/bar-chart-stacked.tsx",
+    },
     "bot-face-demo": {
       name: "bot-face-demo",
       filePath: "examples/aria/bot-face-demo.tsx",
@@ -3010,6 +3206,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "bubble-variants": {
       name: "bubble-variants",
       filePath: "examples/aria/bubble-variants.tsx",
+    },
+    "bump-chart-demo": {
+      name: "bump-chart-demo",
+      filePath: "examples/aria/bump-chart-demo.tsx",
+    },
+    "bump-chart-shuffle": {
+      name: "bump-chart-shuffle",
+      filePath: "examples/aria/bump-chart-shuffle.tsx",
     },
     "button-default": {
       name: "button-default",
@@ -3158,6 +3362,18 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "calendar-time": {
       name: "calendar-time",
       filePath: "examples/aria/calendar-time.tsx",
+    },
+    "candlestick-chart-demo": {
+      name: "candlestick-chart-demo",
+      filePath: "examples/aria/candlestick-chart-demo.tsx",
+    },
+    "candlestick-chart-live": {
+      name: "candlestick-chart-live",
+      filePath: "examples/aria/candlestick-chart-live.tsx",
+    },
+    "candlestick-chart-plain": {
+      name: "candlestick-chart-plain",
+      filePath: "examples/aria/candlestick-chart-plain.tsx",
     },
     "card-demo": {
       name: "card-demo",
@@ -3439,6 +3655,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "command-shortcuts",
       filePath: "examples/aria/command-shortcuts.tsx",
     },
+    "composition-chart-demo": {
+      name: "composition-chart-demo",
+      filePath: "examples/aria/composition-chart-demo.tsx",
+    },
+    "composition-chart-plans": {
+      name: "composition-chart-plans",
+      filePath: "examples/aria/composition-chart-plans.tsx",
+    },
     "context-menu-basic": {
       name: "context-menu-basic",
       filePath: "examples/aria/context-menu-basic.tsx",
@@ -3618,6 +3842,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "dialog-sticky-footer": {
       name: "dialog-sticky-footer",
       filePath: "examples/aria/dialog-sticky-footer.tsx",
+    },
+    "donut-chart-demo": {
+      name: "donut-chart-demo",
+      filePath: "examples/aria/donut-chart-demo.tsx",
+    },
+    "donut-chart-ring": {
+      name: "donut-chart-ring",
+      filePath: "examples/aria/donut-chart-ring.tsx",
     },
     "drawer-demo": {
       name: "drawer-demo",
@@ -3862,6 +4094,26 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "file-upload-validation": {
       name: "file-upload-validation",
       filePath: "examples/aria/file-upload-validation.tsx",
+    },
+    "funnel-chart-demo": {
+      name: "funnel-chart-demo",
+      filePath: "examples/aria/funnel-chart-demo.tsx",
+    },
+    "funnel-chart-horizontal": {
+      name: "funnel-chart-horizontal",
+      filePath: "examples/aria/funnel-chart-horizontal.tsx",
+    },
+    "heat-calendar-demo": {
+      name: "heat-calendar-demo",
+      filePath: "examples/aria/heat-calendar-demo.tsx",
+    },
+    "heat-calendar-interactive": {
+      name: "heat-calendar-interactive",
+      filePath: "examples/aria/heat-calendar-interactive.tsx",
+    },
+    "heat-calendar-weeks": {
+      name: "heat-calendar-weeks",
+      filePath: "examples/aria/heat-calendar-weeks.tsx",
     },
     "hover-card-demo": {
       name: "hover-card-demo",
@@ -4187,6 +4439,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "label-rtl",
       filePath: "examples/aria/label-rtl.tsx",
     },
+    "line-chart-demo": {
+      name: "line-chart-demo",
+      filePath: "examples/aria/line-chart-demo.tsx",
+    },
+    "line-chart-series": {
+      name: "line-chart-series",
+      filePath: "examples/aria/line-chart-series.tsx",
+    },
     "markdown-components": {
       name: "markdown-components",
       filePath: "examples/aria/markdown-components.tsx",
@@ -4431,6 +4691,18 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "pagination-simple",
       filePath: "examples/aria/pagination-simple.tsx",
     },
+    "pie-chart-demo": {
+      name: "pie-chart-demo",
+      filePath: "examples/aria/pie-chart-demo.tsx",
+    },
+    "pie-chart-labels": {
+      name: "pie-chart-labels",
+      filePath: "examples/aria/pie-chart-labels.tsx",
+    },
+    "pie-chart-other": {
+      name: "pie-chart-other",
+      filePath: "examples/aria/pie-chart-other.tsx",
+    },
     "popover-alignments": {
       name: "popover-alignments",
       filePath: "examples/aria/popover-alignments.tsx",
@@ -4543,6 +4815,26 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "questionnaire-validation",
       filePath: "examples/aria/questionnaire-validation.tsx",
     },
+    "radar-chart-demo": {
+      name: "radar-chart-demo",
+      filePath: "examples/aria/radar-chart-demo.tsx",
+    },
+    "radar-chart-series": {
+      name: "radar-chart-series",
+      filePath: "examples/aria/radar-chart-series.tsx",
+    },
+    "radar-chart-single": {
+      name: "radar-chart-single",
+      filePath: "examples/aria/radar-chart-single.tsx",
+    },
+    "radial-chart-demo": {
+      name: "radial-chart-demo",
+      filePath: "examples/aria/radial-chart-demo.tsx",
+    },
+    "radial-chart-half": {
+      name: "radial-chart-half",
+      filePath: "examples/aria/radial-chart-half.tsx",
+    },
     "radio-fields": {
       name: "radio-fields",
       filePath: "examples/aria/radio-fields.tsx",
@@ -4618,6 +4910,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "resizable-vertical": {
       name: "resizable-vertical",
       filePath: "examples/aria/resizable-vertical.tsx",
+    },
+    "sankey-chart-budget": {
+      name: "sankey-chart-budget",
+      filePath: "examples/aria/sankey-chart-budget.tsx",
+    },
+    "sankey-chart-demo": {
+      name: "sankey-chart-demo",
+      filePath: "examples/aria/sankey-chart-demo.tsx",
     },
     "scroll-area-demo": {
       name: "scroll-area-demo",
@@ -4979,6 +5279,18 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "spinner-size",
       filePath: "examples/aria/spinner-size.tsx",
     },
+    "status-bar-demo": {
+      name: "status-bar-demo",
+      filePath: "examples/aria/status-bar-demo.tsx",
+    },
+    "status-bar-incident": {
+      name: "status-bar-incident",
+      filePath: "examples/aria/status-bar-incident.tsx",
+    },
+    "status-bar-maintenance": {
+      name: "status-bar-maintenance",
+      filePath: "examples/aria/status-bar-maintenance.tsx",
+    },
     "switch-choice-card": {
       name: "switch-choice-card",
       filePath: "examples/aria/switch-choice-card.tsx",
@@ -5235,6 +5547,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "tooltip-sides",
       filePath: "examples/aria/tooltip-sides.tsx",
     },
+    "treemap-demo": {
+      name: "treemap-demo",
+      filePath: "examples/aria/treemap-demo.tsx",
+    },
+    "treemap-flat": {
+      name: "treemap-flat",
+      filePath: "examples/aria/treemap-flat.tsx",
+    },
     "typography-blockquote": {
       name: "typography-blockquote",
       filePath: "examples/aria/typography-blockquote.tsx",
@@ -5429,6 +5749,26 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "app-shell-workbench",
       filePath: "examples/radix/app-shell-workbench.tsx",
     },
+    "area-chart-curves": {
+      name: "area-chart-curves",
+      filePath: "examples/radix/area-chart-curves.tsx",
+    },
+    "area-chart-demo": {
+      name: "area-chart-demo",
+      filePath: "examples/radix/area-chart-demo.tsx",
+    },
+    "area-chart-expand": {
+      name: "area-chart-expand",
+      filePath: "examples/radix/area-chart-expand.tsx",
+    },
+    "area-chart-interactive": {
+      name: "area-chart-interactive",
+      filePath: "examples/radix/area-chart-interactive.tsx",
+    },
+    "area-chart-stacked": {
+      name: "area-chart-stacked",
+      filePath: "examples/radix/area-chart-stacked.tsx",
+    },
     "aspect-ratio-demo": {
       name: "aspect-ratio-demo",
       filePath: "examples/radix/aspect-ratio-demo.tsx",
@@ -5569,6 +5909,22 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "badge-variants",
       filePath: "examples/radix/badge-variants.tsx",
     },
+    "bar-chart-demo": {
+      name: "bar-chart-demo",
+      filePath: "examples/radix/bar-chart-demo.tsx",
+    },
+    "bar-chart-horizontal": {
+      name: "bar-chart-horizontal",
+      filePath: "examples/radix/bar-chart-horizontal.tsx",
+    },
+    "bar-chart-interactive": {
+      name: "bar-chart-interactive",
+      filePath: "examples/radix/bar-chart-interactive.tsx",
+    },
+    "bar-chart-stacked": {
+      name: "bar-chart-stacked",
+      filePath: "examples/radix/bar-chart-stacked.tsx",
+    },
     "bot-face-demo": {
       name: "bot-face-demo",
       filePath: "examples/radix/bot-face-demo.tsx",
@@ -5648,6 +6004,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "bubble-variants": {
       name: "bubble-variants",
       filePath: "examples/radix/bubble-variants.tsx",
+    },
+    "bump-chart-demo": {
+      name: "bump-chart-demo",
+      filePath: "examples/radix/bump-chart-demo.tsx",
+    },
+    "bump-chart-shuffle": {
+      name: "bump-chart-shuffle",
+      filePath: "examples/radix/bump-chart-shuffle.tsx",
     },
     "button-aschild": {
       name: "button-aschild",
@@ -5800,6 +6164,18 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "calendar-week-numbers": {
       name: "calendar-week-numbers",
       filePath: "examples/radix/calendar-week-numbers.tsx",
+    },
+    "candlestick-chart-demo": {
+      name: "candlestick-chart-demo",
+      filePath: "examples/radix/candlestick-chart-demo.tsx",
+    },
+    "candlestick-chart-live": {
+      name: "candlestick-chart-live",
+      filePath: "examples/radix/candlestick-chart-live.tsx",
+    },
+    "candlestick-chart-plain": {
+      name: "candlestick-chart-plain",
+      filePath: "examples/radix/candlestick-chart-plain.tsx",
     },
     "card-demo": {
       name: "card-demo",
@@ -6089,6 +6465,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "command-shortcuts",
       filePath: "examples/radix/command-shortcuts.tsx",
     },
+    "composition-chart-demo": {
+      name: "composition-chart-demo",
+      filePath: "examples/radix/composition-chart-demo.tsx",
+    },
+    "composition-chart-plans": {
+      name: "composition-chart-plans",
+      filePath: "examples/radix/composition-chart-plans.tsx",
+    },
     "context-menu-basic": {
       name: "context-menu-basic",
       filePath: "examples/radix/context-menu-basic.tsx",
@@ -6268,6 +6652,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "dialog-sticky-footer": {
       name: "dialog-sticky-footer",
       filePath: "examples/radix/dialog-sticky-footer.tsx",
+    },
+    "donut-chart-demo": {
+      name: "donut-chart-demo",
+      filePath: "examples/radix/donut-chart-demo.tsx",
+    },
+    "donut-chart-ring": {
+      name: "donut-chart-ring",
+      filePath: "examples/radix/donut-chart-ring.tsx",
     },
     "drawer-demo": {
       name: "drawer-demo",
@@ -6500,6 +6892,26 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "file-upload-validation": {
       name: "file-upload-validation",
       filePath: "examples/radix/file-upload-validation.tsx",
+    },
+    "funnel-chart-demo": {
+      name: "funnel-chart-demo",
+      filePath: "examples/radix/funnel-chart-demo.tsx",
+    },
+    "funnel-chart-horizontal": {
+      name: "funnel-chart-horizontal",
+      filePath: "examples/radix/funnel-chart-horizontal.tsx",
+    },
+    "heat-calendar-demo": {
+      name: "heat-calendar-demo",
+      filePath: "examples/radix/heat-calendar-demo.tsx",
+    },
+    "heat-calendar-interactive": {
+      name: "heat-calendar-interactive",
+      filePath: "examples/radix/heat-calendar-interactive.tsx",
+    },
+    "heat-calendar-weeks": {
+      name: "heat-calendar-weeks",
+      filePath: "examples/radix/heat-calendar-weeks.tsx",
     },
     "hover-card-demo": {
       name: "hover-card-demo",
@@ -6825,6 +7237,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "label-rtl",
       filePath: "examples/radix/label-rtl.tsx",
     },
+    "line-chart-demo": {
+      name: "line-chart-demo",
+      filePath: "examples/radix/line-chart-demo.tsx",
+    },
+    "line-chart-series": {
+      name: "line-chart-series",
+      filePath: "examples/radix/line-chart-series.tsx",
+    },
     "markdown-components": {
       name: "markdown-components",
       filePath: "examples/radix/markdown-components.tsx",
@@ -7097,6 +7517,18 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "pagination-simple",
       filePath: "examples/radix/pagination-simple.tsx",
     },
+    "pie-chart-demo": {
+      name: "pie-chart-demo",
+      filePath: "examples/radix/pie-chart-demo.tsx",
+    },
+    "pie-chart-labels": {
+      name: "pie-chart-labels",
+      filePath: "examples/radix/pie-chart-labels.tsx",
+    },
+    "pie-chart-other": {
+      name: "pie-chart-other",
+      filePath: "examples/radix/pie-chart-other.tsx",
+    },
     "popover-alignments": {
       name: "popover-alignments",
       filePath: "examples/radix/popover-alignments.tsx",
@@ -7209,6 +7641,26 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "questionnaire-validation",
       filePath: "examples/radix/questionnaire-validation.tsx",
     },
+    "radar-chart-demo": {
+      name: "radar-chart-demo",
+      filePath: "examples/radix/radar-chart-demo.tsx",
+    },
+    "radar-chart-series": {
+      name: "radar-chart-series",
+      filePath: "examples/radix/radar-chart-series.tsx",
+    },
+    "radar-chart-single": {
+      name: "radar-chart-single",
+      filePath: "examples/radix/radar-chart-single.tsx",
+    },
+    "radial-chart-demo": {
+      name: "radial-chart-demo",
+      filePath: "examples/radix/radial-chart-demo.tsx",
+    },
+    "radial-chart-half": {
+      name: "radial-chart-half",
+      filePath: "examples/radix/radial-chart-half.tsx",
+    },
     "radio-fields": {
       name: "radio-fields",
       filePath: "examples/radix/radio-fields.tsx",
@@ -7284,6 +7736,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "resizable-vertical": {
       name: "resizable-vertical",
       filePath: "examples/radix/resizable-vertical.tsx",
+    },
+    "sankey-chart-budget": {
+      name: "sankey-chart-budget",
+      filePath: "examples/radix/sankey-chart-budget.tsx",
+    },
+    "sankey-chart-demo": {
+      name: "sankey-chart-demo",
+      filePath: "examples/radix/sankey-chart-demo.tsx",
     },
     "scroll-area-demo": {
       name: "scroll-area-demo",
@@ -7645,6 +8105,18 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "spinner-size",
       filePath: "examples/radix/spinner-size.tsx",
     },
+    "status-bar-demo": {
+      name: "status-bar-demo",
+      filePath: "examples/radix/status-bar-demo.tsx",
+    },
+    "status-bar-incident": {
+      name: "status-bar-incident",
+      filePath: "examples/radix/status-bar-incident.tsx",
+    },
+    "status-bar-maintenance": {
+      name: "status-bar-maintenance",
+      filePath: "examples/radix/status-bar-maintenance.tsx",
+    },
     "switch-choice-card": {
       name: "switch-choice-card",
       filePath: "examples/radix/switch-choice-card.tsx",
@@ -7901,6 +8373,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "tooltip-sides",
       filePath: "examples/radix/tooltip-sides.tsx",
     },
+    "treemap-demo": {
+      name: "treemap-demo",
+      filePath: "examples/radix/treemap-demo.tsx",
+    },
+    "treemap-flat": {
+      name: "treemap-flat",
+      filePath: "examples/radix/treemap-flat.tsx",
+    },
     "typography-blockquote": {
       name: "typography-blockquote",
       filePath: "examples/radix/typography-blockquote.tsx",
@@ -8089,6 +8569,27 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "app-shell-workbench",
       filePath: "examples/__styles__/base-fabricator/app-shell-workbench.tsx",
     },
+    "area-chart-curves": {
+      name: "area-chart-curves",
+      filePath: "examples/__styles__/base-fabricator/area-chart-curves.tsx",
+    },
+    "area-chart-demo": {
+      name: "area-chart-demo",
+      filePath: "examples/__styles__/base-fabricator/area-chart-demo.tsx",
+    },
+    "area-chart-expand": {
+      name: "area-chart-expand",
+      filePath: "examples/__styles__/base-fabricator/area-chart-expand.tsx",
+    },
+    "area-chart-interactive": {
+      name: "area-chart-interactive",
+      filePath:
+        "examples/__styles__/base-fabricator/area-chart-interactive.tsx",
+    },
+    "area-chart-stacked": {
+      name: "area-chart-stacked",
+      filePath: "examples/__styles__/base-fabricator/area-chart-stacked.tsx",
+    },
     "aspect-ratio-demo": {
       name: "aspect-ratio-demo",
       filePath: "examples/__styles__/base-fabricator/aspect-ratio-demo.tsx",
@@ -8219,6 +8720,22 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "badge-variants",
       filePath: "examples/__styles__/base-fabricator/badge-variants.tsx",
     },
+    "bar-chart-demo": {
+      name: "bar-chart-demo",
+      filePath: "examples/__styles__/base-fabricator/bar-chart-demo.tsx",
+    },
+    "bar-chart-horizontal": {
+      name: "bar-chart-horizontal",
+      filePath: "examples/__styles__/base-fabricator/bar-chart-horizontal.tsx",
+    },
+    "bar-chart-interactive": {
+      name: "bar-chart-interactive",
+      filePath: "examples/__styles__/base-fabricator/bar-chart-interactive.tsx",
+    },
+    "bar-chart-stacked": {
+      name: "bar-chart-stacked",
+      filePath: "examples/__styles__/base-fabricator/bar-chart-stacked.tsx",
+    },
     "bot-face-demo": {
       name: "bot-face-demo",
       filePath: "examples/__styles__/base-fabricator/bot-face-demo.tsx",
@@ -8294,6 +8811,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "bubble-variants": {
       name: "bubble-variants",
       filePath: "examples/__styles__/base-fabricator/bubble-variants.tsx",
+    },
+    "bump-chart-demo": {
+      name: "bump-chart-demo",
+      filePath: "examples/__styles__/base-fabricator/bump-chart-demo.tsx",
+    },
+    "bump-chart-shuffle": {
+      name: "bump-chart-shuffle",
+      filePath: "examples/__styles__/base-fabricator/bump-chart-shuffle.tsx",
     },
     "button-default": {
       name: "button-default",
@@ -8433,6 +8958,21 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "calendar-week-numbers": {
       name: "calendar-week-numbers",
       filePath: "examples/__styles__/base-fabricator/calendar-week-numbers.tsx",
+    },
+    "candlestick-chart-demo": {
+      name: "candlestick-chart-demo",
+      filePath:
+        "examples/__styles__/base-fabricator/candlestick-chart-demo.tsx",
+    },
+    "candlestick-chart-live": {
+      name: "candlestick-chart-live",
+      filePath:
+        "examples/__styles__/base-fabricator/candlestick-chart-live.tsx",
+    },
+    "candlestick-chart-plain": {
+      name: "candlestick-chart-plain",
+      filePath:
+        "examples/__styles__/base-fabricator/candlestick-chart-plain.tsx",
     },
     "card-demo": {
       name: "card-demo",
@@ -8673,6 +9213,16 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "command-shortcuts",
       filePath: "examples/__styles__/base-fabricator/command-shortcuts.tsx",
     },
+    "composition-chart-demo": {
+      name: "composition-chart-demo",
+      filePath:
+        "examples/__styles__/base-fabricator/composition-chart-demo.tsx",
+    },
+    "composition-chart-plans": {
+      name: "composition-chart-plans",
+      filePath:
+        "examples/__styles__/base-fabricator/composition-chart-plans.tsx",
+    },
     "context-menu-basic": {
       name: "context-menu-basic",
       filePath: "examples/__styles__/base-fabricator/context-menu-basic.tsx",
@@ -8845,6 +9395,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "dialog-sticky-footer": {
       name: "dialog-sticky-footer",
       filePath: "examples/__styles__/base-fabricator/dialog-sticky-footer.tsx",
+    },
+    "donut-chart-demo": {
+      name: "donut-chart-demo",
+      filePath: "examples/__styles__/base-fabricator/donut-chart-demo.tsx",
+    },
+    "donut-chart-ring": {
+      name: "donut-chart-ring",
+      filePath: "examples/__styles__/base-fabricator/donut-chart-ring.tsx",
     },
     "drawer-demo": {
       name: "drawer-demo",
@@ -9080,6 +9638,28 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "file-upload-validation",
       filePath:
         "examples/__styles__/base-fabricator/file-upload-validation.tsx",
+    },
+    "funnel-chart-demo": {
+      name: "funnel-chart-demo",
+      filePath: "examples/__styles__/base-fabricator/funnel-chart-demo.tsx",
+    },
+    "funnel-chart-horizontal": {
+      name: "funnel-chart-horizontal",
+      filePath:
+        "examples/__styles__/base-fabricator/funnel-chart-horizontal.tsx",
+    },
+    "heat-calendar-demo": {
+      name: "heat-calendar-demo",
+      filePath: "examples/__styles__/base-fabricator/heat-calendar-demo.tsx",
+    },
+    "heat-calendar-interactive": {
+      name: "heat-calendar-interactive",
+      filePath:
+        "examples/__styles__/base-fabricator/heat-calendar-interactive.tsx",
+    },
+    "heat-calendar-weeks": {
+      name: "heat-calendar-weeks",
+      filePath: "examples/__styles__/base-fabricator/heat-calendar-weeks.tsx",
     },
     "hover-card-demo": {
       name: "hover-card-demo",
@@ -9388,6 +9968,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "label-demo",
       filePath: "examples/__styles__/base-fabricator/label-demo.tsx",
     },
+    "line-chart-demo": {
+      name: "line-chart-demo",
+      filePath: "examples/__styles__/base-fabricator/line-chart-demo.tsx",
+    },
+    "line-chart-series": {
+      name: "line-chart-series",
+      filePath: "examples/__styles__/base-fabricator/line-chart-series.tsx",
+    },
     "markdown-components": {
       name: "markdown-components",
       filePath: "examples/__styles__/base-fabricator/markdown-components.tsx",
@@ -9646,6 +10234,18 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "pagination-simple",
       filePath: "examples/__styles__/base-fabricator/pagination-simple.tsx",
     },
+    "pie-chart-demo": {
+      name: "pie-chart-demo",
+      filePath: "examples/__styles__/base-fabricator/pie-chart-demo.tsx",
+    },
+    "pie-chart-labels": {
+      name: "pie-chart-labels",
+      filePath: "examples/__styles__/base-fabricator/pie-chart-labels.tsx",
+    },
+    "pie-chart-other": {
+      name: "pie-chart-other",
+      filePath: "examples/__styles__/base-fabricator/pie-chart-other.tsx",
+    },
     "popover-alignments": {
       name: "popover-alignments",
       filePath: "examples/__styles__/base-fabricator/popover-alignments.tsx",
@@ -9761,6 +10361,26 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       filePath:
         "examples/__styles__/base-fabricator/questionnaire-validation.tsx",
     },
+    "radar-chart-demo": {
+      name: "radar-chart-demo",
+      filePath: "examples/__styles__/base-fabricator/radar-chart-demo.tsx",
+    },
+    "radar-chart-series": {
+      name: "radar-chart-series",
+      filePath: "examples/__styles__/base-fabricator/radar-chart-series.tsx",
+    },
+    "radar-chart-single": {
+      name: "radar-chart-single",
+      filePath: "examples/__styles__/base-fabricator/radar-chart-single.tsx",
+    },
+    "radial-chart-demo": {
+      name: "radial-chart-demo",
+      filePath: "examples/__styles__/base-fabricator/radial-chart-demo.tsx",
+    },
+    "radial-chart-half": {
+      name: "radial-chart-half",
+      filePath: "examples/__styles__/base-fabricator/radial-chart-half.tsx",
+    },
     "radio-fields": {
       name: "radio-fields",
       filePath: "examples/__styles__/base-fabricator/radio-fields.tsx",
@@ -9830,6 +10450,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "resizable-vertical": {
       name: "resizable-vertical",
       filePath: "examples/__styles__/base-fabricator/resizable-vertical.tsx",
+    },
+    "sankey-chart-budget": {
+      name: "sankey-chart-budget",
+      filePath: "examples/__styles__/base-fabricator/sankey-chart-budget.tsx",
+    },
+    "sankey-chart-demo": {
+      name: "sankey-chart-demo",
+      filePath: "examples/__styles__/base-fabricator/sankey-chart-demo.tsx",
     },
     "scroll-area-demo": {
       name: "scroll-area-demo",
@@ -10139,6 +10767,19 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "spinner-size",
       filePath: "examples/__styles__/base-fabricator/spinner-size.tsx",
     },
+    "status-bar-demo": {
+      name: "status-bar-demo",
+      filePath: "examples/__styles__/base-fabricator/status-bar-demo.tsx",
+    },
+    "status-bar-incident": {
+      name: "status-bar-incident",
+      filePath: "examples/__styles__/base-fabricator/status-bar-incident.tsx",
+    },
+    "status-bar-maintenance": {
+      name: "status-bar-maintenance",
+      filePath:
+        "examples/__styles__/base-fabricator/status-bar-maintenance.tsx",
+    },
     "switch-choice-card": {
       name: "switch-choice-card",
       filePath: "examples/__styles__/base-fabricator/switch-choice-card.tsx",
@@ -10390,6 +11031,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "tooltip-sides",
       filePath: "examples/__styles__/base-fabricator/tooltip-sides.tsx",
     },
+    "treemap-demo": {
+      name: "treemap-demo",
+      filePath: "examples/__styles__/base-fabricator/treemap-demo.tsx",
+    },
+    "treemap-flat": {
+      name: "treemap-flat",
+      filePath: "examples/__styles__/base-fabricator/treemap-flat.tsx",
+    },
     "typography-blockquote": {
       name: "typography-blockquote",
       filePath: "examples/__styles__/base-fabricator/typography-blockquote.tsx",
@@ -10572,6 +11221,27 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "app-shell-workbench",
       filePath: "examples/__styles__/aria-fabricator/app-shell-workbench.tsx",
     },
+    "area-chart-curves": {
+      name: "area-chart-curves",
+      filePath: "examples/__styles__/aria-fabricator/area-chart-curves.tsx",
+    },
+    "area-chart-demo": {
+      name: "area-chart-demo",
+      filePath: "examples/__styles__/aria-fabricator/area-chart-demo.tsx",
+    },
+    "area-chart-expand": {
+      name: "area-chart-expand",
+      filePath: "examples/__styles__/aria-fabricator/area-chart-expand.tsx",
+    },
+    "area-chart-interactive": {
+      name: "area-chart-interactive",
+      filePath:
+        "examples/__styles__/aria-fabricator/area-chart-interactive.tsx",
+    },
+    "area-chart-stacked": {
+      name: "area-chart-stacked",
+      filePath: "examples/__styles__/aria-fabricator/area-chart-stacked.tsx",
+    },
     "aspect-ratio-demo": {
       name: "aspect-ratio-demo",
       filePath: "examples/__styles__/aria-fabricator/aspect-ratio-demo.tsx",
@@ -10702,6 +11372,22 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "badge-variants",
       filePath: "examples/__styles__/aria-fabricator/badge-variants.tsx",
     },
+    "bar-chart-demo": {
+      name: "bar-chart-demo",
+      filePath: "examples/__styles__/aria-fabricator/bar-chart-demo.tsx",
+    },
+    "bar-chart-horizontal": {
+      name: "bar-chart-horizontal",
+      filePath: "examples/__styles__/aria-fabricator/bar-chart-horizontal.tsx",
+    },
+    "bar-chart-interactive": {
+      name: "bar-chart-interactive",
+      filePath: "examples/__styles__/aria-fabricator/bar-chart-interactive.tsx",
+    },
+    "bar-chart-stacked": {
+      name: "bar-chart-stacked",
+      filePath: "examples/__styles__/aria-fabricator/bar-chart-stacked.tsx",
+    },
     "bot-face-demo": {
       name: "bot-face-demo",
       filePath: "examples/__styles__/aria-fabricator/bot-face-demo.tsx",
@@ -10777,6 +11463,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "bubble-variants": {
       name: "bubble-variants",
       filePath: "examples/__styles__/aria-fabricator/bubble-variants.tsx",
+    },
+    "bump-chart-demo": {
+      name: "bump-chart-demo",
+      filePath: "examples/__styles__/aria-fabricator/bump-chart-demo.tsx",
+    },
+    "bump-chart-shuffle": {
+      name: "bump-chart-shuffle",
+      filePath: "examples/__styles__/aria-fabricator/bump-chart-shuffle.tsx",
     },
     "button-default": {
       name: "button-default",
@@ -10912,6 +11606,21 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "calendar-time": {
       name: "calendar-time",
       filePath: "examples/__styles__/aria-fabricator/calendar-time.tsx",
+    },
+    "candlestick-chart-demo": {
+      name: "candlestick-chart-demo",
+      filePath:
+        "examples/__styles__/aria-fabricator/candlestick-chart-demo.tsx",
+    },
+    "candlestick-chart-live": {
+      name: "candlestick-chart-live",
+      filePath:
+        "examples/__styles__/aria-fabricator/candlestick-chart-live.tsx",
+    },
+    "candlestick-chart-plain": {
+      name: "candlestick-chart-plain",
+      filePath:
+        "examples/__styles__/aria-fabricator/candlestick-chart-plain.tsx",
     },
     "card-demo": {
       name: "card-demo",
@@ -11143,6 +11852,16 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "command-shortcuts",
       filePath: "examples/__styles__/aria-fabricator/command-shortcuts.tsx",
     },
+    "composition-chart-demo": {
+      name: "composition-chart-demo",
+      filePath:
+        "examples/__styles__/aria-fabricator/composition-chart-demo.tsx",
+    },
+    "composition-chart-plans": {
+      name: "composition-chart-plans",
+      filePath:
+        "examples/__styles__/aria-fabricator/composition-chart-plans.tsx",
+    },
     "context-menu-basic": {
       name: "context-menu-basic",
       filePath: "examples/__styles__/aria-fabricator/context-menu-basic.tsx",
@@ -11315,6 +12034,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "dialog-sticky-footer": {
       name: "dialog-sticky-footer",
       filePath: "examples/__styles__/aria-fabricator/dialog-sticky-footer.tsx",
+    },
+    "donut-chart-demo": {
+      name: "donut-chart-demo",
+      filePath: "examples/__styles__/aria-fabricator/donut-chart-demo.tsx",
+    },
+    "donut-chart-ring": {
+      name: "donut-chart-ring",
+      filePath: "examples/__styles__/aria-fabricator/donut-chart-ring.tsx",
     },
     "drawer-demo": {
       name: "drawer-demo",
@@ -11550,6 +12277,28 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "file-upload-validation",
       filePath:
         "examples/__styles__/aria-fabricator/file-upload-validation.tsx",
+    },
+    "funnel-chart-demo": {
+      name: "funnel-chart-demo",
+      filePath: "examples/__styles__/aria-fabricator/funnel-chart-demo.tsx",
+    },
+    "funnel-chart-horizontal": {
+      name: "funnel-chart-horizontal",
+      filePath:
+        "examples/__styles__/aria-fabricator/funnel-chart-horizontal.tsx",
+    },
+    "heat-calendar-demo": {
+      name: "heat-calendar-demo",
+      filePath: "examples/__styles__/aria-fabricator/heat-calendar-demo.tsx",
+    },
+    "heat-calendar-interactive": {
+      name: "heat-calendar-interactive",
+      filePath:
+        "examples/__styles__/aria-fabricator/heat-calendar-interactive.tsx",
+    },
+    "heat-calendar-weeks": {
+      name: "heat-calendar-weeks",
+      filePath: "examples/__styles__/aria-fabricator/heat-calendar-weeks.tsx",
     },
     "hover-card-demo": {
       name: "hover-card-demo",
@@ -11858,6 +12607,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "label-demo",
       filePath: "examples/__styles__/aria-fabricator/label-demo.tsx",
     },
+    "line-chart-demo": {
+      name: "line-chart-demo",
+      filePath: "examples/__styles__/aria-fabricator/line-chart-demo.tsx",
+    },
+    "line-chart-series": {
+      name: "line-chart-series",
+      filePath: "examples/__styles__/aria-fabricator/line-chart-series.tsx",
+    },
     "markdown-components": {
       name: "markdown-components",
       filePath: "examples/__styles__/aria-fabricator/markdown-components.tsx",
@@ -12092,6 +12849,18 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "pagination-simple",
       filePath: "examples/__styles__/aria-fabricator/pagination-simple.tsx",
     },
+    "pie-chart-demo": {
+      name: "pie-chart-demo",
+      filePath: "examples/__styles__/aria-fabricator/pie-chart-demo.tsx",
+    },
+    "pie-chart-labels": {
+      name: "pie-chart-labels",
+      filePath: "examples/__styles__/aria-fabricator/pie-chart-labels.tsx",
+    },
+    "pie-chart-other": {
+      name: "pie-chart-other",
+      filePath: "examples/__styles__/aria-fabricator/pie-chart-other.tsx",
+    },
     "popover-alignments": {
       name: "popover-alignments",
       filePath: "examples/__styles__/aria-fabricator/popover-alignments.tsx",
@@ -12207,6 +12976,26 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       filePath:
         "examples/__styles__/aria-fabricator/questionnaire-validation.tsx",
     },
+    "radar-chart-demo": {
+      name: "radar-chart-demo",
+      filePath: "examples/__styles__/aria-fabricator/radar-chart-demo.tsx",
+    },
+    "radar-chart-series": {
+      name: "radar-chart-series",
+      filePath: "examples/__styles__/aria-fabricator/radar-chart-series.tsx",
+    },
+    "radar-chart-single": {
+      name: "radar-chart-single",
+      filePath: "examples/__styles__/aria-fabricator/radar-chart-single.tsx",
+    },
+    "radial-chart-demo": {
+      name: "radial-chart-demo",
+      filePath: "examples/__styles__/aria-fabricator/radial-chart-demo.tsx",
+    },
+    "radial-chart-half": {
+      name: "radial-chart-half",
+      filePath: "examples/__styles__/aria-fabricator/radial-chart-half.tsx",
+    },
     "radio-fields": {
       name: "radio-fields",
       filePath: "examples/__styles__/aria-fabricator/radio-fields.tsx",
@@ -12276,6 +13065,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "resizable-vertical": {
       name: "resizable-vertical",
       filePath: "examples/__styles__/aria-fabricator/resizable-vertical.tsx",
+    },
+    "sankey-chart-budget": {
+      name: "sankey-chart-budget",
+      filePath: "examples/__styles__/aria-fabricator/sankey-chart-budget.tsx",
+    },
+    "sankey-chart-demo": {
+      name: "sankey-chart-demo",
+      filePath: "examples/__styles__/aria-fabricator/sankey-chart-demo.tsx",
     },
     "scroll-area-demo": {
       name: "scroll-area-demo",
@@ -12601,6 +13398,19 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "spinner-size",
       filePath: "examples/__styles__/aria-fabricator/spinner-size.tsx",
     },
+    "status-bar-demo": {
+      name: "status-bar-demo",
+      filePath: "examples/__styles__/aria-fabricator/status-bar-demo.tsx",
+    },
+    "status-bar-incident": {
+      name: "status-bar-incident",
+      filePath: "examples/__styles__/aria-fabricator/status-bar-incident.tsx",
+    },
+    "status-bar-maintenance": {
+      name: "status-bar-maintenance",
+      filePath:
+        "examples/__styles__/aria-fabricator/status-bar-maintenance.tsx",
+    },
     "switch-choice-card": {
       name: "switch-choice-card",
       filePath: "examples/__styles__/aria-fabricator/switch-choice-card.tsx",
@@ -12835,6 +13645,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "tooltip-sides",
       filePath: "examples/__styles__/aria-fabricator/tooltip-sides.tsx",
     },
+    "treemap-demo": {
+      name: "treemap-demo",
+      filePath: "examples/__styles__/aria-fabricator/treemap-demo.tsx",
+    },
+    "treemap-flat": {
+      name: "treemap-flat",
+      filePath: "examples/__styles__/aria-fabricator/treemap-flat.tsx",
+    },
     "typography-blockquote": {
       name: "typography-blockquote",
       filePath: "examples/__styles__/aria-fabricator/typography-blockquote.tsx",
@@ -13017,6 +13835,27 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "app-shell-workbench",
       filePath: "examples/__styles__/radix-fabricator/app-shell-workbench.tsx",
     },
+    "area-chart-curves": {
+      name: "area-chart-curves",
+      filePath: "examples/__styles__/radix-fabricator/area-chart-curves.tsx",
+    },
+    "area-chart-demo": {
+      name: "area-chart-demo",
+      filePath: "examples/__styles__/radix-fabricator/area-chart-demo.tsx",
+    },
+    "area-chart-expand": {
+      name: "area-chart-expand",
+      filePath: "examples/__styles__/radix-fabricator/area-chart-expand.tsx",
+    },
+    "area-chart-interactive": {
+      name: "area-chart-interactive",
+      filePath:
+        "examples/__styles__/radix-fabricator/area-chart-interactive.tsx",
+    },
+    "area-chart-stacked": {
+      name: "area-chart-stacked",
+      filePath: "examples/__styles__/radix-fabricator/area-chart-stacked.tsx",
+    },
     "aspect-ratio-demo": {
       name: "aspect-ratio-demo",
       filePath: "examples/__styles__/radix-fabricator/aspect-ratio-demo.tsx",
@@ -13149,6 +13988,23 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "badge-variants",
       filePath: "examples/__styles__/radix-fabricator/badge-variants.tsx",
     },
+    "bar-chart-demo": {
+      name: "bar-chart-demo",
+      filePath: "examples/__styles__/radix-fabricator/bar-chart-demo.tsx",
+    },
+    "bar-chart-horizontal": {
+      name: "bar-chart-horizontal",
+      filePath: "examples/__styles__/radix-fabricator/bar-chart-horizontal.tsx",
+    },
+    "bar-chart-interactive": {
+      name: "bar-chart-interactive",
+      filePath:
+        "examples/__styles__/radix-fabricator/bar-chart-interactive.tsx",
+    },
+    "bar-chart-stacked": {
+      name: "bar-chart-stacked",
+      filePath: "examples/__styles__/radix-fabricator/bar-chart-stacked.tsx",
+    },
     "bot-face-demo": {
       name: "bot-face-demo",
       filePath: "examples/__styles__/radix-fabricator/bot-face-demo.tsx",
@@ -13224,6 +14080,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "bubble-variants": {
       name: "bubble-variants",
       filePath: "examples/__styles__/radix-fabricator/bubble-variants.tsx",
+    },
+    "bump-chart-demo": {
+      name: "bump-chart-demo",
+      filePath: "examples/__styles__/radix-fabricator/bump-chart-demo.tsx",
+    },
+    "bump-chart-shuffle": {
+      name: "bump-chart-shuffle",
+      filePath: "examples/__styles__/radix-fabricator/bump-chart-shuffle.tsx",
     },
     "button-aschild": {
       name: "button-aschild",
@@ -13366,6 +14230,21 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "calendar-week-numbers",
       filePath:
         "examples/__styles__/radix-fabricator/calendar-week-numbers.tsx",
+    },
+    "candlestick-chart-demo": {
+      name: "candlestick-chart-demo",
+      filePath:
+        "examples/__styles__/radix-fabricator/candlestick-chart-demo.tsx",
+    },
+    "candlestick-chart-live": {
+      name: "candlestick-chart-live",
+      filePath:
+        "examples/__styles__/radix-fabricator/candlestick-chart-live.tsx",
+    },
+    "candlestick-chart-plain": {
+      name: "candlestick-chart-plain",
+      filePath:
+        "examples/__styles__/radix-fabricator/candlestick-chart-plain.tsx",
     },
     "card-demo": {
       name: "card-demo",
@@ -13608,6 +14487,16 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "command-shortcuts",
       filePath: "examples/__styles__/radix-fabricator/command-shortcuts.tsx",
     },
+    "composition-chart-demo": {
+      name: "composition-chart-demo",
+      filePath:
+        "examples/__styles__/radix-fabricator/composition-chart-demo.tsx",
+    },
+    "composition-chart-plans": {
+      name: "composition-chart-plans",
+      filePath:
+        "examples/__styles__/radix-fabricator/composition-chart-plans.tsx",
+    },
     "context-menu-basic": {
       name: "context-menu-basic",
       filePath: "examples/__styles__/radix-fabricator/context-menu-basic.tsx",
@@ -13782,6 +14671,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "dialog-sticky-footer": {
       name: "dialog-sticky-footer",
       filePath: "examples/__styles__/radix-fabricator/dialog-sticky-footer.tsx",
+    },
+    "donut-chart-demo": {
+      name: "donut-chart-demo",
+      filePath: "examples/__styles__/radix-fabricator/donut-chart-demo.tsx",
+    },
+    "donut-chart-ring": {
+      name: "donut-chart-ring",
+      filePath: "examples/__styles__/radix-fabricator/donut-chart-ring.tsx",
     },
     "drawer-demo": {
       name: "drawer-demo",
@@ -14009,6 +14906,28 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "file-upload-validation",
       filePath:
         "examples/__styles__/radix-fabricator/file-upload-validation.tsx",
+    },
+    "funnel-chart-demo": {
+      name: "funnel-chart-demo",
+      filePath: "examples/__styles__/radix-fabricator/funnel-chart-demo.tsx",
+    },
+    "funnel-chart-horizontal": {
+      name: "funnel-chart-horizontal",
+      filePath:
+        "examples/__styles__/radix-fabricator/funnel-chart-horizontal.tsx",
+    },
+    "heat-calendar-demo": {
+      name: "heat-calendar-demo",
+      filePath: "examples/__styles__/radix-fabricator/heat-calendar-demo.tsx",
+    },
+    "heat-calendar-interactive": {
+      name: "heat-calendar-interactive",
+      filePath:
+        "examples/__styles__/radix-fabricator/heat-calendar-interactive.tsx",
+    },
+    "heat-calendar-weeks": {
+      name: "heat-calendar-weeks",
+      filePath: "examples/__styles__/radix-fabricator/heat-calendar-weeks.tsx",
     },
     "hover-card-demo": {
       name: "hover-card-demo",
@@ -14320,6 +15239,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "label-demo",
       filePath: "examples/__styles__/radix-fabricator/label-demo.tsx",
     },
+    "line-chart-demo": {
+      name: "line-chart-demo",
+      filePath: "examples/__styles__/radix-fabricator/line-chart-demo.tsx",
+    },
+    "line-chart-series": {
+      name: "line-chart-series",
+      filePath: "examples/__styles__/radix-fabricator/line-chart-series.tsx",
+    },
     "markdown-components": {
       name: "markdown-components",
       filePath: "examples/__styles__/radix-fabricator/markdown-components.tsx",
@@ -14578,6 +15505,18 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "pagination-simple",
       filePath: "examples/__styles__/radix-fabricator/pagination-simple.tsx",
     },
+    "pie-chart-demo": {
+      name: "pie-chart-demo",
+      filePath: "examples/__styles__/radix-fabricator/pie-chart-demo.tsx",
+    },
+    "pie-chart-labels": {
+      name: "pie-chart-labels",
+      filePath: "examples/__styles__/radix-fabricator/pie-chart-labels.tsx",
+    },
+    "pie-chart-other": {
+      name: "pie-chart-other",
+      filePath: "examples/__styles__/radix-fabricator/pie-chart-other.tsx",
+    },
     "popover-alignments": {
       name: "popover-alignments",
       filePath: "examples/__styles__/radix-fabricator/popover-alignments.tsx",
@@ -14694,6 +15633,26 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       filePath:
         "examples/__styles__/radix-fabricator/questionnaire-validation.tsx",
     },
+    "radar-chart-demo": {
+      name: "radar-chart-demo",
+      filePath: "examples/__styles__/radix-fabricator/radar-chart-demo.tsx",
+    },
+    "radar-chart-series": {
+      name: "radar-chart-series",
+      filePath: "examples/__styles__/radix-fabricator/radar-chart-series.tsx",
+    },
+    "radar-chart-single": {
+      name: "radar-chart-single",
+      filePath: "examples/__styles__/radix-fabricator/radar-chart-single.tsx",
+    },
+    "radial-chart-demo": {
+      name: "radial-chart-demo",
+      filePath: "examples/__styles__/radix-fabricator/radial-chart-demo.tsx",
+    },
+    "radial-chart-half": {
+      name: "radial-chart-half",
+      filePath: "examples/__styles__/radix-fabricator/radial-chart-half.tsx",
+    },
     "radio-fields": {
       name: "radio-fields",
       filePath: "examples/__styles__/radix-fabricator/radio-fields.tsx",
@@ -14763,6 +15722,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "resizable-vertical": {
       name: "resizable-vertical",
       filePath: "examples/__styles__/radix-fabricator/resizable-vertical.tsx",
+    },
+    "sankey-chart-budget": {
+      name: "sankey-chart-budget",
+      filePath: "examples/__styles__/radix-fabricator/sankey-chart-budget.tsx",
+    },
+    "sankey-chart-demo": {
+      name: "sankey-chart-demo",
+      filePath: "examples/__styles__/radix-fabricator/sankey-chart-demo.tsx",
     },
     "scroll-area-demo": {
       name: "scroll-area-demo",
@@ -15089,6 +16056,19 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "spinner-size",
       filePath: "examples/__styles__/radix-fabricator/spinner-size.tsx",
     },
+    "status-bar-demo": {
+      name: "status-bar-demo",
+      filePath: "examples/__styles__/radix-fabricator/status-bar-demo.tsx",
+    },
+    "status-bar-incident": {
+      name: "status-bar-incident",
+      filePath: "examples/__styles__/radix-fabricator/status-bar-incident.tsx",
+    },
+    "status-bar-maintenance": {
+      name: "status-bar-maintenance",
+      filePath:
+        "examples/__styles__/radix-fabricator/status-bar-maintenance.tsx",
+    },
     "switch-choice-card": {
       name: "switch-choice-card",
       filePath: "examples/__styles__/radix-fabricator/switch-choice-card.tsx",
@@ -15329,6 +16309,14 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "tooltip-sides": {
       name: "tooltip-sides",
       filePath: "examples/__styles__/radix-fabricator/tooltip-sides.tsx",
+    },
+    "treemap-demo": {
+      name: "treemap-demo",
+      filePath: "examples/__styles__/radix-fabricator/treemap-demo.tsx",
+    },
+    "treemap-flat": {
+      name: "treemap-flat",
+      filePath: "examples/__styles__/radix-fabricator/treemap-flat.tsx",
     },
     "typography-blockquote": {
       name: "typography-blockquote",

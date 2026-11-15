@@ -9,11 +9,23 @@ These changes are merged and ship in the next version.
 
 ### Event Calendar
 
-[Event Calendar](/docs/components/base/event-calendar) is a scheduler on FullCalendar 7, in the Advanced group: day, N-day, week, month, year and agenda views, drag to create, move and resize, recurring events that ask "this, following or all" when one occurrence changes, time zones, a month-by-month loader for thousands of events, and changes that show at once, report themselves in a toast with Undo, and revert when saving fails. Every event, panel, form and menu is the library's own, and the keyboard can do everything the pointer can: Space picks up an event, the arrows move it, and Google Calendar's shortcuts switch views.
+[Event Calendar](/docs/components/base/event-calendar) is a scheduler on FullCalendar 7, in the Advanced group: day, N-day, week, month and agenda views, drag to create, move and resize, recurring events that ask "this, following or all" when one occurrence changes, time zones, a month-by-month loader that keeps a 100,000-event calendar fast, and changes that show at once, report themselves in a toast with Undo, and revert when saving fails. Every event, panel, form and menu is the library's own, and the keyboard can do everything the pointer can: Space picks up an event, the arrows move it, and Google Calendar's shortcuts switch views.
+
+Day, N days and Week scroll sideways a day at a time (`continuous`, on by default), and the title is a field that opens a date picker marking the days in view. A moved event stays where it was dropped while the change saves.
 
 On React Native the same component, with the same props and the same model underneath, draws on `@super-calendar/native`: three days on a phone and the week on a tablet, details in a sheet, long press to move, and VoiceOver actions to move, resize and delete.
 
 Add it with `npx fabricator-ui@latest add event-calendar`.
+
+### Charts
+
+A new Charts group holds fifteen charts, on every base and on React Native: [Area Chart](/docs/components/base/area-chart), [Line Chart](/docs/components/base/line-chart), [Bar Chart](/docs/components/base/bar-chart), [Composition Chart](/docs/components/base/composition-chart), [Candlestick Chart](/docs/components/base/candlestick-chart), [Bump Chart](/docs/components/base/bump-chart), [Pie Chart](/docs/components/base/pie-chart), [Donut Chart](/docs/components/base/donut-chart), [Radial Chart](/docs/components/base/radial-chart), [Radar Chart](/docs/components/base/radar-chart), [Treemap](/docs/components/base/treemap), [Funnel Chart](/docs/components/base/funnel-chart), [Sankey Chart](/docs/components/base/sankey-chart), [Heat Calendar](/docs/components/base/heat-calendar) and [Status Bar](/docs/components/base/status-bar).
+
+Each takes rows of data and a config naming the series, and draws itself in SVG from one shared layout model, so a chart looks the same on the web and on a phone. Point at a chart, drag a finger across it or tab to it and use the arrow keys: a crosshair or a highlight glides to the nearest mark and a tooltip lists its values. The legend hides a series when pressed and spotlights it when pointed at. Charts draw in the first time they are on screen and morph when their data changes, on a new `reveal` motion role (`duration-reveal`) and the existing `move` and `glide` roles, so every motion speed and Reduce Motion retime them. Every value is also in a hidden table on the web, and VoiceOver and TalkBack step through the marks on React Native.
+
+Series take a new chart palette in the foundations, `--chart-series-1` to `--chart-series-8` (`bg-chart-series-1`, …), chosen separately for light and dark and checked in tests for contrast and for colour-blind separation between neighbours.
+
+Add one with `npx fabricator-ui@latest add area-chart`. Every chart installs `chart-kit`, the parts they share.
 
 ## Updated components
 

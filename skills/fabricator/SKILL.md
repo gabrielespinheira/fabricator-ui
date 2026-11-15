@@ -53,9 +53,10 @@ Choose by behavior, not just appearance:
 | Irreversible confirmation                      | `AlertDialog`; reversible changes can offer Undo                                      |
 | Persistent feedback, status, empty, loading    | `Alert`, `Badge`, `Empty`, `Skeleton` / `Spinner`                                     |
 | Read or edit rich content                      | `Markdown`, `Editor`                                                                  |
+| Events in time: a schedule, bookings, shifts   | `EventCalendar` (not `Calendar`, which picks a date); save from `onEventChange`       |
 | Conversation                                   | `MessageScroller`, `Message`, `Bubble`, `Attachment`, `Marker`; [chat](rules/chat.md) |
 
-Use ordinary layout elements for regions and grouping. A `Card` represents a discrete object, not every section. `Switch` means an immediate setting; independent submitted choices use checkboxes. `ToggleGroup` means a segmented choice, not a blanket replacement for short option sets. Fabricator has no `chart` item; follow the user's visualization requirement and existing chart tooling, or discuss an external option.
+Use ordinary layout elements for regions and grouping. A `Card` represents a discrete object, not every section. `Switch` means an immediate setting; independent submitted choices use checkboxes. `ToggleGroup` means a segmented choice, not a blanket replacement for short option sets. For charts use the Charts group (`area-chart`, `line-chart`, `bar-chart`, `composition-chart`, `candlestick-chart`, `bump-chart`, `pie-chart`, `donut-chart`, `radial-chart`, `radar-chart`, `treemap`, `funnel-chart`, `sankey-chart`, `heat-calendar`, `status-bar`): each takes `data`, a `config` naming the series and a `label`, and series colours come from `--chart-series-*` in config order. There is no upstream `chart` item; don't install Recharts alongside them.
 
 ### 4. Install or update only what's needed
 

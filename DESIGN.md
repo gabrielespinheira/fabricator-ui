@@ -130,7 +130,13 @@ Both themes are designed, and one design covers both: a screen built from the co
 
 ### Charts
 
-There is no Chart component for now. Show numbers with stat cards, tables, `Progress` and status-coloured text.
+Charts give each series a colour from the chart palette (`--chart-series-1` to `--chart-series-8`: blue, orange, aqua, amber, magenta, green, violet, red), in the order of the chart's config. The palette is chosen separately for light and dark; every slot keeps 3:1 against the page and the card, and neighbouring slots stay apart for readers with red-green colour blindness.
+
+- **Colour means the series, nothing else.** A series keeps its colour when another is hidden or filtered out. Categories of one series share its colour: the bar's length already shows the value.
+- **Eight at most.** A ninth series is grey: fold the smallest into "Other" before that. Charts where any two marks can touch (pie, treemap, sankey) read best with three or four.
+- **A brand colour is a series' choice,** given in its config (`color: "primary"`), never a change to the palette.
+- **Status charts use the status roles.** `StatusBar` and a candlestick's up and down are the only charts in status colours, and they name every status in their legend and tooltip.
+- **Text stays in the text colours.** Values and labels sit beside a coloured key; a series colour never colours text.
 
 ## Typography
 
@@ -304,11 +310,12 @@ Every animation has a role, and one speed setting retimes all of them together.
 | Sheets and drawers                                     | Slide from their edge, the slowest motion in the system   |
 | Accordions and collapsibles                            | Open by height                                            |
 | Toasts                                                 | Slide in from the edge and stack                          |
+| Charts                                                 | Draw in once, then morph to new data                      |
 
 - **Four speeds:** smooth for websites, default for most products, snappy for apps used all day, instant for dense dashboards, where surfaces only fade. A project, or a region, picks one.
 - **Exits are quicker than entrances.** Something leaving should never keep a person waiting.
 - **Things come from somewhere.** A popup grows from its trigger and a sheet from its edge, so the eye knows what opened it. Nothing appears from below the fold or zooms in from nothing.
-- **App content appears in place.** Pages, lists and cards in an app render without entrance animations. Motion belongs to what the person just did.
+- **App content appears in place.** Pages, lists and cards in an app render without entrance animations. Motion belongs to what the person just did. Charts are the exception: the first time a chart is on screen its marks draw in (lines sweep, bars grow from zero, arcs turn), because the motion shows how the marks encode the data; after that they only move when the data does.
 - **A surface summoned from the keyboard to be used at once,** like a command palette, opens with no animation.
 - **Reduced motion** keeps the fades and drops the slides, the zooms and the press. Your own animation does the same.
 - **Custom motion uses the same roles and timings** as the components, so the product still moves as one thing when the speed changes.
@@ -404,6 +411,19 @@ The library covers most of what a product needs, so a screen is mostly a matter 
 | Records compared across columns              | `Table`                                                                        |
 | Many records people sort, filter or pick     | `DataTable`                                                                    |
 | Events in time: a schedule, bookings, shifts | `EventCalendar`                                                                |
+| A trend over time                            | `LineChart` to compare series, `AreaChart` for totals and their parts          |
+| Amounts by category                          | `BarChart`, as rows when the names are long                                    |
+| How a mix changes over time                  | `CompositionChart`                                                             |
+| Parts of one whole, a few parts              | `DonutChart` with its list; `PieChart` when there's no room for one            |
+| Progress against a target, a few at once     | `RadialChart`                                                                  |
+| Several measures of a few subjects           | `RadarChart`                                                                   |
+| Parts of a whole in groups                   | `Treemap`                                                                      |
+| Prices per period                            | `CandlestickChart`                                                             |
+| Rank over time                               | `BumpChart`                                                                    |
+| Stages that lose people                      | `FunnelChart`                                                                  |
+| Flows between stages                         | `SankeyChart`                                                                  |
+| Activity per day over months                 | `HeatCalendar`                                                                 |
+| Uptime per day                               | `StatusBar`                                                                    |
 | A list of things (people, files, links)      | `Item`s in an `ItemGroup`                                                      |
 | A tree of files and folders                  | `FileTree`                                                                     |
 | One discrete object                          | `Card`                                                                         |
@@ -504,7 +524,8 @@ Use the library's inputs for dates, times, numbers, files and colours in place o
 
 - **Table** for records compared across columns. The first column is the record's name, in the foreground and medium weight; the other cells rest in grey and darken with the row under the pointer. Numbers align to the end in tabular figures. A status is a `Badge`. Row actions sit in a ghost "More" menu at the row's end. Show the columns people compare and leave the rest to the record.
 - **DataTable** when people work the records: sort, filter, edit, pick, page or scroll through hundreds or thousands. It keeps Table's rules and adds a header per column (a type icon that becomes the sort arrow, an options popover with Notion-style filters), the record's name pinned to the start and actions to the end, cells that edit in place, and an optional footer of calculations. Everything but the search happens in the table: column options in each header, the table's settings (density, calculations, row numbers, stripes, lines, columns) at the header's end. Give it the full column and a height; use compact density in dense tools. Declare each column's type rather than drawing cells by hand, so the filter, editor, sort and alignment follow. Feed it from a loader and let it load more as the scroll nears the end; paginate only when position matters ("page 3").
-- **EventCalendar** for anything placed in time that people plan around: meetings, bookings, shifts, deadlines. It draws the week by default (three days on a phone), and day, N days, month, year and agenda on request; events are created by dragging across time and moved by dragging them, with the keyboard and a right-click menu as the other ways in. Give each source its own colour from the palette or a role, and let colour mean the source, never the status. Feed it from a loader for real data, and save changes from `onEventChange`, which shows them at once and reverts them when saving fails. A dashboard that only lists what's next uses its agenda on its own.
+- **EventCalendar** for anything placed in time that people plan around: meetings, bookings, shifts, deadlines. It draws the week by default (three days on a phone), and day, N days, month and agenda on request; events are created by dragging across time and moved by dragging them, with the keyboard and a right-click menu as the other ways in. Give each source its own colour from the palette or a role, and let colour mean the source, never the status. Feed it from a loader for real data, and save changes from `onEventChange`, which shows them at once and reverts them when saving fails. A dashboard that only lists what's next uses its agenda on its own.
+- **Charts** show the shape of numbers: a trend, a mix, a ranking, a flow. Give each one a `label` naming what it plots, put it in a `Card` with that title and the period in the description, and let it fill the card's width. Point at a chart, drag a finger across it or tab to it: a crosshair or a highlight finds the nearest mark and a tooltip lists its values, with the value first. With two or more series a legend names them; pressing a series hides it, pointing at it spotlights it. Use one axis: two measures on different scales are two charts. Feed a stat above the chart from `onActiveChange` so the number follows the scrub. A single number belongs in a stat card, and a few exact values in a table.
 - **A row opens its record.** The name is the link, which is the keyboard's way in; clicking anywhere on the row is the shortcut to it.
 - **Item** for lists of things read one at a time: people, files, integrations, links to settings. Each has a picture (an icon, an avatar or an image), a title, a description and its actions.
 - **Stat cards** show one number each: the label in grey, the value large in tabular figures, and the change as a status badge or status-coloured text with an arrow. Every card in the row has the same parts.
@@ -632,6 +653,7 @@ Onboarding, checkout, an import: a task too long for one form.
 
 - A row of stat cards, four across on desktop, then the work: recent activity as a list of `Item`s, the things needing attention in a `Table`.
 - Order by what the person does next: what needs them first, the trend second, the archive behind a link.
+- The trend goes in a chart card under the stat cards, one question per chart; its scrub can feed the stat above it.
 - An `Alert` at the top only while something is wrong.
 - Dense dashboards use the compact density and snappy or instant motion.
 

@@ -1,0 +1,155 @@
+---
+title: Bar Chart
+description: Magnitude by category, as bars side by side or stacked, in columns or rows.
+base: native
+component: true
+---
+
+## Installation
+
+```bash
+npx fabricator-ui@latest add bar-chart
+```
+
+## Usage
+
+```tsx
+import { BarChart } from "@/components/ui/bar-chart"
+import { Button } from "@/components/ui/button"
+import { type ChartConfig } from "@/components/ui/chart-kit"
+```
+
+```tsx
+<BarChart
+  data={regions}
+  index="region"
+  config={regionsConfig}
+  label="Revenue by region"
+  className="h-60 w-full"
+/>
+```
+
+## Composition
+
+- `BarChart`
+- `BarChartProps`
+
+## Examples
+
+```tsx showLineNumbers title="bar-chart-example.tsx"
+import * as React from "react"
+import { View } from "react-native"
+
+import { BarChart } from "@/components/ui/bar-chart"
+import { Button } from "@/components/ui/button"
+import { type ChartConfig } from "@/components/ui/chart-kit"
+
+const regions = [
+  {
+    region: "NA",
+    subscriptions: 66_000,
+    services: 75_000,
+    marketplace: 31_000,
+  },
+  {
+    region: "EU",
+    subscriptions: 102_000,
+    services: 61_000,
+    marketplace: 36_000,
+  },
+  {
+    region: "APAC",
+    subscriptions: 72_000,
+    services: 50_000,
+    marketplace: 36_000,
+  },
+  {
+    region: "LATAM",
+    subscriptions: 29_000,
+    services: 23_000,
+    marketplace: 25_000,
+  },
+]
+
+const regionsConfig = {
+  subscriptions: { label: "Subscriptions" },
+  services: { label: "Services" },
+  marketplace: { label: "Marketplace" },
+} satisfies ChartConfig
+
+const pages = [
+  { page: "/pricing", visits: 18_420 },
+  { page: "/docs", visits: 15_310 },
+  { page: "/blog", visits: 11_870 },
+  { page: "/changelog", visits: 8_240 },
+  { page: "/careers", visits: 3_160 },
+]
+
+function StackedSwitch() {
+  const [stack, setStack] = React.useState<"none" | "stacked">("none")
+  return (
+    <>
+      <BarChart
+        data={regions}
+        index="region"
+        config={regionsConfig}
+        label="Revenue by region"
+        formatValue={(value) => `$${Math.round(value / 1000)}K`}
+        stack={stack}
+        className="h-60 w-full"
+      />
+      <View className="flex-row gap-1">
+        <Button
+          size="sm"
+          variant={stack === "none" ? "secondary" : "ghost"}
+          accessibilityState={{ selected: stack === "none" }}
+          onPress={() => setStack("none")}
+        >
+          Grouped
+        </Button>
+        <Button
+          size="sm"
+          variant={stack === "stacked" ? "secondary" : "ghost"}
+          accessibilityState={{ selected: stack === "stacked" }}
+          onPress={() => setStack("stacked")}
+        >
+          Stacked
+        </Button>
+      </View>
+    </>
+  )
+}
+
+export function BarChartExample() {
+  return (
+    <ExampleWrapper>
+      <Example title="Grouped" className="items-stretch">
+        <BarChart
+          data={regions}
+          index="region"
+          config={regionsConfig}
+          label="Revenue by region"
+          className="h-60 w-full"
+        />
+      </Example>
+      <Example title="Grouped and stacked" className="items-stretch">
+        <StackedSwitch />
+      </Example>
+      <Example title="Horizontal" className="items-stretch">
+        <BarChart
+          data={pages}
+          index="page"
+          config={{ visits: { label: "Visits" } }}
+          label="Top pages by visits"
+          layout="horizontal"
+          className="h-56 w-full"
+        />
+      </Example>
+    </ExampleWrapper>
+  )
+}
+```
+
+## Accessibility
+
+Text is read as it appears. Give a control with no text an `accessibilityLabel`.

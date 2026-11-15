@@ -27,6 +27,7 @@ export const UI_COMPONENTS = [
   "drawer",
   "dropdown-menu",
   "empty",
+  "event-calendar",
   "field",
   "form",
   "hover-card",

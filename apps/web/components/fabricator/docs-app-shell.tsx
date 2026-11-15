@@ -9,6 +9,7 @@ import { getGroupNavId } from "@/lib/component-explorer"
 import { COMPONENT_GROUPS } from "@/lib/component-groups"
 import { siteConfig } from "@/lib/config"
 import { getDocsExplorerGroups, type ExplorerPage } from "@/lib/docs-explorer"
+import { isWideDocsPage } from "@/lib/docs-wide-pages"
 import { EXPLORER_ICONS } from "@/lib/explorer-icons"
 import { getCurrentBase } from "@/lib/page-tree"
 import { HomeIcon } from "@/lib/site-icons"
@@ -122,7 +123,9 @@ export function DocsAppShell({
           </>
         }
       >
-        <AppShellContent size={options.contentSize}>
+        <AppShellContent
+          size={isWideDocsPage(pathname) ? "lg" : options.contentSize}
+        >
           {pathname === "/docs" && (
             <div className="flex flex-col gap-6 pb-10">
               <div className="flex flex-col gap-2">

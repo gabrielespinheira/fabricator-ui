@@ -1,0 +1,122 @@
+/* MARK: Chart Kit */
+
+  /* The plot: its font size is the axis labels', which the layout measures
+     against. Dimmed while loading. */
+  .cn-chart-plot {
+    @apply text-(length:--density-text-11) data-[loading=true]:opacity-50;
+  }
+
+  /* The opacity a series or a bar takes while another is spotlit, or while
+     it shrinks away after being hidden. Read by the plot, applied to SVG. */
+  .cn-chart-series {
+    @apply opacity-25;
+  }
+
+  .cn-chart-bar {
+    @apply opacity-25;
+  }
+
+  /* Gridlines: a hairline at each value tick in the border colour, read as
+     the stroke. Never dashed. */
+  .cn-chart-grid {
+    @apply text-border;
+  }
+
+  /* Axis labels: small and grey, read as the SVG text's fill and size. */
+  .cn-chart-axis {
+    @apply text-muted-foreground text-(length:--density-text-11);
+  }
+
+  .cn-chart-crosshair {
+    @apply z-10;
+  }
+
+  .cn-chart-crosshair-line {
+    @apply bg-foreground/20;
+  }
+
+  /* The inspected point: an 8pt dot ringed by 2pt of the card. */
+  .cn-chart-dot {
+    @apply z-10;
+  }
+
+  .cn-chart-dot-mark {
+    @apply border-card border-2;
+  }
+
+  /* The category under the finger on bar charts: a faint wash. */
+  .cn-chart-band {
+    @apply z-0;
+  }
+
+  .cn-chart-band-mark {
+    @apply bg-hover rounded-md;
+  }
+
+  /* The tooltip sits over the finger, two steps over the card a chart
+     usually sits on (surface 3), as on the website, so the readout stands
+     apart from the card in both themes. */
+  .cn-chart-tooltip-positioner {
+    @apply z-20;
+  }
+
+  .cn-chart-tooltip-content {
+    @apply bg-surface-5 shadow-surface-5 min-w-36 gap-(--density-4) rounded-lg px-(--density-10) py-(--density-8);
+  }
+
+  .cn-chart-tooltip-title {
+    @apply text-muted-foreground text-(length:--density-text-12);
+  }
+
+  .cn-chart-tooltip-row {
+    @apply gap-(--density-8);
+  }
+
+  .cn-chart-tooltip-key {
+    @apply h-0.5 w-2.5 rounded-full;
+  }
+
+  .cn-chart-tooltip-label {
+    @apply text-muted-foreground text-(length:--density-text-12);
+  }
+
+  /* Values lead: the reader has the series and wants the number. */
+  .cn-chart-tooltip-value {
+    @apply text-foreground ms-auto ps-(--density-12) text-(length:--density-text-12) font-medium tabular-nums;
+  }
+
+  /* A note the mark carries (an incident's summary): quieter than the
+     values, wrapping rather than widening the tooltip. */
+  .cn-chart-tooltip-note {
+    @apply text-muted-foreground max-w-60 text-(length:--density-text-12) leading-snug;
+  }
+
+  .cn-chart-legend {
+    @apply gap-x-(--density-4);
+  }
+
+  /* Each toggle keeps a 32pt row; a hidden series greys out with a hollow
+     key. */
+  .cn-chart-legend-item {
+    @apply h-(--density-32) gap-(--density-6) rounded-md px-(--density-6) active:bg-active;
+  }
+
+  .cn-chart-legend-key {
+    @apply data-[shape=square]:size-2 data-[shape=square]:rounded-[2px] data-[shape=line]:h-0.5 data-[shape=line]:w-3 data-[shape=line]:rounded-full data-[hidden=true]:border;
+  }
+
+  .cn-chart-legend-label {
+    @apply text-muted-foreground text-(length:--density-text-12) data-[hidden=true]:opacity-60;
+  }
+
+  .cn-chart-inspector {
+    @apply rounded-md;
+  }
+
+  .cn-chart-empty {
+    @apply p-(--density-16);
+  }
+
+  .cn-chart-empty-text {
+    @apply text-muted-foreground text-(length:--density-text-13);
+  }

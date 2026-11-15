@@ -7,6 +7,7 @@ import { cn } from "cn"
 import { getDateFromFile, isChangelogEntry } from "@/lib/changelog"
 import { formatChangelogDate } from "@/lib/changelog-order"
 import { getDocsNeighbours } from "@/lib/docs-explorer"
+import { isWideDocsPage } from "@/lib/docs-wide-pages"
 import { replaceComponentsList } from "@/lib/llm"
 import { source } from "@/lib/source"
 import { absoluteUrl } from "@/lib/utils"
@@ -97,7 +98,11 @@ export default async function Page(props: {
   const raw = replaceComponentsList(await page.data.getText("raw"))
 
   return (
-    <div data-slot="docs" className="flex items-start">
+    <div
+      data-slot="docs"
+      data-wide={isWideDocsPage(page.url) || undefined}
+      className="flex items-start"
+    >
       <div className="flex min-w-0 flex-1 flex-col">
         <div className="mx-auto flex w-full min-w-0 flex-1 flex-col gap-8 pb-16 text-foreground">
           <header className="flex flex-col gap-2">

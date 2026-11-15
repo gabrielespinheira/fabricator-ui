@@ -7,6 +7,7 @@
 
 import {
   createEventDraft,
+  EVENT_CHIP_WASH,
   formatEventDay,
   formatEventTime,
   formatEventTimeRange,
@@ -27,14 +28,13 @@ import { oklchToHex } from "@/registry/fabricator/surface-tint"
 
 // --- Views -------------------------------------------------------------------
 
-type EngineMode = "day" | "custom" | "week" | "month" | "year" | "schedule"
+type EngineMode = "day" | "custom" | "week" | "month" | "schedule"
 
 const ENGINE_MODES: Record<EventCalendarView, EngineMode> = {
   day: "day",
   days: "custom",
   week: "week",
   month: "month",
-  year: "year",
   agenda: "schedule",
 }
 
@@ -245,7 +245,13 @@ function applyEventAction<TData>(
 type ColorScheme = "light" | "dark"
 
 /** The chip's three colours, as React Native draws them. */
-type ChipPalette = { fill: string; text: string; foreground: string }
+type ChipPalette = {
+  fill: string
+  text: string
+  foreground: string
+  /** How much fill the chip shows behind its text, as on the website. */
+  wash: (typeof EVENT_CHIP_WASH)[ColorScheme]
+}
 
 const OKLCH = /^oklch\(\s*([\d.]+)\s+([\d.]+)\s+([\d.]+)\s*\)$/
 const VARIABLE = /^var\((--[\w-]+)\)$/
@@ -284,12 +290,13 @@ function getChipPalette(
     fill: read("fill"),
     text: read("text"),
     foreground: read("foreground"),
+    wash: EVENT_CHIP_WASH[scheme],
   }
 }
 
 const HEX = /^#([\da-f]{6})$/i
 
-/** A hex colour at an opacity, as the website's `bg-(--fill)/14`. */
+/** A hex colour at an opacity, as the website's `bg-(--fill)/(--wash)`. */
 function withAlpha(color: string, alpha: number) {
   const hex = HEX.exec(color)?.[1]
   if (!hex) return color
@@ -314,7 +321,7 @@ function getChipVariant({
   isMultiDay: boolean
 }): ChipVariant {
   if (isAllDay) return "row"
-  if (mode === "month" || mode === "year" || mode === "multiweek") {
+  if (mode === "month" || mode === "multiweek") {
     return isMultiDay ? "row" : "dot"
   }
   return "block"
@@ -433,7 +440,7 @@ function getEngineTheme(values: readonly (string | undefined)[]): EngineTheme {
   return {
     colors,
     text: {
-      dayNumber: { fontFamily, fontWeight: "500" },
+      dayNumber: { fontFamily, fontWeight: "600" },
       dateCell: { fontFamily, fontWeight: "500" },
       monthTitle: { fontFamily, fontWeight: "600" },
     },

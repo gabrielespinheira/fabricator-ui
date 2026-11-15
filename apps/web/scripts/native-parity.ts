@@ -203,6 +203,20 @@ export type NativeItem = {
   files?: { path: string }[]
 }
 
+/**
+ * The native item a web component is checked against: the item of the same
+ * name, or the item that ships it as one of its files (Event Calendar's chip
+ * and agenda are parts of the event-calendar item on both platforms).
+ */
+export function findNativeOwner(name: string, items: Map<string, NativeItem>) {
+  const own = items.get(name)
+  if (own) return own
+  const file = `ui/${name}.tsx`
+  return [...items.values()].find((item) =>
+    item.files?.some((candidate) => candidate.path === file)
+  )
+}
+
 /** Everything an item brings when installed: its own and its dependencies'. */
 export function getItemClosure(
   name: string,

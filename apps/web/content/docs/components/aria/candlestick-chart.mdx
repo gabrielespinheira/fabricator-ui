@@ -1,0 +1,199 @@
+---
+title: Candlestick Chart
+description: Open, high, low and close per period, with optional volume and a line at the latest close.
+base: aria
+component: true
+---
+
+<ComponentPreview
+  styleName="aria-nova"
+  name="candlestick-chart-demo"
+  previewClassName="h-auto"
+/>
+
+Give it rows with `open`, `high`, `low` and `close` fields, and optionally `volume`, plus the field that names each period (`index`). Each period is a candle: a body from the open to the close and a 1px wick from the low to the high. A period that closed at or above its open is drawn in the success colour, one that closed below in the destructive colour. Bodies are at most 12px wide, and the price scale fits the prices instead of starting at zero.
+
+When the data has volume, it runs along the bottom as bars in each candle's colour, faint, in a band about a fifth of the plot's height. A dashed hairline crosses the plot at the latest close, with the price in a pill at its end. Point at a candle, drag a finger across the chart or tab to it and use the arrow keys: a crosshair finds the period and a tooltip gives its open, high, low, close, volume and the change from the previous close as a signed percentage.
+
+Candlestick Chart is part of the Fabricator style. It's drawn in SVG, so the same component ships for every base, and its layout comes from the same model as the React Native version.
+
+## Installation
+
+<CodeTabs>
+
+<TabsList>
+  <TabsTrigger value="cli">Command</TabsTrigger>
+  <TabsTrigger value="manual">Manual</TabsTrigger>
+</TabsList>
+<TabsContent value="cli">
+
+```bash
+npx fabricator-ui@latest add candlestick-chart
+```
+
+</TabsContent>
+
+<TabsContent value="manual">
+
+<Steps className="mb-0 pt-2">
+
+<Step>Install the following dependencies.</Step>
+
+```bash
+npm install d3-scale@4.0.3
+npm install -D @types/d3-scale@4.0.9
+```
+
+<Step>Copy and paste the following code into your project.</Step>
+
+<ComponentSource
+  src="styles/aria-fabricator/lib/chart-model.ts"
+  title="lib/chart-model.ts"
+  styleName="aria-nova"
+/>
+
+<ComponentSource
+  src="styles/aria-fabricator/lib/chart-cartesian-model.ts"
+  title="lib/chart-cartesian-model.ts"
+  styleName="aria-nova"
+/>
+
+<ComponentSource
+  src="styles/aria-fabricator/lib/chart-candlestick-model.ts"
+  title="lib/chart-candlestick-model.ts"
+  styleName="aria-nova"
+/>
+
+<ComponentSource
+  src="styles/aria-fabricator/ui/chart-kit.tsx"
+  title="components/ui/chart-kit.tsx"
+  styleName="aria-nova"
+/>
+
+<ComponentSource
+  src="styles/aria-fabricator/ui/candlestick-chart.tsx"
+  title="components/ui/candlestick-chart.tsx"
+  styleName="aria-nova"
+/>
+
+<Step>Update the import paths to match your project setup.</Step>
+
+</Steps>
+
+</TabsContent>
+
+</CodeTabs>
+
+## Usage
+
+```tsx
+import { CandlestickChart } from "@/components/ui/candlestick-chart"
+```
+
+```tsx
+const data = [
+  { day: "Nov 2", open: 182.6, high: 184.65, low: 180.84, close: 182.45, volume: 3_384_000 },
+  { day: "Nov 3", open: 182.5, high: 184.0, low: 179.04, close: 181.12, volume: 4_769_000 },
+  { day: "Nov 4", open: 180.62, high: 185.29, low: 179.88, close: 183.5, volume: 4_544_000 },
+]
+
+<CandlestickChart data={data} index="day" label="ACME daily prices" />
+```
+
+A period missing any of its four prices keeps its place along the bottom and draws no candle. `formatValue` receives the field as its key (`open`, `high`, `low`, `close` or `volume`), so prices and volume can be written differently. By default prices take two decimals and volume is compact (`4.8M`). The chart fills its container's width and is 18rem tall until you give it a height with `className`.
+
+## Examples
+
+### Live data
+
+Candles are matched by their `index` value, so when a period is added and the oldest one dropped, the candles slide along instead of redrawing. The new one grows from its open, and the last-close line follows it.
+
+<ComponentPreview
+  styleName="aria-nova"
+  name="candlestick-chart-live"
+  previewClassName="h-auto"
+/>
+
+### Without volume
+
+Data without a `volume` field draws no volume band; `volume={false}` leaves it out when the data has one. `legend` adds a key naming the up and down colours.
+
+<ComponentPreview styleName="aria-nova" name="candlestick-chart-plain" />
+
+## Colours
+
+Rising periods take `success` and falling ones `destructive`, the status roles, so they follow the theme in light and dark. The tooltip always writes the change with its sign, so the direction never rests on colour alone. Give either direction its own name or colour with `config`:
+
+```tsx
+<CandlestickChart
+  data={data}
+  index="day"
+  label="ACME daily prices"
+  config={{
+    up: { label: "Gain", color: "chart-series-1" },
+    down: { label: "Loss", color: "chart-series-2" },
+  }}
+/>
+```
+
+Volume bars take their candle's colour at 30% opacity. The last-close line is a muted hairline and its pill is drawn in the foreground colour, the strongest contrast in either mode.
+
+## Motion
+
+- **Grow:** the first time the chart scrolls into view, each body grows from its open toward its close in a quick wave along the periods, its wick and volume with it, on the `reveal` role, once per mount.
+- **Slide:** when `data` changes, candles that stay move to their new place and size on the `move` role. A new candle grows from its open as it slides in from the end; one that left the data shrinks as it slides out the other way.
+- **Glide:** the crosshair and the tooltip glide between periods on the `glide` role.
+
+All three follow the [motion speed](/docs/foundations/motion) of the region they sit in. Reduce Motion and the `instant` speed draw the chart at once and drop the glide; `animate={false}` does the same for one chart.
+
+## API Reference
+
+### CandlestickChart
+
+All other props go to the root `<div>`.
+
+| Prop             | Type                                            | Default                            |
+| ---------------- | ----------------------------------------------- | ---------------------------------- |
+| `data`           | `TDatum[]`                                      | required                           |
+| `index`          | `keyof TDatum`                                  | required                           |
+| `label`          | `string`                                        | required: the accessible name      |
+| `config`         | `CandlestickConfig`                             | Up in success, Down in destructive |
+| `volume`         | `boolean`                                       | on when the data has volume        |
+| `formatValue`    | `(value: number, key: string) => string`        | `1,234.50`, volume `4.8M`          |
+| `formatIndex`    | `(value: string, datum: TDatum) => string`      | the field as text                  |
+| `legend`         | `boolean`                                       | `false`                            |
+| `tooltip`        | `boolean`                                       | `true`                             |
+| `animate`        | `boolean`                                       | `true`                             |
+| `loading`        | `boolean`                                       | `false`                            |
+| `empty`          | `ReactNode`                                     | "No data"                          |
+| `onActiveChange` | `(active: ChartActive<TDatum> \| null) => void` | -                                  |
+
+### CandlestickConfig
+
+| Field  | Type                                     | Default                                   |
+| ------ | ---------------------------------------- | ----------------------------------------- |
+| `up`   | `{ label?: string; color?: ChartColor }` | `{ label: "Up", color: "success" }`       |
+| `down` | `{ label?: string; color?: ChartColor }` | `{ label: "Down", color: "destructive" }` |
+
+### Data attributes
+
+| Attribute                                  | Element             | Present when                                                                  |
+| ------------------------------------------ | ------------------- | ----------------------------------------------------------------------------- |
+| `data-slot="candlestick-chart"`            | root                | always                                                                        |
+| `data-loading`                             | root                | `loading` is true                                                             |
+| `data-slot="chart-plot"`                   | the plot            | always                                                                        |
+| `data-slot="candlestick-chart-candle"`     | a candle            | always; `data-direction` is `up` or `down`, `data-dimmed` while it slides out |
+| `data-slot="candlestick-chart-volume"`     | a volume bar        | the volume band shows                                                         |
+| `data-slot="candlestick-chart-wick"`       | a candle's wick     | always                                                                        |
+| `data-slot="candlestick-chart-body"`       | a candle's body     | always                                                                        |
+| `data-slot="candlestick-chart-last-close"` | the last-close line | the data has a candle                                                         |
+| `data-slot="candlestick-chart-legend"`     | the legend          | `legend` is true                                                              |
+| `data-slot="chart-tooltip"`                | the tooltip         | a period is inspected                                                         |
+
+## Accessibility
+
+- The plot is a slider named after `label` ("ACME daily prices: inspect values"). Tab to it, then the arrow keys step through the periods, Home and End jump to the first and last, and Escape lets go. Its value text reads the tooltip: the period, its prices, its volume and its signed change.
+- Every value is also in a table hidden from sight, with the change for each period, so a screen reader can read the data without inspecting it.
+- Up and down are told apart by the sign of the change as well as by colour; `legend` names the two colours for readers who want a key.
+- Text never takes a candle's colour: prices and labels stay in the text colours.
+- `loading` sets `aria-busy` on the root and dims the last drawing until new data arrives.

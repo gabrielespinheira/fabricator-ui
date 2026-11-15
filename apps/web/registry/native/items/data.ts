@@ -295,7 +295,7 @@ export const dataItems: Registry["items"] = [
     type: "registry:ui",
     title: "Event Calendar",
     description:
-      "A Google Calendar-class scheduler on @super-calendar/native: day, N-day, week, month, year and agenda views, drag to create, move and resize, recurring events with scoped edits, a month-by-month loader, optimistic changes with undo, VoiceOver actions for every drag, settings, a mini month and a calendar list.",
+      "A Google Calendar-class scheduler on @super-calendar/native: day, N-day, week, month and agenda views, drag to create, move and resize, recurring events with scoped edits, a month-by-month loader, optimistic changes with undo, VoiceOver actions for every drag, settings, a mini month and a calendar list.",
     // The engine is pinned: the adapter is written against one version's
     // props. It needs Legend List, Gesture Handler and Reanimated beside it.
     dependencies: [

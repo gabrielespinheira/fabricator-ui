@@ -7,7 +7,9 @@
 - Server Components by default; `"use client"` on the smallest interactive leaf.
 - Docs and component pages are static (`generateStaticParams`, `dynamic = "force-static"`).
 - Previews render through `ComponentPreview` / `ComponentSource` from the generated indexes; blocks in the `/view/[style]/[name]` iframe.
+- Big components that should render at app width in place (Event Calendar) take `ComponentPreview wide`: the preview leaves the 632px prose for the docs column, up to 72rem (`app/fabricator-site.css`).
 - Full-screen demos are `type="frame"` previews. Their names start with a prefix in `FRAME_EXAMPLE_PREFIXES` (`app/(view)/view/[style]/[name]/page.tsx`); the dev server sees new frame examples only after a restart.
+- A heavy interactive demo that is responsive takes `type="frame" fit` (the Event Calendar's): the frame renders unscaled at the column's width and as tall as the demo, which reports its height (`FrameHeight`, `FRAME_HEIGHT_MESSAGE`). The docs page carries every style's CSS, over 500 `:has()` rules, so any element added or removed anywhere in it restyles all ~12,000 of its elements (~350ms); in a frame the demo restyles only its own document.
 - Pages name upstream's styles (`<base>-nova`); `toSiteStyle()` (`lib/site-style.ts`) maps them to `<base>-fabricator`, for previews, code, `.md` exports and `llms-full.txt`.
 - Code shown to readers is rewritten to user paths (`@/components/ui/*`).
 

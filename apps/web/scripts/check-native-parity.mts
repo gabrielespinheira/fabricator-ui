@@ -9,6 +9,7 @@ import {
   compareShapes,
   findMissingDemoValues,
   findUnresolvedImports,
+  findNativeOwner,
   getMissingComponentStatus,
   readComponentShape,
   readImports,
@@ -76,7 +77,8 @@ async function main() {
   const report = []
   for (const name of webNames) {
     const nativeFile = `registry/native/ui/${name}.tsx`
-    if (!items.has(name) || !existsSync(path.join(ROOT, nativeFile))) {
+    const owner = findNativeOwner(name, items)
+    if (!owner || !existsSync(path.join(ROOT, nativeFile))) {
       report.push({
         name,
         status: getMissingComponentStatus(name, exceptions),
@@ -88,7 +90,8 @@ async function main() {
     const nativeSource = await read(nativeFile)
     const webShape = readComponentShape(webSource)
     const nativeShape = readComponentShape(nativeSource)
-    const demoFile = `examples/native/${name}-example.tsx`
+    // A part is shown by its owner's demo.
+    const demoFile = `examples/native/${owner.name}-example.tsx`
     const gaps: ParityGap[] = compareShapes(webShape, nativeShape)
     if (existsSync(path.join(ROOT, demoFile))) {
       gaps.push(...findMissingDemoValues(nativeShape, await read(demoFile)))

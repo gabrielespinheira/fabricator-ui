@@ -4,6 +4,7 @@ import {
   applyExceptions,
   compareShapes,
   findMissingDemoValues,
+  findNativeOwner,
   findUnresolvedImports,
   getItemClosure,
   getMissingComponentStatus,
@@ -253,5 +254,35 @@ describe("missing native components", () => {
         [exception]
       )
     ).toHaveLength(2)
+  })
+})
+
+describe("findNativeOwner", () => {
+  const items = new Map<string, NativeItem>([
+    ["button", { name: "button", files: [{ path: "ui/button.tsx" }] }],
+    [
+      "event-calendar",
+      {
+        name: "event-calendar",
+        files: [
+          { path: "ui/event-calendar.tsx" },
+          { path: "ui/event-calendar-event.tsx" },
+        ],
+      },
+    ],
+  ])
+
+  it("finds the item of the same name", () => {
+    expect(findNativeOwner("button", items)?.name).toBe("button")
+  })
+
+  it("finds the item that ships a part as one of its files", () => {
+    expect(findNativeOwner("event-calendar-event", items)?.name).toBe(
+      "event-calendar"
+    )
+  })
+
+  it("finds nothing for a component native doesn't have", () => {
+    expect(findNativeOwner("data-table", items)).toBeUndefined()
   })
 })
