@@ -14,6 +14,7 @@ import { Switch } from "@/styles/base-fabricator/ui/switch"
 import {
   ASSISTANTS,
   getShellProject,
+  SETUP_BASES,
   type SetupChoices,
 } from "@/app/(app)/(create)/lib/setup"
 
@@ -32,6 +33,8 @@ type StepProps = {
   onBack: () => void
   onNext: () => void
 }
+
+const BASE_VALUES = SETUP_BASES.map(({ value }) => value)
 
 function SwitchRow({
   id,
@@ -74,6 +77,7 @@ export function ExtrasControls({
 }: StepProps) {
   const { hasWeb, hasMobile, hasDesktop } = getShellProject(choices)
   const isNativeOnly = hasMobile && !hasWeb && !hasDesktop
+  const hasWebApp = hasWeb || hasDesktop
   const hasAssistants = choices.assistants.length > 0
 
   return (
@@ -102,6 +106,31 @@ export function ExtrasControls({
           />
         </RadioGroup>
       </StepSection>
+
+      {hasWebApp ? (
+        <StepSection
+          title="Component primitives"
+          description="The library that handles keyboard, focus and screen readers under each web component. Every one looks the same."
+        >
+          <RadioGroup
+            value={choices.base}
+            onValueChange={(value) => {
+              const base = BASE_VALUES.find((candidate) => candidate === value)
+              if (base) onChange({ base })
+            }}
+            className="grid gap-3"
+          >
+            {SETUP_BASES.map((base) => (
+              <ChoiceCard
+                key={base.value}
+                value={base.value}
+                title={base.label}
+                description={base.description}
+              />
+            ))}
+          </RadioGroup>
+        </StepSection>
+      ) : null}
 
       <StepSection title="Sound">
         <SwitchRow

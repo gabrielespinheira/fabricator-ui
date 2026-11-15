@@ -36,6 +36,7 @@ import {
   SETUP_BASES,
   setupToParams,
   toProjectSetup,
+  type ProjectKind,
   type Setup,
 } from "@/app/(app)/(create)/lib/setup"
 import {
@@ -311,10 +312,10 @@ function Swatch({ hex }: { hex: string }) {
   )
 }
 
-const STARTING_POINTS: Record<Setup["project"], string> = {
-  new: "A new project",
-  monorepo: "A new monorepo",
-  existing: "An existing project",
+const STARTING_POINTS: Record<ProjectKind, string> = {
+  new: "New project",
+  monorepo: "New project",
+  existing: "Existing project",
 }
 
 function getProjectApps(setup: Setup) {
@@ -392,12 +393,6 @@ export function SetupSummary({
               {FRAMEWORKS.find(({ value }) => value === apps.framework)?.label}
             </SummaryRow>
           )}
-          {isNativeFramework(apps.framework) &&
-          apps.project === "new" ? null : (
-            <SummaryRow label="Primitives">
-              {SETUP_BASES.find(({ value }) => value === setup.base)?.label}
-            </SummaryRow>
-          )}
         </SummaryCard>
         <SummaryCard title="Look" onEdit={() => onEdit("look")}>
           <SummaryRow label="Primary">
@@ -459,6 +454,11 @@ export function SetupSummary({
           )}
         </SummaryCard>
         <SummaryCard title="Extras" onEdit={() => onEdit("extras")}>
+          {isNativeFramework(apps.framework) ? null : (
+            <SummaryRow label="Primitives">
+              {SETUP_BASES.find(({ value }) => value === setup.base)?.label}
+            </SummaryRow>
+          )}
           <SummaryRow label="Included">
             {extras.length > 0 ? extras.join(", ") : "None"}
           </SummaryRow>

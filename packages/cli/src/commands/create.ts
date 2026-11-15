@@ -1,4 +1,5 @@
 import { intro, log } from "@clack/prompts"
+import { DEFAULT_PROJECT_NAME } from "@fabricator-ui/setup"
 import { Command } from "commander"
 
 import {
@@ -50,7 +51,10 @@ export function createCreateCommand(): Command {
     .description(
       "create a project or monorepo with Fabricator UI, in one command"
     )
-    .argument("[name]", "the folder to create it in (default: my-app)")
+    .argument(
+      "[name]",
+      `the folder to create it in (default: ${DEFAULT_PROJECT_NAME})`
+    )
     .option(
       "-t, --template <framework>",
       "next, vite, start, react-router, astro, laravel, expo (default: next)"

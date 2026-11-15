@@ -95,7 +95,7 @@ describe("normalizeProjectSetup", () => {
 
 describe("projectName", () => {
   it("falls back for a blank name", () => {
-    expect(projectName(setup({ name: "  " }))).toBe("my-app")
+    expect(projectName(setup({ name: "  " }))).toBe("fabricator-ui")
     expect(projectName(setup({ name: " acme " }))).toBe("acme")
   })
 })

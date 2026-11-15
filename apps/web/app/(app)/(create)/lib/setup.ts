@@ -13,7 +13,6 @@ import {
   FRAMEWORK_VALUES,
   ICON_LIBRARY_VALUES,
   planSetup,
-  PROJECT_KINDS,
   resolveApps,
   toCliArgs,
   type AppChoices,
@@ -69,6 +68,12 @@ export const SETUP_BASES = BASES
 export const ICON_LIBRARY_NAMES = ICON_LIBRARY_VALUES
 export type IconLibraryName = IconLibrary
 
+/**
+ * Where the page starts from. A new project is always a monorepo; one with
+ * only a mobile app is still a plain Expo project (resolveApps).
+ */
+export const STARTING_POINTS = ["monorepo", "existing"] as const
+
 export function isIconLibraryName(value: unknown): value is IconLibraryName {
   return ICON_LIBRARY_NAMES.some((name) => name === value)
 }
@@ -81,11 +86,12 @@ export const CLI = "npx fabricator-ui@latest"
  * link adds them (setupToParams).
  */
 export const setupParsers = {
-  project: parseAsStringLiteral(PROJECT_KINDS).withDefault("monorepo"),
+  /** Old links' `new`, a single project, falls back to a new monorepo. */
+  project: parseAsStringLiteral(STARTING_POINTS).withDefault("monorepo"),
   framework: parseAsStringLiteral(FRAMEWORK_VALUES).withDefault("next"),
   /** The new project's folder; blank means the default. */
   name: parseAsString.withDefault(""),
-  /** The apps to make. A single project is one of web or mobile. */
+  /** The apps to make. */
   web: parseAsBoolean.withDefault(true),
   mobile: parseAsBoolean.withDefault(false),
   desktop: parseAsStringLiteral(DESKTOP_RUNTIME_VALUES).withDefault("none"),

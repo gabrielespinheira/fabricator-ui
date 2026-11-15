@@ -145,7 +145,7 @@ export const DESKTOP_RUNTIMES = [
 export const PACKAGE_MANAGERS = ["npm", "pnpm", "yarn", "bun"] as const
 export type PackageManager = (typeof PACKAGE_MANAGERS)[number]
 
-export const DEFAULT_PROJECT_NAME = "my-app"
+export const DEFAULT_PROJECT_NAME = "fabricator-ui"
 
 /** The Expo SDK the native registry is tested on. */
 export const EXPO_SDK = 58

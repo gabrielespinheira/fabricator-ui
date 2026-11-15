@@ -134,7 +134,7 @@ describe("planSetup", () => {
 describe("getNextSteps", () => {
   it("starts a web project", () => {
     expect(getNextSteps(setup({ project: "new" }), "npm")).toEqual([
-      { label: "Open the project", code: "cd my-app" },
+      { label: "Open the project", code: "cd fabricator-ui" },
       { label: "Start the app", code: "npm run dev" },
     ])
   })
@@ -145,7 +145,12 @@ describe("getNextSteps", () => {
         setup({ project: "monorepo", mobile: true, desktop: "tauri" }),
         "bun"
       ).map((step) => step.code)
-    ).toEqual(["cd my-app", "bun dev", "bun dev:mobile", "bun dev:desktop"])
+    ).toEqual([
+      "cd fabricator-ui",
+      "bun dev",
+      "bun dev:mobile",
+      "bun dev:desktop",
+    ])
   })
 
   it("builds an Expo app", () => {
