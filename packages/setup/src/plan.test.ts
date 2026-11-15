@@ -72,6 +72,20 @@ describe("planSetup", () => {
     ])
   })
 
+  it("makes a workspace around a lone mobile app, with no web steps", () => {
+    expect(
+      planSetup(setup({ web: false, mobile: true })).map((step) => step.id)
+    ).toEqual([
+      "scaffold-monorepo",
+      "scaffold-mobile",
+      "configure-workspace",
+      "install",
+      "setup-mobile",
+      "mount",
+      "first-commit",
+    ])
+  })
+
   it("creates an Expo app with its own tool", () => {
     expect(ids({ framework: "expo" })).toEqual([
       "scaffold-mobile",
@@ -137,6 +151,14 @@ describe("getNextSteps", () => {
       { label: "Open the project", code: "cd fabricator-ui" },
       { label: "Start the app", code: "npm run dev" },
     ])
+  })
+
+  it("starts a lone mobile app in a monorepo", () => {
+    expect(
+      getNextSteps(setup({ web: false, mobile: true }), "bun").map(
+        (step) => step.code
+      )
+    ).toEqual(["cd fabricator-ui", "bun dev:mobile"])
   })
 
   it("starts each app in a monorepo", () => {
@@ -238,10 +260,7 @@ describe("a setup without a website", () => {
     )
   })
 
-  it("plans a lone mobile app as the Expo project", () => {
-    expect(ids({ web: false, mobile: true })).toEqual(
-      ids({ framework: "expo" })
-    )
+  it("plans the Expo template as one Expo project", () => {
     expect(ids({ framework: "expo" })[0]).toBe("scaffold-mobile")
   })
 })

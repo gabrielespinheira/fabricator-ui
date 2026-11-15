@@ -229,12 +229,6 @@ function ProjectApps({
           if (runtime) onChange({ desktop: runtime })
         }}
       />
-      {!hasWeb && !hasDesktop ? (
-        <FieldDescription>
-          On its own, a mobile app is a plain Expo project, with no monorepo
-          around it.
-        </FieldDescription>
-      ) : null}
       {!hasWeb && hasDesktop ? (
         <FieldDescription>
           The window renders a web app, so apps/web is still there as its UI.

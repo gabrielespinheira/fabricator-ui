@@ -668,20 +668,26 @@ const scenarios: Scenario[] = [
     run(dir: string) {
       cli(["create", "app", "--mobile", "--no-web", "--yes", "-c", dir], dir)
       const root = path.join(dir, "app")
+      const mobile = path.join(root, "apps/mobile")
       assert(
         fs
-          .readFileSync(path.join(root, "src/app/_layout.tsx"), "utf8")
+          .readFileSync(path.join(mobile, "src/app/_layout.tsx"), "utf8")
           .includes("<AppShellRoot>"),
         "The native shell isn't mounted"
       )
       assert(
-        !fs.existsSync(path.join(root, "apps")),
-        "A lone mobile app got a monorepo"
+        !fs.existsSync(path.join(root, "apps/web")) &&
+          !fs.existsSync(path.join(root, "packages")),
+        "A lone mobile app got web packages"
+      )
+      assert(
+        readJson(path.join(root, "package.json")).scripts?.["dev:mobile"],
+        "The root can't start the mobile app"
       )
       run(
         "npx",
         ["expo", "export", "--platform", "ios", "--output-dir", "dist"],
-        root
+        mobile
       )
     },
   },

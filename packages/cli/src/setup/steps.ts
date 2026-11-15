@@ -16,6 +16,7 @@ import path from "node:path"
 import { fileURLToPath } from "node:url"
 import {
   EXPO_SDK,
+  hasWebApp,
   projectName,
   type Framework,
   type PackageManager,
@@ -66,8 +67,10 @@ import { writeSkill } from "./skill"
 import {
   buildRootPackage,
   buildWebPackageForDesktop,
+  buildWorkspaceRoot,
   BUN_HOISTED_CONFIG,
   getNativePeerPins,
+  PNPM_WORKSPACE_CONFIG,
   withPins,
 } from "./workspace-config"
 
@@ -131,6 +134,19 @@ async function webItemsFor(
     framework,
     await getAllComponents(context, webStyle(context.setup))
   )
+}
+
+/** A monorepo for a lone mobile app: just the workspace, around apps/. */
+const scaffoldMonorepo: Step = async (context) => {
+  const { root, setup, packageManager } = context
+  const rootPackage = path.join(root, "package.json")
+  if (existsSync(rootPackage)) return
+  mkdirSync(path.join(root, "apps"), { recursive: true })
+  writeJsonFile(rootPackage, buildWorkspaceRoot(projectName(setup)))
+  if (packageManager === "pnpm") {
+    writeFileSync(path.join(root, "pnpm-workspace.yaml"), PNPM_WORKSPACE_CONFIG)
+  }
+  writeFileSync(path.join(root, ".gitignore"), "node_modules\n.DS_Store\n")
 }
 
 const scaffoldWeb: Step = async (context) => {
@@ -377,6 +393,7 @@ const configureWorkspace: Step = async (context) => {
     rootPackage,
     buildRootPackage(readJsonFile(rootPackage), {
       packageManager,
+      hasWebApp: hasWebApp(setup),
       hasDesktop: setup.desktop !== "none",
       ...(mobileReact ? { mobileReact } : {}),
     })
@@ -588,7 +605,7 @@ const mount: Step = async (context) => {
     mountNative(context, mobileDir)
     writeNativePages(mobileDir)
   }
-  if (isExpoOnly) return
+  if (!hasWebApp(setup)) return
   mountWeb(context, webDir, setup.framework)
   if (setup.appShell) {
     context.notes.push(...writeWebPages(webDir, setup.framework))
@@ -600,7 +617,12 @@ const agents: Step = async (context) => {
   if (setup.skill) writeSkill(root, setup.assistants)
   if (setup.mcp) {
     const clients: McpClient[] = setup.assistants
-    const appDir = setup.project === "monorepo" ? "apps/web" : undefined
+    const appDir =
+      setup.project !== "monorepo"
+        ? undefined
+        : hasWebApp(setup)
+          ? "apps/web"
+          : "apps/mobile"
     writeMcpConfigs(root, clients, appDir)
     if (clients.includes("codex")) {
       context.notes.push(
@@ -703,6 +725,7 @@ const setupExisting: Step = async (context) => {
 }
 
 export const STEPS: Record<StepId, Step> = {
+  "scaffold-monorepo": scaffoldMonorepo,
   "scaffold-web": scaffoldWeb,
   "scaffold-laravel": scaffoldLaravel,
   "setup-existing": setupExisting,

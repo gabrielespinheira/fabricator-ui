@@ -4,6 +4,7 @@ import {
   EXPO_SDK,
   getBaseLabel,
   getFrameworkLabel,
+  hasWebApp,
   isWebFramework,
   normalizeProjectSetup,
   projectName,
@@ -33,18 +34,23 @@ export function getProjectTree(rawSetup: ProjectSetup): ProjectTreeNode {
   if (setup.project === "new") {
     return { name, note: webNote, mark: setup.framework, children: [] }
   }
+  const hasWeb = hasWebApp(setup)
   return {
     name,
     children: [
       {
         name: "apps",
         children: [
-          {
-            name: "web",
-            note: setup.web ? webNote : `${webNote}, the window's UI`,
-            mark: setup.framework,
-            children: [],
-          },
+          ...(hasWeb
+            ? [
+                {
+                  name: "web",
+                  note: setup.web ? webNote : `${webNote}, the window's UI`,
+                  mark: setup.framework,
+                  children: [],
+                },
+              ]
+            : []),
           ...(setup.mobile
             ? [
                 {
@@ -67,10 +73,15 @@ export function getProjectTree(rawSetup: ProjectSetup): ProjectTreeNode {
               ]),
         ],
       },
-      {
-        name: "packages",
-        children: [{ name: "ui", note: "Web components", children: [] }],
-      },
+      // A mobile app keeps its React Native components in apps/mobile.
+      ...(hasWeb
+        ? [
+            {
+              name: "packages",
+              children: [{ name: "ui", note: "Web components", children: [] }],
+            },
+          ]
+        : []),
     ],
   }
 }

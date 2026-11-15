@@ -242,9 +242,9 @@ const EXPO_ONLY: AppChoices = {
 }
 
 /**
- * What a project's choices of apps come to. A mobile app alone is a plain Expo
- * project: nothing else would use a monorepo around it. A desktop app alone
- * keeps its monorepo, because its window renders the web app in it.
+ * What a project's choices of apps come to. The Expo template is a plain Expo
+ * project; a mobile app chosen alone keeps its monorepo, in apps/mobile. A
+ * desktop app alone keeps apps/web, because its window renders it.
  */
 export function resolveApps(choices: AppChoices): AppChoices {
   if (choices.project === "existing") {
@@ -259,7 +259,16 @@ export function resolveApps(choices: AppChoices): AppChoices {
     return { project: "new", framework, web: true, mobile, desktop: "none" }
   }
   const { desktop } = choices
-  if (mobile && !web && desktop === "none") return EXPO_ONLY
+  if (isExpo && desktop === "none") return EXPO_ONLY
+  if (mobile && !web && desktop === "none") {
+    return {
+      project: "monorepo",
+      framework: DEFAULT_PROJECT_SETUP.framework,
+      web: false,
+      mobile: true,
+      desktop: "none",
+    }
+  }
   return {
     project: "monorepo",
     framework: MONOREPO_FRAMEWORKS.includes(framework)
@@ -271,15 +280,19 @@ export function resolveApps(choices: AppChoices): AppChoices {
   }
 }
 
+/** Whether the resolved apps include a web app: a website or a window's UI. */
+export function hasWebApp(apps: AppChoices) {
+  if (apps.project === "monorepo") return apps.web || apps.desktop !== "none"
+  return isWebFramework(apps.framework)
+}
+
 /** Removes the states no project can be in, so the page and the command agree. */
 export function normalizeProjectSetup(setup: ProjectSetup): ProjectSetup {
   const apps = resolveApps(setup)
   return {
     ...setup,
     ...apps,
-    base: isWebFramework(apps.framework)
-      ? setup.base
-      : DEFAULT_PROJECT_SETUP.base,
+    base: hasWebApp(apps) ? setup.base : DEFAULT_PROJECT_SETUP.base,
     shell: normalizeShell(setup.shell, apps.desktop !== "none"),
     assistants: ASSISTANT_VALUES.filter((assistant) =>
       setup.assistants.includes(assistant)

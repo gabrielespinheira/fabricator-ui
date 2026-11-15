@@ -170,10 +170,10 @@ describe("the apps in the command", () => {
     ])
   })
 
-  it("writes a lone mobile app as the Expo template", () => {
-    expect(args({ web: false, mobile: true })).toEqual(
-      args({ framework: "expo" })
-    )
+  it("writes a lone mobile app as a monorepo without a website", () => {
+    expect(
+      args({ web: false, mobile: true, framework: "vite", base: "radix" })
+    ).toEqual(["create", "fabricator-ui", "--no-web", "--mobile", "--yes"])
   })
 
   it("says when there's no website", () => {

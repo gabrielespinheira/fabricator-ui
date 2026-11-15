@@ -31,7 +31,7 @@ import {
   FRAMEWORKS,
   getSetupPlan,
   getShellProject,
-  isNativeFramework,
+  hasWebApp,
   resolveApps,
   SETUP_BASES,
   setupToParams,
@@ -388,7 +388,7 @@ export function SetupSummary({
           {apps.project === "existing" ? null : (
             <SummaryRow label="Apps">{appNames.join(", ")}</SummaryRow>
           )}
-          {apps.project === "existing" ? null : (
+          {apps.project === "existing" || !hasWebApp(apps) ? null : (
             <SummaryRow label="Framework">
               {FRAMEWORKS.find(({ value }) => value === apps.framework)?.label}
             </SummaryRow>
@@ -454,11 +454,11 @@ export function SetupSummary({
           )}
         </SummaryCard>
         <SummaryCard title="Extras" onEdit={() => onEdit("extras")}>
-          {isNativeFramework(apps.framework) ? null : (
+          {hasWebApp(apps) ? (
             <SummaryRow label="Primitives">
               {SETUP_BASES.find(({ value }) => value === setup.base)?.label}
             </SummaryRow>
-          )}
+          ) : null}
           <SummaryRow label="Included">
             {extras.length > 0 ? extras.join(", ") : "None"}
           </SummaryRow>

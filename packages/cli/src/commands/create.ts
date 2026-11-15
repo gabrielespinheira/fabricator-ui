@@ -62,7 +62,7 @@ export function createCreateCommand(): Command {
     .option("-b, --base <base>", "component library: base, radix or aria")
     .option("--monorepo", "a monorepo, with room for more apps (the default)")
     .option("--no-monorepo", "a single project: one app in one folder")
-    .option("--no-web", "no website: mobile alone is a plain Expo project")
+    .option("--no-web", "no website: a mobile app alone stays in apps/mobile")
     .option("--mobile", "add apps/mobile: React Native with Expo")
     .option("--desktop <runtime>", "add apps/desktop: electron or tauri")
   return addSetupOptions(command)

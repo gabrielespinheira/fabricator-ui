@@ -54,6 +54,7 @@ export {
   DESKTOP_RUNTIMES,
   forPackageManager,
   FRAMEWORKS,
+  hasWebApp,
   MONOREPO_FRAMEWORKS,
   PACKAGE_MANAGERS,
   resolveApps,
@@ -68,10 +69,7 @@ export const SETUP_BASES = BASES
 export const ICON_LIBRARY_NAMES = ICON_LIBRARY_VALUES
 export type IconLibraryName = IconLibrary
 
-/**
- * Where the page starts from. A new project is always a monorepo; one with
- * only a mobile app is still a plain Expo project (resolveApps).
- */
+/** Where the page starts from. A new project is always a monorepo. */
 export const STARTING_POINTS = ["monorepo", "existing"] as const
 
 export function isIconLibraryName(value: unknown): value is IconLibraryName {

@@ -163,10 +163,11 @@ describe("create's starting point", () => {
     })
   })
 
-  it("makes --mobile --no-web a plain Expo project", () => {
+  it("keeps --mobile --no-web a monorepo, with the app in apps/mobile", () => {
     expect(apps({ mobile: true, web: false })).toMatchObject({
-      project: "new",
-      framework: "expo",
+      project: "monorepo",
+      web: false,
+      mobile: true,
     })
   })
 

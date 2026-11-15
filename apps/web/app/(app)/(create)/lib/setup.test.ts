@@ -106,9 +106,9 @@ describe("the apps in the command", () => {
     )
   })
 
-  it("writes a lone mobile app as the Expo template", () => {
+  it("writes a lone mobile app as a monorepo without a website", () => {
     expect(buildSetupCommand(setup({ web: false, mobile: true }), "npm")).toBe(
-      "npx fabricator-ui@latest create fabricator-ui -t expo --yes"
+      "npx fabricator-ui@latest create fabricator-ui --no-web --mobile --yes"
     )
   })
 

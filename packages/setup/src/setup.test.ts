@@ -149,8 +149,26 @@ describe("the apps a setup chooses", () => {
     })
   })
 
-  it("makes a lone mobile app a plain Expo project", () => {
-    expect(apps({ web: false, mobile: true })).toEqual(EXPO_ONLY)
+  it("keeps a lone mobile app in a monorepo, in apps/mobile", () => {
+    expect(apps({ web: false, mobile: true })).toEqual({
+      project: "monorepo",
+      framework: "next",
+      web: false,
+      mobile: true,
+      desktop: "none",
+    })
+  })
+
+  it("drops the web framework and primitives when there's no web app", () => {
+    const setup = normalizeProjectSetup({
+      ...DEFAULT_PROJECT_SETUP,
+      web: false,
+      mobile: true,
+      framework: "vite",
+      base: "radix",
+    })
+    expect(setup.framework).toBe("next")
+    expect(setup.base).toBe("base")
   })
 
   it("reads the Expo template as a lone mobile app, however it was asked for", () => {

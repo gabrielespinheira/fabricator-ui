@@ -6,6 +6,7 @@ import {
   getAssistantLabel,
   getBaseLabel,
   getFrameworkLabel,
+  hasWebApp,
   isWebFramework,
   normalizeProjectSetup,
   projectName,
@@ -15,6 +16,7 @@ import {
 } from "./setup"
 
 export type StepId =
+  | "scaffold-monorepo"
   | "scaffold-web"
   | "scaffold-laravel"
   | "setup-existing"
@@ -94,7 +96,48 @@ const FIRST_COMMIT: PlanStep = {
   detail: "Everything above, in one commit.",
 }
 
+const SCAFFOLD_MOBILE: PlanStep = {
+  id: "scaffold-mobile",
+  title: "Add the mobile app",
+  detail: `Expo SDK ${EXPO_SDK} with Expo Router, in apps/mobile.`,
+}
+
+function setupMobileStep(setup: ProjectSetup): PlanStep {
+  return {
+    id: "setup-mobile",
+    title: "Set up the mobile app",
+    detail: `Uniwind, your look and the React Native components${setup.appShell ? ", with the App Shell" : ""}.`,
+  }
+}
+
+/** A monorepo with only a mobile app: no web app, so no packages/ui. */
+function mobileMonorepoSteps(setup: ProjectSetup): PlanStep[] {
+  return [
+    {
+      id: "scaffold-monorepo",
+      title: "Create the monorepo",
+      detail: "A workspace for your apps, with room to add more.",
+    },
+    SCAFFOLD_MOBILE,
+    {
+      id: "configure-workspace",
+      title: "Configure the workspace",
+      detail: "A script to start the mobile app from the root.",
+    },
+    {
+      id: "install",
+      title: "Install dependencies",
+      detail: "Once, at the root.",
+    },
+    setupMobileStep(setup),
+    ...mountStep(setup),
+    ...agentSteps(setup),
+    FIRST_COMMIT,
+  ]
+}
+
 function monorepoSteps(setup: ProjectSetup): PlanStep[] {
+  if (!hasWebApp(setup)) return mobileMonorepoSteps(setup)
   const framework = getFrameworkLabel(setup.framework)
   return [
     {
@@ -114,15 +157,7 @@ function monorepoSteps(setup: ProjectSetup): PlanStep[] {
       title: setup.web ? "Add the web app's components" : "Add the components",
       detail: `Installs ${describeWebItems(setup)}.`,
     },
-    ...(setup.mobile
-      ? [
-          {
-            id: "scaffold-mobile" as const,
-            title: "Add the mobile app",
-            detail: `Expo SDK ${EXPO_SDK} with Expo Router, in apps/mobile.`,
-          },
-        ]
-      : []),
+    ...(setup.mobile ? [SCAFFOLD_MOBILE] : []),
     ...(setup.desktop === "none"
       ? []
       : [
@@ -142,15 +177,7 @@ function monorepoSteps(setup: ProjectSetup): PlanStep[] {
       title: "Install dependencies",
       detail: "Once, at the root.",
     },
-    ...(setup.mobile
-      ? [
-          {
-            id: "setup-mobile" as const,
-            title: "Set up the mobile app",
-            detail: `Uniwind, your look and the React Native components${setup.appShell ? ", with the App Shell" : ""}.`,
-          },
-        ]
-      : []),
+    ...(setup.mobile ? [setupMobileStep(setup)] : []),
     ...mountStep(setup),
     ...agentSteps(setup),
     FIRST_COMMIT,

@@ -18,6 +18,16 @@ describe("getProjectTree", () => {
     expect(tree.children).toEqual([])
   })
 
+  it("keeps a lone mobile app in apps/mobile, with no web packages", () => {
+    const tree = getProjectTree(setup({ web: false, mobile: true }))
+    expect(tree.children).toEqual([
+      {
+        name: "apps",
+        children: [expect.objectContaining({ name: "mobile", mark: "expo" })],
+      },
+    ])
+  })
+
   it("lays out a monorepo's apps", () => {
     const tree = getProjectTree(
       setup({ project: "monorepo", mobile: true, desktop: "tauri" })
@@ -66,12 +76,8 @@ describe("the tree without a website", () => {
     expect(web?.note).toContain("the window's UI")
   })
 
-  it("shows a lone mobile app as one Expo project", () => {
-    const tree = getProjectTree({
-      ...DEFAULT_PROJECT_SETUP,
-      web: false,
-      mobile: true,
-    })
+  it("shows the Expo template as one Expo project", () => {
+    const tree = getProjectTree({ ...DEFAULT_PROJECT_SETUP, framework: "expo" })
     expect(tree.mark).toBe("expo")
     expect(tree.children).toEqual([])
   })

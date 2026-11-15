@@ -31,8 +31,11 @@ npx fabricator-ui@latest create my-app -t vite --mobile --desktop tauri --agents
 # One app in one folder
 npx fabricator-ui@latest create my-app --no-monorepo --yes
 
-# Only a React Native app: a plain Expo project
+# Only a React Native app, in apps/mobile
 npx fabricator-ui@latest create my-app --mobile --no-web --yes
+
+# A plain Expo project, with no monorepo
+npx fabricator-ui@latest create my-app -t expo --yes
 
 # See what it would do
 npx fabricator-ui@latest create my-app --mobile --dry-run

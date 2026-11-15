@@ -47,14 +47,24 @@ export function getNativePeerPins(bundled: Record<string, unknown>) {
   )
 }
 
+/** The root of a monorepo with no web app, which shadcn's template can't make. */
+export function buildWorkspaceRoot(name: string): RootPackage {
+  return { name, private: true, workspaces: ["apps/*"] }
+}
+
+export const PNPM_WORKSPACE_CONFIG = "packages:\n  - apps/*\n"
+
 export function buildRootPackage(
   pkg: RootPackage,
   {
     packageManager,
+    hasWebApp,
     hasDesktop,
     mobileReact,
   }: {
     packageManager: PackageManager
+    /** apps/web, which `dev` starts. Without it there's only a mobile app. */
+    hasWebApp: boolean
     hasDesktop: boolean
     /** The React version the Expo template pins, when there's a mobile app. */
     mobileReact?: string
@@ -65,7 +75,7 @@ export function buildRootPackage(
     scripts: {
       ...pkg.scripts,
       // A plain `turbo dev` would launch Expo and a window too.
-      dev: "turbo run dev --filter=web",
+      ...(hasWebApp ? { dev: "turbo run dev --filter=web" } : {}),
       ...(mobileReact
         ? { "dev:mobile": `cd apps/mobile && ${packageManager} run start` }
         : {}),

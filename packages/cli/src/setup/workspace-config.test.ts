@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest"
 import {
   buildRootPackage,
   buildWebPackageForDesktop,
+  buildWorkspaceRoot,
   getNativePeerPins,
   withPins,
 } from "./workspace-config"
@@ -15,14 +16,30 @@ describe("buildRootPackage", () => {
 
   it("starts only the web app from dev", () => {
     expect(
-      buildRootPackage(pkg, { packageManager: "bun", hasDesktop: false })
-        .scripts
+      buildRootPackage(pkg, {
+        packageManager: "bun",
+        hasWebApp: true,
+        hasDesktop: false,
+      }).scripts
     ).toEqual({ build: "turbo build", dev: "turbo run dev --filter=web" })
+  })
+
+  it("starts a lone mobile app, with no web app to run", () => {
+    const { scripts } = buildRootPackage(buildWorkspaceRoot("app"), {
+      packageManager: "npm",
+      hasWebApp: false,
+      hasDesktop: false,
+      mobileReact: "19.3.0",
+    })
+    expect(scripts).toEqual({
+      "dev:mobile": "cd apps/mobile && npm run start",
+    })
   })
 
   it("adds a script per app", () => {
     const { scripts } = buildRootPackage(pkg, {
       packageManager: "pnpm",
+      hasWebApp: true,
       hasDesktop: true,
       mobileReact: "19.3.0",
     })
@@ -37,6 +54,7 @@ describe("buildRootPackage", () => {
       expect(
         buildRootPackage(pkg, {
           packageManager,
+          hasWebApp: true,
           hasDesktop: false,
           mobileReact: "19.3.0",
         }).overrides
@@ -51,6 +69,7 @@ describe("buildRootPackage", () => {
   it("uses yarn's field", () => {
     const root = buildRootPackage(pkg, {
       packageManager: "yarn",
+      hasWebApp: true,
       hasDesktop: false,
       mobileReact: "19.3.0",
     })
@@ -62,14 +81,28 @@ describe("buildRootPackage", () => {
     expect(
       buildRootPackage(pkg, {
         packageManager: "pnpm",
+        hasWebApp: true,
         hasDesktop: false,
         mobileReact: "19.3.0",
       }).overrides
     ).toBeUndefined()
     expect(
-      buildRootPackage(pkg, { packageManager: "npm", hasDesktop: true })
-        .overrides
+      buildRootPackage(pkg, {
+        packageManager: "npm",
+        hasWebApp: true,
+        hasDesktop: true,
+      }).overrides
     ).toBeUndefined()
+  })
+})
+
+describe("buildWorkspaceRoot", () => {
+  it("is a private workspace of the apps", () => {
+    expect(buildWorkspaceRoot("acme")).toEqual({
+      name: "acme",
+      private: true,
+      workspaces: ["apps/*"],
+    })
   })
 })
 

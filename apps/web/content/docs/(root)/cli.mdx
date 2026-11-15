@@ -29,7 +29,7 @@ npx fabricator-ui@latest create my-app --mobile --desktop tauri --agents claude,
 
 Every app gets your look. The web app and the desktop window share a codebase, and the mobile app has its own React Native components, written from the same App Shell options.
 
-**No website?** `--no-web` leaves it out. A mobile app on its own is a plain Expo project, with no monorepo around it, the same as `-t expo`. A desktop app on its own keeps `apps/web`, because its window renders that app.
+**No website?** `--no-web` leaves it out. A mobile app on its own still gets the monorepo, with the app in `apps/mobile` and no web packages; for a plain Expo project, use `-t expo`. A desktop app on its own keeps `apps/web`, because its window renders that app.
 
 ```bash
 npx fabricator-ui@latest create my-app --mobile --no-web --yes
@@ -46,7 +46,7 @@ Options:
   -b, --base <base>           component library: base, radix or aria
   --monorepo                  a monorepo, with room for more apps (the default)
   --no-monorepo               a single project: one app in one folder
-  --no-web                    no website: mobile alone is a plain Expo project
+  --no-web                    no website: a mobile app alone stays in apps/mobile
   --mobile                    add apps/mobile: React Native with Expo
   --desktop <runtime>         add apps/desktop: electron or tauri
   --look <values>             your look, as key=value pairs: primary=260_0.2,shape=pill
