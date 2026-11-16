@@ -190,25 +190,30 @@ extension Color {
 struct FabricatorSurface: ViewModifier {
     @Environment(\.fabricatorTheme) private var theme
     var radius: String = "xl"
-    var elevation: String = "card"
+    var elevation: String? = "card"
+    var fill: Color? = nil
+    var cornerRadius: CGFloat? = nil
     func body(content: Content) -> some View {
-        let shadows = theme.shadows(elevation)
+        let fillColor = fill ?? theme.color("card")
+        let corner = cornerRadius ?? theme.radius(radius)
+        let shadows = elevation.map { theme.shadows($0) } ?? []
         content.background {
             ZStack {
                 ForEach(Array(shadows.enumerated()).filter { !$0.element.isInset }.reversed(), id: \.offset) { _, shadow in
-                    RoundedRectangle(cornerRadius: theme.radius(radius)).inset(by: -shadow.spread).fill(shadow.color).blur(radius: shadow.blur / 2).offset(x: shadow.x, y: shadow.y)
+                    RoundedRectangle(cornerRadius: corner).inset(by: -shadow.spread).fill(shadow.color).blur(radius: shadow.blur / 2).offset(x: shadow.x, y: shadow.y)
                 }
-                RoundedRectangle(cornerRadius: theme.radius(radius)).fill(theme.color("card"))
+                RoundedRectangle(cornerRadius: corner).fill(fillColor)
             }
         }.overlay {
             ForEach(Array(shadows.enumerated()).filter { $0.element.isInset }, id: \.offset) { _, shadow in
-                RoundedRectangle(cornerRadius: theme.radius(radius)).strokeBorder(shadow.color, lineWidth: max(1, shadow.spread)).offset(x: shadow.x, y: shadow.y).clipShape(RoundedRectangle(cornerRadius: theme.radius(radius)))
+                RoundedRectangle(cornerRadius: corner).strokeBorder(shadow.color, lineWidth: max(1, shadow.spread)).offset(x: shadow.x, y: shadow.y).clipShape(RoundedRectangle(cornerRadius: corner))
             }
         }
     }
 }
 public extension View {
-    func fabricatorSurface(radius: String = "xl", elevation: String = "card") -> some View { modifier(FabricatorSurface(radius: radius, elevation: elevation)) }
+    func fabricatorSurface(radius: String = "xl", elevation: String? = "card", fill: Color? = nil) -> some View { modifier(FabricatorSurface(radius: radius, elevation: elevation, fill: fill)) }
+    func fabricatorSurface(cornerRadius: CGFloat, elevation: String? = "card", fill: Color? = nil) -> some View { modifier(FabricatorSurface(elevation: elevation, fill: fill, cornerRadius: cornerRadius)) }
 }
 
 struct FabricatorShadow {

@@ -1,6 +1,6 @@
 # BotFace: agent states and fluid expressions
 
-Status: implemented, 2026-11-15. Section 18 refines thinking; section 17 refines questioning; section 16 refines eye morphing. Section 15 removes playback controls; section 14 records custom colours and configuration code; section 13 records symbolic eyes and shape gestures. Earlier sections retain prior implementation results. Simulator visual/accessibility checks remain unavailable.
+Status: implemented, 2026-11-16. Section 19 refines in-state motion and the questioning curl. Section 18 refines thinking; section 17 refines questioning; section 16 refines eye morphing. Section 15 removes playback controls; section 14 records custom colours and configuration code; section 13 records symbolic eyes and shape gestures. Earlier sections retain prior implementation results. Simulator visual/accessibility checks remain unavailable.
 
 ## 1. Direction
 
@@ -397,3 +397,19 @@ New behavior coverage first rejected the old uniform arc geometry, unchanged eye
 - Repository-wide `bun run check` did not pass: unrelated concurrent edits leave `packages/setup/src/plan.test.ts` unformatted. A separate web typecheck reported possibly undefined `node.children` in `project-tree.tsx` and incomplete `platform-contracts` imports/types while that work was in progress. Those files were left untouched; the isolated current-source BotFace consumer passes. Logs: `tmp/bot-face-thinking-check.log`, `tmp/bot-face-thinking-web-types.log` and `tmp/bot-face-thinking-consumer-types.log`.
 - Updated component docs, design specs and unreleased changelog. No new dependency; isolated face/models measure 7,818 bytes gzip, 242 bytes smaller than section 17, or 8,385 bytes with the session hook. Same method/exclusions as before; `tmp/bot-face-thinking-bundle.json`.
 - Native device visuals, VoiceOver/TalkBack and real-device performance remain unverified; both Relay simulator slots remain occupied. Fresh Expo installation/export, upstream parity and whole-catalog recapture were not repeated for this exclusive shared-model change; types/install checks and targeted state captures cover the changed payload and appearance. This task ran no commit or push command. Logs use `tmp/bot-face-thinking-*`.
+
+## 19. Revision: alive gestures and a questioning curl
+
+Questioning keeps a rounded eye body and bends a thick curl from the upper-right corner. The curl eases from a softer eye to a clearer hook and back. The left eye leads; the right eye uses a milder curl. Slanted, Dots and Squares stay in their own proportions. The still pose, used when motion is reduced, already shows the curl.
+
+Inside each state the shape holds, then moves. Idle breathes and follows its glance. Listening lids lead the two nods. Thinking holds an upward look, then shifts, with a staggered lift and squint. Working squints on each saccade. Speaking pulses the six bars. Happy plays two smile beats. Sad droops and partly recovers. Permission raises one eye ahead of the other. Error settles the crosses slowly and unevenly. Eye shape and symbols use a shorter channel than the head, so the expression arrives and the head follows. Root position and size stay fixed. The existing critically damped solver keeps rapid state changes continuous.
+
+### Verification
+
+- Passed: 41 BotFace tests across motion, morph, session, model, palette and native geometry. The questioning test requires a connected eye, a wide lower half, and a visible curl change over the cycle.
+- Passed: `bun run registry:build` after the final contour. Generated styles include the curl.
+- Passed: browser regression on Base UI, Radix and Aria, including state transitions, persistent paths, keyboard, phone and desktop widths, light and dark, and scoped axe. Log: `tmp/bot-face-alive-browser.log`.
+- Reviewed: the running docs in Relay, plus cropped frames of the questioning cycle at 120ms, 1400ms and 2300ms, and Dots, Squares, listening, thinking, working, speaking and happy (`tmp/bot-face-alive/docs-q-1400.png` and the sibling captures). Happy was reached from questioning through the state controls.
+- Scoped ESLint and Prettier on the motion module passed. `git diff --check` is clean for the BotFace files.
+- Docs already describe the curl easing between a softer eye and a clearer question, with one eye leading and the head following. No API or dependency change.
+- Native device visuals remain unverified. Both Relay simulator slots are on hard leases for other work. No commit or push. Logs use `tmp/bot-face-alive-*`.

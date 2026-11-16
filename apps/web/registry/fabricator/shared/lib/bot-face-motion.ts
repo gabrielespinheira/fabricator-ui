@@ -147,9 +147,6 @@ const EXPRESSIONS: Record<BotFaceState, Partial<BotFacePose>> = {
   },
   questioning: {
     question: 1,
-    leftY: -1,
-    rightY: 1,
-    tilt: 2,
     slant: 0,
   },
   "awaiting-permission": {
@@ -170,31 +167,56 @@ const EXPRESSIONS: Record<BotFaceState, Partial<BotFacePose>> = {
 
 // These are behavioral cadences, separate from the move/settle response speed.
 const CADENCE = {
-  idle: 3600,
+  idle: 5200,
   listening: 3400,
   thinking: 4000,
   working: 2800,
-  speaking: 720,
-  happy: 2400,
-  sad: 5200,
-  questioning: 3200,
+  speaking: 680,
+  happy: 2600,
+  sad: 5600,
+  questioning: 3400,
   permission: 3800,
-  error: 4000,
+  error: 4600,
 } as const
 const WORK_SCAN = [
   [0, -0.85],
-  [0.16, -0.85],
-  [0.34, 0.85],
+  [0.2, -0.85],
+  [0.28, 0.85],
   [0.52, 0.85],
-  [0.7, -0.85],
-  [1, -0.85],
+  [0.6, -0.85],
+  [0.78, -0.85],
+  [0.86, 0.15],
+  [1, 0.15],
+] as const
+const WORK_ARC = [
+  [0, -0.15],
+  [0.2, -0.15],
+  [0.24, 0.32],
+  [0.3, -0.12],
+  [0.52, -0.12],
+  [0.56, 0.32],
+  [0.62, -0.15],
+  [1, -0.15],
+] as const
+const WORK_SQUINT = [
+  [0, 0],
+  [0.18, 0],
+  [0.23, 1],
+  [0.31, 0],
+  [0.5, 0],
+  [0.55, 1],
+  [0.63, 0],
+  [0.76, 0],
+  [0.81, 0.7],
+  [0.88, 0],
+  [1, 0],
 ] as const
 const THINK_SCAN = [
   [0, -0.65],
   [0.2, -0.65],
-  [0.38, 0.65],
-  [0.64, 0.65],
-  [0.82, -0.65],
+  [0.28, 0.65],
+  [0.62, 0.65],
+  [0.7, -0.65],
   [1, -0.65],
 ] as const
 const THINK_LIFT = [
@@ -204,26 +226,105 @@ const THINK_LIFT = [
   [0.24, 0],
   [1, 0],
 ] as const
+const THINK_SQUINT = [
+  [0, 0],
+  [0.18, 0],
+  [0.23, 1],
+  [0.3, 0],
+  [0.6, 0],
+  [0.65, 1],
+  [0.73, 0],
+  [1, 0],
+] as const
 const LISTEN_NOD = [
   [0, 0],
-  [0.1, 1],
-  [0.21, -0.3],
-  [0.3, 0.75],
-  [0.42, 0],
+  [0.08, -0.12],
+  [0.16, 1],
+  [0.26, -0.3],
+  [0.34, 0.75],
+  [0.46, 0],
   [1, 0],
 ] as const
 const ATTENTION_RAISE = [
   [0, 0],
-  [0.08, 1],
-  [0.17, 0],
-  [0.26, 0.8],
-  [0.36, 0],
+  [0.06, -0.08],
+  [0.14, 1],
+  [0.22, 0],
+  [0.3, 0.8],
+  [0.4, 0],
+  [1, 0],
+] as const
+const SMILE = [
+  [0, 0.35],
+  [0.06, 0.18],
+  [0.16, 1],
+  [0.26, 0.52],
+  [0.38, 0.86],
+  [0.52, 0.64],
+  [0.78, 0.64],
+  [1, 0.35],
+] as const
+const SIGH = [
+  [0, 0.22],
+  [0.12, 0.1],
+  [0.4, 1],
+  [0.58, 1],
+  [0.82, 0.38],
+  [1, 0.22],
+] as const
+const CURIOUS = [
+  [0, 0.84],
+  [0.1, 0.48],
+  [0.2, 0.1],
+  [0.34, 1],
+  [0.52, 1],
+  [0.66, 0.7],
+  [0.86, 0.7],
+  [1, 0.84],
+] as const
+const CONCERN = [
+  [0, 0.16],
+  [0.14, 0.06],
+  [0.4, 1],
+  [0.66, 0.78],
+  [0.88, 0.28],
+  [1, 0.16],
+] as const
+const PHRASE = [
+  [0, 0],
+  [0.18, 0.35],
+  [0.42, -0.2],
+  [0.7, 0.55],
   [1, 0],
 ] as const
 
-function getBeat(elapsed: number, period: number, offset = 0) {
+function getPhase(elapsed: number, period: number, offset = 0) {
   "worklet"
-  return (1 - Math.cos(((elapsed + offset) / period) * Math.PI * 2)) / 2
+  const span = Math.max(1, period)
+  const wrapped = (((elapsed + offset) % span) + span) % span
+  return wrapped / span
+}
+
+function getVoice(elapsed: number, period: number, offset = 0) {
+  "worklet"
+  const phase = getPhase(elapsed, period, offset)
+  if (phase < 0.18) {
+    const rise = phase / 0.18
+    return 1 - (1 - rise) ** 3
+  }
+  const fall = (phase - 0.18) / 0.82
+  return (1 - fall) * (1 - fall)
+}
+
+function getBreath(elapsed: number, period: number, offset = 0) {
+  "worklet"
+  const phase = getPhase(elapsed, period, offset)
+  if (phase < 0.32) {
+    const rise = phase / 0.32
+    return rise * rise * (3 - 2 * rise)
+  }
+  const fall = (phase - 0.32) / 0.68
+  return 1 - fall * fall * (3 - 2 * fall)
 }
 
 function sampleTrack(
@@ -252,112 +353,173 @@ export function getBotFaceTarget(
   const time = Math.max(0, elapsed)
   if (state === "idle") {
     const gaze = getBotFaceIdleGaze(time)
+    const breath = getBreath(time, CADENCE.idle)
+    const follow = getBreath(time, CADENCE.idle, 480)
     pose.gazeX = gaze.x
     pose.gazeY = gaze.y
-    pose.leftOpening = pose.rightOpening =
-      0.97 + 0.06 * getBeat(time, CADENCE.idle)
+    pose.leftOpening = 0.9 + 0.16 * breath + 0.06 * gaze.y
+    pose.rightOpening = 0.92 + 0.14 * follow + 0.04 * gaze.y
+    pose.leftWidth = 1.04 - 0.1 * Math.abs(gaze.x)
+    pose.rightWidth = 1.02 - 0.06 * Math.abs(gaze.x)
+    pose.leftCurve = -0.7 * breath
+    pose.rightCurve = -0.35 * follow
+    pose.leftY = -0.7 * gaze.y
+    pose.rightY = -0.35 * gaze.y
   }
   if (state === "listening") {
-    const nod = sampleTrack(
-      (time % CADENCE.listening) / CADENCE.listening,
+    const nod = sampleTrack(getPhase(time, CADENCE.listening), LISTEN_NOD)
+    const lead = sampleTrack(
+      getPhase(time, CADENCE.listening, -280),
+      LISTEN_NOD
+    )
+    const follow = sampleTrack(
+      getPhase(time, CADENCE.listening, -90),
       LISTEN_NOD
     )
     pose.pitch = 12 * nod
-    pose.tilt = -2.8 * nod
-    pose.leftOpening = pose.rightOpening = 1.15 - 0.24 * nod
-    pose.leftWidth = pose.rightWidth = 1.1 + 0.12 * nod
-    pose.leftY = pose.rightY = -1 + 2.2 * nod
-    pose.gazeY = 0.3 * nod
+    pose.tilt = -2.2 * nod
+    pose.leftOpening = 1.18 - 0.42 * lead
+    pose.rightOpening = 1.16 - 0.36 * follow
+    pose.leftWidth = 1.02 + 0.2 * lead
+    pose.rightWidth = 1.04 + 0.14 * follow
+    pose.leftCurve = -1.6 * Math.max(0, lead)
+    pose.rightCurve = -0.9 * Math.max(0, follow)
+    pose.leftY = -1.4 + 3.1 * lead
+    pose.rightY = -0.9 + 2.6 * follow
+    pose.gazeY = 0.34 * nod
   }
   if (state === "thinking") {
-    const phase = (time % CADENCE.thinking) / CADENCE.thinking
+    const phase = getPhase(time, CADENCE.thinking)
     const leftLift = sampleTrack(phase, THINK_LIFT)
     const rightLift = sampleTrack((phase + 0.7) % 1, THINK_LIFT)
+    const squint = sampleTrack(phase, THINK_SQUINT)
+    const follow = sampleTrack((phase + 0.05) % 1, THINK_SQUINT)
     pose.gazeX = sampleTrack(phase, THINK_SCAN)
-    pose.gazeY = -0.72
-    pose.leftOpening =
-      0.62 - 0.12 * pose.gazeX + 0.2 * leftLift - 0.12 * rightLift
-    pose.rightOpening =
-      0.62 + 0.12 * pose.gazeX + 0.2 * rightLift - 0.12 * leftLift
-    pose.leftWidth = 1.14 + 0.14 * rightLift - 0.08 * leftLift
-    pose.rightWidth = 1.14 + 0.14 * leftLift - 0.08 * rightLift
-    pose.leftY = -0.5 - leftLift
-    pose.rightY = -0.5 - rightLift
-    pose.leftCurve = -0.5 - 1.2 * rightLift
-    pose.rightCurve = -0.5 - 1.2 * leftLift
-    pose.leftAngle = -3 + 5 * rightLift
-    pose.rightAngle = 3 - 5 * leftLift
-    pose.yaw = pose.gazeX * 8
-    pose.tilt = pose.gazeX * 2.8
-    pose.pitch = -6 - Math.max(leftLift, rightLift)
+    pose.gazeY = -0.74
+    pose.leftOpening = 0.64 - 0.1 * squint + 0.22 * leftLift - 0.08 * rightLift
+    pose.rightOpening = 0.64 - 0.1 * follow + 0.22 * rightLift - 0.08 * leftLift
+    pose.leftWidth = 1.14 + 0.16 * rightLift - 0.14 * leftLift - 0.08 * squint
+    pose.rightWidth = 1.14 + 0.16 * leftLift - 0.14 * rightLift - 0.08 * follow
+    pose.leftY = -0.3 - 2.1 * leftLift
+    pose.rightY = -0.3 - 2.1 * rightLift
+    pose.leftCurve = -0.3 - 1.8 * rightLift
+    pose.rightCurve = -0.3 - 1.8 * leftLift
+    pose.leftAngle = -4 + 8 * rightLift
+    pose.rightAngle = 4 - 8 * leftLift
+    pose.yaw = pose.gazeX * 7
+    pose.tilt = pose.gazeX * 2.4
+    pose.pitch = -5 - 2 * Math.max(leftLift, rightLift)
   }
   if (state === "working") {
-    const focus = getBeat(time, CADENCE.working)
-    pose.gazeX = sampleTrack(
-      (time % CADENCE.working) / CADENCE.working,
-      WORK_SCAN
-    )
-    pose.gazeY = -0.2 + 0.45 * focus
-    pose.leftOpening += 0.12 * focus
-    pose.rightOpening += 0.12 * focus
-    pose.leftY = pose.rightY = 0.8 * focus
+    const phase = getPhase(time, CADENCE.working)
+    const squint = sampleTrack(phase, WORK_SQUINT)
+    const follow = sampleTrack(getPhase(time, CADENCE.working, 70), WORK_SQUINT)
+    pose.gazeX = sampleTrack(phase, WORK_SCAN)
+    pose.gazeY = sampleTrack(phase, WORK_ARC)
+    pose.leftOpening = 0.58 - 0.24 * squint
+    pose.rightOpening = 0.6 - 0.22 * follow
+    pose.leftWidth = 1.28 - 0.18 * squint
+    pose.rightWidth = 1.3 - 0.14 * follow
+    pose.leftY = 0.2 + 1.15 * squint
+    pose.rightY = 0.25 + 1.05 * follow
+    pose.leftCurve = 0.8 * squint
+    pose.rightCurve = 0.55 * follow
     pose.yaw = pose.gazeX * 10
-    pose.tilt = pose.gazeX * 6
-    pose.pitch = 3 + 5 * focus
+    pose.tilt = pose.gazeX * 5
+    pose.pitch = 2 + 4 * Math.max(squint, follow)
   }
   if (state === "speaking") {
-    pose.leftOuterOpening = 0.2 + 0.7 * getBeat(time, CADENCE.speaking, 210)
-    pose.leftOpening = 0.3 + 0.9 * getBeat(time, CADENCE.speaking, 70)
-    pose.leftInnerOpening = 0.2 + 0.65 * getBeat(time, 920, 410)
-    pose.rightInnerOpening = 0.2 + 0.8 * getBeat(time, CADENCE.speaking, 340)
-    pose.rightOpening = 0.3 + 0.9 * getBeat(time, 920, 140)
-    pose.rightOuterOpening = 0.2 + 0.65 * getBeat(time, CADENCE.speaking, 510)
-    pose.tilt = 0.9 * Math.sin((time / 2400) * Math.PI * 2)
-    pose.pitch = -2 + 3 * getBeat(time, 1800)
+    const phrase = sampleTrack(getPhase(time, 2600), PHRASE)
+    pose.leftOuterOpening = 0.16 + 0.72 * getVoice(time, CADENCE.speaking, 180)
+    pose.leftOpening = 0.22 + 0.9 * getVoice(time, CADENCE.speaking, 40)
+    pose.leftInnerOpening = 0.14 + 0.7 * getVoice(time, 940, 360)
+    pose.rightInnerOpening = 0.16 + 0.84 * getVoice(time, CADENCE.speaking, 300)
+    pose.rightOpening = 0.22 + 0.9 * getVoice(time, 910, 120)
+    pose.rightOuterOpening = 0.14 + 0.68 * getVoice(time, CADENCE.speaking, 460)
+    pose.tilt = 1.6 * phrase
+    pose.yaw = 2.4 * phrase
+    pose.pitch = -1.2 + 3 * getBreath(time, 2100, 200)
   }
   if (state === "happy") {
-    const smile = getBeat(time, CADENCE.happy)
-    pose.leftCurve = pose.rightCurve = -6.5 - 1.5 * smile
-    pose.leftOpening = pose.rightOpening = 0.23 + 0.12 * smile
-    pose.leftY = pose.rightY = -1.2 - 1.5 * smile
-    pose.tilt = -1.8 + 3.6 * smile
-    pose.pitch = -4 - 5 * smile
+    const smile = sampleTrack(getPhase(time, CADENCE.happy), SMILE)
+    const follow = sampleTrack(getPhase(time, CADENCE.happy, 140), SMILE)
+    pose.leftCurve = -4.6 - 3.6 * smile
+    pose.rightCurve = -4.6 - 3.6 * follow
+    pose.leftOpening = 0.16 + 0.24 * smile
+    pose.rightOpening = 0.16 + 0.24 * follow
+    pose.leftWidth = 1.12 + 0.22 * smile
+    pose.rightWidth = 1.12 + 0.22 * follow
+    pose.leftY = -0.35 - 2.4 * smile
+    pose.rightY = -0.35 - 2.4 * follow
+    pose.tilt = -1.2 + 2.2 * follow
+    pose.pitch = -3 - 4 * follow
   }
   if (state === "sad") {
-    const sigh = getBeat(time, CADENCE.sad)
-    pose.leftOpening = pose.rightOpening = 0.36 - 0.17 * sigh
-    pose.leftY = pose.rightY = 2.5 + 1.2 * sigh
-    pose.gazeY = 0.62 + 0.25 * sigh
-    pose.tilt = -0.8 * sigh
-    pose.pitch = 7 + 5 * sigh
+    const sigh = sampleTrack(getPhase(time, CADENCE.sad), SIGH)
+    const follow = sampleTrack(getPhase(time, CADENCE.sad, 220), SIGH)
+    pose.leftOpening = 0.5 - 0.24 * sigh
+    pose.rightOpening = 0.5 - 0.24 * follow
+    pose.leftCurve = 2.1 + 2.8 * sigh
+    pose.rightCurve = 2.1 + 2.8 * follow
+    pose.leftAngle = -7 - 6 * sigh
+    pose.rightAngle = 7 + 6 * follow
+    pose.leftY = 1.2 + 2.4 * sigh
+    pose.rightY = 1.2 + 2.4 * follow
+    pose.gazeY = 0.32 + 0.46 * sigh
+    pose.tilt = -1.4 * follow
+    pose.pitch = 4 + 7 * follow
   }
   if (state === "questioning") {
-    const question = getBeat(time, CADENCE.questioning)
-    pose.leftY = -1 - 1.5 * question
-    pose.rightY = 1 + 0.5 * question
-    pose.leftAngle = -5 * question
-    pose.rightAngle = 5 * question
-    pose.tilt = 2 - 4 * question
-    pose.yaw = 4 - 8 * question
-    pose.gazeY = -0.15 * question
+    const hook = sampleTrack(getPhase(time, CADENCE.questioning), CURIOUS)
+    const follow = sampleTrack(
+      getPhase(time, CADENCE.questioning, 180),
+      CURIOUS
+    )
+    pose.question = 1
+    pose.leftCurve = hook
+    pose.rightCurve = 0.12 + 0.36 * follow
+    pose.leftOpening = 0.86 + 0.1 * (1 - hook)
+    pose.rightOpening = 0.9 + 0.08 * (1 - follow)
+    pose.leftY = -0.85 - 0.9 * hook
+    pose.rightY = 0.45 - 0.35 * follow
+    pose.leftAngle = -1.5 - 2.5 * hook
+    pose.rightAngle = 1.2 * follow
+    pose.gazeX = 0.12 + 0.18 * hook
+    pose.gazeY = -0.12 - 0.34 * hook
+    pose.tilt = 0.6 + 1.8 * follow
+    pose.yaw = 1.4 + 1.6 * hook
+    pose.pitch = -1.4 - 2.2 * hook
   }
   if (state === "awaiting-permission") {
     const attention = sampleTrack(
-      (time % CADENCE.permission) / CADENCE.permission,
+      getPhase(time, CADENCE.permission),
       ATTENTION_RAISE
     )
-    pose.leftOpening = pose.rightOpening = 1.04 + 0.38 * attention
-    pose.leftWidth = pose.rightWidth = 1.15 + 0.08 * attention
-    pose.leftY = pose.rightY = -0.6 - 2 * attention
-    pose.gazeY = -0.1 - 0.2 * attention
-    pose.pitch = -5 * attention
-    pose.tilt = 2.4 * attention
+    const follow = sampleTrack(
+      getPhase(time, CADENCE.permission, 130),
+      ATTENTION_RAISE
+    )
+    pose.leftOpening = 0.98 + 0.4 * attention
+    pose.rightOpening = 0.98 + 0.4 * follow
+    pose.leftWidth = 1.08 + 0.14 * attention
+    pose.rightWidth = 1.14 - 0.08 * follow
+    pose.leftCurve = -1.5 * attention
+    pose.rightCurve = -0.9 * follow
+    pose.leftY = -0.15 - 2.5 * attention
+    pose.rightY = 0.05 - 2.3 * follow
+    pose.gazeY = -0.08 - 0.34 * attention
+    pose.pitch = -5.2 * attention
+    pose.tilt = 2.1 * follow
   }
   if (state === "error") {
-    const concern = getBeat(time, CADENCE.error)
-    pose.leftY = pose.rightY = 0.6 * concern
-    pose.pitch = 4 * concern
-    pose.tilt = -1.2 + 1.2 * concern
+    const concern = sampleTrack(getPhase(time, CADENCE.error), CONCERN)
+    const follow = sampleTrack(getPhase(time, CADENCE.error, 160), CONCERN)
+    pose.leftAngle = -9 * concern
+    pose.rightAngle = 11 * follow
+    pose.leftY = -0.15 + 0.7 * concern
+    pose.rightY = 0.2 + 1.15 * follow
+    pose.pitch = 5.5 * concern
+    pose.tilt = -2.2 * follow
   }
   return pose
 }
@@ -377,6 +539,44 @@ export function createBotFaceMotion(state: BotFaceState): BotFaceMotion {
   }
 }
 
+function getChannelDuration(
+  key: (typeof POSE_KEYS)[number],
+  moveDuration: number,
+  settleDuration: number
+) {
+  "worklet"
+  if (key === "gazeX" || key === "gazeY") return settleDuration
+  if (moveDuration <= 0) return 0
+  if (key === "tilt" || key === "pitch" || key === "yaw")
+    return moveDuration * 1.45
+  if (
+    key === "leftX" ||
+    key === "rightX" ||
+    key === "leftY" ||
+    key === "rightY"
+  )
+    return moveDuration * 1.12
+  if (
+    key === "leftOpening" ||
+    key === "rightOpening" ||
+    key === "leftCurve" ||
+    key === "rightCurve" ||
+    key === "leftAngle" ||
+    key === "rightAngle" ||
+    key === "leftWidth" ||
+    key === "rightWidth" ||
+    key === "leftOuterOpening" ||
+    key === "leftInnerOpening" ||
+    key === "rightOuterOpening" ||
+    key === "rightInnerOpening" ||
+    key === "question" ||
+    key === "waveform" ||
+    key === "error"
+  )
+    return moveDuration * 0.82
+  return moveDuration
+}
+
 /** Exact critically damped integration retains velocity across interruptions. */
 export function stepBotFaceMotion(
   current: BotFaceMotion,
@@ -391,8 +591,7 @@ export function stepBotFaceMotion(
   const velocity = { ...current.velocity }
   const delta = Math.max(0, elapsed)
   for (const key of POSE_KEYS) {
-    const duration =
-      key === "gazeX" || key === "gazeY" ? settleDuration : moveDuration
+    const duration = getChannelDuration(key, moveDuration, settleDuration)
     if (duration <= 0) {
       pose[key] = target[key]
       velocity[key] = 0
@@ -523,13 +722,121 @@ function createEyeContour(
   return contour
 }
 
-const CURIOUS_CONTOUR = [
-  -4.8, -5, -4.8, -8, -2.4, -10, 0.4, -10, 4.6, -10, 6.6, -7, 6.6, -4.4, 6.6,
-  -1.4, 4.8, -0.4, 4, 1, 3.2, 2.7, 3, 3.8, 3, 5.5, 3, 7.5, 1.5, 8.8, -0.5, 8.8,
-  -2.7, 8.8, -4.5, 7.2, -4.5, 5.3, -4.5, 2.4, -4, 0.4, -2.7, -1.2, -1.7, -2.3,
-  -1, -3.7, -1, -4.7, -1, -5.6, -1.4, -6.3, -2.1, -6.3, -2.7, -6.3, -3.1, -5.7,
-  -3.1, -5, -3.1, -4.5, -3.5, -4.2, -4, -4.2, -4.4, -4.2, -4.8, -4.5, -4.8, -5,
-]
+function createCuriousContour(style: EyeStyle, hook: number) {
+  "worklet"
+  const amount = Math.max(0, Math.min(1, hook))
+  const opening = style === "slant" ? 0.64 : 0.9
+  const widthScale = style === "dots" ? 1.22 : style === "square" ? 1.28 : 1.3
+  const width = Math.min(7.2, 4.15 * widthScale)
+  const height = Math.max(1.5, (style === "slant" ? 9.2 : 4.7) * opening)
+  const radius = Math.min(
+    style === "square" ? 1.15 : width * 0.58,
+    width * 0.72,
+    height * 0.72
+  )
+  const inner = width - radius
+  const edge = height - radius
+  const corner = radius * 0.5522847498
+  const tuck = style === "square" ? 0.7 : style === "dots" ? 0.58 : 0.96
+  const liftScale = style === "square" ? 0.44 : style === "dots" ? 0.38 : 0.6
+  const contour = [
+    -inner,
+    -height,
+    (-inner * 2) / 3,
+    -height,
+    -inner / 3,
+    -height,
+    0,
+    -height,
+    inner / 3,
+    -height,
+    (inner * 2) / 3,
+    -height,
+    inner,
+    -height,
+    inner + corner,
+    -height,
+    width,
+    -edge - corner,
+    width,
+    -edge,
+    width,
+    (-edge * 2) / 3,
+    width,
+    -edge / 3,
+    width,
+    0,
+    width,
+    edge / 3,
+    width,
+    (edge * 2) / 3,
+    width,
+    edge,
+    width,
+    edge + corner,
+    inner + corner,
+    height,
+    inner,
+    height,
+    (inner * 2) / 3,
+    height,
+    inner / 3,
+    height,
+    0,
+    height,
+    -inner / 3,
+    height,
+    (-inner * 2) / 3,
+    height,
+    -inner,
+    height,
+    -inner - corner,
+    height,
+    -width,
+    edge + corner,
+    -width,
+    edge,
+    -width,
+    (edge * 2) / 3,
+    -width,
+    edge / 3,
+    -width,
+    0,
+    -width,
+    -edge / 3,
+    -width,
+    (-edge * 2) / 3,
+    -width,
+    -edge,
+    -width,
+    -edge - corner,
+    -inner - corner,
+    -height,
+    -inner,
+    -height,
+  ]
+  for (let index = 0; index < contour.length; index += 2) {
+    const x = contour[index]
+    const y = contour[index + 1]
+    const nx = x / width
+    const ny = -y / height
+    const right = Math.max(0, Math.min(1, (nx - 0.05) / 0.9))
+    const crown = Math.max(0, Math.min(1, (ny - 0.22) / 0.5)) * right
+    const notch =
+      Math.max(0, Math.min(1, (nx + 0.05) / 0.85)) *
+      Math.max(0, Math.min(1, (ny - 0.0) / 0.28)) *
+      Math.max(0, Math.min(1, (0.62 - ny) / 0.28))
+    const lip =
+      Math.max(0, Math.min(1, (ny - 0.72) / 0.22)) *
+      Math.max(0, Math.min(1, (nx - 0.2) / 0.6))
+    contour[index] =
+      x -
+      amount * notch * notch * width * tuck -
+      amount * lip * lip * width * (style === "slant" ? 0.92 : 0.5)
+    contour[index + 1] = y - amount * crown * crown * height * liftScale
+  }
+  return contour
+}
 
 function createErrorContour() {
   "worklet"
@@ -565,7 +872,7 @@ function createErrorContour() {
 }
 
 const ERROR_CONTOUR = createErrorContour()
-const COLLAPSED_CONTOUR = CURIOUS_CONTOUR.map(() => 0)
+const COLLAPSED_CONTOUR = createEyeContour("dots", 1, 0).map(() => 0)
 
 function moveContour(contour: number[], x: number, y: number) {
   "worklet"
@@ -656,13 +963,7 @@ export function getBotFaceEyeContours(
       0
     ),
   ]
-  const questionWidth = style === "dots" ? 0.88 : 1
-  const questionHeight =
-    (style === "slant" ? 1 : style === "dots" ? 0.52 : 0.58) *
-    (side === "left" ? 0.82 : 1)
-  const question = CURIOUS_CONTOUR.map(
-    (value, index) => value * (index % 2 === 0 ? questionWidth : questionHeight)
-  )
+  const question = createCuriousContour(style, pose[`${side}Curve`])
   const weights = [pose.waveform, pose.question, pose.error]
   const total = weights.reduce((sum, weight) => sum + weight, 0)
   const normalizer = Math.max(1, total)

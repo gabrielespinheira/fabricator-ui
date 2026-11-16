@@ -163,6 +163,38 @@ describe("BotFace expressions", () => {
     expect(getBotFaceTarget("error").error).toBe(1)
   })
 
+  function outlineBands(contour: number[]) {
+    const points = [[contour[0], contour[1]]]
+    for (let segment = 2; segment < contour.length; segment += 6) {
+      const start = points[points.length - 1]
+      for (let step = 1; step <= 10; step++) {
+        const time = step / 10
+        const inverse = 1 - time
+        points.push([
+          inverse ** 3 * start[0] +
+            3 * inverse ** 2 * time * contour[segment] +
+            3 * inverse * time ** 2 * contour[segment + 2] +
+            time ** 3 * contour[segment + 4],
+          inverse ** 3 * start[1] +
+            3 * inverse ** 2 * time * contour[segment + 1] +
+            3 * inverse * time ** 2 * contour[segment + 3] +
+            time ** 3 * contour[segment + 5],
+        ])
+      }
+    }
+    const minY = Math.min(...points.map((point) => point[1]))
+    const maxY = Math.max(...points.map((point) => point[1]))
+    const height = maxY - minY
+    return Array.from({ length: 6 }, (_, band) => {
+      const start = minY + (height * band) / 6
+      const end = minY + (height * (band + 1)) / 6
+      const xs = points
+        .filter((point) => point[1] >= start && point[1] <= end)
+        .map((point) => point[0])
+      return xs.length === 0 ? 0 : Math.max(...xs) - Math.min(...xs)
+    })
+  }
+
   it("keeps questioning as compact connected eyes in the selected style", () => {
     const shapes = []
     for (const style of ["slant", "dots", "square"] as const) {
@@ -181,7 +213,11 @@ describe("BotFace expressions", () => {
           const vertical = contour.filter((_, index) => index % 2 === 1)
           return Math.max(...vertical) - Math.min(...vertical)
         }
-        expect(height(question[0])).toBeLessThan(height(idle[0]) * 1.25)
+        expect(height(question[0])).toBeLessThan(height(idle[0]) * 1.35)
+        const bands = outlineBands(question[0])
+        const widest = Math.max(...bands)
+        expect(bands[4]).toBeGreaterThan(widest * 0.78)
+        expect(bands[5]).toBeGreaterThan(widest * 0.62)
         for (const contour of question.slice(1)) {
           expect(
             new Set(contour.filter((_, index) => index % 2 === 0)).size
@@ -196,6 +232,61 @@ describe("BotFace expressions", () => {
       )
     }
     expect(new Set(shapes).size).toBe(3)
+    const times = Array.from({ length: 34 }, (_, index) => index * 100)
+    const low = times.reduce((best, time) =>
+      getBotFaceTarget("questioning", time).leftCurve <
+      getBotFaceTarget("questioning", best).leftCurve
+        ? time
+        : best
+    )
+    const high = times.reduce((best, time) =>
+      getBotFaceTarget("questioning", time).leftCurve >
+      getBotFaceTarget("questioning", best).leftCurve
+        ? time
+        : best
+    )
+    expect(
+      getBotFaceTarget("questioning", high).leftCurve -
+        getBotFaceTarget("questioning", low).leftCurve
+    ).toBeGreaterThan(0.4)
+    const ratio = (bands: number[]) => bands[0] / Math.max(bands[2], 0.001)
+    const resting = outlineBands(
+      getBotFaceEyeContours(
+        getBotFaceTarget("questioning", low),
+        "slant",
+        "left"
+      )[0]
+    )
+    const asking = outlineBands(
+      getBotFaceEyeContours(
+        getBotFaceTarget("questioning", high),
+        "slant",
+        "left"
+      )[0]
+    )
+    expect(Math.abs(ratio(asking) - ratio(resting))).toBeGreaterThan(0.12)
+  })
+
+  it("lets one eye lead the other inside a gesture", () => {
+    for (const state of [
+      "listening",
+      "questioning",
+      "happy",
+      "sad",
+      "awaiting-permission",
+    ] as const) {
+      const frames = Array.from({ length: 36 }, (_, index) =>
+        getBotFaceTarget(state, index * 90)
+      )
+      expect(
+        frames.some(
+          (pose) =>
+            Math.abs(pose.leftOpening - pose.rightOpening) > 0.04 ||
+            Math.abs(pose.leftCurve - pose.rightCurve) > 0.12
+        ),
+        state
+      ).toBe(true)
+    }
   })
 
   it("coordinates nodding and working turns without changing layout or scale", () => {
@@ -257,6 +348,21 @@ describe("BotFace continuity", () => {
     expect(changed).toEqual({ state: "questioning", elapsed: 0 })
     expect(stepBotFacePlayback(changed, "questioning", 16).elapsed).toBe(16)
   })
+  it("lets the eyes arrive ahead of the head", () => {
+    const motion = createBotFaceMotion("idle")
+    const target = getBotFaceTarget("happy", 0)
+    let next = motion
+    for (let index = 0; index < 8; index++)
+      next = stepBotFaceMotion(next, target, 16, 250, 380)
+    const shape =
+      Math.abs(next.pose.leftCurve - motion.pose.leftCurve) /
+      Math.abs(target.leftCurve - motion.pose.leftCurve)
+    const head =
+      Math.abs(next.pose.tilt - motion.pose.tilt) /
+      Math.abs(target.tilt - motion.pose.tilt)
+    expect(shape).toBeGreaterThan(head + 0.05)
+  })
+
   it("retargets from the current pose and retains velocity without resetting", () => {
     let motion = createBotFaceMotion("idle")
     for (let index = 0; index < 8; index++)

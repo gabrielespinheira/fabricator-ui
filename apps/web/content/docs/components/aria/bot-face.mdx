@@ -111,19 +111,19 @@ The body keeps its layout position and size. Gaze moves within 6% of the face di
 | State                 | Eye and body gesture                                                   |
 | --------------------- | ---------------------------------------------------------------------- |
 | `idle`                | Quiet glances and periodic blinks                                      |
-| `listening`           | Two small agreement nods, with the eyes following the head             |
+| `listening`           | Two agreement nods. The eyes lead and the head follows                 |
 | `thinking`            | Held upper-corner glances with staggered eye lifts and focused squints |
 | `working`             | Focused eye scans with a coordinated side-to-side turn of the shape    |
 | `speaking`            | Six independently animated sound-wave bars                             |
 | `happy`               | Rising smile arcs with a gentle tilt back                              |
 | `sad`                 | Downcast lids and a slow head droop                                    |
-| `questioning`         | Thick hooked eyes and an inquisitive alternating tilt                  |
+| `questioning`         | An eye with a lid curl that grows, eases, and lets one eye lead        |
 | `awaiting-permission` | Paired eye raises and a small expectant head lift                      |
 | `error`               | Crossed eyes with a slow settling lean                                 |
 
-All states use the same two persistent SVG paths. Questioning keeps thick, connected eyes with a small question-like curl and asymmetric height, sized for the selected eye style. Thinking uses the selected eye shape, holding an upward glance before shifting to the opposite corner. A staggered lift and squint gives the eyes a quiet processing rhythm. Thinking and questioning blink naturally. Waveform and crossed eyes stay open while the blink clock continues in the background.
+All states use the same two persistent SVG paths. Questioning keeps the eye body and bends a short curl from the upper corner. The curl eases between a softer eye and a clearer question, and one eye leads the other. Thinking uses the selected eye shape, holding an upward glance before a quicker shift to the opposite corner. A staggered lift and squint gives the eyes a quiet processing rhythm. Thinking and questioning blink naturally. Waveform and crossed eyes stay open while the blink clock continues in the background.
 
-A gesture starts when its state is entered and continues through repeated session updates. State changes morph the visible eye outlines, matching perimeter points and preserving each point’s position and velocity. Wave bars split from and merge into the eye edges. The eyes keep their SVG nodes and blink clock, including when a transition is interrupted; no neutral reset is inserted. Motion pauses offscreen on web and while the app is inactive on native. Fabricator move/settle timings follow the region’s speed setting.
+A gesture starts when its state is entered and continues through repeated session updates. Inside a state the shape holds, then moves, with one eye ahead of the other. State changes morph the visible eye outlines, matching perimeter points and preserving each point’s position and velocity. The eyes settle first and the head follows. Wave bars split from and merge into the eye edges. The eyes keep their SVG nodes and blink clock, including when a transition is interrupted; no neutral reset is inserted. Motion pauses offscreen on web and while the app is inactive on native. Fabricator move/settle timings follow the region’s speed setting.
 
 `followPointer={false}` keeps idle motion and blinking while disabling pointer/touch tracking. `blink={false}` keeps the eyes open. `gaze={{ x: 0.6, y: -0.2 }}` controls the direction, with both axes normalized to -1…1 and clamped to an ellipse. `animated={false}`, Reduce Motion and the Fabricator motion-off or instant setting show a still version of the selected expression, with centred gaze, a level body and no blinking. Static expressions remain readable.
 
