@@ -19,6 +19,7 @@ describe("buildRootPackage", () => {
       buildRootPackage(pkg, {
         packageManager: "bun",
         hasWebApp: true,
+        runner: "turborepo",
         hasDesktop: false,
       }).scripts
     ).toEqual({ build: "turbo build", dev: "turbo run dev --filter=web" })
@@ -28,6 +29,7 @@ describe("buildRootPackage", () => {
     const { scripts } = buildRootPackage(buildWorkspaceRoot("app"), {
       packageManager: "npm",
       hasWebApp: false,
+      runner: "turborepo",
       hasDesktop: false,
       mobileReact: "19.3.0",
     })
@@ -36,10 +38,24 @@ describe("buildRootPackage", () => {
     })
   })
 
+  it("starts the apps with Vite+ when it runs the tasks", () => {
+    const { scripts } = buildRootPackage(pkg, {
+      packageManager: "bun",
+      hasWebApp: true,
+      runner: "vite-plus",
+      hasDesktop: true,
+    })
+    expect(scripts?.dev).toBe("vp run --filter web dev")
+    expect(scripts?.["dev:desktop"]).toBe(
+      "vp run --parallel --filter web --filter desktop dev"
+    )
+  })
+
   it("adds a script per app", () => {
     const { scripts } = buildRootPackage(pkg, {
       packageManager: "pnpm",
       hasWebApp: true,
+      runner: "turborepo",
       hasDesktop: true,
       mobileReact: "19.3.0",
     })
@@ -55,6 +71,7 @@ describe("buildRootPackage", () => {
         buildRootPackage(pkg, {
           packageManager,
           hasWebApp: true,
+          runner: "turborepo",
           hasDesktop: false,
           mobileReact: "19.3.0",
         }).overrides
@@ -70,6 +87,7 @@ describe("buildRootPackage", () => {
     const root = buildRootPackage(pkg, {
       packageManager: "yarn",
       hasWebApp: true,
+      runner: "turborepo",
       hasDesktop: false,
       mobileReact: "19.3.0",
     })
@@ -82,6 +100,7 @@ describe("buildRootPackage", () => {
       buildRootPackage(pkg, {
         packageManager: "pnpm",
         hasWebApp: true,
+        runner: "turborepo",
         hasDesktop: false,
         mobileReact: "19.3.0",
       }).overrides
@@ -90,6 +109,7 @@ describe("buildRootPackage", () => {
       buildRootPackage(pkg, {
         packageManager: "npm",
         hasWebApp: true,
+        runner: "turborepo",
         hasDesktop: true,
       }).overrides
     ).toBeUndefined()

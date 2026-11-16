@@ -170,6 +170,29 @@ describe("the apps in the command", () => {
     ])
   })
 
+  it("names a toolchain other than ESLint and Prettier", () => {
+    expect(args({ tooling: "vite-plus" })).toEqual([
+      "create",
+      "fabricator-ui",
+      "--tooling",
+      "vite-plus",
+      "--yes",
+    ])
+    expect(args({ project: "new", tooling: "biome" })).toEqual(
+      args({ project: "new" })
+    )
+  })
+
+  it("names Vite+ as the task runner", () => {
+    expect(args({ runner: "vite-plus" })).toEqual([
+      "create",
+      "fabricator-ui",
+      "--runner",
+      "vite-plus",
+      "--yes",
+    ])
+  })
+
   it("writes a lone mobile app as a monorepo without a website", () => {
     expect(
       args({ web: false, mobile: true, framework: "vite", base: "radix" })

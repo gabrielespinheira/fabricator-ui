@@ -1,9 +1,17 @@
 "use client"
 
 import * as React from "react"
-import { ElectronIcon, ReactIcon, TauriIcon } from "@fabricator-ui/icons/brands"
+import {
+  BiomeIcon,
+  ElectronIcon,
+  ReactIcon,
+  TauriIcon,
+  TurborepoIcon,
+  ViteIcon,
+} from "@fabricator-ui/icons/brands"
 
 import {
+  CodeIcon,
   GitBranchIcon,
   GlobeIcon,
   MonitorIcon,
@@ -33,12 +41,22 @@ import {
   getShellProject,
   isNativeFramework,
   MONOREPO_FRAMEWORKS,
+  RUNNERS,
   STARTING_POINTS,
+  TOOLINGS,
+  type Runner,
   type SetupChoices,
+  type Tooling,
 } from "@/app/(app)/(create)/lib/setup"
 
 import { FRAMEWORK_ICONS } from "./framework-icons"
-import { CardIcon, ChoiceTile, StepFooter, StepSection } from "./step-parts"
+import {
+  CardIcon,
+  ChoiceCard,
+  ChoiceTile,
+  StepFooter,
+  StepSection,
+} from "./step-parts"
 
 type StepProps = {
   choices: SetupChoices
@@ -77,6 +95,93 @@ const DESKTOP_RUNTIMES = [
   { value: "tauri", label: "Tauri", icon: <TauriIcon /> },
 ] as const
 const DESKTOP_RUNTIME_VALUES = DESKTOP_RUNTIMES.map(({ value }) => value)
+
+const TOOLING_VALUES = TOOLINGS.map(({ value }) => value)
+
+// Fabricator Icons has no ESLint or Prettier logo.
+const TOOLING_ICONS: Record<Tooling, React.ReactNode> = {
+  "eslint-prettier": <CodeIcon />,
+  biome: <BiomeIcon />,
+  "vite-plus": <ViteIcon />,
+}
+
+const RUNNER_VALUES = RUNNERS.map(({ value }) => value)
+
+const RUNNER_ICONS: Record<Runner, React.ReactNode> = {
+  turborepo: <TurborepoIcon />,
+  "vite-plus": <ViteIcon />,
+}
+
+/** A labelled group of answers inside a step's section. */
+function ChoiceGroupLabel({ id, children }: { id: string; children: string }) {
+  return (
+    <p id={id} className="text-[13px] font-medium">
+      {children}
+    </p>
+  )
+}
+
+/** The task runner, where there's a web app's tasks to run, then the linter. */
+function ProjectTooling({
+  choices,
+  onChange,
+}: Pick<StepProps, "choices" | "onChange">) {
+  const { hasWeb, hasDesktop } = getShellProject(choices)
+  const hasTasks = hasWeb || hasDesktop
+
+  return (
+    <div className="flex flex-col gap-5">
+      {hasTasks ? (
+        <div className="flex flex-col gap-2.5">
+          <ChoiceGroupLabel id="runner-label">Task runner</ChoiceGroupLabel>
+          <RadioGroup
+            aria-labelledby="runner-label"
+            value={choices.runner}
+            onValueChange={(value) => {
+              const runner = pick(RUNNER_VALUES, value)
+              if (runner) onChange({ runner })
+            }}
+            className="grid grid-cols-2 gap-3"
+          >
+            {RUNNERS.map((runner) => (
+              <ChoiceTile
+                key={runner.value}
+                value={runner.value}
+                title={runner.label}
+                description={runner.description}
+                icon={RUNNER_ICONS[runner.value]}
+              />
+            ))}
+          </RadioGroup>
+        </div>
+      ) : null}
+      <div className="flex flex-col gap-2.5">
+        <ChoiceGroupLabel id="tooling-label">
+          Linting and formatting
+        </ChoiceGroupLabel>
+        <RadioGroup
+          aria-labelledby="tooling-label"
+          value={choices.tooling}
+          onValueChange={(value) => {
+            const tooling = pick(TOOLING_VALUES, value)
+            if (tooling) onChange({ tooling })
+          }}
+          className="grid gap-3"
+        >
+          {TOOLINGS.map((tooling) => (
+            <ChoiceCard
+              key={tooling.value}
+              value={tooling.value}
+              title={tooling.label}
+              description={tooling.description}
+              icon={TOOLING_ICONS[tooling.value]}
+            />
+          ))}
+        </RadioGroup>
+      </div>
+    </div>
+  )
+}
 
 /** An app the project can have: a switch, and the framework it's built with. */
 function AppRow<T extends string>({
@@ -326,6 +431,13 @@ export function ProjectControls({
               onMobileChange={onMobileChange}
               onDesktopRemoved={onDesktopRemoved}
             />
+          </StepSection>
+
+          <StepSection
+            title="Tooling"
+            description="What runs the monorepo's tasks, and what lints and formats every app."
+          >
+            <ProjectTooling choices={choices} onChange={onChange} />
           </StepSection>
         </>
       )}

@@ -33,8 +33,10 @@ import {
   getShellProject,
   hasWebApp,
   resolveApps,
+  RUNNERS,
   SETUP_BASES,
   setupToParams,
+  TOOLINGS,
   toProjectSetup,
   type ProjectKind,
   type Setup,
@@ -393,6 +395,16 @@ export function SetupSummary({
               {FRAMEWORKS.find(({ value }) => value === apps.framework)?.label}
             </SummaryRow>
           )}
+          {apps.project === "monorepo" ? (
+            <SummaryRow label="Tooling">
+              {[
+                ...(hasWebApp(apps)
+                  ? [RUNNERS.find(({ value }) => value === setup.runner)?.label]
+                  : []),
+                TOOLINGS.find(({ value }) => value === setup.tooling)?.label,
+              ].join(", ")}
+            </SummaryRow>
+          ) : null}
         </SummaryCard>
         <SummaryCard title="Look" onEdit={() => onEdit("look")}>
           <SummaryRow label="Primary">

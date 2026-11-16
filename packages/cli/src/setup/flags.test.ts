@@ -63,6 +63,9 @@ const CREATE_SETUPS: Partial<ProjectSetup>[] = [
   { assistants: ["claude", "codex"] },
   { assistants: ["cursor"], skill: false },
   { assistants: ["cursor"], mcp: false },
+  { tooling: "biome" },
+  { runner: "vite-plus", tooling: "biome" },
+  { tooling: "vite-plus", web: false, mobile: true },
 ]
 
 describe("the command the site writes", () => {

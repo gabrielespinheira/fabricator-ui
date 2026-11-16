@@ -106,6 +106,15 @@ describe("the apps in the command", () => {
     )
   })
 
+  it("names the toolchain, and drops it for an existing project", () => {
+    expect(buildSetupCommand(setup({ tooling: "vite-plus" }), "npm")).toBe(
+      "npx fabricator-ui@latest create fabricator-ui --tooling vite-plus --yes"
+    )
+    expect(
+      buildSetupCommand(setup({ project: "existing", tooling: "biome" }), "npm")
+    ).not.toContain("--tooling")
+  })
+
   it("writes a lone mobile app as a monorepo without a website", () => {
     expect(buildSetupCommand(setup({ web: false, mobile: true }), "npm")).toBe(
       "npx fabricator-ui@latest create fabricator-ui --no-web --mobile --yes"
@@ -231,6 +240,8 @@ describe("setup params", () => {
       web: false,
       mobile: true,
       desktop: "tauri",
+      tooling: "biome",
+      runner: "vite-plus",
       base: "radix",
       iconLibrary: "phosphor",
       spinner: "ripple",

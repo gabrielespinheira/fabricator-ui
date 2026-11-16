@@ -1,5 +1,9 @@
 import { intro, log } from "@clack/prompts"
-import { DEFAULT_PROJECT_NAME } from "@fabricator-ui/setup"
+import {
+  DEFAULT_PROJECT_NAME,
+  RUNNER_VALUES,
+  TOOLING_VALUES,
+} from "@fabricator-ui/setup"
 import { Command } from "commander"
 
 import {
@@ -65,6 +69,14 @@ export function createCreateCommand(): Command {
     .option("--no-web", "no website: a mobile app alone stays in apps/mobile")
     .option("--mobile", "add apps/mobile: React Native with Expo")
     .option("--desktop <runtime>", "add apps/desktop: electron or tauri")
+    .option(
+      "--tooling <toolchain>",
+      `linting and formatting: ${TOOLING_VALUES.join(", ")} (default: eslint-prettier)`
+    )
+    .option(
+      "--runner <runner>",
+      `what runs the monorepo's tasks: ${RUNNER_VALUES.join(", ")} (default: turborepo)`
+    )
   return addSetupOptions(command)
     .option("-y, --yes", "use the defaults for anything not given")
     .option("--dry-run", "print the plan and write nothing")

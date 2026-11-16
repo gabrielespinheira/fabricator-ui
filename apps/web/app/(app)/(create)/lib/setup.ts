@@ -14,7 +14,9 @@ import {
   ICON_LIBRARY_VALUES,
   planSetup,
   resolveApps,
+  RUNNER_VALUES,
   toCliArgs,
+  TOOLING_VALUES,
   type AppChoices,
   type Framework,
   type IconLibrary,
@@ -58,11 +60,15 @@ export {
   MONOREPO_FRAMEWORKS,
   PACKAGE_MANAGERS,
   resolveApps,
+  TOOLINGS,
+  RUNNERS,
   type Assistant,
   type DesktopRuntime,
   type Framework,
   type PackageManager,
   type ProjectKind,
+  type Tooling,
+  type Runner,
 } from "@fabricator-ui/setup"
 
 export const SETUP_BASES = BASES
@@ -93,6 +99,10 @@ export const setupParsers = {
   web: parseAsBoolean.withDefault(true),
   mobile: parseAsBoolean.withDefault(false),
   desktop: parseAsStringLiteral(DESKTOP_RUNTIME_VALUES).withDefault("none"),
+  /** What lints and formats a new monorepo. */
+  tooling: parseAsStringLiteral(TOOLING_VALUES).withDefault("eslint-prettier"),
+  /** What runs a monorepo's tasks. */
+  runner: parseAsStringLiteral(RUNNER_VALUES).withDefault("turborepo"),
   base: parseAsStringLiteral(BASE_VALUES).withDefault("base"),
   /** Install the App Shell with the options in `shell`. */
   appShell: parseAsBoolean.withDefault(true),
@@ -166,6 +176,8 @@ export function toProjectSetup(setup: Setup): ProjectSetup {
     web: setup.web,
     mobile: setup.mobile,
     desktop: setup.desktop,
+    tooling: setup.tooling,
+    runner: setup.runner,
     appShell: setup.appShell,
     sound: setup.sound,
     components: setup.components,

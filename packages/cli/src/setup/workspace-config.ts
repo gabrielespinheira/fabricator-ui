@@ -4,7 +4,9 @@
 // (the template's ESLint package pulls Babel 8, which breaks Metro's), and bun its
 // hoisted linker.
 
-import type { PackageManager } from "@fabricator-ui/setup"
+import type { PackageManager, Runner } from "@fabricator-ui/setup"
+
+import { buildDevScripts } from "./tooling"
 
 const BABEL_RANGE = "^7.29.0"
 export const BUN_HOISTED_CONFIG = '[install]\nlinker = "hoisted"\n'
@@ -59,12 +61,14 @@ export function buildRootPackage(
   {
     packageManager,
     hasWebApp,
+    runner,
     hasDesktop,
     mobileReact,
   }: {
     packageManager: PackageManager
     /** apps/web, which `dev` starts. Without it there's only a mobile app. */
     hasWebApp: boolean
+    runner: Runner
     hasDesktop: boolean
     /** The React version the Expo template pins, when there's a mobile app. */
     mobileReact?: string
@@ -74,13 +78,10 @@ export function buildRootPackage(
     ...pkg,
     scripts: {
       ...pkg.scripts,
-      // A plain `turbo dev` would launch Expo and a window too.
-      ...(hasWebApp ? { dev: "turbo run dev --filter=web" } : {}),
+      ...(hasWebApp ? buildDevScripts(runner, { hasDesktop }) : {}),
+      // Expo's CLI is interactive, so it starts in its own folder.
       ...(mobileReact
         ? { "dev:mobile": `cd apps/mobile && ${packageManager} run start` }
-        : {}),
-      ...(hasDesktop
-        ? { "dev:desktop": "turbo run dev --filter=web --filter=desktop" }
         : {}),
     },
   }
