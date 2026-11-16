@@ -430,6 +430,24 @@ try {
       {},
       preview
     )
+    await choose("Thinking")
+    const thinkingEyes = await page.$$('[aria-label="Eye style"] button')
+    await thinkingEyes[1].click()
+    await page.waitForFunction(
+      (selector) => {
+        const root = document.querySelector(selector)
+        const eye = root.querySelector('[data-slot="bot-face-eye"]')
+        const bounds = eye.getBBox()
+        return (
+          root.dataset.eyes === "dots" &&
+          bounds.height < 11 &&
+          bounds.width > bounds.height * 1.2
+        )
+      },
+      {},
+      preview
+    )
+    await thinkingEyes[0].click()
     await choose("Questioning")
     await page.waitForFunction(
       (selector) => {
@@ -454,6 +472,7 @@ try {
       {},
       preview
     )
+    await choose("Thinking")
     for (const width of [1280, 390]) {
       await page.setViewport({ width, height: 1000 })
       for (const dark of [false, true]) {

@@ -275,8 +275,10 @@ export function getBotFaceTarget(
     const rightLift = sampleTrack((phase + 0.7) % 1, THINK_LIFT)
     pose.gazeX = sampleTrack(phase, THINK_SCAN)
     pose.gazeY = -0.72
-    pose.leftOpening = 0.62 - 0.12 * pose.gazeX + 0.2 * leftLift - 0.12 * rightLift
-    pose.rightOpening = 0.62 + 0.12 * pose.gazeX + 0.2 * rightLift - 0.12 * leftLift
+    pose.leftOpening =
+      0.62 - 0.12 * pose.gazeX + 0.2 * leftLift - 0.12 * rightLift
+    pose.rightOpening =
+      0.62 + 0.12 * pose.gazeX + 0.2 * rightLift - 0.12 * leftLift
     pose.leftWidth = 1.14 + 0.14 * rightLift - 0.08 * leftLift
     pose.rightWidth = 1.14 + 0.14 * leftLift - 0.08 * rightLift
     pose.leftY = -0.5 - leftLift

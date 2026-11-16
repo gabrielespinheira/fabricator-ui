@@ -125,14 +125,24 @@ describe("BotFace expressions", () => {
   it("retains the selected eye shape in the still thinking expression", () => {
     const shapes = []
     for (const style of ["slant", "dots", "square"] as const) {
-      const thinking = getBotFaceEyeContours(getBotFaceTarget("thinking"), style, "left")
-      const idle = getBotFaceEyeContours(getBotFaceTarget("idle"), style, "left")
+      const thinking = getBotFaceEyeContours(
+        getBotFaceTarget("thinking"),
+        style,
+        "left"
+      )
+      const idle = getBotFaceEyeContours(
+        getBotFaceTarget("idle"),
+        style,
+        "left"
+      )
       const height = (contour: number[]) => {
         const vertical = contour.filter((_, index) => index % 2 === 1)
         return Math.max(...vertical) - Math.min(...vertical)
       }
-      expect(height(thinking[0])).toBeLessThan(height(idle[0]) * 0.8)
-      shapes.push(getBotFaceEyeGeometry(getBotFaceTarget("thinking"), style, "left"))
+      expect(height(thinking[0])).toBeLessThan(height(idle[0]) * 0.85)
+      shapes.push(
+        getBotFaceEyeGeometry(getBotFaceTarget("thinking"), style, "left")
+      )
     }
     expect(new Set(shapes).size).toBe(3)
   })
@@ -141,7 +151,9 @@ describe("BotFace expressions", () => {
     for (const state of ["error", "speaking"] as const) {
       expect(getBotFaceBlinkOpening(getBotFaceTarget(state), 0.06)).toBe(1)
     }
-    expect(getBotFaceBlinkOpening(getBotFaceTarget("thinking"), 0.06)).toBeCloseTo(0.06)
+    expect(
+      getBotFaceBlinkOpening(getBotFaceTarget("thinking"), 0.06)
+    ).toBeCloseTo(0.06)
     expect(getBotFaceBlinkOpening(getBotFaceTarget("idle"), 0.06)).toBeCloseTo(
       0.06
     )

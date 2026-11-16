@@ -1,6 +1,6 @@
 # BotFace: agent states and fluid expressions
 
-Status: implemented, 2026-11-15. Section 17 refines the questioning expression; section 16 refines eye morphing. Section 15 removes playback controls; section 14 records custom colours and configuration code; section 13 records symbolic eyes and shape gestures. Earlier sections retain prior implementation results. Simulator visual/accessibility checks remain unavailable.
+Status: implemented, 2026-11-15. Section 18 refines thinking; section 17 refines questioning; section 16 refines eye morphing. Section 15 removes playback controls; section 14 records custom colours and configuration code; section 13 records symbolic eyes and shape gestures. Earlier sections retain prior implementation results. Simulator visual/accessibility checks remain unavailable.
 
 ## 1. Direction
 
@@ -378,3 +378,22 @@ Reviewed two shape iterations at 32, 48 and 120 pixels and an idle-to-questionin
 - Passed: mobile types, native parity (110/112 components clean with the same two Data Table deferrals), native docs generation (105 pages) and `git diff --check`. Web/native continue to share the pure contour recipe.
 - Updated the three web component docs, design specs and unreleased changelog. No API or token change. No new dependency; isolated face/models measure 8,060 bytes gzip (+33 bytes), or 8,631 bytes with the session hook, using the same exclusions as section 16. Measurement: `tmp/bot-face-curious-bundle.json`.
 - Native simulator/mobile visual checks, VoiceOver/TalkBack and real-device profiling remain unverified; Relay reports both agent simulator slots occupied. Fresh Expo installation/export, upstream parity and whole-catalog recapture were not repeated for this exclusive shared-geometry change; native types/install checks and targeted state captures cover the changed payload and appearance. No commit or push was made. Logs use `tmp/bot-face-curious-*`.
+
+## 18. Revision: focused thinking eyes
+
+Replaced the rotating arc eyes with focused eyes in the selected Slanted, Dots or Squares style. Thinking holds an upper-corner glance before searching the opposite corner. Brief staggered eye lifts and squints create a left-to-right processing rhythm, with pauses between gestures. Eye opening, width, curvature and vertical position coordinate with the gaze. The existing bounded head turn and upward pitch remain, with a small lift accompanying each eye gesture. Thinking now blinks naturally.
+
+Removed the unused loader contour, rotation vectors and loader blend weight from the shared internal pose model. Public component props and state values are unchanged. Web and native use the same target recipe; the persistent paths, matched-outline morphs and retained point velocities are unchanged. No controls, dependency, token or style-map changes were added.
+
+New behavior coverage first rejected the old uniform arc geometry, unchanged eyelids and suppressed thinking blinks. The 38 focused BotFace tests now cover held upward glances, staggered eye articulation, compact style-specific still eyes, natural blinking, every state-pair morph and interrupted thinking gestures. The browser regression checks the actual docs for focused dot-eye proportions and audits thinking in both themes and phone/desktop widths. The source shape study compares the old and new cycle across all three eye styles and checks 32/48px output (`tmp/bot-face-thinking/study.png`).
+
+### Verification
+
+- Passed: all 38 focused BotFace tests and `bun run test` (9 tasks; web: 190 files, 3,527 tests).
+- Passed: full `bun run registry:build` after the final source changes, and local Base UI, Radix, Aria and native install dry runs. Generated output was rebuilt.
+- Passed: browser regression on all three bases, including actual thinking geometry, state/style transitions, persistent paths, appearance/Custom/Copy controls, keyboard, reduced motion, phone/desktop widths, light/dark and scoped axe.
+- Reviewed: the running thinking expression in Relay (`tmp/bot-face-thinking/docs-desktop.png`), the small-size source study, and actual element screenshots across the thinking cycle and interrupted transitions (`tmp/bot-face-thinking/browser-frames.png`).
+- Passed: isolated strict TypeScript consumer check of the current BotFace source, scoped ESLint/Prettier, mobile types, native parity (110/112 clean with the same two Data Table deferrals), native docs generation (105 pages) and `git diff --check`.
+- Repository-wide `bun run check` did not pass: unrelated concurrent edits leave `packages/setup/src/plan.test.ts` unformatted. A separate web typecheck reported possibly undefined `node.children` in `project-tree.tsx` and incomplete `platform-contracts` imports/types while that work was in progress. Those files were left untouched; the isolated current-source BotFace consumer passes. Logs: `tmp/bot-face-thinking-check.log`, `tmp/bot-face-thinking-web-types.log` and `tmp/bot-face-thinking-consumer-types.log`.
+- Updated component docs, design specs and unreleased changelog. No new dependency; isolated face/models measure 7,818 bytes gzip, 242 bytes smaller than section 17, or 8,385 bytes with the session hook. Same method/exclusions as before; `tmp/bot-face-thinking-bundle.json`.
+- Native device visuals, VoiceOver/TalkBack and real-device performance remain unverified; both Relay simulator slots remain occupied. Fresh Expo installation/export, upstream parity and whole-catalog recapture were not repeated for this exclusive shared-model change; types/install checks and targeted state captures cover the changed payload and appearance. This task ran no commit or push command. Logs use `tmp/bot-face-thinking-*`.

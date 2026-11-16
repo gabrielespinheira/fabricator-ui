@@ -7,6 +7,20 @@ These changes are merged and ship in the next version.
 
 ## New components
 
+### Native renderer previews
+
+SwiftUI and Kotlin Compose source registries and component explorers are under
+development, alongside a Tauri mobile host for the existing React components.
+They share the generated Fabricator theme, density, motion, sound recipes, Inter
+fonts and icon geometry. Native-language projects use `fabricator.json` and the
+CLI's `init --platform swiftui|compose`, `add`, `view`, `diff`, `info` and `doctor`
+commands. Existing React Native and desktop commands remain available.
+
+Repository demos use `example:mobile-swiftui`, `example:desktop-swiftui`,
+`example:mobile-kotlin`, `example:desktop-kotlin` and `example:mobile-tauri`, with
+device, check and build commands. Source coverage and runnable examples are
+being qualified separately from full advanced behavior and native OS builds.
+
 ### Event Calendar
 
 [Event Calendar](/docs/components/base/event-calendar) is a scheduler on FullCalendar 7, in the Advanced group: day, N-day, week, month and agenda views, drag to create, move and resize, recurring events that ask "this, following or all" when one occurrence changes, time zones, a month-by-month loader that keeps a 100,000-event calendar fast, and changes that show at once, report themselves in a toast with Undo, and revert when saving fails. Every event, panel, form and menu is the library's own, and the keyboard can do everything the pointer can: Space picks up an event, the arrows move it, and Google Calendar's shortcuts switch views.
@@ -16,6 +30,10 @@ Day, N days and Week scroll sideways a day at a time (`continuous`, on by defaul
 On React Native the same component, with the same props and the same model underneath, draws on `@super-calendar/native`: three days on a phone and the week on a tablet, details in a sheet, long press to move, and VoiceOver actions to move, resize and delete.
 
 Add it with `npx fabricator-ui@latest add event-calendar`.
+
+Deleting the first occurrence with "this event" now preserves the remaining
+series. "This and following" still removes the whole series when it starts at
+the first occurrence.
 
 ### Charts
 
@@ -31,7 +49,7 @@ Add one with `npx fabricator-ui@latest add area-chart`. Every chart installs `ch
 
 ### BotFace
 
-[BotFace](/docs/components/base/bot-face) now has ten expressions for idle, listening, thinking, working, speaking, happy, sad, questioning, awaiting permission and error. The body stays anchored while the eyes carry the expression, with bounded gaze movement and tilt. Listening nods in agreement, working turns with its scan, thinking uses rotating arcs and upper-corner gaze, and speaking forms a six-bar sound wave. Questioning blends thick eye shapes with a short question-like curl, asymmetric height and natural blinks; error forms crosses. Shape, colour and eye controls sit on the left of the docs playground, with states on the right; phone layouts stack the two groups. Transitions morph matched eye outlines with retained point velocity, while preserving the pose and blink phase during rapid state changes. Loader exits retain their visible area, and wave bars split from or merge into the eye edges. BotFace also accepts `gray` and CSS hex fills, with contrasting eyes for custom colours. The docs playground replaces Theme options with a Custom Color Picker and live, copyable configuration code.
+[BotFace](/docs/components/base/bot-face) now has ten expressions for idle, listening, thinking, working, speaking, happy, sad, questioning, awaiting permission and error. The body stays anchored while the eyes carry the expression, with bounded gaze movement and tilt. Listening nods in agreement, working turns with its scan, thinking uses held upper-corner glances, staggered eye lifts and focused squints with natural blinking, and speaking forms a six-bar sound wave. Questioning blends thick eye shapes with a short question-like curl, asymmetric height and natural blinks; error forms crosses. Shape, colour and eye controls sit on the left of the docs playground, with states on the right; phone layouts stack the two groups. Transitions morph matched eye outlines with retained point velocity, while preserving the pose and blink phase during rapid state changes. Thinking transitions retain their visible eye area, and wave bars split from or merge into the eye edges. BotFace also accepts `gray` and CSS hex fills, with contrasting eyes for custom colours. The docs playground replaces Theme options with a Custom Color Picker and live, copyable configuration code.
 
 The optional `useBotFaceState` hook maps normalized agent sessions, prioritizes manual permissions and questions, holds through brief idle gaps and acknowledges successful run completion once. Web and React Native share the expression model. Reduced motion, motion-off and instant keep the selected expression visible without continuous movement.
 
@@ -44,6 +62,10 @@ Avatars in a group now overlap by a third of their size, and the group parts aro
 Avatars and the group count are opaque: the fallback and count tints sit on the background, so overlapping avatars and transparent images no longer show what is behind them. Avatars in demos and blocks are no longer drawn in grayscale.
 
 Update with `npx fabricator-ui@latest add avatar`. It now installs `tooltip` too.
+
+## CLI
+
+**Pick your tooling.** `create --tooling biome` and `--tooling vite-plus` set up a new monorepo with Biome or Vite+ in place of ESLint and Prettier: one config at the root, and `lint`, `format` and `check` scripts that cover every app. `--runner vite-plus` runs the monorepo's tasks with `vp run` in place of Turborepo. ESLint and Prettier stay the default, and now cover every app: React Router and the mobile app get the ESLint config their templates leave out. The [Get started](/create) page has a Tooling choice below Apps, and shows what gets created as a file tree.
 
 ## Breaking changes
 
