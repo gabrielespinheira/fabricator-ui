@@ -16,6 +16,7 @@ import path from "node:path"
 import { fileURLToPath } from "node:url"
 import {
   EXPO_SDK,
+  hasDesignGuide,
   hasWebApp,
   projectName,
   type Framework,
@@ -63,7 +64,27 @@ import {
   getNativeItems,
   getWebItems,
 } from "./items"
-import { writeSkill } from "./skill"
+import { writeDesignGuide, writeSkill } from "./skill"
+import {
+  buildBiomeConfig,
+  buildFixCommand,
+  buildReactEslintConfig,
+  buildRootToolingScripts,
+  buildViteConfig,
+  EXPO_ESLINT_CONFIG,
+  EXPO_ESLINT_DEPENDENCIES,
+  getRootToolingDevDependencies,
+  PRETTIER_CONFIG,
+  PRETTIER_IGNORE,
+  REACT_ESLINT_DEPENDENCIES,
+  stripEslintAndPrettier,
+  TOOLING_VERSIONS,
+  toViteTaskScripts,
+  VITE_PLUS_DEPENDENCY,
+  withoutTurboTasks,
+  withTurboLintTask,
+  type PackageJson,
+} from "./tooling"
 import {
   buildRootPackage,
   buildWebPackageForDesktop,
@@ -394,6 +415,7 @@ const configureWorkspace: Step = async (context) => {
     buildRootPackage(readJsonFile(rootPackage), {
       packageManager,
       hasWebApp: hasWebApp(setup),
+      runner: setup.runner,
       hasDesktop: setup.desktop !== "none",
       ...(mobileReact ? { mobileReact } : {}),
     })
@@ -402,6 +424,154 @@ const configureWorkspace: Step = async (context) => {
     writeFileSync(path.join(root, "bunfig.toml"), BUN_HOISTED_CONFIG)
   }
   if (setup.desktop !== "none") configureStaticBuild(context)
+}
+
+function updateJsonFile(
+  file: string,
+  update: (value: Record<string, unknown>) => unknown
+) {
+  writeJsonFile(file, update(readJsonFile(file)))
+}
+
+function withPackages(
+  pkg: PackageJson,
+  devDependencies: Record<string, string>,
+  scripts: Record<string, string> = {}
+): PackageJson {
+  return {
+    ...pkg,
+    scripts: { ...pkg.scripts, ...scripts },
+    devDependencies: { ...pkg.devDependencies, ...devDependencies },
+  }
+}
+
+/** Every package in apps/ and packages/. */
+function listWorkspacePackages(root: string) {
+  return ["apps", "packages"].flatMap((group) => {
+    const groupDir = path.join(root, group)
+    if (!existsSync(groupDir)) return []
+    return readdirSync(groupDir)
+      .map((name) => path.join(groupDir, name))
+      .filter((dir) => existsSync(path.join(dir, "package.json")))
+  })
+}
+
+const ESLINT_FILES = [
+  "eslint.config.js",
+  "eslint.config.mjs",
+  "eslint.config.cjs",
+  "eslint.config.ts",
+  "tsconfig.lint.json",
+]
+
+/** Biome or Vite+ in place of the template's ESLint and Prettier. */
+function switchToolchain(
+  context: SetupContext,
+  tooling: "biome" | "vite-plus"
+) {
+  const { root, setup } = context
+  rmSync(path.join(root, "packages/eslint-config"), {
+    recursive: true,
+    force: true,
+  })
+  for (const file of [".eslintrc.js", ".prettierrc", ".prettierignore"]) {
+    rmSync(path.join(root, file), { force: true })
+  }
+  for (const dir of listWorkspacePackages(root)) {
+    for (const file of ESLINT_FILES) {
+      rmSync(path.join(dir, file), { force: true })
+    }
+    updateJsonFile(path.join(dir, "package.json"), stripEslintAndPrettier)
+  }
+  const turbo = path.join(root, "turbo.json")
+  if (existsSync(turbo)) updateJsonFile(turbo, withoutTurboTasks)
+  updateJsonFile(path.join(root, "package.json"), (pkg) =>
+    withPackages(
+      stripEslintAndPrettier(pkg),
+      getRootToolingDevDependencies(tooling),
+      buildRootToolingScripts(tooling)
+    )
+  )
+  if (tooling === "biome") {
+    writeFileSync(path.join(root, "biome.json"), buildBiomeConfig())
+    return
+  }
+  writeFileSync(
+    path.join(root, "vite.config.ts"),
+    buildViteConfig({ hasWebApp: hasWebApp(setup) })
+  )
+}
+
+/** Fills the gaps in the templates' ESLint and Prettier. */
+function completeEslintAndPrettier(context: SetupContext) {
+  const { root, setup, webDir, mobileDir, packageManager } = context
+  const rootPackage = path.join(root, "package.json")
+  if (!hasWebApp(setup)) {
+    // A lone mobile app's workspace has no template, so no Prettier yet.
+    writeFileSync(path.join(root, ".prettierrc"), PRETTIER_CONFIG)
+    writeFileSync(path.join(root, ".prettierignore"), PRETTIER_IGNORE)
+    updateJsonFile(rootPackage, (pkg) =>
+      withPackages(
+        pkg,
+        { prettier: TOOLING_VERSIONS.prettier },
+        {
+          lint: `cd apps/mobile && ${packageManager} run lint`,
+          format: 'prettier --write "**/*.{ts,tsx}"',
+        }
+      )
+    )
+  } else if (setup.framework === "react-router") {
+    // React Router's template ships Prettier without ESLint.
+    const packages: [string, string[]][] = [
+      [webDir, ["build", ".react-router"]],
+      [path.join(root, "packages/ui"), ["dist"]],
+    ]
+    for (const [dir, ignores] of packages) {
+      writeFileSync(
+        path.join(dir, "eslint.config.js"),
+        buildReactEslintConfig(ignores)
+      )
+      updateJsonFile(path.join(dir, "package.json"), (pkg) =>
+        withPackages(pkg, REACT_ESLINT_DEPENDENCIES, { lint: "eslint" })
+      )
+    }
+    updateJsonFile(path.join(root, "turbo.json"), withTurboLintTask)
+    updateJsonFile(rootPackage, (pkg) =>
+      withPackages(pkg, {}, { lint: "turbo lint" })
+    )
+  }
+  if (setup.mobile) {
+    // Expo's template runs `expo lint`, which asks to install ESLint first.
+    writeFileSync(path.join(mobileDir, "eslint.config.js"), EXPO_ESLINT_CONFIG)
+    updateJsonFile(path.join(mobileDir, "package.json"), (pkg) =>
+      withPackages(pkg, EXPO_ESLINT_DEPENDENCIES)
+    )
+  }
+}
+
+/** Vite+ runs the tasks Turborepo did: same scripts, `vp run` instead. */
+function switchToVitePlusRunner(context: SetupContext) {
+  const { root } = context
+  rmSync(path.join(root, "turbo.json"), { force: true })
+  updateJsonFile(path.join(root, "package.json"), (pkg) => {
+    const { turbo: _turbo, ...devDependencies } = z
+      .record(z.string(), z.string())
+      .parse(pkg.devDependencies ?? {})
+    return {
+      ...pkg,
+      scripts: toViteTaskScripts(
+        z.record(z.string(), z.string()).parse(pkg.scripts ?? {})
+      ),
+      devDependencies: { ...devDependencies, ...VITE_PLUS_DEPENDENCY },
+    }
+  })
+}
+
+const configureTooling: Step = async (context) => {
+  const { tooling, runner } = context.setup
+  if (tooling === "eslint-prettier") completeEslintAndPrettier(context)
+  else switchToolchain(context, tooling)
+  if (runner === "vite-plus") switchToVitePlusRunner(context)
 }
 
 const install: Step = async (context) => {
@@ -615,6 +785,7 @@ const mount: Step = async (context) => {
 const agents: Step = async (context) => {
   const { setup, root } = context
   if (setup.skill) writeSkill(root, setup.assistants)
+  if (hasDesignGuide(setup)) writeDesignGuide(root)
   if (setup.mcp) {
     const clients: McpClient[] = setup.assistants
     const appDir =
@@ -629,6 +800,24 @@ const agents: Step = async (context) => {
         "Codex reads .codex/config.toml once you trust the project: it asks the next time it starts here."
       )
     }
+  }
+}
+
+const formatCode: Step = async (context) => {
+  const { setup, root, packageManager } = context
+  if (setup.tooling === "eslint-prettier") return
+  const { command, args } = buildFixCommand(setup.tooling, root)
+  try {
+    await runLogged(command, args, {
+      cwd: root,
+      logFile: context.logFile,
+      stream: context.stream,
+    })
+  } catch {
+    // Formatting always applies; only lint findings it can't fix land here.
+    context.notes.push(
+      `Some lint findings need a person. See them with \`${packageManager} run check\`.`
+    )
   }
 }
 
@@ -734,10 +923,12 @@ export const STEPS: Record<StepId, Step> = {
   "scaffold-mobile": scaffoldMobile,
   "scaffold-desktop": scaffoldDesktop,
   "configure-workspace": configureWorkspace,
+  "configure-tooling": configureTooling,
   install,
   "setup-mobile": setupMobile,
   mount,
   agents,
+  "format-code": formatCode,
   "first-commit": firstCommit,
 }
 

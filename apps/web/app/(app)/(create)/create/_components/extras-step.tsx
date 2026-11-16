@@ -177,7 +177,11 @@ export function ExtrasControls({
             <SwitchRow
               id="skill"
               title="Agent skill"
-              description="Teaches them the components, their composition rules and the CLI."
+              description={
+                choices.project === "existing"
+                  ? "Teaches them the components, their composition rules and the CLI."
+                  : "Teaches them the components, their composition rules and the CLI, with the design guide in DESIGN.md."
+              }
               icon={<BookOpenIcon />}
               checked={choices.skill}
               onCheckedChange={(skill) => onChange({ skill })}

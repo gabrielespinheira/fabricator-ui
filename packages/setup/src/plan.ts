@@ -2,10 +2,12 @@
 
 import { forPackageManager } from "./cli-args"
 import {
+  DEFAULT_PROJECT_SETUP,
   EXPO_SDK,
   getAssistantLabel,
   getBaseLabel,
   getFrameworkLabel,
+  hasDesignGuide,
   hasWebApp,
   isWebFramework,
   normalizeProjectSetup,
@@ -25,10 +27,12 @@ export type StepId =
   | "scaffold-mobile"
   | "scaffold-desktop"
   | "configure-workspace"
+  | "configure-tooling"
   | "install"
   | "setup-mobile"
   | "mount"
   | "agents"
+  | "format-code"
   | "first-commit"
 
 export type PlanStep = { id: StepId; title: string; detail: string }
@@ -79,6 +83,7 @@ function agentSteps(setup: ProjectSetup): PlanStep[] {
   if (setup.assistants.length === 0 || (!setup.skill && !setup.mcp)) return []
   const parts = [
     ...(setup.skill ? ["the agent skill"] : []),
+    ...(hasDesignGuide(setup) ? ["the design guide in DESIGN.md"] : []),
     ...(setup.mcp ? ["the MCP server"] : []),
   ]
   return [
@@ -90,10 +95,82 @@ function agentSteps(setup: ProjectSetup): PlanStep[] {
   ]
 }
 
+/** Biome and Vite+ reformat what the templates and the registry wrote. */
+function formatSteps(setup: ProjectSetup): PlanStep[] {
+  if (setup.tooling === DEFAULT_PROJECT_SETUP.tooling) return []
+  const tool = setup.tooling === "biome" ? "Biome" : "Vite+"
+  return [
+    {
+      id: "format-code",
+      title: "Format the code",
+      detail: `With ${tool}, so the first commit starts clean.`,
+    },
+  ]
+}
+
 const FIRST_COMMIT: PlanStep = {
   id: "first-commit",
   title: "Make the first commit",
   detail: "Everything above, in one commit.",
+}
+
+function eslintAdditions(setup: ProjectSetup) {
+  if (setup.tooling !== DEFAULT_PROJECT_SETUP.tooling) return []
+  return [
+    ...(hasWebApp(setup) ? [] : ["Prettier at the root"]),
+    ...(hasWebApp(setup) && setup.framework === "react-router"
+      ? ["ESLint for the web app and packages/ui"]
+      : []),
+    ...(setup.mobile ? ["Expo's ESLint config in apps/mobile"] : []),
+  ]
+}
+
+const SWITCHES = {
+  biome: {
+    name: "Biome",
+    detail:
+      "One biome.json lints and formats every app, in place of ESLint and Prettier.",
+  },
+  "vite-plus": {
+    name: "Vite+",
+    detail:
+      "One vite.config.ts lints, formats and type-checks every app, in place of ESLint and Prettier.",
+  },
+  runner: {
+    name: "Vite+",
+    detail: "Vite+ runs the monorepo's tasks, in place of Turborepo.",
+  },
+}
+
+/** The toolchain's step, when the template doesn't already have it. */
+function toolingSteps(setup: ProjectSetup): PlanStep[] {
+  const switches = [
+    ...(setup.tooling === "eslint-prettier" ? [] : [SWITCHES[setup.tooling]]),
+    ...(setup.runner === "vite-plus" ? [SWITCHES.runner] : []),
+  ]
+  const additions = eslintAdditions(setup)
+  if (switches.length === 0 && additions.length === 0) return []
+  const names = [...new Set(switches.map(({ name }) => name))]
+  const details = [
+    ...switches.map(({ detail }) => detail),
+    ...(additions.length > 0
+      ? [
+          `${listLabels(additions)}.`.replace(/^./, (letter) =>
+            letter.toUpperCase()
+          ),
+        ]
+      : []),
+  ]
+  return [
+    {
+      id: "configure-tooling",
+      title:
+        names.length > 0
+          ? `Switch to ${listLabels(names)}`
+          : "Set up ESLint and Prettier",
+      detail: details.join(" "),
+    },
+  ]
 }
 
 const SCAFFOLD_MOBILE: PlanStep = {
@@ -124,6 +201,7 @@ function mobileMonorepoSteps(setup: ProjectSetup): PlanStep[] {
       title: "Configure the workspace",
       detail: "A script to start the mobile app from the root.",
     },
+    ...toolingSteps(setup),
     {
       id: "install",
       title: "Install dependencies",
@@ -132,6 +210,7 @@ function mobileMonorepoSteps(setup: ProjectSetup): PlanStep[] {
     setupMobileStep(setup),
     ...mountStep(setup),
     ...agentSteps(setup),
+    ...formatSteps(setup),
     FIRST_COMMIT,
   ]
 }
@@ -172,6 +251,7 @@ function monorepoSteps(setup: ProjectSetup): PlanStep[] {
       title: "Configure the workspace",
       detail: "One script per app, and the versions the apps must share.",
     },
+    ...toolingSteps(setup),
     {
       id: "install",
       title: "Install dependencies",
@@ -180,6 +260,7 @@ function monorepoSteps(setup: ProjectSetup): PlanStep[] {
     ...(setup.mobile ? [setupMobileStep(setup)] : []),
     ...mountStep(setup),
     ...agentSteps(setup),
+    ...formatSteps(setup),
     FIRST_COMMIT,
   ]
 }

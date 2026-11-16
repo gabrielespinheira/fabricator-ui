@@ -3,7 +3,7 @@ import { tmpdir } from "node:os"
 import path from "node:path"
 import { afterEach, beforeEach, describe, expect, it } from "vitest"
 
-import { getSkillDirectories, writeSkill } from "./skill"
+import { getSkillDirectories, writeDesignGuide, writeSkill } from "./skill"
 
 describe("the agent skill", () => {
   let dir: string
@@ -39,5 +39,12 @@ describe("the agent skill", () => {
       )
       expect(existsSync(path.join(dir, root, "evals"))).toBe(false)
     }
+  })
+
+  it("copies the library's design guide to the project's root", () => {
+    writeDesignGuide(dir)
+    expect(readFileSync(path.join(dir, "DESIGN.md"), "utf8")).toContain(
+      "name: Fabricator UI"
+    )
   })
 })

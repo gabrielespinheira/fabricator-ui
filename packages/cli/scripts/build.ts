@@ -1,6 +1,7 @@
 // Bundles src/index.ts into dist/index.js for Node. What's in `dependencies` stays
 // external; `@fabricator-ui/setup`, private, is bundled in. Then copies what the
-// CLI writes into projects, and makes the output executable.
+// CLI writes into projects (templates, the agent skill, DESIGN.md), and makes
+// the output executable.
 import { execFileSync } from "node:child_process"
 import { chmodSync, cpSync, readFileSync, rmSync, writeFileSync } from "node:fs"
 import path from "node:path"
@@ -47,5 +48,7 @@ cpSync(
     filter: (file) => path.basename(file) !== "evals",
   }
 )
+
+cpSync(path.join(repo, "DESIGN.md"), path.join(dist, "DESIGN.md"))
 
 console.log(`Built ${path.relative(process.cwd(), entry)}`)

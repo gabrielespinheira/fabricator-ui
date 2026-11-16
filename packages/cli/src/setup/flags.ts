@@ -18,6 +18,8 @@ export type SetupFlags = {
   web?: boolean
   mobile?: boolean
   desktop?: string
+  tooling?: string
+  runner?: string
   look?: string
   shell?: string | boolean
   spinner?: string
@@ -49,7 +51,10 @@ export function addSetupOptions(command: Command) {
       "--agents <assistants>",
       `AI assistants, comma-separated: ${ASSISTANT_VALUES.join(", ")}`
     )
-    .option("--no-skill", "don't install the agent skill for --agents")
+    .option(
+      "--no-skill",
+      "don't install the agent skill and DESIGN.md for --agents"
+    )
     .option("--no-mcp", "don't configure the MCP server for --agents")
 }
 
@@ -95,6 +100,8 @@ export function setupFromCreateFlags(
     web: flags.web ?? true,
     mobile: flags.mobile ?? false,
     desktop: flags.desktop ?? "none",
+    tooling: flags.tooling ?? DEFAULT_PROJECT_SETUP.tooling,
+    runner: flags.runner ?? DEFAULT_PROJECT_SETUP.runner,
     appShell: flags.shell !== false,
     sound: flags.sounds ?? true,
   })
