@@ -3,7 +3,7 @@ import { tmpdir } from "node:os"
 import path from "node:path"
 import { afterEach, beforeEach, describe, expect, it } from "vitest"
 
-import { getSkillDirectories, writeDesignGuide, writeSkill } from "./skill"
+import { writeDesignGuide, writeSkill } from "./skill"
 
 describe("the agent skill", () => {
   let dir: string
@@ -11,19 +11,6 @@ describe("the agent skill", () => {
     dir = mkdtempSync(path.join(tmpdir(), "fabricator-skill-"))
   })
   afterEach(() => rmSync(dir, { recursive: true, force: true }))
-
-  it("goes where each assistant reads it", () => {
-    expect(getSkillDirectories(["claude"])).toEqual([
-      ".claude/skills/fabricator",
-    ])
-    expect(getSkillDirectories(["codex", "cursor"])).toEqual([
-      ".agents/skills/fabricator",
-    ])
-    expect(getSkillDirectories(["claude", "opencode"])).toEqual([
-      ".claude/skills/fabricator",
-      ".agents/skills/fabricator",
-    ])
-  })
 
   it("copies the skill, and not its evals", () => {
     writeSkill(dir, ["claude", "codex"])

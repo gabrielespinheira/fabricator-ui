@@ -140,6 +140,147 @@ describe("the tree without a website", () => {
   it("shows the Expo template as one Expo project", () => {
     const tree = getProjectTree(setup({ framework: "expo" }))
     expect(tree.mark).toBe("expo")
-    expect(tree.children).toEqual([])
+    expect(find(tree, "apps")).toBeUndefined()
+  })
+})
+
+describe("the tree's assistants", () => {
+  it("adds nothing for assistants until one is picked", () => {
+    const tree = getProjectTree(setup())
+    expect(find(tree, ".claude")).toBeUndefined()
+    expect(find(tree, ".mcp.json")).toBeUndefined()
+  })
+
+  it("writes the skill to Claude Code's folder and the shared one", () => {
+    const tree = getProjectTree(setup({ assistants: ["claude", "codex"] }))
+    expect(find(tree, ".claude/skills/fabricator/SKILL.md")).toBeDefined()
+    expect(find(tree, ".agents/skills/fabricator/SKILL.md")).toBeDefined()
+  })
+
+  it("configures the MCP server where each assistant reads it", () => {
+    const tree = getProjectTree(
+      setup({ assistants: ["claude", "cursor", "vscode", "codex", "opencode"] })
+    )
+    for (const config of [
+      ".mcp.json",
+      ".cursor/mcp.json",
+      ".vscode/mcp.json",
+      ".codex/config.toml",
+      "opencode.json",
+    ]) {
+      expect(find(tree, config)).toBeDefined()
+    }
+  })
+
+  it("leaves out the skill or the MCP server when they're off", () => {
+    const withoutSkill = getProjectTree(
+      setup({ assistants: ["claude"], skill: false })
+    )
+    expect(find(withoutSkill, ".claude")).toBeUndefined()
+    expect(find(withoutSkill, ".mcp.json")).toBeDefined()
+
+    const withoutMcp = getProjectTree(
+      setup({ assistants: ["cursor"], mcp: false })
+    )
+    expect(find(withoutMcp, ".cursor")).toBeUndefined()
+    expect(find(withoutMcp, ".agents/skills/fabricator/SKILL.md")).toBeDefined()
+  })
+
+  it("shows an existing project's assistant files, and no design guide", () => {
+    const tree = getProjectTree(
+      setup({ project: "existing", assistants: ["claude"] })
+    )
+    expect(names(tree)).toEqual([".claude", ".mcp.json"])
+  })
+
+  it("adds them to the Expo template's root", () => {
+    const tree = getProjectTree(
+      setup({ framework: "expo", assistants: ["opencode"] })
+    )
+    expect(find(tree, "opencode.json")).toBeDefined()
+    expect(find(tree, "DESIGN.md")).toBeDefined()
+  })
+})
+
+describe("the tree's components", () => {
+  it("puts the starter components in packages/ui", () => {
+    const tree = getProjectTree(setup({ appShell: false, sound: false }))
+    expect(names(find(tree, "packages/ui/src/components"))).toEqual([
+      "button.tsx",
+      "spinner.tsx",
+    ])
+    expect(find(tree, "packages/ui/src/lib")).toBeUndefined()
+    expect(find(tree, "apps/web/components")).toBeUndefined()
+  })
+
+  it("stands in for every other component with one quiet row", () => {
+    const tree = getProjectTree(setup({ components: "all" }))
+    const rest = find(tree, "packages/ui/src/components")?.children?.at(-1)
+    expect(rest?.name).toBe("every other component")
+    expect(rest?.muted).toBe(true)
+  })
+
+  it("adds the App Shell and its layout to the web app", () => {
+    const tree = getProjectTree(setup({ sound: false }))
+    expect(find(tree, "packages/ui/src/components/app-shell.tsx")).toBeDefined()
+    expect(names(find(tree, "apps/web/components"))).toEqual([
+      "app-shell-layout.tsx",
+      "app-shell-root.tsx",
+    ])
+  })
+
+  it("follows each template's components folder", () => {
+    const tree = (framework: ProjectSetup["framework"]) =>
+      getProjectTree(setup({ framework, sound: false }))
+    expect(
+      find(tree("vite"), "apps/web/src/components/app-shell-root.tsx")
+    ).toBeDefined()
+    expect(
+      find(tree("react-router"), "apps/web/app/components/app-shell-root.tsx")
+    ).toBeDefined()
+    // Astro renders the shell as an island, without a root of its own.
+    expect(names(find(tree("astro"), "apps/web/src/components"))).toEqual([
+      "app-shell-layout.tsx",
+    ])
+  })
+
+  it("adds the sounds' libs and their component", () => {
+    const tree = getProjectTree(setup({ appShell: false }))
+    expect(names(find(tree, "packages/ui/src/lib"))).toEqual([
+      "sound-recipes.ts",
+      "sounds.ts",
+    ])
+    expect(names(find(tree, "apps/web/components"))).toEqual([
+      "sound-effects.tsx",
+    ])
+  })
+
+  it("installs the mobile app's own components", () => {
+    const tree = getProjectTree(setup({ mobile: true, components: "all" }))
+    expect(names(find(tree, "apps/mobile/src/components/ui"))).toEqual([
+      "app-shell.tsx",
+      "button.tsx",
+      "fabricator-root.tsx",
+      "spinner.tsx",
+      "every other component",
+    ])
+    expect(names(find(tree, "apps/mobile/src/components"))).toEqual([
+      "ui",
+      "app-shell-layout.tsx",
+      "app-shell-root.tsx",
+      "sound-effects.tsx",
+    ])
+    expect(find(tree, "apps/mobile/src/lib/sounds.ts")).toBeDefined()
+  })
+
+  it("lays out the Expo template's files", () => {
+    const tree = getProjectTree(setup({ framework: "expo", appShell: false }))
+    expect(names(tree)).toEqual([
+      "src",
+      "app.json",
+      "components.json",
+      "package.json",
+    ])
+    expect(find(tree, "src/components/ui/button.tsx")).toBeDefined()
   })
 })

@@ -4,20 +4,7 @@
 import { cpSync, existsSync, mkdirSync, rmSync } from "node:fs"
 import path from "node:path"
 import { fileURLToPath } from "node:url"
-import type { Assistant } from "@fabricator-ui/setup"
-
-const CLAUDE_DIR = ".claude/skills/fabricator"
-const SHARED_DIR = ".agents/skills/fabricator"
-
-/** Claude Code reads its own folder; the others share `.agents/skills`. */
-export function getSkillDirectories(assistants: Assistant[]) {
-  return [
-    ...(assistants.includes("claude") ? [CLAUDE_DIR] : []),
-    ...(assistants.some((assistant) => assistant !== "claude")
-      ? [SHARED_DIR]
-      : []),
-  ]
-}
+import { getSkillDirectories, type Assistant } from "@fabricator-ui/setup"
 
 /** Inside the published CLI it's in `dist`; in this repo, at its root. */
 function getBundledPath(name: string) {

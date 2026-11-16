@@ -1,5 +1,6 @@
 import fs from "node:fs"
 import path from "node:path"
+import { MCP_CONFIG_PATHS } from "@fabricator-ui/setup"
 import { Command } from "commander"
 
 import { ensureRegistry, readComponentsJson } from "../utils/config"
@@ -17,11 +18,11 @@ function mcpCommand(appDir?: string) {
 }
 
 export const MCP_CLIENTS = {
-  claude: { label: "Claude Code", configPath: ".mcp.json" },
-  cursor: { label: "Cursor", configPath: ".cursor/mcp.json" },
-  vscode: { label: "VS Code", configPath: ".vscode/mcp.json" },
-  codex: { label: "Codex", configPath: ".codex/config.toml" },
-  opencode: { label: "OpenCode", configPath: "opencode.json" },
+  claude: { label: "Claude Code", configPath: MCP_CONFIG_PATHS.claude },
+  cursor: { label: "Cursor", configPath: MCP_CONFIG_PATHS.cursor },
+  vscode: { label: "VS Code", configPath: MCP_CONFIG_PATHS.vscode },
+  codex: { label: "Codex", configPath: MCP_CONFIG_PATHS.codex },
+  opencode: { label: "OpenCode", configPath: MCP_CONFIG_PATHS.opencode },
 } as const
 
 export type McpClient = keyof typeof MCP_CLIENTS
