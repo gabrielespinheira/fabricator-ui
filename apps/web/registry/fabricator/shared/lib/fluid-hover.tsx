@@ -7,6 +7,7 @@
 // only wires its container. Motion is CSS (transform, width, height, opacity)
 // on the Fabricator spring easings; no animation library is needed.
 import * as React from "react"
+import { useComposedRefs } from "@radix-ui/react-compose-refs"
 import { cn } from "cn"
 
 type Rect = { top: number; left: number; width: number; height: number }
@@ -447,5 +448,21 @@ function FluidHoverSelection({
   )
 }
 
-export { useComposedRefs as useMergedRef } from "@radix-ui/react-compose-refs"
-export { FluidHoverHighlight, FluidHoverSelection, pickNearest }
+/** Merge refs and provide one disposer even for callbacks that use null to detach. */
+function useMergedRef<T>(...refs: Array<React.Ref<T> | undefined>) {
+  const merged = useComposedRefs(...refs)
+  return React.useCallback(
+    (node: T | null) => {
+      const cleanup = merged(node)
+      if (node === null) return
+      return typeof cleanup === "function"
+        ? cleanup
+        : () => {
+            merged(null)
+          }
+    },
+    [merged]
+  )
+}
+
+export { FluidHoverHighlight, FluidHoverSelection, pickNearest, useMergedRef }
