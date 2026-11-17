@@ -1,4 +1,4 @@
-import { beforeAll, describe, expect, it, vi } from "vitest"
+import { describe, expect, it } from "vitest"
 
 import {
   applyChatInputPick,
@@ -21,9 +21,6 @@ import {
   smoothChatInputVoiceLevel,
   splitChatInputMentions,
 } from "@/registry/fabricator/shared/ui/chat-input"
-
-// ChatInput imports the icon picker, which preloads its renderer modules.
-beforeAll(() => vi.dynamicImportSettled())
 
 const enter = {
   key: "Enter",
