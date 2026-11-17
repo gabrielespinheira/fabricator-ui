@@ -219,7 +219,12 @@ private func contrastInk(for hex: String) -> String {
     var text = String(hex.dropFirst())
     if text.count == 3 || text.count == 4 { text = text.map { "\($0)\($0)" }.joined() }
     guard let value = UInt64(text.prefix(6), radix: 16) else { return "#000000" }
-    let channels = [16, 8, 0].map { shift in Double((value >> shift) & 255) / 255 }.map { $0 <= 0.04045 ? $0 / 12.92 : pow(($0 + 0.055) / 1.055, 2.4) }
+    let shifts = [16, 8, 0]
+    let srgb = shifts.map { shift in Double((value >> shift) & 0xff) / 255.0 }
+    let channels = srgb.map { channel -> Double in
+        if channel <= 0.04045 { return channel / 12.92 }
+        return pow((channel + 0.055) / 1.055, 2.4)
+    }
     let luminance = channels[0] * 0.2126 + channels[1] * 0.7152 + channels[2] * 0.0722
     return (luminance + 0.05) / 0.05 >= 1.05 / (luminance + 0.05) ? "#000000" : "#ffffff"
 }
