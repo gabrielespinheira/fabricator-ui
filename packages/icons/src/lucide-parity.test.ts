@@ -30,7 +30,7 @@ function withoutClass(markup: string) {
 
 describe("Lucide parity", () => {
   it("vendors the same Lucide release the parity packages come from", () => {
-    expect(readLock().lucide?.tag).toBe("1.66.0")
+    expect(readLock().lucide?.tag).toBe("1.73.0")
   })
 
   it("covers every icon @lucide/icons publishes", () => {

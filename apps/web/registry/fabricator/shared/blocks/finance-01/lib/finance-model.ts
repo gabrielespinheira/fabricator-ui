@@ -114,9 +114,9 @@ const PERIOD_FLOWS: Record<FinancePeriod, PeriodFlows> = {
 // Shares of money out, smallest last; the long tail is folded into "Other".
 const SPENDING_SHARES = [
   { category: "Payroll", share: 0.58 },
-  { category: "Cloud infrastructure", share: 0.11 },
+  { category: "Cloud", share: 0.11 },
   { category: "Software", share: 0.09 },
-  { category: "Rent and office", share: 0.07 },
+  { category: "Office", share: 0.07 },
   { category: "Marketing", share: 0.06 },
   { category: "Contractors", share: 0.05 },
   { category: "Other", share: 0.04 },
@@ -194,9 +194,10 @@ export function getRunwayMonths(
   return cash / monthlyBurn
 }
 
+/** Short enough for a stat card two across on a phone. */
 export function formatRunway(months: number) {
-  if (!Number.isFinite(months)) return "Not burning"
-  return `${months.toFixed(1)} months`
+  if (!Number.isFinite(months)) return "No burn"
+  return `${months.toFixed(1)} mo`
 }
 
 function formatDay(time: number) {
@@ -325,7 +326,9 @@ export function getFinanceOverview(period: FinancePeriod): FinanceOverview {
   }
 }
 
-export function getApprovalSummary(approvals: ReadonlyArray<{ amount: number }>) {
+export function getApprovalSummary(
+  approvals: ReadonlyArray<{ amount: number }>
+) {
   if (approvals.length === 0) return "Nothing waiting"
   const total = approvals.reduce((sum, { amount }) => sum + amount, 0)
   return `${approvals.length} waiting, ${formatMoney(total, { cents: true })} in total`

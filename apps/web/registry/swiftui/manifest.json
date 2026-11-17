@@ -200,6 +200,22 @@
       ]
     },
     {
+      "name": "assistant-01",
+      "files": [
+        "ui/blocks.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/app-shell",
+        "@fabricator/form",
+        "@fabricator/calendar",
+        "@fabricator/bot-face",
+        "@fabricator/card",
+        "@fabricator/dialog",
+        "@fabricator/file-tree"
+      ]
+    },
+    {
       "name": "attachment",
       "files": [
         "ui/chat.swift",
@@ -334,6 +350,22 @@
       "dependencies": [
         "@fabricator/foundations",
         "@fabricator/field"
+      ]
+    },
+    {
+      "name": "calendar-app-01",
+      "files": [
+        "ui/blocks.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/app-shell",
+        "@fabricator/form",
+        "@fabricator/calendar",
+        "@fabricator/bot-face",
+        "@fabricator/card",
+        "@fabricator/dialog",
+        "@fabricator/file-tree"
       ]
     },
     {
@@ -1171,6 +1203,38 @@
       ]
     },
     {
+      "name": "finance-01",
+      "files": [
+        "ui/blocks.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/app-shell",
+        "@fabricator/form",
+        "@fabricator/calendar",
+        "@fabricator/bot-face",
+        "@fabricator/card",
+        "@fabricator/dialog",
+        "@fabricator/file-tree"
+      ]
+    },
+    {
+      "name": "forgot-password-01",
+      "files": [
+        "ui/blocks.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/app-shell",
+        "@fabricator/form",
+        "@fabricator/calendar",
+        "@fabricator/bot-face",
+        "@fabricator/card",
+        "@fabricator/dialog",
+        "@fabricator/file-tree"
+      ]
+    },
+    {
       "name": "form",
       "files": [
         "ui/forms.swift"
@@ -1439,6 +1503,22 @@
         "@fabricator/foundations",
         "@fabricator/markdown",
         "@fabricator/file-upload"
+      ]
+    },
+    {
+      "name": "messenger-01",
+      "files": [
+        "ui/blocks.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/app-shell",
+        "@fabricator/form",
+        "@fabricator/calendar",
+        "@fabricator/bot-face",
+        "@fabricator/card",
+        "@fabricator/dialog",
+        "@fabricator/file-tree"
       ]
     },
     {
@@ -1943,6 +2023,38 @@
     },
     {
       "name": "sidebar-16",
+      "files": [
+        "ui/blocks.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/app-shell",
+        "@fabricator/form",
+        "@fabricator/calendar",
+        "@fabricator/bot-face",
+        "@fabricator/card",
+        "@fabricator/dialog",
+        "@fabricator/file-tree"
+      ]
+    },
+    {
+      "name": "sign-in-01",
+      "files": [
+        "ui/blocks.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/app-shell",
+        "@fabricator/form",
+        "@fabricator/calendar",
+        "@fabricator/bot-face",
+        "@fabricator/card",
+        "@fabricator/dialog",
+        "@fabricator/file-tree"
+      ]
+    },
+    {
+      "name": "sign-up-01",
       "files": [
         "ui/blocks.swift"
       ],

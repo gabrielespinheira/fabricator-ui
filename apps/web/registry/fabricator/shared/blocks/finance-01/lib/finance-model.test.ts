@@ -89,8 +89,8 @@ describe("runway", () => {
 
   it("is unlimited when money in covers money out", () => {
     expect(getRunwayMonths(500_000, 120_000, 90_000, 30)).toBe(Infinity)
-    expect(formatRunway(Infinity)).toBe("Not burning")
-    expect(formatRunway(10.31)).toBe("10.3 months")
+    expect(formatRunway(Infinity)).toBe("No burn")
+    expect(formatRunway(10.31)).toBe("10.3 mo")
   })
 })
 
@@ -159,7 +159,7 @@ describe("getFinanceOverview", () => {
         ["cash", "$1.28M", -8.7],
         ["in", "$268.4K", 12.4],
         ["out", "$391.2K", -3.1],
-        ["runway", "10.3 months", 1.9],
+        ["runway", "10.3 mo", 1.9],
       ]
     )
     expect(metrics.find(({ id }) => id === "out")?.isGoodWhenUp).toBe(false)
@@ -175,9 +175,9 @@ describe("getFinanceOverview", () => {
 
 describe("getApprovalSummary", () => {
   it("counts what waits and its total", () => {
-    expect(
-      getApprovalSummary([{ amount: 2_340 }, { amount: 18_900.5 }])
-    ).toBe("2 waiting, $21,240.50 in total")
+    expect(getApprovalSummary([{ amount: 2_340 }, { amount: 18_900.5 }])).toBe(
+      "2 waiting, $21,240.50 in total"
+    )
   })
 
   it("says when nothing waits", () => {

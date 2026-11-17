@@ -7,6 +7,21 @@ These changes are merged and ship in the next version.
 
 ## New components
 
+### Blocks
+
+A new [Blocks](/blocks) page shows whole screens built from the components and laid out by `DESIGN.md`, each live in a browser window at desktop, tablet and phone widths, with its code and the command that adds it. The homepage shows six of them in tabs under the hero. Links inside a preview stay in it, so clicking around a block never loads a missing page.
+
+Eight screen blocks join the App Shell starters, on every base:
+
+- `sign-in-01`, `sign-up-01` and `forgot-password-01`: company providers, validation when a field is left and on submit, errors that say how to fix them, password rules that update as you type, a check-your-email screen, and a reset in three steps with a six-digit `InputOTP` code.
+- `finance-01`: a business banking dashboard: cash, money in and out and runway as stat cards with deltas, a balance line against the last period, approvals with company logos, accounts, spending by category and recent transactions, all following the period picked in the toolbar.
+- `assistant-01`: an AI chat with past chats by day, a new-chat screen with suggested prompts, replies that stream after "Thinking…", tool calls that open to show their sources or code, and `ChatInput` with `ModelPicker` and stop.
+- `messenger-01`: conversations with search, pins and unread counts beside the open chat, a transcript grouped by sender and day with reactions, photos, files and voice messages, typing and read receipts, and a details panel. On phones the list comes first.
+- `mail-01`: an email app with folders and labels, an inbox to search, filter and select in bulk, a thread with replies and attachments beside it, and a compose form.
+- `calendar-app-01`: a calendar app on `EventCalendar`: a month to jump from, calendars to show or hide, event details with guests and a Going? answer in a panel, and new events from the header.
+
+Each installs as a page with its parts and a tested model, for example `npx fabricator-ui@latest add sign-in-01`. React Native, SwiftUI and Compose versions follow.
+
 ### Native renderer previews
 
 SwiftUI and Kotlin Compose source registries and component explorers are under

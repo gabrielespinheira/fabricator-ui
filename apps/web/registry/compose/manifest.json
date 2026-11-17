@@ -336,6 +336,27 @@
       "dependencies": ["@fabricator/foundations", "@fabricator/spinner"]
     },
     {
+      "name": "assistant-01",
+      "files": [
+        {
+          "path": "ui/blocks.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/blocks.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/field",
+        "@fabricator/app-shell",
+        "@fabricator/markdown",
+        "@fabricator/dialog",
+        "@fabricator/file-tree",
+        "@fabricator/calendar",
+        "@fabricator/popover",
+        "@fabricator/context-menu",
+        "@fabricator/tab-strip"
+      ]
+    },
+    {
       "name": "attachment",
       "files": [
         {
@@ -496,6 +517,27 @@
         "@fabricator/button",
         "@fabricator/dialog",
         "@fabricator/app-shell"
+      ]
+    },
+    {
+      "name": "calendar-app-01",
+      "files": [
+        {
+          "path": "ui/blocks.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/blocks.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/field",
+        "@fabricator/app-shell",
+        "@fabricator/markdown",
+        "@fabricator/dialog",
+        "@fabricator/file-tree",
+        "@fabricator/calendar",
+        "@fabricator/popover",
+        "@fabricator/context-menu",
+        "@fabricator/tab-strip"
       ]
     },
     {
@@ -837,6 +879,48 @@
       ]
     },
     {
+      "name": "finance-01",
+      "files": [
+        {
+          "path": "ui/blocks.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/blocks.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/field",
+        "@fabricator/app-shell",
+        "@fabricator/markdown",
+        "@fabricator/dialog",
+        "@fabricator/file-tree",
+        "@fabricator/calendar",
+        "@fabricator/popover",
+        "@fabricator/context-menu",
+        "@fabricator/tab-strip"
+      ]
+    },
+    {
+      "name": "forgot-password-01",
+      "files": [
+        {
+          "path": "ui/blocks.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/blocks.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/field",
+        "@fabricator/app-shell",
+        "@fabricator/markdown",
+        "@fabricator/dialog",
+        "@fabricator/file-tree",
+        "@fabricator/calendar",
+        "@fabricator/popover",
+        "@fabricator/context-menu",
+        "@fabricator/tab-strip"
+      ]
+    },
+    {
       "name": "form",
       "files": [
         {
@@ -1144,6 +1228,27 @@
         "@fabricator/foundations",
         "@fabricator/field",
         "@fabricator/markdown"
+      ]
+    },
+    {
+      "name": "messenger-01",
+      "files": [
+        {
+          "path": "ui/blocks.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/blocks.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/field",
+        "@fabricator/app-shell",
+        "@fabricator/markdown",
+        "@fabricator/dialog",
+        "@fabricator/file-tree",
+        "@fabricator/calendar",
+        "@fabricator/popover",
+        "@fabricator/context-menu",
+        "@fabricator/tab-strip"
       ]
     },
     {
@@ -1756,6 +1861,48 @@
     },
     {
       "name": "sidebar-16",
+      "files": [
+        {
+          "path": "ui/blocks.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/blocks.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/field",
+        "@fabricator/app-shell",
+        "@fabricator/markdown",
+        "@fabricator/dialog",
+        "@fabricator/file-tree",
+        "@fabricator/calendar",
+        "@fabricator/popover",
+        "@fabricator/context-menu",
+        "@fabricator/tab-strip"
+      ]
+    },
+    {
+      "name": "sign-in-01",
+      "files": [
+        {
+          "path": "ui/blocks.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/blocks.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/field",
+        "@fabricator/app-shell",
+        "@fabricator/markdown",
+        "@fabricator/dialog",
+        "@fabricator/file-tree",
+        "@fabricator/calendar",
+        "@fabricator/popover",
+        "@fabricator/context-menu",
+        "@fabricator/tab-strip"
+      ]
+    },
+    {
+      "name": "sign-up-01",
       "files": [
         {
           "path": "ui/blocks.kt",
