@@ -37,6 +37,7 @@
       "expectations": [
         "Uses full Card composition with CardHeader, CardTitle, CardContent (not dumping everything into CardContent)",
         "Uses Skeleton component for loading placeholders instead of custom animate-pulse divs",
+        "Each card's loading state keeps its title and fills its content area with one Skeleton block at a set height, not text-line bars or circles",
         "Uses Badge component for percentage change instead of custom styled spans",
         "Uses semantic color tokens instead of raw color values like bg-green-500 or text-red-600",
         "Uses gap-* instead of space-y-* or space-x-* for spacing",
