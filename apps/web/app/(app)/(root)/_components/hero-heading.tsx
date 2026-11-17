@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 import { useSiteSettings } from "@/lib/site-settings"
 import { useMediaQuery } from "@/hooks/use-media-query"
@@ -17,12 +17,14 @@ const platforms = [
   "Windows",
   "Android",
 ]
-const platformReadingTime = 2_400
+const platformReadingTime = 2_600
 
 type HeroHeadingProps = { headline: string; prefix: string }
 
 export function HeroHeading({ headline, prefix }: HeroHeadingProps) {
   const [rotation, setRotation] = useState(0)
+  const [platformWidth, setPlatformWidth] = useState<number>()
+  const currentPlatformRef = useRef<HTMLSpanElement>(null)
   const { motion } = useSiteSettings()
   const shouldAnimate = useMediaQuery("(prefers-reduced-motion: no-preference)")
   const canRotate = shouldAnimate && motion !== "off"
@@ -37,9 +39,24 @@ export function HeroHeading({ headline, prefix }: HeroHeadingProps) {
     return () => window.clearInterval(timer)
   }, [canRotate])
 
+  // The slot takes the current word's width, so the centred line stays
+  // centred and the prefix glides instead of sitting beside empty space.
+  // Observing also catches font loading and the container-sized font.
+  useEffect(() => {
+    const currentPlatform = currentPlatformRef.current
+    if (!currentPlatform) return
+
+    const observer = new ResizeObserver(([entry]) => {
+      setPlatformWidth(entry.borderBoxSize[0].inlineSize)
+    })
+    observer.observe(currentPlatform)
+
+    return () => observer.disconnect()
+  }, [rotation])
+
   const currentIndex = rotation % platforms.length
-  const leavingIndex = (rotation - 1) % platforms.length
-  const currentState = rotation === 0 ? "current" : "entering"
+  const leavingIndex =
+    rotation === 0 ? undefined : (rotation - 1) % platforms.length
 
   return (
     <div className="@container relative mt-4 w-full">
@@ -48,22 +65,28 @@ export function HeroHeading({ headline, prefix }: HeroHeadingProps) {
         <span aria-hidden="true">{prefix} </span>
         <span
           aria-hidden="true"
-          className="hero-platform-track inline-grid justify-items-start overflow-hidden text-start align-top text-primary-text"
+          className="hero-platform-track relative inline-block text-start whitespace-nowrap text-primary-text"
+          style={{ width: platformWidth }}
         >
-          {platforms.map((platform, index) => {
-            const state = index === currentIndex ? currentState : undefined
-
-            return (
-              <span
-                key={platform}
-                data-hero-platform=""
-                data-state={index === leavingIndex ? "leaving" : state}
-                className="col-start-1 row-start-1"
-              >
-                {platform}
-              </span>
-            )
-          })}
+          {leavingIndex === undefined ? null : (
+            <span
+              key={`leaving-${rotation}`}
+              data-hero-platform=""
+              data-state="leaving"
+              className="absolute start-0 top-0 inline-block"
+            >
+              {platforms[leavingIndex]}
+            </span>
+          )}
+          <span
+            key={`current-${rotation}`}
+            ref={currentPlatformRef}
+            data-hero-platform=""
+            data-state={rotation === 0 ? "current" : "entering"}
+            className="inline-block"
+          >
+            {platforms[currentIndex]}
+          </span>
         </span>
         <span
           aria-hidden="true"

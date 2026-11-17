@@ -101,36 +101,39 @@
   }
 }
 
-/* The homepage puts every name in one grid cell to reserve the longest width. */
-[data-hero-platform]:not([data-state]) {
-  visibility: hidden;
+/* The homepage slot glides to each name's width so the centred headline stays
+   centred; names cross-fade in place with a short rise and blur. */
+.hero-platform-track {
+  transition: width calc(var(--motion-move) * 1.6 * var(--motion-scale, 1))
+    var(--motion-ease-move);
 }
 
 [data-hero-platform][data-state="entering"] {
   animation: hero-platform-enter
-    calc(var(--motion-move) * var(--motion-scale, 1)) var(--motion-ease-enter)
-    both;
+    calc(var(--motion-move) * 1.8 * var(--motion-scale, 1))
+    var(--motion-ease-enter)
+    calc(var(--motion-move-exit) * 0.4 * var(--motion-scale, 1)) both;
 }
 
 [data-hero-platform][data-state="leaving"] {
   animation: hero-platform-exit
-    calc(var(--motion-move-exit) * var(--motion-scale, 1))
+    calc(var(--motion-move-exit) * 1.4 * var(--motion-scale, 1))
     var(--motion-ease-exit) both;
 }
 
 @keyframes hero-platform-enter {
   from {
     opacity: 0;
-    transform: translateY(55%);
-    filter: blur(2px);
+    transform: translateY(0.28em);
+    filter: blur(0.12em);
   }
 }
 
 @keyframes hero-platform-exit {
   to {
     opacity: 0;
-    transform: translateY(-55%);
-    filter: blur(2px);
+    transform: translateY(-0.28em);
+    filter: blur(0.12em);
   }
 }
 
