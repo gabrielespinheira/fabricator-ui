@@ -6,6 +6,9 @@ import { brandNodes, outlineNodes } from "./generated/nodes.js"
 import { getBrandViewBox, ICON_SIZE } from "./generated/runtime/attributes.js"
 import { renderGradientMarkup } from "./generated/runtime/gradients.js"
 import type { IconElement } from "./generated/runtime/types.js"
+import { renderSvgPng } from "./render-svg-png.js"
+
+export { MissingRendererError, renderSvgPng } from "./render-svg-png.js"
 
 export type IconSet = "outline" | "brands"
 
@@ -29,10 +32,6 @@ export type PngOptions = {
 
 export class UnknownIconError extends Error {
   override name = "UnknownIconError"
-}
-
-export class MissingRendererError extends Error {
-  override name = "MissingRendererError"
 }
 
 function attributes(values: Record<string, string>) {
@@ -95,40 +94,9 @@ export function buildSvg(
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${box}" fill="${fill}">${defs}${shapes(art?.node ?? brand.node)}</svg>`
 }
 
-function isModuleNotFound(error: unknown) {
-  return (
-    error instanceof Error &&
-    "code" in error &&
-    error.code === "ERR_MODULE_NOT_FOUND"
-  )
-}
-
-async function loadResvg() {
-  try {
-    return (await import("@resvg/resvg-js")).Resvg
-  } catch (error) {
-    if (!isModuleNotFound(error)) throw error
-    throw new MissingRendererError(
-      "PNG export needs @resvg/resvg-js: install it next to @fabricator-ui/icons-static"
-    )
-  }
-}
-
 function fileName(name: string, scale: number, template: boolean) {
   const base = template ? `${name}Template` : name
   return scale === 1 ? `${base}.png` : `${base}@${scale}x.png`
-}
-
-/** Rasterizes the existing canonical SVG artwork for native resource adapters. */
-export async function renderSvgPng(svg: string, pixelSize: number) {
-  const Resvg = await loadResvg()
-  return new Resvg(svg, {
-    fitTo: { mode: "width", value: pixelSize },
-    // Icon artwork has no text; rescanning host fonts adds work and host dependence.
-    font: { loadSystemFonts: false },
-  })
-    .render()
-    .asPng()
 }
 
 /** Writes one PNG per icon and scale, named as given, and returns the files written. */

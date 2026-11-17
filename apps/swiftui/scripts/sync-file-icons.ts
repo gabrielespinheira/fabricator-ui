@@ -3,7 +3,7 @@ import path from "node:path"
 
 import { loadFileIcons } from "../../../packages/icons-core/src/file-icons"
 import { renderFileSvg } from "../../../packages/icons-core/src/runtime/file-svg"
-import { renderSvgPng } from "../../../packages/icons-static/src/png"
+import { renderSvgPng } from "../../../packages/icons-static/src/render-svg-png"
 
 export async function syncFileIcons(projectRoot: string, resources: string) {
   const { icons, palette, fileNames, fileExtensions, folderNames } =
