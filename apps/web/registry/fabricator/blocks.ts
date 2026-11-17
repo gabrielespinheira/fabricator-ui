@@ -172,6 +172,7 @@ export const fabricatorBlocks = [
       "components/finance-kpi-row.tsx",
       "components/finance-sidebar.tsx",
       "components/finance-spending-card.tsx",
+      "components/finance-transaction-table-header.tsx",
       "components/finance-transactions-card.tsx",
       "lib/finance-data.ts",
       "lib/finance-model.ts",

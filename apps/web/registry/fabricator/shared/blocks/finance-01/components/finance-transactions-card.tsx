@@ -2,6 +2,7 @@ import { cn } from "cn"
 
 import { FinanceCardLink } from "@/registry/bases/__base__/blocks/finance-01/components/finance-card-link"
 import { FinanceCounterpartyMark } from "@/registry/bases/__base__/blocks/finance-01/components/finance-counterparty"
+import { FinanceTransactionTableHeader } from "@/registry/bases/__base__/blocks/finance-01/components/finance-transaction-table-header"
 import {
   type FinanceTransaction,
   type FinanceTransactionStatus,
@@ -20,8 +21,6 @@ import {
   Table,
   TableBody,
   TableCell,
-  TableHead,
-  TableHeader,
   TableRow,
 } from "@/registry/bases/__base__/ui/table"
 
@@ -52,19 +51,11 @@ export function FinanceTransactionsCard({
         </CardAction>
       </CardHeader>
       <CardContent className="-mb-(--card-spacing) px-0">
-        <Table className="[&_tr>*:first-child]:ps-(--card-spacing) [&_tr>*:last-child]:pe-(--card-spacing)">
-          <TableHeader>
-            <TableRow>
-              <TableHead>Payee</TableHead>
-              <TableHead className="hidden @lg/transactions:table-cell">
-                Date
-              </TableHead>
-              <TableHead className="hidden @sm/transactions:table-cell">
-                Status
-              </TableHead>
-              <TableHead className="text-end">Amount</TableHead>
-            </TableRow>
-          </TableHeader>
+        <Table
+          aria-label="Recent transactions"
+          className="[&_tr>*:first-child]:ps-(--card-spacing) [&_tr>*:last-child]:pe-(--card-spacing)"
+        >
+          <FinanceTransactionTableHeader />
           <TableBody>
             {transactions.map((transaction) => {
               const status = STATUSES[transaction.status]

@@ -12654,6 +12654,11 @@ export const Index: Record<string, Record<string, any>> = {
           target: "",
         },
         {
+          path: "styles/base-fabricator/blocks/finance-01/components/finance-transaction-table-header.tsx",
+          type: "registry:component",
+          target: "",
+        },
+        {
           path: "styles/base-fabricator/blocks/finance-01/components/finance-transactions-card.tsx",
           type: "registry:component",
           target: "",
@@ -14640,6 +14645,11 @@ export const Index: Record<string, Record<string, any>> = {
           target: "",
         },
         {
+          path: "styles/radix-fabricator/blocks/finance-01/components/finance-transaction-table-header.tsx",
+          type: "registry:component",
+          target: "",
+        },
+        {
           path: "styles/radix-fabricator/blocks/finance-01/components/finance-transactions-card.tsx",
           type: "registry:component",
           target: "",
@@ -16610,6 +16620,11 @@ export const Index: Record<string, Record<string, any>> = {
         },
         {
           path: "styles/aria-fabricator/blocks/finance-01/components/finance-spending-card.tsx",
+          type: "registry:component",
+          target: "",
+        },
+        {
+          path: "styles/aria-fabricator/blocks/finance-01/components/finance-transaction-table-header.tsx",
           type: "registry:component",
           target: "",
         },
