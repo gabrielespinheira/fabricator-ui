@@ -1,10 +1,23 @@
 // The agent skill and design guide, written straight into a project. The `skills` CLI would need
 // Node 22.20 and sends telemetry, and the files only have two possible homes.
 
-import { cpSync, existsSync, mkdirSync, rmSync } from "node:fs"
+import {
+  cpSync,
+  existsSync,
+  mkdirSync,
+  readFileSync,
+  rmSync,
+  writeFileSync,
+} from "node:fs"
 import path from "node:path"
 import { fileURLToPath } from "node:url"
-import { getSkillDirectories, type Assistant } from "@fabricator-ui/setup"
+import {
+  getSkillDirectories,
+  mergeAgentInstructions,
+  mergeClaudeImport,
+  type Assistant,
+  type PackageManager,
+} from "@fabricator-ui/setup"
 
 /** Inside the published CLI it's in `dist`; in this repo, at its root. */
 function getBundledPath(name: string) {
@@ -37,4 +50,27 @@ export function writeDesignGuide(cwd: string) {
   const target = path.join(cwd, "DESIGN.md")
   cpSync(getBundledPath("DESIGN.md"), target)
   return target
+}
+
+function readIfPresent(file: string) {
+  return existsSync(file) ? readFileSync(file, "utf8") : undefined
+}
+
+/**
+ * AGENTS.md is the file every assistant loads, so it carries a short block that
+ * sends agents to DESIGN.md and the skill; CLAUDE.md imports it for Claude Code.
+ */
+export function writeAgentInstructions(
+  cwd: string,
+  assistants: readonly Assistant[],
+  packageManager: PackageManager
+) {
+  const agents = path.join(cwd, "AGENTS.md")
+  writeFileSync(
+    agents,
+    mergeAgentInstructions(readIfPresent(agents), packageManager)
+  )
+  if (!assistants.includes("claude")) return
+  const claude = path.join(cwd, "CLAUDE.md")
+  writeFileSync(claude, mergeClaudeImport(readIfPresent(claude)))
 }

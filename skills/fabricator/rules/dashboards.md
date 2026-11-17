@@ -1,0 +1,300 @@
+# Dashboard recipes
+
+Working code for the parts of a dashboard and of any page of cards. The design rules behind them (the grid, card anatomy, numbers, states, polish) are in the project's `DESIGN.md`, under Layout, Cards and Dashboards; read those first.
+
+Each recipe was checked in a running app at phone and desktop widths, in light and dark. Change the content and keep the layout and alignment classes: they are what line every card up with the page and every row up with its card. Import paths follow `components.json`; icons come from the project's icon package (`@fabricator-ui/icons` by default). Every recipe uses APIs shared by the three web bases; where a base differs (a row as a link, a toggle group's value), the comment says so and the component's docs settle it.
+
+## Contents
+
+- Page
+- Toolbar
+- Delta
+- KPI strip
+- Chart card
+- List card
+- Table card
+- Checks
+
+---
+
+## Page
+
+The page sits in the App Shell of the `app-shell-03` block (a `Sidebar` with `WorkspaceSwitcher`, `AppNav` and `UserMenu`); this is its main column.
+
+```tsx
+<AppShellMain>
+  <AppShellHeader>
+    <AppShellBreadcrumb
+      items={[{ label: "Acme Inc", href: "/" }, { label: "Overview" }]}
+    />
+    <AppShellHeaderActions
+      actions={[
+        {
+          id: "export",
+          label: "Export",
+          icon: DownloadIcon,
+          onSelect: exportReport,
+        },
+      ]}
+    />
+  </AppShellHeader>
+  <AppShellContent size="lg">
+    <div className="@container flex flex-col gap-(--density-24)">
+      <div className="flex flex-col gap-(--density-4)">
+        <AppShellPageTitle>Overview</AppShellPageTitle>
+        <p className="text-[15px] text-pretty text-muted-foreground">
+          Revenue, customers and what needs you today.
+        </p>
+      </div>
+      <DashboardToolbar />
+      <div className="grid grid-cols-1 gap-(--density-16) @4xl:grid-cols-12">
+        <KpiStrip metrics={metrics} className="@4xl:col-span-12" />
+        <RevenueCard days={days} className="@4xl:col-span-12" />
+        <AttentionCard tasks={tasks} className="@4xl:col-span-6" />
+        <TopCustomersCard customers={customers} className="@4xl:col-span-6" />
+      </div>
+    </div>
+  </AppShellContent>
+</AppShellMain>
+```
+
+## Toolbar
+
+```tsx
+<div className="flex flex-wrap items-center gap-(--density-8)">
+  {/* Base UI shown: Radix uses type="single" with a string value. Keep one
+      period selected, so an empty value is ignored. The period lives in the
+      URL; in Next.js, code that reads the URL needs a Suspense boundary. */}
+  <ToggleGroup
+    size="sm"
+    aria-label="Period"
+    value={[period]}
+    onValueChange={([next]) => next && setPeriod(next)}
+  >
+    <ToggleGroupItem value="7d">7 days</ToggleGroupItem>
+    <ToggleGroupItem value="30d">30 days</ToggleGroupItem>
+    <ToggleGroupItem value="90d">90 days</ToggleGroupItem>
+    <ToggleGroupItem value="12m">12 months</ToggleGroupItem>
+  </ToggleGroup>
+  <span className="text-(length:--density-text-12) text-muted-foreground">
+    Compared with the previous 30 days
+  </span>
+  <div className="ms-auto flex items-center gap-(--density-4) text-(length:--density-text-12) text-muted-foreground">
+    <span>Updated 2 min ago</span>
+    <Button variant="ghost" size="icon-sm" aria-label="Refresh">
+      {/* with a Tooltip */}
+      <RefreshCwIcon />
+    </Button>
+  </div>
+</div>
+```
+
+## Delta
+
+```tsx
+function Delta({
+  change,
+  isGoodWhenUp,
+  unit = "%",
+}: {
+  change: number
+  isGoodWhenUp: boolean
+  unit?: "%" | " pt"
+}) {
+  if (change === 0) return <Badge variant="outline">0{unit}</Badge>
+  const isUp = change > 0
+  const Arrow = isUp ? ArrowUpRightIcon : ArrowDownRightIcon
+  return (
+    <Badge variant={isUp === isGoodWhenUp ? "success" : "destructive"}>
+      <Arrow />
+      {isUp ? "+" : "−"}
+      {Math.abs(change).toFixed(1)}
+      {unit}
+    </Badge>
+  )
+}
+```
+
+## KPI strip
+
+One card, divided by hairlines: it reads as one instrument, where four separate cards read as four things. The 1px gaps show the line colour through the grid, so choose columns that divide the count: two by two for four, three for three, three by two for six.
+
+```tsx
+type Metric = {
+  label: string
+  value: string
+  previous: string
+  change: number
+  isGoodWhenUp: boolean
+  unit?: "%" | " pt" // rates change in points
+}
+;<Card className={cn("gap-0 py-0", className)}>
+  <dl className="grid grid-cols-2 gap-px bg-border/60 @4xl:grid-cols-4">
+    {metrics.map((metric) => (
+      <div
+        key={metric.label}
+        className="flex flex-col gap-(--density-4) bg-card p-(--card-spacing)"
+      >
+        <dt className="truncate text-muted-foreground">{metric.label}</dt>
+        <dd className="text-2xl tracking-tight tabular-nums weight-semibold">
+          {metric.value}
+        </dd>
+        <dd className="flex items-center gap-(--density-8) text-(length:--density-text-12) text-muted-foreground">
+          <Delta
+            change={metric.change}
+            isGoodWhenUp={metric.isGoodWhenUp}
+            unit={metric.unit}
+          />
+          <span className="hidden truncate @3xl:inline">
+            from {metric.previous}
+          </span>
+        </dd>
+      </div>
+    ))}
+  </dl>
+</Card>
+```
+
+## Chart card
+
+```tsx
+const config = {
+  current: { label: "This period" },
+  previous: {
+    label: "Previous period",
+    color: "var(--muted-foreground)",
+    dashed: true,
+  },
+} satisfies ChartConfig
+
+function RevenueCard({ days, className }: { days: Day[]; className?: string }) {
+  const [active, setActive] = React.useState<ChartActive<Day> | null>(null)
+  const total = days.reduce((sum, day) => sum + day.current, 0)
+  return (
+    <Card className={className}>
+      <CardHeader>
+        <CardTitle>Revenue</CardTitle>
+        <CardDescription>Daily</CardDescription>
+        <CardAction>
+          {/* one quiet control: a small ToggleGroup (Gross, Net) or a ghost More menu */}
+        </CardAction>
+      </CardHeader>
+      <CardContent className="flex flex-col gap-(--density-16)">
+        <div className="flex flex-col gap-(--density-4)">
+          <span className="text-muted-foreground">
+            {active ? active.datum.day : "Total this period"}
+          </span>
+          <div className="flex items-center gap-(--density-8)">
+            <span className="text-2xl tracking-tight tabular-nums weight-semibold">
+              {formatMoney(active ? active.datum.current : total)}
+            </span>
+            {!active && <Delta change={12.4} isGoodWhenUp />}
+          </div>
+        </div>
+        <LineChart
+          className="h-56 @4xl:h-64"
+          data={days}
+          index="day"
+          config={config}
+          label="Daily revenue"
+          formatValue={formatMoney}
+          onActiveChange={setActive}
+        />
+      </CardContent>
+    </Card>
+  )
+}
+```
+
+## List card
+
+```tsx
+<Card className={className}>
+  <CardHeader>
+    <CardTitle>Needs attention</CardTitle>
+    <CardDescription>Ordered by money at risk</CardDescription>
+  </CardHeader>
+  <CardContent className="px-[calc(var(--card-spacing)-var(--density-12))]">
+    <ItemGroup>
+      {tasks.map((task) => (
+        // A link to where the task is done: render (Base, React Aria) or asChild (Radix).
+        <Item key={task.id} size="sm">
+          <ItemMedia variant="icon">
+            <task.icon />
+          </ItemMedia>
+          <ItemContent>
+            <ItemTitle>{task.title}</ItemTitle>
+            <ItemDescription>{task.description}</ItemDescription>
+          </ItemContent>
+          <ItemActions>
+            <ChevronRightIcon className="size-(--density-icon-16) text-muted-foreground" />
+          </ItemActions>
+        </Item>
+      ))}
+    </ItemGroup>
+  </CardContent>
+</Card>
+```
+
+## Table card
+
+```tsx
+<Card className={className}>
+  <CardHeader>
+    <CardTitle>Top customers</CardTitle>
+    <CardDescription>By monthly recurring revenue</CardDescription>
+    <CardAction>
+      <Link
+        href="/customers"
+        className={cn(
+          buttonVariants({ variant: "ghost", size: "sm" }),
+          "-me-3"
+        )}
+      >
+        View all
+      </Link>
+    </CardAction>
+  </CardHeader>
+  <CardContent className="-mb-(--card-spacing) px-0">
+    <Table className="[&_tr>*:first-child]:ps-(--card-spacing) [&_tr>*:last-child]:pe-(--card-spacing)">
+      <TableHeader>
+        <TableRow>
+          <TableHead>Customer</TableHead>
+          <TableHead>Status</TableHead>
+          <TableHead className="text-end">MRR</TableHead>
+        </TableRow>
+      </TableHeader>
+      <TableBody>
+        {customers.map((customer) => (
+          <TableRow key={customer.id}>
+            <TableCell className="font-medium text-foreground">
+              {customer.name}
+            </TableCell>
+            <TableCell>
+              <Badge variant={statusVariants[customer.status]}>
+                {customer.status}
+              </Badge>
+            </TableCell>
+            <TableCell className="text-end tabular-nums">
+              {formatMoney(customer.mrr)}
+            </TableCell>
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
+  </CardContent>
+</Card>
+```
+
+A link styled as a button uses `buttonVariants` on the router's link, which works the same in every base. `-me-3` pulls the small ghost link out by its own padding (small buttons are always 12px across), so its text ends on the inset with the last column.
+
+## Checks
+
+Before calling a dashboard done, look at the running page:
+
+- The page title, the toolbar and every card's outer edge start on one line.
+- Inside each card, the title, the headline value, a list's icons and a table's first column start on the inset; a table's last column ends on it.
+- Gutters continue down the page: every row uses the page's one rhythm (quarters or thirds).
+- At a 390px width no stat label or value is cut off, and the strip is two by two.
+- In both themes, the only colours are chart series, deltas and status badges.
+- No console errors: a Base UI `Button` rendered as a link needs `nativeButton={false}`, which is why the recipes style links with `buttonVariants` instead.

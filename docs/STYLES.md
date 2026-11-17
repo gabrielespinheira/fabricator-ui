@@ -1,6 +1,6 @@
 # Styles
 
-The Fabricator layer: tokens, colour, motion, density, per-component looks and the overrides that add behaviour. The design language itself (surfaces, the look of every component, known deviations) is specified in [`apps/web/registry/fabricator/DESIGN.md`](../apps/web/registry/fabricator/DESIGN.md); read it before changing a style or an override. A change to a look updates that spec and the root [`DESIGN.md`](../DESIGN.md).
+The Fabricator layer: tokens, colour, motion, density, per-component looks and the overrides that add behaviour. The design language itself (surfaces, the look of every component, known deviations) is specified in [`apps/web/registry/fabricator/DESIGN.md`](../apps/web/registry/fabricator/DESIGN.md); read it before changing a style or an override. A change to a look updates that spec. The root [`DESIGN.md`](../DESIGN.md) is the guide new projects receive: it changes only when a rule for designing products changes (which component a screen calls for, layout, what a colour means), never for a component's internal look, timings or platform details.
 
 ## Where things live
 

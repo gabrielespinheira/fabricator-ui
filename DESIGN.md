@@ -2,165 +2,166 @@
 version: alpha
 name: Fabricator UI
 description: >-
-  Calm, precise interfaces for apps, dashboards and websites: neutral surfaces
-  lifted by shadow, colour kept for meaning, and size and motion set per region.
-  This file is the design guide: the look, the behaviour and which component
-  each part of a screen calls for. Values and code live in the component docs.
+  Calm, precise interfaces for SaaS apps, dashboards and websites: neutral
+  surfaces lifted by shadow, colour kept for meaning, one grid with one edge,
+  and size and motion set per region. This file is the design guide: the look,
+  the layout system, cards, dashboards, SaaS features and which component each
+  part of a screen calls for. Props and values live in the component docs.
 omitted:
   - section: colors
     reason: Colours come from the project's look and are documented on the Colors page.
   - section: typography
-    reason: The type roles are described in prose; their values are on the Typography page.
+    reason: The type roles are described in prose with their classes; their values are on the Typography page.
   - section: rounded
     reason: Corners follow one radius the project sets.
   - section: spacing
-    reason: Sizes follow the density of the region.
+    reason: Sizes follow the density of the region; the spacing steps are in Layout.
   - section: components
     reason: Each component's variants and props are in its own docs page.
 ---
 
 # Fabricator UI
 
-The design guide for products built with Fabricator UI: how they look, how they behave, and which component each part of a screen calls for. Read it before you design a screen, follow [Designing a screen](#designing-a-screen), and check the result against [the review checklist](#review-checklist).
+The design guide for products built with Fabricator UI: how they look, how they are laid out, how they behave, and which component each part of a screen calls for. Read it whole before you design a screen. Then:
 
-This file is about design decisions. How to write them (props, classes, tokens) is in each component's docs page (`npx fabricator-ui@latest docs <name>`) and in the Foundations pages at [fabricator-ui.vercel.app/docs](https://fabricator-ui.vercel.app/docs). Read the docs of every component you use before writing with it.
+- **Any screen:** follow [Designing a screen](#designing-a-screen) and check the result against [the review checklist](#review-checklist).
+- **A dashboard or any page of cards:** read [The grid](#the-grid), [Cards](#cards) and [Dashboards](#dashboards), and start from the [recipes](#recipes).
+- **A product feature** (billing, members, integrations, settings): read [SaaS features](#saas-features).
 
-**Using it in your project:** copy this file to the root of a project that uses Fabricator UI and point your agent instructions at it. Rewrite the first paragraph of the Overview for your product, and delete the patterns you will never build. Keep the rules.
+How to write each component (props, parts, base differences) is in its docs page (`npx fabricator-ui@latest docs <name>`) and at [fabricator-ui.vercel.app/docs](https://fabricator-ui.vercel.app/docs). Read the docs of every component you use before writing with it.
+
+**Using it in your project:** keep this file at the project's root and point your agent instructions at it. Rewrite the first paragraph of the Overview for your product, and delete the patterns you will never build. Keep the rules.
 
 ## Overview
 
-Fabricator interfaces are calm and exact. They feel like well-made tools: neutral surfaces, one clear action, quiet chrome and the content in front. Colour carries meaning (the main action, a selection, a status), so it stays rare and reads at once. Depth comes from surfaces lifted by shadow. Motion confirms what happened and gets out of the way. Every size follows the density of the region it sits in.
+Fabricator interfaces are calm and exact. They feel like well-made tools: neutral surfaces, one clear action, quiet chrome and the content in front. Colour carries meaning (the main action, a selection, a status, a chart series), so it stays rare and reads at once. Depth comes from surfaces lifted by shadow. Every edge lines up with another. Motion confirms what happened and gets out of the way.
 
 ### The look
 
-- **Neutral first.** A product starts black, white and grey. The main action is the darkest thing on the screen, and the only hues are the statuses, until the brand adds one of its own.
+- **Neutral first.** A product starts black, white and grey. The main action is the darkest thing on the screen; the only hues are statuses and charts, until the brand adds one of its own.
 - **Lifted surfaces.** Cards, menus and dialogs sit above the page on a soft shadow with a hairline edge. That shadow is the edge, so surfaces carry no border.
-- **Small and precise.** Interface text is 13px and controls are 36px tall, with air around compact parts. Nothing is oversized to look friendly.
+- **Small and precise.** Interface text is 13px and controls are 36px tall. Nothing is oversized to look friendly.
+- **Aligned to the pixel.** A page has one start edge and one grid; a card has one inset. The title, the toolbar, the cards and the first word in every card sit on those lines.
 - **Soft geometry.** Controls have 8px corners and containers slightly rounder ones, so a row sits evenly inside its container.
 - **Quiet chrome.** Navigation, labels and metadata rest in grey and come forward only when pointed at or selected.
-- **Alive under the hand.** One highlight glides to whatever the pointer is nearest, a selection slides to its new place, a button gives a little when pressed, a menu grows from the button that opened it. Each lasts a fraction of a second.
-- **One system at every size.** A dense dashboard, a roomy website and a phone use the same components, set to a different density and speed.
+- **Alive under the hand.** One highlight glides to whatever the pointer is nearest, a selection slides to its new place, a button gives a little when pressed. Each lasts a fraction of a second.
+- **One system at every size.** A dense dashboard, a roomy website and a phone use the same components at a different density and speed.
 
 ### Product modes
 
 Pick the mode for the product, then for each region that differs (a marketing page inside an app, a dense table inside a spacious page).
 
-| Mode    | For                                      | Density  | Motion            | Frame                                      |
-| ------- | ---------------------------------------- | -------- | ----------------- | ------------------------------------------ |
-| App     | Product UI, docs and component explorers | Default  | Default or snappy | The App Shell                              |
-| Tool    | Dashboards, admin, editors, dense data   | Compact  | Snappy or instant | The App Shell, compact toolbars and tables |
-| Website | Marketing, landing pages, pricing        | Spacious | Smooth            | A site header and centred content          |
+| Mode    | For                                   | Density  | Motion            | Frame                             |
+| ------- | ------------------------------------- | -------- | ----------------- | --------------------------------- |
+| App     | Product UI, overviews, settings       | Default  | Default or snappy | The App Shell                     |
+| Tool    | Operations dashboards, admin, editors | Compact  | Snappy or instant | The App Shell, compact toolbars   |
+| Website | Marketing, landing pages, pricing     | Spacious | Smooth            | A site header and centred content |
 
 ### Principles
 
 1. **Compose, then configure.** Reach for the component, then its variant and size. The component owns its colour, type, corners, spacing and states; you decide where it goes.
 2. **One primary action per region.** The filled button marks what the region is for. Everything else is quieter.
 3. **Hierarchy from surface, weight and grey.** Height separates layers, grey steps content back, size and weight make titles. Colour and lines come last.
-4. **The region decides the size.** Density is set on a region and everything inside follows it. A component picks its own size only when it must differ from its neighbours.
-5. **Every view has all its states.** Loading, empty, error, partial and disabled are designed with the happy path, each with its own component.
-6. **The keyboard is a first-class pointer.** Every action is reachable from it, focus is always visible, and frequent actions have shortcuts that the interface shows.
-7. **Motion has a job.** It shows where something came from or confirms what just happened. Nothing moves for decoration.
+4. **One grid, one edge.** Every region, card and row starts on a shared edge, and every gap is a step of the spacing scale. Alignment is most of what makes a screen look expensive.
+5. **The region decides the size.** Density is set on a region and everything inside follows it.
+6. **Every view has all its states.** Loading, empty, error, partial and disabled are designed with the happy path.
+7. **The keyboard is a first-class pointer.** Every action is reachable from it, focus is always visible, and frequent actions have shortcuts the interface shows.
+8. **Motion has a job.** It shows where something came from or confirms what just happened.
 
 ### Designing a screen
 
 Work through these in order. Each step is done when its last sentence is true.
 
-1. **Name the job.** Write one sentence: who is on this screen and what they came to do ("A support lead scans the open tickets and opens the most urgent one"). Done when that sentence names one person and one task; a screen with two jobs is two screens, or a screen and a panel.
-2. **Know the project.** Its mode, its look (brand hue, shape, density), whether it is web or React Native, and which components are already installed. Done when you know all four.
-3. **Pick the pattern.** The closest [pattern](#patterns) sets the regions. Start from a block when one fits, then delete what the product doesn't need. Done when every region of the screen has a name from the pattern (header, toolbar, body, panel).
-4. **Rank the content.** Mark what the job needs first, what supports it, and what is there for the rare case. The first gets the top of the main column and the primary action; the rare case goes into a "More" menu, a panel or its own page. Done when the screen has [one focal point](#hierarchy) and nothing competes with it.
-5. **Lay out the regions** with space and alignment before any line or card. Done when the screen reads correctly as plain blocks of text and gaps.
-6. **Choose the components** from [Choosing a component](#choosing-a-component), and read each one's docs. Done when no part of the screen is hand-built that a component covers.
-7. **Design every state** in the same pass: loading, empty, error, partial, disabled, and long or missing values (see [States](#states)). Done when each region has an answer for each.
-8. **Write the words** (see [Content](#content)). Done when every button is a verb, every empty state says how to start and every error says how to fix it.
+1. **Name the job.** One sentence: who is on this screen and what they came to do ("A finance lead checks this month's revenue and chases the failed payments"). Done when it names one person and one task; two jobs are two screens, or a screen and a panel.
+2. **Know the project:** its mode, its look (brand hue, shape, density), web or React Native, and the installed components. Done when you know all four.
+3. **Pick the pattern.** The closest [pattern](#patterns) or [dashboard type](#dashboard-types) sets the regions; start from a block or a [recipe](#recipes). Done when every region has a name (header, toolbar, KPI strip, body, panel).
+4. **Rank the content:** what the job needs first gets the top of the main column and the primary action; the rare case goes into a "More" menu, a panel or its own page. Done when the screen has [one focal point](#hierarchy).
+5. **Lay out the regions** on [the grid](#the-grid) with space and alignment before any line or card. Done when the screen reads as plain blocks of text and gaps, and every gutter continues down the page.
+6. **Choose the components** from [Choosing a component](#choosing-a-component), and read each one's docs. Done when nothing is hand-built that a component covers.
+7. **Design every state** in the same pass (see [States](#states)). Done when each region answers loading, empty, error, partial, disabled and long or missing values.
+8. **Write the words** (see [Content](#content)) with real data: real names, real magnitudes, a negative change, an empty list. Done when every button is a verb and every error says how to fix it.
 9. **Review** the running screen against [the checklist](#review-checklist): light and dark, phone and wide desktop, keyboard only.
 
 ### Hierarchy
 
 A screen has a budget of emphasis, and the calm look comes from spending little of it.
 
-- **One focal point per screen:** the page title with its primary action, or the one number or document the person came for. Squint at it: the focal point and the primary action are the two things still visible.
-- **Spend emphasis in this order,** and stop at the first that works: position and space, size, weight, dark text against grey text, a raised surface, colour.
+- **One focal point per screen:** the page title with its primary action, or the one number or document the person came for. Squint: the focal point and the primary action are the two things still visible.
+- **Spend emphasis in this order** and stop at the first that works: position and space, size, weight, dark text against grey, a raised surface, colour.
 - **One step at a time.** A title is larger or heavier than its neighbours, never larger, heavier and coloured at once.
-- **Most of a screen is quiet.** Labels, metadata, resting navigation and secondary actions are grey or unfilled, so the few dark elements stand out without help.
-- **Per region:** one filled button, one title, and at most one tinted alert.
+- **Per region:** one filled button, one title, at most one tinted alert.
 - **Equal things look equal.** Rows of a list, cards of a grid and fields of a form share one size, one alignment and one set of parts. A difference in look means a difference in meaning.
 
 ## Colors
 
 ### Neutral by default
 
-The page, the surfaces and the text are neutral, and so is the main action: until a project picks a brand hue, the primary colour is the text colour itself, near black in light mode and near white in dark. A default Fabricator product is black and white with colour only where a status needs it.
+The page, the surfaces and the text are neutral, and so is the main action: until a project picks a brand hue, primary is the text colour itself, near black in light mode and near white in dark.
 
-- **Text has two steps.** The foreground is for headings, values and the labels people act on. The muted grey is for descriptions, captions, metadata, placeholders, resting navigation and the icon beside a label. A third level comes from size or weight, never from a third grey.
-- **Lines are faint.** Separators and table rules are a soft hairline. They divide content inside a surface; they never frame one.
-- **Hover and selection are washes.** Pointing at a row lays a faint translucent wash over it; pressing or selecting it lays a slightly stronger one. Because they are translucent, they look right on every surface. Selection is that wash, with no coloured edge or coloured text.
-- **Focus is one blue ring,** the same blue in both themes and in every palette, so the keyboard's position never depends on the brand.
+- **Text has two steps.** The foreground for headings, values and labels people act on; the muted grey for descriptions, captions, metadata, placeholders, resting navigation and the icon beside a label. A third level comes from size or weight, never a third grey.
+- **Lines are faint** hairlines that divide content inside a surface; they never frame one.
+- **Hover and selection are washes:** a faint translucent wash under the pointer, a stronger one for pressed or selected, with no coloured edge or text.
+- **Focus is one blue ring** in both themes and every palette.
 
 ### Colour roles
 
-Six roles carry all the colour. Each one means one thing everywhere.
+Six roles carry the interface's colour, each with one meaning everywhere:
 
-| Role        | Means                                   | Shows in                                                                                           |
-| ----------- | --------------------------------------- | -------------------------------------------------------------------------------------------------- |
-| Primary     | The main action, and "on" or "selected" | The filled button, links, checked boxes and radios, a switch that is on, progress, a selected date |
-| Secondary   | A soft second action                    | The secondary button, a translucent tint                                                           |
-| Info        | Neutral information, work under way     | Alerts, badges, toasts                                                                             |
-| Success     | Done, healthy, a positive change        | Alerts, badges, toasts                                                                             |
-| Warning     | Late, or needs attention soon           | Alerts, badges, toasts                                                                             |
-| Destructive | Error, invalid, irreversible            | The destructive button and menu items, invalid fields and their messages, error alerts and toasts  |
+- **Primary:** the main action, and "on" or "selected": the filled button, links, checked controls, progress, a selected date.
+- **Secondary:** a soft second action.
+- **Info:** neutral information, work under way. **Success:** done, healthy, a change that went the right way. **Warning:** late, or needs attention soon. **Destructive:** error, invalid, irreversible, a change that went the wrong way.
 
-- **Status comes from components first:** a status `Badge`, a status `Alert`, a toast of that type. They already pair the right tint, text and icon.
+Rules:
+
+- **Status comes from components first:** a status `Badge`, `Alert` or toast already pairs the right tint, text and icon.
 - **A status colour always means its status.** Green is never decoration and red is never emphasis. Brand accents use primary.
-- **Colour never carries meaning alone.** A trend pairs its green with an arrow; an invalid field pairs its red ring with a message.
-- **Status hues stay in their family:** info is blue, success green, warning orange to yellow, destructive red. A project can shift each within its family, never out of it.
-- **Destructive is soft.** The destructive button is a red tint with red text, so even a dangerous action doesn't shout before it is confirmed.
+- **Colour never carries meaning alone.** A trend pairs its green with an arrow and a sign; an invalid field pairs its red ring with a message.
+- **Status hues stay in their family:** info blue, success green, warning orange to yellow, destructive red.
+- **Destructive is soft:** a red tint with red text, so a dangerous action doesn't shout before it is confirmed.
 
 ### Brand colour
 
-A brand enters through the project's look, chosen on the [Get started page](https://fabricator-ui.vercel.app/create) or the [Colors page](https://fabricator-ui.vercel.app/docs/foundations/colors): a hue and a strength for each role, and an optional tint for the neutral surfaces. Every fill, text colour, tint and state is worked out from those and tested for contrast in both themes.
-
-- **One brand hue is enough.** Give it to primary. Leave secondary neutral unless the brand has a real second colour.
-- **Keep the surface tint low,** so the page stays quiet and the statuses stay readable.
-- **Colour stays with the action.** The brand hue shows in the main button, links and selected controls. Backgrounds, headings and icons stay neutral.
+A brand enters through the project's look, chosen on the [Get started page](https://fabricator-ui.vercel.app/create) or the [Colors page](https://fabricator-ui.vercel.app/docs/foundations/colors): a hue and strength per role and an optional surface tint, each fill and state worked out from those and tested for contrast in both themes. One brand hue is enough: give it to primary. Keep the surface tint low. The hue shows in the main button, links and selected controls; backgrounds, headings, card icons and stat values stay neutral.
 
 ### Dark mode
 
-Both themes are designed, and one design covers both: a screen built from the components and the roles needs no second pass. In light mode raised surfaces are white and the shadow shows their height; in dark mode each level is a step lighter than the one below. Check every screen in both.
+One design covers both themes: a screen built from the components and the roles needs no second pass. In light mode raised surfaces are white and the shadow shows their height; in dark mode each level is a step lighter. Check every screen in both.
 
 ### Charts
 
-Charts give each series a colour from the chart palette (`--chart-series-1` to `--chart-series-8`: blue, orange, aqua, amber, magenta, green, violet, red), in the order of the chart's config. The palette is chosen separately for light and dark; every slot keeps 3:1 against the page and the card, and neighbouring slots stay apart for readers with red-green colour blindness.
+Series take the chart palette (`--chart-series-1` to `--chart-series-8`: blue, orange, aqua, amber, magenta, green, violet, red) in config order. Every slot keeps 3:1 against the page and the card, and neighbours stay apart for red-green colour blindness.
 
-- **Colour means the series, nothing else.** A series keeps its colour when another is hidden or filtered out. Categories of one series share its colour: the bar's length already shows the value.
-- **Eight at most.** A ninth series is grey: fold the smallest into "Other" before that. Charts where any two marks can touch (pie, treemap, sankey) read best with three or four.
-- **A brand colour is a series' choice,** given in its config (`color: "primary"`), never a change to the palette.
-- **Status charts use the status roles.** `StatusBar` and a candlestick's up and down are the only charts in status colours, and they name every status in their legend and tooltip.
-- **Text stays in the text colours.** Values and labels sit beside a coloured key; a series colour never colours text.
+- **Colour means the series, nothing else,** and a series keeps it when another is hidden. Categories of one series share its colour.
+- **Eight at most;** a ninth is grey, so fold the smallest into "Other". Pie, treemap and sankey read best with three or four.
+- **A comparison is grey:** a previous period or a target is a dashed series in `var(--muted-foreground)`.
+- **A brand colour is a series' choice** (`color: "primary"`), never a change to the palette. Only `StatusBar` and candlesticks use status colours.
+- **Text stays in the text colours,** beside a coloured key.
 
 ## Typography
 
-Inter throughout, with a monospace face for code, keys and IDs. The interface is set small: 13px for controls and body text, and titles that are only a little larger. Medium and semibold are drawn slightly lighter than usual, because Inter reads heavy at interface sizes.
+Inter throughout, with a monospace face for code, keys and IDs. Interface text is 13px and titles only a little larger. Medium and semibold are drawn lighter than usual, because Inter reads heavy at interface sizes.
 
-| Role       | Size                  | Weight          | Use                                                                                        |
-| ---------- | --------------------- | --------------- | ------------------------------------------------------------------------------------------ |
-| Hero       | 48px, 60px on desktop | Medium, tight   | The one headline of a website page                                                         |
-| Display    | 28px                  | Semibold, tight | Page titles outside the App Shell; on websites, section headings, prices and proof numbers |
-| Page title | 24px                  | Semibold, tight | The title of an app page                                                                   |
-| Title      | 16px                  | Bold            | Dialog titles, section headings inside an app page                                         |
-| Subtitle   | 14px                  | Medium          | Card titles, group headings, feature titles                                                |
-| Lead       | 15px                  | Regular, muted  | The sentence under a hero or a page title                                                  |
-| Body       | 13px                  | Regular         | Controls, menus, body text                                                                 |
-| Caption    | 12px                  | Regular, muted  | Descriptions, group labels, errors, metadata                                               |
+Components set their own type; the table is for the text you write around them. A browser's default is 16px, so text without a role's classes comes out too big: give every heading, value, label and sentence you write its role.
 
-Components set their own type. The table is for the headings and copy you write around them. Body, caption, subtitle and title follow the density: body text is 12px in compact regions and 15px in spacious ones.
+| Role       | Size       | Use                                             | Write it as                                                       |
+| ---------- | ---------- | ----------------------------------------------- | ----------------------------------------------------------------- |
+| Hero       | 48 or 60px | The one headline of a website page              | `text-5xl md:text-6xl weight-medium tracking-tight text-balance`  |
+| Display    | 28px       | Website section headings, prices, proof numbers | `text-[28px] leading-tight weight-semibold tracking-tight`        |
+| Page title | 24px       | The title of an app page                        | `AppShellPageTitle`, or `text-2xl weight-semibold tracking-tight` |
+| Metric     | 24px       | The value of a stat, a chart's headline number  | `text-2xl weight-semibold tracking-tight tabular-nums`            |
+| Title      | 16px       | Section headings inside an app page             | `text-(length:--density-text-16) weight-semibold`                 |
+| Subtitle   | 14px       | Card titles, group headings, feature titles     | `CardTitle`, or `text-(length:--density-text-14) weight-medium`   |
+| Lead       | 15px       | The sentence under a page title or a hero       | `text-[15px] text-muted-foreground text-pretty`                   |
+| Body       | 13px       | Body text, a stat's label                       | `text-(length:--density-text-13)`                                 |
+| Caption    | 12px       | Descriptions, group labels, errors, metadata    | `text-(length:--density-text-12) text-muted-foreground`           |
 
-- **Two weights per view** is the norm: regular for text, medium or semibold for titles and values. Bold is for dialog titles.
-- **Weight is state.** Hovering changes colour, from grey to the foreground, and thickens the icon's stroke. Weight changes only for state that lasts: checked, selected, an open section. Tabs keep their weight; the active tab is its colour and its pill.
-- **Sentence case everywhere.** No all-caps labels and no wide letter-spacing; a group label is small, grey and written like a sentence.
-- **Numbers line up.** Figures that update or sit in a column (tables, counters, prices, timers) use tabular figures and align to the end.
-- **Long text** is capped at a comfortable reading width, about 65 characters, with balanced headings.
-- **Documents are their own role.** Notes, articles, comments and an assistant's replies are set through `Markdown` or `Editor`: 14px for comments, chat and panels, 16px by default, 18px for long reading, on a generous line height. This text does not follow the density, so a compact dashboard never shrinks what people read.
+- **Body, caption, subtitle and title follow the density** through their tokens: body is 12px compact and 15px spacious. Dialog titles are bold; the component sets it.
+- **Two weights per view:** regular for text, medium or semibold for titles and values.
+- **Weight is state.** Hover changes colour and thickens the icon's stroke; weight changes only for state that lasts (checked, selected, open).
+- **Sentence case everywhere,** with no all-caps labels or wide letter-spacing.
+- **Numbers line up:** figures that update or sit in a column use tabular figures, and in a column they align to the end.
+- **Long text** is capped near 65 characters, with balanced headings.
+- **Documents are their own role.** Notes, articles, comments and an assistant's replies use `Markdown` or `Editor` (14px in chat and panels, 16px by default, 18px for long reading) and don't follow the density.
 
 ## Layout
 
@@ -168,641 +169,561 @@ Components set their own type. The table is for the headings and copy you write 
 
 Density sizes every component at once: controls, rows, text, icons, padding and gaps. It is the main way a Fabricator product changes character.
 
-|                                  | Compact                      | Default | Spacious                      |
-| -------------------------------- | ---------------------------- | ------- | ----------------------------- |
-| For                              | Dashboards, toolbars, tables | Apps    | Websites, touch-first screens |
-| Controls, menu rows, table heads | 28px                         | 36px    | 44px                          |
-| Body text                        | 12px                         | 13px    | 15px                          |
-| Icons                            | 14px                         | 16px    | 18px                          |
+|                                  | Compact                  | Default | Spacious                      |
+| -------------------------------- | ------------------------ | ------- | ----------------------------- |
+| For                              | Dense dashboards, tables | Apps    | Websites, touch-first screens |
+| Controls, menu rows, table heads | 28px                     | 36px    | 44px                          |
+| Body text                        | 12px                     | 13px    | 15px                          |
+| Icons                            | 14px                     | 16px    | 18px                          |
+| Card inset (`--card-spacing`)    | 12px                     | 16px    | 20px                          |
 
-- **Set it on the widest region it is true for:** the whole product, then a region that differs (a compact toolbar in a default app, a spacious marketing section in an app). Popups follow the region they open from.
-- **A single control changes size only to differ from its neighbours.** The small and large sizes of a button, a toggle or a search field are the compact and spacious sizes of that one control.
+- **Set it on the widest region it is true for** with `DensityProvider`, so popups opened from the region follow it.
+- **A single control changes size only to differ from its neighbours;** its small and large sizes are its compact and spacious sizes.
 - **Never shrink a component by hand.** If a region feels too big, it is in the wrong density.
 
 ### Spacing
 
-Components space their own insides. Between components, space follows a 4px grid, one step per relationship:
+Components space their own insides. Between them, space follows a 4px grid, one step per relationship. Write the app column with density tokens (`gap-(--density-16)`) so a compact region tightens with its controls.
 
-| Relationship                                   | App                   | Website                         |
-| ---------------------------------------------- | --------------------- | ------------------------------- |
-| A heading and its lead                         | 4px                   | 12px                            |
-| Controls in one row (a toolbar, a button pair) | 8px                   | 12px                            |
-| Cards in a grid, blocks inside a section       | 16px                  | 24px; rows of features 40px     |
-| A heading and the content it introduces        | 16px                  | 40px                            |
-| Text beside media                              | 24px                  | 48 to 64px                      |
-| Sections of a page                             | 32 to 40px            | 64 to 96px above and below each |
-| Page padding                                   | 16px, 24px on desktop | 24px, content up to 1152px wide |
+| Relationship                               | App  | Token          | Website                    |
+| ------------------------------------------ | ---- | -------------- | -------------------------- |
+| A heading and its lead                     | 4px  | `--density-4`  | 12px                       |
+| Controls in one row                        | 8px  | `--density-8`  | 12px                       |
+| Cards in a grid; a heading and its content | 16px | `--density-16` | 24px; 40px under a heading |
+| The bands of a page (title, toolbar, body) | 24px | `--density-24` | 40px                       |
+| Sections of a page                         | 40px | `--density-40` | 64 to 96px                 |
 
-Tighter space binds and more space separates: a label sits closer to its control than to the next field. Space does the grouping before a line or a card does.
+Page padding comes from `AppShellContent`: 16px on phones, 24px on desktop. Tighter space binds and more space separates: a label sits closer to its control than to the next field, and space groups before a line or a card does.
 
 ### Widths
 
-| Content                                   | Width                                        |
-| ----------------------------------------- | -------------------------------------------- |
-| Sign in, sign up, one-task cards          | About 384px                                  |
-| Forms, settings, single-column flows      | About 672px                                  |
-| Reading text                              | About 65 characters                          |
-| Most app pages                            | About 896px                                  |
-| Dense pages and dashboards                | About 1152px                                 |
-| Tables, boards, editors, chat transcripts | The full width of the main column            |
-| A website hero headline and its lead      | About 16 characters and 540px, both balanced |
+Use the App Shell's content sizes, which centre the page with its padding:
 
-The App Shell's content area offers the 672, 896 and 1152px columns as its small, medium and large sizes, centred with the page's padding. Use those in place of a width of your own.
+- **`size="sm"`, 672px:** forms, settings, single-column flows. Sign-in and one-task cards are about 384px.
+- **`size="md"`, 896px:** most app pages. Reading text is capped near 65 characters.
+- **`size="lg"`, 1152px:** dashboards and dense pages.
+- **No size:** tables, boards, editors and transcripts take the full main column.
+
+### The grid
+
+Pages of cards (dashboards, overviews, settings hubs, integration galleries) sit on one 12-column grid inside the content column.
+
+- **The grid:** `grid grid-cols-1 gap-(--density-16) @4xl:grid-cols-12` inside a wrapper with `@container`; cards take `@4xl:col-span-<n>`.
+- **Container queries, not the viewport.** The App Shell's main column narrows when the sidebar or a panel opens, so a page laid out by the viewport claims room it doesn't have. `@4xl:` (a 896px column) and `@3xl:` (768px) follow the column itself.
+- **One rhythm per page,** so every gutter continues down the page:
+
+| Rhythm   | Rows it allows                | Gutters at       |
+| -------- | ----------------------------- | ---------------- |
+| Quarters | 4 stats, 6 + 6, 3 + 3 + 6, 12 | 3, 6 and 9 of 12 |
+| Thirds   | 3 stats, 8 + 4, 4 + 4 + 4, 12 | 4 and 8 of 12    |
+
+- **Rows are equal.** The cards of a row share one height (the grid stretches them) and the same parts in the same order; charts in a row share one height.
+- **Below 896px** the grid is one column, cards stack in order of importance, and a strip of stats goes two across.
+- **Half a laptop is about 480px.** On a 1280px screen with the sidebar open, a half-width card is about 480px: design for that, not for a 1920px monitor.
 
 ### The app frame
 
-Apps live in the `AppShell`. It replaces the hand-built sidebar, header and panel layout, and it handles what those usually get wrong: phones, focus, remembering the layout, and desktop windows.
+Apps live in the `AppShell`. It replaces a hand-built sidebar, header and panel layout and handles what those get wrong: phones, focus, remembering the layout, desktop windows.
 
-| Region      | Holds                                                                                                           |
-| ----------- | --------------------------------------------------------------------------------------------------------------- |
-| Sidebar     | The `WorkspaceSwitcher` at the top, the `AppNav` in the middle, the `UserMenu` at the bottom                    |
-| Tab row     | Optional: a `TabStrip` of open documents                                                                        |
-| Header      | The breadcrumb, the page's actions with one primary action, and the trigger for a side panel                    |
-| Content     | The page, under its page title. It is the one thing that scrolls                                                |
-| Side panels | Details, activity, an inspector: content about the page, which the person can open, resize and close            |
-| Status bar  | Optional: a thin row under everything for what is true of the whole workspace (a branch, a sync state, a count) |
-| Bottom nav  | On phones, the few main destinations                                                                            |
-
-- **The frame is a step darker than the page.** The sidebar sits on the frame, and the main column and the side panels are cards on it, so the content reads as the thing in front.
-- **The page title hands over to the header.** It sits at the top of the content; once it scrolls away, the header shows it in the breadcrumb's place.
-- **Panels make room.** A panel docks beside the main column while there is space, floats over it when there isn't, and becomes a bottom drawer on a phone, or takes the whole screen in a list and detail layout. It remembers its width and whether it was open.
-- **Shortcuts are part of the frame.** The app registers its shortcuts with the shell, which shows them in tooltips and menus and keeps them out of the way while someone types. One key moves focus between the sidebar, the tabs, the content and the panels.
-- **Desktop apps** get a window-aware frame: the top rows clear the window's controls and drag the window, and the frame can show the window's translucent material.
-
-Use a plain `Sidebar` layout only for a screen that needs none of this.
+- **Sidebar:** `WorkspaceSwitcher` at the top, `AppNav` in the middle, `UserMenu` at the bottom. It sits on the frame, a step darker than the page, so the main column and panels read as cards in front.
+- **Header:** the breadcrumb, the page's actions (`AppShellHeaderActions`) with the primary action when the page has one, and the panel trigger. Once the `AppShellPageTitle` scrolls away, the header shows it.
+- **Content:** the page, the one thing that scrolls.
+- **Side panels:** details, activity, an inspector, which the person opens, resizes and closes. They dock while there is room, float when there isn't, and become a bottom drawer on phones.
+- **Optional rows:** a `TabStrip` of open documents above the header, a status bar for what is true of the whole workspace, a bottom nav on phones.
+- **Shortcuts** are registered with the shell, which shows them in tooltips and menus; F6 moves focus between regions.
 
 ### Page anatomy
 
-An app page reads top to bottom in four bands at most, each with one job:
+An app page reads top to bottom in four bands at most, `--density-24` apart:
 
-| Band    | Answers                                           | Holds                                                              |
-| ------- | ------------------------------------------------- | ------------------------------------------------------------------ |
-| Header  | Where am I, and what can I do to this page        | The breadcrumb, the page's actions, the panel trigger              |
-| Title   | What is this                                      | The page title, with one muted sentence when the name isn't enough |
-| Toolbar | What am I looking at: search, filters, sort, view | One row of compact controls, directly above the body it controls   |
-| Body    | The content                                       | One list, table, form or document, or one grid of cards            |
+1. **Header:** where am I and what can I do to this page.
+2. **Title:** the page title, with one lead sentence when the name isn't enough.
+3. **Toolbar:** what am I looking at: the period, search and filters at the start; the view switch, the result count and the data's freshness at the end.
+4. **Body:** one list, table, form or document, or one grid of cards.
 
-- **Page actions live in the header,** with the one primary action. Actions on one item live in that item's row or card. Actions on a selection replace the toolbar while the selection lasts.
-- **One scroller.** The content scrolls and the header stays. A second scroller is for a pane with content of its own: a panel, a transcript, a long code block.
-- **One start edge.** The title, the toolbar and the body begin on the same line, a table's text included. Text and labels align to the start and numbers to the end. Centring is for what stands alone on a screen: an empty state, a sign-in card, a hero.
-- **Toolbar order:** search and filters at the start; what changes the view (sort, columns, a view switch) and the result count at the end.
-- **Fill or cap.** A body of records (a table, a board, an editor, a transcript) takes the full column. A body people read or fill in (a form, settings, an article) is capped at one of the content widths.
-- **Long values.** Names shorten with an ellipsis and show in full in a tooltip. Numbers, dates and statuses always show in full. Design each row for its longest value and its emptiest.
-- **A page that needs a fifth band** (a second toolbar, tabs under tabs) is two pages, or a page and a panel.
+- **Page actions live in the header;** actions on one item in its row or card; actions on a selection replace the toolbar while it lasts.
+- **One scroller.** A second is only for a pane with content of its own.
+- **One start edge.** The title, the toolbar and the body begin on the same line, a card's outer edge and a table's text included. Centring is for what stands alone: an empty state, a sign-in card, a hero.
+- **Fill or cap.** Records take the full column; what people read or fill in is capped.
+- **Long values:** names shorten with an ellipsis and a tooltip; numbers, dates and statuses always show in full.
+- **A fifth band** (a second toolbar, tabs under tabs) means two pages, or a page and a panel.
 
 ### Responsive
 
-- Design the phone layout first and widen it. Grids collapse to one column.
-- The components adapt to the room they have: the App Shell rearranges itself by its own width, and form rows stack in a narrow column. Place them and let them respond.
-- On phones the App Shell's sidebar sits behind the page, which moves aside to show it. The header keeps only the current page, its actions fold into one menu, and the primary action floats above the content.
-- A focused task that is a `Dialog` on desktop is a `Drawer` from the bottom on a phone.
-- Touch-first screens use the spacious density, whose controls are 44px, the size of a fingertip. Compact is for pointer-first tools.
+Design the phone first and widen it. Components adapt to their room: the App Shell rearranges itself by its own width (on phones the sidebar sits behind the page, actions fold into one menu and the primary action floats), form rows stack, and a `Dialog` becomes a bottom `Drawer`. Touch-first screens are spacious, with 44px controls.
 
 ## Elevation & Depth
 
-Depth is a ladder of surfaces. Each level is a background and a shadow that starts with a hairline, so a surface needs no border. The higher the level, the deeper the shadow.
+Depth is a ladder of surfaces. Each level is a background and a shadow that starts with a hairline, so a surface needs no border.
 
-| Level    | Holds                                                                                  |
-| -------- | -------------------------------------------------------------------------------------- |
-| Frame    | The App Shell's frame and its sidebar, a step darker than the page                     |
-| 1        | The page; in an App Shell, the main column and the side panels                         |
-| 2        | A sidebar on its own, inset regions, and the default `Card`, which lifts only a little |
-| 3        | Raised cards, menus, selects, popovers, hover cards, sheets, drawers                   |
-| 4        | The active tab; anything raised inside a level-3 surface                               |
-| 5        | Dialogs, alert dialogs, toasts                                                         |
-| Inverted | Tooltips: dark on a light page, light on a dark one                                    |
+| Level    | Holds                                                                |
+| -------- | -------------------------------------------------------------------- |
+| Frame    | The App Shell's frame and its sidebar, a step darker than the page   |
+| 1        | The page; in an App Shell, the main column and the side panels       |
+| 2        | A sidebar on its own, inset regions, the default `Card`              |
+| 3        | Raised cards, menus, selects, popovers, hover cards, sheets, drawers |
+| 4        | The active tab; anything raised inside a level-3 surface             |
+| 5        | Dialogs, alert dialogs, toasts                                       |
+| Inverted | Tooltips: dark on a light page, light on a dark one                  |
 
-- **Height means layering.** Something sits higher because it is above something else right now: a menu over a page, a dialog over everything. Height is never used to make a thing look important.
-- **A child sits above its parent.** A quiet area inside a raised surface (a code block in a dialog, a well in a card) is a faint wash, never a lower level.
-- **No borders and no other shadows on surfaces.** The ladder is the only source of depth.
-- **Status surfaces** are the same ladder tinted with the status colour.
+- **Height means layering,** never importance: a menu over a page, a dialog over everything.
+- **A child sits above its parent.** A quiet area inside a surface (a code block in a dialog) is a faint wash, never a lower level.
+- **No borders and no other shadows on surfaces.** Status surfaces are the same ladder tinted with the status colour.
 
-### Cards
+## Cards
 
-A `Card` holds one discrete thing: a plan, a metric, a project, a group of settings. The sections of one page are separated by headings and space, with a `Separator` where space alone is not enough.
+A `Card` holds one discrete thing: a metric, a chart, a list of things to do, a plan, a project, a group of settings. Sections of a page that isn't a grid are separated by headings and space, with a `Separator` where space is not enough.
 
-- A card has a header (a title, a description, and room for one action), its content, and a footer.
+### Anatomy
+
+- **Header:** `CardTitle` names the thing in a few words ("Revenue", "Needs attention"). `CardDescription` gives its scope: the grain, the sort, the unit ("Daily", "By monthly recurring revenue"). The page's period is in the toolbar, so a card names a period only when it has its own. `CardAction` holds at most one quiet control: a small `ToggleGroup`, a ghost "View all" link, or a ghost "More" menu.
+- **Content:** the one thing the card shows. A headline value sits above a chart; a list or table runs to the card's edges.
+- **Footer:** only when it has content: a summary line, or the buttons of a settings or plan card.
+
+### Alignment inside a card
+
+A card has one inset, `--card-spacing` (12, 16 or 20px by density). The title, the description, a headline value, a list's icons and a table's first column start on it, and a table's last column ends on it.
+
+- **Tables run edge to edge:** `CardContent` drops its side padding (`px-0`) and the first and last cells pad to the inset, so the hover wash reaches both edges and the text stays on the line. A table that ends the card pulls up the bottom padding (`-mb-(--card-spacing)`).
+- **Lists keep rounded, inset rows:** the content's padding is the inset minus the row's own padding (`px-[calc(var(--card-spacing)-var(--density-12))]` for a small `Item`), so the row's icon lands on the inset.
+- **Cells of a strip** pad by the inset on every side, so their labels line up with the titles of the cards below.
+- **A ghost control at the card's end edge** pulls out by its own padding (`-me-3` on a small ghost button or link), so its text ends on the inset with the last column.
+
+### Kinds of card
+
+- **KPI strip:** three to six headline numbers in one `Card` divided into cells.
+- **Stat:** one number with its change, in `Card size="sm"`. **Goal:** a stat with a `Progress` and "62% of $80K".
+- **Chart:** the header, a headline value, one chart.
+- **List:** five to seven `Item`s to do or read, and "View all". **Activity:** `Item`s with an `Avatar` and a relative time, newest first.
+- **Table:** five records edge to edge, and "View all".
+- **Checklist:** a `Progress`, then an `Item` per setup step with a done mark and its action.
+- **Object:** one record in a grid: its name and status `Badge`, a few pairs, its menu.
+- **Plan:** name, price, who it's for, what's included, the button. **Connection:** a logo, a name, one line, a `Switch` or "Connect".
+
+Rules:
+
 - Lists inside a card are rows or a table, never more cards. Cards don't nest, and a whole page is never wrapped in one.
 - Every card in a grid has the same parts in the same order.
-- The default card lifts only slightly. A card that must stand off the page, such as a product picture on a website, goes up a level.
+- The title introduces the card, with no icon tile, coloured header, gradient or coloured border.
+- Use `size="sm"` for four or more small cards across. A card that must stand off the page, such as a product picture on a website, goes up a level.
+
+## Dashboards
+
+A dashboard answers three questions, in order: **what needs me now**, **how are we doing** compared with before, and **where do I go to act**. Every number and row is a way into the page where the person acts on it.
+
+### Before you lay it out
+
+- **Name the person and the decision:** "A finance lead sees whether revenue is on track and chases what is at risk." The decision picks the metrics; a metric that changes no decision is left out.
+- **Four headline numbers** is the default, three to six at most. More numbers belong on a second page, a `Tabs` view or a report.
+- **One question per card.** "How did revenue move this month?" is a card; "revenue, signups and churn" is a KPI strip.
+- **Pick the [type](#dashboard-types)** and start from its layout.
+
+### The order of a dashboard
+
+```text
+Header      Acme Inc > Overview                          Export  ...  [Primary]
+Title       Overview
+            Revenue, customers and what needs you today.
+Toolbar     [7 days|30 days|90 days|12 months]  Compared with the previous 30
+            days                                  Updated 2 min ago  (refresh)
+Alert       Only while something is wrong                                 (12)
+KPI strip   MRR $48,290 +12.4% | Customers 1,284 +3.1% | Churn 2.1% -0.4 pt
+            | Revenue per account $37.60 -1.2%                            (12)
+Hero chart  Revenue, this period against the last, with its headline      (12)
+Work        Needs attention (6)              | Top customers (6)
+Breakdowns  Revenue by plan (6)              | Recent activity (6)
+```
+
+1. **Alert,** only while something is wrong, with its action ("2 payouts failed. Update bank details").
+2. **KPI strip:** the headline numbers the job depends on.
+3. **Hero chart:** the trend of the most important number, full width (quarters) or eight columns (thirds).
+4. **Work:** what needs the person, as a list with ways in; then the records they check most, as a short table.
+5. **Breakdowns and archive:** rankings, mixes, sources, recent activity. Nothing lower is more important than anything above it.
+
+### Choosing a widget
+
+Spans are columns of 12.
+
+- **Headline numbers:** the KPI strip, 12. **One number against a target:** a goal card, 3, 4 or 6; `RadialChart` for a few targets at once.
+- **A trend against the last period:** `LineChart`, the previous period dashed and grey, 12 or 8.
+- **A total and its parts over time:** stacked `AreaChart`, or stacked `BarChart` per period, 12, 8 or 6. **A mix changing over time:** `CompositionChart`.
+- **A ranking (plans, pages, sources):** `BarChart layout="horizontal"`, sorted, top five to eight, 6 or 4.
+- **A mix of a few parts:** `DonutChart` with its list, 8 or 12.
+- **Stages that lose people:** `FunnelChart`. **Activity per day:** `HeatCalendar`. **Uptime:** a `StatusBar` per service.
+- **Things needing action:** a list card with a status `Badge` per row, 6 or 4. **A few records:** a table card, 6 or 12. **What's next:** `EventCalendar` in its agenda view.
+- **Many records to work through:** a `DataTable` on its own page, linked from a card.
+
+### Numbers
+
+- **Format with the person's locale** (`Intl.NumberFormat`), passed explicitly so the server and the browser write the same text. Stats and axes go compact from 10,000 ("$48.3K"); tables and tooltips show the full value.
+- **Money:** whole units in stats and charts, cents in tables of transactions. **Units** follow the value in the same type ("320 ms", "18 seats"). A rate changes in points ("−0.4 pt").
+- **Deltas** carry a sign (a true minus, "−"), one decimal and an arrow (`ArrowUpRightIcon`, `ArrowDownRightIcon`) in a status `Badge`: success when the change is good, destructive when bad. Where down is good (churn, cost, latency, errors), flip the colour and keep the arrow. No change is an outline badge, "0%".
+- **Say the comparison once,** in the toolbar ("Compared with the previous 30 days"). Each stat shows its delta and, where there is room, its previous value ("from $42,960"), never "vs last 30 days" four times.
+- **Freshness:** "Updated 2 min ago" at the end of the toolbar with a refresh button. Live data says "Live" with a success status dot, and its numbers change in place.
+- **Missing is not zero:** no data is a grey "No data" with no delta; zero shows "0"; a tiny share shows "<0.1%".
+- **Real magnitudes in every demo,** with a negative change and an empty card. A dashboard where every delta is green looks invented.
+
+### Period and filters
+
+- **The toolbar controls the whole page:** the period as a small `ToggleGroup` of three to five presets, "Custom…" opening a range `Calendar` in a `Popover` when exact dates matter, then filters (`Select`, or `Combobox` for long lists), then freshness at the end. A card with its own period says so in its description.
+- **The period and filters live in the URL,** so a shared link shows the same dashboard and Back returns to it.
+- **A new period keeps the old numbers on screen** (charts take `loading`, which dims the last drawing) until the new ones arrive; the page never flashes to skeletons.
+- **On phones** the filters fold into one "Filters" button that opens a `Drawer`; the period stays.
+
+### Charts on a dashboard
+
+- **One chart per card, one question per chart, one axis per chart.** Two measures on different scales are two cards.
+- **Comparisons are lines:** a `LineChart` with the previous series `dashed` and `color: "var(--muted-foreground)"`. An `AreaChart` washes under every series, so a dashed comparison becomes a grey fog; it is for one series or stacked totals.
+- **Rankings are horizontal bars,** sorted, five to eight, the rest in "Other" or behind "View all".
+- **A donut needs room:** with its list it needs about 560px, and in a half-width card its names cut off. Use horizontal bars there.
+- **Heights:** the hero chart `h-56 @4xl:h-64`, charts in rows `h-56`, one height per row.
+- **The headline follows the hand:** the value above a chart is the period's total until someone points at the chart, then the inspected point (`onActiveChange`).
+- **Format the values** with `formatValue`, so the tooltip reads "$1,612".
+- **Charts draw in once,** then morph to new data. Cards and stats appear in place.
+
+### Widget states
+
+- **Loading:** the card's frame, title and description render at once; the content is a `Skeleton` of its own height, or the chart's `loading`, so nothing moves when data lands.
+- **Empty:** an `Empty` in the content at the chart's height: what will show and how to start ("No revenue yet. Connect Stripe to import payments" with an outline "Connect Stripe" button).
+- **Error:** an error `Alert` in that card with Retry; other cards keep their data.
+- **Partial or late data:** said in the description ("Today's data is still processing") or a warning `Badge` in the `CardAction`.
+- **No access:** leave the card out.
+
+### Responsive dashboards
+
+The KPI strip is four across from a 896px column and two by two below it; previous values show from 768px. Rows stack below 896px in code order, so write cards in order of importance. Tables in cards keep the name, the status and the value on phones. The toolbar wraps, the period first.
+
+### Polish
+
+What separates a dashboard that looks designed from one that looks assembled. Check each on the running page:
+
+- The page title, the toolbar and every card's outer edge start on one line; inside every card, everything starts on the inset.
+- Gutters continue down the page; cards in a row are equal height with the same parts; charts in a row share a height.
+- Values use the metric role with tabular figures; labels are three words at most and never cut off at phone width.
+- Colour appears only in chart series, deltas and status badges.
+- At most one filled button on the whole dashboard, often none: its actions are the ways into other pages. Buttons inside cards and alerts are outline or ghost.
+- No greeting banner, no illustration, no paragraph of "insights" restating the numbers.
+
+### Recipes
+
+Working code for each part of a dashboard is in the fabricator agent skill, `rules/dashboards.md` (in a project under `.claude/skills/fabricator/` or `.agents/skills/fabricator/`; add the skill with `npx fabricator-ui@latest agents add <assistant>`): the page, the toolbar, the delta badge, the KPI strip, the chart card, the list card and the table card. Each was checked in a running app at phone and desktop widths in both themes. Start from them, change the content, and keep the layout and alignment classes.
+
+### Dashboard types
+
+- **Overview,** the home page (default density and motion, quarters): the KPI strip, the hero chart, needs attention beside the top records, then breakdowns beside recent activity.
+- **Analytics,** one area explored over time (default, snappy, quarters): filters in the toolbar, the KPI strip, a hero chart whose metric is picked in its `CardAction`, rankings in halves, a table. A ranking people filter by is a list or table whose rows link to the filtered view (charts only inspect); the active filter shows in the toolbar with a way to clear it.
+- **Operations,** a system's live health (compact, instant, thirds): a `StatusBar` per service, live numbers with status dots, p50 and p95 latency lines in eight columns beside open incidents in four, a log table. "Live" with a Pause button; new rows wait behind a "3 new" button instead of moving rows under the pointer.
+- **Revenue** (default, quarters): an MRR strip, MRR movements as a stacked `BarChart` per month, plans ranked beside failed payments, a transactions table.
+- **Usage,** against the plan (default, thirds): a goal card per limit, usage over time in eight columns beside the plan card in four, usage per member or project as a table.
+
+A person often sits between two types (an on-call engineer reading a week of analytics). Take the type of the data, keep [the order of a dashboard](#the-order-of-a-dashboard), and give anyone with things to act on a work band right under the hero chart.
 
 ## Shapes
 
-- **Two corner sizes.** Controls, rows, badges and tooltips have 8px corners. Containers (cards, menus, dialogs, tab tracks, alerts, the app's main column) are a little rounder, about 11px.
-- **Corners are concentric.** A container holds its rows with a small inset, so the rounder container and the tighter row share a centre. Your own containers follow the same rule.
-- **Full rounds** are for switches, avatars, status dots and slider thumbs.
-- **The shape is a project setting.** The Pill look turns controls into full pills and rounds the containers with them. Design with "control corner" and "container corner" in mind and let the project decide their size.
-- **Media takes the shape of its place:** the control corner inside a card, the container corner standing alone. Avatars stay round.
+- **Two corner sizes:** 8px for controls, rows, badges and tooltips; about 11px for containers (cards, menus, dialogs, tab tracks, alerts, the main column).
+- **Corners are concentric:** a container holds its rows with a small inset so both share a centre. Your own containers do the same.
+- **Full rounds** for switches, avatars, status dots and slider thumbs.
+- **The shape is a project setting:** the Pill look rounds controls fully and containers with them. Design with "control corner" and "container corner" in mind.
+- **Media takes the shape of its place:** the control corner inside a card, the container corner standing alone.
 
 ## Motion
 
-Every animation has a role, and one speed setting retimes all of them together.
+Every animation has a role, and one speed setting retimes them all.
 
-| What moves                                             | How                                                       |
-| ------------------------------------------------------ | --------------------------------------------------------- |
-| Hover, colour, focus, an icon's stroke                 | A quick fade                                              |
-| A button or toggle while held                          | It gives very slightly, and springs back                  |
-| The hover highlight                                    | Glides from row to row                                    |
-| Indicators, thumbs, a selection, a checkmark, progress | Slide to their new place                                  |
-| Tooltips                                               | Fade in fast; instantly once one is already showing       |
-| Menus, selects, popovers, hover cards                  | Grow from the trigger that opened them                    |
-| Dialogs                                                | Grow slightly from the centre, over a scrim that fades in |
-| Sheets and drawers                                     | Slide from their edge, the slowest motion in the system   |
-| Accordions and collapsibles                            | Open by height                                            |
-| Toasts                                                 | Slide in from the edge and stack                          |
-| Charts                                                 | Draw in once, then morph to new data                      |
-
-- **Four speeds:** smooth for websites, default for most products, snappy for apps used all day, instant for dense dashboards, where surfaces only fade. A project, or a region, picks one.
-- **Exits are quicker than entrances.** Something leaving should never keep a person waiting.
-- **Things come from somewhere.** A popup grows from its trigger and a sheet from its edge, so the eye knows what opened it. Nothing appears from below the fold or zooms in from nothing.
-- **App content appears in place.** Pages, lists and cards in an app render without entrance animations. Motion belongs to what the person just did. Charts are the exception: the first time a chart is on screen its marks draw in (lines sweep, bars grow from zero, arcs turn), because the motion shows how the marks encode the data; after that they only move when the data does.
-- **A surface summoned from the keyboard to be used at once,** like a command palette, opens with no animation.
-- **Reduced motion** keeps the fades and drops the slides, the zooms and the press. Your own animation does the same.
-- **Custom motion uses the same roles and timings** as the components, so the product still moves as one thing when the speed changes.
+- **Hover, colour, focus, an icon's stroke:** a quick fade. **A held button** gives slightly and springs back.
+- **The hover highlight** glides from row to row; **indicators, thumbs, selections, checkmarks, progress** slide to their new place.
+- **Tooltips** fade in fast, instantly once one shows. **Menus and popovers** grow from their trigger. **Dialogs** grow slightly from the centre over a fading scrim. **Sheets and drawers** slide from their edge, the slowest motion in the system.
+- **Accordions** open by height. **Toasts** slide in from the edge and stack. **Charts** draw in once, then morph to new data.
+- **Four speeds:** smooth for websites, default for most products, snappy for apps used all day, instant for dense dashboards, where surfaces only fade. Set one with `data-motion` on the widest region it is true for; popups follow the speed on `<html>`.
+- **Exits are quicker than entrances,** and things come from somewhere: a popup from its trigger, a sheet from its edge.
+- **App content appears in place:** pages, lists, cards and stats have no entrance animation. A command palette summoned from the keyboard opens with none either.
+- **Reduced motion** keeps the fades and drops slides, zooms and the press. Your own animation does the same, on the components' motion roles.
 - **Loading text shimmers** ("Thinking…"), and a scrolling region fades at the edge where more content waits.
 
 ### Fluid Hover
 
-Lists of choices share one highlight. It fades in under the item nearest the pointer and glides to the next as the pointer moves, with no dead gaps between rows, and a separate selection background slides between selected items. Menus, selects, tabs, the tab strip, toggle groups, the sidebar, accordions, table rows and the file tree all have it built in.
-
-- Give your own lists of alternatives the same highlight in place of a hover colour on each row.
-- The highlight never crosses a separator: where items stop being alternatives, a new group starts.
-- On touch screens a finger takes the pointer's place: a press lights the row, and dragging across a strip or a menu moves the highlight until the finger lifts.
+Lists of choices share one highlight that fades in under the item nearest the pointer and glides to the next, while a separate selection background slides between selected items. Menus, selects, tabs, toggle groups, the sidebar, accordions, table rows and the file tree have it built in. Give your own lists of alternatives the same highlight in place of a hover colour per row. It never crosses a separator, and on touch a press lights the row and a drag moves the highlight.
 
 ### Sounds
 
-Components can play short, synthesised sounds, a different one for each family: buttons, switches, rows, tabs, dialogs, toasts. They are optional and quiet.
-
-- Sound suits apps and tools. Leave it out of websites unless asked.
-- Give people a visible setting and remember their choice.
-- Sound is never the only feedback: whatever it marks is also visible.
+Components can play short, quiet, synthesised sounds per family. They suit apps and tools, never websites unless asked. Offer a visible setting and remember it; sound is never the only feedback.
 
 ## Iconography
 
-- **One icon library per product, one icon per meaning.** The default is Fabricator Icons, a line set drawn for these sizes.
-- **Line icons at the text's weight.** Strokes are thin at rest and thicken on hover with the row or button they belong to.
-- **Components size their icons.** An icon is 16px at the default density, 14px in compact and 18px in spacious, and takes the colour of its label; beside a label it rests in grey.
-- **An icon supports a label; it rarely replaces one.** Icon-only buttons are for actions everyone knows (close, search, more, add) and for toolbars, and each has an accessible name and a tooltip with the same words, plus its shortcut when there is one.
-- **An icon before a label names the action; after it, it shows direction:** an arrow for going somewhere, a chevron for a menu.
-- **Never emoji as icons,** and never two icon libraries on one screen.
-- Company logos come from the brand set and file types from the file set, so they are consistent in size and weight.
+- **One icon library per product, one icon per meaning.** The default is Fabricator Icons, a line set at the text's weight whose strokes thicken on hover with their row or button. Never emoji, never two libraries on one screen.
+- **Components size their icons** (16px default, 14px compact, 18px spacious) and colour them with their label; beside a label an icon rests in grey.
+- **An icon supports a label.** Icon-only buttons are for actions everyone knows (close, search, more, add, refresh) and toolbars, each with an accessible name and a tooltip with the same words and its shortcut.
+- **Before a label an icon names the action; after it, it shows direction:** an arrow for going somewhere, a chevron for a menu or a row that opens.
+- Company logos come from the brand set and file types from the file set.
 
 ### Images and media
 
-- **The product is the picture.** A website shows real screens and live components; an app shows the person's own content. Empty states and feature rows use an icon, so a screen needs no illustration to feel finished.
-- **Hold the space.** Photos, screenshots, maps and embeds sit in an `AspectRatio`, so the layout is the same before and after they load.
-- **A screenshot is an object.** On a page it sits on a raised surface with the container corner.
-- **People are `Avatar`s** with initials as the fallback; companies are their logo; files are their type icon.
-- **Text over an image sits on a scrim,** because no theme colour stays readable on arbitrary pixels.
-- **Before and after uses `ImageCompare`:** two pictures of the same scene at the same size, such as an edit, a redesign or a restoration, split by a line the person drags. Name both sides when "Before" and "After" don't say enough.
-- **Audio uses the `AudioPlayer`:** the default card where the audio is the subject, the cover variant for music and podcasts with artwork, the compact one for voice messages and audio in lists. Pass the file's `peaks` so the seek bar shows its waveform.
-- **Video uses the `VideoPlayer`:** the full player on a page about the video, the compact one where it is one item among others. A muted, looping clip is for ambience only, and anything with speech has captions.
+- **The product is the picture:** a website shows real screens; an app shows the person's own content. Empty states and feature rows use an icon, never an illustration.
+- **Hold the space:** photos, screenshots, maps and embeds sit in an `AspectRatio`. A screenshot on a page sits on a raised surface. Text over an image sits on a scrim.
+- **People are `Avatar`s** with initials as the fallback; companies are their logo; files their type icon.
+- **Media:** `ImageCompare` for two versions of a picture, `AudioPlayer` (pass `peaks` for a waveform), `VideoPlayer` with captions for speech.
 
 ## Components
 
-The library covers most of what a product needs, so a screen is mostly a matter of choosing well. Component names are the same on the web and on React Native.
+The library covers most of what a product needs, so a screen is mostly a matter of choosing well. Names are the same on the web and React Native. Use the library's inputs for dates, times, numbers, files and colours in place of the browser's.
 
 ### Choosing a component
 
-| Need                                         | Use                                                                            |
-| -------------------------------------------- | ------------------------------------------------------------------------------ |
-| An action                                    | `Button`; `ButtonGroup` for joined actions and split buttons                   |
-| One on/off tool (bold, pin, mute)            | `Toggle`                                                                       |
-| A choice of 2 to 7 options, or a view mode   | `ToggleGroup`, a segmented control                                             |
-| Switching between views of one thing         | `Tabs`                                                                         |
-| Short text                                   | `Input`; with an icon, a prefix, a unit or a button inside, `InputGroup`       |
-| A password                                   | `InputGroup` with a show button                                                |
-| A number                                     | `NumberField`, with steppers, limits and formatting                            |
-| A date                                       | `DatePicker`, which can add a time                                             |
-| A time, or a start and an end on one day     | `TimeInput`, `TimeRangeInput`                                                  |
-| A month or a year                            | `DatePicker` with `granularity="month"` or `"year"`                            |
-| A date range, or a date shown as a button    | `Calendar` in a `Popover`                                                      |
-| A file                                       | `FileUploadField` in a form, `FileUploadDropzone` for a large drop target      |
-| A colour                                     | `ColorPicker`, alone or behind a swatch                                        |
-| Long plain text                              | `Textarea`                                                                     |
-| Formatted text, notes, documents             | `Editor` to write it, `Markdown` to show it                                    |
-| Searching or filtering a page                | `Search`, which folds to a button in a toolbar                                 |
-| One choice from a known list                 | `Select`; `RadioGroup` when every option should stay visible, up to about five |
-| One choice from a long or searchable list    | `Combobox`, which also takes several values as chips                           |
-| Several choices from a long list             | `MultiSelect`, which stays open between picks and shows them as chips          |
-| Several independent options                  | `Checkbox`es in a `FieldSet`                                                   |
-| A setting that applies at once               | `Switch`                                                                       |
-| A one-time code                              | `InputOTP`                                                                     |
-| An approximate value                         | `Slider`, with the value shown beside it; `showSteps` when there are few steps |
-| A score out of five, or a review's stars     | `Rating`; `readOnly` to show an average                                        |
-| A focused task or short form                 | `Dialog`                                                                       |
-| Confirming something irreversible            | `AlertDialog`                                                                  |
-| Details or editing beside the current view   | `Sheet`                                                                        |
-| A bottom panel on phones                     | `Drawer`                                                                       |
-| Small interactive content on a trigger       | `Popover`                                                                      |
-| A preview of a linked thing on hover         | `HoverCard`                                                                    |
-| The name of an icon button, a shortcut hint  | `Tooltip`                                                                      |
-| Actions on a trigger                         | `DropdownMenu`; `ContextMenu` on right-click; `Menubar` for desktop-app menus  |
-| Jump anywhere, run any command               | `Command` in a `CommandDialog`                                                 |
-| The frame of an app                          | `AppShell` with `AppNav`                                                       |
-| A simple side navigation                     | `Sidebar`                                                                      |
-| Open documents (files, records, chats)       | `TabStrip`                                                                     |
-| Switching organisation or workspace          | `WorkspaceSwitcher`                                                            |
-| The signed-in person's menu                  | `UserMenu`                                                                     |
-| A website's header navigation                | `NavigationMenu`                                                               |
-| Where am I                                   | `Breadcrumb`                                                                   |
-| More results than one page                   | `Pagination`                                                                   |
-| Compact section navigation, names on hover   | `PreviewRail`                                                                  |
-| Records compared across columns              | `Table`                                                                        |
-| Many records people sort, filter or pick     | `DataTable`                                                                    |
-| Events in time: a schedule, bookings, shifts | `EventCalendar`                                                                |
-| A trend over time                            | `LineChart` to compare series, `AreaChart` for totals and their parts          |
-| Amounts by category                          | `BarChart`, as rows when the names are long                                    |
-| How a mix changes over time                  | `CompositionChart`                                                             |
-| Parts of one whole, a few parts              | `DonutChart` with its list; `PieChart` when there's no room for one            |
-| Progress against a target, a few at once     | `RadialChart`                                                                  |
-| Several measures of a few subjects           | `RadarChart`                                                                   |
-| Parts of a whole in groups                   | `Treemap`                                                                      |
-| Prices per period                            | `CandlestickChart`                                                             |
-| Rank over time                               | `BumpChart`                                                                    |
-| Stages that lose people                      | `FunnelChart`                                                                  |
-| Flows between stages                         | `SankeyChart`                                                                  |
-| Activity per day over months                 | `HeatCalendar`                                                                 |
-| Uptime per day                               | `StatusBar`                                                                    |
-| A list of things (people, files, links)      | `Item`s in an `ItemGroup`                                                      |
-| A tree of files and folders                  | `FileTree`                                                                     |
-| One discrete object                          | `Card`                                                                         |
-| A status or a short label                    | `Badge`                                                                        |
-| A person or an account                       | `Avatar`; `AvatarGroup` for several                                            |
-| A keyboard shortcut                          | `Kbd`                                                                          |
-| Code to read or copy, a diff                 | `SyntaxHighlight`                                                              |
-| A message that stays on the page             | `Alert`                                                                        |
-| The result of an action                      | A toast                                                                        |
-| Progress of known length                     | `Progress`                                                                     |
-| A short wait in place                        | `Spinner`                                                                      |
-| Content loading                              | `Skeleton`, in the shape of the content                                        |
-| Nothing to show yet                          | `Empty`                                                                        |
-| Sections that open and close                 | `Accordion`; `Collapsible` for one                                             |
-| A dividing line                              | `Separator`                                                                    |
-| Panes the person resizes                     | `Resizable`                                                                    |
-| A scrolling region inside a page             | `ScrollArea`                                                                   |
-| An audio file, a podcast, a voice message    | `AudioPlayer`                                                                  |
-| A video                                      | `VideoPlayer`                                                                  |
-| Two versions of one picture, side by side    | `ImageCompare`                                                                 |
-| An image, a map or an embed at a fixed ratio | `AspectRatio`                                                                  |
-| A few peer slides (screenshots, quotes)      | `Carousel`, for content people can afford to miss                              |
-| A conversation                               | `MessageScroller`, `Message`, `Bubble`, `Attachment`, `Marker`, `ChatInput`    |
-| Choosing an AI model                         | `ModelPicker`                                                                  |
-| Questions an assistant asks                  | `Questionnaire`                                                                |
-
-Use the library's inputs for dates, times, numbers, files and colours in place of the browser's own: they match the look, follow the density and behave the same everywhere.
+- **Actions:** `Button`; joined or split: `ButtonGroup`; one on/off tool: `Toggle`; actions on a trigger: `DropdownMenu`, `ContextMenu` on right-click, `Menubar` in desktop apps; jump anywhere: `Command` in a `CommandDialog`.
+- **Choices:** two to seven options, a view mode or a period: `ToggleGroup`; views of one thing: `Tabs`; a known list: `Select`, or `RadioGroup` to keep up to five visible; a long or searchable list: `Combobox`; several from a long list: `MultiSelect`; independent options: `Checkbox`es in a `FieldSet`; a setting that applies at once: `Switch`.
+- **Values:** `Input`, `InputGroup` (an icon, a unit, a show-password button), `NumberField`, `DatePicker` (also months and years), `TimeInput`, `TimeRangeInput`, a range `Calendar` in a `Popover`, `FileUploadField` or `FileUploadDropzone`, `ColorPicker`, `InputOTP`, `Slider`, `Rating`, `Textarea`, `Editor` to write formatted text and `Markdown` to show it, `Search` to filter a page.
+- **Overlays:** a focused task: `Dialog`; confirming the irreversible: `AlertDialog`; details beside the view: `Sheet`; a bottom panel on phones: `Drawer`; small content on a trigger: `Popover`; a hover preview: `HoverCard`; an icon button's name: `Tooltip`.
+- **Frame:** `AppShell` with `AppNav`, or a plain `Sidebar`; `TabStrip`, `WorkspaceSwitcher`, `UserMenu`; on websites `NavigationMenu`; `Breadcrumb`, `Pagination`, `PreviewRail`.
+- **Records:** `Card`; `Item`s in an `ItemGroup`; `Table`; `DataTable` for records people sort, filter, edit or pick; `EventCalendar`; `FileTree`; `Badge`; `Avatar`, `AvatarGroup`; `Kbd`; `SyntaxHighlight`.
+- **Charts:** see [Choosing a widget](#choosing-a-widget); also `PieChart` where a donut's list doesn't fit, `RadarChart` for several measures of a few subjects, `Treemap` for parts in groups, `CandlestickChart`, `BumpChart` for rank over time, `SankeyChart` for flows.
+- **Feedback and structure:** `Alert`, toasts, `Progress`, `Spinner`, `Skeleton`, `Empty`, `Accordion`, `Collapsible`, `Separator`, `Resizable`, `ScrollArea`.
+- **Media and conversation:** `AudioPlayer`, `VideoPlayer`, `ImageCompare`, `AspectRatio`, `Carousel` (for content people can afford to miss); `MessageScroller`, `Message`, `Bubble`, `Attachment`, `Marker`, `ChatInput`, `ModelPicker`, `Questionnaire`, `BotFace`.
 
 ### Buttons
 
-| Variant     | Looks like                 | Use                                                                     |
-| ----------- | -------------------------- | ----------------------------------------------------------------------- |
-| Default     | Filled, the primary colour | The one main action of a region: Save, Create project, Send             |
-| Secondary   | A soft tint                | A second real action beside the primary                                 |
-| Outline     | A hairline frame           | Cancel in a dialog or form, filters, standalone actions on busy content |
-| Ghost       | Grey text, no frame        | Toolbars, icon-only buttons, actions in rows and headers                |
-| Destructive | A red tint, red text       | An action that destroys: Delete, Remove member                          |
-| Link        | Text in the primary colour | Navigation inside text                                                  |
-
-- **Order:** in a dialog or form footer, the dismissing action comes first and the primary last, at the end edge. A destructive confirm takes the primary's place.
-- **Labels** are a verb and its object: "Create project", "Invite people". The confirming button repeats the verb of the action it confirms.
-- **Loading:** the button is disabled, shows a `Spinner` before its label, and the label turns to the "-ing" form: "Saving…".
-- **Pressed and toggled** state belongs to `Toggle` and `ToggleGroup`. A row of buttons where one looks active is a toggle group.
-- **One size per row.** Buttons that sit together share a size. A full-width button belongs to a narrow column: a sign-in card, a phone sheet.
-- **What goes to another page is a link,** even when it looks like a button, so people can open it in a new tab. Links inside a sentence keep an underline, because the primary colour is the text colour until a project picks a hue.
+- **Default,** filled: the one main action of a region. **Secondary,** a soft tint: a second real action. **Outline:** Cancel, filters, standalone actions on busy content. **Ghost:** toolbars, icon buttons, card actions, row and header actions. **Destructive,** a red tint: Delete, Remove member. **Link:** navigation inside text.
+- **Order:** in a footer the dismissing action comes first and the primary last, at the end edge.
+- **Labels** are a verb and its object ("Create project"); the confirming button repeats the verb it confirms.
+- **Loading:** disabled, a `Spinner` before the label, the label in its "-ing" form ("Saving…").
+- **A row of buttons where one looks active** is a `ToggleGroup`. Buttons together share a size; full width only in a narrow column.
+- **What goes to another page is a link,** even when it looks like a button: style the router's link with `buttonVariants`.
 
 ### Forms
 
-- **One column,** about 672px wide, related fields together, the submit row at the end. Two short related fields (first and last name) may share a row.
-- **Every control has a visible label above it.** The label names the field; the placeholder shows an example value. Help that people need while typing goes under the control.
-- **A field's width hints at its answer:** a postcode field is short, an address field runs the column.
-- **Ask in the order people think of the answers,** and only for what the task needs now. Mark whichever of required or optional is rarer, in the label: "Company (optional)".
-- **Group related controls** under a legend: a set of checkboxes, a set of radios, a section of a long form.
-- **Checkbox, radio and switch rows** put the label beside the control, with its description under the label. The whole row toggles, not only the box.
-- **Validate when the person leaves a field and again on submit,** never while they type. The field gets a red ring and a message under it that says how to fix the value: "Use at least 8 characters". After a failed submit, focus goes to the first invalid field.
-- **Settings save themselves.** A switch applies the moment it changes. A form of several fields has one submit button.
-- **Choose the control by the answer:** see [Choosing a component](#choosing-a-component). Two to seven visible options are a `ToggleGroup` or a `RadioGroup`; a long list is a `Select`; a searchable one a `Combobox`.
+- **One column,** about 672px, related fields together, the submit row at the end. Two short related fields may share a row.
+- **A visible label above every control;** the placeholder shows an example; help people need while typing sits under the control.
+- **A field's width hints at its answer.** Ask in the order people think of the answers, only for what the task needs now, and mark whichever of required or optional is rarer: "Company (optional)".
+- **Group related controls** under a legend. Checkbox, radio and switch rows put the label beside the control, and the whole row toggles.
+- **Validate when the person leaves a field and on submit,** never while they type: a red ring and a message saying how to fix it ("Use at least 8 characters"). After a failed submit, focus goes to the first invalid field.
+- **Settings save themselves:** a switch applies at once; a form of several fields has one submit button.
 
 ### Overlays
 
-- **Dialog** for a focused task the person returns from: a short form, a choice, a preview. It has a title, and its actions sit in the footer. Keep it to one task; a long or multi-step flow is a page or a `Sheet`.
-- **AlertDialog** only to confirm what can't be undone. The title asks the question with the object ("Delete Acme Inc.?"), the description states the consequence, and the action repeats the verb ("Delete") beside an outline Cancel. For anything that can be undone, act at once and offer Undo in a toast.
-- **Sheet** for details or editing beside the list it came from: a row's record, filters, settings for the current view. It comes from the end edge.
-- **Drawer** for bottom panels on touch screens. People swipe it away.
-- **Popover** for small interactive content tied to a trigger: a date picker, a share field, quick filters.
-- **HoverCard** previews a linked person or record for pointer users. Everything in it is also one click away.
-- **Tooltip** names an icon button or shows a shortcut, in a few words. Anything someone needs to read or click goes in a `Popover`.
-- **Two modal layers at most.** A dialog may open a confirmation; a third layer means the flow needs a page.
-- **Escape closes, and focus returns to what opened it.**
+- **Dialog** for a focused task the person returns from, with a title and its actions in the footer. A long or multi-step flow is a page or a `Sheet`.
+- **AlertDialog** only for what can't be undone: the title asks with the object ("Delete Acme Inc.?"), the description states the consequence, and the action repeats the verb beside an outline Cancel. Everything reversible acts at once with Undo in a toast.
+- **Sheet** for details or editing beside the list, from the end edge. **Drawer** for bottom panels on touch screens.
+- **Popover** for small interactive content on a trigger; **HoverCard** previews for pointer users; **Tooltip** names an icon button in a few words.
+- **Two modal layers at most. Escape closes, and focus returns to what opened it.**
 
 ### Menus and commands
 
-- **Group the items,** with a separator between groups, ordered by how often they are used.
-- **The destructive item is last,** in its own group, in red.
-- **Show the shortcut** beside every item that has one.
-- **An item that opens a dialog for more input ends with "…":** "Rename…".
-- **A menu holds actions; a `Select` holds values.** A menu of options with a check beside the current one is fine for a view setting.
-- **A right-click menu repeats actions available elsewhere,** such as the row's "More" menu, because touch and keyboard users can't right-click.
-- **The command palette** opens on ⌘K, grouped by kind (Navigation, Actions, Recent), each item with its icon and shortcut. It finds things by the words people use, so give items their synonyms.
+- **Group the items** by how often they are used, with the destructive item last in its own group, in red. Show each item's shortcut.
+- **An item that opens a dialog for more input ends with "…"** ("Rename…").
+- **A menu holds actions; a `Select` holds values.** A right-click menu repeats actions available elsewhere.
+- **The command palette** opens on ⌘K, grouped by kind (Navigation, Actions, Recent), each item with its icon and shortcut, finding things by the words people use.
 
 ### Navigation
 
-- **Shape of the navigation:** five to seven top-level destinations named with nouns, ordered by how often people go there. What people make (projects, chats, documents) lives in its own group under the fixed destinations. Settings and help go in the last group or in the user menu. A destination used once a month belongs in a menu or the command palette.
-- **Sidebar rows** are an icon and a short label. Counts are small badges at the end, live state is a status dot, and actions on a row appear on hover and on right-click. The current page is the selected row.
-- **`AppNav`** draws the navigation from the app's list of destinations: it marks the current page, opens the parents of the current page, and lets people reorder, pin and hide items when the product allows it.
-- **The sidebar collapses** to a rail of icons with tooltips, or slides away and peeks back on hover. It remembers which.
-- **`WorkspaceSwitcher`** is a menu for a few workspaces and a searchable dialog for many. While the next workspace loads, the whole screen says so.
-- **`UserMenu`** sits at the bottom of the sidebar as a row, or in a header as the avatar alone. Account items come first and Sign out last, in its own group.
-- **`TabStrip`** holds the documents a person opens and closes (files, records, chats), with pinned tabs, a preview tab for a quick look, and drag to reorder.
-- Home and Overview belong in the sidebar or bottom navigation, never as a permanent tab in the document strip.
-- **`Tabs`** switch between a fixed set of views of one thing: two to six short labels on a track with a sliding pill. Where space is tight, such as a panel header, use the subtle variant, where every tab has an icon and only the active one shows its label. Vertical tabs suit a settings page with more sections than fit across.
-- **Breadcrumbs** show the path with the current page last. Long paths fold their middle into a menu.
-- **`PreviewRail`** suits a long page's sections or a sequence (chapters, months, steps) where a compact rail beats a list of names: thin ticks that swell around the pointer, with a card naming the section. The current section stays marked. When people need to read every name at once, use `Tabs` or a `Sidebar`.
-- **`Search`** in a header or toolbar opens from a round button into a field. Escape clears it, then closes it.
-- **Websites** use a `NavigationMenu` in the header, or plain links when there are five or fewer.
+- **Five to seven top-level destinations,** named with nouns, ordered by how often people go there. What people make (projects, chats) gets its own group below; settings and help go last or in the user menu.
+- **Sidebar rows** are an icon and a short label; counts are small badges at the end, live state a status dot. The current page is the selected row. The sidebar collapses to an icon rail or peeks back on hover, and remembers which.
+- **`WorkspaceSwitcher`** is a menu for a few workspaces and a searchable dialog for many. **`UserMenu`** has account items first and Sign out last.
+- **`TabStrip`** holds documents a person opens and closes; **`Tabs`** switch two to six views of one thing. Breadcrumbs end with the current page and fold a long middle into a menu. Websites use a `NavigationMenu`, or plain links for five or fewer.
 
 ### Data display
 
-- **Table** for records compared across columns. The first column is the record's name, in the foreground and medium weight; the other cells rest in grey and darken with the row under the pointer. Numbers align to the end in tabular figures. A status is a `Badge`. Row actions sit in a ghost "More" menu at the row's end. Show the columns people compare and leave the rest to the record.
-- **DataTable** when people work the records: sort, filter, edit, pick, page or scroll through hundreds or thousands. It keeps Table's rules and adds a header per column (a type icon that becomes the sort arrow, an options popover with Notion-style filters), the record's name pinned to the start and actions to the end, cells that edit in place, and an optional footer of calculations. Everything but the search happens in the table: column options in each header, the table's settings (density, calculations, row numbers, stripes, lines, columns) at the header's end. Give it the full column and a height; use compact density in dense tools. Declare each column's type rather than drawing cells by hand, so the filter, editor, sort and alignment follow. Feed it from a loader and let it load more as the scroll nears the end; paginate only when position matters ("page 3").
-- **EventCalendar** for anything placed in time that people plan around: meetings, bookings, shifts, deadlines. It draws the week by default (three days on a phone), and day, N days, month and agenda on request; events are created by dragging across time and moved by dragging them, with the keyboard and a right-click menu as the other ways in. Give each source its own colour from the palette or a role, and let colour mean the source, never the status. Feed it from a loader for real data, and save changes from `onEventChange`, which shows them at once and reverts them when saving fails. A dashboard that only lists what's next uses its agenda on its own.
-- **Charts** show the shape of numbers: a trend, a mix, a ranking, a flow. Give each one a `label` naming what it plots, put it in a `Card` with that title and the period in the description, and let it fill the card's width. Point at a chart, drag a finger across it or tab to it: a crosshair or a highlight finds the nearest mark and a tooltip lists its values, with the value first. With two or more series a legend names them; pressing a series hides it, pointing at it spotlights it. Use one axis: two measures on different scales are two charts. Feed a stat above the chart from `onActiveChange` so the number follows the scrub. A single number belongs in a stat card, and a few exact values in a table.
-- **A row opens its record.** The name is the link, which is the keyboard's way in; clicking anywhere on the row is the shortcut to it.
-- **Item** for lists of things read one at a time: people, files, integrations, links to settings. Each has a picture (an icon, an avatar or an image), a title, a description and its actions.
-- **Stat cards** show one number each: the label in grey, the value large in tabular figures, and the change as a status badge or status-coloured text with an arrow. Every card in the row has the same parts.
-- **Badge** for statuses and short labels, one or two words. A state takes the colour of what it asks of the person: success for done, info for under way or waiting on someone else, warning for late or needing attention soon, destructive for failed or blocked, and an outline badge for a state with no urgency (draft, archived). The neutral badge is for counts and the outline one for tags.
-- **Avatar** always has initials to fall back on, and shows in colour, never grayscale. A group shows a few and a count for the rest; a small dot marks presence. Give a group's avatars a `tooltip` with the person's name: the group parts around the one under the pointer.
-- **Kbd** shows shortcuts in tooltips, menus and help text.
-- **SyntaxHighlight** for code a person reads or copies: a header with the file name and a Copy button for a file, Copy beside a one-line command, line numbers only when the text refers to lines, and a capped height for long code.
-- **Markdown and Editor** for formatted text. A comment box is the editor's text area alone; a document adds a toolbar; long-form writing adds a word count.
-- **FileTree** for files and folders, with type icons, indentation guides and folders that open in place. Selecting a file marks it; opening it is a second, deliberate act.
+- **Table:** the first column is the record's name in the foreground and medium weight; other cells rest in grey and darken with the row under the pointer. Numbers align to the end in tabular figures, statuses are `Badge`s, row actions sit in a ghost "More" menu at the end.
+- **DataTable** when people work the records: declare each column's type rather than drawing cells, give it the full column and a height, and load more on scroll.
+- **A row opens its record:** the name is the link, and clicking anywhere on the row is the shortcut to it.
+- **Badge** colour follows what the state asks of the person: success for done, info for under way, warning for late or soon, destructive for failed or blocked (`error` is the same look), outline for no urgency (draft, archived).
+- **Item** has a picture (icon, avatar or logo), a title, a description and its actions. **Avatar** always falls back to initials; a group shows a few, a count and each name in a tooltip.
+- **Metadata** is a list of pairs: the label in grey, the value in the foreground. **EventCalendar** colours events by their source, never their status.
 
 ### Feedback
 
-- **Toast** reports the result of an action ("Invite sent"), with Undo when it can be undone and Retry when it failed. It leaves by itself, so anything a person must act on also lives in the page. Form errors stay in the form.
-- **Alert** holds a message that stays on the page: a section-level warning, a degraded service, a required step. By default it is a neutral panel with a coloured icon; the tinted, high-contrast version is for what must not be missed. It has room for one action. One alert per region.
-- **Progress** for work of known length. **Spinner** for a short wait in place: a button, a row. **Skeleton** for content loading, in the content's shape. A shimmer for text that is still streaming.
-- **A wait longer than a moment has words,** not only a spinner: "Saving…", "Importing 240 rows…".
+- **Toast** reports the result of an action ("Invite sent") with Undo or Retry. It leaves by itself, so anything someone must act on also lives in the page.
+- **Alert** holds a message that stays: a section warning, a degraded service, a required step, with room for one action. One per region; the tinted version only for what must not be missed.
+- **Progress** for work of known length, **Spinner** for a short wait in place, **Skeleton** for loading content in its shape. A longer wait has words: "Importing 240 rows…".
 
 ### AI and chat
 
-- **The transcript** is a `MessageScroller`, which follows a streaming reply, holds its place when history loads, and offers a jump to the latest message.
-- **The person's messages sit in bubbles at the end edge. The assistant's replies are plain text on the page,** formatted as a document, with code in `SyntaxHighlight`. Files are `Attachment`s; system notes and day dividers are `Marker`s.
-- **Waiting** is shimmering text ("Thinking…"), and the reply renders as it streams.
-- **The composer is a `ChatInput`:** a one-line pill that grows as the draft wraps, on an empty page, floating over content or docked under a transcript. Its large layout is a card with the controls under the field, for long drafts.
-- **Inside the composer:** attachments above the text, tools at the start of the footer (the add menu, modes), and at the end the context meter, the model, the microphone and send. Send turns into stop while a reply streams. Every composer accepts dropped and pasted files.
-- **The model** is chosen from a `ModelPicker` in a popover opened from the composer. Modes and permissions are a small pill that opens a list of options, each with an icon, a name, a description and a check on the one in use.
-- **Popups opened from the composer sit two levels above it,** so they read apart from its card.
-- **Clarifying questions** are a `Questionnaire` that takes the composer's place until they are answered: one question at a time, choices picked with number keys, progress and a way to stop at the top.
-- **A new chat** is an empty page with the composer centred under a short greeting and a few suggested prompts. The first message moves the composer to the bottom.
+- **The transcript** is a `MessageScroller`. The person's messages are bubbles at the end edge; the assistant's replies are plain text formatted as a document; files are `Attachment`s and day dividers `Marker`s. Waiting is shimmering text ("Thinking…").
+- **The composer is a `ChatInput`** docked under the transcript: attachments above the text, tools at the start of its footer, the `ModelPicker`, the microphone and send at the end; send turns into stop while a reply streams.
+- **Clarifying questions** are a `Questionnaire` in the composer's place. **An assistant's identity** is a `BotFace`. A new chat centres the composer under a short greeting and a few suggested prompts.
 
 ### Platforms
 
-- **Three web bases, one design.** A project is built on Base UI, Radix or React Aria. The components look and behave the same on each; how their parts connect in code differs, so read the docs for the project's base. React Aria projects have no `Menubar` or `NavigationMenu`: use a `DropdownMenu` per menu and a header of links.
-- **React Native has the same components** under the same names, with the same variants and sizes, so every rule in this file holds. Not there yet: `ChatInput`, `ColorPicker`, `FileTree`, the file upload components, `ModelPicker`, `NumberField` and the time inputs.
-- **Touch takes the pointer's place.** What opens on hover or right-click on the web (`Tooltip`, `HoverCard`, `ContextMenu`) opens on a long press. Every sound has a matching haptic.
-- **Phones are spacious, tablets a step lighter.** Phone controls are 44pt. Tablets use 40pt controls with the same text, since there is more room and the screen is read from further away. A narrow split-screen window counts as a phone.
-- **Popups follow the size of the screen:** a `Select` or a menu is a sheet from the bottom on a phone and a popover on a tablet.
-- **The App Shell on a phone:** the sidebar is revealed behind the page, the main destinations become a bottom nav, the page scrolls under a fading header, a side panel is a drawer with a grab handle, and a tab strip collapses to the active tab and a count. Native tab scenes extend behind the header too; their content is inset once, so the gradient overlays scrolling content without a clipped edge.
-- **Native bottom navigation:** Glass uses the system tab controller on supported iOS builds. iOS owns its capsule, selection lens, touch tracking, refraction and settling animation. Fabricator icons are template images at native pixel densities, with separate selected strokes. Use `nativeTabs` on the bottom nav to host the system tabs and the page together; it reports the bar's measured height including the safe area, and hides the bar while the editor claims the bottom edge without unmounting the page. Floating and Flat keep Fabricator's icon-and-caption rows and sliding highlight. A destination stays selected on its detail pages.
+- **Three web bases, one design.** Base UI, Radix and React Aria look and behave the same; how parts connect in code differs, so read the docs for the project's base. React Aria has no `Menubar` or `NavigationMenu`.
+- **React Native has the same components and rules.** Not there yet: `ChatInput`, `ColorPicker`, `FileTree`, file upload, `ModelPicker`, `NumberField` and the time inputs.
+- **Touch takes the pointer's place:** hover and right-click become a long press; phones use 44pt controls, tablets 40pt; a `Select` or a menu is a bottom sheet on a phone.
 
 ## Patterns
 
 Start from the closest pattern, install its block when there is one, and remove what the product doesn't need.
 
-| Block                                              | What it is                                                                                                             |
-| -------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
-| `app-shell-01`                                     | Workspace app: account and organisation marks in the sidebar, grouped navigation people can customise, a Details panel |
-| `app-shell-02`                                     | Workbench: document tabs above the content, a resources panel, a status bar, a peeking sidebar                         |
-| `app-shell-03`                                     | Classic SaaS: team switcher on top, the person's menu at the bottom, a sidebar that collapses to icons                 |
-| `app-shell-04`                                     | Desktop app: a translucent window, tabs in the top row beside the window's controls                                    |
-| `app-shell-05`                                     | Mobile first: a bottom nav and a floating primary action on phones, a message that takes over the list                 |
-| `login-01` … `login-05`, `signup-01` … `signup-05` | Sign in and sign up                                                                                                    |
-| `sidebar-01` … `sidebar-16`                        | Sidebar layouts                                                                                                        |
-
-| The screen is about                       | Pattern                                     |
-| ----------------------------------------- | ------------------------------------------- |
-| Many records of one kind                  | [List](#list)                               |
-| One record                                | [Detail](#detail)                           |
-| Working through records one after another | [List and detail](#list-and-detail)         |
-| Preferences                               | [Settings](#settings)                       |
-| Making or changing one record             | [Create and edit](#create-and-edit)         |
-| A task too long for one form              | [Multi-step flow](#multi-step-flow)         |
-| The state of things at a glance           | [Dashboard](#dashboard)                     |
-| Several documents open at once            | [Workbench](#workbench)                     |
-| Writing or reading one document           | [Document](#document)                       |
-| Talking to a person or an assistant       | [Chat](#chat)                               |
-| Getting in                                | [Sign in and sign up](#sign-in-and-sign-up) |
-| Explaining or selling the product         | [Website](#website)                         |
+- **Blocks:** `app-shell-01` (workspace app with a Details panel), `app-shell-02` (workbench with document tabs and a status bar), `app-shell-03` (classic SaaS: team switcher on top, the person's menu at the bottom, an icon rail), `app-shell-04` (desktop app in a translucent window), `app-shell-05` (mobile first, with a bottom nav), `login-01` … `login-05`, `signup-01` … `signup-05`, `sidebar-01` … `sidebar-16`.
+- **The App Shell blocks fill their content with placeholders.** For a dashboard, keep the shell (`app-shell-03` for a classic SaaS) and build the content from the [recipes](#recipes).
+- **Pick by what the screen is about:** the state of things ([Dashboards](#dashboards)); many records ([List](#list)); one record ([Detail](#detail)); a queue ([List and detail](#list-and-detail)); preferences ([Settings](#settings)); one record to make or change ([Create and edit](#create-and-edit)); a long task ([Multi-step flow](#multi-step-flow)); a product feature ([SaaS features](#saas-features)); open documents ([Workbench](#workbench)); one document ([Document](#document)); a conversation ([Chat](#chat)); getting in ([Sign in](#sign-in-and-sign-up)); selling the product ([Website](#website)).
 
 ### List
 
-The index of a collection: issues, customers, invoices.
-
-- **Header:** the breadcrumb, and the primary action ("Create invoice").
-- **Toolbar,** in compact controls: `Search`, the filters, a view switch, and the result count in grey at the end. A filter is a `ToggleGroup` when its few states fit the row at every width, a `Select` otherwise, and a `Combobox` when it is long or takes several values. Active filters stay visible, with one quiet control that clears them all.
-- **Body:** a `Table` when the records are compared by column, a list of `Item`s when each is read on its own, a grid of `Card`s when each is recognised by its picture.
-- **Selection:** a leading checkbox column. While rows are selected, the toolbar shows their count and the bulk actions.
-- **Footer:** `Pagination`, or more rows loading on scroll.
-- **States:** skeleton rows while loading. For the first use, an `Empty` with the primary action and no toolbar until there is something to filter; the header keeps its action, so its place never changes. For no results, an `Empty` that names the search and offers "Clear filters".
-- **The filters, the sort and the page survive a reload and a shared link,** and Back returns to the list as it was.
+- **Header:** the breadcrumb and the primary action ("Create invoice").
+- **Toolbar,** compact: `Search`, filters, a view switch, the result count in grey at the end. A filter is a `ToggleGroup` when its states fit the row at every width, a `Select` otherwise, a `Combobox` when long or multiple. Active filters stay visible with one control that clears them.
+- **Body:** a `Table` or `DataTable` when records are compared by column, `Item`s when each is read alone, `Card`s when each is recognised by its picture.
+- **Selection:** a leading checkbox column; while rows are selected, the toolbar shows their count and the bulk actions.
+- **States:** skeleton rows; on first use an `Empty` with the primary action and no toolbar; for no results an `Empty` naming the search with "Clear filters".
+- **Filters, sort and page survive a reload and a shared link,** and Back returns to the list as it was.
 
 ### Detail
 
-One record: an issue, a customer, an order.
-
-- **Header:** the title, its status `Badge`, one primary action, and the rest in a "More" menu with the destructive item last.
-- **Body:** the main content. Its sections are `Tabs` when they are views of the same record: Overview, Activity, Files.
-- **Side:** metadata and activity in a side panel the person can close, so the content can take the room. Metadata is a list of pairs, the label in grey and the value in the foreground.
-- **Edit in place** where the value shows, for a field or two. A record with many fields edits in a `Sheet` or on its own page.
+- **Header:** the title, its status `Badge`, one primary action, the rest in a "More" menu with the destructive item last.
+- **Body:** `Tabs` for views of the same record (Overview, Activity, Files); an overview may open with a KPI strip of the record's own numbers.
+- **Side:** metadata and activity in a panel the person can close. Edit a field or two in place; many fields edit in a `Sheet` or a page.
 
 ### List and detail
 
-Working through a queue: an inbox, tickets to triage, a review list (`app-shell-05`).
-
-- The list fills the main column and the open record sits in a side panel beside it. On a phone the record takes the whole screen, with a way back.
-- The open row is selected, and the next record is one key away: ↑ and ↓ move through the list.
-- Until something is open the panel shows an `Empty` ("Select a message"). Closing the panel gives the list the full width.
-- The record's actions live in its panel header. Actions on the whole list stay in the page header.
+A queue (`app-shell-05`): the list fills the main column and the open record sits in a side panel; on a phone the record takes the screen with a way back. The open row is selected and ↑ ↓ move through the list. Until something is open the panel shows an `Empty`. The record's actions live in its panel header.
 
 ### Settings
 
-- One column about 672px wide. Each section has a heading and a sentence saying what it covers, with a `Separator` between sections.
-- A row has its label and description at the start and its control at the end. On a phone, rows with a text field stack.
-- A switch applies on change. Text settings save with one button per section.
-- Many sections get their own pages in a sidebar group, or `Tabs` across the top.
-- The danger zone is last: a destructive button that opens an `AlertDialog` naming what is lost.
+- One column (`size="sm"`). Each section has a title and a sentence on what it covers, a `Separator` between sections.
+- A row has its label and description at the start and its control at the end; on a phone, rows with a text field stack.
+- Switches apply at once; text settings save with one button per section. Many sections become pages in a sidebar group or vertical `Tabs`.
+- The danger zone is last: a destructive button opening an `AlertDialog` that names what is lost.
 
 ### Create and edit
 
-- Up to about five fields: a `Dialog`. Fields that need the list visible beside them: a `Sheet`. Long or multi-step: a page.
-- The footer holds an outline Cancel and the primary, last. The primary says what it creates: "Create invoice".
-- Enter submits and Escape closes.
-- Edit forms open with the current values. Create forms open with sensible defaults and the first field focused.
+Up to about five fields: a `Dialog`. Fields that need the list beside them: a `Sheet`. Longer: a page. The footer has an outline Cancel and the primary last, saying what it creates ("Create invoice"). Enter submits and Escape closes; edit forms open with current values, create forms with defaults and the first field focused.
 
 ### Multi-step flow
 
-Onboarding, checkout, an import: a task too long for one form.
-
-- One decision per step, each a short form with a title that says what the step is for.
-- Show where the person is: "Step 2 of 4" in caption type, or a `Progress` across the top.
-- The footer keeps one place for each action: Back at the start, the primary at the end (Continue, then the final verb, such as "Create workspace"). Optional steps add a ghost Skip.
-- Going back keeps every answer, and so does a reload.
-- Validate a step when the person leaves it. The last step shows what was chosen before it commits.
-
-### Dashboard
-
-- A row of stat cards, four across on desktop, then the work: recent activity as a list of `Item`s, the things needing attention in a `Table`.
-- Order by what the person does next: what needs them first, the trend second, the archive behind a link.
-- The trend goes in a chart card under the stat cards, one question per chart; its scrub can feed the stat above it.
-- An `Alert` at the top only while something is wrong.
-- Dense dashboards use the compact density and snappy or instant motion.
+One decision per step, each titled with what it is for, and "Step 2 of 4" or a `Progress` at the top. Back at the start of the footer, the primary at the end (Continue, then the final verb), a ghost Skip on optional steps. Going back or reloading keeps every answer, and the last step shows what was chosen before it commits.
 
 ### Workbench
 
-Several documents open at once: an editor, a query tool, a design tool (`app-shell-02`).
-
-- A `TabStrip` above the content holds the open documents, and the body takes the full column.
-- The file or object browser is a `FileTree`, in the sidebar or in a panel at the start. Inspectors and resources are panels at the end, switched from the tab row.
-- The status bar carries what is true of the whole workspace: a branch, a sync state, a count.
-- Compact density and snappy motion. Every frequent action has a shortcut, listed in the command palette.
+Open documents in a `TabStrip` above a full-width body (`app-shell-02`), a `FileTree` in the sidebar or a start panel, inspectors as end panels. Compact density, snappy motion, a shortcut for every frequent action.
 
 ### Document
 
-Writing or reading one long text: a note, a spec, an article.
-
-- One column at reading width, the title as the first line of the document, and nothing beside the text that isn't about it.
-- The `Editor` with a toolbar above it, or a small menu that appears on selected text. `Markdown` at the same size reads it back.
-- It saves itself. Show the state in grey caption text ("Saved 2 min ago") in place of a Save button.
-- Comments, the outline and the history go in a side panel.
+One column at reading width with the title as its first line. The `Editor` with a toolbar or a menu on selected text; `Markdown` reads it back. It saves itself and says "Saved 2 min ago" in grey. Comments, the outline and the history go in a side panel.
 
 ### Chat
 
-- **Assistant identity:** `BotFace` is an animated face for assistant avatars, empty conversations and voice interfaces. Choose from fourteen soft silhouettes, three eye styles and the Fabricator role or named palette colours, including gray, or a CSS hex colour with automatically contrasting eyes. The docs playground uses named/custom colours and supplies live, copyable configuration code. Its ten states express activity, emotion, questions and permission requests through the eyes, with fixed layout and size, at most 6 degrees of tilt, 14 degrees of nod, 12 degrees of side turn and gaze within 6% of its size. Speaking eyes form a six-bar sound wave; thinking uses held upper-corner glances, staggered eye lifts and focused squints; questioning keeps the eye body and grows a short lid curl, with one eye leading and natural blinks; error forms crosses. Listening nods in agreement and working turns with its eye scan. Idle follows the pointer on web/desktop or touch on native. State transitions morph matched eye outlines with per-point momentum and retain the blink phase; Reduce Motion and `animated={false}` keep the selected expression still. The optional `useBotFaceState` hook maps normalized agent sessions without coupling the face to an SDK. Label it when it conveys identity.
-
-- The conversation takes the full main column: the transcript scrolls between the header and the composer, which stays docked under it. On wide screens both are capped at a reading width.
-- Conversations the person switches between are a `TabStrip`, or a sidebar group with dots on the unread ones.
-- See [AI and chat](#ai-and-chat) for the parts.
+The transcript fills the main column between the header and the docked composer, both capped at a reading width on wide screens. Conversations are a `TabStrip` or a sidebar group with dots on the unread. See [AI and chat](#ai-and-chat).
 
 ### Sign in and sign up
 
-- Start from a `login` or `signup` block.
-- One centred column about 384px wide: the product mark, a title, the fields, one full-width primary button, other providers as outline buttons, and a link to sign up (or in).
-- One-time codes use `InputOTP`. Errors stay in the form: under the field, or in an `Alert` above the fields for "Wrong email or password".
+Start from a `login` or `signup` block: one centred 384px column with the product mark, a title, the fields, one full-width primary button, other providers as outline buttons, and a link to sign up (or in). Codes use `InputOTP`; errors stay in the form.
 
 ### Website
 
-- **Mode:** spacious density and smooth motion. A marketing section inside an app sets both on itself.
-- **Type:** one hero headline per page; display type for section headings, prices and proof numbers; subtitle for feature titles; a lead under each heading.
-- **Header:** about 64px tall on the page's own background: the logo, the navigation, then a ghost "Sign in" and the filled call to action at the end. It may stay at the top of the window, with a hairline under it once the page scrolls. On phones the links fold into a menu.
-- **Hero:** a headline saying what the product does, a lead of a sentence or two, one filled and one outline button, then the product itself: a real screen or a live composition of its components, on a raised surface, drawn at the app's own density so it looks like the app.
-- **Sections** inside one container up to 1152px wide, one idea each: a heading, a lead, and its content. Neighbouring sections differ in layout (a grid, text beside media, one wide screen, a quote), so the page has a rhythm.
-- **Alignment:** the hero and the closing call to action are centred. Every other section starts at the container's edge, heading and content alike.
-- **Usual order:** hero, proof (logos or numbers), the three to six things the product does, how it works, pricing, questions in an `Accordion`, a closing call to action, a footer.
-- **One call to action,** with the same words in the header, the hero and the close: "Start free trial".
-- **Features** are an icon, a subtitle and a line of caption text in a grid, on the page with no card around each. A `Card` is for a feature someone can open.
-- **Pricing:** one `Card` per plan with the same parts in the same order: the name, the price in display type with its period in grey caption, one line on who it is for, what is included, the button. The recommended plan carries a `Badge` beside its name and the only filled button.
-- **Footer:** a `Separator`, the logo with one line about the product, columns of grey links under caption headings, and a last row with the legal line.
-- **Colour stays with the action.** The page is neutral surfaces and type, and sections part with space.
-- **Motion:** content may fade and rise a few pixels as it loads or scrolls into view, once. Scrolling never moves the text someone is reading.
+- **Spacious density and smooth motion.** One hero headline per page; display type for section headings, prices and proof numbers; a lead under each heading.
+- **Header,** about 64px: the logo, the navigation, a ghost "Sign in" and the filled call to action at the end.
+- **Hero:** what the product does, a lead, one filled and one outline button, then the product itself on a raised surface at the app's own density.
+- **Sections** in one container up to 1152px, one idea each, neighbours in different layouts. The hero and the closing call to action are centred; the rest start at the container's edge.
+- **Order:** hero, proof, what it does, how it works, pricing, questions in an `Accordion`, a closing call to action, a footer, with one call to action worded the same everywhere.
+- **Features** are an icon, a subtitle and a line of caption with no card around each. **Pricing** is one `Card` per plan; the recommended plan has a `Badge` and the only filled button.
+- **Motion:** content may fade and rise a few pixels into view, once.
+
+## SaaS features
+
+The pages almost every product needs, each built from a pattern above.
+
+### Billing and plan
+
+- **The plan card first** (eight columns, thirds): the plan's name and status `Badge`, the price and renewal date ("Renews on Dec 1"), "Change plan" (outline) and, when the plan has limits, "Upgrade" (filled). Beside it in four columns: the payment method with its brand logo and "Update".
+- **Usage under it:** a goal card per limit ("7,240 of 10,000 API calls", `Progress`, "Resets on Dec 1"); a warning badge at 80%, an `Alert` with the upgrade action at 100%.
+- **Invoices** in a table card: the date, the amount (end-aligned), a status `Badge`, a named download icon button.
+- **Changing plan** is a page of plan cards with the current one marked; the confirmation shows the new price and what is charged today. **Cancelling** is a destructive button at the end opening an `AlertDialog` that names the end date.
+
+### Team and members
+
+- A `Table` of members: the `Avatar` with the name and the email under it in grey, the role as a `Select` an admin changes in place, the last activity, and a "More" menu with "Remove member…" last.
+- "Invite people" is the primary action: a `Dialog` with a `Textarea` for several addresses and a role `Select`. Pending invites sit above the members with "Resend" and "Revoke".
+- Roles are explained once, in a `HoverCard` or under the title, never per row.
+
+### Integrations
+
+A grid of connection cards (thirds) grouped under headings by kind, with `Search` and a category `ToggleGroup` in the toolbar. Each card has the logo, the name, one line on what it does, and "Connect" (outline), or once connected a success `Badge` and "Manage". Connecting opens a `Dialog` or the provider's flow, and the card changes in place with a toast.
+
+### API keys and webhooks
+
+Keys are a table: the name, the key masked to its last four characters in monospace, created and last-used dates, and "Revoke…" in its menu. "Create key" opens a `Dialog` that shows the new key once in `SyntaxHighlight` with Copy, and says it won't show again. Webhooks are a table of endpoints with a status dot for the last delivery; a row opens its deliveries in a `Sheet`.
+
+### Notifications
+
+An inbox in a `Popover` from a bell icon button with an unread count. Rows are `Item`s: the actor's `Avatar`, what happened ("Ana commented on Q4 plan"), the relative time, a dot while unread; clicking opens the object and marks it read, and "Mark all as read" sits in the header. Preferences are a settings table of events against channels.
+
+### Activity and audit log
+
+A `DataTable` of time, actor, action, the object as a link and the source (IP, API key), newest first, with actor, action and period filters in the URL and a CSV export of the filtered rows. A row opens the full event, with before and after values, in a `Sheet`.
+
+### Onboarding and setup
+
+A checklist card at the top of the overview until it is done: "3 of 5 done" with a `Progress`, then an `Item` per step with a done mark, a one-line reason and its action; the next step is the only filled button. It can be dismissed, and leaves with a toast when the last step is done. Empty states elsewhere point at the step that fills them.
+
+### Reports and exports
+
+A report is a dashboard with a fixed period and filters, a title that states them ("Revenue, October 2026"), and Export and Share in the header. Exports run in the background: "Exporting…", then a toast with "Download", or an email for large ones.
 
 ## States
 
-Every region of a screen has an answer for each row that can happen to it. Design them with the happy path, in the same pass.
+Every region answers each of these, designed with the happy path:
 
-| State                 | Design                                                                                                                             |
-| --------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
-| First load            | `Skeleton`s in the shape of the content. The frame and the title render at once                                                    |
-| Refreshing            | Keep the current content; a `Spinner` in the control that triggered it                                                             |
-| Submitting            | The button disabled with a `Spinner` and an "-ing…" label; the rest of the form stays readable                                     |
-| Streaming             | Shimmering status text; content renders as it arrives                                                                              |
-| Empty, first use      | `Empty`: an icon, a title naming what will be here, one sentence on why it's useful, the primary action                            |
-| Empty, no results     | `Empty` naming the search, with a button that clears the filters                                                                   |
-| Field error           | A red ring on the field and a message under it                                                                                     |
-| Section error         | An error `Alert` saying what failed, with Retry; the regions that loaded stay                                                      |
-| Action failed         | An error toast with the reason and Retry; what the person typed is kept                                                            |
-| Page error, not found | `Empty` with the reason and a way back                                                                                             |
-| No access             | `Empty` saying what is restricted and who can grant it. Actions a person can never take are left out; ones they could are disabled |
-| Success               | The result itself (the new row, the changed value) and a toast. A whole success screen only ends a flow                            |
-| Disabled              | Half opacity. When the reason isn't obvious, say it in the description or a tooltip                                                |
-| Irreversible action   | `AlertDialog` naming the object and the consequence                                                                                |
-| Reversible action     | Act at once; a toast with Undo                                                                                                     |
-| Unsaved changes       | Confirm on leaving; settings that save themselves have nothing to lose                                                             |
-| Selected              | The stronger wash, with no coloured edge                                                                                           |
-| Long or missing value | Names shorten with the full value in a tooltip; a missing value shows a grey "None", so the row keeps its shape                    |
+- **First load:** `Skeleton`s in the content's shape; the frame, the title and each card's header render at once.
+- **Refreshing:** keep the content, with a `Spinner` in the control that triggered it. **Submitting:** the button disabled with a `Spinner` and an "-ing…" label. **Streaming:** shimmering status text.
+- **Empty, first use:** `Empty` with an icon, a title naming what will be here, a sentence on why it's useful, the primary action. **No results:** `Empty` naming the search, with a button that clears the filters.
+- **Field error:** a red ring and a message under the field. **Section error:** an error `Alert` with Retry; loaded regions stay. **Action failed:** an error toast with the reason and Retry; typed input is kept. **Not found:** `Empty` with the reason and a way back.
+- **No access:** `Empty` saying what is restricted and who can grant it. Actions a person can never take are left out; ones they could take are disabled.
+- **Success:** the result itself (the new row, the changed value) and a toast. A success screen only ends a flow.
+- **Disabled:** half opacity, with the reason in a description or tooltip when it isn't obvious.
+- **Irreversible:** an `AlertDialog` naming the object and the consequence. **Reversible:** act at once, Undo in a toast. **Unsaved changes:** confirm on leaving.
+- **Selected:** the stronger wash. **Long or missing value:** names shorten with a tooltip; a missing value is a grey "None", so the row keeps its shape.
 
 ## Accessibility
 
-- **The components own keyboard and screen-reader behaviour.** Keep it. Something custom and interactive follows the standard pattern for its kind in full.
-- **Focus is always visible,** as the blue ring, and it goes where the work is: into a dialog when it opens and back to its trigger when it closes, to the first invalid field after a failed submit.
-- **Everything has a name:** icon buttons, dialogs and sheets, images, form controls.
-- **Contrast** holds as long as colour comes from the roles: text and fills are tested to AA in light and dark, for every hue a project can pick.
-- **Colour never works alone:** pair it with an icon, a label or a pattern.
-- **Targets** are at least 24px in compact regions and 44px on touch screens.
-- **Reduced motion** is respected everywhere.
-- **Headings:** one main heading per page, then levels in order.
-- **Toasts** are announced but they disappear, so anything someone must act on also lives in the page.
-- Check every screen with the keyboard alone, and with an automated accessibility check.
+- **The components own keyboard and screen-reader behaviour;** keep it. Custom interactive parts follow the standard pattern for their kind in full.
+- **Focus is always visible** and goes where the work is: into a dialog, back to its trigger, to the first invalid field.
+- **Everything has a name:** icon buttons, dialogs, sheets, images, form controls, charts (`label`).
+- **Contrast** holds while colour comes from the roles, tested to AA in both themes. **Colour never works alone:** pair it with an icon, a sign or a label.
+- **Targets** are at least 24px in compact regions and 44px on touch screens. **Reduced motion** is respected everywhere.
+- **Headings:** one main heading per page, then levels in order. A stat strip is a description list (`dl`).
+- **Toasts** disappear, so anything someone must act on also lives in the page. Check every screen with the keyboard alone and an automated checker.
 
 ## Content
 
-- **Sentence case** everywhere: titles, buttons, menu items, tabs, labels.
-- **Buttons** say what happens: a verb and its object. The same verb follows the action through the flow: "Delete project" opens "Delete Acme Inc.?", confirmed by "Delete".
-- **Labels and titles** take no final period. Descriptions and messages are full sentences.
-- **Errors** say what happened and how to fix it, in plain words, without blame.
-- **Empty states** say what will be here and how to start.
-- **"…"** ends an item that opens a dialog for more input ("Rename…") and a label in progress ("Saving…").
-- **Numbers and dates** are formatted for the person's locale. Recent times are relative: "5 min ago".
-- **One name per thing.** A "project" in the sidebar is a "project" in every button, title and message. Prefer the person's words to internal ones.
-- **Short first.** A title is a few words, a description one sentence, a tooltip a phrase.
-- **Design with real content:** real names, real numbers, the longest value and the emptiest. Placeholder text hides the cases that break a layout.
+- **Sentence case** everywhere. Labels and titles take no final period; descriptions and messages are full sentences.
+- **Buttons** are a verb and its object, and the verb follows the action through the flow: "Delete project" opens "Delete Acme Inc.?", confirmed by "Delete".
+- **Errors** say what happened and how to fix it, without blame. **Empty states** say what will be here and how to start.
+- **"…"** ends an item that opens a dialog ("Rename…") and a label in progress ("Saving…").
+- **Numbers and dates** follow the person's locale; recent times are relative ("5 min ago").
+- **One name per thing,** in the person's words. **Short first:** a title is a few words, a description one sentence, a stat's label three words at most.
+- **Design with real content:** real names and magnitudes, the longest value and the emptiest.
 
 ## Do's and Don'ts
 
 - Do choose the component and its variant first; don't restyle a component's colour, type or size.
-- Do set density on the region; don't shrink or enlarge components one by one.
+- Do set density on the region; don't resize components one by one.
 - Do take colour from the roles; don't pick colours by hand, in either theme.
 - Do separate layers with the surface ladder; don't add borders or other shadows to surfaces.
 - Do keep one filled button per region; don't put two primaries side by side.
-- Do let neutral surfaces, type and space carry the page; don't decorate with gradients, glows, blurred glass or bands of colour.
-- Do group with space first, then a heading, then a `Separator`, then a `Card`; don't nest cards or wrap a whole page in one.
-- Do show status with `Badge`, `Alert` and status dots; don't mark it with a coloured side border or a tinted row.
-- Do write labels in sentence case at their role's size; don't use all-caps, wide-spaced labels.
-- Do align text to the start in apps; don't centre lists, forms or body text.
-- Do use the project's icon library, one icon per meaning; don't use emoji as icons.
-- Do let motion follow the roles; don't add entrance animations to app content or animate for decoration.
-- Do use the component made for the role (`Separator`, `Skeleton`, `Badge`, `Alert`, `Empty`, `Kbd`); don't rebuild them by hand.
-- Do use the library's inputs for dates, times, numbers, files and colours; don't fall back to the browser's.
-- Do use `AppShell`, `AppNav`, `TabStrip`, `Search` and `WorkspaceSwitcher` where they fit; don't rebuild their shortcuts, memory and phone behaviour.
-- Do give every dialog, sheet and drawer a title, and every icon button a name.
+- Do put a page of cards on the 12-column grid in one rhythm; don't mix 8 + 4 rows with four-across rows.
+- Do align everything in a card to its inset; don't let a list's icons or a table's text drift off the title's line.
+- Do let surfaces, type and space carry the page; don't decorate with gradients, glows, blurred glass, icon tiles or bands of colour.
+- Do group with space, then a heading, a `Separator`, a `Card`; don't nest cards or wrap a page in one.
+- Do show status with `Badge`, `Alert` and status dots; don't use a coloured side border or a tinted row.
+- Do compare periods with a dashed grey line; don't use two axes or coloured comparison areas.
+- Do state the period and the comparison once; don't repeat "vs last month" on every number.
+- Do align text to the start in apps; don't centre lists, forms, stats or body text.
+- Do let motion follow the roles; don't animate app content in or move things for decoration.
+- Do use the component made for the role (`Separator`, `Skeleton`, `Badge`, `Alert`, `Empty`, `Kbd`) and the App Shell's parts; don't rebuild them.
 - Do confirm only what can't be undone; offer Undo for the rest.
-- Do design the empty, loading and error states with the screen; don't leave them for later.
 
 ### Review checklist
 
 A screen is done when every line holds. Check it in the running app, never from the code alone.
 
 - [ ] The screen's job fits in one sentence, and its focal point is the first thing seen.
-- [ ] Each region has one primary action, and every icon-only button has a name and a tooltip.
+- [ ] Each region has one primary action; every icon-only button has a name and a tooltip.
 - [ ] Title, toolbar and body share one start edge; space is tighter inside groups than between them.
-- [ ] Light and dark both read well.
-- [ ] Colour appears only where it means something: the action, a selection, a status.
-- [ ] It works with the keyboard alone, and focus is visible on every stop.
-- [ ] It works on a phone and on a wide desktop.
+- [ ] A page of cards uses one grid rhythm; gutters continue down the page and cards in a row are equal height.
+- [ ] Inside each card, the title, values, list icons and table text start on the card's inset.
+- [ ] Every number has its unit and period and, where it changed, a signed delta coloured by whether the change is good.
+- [ ] Colour appears only where it means something: the action, a selection, a status, a chart series.
+- [ ] Light and dark both read well; surfaces follow the ladder, with no borders or stray shadows.
+- [ ] It works with the keyboard alone, with focus visible on every stop.
+- [ ] It works on a phone and a wide desktop, with no label cut off at phone width.
 - [ ] Density and motion match the product mode.
 - [ ] Loading, empty, error and disabled states exist and use their components.
 - [ ] It holds with the longest name, the largest number and no data at all.
-- [ ] Surfaces follow the ladder, with no borders or stray shadows.
 - [ ] Copy is in sentence case, buttons are verbs, errors say how to fix.
 - [ ] An automated accessibility check reports no violations.
-
-### Theme toggle
-
-A Button trigger with a sun/moon swap: the icons scale, rotate 45 degrees and crossfade through a 2px blur on the move timing. On web and desktop its icon has its own view-transition snapshot above the page reveal, so theme providers cannot suppress the morph and the page never freezes it mid-swap. The page uses the theme role (700ms at default speed) and the reference Material curve (`cubic-bezier(0.4, 0, 0.2, 1)`), revealing as a circle, blurred circle, square, diamond, rectangle, hexagon, triangle or twelve blinds that fan out from the origin. The blurred circle animates the incoming page snapshot from 8px blur to zero throughout a crisp circular clip expanding to 150%, with no opacity fade. Polygon boundaries fade through an alpha mask so text stays sharp; the polygon expands evenly and fully covers the viewport. A blurred circle from the pressed button is the default; its viewport position is measured on every activation, including after scrolling or resizing. Six explicit viewport origins remain available. Reduced motion and motion off apply the theme immediately. The app owns the resolved theme and persistence. Native keeps the icon morph and transient blur; its screen reveals remain a documented parity exception.
-
-### Multi select
-
-A searchable field for several values, built on each base's Combobox in multiple mode. The field takes the input recipe (ring-border frame, `bg-muted/50` hover, `bg-card` and `ring-foreground/25` while focused), grows a row per line of chips and ends in a muted chevrons icon. Chips are `bg-active` `rounded-md` h28 t12 medium with a h20 remove button. A new chip rises 6px from 0.92 scale and fades in on the move timing; a removed chip comes out of the row where it stood and fades as it wipes out from its start on the exit timing, while the chips after it glide over at the same time (FLIP on `translate`). The popup, rows and labels are Combobox's. One shared highlight glides to the hovered row on the glide timing; holding a row fills it to `bg-active` with the press scale, easing back on release, and on native the highlight under a finger takes that pressed fill. Picked rows turn foreground semibold and their check scales in from 0.9 and stays mounted to scale out. Picking keeps the list open and clears the search. Reduced motion and motion off remove chips at once. Native opens the list in a dialog like Combobox and animates chips with Reanimated on the same roles.
-
-### Rating
-
-A row of solid stars that holds a score, built on HTML for every base and on React Native. Default stars are the yellow people read as a score (`amber-400`, with an `amber-500` edge in light), fixed across themes; `primary` and the status variants fill with their role. Empty stars are a faint foreground fill. Hover previews the score under the pointer, a click or a drag sets it, `step={0.5}` takes halves, and read-only shows any fraction. The hovered star lifts to 115% on the feedback timing, and a star the score reaches pops in from half size on the bounce spring.

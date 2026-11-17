@@ -81,6 +81,18 @@ describe("getProjectTree", () => {
     ).not.toContain("DESIGN.md")
   })
 
+  it("shows AGENTS.md beside the design guide, and CLAUDE.md for Claude Code", () => {
+    expect(names(getProjectTree(setup({ assistants: ["claude"] })))).toEqual(
+      expect.arrayContaining(["AGENTS.md", "CLAUDE.md"])
+    )
+    const codex = names(getProjectTree(setup({ assistants: ["codex"] })))
+    expect(codex).toContain("AGENTS.md")
+    expect(codex).not.toContain("CLAUDE.md")
+    expect(
+      names(getProjectTree(setup({ assistants: ["claude"], skill: false })))
+    ).not.toContain("AGENTS.md")
+  })
+
   it("has no tree of its own for an existing project", () => {
     expect(getProjectTree(setup({ project: "existing" })).name).toBe(
       "your project"

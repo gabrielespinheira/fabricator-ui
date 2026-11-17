@@ -61,13 +61,13 @@
     },
     {
       "id": 5,
-      "prompt": "Using Fabricator UI (base-nova style, lucide icons), build a streaming AI chat UI. The assistant's reply streams in while it generates, the view auto-scrolls to follow the latest content but stops following if the user scrolls up to read earlier messages, a 'jump to latest' button appears when the user has scrolled away from the bottom, and a subtle 'thinking\u2026' shimmer shows while the model is generating.",
-      "expected_output": "A React component that delegates scroll/anchor behavior to MessageScroller and uses MessageScrollerButton for jump-to-latest and the shimmer utility for the thinking indicator \u2014 no hand-rolled scroll logic or custom shimmer keyframes.",
+      "prompt": "Using Fabricator UI (base-nova style, lucide icons), build a streaming AI chat UI. The assistant's reply streams in while it generates, the view auto-scrolls to follow the latest content but stops following if the user scrolls up to read earlier messages, a 'jump to latest' button appears when the user has scrolled away from the bottom, and a subtle 'thinking…' shimmer shows while the model is generating.",
+      "expected_output": "A React component that delegates scroll/anchor behavior to MessageScroller and uses MessageScrollerButton for jump-to-latest and the shimmer utility for the thinking indicator — no hand-rolled scroll logic or custom shimmer keyframes.",
       "files": [],
       "expectations": [
         "Uses MessageScroller with MessageScrollerProvider (autoScroll) and scrollAnchor on message items for the stick-to-bottom/follow behavior instead of a custom useStickToBottom hook or ResizeObserver/scrollTop wiring",
         "Uses MessageScrollerButton for the jump-to-latest control instead of a hand-built conditional button driven by manual scroll-position state",
-        "Uses the shimmer utility class for the 'thinking\u2026' indicator instead of a custom @keyframes or bg-clip-text gradient animation",
+        "Uses the shimmer utility class for the 'thinking…' indicator instead of a custom @keyframes or bg-clip-text gradient animation",
         "Wraps each message row in MessageScrollerItem inside MessageScrollerContent",
         "Uses Message + Bubble + BubbleContent for the conversation rows instead of hand-rolled bubble divs",
         "Uses semantic color tokens and gap-* spacing; includes \"use client\" (project.rsc)"
@@ -188,6 +188,22 @@
         "Uses native events, text and layout rather than DOM elements or web-only APIs",
         "Uses verified native icon exports and does not assume web brand or animated entry points exist",
         "Preserves the existing design and provides accessible labels and native verification limits"
+      ]
+    },
+    {
+      "id": 15,
+      "prompt": "My Next.js SaaS uses Fabricator UI (base-nova, App Shell installed). Build the Overview dashboard for a billing product: MRR, active customers, churn and revenue per account for the last 30 days, a revenue trend against the previous period, failed payments and trials ending soon, and the top customers.",
+      "expected_output": "An App Shell page on a 12-column container-query grid in one rhythm: a period toolbar, one KPI strip card divided into cells with signed status deltas, a LineChart comparing periods, a list card and an edge-to-edge table card aligned to the card inset, built from the rules/dashboards.md recipes.",
+      "files": [],
+      "expectations": [
+        "Reads DESIGN.md (or design.md) and rules/dashboards.md before writing the page",
+        "Uses AppShellContent size=\"lg\" with AppShellPageTitle and a grid using @container and @4xl:grid-cols-12",
+        "Keeps one rhythm: a four-cell KPI strip with full-width and half-width rows, not 8 + 4 rows under four stats",
+        "Puts the four numbers in one Card divided into cells (a dl), not four separate cards with icon tiles",
+        "Shows deltas as status Badges with a sign and an arrow, colouring churn's decrease as success and stating the comparison period once in the toolbar",
+        "Compares periods with a LineChart whose previous series is dashed and muted, not an AreaChart",
+        "Aligns list rows and table cells to --card-spacing and styles the View all link with buttonVariants",
+        "Designs loading, empty and error states inside each card without removing the other cards"
       ]
     }
   ]

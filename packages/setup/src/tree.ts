@@ -93,7 +93,10 @@ function withIds(draft: Draft, parentId?: string): ProjectTreeNode {
   }
 }
 
-/** The skill, the design guide and each assistant's MCP config, at the root. */
+/**
+ * The skill, the design guide with the AGENTS.md block that points at it (and
+ * CLAUDE.md importing that for Claude Code), and each assistant's MCP config.
+ */
 function agentFiles(setup: ProjectSetup): Draft[] {
   if (setup.assistants.length === 0) return []
   return [
@@ -102,7 +105,13 @@ function agentFiles(setup: ProjectSetup): Draft[] {
           folderPath(directory, [file("SKILL.md")])
         )
       : []),
-    ...(hasDesignGuide(setup) ? [file("DESIGN.md")] : []),
+    ...(hasDesignGuide(setup)
+      ? [
+          file("DESIGN.md"),
+          file("AGENTS.md"),
+          ...(setup.assistants.includes("claude") ? [file("CLAUDE.md")] : []),
+        ]
+      : []),
     ...(setup.mcp
       ? setup.assistants.map((assistant) =>
           filePath(MCP_CONFIG_PATHS[assistant])

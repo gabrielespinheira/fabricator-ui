@@ -152,12 +152,16 @@ describe("planSetup", () => {
     const detail = (changes: Partial<ProjectSetup>) =>
       planSetup(setup(changes)).find((item) => item.id === "agents")?.detail
     expect(detail({ assistants: ["claude"] })).toContain("DESIGN.md")
+    expect(detail({ assistants: ["claude"] })).toContain("AGENTS.md")
     expect(detail({ assistants: ["claude"], skill: false })).not.toContain(
       "DESIGN.md"
     )
     expect(
       detail({ project: "existing", assistants: ["claude"] })
     ).not.toContain("DESIGN.md")
+    expect(
+      detail({ project: "existing", assistants: ["claude"] })
+    ).not.toContain("AGENTS.md")
   })
 
   it("names every assistant it sets up", () => {

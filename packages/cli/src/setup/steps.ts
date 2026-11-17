@@ -64,7 +64,7 @@ import {
   getNativeItems,
   getWebItems,
 } from "./items"
-import { writeDesignGuide, writeSkill } from "./skill"
+import { writeAgentInstructions, writeDesignGuide, writeSkill } from "./skill"
 import {
   buildBiomeConfig,
   buildFixCommand,
@@ -783,9 +783,12 @@ const mount: Step = async (context) => {
 }
 
 const agents: Step = async (context) => {
-  const { setup, root } = context
+  const { setup, root, packageManager } = context
   if (setup.skill) writeSkill(root, setup.assistants)
-  if (hasDesignGuide(setup)) writeDesignGuide(root)
+  if (hasDesignGuide(setup)) {
+    writeDesignGuide(root)
+    writeAgentInstructions(root, setup.assistants, packageManager)
+  }
   if (setup.mcp) {
     const clients: McpClient[] = setup.assistants
     const appDir =

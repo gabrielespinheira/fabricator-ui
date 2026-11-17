@@ -103,6 +103,6 @@ export { DialogContent }
 - [ ] Examples cover every variant and state; new ones are named `<component>-example` or `<component>-<intent>` and indexed with `registry:build --examples`.
 - [ ] Each base has a docs page in `apps/web/content/docs/` with Preview, Installation (CLI + Manual), Usage, Composition, Examples, API reference and Accessibility.
 - [ ] A new component has a group and, unless the homepage leaves its kind out, a homepage catalog card ([COMPONENT-GROUPS.md](COMPONENT-GROUPS.md#adding-a-component)).
-- [ ] A changed API, variant or look is reflected in the root [`DESIGN.md`](../DESIGN.md).
+- [ ] A new component or variant appears where the root [`DESIGN.md`](../DESIGN.md) chooses between components; its look and behaviour details go in the [style spec](../apps/web/registry/fabricator/DESIGN.md), which keeps the root guide within one agent read (about 25,000 tokens).
 - [ ] `shadcn add --dry-run` succeeds against the local registry for each base.
 - [ ] `bun run test:parity` passes when upstream-derived source, a style map or the build script changed.

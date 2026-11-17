@@ -21,7 +21,7 @@ Read the project's agent instructions, `DESIGN.md` if present, `package.json`, l
 
 Determine these before choosing an API:
 
-- Platform: web, React Native or a web-based desktop app.
+- Platform: web, React Native, SwiftUI, Kotlin Compose or a web-based Tauri/Electron app.
 - Base: `base`, `radix` or `aria`; aliases and component destinations.
 - Theme, density, motion, icon package and installed items.
 - Framework, server/client boundaries and existing verification commands.
@@ -30,9 +30,13 @@ Use the selected CLI's `info --json` when local files leave these unclear. Read 
 
 For React Native, read [rules/react-native.md](rules/react-native.md) before writing UI. Native has the same item names but different rendering, events and icons.
 
+For SwiftUI or Kotlin Compose, read [rules/native-languages.md](rules/native-languages.md)
+and `fabricator.json` before choosing an API. Follow that renderer's source API
+and verification path; the React composition rules below apply to React hosts.
+
 ### 2. Design the screen
 
-For a new screen, block, layout or visual redesign, read [design.md](design.md). It contains the portable Fabricator design language, screen patterns, a project `DESIGN.md` outline and visual review criteria. Apply the existing project's design decisions; preserve explicit brand and user choices.
+For a new screen, block, layout or visual redesign, read the project's `DESIGN.md` in full when it has one; otherwise read [design.md](design.md), the portable Fabricator design language with screen patterns, a project `DESIGN.md` outline and visual review criteria. For a dashboard, an overview or any page of cards, also read [rules/dashboards.md](rules/dashboards.md) and start from its recipes. Apply the existing project's design decisions; preserve explicit brand and user choices.
 
 Before implementation, identify the user's task, focal point, primary action, regions and responsive behavior. Map each region to installed components or a fitting registry block. Include loading, empty, failure and long-content cases. A narrow component bug fix needs only the relevant API and rules, not a new design document or screen redesign.
 
@@ -74,6 +78,7 @@ Read the relevant rule before working in its area:
 - [Forms](rules/forms.md): labels, descriptions, validation, input groups and related controls.
 - [Styling](rules/styling.md): variants, semantic tokens, layout classes, regional density and motion roles. Read [customization.md](customization.md) when changing a theme or extending a variant.
 - [Icons](rules/icons.md): package selection, verified exports, placement, brand/file sets, dynamic and animated icons. Read before adding or changing icons.
+- [Dashboards](rules/dashboards.md): the page, toolbar, KPI strip, chart, list and table card recipes, with the classes that keep every card on the grid and every row on its card's inset.
 
 Let components own their type, colour, shape, interaction and icon sizing. Use layout classes for the arrangement around them; extend a shared variant when a repeated product requirement needs a new appearance. Preserve keyboard behavior and focus. Interactive web code belongs in the framework's client boundary.
 

@@ -83,7 +83,9 @@ function agentSteps(setup: ProjectSetup): PlanStep[] {
   if (setup.assistants.length === 0 || (!setup.skill && !setup.mcp)) return []
   const parts = [
     ...(setup.skill ? ["the agent skill"] : []),
-    ...(hasDesignGuide(setup) ? ["the design guide in DESIGN.md"] : []),
+    ...(hasDesignGuide(setup)
+      ? ["the design guide in DESIGN.md, which AGENTS.md points to"]
+      : []),
     ...(setup.mcp ? ["the MCP server"] : []),
   ]
   return [

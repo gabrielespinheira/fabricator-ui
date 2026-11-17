@@ -237,6 +237,18 @@ function monorepoScenario(
       )
       assert(
         fs
+          .readFileSync(path.join(root, "AGENTS.md"), "utf8")
+          .includes("<!-- BEGIN:fabricator-ui -->"),
+        "AGENTS.md doesn't point agents at the design guide"
+      )
+      assert(
+        fs
+          .readFileSync(path.join(root, "CLAUDE.md"), "utf8")
+          .includes("@AGENTS.md"),
+        "CLAUDE.md doesn't import AGENTS.md"
+      )
+      assert(
+        fs
           .readFileSync(path.join(root, ".codex/config.toml"), "utf8")
           .includes('"-c", "apps/web"'),
         "Codex's MCP server doesn't point at the app"
