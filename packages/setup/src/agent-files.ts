@@ -42,7 +42,7 @@ function getAgentInstructions(packageManager: PackageManager) {
     "",
     "This project's interface is built with Fabricator UI.",
     "",
-    "- Before you design or change a screen, read `DESIGN.md` in full: the look, the grid, cards, dashboards, SaaS features and which component each part of a screen calls for. Its review checklist decides when a screen is done.",
+    "- Before you design or change a screen, read `DESIGN.md` in full: the look, the grid, cards, dashboards, forms and settings, SaaS features, and which component or control each part of a screen calls for. Its review checklist decides when a screen is done.",
     "- Before you write UI code, load the `fabricator` skill. For a dashboard or any page of cards, start from its `rules/dashboards.md` recipes.",
     `- Reuse the installed components. Add others with \`${cli("add <name>")}\`, and read \`${cli("docs <name>")}\` before using one.`,
     "- Components own their colour, type, size, corners and states: write the layout around them, and never add borders or shadows to surfaces or restyle a component by hand.",
