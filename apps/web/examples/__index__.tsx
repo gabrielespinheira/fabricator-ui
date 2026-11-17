@@ -2955,6 +2955,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "app-shell-desktop",
       filePath: "examples/aria/app-shell-desktop.tsx",
     },
+    "app-shell-page-menu": {
+      name: "app-shell-page-menu",
+      filePath: "examples/aria/app-shell-page-menu.tsx",
+    },
     "app-shell-workbench": {
       name: "app-shell-workbench",
       filePath: "examples/aria/app-shell-workbench.tsx",
@@ -5756,6 +5760,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "app-shell-desktop": {
       name: "app-shell-desktop",
       filePath: "examples/radix/app-shell-desktop.tsx",
+    },
+    "app-shell-page-menu": {
+      name: "app-shell-page-menu",
+      filePath: "examples/radix/app-shell-page-menu.tsx",
     },
     "app-shell-workbench": {
       name: "app-shell-workbench",
@@ -11149,6 +11157,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
       name: "app-shell-desktop",
       filePath: "examples/__styles__/aria-fabricator/app-shell-desktop.tsx",
     },
+    "app-shell-page-menu": {
+      name: "app-shell-page-menu",
+      filePath: "examples/__styles__/aria-fabricator/app-shell-page-menu.tsx",
+    },
     "app-shell-workbench": {
       name: "app-shell-workbench",
       filePath: "examples/__styles__/aria-fabricator/app-shell-workbench.tsx",
@@ -13678,6 +13690,10 @@ export const ExamplesIndex: Record<string, Record<string, any>> = {
     "app-shell-desktop": {
       name: "app-shell-desktop",
       filePath: "examples/__styles__/radix-fabricator/app-shell-desktop.tsx",
+    },
+    "app-shell-page-menu": {
+      name: "app-shell-page-menu",
+      filePath: "examples/__styles__/radix-fabricator/app-shell-page-menu.tsx",
     },
     "app-shell-workbench": {
       name: "app-shell-workbench",

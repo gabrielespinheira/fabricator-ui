@@ -154,6 +154,10 @@ Avatars and the group count are opaque: the fallback and count tints sit on the 
 
 Update with `npx fabricator-ui@latest add avatar`. It now installs `tooltip` too.
 
+### App Shell
+
+`AppShellHeaderActions` takes a `menu`: the page's own settings and rare actions behind one ellipsis at the end of the header, on every width, named by `menuLabel` ("Page options" by default). On phones the header's actions join it as its first group, so the header never shows two ellipses. The header's menu now fits its longest row, at least 224px wide, in place of the width of its 36px button. See [Page menu](/docs/components/base/app-shell#page-menu).
+
 ## CLI
 
 **Pick your tooling.** `create --tooling biome` and `--tooling vite-plus` set up a new monorepo with Biome or Vite+ in place of ESLint and Prettier: one config at the root, and `lint`, `format` and `check` scripts that cover every app. `--runner vite-plus` runs the monorepo's tasks with `vp run` in place of Turborepo. ESLint and Prettier stay the default, and now cover every app: React Router and the mobile app get the ESLint config their templates leave out. The [Get started](/create) page has a Tooling choice below Apps, and shows what gets created as a file tree: the components, the App Shell's layout, the sounds, and each assistant's skill and MCP config follow your choices.

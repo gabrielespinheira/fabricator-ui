@@ -4,7 +4,7 @@ import * as React from "react"
 import {
   ChartLineIcon,
   DownloadIcon,
-  GitCompareArrowsIcon,
+  HistoryIcon,
   HomeIcon,
   LayoutGridIcon,
   LinkIcon,
@@ -54,8 +54,18 @@ const groups: AppNavGroup[] = [
     id: "main",
     items: [
       { id: "home", label: "Overview", href: "/", icon: HomeIcon },
-      { id: "revenue", label: "Revenue", href: "/revenue", icon: ChartLineIcon },
-      { id: "customers", label: "Customers", href: "/customers", icon: UsersIcon },
+      {
+        id: "revenue",
+        label: "Revenue",
+        href: "/revenue",
+        icon: ChartLineIcon,
+      },
+      {
+        id: "customers",
+        label: "Customers",
+        href: "/customers",
+        icon: UsersIcon,
+      },
     ],
   },
 ]
@@ -119,7 +129,7 @@ export function AppShellPageMenu() {
                     checked={isComparing}
                     onCheckedChange={setIsComparing}
                   >
-                    <GitCompareArrowsIcon />
+                    <HistoryIcon />
                     Compare with previous period
                   </DropdownMenuCheckboxItem>
                   <DropdownMenuCheckboxItem
@@ -160,7 +170,9 @@ export function AppShellPageMenu() {
                         value={refresh}
                         onValueChange={setRefresh}
                       >
-                        <DropdownMenuRadioItem value="off">Off</DropdownMenuRadioItem>
+                        <DropdownMenuRadioItem value="off">
+                          Off
+                        </DropdownMenuRadioItem>
                         <DropdownMenuRadioItem value="1m">
                           Every minute
                         </DropdownMenuRadioItem>

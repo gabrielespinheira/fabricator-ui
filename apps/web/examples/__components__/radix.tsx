@@ -126,6 +126,11 @@ export const Components: Record<string, any> = {
         const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "app-shell-desktop"
         return { default: mod.default || mod[exportName] }
       }),
+  "app-shell-page-menu": React.lazy(async () => {
+        const mod = await import("@/examples/radix/app-shell-page-menu")
+        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "app-shell-page-menu"
+        return { default: mod.default || mod[exportName] }
+      }),
   "app-shell-workbench": React.lazy(async () => {
         const mod = await import("@/examples/radix/app-shell-workbench")
         const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "app-shell-workbench"

@@ -226,7 +226,7 @@ Pages of cards (dashboards, overviews, settings hubs, integration galleries) sit
 Apps live in the `AppShell`. It replaces a hand-built sidebar, header and panel layout and handles what those get wrong: phones, focus, remembering the layout, desktop windows.
 
 - **Sidebar:** `WorkspaceSwitcher` at the top, `AppNav` in the middle, `UserMenu` at the bottom. It sits on the frame, a step darker than the page, so the main column and panels read as cards in front.
-- **Header:** the breadcrumb, the page's actions (`AppShellHeaderActions`) with the primary action when the page has one, and the panel trigger. Once the `AppShellPageTitle` scrolls away, the header shows it.
+- **Header:** the breadcrumb, the page's actions (`AppShellHeaderActions`) with the primary action when the page has one, [the page menu](#the-page-menu), and the panel trigger. Once the `AppShellPageTitle` scrolls away, the header shows it.
 - **Content:** the page, the one thing that scrolls.
 - **Side panels:** details, activity, an inspector, which the person opens, resizes and closes. They dock while there is room, float when there isn't, and become a bottom drawer on phones.
 - **Optional rows:** a `TabStrip` of open documents above the header, a status bar for what is true of the whole workspace, a bottom nav on phones.
@@ -247,6 +247,16 @@ An app page reads top to bottom in four bands at most, `--density-24` apart:
 - **Fill or cap.** Records take the full column; what people read or fill in is capped.
 - **Long values:** names shorten with an ellipsis and a tooltip; numbers, dates and statuses always show in full.
 - **A fifth band** (a second toolbar, tabs under tabs) means two pages, or a page and a panel.
+
+### The page menu
+
+The ellipsis at the end of the header (`EllipsisIcon`, given with `menu` on `AppShellHeaderActions`) holds what belongs to the whole page without being used on every visit: what the page shows, how it refreshes, sharing and export, the page's settings. It keeps the header to a breadcrumb, two or three actions and the primary action, and keeps setting controls off the content.
+
+- **What goes where.** A control used on most visits stays on the page: the period in the toolbar, a card's own switch in its `CardAction`. A page-wide setting changed now and then goes in the page menu. A card's own rare options go in that card's ghost "More" menu. Settings that need fields (a name, a currency, targets) open a `Sheet` from the page menu, or live on a settings page.
+- **Groups, in this order:** what the page shows, under a "View" label (checkbox items such as "Compare with previous period" and "Show targets"; sub-menus for longer choices, such as which cards show, auto-refresh and time zone); sharing and export ("Copy link", "Email a weekly report…", "Export as CSV"); the page's own settings ("Dashboard settings…", "Reset layout"); anything destructive, alone and last.
+- **Behaviour:** a toggle applies at once and keeps the menu open, so several can change together; an action closes it. Choices persist for the person, and go in the URL when they change what a shared link shows. An item that opens a sheet or dialog ends with "…".
+- **Look:** a ghost icon button, last in the header before the panel trigger, named for the page ("Dashboard options"). It is a menu, so it opens on press and needs no tooltip. Every row has an icon or none does, so the labels share one edge; shortcuts sit at the end of their rows. Past about ten rows, the settings need their own page.
+- **Phones:** the header's actions fold into the same menu as its first group, so there is one ellipsis at every width.
 
 ### Responsive
 
@@ -276,7 +286,7 @@ A `Card` holds one discrete thing: a metric, a chart, a list of things to do, a 
 
 ### Anatomy
 
-- **Header:** `CardTitle` names the thing in a few words ("Revenue", "Needs attention"). `CardDescription` gives its scope: the grain, the sort, the unit ("Daily", "By monthly recurring revenue"). The page's period is in the toolbar, so a card names a period only when it has its own. `CardAction` holds at most one quiet control: a small `ToggleGroup`, a ghost "View all" link, or a ghost "More" menu.
+- **Header:** `CardTitle` names the thing in a few words ("Revenue", "Needs attention"). `CardDescription` gives its scope: the grain, the sort, the unit ("Daily", "By monthly recurring revenue"). The page's period is in the toolbar, so a card names a period only when it has its own. `CardAction` holds at most one quiet control: a small `ToggleGroup`, a ghost "View all" link, or a ghost "More" menu with the card's own rare options (page-wide ones go in [the page menu](#the-page-menu)).
 - **Content:** the one thing the card shows. A headline value sits above a chart; a list or table runs to the card's edges.
 - **Footer:** only when it has content: a summary line, or the buttons of a settings or plan card.
 
@@ -696,6 +706,7 @@ Every region answers each of these, designed with the happy path:
 - Do take colour from the roles; don't pick colours by hand, in either theme.
 - Do separate layers with the surface ladder; don't add borders or other shadows to surfaces.
 - Do keep one filled button per region; don't put two primaries side by side.
+- Do put page-wide settings in the header's page menu; don't scatter setting controls over the content or add a second ellipsis.
 - Do put a page of cards on the 12-column grid in one rhythm; don't mix 8 + 4 rows with four-across rows.
 - Do align everything in a card to its inset; don't let a list's icons or a table's text drift off the title's line.
 - Do let surfaces, type and space carry the page; don't decorate with gradients, glows, blurred glass, icon tiles or bands of colour.
@@ -713,7 +724,7 @@ Every region answers each of these, designed with the happy path:
 A screen is done when every line holds. Check it in the running app, never from the code alone.
 
 - [ ] The screen's job fits in one sentence, and its focal point is the first thing seen.
-- [ ] Each region has one primary action; every icon-only button has a name and a tooltip.
+- [ ] Each region has one primary action; every icon-only button has a name, and those that act directly a tooltip.
 - [ ] Title, toolbar and body share one start edge; space is tighter inside groups than between them.
 - [ ] A page of cards uses one grid rhythm; gutters continue down the page and cards in a row are equal height.
 - [ ] Inside each card, the title, values, list icons and table text start on the card's inset.

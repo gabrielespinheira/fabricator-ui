@@ -18,10 +18,10 @@ import {
   foldBreadcrumbs,
   formatShortcut,
   getDefaultPanelShortcut,
+  getHeaderMenu,
   getPanelPlacement,
   getPanelTriggerAnchor,
   getResizedSize,
-  getHeaderMenu,
   getShellSize,
   getShellStorageKey,
   getTrafficLightsGeometry,
@@ -1367,9 +1367,7 @@ function AppShellHeaderActions({
               <Button
                 variant="ghost"
                 size="icon-sm"
-                aria-label={
-                  headerMenu.hasPageMenu ? menuLabel : "More actions"
-                }
+                aria-label={headerMenu.hasPageMenu ? menuLabel : "More actions"}
                 className={cn(
                   !headerMenu.isOnEveryWidth && "@min-[48rem]/app-shell:hidden"
                 )}

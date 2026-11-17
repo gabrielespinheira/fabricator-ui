@@ -7,6 +7,7 @@ Each recipe was checked in a running app at phone and desktop widths, in light a
 ## Contents
 
 - Page
+- Page menu
 - Toolbar
 - Delta
 - KPI strip
@@ -29,13 +30,10 @@ The page sits in the App Shell of the `app-shell-03` block (a `Sidebar` with `Wo
     />
     <AppShellHeaderActions
       actions={[
-        {
-          id: "export",
-          label: "Export",
-          icon: DownloadIcon,
-          onSelect: exportReport,
-        },
+        { id: "share", label: "Share", icon: ShareIcon, onSelect: share },
       ]}
+      menuLabel="Dashboard options"
+      menu={<DashboardMenu />}
     />
   </AppShellHeader>
   <AppShellContent size="lg">
@@ -57,6 +55,90 @@ The page sits in the App Shell of the `app-shell-03` block (a `Sidebar` with `Wo
   </AppShellContent>
 </AppShellMain>
 ```
+
+## Page menu
+
+Page-wide settings and rare actions live behind the header's ellipsis: `menu` on `AppShellHeaderActions` keeps it on every width, and on phones the header's actions join it as its first group. Base UI shown. Radix: add `onSelect={(event) => event.preventDefault()}` to checkbox and radio items so they keep the menu open, and use `onSelect` on items. React Aria: checkable rows are a `DropdownMenuGroup` with `selectionMode` and `selectedKeys`, sub-menus use `DropdownMenuSubContent`, and items use `onAction`.
+
+```tsx
+function DashboardMenu() {
+  // View choices persist for the person; put them in the URL when they change
+  // what a shared link shows.
+  return (
+    <>
+      <DropdownMenuGroup>
+        <DropdownMenuLabel>View</DropdownMenuLabel>
+        <DropdownMenuCheckboxItem
+          checked={isComparing}
+          onCheckedChange={setIsComparing}
+        >
+          <HistoryIcon />
+          Compare with previous period
+        </DropdownMenuCheckboxItem>
+        <DropdownMenuSub>
+          <DropdownMenuSubTrigger>
+            <LayoutGridIcon />
+            Cards
+          </DropdownMenuSubTrigger>
+          <DropdownMenuSubContent>
+            {cards.map((card) => (
+              <DropdownMenuCheckboxItem
+                key={card.id}
+                checked={shownCards.has(card.id)}
+                onCheckedChange={(isShown) => toggleCard(card.id, isShown)}
+              >
+                {card.label}
+              </DropdownMenuCheckboxItem>
+            ))}
+          </DropdownMenuSubContent>
+        </DropdownMenuSub>
+        <DropdownMenuSub>
+          <DropdownMenuSubTrigger>
+            <RefreshCwIcon />
+            Auto-refresh
+          </DropdownMenuSubTrigger>
+          <DropdownMenuSubContent>
+            <DropdownMenuRadioGroup value={refresh} onValueChange={setRefresh}>
+              <DropdownMenuRadioItem value="off">Off</DropdownMenuRadioItem>
+              <DropdownMenuRadioItem value="1m">
+                Every minute
+              </DropdownMenuRadioItem>
+              <DropdownMenuRadioItem value="5m">
+                Every 5 minutes
+              </DropdownMenuRadioItem>
+            </DropdownMenuRadioGroup>
+          </DropdownMenuSubContent>
+        </DropdownMenuSub>
+      </DropdownMenuGroup>
+      <DropdownMenuSeparator />
+      <DropdownMenuGroup>
+        <DropdownMenuItem onClick={copyLink}>
+          <LinkIcon />
+          Copy link
+          <DropdownMenuShortcut>⇧⌘C</DropdownMenuShortcut>
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={exportCsv}>
+          <DownloadIcon />
+          Export as CSV
+        </DropdownMenuItem>
+      </DropdownMenuGroup>
+      <DropdownMenuSeparator />
+      <DropdownMenuGroup>
+        <DropdownMenuItem onClick={openSettings}>
+          <SlidersHorizontalIcon />
+          Dashboard settings…
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={resetLayout}>
+          <RotateCcwIcon />
+          Reset layout
+        </DropdownMenuItem>
+      </DropdownMenuGroup>
+    </>
+  )
+}
+```
+
+"Dashboard settings…" opens a `Sheet` with the fields (currency, fiscal year, targets). A card's own rare options go in that card's ghost "More" menu in its `CardAction`, never here.
 
 ## Toolbar
 
@@ -293,6 +375,7 @@ A link styled as a button uses `buttonVariants` on the router's link, which work
 Before calling a dashboard done, look at the running page:
 
 - The page title, the toolbar and every card's outer edge start on one line.
+- The header has one ellipsis at every width; no row of its menu wraps, and every row has an icon or none does.
 - Inside each card, the title, the headline value, a list's icons and a table's first column start on the inset; a table's last column ends on it.
 - Gutters continue down the page: every row uses the page's one rhythm (quarters or thirds).
 - At a 390px width no stat label or value is cut off, and the strip is two by two.

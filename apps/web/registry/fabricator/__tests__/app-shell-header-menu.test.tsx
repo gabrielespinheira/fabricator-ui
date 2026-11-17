@@ -20,7 +20,9 @@ const actions = [{ id: "export", label: "Export", onSelect: () => {} }]
 
 /** The ellipsis trigger: the one button named for the header's menu. */
 function getMenuTrigger(markup: string, label: string) {
-  const match = markup.match(new RegExp(`<button[^>]*aria-label="${label}"[^>]*>`))
+  const match = markup.match(
+    new RegExp(`<button[^>]*aria-label="${label}"[^>]*>`)
+  )
   return match?.[0]
 }
 
