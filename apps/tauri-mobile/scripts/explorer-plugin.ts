@@ -238,8 +238,8 @@ export function createExplorerPlugin(webDirectory: string): Plugin {
             })
         }
       }
-      for (const directory of ["images", "media", "examples"])
-        copyAssets(directory)
+      // Website example screenshots are served from GitHub attachments.
+      for (const directory of ["images", "media"]) copyAssets(directory)
       this.emitFile({
         type: "asset",
         fileName: "placeholder.svg",
