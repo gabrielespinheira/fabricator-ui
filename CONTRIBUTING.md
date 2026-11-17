@@ -44,7 +44,7 @@ the root lockfile changes.
 
 | You're changing                  | Read                                                   |
 | -------------------------------- | ------------------------------------------------------ |
-| A component, example or block    | [`docs/COMPONENTS.md`](docs/COMPONENTS.md)             |
+| A component, example or block    | [`COMPONENTS.md`](COMPONENTS.md)                       |
 | A new component's group          | [`docs/COMPONENT-GROUPS.md`](docs/COMPONENT-GROUPS.md) |
 | A look, token, motion or density | [`docs/STYLES.md`](docs/STYLES.md)                     |
 | React Native, desktop or icons   | [`docs/PLATFORMS.md`](docs/PLATFORMS.md)               |

@@ -7,7 +7,7 @@ Fabricator UI is an open-source component library for React web, React Native an
 | When you                                                       | Read                                                   |
 | -------------------------------------------------------------- | ------------------------------------------------------ |
 | Design a screen, demo, block or site page                      | [`DESIGN.md`](DESIGN.md)                               |
-| Write or change a component, example or block                  | [`docs/COMPONENTS.md`](docs/COMPONENTS.md)             |
+| Write or change a component, example or block                  | [`COMPONENTS.md`](COMPONENTS.md)                       |
 | Add a component, or place one in the docs sidebar and gallery  | [`docs/COMPONENT-GROUPS.md`](docs/COMPONENT-GROUPS.md) |
 | Change a look, token, motion, density or colour                | [`docs/STYLES.md`](docs/STYLES.md)                     |
 | Touch React Native, SwiftUI, Compose, Tauri, desktop or icons  | [`docs/PLATFORMS.md`](docs/PLATFORMS.md)               |

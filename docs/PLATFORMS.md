@@ -254,7 +254,7 @@ screenshot qualification remain open.
 
 ## Web
 
-- Three bases (see [COMPONENTS.md](COMPONENTS.md#bases)); React Aria has no `Menubar` or `NavigationMenu`.
+- Three bases (see [COMPONENTS.md](../COMPONENTS.md#bases)); React Aria has no `Menubar` or `NavigationMenu`.
 - The CLI sets up Next.js, Vite, React Router, TanStack Start, Astro and Laravel, on React 19 and Tailwind 4. Installation guides: `apps/web/content/docs/installation/`.
 
 ## Desktop

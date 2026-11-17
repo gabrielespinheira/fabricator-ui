@@ -10,13 +10,14 @@
 - Big components that should render at app width in place (Event Calendar) take `ComponentPreview wide`: the preview leaves the 632px prose for the docs column, up to 72rem (`app/fabricator-site.css`).
 - Full-screen demos are `type="frame"` previews. Their names start with a prefix in `FRAME_EXAMPLE_PREFIXES` (`app/(view)/view/[style]/[name]/page.tsx`); the dev server sees new frame examples only after a restart.
 - A heavy interactive demo that is responsive takes `type="frame" fit` (the Event Calendar's): the frame renders unscaled at the column's width and as tall as the demo, which reports its height (`FrameHeight`, `FRAME_HEIGHT_MESSAGE`). The docs page carries every style's CSS, over 500 `:has()` rules, so any element added or removed anywhere in it restyles all ~12,000 of its elements (~350ms); in a frame the demo restyles only its own document.
+- Previews stay on their page: `/view` renders an inline script (`getPreviewGuardScript` in `preview-links.ts`) that cancels a click on a link to an app route (`/messages`, `/sign-up`) and a form's native submit, from the first byte rather than from hydration, so a frame never loads a page the site doesn't have. In-page `#` links, downloads and forms with a React function action still work.
 - Pages name upstream's styles (`<base>-nova`); `toSiteStyle()` (`lib/site-style.ts`) maps them to `<base>-fabricator`, for previews, code, `.md` exports and `llms-full.txt`.
 - Code shown to readers is rewritten to user paths (`@/components/ui/*`).
 
 ## Docs
 
 - Screenshots are GitHub attachments indexed by original path in [`screenshot-attachments.json`](screenshot-attachments.json). Exact rewrites preserve the site's existing preview URLs through the screenshot route, which follows GitHub's storage redirects and streams image bytes for Next Image optimization. The route serves only manifest entries, with no client bundle cost. Native docs check that manifest for preview availability. `pages:capture` and `registry:capture` write to gitignored `tmp/screenshots/`; upload reviewed captures and update the manifest before removing local files. README and plan evidence link directly to the attachment URLs.
-- MDX in `content/docs/`. Component pages follow the sections in [COMPONENTS.md](COMPONENTS.md#done-when).
+- MDX in `content/docs/`. Component pages follow the sections in [COMPONENTS.md](../COMPONENTS.md#done-when).
 - CLI commands are written once as `npx shadcn@latest …`; the highlighter makes the package-manager tabs, bun first.
 - Code colours come from one Shiki theme (`lib/shiki-fabricator-theme.ts`) mapped to the `--syntax-*` tokens; change a colour in `registry/fabricator/syntax-colors.ts`.
 - Every page has a `.md` export and is listed in `llms.txt`; keep both accurate.
@@ -31,7 +32,13 @@ Site chrome lives in new files so upstream merges stay small:
 
 ## Homepage
 
-`app/(app)/(root)/` is a gallery of the components: hand-built demos (`_components/demos-*.tsx`, importing `@/styles/base-fabricator/ui/*`) first, then each component's docs demo, listed in `_components/catalog.tsx` and lazy-loaded from `examples/__styles__/base-fabricator/`. A catalog entry can load a hand-built demo instead when the docs demo doesn't suit a card (`input`, `alert`). App frames and their navigation (`app-shell`, `app-nav`, `sidebar`, `tab-strip`, `workspace-switcher`, `user-menu`), `data-table`, `event-calendar` and the media players (`audio-player`, `video-player`) have no card; their docs pages show them. Any other new component needs a catalog entry with a card height and a group ([COMPONENT-GROUPS.md](COMPONENT-GROUPS.md)), which the docs sidebar, the homepage filter and both example apps share.
+`app/(app)/(root)/` is the hero with its blocks showcase (see [Blocks](#blocks)), then a gallery of the components: hand-built demos (`_components/demos-*.tsx`, importing `@/styles/base-fabricator/ui/*`) first, then each component's docs demo, listed in `_components/catalog.tsx` and lazy-loaded from `examples/__styles__/base-fabricator/`. A catalog entry can load a hand-built demo instead when the docs demo doesn't suit a card (`input`, `alert`). App frames and their navigation (`app-shell`, `app-nav`, `sidebar`, `tab-strip`, `workspace-switcher`, `user-menu`), `data-table`, `event-calendar` and the media players (`audio-player`, `video-player`) have no card; their docs pages show them. Any other new component needs a catalog entry with a card height and a group ([COMPONENT-GROUPS.md](COMPONENT-GROUPS.md)), which the docs sidebar, the homepage filter and both example apps share.
+
+## Blocks
+
+`/blocks` (`app/(app)/blocks/`) shows the screen blocks declared in `registry/fabricator/blocks.ts` (the App Shell starters stay on the App Shell docs), grouped by its first category in the order of `BLOCK_CATEGORIES` (`_lib/blocks.ts`). Each block has a viewer: Preview renders `/view/base-fabricator/<name>` in a frame inside `BrowserWindow` (`components/fabricator/browser-window.tsx`: window controls, the block's route as `acme.com/<route>` from its page's install target, and a reload button that remounts the frame) at desktop, tablet or phone width, and Code shows each file at the path the CLI writes it, formatted and highlighted on the server (`_lib/block-files.ts`). The toolbar keeps three controls at one height: Preview and Code tabs, the width picker (Preview only, styled as the same track), and a chip showing the `fabricator-ui add <name>` command in the reader's package manager that copies it. Opening the block in a new tab sits in the window's toolbar beside reload. A new block needs only its declaration and a category there.
+
+The homepage hero links to `/blocks` and shows six blocks in the tab row inside one `BrowserWindow` (`_components/blocks-showcase.tsx`). Switching tabs updates the address and block link. Only the selected tab mounts its frame, which renders the block at 1280px and scales it to the column on desktops and shows its phone layout on phones.
 
 ## Settings
 
