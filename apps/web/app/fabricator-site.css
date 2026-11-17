@@ -3,6 +3,155 @@
  * Docs typography: 14px muted prose, 16px section headings, quiet code blocks.
  */
 
+/* Safari's tab bar: a recessed strip of equal tabs under the toolbar. The open
+   tab takes the toolbar's colour so it reads as part of it; hairlines split
+   the others and give way beside the open or hovered tab. */
+.homepage-browser-tabs {
+  display: flex;
+  height: var(--density-32);
+  padding: var(--density-4) var(--density-6);
+  overflow-x: auto;
+  --tab-strip: oklch(0 0 0 / 0.06);
+  --tab-strip-edge: oklch(0 0 0 / 0.08);
+  --tab-hover: oklch(0 0 0 / 0.035);
+  --tab-open-shadow:
+    0 0 0 0.5px oklch(0 0 0 / 0.12), 0 1px 1.5px oklch(0 0 0 / 0.1);
+
+  background: var(--tab-strip);
+  box-shadow: inset 0 1px 0 var(--tab-strip-edge);
+  scrollbar-width: none;
+
+  &:is(.dark *):not([data-theme-scene="light"] *) {
+    --tab-strip: oklch(0 0 0 / 0.26);
+    --tab-strip-edge: oklch(0 0 0 / 0.3);
+    --tab-hover: oklch(1 0 0 / 0.03);
+    --tab-open-shadow:
+      0 0 0 0.5px oklch(1 0 0 / 0.08), 0 1px 2px oklch(0 0 0 / 0.4);
+  }
+
+  & > [role="tab"] {
+    position: relative;
+    display: flex;
+    flex: 1 1 0;
+    min-width: var(--density-36);
+    align-items: center;
+    justify-content: center;
+    gap: var(--density-6);
+    padding-inline: var(--density-8);
+    border-radius: calc(var(--radius) * 0.75);
+    color: color-mix(in oklab, var(--foreground) 76%, var(--surface-3));
+    font-size: var(--density-text-12);
+    white-space: nowrap;
+    transition: background-color
+      calc(var(--motion-feedback) * var(--motion-scale, 1)) ease;
+
+    & svg {
+      flex-shrink: 0;
+      width: var(--density-icon-14);
+      height: var(--density-icon-14);
+    }
+
+    &:not(:first-child)::before {
+      position: absolute;
+      inset-inline-start: 0;
+      width: 1px;
+      height: var(--density-14);
+      background: var(--border);
+      pointer-events: none;
+      content: "";
+    }
+
+    &:is(:hover, [aria-selected="true"])::before,
+    &:is(:hover, [aria-selected="true"]) + [role="tab"]::before {
+      opacity: 0;
+    }
+
+    &:hover {
+      background: var(--tab-hover);
+      color: var(--foreground);
+    }
+
+    /* The toolbar's colour: the window's surface under its hover wash. */
+    &[aria-selected="true"] {
+      background: linear-gradient(var(--hover), var(--hover)), var(--surface-3);
+      box-shadow: var(--tab-open-shadow);
+      color: var(--foreground);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--ring);
+      outline-offset: -2px;
+    }
+
+    /* A narrow window keeps every tab's icon and only the open tab's name,
+       which takes the room it needs. */
+    @container browser-window (width < 48rem) {
+      &[aria-selected="true"] {
+        min-width: max-content;
+      }
+
+      &[aria-selected="false"] > span {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip-path: inset(50%);
+      }
+    }
+  }
+}
+
+/* The homepage puts every name in one grid cell to reserve the longest width. */
+[data-hero-platform]:not([data-state]) {
+  visibility: hidden;
+}
+
+[data-hero-platform][data-state="entering"] {
+  animation: hero-platform-enter
+    calc(var(--motion-move) * var(--motion-scale, 1)) var(--motion-ease-enter)
+    both;
+}
+
+[data-hero-platform][data-state="leaving"] {
+  animation: hero-platform-exit
+    calc(var(--motion-move-exit) * var(--motion-scale, 1))
+    var(--motion-ease-exit) both;
+}
+
+@keyframes hero-platform-enter {
+  from {
+    opacity: 0;
+    transform: translateY(55%);
+    filter: blur(2px);
+  }
+}
+
+@keyframes hero-platform-exit {
+  to {
+    opacity: 0;
+    transform: translateY(-55%);
+    filter: blur(2px);
+  }
+}
+
+:root[data-motion="off"] .hero-platform-track {
+  display: none;
+}
+
+:root[data-motion="off"] .hero-platform-fallback {
+  display: inline;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-platform-track {
+    display: none;
+  }
+
+  .hero-platform-fallback {
+    display: inline;
+  }
+}
+
 @layer components {
   [data-slot="docs"] .typeset {
     --typeset-size: 14px;

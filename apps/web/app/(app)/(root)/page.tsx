@@ -1,15 +1,21 @@
 import { type Metadata } from "next"
+import Link from "next/link"
 
 import { siteConfig } from "@/lib/config"
 import { Announcement } from "@/components/announcement"
+import { Button } from "@/styles/base-fabricator/ui/button"
 
+import { BlocksShowcase } from "./_components/blocks-showcase"
 import { Gallery } from "./_components/gallery"
+import { HeroHeading } from "./_components/hero-heading"
 
-const tagline = "Components that move with you"
-const metadataTitle = `${siteConfig.name} - ${tagline}`
-const description = siteConfig.description
+const headlinePrefix = "One design system for"
+const headline = `${headlinePrefix} web, mobile, and desktop`
+const metadataTitle = `${siteConfig.name} - Design system for cross-platform apps`
+const description =
+  "Open-source components with customizable colors, typography, icons, and built-in motion."
 const heroDescription =
-  "Interface components with a design language of their own. Every button, menu and dialog moves, responds and sounds like part of the same product, and the code lives in your project so you can make it yours."
+  "Fabricator UI is an open-source design system for web, mobile, and desktop apps. Use ready-made components with built-in motion, and keep your colors, typography, and icons consistent across platforms."
 
 const websiteJsonLd = {
   "@context": "https://schema.org",
@@ -18,7 +24,7 @@ const websiteJsonLd = {
   url: siteConfig.url,
   name: siteConfig.name,
   alternateName: ["Fabricator", "fabricator-ui"],
-  description: siteConfig.description,
+  description,
   inLanguage: "en-US",
   sameAs: [siteConfig.links.github],
 }
@@ -43,7 +49,7 @@ export const metadata: Metadata = {
     images: [
       {
         url: `/og?title=${encodeURIComponent(
-          tagline
+          headline
         )}&description=${encodeURIComponent(description)}`,
       },
     ],
@@ -55,7 +61,7 @@ export const metadata: Metadata = {
     images: [
       {
         url: `/og?title=${encodeURIComponent(
-          tagline
+          headline
         )}&description=${encodeURIComponent(description)}`,
       },
     ],
@@ -73,13 +79,24 @@ export default function IndexPage() {
       />
       <section className="flex flex-col items-center px-4 pt-14 pb-12 text-center sm:pt-16 sm:pb-14">
         <Announcement />
-        <h1 className="mt-4 max-w-[16ch] text-5xl leading-[1.06] font-medium tracking-[-0.022em] text-balance sm:max-w-none sm:text-6xl">
-          {siteConfig.name}
-        </h1>
-        <p className="mt-4 max-w-[540px] text-[15px] leading-normal text-balance text-muted-foreground">
+        <HeroHeading headline={headline} prefix={headlinePrefix} />
+        <p className="mt-5 max-w-[40rem] text-[17px]/relaxed text-balance text-muted-foreground sm:text-lg/relaxed">
           {heroDescription}
         </p>
+        <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
+          <Button nativeButton={false} render={<Link href="/create" />}>
+            Get started
+          </Button>
+          <Button
+            variant="outline"
+            nativeButton={false}
+            render={<Link href="/blocks" />}
+          >
+            Browse blocks
+          </Button>
+        </div>
       </section>
+      <BlocksShowcase />
       <Gallery />
     </div>
   )
