@@ -79,6 +79,7 @@ Read the relevant rule before working in its area:
 - [Styling](rules/styling.md): variants, semantic tokens, layout classes, regional density and motion roles. Read [customization.md](customization.md) when changing a theme or extending a variant.
 - [Icons](rules/icons.md): package selection, verified exports, placement, brand/file sets, dynamic and animated icons. Read before adding or changing icons.
 - [Dashboards](rules/dashboards.md): the page, toolbar, KPI row, chart, list and table card recipes, with the classes that keep every card on the grid and every row on its card's inset.
+- [Loading](rules/loading.md): skeletons, refreshes and pending actions without layout shift, with each framework's tools (Next.js, React, React Native).
 
 Let components own their type, colour, shape, interaction and icon sizing. Use layout classes for the arrangement around them; extend a shared variant when a repeated product requirement needs a new appearance. Preserve keyboard behavior and focus. Interactive web code belongs in the framework's client boundary.
 

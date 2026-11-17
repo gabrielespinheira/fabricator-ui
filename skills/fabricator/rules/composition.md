@@ -211,5 +211,5 @@ Always include `AvatarFallback` for when the image fails to load:
 | Instead of                                                               | Use                                                                         |
 | ------------------------------------------------------------------------ | --------------------------------------------------------------------------- |
 | `<hr>`, `<div className="border-t">` or `<Separator />` between sections | More space (`gap`), a heading, or a `Card`; a menu keeps its own separators |
-| `<div className="animate-pulse">` with styled divs                       | `<Skeleton className="h-4 w-3/4" />`                                        |
+| `<div className="animate-pulse">` with styled divs                       | `<Skeleton className="h-40" />` filling the card's content area             |
 | `<span className="rounded-full bg-green-100 ...">`                       | `<Badge variant="secondary">`                                               |

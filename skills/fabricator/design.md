@@ -73,18 +73,18 @@ Start from [rules/dashboards.md](rules/dashboards.md), whose recipes carry these
 
 ## Design the states with the content
 
-| Condition               | Response                                                                               |
-| ----------------------- | -------------------------------------------------------------------------------------- |
-| Initial loading         | Render the frame immediately; Skeleton matches content shape                           |
-| Refresh or submit       | Keep existing content; Spinner in the initiating control, prevent duplicate submission |
-| First use               | Empty names what belongs here and provides a first action                              |
-| No search results       | Empty includes the query or filter context and a reset action                          |
-| Invalid field           | Field message associated with the control; invalid state follows the base's API        |
-| Partial failure         | Alert in the failed region with Retry; retain successful regions and input             |
-| No access               | Explain the restriction and route to access when available                             |
-| Destructive action      | AlertDialog names the object and consequence                                           |
-| Reversible action       | Visible result with Undo where supported                                               |
-| Long or missing content | Truncate names with a way to read them; preserve numbers/statuses and stable layout    |
+| Condition               | Response                                                                                    |
+| ----------------------- | ------------------------------------------------------------------------------------------- |
+| Initial loading         | Frame and known text at once; one Skeleton block per card content area or row, after ~300ms |
+| Refresh or submit       | Keep and dim existing content, never back to skeletons; Spinner in the control              |
+| First use               | Empty names what belongs here and provides a first action                                   |
+| No search results       | Empty includes the query or filter context and a reset action                               |
+| Invalid field           | Field message associated with the control; invalid state follows the base's API             |
+| Partial failure         | Alert in the failed region with Retry; retain successful regions and input                  |
+| No access               | Explain the restriction and route to access when available                                  |
+| Destructive action      | AlertDialog names the object and consequence                                                |
+| Reversible action       | Visible result with Undo where supported                                                    |
+| Long or missing content | Truncate names with a way to read them; preserve numbers/statuses and stable layout         |
 
 ## Create or improve a project's DESIGN.md
 
