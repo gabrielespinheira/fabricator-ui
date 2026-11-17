@@ -10,7 +10,7 @@ plugins {
 kotlin {
     androidLibrary {
         namespace = "dev.fabricator.ui"
-        compileSdk = 36
+        compileSdk = 37
         minSdk = 26
         compilerOptions { jvmTarget.set(JvmTarget.JVM_17) }
         androidResources { enable = true }

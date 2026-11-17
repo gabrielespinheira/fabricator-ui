@@ -15,7 +15,7 @@ media/editor dependencies.
 Provide these tools before a native build:
 
 - JDK 17 and Gradle 9.5.0.
-- Android SDK Platform 36, Build Tools 36.0.0 and platform-tools for Android.
+- Android SDK Platform 37.0, Build Tools 36.0.0 and platform-tools for Android.
 - An attached/emulated Android API 26+ phone or tablet for launch commands.
 - The corresponding desktop OS for its native package. The desktop app uses a
   JVM and Skia; release size, startup, memory and frame-time budgets are unmeasured.

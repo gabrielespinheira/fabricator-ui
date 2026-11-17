@@ -4,7 +4,7 @@ plugins {
 }
 android {
     namespace = "dev.fabricator.gallery.android"
-    compileSdk = 36
+    compileSdk = 37
     defaultConfig {
         applicationId = "dev.fabricator.gallery"
         minSdk = 26
