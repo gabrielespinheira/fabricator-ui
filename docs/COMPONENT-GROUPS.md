@@ -32,6 +32,11 @@ Pick the group a reader would look in when building the screen, in this order:
 
 When two groups still fit, follow the closest neighbour already in `GROUP_BY_SLUG`. A native-only component (`text`, `fabricator-root`) takes a group like any other.
 
+SwiftUI, Compose and Tauri mobile consume the same generated group catalog.
+Compatibility `form` belongs to Forms; native interface `sounds` belongs to
+Content. Blocks appear in a separate gallery collection, outside the eight
+component groups.
+
 ## Adding a component
 
 1. Add its slug to `GROUP_BY_SLUG` in `apps/web/lib/component-groups.ts`, under its group's comment. The slug is the docs page slug, which is the registry item name.

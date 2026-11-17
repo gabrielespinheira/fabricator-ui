@@ -61,7 +61,7 @@ struct SVGPath {
         let pattern = "[A-Za-z]|[-+]?(?:[0-9]*\\.)?[0-9]+(?:[eE][-+]?[0-9]+)?"
         guard let expression = try? NSRegularExpression(pattern: pattern) else { return }
         let range = NSRange(source.startIndex..., in: source)
-        let tokens = expression.matches(in: source, range: range).compactMap { Range($0.range, in: source).map { String(source[$0]) } }
+        var tokens = expression.matches(in: source, range: range).compactMap { Range($0.range, in: source).map { String(source[$0]) } }
         var index = 0
         var command = "M"
         while index < tokens.count {
@@ -70,6 +70,16 @@ struct SVGPath {
             let upper = command.uppercased()
             let count = ["M": 2, "L": 2, "H": 1, "V": 1, "C": 6, "S": 4, "Q": 4, "T": 2, "A": 7, "Z": 0][upper] ?? 0
             if upper == "Z" { path.closeSubpath(); cursor = origin; previousCommand = upper; command = "M"; continue }
+            if upper == "A" {
+                // SVG arc flags are single digits; separators after them are optional.
+                for offset in [3, 4] where index + offset < tokens.count {
+                    let token = tokens[index + offset]
+                    if token.count > 1, let flag = token.first, flag == "0" || flag == "1" {
+                        tokens[index + offset] = String(flag)
+                        tokens.insert(String(token.dropFirst()), at: index + offset + 1)
+                    }
+                }
+            }
             guard count > 0, index + count <= tokens.count else { break }
             let values = tokens[index..<(index + count)].compactMap(Double.init)
             guard values.count == count else { break }

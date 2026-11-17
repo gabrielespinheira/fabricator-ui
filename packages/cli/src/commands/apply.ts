@@ -2,6 +2,10 @@ import { Command } from "commander"
 
 import { ensureRegistry, getBaseFromStyle } from "../utils/config"
 import { highlight, logger } from "../utils/logger"
+import {
+  NativeFilesError,
+  readNativeLanguageConfig,
+} from "../utils/native-files"
 import { captureShadcn, exitLike, runShadcn } from "../utils/shadcn"
 import {
   buildInitUrl,
@@ -9,6 +13,7 @@ import {
   getBaseUrl,
   isBase,
 } from "../utils/urls"
+import { addNativeLanguage } from "./native-language"
 import { fail, requireComponentsJson, resolveCwd } from "./shared"
 
 export interface ApplyOptions {
@@ -17,6 +22,8 @@ export interface ApplyOptions {
   yes?: boolean
   cwd?: string
   silent?: boolean
+  dryRun?: boolean
+  overwrite?: boolean
 }
 
 export function buildApplyArgs(
@@ -70,6 +77,17 @@ export async function apply(
   rawOptions: ApplyOptions
 ): Promise<void> {
   const cwd = resolveCwd(rawOptions.cwd)
+  const languageConfig = await readNativeLanguageConfig(cwd)
+  if (languageConfig) {
+    if (preset && preset !== "fabricator")
+      throw new NativeFilesError(
+        "Native language projects currently use the Fabricator foundation. Configure native theme/density through FabricatorTheme."
+      )
+    return addNativeLanguage(["foundations"], languageConfig, {
+      ...rawOptions,
+      cwd,
+    })
+  }
   const config = requireComponentsJson(cwd)
   const base = rawOptions.base ?? getBaseFromStyle(config.style) ?? "base"
   if (!isBase(base))
@@ -135,6 +153,8 @@ export function createApplyCommand(): Command {
       "the working directory (default: current directory)"
     )
     .option("-s, --silent", "mute output")
+    .option("--dry-run", "preview native foundation changes")
+    .option("--overwrite", "replace existing native foundation files")
     .action(async (preset: string | undefined, options: ApplyOptions) => {
       try {
         await apply(preset, options)

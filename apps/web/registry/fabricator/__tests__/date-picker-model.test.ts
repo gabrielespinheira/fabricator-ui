@@ -174,6 +174,22 @@ describe("commitDateText", () => {
 })
 
 describe("isSameDateValue", () => {
+  it("keeps time changes at the configured clock precision", () => {
+    const first = new Date(2026, 10, 16, 9, 5, 4)
+    expect(
+      isSameDateValue(first, new Date(2026, 10, 16, 9, 6, 4), { hasTime: true })
+    ).toBe(false)
+    expect(
+      isSameDateValue(first, new Date(2026, 10, 16, 9, 5, 5), { hasTime: true })
+    ).toBe(true)
+    expect(
+      isSameDateValue(first, new Date(2026, 10, 16, 9, 5, 5), {
+        hasTime: true,
+        hasSeconds: true,
+      })
+    ).toBe(false)
+    expect(isSameDateValue(undefined, undefined, { hasTime: true })).toBe(true)
+  })
   it("compares calendar days, and treats two empty values as equal", () => {
     expect(isSameDateValue(day(2025, 6, 1), new Date(2025, 5, 1, 12))).toBe(
       true

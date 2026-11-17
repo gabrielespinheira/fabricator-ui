@@ -15,10 +15,22 @@ import {
   getNativeCssVariables,
   getNativeTheme,
   RADIUS_SCALE,
+  resolveNativeColor,
 } from "@/registry/fabricator/native-theme"
 import { APP_SHELL_CONTENT_WIDTHS } from "@/registry/fabricator/shared/lib/app-shell-model"
 
 // The website's computed values, measured in a browser on /app-shell.
+describe("native palette literals", () => {
+  it("resolves Tailwind percentage lightness and alpha like decimal OKLCH", () => {
+    expect(resolveNativeColor("oklch(82.8% 0.189 84.429)")).toBe(
+      resolveNativeColor("oklch(0.828 0.189 84.429)")
+    )
+    expect(resolveNativeColor("oklch(50% 0 0 / 25%)")).toBe(
+      resolveNativeColor("oklch(0.5 0 0 / 0.25)")
+    )
+  })
+})
+
 describe("getNativeTheme at the default look", () => {
   it("matches the website in light mode", () => {
     const { colors } = getNativeTheme("light", DEFAULT_LOOK)

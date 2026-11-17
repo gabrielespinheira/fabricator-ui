@@ -1,0 +1,24 @@
+[
+  {
+    "items": ["foundations", "spinner", "input", "time-wheel", "time-input"],
+    "sourceRoot": "/Users/gabs/Dev/app-ideas/fabricator-ui/tmp/native-consumers/swiftui/3f647cbeba59",
+    "status": "built",
+    "log": "/Users/gabs/Dev/app-ideas/fabricator-ui/tmp/native-consumers/swiftui/3f647cbeba59/build.log"
+  },
+  {
+    "items": [
+      "foundations",
+      "spinner",
+      "button",
+      "field",
+      "calendar",
+      "input",
+      "time-wheel",
+      "time-input",
+      "date-picker"
+    ],
+    "sourceRoot": "/Users/gabs/Dev/app-ideas/fabricator-ui/tmp/native-consumers/swiftui/4fac663d27d1",
+    "status": "built",
+    "log": "/Users/gabs/Dev/app-ideas/fabricator-ui/tmp/native-consumers/swiftui/4fac663d27d1/build.log"
+  }
+]

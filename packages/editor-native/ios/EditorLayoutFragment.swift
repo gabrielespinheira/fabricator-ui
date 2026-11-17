@@ -8,6 +8,8 @@ struct EditorDecoration {
   let containerWidth: CGFloat
   /// Inline code in this paragraph, relative to its start, drawn as chips.
   let inlineCode: [NSRange]
+  var drawsCodeCopy = true
+  var drawsTaskCheckbox = true
 }
 
 protocol EditorDecorationSource: AnyObject {
@@ -67,7 +69,7 @@ final class EditorLayoutFragment: NSTextLayoutFragment {
     case .code, .raw:
       // Syntax Highlight's panel: surface 2, a 1pt edge at 60%, rounded-xl.
       let path = UIBezierPath(
-        roundedRect: codeBlock.insetBy(dx: 0.5, dy: 0.5), cornerRadius: EditorTheme.codeBlockRadius)
+        roundedRect: codeBlock.insetBy(dx: 0.5, dy: 0.5), cornerRadius: theme.codeStyle.radius)
       theme.codeBackground.setFill()
       path.fill()
       theme.border.editorScalingAlpha(0.6).setStroke()
@@ -85,8 +87,9 @@ final class EditorLayoutFragment: NSTextLayoutFragment {
     case .bulleted, .numbered:
       drawMarker(decoration, line: first, left: left)
     case .task:
-      drawCheckbox(
-        decoration, in: Self.checkboxRect(decoration, firstLine: first, left: left))
+      if decoration.drawsTaskCheckbox {
+        drawCheckbox(decoration, in: Self.checkboxRect(decoration, firstLine: first, left: left))
+      }
     case .quote:
       // The lines' boxes as the website draws them: glyphs centred.
       let x = left + theme.indentWidth * CGFloat(decoration.paragraph.indent)
@@ -117,11 +120,11 @@ final class EditorLayoutFragment: NSTextLayoutFragment {
   /// centred on the first line: the Checkbox's 1.125em square.
   static func checkboxRect(_ decoration: EditorDecoration, firstLine: CGRect, left: CGFloat) -> CGRect {
     let theme = decoration.theme
-    let size = (theme.fontSize * EditorTheme.checkboxScale).rounded()
+    let size = theme.fontSize * EditorTheme.checkboxScale
     let metrics = decoration.metrics
     let x = left + metrics.leadingIndent - theme.indentWidth
     let glyphMid = firstLine.midY + metrics.leading / 2
-    return CGRect(x: x, y: (glyphMid - size / 2).rounded(), width: size, height: size)
+    return CGRect(x: x, y: glyphMid - size / 2, width: size, height: size)
   }
 
   /// A code block's panel: its strip, its padding and its lines.
@@ -154,7 +157,11 @@ final class EditorLayoutFragment: NSTextLayoutFragment {
 
   // MARK: Drawing
 
-  private var hairline: CGFloat { 1 / max(UIScreen.main.scale, 1) }
+  private var hairline: CGFloat {
+    // The drawing context follows this view's display, including external screens.
+    guard let context = UIGraphicsGetCurrentContext() else { return 1 }
+    return 1 / max(abs(context.ctm.a), 1)
+  }
 
   /// The room between a marker and the text: a number's 0.5em, or a bullet's
   /// 1em, where the website's disc sits.

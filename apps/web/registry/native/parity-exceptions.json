@@ -178,57 +178,57 @@
     "item": "date-picker",
     "kind": "prop",
     "name": "hasTime",
-    "reason": "The native Date Picker has no time wheel yet: native has no Time Input or Time Wheel to build it from (both are still missing on native). It comes with them.",
-    "date": "2026-11-08"
+    "reason": "React Date Picker retains same-day clock changes. React Native has standalone Time Input and Time Wheel, but Date Picker time integration remains incomplete.",
+    "date": "2026-11-17"
   },
   {
     "item": "date-picker",
     "kind": "prop",
     "name": "step",
-    "reason": "The native Date Picker has no time wheel yet: native has no Time Input or Time Wheel to build it from (both are still missing on native). It comes with them.",
-    "date": "2026-11-08"
+    "reason": "React Date Picker retains same-day clock changes. React Native has standalone Time Input and Time Wheel, but Date Picker time integration remains incomplete.",
+    "date": "2026-11-17"
   },
   {
     "item": "date-picker",
     "kind": "prop",
     "name": "hourCycle",
-    "reason": "The native Date Picker has no time wheel yet: native has no Time Input or Time Wheel to build it from (both are still missing on native). It comes with them.",
-    "date": "2026-11-08"
+    "reason": "React Date Picker retains same-day clock changes. React Native has standalone Time Input and Time Wheel, but Date Picker time integration remains incomplete.",
+    "date": "2026-11-17"
   },
   {
     "item": "date-picker",
     "kind": "prop",
     "name": "timeLabel",
-    "reason": "The native Date Picker has no time wheel yet: native has no Time Input or Time Wheel to build it from (both are still missing on native). It comes with them.",
-    "date": "2026-11-08"
+    "reason": "React Date Picker retains same-day clock changes. React Native has standalone Time Input and Time Wheel, but Date Picker time integration remains incomplete.",
+    "date": "2026-11-17"
   },
   {
     "item": "date-picker",
     "kind": "slot",
     "name": "date-picker-time",
-    "reason": "The native Date Picker has no time wheel yet: native has no Time Input or Time Wheel to build it from (both are still missing on native). It comes with them.",
-    "date": "2026-11-08"
+    "reason": "React Date Picker retains same-day clock changes. React Native has standalone Time Input and Time Wheel, but Date Picker time integration remains incomplete.",
+    "date": "2026-11-17"
   },
   {
     "item": "date-picker",
     "kind": "placeholder",
     "name": "cn-date-picker-time",
-    "reason": "The native Date Picker has no time wheel yet: native has no Time Input or Time Wheel to build it from (both are still missing on native). It comes with them.",
-    "date": "2026-11-08"
+    "reason": "React Date Picker retains same-day clock changes. React Native has standalone Time Input and Time Wheel, but Date Picker time integration remains incomplete.",
+    "date": "2026-11-17"
   },
   {
     "item": "date-picker",
     "kind": "slot",
     "name": "date-picker-panel",
-    "reason": "The native Date Picker has no time wheel yet: native has no Time Input or Time Wheel to build it from (both are still missing on native). It comes with them.",
-    "date": "2026-11-08"
+    "reason": "React Date Picker retains same-day clock changes. React Native has standalone Time Input and Time Wheel, but Date Picker time integration remains incomplete.",
+    "date": "2026-11-17"
   },
   {
     "item": "date-picker",
     "kind": "placeholder",
     "name": "cn-date-picker-panel",
-    "reason": "The native Date Picker has no time wheel yet: native has no Time Input or Time Wheel to build it from (both are still missing on native). It comes with them.",
-    "date": "2026-11-08"
+    "reason": "React Date Picker retains same-day clock changes. React Native has standalone Time Input and Time Wheel, but Date Picker time integration remains incomplete.",
+    "date": "2026-11-17"
   },
   {
     "item": "date-picker",
@@ -262,15 +262,15 @@
     "item": "date-picker",
     "kind": "prop",
     "name": "hasSeconds",
-    "reason": "The native Date Picker has no time wheel yet: native has no Time Input or Time Wheel to build it from (both are still missing on native). It comes with them.",
-    "date": "2026-11-08"
+    "reason": "React Date Picker retains same-day clock changes. React Native has standalone Time Input and Time Wheel, but Date Picker time integration remains incomplete.",
+    "date": "2026-11-17"
   },
   {
     "item": "date-picker",
     "kind": "placeholder",
     "name": "cn-date-picker-time-wheel",
-    "reason": "The native Date Picker has no time wheel yet: native has no Time Input or Time Wheel to build it from (both are still missing on native). It comes with them.",
-    "date": "2026-11-08"
+    "reason": "React Date Picker retains same-day clock changes. React Native has standalone Time Input and Time Wheel, but Date Picker time integration remains incomplete.",
+    "date": "2026-11-17"
   },
   {
     "item": "date-picker",
@@ -1097,7 +1097,8 @@
     "name": "cn-event-calendar-week-number-header-inner",
     "reason": "FullCalendar wraps the week number in an inner element whose margin holds it off the hairline; the native engine draws the week number as one text element styled by cn-event-calendar-week-number-header.",
     "date": "2026-11-15"
-  },  {
+  },
+  {
     "item": "event-calendar-engine",
     "kind": "slot",
     "name": "event-calendar-create-preview",
@@ -1111,8 +1112,6 @@
     "reason": "The web engine draws the event being dragged out in a time grid itself, so a drag never adds or removes elements; the native engine creates by long press and draws its own ghost, styled by cn-event-calendar-highlight.",
     "date": "2026-11-15"
   },
-
-
   {
     "item": "chart-kit",
     "kind": "slot",

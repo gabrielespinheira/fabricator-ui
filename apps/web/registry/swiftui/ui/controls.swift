@@ -19,11 +19,12 @@ public struct FabricatorButtonStyle: ButtonStyle {
     public var variant: FabricatorButtonVariant
     public var size: FabricatorControlSize
     public var fillsWidth: Bool
-    public init(variant: FabricatorButtonVariant = .default, size: FabricatorControlSize = .default, fillsWidth: Bool = false) { self.variant = variant; self.size = size; self.fillsWidth = fillsWidth }
+    public var hasLeadingIcon: Bool
+    public init(variant: FabricatorButtonVariant = .default, size: FabricatorControlSize = .default, fillsWidth: Bool = false, hasLeadingIcon: Bool = false) { self.variant = variant; self.size = size; self.fillsWidth = fillsWidth; self.hasLeadingIcon = hasLeadingIcon }
     private var controlTheme: FabricatorTheme { size.resolveTheme(theme) }
     private var height: CGFloat {
         switch size {
-        case .xs, .iconXs: 24
+        case .xs, .iconXs: controlTheme.minimumControlHeight(24, textStep: 12)
         default: controlTheme.controlHeight
         }
     }
@@ -33,6 +34,7 @@ public struct FabricatorButtonStyle: ButtonStyle {
         case .destructive: theme.color("destructive-text")
         case .secondary: theme.color("secondary-foreground")
         case .ghost: theme.color(isHovered ? "foreground" : "muted-foreground")
+        case .link: theme.color("primary-text")
         default: theme.color("foreground")
         }
     }
@@ -48,15 +50,18 @@ public struct FabricatorButtonStyle: ButtonStyle {
         case .link: .clear
         }
         return configuration.label.font(theme.font(size == .xs ? 12 : theme.text(), weight: .medium))
-            .foregroundStyle(foreground).padding(.horizontal, size.rawValue.hasPrefix("icon") ? 0 : size == .xs ? 8 : theme.space(16))
-            .frame(minWidth: size.rawValue.hasPrefix("icon") ? height : nil, maxWidth: fillsWidth ? .infinity : (size.rawValue.hasPrefix("icon") ? height : nil), minHeight: height, maxHeight: height)
+            .foregroundStyle(foreground)
+            .padding(.leading, size.rawValue.hasPrefix("icon") ? 0 : size == .xs ? (hasLeadingIcon ? 6 : 8) : theme.space(hasLeadingIcon ? 12 : 16))
+            .padding(.trailing, size.rawValue.hasPrefix("icon") ? 0 : size == .xs ? 8 : theme.space(16))
+            .frame(minWidth: size.rawValue.hasPrefix("icon") ? height : nil, maxWidth: fillsWidth ? .infinity : (size.rawValue.hasPrefix("icon") ? height : nil), minHeight: height, maxHeight: theme.fontScale > 1 && !size.rawValue.hasPrefix("icon") ? nil : height)
             .background(fill)
             .clipShape(RoundedRectangle(cornerRadius: theme.radius()))
             .overlay { if variant == .outline { RoundedRectangle(cornerRadius: theme.radius()).strokeBorder(theme.color("border"), lineWidth: 1) } }
             .overlay { if isFocused { RoundedRectangle(cornerRadius: theme.radius() + 2).strokeBorder(theme.color("focus-ring"), lineWidth: 1).padding(-2) } }
-            .opacity(isEnabled ? 1 : 0.45)
+            .opacity(isEnabled ? 1 : 0.5)
             .scaleEffect(configuration.isPressed && !reduceMotion ? theme.pressScale : 1)
-            .animation(reduceMotion ? nil : theme.animation("feedback", isExiting: !configuration.isPressed), value: configuration.isPressed)
+            .animation(reduceMotion ? nil : theme.animation("feedback"), value: configuration.isPressed)
+            .animation(reduceMotion ? nil : theme.animation("feedback"), value: isHovered)
             .contentShape(RoundedRectangle(cornerRadius: theme.radius()))
             .padding(max(0, (theme.minimumHitSize - height) / 2))
             .contentShape(Rectangle())
@@ -83,9 +88,9 @@ public struct FabricatorButton: View {
         Button(action: action) {
             HStack(spacing: size == .xs ? 4 : controlTheme.space(6)) {
                 if isLoading { FabricatorSpinner(size: iconSize) } else if let icon { FabricatorIcon(icon, size: iconSize) }
-                if !size.rawValue.hasPrefix("icon") { Text(title).lineLimit(1) }
+                if !size.rawValue.hasPrefix("icon") { Text(title).lineLimit(controlTheme.fontScale > 1 ? nil : 1) }
             }
-        }.buttonStyle(FabricatorButtonStyle(variant: variant, size: size, fillsWidth: fillsWidth)).disabled(isLoading).accessibilityLabel(title)
+        }.buttonStyle(FabricatorButtonStyle(variant: variant, size: size, fillsWidth: fillsWidth, hasLeadingIcon: icon != nil || isLoading)).disabled(isLoading).accessibilityLabel(title)
     }
 }
 
@@ -98,7 +103,7 @@ struct FabricatorInputFrame: ViewModifier {
         let ring = isInvalid ? theme.color("destructive").opacity(0.5) : isFocused ? theme.color("foreground").opacity(0.25) : theme.color("border")
         content.font(theme.bodyFont).foregroundStyle(theme.color("foreground"))
             .padding(.horizontal, theme.space(10)).frame(minHeight: theme.controlHeight)
-            .background(isFocused ? theme.color("card") : isHovered ? theme.color("muted").opacity(0.5) : .clear, in: RoundedRectangle(cornerRadius: theme.radius()))
+            .background(isFocused ? theme.color("card") : isHovered ? (isInvalid ? theme.color("destructive").opacity(0.05) : theme.color("muted").opacity(0.5)) : .clear, in: RoundedRectangle(cornerRadius: theme.radius()))
             .overlay { RoundedRectangle(cornerRadius: theme.radius()).strokeBorder(ring, lineWidth: 1) }
             .contentShape(Rectangle())
     }
@@ -117,11 +122,12 @@ public struct FabricatorInput: View {
         self.placeholder = placeholder; _text = text; self.icon = icon; self.isSecure = isSecure; self.isInvalid = isInvalid
     }
     public var body: some View {
+        let prompt = Text(placeholder).foregroundStyle(theme.color("muted-foreground"))
         HStack(spacing: theme.space(8)) {
             if let icon { FabricatorIcon(icon).foregroundStyle(theme.color("muted-foreground")) }
             Group {
-                if isSecure { SecureField(placeholder, text: $text) }
-                else { TextField(placeholder, text: $text) }
+                if isSecure { SecureField(placeholder, text: $text, prompt: prompt) }
+                else { TextField(placeholder, text: $text, prompt: prompt) }
             }.textFieldStyle(.plain).focused($isFocused).accessibilityLabel(placeholder)
         }.modifier(FabricatorInputFrame(isFocused: isFocused, isInvalid: isInvalid, isHovered: isHovered)).onHover { isHovered = $0 }
     }
@@ -136,85 +142,8 @@ public struct FabricatorTextarea: View {
     public var isInvalid: Bool
     public init(_ placeholder: String = "Write a message…", text: Binding<String>, isInvalid: Bool = false) { self.placeholder = placeholder; _text = text; self.isInvalid = isInvalid }
     public var body: some View {
-        TextField(placeholder, text: $text, axis: .vertical).textFieldStyle(.plain).lineLimit(4...8).focused($isFocused).padding(.vertical, theme.space(8))
+        TextField(placeholder, text: $text, prompt: Text(placeholder).foregroundStyle(theme.color("muted-foreground")), axis: .vertical).textFieldStyle(.plain).lineLimit(4...8).focused($isFocused).padding(.vertical, theme.space(8))
             .modifier(FabricatorInputFrame(isFocused: isFocused, isInvalid: isInvalid, isHovered: isHovered)).onHover { isHovered = $0 }.accessibilityLabel(placeholder)
-    }
-}
-
-public struct FabricatorCheckbox: View {
-    @Environment(\.fabricatorTheme) private var theme
-    @Binding public var isOn: Bool
-    public var title: String
-    public var isIndeterminate: Bool
-    public init(_ title: String, isOn: Binding<Bool>, isIndeterminate: Bool = false) { self.title = title; _isOn = isOn; self.isIndeterminate = isIndeterminate }
-    public var body: some View {
-        Toggle(isOn: $isOn) { Text(title) }.toggleStyle(FabricatorCheckboxStyle(isIndeterminate: isIndeterminate))
-    }
-}
-
-public struct FabricatorCheckboxStyle: ToggleStyle {
-    @Environment(\.fabricatorTheme) private var theme
-    public var isIndeterminate: Bool
-    public init(isIndeterminate: Bool = false) { self.isIndeterminate = isIndeterminate }
-    public func makeBody(configuration: Configuration) -> some View {
-        Button { configuration.isOn.toggle() } label: {
-            HStack(spacing: theme.space(8)) {
-                ZStack {
-                    RoundedRectangle(cornerRadius: 6).fill(configuration.isOn || isIndeterminate ? theme.color("primary") : .clear)
-                    RoundedRectangle(cornerRadius: 6).strokeBorder(configuration.isOn || isIndeterminate ? theme.color("primary") : theme.color("foreground").opacity(0.25), lineWidth: 1.5)
-                    if configuration.isOn || isIndeterminate { FabricatorIcon(isIndeterminate ? "minus" : "check", size: 12, strokeWidth: 3).foregroundStyle(theme.color("primary-foreground")) }
-                }.frame(width: 18, height: 18)
-                configuration.label.font(theme.bodyFont).foregroundStyle(theme.color("foreground"))
-            }.frame(maxWidth: .infinity, minHeight: theme.controlHeight, alignment: .leading).contentShape(Rectangle())
-        }.buttonStyle(.plain).accessibilityValue(configuration.isOn ? "Checked" : "Unchecked")
-    }
-}
-
-public struct FabricatorSwitch: View {
-    @Binding public var isOn: Bool
-    public var title: String
-    public init(_ title: String, isOn: Binding<Bool>) { self.title = title; _isOn = isOn }
-    public var body: some View { Toggle(title, isOn: $isOn).toggleStyle(FabricatorSwitchStyle()) }
-}
-
-public struct FabricatorSwitchStyle: ToggleStyle {
-    @Environment(\.fabricatorTheme) private var theme
-    @Environment(\.accessibilityReduceMotion) private var reduceMotion
-    public init() {}
-    public func makeBody(configuration: Configuration) -> some View {
-        Button { configuration.isOn.toggle() } label: {
-            HStack(spacing: theme.space(10)) {
-                configuration.label.foregroundStyle(theme.color("foreground"))
-                Spacer(minLength: 8)
-                let trackHeight = theme.space(20)
-                let thumb = trackHeight - 4
-                Capsule().fill(theme.color(configuration.isOn ? "primary" : "accent")).frame(width: theme.space(20) + theme.space(14), height: trackHeight)
-                    .overlay(alignment: configuration.isOn ? .trailing : .leading) {
-                        Circle().fill(configuration.isOn ? theme.color("primary-foreground") : theme.color("switchThumb")).frame(width: thumb, height: thumb).shadow(color: .black.opacity(0.15), radius: 1, y: 1).overlay { Circle().strokeBorder(Color.black.opacity(0.04), lineWidth: 0.5) }.padding(2)
-                    }
-            }.font(theme.bodyFont).frame(minHeight: theme.controlHeight).contentShape(Rectangle())
-        }.buttonStyle(.plain).accessibilityValue(configuration.isOn ? "On" : "Off").animation(reduceMotion ? nil : theme.animation(), value: configuration.isOn)
-    }
-}
-
-public struct FabricatorRadioGroup: View {
-    @Environment(\.fabricatorTheme) private var theme
-    public var options: [String]
-    @Binding public var selection: String
-    public init(_ options: [String], selection: Binding<String>) { self.options = options; _selection = selection }
-    public var body: some View {
-        VStack(alignment: .leading, spacing: theme.space(16)) {
-            ForEach(options, id: \.self) { option in
-                let isSelected = selection == option
-                Button { selection = option } label: {
-                    HStack(spacing: theme.space(8)) {
-                        Circle().strokeBorder(isSelected ? theme.color("primary") : theme.color("foreground").opacity(0.25), lineWidth: 1.5).frame(width: theme.icon() + 2, height: theme.icon() + 2)
-                            .overlay { if isSelected { Circle().fill(theme.color("primary")).frame(width: theme.icon() / 2, height: theme.icon() / 2) } }
-                        Text(option).foregroundStyle(theme.color("foreground"))
-                    }.frame(minHeight: theme.space(20)).contentShape(Rectangle())
-                }.buttonStyle(.plain).accessibilityAddTraits(isSelected ? .isSelected : []).accessibilityValue(isSelected ? "Selected" : "Not selected")
-            }
-        }
     }
 }
 
@@ -224,7 +153,8 @@ public struct FabricatorBadge: View {
     public var title: String
     public var variant: FabricatorBadgeVariant
     public var icon: String?
-    public init(_ title: String, variant: FabricatorBadgeVariant = .secondary, icon: String? = nil) { self.title = title; self.variant = variant; self.icon = icon }
+    public var showsDot: Bool
+    public init(_ title: String, variant: FabricatorBadgeVariant = .secondary, icon: String? = nil, showsDot: Bool = false) { self.title = title; self.variant = variant; self.icon = icon; self.showsDot = showsDot }
     private var isStatus: Bool { [.destructive, .success, .warning, .info].contains(variant) }
     private var foreground: Color { isStatus ? theme.color("\(variant.rawValue)-text") : theme.color("foreground") }
     private var iconColor: Color { isStatus ? theme.color(variant.rawValue) : foreground }
@@ -237,8 +167,8 @@ public struct FabricatorBadge: View {
         }
     }
     public var body: some View {
-        HStack(spacing: theme.space(6)) { if let icon { FabricatorIcon(icon, size: 12).foregroundStyle(iconColor) }; Text(title) }
-            .font(theme.font(theme.text(12), weight: .medium)).foregroundStyle(foreground).padding(.horizontal, theme.space(10)).frame(height: theme.space(24))
+        HStack(spacing: theme.space(6)) { if showsDot { Circle().fill(foreground).frame(width: 6, height: 6).accessibilityHidden(true) }; if let icon { FabricatorIcon(icon, size: 12).foregroundStyle(iconColor) }; Text(title).lineLimit(1) }
+            .font(theme.font(theme.text(12), weight: .medium)).foregroundStyle(foreground).padding(.horizontal, theme.space(10)).frame(minHeight: theme.minimumControlHeight(24, textStep: 12))
             .background(background, in: RoundedRectangle(cornerRadius: theme.radius()))
             .overlay { if variant == .outline || isStatus { RoundedRectangle(cornerRadius: theme.radius()).strokeBorder(theme.color(isStatus ? "\(variant.rawValue)-border" : "border"), lineWidth: 1) } }
     }
@@ -253,11 +183,21 @@ public struct FabricatorAvatar: View {
     private var initials: String { name.split(separator: " ").prefix(2).compactMap(\.first).map(String.init).joined() }
     public var body: some View {
         ZStack {
+            theme.color("background")
             theme.color("active")
-            if let imageURL {
-                AsyncImage(url: imageURL) { image in image.resizable().scaledToFill() } placeholder: { Text(initials).foregroundStyle(theme.color("muted-foreground")) }
-            } else { Text(initials).font(theme.font(size * 0.34, weight: .medium)).foregroundStyle(theme.color("muted-foreground")) }
-        }.frame(width: size, height: size).clipShape(Circle()).accessibilityLabel(name)
+            AsyncImage(url: imageURL) { phase in
+                if let image = phase.image { image.resizable().scaledToFill() }
+                else {
+                    Canvas { context, canvas in
+                        let font = Font(FabricatorFontAdapter.makeFont(size: size <= 24 ? 12 : 14, weight: FabricatorContract.shared.typography.weights.medium))
+                        context.draw(Text(initials).font(font).foregroundStyle(theme.color("muted-foreground")), at: CGPoint(x: canvas.width / 2, y: canvas.height / 2))
+                    }
+                }
+            }.accessibilityHidden(true)
+        }
+        .frame(width: size, height: size).clipShape(Circle())
+        .overlay { Circle().strokeBorder(theme.color("border"), lineWidth: 1).allowsHitTesting(false) }
+        .accessibilityElement(children: .ignore).accessibilityLabel(name).accessibilityAddTraits(.isImage)
     }
 }
 
@@ -368,7 +308,7 @@ public struct FabricatorLabel: View {
     @Environment(\.fabricatorTheme) private var theme
     public var title: String
     public init(_ title: String) { self.title = title }
-    public var body: some View { Text(title).font(theme.font(theme.text(), weight: .medium)) }
+    public var body: some View { Text(title).modifier(FabricatorTextMetrics(size: theme.text(), weight: .medium, lineHeight: 1)) }
 }
 public struct FabricatorText: View {
     @Environment(\.fabricatorTheme) private var theme

@@ -1,0 +1,2195 @@
+{
+  "schemaVersion": 1,
+  "renderer": "compose",
+  "items": [
+    {
+      "name": "foundations",
+      "files": [
+        {
+          "path": "ui/theme.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/theme.kt"
+        },
+        {
+          "path": "ui/icon.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/icon.kt"
+        },
+        {
+          "path": "ui/font.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/font.kt"
+        },
+        {
+          "path": "models/component-models.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/models/component-models.kt"
+        },
+        {
+          "path": "models/calendar-model.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/models/calendar-model.kt"
+        },
+        {
+          "path": "models/sound-model.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/sound-model.kt"
+        },
+        {
+          "path": "models/spinner-model.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/spinner-model.kt"
+        },
+        {
+          "path": "platform/common/platform-services.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/platform-services.kt"
+        },
+        {
+          "path": "platform/common/calendar-time-zone.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/calendar-time-zone.kt"
+        },
+        {
+          "path": "platform/jvm/calendar-time-zone.kt",
+          "target": "src/androidMain/kotlin/dev/fabricator/ui/calendar-time-zone.kt"
+        },
+        {
+          "path": "platform/jvm/calendar-time-zone.kt",
+          "target": "src/desktopMain/kotlin/dev/fabricator/ui/calendar-time-zone.kt"
+        },
+        {
+          "path": "platform/android/android-services.kt",
+          "target": "src/androidMain/kotlin/dev/fabricator/ui/android-services.kt"
+        },
+        {
+          "path": "platform/desktop/desktop-services.kt",
+          "target": "src/desktopMain/kotlin/dev/fabricator/ui/desktop-services.kt"
+        },
+        {
+          "path": "platform/consumer/settings.gradle.kts",
+          "target": "settings.gradle.kts"
+        },
+        {
+          "path": "platform/consumer/build.gradle.kts",
+          "target": "build.gradle.kts"
+        },
+        {
+          "path": "platform/consumer/gradle.properties",
+          "target": "gradle.properties"
+        },
+        {
+          "path": "../../generated/platforms/compose/fabricator-generated.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/generated/fabricator-generated.kt"
+        },
+        {
+          "path": "../fabricator/assets/fonts/InterVariable.ttf",
+          "target": "src/commonMain/composeResources/font/inter_variable.ttf"
+        },
+        {
+          "path": "../fabricator/assets/fonts/InterVariable-Italic.ttf",
+          "target": "src/commonMain/composeResources/font/inter_variable_italic.ttf"
+        },
+        {
+          "path": "../fabricator/assets/fonts/LICENSE.txt",
+          "target": "src/commonMain/composeResources/files/inter-license.txt"
+        },
+        {
+          "path": "../../generated/platforms/icons-license.txt",
+          "target": "src/commonMain/composeResources/files/icons-license.txt"
+        },
+        {
+          "path": "../../generated/platforms/brands-notices.md",
+          "target": "src/commonMain/composeResources/files/brands-notices.md"
+        },
+        {
+          "path": "../../../../LICENSE.md",
+          "target": "src/commonMain/composeResources/files/fabricator-license.md"
+        },
+        {
+          "path": "../../../../NOTICE.md",
+          "target": "src/commonMain/composeResources/files/fabricator-notice.md"
+        }
+      ],
+      "dependencies": []
+    },
+    {
+      "name": "native-media",
+      "files": [
+        {
+          "path": "platform/common/platform-media.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/platform-media.kt"
+        },
+        {
+          "path": "platform/android/android-media.kt",
+          "target": "src/androidMain/kotlin/dev/fabricator/ui/android-media.kt"
+        },
+        {
+          "path": "platform/desktop/desktop-media.kt",
+          "target": "src/desktopMain/kotlin/dev/fabricator/ui/desktop-media.kt"
+        }
+      ],
+      "dependencies": ["@fabricator/foundations"]
+    },
+    {
+      "name": "native-images",
+      "files": [
+        {
+          "path": "platform/common/platform-image.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/platform-image.kt"
+        },
+        {
+          "path": "platform/android/android-image.kt",
+          "target": "src/androidMain/kotlin/dev/fabricator/ui/android-image.kt"
+        },
+        {
+          "path": "platform/desktop/desktop-image.kt",
+          "target": "src/desktopMain/kotlin/dev/fabricator/ui/desktop-image.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button",
+        "@fabricator/spinner"
+      ]
+    },
+    {
+      "name": "accordion",
+      "files": [
+        {
+          "path": "ui/navigation.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/navigation.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button",
+        "@fabricator/dialog"
+      ]
+    },
+    {
+      "name": "alert",
+      "files": [
+        {
+          "path": "ui/content.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/content.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button",
+        "@fabricator/app-shell"
+      ]
+    },
+    {
+      "name": "alert-dialog",
+      "files": [
+        {
+          "path": "ui/overlays.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/overlays.kt"
+        }
+      ],
+      "dependencies": ["@fabricator/foundations", "@fabricator/button"]
+    },
+    {
+      "name": "app-nav",
+      "files": [
+        {
+          "path": "ui/navigation.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/navigation.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button",
+        "@fabricator/dialog"
+      ]
+    },
+    {
+      "name": "app-shell",
+      "files": [
+        {
+          "path": "ui/navigation.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/navigation.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button",
+        "@fabricator/dialog"
+      ]
+    },
+    {
+      "name": "app-shell-01",
+      "files": [
+        {
+          "path": "ui/blocks.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/blocks.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/field",
+        "@fabricator/app-shell",
+        "@fabricator/markdown",
+        "@fabricator/dialog",
+        "@fabricator/file-tree",
+        "@fabricator/calendar",
+        "@fabricator/popover",
+        "@fabricator/context-menu",
+        "@fabricator/tab-strip"
+      ]
+    },
+    {
+      "name": "app-shell-02",
+      "files": [
+        {
+          "path": "ui/blocks.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/blocks.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/field",
+        "@fabricator/app-shell",
+        "@fabricator/markdown",
+        "@fabricator/dialog",
+        "@fabricator/file-tree",
+        "@fabricator/calendar",
+        "@fabricator/popover",
+        "@fabricator/context-menu",
+        "@fabricator/tab-strip"
+      ]
+    },
+    {
+      "name": "app-shell-03",
+      "files": [
+        {
+          "path": "ui/blocks.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/blocks.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/field",
+        "@fabricator/app-shell",
+        "@fabricator/markdown",
+        "@fabricator/dialog",
+        "@fabricator/file-tree",
+        "@fabricator/calendar",
+        "@fabricator/popover",
+        "@fabricator/context-menu",
+        "@fabricator/tab-strip"
+      ]
+    },
+    {
+      "name": "app-shell-04",
+      "files": [
+        {
+          "path": "ui/blocks.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/blocks.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/field",
+        "@fabricator/app-shell",
+        "@fabricator/markdown",
+        "@fabricator/dialog",
+        "@fabricator/file-tree",
+        "@fabricator/calendar",
+        "@fabricator/popover",
+        "@fabricator/context-menu",
+        "@fabricator/tab-strip"
+      ]
+    },
+    {
+      "name": "app-shell-05",
+      "files": [
+        {
+          "path": "ui/blocks.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/blocks.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/field",
+        "@fabricator/app-shell",
+        "@fabricator/markdown",
+        "@fabricator/dialog",
+        "@fabricator/file-tree",
+        "@fabricator/calendar",
+        "@fabricator/popover",
+        "@fabricator/context-menu",
+        "@fabricator/tab-strip"
+      ]
+    },
+    {
+      "name": "area-chart",
+      "files": [
+        {
+          "path": "ui/charts.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/charts.kt"
+        }
+      ],
+      "dependencies": ["@fabricator/foundations", "@fabricator/button"]
+    },
+    {
+      "name": "aspect-ratio",
+      "files": [
+        {
+          "path": "ui/primitives.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/primitives.kt"
+        }
+      ],
+      "dependencies": ["@fabricator/foundations", "@fabricator/spinner"]
+    },
+    {
+      "name": "attachment",
+      "files": [
+        {
+          "path": "ui/chat.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/chat.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/field",
+        "@fabricator/markdown"
+      ]
+    },
+    {
+      "name": "audio-player",
+      "files": [
+        {
+          "path": "ui/audio-player.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/audio-player.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button",
+        "@fabricator/markdown",
+        "@fabricator/native-media"
+      ]
+    },
+    {
+      "name": "avatar",
+      "files": [
+        {
+          "path": "ui/primitives.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/primitives.kt"
+        }
+      ],
+      "dependencies": ["@fabricator/foundations", "@fabricator/spinner"]
+    },
+    {
+      "name": "badge",
+      "files": [
+        {
+          "path": "ui/primitives.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/primitives.kt"
+        }
+      ],
+      "dependencies": ["@fabricator/foundations", "@fabricator/spinner"]
+    },
+    {
+      "name": "bar-chart",
+      "files": [
+        {
+          "path": "ui/charts.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/charts.kt"
+        }
+      ],
+      "dependencies": ["@fabricator/foundations", "@fabricator/button"]
+    },
+    {
+      "name": "bot-face",
+      "files": [
+        {
+          "path": "ui/chat.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/chat.kt"
+        },
+        {
+          "path": "ui/bot-face.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/bot-face.kt"
+        },
+        {
+          "path": "models/bot-face-model.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/bot-face-model.kt"
+        },
+        {
+          "path": "../../generated/platforms/compose/fabricator-bot-face.bin",
+          "target": "src/commonMain/composeResources/files/fabricator-bot-face.bin"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/field",
+        "@fabricator/markdown"
+      ]
+    },
+    {
+      "name": "breadcrumb",
+      "files": [
+        {
+          "path": "ui/navigation.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/navigation.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button",
+        "@fabricator/dialog"
+      ]
+    },
+    {
+      "name": "bubble",
+      "files": [
+        {
+          "path": "ui/chat.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/chat.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/field",
+        "@fabricator/markdown"
+      ]
+    },
+    {
+      "name": "bump-chart",
+      "files": [
+        {
+          "path": "ui/charts.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/charts.kt"
+        }
+      ],
+      "dependencies": ["@fabricator/foundations", "@fabricator/button"]
+    },
+    {
+      "name": "button",
+      "files": [
+        {
+          "path": "ui/primitives.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/primitives.kt"
+        }
+      ],
+      "dependencies": ["@fabricator/foundations", "@fabricator/spinner"]
+    },
+    {
+      "name": "button-group",
+      "files": [
+        {
+          "path": "ui/forms.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/forms.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button",
+        "@fabricator/dialog",
+        "@fabricator/app-shell"
+      ]
+    },
+    {
+      "name": "calendar",
+      "files": [
+        {
+          "path": "ui/forms.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/forms.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button",
+        "@fabricator/dialog",
+        "@fabricator/app-shell"
+      ]
+    },
+    {
+      "name": "candlestick-chart",
+      "files": [
+        {
+          "path": "ui/charts.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/charts.kt"
+        }
+      ],
+      "dependencies": ["@fabricator/foundations", "@fabricator/button"]
+    },
+    {
+      "name": "card",
+      "files": [
+        {
+          "path": "ui/navigation.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/navigation.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button",
+        "@fabricator/dialog"
+      ]
+    },
+    {
+      "name": "carousel",
+      "files": [
+        {
+          "path": "ui/navigation.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/navigation.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button",
+        "@fabricator/dialog"
+      ]
+    },
+    {
+      "name": "chat-input",
+      "files": [
+        {
+          "path": "ui/chat.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/chat.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/field",
+        "@fabricator/markdown"
+      ]
+    },
+    {
+      "name": "checkbox",
+      "files": [
+        {
+          "path": "ui/primitives.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/primitives.kt"
+        }
+      ],
+      "dependencies": ["@fabricator/foundations", "@fabricator/spinner"]
+    },
+    {
+      "name": "collapsible",
+      "files": [
+        {
+          "path": "ui/navigation.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/navigation.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button",
+        "@fabricator/dialog"
+      ]
+    },
+    {
+      "name": "color-picker",
+      "files": [
+        {
+          "path": "ui/forms.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/forms.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button",
+        "@fabricator/dialog",
+        "@fabricator/app-shell"
+      ]
+    },
+    {
+      "name": "combobox",
+      "files": [
+        {
+          "path": "ui/forms.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/forms.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button",
+        "@fabricator/dialog",
+        "@fabricator/app-shell"
+      ]
+    },
+    {
+      "name": "command",
+      "files": [
+        {
+          "path": "ui/overlays.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/overlays.kt"
+        }
+      ],
+      "dependencies": ["@fabricator/foundations", "@fabricator/button"]
+    },
+    {
+      "name": "composition-chart",
+      "files": [
+        {
+          "path": "ui/charts.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/charts.kt"
+        }
+      ],
+      "dependencies": ["@fabricator/foundations", "@fabricator/button"]
+    },
+    {
+      "name": "context-menu",
+      "files": [
+        {
+          "path": "ui/overlays.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/overlays.kt"
+        }
+      ],
+      "dependencies": ["@fabricator/foundations", "@fabricator/button"]
+    },
+    {
+      "name": "data-table",
+      "files": [
+        {
+          "path": "ui/data-table.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/data-table.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/field",
+        "@fabricator/markdown"
+      ]
+    },
+    {
+      "name": "date-picker",
+      "files": [
+        {
+          "path": "ui/forms.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/forms.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button",
+        "@fabricator/dialog",
+        "@fabricator/app-shell"
+      ]
+    },
+    {
+      "name": "density",
+      "files": [
+        {
+          "path": "ui/primitives.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/primitives.kt"
+        }
+      ],
+      "dependencies": ["@fabricator/foundations", "@fabricator/spinner"]
+    },
+    {
+      "name": "dialog",
+      "files": [
+        {
+          "path": "ui/overlays.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/overlays.kt"
+        }
+      ],
+      "dependencies": ["@fabricator/foundations", "@fabricator/button"]
+    },
+    {
+      "name": "direction",
+      "files": [
+        {
+          "path": "ui/navigation.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/navigation.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button",
+        "@fabricator/dialog"
+      ]
+    },
+    {
+      "name": "donut-chart",
+      "files": [
+        {
+          "path": "ui/charts.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/charts.kt"
+        }
+      ],
+      "dependencies": ["@fabricator/foundations", "@fabricator/button"]
+    },
+    {
+      "name": "drawer",
+      "files": [
+        {
+          "path": "ui/overlays.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/overlays.kt"
+        }
+      ],
+      "dependencies": ["@fabricator/foundations", "@fabricator/button"]
+    },
+    {
+      "name": "dropdown-menu",
+      "files": [
+        {
+          "path": "ui/overlays.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/overlays.kt"
+        }
+      ],
+      "dependencies": ["@fabricator/foundations", "@fabricator/button"]
+    },
+    {
+      "name": "editor",
+      "files": [
+        {
+          "path": "ui/editor.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/editor.kt"
+        },
+        {
+          "path": "models/editor-document.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/models/editor-document.kt"
+        },
+        {
+          "path": "models/editor-markdown.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/models/editor-markdown.kt"
+        },
+        {
+          "path": "platform/common/editor-json-adapter.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/editor-json-adapter.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/field",
+        "@fabricator/markdown",
+        "@fabricator/native-images"
+      ]
+    },
+    {
+      "name": "empty",
+      "files": [
+        {
+          "path": "ui/content.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/content.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button",
+        "@fabricator/app-shell"
+      ]
+    },
+    {
+      "name": "event-calendar",
+      "files": [
+        {
+          "path": "ui/event-calendar.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/event-calendar.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/field",
+        "@fabricator/markdown"
+      ]
+    },
+    {
+      "name": "fabricator-root",
+      "files": [
+        {
+          "path": "ui/primitives.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/primitives.kt"
+        }
+      ],
+      "dependencies": ["@fabricator/foundations", "@fabricator/spinner"]
+    },
+    {
+      "name": "field",
+      "files": [
+        {
+          "path": "ui/forms.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/forms.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button",
+        "@fabricator/dialog",
+        "@fabricator/app-shell"
+      ]
+    },
+    {
+      "name": "file-tree",
+      "files": [
+        {
+          "path": "ui/advanced.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/advanced.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/field",
+        "@fabricator/markdown"
+      ]
+    },
+    {
+      "name": "file-upload",
+      "files": [
+        {
+          "path": "ui/forms.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/forms.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button",
+        "@fabricator/dialog",
+        "@fabricator/app-shell"
+      ]
+    },
+    {
+      "name": "form",
+      "files": [
+        {
+          "path": "ui/forms.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/forms.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button",
+        "@fabricator/dialog",
+        "@fabricator/app-shell"
+      ]
+    },
+    {
+      "name": "funnel-chart",
+      "files": [
+        {
+          "path": "ui/charts.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/charts.kt"
+        }
+      ],
+      "dependencies": ["@fabricator/foundations", "@fabricator/button"]
+    },
+    {
+      "name": "heat-calendar",
+      "files": [
+        {
+          "path": "ui/charts.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/charts.kt"
+        }
+      ],
+      "dependencies": ["@fabricator/foundations", "@fabricator/button"]
+    },
+    {
+      "name": "hover-card",
+      "files": [
+        {
+          "path": "ui/overlays.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/overlays.kt"
+        }
+      ],
+      "dependencies": ["@fabricator/foundations", "@fabricator/button"]
+    },
+    {
+      "name": "image-compare",
+      "files": [
+        {
+          "path": "ui/image-compare.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/image-compare.kt"
+        }
+      ],
+      "dependencies": ["@fabricator/foundations", "@fabricator/button"]
+    },
+    {
+      "name": "input",
+      "files": [
+        {
+          "path": "ui/primitives.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/primitives.kt"
+        }
+      ],
+      "dependencies": ["@fabricator/foundations", "@fabricator/spinner"]
+    },
+    {
+      "name": "input-group",
+      "files": [
+        {
+          "path": "ui/forms.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/forms.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button",
+        "@fabricator/dialog",
+        "@fabricator/app-shell"
+      ]
+    },
+    {
+      "name": "input-otp",
+      "files": [
+        {
+          "path": "ui/forms.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/forms.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button",
+        "@fabricator/dialog",
+        "@fabricator/app-shell"
+      ]
+    },
+    {
+      "name": "item",
+      "files": [
+        {
+          "path": "ui/navigation.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/navigation.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button",
+        "@fabricator/dialog"
+      ]
+    },
+    {
+      "name": "kbd",
+      "files": [
+        {
+          "path": "ui/primitives.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/primitives.kt"
+        }
+      ],
+      "dependencies": ["@fabricator/foundations", "@fabricator/spinner"]
+    },
+    {
+      "name": "label",
+      "files": [
+        {
+          "path": "ui/primitives.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/primitives.kt"
+        }
+      ],
+      "dependencies": ["@fabricator/foundations", "@fabricator/spinner"]
+    },
+    {
+      "name": "line-chart",
+      "files": [
+        {
+          "path": "ui/charts.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/charts.kt"
+        }
+      ],
+      "dependencies": ["@fabricator/foundations", "@fabricator/button"]
+    },
+    {
+      "name": "login-01",
+      "files": [
+        {
+          "path": "ui/blocks.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/blocks.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/field",
+        "@fabricator/app-shell",
+        "@fabricator/markdown",
+        "@fabricator/dialog",
+        "@fabricator/file-tree",
+        "@fabricator/calendar",
+        "@fabricator/popover",
+        "@fabricator/context-menu",
+        "@fabricator/tab-strip"
+      ]
+    },
+    {
+      "name": "login-02",
+      "files": [
+        {
+          "path": "ui/blocks.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/blocks.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/field",
+        "@fabricator/app-shell",
+        "@fabricator/markdown",
+        "@fabricator/dialog",
+        "@fabricator/file-tree",
+        "@fabricator/calendar",
+        "@fabricator/popover",
+        "@fabricator/context-menu",
+        "@fabricator/tab-strip"
+      ]
+    },
+    {
+      "name": "login-03",
+      "files": [
+        {
+          "path": "ui/blocks.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/blocks.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/field",
+        "@fabricator/app-shell",
+        "@fabricator/markdown",
+        "@fabricator/dialog",
+        "@fabricator/file-tree",
+        "@fabricator/calendar",
+        "@fabricator/popover",
+        "@fabricator/context-menu",
+        "@fabricator/tab-strip"
+      ]
+    },
+    {
+      "name": "login-04",
+      "files": [
+        {
+          "path": "ui/blocks.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/blocks.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/field",
+        "@fabricator/app-shell",
+        "@fabricator/markdown",
+        "@fabricator/dialog",
+        "@fabricator/file-tree",
+        "@fabricator/calendar",
+        "@fabricator/popover",
+        "@fabricator/context-menu",
+        "@fabricator/tab-strip"
+      ]
+    },
+    {
+      "name": "login-05",
+      "files": [
+        {
+          "path": "ui/blocks.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/blocks.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/field",
+        "@fabricator/app-shell",
+        "@fabricator/markdown",
+        "@fabricator/dialog",
+        "@fabricator/file-tree",
+        "@fabricator/calendar",
+        "@fabricator/popover",
+        "@fabricator/context-menu",
+        "@fabricator/tab-strip"
+      ]
+    },
+    {
+      "name": "markdown",
+      "files": [
+        {
+          "path": "ui/content.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/content.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button",
+        "@fabricator/app-shell"
+      ]
+    },
+    {
+      "name": "marker",
+      "files": [
+        {
+          "path": "ui/chat.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/chat.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/field",
+        "@fabricator/markdown"
+      ]
+    },
+    {
+      "name": "menubar",
+      "files": [
+        {
+          "path": "ui/overlays.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/overlays.kt"
+        }
+      ],
+      "dependencies": ["@fabricator/foundations", "@fabricator/button"]
+    },
+    {
+      "name": "message",
+      "files": [
+        {
+          "path": "ui/chat.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/chat.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/field",
+        "@fabricator/markdown"
+      ]
+    },
+    {
+      "name": "message-scroller",
+      "files": [
+        {
+          "path": "ui/chat.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/chat.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/field",
+        "@fabricator/markdown"
+      ]
+    },
+    {
+      "name": "model-picker",
+      "files": [
+        {
+          "path": "ui/chat.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/chat.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/field",
+        "@fabricator/markdown"
+      ]
+    },
+    {
+      "name": "multi-select",
+      "files": [
+        {
+          "path": "ui/forms.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/forms.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button",
+        "@fabricator/dialog",
+        "@fabricator/app-shell"
+      ]
+    },
+    {
+      "name": "navigation-menu",
+      "files": [
+        {
+          "path": "ui/navigation.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/navigation.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button",
+        "@fabricator/dialog"
+      ]
+    },
+    {
+      "name": "number-field",
+      "files": [
+        {
+          "path": "ui/forms.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/forms.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button",
+        "@fabricator/dialog",
+        "@fabricator/app-shell"
+      ]
+    },
+    {
+      "name": "pagination",
+      "files": [
+        {
+          "path": "ui/navigation.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/navigation.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button",
+        "@fabricator/dialog"
+      ]
+    },
+    {
+      "name": "pie-chart",
+      "files": [
+        {
+          "path": "ui/charts.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/charts.kt"
+        }
+      ],
+      "dependencies": ["@fabricator/foundations", "@fabricator/button"]
+    },
+    {
+      "name": "popover",
+      "files": [
+        {
+          "path": "ui/overlays.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/overlays.kt"
+        }
+      ],
+      "dependencies": ["@fabricator/foundations", "@fabricator/button"]
+    },
+    {
+      "name": "preview-03",
+      "files": [
+        {
+          "path": "ui/blocks.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/blocks.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/field",
+        "@fabricator/app-shell",
+        "@fabricator/markdown",
+        "@fabricator/dialog",
+        "@fabricator/file-tree",
+        "@fabricator/calendar",
+        "@fabricator/popover",
+        "@fabricator/context-menu",
+        "@fabricator/tab-strip"
+      ]
+    },
+    {
+      "name": "preview-rail",
+      "files": [
+        {
+          "path": "ui/navigation.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/navigation.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button",
+        "@fabricator/dialog"
+      ]
+    },
+    {
+      "name": "progress",
+      "files": [
+        {
+          "path": "ui/content.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/content.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button",
+        "@fabricator/app-shell"
+      ]
+    },
+    {
+      "name": "questionnaire",
+      "files": [
+        {
+          "path": "ui/chat.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/chat.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/field",
+        "@fabricator/markdown"
+      ]
+    },
+    {
+      "name": "radar-chart",
+      "files": [
+        {
+          "path": "ui/charts.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/charts.kt"
+        }
+      ],
+      "dependencies": ["@fabricator/foundations", "@fabricator/button"]
+    },
+    {
+      "name": "radial-chart",
+      "files": [
+        {
+          "path": "ui/charts.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/charts.kt"
+        }
+      ],
+      "dependencies": ["@fabricator/foundations", "@fabricator/button"]
+    },
+    {
+      "name": "radio-group",
+      "files": [
+        {
+          "path": "ui/primitives.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/primitives.kt"
+        }
+      ],
+      "dependencies": ["@fabricator/foundations", "@fabricator/spinner"]
+    },
+    {
+      "name": "rating",
+      "files": [
+        {
+          "path": "ui/primitives.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/primitives.kt"
+        }
+      ],
+      "dependencies": ["@fabricator/foundations", "@fabricator/spinner"]
+    },
+    {
+      "name": "resizable",
+      "files": [
+        {
+          "path": "ui/navigation.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/navigation.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button",
+        "@fabricator/dialog"
+      ]
+    },
+    {
+      "name": "sankey-chart",
+      "files": [
+        {
+          "path": "ui/charts.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/charts.kt"
+        }
+      ],
+      "dependencies": ["@fabricator/foundations", "@fabricator/button"]
+    },
+    {
+      "name": "scroll-area",
+      "files": [
+        {
+          "path": "ui/primitives.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/primitives.kt"
+        }
+      ],
+      "dependencies": ["@fabricator/foundations", "@fabricator/spinner"]
+    },
+    {
+      "name": "search",
+      "files": [
+        {
+          "path": "ui/forms.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/forms.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button",
+        "@fabricator/dialog",
+        "@fabricator/app-shell"
+      ]
+    },
+    {
+      "name": "select",
+      "files": [
+        {
+          "path": "ui/forms.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/forms.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button",
+        "@fabricator/dialog",
+        "@fabricator/app-shell"
+      ]
+    },
+    {
+      "name": "separator",
+      "files": [
+        {
+          "path": "ui/primitives.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/primitives.kt"
+        }
+      ],
+      "dependencies": ["@fabricator/foundations", "@fabricator/spinner"]
+    },
+    {
+      "name": "sheet",
+      "files": [
+        {
+          "path": "ui/overlays.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/overlays.kt"
+        }
+      ],
+      "dependencies": ["@fabricator/foundations", "@fabricator/button"]
+    },
+    {
+      "name": "sidebar",
+      "files": [
+        {
+          "path": "ui/navigation.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/navigation.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button",
+        "@fabricator/dialog"
+      ]
+    },
+    {
+      "name": "sidebar-01",
+      "files": [
+        {
+          "path": "ui/blocks.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/blocks.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/field",
+        "@fabricator/app-shell",
+        "@fabricator/markdown",
+        "@fabricator/dialog",
+        "@fabricator/file-tree",
+        "@fabricator/calendar",
+        "@fabricator/popover",
+        "@fabricator/context-menu",
+        "@fabricator/tab-strip"
+      ]
+    },
+    {
+      "name": "sidebar-02",
+      "files": [
+        {
+          "path": "ui/blocks.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/blocks.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/field",
+        "@fabricator/app-shell",
+        "@fabricator/markdown",
+        "@fabricator/dialog",
+        "@fabricator/file-tree",
+        "@fabricator/calendar",
+        "@fabricator/popover",
+        "@fabricator/context-menu",
+        "@fabricator/tab-strip"
+      ]
+    },
+    {
+      "name": "sidebar-03",
+      "files": [
+        {
+          "path": "ui/blocks.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/blocks.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/field",
+        "@fabricator/app-shell",
+        "@fabricator/markdown",
+        "@fabricator/dialog",
+        "@fabricator/file-tree",
+        "@fabricator/calendar",
+        "@fabricator/popover",
+        "@fabricator/context-menu",
+        "@fabricator/tab-strip"
+      ]
+    },
+    {
+      "name": "sidebar-04",
+      "files": [
+        {
+          "path": "ui/blocks.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/blocks.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/field",
+        "@fabricator/app-shell",
+        "@fabricator/markdown",
+        "@fabricator/dialog",
+        "@fabricator/file-tree",
+        "@fabricator/calendar",
+        "@fabricator/popover",
+        "@fabricator/context-menu",
+        "@fabricator/tab-strip"
+      ]
+    },
+    {
+      "name": "sidebar-05",
+      "files": [
+        {
+          "path": "ui/blocks.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/blocks.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/field",
+        "@fabricator/app-shell",
+        "@fabricator/markdown",
+        "@fabricator/dialog",
+        "@fabricator/file-tree",
+        "@fabricator/calendar",
+        "@fabricator/popover",
+        "@fabricator/context-menu",
+        "@fabricator/tab-strip"
+      ]
+    },
+    {
+      "name": "sidebar-06",
+      "files": [
+        {
+          "path": "ui/blocks.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/blocks.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/field",
+        "@fabricator/app-shell",
+        "@fabricator/markdown",
+        "@fabricator/dialog",
+        "@fabricator/file-tree",
+        "@fabricator/calendar",
+        "@fabricator/popover",
+        "@fabricator/context-menu",
+        "@fabricator/tab-strip"
+      ]
+    },
+    {
+      "name": "sidebar-07",
+      "files": [
+        {
+          "path": "ui/blocks.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/blocks.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/field",
+        "@fabricator/app-shell",
+        "@fabricator/markdown",
+        "@fabricator/dialog",
+        "@fabricator/file-tree",
+        "@fabricator/calendar",
+        "@fabricator/popover",
+        "@fabricator/context-menu",
+        "@fabricator/tab-strip"
+      ]
+    },
+    {
+      "name": "sidebar-08",
+      "files": [
+        {
+          "path": "ui/blocks.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/blocks.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/field",
+        "@fabricator/app-shell",
+        "@fabricator/markdown",
+        "@fabricator/dialog",
+        "@fabricator/file-tree",
+        "@fabricator/calendar",
+        "@fabricator/popover",
+        "@fabricator/context-menu",
+        "@fabricator/tab-strip"
+      ]
+    },
+    {
+      "name": "sidebar-09",
+      "files": [
+        {
+          "path": "ui/blocks.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/blocks.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/field",
+        "@fabricator/app-shell",
+        "@fabricator/markdown",
+        "@fabricator/dialog",
+        "@fabricator/file-tree",
+        "@fabricator/calendar",
+        "@fabricator/popover",
+        "@fabricator/context-menu",
+        "@fabricator/tab-strip"
+      ]
+    },
+    {
+      "name": "sidebar-10",
+      "files": [
+        {
+          "path": "ui/blocks.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/blocks.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/field",
+        "@fabricator/app-shell",
+        "@fabricator/markdown",
+        "@fabricator/dialog",
+        "@fabricator/file-tree",
+        "@fabricator/calendar",
+        "@fabricator/popover",
+        "@fabricator/context-menu",
+        "@fabricator/tab-strip"
+      ]
+    },
+    {
+      "name": "sidebar-11",
+      "files": [
+        {
+          "path": "ui/blocks.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/blocks.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/field",
+        "@fabricator/app-shell",
+        "@fabricator/markdown",
+        "@fabricator/dialog",
+        "@fabricator/file-tree",
+        "@fabricator/calendar",
+        "@fabricator/popover",
+        "@fabricator/context-menu",
+        "@fabricator/tab-strip"
+      ]
+    },
+    {
+      "name": "sidebar-12",
+      "files": [
+        {
+          "path": "ui/blocks.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/blocks.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/field",
+        "@fabricator/app-shell",
+        "@fabricator/markdown",
+        "@fabricator/dialog",
+        "@fabricator/file-tree",
+        "@fabricator/calendar",
+        "@fabricator/popover",
+        "@fabricator/context-menu",
+        "@fabricator/tab-strip"
+      ]
+    },
+    {
+      "name": "sidebar-13",
+      "files": [
+        {
+          "path": "ui/blocks.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/blocks.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/field",
+        "@fabricator/app-shell",
+        "@fabricator/markdown",
+        "@fabricator/dialog",
+        "@fabricator/file-tree",
+        "@fabricator/calendar",
+        "@fabricator/popover",
+        "@fabricator/context-menu",
+        "@fabricator/tab-strip"
+      ]
+    },
+    {
+      "name": "sidebar-14",
+      "files": [
+        {
+          "path": "ui/blocks.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/blocks.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/field",
+        "@fabricator/app-shell",
+        "@fabricator/markdown",
+        "@fabricator/dialog",
+        "@fabricator/file-tree",
+        "@fabricator/calendar",
+        "@fabricator/popover",
+        "@fabricator/context-menu",
+        "@fabricator/tab-strip"
+      ]
+    },
+    {
+      "name": "sidebar-15",
+      "files": [
+        {
+          "path": "ui/blocks.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/blocks.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/field",
+        "@fabricator/app-shell",
+        "@fabricator/markdown",
+        "@fabricator/dialog",
+        "@fabricator/file-tree",
+        "@fabricator/calendar",
+        "@fabricator/popover",
+        "@fabricator/context-menu",
+        "@fabricator/tab-strip"
+      ]
+    },
+    {
+      "name": "sidebar-16",
+      "files": [
+        {
+          "path": "ui/blocks.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/blocks.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/field",
+        "@fabricator/app-shell",
+        "@fabricator/markdown",
+        "@fabricator/dialog",
+        "@fabricator/file-tree",
+        "@fabricator/calendar",
+        "@fabricator/popover",
+        "@fabricator/context-menu",
+        "@fabricator/tab-strip"
+      ]
+    },
+    {
+      "name": "signup-01",
+      "files": [
+        {
+          "path": "ui/blocks.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/blocks.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/field",
+        "@fabricator/app-shell",
+        "@fabricator/markdown",
+        "@fabricator/dialog",
+        "@fabricator/file-tree",
+        "@fabricator/calendar",
+        "@fabricator/popover",
+        "@fabricator/context-menu",
+        "@fabricator/tab-strip"
+      ]
+    },
+    {
+      "name": "signup-02",
+      "files": [
+        {
+          "path": "ui/blocks.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/blocks.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/field",
+        "@fabricator/app-shell",
+        "@fabricator/markdown",
+        "@fabricator/dialog",
+        "@fabricator/file-tree",
+        "@fabricator/calendar",
+        "@fabricator/popover",
+        "@fabricator/context-menu",
+        "@fabricator/tab-strip"
+      ]
+    },
+    {
+      "name": "signup-03",
+      "files": [
+        {
+          "path": "ui/blocks.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/blocks.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/field",
+        "@fabricator/app-shell",
+        "@fabricator/markdown",
+        "@fabricator/dialog",
+        "@fabricator/file-tree",
+        "@fabricator/calendar",
+        "@fabricator/popover",
+        "@fabricator/context-menu",
+        "@fabricator/tab-strip"
+      ]
+    },
+    {
+      "name": "signup-04",
+      "files": [
+        {
+          "path": "ui/blocks.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/blocks.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/field",
+        "@fabricator/app-shell",
+        "@fabricator/markdown",
+        "@fabricator/dialog",
+        "@fabricator/file-tree",
+        "@fabricator/calendar",
+        "@fabricator/popover",
+        "@fabricator/context-menu",
+        "@fabricator/tab-strip"
+      ]
+    },
+    {
+      "name": "signup-05",
+      "files": [
+        {
+          "path": "ui/blocks.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/blocks.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/field",
+        "@fabricator/app-shell",
+        "@fabricator/markdown",
+        "@fabricator/dialog",
+        "@fabricator/file-tree",
+        "@fabricator/calendar",
+        "@fabricator/popover",
+        "@fabricator/context-menu",
+        "@fabricator/tab-strip"
+      ]
+    },
+    {
+      "name": "skeleton",
+      "files": [
+        {
+          "path": "ui/primitives.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/primitives.kt"
+        }
+      ],
+      "dependencies": ["@fabricator/foundations", "@fabricator/spinner"]
+    },
+    {
+      "name": "slider",
+      "files": [
+        {
+          "path": "ui/primitives.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/primitives.kt"
+        }
+      ],
+      "dependencies": ["@fabricator/foundations", "@fabricator/spinner"]
+    },
+    {
+      "name": "sonner",
+      "files": [
+        {
+          "path": "ui/content.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/content.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button",
+        "@fabricator/app-shell"
+      ]
+    },
+    {
+      "name": "sounds",
+      "files": [
+        {
+          "path": "ui/sounds.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/sounds.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button",
+        "@fabricator/app-shell",
+        "@fabricator/markdown"
+      ]
+    },
+    {
+      "name": "spinner",
+      "files": [
+        {
+          "path": "ui/spinner.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/spinner.kt"
+        }
+      ],
+      "dependencies": ["@fabricator/foundations"]
+    },
+    {
+      "name": "status-bar",
+      "files": [
+        {
+          "path": "ui/status-bar.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/status-bar.kt"
+        },
+        {
+          "path": "models/status-bar-model.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/status-bar-model.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button",
+        "@fabricator/markdown"
+      ]
+    },
+    {
+      "name": "switch",
+      "files": [
+        {
+          "path": "ui/primitives.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/primitives.kt"
+        }
+      ],
+      "dependencies": ["@fabricator/foundations", "@fabricator/spinner"]
+    },
+    {
+      "name": "syntax-highlight",
+      "files": [
+        {
+          "path": "ui/content.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/content.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button",
+        "@fabricator/app-shell"
+      ]
+    },
+    {
+      "name": "tab-strip",
+      "files": [
+        {
+          "path": "ui/navigation.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/navigation.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button",
+        "@fabricator/dialog"
+      ]
+    },
+    {
+      "name": "table",
+      "files": [
+        {
+          "path": "ui/content.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/content.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button",
+        "@fabricator/app-shell"
+      ]
+    },
+    {
+      "name": "tabs",
+      "files": [
+        {
+          "path": "ui/navigation.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/navigation.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button",
+        "@fabricator/dialog"
+      ]
+    },
+    {
+      "name": "text",
+      "files": [
+        {
+          "path": "ui/primitives.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/primitives.kt"
+        }
+      ],
+      "dependencies": ["@fabricator/foundations", "@fabricator/spinner"]
+    },
+    {
+      "name": "textarea",
+      "files": [
+        {
+          "path": "ui/primitives.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/primitives.kt"
+        }
+      ],
+      "dependencies": ["@fabricator/foundations", "@fabricator/spinner"]
+    },
+    {
+      "name": "theme-toggle",
+      "files": [
+        {
+          "path": "ui/primitives.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/primitives.kt"
+        }
+      ],
+      "dependencies": ["@fabricator/foundations", "@fabricator/spinner"]
+    },
+    {
+      "name": "time-input",
+      "files": [
+        {
+          "path": "ui/forms.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/forms.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button",
+        "@fabricator/dialog",
+        "@fabricator/app-shell"
+      ]
+    },
+    {
+      "name": "time-wheel",
+      "files": [
+        {
+          "path": "ui/forms.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/forms.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button",
+        "@fabricator/dialog",
+        "@fabricator/app-shell"
+      ]
+    },
+    {
+      "name": "toast",
+      "files": [
+        {
+          "path": "ui/content.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/content.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button",
+        "@fabricator/app-shell"
+      ]
+    },
+    {
+      "name": "toggle",
+      "files": [
+        {
+          "path": "ui/primitives.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/primitives.kt"
+        }
+      ],
+      "dependencies": ["@fabricator/foundations", "@fabricator/spinner"]
+    },
+    {
+      "name": "toggle-group",
+      "files": [
+        {
+          "path": "ui/forms.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/forms.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button",
+        "@fabricator/dialog",
+        "@fabricator/app-shell"
+      ]
+    },
+    {
+      "name": "tooltip",
+      "files": [
+        {
+          "path": "ui/overlays.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/overlays.kt"
+        }
+      ],
+      "dependencies": ["@fabricator/foundations", "@fabricator/button"]
+    },
+    {
+      "name": "treemap",
+      "files": [
+        {
+          "path": "ui/charts.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/charts.kt"
+        }
+      ],
+      "dependencies": ["@fabricator/foundations", "@fabricator/button"]
+    },
+    {
+      "name": "typography",
+      "files": [
+        {
+          "path": "ui/primitives.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/primitives.kt"
+        }
+      ],
+      "dependencies": ["@fabricator/foundations", "@fabricator/spinner"]
+    },
+    {
+      "name": "user-menu",
+      "files": [
+        {
+          "path": "ui/navigation.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/navigation.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button",
+        "@fabricator/dialog"
+      ]
+    },
+    {
+      "name": "video-player",
+      "files": [
+        {
+          "path": "ui/video-player.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/video-player.kt"
+        }
+      ],
+      "dependencies": ["@fabricator/foundations", "@fabricator/native-media"]
+    },
+    {
+      "name": "workspace-switcher",
+      "files": [
+        {
+          "path": "ui/forms.kt",
+          "target": "src/commonMain/kotlin/dev/fabricator/ui/forms.kt"
+        }
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/button",
+        "@fabricator/dialog",
+        "@fabricator/app-shell"
+      ]
+    }
+  ]
+}

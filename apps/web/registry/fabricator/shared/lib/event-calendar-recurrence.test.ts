@@ -424,6 +424,50 @@ describe("scoped edits", () => {
     expect(change.created[0].recurrence).toBe("RRULE:FREQ=DAILY;COUNT=3")
   })
 
+  it("deletes only the first occurrence when the scope is this", () => {
+    const counted = series({ recurrence: "RRULE:FREQ=DAILY;COUNT=3" })
+    const first = expandRecurringEvent(
+      counted,
+      range("2026-11-01", "2026-11-10"),
+      timeZone
+    )[0]
+    if (!first) throw new Error("Missing first recurrence fixture")
+    const change = applyRecurringDelete({
+      stored: [counted],
+      occurrence: first,
+      scope: "this",
+      timeZone,
+    })
+    expect(change.deleted).toEqual([])
+    expect(change.replaced).toEqual([counted])
+    expect(
+      starts(
+        expandEvents(
+          change.updated,
+          range("2026-11-01", "2026-11-10"),
+          timeZone
+        )
+      )
+    ).toEqual(["2026-11-03T10:00:00", "2026-11-04T10:00:00"])
+  })
+
+  it("deletes the whole series when following starts at the first occurrence", () => {
+    const first = expandRecurringEvent(
+      stored[0],
+      range("2026-11-01", "2026-11-10"),
+      timeZone
+    )[0]
+    if (!first) throw new Error("Missing first recurrence fixture")
+    const change = applyRecurringDelete({
+      stored,
+      occurrence: first,
+      scope: "following",
+      timeZone,
+    })
+    expect(change.deleted).toEqual(stored)
+    expect(change.updated).toEqual([])
+  })
+
   it("deletes this, following and all", () => {
     expect(
       applyRecurringDelete({

@@ -46,6 +46,7 @@ const GROUP_BY_SLUG: Record<string, ComponentGroup> = {
   "scroll-area": "Basics",
   // Forms
   field: "Forms",
+  form: "Forms",
   "input-group": "Forms",
   "input-otp": "Forms",
   select: "Forms",
@@ -99,6 +100,7 @@ const GROUP_BY_SLUG: Record<string, ComponentGroup> = {
   progress: "Content",
   empty: "Content",
   markdown: "Content",
+  sounds: "Content",
   // Charts
   "area-chart": "Charts",
   "line-chart": "Charts",

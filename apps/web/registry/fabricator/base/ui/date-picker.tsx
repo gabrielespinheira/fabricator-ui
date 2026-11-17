@@ -409,7 +409,11 @@ function DatePicker(
 
   // A value set from outside, or a new clock, rewrites the text.
   if (
-    !isSameDateValue(syncedValue, currentValue, { granularity }) ||
+    !isSameDateValue(syncedValue, currentValue, {
+      granularity,
+      hasTime,
+      hasSeconds,
+    }) ||
     syncedHourCycle !== hourCycle
   ) {
     setSyncedValue(currentValue)
@@ -420,7 +424,14 @@ function DatePicker(
 
   function updateValue(nextValue: Date | undefined) {
     setSyncedValue(nextValue)
-    if (isSameDateValue(nextValue, currentValue, { granularity })) return
+    if (
+      isSameDateValue(nextValue, currentValue, {
+        granularity,
+        hasTime,
+        hasSeconds,
+      })
+    )
+      return
     if (!isControlled) setUncontrolledValue(nextValue)
     onValueChange?.(nextValue)
   }

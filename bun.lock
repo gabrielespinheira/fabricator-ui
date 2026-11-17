@@ -23,6 +23,37 @@
         "electron": "45.2.1",
       },
     },
+    "apps/kotlin": {
+      "name": "@fabricator-ui/example-kotlin",
+    },
+    "apps/swiftui": {
+      "name": "@fabricator-ui/swiftui-example",
+      "version": "0.8.0",
+    },
+    "apps/tauri-mobile": {
+      "name": "@fabricator-ui/tauri-mobile",
+      "version": "0.8.0",
+      "dependencies": {
+        "@fabricator-ui/icons": "workspace:*",
+        "next-themes": "0.4.6",
+        "react": "19.3.1",
+        "react-dom": "19.3.1",
+        "zod": "4.6.7",
+      },
+      "devDependencies": {
+        "@tailwindcss/postcss": "4.3.3",
+        "@tauri-apps/cli": "2.12.4",
+        "@types/node": "22.20.5",
+        "@types/react": "19.3.0",
+        "@types/react-dom": "19.3.0",
+        "axe-core": "4.13.0",
+        "puppeteer-core": "25.16.0",
+        "tailwindcss": "4.3.3",
+        "typescript": "6.0.3",
+        "vite": "7.3.6",
+        "vitest": "5.0.5",
+      },
+    },
     "apps/web": {
       "name": "web",
       "version": "0.8.0",
@@ -536,6 +567,8 @@
 
     "@fabricator-ui/editor-native": ["@fabricator-ui/editor-native@workspace:packages/editor-native"],
 
+    "@fabricator-ui/example-kotlin": ["@fabricator-ui/example-kotlin@workspace:apps/kotlin"],
+
     "@fabricator-ui/icons": ["@fabricator-ui/icons@workspace:packages/icons"],
 
     "@fabricator-ui/icons-core": ["@fabricator-ui/icons-core@workspace:packages/icons-core"],
@@ -545,6 +578,10 @@
     "@fabricator-ui/icons-static": ["@fabricator-ui/icons-static@workspace:packages/icons-static"],
 
     "@fabricator-ui/setup": ["@fabricator-ui/setup@workspace:packages/setup"],
+
+    "@fabricator-ui/swiftui-example": ["@fabricator-ui/swiftui-example@workspace:apps/swiftui"],
+
+    "@fabricator-ui/tauri-mobile": ["@fabricator-ui/tauri-mobile@workspace:apps/tauri-mobile"],
 
     "@fabricator-ui/tests": ["@fabricator-ui/tests@workspace:packages/tests"],
 

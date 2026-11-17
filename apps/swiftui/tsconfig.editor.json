@@ -1,0 +1,13 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noUncheckedIndexedAccess": false
+  },
+  "include": [
+    "scripts/editor-engine.ts",
+    "scripts/calendar-engine.ts",
+    "scripts/document-engine.ts",
+    "scripts/date-picker-engine.ts"
+  ],
+  "exclude": []
+}

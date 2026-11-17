@@ -119,9 +119,20 @@ function fileName(name: string, scale: number, template: boolean) {
   return scale === 1 ? `${base}.png` : `${base}@${scale}x.png`
 }
 
+/** Rasterizes the existing canonical SVG artwork for native resource adapters. */
+export async function renderSvgPng(svg: string, pixelSize: number) {
+  const Resvg = await loadResvg()
+  return new Resvg(svg, {
+    fitTo: { mode: "width", value: pixelSize },
+    // Icon artwork has no text; rescanning host fonts adds work and host dependence.
+    font: { loadSystemFonts: false },
+  })
+    .render()
+    .asPng()
+}
+
 /** Writes one PNG per icon and scale, named as given, and returns the files written. */
 export async function exportPngs(names: string[], options: PngOptions) {
-  const Resvg = await loadResvg()
   const icons = names.map((name) => ({
     name,
     canonical: resolveName(name, options.set),
@@ -131,11 +142,7 @@ export async function exportPngs(names: string[], options: PngOptions) {
   for (const { name, canonical } of icons) {
     const svg = buildSvg(canonical, options)
     for (const scale of options.scales) {
-      const png = new Resvg(svg, {
-        fitTo: { mode: "width", value: options.size * scale },
-      })
-        .render()
-        .asPng()
+      const png = await renderSvgPng(svg, options.size * scale)
       const file = path.join(
         options.outDir,
         fileName(name, scale, options.template)

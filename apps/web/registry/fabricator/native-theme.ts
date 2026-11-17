@@ -50,7 +50,7 @@ export const RADIUS_SCALE = { sm: 0.6, md: 0.8, lg: 1, xl: 1.4, "2xl": 1.8 }
 const REM = 16
 
 const OKLCH_PATTERN =
-  /oklch\(\s*([\d.]+)\s+([\d.]+)\s+([\d.]+)\s*(?:\/\s*([\d.]+)\s*)?\)/g
+  /oklch\(\s*([\d.]+%?)\s+([\d.]+)\s+([\d.]+)\s*(?:\/\s*([\d.]+%?)\s*)?\)/g
 
 const BEZIER_PATTERN = /cubic-bezier\(([^)]+)\)/
 
@@ -64,10 +64,18 @@ function parseOklch(css: string): Oklch {
   const [match] = css.matchAll(OKLCH_PATTERN)
   if (!match) throw new NativeThemeError(`Not an oklch() colour: ${css}`)
   return {
-    l: Number(match[1]),
+    l: match[1].endsWith("%")
+      ? Number.parseFloat(match[1]) / 100
+      : Number(match[1]),
     c: Number(match[2]),
     h: Number(match[3]),
-    ...(match[4] === undefined ? {} : { alpha: Number(match[4]) }),
+    ...(match[4] === undefined
+      ? {}
+      : {
+          alpha: match[4].endsWith("%")
+            ? Number.parseFloat(match[4]) / 100
+            : Number(match[4]),
+        }),
   }
 }
 
@@ -82,6 +90,11 @@ function toNativeColor(css: string) {
   const { l, c, h, alpha } = parseOklch(css)
   const hex = oklchToHex(l, c, h)
   return alpha === undefined ? hex : withAlpha(hex, alpha)
+}
+
+/** Resolves a canonical palette literal for a non-CSS renderer. */
+export function resolveNativeColor(css: string) {
+  return toNativeColor(css)
 }
 
 /** color-mix(in oklab, <css>, black <share>): OKLab scales towards black. */

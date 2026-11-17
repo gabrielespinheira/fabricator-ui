@@ -125,7 +125,13 @@ function getTable(block: EditorDocument["blocks"][number]): NativeEditorTable {
   }
 }
 
-type CodeTokenSpan = { start: number; end: number; token: CodeTokenKind }
+type CodeTokenSpan = {
+  start: number
+  end: number
+  token?: CodeTokenKind
+  bold?: true
+  italic?: true
+}
 
 // Unchanged blocks keep their object, so typing in one code block colours
 // only that one again.
@@ -159,8 +165,15 @@ function getCodeTokenSpans(block: EditorBlock): CodeTokenSpan[] {
     if (at === undefined || lineEnd === undefined) break
     for (const token of line.tokens) {
       const end = Math.min(at + token.content.length, lineEnd)
-      if (token.kind !== "plain" && end > at) {
-        spans.push({ start: at, end, token: token.kind })
+      if (
+        end > at &&
+        (token.kind !== "plain" || token.isStrong || token.isEmphasis)
+      ) {
+        const span: CodeTokenSpan = { start: at, end }
+        if (token.kind !== "plain") span.token = token.kind
+        if (token.isStrong || token.kind === "heading") span.bold = true
+        if (token.isEmphasis || token.kind === "comment") span.italic = true
+        spans.push(span)
       }
       at = end
     }

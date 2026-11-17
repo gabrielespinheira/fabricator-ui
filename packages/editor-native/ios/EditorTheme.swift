@@ -1,5 +1,26 @@
 import UIKit
 
+struct EditorFontRequest {
+  var size: CGFloat
+  var weight: UIFont.Weight
+  var isMonospace: Bool
+  var isItalic: Bool
+}
+
+typealias EditorFontResolver = @Sendable (EditorFontRequest) -> UIFont
+
+struct EditorCodeStyle {
+  var fontSize: CGFloat
+  var labelSize: CGFloat
+  var headerHeight: CGFloat
+  var paddingX: CGFloat
+  var paddingY: CGFloat
+  var headerInset: CGFloat
+  var iconSize: CGFloat
+  var chevronGap: CGFloat
+  var radius: CGFloat
+}
+
 /// The theme with its fonts and colours resolved, plus the derived sizes the
 /// styler and the layout fragments share.
 struct EditorTheme {
@@ -13,6 +34,8 @@ struct EditorTheme {
   let mediumName: String
   let semiboldName: String
   let monoName: String
+  let fontResolver: EditorFontResolver?
+  let codeStyle: EditorCodeStyle
 
   let foreground: UIColor
   let muted: UIColor
@@ -43,9 +66,6 @@ struct EditorTheme {
   static let quotePadding: CGFloat = 1
   static let codeBlockPaddingX: CGFloat = 1
   static let codeBlockPaddingY: CGFloat = 0.75
-  static let codeBlockRadius: CGFloat = 12
-  /// The language label over a code block, in em of the body size.
-  static let codeLabelScale: CGFloat = 0.75
   /// Inline code's chip: 0.3em of the code's size at each side.
   static let inlineCodePaddingX: CGFloat = 0.3
   /// The task box, its corner and its check, in em of the body size.
@@ -53,7 +73,8 @@ struct EditorTheme {
   static let checkboxRadius: CGFloat = 0.375
   static let checkScale: CGFloat = 0.75
 
-  init(record: EditorThemeRecord) {
+  init(record: EditorThemeRecord, fontResolver: EditorFontResolver? = nil, codeStyle: EditorCodeStyle? = nil) {
+    self.fontResolver = fontResolver
     fontSize = CGFloat(record.fontSize)
     lineHeight = CGFloat(record.lineHeight)
     let defaults: [CGFloat] = [1.875, 1.5, 1.25, 1.125, 1, 1].map { $0 * CGFloat(record.fontSize) }
@@ -86,6 +107,9 @@ struct EditorTheme {
     checkboxBorder =
       colors.checkboxBorder.flatMap { UIColor(editorHex: $0) }
       ?? foreground.editorScalingAlpha(0.25)
+    self.codeStyle = codeStyle ?? EditorCodeStyle(
+      fontSize: 14, labelSize: 12, headerHeight: 36, paddingX: 16, paddingY: 12,
+      headerInset: 12, iconSize: 14, chevronGap: 4, radius: 12)
   }
 
   static let fallback = EditorTheme(record: EditorThemeRecord())
@@ -98,24 +122,32 @@ struct EditorTheme {
 
   /// The code block's language label: small, in the body font.
   var codeLabelFont: UIFont {
-    regularFont(size: (fontSize * Self.codeLabelScale).rounded())
+    regularFont(size: codeStyle.labelSize)
   }
 
-  func regularFont(size: CGFloat) -> UIFont {
-    Self.font(named: regularName, size: size, fallbackWeight: .regular)
+  func regularFont(size: CGFloat, isItalic: Bool = false) -> UIFont {
+    resolveFont(size: size, weight: .regular, isMonospace: false, isItalic: isItalic)
   }
 
-  func semiboldFont(size: CGFloat) -> UIFont {
-    Self.font(named: semiboldName, size: size, fallbackWeight: .semibold)
+  func semiboldFont(size: CGFloat, isItalic: Bool = false) -> UIFont {
+    resolveFont(size: size, weight: .semibold, isMonospace: false, isItalic: isItalic)
   }
 
-  func monoFont(size: CGFloat, isBold: Bool) -> UIFont {
-    let font = Self.font(named: monoName, size: size, fallbackWeight: nil)
-    guard isBold else { return font }
-    if let bold = font.fontDescriptor.withSymbolicTraits(.traitBold) {
-      return UIFont(descriptor: bold, size: size)
+  func monoFont(size: CGFloat, isBold: Bool, isItalic: Bool = false) -> UIFont {
+    resolveFont(size: size, weight: isBold ? .semibold : .regular, isMonospace: true, isItalic: isItalic)
+  }
+
+  private func resolveFont(size: CGFloat, weight: UIFont.Weight, isMonospace: Bool, isItalic: Bool) -> UIFont {
+    if let fontResolver {
+      return fontResolver(EditorFontRequest(size: size, weight: weight, isMonospace: isMonospace, isItalic: isItalic))
     }
-    return font
+    let name = isMonospace ? monoName : weight == .semibold ? semiboldName : regularName
+    var font = Self.font(named: name, size: size, fallbackWeight: isMonospace ? nil : weight)
+    if isMonospace && weight == .semibold,
+      let bold = font.fontDescriptor.withSymbolicTraits(.traitBold) {
+      font = UIFont(descriptor: bold, size: size)
+    }
+    return isItalic ? EditorStyler.italic(of: font) : font
   }
 
   private static func font(named name: String, size: CGFloat, fallbackWeight: UIFont.Weight?) -> UIFont {

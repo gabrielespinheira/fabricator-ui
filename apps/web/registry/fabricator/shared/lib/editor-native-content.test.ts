@@ -155,6 +155,29 @@ describe("native editor content", () => {
     )
   })
 
+  it("keeps comment slant and Markdown token emphasis in native code", () => {
+    const doc = document([
+      createBlock({ type: "code", attrs: { language: "ts" } }, "// A note"),
+      createBlock(
+        { type: "code", attrs: { language: "markdown" } },
+        "# Title\n**Strong** and *emphasis*"
+      ),
+    ])
+    const content = getNativeEditorContent(doc, 1)
+    const spans = content.spans.map((span) => ({
+      ...span,
+      text: content.text.slice(span.start, span.end),
+    }))
+    expect(spans).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ token: "comment", italic: true }),
+        expect.objectContaining({ token: "heading", bold: true }),
+        expect.objectContaining({ text: "Strong", bold: true }),
+        expect.objectContaining({ text: "emphasis", italic: true }),
+      ])
+    )
+  })
+
   it("labels a code block without a language as plain text", () => {
     const doc = document([createBlock({ type: "code" }, "x")])
     const content = getNativeEditorContent(doc, 1)

@@ -903,7 +903,10 @@ function applyRecurringDelete<TData>({
   timeZone?: string
 }): RecurrenceChange<TData> {
   const series = findSeries(stored, occurrence)
-  if (scope === "all" || isFirstOccurrence(series, occurrence, timeZone)) {
+  if (
+    scope === "all" ||
+    (scope === "following" && isFirstOccurrence(series, occurrence, timeZone))
+  ) {
     return {
       created: [],
       updated: [],

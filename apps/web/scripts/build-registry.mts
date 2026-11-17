@@ -40,6 +40,7 @@ import {
 import { fonts } from "@/registry/fonts"
 import { STYLES } from "@/registry/styles"
 
+import { buildNativePlatforms } from "./build-native-platforms.mjs"
 import { buildNativeRegistry } from "./build-native-registry.mjs"
 
 /*
@@ -824,6 +825,8 @@ async function runFullBuild() {
 
   console.log("\n📱 Building the React Native registry...")
   await buildNativeRegistry()
+  console.info("\nBuilding SwiftUI and Kotlin Compose registries...")
+  await buildNativePlatforms()
 }
 
 async function runTargetedBuild(options: BuildOptions) {

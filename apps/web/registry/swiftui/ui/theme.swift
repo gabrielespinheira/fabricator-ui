@@ -40,6 +40,7 @@ struct FabricatorContract: Decodable, Sendable {
     var schemaVersion: Int
     var themes: [String: FabricatorTokenMode]
     var densities: [String: FabricatorDensityTokens]
+    var typography: FabricatorTypographyTokens
     var items: [FabricatorCatalogItem]
     var icons: [FabricatorIconGeometry]
     var motion: [String: FabricatorMotionTokens]
@@ -47,6 +48,7 @@ struct FabricatorContract: Decodable, Sendable {
     var soundMasterLevel: Double
     var spinners: FabricatorSpinnerContract
     var calendar: FabricatorCalendarTokens
+    var dataTable: [String: FabricatorTableColumnMetrics]
 
     static let shared: FabricatorContract = {
         #if SWIFT_PACKAGE
@@ -60,25 +62,7 @@ struct FabricatorContract: Decodable, Sendable {
     }()
 }
 
-struct FabricatorMotionDuration: Decodable, Sendable { var enter: Double; var exit: Double }
 struct FabricatorCalendarTokens: Decodable, Sendable { var chipWash: [String: [String: Double]] }
-struct FabricatorMotionTokens: Decodable, Sendable { var durations: [String: FabricatorMotionDuration]; var easings: [String: String]; var scales: [String: Double] }
-public enum FabricatorMotionSpeed: String, CaseIterable, Sendable { case smooth, `default`, snappy, instant }
-
-private enum FabricatorFonts {
-    static let registered: Bool = {
-        #if SWIFT_PACKAGE
-        let bundle = Bundle.module
-        #else
-        let bundle = Bundle.main
-        #endif
-        for name in ["InterVariable", "InterVariable-Italic"] {
-            guard let url = bundle.url(forResource: name, withExtension: "ttf") else { preconditionFailure("Fabricator UI Inter font is missing: \(name)") }
-            CTFontManagerRegisterFontsForURL(url as CFURL, .process, nil)
-        }
-        return true
-    }()
-}
 
 public enum FabricatorDensity: String, CaseIterable, Sendable {
     case compact
@@ -91,7 +75,13 @@ public struct FabricatorTheme: Sendable {
     public var colorScheme: ColorScheme
     public var density: FabricatorDensity
     public var motionSpeed: FabricatorMotionSpeed
-    public init(colorScheme: ColorScheme = .light, density: FabricatorDensity = .regular, motionSpeed: FabricatorMotionSpeed = .default) { self.colorScheme = colorScheme; self.density = density; self.motionSpeed = motionSpeed }
+    public var motionScale: Double
+    public var isMotionEnabled: Bool
+    var fontScale: CGFloat = 1
+    public init(colorScheme: ColorScheme = .light, density: FabricatorDensity = .regular, motionSpeed: FabricatorMotionSpeed = .default, motionScale: Double = 1, isMotionEnabled: Bool = true) {
+        precondition(motionScale.isFinite && motionScale >= 0, "Motion scale must be finite and nonnegative")
+        self.colorScheme = colorScheme; self.density = density; self.motionSpeed = motionSpeed; self.motionScale = motionScale; self.isMotionEnabled = isMotionEnabled
+    }
     private var mode: FabricatorTokenMode {
         guard let mode = FabricatorContract.shared.themes[colorScheme == .dark ? "dark" : "light"] else { preconditionFailure("Fabricator theme mode is missing") }
         return mode
@@ -114,7 +104,10 @@ public struct FabricatorTheme: Sendable {
         let name = density == .tablet ? "spacious" : density.rawValue
         return CGFloat(FabricatorContract.shared.densities[name]?.icon[String(step)] ?? Double(step))
     }
-    public var controlHeight: CGFloat { space(36) }
+    public var controlHeight: CGFloat { minimumControlHeight(36) }
+    func minimumControlHeight(_ step: Int, textStep: Int = 13) -> CGFloat {
+        space(step) + ceil(max(0, fontScale - 1) * text(textStep) * 1.5)
+    }
     public var minimumHitSize: CGFloat {
         #if os(iOS)
         44
@@ -124,31 +117,83 @@ public struct FabricatorTheme: Sendable {
     }
     public var bodyFont: Font { font(text()) }
     public func font(_ size: CGFloat, weight: Font.Weight = .regular) -> Font {
-        _ = FabricatorFonts.registered
-        return .custom("InterVariable", size: size, relativeTo: .body).weight(weight)
+        Font(resolveFont(size, weight: weight))
     }
-    public var pressScale: Double { FabricatorContract.shared.motion[motionSpeed.rawValue]?.scales["press"] ?? 1 }
-    func shadows(_ role: String) -> [FabricatorShadow] { FabricatorShadow.parse(mode.shadows[role, default: ""]) }
+    func resolveFont(_ size: CGFloat, weight: Font.Weight = .regular) -> CTFont {
+        let weights = FabricatorContract.shared.typography.weights
+        let axis: Double
+        switch weight {
+        case .ultraLight: axis = 100
+        case .thin: axis = 200
+        case .light: axis = 300
+        case .regular: axis = 400
+        case .medium: axis = weights.medium
+        case .semibold: axis = weights.semibold
+        case .bold: axis = 700
+        case .heavy: axis = 800
+        case .black: axis = 900
+        default: preconditionFailure("Unsupported Fabricator font weight: \(weight)")
+        }
+        return FabricatorFontAdapter.makeFont(size: size * fontScale, weight: axis)
+    }
+    private var motion: FabricatorMotionTokens {
+        guard let motion = FabricatorContract.shared.motion[motionSpeed.rawValue] else { preconditionFailure("Missing Fabricator motion speed: \(motionSpeed)") }
+        return motion
+    }
+    public var hasMotion: Bool { isMotionEnabled && motionScale > 0 }
+    public var hasContinuousMotion: Bool { hasMotion && motionSpeed != .instant }
+    public var pressScale: Double { surfaceScale("press") }
+    func surfaceScale(_ role: String) -> Double { hasMotion ? motion.scales[role, default: 1] : 1 }
+    var popupBlur: Double { hasMotion ? motion.popupBlur : 0 }
+    func popupTravel(_ role: String = "popup") -> Double { hasMotion ? motion.travel[role, default: 0] : 0 }
+    func shadows(_ role: String) -> [FabricatorShadow] {
+        guard let source = mode.shadows[role] else { preconditionFailure("Unknown Fabricator elevation: \(role)") }
+        return FabricatorShadow.parse(source)
+    }
     func calendarWash(_ state: String) -> Double { guard let wash = FabricatorContract.shared.calendar.chipWash[colorScheme == .dark ? "dark" : "light"]?[state] else { preconditionFailure("Unknown calendar wash state: \(state)") }; return wash }
     public func animation(_ role: String = "feedback", isExiting: Bool = false) -> Animation? {
-        guard motionSpeed != .instant, let motion = FabricatorContract.shared.motion[motionSpeed.rawValue], let duration = motion.durations[role] else { return nil }
-        let easing = motion.easings[role] ?? motion.easings[isExiting ? "exit" : "enter", default: ""]
-        let points = easing.replacingOccurrences(of: "cubic-bezier(", with: "").replacingOccurrences(of: ")", with: "").split(separator: ",").compactMap { Double($0.trimmingCharacters(in: .whitespaces)) }
-        guard points.count == 4 else { return nil }
-        return .timingCurve(points[0], points[1], points[2], points[3], duration: (isExiting ? duration.exit : duration.enter) / 1000)
+        resolveAnimation(motionTiming(role, isExiting: isExiting))
+    }
+    func animation(_ role: String, easing: FabricatorMotionEasing, isExiting: Bool = false) -> Animation? {
+        resolveAnimation(motionTiming(role, isExiting: isExiting, easing: easing))
+    }
+    private func resolveAnimation(_ timing: FabricatorMotionTiming?) -> Animation? {
+        guard let timing else { return nil }
+        switch timing.curve {
+        case .cubicBezier(let x1, let y1, let x2, let y2): return .timingCurve(x1, y1, x2, y2, duration: timing.duration)
+        case .spring: return Animation(FabricatorSampledAnimation(timing: timing))
+        }
+    }
+    func motionTiming(_ role: String, isExiting: Bool = false, easing: FabricatorMotionEasing? = nil) -> FabricatorMotionTiming? {
+        hasMotion ? motion.timing(role, isExiting: isExiting, scale: motionScale, easing: easing) : nil
     }
     func motionProgress(_ role: String, elapsed: Double) -> Double {
-        guard motionSpeed != .instant, let motion = FabricatorContract.shared.motion[motionSpeed.rawValue], let duration = motion.durations[role], duration.enter > 0 else { return 1 }
-        let progress = min(1, max(0, elapsed / (duration.enter / 1000)))
-        let easing = motion.easings[role] ?? motion.easings["enter", default: ""]
-        let values = easing.replacingOccurrences(of: "cubic-bezier(", with: "").replacingOccurrences(of: ")", with: "").split(separator: ",").compactMap { Double($0.trimmingCharacters(in: .whitespaces)) }
-        guard values.count == 4 else { return progress }
-        func cubic(_ time: Double, first: Double, second: Double) -> Double { 3 * (1 - time) * (1 - time) * time * first + 3 * (1 - time) * time * time * second + time * time * time }
-        var low = 0.0, high = 1.0
-        for _ in 0..<16 { let middle = (low + high) / 2; if cubic(middle, first: values[0], second: values[2]) < progress { low = middle } else { high = middle } }
-        return cubic((low + high) / 2, first: values[1], second: values[3])
+        guard let timing = motionTiming(role) else { return 1 }
+        return timing.progress(at: elapsed / timing.duration)
     }
     public static var catalog: [FabricatorCatalogItem] { FabricatorContract.shared.items }
+}
+
+private struct FabricatorSampledAnimation: CustomAnimation {
+    var timing: FabricatorMotionTiming
+    func animate<V: VectorArithmetic>(value: V, time: TimeInterval, context: inout AnimationContext<V>) -> V? {
+        guard time < timing.duration else { return nil }
+        return value.scaled(by: timing.progress(at: time / timing.duration))
+    }
+}
+
+struct FabricatorTextMetrics: ViewModifier {
+    @Environment(\.fabricatorTheme) private var theme
+    var size: CGFloat
+    var weight: Font.Weight = .regular
+    var lineHeight: CGFloat = 1.5
+    func body(content: Content) -> some View {
+        let font = theme.resolveFont(size, weight: weight)
+        let naturalHeight = CTFontGetAscent(font) + CTFontGetDescent(font) + CTFontGetLeading(font)
+        let extra = size * theme.fontScale * lineHeight - naturalHeight
+        // CSS line-height includes half-leading above and below the glyphs too.
+        return content.font(Font(font)).lineSpacing(extra).padding(.vertical, extra / 2)
+    }
 }
 
 private struct FabricatorThemeKey: EnvironmentKey { static let defaultValue = FabricatorTheme() }
@@ -158,15 +203,21 @@ public extension EnvironmentValues {
 
 public struct FabricatorRoot<Content: View>: View {
     @Environment(\.colorScheme) private var systemScheme
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
+    @ScaledMetric(relativeTo: .body) private var fontScale: CGFloat = 1
     public var colorScheme: ColorScheme?
     public var density: FabricatorDensity
+    public var motionSpeed: FabricatorMotionSpeed
+    public var motionScale: Double
+    public var isMotionEnabled: Bool
     private var content: Content
-    public init(colorScheme: ColorScheme? = nil, density: FabricatorDensity = .regular, @ViewBuilder content: () -> Content) {
-        self.colorScheme = colorScheme; self.density = density; self.content = content()
+    public init(colorScheme: ColorScheme? = nil, density: FabricatorDensity = .regular, motionSpeed: FabricatorMotionSpeed = .default, motionScale: Double = 1, isMotionEnabled: Bool = true, @ViewBuilder content: () -> Content) {
+        self.colorScheme = colorScheme; self.density = density; self.motionSpeed = motionSpeed; self.motionScale = motionScale; self.isMotionEnabled = isMotionEnabled; self.content = content()
     }
     public var body: some View {
-        let theme = FabricatorTheme(colorScheme: colorScheme ?? systemScheme, density: density)
-        content.environment(\.fabricatorTheme, theme).font(theme.bodyFont).foregroundStyle(theme.color("foreground"))
+        var theme = FabricatorTheme(colorScheme: colorScheme ?? systemScheme, density: density, motionSpeed: motionSpeed, motionScale: motionScale, isMotionEnabled: isMotionEnabled && !reduceMotion)
+        theme.fontScale = fontScale
+        return content.environment(\.fabricatorTheme, theme).font(theme.bodyFont).foregroundStyle(theme.color("foreground"))
             .tint(theme.color("primary")).preferredColorScheme(colorScheme)
     }
 }
@@ -190,7 +241,7 @@ extension Color {
 struct FabricatorSurface: ViewModifier {
     @Environment(\.fabricatorTheme) private var theme
     var radius: String = "xl"
-    var elevation: String? = "card"
+    var elevation: String? = "surface-2"
     var fill: Color? = nil
     var cornerRadius: CGFloat? = nil
     func body(content: Content) -> some View {
@@ -206,14 +257,17 @@ struct FabricatorSurface: ViewModifier {
             }
         }.overlay {
             ForEach(Array(shadows.enumerated()).filter { $0.element.isInset }, id: \.offset) { _, shadow in
-                RoundedRectangle(cornerRadius: corner).strokeBorder(shadow.color, lineWidth: max(1, shadow.spread)).offset(x: shadow.x, y: shadow.y).clipShape(RoundedRectangle(cornerRadius: corner))
-            }
+                ZStack {
+                    RoundedRectangle(cornerRadius: corner).fill(shadow.color)
+                    RoundedRectangle(cornerRadius: corner).inset(by: shadow.spread).fill(.black).blur(radius: shadow.blur / 2).offset(x: shadow.x, y: shadow.y).blendMode(.destinationOut)
+                }.compositingGroup().clipShape(RoundedRectangle(cornerRadius: corner))
+            }.allowsHitTesting(false)
         }
     }
 }
 public extension View {
-    func fabricatorSurface(radius: String = "xl", elevation: String? = "card", fill: Color? = nil) -> some View { modifier(FabricatorSurface(radius: radius, elevation: elevation, fill: fill)) }
-    func fabricatorSurface(cornerRadius: CGFloat, elevation: String? = "card", fill: Color? = nil) -> some View { modifier(FabricatorSurface(elevation: elevation, fill: fill, cornerRadius: cornerRadius)) }
+    func fabricatorSurface(radius: String = "xl", elevation: String? = "surface-2", fill: Color? = nil) -> some View { modifier(FabricatorSurface(radius: radius, elevation: elevation, fill: fill)) }
+    func fabricatorSurface(cornerRadius: CGFloat, elevation: String? = "surface-2", fill: Color? = nil) -> some View { modifier(FabricatorSurface(elevation: elevation, fill: fill, cornerRadius: cornerRadius)) }
 }
 
 struct FabricatorShadow {

@@ -20,6 +20,7 @@ import {
   readPackageJson,
   usesNativeRegistry,
 } from "../utils/native"
+import { readNativeLanguageConfig } from "../utils/native-files"
 import { hasCommand } from "../utils/process"
 import { captureShadcn } from "../utils/shadcn"
 import { fabricatorRegistryTemplate, getBaseUrl } from "../utils/urls"
@@ -28,6 +29,7 @@ import {
   isWorkspaceAliasStale,
   listWorkspaceApps,
 } from "../utils/workspace"
+import { doctorNativeLanguage } from "./native-language"
 import { fail, resolveCwd } from "./shared"
 
 export type CheckStatus = "pass" | "warn" | "fail"
@@ -448,6 +450,8 @@ async function doctorWorkspace(root: string) {
 
 export async function doctor(options: { cwd?: string }): Promise<void> {
   const cwd = resolveCwd(options.cwd)
+  const languageConfig = await readNativeLanguageConfig(cwd)
+  if (languageConfig) return doctorNativeLanguage(languageConfig, cwd)
   if (
     findWorkspaceRoot(cwd) === cwd &&
     !existsSync(path.join(cwd, "components.json")) &&

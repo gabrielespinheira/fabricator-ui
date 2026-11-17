@@ -1,0 +1,19 @@
+{
+  "name": "mobile-tauri",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0 --port 1420",
+    "build": "vite build",
+    "tauri": "tauri",
+    "ios": "tauri ios dev",
+    "ipad": "tauri ios dev iPad",
+    "android": "tauri android dev",
+    "build:ios": "tauri ios build",
+    "build:android": "tauri android build"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "2.12.4"
+  }
+}

@@ -21,6 +21,10 @@ export type ThemeToggleVariant = (typeof THEME_TOGGLE_VARIANTS)[number]
 export type ThemeToggleStart = (typeof THEME_TOGGLE_STARTS)[number]
 export type ThemeToggleTheme = "light" | "dark"
 
+class ThemeToggleGeometryError extends Error {
+  override name = "ThemeToggleGeometryError"
+}
+
 export type ThemeToggleRectangle = {
   left: number
   top: number
@@ -217,6 +221,8 @@ function getThemeTogglePolygon(
           })
   const planes = vertices.map((point, index) => {
     const next = vertices[(index + 1) % vertices.length]
+    if (!next)
+      throw new ThemeToggleGeometryError("Missing theme reveal polygon vertex")
     const length = Math.hypot(next.x - point.x, next.y - point.y)
     const x = (next.y - point.y) / length
     const y = (point.x - next.x) / length

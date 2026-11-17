@@ -122,6 +122,90 @@ final class ComponentStateTests: XCTestCase {
         XCTAssertEqual(FabricatorDataTableEngine.rangeSelection(rowIDs: ["a", "b", "c", "d"], anchor: "d", target: "b"), ["b", "c", "d"])
     }
 
+    func testTableStatusSortUsesTheEditedOptionOrder() {
+        let columns = [FabricatorTableColumn("stage", title: "Stage", type: .status, options: ["Lead", "Won", "Lost"])]
+        let rows = ["Lead", "Won", "Lost"].map { FabricatorTableRow(id: $0, cells: ["stage": $0]) }
+        var state = FabricatorTableState(sortKey: "stage")
+        state.columnOptions["stage"] = ["Lost", "Lead", "Won"]
+        XCTAssertEqual(FabricatorDataTableEngine.query(rows, columns: columns, state: state).map(\.id), ["Lost", "Lead", "Won"])
+    }
+
+    func testTableTypeDefaultsUseTheGeneratedWebContract() {
+        XCTAssertEqual(FabricatorTableColumnType.text.defaultWidth, 220)
+        XCTAssertEqual(FabricatorTableColumnType.person.defaultWidth, 190)
+        XCTAssertEqual(FabricatorTableColumnType.currency.defaultWidth, 160)
+        XCTAssertEqual(FabricatorTableColumnType.currency.minimumWidth, 110)
+        XCTAssertEqual(FabricatorTableColumnType.email.defaultWidth, 240)
+        XCTAssertEqual(FabricatorTableColumnType.progress.cellAlignment, .start)
+        XCTAssertEqual(FabricatorTableColumnType.number.cellAlignment, .end)
+        XCTAssertEqual(FabricatorTableColumnType.boolean.cellAlignment, .center)
+    }
+
+    func testTableTypedHeaderSortCyclesFromItsTypeDefaultThroughRemoval() {
+        var state = FabricatorTableState(page: 6)
+        state.sort(by: "value", type: .currency)
+        XCTAssertEqual(state.sortKey, "value")
+        XCTAssertFalse(state.ascending)
+        XCTAssertEqual(state.page, 0)
+        state.sort(by: "value", type: .currency)
+        XCTAssertTrue(state.ascending)
+        state.sort(by: "value", type: .currency)
+        XCTAssertNil(state.sortKey)
+        state.sort(by: "contact", type: .date)
+        XCTAssertFalse(state.ascending)
+        state.sort(by: "stage", type: .status)
+        XCTAssertTrue(state.ascending)
+    }
+
+    func testTableUnsortedHeadersDoNotInheritAnotherColumnsDirection() {
+        var state = FabricatorTableState(sortKey: "value", ascending: false)
+        XCTAssertNil(state.sortDescriptor(for: "company"))
+        XCTAssertEqual(state.sortDescriptor(for: "value")?.ascending, false)
+        state.sort(by: "company")
+        XCTAssertEqual(state.sortDescriptor(for: "company")?.ascending, true)
+        state.sort(by: "company")
+        XCTAssertEqual(state.sortDescriptor(for: "company")?.ascending, false)
+        state.sortDescriptors = [FabricatorTableSort("stage")]
+        XCTAssertNil(state.sortDescriptor(for: "company"))
+        XCTAssertEqual(state.sortDescriptor(for: "stage")?.ascending, true)
+    }
+
+    func testTablePercentProgressAndBooleanFormattingMatchesWeb() {
+        XCTAssertEqual(FabricatorDataTableEngine.format("0.126", column: FabricatorTableColumn("rate", title: "Rate", type: .percent)), "13%")
+        XCTAssertEqual(FabricatorDataTableEngine.format("64.7", column: FabricatorTableColumn("health", title: "Health", type: .progress)), "65%")
+        XCTAssertEqual(FabricatorDataTableEngine.format("true", column: FabricatorTableColumn("active", title: "Active", type: .boolean)), "Yes")
+        XCTAssertEqual(FabricatorDataTableEngine.format("false", column: FabricatorTableColumn("active", title: "Active", type: .boolean)), "No")
+    }
+
+    func testTableFooterFormatsCountsAndTypedValuesSeparately() {
+        let currency = FabricatorTableColumn("value", title: "Pipeline", type: .currency, fractionDigits: 0)
+        XCTAssertEqual(FabricatorDataTableEngine.formatAggregate(["100.5", "200.5"], operation: .sum, column: currency), "$301")
+        XCTAssertEqual(FabricatorDataTableEngine.formatAggregate(["100.5", "200.5"], operation: .count, column: currency), "2")
+        let date = FabricatorTableColumn("date", title: "Date", type: .date)
+        XCTAssertEqual(FabricatorDataTableEngine.formatAggregate(["2026-01-01", "2026-11-12"], operation: .max, column: date), "Nov 12, 2026")
+    }
+
+    func testTableRelativeDatesUseTheSameCalendarThresholdsAsWeb() throws {
+        let column = FabricatorTableColumn("date", title: "Last contact", type: .date, isDateRelative: true)
+        let reference = try XCTUnwrap(FabricatorDataTableEngine.parseDate("2026-11-12T12:00:00Z"))
+        XCTAssertEqual(FabricatorDataTableEngine.format("2026-11-11T12:00:00Z", column: column, referenceDate: reference), "yesterday")
+        XCTAssertEqual(FabricatorDataTableEngine.format("2026-11-12T12:00:00Z", column: column, referenceDate: reference), "now")
+        XCTAssertEqual(FabricatorDataTableEngine.format("2026-03-19T12:00:00Z", column: column, referenceDate: reference), "7 months ago")
+        XCTAssertEqual(FabricatorDataTableEngine.format("2026-11-14T12:00:00Z", column: column, referenceDate: reference), "in 2 days")
+        XCTAssertEqual(FabricatorDataTableEngine.formatAggregate(["2026-03-19", "2026-11-12"], operation: .max, column: column), "Nov 12, 2026")
+    }
+
+    func testTableAcceptsJavaScriptISODateFractions() throws {
+        let plain = try XCTUnwrap(FabricatorDataTableEngine.parseDate("2026-11-12T12:00:00Z"))
+        XCTAssertEqual(FabricatorDataTableEngine.parseDate("2026-11-12T12:00:00.000Z"), plain)
+    }
+
+    func testPaginationOnlyBuildsVisiblePagesForLargeDataSets() {
+        XCTAssertEqual(FabricatorPaginationEngine.items(page: 0, pageCount: 1000), [.page(0), .page(1), .gap(after: 1), .page(999)])
+        XCTAssertEqual(FabricatorPaginationEngine.items(page: 500, pageCount: 1000), [.page(0), .gap(after: 0), .page(499), .page(500), .page(501), .gap(after: 501), .page(999)])
+        XCTAssertEqual(FabricatorPaginationEngine.items(page: 10, pageCount: 2), [.page(0), .page(1)])
+    }
+
     func testSpinnerSamplesCanonicalKeyframesAndValidatesSpeed() throws {
         let orbit = try XCTUnwrap(FabricatorContract.shared.spinners.variants.first { $0.value == .orbit })
         XCTAssertEqual(FabricatorContract.shared.spinners.variants.count, 22)
