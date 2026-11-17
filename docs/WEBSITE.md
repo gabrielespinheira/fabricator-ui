@@ -15,6 +15,7 @@
 
 ## Docs
 
+- Screenshots are GitHub attachments indexed by original path in [`screenshot-attachments.json`](screenshot-attachments.json). Exact rewrites preserve the site's existing preview URLs through the screenshot route, which follows GitHub's storage redirects and streams image bytes for Next Image optimization. The route serves only manifest entries, with no client bundle cost. Native docs check that manifest for preview availability. `pages:capture` and `registry:capture` write to gitignored `tmp/screenshots/`; upload reviewed captures and update the manifest before removing local files. README and plan evidence link directly to the attachment URLs.
 - MDX in `content/docs/`. Component pages follow the sections in [COMPONENTS.md](COMPONENTS.md#done-when).
 - CLI commands are written once as `npx shadcn@latest …`; the highlighter makes the package-manager tabs, bun first.
 - Code colours come from one Shiki theme (`lib/shiki-fabricator-theme.ts`) mapped to the `--syntax-*` tokens; change a colour in `registry/fabricator/syntax-colors.ts`.

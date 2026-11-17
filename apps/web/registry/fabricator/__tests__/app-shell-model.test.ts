@@ -26,6 +26,7 @@ import {
   getPanelTriggerAnchor,
   getPinnedNavItems,
   getResizedSize,
+  getHeaderMenu,
   getShellSize,
   getTabAtPosition,
   getTrafficLightsGeometry,
@@ -414,6 +415,35 @@ describe("layout", () => {
     expect(getPanelPlacement({ ...input, mobile: "drawer" })).toBe("drawer")
     expect(getPanelPlacement({ ...input, mobile: "swap" })).toBe("swap")
     expect(getPanelPlacement({ ...input, mobile: "none" })).toBeNull()
+  })
+})
+
+describe("header menu", () => {
+  it("folds the actions into a menu on phones only, without a page menu", () => {
+    expect(
+      getHeaderMenu({ size: "phone", actionCount: 2, hasPageMenu: false })
+    ).toEqual({ isOnEveryWidth: false, hasActions: true, hasPageMenu: false })
+    expect(
+      getHeaderMenu({ size: "desktop", actionCount: 2, hasPageMenu: false })
+    ).toEqual({ isOnEveryWidth: false, hasActions: true, hasPageMenu: false })
+  })
+
+  it("keeps a page menu at every width, joined by the actions on phones", () => {
+    expect(
+      getHeaderMenu({ size: "desktop", actionCount: 2, hasPageMenu: true })
+    ).toEqual({ isOnEveryWidth: true, hasActions: false, hasPageMenu: true })
+    expect(
+      getHeaderMenu({ size: "phone", actionCount: 2, hasPageMenu: true })
+    ).toEqual({ isOnEveryWidth: true, hasActions: true, hasPageMenu: true })
+    expect(
+      getHeaderMenu({ size: null, actionCount: 2, hasPageMenu: true })
+    ).toEqual({ isOnEveryWidth: true, hasActions: false, hasPageMenu: true })
+  })
+
+  it("has no menu when there is nothing to put in it", () => {
+    expect(
+      getHeaderMenu({ size: "phone", actionCount: 0, hasPageMenu: false })
+    ).toBeNull()
   })
 })
 

@@ -25,6 +25,7 @@ import {
   getPanelPlacement,
   getPanelTriggerAnchor,
   getResizedSize,
+  getHeaderMenu,
   getShellSize,
   getShellStorageKey,
   getTrafficLightsGeometry,
@@ -67,6 +68,7 @@ import {
   DropdownMenu,
   DropdownMenuGroup,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/registry/bases/aria/ui/dropdown-menu"
 import { Kbd } from "@/registry/bases/aria/ui/kbd"
@@ -1336,17 +1338,31 @@ function ActionShortcut({ action }: { action: AppShellAction }) {
 
 /**
  * Header actions, described once. Tablets and up get buttons; phones get one
- * menu, and the primary action becomes a floating button.
+ * menu, and the primary action becomes a floating button. A `menu` (the page's
+ * settings and rare actions) keeps that ellipsis on every width; on phones the
+ * folded actions come first in it, so the header never shows two.
  */
 function AppShellHeaderActions({
   actions = [],
   primaryAction,
+  menu,
+  menuLabel = "Page options",
   className,
   ...props
 }: React.ComponentProps<"div"> & {
   actions?: AppShellAction[]
   primaryAction?: AppShellAction
+  /** Menu items for the page: groups of settings, then rare actions. */
+  menu?: React.ReactNode
+  /** The name of the page menu's ellipsis button. */
+  menuLabel?: string
 }) {
+  const shell = React.useContext(AppShellContext)
+  const headerMenu = getHeaderMenu({
+    size: shell?.size ?? null,
+    actionCount: actions.length,
+    hasPageMenu: menu !== undefined && menu !== null,
+  })
   return (
     <div
       data-slot="app-shell-header-actions"
@@ -1403,13 +1419,15 @@ function AppShellHeaderActions({
           {primaryAction.label}
         </Button>
       )}
-      {actions.length > 0 && (
+      {headerMenu && (
         <DropdownMenuTrigger>
           <Button
             variant="ghost"
             size="icon-sm"
-            aria-label="More actions"
-            className="@min-[48rem]/app-shell:hidden"
+            aria-label={headerMenu.hasPageMenu ? menuLabel : "More actions"}
+            className={cn(
+              !headerMenu.isOnEveryWidth && "@min-[48rem]/app-shell:hidden"
+            )}
           >
             <IconPlaceholder
               lucide="EllipsisIcon"
@@ -1419,21 +1437,30 @@ function AppShellHeaderActions({
               remixicon="RiMoreLine"
             />
           </Button>
-          <DropdownMenu placement="bottom end">
-            <DropdownMenuGroup>
-              {actions.map((action) => (
-                <DropdownMenuItem
-                  key={action.id}
-                  id={action.id}
-                  textValue={action.label}
-                  isDisabled={action.disabled}
-                  onAction={action.onSelect}
-                >
-                  <IconSlot icon={action.icon} />
-                  {action.label}
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuGroup>
+          <DropdownMenu
+            placement="bottom end"
+            className="cn-app-shell-header-menu"
+          >
+            {headerMenu.hasActions && (
+              <DropdownMenuGroup>
+                {actions.map((action) => (
+                  <DropdownMenuItem
+                    key={action.id}
+                    id={action.id}
+                    textValue={action.label}
+                    isDisabled={action.disabled}
+                    onAction={action.onSelect}
+                  >
+                    <IconSlot icon={action.icon} />
+                    {action.label}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuGroup>
+            )}
+            {headerMenu.hasActions && headerMenu.hasPageMenu && (
+              <DropdownMenuSeparator />
+            )}
+            {headerMenu.hasPageMenu && menu}
           </DropdownMenu>
         </DropdownMenuTrigger>
       )}

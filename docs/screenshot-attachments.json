@@ -1,0 +1,1790 @@
+{
+  ".github/assets/home-dark.webp": {
+    "url": "https://github.com/user-attachments/assets/fb02b41e-eaa0-49d5-a5c9-729a878d7f3c",
+    "sha256": "2e94d672ff9d4f0e23d62cad147840f4c5f70abb080de3bd11454f0f9d067a6e"
+  },
+  ".github/assets/home-light.webp": {
+    "url": "https://github.com/user-attachments/assets/3ab0f6ba-c966-4f0f-93d1-4bbafb45b9b9",
+    "sha256": "1c9866d0377193fdb3331f7dcfc2e925a19fa827f43035508f6420c604a8236a"
+  },
+  "apps/web/public/examples/authentication-dark.webp": {
+    "url": "https://github.com/user-attachments/assets/0c5d6cc8-e1c0-45db-afc5-41c2a3f3a238",
+    "sha256": "5216ac4509c4e751ebda080a13cbe45d534c0ddaac8dacac6cb8b50c0b430de1"
+  },
+  "apps/web/public/examples/authentication-light.webp": {
+    "url": "https://github.com/user-attachments/assets/265a44ce-bb16-47e1-af6a-246b4754ce97",
+    "sha256": "ee8049125007c76de805c3ae30b8a45241db45e53e544a02fa52937f6d7b7bd7"
+  },
+  "apps/web/public/examples/dashboard-dark.webp": {
+    "url": "https://github.com/user-attachments/assets/441d39dd-9cad-4986-ad08-08074188b6d5",
+    "sha256": "c2aafe2367582b6adddad2b1efe2da91a6945bb784cae10dd8faa8fb3fb57d27"
+  },
+  "apps/web/public/examples/dashboard-light.webp": {
+    "url": "https://github.com/user-attachments/assets/7495404c-af98-4796-80ad-1cf52d202679",
+    "sha256": "dc50c6269b3fce687cfce333f5f57702ca0e60a0e15233b21d217e0cb22d82a6"
+  },
+  "apps/web/public/examples/playground-dark.webp": {
+    "url": "https://github.com/user-attachments/assets/be20e51c-d596-4fe5-bfdc-4251f119b1d9",
+    "sha256": "722cda10243c1792225e182450cd5d518315f06eda6cce10894c6410cf0c0cc4"
+  },
+  "apps/web/public/examples/playground-light.webp": {
+    "url": "https://github.com/user-attachments/assets/7a260eea-ffd9-416d-a37c-4bd9395f378a",
+    "sha256": "61d338b35c06519fd0f4dba61d7258d31493cc33e028ca7e9a5f8f9c533c245f"
+  },
+  "apps/web/public/examples/tasks-dark.webp": {
+    "url": "https://github.com/user-attachments/assets/22b37186-006f-4596-b2bb-14b426929f0c",
+    "sha256": "90021f51c1b9b95f428d435c9fe58093646f1efe2ead7d68f1b7470a7d106699"
+  },
+  "apps/web/public/examples/tasks-light.webp": {
+    "url": "https://github.com/user-attachments/assets/d25cca9b-2132-464a-a390-eda9e0327aa9",
+    "sha256": "c16061f34ea6fd9c2a325d6e5352f2e27ede7b7de9eba3639bac939a5de4951c"
+  },
+  "apps/web/public/images/blocks/dashboard-01-dark.webp": {
+    "url": "https://github.com/user-attachments/assets/63ce2f74-3d51-4f04-bd18-7f3127bba215",
+    "sha256": "9a872422267006abc9b26d0e0981527092063ab0dd2aeeccdc8a8da60f13bf02"
+  },
+  "apps/web/public/images/blocks/dashboard-01-light.webp": {
+    "url": "https://github.com/user-attachments/assets/5160b6c4-14b1-4e9a-81f9-9c2384e1b9b2",
+    "sha256": "59b1ed0774cd030f5ba0811c6dc96d926e66838878fc57149fa4b882bdbb6c8e"
+  },
+  "apps/web/public/images/blocks/login-01-dark.webp": {
+    "url": "https://github.com/user-attachments/assets/0181cf00-15a0-44c9-8872-1944c5a8f970",
+    "sha256": "ec1e713e065764db9c1a64d971b3cb70301e8bbe3e6f9de2fb5f2bd704500505"
+  },
+  "apps/web/public/images/blocks/login-01-light.webp": {
+    "url": "https://github.com/user-attachments/assets/2777069c-2820-49a3-8a9a-7dba61c0c98d",
+    "sha256": "febcb83904cb2e5e1f10dcffa7f2907ba4b5f1f1164cd2ef66793cc6f19b5654"
+  },
+  "apps/web/public/images/blocks/login-02-dark.webp": {
+    "url": "https://github.com/user-attachments/assets/68c9d92c-7bc9-401c-a79e-2497c0b83fa0",
+    "sha256": "621949fdbda4f41e8c5053b83e7d4b8641cd0f1f17dfba3c3d935873e86c0ea6"
+  },
+  "apps/web/public/images/blocks/login-02-light.webp": {
+    "url": "https://github.com/user-attachments/assets/aa6d535f-ee9a-426b-8881-62c04820e26e",
+    "sha256": "306bc85e2887a2999d0bf9bf747434cacf8611dbf30bb1e296e8ecbc04c6a44b"
+  },
+  "apps/web/public/images/blocks/login-03-dark.webp": {
+    "url": "https://github.com/user-attachments/assets/2ea8f6d8-be25-47d3-8659-46b5c06fe513",
+    "sha256": "de6968daceef17ecc2a47e192ec4a3f084257281a426850a549a14e8b992161c"
+  },
+  "apps/web/public/images/blocks/login-03-light.webp": {
+    "url": "https://github.com/user-attachments/assets/5ba099f9-7346-4027-8c7a-8adec4753c10",
+    "sha256": "e3f4c56cfaea586fc729c45588a89e42233657ce4312f13d26baf41b08b16579"
+  },
+  "apps/web/public/images/blocks/login-04-dark.webp": {
+    "url": "https://github.com/user-attachments/assets/b64ee457-5ce4-42e3-9262-6a0d05387f35",
+    "sha256": "43109ad30a4c9d1f2a3ff6937535d534575af7c65eeb76a757d8ca64c4565e1e"
+  },
+  "apps/web/public/images/blocks/login-04-light.webp": {
+    "url": "https://github.com/user-attachments/assets/e577d45e-7e19-43d4-b5de-539b96453e19",
+    "sha256": "cd40db1d3e6a6c55604a2fe30b7a4e6a64e7a45e7b66f62b0dfde66fa6446f06"
+  },
+  "apps/web/public/images/blocks/login-05-dark.webp": {
+    "url": "https://github.com/user-attachments/assets/89a675c1-03cf-4ea2-9222-f505a135b0c5",
+    "sha256": "d5aac1f103104b361bb1946ffff239319b17893952e21e5c202d7d3ea0cf6445"
+  },
+  "apps/web/public/images/blocks/login-05-light.webp": {
+    "url": "https://github.com/user-attachments/assets/49feae19-5326-4dc3-b082-65cca0374730",
+    "sha256": "d878e69ec48ccf3c6aa9c261b42dc6db91ce3e84c95e52fcb638f8d442db5aec"
+  },
+  "apps/web/public/images/blocks/preview-02-dark.webp": {
+    "url": "https://github.com/user-attachments/assets/700d12f5-9474-4bb1-a903-d0d8991dbb86",
+    "sha256": "8cfced94f3f49facaac548714245b07eca669fa6bdc1e6390eb88b55276cf0ac"
+  },
+  "apps/web/public/images/blocks/preview-02-light.webp": {
+    "url": "https://github.com/user-attachments/assets/81572ce8-c068-496a-90ee-0f609f9675eb",
+    "sha256": "908ffdf642af1567fb4405885e903c660614c460992fdf47e6e53cccde94a2ed"
+  },
+  "apps/web/public/images/blocks/preview-03-dark.webp": {
+    "url": "https://github.com/user-attachments/assets/f0c920be-e667-4e8b-8f35-1f303d27b1fd",
+    "sha256": "5c3aec14d97918d47187e710b21f6c6ec0e19f8067adf6284203c13b01a526c6"
+  },
+  "apps/web/public/images/blocks/preview-03-light.webp": {
+    "url": "https://github.com/user-attachments/assets/1607f0cb-93e4-4531-b56f-60019db9588e",
+    "sha256": "f0e05a7c2e07bdd3ed9719fedf006892be23d9f0bdeafd6ad206237399b43ce4"
+  },
+  "apps/web/public/images/blocks/preview-dark.webp": {
+    "url": "https://github.com/user-attachments/assets/5ebfe447-443f-46fe-b539-81a401d7338b",
+    "sha256": "ef8ef7641094b9ef490511d87fb3d128d8b7ce781e417e153eb309509fa23722"
+  },
+  "apps/web/public/images/blocks/preview-light.webp": {
+    "url": "https://github.com/user-attachments/assets/29b26c20-f3a2-41d1-8ecd-79f6f4d9f5c0",
+    "sha256": "6853436da1d2b8096cdb6df07031b34c434c87eb8bd308951d90233f9c0858c4"
+  },
+  "apps/web/public/images/blocks/sidebar-01-dark.webp": {
+    "url": "https://github.com/user-attachments/assets/2c0d62ee-a01a-45b3-929d-b92aaa2cb2c5",
+    "sha256": "dd404274b5ae62c2affdb10fc07935d9f5063e719b6a5380d85c061aafcea276"
+  },
+  "apps/web/public/images/blocks/sidebar-01-light.webp": {
+    "url": "https://github.com/user-attachments/assets/54547649-db90-4b22-bf97-f58615ab651c",
+    "sha256": "d60895a32943a5bc0ee6bb6c6e31447969c874a78fc35ba02f0a2a281551cbc2"
+  },
+  "apps/web/public/images/blocks/sidebar-02-dark.webp": {
+    "url": "https://github.com/user-attachments/assets/b5cb015c-3f29-4ba9-b53e-6dc0015bd58a",
+    "sha256": "7bfe82c87e919f579b4849bf516b7a088f043fe558a10406a6be3de1f59c8bde"
+  },
+  "apps/web/public/images/blocks/sidebar-02-light.webp": {
+    "url": "https://github.com/user-attachments/assets/f1764985-7ff6-44a2-91a8-a1d0c1d281b5",
+    "sha256": "98f782e1bbe33d103220cf1000cb55d4049dd7dddbc9a4bac82b5ec3be9a18f7"
+  },
+  "apps/web/public/images/blocks/sidebar-03-dark.webp": {
+    "url": "https://github.com/user-attachments/assets/35b9828c-4b28-40ce-9895-f61ae3997d88",
+    "sha256": "74a2648403e06ded2c8ad06caac5acfefec465a95c2f5e3fb5dfe27c13992ef3"
+  },
+  "apps/web/public/images/blocks/sidebar-03-light.webp": {
+    "url": "https://github.com/user-attachments/assets/2e8de269-c9a7-4e1e-9f4e-e8a5d358dfba",
+    "sha256": "27d4d3a1d550bd121530e384a6d60ca10b34b96330039b0f2e3ccddee236a994"
+  },
+  "apps/web/public/images/blocks/sidebar-04-dark.webp": {
+    "url": "https://github.com/user-attachments/assets/d1682c68-29f5-4e62-94e1-4a4446eebda9",
+    "sha256": "38ffba11391f452fbc6d44434d4d0484e3c0c68bf6c47c749e392eababfdefac"
+  },
+  "apps/web/public/images/blocks/sidebar-04-light.webp": {
+    "url": "https://github.com/user-attachments/assets/0920d0e1-99c5-4605-884d-9d67d79a6630",
+    "sha256": "7d57f75ea2f907ffefcbf0a09c5ed7c489b87ecbe0afee3cd3633c9e9b2d6951"
+  },
+  "apps/web/public/images/blocks/sidebar-05-dark.webp": {
+    "url": "https://github.com/user-attachments/assets/87388e2b-cf4a-42ed-b21a-ffea3f2efa82",
+    "sha256": "cec6b545749ff34bf9de1bd9512bcec97f947bbb63a4985b9e7029c6a1ba0a0a"
+  },
+  "apps/web/public/images/blocks/sidebar-05-light.webp": {
+    "url": "https://github.com/user-attachments/assets/1c8c11e5-7812-4335-97b6-8ee4e40615e5",
+    "sha256": "c66f28facdce762b1f62f0af2065cefb2900985302ab75175c45acf162e22c8c"
+  },
+  "apps/web/public/images/blocks/sidebar-06-dark.webp": {
+    "url": "https://github.com/user-attachments/assets/d1b393d2-724b-44b6-81af-e4134c860f0a",
+    "sha256": "26ce78c04993a163a5bb5b86521b33ef4874876a80dc5f8a6405190c07ea0048"
+  },
+  "apps/web/public/images/blocks/sidebar-06-light.webp": {
+    "url": "https://github.com/user-attachments/assets/269063f3-550a-4b34-a82a-6c5cad67376b",
+    "sha256": "2374637ce13d088c5343bc5d6f338aaa2112a93ade49757affb36fcd5b1f3ae8"
+  },
+  "apps/web/public/images/blocks/sidebar-07-dark.webp": {
+    "url": "https://github.com/user-attachments/assets/e0d19126-ee5a-4cfe-a049-629016468be1",
+    "sha256": "18ab0624c09d5f3bc6ca90a68de596008313ba013a285812f12070c16d32800f"
+  },
+  "apps/web/public/images/blocks/sidebar-07-light.webp": {
+    "url": "https://github.com/user-attachments/assets/8fd5dd87-ce65-459a-a95d-3d541e8f72c3",
+    "sha256": "483d93384cea53b44fc5dd1fb3afb0ff8a152a1ffc7e8a7a933dc9c0c8254728"
+  },
+  "apps/web/public/images/blocks/sidebar-08-dark.webp": {
+    "url": "https://github.com/user-attachments/assets/31826cc9-b38a-4afa-8d46-c4d02b6ea363",
+    "sha256": "d18e2912faee360aaa320e206ca39a0cd01057ae902e1ad553dc6035e785a87c"
+  },
+  "apps/web/public/images/blocks/sidebar-08-light.webp": {
+    "url": "https://github.com/user-attachments/assets/aa76da7f-06ee-4698-ba00-b254730e8b18",
+    "sha256": "3b4a377c47fc0245fc3c9af0311a71b48e43a2abfa71675db28bfea6c76a9e22"
+  },
+  "apps/web/public/images/blocks/sidebar-09-dark.webp": {
+    "url": "https://github.com/user-attachments/assets/e776ee3e-044a-4768-91f2-c1a5271b932d",
+    "sha256": "eafdbaa9c8be6a253ace037157d7a29629e11bbbeaa9eb2cd466fddee96e965e"
+  },
+  "apps/web/public/images/blocks/sidebar-09-light.webp": {
+    "url": "https://github.com/user-attachments/assets/bdc8cceb-83af-4cef-ae0f-3e1bf04f2b21",
+    "sha256": "d4633a038ebf9417abbcafa5ee868f370d4c391c3027e1686e27716f74763a56"
+  },
+  "apps/web/public/images/blocks/sidebar-10-dark.webp": {
+    "url": "https://github.com/user-attachments/assets/39bb266c-381b-4dbc-9277-1c1aae203090",
+    "sha256": "191aa0c1c46add7e8efc33679b8d0a20c247f9ab1c00a0347ed118bf45e83820"
+  },
+  "apps/web/public/images/blocks/sidebar-10-light.webp": {
+    "url": "https://github.com/user-attachments/assets/21e24fd8-86f1-4c2e-94a5-d4ef1a044113",
+    "sha256": "57e9f8242639504f481dccc3f2a2eb597f6c4c4224688b9b839cfa5596747be9"
+  },
+  "apps/web/public/images/blocks/sidebar-11-dark.webp": {
+    "url": "https://github.com/user-attachments/assets/5757f824-c47a-452b-a666-352684d4f8b6",
+    "sha256": "ecfda514224e97ef03454258bd7ec6b38cc7ed8ddf282b9dc34227f61f097041"
+  },
+  "apps/web/public/images/blocks/sidebar-11-light.webp": {
+    "url": "https://github.com/user-attachments/assets/dd608906-0705-4733-93eb-680d8bedb2bd",
+    "sha256": "b4b25e62da30096891b6a644d5f820de7dcf99a8e80f3bed77d12ba380751139"
+  },
+  "apps/web/public/images/blocks/sidebar-12-dark.webp": {
+    "url": "https://github.com/user-attachments/assets/5587ae6b-c95d-4a7c-9149-36d7e05a2267",
+    "sha256": "6b2e5d442e02bb4b6d4abdbbe36b87be02a26bd91d35b29923aa0b4dfb75a680"
+  },
+  "apps/web/public/images/blocks/sidebar-12-light.webp": {
+    "url": "https://github.com/user-attachments/assets/a1d4ba56-2cdb-4206-9aa8-7956eb63824a",
+    "sha256": "4eb8ee548bb715cc564cfc1bee842b58c87986302fc9ceb17714f36242e79985"
+  },
+  "apps/web/public/images/blocks/sidebar-13-dark.webp": {
+    "url": "https://github.com/user-attachments/assets/ca62943e-cdb7-4505-8794-011495f84ffe",
+    "sha256": "ad34c53212a299c72967ba71bec3b75ffdb33f984c42d4293e9b85f791ef8de6"
+  },
+  "apps/web/public/images/blocks/sidebar-13-light.webp": {
+    "url": "https://github.com/user-attachments/assets/98cc82e3-8067-4c84-b3f0-afff288920e0",
+    "sha256": "cf594b4d712f5cdcee69a817f4a4006c13ee090b7d450635b80e5e21e4ae56d4"
+  },
+  "apps/web/public/images/blocks/sidebar-14-dark.webp": {
+    "url": "https://github.com/user-attachments/assets/dbfcab3f-03c2-4ddb-813c-e9b06c6fba94",
+    "sha256": "9fe59a6d86e15148943e6ec03313f785248ee69ead284ec3926625f18267a1c8"
+  },
+  "apps/web/public/images/blocks/sidebar-14-light.webp": {
+    "url": "https://github.com/user-attachments/assets/cf04068c-5d84-48bb-b2dd-231d766d5d61",
+    "sha256": "95469999aba8fee739c8b0372fd0a2b4a76feb52635b5a4b8882f9d05853477c"
+  },
+  "apps/web/public/images/blocks/sidebar-15-dark.webp": {
+    "url": "https://github.com/user-attachments/assets/f63d555f-e69a-4248-8c88-4242fdfcc87b",
+    "sha256": "fbcb2a5b7125ef2ad39bad1a0c54b234b3129372eeed2e623744cc1369b35c2a"
+  },
+  "apps/web/public/images/blocks/sidebar-15-light.webp": {
+    "url": "https://github.com/user-attachments/assets/f8e25720-68f1-4371-af61-8150afa9e060",
+    "sha256": "a97d68776a5c00693b43ed96b9f3d8e678b6741d2affea45bb95932710575bc9"
+  },
+  "apps/web/public/images/blocks/sidebar-16-dark.webp": {
+    "url": "https://github.com/user-attachments/assets/3545df95-153b-425a-bc66-968b2be0e3b0",
+    "sha256": "8a075282541c8fd188c984d5b0bd61a3fb5ab62edde1d7ead450c61b182db5fd"
+  },
+  "apps/web/public/images/blocks/sidebar-16-light.webp": {
+    "url": "https://github.com/user-attachments/assets/225766f7-9ae1-4a41-82be-5ec2bed106be",
+    "sha256": "ff2801a2a8894c0249e17c27528fb68d2b66dcb133ddf2fcae7371939fa5a2e9"
+  },
+  "apps/web/public/images/blocks/signup-01-dark.webp": {
+    "url": "https://github.com/user-attachments/assets/14aa1f00-3ac5-4987-9bde-58035e641f79",
+    "sha256": "c32a8112af984f9b85aba68a4a1bc7f111f0e9cf459c62f982b862f0cf828c45"
+  },
+  "apps/web/public/images/blocks/signup-01-light.webp": {
+    "url": "https://github.com/user-attachments/assets/1bea8f4b-4352-410e-809e-ddac724874b5",
+    "sha256": "0f95ff74bf8770f8060a5232be1001f2de63fa6cf36791b0bb3b6bec3ac8e061"
+  },
+  "apps/web/public/images/blocks/signup-02-dark.webp": {
+    "url": "https://github.com/user-attachments/assets/be241466-1222-4eb2-9138-08d103bc5282",
+    "sha256": "72fad8a47eb5fe0e31dc8d1ae568ee73307d71c7f759b9dbc51719a4464223b8"
+  },
+  "apps/web/public/images/blocks/signup-02-light.webp": {
+    "url": "https://github.com/user-attachments/assets/5b03c6cc-97ee-457a-a30c-0dffa562ca8b",
+    "sha256": "b7d1ddf4d2cbeb84b89acac5c4b86e282127af8d397bf05df023b37181051b57"
+  },
+  "apps/web/public/images/blocks/signup-03-dark.webp": {
+    "url": "https://github.com/user-attachments/assets/b9e45313-9864-4de1-87d1-1486923a1deb",
+    "sha256": "d51951810c394774fd664f8f13016f0f2cb65df4985d37de0d71b22cf7baebfe"
+  },
+  "apps/web/public/images/blocks/signup-03-light.webp": {
+    "url": "https://github.com/user-attachments/assets/af7043a5-67f7-4d57-ada5-033bfe559c79",
+    "sha256": "427cb21076f5d48f7626ba1b3ba0f15e048b2c19dd7df52f2714c6064d2f18e9"
+  },
+  "apps/web/public/images/blocks/signup-04-dark.webp": {
+    "url": "https://github.com/user-attachments/assets/89e041fc-c1d9-4872-8c18-1cecf665c95a",
+    "sha256": "134820947d2707e35d6ff11790bd3eda97886478a914fb743cd494557293afbc"
+  },
+  "apps/web/public/images/blocks/signup-04-light.webp": {
+    "url": "https://github.com/user-attachments/assets/5bf578e1-9b61-423a-a325-9cf65710d698",
+    "sha256": "af921bf4131007d1825d46c92ddeb46bb218888db939f31792eaa86a3e81efab"
+  },
+  "apps/web/public/images/blocks/signup-05-dark.webp": {
+    "url": "https://github.com/user-attachments/assets/88e73864-ce9e-4829-9c1f-84b9a18f6a39",
+    "sha256": "6e086a9b9c9847ed60bc30bce8661b69357af5d6cacef804cf3737cde7f647b5"
+  },
+  "apps/web/public/images/blocks/signup-05-light.webp": {
+    "url": "https://github.com/user-attachments/assets/63d2145f-702d-4697-970e-a7474c0d7500",
+    "sha256": "39022af0bfd44d0e1917d03743ca47bfaaff61bb7eb05efaea17f1b3353256bc"
+  },
+  "apps/web/public/images/native/accordion.jpg": {
+    "url": "https://github.com/user-attachments/assets/332c6863-3ca7-4272-849b-b5473bbcadcf",
+    "sha256": "dd93d30ed024b8d5257325f52cdfd8a933f12e321a4be8cad8a9093391a05654"
+  },
+  "apps/web/public/images/native/alert-dialog.jpg": {
+    "url": "https://github.com/user-attachments/assets/79db9fb2-c11d-4e15-8b0e-a09a68f0e4ab",
+    "sha256": "eed7f94e17492f607340874a98fe6606923bd1a61b7687acd0f79ff9d29cb133"
+  },
+  "apps/web/public/images/native/alert.jpg": {
+    "url": "https://github.com/user-attachments/assets/096d342c-41a4-4877-929c-dfd2201478c6",
+    "sha256": "4b8fb09c104983a0a57e605a53a7ff265948724a82471a6f4b9590bcbecf5da1"
+  },
+  "apps/web/public/images/native/app-nav.jpg": {
+    "url": "https://github.com/user-attachments/assets/de69a0f7-754f-429e-ad12-c7af9c5322fc",
+    "sha256": "d871df38934214670bfa4cb0ca2efe1f3ad9b2740c59f49005677b3040d1cb77"
+  },
+  "apps/web/public/images/native/app-shell.jpg": {
+    "url": "https://github.com/user-attachments/assets/0e55987e-6295-4d49-a8e5-bfd32f842b47",
+    "sha256": "e62dd121ba2c8a276ee8ff930125900fa5e4c8aab6985daee7f9a449797eb1a6"
+  },
+  "apps/web/public/images/native/aspect-ratio.jpg": {
+    "url": "https://github.com/user-attachments/assets/d65400a4-30da-44c5-981e-02c43cb921c1",
+    "sha256": "db7259fbec4a73a98f18ab771cc23c69736a4683fc44448a94c1e2c30c00726b"
+  },
+  "apps/web/public/images/native/attachment.jpg": {
+    "url": "https://github.com/user-attachments/assets/5a8961b6-200c-4a08-9ec0-758fc6fb7902",
+    "sha256": "30d5ed2f8e69836b1c0cf89dc0a18e0331644d83f29bbdb08c83e21353748727"
+  },
+  "apps/web/public/images/native/avatar.jpg": {
+    "url": "https://github.com/user-attachments/assets/2e59d875-9f69-4ed2-a65e-6539527aeac7",
+    "sha256": "8bad26aec5e8adcaaca97c23fd0c2c14254e02893f191c481537bd817ecb8116"
+  },
+  "apps/web/public/images/native/badge.jpg": {
+    "url": "https://github.com/user-attachments/assets/e167166a-f688-4fbd-bb3a-cedb912745ed",
+    "sha256": "90d2d4af1c689279509c0819f5a909dc7ad1f7718d2229fb41bf1cc418da8ea1"
+  },
+  "apps/web/public/images/native/breadcrumb.jpg": {
+    "url": "https://github.com/user-attachments/assets/825ff387-82c3-4cdd-8ab6-daab297344ea",
+    "sha256": "a208e94d823dabd80d73bdde7b593ec72f1a1982e4659d2144e8c9f662633d99"
+  },
+  "apps/web/public/images/native/bubble.jpg": {
+    "url": "https://github.com/user-attachments/assets/4208af23-c8c2-45e3-9ab8-9950b31e3c47",
+    "sha256": "8f94e85a93adf15fd585a6320666c652331e98fb48aa23ade58e012724db86a6"
+  },
+  "apps/web/public/images/native/button-group.jpg": {
+    "url": "https://github.com/user-attachments/assets/c16d17f7-3341-44d5-b42b-4a52c1d206ee",
+    "sha256": "06a02a4caf46b737e82d64f91ce76ffaa53bde94829f20dd2be72be24bb349ae"
+  },
+  "apps/web/public/images/native/button.jpg": {
+    "url": "https://github.com/user-attachments/assets/d32fd668-4b93-4f5b-b721-a4a98b605d4d",
+    "sha256": "d89e36b636b5c13737fed51a03c651aae41e06250aba9d84e06fd5ecfe2347ab"
+  },
+  "apps/web/public/images/native/calendar.jpg": {
+    "url": "https://github.com/user-attachments/assets/478217f9-b8d3-43ae-a429-3ad240c8105b",
+    "sha256": "16cf1f315f9b823cea20732734ae490dd444a86594f81aa70dd643c9c68fd8ba"
+  },
+  "apps/web/public/images/native/card.jpg": {
+    "url": "https://github.com/user-attachments/assets/cd97649c-ccf9-4c18-a865-64afe3c6d7cb",
+    "sha256": "33c4b050aea3f829fd846dc850c7d991ad5afa1c6747374187d76c2751f4b723"
+  },
+  "apps/web/public/images/native/carousel.jpg": {
+    "url": "https://github.com/user-attachments/assets/701acfb1-3f2a-43c6-b4ab-7fc1c3cb3aed",
+    "sha256": "0a29e1a47ebe7804043fdb086d8fc1a98250c4d402ecc5acb779c523d38c1e02"
+  },
+  "apps/web/public/images/native/checkbox.jpg": {
+    "url": "https://github.com/user-attachments/assets/1f0a5da6-2887-49eb-914e-93c46b3150cd",
+    "sha256": "ddfd081124fdfd1f8e8ec97a445cac9c9cc6367715826799f7712e3d14b36d25"
+  },
+  "apps/web/public/images/native/collapsible.jpg": {
+    "url": "https://github.com/user-attachments/assets/01a3cbe4-81ea-4fef-8536-77f985494ff9",
+    "sha256": "032148d98c1755e795d293bd32f0467ffcc827602fcb2e40e5aba95a3e2fc529"
+  },
+  "apps/web/public/images/native/combobox.jpg": {
+    "url": "https://github.com/user-attachments/assets/fbc4cd92-6eb7-4372-a401-74048d44ff3d",
+    "sha256": "7464138f220410543e66c54463e4420ee525ba6311d503757295238b63544b7f"
+  },
+  "apps/web/public/images/native/command.jpg": {
+    "url": "https://github.com/user-attachments/assets/04319c59-820f-43bc-9af6-cb06a5f31ac2",
+    "sha256": "8430308dc657b486f0716d519159fc8c913c8c3001ea0e9fabe6931eeaaa68da"
+  },
+  "apps/web/public/images/native/context-menu.jpg": {
+    "url": "https://github.com/user-attachments/assets/8fb140a5-3758-4301-86bc-425000f5a87c",
+    "sha256": "439dd3f2cb32b67fd5ae7659b8be10c70619c5e9acf7a123d0e0bd134bc1d340"
+  },
+  "apps/web/public/images/native/density.jpg": {
+    "url": "https://github.com/user-attachments/assets/4d0af65a-1e20-48d4-9b8a-814b64622203",
+    "sha256": "e5ee2b5a0a19e15c0f9a477920a61c1410a802c8828e9c677935d94e565fe249"
+  },
+  "apps/web/public/images/native/dialog.jpg": {
+    "url": "https://github.com/user-attachments/assets/058aa458-150d-4f56-90b8-4360402acb7c",
+    "sha256": "22b027e6871fbf9b314454e9016a81728354cdb23679ecf34ecc76a6e13aeb9f"
+  },
+  "apps/web/public/images/native/direction.jpg": {
+    "url": "https://github.com/user-attachments/assets/d7a3ca9d-1822-4aa3-8018-b2ab733a3371",
+    "sha256": "0f245800f444bbb5b3ecbbef0184f13394fbf17c9e09637675a6ee301c497faa"
+  },
+  "apps/web/public/images/native/drawer.jpg": {
+    "url": "https://github.com/user-attachments/assets/7cfe814d-60a9-4a46-be52-e16f54aad40c",
+    "sha256": "7c4938f8dc920bd2e0045442146401b58a2bbb9ecdb6327a94b1f51227e1a14f"
+  },
+  "apps/web/public/images/native/dropdown-menu.jpg": {
+    "url": "https://github.com/user-attachments/assets/61d6c0bf-54d1-4f5b-a6ba-11d133433775",
+    "sha256": "bc66afd9196a4c986077d87fe9289c9a0b189f64ae70ae945b4027dd5c376f6f"
+  },
+  "apps/web/public/images/native/empty.jpg": {
+    "url": "https://github.com/user-attachments/assets/90ee73d8-dafd-4e05-be36-716b165e0e69",
+    "sha256": "94d7710eab55cfbb062912e8d7926985fc08c9cdc54a1ed710b5aef00d814245"
+  },
+  "apps/web/public/images/native/field.jpg": {
+    "url": "https://github.com/user-attachments/assets/83e8f153-baa8-496e-a1b6-0bd2c110d79a",
+    "sha256": "20b8243eaa17168591798342230d89f442967b63a918d0b8b25b216668505bcd"
+  },
+  "apps/web/public/images/native/hover-card.jpg": {
+    "url": "https://github.com/user-attachments/assets/c8506240-690e-4c2e-bae8-983ebadf21b8",
+    "sha256": "83e656b06f00a61e27e81197a2347d8d2b4fac86469f6fcc8fa21f6209df721f"
+  },
+  "apps/web/public/images/native/input-group.jpg": {
+    "url": "https://github.com/user-attachments/assets/7ed45a1a-9969-43c5-82bf-a25c4cb18dfc",
+    "sha256": "619775aaa053a57616484c190326a20f1ba58d027a85bced515cddac5dbbed8f"
+  },
+  "apps/web/public/images/native/input-otp.jpg": {
+    "url": "https://github.com/user-attachments/assets/5ef7b5b7-670b-4fd4-bd52-1f5c1c6db468",
+    "sha256": "fd5e73f4100b143115b1a5b9d9d7c7dd3b46f72a4b1de67ca4d8d079ef74851a"
+  },
+  "apps/web/public/images/native/input.jpg": {
+    "url": "https://github.com/user-attachments/assets/30982390-887a-4a5c-a8f8-9781e123d651",
+    "sha256": "35f273963400a75a7f05528e1c5ecdfd7c515c2185ba316c5f7236d91b21d59e"
+  },
+  "apps/web/public/images/native/item.jpg": {
+    "url": "https://github.com/user-attachments/assets/cfbcac0d-04c7-4007-bfd2-fb7f243ddb83",
+    "sha256": "a1bfb109328c77f9cdff95505234e66481d32ef0d45ae56e0ccc241ba5e3b47c"
+  },
+  "apps/web/public/images/native/kbd.jpg": {
+    "url": "https://github.com/user-attachments/assets/9d22d083-9b0c-4217-bdbd-504d5f23bb9b",
+    "sha256": "fa900290086b9f9f82423b2f37fcf817cd8a47a9653fc2b94e80cd65fb9fef84"
+  },
+  "apps/web/public/images/native/label.jpg": {
+    "url": "https://github.com/user-attachments/assets/e4645dfb-b303-4f23-a53e-e4908bd0f51d",
+    "sha256": "a1c028deb3e60f9daffe690116d68529d7168c9e15f2850a2db7e593250a8db0"
+  },
+  "apps/web/public/images/native/marker.jpg": {
+    "url": "https://github.com/user-attachments/assets/bcd6023e-853a-4936-a5a3-4103a8a6ee20",
+    "sha256": "e88c61b889f04b8c61205f217f1f68df8c0686eac89de3803a63e3e6249af803"
+  },
+  "apps/web/public/images/native/menubar.jpg": {
+    "url": "https://github.com/user-attachments/assets/820ffb0e-832b-4d96-81b7-7bc7a7360d5a",
+    "sha256": "6b0ddc994bd03170a421585bb24b69151e82437dc323dfb3842a051f3493f661"
+  },
+  "apps/web/public/images/native/message-scroller.jpg": {
+    "url": "https://github.com/user-attachments/assets/b079256b-8845-4284-9c5c-ecf30b131a69",
+    "sha256": "3c0a1eaafd78c0b84bf015cd0879f5b2605397a9ad9de992b50682369c275509"
+  },
+  "apps/web/public/images/native/message.jpg": {
+    "url": "https://github.com/user-attachments/assets/96f495f4-bf4a-4b39-9fc8-7e56b143da51",
+    "sha256": "5ee50dac1b9c5b653a2e7929dd8fed5fd3fc7eda20443f4629389a82652d9a8a"
+  },
+  "apps/web/public/images/native/navigation-menu.jpg": {
+    "url": "https://github.com/user-attachments/assets/ca5d9cb6-d18e-4347-868f-cb490f33c77c",
+    "sha256": "9cc75625e4c0485981089c800f2f980ec0eda8adb359c80d0d57345e01674b7f"
+  },
+  "apps/web/public/images/native/pagination.jpg": {
+    "url": "https://github.com/user-attachments/assets/a11959b7-16cb-43bf-b45d-c52cda97140b",
+    "sha256": "3f4577681857f6ae21581b42d0a5f6f5adaa82c34241674ee829f6cffa2329b4"
+  },
+  "apps/web/public/images/native/popover.jpg": {
+    "url": "https://github.com/user-attachments/assets/bd4f9962-103f-4f2e-b5e4-5be4a0c57ffe",
+    "sha256": "17c2fa9e1c7ab788c634d435e3b5e2e980cc4e224340d57e3a79aa994f2d9e6a"
+  },
+  "apps/web/public/images/native/progress.jpg": {
+    "url": "https://github.com/user-attachments/assets/f476aa49-c697-46ba-9005-f5746a9a5d58",
+    "sha256": "55b13957c4c78c2555f136707181ed7e3431be764b13faf5ca4933bfafd3100b"
+  },
+  "apps/web/public/images/native/questionnaire.jpg": {
+    "url": "https://github.com/user-attachments/assets/ac97e80a-dead-423f-ab04-6553134bf76a",
+    "sha256": "a16bd755b8cabfef37b98305febd389ceb585e4ade14b8bbd47dc2bd06ee718a"
+  },
+  "apps/web/public/images/native/radio-group.jpg": {
+    "url": "https://github.com/user-attachments/assets/e39ba3e5-07af-4f2b-936b-5534125936d4",
+    "sha256": "df856ed8d052e56beb633209de51dc620ff10fcd5b5b5fe9e1b1f1528927fbac"
+  },
+  "apps/web/public/images/native/resizable.jpg": {
+    "url": "https://github.com/user-attachments/assets/e3dfe7b5-ada1-4b12-bbc3-4f6835d8c87e",
+    "sha256": "8ec645d4a3f7921cd8d0c14d1122b9cabf5045a1788dab5243abe07712bcac4e"
+  },
+  "apps/web/public/images/native/scroll-area.jpg": {
+    "url": "https://github.com/user-attachments/assets/2fb05143-c312-436c-adac-dd29ba59656b",
+    "sha256": "afd93cd33e03c66760478d351a9af2e97a385f229d9e99965aec4835a3f0331d"
+  },
+  "apps/web/public/images/native/search.jpg": {
+    "url": "https://github.com/user-attachments/assets/4a2b8e3b-4a08-440e-9ef3-5bd9c448732b",
+    "sha256": "c97e8532a8db7c78ee136e188681b94c49d65c5e4797e41f685b8dd9cb9241cf"
+  },
+  "apps/web/public/images/native/select.jpg": {
+    "url": "https://github.com/user-attachments/assets/97b97df4-3183-4d48-b449-d5c8f9fa3123",
+    "sha256": "088d24418aeb8406981712952a5a95d3d70367c0921358a96886ccce384e24f1"
+  },
+  "apps/web/public/images/native/separator.jpg": {
+    "url": "https://github.com/user-attachments/assets/82edf98f-2a3c-479f-b65f-2e178404bed1",
+    "sha256": "f15907bc5d24dd14ed39e6a5e1258d974b63dcd8c98e6c23358326e28e87098b"
+  },
+  "apps/web/public/images/native/sheet.jpg": {
+    "url": "https://github.com/user-attachments/assets/de533f0f-4a4d-4f51-a536-1d1e663e15c6",
+    "sha256": "f1d28dd922688a46057243fd8c39cdba6391e1c3df37fe93cfbc2c7da0862e13"
+  },
+  "apps/web/public/images/native/sidebar.jpg": {
+    "url": "https://github.com/user-attachments/assets/5e887b81-ee1e-4e3e-b28a-40c51e9f942a",
+    "sha256": "7edf98e4f1dc7dceb602d225c337e14969e92e0efb27324a9ef3a605d0cda6b6"
+  },
+  "apps/web/public/images/native/skeleton.jpg": {
+    "url": "https://github.com/user-attachments/assets/12ecfd35-ce49-4dd5-91c1-258e922587dc",
+    "sha256": "a4a81c734cef09aaa5e2ca2ac6eab1035ced7cef6f3ba5c313966e9de6de6828"
+  },
+  "apps/web/public/images/native/slider.jpg": {
+    "url": "https://github.com/user-attachments/assets/db508a14-f1a1-4b3d-a134-0214ba31a1df",
+    "sha256": "5d57feeb8c8db7099b10ed2c8c165fec2253c531cf0810765f373c03dd14f3cf"
+  },
+  "apps/web/public/images/native/sonner.jpg": {
+    "url": "https://github.com/user-attachments/assets/6fc1e350-67ec-4179-864f-e0999172d079",
+    "sha256": "8472ecf3ab363aba64d314a40338d9f1c4c4c13af221059954c575cb2a1cb459"
+  },
+  "apps/web/public/images/native/spinner.jpg": {
+    "url": "https://github.com/user-attachments/assets/3b19d17e-bc0c-4bc4-9758-f2aff00a3efa",
+    "sha256": "64e04d5130ca92950af6d1c018f268fa20c795e97da7f72b2c39c96720a0e5f0"
+  },
+  "apps/web/public/images/native/switch.jpg": {
+    "url": "https://github.com/user-attachments/assets/f7b0888f-2ea7-4377-87dc-453785dbfb99",
+    "sha256": "6154bfa053f2a0202f06c5d80921f2dae1e21127b169d24971d83b191c29f337"
+  },
+  "apps/web/public/images/native/tab-strip.jpg": {
+    "url": "https://github.com/user-attachments/assets/54f9cf74-13bc-4230-95d5-5580ae5bb3b2",
+    "sha256": "ecd2d983f0b8c305b50cbfe48e790dd0cdaa5591cde5deb57ba7107e4662e614"
+  },
+  "apps/web/public/images/native/table.jpg": {
+    "url": "https://github.com/user-attachments/assets/7bb0883d-3e48-42bd-89c1-4a1509554902",
+    "sha256": "5ac07346bd3b7669d9c1622a32f69367c72814254bcd53a339e0f94a732a70ca"
+  },
+  "apps/web/public/images/native/tabs.jpg": {
+    "url": "https://github.com/user-attachments/assets/b112093a-2c7b-4722-a048-e090b42f4b72",
+    "sha256": "ec6345e3c7b6c381e836cb177d576650d07f7f75f80589547854a2ab6d210e7f"
+  },
+  "apps/web/public/images/native/text.jpg": {
+    "url": "https://github.com/user-attachments/assets/16f8e5c7-723c-47bd-93c0-6274b4cf0d63",
+    "sha256": "3efa132b29e9b77d597c59cc691400c78bddfba0cb7e141e0ea11143b9e85c00"
+  },
+  "apps/web/public/images/native/textarea.jpg": {
+    "url": "https://github.com/user-attachments/assets/21b66ad4-cb45-4298-8021-119a44a564bf",
+    "sha256": "c4978414bb857fa62aa714510a5c3cd55d91dabc8dc1be5b07a84712c2ad5cbe"
+  },
+  "apps/web/public/images/native/toast.jpg": {
+    "url": "https://github.com/user-attachments/assets/82ca5dfd-b113-4835-9628-b58ef09af88b",
+    "sha256": "652cfc17a0fd343c70b47153e916118ba6367f636eb05c305e3ad0372d09acc4"
+  },
+  "apps/web/public/images/native/toggle-group.jpg": {
+    "url": "https://github.com/user-attachments/assets/58b53ea3-728e-4f57-b6fe-b2d4a2bcef15",
+    "sha256": "d8ff7f3fc335796a6bc0dc9e90dd8b33e2dddf63872b465d5f0096f20c270c61"
+  },
+  "apps/web/public/images/native/toggle.jpg": {
+    "url": "https://github.com/user-attachments/assets/a276f9de-f139-48be-89dd-53e2d22237aa",
+    "sha256": "df2ef95da17da984b4754c5c43a410efeceac4d195b4fdde406a24d11d2fe7cd"
+  },
+  "apps/web/public/images/native/tooltip.jpg": {
+    "url": "https://github.com/user-attachments/assets/b3c70cfc-0d19-40eb-8b27-80fa35dc5859",
+    "sha256": "89e44f601c209dbca9003c40afc5e71d1ba7f50922ddd33f9104fb1391f1e60a"
+  },
+  "apps/web/public/images/native/user-menu.jpg": {
+    "url": "https://github.com/user-attachments/assets/18db9580-185a-4dcc-9272-0cfc348be4a7",
+    "sha256": "a7aeced9616cfed7fe0891f77a6fca1880bc28dfaf16e3d552ba3d69e41b885b"
+  },
+  "apps/web/public/images/native/workspace-switcher.jpg": {
+    "url": "https://github.com/user-attachments/assets/a6c5dee5-b776-4de8-836a-7d58239c0b97",
+    "sha256": "2e3411ae3e2962c68950ee0c59139051de9eabee1861d3d61853ad03ac4178bf"
+  },
+  "docs/plans/icon-pack-custom-ai.png": {
+    "url": "https://github.com/user-attachments/assets/5711272f-86d3-48a4-b622-853dc89cf1b8",
+    "sha256": "e1d8737b53c7b5094606f2f0a0b3e6823273c59ec12a7547b96d92f32be8a79b"
+  },
+  "docs/plans/icon-pack-custom-groups.png": {
+    "url": "https://github.com/user-attachments/assets/5f80f6cb-852b-4662-afbe-9040face1733",
+    "sha256": "53f47ee3e3d0e052592bc6bd26ba1ff015577a7aa8ddd2071c501bae652a0071"
+  },
+  "docs/plans/icon-pack-custom-ui.png": {
+    "url": "https://github.com/user-attachments/assets/ccb102d7-2ec4-45cc-b820-d2d2bce80b35",
+    "sha256": "a8ad8e757afb961e1b40932507670b95341569d0d561707b181960d1bb55cc35"
+  },
+  "docs/plans/icon-pack-expansion-proof.png": {
+    "url": "https://github.com/user-attachments/assets/08d27750-6f94-46b4-b8f2-2609b495bb63",
+    "sha256": "7e20316715c7045b111f7699659b317fb46d41b28ac8739963e848434cf2256f"
+  },
+  "docs/plans/native-platforms/react-reference/app-shell-demo-light.png": {
+    "url": "https://github.com/user-attachments/assets/0b1d801f-4e64-4c7e-9468-a71dfee34be4",
+    "sha256": "74decd1b6b4ccdcde3f7547e17c4f3e4477bbc91553a34af83d8f1b2be7728a3"
+  },
+  "docs/plans/native-platforms/react-reference/app-shell-light.png": {
+    "url": "https://github.com/user-attachments/assets/d117ce33-8612-4d8c-99cc-19ac0f68634d",
+    "sha256": "a42153f890f68bff86537753b90d099a20dd56769cdb9cf36c26579ff756b7f2"
+  },
+  "docs/plans/native-platforms/react-reference/app-shell-page-light.png": {
+    "url": "https://github.com/user-attachments/assets/185767a3-c3ae-45a4-b9bc-66e63d71fda1",
+    "sha256": "508a963bc22fec38dd4a7e7630460d5e3a4d2601cb206c2aa8ddc3e6ff145fd2"
+  },
+  "docs/plans/native-platforms/react-reference/badge-light.png": {
+    "url": "https://github.com/user-attachments/assets/24df9a53-0251-4419-ad95-c257c8e034e3",
+    "sha256": "7b1bcda2db25a1f6e1abc3716743299d2d22200d3f61426b515f8299f20d3729"
+  },
+  "docs/plans/native-platforms/react-reference/button-default-light.png": {
+    "url": "https://github.com/user-attachments/assets/dfa181d7-dfee-426f-b5ba-17e4641a7154",
+    "sha256": "0640da24baa1c1ea2e968637c17f1a9bc383980fcdf8e53e44fe35a0106df806"
+  },
+  "docs/plans/native-platforms/react-reference/button-light.png": {
+    "url": "https://github.com/user-attachments/assets/9d6a3731-71eb-4853-b493-c4c3d2fd7cf2",
+    "sha256": "ef3a0b1c2267c1920e0634c303606ca0f60bb082831e77c665f8e5078bb7212f"
+  },
+  "docs/plans/native-platforms/react-reference/card-light.png": {
+    "url": "https://github.com/user-attachments/assets/b667e412-8f0d-478b-9c61-3cd1fe5bd84e",
+    "sha256": "9c24db1408e7b99247890aa0c90b82641d449892184134468bd75fc2754006f4"
+  },
+  "docs/plans/native-platforms/react-reference/dialog-light.png": {
+    "url": "https://github.com/user-attachments/assets/1749d85f-2f65-41ca-b804-7d33249b4949",
+    "sha256": "6c80e907447fa49ed6e2c9fab7f4fd887d075969c0e505e5bffeb571e67e72c8"
+  },
+  "docs/plans/native-platforms/react-reference/dropdown-light.png": {
+    "url": "https://github.com/user-attachments/assets/5eb2f294-fb73-455d-a79e-81cab96877a8",
+    "sha256": "1d7b5eb056938b4c9a27001f4ca12c62b9f79825472205ade7022d2ade4c5887"
+  },
+  "docs/plans/native-platforms/react-reference/input-light.png": {
+    "url": "https://github.com/user-attachments/assets/ebdd0946-1609-48ca-b52f-517ec60b7f79",
+    "sha256": "cf6a37dcc611e40b82bcc087558b30543ff43b9abe0f6c92107fc4f828acb85f"
+  },
+  "docs/plans/native-platforms/react-reference/select-light.png": {
+    "url": "https://github.com/user-attachments/assets/7e395b06-867d-4479-9671-028a4a406c3f",
+    "sha256": "5b6067e90ade43a24e5b76fb226e2bace245a8e83b3b8b4cb0eb7f452ee2a6cb"
+  },
+  "docs/plans/native-platforms/react-reference/tabs-light.png": {
+    "url": "https://github.com/user-attachments/assets/c517f6cd-68f2-4373-96ff-18ca0526ae62",
+    "sha256": "4e516f3194de919cba381b5f06a2039b415f6b2c25a43a8e7aa6d20623420fee"
+  },
+  "docs/plans/native-platforms/swiftui-calendar-baseline-ipad-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/d734d2d0-3fe6-498c-91d5-79a74a9b83c2",
+    "sha256": "d5ad236d02ebacc71fee788e73bbc3a8803757afc36966d1bdda2eb0a04561ee"
+  },
+  "docs/plans/native-platforms/swiftui-calendar-before-after.png": {
+    "url": "https://github.com/user-attachments/assets/eb5f7477-6903-4033-b633-1b809facc7d9",
+    "sha256": "1270153edfc72c105e292adada9d38e1d864ac771e7053f52dec59d10f83a412"
+  },
+  "docs/plans/native-platforms/swiftui-calendar-ipad-dark-large.jpg": {
+    "url": "https://github.com/user-attachments/assets/f3073995-9a59-4b55-91a1-50bce25f04f8",
+    "sha256": "edf67915931924f380176d5ec69fc042750c613d922887b63f225ecd23dc6bd1"
+  },
+  "docs/plans/native-platforms/swiftui-calendar-ipad-dark.jpg": {
+    "url": "https://github.com/user-attachments/assets/b2c7ea01-dd57-4287-b4a2-f473ad86efae",
+    "sha256": "2602c4377158d3898b20cbf0c6ab3b9373d7d3f11ab50fdc00dc9992d41814bb"
+  },
+  "docs/plans/native-platforms/swiftui-calendar-ipad-large-year-menu.jpg": {
+    "url": "https://github.com/user-attachments/assets/6c35fe5d-5bd3-4714-931f-88c4c128686c",
+    "sha256": "5346882a04bbadc6131298205d7b988bdffa17c0416ce0eb17607b996baf08e3"
+  },
+  "docs/plans/native-platforms/swiftui-calendar-ipad-light-first.jpg": {
+    "url": "https://github.com/user-attachments/assets/2b505b69-346a-4c32-9724-e65d348e5e79",
+    "sha256": "75108adbdc5d80baddbbbfc51996e1d9e0cd61840a54ee5384fd9fe76a190c1d"
+  },
+  "docs/plans/native-platforms/swiftui-calendar-ipad-light-refined.jpg": {
+    "url": "https://github.com/user-attachments/assets/800046d6-e4fa-4eaf-8515-ee652854c611",
+    "sha256": "83e3c4c050681d816eddb625c725c358c468221aac6215b02436602e078186a6"
+  },
+  "docs/plans/native-platforms/swiftui-calendar-phone-dark.jpg": {
+    "url": "https://github.com/user-attachments/assets/1b7fa9c9-6ce9-4fa3-a196-4b437388c89c",
+    "sha256": "3063b1f01614aa020191331fe25bd79a9823f08fe39eb237ac261193abf5c7a5"
+  },
+  "docs/plans/native-platforms/swiftui-calendar-phone-disabled-skip.jpg": {
+    "url": "https://github.com/user-attachments/assets/e5fe378a-42ea-4fcb-a15a-5639ca4e756a",
+    "sha256": "b1eb5afaee833e15d828b07cab356b178d87a1de0793bb56e689849712837177"
+  },
+  "docs/plans/native-platforms/swiftui-calendar-phone-final.jpg": {
+    "url": "https://github.com/user-attachments/assets/661608e3-01c2-47d3-8143-a7f9f71ece81",
+    "sha256": "a42757a97633bb12e93d57682c8fccc27269ebd78de168ca1f86b2673068febf"
+  },
+  "docs/plans/native-platforms/swiftui-calendar-phone-large-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/466adb13-b635-469a-92c5-f38b5874e04c",
+    "sha256": "d119899d02fdfabff3ddf47091da5755268ada209ee9c2e20f8fd68cdfa27ea7"
+  },
+  "docs/plans/native-platforms/swiftui-calendar-phone-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/83896854-9219-4d92-b60b-09daa6860564",
+    "sha256": "d97fe6af2e2acc274d95abc937045c9deb0af9128885effdbbfd8db4db4d0cc4"
+  },
+  "docs/plans/native-platforms/swiftui-calendar-sidebar-ipad-dark.jpg": {
+    "url": "https://github.com/user-attachments/assets/eeda0a2e-83aa-41d6-ae75-e2882cd8b111",
+    "sha256": "67b03563f3b8dbb2194e247d1c209d59d556febda0a3ef893686541f4ab5816f"
+  },
+  "docs/plans/native-platforms/swiftui-calendar-sidebar-six-weeks-ipad-dark.jpg": {
+    "url": "https://github.com/user-attachments/assets/2651f975-0e7a-49ae-b6e7-56f1f810ed97",
+    "sha256": "2258e2adf417fbdb64023733f42b827301f4bb1de63de2f1448a95285991bd3d"
+  },
+  "docs/plans/native-platforms/swiftui-calendar-year-menu-dark.jpg": {
+    "url": "https://github.com/user-attachments/assets/123904af-b1be-49af-90b6-c7d1fd660f95",
+    "sha256": "b3c8d4e8521b9626ce502875f1905911f43dfe6869728dc605d53cee4343c47f"
+  },
+  "docs/plans/native-platforms/swiftui-calendar-year-menu-first.jpg": {
+    "url": "https://github.com/user-attachments/assets/85674441-809c-4d0b-9adf-b5ec4682a5c5",
+    "sha256": "b69ba745f015cab076074f6a0e5b13af6ed378a9ad480dbb6dfd1e6d4e1e3fb3"
+  },
+  "docs/plans/native-platforms/swiftui-card-comparison.png": {
+    "url": "https://github.com/user-attachments/assets/d8b59699-058e-4ad1-9ada-255096fd09d3",
+    "sha256": "a2f4bf71b56be4cb70b35e6e949ddedb54c643bab8b3d559d23f35bfdd9f3b9b"
+  },
+  "docs/plans/native-platforms/swiftui-checkbox-after-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/66e18431-b82d-4e21-86c0-4db2fa14b224",
+    "sha256": "7ebfe362f4ab9c385707433362914af32de649e5ea50dca5a5ea376b681791a5"
+  },
+  "docs/plans/native-platforms/swiftui-checkbox-before-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/7a210966-bda0-45bf-a4d2-17c0991eb508",
+    "sha256": "b51cb88ecd0279c2652146ae6fd2764bfd0f7a74067896f270bb9166cc4ca118"
+  },
+  "docs/plans/native-platforms/swiftui-checkbox-large-dark.jpg": {
+    "url": "https://github.com/user-attachments/assets/579da751-7e51-447a-8d3d-62ad3b4dcddf",
+    "sha256": "9d2cd453f95e874b24ec12c7716ca3f1e89174ec69b269863eebacd2ede0754b"
+  },
+  "docs/plans/native-platforms/swiftui-checkbox-motion-frames.png": {
+    "url": "https://github.com/user-attachments/assets/011be332-3134-4780-b5e9-b08294f32542",
+    "sha256": "ae141474aacbbe8607470e4ce7fe5f08399294557c294ca4fdb47e9a486424d3"
+  },
+  "docs/plans/native-platforms/swiftui-checkbox-motion-light.mp4": {
+    "url": "https://github.com/user-attachments/assets/725293d8-90e5-4be4-8154-8e772173f663",
+    "sha256": "294a20165eff09897d3e6111b48e46b57eab3846c5d9da1c4f1468a848de94af"
+  },
+  "docs/plans/native-platforms/swiftui-checkbox-progress-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/807210b1-f994-47b3-b64b-f320c2a07b9a",
+    "sha256": "63e1ee52cd90c4b6e9ae06cf1d9ae0b832e6fb0596fba1d13093398d0207daed"
+  },
+  "docs/plans/native-platforms/swiftui-code-capped-before-dark.jpg": {
+    "url": "https://github.com/user-attachments/assets/90a5ffc2-5da7-4d1c-b329-90f27e1313a5",
+    "sha256": "eb4f666edf53b84066dcd4040d5aba43c26a147b27735195c4703d0211165cad"
+  },
+  "docs/plans/native-platforms/swiftui-code-capped-end-dark.jpg": {
+    "url": "https://github.com/user-attachments/assets/9c783e08-5c13-42c6-93c4-85b7a1e1d5f5",
+    "sha256": "d27085922658d68b958a999d66583070c5c9808c2f2dafbc8ab031f363a718bb"
+  },
+  "docs/plans/native-platforms/swiftui-code-capped-scrolled-dark.jpg": {
+    "url": "https://github.com/user-attachments/assets/245adcee-a6f7-4eb6-a16f-0c2d3db73581",
+    "sha256": "1914a4d32a58948447e54d80fd99b09aaead0e7c229a35c46bebdaace6775b82"
+  },
+  "docs/plans/native-platforms/swiftui-code-capped-visible-dark.jpg": {
+    "url": "https://github.com/user-attachments/assets/43b5d33e-f96c-41a5-b71a-6e2531b28888",
+    "sha256": "a5966f8d3671ff3f25136be157770885740b6349d54eaf5858fa4cdba54b82de"
+  },
+  "docs/plans/native-platforms/swiftui-code-copy-feedback-dark.jpg": {
+    "url": "https://github.com/user-attachments/assets/51e598cb-e102-42b6-964a-fb258d9b21e9",
+    "sha256": "f0fd665bf1c609112a56fa4324ed43fd53ae0ad0007e5bf7b6e9bd4383df0b88"
+  },
+  "docs/plans/native-platforms/swiftui-code-copy-motion-dark.mp4": {
+    "url": "https://github.com/user-attachments/assets/2fdab2b1-f82c-4739-b103-a65ab027a747",
+    "sha256": "605e1d7223cdd0694210f5219e00fb53cbd7f1b9e3ddf3e6190464db969e8861"
+  },
+  "docs/plans/native-platforms/swiftui-code-copy-motion-frames.png": {
+    "url": "https://github.com/user-attachments/assets/4058ab45-b62c-41a9-a515-149c1055f787",
+    "sha256": "f2d83e592309297b5d5d218505c4022a930bea4bae9c27249e842b09ffec49d3"
+  },
+  "docs/plans/native-platforms/swiftui-code-copy-reset-frames.png": {
+    "url": "https://github.com/user-attachments/assets/e1458427-5def-4134-abe1-99308b8ed98c",
+    "sha256": "502e997c6e39decc8c019a9d67fb38b1ee005bc5ca5d3b37c3e43c1cbfc531c9"
+  },
+  "docs/plans/native-platforms/swiftui-code-scroll-after-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/2e6bb310-ef7b-402b-9fe6-de50937b6516",
+    "sha256": "9d5e9b908077bfb6ef40f5dcc5f4337b22fa06b11ed0621c233b307e9ddddf30"
+  },
+  "docs/plans/native-platforms/swiftui-current-ipad.jpg": {
+    "url": "https://github.com/user-attachments/assets/beb2542f-5c9d-4dd0-86ef-b93b71cf2c91",
+    "sha256": "a61befa2aea4e3930494603b84379d6995b28914d6d0cb949804319252ca9c53"
+  },
+  "docs/plans/native-platforms/swiftui-data-table-accounts-ipad-dark.jpg": {
+    "url": "https://github.com/user-attachments/assets/fb17f1e2-ebda-4c29-ac34-1ab2da9e2efd",
+    "sha256": "0bee21765ec4300c2ad4691a8c9a52c3b7d5185d57bb865b5bde0b7937e96678"
+  },
+  "docs/plans/native-platforms/swiftui-data-table-accounts-ipad-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/ae98c2da-622e-42c5-9ad8-38791235cca6",
+    "sha256": "a89cb63dd65a9e9901678490049a14664b71b71532f90cfb80ab961576c7514a"
+  },
+  "docs/plans/native-platforms/swiftui-data-table-accounts-phone-dark.jpg": {
+    "url": "https://github.com/user-attachments/assets/ea04f64a-9cf5-4475-905f-ce67208e61b4",
+    "sha256": "a5e14b8f47e4225e5bee82bc517460b5d84e5dbda929724dc1f417b7dc38a7d8"
+  },
+  "docs/plans/native-platforms/swiftui-data-table-accounts-phone-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/6e2e3318-1ed4-40c7-a0e2-f67c82349299",
+    "sha256": "07bdb4e4e9721532ecab0c1543533f5c74a6f793936449a2a647e158e1097ba9"
+  },
+  "docs/plans/native-platforms/swiftui-data-table-baseline-ipad-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/746aa962-cb88-4e4d-acba-2756c2afa9bb",
+    "sha256": "1bff4b29edeaf9b1401324cd1df1891c437312b579ee6145875b33e34d5d4917"
+  },
+  "docs/plans/native-platforms/swiftui-data-table-dates-ipad-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/36313f58-e82c-459d-9710-197d3d366cc8",
+    "sha256": "4826aa76f92d11be8ed872e30fb5610ce4444c568e4dbdd976abc405c7a0c66a"
+  },
+  "docs/plans/native-platforms/swiftui-data-table-large-phone-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/9734bdeb-ce71-4fdd-8478-33d3d78b5010",
+    "sha256": "8c6742b5c942517040428a1f5dc8f5a6694b94c4327da999f3ff160967eb65e2"
+  },
+  "docs/plans/native-platforms/swiftui-data-table-last-page-ipad-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/425a6ee6-6271-48c9-bdf8-b6cbf7baf19a",
+    "sha256": "ab074306aed689dda8e5bef4820e7db89e9586dbe8484ed80442cb505d6946b6"
+  },
+  "docs/plans/native-platforms/swiftui-data-table-links-selected-ipad-dark.jpg": {
+    "url": "https://github.com/user-attachments/assets/7eeaadd9-26ac-4b0b-9d83-4f12a7e2d3e9",
+    "sha256": "09cec636738c3743d6a2e81a515470f2dfc3d048aac8066bb2cb34db37a19ac4"
+  },
+  "docs/plans/native-platforms/swiftui-data-table-numbers-ipad-dark.jpg": {
+    "url": "https://github.com/user-attachments/assets/0887dd4f-30a9-4831-bb7a-c1d2cf6ceebb",
+    "sha256": "04dbcfba7887f509b3baed39edc8d2bb0f642fd5346df9ac841be49ac54194ec"
+  },
+  "docs/plans/native-platforms/swiftui-data-table-numbers-ipad-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/c1823195-8f4e-40e1-aca1-26a8089dfe70",
+    "sha256": "e42c28a802fe4f560bde1e009d6c2770240350b85e32cc136899640aaf157ba4"
+  },
+  "docs/plans/native-platforms/swiftui-data-table-sort-light-frames.png": {
+    "url": "https://github.com/user-attachments/assets/9e43d564-d9b8-4c5c-ac4e-bcb6590c5a76",
+    "sha256": "6a59ae37d6958b8c3fa150106f707fdf8ff763da7ad3b837a0b6dfd87e246f0a"
+  },
+  "docs/plans/native-platforms/swiftui-data-table-sort-light.mp4": {
+    "url": "https://github.com/user-attachments/assets/b0a1b668-19f1-432c-b734-bb66e5228768",
+    "sha256": "a00b402e16fcb12e37e0dcc8adfd3b7be2b47e14bfb7c05744b5a0a9f169079f"
+  },
+  "docs/plans/native-platforms/swiftui-data-table-sort-motion-off-light-frames.png": {
+    "url": "https://github.com/user-attachments/assets/aa59b1a3-1f3e-4415-8f59-5b5cebf9e7d4",
+    "sha256": "daf0d8cb462df5515d1e3f3152c830cf767da8d9fcd4775e5993a71356217475"
+  },
+  "docs/plans/native-platforms/swiftui-data-table-sort-motion-off-light.mp4": {
+    "url": "https://github.com/user-attachments/assets/df939cb8-904b-4ec7-b4ef-62ec7f8aaa95",
+    "sha256": "937633a3c0dd5dbab26d98cdd2defdcc2ddb5543f8782a9df51abca4f0dff341"
+  },
+  "docs/plans/native-platforms/swiftui-data-table-typed-ipad-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/b3f602a7-a922-4add-8970-c2f7a43f8e18",
+    "sha256": "1473f93d4030b4b792b223ce4c2f68ae29580d08db07648067e831da11a65fc7"
+  },
+  "docs/plans/native-platforms/swiftui-date-grid-ipad-fields-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/803712fc-38c1-4c50-8747-feeb0c3db108",
+    "sha256": "1967767ad2d001c2c5f7ab70a466a6a1d35b0d2d032386bc09c2f1e5bee6668d"
+  },
+  "docs/plans/native-platforms/swiftui-date-grid-ipad-large-fields-final.jpg": {
+    "url": "https://github.com/user-attachments/assets/7600f9a6-3916-4637-8fac-4addc2c07771",
+    "sha256": "bbcac845e4f1fa2ead59b67246087f842aaeb8351bb11c942e4ccd5aa6546662"
+  },
+  "docs/plans/native-platforms/swiftui-date-grid-ipad-large-fields.jpg": {
+    "url": "https://github.com/user-attachments/assets/49ac792e-2ec1-44bc-a19f-1fe1bdc36a88",
+    "sha256": "c4d8cec880e279e2aa8d3125cfe92c6a91f224af9561c3ec24162d8f80a11a66"
+  },
+  "docs/plans/native-platforms/swiftui-date-grid-page-motion-frames.png": {
+    "url": "https://github.com/user-attachments/assets/a72ad773-8139-4652-a51e-3bf494ff44ed",
+    "sha256": "5e40fb192254a1acebc621ab196922f20287400926a0bc9dbf101a46cbbdaec3"
+  },
+  "docs/plans/native-platforms/swiftui-date-grid-page-motion-off-frames.png": {
+    "url": "https://github.com/user-attachments/assets/2eefb1a8-04a4-480f-8821-19ee34e18884",
+    "sha256": "ea007e71c15e86975c28597dab9900290abe785db6045f6740b3a1163331cd67"
+  },
+  "docs/plans/native-platforms/swiftui-date-grid-page-motion-off.mp4": {
+    "url": "https://github.com/user-attachments/assets/a22e0bd6-9537-45a8-b8b9-191ab0e12129",
+    "sha256": "3b646536411583b27425b720bbf63a47d1c54735f82146249f046c3c9a883c36"
+  },
+  "docs/plans/native-platforms/swiftui-date-grid-page-motion.mp4": {
+    "url": "https://github.com/user-attachments/assets/b09f7303-4876-480f-b7a5-4932728fcdf7",
+    "sha256": "d00c6897e3a1830ba2b7640d7ade1c6d0d0d7d4d999a02bc7a28caacccae9f99"
+  },
+  "docs/plans/native-platforms/swiftui-date-grid-phone-fields-dark.jpg": {
+    "url": "https://github.com/user-attachments/assets/5c79b990-53bb-4c44-a3c5-177509ce9681",
+    "sha256": "516f8ab5bffcd6cf012f556af7c2fa0def529668736d1adc35ba069f01ab439a"
+  },
+  "docs/plans/native-platforms/swiftui-date-grid-phone-large-fields.jpg": {
+    "url": "https://github.com/user-attachments/assets/3dddf652-4247-4d5d-8f90-b6a9fba50801",
+    "sha256": "c9a85c1e7d0bbb9d679325b35726d1174326637471082554e8b89c5a04ac4e15"
+  },
+  "docs/plans/native-platforms/swiftui-date-input-ipad-commit-check.jpg": {
+    "url": "https://github.com/user-attachments/assets/7067548f-0e9d-43d8-902b-2e00a5934d66",
+    "sha256": "77b0a3029eba0dcf7264fff0c6e69ac42cec082356415f626f3b2544eb11b9d6"
+  },
+  "docs/plans/native-platforms/swiftui-date-input-ipad-commit.jpg": {
+    "url": "https://github.com/user-attachments/assets/899875f9-fb99-4f3c-84d0-41e1e51dde9d",
+    "sha256": "21ab436418514faec33a67bc1ac9912d45ff7425f49132d5ef6aac10623e05b1"
+  },
+  "docs/plans/native-platforms/swiftui-date-input-ipad-custom-final.jpg": {
+    "url": "https://github.com/user-attachments/assets/7fb975e3-9477-4ff2-b98f-6fe5fb0f3e3b",
+    "sha256": "45e49e0e8ef249055556588d1a13e42a8fa4773f00cbda5304e8c7cb1e423f39"
+  },
+  "docs/plans/native-platforms/swiftui-date-input-ipad-escape-focus-final.jpg": {
+    "url": "https://github.com/user-attachments/assets/d2cb996d-b5d5-4b3c-b4bf-930d76bfe337",
+    "sha256": "0a00c308e2c9523946ceb4901170805b09f85719d2cad4ba3d1a133273ef170e"
+  },
+  "docs/plans/native-platforms/swiftui-date-input-ipad-invalid.jpg": {
+    "url": "https://github.com/user-attachments/assets/9724d4b8-f2e4-46c9-8a2a-f30c18724263",
+    "sha256": "07b5c0e707d649843ee8001ffc35afc59707b07f079fc5131ffc57ee5275a41b"
+  },
+  "docs/plans/native-platforms/swiftui-date-input-ipad-keyboard-popup-check.jpg": {
+    "url": "https://github.com/user-attachments/assets/9f49a502-fc4a-4a4a-a28d-a966f66e0e9c",
+    "sha256": "009ddc334b5e7775063dfe78c616d08a8d2e1871ae7012a8d9e738c858c128ff"
+  },
+  "docs/plans/native-platforms/swiftui-date-input-ipad-keyboard-popup.jpg": {
+    "url": "https://github.com/user-attachments/assets/32c7208c-1730-4534-9f7b-fb1fafcbe53c",
+    "sha256": "044fcbbdb2ff0705927e71c30c7a6500b894c4c77ebc6bb202288d161e20e744"
+  },
+  "docs/plans/native-platforms/swiftui-date-input-ipad-large-fields-final.jpg": {
+    "url": "https://github.com/user-attachments/assets/76de4c70-08c1-425a-9c98-8011b08d6672",
+    "sha256": "e33cf46a6b3695237f8a44dddeafc779148633860ccf5fe560c4a0bf7ade5638"
+  },
+  "docs/plans/native-platforms/swiftui-date-input-ipad-large-popup-final.jpg": {
+    "url": "https://github.com/user-attachments/assets/340d0fa7-e494-407c-be54-740cc3f7a15e",
+    "sha256": "121bc88d572f9e5931f763dea8b697117f3415f5d27a789d7121c4d5600d367e"
+  },
+  "docs/plans/native-platforms/swiftui-date-input-ipad-large-start.jpg": {
+    "url": "https://github.com/user-attachments/assets/5f8c230e-10f9-4c32-9641-5341ffcf87aa",
+    "sha256": "6e6f588287bb4464b0ca80aa31d802076c4998e5e3bc24c44372cd146ee6724c"
+  },
+  "docs/plans/native-platforms/swiftui-date-input-ipad-light-fields.jpg": {
+    "url": "https://github.com/user-attachments/assets/e8fb4909-0d68-4910-b26c-327c281da53e",
+    "sha256": "57b9001c39bde1de7f6f2059fdcc33b0ff859fce0affe33ae6ac141a3a28b932"
+  },
+  "docs/plans/native-platforms/swiftui-date-input-phone-dark-fields.jpg": {
+    "url": "https://github.com/user-attachments/assets/260e94b4-68bb-462d-8fa8-bd20cfbaee48",
+    "sha256": "f8f58b16665a4d8ea3f8d89e5378fcd4690d43d0c7aebf5a19728ea2bae55f6d"
+  },
+  "docs/plans/native-platforms/swiftui-date-input-phone-dark-final.jpg": {
+    "url": "https://github.com/user-attachments/assets/d3c0679a-3d8b-4936-b8ba-5de1fe536aa0",
+    "sha256": "2f0b07a9e870a65b00f029bfbf9ca5b51c18d2c4d743bba9d0325a54b80f9e76"
+  },
+  "docs/plans/native-platforms/swiftui-date-input-phone-invalid-final.jpg": {
+    "url": "https://github.com/user-attachments/assets/f74bc49d-9c00-4484-ba5d-95441a2da1aa",
+    "sha256": "286aae4be62cd1a647b5d031c2cd1711181caa8941dc67101c32a24d925c5c41"
+  },
+  "docs/plans/native-platforms/swiftui-date-input-phone-keyboard-start.jpg": {
+    "url": "https://github.com/user-attachments/assets/593fbbc2-4ba5-40b7-8441-37b838dc5f10",
+    "sha256": "1796585f12cb48bd8223493e4f3e7ec00a375dc4c2a02944b8f1258ca5decd20"
+  },
+  "docs/plans/native-platforms/swiftui-date-input-phone-option-down-final.jpg": {
+    "url": "https://github.com/user-attachments/assets/873f3055-ce94-4e18-bfd0-1fe012d45659",
+    "sha256": "dc1e56406a0662f085d42b186f1de0915ea99b20d06f45bf13d37de352b2b075"
+  },
+  "docs/plans/native-platforms/swiftui-date-input-phone-start.jpg": {
+    "url": "https://github.com/user-attachments/assets/33a3135d-1a25-4b2d-baa9-e6501dbca363",
+    "sha256": "5a5f853d12d68da7154fe72475e33f907ef3119479d810b39eba47f9aff998ef"
+  },
+  "docs/plans/native-platforms/swiftui-date-picker-ipad-dark-large-popup.jpg": {
+    "url": "https://github.com/user-attachments/assets/6ed98f3b-e86a-4330-99f7-ada25852987a",
+    "sha256": "2902d940961081229e1fcfacfb808cdb19f65efad55a856e3e3869552aef1f2d"
+  },
+  "docs/plans/native-platforms/swiftui-date-picker-ipad-dark-large.jpg": {
+    "url": "https://github.com/user-attachments/assets/7db60252-130d-45c3-9a9c-4369e703de66",
+    "sha256": "0aee67bd458b38bbb5d0cdf7fd389ccc095e95dae8f6eedd53c76995317458ee"
+  },
+  "docs/plans/native-platforms/swiftui-date-picker-ipad-final.jpg": {
+    "url": "https://github.com/user-attachments/assets/d1a90027-81d2-424e-9710-78dd7fe28a54",
+    "sha256": "849b4824cd7b41740ea653f6761f47d32b10581f19baf4e39d58d15bfd1488aa"
+  },
+  "docs/plans/native-platforms/swiftui-date-picker-ipad-light-first.jpg": {
+    "url": "https://github.com/user-attachments/assets/88ebbf79-287a-4f6a-92f8-129c2c6b0464",
+    "sha256": "78098216a4a724a2de66d593a313e4952d540fea3446b31094fa6c02a1983579"
+  },
+  "docs/plans/native-platforms/swiftui-date-picker-ipad-popup-first.jpg": {
+    "url": "https://github.com/user-attachments/assets/c6a8ef7b-566e-4e5c-940f-f5795c7f51e9",
+    "sha256": "4c61ddce889d445f1e309f4b3a00b236ed8b0ffcf6a7d9e77dfdf536ca5a16b5"
+  },
+  "docs/plans/native-platforms/swiftui-date-picker-motion-off-before.jpg": {
+    "url": "https://github.com/user-attachments/assets/d925a7dc-ffa0-46be-97e9-ca1c58bceeb7",
+    "sha256": "2064360f9c1f05253a985ee2b6a17da6db99d0961c4442d666c6c78a41eabcb3"
+  },
+  "docs/plans/native-platforms/swiftui-date-picker-phone-bounded-focus.jpg": {
+    "url": "https://github.com/user-attachments/assets/e1b6ab01-6794-4aa1-a7e8-b3f2729d3c1a",
+    "sha256": "987c6b382f6b2c6614ea2d50cafd451484c1fbf4406470c079a7abad3b3a600f"
+  },
+  "docs/plans/native-platforms/swiftui-date-picker-phone-dark-large-popup.jpg": {
+    "url": "https://github.com/user-attachments/assets/806fbbdf-610e-4c0b-bab2-32f85cd395e8",
+    "sha256": "a70be30182917c3eed60fc1a2840f45a1c92403b86061f24a730c7ccec7c3f78"
+  },
+  "docs/plans/native-platforms/swiftui-date-picker-phone-dark-large.jpg": {
+    "url": "https://github.com/user-attachments/assets/197b8185-35d4-4825-87cc-475a2fafd903",
+    "sha256": "6fc0a7f924ff2697430e077fdac6c3062d04f4d91d237750a6f1caaec26aa05a"
+  },
+  "docs/plans/native-platforms/swiftui-date-picker-phone-focus-final.jpg": {
+    "url": "https://github.com/user-attachments/assets/9dab780d-2141-499a-a01b-2cbde4b1cc16",
+    "sha256": "4b0813c5a6339d5e4242b37e4ada626d8ce12b8c4d610d6dc8752d1fed48fe95"
+  },
+  "docs/plans/native-platforms/swiftui-date-picker-phone-keyboard-activate.jpg": {
+    "url": "https://github.com/user-attachments/assets/a70336cd-2b77-4539-b5b0-3b6dcd820185",
+    "sha256": "ff3359fa8198fb52b75bfa70d36ea7fca7d7808a19b32cd6d3424ffe6c4f5ca5"
+  },
+  "docs/plans/native-platforms/swiftui-date-picker-phone-keyboard-focused.jpg": {
+    "url": "https://github.com/user-attachments/assets/7183599e-3483-44d3-8952-7786092e23a9",
+    "sha256": "593ca3d1b46247bedc4ff66594c440bbb2b3d81e1d486e38d2b276d373568045"
+  },
+  "docs/plans/native-platforms/swiftui-date-picker-phone-keyboard-right.jpg": {
+    "url": "https://github.com/user-attachments/assets/a70336cd-2b77-4539-b5b0-3b6dcd820185",
+    "sha256": "ff3359fa8198fb52b75bfa70d36ea7fca7d7808a19b32cd6d3424ffe6c4f5ca5"
+  },
+  "docs/plans/native-platforms/swiftui-date-picker-phone-keyboard-selected.jpg": {
+    "url": "https://github.com/user-attachments/assets/2ac97cd4-7beb-4f42-9fc4-cded36b0c150",
+    "sha256": "69639a01bac3f53d05839208a1ea58f1ad58f4b231f7a577bd57ea57d932725d"
+  },
+  "docs/plans/native-platforms/swiftui-date-picker-phone-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/1ff72a19-c10e-467d-9ee1-d65019e1c8a9",
+    "sha256": "3c1c8a8fbafa6835c0bbdce9afc114e099404cd256dcdf87a4cbef8e686ef0d1"
+  },
+  "docs/plans/native-platforms/swiftui-date-picker-popup-motion-frames.png": {
+    "url": "https://github.com/user-attachments/assets/484dc9b4-89dc-4341-a81e-8c13692b719f",
+    "sha256": "714f3157d1412992949b18e95ed3ced2dae9768852c29bbde6732620d9a97030"
+  },
+  "docs/plans/native-platforms/swiftui-date-picker-popup-motion-off-frames.png": {
+    "url": "https://github.com/user-attachments/assets/4273a991-f242-4269-9920-87303e661777",
+    "sha256": "e6a76dbcee85b4d2895f5459671aeee29c7b70ff2a428481e5d0d7fa6fc67ab0"
+  },
+  "docs/plans/native-platforms/swiftui-date-picker-popup-motion-off-overview.png": {
+    "url": "https://github.com/user-attachments/assets/b444180d-c822-41ac-859d-f0d0ca1ddb01",
+    "sha256": "03f36cb59fd5d20a251500b677c0bb57cc8888e89344a923a55cbfb60a874e05"
+  },
+  "docs/plans/native-platforms/swiftui-date-picker-popup-motion-off.mp4": {
+    "url": "https://github.com/user-attachments/assets/e6d301c4-5de4-4db4-862d-5d6d2f4a255f",
+    "sha256": "88facf761b23680f4c8cf01879e8ec3385ffdb4465d5063d2f41f95e831f7309"
+  },
+  "docs/plans/native-platforms/swiftui-date-picker-popup-motion.mp4": {
+    "url": "https://github.com/user-attachments/assets/d0ea1032-3834-4f8f-aa47-3245fdacb0e3",
+    "sha256": "e9a5629896b246822434d90c599b07d3966213a18cc3a2700e0bc53986dc330e"
+  },
+  "docs/plans/native-platforms/swiftui-dialog-motion-dark.mp4": {
+    "url": "https://github.com/user-attachments/assets/f08c4f4b-e4a8-42cd-a6bd-3af613a7d9e2",
+    "sha256": "7f07d2b0f8833850a2350d93ff0b2292e6cf2d8420cd74ae21cec2cb98371a22"
+  },
+  "docs/plans/native-platforms/swiftui-dialog-motion-frames.png": {
+    "url": "https://github.com/user-attachments/assets/b6b5d658-413a-4524-a7bd-9063a1ff089f",
+    "sha256": "3a010df38b72b7e16fd0225270941e9761e400f4c03024228a378b1712806fec"
+  },
+  "docs/plans/native-platforms/swiftui-document-ipad-post-suite.jpg": {
+    "url": "https://github.com/user-attachments/assets/6b21dd82-a082-4b5e-97ab-161e366fc781",
+    "sha256": "2cec22626a58e85b34b8a0e57a5b25b92caccdb18dd735e2371849f8477ef47e"
+  },
+  "docs/plans/native-platforms/swiftui-editor-after-phone-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/aced8e1b-6303-4046-9613-0301e4ceef6f",
+    "sha256": "cc49b6283e505d80e2f2a8b5560a4b0136a24519a7a4570ef6d23243525a76a7"
+  },
+  "docs/plans/native-platforms/swiftui-editor-before-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/f2216d85-2cb8-420a-bc20-dedfaadf3a77",
+    "sha256": "7b87f6ef629d897036ac285d26c16460706bed4e9c4e744331f611a5d60e6db5"
+  },
+  "docs/plans/native-platforms/swiftui-editor-code-table-ipad-dark.jpg": {
+    "url": "https://github.com/user-attachments/assets/1d0102a2-3a35-4a85-9345-628f781adc18",
+    "sha256": "4c735222432ce5cc33f32aaad52f4be799105550dbfcf2e398573e6eaf956c5c"
+  },
+  "docs/plans/native-platforms/swiftui-editor-code-tokens-ipad-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/292b1cf2-4930-4d10-ab75-4f0a9646dcfb",
+    "sha256": "97aeec24f8ce3fafa89c118ac40c0c0e3c94806703428d9ca0a6fd948d6a8120"
+  },
+  "docs/plans/native-platforms/swiftui-editor-code-tokens-phone-dark.jpg": {
+    "url": "https://github.com/user-attachments/assets/c324874a-ccf9-44a8-9863-ad33b1dfc482",
+    "sha256": "74f225938ade532edff763296285ffb5f2ffe786b5c34efffa0011ad5c8fb8fa"
+  },
+  "docs/plans/native-platforms/swiftui-editor-command-a-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/934ca9f5-df0c-4607-b25e-83d4536531fc",
+    "sha256": "5b51ffee0eadcbc0e2d662439ff91985f84d70df0e62c2b9f1a6428769c3a82a"
+  },
+  "docs/plans/native-platforms/swiftui-editor-copied-ipad-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/b8200f17-6292-49ca-a6c6-2835a15ecbd9",
+    "sha256": "0020ef60c0af7412caed2eb9529ee0d5a904cfc73812f5a7752d2dd837c3e549"
+  },
+  "docs/plans/native-platforms/swiftui-editor-copied-phone-dark.jpg": {
+    "url": "https://github.com/user-attachments/assets/00b855c9-919f-41f2-ac4f-134d48fbe49e",
+    "sha256": "ad182eb91eab63dd838cfd4da78456f025b79c59090079cbb004928df81cb399"
+  },
+  "docs/plans/native-platforms/swiftui-editor-copy-feedback-dark.mp4": {
+    "url": "https://github.com/user-attachments/assets/96773067-7935-4de8-9ac0-8c72ce913985",
+    "sha256": "fccd5acd4bafe546c4bc6e23a9593c9d72f8cd6d6217f737f89e2d67daf971cd"
+  },
+  "docs/plans/native-platforms/swiftui-editor-copy-feedback-frames.png": {
+    "url": "https://github.com/user-attachments/assets/334b912d-a748-42de-8a01-52932f9c54ea",
+    "sha256": "1b20a9046433899ac7967784bb567b32e1c606d1b90aa8241f7ba8f185b0e26d"
+  },
+  "docs/plans/native-platforms/swiftui-editor-copy-ipad-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/d54a0396-1d5d-4114-b22d-8edae3e4a22a",
+    "sha256": "26de61d6c378e49a48696f9afab4fcfdb88f86b46068c7946ef7308596b69d03"
+  },
+  "docs/plans/native-platforms/swiftui-editor-copy-phone-dark.jpg": {
+    "url": "https://github.com/user-attachments/assets/a93fe224-3ff7-4a89-a9ca-ca867a893603",
+    "sha256": "4d64c8fec0515419ca26fc7b8ff4c5c45c1dc18269963cd102ac1809e8db88de"
+  },
+  "docs/plans/native-platforms/swiftui-editor-final-ipad-dark.jpg": {
+    "url": "https://github.com/user-attachments/assets/0daefa94-a64c-459e-8994-4c166f45b782",
+    "sha256": "880411380f9c8b0167a94cbc1085d4a341b76722526d3bd1079921ec8307c700"
+  },
+  "docs/plans/native-platforms/swiftui-editor-final-ipad-scroll-dark.jpg": {
+    "url": "https://github.com/user-attachments/assets/b8319e4a-f5b8-4bf8-9461-9d93a4d9bcfc",
+    "sha256": "7badc037c10f53769ee5d22c968ed859a4ae55c8cb62648374566453556ceb0c"
+  },
+  "docs/plans/native-platforms/swiftui-editor-final-phone-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/ac406bbe-7e2b-4275-ba32-86458c8d10a4",
+    "sha256": "97b8593bb2d9eb568d46c2ec6b339f3d3811dbdbd488adb52889f9179eb51dbf"
+  },
+  "docs/plans/native-platforms/swiftui-editor-focus-test-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/934ca9f5-df0c-4607-b25e-83d4536531fc",
+    "sha256": "5b51ffee0eadcbc0e2d662439ff91985f84d70df0e62c2b9f1a6428769c3a82a"
+  },
+  "docs/plans/native-platforms/swiftui-editor-keyboard-aligned-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/a7d6e2c4-3cc6-4dd8-9f9a-0ae9ac5b87f5",
+    "sha256": "ca14da963213f36172b14bc8a4feef4c4f57b0f082cbd6120a82261ce993fbef"
+  },
+  "docs/plans/native-platforms/swiftui-editor-keyboard-bold-active-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/fdd14cd9-eeae-4d36-9fd2-5c53fabf7fa3",
+    "sha256": "46df97fd3732e13fb52f4cc2a508cc70c96bcb19b96c3af62e9ab38901a5cce1"
+  },
+  "docs/plans/native-platforms/swiftui-editor-keyboard-final-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/65c33ece-4824-4cd1-8fe9-f8c3d2434547",
+    "sha256": "7ce12bab80689cdcfc94806f14424d3414b5807c7328956ca2c14bd6b1e613e0"
+  },
+  "docs/plans/native-platforms/swiftui-editor-keyboard-phone-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/a07b429a-2d19-427f-916f-b8a9302926bd",
+    "sha256": "9ad0c23b06f84b33106b88c506add9491eadcb357944c0797cca455cb1ca932e"
+  },
+  "docs/plans/native-platforms/swiftui-editor-native-select-all-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/ac847781-2f23-4e12-a7fa-1ba3940ee698",
+    "sha256": "529b15c13991a26e96f97ae829ecb611d1643c28de92ee70e6e77f68881913fb"
+  },
+  "docs/plans/native-platforms/swiftui-editor-phone-large-dark.jpg": {
+    "url": "https://github.com/user-attachments/assets/3a322550-1e8c-4b8e-bcb7-cdb4ce60ef92",
+    "sha256": "601941bc808b1b6d6943f8f1a1d8a5f10462ce60bc29f9f897b3b1da277c4055"
+  },
+  "docs/plans/native-platforms/swiftui-editor-readonly-lg-dark.jpg": {
+    "url": "https://github.com/user-attachments/assets/e89d3859-4c19-410c-ab29-48c42cff6760",
+    "sha256": "d02b9071783e25f87165f756f5c3fe70fafeacd2c5ad3165ff0edcb3e3d4dc6c"
+  },
+  "docs/plans/native-platforms/swiftui-editor-six-lines-large-ipad-dark.jpg": {
+    "url": "https://github.com/user-attachments/assets/454dbfe0-d11c-4ed7-ad2a-012fb5bc4294",
+    "sha256": "fb7636ffee78457e1e8df393913863ab4ab59b8924f1e84726403840e85309d3"
+  },
+  "docs/plans/native-platforms/swiftui-editor-size-picker-dark.jpg": {
+    "url": "https://github.com/user-attachments/assets/b8777609-fc8b-4c06-9e34-b3eb4e5cc1e9",
+    "sha256": "e7538f37373493c5da86684277ca20d34f133102fabb421f76173ee0f8470e33"
+  },
+  "docs/plans/native-platforms/swiftui-editor-table-final-ipad-dark.jpg": {
+    "url": "https://github.com/user-attachments/assets/3d5310eb-4fa6-42d3-bab5-62bf1283159e",
+    "sha256": "e101a46a8d69d9e0092c543f4c7e9bdc4bb9387b1efc4a110a40b700c50376f0"
+  },
+  "docs/plans/native-platforms/swiftui-editor-tap-focus-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/1289c3a2-2a48-454b-a5cd-76c3d966842c",
+    "sha256": "db34ae8e67dffca27af00e66e453cb74fe46649ea21d3ad6c2a5f9f762a892d7"
+  },
+  "docs/plans/native-platforms/swiftui-editor-task-enter-dark.mp4": {
+    "url": "https://github.com/user-attachments/assets/59c00c92-1f5c-4dcd-925c-7a55057f2c32",
+    "sha256": "21503d613ad75e49588f3f7ce8f550b33b0d2a2f126727e3fe5563c5ddf293f3"
+  },
+  "docs/plans/native-platforms/swiftui-editor-task-enter-frames.png": {
+    "url": "https://github.com/user-attachments/assets/a5a54caa-a099-4b2d-bc10-bb403826ce66",
+    "sha256": "b9586b4cb0a1533ebcc3d12b47f15583f35f14e7d97308d44db147865240adab"
+  },
+  "docs/plans/native-platforms/swiftui-editor-task-enter-light-frames.png": {
+    "url": "https://github.com/user-attachments/assets/04363a0f-db1b-46b5-a971-e859ef68e833",
+    "sha256": "ec5dbd60d0fb688885410c32de494427c1b3b3ee69d22eebec0657c68fb6326a"
+  },
+  "docs/plans/native-platforms/swiftui-editor-task-enter-light.mp4": {
+    "url": "https://github.com/user-attachments/assets/612cd643-8900-48a2-a3b7-da15da9b84c5",
+    "sha256": "b2ec9dca7692c175e07ea8611d266c791d98329584ea95eb68be7103ab54f095"
+  },
+  "docs/plans/native-platforms/swiftui-editor-task-exit-dark.mp4": {
+    "url": "https://github.com/user-attachments/assets/8db0569c-c4ad-4f79-ad5b-0159b05e4db6",
+    "sha256": "810f0ee12b6c4bdfb71012b62f29f2631a9de65232ea530cca3dfd7c12a07516"
+  },
+  "docs/plans/native-platforms/swiftui-editor-task-exit-frames.png": {
+    "url": "https://github.com/user-attachments/assets/57664b0d-86bd-4417-a267-744d41be9c90",
+    "sha256": "39be2a715f566955aa5563774e42151e727926973be7d79bb5d6db70f4faacb2"
+  },
+  "docs/plans/native-platforms/swiftui-editor-task-exit-light-frames.png": {
+    "url": "https://github.com/user-attachments/assets/058579b7-f5e2-4d50-98a7-c139c77bd0de",
+    "sha256": "e99d7f4f4d9f26fe625084c01af17e4c454f2aa816dbd0f432724f2adc4bcda6"
+  },
+  "docs/plans/native-platforms/swiftui-editor-task-exit-light.mp4": {
+    "url": "https://github.com/user-attachments/assets/108d9a64-7a40-49ff-bf04-c958ec7c24bc",
+    "sha256": "0ae2c8a03b6048a4c42132ac2751f15feef445bb89943eb89f71d6b110919ede"
+  },
+  "docs/plans/native-platforms/swiftui-editor-task-focused-dark.jpg": {
+    "url": "https://github.com/user-attachments/assets/f07d353b-e0ed-40e3-b63d-9fd3aa7c8fc3",
+    "sha256": "ed54ba4dab9f6c81061d6ff37091b2e2a4a949b8d345f9a50cc537dba54deb94"
+  },
+  "docs/plans/native-platforms/swiftui-editor-task-motion-off-light-frames.png": {
+    "url": "https://github.com/user-attachments/assets/6e74e6b4-2e63-4070-b59f-68920b3441a1",
+    "sha256": "9543f839c073e414299addba88754bf3f018ad0f6c252a3b83755c93e0de570f"
+  },
+  "docs/plans/native-platforms/swiftui-editor-task-motion-off-light.mp4": {
+    "url": "https://github.com/user-attachments/assets/0eb7f312-99b1-476e-86bb-77822030b66f",
+    "sha256": "6231fcde41030d10562113c96f2c643d49b8a914e8aed1bb4ac950a3637d5ca9"
+  },
+  "docs/plans/native-platforms/swiftui-editor-task-unchecked-dark.jpg": {
+    "url": "https://github.com/user-attachments/assets/c2ebea00-d392-4420-91f4-5160f4bd3fce",
+    "sha256": "d19215a39637701b20e7f6ce4f2c5c69647895e03ded0079de7b9ac37261aef1"
+  },
+  "docs/plans/native-platforms/swiftui-editor-task-unchecked-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/fe186316-8849-433f-9a24-a943f2beb7ab",
+    "sha256": "baee23badd1c37076db6aca34c9e4934b3e77f79904be0d102b1e252ec0ef045"
+  },
+  "docs/plans/native-platforms/swiftui-editor-tasks-after-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/c7c57e7b-6264-425c-80fe-b2f2a627c41c",
+    "sha256": "c11a6d69cdf860385ce329a3c035a65937f049389ed0e591d7ad292e6a1de808"
+  },
+  "docs/plans/native-platforms/swiftui-editor-tasks-before-checked-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/6066c6f6-0e02-4e69-9746-510f05f1b394",
+    "sha256": "72bea518f8447412ba7e9aa23d8695fa639c794ab4713c88ee77485918b5ce0d"
+  },
+  "docs/plans/native-platforms/swiftui-editor-tasks-before-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/01b637ed-5c56-4b06-9932-a70bb088e2cd",
+    "sha256": "e8d89001461abe6086f4dd1b16362ab8824900a6c5d4eead5d6f6a18839ddccf"
+  },
+  "docs/plans/native-platforms/swiftui-editor-tasks-before-motion-light.mp4": {
+    "url": "https://github.com/user-attachments/assets/f614642d-a106-443e-8859-a88e23cc2416",
+    "sha256": "c3caaa9f3766accdb2fb02797cd953d40d2caec5662391e0a6de3281d853ef3d"
+  },
+  "docs/plans/native-platforms/swiftui-editor-tasks-final-dark.jpg": {
+    "url": "https://github.com/user-attachments/assets/29ead8f6-7b9c-4c56-bfef-caaad2c1d9a7",
+    "sha256": "4fdb29b6d57c6f18081c3d8fcdcbdd0a3ed6dada78eb76e300c2ce61de7412dc"
+  },
+  "docs/plans/native-platforms/swiftui-editor-tasks-final-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/36a1768f-091a-48bd-9447-22306fb87130",
+    "sha256": "13786be2dc2e54aacb16b5a493318263efa992609a2ad5ea33b3dc1019f64742"
+  },
+  "docs/plans/native-platforms/swiftui-editor-toolbar-before-safe-area-frames.png": {
+    "url": "https://github.com/user-attachments/assets/9d5b9021-50f4-4269-8f75-60b3e53b545c",
+    "sha256": "744d03faadb0b6b84d0c1978ffc56e493ef653321e0d70fe1405311d38b30cd7"
+  },
+  "docs/plans/native-platforms/swiftui-editor-toolbar-final-motion-frames.png": {
+    "url": "https://github.com/user-attachments/assets/70d08edb-6c4d-49ee-8764-47b477d32454",
+    "sha256": "5d773b7553f6b47f84e8159072eaa03558f9398778fe945226a244a1d5a33cfd"
+  },
+  "docs/plans/native-platforms/swiftui-editor-toolbar-final-motion-light.mp4": {
+    "url": "https://github.com/user-attachments/assets/dac147dc-6d73-48d8-872f-8ecdc5c33014",
+    "sha256": "b65ec1207b5b56d364d54a67ce624d8c1dc395ef2f8e58158c04bb41b512be33"
+  },
+  "docs/plans/native-platforms/swiftui-editor-toolbar-motion-light.mp4": {
+    "url": "https://github.com/user-attachments/assets/0ce2e0f6-43cf-4947-b1ef-6810f3b60ec1",
+    "sha256": "12bb5ad04b80f1b146d27e678cd4113cfdd0d3c8fcce47a0b99aecca30df64f7"
+  },
+  "docs/plans/native-platforms/swiftui-editor-typography-phone-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/757b9eed-b49b-4724-bc9f-9c7b908ca39e",
+    "sha256": "92370eb62c6b7747bbf51db4b396565bef24a1b6a57b6f7cdab101559ff5c97d"
+  },
+  "docs/plans/native-platforms/swiftui-editor-unselected-ipad-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/8e025d11-06fe-4732-9de0-65ff934b99b6",
+    "sha256": "e980a81c8e74c0af30412c96a6b133c6be06d965c0dafdfedb381e1b21983815"
+  },
+  "docs/plans/native-platforms/swiftui-empty-after-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/b9da73bf-259c-4efb-9b41-3a2d1f665f8e",
+    "sha256": "139876c3a7fd75b7475ca9f3d410f72ac84fb12c21dee5dfb157e630a9c06501"
+  },
+  "docs/plans/native-platforms/swiftui-empty-before-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/70927e94-1f21-4265-a52f-869ec91125f8",
+    "sha256": "83452cd2c5e3b349b451d2513ed7399bd97969f5f1cbc44827555bb52a16fb58"
+  },
+  "docs/plans/native-platforms/swiftui-empty-large-dark.jpg": {
+    "url": "https://github.com/user-attachments/assets/5e36a650-a7d3-4844-8405-2f18893810f8",
+    "sha256": "d9da11996b0dd07b7fe9897ffd09c6a6601ea6e7c6a855ed7c821d606c344c90"
+  },
+  "docs/plans/native-platforms/swiftui-empty-large-feedback-dark.jpg": {
+    "url": "https://github.com/user-attachments/assets/7c2b445c-bbde-4aca-b1d3-66f974040665",
+    "sha256": "3430a4c7822b391ae04f8e34707a9e7838a10a442898288a76c0970c8134c344"
+  },
+  "docs/plans/native-platforms/swiftui-empty-link-feedback-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/ffbec129-b7ed-43e2-9fb1-5a7c466ebf21",
+    "sha256": "ce391ea0e626235319cefd0853dfec2efe610df038ee2af66f332dcac673204c"
+  },
+  "docs/plans/native-platforms/swiftui-file-tree-before-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/1587c3bb-9cd8-40ac-86f5-29aba831709c",
+    "sha256": "ca4a372e3db9983433a423f8e38347206353f6ef874ff2bf97be98dc53860bd7"
+  },
+  "docs/plans/native-platforms/swiftui-file-tree-button-fast-taps-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/d05012e4-c620-4646-a2d7-c589a0cf596f",
+    "sha256": "d0a99736ac15cb43661623034ee42ad12fa4f0b91f212aebf51ee18f111f24b4"
+  },
+  "docs/plans/native-platforms/swiftui-file-tree-end-key-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/0eac271a-81fa-48c2-8a3b-383cc565a8a1",
+    "sha256": "18be32033e97254f7c36cb696bdb03802363569dd4d61d36e6acd2e6f074ec28"
+  },
+  "docs/plans/native-platforms/swiftui-file-tree-home-key-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/5f9e2343-02a1-47eb-91fc-01b29582f93b",
+    "sha256": "c0ffbf19fb46d119eb03c698ea84f14b18426629e8877a20536f480bbb9580e9"
+  },
+  "docs/plans/native-platforms/swiftui-file-tree-ipad-dark.jpg": {
+    "url": "https://github.com/user-attachments/assets/d3df9630-43f2-4921-bed6-c7877c0eaa0a",
+    "sha256": "8c280dd7f8d9cf3e8b209feb612255d3897d95a1f522a7f6bb06ed35dc301a3a"
+  },
+  "docs/plans/native-platforms/swiftui-file-tree-ipad-large-dark.jpg": {
+    "url": "https://github.com/user-attachments/assets/74970a27-0bf3-44e0-bfb7-dbd9d8fc4e09",
+    "sha256": "e9d0b69032a2b36c1cd6adb962a031fb8fafd6307ca0328bb6f55356d5e88697"
+  },
+  "docs/plans/native-platforms/swiftui-file-tree-ipad-large-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/f4876c18-0fe3-4fc8-bc00-5b2545c23020",
+    "sha256": "e43ffcc111ed51c955a7603a0605b27b8cd27c368061eb42f8976c78cbcf3677"
+  },
+  "docs/plans/native-platforms/swiftui-file-tree-ipad-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/bc1a2358-fbac-4b4f-a0de-b498545316c6",
+    "sha256": "a81c5f52923dd5484d9089e3a6e06f2561a657e78ec71575fb0670909d7751ea"
+  },
+  "docs/plans/native-platforms/swiftui-file-tree-ipad-tap-progress.jpg": {
+    "url": "https://github.com/user-attachments/assets/bb153f43-0015-4b85-bcaa-499a28d7fa1b",
+    "sha256": "dd01f4bd570d11162102f83ae6b09439914bfbbc1780e09dcb3b7639cf4b19b4"
+  },
+  "docs/plans/native-platforms/swiftui-file-tree-key-progress.jpg": {
+    "url": "https://github.com/user-attachments/assets/70dc2ea9-0632-45d7-a210-5b6a7bca2b13",
+    "sha256": "2385bf4a566a7a555e8fd5aa33a9ed2d90007695b1d7011e0b95c06ed03954ab"
+  },
+  "docs/plans/native-platforms/swiftui-file-tree-motion-frames.png": {
+    "url": "https://github.com/user-attachments/assets/0e0d45a2-e4af-4f79-8fd8-172bd9809984",
+    "sha256": "5010f4db7019d4e5174fdfd8a0dbcd8f2109e5f02ec30fb467d69c05a6fccdd5"
+  },
+  "docs/plans/native-platforms/swiftui-file-tree-motion-light.mp4": {
+    "url": "https://github.com/user-attachments/assets/c831fd37-4586-4f62-a602-fe05813c43f7",
+    "sha256": "bca241d63b090e67bbf7c257b0d752c5429845f426dba8a668b068842aaacaeb"
+  },
+  "docs/plans/native-platforms/swiftui-file-tree-native-button-return-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/bf3c008a-3fa5-4f73-b609-890e2d175a30",
+    "sha256": "460524b9c3ae38e47ecac6bb9c7d825033a68737e7037bded5bcb01e9c6103e3"
+  },
+  "docs/plans/native-platforms/swiftui-file-tree-phone-collapsed-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/b42ba0a4-9b1d-4f78-b4ec-c0d8ed28501b",
+    "sha256": "da75c0b228afca50ccc223440293725ffd3a605a23fa3d508e6dfe90bbec9194"
+  },
+  "docs/plans/native-platforms/swiftui-file-tree-phone-large-dark.jpg": {
+    "url": "https://github.com/user-attachments/assets/d8972ccc-ba12-4383-8440-918468671a58",
+    "sha256": "127784204f82253afde4531c15ef13f960d5e15b4101d1359cc22769dc9788ce"
+  },
+  "docs/plans/native-platforms/swiftui-file-tree-phone-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/2db40ce6-787b-4381-b65c-4e0d0bb69c65",
+    "sha256": "e9b940b3e08c28f42360d1c6785e36a58d2688236098abc5b1171d9b5495194a"
+  },
+  "docs/plans/native-platforms/swiftui-file-tree-phone-package-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/11e63c42-ab51-4696-8f4c-b71cc1bc00d0",
+    "sha256": "e6087eefc55de1c431666ea5ab949839559bc8340c39882c7caafa97e79caa24"
+  },
+  "docs/plans/native-platforms/swiftui-file-tree-phone-selected-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/4827db60-03db-43e0-b80e-0c553658282c",
+    "sha256": "25a104e5ca350849791ab5761e96694954e6deb58ba20e0d40a8123682176023"
+  },
+  "docs/plans/native-platforms/swiftui-file-tree-progress-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/968bb433-a1c6-432e-bd8e-d7556e9e361e",
+    "sha256": "014cde610883338170039087ca953dc08fd3141a4c777e12cc21ba4ad34e1f7f"
+  },
+  "docs/plans/native-platforms/swiftui-file-tree-return-open-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/9ed67147-e2d7-41e0-966a-e51a85439758",
+    "sha256": "2fa89dc8992d1521a608996c70cf20000f72aa11c8433cc09f7ccda0ad823f72"
+  },
+  "docs/plans/native-platforms/swiftui-ipad-alert-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/c87ab5ae-cd95-45c6-97df-68436026d232",
+    "sha256": "f9973d5df31f8f4e6f8b9baa6b55b0037d970e94299c6c25b2d8b014c441e681"
+  },
+  "docs/plans/native-platforms/swiftui-ipad-app-shell-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/6396434e-e1b3-4052-9920-94fd6412b63e",
+    "sha256": "aa26959009b22f010a877c334e7819fdb23b9af0648a3f649559be0e5baf29d5"
+  },
+  "docs/plans/native-platforms/swiftui-ipad-button-dark.jpg": {
+    "url": "https://github.com/user-attachments/assets/f58ed3ca-fabd-407e-93d1-eb18fc9ba080",
+    "sha256": "99a9684d516a809fecc886e16d634951f4c2e2d19ab5bd32d5aa41bad3b8bc0d"
+  },
+  "docs/plans/native-platforms/swiftui-ipad-button-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/b25b22b6-c646-4fa2-b349-b16aacacbae9",
+    "sha256": "c8ec41afe8a1774ebbfff692fe990f3438721c9c83bf10af5a873ce91a7d73c8"
+  },
+  "docs/plans/native-platforms/swiftui-ipad-calendar-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/ba875baa-f1c9-4816-8353-dd16d4be085f",
+    "sha256": "eda6cc654a4d921ec94522d1eeb42c23647016f20d140d9904b217a7026b3aa0"
+  },
+  "docs/plans/native-platforms/swiftui-ipad-card-after-type-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/ed11b38c-3e50-40c9-8e9b-adcb48465336",
+    "sha256": "c01f1cde24b99522ed384b4a82759a9b7da387f87ed2e0c6aa6858edcc1aa20a"
+  },
+  "docs/plans/native-platforms/swiftui-ipad-card-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/8aae0c18-7126-486c-a3a6-348bca4426d7",
+    "sha256": "9b9621a579ff39f2d2412ec8bb54ff295f4f6e1cf271953fadb5cb77d6aa5623"
+  },
+  "docs/plans/native-platforms/swiftui-ipad-charts-dark.jpg": {
+    "url": "https://github.com/user-attachments/assets/74029a85-3a80-4f88-bf65-a3b5e1c9e78f",
+    "sha256": "e3d030880fac407a9d6a843f222a48cba6a318d1d00c3bcdeacb14cf022c24be"
+  },
+  "docs/plans/native-platforms/swiftui-ipad-dialog-after-dark.jpg": {
+    "url": "https://github.com/user-attachments/assets/aa4ac9bd-706c-47f9-a63c-1eae999c1ce2",
+    "sha256": "2733ae08e914a202e31d65c8e4c6b3c3906b607d3f388fc09ca4b814e8eb7302"
+  },
+  "docs/plans/native-platforms/swiftui-ipad-dialog-after-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/2241be99-1af0-4cd7-a0b4-f3f8c16476db",
+    "sha256": "b0f97fbc5564a1acd460f544b222fd7f5a5c8d2a269c2b0f2b1d8dd692b84957"
+  },
+  "docs/plans/native-platforms/swiftui-ipad-dialog-after-type-dark.jpg": {
+    "url": "https://github.com/user-attachments/assets/e9c29de4-b6eb-49ab-b669-d3b8f735872e",
+    "sha256": "1f4bf3f60169fcbe5ad847f840b9a1c746d668266a1a7d9ddcfaba3a95ef666f"
+  },
+  "docs/plans/native-platforms/swiftui-ipad-dialog-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/691647c2-79c8-4d02-8dc6-a2653e3eeb16",
+    "sha256": "2419fbae4de2a2c2595ac58922fa52aa84200b2d47a883886e5e70f7b86fe3f2"
+  },
+  "docs/plans/native-platforms/swiftui-ipad-editor-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/b70f0a36-fa8e-4a07-9070-0457f1d88f4a",
+    "sha256": "f20d736528eb91cd37daf9fc99f4aced14bbbe23d1d867361d9a8b2d0cccd3c5"
+  },
+  "docs/plans/native-platforms/swiftui-ipad-forms-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/b1e6f9e8-6517-453f-a377-93227defe346",
+    "sha256": "d6c61010831c1564ae794f79f4890daaf11de185017abc7488701e472847a571"
+  },
+  "docs/plans/native-platforms/swiftui-ipad-menu-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/815615ea-dbeb-44de-87b0-82272192324f",
+    "sha256": "3f020d8288a957013c6191554881b6ca9b61eac90b18f09d11c3f129418fd22c"
+  },
+  "docs/plans/native-platforms/swiftui-ipad-overview-dark.jpg": {
+    "url": "https://github.com/user-attachments/assets/56e32210-1af6-4208-9530-34138e9e523f",
+    "sha256": "ca5eb546c901155c54f83bbfd77dbb3867acf3d3e73e7aaf363c28b64d37d637"
+  },
+  "docs/plans/native-platforms/swiftui-ipad-overview-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/5b2f43b6-ded9-48fc-8132-fc7859c85cdf",
+    "sha256": "b42f32372d32bb9b9c7a602ca2d12818326a8db3df10dc92bf2c8ee838771927"
+  },
+  "docs/plans/native-platforms/swiftui-ipad-sankey-dark.jpg": {
+    "url": "https://github.com/user-attachments/assets/0a11b3c9-1261-470c-babb-a317bb9409a1",
+    "sha256": "6b10a1a294ae6aa8a71aa8b37cdecd4bed37931d83aa34c04e42061879253ca1"
+  },
+  "docs/plans/native-platforms/swiftui-ipad-select-after-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/59e3e734-4a48-4ba7-ab86-25ac5e083643",
+    "sha256": "2f121f3c84b213879f40ca5c1b178267442c81bd3399144332a3577900954a5e"
+  },
+  "docs/plans/native-platforms/swiftui-ipad-select-large-text-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/cbb39fc7-abdb-4dfd-91f0-59424bea266a",
+    "sha256": "97de38cef304292a5b963c1a95b98b2cf10844b0d88030d0ac2236379ef1361b"
+  },
+  "docs/plans/native-platforms/swiftui-ipad-select-large-text-popup-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/03c8bb2d-5f5a-445a-b487-fd433cd4a714",
+    "sha256": "ad93cc09318550e54da99d5b967ffa1b0ae4c63d88e164cc03db821a6c14718c"
+  },
+  "docs/plans/native-platforms/swiftui-ipad-select-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/4e5994c1-b925-4c2f-93b8-bf91aa199b11",
+    "sha256": "ec42aba82b284b763e1556dc7d2e1c9694a5c5b91655798ad7ad29d1e6046ad5"
+  },
+  "docs/plans/native-platforms/swiftui-ipad-sheet-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/a4aef7d2-439f-4ada-ac6e-22df6685e26e",
+    "sha256": "22551499926c0e5cd2950ebfbc2207e4cde5e6a68ce337a7e471e33cc29503ef"
+  },
+  "docs/plans/native-platforms/swiftui-ipad-tabs-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/65c3f080-5c32-4903-ae06-020c6bd0145e",
+    "sha256": "014ff3480860055c454452aaa9c8bf2912c5f0b5c14da1abeecd5878c9b11201"
+  },
+  "docs/plans/native-platforms/swiftui-ipad-user-menu-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/8a23dcef-aa13-4313-acf5-c95b8fc2e10a",
+    "sha256": "8ec7458478072796f558f3adcb7194c64690fb8b98476b76594cc7dbb368765e"
+  },
+  "docs/plans/native-platforms/swiftui-iphone-app-shell-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/218aa49e-b221-4ef9-858c-0149357c440b",
+    "sha256": "232ff7381ff0ddfa2db365ef44f31a174f9d9bd72dc0433eade3083a250d297c"
+  },
+  "docs/plans/native-platforms/swiftui-iphone-avatar-large-text-dark.jpg": {
+    "url": "https://github.com/user-attachments/assets/ecc8c6af-7267-4e99-8360-eef0b3263300",
+    "sha256": "2406700161b5bbe7e25dd0762fc4ad433f10e76c21f74fe26465e85405387ede"
+  },
+  "docs/plans/native-platforms/swiftui-iphone-card-after-type-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/454c35a4-1e2a-4edc-ab61-c1c9147dfc63",
+    "sha256": "61a3fa2368fc2014da5a2cd835d895777b24b03dfb18a6d0ad9c1de171a5b42a"
+  },
+  "docs/plans/native-platforms/swiftui-iphone-card-before-type-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/5bc4e5a6-2424-425f-83ea-a1e783e3339d",
+    "sha256": "a449a3b33096115d1b601096d39ddbe7c62718491f6cc5a762cab926fc6c76c4"
+  },
+  "docs/plans/native-platforms/swiftui-iphone-navigation-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/d1eac0a4-2705-4ae4-9870-ae15687a2a94",
+    "sha256": "eb9e77ca5594bb05965aa0cba32c512f1189955182c53e73022fa4308a79b34d"
+  },
+  "docs/plans/native-platforms/swiftui-iphone-overview-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/061a2280-7855-4ef8-afc8-439e1ac26f5f",
+    "sha256": "39293182279795df4d1c57dda8dff6d80d17a0a64dcccfd552e6cd0d5e8d0817"
+  },
+  "docs/plans/native-platforms/swiftui-iphone-select-after-dark.jpg": {
+    "url": "https://github.com/user-attachments/assets/93494ccc-aa87-481a-a780-455a66b7d596",
+    "sha256": "6c54a234b0c2be35d9420b4760c0f83026a051eefcbf1fc257fed4b5060417ef"
+  },
+  "docs/plans/native-platforms/swiftui-iphone-tabs-after-dark.jpg": {
+    "url": "https://github.com/user-attachments/assets/98dd1027-1dee-4a3b-9e03-0ee9634d2b58",
+    "sha256": "61efb87958be6677dd9cddb66b94812f0c7d709bb6833467ac4d6cfbe40ec113"
+  },
+  "docs/plans/native-platforms/swiftui-iphone-tabs-selected-after-dark.jpg": {
+    "url": "https://github.com/user-attachments/assets/96abe8b0-39cf-4f0f-bfd0-0903959e51c0",
+    "sha256": "13cd7390ee63a33c450a4a51d25dac58c3f88fd8c37db6ccd3ede7ee16dd21fc"
+  },
+  "docs/plans/native-platforms/swiftui-markdown-after-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/4760d2e4-a54e-4a3c-bb54-14a94779fecb",
+    "sha256": "541c8ac494cb35c427da3304c3106de250e4d96eadd342e31feb812576bb194d"
+  },
+  "docs/plans/native-platforms/swiftui-markdown-before-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/007a4cb7-146f-4a67-8a65-169aab84ffe7",
+    "sha256": "f05a98b5061fa3a81986f611c40b16c656840180aa80fcc631fcb6591fe05d5f"
+  },
+  "docs/plans/native-platforms/swiftui-markdown-large-dark-content.jpg": {
+    "url": "https://github.com/user-attachments/assets/18f49f4c-9543-48d2-9582-8d2d27872c72",
+    "sha256": "f671f3b513f120806bb204d5b97e5d0264a8fac5a39cfbf198a7908c04c14691"
+  },
+  "docs/plans/native-platforms/swiftui-markdown-large-dark-leading.jpg": {
+    "url": "https://github.com/user-attachments/assets/a7c79599-a589-4594-b24b-359ebfdf99d9",
+    "sha256": "194cefc7b73fbea2a8dbcafb225b6f44c79c173045cea053d36e0397720344e2"
+  },
+  "docs/plans/native-platforms/swiftui-markdown-large-dark-table.jpg": {
+    "url": "https://github.com/user-attachments/assets/32bc4ddb-ff7b-4458-ba28-b3e64878e5f6",
+    "sha256": "f1d5a2bcaf69a371978ec54f037d0ef482516ce63b67870b923f5e5024aef528"
+  },
+  "docs/plans/native-platforms/swiftui-markdown-sizes-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/38c7d397-8f42-4446-b5e0-5c466d6be30c",
+    "sha256": "16e15213ecb30564e9ddce2ae285d5a0c7e8df53dd2859052792c588f35a708b"
+  },
+  "docs/plans/native-platforms/swiftui-month-grid-ipad-keyboard-selection.jpg": {
+    "url": "https://github.com/user-attachments/assets/8510332b-6b7a-427f-a487-f4e1df32e3df",
+    "sha256": "6860ec30bc514ad092839ccd9327e0c29de2bc11f3bfdde27c86e487f952a225"
+  },
+  "docs/plans/native-platforms/swiftui-month-grid-ipad-light-final.jpg": {
+    "url": "https://github.com/user-attachments/assets/218bb01e-08a1-4427-b153-e064759d5949",
+    "sha256": "974b3a84a1d4e60489526eaab5b3ed509bec8a13e6ee306e6ba91fb91d46ec65"
+  },
+  "docs/plans/native-platforms/swiftui-month-grid-ipad-light-first.jpg": {
+    "url": "https://github.com/user-attachments/assets/8e41fa18-6840-4576-a71d-47e284e0dcec",
+    "sha256": "d0c7c2f8f9baaccc51e576e7a47a24f280b5c539cfc18abb405b04dc71f0faf1"
+  },
+  "docs/plans/native-platforms/swiftui-month-grid-ipad-motion-off.jpg": {
+    "url": "https://github.com/user-attachments/assets/071c7beb-2f53-4373-ad50-d13b5f77608f",
+    "sha256": "6a7dc736b506aca4931f300205dc8865d5f3103a4c1470c91d47a695d4b5020a"
+  },
+  "docs/plans/native-platforms/swiftui-month-grid-phone-dark-final.jpg": {
+    "url": "https://github.com/user-attachments/assets/9b2b63af-606f-4ec8-bb15-a719baaedcac",
+    "sha256": "9b38fc313fcf51ae54ff515a4dd7c3fcedcded76aab3dee6856535356049a5bc"
+  },
+  "docs/plans/native-platforms/swiftui-month-grid-phone-dark.jpg": {
+    "url": "https://github.com/user-attachments/assets/89b3aefa-1077-42b6-9337-723597430cc6",
+    "sha256": "19d091435c67948e4e5ef81925718b2180f2fb617a29ef88e805ae9ab03ce46e"
+  },
+  "docs/plans/native-platforms/swiftui-radio-after-dark.jpg": {
+    "url": "https://github.com/user-attachments/assets/af5059a5-997a-4efd-be7f-d65331b88b4c",
+    "sha256": "b3be3d21b33fa6f6d872bbd845692525bcb8e12cdf846a364876208e588234fb"
+  },
+  "docs/plans/native-platforms/swiftui-radio-after-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/a534e153-7e02-4ef0-bba6-8df775a56d76",
+    "sha256": "1e111210c8720371843554d9a8fa5f23bb85eba387027e72739fb6940b1955f9"
+  },
+  "docs/plans/native-platforms/swiftui-radio-before-dark.jpg": {
+    "url": "https://github.com/user-attachments/assets/de01ebc6-6d52-4830-8426-117d84a2595d",
+    "sha256": "037974f7937522ac33f57526e873262e7824837aba5438e7c5ed85e1fe5c3163"
+  },
+  "docs/plans/native-platforms/swiftui-radio-motion-dark.mp4": {
+    "url": "https://github.com/user-attachments/assets/319a5009-9b7f-4a79-b703-6431176d1492",
+    "sha256": "fbcd6637b5a05a22228613778e01813f14a0988af74f06642af31a5469a8dd2b"
+  },
+  "docs/plans/native-platforms/swiftui-radio-motion-frames.png": {
+    "url": "https://github.com/user-attachments/assets/1481e821-26dc-4c47-8642-dcbda2cb7871",
+    "sha256": "303ac0562bb629e442b8ee3b0937aa75e5fe13198ee12765fff9b3002d0f9cd0"
+  },
+  "docs/plans/native-platforms/swiftui-switch-after-dark.jpg": {
+    "url": "https://github.com/user-attachments/assets/0367bbbb-d9b8-48a2-8ed5-644fc9977060",
+    "sha256": "6aae9c0343201724a14f1975f10d1d16f12ecae65a107a10806550ccd4492bf5"
+  },
+  "docs/plans/native-platforms/swiftui-switch-after-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/ed13d3ce-7772-42cb-8dcc-10598c2124b1",
+    "sha256": "43a9a81edd1d63377e1ed4dab05327e4b721864d1717c4d3ebe5f736c37d8e27"
+  },
+  "docs/plans/native-platforms/swiftui-switch-large-dark.jpg": {
+    "url": "https://github.com/user-attachments/assets/68a3e4e6-8a5a-4afd-a5b9-82f652e28c45",
+    "sha256": "f9178e8791924ea3ab69182fa2f91b1ded13bdaec873272a2442b5e9df2851c1"
+  },
+  "docs/plans/native-platforms/swiftui-switch-motion-dark.mp4": {
+    "url": "https://github.com/user-attachments/assets/0126bdf2-c72d-4c94-9810-18015863d8b8",
+    "sha256": "6659594c2201e0e2fdddb584abd47e02a457c6566c61132adbf1887d79153f69"
+  },
+  "docs/plans/native-platforms/swiftui-switch-motion-frames.png": {
+    "url": "https://github.com/user-attachments/assets/7ce883c6-1661-43a4-93b2-30a4b9e87d89",
+    "sha256": "a3d12c582c0d327a2c1527260e6dd517cea4e3b4341c71726f451cb7ba2eac8f"
+  },
+  "docs/plans/native-platforms/swiftui-syntax-after-dark.jpg": {
+    "url": "https://github.com/user-attachments/assets/0fb3cd24-2718-45a3-a357-31e9f07e8a14",
+    "sha256": "388dba448af8de8fdb35089491436d94af903d9cdfaf606c188b6fbd4a8d4202"
+  },
+  "docs/plans/native-platforms/swiftui-syntax-after-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/645b5afb-1f6b-4785-b3f1-be8e0542207a",
+    "sha256": "c9e620ab4caa5954316ce3da42a1052d3339877c139b2be6b3298e80dfc25e0d"
+  },
+  "docs/plans/native-platforms/swiftui-syntax-before-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/be0178d0-cc7c-4d52-9327-4084f5ff5584",
+    "sha256": "f66ba5d728dd09ca37d60f35f3633e1a006288de07aca0f77636436b5ac89559"
+  },
+  "docs/plans/native-platforms/swiftui-syntax-final-phone-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/674e1eac-550f-4a3f-9386-6628034cbd5c",
+    "sha256": "c4e353b5a324f00bb1674718b1c2a152b2f7c7ceb8df1a2a79baaf1932b51fad"
+  },
+  "docs/plans/native-platforms/swiftui-syntax-phone-large-dark.jpg": {
+    "url": "https://github.com/user-attachments/assets/4bb1df8a-2d25-4d5e-9d31-8d5d71ff1ec4",
+    "sha256": "728bc80ccb4e0477b2fbaa76df7f5ddd7136a6f90fa379646d99929a515149d5"
+  },
+  "docs/plans/native-platforms/swiftui-table-after-dark.jpg": {
+    "url": "https://github.com/user-attachments/assets/1aed051a-5695-4ce8-9827-a0d335104d20",
+    "sha256": "91eae8fae9fd93ef4b9bb5cb8fcfa56ddb92622cf1dd17f76ff0277df4524c11"
+  },
+  "docs/plans/native-platforms/swiftui-table-after-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/d8ea7c87-5007-4ffa-9a31-f32d969a9ca7",
+    "sha256": "9e71bac083407a0f406683217377198b36512c216831cdfbc6572f823b96e124"
+  },
+  "docs/plans/native-platforms/swiftui-table-before-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/1d5b3be9-b7a9-4853-8ed6-ef7cab0b674f",
+    "sha256": "079bd0ae8d85eb151a975da97d5ad79dc11773f164cdff805b4644725661b815"
+  },
+  "docs/plans/native-platforms/swiftui-table-ipad-large-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/abb0d954-e84e-466c-bf3f-111e272245ba",
+    "sha256": "fbd8533a43399ab0a5d9a4eee7d2a0bf06564d1dac5bfd9a5e676af1c23ff28c"
+  },
+  "docs/plans/native-platforms/swiftui-table-large-dark-leading.jpg": {
+    "url": "https://github.com/user-attachments/assets/063f5116-6be8-4448-afb1-cf06ba5e8b45",
+    "sha256": "3dc313974440cd9af2f96779b29871cd189f7bd138f99768c2218a06910aefcc"
+  },
+  "docs/plans/native-platforms/swiftui-table-large-dark-trailing.jpg": {
+    "url": "https://github.com/user-attachments/assets/80548aa5-32f9-4005-9fed-76780d37cb0c",
+    "sha256": "385a35becf9034472dcb7186c46d20c4c8bead9405fc5910300b678bfaba4ad7"
+  },
+  "docs/plans/native-platforms/swiftui-table-phone-after-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/0e669ab9-1cd4-498c-83fd-a0ed8b18ae5e",
+    "sha256": "14b6471e5d37d7424036911dad7e049f26ecf87de736a14b53f27e7b01ebd968"
+  },
+  "docs/plans/native-platforms/swiftui-time-input-ipad-controller-debug.jpg": {
+    "url": "https://github.com/user-attachments/assets/066e3d82-d6b9-4f7f-bf00-e10208737c47",
+    "sha256": "5172f2cbb714b444d1d716f21a66f2d0be751fd6ae59c3401f4869ae604c0b00"
+  },
+  "docs/plans/native-platforms/swiftui-time-input-ipad-intent-debug.jpg": {
+    "url": "https://github.com/user-attachments/assets/0e9304ab-23e0-4c6c-a0db-901f4a70ebc1",
+    "sha256": "a98094f43fc744faf0641674b6d57f4db7494ac6cf851f3f9099e3a4723120da"
+  },
+  "docs/plans/native-platforms/swiftui-time-input-modal-focus-before.jpg": {
+    "url": "https://github.com/user-attachments/assets/63c39d32-cc36-4553-82a6-ea90e61936d0",
+    "sha256": "7f532b32f17fda3d3d48c2f97b52189071b3ac0a481701d70d154938895efa05"
+  },
+  "docs/plans/native-platforms/swiftui-time-input-phone-before.jpg": {
+    "url": "https://github.com/user-attachments/assets/f9df1b70-bddc-469e-aa8f-57f14458e938",
+    "sha256": "ce2e3638eefc9d78dbf8fd9cfab0a0dfb9994a0f36c7c1ec43063b362cfc5ab4"
+  },
+  "docs/plans/native-platforms/swiftui-time-input-phone-dark-popup-complete.jpg": {
+    "url": "https://github.com/user-attachments/assets/1c526d85-4f51-48d1-a5c8-d16030ee1c98",
+    "sha256": "e5629cad3725b50267234742f6d39531689b22c5cf86b6427fbf5a59c687e8ee"
+  },
+  "docs/plans/native-platforms/swiftui-time-input-phone-dark-popup-final.jpg": {
+    "url": "https://github.com/user-attachments/assets/ac0e362b-d894-48a0-afb8-188538c18aac",
+    "sha256": "21c8bc9925562049fed9cd9c2126ccd8c72c20451dadc728b95f2b62d34da452"
+  },
+  "docs/plans/native-platforms/swiftui-time-input-phone-hours-focus.jpg": {
+    "url": "https://github.com/user-attachments/assets/555c3435-b4fc-4577-a09f-34e7f71e1ba9",
+    "sha256": "b91ab68d6bddfc05405624e74a7f6acdfb3cb12caf30882fcbedb58740836ae4"
+  },
+  "docs/plans/native-platforms/swiftui-time-input-phone-keyboard-minutes.jpg": {
+    "url": "https://github.com/user-attachments/assets/5b8cd7bb-e00e-454c-9a8d-d7b3aab0b56b",
+    "sha256": "1b249c9714c0f3c83a0e01433af26a87a30e7972f476686913d6a40e46e9580f"
+  },
+  "docs/plans/native-platforms/swiftui-time-input-phone-large-first.jpg": {
+    "url": "https://github.com/user-attachments/assets/9521231d-b94b-4c87-85ac-aad1cda3bdc1",
+    "sha256": "e86fdc24659bf9e4a19b96119375088382943ce7f0cda3cd60451492080bed04"
+  },
+  "docs/plans/native-platforms/swiftui-time-input-phone-large-keyboard-final.jpg": {
+    "url": "https://github.com/user-attachments/assets/13a5415d-7706-4e20-aa6a-7456db4c121e",
+    "sha256": "fe8a6b35617f6662890e956bb9252221fe90fd3774e24721abf46793cc6fdbf3"
+  },
+  "docs/plans/native-platforms/swiftui-time-input-phone-large-popup-first.jpg": {
+    "url": "https://github.com/user-attachments/assets/9521231d-b94b-4c87-85ac-aad1cda3bdc1",
+    "sha256": "e86fdc24659bf9e4a19b96119375088382943ce7f0cda3cd60451492080bed04"
+  },
+  "docs/plans/native-platforms/swiftui-time-input-phone-large-popup-settled.jpg": {
+    "url": "https://github.com/user-attachments/assets/82bd1799-d402-46b9-a657-5f0a01d660df",
+    "sha256": "7b7ccecf041c55eb5a98e1e12f4f06d430fd54408b68588b364267201a6bb777"
+  },
+  "docs/plans/native-platforms/swiftui-time-input-phone-large-seconds-final.jpg": {
+    "url": "https://github.com/user-attachments/assets/fa300110-6e24-4c22-9bdc-ec596020f6cb",
+    "sha256": "163b17958c58944c0aa6684a4c2e3b19ec73eecd6a98e7900d168a39997b818f"
+  },
+  "docs/plans/native-platforms/swiftui-time-input-phone-return-focus.jpg": {
+    "url": "https://github.com/user-attachments/assets/f8f99286-3b2d-4346-8316-976d8b9377df",
+    "sha256": "835c221a0475825f575d1ef59a22ca003b7091ce10b48040b51c2194f35bf386"
+  },
+  "docs/plans/native-platforms/swiftui-time-input-popup-enter-frames.png": {
+    "url": "https://github.com/user-attachments/assets/52f8ccbd-a89b-4bbc-b8e1-881cdde9804f",
+    "sha256": "4e5849e069726647a70b8bf7e0a38aab830c33c2febd78d7a7ed47f5b9559f82"
+  },
+  "docs/plans/native-platforms/swiftui-time-input-popup-exit-frames.png": {
+    "url": "https://github.com/user-attachments/assets/9072c9cc-c841-4743-a138-818b2cde296f",
+    "sha256": "12d622b262a7744b8c84b1290c43b5e9a4cebd2a6f3c805a1ea094b923eecd62"
+  },
+  "docs/plans/native-platforms/swiftui-time-input-popup-motion-complete.mp4": {
+    "url": "https://github.com/user-attachments/assets/08aa5b43-bcca-4ae5-8a98-2beda52caf98",
+    "sha256": "bb3ff50b59021c061eeb98356b95ec11c9fccdf3e91377d0344c4b7bcf1dcc94"
+  },
+  "docs/plans/native-platforms/swiftui-time-wheel-ipad-light-final.jpg": {
+    "url": "https://github.com/user-attachments/assets/63bcc806-fb97-41d9-80a7-225602f8f8d1",
+    "sha256": "cd04e95ea0cd065d62a361968c7f48651b1dd7f96c963123025d26e1f8ee9c2a"
+  },
+  "docs/plans/native-platforms/swiftui-time-wheel-ipad-light-large-final.jpg": {
+    "url": "https://github.com/user-attachments/assets/927d55b8-5636-45f7-854a-594141dcdccb",
+    "sha256": "377216f74bcd32eaa75ec4b13f9bf100f4d3275c3be399f5b7a4e77f8c745135"
+  },
+  "docs/plans/native-platforms/swiftui-time-wheel-motion-final-frames.png": {
+    "url": "https://github.com/user-attachments/assets/53aad0b0-40ed-477f-be52-af26d5d1cb43",
+    "sha256": "5186c6568aa72951b8083a71d578243d2a1fc432022100961f5f04f1050d3154"
+  },
+  "docs/plans/native-platforms/swiftui-time-wheel-motion-final.mp4": {
+    "url": "https://github.com/user-attachments/assets/c87ea488-9ceb-4830-b5b4-3c0448a6a3a0",
+    "sha256": "e2b4aa14ee5f6e60e24f2d1b67b607b1adc4183057fb9ee991a6d34303c55c09"
+  },
+  "docs/plans/native-platforms/swiftui-time-wheel-motion-off-final-frames.png": {
+    "url": "https://github.com/user-attachments/assets/acd837bf-8897-4c46-97c3-cf3441c36957",
+    "sha256": "dad57671058842e8e675a1bf2206875f4a7075ab512a98a8cb7a904f96d702fa"
+  },
+  "docs/plans/native-platforms/swiftui-time-wheel-motion-off-final.mp4": {
+    "url": "https://github.com/user-attachments/assets/10b02859-1034-4bbe-b173-1a968c1b92f7",
+    "sha256": "f044bfe6996ed46d24d0608c3137bb172311d40ff6dc5ab6c31b9e74eb9a00b9"
+  },
+  "docs/plans/native-platforms/swiftui-time-wheel-motion-off-focus.jpg": {
+    "url": "https://github.com/user-attachments/assets/16dde2d0-b8c2-4076-8a1a-d2f0531e0263",
+    "sha256": "1935d90e21ecc8bf1ecb62fd55fad71fe45390872b510e1ac3394f6a2e9e9c5c"
+  },
+  "docs/plans/native-platforms/swiftui-time-wheel-motion-off-frames.png": {
+    "url": "https://github.com/user-attachments/assets/007557a3-3f4a-4cb1-8277-9d80d58a8b49",
+    "sha256": "0b99f91b7f4de8aed61d92754d57601ddab90d09fed31a94b574e6ea25a210da"
+  },
+  "docs/plans/native-platforms/swiftui-time-wheel-motion-off-overview.png": {
+    "url": "https://github.com/user-attachments/assets/0564897b-0c19-442b-9027-72ca8612bfc9",
+    "sha256": "0b6eab8b53df3689e13b35e3e680956fc2a483c247e06a21c05389b1f49cba99"
+  },
+  "docs/plans/native-platforms/swiftui-time-wheel-motion-overview.png": {
+    "url": "https://github.com/user-attachments/assets/88386e74-6866-4e62-877b-defbcd491fb5",
+    "sha256": "f3ed712872b59acc468ceaa0a2d91a4a89146974498126ee8069f73b0f513bd8"
+  },
+  "docs/plans/native-platforms/swiftui-time-wheel-motion.mp4": {
+    "url": "https://github.com/user-attachments/assets/4c22cf72-733f-4fbc-80b2-391f8485a70c",
+    "sha256": "2dc24286e4a8e709fe4cecc6bae113159b1855759305d63d03229b9e204e29dd"
+  },
+  "docs/plans/native-platforms/swiftui-time-wheel-off-focus-final.jpg": {
+    "url": "https://github.com/user-attachments/assets/6904a298-bec3-4622-8806-c102a6bc7c20",
+    "sha256": "7876f1b224ed50de7bc22aaa93e4c4719bfe34726211376f631b7431ad76c5c1"
+  },
+  "docs/plans/native-platforms/swiftui-time-wheel-off-selected-final.jpg": {
+    "url": "https://github.com/user-attachments/assets/3a1de845-d6bb-48b7-be79-fcf427c2a574",
+    "sha256": "709687a3d4df4517b105e91b9beb500c0fe5cac5c9664c9e2efb0a8a4174c197"
+  },
+  "docs/plans/native-platforms/swiftui-time-wheel-phone-centered.jpg": {
+    "url": "https://github.com/user-attachments/assets/a00d369b-d0e6-4946-bf51-dbbc89865b56",
+    "sha256": "2e5b3071de600e6100f23174dd7971eee32eb8ccb6402db616a214dd3a5b7d10"
+  },
+  "docs/plans/native-platforms/swiftui-time-wheel-phone-dark-final.jpg": {
+    "url": "https://github.com/user-attachments/assets/b62fd14f-5a79-44a7-88d5-c7eaec9eb381",
+    "sha256": "e214a20d5022d16421787a5c85b81c11482015236718de5a3c39f8e975794c5d"
+  },
+  "docs/plans/native-platforms/swiftui-time-wheel-phone-dark-large-final.jpg": {
+    "url": "https://github.com/user-attachments/assets/8af1adc2-ed50-4237-a6c0-79a4f98a918f",
+    "sha256": "f804c0f71e7c15b7f35ed45fffc5afc5a740b51d48ca0553938bb542e128b4fd"
+  },
+  "docs/plans/native-platforms/swiftui-time-wheel-phone-first.jpg": {
+    "url": "https://github.com/user-attachments/assets/b97845da-5d25-408d-af2d-eba18636aeb9",
+    "sha256": "30f036a2f3c33fd9738e340ca828826c70532082bd30a8d25b90b29dc5a3efae"
+  },
+  "docs/plans/native-platforms/swiftui-time-wheel-phone-keyboard-final.jpg": {
+    "url": "https://github.com/user-attachments/assets/07752619-b7d9-4af3-be83-6d547f3b1a35",
+    "sha256": "e7b310789fa9ad247c8dd2ac86ae84346cba76e7efab4a1086b127e3fa2f99a9"
+  },
+  "docs/plans/native-platforms/swiftui-time-wheel-phone-keyboard.jpg": {
+    "url": "https://github.com/user-attachments/assets/a5b9c72c-91e9-48fd-a1bd-c4a6b359c7f1",
+    "sha256": "09a9e695bf90eea2a1af24e73c9b108e59a2aff7aa7dfc3471fe409b3a1d8c2d"
+  },
+  "docs/plans/native-platforms/swiftui-time-wheel-phone-large-bounds-centered-final.jpg": {
+    "url": "https://github.com/user-attachments/assets/cdc73060-f3f8-40ec-8cb1-7384596193a9",
+    "sha256": "769c0e4c551dc42d7a15a25e3a1c3fae870bfcb4aff29ca9bc3333bb6377eb5f"
+  },
+  "docs/plans/native-platforms/swiftui-time-wheel-phone-large-bounds-final.jpg": {
+    "url": "https://github.com/user-attachments/assets/56fd18e7-ebe2-437e-ba2d-8f3c0abb8167",
+    "sha256": "cda4ffac319994ae15cb884449205baf7f8551aa212ba0d866bf868850ff063c"
+  },
+  "docs/plans/native-platforms/swiftui-time-wheel-phone-large-disabled-final.jpg": {
+    "url": "https://github.com/user-attachments/assets/5ee9d631-2d40-4f05-acd1-249190567913",
+    "sha256": "3f437adfdfc3f66782e787e850fef048e991c9b45b85624fc4a6c167cd290942"
+  },
+  "docs/plans/native-platforms/swiftui-time-wheel-phone-large-seconds-final.jpg": {
+    "url": "https://github.com/user-attachments/assets/9a9550cc-bdc4-45a5-ac21-eb25c9fcb255",
+    "sha256": "0e1c1d90d3b2a6279afe4e6eb1f6606213e4633907bbaf17950fa516bbddf644"
+  },
+  "docs/plans/native-platforms/swiftui-time-wheel-phone-large-seconds-selected-final.jpg": {
+    "url": "https://github.com/user-attachments/assets/e94521d5-8cc6-4380-a741-79f188379e68",
+    "sha256": "73ec48c937d0b7782363e90950fd5b33570b1c4f3cf564be19b84a28bec7ff01"
+  },
+  "docs/plans/native-platforms/swiftui-time-wheel-phone-motion-off-final.jpg": {
+    "url": "https://github.com/user-attachments/assets/fdd1fbbf-2da1-407c-b131-32ea6aed2afb",
+    "sha256": "463d97b57f065b07c8afdcedd92cabb497b22635f111bd11a7e6fc6f919d0918"
+  },
+  "docs/plans/native-platforms/swiftui-time-wheel-reader-debug.jpg": {
+    "url": "https://github.com/user-attachments/assets/ad13d8fa-c1cc-4d02-ad9a-387297200c17",
+    "sha256": "e8d961ede73bd36e89c36218460ad8432a2542e78880ba110273e50e0106ec6c"
+  },
+  "docs/plans/native-platforms/swiftui-time-wheel-tab-debug.jpg": {
+    "url": "https://github.com/user-attachments/assets/e8aa852e-ad37-4cca-9b32-d613d525e662",
+    "sha256": "58d693e7489f4dae934424e40ce67e3b7d9c892c1890eca482cdfa0fbcf170de"
+  },
+  "docs/plans/native-platforms/swiftui-year-grid-ipad-large-light.jpg": {
+    "url": "https://github.com/user-attachments/assets/34b95290-77e8-499d-adf8-c9504460e177",
+    "sha256": "e91ad69864d07e7c374e4534c647fa53d426d84dac7e965794c1ae1b812331c6"
+  },
+  "docs/plans/native-platforms/swiftui-year-grid-ipad-light-final.jpg": {
+    "url": "https://github.com/user-attachments/assets/ced75551-2335-4d47-9f46-37c62d4ccbcf",
+    "sha256": "c0672b0b143cc5bfcd42b73227108f8cec395633353b0561d61973163b853058"
+  },
+  "docs/plans/native-platforms/swiftui-year-grid-ipad-light-first.jpg": {
+    "url": "https://github.com/user-attachments/assets/49355116-39fc-48de-94b9-8e2f4fd95965",
+    "sha256": "d27f3a3d92f0270ee311968e357727db076528be292f07a429e153110de8cf6e"
+  },
+  "docs/plans/native-platforms/swiftui-year-grid-phone-large-dark-fixed.jpg": {
+    "url": "https://github.com/user-attachments/assets/369e3433-3f4a-4609-b81d-2847eb9e4d2c",
+    "sha256": "5f93e690f561669499b1e57d6c6b431da65a8e3915644533cf44c376e16021e4"
+  },
+  "docs/plans/native-platforms/swiftui-year-grid-phone-large-dark.jpg": {
+    "url": "https://github.com/user-attachments/assets/039e7961-602c-4e37-bb88-44332a612ed8",
+    "sha256": "b8321aedb4fe985adf0fe31fba552894c466158a9ea9f63d2f7e8c17e2ab8d0b"
+  },
+  "docs/plans/native-platforms/swiftui-year-grid-sizing-comparison.png": {
+    "url": "https://github.com/user-attachments/assets/dcb06297-dafb-4e26-9dc4-c8cbe9a26ec7",
+    "sha256": "e716ffdbd5d087a9fed7f34e20639dc51cf439e76d0c9cf8b9934c06c3c41fcb"
+  }
+}

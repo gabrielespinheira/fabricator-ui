@@ -57,6 +57,7 @@ import {
   getShellSize,
   getShellStorageKey,
   parseShellLayout,
+  getHeaderMenu,
   parseShortcut,
   readStoredJson,
   revealPanelView,
@@ -137,6 +138,7 @@ import {
   DropdownMenuContent,
   DropdownMenuGroup,
   DropdownMenuItem,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/registry/native/ui/dropdown-menu"
 import { Sheet, SheetContent } from "@/registry/native/ui/sheet"
@@ -1352,19 +1354,32 @@ function AppShellFab({ action }: { action: AppShellAction }) {
 
 /**
  * Header actions, described once. Tablets and up get buttons; phones get one menu,
- * and the primary action becomes a floating button.
+ * and the primary action becomes a floating button. A `menu` (the page's
+ * settings and rare actions) keeps that ellipsis on every width; on phones the
+ * folded actions come first in it, so the header never shows two.
  */
 function AppShellHeaderActions({
   actions = [],
   primaryAction,
+  menu,
+  menuLabel = "Page options",
   className,
   ...props
 }: React.ComponentProps<typeof View> & {
   actions?: AppShellAction[]
   primaryAction?: AppShellAction
+  /** Menu items for the page: groups of settings, then rare actions. */
+  menu?: React.ReactNode
+  /** The name of the page menu's ellipsis button. */
+  menuLabel?: string
 }) {
   const { size } = useAppShell()
   const isPhone = size === "phone"
+  const headerMenu = getHeaderMenu({
+    size,
+    actionCount: actions.length,
+    hasPageMenu: menu !== undefined && menu !== null,
+  })
   return (
     <View
       data-slot="app-shell-header-actions"
@@ -1418,32 +1433,40 @@ function AppShellHeaderActions({
           {primaryAction.label}
         </Button>
       )}
-      {isPhone && actions.length > 0 && (
+      {headerMenu && (isPhone || headerMenu.isOnEveryWidth) && (
         <DropdownMenu>
           <DropdownMenuTrigger
             render={
               <Button
                 variant="ghost"
                 size="icon"
-                accessibilityLabel="More actions"
+                accessibilityLabel={
+                  headerMenu.hasPageMenu ? menuLabel : "More actions"
+                }
               />
             }
           >
             <EllipsisIcon />
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
-            <DropdownMenuGroup>
-              {actions.map((action) => (
-                <DropdownMenuItem
-                  key={action.id}
-                  disabled={action.disabled}
-                  onPress={action.onSelect}
-                >
-                  <IconSlot icon={action.icon} />
-                  {action.label}
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuGroup>
+            {headerMenu.hasActions && (
+              <DropdownMenuGroup>
+                {actions.map((action) => (
+                  <DropdownMenuItem
+                    key={action.id}
+                    disabled={action.disabled}
+                    onPress={action.onSelect}
+                  >
+                    <IconSlot icon={action.icon} />
+                    {action.label}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuGroup>
+            )}
+            {headerMenu.hasActions && headerMenu.hasPageMenu && (
+              <DropdownMenuSeparator />
+            )}
+            {headerMenu.hasPageMenu && menu}
           </DropdownMenuContent>
         </DropdownMenu>
       )}

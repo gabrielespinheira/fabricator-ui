@@ -204,6 +204,7 @@ import {
   ShieldIcon as FabricatorShieldIcon,
   ShieldOffIcon as FabricatorShieldOffIcon,
   SlashIcon as FabricatorSlashIcon,
+  SlidersHorizontalIcon as FabricatorSlidersHorizontalIcon,
   SmartphoneIcon as FabricatorSmartphoneIcon,
   Smile as FabricatorSmile,
   SmileIcon as FabricatorSmileIcon,
@@ -1494,6 +1495,10 @@ export const ShieldOffIcon = createSiteIcon(FabricatorShieldOffIcon, {
 export const SlashIcon = createSiteIcon(FabricatorSlashIcon, {
   lucide: "SlashIcon",
 })
+export const SlidersHorizontalIcon = createSiteIcon(
+  FabricatorSlidersHorizontalIcon,
+  { lucide: "SlidersHorizontalIcon" }
+)
 export const SmartphoneIcon = createSiteIcon(FabricatorSmartphoneIcon, {
   lucide: "SmartphoneIcon",
 })

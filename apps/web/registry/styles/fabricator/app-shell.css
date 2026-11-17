@@ -140,6 +140,15 @@
     @apply gap-(--density-4);
   }
 
+  /* The header's menu (the page's settings, and the actions folded on
+     phones) fits its longest row instead of the 36px ellipsis that opens it
+     (menu content takes its trigger's width, hence the important width),
+     never narrows below the 224px of the other app menus, and wraps past
+     320px. */
+  .cn-app-shell-header-menu {
+    @apply w-max! max-w-80 min-w-56;
+  }
+
   /* The phone's primary action: a round button above the content, clear
      of the tab bar when the main column has one. */
   .cn-app-shell-fab {

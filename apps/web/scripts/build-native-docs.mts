@@ -7,6 +7,7 @@ import {
   NATIVE_TIER_LABELS,
 } from "@/registry/native/differences"
 
+import screenshotAttachments from "../../../docs/screenshot-attachments.json"
 import {
   getPartsList,
   getPropsList,
@@ -32,7 +33,6 @@ import {
 
 const ROOT = process.cwd()
 const PAGES_DIR = path.join(ROOT, "content/docs/components/native")
-const PREVIEW_DIR = path.join(ROOT, "public/images/native")
 
 const FROM_WEB_DESCRIPTION = /^description:\s*(.+)$/m
 
@@ -61,7 +61,10 @@ async function buildPage(item: (typeof nativeItems)[number]) {
   const roles = getRoles(source)
   const snippet = demo ? getUsageSnippet(demo) : null
   const imports = demo ? getUsageImports(demo) : ""
-  const hasPreview = existsSync(path.join(PREVIEW_DIR, `${name}.jpg`))
+  const hasPreview = Object.hasOwn(
+    screenshotAttachments,
+    `apps/web/public/images/native/${name}.jpg`
+  )
 
   const sections = [
     `---
