@@ -24,7 +24,8 @@ fun FabricatorStatusBar(data: List<FabricatorStatusPeriod>, modifier: Modifier =
     var tableOpen by remember { mutableStateOf(false) }
     if (data.isEmpty()) { FabricatorEmpty("No status history", modifier = modifier); return }
     BoxWithConstraints(modifier.fillMaxWidth()) {
-        val model = remember(data, maxWidth, statuses) { resolveFabricatorStatusBar(data, maxWidth.value, statuses) }
+        val availableWidth = maxWidth.value
+        val model = remember(data, availableWidth, statuses) { resolveFabricatorStatusBar(data, availableWidth, statuses) }
         fun select(index: Int?) { active = index; onSelect(index) }
         val uptime = formatFabricatorStatusUptime(model.uptime)
         Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -40,7 +41,7 @@ fun FabricatorStatusBar(data: List<FabricatorStatusPeriod>, modifier: Modifier =
                     Key.Escape -> { select(null); true }
                     else -> false
                 }
-            }.focusable().pointerInput(model) { detectTapGestures { point -> val coordinate = point.x / size.width * maxWidth.value; val pill = model.pills.minByOrNull { kotlin.math.abs(it.x + it.width / 2 - coordinate) }; select(pill?.index) } }) {
+            }.focusable().pointerInput(model, availableWidth) { detectTapGestures { point -> val coordinate = point.x / size.width * availableWidth; val pill = model.pills.minByOrNull { kotlin.math.abs(it.x + it.width / 2 - coordinate) }; select(pill?.index) } }) {
                 model.pills.forEach { pill ->
                     val color = theme.color(pill.status.role)
                     val alpha = pill.status.opacity * if (active == null || active == pill.index) 1f else .5f

@@ -104,7 +104,7 @@ private fun BlockAuthentication(specification: BlockAuthSpecification, modifier:
                     FabricatorIcon("gallery-vertical-end", size = 24.dp)
                     FabricatorText(specification.title, Modifier.semantics { heading() }, weight = FontWeight.SemiBold, size = 20)
                     BlockAuthAccountPrompt(specification.signup, onSwitchAccount); fields(); BlockAuthSeparator("Or")
-                    if (maxWidth >= 430.dp) Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) { Box(Modifier.weight(1f)) { BlockAuthProvider("apple", "Continue with Apple", onProvider) }; Box(Modifier.weight(1f)) { BlockAuthProvider("google", "Continue with Google", onProvider) } }
+                    if (this@BoxWithConstraints.maxWidth >= 430.dp) Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) { Box(Modifier.weight(1f)) { BlockAuthProvider("apple", "Continue with Apple", onProvider) }; Box(Modifier.weight(1f)) { BlockAuthProvider("google", "Continue with Google", onProvider) } }
                     else { BlockAuthProvider("apple", "Continue with Apple", onProvider); BlockAuthProvider("google", "Continue with Google", onProvider) }
                     BlockAuthLegal()
                 }
@@ -406,9 +406,10 @@ private fun BlockSettingsDialog(modifier: Modifier = Modifier) {
     Box(modifier.fillMaxWidth().heightIn(min = 640.dp), contentAlignment = Alignment.Center) { FabricatorButton("Open Dialog", { open = true }, size = FabricatorSize.Small) }
     FabricatorDialog(open, { open = false }, "Settings", description = "Customize your settings here.", maxWidth = 900.dp) {
         BoxWithConstraints(Modifier.fillMaxWidth().height(440.dp)) {
+            val hasSettingsSidebar = maxWidth >= 600.dp
             Row {
-                if (maxWidth >= 600.dp) Column(Modifier.width(224.dp).fillMaxHeight().verticalScroll(rememberScrollState())) { BlockContent.settings.forEach { BlockBranch(it, selection, { selection = it }, expanded, { expanded = it }) } }
-                Column(Modifier.weight(1f)) { if (maxWidth < 600.dp) FabricatorSelect(selection, { selection = it }, BlockContent.settings.map { FabricatorOption(it.title, it.title) }, Modifier.fillMaxWidth()) else FabricatorBreadcrumb(listOf("Settings" to null, selection to null)); Box(Modifier.weight(1f)) { BlockPlaceholderContent(BlockPlaceholderLayout.Settings) } }
+                if (hasSettingsSidebar) Column(Modifier.width(224.dp).fillMaxHeight().verticalScroll(rememberScrollState())) { BlockContent.settings.forEach { BlockBranch(it, selection, { selection = it }, expanded, { expanded = it }) } }
+                Column(Modifier.weight(1f)) { if (hasSettingsSidebar) FabricatorBreadcrumb(listOf("Settings" to null, selection to null)) else FabricatorSelect(selection, { selection = it }, BlockContent.settings.map { FabricatorOption(it.title, it.title) }, Modifier.fillMaxWidth()); Box(Modifier.weight(1f)) { BlockPlaceholderContent(BlockPlaceholderLayout.Settings) } }
             }
         }
     }
@@ -479,7 +480,7 @@ fun FabricatorSidebarBlock(variant: Int = 1, modifier: Modifier = Modifier, onAc
         }, actions = { _ -> if (variant == 10) BlockPageActions(onAction); if (variant == 15) BlockIconButton("Show calendar", "calendar") { calendarOpen = true }; if (variant == 16) FabricatorSearch(query, { query = it }, Modifier.widthIn(max = 220.dp), "Type to search...") }
     ) { compact ->
         if (content != null) content()
-        else if (variant == 15) BoxWithConstraints(Modifier.fillMaxSize()) { Row { Box(Modifier.weight(1f)) { BlockPlaceholderContent(BlockPlaceholderLayout.Document, compact) }; if (maxWidth >= 736.dp) Box(Modifier.width(256.dp)) { BlockCalendarSidebar(onAction) } } }
+        else if (variant == 15) BoxWithConstraints(Modifier.fillMaxSize()) { Row { Box(Modifier.weight(1f)) { BlockPlaceholderContent(BlockPlaceholderLayout.Document, compact) }; if (this@BoxWithConstraints.maxWidth >= 736.dp) Box(Modifier.width(256.dp)) { BlockCalendarSidebar(onAction) } } }
         else BlockPlaceholderContent(when (variant) { 2, 9 -> BlockPlaceholderLayout.Rows; 10 -> BlockPlaceholderLayout.Document; 12 -> BlockPlaceholderLayout.Calendar; else -> BlockPlaceholderLayout.Dashboard }, compact)
     }
     FabricatorSheet(calendarOpen, { calendarOpen = false }, "Calendar") { BlockCalendarSidebar(onAction) }

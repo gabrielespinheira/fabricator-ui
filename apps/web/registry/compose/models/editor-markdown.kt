@@ -39,7 +39,7 @@ fun parseEditorInline(markdown: String): List<EditorInline> {
 fun serializeEditorRuns(runs: List<EditorInline>): String = runs.joinToString("") { run ->
     if (run.raw) run.text else {
         var text = if (run.marks.any { it.type == "code" }) run.text else run.text.replace(Regex("([\\\\`*_~\\[\\]])"), "\\\\$1")
-        for (mark in run.marks.asReversed()) text = when (mark.type) { "bold" -> "**$text**"; "italic" -> "_$text_"; "strike" -> "~~$text~~"; "code" -> if ('`' in text) "`` $text ``" else "`$text`"; "link" -> "[$text](${mark.attrs["href"].orEmpty()}${mark.attrs["title"]?.let { " \"$it\"" }.orEmpty()})"; else -> text }
+        for (mark in run.marks.asReversed()) text = when (mark.type) { "bold" -> "**$text**"; "italic" -> "_${text}_"; "strike" -> "~~$text~~"; "code" -> if ('`' in text) "`` $text ``" else "`$text`"; "link" -> "[$text](${mark.attrs["href"].orEmpty()}${mark.attrs["title"]?.let { " \"$it\"" }.orEmpty()})"; else -> text }
         text
     }
 }
