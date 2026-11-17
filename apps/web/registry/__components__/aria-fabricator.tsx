@@ -6,354 +6,582 @@ import "server-only"
 import * as React from "react"
 
 export const Components: Record<string, any> = {
-  "accordion": React.lazy(async () => {
-        const mod = await import("@/styles/aria-fabricator/ui/accordion")
-        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "accordion"
-        return { default: mod.default || mod[exportName] }
-      }),
-  "alert": React.lazy(async () => {
-        const mod = await import("@/styles/aria-fabricator/ui/alert")
-        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "alert"
-        return { default: mod.default || mod[exportName] }
-      }),
+  accordion: React.lazy(async () => {
+    const mod = await import("@/styles/aria-fabricator/ui/accordion")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "accordion"
+    return { default: mod.default || mod[exportName] }
+  }),
+  alert: React.lazy(async () => {
+    const mod = await import("@/styles/aria-fabricator/ui/alert")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "alert"
+    return { default: mod.default || mod[exportName] }
+  }),
   "alert-dialog": React.lazy(async () => {
-        const mod = await import("@/styles/aria-fabricator/ui/alert-dialog")
-        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "alert-dialog"
-        return { default: mod.default || mod[exportName] }
-      }),
+    const mod = await import("@/styles/aria-fabricator/ui/alert-dialog")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "alert-dialog"
+    return { default: mod.default || mod[exportName] }
+  }),
   "aspect-ratio": React.lazy(async () => {
-        const mod = await import("@/styles/aria-fabricator/ui/aspect-ratio")
-        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "aspect-ratio"
-        return { default: mod.default || mod[exportName] }
-      }),
-  "avatar": React.lazy(async () => {
-        const mod = await import("@/styles/aria-fabricator/ui/avatar")
-        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "avatar"
-        return { default: mod.default || mod[exportName] }
-      }),
-  "badge": React.lazy(async () => {
-        const mod = await import("@/styles/aria-fabricator/ui/badge")
-        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "badge"
-        return { default: mod.default || mod[exportName] }
-      }),
-  "breadcrumb": React.lazy(async () => {
-        const mod = await import("@/styles/aria-fabricator/ui/breadcrumb")
-        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "breadcrumb"
-        return { default: mod.default || mod[exportName] }
-      }),
-  "button": React.lazy(async () => {
-        const mod = await import("@/styles/aria-fabricator/ui/button")
-        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "button"
-        return { default: mod.default || mod[exportName] }
-      }),
+    const mod = await import("@/styles/aria-fabricator/ui/aspect-ratio")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "aspect-ratio"
+    return { default: mod.default || mod[exportName] }
+  }),
+  avatar: React.lazy(async () => {
+    const mod = await import("@/styles/aria-fabricator/ui/avatar")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "avatar"
+    return { default: mod.default || mod[exportName] }
+  }),
+  badge: React.lazy(async () => {
+    const mod = await import("@/styles/aria-fabricator/ui/badge")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "badge"
+    return { default: mod.default || mod[exportName] }
+  }),
+  breadcrumb: React.lazy(async () => {
+    const mod = await import("@/styles/aria-fabricator/ui/breadcrumb")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "breadcrumb"
+    return { default: mod.default || mod[exportName] }
+  }),
+  button: React.lazy(async () => {
+    const mod = await import("@/styles/aria-fabricator/ui/button")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "button"
+    return { default: mod.default || mod[exportName] }
+  }),
   "button-group": React.lazy(async () => {
-        const mod = await import("@/styles/aria-fabricator/ui/button-group")
-        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "button-group"
-        return { default: mod.default || mod[exportName] }
-      }),
-  "calendar": React.lazy(async () => {
-        const mod = await import("@/styles/aria-fabricator/ui/calendar")
-        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "calendar"
-        return { default: mod.default || mod[exportName] }
-      }),
-  "card": React.lazy(async () => {
-        const mod = await import("@/styles/aria-fabricator/ui/card")
-        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "card"
-        return { default: mod.default || mod[exportName] }
-      }),
-  "carousel": React.lazy(async () => {
-        const mod = await import("@/styles/aria-fabricator/ui/carousel")
-        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "carousel"
-        return { default: mod.default || mod[exportName] }
-      }),
-  "checkbox": React.lazy(async () => {
-        const mod = await import("@/styles/aria-fabricator/ui/checkbox")
-        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "checkbox"
-        return { default: mod.default || mod[exportName] }
-      }),
-  "collapsible": React.lazy(async () => {
-        const mod = await import("@/styles/aria-fabricator/ui/collapsible")
-        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "collapsible"
-        return { default: mod.default || mod[exportName] }
-      }),
-  "combobox": React.lazy(async () => {
-        const mod = await import("@/styles/aria-fabricator/ui/combobox")
-        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "combobox"
-        return { default: mod.default || mod[exportName] }
-      }),
-  "command": React.lazy(async () => {
-        const mod = await import("@/styles/aria-fabricator/ui/command")
-        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "command"
-        return { default: mod.default || mod[exportName] }
-      }),
+    const mod = await import("@/styles/aria-fabricator/ui/button-group")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "button-group"
+    return { default: mod.default || mod[exportName] }
+  }),
+  calendar: React.lazy(async () => {
+    const mod = await import("@/styles/aria-fabricator/ui/calendar")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "calendar"
+    return { default: mod.default || mod[exportName] }
+  }),
+  card: React.lazy(async () => {
+    const mod = await import("@/styles/aria-fabricator/ui/card")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "card"
+    return { default: mod.default || mod[exportName] }
+  }),
+  carousel: React.lazy(async () => {
+    const mod = await import("@/styles/aria-fabricator/ui/carousel")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "carousel"
+    return { default: mod.default || mod[exportName] }
+  }),
+  checkbox: React.lazy(async () => {
+    const mod = await import("@/styles/aria-fabricator/ui/checkbox")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "checkbox"
+    return { default: mod.default || mod[exportName] }
+  }),
+  collapsible: React.lazy(async () => {
+    const mod = await import("@/styles/aria-fabricator/ui/collapsible")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "collapsible"
+    return { default: mod.default || mod[exportName] }
+  }),
+  combobox: React.lazy(async () => {
+    const mod = await import("@/styles/aria-fabricator/ui/combobox")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "combobox"
+    return { default: mod.default || mod[exportName] }
+  }),
+  command: React.lazy(async () => {
+    const mod = await import("@/styles/aria-fabricator/ui/command")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "command"
+    return { default: mod.default || mod[exportName] }
+  }),
   "context-menu": React.lazy(async () => {
-        const mod = await import("@/styles/aria-fabricator/ui/context-menu")
-        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "context-menu"
-        return { default: mod.default || mod[exportName] }
-      }),
-  "dialog": React.lazy(async () => {
-        const mod = await import("@/styles/aria-fabricator/ui/dialog")
-        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "dialog"
-        return { default: mod.default || mod[exportName] }
-      }),
-  "drawer": React.lazy(async () => {
-        const mod = await import("@/styles/aria-fabricator/ui/drawer")
-        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "drawer"
-        return { default: mod.default || mod[exportName] }
-      }),
+    const mod = await import("@/styles/aria-fabricator/ui/context-menu")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "context-menu"
+    return { default: mod.default || mod[exportName] }
+  }),
+  dialog: React.lazy(async () => {
+    const mod = await import("@/styles/aria-fabricator/ui/dialog")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "dialog"
+    return { default: mod.default || mod[exportName] }
+  }),
+  drawer: React.lazy(async () => {
+    const mod = await import("@/styles/aria-fabricator/ui/drawer")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "drawer"
+    return { default: mod.default || mod[exportName] }
+  }),
   "dropdown-menu": React.lazy(async () => {
-        const mod = await import("@/styles/aria-fabricator/ui/dropdown-menu")
-        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "dropdown-menu"
-        return { default: mod.default || mod[exportName] }
-      }),
-  "empty": React.lazy(async () => {
-        const mod = await import("@/styles/aria-fabricator/ui/empty")
-        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "empty"
-        return { default: mod.default || mod[exportName] }
-      }),
-  "field": React.lazy(async () => {
-        const mod = await import("@/styles/aria-fabricator/ui/field")
-        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "field"
-        return { default: mod.default || mod[exportName] }
-      }),
+    const mod = await import("@/styles/aria-fabricator/ui/dropdown-menu")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "dropdown-menu"
+    return { default: mod.default || mod[exportName] }
+  }),
+  empty: React.lazy(async () => {
+    const mod = await import("@/styles/aria-fabricator/ui/empty")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "empty"
+    return { default: mod.default || mod[exportName] }
+  }),
+  field: React.lazy(async () => {
+    const mod = await import("@/styles/aria-fabricator/ui/field")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "field"
+    return { default: mod.default || mod[exportName] }
+  }),
   "hover-card": React.lazy(async () => {
-        const mod = await import("@/styles/aria-fabricator/ui/hover-card")
-        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "hover-card"
-        return { default: mod.default || mod[exportName] }
-      }),
-  "input": React.lazy(async () => {
-        const mod = await import("@/styles/aria-fabricator/ui/input")
-        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "input"
-        return { default: mod.default || mod[exportName] }
-      }),
+    const mod = await import("@/styles/aria-fabricator/ui/hover-card")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "hover-card"
+    return { default: mod.default || mod[exportName] }
+  }),
+  input: React.lazy(async () => {
+    const mod = await import("@/styles/aria-fabricator/ui/input")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "input"
+    return { default: mod.default || mod[exportName] }
+  }),
   "input-group": React.lazy(async () => {
-        const mod = await import("@/styles/aria-fabricator/ui/input-group")
-        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "input-group"
-        return { default: mod.default || mod[exportName] }
-      }),
+    const mod = await import("@/styles/aria-fabricator/ui/input-group")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "input-group"
+    return { default: mod.default || mod[exportName] }
+  }),
   "input-otp": React.lazy(async () => {
-        const mod = await import("@/styles/aria-fabricator/ui/input-otp")
-        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "input-otp"
-        return { default: mod.default || mod[exportName] }
-      }),
-  "item": React.lazy(async () => {
-        const mod = await import("@/styles/aria-fabricator/ui/item")
-        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "item"
-        return { default: mod.default || mod[exportName] }
-      }),
-  "label": React.lazy(async () => {
-        const mod = await import("@/styles/aria-fabricator/ui/label")
-        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "label"
-        return { default: mod.default || mod[exportName] }
-      }),
-  "pagination": React.lazy(async () => {
-        const mod = await import("@/styles/aria-fabricator/ui/pagination")
-        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "pagination"
-        return { default: mod.default || mod[exportName] }
-      }),
-  "popover": React.lazy(async () => {
-        const mod = await import("@/styles/aria-fabricator/ui/popover")
-        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "popover"
-        return { default: mod.default || mod[exportName] }
-      }),
-  "progress": React.lazy(async () => {
-        const mod = await import("@/styles/aria-fabricator/ui/progress")
-        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "progress"
-        return { default: mod.default || mod[exportName] }
-      }),
+    const mod = await import("@/styles/aria-fabricator/ui/input-otp")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "input-otp"
+    return { default: mod.default || mod[exportName] }
+  }),
+  item: React.lazy(async () => {
+    const mod = await import("@/styles/aria-fabricator/ui/item")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "item"
+    return { default: mod.default || mod[exportName] }
+  }),
+  label: React.lazy(async () => {
+    const mod = await import("@/styles/aria-fabricator/ui/label")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "label"
+    return { default: mod.default || mod[exportName] }
+  }),
+  pagination: React.lazy(async () => {
+    const mod = await import("@/styles/aria-fabricator/ui/pagination")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "pagination"
+    return { default: mod.default || mod[exportName] }
+  }),
+  popover: React.lazy(async () => {
+    const mod = await import("@/styles/aria-fabricator/ui/popover")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "popover"
+    return { default: mod.default || mod[exportName] }
+  }),
+  progress: React.lazy(async () => {
+    const mod = await import("@/styles/aria-fabricator/ui/progress")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "progress"
+    return { default: mod.default || mod[exportName] }
+  }),
   "radio-group": React.lazy(async () => {
-        const mod = await import("@/styles/aria-fabricator/ui/radio-group")
-        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "radio-group"
-        return { default: mod.default || mod[exportName] }
-      }),
-  "resizable": React.lazy(async () => {
-        const mod = await import("@/styles/aria-fabricator/ui/resizable")
-        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "resizable"
-        return { default: mod.default || mod[exportName] }
-      }),
+    const mod = await import("@/styles/aria-fabricator/ui/radio-group")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "radio-group"
+    return { default: mod.default || mod[exportName] }
+  }),
+  resizable: React.lazy(async () => {
+    const mod = await import("@/styles/aria-fabricator/ui/resizable")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "resizable"
+    return { default: mod.default || mod[exportName] }
+  }),
   "scroll-area": React.lazy(async () => {
-        const mod = await import("@/styles/aria-fabricator/ui/scroll-area")
-        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "scroll-area"
-        return { default: mod.default || mod[exportName] }
-      }),
-  "select": React.lazy(async () => {
-        const mod = await import("@/styles/aria-fabricator/ui/select")
-        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "select"
-        return { default: mod.default || mod[exportName] }
-      }),
-  "separator": React.lazy(async () => {
-        const mod = await import("@/styles/aria-fabricator/ui/separator")
-        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "separator"
-        return { default: mod.default || mod[exportName] }
-      }),
-  "sheet": React.lazy(async () => {
-        const mod = await import("@/styles/aria-fabricator/ui/sheet")
-        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "sheet"
-        return { default: mod.default || mod[exportName] }
-      }),
-  "sidebar": React.lazy(async () => {
-        const mod = await import("@/styles/aria-fabricator/ui/sidebar")
-        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "sidebar"
-        return { default: mod.default || mod[exportName] }
-      }),
-  "skeleton": React.lazy(async () => {
-        const mod = await import("@/styles/aria-fabricator/ui/skeleton")
-        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "skeleton"
-        return { default: mod.default || mod[exportName] }
-      }),
-  "slider": React.lazy(async () => {
-        const mod = await import("@/styles/aria-fabricator/ui/slider")
-        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "slider"
-        return { default: mod.default || mod[exportName] }
-      }),
-  "sonner": React.lazy(async () => {
-        const mod = await import("@/styles/aria-fabricator/ui/sonner")
-        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "sonner"
-        return { default: mod.default || mod[exportName] }
-      }),
-  "spinner": React.lazy(async () => {
-        const mod = await import("@/styles/aria-fabricator/ui/spinner")
-        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "spinner"
-        return { default: mod.default || mod[exportName] }
-      }),
-  "switch": React.lazy(async () => {
-        const mod = await import("@/styles/aria-fabricator/ui/switch")
-        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "switch"
-        return { default: mod.default || mod[exportName] }
-      }),
-  "table": React.lazy(async () => {
-        const mod = await import("@/styles/aria-fabricator/ui/table")
-        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "table"
-        return { default: mod.default || mod[exportName] }
-      }),
-  "tabs": React.lazy(async () => {
-        const mod = await import("@/styles/aria-fabricator/ui/tabs")
-        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "tabs"
-        return { default: mod.default || mod[exportName] }
-      }),
-  "textarea": React.lazy(async () => {
-        const mod = await import("@/styles/aria-fabricator/ui/textarea")
-        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "textarea"
-        return { default: mod.default || mod[exportName] }
-      }),
-  "toggle": React.lazy(async () => {
-        const mod = await import("@/styles/aria-fabricator/ui/toggle")
-        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "toggle"
-        return { default: mod.default || mod[exportName] }
-      }),
+    const mod = await import("@/styles/aria-fabricator/ui/scroll-area")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "scroll-area"
+    return { default: mod.default || mod[exportName] }
+  }),
+  select: React.lazy(async () => {
+    const mod = await import("@/styles/aria-fabricator/ui/select")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "select"
+    return { default: mod.default || mod[exportName] }
+  }),
+  separator: React.lazy(async () => {
+    const mod = await import("@/styles/aria-fabricator/ui/separator")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "separator"
+    return { default: mod.default || mod[exportName] }
+  }),
+  sheet: React.lazy(async () => {
+    const mod = await import("@/styles/aria-fabricator/ui/sheet")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "sheet"
+    return { default: mod.default || mod[exportName] }
+  }),
+  sidebar: React.lazy(async () => {
+    const mod = await import("@/styles/aria-fabricator/ui/sidebar")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "sidebar"
+    return { default: mod.default || mod[exportName] }
+  }),
+  skeleton: React.lazy(async () => {
+    const mod = await import("@/styles/aria-fabricator/ui/skeleton")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "skeleton"
+    return { default: mod.default || mod[exportName] }
+  }),
+  slider: React.lazy(async () => {
+    const mod = await import("@/styles/aria-fabricator/ui/slider")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "slider"
+    return { default: mod.default || mod[exportName] }
+  }),
+  sonner: React.lazy(async () => {
+    const mod = await import("@/styles/aria-fabricator/ui/sonner")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "sonner"
+    return { default: mod.default || mod[exportName] }
+  }),
+  spinner: React.lazy(async () => {
+    const mod = await import("@/styles/aria-fabricator/ui/spinner")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "spinner"
+    return { default: mod.default || mod[exportName] }
+  }),
+  switch: React.lazy(async () => {
+    const mod = await import("@/styles/aria-fabricator/ui/switch")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "switch"
+    return { default: mod.default || mod[exportName] }
+  }),
+  table: React.lazy(async () => {
+    const mod = await import("@/styles/aria-fabricator/ui/table")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "table"
+    return { default: mod.default || mod[exportName] }
+  }),
+  tabs: React.lazy(async () => {
+    const mod = await import("@/styles/aria-fabricator/ui/tabs")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "tabs"
+    return { default: mod.default || mod[exportName] }
+  }),
+  textarea: React.lazy(async () => {
+    const mod = await import("@/styles/aria-fabricator/ui/textarea")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "textarea"
+    return { default: mod.default || mod[exportName] }
+  }),
+  toggle: React.lazy(async () => {
+    const mod = await import("@/styles/aria-fabricator/ui/toggle")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "toggle"
+    return { default: mod.default || mod[exportName] }
+  }),
   "toggle-group": React.lazy(async () => {
-        const mod = await import("@/styles/aria-fabricator/ui/toggle-group")
-        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "toggle-group"
-        return { default: mod.default || mod[exportName] }
-      }),
-  "tooltip": React.lazy(async () => {
-        const mod = await import("@/styles/aria-fabricator/ui/tooltip")
-        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "tooltip"
-        return { default: mod.default || mod[exportName] }
-      }),
-  "kbd": React.lazy(async () => {
-        const mod = await import("@/styles/aria-fabricator/ui/kbd")
-        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "kbd"
-        return { default: mod.default || mod[exportName] }
-      }),
-  "direction": React.lazy(async () => {
-        const mod = await import("@/styles/aria-fabricator/ui/direction")
-        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "direction"
-        return { default: mod.default || mod[exportName] }
-      }),
-  "attachment": React.lazy(async () => {
-        const mod = await import("@/styles/aria-fabricator/ui/attachment")
-        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "attachment"
-        return { default: mod.default || mod[exportName] }
-      }),
-  "bubble": React.lazy(async () => {
-        const mod = await import("@/styles/aria-fabricator/ui/bubble")
-        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "bubble"
-        return { default: mod.default || mod[exportName] }
-      }),
+    const mod = await import("@/styles/aria-fabricator/ui/toggle-group")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "toggle-group"
+    return { default: mod.default || mod[exportName] }
+  }),
+  tooltip: React.lazy(async () => {
+    const mod = await import("@/styles/aria-fabricator/ui/tooltip")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "tooltip"
+    return { default: mod.default || mod[exportName] }
+  }),
+  kbd: React.lazy(async () => {
+    const mod = await import("@/styles/aria-fabricator/ui/kbd")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "kbd"
+    return { default: mod.default || mod[exportName] }
+  }),
+  direction: React.lazy(async () => {
+    const mod = await import("@/styles/aria-fabricator/ui/direction")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "direction"
+    return { default: mod.default || mod[exportName] }
+  }),
+  attachment: React.lazy(async () => {
+    const mod = await import("@/styles/aria-fabricator/ui/attachment")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "attachment"
+    return { default: mod.default || mod[exportName] }
+  }),
+  bubble: React.lazy(async () => {
+    const mod = await import("@/styles/aria-fabricator/ui/bubble")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "bubble"
+    return { default: mod.default || mod[exportName] }
+  }),
   "message-scroller": React.lazy(async () => {
-        const mod = await import("@/styles/aria-fabricator/ui/message-scroller")
-        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "message-scroller"
-        return { default: mod.default || mod[exportName] }
-      }),
-  "questionnaire": React.lazy(async () => {
-        const mod = await import("@/styles/aria-fabricator/ui/questionnaire")
-        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "questionnaire"
-        return { default: mod.default || mod[exportName] }
-      }),
-  "marker": React.lazy(async () => {
-        const mod = await import("@/styles/aria-fabricator/ui/marker")
-        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "marker"
-        return { default: mod.default || mod[exportName] }
-      }),
-  "message": React.lazy(async () => {
-        const mod = await import("@/styles/aria-fabricator/ui/message")
-        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "message"
-        return { default: mod.default || mod[exportName] }
-      }),
+    const mod = await import("@/styles/aria-fabricator/ui/message-scroller")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "message-scroller"
+    return { default: mod.default || mod[exportName] }
+  }),
+  questionnaire: React.lazy(async () => {
+    const mod = await import("@/styles/aria-fabricator/ui/questionnaire")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "questionnaire"
+    return { default: mod.default || mod[exportName] }
+  }),
+  marker: React.lazy(async () => {
+    const mod = await import("@/styles/aria-fabricator/ui/marker")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "marker"
+    return { default: mod.default || mod[exportName] }
+  }),
+  message: React.lazy(async () => {
+    const mod = await import("@/styles/aria-fabricator/ui/message")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "message"
+    return { default: mod.default || mod[exportName] }
+  }),
   "app-shell-01": React.lazy(async () => {
-        const mod = await import("@/styles/aria-fabricator/blocks/app-shell-01/page")
-        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "app-shell-01"
-        return { default: mod.default || mod[exportName] }
-      }),
+    const mod = await import(
+      "@/styles/aria-fabricator/blocks/app-shell-01/page"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "app-shell-01"
+    return { default: mod.default || mod[exportName] }
+  }),
   "app-shell-02": React.lazy(async () => {
-        const mod = await import("@/styles/aria-fabricator/blocks/app-shell-02/page")
-        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "app-shell-02"
-        return { default: mod.default || mod[exportName] }
-      }),
+    const mod = await import(
+      "@/styles/aria-fabricator/blocks/app-shell-02/page"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "app-shell-02"
+    return { default: mod.default || mod[exportName] }
+  }),
   "app-shell-03": React.lazy(async () => {
-        const mod = await import("@/styles/aria-fabricator/blocks/app-shell-03/page")
-        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "app-shell-03"
-        return { default: mod.default || mod[exportName] }
-      }),
+    const mod = await import(
+      "@/styles/aria-fabricator/blocks/app-shell-03/page"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "app-shell-03"
+    return { default: mod.default || mod[exportName] }
+  }),
   "app-shell-04": React.lazy(async () => {
-        const mod = await import("@/styles/aria-fabricator/blocks/app-shell-04/page")
-        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "app-shell-04"
-        return { default: mod.default || mod[exportName] }
-      }),
+    const mod = await import(
+      "@/styles/aria-fabricator/blocks/app-shell-04/page"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "app-shell-04"
+    return { default: mod.default || mod[exportName] }
+  }),
   "app-shell-05": React.lazy(async () => {
-        const mod = await import("@/styles/aria-fabricator/blocks/app-shell-05/page")
-        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "app-shell-05"
-        return { default: mod.default || mod[exportName] }
-      }),
+    const mod = await import(
+      "@/styles/aria-fabricator/blocks/app-shell-05/page"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "app-shell-05"
+    return { default: mod.default || mod[exportName] }
+  }),
   "sign-in-01": React.lazy(async () => {
-        const mod = await import("@/styles/aria-fabricator/blocks/sign-in-01/page")
-        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "sign-in-01"
-        return { default: mod.default || mod[exportName] }
-      }),
+    const mod = await import("@/styles/aria-fabricator/blocks/sign-in-01/page")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "sign-in-01"
+    return { default: mod.default || mod[exportName] }
+  }),
   "sign-up-01": React.lazy(async () => {
-        const mod = await import("@/styles/aria-fabricator/blocks/sign-up-01/page")
-        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "sign-up-01"
-        return { default: mod.default || mod[exportName] }
-      }),
+    const mod = await import("@/styles/aria-fabricator/blocks/sign-up-01/page")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "sign-up-01"
+    return { default: mod.default || mod[exportName] }
+  }),
   "forgot-password-01": React.lazy(async () => {
-        const mod = await import("@/styles/aria-fabricator/blocks/forgot-password-01/page")
-        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "forgot-password-01"
-        return { default: mod.default || mod[exportName] }
-      }),
+    const mod = await import(
+      "@/styles/aria-fabricator/blocks/forgot-password-01/page"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "forgot-password-01"
+    return { default: mod.default || mod[exportName] }
+  }),
   "finance-01": React.lazy(async () => {
-        const mod = await import("@/styles/aria-fabricator/blocks/finance-01/page")
-        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "finance-01"
-        return { default: mod.default || mod[exportName] }
-      }),
+    const mod = await import("@/styles/aria-fabricator/blocks/finance-01/page")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "finance-01"
+    return { default: mod.default || mod[exportName] }
+  }),
   "assistant-01": React.lazy(async () => {
-        const mod = await import("@/styles/aria-fabricator/blocks/assistant-01/page")
-        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "assistant-01"
-        return { default: mod.default || mod[exportName] }
-      }),
+    const mod = await import(
+      "@/styles/aria-fabricator/blocks/assistant-01/page"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "assistant-01"
+    return { default: mod.default || mod[exportName] }
+  }),
   "messenger-01": React.lazy(async () => {
-        const mod = await import("@/styles/aria-fabricator/blocks/messenger-01/page")
-        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "messenger-01"
-        return { default: mod.default || mod[exportName] }
-      }),
+    const mod = await import(
+      "@/styles/aria-fabricator/blocks/messenger-01/page"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "messenger-01"
+    return { default: mod.default || mod[exportName] }
+  }),
   "mail-01": React.lazy(async () => {
-        const mod = await import("@/styles/aria-fabricator/blocks/mail-01/page")
-        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "mail-01"
-        return { default: mod.default || mod[exportName] }
-      }),
+    const mod = await import("@/styles/aria-fabricator/blocks/mail-01/page")
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "mail-01"
+    return { default: mod.default || mod[exportName] }
+  }),
   "calendar-app-01": React.lazy(async () => {
-        const mod = await import("@/styles/aria-fabricator/blocks/calendar-app-01/page")
-        const exportName = Object.keys(mod).find(key => typeof mod[key] === 'function' || typeof mod[key] === 'object') || "calendar-app-01"
-        return { default: mod.default || mod[exportName] }
-      }),
+    const mod = await import(
+      "@/styles/aria-fabricator/blocks/calendar-app-01/page"
+    )
+    const exportName =
+      Object.keys(mod).find(
+        (key) => typeof mod[key] === "function" || typeof mod[key] === "object"
+      ) || "calendar-app-01"
+    return { default: mod.default || mod[exportName] }
+  }),
 }

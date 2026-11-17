@@ -29,6 +29,8 @@ Each level pairs a background with a shadow: `bg-surface-N shadow-surface-N`. In
 
 **Surfaces have no borders.** Every surface shadow starts with a 1px ring, which draws the edge.
 
+**Level 0** sits below the page, for a screen that stands alone with nothing raised around it, such as sign in: `bg-surface-0` is white in light mode and a step darker than the page (`oklch(0.175)`) in dark. It takes the base colour more lightly than the page and has no shadow.
+
 ### Base colour
 
 Every surface derives from one base colour: `--surface-hue` and `--surface-chroma` (from `0` to `0.04`). Both are `0` by default, which gives the neutral ladder above. Set them with the Surface tab of the picker. Each level takes a share of the chroma:
@@ -191,18 +193,19 @@ The other tokens (`--surface-N`, `--<role>-text`, `--<role>-surface-N`, `--info`
 
 ## Tokens
 
-| Variable                             | Utility                                                     |
-| ------------------------------------ | ----------------------------------------------------------- |
-| `--surface-hue`, `--surface-chroma`  | The surfaces' base colour (see [Base colour](#base-colour)) |
-| `--surface-1` … `8`                  | `bg-surface-1` … `bg-surface-8`                             |
-| `--shadow-1` … `8`                   | `shadow-surface-1` … `shadow-surface-8`                     |
-| `--hover`                            | `bg-hover`                                                  |
-| `--active`                           | `bg-active`                                                 |
-| `--selected`                         | `bg-selected`                                               |
-| `--tint`                             | `bg-tint`                                                   |
-| `--tint-hover`                       | `bg-tint-hover`                                             |
-| `--focus-ring`                       | `ring-focus-ring`                                           |
-| `--<role>-hue`, `--<role>-chroma`    | A role's base colour (see [Hues](#hues))                    |
-| `--<role>`, `--<role>-foreground`, … | See [Role tokens](#role-tokens)                             |
+| Variable                             | Utility                                                      |
+| ------------------------------------ | ------------------------------------------------------------ |
+| `--surface-hue`, `--surface-chroma`  | The surfaces' base colour (see [Base colour](#base-colour))  |
+| `--surface-0`                        | `bg-surface-0`: below the page, for screens that stand alone |
+| `--surface-1` … `8`                  | `bg-surface-1` … `bg-surface-8`                              |
+| `--shadow-1` … `8`                   | `shadow-surface-1` … `shadow-surface-8`                      |
+| `--hover`                            | `bg-hover`                                                   |
+| `--active`                           | `bg-active`                                                  |
+| `--selected`                         | `bg-selected`                                                |
+| `--tint`                             | `bg-tint`                                                    |
+| `--tint-hover`                       | `bg-tint-hover`                                              |
+| `--focus-ring`                       | `ring-focus-ring`                                            |
+| `--<role>-hue`, `--<role>-chroma`    | A role's base colour (see [Hues](#hues))                     |
+| `--<role>`, `--<role>-foreground`, … | See [Role tokens](#role-tokens)                              |
 
 These are new names: the theme tokens such as `background`, `card` and `border` keep their meaning, so components from other registries still fit in.

@@ -48,6 +48,7 @@ Items are objects in each folder's `_registry.ts`, typed `Registry["items"]` fro
 - `registry:page` and `registry:file` need an explicit `target`; blocks use `app/<route>/page.tsx`. The CLI remaps per framework.
 - **Names:** blocks `<category>-<nn>` (`login-01`); examples `<component>-example` or `<component>-<intent>`. Check exclusive names against upstream's catalog.
 - New tokens ship in the item's `cssVars` (`theme`, `light`, `dark`); new CSS (`@utility`, `@keyframes`) in `css`.
+- Fabricator's screen blocks are declared in `registry/fabricator/blocks.ts`: the page's route, then the block's `components/`, `lib/` and `hooks/` files, named after its subject (`sign-in-form.tsx`) so two blocks never write the same path. Pure `lib/` files get colocated tests, which are not published. Fabricator blocks compile into `styles/<base>-fabricator/blocks/`, and the Fabricator styles' index and component shards list them, so the site previews them at `/view/<base>-fabricator/<name>`.
 - A Fabricator item whose registry dependencies differ by base lists the extras in `meta.baseRegistryDependencies` (`{ base: ["toast"], radix: ["sonner"], aria: ["sonner"] }` on Event Calendar); the build adds each base's to its `registryDependencies`.
 
 ## Build

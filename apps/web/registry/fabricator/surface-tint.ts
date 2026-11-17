@@ -60,6 +60,17 @@ export const SURFACE_STEPS: Record<"light" | "dark", Step[]> = {
   ],
 }
 
+// Level 0, below the page: a screen that stands alone, with nothing raised
+// around it (sign in, sign up, a password reset). Light: white, lighter than
+// every level even at full tint, so a tinted page still reads as paper.
+// Dark: one step under the page, the darkest ground. Both carry a little
+// less tint than the page: near white and near black, more would leave sRGB.
+// It has no shadow; nothing sits beneath it.
+export const SURFACE_BASE_STEP: Record<"light" | "dark", Step> = {
+  light: { l: 1, share: 0.2, drop: 0.45 },
+  dark: { l: 0.175, share: 0.8 },
+}
+
 // Other solid neutrals that sit next to the surfaces and follow the tint:
 // the opaque selection fill and the muted fill (tab lists, skeletons).
 export const TINTED_NEUTRALS: Record<

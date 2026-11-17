@@ -216,6 +216,18 @@
       "@/registry/bases/__base__/ui/user-menu": [
         "./registry/fabricator/base/ui/user-menu"
       ],
+      // A block's per-base parts (registry/fabricator/<base>/blocks/…) take
+      // the place of shared files with the same path.
+      "@/registry/bases/__base__/blocks/*": [
+        "./registry/fabricator/base/blocks/*",
+        "./registry/fabricator/shared/blocks/*"
+      ],
+      // Blocks compose the Fabricator copies, which add to upstream's APIs.
+      "@/registry/bases/__base__/ui/*": [
+        "./registry/fabricator/base/ui/*",
+        "./registry/fabricator/shared/ui/*",
+        "./registry/bases/base/ui/*"
+      ],
       // Shared overlay files name the base as __base__ (the build substitutes
       // each base); they typecheck against the Base UI tree, then the overlay.
       "@/registry/bases/__base__/*": [

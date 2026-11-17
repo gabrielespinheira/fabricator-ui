@@ -16,6 +16,8 @@ type BlockDeclaration = {
   dependencies?: string[]
   /** Paths under blocks/<name>/, e.g. "components/sign-in-form.tsx". */
   files: string[]
+  /** Items only one base needs, e.g. its toast (see Event Calendar). */
+  baseRegistryDependencies?: Record<"base" | "radix" | "aria", string[]>
 }
 
 const FILE_TYPES = {
@@ -38,7 +40,12 @@ function toFile(name: string, filePath: string) {
   return { path: `blocks/${name}/${filePath}`, type: FILE_TYPES[folder] }
 }
 
-function toBlock({ target, files, ...block }: BlockDeclaration) {
+function toBlock({
+  target,
+  files,
+  baseRegistryDependencies,
+  ...block
+}: BlockDeclaration) {
   return {
     ...block,
     type: "registry:block" as const,
@@ -50,7 +57,10 @@ function toBlock({ target, files, ...block }: BlockDeclaration) {
       },
       ...files.map((filePath) => toFile(block.name, filePath)),
     ],
-    meta: { fabricator: true },
+    meta: {
+      fabricator: true,
+      ...(baseRegistryDependencies && { baseRegistryDependencies }),
+    },
   }
 }
 
@@ -297,6 +307,11 @@ export const fabricatorBlocks = [
       "file-upload",
     ],
     dependencies: ["@fabricator-ui/icons"],
+    baseRegistryDependencies: {
+      base: ["toast"],
+      radix: ["sonner"],
+      aria: ["sonner"],
+    },
     files: [
       "components/mail-avatar.tsx",
       "components/mail-compose.tsx",

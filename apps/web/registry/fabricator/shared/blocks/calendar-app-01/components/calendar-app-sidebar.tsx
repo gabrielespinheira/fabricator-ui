@@ -54,7 +54,7 @@ export function CalendarAppSidebar({
   })
 
   return (
-    <Sidebar>
+    <Sidebar variant="inset">
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupContent className="flex justify-center">

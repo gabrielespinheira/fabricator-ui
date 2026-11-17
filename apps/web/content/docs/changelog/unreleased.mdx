@@ -20,7 +20,7 @@ Eight screen blocks join the App Shell starters, on every base:
 - `mail-01`: an email app with folders and labels, an inbox to search, filter and select in bulk, a thread with replies and attachments beside it, and a compose form.
 - `calendar-app-01`: a calendar app on `EventCalendar`: a month to jump from, calendars to show or hide, event details with guests and a Going? answer in a panel, and new events from the header.
 
-Each installs as a page with its parts and a tested model, for example `npx fabricator-ui@latest add sign-in-01`. React Native, SwiftUI and Compose versions follow.
+The app screens use the inset App Shell, with the main column and panels as cards on the frame. Each installs as a page with its parts and a tested model, for example `npx fabricator-ui@latest add sign-in-01`. React Native, SwiftUI and Compose versions follow.
 
 ### Native renderer previews
 
@@ -61,6 +61,10 @@ Series take a new chart palette in the foundations, `--chart-series-1` to `--cha
 Add one with `npx fabricator-ui@latest add area-chart`. Every chart installs `chart-kit`, the parts they share.
 
 ## Updated components
+
+### Surfaces
+
+A new level 0 lies below the page: `bg-surface-0` is white in light mode and a step darker than the page in dark, for screens that stand alone. The sign-in, sign-up and password reset blocks use it. It follows the base colour like the other levels and ships in `foundations`, on the web and React Native.
 
 ### SwiftUI previews
 
@@ -185,7 +189,7 @@ Update with `npx fabricator-ui@latest add avatar`. It now installs `tooltip` too
 
 **A design guide in new projects.** `create --agents` with the agent skill now copies the library's [`DESIGN.md`](https://github.com/gabrielespinheira/fabricator-ui/blob/main/DESIGN.md) to the project's root, where the skill reads it before designing a screen. Rewrite its overview for your product. `--no-skill` leaves it out, and existing projects keep their own.
 
-**Dashboards, forms and settings in the design guide.** `DESIGN.md` reads as a designer's guide: which wrapper and which control each part of a screen calls for (switches, toggle groups, sliders, choice cards and pickers before text fields), what the system already does (motion, hover, density, colour, surfaces), how to keep dashboards varied, and how to separate with space and surfaces instead of divider lines. It also covers dashboards and SaaS pages: a 12-column grid with container queries and one rhythm per page, card anatomy with one inset that lists and tables line up on, KPI rows, numbers and deltas, period comparisons, widget states, five dashboard types and the common product features (billing, members, integrations, API keys, notifications, audit log, onboarding, reports). It now fits in one agent read. The agent skill adds `rules/dashboards.md`, working code for the page, toolbar, KPI row and chart, list and table cards. New projects also get a short block in `AGENTS.md` that sends every assistant to `DESIGN.md` and the skill, next to anything already there, and Claude Code gets a `CLAUDE.md` that imports it.
+**Dashboards, forms and settings in the design guide.** `DESIGN.md` reads as a designer's guide: which wrapper and which control each part of a screen calls for (switches, toggle groups, sliders, choice cards and pickers before text fields), what the system already does (motion, hover, density, colour, surfaces), how to keep dashboards varied, how to separate with space and surfaces instead of divider lines, and how to load without layout shift (what renders at once, which indicator for which wait, skeletons that fill a card's content area or a row instead of mimicking text, timing). The skill adds `rules/loading.md` for each framework's loading tools. It also covers dashboards and SaaS pages: a 12-column grid with container queries and one rhythm per page, card anatomy with one inset that lists and tables line up on, KPI rows, numbers and deltas, period comparisons, widget states, five dashboard types and the common product features (billing, members, integrations, API keys, notifications, audit log, onboarding, reports). It now fits in one agent read. The agent skill adds `rules/dashboards.md`, working code for the page, toolbar, KPI row and chart, list and table cards. New projects also get a short block in `AGENTS.md` that sends every assistant to `DESIGN.md` and the skill, next to anything already there, and Claude Code gets a `CLAUDE.md` that imports it.
 
 ## Breaking changes
 

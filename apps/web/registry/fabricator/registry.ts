@@ -14,6 +14,7 @@
 
 import { type Registry } from "shadcn/schema"
 
+import { fabricatorBlocks } from "@/registry/fabricator/blocks"
 import { FABRICATOR_FOUNDATIONS } from "@/registry/fabricator/foundations"
 
 export const fabricatorItems = [
@@ -1259,6 +1260,7 @@ export const fabricatorItems = [
     categories: ["app-shell", "dashboard"],
     meta: { fabricator: true },
   })),
+  ...fabricatorBlocks,
   {
     name: "radius-pill",
     type: "registry:theme",

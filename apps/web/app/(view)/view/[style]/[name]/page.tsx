@@ -157,6 +157,12 @@ export async function generateStaticParams() {
             params.push({ style: style.name, name: item.name })
           }
         }
+        // Fabricator's own blocks, compiled into styles/<style>/blocks/.
+        for (const item of Object.values(Index[style.name] ?? {})) {
+          if (item.type === "registry:block") {
+            params.push({ style: style.name, name: item.name })
+          }
+        }
       }
 
       continue
@@ -211,7 +217,9 @@ export default async function BlockPage({
     return notFound()
   }
 
-  const rawStyleClass = getRawStyleClass(style.name)
+  // Compiled blocks (styles/<style>/…) already carry the style's classes.
+  const isCompiled = item.files?.[0]?.path.startsWith("styles/")
+  const rawStyleClass = isCompiled ? null : getRawStyleClass(style.name)
 
   return (
     <ComponentPreview>

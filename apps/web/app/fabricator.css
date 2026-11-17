@@ -67,6 +67,7 @@ html:root {
   --density-text-16: 16px;
   --density-icon-14: 0.875rem;
   --density-icon-16: 1rem;
+  --surface-0: oklch(calc(1 - var(--surface-chroma) * 0.45) calc(var(--surface-chroma) * 0.2) var(--surface-hue));
   --surface-1: oklch(calc(0.985 - var(--surface-chroma) * 0.575) calc(var(--surface-chroma) * 0.44) var(--surface-hue));
   --shadow-1: 0 0 0 1px var(--shadow-color);
   --surface-2: oklch(calc(0.991 - var(--surface-chroma) * 0.625) calc(var(--surface-chroma) * 0.395) var(--surface-hue));
@@ -225,6 +226,7 @@ html:root {
 }
 
 html.dark {
+  --surface-0: oklch(0.175 calc(var(--surface-chroma) * 0.8) var(--surface-hue));
   --surface-1: oklch(0.205 calc(var(--surface-chroma) * 0.9) var(--surface-hue));
   --shadow-1: inset 0 0 0 1px var(--dm-ring-base);
   --surface-2: oklch(0.235 calc(var(--surface-chroma) * 0.85) var(--surface-hue));
@@ -373,6 +375,7 @@ html.dark {
 }
 
 @theme inline {
+  --color-surface-0: var(--surface-0);
   --color-surface-1: var(--surface-1);
   --shadow-surface-1: var(--shadow-1);
   --color-surface-2: var(--surface-2);

@@ -1125,5 +1125,61 @@
     "name": "examples/native/chart-kit-example.tsx",
     "reason": "Chart Kit is the parts every chart is drawn with and has no page of its own on either platform; every chart's demo shows its tooltip, legend, axes and inspector.",
     "date": "2026-11-15"
+  },
+  {
+    "item": "sign-in-01",
+    "kind": "component",
+    "name": "sign-in-01",
+    "reason": "New web screen block. Its React Native port (providers, Field, InputGroup and the in-form error) follows in its own change; login-01 to login-05 cover native sign-in until then.",
+    "date": "2026-11-17"
+  },
+  {
+    "item": "sign-up-01",
+    "kind": "component",
+    "name": "sign-up-01",
+    "reason": "New web screen block. Its React Native port follows with sign-in-01's; signup-01 to signup-05 cover native sign-up until then.",
+    "date": "2026-11-17"
+  },
+  {
+    "item": "forgot-password-01",
+    "kind": "component",
+    "name": "forgot-password-01",
+    "reason": "New web screen block. Its React Native port follows with the other auth blocks; the steps and rules are pure modules it can reuse.",
+    "date": "2026-11-17"
+  },
+  {
+    "item": "finance-01",
+    "kind": "component",
+    "name": "finance-01",
+    "reason": "New web dashboard block built on App Shell and the charts. Its React Native port waits for a phone layout of the KPI row, charts and tables designed for touch.",
+    "date": "2026-11-17"
+  },
+  {
+    "item": "assistant-01",
+    "kind": "component",
+    "name": "assistant-01",
+    "reason": "New web chat block. Chat Input and Model Picker have no native versions yet (see PLATFORMS.md), so the native port waits for them.",
+    "date": "2026-11-17"
+  },
+  {
+    "item": "messenger-01",
+    "kind": "component",
+    "name": "messenger-01",
+    "reason": "New web chat block. Chat Input has no native version yet (see PLATFORMS.md), so the native port waits for it.",
+    "date": "2026-11-17"
+  },
+  {
+    "item": "calendar-app-01",
+    "kind": "component",
+    "name": "calendar-app-01",
+    "reason": "New web calendar block. Its React Native port composes the native Event Calendar and Date Picker, with Time Input still web-only (see PLATFORMS.md).",
+    "date": "2026-11-17"
+  },
+  {
+    "item": "mail-01",
+    "kind": "component",
+    "name": "mail-01",
+    "reason": "New web email block on App Shell. Its React Native port waits for a phone composition of the thread list, the thread sheet and the compose form; the folder, filter and selection rules are pure modules it can reuse.",
+    "date": "2026-11-17"
   }
 ]

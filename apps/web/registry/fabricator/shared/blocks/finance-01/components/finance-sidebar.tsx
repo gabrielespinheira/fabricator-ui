@@ -159,7 +159,7 @@ export function FinanceSidebar({ waitingCount }: { waitingCount: number }) {
   const groups = React.useMemo(() => getGroups(waitingCount), [waitingCount])
 
   return (
-    <Sidebar collapsible="icon">
+    <Sidebar variant="inset" collapsible="icon">
       <SidebarHeader>
         <WorkspaceSwitcher
           label="Companies"

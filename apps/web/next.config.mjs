@@ -120,17 +120,6 @@ const nextConfig = {
         destination: "/docs.md",
         permanent: true,
       },
-      // The blocks gallery is removed for now.
-      {
-        source: "/blocks/:path*",
-        destination: "/docs",
-        permanent: false,
-      },
-      {
-        source: "/blocks",
-        destination: "/docs",
-        permanent: false,
-      },
       // Form and the removed /docs/forms guides redirect to Field.
       {
         source: "/docs/forms/:path*",

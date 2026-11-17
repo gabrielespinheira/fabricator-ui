@@ -165,6 +165,20 @@
       "items": ["app-shell"],
       "kind": "implementation-gap",
       "detail": "The web header's actions and its page menu (AppShellHeaderActions with menu, added 2026-11-17: page settings behind one ellipsis on every width, joined by the folded actions on phones) have no SwiftUI equivalent yet."
+    },
+    {
+      "items": [
+        "sign-in-01",
+        "sign-up-01",
+        "forgot-password-01",
+        "finance-01",
+        "assistant-01",
+        "messenger-01",
+        "calendar-app-01",
+        "mail-01"
+      ],
+      "kind": "implementation-gap",
+      "detail": "The web screen blocks added on 2026-11-17 have no SwiftUI compositions yet. The block catalog lists them and its router shows its unknown-block placeholder; ports follow per block, starting with the auth blocks, whose rules are pure modules."
     }
   ],
   "verification": {

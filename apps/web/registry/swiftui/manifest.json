@@ -1450,6 +1450,22 @@
       ]
     },
     {
+      "name": "mail-01",
+      "files": [
+        "ui/blocks.swift"
+      ],
+      "dependencies": [
+        "@fabricator/foundations",
+        "@fabricator/app-shell",
+        "@fabricator/form",
+        "@fabricator/calendar",
+        "@fabricator/bot-face",
+        "@fabricator/card",
+        "@fabricator/dialog",
+        "@fabricator/file-tree"
+      ]
+    },
+    {
       "name": "markdown",
       "files": [
         "ui/markdown.swift"

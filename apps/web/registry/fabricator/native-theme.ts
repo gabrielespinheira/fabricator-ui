@@ -27,6 +27,7 @@ import {
 import {
   MUTED_FOREGROUND_STEP,
   oklchToHex,
+  SURFACE_BASE_STEP,
   SURFACE_STEPS,
   surfaceLadder,
   TINTED_NEUTRALS,
@@ -358,6 +359,9 @@ export function getNativeCssVariables(
     ...roles,
     "--sidebar-primary": roles["--primary"],
     "--sidebar-primary-foreground": roles["--primary-foreground"],
+    "--surface-0": toNativeColor(
+      tintedLiteral(SURFACE_BASE_STEP[mode], look.surface)
+    ),
     ...Object.fromEntries(
       SURFACE_LEVELS.flatMap((level) => [
         [`--surface-${level}`, surfaces[level - 1]],
