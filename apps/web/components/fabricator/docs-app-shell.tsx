@@ -94,7 +94,7 @@ export function DocsAppShell({
         renderLink={(item) => <Link href={getHref(item.href ?? "/docs")} />}
         brand={
           <Link
-            href={getHref("/docs")}
+            href="/"
             className="flex h-8 items-center rounded-lg px-2 text-lg font-semibold tracking-tight"
           >
             Fabricator UI
