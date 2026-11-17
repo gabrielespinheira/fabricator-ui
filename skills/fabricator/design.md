@@ -20,7 +20,7 @@ Density belongs on the widest region it describes, with a nested provider for ex
 
 - Neutral surfaces and type carry the screen. Brand colour enters through the theme's primary role; statuses keep their meaning. Use semantic roles in both themes.
 - Give each region one primary action. Place rare actions in a menu. Establish hierarchy through position, space, type size and weight before adding colour.
-- Group with space first, then headings and separators. Use cards for discrete objects. Feature text and settings sections need no card, and a row of headline numbers is one card divided into cells, not a card per number.
+- Separate with space first, then a heading, then a surface (a card, a panel, a muted well); never a dividing line or `Separator` in a layout. Use cards for discrete objects; feature text needs no card. Headline numbers are a row of stat cards parted by the grid's gap.
 - Surfaces follow the library's elevation ladder. Components already supply their edges and shadows; leave additional borders, generic shadows and overlay z-index out of their layout classes.
 - Keep title, toolbar and body on one start edge. Align numbers to the end and use tabular figures. Keep related controls closer than separate groups.
 - Use the project's typeface and radius. Fabricator defaults to small, precise UI type: 13px body at default density, 12px compact, 15px spacious. Component typography follows density. Text you write around components needs its role's size classes (body `text-(length:--density-text-13)`, a stat's value `text-2xl weight-semibold tracking-tight tabular-nums`), because the browser default is 16px. Reading content uses Markdown/Editor roles rather than shrinking with the toolbar.
@@ -51,7 +51,7 @@ Let the system do the rest: motion, the fluid hover highlight, density, colour r
 | Work through a queue  | Searchable list beside selected detail, shared actions                                | List opens a detail screen with a clear way back                           |
 | Change settings       | Section headings, horizontal Fields, descriptions, grouped controls                   | Labels above controls; preserve reading order                              |
 | Create or edit        | One capped FieldGroup, errors beside fields, submit/cancel                            | Single column; preserve entered data after errors                          |
-| Monitor a system      | Period toolbar, KPI strip, hero chart, needs-attention list, breakdowns               | Strip goes two by two; cards stack in order of importance                  |
+| Monitor a system      | Period toolbar, KPI row, hero chart, needs-attention list, breakdowns                 | KPI row goes two by two; cards stack in order of importance                |
 | Work across documents | AppShell, TabStrip, main editor, resizable inspector                                  | Reduce visible chrome; panel becomes overlay or separate view              |
 | Chat                  | Conversation list if needed, MessageScroller, Message/Bubble, composer                | One conversation; composer remains reachable with the keyboard open        |
 | Explain a product     | Header, one promise and CTA, product demonstration, proof, supporting sections, close | Reflow media and text; keep the CTA clear                                  |
@@ -65,7 +65,7 @@ A website's structure follows its product and evidence. Show real UI or meaningf
 Start from [rules/dashboards.md](rules/dashboards.md), whose recipes carry these decisions in code:
 
 - **One 12-column grid** in `AppShellContent size="lg"`, `gap-(--density-16)`, laid out with container queries (`@container`, `@4xl:`) because the App Shell's column narrows when the sidebar or a panel opens. Keep one rhythm per page, quarters (4 stats, 6 + 6) or thirds (3 stats, 8 + 4), so gutters continue down the page; cards in a row are equal height.
-- **Order:** an alert only while something is wrong, the KPI strip (four numbers by default), a hero chart, what needs the person, then breakdowns and recent activity.
+- **Order:** an alert only while something is wrong, the KPI row (four stat cards by default), a hero chart, what needs the person, then breakdowns and recent activity.
 - **One inset per card** (`--card-spacing`): the title, the headline value, a list's icons and a table's first column start on it. Tables run edge to edge with their end cells padded to the inset; lists pad by the inset minus the row's own padding.
 - **Numbers:** locale formatting, compact from 10,000 in stats, tabular figures; a delta is a status `Badge` with a sign and an arrow, coloured by whether the change is good. State the comparison period once, in the toolbar.
 - **Charts:** a period comparison is a `LineChart` with the previous series dashed and muted; rankings are horizontal bars; a `DonutChart` with its list needs about 560px. Charts in a row share a height.

@@ -10,7 +10,7 @@ Each recipe was checked in a running app at phone and desktop widths, in light a
 - Page menu
 - Toolbar
 - Delta
-- KPI strip
+- KPI row
 - Chart card
 - List card
 - Table card
@@ -46,7 +46,7 @@ The page sits in the App Shell of the `app-shell-03` block (a `Sidebar` with `Wo
       </div>
       <DashboardToolbar />
       <div className="grid grid-cols-1 gap-(--density-16) @4xl:grid-cols-12">
-        <KpiStrip metrics={metrics} className="@4xl:col-span-12" />
+        <KpiRow metrics={metrics} className="@4xl:col-span-12" />
         <RevenueCard days={days} className="@4xl:col-span-12" />
         <AttentionCard tasks={tasks} className="@4xl:col-span-6" />
         <TopCustomersCard customers={customers} className="@4xl:col-span-6" />
@@ -197,9 +197,9 @@ function Delta({
 }
 ```
 
-## KPI strip
+## KPI row
 
-One card, divided by hairlines: it reads as one instrument, where four separate cards read as four things. The 1px gaps show the line colour through the grid, so choose columns that divide the count: two by two for four, three for three, three by two for six.
+A row of stat cards, parted by the gutter alone: no dividers, no shared frame. The row's own grid uses the page's 16px gap, so its four cards line up with the quarters below, and goes two by two on phones. Stat cards keep the default size, so each label sits on the same inset as the titles of the cards below.
 
 ```tsx
 type Metric = {
@@ -210,31 +210,46 @@ type Metric = {
   isGoodWhenUp: boolean
   unit?: "%" | " pt" // rates change in points
 }
-;<Card className={cn("gap-0 py-0", className)}>
-  <dl className="grid grid-cols-2 gap-px bg-border/60 @4xl:grid-cols-4">
-    {metrics.map((metric) => (
-      <div
-        key={metric.label}
-        className="flex flex-col gap-(--density-4) bg-card p-(--card-spacing)"
-      >
-        <dt className="truncate text-muted-foreground">{metric.label}</dt>
-        <dd className="text-2xl tracking-tight tabular-nums weight-semibold">
-          {metric.value}
-        </dd>
-        <dd className="flex items-center gap-(--density-8) text-(length:--density-text-12) text-muted-foreground">
-          <Delta
-            change={metric.change}
-            isGoodWhenUp={metric.isGoodWhenUp}
-            unit={metric.unit}
-          />
-          <span className="hidden truncate @3xl:inline">
-            from {metric.previous}
-          </span>
-        </dd>
-      </div>
-    ))}
-  </dl>
-</Card>
+
+function KpiRow({
+  metrics,
+  className,
+}: {
+  metrics: Metric[]
+  className?: string
+}) {
+  return (
+    <div
+      className={cn(
+        "grid grid-cols-2 gap-(--density-16) @4xl:grid-cols-4",
+        className
+      )}
+    >
+      {metrics.map((metric) => (
+        <Card key={metric.label}>
+          <CardContent className="flex flex-col gap-(--density-4)">
+            <span className="truncate text-muted-foreground">
+              {metric.label}
+            </span>
+            <span className="text-2xl tracking-tight tabular-nums weight-semibold">
+              {metric.value}
+            </span>
+            <span className="flex items-center gap-(--density-8) text-(length:--density-text-12) text-muted-foreground">
+              <Delta
+                change={metric.change}
+                isGoodWhenUp={metric.isGoodWhenUp}
+                unit={metric.unit}
+              />
+              <span className="hidden truncate @3xl:inline">
+                from {metric.previous}
+              </span>
+            </span>
+          </CardContent>
+        </Card>
+      ))}
+    </div>
+  )
+}
 ```
 
 ## Chart card
@@ -378,6 +393,7 @@ Before calling a dashboard done, look at the running page:
 - The header has one ellipsis at every width; no row of its menu wraps, and every row has an icon or none does.
 - Inside each card, the title, the headline value, a list's icons and a table's first column start on the inset; a table's last column ends on it.
 - Gutters continue down the page: every row uses the page's one rhythm (quarters or thirds).
-- At a 390px width no stat label or value is cut off, and the strip is two by two.
+- At a 390px width no stat label or value is cut off, and the KPI row is two by two.
+- No line parts anything in the layout: the gutter parts the cards, space parts the bands, and only a table keeps its faint row rules.
 - In both themes, the only colours are chart series, deltas and status badges.
 - No console errors: a Base UI `Button` rendered as a link needs `nativeButton={false}`, which is why the recipes style links with `buttonVariants` instead.

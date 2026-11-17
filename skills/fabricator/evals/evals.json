@@ -193,13 +193,13 @@
     {
       "id": 15,
       "prompt": "My Next.js SaaS uses Fabricator UI (base-nova, App Shell installed). Build the Overview dashboard for a billing product: MRR, active customers, churn and revenue per account for the last 30 days, a revenue trend against the previous period, failed payments and trials ending soon, and the top customers.",
-      "expected_output": "An App Shell page on a 12-column container-query grid in one rhythm: a period toolbar, one KPI strip card divided into cells with signed status deltas, a LineChart comparing periods, a list card and an edge-to-edge table card aligned to the card inset, built from the rules/dashboards.md recipes.",
+      "expected_output": "An App Shell page on a 12-column container-query grid in one rhythm: a period toolbar, a KPI row of stat cards with signed status deltas, a LineChart comparing periods, a list card and an edge-to-edge table card aligned to the card inset, built from the rules/dashboards.md recipes.",
       "files": [],
       "expectations": [
         "Reads DESIGN.md (or design.md) and rules/dashboards.md before writing the page",
         "Uses AppShellContent size=\"lg\" with AppShellPageTitle and a grid using @container and @4xl:grid-cols-12",
-        "Keeps one rhythm: a four-cell KPI strip with full-width and half-width rows, not 8 + 4 rows under four stats",
-        "Puts the four numbers in one Card divided into cells (a dl), not four separate cards with icon tiles",
+        "Keeps one rhythm: a row of four stat cards with full-width and half-width rows, not 8 + 4 rows under four stats",
+        "Separates the stat cards, rows and sections with space and surfaces, with no Separator, border or divider lines, and no icon tiles",
         "Shows deltas as status Badges with a sign and an arrow, colouring churn's decrease as success and stating the comparison period once in the toolbar",
         "Compares periods with a LineChart whose previous series is dashed and muted, not an AreaChart",
         "Aligns list rows and table cells to --card-spacing and styles the View all link with buttonVariants",

@@ -64,6 +64,7 @@ import {
   CircleDotIcon as FabricatorCircleDotIcon,
   CircleFadingArrowUpIcon as FabricatorCircleFadingArrowUpIcon,
   CircleFadingPlusIcon as FabricatorCircleFadingPlusIcon,
+  CircleIcon as FabricatorCircleIcon,
   CircleUserRoundIcon as FabricatorCircleUserRoundIcon,
   ClipboardPasteIcon as FabricatorClipboardPasteIcon,
   Clock2Icon as FabricatorClock2Icon,
@@ -98,6 +99,7 @@ import {
   Frame as FabricatorFrame,
   FrameIcon as FabricatorFrameIcon,
   GalleryVerticalEnd as FabricatorGalleryVerticalEnd,
+  GalleryVerticalEndIcon as FabricatorGalleryVerticalEndIcon,
   GaugeIcon as FabricatorGaugeIcon,
   GitBranchIcon as FabricatorGitBranchIcon,
   GlobeIcon as FabricatorGlobeIcon,
@@ -676,6 +678,9 @@ export const CircleFadingPlusIcon = createSiteIcon(
     remixicon: "RiAddCircleLine",
   }
 )
+export const CircleIcon = createSiteIcon(FabricatorCircleIcon, {
+  lucide: "CircleIcon",
+})
 export const CircleUserRoundIcon = createSiteIcon(
   FabricatorCircleUserRoundIcon,
   {
@@ -890,6 +895,16 @@ export const GalleryVerticalEnd = createSiteIcon(FabricatorGalleryVerticalEnd, {
   phosphor: "RowsIcon",
   remixicon: "RiGalleryLine",
 })
+export const GalleryVerticalEndIcon = createSiteIcon(
+  FabricatorGalleryVerticalEndIcon,
+  {
+    lucide: "GalleryVerticalEndIcon",
+    tabler: "IconLayoutRows",
+    hugeicons: "LayoutBottomIcon",
+    phosphor: "RowsIcon",
+    remixicon: "RiGalleryLine",
+  }
+)
 export const GaugeIcon = createSiteIcon(FabricatorGaugeIcon, {
   lucide: "GaugeIcon",
   tabler: "IconGauge",

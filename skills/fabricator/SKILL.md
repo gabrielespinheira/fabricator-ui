@@ -78,7 +78,7 @@ Read the relevant rule before working in its area:
 - [Forms](rules/forms.md): labels, descriptions, validation, input groups and related controls.
 - [Styling](rules/styling.md): variants, semantic tokens, layout classes, regional density and motion roles. Read [customization.md](customization.md) when changing a theme or extending a variant.
 - [Icons](rules/icons.md): package selection, verified exports, placement, brand/file sets, dynamic and animated icons. Read before adding or changing icons.
-- [Dashboards](rules/dashboards.md): the page, toolbar, KPI strip, chart, list and table card recipes, with the classes that keep every card on the grid and every row on its card's inset.
+- [Dashboards](rules/dashboards.md): the page, toolbar, KPI row, chart, list and table card recipes, with the classes that keep every card on the grid and every row on its card's inset.
 
 Let components own their type, colour, shape, interaction and icon sizing. Use layout classes for the arrangement around them; extend a shared variant when a repeated product requirement needs a new appearance. Preserve keyboard behavior and focus. Interactive web code belongs in the framework's client boundary.
 
