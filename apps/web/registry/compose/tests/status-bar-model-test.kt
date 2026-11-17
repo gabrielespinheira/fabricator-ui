@@ -8,8 +8,9 @@ class StatusBarModelTest {
     @Test fun narrowBarsKeepLatestPeriodsAndNeverTurnHistoryIntoShareSegments() {
         val periods = List(30) { FabricatorStatusPeriod("day:$it", "Day $it", "operational") }
         val model = resolveFabricatorStatusBar(periods, 40f)
-        assertEquals(24, model.first)
-        assertEquals(listOf(24, 25, 26, 27, 28, 29), model.pills.map { it.index })
+        // Seven 4.dp pills and six 2.dp gaps fill 40.dp exactly.
+        assertEquals(23, model.first)
+        assertEquals((23..29).toList(), model.pills.map { it.index })
         assertEquals(2f, model.gap)
         assertTrue(model.pills.all { it.width >= 4f })
         assertEquals(0f, model.pills.first().x)
