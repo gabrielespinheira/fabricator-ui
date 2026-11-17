@@ -18,8 +18,16 @@ Interface sounds are the same on React Native, under the same `<SoundEffects />`
 
 These web components are not available for React Native yet. Each deferral has a reason and date in the parity exceptions.
 
+- **Assistant 01** (2026-11-17): New web chat block. Chat Input and Model Picker have no native versions yet (see PLATFORMS.md), so the native port waits for them.
+- **Calendar App 01** (2026-11-17): New web calendar block. Its React Native port composes the native Event Calendar and Date Picker, with Time Input still web-only (see PLATFORMS.md).
 - **Data Table** (2026-11-12): The web Data Table draws a TanStack table as an HTML `<table>` with virtual rows, sticky pinned columns and header popovers. Native needs its own grid built on a virtual list, with a horizontal header scroller and sheets for the filters; the native Data Table example keeps showing Table until then.
 - **Data Table Cells** (2026-11-12): The Data Table's typed cells ship with it; they follow it to native (see data-table).
+- **Finance 01** (2026-11-17): New web dashboard block built on App Shell and the charts. Its React Native port waits for a phone layout of the KPI row, charts and tables designed for touch.
+- **Forgot Password 01** (2026-11-17): New web screen block. Its React Native port follows with the other auth blocks; the steps and rules are pure modules it can reuse.
+- **Mail 01** (2026-11-17): New web email block on App Shell. Its React Native port waits for a phone composition of the thread list, the thread sheet and the compose form; the folder, filter and selection rules are pure modules it can reuse.
+- **Messenger 01** (2026-11-17): New web chat block. Chat Input has no native version yet (see PLATFORMS.md), so the native port waits for it.
+- **Sign In 01** (2026-11-17): New web screen block. Its React Native port (providers, Field, InputGroup and the in-form error) follows in its own change; login-01 to login-05 cover native sign-in until then.
+- **Sign Up 01** (2026-11-17): New web screen block. Its React Native port follows with sign-in-01's; signup-01 to signup-05 cover native sign-up until then.
 
 | Component | Kind | What's different |
 | --- | --- | --- |
