@@ -447,32 +447,5 @@ function FluidHoverSelection({
   )
 }
 
-/** Merge the container ref with a ref passed by the consumer. */
-function useMergedRef<T>(...refs: Array<React.Ref<T> | undefined>) {
-  return React.useCallback(
-    (value: T | null) => {
-      const cleanups: Array<() => void> = []
-      for (const ref of refs) {
-        if (typeof ref === "function") {
-          const cleanup = ref(value)
-          cleanups.push(
-            typeof cleanup === "function" ? cleanup : () => ref(null)
-          )
-        } else if (ref) {
-          ref.current = value
-          cleanups.push(() => {
-            ref.current = null
-          })
-        }
-      }
-      if (value !== null)
-        return () => {
-          for (const cleanup of cleanups) cleanup()
-        }
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    refs
-  )
-}
-
-export { FluidHoverHighlight, FluidHoverSelection, pickNearest, useMergedRef }
+export { useComposedRefs as useMergedRef } from "@radix-ui/react-compose-refs"
+export { FluidHoverHighlight, FluidHoverSelection, pickNearest }

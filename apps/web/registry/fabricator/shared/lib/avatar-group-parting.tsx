@@ -187,6 +187,10 @@ const LABEL_GAP = 4
 const ACTIVE_LIFT = 3
 const ACTIVE_SCALE = 1.06
 
+const subscribeToMount = () => () => {}
+const getClientMountSnapshot = () => true
+const getServerMountSnapshot = () => false
+
 // The item's box without the parting's transforms: the group is its offset
 // parent.
 function getLayoutRect(group: HTMLElement, item: HTMLElement): Rect {
@@ -219,8 +223,11 @@ export function AvatarGroupLabel({
 }) {
   const density = useDensity()
   const label = React.useRef<HTMLDivElement>(null)
-  const [isMounted, setIsMounted] = React.useState(false)
-  React.useEffect(() => setIsMounted(true), [])
+  const isMounted = React.useSyncExternalStore(
+    subscribeToMount,
+    getClientMountSnapshot,
+    getServerMountSnapshot
+  )
 
   React.useLayoutEffect(() => {
     const node = label.current
@@ -273,7 +280,7 @@ export function AvatarGroupLabel({
       window.removeEventListener("scroll", follow, { capture: true })
       window.removeEventListener("resize", follow)
     }
-  }, [activeIndex, group, names])
+  }, [activeIndex, group, isMounted, names])
 
   if (!isMounted || names.size === 0) return null
   return createPortal(

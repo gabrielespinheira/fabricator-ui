@@ -94,6 +94,7 @@ export const fabricatorItems = [
     title: "Fluid Hover",
     description:
       "One highlight that glides to the item nearest the pointer, and a selection background that slides between selected items.",
+    dependencies: ["@radix-ui/react-compose-refs@1.1.5"],
     files: [{ path: "lib/fluid-hover.tsx", type: "registry:lib" }],
   },
   {

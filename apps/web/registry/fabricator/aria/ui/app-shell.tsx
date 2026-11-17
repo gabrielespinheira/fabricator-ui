@@ -636,8 +636,9 @@ function AppShell({
     })
     return () =>
       setConfigs((current) => {
-        const { [id]: _removed, ...rest } = current
-        return rest
+        const next = { ...current }
+        delete next[id]
+        return next
       })
   }, [])
 
