@@ -99,6 +99,13 @@
   },
   {
     "item": "app-shell",
+    "kind": "placeholder",
+    "name": "cn-app-shell-header-menu",
+    "reason": "The web rule overrides the trigger-width popup. The native dropdown measures its content and fits it to the window using the shared native dropdown sizing.",
+    "date": "2026-11-17"
+  },
+  {
+    "item": "app-shell",
     "kind": "slot",
     "name": "app-shell-window-toggle",
     "reason": "The sidebar toggle in a desktop window's top band, beside the traffic lights. React Native draws no window controls here, so `window` is accepted and does nothing.",
