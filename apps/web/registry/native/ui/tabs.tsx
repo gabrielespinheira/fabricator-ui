@@ -123,11 +123,12 @@ function TabsList({
     track: orientation === "vertical" ? "hold" : "drag",
     previewsSelection: true,
   })
+  const { attach } = fluid
   return (
     <FluidHoverProvider fluid={fluid}>
       <FluidHoverArea fluid={fluid}>
         <TabsPrimitive.List
-          ref={fluid.attach}
+          ref={attach}
           data-slot="tabs-list"
           data-variant={resolvedVariant}
           data-orientation={orientation}

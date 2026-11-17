@@ -106,12 +106,12 @@ function ScrollArea({
 
   const updateEdges = (nextOffset: number) => {
     "worklet"
-    fromStart.value = nextOffset
-    toEnd.value = content.value - viewport.value - nextOffset
+    fromStart.set(nextOffset)
+    toEnd.set(content.get() - viewport.get() - nextOffset)
   }
   const onScroll = useAnimatedScrollHandler((event) => {
-    offset.value = isHorizontal ? event.contentOffset.x : event.contentOffset.y
-    updateEdges(offset.value)
+    offset.set(isHorizontal ? event.contentOffset.x : event.contentOffset.y)
+    updateEdges(offset.get())
   })
 
   return (
@@ -127,13 +127,13 @@ function ScrollArea({
         onScroll={onScroll}
         onLayout={(event) => {
           const { width, height } = event.nativeEvent.layout
-          viewport.value = isHorizontal ? width : height
-          updateEdges(offset.value)
+          viewport.set(isHorizontal ? width : height)
+          updateEdges(offset.get())
           onLayout?.(event)
         }}
         onContentSizeChange={(width, height) => {
-          content.value = isHorizontal ? width : height
-          updateEdges(offset.value)
+          content.set(isHorizontal ? width : height)
+          updateEdges(offset.get())
           onContentSizeChange?.(width, height)
         }}
         // A height of 100% of nothing lets a sideways area run away down the page.

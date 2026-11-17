@@ -175,12 +175,12 @@ function SheetPanel({
       reduceMotion: ReduceMotion.Never,
     }
     if (isReduced) {
-      offset.value = 0
-      fade.value = withTiming(1, config)
+      offset.set(0)
+      fade.set(withTiming(1, config))
       return
     }
-    fade.value = 1
-    offset.value = withTiming(0, config)
+    fade.set(1)
+    offset.set(withTiming(0, config))
   }, [drawerEasing, enterMs, fade, isReduced, offset])
 
   const exit = React.useCallback(
@@ -196,14 +196,10 @@ function SheetPanel({
         if (finished) scheduleOnRN(handleExitEnd)
       }
       if (isReduced) {
-        fade.value = withTiming(0, config, onDone)
+        fade.set(withTiming(0, config, onDone))
         return
       }
-      offset.value = withTiming(
-        getClosedOffset(side, size.value),
-        config,
-        onDone
-      )
+      offset.set(withTiming(getClosedOffset(side, size.get()), config, onDone))
     },
     [drawerEasing, fade, handleExitEnd, isReduced, offset, side, size]
   )
@@ -254,14 +250,14 @@ function SheetPanel({
   const handleLayout = (event: LayoutChangeEvent) => {
     const { width, height } = event.nativeEvent.layout
     const measured = axis === "y" ? height : width
-    size.value = measured
+    size.set(measured)
     if (isMeasured.current || measured === 0) return
     isMeasured.current = true
     if (!open) {
       onExited()
       return
     }
-    offset.value = getClosedOffset(side, measured)
+    offset.set(getClosedOffset(side, measured))
     enter()
   }
 
@@ -275,9 +271,11 @@ function SheetPanel({
     return onAxis
       .onUpdate((event) => {
         "worklet"
-        offset.value = getDragOffset(
-          side,
-          axis === "y" ? event.translationY : event.translationX
+        offset.set(
+          getDragOffset(
+            side,
+            axis === "y" ? event.translationY : event.translationX
+          )
         )
       })
       .onEnd((event, success) => {
@@ -287,19 +285,21 @@ function SheetPanel({
         const velocity = axis === "y" ? event.velocityY : event.velocityX
         if (
           !success ||
-          !shouldDismissSheet({ side, size: size.value, translation, velocity })
+          !shouldDismissSheet({ side, size: size.get(), translation, velocity })
         ) {
           // A swipe that didn't make it settles back on the sheet's own timing.
-          offset.value = withTiming(0, {
-            duration: enterMs,
-            easing: drawerEasing,
-          })
+          offset.set(
+            withTiming(0, {
+              duration: enterMs,
+              easing: drawerEasing,
+            })
+          )
           return
         }
         exit(
           getDismissDuration({
             remaining: Math.abs(
-              getClosedOffset(side, size.value) - offset.value
+              getClosedOffset(side, size.get()) - offset.get()
             ),
             velocity: Math.abs(velocity),
             duration: exitMs,
@@ -321,16 +321,16 @@ function SheetPanel({
   ])
 
   const panelStyle = useAnimatedStyle(() => ({
-    opacity: fade.value,
+    opacity: fade.get(),
     transform:
       axis === "y"
-        ? [{ translateY: offset.value }]
-        : [{ translateX: offset.value }],
+        ? [{ translateY: offset.get() }]
+        : [{ translateX: offset.get() }],
   }))
   const overlayStyle = useAnimatedStyle(() => {
     const travelled =
-      size.value > 0 ? Math.min(Math.abs(offset.value) / size.value, 1) : 1
-    return { opacity: fade.value * (1 - travelled) }
+      size.get() > 0 ? Math.min(Math.abs(offset.get()) / size.get(), 1) : 1
+    return { opacity: fade.get() * (1 - travelled) }
   })
 
   const context = React.useMemo(

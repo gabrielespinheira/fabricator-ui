@@ -656,7 +656,7 @@ function AppShellScrollProvider({ children }: { children: React.ReactNode }) {
   const [hasBottomNav, setHasBottomNav] = React.useState(false)
   const [hasFab, setHasFab] = React.useState(false)
   const [hasPageTitle, setHasPageTitle] = React.useState(false)
-  const [phoneHeaderHeight, setPhoneHeaderHeight] = React.useState(0)
+  const [phoneHeaderHeight, setHeaderHeight] = React.useState(0)
   const [bottomNavOverlap, setBottomNavOverlap] = React.useState(0)
   const scrollRoot = React.useRef<React.ComponentRef<typeof ScrollView>>(null)
   const title = React.useRef<{ bottom: number; node: React.ReactNode } | null>(
@@ -664,7 +664,10 @@ function AppShellScrollProvider({ children }: { children: React.ReactNode }) {
   )
   const scrollY = React.useRef(0)
   const headerReach = React.useRef(0)
-  headerReach.current = phoneHeaderHeight
+  const setPhoneHeaderHeight = React.useCallback((height: number) => {
+    headerReach.current = height
+    setHeaderHeight(height)
+  }, [])
 
   const syncTitle = React.useCallback(() => {
     const isAway = isTitleScrolledAway({
@@ -718,6 +721,7 @@ function AppShellScrollProvider({ children }: { children: React.ReactNode }) {
       onContentScroll,
       pageTitle,
       phoneHeaderHeight,
+      setPhoneHeaderHeight,
       setTitle,
     ]
   )
@@ -1753,11 +1757,12 @@ function AppShellBottomNav({
     )
   }
   if (isClaimed) return null
+  const { attach } = fluid
   const track = (
     <FluidHoverProvider fluid={fluid}>
       <FluidHoverArea fluid={fluid}>
         <View
-          ref={fluid.attach}
+          ref={attach}
           data-slot="app-shell-bottom-nav-track"
           data-variant={variant}
           className="cn-app-shell-bottom-nav-track relative flex-row"
@@ -1951,7 +1956,7 @@ function AppShellBottomNavItem({
 
 // MARK: Panels
 
-type AppShellPanelView = {
+type AppShellPanelViewOption = {
   value: string
   label: string
   icon?: IconLike
@@ -1963,7 +1968,7 @@ type PanelContextValue = {
   id: string
   label: string
   side: "left" | "right"
-  views: AppShellPanelView[]
+  views: AppShellPanelViewOption[]
   placement: PanelPlacement
   panel: PanelState
   setOpen: (open: boolean) => void
@@ -2035,7 +2040,7 @@ function PanelViewShortcut({
   view,
 }: {
   panelId: string
-  view: AppShellPanelView
+  view: AppShellPanelViewOption
 }) {
   const { select } = useShellPanel(panelId)
   useShellShortcut(
@@ -2071,7 +2076,7 @@ function AppShellPanel({
   label: string
   side?: "left" | "right"
   /** Views the header's AppShellPanelTabs switches between. */
-  views?: AppShellPanelView[]
+  views?: AppShellPanelViewOption[]
   defaultOpen?: boolean
   defaultView?: string
   defaultWidth?: number
@@ -2676,7 +2681,7 @@ export {
   useShortcutLabel,
   type AppShellAction,
   type AppShellBreadcrumbItem,
-  type AppShellPanelView as AppShellPanelViewOption,
+  type AppShellPanelViewOption,
   type AppShellWindow,
   type IconLike,
   type ShellShortcut,
