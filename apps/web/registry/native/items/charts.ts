@@ -4,6 +4,8 @@ import { docs } from "./shared"
 
 // Charts: SVG drawn from the website's chart models, so a chart lays out the
 // same on every platform. The kit holds the parts every chart shares.
+// Expo installs the type packages with the copied source because shadcn's
+// Expo adapter cannot install registry devDependencies.
 export const chartItems: Registry["items"] = [
   {
     name: "chart-kit",
@@ -19,8 +21,8 @@ export const chartItems: Registry["items"] = [
       "react-native-reanimated",
       "react-native-svg",
       "uniwind@1.13.1",
+      "@types/d3-scale@4.0.9",
     ],
-    devDependencies: ["@types/d3-scale@4.0.9"],
     registryDependencies: [
       "@fabricator/feedback",
       "@fabricator/motion",
@@ -44,8 +46,8 @@ export const chartItems: Registry["items"] = [
       "d3-shape@3.2.1",
       "react-native-svg",
       "uniwind@1.13.1",
+      "@types/d3-shape@3.2.0",
     ],
-    devDependencies: ["@types/d3-shape@3.2.0"],
     registryDependencies: ["@fabricator/chart-kit"],
     files: [
       { path: "ui/area-chart.tsx", type: "registry:ui" },
@@ -66,8 +68,8 @@ export const chartItems: Registry["items"] = [
       "d3-shape@3.2.1",
       "react-native-svg",
       "uniwind@1.13.1",
+      "@types/d3-shape@3.2.0",
     ],
-    devDependencies: ["@types/d3-shape@3.2.0"],
     registryDependencies: ["@fabricator/chart-kit"],
     files: [
       { path: "ui/line-chart.tsx", type: "registry:ui" },
@@ -152,8 +154,8 @@ export const chartItems: Registry["items"] = [
       "d3-shape@3.2.1",
       "react-native-svg",
       "uniwind@1.13.1",
+      "@types/d3-shape@3.2.0",
     ],
-    devDependencies: ["@types/d3-shape@3.2.0"],
     registryDependencies: [
       "@fabricator/chart-kit",
       "@fabricator/feedback",
@@ -178,8 +180,8 @@ export const chartItems: Registry["items"] = [
       "react-native-reanimated",
       "react-native-svg",
       "uniwind@1.13.1",
+      "@types/d3-shape@3.2.0",
     ],
-    devDependencies: ["@types/d3-shape@3.2.0"],
     registryDependencies: [
       "@fabricator/chart-kit",
       "@fabricator/motion",
@@ -205,8 +207,8 @@ export const chartItems: Registry["items"] = [
       "react-native-reanimated",
       "react-native-svg",
       "uniwind@1.13.1",
+      "@types/d3-shape@3.2.0",
     ],
-    devDependencies: ["@types/d3-shape@3.2.0"],
     registryDependencies: [
       "@fabricator/chart-kit",
       "@fabricator/motion",
@@ -231,8 +233,8 @@ export const chartItems: Registry["items"] = [
       "d3-shape@3.2.1",
       "react-native-svg",
       "uniwind@1.13.1",
+      "@types/d3-shape@3.2.0",
     ],
-    devDependencies: ["@types/d3-shape@3.2.0"],
     registryDependencies: ["@fabricator/chart-kit", "@fabricator/text"],
     files: [
       { path: "ui/radial-chart.tsx", type: "registry:ui" },
@@ -315,8 +317,8 @@ export const chartItems: Registry["items"] = [
       "d3-hierarchy@3.1.3",
       "react-native-svg",
       "uniwind@1.13.1",
+      "@types/d3-hierarchy@3.1.7",
     ],
-    devDependencies: ["@types/d3-hierarchy@3.1.7"],
     registryDependencies: ["@fabricator/chart-kit"],
     files: [
       { path: "ui/treemap.tsx", type: "registry:ui" },
