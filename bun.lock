@@ -17,7 +17,7 @@
     },
     "apps/desktop": {
       "name": "@fabricator-ui/desktop",
-      "version": "0.8.0",
+      "version": "0.9.0",
       "devDependencies": {
         "@tauri-apps/cli": "2.12.4",
         "electron": "45.3.2",
@@ -28,11 +28,11 @@
     },
     "apps/swiftui": {
       "name": "@fabricator-ui/swiftui-example",
-      "version": "0.8.0",
+      "version": "0.9.0",
     },
     "apps/tauri-mobile": {
       "name": "@fabricator-ui/tauri-mobile",
-      "version": "0.8.0",
+      "version": "0.9.0",
       "dependencies": {
         "@fabricator-ui/icons": "workspace:*",
         "next-themes": "0.4.6",
@@ -56,7 +56,7 @@
     },
     "apps/web": {
       "name": "web",
-      "version": "0.8.0",
+      "version": "0.9.0",
       "dependencies": {
         "@ai-sdk/anthropic": "4.0.105",
         "@ai-sdk/openai": "4.0.118",
@@ -183,7 +183,7 @@
     },
     "packages/cli": {
       "name": "fabricator-ui",
-      "version": "0.8.0",
+      "version": "0.9.0",
       "bin": {
         "fabricator-ui": "./dist/index.js",
       },
@@ -203,7 +203,7 @@
     },
     "packages/editor-native": {
       "name": "@fabricator-ui/editor-native",
-      "version": "0.8.0",
+      "version": "0.9.0",
       "peerDependencies": {
         "expo": "*",
         "react": "*",
@@ -217,7 +217,7 @@
     },
     "packages/icons": {
       "name": "@fabricator-ui/icons",
-      "version": "0.8.0",
+      "version": "0.9.0",
       "devDependencies": {
         "@fabricator-ui/icons-core": "workspace:*",
         "@lucide/icons": "1.73.0",
@@ -243,7 +243,7 @@
     },
     "packages/icons-core": {
       "name": "@fabricator-ui/icons-core",
-      "version": "0.8.0",
+      "version": "0.9.0",
       "dependencies": {
         "svgpath": "2.6.0",
         "svgson": "5.3.1",
@@ -260,7 +260,7 @@
     },
     "packages/icons-react-native": {
       "name": "@fabricator-ui/icons-react-native",
-      "version": "0.8.0",
+      "version": "0.9.0",
       "devDependencies": {
         "@fabricator-ui/icons-core": "workspace:*",
         "@types/node": "^20.19.0",
@@ -281,7 +281,7 @@
     },
     "packages/icons-static": {
       "name": "@fabricator-ui/icons-static",
-      "version": "0.8.0",
+      "version": "0.9.0",
       "bin": {
         "fabricator-icons": "./dist/esm/cli.js",
       },
@@ -301,7 +301,7 @@
     },
     "packages/setup": {
       "name": "@fabricator-ui/setup",
-      "version": "0.8.0",
+      "version": "0.9.0",
       "dependencies": {
         "zod": "4.6.7",
       },
@@ -312,7 +312,7 @@
     },
     "packages/tests": {
       "name": "@fabricator-ui/tests",
-      "version": "0.8.0",
+      "version": "0.9.0",
       "devDependencies": {
         "@types/node": "^22.10.0",
       },
