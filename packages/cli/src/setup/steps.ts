@@ -122,6 +122,14 @@ function shadcn(context: SetupContext, args: string[], cwd = context.cwd) {
     cwd,
     logFile: context.logFile,
     stream: context.stream,
+    // Bun's default fan-out can reset connections while loading an entire registry.
+    env:
+      context.setup.components === "all" && process.versions.bun
+        ? {
+            BUN_CONFIG_MAX_HTTP_REQUESTS:
+              process.env.BUN_CONFIG_MAX_HTTP_REQUESTS ?? "32",
+          }
+        : undefined,
   })
 }
 
