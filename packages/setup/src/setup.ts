@@ -343,18 +343,6 @@ export function hasWebApp(apps: AppChoices) {
   return isWebFramework(apps.framework)
 }
 
-/**
- * A new project's root gets the library's DESIGN.md beside the agent skill,
- * which reads it before designing a screen. An existing project keeps its own.
- */
-export function hasDesignGuide(
-  setup: Pick<ProjectSetup, "project" | "assistants" | "skill">
-) {
-  return (
-    setup.project !== "existing" && setup.assistants.length > 0 && setup.skill
-  )
-}
-
 /** Removes the states no project can be in, so the page and the command agree. */
 export function normalizeProjectSetup(setup: ProjectSetup): ProjectSetup {
   const apps = resolveApps(setup)

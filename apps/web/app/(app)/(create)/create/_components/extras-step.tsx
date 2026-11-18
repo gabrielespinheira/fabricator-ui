@@ -180,7 +180,7 @@ export function ExtrasControls({
               description={
                 choices.project === "existing"
                   ? "Teaches them the components, their composition rules and the CLI."
-                  : "Teaches them the components, their composition rules and the CLI, with the design guide in DESIGN.md."
+                  : "Teaches them how to choose, compose and install Fabricator UI components."
               }
               icon={<BookOpenIcon />}
               checked={choices.skill}

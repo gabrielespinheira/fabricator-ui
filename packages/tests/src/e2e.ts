@@ -168,6 +168,12 @@ function monorepoScenario(
       const web = path.join(root, "apps/web")
       const mobile = path.join(root, "apps/mobile")
       const desktopDir = path.join(root, "apps/desktop")
+      const readme = assertScaffoldDocs(root)
+      assert(readme.includes("--cwd apps/web"), "Missing web component command")
+      assert(
+        readme.includes("--cwd apps/mobile"),
+        "Missing native component command"
+      )
 
       // Libs live beside the components that import them.
       assert(
@@ -230,16 +236,6 @@ function monorepoScenario(
       assert(
         fs.existsSync(path.join(root, ".agents/skills/fabricator/SKILL.md")),
         "Codex has no skill"
-      )
-      assert(
-        fs.existsSync(path.join(root, "DESIGN.md")),
-        "The skill came without the design guide"
-      )
-      assert(
-        fs
-          .readFileSync(path.join(root, "AGENTS.md"), "utf8")
-          .includes("<!-- BEGIN:fabricator-ui -->"),
-        "AGENTS.md doesn't point agents at the design guide"
       )
       assert(
         fs
@@ -316,6 +312,25 @@ function assertNoEslintOrPrettier(root: string) {
 
 function assert(condition: unknown, message: string): asserts condition {
   if (!condition) throw new Error(message)
+}
+
+function assertScaffoldDocs(root: string) {
+  const readme = fs.readFileSync(path.join(root, "README.md"), "utf8")
+  assert(
+    readme.startsWith(`# ${path.basename(root)}\n`),
+    "README has the wrong title"
+  )
+  assert(
+    readme.includes("[DESIGN.md](DESIGN.md)"),
+    "README has no design guide link"
+  )
+  assert(fs.existsSync(path.join(root, "DESIGN.md")), "Design guide is missing")
+  const agents = fs.readFileSync(path.join(root, "AGENTS.md"), "utf8")
+  assert(
+    agents.includes("[DESIGN.md](DESIGN.md)"),
+    "AGENTS.md has no design guide link"
+  )
+  return readme
 }
 
 const FABRICATOR_ICONS = "@fabricator-ui/icons"
@@ -590,6 +605,7 @@ const scenarios: Scenario[] = [
           dir
         )
         const appDir = path.join(dir, "app")
+        assertScaffoldDocs(appDir)
         assertRegistry(appDir)
         assertMounted(appDir, framework)
         run("bun", ["run", "build"], appDir)
@@ -603,6 +619,7 @@ const scenarios: Scenario[] = [
     run(dir: string) {
       cli(["create", "app", "-t", "expo", "--yes", "-c", dir], dir)
       const appDir = path.join(dir, "app")
+      assertScaffoldDocs(appDir)
       assert(
         fs
           .readFileSync(path.join(appDir, "src/app/_layout.tsx"), "utf8")
@@ -654,6 +671,7 @@ const scenarios: Scenario[] = [
       // A monorepo is what `create` makes when nothing says otherwise.
       cli(["create", "app", "--yes", "-c", dir], dir)
       const root = path.join(dir, "app")
+      assertScaffoldDocs(root)
       const web = path.join(root, "apps/web")
       // From the root, the one app is found.
       cli(["add", "dropdown-menu", "tabs", "-y", "-o"], root)
@@ -762,6 +780,7 @@ const scenarios: Scenario[] = [
     run(dir: string) {
       cli(["create", "app", "--mobile", "--no-web", "--yes", "-c", dir], dir)
       const root = path.join(dir, "app")
+      assertScaffoldDocs(root)
       const mobile = path.join(root, "apps/mobile")
       assert(
         fs
@@ -1073,6 +1092,7 @@ const scenarios: Scenario[] = [
         dir
       )
       const appDir = path.join(dir, "app")
+      assertScaffoldDocs(appDir)
       assertRegistry(appDir)
       cli(["add", "dialog", "select", "-y", "-o", "-c", appDir], appDir)
       assertIconPack(appDir, "lucide")

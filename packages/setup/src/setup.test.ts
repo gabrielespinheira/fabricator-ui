@@ -2,7 +2,6 @@ import { describe, expect, it } from "vitest"
 
 import {
   DEFAULT_PROJECT_SETUP,
-  hasDesignGuide,
   isWebFramework,
   normalizeProjectSetup,
   parseKeyValues,
@@ -91,28 +90,6 @@ describe("normalizeProjectSetup", () => {
       normalizeProjectSetup(setup({ assistants: ["codex", "claude", "codex"] }))
         .assistants
     ).toEqual(["claude", "codex"])
-  })
-})
-
-describe("hasDesignGuide", () => {
-  it("comes with the agent skill in a new project", () => {
-    expect(hasDesignGuide(setup({ assistants: ["claude"] }))).toBe(true)
-    expect(
-      hasDesignGuide(setup({ project: "new", assistants: ["codex"] }))
-    ).toBe(true)
-  })
-
-  it("needs an assistant and the skill", () => {
-    expect(hasDesignGuide(setup({ assistants: [] }))).toBe(false)
-    expect(
-      hasDesignGuide(setup({ assistants: ["claude"], skill: false }))
-    ).toBe(false)
-  })
-
-  it("leaves an existing project's design alone", () => {
-    expect(
-      hasDesignGuide(setup({ project: "existing", assistants: ["claude"] }))
-    ).toBe(false)
   })
 })
 

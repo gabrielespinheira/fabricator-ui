@@ -165,6 +165,7 @@ describe("getSetupPlan", () => {
       "configure-workspace",
       "install",
       "mount",
+      "write-project-docs",
       "first-commit",
     ])
   })

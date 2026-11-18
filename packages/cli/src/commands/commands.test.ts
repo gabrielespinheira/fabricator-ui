@@ -10,7 +10,7 @@ import { collectChecks, getWorkspaceChecks, majorVersion } from "./doctor"
 import {
   buildInitArgs,
   buildStarterButtonArgs,
-  findProjectDir,
+  findScaffoldedProject,
   resolvePlatform,
 } from "./init"
 import { getNativeNextSteps } from "./init-native"
@@ -162,7 +162,7 @@ describe("buildInitArgs", () => {
   })
 })
 
-describe("findProjectDir", () => {
+describe("findScaffoldedProject", () => {
   let dir: string
   beforeEach(() => {
     dir = mkdtempSync(path.join(tmpdir(), "fabricator-init-"))
@@ -178,33 +178,43 @@ describe("findProjectDir", () => {
   it("uses cwd when it already had a package.json", () => {
     writeFileSync(path.join(dir, "components.json"), "{}")
     expect(
-      findProjectDir({ cwd: dir, hadPackageJson: true, before: new Set() })
-    ).toBe(dir)
+      findScaffoldedProject({
+        cwd: dir,
+        hadPackageJson: true,
+        before: new Set(),
+      })
+    ).toEqual({ root: dir, appDir: dir })
   })
 
   it("uses --name", () => {
     project("my-app")
     expect(
-      findProjectDir({
+      findScaffoldedProject({
         cwd: dir,
         hadPackageJson: false,
         before: new Set(),
         name: "my-app",
       })
-    ).toBe(path.join(dir, "my-app"))
+    ).toEqual({
+      root: path.join(dir, "my-app"),
+      appDir: path.join(dir, "my-app"),
+    })
   })
 
   it("finds the single new project directory", () => {
     mkdirSync(path.join(dir, "existing"))
     project("picked-name")
     expect(
-      findProjectDir({
+      findScaffoldedProject({
         cwd: dir,
         hadPackageJson: false,
         before: new Set(["existing"]),
         template: "vite",
       })
-    ).toBe(path.join(dir, "picked-name"))
+    ).toEqual({
+      root: path.join(dir, "picked-name"),
+      appDir: path.join(dir, "picked-name"),
+    })
   })
 
   it("targets apps/web in a monorepo", () => {
@@ -212,20 +222,23 @@ describe("findProjectDir", () => {
     writeFileSync(path.join(dir, "mono", "package.json"), "{}")
     project("mono/apps/web")
     expect(
-      findProjectDir({
+      findScaffoldedProject({
         cwd: dir,
         hadPackageJson: false,
         before: new Set(),
         name: "mono",
       })
-    ).toBe(path.join(dir, "mono", "apps", "web"))
+    ).toEqual({
+      root: path.join(dir, "mono"),
+      appDir: path.join(dir, "mono", "apps", "web"),
+    })
   })
 
   it("gives up when it cannot tell", () => {
     project("a")
     project("b")
     expect(
-      findProjectDir({
+      findScaffoldedProject({
         cwd: dir,
         hadPackageJson: false,
         before: new Set(),

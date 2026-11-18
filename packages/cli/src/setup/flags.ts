@@ -51,10 +51,7 @@ export function addSetupOptions(command: Command) {
       "--agents <assistants>",
       `AI assistants, comma-separated: ${ASSISTANT_VALUES.join(", ")}`
     )
-    .option(
-      "--no-skill",
-      "don't install the agent skill and DESIGN.md for --agents"
-    )
+    .option("--no-skill", "don't install the agent skill for --agents")
     .option("--no-mcp", "don't configure the MCP server for --agents")
 }
 

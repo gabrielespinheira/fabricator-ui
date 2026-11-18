@@ -21,6 +21,7 @@ describe("planSetup", () => {
     expect(ids({ project: "new" })).toEqual([
       "scaffold-web",
       "mount",
+      "write-project-docs",
       "first-commit",
     ])
   })
@@ -32,6 +33,7 @@ describe("planSetup", () => {
   it("has nothing to mount without the shell and sounds", () => {
     expect(ids({ project: "new", appShell: false, sound: false })).toEqual([
       "scaffold-web",
+      "write-project-docs",
       "first-commit",
     ])
   })
@@ -57,6 +59,7 @@ describe("planSetup", () => {
       "install",
       "setup-mobile",
       "mount",
+      "write-project-docs",
       "first-commit",
     ])
   })
@@ -69,6 +72,7 @@ describe("planSetup", () => {
       "configure-workspace",
       "install",
       "mount",
+      "write-project-docs",
       "first-commit",
     ])
   })
@@ -84,6 +88,7 @@ describe("planSetup", () => {
       "install",
       "mount",
       "format-code",
+      "write-project-docs",
       "first-commit",
     ])
     expect(ids({ project: "monorepo", framework: "react-router" })).toContain(
@@ -122,6 +127,7 @@ describe("planSetup", () => {
       "install",
       "setup-mobile",
       "mount",
+      "write-project-docs",
       "first-commit",
     ])
   })
@@ -131,6 +137,7 @@ describe("planSetup", () => {
       "scaffold-mobile",
       "setup-mobile",
       "mount",
+      "write-project-docs",
       "first-commit",
     ])
   })
@@ -148,20 +155,19 @@ describe("planSetup", () => {
     )
   })
 
-  it("mentions the design guide only when it writes one", () => {
+  it("plans root docs for new projects independently of assistant setup", () => {
     const detail = (changes: Partial<ProjectSetup>) =>
-      planSetup(setup(changes)).find((item) => item.id === "agents")?.detail
-    expect(detail({ assistants: ["claude"] })).toContain("DESIGN.md")
-    expect(detail({ assistants: ["claude"] })).toContain("AGENTS.md")
-    expect(detail({ assistants: ["claude"], skill: false })).not.toContain(
-      "DESIGN.md"
-    )
+      planSetup(setup(changes)).find((item) => item.id === "write-project-docs")
+        ?.detail
+    for (const document of ["README.md", "DESIGN.md", "AGENTS.md"]) {
+      expect(detail({ assistants: [] })).toContain(document)
+      expect(detail({ assistants: ["claude"], skill: false })).toContain(
+        document
+      )
+    }
     expect(
       detail({ project: "existing", assistants: ["claude"] })
-    ).not.toContain("DESIGN.md")
-    expect(
-      detail({ project: "existing", assistants: ["claude"] })
-    ).not.toContain("AGENTS.md")
+    ).toBeUndefined()
   })
 
   it("names every assistant it sets up", () => {

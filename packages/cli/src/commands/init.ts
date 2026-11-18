@@ -1,5 +1,6 @@
 import { existsSync, readdirSync, statSync } from "node:fs"
 import path from "node:path"
+import { DEFAULT_PROJECT_SETUP } from "@fabricator-ui/setup"
 import { Command } from "commander"
 
 import {
@@ -8,12 +9,14 @@ import {
   setupFromInitFlags,
   type SetupFlags,
 } from "../setup/flags"
+import { writeProjectDocs } from "../setup/project-docs"
 import { runSetup } from "../setup/run-setup"
 import {
   ensureRegistry,
   getBaseFromStyle,
   readComponentsJson,
 } from "../utils/config"
+import { detectFramework } from "../utils/frameworks"
 import { highlight, logger } from "../utils/logger"
 import { rewriteNames } from "../utils/names"
 import {
@@ -126,13 +129,13 @@ function listDirectories(dir: string): Set<string> {
  *   the template's default name (`<template>-app`).
  * Monorepo templates keep the app in `apps/web`.
  */
-export function findProjectDir(input: {
+export function findScaffoldedProject(input: {
   cwd: string
   hadPackageJson: boolean
   before: Set<string>
   name?: string
   template?: string
-}): string | undefined {
+}) {
   let root: string | undefined
   if (input.hadPackageJson) {
     root = input.cwd
@@ -153,7 +156,9 @@ export function findProjectDir(input: {
   }
   if (!root) return undefined
   for (const candidate of [root, path.join(root, "apps", "web")]) {
-    if (existsSync(path.join(candidate, "components.json"))) return candidate
+    if (existsSync(path.join(candidate, "components.json"))) {
+      return { root, appDir: candidate }
+    }
   }
   return undefined
 }
@@ -343,19 +348,22 @@ export async function init(
   }
 
   const hadPackageJson = existsSync(path.join(cwd, "package.json"))
+  const hadNamedDestination = Boolean(
+    options.name && existsSync(path.resolve(cwd, options.name))
+  )
   const before = listDirectories(cwd)
   const result = await runShadcn(args)
   if (result.code !== 0 || result.signal || !options.template)
     return exitLike(result)
 
-  const projectDir = findProjectDir({
+  const project = findScaffoldedProject({
     cwd,
     hadPackageJson,
     before,
     name: options.name,
     template: options.template,
   })
-  if (!projectDir) {
+  if (!project) {
     logger.break()
     logger.warn(
       "Could not find the new project's components.json to install the Fabricator button."
@@ -365,6 +373,8 @@ export async function init(
     )
     return
   }
+
+  const { root, appDir: projectDir } = project
 
   ensureRegistry(projectDir, fabricatorRegistryTemplate(baseUrl))
   alignWorkspaceAliases(projectDir)
@@ -386,6 +396,27 @@ export async function init(
     )
   }
   syncWorkspaceAfterAdd(projectDir)
+  if (
+    followUp.code === 0 &&
+    !followUp.signal &&
+    !hadPackageJson &&
+    !hadNamedDestination
+  ) {
+    const framework = detectFramework(projectDir)
+    if (framework) {
+      writeProjectDocs(
+        root,
+        {
+          ...DEFAULT_PROJECT_SETUP,
+          name: path.basename(root),
+          project: root === projectDir ? "new" : "monorepo",
+          framework,
+          base,
+        },
+        detectPackageManager(root)
+      )
+    }
+  }
   return exitLike(followUp)
 }
 

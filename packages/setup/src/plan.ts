@@ -7,7 +7,6 @@ import {
   getAssistantLabel,
   getBaseLabel,
   getFrameworkLabel,
-  hasDesignGuide,
   hasWebApp,
   isWebFramework,
   normalizeProjectSetup,
@@ -32,6 +31,7 @@ export type StepId =
   | "setup-mobile"
   | "mount"
   | "agents"
+  | "write-project-docs"
   | "format-code"
   | "first-commit"
 
@@ -83,9 +83,6 @@ function agentSteps(setup: ProjectSetup): PlanStep[] {
   if (setup.assistants.length === 0 || (!setup.skill && !setup.mcp)) return []
   const parts = [
     ...(setup.skill ? ["the agent skill"] : []),
-    ...(hasDesignGuide(setup)
-      ? ["the design guide in DESIGN.md, which AGENTS.md points to"]
-      : []),
     ...(setup.mcp ? ["the MCP server"] : []),
   ]
   return [
@@ -95,6 +92,12 @@ function agentSteps(setup: ProjectSetup): PlanStep[] {
       detail: `Adds ${listLabels(parts)}, so your assistant knows the components and can install them.`,
     },
   ]
+}
+
+const WRITE_PROJECT_DOCS: PlanStep = {
+  id: "write-project-docs",
+  title: "Write the project docs",
+  detail: "Adds README.md, DESIGN.md and AGENTS.md at the project root.",
 }
 
 /** Biome and Vite+ reformat what the templates and the registry wrote. */
@@ -213,6 +216,7 @@ function mobileMonorepoSteps(setup: ProjectSetup): PlanStep[] {
     ...mountStep(setup),
     ...agentSteps(setup),
     ...formatSteps(setup),
+    WRITE_PROJECT_DOCS,
     FIRST_COMMIT,
   ]
 }
@@ -263,6 +267,7 @@ function monorepoSteps(setup: ProjectSetup): PlanStep[] {
     ...mountStep(setup),
     ...agentSteps(setup),
     ...formatSteps(setup),
+    WRITE_PROJECT_DOCS,
     FIRST_COMMIT,
   ]
 }
@@ -281,6 +286,7 @@ function expoSteps(setup: ProjectSetup): PlanStep[] {
     },
     ...mountStep(setup),
     ...agentSteps(setup),
+    WRITE_PROJECT_DOCS,
     FIRST_COMMIT,
   ]
 }
@@ -310,6 +316,7 @@ function webSteps(setup: ProjectSetup): PlanStep[] {
     },
     ...mountStep(setup),
     ...agentSteps(setup),
+    WRITE_PROJECT_DOCS,
     FIRST_COMMIT,
   ]
 }
@@ -329,6 +336,13 @@ const LOCAL_RUNNERS: Record<PackageManager, string> = {
   pnpm: "pnpm exec",
   yarn: "yarn",
   bun: "bunx --bun",
+}
+
+export function getExpoBuildCommand(
+  packageManager: PackageManager,
+  platform: "ios" | "android"
+) {
+  return `${LOCAL_RUNNERS[packageManager]} expo run:${platform}`
 }
 
 export function getNextSteps(
@@ -361,7 +375,7 @@ export function getNextSteps(
       open,
       {
         label: "Build and run the app",
-        code: `${LOCAL_RUNNERS[packageManager]} expo run:ios`,
+        code: getExpoBuildCommand(packageManager, "ios"),
       },
     ]
   }

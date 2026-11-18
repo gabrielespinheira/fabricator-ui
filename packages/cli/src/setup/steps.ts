@@ -16,7 +16,6 @@ import path from "node:path"
 import { fileURLToPath } from "node:url"
 import {
   EXPO_SDK,
-  hasDesignGuide,
   hasWebApp,
   projectName,
   type Framework,
@@ -64,7 +63,8 @@ import {
   getNativeItems,
   getWebItems,
 } from "./items"
-import { writeAgentInstructions, writeDesignGuide, writeSkill } from "./skill"
+import { writeProjectDocs } from "./project-docs"
+import { writeSkill } from "./skill"
 import {
   buildBiomeConfig,
   buildFixCommand,
@@ -791,12 +791,8 @@ const mount: Step = async (context) => {
 }
 
 const agents: Step = async (context) => {
-  const { setup, root, packageManager } = context
+  const { setup, root } = context
   if (setup.skill) writeSkill(root, setup.assistants)
-  if (hasDesignGuide(setup)) {
-    writeDesignGuide(root)
-    writeAgentInstructions(root, setup.assistants, packageManager)
-  }
   if (setup.mcp) {
     const clients: McpClient[] = setup.assistants
     const appDir =
@@ -812,6 +808,10 @@ const agents: Step = async (context) => {
       )
     }
   }
+}
+
+const documentProject: Step = async ({ root, setup, packageManager }) => {
+  writeProjectDocs(root, setup, packageManager)
 }
 
 const formatCode: Step = async (context) => {
@@ -940,6 +940,7 @@ export const STEPS: Record<StepId, Step> = {
   mount,
   agents,
   "format-code": formatCode,
+  "write-project-docs": documentProject,
   "first-commit": firstCommit,
 }
 

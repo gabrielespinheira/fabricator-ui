@@ -31,7 +31,7 @@ describe("getProjectTree", () => {
     )
     expect(tree.name).toBe("acme")
     expect(tree.mark).toBe("vite")
-    expect(tree.children).toEqual([])
+    expect(names(tree)).toEqual(["AGENTS.md", "DESIGN.md", "README.md"])
   })
 
   it("lays out a monorepo's apps", () => {
@@ -62,7 +62,10 @@ describe("getProjectTree", () => {
       "apps",
       "packages",
       ".prettierrc",
+      "AGENTS.md",
+      "DESIGN.md",
       "package.json",
+      "README.md",
       "turbo.json",
     ])
     expect(find(tree, "apps/web/package.json")?.id).toBe(
@@ -72,13 +75,17 @@ describe("getProjectTree", () => {
     expect(new Set(ids).size).toBe(ids.length)
   })
 
-  it("shows the design guide at the root when the skill comes with it", () => {
-    expect(names(getProjectTree(setup({ assistants: ["claude"] })))).toContain(
-      "DESIGN.md"
-    )
+  it("shows the project docs at the root without the agent skill", () => {
     expect(
       names(getProjectTree(setup({ assistants: ["claude"], skill: false })))
-    ).not.toContain("DESIGN.md")
+    ).toEqual(
+      expect.arrayContaining([
+        "README.md",
+        "DESIGN.md",
+        "AGENTS.md",
+        "CLAUDE.md",
+      ])
+    )
   })
 
   it("shows AGENTS.md beside the design guide, and CLAUDE.md for Claude Code", () => {
@@ -88,9 +95,6 @@ describe("getProjectTree", () => {
     const codex = names(getProjectTree(setup({ assistants: ["codex"] })))
     expect(codex).toContain("AGENTS.md")
     expect(codex).not.toContain("CLAUDE.md")
-    expect(
-      names(getProjectTree(setup({ assistants: ["claude"], skill: false })))
-    ).not.toContain("AGENTS.md")
   })
 
   it("has no tree of its own for an existing project", () => {
@@ -289,9 +293,12 @@ describe("the tree's components", () => {
     const tree = getProjectTree(setup({ framework: "expo", appShell: false }))
     expect(names(tree)).toEqual([
       "src",
+      "AGENTS.md",
       "app.json",
       "components.json",
+      "DESIGN.md",
       "package.json",
+      "README.md",
     ])
     expect(find(tree, "src/components/ui/button.tsx")).toBeDefined()
   })

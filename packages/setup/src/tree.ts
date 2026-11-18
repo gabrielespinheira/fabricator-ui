@@ -5,7 +5,6 @@ import {
   EXPO_SDK,
   getBaseLabel,
   getFrameworkLabel,
-  hasDesignGuide,
   hasWebApp,
   isWebFramework,
   normalizeProjectSetup,
@@ -93,10 +92,16 @@ function withIds(draft: Draft, parentId?: string): ProjectTreeNode {
   }
 }
 
-/**
- * The skill, the design guide with the AGENTS.md block that points at it (and
- * CLAUDE.md importing that for Claude Code), and each assistant's MCP config.
- */
+function projectDocs(setup: ProjectSetup): Draft[] {
+  return [
+    file("README.md"),
+    file("DESIGN.md"),
+    file("AGENTS.md"),
+    ...(setup.assistants.includes("claude") ? [file("CLAUDE.md")] : []),
+  ]
+}
+
+/** The optional skill and each assistant's MCP config. */
 function agentFiles(setup: ProjectSetup): Draft[] {
   if (setup.assistants.length === 0) return []
   return [
@@ -104,13 +109,6 @@ function agentFiles(setup: ProjectSetup): Draft[] {
       ? getSkillDirectories(setup.assistants).flatMap((directory) =>
           folderPath(directory, [file("SKILL.md")])
         )
-      : []),
-    ...(hasDesignGuide(setup)
-      ? [
-          file("DESIGN.md"),
-          file("AGENTS.md"),
-          ...(setup.assistants.includes("claude") ? [file("CLAUDE.md")] : []),
-        ]
       : []),
     ...(setup.mcp
       ? setup.assistants.map((assistant) =>
@@ -285,6 +283,7 @@ function monorepoTree(setup: ProjectSetup, note: string): Draft {
       ...(hasWeb ? [webPackages(setup)] : []),
       ...(hasWeb && setup.runner === "turborepo" ? [file("turbo.json")] : []),
       ...toolingFiles(setup),
+      ...projectDocs(setup),
       ...agentFiles(setup),
       file("package.json"),
     ],
@@ -320,6 +319,7 @@ export function getProjectTree(rawSetup: ProjectSetup): ProjectTreeNode {
               ...nativeFiles(setup),
             ]
           : []),
+        ...projectDocs(setup),
         ...agentFiles(setup),
       ],
     })
