@@ -194,26 +194,28 @@ export function useFluidHover({
 
   // The selection appears at once, so a page never opens with its pill fading in,
   // and slides between rows on the move timing.
-  const syncSelection = useLatestCallback(() => {
-    const rect = selected ? (rects.current.get(selected) ?? null) : null
-    const previous = selectionRect.current
-    if (sameRect(previous, rect)) return
-    selectionRect.current = rect
-    if (!rect) {
-      selection.opacity.set(withTiming(0, fadeOut))
-      return
+  const syncSelection = useLatestCallback(
+    (selectedKey: string | undefined = selected) => {
+      const rect = selectedKey ? (rects.current.get(selectedKey) ?? null) : null
+      const previous = selectionRect.current
+      if (sameRect(previous, rect)) return
+      selectionRect.current = rect
+      if (!rect) {
+        selection.opacity.set(withTiming(0, fadeOut))
+        return
+      }
+      placeOverlay(
+        selection,
+        rect,
+        shouldGlide(previous, rect) && !move.isReduced
+          ? { duration: move.enterMs, easing: move.moveEasing }
+          : null
+      )
+      selection.opacity.set(1)
     }
-    placeOverlay(
-      selection,
-      rect,
-      shouldGlide(previous, rect) && !move.isReduced
-        ? { duration: move.enterMs, easing: move.moveEasing }
-        : null
-    )
-    selection.opacity.set(1)
-  })
+  )
 
-  React.useEffect(syncSelection, [selected, syncSelection])
+  React.useEffect(() => syncSelection(selected), [selected, syncSelection])
 
   const storeRect = React.useCallback(
     (key: string, rect: Rect) => {

@@ -72,7 +72,7 @@ function Spinner({
             key={pattern}
             data-slot="spinner-pattern"
             data-variant={pattern}
-            aria-hidden="true"
+            focusable="false"
             style={{
               display: variant
                 ? "inline"
@@ -110,9 +110,9 @@ function Spinner({
                 />
               </g>
             ) : (
-              getSpinnerDots(pattern).map((dot, index) => (
+              getSpinnerDots(pattern).map((dot) => (
                 <g
-                  key={index}
+                  key={`${dot.x},${dot.y},${dot.phase}`}
                   opacity={dot.opacity}
                   transform={
                     dot.shape === "triangle" || dot.shape === "hexagon"

@@ -53,6 +53,7 @@ import {
   formatShortcut,
   getDefaultPanelShortcut,
   getHeaderMenu,
+  getKeyedBreadcrumbs,
   getPanelPlacement,
   getPanelTriggerAnchor,
   getShellSize,
@@ -115,7 +116,6 @@ import {
 } from "@/registry/native/lib/fluid-hover"
 import { useMotion, useSurfaceAnimation } from "@/registry/native/lib/motion"
 import { parseNumber } from "@/registry/native/lib/motion-tokens"
-import { getTextContent } from "@/registry/native/lib/overlay-model"
 import { renderSlot, type RenderProps } from "@/registry/native/lib/render"
 import {
   SheetSurface,
@@ -242,7 +242,9 @@ type ShortcutRegistry = {
 function createShortcutRegistry(): ShortcutRegistry {
   let entries: ShortcutEntry[] = []
   const listeners = new Set<() => void>()
-  const emit = () => listeners.forEach((listener) => listener())
+  const emit = () => {
+    for (const listener of listeners) listener()
+  }
   return {
     register(entry) {
       entries = [...entries, entry]
@@ -1008,9 +1010,9 @@ function BreadcrumbMenuItems({
 }) {
   return (
     <DropdownMenuGroup>
-      {items.map((item, index) => (
+      {getKeyedBreadcrumbs(items).map(({ item, key }) => (
         <DropdownMenuItem
-          key={index}
+          key={key}
           render={item.href && renderLink ? renderLink(item) : undefined}
           onPress={item.onSelect}
         >
@@ -1193,34 +1195,36 @@ function TrailBreadcrumb({
       >
         <Breadcrumb>
           <BreadcrumbList className="cn-app-shell-breadcrumb-list">
-            {[...leading, ...(folded.length ? [null] : []), ...trailing].map(
-              (item, index) => (
-                <React.Fragment key={index}>
-                  <BreadcrumbItem>
-                    {item ? (
-                      <BreadcrumbCrumb item={item} renderLink={renderLink} />
-                    ) : (
-                      <DropdownMenu>
-                        <DropdownMenuTrigger
-                          className="cn-app-shell-breadcrumb-fold items-center"
-                          accessibilityLabel="Show more"
-                          hitSlop={10}
-                        >
-                          <BreadcrumbEllipsis />
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="start">
-                          <BreadcrumbMenuItems
-                            items={folded}
-                            renderLink={renderLink}
-                          />
-                        </DropdownMenuContent>
-                      </DropdownMenu>
-                    )}
-                  </BreadcrumbItem>
-                  <BreadcrumbSeparator />
-                </React.Fragment>
-              )
-            )}
+            {getKeyedBreadcrumbs([
+              ...leading,
+              ...(folded.length ? [null] : []),
+              ...trailing,
+            ]).map(({ item, key }) => (
+              <React.Fragment key={key}>
+                <BreadcrumbItem>
+                  {item ? (
+                    <BreadcrumbCrumb item={item} renderLink={renderLink} />
+                  ) : (
+                    <DropdownMenu>
+                      <DropdownMenuTrigger
+                        className="cn-app-shell-breadcrumb-fold items-center"
+                        accessibilityLabel="Show more"
+                        hitSlop={10}
+                      >
+                        <BreadcrumbEllipsis />
+                      </DropdownMenuTrigger>
+                      <DropdownMenuContent align="start">
+                        <BreadcrumbMenuItems
+                          items={folded}
+                          renderLink={renderLink}
+                        />
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  )}
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+              </React.Fragment>
+            ))}
             {current && (
               <BreadcrumbItem className="min-w-0">
                 <BreadcrumbPage numberOfLines={1}>
@@ -1262,24 +1266,23 @@ function AppShellPageTitle({
 }: React.ComponentProps<typeof Text>) {
   const { scrollRoot, setHasPageTitle, setTitle } = useAppShellScroll()
   const ref = React.useRef<React.ComponentRef<typeof Text>>(null)
-  const text = getTextContent(children)
   // Before paint, and the same commit as the page it replaces: a phone's header
   // must not flash the page's name while the next heading mounts.
   React.useLayoutEffect(() => {
     setHasPageTitle(true)
     return () => setHasPageTitle(false)
   }, [setHasPageTitle])
-  const report = useLatestCallback(() => {
+  const report = useLatestCallback((node: React.ReactNode) => {
     const scroller = scrollRoot.current?.getInnerViewRef()
     if (!scroller) return
     ref.current?.measureLayout(scroller, (_x, y, _width, height) => {
-      setTitle({ bottom: y + height, node: children })
+      setTitle({ bottom: y + height, node })
     })
   })
   React.useEffect(() => {
-    report()
-    return () => setTitle(null)
-  }, [report, setTitle, text])
+    report(children)
+  }, [children, report])
+  React.useEffect(() => () => setTitle(null), [setTitle])
   return (
     <Text
       ref={ref}
@@ -1287,7 +1290,7 @@ function AppShellPageTitle({
       role="heading"
       className={cn("cn-app-shell-page-title", className)}
       onLayout={(event) => {
-        report()
+        report(children)
         onLayout?.(event)
       }}
       {...props}
@@ -1595,7 +1598,7 @@ function AppShellStatusBar({
         <View
           data-slot="app-shell-status-bar"
           data-variant={variant}
-          role="summary"
+          accessibilityRole="summary"
           className={cn("cn-app-shell-status-bar absolute bottom-0", className)}
           style={[
             {
@@ -1781,11 +1784,14 @@ function AppShellBottomNav({
             className="cn-app-shell-bottom-nav-highlight"
           />
           <BottomNavContext value={context}>
-            {React.Children.toArray(children).map((child, index) => (
-              <BottomNavIndexContext key={index} value={index}>
-                {child}
-              </BottomNavIndexContext>
-            ))}
+            {React.Children.map(
+              React.Children.toArray(children),
+              (child, index) => (
+                <BottomNavIndexContext value={index}>
+                  {child}
+                </BottomNavIndexContext>
+              )
+            )}
           </BottomNavContext>
         </View>
       </FluidHoverArea>

@@ -146,11 +146,12 @@ function TabsList({
             className="cn-tabs-highlight"
           />
           <TabsListContext value={resolvedVariant}>
-            {React.Children.toArray(children).map((child, index) => (
-              <TabIndexContext key={index} value={index}>
-                {child}
-              </TabIndexContext>
-            ))}
+            {React.Children.map(
+              React.Children.toArray(children),
+              (child, index) => (
+                <TabIndexContext value={index}>{child}</TabIndexContext>
+              )
+            )}
           </TabsListContext>
         </TabsPrimitive.List>
       </FluidHoverArea>

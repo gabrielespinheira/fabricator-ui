@@ -18,6 +18,7 @@ import {
   getCustomizableNavGroups,
   getDefaultPanelShortcut,
   getHeaderMenu,
+  getKeyedBreadcrumbs,
   getMobileTabItems,
   getNavList,
   getNavPath,
@@ -686,6 +687,24 @@ describe("breadcrumbs", () => {
     expect(folded.folded.map((item) => item.label)).toEqual(["b", "c"])
     expect(folded.trailing.map((item) => item.label)).toEqual(["d", "e"])
     expect(foldBreadcrumbs(items.slice(0, 4), 4).folded).toEqual([])
+  })
+
+  it("keeps link keys stable when other crumbs are removed", () => {
+    const parent = { label: "Projects", href: "/projects" }
+    const settings = { label: "Settings", href: "/settings" }
+    expect(getKeyedBreadcrumbs([parent, settings])[1]?.key).toBe(
+      getKeyedBreadcrumbs([settings])[0]?.key
+    )
+  })
+
+  it("distinguishes repeated labels, rich labels and the folded menu", () => {
+    const entries = getKeyedBreadcrumbs([
+      { label: "Home" },
+      { label: "Home" },
+      { label: { text: "Home" } },
+      null,
+    ])
+    expect(new Set(entries.map(({ key }) => key)).size).toBe(4)
   })
 })
 

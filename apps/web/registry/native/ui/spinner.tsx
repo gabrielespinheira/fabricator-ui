@@ -187,9 +187,9 @@ function Spinner({
           <Loader2Icon size={dimension} color={dotColor} {...props} />
         ) : (
           motion &&
-          dots.map((dot, index) => (
+          dots.map((dot) => (
             <SpinnerDot
-              key={index}
+              key={`${dot.x},${dot.y},${dot.phase}`}
               dot={dot}
               motion={motion}
               clock={clock}

@@ -146,6 +146,7 @@ const IGNORED_FOLDERS = [
   ".react-router",
   ".tanstack",
   ".turbo",
+  "*.icon",
   "android",
   "build",
   "dist",

@@ -710,13 +710,13 @@ function buildLayout(options: PlaygroundOptions, target: AppShellTarget) {
   return [
     "export function AppShellLayout({",
     "  pathname,",
-    "  renderLink = (item) => <a href={item.href} />,",
+    "  renderLink = (item) => <a href={item.href}>{item.label}</a>,",
     "  children,",
     "}: {",
     "  /** The current path, from your router. */",
     "  pathname: string",
     "  /** Your router's link, so moving between pages doesn't reload them. */",
-    "  renderLink?: (item: { id?: string; href?: string }) => React.ReactElement",
+    "  renderLink?: (item: { id?: string; href?: string; label?: React.ReactNode }) => React.ReactElement",
     "  children: React.ReactNode",
     "}) {",
     ...(target.desktop

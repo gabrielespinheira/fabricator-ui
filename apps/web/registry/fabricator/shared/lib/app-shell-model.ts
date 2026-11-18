@@ -1182,6 +1182,23 @@ export function getBreadcrumbsFromPath(
   return crumbs
 }
 
+/** Keeps named crumbs stable as their neighbors change. */
+export function getKeyedBreadcrumbs<
+  T extends { href?: string; label: unknown } | null,
+>(items: readonly T[]) {
+  const occurrences = new Map<string, number>()
+  return items.map((item) => {
+    const identity = JSON.stringify([
+      item === null ? "folded" : "item",
+      item?.href ?? null,
+      typeof item?.label === "string" ? item.label : null,
+    ])
+    const occurrence = occurrences.get(identity) ?? 0
+    occurrences.set(identity, occurrence + 1)
+    return { item, key: `${identity}:${occurrence}` }
+  })
+}
+
 /** Splits crumbs into what shows and what folds into a menu. */
 export function foldBreadcrumbs<T>(items: T[], maxItems = 4) {
   if (items.length <= maxItems) {

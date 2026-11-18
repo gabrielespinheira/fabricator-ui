@@ -23,6 +23,7 @@ import {
   formatShortcut,
   getDefaultPanelShortcut,
   getHeaderMenu,
+  getKeyedBreadcrumbs,
   getPanelPlacement,
   getPanelTriggerAnchor,
   getResizedSize,
@@ -260,7 +261,9 @@ type ShortcutRegistry = {
 function createShortcutRegistry(): ShortcutRegistry {
   let entries: ShortcutEntry[] = []
   const listeners = new Set<() => void>()
-  const emit = () => listeners.forEach((listener) => listener())
+  const emit = () => {
+    for (const listener of listeners) listener()
+  }
   return {
     register(entry) {
       entries = [...entries, entry]
@@ -1102,9 +1105,9 @@ type AppShellBreadcrumbItem = {
   onSelect?: () => void
 }
 
-type RenderLink = (item: { href?: string }) => React.ReactElement
+type RenderLink = (item: AppShellBreadcrumbItem) => React.ReactElement
 
-const renderAnchor: RenderLink = (item) => <a href={item.href} />
+const renderAnchor: RenderLink = (item) => <a href={item.href}>{item.label}</a>
 
 function BreadcrumbCrumb({
   item,
@@ -1139,9 +1142,9 @@ function BreadcrumbMenuItems({
 }) {
   return (
     <DropdownMenuGroup>
-      {items.map((item, index) => (
+      {getKeyedBreadcrumbs(items).map(({ item, key }) => (
         <DropdownMenuItem
-          key={index}
+          key={key}
           href={item.href}
           render={
             item.href ? renderLinkElement(renderLink(item), "div") : undefined
@@ -1192,30 +1195,32 @@ function AppShellBreadcrumb({
         {/* Tablets and up: the trail, with the middle folded. */}
         <BreadcrumbList className="cn-app-shell-breadcrumb-list flex-nowrap @max-[48rem]/app-shell:hidden">
           {/* Each item but the current one draws its own separator. */}
-          {[...leading, ...(folded.length ? [null] : []), ...trailing].map(
-            (item, index) => (
-              <BreadcrumbItem key={index}>
-                {item ? (
-                  <BreadcrumbCrumb item={item} renderLink={renderLink} />
-                ) : (
-                  <DropdownMenuTrigger>
-                    <ButtonPrimitive
-                      className="cn-app-shell-breadcrumb-fold"
-                      aria-label="Show more"
-                    >
-                      <BreadcrumbEllipsis />
-                    </ButtonPrimitive>
-                    <DropdownMenu placement="bottom start">
-                      <BreadcrumbMenuItems
-                        items={folded}
-                        renderLink={renderLink}
-                      />
-                    </DropdownMenu>
-                  </DropdownMenuTrigger>
-                )}
-              </BreadcrumbItem>
-            )
-          )}
+          {getKeyedBreadcrumbs([
+            ...leading,
+            ...(folded.length ? [null] : []),
+            ...trailing,
+          ]).map(({ item, key }) => (
+            <BreadcrumbItem key={key}>
+              {item ? (
+                <BreadcrumbCrumb item={item} renderLink={renderLink} />
+              ) : (
+                <DropdownMenuTrigger>
+                  <ButtonPrimitive
+                    className="cn-app-shell-breadcrumb-fold"
+                    aria-label="Show more"
+                  >
+                    <BreadcrumbEllipsis />
+                  </ButtonPrimitive>
+                  <DropdownMenu placement="bottom start">
+                    <BreadcrumbMenuItems
+                      items={folded}
+                      renderLink={renderLink}
+                    />
+                  </DropdownMenu>
+                </DropdownMenuTrigger>
+              )}
+            </BreadcrumbItem>
+          ))}
           {current && (
             <BreadcrumbItem key="current" className="min-w-0">
               <BreadcrumbPage className="truncate">
@@ -2007,8 +2012,7 @@ function AppShellPanelResizeHandle() {
   }
 
   return (
-    <div
-      role="separator"
+    <hr
       aria-orientation="vertical"
       aria-label={`Resize ${label}`}
       aria-controls={domId}
@@ -2019,7 +2023,7 @@ function AppShellPanelResizeHandle() {
       data-slot="app-shell-panel-resize-handle"
       data-side={side}
       data-dragging={isDragging ? "" : undefined}
-      className="cn-app-shell-panel-resize-handle absolute inset-y-0 z-10 touch-none outline-none"
+      className="cn-app-shell-panel-resize-handle absolute inset-y-0 z-10 touch-none border-0 outline-none"
       onPointerDown={(event) => {
         if (event.button !== 0) return
         event.currentTarget.setPointerCapture(event.pointerId)

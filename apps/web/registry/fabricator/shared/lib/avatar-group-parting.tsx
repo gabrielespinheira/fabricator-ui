@@ -230,6 +230,7 @@ export function AvatarGroupLabel({
   )
 
   React.useLayoutEffect(() => {
+    if (!isMounted) return
     const node = label.current
     const groupNode = group.current
     if (!node || !groupNode) return

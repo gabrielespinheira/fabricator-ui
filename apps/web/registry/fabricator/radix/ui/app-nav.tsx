@@ -118,7 +118,9 @@ type AppNavAction = NavAction<AppNavIcon>
 /** Returns the link element for an item, without children (a router Link). */
 type AppNavRenderLink = (item: AppNavItem) => React.ReactElement
 
-const renderAnchor: AppNavRenderLink = (item) => <a href={item.href} />
+const renderAnchor: AppNavRenderLink = (item) => (
+  <a href={item.href}>{item.label}</a>
+)
 
 /** renderLink returns a link without children; asChild needs them in it. */
 function withChildren(element: React.ReactElement, children: React.ReactNode) {
