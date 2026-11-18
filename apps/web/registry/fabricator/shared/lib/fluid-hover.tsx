@@ -449,7 +449,9 @@ function FluidHoverSelection({
 }
 
 /** Merge refs and provide one disposer even for callbacks that use null to detach. */
-function useMergedRef<T>(...refs: Array<React.Ref<T> | undefined>) {
+function useMergedRef<T>(
+  ...refs: Array<React.Ref<T> | undefined>
+): React.RefCallback<T> {
   const merged = useComposedRefs(...refs)
   return React.useCallback(
     (node: T | null) => {
